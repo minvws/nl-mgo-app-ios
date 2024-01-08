@@ -208,31 +208,31 @@ targets:
         Development:
           DISPLAY_NAME: "🤖 Dev Mijn Zorg"
           PRODUCT_NAME: MDRF
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.mdrf.dev
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz.dev
           # PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Holder Dev
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Dev.entitlements
         FirebaseTest:
           DISPLAY_NAME: "🧪 Test Mijn Zorg"
           PRODUCT_NAME: MDRF Test
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.mdrf.test
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz.test
           # PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Holder Test
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Test.entitlements
         FirebaseAcceptance:
           DISPLAY_NAME: "💡 Acc Mijn Zorg"
           PRODUCT_NAME: MDRF ACC
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.mdrf.acc
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz.acc
           # PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Holder Acc
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Acc.entitlements
         FirebaseProduction:
           DISPLAY_NAME: "Mijn Zorg"
           PRODUCT_NAME: MDRF PROD
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.mdrf
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz
 #           PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Holder Prod
 #           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
         AppStore:
           DISPLAY_NAME: "Mijn Zorg"
           PRODUCT_NAME: MDRF
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.mdrf
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz
 #           PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Holder AppStore
 #           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
     info:
