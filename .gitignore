@@ -33,6 +33,11 @@ xcuserdata/
 report.junit
 report.html
 report.xml
+/MDRF.xcodeproj/project.pbxproj
+/MDRF.xcodeproj/project.xcworkspace/xcshareddata/swiftpm
+/MDRF.xcodeproj/xcshareddata
+/MDRF.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+/MDRF.xcodeproj/project.xcworkspace/contents.xcworkspacedata
 /Brewfile_CI.lock.json
 /Brewfile.lock.json
 /vendor/bundle/
