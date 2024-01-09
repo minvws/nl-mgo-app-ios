@@ -224,7 +224,7 @@ GEM
       xcpretty (~> 0.2, >= 0.0.7)
 
 PLATFORMS
-  universal-darwin-23
+  ruby
 
 DEPENDENCIES
   fastlane (~> 2.218.0)
