@@ -160,7 +160,7 @@ targetTemplates:
         script: |
           export PATH="$PATH:/opt/homebrew/bin" # for M1 macs
 
-          if mint list | grep -q 'SwiftLint'; then
+          if mint list | grep -q 'swiftlint'; then
             mint run swiftlint --quiet --config=./.swiftlint.yml
           else
             echo "warning: SwiftLint not found, run 'make dev' in the project root folder"
