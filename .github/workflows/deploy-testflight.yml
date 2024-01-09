@@ -4,7 +4,7 @@ name: "Deploy: TestFlight"
 on:
   push:
     tags:
-      - 'MDRF-*.*.*-RC*'
+      - 'Release-*.*.*-RC*'
   workflow_dispatch:
 
 env:
