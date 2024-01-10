@@ -9,13 +9,20 @@ import SwiftUI
 
 struct LaunchView: View {
 	var body: some View {
-		Image(systemName: "medical.thermometer")
-			.resizable()
-			.frame(width: 50, height: 50)
-			.foregroundColor(.red)
-		Text("launch_title")
-			.font(.largeTitle)
-			.fontWeight(.bold)
+		ZStack {
+			Color.background
+				.ignoresSafeArea()
+				.frame(maxWidth: .infinity, maxHeight: .infinity)
+			VStack {
+				Image(ImageResource.rijkslint)
+					.ignoresSafeArea()
+				Text("launch_title")
+					.font(.largeTitle)
+					.fontWeight(.bold)
+					.foregroundColor(Color.splashTitle)
+				Spacer()
+			}
+		}
 	}
 }
 

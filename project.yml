@@ -41,7 +41,7 @@ options:
 
 settings:
   base:
-    IPHONEOS_DEPLOYMENT_TARGET: 17.0
+    IPHONEOS_DEPLOYMENT_TARGET: 15.0
     SWIFT_VERSION: 5.0
     VERSIONING_SYSTEM: apple-generic
     CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
@@ -62,12 +62,12 @@ targetTemplates:
         # Dynamic properties (APP_FLAVOR etc) here are set at build time, so can still vary based on a Configuration.
         NETWORK_CONFIGURATION: $(NETWORK_CONFIGURATION)
         LOG_LEVEL: ${LOG_LEVEL}
-        UILaunchScreen:
     settings:
       base:
         VALIDATE_PRODUCT: YES
         DEBUG_INFORMATION_FORMAT: dwarf-with-dsym # Firebase warns that this must be set for all targets.
         ENABLE_BITCODE: false # because it's deprecated
+        ENABLE_USER_SCRIPT_SANDBOXING: false
       configs:
         Development:
           NETWORK_CONFIGURATION: DEV
@@ -114,9 +114,11 @@ targetTemplates:
     settings:
       base:
         CURRENT_PROJECT_VERSION: 1 # needs to be present for project to build locally, but is overwritten by fastlane. No need to change.
-        TARGETED_DEVICE_FAMILY: 1,2 # iPhone + iPad
+        TARGETED_DEVICE_FAMILY: 1 #iPhone only for now #,2 # iPhone + iPad
         PRODUCT_NAME: $(TARGET_NAME)
         PRODUCT_MODULE_NAME: MDRF
+        ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS: true
+        ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: true
     info:
       properties:
         CFBundleDevelopmentRegion: nl_NL
@@ -135,12 +137,12 @@ targetTemplates:
         LSRequiresIPhoneOS: true
         UIAppFonts:
           - 'ROsanswebtextregular.ttf'
-        UIApplicationSceneManifest:
-          UIApplicationSupportsMultipleScenes: false
-          UISceneConfigurations:
-            UIWindowSceneSessionRoleApplication:
-              - UISceneConfigurationName: Default Configuration
-                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+#        UIApplicationSceneManifest:
+#          UIApplicationSupportsMultipleScenes: false
+#          UISceneConfigurations:
+#            UIWindowSceneSessionRoleApplication:
+#              - UISceneConfigurationName: Default Configuration
+#                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
         UIApplicationSupportsIndirectInputEvents: true
         UIRequiredDeviceCapabilities:
           - armv7
@@ -154,6 +156,8 @@ targetTemplates:
           - UIInterfaceOrientationPortraitUpsideDown
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
+        UILaunchScreen:
+
     preBuildScripts:
       - name: Run SwiftLint
         basedOnDependencyAnalysis: false
