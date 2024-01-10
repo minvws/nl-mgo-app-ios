@@ -58,8 +58,8 @@ struct LaunchView: View {
 				.onAppear {
 					recalculateOffset(safeAreaHeight: geometry.safeAreaInsets.top)
 				}
-				.onChange(of: geometry.safeAreaInsets.top) { _ in
-					recalculateOffset(safeAreaHeight: geometry.safeAreaInsets.top)
+				.onChange(of: geometry.safeAreaInsets.top) { newTop in
+					recalculateOffset(safeAreaHeight: newTop)
 				}
 			}
 		}
