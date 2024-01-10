@@ -1,0 +1,62 @@
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+name: "Deploy: Firebase (manual)"
+
+on:
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "Build MDRF Test"
+        type: boolean
+        default: true
+        required: false
+      acc:
+        description: "Build MDRF ACC"
+        type: boolean
+        default: true
+        required: false
+      prod:
+        description: "Build MDRF Prod"
+        type: boolean
+        default: true
+        required: false
+
+jobs:
+  firebase-deploy-holder-test:
+    if: ${{ github.event.inputs.test == 'true' }}
+    uses: ./.github/workflows/template_firebase-deploy.yml
+    with:
+      fastlane_command: bundle exec fastlane ios deploy_test_ci
+      app_title: Test MDRF App
+      app_filename: MDRF Test
+    secrets:
+      DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
+      DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SLACK_URL: ${{ secrets.SLACK_URL }}
+
+  firebase-deploy-holder-acc:
+    if: ${{ github.event.inputs.acc == 'true' }}
+    uses: ./.github/workflows/template_firebase-deploy.yml
+    with:
+      fastlane_command: bundle exec fastlane ios deploy_acc_ci
+      app_title: Acc MDRF App
+      app_filename: MDRF ACC
+    secrets:
+      DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
+      DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SLACK_URL: ${{ secrets.SLACK_URL }}
+
+  firebase-deploy-holder-prod:
+    if: ${{ github.event.inputs.prod == 'true' }}
+    uses: ./.github/workflows/template_firebase-deploy.yml
+    with:
+      fastlane_command: bundle exec fastlane ios deploy_prod_ci
+      app_title: Prod MDRF App
+      app_filename: MDRF PROD
+    secrets:
+      DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
+      DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SLACK_URL: ${{ secrets.SLACK_URL }}
+        

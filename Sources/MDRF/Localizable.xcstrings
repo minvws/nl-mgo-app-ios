@@ -1,0 +1,17 @@
+{
+  "sourceLanguage" : "nl",
+  "strings" : {
+    "launch_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mijn Zorg"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
