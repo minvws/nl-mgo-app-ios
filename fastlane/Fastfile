@@ -27,7 +27,7 @@ platform :ios do
       project: "MDRF.xcodeproj",
       scheme: "MDRF Dev",
       reinstall_app: true,
-      app_identifier: "nl.rijksoverheid.pifz.dev",
+      app_identifier: "nl.rool.pifz.dev",
       skip_slack: true,
       xcargs: "-skipPackagePluginValidation"
     )
@@ -38,12 +38,12 @@ platform :ios do
   desc "Build and ship the app to TestFlight"
   lane :ship_app_to_testflight do
     ship_to_testflight(
-      provisioning_profile_path: "fastlane/profiles/PIFZ_AppStore.mobileprovision",
+      provisioning_profile_path: "fastlane/profiles/nlrijksoverheidnl_AppStore.mobileprovision",
       xcodeproj: "MDRF.xcodeproj",
       targetname: "MDRF",
       schemename:  "MDRF AppStore",
       configuration: "AppStore",
-      provisioningprofilename: "PIFZ: AppStore",
+      provisioningprofilename: "nl.rijksoverheid.pifz: AppStore",
       bundleid: "nl.rijksoverheid.pifz"
     )
   end
@@ -111,8 +111,8 @@ platform :ios do
       schemename:  "MDFR Test",
       configuration: "FirebaseTest",
       provisioningprofilename: "PIFZ: Test",
-      bundleid: "nl.rijksoverheid.pifz.test",
-      firebaseappid: "1:844514292239:ios:f17843dd277ebca03e297a",
+      bundleid: "nl.rool.pifz.test",
+      firebaseappid: "1:844514292239:ios:6976aeb782c2d11b3e297a",
       firebasegroupscsv: "test-omgeving"
     )
   end
@@ -126,8 +126,8 @@ platform :ios do
       schemename:  "MDFR Acceptance",
       configuration: "FirebaseAcceptance",
       provisioningprofilename: "PIFZ: Acc",
-      bundleid: "nl.rijksoverheid.pifz.acc",
-      firebaseappid: "1:844514292239:ios:095b15279cc226673e297a",
+      bundleid: "nl.rool.pifz.acc",
+      firebaseappid: "1:844514292239:ios:83659728c65234ce3e297a",
       firebasegroupscsv: "acceptatie-omgeving"
     )
   end
@@ -141,8 +141,8 @@ platform :ios do
       schemename:  "MDFR Prod",
       configuration: "FirebasePROD",
       provisioningprofilename: "PIFZ: Prod",
-      bundleid: "nl.rijksoverheid.pifz",
-      firebaseappid: "1:844514292239:ios:b418ceca8979af593e297a",
+      bundleid: "nl.rool.pifz",
+      firebaseappid: "1:844514292239:ios:2bbdfebca3a39a673e297a",
       firebasegroupscsv: "productie-omgeving"
     )
   end
