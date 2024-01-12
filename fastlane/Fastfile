@@ -106,9 +106,9 @@ platform :ios do
   lane :deploy_test_ci do
     deploy(
       provisioning_profile_path: "fastlane/profiles/PIFZ_Test.mobileprovision",
-      xcodeproj: "MDFR.xcodeproj",
-      targetname: "MDFR",
-      schemename:  "MDFR Test",
+      xcodeproj: "MDRF.xcodeproj",
+      targetname: "MDRF",
+      schemename:  "MDRF Test",
       configuration: "FirebaseTest",
       provisioningprofilename: "PIFZ: Test",
       bundleid: "nl.rool.pifz.test",
@@ -121,9 +121,9 @@ platform :ios do
   lane :deploy_acc_ci do
     deploy(
       provisioning_profile_path: "fastlane/profiles/PIFZ_Acc.mobileprovision",
-      xcodeproj: "MDFR.xcodeproj",
-      targetname: "MDFR",
-      schemename:  "MDFR Acceptance",
+      xcodeproj: "MDRF.xcodeproj",
+      targetname: "MDRF",
+      schemename:  "MDRF Acceptance",
       configuration: "FirebaseAcceptance",
       provisioningprofilename: "PIFZ: Acc",
       bundleid: "nl.rool.pifz.acc",
@@ -136,9 +136,9 @@ platform :ios do
   lane :deploy_prod_ci do
     deploy(
       provisioning_profile_path: "fastlane/profiles/PIFZ_Prod.mobileprovision",
-      xcodeproj: "MDFR.xcodeproj",
-      targetname: "MDFR",
-      schemename:  "MDFR Prod",
+      xcodeproj: "MDRF.xcodeproj",
+      targetname: "MDRF",
+      schemename:  "MDRF Prod",
       configuration: "FirebasePROD",
       provisioningprofilename: "PIFZ: Prod",
       bundleid: "nl.rool.pifz",
