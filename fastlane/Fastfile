@@ -206,6 +206,7 @@ platform :ios do
     # Deploy to Firebase:
     firebase_app_distribution(
       app: firebase_app_id,
+      firebase_cli_token: ENV["FIREBASE_TOKEN"],
       groups: firebase_groups_csv,
       release_notes: releasenotes,
       debug: true
