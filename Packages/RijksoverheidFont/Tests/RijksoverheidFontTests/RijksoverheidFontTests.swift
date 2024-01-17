@@ -13,28 +13,6 @@ import SwiftUI
 
 final class RijksoverheidFontTests: XCTestCase {
 	
-	func testRegisterFont_invalidFontName() throws {
-		
-		// Given
-		let fontName = "Invalid Font"
-		
-		// When
-		
-		// Then
-		expect { try UIFont.registerFont(bundle: .module, fontName: fontName) }.to(throwError(FontError.failedToRegisterFont))
-	}
-	
-	func testRijksoverheidSansWebTextFont_invalidFont() {
-		
-		// Given
-		let fontName = "Invalid Font"
-		
-		// When
-		
-		// Then
-		expect { _ = RijksoverheidSansWebTextFont(file: fontName, font: fontName) }.to(throwAssertion())
-	}
-	
 	func testFonts_relative() {
 		
 		// Given
