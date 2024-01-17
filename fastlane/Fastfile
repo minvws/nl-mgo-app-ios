@@ -207,8 +207,7 @@ platform :ios do
     firebase_app_distribution(
       app: firebase_app_id,
       groups: firebase_groups_csv,
-      release_notes: releasenotes,
-      debug: true
+      release_notes: releasenotes
     )
     
     inform_slack(
