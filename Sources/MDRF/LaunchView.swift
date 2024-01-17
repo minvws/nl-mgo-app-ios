@@ -5,7 +5,7 @@
 *  SPDX-License-Identifier: EUPL-1.2
 */
 
-import SwiftUI
+import GifzUI
 
 struct LaunchView: View {
 	
@@ -49,8 +49,7 @@ struct LaunchView: View {
 						.ignoresSafeArea()
 					
 					Text("launch_title")
-						.font(.largeTitle)
-						.fontWeight(.bold)
+						.rijksoverheidStyle(font: .bold, style: .largeTitle)
 						.foregroundColor(Color.splashTitle)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 					Spacer()
