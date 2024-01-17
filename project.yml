@@ -8,6 +8,8 @@ name: MDRF
 packages:
   GifzUI:
     path: ./Packages/GifzUI
+  RijksoverheidFont:
+    path: ./Packages/RijksoverheidFont
   Nimble:
     github: Quick/Nimble
     majorVersion: 13.1.2
@@ -112,6 +114,7 @@ targetTemplates:
     dependencies:
 #       SPM:
       - package: GifzUI
+      - package: RijksoverheidFont
         embed: false
     settings:
       base:
@@ -324,6 +327,9 @@ schemes:
         - name: MDRFTests
           parallelizable: false
           randomExecutionOrder: true
+        - package: RijksoverheidFont/RijksoverheidFontTests
+          randomExecutionOrder: true
+          parallelizable: false
     
   MDRF Acceptance:
     templates:
