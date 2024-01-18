@@ -18,7 +18,7 @@ extension Font.TextStyle {
 			case .title3: 20
 			case .headline: 17
 			case .subheadline: 17
-			case .body: 17
+			case .body: 16
 			case .callout: 16
 			case .footnote: 14
 			case .caption: 12
