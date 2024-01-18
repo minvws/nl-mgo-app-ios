@@ -139,7 +139,7 @@ platform :ios do
       xcodeproj: "MDRF.xcodeproj",
       targetname: "MDRF",
       schemename:  "MDRF Production",
-      configuration: "FirebasePROD",
+      configuration: "FirebaseProduction",
       provisioningprofilename: "PIFZ: Prod",
       bundleid: "nl.rool.pifz",
       firebaseappid: "1:844514292239:ios:2bbdfebca3a39a673e297a",
