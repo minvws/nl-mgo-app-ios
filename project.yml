@@ -95,7 +95,7 @@ targetTemplates:
       base:
         CODE_SIGN_STYLE: Manual
         CODE_SIGN_IDENTITY: iPhone Distribution
-        DEVELOPMENT_TEAM: C2H38GV99H
+        DEVELOPMENT_TEAM: QMK879NYMV # Rool (waiting for MinVWS / iRealisatie)
       configs:
         Development:
           CODE_SIGN_IDENTITY: iPhone Developer
@@ -103,6 +103,7 @@ targetTemplates:
         FirebaseTest:
         FirebaseProduction:
         AppStore:
+          DEVELOPMENT_TEAM: C2H38GV99H # Rijksoverheid
         
   Standard_iOS:
     platform: iOS
@@ -212,32 +213,32 @@ targets:
         Development:
           DISPLAY_NAME: "🤖 Dev Mijn Zorg"
           PRODUCT_NAME: MDRF
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz.dev
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.dev
           PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Dev"
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Dev.entitlements
         FirebaseTest:
           DISPLAY_NAME: "🧪 Test Mijn Zorg"
           PRODUCT_NAME: MDRF Test
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz.test
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.test
           PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Test"
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Test.entitlements
         FirebaseAcceptance:
           DISPLAY_NAME: "💡 Acc Mijn Zorg"
           PRODUCT_NAME: MDRF ACC
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz.acc
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.acc
           PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Acc"
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Acc.entitlements
         FirebaseProduction:
           DISPLAY_NAME: "Mijn Zorg"
           PRODUCT_NAME: MDRF PROD
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz
           PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Prod"
 #           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
         AppStore:
           DISPLAY_NAME: "Mijn Zorg"
           PRODUCT_NAME: MDRF
           PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz
-          PROVISIONING_PROFILE_SPECIFIER: "PIFZ: AppStore"
+          PROVISIONING_PROFILE_SPECIFIER: "nl.rijksoverheid.pifz: AppStore"
 #           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
     info:
       path: Sources/MDRF/Info.plist

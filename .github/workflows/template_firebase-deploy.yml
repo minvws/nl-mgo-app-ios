@@ -46,7 +46,7 @@ jobs:
         CERTIFICATE_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
       run: |
         mkdir fastlane/certificates
-        echo "$CERTIFICATE_CONTENTS" | base64 -D > fastlane/certificates/distribution.p12
+        echo "$CERTIFICATE_CONTENTS" | base64 --decode > fastlane/certificates/distribution.p12
 
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
@@ -69,9 +69,9 @@ jobs:
       run: |
         make generate_project
 
-#    - name: Setup Imagemagick for icon overlays
-#      run: |
-#        make homebrew_ci_imagemagick
+    - name: Setup Imagemagick for icon overlays
+      run: |
+        make homebrew_ci_imagemagick
 
     - name: Build and deploy
       timeout-minutes: 45
