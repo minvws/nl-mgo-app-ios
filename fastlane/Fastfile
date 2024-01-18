@@ -138,7 +138,7 @@ platform :ios do
       provisioning_profile_path: "fastlane/profiles/PIFZ_Prod.mobileprovision",
       xcodeproj: "MDRF.xcodeproj",
       targetname: "MDRF",
-      schemename:  "MDRF Prod",
+      schemename:  "MDRF Production",
       configuration: "FirebasePROD",
       provisioningprofilename: "PIFZ: Prod",
       bundleid: "nl.rool.pifz",
