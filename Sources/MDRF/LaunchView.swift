@@ -59,9 +59,9 @@ struct LaunchView: View {
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 					Spacer()
 					ProgressView("launch_loading")
-						.tint(.black)
+						.tint(.darkText)
 						.rijksoverheidStyle(font: .regular, style: .footnote)
-						.foregroundColor(.black)
+						.foregroundColor(.darkText)
 						.padding(.bottom, 70 - geometry.safeAreaInsets.bottom)
 				}
 				.onAppear {
