@@ -20,7 +20,7 @@ extension Font.TextStyle {
 			case .subheadline: 17
 			case .body: 17
 			case .callout: 16
-			case .footnote: 13
+			case .footnote: 14
 			case .caption: 12
 			case .caption2: 12
 			@unknown default:
