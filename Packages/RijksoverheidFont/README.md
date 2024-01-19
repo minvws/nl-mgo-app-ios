@@ -25,3 +25,4 @@ The first param is the font to be used, the second is the CGFloat point size.
 ## License
 
 License is released under the EUPL 1.2 license. [See LICENSE](./LICENSE.txt) for details.
+This does NOT apply to the fonts in the Sources/RijksoverheidFont/Resources folder. Those are properietary assets to the Dutch Ministry of General Affairs.  
