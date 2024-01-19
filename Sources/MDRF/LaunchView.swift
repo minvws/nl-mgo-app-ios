@@ -5,11 +5,12 @@
 *  SPDX-License-Identifier: EUPL-1.2
 */
 
-import SwiftUI
+import GifzUI
 
 struct LaunchView: View {
 	
 	@State var rijkslintTopOffset: CGFloat = 0
+	@State var spinnerBottomPadding: CGFloat = 0
 	
 	private struct ViewTraits {
 		enum DynamicIsland {
@@ -27,14 +28,18 @@ struct LaunchView: View {
 	
 	/// Calculate the offset for the rijkslint so it stays just below the notch or dynamic island
 	/// - Parameter safeAreaHeight: the height of the safe area
-	func recalculateOffset(safeAreaHeight: CGFloat) {
-		if safeAreaHeight >= ViewTraits.DynamicIsland.height {
-			rijkslintTopOffset = safeAreaHeight - ViewTraits.DynamicIsland.offset
-		} else if safeAreaHeight >= ViewTraits.Notch.height {
-			rijkslintTopOffset = safeAreaHeight - ViewTraits.Notch.offset
+	func recalculateOffset(_ safeAreaInsets: EdgeInsets) {
+		if safeAreaInsets.top >= ViewTraits.DynamicIsland.height {
+			rijkslintTopOffset = safeAreaInsets.top - ViewTraits.DynamicIsland.offset
+		} else if safeAreaInsets.top >= ViewTraits.Notch.height {
+			rijkslintTopOffset = safeAreaInsets.top - ViewTraits.Notch.offset
 		} else {
 			rijkslintTopOffset = 0
 		}
+	}
+	
+	private func recalculateBottomPadding(_ safeAreaInsets: EdgeInsets) {
+		spinnerBottomPadding = 70 - safeAreaInsets.bottom
 	}
 	
 	var body: some View {
@@ -49,17 +54,23 @@ struct LaunchView: View {
 						.ignoresSafeArea()
 					
 					Text("launch_title")
-						.font(.largeTitle)
-						.fontWeight(.bold)
+						.rijksoverheidStyle(font: .bold, style: .largeTitle)
 						.foregroundColor(Color.splashTitle)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 					Spacer()
+					ProgressView("launch_loading")
+						.tint(.darkText)
+						.rijksoverheidStyle(font: .regular, style: .footnote)
+						.foregroundColor(.darkText)
+						.padding(.bottom, 70 - geometry.safeAreaInsets.bottom)
 				}
 				.onAppear {
-					recalculateOffset(safeAreaHeight: geometry.safeAreaInsets.top)
+					recalculateOffset(geometry.safeAreaInsets)
+					recalculateBottomPadding(geometry.safeAreaInsets)
 				}
-				.onChange(of: geometry.safeAreaInsets.top) { newTop in
-					recalculateOffset(safeAreaHeight: newTop)
+				.onChange(of: geometry.safeAreaInsets) { insets in
+					recalculateOffset(insets)
+					recalculateBottomPadding(insets)
 				}
 			}
 		}

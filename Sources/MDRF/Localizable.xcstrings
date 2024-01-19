@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
+    "launch_loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aan het laden"
+          }
+        }
+      }
+    },
     "launch_title" : {
       "extractionState" : "manual",
       "localizations" : {
