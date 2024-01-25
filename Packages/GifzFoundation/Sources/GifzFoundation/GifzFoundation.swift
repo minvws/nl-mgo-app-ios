@@ -8,4 +8,3 @@
 @_exported import Foundation
 @_exported import Logging
 @_exported import NavigationStackBackport
-@_exported import Perception
