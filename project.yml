@@ -6,6 +6,8 @@ name: MDRF
 # - Packages:
 
 packages:
+  GifzFoundation:
+    path: ./Packages/GifzFoundation
   GifzUI:
     path: ./Packages/GifzUI
   RijksoverheidFont:
@@ -114,8 +116,8 @@ targetTemplates:
     type: application
     dependencies:
 #       SPM:
+      - package: GifzFoundation
       - package: GifzUI
-      - package: RijksoverheidFont
         embed: false
     settings:
       base:
