@@ -10,6 +10,8 @@ import GifzUI
 
 class LaunchViewModel: ObservableObject {
 	
+	weak var coordinator: AppCoordinator?
+	
 	// All possible states for this ViewModel
 	enum State {
 		case idle // Initial State
@@ -21,8 +23,13 @@ class LaunchViewModel: ObservableObject {
 	enum Action {
 		case start
 	}
-
-	@Published var state: State = .idle
+	
+	@Published var state: State
+	
+	init(coordinator: AppCoordinator?, state: State = .idle) {
+		self.coordinator = coordinator
+		self.state = state
+	}
 	
 	/// Reduce the action to the next state
 	/// - Parameter action: the action
@@ -39,6 +46,7 @@ class LaunchViewModel: ObservableObject {
 		// Mocked for now, just take 4 seconds to finish
 		DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
 			self.state = .configLoaded
+			self.coordinator?.handle(.finishedLoading)
 		}
 	}
 }
@@ -47,8 +55,8 @@ struct LaunchView: View {
 	
 	@StateObject var viewModel: LaunchViewModel
 	
-	@State var rijkslintTopOffset: CGFloat = 0
-	@State var spinnerBottomPadding: CGFloat = 0
+	@State private var rijkslintTopOffset: CGFloat = 0
+	@State private var spinnerBottomPadding: CGFloat = 0
 	
 	private struct ViewTraits {
 		enum DynamicIsland {
@@ -123,5 +131,5 @@ struct LaunchView: View {
 }
 
 #Preview {
-	LaunchView(viewModel: LaunchViewModel())
+	LaunchView(viewModel: LaunchViewModel(coordinator: nil))
 }

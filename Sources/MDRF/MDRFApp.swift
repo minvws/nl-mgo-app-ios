@@ -5,13 +5,14 @@
 *  SPDX-License-Identifier: EUPL-1.2
 */
 
-import SwiftUI
+import GifzUI
+import GifzFoundation
 
 @main
 struct MDRFApp: App {
 	var body: some Scene {
 		WindowGroup {
-			MainContentView()
+			MainContentView(appCoordinator: AppCoordinator(path: NavigationStackBackport.NavigationPath()))
 		}
 	}
 }
