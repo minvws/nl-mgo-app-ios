@@ -10,7 +10,7 @@ import GifzFoundation
 
 final class AppCoordinator: ObservableObject {
 	
-	enum Route {
+	enum State {
 		case launch
 		case dashboard
 	}
@@ -26,12 +26,12 @@ final class AppCoordinator: ObservableObject {
 	}
 	
 	func start() {
-		path.append(Route.launch)
+		path.append(State.launch)
 	}
 	
 	func handle(_ action: Action) {
 		if action == .finishedLoading {
-			path.append(Route.dashboard)
+			path.append(State.dashboard)
 		}
 	}
 }
@@ -43,11 +43,11 @@ struct MainContentView: View {
 	var body: some View {
 		NavigationStackBackport.NavigationStack(path: $appCoordinator.path) {
 			EmptyView()
-				.backport.navigationDestination(for: AppCoordinator.Route.self) { route in
+				.backport.navigationDestination(for: AppCoordinator.State.self) { route in
 					
 					switch route {
 						case .launch:
-							LaunchView()
+							LaunchView(viewModel: LaunchViewModel())
 						case .dashboard:
 							DashboardView()
 						default:
