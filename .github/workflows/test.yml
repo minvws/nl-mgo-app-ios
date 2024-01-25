@@ -53,7 +53,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-                
+      
       - name: Build and test
         env:
           SLACK_URL: ${{ secrets.SLACK_URL }}

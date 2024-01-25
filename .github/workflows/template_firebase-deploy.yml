@@ -72,7 +72,7 @@ jobs:
     - name: Setup Imagemagick for icon overlays
       run: |
         make homebrew_ci_imagemagick
-
+    
     - name: Build and deploy
       timeout-minutes: 45
       env:
