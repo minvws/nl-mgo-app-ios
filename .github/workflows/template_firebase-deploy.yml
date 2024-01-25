@@ -72,10 +72,6 @@ jobs:
     - name: Setup Imagemagick for icon overlays
       run: |
         make homebrew_ci_imagemagick
-
-    - name: Trust Macros
-      run: |
-        defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
     
     - name: Build and deploy
       timeout-minutes: 45

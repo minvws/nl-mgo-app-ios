@@ -54,10 +54,6 @@ jobs:
         with:
           bundler-cache: true
       
-      - name: Trust Macros
-        run: |
-          defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
-      
       - name: Build and test
         env:
           SLACK_URL: ${{ secrets.SLACK_URL }}
