@@ -1,9 +1,9 @@
 /*
-* Copyright (c) 2023 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
-*  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
-*
-*  SPDX-License-Identifier: EUPL-1.2
-*/
+ * Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
 
 import SwiftUI
 import GifzUI
@@ -20,9 +20,9 @@ struct DashboardView: View {
 				
 				Text("app_title")
 					.rijksoverheidStyle(font: .bold, style: .largeTitle)
-			 
+				
 				Text(verbatim: "That's all folks!")
-				.rijksoverheidStyle(font: .regular, style: .body)
+					.rijksoverheidStyle(font: .regular, style: .body)
 			}
 		}
 		.navigationBarBackButtonHidden()
