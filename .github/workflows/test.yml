@@ -55,7 +55,7 @@ jobs:
           bundler-cache: true
       
       - name: Trust Macros
-        run |
+        run: |
           defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
       
       - name: Build and test

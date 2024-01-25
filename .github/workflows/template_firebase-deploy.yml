@@ -74,7 +74,7 @@ jobs:
         make homebrew_ci_imagemagick
 
     - name: Trust Macros
-      run |
+      run: |
         defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
     
     - name: Build and deploy
