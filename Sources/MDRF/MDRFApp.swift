@@ -11,7 +11,7 @@ import SwiftUI
 struct MDRFApp: App {
 	var body: some Scene {
 		WindowGroup {
-			LaunchView()
+			MainContentView()
 		}
 	}
 }

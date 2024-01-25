@@ -53,7 +53,7 @@ struct LaunchView: View {
 						.padding(.top, rijkslintTopOffset)
 						.ignoresSafeArea()
 					
-					Text("launch_title")
+					Text("app_title")
 						.rijksoverheidStyle(font: .bold, style: .largeTitle)
 						.foregroundColor(Color.splashTitle)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
@@ -74,6 +74,7 @@ struct LaunchView: View {
 				}
 			}
 		}
+		.navigationBarBackButtonHidden()
 	}
 }
 
