@@ -8,16 +8,12 @@ name: MDRF
 packages:
   GifzFoundation:
     path: ./Packages/GifzFoundation
+  GifzTest:
+    path: ./Packages/GifzTest
   GifzUI:
     path: ./Packages/GifzUI
   RijksoverheidFont:
     path: ./Packages/RijksoverheidFont
-  Nimble:
-    github: Quick/Nimble
-    majorVersion: 13.1.2
-  SnapshotTesting:
-    github: pointfreeco/swift-snapshot-testing
-    majorVersion: 1.15.2
 
 # - Attributes:
 
@@ -174,8 +170,7 @@ targetTemplates:
     platform: iOS
     type: bundle.unit-test
     dependencies:
-      - package: Nimble
-      - package: SnapshotTesting
+      - package: GifzTest
     settings:
       TEST_HOST: "$(BUILT_PRODUCTS_DIR)/MDRF.app/MDRF"
 
