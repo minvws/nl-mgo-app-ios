@@ -1,13 +1,51 @@
 /*
-* Copyright (c) 2023 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
-*  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
-*
-*  SPDX-License-Identifier: EUPL-1.2
-*/
+ * Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
 
+import GifzFoundation
 import GifzUI
 
+class LaunchViewModel: ObservableObject {
+	
+	// All possible states for this ViewModel
+	enum State {
+		case idle // Initial State
+		case loadingConfig // Loading the config
+		case configLoaded // Config is loaded (mocked for now, so no error state)
+	}
+	
+	/// All possible actions for this ViewModel
+	enum Action {
+		case start
+	}
+
+	@Published var state: State = .idle
+	
+	/// Reduce the action to the next state
+	/// - Parameter action: the action
+	func reduce(_ action: Action) {
+		guard state == .idle else { return }
+		switch action {
+			case .start:
+				state = .loadingConfig
+				loadConfig()
+		}
+	}
+	
+	private func loadConfig() {
+		// Mocked for now, just take 4 seconds to finish
+		DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+			self.state = .configLoaded
+		}
+	}
+}
+
 struct LaunchView: View {
+	
+	@StateObject var viewModel: LaunchViewModel
 	
 	@State var rijkslintTopOffset: CGFloat = 0
 	@State var spinnerBottomPadding: CGFloat = 0
@@ -23,6 +61,9 @@ struct LaunchView: View {
 		}
 		enum Title {
 			static let topOffset: CGFloat = 64
+		}
+		enum Spinner {
+			static let bottomOffset: CGFloat = 70
 		}
 	}
 	
@@ -58,13 +99,16 @@ struct LaunchView: View {
 						.foregroundColor(Color.splashTitle)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 					Spacer()
-					ProgressView("launch_loading")
-						.tint(.darkText)
-						.rijksoverheidStyle(font: .regular, style: .footnote)
-						.foregroundColor(.darkText)
-						.padding(.bottom, 70 - geometry.safeAreaInsets.bottom)
+					if viewModel.state == .loadingConfig {
+						ProgressView("launch_loading")
+							.tint(.darkText)
+							.rijksoverheidStyle(font: .regular, style: .footnote)
+							.foregroundColor(.darkText)
+							.padding(.bottom, ViewTraits.Spinner.bottomOffset - geometry.safeAreaInsets.bottom)
+					}
 				}
 				.onAppear {
+					viewModel.reduce(LaunchViewModel.Action.start)
 					recalculateOffset(geometry.safeAreaInsets)
 					recalculateBottomPadding(geometry.safeAreaInsets)
 				}
@@ -79,5 +123,5 @@ struct LaunchView: View {
 }
 
 #Preview {
-	LaunchView()
+	LaunchView(viewModel: LaunchViewModel())
 }
