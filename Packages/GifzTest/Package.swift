@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "GifzTest",
+	platforms: [.iOS(.v15)],
 	products: [
 		.library(
 			name: "GifzTest",
@@ -15,7 +16,7 @@ let package = Package(
 		
 		// Testing:
 		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.15.2"),
-		.package(url: "https://github.com/Quick/Nimble", exact: "13.1.2")
+		.package(url: "https://github.com/Quick/Nimble", exact: "13.2.0")
 	],
 	targets: [
 		.target(
