@@ -91,6 +91,7 @@ struct PrivacyView: View {
 						.padding(.bottom, ViewTraits.General.padding)
 						.foregroundColor(.blackText)
 						.tint(.hyperlink)
+						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.environment(\.openURL, OpenURLAction { url in
 							guard url.absoluteString.lowercased() == "/privacystatement" else {
 								return .discarded
