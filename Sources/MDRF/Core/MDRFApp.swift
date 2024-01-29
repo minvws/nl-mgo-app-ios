@@ -28,7 +28,7 @@ struct ProductionApp: App {
 	
 	var body: some Scene {
 		WindowGroup {
-			MainContentView<AppCoordinator>(appCoordinator: AppCoordinator(path: NavigationStackBackport.NavigationPath()))
+			AppCoordinatorView<AppCoordinator>(appCoordinator: AppCoordinator(path: NavigationStackBackport.NavigationPath()))
 		}
 	}
 }

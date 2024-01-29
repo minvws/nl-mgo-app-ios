@@ -8,7 +8,7 @@
 import GifzUI
 import GifzFoundation
 
-struct MainContentView<T: AppCoordinatorProtocol>: View {
+struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	
 	@StateObject private var appCoordinator: T
 	
@@ -36,7 +36,7 @@ struct MainContentView<T: AppCoordinatorProtocol>: View {
 }
 
 #Preview {
-	MainContentView<AppCoordinator>(
+	AppCoordinatorView<AppCoordinator>(
 		appCoordinator: AppCoordinator(
 			path: NavigationStackBackport.NavigationPath()
 		)

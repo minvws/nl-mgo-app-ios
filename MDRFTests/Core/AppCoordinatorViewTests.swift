@@ -10,7 +10,7 @@ import GifzTest
 import GifzUI
 @testable import MDRF
 
-final class MainContentViewTests: XCTestCase {
+final class AppCoordinatorViewTests: XCTestCase {
 	
 	private var coordinator: AppCoordinatorSpy!
 	
@@ -26,7 +26,7 @@ final class MainContentViewTests: XCTestCase {
 		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.launch])
 		
 		// When
-		let contentView = MainContentView<AppCoordinatorSpy>(appCoordinator: coordinator)
+		let contentView = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
 		
 		// Then
 		assertSnapshot(of: contentView, as: .image)
@@ -38,7 +38,7 @@ final class MainContentViewTests: XCTestCase {
 		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
 		
 		// When
-		let contentView = MainContentView<AppCoordinatorSpy>(appCoordinator: coordinator)
+		let contentView = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
 		
 		// Then
 		assertSnapshot(of: contentView, as: .image) // Wrong image
