@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
+    "app_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mijn Zorg"
+          }
+        }
+      }
+    },
     "launch_loading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8,17 +19,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aan het laden"
-          }
-        }
-      }
-    },
-    "launch_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mijn Zorg"
           }
         }
       }
