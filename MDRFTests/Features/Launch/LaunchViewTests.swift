@@ -21,7 +21,7 @@ final class LaunchViewTests: XCTestCase {
 		)
 	}
 	
-	func test_launch_stateIdle_lightMode() {
+	func test_launch_stateIdle() {
 		
 		// Given
 		let sut = createSut(state: .idle)
@@ -30,20 +30,10 @@ final class LaunchViewTests: XCTestCase {
 		
 		// Then
 		assertSnapshot(of: sut.colorScheme(.light), as: .image)
-	}
-	
-	func test_launch_stateIdle_darkMode() {
-		
-		// Given
-		let sut = createSut(state: .idle)
-		
-		// When
-		
-		// Then
 		assertSnapshot(of: sut.colorScheme(.dark), as: .image)
 	}
 	
-	func test_launch_stateLoadingConfig_lightMode() {
+	func test_launch_stateLoadingConfig() {
 		
 		// Given
 		let sut = createSut(state: .loadingConfig)
@@ -52,20 +42,10 @@ final class LaunchViewTests: XCTestCase {
 		
 		// Then
 		assertSnapshot(of: sut.colorScheme(.light), as: .image)
-	}
-	
-	func test_launch_stateLoadingConfig_darkMode() {
-		
-		// Given
-		let sut = createSut(state: .loadingConfig)
-		
-		// When
-		
-		// Then
 		assertSnapshot(of: sut.colorScheme(.dark), as: .image)
 	}
 
-	func test_launch_stateConfigLoaded_lightMode() {
+	func test_launch_stateConfigLoaded() {
 		
 		// Given
 		let sut = createSut(state: .configLoaded)
@@ -74,17 +54,6 @@ final class LaunchViewTests: XCTestCase {
 		
 		// Then
 		assertSnapshot(of: sut.colorScheme(.light), as: .image)
-	}
-	
-	func test_launch_stateConfigLoaded_darkMode() {
-		
-		// Given
-		let sut = createSut(state: .configLoaded)
-		
-		// When
-		
-		// Then
 		assertSnapshot(of: sut.colorScheme(.dark), as: .image)
 	}
-
 }
