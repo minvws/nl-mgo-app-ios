@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ * Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -8,7 +8,29 @@
 import GifzFoundation
 import GifzUI
 
+class AppIntroductionViewModel: ObservableObject {
+	
+	weak var coordinator: (any AppCoordinatorProtocol)?
+	
+	enum Action {
+		case nextButttonPressed
+	}
+	
+	init(coordinator: (any AppCoordinatorProtocol)?) {
+		self.coordinator = coordinator
+	}
+	
+	func reduce(_ action: Action) {
+		if action == .nextButttonPressed {
+			coordinator?.handle(.nextButtonPressedOnAppIntroduction)
+		}
+	}
+}
+
 struct AppIntroduction: View {
+	
+	@StateObject var viewModel: AppIntroductionViewModel
+	
 	@State var showImage = true
 	
 	private struct ViewTraits {
@@ -66,11 +88,12 @@ struct AppIntroduction: View {
 			}, bottomView: {
 				
 				Button(
-					action: {},
+					action: {
+						viewModel.reduce(.nextButttonPressed
+						)
+					},
 					label: {
-//						NavigationLink(destination: PrivacyView()) {
-							SkyBlueButton("onboarding_action")
-//						}
+						SkyBlueButton("onboarding_action")
 					}
 				)
 				.padding(ViewTraits.Button.padding)
@@ -82,5 +105,5 @@ struct AppIntroduction: View {
 }
 
 #Preview {
-	AppIntroduction()
+	AppIntroduction(viewModel: AppIntroductionViewModel(coordinator: nil))
 }

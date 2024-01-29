@@ -23,6 +23,8 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 					switch state {
 						case .launch:
 							LaunchView(viewModel: LaunchViewModel(coordinator: appCoordinator))
+						case .appIntroduction:
+							AppIntroduction(viewModel: AppIntroductionViewModel(coordinator: appCoordinator))
 						case .dashboard:
 							DashboardView()
 								.logInfo("Dashboard is still a stub")

@@ -19,10 +19,12 @@ protocol AppCoordinatorProtocol: ObservableObject {
 enum AppCoordination {
 	enum Action {
 		case finishedLoading
+		case nextButtonPressedOnAppIntroduction
 	}
 	
 	enum State: Codable {
 		case launch
+		case appIntroduction
 		case dashboard
 	}
 }
@@ -43,8 +45,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle an action
 	/// - Parameter action: an action, i.e. finishedLoading
 	func handle(_ action: AppCoordination.Action) {
-		if action == .finishedLoading {
-			path.append(AppCoordination.State.dashboard)
+
+		switch action {
+			case .finishedLoading:
+				path.append(AppCoordination.State.appIntroduction)
+			case .nextButtonPressedOnAppIntroduction:
+				path.append(AppCoordination.State.dashboard)
 		}
 	}
 }
