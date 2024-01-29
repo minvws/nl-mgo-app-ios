@@ -23,7 +23,6 @@ struct MainContentView: View {
 					switch state {
 						case .launch:
 						LaunchView(viewModel: LaunchViewModel(coordinator: appCoordinator))
-//						Text("ii")
 						case .dashboard:
 							DashboardView()
 					}
