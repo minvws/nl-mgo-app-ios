@@ -47,4 +47,14 @@ final class AppCoordinator: ObservableObject {
 			path.append(AppCoordination.State.dashboard)
 		}
 	}
+	
+	@ViewBuilder
+	func view(for state: AppCoordination.State) -> some View {
+		switch state {
+			case .launch:
+				LaunchView(viewModel: LaunchViewModel(coordinator: self))
+			case .dashboard:
+				DashboardView()
+		}
+	}
 }
