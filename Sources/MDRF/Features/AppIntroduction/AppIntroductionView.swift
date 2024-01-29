@@ -27,7 +27,7 @@ class AppIntroductionViewModel: ObservableObject {
 	}
 }
 
-struct AppIntroduction: View {
+struct AppIntroductionView: View {
 	
 	@StateObject var viewModel: AppIntroductionViewModel
 	
@@ -89,8 +89,7 @@ struct AppIntroduction: View {
 				
 				Button(
 					action: {
-						viewModel.reduce(.nextButttonPressed
-						)
+						viewModel.reduce(.nextButttonPressed)
 					},
 					label: {
 						SkyBlueButton("onboarding_action")
@@ -105,5 +104,5 @@ struct AppIntroduction: View {
 }
 
 #Preview {
-	AppIntroduction(viewModel: AppIntroductionViewModel(coordinator: nil))
+	AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: nil))
 }
