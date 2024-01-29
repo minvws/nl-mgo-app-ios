@@ -20,11 +20,16 @@ struct MainContentView: View {
 		NavigationStackBackport.NavigationStack(path: $appCoordinator.path) {
 			EmptyView()
 				.backport.navigationDestination(for: AppCoordination.State.self) { state in
-					appCoordinator.view(for: state)
+					switch state {
+						case .launch:
+							LaunchView(viewModel: LaunchViewModel(coordinator: appCoordinator))
+						case .dashboard:
+							DashboardView()
+					}
 				}
 		}
 		.onAppear {
-			appCoordinator.startCoordinator()
+			appCoordinator.start()
 		}
 	}
 }

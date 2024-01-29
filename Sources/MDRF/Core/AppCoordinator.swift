@@ -8,13 +8,13 @@
 import GifzUI
 import GifzFoundation
 
-//protocol AppCoordinatorProtocol: ObservableObject {
-//	
-//	var path: NavigationStackBackport.NavigationPath { get set }
-//	
-//	func handle(_ action: AppCoordination.Action)
-//	func startCoordinator()
-//}
+protocol AppCoordinatorProtocol: ObservableObject {
+	
+	var path: NavigationStackBackport.NavigationPath { get set }
+	
+	func handle(_ action: AppCoordination.Action)
+	func start()
+}
 
 enum AppCoordination {
 	enum Action {
@@ -27,7 +27,7 @@ enum AppCoordination {
 	}
 }
 
-final class AppCoordinator: ObservableObject {
+final class AppCoordinator: AppCoordinatorProtocol {
 
 	@Published var path: NavigationStackBackport.NavigationPath
 	
@@ -36,7 +36,7 @@ final class AppCoordinator: ObservableObject {
 	}
 	
 	/// Start the coordinator
-	func startCoordinator() {
+	func start() {
 		path.append(AppCoordination.State.launch)
 	}
 	
@@ -45,16 +45,6 @@ final class AppCoordinator: ObservableObject {
 	func handle(_ action: AppCoordination.Action) {
 		if action == .finishedLoading {
 			path.append(AppCoordination.State.dashboard)
-		}
-	}
-	
-	@ViewBuilder
-	func view(for state: AppCoordination.State) -> some View {
-		switch state {
-			case .launch:
-				LaunchView(viewModel: LaunchViewModel(coordinator: self))
-			case .dashboard:
-				DashboardView()
 		}
 	}
 }

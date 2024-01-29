@@ -10,7 +10,7 @@ import GifzUI
 
 class LaunchViewModel: ObservableObject {
 	
-	weak var coordinator: AppCoordinator?
+	weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	// All possible states for this ViewModel
 	enum State {
@@ -26,7 +26,7 @@ class LaunchViewModel: ObservableObject {
 	
 	@Published var state: State
 	
-	init(coordinator: AppCoordinator?, state: State = .idle) {
+	init(coordinator: (any AppCoordinatorProtocol)?, state: State = .idle) {
 		self.coordinator = coordinator
 		self.state = state
 	}
@@ -42,9 +42,9 @@ class LaunchViewModel: ObservableObject {
 		}
 	}
 	
-	private func loadConfig() {
+	internal func loadConfig(_ timeInterval: TimeInterval = 4.0) {
 		// Mocked for now, just take 4 seconds to finish
-		DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + timeInterval) {
 			self.state = .configLoaded
 			self.coordinator?.handle(.finishedLoading)
 		}
