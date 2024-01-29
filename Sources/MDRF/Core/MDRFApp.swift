@@ -35,6 +35,25 @@ struct ProductionApp: App {
 
 struct TestApp: App {
 	
+	init() {
+		
+		// Only run tests on a iPhone 15 Pro (screenshot dimensions will differ on other devices)
+		let device = UIDevice.current.name
+		if device != "iPhone 15 Pro" {
+			fatalError("Switch to using iPhone 15 Pro for these tests.")
+		}
+		
+		// Speedup animation
+		UIView.setAnimationsEnabled(false)
+		UIApplication
+			.shared
+			.connectedScenes
+			.compactMap { ($0 as? UIWindowScene)?.keyWindow }
+			.last?
+			.layer
+			.speed = 100
+	}
+	
 	var body: some Scene {
 		WindowGroup {
 			// Nothing for the test app

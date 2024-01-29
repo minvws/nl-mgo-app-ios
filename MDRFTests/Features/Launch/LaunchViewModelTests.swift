@@ -10,8 +10,8 @@ import GifzTest
 
 final class LaunchViewModelTests: XCTestCase {
 
-	var coordinatorSpy: AppCoordinatorSpy!
-	var sut: LaunchViewModel!
+	private var coordinatorSpy: AppCoordinatorSpy!
+	private var sut: LaunchViewModel!
 	
 	override func setUp() {
 		
