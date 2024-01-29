@@ -8,11 +8,11 @@
 import GifzUI
 import GifzFoundation
 
-struct MainContentView: View {
+struct MainContentView<T: AppCoordinatorProtocol>: View {
 	
-	@StateObject private var appCoordinator: AppCoordinator
+	@StateObject private var appCoordinator: T
 	
-	init(appCoordinator: AppCoordinator) {
+	init(appCoordinator: T) {
 		self._appCoordinator = StateObject(wrappedValue: appCoordinator)
 	}
 	
@@ -25,6 +25,7 @@ struct MainContentView: View {
 							LaunchView(viewModel: LaunchViewModel(coordinator: appCoordinator))
 						case .dashboard:
 							DashboardView()
+								.logInfo("Dashboard is still a stub")
 					}
 				}
 		}
@@ -35,7 +36,7 @@ struct MainContentView: View {
 }
 
 #Preview {
-	MainContentView(
+	MainContentView<AppCoordinator>(
 		appCoordinator: AppCoordinator(
 			path: NavigationStackBackport.NavigationPath()
 		)
