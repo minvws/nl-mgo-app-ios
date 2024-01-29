@@ -20,7 +20,7 @@ final class AppIntroductionViewTests: XCTestCase {
 		)
 	}
 	
-	func xx_test_appIntroductionView_lightMode() {
+	func test_appIntroductionView_lightMode() {
 		
 		// Given
 		let sut = createSut()
@@ -30,10 +30,10 @@ final class AppIntroductionViewTests: XCTestCase {
 			.frame(width: 393, height: 852)
 		
 		// Then
-		assertSnapshot(of: sut.colorScheme(.light), as: .image)
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
 	}
 	
-	func xx_test_appIntroductionView_darkMode() {
+	func test_appIntroductionView_darkMode() {
 		
 		// Given
 		let sut = createSut()
@@ -43,6 +43,6 @@ final class AppIntroductionViewTests: XCTestCase {
 			.frame(width: 393, height: 852)
 		
 		// Then
-		assertSnapshot(of: sut.colorScheme(.dark), as: .image)
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
 	}
 }
