@@ -32,7 +32,7 @@ class PrivacyViewModel: ObservableObject {
 		
 		switch action {
 			case .privacyLinkClicked:
-				print("Link Clicked")
+				logDebug("Link Clicked")
 				state = .showPrivacyStatement
 			case .nextButttonPressed:
 				coordinator?.handle(.nextButtonPressedOnPrivacy)
