@@ -19,16 +19,26 @@ struct MainContentView: View {
 	var body: some View {
 		NavigationStackBackport.NavigationStack(path: $appCoordinator.path) {
 			EmptyView()
-				.backport.navigationDestination(for: AppCoordinator.State.self) { state in
-					appCoordinator.view(for: state)
+				.backport.navigationDestination(for: AppCoordination.State.self) { state in
+					switch state {
+						case .launch:
+						LaunchView(viewModel: LaunchViewModel(coordinator: appCoordinator))
+//						Text("ii")
+						case .dashboard:
+							DashboardView()
+					}
 				}
 		}
 		.onAppear {
-			appCoordinator.start()
+			appCoordinator.startCoordinator()
 		}
 	}
 }
 
 #Preview {
-	MainContentView(appCoordinator: AppCoordinator(path: NavigationStackBackport.NavigationPath()))
+	MainContentView(
+		appCoordinator: AppCoordinator(
+			path: NavigationStackBackport.NavigationPath()
+		)
+	)
 }
