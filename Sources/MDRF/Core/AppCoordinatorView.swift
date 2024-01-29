@@ -25,6 +25,8 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 							LaunchView(viewModel: LaunchViewModel(coordinator: appCoordinator))
 						case .appIntroduction:
 							AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: appCoordinator))
+						case .privacy:
+							PrivacyView(viewModel: PrivacyViewModel(coordinator: appCoordinator))
 						case .dashboard:
 							DashboardView()
 								.logInfo("Dashboard is still a stub")

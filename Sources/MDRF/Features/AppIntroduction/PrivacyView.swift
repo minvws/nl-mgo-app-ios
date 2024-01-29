@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ * Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -8,7 +8,42 @@
 import GifzFoundation
 import GifzUI
 
+class PrivacyViewModel: ObservableObject {
+	
+	weak var coordinator: (any AppCoordinatorProtocol)?
+	
+	enum State {
+		case idle
+		case showPrivacyStatement
+	}
+	enum Action {
+		case privacyLinkClicked
+		case nextButttonPressed
+	}
+	
+	@Published var state: State = .idle
+	
+	init(coordinator: (any AppCoordinatorProtocol)? = nil, state: State = .idle) {
+		self.coordinator = coordinator
+		self.state = state
+	}
+	
+	func reduce(_ action: Action) {
+		
+		switch action {
+			case .privacyLinkClicked:
+				print("Link Clicked")
+				state = .showPrivacyStatement
+			case .nextButttonPressed:
+				coordinator?.handle(.nextButtonPressedOnPrivacy)
+		}
+	}
+}
+
 struct PrivacyView: View {
+	
+	@StateObject var viewModel: PrivacyViewModel
+	
 	@State private var showingPrivacyStatement = false
 	
 	private struct ViewTraits {
@@ -77,11 +112,11 @@ struct PrivacyView: View {
 			} bottomView: {
 				
 				Button(
-					action: { },
+					action: {
+						viewModel.reduce(.nextButttonPressed)
+					},
 					label: {
-//						NavigationLink(destination: DashboardView()) {
-							SkyBlueButton("onboarding_action")
-//						}
+						SkyBlueButton("onboarding_action")
 					}
 				)
 				.padding(ViewTraits.General.padding)
@@ -136,6 +171,6 @@ struct PrivacyView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		PrivacyView()
+		PrivacyView(viewModel: PrivacyViewModel())
 	}
 }

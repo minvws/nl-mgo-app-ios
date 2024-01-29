@@ -55,4 +55,16 @@ final class AppCoordinatorViewTests: XCTestCase {
 		// Then
 		assertSnapshot(of: contentView, as: .image)
 	}
+	
+	func test_privacy() {
+		
+		// Given
+		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.privacy])
+		
+		// When
+		let contentView = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
+		
+		// Then
+		assertSnapshot(of: contentView, as: .image)
+	}
 }

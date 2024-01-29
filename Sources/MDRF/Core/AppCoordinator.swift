@@ -20,11 +20,13 @@ enum AppCoordination {
 	enum Action {
 		case finishedLoading
 		case nextButtonPressedOnAppIntroduction
+		case nextButtonPressedOnPrivacy
 	}
 	
 	enum State: Codable {
 		case launch
 		case appIntroduction
+		case privacy
 		case dashboard
 	}
 }
@@ -50,6 +52,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .finishedLoading:
 				path.append(AppCoordination.State.appIntroduction)
 			case .nextButtonPressedOnAppIntroduction:
+				path.append(AppCoordination.State.privacy)
+			case .nextButtonPressedOnPrivacy:
 				path.append(AppCoordination.State.dashboard)
 		}
 	}

@@ -42,12 +42,23 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
 	}
 	
-	func test_coordinatorHandle_actionNextButtonPressedOnAppIntroduction_pathShouldContainDashboard() {
+	func test_coordinatorHandle_actionNextButtonPressedOnAppIntroduction_pathShouldContainPrivacy() {
 		
 		// Given
 		
 		// When
 		sut.handle(AppCoordination.Action.nextButtonPressedOnAppIntroduction)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacy])
+	}
+	
+	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainDashboard() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.nextButtonPressedOnPrivacy)
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
