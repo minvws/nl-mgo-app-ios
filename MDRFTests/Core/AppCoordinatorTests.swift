@@ -31,12 +31,23 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.launch])
 	}
 	
-	func test_coordinatorHandle_actionFinishedLoading_pathShouldContainDashboard() {
+	func test_coordinatorHandle_actionFinishedLoading_pathShouldContainAppIntroduction() {
 		
 		// Given
 		
 		// When
 		sut.handle(AppCoordination.Action.finishedLoading)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
+	}
+	
+	func test_coordinatorHandle_actionNextButtonPressedOnAppIntroduction_pathShouldContainDashboard() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.nextButtonPressedOnAppIntroduction)
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])

@@ -41,6 +41,18 @@ final class AppCoordinatorViewTests: XCTestCase {
 		let contentView = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
 		
 		// Then
-		assertSnapshot(of: contentView, as: .image) // Wrong image
+		assertSnapshot(of: contentView, as: .image)
+	}
+	
+	func test_appIntroduction() {
+		
+		// Given
+		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
+		
+		// When
+		let contentView = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
+		
+		// Then
+		assertSnapshot(of: contentView, as: .image)
 	}
 }
