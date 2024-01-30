@@ -27,7 +27,7 @@ final class AppIntroductionViewTests: XCTestCase {
 		
 		// When
 		let content = NavigationView { sut }
-			.frame(width: 393, height: 852)
+			.frameAsiPhone15Pro()
 		
 		// Then
 		assertSnapshot(of: content.colorScheme(.light), as: .image)
@@ -40,7 +40,7 @@ final class AppIntroductionViewTests: XCTestCase {
 		
 		// When
 		let content = NavigationView { sut }
-			.frame(width: 393, height: 852)
+			.frameAsiPhone15Pro()
 		
 		// Then
 		assertSnapshot(of: content.colorScheme(.dark), as: .image)
