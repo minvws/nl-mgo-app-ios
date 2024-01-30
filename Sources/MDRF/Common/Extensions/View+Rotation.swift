@@ -1,0 +1,32 @@
+/*
+ * Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import SwiftUI
+
+/// Detect device rotation
+///  See https://www.hackingwithswift.com/quick-start/swiftui/how-to-detect-device-rotation
+struct DeviceRotationViewModifier: ViewModifier {
+	let action: (UIDeviceOrientation) -> Void
+	
+	func body(content: Content) -> some View {
+		content
+			.onAppear()
+			.onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+				action(UIDevice.current.orientation)
+			}
+	}
+}
+
+extension View {
+	
+	/// On device rotation
+	/// - Parameter action: the action to perform upon rotation
+	/// - Returns: rotated view
+	func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
+		self.modifier(DeviceRotationViewModifier(action: action))
+	}
+}

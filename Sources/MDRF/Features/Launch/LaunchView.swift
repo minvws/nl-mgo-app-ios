@@ -106,12 +106,14 @@ struct LaunchView: View {
 						.rijksoverheidStyle(font: .bold, style: .largeTitle)
 						.foregroundColor(Color.splashTitle)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
+						.accessibilityAddTraits(.isHeader)
+					
 					Spacer()
 					if viewModel.state == .loadingConfig {
 						ProgressView("launch_loading")
-							.tint(.darkText)
+							.tint(.blackText)
 							.rijksoverheidStyle(font: .regular, style: .footnote)
-							.foregroundColor(.darkText)
+							.foregroundColor(.blackText)
 							.padding(.bottom, ViewTraits.Spinner.bottomOffset - geometry.safeAreaInsets.bottom)
 					}
 				}

@@ -26,10 +26,10 @@ final class AppCoordinatorViewTests: XCTestCase {
 		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.launch])
 		
 		// When
-		let contentView = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
+		let sut = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
 		
 		// Then
-		assertSnapshot(of: contentView, as: .image)
+		assertSnapshot(of: sut, as: .image)
 	}
 	
 	func test_dashboard() {
@@ -38,9 +38,53 @@ final class AppCoordinatorViewTests: XCTestCase {
 		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
 		
 		// When
-		let contentView = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
+		let sut = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
 		
 		// Then
-		assertSnapshot(of: contentView, as: .image) // Wrong image
+		assertSnapshot(of: sut, as: .image)
+	}
+	
+	func test_appIntroduction() {
+		
+		// Given
+		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
+		
+		// When
+		let sut = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
+		
+		// Then
+		assertSnapshot(of: sut, as: .image)
+	}
+	
+	func test_privacy() {
+		
+		// Given
+		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.privacy])
+		
+		// When
+		let sut = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
+		
+		// Then
+		assertSnapshot(of: sut, as: .image)
+	}
+	
+	func test_privacyStatement() throws {
+		
+		// Given
+		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		
+		// When
+		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
+		appCoordinator.sheetContentType = .privacyStatement
+		appCoordinator.showSheet = true
+		
+		// Then
+		let value = try sut.inspect().find(viewWithTag: "privacyStatement")
+		expect(value) != nil
 	}
 }
+
+// MARK: - InspectableSheet -
+
+// See https://github.com/nalexn/ViewInspector/blob/0.9.11/guide_popups.md#sheet
+extension InspectableSheet: PopupPresenter { }

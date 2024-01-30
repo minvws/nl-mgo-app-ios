@@ -10,8 +10,14 @@ import GifzFoundation
 
 struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	
+	/// The coordinator for handling state
 	@StateObject private var appCoordinator: T
+
+	/// Closure used the handle inspection
+	var didAppear: ((Self) -> Void)?
 	
+	/// Initialzier
+	/// - Parameter appCoordinator: An AppCoordinatorProtocol class
 	init(appCoordinator: T) {
 		self._appCoordinator = StateObject(wrappedValue: appCoordinator)
 	}
@@ -23,14 +29,39 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 					switch state {
 						case .launch:
 							LaunchView(viewModel: LaunchViewModel(coordinator: appCoordinator))
+						case .appIntroduction:
+							AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: appCoordinator))
+						case .privacy:
+							PrivacyView(viewModel: PrivacyViewModel(coordinator: appCoordinator))
 						case .dashboard:
 							DashboardView()
-								.logInfo("Dashboard is still a stub")
 					}
 				}
 		}
+		// not a sheet, but an inspectable sheet, so we can confirm this in a test.
+		.inspectableSheet(
+			isPresented: $appCoordinator.showSheet,
+			onDismiss: {
+				// Called when the sheet is closed by dragging or clicking the close button.
+				appCoordinator.handle(.dismissPrivacyStatementSheet)
+			},
+			content: {
+				switch appCoordinator.sheetContentType {
+					case .privacyStatement:
+						PrivacyStatementView()
+							.tag("privacyStatement")
+					default:
+						EmptyView()
+							.logWarning("No content set for sheet in appCoordinatorView for \(String(describing: appCoordinator.sheetContentType))")
+				}
+			}
+		)
 		.onAppear {
+			// Start the coordinator on first appearance, that will set the appropriate view state
 			appCoordinator.start()
+			
+			// Make ourself availble for inspection
+			self.didAppear?(self)
 		}
 	}
 }

@@ -31,12 +31,34 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.launch])
 	}
 	
-	func test_coordinatorHandle_actionFinishedLoading_pathShouldContainDashboard() {
+	func test_coordinatorHandle_actionFinishedLoading_pathShouldContainAppIntroduction() {
 		
 		// Given
 		
 		// When
 		sut.handle(AppCoordination.Action.finishedLoading)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
+	}
+	
+	func test_coordinatorHandle_actionNextButtonPressedOnAppIntroduction_pathShouldContainPrivacy() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.nextButtonPressedOnAppIntroduction)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacy])
+	}
+	
+	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainDashboard() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.nextButtonPressedOnPrivacy)
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
@@ -52,5 +74,33 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.path.count) == 2
+	}
+	
+	func test_coordinatorHandle_showPrivacyStatementSheet_shouldShowPrivacyStatement() {
+		
+		// Given
+		sut.showSheet = false
+		sut.sheetContentType = nil
+		
+		// When
+		sut.handle(AppCoordination.Action.showPrivacyStatementSheet)
+		
+		// Then
+		expect(self.sut.showSheet) == true
+		expect(self.sut.sheetContentType) == .privacyStatement
+	}
+	
+	func test_coordinatorHandle_dismissPrivacyStatementSheet_shouldDismissPrivacyStatement() {
+		
+		// Given
+		sut.showSheet = true
+		sut.sheetContentType = .privacyStatement
+		
+		// When
+		sut.handle(AppCoordination.Action.dismissPrivacyStatementSheet)
+		
+		// Then
+		expect(self.sut.showSheet) == false
+		expect(self.sut.sheetContentType) == nil
 	}
 }
