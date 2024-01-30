@@ -7,23 +7,14 @@
 
 import GifzTest
 import GifzUI
-@testable import MDRF
+@testable import MGO
 
-final class PrivacyViewTests: XCTestCase {
+final class PrivacyStatementViewTests: XCTestCase {
 	
-	func createSut() -> PrivacyView {
-		
-		return PrivacyView(
-			viewModel: PrivacyViewModel(
-				coordinator: nil
-			)
-		)
-	}
-	
-	func test_showPrivacyView_lightMode() {
+	func test_showPrivacyStatementView_lightMode() {
 		
 		// Given
-		let sut = createSut()
+		let sut = PrivacyStatementView()
 		
 		// When
 		let content = NavigationView { sut }
@@ -33,10 +24,10 @@ final class PrivacyViewTests: XCTestCase {
 		assertSnapshot(of: content.colorScheme(.light), as: .image)
 	}
 	
-	func test_showPrivacyView_darkMode() {
+	func test_showPrivacyStatmentView_darkMode() {
 		
 		// Given
-		let sut = createSut()
+		let sut = PrivacyStatementView()
 		
 		// When
 		let content = NavigationView { sut }

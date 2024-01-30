@@ -8,7 +8,7 @@
 import GifzFoundation
 import GifzTest
 import GifzUI
-@testable import MDRF
+@testable import MGO
 
 final class AppCoordinatorViewTests: XCTestCase {
 	

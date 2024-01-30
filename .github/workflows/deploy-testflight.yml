@@ -63,7 +63,7 @@ jobs:
           mkdir fastlane/certificates
           echo "$CERTIFICATE_CONTENTS" | base64 --decode > fastlane/certificates/distribution.p12
 
-      - name: Ship MDRF to TestFlight
+      - name: Ship MGO to TestFlight
         timeout-minutes: 120
         env:
           CERTIFICATE_PATH: fastlane/certificates/distribution.p12
@@ -74,16 +74,16 @@ jobs:
         run: |
           bundle exec fastlane ios ship_app_to_testflight
 
-      - name: Archive MDRF
+      - name: Archive MGO
         uses: actions/upload-artifact@v4
         with:
-          name: MDRF App
-          path: MDRF.ipa
+          name: MGO App
+          path: MGO.ipa
           retention-days: 30
 
-      - name: Archive MDRF dSYMs
+      - name: Archive MGO dSYMs
         uses: actions/upload-artifact@v4
         with:
-          name: MDRF App dSYMs
-          path: MDRF.app.dSYM.zip
+          name: MGO App dSYMs
+          path: MGO.app.dSYM.zip
           retention-days: 30

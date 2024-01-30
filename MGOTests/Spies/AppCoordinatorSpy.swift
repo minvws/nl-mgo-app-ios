@@ -7,7 +7,7 @@
 
 import GifzFoundation
 import GifzUI
-@testable import MDRF
+@testable import MGO
 
 class AppCoordinatorSpy: AppCoordinatorProtocol {
 

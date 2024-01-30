@@ -22,10 +22,10 @@ platform :ios do
   desc "Run tests for integration purposes"
   lane :test_ci do
     run_tests(
-      app_name: "MDRF",
+      app_name: "MGO",
       destination: "platform=iOS Simulator,name=iPhone 15 Pro,OS=17.2",
-      project: "MDRF.xcodeproj",
-      scheme: "MDRF Dev",
+      project: "MGO.xcodeproj",
+      scheme: "MGO Dev",
       reinstall_app: true,
       app_identifier: "nl.rool.pifz.dev",
       skip_slack: true,
@@ -39,9 +39,9 @@ platform :ios do
   lane :ship_app_to_testflight do
     ship_to_testflight(
       provisioning_profile_path: "fastlane/profiles/nlrijksoverheidnl_AppStore.mobileprovision",
-      xcodeproj: "MDRF.xcodeproj",
-      targetname: "MDRF",
-      schemename:  "MDRF AppStore",
+      xcodeproj: "MGO.xcodeproj",
+      targetname: "MGO",
+      schemename:  "MGO AppStore",
       configuration: "AppStore",
       provisioningprofilename: "nl.rijksoverheid.pifz: AppStore",
       bundleid: "nl.rijksoverheid.pifz"
@@ -106,9 +106,9 @@ platform :ios do
   lane :deploy_test_ci do
     deploy(
       provisioning_profile_path: "fastlane/profiles/PIFZ_Test.mobileprovision",
-      xcodeproj: "MDRF.xcodeproj",
-      targetname: "MDRF",
-      schemename:  "MDRF Test",
+      xcodeproj: "MGO.xcodeproj",
+      targetname: "MGO",
+      schemename:  "MGO Test",
       configuration: "FirebaseTest",
       provisioningprofilename: "PIFZ: Test",
       bundleid: "nl.rool.pifz.test",
@@ -121,9 +121,9 @@ platform :ios do
   lane :deploy_acc_ci do
     deploy(
       provisioning_profile_path: "fastlane/profiles/PIFZ_Acc.mobileprovision",
-      xcodeproj: "MDRF.xcodeproj",
-      targetname: "MDRF",
-      schemename:  "MDRF Acceptance",
+      xcodeproj: "MGO.xcodeproj",
+      targetname: "MGO",
+      schemename:  "MGO Acceptance",
       configuration: "FirebaseAcceptance",
       provisioningprofilename: "PIFZ: Acc",
       bundleid: "nl.rool.pifz.acc",
@@ -136,9 +136,9 @@ platform :ios do
   lane :deploy_prod_ci do
     deploy(
       provisioning_profile_path: "fastlane/profiles/PIFZ_Prod.mobileprovision",
-      xcodeproj: "MDRF.xcodeproj",
-      targetname: "MDRF",
-      schemename:  "MDRF Production",
+      xcodeproj: "MGO.xcodeproj",
+      targetname: "MGO",
+      schemename:  "MGO Production",
       configuration: "FirebaseProduction",
       provisioningprofilename: "PIFZ: Prod",
       bundleid: "nl.rool.pifz",

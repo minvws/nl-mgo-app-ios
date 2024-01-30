@@ -6,7 +6,7 @@
  */
 
 import GifzTest
-@testable import MDRF
+@testable import MGO
 
 final class LaunchViewModelTests: XCTestCase {
 

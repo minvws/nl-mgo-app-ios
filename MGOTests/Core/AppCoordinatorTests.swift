@@ -7,7 +7,7 @@
 
 import GifzTest
 import GifzFoundation
-@testable import MDRF
+@testable import MGO
 
 final class AppCoordinatorTests: XCTestCase {
 	
