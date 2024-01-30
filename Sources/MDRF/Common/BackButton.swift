@@ -10,7 +10,9 @@ import GifzUI
 
 /// A simple backbutton consisting of an left chevron and a previous text
 struct BackButton: View {
-	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+	
+	/// Global dismiss closure
+	@Environment(\.dismiss) var dismiss
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -33,7 +35,7 @@ struct BackButton: View {
 	var body: some View {
 		Button(
 			action: {
-				self.presentationMode.wrappedValue.dismiss()
+				dismiss()
 			},
 			label: {
 				HStack(alignment: .center, spacing: 0) {
