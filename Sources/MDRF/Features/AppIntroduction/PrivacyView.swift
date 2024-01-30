@@ -12,28 +12,20 @@ class PrivacyViewModel: ObservableObject {
 	
 	weak var coordinator: (any AppCoordinatorProtocol)?
 	
-	enum State {
-		case idle
-		case showPrivacyStatement
-	}
 	enum Action {
 		case privacyLinkClicked
 		case nextButttonPressed
 	}
 	
-	@Published var state: State = .idle
-	
-	init(coordinator: (any AppCoordinatorProtocol)? = nil, state: State = .idle) {
+	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
 		self.coordinator = coordinator
-		self.state = state
 	}
 	
 	func reduce(_ action: Action) {
 		
 		switch action {
 			case .privacyLinkClicked:
-				logDebug("Link Clicked")
-				state = .showPrivacyStatement
+				coordinator?.handle(AppCoordination.Action.showPrivacyStatementSheet)
 			case .nextButttonPressed:
 				coordinator?.handle(.nextButtonPressedOnPrivacy)
 		}
@@ -43,8 +35,6 @@ class PrivacyViewModel: ObservableObject {
 struct PrivacyView: View {
 	
 	@StateObject var viewModel: PrivacyViewModel
-	
-	@State private var showingPrivacyStatement = false
 	
 	private struct ViewTraits {
 		enum General {
@@ -97,7 +87,7 @@ struct PrivacyView: View {
 							guard url.absoluteString.lowercased() == "/privacystatement" else {
 								return .discarded
 							}
-							showingPrivacyStatement.toggle()
+							viewModel.reduce(.privacyLinkClicked)
 							return .handled
 						})
 						.accessibilityIdentifier("introduction text")
@@ -123,49 +113,6 @@ struct PrivacyView: View {
 					}
 				)
 				.padding(ViewTraits.General.padding)
-			}
-		}
-		.sheet(isPresented: $showingPrivacyStatement) {
-			
-			ZStack {
-				
-				Color.background
-					.ignoresSafeArea()
-					.frame(maxWidth: .infinity, maxHeight: .infinity)
-				
-				VStack(alignment: .leading, spacing: 0) {
-					
-					HStack {
-						
-						Spacer()
-						
-						Button(
-							action: {
-								showingPrivacyStatement.toggle()
-							}, label: {
-								Image(.close)
-							}
-						)
-						.padding(ViewTraits.CloseButton.insets)
-					}
-					
-					Group {
-						
-						Text("privacy_statement_title")
-							.rijksoverheidStyle(font: .bold, style: .title2)
-							.accessibilityAddTraits(.isHeader)
-						
-						ScrollView {
-							Text("privacy_statement_body")
-								.rijksoverheidStyle(font: .regular, style: .body)
-						}
-					}
-					.foregroundColor(.blackText)
-					.padding(ViewTraits.PrivacyStatement.insets)
-					.fixedSize(horizontal: false, vertical: true)
-					
-					Spacer()
-				}
 			}
 		}
 		.navigationBarBackButtonHidden(true)

@@ -75,4 +75,32 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.path.count) == 2
 	}
+	
+	func test_coordinatorHandle_showPrivacyStatementSheet_shouldShowPrivacyStatement() {
+		
+		// Given
+		sut.showSheet = false
+		sut.sheetContentType = nil
+		
+		// When
+		sut.handle(AppCoordination.Action.showPrivacyStatementSheet)
+		
+		// Then
+		expect(self.sut.showSheet) == true
+		expect(self.sut.sheetContentType) == .privacyStatement
+	}
+	
+	func test_coordinatorHandle_dismissPrivacyStatementSheet_shouldDismissPrivacyStatement() {
+		
+		// Given
+		sut.showSheet = true
+		sut.sheetContentType = .privacyStatement
+		
+		// When
+		sut.handle(AppCoordination.Action.dismissPrivacyStatementSheet)
+		
+		// Then
+		expect(self.sut.showSheet) == false
+		expect(self.sut.sheetContentType) == nil
+	}
 }

@@ -35,12 +35,12 @@ final class PrivacyViewModelTests: XCTestCase {
 	func test_privacyLinkClicked_shouldChangeState() {
 		
 		// Given
-		sut.state = .idle
 		
 		// When
 		sut.reduce(.privacyLinkClicked)
 		
 		// Then
-		expect(self.sut.state) == .showPrivacyStatement
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.showPrivacyStatementSheet
 	}
 }

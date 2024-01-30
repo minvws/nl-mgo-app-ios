@@ -12,6 +12,9 @@ protocol AppCoordinatorProtocol: ObservableObject {
 	
 	var path: NavigationStackBackport.NavigationPath { get set }
 	
+	var sheetContentType: AppCoordination.Sheet? { get set }
+	var showSheet: Bool { get set }
+	
 	func handle(_ action: AppCoordination.Action)
 	func start()
 }
@@ -21,6 +24,8 @@ enum AppCoordination {
 		case finishedLoading
 		case nextButtonPressedOnAppIntroduction
 		case nextButtonPressedOnPrivacy
+		case showPrivacyStatementSheet
+		case dismissPrivacyStatementSheet
 	}
 	
 	enum State: Codable {
@@ -29,11 +34,17 @@ enum AppCoordination {
 		case privacy
 		case dashboard
 	}
+	
+	enum Sheet: Codable {
+		case privacyStatement
+	}
 }
 
 final class AppCoordinator: AppCoordinatorProtocol {
-
+	
 	@Published var path: NavigationStackBackport.NavigationPath
+	@Published var sheetContentType: AppCoordination.Sheet?
+	@Published var showSheet: Bool = false
 	
 	init(path: NavigationStackBackport.NavigationPath) {
 		self.path = path
@@ -55,6 +66,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.append(AppCoordination.State.privacy)
 			case .nextButtonPressedOnPrivacy:
 				path.append(AppCoordination.State.dashboard)
+			case .showPrivacyStatementSheet:
+				sheetContentType = AppCoordination.Sheet.privacyStatement
+				showSheet = true
+			case .dismissPrivacyStatementSheet:
+				sheetContentType = nil
+				showSheet = false
 		}
 	}
 }
