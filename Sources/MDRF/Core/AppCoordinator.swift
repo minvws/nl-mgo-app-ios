@@ -10,16 +10,26 @@ import GifzFoundation
 
 protocol AppCoordinatorProtocol: ObservableObject {
 	
+	/// The navigation path
 	var path: NavigationStackBackport.NavigationPath { get set }
 	
+	/// The content type for the sheet
 	var sheetContentType: AppCoordination.Sheet? { get set }
+	
+	/// Boolean indicating to show or remove a bottom sheet
 	var showSheet: Bool { get set }
 	
+	/// Handle an incoming action from any of the view models
+	/// - Parameter action: an AppCoordination Action
 	func handle(_ action: AppCoordination.Action)
+	
+	/// Start the cooridinator
 	func start()
 }
 
 enum AppCoordination {
+	
+	/// A list of all the action an app coordinator can do
 	enum Action {
 		case finishedLoading
 		case nextButtonPressedOnAppIntroduction
@@ -28,6 +38,7 @@ enum AppCoordination {
 		case dismissPrivacyStatementSheet
 	}
 	
+	/// A list of all the view states the app coordinator can show
 	enum State: Codable {
 		case launch
 		case appIntroduction
@@ -35,6 +46,7 @@ enum AppCoordination {
 		case dashboard
 	}
 	
+	/// A list of all the sheets the app coordinator can show
 	enum Sheet: Codable {
 		case privacyStatement
 	}
@@ -42,10 +54,17 @@ enum AppCoordination {
 
 final class AppCoordinator: AppCoordinatorProtocol {
 	
+	/// The navigation path
 	@Published var path: NavigationStackBackport.NavigationPath
+	
+	/// The content type for the sheet
 	@Published var sheetContentType: AppCoordination.Sheet?
+	
+	/// Boolean indicating to show or remove a bottom sheet
 	@Published var showSheet: Bool = false
 	
+	/// Initializer
+	/// - Parameter path: Navigation Path
 	init(path: NavigationStackBackport.NavigationPath) {
 		self.path = path
 	}
@@ -58,7 +77,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle an action
 	/// - Parameter action: an action, i.e. finishedLoading
 	func handle(_ action: AppCoordination.Action) {
-
+		
 		switch action {
 			case .finishedLoading:
 				path.append(AppCoordination.State.appIntroduction)

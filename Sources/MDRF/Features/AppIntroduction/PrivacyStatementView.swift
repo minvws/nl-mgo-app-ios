@@ -9,8 +9,10 @@ import SwiftUI
 
 struct PrivacyStatementView: View {
 	
+	/// Global dismiss closure
 	@Environment(\.dismiss) var dismiss
 	
+	/// Magic Numbers
 	private struct ViewTraits {
 		enum CloseButton {
 			static let insets = EdgeInsets( top: 14, leading: 0, bottom: 14, trailing: 14

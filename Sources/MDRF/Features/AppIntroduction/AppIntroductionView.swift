@@ -10,16 +10,22 @@ import GifzUI
 
 class AppIntroductionViewModel: ObservableObject {
 	
+	/// The app coordintator for routing
 	weak var coordinator: (any AppCoordinatorProtocol)?
 	
+	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case nextButttonPressed
 	}
 	
+	/// Intitializer
+	/// - Parameter coordinator: the app coordinator
 	init(coordinator: (any AppCoordinatorProtocol)?) {
 		self.coordinator = coordinator
 	}
 	
+	/// Handle any action
+	/// - Parameter action: the action to be handled
 	func reduce(_ action: Action) {
 		if action == .nextButttonPressed {
 			coordinator?.handle(.nextButtonPressedOnAppIntroduction)
@@ -29,10 +35,13 @@ class AppIntroductionViewModel: ObservableObject {
 
 struct AppIntroductionView: View {
 	
+	/// The view model
 	@StateObject var viewModel: AppIntroductionViewModel
 	
+	/// Boolean to determine if the header image shoudl be shown (hidden in landscape)
 	@State var showImage = true
 	
+	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
 			static let top: CGFloat = 50

@@ -10,17 +10,23 @@ import GifzUI
 
 class PrivacyViewModel: ObservableObject {
 	
+	/// The app coordintator for routing
 	weak var coordinator: (any AppCoordinatorProtocol)?
 	
+	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case privacyLinkClicked
 		case nextButttonPressed
 	}
 	
+	/// Intitializer
+	/// - Parameter coordinator: the app coordinator
 	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
 		self.coordinator = coordinator
 	}
 	
+	/// Handle any action
+	/// - Parameter action: the action to be handled
 	func reduce(_ action: Action) {
 		
 		switch action {
@@ -34,8 +40,10 @@ class PrivacyViewModel: ObservableObject {
 
 struct PrivacyView: View {
 	
+	/// The View Model
 	@StateObject var viewModel: PrivacyViewModel
 	
+	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
 			static let padding: CGFloat = 16
@@ -84,6 +92,7 @@ struct PrivacyView: View {
 						.tint(.hyperlink)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.environment(\.openURL, OpenURLAction { url in
+							// Catch the click on the privacy link
 							guard url.absoluteString.lowercased() == "/privacystatement" else {
 								return .discarded
 							}
