@@ -106,6 +106,8 @@ struct LaunchView: View {
 						.rijksoverheidStyle(font: .bold, style: .largeTitle)
 						.foregroundColor(Color.splashTitle)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
+						.accessibilityAddTraits(.isHeader)
+					
 					Spacer()
 					if viewModel.state == .loadingConfig {
 						ProgressView("launch_loading")

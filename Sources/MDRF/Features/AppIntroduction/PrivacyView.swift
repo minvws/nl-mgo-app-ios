@@ -85,6 +85,7 @@ struct PrivacyView: View {
 						.foregroundColor(.blackText)
 						.padding(.bottom, ViewTraits.General.padding)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
+						.accessibilityAddTraits(.isHeader)
 					
 					Text(introText)
 						.rijksoverheidStyle(font: .regular, style: .body)
@@ -99,6 +100,7 @@ struct PrivacyView: View {
 							showingPrivacyStatement.toggle()
 							return .handled
 						})
+						.accessibilityIdentifier("introduction text")
 					
 					Group {
 						PrivacyShieldView("privacy_item_1")
@@ -151,6 +153,7 @@ struct PrivacyView: View {
 						
 						Text("privacy_statement_title")
 							.rijksoverheidStyle(font: .bold, style: .title2)
+							.accessibilityAddTraits(.isHeader)
 						
 						ScrollView {
 							Text("privacy_statement_body")

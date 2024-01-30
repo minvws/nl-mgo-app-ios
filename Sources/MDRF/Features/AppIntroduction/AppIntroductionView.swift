@@ -72,6 +72,7 @@ struct AppIntroductionView: View {
 						.padding(ViewTraits.Title.insets)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.padding(.top, showImage ? 0 : ViewTraits.Image.top)
+						.accessibilityAddTraits(.isHeader)
 					
 					Text("onboarding_body")
 						.rijksoverheidStyle(font: .regular, style: .body)
