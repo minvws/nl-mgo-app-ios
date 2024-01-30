@@ -12,7 +12,7 @@ public struct FrameAsiPhone15ProModifier: ViewModifier {
 	/// Frame as iPhone 25 Pro
 	/// - Parameter content: the content
 	/// - Returns: the content with a frame of `393 * 852` just like an iPhone 15 Pro
-	public func body(content: Content) -> some View {
+	@ViewBuilder @MainActor public func body(content: Content) -> some View {
 		content
 			.frame(width: 393, height: 852)
 	}
