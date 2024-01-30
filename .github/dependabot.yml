@@ -13,3 +13,26 @@ updates:
     interval: daily
     time: "08:00"
     timezone: Europe/Amsterdam
+
+# Swift Packages
+  - package-ecosystem: "swift"
+    directory: "/Packages/GifzFoundation"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+  - package-ecosystem: "swift"
+    directory: "/Packages/GifzTest"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+  - package-ecosystem: "swift"
+    directory: "/Packages/GifzkUI"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
