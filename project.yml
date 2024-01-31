@@ -205,31 +205,31 @@ targets:
 
       configs:
         Development:
-          DISPLAY_NAME: "🤖 Dev Mijn Zorg"
+          DISPLAY_NAME: "🤖 Dev MGO"
           PRODUCT_NAME: MGO
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.dev
           PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Dev"
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Dev.entitlements
         FirebaseTest:
-          DISPLAY_NAME: "🧪 Test Mijn Zorg"
+          DISPLAY_NAME: "🧪 Test MGO"
           PRODUCT_NAME: MGO Test
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.test
           PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Test"
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Test.entitlements
         FirebaseAcceptance:
-          DISPLAY_NAME: "💡 Acc Mijn Zorg"
+          DISPLAY_NAME: "💡 Acc MGO"
           PRODUCT_NAME: MGO ACC
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.acc
           PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Acc"
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Acc.entitlements
         FirebaseProduction:
-          DISPLAY_NAME: "Mijn Zorg"
+          DISPLAY_NAME: "Mijngezondheidsoverzicht"
           PRODUCT_NAME: MGO PROD
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz
           PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Prod"
 #           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
         AppStore:
-          DISPLAY_NAME: "Mijn Zorg"
+          DISPLAY_NAME: "Mijngezondheidsoverzicht"
           PRODUCT_NAME: MGO
           PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz
           PROVISIONING_PROFILE_SPECIFIER: "nl.rijksoverheid.pifz: AppStore"
