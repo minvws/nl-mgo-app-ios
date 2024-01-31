@@ -5,7 +5,6 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import SwiftUI
 import MGOUI
 
 /// A simple backbutton consisting of an left chevron and a previous text

@@ -5,7 +5,6 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import SwiftUI
 import MGOUI
 
 /// A view containing a privacy shield and a text (as localizesStringKey)

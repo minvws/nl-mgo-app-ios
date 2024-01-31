@@ -5,7 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import SwiftUI
+import MGOUI
 
 /// A scrollview with a fixed box at the bottom 
 struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {

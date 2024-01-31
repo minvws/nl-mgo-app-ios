@@ -5,7 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import SwiftUI
+import MGOUI
 
 struct PrivacyStatementView: View {
 	
