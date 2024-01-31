@@ -53,6 +53,9 @@ class LaunchViewModel: ObservableObject {
 
 struct LaunchView: View {
 	
+	/// Color sheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	@StateObject var viewModel: LaunchViewModel
 	
 	@State private var rijkslintTopOffset: CGFloat = 0
@@ -104,7 +107,7 @@ struct LaunchView: View {
 					
 					Text("app_title")
 						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-						.foregroundColor(Color.Styleguide.Blue.logoBlue)
+						.foregroundColor(colorScheme == .light ?   Color.Styleguide.Blue.logoBlue: Color.Styleguide.black)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 						.accessibilityAddTraits(.isHeader)
 						.multilineTextAlignment(.center)
