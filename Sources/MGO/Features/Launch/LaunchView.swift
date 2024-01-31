@@ -107,7 +107,7 @@ struct LaunchView: View {
 					
 					Text("app_title")
 						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-						.foregroundColor(colorScheme == .light ?   Color.Styleguide.Blue.logoBlue: Color.Styleguide.black)
+						.foregroundColor(colorScheme == .light ? Color.Styleguide.Blue.logoBlue : Color.Styleguide.black)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 						.accessibilityAddTraits(.isHeader)
 						.multilineTextAlignment(.center)
