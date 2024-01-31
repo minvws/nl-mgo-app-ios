@@ -1,8 +1,8 @@
-# Medical Data Review Facility  - iOS
+# My Health Overview - iOS
 
 ## Introduction
 
-This repository contains the iOS release of the Medical Data Review Facility project.
+This repository contains the iOS release of the My Health Overview project.
 
 * The iOS app is located in the repository you are currently viewing.
 * The Android app can also be [found on GitHub](https://github.com/minvws/nl-pgo-app-android-private).
@@ -42,7 +42,7 @@ To build and develop the app you need:
 
 ### Getting started
 
-The Xcode project file ([MDRF.xcodeproj](MDRF.xcodeproj)) is not checked-in to git. Instead, we generate it dynamically using [XcodeGen](https://github.com/yonaskolb/XcodeGen) based on [project.yml](/.project.yml). 
+The Xcode project file ([MGO.xcodeproj](MGO.xcodeproj)) is not checked-in to git. Instead, we generate it dynamically using [XcodeGen](https://github.com/yonaskolb/XcodeGen) based on [project.yml](/.project.yml). 
 
 There is a [Makefile](./Makefile) which makes it easy to get started (if you encounter any issues running this, please do open an issue):
 
@@ -55,7 +55,7 @@ It will use [Homebrew](https://brew.sh) to install [these tools](./Brewfile), an
 
 It will run `bundle install` to setup your [Ruby dependencies](./Gemfile) such as [fastlane](https://fastlane.tools).
 
-Lastly, it will generate and open the Xcode Project for you. You should run the `MDRF Dev` scheme targetting a simulator to get started..
+Lastly, it will generate and open the Xcode Project for you. You should run the `MGO Dev` scheme targetting a simulator to get started..
 
 ### Continuous Integration & reproducible builds
 

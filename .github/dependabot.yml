@@ -16,21 +16,21 @@ updates:
 
 # Swift Packages
   - package-ecosystem: "swift"
-    directory: "/Packages/GifzFoundation"
+    directory: "/Packages/MGOFoundation"
     schedule:
       interval: weekly
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
   - package-ecosystem: "swift"
-    directory: "/Packages/GifzTest"
+    directory: "/Packages/MGOTest"
     schedule:
       interval: weekly
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
   - package-ecosystem: "swift"
-    directory: "/Packages/GifzkUI"
+    directory: "/Packages/MGOkUI"
     schedule:
       interval: weekly
       day: monday

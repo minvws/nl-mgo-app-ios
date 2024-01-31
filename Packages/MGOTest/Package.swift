@@ -1,0 +1,32 @@
+// swift-tools-version: 5.9
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+	name: "MGOTest",
+	platforms: [.iOS(.v15)],
+	products: [
+		.library(
+			name: "MGOTest",
+			targets: ["MGOTest"]
+		)
+	],
+	dependencies: [
+		
+		// Testing:
+		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.15.2"),
+		.package(url: "https://github.com/Quick/Nimble", exact: "13.2.0"),
+		.package(url: "https://github.com/nalexn/ViewInspector", exact: "0.9.10")
+	],
+	targets: [
+		.target(
+			name: "MGOTest",
+			dependencies: [
+				.product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+				.product(name: "Nimble", package: "Nimble"),
+				.product(name: "ViewInspector", package: "ViewInspector")
+			]
+		)
+	]
+)

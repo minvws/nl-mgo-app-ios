@@ -5,17 +5,17 @@ on:
   workflow_dispatch:
     inputs:
       test:
-        description: "Build MDRF Test"
+        description: "Build MGO Test"
         type: boolean
         default: true
         required: false
       acc:
-        description: "Build MDRF ACC"
+        description: "Build MGO ACC"
         type: boolean
         default: true
         required: false
       prod:
-        description: "Build MDRF Prod"
+        description: "Build MGO Prod"
         type: boolean
         default: true
         required: false
@@ -26,8 +26,8 @@ jobs:
     uses: ./.github/workflows/template_firebase-deploy.yml
     with:
       fastlane_command: bundle exec fastlane ios deploy_test_ci
-      app_title: Test MDRF App
-      app_filename: MDRF Test
+      app_title: Test MGO App
+      app_filename: MGO Test
     secrets:
       DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
       DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
@@ -39,8 +39,8 @@ jobs:
     uses: ./.github/workflows/template_firebase-deploy.yml
     with:
       fastlane_command: bundle exec fastlane ios deploy_acc_ci
-      app_title: Acc MDRF App
-      app_filename: MDRF ACC
+      app_title: Acc MGO App
+      app_filename: MGO ACC
     secrets:
       DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
       DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
@@ -52,8 +52,8 @@ jobs:
     uses: ./.github/workflows/template_firebase-deploy.yml
     with:
       fastlane_command: bundle exec fastlane ios deploy_prod_ci
-      app_title: Prod MDRF App
-      app_filename: MDRF PROD
+      app_title: Prod MGO App
+      app_filename: MGO PROD
     secrets:
       DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
       DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
