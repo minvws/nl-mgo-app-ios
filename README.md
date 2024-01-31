@@ -1,8 +1,8 @@
-# My Health Environment - iOS
+# My Health Overview - iOS
 
 ## Introduction
 
-This repository contains the iOS release of the My Health Environment project.
+This repository contains the iOS release of the My Health Overview project.
 
 * The iOS app is located in the repository you are currently viewing.
 * The Android app can also be [found on GitHub](https://github.com/minvws/nl-pgo-app-android-private).

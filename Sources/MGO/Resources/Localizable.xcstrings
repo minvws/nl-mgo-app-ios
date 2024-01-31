@@ -40,7 +40,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inzien wat je huisarts, ziekenhuis en andere zorgverleners weten over jou. Alles in één overzicht. Veilig en overzichtelijk.\n\nMijn Zorg is een eenvoudige versie van een Persoonlijke Gezondheidsomgeving (PGO). "
+            "value" : "Inzien wat je huisarts, ziekenhuis en andere zorgverleners weten over jou. Alles in één overzicht. Veilig en overzichtelijk.\n\nMijngezondheidsoverzicht is een eenvoudige versie van een Persoonlijke Gezondheidsomgeving (PGO). "
           }
         }
       }
@@ -73,7 +73,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In de %@ staat hoe Mijn Zorg jouw gegevens gebruikt. Dit zijn de belangrijkste punten:"
+            "value" : "In de %@ staat hoe mijngezondheidsoverzicht jouw gegevens gebruikt. Dit zijn de belangrijkste punten:"
           }
         }
       }
@@ -95,7 +95,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mijn Zorg haalt je gegevens rechtstreeks op bij de zorgverleners die jij selecteert. **Niemand anders dan jijzelf verwerkt je gegevens of krijgt ze te zien.**"
+            "value" : "Mijngezondheidsoverzicht haalt je gegevens rechtstreeks op bij de zorgverleners die jij selecteert. **Niemand anders dan jijzelf verwerkt je gegevens of krijgt ze te zien.**"
           }
         }
       }
@@ -139,7 +139,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze verklaring beschrijft in het kort het volgende:\n\n1. Wie verantwoordelijk is voor de verwerking van persoonsgegevens voor Mijn Zorg.\n2. Waarom persoonsgegevens worden verwerkt.\n3. Wat de grondslag is voor het verwerken van persoonsgegevens.\n4. Welke persoonsgegevens van de gebruiker van Mijn Zorg worden verwerkt.\n5. Hoe wordt omgegaan met cookies en statistische informatie.\n6. Aan wie de persoonsgegevens verstrekt kunnen worden.\n7. Welke bewaartermijnen gelden.\n8. Wat de rechten zijn van de gebruiker.\n9. Welke beveiligingsmaatregelen genomen zijn.\n10. Dat de privacyverklaring gewijzigd kan worden.\n11. In het Besluit verwerking persoonsgegevens generieke digitale infrastructuur wordt de verwerking van persoonsgegevens uitvoerig beschreven (vindplaats: Staatsblad 2016, 195)"
+            "value" : "Deze verklaring beschrijft in het kort het volgende:\n\n1. Wie verantwoordelijk is voor de verwerking van persoonsgegevens voor Mijn Zorg.\n2. Waarom persoonsgegevens worden verwerkt.\n3. Wat de grondslag is voor het verwerken van persoonsgegevens.\n4. Welke persoonsgegevens van de gebruiker van mijngezondheidsoverzicht worden verwerkt.\n5. Hoe wordt omgegaan met cookies en statistische informatie.\n6. Aan wie de persoonsgegevens verstrekt kunnen worden.\n7. Welke bewaartermijnen gelden.\n8. Wat de rechten zijn van de gebruiker.\n9. Welke beveiligingsmaatregelen genomen zijn.\n10. Dat de privacyverklaring gewijzigd kan worden.\n11. In het Besluit verwerking persoonsgegevens generieke digitale infrastructuur wordt de verwerking van persoonsgegevens uitvoerig beschreven (vindplaats: Staatsblad 2016, 195)"
           }
         }
       }
@@ -150,7 +150,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Privacyverklaring Mijn Zorg"
+            "value" : "Privacyverklaring mijngezondheidsoverzicht"
           }
         }
       }
@@ -161,7 +161,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zo gebruikt Mijn Zorg jouw gegevens"
+            "value" : "Zo gebruikt mijngezondheidsoverzicht jouw gegevens"
           }
         }
       }
