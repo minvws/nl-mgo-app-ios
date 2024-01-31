@@ -12,7 +12,7 @@ struct DashboardView: View {
 	var body: some View {
 		ZStack {
 			
-			Color.background
+			Color.Styleguide.background
 				.ignoresSafeArea()
 			
 			VStack {

@@ -60,7 +60,7 @@ struct AppIntroductionView: View {
 	var body: some View {
 		ZStack {
 			
-			Color.background
+			Color.Styleguide.background
 				.ignoresSafeArea()
 			
 			ScrollViewWithFixedBottom(content: {
@@ -90,7 +90,7 @@ struct AppIntroductionView: View {
 					
 					Spacer()
 				}
-				.foregroundColor(.blackText)
+				.foregroundColor(Color.Styleguide.black)
 				.onRotate { newOrientation in
 					// Hide the image in landscape on a phone, show on other devices
 					showImage = !newOrientation.isLandscape && UIDevice.current.userInterfaceIdiom == .phone

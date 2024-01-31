@@ -42,12 +42,12 @@ struct BackButton: View {
 					Image(.backArrow)
 						.resizable()
 						.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
-						.tint(.skyBlue)
+						.tint(Color.Styleguide.Blue.skyBlue)
 						.padding(.trailing, ViewTraits.Image.padding)
 					
 					Text(title)
 						.rijksoverheidStyle(font: .regular, style: .headline)
-						.foregroundColor(.skyBlue)
+						.foregroundColor(Color.Styleguide.Blue.skyBlue)
 				}
 			}
 		)

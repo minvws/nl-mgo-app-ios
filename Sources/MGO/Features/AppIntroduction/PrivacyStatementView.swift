@@ -26,7 +26,7 @@ struct PrivacyStatementView: View {
 	var body: some View {
 		ZStack {
 			
-			Color.background
+			Color.Styleguide.background
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			
@@ -57,7 +57,7 @@ struct PrivacyStatementView: View {
 							.rijksoverheidStyle(font: .regular, style: .body)
 					}
 				}
-				.foregroundColor(.blackText)
+				.foregroundColor(Color.Styleguide.black)
 				.padding(ViewTraits.PrivacyStatement.insets)
 				.fixedSize(horizontal: false, vertical: true)
 				

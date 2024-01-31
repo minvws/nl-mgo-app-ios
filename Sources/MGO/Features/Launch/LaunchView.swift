@@ -94,7 +94,7 @@ struct LaunchView: View {
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
-				Color.background
+				Color.Styleguide.background
 					.ignoresSafeArea()
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
 				VStack {
@@ -104,7 +104,7 @@ struct LaunchView: View {
 					
 					Text("app_title")
 						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-						.foregroundColor(Color.splashTitle)
+						.foregroundColor(Color.Styleguide.Blue.logoBlue)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 						.accessibilityAddTraits(.isHeader)
 						.multilineTextAlignment(.center)
@@ -112,9 +112,9 @@ struct LaunchView: View {
 					Spacer()
 					if viewModel.state == .loadingConfig {
 						ProgressView("launch_loading")
-							.tint(.blackText)
+							.tint(Color.Styleguide.black)
 							.rijksoverheidStyle(font: .regular, style: .footnote)
-							.foregroundColor(.blackText)
+							.foregroundColor(Color.Styleguide.black)
 							.padding(.bottom, ViewTraits.Spinner.bottomOffset - geometry.safeAreaInsets.bottom)
 					}
 				}

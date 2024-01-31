@@ -34,10 +34,10 @@ struct SkyBlueButton: View {
 		
 		Text(title)
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(.whiteText)
+			.foregroundColor(Color.Styleguide.white)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(.skyBlue)
+			.background(Color.Styleguide.Blue.skyBlue)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

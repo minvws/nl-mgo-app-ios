@@ -15,8 +15,8 @@ struct ClearToBackgroundGradientView: View {
 			
 			LinearGradient(
 				stops: [
-					Gradient.Stop(color: .clear, location: 0.0),
-					Gradient.Stop(color: Color.background, location: 1)
+					Gradient.Stop(color: Color.clear, location: 0.0),
+					Gradient.Stop(color: Color.Styleguide.background, location: 1)
 				],
 				startPoint: .top,
 				endPoint: .bottom
