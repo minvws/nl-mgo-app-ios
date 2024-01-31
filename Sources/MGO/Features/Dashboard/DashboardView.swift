@@ -21,6 +21,7 @@ struct DashboardView: View {
 				Text("app_title")
 					.rijksoverheidStyle(font: .bold, style: .largeTitle)
 					.accessibilityAddTraits(.isHeader)
+					.multilineTextAlignment(.center)
 				
 				Text(verbatim: "That's all folks!")
 					.rijksoverheidStyle(font: .regular, style: .body)

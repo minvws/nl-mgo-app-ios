@@ -107,6 +107,7 @@ struct LaunchView: View {
 						.foregroundColor(Color.splashTitle)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 						.accessibilityAddTraits(.isHeader)
+						.multilineTextAlignment(.center)
 					
 					Spacer()
 					if viewModel.state == .loadingConfig {
