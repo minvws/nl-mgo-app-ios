@@ -115,7 +115,7 @@ struct LaunchView: View {
 					Spacer()
 					if viewModel.state == .loadingConfig {
 						ProgressView("launch_loading")
-							.tint(Color.Styleguide.black)
+							.tint(Color.Styleguide.Blue.skyBlue)
 							.rijksoverheidStyle(font: .regular, style: .footnote)
 							.foregroundColor(Color.Styleguide.black)
 							.padding(.bottom, ViewTraits.Spinner.bottomOffset - geometry.safeAreaInsets.bottom)
