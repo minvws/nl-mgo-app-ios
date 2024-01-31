@@ -49,7 +49,7 @@ struct PrivacyStatementView: View {
 				Group {
 					
 					Text("privacy_statement_title")
-						.rijksoverheidStyle(font: .bold, style: .title2)
+						.rijksoverheidStyle(font: .bold, style: .title3)
 						.accessibilityAddTraits(.isHeader)
 					
 					ScrollView {

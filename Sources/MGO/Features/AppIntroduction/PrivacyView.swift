@@ -126,6 +126,7 @@ struct PrivacyView: View {
 		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton())
+		.navigationBarTitleDisplayMode(.inline)
 	}
 }
 
