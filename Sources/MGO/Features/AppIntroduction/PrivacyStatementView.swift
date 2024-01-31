@@ -26,7 +26,7 @@ struct PrivacyStatementView: View {
 	var body: some View {
 		ZStack {
 			
-			Color.background
+			Color.Styleguide.background
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			
@@ -49,7 +49,7 @@ struct PrivacyStatementView: View {
 				Group {
 					
 					Text("privacy_statement_title")
-						.rijksoverheidStyle(font: .bold, style: .title2)
+						.rijksoverheidStyle(font: .bold, style: .title3)
 						.accessibilityAddTraits(.isHeader)
 					
 					ScrollView {
@@ -57,7 +57,7 @@ struct PrivacyStatementView: View {
 							.rijksoverheidStyle(font: .regular, style: .body)
 					}
 				}
-				.foregroundColor(.blackText)
+				.foregroundColor(Color.Styleguide.black)
 				.padding(ViewTraits.PrivacyStatement.insets)
 				.fixedSize(horizontal: false, vertical: true)
 				

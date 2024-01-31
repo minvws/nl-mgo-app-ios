@@ -10,6 +10,9 @@ import MGOUI
 /// A big blue button
 struct SkyBlueButton: View {
 	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum ButtonTitle {
@@ -34,10 +37,10 @@ struct SkyBlueButton: View {
 		
 		Text(title)
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(.whiteText)
+			.foregroundColor(colorScheme == .light ? Color.Styleguide.white : Color.Styleguide.black)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(.skyBlue)
+			.background(Color.Styleguide.Blue.skyBlue)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

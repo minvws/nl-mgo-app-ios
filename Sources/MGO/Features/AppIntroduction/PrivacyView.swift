@@ -43,6 +43,9 @@ struct PrivacyView: View {
 	/// The View Model
 	@StateObject var viewModel: PrivacyViewModel
 	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -70,7 +73,7 @@ struct PrivacyView: View {
 	var body: some View {
 		ZStack {
 			
-			Color.background
+			Color.Styleguide.background
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			
@@ -80,7 +83,7 @@ struct PrivacyView: View {
 					
 					Text("privacy_title")
 						.rijksoverheidStyle(font: .bold, style: .title3)
-						.foregroundColor(.blackText)
+						.foregroundColor(Color.Styleguide.black)
 						.padding(.bottom, ViewTraits.General.padding)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.accessibilityAddTraits(.isHeader)
@@ -88,8 +91,8 @@ struct PrivacyView: View {
 					Text(introText)
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.padding(.bottom, ViewTraits.General.padding)
-						.foregroundColor(.blackText)
-						.tint(.hyperlink)
+						.foregroundColor(Color.Styleguide.black)
+						.tint(colorScheme == .light ? Color.Styleguide.Blue.link : Color.Styleguide.Blue.skyBlueTint1)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.environment(\.openURL, OpenURLAction { url in
 							// Catch the click on the privacy link
@@ -126,6 +129,7 @@ struct PrivacyView: View {
 		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton())
+		.navigationBarTitleDisplayMode(.inline)
 	}
 }
 

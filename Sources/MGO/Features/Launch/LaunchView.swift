@@ -53,6 +53,9 @@ class LaunchViewModel: ObservableObject {
 
 struct LaunchView: View {
 	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	@StateObject var viewModel: LaunchViewModel
 	
 	@State private var rijkslintTopOffset: CGFloat = 0
@@ -65,7 +68,7 @@ struct LaunchView: View {
 		}
 		enum Notch {
 			static let height: CGFloat = 47
-			static let offset: CGFloat = 13
+			static let offset: CGFloat = 16
 		}
 		enum Title {
 			static let topOffset: CGFloat = 64
@@ -94,7 +97,7 @@ struct LaunchView: View {
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
-				Color.background
+				Color.Styleguide.background
 					.ignoresSafeArea()
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
 				VStack {
@@ -104,7 +107,7 @@ struct LaunchView: View {
 					
 					Text("app_title")
 						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-						.foregroundColor(Color.splashTitle)
+						.foregroundColor(colorScheme == .light ? Color.Styleguide.Blue.logoBlue : Color.Styleguide.black)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 						.accessibilityAddTraits(.isHeader)
 						.multilineTextAlignment(.center)
@@ -112,9 +115,9 @@ struct LaunchView: View {
 					Spacer()
 					if viewModel.state == .loadingConfig {
 						ProgressView("launch_loading")
-							.tint(.blackText)
+							.tint(Color.Styleguide.Blue.skyBlue)
 							.rijksoverheidStyle(font: .regular, style: .footnote)
-							.foregroundColor(.blackText)
+							.foregroundColor(Color.Styleguide.black)
 							.padding(.bottom, ViewTraits.Spinner.bottomOffset - geometry.safeAreaInsets.bottom)
 					}
 				}
