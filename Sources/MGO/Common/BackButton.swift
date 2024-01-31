@@ -13,6 +13,9 @@ struct BackButton: View {
 	/// Global dismiss closure
 	@Environment(\.dismiss) var dismiss
 	
+	/// Color sheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Image {
@@ -42,12 +45,12 @@ struct BackButton: View {
 					Image(.backArrow)
 						.resizable()
 						.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
-						.tint(Color.Styleguide.Blue.skyBlue)
+						.tint(colorScheme == .light ? Color.Styleguide.Blue.skyBlue : Color.Styleguide.Blue.skyBlueTint1)
 						.padding(.trailing, ViewTraits.Image.padding)
 					
 					Text(title)
 						.rijksoverheidStyle(font: .regular, style: .headline)
-						.foregroundColor(Color.Styleguide.Blue.skyBlue)
+						.foregroundColor(colorScheme == .light ? Color.Styleguide.Blue.skyBlue : Color.Styleguide.Blue.skyBlueTint1)
 				}
 			}
 		)

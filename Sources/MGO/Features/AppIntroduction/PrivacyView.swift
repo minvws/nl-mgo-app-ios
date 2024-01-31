@@ -43,6 +43,9 @@ struct PrivacyView: View {
 	/// The View Model
 	@StateObject var viewModel: PrivacyViewModel
 	
+	/// Color sheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -89,7 +92,7 @@ struct PrivacyView: View {
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.padding(.bottom, ViewTraits.General.padding)
 						.foregroundColor(Color.Styleguide.black)
-						.tint(Color.Styleguide.Blue.link)
+						.tint(colorScheme == .light ? Color.Styleguide.Blue.link : Color.Styleguide.Blue.skyBlueTint1)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.environment(\.openURL, OpenURLAction { url in
 							// Catch the click on the privacy link
