@@ -23,8 +23,7 @@ extension Font.TextStyle {
 			case .footnote: 14
 			case .caption: 12
 			case .caption2: 12
-			@unknown default:
-				16
+			@unknown default: 16
 		}
 	}
 }
@@ -33,8 +32,18 @@ public struct RijksoverheidViewModifier: ViewModifier {
 	public var font: RijksoverheidSansWebTextFont
 	public var style: Font.TextStyle
 	
+	var lineSpacing: CGFloat {
+		switch style {
+			case .largeTitle: 4
+			case .title3: 2
+			case .body: 3
+			default: 0
+		}
+	}
+	
 	public func body(content: Content) -> some View {
 		content
 			.font(.RijksoverheidSansWebText.relative(font, size: style.pointSize, relativeTo: style))
+			.lineSpacing(lineSpacing)
 	}
 }
