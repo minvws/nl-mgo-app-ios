@@ -43,7 +43,7 @@ struct PrivacyView: View {
 	/// The View Model
 	@StateObject var viewModel: PrivacyViewModel
 	
-	/// Color sheme (light, dark)
+	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
 	
 	/// Magic Numbers

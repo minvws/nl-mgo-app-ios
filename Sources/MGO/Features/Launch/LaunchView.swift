@@ -53,7 +53,7 @@ class LaunchViewModel: ObservableObject {
 
 struct LaunchView: View {
 	
-	/// Color sheme (light, dark)
+	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
 	
 	@StateObject var viewModel: LaunchViewModel

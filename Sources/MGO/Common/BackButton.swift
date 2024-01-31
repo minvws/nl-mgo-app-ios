@@ -13,7 +13,7 @@ struct BackButton: View {
 	/// Global dismiss closure
 	@Environment(\.dismiss) var dismiss
 	
-	/// Color sheme (light, dark)
+	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
 	
 	/// Magic Numbers
