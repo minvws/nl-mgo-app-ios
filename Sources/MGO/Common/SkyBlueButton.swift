@@ -6,7 +6,7 @@
  */
 
 import SwiftUI
-import GifzUI
+import MGOUI
 
 /// A big blue button
 struct SkyBlueButton: View {

@@ -6,7 +6,7 @@
  */
 
 import SwiftUI
-import GifzUI
+import MGOUI
 
 struct DashboardView: View {
 	

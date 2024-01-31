@@ -6,12 +6,12 @@ name: MGO
 # - Packages:
 
 packages:
-  GifzFoundation:
-    path: ./Packages/GifzFoundation
-  GifzTest:
-    path: ./Packages/GifzTest
-  GifzUI:
-    path: ./Packages/GifzUI
+  MGOFoundation:
+    path: ./Packages/MGOFoundation
+  MGOTest:
+    path: ./Packages/MGOTest
+  MGOUI:
+    path: ./Packages/MGOUI
   RijksoverheidFont:
     path: ./Packages/RijksoverheidFont
 
@@ -112,8 +112,8 @@ targetTemplates:
     type: application
     dependencies:
 #       SPM:
-      - package: GifzFoundation
-      - package: GifzUI
+      - package: MGOFoundation
+      - package: MGOUI
         embed: false
     settings:
       base:
@@ -170,7 +170,7 @@ targetTemplates:
     platform: iOS
     type: bundle.unit-test
     dependencies:
-      - package: GifzTest
+      - package: MGOTest
     settings:
       TEST_HOST: "$(BUILT_PRODUCTS_DIR)/MGO.app/MGO"
 

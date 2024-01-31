@@ -5,8 +5,8 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import GifzUI
-import GifzFoundation
+import MGOUI
+import MGOFoundation
 
 // See https://github.com/nalexn/ViewInspector/blob/0.9.11/guide_popups.md#sheet
 extension View {

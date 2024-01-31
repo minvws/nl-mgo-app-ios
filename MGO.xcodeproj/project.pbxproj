@@ -14,7 +14,7 @@
 		23EA31BF7BF16E03270DB356 /* LaunchViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E21F97F8E70C1FFBD9CAEC /* LaunchViewTests.swift */; };
 		26D59E205C8D3FB3F09157C7 /* View+Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452457C59745C9802BE36CE7 /* View+Rotation.swift */; };
 		3233CC2319B824A2C4216A1B /* AppIntroductionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1902E634C8DCC67A981BEF0D /* AppIntroductionViewTests.swift */; };
-		327E5323C0D6B6C8454F984E /* GifzTest in Frameworks */ = {isa = PBXBuildFile; productRef = D90AD048B874E5C875ECC6DD /* GifzTest */; };
+		327E5323C0D6B6C8454F984E /* MGOTest in Frameworks */ = {isa = PBXBuildFile; productRef = 8A4D09CD1BCBAD15875B6FE0 /* MGOTest */; };
 		3365A3A6819F18C396D7D38F /* PrivacyShieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BCAAF8C5EBB1B431762616 /* PrivacyShieldView.swift */; };
 		351A2CC681200C807B6E87DD /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A604A005BA3D392AF73C670 /* AppCoordinator.swift */; };
 		3DDABFB48B0C1DDFE3728616 /* AppCoordinatorViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DAF194CC9562D2C3A4D92CD /* AppCoordinatorViewTests.swift */; };
@@ -31,10 +31,10 @@
 		795B552F16D6AE8277CF57E7 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2465CF91865935DE9C8628A /* BackButton.swift */; };
 		7BDAD1E603F8B91702168BFA /* AppIntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D4F061ADF057DC7AE62D00 /* AppIntroductionView.swift */; };
 		93D260CD95BF3D20AEA2D8EE /* SkyBlueButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E25AC89A514B5D78698EE08 /* SkyBlueButton.swift */; };
-		96205BC2A8ACE58311AFCADC /* GifzFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 7102E4065E8E401031F873F0 /* GifzFoundation */; };
+		96205BC2A8ACE58311AFCADC /* MGOFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 4369FE491A591AFD51E4DE52 /* MGOFoundation */; };
 		A284507DC7331241EC61E601 /* ScrollViewWithFixedBottom.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4D87DB4D349DED7B89CE10 /* ScrollViewWithFixedBottom.swift */; };
 		B271FEDC586CBF366D5F2B62 /* AppIntroductionViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E7B4F7EEF80C2A2D8A43D2 /* AppIntroductionViewModelTests.swift */; };
-		B471D3B6FCB3C8D80A7834C5 /* GifzUI in Frameworks */ = {isa = PBXBuildFile; productRef = CF5859DAF2AA4C2E912562CE /* GifzUI */; };
+		B471D3B6FCB3C8D80A7834C5 /* MGOUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4E47D8DFBDA30F21294ED9B8 /* MGOUI */; };
 		D22440F27424CE93D5D69A0D /* View+Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A5DBA259D9EB509D27690B /* View+Logging.swift */; };
 		D3AB97849972310254DE7122 /* MDRFApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32BC2CDA6C58D7336B53D61 /* MDRFApp.swift */; };
 		F3A430546C01DB53AB38CC91 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CD7F034C9B9976FE21A333CD /* Localizable.xcstrings */; };
@@ -59,6 +59,7 @@
 		4A604A005BA3D392AF73C670 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		50A0A84EF1A10E7755962987 /* Pluginfile */ = {isa = PBXFileReference; path = Pluginfile; sourceTree = "<group>"; };
 		513C36F03E8CE6E703F41924 /* .gitignore */ = {isa = PBXFileReference; path = .gitignore; sourceTree = "<group>"; };
+		5173042959C59D82EFAC059B /* MGOFoundation */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MGOFoundation; path = Packages/MGOFoundation; sourceTree = SOURCE_ROOT; };
 		54795F4469ED9FC15FB9CD21 /* PrivacyViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewModelTests.swift; sourceTree = "<group>"; };
 		5739F6D391BEC981C65907E3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		57C7F9C5FD188D0EE1FBBDED /* View+InspectableSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+InspectableSheet.swift"; sourceTree = "<group>"; };
@@ -80,19 +81,17 @@
 		A702A88B24DFB76080E5506D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC0D69F324E1532AA2FCBB6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AD4D87DB4D349DED7B89CE10 /* ScrollViewWithFixedBottom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewWithFixedBottom.swift; sourceTree = "<group>"; };
-		AF913C97439108CB5BA52F01 /* GifzUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GifzUI; path = Packages/GifzUI; sourceTree = SOURCE_ROOT; };
 		B18F68738E5C376DCF3105EF /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		B2465CF91865935DE9C8628A /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
-		B7E2EBD7BECE92AD4F607DD9 /* GifzFoundation */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GifzFoundation; path = Packages/GifzFoundation; sourceTree = SOURCE_ROOT; };
 		BB9ADA8254AB88892C830421 /* RijksoverheidFont */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RijksoverheidFont; path = Packages/RijksoverheidFont; sourceTree = SOURCE_ROOT; };
 		BD38E08AF4A5BE75EB6617FB /* Appfile */ = {isa = PBXFileReference; path = Appfile; sourceTree = "<group>"; };
 		C32BC2CDA6C58D7336B53D61 /* MDRFApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDRFApp.swift; sourceTree = "<group>"; };
+		C643D55928D4CC5302C49399 /* MGOUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MGOUI; path = Packages/MGOUI; sourceTree = SOURCE_ROOT; };
 		CD7F034C9B9976FE21A333CD /* Localizable.xcstrings */ = {isa = PBXFileReference; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		CDBFDDE813AAE5E6E361FCDD /* View+FrameAsiPhone15Pro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+FrameAsiPhone15Pro.swift"; sourceTree = "<group>"; };
 		D03C352BA2122E12D52E09CD /* PIFZ_Test.mobileprovision */ = {isa = PBXFileReference; path = PIFZ_Test.mobileprovision; sourceTree = "<group>"; };
 		D06E6CE7B7A9D127F8516C38 /* AppIntroduction.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIntroduction.xcassets; sourceTree = "<group>"; };
 		D1676CB4B8BBD556EEDC56BE /* MGO.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MGO.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D33513572DFB2456AB37AFA0 /* GifzTest */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GifzTest; path = Packages/GifzTest; sourceTree = SOURCE_ROOT; };
 		D420E1605774DBCA93C218DC /* Fastfile */ = {isa = PBXFileReference; path = Fastfile; sourceTree = "<group>"; };
 		D46791D542273F280615AEF8 /* deploy-testflight.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "deploy-testflight.yml"; sourceTree = "<group>"; };
 		D48143AAD48078BC1DCDE012 /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
@@ -100,6 +99,7 @@
 		DEF44A7E617BC61CED8FB780 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		E4E21F97F8E70C1FFBD9CAEC /* LaunchViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewTests.swift; sourceTree = "<group>"; };
 		E7E7B4F7EEF80C2A2D8A43D2 /* AppIntroductionViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntroductionViewModelTests.swift; sourceTree = "<group>"; };
+		E82ACFEACAF00571D067ED95 /* MGOTest */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MGOTest; path = Packages/MGOTest; sourceTree = SOURCE_ROOT; };
 		F43B64E2B2440BEF5418B692 /* PIFZ_Prod.mobileprovision */ = {isa = PBXFileReference; path = PIFZ_Prod.mobileprovision; sourceTree = "<group>"; };
 		F4F52D771F9657EEE1720E5A /* test.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = test.yml; sourceTree = "<group>"; };
 		F7F9603D42D07628A9DC7DCD /* ClearToBackgroundGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearToBackgroundGradientView.swift; sourceTree = "<group>"; };
@@ -111,8 +111,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96205BC2A8ACE58311AFCADC /* GifzFoundation in Frameworks */,
-				B471D3B6FCB3C8D80A7834C5 /* GifzUI in Frameworks */,
+				96205BC2A8ACE58311AFCADC /* MGOFoundation in Frameworks */,
+				B471D3B6FCB3C8D80A7834C5 /* MGOUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,7 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				327E5323C0D6B6C8454F984E /* GifzTest in Frameworks */,
+				327E5323C0D6B6C8454F984E /* MGOTest in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,9 +194,9 @@
 		2FF4D2E2C5D951A5032A7923 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				B7E2EBD7BECE92AD4F607DD9 /* GifzFoundation */,
-				D33513572DFB2456AB37AFA0 /* GifzTest */,
-				AF913C97439108CB5BA52F01 /* GifzUI */,
+				5173042959C59D82EFAC059B /* MGOFoundation */,
+				E82ACFEACAF00571D067ED95 /* MGOTest */,
+				C643D55928D4CC5302C49399 /* MGOUI */,
 				BB9ADA8254AB88892C830421 /* RijksoverheidFont */,
 			);
 			name = Packages;
@@ -427,7 +427,7 @@
 			);
 			name = MGOTests;
 			packageProductDependencies = (
-				D90AD048B874E5C875ECC6DD /* GifzTest */,
+				8A4D09CD1BCBAD15875B6FE0 /* MGOTest */,
 			);
 			productName = MGOTests;
 			productReference = 7C6D74341A3F98FA18B5A079 /* MGOTests.xctest */;
@@ -448,8 +448,8 @@
 			);
 			name = MGO;
 			packageProductDependencies = (
-				7102E4065E8E401031F873F0 /* GifzFoundation */,
-				CF5859DAF2AA4C2E912562CE /* GifzUI */,
+				4369FE491A591AFD51E4DE52 /* MGOFoundation */,
+				4E47D8DFBDA30F21294ED9B8 /* MGOUI */,
 			);
 			productName = MGO;
 			productReference = D1676CB4B8BBD556EEDC56BE /* MGO.app */;
@@ -1190,17 +1190,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7102E4065E8E401031F873F0 /* GifzFoundation */ = {
+		4369FE491A591AFD51E4DE52 /* MGOFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = GifzFoundation;
+			productName = MGOFoundation;
 		};
-		CF5859DAF2AA4C2E912562CE /* GifzUI */ = {
+		4E47D8DFBDA30F21294ED9B8 /* MGOUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = GifzUI;
+			productName = MGOUI;
 		};
-		D90AD048B874E5C875ECC6DD /* GifzTest */ = {
+		8A4D09CD1BCBAD15875B6FE0 /* MGOTest */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = GifzTest;
+			productName = MGOTest;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

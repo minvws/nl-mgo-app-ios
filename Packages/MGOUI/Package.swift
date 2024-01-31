@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-	name: "GifzUI",
+	name: "MGOUI",
 	platforms: [.iOS(.v15)],
 	products: [
 		.library(
-			name: "GifzUI",
-			targets: ["GifzUI"]
+			name: "MGOUI",
+			targets: ["MGOUI"]
 		)
 	],
 	dependencies: [
@@ -18,14 +18,10 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "GifzUI",
+			name: "MGOUI",
 			dependencies: [
 				.product(name: "RijksoverheidFont", package: "RijksoverheidFont"),
 			]
-		),
-//		.testTarget(
-//			name: "GifzUITests",
-//			dependencies: ["GifzUI"]
-//		)
+		)
 	]
 )

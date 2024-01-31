@@ -5,8 +5,8 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import GifzTest
-import GifzFoundation
+import MGOTest
+import MGOFoundation
 @testable import MGO
 
 final class AppCoordinatorTests: XCTestCase {

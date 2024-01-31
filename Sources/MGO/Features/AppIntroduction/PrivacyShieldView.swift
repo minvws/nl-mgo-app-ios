@@ -6,7 +6,7 @@
  */
 
 import SwiftUI
-import GifzUI
+import MGOUI
 
 /// A view containing a privacy shield and a text (as localizesStringKey)
 struct PrivacyShieldView: View {

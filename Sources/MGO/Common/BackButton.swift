@@ -6,7 +6,7 @@
  */
 
 import SwiftUI
-import GifzUI
+import MGOUI
 
 /// A simple backbutton consisting of an left chevron and a previous text
 struct BackButton: View {

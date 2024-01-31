@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-	name: "GifzFoundation",
+	name: "MGOFoundation",
 	platforms: [.iOS(.v15)],
 	products: [
 		.library(
-			name: "GifzFoundation",
-			targets: ["GifzFoundation"]
+			name: "MGOFoundation",
+			targets: ["MGOFoundation"]
 		)
 	],
 	dependencies: [
@@ -22,7 +22,7 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "GifzFoundation",
+			name: "MGOFoundation",
 			dependencies: [
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
 				.product(name: "NavigationStackBackport", package: "navigation-stack-backport")

@@ -5,8 +5,8 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import GifzTest
-import GifzUI
+import MGOTest
+import MGOUI
 @testable import MGO
 
 final class LaunchViewTests: XCTestCase {

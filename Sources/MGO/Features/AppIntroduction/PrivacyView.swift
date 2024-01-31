@@ -5,8 +5,8 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import GifzFoundation
-import GifzUI
+import MGOFoundation
+import MGOUI
 
 class PrivacyViewModel: ObservableObject {
 	

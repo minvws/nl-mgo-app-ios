@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-	name: "GifzTest",
+	name: "MGOTest",
 	platforms: [.iOS(.v15)],
 	products: [
 		.library(
-			name: "GifzTest",
-			targets: ["GifzTest"]
+			name: "MGOTest",
+			targets: ["MGOTest"]
 		)
 	],
 	dependencies: [
@@ -21,7 +21,7 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "GifzTest",
+			name: "MGOTest",
 			dependencies: [
 				.product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
 				.product(name: "Nimble", package: "Nimble"),

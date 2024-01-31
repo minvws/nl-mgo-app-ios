@@ -5,8 +5,8 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import GifzUI
-import GifzFoundation
+import MGOUI
+import MGOFoundation
 
 struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	
