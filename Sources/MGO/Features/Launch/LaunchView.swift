@@ -65,7 +65,7 @@ struct LaunchView: View {
 		}
 		enum Notch {
 			static let height: CGFloat = 47
-			static let offset: CGFloat = 13
+			static let offset: CGFloat = 16
 		}
 		enum Title {
 			static let topOffset: CGFloat = 64
