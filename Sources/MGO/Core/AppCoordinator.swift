@@ -14,10 +14,7 @@ protocol AppCoordinatorProtocol: ObservableObject {
 	var path: NavigationStackBackport.NavigationPath { get set }
 	
 	/// The content type for the sheet
-	var sheetContentType: AppCoordination.Sheet? { get set }
-	
-	/// Boolean indicating to show or remove a bottom sheet
-	var showSheet: Bool { get set }
+	var sheet: AppCoordination.Sheet? { get set }
 	
 	/// Handle an incoming action from any of the view models
 	/// - Parameter action: an AppCoordination Action
@@ -58,10 +55,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	@Published var path: NavigationStackBackport.NavigationPath
 	
 	/// The content type for the sheet
-	@Published var sheetContentType: AppCoordination.Sheet?
-	
-	/// Boolean indicating to show or remove a bottom sheet
-	@Published var showSheet: Bool = false
+	@Published var sheet: AppCoordination.Sheet?
 	
 	/// Initializer
 	/// - Parameter path: Navigation Path
@@ -86,11 +80,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .nextButtonPressedOnPrivacy:
 				path.append(AppCoordination.State.dashboard)
 			case .showPrivacyStatementSheet:
-				sheetContentType = AppCoordination.Sheet.privacyStatement
-				showSheet = true
+				sheet = AppCoordination.Sheet.privacyStatement
 			case .dismissPrivacyStatementSheet:
-				sheetContentType = nil
-				showSheet = false
+				sheet = nil
 		}
 	}
 }

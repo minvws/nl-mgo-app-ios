@@ -5,7 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import SwiftUI
+import MGOUI
 
 /// Detect device rotation
 ///  See https://www.hackingwithswift.com/quick-start/swiftui/how-to-detect-device-rotation
