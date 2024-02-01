@@ -1,0 +1,42 @@
+direction: down
+
+# Apple
+SwiftUI: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+Foundation: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+
+# Third-Party
+NavigationStackBackport: {
+  shape: hexagon
+}
+Logging: {
+  shape: hexagon
+}
+RijksoverheidFont: {
+  shape: hexagon
+}
+
+# The application
+
+MGOapp: {
+  shape: package
+}
+
+MGOapp <- MGOFoundation
+MGOapp <- MGOUI
+
+# - Packages - 
+
+MGOFoundation { style.fill: "#ffcc00" }
+MGOFoundation <- NavigationStackBackport
+MGOFoundation <- Logging
+MGOFoundation <- Foundation
+
+MGOUI { style.fill: "#ffcc00" }
+MGOUI <- SwiftUI
+MGOUI <- RijksoverheidFont
