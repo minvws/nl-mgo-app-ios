@@ -33,47 +33,25 @@ class AppCoordinatorSpy: AppCoordinatorProtocol {
 		}
 	}
 
-	var invokedSheetContentTypeSetter = false
-	var invokedSheetContentTypeSetterCount = 0
-	var invokedSheetContentType: AppCoordination.Sheet?
-	var invokedSheetContentTypeList = [AppCoordination.Sheet?]()
-	var invokedSheetContentTypeGetter = false
-	var invokedSheetContentTypeGetterCount = 0
-	var stubbedSheetContentType: AppCoordination.Sheet!
+	var invokedSheetSetter = false
+	var invokedSheetSetterCount = 0
+	var invokedSheet: AppCoordination.Sheet?
+	var invokedSheetList = [AppCoordination.Sheet?]()
+	var invokedSheetGetter = false
+	var invokedSheetGetterCount = 0
+	var stubbedSheet: AppCoordination.Sheet!
 
-	var sheetContentType: AppCoordination.Sheet? {
+	var sheet: AppCoordination.Sheet? {
 		set {
-			invokedSheetContentTypeSetter = true
-			invokedSheetContentTypeSetterCount += 1
-			invokedSheetContentType = newValue
-			invokedSheetContentTypeList.append(newValue)
+			invokedSheetSetter = true
+			invokedSheetSetterCount += 1
+			invokedSheet = newValue
+			invokedSheetList.append(newValue)
 		}
 		get {
-			invokedSheetContentTypeGetter = true
-			invokedSheetContentTypeGetterCount += 1
-			return stubbedSheetContentType
-		}
-	}
-
-	var invokedShowSheetSetter = false
-	var invokedShowSheetSetterCount = 0
-	var invokedShowSheet: Bool?
-	var invokedShowSheetList = [Bool]()
-	var invokedShowSheetGetter = false
-	var invokedShowSheetGetterCount = 0
-	var stubbedShowSheet: Bool! = false
-
-	var showSheet: Bool {
-		set {
-			invokedShowSheetSetter = true
-			invokedShowSheetSetterCount += 1
-			invokedShowSheet = newValue
-			invokedShowSheetList.append(newValue)
-		}
-		get {
-			invokedShowSheetGetter = true
-			invokedShowSheetGetterCount += 1
-			return stubbedShowSheet
+			invokedSheetGetter = true
+			invokedSheetGetterCount += 1
+			return stubbedSheet
 		}
 	}
 

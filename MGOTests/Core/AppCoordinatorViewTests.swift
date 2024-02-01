@@ -75,8 +75,7 @@ final class AppCoordinatorViewTests: XCTestCase {
 		
 		// When
 		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
-		appCoordinator.sheetContentType = .privacyStatement
-		appCoordinator.showSheet = true
+		appCoordinator.sheet = .privacyStatement
 		
 		// Then
 		let value = try sut.inspect().find(viewWithTag: "privacyStatement")

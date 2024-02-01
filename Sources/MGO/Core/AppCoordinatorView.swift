@@ -40,19 +40,19 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 		}
 		// not a sheet, but an inspectable sheet, so we can confirm this in a test.
 		.inspectableSheet(
-			isPresented: $appCoordinator.showSheet,
+			isPresented: $appCoordinator.sheet.presence(),
 			onDismiss: {
 				// Called when the sheet is closed by dragging or clicking the close button.
 				appCoordinator.handle(.dismissPrivacyStatementSheet)
 			},
 			content: {
-				switch appCoordinator.sheetContentType {
+				switch appCoordinator.sheet {
 					case .privacyStatement:
 						PrivacyStatementView()
 							.tag("privacyStatement")
 					default:
 						EmptyView()
-							.logWarning("No content set for sheet in appCoordinatorView for \(String(describing: appCoordinator.sheetContentType))")
+							.logWarning("No content set for sheet in appCoordinatorView for \(String(describing: appCoordinator.sheet))")
 				}
 			}
 		)
