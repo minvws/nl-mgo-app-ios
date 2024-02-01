@@ -208,25 +208,25 @@ targets:
           DISPLAY_NAME: "🤖 Dev MGO"
           PRODUCT_NAME: MGO
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.dev
-          PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Dev"
+          PROVISIONING_PROFILE_SPECIFIER: "MGO Dev"
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Dev.entitlements
         FirebaseTest:
           DISPLAY_NAME: "🧪 Test MGO"
           PRODUCT_NAME: MGO Test
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.test
-          PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Test"
+          PROVISIONING_PROFILE_SPECIFIER: "MGO Test"
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Test.entitlements
         FirebaseAcceptance:
           DISPLAY_NAME: "💡 Acc MGO"
           PRODUCT_NAME: MGO ACC
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.acc
-          PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Acc"
+          PROVISIONING_PROFILE_SPECIFIER: "MGO Acc"
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Acc.entitlements
         FirebaseProduction:
           DISPLAY_NAME: "Mijngezondheidsoverzicht"
           PRODUCT_NAME: MGO PROD
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz
-          PROVISIONING_PROFILE_SPECIFIER: "PIFZ: Prod"
+          PROVISIONING_PROFILE_SPECIFIER: "MGO Prod"
 #           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
         AppStore:
           DISPLAY_NAME: "Mijngezondheidsoverzicht"
