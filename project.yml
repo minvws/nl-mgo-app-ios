@@ -33,6 +33,7 @@ fileGroups:
   - project.yml
   - .github
   - fastlane
+  - Diagrams
   - Scripts
   - README.md
 

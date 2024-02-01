@@ -1,0 +1,34 @@
+direction: down
+
+# Apple
+XCTest: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+
+# Third Party
+Nimble: {
+  shape: hexagon
+}
+SnapshotTesting: {
+  shape: hexagon
+}
+ViewInspector: {
+  shape: hexagon
+}
+
+# The application
+
+MGOapp: {
+  shape: package
+}
+
+MGOapp <- MGOTest
+
+# - Packages - 
+
+MGOTest { style.fill: "#ffcc00" }
+MGOTest <- XCTest
+MGOTest <- Nimble
+MGOTest <- SnapshotTesting
+MGOTest <- ViewInspector

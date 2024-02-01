@@ -62,4 +62,6 @@ install_githooks_xcodegen:
 install_githooks_gitlfs:
 	@git lfs install --force
 
-
+generate_diagrams:
+	@d2 Diagrams/packages-testonly.d2 Diagrams/packages-testonly.png --layout=elk
+	@d2 Diagrams/packages-withouttests.d2 Diagrams/packages-withouttests.png --layout=elk
