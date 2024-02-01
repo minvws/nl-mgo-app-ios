@@ -105,12 +105,12 @@ platform :ios do
   desc "Build and deploy the app for Test via Firebase from CI"
   lane :deploy_test_ci do
     deploy(
-      provisioning_profile_path: "fastlane/profiles/PIFZ_Test.mobileprovision",
+      provisioning_profile_path: "fastlane/profiles/MGO_Test.mobileprovision",
       xcodeproj: "MGO.xcodeproj",
       targetname: "MGO",
       schemename:  "MGO Test",
       configuration: "FirebaseTest",
-      provisioningprofilename: "PIFZ: Test",
+      provisioningprofilename: "MGO Test",
       bundleid: "nl.rool.pifz.test",
       firebaseappid: "1:844514292239:ios:6976aeb782c2d11b3e297a",
       firebasegroupscsv: "test-omgeving"
@@ -120,12 +120,12 @@ platform :ios do
   desc "Build and deploy the app for Acc via Firebase from CI"
   lane :deploy_acc_ci do
     deploy(
-      provisioning_profile_path: "fastlane/profiles/PIFZ_Acc.mobileprovision",
+      provisioning_profile_path: "fastlane/profiles/MGO_Acc.mobileprovision",
       xcodeproj: "MGO.xcodeproj",
       targetname: "MGO",
       schemename:  "MGO Acceptance",
       configuration: "FirebaseAcceptance",
-      provisioningprofilename: "PIFZ: Acc",
+      provisioningprofilename: "MGO Acc",
       bundleid: "nl.rool.pifz.acc",
       firebaseappid: "1:844514292239:ios:83659728c65234ce3e297a",
       firebasegroupscsv: "acceptatie-omgeving"
@@ -135,12 +135,12 @@ platform :ios do
   desc "Build and deploy the app for Prod via Firebase from CI"
   lane :deploy_prod_ci do
     deploy(
-      provisioning_profile_path: "fastlane/profiles/PIFZ_Prod.mobileprovision",
+      provisioning_profile_path: "fastlane/profiles/MGO_Prod.mobileprovision",
       xcodeproj: "MGO.xcodeproj",
       targetname: "MGO",
       schemename:  "MGO Production",
       configuration: "FirebaseProduction",
-      provisioningprofilename: "PIFZ: Prod",
+      provisioningprofilename: "MGO Prod",
       bundleid: "nl.rool.pifz",
       firebaseappid: "1:844514292239:ios:2bbdfebca3a39a673e297a",
       firebasegroupscsv: "productie-omgeving"
