@@ -15,7 +15,7 @@ env:
 
 jobs:
   upload:
-    if: github.event.repository.name == 'nl-pgo-app-ios-private'
+    if: github.event.repository.name == 'nl-mgo-app-ios-private'
     runs-on: macos-13
     
     steps:
@@ -50,7 +50,7 @@ jobs:
           make generate_project
                 
       - name: Write p8 Key
-        if: github.event.repository.name == 'nl-pgo-app-ios-private'
+        if: github.event.repository.name == 'nl-mgo-app-ios-private'
         env:
           APP_STORE_API_KEY_P8_BASE64: ${{ secrets.APP_STORE_API_KEY_P8 }}
         run: |
