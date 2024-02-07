@@ -14,6 +14,9 @@ let package = Package(
 	],
 	dependencies: [
 		
+		// Internal
+		.package(name: "Managers", path: "../Managers"),
+		
 		// VWS
 		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main")
 	],
@@ -21,7 +24,8 @@ let package = Package(
 		.target(
 			name: "MGOFoundation",
 			dependencies: [
-				.product(name: "Logging", package: "nl-rdo-app-ios-modules")
+				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
+				.product(name: "Managers", package: "Managers")
 			]
 		)
 	]

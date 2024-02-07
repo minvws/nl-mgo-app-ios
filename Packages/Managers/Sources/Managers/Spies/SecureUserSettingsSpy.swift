@@ -7,17 +7,19 @@
 
 import Foundation
 
-class SecureUserSettingsSpy: SecureUserSettingsProtocol {
+public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 	
-	var invokedUserHasSeenAppIntroductionSetter = false
-	var invokedUserHasSeenAppIntroductionSetterCount = 0
-	var invokedUserHasSeenAppIntroduction: Bool?
-	var invokedUserHasSeenAppIntroductionList = [Bool]()
-	var invokedUserHasSeenAppIntroductionGetter = false
-	var invokedUserHasSeenAppIntroductionGetterCount = 0
-	var stubbedUserHasSeenAppIntroduction: Bool! = false
+	public init() { }
 	
-	var userHasSeenAppIntroduction: Bool {
+	public var invokedUserHasSeenAppIntroductionSetter = false
+	public var invokedUserHasSeenAppIntroductionSetterCount = 0
+	public var invokedUserHasSeenAppIntroduction: Bool?
+	public var invokedUserHasSeenAppIntroductionList = [Bool]()
+	public var invokedUserHasSeenAppIntroductionGetter = false
+	public var invokedUserHasSeenAppIntroductionGetterCount = 0
+	public var stubbedUserHasSeenAppIntroduction: Bool! = false
+	
+	public var userHasSeenAppIntroduction: Bool {
 		set {
 			invokedUserHasSeenAppIntroductionSetter = true
 			invokedUserHasSeenAppIntroductionSetterCount += 1
@@ -31,10 +33,10 @@ class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 		}
 	}
 	
-	var invokedWipePersistedData = false
-	var invokedWipePersistedDataCount = 0
+	public var invokedWipePersistedData = false
+	public var invokedWipePersistedDataCount = 0
 	
-	func wipePersistedData() {
+	public func wipePersistedData() {
 		invokedWipePersistedData = true
 		invokedWipePersistedDataCount += 1
 	}

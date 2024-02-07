@@ -5,11 +5,12 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-// System
-@_exported import Foundation
+import MGOFoundation
 
-// Internal
-@_exported import Managers
-
-// VWS
-@_exported import Logging
+extension Services {
+	
+	/// Reset all the data within applicable Services
+	func wipePersistedData() {
+		secureUserSettings.wipePersistedData()
+	}
+}
