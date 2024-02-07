@@ -48,8 +48,11 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 			content: {
 				switch appCoordinator.sheet {
 					case .privacyStatement:
+					NavigationStackBackport.NavigationStack {
 						PrivacyStatementView()
 							.tag("privacyStatement")
+					}
+					
 					default:
 						EmptyView()
 							.logWarning("No content set for sheet in appCoordinatorView for \(String(describing: appCoordinator.sheet))")

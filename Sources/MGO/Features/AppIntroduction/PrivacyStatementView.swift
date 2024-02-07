@@ -5,6 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import MGOFoundation
 import MGOUI
 
 struct PrivacyStatementView: View {
@@ -14,10 +15,7 @@ struct PrivacyStatementView: View {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
-		enum CloseButton {
-			static let insets = EdgeInsets( top: 14, leading: 0, bottom: 14, trailing: 14
-			)
-		}
+		
 		enum PrivacyStatement {
 			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
 		}
@@ -31,20 +29,6 @@ struct PrivacyStatementView: View {
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			
 			VStack(alignment: .leading, spacing: 0) {
-				
-				HStack {
-					
-					Spacer()
-					
-					Button(
-						action: {
-							dismiss()
-						}, label: {
-							Image(.close)
-						}
-					)
-					.padding(ViewTraits.CloseButton.insets)
-				}
 				
 				Group {
 					
@@ -64,9 +48,22 @@ struct PrivacyStatementView: View {
 				Spacer()
 			}
 		}
+		.toolbar {
+			ToolbarItem {
+				Button(
+					action: {
+						dismiss()
+					}, label: {
+						Image(.close)
+					}
+				)
+			}
+		}
 	}
 }
 
 #Preview {
-	PrivacyStatementView()
+	NavigationStackBackport.NavigationStack {
+		PrivacyStatementView()
+	}
 }
