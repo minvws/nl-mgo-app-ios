@@ -22,8 +22,6 @@ class AppIntroductionViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(coordinator: (any AppCoordinatorProtocol)?) {
 		self.coordinator = coordinator
-		
-		logDebug("We are at \(Current.now())")
 	}
 	
 	/// Handle any action

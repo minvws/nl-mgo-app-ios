@@ -13,13 +13,13 @@ struct MainEntryPoint {
 	
 	static func main() {
 		
-		// https://www.pointfree.co/episodes/ep16-dependency-injection-made-easy
-		Current = services()
-		
 		guard isProduction() else {
 			TestApp.main()
 			return
 		}
+		
+		// https://www.pointfree.co/episodes/ep16-dependency-injection-made-easy
+		Current = services()
 		ProductionApp.main()
 	}
 	

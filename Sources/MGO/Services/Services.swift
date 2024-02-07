@@ -31,9 +31,9 @@ private let secureUserSettings = SecureUserSettings()
 // MARK: - 3: Instantiate the Services using private dependencies:
 
 let services: () -> Services = {
-//	guard !ProcessInfo().isUnitTesting else {
-//		fatalError("During unit testing, real services should not be instantiated during Services setup.")
-//	}
+	guard !ProcessInfo().isUnitTesting else {
+		fatalError("During unit testing, real services should not be instantiated during Services setup.")
+	}
 
 	return Services(
 		now: now,
