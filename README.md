@@ -5,9 +5,9 @@
 This repository contains the iOS release of the My Health Overview project.
 
 * The iOS app is located in the repository you are currently viewing.
-* The Android app can also be [found on GitHub](https://github.com/minvws/nl-pgo-app-android-private).
+* The Android app can also be [found on GitHub](https://github.com/minvws/nl-mgo-app-android-private).
 
-See minvws/**[nl-rdo-pgo-coordination-private](https://github.com/minvws/nl-rdo-pgo-coordination-private)** for further technical documentation.
+See minvws/**[nl-rdo-mgo-coordination-private](https://github.com/minvws/nl-rdo-mgo-coordination-private)** for further technical documentation.
 
 ---
 
