@@ -18,6 +18,7 @@ See minvws/**[nl-rdo-mgo-coordination-private](https://github.com/minvws/nl-rdo-
 There are a number of Swift Packages in `Packages/`, which the app target depends on. Here is the dependency graph: 
 
 <img src="Diagrams/packages-withouttests.png" />
+<img src="Diagrams/legenda.png" />
 
 The majority of our (third-party) dependencies are included as Swift Packages. Here is an overview of what dependencies are used and why.
 
