@@ -5,19 +5,27 @@ import PackageDescription
 
 let package = Package(
 	name: "Managers",
+	platforms: [.iOS(.v15)],
 	products: [
-		// Products define the executables and libraries a package produces, making them visible to other packages.
 		.library(
 			name: "Managers",
 			targets: ["Managers"]),
 	],
+	dependencies: [
+		
+		// Testing:
+		.package(url: "https://github.com/Quick/Nimble", exact: "13.2.0")
+	],
 	targets: [
-		// Targets are the basic building blocks of a package, defining a module or a test suite.
-		// Targets can depend on other targets in this package and products from dependencies.
 		.target(
-			name: "Managers"),
+			name: "Managers"
+		),
 		.testTarget(
 			name: "ManagersTests",
-			dependencies: ["Managers"]),
+			dependencies: [
+				"Managers",
+					.product(name: "Nimble", package: "Nimble")
+				]
+			)
 	]
 )

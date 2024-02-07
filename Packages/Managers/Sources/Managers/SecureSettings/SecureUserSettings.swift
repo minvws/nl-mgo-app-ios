@@ -28,8 +28,17 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	/// Initializer
 	public init() {}
 	
-	@Keychain(name: "userHasSeenAppIntroduction", service: "AppIntroduction", clearOnReinstall: true)
+	@Keychain(name: "userHasSeenAppIntroduction", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var userHasSeenAppIntroduction: Bool = Defaults.userHasSeenAppIntroduction
+	
+	/// Helper method to detect if we are unit testing.
+	/// If so, append `_test` to the service name to separate tests from production
+	static private var serviceExtension: String {
+		guard NSClassFromString("XCTestCase") != nil else {
+			return ""
+		}
+		return "_test"
+	}
 }
 
 extension SecureUserSettings {
