@@ -6,7 +6,7 @@
  */
 
 import MGOTest
-import Managers
+import MGOFoundation
 @testable import MGO
 
 ///

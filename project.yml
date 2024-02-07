@@ -117,7 +117,6 @@ targetTemplates:
 #       SPM:
       - package: MGOFoundation
       - package: MGOUI
-      - package: Managers
         embed: false
     settings:
       base:
