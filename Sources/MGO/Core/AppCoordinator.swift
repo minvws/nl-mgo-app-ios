@@ -74,13 +74,25 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		switch action {
 			case .finishedLoading:
+				guard !Current.secureUserSettings.userHasSeenAppIntroduction else {
+					path.append(AppCoordination.State.dashboard)
+					return
+				}
+				// Only show the appIntroduction once
 				path.append(AppCoordination.State.appIntroduction)
+			
 			case .nextButtonPressedOnAppIntroduction:
 				path.append(AppCoordination.State.privacy)
+			
 			case .nextButtonPressedOnPrivacy:
+				// Mark AppIntroduction Flow as seen.
+				Current.secureUserSettings.userHasSeenAppIntroduction = true
+			
 				path.append(AppCoordination.State.dashboard)
+			
 			case .showPrivacyStatementSheet:
 				sheet = AppCoordination.Sheet.privacyStatement
+			
 			case .dismissPrivacyStatementSheet:
 				sheet = nil
 		}
