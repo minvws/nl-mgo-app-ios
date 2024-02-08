@@ -132,7 +132,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
 	}
 	
 	func test_coordinatorView_forAppIntroduction() {
@@ -144,7 +144,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
 	}
 	
 	func test_coordinatorView_forPrivacy() {
@@ -156,7 +156,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
 	}
 	
 	func test_coordinatorView_forDashboard() {
@@ -168,6 +168,6 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view, as: .image)
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
 	}
 }
