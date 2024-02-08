@@ -7,7 +7,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mijn\nGezondheids\nOverzicht"
+            "value" : "Mijn\nGezondheidsoverzicht"
           }
         }
       }
@@ -40,7 +40,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inzien wat je huisarts, ziekenhuis en andere zorgverleners weten over jou. Alles in één overzicht. Veilig en overzichtelijk.\n\nMijngezondheidsoverzicht is een eenvoudige versie van een Persoonlijke Gezondheidsomgeving (PGO). "
+            "value" : "Alle informatie die je huisarts, ziekenhuis en andere zorgverleners over jou hebben. Op één plek. Veilig en overzichtelijk.\n\nMijn Gezondheidsoverzicht is een eenvoudige versie van een Persoonlijke Gezondheidsomgeving (PGO)."
           }
         }
       }
@@ -51,7 +51,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jouw gezondheidsgegevens op één plek verzameld"
+            "value" : "Je gezondheidsgegevens in één overzicht"
           }
         }
       }
@@ -73,7 +73,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In de %@ staat hoe mijngezondheidsoverzicht jouw gegevens gebruikt. Dit zijn de belangrijkste punten:"
+            "value" : "In de %@ staat hoe Mijn Gezondheidsoverzicht jouw gegevens gebruikt. Dit zijn de belangrijkste punten:"
           }
         }
       }
@@ -95,7 +95,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mijngezondheidsoverzicht haalt je gegevens rechtstreeks op bij de zorgverleners die jij selecteert. **Niemand anders dan jijzelf verwerkt je gegevens of krijgt ze te zien.**"
+            "value" : "De app haalt je gegevens direct op bij de zorgverleners die jij kiest. **Alleen jij hebt toegang.**"
           }
         }
       }
@@ -150,7 +150,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Privacyverklaring mijngezondheidsoverzicht"
+            "value" : "Privacyverklaring Mijn  Gezondheidsoverzicht"
           }
         }
       }
