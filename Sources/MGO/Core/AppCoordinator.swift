@@ -10,6 +10,8 @@ import MGOFoundation
 
 protocol AppCoordinatorProtocol: ObservableObject {
 	
+	associatedtype Body: View
+	
 	/// The navigation path
 	var path: NavigationStackBackport.NavigationPath { get set }
 	
@@ -22,6 +24,11 @@ protocol AppCoordinatorProtocol: ObservableObject {
 	
 	/// Start the cooridinator
 	func start()
+	
+	/// Get a View for the State
+	/// - Parameter state: the AppCoordination State
+	/// - Returns: A view for that state
+	func view(for: AppCoordination.State) -> Body
 }
 
 enum AppCoordination {
@@ -95,6 +102,26 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 			case .dismissPrivacyStatementSheet:
 				sheet = nil
+		}
+	}
+	
+	/// Get a View for the State
+	/// - Parameter state: the AppCoordination State
+	/// - Returns: A view for that state
+	@ViewBuilder func view(for state: AppCoordination.State) -> some View {
+		
+		switch state {
+			case .launch:
+				LaunchView(viewModel: LaunchViewModel(coordinator: self))
+		
+			case .appIntroduction:
+				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self))
+		
+			case .privacy:
+				PrivacyView(viewModel: PrivacyViewModel(coordinator: self))
+			
+			case .dashboard:
+				DashboardView()
 		}
 	}
 }

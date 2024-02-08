@@ -122,4 +122,52 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.sheet) == nil
 	}
+	
+	func test_coordinatorView_forLaunch() {
+		
+		// Given
+		let state = AppCoordination.State.launch
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_coordinatorView_forAppIntroduction() {
+		
+		// Given
+		let state = AppCoordination.State.appIntroduction
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_coordinatorView_forPrivacy() {
+		
+		// Given
+		let state = AppCoordination.State.privacy
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_coordinatorView_forDashboard() {
+		
+		// Given
+		let state = AppCoordination.State.dashboard
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
 }

@@ -20,54 +20,6 @@ final class AppCoordinatorViewTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func test_launch() {
-		
-		// Given
-		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.launch])
-		
-		// When
-		let sut = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
-		
-		// Then
-		assertSnapshot(of: sut, as: .image)
-	}
-	
-	func test_dashboard() {
-		
-		// Given
-		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
-		
-		// When
-		let sut = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
-		
-		// Then
-		assertSnapshot(of: sut, as: .image)
-	}
-	
-	func test_appIntroduction() {
-		
-		// Given
-		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
-		
-		// When
-		let sut = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
-		
-		// Then
-		assertSnapshot(of: sut, as: .image)
-	}
-	
-	func test_privacy() {
-		
-		// Given
-		coordinator.stubbedPath = NavigationStackBackport.NavigationPath([AppCoordination.State.privacy])
-		
-		// When
-		let sut = AppCoordinatorView<AppCoordinatorSpy>(appCoordinator: coordinator)
-		
-		// Then
-		assertSnapshot(of: sut, as: .image)
-	}
-	
 	func test_privacyStatement() throws {
 		
 		// Given
