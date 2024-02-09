@@ -7,17 +7,19 @@
 
 import MGOTest
 import MGOFoundation
+import MGOUI
 @testable import MGO
 
 final class AppCoordinatorTests: XCTestCase {
 	
 	private var sut: AppCoordinator!
+	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
-		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath())
-		
 		super.setUp()
+		servicesSpies = setupServicesSpies()
+		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath())
 	}
 	
 	func test_coordinatorStart_pathShouldContainLaunch() {
@@ -31,15 +33,32 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.launch])
 	}
 	
-	func test_coordinatorHandle_actionFinishedLoading_pathShouldContainAppIntroduction() {
+	func test_coordinatorHandle_actionFinishedLoading_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
 		
 		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = false
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == false
 		
 		// When
 		sut.handle(AppCoordination.Action.finishedLoading)
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
+	}
+	
+	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_pathShouldContainDashboard() {
+		
+		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == false
+		
+		// When
+		sut.handle(AppCoordination.Action.finishedLoading)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
 	
 	func test_coordinatorHandle_actionNextButtonPressedOnAppIntroduction_pathShouldContainPrivacy() {
@@ -53,15 +72,19 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacy])
 	}
 	
-	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainDashboard() {
+	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainDashboard_securitySettingsUpdated() {
 		
 		// Given
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionSetter) == false
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == nil
 		
 		// When
 		sut.handle(AppCoordination.Action.nextButtonPressedOnPrivacy)
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionSetter) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == true
 	}
 	
 	func test_coordinatorHandle_startAndHandle_shouldHaveTwoElements() {
@@ -98,5 +121,53 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.sheet) == nil
+	}
+	
+	func test_coordinatorView_forLaunch() {
+		
+		// Given
+		let state = AppCoordination.State.launch
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+	
+	func test_coordinatorView_forAppIntroduction() {
+		
+		// Given
+		let state = AppCoordination.State.appIntroduction
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+	
+	func test_coordinatorView_forPrivacy() {
+		
+		// Given
+		let state = AppCoordination.State.privacy
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+	
+	func test_coordinatorView_forDashboard() {
+		
+		// Given
+		let state = AppCoordination.State.dashboard
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
 	}
 }

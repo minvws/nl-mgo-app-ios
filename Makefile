@@ -65,3 +65,4 @@ install_githooks_gitlfs:
 generate_diagrams:
 	@d2 Diagrams/packages-testonly.d2 Diagrams/packages-testonly.png --layout=elk
 	@d2 Diagrams/packages-withouttests.d2 Diagrams/packages-withouttests.png --layout=elk
+	@d2 Diagrams/legenda.d2 Diagrams/legenda.png --layout=elk

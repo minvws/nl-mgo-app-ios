@@ -17,9 +17,6 @@ NavigationStackBackport: {
 Logging: {
   shape: hexagon
 }
-RijksoverheidFont: {
-  shape: hexagon
-}
 
 # The application
 
@@ -33,10 +30,15 @@ MGOapp <- MGOUI
 # - Packages - 
 
 MGOFoundation { style.fill: "#ffcc00" }
-MGOFoundation <- NavigationStackBackport
 MGOFoundation <- Logging
 MGOFoundation <- Foundation
+MGOFoundation <- Managers
 
 MGOUI { style.fill: "#ffcc00" }
 MGOUI <- SwiftUI
+MGOUI <- NavigationStackBackport
 MGOUI <- RijksoverheidFont
+
+Managers { style.fill: "#ffcc00" }
+
+RijksoverheidFont { style.fill: "#ffcc00" }

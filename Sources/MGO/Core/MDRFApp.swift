@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -12,10 +12,14 @@ import MGOFoundation
 struct MainEntryPoint {
 	
 	static func main() {
+		
 		guard isProduction() else {
 			TestApp.main()
 			return
 		}
+		
+		// https://www.pointfree.co/episodes/ep16-dependency-injection-made-easy
+		Current = services()
 		ProductionApp.main()
 	}
 	

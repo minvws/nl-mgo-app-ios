@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -26,16 +26,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 		NavigationStackBackport.NavigationStack(path: $appCoordinator.path) {
 			EmptyView()
 				.backport.navigationDestination(for: AppCoordination.State.self) { state in
-					switch state {
-						case .launch:
-							LaunchView(viewModel: LaunchViewModel(coordinator: appCoordinator))
-						case .appIntroduction:
-							AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: appCoordinator))
-						case .privacy:
-							PrivacyView(viewModel: PrivacyViewModel(coordinator: appCoordinator))
-						case .dashboard:
-							DashboardView()
-					}
+					appCoordinator.view(for: state)
 				}
 		}
 		// not a sheet, but an inspectable sheet, so we can confirm this in a test.

@@ -14,6 +14,8 @@ packages:
     path: ./Packages/MGOUI
   RijksoverheidFont:
     path: ./Packages/RijksoverheidFont
+  Managers:
+    path: ./Packages/Managers
 
 # - Attributes:
 
@@ -326,6 +328,9 @@ schemes:
         - name: MGOTests
           parallelizable: false
           randomExecutionOrder: true
+        - package: Managers/ManagersTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: RijksoverheidFont/RijksoverheidFontTests
           randomExecutionOrder: true
           parallelizable: false

@@ -14,18 +14,18 @@ let package = Package(
 	],
 	dependencies: [
 		
-		// VWS
-		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
+		// Internal
+		.package(name: "Managers", path: "../Managers"),
 		
-		// External
-		.package(url: "https://github.com/lm/navigation-stack-backport", from: "1.1.0")
+		// VWS
+		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main")
 	],
 	targets: [
 		.target(
 			name: "MGOFoundation",
 			dependencies: [
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
-				.product(name: "NavigationStackBackport", package: "navigation-stack-backport")
+				.product(name: "Managers", package: "Managers")
 			]
 		)
 	]

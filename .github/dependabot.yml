@@ -1,18 +1,18 @@
 version: 2
 updates:
-- package-ecosystem: bundler
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "08:00"
-    timezone: Europe/Amsterdam
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "08:00"
+      timezone: Europe/Amsterdam
 
-- package-ecosystem: github-actions
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "08:00"
-    timezone: Europe/Amsterdam
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "08:00"
+      timezone: Europe/Amsterdam
 
 # Swift Packages
   - package-ecosystem: "swift"
@@ -22,6 +22,7 @@ updates:
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
+
   - package-ecosystem: "swift"
     directory: "/Packages/MGOTest"
     schedule:
@@ -29,8 +30,17 @@ updates:
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
+
   - package-ecosystem: "swift"
-    directory: "/Packages/MGOkUI"
+    directory: "/Packages/MGOUI"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
+    directory: "/Packages/Managers"
     schedule:
       interval: weekly
       day: monday

@@ -74,4 +74,22 @@ class AppCoordinatorSpy: AppCoordinatorProtocol {
 		invokedStart = true
 		invokedStartCount += 1
 	}
+
+	var invokedView = false
+	var invokedViewCount = 0
+	var invokedViewParameters: (for: AppCoordination.State, Void)?
+	var invokedViewParametersList = [(for: AppCoordination.State, Void)]()
+	var stubbedViewResult: some View {
+		EmptyView()
+	}
+
+	func view(for: AppCoordination.State) -> some View {
+		stubbedViewResult
+			.onAppear { [self] in
+				self.invokedView = true
+				self.invokedViewCount += 1
+				self.invokedViewParameters = (`for`, ())
+				self.invokedViewParametersList.append((`for`, ()))
+			}
+	}
 }

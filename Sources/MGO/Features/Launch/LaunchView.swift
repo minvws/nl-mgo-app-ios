@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOFoundation
 import MGOUI
 
 class LaunchViewModel: ObservableObject {
@@ -53,9 +52,6 @@ class LaunchViewModel: ObservableObject {
 
 struct LaunchView: View {
 	
-	/// Color scheme (light, dark)
-	@Environment(\.colorScheme) var colorScheme
-	
 	@StateObject var viewModel: LaunchViewModel
 	
 	@State private var rijkslintTopOffset: CGFloat = 0
@@ -74,7 +70,7 @@ struct LaunchView: View {
 			static let topOffset: CGFloat = 64
 		}
 		enum Spinner {
-			static let bottomOffset: CGFloat = 70
+			static let bottomOffset: CGFloat = 75
 		}
 	}
 	
@@ -107,7 +103,7 @@ struct LaunchView: View {
 					
 					Text("app_title")
 						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-						.foregroundColor(colorScheme == .light ? Color.Styleguide.Blue.logoBlue : Color.Styleguide.black)
+						.foregroundColor(Color.Styleguide.black)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 						.accessibilityAddTraits(.isHeader)
 						.multilineTextAlignment(.center)

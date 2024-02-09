@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -9,6 +9,8 @@ import MGOUI
 import MGOFoundation
 
 protocol AppCoordinatorProtocol: ObservableObject {
+	
+	associatedtype Body: View
 	
 	/// The navigation path
 	var path: NavigationStackBackport.NavigationPath { get set }
@@ -22,6 +24,11 @@ protocol AppCoordinatorProtocol: ObservableObject {
 	
 	/// Start the cooridinator
 	func start()
+	
+	/// Get a View for the State
+	/// - Parameter state: the AppCoordination State
+	/// - Returns: A view for that state
+	func view(for: AppCoordination.State) -> Body
 }
 
 enum AppCoordination {
@@ -74,15 +81,47 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		switch action {
 			case .finishedLoading:
+				guard !Current.secureUserSettings.userHasSeenAppIntroduction else {
+					path.append(AppCoordination.State.dashboard)
+					return
+				}
+				// Only show the appIntroduction once
 				path.append(AppCoordination.State.appIntroduction)
+			
 			case .nextButtonPressedOnAppIntroduction:
 				path.append(AppCoordination.State.privacy)
+			
 			case .nextButtonPressedOnPrivacy:
+				// Mark AppIntroduction Flow as seen.
+				Current.secureUserSettings.userHasSeenAppIntroduction = true
+			
 				path.append(AppCoordination.State.dashboard)
+			
 			case .showPrivacyStatementSheet:
 				sheet = AppCoordination.Sheet.privacyStatement
+			
 			case .dismissPrivacyStatementSheet:
 				sheet = nil
+		}
+	}
+	
+	/// Get a View for the State
+	/// - Parameter state: the AppCoordination State
+	/// - Returns: A view for that state
+	@ViewBuilder func view(for state: AppCoordination.State) -> some View {
+		
+		switch state {
+			case .launch:
+				LaunchView(viewModel: LaunchViewModel(coordinator: self))
+		
+			case .appIntroduction:
+				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self))
+		
+			case .privacy:
+				PrivacyView(viewModel: PrivacyViewModel(coordinator: self))
+			
+			case .dashboard:
+				DashboardView()
 		}
 	}
 }

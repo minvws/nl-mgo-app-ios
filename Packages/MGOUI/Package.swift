@@ -15,12 +15,16 @@ let package = Package(
 	dependencies: [
 		// Internal
 		.package(name: "RijksoverheidFont", path: "../RijksoverheidFont"),
+		
+		// External
+		.package(url: "https://github.com/lm/navigation-stack-backport", from: "1.1.0")
 	],
 	targets: [
 		.target(
 			name: "MGOUI",
 			dependencies: [
 				.product(name: "RijksoverheidFont", package: "RijksoverheidFont"),
+				.product(name: "NavigationStackBackport", package: "navigation-stack-backport")
 			]
 		)
 	]
