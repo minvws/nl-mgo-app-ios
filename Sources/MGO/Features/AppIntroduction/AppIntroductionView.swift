@@ -45,6 +45,7 @@ struct AppIntroductionView: View {
 	private struct ViewTraits {
 		enum Image {
 			static let top: CGFloat = 50
+			static let insets = EdgeInsets( top: 50, leading: 30, bottom: 25, trailing: 30)
 		}
 		enum Title {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 16, trailing: 16)
@@ -70,10 +71,12 @@ struct AppIntroductionView: View {
 						HStack {
 							Spacer()
 							Image(.onboarding)
+								.resizable()
+								.scaledToFit()
 							Spacer()
 						}
 						.accessibilityHidden(true)
-						.padding(.top, ViewTraits.Image.top)
+						.padding(ViewTraits.Image.insets)
 					}
 					
 					Text("onboarding_title")
