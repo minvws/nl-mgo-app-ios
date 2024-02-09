@@ -77,7 +77,7 @@ struct AppIntroductionView: View {
 					}
 					
 					Text("onboarding_title")
-						.rijksoverheidStyle(font: .bold, style: .title3)
+						.rijksoverheidStyle(font: .bold, style: .title2)
 						.padding(ViewTraits.Title.insets)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.padding(.top, showImage ? 0 : ViewTraits.Image.top)

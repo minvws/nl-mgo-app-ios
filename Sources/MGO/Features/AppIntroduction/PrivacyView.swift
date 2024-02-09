@@ -81,7 +81,7 @@ struct PrivacyView: View {
 				VStack {
 					
 					Text("privacy_title")
-						.rijksoverheidStyle(font: .bold, style: .title3)
+						.rijksoverheidStyle(font: .bold, style: .title2)
 						.foregroundColor(Color.Styleguide.black)
 						.padding(.bottom, ViewTraits.General.padding)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
