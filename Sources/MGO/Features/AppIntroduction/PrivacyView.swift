@@ -26,7 +26,7 @@ class PrivacyViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: Action) {
+	func reduce(_ action: PrivacyViewModel.Action) {
 		
 		switch action {
 			case .privacyLinkClicked:
