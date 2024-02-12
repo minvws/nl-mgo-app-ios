@@ -4,13 +4,13 @@
 import PackageDescription
 
 let package = Package(
-	name: "MGOTest",
-	platforms: [.iOS(.v15)],
+	name: "ReusableUI",
+	platforms: [.iOS(.v13)],
 	products: [
+		// Products define the executables and libraries a package produces, making them visible to other packages.
 		.library(
-			name: "MGOTest",
-			targets: ["MGOTest"]
-		)
+			name: "ReusableUI",
+			targets: ["ReusableUI"]),
 	],
 	dependencies: [
 		
@@ -20,11 +20,16 @@ let package = Package(
 		.package(url: "https://github.com/nalexn/ViewInspector", exact: "0.9.10")
 	],
 	targets: [
+		// Targets are the basic building blocks of a package, defining a module or a test suite.
+		// Targets can depend on other targets in this package and products from dependencies.
 		.target(
-			name: "MGOTest",
+			name: "ReusableUI"),
+		.testTarget(
+			name: "ReusableUITests",
 			dependencies: [
-				.product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+				"ReusableUI",
 				.product(name: "Nimble", package: "Nimble"),
+				.product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
 				.product(name: "ViewInspector", package: "ViewInspector")
 			]
 		)

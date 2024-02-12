@@ -9,6 +9,14 @@ Foundation: {
   shape: oval
   style.fill: "#8FCAE7"
 }
+CoreGraphics: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+CoreText: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 
 # Third-Party
 NavigationStackBackport: {
@@ -37,8 +45,15 @@ MGOFoundation <- Managers
 MGOUI { style.fill: "#ffcc00" }
 MGOUI <- SwiftUI
 MGOUI <- NavigationStackBackport
+MGOUI <- ReusableUI
 MGOUI <- RijksoverheidFont
 
 Managers { style.fill: "#ffcc00" }
 
 RijksoverheidFont { style.fill: "#ffcc00" }
+RijksoverheidFont <- SwiftUI
+RijksoverheidFont <- CoreGraphics
+RijksoverheidFont <- CoreText
+
+ReusableUI { style.fill: "#ffcc00" }
+ReusableUI <- SwiftUI

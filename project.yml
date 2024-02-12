@@ -16,6 +16,8 @@ packages:
     path: ./Packages/RijksoverheidFont
   Managers:
     path: ./Packages/Managers
+  ReusableUI:
+    path: ./Packages/ReusableUI
 
 # - Attributes:
 
@@ -332,6 +334,9 @@ schemes:
           randomExecutionOrder: true
           parallelizable: false
         - package: RijksoverheidFont/RijksoverheidFontTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: ReusableUI/ReusableUITests
           randomExecutionOrder: true
           parallelizable: false
     
