@@ -95,6 +95,10 @@ struct AppIntroductionView: View {
 				}
 				.foregroundColor(Color.Styleguide.black)
 				.onRotate { newOrientation in
+					
+					// The device orientation can be isFlat (faceUp or faceDown). Skip that
+					guard !newOrientation.isFlat else { return }
+					
 					// Hide the image in landscape on a phone, show on other devices
 					showImage = !newOrientation.isLandscape && UIDevice.current.userInterfaceIdiom == .phone
 				}
