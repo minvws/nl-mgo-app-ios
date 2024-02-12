@@ -24,21 +24,19 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 			
 			ScrollView(shouldScroll ? [.vertical] : []) {
 				content.readSize($contentSize)
-//					.padding(.bottom, 50)
 			}
 			.readSize($scrollViewSize)
 			
 			bottomView
+				// Change the background color of the bottom view if we should scroll
 				.background(shouldScroll ? Color.Styleguide.white : Color.Styleguide.background)
-				.if(shouldScroll, transform: { view in
+				// Only apply the shadow if we should scroll
+				.if(shouldScroll) { view in
 					view
 						.shadow(color: Color.Styleguide.black.opacity(0.05), radius: 7, x: 0, y: -6)
 						.shadow(color: Color.Styleguide.black.opacity(0.06), radius: 3, x: 0, y: 0)
-				})
+				}
 		}
-		.onAppear(perform: {
-				 UIScrollView.appearance().bounces = false
-		})
 	}
 	
 	private var shouldScroll: Bool {

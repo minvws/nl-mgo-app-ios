@@ -1,6 +1,10 @@
 direction: down
 
 # Apple
+UIKit: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 SwiftUI: {
   shape: oval
   style.fill: "#8FCAE7"
@@ -34,8 +38,9 @@ MGOapp: {
 
 MGOapp <- MGOFoundation
 MGOapp <- MGOUI
+MGOapp <- UIKit
 
-# - Packages - 
+# - Packages -
 
 MGOFoundation { style.fill: "#ffcc00" }
 MGOFoundation <- Logging
