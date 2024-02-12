@@ -107,6 +107,7 @@ struct LaunchView: View {
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 						.accessibilityAddTraits(.isHeader)
 						.multilineTextAlignment(.center)
+						.tag("app_title")
 					
 					Spacer()
 					if viewModel.state == .loadingConfig {
@@ -129,6 +130,7 @@ struct LaunchView: View {
 			}
 		}
 		.navigationBarBackButtonHidden()
+		.navigationBarHidden(true)
 	}
 }
 

@@ -19,6 +19,19 @@ final class AppCoordinatorViewTests: XCTestCase {
 		coordinator = AppCoordinatorSpy()
 		super.setUp()
 	}
+
+	func test_default() throws {
+		
+		// Given
+		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		
+		// When
+		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
+		
+		// Then
+		let value = try sut.inspect().find(viewWithTag: "app_title")
+		expect(value) != nil
+	}
 	
 	func test_privacyStatement() throws {
 		

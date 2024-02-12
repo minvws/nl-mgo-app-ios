@@ -22,9 +22,6 @@ protocol AppCoordinatorProtocol: ObservableObject {
 	/// - Parameter action: an AppCoordination Action
 	func handle(_ action: AppCoordination.Action)
 	
-	/// Start the cooridinator
-	func start()
-	
 	/// Get a View for the State
 	/// - Parameter state: the AppCoordination State
 	/// - Returns: A view for that state
@@ -68,11 +65,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// - Parameter path: Navigation Path
 	init(path: NavigationStackBackport.NavigationPath) {
 		self.path = path
-	}
-	
-	/// Start the coordinator
-	func start() {
-		path.append(AppCoordination.State.launch)
 	}
 	
 	/// Handle an action

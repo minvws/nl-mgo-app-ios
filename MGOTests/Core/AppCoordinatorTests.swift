@@ -22,17 +22,6 @@ final class AppCoordinatorTests: XCTestCase {
 		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath())
 	}
 	
-	func test_coordinatorStart_pathShouldContainLaunch() {
-		
-		// Given
-		
-		// When
-		sut.start()
-		
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.launch])
-	}
-	
 	func test_coordinatorHandle_actionFinishedLoading_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
 		
 		// Given
@@ -85,18 +74,6 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionSetter) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == true
-	}
-	
-	func test_coordinatorHandle_startAndHandle_shouldHaveTwoElements() {
-		
-		// Given
-		
-		// When
-		sut.start()
-		sut.handle(AppCoordination.Action.finishedLoading)
-		
-		// Then
-		expect(self.sut.path.count) == 2
 	}
 	
 	func test_coordinatorHandle_showPrivacyStatementSheet_shouldShowPrivacyStatement() {

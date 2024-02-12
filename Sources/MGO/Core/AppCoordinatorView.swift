@@ -24,7 +24,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	
 	var body: some View {
 		NavigationStackBackport.NavigationStack(path: $appCoordinator.path) {
-			EmptyView()
+			appCoordinator.view(for: .launch)
 				.backport.navigationDestination(for: AppCoordination.State.self) { state in
 					appCoordinator.view(for: state)
 				}
@@ -51,9 +51,6 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 			}
 		)
 		.onAppear {
-			// Start the coordinator on first appearance, that will set the appropriate view state
-			appCoordinator.start()
-			
 			// Make ourself availble for inspection
 			self.didAppear?(self)
 		}
