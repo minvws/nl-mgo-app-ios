@@ -22,7 +22,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	var body: some View {
 		VStack {
 			
-			ScrollView(shouldScroll ? [.vertical] : []) {
+			ScrollView {
 				content.readSize($contentSize)
 			}
 			.readSize($scrollViewSize)
@@ -35,12 +35,13 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 					view
 						.shadow(color: Color.Styleguide.black.opacity(0.05), radius: 7, x: 0, y: -6)
 						.shadow(color: Color.Styleguide.black.opacity(0.06), radius: 3, x: 0, y: 0)
+						.logInfo("Applying Shadow")
 				}
 		}
 	}
 	
 	private var shouldScroll: Bool {
-		scrollViewSize.height <= contentSize.height
+		scrollViewSize.height < contentSize.height
 	}
 }
 

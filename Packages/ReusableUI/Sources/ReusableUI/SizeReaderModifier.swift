@@ -15,9 +15,7 @@ public struct SizeReaderModifier: ViewModifier {
 		content.background(
 			GeometryReader { geometry in
 				Color.clear.onAppear {
-					DispatchQueue.main.async {
-						 size = geometry.size
-					}
+					size = geometry.size
 				}
 			}
 		)
