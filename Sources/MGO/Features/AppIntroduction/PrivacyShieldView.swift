@@ -9,7 +9,28 @@ import MGOUI
 
 /// A view containing a privacy shield and a text (as localizesStringKey)
 struct PrivacyShieldView: View {
-
+	
+	/// The possible shield images
+	enum ShieldType {
+		case encrypted
+		case safety
+		case checked
+		case cross
+		
+		var image: ImageResource {
+			switch self {
+				case .encrypted:
+					.shieldEncrypted
+				case .safety:
+					.shieldPlus
+				case .checked:
+					.shieldChecked
+				case .cross:
+					.shieldCross
+			}
+		}
+	}
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Text {
@@ -25,17 +46,21 @@ struct PrivacyShieldView: View {
 	/// The key of the localized text to be displayed as title
 	var title: LocalizedStringKey
 	
+	/// The shield type (image)
+	var shieldType: ShieldType
+	
 	/// Initializer
 	/// - Parameter title: The key of the localized text to be displayed as title
-	init(_ title: LocalizedStringKey) {
+	init(_ title: LocalizedStringKey, shieldType: ShieldType) {
 		self.title = title
+		self.shieldType = shieldType
 	}
 	
 	var body: some View {
 		
 		HStack(alignment: .top, spacing: 0) {
 			
-			Image(.shield)
+			Image(shieldType.image)
 				.padding(.zero)
 			
 			Text(title)
@@ -49,5 +74,5 @@ struct PrivacyShieldView: View {
 }
 
 #Preview {
-	PrivacyShieldView("privacy_item_1")
+	PrivacyShieldView("privacy_item_1", shieldType: .safety)
 }

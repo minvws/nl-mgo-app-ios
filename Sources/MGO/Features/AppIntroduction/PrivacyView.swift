@@ -107,10 +107,10 @@ struct PrivacyView: View {
 						.accessibilityIdentifier("introduction text")
 					
 					Group {
-						PrivacyShieldView("privacy_item_1")
-						PrivacyShieldView("privacy_item_2")
-						PrivacyShieldView("privacy_item_3")
-						PrivacyShieldView("privacy_item_4")
+						PrivacyShieldView("privacy_item_1", shieldType: .encrypted)
+						PrivacyShieldView("privacy_item_2", shieldType: .safety)
+						PrivacyShieldView("privacy_item_3", shieldType: .checked)
+						PrivacyShieldView("privacy_item_4", shieldType: .cross)
 					}
 					
 					Spacer()
