@@ -32,23 +32,4 @@ final class AppCoordinatorViewTests: XCTestCase {
 		let value = try sut.inspect().find(viewWithTag: "app_title")
 		expect(value) != nil
 	}
-	
-	func test_privacyStatement() throws {
-		
-		// Given
-		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
-		
-		// When
-		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
-		appCoordinator.sheet = .privacyStatement
-		
-		// Then
-		let value = try sut.inspect().find(viewWithTag: "privacyStatement")
-		expect(value) != nil
-	}
 }
-
-// MARK: - InspectableSheet -
-
-// See https://github.com/nalexn/ViewInspector/blob/0.9.11/guide_popups.md#sheet
-extension InspectableSheet: PopupPresenter { }

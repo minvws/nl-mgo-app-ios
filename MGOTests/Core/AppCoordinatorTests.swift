@@ -22,6 +22,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath())
 	}
 	
+	// MARK: - Handle -
+	
 	func test_coordinatorHandle_actionFinishedLoading_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
 		
 		// Given
@@ -76,29 +78,30 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == true
 	}
 	
-	func test_coordinatorHandle_showPrivacyStatementSheet_shouldShowPrivacyStatement() {
+	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement() {
 		
 		// Given
-		sut.sheet = nil
 		
 		// When
 		sut.handle(AppCoordination.Action.showPrivacyStatement)
 		
 		// Then
-		expect(self.sut.sheet) == .privacyStatement
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacyStatement])
 	}
 	
-	func test_coordinatorHandle_dismissPrivacyStatementSheet_shouldDismissPrivacyStatement() {
+	func test_coordinatorHandle_backButtonPressed() {
 		
 		// Given
-		sut.sheet = .privacyStatement
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
 		
 		// When
-		sut.handle(AppCoordination.Action.dismissPrivacyStatementSheet)
+		sut.handle(AppCoordination.Action.backButtonPressed)
 		
 		// Then
-		expect(self.sut.sheet) == nil
+		expect(self.sut.path.isEmpty) == true
 	}
+	
+	// MARK: - Views -
 	
 	func test_coordinatorView_forLaunch() {
 		
@@ -128,6 +131,18 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Given
 		let state = AppCoordination.State.privacyOverview
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+
+	func test_coordinatorView_forPrivacyStatement() {
+		
+		// Given
+		let state = AppCoordination.State.privacyStatement
 		
 		// When
 		let view = sut.view(for: state)

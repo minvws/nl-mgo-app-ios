@@ -43,4 +43,16 @@ final class PrivacyViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.showPrivacyStatement
 	}
+	
+	func test_backButtonPressed_shouldChangeState() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.backButtonPressed)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backButtonPressed
+	}
 }

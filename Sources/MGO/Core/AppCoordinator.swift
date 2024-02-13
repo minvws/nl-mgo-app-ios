@@ -15,9 +15,6 @@ protocol AppCoordinatorProtocol: ObservableObject {
 	/// The navigation path
 	var path: NavigationStackBackport.NavigationPath { get set }
 	
-	/// The content type for the sheet
-	var sheet: AppCoordination.Sheet? { get set }
-	
 	/// Handle an incoming action from any of the view models
 	/// - Parameter action: an AppCoordination Action
 	func handle(_ action: AppCoordination.Action)
@@ -47,11 +44,6 @@ enum AppCoordination {
 		case privacyStatement
 		case dashboard
 	}
-	
-	/// A list of all the sheets the app coordinator can show
-	enum Sheet: Codable {
-		case privacyStatement
-	}
 }
 
 final class AppCoordinator: AppCoordinatorProtocol {
@@ -59,13 +51,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// The navigation path
 	@Published var path: NavigationStackBackport.NavigationPath
 	
-	/// The content type for the sheet
-	@Published var sheet: AppCoordination.Sheet?
-	
 	/// Initializer
 	/// - Parameter path: Navigation Path
 	init(path: NavigationStackBackport.NavigationPath) {
-		Current.secureUserSettings.wipePersistedData()
+//		Current.secureUserSettings.wipePersistedData()
 		self.path = path
 	}
 	

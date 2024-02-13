@@ -11,10 +11,20 @@ import MGOUI
 
 final class PrivacyStatementViewTests: XCTestCase {
 	
+	var sut: PrivacyStatementView!
+	
+	override func setUp() {
+		
+		sut = PrivacyStatementView(
+			viewModel: PrivacyStatementViewModel(
+				coordinator: nil
+			)
+		)
+	}
+	
 	func test_showPrivacyStatementView_lightMode() {
 		
 		// Given
-		let sut = PrivacyStatementView()
 		
 		// When
 		let content = NavigationView { sut }
@@ -27,7 +37,6 @@ final class PrivacyStatementViewTests: XCTestCase {
 	func test_showPrivacyStatmentView_darkMode() {
 		
 		// Given
-		let sut = PrivacyStatementView()
 		
 		// When
 		let content = NavigationView { sut }
