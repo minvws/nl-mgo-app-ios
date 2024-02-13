@@ -58,7 +58,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(AppCoordination.Action.nextButtonPressedOnAppIntroduction)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacy])
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacyOverview])
 	}
 	
 	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainDashboard_securitySettingsUpdated() {
@@ -68,7 +68,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == nil
 		
 		// When
-		sut.handle(AppCoordination.Action.nextButtonPressedOnPrivacy)
+		sut.handle(AppCoordination.Action.nextButtonPressedOnPrivacyOverview)
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
@@ -82,7 +82,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.sheet = nil
 		
 		// When
-		sut.handle(AppCoordination.Action.showPrivacyStatementSheet)
+		sut.handle(AppCoordination.Action.showPrivacyStatement)
 		
 		// Then
 		expect(self.sut.sheet) == .privacyStatement
@@ -127,7 +127,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorView_forPrivacy() {
 		
 		// Given
-		let state = AppCoordination.State.privacy
+		let state = AppCoordination.State.privacyOverview
 		
 		// When
 		let view = sut.view(for: state)

@@ -34,16 +34,17 @@ enum AppCoordination {
 	enum Action {
 		case finishedLoading
 		case nextButtonPressedOnAppIntroduction
-		case nextButtonPressedOnPrivacy
-		case showPrivacyStatementSheet
-		case dismissPrivacyStatementSheet
+		case nextButtonPressedOnPrivacyOverview
+		case showPrivacyStatement
+		case backButtonPressed
 	}
 	
 	/// A list of all the view states the app coordinator can show
 	enum State: Codable {
 		case launch
 		case appIntroduction
-		case privacy
+		case privacyOverview
+		case privacyStatement
 		case dashboard
 	}
 	
@@ -64,6 +65,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Initializer
 	/// - Parameter path: Navigation Path
 	init(path: NavigationStackBackport.NavigationPath) {
+		Current.secureUserSettings.wipePersistedData()
 		self.path = path
 	}
 	
@@ -81,19 +83,19 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.append(AppCoordination.State.appIntroduction)
 			
 			case .nextButtonPressedOnAppIntroduction:
-				path.append(AppCoordination.State.privacy)
+				path.append(AppCoordination.State.privacyOverview)
 			
-			case .nextButtonPressedOnPrivacy:
+			case .nextButtonPressedOnPrivacyOverview:
 				// Mark AppIntroduction Flow as seen.
 				Current.secureUserSettings.userHasSeenAppIntroduction = true
-			
 				path.append(AppCoordination.State.dashboard)
 			
-			case .showPrivacyStatementSheet:
-				sheet = AppCoordination.Sheet.privacyStatement
+			case .showPrivacyStatement:
+				path.append(AppCoordination.State.privacyStatement)
 			
-			case .dismissPrivacyStatementSheet:
-				sheet = nil
+			case .backButtonPressed:
+				guard !path.isEmpty else { return }
+				path.removeLast()
 		}
 	}
 	
@@ -109,9 +111,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .appIntroduction:
 				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self))
 		
-			case .privacy:
+			case .privacyOverview:
 				PrivacyView(viewModel: PrivacyViewModel(coordinator: self))
-			
+
+			case .privacyStatement:
+				PrivacyStatementView(viewModel: PrivacyStatementViewModel(coordinator: self))
+
 			case .dashboard:
 				DashboardView()
 		}

@@ -29,7 +29,7 @@ final class PrivacyViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.nextButtonPressedOnPrivacy
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.nextButtonPressedOnPrivacyOverview
 	}
 	
 	func test_privacyLinkClicked_shouldChangeState() {
@@ -41,6 +41,6 @@ final class PrivacyViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.showPrivacyStatementSheet
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.showPrivacyStatement
 	}
 }

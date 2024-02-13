@@ -10,8 +10,7 @@ import MGOUI
 /// A simple backbutton consisting of an left chevron and a previous text
 struct BackButton: View {
 	
-	/// Global dismiss closure
-	@Environment(\.dismiss) var dismiss
+	var action: (() -> Void)?
 	
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
@@ -30,14 +29,16 @@ struct BackButton: View {
 	
 	/// Initializer
 	/// - Parameter title: The key of the localized text to be displayed as title
-	init(_ title: LocalizedStringKey = "previous") {
+	/// - Parameter action: Optional closure to be executed when the user presses the button
+	init(_ title: LocalizedStringKey = "previous", action: (() -> Void)?) {
 		self.title = title
+		self.action = action
 	}
 	
 	var body: some View {
 		Button(
 			action: {
-				dismiss()
+				action?()
 			},
 			label: {
 				HStack(alignment: .center, spacing: 0) {
@@ -58,5 +59,5 @@ struct BackButton: View {
 }
 
 #Preview {
-	BackButton()
+	BackButton(action: nil)
 }

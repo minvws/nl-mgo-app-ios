@@ -16,6 +16,7 @@ class PrivacyViewModel: ObservableObject {
 	enum Action {
 		case privacyLinkClicked
 		case nextButttonPressed
+		case backButtonPressed
 	}
 	
 	/// Intitializer
@@ -30,9 +31,11 @@ class PrivacyViewModel: ObservableObject {
 		
 		switch action {
 			case .privacyLinkClicked:
-				coordinator?.handle(AppCoordination.Action.showPrivacyStatementSheet)
+				coordinator?.handle(AppCoordination.Action.showPrivacyStatement)
 			case .nextButttonPressed:
-				coordinator?.handle(.nextButtonPressedOnPrivacy)
+				coordinator?.handle(.nextButtonPressedOnPrivacyOverview)
+			case .backButtonPressed:
+				coordinator?.handle(AppCoordination.Action.backButtonPressed)
 		}
 	}
 }
@@ -127,7 +130,9 @@ struct PrivacyView: View {
 			}
 		}
 		.navigationBarBackButtonHidden(true)
-		.navigationBarItems(leading: BackButton())
+		.navigationBarItems(leading: BackButton {
+			viewModel.reduce(.backButtonPressed)
+		})
 		.navigationBarTitleDisplayMode(.inline)
 	}
 }
