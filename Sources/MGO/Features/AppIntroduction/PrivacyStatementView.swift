@@ -7,13 +7,47 @@
 
 import MGOUI
 
+class PrivacyStatementViewModel: ObservableObject {
+	
+	/// The app coordintator for routing
+	weak var coordinator: (any AppCoordinatorProtocol)?
+	
+	/// A list of all the actions this viewModel can handle
+	enum Action {
+		case backButtonPressed
+	}
+	
+	/// Intitializer
+	/// - Parameter coordinator: the app coordinator
+	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
+		self.coordinator = coordinator
+	}
+	
+	/// Handle any action
+	/// - Parameter action: the action to be handled
+	func reduce(_ action: PrivacyStatementViewModel.Action) {
+		
+		switch action {
+			case .backButtonPressed:
+				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+		}
+	}
+}
+
 struct PrivacyStatementView: View {
+	
+	/// The View Model
+	@StateObject var viewModel: PrivacyStatementViewModel
 	
 	/// Global dismiss closure
 	@Environment(\.dismiss) var dismiss
 	
 	/// Magic Numbers
 	private struct ViewTraits {
+		
+		enum VStack {
+			static let spacing: CGFloat = 16
+		}
 		
 		enum PrivacyStatement {
 			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
@@ -27,42 +61,36 @@ struct PrivacyStatementView: View {
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			
-			VStack(alignment: .leading, spacing: 0) {
+			ScrollView {
 				
-				Group {
+				VStack(alignment: .leading, spacing: ViewTraits.VStack.spacing) {
 					
 					Text("privacy_statement_title")
-						.rijksoverheidStyle(font: .bold, style: .title3)
+						.rijksoverheidStyle(font: .bold, style: .title2)
 						.accessibilityAddTraits(.isHeader)
 					
-					ScrollView {
-						Text("privacy_statement_body")
-							.rijksoverheidStyle(font: .regular, style: .body)
-					}
+					Text("privacy_statement_body")
+						.rijksoverheidStyle(font: .regular, style: .body)
 				}
-				.foregroundColor(Color.Styleguide.black)
-				.padding(ViewTraits.PrivacyStatement.insets)
-				.fixedSize(horizontal: false, vertical: true)
-				
-				Spacer()
 			}
+			.foregroundColor(Color.Styleguide.black)
+			.padding(ViewTraits.PrivacyStatement.insets)
+			
 		}
-		.toolbar {
-			ToolbarItem {
-				Button(
-					action: {
-						dismiss()
-					}, label: {
-						Image(.close)
-					}
-				)
-			}
-		}
+		.navigationBarBackButtonHidden(true)
+		.navigationBarItems(leading: BackButton {
+			viewModel.reduce(.backButtonPressed)
+		})
+		.navigationBarTitleDisplayMode(.inline)
 	}
 }
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		PrivacyStatementView()
+		PrivacyStatementView(
+			viewModel: PrivacyStatementViewModel(
+				coordinator: nil
+			)
+		)
 	}
 }

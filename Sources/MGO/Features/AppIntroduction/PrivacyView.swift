@@ -16,6 +16,7 @@ class PrivacyViewModel: ObservableObject {
 	enum Action {
 		case privacyLinkClicked
 		case nextButttonPressed
+		case backButtonPressed
 	}
 	
 	/// Intitializer
@@ -26,13 +27,15 @@ class PrivacyViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: Action) {
+	func reduce(_ action: PrivacyViewModel.Action) {
 		
 		switch action {
 			case .privacyLinkClicked:
-				coordinator?.handle(AppCoordination.Action.showPrivacyStatementSheet)
+				coordinator?.handle(AppCoordination.Action.showPrivacyStatement)
 			case .nextButttonPressed:
-				coordinator?.handle(.nextButtonPressedOnPrivacy)
+				coordinator?.handle(.nextButtonPressedOnPrivacyOverview)
+			case .backButtonPressed:
+				coordinator?.handle(AppCoordination.Action.backButtonPressed)
 		}
 	}
 }
@@ -81,7 +84,7 @@ struct PrivacyView: View {
 				VStack {
 					
 					Text("privacy_title")
-						.rijksoverheidStyle(font: .bold, style: .title3)
+						.rijksoverheidStyle(font: .bold, style: .title2)
 						.foregroundColor(Color.Styleguide.black)
 						.padding(.bottom, ViewTraits.General.padding)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -127,7 +130,9 @@ struct PrivacyView: View {
 			}
 		}
 		.navigationBarBackButtonHidden(true)
-		.navigationBarItems(leading: BackButton())
+		.navigationBarItems(leading: BackButton {
+			viewModel.reduce(.backButtonPressed)
+		})
 		.navigationBarTitleDisplayMode(.inline)
 	}
 }

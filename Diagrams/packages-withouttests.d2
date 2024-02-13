@@ -1,11 +1,23 @@
 direction: down
 
 # Apple
+UIKit: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 SwiftUI: {
   shape: oval
   style.fill: "#8FCAE7"
 }
 Foundation: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+CoreGraphics: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+CoreText: {
   shape: oval
   style.fill: "#8FCAE7"
 }
@@ -26,8 +38,9 @@ MGOapp: {
 
 MGOapp <- MGOFoundation
 MGOapp <- MGOUI
+MGOapp <- UIKit
 
-# - Packages - 
+# - Packages -
 
 MGOFoundation { style.fill: "#ffcc00" }
 MGOFoundation <- Logging
@@ -37,8 +50,15 @@ MGOFoundation <- Managers
 MGOUI { style.fill: "#ffcc00" }
 MGOUI <- SwiftUI
 MGOUI <- NavigationStackBackport
+MGOUI <- ReusableUI
 MGOUI <- RijksoverheidFont
 
 Managers { style.fill: "#ffcc00" }
 
 RijksoverheidFont { style.fill: "#ffcc00" }
+RijksoverheidFont <- SwiftUI
+RijksoverheidFont <- CoreGraphics
+RijksoverheidFont <- CoreText
+
+ReusableUI { style.fill: "#ffcc00" }
+ReusableUI <- SwiftUI

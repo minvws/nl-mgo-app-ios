@@ -14,6 +14,7 @@ let package = Package(
 	],
 	dependencies: [
 		// Internal
+		.package(name: "ReusableUI", path: "../ReusableUI"),
 		.package(name: "RijksoverheidFont", path: "../RijksoverheidFont"),
 		
 		// External
@@ -23,6 +24,7 @@ let package = Package(
 		.target(
 			name: "MGOUI",
 			dependencies: [
+				.product(name: "ReusableUI", package: "ReusableUI"),
 				.product(name: "RijksoverheidFont", package: "RijksoverheidFont"),
 				.product(name: "NavigationStackBackport", package: "navigation-stack-backport")
 			]

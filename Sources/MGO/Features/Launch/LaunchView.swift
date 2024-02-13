@@ -32,7 +32,7 @@ class LaunchViewModel: ObservableObject {
 	
 	/// Reduce the action to the next state
 	/// - Parameter action: the action
-	func reduce(_ action: Action) {
+	func reduce(_ action: LaunchViewModel.Action) {
 		guard state == .idle else { return }
 		switch action {
 			case .start:
@@ -107,6 +107,8 @@ struct LaunchView: View {
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 						.accessibilityAddTraits(.isHeader)
 						.multilineTextAlignment(.center)
+						.tag("app_title")
+						.fixedSize(horizontal: false, vertical: true)
 					
 					Spacer()
 					if viewModel.state == .loadingConfig {
@@ -129,6 +131,7 @@ struct LaunchView: View {
 			}
 		}
 		.navigationBarBackButtonHidden()
+		.navigationBarHidden(true)
 	}
 }
 

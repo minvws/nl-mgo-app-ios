@@ -16,23 +16,43 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	/// The content for the bottom View
 	@ViewBuilder let bottomView: V2
 	
+	@State private var scrollViewSize: CGSize = .zero
+	@State private var contentSize: CGSize = .zero
+	
 	var body: some View {
 		VStack {
 			
 			ScrollView {
-				content
-					.padding(.bottom, 50)
+				content.readSize($contentSize)
 			}
-			.overlay(ClearToBackgroundGradientView(), alignment: .bottom)
+			.readSize($scrollViewSize)
 			
 			bottomView
+				// Change the background color of the bottom view if we should scroll
+				.background(shouldScroll ? Color.Styleguide.white : Color.Styleguide.background)
+				// Only apply the shadow if we should scroll
+				.if(shouldScroll) { view in
+					view
+						.shadow(color: Color.Styleguide.black.opacity(0.05), radius: 7, x: 0, y: -6)
+						.shadow(color: Color.Styleguide.black.opacity(0.06), radius: 3, x: 0, y: 0)
+				}
 		}
+	}
+	
+	private var shouldScroll: Bool {
+		scrollViewSize.height < contentSize.height
 	}
 }
 
 #Preview {
 	ScrollViewWithFixedBottom(
 		content: { Text(verbatim: "Top") },
-		bottomView: { Text(verbatim: "Bottom") }
+		bottomView: { Button(
+			action: { },
+			label: {
+				SkyBlueButton("onboarding_action")
+			}
+		).padding(16)
+		}
 	)
 }

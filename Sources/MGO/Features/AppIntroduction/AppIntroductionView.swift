@@ -26,7 +26,7 @@ class AppIntroductionViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: Action) {
+	func reduce(_ action: AppIntroductionViewModel.Action) {
 		if action == .nextButttonPressed {
 			coordinator?.handle(.nextButtonPressedOnAppIntroduction)
 		}
@@ -41,10 +41,13 @@ struct AppIntroductionView: View {
 	/// Boolean to determine if the header image shoudl be shown (hidden in landscape)
 	@State var showImage = true
 	
+	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
 			static let top: CGFloat = 50
+			static let insets = EdgeInsets( top: 50, leading: 30, bottom: 25, trailing: 30)
 		}
 		enum Title {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 16, trailing: 16)
@@ -70,14 +73,16 @@ struct AppIntroductionView: View {
 						HStack {
 							Spacer()
 							Image(.onboarding)
+								.resizable()
+								.scaledToFit()
 							Spacer()
 						}
 						.accessibilityHidden(true)
-						.padding(.top, ViewTraits.Image.top)
+						.padding(ViewTraits.Image.insets)
 					}
 					
 					Text("onboarding_title")
-						.rijksoverheidStyle(font: .bold, style: .title3)
+						.rijksoverheidStyle(font: .bold, style: .title2)
 						.padding(ViewTraits.Title.insets)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.padding(.top, showImage ? 0 : ViewTraits.Image.top)
@@ -92,8 +97,18 @@ struct AppIntroductionView: View {
 				}
 				.foregroundColor(Color.Styleguide.black)
 				.onRotate { newOrientation in
-					// Hide the image in landscape on a phone, show on other devices
-					showImage = !newOrientation.isLandscape && UIDevice.current.userInterfaceIdiom == .phone
+					
+					// Always show on iPad
+					guard UIDevice.current.userInterfaceIdiom != .pad else { return }
+					
+					// The device orientation can be isFlat (faceUp or faceDown). Skip that
+					guard !newOrientation.isFlat else { return }
+					
+					// Hide the image in landscape (on a phone)
+					showImage = !newOrientation.isLandscape
+				}
+				.onAppear {
+					showImage = verticalSizeClass != SwiftUI.UserInterfaceSizeClass.compact || UIDevice.current.userInterfaceIdiom == .pad
 				}
 			}, bottomView: {
 				

@@ -9,6 +9,7 @@
 @_exported import SwiftUI
 
 // Internal
+@_exported import ReusableUI
 @_exported import RijksoverheidFont
 
 // External

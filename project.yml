@@ -16,6 +16,8 @@ packages:
     path: ./Packages/RijksoverheidFont
   Managers:
     path: ./Packages/Managers
+  ReusableUI:
+    path: ./Packages/ReusableUI
 
 # - Attributes:
 
@@ -50,6 +52,8 @@ settings:
     SWIFT_VERSION: 5.0
     VERSIONING_SYSTEM: apple-generic
     CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
+    ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS: true
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: true
     FRAMEWORK_SEARCH_PATHS:
       - "$(inherited)"
       - "$(PROJECT_DIR)"
@@ -124,8 +128,6 @@ targetTemplates:
         TARGETED_DEVICE_FAMILY: 1 #iPhone only for now #,2 # iPhone + iPad
         PRODUCT_NAME: $(TARGET_NAME)
         PRODUCT_MODULE_NAME: MGO
-        ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS: true
-        ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: true
     info:
       properties:
         CFBundleDevelopmentRegion: nl_NL
@@ -332,6 +334,9 @@ schemes:
           randomExecutionOrder: true
           parallelizable: false
         - package: RijksoverheidFont/RijksoverheidFontTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: ReusableUI/ReusableUITests
           randomExecutionOrder: true
           parallelizable: false
     

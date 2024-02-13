@@ -33,28 +33,6 @@ class AppCoordinatorSpy: AppCoordinatorProtocol {
 		}
 	}
 
-	var invokedSheetSetter = false
-	var invokedSheetSetterCount = 0
-	var invokedSheet: AppCoordination.Sheet?
-	var invokedSheetList = [AppCoordination.Sheet?]()
-	var invokedSheetGetter = false
-	var invokedSheetGetterCount = 0
-	var stubbedSheet: AppCoordination.Sheet!
-
-	var sheet: AppCoordination.Sheet? {
-		set {
-			invokedSheetSetter = true
-			invokedSheetSetterCount += 1
-			invokedSheet = newValue
-			invokedSheetList.append(newValue)
-		}
-		get {
-			invokedSheetGetter = true
-			invokedSheetGetterCount += 1
-			return stubbedSheet
-		}
-	}
-
 	var invokedHandle = false
 	var invokedHandleCount = 0
 	var invokedHandleParameters: (action: AppCoordination.Action, Void)?

@@ -15,15 +15,9 @@ protocol AppCoordinatorProtocol: ObservableObject {
 	/// The navigation path
 	var path: NavigationStackBackport.NavigationPath { get set }
 	
-	/// The content type for the sheet
-	var sheet: AppCoordination.Sheet? { get set }
-	
 	/// Handle an incoming action from any of the view models
 	/// - Parameter action: an AppCoordination Action
 	func handle(_ action: AppCoordination.Action)
-	
-	/// Start the cooridinator
-	func start()
 	
 	/// Get a View for the State
 	/// - Parameter state: the AppCoordination State
@@ -37,22 +31,18 @@ enum AppCoordination {
 	enum Action {
 		case finishedLoading
 		case nextButtonPressedOnAppIntroduction
-		case nextButtonPressedOnPrivacy
-		case showPrivacyStatementSheet
-		case dismissPrivacyStatementSheet
+		case nextButtonPressedOnPrivacyOverview
+		case showPrivacyStatement
+		case backButtonPressed
 	}
 	
 	/// A list of all the view states the app coordinator can show
 	enum State: Codable {
 		case launch
 		case appIntroduction
-		case privacy
-		case dashboard
-	}
-	
-	/// A list of all the sheets the app coordinator can show
-	enum Sheet: Codable {
+		case privacyOverview
 		case privacyStatement
+		case dashboard
 	}
 }
 
@@ -61,18 +51,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// The navigation path
 	@Published var path: NavigationStackBackport.NavigationPath
 	
-	/// The content type for the sheet
-	@Published var sheet: AppCoordination.Sheet?
-	
 	/// Initializer
 	/// - Parameter path: Navigation Path
 	init(path: NavigationStackBackport.NavigationPath) {
+//		Current.secureUserSettings.wipePersistedData()
 		self.path = path
-	}
-	
-	/// Start the coordinator
-	func start() {
-		path.append(AppCoordination.State.launch)
 	}
 	
 	/// Handle an action
@@ -89,19 +72,19 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.append(AppCoordination.State.appIntroduction)
 			
 			case .nextButtonPressedOnAppIntroduction:
-				path.append(AppCoordination.State.privacy)
+				path.append(AppCoordination.State.privacyOverview)
 			
-			case .nextButtonPressedOnPrivacy:
+			case .nextButtonPressedOnPrivacyOverview:
 				// Mark AppIntroduction Flow as seen.
 				Current.secureUserSettings.userHasSeenAppIntroduction = true
-			
 				path.append(AppCoordination.State.dashboard)
 			
-			case .showPrivacyStatementSheet:
-				sheet = AppCoordination.Sheet.privacyStatement
+			case .showPrivacyStatement:
+				path.append(AppCoordination.State.privacyStatement)
 			
-			case .dismissPrivacyStatementSheet:
-				sheet = nil
+			case .backButtonPressed:
+				guard !path.isEmpty else { return }
+				path.removeLast()
 		}
 	}
 	
@@ -117,9 +100,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .appIntroduction:
 				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self))
 		
-			case .privacy:
+			case .privacyOverview:
 				PrivacyView(viewModel: PrivacyViewModel(coordinator: self))
-			
+
+			case .privacyStatement:
+				PrivacyStatementView(viewModel: PrivacyStatementViewModel(coordinator: self))
+
 			case .dashboard:
 				DashboardView()
 		}

@@ -22,16 +22,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath())
 	}
 	
-	func test_coordinatorStart_pathShouldContainLaunch() {
-		
-		// Given
-		
-		// When
-		sut.start()
-		
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.launch])
-	}
+	// MARK: - Handle -
 	
 	func test_coordinatorHandle_actionFinishedLoading_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
 		
@@ -69,7 +60,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(AppCoordination.Action.nextButtonPressedOnAppIntroduction)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacy])
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacyOverview])
 	}
 	
 	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainDashboard_securitySettingsUpdated() {
@@ -79,7 +70,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == nil
 		
 		// When
-		sut.handle(AppCoordination.Action.nextButtonPressedOnPrivacy)
+		sut.handle(AppCoordination.Action.nextButtonPressedOnPrivacyOverview)
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
@@ -87,41 +78,30 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == true
 	}
 	
-	func test_coordinatorHandle_startAndHandle_shouldHaveTwoElements() {
+	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement() {
 		
 		// Given
 		
 		// When
-		sut.start()
-		sut.handle(AppCoordination.Action.finishedLoading)
+		sut.handle(AppCoordination.Action.showPrivacyStatement)
 		
 		// Then
-		expect(self.sut.path.count) == 2
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacyStatement])
 	}
 	
-	func test_coordinatorHandle_showPrivacyStatementSheet_shouldShowPrivacyStatement() {
+	func test_coordinatorHandle_backButtonPressed() {
 		
 		// Given
-		sut.sheet = nil
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
 		
 		// When
-		sut.handle(AppCoordination.Action.showPrivacyStatementSheet)
+		sut.handle(AppCoordination.Action.backButtonPressed)
 		
 		// Then
-		expect(self.sut.sheet) == .privacyStatement
+		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_dismissPrivacyStatementSheet_shouldDismissPrivacyStatement() {
-		
-		// Given
-		sut.sheet = .privacyStatement
-		
-		// When
-		sut.handle(AppCoordination.Action.dismissPrivacyStatementSheet)
-		
-		// Then
-		expect(self.sut.sheet) == nil
-	}
+	// MARK: - Views -
 	
 	func test_coordinatorView_forLaunch() {
 		
@@ -150,7 +130,19 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorView_forPrivacy() {
 		
 		// Given
-		let state = AppCoordination.State.privacy
+		let state = AppCoordination.State.privacyOverview
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+
+	func test_coordinatorView_forPrivacyStatement() {
+		
+		// Given
+		let state = AppCoordination.State.privacyStatement
 		
 		// When
 		let view = sut.view(for: state)
