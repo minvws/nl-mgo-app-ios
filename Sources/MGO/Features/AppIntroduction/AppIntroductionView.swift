@@ -41,6 +41,8 @@ struct AppIntroductionView: View {
 	/// Boolean to determine if the header image shoudl be shown (hidden in landscape)
 	@State var showImage = true
 	
+	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
@@ -96,11 +98,17 @@ struct AppIntroductionView: View {
 				.foregroundColor(Color.Styleguide.black)
 				.onRotate { newOrientation in
 					
+					// Always show on iPad
+					guard UIDevice.current.userInterfaceIdiom != .pad else { return }
+					
 					// The device orientation can be isFlat (faceUp or faceDown). Skip that
 					guard !newOrientation.isFlat else { return }
 					
-					// Hide the image in landscape on a phone, show on other devices
-					showImage = !newOrientation.isLandscape && UIDevice.current.userInterfaceIdiom == .phone
+					// Hide the image in landscape (on a phone)
+					showImage = !newOrientation.isLandscape
+				}
+				.onAppear {
+					showImage = verticalSizeClass != SwiftUI.UserInterfaceSizeClass.compact || UIDevice.current.userInterfaceIdiom == .pad
 				}
 			}, bottomView: {
 				

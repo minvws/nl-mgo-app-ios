@@ -108,6 +108,7 @@ struct LaunchView: View {
 						.accessibilityAddTraits(.isHeader)
 						.multilineTextAlignment(.center)
 						.tag("app_title")
+						.fixedSize(horizontal: false, vertical: true)
 					
 					Spacer()
 					if viewModel.state == .loadingConfig {
