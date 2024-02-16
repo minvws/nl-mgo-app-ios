@@ -18,7 +18,7 @@ class DashboardViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case reset
+		case resetApplication
 		case showResetDialog
 	}
 	
@@ -28,9 +28,7 @@ class DashboardViewModel: ObservableObject {
 		self.coordinator = coordinator
 		
 		let release = Configuration().getRelease()
-		logInfo("We are in \(release) mode")
-		showResetButton = release != .production
-		
+		showResetButton = release != Release.production // Show only in Dev, Acc & Test
 	}
 	
 	/// Handle any action
@@ -38,9 +36,8 @@ class DashboardViewModel: ObservableObject {
 	func reduce(_ action: DashboardViewModel.Action) {
 		
 		switch action {
-			case .reset:
-//				coordinator?.handle(AppCoordination.Action.reset)
-				break
+			case .resetApplication:
+				coordinator?.handle(AppCoordination.Action.resetApplication)
 			case .showResetDialog:
 				showResetDialog = true
 		}
@@ -72,10 +69,10 @@ struct DashboardView: View {
 		.navigationBarBackButtonHidden()
 		
 		.confirmationDialog(
-			"Are you sure?",
+			"Reset the application?",
 			isPresented: $viewModel.showResetDialog) {
-				Button("Reset", role: .destructive) {
-					viewModel.reduce(.reset)
+				Button("Reset the application?", role: .destructive) {
+					viewModel.reduce(.resetApplication)
 				}
 			} message: {
 				Text(verbatim: "You cannot undo this action")
@@ -83,15 +80,16 @@ struct DashboardView: View {
 		
 		.toolbar {
 			ToolbarItem(id: "reset", placement: .destructiveAction) {
-				
-				Button(
-					action: {
-						viewModel.reduce(.showResetDialog)
-					}, label: {
-						Image(systemName: "exclamationmark.triangle.fill")
-							.foregroundStyle(.red)
-					}
-				)
+				if viewModel.showResetButton {
+					Button(
+						action: {
+							viewModel.reduce(.showResetDialog)
+						}, label: {
+							Image(systemName: "exclamationmark.triangle")
+								.foregroundStyle(Color.Styleguide.Basic.rubyRed)
+						}
+					)
+				}
 			}
 		}
 	}
