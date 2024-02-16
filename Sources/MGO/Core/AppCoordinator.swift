@@ -34,6 +34,7 @@ enum AppCoordination {
 		case nextButtonPressedOnPrivacyOverview
 		case showPrivacyStatement
 		case backButtonPressed
+		case resetApplication
 	}
 	
 	/// A list of all the view states the app coordinator can show
@@ -46,16 +47,25 @@ enum AppCoordination {
 	}
 }
 
+extension Notification.Name {
+	static let resetApplication = Notification.Name("resetApplication")
+}
+
 final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The navigation path
 	@Published var path: NavigationStackBackport.NavigationPath
 	
+	private let notificationCenter: NotificationCenterProtocol
+	
 	/// Initializer
 	/// - Parameter path: Navigation Path
-	init(path: NavigationStackBackport.NavigationPath) {
-//		Current.secureUserSettings.wipePersistedData()
+	init(
+		path: NavigationStackBackport.NavigationPath,
+		notificationCenter: NotificationCenterProtocol = NotificationCenter.default) {
+			
 		self.path = path
+		self.notificationCenter = notificationCenter
 	}
 	
 	/// Handle an action
@@ -63,6 +73,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	func handle(_ action: AppCoordination.Action) {
 		
 		switch action {
+			
 			case .finishedLoading:
 				guard !Current.secureUserSettings.userHasSeenAppIntroduction else {
 					path.append(AppCoordination.State.dashboard)
@@ -85,6 +96,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .backButtonPressed:
 				guard !path.isEmpty else { return }
 				path.removeLast()
+			
+			case .resetApplication:
+				Current.wipePersistedData()
+				path.removeLast(path.count)
+				notificationCenter.post(name: .resetApplication, object: nil)
 		}
 	}
 	
@@ -107,7 +123,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				PrivacyStatementView(viewModel: PrivacyStatementViewModel(coordinator: self))
 
 			case .dashboard:
-				DashboardView()
+				DashboardView(viewModel: DashboardViewModel(coordinator: self))
 		}
 	}
 }
