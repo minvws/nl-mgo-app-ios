@@ -56,16 +56,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// The navigation path
 	@Published var path: NavigationStackBackport.NavigationPath
 	
-	private let notificationCenter: NotificationCenterProtocol
-	
 	/// Initializer
 	/// - Parameter path: Navigation Path
-	init(
-		path: NavigationStackBackport.NavigationPath,
-		notificationCenter: NotificationCenterProtocol = NotificationCenter.default) {
-			
+	init(path: NavigationStackBackport.NavigationPath) {
+		
 		self.path = path
-		self.notificationCenter = notificationCenter
 	}
 	
 	/// Handle an action
@@ -100,7 +95,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .resetApplication:
 				Current.wipePersistedData()
 				path.removeLast(path.count)
-				notificationCenter.post(name: .resetApplication, object: nil)
+				Current.notificationCenter.post(name: .resetApplication, object: nil)
 		}
 	}
 	

@@ -12,13 +12,16 @@ import MGOFoundation
 
 struct Services {
 	var now: () -> Date
+	var notificationCenter: NotificationCenterProtocol
 	var secureUserSettings: SecureUserSettingsProtocol
 	
 	init(
 		now: @escaping () -> Date,
+		notificationCenter: NotificationCenterProtocol,
 		secureUserSettings: SecureUserSettingsProtocol
 	) {
 		self.now = now
+		self.notificationCenter = notificationCenter
 		self.secureUserSettings = secureUserSettings
 	}
 }
@@ -26,6 +29,7 @@ struct Services {
 // MARK: - 2: Instantiate Private Dependencies
 
 private let now: () -> Date = Date.init
+private let notificationCenter = NotificationCenter.default
 private let secureUserSettings = SecureUserSettings()
 
 // MARK: - 3: Instantiate the Services using private dependencies:
@@ -37,6 +41,7 @@ let services: () -> Services = {
 
 	return Services(
 		now: now,
+		notificationCenter: notificationCenter,
 		secureUserSettings: secureUserSettings
 	)
 }

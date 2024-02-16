@@ -12,8 +12,6 @@ class LaunchViewModel: ObservableObject {
 	
 	weak var coordinator: (any AppCoordinatorProtocol)?
 	
-	private let notificationCenter: NotificationCenterProtocol
-	
 	// All possible states for this ViewModel
 	enum State {
 		case idle // Initial State
@@ -30,19 +28,22 @@ class LaunchViewModel: ObservableObject {
 	
 	@Published var state: State
 	
-	init(coordinator: (any AppCoordinatorProtocol)?, state: State = .idle, notificationCenter: NotificationCenterProtocol = NotificationCenter.default) {
+	init(coordinator: (any AppCoordinatorProtocol)?, state: State = .idle) {
 		self.coordinator = coordinator
 		self.state = state
-		self.notificationCenter = notificationCenter
 		
 		setupObservers()
+	}
+	
+	deinit {
+		Current.notificationCenter.removeObserver(self)
 	}
 	
 	/// Setup all the observers
 	private func setupObservers() {
 		
 		// Listen for reset notification
-		self.notificationCenter.addObserver(forName: .resetApplication, object: nil, queue: OperationQueue.main) { _ in
+		Current.notificationCenter.addObserver(forName: .resetApplication, object: nil, queue: OperationQueue.main) { _ in
 			self.reduce(.reset)
 		}
 	}
