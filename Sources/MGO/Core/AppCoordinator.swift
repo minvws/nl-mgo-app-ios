@@ -48,7 +48,7 @@ enum AppCoordination {
 }
 
 extension Notification.Name {
-	static let resetApplication = Notification.Name("resetApplication")
+	static let resetApplication = Notification.Name("nl.mijngezondheidsomgeving.resetApplication")
 }
 
 final class AppCoordinator: AppCoordinatorProtocol {
