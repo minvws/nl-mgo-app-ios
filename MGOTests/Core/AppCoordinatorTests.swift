@@ -126,7 +126,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image(precision: 0.90)) // Lower precision due to random postion of spinner
 	}
 	
 	func test_coordinatorView_forAppIntroduction() {
