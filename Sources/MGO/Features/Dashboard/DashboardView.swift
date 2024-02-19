@@ -5,9 +5,49 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import MGOFoundation
 import MGOUI
 
+class DashboardViewModel: ObservableObject {
+	
+	/// The app coordintator for routing
+	weak var coordinator: (any AppCoordinatorProtocol)?
+	
+	@Published var showResetButton: Bool = false
+	@Published var showResetDialog: Bool = false
+	
+	/// A list of all the actions this viewModel can handle
+	enum Action {
+		case resetApplication
+		case showResetDialog
+	}
+	
+	/// Intitializer
+	/// - Parameter coordinator: the app coordinator
+	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
+		self.coordinator = coordinator
+		
+		let release = Configuration().getRelease()
+		showResetButton = release != Release.production // Show only in Dev, Acc & Test
+	}
+	
+	/// Handle any action
+	/// - Parameter action: the action to be handled
+	func reduce(_ action: DashboardViewModel.Action) {
+		
+		switch action {
+			case .resetApplication:
+				coordinator?.handle(AppCoordination.Action.resetApplication)
+			case .showResetDialog:
+				showResetDialog = true
+		}
+	}
+}
+
 struct DashboardView: View {
+	
+	/// The View Model
+	@StateObject var viewModel: DashboardViewModel
 	
 	var body: some View {
 		ZStack {
@@ -27,9 +67,36 @@ struct DashboardView: View {
 			}
 		}
 		.navigationBarBackButtonHidden()
+		
+		.confirmationDialog(
+			"Reset the application?",
+			isPresented: $viewModel.showResetDialog) {
+				Button("Reset the application?", role: .destructive) {
+					viewModel.reduce(.resetApplication)
+				}
+			} message: {
+				Text(verbatim: "You cannot undo this action")
+			}
+		
+		.toolbar {
+			ToolbarItem(id: "reset", placement: .destructiveAction) {
+				if viewModel.showResetButton {
+					Button(
+						action: {
+							viewModel.reduce(.showResetDialog)
+						}, label: {
+							Image(systemName: "exclamationmark.triangle")
+								.foregroundStyle(Color.Styleguide.Basic.rubyRed)
+						}
+					)
+				}
+			}
+		}
 	}
 }
 
 #Preview {
-	DashboardView()
+	NavigationStackBackport.NavigationStack {
+		DashboardView(viewModel: DashboardViewModel(coordinator: nil))
+	}
 }

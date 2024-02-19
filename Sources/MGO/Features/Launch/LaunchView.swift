@@ -6,6 +6,7 @@
  */
 
 import MGOUI
+import Managers
 
 class LaunchViewModel: ObservableObject {
 	
@@ -21,6 +22,8 @@ class LaunchViewModel: ObservableObject {
 	/// All possible actions for this ViewModel
 	enum Action {
 		case start
+		case reset
+		case loaded
 	}
 	
 	@Published var state: State
@@ -28,24 +31,45 @@ class LaunchViewModel: ObservableObject {
 	init(coordinator: (any AppCoordinatorProtocol)?, state: State = .idle) {
 		self.coordinator = coordinator
 		self.state = state
+		
+		setupObservers()
+	}
+	
+	/// Setup all the observers
+	private func setupObservers() {
+		
+		// Listen for reset notification
+		Current.notificationCenter.addObserver(forName: .resetApplication, object: nil, queue: OperationQueue.main) { _ in
+			self.reduce(.reset)
+		}
 	}
 	
 	/// Reduce the action to the next state
 	/// - Parameter action: the action
 	func reduce(_ action: LaunchViewModel.Action) {
-		guard state == .idle else { return }
+		
 		switch action {
 			case .start:
+			
+				guard state == .idle else { return }
 				state = .loadingConfig
 				loadConfig()
+			
+			case .reset:
+				state = .loadingConfig
+				loadConfig()
+			
+			case .loaded:
+				state = .configLoaded
+				coordinator?.handle(.finishedLoading)
 		}
 	}
 	
 	internal func loadConfig(_ timeInterval: TimeInterval = 4.0) {
+		
 		// Mocked for now, just take 4 seconds to finish
 		DispatchQueue.main.asyncAfter(deadline: .now() + timeInterval) {
-			self.state = .configLoaded
-			self.coordinator?.handle(.finishedLoading)
+			self.reduce(.loaded)
 		}
 	}
 }

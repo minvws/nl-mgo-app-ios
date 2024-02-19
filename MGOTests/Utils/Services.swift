@@ -16,6 +16,12 @@ final class ServicesSpies {
 	
 	fileprivate init() {}
 
+	var notificationCenterSpy: NotificationCenterSpy = {
+		let spy = NotificationCenterSpy()
+		spy.stubbedAddObserverForNameResult = NSObject()
+		return spy
+	}()
+		
 	var secureUserSettingsSpy: SecureUserSettingsSpy = {
 		return SecureUserSettingsSpy()
 	}()
@@ -29,6 +35,7 @@ func setupServicesSpies() -> ServicesSpies {
 	
 	Current = Services(
 		now: { Date(timeIntervalSince1970: 1700000000) }, // Tuesday, 14 November 2023 22:13:20
+		notificationCenter: spies.notificationCenterSpy,
 		secureUserSettings: spies.secureUserSettingsSpy
 	)
 	

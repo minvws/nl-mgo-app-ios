@@ -13,9 +13,11 @@ import MGOUI
 final class AppCoordinatorViewTests: XCTestCase {
 	
 	private var coordinator: AppCoordinatorSpy!
+	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
+		servicesSpies = setupServicesSpies()
 		coordinator = AppCoordinatorSpy()
 		super.setUp()
 	}

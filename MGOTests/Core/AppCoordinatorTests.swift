@@ -101,6 +101,20 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
+	func test_coordinatorHandle_resetApplication() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
+		
+		// When
+		sut.handle(AppCoordination.Action.resetApplication)
+		
+		// Then
+		expect(self.sut.path.isEmpty) == true
+		expect(self.servicesSpies.notificationCenterSpy.invokedPost) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedDataCount) == 1
+	}
+	
 	// MARK: - Views -
 	
 	func test_coordinatorView_forLaunch() {
@@ -112,7 +126,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image(precision: 0.90)) // Lower precision due to random postion of spinner
 	}
 	
 	func test_coordinatorView_forAppIntroduction() {

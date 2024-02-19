@@ -11,6 +11,14 @@ import MGOUI
 
 final class LaunchViewTests: XCTestCase {
 	
+	private var servicesSpies: ServicesSpies!
+	
+	override func setUp() {
+		
+		servicesSpies = setupServicesSpies()
+		super.setUp()
+	}
+	
 	func createSut(state: LaunchViewModel.State) -> LaunchView {
 		
 		return LaunchView(

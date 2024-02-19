@@ -12,9 +12,11 @@ final class LaunchViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var sut: LaunchViewModel!
+	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
+		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
 		sut = LaunchViewModel(coordinator: coordinatorSpy, state: .idle)
 		super.setUp()
@@ -54,6 +56,18 @@ final class LaunchViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .configLoaded
+	}
+	
+	func test_reduce_fromConfigLoaded_toReset() {
+		
+		// Given
+		sut.state = .configLoaded
+		
+		// When
+		sut.reduce(.reset)
+		
+		// Then
+		expect(self.sut.state) == .loadingConfig
 	}
 	
 	func test_loadConfig_shouldCallCoordinator() {
