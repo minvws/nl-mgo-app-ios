@@ -93,6 +93,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.removeLast()
 			
 			case .resetApplication:
+				// Clear everything
 				Current.wipePersistedData()
 				path.removeLast(path.count)
 				Current.notificationCenter.post(name: .resetApplication, object: nil)

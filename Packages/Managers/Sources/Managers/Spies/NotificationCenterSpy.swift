@@ -7,14 +7,16 @@
 
 import Foundation
 
-class NotificationCenterProtocolSpy: NotificationCenterProtocol {
+public class NotificationCenterSpy: NotificationCenterProtocol {
+	
+	public init() {}
 
-	var invokedAddObserverSelector = false
-	var invokedAddObserverSelectorCount = 0
-	var invokedAddObserverSelectorParameters: (observer: Any, aSelector: Selector, aName: NSNotification.Name?, anObject: Any?)?
-	var invokedAddObserverSelectorParametersList = [(observer: Any, aSelector: Selector, aName: NSNotification.Name?, anObject: Any?)]()
+	public var invokedAddObserverSelector = false
+	public var invokedAddObserverSelectorCount = 0
+	public var invokedAddObserverSelectorParameters: (observer: Any, aSelector: Selector, aName: NSNotification.Name?, anObject: Any?)?
+	public var invokedAddObserverSelectorParametersList = [(observer: Any, aSelector: Selector, aName: NSNotification.Name?, anObject: Any?)]()
 
-	func addObserver(
+	public func addObserver(
 		_ observer: Any,
 		selector aSelector: Selector,
 		name aName: NSNotification.Name?,
@@ -26,14 +28,14 @@ class NotificationCenterProtocolSpy: NotificationCenterProtocol {
 		invokedAddObserverSelectorParametersList.append((observer, aSelector, aName, anObject))
 	}
 
-	var invokedAddObserverForName = false
-	var invokedAddObserverForNameCount = 0
-	var invokedAddObserverForNameParameters: (name: NSNotification.Name?, obj: Any?, queue: OperationQueue?)?
-	var invokedAddObserverForNameParametersList = [(name: NSNotification.Name?, obj: Any?, queue: OperationQueue?)]()
-	var stubbedAddObserverForNameBlockResult: (Notification, Void)?
-	var stubbedAddObserverForNameResult: NSObjectProtocol!
+	public var invokedAddObserverForName = false
+	public var invokedAddObserverForNameCount = 0
+	public var invokedAddObserverForNameParameters: (name: NSNotification.Name?, obj: Any?, queue: OperationQueue?)?
+	public var invokedAddObserverForNameParametersList = [(name: NSNotification.Name?, obj: Any?, queue: OperationQueue?)]()
+	public var stubbedAddObserverForNameBlockResult: (Notification, Void)?
+	public var stubbedAddObserverForNameResult: NSObjectProtocol!
 
-	func addObserver(
+	public func addObserver(
 		forName name: NSNotification.Name?,
 		object obj: Any?,
 		queue: OperationQueue?,
@@ -49,36 +51,36 @@ class NotificationCenterProtocolSpy: NotificationCenterProtocol {
 		return stubbedAddObserverForNameResult
 	}
 
-	var invokedPost = false
-	var invokedPostCount = 0
-	var invokedPostParameters: (aName: NSNotification.Name, anObject: Any?)?
-	var invokedPostParametersList = [(aName: NSNotification.Name, anObject: Any?)]()
+	public var invokedPost = false
+	public var invokedPostCount = 0
+	public var invokedPostParameters: (aName: NSNotification.Name, anObject: Any?)?
+	public var invokedPostParametersList = [(aName: NSNotification.Name, anObject: Any?)]()
 
-	func post(name aName: NSNotification.Name, object anObject: Any?) {
+	public func post(name aName: NSNotification.Name, object anObject: Any?) {
 		invokedPost = true
 		invokedPostCount += 1
 		invokedPostParameters = (aName, anObject)
 		invokedPostParametersList.append((aName, anObject))
 	}
 
-	var invokedPostName = false
-	var invokedPostNameCount = 0
-	var invokedPostNameParameters: (aName: NSNotification.Name, anObject: Any?, aUserInfo: [AnyHashable: Any]?)?
-	var invokedPostNameParametersList = [(aName: NSNotification.Name, anObject: Any?, aUserInfo: [AnyHashable: Any]?)]()
+	public var invokedPostName = false
+	public var invokedPostNameCount = 0
+	public var invokedPostNameParameters: (aName: NSNotification.Name, anObject: Any?, aUserInfo: [AnyHashable: Any]?)?
+	public var invokedPostNameParametersList = [(aName: NSNotification.Name, anObject: Any?, aUserInfo: [AnyHashable: Any]?)]()
 
-	func post(name aName: NSNotification.Name, object anObject: Any?, userInfo aUserInfo: [AnyHashable: Any]?) {
+	public func post(name aName: NSNotification.Name, object anObject: Any?, userInfo aUserInfo: [AnyHashable: Any]?) {
 		invokedPostName = true
 		invokedPostNameCount += 1
 		invokedPostNameParameters = (aName, anObject, aUserInfo)
 		invokedPostNameParametersList.append((aName, anObject, aUserInfo))
 	}
 
-	var invokedRemoveObserver = false
-	var invokedRemoveObserverCount = 0
-	var invokedRemoveObserverParameters: (observer: Any, Void)?
-	var invokedRemoveObserverParametersList = [(observer: Any, Void)]()
+	public var invokedRemoveObserver = false
+	public var invokedRemoveObserverCount = 0
+	public var invokedRemoveObserverParameters: (observer: Any, Void)?
+	public var invokedRemoveObserverParametersList = [(observer: Any, Void)]()
 
-	func removeObserver(_ observer: Any) {
+	public func removeObserver(_ observer: Any) {
 		invokedRemoveObserver = true
 		invokedRemoveObserverCount += 1
 		invokedRemoveObserverParameters = (observer, ())

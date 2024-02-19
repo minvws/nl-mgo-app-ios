@@ -35,10 +35,6 @@ class LaunchViewModel: ObservableObject {
 		setupObservers()
 	}
 	
-	deinit {
-		Current.notificationCenter.removeObserver(self)
-	}
-	
 	/// Setup all the observers
 	private func setupObservers() {
 		
@@ -148,7 +144,6 @@ struct LaunchView: View {
 					}
 				}
 				.onAppear {
-					_ = logInfo("onAppear")
 					viewModel.reduce(LaunchViewModel.Action.start)
 					recalculateOffset(geometry.safeAreaInsets)
 					recalculateBottomPadding(geometry.safeAreaInsets)
