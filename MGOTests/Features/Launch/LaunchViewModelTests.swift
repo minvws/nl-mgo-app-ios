@@ -58,7 +58,6 @@ final class LaunchViewModelTests: XCTestCase {
 		expect(self.sut.state) == .configLoaded
 	}
 	
-	
 	func test_reduce_fromConfigLoaded_toReset() {
 		
 		// Given
