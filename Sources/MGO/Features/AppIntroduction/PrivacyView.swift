@@ -53,12 +53,8 @@ struct PrivacyView: View {
 		enum General {
 			static let padding: CGFloat = 16
 		}
-		enum CloseButton {
-			static let insets = EdgeInsets( top: 14, leading: 0, bottom: 14, trailing: 14
-			)
-		}
-		enum PrivacyStatement {
-			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+		enum Items {
+			static let bottom: CGFloat = 24
 		}
 	}
 	
@@ -113,6 +109,7 @@ struct PrivacyView: View {
 						PrivacyShieldView("privacy_item_3", shieldType: .checked)
 						PrivacyShieldView("privacy_item_4", shieldType: .cross)
 					}
+					.padding(.bottom, ViewTraits.Items.bottom)
 					
 					Spacer()
 				}

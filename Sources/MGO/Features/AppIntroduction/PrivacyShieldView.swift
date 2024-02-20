@@ -34,12 +34,7 @@ struct PrivacyShieldView: View {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Text {
-			static let insets = EdgeInsets(
-				top: 0,
-				leading: 16,
-				bottom: 16,
-				trailing: 0
-			)
+			static let leading: CGFloat = 16
 		}
 	}
 	
@@ -56,20 +51,30 @@ struct PrivacyShieldView: View {
 		self.shieldType = shieldType
 	}
 	
+	/// The alignment of the HStack, changes on orientation
+	@State private var alignment: VerticalAlignment = .center
+	
 	var body: some View {
 		
-		HStack(alignment: .top, spacing: 0) {
+		HStack(alignment: alignment, spacing: 0) {
 			
 			Image(shieldType.image)
 				.padding(.zero)
 			
 			Text(title)
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.padding(ViewTraits.Text.insets)
+				.padding(.leading, ViewTraits.Text.leading)
 				.foregroundColor(Color.Styleguide.black)
 		}
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.accessibilityElement(children: .combine)
+		.onRotate { newOrientation in
+			// The device orientation can be isFlat (faceUp or faceDown). Skip that
+			guard !newOrientation.isFlat else { return }
+			
+			// Top on portrait, center on landscape
+			alignment = newOrientation.isLandscape ? .center : .top
+		}
 	}
 }
 
