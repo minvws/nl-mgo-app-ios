@@ -124,6 +124,7 @@ struct PrivacyView: View {
 						SkyBlueButton("onboarding_action")
 					}
 				)
+				.hapticFeedback(.medium)
 				.padding(ViewTraits.General.padding)
 			}
 		}

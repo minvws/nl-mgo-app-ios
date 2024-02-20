@@ -118,8 +118,10 @@ struct AppIntroductionView: View {
 					},
 					label: {
 						SkyBlueButton("onboarding_action")
+						
 					}
 				)
+				.hapticFeedback(.medium)
 				.padding(ViewTraits.Button.padding)
 			}
 			)
