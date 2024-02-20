@@ -18,6 +18,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	
 	@State private var scrollViewSize: CGSize = .zero
 	@State private var contentSize: CGSize = .zero
+	@State private var scrollable: Bool = false
 	
 	var body: some View {
 		VStack {
@@ -29,18 +30,25 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 			
 			bottomView
 				// Change the background color of the bottom view if we should scroll
-				.background(shouldScroll ? Color.Styleguide.white : Color.Styleguide.background)
+				.background(scrollable ? Color.Styleguide.white : Color.Styleguide.background)
 				// Only apply the shadow if we should scroll
-				.if(shouldScroll) { view in
+				.if(scrollable) { view in
 					view
 						.shadow(color: Color.Styleguide.black.opacity(0.05), radius: 7, x: 0, y: -6)
 						.shadow(color: Color.Styleguide.black.opacity(0.06), radius: 3, x: 0, y: 0)
 				}
+				.onChange(of: contentSize) { _ in
+					recalculateScrollable()
+				}
+				.onChange(of: scrollViewSize) { _ in
+					recalculateScrollable()
+				}
 		}
 	}
 	
-	private var shouldScroll: Bool {
-		scrollViewSize.height < contentSize.height
+	/// Recalculate if we should scroll
+	private func recalculateScrollable() {
+		scrollable = scrollViewSize.height < contentSize.height
 	}
 }
 

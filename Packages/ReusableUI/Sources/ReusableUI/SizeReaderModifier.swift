@@ -17,6 +17,9 @@ public struct SizeReaderModifier: ViewModifier {
 				Color.clear.onAppear {
 					size = geometry.size
 				}
+				.onChange(of: geometry.size) { newSize in
+					size = newSize
+				}
 			}
 		)
 	}
