@@ -78,7 +78,7 @@ struct PrivacyStatementView: View {
 			
 		}
 		.navigationBarBackButtonHidden(true)
-		.navigationBarItems(leading: BackButton {
+		.navigationBarItems(leading: BackButton("general_close") {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarTitleDisplayMode(.inline)

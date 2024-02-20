@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
+    "**[%@](/privacystatement)**" : {
+
+    },
     "app_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8,6 +11,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mijn\nGezondheidsoverzicht"
+          }
+        }
+      }
+    },
+    "general_close" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sluiten"
+          }
+        }
+      }
+    },
+    "general_previous" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorige"
           }
         }
       }
@@ -52,17 +77,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Je gezondheidsgegevens in één overzicht"
-          }
-        }
-      }
-    },
-    "previous" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vorige"
           }
         }
       }

@@ -62,16 +62,6 @@ struct PrivacyView: View {
 		}
 	}
 	
-	/// The intro text with clikcable link
-	/// - Returns: LocalizedStringKey
-	private var introText: LocalizedStringKey {
-		
-		let statement = String(localized: "privacy_statement")
-		let link = "**[\(statement)](/privacystatement)**"
-		let intro = String(localized: "privacy_intro")
-		return LocalizedStringKey(String(format: intro, link))
-	}
-	
 	var body: some View {
 		ZStack {
 			
@@ -90,7 +80,18 @@ struct PrivacyView: View {
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.accessibilityAddTraits(.isHeader)
 					
-					Text(introText)
+					Group {
+						let privacyIntro = String(localized: "privacy_intro")
+						let statement = String(localized: "privacy_statement")
+						let elements = privacyIntro.components(separatedBy: "%@")
+						if elements.count == 2 {
+							Text(elements[0]) +
+							Text("**[\(statement)](/privacystatement)**").underline() +
+							Text(elements[1])
+						} else {
+							EmptyView()
+						}
+					}
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.padding(.bottom, ViewTraits.General.padding)
 						.foregroundColor(Color.Styleguide.black)
