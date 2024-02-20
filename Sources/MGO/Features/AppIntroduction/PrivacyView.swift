@@ -132,7 +132,6 @@ struct PrivacyView: View {
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)
 		})
-		.navigationBarTitleDisplayMode(.inline)
 	}
 }
 

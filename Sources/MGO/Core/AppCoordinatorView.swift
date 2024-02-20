@@ -25,6 +25,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 				.backport.navigationDestination(for: AppCoordination.State.self) { state in
 					appCoordinator.view(for: state)
 				}
+				.navigationBarTitleDisplayMode(.inline)
 		}
 	}
 }
