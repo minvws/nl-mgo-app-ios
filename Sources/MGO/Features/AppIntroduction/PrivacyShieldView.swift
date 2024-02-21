@@ -10,6 +10,8 @@ import MGOUI
 /// A view containing a privacy shield and a text (as localizesStringKey)
 struct PrivacyShieldView: View {
 	
+	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
+	
 	/// The possible shield images
 	enum ShieldType {
 		case encrypted
@@ -74,6 +76,11 @@ struct PrivacyShieldView: View {
 			
 			// Top on portrait, center on landscape
 			alignment = newOrientation.isLandscape ? .center : .top
+		}
+		.onAppear {
+			if verticalSizeClass != SwiftUI.UserInterfaceSizeClass.compact || UIDevice.current.userInterfaceIdiom == .pad {
+				alignment = .top
+			}
 		}
 	}
 }

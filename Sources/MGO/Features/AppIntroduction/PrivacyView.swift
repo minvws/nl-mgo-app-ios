@@ -70,7 +70,7 @@ struct PrivacyView: View {
 				VStack {
 					
 					Text("privacy_title")
-						.rijksoverheidStyle(font: .bold, style: .title2)
+						.rijksoverheidStyle(font: .bold, style: .title)
 						.foregroundColor(Color.Styleguide.black)
 						.padding(.bottom, ViewTraits.General.padding)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -116,15 +116,9 @@ struct PrivacyView: View {
 				.padding(.horizontal, ViewTraits.General.padding)
 			} bottomView: {
 				
-				Button(
-					action: {
-						viewModel.reduce(.nextButttonPressed)
-					},
-					label: {
-						SkyBlueButton("onboarding_action")
-					}
-				)
-				.hapticFeedback(.medium)
+				CallToActionButton("onboarding_action") {
+					viewModel.reduce(.nextButttonPressed)
+				}
 				.padding(ViewTraits.General.padding)
 			}
 		}

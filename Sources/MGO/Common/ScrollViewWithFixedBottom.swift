@@ -58,7 +58,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 		bottomView: { Button(
 			action: { },
 			label: {
-				SkyBlueButton("onboarding_action")
+				CallToActionButton("onboarding_action")
 			}
 		).padding(16)
 		}

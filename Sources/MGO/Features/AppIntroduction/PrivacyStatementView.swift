@@ -66,10 +66,10 @@ struct PrivacyStatementView: View {
 				VStack(alignment: .leading, spacing: ViewTraits.VStack.spacing) {
 					
 					Text("privacy_statement_title")
-						.rijksoverheidStyle(font: .bold, style: .title2)
+						.rijksoverheidStyle(font: .bold, style: .title)
 						.accessibilityAddTraits(.isHeader)
 					
-					Text("privacy_statement_body")
+					SplittedText(key: "privacy_statement_body")
 						.rijksoverheidStyle(font: .regular, style: .body)
 				}
 			}

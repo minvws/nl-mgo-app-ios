@@ -228,13 +228,13 @@ targets:
           PROVISIONING_PROFILE_SPECIFIER: "MGO Acc"
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Acc.entitlements
         FirebaseProduction:
-          DISPLAY_NAME: "Mijngezondheidsoverzicht"
+          DISPLAY_NAME: "Mijn Gezondheidsoverzicht"
           PRODUCT_NAME: MGO PROD
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz
           PROVISIONING_PROFILE_SPECIFIER: "MGO Prod"
 #           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
         AppStore:
-          DISPLAY_NAME: "Mijngezondheidsoverzicht"
+          DISPLAY_NAME: "Mijn Gezondheidsoverzicht"
           PRODUCT_NAME: MGO
           PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz
           PROVISIONING_PROFILE_SPECIFIER: "nl.rijksoverheid.pifz: AppStore"

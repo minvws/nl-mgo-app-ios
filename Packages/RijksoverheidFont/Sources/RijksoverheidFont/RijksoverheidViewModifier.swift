@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -16,9 +16,9 @@ extension Font.TextStyle {
 			case .title: 28
 			case .title2: 26
 			case .title3: 24
-			case .headline: 17
+			case .headline: 18
 			case .subheadline: 17
-			case .body: 17
+			case .body: 18
 			case .callout: 16
 			case .footnote: 14
 			case .caption: 12

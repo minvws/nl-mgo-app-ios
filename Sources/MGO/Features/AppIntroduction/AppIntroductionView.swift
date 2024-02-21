@@ -47,13 +47,14 @@ struct AppIntroductionView: View {
 	private struct ViewTraits {
 		enum Image {
 			static let top: CGFloat = 50
-			static let insets = EdgeInsets( top: 50, leading: 30, bottom: 25, trailing: 30)
+			static let insets = EdgeInsets( top: 50, leading: 20, bottom: 24, trailing: 20)
 		}
 		enum Title {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 16, trailing: 16)
 		}
 		enum Text {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
+			static let spacing: CGFloat = 8
 		}
 		enum Button {
 			static let padding: CGFloat = 16
@@ -68,33 +69,28 @@ struct AppIntroductionView: View {
 			
 			ScrollViewWithFixedBottom(content: {
 				
-				VStack(alignment: .leading) {
+				VStack(alignment: .leading, spacing: 0) {
 					if showImage {
-						HStack {
-							Spacer()
-							Image(.onboarding)
-								.resizable()
-								.scaledToFit()
-							Spacer()
-						}
+						Image(.onboarding)
+							.resizable()
+							.scaledToFit()
 						.accessibilityHidden(true)
 						.padding(ViewTraits.Image.insets)
 					}
 					
 					Text("onboarding_title")
-						.rijksoverheidStyle(font: .bold, style: .title2)
+						.rijksoverheidStyle(font: .bold, style: .title)
 						.padding(ViewTraits.Title.insets)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.padding(.top, showImage ? 0 : ViewTraits.Image.top)
 						.accessibilityAddTraits(.isHeader)
 					
-					Text("onboarding_body")
+					SplittedText(key: "onboarding_body", spacing: ViewTraits.Text.spacing)
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.padding(ViewTraits.Text.insets)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
 					
 					Spacer()
 				}
+				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.foregroundColor(Color.Styleguide.black)
 				.onRotate { newOrientation in
 					
@@ -112,15 +108,9 @@ struct AppIntroductionView: View {
 				}
 			}, bottomView: {
 				
-				Button(
-					action: {
-						viewModel.reduce(.nextButttonPressed)
-					},
-					label: {
-						SkyBlueButton("onboarding_action")
-					}
-				)
-				.hapticFeedback(.medium)
+				CallToActionButton("onboarding_action") {
+					viewModel.reduce(.nextButttonPressed)
+				}
 				.padding(ViewTraits.Button.padding)
 			}
 			)
@@ -130,5 +120,7 @@ struct AppIntroductionView: View {
 }
 
 #Preview {
-	AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: nil))
+	NavigationStackBackport.NavigationStack {
+		AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: nil))
+	}
 }
