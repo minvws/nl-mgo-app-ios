@@ -23,6 +23,9 @@ struct PrimaryButtonStyle: ButtonStyle {
 		}
 	}
 	
+	/// Style the button to a primary button
+	/// - Parameter configuration: the button configuration
+	/// - Returns: primary button
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
