@@ -54,6 +54,7 @@ struct AppIntroductionView: View {
 		}
 		enum Text {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
+			static let spacing: CGFloat = 8
 		}
 		enum Button {
 			static let padding: CGFloat = 16
@@ -88,7 +89,7 @@ struct AppIntroductionView: View {
 						.padding(.top, showImage ? 0 : ViewTraits.Image.top)
 						.accessibilityAddTraits(.isHeader)
 					
-					Text("onboarding_body")
+					SplittedText(key: "onboarding_body", spacing: ViewTraits.Text.spacing)
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.padding(ViewTraits.Text.insets)
 						.frame(maxWidth: .infinity, alignment: .topLeading)

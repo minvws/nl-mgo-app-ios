@@ -69,7 +69,7 @@ struct PrivacyStatementView: View {
 						.rijksoverheidStyle(font: .bold, style: .title2)
 						.accessibilityAddTraits(.isHeader)
 					
-					Text("privacy_statement_body")
+					SplittedText(key: "privacy_statement_body")
 						.rijksoverheidStyle(font: .regular, style: .body)
 				}
 			}
