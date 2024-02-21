@@ -108,15 +108,9 @@ struct AppIntroductionView: View {
 				}
 			}, bottomView: {
 				
-				Button(
-					action: {
-						viewModel.reduce(.nextButttonPressed)
-					},
-					label: {
-						SkyBlueButton("onboarding_action")
-					}
-				)
-				.hapticFeedback(.medium)
+				CallToActionButton("onboarding_action") {
+					viewModel.reduce(.nextButttonPressed)
+				}
 				.padding(ViewTraits.Button.padding)
 			}
 			)
