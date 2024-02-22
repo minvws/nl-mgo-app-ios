@@ -9,4 +9,3 @@ Export dependencies so that projects using the SMART package do not need to also
 */
 @_exported import OAuth2
 @_exported import FHIR
-

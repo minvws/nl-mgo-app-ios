@@ -9,7 +9,6 @@
 #if os(iOS)
 import UIKit
 
-
 /**
 A table view controller than can display a list of patients, dynamically fetching more patient batches as the user scrolls.
 */
@@ -42,7 +41,6 @@ open class PatientListViewController: UITableViewController {
 	
 	weak var headerLabel: UILabel?
 	
-	
 	public init(list: PatientList, server srv: Server) {
 		patientList = list
 		server = srv
@@ -52,11 +50,12 @@ open class PatientListViewController: UITableViewController {
 	public required init?(coder aDecoder: NSCoder) {
 	    super.init(coder: aDecoder)
 	}
-	
-	
+
 	// MARK: - View Tasks
 	
 	override open func viewDidLoad() {
+		
+		super.viewDidLoad()
 		self.tableView.register(PatientTableViewCell.self, forCellReuseIdentifier: "PatientCell")
 		let header = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 30.0))
 		let label = UILabel()
@@ -82,8 +81,7 @@ open class PatientListViewController: UITableViewController {
 				if nil != this.patientList && .loading == this.patientList!.status {
 					this.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: this.activity)
 					this.activity.startAnimating()
-				}
-				else {
+				} else {
 					this.activity.stopAnimating()
 					this.navigationItem.leftBarButtonItem = nil
 				}
@@ -95,7 +93,7 @@ open class PatientListViewController: UITableViewController {
 			if let this = self {
 				this.tableView.reloadData()
 				this.headerLabel?.text = "\(this.patientList!.actualNumberOfPatients) of \(this.patientList!.expectedNumberOfPatients)"
-				DispatchQueue.main.async() {
+				DispatchQueue.main.async {
 					this.loadMorePatientsIfNeeded()
 				}
 			}
@@ -121,7 +119,6 @@ open class PatientListViewController: UITableViewController {
 		presentingViewController?.dismiss(animated: nil != sender)
 	}
 	
-	
 	// MARK: - Patient Handling
 	
 	func loadMorePatientsIfNeeded() {
@@ -144,7 +141,6 @@ open class PatientListViewController: UITableViewController {
 			dismiss(animated: true)
 		}
 	}
-	
 	
 	// MARK: - Table View
 	
@@ -177,7 +173,6 @@ open class PatientListViewController: UITableViewController {
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 	
-	
 	// MARK: - Table View Sections
 	
 	override open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -191,7 +186,6 @@ open class PatientListViewController: UITableViewController {
 		return patientList?.sectionIndexTitles
 	}
 }
-
 
 extension Patient {
 	
@@ -209,7 +203,6 @@ extension PatientList {
 		return nil
 	}
 }
-
 
 /**
 	A table view cell that can display a patient's name, birthday, age and gender.
@@ -231,10 +224,9 @@ class PatientTableViewCell: UITableViewCell {
 		if let bdate = patient?.birthDate {
 			let attr = NSMutableAttributedString(string: "\(bdate.description)  (\(patient!.currentAge))", attributes:
 				[NSAttributedString.Key.foregroundColor: UIColor.gray])
-			attr.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], range: NSMakeRange(0, 4))
+			attr.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], range: NSRange(location: 0, length: 4))
 			detailTextLabel?.attributedText = attr
-		}
-		else {
+		} else {
 			detailTextLabel?.text = " "		// nil or empty string prevents bday to show up when scrolling to bottom and more patients are loaded
 		}
 		
@@ -245,12 +237,10 @@ class PatientTableViewCell: UITableViewCell {
 			gender.textAlignment = .center
 			gender.text = pat.genderSymbol
 			accessoryView = gender
-		}
-		else {
+		} else {
 			accessoryView = nil
 		}
 	}
 }
 
 #endif
-

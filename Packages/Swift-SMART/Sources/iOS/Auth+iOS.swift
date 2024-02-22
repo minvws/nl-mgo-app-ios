@@ -9,7 +9,6 @@
 #if os(iOS)
 import UIKit
 
-
 extension Auth {
 	
 	/**
@@ -67,12 +66,10 @@ extension Auth {
 			root.dismiss(animated: false) {
 				root.present(navi, animated: false, completion: nil)
 			}
-		}
-		else {
+		} else {
 			root.present(navi, animated: true, completion: nil)
 		}
 	}
 }
 
 #endif
-

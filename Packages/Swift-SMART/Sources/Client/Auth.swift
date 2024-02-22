@@ -45,8 +45,7 @@ class Auth {
 		didSet {
 			if let logger = server.logger {
 				oauth?.logger = logger
-			}
-			else if let logger = oauth?.logger {
+			} else if let logger = oauth?.logger {
 				server.logger = logger
 			}
 		}
@@ -59,7 +58,7 @@ class Auth {
 	var authContext: AnyObject?
 	
 	/// The closure to call when authorization finishes.
-	var authCallback: ((_ parameters: OAuth2JSON?, _ error: Error?) -> ())?
+	var authCallback: ((_ parameters: OAuth2JSON?, _ error: Error?) -> Void)?
 	
 	/**
 	Designated initializer.
@@ -91,14 +90,14 @@ class Auth {
 		if let smartauth = security.extensions(forURI: "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")?.first?.extension_fhir {
 			for subext in smartauth where nil != subext.url {
 				switch subext.url?.absoluteString ?? "" {
-				case "authorize":
-					authSettings["authorize_uri"] = subext.valueUri?.absoluteString
-				case "token":
-					authSettings["token_uri"] = subext.valueUri?.absoluteString
-				case "register":
-					authSettings["registration_uri"] = subext.valueUri?.absoluteString
-				default:
-					break
+					case "authorize":
+						authSettings["authorize_uri"] = subext.valueUri?.absoluteString
+					case "token":
+						authSettings["token_uri"] = subext.valueUri?.absoluteString
+					case "register":
+						authSettings["registration_uri"] = subext.valueUri?.absoluteString
+					default:
+						break
 				}
 			}
 		}
@@ -112,7 +111,6 @@ class Auth {
 		self.init(type: (hasTokenURI ? .codeGrant : .implicitGrant), server: server, settings: authSettings)
 	}
 	
-	
 	// MARK: - Configuration
 	
 	/**
@@ -122,14 +120,14 @@ class Auth {
 	*/
 	func configure(withSettings settings: OAuth2JSON) {
 		switch type {
-		case .codeGrant:
-			oauth = OAuth2CodeGrant(settings: settings)
-		case .implicitGrant:
-			oauth = OAuth2ImplicitGrant(settings: settings)
-		case .clientCredentials:
-			oauth = OAuth2ClientCredentials(settings: settings)
-		default:
-			oauth = nil
+			case .codeGrant:
+				oauth = OAuth2CodeGrant(settings: settings)
+			case .implicitGrant:
+				oauth = OAuth2ImplicitGrant(settings: settings)
+			case .clientCredentials:
+				oauth = OAuth2ClientCredentials(settings: settings)
+			default:
+				oauth = nil
 		}
 	}
 	
@@ -140,7 +138,6 @@ class Auth {
 		authContext = nil
 		oauth?.forgetTokens()
 	}
-	
 	
 	// MARK: - OAuth
 	
@@ -198,20 +195,15 @@ class Auth {
 				authorize(with: oa, properties: properties) { parameters, error in
 					if let error = error {
 						self.authDidFail(withError: error)
-					}
-					else {
+					} else {
 						self.authDidSucceed(withParameters: parameters ?? OAuth2JSON())
 					}
 				}
 			}
-		}
-			
-		// open server?
-		else if .none == type {
+		} else if .none == type {
+			// open server?
 			authDidSucceed(withParameters: OAuth2JSON(minimumCapacity: 0))
-		}
-		
-		else {
+		} else {
 			authDidFail(withError: FHIRError.error("I am not yet set up to authorize"))
 		}
 	}
@@ -223,19 +215,17 @@ class Auth {
 		do {
 			try oauth.handleRedirectURL(redirect)
 			return true
-		}
-		catch {}
+		} catch {}
 		return false
 	}
 	
 	internal func authDidSucceed(withParameters parameters: OAuth2JSON) {
 		if let props = authProperties, props.granularity == .patientSelectNative {
 			server.logger?.debug("SMART", msg: "Showing native patient selector after authorizing with parameters \(parameters)")
-			callOnMainThread() {
+			callOnMainThread {
 				showPatientList(withParameters: parameters)
 			}
-		}
-		else {
+		} else {
 			server.logger?.debug("SMART", msg: "Did authorize with parameters \(parameters)")
 			processAuthCallback(parameters: parameters, error: nil)
 		}
@@ -264,7 +254,6 @@ class Auth {
 		}
 	}
 	
-	
 	// MARK: - Requests
 	
 	/**
@@ -277,4 +266,3 @@ class Auth {
 		return oauth?.request(forURL: url)
 	}
 }
-

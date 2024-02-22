@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /**
 A query that returns a list of patients.
 */
@@ -19,13 +18,11 @@ open class PatientListQuery {
 	
 	var isDone = false
 	
-	
 	/** Dedicated initializer. */
 	public init(search: FHIRSearch) {
 		search.profileType = Patient.self
 		self.search = search
 	}
-	
 	
 	// MARK: - Server Interaction
 	
@@ -42,8 +39,7 @@ open class PatientListQuery {
 		let cb: (SMART.Bundle?, FHIRError?) -> Void = { bundle, error in
 			if nil != error || nil == bundle {
 				callback(nil, error)
-			}
-			else {
+			} else {
 				self.isDone = !self.search.hasMore
 				callback(bundle, nil)
 			}
@@ -61,4 +57,3 @@ open class PatientListQuery {
 		}
 	}
 }
-

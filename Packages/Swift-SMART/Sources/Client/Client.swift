@@ -110,7 +110,7 @@ open class Client {
 	
 	- parameter callback: The callback to call if the server is ready or an error has occurred
 	*/
-	open func ready(callback: @escaping (Error?) -> ()) {
+	open func ready(callback: @escaping (Error?) -> Void) {
 		server.ready(callback: callback)
 	}
 	
@@ -123,14 +123,14 @@ open class Client {
 	- parameter callback: The callback that is called when authorization finishes, with a patient resource (if launch/patient was specified
 	                      or an error
 	*/
-	open func authorize(callback: @escaping (_ patient: Patient?, _ error: Error?) -> ()) {
+	open func authorize(callback: @escaping (_ patient: Patient?, _ error: Error?) -> Void) {
 		server.mustAbortAuthorization = false
 		server.authorize(with: self.authProperties, callback: callback)
 	}
 	
 	/// Will return true while the client is waiting for the authorization callback.
 	open var awaitingAuthCallback: Bool {
-		get { return nil != server.auth?.authCallback }
+		 return nil != server.auth?.authCallback
 	}
 	
 	/**
@@ -168,7 +168,8 @@ open class Client {
 	open func getJSON(at path: String, callback: @escaping ((_ response: FHIRServerJSONResponse) -> Void)) {
 		let handler = FHIRJSONRequestHandler(.GET)
 		server.performRequest(against: path, handler: handler, callback: { response in
-			callback(response as! FHIRServerJSONResponse)
+			guard let response = response as? FHIRServerJSONResponse else { return }
+			callback(response)
 		})
 	}
 	
@@ -186,8 +187,7 @@ open class Client {
 		let handler = FHIRDataRequestHandler(.GET, contentType: accept)
 		if nil != url.host {
 			server.performRequest(on: url, handler: handler, callback: callback)
-		}
-		else {
+		} else {
 			server.performRequest(against: url.path, handler: handler, callback: callback)
 		}
 	}

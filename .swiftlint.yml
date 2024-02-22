@@ -24,6 +24,7 @@ excluded:
   - Packages/*/Package.swift
   - vendor
   - Packages/*/.build
+  - Packages/Swift-FHIR/*
 force_cast: warning
 force_try:
   severity: warning

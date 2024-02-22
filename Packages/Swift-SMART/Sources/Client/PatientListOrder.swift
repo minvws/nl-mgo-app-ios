@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /**
 An enum to define how a list of patients should be ordered.
 */
@@ -31,59 +30,58 @@ public enum PatientListOrder: String {
 	*/
 	func ordered(_ patients: [Patient]) -> [Patient] {
 		switch self {
-		case .nameGivenASC:
-			return patients.sorted() {
-				let given = $0.compareNameGiven(toPatient: $1)
-				if 0 != given {
-					return given < 0
-				}
-				let family = $0.compareNameFamily(toPatient: $1)
-				if 0 != family {
-					return family < 0
-				}
-				let birth = $0.compareBirthDate(toPatient: $1)
-				return birth < 0
-			}
-		case .nameFamilyASC:
-			return patients.sorted() {
-				let family = $0.compareNameFamily(toPatient: $1)
-				if 0 != family {
-					return family < 0
-				}
-				let given = $0.compareNameGiven(toPatient: $1)
-				if 0 != given {
-					return given < 0
-				}
-				let birth = $0.compareBirthDate(toPatient: $1)
-				return birth < 0
-			}
-		case .birthDateASC:
-			return patients.sorted() {
-				let birth = $0.compareBirthDate(toPatient: $1)
-				if 0 != birth {
+			case .nameGivenASC:
+				return patients.sorted {
+					let given = $0.compareNameGiven(toPatient: $1)
+					if 0 != given {
+						return given < 0
+					}
+					let family = $0.compareNameFamily(toPatient: $1)
+					if 0 != family {
+						return family < 0
+					}
+					let birth = $0.compareBirthDate(toPatient: $1)
 					return birth < 0
 				}
-				let family = $0.compareNameFamily(toPatient: $1)
-				if 0 != family {
-					return family < 0
+			case .nameFamilyASC:
+				return patients.sorted {
+					let family = $0.compareNameFamily(toPatient: $1)
+					if 0 != family {
+						return family < 0
+					}
+					let given = $0.compareNameGiven(toPatient: $1)
+					if 0 != given {
+						return given < 0
+					}
+					let birth = $0.compareBirthDate(toPatient: $1)
+					return birth < 0
 				}
-				let given = $0.compareNameGiven(toPatient: $1)
-				return given < 0
-			}
+			case .birthDateASC:
+				return patients.sorted {
+					let birth = $0.compareBirthDate(toPatient: $1)
+					if 0 != birth {
+						return birth < 0
+					}
+					let family = $0.compareNameFamily(toPatient: $1)
+					if 0 != family {
+						return family < 0
+					}
+					let given = $0.compareNameGiven(toPatient: $1)
+					return given < 0
+				}
 		}
 	}
 }
 
-
 extension Patient {
 	
 	func compareNameGiven(toPatient: Patient) -> Int {
-		let a = name?.first?.given?.first ?? "ZZZ"
-		let b = toPatient.name?.first?.given?.first ?? "ZZZ"
-		if a < b {
+		let fromGiven = name?.first?.given?.first ?? "ZZZ"
+		let toGiven = toPatient.name?.first?.given?.first ?? "ZZZ"
+		if fromGiven < toGiven {
 			return -1
 		}
-		if a > b {
+		if fromGiven > toGiven {
 			return 1
 		}
 		// TODO: look at other first names?
@@ -91,12 +89,12 @@ extension Patient {
 	}
 	
 	func compareNameFamily(toPatient: Patient) -> Int {
-		let a = name?.first?.family?.string ?? "ZZZ"
-		let b = toPatient.name?.first?.family?.string ?? "ZZZ"
-		if a < b {
+		let fromFamily = name?.first?.family?.string ?? "ZZZ"
+		let toFamily = toPatient.name?.first?.family?.string ?? "ZZZ"
+		if fromFamily < toFamily {
 			return -1
 		}
-		if a > b {
+		if fromFamily > toFamily {
 			return 1
 		}
 		// TODO: lookt at other family names?
@@ -105,8 +103,8 @@ extension Patient {
 	
 	func compareBirthDate(toPatient: Patient) -> Int {
 		let nodate = Date(timeIntervalSince1970: -70 * 365.25 * 24 * 3600)
-		let a = birthDate?.nsDate ?? nodate
-		return a.compare(toPatient.birthDate?.nsDate ?? nodate).rawValue
+		let nsdate = birthDate?.nsDate ?? nodate
+		return nsdate.compare(toPatient.birthDate?.nsDate ?? nodate).rawValue
 	}
 	
 	var displayNameFamilyGiven: String {
@@ -118,8 +116,7 @@ extension Patient {
 					return "\(family), \(given)"
 				}
 				return given
-			}
-			else if let family = family?.string {
+			} else if let family = family?.string {
 				let prefix = (.male == gender) ? "Mr.".fhir_localized : "Ms.".fhir_localized
 				return "\(prefix) \(family)"
 			}
@@ -160,4 +157,3 @@ extension Patient {
 		return "\(comps.year!) \(yr)"
 	}
 }
-

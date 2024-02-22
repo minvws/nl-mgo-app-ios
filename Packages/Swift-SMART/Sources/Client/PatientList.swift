@@ -8,14 +8,12 @@
 
 import Foundation
 
-
 public enum PatientListStatus: Int {
 	case unknown
 	case initialized
 	case loading
 	case ready
 }
-
 
 /**
  *  A class to hold a list of patients, created from a query performed against a FHIRServer.
@@ -34,7 +32,7 @@ open class PatientList {
 			lastStatusError = nil
 		}
 	}
-	fileprivate var lastStatusError: FHIRError? = nil
+	fileprivate var lastStatusError: FHIRError?
 	
 	/// A block executed whenever the receiver's status changes.
 	open var onStatusUpdate: ((FHIRError?) -> Void)?
@@ -78,12 +76,10 @@ open class PatientList {
 		return query.search.hasMore
 	}
 	
-	
 	public init(query: PatientListQuery) {
 		self.query = query
 		self.status = .initialized
 	}
-	
 	
 	// MARK: - Patients & Sections
 	
@@ -103,7 +99,7 @@ open class PatientList {
 			sections = [PatientListSection]()
 			sectionIndexTitles = [String]()
 			
-			var n = 0
+			var counter = 0
 			var lastTitle: Character = "$"
 			var lastSection = PatientListSection(title: "")
 			for patient in patients {
@@ -111,12 +107,12 @@ open class PatientList {
 				if pre != lastTitle {
 					lastTitle = pre
 					lastSection = PatientListSection(title: String(lastTitle))
-					lastSection.offset = n
+					lastSection.offset = counter
 					sections.append(lastSection)
 					sectionIndexTitles.append(lastSection.title)
 				}
 				lastSection.add(patient: patient)
-				n += 1
+				counter += 1
 			}
 			
 			// not all patients fetched yet?
@@ -126,13 +122,11 @@ open class PatientList {
 				sections.append(sham)
 				sectionIndexTitles.append(sham.title)
 			}
-		}
-		else {
+		} else {
 			sections = []
 			sectionIndexTitles = []
 		}
 	}
-	
 	
 	// MARK: - Patient Loading
 	
@@ -164,13 +158,12 @@ open class PatientList {
 				if let error = error {
 					print("ERROR running patient query: \(error)")
 					this.lastStatusError = error
-					callOnMainThread() {
+					callOnMainThread {
 						this.status = .ready
 					}
-				}
-				else {
-					var patients: [Patient]? = nil
-					var expTotal: Int32? = nil
+				} else {
+					var patients: [Patient]?
+					var expTotal: Int32?
 					
 					// extract patient resources from the search result bundle
 					if let bndle = bundle {
@@ -180,15 +173,15 @@ open class PatientList {
 						
 						if let entries = bndle.entry {
 							let newPatients = entries
-								.filter() { $0.resource is Patient }
-								.map() { $0.resource as! Patient }
+								.filter { $0.resource is Patient }
+								.compactMap { $0.resource as? Patient }
 							
 							let append = appendPatients && nil != this.patients
 							patients = this.order.ordered(append ? this.patients! + newPatients : newPatients)
 						}
 					}
 					
-					callOnMainThread() {
+					callOnMainThread {
 						if let total = expTotal {
 							this.expectedNumberOfPatients = UInt(total)
 						}
@@ -205,7 +198,6 @@ open class PatientList {
 	}
 }
 
-
 /**
 A patient list holding all available patients.
 */
@@ -218,7 +210,6 @@ open class PatientListAll: PatientList {
 		super.init(query: PatientListQuery(search: search))
 	}
 }
-
 
 /**
 Patients are divided into sections, e.g. by first letter of their family name. This class holds patients belonging
@@ -261,4 +252,3 @@ class PatientListSectionPlaceholder: PatientListSection {
 	}
 	var holdingForNumPatients: UInt = 0
 }
-

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /**
 Representing the FHIR resource server a client connects to.
 
@@ -54,12 +53,12 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 	
 	/// Authenticated identity and profile token of end user; Assigned when scopes `openid` and `profile` are used.
 	public var idToken: String? {
-		get { return auth?.oauth?.idToken }
+		return auth?.oauth?.idToken
 	}
 	
 	/// The refresh token provided with the access token; Issuing a refresh token is optional at the discretion of the authorization server.
 	public var refreshToken: String? {
-		get { return auth?.oauth?.refreshToken }
+		return auth?.oauth?.refreshToken
 	}
 	
 	var mustAbortAuthorization = false
@@ -90,7 +89,6 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 		}
 	}
 	
-	
 	/**
 	Main initializer. Makes sure the base URL ends with a "/" to facilitate URL generation later on.
 	
@@ -109,7 +107,6 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 			logger = OAuth2DebugLogger()
 		}
 	}
-	
 	
 	// MARK: - Requests
 	
@@ -135,7 +132,6 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 		return auth?.signedRequest(forURL: url) ?? super.configurableRequest(for: url)
 	}
 	
-	
 	// MARK: - FHIROpenServer
 	
 	open override func perform(request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionTask? {
@@ -147,7 +143,6 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 			completionHandler(data, response, error)
 		}
 	}
-	
 	
 	// MARK: - Server Capability Statement
 	
@@ -171,7 +166,6 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 		}
 	}
 	
-	
 	// MARK: - Authorization
 	
 	/// The auth credentials currently in use by the receiver.
@@ -186,16 +180,15 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 	Attempt to instantiate our `Auth` instance from `authSettings` and assign to our `auth` ivar.
 	*/
 	func instantiateAuthFromAuthSettings() -> Bool {
-		var authType: AuthType? = nil
+		var authType: AuthType?
 		if let typ = authSettings?["authorize_type"] as? String {
 			authType = AuthType(rawValue: typ)
 		}
 		if nil == authType || .none == authType! {
-			if let _ = authSettings?["authorize_uri"] as? String {
-				if let _ = authSettings?["token_uri"] as? String {
+			if authSettings?["authorize_uri"] as? String != nil {
+				if authSettings?["token_uri"] as? String != nil {
 					authType = .codeGrant
-				}
-				else {
+				} else {
 					authType = .implicitGrant
 				}
 			}
@@ -214,18 +207,17 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 	init settings are sufficient (i.e. contain an "authorize_uri" and optionally a "token_uri" and a "client_id" or "registration_uri") or
 	after the cabability statement has been fetched.
 	*/
-	open func ready(callback: @escaping (FHIRError?) -> ()) {
+	open func ready(callback: @escaping (FHIRError?) -> Void) {
 		if nil != auth || instantiateAuthFromAuthSettings() {
 			callback(nil)
 			return
 		}
 		
 		// if we haven't initialized the auth instance we likely didn't fetch the server metadata yet
-		getCapabilityStatement() { error in
+		getCapabilityStatement { error in
 			if nil != self.auth {
 				callback(nil)
-			}
-			else {
+			} else {
 				callback(error ?? FHIRError.error("Failed to detect the authorization method from server metadata"))
 			}
 		}
@@ -239,33 +231,27 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 	                        provided) or an error, if any
 	*/
 	open func authorize(with properties: SMARTAuthProperties, callback: @escaping ((_ patient: Patient?, _ error: Error?) -> Void)) {
-		ready() { error in
+		ready { error in
 			if self.mustAbortAuthorization {
 				self.mustAbortAuthorization = false
 				callback(nil, nil)
-			}
-			else if nil != error || nil == self.auth {
+			} else if nil != error || nil == self.auth {
 				callback(nil, error ?? FHIRError.error("Client error, no auth instance created"))
-			}
-			else {
+			} else {
 				self.auth!.authorize(with: properties) { parameters, error in
 					if self.mustAbortAuthorization {
 						self.mustAbortAuthorization = false
 						callback(nil, nil)
-					}
-					else if let error = error {
+					} else if let error = error {
 						callback(nil, error)
-					}
-					else if let patient = parameters?["patient_resource"] as? Patient {		// native patient list auth flow will deliver a Patient instance
+					} else if let patient = parameters?["patient_resource"] as? Patient {		// native patient list auth flow will deliver a Patient instance
 						callback(patient, nil)
-					}
-					else if let patientId = parameters?["patient"] as? String {
+					} else if let patientId = parameters?["patient"] as? String {
 						Patient.read(patientId, server: self) { resource, error in
 							self.logger?.debug("SMART", msg: "Did read patient \(String(describing: resource)) with error \(String(describing: error))")
 							callback(resource as? Patient, error)
 						}
-					}
-					else {
+					} else {
 						callback(nil, nil)
 					}
 				}
@@ -296,7 +282,6 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 		auth?.reset()
 	}
 	
-	
 	// MARK: - Client Registration
 	
 	/**
@@ -306,14 +291,12 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 	- parameter callback: The callback to call when completed or failed; if both json and error is nil no registration was attempted
 	*/
 	open func registerIfNeeded(callback: @escaping ((_ json: OAuth2JSON?, _ error: Error?) -> Void)) {
-		ready() { error in
+		ready { error in
 			if nil != error || nil == self.auth {
 				callback(nil, error ?? FHIRError.error("Client error, no auth instance created"))
-			}
-			else if let oauth = self.auth?.oauth {
+			} else if let oauth = self.auth?.oauth {
 				oauth.registerClientIfNeeded(callback: callback)
-			}
-			else {
+			} else {
 				callback(nil, nil)
 			}
 		}
@@ -326,4 +309,3 @@ open class Server: FHIROpenServer, OAuth2RequestPerformer {
 }
 
 public typealias FHIRBaseServer = Server
-
