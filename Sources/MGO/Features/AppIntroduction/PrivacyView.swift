@@ -88,20 +88,20 @@ struct PrivacyView: View {
 							EmptyView()
 						}
 					}
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.padding(.bottom, ViewTraits.General.padding)
-						.foregroundColor(Color.Styleguide.black)
-						.tint(colorScheme == .light ? Color.Styleguide.Blue.link : Color.Styleguide.Blue.skyBlueTint1)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
-						.environment(\.openURL, OpenURLAction { url in
-							// Catch the click on the privacy link
-							guard url.absoluteString.lowercased() == "/privacystatement" else {
-								return .discarded
-							}
-							viewModel.reduce(.privacyLinkClicked)
-							return .handled
-						})
-						.accessibilityIdentifier("introduction text")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.padding(.bottom, ViewTraits.General.padding)
+					.foregroundColor(Color.Styleguide.black)
+					.tint(colorScheme == .light ? Color.Styleguide.Blue.link : Color.Styleguide.Blue.skyBlueTint1)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.environment(\.openURL, OpenURLAction { url in
+						// Catch the click on the privacy link
+						guard url.absoluteString.lowercased() == "/privacystatement" else {
+							return .discarded
+						}
+						viewModel.reduce(.privacyLinkClicked)
+						return .handled
+					})
+					.accessibilityIdentifier("introduction text")
 					
 					Group {
 						PrivacyShieldView("privacy_item_1", shieldType: .encrypted)
