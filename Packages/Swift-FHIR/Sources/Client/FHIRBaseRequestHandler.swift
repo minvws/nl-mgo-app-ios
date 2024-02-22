@@ -11,7 +11,6 @@ import Foundation
 import Models
 #endif
 
-
 /**
 Base implementation of `FHIRRequestHandler`.
 */

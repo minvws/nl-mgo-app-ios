@@ -11,7 +11,6 @@ import XCTest
 @testable
 import SMART
 
-
 class ServerTests: XCTestCase {
 	
 	func testMetadataParsing() throws {
@@ -34,7 +33,7 @@ class ServerTests: XCTestCase {
 	func testMetadataFailing() {
 		var server = Server(baseURL: URL(string: "https://api.ioio")!)		// invalid TLD, so requesting from .ioio should definitely fail
 		let exp1 = self.expectation(description: "Metadata fetch expectation 1")
-		server.getCapabilityStatement() { error in
+		server.getCapabilityStatement { error in
 			XCTAssertNotNil(error, "Must raise an error when fetching metatada fails")
 			exp1.fulfill()
 		}
@@ -42,7 +41,7 @@ class ServerTests: XCTestCase {
 		let fileURL = URL(fileURLWithPath: "\(#file)").deletingLastPathComponent()
 		server = Server(baseURL: fileURL)
 		let exp2 = self.expectation(description: "Metadata fetch expectation 2")
-		server.getCapabilityStatement() { error in
+		server.getCapabilityStatement { error in
 			XCTAssertNil(error, "Expecting filesystem-fetching to succeed")
 			XCTAssertNotNil(server.auth, "Server is OAuth2 protected, must have `Auth` instance")
 			if let auth = server.auth {
@@ -57,4 +56,3 @@ class ServerTests: XCTestCase {
 		waitForExpectations(timeout: 20, handler: nil)
 	}
 }
-

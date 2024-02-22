@@ -9,7 +9,6 @@
 #if os(macOS)
 import Cocoa
 
-
 extension Auth {
 	
 	/**
@@ -33,4 +32,3 @@ extension Auth {
 }
 
 #endif
-

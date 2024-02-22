@@ -11,13 +11,11 @@ import Foundation
 import Models
 #endif
 
-
 /// The block signature for server interaction callbacks that return an error.
 public typealias FHIRErrorCallback = ((FHIRError?) -> Void)
 
 /// The block signature for most server interaction callbacks that return a resource and an error.
 public typealias FHIRResourceErrorCallback = ((Resource?, FHIRError?) -> Void)
-
 
 /**
 Extension to `Resource` to support REST interactions and operations.
@@ -30,7 +28,7 @@ public extension Resource {
 	
 	- returns: A Reference instance on success
 	*/
-	public func asRelativeReference() throws -> Reference {
+	func asRelativeReference() throws -> Reference {
 		let path = try relativeURLPath()
 		let reference = Reference()
 		reference.reference = FHIRString(path)
@@ -41,10 +39,9 @@ public extension Resource {
 	}
 	
 	/** The string used to fill a reference's "display" property for the instance. */
-	public func preferredRelativeReferenceDisplay() -> String? {
+	func preferredRelativeReferenceDisplay() -> String? {
 		return nil
 	}
-	
 	
 	// MARK: - Resource URLs
 	
@@ -53,7 +50,7 @@ public extension Resource {
 	
 	- returns: A string indicating the relative URL base, e.g. "MedicationPrescription"
 	*/
-	public func relativeURLBase() -> String {
+	func relativeURLBase() -> String {
 		return type(of: self).resourceType
 	}
 	
@@ -62,7 +59,7 @@ public extension Resource {
 	
 	- returns: A string indicating the relative URL, e.g. "MedicationPrescription/1234"
 	*/
-	public func relativeURLPath() throws -> String {
+	func relativeURLPath() throws -> String {
 		if let myID = id {
 			return "\(relativeURLBase())/\(myID)"
 		}
@@ -74,14 +71,13 @@ public extension Resource {
 	
 	- returns: The resource's absolute URL, e.g. "https://fhir.smarthealthit.org/MedicationPrescription/1234"
 	*/
-	public func absoluteURL() throws -> URL {
+	func absoluteURL() throws -> URL {
 		let relative = try relativeURLPath()
 		if let server = _server {
 			return server.baseURL.appendingPathComponent(relative)
 		}
 		throw FHIRError.resourceWithoutServer
 	}
-	
 	
 	// MARK: - CRUD
 	
@@ -95,7 +91,7 @@ public extension Resource {
 	- parameter options:  Options to use when executing this request, if any
 	- parameter callback: The callback to execute once done. The callback is NOT guaranteed to be executed on the main thread!
 	*/
-	public class func read(_ id: String, server: FHIRServer, options: FHIRRequestOption = [], callback: @escaping FHIRResourceErrorCallback) {
+	class func read(_ id: String, server: FHIRServer, options: FHIRRequestOption = [], callback: @escaping FHIRResourceErrorCallback) {
 		let path = "\(resourceType)/\(id)"
 		readFrom(path, server: server, options: options, callback: callback)
 	}
@@ -110,7 +106,7 @@ public extension Resource {
 	- parameter options:  Options to use when executing this request, if any
 	- parameter callback: The callback to execute once done. The callback is NOT guaranteed to be executed on the main thread!
 	*/
-	public class func readFrom(_ path: String, server: FHIRServer, options: FHIRRequestOption = [], callback: @escaping FHIRResourceErrorCallback) {
+	class func readFrom(_ path: String, server: FHIRServer, options: FHIRRequestOption = [], callback: @escaping FHIRResourceErrorCallback) {
 		guard var handler = server.handlerForRequest(withMethod: .GET, resource: nil) else {
 			callback(nil, FHIRError.noRequestHandlerAvailable(.GET))
 			return
@@ -129,8 +125,7 @@ public extension Resource {
 						resource.id = FHIRString(lpc.lastPathComponent)
 					}
 					callback(resource, nil)
-				}
-				catch {
+				} catch {
 					callback(nil, error.asFHIRError)
 				}
 			}
@@ -150,7 +145,7 @@ public extension Resource {
 	- parameter server:   The server on which to create the resource
 	- parameter callback: The callback to execute once done. The callback is NOT guaranteed to be executed on the main thread!
 	*/
-	public func create(_ server: FHIRServer, callback: @escaping FHIRErrorCallback) {
+	func create(_ server: FHIRServer, callback: @escaping FHIRErrorCallback) {
 		guard nil == id else {
 			callback(FHIRError.resourceAlreadyHasId)
 			return
@@ -167,8 +162,7 @@ public extension Resource {
 				self._server = server
 				do {
 					try response.applyHeaders(to: self)
-				}
-				catch let error {
+				} catch let error {
 					fhir_warn("Error applying response headers after `create` call: \(error)")
 				}
 			}
@@ -208,10 +202,8 @@ public extension Resource {
 				do {
 					try response.applyHeaders(to: self)
 					try response.applyBody(to: self)
-				}
-					
-				// no resource, but hopefully the id was detected in the Location header, so go and read the resource
-				catch FHIRError.responseNoResourceReceived {
+				} catch FHIRError.responseNoResourceReceived {
+					// no resource, but hopefully the id was detected in the Location header, so go and read the resource
 					if let id = self.id?.string {
 						type(of: self).read(id, server: server) { resource, error in
 							if let resource = resource {
@@ -219,8 +211,7 @@ public extension Resource {
 									var context = FHIRInstantiationContext(strict: !handler.options.contains(.lenient))
 									self.populateAndFinalize(from: try resource.asJSON(), context: &context)
 									try context.validate()
-								}
-								catch let error {
+								} catch let error {
 									callback(error.asFHIRError)
 									return
 								}
@@ -232,8 +223,7 @@ public extension Resource {
 						callback(FHIRError.resourceWithoutId)
 					}
 					return
-				}
-				catch let error {
+				} catch let error {
 					fhir_warn("Error applying resource header or data after `createAndReturn` call: \(error)")
 					
 					// if we didn't manage to get the id one way or the other, we have a problem
@@ -254,7 +244,7 @@ public extension Resource {
 	
 	- parameter callback: The callback to execute once done. The callback is NOT guaranteed to be executed on the main thread!
 	*/
-	public func update(callback: @escaping FHIRErrorCallback) {
+	func update(callback: @escaping FHIRErrorCallback) {
 		if let server = _server {
 			do {
 				guard let handler = server.handlerForRequest(withMethod: .PUT, resource: self) else {
@@ -264,18 +254,15 @@ public extension Resource {
 				server.performRequest(against: path, handler: handler) { response in
 					do {
 						try response.applyHeaders(to: self)
-					}
-					catch let error {
+					} catch let error {
 						fhir_warn("Error applying response headers after `update` call: \(error)")
 					}
 					callback(response.error)
 				}
-			}
-			catch let error {
+			} catch let error {
 				callback((error as! FHIRError))
 			}
-		}
-		else {
+		} else {
 			callback(FHIRError.resourceWithoutServer)
 		}
 	}
@@ -285,17 +272,15 @@ public extension Resource {
 	
 	This method forwards to the `delete` class method, substituting the receiver's path and server.
 	*/
-	public func delete(callback: @escaping FHIRErrorCallback) {
+	func delete(callback: @escaping FHIRErrorCallback) {
 		if let server = _server {
 			do {
 				let path = try relativeURLPath()
 				type(of: self).delete(path, server: server, callback: callback)
-			}
-			catch let error {
+			} catch let error {
 				callback((error as! FHIRError))
 			}
-		}
-		else {
+		} else {
 			callback(FHIRError.resourceWithoutServer)
 		}
 	}
@@ -305,7 +290,7 @@ public extension Resource {
 	
 	This implementation issues a DELETE call against the given path on the given server.
 	*/
-	public class func delete(_ path: String, server: FHIRServer, callback: @escaping FHIRErrorCallback) {
+	class func delete(_ path: String, server: FHIRServer, callback: @escaping FHIRErrorCallback) {
 		guard let handler = server.handlerForRequest(withMethod: .DELETE, resource: nil) else {
 			callback(FHIRError.noRequestHandlerAvailable(.DELETE))
 			return

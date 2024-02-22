@@ -45,7 +45,7 @@ extension DomainResource {
 	- parameter display:  The string that will become the reference's `display`
 	- returns:            A `Reference` instance pointing to the contained resource (as "#id")
 	*/
-	open func contain(resource: Resource, withDisplay display: String? = nil) throws -> Reference {
+	public func contain(resource: Resource, withDisplay display: String? = nil) throws -> Reference {
 		guard resource !== self else {
 			throw FHIRError.resourceCannotContainItself
 		}
@@ -100,7 +100,7 @@ extension DomainResource {
 	- parameter display:  The string that will become the reference's `display`
 	- returns:            A `Reference`, ready for use
 	*/
-	open func reference(resource: Resource, withDisplay display: FHIRString? = nil) throws -> Reference {
+	public func reference(resource: Resource, withDisplay display: FHIRString? = nil) throws -> Reference {
 		let ref = Reference(owner: self)
 		ref.display = display
 		
@@ -118,4 +118,3 @@ extension DomainResource {
 		return ref
 	}
 }
-
