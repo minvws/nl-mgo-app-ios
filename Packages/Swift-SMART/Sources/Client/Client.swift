@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /**
 Describes properties for the authorization flow.
 */
@@ -23,7 +22,6 @@ public struct SMARTAuthProperties {
 	public init() {  }
 }
 
-
 /**
 Enum describing the desired granularity of the authorize flow.
 */
@@ -33,7 +31,6 @@ public enum SMARTAuthGranularity {
 	case patientSelectWeb
 	case patientSelectNative
 }
-
 
 /**
 A client instance handles authentication and connection to a SMART on FHIR resource server.
@@ -62,7 +59,6 @@ open class Client {
 	
 	/// Set the authorize type you want, e.g. to use a built in web view for authentication and patient selection.
 	open var authProperties = SMARTAuthProperties()
-	
 	
 	/**
 	Designated initializer.
@@ -105,7 +101,6 @@ open class Client {
 		let srv = Server(baseURL: baseURL, auth: sett)
 		self.init(server: srv)
 	}
-	
 	
 	// MARK: - Preparations
 	
@@ -162,7 +157,6 @@ open class Client {
 		server.forgetClientRegistration()
 	}
 	
-	
 	// MARK: - Making Requests
 	
 	/**
@@ -197,5 +191,5 @@ open class Client {
 			server.performRequest(against: url.path, handler: handler, callback: callback)
 		}
 	}
+	
 }
-

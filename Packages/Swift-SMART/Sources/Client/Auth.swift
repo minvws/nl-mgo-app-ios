@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /**
 The OAuth2-type to use.
 */
@@ -18,7 +17,6 @@ enum AuthType: String {
 	case codeGrant = "authorization_code"
 	case clientCredentials = "client_credentials"
 }
-
 
 /**
 Describes the OAuth2 authentication method to be used.
@@ -63,7 +61,6 @@ class Auth {
 	/// The closure to call when authorization finishes.
 	var authCallback: ((_ parameters: OAuth2JSON?, _ error: Error?) -> ())?
 	
-	
 	/**
 	Designated initializer.
 	
@@ -90,23 +87,10 @@ class Auth {
 	convenience init?(fromCapabilitySecurity security: CapabilityStatementRestSecurity, server: Server, settings: OAuth2JSON?) {
 		var authSettings = settings ?? OAuth2JSON(minimumCapacity: 3)
 		
-		if let services = security.service {
-			for service in services {
-				server.logger?.debug("SMART", msg: "Server supports REST security via “\(service.text ?? "unknown")”")
-				if let codings = service.coding {
-					for coding in codings {
-						if "OAuth2" == coding.code || "SMART-on-FHIR" == coding.code {
-							// TODO: what is this good for anyway?
-						}
-					}
-				}
-			}
-		}
-		
 		// SMART OAuth2 endpoints are at rest[0].security.extension[#].valueUri
 		if let smartauth = security.extensions(forURI: "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")?.first?.extension_fhir {
 			for subext in smartauth where nil != subext.url {
-				switch subext.url?.string ?? "" {
+				switch subext.url?.absoluteString ?? "" {
 				case "authorize":
 					authSettings["authorize_uri"] = subext.valueUri?.absoluteString
 				case "token":

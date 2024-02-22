@@ -167,7 +167,7 @@ open class FHIRDataRequestHandler: FHIRBaseRequestHandler {
 	
 	public let contentType: String
 	
-	init(_ method: FHIRRequestMethod, contentType: String) {
+	public init(_ method: FHIRRequestMethod, contentType: String) {
 		self.contentType = contentType
 		super.init(method, resource: nil)
 	}
@@ -182,15 +182,15 @@ open class FHIRDataRequestHandler: FHIRBaseRequestHandler {
 	
 	override open func prepare(request: inout URLRequest) throws {
 		switch method {
-		case .GET:
-			headers[.accept] = contentType
-		case .PUT:
-			// TODO: make useful for PUT/POST (by setting correct "Accept" headers) and implement error handling (i.e. OperationOutcome) for GET requests
-			headers[.contentType] = contentType
-		case .POST:
-			headers[.contentType] = contentType
-		default:
-			break
+			case .GET:
+				headers[.accept] = contentType
+			case .PUT:
+				// TODO: make useful for PUT/POST (by setting correct "Accept" headers) and implement error handling (i.e. OperationOutcome) for GET requests
+				headers[.contentType] = contentType
+			case .POST:
+				headers[.contentType] = contentType
+			default:
+				break
 		}
 		try super.prepare(request: &request)
 	}

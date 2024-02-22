@@ -25,8 +25,7 @@ open class FHIRMinimalServer: FHIRServer {
 	public final let baseURL: URL
 	
 	/// The active URL session.
-	var session: URLSession?
-	
+	public var session: URLSession?
 	
 	/**
 	Main initializer. Makes sure the base URL ends with a "/" to facilitate URL generation later on.
@@ -150,11 +149,10 @@ open class FHIRMinimalServer: FHIRServer {
 		return Foundation.URLSession.shared
 	}
 	
-	func abortSession() {
+	public func abortSession() {
 		if nil != session {
 			session!.invalidateAndCancel()
 			session = nil
 		}
 	}
 }
-
