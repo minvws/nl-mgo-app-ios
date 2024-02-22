@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /**
 Struct to hold on to a boolean value.
 */
@@ -36,7 +35,6 @@ public struct FHIRBool: FHIRPrimitive, LosslessStringConvertible, ExpressibleByB
 		bool = flag
 	}
 	
-	
 	// MARK: - FHIRJSONType
 	
 	public typealias JSONType = Bool
@@ -50,13 +48,11 @@ public struct FHIRBool: FHIRPrimitive, LosslessStringConvertible, ExpressibleByB
 		return bool
 	}
 	
-	
 	// MARK: - ExpressibleByBooleanLiteral
 	
 	public init(booleanLiteral value: BooleanLiteralType) {
 		self.init(value)
 	}
-	
 	
 	// MARK: - LosslessStringConvertible & CustomStringConvertible
 	
@@ -70,7 +66,6 @@ public struct FHIRBool: FHIRPrimitive, LosslessStringConvertible, ExpressibleByB
 	public var description: String {
 		return bool.description
 	}
-	
 	
 	//  MARK: - Operator Functions
 	
@@ -99,7 +94,6 @@ public struct FHIRBool: FHIRPrimitive, LosslessStringConvertible, ExpressibleByB
 	}
 }
 
-
 extension FHIRBool: Equatable, Hashable {
 	
 	public static func ==(l: FHIRBool, r: FHIRBool) -> Bool {
@@ -115,8 +109,7 @@ extension FHIRBool: Equatable, Hashable {
 	}
 	
 	
-	public var hashValue: Int {
-        return bool.hashValue
-    }
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(bool)
+	}
 }
-

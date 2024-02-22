@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /**
 Struct to hold on to a decimal value.
 
@@ -28,7 +27,6 @@ public struct FHIRDecimal: FHIRPrimitive, LosslessStringConvertible, Expressible
 	/// Optional extensions of the element.
 	public var extension_fhir: [Extension]?
 	
-	
 	/**
 	Designated initializer.
 	
@@ -37,7 +35,6 @@ public struct FHIRDecimal: FHIRPrimitive, LosslessStringConvertible, Expressible
 	public init(_ dcm: Decimal) {
 		decimal = dcm
 	}
-	
 	
 	// MARK: - FHIRJSONType
 	#if os(Linux)
@@ -59,7 +56,7 @@ public struct FHIRDecimal: FHIRPrimitive, LosslessStringConvertible, Expressible
 		#if os(Linux)
 		self.init(Decimal(json))
 		#else
-		if let _ = json.stringValue.index(of: ".") {
+		if let _ = json.stringValue.firstIndex(of: ".") {
 			self.init(stringLiteral: String(format: "%.15g", json.doubleValue))
 		}
 		else {
@@ -77,7 +74,6 @@ public struct FHIRDecimal: FHIRPrimitive, LosslessStringConvertible, Expressible
 		#endif
 	}
 	
-	
 	// MARK: - LosslessStringConvertible & CustomStringConvertible
 	
 	public init?(_ description: String) {
@@ -90,7 +86,6 @@ public struct FHIRDecimal: FHIRPrimitive, LosslessStringConvertible, Expressible
 	public var description: String {
 		return decimal.description
 	}
-	
 	
 	// MARK: - ExpressibleBy
 	
@@ -175,4 +170,3 @@ extension FHIRDecimal: Equatable, Comparable {
 		return lh.decimal < Decimal(rh)
 	}
 }
-

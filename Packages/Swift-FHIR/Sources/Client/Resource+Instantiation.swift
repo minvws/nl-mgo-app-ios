@@ -11,7 +11,6 @@ import Foundation
 import Models
 #endif
 
-
 extension Resource {
 	
 	/**
@@ -27,7 +26,6 @@ extension Resource {
 	}
 }
 
-
 public extension Foundation.Bundle {
 	
 	/**
@@ -38,7 +36,7 @@ public extension Foundation.Bundle {
 	- parameter type: The type the resource is expected to be; must be a subclass of `Resource`
 	- returns:        A Resource subclass corresponding to the "resourceType" entry, as specified under `type`
 	*/
-	public func fhir_bundledResource<T: Resource>(_ name: String, type: T.Type) throws -> T {
+	func fhir_bundledResource<T: Resource>(_ name: String, type: T.Type) throws -> T {
 		return try fhir_bundledResource(name, subdirectory: nil, type: type)
 	}
 	
@@ -51,7 +49,7 @@ public extension Foundation.Bundle {
 	- parameter type:         The type the resource is expected to be; must be a subclass of `Resource`
 	- returns:                A Resource subclass corresponding to the "resourceType" entry, as specified under `type`
 	*/
-	public func fhir_bundledResource<T: Resource>(_ name: String, subdirectory: String?, type: T.Type) throws -> T {
+	func fhir_bundledResource<T: Resource>(_ name: String, subdirectory: String?, type: T.Type) throws -> T {
 		let json = try fhir_json(from: name, subdirectory: subdirectory)
 		var context = FHIRInstantiationContext()
 		let resource = T.instantiate(from: json, owner: nil, context: &context)
@@ -68,7 +66,7 @@ public extension Foundation.Bundle {
 	- parameter type:         The type the resource is expected to be; must be a subclass of `Resource`
 	- returns:                A Resource subclass corresponding to the "resourceType" entry, as specified under `type`
 	*/
-	public func fhir_json(from name: String, subdirectory: String?) throws -> FHIRJSON {
+	func fhir_json(from name: String, subdirectory: String?) throws -> FHIRJSON {
 		if let url = url(forResource: name, withExtension: "json", subdirectory: subdirectory) {
 			let data = try Data(contentsOf: url)
 			if let json = try JSONSerialization.jsonObject(with: data, options: []) as? FHIRJSON {

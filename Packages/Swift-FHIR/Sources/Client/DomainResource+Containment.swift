@@ -10,7 +10,6 @@
 import Models
 #endif
 
-
 extension DomainResource {
 	
 	/**

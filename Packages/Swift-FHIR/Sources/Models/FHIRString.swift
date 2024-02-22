@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /**
 Struct to hold on to strings.
 */
@@ -31,7 +30,6 @@ public struct FHIRString: FHIRPrimitive, CustomStringConvertible, ExpressibleByS
 		return string.isEmpty
 	}
 	
-	
 	/**
 	Designated initializer.
 	
@@ -40,7 +38,6 @@ public struct FHIRString: FHIRPrimitive, CustomStringConvertible, ExpressibleByS
 	public init(_ string: String) {
 		self.string = string
 	}
-	
 	
 	// MARK: - FHIRJSONType
 	
@@ -54,7 +51,6 @@ public struct FHIRString: FHIRPrimitive, CustomStringConvertible, ExpressibleByS
 	public func asJSON(errors: inout [FHIRValidationError]) -> JSONType {
 		return string
 	}
-	
 	
 	// MARK: - ExpressibleByStringLiteral
 	
@@ -70,14 +66,12 @@ public struct FHIRString: FHIRPrimitive, CustomStringConvertible, ExpressibleByS
 		self.init(value)
 	}
 	
-	
 	// MARK: - CustomStringConvertible
 	
 	public var description: String {
 		return string
 	}
 }
-
 
 extension FHIRString: Equatable, Comparable, Hashable {
 	
@@ -93,7 +87,6 @@ extension FHIRString: Equatable, Comparable, Hashable {
 		return l.string == r
 	}
 	
-	
 	public static func <(lh: FHIRString, rh: FHIRString) -> Bool {
 		return lh.string < rh.string
 	}
@@ -106,13 +99,10 @@ extension FHIRString: Equatable, Comparable, Hashable {
 		return lh.string < rh
 	}
 	
-	
-	public var hashValue: Int {
-        return string.hashValue
-    }
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(string)
+	}
 }
-
-
 extension String {
 	
 	/// Convert the receiver to `FHIRString`. This is particularly useful when dealing with optional Strings.
@@ -120,4 +110,3 @@ extension String {
 		return FHIRString(self)
 	}
 }
-

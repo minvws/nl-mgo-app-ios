@@ -11,12 +11,10 @@ import Foundation
 import Models
 #endif
 
-
 /**
 Extension to `Resource` to support REST interactions and operations.
 */
 public extension Resource {
-	
 	
 	// MARK: - Search
 	
@@ -25,7 +23,7 @@ public extension Resource {
 	
 	UNFINISHED.
 	*/
-	public func search(_ query: Any) -> FHIRSearch {
+	func search(_ query: Any) -> FHIRSearch {
 		if let _ = self.id {
 			NSLog("UNFINISHED, must add '_id' reference to search expression")
 			//return FHIRSearch(subject: "_id", reference: myID, type: type(of: self))
@@ -36,27 +34,24 @@ public extension Resource {
 	/**
 	Perform a search, wich the given query construct, against the receiver's compartment.
 	*/
-	public class func search(_ query: Any) -> FHIRSearch {
+	class func search(_ query: Any) -> FHIRSearch {
 		return FHIRSearch(type: self, query: query)
 	}
-	
 	
 	// MARK: - Operations
 	
 	/**
 	Perform a given operation on the receiver.
 	*/
-	public func perform(operation: FHIROperation, callback: @escaping FHIRResourceErrorCallback) {
+	func perform(operation: FHIROperation, callback: @escaping FHIRResourceErrorCallback) {
 		if let server = _server {
 			if let server = server as? FHIROpenServer {
 				operation.instance = self
 				type(of: self)._perform(operation: operation, server: server, callback: callback)
-			}
-			else {
+			} else {
 				callback(nil, FHIRError.error("Must be living on a FHIROpenServer or subclass"))
 			}
-		}
-		else {
+		} else {
 			callback(nil, FHIRError.resourceWithoutServer)
 		}
 	}
@@ -64,7 +59,7 @@ public extension Resource {
 	/**
 	Perform a given operation on the receiving type.
 	*/
-	public class func perform(operation: FHIROperation, server: FHIROpenServer, callback: @escaping FHIRResourceErrorCallback) {
+	class func perform(operation: FHIROperation, server: FHIROpenServer, callback: @escaping FHIRResourceErrorCallback) {
 		operation.type = self
 		_perform(operation: operation, server: server, callback: callback)
 	}
@@ -79,15 +74,12 @@ public extension Resource {
 					let resource = try response.responseResource(ofType: Resource.self)
 					resource._server = server
 					callback(resource, nil)
-				}
-				catch FHIRError.noResponseReceived {
+				} catch FHIRError.noResponseReceived {
 					callback(nil, nil)
-				}
-				catch {
+				} catch {
 					callback(nil, error.asFHIRError)
 				}
 			}
 		}
 	}
 }
-
