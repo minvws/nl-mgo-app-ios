@@ -12,6 +12,10 @@ packages:
     path: ./Packages/MGOTest
   MGOUI:
     path: ./Packages/MGOUI
+  FHIRClient:
+    path: ./Packages/FHIRClient
+  Swift-SMART:
+    path: ./Packages/Swift-SMART
   RijksoverheidFont:
     path: ./Packages/RijksoverheidFont
   Managers:
@@ -121,6 +125,7 @@ targetTemplates:
 #       SPM:
       - package: MGOFoundation
       - package: MGOUI
+      - package: FHIRClient
         embed: false
     settings:
       base:
@@ -337,6 +342,9 @@ schemes:
           randomExecutionOrder: true
           parallelizable: false
         - package: ReusableUI/ReusableUITests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: FHIRClient/FHIRClientTests
           randomExecutionOrder: true
           parallelizable: false
     
