@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "FHIRClient",
+	platforms: [.iOS(.v15)],
 	products: [
 		.library(
 			name: "FHIRClient",
@@ -14,6 +15,9 @@ let package = Package(
 //		.package(url: "https://github.com/smart-on-fhir/Swift-SMART", exact: "3.2.0"),
 		// Internal
 		.package(name: "Swift-SMART", path: "../Swift-SMART"),
+		
+		// Testing
+		.package(url: "https://github.com/Quick/Nimble", exact: "13.2.0")
 	],
 	targets: [
 		.target(
@@ -24,6 +28,11 @@ let package = Package(
 		),
 		.testTarget(
 			name: "FHIRClientTests",
-			dependencies: ["FHIRClient"]),
+			dependencies: [
+				"FHIRClient",
+				.product(name: "Nimble", package: "Nimble")
+			],
+			resources: [.process("Resources")]
+		)
 	]
 )

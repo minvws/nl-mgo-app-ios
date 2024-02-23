@@ -12,14 +12,16 @@ import FHIRClient
 class PatientViewModel: ObservableObject {
 	
 //	let patientID = "2e27c71e-30c8-4ceb-8c1c-5641e066c0a4" // STU3
-//	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")! // STU3
-	
-		let patientID = "216146" // R4
-		let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
+	let patientID = "smart-1032702"
+	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")! // STU3
 	
 	let client: Client
 	
 	@Published var name: String?
+
+	@Published var email: String?
+
+	@Published var birthday: String?
 	
 	@Published var errorLog: String?
 	
@@ -39,17 +41,17 @@ class PatientViewModel: ObservableObject {
 	
 	func start() {
 	
-		client.authorize { _, error in
-			DispatchQueue.main.async {
-				guard error == nil else {
-					logError("Client authorize error: \(String(describing: error))")
-					self.errorLog = error.debugDescription
-					self.isLoading = false
-					return
-				}
-			}
+//		client.authorize { _, error in
+//			DispatchQueue.main.async {
+//				guard error == nil else {
+//					logError("Client authorize error: \(String(describing: error))")
+//					self.errorLog = error.debugDescription
+//					self.isLoading = false
+//					return
+//				}
+//			}
 			self.readPatient()
-		}
+//		}
 	}
 	
 	private func readPatient() {
@@ -65,6 +67,8 @@ class PatientViewModel: ObservableObject {
 				
 				if let patient = resource as? Patient {
 					self.name = patient.humanName
+					self.email = patient.getEmail()
+					self.birthday = nil
 				}
 			}
 		}
@@ -77,13 +81,20 @@ struct PatientView: View {
 	
 	var body: some View {
 		VStack {
-			if let name = viewModel.name {
-				Text(name)
+			if viewModel.isLoading {
+				Text("launch_loading")
 			} else {
-				if viewModel.isLoading {
-					Text("launch_loading")
-				} else {
-					Text(verbatim: "No name found")
+				
+				VStack(alignment: .leading) {
+					if let name = viewModel.name {
+						Text(verbatim: "Naam: ") + Text(name)
+					}
+					if let birthday = viewModel.birthday {
+						Text(verbatim: "Geboortedatum: ") + Text(birthday)
+					}
+					if let email = viewModel.email {
+						Text(verbatim: "Email: ") + Text(email)
+					}
 				}
 			}
 			

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /**
 Information about an individual or animal receiving health care services.
 
@@ -17,7 +16,7 @@ services.
 */
 open class Patient: DomainResource {
 	override open class var resourceType: String {
-		get { return "Patient" }
+		return "Patient"
 	}
 	
 	/// Whether this patient's record is in active use.
@@ -78,7 +77,6 @@ open class Patient: DomainResource {
 	/// A contact detail for the individual.
 	public var telecom: [ContactPoint]?
 	
-	
 	override open func populate(from json: FHIRJSON, context instCtx: inout FHIRInstantiationContext) {
 		super.populate(from: json, context: &instCtx)
 		
@@ -128,7 +126,6 @@ open class Patient: DomainResource {
 	}
 }
 
-
 /**
 This patient is known to be an animal (non-human).
 
@@ -136,7 +133,7 @@ This patient is known to be an animal.
 */
 open class PatientAnimal: BackboneElement {
 	override open class var resourceType: String {
-		get { return "PatientAnimal" }
+		 return "PatientAnimal"
 	}
 	
 	/// E.g. Poodle, Angus.
@@ -148,13 +145,11 @@ open class PatientAnimal: BackboneElement {
 	/// E.g. Dog, Cow.
 	public var species: CodeableConcept?
 	
-	
 	/** Convenience initializer, taking all required properties as arguments. */
 	public convenience init(species: CodeableConcept) {
 		self.init()
 		self.species = species
 	}
-	
 	
 	override open func populate(from json: FHIRJSON, context instCtx: inout FHIRInstantiationContext) {
 		super.populate(from: json, context: &instCtx)
@@ -179,7 +174,6 @@ open class PatientAnimal: BackboneElement {
 	}
 }
 
-
 /**
 A list of Languages which may be used to communicate with the patient about his or her health.
 
@@ -187,7 +181,7 @@ Languages which may be used to communicate with the patient about his or her hea
 */
 open class PatientCommunication: BackboneElement {
 	override open class var resourceType: String {
-		get { return "PatientCommunication" }
+		return "PatientCommunication"
 	}
 	
 	/// The language which can be used to communicate with the patient about his or her health.
@@ -202,7 +196,6 @@ open class PatientCommunication: BackboneElement {
 		self.init()
 		self.language = language
 	}
-	
 	
 	override open func populate(from json: FHIRJSON, context instCtx: inout FHIRInstantiationContext) {
 		super.populate(from: json, context: &instCtx)
@@ -225,13 +218,12 @@ open class PatientCommunication: BackboneElement {
 	}
 }
 
-
 /**
 A contact party (e.g. guardian, partner, friend) for the patient.
 */
 open class PatientContact: BackboneElement {
 	override open class var resourceType: String {
-		get { return "PatientContact" }
+		 return "PatientContact"
 	}
 	
 	/// Address for the contact person.
@@ -255,7 +247,6 @@ open class PatientContact: BackboneElement {
 	
 	/// A contact detail for the person.
 	public var telecom: [ContactPoint]?
-	
 	
 	override open func populate(from json: FHIRJSON, context instCtx: inout FHIRInstantiationContext) {
 		super.populate(from: json, context: &instCtx)
@@ -282,7 +273,6 @@ open class PatientContact: BackboneElement {
 	}
 }
 
-
 /**
 Link to another patient resource that concerns the same actual person.
 
@@ -290,7 +280,7 @@ Link to another patient resource that concerns the same actual patient.
 */
 open class PatientLink: BackboneElement {
 	override open class var resourceType: String {
-		get { return "PatientLink" }
+		return "PatientLink"
 	}
 	
 	/// The other patient or related person resource that the link refers to.
@@ -306,7 +296,6 @@ open class PatientLink: BackboneElement {
 		self.other = other
 		self.type = type
 	}
-	
 	
 	override open func populate(from json: FHIRJSON, context instCtx: inout FHIRInstantiationContext) {
 		super.populate(from: json, context: &instCtx)
@@ -334,4 +323,3 @@ open class PatientLink: BackboneElement {
 		}
 	}
 }
-

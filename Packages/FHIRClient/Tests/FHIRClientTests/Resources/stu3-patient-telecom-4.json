@@ -1,0 +1,16 @@
+{
+    "resourceType": "Patient",
+    "id": "stu3-patient-telecom-4",
+    "telecom": [
+        {
+            "system": "phone",
+            "value": "800-782-6765",
+            "use": "mobile"
+        },
+        {
+            "system": "email",
+            "value": "amy.shaw@example.com",
+            "use": "old"
+        }
+    ]
+}
