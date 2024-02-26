@@ -1,0 +1,49 @@
+{
+    "resourceType": "Patient",
+    "id": "stu3-patient-name-4",
+    "name": [
+        {
+            "use": "old",
+            "family": "Erikson",
+            "given": [
+                "Karin",
+                {
+                    "value": "Hansen",
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinitioniso-20190#name-qualifier",
+                            "valueCoding": {
+                                "code": "MID",
+                                "system": "http://hl7.org/fhir/v3/EntityNamePartQualifier2"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "use": "official",
+            "family": "Berg",
+            "given": [
+                "Karin",
+                {
+                    "value": "Erikson",
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinitioniso-20190#name-qualifier",
+                            "valueCoding": {
+                                "code": "MID",
+                                "system": "http://hl7.org/fhir/v3/EntityNamePartQualifier2"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "use": "usual",
+            "family": "Berg",
+            "given": ["Karin"]
+        }
+    ]
+}

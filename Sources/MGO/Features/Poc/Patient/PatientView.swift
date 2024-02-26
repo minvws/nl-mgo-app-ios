@@ -11,9 +11,8 @@ import FHIRClient
 
 class PatientViewModel: ObservableObject {
 	
-//	let patientID = "2e27c71e-30c8-4ceb-8c1c-5641e066c0a4" // STU3
 	let patientID = "smart-1032702"
-	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")! // STU3
+	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")!
 	
 	let client: Client
 	
