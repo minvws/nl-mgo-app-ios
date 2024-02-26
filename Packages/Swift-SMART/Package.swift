@@ -18,8 +18,8 @@ let package = Package(
 		)
 	],
 	dependencies: [
+		//		.package(url: "https://github.com/smart-on-fhir/Swift-FHIR", exact: "3.1.1"),
 		.package(name: "Swift-FHIR", path: "../Swift-FHIR"),
-//		.package(url: "https://github.com/smart-on-fhir/Swift-FHIR", exact: "3.1.1"),
 		.package(url: "https://github.com/p2/OAuth2", exact: "5.3.3")
 	],
 	targets: [

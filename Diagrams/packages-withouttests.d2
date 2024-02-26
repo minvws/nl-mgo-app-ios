@@ -32,6 +32,9 @@ Logging: {
 DeviceKit: {
   shape: hexagon
 }
+OAuth2: {
+	shape: hexagon
+}
 
 # The application
 
@@ -42,6 +45,7 @@ MGOapp: {
 MGOapp <- MGOFoundation
 MGOapp <- MGOUI
 MGOapp <- UIKit
+MGOapp <- FHIRClient
 
 # - Packages -
 
@@ -66,3 +70,12 @@ RijksoverheidFont <- DeviceKit
 
 ReusableUI { style.fill: "#ffcc00" }
 ReusableUI <- SwiftUI
+
+FHIRClient { style.fill: "#ffcc00" }
+FHIRClient <- Swift-SMART
+
+Swift-FHIR { style.fill: "#ffcc00" }
+
+Swift-SMART { style.fill: "#ffcc00" }
+Swift-SMART <- OAuth2
+Swift-SMART <- Swift-FHIR

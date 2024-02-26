@@ -12,18 +12,18 @@ let package = Package(
 			targets: ["FHIRClient"]),
 	],
 	dependencies: [
-//		.package(url: "https://github.com/smart-on-fhir/Swift-SMART", exact: "3.2.0"),
 		// Internal
+		//		.package(url: "https://github.com/smart-on-fhir/Swift-SMART", exact: "3.2.0"),
 		.package(name: "Swift-SMART", path: "../Swift-SMART"),
 		
 		// Testing
-		.package(url: "https://github.com/Quick/Nimble", exact: "13.2.0")
+		.package(url: "https://github.com/Quick/Nimble", exact: "13.2.1")
 	],
 	targets: [
 		.target(
 			name: "FHIRClient",
 			dependencies: [
-				.product(name: "SMART", package: "Swift-SMART"),
+				.product(name: "SMART", package: "Swift-SMART")
 			]
 		),
 		.testTarget(
