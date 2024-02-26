@@ -29,7 +29,7 @@ final class RijksoverheidFontTests: XCTestCase {
 				let content = Text("Testing")
 					.rijksoverheidStyle(font: font, style: textStyle)
 					.foregroundStyle(.black)
-					.frame(width: 100, height: 50)
+					.frame(width: 120, height: 50)
 	
 				// Then
 				assertSnapshot(of: content, as: .image)
@@ -53,7 +53,7 @@ final class RijksoverheidFontTests: XCTestCase {
 				let content = Text("Testing")
 					.font(.RijksoverheidSansWebText.fixed(font, size: textStyle.pointSize))
 					.foregroundStyle(.black)
-					.frame(width: 100, height: 50)
+					.frame(width: 120, height: 50)
 				
 				// Then
 				assertSnapshot(of: content, as: .image)
