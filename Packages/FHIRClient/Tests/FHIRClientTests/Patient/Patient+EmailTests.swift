@@ -18,7 +18,7 @@ final class PatientEmailTests: XCTestCase {
 		let patient = try Patient(json: json)
 		
 		// When
-		let email = patient.getEmail()
+		let email = patient.email
 		
 		// Then
 		expect(email) == "current@hotmail.com"
@@ -31,7 +31,7 @@ final class PatientEmailTests: XCTestCase {
 		let patient = try Patient(json: json)
 		
 		// When
-		let email = patient.getEmail()
+		let email = patient.email
 		
 		// Then
 		expect(email) == "user@home.nl"
@@ -44,7 +44,7 @@ final class PatientEmailTests: XCTestCase {
 		let patient = try Patient(json: json)
 		
 		// When
-		let email = patient.getEmail()
+		let email = patient.email
 		
 		// Then
 		expect(email) == "XXX_Helleman@work.nl"
@@ -57,7 +57,7 @@ final class PatientEmailTests: XCTestCase {
 		let patient = try Patient(json: json)
 		
 		// When
-		let email = patient.getEmail()
+		let email = patient.email
 		
 		// Then
 		expect(email) == nil

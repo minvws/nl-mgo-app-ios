@@ -9,10 +9,8 @@ import Foundation
 
 extension Patient {
 	
-	/// The the primary email address of the patient
-	/// - Returns: optional email address
-	public func getEmail() -> String? {
-		
+	/// The the primary email address of the patient	
+	public var email: String? {
 		// Only emails
 		let emailContactPoints: [ContactPoint] = self.telecom?
 			.compactMap { $0 }

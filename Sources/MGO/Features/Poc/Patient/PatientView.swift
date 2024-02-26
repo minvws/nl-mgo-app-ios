@@ -16,11 +16,7 @@ class PatientViewModel: ObservableObject {
 	
 	let client: Client
 	
-	@Published var name: String?
-
-	@Published var email: String?
-
-	@Published var birthday: String?
+	@Published var patient: Patient?
 	
 	@Published var errorLog: String?
 	
@@ -65,9 +61,7 @@ class PatientViewModel: ObservableObject {
 				}
 				
 				if let patient = resource as? Patient {
-					self.name = patient.humanName
-					self.email = patient.getEmail()
-					self.birthday = nil
+					self.patient = patient
 				}
 			}
 		}
@@ -85,16 +79,19 @@ struct PatientView: View {
 			} else {
 				
 				VStack(alignment: .leading) {
-					if let name = viewModel.name {
+				
+					Text(verbatim: "Patient ID: ") + Text(viewModel.patientID)
+					if let name = viewModel.patient?.humanName {
 						Text(verbatim: "Naam: ") + Text(name)
 					}
-					if let birthday = viewModel.birthday {
+					if let birthday = viewModel.patient?.humanBirthDateMedium {
 						Text(verbatim: "Geboortedatum: ") + Text(birthday)
 					}
-					if let email = viewModel.email {
+					if let email = viewModel.patient?.email {
 						Text(verbatim: "Email: ") + Text(email)
 					}
 				}
+				.rijksoverheidStyle(font: .regular, style: .body)
 			}
 			
 			if let error = viewModel.errorLog {
