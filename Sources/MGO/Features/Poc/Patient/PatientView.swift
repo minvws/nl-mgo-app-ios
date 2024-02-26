@@ -12,7 +12,9 @@ import FHIRClient
 class PatientViewModel: ObservableObject {
 	
 	let patientID = "smart-1032702"
-	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")!
+//	let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
+	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")! // STU3
+//	let serverURL = URL(string: "http://localhost:4002/hapi-fhir-jpaserver/fhir/")! // DSTU2
 	
 	let client: Client
 	
@@ -64,9 +66,23 @@ class PatientViewModel: ObservableObject {
 					return
 				}
 				
-				if let patient = resource as? Patient {
+				if let json = try? resource?.asJSON() {
+					
+					let patient = Patient()
+					var context = FHIRInstantiationContext(strict: true)
+					patient.populate(from: json, context: &context)
+					guard context.errors.isEmpty else {
+						logError("Validation Error: \(context.errors)")
+						self.state = .error("Validation errors")
+						return
+					}
 					self.state = .patient(patient)
 				}
+				
+//				if let json = try? resource?.asJSON(),
+//				   let patient = try? Patient(json: json) {
+//					self.state = .patient(patient)
+//				}
 			}
 		}
 	}
