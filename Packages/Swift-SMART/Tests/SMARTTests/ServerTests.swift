@@ -18,17 +18,10 @@ class ServerTests: XCTestCase {
 		XCTAssertEqual("https://api.io/", server.baseURL.absoluteString)
 		XCTAssertEqual("https://api.io", server.aud)
 		
-		let metaURL = Bundle(for: Swift.type(of: self)).url(forResource: "metadata", withExtension: "")
-		XCTAssertNotNil(metaURL, "Need file `metadata` for unit tests")
-		let metaData = try? Data(contentsOf: metaURL!)
-		let meta = try XCTUnwrap( JSONSerialization.jsonObject(with: metaData!, options: []) as? FHIRJSON)
+		let metaData = try getResource("metadata")
+		let meta = try XCTUnwrap( JSONSerialization.jsonObject(with: metaData, options: []) as? FHIRJSON)
 		XCTAssertNotNil(meta, "Should parse `metadata`")
-//		let cabability = try? CapabilityStatement(json: meta)
-		
-		// capability var is not visible using Swift Package Manager
-//		server.cabability = cabability
-//		XCTAssertNotNil(server.cabability, "Should store all metadata")
-    }
+	}
 	
 	func testMetadataFailing() {
 		var server = Server(baseURL: URL(string: "https://api.ioio")!)		// invalid TLD, so requesting from .ioio should definitely fail
@@ -38,7 +31,8 @@ class ServerTests: XCTestCase {
 			exp1.fulfill()
 		}
 		
-		let fileURL = URL(fileURLWithPath: "\(#file)").deletingLastPathComponent()
+		var fileURL = URL(fileURLWithPath: "\(#file)").deletingLastPathComponent()
+		fileURL.appendPathComponent("Resources")
 		server = Server(baseURL: fileURL)
 		let exp2 = self.expectation(description: "Metadata fetch expectation 2")
 		server.getCapabilityStatement { error in
@@ -54,5 +48,18 @@ class ServerTests: XCTestCase {
 		}
 		
 		waitForExpectations(timeout: 20, handler: nil)
+	}
+	
+	/// Get a resource from disc as Data
+	/// - Parameters:
+	///   - fileName: the name of the file
+	///   - fileExtension: the extension of the file, defaults to .json
+	///   - bundle: the bundle to read from, defaults to .module
+	/// - Returns: Data object
+	private func getResource(_ fileName: String, fileExtension: String = "", bundle: Foundation.Bundle = Foundation.Bundle.module) throws -> Data {
+		
+		let resourceUrl = try XCTUnwrap(bundle.url(forResource: fileName, withExtension: fileExtension))
+		let data = try Data(contentsOf: resourceUrl)
+		return data
 	}
 }

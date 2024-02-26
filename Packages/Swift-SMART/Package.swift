@@ -30,6 +30,13 @@ let package = Package(
 				.product(name: "FHIR", package: "Swift-FHIR")
 			],
 			path: "Sources",
-			sources: ["SMART", "Client", "iOS", "macOS"])
+			sources: ["SMART", "Client", "iOS", "macOS"]),
+		.testTarget(
+			name: "SMARTTests",
+			dependencies: [
+				"SMART"
+			],
+			resources: [.process("Resources")]
+		)
 	]
 )
