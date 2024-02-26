@@ -103,7 +103,7 @@ open class PatientList {
 			var lastTitle: Character = "$"
 			var lastSection = PatientListSection(title: "")
 			for patient in patients {
-				let pre: Character = patient.displayNameFamilyGiven.first ?? "$"    // TODO: use another method depending on current ordering
+				let pre: Character = patient.displayNameFamilyGiven.first ?? "$"
 				if pre != lastTitle {
 					lastTitle = pre
 					lastSection = PatientListSection(title: String(lastTitle))
@@ -156,7 +156,6 @@ open class PatientList {
 		query.execute(onServer: server, order: order) { [weak self] bundle, error in
 			if let this = self {
 				if let error = error {
-					print("ERROR running patient query: \(error)")
 					this.lastStatusError = error
 					callOnMainThread {
 						this.status = .ready

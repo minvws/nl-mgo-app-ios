@@ -84,7 +84,6 @@ extension Patient {
 		if fromGiven > toGiven {
 			return 1
 		}
-		// TODO: look at other first names?
 		return 0
 	}
 	
@@ -97,7 +96,6 @@ extension Patient {
 		if fromFamily > toFamily {
 			return 1
 		}
-		// TODO: lookt at other family names?
 		return 0
 	}
 	

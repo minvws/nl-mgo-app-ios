@@ -21,7 +21,7 @@ class ServerTests: XCTestCase {
 		let metaURL = Bundle(for: Swift.type(of: self)).url(forResource: "metadata", withExtension: "")
 		XCTAssertNotNil(metaURL, "Need file `metadata` for unit tests")
 		let metaData = try? Data(contentsOf: metaURL!)
-		let meta = try JSONSerialization.jsonObject(with: metaData!, options: []) as! FHIRJSON
+		let meta = try XCTUnwrap( JSONSerialization.jsonObject(with: metaData!, options: []) as? FHIRJSON)
 		XCTAssertNotNil(meta, "Should parse `metadata`")
 //		let cabability = try? CapabilityStatement(json: meta)
 		

@@ -156,7 +156,9 @@ open class PatientListViewController: UITableViewController {
 	}
 	
 	override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "PatientCell", for: indexPath) as! PatientTableViewCell
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: "PatientCell", for: indexPath) as? PatientTableViewCell else {
+			return UITableViewCell()
+		}
 		if let section = patientList?[indexPath.section] {
 			cell.represent(section[indexPath.row])
 			

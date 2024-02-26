@@ -177,7 +177,6 @@ class Auth {
 			
 			// adjust the scope for desired auth properties
 			var scope = oa.scope ?? "user/*.* openid profile"		// plus "launch" or "launch/patient", if needed
-			// TODO: clean existing "launch" scope if it's already contained
 			switch properties.granularity {
 				case .tokenOnly:
 					break
