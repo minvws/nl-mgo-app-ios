@@ -16,13 +16,18 @@ class PatientViewModel: ObservableObject {
 	
 	let client: Client
 	
-	@Published var patient: Patient?
+	// All possible states for this ViewModel
+	enum State {
+		case loading
+		case error(String)
+		case patient(Patient)
+	}
 	
-	@Published var errorLog: String?
-	
-	@Published var isLoading: Bool = false
+	@Published var state: State
 	
 	init() {
+		state = .loading
+		
 		client = Client(
 			baseURL: serverURL,
 			settings: [
@@ -52,16 +57,15 @@ class PatientViewModel: ObservableObject {
 	private func readPatient() {
 		Patient.read(self.patientID, server: self.client.server, options: .lenient) { resource, error in
 			DispatchQueue.main.async {
-				self.isLoading = false
-				
+			
 				guard error == nil else {
 					logError("Client read error: \(String(describing: error))")
-					self.errorLog = error.debugDescription
+					self.state = .error(error.debugDescription)
 					return
 				}
 				
 				if let patient = resource as? Patient {
-					self.patient = patient
+					self.state = .patient(patient)
 				}
 			}
 		}
@@ -74,33 +78,36 @@ struct PatientView: View {
 	
 	var body: some View {
 		VStack {
-			if viewModel.isLoading {
-				Text("launch_loading")
-			} else {
+			switch viewModel.state {
+				case .loading:
+					Text("launch_loading")
+					
+				case .error(let error):
+					HStack {
+						Text(error)
+					}
+					.frame(maxWidth: .infinity)
+					.border(.red, width: 2)
 				
-				VStack(alignment: .leading) {
-				
-					Text(verbatim: "Patient ID: ") + Text(viewModel.patientID)
-					if let name = viewModel.patient?.humanName {
-						Text(verbatim: "Naam: ") + Text(name)
+				case .patient(let patient):
+					VStack(alignment: .leading) {
+						
+						if let patientID = patient.id {
+							Text(verbatim: "Patient ID: ") + Text(patientID.string)
+						}
+						if let humanName = patient.humanName {
+							Text(verbatim: "Naam: ") + Text(humanName)
+						}
+						
+						if let humanBirthDateMedium = patient.humanBirthDateMedium {
+							Text(verbatim: "Geboortedatum: ") + Text(humanBirthDateMedium)
+						}
+						if let email = patient.email {
+							Text(verbatim: "Email: ") + Text(email)
+						}
 					}
-					if let birthday = viewModel.patient?.humanBirthDateMedium {
-						Text(verbatim: "Geboortedatum: ") + Text(birthday)
-					}
-					if let email = viewModel.patient?.email {
-						Text(verbatim: "Email: ") + Text(email)
-					}
+					.rijksoverheidStyle(font: .regular, style: .body)
 				}
-				.rijksoverheidStyle(font: .regular, style: .body)
-			}
-			
-			if let error = viewModel.errorLog {
-				HStack {
-					Text(error)
-				}
-				.frame(maxWidth: .infinity)
-				.border(.red, width: 2)
-			}
 		}
 		.onAppear {
 			viewModel.start()
