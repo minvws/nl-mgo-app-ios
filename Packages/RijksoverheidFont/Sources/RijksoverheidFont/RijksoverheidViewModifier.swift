@@ -6,17 +6,18 @@
  */
 
 import SwiftUI
+import DeviceKit
 
 extension Font.TextStyle {
 	
 	/// The default point size for text styles
 	public var pointSize: CGFloat {
 		switch self {
-			case .largeTitle: 32
+			case .largeTitle: isiPhoneSE ? 32 : 36
 			case .title: 28
 			case .title2: 26
 			case .title3: 24
-			case .headline: 18
+			case .headline: isiPhoneSE ? 16 : 18
 			case .subheadline: 17
 			case .body: 18
 			case .callout: 16
@@ -25,6 +26,11 @@ extension Font.TextStyle {
 			case .caption2: 12
 			@unknown default: 16
 		}
+	}
+	
+	/// Do we run on a very small iPhoneSE ?
+	private var isiPhoneSE: Bool {
+		Device.current == .iPhoneSE || Device.current == .simulator(.iPhoneSE)
 	}
 }
 

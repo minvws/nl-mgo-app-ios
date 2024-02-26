@@ -13,6 +13,9 @@ let package = Package(
 		),
 	],
 	dependencies: [
+		// External
+		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.2.2"),
+		
 		// Testing
 		.package(url: "https://github.com/Quick/Nimble", exact: "13.2.0"),
 		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.15.3")
@@ -20,6 +23,9 @@ let package = Package(
 	targets: [
 		.target(
 			name: "RijksoverheidFont",
+			dependencies: [
+				.product(name: "DeviceKit", package: "DeviceKit"),
+			],
 			resources: [.process("Resources")]
 		),
 		.testTarget(
