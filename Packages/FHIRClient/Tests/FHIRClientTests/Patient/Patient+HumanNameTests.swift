@@ -62,4 +62,17 @@ final class PatientHumanNameTests: XCTestCase {
 		// Then
 		expect(name) == "Karin Berg"
 	}
+	
+	func test_patient_getHumanName_5() throws {
+		
+		// Given
+		let json = try getResource("stu3-patient-name-5")
+		let patient = try Patient(json: json)
+		
+		// When
+		let name = patient.humanName
+		
+		// Then
+		expect(name) == "Björk Guðmundsdóttir"
+	}
 }

@@ -107,7 +107,7 @@ struct PatientView: View {
 						}
 					}
 					.rijksoverheidStyle(font: .regular, style: .body)
-				}
+			}
 		}
 		.onAppear {
 			viewModel.start()
