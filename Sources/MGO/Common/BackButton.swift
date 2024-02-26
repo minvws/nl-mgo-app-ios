@@ -20,6 +20,9 @@ struct BackButton: View {
 			static let height: CGFloat = 20
 			static let padding: CGFloat = 8
 		}
+		enum Button {
+			static let minWidth: CGFloat = 70
+		}
 	}
 	
 	/// The key of the localized text to be displayed as title
@@ -52,6 +55,7 @@ struct BackButton: View {
 			}
 		)
 		.buttonStyle(BackButtonStyle())
+		.frame(minWidth: ViewTraits.Button.minWidth, maxWidth: .infinity, alignment: .leading)
 	}
 }
 

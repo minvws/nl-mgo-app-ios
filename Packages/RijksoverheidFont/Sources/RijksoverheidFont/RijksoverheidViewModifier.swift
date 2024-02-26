@@ -6,13 +6,14 @@
  */
 
 import SwiftUI
+import DeviceKit
 
 extension Font.TextStyle {
 	
 	/// The default point size for text styles
 	public var pointSize: CGFloat {
 		switch self {
-			case .largeTitle: 32
+			case .largeTitle: isiPhoneSE ? 32 : 36
 			case .title: 28
 			case .title2: 26
 			case .title3: 24
@@ -26,13 +27,23 @@ extension Font.TextStyle {
 			@unknown default: 16
 		}
 	}
+	
+	/// Do we run on a very small iPhoneSE ?
+	private var isiPhoneSE: Bool {
+		Device.current == .iPhoneSE || Device.current == .simulator(.iPhoneSE)
+	}
 }
 
 public struct RijksoverheidViewModifier: ViewModifier {
+	
+	/// Which Rijksoverheid font to use
 	public var font: RijksoverheidSansWebTextFont
+
+	/// What is the text style to use
 	public var style: Font.TextStyle
 	
-	var lineSpacing: CGFloat {
+	/// The spacing between the lines
+	private var lineSpacing: CGFloat {
 		switch style {
 			case .largeTitle: 4
 			case .title3: 2
