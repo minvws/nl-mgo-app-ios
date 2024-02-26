@@ -35,10 +35,15 @@ extension Font.TextStyle {
 }
 
 public struct RijksoverheidViewModifier: ViewModifier {
+	
+	/// Which Rijksoverheid font to use
 	public var font: RijksoverheidSansWebTextFont
+
+	/// What is the text style to use
 	public var style: Font.TextStyle
 	
-	var lineSpacing: CGFloat {
+	/// The spacing between the lines
+	private var lineSpacing: CGFloat {
 		switch style {
 			case .largeTitle: 4
 			case .title3: 2
