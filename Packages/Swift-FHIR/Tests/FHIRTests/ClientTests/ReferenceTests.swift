@@ -10,11 +10,9 @@ import XCTest
 #if !NO_MODEL_IMPORT
 import Models
 import Client
-import ModelTests
 #else
 import SwiftFHIR
 #endif
-
 
 /**
 Test reference resolving.
@@ -23,7 +21,7 @@ class ReferenceTests: XCTestCase {
 	
 	func testContainedReference() {
 		do {
-			let json = try readJSONFile("ReferenceContained1.json", directory: testResourcesDirectory)
+			let json = try getResource("ReferenceContained1")
 			let order1 = try MedicationRequest(json: json)
 			XCTAssertEqual("order-ref-contained", order1.id)
 			XCTAssertNotNil(order1.medicationReference)
@@ -36,7 +34,7 @@ class ReferenceTests: XCTestCase {
 		}
 		
 		do {
-			let json = try readJSONFile("ReferenceContained2.json", directory: testResourcesDirectory)
+			let json = try getResource("ReferenceContained2")
 			let order1 = try MedicationRequest(json: json)
 			XCTAssertEqual("order-ref-contained-wrong", order1.id)
 			XCTAssertNotNil(order1.medicationReference)
@@ -51,7 +49,7 @@ class ReferenceTests: XCTestCase {
 	
 	func testBundledReference() {
 		do {
-			let json = try readJSONFile("ReferenceBundled.json", directory: testResourcesDirectory)
+			let json = try getResource("ReferenceBundled")
 			let bundle = try Bundle(json: json)
 			XCTAssertEqual("Bundle", Swift.type(of: bundle).resourceType)
 			
@@ -99,7 +97,7 @@ class ReferenceTests: XCTestCase {
 	
 	func testRelativeReference() {
 		do {
-			let json = try readJSONFile("ReferenceRelative.json", directory: testResourcesDirectory)
+			let json = try getResource("ReferenceRelative")
 			let order1 = try MedicationRequest(json: json)
 			XCTAssertEqual("order-ref-relative", order1.id)
 			XCTAssertEqual("Medication/med-1234", order1.medicationReference?.reference)
@@ -121,7 +119,7 @@ class ReferenceTests: XCTestCase {
 	
 	func testAbsoluteReference() {
 		do {
-			let json = try readJSONFile("ReferenceAbsolute.json", directory: testResourcesDirectory)
+			let json = try getResource("ReferenceAbsolute")
 			let order1 = try MedicationRequest(json: json)
 			XCTAssertEqual("order-ref-absolute", order1.id)
 			XCTAssertEqual("https://fhir-open-api-dstu2.smarthealthit.org/Medication/1", order1.medicationReference?.reference)
@@ -141,4 +139,3 @@ class ReferenceTests: XCTestCase {
 		}
 	}
 }
-

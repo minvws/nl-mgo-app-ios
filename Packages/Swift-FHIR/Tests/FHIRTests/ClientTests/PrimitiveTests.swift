@@ -9,11 +9,9 @@
 import XCTest
 #if !NO_MODEL_IMPORT
 import Models
-import ModelTests
 #else
 import SwiftFHIR
 #endif
-
 
 /**
 Test how primitives are handled during serialization and deserialization.
@@ -24,11 +22,8 @@ class PrimitiveTests: XCTestCase {
 	
 	override func setUp() {
 		super.setUp()
-		tests = (try? readJSONFile("Primitives.json", directory: testResourcesDirectory)) as? [String: FHIRJSON]
-	}
-	
-	func testPrimitive() {
-		
+		let json = try? getResource("Primitives")
+		tests = json as? [String: FHIRJSON]
 	}
 	
 	func testPrimitiveArray() {
@@ -74,4 +69,3 @@ class PrimitiveTests: XCTestCase {
 		XCTAssertThrowsError(try context.validate())
 	}
 }
-

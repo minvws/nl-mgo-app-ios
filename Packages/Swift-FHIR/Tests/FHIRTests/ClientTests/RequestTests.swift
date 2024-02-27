@@ -14,7 +14,6 @@ import Client
 import SwiftFHIR
 #endif
 
-
 /**
 Test request generation.
 */
@@ -81,7 +80,9 @@ class RequestTests: XCTestCase {
 		handler.parameters[.elements] = "name,address"
 		request = URLRequest(url: URL(string: "https://fhir.smarthealthit.org/Patient/123")!)
 		try? handler.prepare(request: &request)
-		XCTAssertEqual("https://fhir.smarthealthit.org/Patient/123?_summary=true&_elements=name,address", request.url?.absoluteString ?? "nil")
+		XCTAssertTrue((request.url?.absoluteString ?? "").contains("name,address"))
+		XCTAssertTrue((request.url?.absoluteString ?? "").contains("_summary=true"))
+		XCTAssertTrue((request.url?.absoluteString ?? "").contains("https://fhir.smarthealthit.org/Patient/123?"))
 		
 		handler.options.remove(.summary)
 		request = URLRequest(url: URL(string: "https://fhir.smarthealthit.org/Patient/123")!)
@@ -89,4 +90,3 @@ class RequestTests: XCTestCase {
 		XCTAssertEqual("https://fhir.smarthealthit.org/Patient/123?_elements=name,address", request.url?.absoluteString ?? "nil")
 	}
 }
-

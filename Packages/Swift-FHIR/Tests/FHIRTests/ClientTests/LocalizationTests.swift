@@ -9,11 +9,9 @@
 import XCTest
 #if !NO_MODEL_IMPORT
 import Models
-import ModelTests
 #else
 import SwiftFHIR
 #endif
-
 
 /**
 Test the shortcuts for the general translation extensions and for ValueSet concepts.
@@ -29,7 +27,7 @@ class LocalizationTests: XCTestCase {
 	override func setUp() {
 		super.setUp()
 		do {
-			let json = try readJSONFile("Localization.json", directory: testResourcesDirectory)
+			let json = try getResource("Localization")
 			let questionnaire = try Questionnaire(json: json)
 			item = questionnaire.item?.first
 			let valueSet = item?.options?.resolved(ValueSet.self)
@@ -85,4 +83,3 @@ class LocalizationTests: XCTestCase {
 //		XCTAssertEqual("I wish to withdraw because…", item?.text?.localized)
 	}
 }
-

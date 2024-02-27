@@ -9,11 +9,9 @@
 import XCTest
 #if !NO_MODEL_IMPORT
 import Models
-import ModelTests
 #else
 import SwiftFHIR
 #endif
-
 
 /**
 Test how the _summary flag and resource validation interplays.
@@ -21,13 +19,13 @@ Test how the _summary flag and resource validation interplays.
 class SummaryTests: XCTestCase {
 	
 	func instantiateFrom(filename: String) throws -> CapabilityStatement {
-		let json = try readJSONFile(filename, directory: testResourcesDirectory)
+		let json = try getResource(filename)
 		return try CapabilityStatement(json: json)
 	}
 	
 	func testFull() {
 		do {
-			_ = try instantiateFrom(filename: "metadata.full.json")
+			_ = try instantiateFrom(filename: "metadata.full")
 		}
 		catch {
 			XCTAssertNil(error)
@@ -36,11 +34,10 @@ class SummaryTests: XCTestCase {
 	
 	func testSummary() {
 		do {
-			_ = try instantiateFrom(filename: "metadata.summary.json")
+			_ = try instantiateFrom(filename: "metadata.summary")
 		}
 		catch {
 			XCTAssertNil(error)
 		}
 	}
 }
-

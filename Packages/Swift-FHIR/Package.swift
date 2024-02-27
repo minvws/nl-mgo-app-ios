@@ -28,6 +28,13 @@ let package = Package(
 			dependencies: []),
 		.target(
 			name: "Client",
-			dependencies: ["Models"])
+			dependencies: ["Models"]),
+		.testTarget(
+			name: "FHIRTests",
+			dependencies: [
+				"FHIR"
+			],
+			resources: [.process("Resources")]
+		)
 	]
 )

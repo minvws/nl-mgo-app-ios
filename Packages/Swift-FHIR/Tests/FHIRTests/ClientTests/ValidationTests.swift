@@ -9,11 +9,9 @@
 import XCTest
 #if !NO_MODEL_IMPORT
 import Models
-import ModelTests
 #else
 import SwiftFHIR
 #endif
-
 
 /**
 Test how JSON errors are handled.
@@ -21,13 +19,13 @@ Test how JSON errors are handled.
 class ValidationTests: XCTestCase {
 	
 	func instantiateFrom(filename: String) throws -> Questionnaire {
-		let json = try Bundle(for: Swift.type(of: self)).fhir_json(from: filename, subdirectory: "TestResources")
+		let json = try getResource(filename)
 		return try Questionnaire(json: json)
 	}
 	
 	func testMissing() {
 		do {
-			let json = try readJSONFile("ValidationMissing.json", directory: testResourcesDirectory)
+			let json = try getResource("ValidationMissing")
 			let _ = try Questionnaire(json: json)
 			XCTAssertTrue(false, "Should have thrown but am still here")
 		}
@@ -49,7 +47,7 @@ class ValidationTests: XCTestCase {
 	
 	func testSuperfluousAndWrong() {
 		do {
-			let json = try readJSONFile("ValidationSuperfluousAndWrong.json", directory: testResourcesDirectory)
+			let json = try getResource("ValidationSuperfluousAndWrong")
 			let _ = try Questionnaire(json: json)
 			XCTAssertTrue(false, "Should have thrown but am still here")
 		}
@@ -122,4 +120,3 @@ class ValidationTests: XCTestCase {
 		}
 	}
 }
-

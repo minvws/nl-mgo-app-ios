@@ -14,7 +14,6 @@ import Client
 import SwiftFHIR
 #endif
 
-
 /**
 Test resource containment and `create` calls.
 */
@@ -176,7 +175,6 @@ class ResourceTests: XCTestCase {
 	}
 }
 
-
 /**
 Stupid simple mock server that accepts POST and GET for Patient resources. Some tricks:
 
@@ -250,4 +248,3 @@ class LocalPatientServer: FHIROpenServer {
 		}
 	}
 }
-
