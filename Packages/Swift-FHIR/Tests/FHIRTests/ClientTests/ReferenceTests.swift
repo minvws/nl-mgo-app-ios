@@ -13,7 +13,8 @@ import Client
 #else
 import SwiftFHIR
 #endif
-
+import OHHTTPStubs
+import OHHTTPStubsSwift
 /**
 Test reference resolving.
 */
@@ -118,6 +119,12 @@ class ReferenceTests: XCTestCase {
 	}
 	
 	func testAbsoluteReference() {
+		
+		stub(condition: isHost("fhir-open-api-dstu2.smarthealthit.org")) { _ in
+			let notFoundError = NSError(domain: NSURLErrorDomain, code: URLError.fileDoesNotExist.rawValue)
+			return HTTPStubsResponse(error: notFoundError)
+		}
+		
 		do {
 			let json = try getResource("ReferenceAbsolute")
 			let order1 = try MedicationRequest(json: json)

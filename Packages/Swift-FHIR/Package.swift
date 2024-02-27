@@ -19,6 +19,11 @@ let package = Package(
 			name: "FHIR",
 			targets: ["FHIR"]),
 	],
+	dependencies: [
+		
+		// Testing
+		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", exact: "9.1.0")
+	],
 	targets: [
 		.target(
 			name: "FHIR",
@@ -32,7 +37,8 @@ let package = Package(
 		.testTarget(
 			name: "FHIRTests",
 			dependencies: [
-				"FHIR"
+				"FHIR",
+				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs")
 			],
 			resources: [.process("Resources")]
 		)
