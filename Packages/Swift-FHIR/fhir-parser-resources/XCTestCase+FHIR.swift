@@ -15,7 +15,7 @@ import SwiftFHIR
 
 
 /**
- *  Extension providing a `readJSONFile(filename:)` method to read JSON files from disk.
+ *  Extension providing a `getResource(filename:)` method to read JSON files from disk.
  */
 extension XCTestCase {
 	
@@ -25,7 +25,7 @@ extension XCTestCase {
 		return proj.appendingPathComponent("fhir-parser/downloads")
 	}
 	
-	public func readJSONFile(_ filename: String, directory: String? = nil) throws -> FHIRJSON {
+	public func getResource(_ filename: String, directory: String? = nil) throws -> FHIRJSON {
 		let dir = directory ?? type(of: self).testsDirectory
 		XCTAssertTrue(FileManager.default.fileExists(atPath: dir), "You must either first download the FHIR spec or manually adjust `XCTestCase.testsDirectory` to point to your FHIR download directory")
 		

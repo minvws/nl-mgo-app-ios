@@ -19,7 +19,7 @@ typealias SwiftFHIR{{ class.name }} = SwiftFHIR.{{ class.name }}
 class {{ class.name }}Tests: XCTestCase {
 	
 	func instantiateFrom(filename: String) throws -> SwiftFHIR{{ class.name }} {
-		return try instantiateFrom(json: try readJSONFile(filename))
+		return try instantiateFrom(json: try getResource(filename))
 	}
 	
 	func instantiateFrom(json: FHIRJSON) throws -> SwiftFHIR{{ class.name }} {
