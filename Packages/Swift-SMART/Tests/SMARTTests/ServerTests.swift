@@ -7,6 +7,8 @@
 //
 
 import XCTest
+import OHHTTPStubs
+import OHHTTPStubsSwift
 
 @testable
 import SMART
@@ -24,6 +26,12 @@ class ServerTests: XCTestCase {
 	}
 	
 	func testMetadataFailing() {
+		
+		stub(condition: isHost("api.ioio")) { _ in
+			let notConnectedError = NSError(domain: NSURLErrorDomain, code: URLError.timedOut.rawValue)
+			return HTTPStubsResponse(error: notConnectedError)
+		}
+		
 		var server = Server(baseURL: URL(string: "https://api.ioio")!)		// invalid TLD, so requesting from .ioio should definitely fail
 		let exp1 = self.expectation(description: "Metadata fetch expectation 1")
 		server.getCapabilityStatement { error in

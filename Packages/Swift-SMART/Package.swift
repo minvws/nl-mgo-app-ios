@@ -20,7 +20,10 @@ let package = Package(
 	dependencies: [
 		//		.package(url: "https://github.com/smart-on-fhir/Swift-FHIR", exact: "3.1.1"),
 		.package(name: "Swift-FHIR", path: "../Swift-FHIR"),
-		.package(url: "https://github.com/p2/OAuth2", exact: "5.3.3")
+		.package(url: "https://github.com/p2/OAuth2", exact: "5.3.3"),
+		
+		// Testing
+		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", exact: "9.1.0")
 	],
 	targets: [
 		.target(
@@ -34,7 +37,8 @@ let package = Package(
 		.testTarget(
 			name: "SMARTTests",
 			dependencies: [
-				"SMART"
+				"SMART",
+				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs")
 			],
 			resources: [.process("Resources")]
 		)
