@@ -19,7 +19,7 @@ typealias SwiftFHIRAccount = SwiftFHIR.Account
 class AccountTests: XCTestCase {
 	
 	func instantiateFrom(filename: String) throws -> SwiftFHIRAccount {
-		return try instantiateFrom(json: try readJSONFile(filename))
+		return try instantiateFrom(json: try getResource(filename))
 	}
 	
 	func instantiateFrom(json: FHIRJSON) throws -> SwiftFHIRAccount {
@@ -38,7 +38,7 @@ class AccountTests: XCTestCase {
 	
 	@discardableResult
 	func runAccount1(_ json: FHIRJSON? = nil) throws -> SwiftFHIRAccount {
-		let inst = (nil != json) ? try instantiateFrom(json: json!) : try instantiateFrom(filename: "account-example-with-guarantor.json")
+		let inst = (nil != json) ? try instantiateFrom(json: json!) : try instantiateFrom(filename: "account-example-with-guarantor")
 		
 		XCTAssertEqual(inst.active?.end?.description, "2016-06-30")
 		XCTAssertEqual(inst.active?.start?.description, "2016-01-01")
@@ -88,7 +88,7 @@ class AccountTests: XCTestCase {
 	
 	@discardableResult
 	func runAccount2(_ json: FHIRJSON? = nil) throws -> SwiftFHIRAccount {
-		let inst = (nil != json) ? try instantiateFrom(json: json!) : try instantiateFrom(filename: "account-example.json")
+		let inst = (nil != json) ? try instantiateFrom(json: json!) : try instantiateFrom(filename: "account-example")
 		
 		XCTAssertEqual(inst.active?.end?.description, "2016-06-30")
 		XCTAssertEqual(inst.active?.start?.description, "2016-01-01")
