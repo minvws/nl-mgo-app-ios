@@ -34,6 +34,8 @@ struct ProductionApp: App {
 	var body: some Scene {
 		WindowGroup {
 			AppCoordinatorView<AppCoordinator>(appCoordinator: AppCoordinator(path: NavigationStackBackport.NavigationPath()))
+			// POC FHIR CLient
+//			PatientView(viewModel: PatientViewModel())
 		}
 	}
 }
