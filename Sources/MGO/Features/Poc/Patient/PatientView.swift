@@ -11,15 +11,16 @@ import FHIRClient
 
 class PatientViewModel: ObservableObject {
 	
-	let patientID = "SMART-PROMs-30d"
-//	let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
-	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")! // STU3
-//	let serverURL = URL(string: "http://localhost:4002/hapi-fhir-jpaserver/fhir/")! // DSTU2
+	//	let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
+//	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")! // STU3
+	//	let serverURL = URL(string: "http://localhost:4002/hapi-fhir-jpaserver/fhir/")! // DSTU2
+	let serverURL = URL(string: "https://hapi.fhir.org/baseDstu3")! // Remote STU3
 	
 	let client: Client
 	
 	// All possible states for this ViewModel
 	enum State {
+		case input
 		case loading
 		case error(String)
 		case patient(Patient)
@@ -27,8 +28,15 @@ class PatientViewModel: ObservableObject {
 	
 	@Published var state: State
 	
+//	@Published var patientID: String = "smart-1032702" { // STU3
+	@Published var patientID: String = "2810051" { // Remote STU3
+		didSet {
+			self.state = .input
+		}
+	}
+	
 	init() {
-		state = .loading
+		state = .input
 		
 		client = Client(
 			baseURL: serverURL,
@@ -43,28 +51,28 @@ class PatientViewModel: ObservableObject {
 	
 	@MainActor
 	func start() {
-	
-//		client.authorize { _, error in
-//			DispatchQueue.main.async {
-//				guard error == nil else {
-//					logError("Client authorize error: \(String(describing: error))")
-//					self.errorLog = error.debugDescription
-//					self.isLoading = false
-//					return
-//				}
-//			}
-//			self.readPatient()
+		
+		//		client.authorize { _, error in
+		//			DispatchQueue.main.async {
+		//				guard error == nil else {
+		//					logError("Client authorize error: \(String(describing: error))")
+		//					self.errorLog = error.debugDescription
+		//					self.isLoading = false
+		//					return
+		//				}
+		//			}
+		//			self.readPatient()
 		
 		SwiftUI.Task {
 			self.state = await readPatientAsync()
 		}
-//		}
+		//		}
 	}
 	
 	private func readPatient() {
 		Patient.read(self.patientID, server: self.client.server, options: .lenient) { resource, error in
 			DispatchQueue.main.async {
-			
+				
 				guard error == nil else {
 					logError("Client read error: \(String(describing: error))")
 					self.state = .error(error.debugDescription)
@@ -84,10 +92,10 @@ class PatientViewModel: ObservableObject {
 					self.state = .patient(patient)
 				}
 				
-//				if let json = try? resource?.asJSON(),
-//				   let patient = try? Patient(json: json) {
-//					self.state = .patient(patient)
-//				}
+				//				if let json = try? resource?.asJSON(),
+				//				   let patient = try? Patient(json: json) {
+				//					self.state = .patient(patient)
+				//				}
 			}
 		}
 	}
@@ -116,44 +124,74 @@ struct PatientView: View {
 	@StateObject var viewModel: PatientViewModel
 	
 	var body: some View {
-		VStack {
-			switch viewModel.state {
-				case .loading:
-					Text("launch_loading")
-					
-				case .error(let error):
-					HStack {
-						Text(error)
-					}
-					.frame(maxWidth: .infinity)
-					.border(.red, width: 2)
+		ZStack {
+			Color.Styleguide.background
+				.ignoresSafeArea()
+				.frame(maxWidth: .infinity, maxHeight: .infinity)
+			
+			VStack(alignment: .leading) {
 				
-				case .patient(let patient):
-					VStack(alignment: .leading) {
-						
-						if let patientID = patient.id {
-							Text(verbatim: "Patient ID: ") + Text(patientID.string)
-						}
-						if let humanName = patient.humanName {
-							Text(verbatim: "Naam: ") + Text(humanName)
-						}
-						
-						if let humanBirthDateMedium = patient.humanBirthDateMedium {
-							Text(verbatim: "Geboortedatum: ") + Text(humanBirthDateMedium)
-						}
-						if let email = patient.email {
-							Text(verbatim: "Email: ") + Text(email)
-						}
-					}
+				Text("Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)")
 					.rijksoverheidStyle(font: .regular, style: .body)
+					.padding(16)
+				
+				HStack {
+				
+					Text(verbatim: "Patient ID")
+					
+					TextField("Patient ID", text: $viewModel.patientID)
+						.border(Color.Styleguide.black)
+						.onSubmit {
+							viewModel.start()
+						}
+				}
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.padding(16)
+				
+				switch viewModel.state {
+					case .input:
+						EmptyView()
+					case .loading:
+						Text("launch_loading")
+						
+					case .error(let error):
+						HStack {
+							Text(error)
+						}
+						.frame(maxWidth: .infinity)
+						.border(.red, width: 2)
+						.padding(16)
+						
+					case .patient(let patient):
+						HStack {
+							VStack(alignment: .leading) {
+								
+								if let patientID = patient.id {
+									Text(verbatim: "Patient ID: ") + Text(patientID.string)
+								}
+								if let humanName = patient.humanName {
+									Text(verbatim: "Naam: ") + Text(humanName)
+								}
+								
+								if let humanBirthDateMedium = patient.humanBirthDateMedium {
+									Text(verbatim: "Geboortedatum: ") + Text(humanBirthDateMedium)
+								}
+								if let email = patient.email {
+									Text(verbatim: "Email: ") + Text(email)
+								}
+							}
+							Spacer()
+						}
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.padding(16)
+						.background(Color.Styleguide.Grey.grey2)
+				}
 			}
 		}
-		.onAppear {
-			viewModel.start()
-		}
+		.navigationBarBackButtonHidden()
 	}
 }
 
 #Preview {
-    PatientView(viewModel: PatientViewModel())
+	PatientView(viewModel: PatientViewModel())
 }

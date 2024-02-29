@@ -35,7 +35,7 @@ struct ProductionApp: App {
 		WindowGroup {
 			AppCoordinatorView<AppCoordinator>(appCoordinator: AppCoordinator(path: NavigationStackBackport.NavigationPath()))
 			// POC FHIR CLient
-//			PatientView(viewModel: PatientViewModel())
+			// PatientView(viewModel: PatientViewModel())
 		}
 	}
 }
