@@ -1,0 +1,11 @@
+{
+	"resourceType": "MedicationRequest",
+	"id": "order-ref-absolute",
+	"intent": "proposal",
+	"medicationReference": {
+		"reference": "https://fhir-open-api-dstu2.smarthealthit.org/Medication/1"
+	},
+	"subject": {
+		"reference": "Patient/0"
+	}
+}
