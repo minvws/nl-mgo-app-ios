@@ -11,7 +11,7 @@ import FHIRClient
 
 class PatientViewModel: ObservableObject {
 	
-	let patientID = "smart-1032702"
+	let patientID = "SMART-PROMs-30d"
 //	let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
 	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")! // STU3
 //	let serverURL = URL(string: "http://localhost:4002/hapi-fhir-jpaserver/fhir/")! // DSTU2
@@ -41,6 +41,7 @@ class PatientViewModel: ObservableObject {
 		client.authProperties.granularity = .tokenOnly
 	}
 	
+	@MainActor
 	func start() {
 	
 //		client.authorize { _, error in
@@ -52,7 +53,11 @@ class PatientViewModel: ObservableObject {
 //					return
 //				}
 //			}
-			self.readPatient()
+//			self.readPatient()
+		
+		SwiftUI.Task {
+			self.state = await readPatientAsync()
+		}
 //		}
 	}
 	
@@ -84,6 +89,24 @@ class PatientViewModel: ObservableObject {
 //					self.state = .patient(patient)
 //				}
 			}
+		}
+	}
+	
+	/// Fetch the patient
+	/// - Returns: the new state
+	private func readPatientAsync() async -> State {
+		
+		do {
+			let resource = try await Patient.read(patientID, server: client.server, options: .lenient)
+			if let json = try? resource.asJSON(),
+			   let patient = try? Patient(json: json) {
+				return .patient(patient)
+			} else {
+				return .error("Resource not found.")
+			}
+		} catch {
+			logError("Client read error: \(String(describing: error))")
+			return .error(error.localizedDescription)
 		}
 	}
 }
