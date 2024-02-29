@@ -12,11 +12,11 @@ import FHIRClient
 class PatientViewModel: ObservableObject {
 	
 	//	let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
-//	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")! // STU3
+    //	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")! // STU3
 	//	let serverURL = URL(string: "http://localhost:4002/hapi-fhir-jpaserver/fhir/")! // DSTU2
 	let serverURL = URL(string: "https://hapi.fhir.org/baseDstu3")! // Remote STU3
 	
-	let client: Client
+	let server: FHIRMinimalServer
 	
 	// All possible states for this ViewModel
 	enum State {
@@ -37,40 +37,22 @@ class PatientViewModel: ObservableObject {
 	
 	init() {
 		state = .input
-		
-		client = Client(
-			baseURL: serverURL,
-			settings: [
-				"client_id": "mgo",
-				"redirect": "mgo://callback"
-			]
-		)
-		client.authProperties.embedded = true
-		client.authProperties.granularity = .tokenOnly
+		server = FHIRMinimalServer(baseURL: serverURL)
 	}
 	
 	@MainActor
 	func start() {
 		
-		//		client.authorize { _, error in
-		//			DispatchQueue.main.async {
-		//				guard error == nil else {
-		//					logError("Client authorize error: \(String(describing: error))")
-		//					self.errorLog = error.debugDescription
-		//					self.isLoading = false
-		//					return
-		//				}
-		//			}
-		//			self.readPatient()
+		//self.readPatient()
 		
 		SwiftUI.Task {
 			self.state = await readPatientAsync()
 		}
-		//		}
 	}
 	
+	/// Fetch a patient with closures
 	private func readPatient() {
-		Patient.read(self.patientID, server: self.client.server, options: .lenient) { resource, error in
+		Patient.read(self.patientID, server: self.server, options: .lenient) { resource, error in
 			DispatchQueue.main.async {
 				
 				guard error == nil else {
@@ -100,12 +82,12 @@ class PatientViewModel: ObservableObject {
 		}
 	}
 	
-	/// Fetch the patient
+	/// Fetch the patient async
 	/// - Returns: the new state
 	private func readPatientAsync() async -> State {
 		
 		do {
-			let resource = try await Patient.read(patientID, server: client.server, options: .lenient)
+			let resource = try await Patient.read(patientID, server: server, options: .lenient)
 			if let json = try? resource.asJSON(),
 			   let patient = try? Patient(json: json) {
 				return .patient(patient)
