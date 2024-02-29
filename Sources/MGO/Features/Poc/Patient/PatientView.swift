@@ -43,7 +43,7 @@ class PatientViewModel: ObservableObject {
 	@MainActor
 	func start() {
 		
-		//self.readPatient()
+		// self.readPatient()
 		
 		SwiftUI.Task {
 			self.state = await readPatientAsync()
