@@ -20,6 +20,8 @@ packages:
     path: ./Packages/Swift-FHIR
   RijksoverheidFont:
     path: ./Packages/RijksoverheidFont
+  Swift-FHIR:
+    path: ./Packages/Swift-FHIR
   Managers:
     path: ./Packages/Managers
   ReusableUI:
