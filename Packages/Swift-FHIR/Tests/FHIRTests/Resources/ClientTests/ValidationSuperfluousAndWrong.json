@@ -1,0 +1,50 @@
+{
+	"fhir_comments": "Top-level has “versino” instead of “version”",
+	"resourceType": "Questionnaire",
+	"id": "questionnaire-superfluous-wrong",
+	"versino": "1.0",
+	"status": "punished",
+	"item": [
+		{
+			"linkId": "a",
+			"type": "display",
+			"text": "Hi unit tester!"
+		},
+		{
+			"linkId": "b",
+			"type": "group",
+			"item": [
+				{
+					"linkId": "ba",
+					"fhir_comments": "“type” is list instead of string",
+					"type": ["invalid"]
+				},
+				{
+					"linkId": "bb",
+					"fhir_comments": "invalid “type”",
+					"type": "invalid"
+				}
+			]
+		},
+		{
+			"linkId": "c",
+			"fhir_comments": "is also missing “type”",
+			"type": "choice",
+			"option": [
+				{
+					"fhir_comments": "“valueNumber” has a string",
+					"valueNumber": "I’m here!"	
+				},
+				{
+					"fhir_comments": "has more than one “value[x]”",
+					"valueString": "This is a string",
+					"valueCoding": {
+						"fhir_comments": "Expect string for “code”, getting a number",
+						"system": "http://fhir.smartplatforms.org/ValueSet/none",
+						"code": 42
+					}
+				}
+			]
+		}
+	]
+}

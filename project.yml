@@ -14,6 +14,8 @@ packages:
     path: ./Packages/MGOUI
   RijksoverheidFont:
     path: ./Packages/RijksoverheidFont
+  Swift-FHIR:
+    path: ./Packages/Swift-FHIR
   Managers:
     path: ./Packages/Managers
   ReusableUI:
@@ -337,6 +339,9 @@ schemes:
           randomExecutionOrder: true
           parallelizable: false
         - package: ReusableUI/ReusableUITests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: Swift-FHIR/FHIRTests
           randomExecutionOrder: true
           parallelizable: false
     

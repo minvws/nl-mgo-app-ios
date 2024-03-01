@@ -1,0 +1,21 @@
+.DS_Store
+__pycache__
+*.pyc
+env
+.build
+
+# downloads
+generate/downloads/fhir-spec*
+generate/downloads/index.html
+generate/downloads/site
+
+# Xcode user data
+**.pbxuser
+**.mode?v?
+**.perspectivev?
+**.xcscmblueprint
+xcuserdata
+build
+docs
+*.sublime-*
+

@@ -1,0 +1,18 @@
+{
+	"resourceType": "MedicationRequest",
+	"id": "order-ref-contained-wrong",
+	"intent": "proposal",
+	"contained": [
+		{
+			"resourceType": "Organization",
+			"id": "morpheus",
+			"name": "Morpheus Co."
+		}
+	],
+	"medicationReference": {
+		"reference": "#morpheus"
+	},
+	"subject": {
+		"reference": "Patient/0"
+	}
+}
