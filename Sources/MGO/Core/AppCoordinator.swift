@@ -119,7 +119,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				PrivacyStatementView(viewModel: PrivacyStatementViewModel(coordinator: self))
 
 			case .dashboard:
-				DashboardView(viewModel: DashboardViewModel(coordinator: self))
+//				DashboardView(viewModel: DashboardViewModel(coordinator: self))
+				PatientView(viewModel: PatientViewModel())
 		}
 	}
 }

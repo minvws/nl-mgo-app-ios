@@ -1,0 +1,30 @@
+{
+    "resourceType": "Patient",
+    "id": "stu3-patient-telecom-2",
+    "telecom": [
+        {
+            "extension": [
+                {
+                    "url": "http://nictiz.nl/fhir/StructureDefinition/zib-ContactInformation-TelecomType",
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.2.4.3.11.60.40.4.22.1",
+                                "code": "LL",
+                                "display": "Vast telefoonnummer"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "system": "phone",
+            "value": "030-23454567",
+            "use": "home"
+        },
+        {
+            "system": "email",
+            "value": "user@home.nl",
+            "use": "home"
+        }
+    ]
+}

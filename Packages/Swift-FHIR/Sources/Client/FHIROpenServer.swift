@@ -162,4 +162,3 @@ open class FHIROpenServer: FHIRMinimalServer {
 		}
 	}
 }
-

@@ -1,0 +1,21 @@
+{
+    "resourceType": "Patient",
+    "id": "stu3-patient-telecom-3",
+    "telecom": [
+        {
+            "system": "phone",
+            "value": "06-12345678",
+            "use": "mobile"
+        },
+        {
+            "system": "email",
+            "value": "temporary@hotmail.com",
+            "use": "temp"
+        },
+        {
+            "system": "email",
+            "value": "XXX_Helleman@work.nl",
+            "use": "work"
+        }
+    ]
+}
