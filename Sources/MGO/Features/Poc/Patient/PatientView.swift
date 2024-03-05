@@ -11,9 +11,9 @@ import MGOUI
 class PatientViewModel: ObservableObject {
 	
 	//	let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
-    let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/") // STU3
+//    let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/") // STU3
 	//	let serverURL = URL(string: "http://localhost:4002/hapi-fhir-jpaserver/fhir/")! // DSTU2
-//	let serverURL = URL(string: "https://hapi.fhir.org/baseDstu3") // Remote STU3
+	let serverURL = URL(string: "https://hapi.fhir.org/baseDstu3") // Remote STU3
 	
 //	let server: FHIRMinimalServer
 	
@@ -75,6 +75,9 @@ class PatientViewModel: ObservableObject {
 
 struct PatientView: View {
 	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	@StateObject var viewModel: PatientViewModel
 	
 	var body: some View {
@@ -126,10 +129,10 @@ struct PatientView: View {
 								if let humanName = patient.humanName {
 									Text(verbatim: "Naam: ") + Text(humanName)
 								}
-//								
-//								if let humanBirthDateMedium = patient.humanBirthDateMedium {
-//									Text(verbatim: "Geboortedatum: ") + Text(humanBirthDateMedium)
-//								}
+								
+								if let humanBirthDateMedium = patient.humanBirthDateMedium {
+									Text(verbatim: "Geboortedatum: ") + Text(humanBirthDateMedium)
+								}
 								if let email = patient.email {
 									Text(verbatim: "Email: ") + Text(email)
 								}
@@ -137,8 +140,9 @@ struct PatientView: View {
 							Spacer()
 						}
 						.rijksoverheidStyle(font: .regular, style: .body)
+						.foregroundStyle(Color.Styleguide.black)
 						.padding(16)
-						.background(Color.Styleguide.Grey.grey2)
+						.background(colorScheme == .light ? Color.Styleguide.Grey.grey2 : Color.Styleguide.Grey.grey8)
 				}
 			}
 		}
