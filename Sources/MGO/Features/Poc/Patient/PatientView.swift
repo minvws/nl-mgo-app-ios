@@ -7,16 +7,17 @@
 
 import MGOFoundation
 import MGOUI
-import FHIRClient
 
 class PatientViewModel: ObservableObject {
 	
 	//	let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
-    //	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")! // STU3
+    let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/") // STU3
 	//	let serverURL = URL(string: "http://localhost:4002/hapi-fhir-jpaserver/fhir/")! // DSTU2
-	let serverURL = URL(string: "https://hapi.fhir.org/baseDstu3")! // Remote STU3
+//	let serverURL = URL(string: "https://hapi.fhir.org/baseDstu3") // Remote STU3
 	
-	let server: FHIRMinimalServer
+//	let server: FHIRMinimalServer
+	
+	let client: FHIRClient
 	
 	// All possible states for this ViewModel
 	enum State {
@@ -28,16 +29,20 @@ class PatientViewModel: ObservableObject {
 	
 	@Published var state: State
 	
-//	@Published var patientID: String = "smart-1032702" { // STU3
-	@Published var patientID: String = "2810051" { // Remote STU3
+	@Published var patientID: String = "smart-1032702" { // STU3
+//	@Published var patientID: String = "2810051" { // Remote STU3
 		didSet {
 			self.state = .input
 		}
 	}
 	
 	init() {
+		guard let url = serverURL else {
+			fatalError("Invalid server url: \(String(describing: serverURL))")
+		}
+		
 		state = .input
-		server = FHIRMinimalServer(baseURL: serverURL)
+		client = FHIRClient(baseURL: url)
 	}
 	
 	@MainActor
@@ -50,49 +55,16 @@ class PatientViewModel: ObservableObject {
 		}
 	}
 	
-	/// Fetch a patient with closures
-	private func readPatient() {
-		Patient.read(self.patientID, server: self.server, options: .lenient) { resource, error in
-			DispatchQueue.main.async {
-				
-				guard error == nil else {
-					logError("Client read error: \(String(describing: error))")
-					self.state = .error(error.debugDescription)
-					return
-				}
-				
-				if let json = try? resource?.asJSON() {
-					
-					let patient = Patient()
-					var context = FHIRInstantiationContext(strict: true)
-					patient.populate(from: json, context: &context)
-					guard context.errors.isEmpty else {
-						logError("Validation Error: \(context.errors)")
-						self.state = .error("Validation errors")
-						return
-					}
-					self.state = .patient(patient)
-				}
-				
-				//				if let json = try? resource?.asJSON(),
-				//				   let patient = try? Patient(json: json) {
-				//					self.state = .patient(patient)
-				//				}
-			}
-		}
-	}
-	
 	/// Fetch the patient async
 	/// - Returns: the new state
 	private func readPatientAsync() async -> State {
 		
 		do {
-			let resource = try await Patient.read(patientID, server: server, options: .lenient)
-			if let json = try? resource.asJSON(),
-			   let patient = try? Patient(json: json) {
-				return .patient(patient)
+			let patient = try await Patient.read(patientID, client: client, options: .lenient)
+			if let pat = patient as? Patient {
+				return .patient(pat)
 			} else {
-				return .error("Resource not found.")
+				return .error("Can't convert resource to patient")
 			}
 		} catch {
 			logError("Client read error: \(String(describing: error))")
@@ -148,16 +120,16 @@ struct PatientView: View {
 						HStack {
 							VStack(alignment: .leading) {
 								
-								if let patientID = patient.id {
-									Text(verbatim: "Patient ID: ") + Text(patientID.string)
+								if let patientID = patient.id?.value?.string {
+									Text(verbatim: "Patient ID: ") + Text(patientID)
 								}
 								if let humanName = patient.humanName {
 									Text(verbatim: "Naam: ") + Text(humanName)
 								}
-								
-								if let humanBirthDateMedium = patient.humanBirthDateMedium {
-									Text(verbatim: "Geboortedatum: ") + Text(humanBirthDateMedium)
-								}
+//								
+//								if let humanBirthDateMedium = patient.humanBirthDateMedium {
+//									Text(verbatim: "Geboortedatum: ") + Text(humanBirthDateMedium)
+//								}
 								if let email = patient.email {
 									Text(verbatim: "Email: ") + Text(email)
 								}

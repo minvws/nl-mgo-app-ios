@@ -14,19 +14,19 @@ extension Patient {
 		// Only emails
 		let emailContactPoints: [ContactPoint] = self.telecom?
 			.compactMap { $0 }
-			.filter { $0.system == .email } ?? []
-		
+			.filter { $0.system?.value == .email } ?? []
+
 		// Only undefined use, or home, work, temp usage
 		let filteredEmails = emailContactPoints
-			.filter { $0.use != .old }
-			.filter { $0.use != .mobile }
+			.filter { $0.use?.value != .old }
+			.filter { $0.use?.value != .mobile }
 		
 		// Sort on use, nil, home, work, temp
 		let sortedEmails = filteredEmails
 			.sorted { lhs, rhs in
 				lhs < rhs
 			}
-	
-		return sortedEmails.first?.value?.string
+
+		return sortedEmails.first?.value?.value?.string
 	}
 }

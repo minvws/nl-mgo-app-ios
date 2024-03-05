@@ -5,4 +5,4 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@_exported import FHIR
+@_exported import ModelsSTU3
