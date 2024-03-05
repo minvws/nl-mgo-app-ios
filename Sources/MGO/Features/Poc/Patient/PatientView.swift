@@ -10,14 +10,28 @@ import MGOUI
 
 class PatientViewModel: ObservableObject {
 	
-	//	let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
-//    let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/") // STU3
-	//	let serverURL = URL(string: "http://localhost:4002/hapi-fhir-jpaserver/fhir/")! // DSTU2
-	let serverURL = URL(string: "https://hapi.fhir.org/baseDstu3") // Remote STU3
+	/// The app coordintator for routing
+	weak var coordinator: (any AppCoordinatorProtocol)?
 	
-//	let server: FHIRMinimalServer
+	/// The FHIR Client
+	private let client: FHIRClient
 	
-	let client: FHIRClient
+	//	private let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
+	//	private let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/") // STU3
+	//	private let serverURL = URL(string: "http://localhost:4002/hapi-fhir-jpaserver/fhir/")! // DSTU2
+	private let serverURL = URL(string: "https://hapi.fhir.org/baseDstu3") // Remote STU3
+	
+	@Published var showResetButton: Bool = false
+	@Published var showResetDialog: Bool = false
+	@Published var state: State
+	@Published var patientID: String = "smart-1032702"
+	
+	/// A list of all the actions this viewModel can handle
+	enum Action {
+		case resetApplication
+		case showResetDialog
+		case search(String)
+	}
 	
 	// All possible states for this ViewModel
 	enum State {
@@ -27,16 +41,14 @@ class PatientViewModel: ObservableObject {
 		case patient(Patient)
 	}
 	
-	@Published var state: State
-	
-	@Published var patientID: String = "smart-1032702" { // STU3
-//	@Published var patientID: String = "2810051" { // Remote STU3
-		didSet {
-			self.state = .input
-		}
-	}
-	
-	init() {
+	/// Intitializer
+	/// - Parameter coordinator: the app coordinator
+	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
+		self.coordinator = coordinator
+		
+		let release = Configuration().getRelease()
+		showResetButton = release != Release.production // Show only in Dev, Acc & Test
+		
 		guard let url = serverURL else {
 			fatalError("Invalid server url: \(String(describing: serverURL))")
 		}
@@ -45,13 +57,20 @@ class PatientViewModel: ObservableObject {
 		client = FHIRClient(baseURL: url)
 	}
 	
+	/// Handle any action
+	/// - Parameter action: the action to be handled
 	@MainActor
-	func start() {
+	func reduce(_ action: PatientViewModel.Action) {
 		
-		// self.readPatient()
-		
-		SwiftUI.Task {
-			self.state = await readPatientAsync()
+		switch action {
+			case .resetApplication:
+				coordinator?.handle(AppCoordination.Action.resetApplication)
+			case .showResetDialog:
+				showResetDialog = true
+			case .search:
+				SwiftUI.Task {
+					self.state = await readPatientAsync()
+				}
 		}
 	}
 	
@@ -99,7 +118,7 @@ struct PatientView: View {
 					TextField("Patient ID", text: $viewModel.patientID)
 						.border(Color.Styleguide.black)
 						.onSubmit {
-							viewModel.start()
+							viewModel.reduce(.search(viewModel.patientID))
 						}
 				}
 				.rijksoverheidStyle(font: .regular, style: .body)
@@ -147,6 +166,32 @@ struct PatientView: View {
 			}
 		}
 		.navigationBarBackButtonHidden()
+		
+		.confirmationDialog(
+			"Reset the application?",
+			isPresented: $viewModel.showResetDialog) {
+				Button("Reset the application?", role: .destructive) {
+					viewModel.reduce(.resetApplication)
+				}
+			} message: {
+				Text(verbatim: "You cannot undo this action")
+			}
+		
+		.toolbar {
+			ToolbarItem(id: "reset", placement: .destructiveAction) {
+				if viewModel.showResetButton {
+					Button(
+						action: {
+							viewModel.reduce(.showResetDialog)
+						}, label: {
+							Image(systemName: "exclamationmark.triangle")
+								.foregroundStyle(Color.Styleguide.Basic.rubyRed)
+						}
+					)
+				}
+			}
+		}
+		
 	}
 }
 
