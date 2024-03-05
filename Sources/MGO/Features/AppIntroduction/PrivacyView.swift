@@ -82,7 +82,7 @@ struct PrivacyView: View {
 						let elements = privacyIntro.components(separatedBy: "%@")
 						if elements.count == 2 {
 							Text(elements[0]) +
-							Text("**[\(statement)](/privacystatement)**").underline() +
+							Text("[\(statement)](/privacystatement)").underline() +
 							Text(elements[1])
 						} else {
 							EmptyView()
