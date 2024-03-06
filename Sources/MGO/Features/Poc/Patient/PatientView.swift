@@ -80,6 +80,10 @@ class PatientViewModel: ObservableObject {
 	/// - Returns: the new state
 	private func readPatientAsync() async -> State {
 		
+		guard !patientID.isEmpty else {
+			return .error("Vul een patient ID in!")
+		}
+		
 		do {
 			let patient = try await Patient.read(patientID, client: client, options: .lenient)
 			if let pat = patient as? Patient {
@@ -89,7 +93,7 @@ class PatientViewModel: ObservableObject {
 			}
 		} catch {
 			logError("Client read error: \(String(describing: error))")
-			return .error(error.localizedDescription)
+			return .error(error.localizedDescription + "\n" + String(describing: error))
 		}
 	}
 }

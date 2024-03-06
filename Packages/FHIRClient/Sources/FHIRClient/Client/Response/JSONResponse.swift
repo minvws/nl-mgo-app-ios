@@ -61,8 +61,22 @@ open class JSONResponse: DataResponse {
 				return resource
 			}
 		} catch {
-			throw FHIRError.responseNoResourceReceived
+			if let decodingError = error as? DecodingError {
+				switch decodingError {
+					case .typeMismatch(_, let context):
+						throw FHIRError.jsonParsingError("typeMismatch", context.debugDescription)
+					case .valueNotFound(_, let context):
+						throw FHIRError.jsonParsingError("valueNotFound", context.debugDescription)
+					case .keyNotFound(let codingKey, let context):
+						throw FHIRError.jsonParsingError(codingKey.stringValue, context.debugDescription)
+					case .dataCorrupted(let context):
+						throw FHIRError.jsonParsingError("dataCorropted", context.debugDescription)
+					@unknown default:
+						throw FHIRError.jsonParsingError("unknown source", "")
+				}
+			}
 		}
 		throw FHIRError.responseNoResourceReceived
 	}
 }
+//{ "resourceType":"Patient", "id":"219908", "meta": {   "versionId":"1",   "lastUpdated":"2018-10-15T15:27:13.451+00:00"  }, "text": {   "status":"generated",   "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">ak <b>ALEXY </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Address</td><td><span>Atlanta </span><span>USA </span></td></tr><tr><td>Date of birth</td><td><span>01 January 2000</span></td></tr></tbody></table></div>"  }, "active": true, "name": [ {   "family":"Alexy",   "given": ["ak" ]  } ], "birthDate":"2000-01-01", "address": [ {   "use":"home",   "type":"physical",   "city":"Atlanta",   "country":"USA"  } ], "animal": {   "breed": {     "coding": [ {       "version":"123"      } ]    }  }}
