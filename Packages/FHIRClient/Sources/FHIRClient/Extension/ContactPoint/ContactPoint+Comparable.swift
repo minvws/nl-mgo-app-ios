@@ -24,7 +24,7 @@ extension ContactPoint: Comparable {
 		guard let rhsUseValue = rhs.use?.value else {
 			return false
 		}
-		return lhs.use!.value! < rhs.use!.value!
+		return lhsUseValue < rhsUseValue
 	}
 	
 	/// Are two ContactPoints equal?

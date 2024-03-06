@@ -65,8 +65,10 @@ class PatientViewModel: ObservableObject {
 		switch action {
 			case .resetApplication:
 				coordinator?.handle(AppCoordination.Action.resetApplication)
+			
 			case .showResetDialog:
 				showResetDialog = true
+			
 			case .search:
 				SwiftUI.Task {
 					self.state = await readPatientAsync()

@@ -52,7 +52,7 @@ extension FHIRServerResponse {
 		// inspect Last-Modified header
 		if let modified = headers["Last-Modified"] {
 			resource.meta = resource.meta ?? Meta()
-			resource.meta!.lastUpdated = Instant.fromHttpDate(modified)
+			resource.meta?.lastUpdated = Instant.fromHttpDate(modified)
 		}
 		
 		// inspect ETag header

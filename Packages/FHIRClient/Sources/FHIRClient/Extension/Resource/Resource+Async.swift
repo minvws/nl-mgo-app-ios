@@ -49,7 +49,7 @@ public extension Resource {
 			do {
 				let resource = try response.responseResource(ofType: Resource.self)
 				
-				try response.applyHeaders(to: resource)
+				try response.applyHeaders(to: resource, baseURL: client.baseURL)
 				if nil == resource.id, let lpc = URL(string: path) {
 					resource.id = lpc.lastPathComponent.asFHIRStringPrimitive()
 				}

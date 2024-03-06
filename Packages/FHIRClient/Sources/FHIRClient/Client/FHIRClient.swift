@@ -35,7 +35,7 @@ public class FHIRClient {
 	
 	- parameter for: The path in the absolute URL
 	*/
-	open func absoluteURL(for path: String, handler: RequestHandler) -> URL? {
+	open func absoluteURL(for path: String) -> URL? {
 		return URL(string: path, relativeTo: baseURL)
 	}
 	
@@ -52,7 +52,7 @@ public class FHIRClient {
 	- returns:            An appropriate `RequestHandler`, for example a _FHIRJSONRequestHandler_ if sending and receiving JSON
 	*/
 	open func handlerForRequest(withMethod method: RequestMethod, resource: Resource?) -> RequestHandler? {
-		return FHIRJSONRequestHandler(method, resource: resource)
+		return JSONRequestHandler(method, resource: resource)
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class FHIRClient {
 	
 	func performRequest(against path: String, handler: RequestHandler) async -> ServerResponse {
 		
-		guard let url = absoluteURL(for: path, handler: handler) else {
+		guard let url = absoluteURL(for: path) else {
 			return handler.notSent("Failed to parse path «\(path)» relative to server base URL")
 		}
 		return await performRequest(on: url, handler: handler)

@@ -12,8 +12,6 @@ Protocol for different request/response handlers.
 */
 public protocol RequestHandler {
 	
-	//associatedtype ResponseType: FHIRServerResponse
-	
 	/// The HTTP method of the request.
 	var method: RequestMethod { get }
 	

@@ -46,18 +46,8 @@ public protocol ServerResponse {
 	
 	- throws:       The method should only throw on severe cases, like if Location headers were returned that don't match the resource type
 	- parameter to: The resource to apply response data to
+	- parameter url:The base url
+
 	*/
-	func applyHeaders(to: Resource) throws
-	
-	/**
-	The response should apply response body data to the given resource. It should throw `FHIRError.responseNoResourceReceived` if there was
-	no response data.
-	
-	This method must not be called if the response has a non-nil error.
-	
-	- throws:       The method should throw if resource data was returned that doesn't match the given resource's type, but also if there
-					was no response data at all (`FHIRError.ResponseNoResourceReceived` in that case)
-	- parameter to: The resource to apply response data to
-	*/
-	func applyBody(to: Resource) throws
+	func applyHeaders(to: Resource, baseURL: URL) throws
 }

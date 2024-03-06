@@ -11,6 +11,7 @@ import Foundation
 Options to pass along to request handlers.
 */
 public struct RequestOption: OptionSet {
+	
 	public let rawValue: Int
 	
 	/** Designated initializer. Without this, Swift 3.0 compiler wants to insert a million `public struct` and will still complain... */
