@@ -7,16 +7,31 @@
 
 import MGOFoundation
 import MGOUI
-import FHIRClient
 
 class PatientViewModel: ObservableObject {
 	
-	//	let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
-    //	let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/")! // STU3
-	//	let serverURL = URL(string: "http://localhost:4002/hapi-fhir-jpaserver/fhir/")! // DSTU2
-	let serverURL = URL(string: "https://hapi.fhir.org/baseDstu3")! // Remote STU3
+	/// The app coordintator for routing
+	weak var coordinator: (any AppCoordinatorProtocol)?
 	
-	let server: FHIRMinimalServer
+	/// The FHIR Client
+	private let client: FHIRClient
+	
+	//	private let serverURL = URL(string: "http://localhost:4004/hapi-fhir-jpaserver/fhir/")! // R4
+	//	private let serverURL = URL(string: "http://localhost:4003/hapi-fhir-jpaserver/fhir/") // STU3
+	//	private let serverURL = URL(string: "http://localhost:4002/hapi-fhir-jpaserver/fhir/")! // DSTU2
+	private let serverURL = URL(string: "https://hapi.fhir.org/baseDstu3") // Remote STU3
+	
+	@Published var showResetButton: Bool = false
+	@Published var showResetDialog: Bool = false
+	@Published var state: State
+	@Published var patientID: String = "smart-1032702"
+	
+	/// A list of all the actions this viewModel can handle
+	enum Action {
+		case resetApplication
+		case showResetDialog
+		case search(String)
+	}
 	
 	// All possible states for this ViewModel
 	enum State {
@@ -26,59 +41,38 @@ class PatientViewModel: ObservableObject {
 		case patient(Patient)
 	}
 	
-	@Published var state: State
-	
-//	@Published var patientID: String = "smart-1032702" { // STU3
-	@Published var patientID: String = "2810051" { // Remote STU3
-		didSet {
-			self.state = .input
+	/// Intitializer
+	/// - Parameter coordinator: the app coordinator
+	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
+		self.coordinator = coordinator
+		
+		let release = Configuration().getRelease()
+		showResetButton = release != Release.production // Show only in Dev, Acc & Test
+		
+		guard let url = serverURL else {
+			fatalError("Invalid server url: \(String(describing: serverURL))")
 		}
-	}
-	
-	init() {
+		
 		state = .input
-		server = FHIRMinimalServer(baseURL: serverURL)
+		client = FHIRClient(baseURL: url)
 	}
 	
+	/// Handle any action
+	/// - Parameter action: the action to be handled
 	@MainActor
-	func start() {
+	func reduce(_ action: PatientViewModel.Action) {
 		
-		// self.readPatient()
-		
-		SwiftUI.Task {
-			self.state = await readPatientAsync()
-		}
-	}
-	
-	/// Fetch a patient with closures
-	private func readPatient() {
-		Patient.read(self.patientID, server: self.server, options: .lenient) { resource, error in
-			DispatchQueue.main.async {
-				
-				guard error == nil else {
-					logError("Client read error: \(String(describing: error))")
-					self.state = .error(error.debugDescription)
-					return
+		switch action {
+			case .resetApplication:
+				coordinator?.handle(AppCoordination.Action.resetApplication)
+			
+			case .showResetDialog:
+				showResetDialog = true
+			
+			case .search:
+				SwiftUI.Task {
+					self.state = await readPatientAsync()
 				}
-				
-				if let json = try? resource?.asJSON() {
-					
-					let patient = Patient()
-					var context = FHIRInstantiationContext(strict: true)
-					patient.populate(from: json, context: &context)
-					guard context.errors.isEmpty else {
-						logError("Validation Error: \(context.errors)")
-						self.state = .error("Validation errors")
-						return
-					}
-					self.state = .patient(patient)
-				}
-				
-				//				if let json = try? resource?.asJSON(),
-				//				   let patient = try? Patient(json: json) {
-				//					self.state = .patient(patient)
-				//				}
-			}
 		}
 	}
 	
@@ -86,22 +80,28 @@ class PatientViewModel: ObservableObject {
 	/// - Returns: the new state
 	private func readPatientAsync() async -> State {
 		
+		guard !patientID.isEmpty else {
+			return .error("Vul een patient ID in!")
+		}
+		
 		do {
-			let resource = try await Patient.read(patientID, server: server, options: .lenient)
-			if let json = try? resource.asJSON(),
-			   let patient = try? Patient(json: json) {
-				return .patient(patient)
+			let patient = try await Patient.read(patientID, client: client, options: .lenient)
+			if let pat = patient as? Patient {
+				return .patient(pat)
 			} else {
-				return .error("Resource not found.")
+				return .error("Can't convert resource to patient")
 			}
 		} catch {
 			logError("Client read error: \(String(describing: error))")
-			return .error(error.localizedDescription)
+			return .error(error.localizedDescription + "\n" + String(describing: error))
 		}
 	}
 }
 
 struct PatientView: View {
+	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
 	
 	@StateObject var viewModel: PatientViewModel
 	
@@ -124,7 +124,7 @@ struct PatientView: View {
 					TextField("Patient ID", text: $viewModel.patientID)
 						.border(Color.Styleguide.black)
 						.onSubmit {
-							viewModel.start()
+							viewModel.reduce(.search(viewModel.patientID))
 						}
 				}
 				.rijksoverheidStyle(font: .regular, style: .body)
@@ -148,8 +148,8 @@ struct PatientView: View {
 						HStack {
 							VStack(alignment: .leading) {
 								
-								if let patientID = patient.id {
-									Text(verbatim: "Patient ID: ") + Text(patientID.string)
+								if let patientID = patient.id?.value?.string {
+									Text(verbatim: "Patient ID: ") + Text(patientID)
 								}
 								if let humanName = patient.humanName {
 									Text(verbatim: "Naam: ") + Text(humanName)
@@ -165,12 +165,39 @@ struct PatientView: View {
 							Spacer()
 						}
 						.rijksoverheidStyle(font: .regular, style: .body)
+						.foregroundStyle(Color.Styleguide.black)
 						.padding(16)
-						.background(Color.Styleguide.Grey.grey2)
+						.background(colorScheme == .light ? Color.Styleguide.Grey.grey2 : Color.Styleguide.Grey.grey8)
 				}
 			}
 		}
 		.navigationBarBackButtonHidden()
+		
+		.confirmationDialog(
+			"Reset the application?",
+			isPresented: $viewModel.showResetDialog) {
+				Button("Reset the application?", role: .destructive) {
+					viewModel.reduce(.resetApplication)
+				}
+			} message: {
+				Text(verbatim: "You cannot undo this action")
+			}
+		
+		.toolbar {
+			ToolbarItem(id: "reset", placement: .destructiveAction) {
+				if viewModel.showResetButton {
+					Button(
+						action: {
+							viewModel.reduce(.showResetDialog)
+						}, label: {
+							Image(systemName: "exclamationmark.triangle")
+								.foregroundStyle(Color.Styleguide.Basic.rubyRed)
+						}
+					)
+				}
+			}
+		}
+		
 	}
 }
 

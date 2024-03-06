@@ -120,7 +120,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 
 			case .dashboard:
 //				DashboardView(viewModel: DashboardViewModel(coordinator: self))
-				PatientView(viewModel: PatientViewModel())
+				PatientView(viewModel: PatientViewModel(coordinator: self))
 		}
 	}
 }

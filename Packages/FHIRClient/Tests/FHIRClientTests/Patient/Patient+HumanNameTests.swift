@@ -15,8 +15,8 @@ final class PatientHumanNameTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("stu3-patient-name-1")
-		let patient = try Patient(json: json)
-		
+		let patient = try Resource.fromJSON(json, type: Patient.self)
+
 		// When
 		let name = patient.humanName
 		
@@ -28,8 +28,8 @@ final class PatientHumanNameTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("stu3-patient-name-2")
-		let patient = try Patient(json: json)
-		
+		let patient = try Resource.fromJSON(json, type: Patient.self)
+
 		// When
 		let name = patient.humanName
 		
@@ -41,8 +41,8 @@ final class PatientHumanNameTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("stu3-patient-name-3")
-		let patient = try Patient(json: json)
-		
+		let patient = try Resource.fromJSON(json, type: Patient.self)
+
 		// When
 		let name = patient.humanName
 		
@@ -54,8 +54,8 @@ final class PatientHumanNameTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("stu3-patient-name-4")
-		let patient = try Patient(json: json)
-		
+		let patient = try Resource.fromJSON(json, type: Patient.self)
+
 		// When
 		let name = patient.humanName
 		
@@ -67,7 +67,7 @@ final class PatientHumanNameTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("stu3-patient-name-5")
-		let patient = try Patient(json: json)
+		let patient = try Resource.fromJSON(json, type: Patient.self)
 		
 		// When
 		let name = patient.humanName

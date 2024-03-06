@@ -15,7 +15,7 @@ final class PatientEmailTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("stu3-patient-telecom-1")
-		let patient = try Patient(json: json)
+		let patient = try Resource.fromJSON(json, type: Patient.self)
 		
 		// When
 		let email = patient.email
@@ -28,7 +28,7 @@ final class PatientEmailTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("stu3-patient-telecom-2")
-		let patient = try Patient(json: json)
+		let patient = try Resource.fromJSON(json, type: Patient.self)
 		
 		// When
 		let email = patient.email
@@ -41,7 +41,7 @@ final class PatientEmailTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("stu3-patient-telecom-3")
-		let patient = try Patient(json: json)
+		let patient = try Resource.fromJSON(json, type: Patient.self)
 		
 		// When
 		let email = patient.email
@@ -54,7 +54,7 @@ final class PatientEmailTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("stu3-patient-telecom-4")
-		let patient = try Patient(json: json)
+		let patient = try Resource.fromJSON(json, type: Patient.self)
 		
 		// When
 		let email = patient.email

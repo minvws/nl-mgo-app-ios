@@ -14,12 +14,8 @@ packages:
     path: ./Packages/MGOUI
   FHIRClient:
     path: ./Packages/FHIRClient
-  Swift-FHIR:
-    path: ./Packages/Swift-FHIR
   RijksoverheidFont:
     path: ./Packages/RijksoverheidFont
-  Swift-FHIR:
-    path: ./Packages/Swift-FHIR
   Managers:
     path: ./Packages/Managers
   ReusableUI:
@@ -127,7 +123,6 @@ targetTemplates:
 #       SPM:
       - package: MGOFoundation
       - package: MGOUI
-      - package: FHIRClient
         embed: false
     settings:
       base:
@@ -347,9 +342,6 @@ schemes:
           randomExecutionOrder: true
           parallelizable: false
         - package: FHIRClient/FHIRClientTests
-          randomExecutionOrder: true
-          parallelizable: false
-        - package: Swift-FHIR/FHIRTests
           randomExecutionOrder: true
           parallelizable: false
     
