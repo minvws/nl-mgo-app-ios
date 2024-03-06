@@ -79,4 +79,3 @@ open class JSONResponse: DataResponse {
 		throw FHIRError.responseNoResourceReceived
 	}
 }
-//{ "resourceType":"Patient", "id":"219908", "meta": {   "versionId":"1",   "lastUpdated":"2018-10-15T15:27:13.451+00:00"  }, "text": {   "status":"generated",   "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">ak <b>ALEXY </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Address</td><td><span>Atlanta </span><span>USA </span></td></tr><tr><td>Date of birth</td><td><span>01 January 2000</span></td></tr></tbody></table></div>"  }, "active": true, "name": [ {   "family":"Alexy",   "given": ["ak" ]  } ], "birthDate":"2000-01-01", "address": [ {   "use":"home",   "type":"physical",   "city":"Atlanta",   "country":"USA"  } ], "animal": {   "breed": {     "coding": [ {       "version":"123"      } ]    }  }}
