@@ -8,9 +8,53 @@
 import Foundation
 
 public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
-	
+
 	public init() { }
 	
+	public var invokedTempAccessCodeSetter = false
+	public var invokedTempAccessCodeSetterCount = 0
+	public var invokedTempAccessCode: String?
+	public var invokedTempAccessCodeList = [String?]()
+	public var invokedTempAccessCodeGetter = false
+	public var invokedTempAccessCodeGetterCount = 0
+	public var stubbedTempAccessCode: String!
+
+	public var tempAccessCode: String? {
+		set {
+			invokedTempAccessCodeSetter = true
+			invokedTempAccessCodeSetterCount += 1
+			invokedTempAccessCode = newValue
+			invokedTempAccessCodeList.append(newValue)
+		}
+		get {
+			invokedTempAccessCodeGetter = true
+			invokedTempAccessCodeGetterCount += 1
+			return stubbedTempAccessCode
+		}
+	}
+
+	public var invokedAccessCodeSetter = false
+	public var invokedAccessCodeSetterCount = 0
+	public var invokedAccessCode: String?
+	public var invokedAccessCodeList = [String?]()
+	public var invokedAccessCodeGetter = false
+	public var invokedAccessCodeGetterCount = 0
+	public var stubbedAccessCode: String!
+
+	public var accessCode: String? {
+		set {
+			invokedAccessCodeSetter = true
+			invokedAccessCodeSetterCount += 1
+			invokedAccessCode = newValue
+			invokedAccessCodeList.append(newValue)
+		}
+		get {
+			invokedAccessCodeGetter = true
+			invokedAccessCodeGetterCount += 1
+			return stubbedAccessCode
+		}
+	}
+
 	public var invokedUserHasSeenAppIntroductionSetter = false
 	public var invokedUserHasSeenAppIntroductionSetterCount = 0
 	public var invokedUserHasSeenAppIntroduction: Bool?
@@ -18,7 +62,7 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 	public var invokedUserHasSeenAppIntroductionGetter = false
 	public var invokedUserHasSeenAppIntroductionGetterCount = 0
 	public var stubbedUserHasSeenAppIntroduction: Bool! = false
-	
+
 	public var userHasSeenAppIntroduction: Bool {
 		set {
 			invokedUserHasSeenAppIntroductionSetter = true
@@ -32,10 +76,10 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 			return stubbedUserHasSeenAppIntroduction
 		}
 	}
-	
+
 	public var invokedWipePersistedData = false
 	public var invokedWipePersistedDataCount = 0
-	
+
 	public func wipePersistedData() {
 		invokedWipePersistedData = true
 		invokedWipePersistedDataCount += 1
