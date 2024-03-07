@@ -4,6 +4,116 @@
     "[%@](/privacystatement)" : {
 
     },
+    "accesscode_button_erase" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis"
+          }
+        }
+      }
+    },
+    "accesscode_button_faceid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gebruik face ID"
+          }
+        }
+      }
+    },
+    "accesscode_button_opticid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gebruik optic ID"
+          }
+        }
+      }
+    },
+    "accesscode_button_touchid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gebruik touch ID"
+          }
+        }
+      }
+    },
+    "accesscode_confirmation_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voer ter controle nog een keer je persoonlijke toegangscode in."
+          }
+        }
+      }
+    },
+    "accesscode_confirmation_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bevestig je 5-cijferige toegangscode"
+          }
+        }
+      }
+    },
+    "accesscode_create_body" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt een **persoonlijke toegangscode** nodig om de app te gebruiken en je gegevens te beveiligen."
+          }
+        }
+      }
+    },
+    "accesscode_create_title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies een 5-cijferige toegangscode"
+          }
+        }
+      }
+    },
+    "accesscode_mismatch_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze persoonlijke toegangscode is **niet dezelfde als de vorige**. Voer de juiste code in om door te gaan."
+          }
+        }
+      }
+    },
+    "accesscode_tooweak_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze persoonlijke toegangscode is **niet veilig genoeg**. Gebruik geen cijfers die na elkaar komen."
+          }
+        }
+      }
+    },
     "app_title" : {
       "extractionState" : "manual",
       "localizations" : {
