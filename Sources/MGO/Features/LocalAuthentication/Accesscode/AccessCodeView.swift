@@ -152,38 +152,53 @@ class AccessCodeViewModel: ObservableObject {
 		
 		if accessCode.count < numberOfDigits {
 			accessCode.append(value)
+			Haptic.light()
 			updateState()
 		}
 		if accessCode.count == numberOfDigits {
-			// combine into a single string
-			let code = accessCode.joined()
 			updateState()
 			if mode == .creation {
-				guard strengthValidator.validate(code) else {
-					logDebug("accessCode too weak")
-					
-					// Show too weak message
-					updateState(tooWeak: true)
-					setErrorState()
-					return
-				}
-				
-				// Store temp accesscode
-				logDebug("temp accessCode is \(code)")
-				coordinator?.handle(.accessCodeEntered)
-				Current.secureUserSettings.tempAccessCode = code
-				
+				handleCreationCompletion()
 			} else if mode == .confirmation {
-				guard code == Current.secureUserSettings.tempAccessCode else {
-					// tempAccessCode and code do not match. Doh!
-					updateState(confirmationMismatch: true)
-					setErrorState()
-					return
-				}
-				Current.secureUserSettings.accessCode = code
-				coordinator?.handle(.accessCodeConfirmed)
+				handleConfirmationCompletion()
 			}
 		}
+	}
+	
+	private func handleCreationCompletion() {
+		
+		let code = accessCode.joined()
+		guard strengthValidator.validate(code) else {
+			logDebug("accessCode too weak")
+			
+			// Show too weak message
+			updateState(tooWeak: true)
+			setErrorState()
+			return
+		}
+		
+		Haptic.light()
+		// Store temp accesscode
+		logDebug("temp accessCode is \(code)")
+		Current.secureUserSettings.tempAccessCode = code
+		coordinator?.handle(.accessCodeEntered)
+	}
+	
+	private func handleConfirmationCompletion() {
+		
+		let code = accessCode.joined()
+		guard code == Current.secureUserSettings.tempAccessCode else {
+			// tempAccessCode and code do not match. Doh!
+			updateState(confirmationMismatch: true)
+			setErrorState()
+			
+			return
+		}
+		
+		Haptic.light()
+		// Store access code
+		Current.secureUserSettings.accessCode = code
+		coordinator?.handle(.accessCodeConfirmed)
 	}
 	
 	private func setErrorState() {
@@ -191,6 +206,8 @@ class AccessCodeViewModel: ObservableObject {
 		for index in 0 ..< numberOfDigits {
 			boxStates[index].state = .error
 		}
+		// Shake it
+		Haptic.heavy()
 	}
 	
 	/// The user pressed the erate button
