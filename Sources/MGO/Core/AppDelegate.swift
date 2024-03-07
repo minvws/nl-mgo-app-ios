@@ -9,6 +9,10 @@ import UIKit
 import SwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+	
+	/// set orientations you want to be allowed in this property by default
+	static var orientationLock = UIInterfaceOrientationMask.all
+	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		
 		// UI Settings
@@ -26,5 +30,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		UINavigationBar.appearance().scrollEdgeAppearance = appearance
 		
 		return true
+	}
+	
+	// MARK: Orientation
+	
+	func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+		return AppDelegate.orientationLock
 	}
 }

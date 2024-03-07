@@ -350,6 +350,16 @@ struct AccessCodeView: View {
 				viewModel.reduce(.backButtonPressed)
 			})
 		})
+		.onAppear {
+			if UIDevice.current.userInterfaceIdiom == .phone {
+				OrientationUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+			}
+		}
+		.onDisappear {
+			if UIDevice.current.userInterfaceIdiom == .phone {
+				OrientationUtility.unlockOrientation()
+			}
+		}
 	}
 	
 	/// Create a button for a digit (0 ... 9)
