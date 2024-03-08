@@ -22,7 +22,7 @@ enum LocalAuthentication {
 
 extension LAContext {
 	
-	/// Get the biometric Type for this device
+	/// Get the biometric type for this device
 	var biometricType: LocalAuthentication.BiometricType {
 		var error: NSError?
 

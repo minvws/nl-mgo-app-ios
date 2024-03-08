@@ -8,19 +8,34 @@
 import MGOFoundation
 import MGOUI
 
+/// An object to encapsulate the state of the view for access code
 struct AccessCodeViewState {
 	
+	/// Various types of messages
 	enum MessageType {
 		case regular
 		case alert
 	}
 	
+	/// Is the biometric key (face ID, touch ID) enabled?
 	var bioMetricEnabled: Bool = false
+	
+	/// What kind of key should we  dispaly (face ID, touch ID, optic ID)
 	var bioMetricType: LocalAuthentication.BiometricType = .none
+	
+	/// Is the erase button enabled? Disabled when the access code is empty
 	var eraseEnabled: Bool = false
-	var backButtonEnabled: Bool = false
+	
+	/// Is the back visible?
+	var backButtonVisible: Bool = false
+	
+	/// The key for the title
 	var title: LocalizedStringKey
+	
+	/// The key for the body
 	var message: LocalizedStringKey
+	
+	/// Is this message a regular message, or should we show an alert icon?
 	var messageType: MessageType = .regular
 }
 
@@ -63,8 +78,7 @@ class AccessCodeViewModel: ObservableObject {
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// The access code
-	#warning("Todo: Accesscode must be private and unpublished.")
-	@Published var accessCode: [String] = [] {
+	private var accessCode: [String] = [] {
 		didSet {
 			for index in 0 ..< numberOfDigits {
 				if accessCode.count < index {
@@ -81,7 +95,6 @@ class AccessCodeViewModel: ObservableObject {
 					boxStates[index].state = .filled
 				}
 			}
-			logDebug("\(boxStates)")
 		}
 	}
 	
@@ -115,7 +128,7 @@ class AccessCodeViewModel: ObservableObject {
 		
 		state.bioMetricEnabled = false // to be changed with validation
 		state.eraseEnabled = accessCode.isNotEmpty
-		state.backButtonEnabled = self.mode == .confirmation
+		state.backButtonVisible = self.mode == .confirmation
 		if tooWeak {
 			// Setup for access code is too weak
 			state.title = "accesscode_create_title"
@@ -202,7 +215,6 @@ class AccessCodeViewModel: ObservableObject {
 			// tempAccessCode and code do not match. Doh!
 			updateState(confirmationMismatch: true)
 			setErrorState()
-			
 			return
 		}
 		
@@ -232,6 +244,7 @@ class AccessCodeViewModel: ObservableObject {
 	
 	/// The user pressed the face ID button
 	private func biometricKeyPressed() {
+		// Nothing for now, will change we try to login (validate)
 		logDebug("biometricKey Pressed")
 	}
 }
@@ -273,10 +286,10 @@ struct AccessCodeView: View {
 			VStack(alignment: .leading, spacing: 0) {
 				Text(viewModel.state.title)
 					.rijksoverheidStyle(font: .bold, style: .title)
-					.if(viewModel.state.backButtonEnabled) { view in
+					.if(viewModel.state.backButtonVisible) { view in
 							view.padding(ViewTraits.Title.insetsWithNavBar)
 					}
-					.if(!viewModel.state.backButtonEnabled) { view in
+					.if(!viewModel.state.backButtonVisible) { view in
 						if #available(iOS 16, *) {
 							view.padding(ViewTraits.Title.insets)
 						} else {
@@ -310,7 +323,6 @@ struct AccessCodeView: View {
 				
 				Spacer()
 				
-				#warning("Todo: Remove this accessCode.")
 //				HStack {
 //					Spacer()
 //					
@@ -351,26 +363,29 @@ struct AccessCodeView: View {
 						
 						HStack(spacing: ViewTraits.General.spacing) {
 							
+							// The bioMetric key (face ID, touch ID or optic ID)
 							switch viewModel.state.bioMetricType {
 								case .none, .unknown:
 									Spacer()
 										.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
+								
 								case .touchID:
 									actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "accesscode_button_touchid")
 										.disabled(!viewModel.state.bioMetricEnabled)
+								
 								case .faceID:
 									actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "accesscode_button_faceid")
 										.disabled(!viewModel.state.bioMetricEnabled)
+								
 								case .opticID:
 									actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "accesscode_button_opticid")
 										.disabled(!viewModel.state.bioMetricEnabled)
 							}
 							
 							digitButton(for: "0")
-							
+							// The erase button
 							actionButton(for: .erasePressed, imageName: "delete.backward", accessibilityLabel: "accesscode_button_erase")
 								.disabled(!viewModel.state.eraseEnabled)
-							
 						}
 					}
 				}
@@ -379,17 +394,20 @@ struct AccessCodeView: View {
 		}
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationBarBackButtonHidden(true)
-		.if(viewModel.state.backButtonEnabled) { view in
+		.if(viewModel.state.backButtonVisible) { view in
+			// Show the backbutton
 			view.navigationBarItems(leading: BackButton("general_previous") {
 				viewModel.reduce(.backButtonPressed)
 			})
 		}
 		.onAppear {
+			// Fix to portrait mode
 			if UIDevice.current.userInterfaceIdiom == .phone {
 				OrientationUtility.lockOrientation(.portrait, andRotateTo: .portrait)
 			}
 		}
 		.onDisappear {
+			// And unlock the forced portrait mode on exit.
 			if UIDevice.current.userInterfaceIdiom == .phone {
 				OrientationUtility.unlockOrientation()
 			}

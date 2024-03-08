@@ -11,9 +11,11 @@ struct KeyboardButtonStyle: ButtonStyle {
 
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
-
+	
+	/// Is the button enabled?
 	@Environment(\.isEnabled) private var isEnabled: Bool
 	
+	/// Magic Numbers
 	private struct ViewTraits {
 		enum Button {
 			static let minimumHeight: CGFloat = 44

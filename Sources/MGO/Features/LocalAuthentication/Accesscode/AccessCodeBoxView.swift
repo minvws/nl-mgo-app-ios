@@ -26,6 +26,7 @@ struct AccessCodeBoxView: View {
 		}
 	}
 	
+	/// All posible states of the box
 	enum State {
 		case empty
 		case focus
@@ -34,8 +35,10 @@ struct AccessCodeBoxView: View {
 		case error
 	}
 	
+	/// The state of the box
 	@Binding var state: State
 	
+	/// The color of the border for the various states
 	var borderColor: Color {
 		switch state {
 			case .focus, .filling:
@@ -46,6 +49,7 @@ struct AccessCodeBoxView: View {
 		}
 	}
 	
+	/// The width of the border for the various states
 	var borderWidth: CGFloat {
 		switch state {
 			case .empty, .filled: 2
@@ -53,20 +57,25 @@ struct AccessCodeBoxView: View {
 		}
 	}
 	
+	/// The inside of the box for the various states
 	@ViewBuilder var icon: some View {
 		switch state {
 			case .empty:
 				EmptyView()
+			
 			case .focus:
 				EmptyView()
+			
 			case .filling:
 				Circle()
 					.foregroundStyle(colorScheme == .light ? Color.Styleguide.Blue.skyBlue : Color.Styleguide.Blue.skyBlueTint1)
 					.frame(width: ViewTraits.Circle.big, height: ViewTraits.Circle.big)
+			
 			case .filled:
 				Circle()
 					.foregroundStyle(colorScheme == .light ? Color.Styleguide.Blue.skyBlue : Color.Styleguide.Blue.skyBlueTint1)
 					.frame(width: ViewTraits.Circle.small, height: ViewTraits.Circle.small)
+			
 			case .error:
 				Circle()
 					.foregroundStyle(Color.Styleguide.Basic.red)
