@@ -88,7 +88,7 @@ class AccessCodeViewModel: ObservableObject {
 					// The box that is currently being filled
 					boxStates[index].state = .focus
 				} else if accessCode.count == index + 1 {
-					// A box that is already filled.
+					// A box that just has been filled..
 					boxStates[index].state = oldValue.count < accessCode.count ? .filling : .filled
 				} else if accessCode.count > index {
 					// A box that is already filled.

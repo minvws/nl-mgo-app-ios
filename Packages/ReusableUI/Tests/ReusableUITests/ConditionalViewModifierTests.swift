@@ -10,7 +10,6 @@ import SwiftUI
 import XCTest
 import SnapshotTesting
 
-@MainActor
 final class ConditionalViewModifierTests: XCTestCase {
 
 	func test_conditionalViewModifier_conditionFalse() throws {
