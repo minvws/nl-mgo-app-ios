@@ -10,6 +10,9 @@ import MGOUI
 /// A small box for displaying a single digit of a pincode
 struct AccessCodeBoxView: View {
 	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Circle {
@@ -23,49 +26,51 @@ struct AccessCodeBoxView: View {
 		}
 	}
 	
-	@Binding var state: State
-	
 	enum State {
 		case empty
 		case focus
 		case filling
 		case filled
 		case error
-		
-		var borderColor: Color {
-			switch self {
-				case .focus, .filling: Color.Styleguide.Blue.skyBlue
-				case .empty, .filled: Color.Styleguide.Grey.grey6
-				case .error: Color.Styleguide.Basic.red
-			}
+	}
+	
+	@Binding var state: State
+	
+	var borderColor: Color {
+		switch state {
+			case .focus, .filling:
+			colorScheme == .light ? Color.Styleguide.Blue.skyBlue : Color.Styleguide.Blue.skyBlueTint1
+			case .empty, .filled:
+			colorScheme == .light ? Color.Styleguide.Grey.grey6 : Color.Styleguide.Grey.grey4
+			case .error: Color.Styleguide.Basic.red
 		}
-		
-		var borderWidth: CGFloat {
-			switch self {
-				case .empty, .filled: 2
-				case .focus, .filling, .error: 3
-			}
+	}
+	
+	var borderWidth: CGFloat {
+		switch state {
+			case .empty, .filled: 2
+			case .focus, .filling, .error: 3
 		}
-		
-		@ViewBuilder var icon: some View {
-			switch self {
-				case .empty:
-					EmptyView()
-				case .focus:
-					EmptyView()
-				case .filling:
-					Circle()
-						.foregroundStyle(Color.Styleguide.Blue.skyBlue)
-						.frame(width: ViewTraits.Circle.big, height: ViewTraits.Circle.big)
-				case .filled:
-					Circle()
-						.foregroundStyle(Color.Styleguide.Blue.skyBlue)
-						.frame(width: ViewTraits.Circle.small, height: ViewTraits.Circle.small)
-				case .error:
-					Circle()
-						.foregroundStyle(Color.Styleguide.Basic.red)
-						.frame(width: ViewTraits.Circle.small, height: ViewTraits.Circle.small)
-			}
+	}
+	
+	@ViewBuilder var icon: some View {
+		switch state {
+			case .empty:
+				EmptyView()
+			case .focus:
+				EmptyView()
+			case .filling:
+				Circle()
+					.foregroundStyle(colorScheme == .light ? Color.Styleguide.Blue.skyBlue : Color.Styleguide.Blue.skyBlueTint1)
+					.frame(width: ViewTraits.Circle.big, height: ViewTraits.Circle.big)
+			case .filled:
+				Circle()
+					.foregroundStyle(colorScheme == .light ? Color.Styleguide.Blue.skyBlue : Color.Styleguide.Blue.skyBlueTint1)
+					.frame(width: ViewTraits.Circle.small, height: ViewTraits.Circle.small)
+			case .error:
+				Circle()
+					.foregroundStyle(Color.Styleguide.Basic.red)
+					.frame(width: ViewTraits.Circle.small, height: ViewTraits.Circle.small)
 		}
 	}
 	
@@ -78,10 +83,17 @@ struct AccessCodeBoxView: View {
 			.overlay(
 				ZStack {
 					RoundedRectangle(cornerRadius: ViewTraits.Box.radius)
-						.stroke(state.borderColor, lineWidth: state.borderWidth)
-					state.icon
+						.stroke(borderColor, lineWidth: borderWidth)
+					icon
 				}
 			)
+			.onAppear {
+				if state == .filling {
+					withAnimation(Animation.linear(duration: 0.3)) {
+						state = .filled
+					}
+				}
+			}
 	}
 }
 

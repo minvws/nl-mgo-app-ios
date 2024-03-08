@@ -26,10 +26,11 @@ struct AccessCodeViewState {
 
 class AccessCodeViewModel: ObservableObject {
 	
+	/// The various modes this scene can be run as.
 	enum AccessCodeMode: Equatable {
-		case creation
-		case confirmation
-//		case validation
+		case creation // Create an access code
+		case confirmation // Confirm that accces code
+//		case validation // Validate the acces code (login)
 	}
 	/// A helper struct to make an enum (AccessCodeBoxView.State) identificable.
 	struct AccessCodeBoxState: Identifiable, Hashable {
@@ -58,7 +59,7 @@ class AccessCodeViewModel: ObservableObject {
 	/// Tha strenth validator for the access code
 	private var strengthValidator: StrengthValidation = StrengthValidator()
 	
-//	/// The flow coordintator for routing
+	/// The flow coordintator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// The access code
@@ -72,11 +73,15 @@ class AccessCodeViewModel: ObservableObject {
 				} else if accessCode.count == index {
 					// The box that is currently being filled
 					boxStates[index].state = .focus
+				} else if accessCode.count == index + 1 {
+					// A box that is already filled.
+					boxStates[index].state = oldValue.count < accessCode.count ? .filling : .filled
 				} else if accessCode.count > index {
 					// A box that is already filled.
 					boxStates[index].state = .filled
 				}
 			}
+			logDebug("\(boxStates)")
 		}
 	}
 	
@@ -103,6 +108,9 @@ class AccessCodeViewModel: ObservableObject {
 	}
 	
 	/// Update the state
+	/// - Parameters:
+	///   - tooWeak: setup for too weak access code
+	///   - confirmationMismatch: setup for confirmation mismatched.
 	private func updateState(tooWeak: Bool = false, confirmationMismatch: Bool = false) {
 		
 		state.bioMetricEnabled = false // to be changed with validation
@@ -165,6 +173,7 @@ class AccessCodeViewModel: ObservableObject {
 		}
 	}
 	
+	/// All digits are entered. Check  for strength
 	private func handleCreationCompletion() {
 		
 		let code = accessCode.joined()
@@ -177,6 +186,7 @@ class AccessCodeViewModel: ObservableObject {
 			return
 		}
 		
+		// All ok, store temp and move to confirmation
 		Haptic.light()
 		// Store temp accesscode
 		logDebug("temp accessCode is \(code)")
@@ -184,6 +194,7 @@ class AccessCodeViewModel: ObservableObject {
 		coordinator?.handle(.accessCodeEntered)
 	}
 	
+	/// Confirmation entered, compare with the previous value
 	private func handleConfirmationCompletion() {
 		
 		let code = accessCode.joined()
@@ -195,12 +206,13 @@ class AccessCodeViewModel: ObservableObject {
 			return
 		}
 		
+		// All ok, store access code and get out of here.
 		Haptic.light()
-		// Store access code
 		Current.secureUserSettings.accessCode = code
 		coordinator?.handle(.accessCodeConfirmed)
 	}
 	
+	/// Something is not ok, make all the boxes red
 	private func setErrorState() {
 		// All boxes to error state
 		for index in 0 ..< numberOfDigits {
@@ -243,8 +255,11 @@ struct AccessCodeView: View {
 			static let minimumHeight: CGFloat = 44
 		}
 		enum General {
-			static let spacing: CGFloat = 12
+			static let spacing: CGFloat = 8
 			static let horizontalPadding: CGFloat = 16
+		}
+		enum Box {
+			static let spacing: CGFloat = 12
 		}
 	}
 	
@@ -257,28 +272,30 @@ struct AccessCodeView: View {
 			
 			VStack(alignment: .leading, spacing: 0) {
 				Text(viewModel.state.title)
-					.rijksoverheidStyle(font: .bold, style: .title3)
-					.if(viewModel.state.backButtonEnabled, transform: { view in
+					.rijksoverheidStyle(font: .bold, style: .title)
+					.if(viewModel.state.backButtonEnabled) { view in
 							view.padding(ViewTraits.Title.insetsWithNavBar)
-					})
-					.if(!viewModel.state.backButtonEnabled, transform: { view in
+					}
+					.if(!viewModel.state.backButtonEnabled) { view in
 						if #available(iOS 16, *) {
 							view.padding(ViewTraits.Title.insets)
 						} else {
 							view.padding(ViewTraits.Title.insetsWithNavBar)
 						}
-					})
+					}
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					.fixedSize(horizontal: false, vertical: true)
 				
 				ScrollView {
 					switch viewModel.state.messageType {
+						
 						case .regular:
 							Text(viewModel.state.message)
 								.rijksoverheidStyle(font: .regular, style: .body)
 								.padding(ViewTraits.Text.insets)
 								.frame(maxWidth: .infinity, alignment: .topLeading)
+						
 						case .alert:
 							HStack(alignment: .top, spacing: ViewTraits.Text.imageSpacing) {
 								Image(ImageResource.Notification.error)
@@ -294,19 +311,19 @@ struct AccessCodeView: View {
 				Spacer()
 				
 				#warning("Todo: Remove this accessCode.")
-				HStack {
-					Spacer()
-					
-					Text(viewModel.accessCode.joined())
-						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-					Spacer()
-				}
-				.frame(minHeight: 50)
-				.background(.orange)
+//				HStack {
+//					Spacer()
+//					
+//					Text(viewModel.accessCode.joined())
+//						.rijksoverheidStyle(font: .bold, style: .largeTitle)
+//					Spacer()
+//				}
+//				.frame(minHeight: 50)
+//				.background(.orange)
 				
 				VStack(spacing: ViewTraits.General.spacing) {
 					
-					HStack(spacing: ViewTraits.General.spacing) {
+					HStack(spacing: ViewTraits.Box.spacing) {
 						ForEach($viewModel.boxStates, id: \.self) { element in
 							AccessCodeBoxView(state: element.state)
 						}
@@ -362,11 +379,11 @@ struct AccessCodeView: View {
 		}
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationBarBackButtonHidden(true)
-		.if(viewModel.state.backButtonEnabled, transform: { view in
+		.if(viewModel.state.backButtonEnabled) { view in
 			view.navigationBarItems(leading: BackButton("general_previous") {
 				viewModel.reduce(.backButtonPressed)
 			})
-		})
+		}
 		.onAppear {
 			if UIDevice.current.userInterfaceIdiom == .phone {
 				OrientationUtility.lockOrientation(.portrait, andRotateTo: .portrait)
@@ -388,10 +405,8 @@ struct AccessCodeView: View {
 			viewModel.reduce(.buttonPressed(value: value))
 		} label: {
 			Text(value)
-				.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
-				.rijksoverheidStyle(font: .regular, style: .title)
-				.foregroundStyle(Color.Styleguide.black)
 		}
+		.buttonStyle(KeyboardButtonStyle())
 	}
 	
 	/// Create an action button (erase, use faceID etc)
@@ -409,11 +424,8 @@ struct AccessCodeView: View {
 			viewModel.reduce(action)
 		} label: {
 			Image(systemName: imageName)
-				.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
-				.rijksoverheidStyle(font: .regular, style: .title3)
-				.foregroundStyle(Color.Styleguide.black)
 		}
-		.buttonStyle(.plain)
+		.buttonStyle(KeyboardButtonStyle())
 		.accessibilityLabel(accessibilityLabel)
 	}
 }
