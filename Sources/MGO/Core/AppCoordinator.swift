@@ -7,6 +7,7 @@
 
 import MGOUI
 import MGOFoundation
+import LocalAuthentication
 
 protocol AppCoordinatorProtocol: ObservableObject {
 	
@@ -29,10 +30,19 @@ enum AppCoordination {
 	
 	/// A list of all the action an app coordinator can do
 	enum Action {
+		// Launch
 		case finishedLoading
+		
+		// Onboarding
 		case nextButtonPressedOnAppIntroduction
 		case nextButtonPressedOnPrivacyOverview
 		case showPrivacyStatement
+		
+		// Local Authentication
+		case accessCodeEntered
+		case accessCodeConfirmed
+		
+		// Other
 		case backButtonPressed
 		case resetApplication
 	}
@@ -43,6 +53,8 @@ enum AppCoordination {
 		case appIntroduction
 		case privacyOverview
 		case privacyStatement
+		case accessCodeEntry
+		case accessCodeConfirmation
 		case dashboard
 	}
 }
@@ -70,23 +82,31 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		switch action {
 			
 			case .finishedLoading:
-				guard !Current.secureUserSettings.userHasSeenAppIntroduction else {
+				if !Current.secureUserSettings.userHasSeenAppIntroduction {
+					// Only show the appIntroduction once
+					path.append(AppCoordination.State.appIntroduction)
+				} else if Current.secureUserSettings.accessCode == nil {
+					path.append(AppCoordination.State.accessCodeEntry)
+				} else {
 					path.append(AppCoordination.State.dashboard)
-					return
 				}
-				// Only show the appIntroduction once
-				path.append(AppCoordination.State.appIntroduction)
-			
 			case .nextButtonPressedOnAppIntroduction:
 				path.append(AppCoordination.State.privacyOverview)
 			
 			case .nextButtonPressedOnPrivacyOverview:
 				// Mark AppIntroduction Flow as seen.
 				Current.secureUserSettings.userHasSeenAppIntroduction = true
-				path.append(AppCoordination.State.dashboard)
+				path.append(AppCoordination.State.accessCodeEntry)
 			
 			case .showPrivacyStatement:
 				path.append(AppCoordination.State.privacyStatement)
+			
+			case .accessCodeEntered:
+				path.append(AppCoordination.State.accessCodeConfirmation)
+			
+			case .accessCodeConfirmed:
+				#warning("Todo: BioMetric Setup")
+				path.append(AppCoordination.State.dashboard)
 			
 			case .backButtonPressed:
 				guard !path.isEmpty else { return }
@@ -118,9 +138,22 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .privacyStatement:
 				PrivacyStatementView(viewModel: PrivacyStatementViewModel(coordinator: self))
 
+			case .accessCodeEntry:
+				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .creation, bioMetricType: {
+					// LAContext().biometricType
+					.touchID
+				}))
+				
+			case .accessCodeConfirmation:
+				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: {
+					// LAContext().biometricType
+					.touchID
+				}))
+			
 			case .dashboard:
 //				DashboardView(viewModel: DashboardViewModel(coordinator: self))
 				PatientView(viewModel: PatientViewModel(coordinator: self))
+
 		}
 	}
 }
