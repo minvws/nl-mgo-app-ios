@@ -9,10 +9,10 @@ import MGOFoundation
 import MGOUI
 
 /// An object to encapsulate the state of the view for access code
-struct AccessCodeViewState {
+struct AccessCodeViewState: Equatable {
 	
 	/// Various types of messages
-	enum MessageType {
+	enum MessageType: Equatable {
 		case regular
 		case alert
 	}
@@ -42,13 +42,13 @@ struct AccessCodeViewState {
 class AccessCodeViewModel: ObservableObject {
 	
 	/// The various modes this scene can be run as.
-	enum AccessCodeMode: Equatable {
+	public enum AccessCodeMode: Equatable {
 		case creation // Create an access code
 		case confirmation // Confirm that accces code
 //		case validation // Validate the acces code (login)
 	}
 	/// A helper struct to make an enum (AccessCodeBoxView.State) identificable.
-	struct AccessCodeBoxState: Identifiable, Hashable {
+	public struct AccessCodeBoxState: Identifiable, Hashable {
 		
 		var id: Int
 		var state: AccessCodeBoxView.State
@@ -154,7 +154,7 @@ class AccessCodeViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: Action) {
+	public func reduce(_ action: Action) {
 		switch action {
 			case .buttonPressed(let value):
 				buttonPressed(value)

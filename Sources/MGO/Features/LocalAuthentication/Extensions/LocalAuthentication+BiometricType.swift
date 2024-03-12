@@ -11,7 +11,7 @@ import MGOFoundation
 enum LocalAuthentication {
 	
 	/// The various Biometric types
-	enum BiometricType: String {
+	enum BiometricType: String, Equatable {
 		case none
 		case touchID
 		case faceID
