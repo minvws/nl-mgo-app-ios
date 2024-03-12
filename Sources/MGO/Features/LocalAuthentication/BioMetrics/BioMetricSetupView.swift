@@ -116,7 +116,7 @@ struct BioMetricSetupView: View {
 					
 					VStack {
 						
-						CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_without_biometric", type: bioMetricType))) {
+						CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_without_biometric", type: bioMetricType)), style: .secondary) {
 							viewModel.reduce(.proceedWithoutBioMetric)
 						}
 						
