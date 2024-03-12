@@ -139,6 +139,17 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
 	}
+
+	func test_coordinatorHandle_didFinishLocalAuthentication_shouldShowDashboard() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.didFinishLocalAuthentication)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+	}
 	
 	func test_coordinatorHandle_backButtonPressed() {
 		

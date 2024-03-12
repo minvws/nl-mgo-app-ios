@@ -53,8 +53,7 @@ class BioMetricSetupViewModel: ObservableObject {
 			case .proceedWithBioMetric:
 				break
 			case .proceedWithoutBioMetric:
-				break
-//				localAuthenticationCoordinator?.handle(.didFinishLocalAuthentication)
+				coordinator?.handle(.didFinishLocalAuthentication)
 		}
 	}
 }

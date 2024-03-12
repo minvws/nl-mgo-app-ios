@@ -41,7 +41,7 @@ enum AppCoordination {
 		// Local Authentication
 		case accessCodeEntered
 		case accessCodeConfirmed
-//		case didFinishLocalAuthentication
+		case didFinishLocalAuthentication
 		
 		// Other
 		case backButtonPressed
@@ -113,8 +113,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				} else {
 					path.append(AppCoordination.State.bioMetricSetup)
 				}
-//			case .didFinishLocalAuthentication:
-//				path.append(AppCoordination.State.dashboard)
+			
+			case .didFinishLocalAuthentication:
+				path.append(AppCoordination.State.dashboard)
 			
 			case .backButtonPressed:
 				guard !path.isEmpty else { return }
