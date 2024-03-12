@@ -77,6 +77,7 @@ struct BioMetricSetupView: View {
 		}
 		enum Button {
 			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+			static let spacing: CGFloat = 16
 		}
 	}
 
@@ -114,7 +115,7 @@ struct BioMetricSetupView: View {
 					
 				}, bottomView: {
 					
-					VStack {
+					VStack(spacing: ViewTraits.Button.spacing) {
 						
 						CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_without_biometric", type: bioMetricType)), style: .secondary) {
 							viewModel.reduce(.proceedWithoutBioMetric)
