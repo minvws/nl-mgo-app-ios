@@ -125,6 +125,104 @@
         }
       }
     },
+    "biometric_body_faceid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveilig de app met **herkenning van je gezicht**. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige pincode gewoon blijven gebruiken."
+          }
+        }
+      }
+    },
+    "biometric_body_opticid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveilig de app met **herkenning van je ogen**. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige pincode gewoon blijven gebruiken."
+          }
+        }
+      }
+    },
+    "biometric_body_touchid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveilig de app met **je vingerafdruk**. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige pincode gewoon blijven gebruiken."
+          }
+        }
+      }
+    },
+    "biometric_button_with_biometric" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ inschakelen"
+          }
+        }
+      }
+    },
+    "biometric_button_without_biometric" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verder zonder %@"
+          }
+        }
+      }
+    },
+    "biometric_faceid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Face ID"
+          }
+        }
+      }
+    },
+    "biometric_opticid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optic ID"
+          }
+        }
+      }
+    },
+    "biometric_title" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wil je de volgende keer inloggen met %@?"
+          }
+        }
+      }
+    },
+    "biometric_touchid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID"
+          }
+        }
+      }
+    },
     "general_close" : {
       "extractionState" : "manual",
       "localizations" : {

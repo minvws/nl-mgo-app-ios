@@ -5,13 +5,13 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import Foundation
 import LocalAuthentication
-import MGOFoundation
 
-enum LocalAuthentication {
+public enum LocalAuthentication {
 	
 	/// The various Biometric types
-	enum BiometricType: String, Equatable {
+	public enum BiometricType: String, Equatable {
 		case none
 		case touchID
 		case faceID
@@ -23,11 +23,11 @@ enum LocalAuthentication {
 extension LAContext {
 	
 	/// Get the biometric type for this device
-	var biometricType: LocalAuthentication.BiometricType {
+	public var biometricType: LocalAuthentication.BiometricType {
 		var error: NSError?
 
 		guard self.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
-			logError("MGO: Can't evaluate LAPolicy", error?.localizedDescription ?? "")
+			print("MGO: Can't evaluate LAPolicy", error?.localizedDescription ?? "") // swiftlint:disable:this disable_print
 			return .none
 		}
 		
