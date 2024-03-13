@@ -103,6 +103,17 @@
         }
       }
     },
+    "accesscode_mismatch_body_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze persoonlijke toegangscode is niet dezelfde als de vorige. Voer de juiste code in om door te gaan."
+          }
+        }
+      }
+    },
     "accesscode_tooweak_body" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -110,6 +121,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deze persoonlijke toegangscode is **niet veilig genoeg**. Gebruik geen cijfers die na elkaar komen."
+          }
+        }
+      }
+    },
+    "accesscode_tooweak_body_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze persoonlijke toegangscode is niet veilig genoeg. Gebruik geen cijfers die na elkaar komen."
           }
         }
       }
