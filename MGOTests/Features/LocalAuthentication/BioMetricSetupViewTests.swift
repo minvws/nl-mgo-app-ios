@@ -84,7 +84,7 @@ class BioMetricSetupViewTests: XCTestCase {
 		assertSnapshot(of: content.colorScheme(.dark), as: .image)
 	}
 	
-	func test_bioMetricSetup_topticID_ligthMode() {
+	func test_bioMetricSetup_opticID_ligthMode() {
 		
 		// Given
 		let sut = createSut(bioMetricType: { .opticID })
