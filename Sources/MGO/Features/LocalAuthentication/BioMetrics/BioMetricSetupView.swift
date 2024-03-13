@@ -17,8 +17,8 @@ class BioMetricSetupViewModel: ObservableObject {
 		case proceedWithoutBioMetric
 	}
 	
-	enum State {
-		case idle(bioMetricType: LocalAuthentication.BiometricType, popupEnable: Bool)
+	struct State {
+		public var bioMetricType: LocalAuthentication.BiometricType
 	}
 	
 	/// The flow coordintator for routing
@@ -27,7 +27,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	/// What kind of key should we  dispaly (face ID, touch ID, optic ID)
 	private var bioMetricType: LocalAuthentication.BiometricType = .none
 	
-	@Published var state: State = .idle(bioMetricType: .none, popupEnable: false)
+	@Published var state: State = State(bioMetricType: .none)
 	
 	/// Initialzier
 	/// - Parameter pinLimit: the pinLimt
@@ -42,7 +42,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	
 	/// Update the state
 	private func updateState() {
-		state = .idle(bioMetricType: bioMetricType, popupEnable: false)
+		state.bioMetricType = bioMetricType
 	}
 	
 	/// Handle any action
@@ -58,7 +58,7 @@ class BioMetricSetupViewModel: ObservableObject {
 		}
 	}
 	
-	private func success() {
+	private func proceedWithBioMetric() {
 		// Do use biometric authentication
 		Current.secureUserSettings.bioMetricAuthenticationEnabled = true
 		// We are done
@@ -77,7 +77,7 @@ class BioMetricSetupViewModel: ObservableObject {
 		
 		do {
 			_ = try await Current.localAuthenticationProvider.authenticate(localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")))
-			success()
+			proceedWithBioMetric()
 		} catch LocalAuthenticationError.canceled {
 			// Cancelled, stay on the scene
 			logWarning("User cancelled the biometric request.")
@@ -131,51 +131,50 @@ struct BioMetricSetupView: View {
 
 	var body: some View {
 		
+		let bioMetricType = viewModel.state.bioMetricType
+		
 		ZStack {
 			
 			Color.Styleguide.background
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			
-			if case let BioMetricSetupViewModel.State.idle(bioMetricType, _) = viewModel.state {
+			ScrollViewWithFixedBottom(content: {
 				
-				ScrollViewWithFixedBottom(content: {
+				HStack {
+					Spacer()
+					getBioMetricImage(type: bioMetricType)
+						.foregroundStyle(Color.Styleguide.Blue.skyBlue)
+						.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
+						.padding(.top, ViewTraits.Image.top)
+					Spacer()
+				}
+				
+				Text(getBioMetricTypeInterpolatedText("biometric_title", type: bioMetricType))
+					.rijksoverheidStyle(font: .bold, style: .title)
+					.padding(ViewTraits.Title.insets)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityAddTraits(.isHeader)
+				
+				Text(LocalizedStringKey(bioMetricTypedIntro(bioMetricType)))
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.padding(ViewTraits.Text.insets)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+				
+			}, bottomView: {
+				
+				VStack(spacing: ViewTraits.Button.spacing) {
 					
-					HStack {
-						Spacer()
-						getBioMetricImage(type: bioMetricType)
-							.foregroundStyle(Color.Styleguide.Blue.skyBlue)
-							.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
-							.padding(.top, ViewTraits.Image.top)
-						Spacer()
+					CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_without_biometric", type: bioMetricType)), style: .secondary) {
+						viewModel.reduce(.proceedWithoutBioMetric)
 					}
 					
-					Text(getBioMetricTypeInterpolatedText("biometric_title", type: bioMetricType))
-						.rijksoverheidStyle(font: .bold, style: .title)
-						.padding(ViewTraits.Title.insets)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
-						.accessibilityAddTraits(.isHeader)
-					
-					Text(LocalizedStringKey(bioMetricTypedIntro(bioMetricType)))
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.padding(ViewTraits.Text.insets)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
-					
-				}, bottomView: {
-					
-					VStack(spacing: ViewTraits.Button.spacing) {
-						
-						CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_without_biometric", type: bioMetricType)), style: .secondary) {
-							viewModel.reduce(.proceedWithoutBioMetric)
-						}
-						
-						CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_with_biometric", type: bioMetricType))) {
-							viewModel.reduce(.proceedWithBioMetric)
-						}
+					CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_with_biometric", type: bioMetricType))) {
+						viewModel.reduce(.proceedWithBioMetric)
 					}
-					.padding(ViewTraits.Button.insets)
-				})
-			}
+				}
+				.padding(ViewTraits.Button.insets)
+			})
 		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarTitleDisplayMode(.inline)
