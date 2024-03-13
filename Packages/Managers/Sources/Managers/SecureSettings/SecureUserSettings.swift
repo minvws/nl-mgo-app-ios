@@ -16,6 +16,9 @@ public protocol SecureUserSettingsProtocol: AnyObject {
 	/// the access code
 	var accessCode: String? { get set }
 	
+	/// Do we have setup the biomtetric authentication
+	var bioMetricAuthenticationEnabled: Bool { get set }
+	
 	/// Have we seen the app introduction
 	var userHasSeenAppIntroduction: Bool { get set }
 	
@@ -29,6 +32,7 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	/// Default values
 	public struct Defaults {
 		public static var userHasSeenAppIntroduction: Bool = false
+		public static var bioMetricAuthenticationEnabled: Bool = false
 		public static var accessCode: String?
 	}
 	
@@ -40,6 +44,9 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	
 	@Keychain(name: "accessCode", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var accessCode: String? = Defaults.accessCode
+	
+	@Keychain(name: "bioMetricAuthenticationEnabled", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
+	public var bioMetricAuthenticationEnabled: Bool = Defaults.bioMetricAuthenticationEnabled
 
 	@Keychain(name: "tempAccessCode", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var tempAccessCode: String? = Defaults.accessCode
@@ -58,8 +65,9 @@ extension SecureUserSettings {
 	
 	/// Wipe all persisted data
 	public func wipePersistedData() {
-		userHasSeenAppIntroduction = Defaults.userHasSeenAppIntroduction
 		accessCode = Defaults.accessCode
+		bioMetricAuthenticationEnabled = Defaults.bioMetricAuthenticationEnabled
 		tempAccessCode = Defaults.accessCode
+		userHasSeenAppIntroduction = Defaults.userHasSeenAppIntroduction
 	}
 }

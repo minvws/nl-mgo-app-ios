@@ -48,12 +48,60 @@ class BioMetricSetupViewModel: ObservableObject {
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	public func reduce(_ action: Action) {
-		logDebug("Action: \(action)")
 		switch action {
 			case .proceedWithBioMetric:
-				break
+				SwiftUI.Task {
+					 await authenticate()
+				}
 			case .proceedWithoutBioMetric:
-				coordinator?.handle(.didFinishLocalAuthentication)
+				proceedWithoutBioMetric()
+		}
+	}
+	
+	private func success() {
+		// Do use biometric authentication
+		Current.secureUserSettings.bioMetricAuthenticationEnabled = true
+		// We are done
+		coordinator?.handle(.didFinishLocalAuthentication)
+	}
+	
+	private func proceedWithoutBioMetric() {
+		// Do not use biometric authentication
+		Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+		// We are done
+		coordinator?.handle(.didFinishLocalAuthentication)
+	}
+	
+	@MainActor
+	private func authenticate() async {
+		
+		do {
+			_ = try await Current.localAuthenticationProvider.authenticate(localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")))
+			success()
+		} catch LocalAuthenticationError.canceled {
+			// Cancelled, stay on the scene
+			logWarning("User cancelled the biometric request.")
+			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			
+		} catch LocalAuthenticationError.authenticationFailed {
+			logWarning("Authentication Failed")
+			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			
+		} catch LocalAuthenticationError.userFallback {
+			logWarning("User selected password option")
+			proceedWithoutBioMetric()
+		
+		} catch LocalAuthenticationError.declined {
+			logWarning("User declined biometric access")
+			proceedWithoutBioMetric()
+			
+		} catch LocalAuthenticationError.lockout {
+			logWarning("BioMetric setup lockaout")
+			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			
+		} catch {
+			logError("error: \(error)")
+			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
 		}
 	}
 }

@@ -146,6 +146,7 @@ targetTemplates:
           - 'firefox'
           - 'microsoft-edge-https'
         LSRequiresIPhoneOS: true
+        NSFaceIDUsageDescription: "Om je gegevens te beschermen wil Mijn Gezondheidsoverzicht gezichtsherkening gebruiken."
         UIApplicationSupportsIndirectInputEvents: true
         UIRequiredDeviceCapabilities:
           - armv7

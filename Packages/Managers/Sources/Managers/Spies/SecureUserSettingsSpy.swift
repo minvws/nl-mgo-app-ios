@@ -8,9 +8,9 @@
 import Foundation
 
 public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
-
-	public init() { }
 	
+	public init() {}
+
 	public var invokedTempAccessCodeSetter = false
 	public var invokedTempAccessCodeSetterCount = 0
 	public var invokedTempAccessCode: String?
@@ -52,6 +52,28 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 			invokedAccessCodeGetter = true
 			invokedAccessCodeGetterCount += 1
 			return stubbedAccessCode
+		}
+	}
+
+	public var invokedBioMetricAuthenticationEnabledSetter = false
+	public var invokedBioMetricAuthenticationEnabledSetterCount = 0
+	public var invokedBioMetricAuthenticationEnabled: Bool?
+	public var invokedBioMetricAuthenticationEnabledList = [Bool]()
+	public var invokedBioMetricAuthenticationEnabledGetter = false
+	public var invokedBioMetricAuthenticationEnabledGetterCount = 0
+	public var stubbedBioMetricAuthenticationEnabled: Bool! = false
+
+	public var bioMetricAuthenticationEnabled: Bool {
+		set {
+			invokedBioMetricAuthenticationEnabledSetter = true
+			invokedBioMetricAuthenticationEnabledSetterCount += 1
+			invokedBioMetricAuthenticationEnabled = newValue
+			invokedBioMetricAuthenticationEnabledList.append(newValue)
+		}
+		get {
+			invokedBioMetricAuthenticationEnabledGetter = true
+			invokedBioMetricAuthenticationEnabledGetterCount += 1
+			return stubbedBioMetricAuthenticationEnabled
 		}
 	}
 
