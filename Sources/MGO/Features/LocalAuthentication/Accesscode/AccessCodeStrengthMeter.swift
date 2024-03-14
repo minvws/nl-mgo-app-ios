@@ -26,6 +26,18 @@ class AccessCodeStrengthMeter: AccessCodeStrengthValidation {
 		
 		let result = PasswordTester.shared.testPin(code)
 		
-		return !(result.issues.contains(.frequentlyUsed) || result.issues.contains(.repeatingCharacters) || result.issues.contains(.notUnique) || result.issues.contains(.patternFound))
+		return !(
+			// the passcode is in the list of most used passcodes.
+			result.issues.contains(.frequentlyUsed) ||
+			
+			// there is a significant amount of repeating digits in the passcode.
+			result.issues.contains(.repeatingCharacters) ||
+
+			// the passcode doesn't have enough unique digits.
+			result.issues.contains(.notUnique) ||
+			
+			//  repeating pattern was found in the passcode - 12357 for example.
+			result.issues.contains(.patternFound)
+		)
 	}
 }
