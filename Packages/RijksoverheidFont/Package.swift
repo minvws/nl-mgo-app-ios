@@ -18,7 +18,7 @@ let package = Package(
 		
 		// Testing
 		.package(url: "https://github.com/Quick/Nimble", exact: "13.2.1"),
-		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.15.3")
+		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.15.4")
 	],
 	targets: [
 		.target(
