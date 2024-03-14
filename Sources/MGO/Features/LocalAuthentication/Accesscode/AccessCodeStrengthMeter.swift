@@ -6,9 +6,10 @@
  */
 
 import MGOFoundation
+import WultraPassphraseMeter
 
 /// Protocol for Access Code Strenght Validation
-protocol StrengthValidation {
+protocol AccessCodeStrengthValidation {
 	
 	/// Is this code a strong enough  code
 	/// - Parameter code: the code to be checked
@@ -16,18 +17,15 @@ protocol StrengthValidation {
 	func validate(_ code: String) -> Bool
 }
 
-class StrengthValidator: StrengthValidation {
-	
-	/// A very small list of invalid codes.
-	#warning("This will be improved in MGO-222 password strength")
-	private var invalid: [String] = [
-		"00000"
-	]
+class AccessCodeStrengthMeter: AccessCodeStrengthValidation {
 	
 	/// Is this code a strong enough  code
 	/// - Parameter code: the code to be checked
 	/// - Returns: true if the code is strong enough
 	func validate(_ code: String) -> Bool {
-		return !invalid.contains(code)
+		
+		let result = PasswordTester.shared.testPin(code)
+		
+		return !(result.issues.contains(.frequentlyUsed) || result.issues.contains(.repeatingCharacters) || result.issues.contains(.notUnique) || result.issues.contains(.patternFound))
 	}
 }

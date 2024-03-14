@@ -72,7 +72,7 @@ class AccessCodeViewModel: ObservableObject {
 	@Published var state: AccessCodeViewState = AccessCodeViewState(title: "", message: "")
 	
 	/// Tha strenth validator for the access code
-	private var strengthValidator: StrengthValidation = StrengthValidator()
+	private var strengthMeter: AccessCodeStrengthValidation = AccessCodeStrengthMeter()
 	
 	/// The flow coordintator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
@@ -198,7 +198,7 @@ class AccessCodeViewModel: ObservableObject {
 	private func handleCreationCompletion() {
 		
 		let code = accessCode.joined()
-		guard strengthValidator.validate(code) else {
+		guard strengthMeter.validate(code) else {
 			
 			// Show too weak message
 			updateState(tooWeak: true)
@@ -208,7 +208,6 @@ class AccessCodeViewModel: ObservableObject {
 		
 		// All ok, store temp and move to confirmation
 		Haptic.light()
-		// Store temp accesscode
 		Current.secureUserSettings.tempAccessCode = code
 		coordinator?.handle(.accessCodeEntered)
 	}

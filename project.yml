@@ -14,6 +14,9 @@ packages:
     path: ./Packages/MGOUI
   FHIRClient:
     path: ./Packages/FHIRClient
+  WultraPassphraseMeter:
+    github: Rool/passphrase-meter
+    branch: swift59
   RijksoverheidFont:
     path: ./Packages/RijksoverheidFont
   Managers:
@@ -123,6 +126,10 @@ targetTemplates:
 #       SPM:
       - package: MGOFoundation
       - package: MGOUI
+      - package: WultraPassphraseMeter
+        product: WultraPassphraseMeter
+      - package: WultraPassphraseMeter
+        product: WultraPassphraseMeterCore
         embed: false
     settings:
       base:
