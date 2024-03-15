@@ -40,7 +40,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 			messageType: .regular
 		)
 		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
 			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
 			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
 			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
@@ -234,7 +234,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 			messageType: .regular
 		)
 		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
 			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
 			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
 			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
@@ -365,7 +365,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 			messageType: .regular
 		)
 		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
 			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
 			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
 			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),

@@ -57,6 +57,13 @@ struct AccessCodeBoxView: View {
 		}
 	}
 	
+	var height: CGFloat {
+		switch state {
+			case .empty, .filled, .error: ViewTraits.Box.height
+			case .focus, .filling: ViewTraits.Box.height + 3
+		}
+	}
+	
 	/// The inside of the box for the various states
 	@ViewBuilder var icon: some View {
 		switch state {
@@ -86,7 +93,7 @@ struct AccessCodeBoxView: View {
 	var body: some View {
 		Rectangle()
 			.foregroundStyle(.clear)
-			.frame(width: ViewTraits.Box.width, height: ViewTraits.Box.height)
+			.frame(width: ViewTraits.Box.width, height: height)
 			.background(Color.Styleguide.white)
 			.cornerRadius(ViewTraits.Box.radius)
 			.overlay(
@@ -94,11 +101,12 @@ struct AccessCodeBoxView: View {
 					RoundedRectangle(cornerRadius: ViewTraits.Box.radius)
 						.stroke(borderColor, lineWidth: borderWidth)
 					icon
+					
 				}
 			)
 			.onAppear {
 				if state == .filling {
-					withAnimation(Animation.linear(duration: 0.3)) {
+					withAnimation(Animation.linear(duration: 0.5)) {
 						state = .filled
 					}
 				}
@@ -109,12 +117,17 @@ struct AccessCodeBoxView: View {
 #Preview {
 	ZStack {
 		Color.Styleguide.background
-		HStack(spacing: 12) {
+		HStack {
 			AccessCodeBoxView(state: .constant(.filled))
+				.frame(maxWidth: .infinity)
 			AccessCodeBoxView(state: .constant(.filling))
+				.frame(maxWidth: .infinity)
 			AccessCodeBoxView(state: .constant(.focus))
+				.frame(maxWidth: .infinity)
 			AccessCodeBoxView(state: .constant(.empty))
+				.frame(maxWidth: .infinity)
 			AccessCodeBoxView(state: .constant(.error))
+				.frame(maxWidth: .infinity)
 		}
 	}
 }
