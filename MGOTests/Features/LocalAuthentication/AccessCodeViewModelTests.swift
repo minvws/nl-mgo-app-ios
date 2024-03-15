@@ -161,11 +161,11 @@ final class AccessCodeViewModelTests: XCTestCase {
 			messageType: .regular
 		)
 		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .filling)
+			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
+			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
 		]
 		
 		// When

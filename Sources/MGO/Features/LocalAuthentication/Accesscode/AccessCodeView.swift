@@ -110,16 +110,19 @@ class AccessCodeViewModel: ObservableObject {
 		bioMetricType: () -> LocalAuthentication.BiometricType) {
 		
 		self.coordinator = coordinator
+		self.numberOfDigits = pinLimit
 		self.mode = mode
 		self.numberOfDigits = pinLimit
 		self.state.bioMetricType = bioMetricType()
 
 		updateState()
+		
 		boxStates.append(AccessCodeBoxState(id: 0, state: .focus))
-		for index in 1 ..< pinLimit {
+		for index in 1 ..< numberOfDigits {
 			boxStates.append(AccessCodeBoxState(id: index, state: .empty))
 		}
 	}
+	
 	
 	/// Update the state
 	/// - Parameters:
@@ -212,6 +215,7 @@ class AccessCodeViewModel: ObservableObject {
 		// Store temp accesscode
 		Current.secureUserSettings.tempAccessCode = code
 		coordinator?.handle(.accessCodeEntered)
+		accessCode = []
 	}
 	
 	/// Confirmation entered, compare with the previous value
