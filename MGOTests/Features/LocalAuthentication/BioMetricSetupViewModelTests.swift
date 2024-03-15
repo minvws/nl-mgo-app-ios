@@ -155,4 +155,17 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabled).toEventually(beFalse())
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
+	
+	func test_actionShowPopup() {
+		
+		// Given
+		setupSut { .touchID }
+		expect(self.sut.state.showTouchPopup) == false
+		
+		// When
+		sut.reduce(.showTouchIDPopup)
+		
+		// Then
+		expect(self.sut.state.showTouchPopup) == true
+	}
 }
