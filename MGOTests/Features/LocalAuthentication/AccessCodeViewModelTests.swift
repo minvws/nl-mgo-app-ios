@@ -11,12 +11,14 @@ import MGOTest
 
 final class AccessCodeViewModelTests: XCTestCase {
 	
+	private var strengthMeterSpy: AccessCodeStrengthValidationSpy!
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var sut: AccessCodeViewModel!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
+		strengthMeterSpy = AccessCodeStrengthValidationSpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
 		super.setUp()
@@ -24,7 +26,13 @@ final class AccessCodeViewModelTests: XCTestCase {
 	
 	func setupSut(mode: AccessCodeViewModel.AccessCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) {
 		
-		sut = AccessCodeViewModel(coordinator: coordinatorSpy, mode: mode, pinLimit: 5, bioMetricType: bioMetricType)
+		sut = AccessCodeViewModel(
+			coordinator: coordinatorSpy,
+			mode: mode,
+			pinLimit: 5,
+			bioMetricType: bioMetricType,
+			strengthMeter: strengthMeterSpy
+		)
 	}
 	
 	func test_creation_touch() {
@@ -167,6 +175,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .filled),
 			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .filling)
 		]
+		strengthMeterSpy.stubbedValidateResult = true
 		
 		// When
 		setupSut(mode: .creation, bioMetricType: { .touchID })
@@ -204,14 +213,15 @@ final class AccessCodeViewModelTests: XCTestCase {
 			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .error),
 			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .error)
 		]
+		strengthMeterSpy.stubbedValidateResult = false
 		
 		// When
 		setupSut(mode: .creation, bioMetricType: { .touchID })
 		sut.reduce(.buttonPressed(value: "0"))
-		sut.reduce(.buttonPressed(value: "0"))
-		sut.reduce(.buttonPressed(value: "0"))
-		sut.reduce(.buttonPressed(value: "0"))
-		sut.reduce(.buttonPressed(value: "0"))
+		sut.reduce(.buttonPressed(value: "1"))
+		sut.reduce(.buttonPressed(value: "2"))
+		sut.reduce(.buttonPressed(value: "3"))
+		sut.reduce(.buttonPressed(value: "4"))
 
 		// Then
 		expect(self.sut.state) == expectedState

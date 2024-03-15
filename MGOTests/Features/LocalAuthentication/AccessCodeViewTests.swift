@@ -12,12 +12,14 @@ import MGOUI
 
 final class AccessCodeViewTests: XCTestCase {
 
+	private var strengthMeterSpy: AccessCodeStrengthValidationSpy!
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var sut: AccessCodeViewModel!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
+		strengthMeterSpy = AccessCodeStrengthValidationSpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
 		super.setUp()
@@ -25,7 +27,13 @@ final class AccessCodeViewTests: XCTestCase {
 	
 	func createSut(mode: AccessCodeViewModel.AccessCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) -> AccessCodeView {
 		
-		let viewModel = AccessCodeViewModel(coordinator: coordinatorSpy, mode: mode, pinLimit: 5, bioMetricType: bioMetricType)
+		let viewModel = AccessCodeViewModel(
+			coordinator: coordinatorSpy,
+			mode: mode,
+			pinLimit: 5,
+			bioMetricType: bioMetricType,
+			strengthMeter: strengthMeterSpy
+		)
 		
 		return AccessCodeView(
 			viewModel: viewModel
@@ -145,6 +153,7 @@ final class AccessCodeViewTests: XCTestCase {
 	func test_creation_touch_fiveDigits_tooWeak() throws {
 		
 		// Given
+		strengthMeterSpy.stubbedValidateResult = false
 		let sut = createSut(mode: .creation, bioMetricType: { .touchID })
 		try sut.inspect().find(button: "0").tap()
 		try sut.inspect().find(button: "0").tap()

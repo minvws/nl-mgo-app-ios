@@ -72,7 +72,7 @@ class AccessCodeViewModel: ObservableObject {
 	@Published var state: AccessCodeViewState = AccessCodeViewState(title: "", message: "")
 	
 	/// Tha strenth validator for the access code
-	private var strengthMeter: AccessCodeStrengthValidation = AccessCodeStrengthMeter()
+	private var strengthMeter: AccessCodeStrengthValidation
 	
 	/// The flow coordintator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
@@ -107,11 +107,13 @@ class AccessCodeViewModel: ObservableObject {
 		coordinator: (any AppCoordinatorProtocol)?,
 		mode: AccessCodeMode,
 		pinLimit: Int = 5,
-		bioMetricType: () -> LocalAuthentication.BiometricType) {
+		bioMetricType: () -> LocalAuthentication.BiometricType,
+		strengthMeter: AccessCodeStrengthValidation = AccessCodeStrengthMeter()) {
 		
 		self.coordinator = coordinator
 		self.mode = mode
 		self.numberOfDigits = pinLimit
+		self.strengthMeter = strengthMeter
 		self.state.bioMetricType = bioMetricType()
 
 		updateState()
