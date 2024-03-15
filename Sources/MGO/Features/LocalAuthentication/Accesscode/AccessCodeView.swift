@@ -123,7 +123,6 @@ class AccessCodeViewModel: ObservableObject {
 		}
 	}
 	
-	
 	/// Update the state
 	/// - Parameters:
 	///   - tooWeak: setup for too weak access code
