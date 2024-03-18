@@ -153,7 +153,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log volgende keer in met je vingerafdruk."
+            "value" : "Log volgende keer in met je vingerafdruk"
           }
         }
       }
@@ -274,7 +274,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plaats je vinger om te bevestigen."
+            "value" : "Plaats je vinger om te bevestigen"
           }
         }
       }
