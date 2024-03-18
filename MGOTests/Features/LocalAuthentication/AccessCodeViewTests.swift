@@ -40,6 +40,32 @@ final class AccessCodeViewTests: XCTestCase {
 		)
 	}
 
+	func test_creation_noBioMetric_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .creation, bioMetricType: { .none })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_creation_noBioMetric_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .creation, bioMetricType: { .none })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+	
 	func test_creation_touch_lightMode() {
 		
 		// Given
@@ -169,6 +195,32 @@ final class AccessCodeViewTests: XCTestCase {
 		assertSnapshot(of: content.colorScheme(.light), as: .image)
 	}
 	
+	func test_confirmation_noBioMetric_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .none })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_confirmation_noBioMetric_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .none })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+	
 	func test_confirmation_touch_lightMode() {
 		
 		// Given
@@ -186,6 +238,58 @@ final class AccessCodeViewTests: XCTestCase {
 		
 		// Given
 		let sut = createSut(mode: .confirmation, bioMetricType: { .touchID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+	
+	func test_confirmation_face_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .faceID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_confirmation_face_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .faceID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+	
+	func test_confirmation_vison_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .opticID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_confirmation_vision_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .opticID })
 		
 		// When
 		let content = NavigationView { sut }
