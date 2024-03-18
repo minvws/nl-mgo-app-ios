@@ -76,7 +76,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt een **persoonlijke toegangscode** nodig om de app te gebruiken en je gegevens te beveiligen."
+            "value" : "Je hebt een p**ersoonlijke toegangscode** nodig om de app te beveiligen. Gebruik geen te simpele codes, zoals 12345."
           }
         }
       }
@@ -143,6 +143,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mijn\nGezondheidsoverzicht"
+          }
+        }
+      }
+    },
+    "biometric_alert_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log volgende keer in met je vingerafdruk."
+          }
+        }
+      }
+    },
+    "biometric_alert_cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sta niet toe"
+          }
+        }
+      }
+    },
+    "biometric_alert_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wil je toestaan dat Mijn Gezondheidsoverzicht Touch ID gebruikt?"
           }
         }
       }
@@ -224,13 +257,24 @@
         }
       }
     },
+    "biometric_popup_fallback" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik de toegangscode"
+          }
+        }
+      }
+    },
     "biometric_popup_touchid_description" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gebruik touch ID om je persoonlijke gegevens in Mijn Gezondeheidsoverzicht te beschermen"
+            "value" : "Plaats je vinger om te bevestigen."
           }
         }
       }
@@ -263,6 +307,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sluiten"
+          }
+        }
+      }
+    },
+    "general_ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         }
       }

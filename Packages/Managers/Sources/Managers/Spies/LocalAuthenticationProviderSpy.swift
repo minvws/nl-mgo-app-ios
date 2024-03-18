@@ -28,7 +28,7 @@ public class LocalAuthenticationProviderSpy: LocalAuthenticationProviderProtocol
 	public var stubbedAuthenticated = false
 	public var stubbedLocalAuthenticationError: LocalAuthenticationError?
 
-	public func authenticate(localizedReason: String) async throws -> Bool {
+	public func authenticate(localizedReason: String, localizedFallbackTitle: String) async throws -> Bool {
 		invokedAuthenticate = true
 		invokedAuthenticateCount += 1
 		invokedAuthenticateParameters = (localizedReason, ())

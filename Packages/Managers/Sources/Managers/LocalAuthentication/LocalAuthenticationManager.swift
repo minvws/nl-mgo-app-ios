@@ -13,7 +13,7 @@ public protocol LocalAuthenticationProviderProtocol {
 	/// Get the biometric type for this device
 	var biometricType: () -> LocalAuthentication.BiometricType { get }
 	
-	func authenticate(localizedReason: String) async throws -> Bool
+	func authenticate(localizedReason: String, localizedFallbackTitle: String) async throws -> Bool
 }
 
 public enum LocalAuthenticationError: Error {
@@ -36,9 +36,10 @@ public class LocalAuthenticationProvider: LocalAuthenticationProviderProtocol {
 	}
 	
 	@discardableResult
-	public func authenticate(localizedReason: String) async throws -> Bool {
+	public func authenticate(localizedReason: String, localizedFallbackTitle: String) async throws -> Bool {
 		
 		let context = LAContext()
+		context.localizedFallbackTitle = localizedFallbackTitle
 		
 		do {
 			return try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: localizedReason)

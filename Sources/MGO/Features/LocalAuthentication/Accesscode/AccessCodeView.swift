@@ -111,13 +111,16 @@ class AccessCodeViewModel: ObservableObject {
 		strengthMeter: AccessCodeStrengthValidation = AccessCodeStrengthMeter()) {
 		
 		self.coordinator = coordinator
+		self.numberOfDigits = pinLimit
 		self.mode = mode
 		self.numberOfDigits = pinLimit
 		self.strengthMeter = strengthMeter
 		self.state.bioMetricType = bioMetricType()
 
 		updateState()
-		for index in 0 ..< pinLimit {
+		
+		boxStates.append(AccessCodeBoxState(id: 0, state: .focus))
+		for index in 1 ..< numberOfDigits {
 			boxStates.append(AccessCodeBoxState(id: index, state: .empty))
 		}
 	}
@@ -212,6 +215,7 @@ class AccessCodeViewModel: ObservableObject {
 		Haptic.light()
 		Current.secureUserSettings.tempAccessCode = code
 		coordinator?.handle(.accessCodeEntered)
+		accessCode = []
 	}
 	
 	/// Confirmation entered, compare with the previous value
@@ -279,7 +283,7 @@ struct AccessCodeView: View {
 			static let horizontalPadding: CGFloat = 16
 		}
 		enum Box {
-			static let spacing: CGFloat = 12
+			static let bottomMargin: CGFloat = 22
 		}
 	}
 	
@@ -333,12 +337,13 @@ struct AccessCodeView: View {
 				
 				VStack(spacing: ViewTraits.General.spacing) {
 					
-					HStack(spacing: ViewTraits.Box.spacing) {
+					HStack(spacing: 0) {
 						ForEach($viewModel.boxStates, id: \.self) { element in
 							AccessCodeBoxView(state: element.state)
+								.frame(maxWidth: .infinity)
 						}
 					}
-					.padding(.bottom, 22)
+					.padding(.bottom, ViewTraits.Box.bottomMargin)
 					
 					Group {
 						HStack(spacing: ViewTraits.General.spacing) {
@@ -386,8 +391,8 @@ struct AccessCodeView: View {
 								.disabled(!viewModel.state.eraseEnabled)
 						}
 					}
+					.padding(.horizontal, ViewTraits.General.horizontalPadding) // For the whole keyboard
 				}
-				.padding(.horizontal, ViewTraits.General.horizontalPadding) // For the whole keyboard
 			}
 		}
 		.navigationBarTitleDisplayMode(.inline)

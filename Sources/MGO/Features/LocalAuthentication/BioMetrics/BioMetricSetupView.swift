@@ -13,12 +13,14 @@ import LocalAuthentication
 class BioMetricSetupViewModel: ObservableObject {
 	
 	enum Action {
-		case proceedWithBioMetric
-		case proceedWithoutBioMetric
+		case proceedWithBioMetric // Enable biometric access
+		case proceedWithoutBioMetric // Skip the biometric setup
+		case showTouchIDPopup // FaceID has a native popup, we want something similar for Touch ID.
 	}
 	
 	struct State {
 		public var bioMetricType: LocalAuthentication.BiometricType
+		public var showTouchPopup: Bool = false
 	}
 	
 	/// The flow coordintator for routing
@@ -51,10 +53,14 @@ class BioMetricSetupViewModel: ObservableObject {
 		switch action {
 			case .proceedWithBioMetric:
 				SwiftUI.Task {
-					 await authenticate()
+					await authenticate()
 				}
+			
 			case .proceedWithoutBioMetric:
 				proceedWithoutBioMetric()
+			
+			case .showTouchIDPopup:
+				state.showTouchPopup = true
 		}
 	}
 	
@@ -76,7 +82,10 @@ class BioMetricSetupViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
-			_ = try await Current.localAuthenticationProvider.authenticate(localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")))
+			_ = try await Current.localAuthenticationProvider.authenticate(
+				localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")),
+				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_popup_fallback"))
+			)
 			proceedWithBioMetric()
 		} catch LocalAuthenticationError.canceled {
 			// Cancelled, stay on the scene
@@ -170,7 +179,11 @@ struct BioMetricSetupView: View {
 					}
 					
 					CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_with_biometric", type: bioMetricType))) {
-						viewModel.reduce(.proceedWithBioMetric)
+						if bioMetricType == .touchID {
+							viewModel.reduce(.showTouchIDPopup)
+						} else {
+							viewModel.reduce(.proceedWithBioMetric)
+						}
 					}
 				}
 				.padding(ViewTraits.Button.insets)
@@ -178,6 +191,12 @@ struct BioMetricSetupView: View {
 		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarTitleDisplayMode(.inline)
+		.alert("biometric_alert_title", isPresented: $viewModel.state.showTouchPopup) {
+			Button("biometric_alert_cancel", role: .cancel) { viewModel.reduce(.proceedWithoutBioMetric) }
+			Button("general_ok") { viewModel.reduce(.proceedWithBioMetric) }
+		} message: {
+			Text("biometric_alert_body")
+		}
 	}
 	
 	@ViewBuilder func getBioMetricImage(type: LocalAuthentication.BiometricType) -> some View {
