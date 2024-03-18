@@ -57,21 +57,23 @@ class BioMetricSetupViewModel: ObservableObject {
 				}
 			
 			case .proceedWithoutBioMetric:
-				proceedWithoutBioMetric()
+				finishedWithoutBioMetric()
 			
 			case .showTouchIDPopup:
 				state.showTouchPopup = true
 		}
 	}
 	
-	private func proceedWithBioMetric() {
+	private func finishedWithBioMetric() {
+		
 		// Do use biometric authentication
 		Current.secureUserSettings.bioMetricAuthenticationEnabled = true
 		// We are done
 		coordinator?.handle(.didFinishLocalAuthentication)
 	}
 	
-	private func proceedWithoutBioMetric() {
+	private func finishedWithoutBioMetric() {
+		
 		// Do not use biometric authentication
 		Current.secureUserSettings.bioMetricAuthenticationEnabled = false
 		// We are done
@@ -86,7 +88,7 @@ class BioMetricSetupViewModel: ObservableObject {
 				localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_popup_fallback"))
 			)
-			proceedWithBioMetric()
+			finishedWithBioMetric()
 		} catch LocalAuthenticationError.canceled {
 			// Cancelled, stay on the scene
 			logWarning("User cancelled the biometric request.")
@@ -98,11 +100,11 @@ class BioMetricSetupViewModel: ObservableObject {
 			
 		} catch LocalAuthenticationError.userFallback {
 			logWarning("User selected password option")
-			proceedWithoutBioMetric()
+			finishedWithoutBioMetric()
 		
 		} catch LocalAuthenticationError.declined {
 			logWarning("User declined biometric access")
-			proceedWithoutBioMetric()
+			finishedWithoutBioMetric()
 			
 		} catch LocalAuthenticationError.lockout {
 			logWarning("BioMetric setup lockaout")
