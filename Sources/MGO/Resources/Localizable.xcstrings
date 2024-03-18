@@ -76,7 +76,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt een p**ersoonlijke toegangscode** nodig om de app te beveiligen. Gebruik geen te simpele codes, zoals 12345."
+            "value" : "Je hebt een **persoonlijke toegangscode** nodig om de app te beveiligen. Gebruik geen te simpele codes, zoals 12345."
           }
         }
       }
