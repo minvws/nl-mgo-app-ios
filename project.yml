@@ -146,6 +146,7 @@ targetTemplates:
           - 'firefox'
           - 'microsoft-edge-https'
         LSRequiresIPhoneOS: true
+        NSFaceIDUsageDescription: "Log volgende keer in met gezichtsherkenning."
         UIApplicationSupportsIndirectInputEvents: true
         UIRequiredDeviceCapabilities:
           - armv7

@@ -25,6 +25,12 @@ final class ServicesSpies {
 	var secureUserSettingsSpy: SecureUserSettingsSpy = {
 		return SecureUserSettingsSpy()
 	}()
+
+	var localAuthenticationProviderSpy: LocalAuthenticationProviderSpy = {
+		let spy = LocalAuthenticationProviderSpy()
+		spy.stubbedBiometricType = { .faceID }
+		return spy
+	}()
 }
 
 /// Setup the services spies
@@ -35,9 +41,9 @@ func setupServicesSpies() -> ServicesSpies {
 	
 	Current = Services(
 		now: { Date(timeIntervalSince1970: 1700000000) }, // Tuesday, 14 November 2023 22:13:20
+		localAuthenticationProvider: spies.localAuthenticationProviderSpy,
 		notificationCenter: spies.notificationCenterSpy,
 		secureUserSettings: spies.secureUserSettingsSpy
 	)
-	
 	return spies
 }

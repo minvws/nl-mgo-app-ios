@@ -116,12 +116,36 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeConfirmation])
 	}
 
-	func test_coordinatorHandle_accessCodeConfirmed_shouldShowDashboard() {
+	func test_coordinatorHandle_accessCodeConfirmed_shouldShowBioMetricSetup() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
+		
+		// When
+		sut.handle(AppCoordination.Action.accessCodeConfirmed)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.bioMetricSetup])
+	}
+	
+	func test_coordinatorHandle_accessCodeConfirmed_noBiometrics_shouldShowDashboard() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .none }
+		
+		// When
+		sut.handle(AppCoordination.Action.accessCodeConfirmed)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+	}
+
+	func test_coordinatorHandle_didFinishLocalAuthentication_shouldShowDashboard() {
 		
 		// Given
 		
 		// When
-		sut.handle(AppCoordination.Action.accessCodeConfirmed)
+		sut.handle(AppCoordination.Action.didFinishLocalAuthentication)
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
@@ -206,6 +230,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorView_forAccessCodeEntry() {
 		
 		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		let state = AppCoordination.State.accessCodeEntry
 		
 		// When
@@ -218,7 +243,21 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorView_forAccessCodeConfirmation() {
 		
 		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		let state = AppCoordination.State.accessCodeConfirmation
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+	
+	func test_coordinatorView_forBioMetricSetup() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
+		let state = AppCoordination.State.bioMetricSetup
 		
 		// When
 		let view = sut.view(for: state)

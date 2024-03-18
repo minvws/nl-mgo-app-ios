@@ -76,7 +76,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt een **persoonlijke toegangscode** nodig om de app te gebruiken en je gegevens te beveiligen."
+            "value" : "Je hebt een p**ersoonlijke toegangscode** nodig om de app te beveiligen. Gebruik geen te simpele codes, zoals 12345."
           }
         }
       }
@@ -103,6 +103,17 @@
         }
       }
     },
+    "accesscode_mismatch_body_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze persoonlijke toegangscode is niet dezelfde als de vorige. Voer de juiste code in om door te gaan."
+          }
+        }
+      }
+    },
     "accesscode_tooweak_body" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -110,6 +121,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deze persoonlijke toegangscode is **niet veilig genoeg**. Gebruik geen cijfers die na elkaar komen."
+          }
+        }
+      }
+    },
+    "accesscode_tooweak_body_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze persoonlijke toegangscode is niet veilig genoeg. Gebruik geen cijfers die na elkaar komen."
           }
         }
       }
@@ -125,6 +147,159 @@
         }
       }
     },
+    "biometric_alert_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log volgende keer in met je vingerafdruk"
+          }
+        }
+      }
+    },
+    "biometric_alert_cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sta niet toe"
+          }
+        }
+      }
+    },
+    "biometric_alert_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wil je toestaan dat Mijn Gezondheidsoverzicht Touch ID gebruikt?"
+          }
+        }
+      }
+    },
+    "biometric_body_faceid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveilig de app met **herkenning van je gezicht**. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige pincode gewoon blijven gebruiken."
+          }
+        }
+      }
+    },
+    "biometric_body_opticid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveilig de app met **herkenning van je ogen**. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige pincode gewoon blijven gebruiken."
+          }
+        }
+      }
+    },
+    "biometric_body_touchid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveilig de app met **je vingerafdruk**. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige pincode gewoon blijven gebruiken."
+          }
+        }
+      }
+    },
+    "biometric_button_with_biometric" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ inschakelen"
+          }
+        }
+      }
+    },
+    "biometric_button_without_biometric" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verder zonder %@"
+          }
+        }
+      }
+    },
+    "biometric_faceid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Face ID"
+          }
+        }
+      }
+    },
+    "biometric_opticid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optic ID"
+          }
+        }
+      }
+    },
+    "biometric_popup_fallback" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik de toegangscode"
+          }
+        }
+      }
+    },
+    "biometric_popup_touchid_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plaats je vinger om te bevestigen"
+          }
+        }
+      }
+    },
+    "biometric_title" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wil je de volgende keer inloggen met %@?"
+          }
+        }
+      }
+    },
+    "biometric_touchid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID"
+          }
+        }
+      }
+    },
     "general_close" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -132,6 +307,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sluiten"
+          }
+        }
+      }
+    },
+    "general_ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         }
       }

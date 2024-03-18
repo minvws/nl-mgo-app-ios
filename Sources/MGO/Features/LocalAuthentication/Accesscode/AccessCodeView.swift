@@ -110,12 +110,15 @@ class AccessCodeViewModel: ObservableObject {
 		bioMetricType: () -> LocalAuthentication.BiometricType) {
 		
 		self.coordinator = coordinator
+		self.numberOfDigits = pinLimit
 		self.mode = mode
 		self.numberOfDigits = pinLimit
 		self.state.bioMetricType = bioMetricType()
 
 		updateState()
-		for index in 0 ..< pinLimit {
+		
+		boxStates.append(AccessCodeBoxState(id: 0, state: .focus))
+		for index in 1 ..< numberOfDigits {
 			boxStates.append(AccessCodeBoxState(id: index, state: .empty))
 		}
 	}
@@ -134,11 +137,13 @@ class AccessCodeViewModel: ObservableObject {
 			state.title = "accesscode_create_title"
 			state.message = "accesscode_tooweak_body"
 			state.messageType = .alert
+			announce(String(localized: "accesscode_tooweak_body_voiceover"))
 		} else if confirmationMismatch {
 			// Setup for access codes do not match
 			state.title = "accesscode_confirmation_title"
 			state.message = "accesscode_mismatch_body"
 			state.messageType = .alert
+			announce(String(localized: "accesscode_mismatch_body_voiceover"))
 		} else if mode == .confirmation {
 			// Setup for access code confirmation
 			state.title = "accesscode_confirmation_title"
@@ -149,6 +154,12 @@ class AccessCodeViewModel: ObservableObject {
 			state.title = "accesscode_create_title"
 			state.message = "accesscode_create_body"
 			state.messageType = .regular
+		}
+	}
+	
+	func announce(_ message: String) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+			UIAccessibility.post(notification: .announcement, argument: message)
 		}
 	}
 	
@@ -191,7 +202,6 @@ class AccessCodeViewModel: ObservableObject {
 		
 		let code = accessCode.joined()
 		guard strengthValidator.validate(code) else {
-			logDebug("accessCode too weak")
 			
 			// Show too weak message
 			updateState(tooWeak: true)
@@ -202,9 +212,9 @@ class AccessCodeViewModel: ObservableObject {
 		// All ok, store temp and move to confirmation
 		Haptic.light()
 		// Store temp accesscode
-		logDebug("temp accessCode is \(code)")
 		Current.secureUserSettings.tempAccessCode = code
 		coordinator?.handle(.accessCodeEntered)
+		accessCode = []
 	}
 	
 	/// Confirmation entered, compare with the previous value
@@ -272,7 +282,7 @@ struct AccessCodeView: View {
 			static let horizontalPadding: CGFloat = 16
 		}
 		enum Box {
-			static let spacing: CGFloat = 12
+			static let bottomMargin: CGFloat = 22
 		}
 	}
 	
@@ -318,29 +328,21 @@ struct AccessCodeView: View {
 									.frame(maxWidth: .infinity, alignment: .topLeading)
 							}
 							.padding(ViewTraits.Text.insets)
+							.accessibilityElement(children: .combine)
 					}
 				}
 				
 				Spacer()
 				
-//				HStack {
-//					Spacer()
-//					
-//					Text(viewModel.accessCode.joined())
-//						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-//					Spacer()
-//				}
-//				.frame(minHeight: 50)
-//				.background(.orange)
-				
 				VStack(spacing: ViewTraits.General.spacing) {
 					
-					HStack(spacing: ViewTraits.Box.spacing) {
+					HStack(spacing: 0) {
 						ForEach($viewModel.boxStates, id: \.self) { element in
 							AccessCodeBoxView(state: element.state)
+								.frame(maxWidth: .infinity)
 						}
 					}
-					.padding(.bottom, 22)
+					.padding(.bottom, ViewTraits.Box.bottomMargin)
 					
 					Group {
 						HStack(spacing: ViewTraits.General.spacing) {
@@ -388,8 +390,8 @@ struct AccessCodeView: View {
 								.disabled(!viewModel.state.eraseEnabled)
 						}
 					}
+					.padding(.horizontal, ViewTraits.General.horizontalPadding) // For the whole keyboard
 				}
-				.padding(.horizontal, ViewTraits.General.horizontalPadding) // For the whole keyboard
 			}
 		}
 		.navigationBarTitleDisplayMode(.inline)

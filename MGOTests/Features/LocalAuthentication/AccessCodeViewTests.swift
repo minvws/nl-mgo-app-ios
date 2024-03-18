@@ -5,6 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import MGOFoundation
 import MGOTest
 import MGOUI
 @testable import MGO

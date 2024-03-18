@@ -41,6 +41,7 @@ enum AppCoordination {
 		// Local Authentication
 		case accessCodeEntered
 		case accessCodeConfirmed
+		case didFinishLocalAuthentication
 		
 		// Other
 		case backButtonPressed
@@ -55,6 +56,7 @@ enum AppCoordination {
 		case privacyStatement
 		case accessCodeEntry
 		case accessCodeConfirmation
+		case bioMetricSetup
 		case dashboard
 	}
 }
@@ -105,7 +107,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.append(AppCoordination.State.accessCodeConfirmation)
 			
 			case .accessCodeConfirmed:
-				#warning("Todo: BioMetric Setup")
+			
+				if Current.localAuthenticationProvider.biometricType() == .none {
+					path.append(AppCoordination.State.dashboard)
+				} else {
+					path.append(AppCoordination.State.bioMetricSetup)
+				}
+			
+			case .didFinishLocalAuthentication:
 				path.append(AppCoordination.State.dashboard)
 			
 			case .backButtonPressed:
@@ -139,16 +148,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				PrivacyStatementView(viewModel: PrivacyStatementViewModel(coordinator: self))
 
 			case .accessCodeEntry:
-				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .creation, bioMetricType: {
-					// LAContext().biometricType
-					.touchID
-				}))
+				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .creation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 				
 			case .accessCodeConfirmation:
-				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: {
-					// LAContext().biometricType
-					.touchID
-				}))
+			AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+			
+			case .bioMetricSetup:
+				BioMetricSetupView(viewModel: BioMetricSetupViewModel(coordinator: self, bioMetricType: Current.localAuthenticationProvider.biometricType))
 			
 			case .dashboard:
 //				DashboardView(viewModel: DashboardViewModel(coordinator: self))
