@@ -33,7 +33,7 @@ class AccessCodeStrengthMeter: AccessCodeStrengthValidation {
 			// there is a significant amount of repeating digits in the passcode.
 			result.issues.contains(.repeatingCharacters) ||
 
-			// the passcode doesn't have enough unique digits.
+			// the passcode doesn't have enough unique digits. (minimum of 3 different digits required)
 			result.issues.contains(.notUnique)
 		)
 	}
