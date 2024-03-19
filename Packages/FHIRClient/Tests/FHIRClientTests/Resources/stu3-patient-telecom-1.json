@@ -1,0 +1,34 @@
+{
+	"resourceType": "Patient",
+	"id": "stu3-patient-telecom-1",
+	"telecom": [
+		{
+			"extension": [
+				{
+					"url": "http://nictiz.nl/fhir/StructureDefinition/zib-ContactInformation-TelecomType",
+					"valueCodeableConcept": {
+						"coding": [
+							{
+								"system": "urn:oid:2.16.840.1.113883.2.4.3.11.60.40.4.22.1",
+								"code": "LL",
+								"display": "Vast telefoonnummer"
+							}
+						]
+					}
+				}
+			],
+			"system": "phone",
+			"value": "+31611234567",
+			"use": "home"
+		},
+		{
+			"system": "email",
+			"value": "current@hotmail.com"
+		},
+		{
+			"system": "email",
+			"value": "XXX_Mesker@hotmail.com",
+			"use": "home"
+		}
+	]
+}

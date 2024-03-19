@@ -21,6 +21,10 @@ CoreText: {
   shape: oval
   style.fill: "#8FCAE7"
 }
+FHIRModels: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 
 # Third-Party
 NavigationStackBackport: {
@@ -57,6 +61,7 @@ MGOUI <- ReusableUI
 MGOUI <- RijksoverheidFont
 
 Managers { style.fill: "#ffcc00" }
+Managers <- FHIRClient
 
 RijksoverheidFont { style.fill: "#ffcc00" }
 RijksoverheidFont <- SwiftUI
@@ -66,3 +71,6 @@ RijksoverheidFont <- DeviceKit
 
 ReusableUI { style.fill: "#ffcc00" }
 ReusableUI <- SwiftUI
+
+FHIRClient { style.fill: "#ffcc00" }
+FHIRClient <- FHIRModels

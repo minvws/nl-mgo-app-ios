@@ -1,0 +1,27 @@
+{
+    "resourceType": "Patient",
+    "id": "stu3-patient-name-2",
+    "name": [
+        {
+            "use": "official",
+            "family": "von Hochheim-Weilenfels",
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/humanname-own-prefix",
+                    "valueString": "von"
+                },
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/humanname-own-name",
+                    "valueString": "Hochheim-Weilenfels"
+                }
+            ],
+            "given": ["Regina", "Johanna", "Maria"],
+            "prefix": ["Dr. phil."],
+            "suffix": ["NCFSA"]
+        },
+        {
+            "use": "maiden",
+            "family": "Hochheim"
+        }
+    ]
+}

@@ -12,6 +12,8 @@ packages:
     path: ./Packages/MGOTest
   MGOUI:
     path: ./Packages/MGOUI
+  FHIRClient:
+    path: ./Packages/FHIRClient
   RijksoverheidFont:
     path: ./Packages/RijksoverheidFont
   Managers:
@@ -144,6 +146,7 @@ targetTemplates:
           - 'firefox'
           - 'microsoft-edge-https'
         LSRequiresIPhoneOS: true
+        NSFaceIDUsageDescription: "Log volgende keer in met gezichtsherkenning."
         UIApplicationSupportsIndirectInputEvents: true
         UIRequiredDeviceCapabilities:
           - armv7
@@ -337,6 +340,9 @@ schemes:
           randomExecutionOrder: true
           parallelizable: false
         - package: ReusableUI/ReusableUITests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: FHIRClient/FHIRClientTests
           randomExecutionOrder: true
           parallelizable: false
     

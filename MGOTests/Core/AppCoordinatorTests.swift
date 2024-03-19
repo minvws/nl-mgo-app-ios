@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -38,10 +38,26 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
 	
-	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_pathShouldContainDashboard() {
+	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeNotSet_pathShouldContainAccesCodeEntry() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == false
+		
+		// When
+		sut.handle(AppCoordination.Action.finishedLoading)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == true
+	}
+	
+	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeSet_pathShouldContainDashboard() {
+		
+		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = true
+		servicesSpies.secureUserSettingsSpy.stubbedAccessCode = "test"
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == false
 		
 		// When
@@ -63,7 +79,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacyOverview])
 	}
 	
-	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainDashboard_securitySettingsUpdated() {
+	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainAccessCodeEntry_securitySettingsUpdated() {
 		
 		// Given
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionSetter) == false
@@ -73,7 +89,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(AppCoordination.Action.nextButtonPressedOnPrivacyOverview)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionSetter) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == true
 	}
@@ -87,6 +103,52 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacyStatement])
+	}
+	
+	func test_coordinatorHandle_accessCodeEntered_shouldShowAccessCodeConfirmation() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.accessCodeEntered)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeConfirmation])
+	}
+
+	func test_coordinatorHandle_accessCodeConfirmed_shouldShowBioMetricSetup() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
+		
+		// When
+		sut.handle(AppCoordination.Action.accessCodeConfirmed)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.bioMetricSetup])
+	}
+	
+	func test_coordinatorHandle_accessCodeConfirmed_noBiometrics_shouldShowDashboard() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .none }
+		
+		// When
+		sut.handle(AppCoordination.Action.accessCodeConfirmed)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+	}
+
+	func test_coordinatorHandle_didFinishLocalAuthentication_shouldShowDashboard() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.didFinishLocalAuthentication)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
 	}
 	
 	func test_coordinatorHandle_backButtonPressed() {
@@ -165,8 +227,47 @@ final class AppCoordinatorTests: XCTestCase {
 		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
 	}
 	
-	func test_coordinatorView_forDashboard() {
+	func test_coordinatorView_forAccessCodeEntry() {
 		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
+		let state = AppCoordination.State.accessCodeEntry
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+	
+	func test_coordinatorView_forAccessCodeConfirmation() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
+		let state = AppCoordination.State.accessCodeConfirmation
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+	
+	func test_coordinatorView_forBioMetricSetup() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
+		let state = AppCoordination.State.bioMetricSetup
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+	
+	func test_coordinatorView_forDashboard() {
+
 		// Given
 		let state = AppCoordination.State.dashboard
 		
