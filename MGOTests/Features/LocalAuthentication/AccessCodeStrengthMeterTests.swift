@@ -49,7 +49,7 @@ final class AccessCodeStrengthMeterTests: XCTestCase {
 	func test_notUnique() {
 		
 		// Given
-		let codes = ["00001", "88885", "00500"]
+		let codes = ["00001", "88885", "00500", "05500", "50505", "50005"]
 		
 		for code in codes {
 			// When
