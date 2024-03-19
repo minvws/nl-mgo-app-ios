@@ -9,12 +9,12 @@ import MGOTest
 import MGOUI
 @testable import MGO
 
-final class PrivacyViewTests: XCTestCase {
+final class PrivacyOverviewViewTests: XCTestCase {
 	
-	func createSut() -> PrivacyView {
+	func createSut() -> PrivacyOverviewView {
 		
-		return PrivacyView(
-			viewModel: PrivacyViewModel(
+		return PrivacyOverviewView(
+			viewModel: PrivacyOverviewViewModel(
 				coordinator: nil
 			)
 		)

@@ -377,61 +377,6 @@
         }
       }
     },
-    "privacy_intro" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In de %@ staat hoe Mijn Gezondheidsoverzicht jouw gegevens gebruikt. Dit zijn de belangrijkste punten:"
-          }
-        }
-      }
-    },
-    "privacy_item_1" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je gegevens worden **versleuteld** en via een **veilige** verbinding opgehaald."
-          }
-        }
-      }
-    },
-    "privacy_item_2" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De app haalt je gegevens direct op bij de zorgverleners die jij kiest. **Alleen jij hebt toegang.**"
-          }
-        }
-      }
-    },
-    "privacy_item_3" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "**Je kiest zelf** hoe je je gegevens wilt gebruiken en of je ze wel of niet deelt met anderen."
-          }
-        }
-      }
-    },
-    "privacy_item_4" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je kunt het overzicht altijd **eenvoudig weggooien of opnieuw opvragen.**"
-          }
-        }
-      }
-    },
     "privacy_statement" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -465,7 +410,62 @@
         }
       }
     },
-    "privacy_title" : {
+    "privacyoverview_intro" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In de %@ staat hoe Mijn Gezondheidsoverzicht jouw gegevens gebruikt. Dit zijn de belangrijkste punten:"
+          }
+        }
+      }
+    },
+    "privacyoverview_item_1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je gegevens worden **versleuteld** en via een **veilige** verbinding opgehaald."
+          }
+        }
+      }
+    },
+    "privacyoverview_item_2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app haalt je gegevens direct op bij de zorgverleners die jij kiest. **Alleen jij hebt toegang.**"
+          }
+        }
+      }
+    },
+    "privacyoverview_item_3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "**Je kiest zelf** hoe je je gegevens wilt gebruiken en of je ze wel of niet deelt met anderen."
+          }
+        }
+      }
+    },
+    "privacyoverview_item_4" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt het overzicht altijd **eenvoudig weggooien of opnieuw opvragen.**"
+          }
+        }
+      }
+    },
+    "privacyoverview_title" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
