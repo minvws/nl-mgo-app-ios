@@ -7,7 +7,7 @@
 
 import MGOUI
 
-class PrivacyViewModel: ObservableObject {
+class PrivacyOverviewViewModel: ObservableObject {
 	
 	/// The app coordintator for routing
 	weak var coordinator: (any AppCoordinatorProtocol)?
@@ -27,7 +27,7 @@ class PrivacyViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: PrivacyViewModel.Action) {
+	func reduce(_ action: PrivacyOverviewViewModel.Action) {
 		
 		switch action {
 			case .privacyLinkClicked:
@@ -40,10 +40,10 @@ class PrivacyViewModel: ObservableObject {
 	}
 }
 
-struct PrivacyView: View {
+struct PrivacyOverviewView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: PrivacyViewModel
+	@StateObject var viewModel: PrivacyOverviewViewModel
 	
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
@@ -69,7 +69,7 @@ struct PrivacyView: View {
 				
 				VStack {
 					
-					Text("privacy_title")
+					Text("privacyoverview_title")
 						.rijksoverheidStyle(font: .bold, style: .title)
 						.foregroundColor(Color.Styleguide.black)
 						.padding(.bottom, ViewTraits.General.padding)
@@ -77,7 +77,7 @@ struct PrivacyView: View {
 						.accessibilityAddTraits(.isHeader)
 					
 					Group {
-						let privacyIntro = String(localized: "privacy_intro")
+						let privacyIntro = String(localized: "privacyoverview_intro")
 						let statement = String(localized: "privacy_statement")
 						let elements = privacyIntro.components(separatedBy: "%@")
 						if elements.count == 2 {
@@ -104,10 +104,10 @@ struct PrivacyView: View {
 					.accessibilityIdentifier("introduction text")
 					
 					Group {
-						PrivacyShieldView("privacy_item_1", shieldType: .encrypted)
-						PrivacyShieldView("privacy_item_2", shieldType: .safety)
-						PrivacyShieldView("privacy_item_3", shieldType: .checked)
-						PrivacyShieldView("privacy_item_4", shieldType: .cross)
+						PrivacyShieldView("privacyoverview_item_1", shieldType: .encrypted)
+						PrivacyShieldView("privacyoverview_item_2", shieldType: .safety)
+						PrivacyShieldView("privacyoverview_item_3", shieldType: .checked)
+						PrivacyShieldView("privacyoverview_item_4", shieldType: .cross)
 					}
 					.padding(.bottom, ViewTraits.Items.bottom)
 					
@@ -131,6 +131,6 @@ struct PrivacyView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		PrivacyView(viewModel: PrivacyViewModel())
+		PrivacyOverviewView(viewModel: PrivacyOverviewViewModel())
 	}
 }

@@ -6,7 +6,7 @@
  */
 
 import UIKit
-import SwiftUI
+import MGOUI
 
 class AppDelegate: NSObject, UIApplicationDelegate {
 	
