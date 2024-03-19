@@ -42,6 +42,11 @@ enum AppCoordination {
 		case accessCodeEntered
 		case accessCodeConfirmed
 		case didFinishLocalAuthentication
+//		case forgotAccessCode
+		
+		// Remote Authentication
+		case loginWithDigiD
+		case loginWithAccessCode
 		
 		// Other
 		case backButtonPressed
@@ -51,12 +56,23 @@ enum AppCoordination {
 	/// A list of all the view states the app coordinator can show
 	enum State: Codable {
 		case launch
+		
+		// Onboarding
 		case appIntroduction
 		case privacyOverview
 		case privacyStatement
+		
+		// Local Authentication
 		case accessCodeEntry
 		case accessCodeConfirmation
+		case accessCodeLogin
 		case bioMetricSetup
+//		case forgotAccssCode
+		
+		// Remote Auhtentication
+		case remoteAuthentication
+		
+		// Dashboard
 		case dashboard
 	}
 }
@@ -89,8 +105,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 					path.append(AppCoordination.State.appIntroduction)
 				} else if Current.secureUserSettings.accessCode == nil {
 					path.append(AppCoordination.State.accessCodeEntry)
+					
 				} else {
-					path.append(AppCoordination.State.dashboard)
+					path.append(AppCoordination.State.remoteAuthentication)
 				}
 			case .nextButtonPressedOnAppIntroduction:
 				path.append(AppCoordination.State.privacyOverview)
@@ -109,13 +126,20 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .accessCodeConfirmed:
 			
 				if Current.localAuthenticationProvider.biometricType() == .none {
-					path.append(AppCoordination.State.dashboard)
+					path.append(AppCoordination.State.remoteAuthentication)
 				} else {
 					path.append(AppCoordination.State.bioMetricSetup)
 				}
 			
 			case .didFinishLocalAuthentication:
+				path.append(AppCoordination.State.remoteAuthentication)
+			
+			case .loginWithDigiD:
+				Current.secureUserSettings.userHasRemoteAuthentication = true
 				path.append(AppCoordination.State.dashboard)
+			
+			case .loginWithAccessCode:
+				path.append(AppCoordination.State.accessCodeLogin)
 			
 			case .backButtonPressed:
 				guard !path.isEmpty else { return }
@@ -138,6 +162,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .launch:
 				LaunchView(viewModel: LaunchViewModel(coordinator: self))
 		
+			// Onboarding
+			
 			case .appIntroduction:
 				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self))
 		
@@ -147,15 +173,28 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .privacyStatement:
 				PrivacyStatementView(viewModel: PrivacyStatementViewModel(coordinator: self))
 
+			// Local Authentication
+			
 			case .accessCodeEntry:
 				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .creation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 				
 			case .accessCodeConfirmation:
-			AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+			
+			case .accessCodeLogin:
+				EmptyView()
+				//AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 			
 			case .bioMetricSetup:
 				BioMetricSetupView(viewModel: BioMetricSetupViewModel(coordinator: self, bioMetricType: Current.localAuthenticationProvider.biometricType))
 			
+			// Remote Authentication
+	
+			case .remoteAuthentication:
+				RemoteAuthenticationView(viewModel: RemoteAuthenticationViewModel(coordinator: self))
+			
+			// Dashboard
+	
 			case .dashboard:
 //				DashboardView(viewModel: DashboardViewModel(coordinator: self))
 				PatientView(viewModel: PatientViewModel(coordinator: self))

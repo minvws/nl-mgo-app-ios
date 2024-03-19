@@ -22,6 +22,9 @@ public protocol SecureUserSettingsProtocol: AnyObject {
 	/// Have we seen the app introduction
 	var userHasSeenAppIntroduction: Bool { get set }
 	
+	/// Did the user complete the DigiD flow?
+	var userHasRemoteAuthentication: Bool { get set }
+	
 	/// Wipe all persisted data
 	func wipePersistedData()
 }
@@ -32,6 +35,7 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	/// Default values
 	public struct Defaults {
 		public static var userHasSeenAppIntroduction: Bool = false
+		public static var userHasRemoteAuthentication: Bool = false
 		public static var bioMetricAuthenticationEnabled: Bool = false
 		public static var accessCode: String?
 	}
@@ -51,6 +55,9 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	@Keychain(name: "tempAccessCode", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var tempAccessCode: String? = Defaults.accessCode
 	
+	@Keychain(name: "userHasRemoteAuthentication", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
+	public var userHasRemoteAuthentication: Bool = Defaults.userHasRemoteAuthentication
+	
 	/// Helper method to detect if we are unit testing.
 	/// If so, append `_test` to the service name to separate tests from production
 	static private var serviceExtension: String {
@@ -69,5 +76,6 @@ extension SecureUserSettings {
 		bioMetricAuthenticationEnabled = Defaults.bioMetricAuthenticationEnabled
 		tempAccessCode = Defaults.accessCode
 		userHasSeenAppIntroduction = Defaults.userHasSeenAppIntroduction
+		userHasRemoteAuthentication = Defaults.userHasRemoteAuthentication
 	}
 }
