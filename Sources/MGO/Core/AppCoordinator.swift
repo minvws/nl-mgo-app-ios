@@ -142,7 +142,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self))
 		
 			case .privacyOverview:
-				PrivacyView(viewModel: PrivacyViewModel(coordinator: self))
+				PrivacyOverviewView(viewModel: PrivacyOverviewViewModel(coordinator: self))
 
 			case .privacyStatement:
 				PrivacyStatementView(viewModel: PrivacyStatementViewModel(coordinator: self))
