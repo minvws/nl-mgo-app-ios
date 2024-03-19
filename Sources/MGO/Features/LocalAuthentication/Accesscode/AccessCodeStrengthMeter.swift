@@ -34,10 +34,7 @@ class AccessCodeStrengthMeter: AccessCodeStrengthValidation {
 			result.issues.contains(.repeatingCharacters) ||
 
 			// the passcode doesn't have enough unique digits.
-			result.issues.contains(.notUnique) ||
-			
-			//  repeating pattern was found in the passcode - 12357 for example.
-			result.issues.contains(.patternFound)
+			result.issues.contains(.notUnique)
 		)
 	}
 }

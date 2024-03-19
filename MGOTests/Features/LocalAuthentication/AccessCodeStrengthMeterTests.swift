@@ -18,7 +18,10 @@ final class AccessCodeStrengthMeterTests: XCTestCase {
 	
 	func test_frequentlyUsed() {
 		
-		let codes = ["00000", "12345", "98765", "45678"]
+		let codes = [
+			"12345", "11111", "55555", "00000", "54321", "13579", "77777",
+			"22222", "12321", "99999", "33333", "00700", "90210", "88888",
+			"38317", "09876", "44444", "98765", "01234", "42069"]
 		
 		for code in codes {
 			// When
@@ -32,7 +35,7 @@ final class AccessCodeStrengthMeterTests: XCTestCase {
 	func test_repeatingCharacters() {
 		
 		// Given
-		let codes = ["00000", "88888", "99999"]
+		let codes = ["00000", "11111", "22222", "33333", "44444", "55555", "66666", "77777", "88888", "99999"]
 		
 		for code in codes {
 			// When
@@ -46,21 +49,7 @@ final class AccessCodeStrengthMeterTests: XCTestCase {
 	func test_notUnique() {
 		
 		// Given
-		let codes = ["00001", "88885"]
-		
-		for code in codes {
-			// When
-			let result = sut.validate(code)
-			
-			// Then
-			expect(result) == false
-		}
-	}
-	
-	func test_patternFound() {
-		
-		// Given
-		let codes = ["12357", "96321", "45678"]
+		let codes = ["00001", "88885", "00500"]
 		
 		for code in codes {
 			// When
@@ -74,7 +63,7 @@ final class AccessCodeStrengthMeterTests: XCTestCase {
 	func test_noIssues() {
 		
 		// Given
-		let codes = ["48259", "81625"]
+		let codes = ["48259", "81625", "45678", "00501"]
 		
 		for code in codes {
 			// When
