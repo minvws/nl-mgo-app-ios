@@ -84,11 +84,13 @@ class BioMetricSetupViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
-			_ = try await Current.localAuthenticationProvider.authenticate(
+			let authenticated = try await Current.localAuthenticationProvider.authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_popup_fallback"))
 			)
-			finishedWithBioMetric()
+			if authenticated {
+				finishedWithBioMetric()
+			}
 		} catch LocalAuthenticationError.canceled {
 			// Cancelled, stay on the scene
 			logWarning("User cancelled the biometric request.")

@@ -335,12 +335,17 @@ class AccessCodeViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
-			_ = try await Current.localAuthenticationProvider.authenticate(
+			let validated = try await Current.localAuthenticationProvider.authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_popup_fallback"))
 			)
-			logInfo("AccessCode: User has been successfully validated")
-			coordinator?.handle(.accessCodeValidated)
+			if validated {
+				logInfo("AccessCode: User has been successfully validated")
+				coordinator?.handle(.accessCodeValidated)
+			} else {
+				logInfo("AccessCode: User has unsuccessfully tried to validate")
+				setErrorState()
+			}
 		} catch LocalAuthenticationError.canceled {
 			// Cancelled, stay on the scene
 			logWarning("User cancelled the biometric request.")

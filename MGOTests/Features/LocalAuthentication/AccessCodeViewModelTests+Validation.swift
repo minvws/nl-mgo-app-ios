@@ -168,4 +168,239 @@ final class AccessCodeViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeValidated))
 	}
+	
+	func test_validation_biometricEnabled_authenticated() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = true
+		setupSut(mode: .validation, bioMetricType: { .touchID })
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeValidated))
+	}
+	
+	func test_validation_biometricKeyPressed_authenticated() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = true
+		setupSut(mode: .validation, bioMetricType: { .touchID })
+		
+		// When
+		sut.reduce(.biometricKeyPressed)
+		
+		// Then
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeValidated))
+	}
+	
+	func test_validation_biometricEnabled_authenticationFailed() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
+		let expectedState = AccessCodeViewState(
+			bioMetricEnabled: true,
+			bioMetricType: .touchID,
+			eraseEnabled: false,
+			backButtonVisible: false,
+			title: "accesscode_validation_title",
+			message: "accesscode_validation_body",
+			messageType: .regular
+		)
+		let expectedBoxState = [
+			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .error),
+			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .error),
+			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .error),
+			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .error),
+			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .error)
+		]
+		
+		setupSut(mode: .validation, bioMetricType: { .touchID })
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(expectedState))
+		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
+	}
+	
+	func test_validation_biometricEnabled_errorAuthenticationFailed() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
+		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .authenticationFailed
+		let expectedState = AccessCodeViewState(
+			bioMetricEnabled: true,
+			bioMetricType: .touchID,
+			eraseEnabled: false,
+			backButtonVisible: false,
+			title: "accesscode_validation_title",
+			message: "accesscode_validation_body",
+			messageType: .regular
+		)
+		let expectedBoxState = [
+			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .error),
+			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .error),
+			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .error),
+			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .error),
+			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .error)
+		]
+		
+		setupSut(mode: .validation, bioMetricType: { .touchID })
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(expectedState))
+		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
+	}
+	
+	func test_validation_biometricEnabled_errorFallback() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
+		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .userFallback
+		let expectedState = AccessCodeViewState(
+			bioMetricEnabled: true,
+			bioMetricType: .touchID,
+			eraseEnabled: false,
+			backButtonVisible: false,
+			title: "accesscode_validation_title",
+			message: "accesscode_validation_body",
+			messageType: .regular
+		)
+		let expectedBoxState = [
+			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
+			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
+		]
+		
+		setupSut(mode: .validation, bioMetricType: { .touchID })
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(expectedState))
+		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
+	}
+	
+	func test_validation_biometricEnabled_errorCancelled() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
+		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .canceled
+		let expectedState = AccessCodeViewState(
+			bioMetricEnabled: true,
+			bioMetricType: .touchID,
+			eraseEnabled: false,
+			backButtonVisible: false,
+			title: "accesscode_validation_title",
+			message: "accesscode_validation_body",
+			messageType: .regular
+		)
+		let expectedBoxState = [
+			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
+			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
+		]
+		
+		setupSut(mode: .validation, bioMetricType: { .touchID })
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(expectedState))
+		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
+	}
+	
+	func test_validation_biometricEnabled_errorDeclined() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
+		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .declined
+		let expectedState = AccessCodeViewState(
+			bioMetricEnabled: true,
+			bioMetricType: .touchID,
+			eraseEnabled: false,
+			backButtonVisible: false,
+			title: "accesscode_validation_title",
+			message: "accesscode_validation_body",
+			messageType: .regular
+		)
+		let expectedBoxState = [
+			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
+			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
+		]
+		
+		setupSut(mode: .validation, bioMetricType: { .touchID })
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(expectedState))
+		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
+	}
+	
+	func test_validation_biometricEnabled_errorLockout() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
+		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .lockout
+		let expectedState = AccessCodeViewState(
+			bioMetricEnabled: true,
+			bioMetricType: .touchID,
+			eraseEnabled: false,
+			backButtonVisible: false,
+			title: "accesscode_validation_title",
+			message: "accesscode_validation_body",
+			messageType: .regular
+		)
+		let expectedBoxState = [
+			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
+			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
+			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
+		]
+		
+		setupSut(mode: .validation, bioMetricType: { .touchID })
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(expectedState))
+		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
+	}
 }
