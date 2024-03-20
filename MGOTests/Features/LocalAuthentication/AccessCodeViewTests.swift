@@ -21,6 +21,7 @@ final class AccessCodeViewTests: XCTestCase {
 		
 		strengthMeterSpy = AccessCodeStrengthValidationSpy()
 		servicesSpies = setupServicesSpies()
+		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = true
 		coordinatorSpy = AppCoordinatorSpy()
 		super.setUp()
 	}

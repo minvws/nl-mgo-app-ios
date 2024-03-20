@@ -60,6 +60,7 @@ class AccessCodeViewModel: ObservableObject {
 		case erasePressed
 		case biometricKeyPressed
 		case backButtonPressed
+		case onAppear
 	}
 	
 	/// The mode of this view (creation, validation)
@@ -186,7 +187,7 @@ class AccessCodeViewModel: ObservableObject {
 	/// - Parameter validationMismatch: does the validation code matches the stored accesscode?
 	private func updateStateValidation(validationMismatch: Bool = false) {
 		
-		state.bioMetricEnabled = true
+		state.bioMetricEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = false
 		if validationMismatch {
@@ -223,6 +224,11 @@ class AccessCodeViewModel: ObservableObject {
 				biometricKeyPressed()
 			case .backButtonPressed:
 				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+			case .onAppear:
+				guard mode == .validation && Current.secureUserSettings.bioMetricAuthenticationEnabled else { return }
+				SwiftUI.Task {
+					await authenticate()
+				}
 		}
 	}
 	
@@ -283,6 +289,7 @@ class AccessCodeViewModel: ObservableObject {
 		coordinator?.handle(.accessCodeConfirmed)
 	}
 	
+	/// Validation code entered, let's see if we can login
 	private func handleValidationCompletion() {
 		
 		let code = accessCode.joined()
@@ -318,8 +325,42 @@ class AccessCodeViewModel: ObservableObject {
 	
 	/// The user pressed the face ID button
 	private func biometricKeyPressed() {
-		// Nothing for now, will change we try to login (validate)
-		logDebug("biometricKey Pressed")
+
+		SwiftUI.Task {
+			await authenticate()
+		}
+	}
+	
+	@MainActor
+	private func authenticate() async {
+		
+		do {
+			_ = try await Current.localAuthenticationProvider.authenticate(
+				localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")),
+				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_popup_fallback"))
+			)
+			logInfo("AccessCode: User has been successfully validated")
+			coordinator?.handle(.accessCodeValidated)
+		} catch LocalAuthenticationError.canceled {
+			// Cancelled, stay on the scene
+			logWarning("User cancelled the biometric request.")
+			
+		} catch LocalAuthenticationError.authenticationFailed {
+			logWarning("Authentication Failed")
+			setErrorState()
+			
+		} catch LocalAuthenticationError.userFallback {
+			logWarning("User selected password option")
+		
+		} catch LocalAuthenticationError.declined {
+			logWarning("User declined biometric access")
+			
+		} catch LocalAuthenticationError.lockout {
+			logWarning("BioMetric setup lockaout")
+			
+		} catch {
+			logError("error: \(error)")
+		}
 	}
 }
 
@@ -471,6 +512,7 @@ struct AccessCodeView: View {
 			if UIDevice.current.userInterfaceIdiom == .phone {
 				OrientationUtility.lockOrientation(.portrait, andRotateTo: .portrait)
 			}
+			viewModel.reduce(.onAppear)
 		}
 		.onDisappear {
 			// And unlock the forced portrait mode on exit.
