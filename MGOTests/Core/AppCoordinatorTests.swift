@@ -53,7 +53,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == true
 	}
 	
-	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeSet_pathShouldContainDashboard() {
+	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeSet_pathShouldContainRemoteAuthentication() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = true
@@ -64,7 +64,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(AppCoordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
 	
@@ -128,7 +128,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.bioMetricSetup])
 	}
 	
-	func test_coordinatorHandle_accessCodeConfirmed_noBiometrics_shouldShowDashboard() {
+	func test_coordinatorHandle_accessCodeConfirmed_noBiometrics_shouldShowRemoteAuthentication() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .none }
@@ -137,15 +137,48 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(AppCoordination.Action.accessCodeConfirmed)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
 	}
 
-	func test_coordinatorHandle_didFinishLocalAuthentication_shouldShowDashboard() {
+	func test_coordinatorHandle_didFinishLocalAuthentication_shouldShowRemoteAuthenciation() {
 		
 		// Given
 		
 		// When
 		sut.handle(AppCoordination.Action.didFinishLocalAuthentication)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
+	}
+
+	func test_coordinatorHandle_loginWithDigiD_shouldShowDashboard() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.loginWithDigiD)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+	}
+
+	func test_coordinatorHandle_loginWithAccessCode_shouldShowAccessCodeValidation() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.loginWithAccessCode)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeValidation])
+	}
+	
+	func test_coordinatorHandle_codeValidated_shouldShowDashboard() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.accessCodeValidated)
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
@@ -155,6 +188,18 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
+		
+		// When
+		sut.handle(AppCoordination.Action.backButtonPressed)
+		
+		// Then
+		expect(self.sut.path.isEmpty) == true
+	}
+	
+	func test_coordinatorHandle_backButtonPressed_emptyPath() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath()
 		
 		// When
 		sut.handle(AppCoordination.Action.backButtonPressed)
@@ -253,11 +298,50 @@ final class AppCoordinatorTests: XCTestCase {
 		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
 	}
 	
+	func test_coordinatorView_forAccessCodeValidation() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
+		let state = AppCoordination.State.accessCodeValidation
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+	
 	func test_coordinatorView_forBioMetricSetup() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		let state = AppCoordination.State.bioMetricSetup
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+
+	func test_coordinatorView_forRemoteAuthentication_firstVisit() {
+
+		// Given
+		let state = AppCoordination.State.remoteAuthentication
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = false
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+	
+	func test_coordinatorView_forRemoteAuthentication_repeatVisit() {
+
+		// Given
+		let state = AppCoordination.State.remoteAuthentication
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
 		
 		// When
 		let view = sut.view(for: state)

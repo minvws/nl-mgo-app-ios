@@ -34,4 +34,16 @@ final class SecureUserSettingsTests: XCTestCase {
 		// Then
 		expect(sut.userHasSeenAppIntroduction) == true
 	}
+	
+	func test_secureUserSettings_setUserHasRemoteAuthentication() {
+		
+		// Given
+		let sut = SecureUserSettings()
+		
+		// When
+		sut.userHasRemoteAuthentication = true
+		
+		// Then
+		expect(sut.userHasRemoteAuthentication) == true
+	}
 }

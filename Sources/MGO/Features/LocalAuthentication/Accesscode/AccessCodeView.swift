@@ -116,9 +116,11 @@ class AccessCodeViewModel: ObservableObject {
 		self.numberOfDigits = pinLimit
 		self.strengthMeter = strengthMeter
 		self.state.bioMetricType = bioMetricType()
-
-		updateState()
 		
+		// Set the state for this mode
+		updateState()
+	
+		// Setup the initial state for the boxes.
 		boxStates.append(AccessCodeBoxState(id: 0, state: .focus))
 		for index in 1 ..< numberOfDigits {
 			boxStates.append(AccessCodeBoxState(id: index, state: .empty))
@@ -126,42 +128,31 @@ class AccessCodeViewModel: ObservableObject {
 	}
 	
 	/// Update the state
+	private func updateState() {
+		switch mode {
+			case .creation:
+				updateStateEntry()
+			case .confirmation:
+				updateStateConfirmation()
+			case .validation:
+				updateStateValidation()
+		}
+	}
+	
+	/// Update the state for creation mode
 	/// - Parameters:
-	///   - tooWeak: setup for too weak access code
-	///   - confirmationMismatch: setup for confirmation mismatched.
-	private func updateState(tooWeak: Bool = false, confirmationMismatch: Bool = false, wrongAccessCode: Bool = false) {
+	///   - tooWeak: is the created code too weak?
+	private func updateStateEntry(tooWeak: Bool = false) {
 		
-		state.bioMetricEnabled = false // to be changed with validation
+		state.bioMetricEnabled = false
 		state.eraseEnabled = accessCode.isNotEmpty
-		state.backButtonVisible = self.mode == .confirmation
+		state.backButtonVisible = false
 		if tooWeak {
 			// Setup for access code is too weak
 			state.title = "accesscode_create_title"
 			state.message = "accesscode_tooweak_body"
 			state.messageType = .alert
 			announce(String(localized: "accesscode_tooweak_body_voiceover"))
-		} else if confirmationMismatch {
-			// Setup for access codes do not match
-			state.title = "accesscode_confirmation_title"
-			state.message = "accesscode_mismatch_body"
-			state.messageType = .alert
-			announce(String(localized: "accesscode_mismatch_body_voiceover"))
-		} else if wrongAccessCode {
-			// Setup for access codes do not match
-			state.title = "accesscode_validation_title"
-			state.message = "accesscode_wrong_body"
-			state.messageType = .alert
-			announce(String(localized: "accesscode_wrongh_body_voiceover"))
-		} else if mode == .confirmation {
-			// Setup for access code confirmation
-			state.title = "accesscode_confirmation_title"
-			state.message = "accesscode_confirmation_body"
-			state.messageType = .regular
-		} else if mode == .validation {
-			// Setup for access code confirmation
-			state.title = "accesscode_validation_title"
-			state.message = "accesscode_validation_body"
-			state.messageType = .regular
 		} else {
 			// Setup for regular access code entry
 			state.title = "accesscode_create_title"
@@ -170,25 +161,50 @@ class AccessCodeViewModel: ObservableObject {
 		}
 	}
 	
-	private func updateStateValidation(wrongAccessCode: Bool = false) {
+	/// Update the state for confirmation mode
+	/// - Parameter confirmationMismatch: Does the confirmation code matches the creation code?
+	private func updateStateConfirmation(confirmationMismatch: Bool = false) {
+		
+		state.bioMetricEnabled = false
+		state.eraseEnabled = accessCode.isNotEmpty
+		state.backButtonVisible = true
+		if confirmationMismatch {
+			// Setup for access codes do not match
+			state.title = "accesscode_confirmation_title"
+			state.message = "accesscode_mismatch_body"
+			state.messageType = .alert
+			announce(String(localized: "accesscode_mismatch_body_voiceover"))
+		} else if mode == .confirmation {
+			// Setup for access code confirmation
+			state.title = "accesscode_confirmation_title"
+			state.message = "accesscode_confirmation_body"
+			state.messageType = .regular
+		}
+	}
+	
+	/// Udpate the state for Validation mode
+	/// - Parameter validationMismatch: does the validation code matches the stored accesscode?
+	private func updateStateValidation(validationMismatch: Bool = false) {
 		
 		state.bioMetricEnabled = true
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = false
-		if wrongAccessCode {
+		if validationMismatch {
 			// Setup for access codes do not match
 			state.title = "accesscode_validation_title"
 			state.message = "accesscode_wrong_body"
 			state.messageType = .alert
 			announce(String(localized: "accesscode_wrongh_body_voiceover"))
 		} else if mode == .validation {
-			// Setup for access code confirmation
+			// Setup for access code validation
 			state.title = "accesscode_validation_title"
 			state.message = "accesscode_validation_body"
 			state.messageType = .regular
 		}
 	}
-		
+	
+	/// Announce a message to voiceover
+	/// - Parameter message: the message to be announced (as a String)
 	func announce(_ message: String) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 			UIAccessibility.post(notification: .announcement, argument: message)
@@ -238,7 +254,7 @@ class AccessCodeViewModel: ObservableObject {
 		guard strengthMeter.validate(code) else {
 			
 			// Show too weak message
-			updateState(tooWeak: true)
+			updateStateEntry(tooWeak: true)
 			setErrorState()
 			return
 		}
@@ -256,7 +272,7 @@ class AccessCodeViewModel: ObservableObject {
 		let code = accessCode.joined()
 		guard code == Current.secureUserSettings.tempAccessCode else {
 			// tempAccessCode and code do not match. Doh!
-			updateState(confirmationMismatch: true)
+			updateStateConfirmation(confirmationMismatch: true)
 			setErrorState()
 			return
 		}
@@ -273,7 +289,7 @@ class AccessCodeViewModel: ObservableObject {
 		guard code == Current.secureUserSettings.accessCode else {
 			
 			setErrorState()
-			updateStateValidation(wrongAccessCode: true)
+			updateStateValidation(validationMismatch: true)
 			DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
 				self.accessCode = []
 			}
