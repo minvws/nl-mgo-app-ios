@@ -42,6 +42,7 @@ enum AppCoordination {
 		case accessCodeEntered
 		case accessCodeConfirmed
 		case didFinishLocalAuthentication
+		case accessCodeValidated
 //		case forgotAccessCode
 		
 		// Remote Authentication
@@ -65,7 +66,7 @@ enum AppCoordination {
 		// Local Authentication
 		case accessCodeEntry
 		case accessCodeConfirmation
-		case accessCodeLogin
+		case accessCodeValidation
 		case bioMetricSetup
 //		case forgotAccssCode
 		
@@ -131,6 +132,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 					path.append(AppCoordination.State.bioMetricSetup)
 				}
 			
+			case .accessCodeValidated:
+				path.append(AppCoordination.State.dashboard)
+			
 			case .didFinishLocalAuthentication:
 				path.append(AppCoordination.State.remoteAuthentication)
 			
@@ -139,7 +143,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.append(AppCoordination.State.dashboard)
 			
 			case .loginWithAccessCode:
-				path.append(AppCoordination.State.accessCodeLogin)
+				path.append(AppCoordination.State.accessCodeValidation)
 			
 			case .backButtonPressed:
 				guard !path.isEmpty else { return }
@@ -181,9 +185,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .accessCodeConfirmation:
 				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 			
-			case .accessCodeLogin:
-				EmptyView()
-				//AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+			case .accessCodeValidation:
+				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .validation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 			
 			case .bioMetricSetup:
 				BioMetricSetupView(viewModel: BioMetricSetupViewModel(coordinator: self, bioMetricType: Current.localAuthenticationProvider.biometricType))

@@ -136,6 +136,42 @@
         }
       }
     },
+    "accesscode_validation_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vul je **5-cijferige toegangscode** in om verder te gaan naar de app."
+          }
+        }
+      }
+    },
+    "accesscode_validation_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log in met je persoonlijke toegangscode"
+          }
+        }
+      }
+    },
+    "accesscode_wrong_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De ingevoerde toegangscode is **onjuist**.\nProbeer het opnieuw. "
+          }
+        }
+      }
+    },
+    "accesscode_wrong_body_voiceover" : {
+      "extractionState" : "manual"
+    },
     "app_title" : {
       "extractionState" : "manual",
       "localizations" : {

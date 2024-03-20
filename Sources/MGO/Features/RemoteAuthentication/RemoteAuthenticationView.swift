@@ -12,8 +12,8 @@ class RemoteAuthenticationViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case digid
-		case accesscode
+		case loginWithDigiD
+		case loginWithAccessCode
 	}
 	
 	@Published var showAccessCodeButton: Bool
@@ -34,9 +34,9 @@ class RemoteAuthenticationViewModel: ObservableObject {
 	public func reduce(_ action: Action) {
 		
 		switch action {
-			case .digid:
+			case .loginWithDigiD:
 				coordinator?.handle(.loginWithDigiD)
-			case .accesscode:
+			case .loginWithAccessCode:
 				coordinator?.handle(.loginWithAccessCode)
 		}
 	}
@@ -58,8 +58,14 @@ struct RemoteAuthenticationView: View {
 				
 				Text(verbatim: "Placeholder Digid Keuze scherm")
 				
+				if viewModel.showAccessCodeButton {
+					Text(verbatim: "Welkom terug")
+				} else {
+					Text(verbatim: "Bewijs wie je bent")
+				}
+				
 				Button(action: {
-					viewModel.reduce(.digid)
+					viewModel.reduce(.loginWithDigiD)
 				}, label: {
 					Text(verbatim: "inloggen DigiD")
 				})
@@ -68,7 +74,7 @@ struct RemoteAuthenticationView: View {
 				if viewModel.showAccessCodeButton {
 					
 					Button(action: {
-						viewModel.reduce(.accesscode)
+						viewModel.reduce(.loginWithAccessCode)
 					}, label: {
 						Text(verbatim: "Doorgaan zonder nieuwe gegevens")
 					})
@@ -77,7 +83,9 @@ struct RemoteAuthenticationView: View {
 				
 			}
 		}
-    }
+		.navigationBarTitleDisplayMode(.inline)
+		.navigationBarBackButtonHidden(true)
+	}
 }
 
 #Preview {

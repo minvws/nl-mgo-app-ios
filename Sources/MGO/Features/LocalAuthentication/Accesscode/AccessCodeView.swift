@@ -45,7 +45,7 @@ class AccessCodeViewModel: ObservableObject {
 	public enum AccessCodeMode: Equatable {
 		case creation // Create an access code
 		case confirmation // Confirm that accces code
-//		case validation // Validate the acces code (login)
+		case validation // Validate the acces code (login)
 	}
 	/// A helper struct to make an enum (AccessCodeBoxView.State) identificable.
 	public struct AccessCodeBoxState: Identifiable, Hashable {
@@ -129,7 +129,7 @@ class AccessCodeViewModel: ObservableObject {
 	/// - Parameters:
 	///   - tooWeak: setup for too weak access code
 	///   - confirmationMismatch: setup for confirmation mismatched.
-	private func updateState(tooWeak: Bool = false, confirmationMismatch: Bool = false) {
+	private func updateState(tooWeak: Bool = false, confirmationMismatch: Bool = false, wrongAccessCode: Bool = false) {
 		
 		state.bioMetricEnabled = false // to be changed with validation
 		state.eraseEnabled = accessCode.isNotEmpty
@@ -146,10 +146,21 @@ class AccessCodeViewModel: ObservableObject {
 			state.message = "accesscode_mismatch_body"
 			state.messageType = .alert
 			announce(String(localized: "accesscode_mismatch_body_voiceover"))
+		} else if wrongAccessCode {
+			// Setup for access codes do not match
+			state.title = "accesscode_validation_title"
+			state.message = "accesscode_wrong_body"
+			state.messageType = .alert
+			announce(String(localized: "accesscode_wrongh_body_voiceover"))
 		} else if mode == .confirmation {
 			// Setup for access code confirmation
 			state.title = "accesscode_confirmation_title"
 			state.message = "accesscode_confirmation_body"
+			state.messageType = .regular
+		} else if mode == .validation {
+			// Setup for access code confirmation
+			state.title = "accesscode_validation_title"
+			state.message = "accesscode_validation_body"
 			state.messageType = .regular
 		} else {
 			// Setup for regular access code entry
@@ -159,6 +170,25 @@ class AccessCodeViewModel: ObservableObject {
 		}
 	}
 	
+	private func updateStateValidation(wrongAccessCode: Bool = false) {
+		
+		state.bioMetricEnabled = true
+		state.eraseEnabled = accessCode.isNotEmpty
+		state.backButtonVisible = false
+		if wrongAccessCode {
+			// Setup for access codes do not match
+			state.title = "accesscode_validation_title"
+			state.message = "accesscode_wrong_body"
+			state.messageType = .alert
+			announce(String(localized: "accesscode_wrongh_body_voiceover"))
+		} else if mode == .validation {
+			// Setup for access code confirmation
+			state.title = "accesscode_validation_title"
+			state.message = "accesscode_validation_body"
+			state.messageType = .regular
+		}
+	}
+		
 	func announce(_ message: String) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 			UIAccessibility.post(notification: .announcement, argument: message)
@@ -195,6 +225,8 @@ class AccessCodeViewModel: ObservableObject {
 				handleCreationCompletion()
 			} else if mode == .confirmation {
 				handleConfirmationCompletion()
+			} else if mode == .validation {
+				handleValidationCompletion()
 			}
 		}
 	}
@@ -233,6 +265,21 @@ class AccessCodeViewModel: ObservableObject {
 		Haptic.light()
 		Current.secureUserSettings.accessCode = code
 		coordinator?.handle(.accessCodeConfirmed)
+	}
+	
+	private func handleValidationCompletion() {
+		
+		let code = accessCode.joined()
+		guard code == Current.secureUserSettings.accessCode else {
+			
+			setErrorState()
+			updateStateValidation(wrongAccessCode: true)
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+				self.accessCode = []
+			}
+			return
+		}
+		coordinator?.handle(.accessCodeValidated)
 	}
 	
 	/// Something is not ok, make all the boxes red
@@ -456,7 +503,7 @@ struct AccessCodeView: View {
 		AccessCodeView(
 			viewModel: AccessCodeViewModel(
 				coordinator: nil,
-				mode: .creation,
+				mode: .validation,
 				bioMetricType: {
 					.touchID // Preview as touch
 				}
