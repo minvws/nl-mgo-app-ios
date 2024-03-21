@@ -73,4 +73,18 @@ final class AccessCodeStrengthMeterTests: XCTestCase {
 			expect(result) == true
 		}
 	}
+	
+	func test_notNumeric() {
+		
+		// Given
+		let codes = ["0123A", "WRONG", "0O0o0", "1l1l7"]
+		
+		for code in codes {
+			// When
+			let result = sut.validate(code)
+			
+			// Then
+			expect(result) == false
+		}
+	}
 }
