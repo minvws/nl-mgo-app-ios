@@ -6,7 +6,6 @@
  */
 
 import MGOFoundation
-import WultraPassphraseMeter
 
 /// Protocol for Access Code Strenght Validation
 protocol AccessCodeStrengthValidation {
@@ -24,17 +23,37 @@ class AccessCodeStrengthMeter: AccessCodeStrengthValidation {
 	/// - Returns: true if the code is strong enough
 	func validate(_ code: String) -> Bool {
 		
-		let result = PasswordTester.shared.testPin(code)
+		return isNumeric(code) && !isFrequentlyUsed(code) && isUnique(code)
+	}
+	
+	/// Is this code frequently used?
+	/// - Parameter code: the code to check
+	/// - Returns: true if the code is not in the frequently used lst.
+	private func isFrequentlyUsed(_ code: String) -> Bool {
 		
-		return !(
-			// the passcode is in the list of most used passcodes.
-			result.issues.contains(.frequentlyUsed) ||
-			
-			// there is a significant amount of repeating digits in the passcode.
-			result.issues.contains(.repeatingCharacters) ||
-
-			// the passcode doesn't have enough unique digits. (minimum of 3 different digits required)
-			result.issues.contains(.notUnique)
-		)
+		let frequentlyUsed = ["12345", "54321", "13579", "12321", "90210", "38317", "09876", "98765", "01234", "42069"]
+		return frequentlyUsed.contains(code)
+	}
+	
+	/// Is this code unique enough?
+	/// A code is considered unique enough if there are 3 or more different characters (for a code length of 5)
+	/// - Parameter code: the code to check
+	/// - Returns: true if there are 3 or more unique characters in this code
+	private func isUnique(_ code: String) -> Bool {
+		
+		var uniqueChars: [String] = []
+		for element in code where !uniqueChars.contains(String(element)) {
+			uniqueChars.append(String(element))
+		}
+		return uniqueChars.count >= 3
+	}
+	
+	/// Is this a numeric String
+	/// - Parameter code: the code to check
+	/// - Returns: true if all characters are numbers
+	private func isNumeric(_ code: String) -> Bool {
+		
+		let digitsCharacters = CharacterSet(charactersIn: "0123456789")
+		return CharacterSet(charactersIn: code).isSubset(of: digitsCharacters)
 	}
 }
