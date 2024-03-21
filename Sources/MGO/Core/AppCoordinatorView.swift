@@ -13,6 +13,9 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	/// The coordinator for handling state
 	@StateObject private var appCoordinator: T
 	
+	/// Closure used the handle inspection
+	var didAppear: ((Self) -> Void)?
+	
 	/// Initialzier
 	/// - Parameter appCoordinator: An AppCoordinatorProtocol class
 	init(appCoordinator: T) {
@@ -26,6 +29,34 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 					appCoordinator.view(for: state)
 				}
 				.navigationBarTitleDisplayMode(.inline)
+		}
+		// not a sheet, but an inspectable sheet, so we can confirm this in a test.
+		.inspectableSheet(
+			isPresented: $appCoordinator.sheet.presence(),
+			onDismiss: {
+				// Called when the sheet is closed by dragging.
+				appCoordinator.handle(.sheetClosed)
+			},
+			content: {
+				NavigationStackBackport.NavigationStack {
+					appCoordinator.view(for: appCoordinator.sheet)
+						.toolbar {
+							ToolbarItem {
+								Button(
+									action: {
+										appCoordinator.handle(.sheetClosed)
+									}, label: {
+										Image(ImageResource.Icon.close)
+									}
+								)
+							}
+						}
+				}
+			}
+		)
+		.onAppear {
+			// Make ourself availble for inspection
+			self.didAppear?(self)
 		}
 	}
 }

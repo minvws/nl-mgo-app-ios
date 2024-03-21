@@ -282,6 +282,17 @@
         }
       }
     },
+    "biometric_forgot_accesscode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toegangscode vergeten?"
+          }
+        }
+      }
+    },
     "biometric_opticid" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -332,6 +343,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Touch ID"
+          }
+        }
+      }
+    },
+    "forgot_action_digid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met DigiD"
+          }
+        }
+      }
+    },
+    "forgot_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt helaas geen nieuwe toegangscode aanmaken. Je kunt wel een nieuw account aanmaken. Log hiervoor opnieuw in met DigiD."
+          }
+        }
+      }
+    },
+    "forgot_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toegangscode vergeten?"
+          }
+        }
+      }
+    },
+    "general_cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuleren"
           }
         }
       }
@@ -513,6 +568,9 @@
       }
     },
     "Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)" : {
+
+    },
+    "Todo" : {
 
     }
   },

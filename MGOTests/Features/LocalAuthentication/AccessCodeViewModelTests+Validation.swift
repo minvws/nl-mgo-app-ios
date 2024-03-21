@@ -36,6 +36,22 @@ final class AccessCodeViewModelTests: XCTestCase {
 		)
 	}
 	
+	private func expectedBoxState(
+		_ state0: AccessCodeBoxView.State,
+		_ state1: AccessCodeBoxView.State,
+		_ state2: AccessCodeBoxView.State,
+		_ state3: AccessCodeBoxView.State,
+		_ state4: AccessCodeBoxView.State ) -> [AccessCodeViewModel.AccessCodeBoxState] {
+			
+		return [
+			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: state0),
+			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: state1),
+			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: state2),
+			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: state3),
+			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: state4)
+		]
+	}
+	
 	// MARK: - Validation Mode =
 	
 	func test_validation_touch() {
@@ -46,17 +62,12 @@ final class AccessCodeViewModelTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: false,
+			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
 			messageType: .regular
 		)
-		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
-		]
+		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		
 		// When
 		setupSut(mode: .validation, bioMetricType: { .touchID })
@@ -74,17 +85,12 @@ final class AccessCodeViewModelTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: false,
+			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
 			messageType: .regular
 		)
-		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .filling),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .focus),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
-		]
+		let expectedBoxState = expectedBoxState(.filled, .filling, .focus, .empty, .empty)
 		
 		// When
 		setupSut(mode: .validation, bioMetricType: { .touchID })
@@ -104,17 +110,12 @@ final class AccessCodeViewModelTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: false,
+			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_wrong_body",
 			messageType: .alert
 		)
-		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .error)
-		]
+		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
 		self.servicesSpies.secureUserSettingsSpy.stubbedAccessCode = "11111"
 		
 		// When
@@ -140,17 +141,12 @@ final class AccessCodeViewModelTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: false,
+			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
 			messageType: .regular
 		)
-		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .filling)
-		]
+		let expectedBoxState = expectedBoxState(.filled, .filled, .filled, .filled, .filling)
 		self.servicesSpies.secureUserSettingsSpy.stubbedAccessCode = "01234"
 		
 		// When
@@ -210,18 +206,12 @@ final class AccessCodeViewModelTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: false,
+			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
 			messageType: .regular
 		)
-		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .error)
-		]
-		
+		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
 		setupSut(mode: .validation, bioMetricType: { .touchID })
 		
 		// When
@@ -244,17 +234,12 @@ final class AccessCodeViewModelTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: false,
+			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
 			messageType: .regular
 		)
-		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .error)
-		]
+		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
 		
 		setupSut(mode: .validation, bioMetricType: { .touchID })
 		
@@ -278,17 +263,12 @@ final class AccessCodeViewModelTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: false,
+			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
 			messageType: .regular
 		)
-		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
-		]
+		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		
 		setupSut(mode: .validation, bioMetricType: { .touchID })
 		
@@ -312,18 +292,12 @@ final class AccessCodeViewModelTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: false,
+			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
 			messageType: .regular
 		)
-		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
-		]
-		
+		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		setupSut(mode: .validation, bioMetricType: { .touchID })
 		
 		// When
@@ -346,18 +320,12 @@ final class AccessCodeViewModelTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: false,
+			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
 			messageType: .regular
 		)
-		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
-		]
-		
+		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		setupSut(mode: .validation, bioMetricType: { .touchID })
 		
 		// When
@@ -380,18 +348,12 @@ final class AccessCodeViewModelTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: false,
+			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
 			messageType: .regular
 		)
-		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
-		]
-		
+		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		setupSut(mode: .validation, bioMetricType: { .touchID })
 		
 		// When
@@ -402,5 +364,18 @@ final class AccessCodeViewModelTests: XCTestCase {
 		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
+	}
+	
+	func test_forgotAccessCode() {
+		
+		// Given
+		setupSut(mode: .validation, bioMetricType: { .touchID })
+		
+		// When
+		sut.reduce(.forgotAccessCode)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.forgotAccessCode))
 	}
 }

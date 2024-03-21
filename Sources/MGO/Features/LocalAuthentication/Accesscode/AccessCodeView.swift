@@ -29,6 +29,9 @@ struct AccessCodeViewState: Equatable {
 	/// Is the back visible?
 	var backButtonVisible: Bool = false
 	
+	/// Do we show the forgot access code button?
+	var forgotCodeButtonVisible: Bool = false
+	
 	/// The key for the title
 	var title: LocalizedStringKey
 	
@@ -61,6 +64,7 @@ class AccessCodeViewModel: ObservableObject {
 		case biometricKeyPressed
 		case backButtonPressed
 		case onAppear
+		case forgotAccessCode
 	}
 	
 	/// The mode of this view (creation, validation)
@@ -190,6 +194,7 @@ class AccessCodeViewModel: ObservableObject {
 		state.bioMetricEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = false
+		state.forgotCodeButtonVisible = true
 		if validationMismatch {
 			// Setup for access codes do not match
 			state.title = "accesscode_validation_title"
@@ -229,6 +234,8 @@ class AccessCodeViewModel: ObservableObject {
 				SwiftUI.Task {
 					await authenticate()
 				}
+			case .forgotAccessCode:
+				coordinator?.handle(.forgotAccessCode)
 		}
 	}
 	
@@ -384,6 +391,9 @@ struct AccessCodeView: View {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
 			static let imageSpacing: CGFloat = 8
 		}
+		enum ForgotButton {
+			static let insets = EdgeInsets( top: 8, leading: 16, bottom: 0, trailing: 16)
+		}
 		enum Button {
 			static let minimumHeight: CGFloat = 44
 		}
@@ -439,6 +449,16 @@ struct AccessCodeView: View {
 							}
 							.padding(ViewTraits.Text.insets)
 							.accessibilityElement(children: .combine)
+					}
+					
+					if viewModel.state.forgotCodeButtonVisible {
+						Button(action: {
+							viewModel.reduce(.forgotAccessCode)
+						}, label: {
+							Text("biometric_forgot_accesscode")
+						})
+						.buttonStyle(LinkButtonStyle())
+						.padding(ViewTraits.ForgotButton.insets)
 					}
 				}
 				
