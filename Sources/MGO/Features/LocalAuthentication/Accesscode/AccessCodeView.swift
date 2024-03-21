@@ -402,6 +402,7 @@ struct AccessCodeView: View {
 			static let horizontalPadding: CGFloat = 16
 		}
 		enum Box {
+			static let spacing: CGFloat = 12
 			static let bottomMargin: CGFloat = 22
 		}
 	}
@@ -466,10 +467,9 @@ struct AccessCodeView: View {
 				
 				VStack(spacing: ViewTraits.General.spacing) {
 					
-					HStack(spacing: 0) {
+					HStack(spacing: ViewTraits.Box.spacing) {
 						ForEach($viewModel.boxStates, id: \.self) { element in
 							AccessCodeBoxView(state: element.state)
-								.frame(maxWidth: .infinity)
 						}
 					}
 					.padding(.bottom, ViewTraits.Box.bottomMargin)
