@@ -1,0 +1,76 @@
+/*
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import MGOFoundation
+import MGOTest
+import MGOUI
+@testable import MGO
+
+final class ForgotAccessCodeViewTests: XCTestCase {
+
+	private var coordinatorSpy: AppCoordinatorSpy!
+	private var sut: ForgotAccessCodeView!
+	
+	override func setUp() {
+		
+		coordinatorSpy = AppCoordinatorSpy()
+		sut = ForgotAccessCodeView(viewModel: ForgotAccessCodeViewModel(coordinator: self.coordinatorSpy))
+		super.setUp()
+	}
+
+	// MARK: - Actions -
+	
+	func test_cancel() throws {
+		
+		// Given
+		
+		// When
+		try sut.inspect().find(viewWithTag: "general_cancel").button().tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.dismissForgotAccessCode
+	}
+	
+	func test_loginWithDigiD() throws {
+		
+		// Given
+		
+		// When
+		try sut.inspect().find(viewWithTag: "forgot_action_digid").button().tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.remoteAuthentication
+	}
+	
+	// MARK: - Snapshots -
+	
+	func test_forgotAccessCodeView_lightMode() {
+		
+		// Given
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_forgotAccessCodeView_darkMode() {
+		
+		// Given
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+}

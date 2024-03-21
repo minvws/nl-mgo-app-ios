@@ -47,6 +47,8 @@ enum AppCoordination {
 		case didFinishLocalAuthentication
 		case accessCodeValidated
 		case forgotAccessCode
+		case dismissForgotAccessCode
+		case remoteAuthentication
 		
 		// Remote Authentication
 		case loginWithDigiD
@@ -152,9 +154,18 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .forgotAccessCode:
 				sheet = AppCoordination.State.forgotAccessCode
 			
+			case .remoteAuthentication:
+				if sheet != nil {
+					sheet = nil
+				}
+				// This will do for now, but is not safe. We must check the stack
+				// to check if the previous element is AppCoordination.State.remoteAuthentication
+				path.removeLast()
+			
 			// Remote Authentication
 			
 			case .loginWithDigiD:
+			
 				Current.secureUserSettings.userHasRemoteAuthentication = true
 				path.append(AppCoordination.State.dashboard)
 			
@@ -163,7 +174,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 			// General
 			
-			case .sheetClosed:
+			case .sheetClosed, .dismissForgotAccessCode:
 				sheet = nil
 			
 			case .backButtonPressed:
@@ -213,7 +224,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				BioMetricSetupView(viewModel: BioMetricSetupViewModel(coordinator: self, bioMetricType: Current.localAuthenticationProvider.biometricType))
 			
 			case .forgotAccessCode:
-				Text("Todo")
+				ForgotAccessCodeView(viewModel: ForgotAccessCodeViewModel(coordinator: self))
 			
 			// Remote Authentication
 	

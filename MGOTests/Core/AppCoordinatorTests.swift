@@ -184,6 +184,43 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
 	}
 	
+	func test_coordinatorHandle_forgotAccessCode() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.forgotAccessCode)
+		
+		// Then
+		expect(self.sut.sheet) == AppCoordination.State.forgotAccessCode
+	}
+	
+	func test_coordinatorHandle_dismissForgotAccessCode() {
+		
+		// Given
+		sut.sheet = AppCoordination.State.forgotAccessCode
+		
+		// When
+		sut.handle(AppCoordination.Action.dismissForgotAccessCode)
+		
+		// Then
+		expect(self.sut.sheet) == nil
+	}
+	
+	func test_coordinatorHandle_remoteAuthentication() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.accessCodeValidation])
+		sut.sheet = AppCoordination.State.forgotAccessCode
+		
+		// When
+		sut.handle(AppCoordination.Action.remoteAuthentication)
+		
+		// Then
+		expect(self.sut.sheet) == nil
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
+	}
+	
 	func test_coordinatorHandle_backButtonPressed() {
 		
 		// Given
@@ -343,6 +380,18 @@ final class AppCoordinatorTests: XCTestCase {
 		// Given
 		let state = AppCoordination.State.remoteAuthentication
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+	}
+	
+	func test_coordinatorView_forgotAccessCode() {
+
+		// Given
+		let state = AppCoordination.State.forgotAccessCode
 		
 		// When
 		let view = sut.view(for: state)

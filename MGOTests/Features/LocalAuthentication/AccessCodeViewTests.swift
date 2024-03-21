@@ -14,7 +14,6 @@ final class AccessCodeViewTests: XCTestCase {
 
 	private var strengthMeterSpy: AccessCodeStrengthValidationSpy!
 	private var coordinatorSpy: AppCoordinatorSpy!
-	private var sut: AccessCodeViewModel!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {

@@ -569,9 +569,6 @@
     },
     "Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)" : {
 
-    },
-    "Todo" : {
-
     }
   },
   "version" : "1.0"
