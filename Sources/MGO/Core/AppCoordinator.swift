@@ -61,7 +61,7 @@ enum AppCoordination {
 	}
 	
 	/// A list of all the view states the app coordinator can show
-	enum State: Codable {
+	enum State: String,  Codable {
 		case launch
 		
 		// Onboarding
@@ -158,9 +158,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				if sheet != nil {
 					sheet = nil
 				}
-				// This will do for now, but is not safe. We must check the stack
-				// to check if the previous element is AppCoordination.State.remoteAuthentication
-				path.removeLast()
+				navigateTo(state: .remoteAuthentication)
 			
 			// Remote Authentication
 			
@@ -187,6 +185,21 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.removeLast(path.count)
 				Current.notificationCenter.post(name: .resetApplication, object: nil)
 		}
+	}
+	
+	/// Navigate back to the state if present in the stack, else append to the stack
+	/// - Parameter state: the desired state
+	private func navigateTo(state: AppCoordination.State) {
+		
+		if let index = path.indexOf(state.rawValue) {
+			let elementsToBeRemoved = path.count - index - 1
+			logDebug("AppCoordinator navigateTo \(state) - index: \(index), count: \(path.count), toBeRemoved: \(elementsToBeRemoved)")
+			if elementsToBeRemoved >= 0 {
+				path.removeLast(elementsToBeRemoved)
+				return
+			}
+		}
+		path.append(state)
 	}
 	
 	/// Get a View for the State

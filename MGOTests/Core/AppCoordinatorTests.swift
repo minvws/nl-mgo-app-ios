@@ -207,7 +207,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.sheet) == nil
 	}
 	
-	func test_coordinatorHandle_remoteAuthentication() {
+	func test_coordinatorHandle_remoteAuthentication_presentInStack() {
 		
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.accessCodeValidation])
@@ -219,6 +219,37 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.sheet) == nil
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
+		expect(self.sut.path.count) == 1
+	}
+	
+	func test_coordinatorHandle_remoteAuthentication_notPresentInStack() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeValidation])
+		sut.sheet = AppCoordination.State.forgotAccessCode
+		
+		// When
+		sut.handle(AppCoordination.Action.remoteAuthentication)
+		
+		// Then
+		expect(self.sut.sheet) == nil
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeValidation, AppCoordination.State.remoteAuthentication])
+		expect(self.sut.path.count) == 2
+	}
+	
+	func test_coordinatorHandle_remoteAuthentication_isStack() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
+		sut.sheet = AppCoordination.State.forgotAccessCode
+		
+		// When
+		sut.handle(AppCoordination.Action.remoteAuthentication)
+		
+		// Then
+		expect(self.sut.sheet) == nil
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
+		expect(self.sut.path.count) == 1
 	}
 	
 	func test_coordinatorHandle_backButtonPressed() {
