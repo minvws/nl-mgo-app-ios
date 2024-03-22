@@ -170,7 +170,15 @@
       }
     },
     "accesscode_wrong_body_voiceover" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De ingevoerde toegangscode is onjuist.\nProbeer het opnieuw. "
+          }
+        }
+      }
     },
     "app_title" : {
       "extractionState" : "manual",

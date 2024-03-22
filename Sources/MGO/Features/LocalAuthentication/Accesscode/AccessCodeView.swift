@@ -200,7 +200,7 @@ class AccessCodeViewModel: ObservableObject {
 			state.title = "accesscode_validation_title"
 			state.message = "accesscode_wrong_body"
 			state.messageType = .alert
-			announce(String(localized: "accesscode_wrongh_body_voiceover"))
+			announce(String(localized: "accesscode_wrong_body_voiceover"))
 		} else if mode == .validation {
 			// Setup for access code validation
 			state.title = "accesscode_validation_title"

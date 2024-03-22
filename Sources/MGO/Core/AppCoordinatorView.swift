@@ -49,6 +49,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 										Image(ImageResource.Icon.close)
 									}
 								)
+								.accessibilityLabel("general_close")
 							}
 						}
 				}
