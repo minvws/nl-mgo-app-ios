@@ -20,29 +20,15 @@ final class PrivacyOverviewViewTests: XCTestCase {
 		)
 	}
 	
-	func test_showPrivacyView_lightMode() {
+	func test_showPrivacyOverviewView() {
 		
 		// Given
 		let sut = createSut()
 		
 		// When
 		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
 		
 		// Then
-		assertSnapshot(of: content.colorScheme(.light), as: .image)
-	}
-	
-	func test_showPrivacyView_darkMode() {
-		
-		// Given
-		let sut = createSut()
-		
-		// When
-		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
-		
-		// Then
-		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+		takeSnapShots(content: content, name: "test_showPrivacyOverviewView")
 	}
 }
