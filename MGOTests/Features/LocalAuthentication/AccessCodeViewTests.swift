@@ -12,12 +12,14 @@ import MGOUI
 
 final class AccessCodeViewTests: XCTestCase {
 
+	private var strengthMeterSpy: AccessCodeStrengthValidationSpy!
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var sut: AccessCodeViewModel!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
+		strengthMeterSpy = AccessCodeStrengthValidationSpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
 		super.setUp()
@@ -25,13 +27,45 @@ final class AccessCodeViewTests: XCTestCase {
 	
 	func createSut(mode: AccessCodeViewModel.AccessCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) -> AccessCodeView {
 		
-		let viewModel = AccessCodeViewModel(coordinator: coordinatorSpy, mode: mode, pinLimit: 5, bioMetricType: bioMetricType)
+		let viewModel = AccessCodeViewModel(
+			coordinator: coordinatorSpy,
+			mode: mode,
+			pinLimit: 5,
+			bioMetricType: bioMetricType,
+			strengthMeter: strengthMeterSpy
+		)
 		
 		return AccessCodeView(
 			viewModel: viewModel
 		)
 	}
 
+	func test_creation_noBioMetric_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .creation, bioMetricType: { .none })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_creation_noBioMetric_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .creation, bioMetricType: { .none })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+	
 	func test_creation_touch_lightMode() {
 		
 		// Given
@@ -145,6 +179,7 @@ final class AccessCodeViewTests: XCTestCase {
 	func test_creation_touch_fiveDigits_tooWeak() throws {
 		
 		// Given
+		strengthMeterSpy.stubbedValidateResult = false
 		let sut = createSut(mode: .creation, bioMetricType: { .touchID })
 		try sut.inspect().find(button: "0").tap()
 		try sut.inspect().find(button: "0").tap()
@@ -158,6 +193,32 @@ final class AccessCodeViewTests: XCTestCase {
 		
 		// Then
 		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_confirmation_noBioMetric_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .none })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_confirmation_noBioMetric_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .none })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
 	}
 	
 	func test_confirmation_touch_lightMode() {
@@ -177,6 +238,58 @@ final class AccessCodeViewTests: XCTestCase {
 		
 		// Given
 		let sut = createSut(mode: .confirmation, bioMetricType: { .touchID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+	
+	func test_confirmation_face_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .faceID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_confirmation_face_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .faceID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+	
+	func test_confirmation_vison_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .opticID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_confirmation_vision_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .confirmation, bioMetricType: { .opticID })
 		
 		// When
 		let content = NavigationView { sut }

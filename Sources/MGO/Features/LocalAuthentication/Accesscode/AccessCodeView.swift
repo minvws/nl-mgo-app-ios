@@ -72,7 +72,7 @@ class AccessCodeViewModel: ObservableObject {
 	@Published var state: AccessCodeViewState = AccessCodeViewState(title: "", message: "")
 	
 	/// Tha strenth validator for the access code
-	private var strengthValidator: StrengthValidation = StrengthValidator()
+	private var strengthMeter: AccessCodeStrengthValidation
 	
 	/// The flow coordintator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
@@ -107,12 +107,14 @@ class AccessCodeViewModel: ObservableObject {
 		coordinator: (any AppCoordinatorProtocol)?,
 		mode: AccessCodeMode,
 		pinLimit: Int = 5,
-		bioMetricType: () -> LocalAuthentication.BiometricType) {
+		bioMetricType: () -> LocalAuthentication.BiometricType,
+		strengthMeter: AccessCodeStrengthValidation = AccessCodeStrengthMeter()) {
 		
 		self.coordinator = coordinator
 		self.numberOfDigits = pinLimit
 		self.mode = mode
 		self.numberOfDigits = pinLimit
+		self.strengthMeter = strengthMeter
 		self.state.bioMetricType = bioMetricType()
 
 		updateState()
@@ -201,7 +203,7 @@ class AccessCodeViewModel: ObservableObject {
 	private func handleCreationCompletion() {
 		
 		let code = accessCode.joined()
-		guard strengthValidator.validate(code) else {
+		guard strengthMeter.validate(code) else {
 			
 			// Show too weak message
 			updateState(tooWeak: true)
@@ -211,7 +213,6 @@ class AccessCodeViewModel: ObservableObject {
 		
 		// All ok, store temp and move to confirmation
 		Haptic.light()
-		// Store temp accesscode
 		Current.secureUserSettings.tempAccessCode = code
 		coordinator?.handle(.accessCodeEntered)
 		accessCode = []

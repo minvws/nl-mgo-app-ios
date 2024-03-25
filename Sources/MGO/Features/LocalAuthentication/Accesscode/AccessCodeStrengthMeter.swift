@@ -1,0 +1,59 @@
+/*
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import MGOFoundation
+
+/// Protocol for Access Code Strenght Validation
+protocol AccessCodeStrengthValidation {
+	
+	/// Is this code a strong enough  code
+	/// - Parameter code: the code to be checked
+	/// - Returns: true if the code is strong enough
+	func validate(_ code: String) -> Bool
+}
+
+class AccessCodeStrengthMeter: AccessCodeStrengthValidation {
+	
+	/// Is this code a strong enough  code
+	/// - Parameter code: the code to be checked
+	/// - Returns: true if the code is strong enough
+	func validate(_ code: String) -> Bool {
+		
+		return isNumeric(code) && !isFrequentlyUsed(code) && isUnique(code)
+	}
+	
+	/// Is this code frequently used?
+	/// - Parameter code: the code to check
+	/// - Returns: true if the code is not in the frequently used lst.
+	private func isFrequentlyUsed(_ code: String) -> Bool {
+		
+		let frequentlyUsed = ["12345", "54321", "13579", "12321", "90210", "38317", "09876", "98765", "01234", "42069"]
+		return frequentlyUsed.contains(code)
+	}
+	
+	/// Is this code unique enough?
+	/// A code is considered unique enough if there are 3 or more different characters (for a code length of 5)
+	/// - Parameter code: the code to check
+	/// - Returns: true if there are 3 or more unique characters in this code
+	private func isUnique(_ code: String) -> Bool {
+		
+		var uniqueChars: [String] = []
+		for element in code where !uniqueChars.contains(String(element)) {
+			uniqueChars.append(String(element))
+		}
+		return uniqueChars.count >= 3
+	}
+	
+	/// Is this a numeric String
+	/// - Parameter code: the code to check
+	/// - Returns: true if all characters are numbers
+	private func isNumeric(_ code: String) -> Bool {
+		
+		let digitsCharacters = CharacterSet(charactersIn: "0123456789")
+		return CharacterSet(charactersIn: code).isSubset(of: digitsCharacters)
+	}
+}
