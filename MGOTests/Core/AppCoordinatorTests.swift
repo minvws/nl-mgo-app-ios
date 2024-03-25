@@ -292,7 +292,7 @@ final class AppCoordinatorTests: XCTestCase {
 	
 	// MARK: - Views -
 	
-	func test_coordinatorView_forLaunch() {
+	func test_coordinatorView_forLaunch() throws {
 		
 		// Given
 		let state = AppCoordination.State.launch
@@ -301,10 +301,10 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image(precision: 0.90)) // Lower precision due to random postion of spinner
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forLaunch", precision: 0.90) // Lower precision due to random postion of spinner
 	}
 	
-	func test_coordinatorView_forAppIntroduction() {
+	func test_coordinatorView_forAppIntroduction() throws {
 		
 		// Given
 		let state = AppCoordination.State.appIntroduction
@@ -313,10 +313,10 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forAppIntroduction")
 	}
 	
-	func test_coordinatorView_forPrivacy() {
+	func test_coordinatorView_forPrivacyOverview() throws {
 		
 		// Given
 		let state = AppCoordination.State.privacyOverview
@@ -325,10 +325,10 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forPrivacyOverview")
 	}
 
-	func test_coordinatorView_forPrivacyStatement() {
+	func test_coordinatorView_forPrivacyStatement() throws {
 		
 		// Given
 		let state = AppCoordination.State.privacyStatement
@@ -337,10 +337,10 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forPrivacyStatement")
 	}
 	
-	func test_coordinatorView_forAccessCodeEntry() {
+	func test_coordinatorView_forAccessCodeEntry() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
@@ -350,10 +350,10 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forAccessCodeEntry")
 	}
 	
-	func test_coordinatorView_forAccessCodeConfirmation() {
+	func test_coordinatorView_forAccessCodeConfirmation() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
@@ -363,10 +363,10 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forAccessCodeConfirmation")
 	}
 	
-	func test_coordinatorView_forAccessCodeValidation() {
+	func test_coordinatorView_forAccessCodeValidation() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
@@ -377,10 +377,10 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forAccessCodeValidation")
 	}
 	
-	func test_coordinatorView_forBioMetricSetup() {
+	func test_coordinatorView_forBioMetricSetup() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
@@ -390,10 +390,10 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forBioMetricSetup")
 	}
 
-	func test_coordinatorView_forRemoteAuthentication_firstVisit() {
+	func test_coordinatorView_forRemoteAuthentication_firstVisit() throws {
 
 		// Given
 		let state = AppCoordination.State.remoteAuthentication
@@ -403,10 +403,10 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forRemoteAuthentication_firstVisit")
 	}
 	
-	func test_coordinatorView_forRemoteAuthentication_repeatVisit() {
+	func test_coordinatorView_forRemoteAuthentication_repeatVisit() throws {
 
 		// Given
 		let state = AppCoordination.State.remoteAuthentication
@@ -416,10 +416,10 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forRemoteAuthentication_repeatVisit")
 	}
 	
-	func test_coordinatorView_forgotAccessCode() {
+	func test_coordinatorView_forgotAccessCode() throws {
 
 		// Given
 		let state = AppCoordination.State.forgotAccessCode
@@ -428,10 +428,10 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forgotAccessCode")
 	}
 	
-	func test_coordinatorView_forDashboard() {
+	func test_coordinatorView_forDashboard() throws {
 
 		// Given
 		let state = AppCoordination.State.dashboard
@@ -440,6 +440,6 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		assertSnapshot(of: view.frameAsiPhone15Pro(), as: .image)
+		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forDashboard")
 	}
 }
