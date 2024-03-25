@@ -61,7 +61,7 @@ enum AppCoordination {
 	}
 	
 	/// A list of all the view states the app coordinator can show
-	enum State: String,  Codable {
+	enum State: String, Codable {
 		case launch
 		
 		// Onboarding
