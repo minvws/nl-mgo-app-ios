@@ -58,6 +58,6 @@ final class ForgotAccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_forgotAccessCodeView")
+		takeSnapShots(content: content)
 	}
 }

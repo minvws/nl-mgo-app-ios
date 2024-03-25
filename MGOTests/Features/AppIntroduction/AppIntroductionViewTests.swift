@@ -29,6 +29,6 @@ final class AppIntroductionViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: content, name: "test_appIntroductionView")
+		takeSnapShots(content: content)
 	}
 }

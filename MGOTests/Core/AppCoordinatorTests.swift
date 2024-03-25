@@ -301,7 +301,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forLaunch", precision: 0.90) // Lower precision due to random postion of spinner
+		takeSnapShots(content: try XCTUnwrap(view), precision: 0.90) // Lower precision due to random postion of spinner
 	}
 	
 	func test_coordinatorView_forAppIntroduction() throws {
@@ -313,7 +313,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forAppIntroduction")
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
 	func test_coordinatorView_forPrivacyOverview() throws {
@@ -325,7 +325,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forPrivacyOverview")
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 
 	func test_coordinatorView_forPrivacyStatement() throws {
@@ -337,7 +337,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forPrivacyStatement")
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
 	func test_coordinatorView_forAccessCodeEntry() throws {
@@ -350,7 +350,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forAccessCodeEntry")
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
 	func test_coordinatorView_forAccessCodeConfirmation() throws {
@@ -363,7 +363,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forAccessCodeConfirmation")
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
 	func test_coordinatorView_forAccessCodeValidation() throws {
@@ -377,7 +377,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forAccessCodeValidation")
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
 	func test_coordinatorView_forBioMetricSetup() throws {
@@ -390,7 +390,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forBioMetricSetup")
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 
 	func test_coordinatorView_forRemoteAuthentication_firstVisit() throws {
@@ -403,7 +403,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forRemoteAuthentication_firstVisit")
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
 	func test_coordinatorView_forRemoteAuthentication_repeatVisit() throws {
@@ -416,7 +416,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forRemoteAuthentication_repeatVisit")
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
 	func test_coordinatorView_forgotAccessCode() throws {
@@ -428,7 +428,7 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forgotAccessCode")
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
 	func test_coordinatorView_forDashboard() throws {
@@ -440,6 +440,6 @@ final class AppCoordinatorTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), name: "test_coordinatorView_forDashboard")
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 }

@@ -51,7 +51,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_creation_noBioMetric")
+		takeSnapShots(content: content)
 	}
 	
 	func test_creation_touch() {
@@ -63,7 +63,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_creation_touch")
+		takeSnapShots(content: content)
 	}
 	
 	func test_creation_face() {
@@ -75,7 +75,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_creation_face")
+		takeSnapShots(content: content)
 	}
 	
 	func test_creation_vision() {
@@ -87,7 +87,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_creation_vision")
+		takeSnapShots(content: content)
 	}
 	
 	func test_creation_touch_twoDigits() throws {
@@ -101,7 +101,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_creation_touch_twoDigits")
+		takeSnapShots(content: content)
 	}
 	
 	func test_creation_touch_fourDigits() throws {
@@ -117,7 +117,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_creation_touch_fourDigits")
+		takeSnapShots(content: content)
 	}
 	
 	func test_creation_touch_fiveDigits_tooWeak() throws {
@@ -135,7 +135,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_creation_touch_fiveDigits_tooWeak")
+		takeSnapShots(content: content)
 	}
 	
 	// MARK: - Confirmation Mode -
@@ -149,7 +149,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_confirmation_noBioMetric")
+		takeSnapShots(content: content)
 	}
 	
 	func test_confirmation_touch() {
@@ -161,7 +161,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_confirmation_touch")
+		takeSnapShots(content: content)
 	}
 	
 	func test_confirmation_face_lightMode() {
@@ -173,7 +173,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_confirmation_face")
+		takeSnapShots(content: content)
 	}
 	
 	func test_confirmation_vison() {
@@ -185,7 +185,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_confirmation_vison")
+		takeSnapShots(content: content)
 	}
 	
 	func test_confirmation_touch_fiveDigits_different() throws {
@@ -203,7 +203,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_confirmation_touch_fiveDigits_different")
+		takeSnapShots(content: content)
 	}
 	
 	// MARK: - Validation Mode -
@@ -217,7 +217,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_validation_noBioMetric")
+		takeSnapShots(content: content)
 	}
 	
 	func test_validation_touch() {
@@ -229,7 +229,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_validation_touch")
+		takeSnapShots(content: content)
 	}
 	
 	func test_validation_face() {
@@ -241,7 +241,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_validation_face")
+		takeSnapShots(content: content)
 	}
 	
 	func test_validation_vison() {
@@ -253,7 +253,7 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_validation_vison")
+		takeSnapShots(content: content)
 	}
 	
 	func test_validation_touch_fiveDigits_different() throws {
@@ -271,6 +271,6 @@ final class AccessCodeViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_validation_touch_fiveDigits_different")
+		takeSnapShots(content: content)
 	}
 }

@@ -30,6 +30,6 @@ final class PrivacyStatementViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: content, name: "test_showPrivacyStatementView")
+		takeSnapShots(content: content)
 	}
 }

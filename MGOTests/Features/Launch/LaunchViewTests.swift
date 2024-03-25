@@ -59,6 +59,6 @@ final class LaunchViewTests: XCTestCase {
 		// When
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_launch_stateConfigLoaded")
+		takeSnapShots(content: sut)
 	}
 }

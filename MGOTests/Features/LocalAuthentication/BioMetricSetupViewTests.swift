@@ -41,7 +41,7 @@ class BioMetricSetupViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_bioMetricSetup_faceID")
+		takeSnapShots(content: content)
 	}
 	
 	func test_bioMetricSetup_touchID() {
@@ -53,7 +53,7 @@ class BioMetricSetupViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_bioMetricSetup_touchID")
+		takeSnapShots(content: content)
 	}
 	
 	func test_bioMetricSetup_opticID() {
@@ -65,6 +65,6 @@ class BioMetricSetupViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_bioMetricSetup_opticID")
+		takeSnapShots(content: content)
 	}
 }
