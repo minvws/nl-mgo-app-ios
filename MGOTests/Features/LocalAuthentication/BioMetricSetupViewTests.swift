@@ -32,81 +32,39 @@ class BioMetricSetupViewTests: XCTestCase {
 		)
 	}
 	
-	func test_bioMetricSetup_faceID_ligthMode() {
+	func test_bioMetricSetup_faceID() {
 		
 		// Given
 		let sut = createSut(bioMetricType: { .faceID })
 		
 		// When
 		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
 		
 		// Then
-		assertSnapshot(of: content.colorScheme(.light), as: .image)
-	}
-
-	func test_bioMetricSetup_faceID_darkMode() {
-		
-		// Given
-		let sut = createSut(bioMetricType: { .faceID })
-		
-		// When
-		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
-		
-		// Then
-		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+		takeSnapShots(content: sut, name: "test_bioMetricSetup_faceID")
 	}
 	
-	func test_bioMetricSetup_touchID_ligthMode() {
+	func test_bioMetricSetup_touchID() {
 		
 		// Given
 		let sut = createSut(bioMetricType: { .touchID })
 		
 		// When
 		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
 		
 		// Then
-		assertSnapshot(of: content.colorScheme(.light), as: .image)
-	}
-
-	func test_bioMetricSetup_touchID_darkMode() {
-		
-		// Given
-		let sut = createSut(bioMetricType: { .touchID })
-		
-		// When
-		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
-		
-		// Then
-		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+		takeSnapShots(content: sut, name: "test_bioMetricSetup_touchID")
 	}
 	
-	func test_bioMetricSetup_opticID_ligthMode() {
+	func test_bioMetricSetup_opticID() {
 		
 		// Given
 		let sut = createSut(bioMetricType: { .opticID })
 		
 		// When
 		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
 		
 		// Then
-		assertSnapshot(of: content.colorScheme(.light), as: .image)
-	}
-
-	func test_bioMetricSetup_opticID_darkMode() {
-		
-		// Given
-		let sut = createSut(bioMetricType: { .opticID })
-		
-		// When
-		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
-		
-		// Then
-		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+		takeSnapShots(content: sut, name: "test_bioMetricSetup_opticID")
 	}
 }
