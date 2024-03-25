@@ -6,6 +6,7 @@
 */
 
 import SnapshotTesting
+import SwiftUI
 import XCTest
 
 extension XCTestCase {
@@ -14,4 +15,44 @@ extension XCTestCase {
 //		super.setUp()
 //		isRecording = true
 //	}
+}
+
+extension XCTestCase {
+	
+	/// Take a snapshot of this content in light and dark Mode, in landscape and portrait.
+	/// - Parameters:
+	///   - content: the view for the snapshots
+	///   - name: The name of the test
+	public func takeSnapShots(content: some View, name: String) {
+		
+		// Dark Mode
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.dark)),
+			as: .image,
+			named: "_darkPortrait",
+			testName: name
+		)
+		
+		// Light Mode
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.light)),
+			as: .image,
+			named: "_lightPortrait",
+			testName: name
+		)
+		
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.dark)),
+			as: .image(on: .iPhone15Pro(.landscape)),
+			named: "_darkLandscape",
+			testName: name
+		)
+		
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.light)),
+			as: .image(on: .iPhone15Pro(.landscape)),
+			named: "_lightLandscape",
+			testName: name
+		)
+	}
 }
