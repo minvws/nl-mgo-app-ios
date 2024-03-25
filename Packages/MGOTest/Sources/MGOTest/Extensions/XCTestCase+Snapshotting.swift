@@ -30,7 +30,7 @@ extension XCTestCase {
 		// Dark Mode
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(precision: precision),
+			as: .image(on: .iPhone15Pro(.portrait), precision: precision),
 			named: "_darkPortrait",
 			file: file,
 			testName: name
@@ -39,7 +39,7 @@ extension XCTestCase {
 		// Light Mode
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(precision: precision),
+			as: .image(on: .iPhone15Pro(.portrait), precision: precision),
 			named: "_lightPortrait",
 			file: file,
 			testName: name

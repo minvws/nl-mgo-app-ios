@@ -37,7 +37,7 @@ final class LaunchViewTests: XCTestCase {
 		// When
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_launch_stateIdle", precision: 0.90) // Lower precision due to random postion of spinner
+		takeSnapShots(content: sut, precision: 0.90) // Lower precision due to random postion of spinner
 	}
 	
 	func test_launch_stateLoadingConfig() {
@@ -48,7 +48,7 @@ final class LaunchViewTests: XCTestCase {
 		// When
 		
 		// Then
-		takeSnapShots(content: sut, name: "test_launch_stateLoadingConfig", precision: 0.90) // Lower precision due to random postion of spinner
+		takeSnapShots(content: sut, precision: 0.90) // Lower precision due to random postion of spinner
 	}
 
 	func test_launch_stateConfigLoaded() {
