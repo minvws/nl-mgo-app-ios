@@ -23,6 +23,8 @@ extension XCTestCase {
 	/// - Parameters:
 	///   - content: the view for the snapshots
 	///   - name: The name of the test
+	///   - precision: the precision to check against (0.99 means 1% pixel difference)
+	///   - file: the file
 	public func takeSnapShots(content: some View, name: String, precision: Float = 1.0, file: StaticString = #file) {
 		
 		// Dark Mode
