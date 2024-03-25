@@ -37,8 +37,7 @@ final class LaunchViewTests: XCTestCase {
 		// When
 		
 		// Then
-		assertSnapshot(of: sut.colorScheme(.light), as: .image(precision: 0.90)) // Lower precision due to
-		assertSnapshot(of: sut.colorScheme(.dark), as: .image(precision: 0.90)) // random postion of spinner
+		takeSnapShots(content: sut, name: "test_launch_stateIdle", precision: 0.90) // Lower precision due to random postion of spinner
 	}
 	
 	func test_launch_stateLoadingConfig() {
@@ -49,8 +48,7 @@ final class LaunchViewTests: XCTestCase {
 		// When
 		
 		// Then
-		assertSnapshot(of: sut.colorScheme(.light), as: .image(precision: 0.90)) // Lower precision due to
-		assertSnapshot(of: sut.colorScheme(.dark), as: .image(precision: 0.90)) // random postion of spinner
+		takeSnapShots(content: sut, name: "test_launch_stateLoadingConfig", precision: 0.90) // Lower precision due to random postion of spinner
 	}
 
 	func test_launch_stateConfigLoaded() {
@@ -61,7 +59,6 @@ final class LaunchViewTests: XCTestCase {
 		// When
 		
 		// Then
-		assertSnapshot(of: sut.colorScheme(.light), as: .image)
-		assertSnapshot(of: sut.colorScheme(.dark), as: .image)
+		takeSnapShots(content: sut, name: "test_launch_stateConfigLoaded")
 	}
 }
