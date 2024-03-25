@@ -77,7 +77,6 @@ struct PrivacyStatementView: View {
 			.padding(ViewTraits.PrivacyStatement.insets)
 			
 		}
-		.navigationBarBackButtonHidden(true)
 	}
 }
 
