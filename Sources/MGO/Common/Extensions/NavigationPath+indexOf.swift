@@ -31,8 +31,8 @@ extension NavigationStackBackport.NavigationPath {
 			
 			logDebug("NavigationPath: the path consists of \(arrayOfPaths)")
 			
-			for (index, element) in arrayOfPaths.enumerated() {
-				if element == value { return index }
+			for (index, element) in arrayOfPaths.enumerated() where element == value {
+				return index
 			}
 		}
 		return nil
