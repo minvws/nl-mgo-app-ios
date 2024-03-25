@@ -23,13 +23,14 @@ extension XCTestCase {
 	/// - Parameters:
 	///   - content: the view for the snapshots
 	///   - name: The name of the test
-	public func takeSnapShots(content: some View, name: String) {
+	public func takeSnapShots(content: some View, name: String, file: StaticString = #file) {
 		
 		// Dark Mode
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
 			as: .image,
 			named: "_darkPortrait",
+			file: file,
 			testName: name
 		)
 		
@@ -38,6 +39,7 @@ extension XCTestCase {
 			of: UIHostingController(rootView: content.colorScheme(.light)),
 			as: .image,
 			named: "_lightPortrait",
+			file: file,
 			testName: name
 		)
 		
@@ -45,6 +47,7 @@ extension XCTestCase {
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPhone15Pro(.landscape)),
 			named: "_darkLandscape",
+			file: file,
 			testName: name
 		)
 		
@@ -52,6 +55,7 @@ extension XCTestCase {
 			of: UIHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPhone15Pro(.landscape)),
 			named: "_lightLandscape",
+			file: file,
 			testName: name
 		)
 	}
