@@ -45,23 +45,37 @@ class AppCoordinatorSpy: AppCoordinatorProtocol {
 		invokedHandleParametersList.append((action, ()))
 	}
 
-	var invokedStart = false
-	var invokedStartCount = 0
+	var invokedSheetSetter = false
+	var invokedSheetSetterCount = 0
+	var invokedSheet: AppCoordination.State?
+	var invokedSheetList = [AppCoordination.State?]()
+	var invokedSheetGetter = false
+	var invokedSheetGetterCount = 0
+	var stubbedSheet: AppCoordination.State!
 
-	func start() {
-		invokedStart = true
-		invokedStartCount += 1
+	var sheet: AppCoordination.State? {
+		set {
+			invokedSheetSetter = true
+			invokedSheetSetterCount += 1
+			invokedSheet = newValue
+			invokedSheetList.append(newValue)
+		}
+		get {
+			invokedSheetGetter = true
+			invokedSheetGetterCount += 1
+			return stubbedSheet
+		}
 	}
 
 	var invokedView = false
 	var invokedViewCount = 0
-	var invokedViewParameters: (for: AppCoordination.State, Void)?
-	var invokedViewParametersList = [(for: AppCoordination.State, Void)]()
+	var invokedViewParameters: (for: AppCoordination.State?, Void)?
+	var invokedViewParametersList = [(for: AppCoordination.State?, Void)]()
 	var stubbedViewResult: some View {
 		EmptyView()
 	}
 
-	func view(for: AppCoordination.State) -> some View {
+	func view(for: AppCoordination.State?) -> some View {
 		stubbedViewResult
 			.onAppear { [self] in
 				self.invokedView = true

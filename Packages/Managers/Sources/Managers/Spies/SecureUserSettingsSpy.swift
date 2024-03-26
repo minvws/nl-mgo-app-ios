@@ -8,9 +8,9 @@
 import Foundation
 
 public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
-	
-	public init() {}
 
+	public init() { }
+	
 	public var invokedTempAccessCodeSetter = false
 	public var invokedTempAccessCodeSetterCount = 0
 	public var invokedTempAccessCode: String?
@@ -96,6 +96,28 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 			invokedUserHasSeenAppIntroductionGetter = true
 			invokedUserHasSeenAppIntroductionGetterCount += 1
 			return stubbedUserHasSeenAppIntroduction
+		}
+	}
+
+	public var invokedUserHasRemoteAuthenticationSetter = false
+	public var invokedUserHasRemoteAuthenticationSetterCount = 0
+	public var invokedUserHasRemoteAuthentication: Bool?
+	public var invokedUserHasRemoteAuthenticationList = [Bool]()
+	public var invokedUserHasRemoteAuthenticationGetter = false
+	public var invokedUserHasRemoteAuthenticationGetterCount = 0
+	public var stubbedUserHasRemoteAuthentication: Bool! = false
+
+	public var userHasRemoteAuthentication: Bool {
+		set {
+			invokedUserHasRemoteAuthenticationSetter = true
+			invokedUserHasRemoteAuthenticationSetterCount += 1
+			invokedUserHasRemoteAuthentication = newValue
+			invokedUserHasRemoteAuthenticationList.append(newValue)
+		}
+		get {
+			invokedUserHasRemoteAuthenticationGetter = true
+			invokedUserHasRemoteAuthenticationGetterCount += 1
+			return stubbedUserHasRemoteAuthentication
 		}
 	}
 

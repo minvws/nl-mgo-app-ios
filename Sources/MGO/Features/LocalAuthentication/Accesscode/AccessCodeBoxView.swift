@@ -117,17 +117,12 @@ struct AccessCodeBoxView: View {
 #Preview {
 	ZStack {
 		Color.Styleguide.background
-		HStack {
+		HStack(spacing: 12) {
 			AccessCodeBoxView(state: .constant(.filled))
-				.frame(maxWidth: .infinity)
 			AccessCodeBoxView(state: .constant(.filling))
-				.frame(maxWidth: .infinity)
 			AccessCodeBoxView(state: .constant(.focus))
-				.frame(maxWidth: .infinity)
 			AccessCodeBoxView(state: .constant(.empty))
-				.frame(maxWidth: .infinity)
 			AccessCodeBoxView(state: .constant(.error))
-				.frame(maxWidth: .infinity)
 		}
 	}
 }

@@ -14,13 +14,13 @@ final class AccessCodeViewTests: XCTestCase {
 
 	private var strengthMeterSpy: AccessCodeStrengthValidationSpy!
 	private var coordinatorSpy: AppCoordinatorSpy!
-	private var sut: AccessCodeViewModel!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
 		strengthMeterSpy = AccessCodeStrengthValidationSpy()
 		servicesSpies = setupServicesSpies()
+		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = true
 		coordinatorSpy = AppCoordinatorSpy()
 		super.setUp()
 	}
@@ -40,6 +40,8 @@ final class AccessCodeViewTests: XCTestCase {
 		)
 	}
 
+	// MARK: - Creation Mode -
+	
 	func test_creation_noBioMetric_lightMode() {
 		
 		// Given
@@ -195,6 +197,8 @@ final class AccessCodeViewTests: XCTestCase {
 		assertSnapshot(of: content.colorScheme(.light), as: .image)
 	}
 	
+	// MARK: - Confirmation Mode -
+	
 	func test_confirmation_noBioMetric_lightMode() {
 		
 		// Given
@@ -304,6 +308,131 @@ final class AccessCodeViewTests: XCTestCase {
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedTempAccessCode = "12345"
 		let sut = createSut(mode: .confirmation, bioMetricType: { .touchID })
+		try sut.inspect().find(button: "1").tap()
+		try sut.inspect().find(button: "1").tap()
+		try sut.inspect().find(button: "1").tap()
+		try sut.inspect().find(button: "1").tap()
+		try sut.inspect().find(button: "1").tap()
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	// MARK: - Validation Mode -
+	
+	func test_validation_noBioMetric_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .validation, bioMetricType: { .none })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_validation_noBioMetric_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .validation, bioMetricType: { .none })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+	
+	func test_validation_touch_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .validation, bioMetricType: { .touchID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_validation_touch_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .validation, bioMetricType: { .touchID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+	
+	func test_validation_face_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .validation, bioMetricType: { .faceID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_validation_face_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .validation, bioMetricType: { .faceID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+	
+	func test_validation_vison_lightMode() {
+		
+		// Given
+		let sut = createSut(mode: .validation, bioMetricType: { .opticID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.light), as: .image)
+	}
+	
+	func test_validation_vision_darkMode() {
+		
+		// Given
+		let sut = createSut(mode: .validation, bioMetricType: { .opticID })
+		
+		// When
+		let content = NavigationView { sut }
+			.frameAsiPhone15Pro()
+		
+		// Then
+		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+	}
+	
+	func test_validation_touch_fiveDigits_different() throws {
+		
+		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedAccessCode = "12345"
+		let sut = createSut(mode: .validation, bioMetricType: { .touchID })
 		try sut.inspect().find(button: "1").tap()
 		try sut.inspect().find(button: "1").tap()
 		try sut.inspect().find(button: "1").tap()

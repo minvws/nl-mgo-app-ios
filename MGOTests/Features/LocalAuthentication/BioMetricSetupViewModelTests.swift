@@ -98,7 +98,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .userFallback
 		
 		// When
-		sut.reduce(.proceedWithoutBioMetric)
+		sut.reduce(.proceedWithBioMetric)
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
@@ -115,7 +115,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .declined
 		
 		// When
-		sut.reduce(.proceedWithoutBioMetric)
+		sut.reduce(.proceedWithBioMetric)
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())

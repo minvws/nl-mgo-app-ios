@@ -16,6 +16,9 @@ protocol AppCoordinatorProtocol: ObservableObject {
 	/// The navigation path
 	var path: NavigationStackBackport.NavigationPath { get set }
 	
+	/// The content type for the sheet
+	var sheet: AppCoordination.State? { get set }
+	
 	/// Handle an incoming action from any of the view models
 	/// - Parameter action: an AppCoordination Action
 	func handle(_ action: AppCoordination.Action)
@@ -23,7 +26,7 @@ protocol AppCoordinatorProtocol: ObservableObject {
 	/// Get a View for the State
 	/// - Parameter state: the AppCoordination State
 	/// - Returns: A view for that state
-	func view(for: AppCoordination.State) -> Body
+	func view(for: AppCoordination.State?) -> Body
 }
 
 enum AppCoordination {
@@ -42,21 +45,41 @@ enum AppCoordination {
 		case accessCodeEntered
 		case accessCodeConfirmed
 		case didFinishLocalAuthentication
+		case accessCodeValidated
+		case forgotAccessCode
+		case dismissForgotAccessCode
+		case remoteAuthentication
+		
+		// Remote Authentication
+		case loginWithDigiD
+		case loginWithAccessCode
 		
 		// Other
+		case sheetClosed
 		case backButtonPressed
 		case resetApplication
 	}
 	
 	/// A list of all the view states the app coordinator can show
-	enum State: Codable {
+	enum State: String, Codable {
 		case launch
+		
+		// Onboarding
 		case appIntroduction
 		case privacyOverview
 		case privacyStatement
+		
+		// Local Authentication
 		case accessCodeEntry
 		case accessCodeConfirmation
+		case accessCodeValidation
 		case bioMetricSetup
+		case forgotAccessCode
+		
+		// Remote Auhtentication
+		case remoteAuthentication
+		
+		// Dashboard
 		case dashboard
 	}
 }
@@ -69,6 +92,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The navigation path
 	@Published var path: NavigationStackBackport.NavigationPath
+	
+	/// The content type for the sheet
+	@Published var sheet: AppCoordination.State?
 	
 	/// Initializer
 	/// - Parameter path: Navigation Path
@@ -83,14 +109,17 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		switch action {
 			
+			// Onboarding
+			
 			case .finishedLoading:
 				if !Current.secureUserSettings.userHasSeenAppIntroduction {
 					// Only show the appIntroduction once
 					path.append(AppCoordination.State.appIntroduction)
 				} else if Current.secureUserSettings.accessCode == nil {
 					path.append(AppCoordination.State.accessCodeEntry)
+					
 				} else {
-					path.append(AppCoordination.State.dashboard)
+					path.append(AppCoordination.State.remoteAuthentication)
 				}
 			case .nextButtonPressedOnAppIntroduction:
 				path.append(AppCoordination.State.privacyOverview)
@@ -103,19 +132,48 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .showPrivacyStatement:
 				path.append(AppCoordination.State.privacyStatement)
 			
+			// Local Authentication
+			
 			case .accessCodeEntered:
 				path.append(AppCoordination.State.accessCodeConfirmation)
 			
 			case .accessCodeConfirmed:
 			
 				if Current.localAuthenticationProvider.biometricType() == .none {
-					path.append(AppCoordination.State.dashboard)
+					path.append(AppCoordination.State.remoteAuthentication)
 				} else {
 					path.append(AppCoordination.State.bioMetricSetup)
 				}
 			
-			case .didFinishLocalAuthentication:
+			case .accessCodeValidated:
 				path.append(AppCoordination.State.dashboard)
+			
+			case .didFinishLocalAuthentication:
+				path.append(AppCoordination.State.remoteAuthentication)
+			
+			case .forgotAccessCode:
+				sheet = AppCoordination.State.forgotAccessCode
+			
+			case .remoteAuthentication:
+				if sheet != nil {
+					sheet = nil
+				}
+				navigateTo(state: .remoteAuthentication)
+			
+			// Remote Authentication
+			
+			case .loginWithDigiD:
+			
+				Current.secureUserSettings.userHasRemoteAuthentication = true
+				path.append(AppCoordination.State.dashboard)
+			
+			case .loginWithAccessCode:
+				path.append(AppCoordination.State.accessCodeValidation)
+			
+			// General
+			
+			case .sheetClosed, .dismissForgotAccessCode:
+				sheet = nil
 			
 			case .backButtonPressed:
 				guard !path.isEmpty else { return }
@@ -129,15 +187,32 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
+	/// Navigate back to the state if present in the stack, else append to the stack
+	/// - Parameter state: the desired state
+	private func navigateTo(state: AppCoordination.State) {
+		
+		if let index = path.indexOf(state.rawValue) {
+			let elementsToBeRemoved = path.count - index - 1
+			logDebug("AppCoordinator navigateTo \(state) - index: \(index), count: \(path.count), toBeRemoved: \(elementsToBeRemoved)")
+			if elementsToBeRemoved >= 0 {
+				path.removeLast(elementsToBeRemoved)
+				return
+			}
+		}
+		path.append(state)
+	}
+	
 	/// Get a View for the State
 	/// - Parameter state: the AppCoordination State
 	/// - Returns: A view for that state
-	@ViewBuilder func view(for state: AppCoordination.State) -> some View {
+	@ViewBuilder func view(for state: AppCoordination.State?) -> some View {
 		
 		switch state {
 			case .launch:
 				LaunchView(viewModel: LaunchViewModel(coordinator: self))
 		
+			// Onboarding
+			
 			case .appIntroduction:
 				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self))
 		
@@ -147,19 +222,38 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .privacyStatement:
 				PrivacyStatementView(viewModel: PrivacyStatementViewModel(coordinator: self))
 
+			// Local Authentication
+			
 			case .accessCodeEntry:
 				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .creation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 				
 			case .accessCodeConfirmation:
-			AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+			
+			case .accessCodeValidation:
+				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .validation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 			
 			case .bioMetricSetup:
 				BioMetricSetupView(viewModel: BioMetricSetupViewModel(coordinator: self, bioMetricType: Current.localAuthenticationProvider.biometricType))
 			
+			case .forgotAccessCode:
+				ForgotAccessCodeView(viewModel: ForgotAccessCodeViewModel(coordinator: self))
+			
+			// Remote Authentication
+	
+			case .remoteAuthentication:
+				RemoteAuthenticationView(viewModel: RemoteAuthenticationViewModel(coordinator: self))
+			
+			// Dashboard
+	
 			case .dashboard:
 //				DashboardView(viewModel: DashboardViewModel(coordinator: self))
 				PatientView(viewModel: PatientViewModel(coordinator: self))
 
+			// Fallback
+			
+			case .none:
+				EmptyView()
 		}
 	}
 }

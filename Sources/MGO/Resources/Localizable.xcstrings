@@ -136,6 +136,50 @@
         }
       }
     },
+    "accesscode_validation_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vul je **5-cijferige toegangscode** in om verder te gaan naar de app."
+          }
+        }
+      }
+    },
+    "accesscode_validation_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log in met je persoonlijke toegangscode"
+          }
+        }
+      }
+    },
+    "accesscode_wrong_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De ingevoerde toegangscode is **onjuist**.\nProbeer het opnieuw. "
+          }
+        }
+      }
+    },
+    "accesscode_wrong_body_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De ingevoerde toegangscode is onjuist.\nProbeer het opnieuw. "
+          }
+        }
+      }
+    },
     "app_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -246,6 +290,17 @@
         }
       }
     },
+    "biometric_forgot_accesscode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toegangscode vergeten?"
+          }
+        }
+      }
+    },
     "biometric_opticid" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -296,6 +351,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Touch ID"
+          }
+        }
+      }
+    },
+    "forgot_action_digid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met DigiD"
+          }
+        }
+      }
+    },
+    "forgot_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt helaas geen nieuwe toegangscode aanmaken. Je kunt wel een nieuw account aanmaken. Log hiervoor opnieuw in met DigiD."
+          }
+        }
+      }
+    },
+    "forgot_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toegangscode vergeten?"
+          }
+        }
+      }
+    },
+    "general_cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuleren"
           }
         }
       }

@@ -44,7 +44,7 @@ struct BackButton: View {
 			label: {
 				HStack(alignment: .center, spacing: 0) {
 					
-					Image(.backArrow)
+					Image(ImageResource.Icon.backArrow)
 						.resizable()
 						.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
 						.padding(.trailing, ViewTraits.Image.padding)

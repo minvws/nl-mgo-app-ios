@@ -29,6 +29,9 @@ struct AccessCodeViewState: Equatable {
 	/// Is the back visible?
 	var backButtonVisible: Bool = false
 	
+	/// Do we show the forgot access code button?
+	var forgotCodeButtonVisible: Bool = false
+	
 	/// The key for the title
 	var title: LocalizedStringKey
 	
@@ -45,7 +48,7 @@ class AccessCodeViewModel: ObservableObject {
 	public enum AccessCodeMode: Equatable {
 		case creation // Create an access code
 		case confirmation // Confirm that accces code
-//		case validation // Validate the acces code (login)
+		case validation // Validate the acces code (login)
 	}
 	/// A helper struct to make an enum (AccessCodeBoxView.State) identificable.
 	public struct AccessCodeBoxState: Identifiable, Hashable {
@@ -60,6 +63,8 @@ class AccessCodeViewModel: ObservableObject {
 		case erasePressed
 		case biometricKeyPressed
 		case backButtonPressed
+		case onAppear
+		case forgotAccessCode
 	}
 	
 	/// The mode of this view (creation, validation)
@@ -116,9 +121,11 @@ class AccessCodeViewModel: ObservableObject {
 		self.numberOfDigits = pinLimit
 		self.strengthMeter = strengthMeter
 		self.state.bioMetricType = bioMetricType()
-
-		updateState()
 		
+		// Set the state for this mode
+		updateState()
+	
+		// Setup the initial state for the boxes.
 		boxStates.append(AccessCodeBoxState(id: 0, state: .focus))
 		for index in 1 ..< numberOfDigits {
 			boxStates.append(AccessCodeBoxState(id: index, state: .empty))
@@ -126,21 +133,47 @@ class AccessCodeViewModel: ObservableObject {
 	}
 	
 	/// Update the state
+	private func updateState() {
+		switch mode {
+			case .creation:
+				updateStateEntry()
+			case .confirmation:
+				updateStateConfirmation()
+			case .validation:
+				updateStateValidation()
+		}
+	}
+	
+	/// Update the state for creation mode
 	/// - Parameters:
-	///   - tooWeak: setup for too weak access code
-	///   - confirmationMismatch: setup for confirmation mismatched.
-	private func updateState(tooWeak: Bool = false, confirmationMismatch: Bool = false) {
+	///   - tooWeak: is the created code too weak?
+	private func updateStateEntry(tooWeak: Bool = false) {
 		
-		state.bioMetricEnabled = false // to be changed with validation
+		state.bioMetricEnabled = false
 		state.eraseEnabled = accessCode.isNotEmpty
-		state.backButtonVisible = self.mode == .confirmation
+		state.backButtonVisible = false
 		if tooWeak {
 			// Setup for access code is too weak
 			state.title = "accesscode_create_title"
 			state.message = "accesscode_tooweak_body"
 			state.messageType = .alert
 			announce(String(localized: "accesscode_tooweak_body_voiceover"))
-		} else if confirmationMismatch {
+		} else {
+			// Setup for regular access code entry
+			state.title = "accesscode_create_title"
+			state.message = "accesscode_create_body"
+			state.messageType = .regular
+		}
+	}
+	
+	/// Update the state for confirmation mode
+	/// - Parameter confirmationMismatch: Does the confirmation code matches the creation code?
+	private func updateStateConfirmation(confirmationMismatch: Bool = false) {
+		
+		state.bioMetricEnabled = false
+		state.eraseEnabled = accessCode.isNotEmpty
+		state.backButtonVisible = true
+		if confirmationMismatch {
 			// Setup for access codes do not match
 			state.title = "accesscode_confirmation_title"
 			state.message = "accesscode_mismatch_body"
@@ -151,16 +184,36 @@ class AccessCodeViewModel: ObservableObject {
 			state.title = "accesscode_confirmation_title"
 			state.message = "accesscode_confirmation_body"
 			state.messageType = .regular
-		} else {
-			// Setup for regular access code entry
-			state.title = "accesscode_create_title"
-			state.message = "accesscode_create_body"
+		}
+	}
+	
+	/// Udpate the state for Validation mode
+	/// - Parameter validationMismatch: does the validation code matches the stored accesscode?
+	private func updateStateValidation(validationMismatch: Bool = false) {
+		
+		state.bioMetricEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
+		state.eraseEnabled = accessCode.isNotEmpty
+		state.backButtonVisible = true
+		state.forgotCodeButtonVisible = true
+		if validationMismatch {
+			// Setup for access codes do not match
+			state.title = "accesscode_validation_title"
+			state.message = "accesscode_wrong_body"
+			state.messageType = .alert
+			announce(String(localized: "accesscode_wrong_body_voiceover"))
+		} else if mode == .validation {
+			// Setup for access code validation
+			state.title = "accesscode_validation_title"
+			state.message = "accesscode_validation_body"
 			state.messageType = .regular
 		}
 	}
 	
+	/// Announce a message to voiceover
+	/// - Parameter message: the message to be announced (as a String)
 	func announce(_ message: String) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+		
+		delay(0.5) {
 			UIAccessibility.post(notification: .announcement, argument: message)
 		}
 	}
@@ -174,9 +227,16 @@ class AccessCodeViewModel: ObservableObject {
 			case .erasePressed:
 				erasePressed()
 			case .biometricKeyPressed:
-				biometricKeyPressed()
+				showBioMetricLogin()
 			case .backButtonPressed:
 				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+			case .onAppear:
+				guard mode == .validation && Current.secureUserSettings.bioMetricAuthenticationEnabled else { return }
+				delay(0.5) {
+					self.showBioMetricLogin()
+				}
+			case .forgotAccessCode:
+				coordinator?.handle(.forgotAccessCode)
 		}
 	}
 	
@@ -195,6 +255,8 @@ class AccessCodeViewModel: ObservableObject {
 				handleCreationCompletion()
 			} else if mode == .confirmation {
 				handleConfirmationCompletion()
+			} else if mode == .validation {
+				handleValidationCompletion()
 			}
 		}
 	}
@@ -206,7 +268,7 @@ class AccessCodeViewModel: ObservableObject {
 		guard strengthMeter.validate(code) else {
 			
 			// Show too weak message
-			updateState(tooWeak: true)
+			updateStateEntry(tooWeak: true)
 			setErrorState()
 			return
 		}
@@ -224,7 +286,7 @@ class AccessCodeViewModel: ObservableObject {
 		let code = accessCode.joined()
 		guard code == Current.secureUserSettings.tempAccessCode else {
 			// tempAccessCode and code do not match. Doh!
-			updateState(confirmationMismatch: true)
+			updateStateConfirmation(confirmationMismatch: true)
 			setErrorState()
 			return
 		}
@@ -233,6 +295,22 @@ class AccessCodeViewModel: ObservableObject {
 		Haptic.light()
 		Current.secureUserSettings.accessCode = code
 		coordinator?.handle(.accessCodeConfirmed)
+	}
+	
+	/// Validation code entered, let's see if we can login
+	private func handleValidationCompletion() {
+		
+		let code = accessCode.joined()
+		guard code == Current.secureUserSettings.accessCode else {
+			
+			setErrorState()
+			updateStateValidation(validationMismatch: true)
+			delay(1.0) {
+				self.accessCode = []
+			}
+			return
+		}
+		coordinator?.handle(.accessCodeValidated)
 	}
 	
 	/// Something is not ok, make all the boxes red
@@ -253,10 +331,54 @@ class AccessCodeViewModel: ObservableObject {
 		updateState()
 	}
 	
-	/// The user pressed the face ID button
-	private func biometricKeyPressed() {
-		// Nothing for now, will change we try to login (validate)
-		logDebug("biometricKey Pressed")
+	/// Show the FaceID / TouchID login
+	private func showBioMetricLogin() {
+		
+		SwiftUI.Task {
+			await authenticate()
+		}
+	}
+	
+	@MainActor
+	private func authenticate() async {
+		
+		do {
+			let validated = try await Current.localAuthenticationProvider.authenticate(
+				localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")),
+				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_popup_fallback"))
+			)
+			if validated {
+				logInfo("AccessCode: User has been successfully validated")
+				// Fill the boxes to display success
+				accessCode = ["0", "0", "0", "0", "0"]
+				// Navigate to the next scene after a short delay to let the faceID/touchID animation complete.
+				delay(0.8) {
+					self.coordinator?.handle(.accessCodeValidated)
+				}
+			} else {
+				logInfo("AccessCode: User has unsuccessfully tried to validate")
+				setErrorState()
+			}
+		} catch LocalAuthenticationError.canceled {
+			// Cancelled, stay on the scene
+			logWarning("User cancelled the biometric request.")
+			
+		} catch LocalAuthenticationError.authenticationFailed {
+			logWarning("Authentication Failed")
+			setErrorState()
+			
+		} catch LocalAuthenticationError.userFallback {
+			logWarning("User selected password option")
+		
+		} catch LocalAuthenticationError.declined {
+			logWarning("User declined biometric access")
+			
+		} catch LocalAuthenticationError.lockout {
+			logWarning("BioMetric setup lockaout")
+			
+		} catch {
+			logError("error: \(error)")
+		}
 	}
 }
 
@@ -275,6 +397,9 @@ struct AccessCodeView: View {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
 			static let imageSpacing: CGFloat = 8
 		}
+		enum ForgotButton {
+			static let insets = EdgeInsets( top: 8, leading: 16, bottom: 0, trailing: 16)
+		}
 		enum Button {
 			static let minimumHeight: CGFloat = 44
 		}
@@ -283,6 +408,7 @@ struct AccessCodeView: View {
 			static let horizontalPadding: CGFloat = 16
 		}
 		enum Box {
+			static let spacing: CGFloat = 12
 			static let bottomMargin: CGFloat = 22
 		}
 	}
@@ -331,16 +457,25 @@ struct AccessCodeView: View {
 							.padding(ViewTraits.Text.insets)
 							.accessibilityElement(children: .combine)
 					}
+					
+					if viewModel.state.forgotCodeButtonVisible {
+						Button(action: {
+							viewModel.reduce(.forgotAccessCode)
+						}, label: {
+							Text("biometric_forgot_accesscode")
+						})
+						.buttonStyle(LinkButtonStyle())
+						.padding(ViewTraits.ForgotButton.insets)
+					}
 				}
 				
 				Spacer()
 				
 				VStack(spacing: ViewTraits.General.spacing) {
 					
-					HStack(spacing: 0) {
+					HStack(spacing: ViewTraits.Box.spacing) {
 						ForEach($viewModel.boxStates, id: \.self) { element in
 							AccessCodeBoxView(state: element.state)
-								.frame(maxWidth: .infinity)
 						}
 					}
 					.padding(.bottom, ViewTraits.Box.bottomMargin)
@@ -408,6 +543,7 @@ struct AccessCodeView: View {
 			if UIDevice.current.userInterfaceIdiom == .phone {
 				OrientationUtility.lockOrientation(.portrait, andRotateTo: .portrait)
 			}
+			viewModel.reduce(.onAppear)
 		}
 		.onDisappear {
 			// And unlock the forced portrait mode on exit.
@@ -456,7 +592,7 @@ struct AccessCodeView: View {
 		AccessCodeView(
 			viewModel: AccessCodeViewModel(
 				coordinator: nil,
-				mode: .creation,
+				mode: .validation,
 				bioMetricType: {
 					.touchID // Preview as touch
 				}
