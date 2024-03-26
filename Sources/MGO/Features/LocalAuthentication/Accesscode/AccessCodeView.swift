@@ -212,7 +212,8 @@ class AccessCodeViewModel: ObservableObject {
 	/// Announce a message to voiceover
 	/// - Parameter message: the message to be announced (as a String)
 	func announce(_ message: String) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+		
+		delay(0.5) {
 			UIAccessibility.post(notification: .announcement, argument: message)
 		}
 	}
@@ -226,13 +227,13 @@ class AccessCodeViewModel: ObservableObject {
 			case .erasePressed:
 				erasePressed()
 			case .biometricKeyPressed:
-				biometricKeyPressed()
+				showBioMetricLogin()
 			case .backButtonPressed:
 				coordinator?.handle(AppCoordination.Action.backButtonPressed)
 			case .onAppear:
 				guard mode == .validation && Current.secureUserSettings.bioMetricAuthenticationEnabled else { return }
-				SwiftUI.Task {
-					await authenticate()
+				delay(0.5) {
+					self.showBioMetricLogin()
 				}
 			case .forgotAccessCode:
 				coordinator?.handle(.forgotAccessCode)
@@ -304,7 +305,7 @@ class AccessCodeViewModel: ObservableObject {
 			
 			setErrorState()
 			updateStateValidation(validationMismatch: true)
-			DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+			delay(1.0) {
 				self.accessCode = []
 			}
 			return
@@ -330,9 +331,9 @@ class AccessCodeViewModel: ObservableObject {
 		updateState()
 	}
 	
-	/// The user pressed the face ID button
-	private func biometricKeyPressed() {
-
+	/// Show the FaceID / TouchID login
+	private func showBioMetricLogin() {
+		
 		SwiftUI.Task {
 			await authenticate()
 		}
@@ -348,7 +349,12 @@ class AccessCodeViewModel: ObservableObject {
 			)
 			if validated {
 				logInfo("AccessCode: User has been successfully validated")
-				coordinator?.handle(.accessCodeValidated)
+				// Fill the boxes to display success
+				accessCode = ["0", "0", "0", "0", "0"]
+				// Navigate to the next scene after a short delay to let the faceID/touchID animation complete.
+				delay(0.8) {
+					self.coordinator?.handle(.accessCodeValidated)
+				}
 			} else {
 				logInfo("AccessCode: User has unsuccessfully tried to validate")
 				setErrorState()
