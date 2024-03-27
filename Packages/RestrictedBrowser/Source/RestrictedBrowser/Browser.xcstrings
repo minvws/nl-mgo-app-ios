@@ -1,0 +1,28 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "wachtwoord"
+          }
+        }
+      }
+    },
+    "username" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gebruikersnaam"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

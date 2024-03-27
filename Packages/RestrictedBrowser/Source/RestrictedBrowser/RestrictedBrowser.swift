@@ -17,36 +17,18 @@ public protocol DomainDecider {
 	/// Handle an unallowed domain
 	/// - Parameter url: the url that is not allowed
 	func handleUnallowedDomain(_ url: URL)
+	
+	/// open this url in an external browser
+	/// - Parameter url: the url to be opened
+	func openInDefaultBrowser(url: URL)
 }
 
 public class RestrictedBrowser: DomainDecider {
 
 	private let allowedDomains: [String]
 	
-	private let title: LocalizedStringKey?
-	
-	public weak var delegate: (any RestricedBrowserDelegate)?
-	
-	public init(title: LocalizedStringKey?, allowedDomains: [String], delegate: (any RestricedBrowserDelegate)? = nil) {
-		self.title = title
+	public init(allowedDomains: [String]) {
 		self.allowedDomains = allowedDomains
-		self.delegate = delegate
-	}
-	
-	/// Get the view for the url
-	/// - Parameter url: the url to display
-	/// - Returns: WebView
-	@ViewBuilder public func openUrl(_ url: URL) -> some View {
-//
-//		if isDomainAllowed(url) {
-//			logDebug("Domain \(url.absoluteString) is allowed")
-//			let viewController = WebViewController(viewModel: WebViewModel(url: url, title: title, domainDecider: self))
-//			navigationController.pushViewController(viewController, animated: true)
-//		} else {
-//			logDebug("Domain \(url.absoluteString) is NOT allowed")
-//			handleUnallowedDomain(url)
-//		}
-		RestricedBrowserView(viewModel: RestricedBrowserViewModel(url: url, title: self.title, delegate: self.delegate))
 	}
 	
 	/// Is this domain allowed
@@ -60,10 +42,16 @@ public class RestrictedBrowser: DomainDecider {
 		return allowedDomains.contains(host)
 	}
 	
-		/// Handle an unallowed domain
-		/// - Parameter url: the url that is not allowed
+	/// Handle an unallowed domain
+	/// - Parameter url: the url that is not allowed
 	public func handleUnallowedDomain(_ url: URL) {
 		// Open unallowed domains in the default browser
+		openInDefaultBrowser(url: url)
+	}
+	
+	/// open this url in an external browser
+	/// - Parameter url: the url to be opened
+	public func openInDefaultBrowser(url: URL) {
 		UIApplication.shared.open(url)
 	}
 }

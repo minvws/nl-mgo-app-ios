@@ -98,17 +98,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	@Published var sheet: AppCoordination.State?
 	
 	/// the browser to open allowed domains in
-	private var browser = RestrictedBrowser(
-		title: "Mijn gezondheidsoverzicht",
-		allowedDomains: ["web.test.mgo.irealisatie.nl", "web.acc.mgo.irealisatie.nl", "web.mgo.irealisatie.nl", "apple.com"]
-	)
+	private var browser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains())
 	
 	/// Initializer
 	/// - Parameter path: Navigation Path
 	init(path: NavigationStackBackport.NavigationPath) {
 		
 		self.path = path
-		self.browser.delegate = self
 	}
 	
 	/// the URL for the privacy page
@@ -251,7 +247,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 
 			case .privacyStatement:
 				if let privacyURL {
-					browser.openUrl(privacyURL)
+					InAppBrowserView(viewModel: InAppBrowserViewModel(url: privacyURL, browser: self.browser, title: "Mijn gezondheidsoverzicht", coordinator: self))
 				} else {
 					EmptyView()
 				}
@@ -290,18 +286,4 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				EmptyView()
 		}
 	}
-}
-
-extension AppCoordinator: RestricedBrowserDelegate {
-	
-	public func openInDefaultBrowser(url: URL) {
-		UIApplication.shared.open(url)
-	}
-	
-//	@ViewBuilder func backButton() -> some View {
-//		
-//		BackButton("general_previous") {
-//			self.handle(.backButtonPressed)
-//		}
-//	}
 }
