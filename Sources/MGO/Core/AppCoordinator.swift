@@ -8,6 +8,7 @@
 import MGOUI
 import MGOFoundation
 import LocalAuthentication
+import RestrictedBrowser
 
 protocol AppCoordinatorProtocol: ObservableObject {
 	
@@ -96,11 +97,33 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// The content type for the sheet
 	@Published var sheet: AppCoordination.State?
 	
+	/// the browser to open allowed domains in
+	private var browser = RestrictedBrowser(
+		title: "Mijn gezondheidsoverzicht",
+		allowedDomains: ["web.test.mgo.irealisatie.nl", "web.acc.mgo.irealisatie.nl", "web.mgo.irealisatie.nl", "apple.com"]
+	)
+	
 	/// Initializer
 	/// - Parameter path: Navigation Path
 	init(path: NavigationStackBackport.NavigationPath) {
 		
 		self.path = path
+		self.browser.delegate = self
+	}
+	
+	/// the URL for the privacy page
+	private var privacyURL: URL? {
+		
+		switch Configuration().getRelease() {
+			case .development:
+				return URL(string: "https://apple.com")
+			case .production:
+				return URL(string: String(localized: "privacy_statement_overview_prod"))
+			case .acceptance:
+				return URL(string: String(localized: "privacy_statement_overview_acc"))
+			case .test:
+				return URL(string: String(localized: "privacy_statement_overview_tst"))
+		}
 	}
 	
 	/// Handle an action
@@ -130,7 +153,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.append(AppCoordination.State.accessCodeEntry)
 			
 			case .showPrivacyStatement:
-				sheet = AppCoordination.State.privacyStatement
+			
+				guard let privacyURL else { return }
+				
+				if browser.isDomainAllowed(privacyURL) {
+					path.append(AppCoordination.State.privacyStatement)
+				} else {
+					browser.handleUnallowedDomain(privacyURL)
+				}
 			
 			// Local Authentication
 			
@@ -220,8 +250,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				PrivacyOverviewView(viewModel: PrivacyOverviewViewModel(coordinator: self))
 
 			case .privacyStatement:
-				PrivacyStatementView(viewModel: PrivacyStatementViewModel(coordinator: self))
-
+				if let privacyURL {
+					browser.openUrl(privacyURL)
+				} else {
+					EmptyView()
+				}
+			
 			// Local Authentication
 			
 			case .accessCodeEntry:
@@ -256,4 +290,18 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				EmptyView()
 		}
 	}
+}
+
+extension AppCoordinator: RestricedBrowserDelegate {
+	
+	public func openInDefaultBrowser(url: URL) {
+		UIApplication.shared.open(url)
+	}
+	
+//	@ViewBuilder func backButton() -> some View {
+//		
+//		BackButton("general_previous") {
+//			self.handle(.backButtonPressed)
+//		}
+//	}
 }

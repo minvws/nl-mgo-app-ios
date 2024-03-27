@@ -6,20 +6,22 @@ name: MGO
 # - Packages:
 
 packages:
+  FHIRClient:
+    path: ./Packages/FHIRClient
+  Managers:
+    path: ./Packages/Managers
   MGOFoundation:
     path: ./Packages/MGOFoundation
   MGOTest:
     path: ./Packages/MGOTest
   MGOUI:
     path: ./Packages/MGOUI
-  FHIRClient:
-    path: ./Packages/FHIRClient
-  RijksoverheidFont:
-    path: ./Packages/RijksoverheidFont
-  Managers:
-    path: ./Packages/Managers
+  RestrictedBrowser:
+    path: ./Packages/RestrictedBrowser
   ReusableUI:
     path: ./Packages/ReusableUI
+  RijksoverheidFont:
+    path: ./Packages/RijksoverheidFont
 
 # - Attributes:
 
@@ -123,6 +125,7 @@ targetTemplates:
 #       SPM:
       - package: MGOFoundation
       - package: MGOUI
+      - package: RestrictedBrowser
         embed: false
     settings:
       base:
@@ -330,19 +333,22 @@ schemes:
       language: nl
     test:
       targets:
-        - name: MGOTests
-          parallelizable: false
+        - package: FHIRClient/FHIRClientTests
           randomExecutionOrder: true
+          parallelizable: false
         - package: Managers/ManagersTests
           randomExecutionOrder: true
           parallelizable: false
-        - package: RijksoverheidFont/RijksoverheidFontTests
+        - name: MGOTests
+          parallelizable: false
+          randomExecutionOrder: true
+        - package: RestrictedBrowser/RestrictedBrowserTests
           randomExecutionOrder: true
           parallelizable: false
         - package: ReusableUI/ReusableUITests
           randomExecutionOrder: true
           parallelizable: false
-        - package: FHIRClient/FHIRClientTests
+        - package: RijksoverheidFont/RijksoverheidFontTests
           randomExecutionOrder: true
           parallelizable: false
     
