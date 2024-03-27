@@ -77,10 +77,6 @@ struct PrivacyStatementView: View {
 			.padding(ViewTraits.PrivacyStatement.insets)
 			
 		}
-		.navigationBarBackButtonHidden(true)
-		.navigationBarItems(leading: BackButton("general_close") {
-			viewModel.reduce(.backButtonPressed)
-		})
 	}
 }
 

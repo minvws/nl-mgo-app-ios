@@ -40,6 +40,8 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 			content: {
 				NavigationStackBackport.NavigationStack {
 					appCoordinator.view(for: appCoordinator.sheet)
+						.navigationBarBackButtonHidden(true)
+						.navigationBarTitleDisplayMode(.inline)
 						.toolbar {
 							ToolbarItem {
 								Button(

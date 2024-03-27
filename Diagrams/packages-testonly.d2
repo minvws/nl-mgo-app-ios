@@ -5,6 +5,10 @@ XCTest: {
   shape: oval
   style.fill: "#8FCAE7"
 }
+SwiftUI: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 
 # Third Party
 Nimble: {
@@ -18,7 +22,6 @@ ViewInspector: {
 }
 
 # The application
-
 MGOapp: {
   shape: package
 }
@@ -26,9 +29,9 @@ MGOapp: {
 MGOapp <- MGOTest
 
 # - Packages - 
-
 MGOTest { style.fill: "#ffcc00" }
 MGOTest <- XCTest
+MGOTest <- SwiftUI
 MGOTest <- Nimble
 MGOTest <- SnapshotTesting
 MGOTest <- ViewInspector

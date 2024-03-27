@@ -91,7 +91,5 @@ struct ForgotAccessCodeView: View {
 				.padding(ViewTraits.Button.insets)
 			}
 		}
-		.navigationBarBackButtonHidden(true)
-		.navigationBarTitleDisplayMode(.inline)
 	}
 }

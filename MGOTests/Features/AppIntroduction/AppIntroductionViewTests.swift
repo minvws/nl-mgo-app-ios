@@ -20,29 +20,15 @@ final class AppIntroductionViewTests: XCTestCase {
 		)
 	}
 	
-	func test_appIntroductionView_lightMode() {
+	func test_appIntroductionView() {
 		
 		// Given
 		let sut = createSut()
 		
 		// When
 		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
 		
 		// Then
-		assertSnapshot(of: content.colorScheme(.light), as: .image)
-	}
-	
-	func test_appIntroductionView_darkMode() {
-		
-		// Given
-		let sut = createSut()
-		
-		// When
-		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
-		
-		// Then
-		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+		takeSnapShots(content: content)
 	}
 }

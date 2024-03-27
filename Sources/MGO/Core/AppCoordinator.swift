@@ -130,7 +130,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.append(AppCoordination.State.accessCodeEntry)
 			
 			case .showPrivacyStatement:
-				path.append(AppCoordination.State.privacyStatement)
+				sheet = AppCoordination.State.privacyStatement
 			
 			// Local Authentication
 			
@@ -158,7 +158,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				if sheet != nil {
 					sheet = nil
 				}
-				navigateTo(state: .remoteAuthentication)
+				navigateTo(state: AppCoordination.State.remoteAuthentication)
 			
 			// Remote Authentication
 			

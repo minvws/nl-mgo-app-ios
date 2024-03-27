@@ -50,27 +50,14 @@ final class ForgotAccessCodeViewTests: XCTestCase {
 	
 	// MARK: - Snapshots -
 	
-	func test_forgotAccessCodeView_lightMode() {
+	func test_forgotAccessCodeView() {
 		
 		// Given
 		
 		// When
 		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
 		
 		// Then
-		assertSnapshot(of: content.colorScheme(.light), as: .image)
-	}
-	
-	func test_forgotAccessCodeView_darkMode() {
-		
-		// Given
-		
-		// When
-		let content = NavigationView { sut }
-			.frameAsiPhone15Pro()
-		
-		// Then
-		assertSnapshot(of: content.colorScheme(.dark), as: .image)
+		takeSnapShots(content: content)
 	}
 }
