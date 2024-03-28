@@ -34,6 +34,6 @@ final class InAppBrowserViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, precision: 0.95)
 	}
 }

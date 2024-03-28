@@ -13,11 +13,13 @@ extension Configuration {
 	/// - Returns: array fo allowed domains.
 	public func getAllowedDomains() -> [String] {
 		
+		var tempAllowed = ["google.com", "www.google.com"]
+		
 		switch getRelease() {
-			case .test: return ["web.test.mgo.irealisatie.nl"]
-			case .acceptance: return ["web.test.mgo.irealisatie.nl", "web.acc.mgo.irealisatie.nl"]
+			case .test: return tempAllowed + ["web.test.mgo.irealisatie.nl"]
+			case .acceptance: return tempAllowed + ["web.test.mgo.irealisatie.nl", "web.acc.mgo.irealisatie.nl"]
 			case .production: return ["web.mgo.irealisatie.nl"]
-			case .development: return ["web.test.mgo.irealisatie.nl", "web.acc.mgo.irealisatie.nl", "web.mgo.irealisatie.nl"]
+			case .development: return tempAllowed + ["web.test.mgo.irealisatie.nl", "web.acc.mgo.irealisatie.nl", "web.mgo.irealisatie.nl"]
 		}
 	}
 }

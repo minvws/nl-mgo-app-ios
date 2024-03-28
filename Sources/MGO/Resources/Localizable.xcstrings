@@ -493,7 +493,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "https://web.test.mgo.irealisatie.nl/"
+            "value" : "https://google.com"
           }
         }
       }
@@ -504,7 +504,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "https://web.test.mgo.irealisatie.nl/"
+            "value" : "https://google.com"
           }
         }
       }
@@ -515,7 +515,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "https://web.test.mgo.irealisatie.nl/"
+            "value" : "https://google.com"
           }
         }
       }
