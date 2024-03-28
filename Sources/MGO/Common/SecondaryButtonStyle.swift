@@ -27,7 +27,7 @@ struct SecondaryButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(Color.Styleguide.Blue.darkBlue )
+			.foregroundStyle(Color.Styleguide.Blue.darkBlue )
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(configuration.isPressed ? Color.Styleguide.Blue.lightBlue : Color.Styleguide.Blue.skyBlueTint2)

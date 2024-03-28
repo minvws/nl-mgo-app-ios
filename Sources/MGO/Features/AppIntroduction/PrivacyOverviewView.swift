@@ -71,7 +71,7 @@ struct PrivacyOverviewView: View {
 					
 					Text("privacyoverview_title")
 						.rijksoverheidStyle(font: .bold, style: .title)
-						.foregroundColor(Color.Styleguide.black)
+						.foregroundStyle(Color.Styleguide.black)
 						.padding(.bottom, ViewTraits.General.padding)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.accessibilityAddTraits(.isHeader)
@@ -90,7 +90,7 @@ struct PrivacyOverviewView: View {
 					}
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.padding(.bottom, ViewTraits.General.padding)
-					.foregroundColor(Color.Styleguide.black)
+					.foregroundStyle(Color.Styleguide.black)
 					.tint(colorScheme == .light ? Color.Styleguide.Blue.link : Color.Styleguide.Blue.skyBlueTint1)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.environment(\.openURL, OpenURLAction { url in

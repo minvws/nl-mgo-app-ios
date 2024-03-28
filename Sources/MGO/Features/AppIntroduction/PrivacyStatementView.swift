@@ -73,7 +73,7 @@ struct PrivacyStatementView: View {
 						.rijksoverheidStyle(font: .regular, style: .body)
 				}
 			}
-			.foregroundColor(Color.Styleguide.black)
+			.foregroundStyle(Color.Styleguide.black)
 			.padding(ViewTraits.PrivacyStatement.insets)
 			
 		}

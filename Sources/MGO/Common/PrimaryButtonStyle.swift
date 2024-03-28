@@ -30,7 +30,7 @@ struct PrimaryButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(colorScheme == .light ? Color.Styleguide.white : Color.Styleguide.black)
+			.foregroundStyle(colorScheme == .light ? Color.Styleguide.white : Color.Styleguide.black)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(configuration.isPressed ? Color.Styleguide.Blue.darkBlue : Color.Styleguide.Blue.skyBlue)
