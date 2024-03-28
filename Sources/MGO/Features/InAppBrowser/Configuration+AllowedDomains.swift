@@ -17,7 +17,7 @@ extension Configuration {
 			case .test: return ["web.test.mgo.irealisatie.nl"]
 			case .acceptance: return ["web.test.mgo.irealisatie.nl", "web.acc.mgo.irealisatie.nl"]
 			case .production: return ["web.mgo.irealisatie.nl"]
-			case .development: return ["web.test.mgo.irealisatie.nl", "web.acc.mgo.irealisatie.nl", "web.mgo.irealisatie.nl", "apple.com", "www.apple.com"]
+			case .development: return ["web.test.mgo.irealisatie.nl", "web.acc.mgo.irealisatie.nl", "web.mgo.irealisatie.nl"]
 		}
 	}
 }

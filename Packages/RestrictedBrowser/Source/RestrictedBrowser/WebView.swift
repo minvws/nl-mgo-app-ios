@@ -10,10 +10,15 @@ import WebKit
 
 struct WebView: UIViewRepresentable {
 	
+	/// The viewModel
 	@StateObject var viewModel: RestricedBrowserViewModel
 	
+	/// The url to display
 	let url: URL
 	
+	/// Required UIViewRepresentable method
+	/// - Parameter context: the context ( UIViewRepresentableContext)
+	/// - Returns: the web view
 	func makeUIView(context: Context) -> WKWebView {
 		
 		let webConfiguration = WKWebViewConfiguration()
@@ -22,12 +27,18 @@ struct WebView: UIViewRepresentable {
 		return view
 	}
 	
+	/// Required UIViewRepresentable method
+	/// - Parameters:
+	///   - webView: the webview to update
+	///   - context: the context ( UIViewRepresentableContext)
 	func updateUIView(_ webView: WKWebView, context: Context) {
 		
 		let request = URLRequest(url: url)
 		webView.load(request)
 	}
 	
+	/// UIViewRepresentable method that adds the viewModel to the context
+	/// - Returns: view model as the WKNavigationDelegate
 	func makeCoordinator() -> RestricedBrowserViewModel {
 		return viewModel
 	}

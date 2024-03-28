@@ -111,13 +111,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	private var privacyURL: URL? {
 		
 		switch Configuration().getRelease() {
-			case .development:
-				return URL(string: "https://apple.com")
 			case .production:
 				return URL(string: String(localized: "privacy_statement_overview_prod"))
 			case .acceptance:
 				return URL(string: String(localized: "privacy_statement_overview_acc"))
-			case .test:
+			case .test, .development:
 				return URL(string: String(localized: "privacy_statement_overview_tst"))
 		}
 	}
