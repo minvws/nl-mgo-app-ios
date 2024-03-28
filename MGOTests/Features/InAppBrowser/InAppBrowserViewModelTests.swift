@@ -6,23 +6,28 @@
  */
 
 import MGOTest
+import RestrictedBrowser
 @testable import MGO
 
-final class PrivacyStatementViewModelTests: XCTestCase {
+final class InAppBrowserViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
-	private var sut: PrivacyStatementViewModel!
+	private var sut: InAppBrowserViewModel!
 	
-	override func setUp() {
+	func setupSut() throws {
 		
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = PrivacyStatementViewModel(coordinator: coordinatorSpy)
-		super.setUp()
+		let urlOpenerSpy = URLOpenerSpy()
+		urlOpenerSpy.stubbedCanOpenURLResult = true
+		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
+		let browser = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
+		sut = InAppBrowserViewModel(url: url, browser: browser, title: nil, coordinator: coordinatorSpy)
 	}
 	
-	func test_backButtonPressed_shouldChangeState() {
+	func test_backButtonPressed() throws {
 		
 		// Given
+		try setupSut()
 		
 		// When
 		sut.reduce(.backButtonPressed)

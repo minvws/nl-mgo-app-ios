@@ -34,47 +34,47 @@ extension RestricedBrowserViewModel: WKNavigationDelegate {
 		decisionHandler(.cancel)
 	}
 	
-		public func webView(
-			_ webView: WKWebView,
-			didReceive challenge: URLAuthenticationChallenge,
-			completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-	
-			// See https://stackoverflow.com/a/51667317/443270
-	
-			guard let hostname = webView.url?.host else {
-				return
-			}
-	
-			let authenticationMethod = challenge.protectionSpace.authenticationMethod
-			if authenticationMethod == NSURLAuthenticationMethodDefault || authenticationMethod == NSURLAuthenticationMethodHTTPBasic || authenticationMethod == NSURLAuthenticationMethodHTTPDigest {
-				let av = UIAlertController(title: String(localized: "login \(hostname)", table: "Browser", bundle: .module), message: nil, preferredStyle: .alert)
-				av.addTextField(configurationHandler: { textField in
-					textField.placeholder = String(localized: "username", table: "Browser", bundle: .module)
-				})
-				av.addTextField(configurationHandler: { textField in
-					textField.placeholder = String(localized: "password", table: "Browser", bundle: .module)
-					textField.isSecureTextEntry = true
-				})
-	
-				av.addAction(UIAlertAction(title: String(localized: "ok", table: "Browser", bundle: .module), style: .default, handler: { action in
-					guard let userId = av.textFields?.first?.text else {
-						return
-					}
-					guard let password = av.textFields?.last?.text else {
-						return
-					}
-					let credential = URLCredential(user: userId, password: password, persistence: .none)
-					completionHandler(.useCredential, credential)
-				}))
-				av.addAction(UIAlertAction(title: String(localized: "cancel", table: "Browser", bundle: .module), style: .cancel, handler: { _ in
-					completionHandler(.cancelAuthenticationChallenge, nil)
-				}))
-				UIApplication.shared.firstKeyWindow?.rootViewController?.present(av, animated: true)
-				
-			} else if authenticationMethod == NSURLAuthenticationMethodServerTrust {
-				completionHandler(.performDefaultHandling, nil)
-			} else {
-				completionHandler(.cancelAuthenticationChallenge, nil)
-			}
+	public func webView(
+		_ webView: WKWebView,
+		didReceive challenge: URLAuthenticationChallenge,
+		completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+			
+		// See https://stackoverflow.com/a/51667317/443270
+		
+		guard let hostname = webView.url?.host else {
+			return
 		}
+		
+		let authenticationMethod = challenge.protectionSpace.authenticationMethod
+		if authenticationMethod == NSURLAuthenticationMethodDefault || authenticationMethod == NSURLAuthenticationMethodHTTPBasic || authenticationMethod == NSURLAuthenticationMethodHTTPDigest {
+			let av = UIAlertController(title: String(localized: "login \(hostname)", table: "Browser", bundle: .module), message: nil, preferredStyle: .alert)
+			av.addTextField(configurationHandler: { textField in
+				textField.placeholder = String(localized: "username", table: "Browser", bundle: .module)
+			})
+			av.addTextField(configurationHandler: { textField in
+				textField.placeholder = String(localized: "password", table: "Browser", bundle: .module)
+				textField.isSecureTextEntry = true
+			})
+			
+			av.addAction(UIAlertAction(title: String(localized: "ok", table: "Browser", bundle: .module), style: .default, handler: { action in
+				guard let userId = av.textFields?.first?.text else {
+					return
+				}
+				guard let password = av.textFields?.last?.text else {
+					return
+				}
+				let credential = URLCredential(user: userId, password: password, persistence: .none)
+				completionHandler(.useCredential, credential)
+			}))
+			av.addAction(UIAlertAction(title: String(localized: "cancel", table: "Browser", bundle: .module), style: .cancel, handler: { _ in
+				completionHandler(.cancelAuthenticationChallenge, nil)
+			}))
+			UIApplication.shared.firstKeyWindow?.rootViewController?.present(av, animated: true)
+			
+		} else if authenticationMethod == NSURLAuthenticationMethodServerTrust {
+			completionHandler(.performDefaultHandling, nil)
+		} else {
+			completionHandler(.cancelAuthenticationChallenge, nil)
+		}
+	}
 }

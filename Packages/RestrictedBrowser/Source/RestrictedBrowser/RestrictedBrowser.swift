@@ -9,13 +9,17 @@ import SwiftUI
 
 public class RestrictedBrowser: DomainDecider {
 	
+	/// Helper to open urls
+	private var urlOpener: URLOpenerProtocol
+	
 	/// Array of allowed domains
 	private let allowedDomains: [String]
 	
 	/// Initializer
 	/// - Parameter allowedDomains: the array of allowed domains
-	public init(allowedDomains: [String]) {
+	public init(allowedDomains: [String], urlOpener: URLOpenerProtocol = UIApplication.shared) {
 		self.allowedDomains = allowedDomains
+		self.urlOpener = urlOpener
 	}
 	
 	/// Is this domain allowed
@@ -39,6 +43,6 @@ public class RestrictedBrowser: DomainDecider {
 	/// open this url in an external browser
 	/// - Parameter url: the url to be opened
 	public func openInDefaultBrowser(url: URL) {
-		UIApplication.shared.open(url)
+		urlOpener.openUrlIfPossible(url)
 	}
 }
