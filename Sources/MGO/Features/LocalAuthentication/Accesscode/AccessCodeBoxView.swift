@@ -33,6 +33,21 @@ struct AccessCodeBoxView: View {
 		case filling
 		case filled
 		case error
+		
+		func accessibilityValue() -> String {
+			switch self {
+				case .empty:
+					String(localized: "acccescode_box_voiceover_empty")
+				case .focus:
+					String(localized: "acccescode_box_voiceover_focus")
+				case .filling:
+					String(localized: "acccescode_box_voiceover_filled")
+				case .filled:
+					String(localized: "acccescode_box_voiceover_filled")
+				case .error:
+					String(localized: "acccescode_box_voiceover_error")
+			}
+		}
 	}
 	
 	/// The state of the box

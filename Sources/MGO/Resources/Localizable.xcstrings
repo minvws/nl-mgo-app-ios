@@ -4,6 +4,61 @@
     "[%@](/privacystatement)" : {
 
     },
+    "acccescode_box_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veld %@ van %@, %@"
+          }
+        }
+      }
+    },
+    "acccescode_box_voiceover_empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leeg"
+          }
+        }
+      }
+    },
+    "acccescode_box_voiceover_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foutief"
+          }
+        }
+      }
+    },
+    "acccescode_box_voiceover_filled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gevuld"
+          }
+        }
+      }
+    },
+    "acccescode_box_voiceover_focus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actief"
+          }
+        }
+      }
+    },
     "accesscode_button_erase" : {
       "extractionState" : "manual",
       "localizations" : {

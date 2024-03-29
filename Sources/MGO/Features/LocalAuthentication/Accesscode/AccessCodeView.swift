@@ -55,6 +55,12 @@ class AccessCodeViewModel: ObservableObject {
 		
 		var id: Int
 		var state: AccessCodeBoxView.State
+		
+		func accessibilityLabel(index: Int, count: Int) -> String {
+			
+			return String(format: String(localized: "acccescode_box_voiceover"), arguments: ["\(index)", "\(count)", state.accessibilityValue()]
+			)
+		}
 	}
 	
 	/// A list of all the actions this viewModel can handle
@@ -476,6 +482,9 @@ struct AccessCodeView: View {
 					HStack(spacing: ViewTraits.Box.spacing) {
 						ForEach($viewModel.boxStates, id: \.self) { element in
 							AccessCodeBoxView(state: element.state)
+								.accessibilityHidden(false)
+								.accessibilityIdentifier("box \(element.id + 1)")
+								.accessibilityLabel(element.wrappedValue.accessibilityLabel(index: element.id + 1, count: viewModel.boxStates.count))
 						}
 					}
 					.padding(.bottom, ViewTraits.Box.bottomMargin)
