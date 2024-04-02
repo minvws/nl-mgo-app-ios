@@ -219,6 +219,8 @@ class AccessCodeViewModel: ObservableObject {
 	/// - Parameter message: the message to be announced (as a String)
 	func announce(_ message: String) {
 		
+		logDebug("Announcing: \(message)")
+		
 		delay(0.5) {
 			UIAccessibility.post(notification: .announcement, argument: message)
 		}
@@ -254,6 +256,17 @@ class AccessCodeViewModel: ObservableObject {
 			accessCode.append(value)
 			Haptic.light()
 			updateState()
+			
+			// Announce 'Field x from 5, filled'
+			let message = String(
+				format: String(localized: "acccescode_box_voiceover"),
+				arguments: [
+					"\(accessCode.count)",
+					"\(numberOfDigits)",
+					String(localized: "acccescode_box_voiceover_filled")
+				]
+			)
+			announce(message)
 		}
 		if accessCode.count == numberOfDigits {
 			updateState()
@@ -333,6 +346,16 @@ class AccessCodeViewModel: ObservableObject {
 	private func erasePressed() {
 		if accessCode.isNotEmpty {
 			accessCode = accessCode.dropLast()
+			// Announce 'Field x from 5, empty'
+			let message = String(
+				format: String(localized: "acccescode_box_voiceover"),
+				arguments: [
+					"\(accessCode.count + 1)",
+					"\(numberOfDigits)",
+					String(localized: "acccescode_box_voiceover_emptied")
+				]
+			)
+			announce(message)
 		}
 		updateState()
 	}

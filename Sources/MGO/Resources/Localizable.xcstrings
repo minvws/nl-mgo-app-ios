@@ -15,6 +15,17 @@
         }
       }
     },
+    "acccescode_box_voiceover_emptied" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geleegd"
+          }
+        }
+      }
+    },
     "acccescode_box_voiceover_empty" : {
       "extractionState" : "manual",
       "localizations" : {
