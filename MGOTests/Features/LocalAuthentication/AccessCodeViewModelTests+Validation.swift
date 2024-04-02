@@ -76,6 +76,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount) == 0
 	}
 	
 	func test_validation_touch_twoDigits() {
@@ -102,6 +103,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(2))
 	}
 	
 	func test_validation_touch_fiveDigits_accessCodeMisMatch() {
@@ -134,6 +136,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		expect(self.sut.boxStates) == expectedBoxState
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beFalse())
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(6))
 	}
 	
 	func test_validation_touch_fiveDigits_accessCodeOk() {
@@ -167,6 +170,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == true
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeValidated))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(5))
 	}
 	
 	func test_validation_biometricEnabled_authenticated() {

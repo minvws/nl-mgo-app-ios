@@ -75,7 +75,7 @@ final class LaunchViewModelTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.loadConfig(0.1)
+		sut.loadConfig(0.2)
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(.configLoaded))

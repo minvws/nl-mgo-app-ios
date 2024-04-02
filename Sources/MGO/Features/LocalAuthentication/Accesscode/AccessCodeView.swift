@@ -229,8 +229,8 @@ class AccessCodeViewModel: ObservableObject {
 		
 		logDebug("Announcing: \(message)")
 		
-		delay(0.5) {
-			UIAccessibility.post(notification: .announcement, argument: message)
+		delay(0.25) {
+			Current.notificationCenter.post(notification: .announcement, argument: message)
 		}
 	}
 	
