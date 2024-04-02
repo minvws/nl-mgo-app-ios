@@ -73,6 +73,7 @@ final class LaunchViewModelTests: XCTestCase {
 	func test_loadConfig_shouldCallCoordinator() {
 		
 		// Given
+		sut.state = .idle
 		
 		// When
 		sut.loadConfig(0.2)
