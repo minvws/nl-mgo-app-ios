@@ -102,7 +102,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(AppCoordination.Action.showPrivacyStatement)
 		
 		// Then
-		expect(self.sut.sheet) == AppCoordination.State.privacyStatement
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacyStatement])
 	}
 	
 	func test_coordinatorHandle_accessCodeEntered_shouldShowAccessCodeConfirmation() {
@@ -320,18 +320,6 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Given
 		let state = AppCoordination.State.privacyOverview
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-
-	func test_coordinatorView_forPrivacyStatement() throws {
-		
-		// Given
-		let state = AppCoordination.State.privacyStatement
 		
 		// When
 		let view = sut.view(for: state)
