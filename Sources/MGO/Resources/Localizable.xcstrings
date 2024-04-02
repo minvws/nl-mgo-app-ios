@@ -70,18 +70,18 @@
         }
       }
     },
-    "accesscode_button_erase" : {
+    "accesscode_button_accessibility_erase" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wis"
+            "value" : "Leeg"
           }
         }
       }
     },
-    "accesscode_button_faceid" : {
+    "accesscode_button_accessibility_faceid" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -92,7 +92,7 @@
         }
       }
     },
-    "accesscode_button_opticid" : {
+    "accesscode_button_accessibility_opticid" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -103,7 +103,7 @@
         }
       }
     },
-    "accesscode_button_touchid" : {
+    "accesscode_button_accessibility_touchid" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -363,6 +363,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Toegangscode vergeten?"
+          }
+        }
+      }
+    },
+    "biometric_lockout_body_faceid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FaceID is vergrendeld omdat er te veel mislukte pogingen waren."
+          }
+        }
+      }
+    },
+    "biometric_lockout_body_opticid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OpticID is vergrendeld omdat er te veel mislukte pogingen waren."
+          }
+        }
+      }
+    },
+    "biometric_lockout_body_touchid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TouchID is vergrendeld omdat er te veel mislukte pogingen waren."
+          }
+        }
+      }
+    },
+    "biometric_lockout_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lockout"
           }
         }
       }

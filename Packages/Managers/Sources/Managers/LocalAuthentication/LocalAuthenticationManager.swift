@@ -13,15 +13,26 @@ public protocol LocalAuthenticationProviderProtocol {
 	/// Get the biometric type for this device
 	var biometricType: () -> LocalAuthentication.BiometricType { get }
 	
+	/// Authenticate
+	/// - Parameters:
+	///   - localizedReason: the label the show for touch ID for login
+	///   - localizedFallbackTitle: the label to show for face ID as fallback
+	/// - Returns: True if the user was authenticated
 	func authenticate(localizedReason: String, localizedFallbackTitle: String) async throws -> Bool
 }
 
 public enum LocalAuthenticationError: Error {
+	// User or system canceled the authentication
 	case canceled
+	// Authentication failed (invalid face / touch / optic)
 	case authenticationFailed
+	// User selected the fall back option
 	case userFallback
+	// User declined the biometric access
 	case declined
+	// lockout due to too many attempts
 	case lockout
+	// Other error
 	case other(Error)
 }
 
@@ -35,6 +46,11 @@ public class LocalAuthenticationProvider: LocalAuthenticationProviderProtocol {
 		return LAContext().biometricType
 	}
 	
+	/// Authenticate
+	/// - Parameters:
+	///   - localizedReason: the label the show for touch ID for login
+	///   - localizedFallbackTitle: the label to show for face ID as fallback
+	/// - Returns: True if the user was authenticated
 	@discardableResult
 	public func authenticate(localizedReason: String, localizedFallbackTitle: String) async throws -> Bool {
 		

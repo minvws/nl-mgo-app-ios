@@ -40,6 +40,9 @@ struct AccessCodeViewState: Equatable {
 	
 	/// Is this message a regular message, or should we show an alert icon?
 	var messageType: MessageType = .regular
+	
+	/// Should we show the popup when biomertric access is locked out?
+	var showLockoutPopup: Bool = false
 }
 
 class AccessCodeViewModel: ObservableObject {
@@ -403,7 +406,8 @@ class AccessCodeViewModel: ObservableObject {
 			logWarning("User declined biometric access")
 			
 		} catch LocalAuthenticationError.lockout {
-			logWarning("BioMetric setup lockaout")
+			logWarning("BioMetric setup lockout")
+			state.showLockoutPopup = true
 			
 		} catch {
 			logError("error: \(error)")
@@ -540,21 +544,33 @@ struct AccessCodeView: View {
 										.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
 								
 								case .touchID:
-									actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "accesscode_button_touchid")
+									actionButton(
+										for: .biometricKeyPressed,
+										imageName: "touchid",
+										accessibilityLabel: "accesscode_button_accessibility_touchid")
 										.disabled(!viewModel.state.bioMetricEnabled)
 								
 								case .faceID:
-									actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "accesscode_button_faceid")
+									actionButton(
+										for: .biometricKeyPressed,
+										imageName: "faceid",
+										accessibilityLabel: "accesscode_button_accessibility_faceid")
 										.disabled(!viewModel.state.bioMetricEnabled)
 								
 								case .opticID:
-									actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "accesscode_button_opticid")
+									actionButton(
+										for: .biometricKeyPressed,
+										imageName: "opticid",
+										accessibilityLabel: "accesscode_button_accessibility_opticid")
 										.disabled(!viewModel.state.bioMetricEnabled)
 							}
 							
 							digitButton(for: "0")
 							// The erase button
-							actionButton(for: .erasePressed, imageName: "delete.backward", accessibilityLabel: "accesscode_button_erase")
+							actionButton(
+								for: .erasePressed,
+								imageName: "delete.backward",
+								accessibilityLabel: "accesscode_button_accessibility_erase")
 								.disabled(!viewModel.state.eraseEnabled)
 						}
 					}
@@ -581,6 +597,21 @@ struct AccessCodeView: View {
 			// And unlock the forced portrait mode on exit.
 			if UIDevice.current.userInterfaceIdiom == .phone {
 				OrientationUtility.unlockOrientation()
+			}
+		}
+		.alert("biometric_lockout_title", isPresented: $viewModel.state.showLockoutPopup) {
+			Button("general_ok") { }
+		} message: {
+			switch viewModel.state.bioMetricType {
+				case .none, .unknown:
+					// Should not happen
+					EmptyView()
+				case .touchID:
+					Text("biometric_lockout_body_touchid")
+				case .faceID:
+					Text("biometric_lockout_body_faceid")
+				case .opticID:
+					Text("biometric_lockout_body_opticid")
 			}
 		}
 	}

@@ -138,6 +138,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beFalse())
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabled).toEventually(beFalse())
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
+		expect(self.sut.state.showLockoutPopup) == true
 	}
 	
 	func test_actionWithBioMetrics_authError_shouldNotCallCoordinator() {
@@ -156,7 +157,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_actionShowPopup() {
+	func test_actionShowTouchPopup() {
 		
 		// Given
 		setupSut { .touchID }

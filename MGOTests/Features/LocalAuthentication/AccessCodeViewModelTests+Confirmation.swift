@@ -47,7 +47,8 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			backButtonVisible: true,
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
@@ -75,7 +76,8 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			backButtonVisible: true,
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
@@ -105,7 +107,8 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			backButtonVisible: true,
 			title: "accesscode_confirmation_title",
 			message: "accesscode_mismatch_body",
-			messageType: .alert
+			messageType: .alert,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .error),
@@ -141,7 +144,8 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			backButtonVisible: true,
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
@@ -178,7 +182,8 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			backButtonVisible: true,
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),

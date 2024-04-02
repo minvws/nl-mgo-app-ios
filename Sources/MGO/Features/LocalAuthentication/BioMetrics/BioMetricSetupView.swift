@@ -21,6 +21,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	struct State {
 		public var bioMetricType: LocalAuthentication.BiometricType
 		public var showTouchPopup: Bool = false
+		public var showLockoutPopup: Bool = false
 	}
 	
 	/// The flow coordintator for routing
@@ -109,7 +110,8 @@ class BioMetricSetupViewModel: ObservableObject {
 			finishedWithoutBioMetric()
 			
 		} catch LocalAuthenticationError.lockout {
-			logWarning("BioMetric setup lockaout")
+			logWarning("BioMetric setup lockout")
+			state.showLockoutPopup = true
 			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
 			
 		} catch {
@@ -189,6 +191,21 @@ struct BioMetricSetupView: View {
 							viewModel.reduce(.proceedWithBioMetric)
 						}
 					}
+					.alert("biometric_lockout_title", isPresented: $viewModel.state.showLockoutPopup) {
+						Button("general_ok") { }
+					} message: {
+						switch viewModel.state.bioMetricType {
+							case .none, .unknown:
+								// Should not happen
+								EmptyView()
+							case .touchID:
+								Text("biometric_lockout_body_touchid")
+							case .faceID:
+								Text("biometric_lockout_body_faceid")
+							case .opticID:
+								Text("biometric_lockout_body_opticid")
+						}
+					}
 				}
 				.padding(ViewTraits.Button.insets)
 			})
@@ -206,6 +223,7 @@ struct BioMetricSetupView: View {
 	@ViewBuilder func getBioMetricImage(type: LocalAuthentication.BiometricType) -> some View {
 		switch type {
 			case .none, .unknown:
+				// Should not happen
 				EmptyView()
 					.logDebug("No image for \(type)")
 			case .touchID:
@@ -228,6 +246,7 @@ struct BioMetricSetupView: View {
 	private func bioMetricTypedString(_ type: LocalAuthentication.BiometricType) -> String {
 		switch type {
 			case .none, .unknown:
+				// Should not happen
 				_ = logWarning("No translation for \(type)")
 				return ""
 			case .touchID:
@@ -242,6 +261,7 @@ struct BioMetricSetupView: View {
 	private func bioMetricTypedIntro(_ type: LocalAuthentication.BiometricType) -> String {
 		switch type {
 			case .none, .unknown:
+				// Should not happen
 				_ = logWarning("No translation for \(type)")
 				return ""
 			case .touchID:

@@ -47,7 +47,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonVisible: false,
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
@@ -75,7 +76,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonVisible: false,
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
@@ -105,7 +107,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonVisible: false,
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
@@ -136,7 +139,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonVisible: false,
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
@@ -168,7 +172,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonVisible: false,
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
@@ -206,7 +211,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonVisible: false,
 			title: "accesscode_create_title",
 			message: "accesscode_tooweak_body",
-			messageType: .alert
+			messageType: .alert,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .error),
