@@ -42,7 +42,7 @@ final class AccessCodeViewTests: XCTestCase {
 
 	// MARK: - Creation Mode -
 	
-	func test_creation_noBioMetric_lightMode() {
+	func test_creation_noBioMetric() {
 		
 		// Given
 		let sut = createSut(mode: .creation, bioMetricType: { .none })
