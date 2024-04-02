@@ -9,6 +9,10 @@ SwiftUI: {
   shape: oval
   style.fill: "#8FCAE7"
 }
+Webkit: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 Foundation: {
   shape: oval
   style.fill: "#8FCAE7"
@@ -46,6 +50,7 @@ MGOapp: {
 MGOapp <- MGOFoundation
 MGOapp <- MGOUI
 MGOapp <- UIKit
+MGOapp <- RestrictedBrowser
 
 # - Packages -
 
@@ -74,3 +79,7 @@ ReusableUI <- SwiftUI
 
 FHIRClient { style.fill: "#ffcc00" }
 FHIRClient <- FHIRModels
+
+RestrictedBrowser { style.fill: "#ffcc00" }
+RestrictedBrowser <- SwiftUI
+RestrictedBrowser <- WebKit
