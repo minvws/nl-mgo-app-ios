@@ -61,7 +61,7 @@ class AccessCodeViewModel: ObservableObject {
 		
 		func accessibilityLabel(index: Int, count: Int) -> String {
 			
-			return String(format: String(localized: "acccescode_box_voiceover"), arguments: ["\(index)", "\(count)", state.accessibilityValue()]
+			return String(format: String(localized: "acccescode_box_voiceover"), arguments: ["\(index)", "\(count)", state.accessibilityVoiceOverValue()]
 			)
 		}
 	}
@@ -117,6 +117,10 @@ class AccessCodeViewModel: ObservableObject {
 	
 	/// Initialzier
 	/// - Parameter pinLimit: the pinLimt
+	/// - Parameter coordinator: the coordinator
+	/// - Parameter mode: Which mode should we run in? Creation, Confirmation, Validation?
+	/// - Parameter bioMetricType: Whick biometric type should we run in? TouchId , FaceId, Optic Id, none?
+	/// - Parameter strengthMeter: Access code strenght meter
 	init(
 		coordinator: (any AppCoordinatorProtocol)?,
 		mode: AccessCodeMode,
@@ -135,6 +139,7 @@ class AccessCodeViewModel: ObservableObject {
 		updateState()
 	
 		// Setup the initial state for the boxes.
+		// First box is ready to receive input, the others are empty
 		boxStates.append(AccessCodeBoxState(id: 0, state: .focus))
 		for index in 1 ..< numberOfDigits {
 			boxStates.append(AccessCodeBoxState(id: index, state: .empty))
@@ -372,6 +377,7 @@ class AccessCodeViewModel: ObservableObject {
 	}
 	
 	@MainActor
+	/// Authenticate the user with biometrics
 	private func authenticate() async {
 		
 		do {

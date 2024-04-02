@@ -12,12 +12,14 @@ import LocalAuthentication
 
 class BioMetricSetupViewModel: ObservableObject {
 	
+	/// All possible actions
 	enum Action {
 		case proceedWithBioMetric // Enable biometric access
 		case proceedWithoutBioMetric // Skip the biometric setup
 		case showTouchIDPopup // FaceID has a native popup, we want something similar for Touch ID.
 	}
 	
+	/// A struct to capture the various states.
 	struct State {
 		public var bioMetricType: LocalAuthentication.BiometricType
 		public var showTouchPopup: Bool = false
@@ -30,10 +32,12 @@ class BioMetricSetupViewModel: ObservableObject {
 	/// What kind of key should we  dispaly (face ID, touch ID, optic ID)
 	private var bioMetricType: LocalAuthentication.BiometricType = .none
 	
+	/// The state of the view
 	@Published var state: State = State(bioMetricType: .none)
 	
 	/// Initialzier
-	/// - Parameter pinLimit: the pinLimt
+	/// - Parameter coordinator: the coordinator
+	/// - Parameter bioMetricType: what biometric type do we have? (FaceID, TouchID, OpticID)
 	init(
 		coordinator: (any AppCoordinatorProtocol)?,
 		bioMetricType: () -> LocalAuthentication.BiometricType) {
@@ -65,6 +69,7 @@ class BioMetricSetupViewModel: ObservableObject {
 		}
 	}
 	
+	/// The user finished this page with bio metric access
 	private func finishedWithBioMetric() {
 		
 		// Do use biometric authentication
@@ -73,6 +78,7 @@ class BioMetricSetupViewModel: ObservableObject {
 		coordinator?.handle(.didFinishLocalAuthentication)
 	}
 	
+	/// The user finished this page without bio metric access
 	private func finishedWithoutBioMetric() {
 		
 		// Do not use biometric authentication
@@ -82,6 +88,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	}
 	
 	@MainActor
+	/// Authenticate the user with biometrics
 	private func authenticate() async {
 		
 		do {
@@ -220,6 +227,9 @@ struct BioMetricSetupView: View {
 		}
 	}
 	
+	/// Get the image for this biometric type
+	/// - Parameter type: the biometric type
+	/// - Returns: the image for this type (of emptyview if non exists)
 	@ViewBuilder func getBioMetricImage(type: LocalAuthentication.BiometricType) -> some View {
 		switch type {
 			case .none, .unknown:
@@ -235,6 +245,11 @@ struct BioMetricSetupView: View {
 		}
 	}
 	
+	/// Interpolate a string with the biometric type
+	/// - Parameters:
+	///   - key: the key for the localized text "Continue with %@"
+	///   - type: the biometric type
+	/// - Returns: interpolated string "Continue with FaceID"
 	private func getBioMetricTypeInterpolatedText(_ key: String, type: LocalAuthentication.BiometricType) -> String {
 	
 		let formatString = String(localized: String.LocalizationValue(key))
@@ -243,6 +258,9 @@ struct BioMetricSetupView: View {
 		return String(format: formatString, typeString)
 	}
 	
+	/// Get the biometric type as a string
+	/// - Parameter type: biometric type
+	/// - Returns: biometric type as a string
 	private func bioMetricTypedString(_ type: LocalAuthentication.BiometricType) -> String {
 		switch type {
 			case .none, .unknown:
@@ -258,6 +276,9 @@ struct BioMetricSetupView: View {
 		}
 	}
 	
+	/// Get the intro text for a biometric type
+	/// - Parameter type: biometric type
+	/// - Returns: the right intro text.
 	private func bioMetricTypedIntro(_ type: LocalAuthentication.BiometricType) -> String {
 		switch type {
 			case .none, .unknown:

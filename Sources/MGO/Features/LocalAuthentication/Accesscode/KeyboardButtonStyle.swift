@@ -36,6 +36,7 @@ struct KeyboardButtonStyle: ButtonStyle {
 			.foregroundStyle(isEnabled ? Color.Styleguide.black : Color.Styleguide.Grey.grey5)
 			.background {
 				if configuration.isPressed {
+					// Show a grey circle as a visual confirmation of touch
 					Circle()
 						.foregroundStyle(colorScheme == .light ? Color.Styleguide.Grey.grey2 : Color.Styleguide.Grey.grey8)
 						.frame(width: ViewTraits.Circle.size, height: ViewTraits.Circle.size)

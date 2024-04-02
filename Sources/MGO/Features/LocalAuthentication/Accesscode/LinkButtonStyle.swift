@@ -8,9 +8,6 @@
 import MGOUI
 
 struct LinkButtonStyle: ButtonStyle {
-	
-	/// Is the button enabled?
-	@Environment(\.isEnabled) private var isEnabled: Bool
 
 	/// Style the button to a primary button
 	/// - Parameter configuration: the button configuration
