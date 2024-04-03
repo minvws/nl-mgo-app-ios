@@ -32,7 +32,7 @@ public class KeychainItem<T: Codable> {
 			query[kSecMatchLimit as String] = kSecMatchLimitOne
 			query[kSecReturnAttributes as String] = kCFBooleanTrue
 			query[kSecReturnData as String] = kCFBooleanFalse
-			query[kSecUseAuthenticationUI as String] = kSecUseAuthenticationUIFail
+			query[kSecUseAuthenticationUI as String] = kSecUseAuthenticationUISkip
 			
 			var queryResult: AnyObject?
 			let status = withUnsafeMutablePointer(to: &queryResult) {
