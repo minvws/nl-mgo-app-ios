@@ -49,7 +49,7 @@ enum AppCoordination {
 		case accessCodeValidated
 		case forgotAccessCode
 		case dismissForgotAccessCode
-		case remoteAuthentication
+		case recreateAccount
 		
 		// Remote Authentication
 		case loginWithDigiD
@@ -178,11 +178,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .forgotAccessCode:
 				sheet = AppCoordination.State.forgotAccessCode
 			
-			case .remoteAuthentication:
+			case .recreateAccount:
 				if sheet != nil {
 					sheet = nil
 				}
-				navigateTo(state: AppCoordination.State.remoteAuthentication)
+				// Wipe Account
+				Current.wipePersistedData()
+				Current.secureUserSettings.userHasSeenAppIntroduction = true
+				path = NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
 			
 			// Remote Authentication
 			

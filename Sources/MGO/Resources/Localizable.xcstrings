@@ -465,13 +465,13 @@
         }
       }
     },
-    "forgot_action_digid" : {
+    "forgot_action_reset" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met DigiD"
+            "value" : "Maak een nieuw account"
           }
         }
       }
@@ -482,7 +482,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt helaas geen nieuwe toegangscode aanmaken. Je kunt wel een nieuw account aanmaken. Log hiervoor opnieuw in met DigiD."
+            "value" : "Je kunt helaas niet meer met je oude toegangscode inloggen. Je kunt wel een nieuw account aanmaken. Maak een nieuwe toegangscode en log daarna opnieuw in met DigiD."
           }
         }
       }

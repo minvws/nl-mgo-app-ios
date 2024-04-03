@@ -38,10 +38,10 @@ final class ForgotAccessCodeViewModelTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.reduce(.loginWithDigiD)
+		sut.reduce(.recreateAccount)
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.remoteAuthentication
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.recreateAccount
 	}
 }
