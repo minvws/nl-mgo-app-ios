@@ -42,6 +42,9 @@ public struct RijksoverheidViewModifier: ViewModifier {
 	/// What is the text style to use
 	public var style: Font.TextStyle
 	
+	/// What is the point size to use? (if nil, the pointSize of the style (Font.TextStyle) is used
+	public var pointSize: CGFloat?
+	
 	/// The spacing between the lines
 	private var lineSpacing: CGFloat {
 		switch style {
@@ -53,8 +56,15 @@ public struct RijksoverheidViewModifier: ViewModifier {
 	}
 	
 	public func body(content: Content) -> some View {
-		content
-			.font(.RijksoverheidSansWebText.relative(font, size: style.pointSize, relativeTo: style))
-			.lineSpacing(lineSpacing)
+		
+		if let pointSize {
+			content
+				.font(.RijksoverheidSansWebText.relative(font, size: pointSize, relativeTo: style))
+				.lineSpacing(lineSpacing)
+		} else {
+			content
+				.font(.RijksoverheidSansWebText.relative(font, size: style.pointSize, relativeTo: style))
+				.lineSpacing(lineSpacing)
+		}
 	}
 }

@@ -15,6 +15,16 @@ extension View {
 	///   - style: The text style [title, body, footnote etc]
 	/// - Returns: Styled modifier
 	public func rijksoverheidStyle(font: RijksoverheidSansWebTextFont, style: Font.TextStyle) -> some View {
-		modifier(RijksoverheidViewModifier(font: font, style: style))
+		modifier(RijksoverheidViewModifier(font: font, style: style, pointSize: nil))
+	}
+	
+	/// Style with the Rijksoverheid font
+	/// - Parameters:
+	///   - font: The type of font [bold, regular, italic]
+	///   - style: he text style [title, body, footnote etc]
+	///   - pointSize: the point size of the font to use
+	/// - Returns: Styled modifier
+	public func rijksoverheidStyle(font: RijksoverheidSansWebTextFont, style: Font.TextStyle, pointSize: CGFloat) -> some View {
+		modifier(RijksoverheidViewModifier(font: font, style: style, pointSize: pointSize))
 	}
 }
