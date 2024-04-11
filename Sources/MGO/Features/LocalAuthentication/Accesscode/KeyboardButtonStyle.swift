@@ -15,6 +15,9 @@ struct KeyboardButtonStyle: ButtonStyle {
 	/// Is the button enabled?
 	@Environment(\.isEnabled) private var isEnabled: Bool
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Button {
@@ -33,11 +36,11 @@ struct KeyboardButtonStyle: ButtonStyle {
 		configuration.label
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
 			.rijksoverheidStyle(font: .regular, style: .title)
-			.foregroundStyle(isEnabled ? Color.Styleguide.black : Color.Styleguide.Grey.grey5)
+			.foregroundStyle(isEnabled ? theme.contentPrimary : theme.iconsSecondary)
 			.background {
 				if configuration.isPressed {
 					Circle()
-						.foregroundStyle(colorScheme == .light ? Color.Styleguide.Grey.grey2 : Color.Styleguide.Grey.grey8)
+						.foregroundStyle(theme.backgroundTertiary)
 						.frame(width: ViewTraits.Circle.size, height: ViewTraits.Circle.size)
 				}
 			}

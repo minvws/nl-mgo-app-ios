@@ -10,6 +10,9 @@ import MGOUI
 /// A scrollview with a fixed box at the bottom 
 struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	/// The content for the scrollView
 	@ViewBuilder let content: V1
 	
@@ -30,12 +33,12 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 			
 			bottomView
 				// Change the background color of the bottom view if we should scroll
-				.background(scrollable ? Color.Styleguide.white : Color.Styleguide.background)
+				.background(scrollable ? theme.backgroundSecondary : theme.backgroundPrimary)
 				// Only apply the shadow if we should scroll
 				.if(scrollable) { view in
 					view
-						.shadow(color: Color.Styleguide.black.opacity(0.05), radius: 7, x: 0, y: -6)
-						.shadow(color: Color.Styleguide.black.opacity(0.06), radius: 3, x: 0, y: 0)
+						.shadow(color: theme.contentPrimary.opacity(0.05), radius: 7, x: 0, y: -6)
+						.shadow(color: theme.contentPrimary.opacity(0.06), radius: 3, x: 0, y: 0)
 				}
 				.onChange(of: contentSize) { _ in
 					recalculateScrollable()

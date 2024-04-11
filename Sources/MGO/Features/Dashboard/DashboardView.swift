@@ -49,10 +49,13 @@ struct DashboardView: View {
 	/// The View Model
 	@StateObject var viewModel: DashboardViewModel
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	var body: some View {
 		ZStack {
 			
-			Color.Styleguide.background
+			theme.backgroundPrimary
 				.ignoresSafeArea()
 			
 			VStack {
@@ -86,7 +89,7 @@ struct DashboardView: View {
 							viewModel.reduce(.showResetDialog)
 						}, label: {
 							Image(systemName: "exclamationmark.triangle")
-								.foregroundStyle(Color.Styleguide.Basic.rubyRed)
+								.foregroundStyle(theme.notificationError)
 						}
 					)
 				}

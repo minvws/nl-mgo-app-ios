@@ -17,13 +17,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		// UI Settings
 		
+		/// The Theme
+		@Environment(\.theme) var theme
+		
 		// No bouncy scrollview
 		UIScrollView.appearance().bounces = false
 
 		// Navigation bar
 		let appearance = UINavigationBarAppearance()
 		appearance.configureWithOpaqueBackground()
-		appearance.backgroundColor = UIColor(Color.Styleguide.background)
+		appearance.backgroundColor = UIColor(theme.backgroundPrimary)
 		appearance.shadowColor = .clear
 		UINavigationBar.appearance().standardAppearance = appearance
 		UINavigationBar.appearance().compactAppearance = appearance

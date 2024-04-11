@@ -47,10 +47,13 @@ struct RemoteAuthenticationView: View {
 	/// The view model
 	@StateObject var viewModel: RemoteAuthenticationViewModel
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
     var body: some View {
 		ZStack {
 			
-			Color.Styleguide.background
+			theme.backgroundPrimary
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			

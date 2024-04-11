@@ -103,11 +103,14 @@ struct PatientView: View {
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	@StateObject var viewModel: PatientViewModel
 	
 	var body: some View {
 		ZStack {
-			Color.Styleguide.background
+			theme.backgroundPrimary
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			
@@ -122,7 +125,7 @@ struct PatientView: View {
 					Text(verbatim: "Patient ID")
 					
 					TextField("Patient ID", text: $viewModel.patientID)
-						.border(Color.Styleguide.black)
+						.border(theme.contentPrimary)
 						.onSubmit {
 							viewModel.reduce(.search(viewModel.patientID))
 						}
@@ -165,9 +168,9 @@ struct PatientView: View {
 							Spacer()
 						}
 						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundStyle(Color.Styleguide.black)
+						.foregroundStyle(theme.contentPrimary)
 						.padding(16)
-						.background(colorScheme == .light ? Color.Styleguide.Grey.grey2 : Color.Styleguide.Grey.grey8)
+						.background(theme.backgroundTertiary)
 				}
 			}
 		}
@@ -191,7 +194,7 @@ struct PatientView: View {
 							viewModel.reduce(.showResetDialog)
 						}, label: {
 							Image(systemName: "exclamationmark.triangle")
-								.foregroundStyle(Color.Styleguide.Basic.rubyRed)
+								.foregroundStyle(theme.notificationError)
 						}
 					)
 				}

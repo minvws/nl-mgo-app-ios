@@ -12,6 +12,9 @@ struct PrimaryButtonStyle: ButtonStyle {
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum ButtonTitle {
@@ -30,10 +33,10 @@ struct PrimaryButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(colorScheme == .light ? Color.Styleguide.white : Color.Styleguide.black)
+			.foregroundColor(colorScheme == .light ? theme.backgroundSecondary : theme.contentPrimary)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? Color.Styleguide.Blue.darkBlue : Color.Styleguide.Blue.skyBlue)
+			.background(configuration.isPressed ? theme.actionTertiary : theme.actionPrimary)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

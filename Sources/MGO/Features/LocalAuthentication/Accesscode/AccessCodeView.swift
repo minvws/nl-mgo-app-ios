@@ -387,6 +387,9 @@ struct AccessCodeView: View {
 	/// The view model
 	@StateObject var viewModel: AccessCodeViewModel
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Title {
@@ -416,7 +419,7 @@ struct AccessCodeView: View {
 	var body: some View {
 		ZStack {
 			
-			Color.Styleguide.background
+			theme.backgroundPrimary
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			

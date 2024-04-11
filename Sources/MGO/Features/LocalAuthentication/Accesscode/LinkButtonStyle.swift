@@ -11,6 +11,9 @@ struct LinkButtonStyle: ButtonStyle {
 	
 	/// Is the button enabled?
 	@Environment(\.isEnabled) private var isEnabled: Bool
+	
+	/// The Theme
+	@Environment(\.theme) var theme
 
 	/// Style the button to a primary button
 	/// - Parameter configuration: the button configuration
@@ -20,6 +23,6 @@ struct LinkButtonStyle: ButtonStyle {
 		configuration.label
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundStyle(configuration.isPressed ? Color.Styleguide.Blue.linkHover : Color.Styleguide.Blue.link)
+			.foregroundStyle(configuration.isPressed ? theme.actionSecondary : theme.actionTertiary)
 	}
 }

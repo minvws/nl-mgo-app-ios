@@ -124,6 +124,9 @@ struct BioMetricSetupView: View {
 	/// The view model
 	@StateObject var viewModel: BioMetricSetupViewModel
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
@@ -148,7 +151,7 @@ struct BioMetricSetupView: View {
 		
 		ZStack {
 			
-			Color.Styleguide.background
+			theme.backgroundPrimary
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			
@@ -157,7 +160,7 @@ struct BioMetricSetupView: View {
 				HStack {
 					Spacer()
 					getBioMetricImage(type: bioMetricType)
-						.foregroundStyle(Color.Styleguide.Blue.skyBlue)
+						.foregroundStyle(theme.actionPrimary)
 						.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
 						.padding(.top, ViewTraits.Image.top)
 					Spacer()

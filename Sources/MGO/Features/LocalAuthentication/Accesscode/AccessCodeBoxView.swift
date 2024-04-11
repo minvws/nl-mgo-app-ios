@@ -13,6 +13,9 @@ struct AccessCodeBoxView: View {
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Circle {
@@ -42,10 +45,9 @@ struct AccessCodeBoxView: View {
 	var borderColor: Color {
 		switch state {
 			case .focus, .filling:
-			colorScheme == .light ? Color.Styleguide.Blue.skyBlue : Color.Styleguide.Blue.skyBlueTint1
-			case .empty, .filled:
-			colorScheme == .light ? Color.Styleguide.Grey.grey6 : Color.Styleguide.Grey.grey4
-			case .error: Color.Styleguide.Basic.red
+			colorScheme == .light ? theme.actionPrimary : theme.actionSecondary
+			case .empty, .filled: theme.actionBorder
+			case .error: theme.notificationError
 		}
 	}
 	
@@ -75,17 +77,17 @@ struct AccessCodeBoxView: View {
 			
 			case .filling:
 				Circle()
-					.foregroundStyle(colorScheme == .light ? Color.Styleguide.Blue.skyBlue : Color.Styleguide.Blue.skyBlueTint1)
+					.foregroundStyle(colorScheme == .light ? theme.actionPrimary : theme.actionSecondary)
 					.frame(width: ViewTraits.Circle.big, height: ViewTraits.Circle.big)
 			
 			case .filled:
 				Circle()
-					.foregroundStyle(colorScheme == .light ? Color.Styleguide.Blue.skyBlue : Color.Styleguide.Blue.skyBlueTint1)
+					.foregroundStyle(colorScheme == .light ? theme.actionPrimary : theme.actionSecondary)
 					.frame(width: ViewTraits.Circle.small, height: ViewTraits.Circle.small)
 			
 			case .error:
 				Circle()
-					.foregroundStyle(Color.Styleguide.Basic.red)
+					.foregroundStyle(theme.notificationError)
 					.frame(width: ViewTraits.Circle.small, height: ViewTraits.Circle.small)
 		}
 	}
@@ -94,7 +96,7 @@ struct AccessCodeBoxView: View {
 		Rectangle()
 			.foregroundStyle(.clear)
 			.frame(width: ViewTraits.Box.width, height: height)
-			.background(Color.Styleguide.white)
+			.background(theme.backgroundSecondary)
 			.cornerRadius(ViewTraits.Box.radius)
 			.overlay(
 				ZStack {
@@ -115,8 +117,9 @@ struct AccessCodeBoxView: View {
 }
 
 #Preview {
+	
 	ZStack {
-		Color.Styleguide.background
+		Theme().backgroundPrimary
 		HStack(spacing: 12) {
 			AccessCodeBoxView(state: .constant(.filled))
 			AccessCodeBoxView(state: .constant(.filling))
