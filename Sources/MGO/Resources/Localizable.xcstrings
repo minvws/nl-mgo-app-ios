@@ -537,7 +537,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens worden **versleuteld** en via een **veilige** verbinding opgehaald."
+            "value" : "Je gegevens worden **versleuteld** en via een **veilige verbinding** opgehaald."
           }
         }
       }
@@ -570,7 +570,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt het overzicht altijd **eenvoudig weggooien of opnieuw opvragen.**"
+            "value" : "Je kunt de gegevens in je overzicht **altijd verwijderen of opnieuw opvragen.**"
           }
         }
       }
