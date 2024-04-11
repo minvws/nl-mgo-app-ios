@@ -17,7 +17,7 @@ let package = Package(
 		.package(url: "https://github.com/apple/FHIRModels", exact: "0.5.0"),
 		
 		// Testing
-		.package(url: "https://github.com/Quick/Nimble", exact: "13.2.1")
+		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0")
 	],
 	targets: [
 		.target(
