@@ -18,61 +18,60 @@ public protocol Themeable: ObservableObject {
 	var backgroundTertiary: Color { get }
 	
 	// MARK: - Content -
-	//
-	//	static var contentPrimary: Color { get }
-	//
-	//	static var contentSecondary: Color { get }
-	//
-	//	static var contentTertiary: Color { get }
-	//
-	// MARK: - Icons -
-	//
-	//	static var iconsPrimary: Color { get }
-	//
-	//	static var iconSecondary: Color { get }
-	//
-	// MARK: - Lines -
-	//
-	//	static var linesPrimary: Color { get }
-	//
-	//	static var linesSecondary: Color { get }
-	//
-	//	static var actionBorder: Color { get }
-	//
-	// MARK: - Support -
-	//
-	//	static var actionPrimary: Color { get }
-	//
-	//	static var actionSecondary: Color { get }
-	//
-	//	static var actionTertiary: Color { get }
-	//
-	//	static var rijksLint: Color { get }
-	//
-	//	static var notificationSuccess: Color { get }
-	//
-	//	static var notificationWarning: Color { get }
-	//
-	//	static var notificationError: Color { get }
-	//
-	//	static var apotheek: Color { get }
-	//
-	//	static var ziekenhuis: Color { get }
-	//
-	//	static var huisarts: Color { get }
-	//
-	//	static var tandarts: Color { get }
-	//
-	//	static var ggz: Color { get }
-	//
-	//	static var fysiotherapeut: Color { get }
-	//
-	//	static var verpleeghuis: Color { get }
-	//
-	//	static var thuiszorg: Color { get }
-	//
-	//	static var kliniek: Color { get }
-	//
-	//	static var overige: Color { get }
 	
+	var contentPrimary: Color { get }
+	
+	var contentSecondary: Color { get }
+	
+	var contentTertiary: Color { get }
+	
+	// MARK: - Icons -
+	
+	var iconsPrimary: Color { get }
+	
+	var iconSecondary: Color { get }
+	
+	// MARK: - Lines -
+	
+	var linesPrimary: Color { get }
+	
+	var linesSecondary: Color { get }
+	
+	var actionBorder: Color { get }
+	
+	// MARK: - Support -
+	
+	var actionPrimary: Color { get }
+	
+	var actionSecondary: Color { get }
+	
+	var actionTertiary: Color { get }
+	
+	var rijksLint: Color { get }
+	
+	var notificationSuccess: Color { get }
+	
+	var notificationWarning: Color { get }
+	
+	var notificationError: Color { get }
+	
+	var apotheek: Color { get }
+	
+	var ziekenhuis: Color { get }
+	
+	var huisarts: Color { get }
+	
+	var tandarts: Color { get }
+	
+	var ggz: Color { get }
+	
+	var fysiotherapeut: Color { get }
+	
+	var verpleeghuis: Color { get }
+	
+	var thuiszorg: Color { get }
+	
+	var kliniek: Color { get }
+	
+	var overige: Color { get }
 }

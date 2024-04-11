@@ -9,10 +9,12 @@ import SwiftUI
 
 // MARK: - Environment -
 
+/// The enviroment key for the theme 
 public struct ThemeEnvironmentKey: EnvironmentKey {
 	public static let defaultValue: any Themeable = Theme()
 }
 
+/// Placing the theme into the enviroment
 public extension EnvironmentValues {
 	var theme: any Themeable {
 		get { self[ThemeEnvironmentKey.self] }
