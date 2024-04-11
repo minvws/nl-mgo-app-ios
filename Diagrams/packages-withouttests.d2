@@ -64,6 +64,7 @@ MGOUI <- SwiftUI
 MGOUI <- NavigationStackBackport
 MGOUI <- ReusableUI
 MGOUI <- RijksoverheidFont
+MGOUI <- Theme
 
 Managers { style.fill: "#ffcc00" }
 Managers <- FHIRClient
@@ -76,6 +77,7 @@ RijksoverheidFont <- DeviceKit
 
 ReusableUI { style.fill: "#ffcc00" }
 ReusableUI <- SwiftUI
+ReusableUI <- Theme
 
 FHIRClient { style.fill: "#ffcc00" }
 FHIRClient <- FHIRModels
@@ -83,3 +85,6 @@ FHIRClient <- FHIRModels
 RestrictedBrowser { style.fill: "#ffcc00" }
 RestrictedBrowser <- SwiftUI
 RestrictedBrowser <- WebKit
+
+Theme { style.fill: "#ffcc00" }
+Theme <- SwiftUI
