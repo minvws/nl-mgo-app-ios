@@ -53,7 +53,7 @@ struct ColorSampleView: View {
 					HStack {
 						colorSample(theme.notificationSuccess, text: "Notification Success")
 						colorSample(theme.notificationWarning, text: "Notification Warning")
-						colorSample(theme.notificationError, text: "ANotification Error")
+						colorSample(theme.notificationError, text: "Notification Error")
 					}
 					
 					HStack {
@@ -90,7 +90,7 @@ struct ColorSampleView: View {
 			Rectangle()
 				.fill(color)
 				.border(.gray)
-				.frame(height: 40)
+				.frame(height: 60)
 			Text(text)
 				.font(.footnote)
 				.frame(height: 40)
