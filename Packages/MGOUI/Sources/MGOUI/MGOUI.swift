@@ -11,6 +11,7 @@
 // Internal
 @_exported import ReusableUI
 @_exported import RijksoverheidFont
+@_exported import Theme
 
 // External
 @_exported import NavigationStackBackport
