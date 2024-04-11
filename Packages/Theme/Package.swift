@@ -9,13 +9,24 @@ let package = Package(
 	products: [
 		.library(
 			name: "Theme",
-			targets: ["Theme"]),
+			targets: ["Theme"]
+		)
+	],
+	dependencies: [
+		// Testing
+		.package(url: "https://github.com/Quick/Nimble", exact: "13.2.1"),
+		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.15.4")
 	],
 	targets: [
 		.target(
 			name: "Theme"),
 		.testTarget(
 			name: "ThemeTests",
-			dependencies: ["Theme"]),
+			dependencies: [
+				"Theme",
+				.product(name: "Nimble", package: "Nimble"),
+				.product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+			]
+		)
 	]
 )

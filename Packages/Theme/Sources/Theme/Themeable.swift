@@ -29,7 +29,7 @@ public protocol Themeable: ObservableObject {
 	
 	var iconsPrimary: Color { get }
 	
-	var iconSecondary: Color { get }
+	var iconsSecondary: Color { get }
 	
 	// MARK: - Lines -
 	

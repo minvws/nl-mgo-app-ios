@@ -26,7 +26,7 @@ public class Theme: Themeable {
 	// MARK: - Icons -
 	
 	@Published public var iconsPrimary: Color = Color("iconsPrimary", bundle: .module)
-	@Published public var iconSecondary: Color = Color("iconSecondary", bundle: .module)
+	@Published public var iconsSecondary: Color = Color("iconsSecondary", bundle: .module)
 	
 	// MARK: - Lines -
 	
@@ -39,7 +39,7 @@ public class Theme: Themeable {
 	@Published public var actionPrimary: Color = Color("actionPrimary", bundle: .module)
 	@Published public var actionSecondary: Color = Color("actionSecondary", bundle: .module)
 	@Published public var actionTertiary: Color = Color("actionTertiary", bundle: .module)
-	@Published public var rijksLint: Color = Color("rijksLint", bundle: .module)
+	@Published public var rijksLint: Color = Color("rijkslint", bundle: .module)
 	@Published public var notificationSuccess: Color = Color("notificationSuccess", bundle: .module)
 	@Published public var notificationWarning: Color = Color("notificationWarning", bundle: .module)
 	@Published public var notificationError: Color = Color("notificationError", bundle: .module)
