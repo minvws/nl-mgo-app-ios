@@ -25,6 +25,6 @@ public struct LinkButtonStyle: ButtonStyle {
 		configuration.label
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(configuration.isPressed ? theme.actionTertiaryBackground.opacity(0.75) : theme.actionTertiaryBackground)
+			.foregroundColor(configuration.isPressed ? theme.actionTertiaryHover : theme.actionTertiaryDefault)
 	}
 }

@@ -46,7 +46,8 @@ public protocol Themeable: ObservableObject {
 	
 	// MARK: - Action Tertiary -
 	
-	var actionTertiaryBackground: Color { get }
+	var actionTertiaryDefault: Color { get }
+	var actionTertiaryHover: Color { get }
 	
 	// MARK: - Notification -
 

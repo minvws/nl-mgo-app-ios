@@ -70,7 +70,8 @@ struct ColorSampleView: View {
 					Text("Action Tertiary").bold()
 					
 					HStack {
-						colorSample(theme.actionTertiaryBackground, text: "Background")
+						colorSample(theme.actionTertiaryDefault, text: "Default")
+						colorSample(theme.actionTertiaryHover, text: "Hover")
 					}
 
 					Text("Notification").bold()

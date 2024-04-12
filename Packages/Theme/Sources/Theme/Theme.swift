@@ -48,7 +48,8 @@ public class Theme: Themeable {
 
 	// MARK: - Action Tertiary -
 	
-	@Published public var actionTertiaryBackground: Color = Color("actionTertiaryBackground", bundle: .module)
+	@Published public var actionTertiaryDefault: Color = Color("actionTertiaryDefault", bundle: .module)
+	@Published public var actionTertiaryHover: Color = Color("actionTertiaryHover", bundle: .module)
 	
 	// MARK: - Notification -
 	
