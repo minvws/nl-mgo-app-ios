@@ -35,7 +35,7 @@ struct PrimaryButtonStyle: ButtonStyle {
 			.foregroundColor(theme.actionPrimaryText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.actionPrimaryHover : theme.actionPrimary)
+			.background(configuration.isPressed ? theme.actionPrimaryBackgroundHover : theme.actionPrimaryBackground)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

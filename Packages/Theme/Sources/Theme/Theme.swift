@@ -32,24 +32,33 @@ public class Theme: Themeable {
 	
 	@Published public var linesPrimary: Color = Color("linesPrimary", bundle: .module)
 	@Published public var linesSecondary: Color = Color("linesSecondary", bundle: .module)
-	@Published public var actionBorder: Color = Color("actionBorder", bundle: .module)
+	@Published public var input: Color = Color("input", bundle: .module)
 	
-	// MARK: - Action -
+	// MARK: - Action Primary -
 	
-	@Published public var actionPrimary: Color = Color("actionPrimary", bundle: .module)
-	@Published public var actionSecondary: Color = Color("actionSecondary", bundle: .module)
-	@Published public var actionTertiary: Color = Color("actionTertiary", bundle: .module)
+	@Published public var actionPrimaryBackground: Color = Color("actionPrimaryBackground", bundle: .module)
 	@Published public var actionPrimaryText: Color = Color("actionPrimaryText", bundle: .module)
+	@Published public var actionPrimaryBackgroundHover: Color = Color("actionPrimaryBackgroundHover", bundle: .module)
+
+	// MARK: - Action Secondary -
+
+	@Published public var actionSecondaryBackground: Color = Color("actionSecondaryBackground", bundle: .module)
 	@Published public var actionSecondaryText: Color = Color("actionSecondaryText", bundle: .module)
-	@Published public var actionPrimaryHover: Color = Color("actionPrimaryHover", bundle: .module)
-	@Published public var actionSecondaryHover: Color = Color("actionSecondaryHover", bundle: .module)
+	@Published public var actionSecondaryBackgroundHover: Color = Color("actionSecondaryBackgroundHover", bundle: .module)
+
+	// MARK: - Action Tertiary -
 	
-	// MARK: - Support -
+	@Published public var actionTertiaryBackground: Color = Color("actionTertiaryBackground", bundle: .module)
 	
-	@Published public var rijksLint: Color = Color("rijkslint", bundle: .module)
+	// MARK: - Notification -
+	
+	@Published public var notificationInformation: Color = Color("notificationInformation", bundle: .module)
 	@Published public var notificationSuccess: Color = Color("notificationSuccess", bundle: .module)
 	@Published public var notificationWarning: Color = Color("notificationWarning", bundle: .module)
 	@Published public var notificationError: Color = Color("notificationError", bundle: .module)
+	
+	// MARK: - Support -
+	
 	@Published public var apotheek: Color = Color("apotheek", bundle: .module)
 	@Published public var ziekenhuis: Color = Color("ziekenhuis", bundle: .module)
 	@Published public var huisarts: Color = Color("huisarts", bundle: .module)
@@ -60,4 +69,5 @@ public class Theme: Themeable {
 	@Published public var thuiszorg: Color = Color("thuiszorg", bundle: .module)
 	@Published public var kliniek: Color = Color("kliniek", bundle: .module)
 	@Published public var overige: Color = Color("overige", bundle: .module)
+	@Published public var rijksLint: Color = Color("rijkslint", bundle: .module)
 }

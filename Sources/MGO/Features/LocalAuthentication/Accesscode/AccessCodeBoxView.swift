@@ -45,8 +45,8 @@ struct AccessCodeBoxView: View {
 	var borderColor: Color {
 		switch state {
 			case .focus, .filling:
-			colorScheme == .light ? theme.actionPrimary : theme.actionSecondary
-			case .empty, .filled: theme.actionBorder
+			colorScheme == .light ? theme.actionPrimaryBackground : theme.actionSecondaryBackground
+			case .empty, .filled: theme.input
 			case .error: theme.notificationError
 		}
 	}
@@ -77,12 +77,12 @@ struct AccessCodeBoxView: View {
 			
 			case .filling:
 				Circle()
-					.foregroundStyle(colorScheme == .light ? theme.actionPrimary : theme.actionSecondary)
+					.foregroundStyle(colorScheme == .light ? theme.actionPrimaryBackground : theme.actionSecondaryBackground)
 					.frame(width: ViewTraits.Circle.big, height: ViewTraits.Circle.big)
 			
 			case .filled:
 				Circle()
-					.foregroundStyle(colorScheme == .light ? theme.actionPrimary : theme.actionSecondary)
+					.foregroundStyle(colorScheme == .light ? theme.actionPrimaryBackground : theme.actionSecondaryBackground)
 					.frame(width: ViewTraits.Circle.small, height: ViewTraits.Circle.small)
 			
 			case .error:

@@ -30,24 +30,33 @@ public protocol Themeable: ObservableObject {
 	
 	var linesPrimary: Color { get }
 	var linesSecondary: Color { get }
-	var actionBorder: Color { get }
+	var input: Color { get }
 	
-	// MARK: - Action -
+	// MARK: - Action Primary -
 	
-	var actionPrimary: Color { get }
-	var actionSecondary: Color { get }
-	var actionTertiary: Color { get }
+	var actionPrimaryBackground: Color { get }
 	var actionPrimaryText: Color { get }
+	var actionPrimaryBackgroundHover: Color { get }
+
+	// MARK: - Action Secondary -
+
+	var actionSecondaryBackground: Color { get }
 	var actionSecondaryText: Color { get }
-	var actionPrimaryHover: Color { get }
-	var actionSecondaryHover: Color { get }
+	var actionSecondaryBackgroundHover: Color { get }
 	
-	// MARK: - Support -
+	// MARK: - Action Tertiary -
 	
-	var rijksLint: Color { get }
+	var actionTertiaryBackground: Color { get }
+	
+	// MARK: - Notification -
+
+	var notificationInformation: Color { get }
 	var notificationSuccess: Color { get }
 	var notificationWarning: Color { get }
 	var notificationError: Color { get }
+
+	// MARK: - Support -
+	
 	var apotheek: Color { get }
 	var ziekenhuis: Color { get }
 	var huisarts: Color { get }
@@ -58,4 +67,5 @@ public protocol Themeable: ObservableObject {
 	var thuiszorg: Color { get }
 	var kliniek: Color { get }
 	var overige: Color { get }
+	var rijksLint: Color { get }
 }

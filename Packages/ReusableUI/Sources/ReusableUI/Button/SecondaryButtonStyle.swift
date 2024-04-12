@@ -35,7 +35,7 @@ struct SecondaryButtonStyle: ButtonStyle {
 			.foregroundColor(theme.actionSecondaryText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.actionSecondaryHover : theme.actionSecondary)
+			.background(configuration.isPressed ? theme.actionSecondaryBackgroundHover : theme.actionSecondaryBackground)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

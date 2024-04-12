@@ -94,7 +94,7 @@ struct PrivacyOverviewView: View {
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.padding(.bottom, ViewTraits.General.padding)
 					.foregroundColor(theme.contentPrimary)
-					.tint(colorScheme == .light ? theme.actionTertiary : theme.actionSecondary)
+					.tint(colorScheme == .light ? theme.actionTertiaryBackground : theme.actionSecondaryBackground)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.environment(\.openURL, OpenURLAction { url in
 						// Catch the click on the privacy link

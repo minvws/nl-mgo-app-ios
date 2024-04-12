@@ -79,14 +79,14 @@ struct BackButtonStyle: ButtonStyle {
 	func getForeGroundStyle(configuration: Self.Configuration, colorScheme: ColorScheme) -> Color {
 		
 		switch (configuration.isPressed, colorScheme) {
-			case (true, .light): return theme.actionTertiary.opacity(0.75)
-			case (true, .dark): return theme.actionTertiary.opacity(0.75)
-			case (false, .light): return theme.actionTertiary
-			case (false, .dark): return theme.actionTertiary
+			case (true, .light): return theme.actionTertiaryBackground.opacity(0.75)
+			case (true, .dark): return theme.actionTertiaryBackground.opacity(0.75)
+			case (false, .light): return theme.actionTertiaryBackground
+			case (false, .dark): return theme.actionTertiaryBackground
 			case (_, _):
 				logWarning("Unhandled case for back button style")
 		}
-		return theme.actionPrimary
+		return theme.actionPrimaryBackground
 	}
 	
 	/// Style the button to a primary button

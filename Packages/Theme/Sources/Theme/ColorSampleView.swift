@@ -18,70 +18,95 @@ struct ColorSampleView: View {
 			
 			ScrollView {
 				
-				VStack {
+				VStack(alignment: .leading) {
+					
+					Text("Background").bold()
 					
 					HStack {
-						colorSample(theme.backgroundPrimary, text: "Background Primary")
-						colorSample(theme.backgroundSecondary, text: "Background Secondary")
-						colorSample(theme.backgroundTertiary, text: "Background Tertiary")
+						colorSample(theme.backgroundPrimary, text: "Primary")
+						colorSample(theme.backgroundSecondary, text: "Secondary")
+						colorSample(theme.backgroundTertiary, text: "Tertiary")
+					}
+					
+					Text("Content").bold()
+					
+					HStack {
+						colorSample(theme.contentPrimary, text: "Primary")
+						colorSample(theme.contentSecondary, text: "Secondary")
+						colorSample(theme.contentTertiary, text: "Tertiary")
+					}
+					
+					Text("Icons").bold()
+					
+					HStack {
+						colorSample(theme.iconsPrimary, text: "Primary")
+						colorSample(theme.iconsSecondary, text: "Secondary")
+					}
+					
+					Text("Lines").bold()
+					
+					HStack {
+						colorSample(theme.linesPrimary, text: "Primary")
+						colorSample(theme.linesSecondary, text: "Secondary")
+						colorSample(theme.input, text: "Input")
+					}
+					
+					Text("Action Primary").bold()
+					
+					HStack {
+						colorSample(theme.actionPrimaryBackground, text: "Background")
+						colorSample(theme.actionPrimaryText, text: "Text")
+						colorSample(theme.actionPrimaryBackgroundHover, text: "Background Hover")
+					}
+					
+					Text("Action Secondary").bold()
+					
+					HStack {
+						colorSample(theme.actionSecondaryBackground, text: "Background")
+						colorSample(theme.actionSecondaryText, text: "Text")
+						colorSample(theme.actionSecondaryBackgroundHover, text: "Background Hover")
+					}
+					
+					Text("Action Tertiary").bold()
+					
+					HStack {
+						colorSample(theme.actionTertiaryBackground, text: "Background")
+					}
+
+					Text("Notification").bold()
+
+					HStack {
+						colorSample(theme.notificationInformation, text: "Information")
+						colorSample(theme.notificationSuccess, text: "Success")
+						colorSample(theme.notificationWarning, text: "Warning")
 					}
 					
 					HStack {
-						colorSample(theme.contentPrimary, text: "Content Primary")
-						colorSample(theme.contentSecondary, text: "Content Secondary")
-						colorSample(theme.contentTertiary, text: "Content Tertiary")
+						colorSample(theme.notificationError, text: "Error")
+					}
+					
+					Text("Support").bold()
+					
+					HStack {
+						colorSample(theme.apotheek, text: "Apotheek")
+						colorSample(theme.ziekenhuis, text: "Ziekenhuis")
+						colorSample(theme.huisarts, text: "Huisarts")
 					}
 					
 					HStack {
-						colorSample(theme.iconsPrimary, text: "Icons Primary")
-						colorSample(theme.iconsSecondary, text: "Icons Secondary")
-						colorSample(theme.linesPrimary, text: "Lines Primary")
+						colorSample(theme.tandarts, text: "Tandarts")
+						colorSample(theme.ggz, text: "GGZ")
+						colorSample(theme.fysiotherapeut, text: "Fysiotherapeut")
 					}
 					
 					HStack {
-						colorSample(theme.linesSecondary, text: "Lines Secondary")
-						colorSample(theme.actionBorder, text: "Action Border")
-						colorSample(theme.actionPrimary, text: "Action Primary")
-					}
-					
-					HStack {
-						colorSample(theme.actionSecondary, text: "Action Secondary")
-						colorSample(theme.actionTertiary, text: "Action Tertiary")
-						colorSample(theme.actionPrimaryText, text: "Action Primary Text")
-					}
-					
-					HStack {
-						colorSample(theme.actionSecondaryText, text: "Action Secondary Text")
-						colorSample(theme.actionPrimaryHover, text: "Action Primary Hover")
-						colorSample(theme.actionSecondaryHover, text: "Action Secondary Hover")
+						colorSample(theme.verpleeghuis, text: "Verpleeghuis")
+						colorSample(theme.kliniek, text: "Kliniek")
+						colorSample(theme.overige, text: "Overige")
 					}
 					
 					HStack {
 						colorSample(theme.rijksLint, text: "Rijkslint")
-						colorSample(theme.notificationSuccess, text: "Notification Success")
-						colorSample(theme.notificationWarning, text: "Notification Warning")
-					}
-					
-					HStack {
-						colorSample(theme.notificationError, text: "Notification Error")
-						colorSample(theme.apotheek, text: "Apotheek")
-						colorSample(theme.ziekenhuis, text: "Ziekenhuis")
-					}
-					
-					HStack {
-						colorSample(theme.huisarts, text: "Huisarts")
-						colorSample(theme.tandarts, text: "Tandarts")
-						colorSample(theme.ggz, text: "GGZ")
-					}
-					
-					HStack {
-						colorSample(theme.fysiotherapeut, text: "Fysiotherapeut")
-						colorSample(theme.verpleeghuis, text: "Verpleeghuis")
-						colorSample(theme.kliniek, text: "Kliniek")
-					}
-					
-					HStack {
-						colorSample(theme.overige, text: "Overige")
 					}
 				}
 			}
@@ -100,10 +125,10 @@ struct ColorSampleView: View {
 			Rectangle()
 				.fill(color)
 				.border(.gray)
-				.frame(height: 60)
+				.frame(width: 120, height: 60)
 			Text(text)
 				.font(.footnote)
-				.frame(height: 40)
+				.frame(width: 120, height: 40)
 		}
 		.border(.gray)
 	}
