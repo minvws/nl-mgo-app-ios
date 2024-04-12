@@ -5,35 +5,37 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
+import RijksoverheidFont
+import SwiftUI
+import Theme
 
 /// A big blue call to action button
-struct CallToActionButton: View {
+public struct CallToActionButton: View {
 	
 	/// The key of the localized text to be displayed as title
-	var title: LocalizedStringKey
+	public var title: LocalizedStringKey
 	
 	/// The action to perform when the user presses the button
-	var action: (() -> Void)?
+	public var action: (() -> Void)?
 	
 	/// The button style (primary, secondary)
-	var style: Style
+	public var style: Style
 	
 	/// All possible styles
-	enum Style {
+	public enum Style {
 		case primary
 		case secondary
 	}
 	
 	/// Initializer
 	/// - Parameter title: The key of the localized text to be displayed as title
-	init(_ title: LocalizedStringKey, style: Style = .primary, action: ( () -> Void)? = nil) {
+	public init(_ title: LocalizedStringKey, style: Style = .primary, action: ( () -> Void)? = nil) {
 		self.title = title
 		self.style = style
 		self.action = action
 	}
 	
-	var body: some View {
+	public var body: some View {
 		
 		Button(
 			action: {

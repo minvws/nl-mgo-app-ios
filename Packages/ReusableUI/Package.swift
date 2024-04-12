@@ -15,6 +15,7 @@ let package = Package(
 	dependencies: [
 		// Internal
 		.package(name: "Theme", path: "../Theme"),
+		.package(name: "RijksoverheidFont", path: "../RijksoverheidFont"),
 		
 		// Testing:
 		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.15.4"),
@@ -28,6 +29,7 @@ let package = Package(
 			name: "ReusableUI",
 			dependencies: [
 				.product(name: "Theme", package: "Theme"),
+				.product(name: "RijksoverheidFont", package: "RijksoverheidFont"),
 			]
 		),
 		.testTarget(

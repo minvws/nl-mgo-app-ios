@@ -5,12 +5,11 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
+import RijksoverheidFont
+import SwiftUI
+import Theme
 
-struct PrimaryButtonStyle: ButtonStyle {
-
-	/// Color scheme (light, dark)
-	@Environment(\.colorScheme) var colorScheme
+struct SecondaryButtonStyle: ButtonStyle {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -33,10 +32,10 @@ struct PrimaryButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(colorScheme == .light ? theme.backgroundSecondary : theme.contentPrimary)
+			.foregroundColor(theme.actionTertiary)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.actionTertiary : theme.actionPrimary)
+			.background(configuration.isPressed ? theme.actionTertiary : theme.actionSecondary)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }
