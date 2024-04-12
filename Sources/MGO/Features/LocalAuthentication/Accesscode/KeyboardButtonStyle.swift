@@ -5,7 +5,9 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
+import RijksoverheidFont
+import SwiftUI
+import Theme
 
 struct KeyboardButtonStyle: ButtonStyle {
 

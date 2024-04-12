@@ -79,10 +79,10 @@ struct BackButtonStyle: ButtonStyle {
 	func getForeGroundStyle(configuration: Self.Configuration, colorScheme: ColorScheme) -> Color {
 		
 		switch (configuration.isPressed, colorScheme) {
-			case (true, .light): return theme.actionTertiary
-			case (true, .dark): return theme.actionSecondary
-			case (false, .light): return theme.actionPrimary
-			case (false, .dark): return theme.actionSecondary
+			case (true, .light): return theme.actionTertiary.opacity(0.75)
+			case (true, .dark): return theme.actionTertiary.opacity(0.75)
+			case (false, .light): return theme.actionTertiary
+			case (false, .dark): return theme.actionTertiary
 			case (_, _):
 				logWarning("Unhandled case for back button style")
 		}

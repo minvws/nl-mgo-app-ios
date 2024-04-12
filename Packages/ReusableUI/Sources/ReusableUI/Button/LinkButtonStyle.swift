@@ -5,24 +5,26 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
+import RijksoverheidFont
+import SwiftUI
+import Theme
 
-struct LinkButtonStyle: ButtonStyle {
-	
-	/// Is the button enabled?
-	@Environment(\.isEnabled) private var isEnabled: Bool
-	
+public struct LinkButtonStyle: ButtonStyle {
+		
 	/// The Theme
-	@Environment(\.theme) var theme
+	@Environment(\.theme) private var theme
+	
+	/// Initializer
+	public init() {}
 
 	/// Style the button to a primary button
 	/// - Parameter configuration: the button configuration
 	/// - Returns: primary button
-	func makeBody(configuration: Self.Configuration) -> some View {
+	public func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundStyle(configuration.isPressed ? theme.actionSecondary : theme.actionTertiary)
+			.foregroundColor(configuration.isPressed ? theme.actionTertiary.opacity(0.75) : theme.actionTertiary)
 	}
 }

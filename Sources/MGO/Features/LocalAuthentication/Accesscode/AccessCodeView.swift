@@ -504,23 +504,25 @@ struct AccessCodeView: View {
 						
 						HStack(spacing: ViewTraits.General.spacing) {
 							
-							// The bioMetric key (face ID, touch ID or optic ID)
-							switch viewModel.state.bioMetricType {
-								case .none, .unknown:
-									Spacer()
-										.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
-								
-								case .touchID:
-									actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "accesscode_button_touchid")
-										.disabled(!viewModel.state.bioMetricEnabled)
-								
-								case .faceID:
-									actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "accesscode_button_faceid")
-										.disabled(!viewModel.state.bioMetricEnabled)
-								
-								case .opticID:
-									actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "accesscode_button_opticid")
-										.disabled(!viewModel.state.bioMetricEnabled)
+							if viewModel.state.bioMetricEnabled {
+								// The bioMetric key (face ID, touch ID or optic ID)
+								switch viewModel.state.bioMetricType {
+									case .none, .unknown:
+										Spacer()
+											.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
+										
+									case .touchID:
+										actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "accesscode_button_touchid")
+										
+									case .faceID:
+										actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "accesscode_button_faceid")
+										
+									case .opticID:
+										actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "accesscode_button_opticid")
+								}
+							} else {
+								Spacer()
+									.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
 							}
 							
 							digitButton(for: "0")
