@@ -45,9 +45,6 @@ struct PrivacyOverviewView: View {
 	/// The View Model
 	@StateObject var viewModel: PrivacyOverviewViewModel
 	
-	/// Color scheme (light, dark)
-	@Environment(\.colorScheme) var colorScheme
-	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
@@ -94,7 +91,7 @@ struct PrivacyOverviewView: View {
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.padding(.bottom, ViewTraits.General.padding)
 					.foregroundColor(theme.contentPrimary)
-					.tint(colorScheme == .light ? theme.actionTertiaryDefault : theme.actionSecondaryBackground)
+					.tint(theme.actionTertiaryDefault)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.environment(\.openURL, OpenURLAction { url in
 						// Catch the click on the privacy link
