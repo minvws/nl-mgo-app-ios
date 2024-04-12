@@ -45,6 +45,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: false,
+			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
 			messageType: .regular
@@ -73,6 +74,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: false,
+			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
 			messageType: .regular
@@ -103,6 +105,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: false,
+			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
 			messageType: .regular
@@ -134,6 +137,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: false,
+			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
 			messageType: .regular
@@ -166,6 +170,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: false,
+			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
 			messageType: .regular
@@ -204,6 +209,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: false,
+			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_tooweak_body",
 			messageType: .alert

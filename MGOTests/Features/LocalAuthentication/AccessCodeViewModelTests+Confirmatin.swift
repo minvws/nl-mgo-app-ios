@@ -45,6 +45,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: true,
+			backButtonKey: "accesscode_confirmation_backbutton",
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
 			messageType: .regular
@@ -73,6 +74,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: true,
+			backButtonKey: "accesscode_confirmation_backbutton",
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
 			messageType: .regular
@@ -103,6 +105,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: true,
+			backButtonKey: "accesscode_confirmation_backbutton",
 			title: "accesscode_confirmation_title",
 			message: "accesscode_mismatch_body",
 			messageType: .alert
@@ -139,6 +142,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: true,
+			backButtonKey: "accesscode_confirmation_backbutton",
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
 			messageType: .regular
@@ -176,6 +180,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: true,
+			backButtonKey: "accesscode_confirmation_backbutton",
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
 			messageType: .regular

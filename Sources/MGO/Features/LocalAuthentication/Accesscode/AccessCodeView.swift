@@ -29,6 +29,9 @@ struct AccessCodeViewState: Equatable {
 	/// Is the back visible?
 	var backButtonVisible: Bool = false
 	
+	/// The key for the back button text
+	var backButtonKey: LocalizedStringKey
+	
 	/// Do we show the forgot access code button?
 	var forgotCodeButtonVisible: Bool = false
 	
@@ -74,7 +77,7 @@ class AccessCodeViewModel: ObservableObject {
 	private var numberOfDigits: Int = 5
 	
 	/// The state of the view
-	@Published var state: AccessCodeViewState = AccessCodeViewState(title: "", message: "")
+	@Published var state: AccessCodeViewState = AccessCodeViewState(backButtonKey: "", title: "", message: "")
 	
 	/// Tha strenth validator for the access code
 	private var strengthMeter: AccessCodeStrengthValidation
@@ -152,6 +155,7 @@ class AccessCodeViewModel: ObservableObject {
 		state.bioMetricEnabled = false
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = false
+		state.backButtonKey = ""
 		if tooWeak {
 			// Setup for access code is too weak
 			state.title = "accesscode_create_title"
@@ -173,6 +177,7 @@ class AccessCodeViewModel: ObservableObject {
 		state.bioMetricEnabled = false
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = true
+		state.backButtonKey = "accesscode_confirmation_backbutton"
 		if confirmationMismatch {
 			// Setup for access codes do not match
 			state.title = "accesscode_confirmation_title"
@@ -194,6 +199,7 @@ class AccessCodeViewModel: ObservableObject {
 		state.bioMetricEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = true
+		state.backButtonKey = "general_previous"
 		state.forgotCodeButtonVisible = true
 		if validationMismatch {
 			// Setup for access codes do not match
@@ -539,7 +545,7 @@ struct AccessCodeView: View {
 		.navigationBarBackButtonHidden(true)
 		.if(viewModel.state.backButtonVisible) { view in
 			// Show the backbutton
-			view.navigationBarItems(leading: BackButton("general_previous") {
+			view.navigationBarItems(leading: BackButton(viewModel.state.backButtonKey) {
 				viewModel.reduce(.backButtonPressed)
 			})
 		}

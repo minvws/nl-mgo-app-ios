@@ -48,6 +48,17 @@
         }
       }
     },
+    "accesscode_confirmation_backbutton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aanpassen"
+          }
+        }
+      }
+    },
     "accesscode_confirmation_body" : {
       "extractionState" : "manual",
       "localizations" : {
