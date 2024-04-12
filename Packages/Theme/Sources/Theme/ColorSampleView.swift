@@ -47,30 +47,40 @@ struct ColorSampleView: View {
 					HStack {
 						colorSample(theme.actionSecondary, text: "Action Secondary")
 						colorSample(theme.actionTertiary, text: "Action Tertiary")
-						colorSample(theme.rijksLint, text: "Rijkslint")
+						colorSample(theme.actionPrimaryText, text: "Action Primary Text")
 					}
 					
 					HStack {
+						colorSample(theme.actionSecondaryText, text: "Action Secondary Text")
+						colorSample(theme.actionPrimaryHover, text: "Action Primary Hover")
+						colorSample(theme.actionSecondaryHover, text: "Action Secondary Hover")
+					}
+					
+					HStack {
+						colorSample(theme.rijksLint, text: "Rijkslint")
 						colorSample(theme.notificationSuccess, text: "Notification Success")
 						colorSample(theme.notificationWarning, text: "Notification Warning")
-						colorSample(theme.notificationError, text: "Notification Error")
 					}
 					
 					HStack {
+						colorSample(theme.notificationError, text: "Notification Error")
 						colorSample(theme.apotheek, text: "Apotheek")
 						colorSample(theme.ziekenhuis, text: "Ziekenhuis")
-						colorSample(theme.huisarts, text: "Huisarts")
 					}
 					
 					HStack {
+						colorSample(theme.huisarts, text: "Huisarts")
 						colorSample(theme.tandarts, text: "Tandarts")
 						colorSample(theme.ggz, text: "GGZ")
-						colorSample(theme.fysiotherapeut, text: "Fysiotherapeut")
 					}
 					
 					HStack {
+						colorSample(theme.fysiotherapeut, text: "Fysiotherapeut")
 						colorSample(theme.verpleeghuis, text: "Verpleeghuis")
 						colorSample(theme.kliniek, text: "Kliniek")
+					}
+					
+					HStack {
 						colorSample(theme.overige, text: "Overige")
 					}
 				}

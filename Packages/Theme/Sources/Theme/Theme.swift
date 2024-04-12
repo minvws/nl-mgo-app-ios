@@ -34,11 +34,18 @@ public class Theme: Themeable {
 	@Published public var linesSecondary: Color = Color("linesSecondary", bundle: .module)
 	@Published public var actionBorder: Color = Color("actionBorder", bundle: .module)
 	
-	// MARK: - Support -
+	// MARK: - Action -
 	
 	@Published public var actionPrimary: Color = Color("actionPrimary", bundle: .module)
 	@Published public var actionSecondary: Color = Color("actionSecondary", bundle: .module)
 	@Published public var actionTertiary: Color = Color("actionTertiary", bundle: .module)
+	@Published public var actionPrimaryText: Color = Color("actionPrimaryText", bundle: .module)
+	@Published public var actionSecondaryText: Color = Color("actionSecondaryText", bundle: .module)
+	@Published public var actionPrimaryHover: Color = Color("actionPrimaryHover", bundle: .module)
+	@Published public var actionSecondaryHover: Color = Color("actionSecondaryHover", bundle: .module)
+	
+	// MARK: - Support -
+	
 	@Published public var rijksLint: Color = Color("rijkslint", bundle: .module)
 	@Published public var notificationSuccess: Color = Color("notificationSuccess", bundle: .module)
 	@Published public var notificationWarning: Color = Color("notificationWarning", bundle: .module)

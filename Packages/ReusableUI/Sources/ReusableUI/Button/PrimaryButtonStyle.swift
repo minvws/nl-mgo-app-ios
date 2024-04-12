@@ -10,9 +10,6 @@ import SwiftUI
 import Theme
 
 struct PrimaryButtonStyle: ButtonStyle {
-
-	/// Color scheme (light, dark)
-	@Environment(\.colorScheme) var colorScheme
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -35,10 +32,10 @@ struct PrimaryButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(colorScheme == .light ? theme.backgroundSecondary : theme.contentPrimary)
+			.foregroundColor(theme.actionPrimaryText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.actionTertiary : theme.actionPrimary)
+			.background(configuration.isPressed ? theme.actionPrimaryHover : theme.actionPrimary)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }
