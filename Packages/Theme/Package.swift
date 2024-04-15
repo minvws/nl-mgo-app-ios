@@ -19,7 +19,9 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "Theme"),
+			name: "Theme",
+			resources: [.process("Resources")]
+		),
 		.testTarget(
 			name: "ThemeTests",
 			dependencies: [
