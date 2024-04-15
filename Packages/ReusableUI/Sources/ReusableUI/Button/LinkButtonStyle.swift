@@ -10,13 +10,13 @@ import SwiftUI
 import Theme
 
 public struct LinkButtonStyle: ButtonStyle {
-		
+	
 	/// The Theme
 	@Environment(\.theme) private var theme
 	
 	/// Initializer
 	public init() {}
-
+	
 	/// Style the button to a primary button
 	/// - Parameter configuration: the button configuration
 	/// - Returns: primary button
