@@ -14,7 +14,7 @@ let package = Package(
 		)
 	],
 	dependencies: [
-		.package(url: "https://github.com/Quick/Nimble", from: "13.2.1")
+		.package(url: "https://github.com/Quick/Nimble", from: "13.3.0")
 	],
 	targets: [
 		.target(name: "RestrictedBrowser"),
