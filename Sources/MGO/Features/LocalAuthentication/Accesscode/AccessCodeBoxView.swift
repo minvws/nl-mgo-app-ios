@@ -31,11 +31,33 @@ struct AccessCodeBoxView: View {
 	
 	/// All posible states of the box
 	enum State {
+		// The box is empty.
 		case empty
+		// The box has focus, ready for input
 		case focus
+		// The user has just entered input
 		case filling
+		// The box is filled
 		case filled
+		// The box is filled, but with an invalid code
 		case error
+		
+		/// Get the voice over value
+		/// - Returns: the voice over value
+		func accessibilityVoiceOverValue() -> String {
+			switch self {
+				case .empty:
+					String(localized: "acccescode_box_voiceover_empty")
+				case .focus:
+					String(localized: "acccescode_box_voiceover_focus")
+				case .filling:
+					String(localized: "acccescode_box_voiceover_filled")
+				case .filled:
+					String(localized: "acccescode_box_voiceover_filled")
+				case .error:
+					String(localized: "acccescode_box_voiceover_error")
+			}
+		}
 	}
 	
 	/// The state of the box
@@ -59,6 +81,7 @@ struct AccessCodeBoxView: View {
 		}
 	}
 	
+	/// The height of the border for the various states
 	var height: CGFloat {
 		switch state {
 			case .empty, .filled, .error: ViewTraits.Box.height

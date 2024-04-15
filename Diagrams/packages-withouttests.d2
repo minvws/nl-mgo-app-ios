@@ -17,6 +17,10 @@ Foundation: {
   shape: oval
   style.fill: "#8FCAE7"
 }
+CommonCrypto: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 CoreGraphics: {
   shape: oval
   style.fill: "#8FCAE7"
@@ -66,6 +70,9 @@ MGOUI <- SwiftUI
 
 Managers { style.fill: "#ffcc00" }
 Managers <- FHIRClient
+Managers <- UIKit
+Managers <- Foundation
+Managers <- CommonCrypto
 
 RijksoverheidFont { style.fill: "#ffcc00" }
 RijksoverheidFont <- CoreGraphics
@@ -80,6 +87,7 @@ ReusableUI <- Theme
 
 FHIRClient { style.fill: "#ffcc00" }
 FHIRClient <- FHIRModels
+FHIRClient <- Foundation
 
 RestrictedBrowser { style.fill: "#ffcc00" }
 RestrictedBrowser <- SwiftUI

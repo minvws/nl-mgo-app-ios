@@ -42,7 +42,7 @@ final class AccessCodeViewTests: XCTestCase {
 
 	// MARK: - Creation Mode -
 	
-	func test_creation_noBioMetric_lightMode() {
+	func test_creation_noBioMetric() {
 		
 		// Given
 		let sut = createSut(mode: .creation, bioMetricType: { .none })
@@ -54,7 +54,7 @@ final class AccessCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_creation_touch() {
+	func test_creation_touch() throws {
 		
 		// Given
 		let sut = createSut(mode: .creation, bioMetricType: { .touchID })
@@ -64,6 +64,14 @@ final class AccessCodeViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
+		for index in 1...5 {
+			let label = try sut.inspect().find(viewWithAccessibilityIdentifier: "box \(index)").accessibilityLabel().string()
+			if index == 1 {
+				expect(label) == "Veld \(index) van 5, Actief"
+			} else {
+				expect(label) == "Veld \(index) van 5, Leeg"
+			}
+		}
 	}
 	
 	func test_creation_face() {
@@ -102,6 +110,16 @@ final class AccessCodeViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
+		for index in 1...5 {
+			let label = try sut.inspect().find(viewWithAccessibilityIdentifier: "box \(index)").accessibilityLabel().string()
+			if index < 3 {
+				expect(label) == "Veld \(index) van 5, Gevuld"
+			} else if index == 3 {
+				expect(label) == "Veld \(index) van 5, Actief"
+			} else {
+				expect(label) == "Veld \(index) van 5, Leeg"
+			}
+		}
 	}
 	
 	func test_creation_touch_fourDigits() throws {
@@ -118,6 +136,14 @@ final class AccessCodeViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
+		for index in 1...5 {
+			let label = try sut.inspect().find(viewWithAccessibilityIdentifier: "box \(index)").accessibilityLabel().string()
+			if index == 5 {
+				expect(label) == "Veld \(index) van 5, Actief"
+			} else {
+				expect(label) == "Veld \(index) van 5, Gevuld"
+			}
+		}
 	}
 	
 	func test_creation_touch_fiveDigits_tooWeak() throws {
@@ -136,6 +162,10 @@ final class AccessCodeViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
+		for index in 1...5 {
+			let label = try sut.inspect().find(viewWithAccessibilityIdentifier: "box \(index)").accessibilityLabel().string()
+			expect(label) == "Veld \(index) van 5, Foutief"
+		}
 	}
 	
 	// MARK: - Confirmation Mode -

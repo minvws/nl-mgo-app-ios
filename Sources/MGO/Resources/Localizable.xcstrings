@@ -4,18 +4,84 @@
     "[%@](/privacystatement)" : {
 
     },
-    "accesscode_button_erase" : {
+    "acccescode_box_voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wis"
+            "value" : "Veld %@ van %@, %@"
           }
         }
       }
     },
-    "accesscode_button_faceid" : {
+    "acccescode_box_voiceover_emptied" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geleegd"
+          }
+        }
+      }
+    },
+    "acccescode_box_voiceover_empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leeg"
+          }
+        }
+      }
+    },
+    "acccescode_box_voiceover_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foutief"
+          }
+        }
+      }
+    },
+    "acccescode_box_voiceover_filled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gevuld"
+          }
+        }
+      }
+    },
+    "acccescode_box_voiceover_focus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actief"
+          }
+        }
+      }
+    },
+    "accesscode_button_accessibility_erase" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leeg"
+          }
+        }
+      }
+    },
+    "accesscode_button_accessibility_faceid" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -26,7 +92,7 @@
         }
       }
     },
-    "accesscode_button_opticid" : {
+    "accesscode_button_accessibility_opticid" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -37,7 +103,7 @@
         }
       }
     },
-    "accesscode_button_touchid" : {
+    "accesscode_button_accessibility_touchid" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -312,6 +378,50 @@
         }
       }
     },
+    "biometric_lockout_body_faceid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FaceID is vergrendeld omdat er te veel mislukte pogingen waren."
+          }
+        }
+      }
+    },
+    "biometric_lockout_body_opticid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OpticID is vergrendeld omdat er te veel mislukte pogingen waren."
+          }
+        }
+      }
+    },
+    "biometric_lockout_body_touchid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TouchID is vergrendeld omdat er te veel mislukte pogingen waren."
+          }
+        }
+      }
+    },
+    "biometric_lockout_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lockout"
+          }
+        }
+      }
+    },
     "biometric_opticid" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -366,13 +476,13 @@
         }
       }
     },
-    "forgot_action_digid" : {
+    "forgot_action_reset" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met DigiD"
+            "value" : "Maak een nieuw account"
           }
         }
       }
@@ -383,7 +493,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt helaas geen nieuwe toegangscode aanmaken. Je kunt wel een nieuw account aanmaken. Log hiervoor opnieuw in met DigiD."
+            "value" : "Je kunt helaas niet meer met je oude toegangscode inloggen. Je kunt wel een nieuw account aanmaken. Maak een nieuwe toegangscode en log daarna opnieuw in met DigiD."
           }
         }
       }

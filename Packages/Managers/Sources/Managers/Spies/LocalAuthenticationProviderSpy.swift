@@ -29,10 +29,12 @@ public class LocalAuthenticationProviderSpy: LocalAuthenticationProviderProtocol
 	public var stubbedLocalAuthenticationError: LocalAuthenticationError?
 
 	public func authenticate(localizedReason: String, localizedFallbackTitle: String) async throws -> Bool {
-		invokedAuthenticate = true
-		invokedAuthenticateCount += 1
-		invokedAuthenticateParameters = (localizedReason, ())
-		invokedAuthenticateParametersList.append((localizedReason, ()))
+		DispatchQueue.global(qos: .userInitiated).async {
+			self.invokedAuthenticate = true
+			self.invokedAuthenticateCount += 1
+			self.invokedAuthenticateParameters = (localizedReason, ())
+			self.invokedAuthenticateParametersList.append((localizedReason, ()))
+		}
 		if let error = stubbedLocalAuthenticationError {
 			throw error
 		}

@@ -48,7 +48,8 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			backButtonKey: "accesscode_confirmation_backbutton",
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
@@ -64,6 +65,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount) == 0
 	}
 	
 	func test_confirmation_touch_twoDigits() {
@@ -77,7 +79,8 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			backButtonKey: "accesscode_confirmation_backbutton",
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
@@ -95,6 +98,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(2))
 	}
 	
 	func test_confirmation_touch_fiveDigits_accessCodeMisMatch() {
@@ -108,7 +112,8 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			backButtonKey: "accesscode_confirmation_backbutton",
 			title: "accesscode_confirmation_title",
 			message: "accesscode_mismatch_body",
-			messageType: .alert
+			messageType: .alert,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .error),
@@ -132,6 +137,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 		expect(self.sut.boxStates) == expectedBoxState
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beFalse())
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(6))
 	}
 	
 	func test_confirmation_touch_fiveDigits_accessCodeOk() {
@@ -145,7 +151,8 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			backButtonKey: "accesscode_confirmation_backbutton",
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
@@ -170,6 +177,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == "01234"
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeConfirmed))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(5))
 	}
 	
 	func test_confirmation_touch_backButtonPressed() {
@@ -183,7 +191,8 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 			backButtonKey: "accesscode_confirmation_backbutton",
 			title: "accesscode_confirmation_title",
 			message: "accesscode_confirmation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),

@@ -48,7 +48,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
@@ -64,6 +65,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount) == 0
 	}
 	
 	func test_creation_touch_twoDigits() {
@@ -77,7 +79,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
@@ -95,6 +98,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(2))
 	}
 	
 	func test_creation_touch_twoDigits_eraseButtonPressed() {
@@ -108,7 +112,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
@@ -127,6 +132,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(3))
 	}
 	
 	func test_creation_touch_fourDigits() {
@@ -140,7 +146,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
@@ -160,6 +167,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(4))
 	}
 	
 	func test_creation_touch_fiveDigits_accessCodeOK() {
@@ -173,7 +181,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_create_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
@@ -199,6 +208,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeEntered))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(5))
 	}
 	
 	func test_creation_touch_fiveDigits_accessCodeTooWeak() {
@@ -212,7 +222,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "accesscode_create_title",
 			message: "accesscode_tooweak_body",
-			messageType: .alert
+			messageType: .alert,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = [
 			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .error),
@@ -237,5 +248,6 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedTempAccessCode) == nil
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beFalse())
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(6))
 	}
 }

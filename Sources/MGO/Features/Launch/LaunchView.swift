@@ -131,7 +131,7 @@ struct LaunchView: View {
 					
 					Text("app_title")
 						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-						.foregroundColor(theme.contentPrimary)
+						.foregroundStyle(theme.contentPrimary)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 						.accessibilityAddTraits(.isHeader)
 						.multilineTextAlignment(.center)
@@ -143,7 +143,7 @@ struct LaunchView: View {
 						ProgressView("launch_loading")
 							.tint(theme.actionPrimaryBackground)
 							.rijksoverheidStyle(font: .regular, style: .callout)
-							.foregroundColor(theme.contentPrimary)
+							.foregroundStyle(theme.contentPrimary)
 							.padding(.bottom, ViewTraits.Spinner.bottomOffset - geometry.safeAreaInsets.bottom)
 					}
 				}

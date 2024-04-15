@@ -41,11 +41,11 @@ final class ForgotAccessCodeViewTests: XCTestCase {
 		// Given
 		
 		// When
-		try sut.inspect().find(viewWithTag: "forgot_action_digid").button().tap()
+		try sut.inspect().find(viewWithTag: "forgot_action_reset").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.remoteAuthentication
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.recreateAccount
 	}
 	
 	// MARK: - Snapshots -

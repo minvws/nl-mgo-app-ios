@@ -1,0 +1,41 @@
+{
+  "pins" : [
+    {
+      "identity" : "appauth-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Rool/AppAuth-iOS",
+      "state" : {
+        "branch" : "feature/custom-url-support",
+        "revision" : "bbb95f33b4169a57039d59a9cc0cf90e61c51035"
+      }
+    },
+    {
+      "identity" : "fhirmodels",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/FHIRModels",
+      "state" : {
+        "revision" : "861afd5816a98d38f86220eab2f812d76cad84a0",
+        "version" : "0.5.0"
+      }
+    },
+    {
+      "identity" : "nl-rdo-app-ios-modules",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/minvws/nl-rdo-app-ios-modules",
+      "state" : {
+        "branch" : "main",
+        "revision" : "798921058cdf099fac1d9a024249ce6d13e1ad30"
+      }
+    },
+    {
+      "identity" : "openssl",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/OpenSSL",
+      "state" : {
+        "revision" : "1538e4a520e0ab67fba9a26859f292deac6381de",
+        "version" : "3.1.5000"
+      }
+    }
+  ],
+  "version" : 2
+}

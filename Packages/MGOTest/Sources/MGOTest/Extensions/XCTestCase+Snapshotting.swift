@@ -27,7 +27,7 @@ extension XCTestCase {
 	///   - file: the file
 	public func takeSnapShots(content: some View, name: String = #function, precision: Float = 0.98, file: StaticString = #file) {
 		
-		// Dark Mode
+		// Dark Mode & Portrait orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPhone15Pro(.portrait), precision: precision),
@@ -36,7 +36,7 @@ extension XCTestCase {
 			testName: name
 		)
 		
-		// Light Mode
+		// Light Mode & Portrait orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPhone15Pro(.portrait), precision: precision),
@@ -45,6 +45,7 @@ extension XCTestCase {
 			testName: name
 		)
 		
+		// Dark Mode & Landscape orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPhone15Pro(.landscape), precision: precision),
@@ -53,6 +54,7 @@ extension XCTestCase {
 			testName: name
 		)
 		
+		// Light Mode & Landscape orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPhone15Pro(.landscape), precision: precision),

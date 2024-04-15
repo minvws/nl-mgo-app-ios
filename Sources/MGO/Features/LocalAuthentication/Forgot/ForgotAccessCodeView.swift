@@ -16,7 +16,7 @@ class ForgotAccessCodeViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case cancelButtonPressed
-		case loginWithDigiD
+		case recreateAccount
 	}
 	
 	/// Initialzier
@@ -32,8 +32,8 @@ class ForgotAccessCodeViewModel: ObservableObject {
 		switch action {
 			case .cancelButtonPressed:
 				coordinator?.handle(.dismissForgotAccessCode)
-			case .loginWithDigiD:
-				coordinator?.handle(.remoteAuthentication)
+			case .recreateAccount:
+				coordinator?.handle(.recreateAccount)
 		}
 	}
 }
@@ -86,10 +86,10 @@ struct ForgotAccessCodeView: View {
 					}
 					.tag("general_cancel")
 					
-					CallToActionButton("forgot_action_digid") {
-						viewModel.reduce(.loginWithDigiD)
+					CallToActionButton("forgot_action_reset") {
+						viewModel.reduce(.recreateAccount)
 					}
-					.tag("forgot_action_digid")
+					.tag("forgot_action_reset")
 				}
 				.padding(ViewTraits.Button.insets)
 			}
