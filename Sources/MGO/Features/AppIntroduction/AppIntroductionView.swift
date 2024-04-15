@@ -91,7 +91,7 @@ struct AppIntroductionView: View {
 					Spacer()
 				}
 				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.foregroundColor(Color.Styleguide.black)
+				.foregroundStyle(Color.Styleguide.black)
 				.onRotate { newOrientation in
 					
 					// Always show on iPad

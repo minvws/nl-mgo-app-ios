@@ -5,12 +5,12 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import Foundation
+import UIKit
 
 public class NotificationCenterSpy: NotificationCenterProtocol {
-	
-	public init() {}
 
+	public init() {}
+	
 	public var invokedAddObserverSelector = false
 	public var invokedAddObserverSelectorCount = 0
 	public var invokedAddObserverSelectorParameters: (observer: Any, aSelector: Selector, aName: NSNotification.Name?, anObject: Any?)?
@@ -51,28 +51,28 @@ public class NotificationCenterSpy: NotificationCenterProtocol {
 		return stubbedAddObserverForNameResult
 	}
 
-	public var invokedPost = false
-	public var invokedPostCount = 0
-	public var invokedPostParameters: (aName: NSNotification.Name, anObject: Any?)?
-	public var invokedPostParametersList = [(aName: NSNotification.Name, anObject: Any?)]()
-
-	public func post(name aName: NSNotification.Name, object anObject: Any?) {
-		invokedPost = true
-		invokedPostCount += 1
-		invokedPostParameters = (aName, anObject)
-		invokedPostParametersList.append((aName, anObject))
-	}
-
 	public var invokedPostName = false
 	public var invokedPostNameCount = 0
-	public var invokedPostNameParameters: (aName: NSNotification.Name, anObject: Any?, aUserInfo: [AnyHashable: Any]?)?
-	public var invokedPostNameParametersList = [(aName: NSNotification.Name, anObject: Any?, aUserInfo: [AnyHashable: Any]?)]()
+	public var invokedPostNameParameters: (aName: NSNotification.Name, anObject: Any?)?
+	public var invokedPostNameParametersList = [(aName: NSNotification.Name, anObject: Any?)]()
 
-	public func post(name aName: NSNotification.Name, object anObject: Any?, userInfo aUserInfo: [AnyHashable: Any]?) {
+	public func post(name aName: NSNotification.Name, object anObject: Any?) {
 		invokedPostName = true
 		invokedPostNameCount += 1
-		invokedPostNameParameters = (aName, anObject, aUserInfo)
-		invokedPostNameParametersList.append((aName, anObject, aUserInfo))
+		invokedPostNameParameters = (aName, anObject)
+		invokedPostNameParametersList.append((aName, anObject))
+	}
+
+	public var invokedPostNameObject = false
+	public var invokedPostNameObjectCount = 0
+	public var invokedPostNameObjectParameters: (aName: NSNotification.Name, anObject: Any?, aUserInfo: [AnyHashable: Any]?)?
+	public var invokedPostNameObjectParametersList = [(aName: NSNotification.Name, anObject: Any?, aUserInfo: [AnyHashable: Any]?)]()
+
+	public func post(name aName: NSNotification.Name, object anObject: Any?, userInfo aUserInfo: [AnyHashable: Any]?) {
+		invokedPostNameObject = true
+		invokedPostNameObjectCount += 1
+		invokedPostNameObjectParameters = (aName, anObject, aUserInfo)
+		invokedPostNameObjectParametersList.append((aName, anObject, aUserInfo))
 	}
 
 	public var invokedRemoveObserver = false
@@ -85,5 +85,17 @@ public class NotificationCenterSpy: NotificationCenterProtocol {
 		invokedRemoveObserverCount += 1
 		invokedRemoveObserverParameters = (observer, ())
 		invokedRemoveObserverParametersList.append((observer, ()))
+	}
+
+	public var invokedPostNotification = false
+	public var invokedPostNotificationCount = 0
+	public var invokedPostNotificationParameters: (notification: UIAccessibility.Notification, argument: Any?)?
+	public var invokedPostNotificationParametersList = [(notification: UIAccessibility.Notification, argument: Any?)]()
+
+	public func post(notification: UIAccessibility.Notification, argument: Any?) {
+		invokedPostNotification = true
+		invokedPostNotificationCount += 1
+		invokedPostNotificationParameters = (notification, argument)
+		invokedPostNotificationParametersList.append((notification, argument))
 	}
 }

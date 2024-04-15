@@ -40,6 +40,9 @@ struct AccessCodeViewState: Equatable {
 	
 	/// Is this message a regular message, or should we show an alert icon?
 	var messageType: MessageType = .regular
+	
+	/// Should we show the popup when biomertric access is locked out?
+	var showLockoutPopup: Bool = false
 }
 
 class AccessCodeViewModel: ObservableObject {
@@ -55,6 +58,12 @@ class AccessCodeViewModel: ObservableObject {
 		
 		var id: Int
 		var state: AccessCodeBoxView.State
+		
+		func accessibilityLabel(index: Int, count: Int) -> String {
+			
+			return String(format: String(localized: "acccescode_box_voiceover"), arguments: ["\(index)", "\(count)", state.accessibilityVoiceOverValue()]
+			)
+		}
 	}
 	
 	/// A list of all the actions this viewModel can handle
@@ -108,6 +117,10 @@ class AccessCodeViewModel: ObservableObject {
 	
 	/// Initialzier
 	/// - Parameter pinLimit: the pinLimt
+	/// - Parameter coordinator: the coordinator
+	/// - Parameter mode: Which mode should we run in? Creation, Confirmation, Validation?
+	/// - Parameter bioMetricType: Whick biometric type should we run in? TouchId , FaceId, Optic Id, none?
+	/// - Parameter strengthMeter: Access code strenght meter
 	init(
 		coordinator: (any AppCoordinatorProtocol)?,
 		mode: AccessCodeMode,
@@ -126,6 +139,7 @@ class AccessCodeViewModel: ObservableObject {
 		updateState()
 	
 		// Setup the initial state for the boxes.
+		// First box is ready to receive input, the others are empty
 		boxStates.append(AccessCodeBoxState(id: 0, state: .focus))
 		for index in 1 ..< numberOfDigits {
 			boxStates.append(AccessCodeBoxState(id: index, state: .empty))
@@ -213,8 +227,10 @@ class AccessCodeViewModel: ObservableObject {
 	/// - Parameter message: the message to be announced (as a String)
 	func announce(_ message: String) {
 		
-		delay(0.5) {
-			UIAccessibility.post(notification: .announcement, argument: message)
+		logDebug("Announcing: \(message)")
+		
+		delay(0.25) {
+			Current.notificationCenter.post(notification: .announcement, argument: message)
 		}
 	}
 	
@@ -248,6 +264,17 @@ class AccessCodeViewModel: ObservableObject {
 			accessCode.append(value)
 			Haptic.light()
 			updateState()
+			
+			// Announce 'Field x from 5, filled'
+			let message = String(
+				format: String(localized: "acccescode_box_voiceover"),
+				arguments: [
+					"\(accessCode.count)",
+					"\(numberOfDigits)",
+					String(localized: "acccescode_box_voiceover_filled")
+				]
+			)
+			announce(message)
 		}
 		if accessCode.count == numberOfDigits {
 			updateState()
@@ -327,6 +354,16 @@ class AccessCodeViewModel: ObservableObject {
 	private func erasePressed() {
 		if accessCode.isNotEmpty {
 			accessCode = accessCode.dropLast()
+			// Announce 'Field x from 5, empty'
+			let message = String(
+				format: String(localized: "acccescode_box_voiceover"),
+				arguments: [
+					"\(accessCode.count + 1)",
+					"\(numberOfDigits)",
+					String(localized: "acccescode_box_voiceover_emptied")
+				]
+			)
+			announce(message)
 		}
 		updateState()
 	}
@@ -340,6 +377,7 @@ class AccessCodeViewModel: ObservableObject {
 	}
 	
 	@MainActor
+	/// Authenticate the user with biometrics
 	private func authenticate() async {
 		
 		do {
@@ -374,7 +412,8 @@ class AccessCodeViewModel: ObservableObject {
 			logWarning("User declined biometric access")
 			
 		} catch LocalAuthenticationError.lockout {
-			logWarning("BioMetric setup lockaout")
+			logWarning("BioMetric setup lockout")
+			state.showLockoutPopup = true
 			
 		} catch {
 			logError("error: \(error)")
@@ -476,6 +515,9 @@ struct AccessCodeView: View {
 					HStack(spacing: ViewTraits.Box.spacing) {
 						ForEach($viewModel.boxStates, id: \.self) { element in
 							AccessCodeBoxView(state: element.state)
+								.accessibilityHidden(false)
+								.accessibilityIdentifier("box \(element.id + 1)")
+								.accessibilityLabel(element.wrappedValue.accessibilityLabel(index: element.id + 1, count: viewModel.boxStates.count))
 						}
 					}
 					.padding(.bottom, ViewTraits.Box.bottomMargin)
@@ -508,21 +550,33 @@ struct AccessCodeView: View {
 										.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
 								
 								case .touchID:
-									actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "accesscode_button_touchid")
+									actionButton(
+										for: .biometricKeyPressed,
+										imageName: "touchid",
+										accessibilityLabel: "accesscode_button_accessibility_touchid")
 										.disabled(!viewModel.state.bioMetricEnabled)
 								
 								case .faceID:
-									actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "accesscode_button_faceid")
+									actionButton(
+										for: .biometricKeyPressed,
+										imageName: "faceid",
+										accessibilityLabel: "accesscode_button_accessibility_faceid")
 										.disabled(!viewModel.state.bioMetricEnabled)
 								
 								case .opticID:
-									actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "accesscode_button_opticid")
+									actionButton(
+										for: .biometricKeyPressed,
+										imageName: "opticid",
+										accessibilityLabel: "accesscode_button_accessibility_opticid")
 										.disabled(!viewModel.state.bioMetricEnabled)
 							}
 							
 							digitButton(for: "0")
 							// The erase button
-							actionButton(for: .erasePressed, imageName: "delete.backward", accessibilityLabel: "accesscode_button_erase")
+							actionButton(
+								for: .erasePressed,
+								imageName: "delete.backward",
+								accessibilityLabel: "accesscode_button_accessibility_erase")
 								.disabled(!viewModel.state.eraseEnabled)
 						}
 					}
@@ -549,6 +603,21 @@ struct AccessCodeView: View {
 			// And unlock the forced portrait mode on exit.
 			if UIDevice.current.userInterfaceIdiom == .phone {
 				OrientationUtility.unlockOrientation()
+			}
+		}
+		.alert("biometric_lockout_title", isPresented: $viewModel.state.showLockoutPopup) {
+			Button("general_ok") { }
+		} message: {
+			switch viewModel.state.bioMetricType {
+				case .none, .unknown:
+					// Should not happen
+					EmptyView()
+				case .touchID:
+					Text("biometric_lockout_body_touchid")
+				case .faceID:
+					Text("biometric_lockout_body_faceid")
+				case .opticID:
+					Text("biometric_lockout_body_opticid")
 			}
 		}
 	}

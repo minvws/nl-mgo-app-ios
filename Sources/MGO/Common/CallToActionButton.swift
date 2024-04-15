@@ -49,7 +49,6 @@ struct CallToActionButton: View {
 		.if(style == .secondary, transform: { button in
 			button.buttonStyle(SecondaryButtonStyle())
 		})
-		.hapticFeedback(.medium)
 	}
 }
 

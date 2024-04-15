@@ -65,7 +65,8 @@ final class AccessCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		
@@ -75,6 +76,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount) == 0
 	}
 	
 	func test_validation_touch_twoDigits() {
@@ -88,7 +90,8 @@ final class AccessCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.filled, .filling, .focus, .empty, .empty)
 		
@@ -100,6 +103,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(2))
 	}
 	
 	func test_validation_touch_fiveDigits_accessCodeMisMatch() {
@@ -113,7 +117,8 @@ final class AccessCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_wrong_body",
-			messageType: .alert
+			messageType: .alert,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
 		self.servicesSpies.secureUserSettingsSpy.stubbedAccessCode = "11111"
@@ -131,6 +136,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		expect(self.sut.boxStates) == expectedBoxState
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beFalse())
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(6))
 	}
 	
 	func test_validation_touch_fiveDigits_accessCodeOk() {
@@ -144,7 +150,8 @@ final class AccessCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.filled, .filled, .filled, .filled, .filling)
 		self.servicesSpies.secureUserSettingsSpy.stubbedAccessCode = "01234"
@@ -163,6 +170,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == true
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeValidated))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(5))
 	}
 	
 	func test_validation_biometricEnabled_authenticated() {
@@ -209,7 +217,8 @@ final class AccessCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
 		setupSut(mode: .validation, bioMetricType: { .touchID })
@@ -237,7 +246,8 @@ final class AccessCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
 		
@@ -266,7 +276,8 @@ final class AccessCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		
@@ -295,7 +306,8 @@ final class AccessCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		setupSut(mode: .validation, bioMetricType: { .touchID })
@@ -323,7 +335,8 @@ final class AccessCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		setupSut(mode: .validation, bioMetricType: { .touchID })
@@ -351,7 +364,8 @@ final class AccessCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "accesscode_validation_title",
 			message: "accesscode_validation_body",
-			messageType: .regular
+			messageType: .regular,
+			showLockoutPopup: true
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		setupSut(mode: .validation, bioMetricType: { .touchID })

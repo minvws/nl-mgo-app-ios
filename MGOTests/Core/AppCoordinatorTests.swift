@@ -207,48 +207,19 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.sheet) == nil
 	}
 	
-	func test_coordinatorHandle_remoteAuthentication_presentInStack() {
+	func test_coordinatorHandle_recreateAccount_presentInStack() {
 		
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.accessCodeValidation])
 		sut.sheet = AppCoordination.State.forgotAccessCode
 		
 		// When
-		sut.handle(AppCoordination.Action.remoteAuthentication)
+		sut.handle(AppCoordination.Action.recreateAccount)
 		
 		// Then
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedData) == true
 		expect(self.sut.sheet) == nil
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
-		expect(self.sut.path.count) == 1
-	}
-	
-	func test_coordinatorHandle_remoteAuthentication_notPresentInStack() {
-		
-		// Given
-		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeValidation])
-		sut.sheet = AppCoordination.State.forgotAccessCode
-		
-		// When
-		sut.handle(AppCoordination.Action.remoteAuthentication)
-		
-		// Then
-		expect(self.sut.sheet) == nil
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeValidation, AppCoordination.State.remoteAuthentication])
-		expect(self.sut.path.count) == 2
-	}
-	
-	func test_coordinatorHandle_remoteAuthentication_isStack() {
-		
-		// Given
-		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
-		sut.sheet = AppCoordination.State.forgotAccessCode
-		
-		// When
-		sut.handle(AppCoordination.Action.remoteAuthentication)
-		
-		// Then
-		expect(self.sut.sheet) == nil
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
 		expect(self.sut.path.count) == 1
 	}
 	
@@ -286,7 +257,7 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.path.isEmpty) == true
-		expect(self.servicesSpies.notificationCenterSpy.invokedPost) == true
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedDataCount) == 1
 	}
 	
@@ -408,7 +379,7 @@ final class AppCoordinatorTests: XCTestCase {
 	}
 	
 	func test_coordinatorView_forgotAccessCode() throws {
-
+		
 		// Given
 		let state = AppCoordination.State.forgotAccessCode
 		
