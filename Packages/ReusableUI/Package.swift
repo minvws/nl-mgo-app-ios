@@ -18,8 +18,8 @@ let package = Package(
 		.package(name: "RijksoverheidFont", path: "../RijksoverheidFont"),
 		
 		// Testing:
-		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.15.4"),
-		.package(url: "https://github.com/Quick/Nimble", exact: "13.2.1"),
+		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.16.0"),
+		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0"),
 		.package(url: "https://github.com/nalexn/ViewInspector", exact: "0.9.10")
 	],
 	targets: [
