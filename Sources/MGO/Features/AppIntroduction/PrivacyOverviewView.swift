@@ -45,8 +45,8 @@ struct PrivacyOverviewView: View {
 	/// The View Model
 	@StateObject var viewModel: PrivacyOverviewViewModel
 	
-	/// Color scheme (light, dark)
-	@Environment(\.colorScheme) var colorScheme
+	/// The Theme
+	@Environment(\.theme) var theme
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -61,7 +61,7 @@ struct PrivacyOverviewView: View {
 	var body: some View {
 		ZStack {
 			
-			Color.Styleguide.background
+			theme.backgroundPrimary
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			
@@ -71,7 +71,7 @@ struct PrivacyOverviewView: View {
 					
 					Text("privacyoverview_title")
 						.rijksoverheidStyle(font: .bold, style: .title)
-						.foregroundStyle(Color.Styleguide.black)
+						.foregroundStyle(theme.contentPrimary)
 						.padding(.bottom, ViewTraits.General.padding)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.accessibilityAddTraits(.isHeader)
@@ -90,8 +90,8 @@ struct PrivacyOverviewView: View {
 					}
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.padding(.bottom, ViewTraits.General.padding)
-					.foregroundStyle(Color.Styleguide.black)
-					.tint(colorScheme == .light ? Color.Styleguide.Blue.link : Color.Styleguide.Blue.skyBlueTint1)
+					.foregroundStyle(theme.contentPrimary)
+					.tint(theme.actionTertiaryDefault)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.environment(\.openURL, OpenURLAction { url in
 						// Catch the click on the privacy link

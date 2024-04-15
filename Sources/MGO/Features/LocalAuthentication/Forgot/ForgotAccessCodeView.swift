@@ -43,6 +43,9 @@ struct ForgotAccessCodeView: View {
 	/// The view model
 	@StateObject var viewModel: ForgotAccessCodeViewModel
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Title {
@@ -60,7 +63,7 @@ struct ForgotAccessCodeView: View {
 	var body: some View {
 		ZStack {
 			
-			Color.Styleguide.background
+			theme.backgroundPrimary
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			

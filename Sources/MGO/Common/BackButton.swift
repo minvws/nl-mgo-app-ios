@@ -64,27 +64,9 @@ struct BackButton: View {
 }
 
 struct BackButtonStyle: ButtonStyle {
-
-	/// Color scheme (light, dark)
-	@Environment(\.colorScheme) var colorScheme
 	
-	/// Get the foreground style for the appropriate settings
-	/// - Parameters:
-	///   - configuration: the configuration of the the button (isPressed)
-	///   - colorScheme: the color scheme (dark / light)
-	/// - Returns: Appropriate foreground color
-	func getForeGroundStyle(configuration: Self.Configuration, colorScheme: ColorScheme) -> Color {
-		
-		switch (configuration.isPressed, colorScheme) {
-			case (true, .light): return Color.Styleguide.Blue.darkBlue
-			case (true, .dark): return Color.Styleguide.Blue.skyBlueTint2
-			case (false, .light): return Color.Styleguide.Blue.skyBlue
-			case (false, .dark): return Color.Styleguide.Blue.skyBlueTint1
-			case (_, _):
-				logWarning("Unhandled case for back button style")
-		}
-		return Color.Styleguide.Blue.skyBlue
-	}
+	/// The Theme
+	@Environment(\.theme) var theme
 	
 	/// Style the button to a primary button
 	/// - Parameter configuration: the button configuration
@@ -92,6 +74,6 @@ struct BackButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.foregroundStyle(getForeGroundStyle(configuration: configuration, colorScheme: colorScheme))
+			.foregroundStyle(configuration.isPressed ? theme.actionTertiaryHover : theme.actionTertiaryDefault)
 	}
 }

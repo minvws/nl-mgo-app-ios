@@ -28,7 +28,7 @@ final class RijksoverheidFontTests: XCTestCase {
 				// When
 				let content = Text("Testing")
 					.rijksoverheidStyle(font: font, style: textStyle)
-					.foregroundStyle(.black)
+					.foregroundColor(.black)
 					.frame(width: 120, height: 50)
 	
 				// Then
@@ -52,7 +52,7 @@ final class RijksoverheidFontTests: XCTestCase {
 				// When
 				let content = Text("Testing")
 					.font(.RijksoverheidSansWebText.fixed(font, size: textStyle.pointSize))
-					.foregroundStyle(.black)
+					.foregroundColor(.black)
 					.frame(width: 120, height: 50)
 				
 				// Then

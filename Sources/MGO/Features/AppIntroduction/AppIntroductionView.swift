@@ -38,6 +38,9 @@ struct AppIntroductionView: View {
 	/// The view model
 	@StateObject var viewModel: AppIntroductionViewModel
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	/// Boolean to determine if the header image shoudl be shown (hidden in landscape)
 	@State var showImage = true
 	
@@ -64,7 +67,7 @@ struct AppIntroductionView: View {
 	var body: some View {
 		ZStack {
 			
-			Color.Styleguide.background
+			theme.backgroundPrimary
 				.ignoresSafeArea()
 			
 			ScrollViewWithFixedBottom(content: {
@@ -91,7 +94,7 @@ struct AppIntroductionView: View {
 					Spacer()
 				}
 				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.foregroundStyle(Color.Styleguide.black)
+				.foregroundStyle(theme.contentPrimary)
 				.onRotate { newOrientation in
 					
 					// Always show on iPad

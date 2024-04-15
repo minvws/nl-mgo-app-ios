@@ -13,6 +13,9 @@ let package = Package(
 			targets: ["ReusableUI"]),
 	],
 	dependencies: [
+		// Internal
+		.package(name: "Theme", path: "../Theme"),
+		.package(name: "RijksoverheidFont", path: "../RijksoverheidFont"),
 		
 		// Testing:
 		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.16.0"),
@@ -23,7 +26,12 @@ let package = Package(
 		// Targets are the basic building blocks of a package, defining a module or a test suite.
 		// Targets can depend on other targets in this package and products from dependencies.
 		.target(
-			name: "ReusableUI"),
+			name: "ReusableUI",
+			dependencies: [
+				.product(name: "Theme", package: "Theme"),
+				.product(name: "RijksoverheidFont", package: "RijksoverheidFont"),
+			]
+		),
 		.testTarget(
 			name: "ReusableUITests",
 			dependencies: [

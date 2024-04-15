@@ -23,7 +23,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		// Navigation bar
 		let appearance = UINavigationBarAppearance()
 		appearance.configureWithOpaqueBackground()
-		appearance.backgroundColor = UIColor(Color.Styleguide.background)
+		appearance.backgroundColor = UIColor(Theme().backgroundPrimary)
 		appearance.shadowColor = .clear
 		UINavigationBar.appearance().standardAppearance = appearance
 		UINavigationBar.appearance().compactAppearance = appearance

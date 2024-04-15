@@ -10,6 +10,9 @@ import MGOUI
 /// A view containing a privacy shield and a text (as localizesStringKey)
 struct PrivacyShieldView: View {
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 	
 	/// The possible shield images
@@ -66,7 +69,7 @@ struct PrivacyShieldView: View {
 			Text(title)
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.padding(.leading, ViewTraits.Text.leading)
-				.foregroundStyle(Color.Styleguide.black)
+				.foregroundStyle(theme.contentPrimary)
 		}
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.accessibilityElement(children: .combine)

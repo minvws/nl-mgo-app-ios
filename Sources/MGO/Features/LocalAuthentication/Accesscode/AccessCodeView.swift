@@ -29,6 +29,9 @@ struct AccessCodeViewState: Equatable {
 	/// Is the back visible?
 	var backButtonVisible: Bool = false
 	
+	/// The key for the back button text
+	var backButtonKey: LocalizedStringKey
+	
 	/// Do we show the forgot access code button?
 	var forgotCodeButtonVisible: Bool = false
 	
@@ -83,7 +86,7 @@ class AccessCodeViewModel: ObservableObject {
 	private var numberOfDigits: Int = 5
 	
 	/// The state of the view
-	@Published var state: AccessCodeViewState = AccessCodeViewState(title: "", message: "")
+	@Published var state: AccessCodeViewState = AccessCodeViewState(backButtonKey: "", title: "", message: "")
 	
 	/// Tha strenth validator for the access code
 	private var strengthMeter: AccessCodeStrengthValidation
@@ -166,6 +169,7 @@ class AccessCodeViewModel: ObservableObject {
 		state.bioMetricEnabled = false
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = false
+		state.backButtonKey = ""
 		if tooWeak {
 			// Setup for access code is too weak
 			state.title = "accesscode_create_title"
@@ -187,6 +191,7 @@ class AccessCodeViewModel: ObservableObject {
 		state.bioMetricEnabled = false
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = true
+		state.backButtonKey = "accesscode_confirmation_backbutton"
 		if confirmationMismatch {
 			// Setup for access codes do not match
 			state.title = "accesscode_confirmation_title"
@@ -208,6 +213,7 @@ class AccessCodeViewModel: ObservableObject {
 		state.bioMetricEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = true
+		state.backButtonKey = "general_previous"
 		state.forgotCodeButtonVisible = true
 		if validationMismatch {
 			// Setup for access codes do not match
@@ -426,6 +432,9 @@ struct AccessCodeView: View {
 	/// The view model
 	@StateObject var viewModel: AccessCodeViewModel
 	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Title {
@@ -455,7 +464,7 @@ struct AccessCodeView: View {
 	var body: some View {
 		ZStack {
 			
-			Color.Styleguide.background
+			theme.backgroundPrimary
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			
@@ -543,32 +552,26 @@ struct AccessCodeView: View {
 						
 						HStack(spacing: ViewTraits.General.spacing) {
 							
-							// The bioMetric key (face ID, touch ID or optic ID)
-							switch viewModel.state.bioMetricType {
-								case .none, .unknown:
-									Spacer()
-										.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
-								
-								case .touchID:
-									actionButton(
-										for: .biometricKeyPressed,
-										imageName: "touchid",
-										accessibilityLabel: "accesscode_button_accessibility_touchid")
-										.disabled(!viewModel.state.bioMetricEnabled)
-								
-								case .faceID:
-									actionButton(
-										for: .biometricKeyPressed,
-										imageName: "faceid",
-										accessibilityLabel: "accesscode_button_accessibility_faceid")
-										.disabled(!viewModel.state.bioMetricEnabled)
-								
-								case .opticID:
-									actionButton(
-										for: .biometricKeyPressed,
-										imageName: "opticid",
-										accessibilityLabel: "accesscode_button_accessibility_opticid")
-										.disabled(!viewModel.state.bioMetricEnabled)
+							if viewModel.state.bioMetricEnabled {
+								// The bioMetric key (face ID, touch ID or optic ID)
+								switch viewModel.state.bioMetricType {
+									case .none, .unknown:
+										Spacer()
+											.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
+										
+									case .touchID:
+										actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "accesscode_button_touchid")
+										
+									case .faceID:
+										actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "accesscode_button_faceid")
+										
+									case .opticID:
+										actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "accesscode_button_opticid")
+								}
+							} else {
+								Spacer()
+									.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
+
 							}
 							
 							digitButton(for: "0")
@@ -588,7 +591,7 @@ struct AccessCodeView: View {
 		.navigationBarBackButtonHidden(true)
 		.if(viewModel.state.backButtonVisible) { view in
 			// Show the backbutton
-			view.navigationBarItems(leading: BackButton("general_previous") {
+			view.navigationBarItems(leading: BackButton(viewModel.state.backButtonKey) {
 				viewModel.reduce(.backButtonPressed)
 			})
 		}

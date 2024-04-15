@@ -76,7 +76,11 @@ class LaunchViewModel: ObservableObject {
 
 struct LaunchView: View {
 	
+	/// The View Model
 	@StateObject var viewModel: LaunchViewModel
+	
+	/// The Theme
+	@Environment(\.theme) var theme
 	
 	@State private var rijkslintTopOffset: CGFloat = 0
 	@State private var spinnerBottomPadding: CGFloat = 0
@@ -117,7 +121,7 @@ struct LaunchView: View {
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
-				Color.Styleguide.background
+				theme.backgroundPrimary
 					.ignoresSafeArea()
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
 				VStack {
@@ -127,7 +131,7 @@ struct LaunchView: View {
 					
 					Text("app_title")
 						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-						.foregroundStyle(Color.Styleguide.black)
+						.foregroundStyle(theme.contentPrimary)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 						.accessibilityAddTraits(.isHeader)
 						.multilineTextAlignment(.center)
@@ -137,9 +141,9 @@ struct LaunchView: View {
 					Spacer()
 					if viewModel.state == .loadingConfig {
 						ProgressView("launch_loading")
-							.tint(Color.Styleguide.Blue.skyBlue)
+							.tint(theme.actionPrimaryBackground)
 							.rijksoverheidStyle(font: .regular, style: .callout)
-							.foregroundStyle(Color.Styleguide.black)
+							.foregroundStyle(theme.contentPrimary)
 							.padding(.bottom, ViewTraits.Spinner.bottomOffset - geometry.safeAreaInsets.bottom)
 					}
 				}

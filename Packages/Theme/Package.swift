@@ -1,0 +1,34 @@
+// swift-tools-version: 5.10
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+	name: "Theme",
+	platforms: [.iOS(.v13)],
+	products: [
+		.library(
+			name: "Theme",
+			targets: ["Theme"]
+		)
+	],
+	dependencies: [
+		// Testing
+		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0"),
+		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.16.0")
+	],
+	targets: [
+		.target(
+			name: "Theme",
+			resources: [.process("Resources")]
+		),
+		.testTarget(
+			name: "ThemeTests",
+			dependencies: [
+				"Theme",
+				.product(name: "Nimble", package: "Nimble"),
+				.product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+			]
+		)
+	]
+)

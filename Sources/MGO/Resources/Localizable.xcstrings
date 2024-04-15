@@ -114,6 +114,17 @@
         }
       }
     },
+    "accesscode_confirmation_backbutton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aanpassen"
+          }
+        }
+      }
+    },
     "accesscode_confirmation_body" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -142,7 +153,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt een **persoonlijke toegangscode** nodig om de app te beveiligen. Gebruik geen te simpele codes, zoals 12345."
+            "value" : "Je hebt een persoonlijke toegangscode nodig voor de app. Gebruik geen te simpele codes zoals 00000 of 12345."
           }
         }
       }
@@ -647,7 +658,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens worden **versleuteld** en via een **veilige** verbinding opgehaald."
+            "value" : "Je gegevens worden **versleuteld** en via een **veilige verbinding** opgehaald."
           }
         }
       }
@@ -680,7 +691,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt het overzicht altijd **eenvoudig weggooien of opnieuw opvragen.**"
+            "value" : "Je kunt de gegevens in je overzicht **altijd verwijderen of opnieuw opvragen.**"
           }
         }
       }

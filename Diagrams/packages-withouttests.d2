@@ -51,23 +51,22 @@ MGOapp: {
   shape: package
 }
 
+MGOapp <- RestrictedBrowser
 MGOapp <- MGOFoundation
 MGOapp <- MGOUI
 MGOapp <- UIKit
-MGOapp <- RestrictedBrowser
 
 # - Packages -
 
 MGOFoundation { style.fill: "#ffcc00" }
-MGOFoundation <- Logging
 MGOFoundation <- Foundation
+MGOFoundation <- Logging
 MGOFoundation <- Managers
 
 MGOUI { style.fill: "#ffcc00" }
-MGOUI <- SwiftUI
 MGOUI <- NavigationStackBackport
 MGOUI <- ReusableUI
-MGOUI <- RijksoverheidFont
+MGOUI <- SwiftUI
 
 Managers { style.fill: "#ffcc00" }
 Managers <- FHIRClient
@@ -76,13 +75,15 @@ Managers <- Foundation
 Managers <- CommonCrypto
 
 RijksoverheidFont { style.fill: "#ffcc00" }
-RijksoverheidFont <- SwiftUI
 RijksoverheidFont <- CoreGraphics
 RijksoverheidFont <- CoreText
 RijksoverheidFont <- DeviceKit
+RijksoverheidFont <- SwiftUI
 
 ReusableUI { style.fill: "#ffcc00" }
+ReusableUI <- RijksoverheidFont
 ReusableUI <- SwiftUI
+ReusableUI <- Theme
 
 FHIRClient { style.fill: "#ffcc00" }
 FHIRClient <- FHIRModels
@@ -91,3 +92,6 @@ FHIRClient <- Foundation
 RestrictedBrowser { style.fill: "#ffcc00" }
 RestrictedBrowser <- SwiftUI
 RestrictedBrowser <- WebKit
+
+Theme { style.fill: "#ffcc00" }
+Theme <- SwiftUI

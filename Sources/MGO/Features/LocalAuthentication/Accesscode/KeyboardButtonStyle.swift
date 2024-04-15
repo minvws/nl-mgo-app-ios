@@ -5,7 +5,9 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
+import RijksoverheidFont
+import SwiftUI
+import Theme
 
 struct KeyboardButtonStyle: ButtonStyle {
 
@@ -14,6 +16,9 @@ struct KeyboardButtonStyle: ButtonStyle {
 	
 	/// Is the button enabled?
 	@Environment(\.isEnabled) private var isEnabled: Bool
+	
+	/// The Theme
+	@Environment(\.theme) var theme
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -32,13 +37,12 @@ struct KeyboardButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
-			.rijksoverheidStyle(font: .regular, style: .title, pointSize: 30)
-			.foregroundStyle(isEnabled ? Color.Styleguide.black : Color.Styleguide.Grey.grey5)
+			.rijksoverheidStyle(font: .regular, style: .title)
+			.foregroundStyle(isEnabled ? theme.contentPrimary : theme.iconsSecondary)
 			.background {
 				if configuration.isPressed {
-					// Show a grey circle as a visual confirmation of touch
 					Circle()
-						.foregroundStyle(colorScheme == .light ? Color.Styleguide.Grey.grey2 : Color.Styleguide.Grey.grey8)
+						.foregroundStyle(theme.backgroundTertiary)
 						.frame(width: ViewTraits.Circle.size, height: ViewTraits.Circle.size)
 				}
 			}
