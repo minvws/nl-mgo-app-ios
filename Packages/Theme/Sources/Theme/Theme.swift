@@ -32,6 +32,7 @@ public class Theme: Themeable {
 	
 	@Published public var linesPrimary: Color = Color("linesPrimary", bundle: .module)
 	@Published public var linesSecondary: Color = Color("linesSecondary", bundle: .module)
+	@Published public var linesTertiary: Color = Color("linesTertiary", bundle: .module)
 	@Published public var input: Color = Color("input", bundle: .module)
 	
 	// MARK: - Action Primary -

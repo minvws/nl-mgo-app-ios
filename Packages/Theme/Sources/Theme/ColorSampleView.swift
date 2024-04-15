@@ -48,6 +48,10 @@ struct ColorSampleView: View {
 					HStack {
 						colorSample(theme.linesPrimary, text: "Primary")
 						colorSample(theme.linesSecondary, text: "Secondary")
+						colorSample(theme.linesTertiary, text: "Tertiary")
+					}
+					
+					HStack {
 						colorSample(theme.input, text: "Input")
 					}
 					

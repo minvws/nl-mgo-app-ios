@@ -30,6 +30,7 @@ public protocol Themeable: ObservableObject {
 	
 	var linesPrimary: Color { get }
 	var linesSecondary: Color { get }
+	var linesTertiary: Color { get }
 	var input: Color { get }
 	
 	// MARK: - Action Primary -
