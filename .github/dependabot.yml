@@ -16,13 +16,21 @@ updates:
 
 # Swift Packages
   - package-ecosystem: "swift"
+    directory: "/Packages/FHIRClient"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
     directory: "/Packages/Managers"
     schedule:
       interval: weekly
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
-      
+
   - package-ecosystem: "swift"
     directory: "/Packages/MGOFoundation"
     schedule:
@@ -48,6 +56,14 @@ updates:
       timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
+    directory: "/Packages/RestrictedBrowser"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
     directory: "/Packages/ReusableUI"
     schedule:
       interval: weekly
@@ -57,6 +73,14 @@ updates:
 
   - package-ecosystem: "swift"
     directory: "/Packages/RijksoverheidFont"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
+    directory: "/Packages/Theme"
     schedule:
       interval: weekly
       day: monday

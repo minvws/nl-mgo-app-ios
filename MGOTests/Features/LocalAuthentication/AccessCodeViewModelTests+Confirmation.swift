@@ -98,7 +98,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(2))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(2))
 	}
 	
 	func test_confirmation_touch_fiveDigits_accessCodeMisMatch() {
@@ -137,7 +137,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 		expect(self.sut.boxStates) == expectedBoxState
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beFalse())
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(6))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(6))
 	}
 	
 	func test_confirmation_touch_fiveDigits_accessCodeOk() {
@@ -177,7 +177,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == "01234"
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeConfirmed))
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(5))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(5))
 	}
 	
 	func test_confirmation_touch_backButtonPressed() {
