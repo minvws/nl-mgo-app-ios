@@ -13,7 +13,7 @@ extension Configuration {
 	/// - Returns: array fo allowed domains.
 	public func getAllowedDomains() -> [String] {
 		
-		let tempAllowed = ["google.com", "www.google.com"]
+		let tempAllowed = ["irealisatie.nl", "www.irealisatie.nl"]
 		
 		switch getRelease() {
 			case .test: return tempAllowed + ["web.test.mgo.irealisatie.nl"]
