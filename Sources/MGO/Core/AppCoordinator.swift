@@ -33,7 +33,7 @@ protocol AppCoordinatorProtocol: ObservableObject {
 enum AppCoordination {
 	
 	/// A list of all the action an app coordinator can do
-	enum Action {
+	enum Action: Equatable {
 		// Launch
 		case finishedLoading
 		
@@ -54,6 +54,13 @@ enum AppCoordination {
 		// Remote Authentication
 		case loginWithDigiD
 		case loginWithAccessCode
+		
+		// Healthcare Provider flow
+		case search(city: String, name: String)
+		
+		// Dashboard
+		case fhirClient
+		case searchHealthcareProviders
 		
 		// Other
 		case sheetClosed
@@ -80,8 +87,14 @@ enum AppCoordination {
 		// Remote Auhtentication
 		case remoteAuthentication
 		
+		// Healthcare Provider flow
+		case searchHealthcareProvider
+		
 		// Dashboard
 		case dashboard
+		
+		// POC
+		case fhirClient
 	}
 }
 
@@ -129,6 +142,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Onboarding
 			
 			case .finishedLoading:
+			
+//				path.append(AppCoordination.State.searchHealthcareProvider)
+			
 				if !Current.secureUserSettings.userHasSeenAppIntroduction {
 					// Only show the appIntroduction once
 					path.append(AppCoordination.State.appIntroduction)
@@ -196,6 +212,19 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 			case .loginWithAccessCode:
 				path.append(AppCoordination.State.accessCodeValidation)
+			
+			// Healthcare Provider flow
+			case let .search(city, name):
+				#warning("Todo: Send name and city to coordinator for searching healthcare providers")
+				logDebug("We got to search on \(city) and \(name)")
+
+			// Dashboard
+			
+			case .fhirClient:
+				path.append(AppCoordination.State.fhirClient)
+			
+			case .searchHealthcareProviders:
+				path.append(AppCoordination.State.searchHealthcareProvider)
 			
 			// General
 			
@@ -278,9 +307,17 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Dashboard
 	
 			case .dashboard:
-//				DashboardView(viewModel: DashboardViewModel(coordinator: self))
-				PatientView(viewModel: PatientViewModel(coordinator: self))
+				DashboardView(viewModel: DashboardViewModel(coordinator: self))
 
+			// Healthcare Provider flow
+			case .searchHealthcareProvider:
+				SearchView(viewModel: SearchViewModel(coordinator: self))
+			
+			// POC
+			
+			case .fhirClient:
+				PatientView(viewModel: PatientViewModel(coordinator: self))
+			
 			// Fallback
 			
 			case .none:

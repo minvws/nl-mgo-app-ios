@@ -65,9 +65,9 @@ class LaunchViewModel: ObservableObject {
 		}
 	}
 	
-	internal func loadConfig(_ timeInterval: TimeInterval = 4.0) {
+	internal func loadConfig(_ timeInterval: TimeInterval = 1.0) {
 		
-		// Mocked for now, just take 4 seconds to finish
+		// Mocked for now, just take 1 seconds to finish
 		DispatchQueue.main.asyncAfter(deadline: .now() + timeInterval) {
 			self.reduce(.loaded)
 		}

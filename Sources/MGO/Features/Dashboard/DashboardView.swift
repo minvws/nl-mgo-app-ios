@@ -20,6 +20,8 @@ class DashboardViewModel: ObservableObject {
 	enum Action {
 		case resetApplication
 		case showResetDialog
+		case poc
+		case search
 	}
 	
 	/// Intitializer
@@ -40,6 +42,10 @@ class DashboardViewModel: ObservableObject {
 				coordinator?.handle(AppCoordination.Action.resetApplication)
 			case .showResetDialog:
 				showResetDialog = true
+			case .poc:
+				coordinator?.handle(.fhirClient)
+			case .search:
+				coordinator?.handle(.searchHealthcareProviders)
 		}
 	}
 }
@@ -65,9 +71,17 @@ struct DashboardView: View {
 					.accessibilityAddTraits(.isHeader)
 					.multilineTextAlignment(.center)
 				
-				Text(verbatim: "That's all folks!")
-					.rijksoverheidStyle(font: .regular, style: .body)
+				CallToActionButton("dashboard_poc") {
+					viewModel.reduce(.poc)
+				}
+
+				CallToActionButton("dashboard_search_healthcareProviders") {
+					viewModel.reduce(.search)
+				}
+				
+				Spacer()
 			}
+			.padding(.horizontal, 16)
 		}
 		.navigationBarBackButtonHidden()
 		

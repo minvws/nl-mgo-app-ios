@@ -476,6 +476,28 @@
         }
       }
     },
+    "dashboard_poc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FHIR Client Proof of Concept"
+          }
+        }
+      }
+    },
+    "dashboard_search_healthcareProviders" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgverlener zoeken"
+          }
+        }
+      }
+    },
     "forgot_action_reset" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -709,6 +731,94 @@
     },
     "Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)" : {
 
+    },
+    "searchhp_action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoeken"
+          }
+        }
+      }
+    },
+    "searchhp_city" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plaats (verplicht)"
+          }
+        }
+      }
+    },
+    "searchhp_city_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vul een plaats in"
+          }
+        }
+      }
+    },
+    "searchhp_city_error_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het plaatsveld is verplicht, vul een plaats in"
+          }
+        }
+      }
+    },
+    "searchhp_name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naam (verplicht)"
+          }
+        }
+      }
+    },
+    "searchhp_name_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vul een naam in"
+          }
+        }
+      }
+    },
+    "searchhp_name_error_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het naamveld is verplicht, vul een naam in"
+          }
+        }
+      }
+    },
+    "searchhp_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welke zorgverlener wil je toevoegen?"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
