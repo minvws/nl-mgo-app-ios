@@ -109,4 +109,20 @@ final class SearchViewModelTests: XCTestCase {
 		expect(self.sut.state.nameError) == "searchhp_name_error"
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(1))
 	}
+	
+	func test_searchButtonPressed_cityNotOKnameNotOK_whitespacesAndNewlines_shouldInvokeError() {
+		
+		// Given
+		sut.state.name = "<b>    </b>"
+		sut.state.city = "      "
+		
+		// When
+		sut.reduce(.search)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == false
+		expect(self.sut.state.cityError) == "searchhp_city_error"
+		expect(self.sut.state.nameError) == "searchhp_name_error"
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(1))
+	}
 }
