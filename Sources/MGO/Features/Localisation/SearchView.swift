@@ -60,16 +60,16 @@ class SearchViewModel: ObservableObject {
 		
 		switch action {
 			case .search:
-			if validateState() {
-				coordinator?.handle(.search(city: state.city, name: state.name))
-			} else {
-				/// Announce the errors
-				if state.nameError != "" {
-					announce(String(localized: "searchhp_name_error_voiceover"))
-				} else if state.cityError != "" {
-					announce(String(localized: "searchhp_city_error_voiceover"))
+				guard validateState() else {
+					/// Announce the errors
+					if state.nameError != "" {
+						announce(String(localized: "searchhp_name_error_voiceover"))
+					} else if state.cityError != "" {
+						announce(String(localized: "searchhp_city_error_voiceover"))
+					}
+					return
 				}
-			}
+				coordinator?.handle(.search(city: state.city, name: state.name))
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 		}
@@ -163,6 +163,7 @@ struct SearchView: View {
 				CallToActionButton("searchhp_action") {
 					viewModel.reduce(.search)
 				}
+				.tag("search")
 				.padding(ViewTraits.General.padding)
 			}
 		}
