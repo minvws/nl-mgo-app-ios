@@ -15,6 +15,9 @@ let package = Package(
 		// Internal
 		.package(name: "FHIRClient", path: "../FHIRClient"),
 		
+		// External
+		.package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.7.2"),
+		
 		// Testing:
 		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0")
 	],
@@ -22,7 +25,8 @@ let package = Package(
 		.target(
 			name: "Managers",
 			dependencies: [
-				.product(name: "FHIRClient", package: "FHIRClient")
+				.product(name: "FHIRClient", package: "FHIRClient"),
+				"SwiftSoup"
 			]
 		),
 		.testTarget(
