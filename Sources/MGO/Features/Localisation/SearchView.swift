@@ -80,17 +80,19 @@ class SearchViewModel: ObservableObject {
 	private func validateState() -> Bool {
 		
 		var allFieldsAreFilled = true
-		if state.name.isEmpty {
+		if let sanitized = Sanitizer.strip(state.name), sanitized.isNotEmpty {
+			state.nameError = ""
+			state.name = sanitized
+		} else {
 			allFieldsAreFilled = false
 			state.nameError = "searchhp_name_error"
-		} else {
-			state.nameError = ""
 		}
-		if state.city.isEmpty {
+		if let sanitized = Sanitizer.strip(state.city), sanitized.isNotEmpty {
+			state.cityError = ""
+			state.city = sanitized
+		} else {
 			allFieldsAreFilled = false
 			state.cityError = "searchhp_city_error"
-		} else {
-			state.cityError = ""
 		}
 		return allFieldsAreFilled
 	}
