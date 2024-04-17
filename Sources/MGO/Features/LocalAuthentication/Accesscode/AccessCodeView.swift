@@ -94,6 +94,8 @@ class AccessCodeViewModel: ObservableObject {
 	/// The flow coordintator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
+	private var inErrorState = false
+	
 	/// The access code
 	private var accessCode: [String] = [] {
 		didSet {
@@ -265,6 +267,11 @@ class AccessCodeViewModel: ObservableObject {
 	/// - Parameter value: the value of the digit
 	private func buttonPressed(_ value: String) {
 		
+		if inErrorState {
+			accessCode = []
+			inErrorState = false
+		}
+		
 		if accessCode.count < numberOfDigits {
 			accessCode.append(value)
 			Haptic.light()
@@ -302,9 +309,6 @@ class AccessCodeViewModel: ObservableObject {
 			// Show too weak message
 			updateStateEntry(tooWeak: true)
 			setErrorState()
-			delay(1.0) {
-				self.accessCode = []
-			}
 			return
 		}
 		
@@ -323,9 +327,6 @@ class AccessCodeViewModel: ObservableObject {
 			// tempAccessCode and code do not match. Doh!
 			updateStateConfirmation(confirmationMismatch: true)
 			setErrorState()
-			delay(1.0) {
-				self.accessCode = []
-			}
 			return
 		}
 		
@@ -343,9 +344,6 @@ class AccessCodeViewModel: ObservableObject {
 			
 			setErrorState()
 			updateStateValidation(validationMismatch: true)
-			delay(1.0) {
-				self.accessCode = []
-			}
 			return
 		}
 		coordinator?.handle(.accessCodeValidated)
@@ -359,11 +357,13 @@ class AccessCodeViewModel: ObservableObject {
 		}
 		// Shake it
 		Haptic.heavy()
+		inErrorState = true
 	}
 	
 	/// The user pressed the erate button
 	private func erasePressed() {
 		if accessCode.isNotEmpty {
+			Haptic.light()
 			accessCode = accessCode.dropLast()
 			// Announce 'Field x from 5, empty'
 			let message = String(
