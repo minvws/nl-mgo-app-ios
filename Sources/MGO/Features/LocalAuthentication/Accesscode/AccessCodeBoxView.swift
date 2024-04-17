@@ -131,7 +131,7 @@ struct AccessCodeBoxView: View {
 			)
 			.onAppear {
 				if state == .filling {
-					withAnimation(Animation.linear(duration: 0.5)) {
+					withAnimation(Animation.linear(duration: 0.05)) {
 						state = .filled
 					}
 				}

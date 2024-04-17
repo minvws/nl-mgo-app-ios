@@ -212,8 +212,7 @@ class AccessCodeViewModel: ObservableObject {
 		
 		state.bioMetricEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
 		state.eraseEnabled = accessCode.isNotEmpty
-		state.backButtonVisible = true
-		state.backButtonKey = "general_previous"
+		state.backButtonVisible = false
 		state.forgotCodeButtonVisible = true
 		if validationMismatch {
 			// Setup for access codes do not match
