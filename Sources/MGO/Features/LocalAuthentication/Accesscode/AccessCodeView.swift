@@ -435,6 +435,9 @@ struct AccessCodeView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Safe Area insets
+	@Environment(\.safeAreaInsets) var safeAreaInsets
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Title {
@@ -454,6 +457,7 @@ struct AccessCodeView: View {
 		enum General {
 			static let spacing: CGFloat = 8
 			static let horizontalPadding: CGFloat = 16
+			static let bottomPadding: CGFloat = 16
 		}
 		enum Box {
 			static let spacing: CGFloat = 12
@@ -462,6 +466,7 @@ struct AccessCodeView: View {
 	}
 	
 	var body: some View {
+		
 		ZStack {
 			
 			theme.backgroundPrimary
@@ -585,7 +590,11 @@ struct AccessCodeView: View {
 					}
 					.padding(.horizontal, ViewTraits.General.horizontalPadding) // For the whole keyboard
 				}
+				.if(safeAreaInsets.bottom == 0) { view in
+					view.padding(.bottom, ViewTraits.General.bottomPadding)
+				}
 			}
+			
 		}
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationBarBackButtonHidden(true)
@@ -654,7 +663,7 @@ struct AccessCodeView: View {
 		} label: {
 			Image(systemName: imageName)
 		}
-		.buttonStyle(KeyboardButtonStyle())
+		.buttonStyle(KeyboardIconButtonStyle())
 		.accessibilityLabel(accessibilityLabel)
 	}
 }

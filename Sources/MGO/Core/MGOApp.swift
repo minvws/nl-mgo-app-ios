@@ -33,8 +33,22 @@ struct ProductionApp: App {
 	
 	var body: some Scene {
 		WindowGroup {
-			AppCoordinatorView<AppCoordinator>(appCoordinator: AppCoordinator(path: NavigationStackBackport.NavigationPath()))
+			GeometryReader { geo in
+				AppCoordinatorView<AppCoordinator>(appCoordinator: AppCoordinator(path: NavigationStackBackport.NavigationPath()))
+					.environment(\.safeAreaInsets, geo.safeAreaInsets)
+			}
 		}
+	}
+}
+
+private struct SafeAreaInsetsKey: EnvironmentKey {
+	static var defaultValue: EdgeInsets = .init()
+}
+
+extension EnvironmentValues {
+	var safeAreaInsets: EdgeInsets {
+		get { self[SafeAreaInsetsKey.self] }
+		set { self[SafeAreaInsetsKey.self] = newValue }
 	}
 }
 
