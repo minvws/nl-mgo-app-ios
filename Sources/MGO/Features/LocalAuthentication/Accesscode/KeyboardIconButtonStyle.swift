@@ -5,7 +5,6 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import RijksoverheidFont
 import SwiftUI
 import Theme
 
@@ -21,6 +20,8 @@ struct KeyboardIconButtonStyle: ButtonStyle {
 	private struct ViewTraits {
 		enum Button {
 			static let minimumHeight: CGFloat = 44
+			static let fontSize: CGFloat = 30
+			static let disabledOpacity: Double = 0.25
 		}
 	}
 	
@@ -31,8 +32,8 @@ struct KeyboardIconButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, maxHeight: .infinity)
-			.rijksoverheidStyle(font: .regular, style: .title)
-			.foregroundStyle(isEnabled ? theme.iconsPrimary : theme.iconsPrimary.opacity(0.25))
+			.font(.system(size: ViewTraits.Button.fontSize))
+			.foregroundStyle(isEnabled ? theme.iconsPrimary : theme.iconsPrimary.opacity(ViewTraits.Button.disabledOpacity))
 			.background {
 				if configuration.isPressed {
 					Circle()

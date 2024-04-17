@@ -31,7 +31,7 @@ struct KeyboardButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, maxHeight: .infinity)
-			.rijksoverheidStyle(font: .regular, style: .title)
+			.rijksoverheidStyle(font: .regular, style: .largeTitle)
 			.foregroundStyle(isEnabled ? theme.contentPrimary : theme.iconsSecondary)
 			.background {
 				if configuration.isPressed {

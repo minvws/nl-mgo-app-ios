@@ -302,6 +302,9 @@ class AccessCodeViewModel: ObservableObject {
 			// Show too weak message
 			updateStateEntry(tooWeak: true)
 			setErrorState()
+			delay(1.0) {
+				self.accessCode = []
+			}
 			return
 		}
 		
@@ -320,6 +323,9 @@ class AccessCodeViewModel: ObservableObject {
 			// tempAccessCode and code do not match. Doh!
 			updateStateConfirmation(confirmationMismatch: true)
 			setErrorState()
+			delay(1.0) {
+				self.accessCode = []
+			}
 			return
 		}
 		
