@@ -130,7 +130,7 @@ struct LaunchView: View {
 						.ignoresSafeArea()
 					
 					Text("app_title")
-						.rijksoverheidStyle(font: .bold, style: .title)
+						.rijksoverheidStyle(font: .bold, style: .largeTitle)
 						.foregroundStyle(theme.contentPrimary)
 						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
 						.accessibilityAddTraits(.isHeader)
