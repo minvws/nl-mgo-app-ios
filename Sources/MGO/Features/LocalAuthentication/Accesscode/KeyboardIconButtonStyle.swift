@@ -11,9 +11,6 @@ import Theme
 
 struct KeyboardIconButtonStyle: ButtonStyle {
 
-	/// Color scheme (light, dark)
-	@Environment(\.colorScheme) var colorScheme
-	
 	/// Is the button enabled?
 	@Environment(\.isEnabled) private var isEnabled: Bool
 	
@@ -25,9 +22,6 @@ struct KeyboardIconButtonStyle: ButtonStyle {
 		enum Button {
 			static let minimumHeight: CGFloat = 44
 		}
-		enum Circle {
-			static let size: CGFloat = 50
-		}
 	}
 	
 	/// Style the button to a primary button
@@ -36,14 +30,13 @@ struct KeyboardIconButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
+			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, maxHeight: .infinity)
 			.rijksoverheidStyle(font: .regular, style: .title)
 			.foregroundStyle(isEnabled ? theme.iconsPrimary : theme.iconsPrimary.opacity(0.25))
 			.background {
 				if configuration.isPressed {
 					Circle()
 						.foregroundStyle(theme.backgroundTertiary)
-						.frame(width: ViewTraits.Circle.size, height: ViewTraits.Circle.size)
 				}
 			}
 	}
