@@ -21,6 +21,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		strengthMeterSpy = AccessCodeStrengthValidationSpy()
 		servicesSpies = setupServicesSpies()
 		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = true
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .touchID }
 		coordinatorSpy = AppCoordinatorSpy()
 		super.setUp()
 	}
