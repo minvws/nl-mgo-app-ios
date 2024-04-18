@@ -515,7 +515,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt helaas niet meer met je oude toegangscode inloggen. Je kunt wel een nieuw account aanmaken. Maak een nieuwe toegangscode en log daarna opnieuw in met DigiD."
+            "value" : "Dat kan gebeuren. Je kunt je toegangscode helaas niet meer wijzigen.\n\nJe kunt wel een nieuw account aanmaken. Hiervoor maak je een nieuwe toegangscode aan en log je in met DigiD."
           }
         }
       }
@@ -526,7 +526,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toegangscode vergeten?"
+            "value" : "Ben je je toegangscode vergeten?"
           }
         }
       }

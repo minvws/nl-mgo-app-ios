@@ -53,7 +53,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == true
 	}
 	
-	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeSet_pathShouldContainRemoteAuthentication() {
+	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeSet_pathShouldContainAccessCodeValidation() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = true
@@ -64,7 +64,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(AppCoordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeValidation])
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
 	

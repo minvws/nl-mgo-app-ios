@@ -14,7 +14,7 @@ extension Font.TextStyle {
 	public var pointSize: CGFloat {
 		switch self {
 			case .largeTitle: isiPhoneSE ? 32 : 36
-			case .title: 28
+			case .title: 30
 			case .title2: 26
 			case .title3: 24
 			case .headline: 18
@@ -49,7 +49,7 @@ public struct RijksoverheidViewModifier: ViewModifier {
 	private var lineSpacing: CGFloat {
 		switch style {
 			case .largeTitle: 4
-			case .title3: 2
+			case .title: 2
 			case .body: 3
 			default: 0
 		}

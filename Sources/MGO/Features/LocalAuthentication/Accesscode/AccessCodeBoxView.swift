@@ -23,9 +23,8 @@ struct AccessCodeBoxView: View {
 			static let big: CGFloat = 24
 		}
 		enum Box {
-			static let width: CGFloat = 50
-			static let height: CGFloat = 60
 			static let radius: CGFloat = 5
+			static let aspectRatio: CGFloat = 0.80
 		}
 	}
 	
@@ -82,10 +81,10 @@ struct AccessCodeBoxView: View {
 	}
 	
 	/// The height of the border for the various states
-	var height: CGFloat {
+	var inset: CGFloat {
 		switch state {
-			case .empty, .filled, .error: ViewTraits.Box.height
-			case .focus, .filling: ViewTraits.Box.height + 3
+			case .empty, .filled, .error: 3
+			case .focus, .filling: 0
 		}
 	}
 	
@@ -118,12 +117,13 @@ struct AccessCodeBoxView: View {
 	var body: some View {
 		Rectangle()
 			.foregroundStyle(.clear)
-			.frame(width: ViewTraits.Box.width, height: height)
+			.aspectRatio(ViewTraits.Box.aspectRatio, contentMode: .fit)
 			.background(theme.backgroundSecondary)
 			.cornerRadius(ViewTraits.Box.radius)
 			.overlay(
 				ZStack {
 					RoundedRectangle(cornerRadius: ViewTraits.Box.radius)
+						.inset(by: inset)
 						.stroke(borderColor, lineWidth: borderWidth)
 					icon
 					
@@ -131,7 +131,7 @@ struct AccessCodeBoxView: View {
 			)
 			.onAppear {
 				if state == .filling {
-					withAnimation(Animation.linear(duration: 0.5)) {
+					withAnimation(Animation.linear(duration: 0.05)) {
 						state = .filled
 					}
 				}

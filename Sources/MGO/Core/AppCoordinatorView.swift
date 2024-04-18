@@ -49,6 +49,8 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 										appCoordinator.handle(.sheetClosed)
 									}, label: {
 										Image(ImageResource.Icon.close)
+											.resizable()
+											.frame(width: 30, height: 30)
 									}
 								)
 								.accessibilityLabel("general_close")
