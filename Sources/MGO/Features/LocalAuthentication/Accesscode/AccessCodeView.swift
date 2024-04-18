@@ -94,6 +94,8 @@ class AccessCodeViewModel: ObservableObject {
 	/// The flow coordintator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
+	private var inErrorState = false
+	
 	/// The access code
 	private var accessCode: [String] = [] {
 		didSet {
@@ -140,7 +142,7 @@ class AccessCodeViewModel: ObservableObject {
 		
 		// Set the state for this mode
 		updateState()
-	
+		
 		// Setup the initial state for the boxes.
 		// First box is ready to receive input, the others are empty
 		boxStates.append(AccessCodeBoxState(id: 0, state: .focus))
@@ -212,8 +214,7 @@ class AccessCodeViewModel: ObservableObject {
 		
 		state.bioMetricEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
 		state.eraseEnabled = accessCode.isNotEmpty
-		state.backButtonVisible = true
-		state.backButtonKey = "general_previous"
+		state.backButtonVisible = false
 		state.forgotCodeButtonVisible = true
 		if validationMismatch {
 			// Setup for access codes do not match
@@ -265,6 +266,11 @@ class AccessCodeViewModel: ObservableObject {
 	/// The user pressed on the keyboard to enter a digit
 	/// - Parameter value: the value of the digit
 	private func buttonPressed(_ value: String) {
+		
+		if inErrorState {
+			accessCode = []
+			inErrorState = false
+		}
 		
 		if accessCode.count < numberOfDigits {
 			accessCode.append(value)
@@ -338,9 +344,6 @@ class AccessCodeViewModel: ObservableObject {
 			
 			setErrorState()
 			updateStateValidation(validationMismatch: true)
-			delay(1.0) {
-				self.accessCode = []
-			}
 			return
 		}
 		coordinator?.handle(.accessCodeValidated)
@@ -354,11 +357,13 @@ class AccessCodeViewModel: ObservableObject {
 		}
 		// Shake it
 		Haptic.heavy()
+		inErrorState = true
 	}
 	
 	/// The user pressed the erate button
 	private func erasePressed() {
 		if accessCode.isNotEmpty {
+			Haptic.light()
 			accessCode = accessCode.dropLast()
 			// Announce 'Field x from 5, empty'
 			let message = String(
@@ -413,7 +418,7 @@ class AccessCodeViewModel: ObservableObject {
 			
 		} catch LocalAuthenticationError.userFallback {
 			logWarning("User selected password option")
-		
+			
 		} catch LocalAuthenticationError.declined {
 			logWarning("User declined biometric access")
 			
@@ -435,6 +440,9 @@ struct AccessCodeView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Safe Area insets
+	@Environment(\.safeAreaInsets) var safeAreaInsets
+	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Title {
@@ -454,139 +462,157 @@ struct AccessCodeView: View {
 		enum General {
 			static let spacing: CGFloat = 8
 			static let horizontalPadding: CGFloat = 16
+			static let bottomPadding: CGFloat = 16
 		}
 		enum Box {
 			static let spacing: CGFloat = 12
-			static let bottomMargin: CGFloat = 22
+			static let bottomMargin: CGFloat = 20
+		}
+		enum Position {
+			static let text: CGFloat = 0.38 // Text takes 38% of the screen height.
+			static let box: CGFloat = 0.16 // The boxes take 16 %
+			static let keyboard: CGFloat = 0.46 // The keyboard the remainder
 		}
 	}
 	
 	var body: some View {
-		ZStack {
-			
-			theme.backgroundPrimary
-				.ignoresSafeArea()
-				.frame(maxWidth: .infinity, maxHeight: .infinity)
-			
-			VStack(alignment: .leading, spacing: 0) {
-				Text(viewModel.state.title)
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.if(viewModel.state.backButtonVisible) { view in
-							view.padding(ViewTraits.Title.insetsWithNavBar)
-					}
-					.if(!viewModel.state.backButtonVisible) { view in
-						if #available(iOS 16, *) {
-							view.padding(ViewTraits.Title.insets)
-						} else {
-							view.padding(ViewTraits.Title.insetsWithNavBar)
-						}
-					}
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.accessibilityAddTraits(.isHeader)
-					.fixedSize(horizontal: false, vertical: true)
+		GeometryReader { geometry in
+			ZStack {
 				
-				ScrollView {
-					switch viewModel.state.messageType {
-						
-						case .regular:
-							Text(viewModel.state.message)
-								.rijksoverheidStyle(font: .regular, style: .body)
-								.padding(ViewTraits.Text.insets)
-								.frame(maxWidth: .infinity, alignment: .topLeading)
-						
-						case .alert:
-							HStack(alignment: .top, spacing: ViewTraits.Text.imageSpacing) {
-								Image(ImageResource.Notification.error)
-								
+				theme.backgroundPrimary
+					.ignoresSafeArea()
+					.frame(maxWidth: .infinity, maxHeight: .infinity)
+				
+				VStack(alignment: .leading, spacing: 0) {
+					
+					ScrollView {
+						Text(viewModel.state.title)
+							.rijksoverheidStyle(font: .bold, style: .title)
+							.if(viewModel.state.backButtonVisible) { view in
+								view.padding(ViewTraits.Title.insetsWithNavBar)
+							}
+							.if(!viewModel.state.backButtonVisible) { view in
+								if #available(iOS 16, *) {
+									view.padding(ViewTraits.Title.insets)
+								} else {
+									view.padding(ViewTraits.Title.insetsWithNavBar)
+								}
+							}
+							.frame(maxWidth: .infinity, alignment: .topLeading)
+							.accessibilityAddTraits(.isHeader)
+							.fixedSize(horizontal: false, vertical: true)
+					
+						switch viewModel.state.messageType {
+							
+							case .regular:
 								Text(viewModel.state.message)
 									.rijksoverheidStyle(font: .regular, style: .body)
+									.padding(ViewTraits.Text.insets)
 									.frame(maxWidth: .infinity, alignment: .topLeading)
-							}
-							.padding(ViewTraits.Text.insets)
-							.accessibilityElement(children: .combine)
-					}
-					
-					if viewModel.state.forgotCodeButtonVisible {
-						Button(action: {
-							viewModel.reduce(.forgotAccessCode)
-						}, label: {
-							Text("biometric_forgot_accesscode")
-						})
-						.buttonStyle(LinkButtonStyle())
-						.padding(ViewTraits.ForgotButton.insets)
-					}
-				}
-				
-				Spacer()
-				
-				VStack(spacing: ViewTraits.General.spacing) {
-					
-					HStack(spacing: ViewTraits.Box.spacing) {
-						ForEach($viewModel.boxStates, id: \.self) { element in
-							AccessCodeBoxView(state: element.state)
-								.accessibilityHidden(false)
-								.accessibilityIdentifier("box \(element.id + 1)")
-								.accessibilityLabel(element.wrappedValue.accessibilityLabel(index: element.id + 1, count: viewModel.boxStates.count))
-						}
-					}
-					.padding(.bottom, ViewTraits.Box.bottomMargin)
-					
-					Group {
-						HStack(spacing: ViewTraits.General.spacing) {
-							digitButton(for: "1")
-							digitButton(for: "2")
-							digitButton(for: "3")
-						}
-						
-						HStack(spacing: ViewTraits.General.spacing) {
-							digitButton(for: "4")
-							digitButton(for: "5")
-							digitButton(for: "6")
-						}
-						
-						HStack(spacing: ViewTraits.General.spacing) {
-							digitButton(for: "7")
-							digitButton(for: "8")
-							digitButton(for: "9")
-						}
-						
-						HStack(spacing: ViewTraits.General.spacing) {
-							
-							if viewModel.state.bioMetricEnabled {
-								// The bioMetric key (face ID, touch ID or optic ID)
-								switch viewModel.state.bioMetricType {
-									case .none, .unknown:
-										Spacer()
-											.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
-										
-									case .touchID:
-										actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "accesscode_button_touchid")
-										
-									case .faceID:
-										actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "accesscode_button_faceid")
-										
-									case .opticID:
-										actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "accesscode_button_opticid")
+								
+							case .alert:
+								HStack(alignment: .top, spacing: ViewTraits.Text.imageSpacing) {
+									Image(ImageResource.Notification.error)
+									
+									Text(viewModel.state.message)
+										.rijksoverheidStyle(font: .regular, style: .body)
+										.frame(maxWidth: .infinity, alignment: .topLeading)
 								}
-							} else {
-								Spacer()
-									.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
-
-							}
-							
-							digitButton(for: "0")
-							// The erase button
-							actionButton(
-								for: .erasePressed,
-								imageName: "delete.backward",
-								accessibilityLabel: "accesscode_button_accessibility_erase")
-								.disabled(!viewModel.state.eraseEnabled)
+								.padding(ViewTraits.Text.insets)
+								.accessibilityElement(children: .combine)
 						}
+						
+						if viewModel.state.forgotCodeButtonVisible {
+							Button(action: {
+								viewModel.reduce(.forgotAccessCode)
+							}, label: {
+								Text("biometric_forgot_accesscode")
+							})
+							.buttonStyle(LinkButtonStyle())
+							.padding(ViewTraits.ForgotButton.insets)
+						}
+						
+						Spacer()
 					}
-					.padding(.horizontal, ViewTraits.General.horizontalPadding) // For the whole keyboard
 				}
+				.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.text)
+				.position(x: geometry.size.width / 2, y: geometry.size.height * ViewTraits.Position.text / 2 )
+				
+				HStack(spacing: ViewTraits.Box.spacing) {
+					ForEach($viewModel.boxStates, id: \.self) { element in
+						AccessCodeBoxView(state: element.state)
+							.accessibilityHidden(false)
+							.accessibilityIdentifier("box \(element.id + 1)")
+							.accessibilityLabel(element.wrappedValue.accessibilityLabel(index: element.id + 1, count: viewModel.boxStates.count))
+					}
+				}
+				.padding(.horizontal, ViewTraits.General.horizontalPadding)
+				.padding(.bottom, ViewTraits.Box.bottomMargin)
+				.frame(maxWidth: .infinity, alignment: .center)
+				.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.box)
+				.position(x: geometry.size.width / 2, y: geometry.size.height * ( ViewTraits.Position.text + ViewTraits.Position.box / 2) )
+				
+				VStack {
+					
+					HStack(spacing: ViewTraits.General.spacing) {
+						digitButton(for: "1")
+						digitButton(for: "2")
+						digitButton(for: "3")
+					}
+					
+					HStack(spacing: ViewTraits.General.spacing) {
+						digitButton(for: "4")
+						digitButton(for: "5")
+						digitButton(for: "6")
+					}
+					
+					HStack(spacing: ViewTraits.General.spacing) {
+						digitButton(for: "7")
+						digitButton(for: "8")
+						digitButton(for: "9")
+					}
+					
+					HStack(spacing: ViewTraits.General.spacing) {
+						
+						if viewModel.state.bioMetricEnabled {
+							// The bioMetric key (face ID, touch ID or optic ID)
+							switch viewModel.state.bioMetricType {
+								case .none, .unknown:
+									Spacer()
+										.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
+									
+								case .touchID:
+									actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "accesscode_button_touchid")
+									
+								case .faceID:
+									actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "accesscode_button_faceid")
+									
+								case .opticID:
+									actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "accesscode_button_opticid")
+							}
+						} else {
+							Spacer()
+								.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
+							
+						}
+						
+						digitButton(for: "0")
+						// The erase button
+						actionButton(
+							for: .erasePressed,
+							imageName: "delete.backward",
+							accessibilityLabel: "accesscode_button_accessibility_erase")
+						.disabled(!viewModel.state.eraseEnabled)
+					}
+				}
+				.if(safeAreaInsets.bottom == 0) { view in
+					view.padding(.bottom, ViewTraits.General.bottomPadding)
+				}
+				.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.keyboard)
+				.position(x: geometry.size.width / 2, y: geometry.size.height * (1 - ViewTraits.Position.keyboard / 2) )
 			}
 		}
+		
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationBarBackButtonHidden(true)
 		.if(viewModel.state.backButtonVisible) { view in
@@ -649,14 +675,14 @@ struct AccessCodeView: View {
 		imageName: String,
 		accessibilityLabel: LocalizedStringKey) -> some View {
 			
-		Button {
-			viewModel.reduce(action)
-		} label: {
-			Image(systemName: imageName)
+			Button {
+				viewModel.reduce(action)
+			} label: {
+				Image(systemName: imageName)
+			}
+			.buttonStyle(KeyboardIconButtonStyle())
+			.accessibilityLabel(accessibilityLabel)
 		}
-		.buttonStyle(KeyboardButtonStyle())
-		.accessibilityLabel(accessibilityLabel)
-	}
 }
 
 #Preview {

@@ -152,7 +152,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 					path.append(AppCoordination.State.accessCodeEntry)
 					
 				} else {
-					path.append(AppCoordination.State.remoteAuthentication)
+					path.append(AppCoordination.State.accessCodeValidation)
 				}
 			case .nextButtonPressedOnAppIntroduction:
 				path.append(AppCoordination.State.privacyOverview)
