@@ -1,6 +1,6 @@
 # Syntax: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
 
-name: test
+name: CI
 
 on:
   pull_request:
@@ -16,9 +16,9 @@ env:
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
   
 jobs:
-
-  test:
+  validate:
     runs-on: macos-14
+    name: Build & validate
     timeout-minutes: 60
     steps:
       - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
@@ -59,3 +59,8 @@ jobs:
           SLACK_URL: ${{ secrets.SLACK_URL }}
         run: |
           bundle exec fastlane ios test_ci
+      
+      - name: SonarCloud
+        uses: SonarSource/sonarcloud-github-action@v2.1.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    
