@@ -13,7 +13,7 @@ extension NavigationStackBackport.NavigationPath {
 	/// Get the index of a string in the navigation path
 	/// - Parameter value: the string value to search
 	/// - Returns: if the value is present in the navigation path, we return the `index`, if not found `nil`.
-	func indexOf(_ value: String) -> Int? {
+	func indexOf(_ value: Any) -> Int? {
 		
 		if let codable = self.codable,
 		   let data = try? JSONEncoder().encode(codable),
@@ -30,8 +30,9 @@ extension NavigationStackBackport.NavigationPath {
 				.reversed()
 			
 			logDebug("NavigationPath: the path consists of \(arrayOfPaths)")
-			
-			for (index, element) in arrayOfPaths.enumerated() where element == value {
+
+			let castedValue = String(describing: value).map { String($0).alphaNumeric }.joined()
+			for (index, element) in arrayOfPaths.enumerated() where element == castedValue {
 				return index
 			}
 		}
