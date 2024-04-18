@@ -230,9 +230,22 @@ class AccessCodeViewModel: ObservableObject {
 		}
 	}
 	
+	/// Announce "Field {x}, active"
+	/// - Parameter field: the field number
+	private func announceActiveField(_ field: Int) {
+		let message = String(
+			format: String(localized: "acccescode_box_voiceover_announce"),
+			arguments: [
+				"\(field)",
+				String(localized: "acccescode_box_voiceover_focus")
+			]
+		)
+		announce(message)
+	}
+	
 	/// Announce a message to voiceover
 	/// - Parameter message: the message to be announced (as a String)
-	func announce(_ message: String) {
+	private func announce(_ message: String) {
 		
 		logDebug("Announcing: \(message)")
 		
@@ -277,16 +290,7 @@ class AccessCodeViewModel: ObservableObject {
 			Haptic.light()
 			updateState()
 			
-			// Announce 'Field x from 5, filled'
-			let message = String(
-				format: String(localized: "acccescode_box_voiceover"),
-				arguments: [
-					"\(accessCode.count)",
-					"\(numberOfDigits)",
-					String(localized: "acccescode_box_voiceover_filled")
-				]
-			)
-			announce(message)
+			announceActiveField(accessCode.count + 1)
 		}
 		if accessCode.count == numberOfDigits {
 			updateState()
@@ -365,16 +369,7 @@ class AccessCodeViewModel: ObservableObject {
 		if accessCode.isNotEmpty {
 			Haptic.light()
 			accessCode = accessCode.dropLast()
-			// Announce 'Field x from 5, empty'
-			let message = String(
-				format: String(localized: "acccescode_box_voiceover"),
-				arguments: [
-					"\(accessCode.count + 1)",
-					"\(numberOfDigits)",
-					String(localized: "acccescode_box_voiceover_emptied")
-				]
-			)
-			announce(message)
+			announceActiveField(accessCode.count + 1)
 		}
 		updateState()
 	}
