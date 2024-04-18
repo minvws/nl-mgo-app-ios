@@ -175,3 +175,9 @@ struct SearchView: View {
 		})
 	}
 }
+
+#Preview {
+	NavigationView {
+		SearchView(viewModel: SearchViewModel(coordinator: nil))
+	}
+}

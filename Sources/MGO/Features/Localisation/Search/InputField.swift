@@ -81,3 +81,22 @@ struct InputField: View {
 		}
 	}
 }
+
+#Preview {
+	VStack {
+		
+		InputField(
+			input: .constant("correct"),
+			errorMessage: .constant(""),
+			title: "Title"
+		)
+		.padding(16)
+		
+		InputField(
+			input: .constant("wrong"),
+			errorMessage: .constant("error message"),
+			title: "Title"
+		)
+		.padding(16)
+	}
+}
