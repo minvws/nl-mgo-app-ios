@@ -11,7 +11,7 @@ import MGOFoundation
 struct SearchViewState {
 	
 	/// The name to search on
-	var name: String = "" {
+	var name: String = "Huisarts" {
 		didSet {
 			if name.isNotEmpty {
 				nameError = ""
@@ -23,7 +23,7 @@ struct SearchViewState {
 	var nameError: LocalizedStringKey = ""
 
 	/// The city to search on
-	var city: String = "" {
+	var city: String = "Den Haag" {
 		didSet {
 			if city.isNotEmpty {
 				cityError = ""

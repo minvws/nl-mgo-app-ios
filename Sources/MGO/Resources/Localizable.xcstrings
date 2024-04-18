@@ -830,6 +830,39 @@
           }
         }
       }
+    },
+    "searchresults_backbutton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoeken"
+          }
+        }
+      }
+    },
+    "searchresults_loading_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgverleners aan het zoeken..."
+          }
+        }
+      }
+    },
+    "searchresults_loading_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgverleners hebben we gevonden"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

@@ -8,6 +8,12 @@
 import MGOFoundation
 import MGOUI
 
+enum SearchResultViewState {
+	case loading
+	case failure(Error)
+	case success([SearchResult])
+}
+
 class SearchResultViewModel: ObservableObject {
 	
 	@Published var name: String
@@ -19,7 +25,7 @@ class SearchResultViewModel: ObservableObject {
 		case backButtonPressed
 	}
 	
-//	@Published var state: SearchViewState = SearchViewState()
+	@Published var state: SearchResultViewState
 	
 	/// The flow coordintator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
@@ -31,6 +37,7 @@ class SearchResultViewModel: ObservableObject {
 		self.city = city
 		self.name = name
 		
+		self.state = .loading
 	}
 	
 	/// Handle any action
@@ -55,6 +62,16 @@ struct SearchResultView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum General {
+			static let padding: CGFloat = 16
+		}
+		enum Image {
+			static let spacing: CGFloat = 8
+		}
+	}
+	
 	var body: some View {
 		
 		ZStack {
@@ -62,14 +79,27 @@ struct SearchResultView: View {
 			theme.backgroundPrimary
 				.ignoresSafeArea()
 			
-			VStack {
-				Text(viewModel.name)
-				Text(viewModel.city)
+			switch viewModel.state {
+				case .loading:
+					SearchResultsLoadingView()
+			case .failure(let error):
+				VStack {
+					Text(viewModel.name)
+					Text(viewModel.city)
+					Spacer()
+				}
+				Spacer()
+			case .success(let array):
+				if array.isEmpty {
+					Spacer()
+				} else {
+					Spacer()
+				}
 			}
-			
+			//
 		}
 		.navigationBarBackButtonHidden(true)
-		.navigationBarItems(leading: BackButton {
+		.navigationBarItems(leading: BackButton("searchresults_backbutton") {
 			viewModel.reduce(.backButtonPressed)
 		})
 	}
