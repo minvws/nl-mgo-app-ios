@@ -61,7 +61,7 @@ struct DashboardView: View {
 			VStack {
 				
 				Text("app_title")
-					.rijksoverheidStyle(font: .bold, style: .largeTitle)
+					.rijksoverheidStyle(font: .bold, style: .title)
 					.accessibilityAddTraits(.isHeader)
 					.multilineTextAlignment(.center)
 				

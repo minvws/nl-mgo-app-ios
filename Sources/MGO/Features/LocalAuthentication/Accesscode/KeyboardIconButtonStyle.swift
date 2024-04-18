@@ -5,12 +5,11 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import RijksoverheidFont
 import SwiftUI
 import Theme
 
-struct KeyboardButtonStyle: ButtonStyle {
-	
+struct KeyboardIconButtonStyle: ButtonStyle {
+
 	/// Is the button enabled?
 	@Environment(\.isEnabled) private var isEnabled: Bool
 	
@@ -21,6 +20,8 @@ struct KeyboardButtonStyle: ButtonStyle {
 	private struct ViewTraits {
 		enum Button {
 			static let minimumHeight: CGFloat = 44
+			static let fontSize: CGFloat = 30
+			static let disabledOpacity: Double = 0.25
 		}
 	}
 	
@@ -31,8 +32,8 @@ struct KeyboardButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, maxHeight: .infinity)
-			.rijksoverheidStyle(font: .regular, style: .largeTitle)
-			.foregroundStyle(isEnabled ? theme.contentPrimary : theme.iconsSecondary)
+			.font(.system(size: ViewTraits.Button.fontSize))
+			.foregroundStyle(isEnabled ? theme.iconsPrimary : theme.iconsPrimary.opacity(ViewTraits.Button.disabledOpacity))
 			.background {
 				if configuration.isPressed {
 					Circle()
