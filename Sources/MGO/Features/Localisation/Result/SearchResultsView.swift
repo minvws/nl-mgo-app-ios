@@ -66,9 +66,16 @@ class SearchResultViewModel: ObservableObject {
 		
 		state = .loading
 		
-		delay(1.5) {
-			self.state = .success([])
-		}
+//		delay(1.5) {
+			self.state = .success([
+				SearchResult(id: "1", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
+				SearchResult(id: "2", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
+				SearchResult(id: "3", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
+				SearchResult(id: "4", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
+				SearchResult(id: "5", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
+				SearchResult(id: "6", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB")
+			])
+//		}
 	}
 }
 
@@ -106,17 +113,15 @@ struct SearchResultView: View {
 						viewModel.reduce(.retry)
 					})
 				
-				case .success(let array):
-					if array.isEmpty {
+				case .success(let results):
+					if results.isEmpty {
 						ErrorView(viewModel: SearchResultNoResultsViewModel(city: viewModel.city, name: viewModel.name) {
 							viewModel.reduce(.backButtonPressed)
 						})
 					} else {
-						
-						Spacer()
+						listSearchResults(results)
 					}
 			}
-			//
 		}
 		.onAppear {
 			viewModel.reduce(.onAppear)
@@ -125,6 +130,29 @@ struct SearchResultView: View {
 		.navigationBarItems(leading: BackButton("searchresults_backbutton") {
 			viewModel.reduce(.backButtonPressed)
 		})
+	}
+	
+	@ViewBuilder func listSearchResults(_ list: [SearchResult]) -> some View {
+		
+		ScrollView {
+			
+			VStack(alignment: .leading) {
+				
+				Text("searchresults_loading_title")
+					.rijksoverheidStyle(font: .bold, style: .title)
+					.foregroundStyle(theme.contentPrimary)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityAddTraits(.isHeader)
+			
+				LazyVStack(spacing: 8, content: {
+					ForEach(list, id: \.self) { element in
+						SearchResultCardView(element: element)
+					}
+				})
+				
+			}
+			.padding(.horizontal, ViewTraits.General.padding)
+		}
 	}
 }
 

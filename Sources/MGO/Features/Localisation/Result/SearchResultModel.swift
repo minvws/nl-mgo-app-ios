@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchResult: Codable {
+struct SearchResult: Codable, Hashable {
 	var id: String
 	var name: String
 	var city: String?
