@@ -509,6 +509,39 @@
         }
       }
     },
+    "error_default_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer of je telefoon verbonden is met het internet en probeer het opnieuw."
+          }
+        }
+      }
+    },
+    "error_default_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probeer opnieuw"
+          }
+        }
+      }
+    },
+    "error_default_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er ging iets mis"
+          }
+        }
+      }
+    },
     "forgot_action_reset" : {
       "extractionState" : "manual",
       "localizations" : {

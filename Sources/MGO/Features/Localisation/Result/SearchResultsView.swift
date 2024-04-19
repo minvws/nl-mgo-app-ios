@@ -21,14 +21,16 @@ class SearchResultViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case persist
 		case backButtonPressed
+		case persist
+		case retry
+		case onAppear
 	}
 	
 	@Published var state: SearchResultViewState
 	
 	/// The flow coordintator for routing
-	private weak var coordinator: (any AppCoordinatorProtocol)?
+	@Published private  var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
@@ -37,7 +39,7 @@ class SearchResultViewModel: ObservableObject {
 		self.city = city
 		self.name = name
 		
-		self.state = .loading
+		self.state = .failure(NSError(domain: "test error", code: 12345))
 	}
 	
 	/// Handle any action
@@ -45,11 +47,18 @@ class SearchResultViewModel: ObservableObject {
 	func reduce(_ action: SearchResultViewModel.Action) {
 		
 		switch action {
-			case .persist:
-				#warning("Todo: persist provider")
-				break
+			
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
+			case .onAppear:
+				#warning("Todo: onAppear")
+				
+			case .persist:
+				#warning("Todo: persist provider")
+			
+			case .retry:
+				#warning("Todo: retry loading")
+
 		}
 	}
 }
@@ -82,21 +91,30 @@ struct SearchResultView: View {
 			switch viewModel.state {
 				case .loading:
 					SearchResultsLoadingView()
-			case .failure(let error):
-				VStack {
-					Text(viewModel.name)
-					Text(viewModel.city)
-					Spacer()
-				}
-				Spacer()
+			
+				case .failure:
+				
+					ErrorView(viewModel: ErrorViewModel {
+						viewModel.reduce(.retry)
+					})
+				
 			case .success(let array):
 				if array.isEmpty {
 					Spacer()
 				} else {
+					//				VStack {
+					//					Text(viewModel.name)
+					//					Text(viewModel.city)
+					//					Spacer()
+					//				}
+					//				Spacer()
 					Spacer()
 				}
 			}
 			//
+		}
+		.onAppear {
+			viewModel.reduce(.onAppear)
 		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton("searchresults_backbutton") {
