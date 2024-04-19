@@ -51,14 +51,23 @@ class SearchResultViewModel: ObservableObject {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 			case .onAppear:
-				#warning("Todo: onAppear")
+				loadHealthcareProviders()
 				
 			case .persist:
 				#warning("Todo: persist provider")
 			
 			case .retry:
-				#warning("Todo: retry loading")
+				loadHealthcareProviders()
 
+		}
+	}
+	
+	private func loadHealthcareProviders() {
+		
+		state = .loading
+		
+		delay(1.5) {
+			self.state = .success([])
 		}
 	}
 }
@@ -93,23 +102,19 @@ struct SearchResultView: View {
 					SearchResultsLoadingView()
 			
 				case .failure:
-				
 					ErrorView(viewModel: ErrorViewModel {
 						viewModel.reduce(.retry)
 					})
 				
-			case .success(let array):
-				if array.isEmpty {
-					Spacer()
-				} else {
-					//				VStack {
-					//					Text(viewModel.name)
-					//					Text(viewModel.city)
-					//					Spacer()
-					//				}
-					//				Spacer()
-					Spacer()
-				}
+				case .success(let array):
+					if array.isEmpty {
+						ErrorView(viewModel: SearchResultNoResultsViewModel(city: viewModel.city, name: viewModel.name) {
+							viewModel.reduce(.backButtonPressed)
+						})
+					} else {
+						
+						Spacer()
+					}
 			}
 			//
 		}

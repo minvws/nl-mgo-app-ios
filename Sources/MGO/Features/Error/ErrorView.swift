@@ -9,11 +9,17 @@ import MGOUI
 
 protocol ErrorViewModelProtocol: ObservableObject {
 	
+	associatedtype Body: View
+	
 	/// The title of the error view
 	var title: LocalizedStringKey { get set }
 	
 	/// The main image of the error view
 	var image: ImageResource { get set }
+	
+	/// The view for the body
+	/// - Returns: View
+	func viewForbody() -> Body
 	
 	/// The body of the error view
 	var body: LocalizedStringKey { get set }
@@ -44,11 +50,15 @@ class ErrorViewModel: ErrorViewModelProtocol {
 	
 	@Published var image: ImageResource
 	
-	@Published var body: LocalizedStringKey
+	var body: LocalizedStringKey
 	
 	@Published var button: LocalizedStringKey
 	
 	@Published var action: () -> Void
+	
+	@ViewBuilder func viewForbody() -> some View {
+		Text(body)
+	}
 }
 
 private struct ErrorViewViewTraits {
@@ -96,20 +106,20 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 					.accessibilityHidden(true)
 					.padding(ErrorViewViewTraits.Image.insets)
 				
-				Text(viewModel.body)
+				viewModel.viewForbody()
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 				
 				Spacer()
 			}
+			.padding(.horizontal, ErrorViewViewTraits.General.padding)
 		}, bottomView: {
 			CallToActionButton(viewModel.button) {
 				viewModel.action()
 			}
 			.padding(ErrorViewViewTraits.General.padding)
 		})
-		.padding(.horizontal, ErrorViewViewTraits.General.padding)
 	}
 }
 

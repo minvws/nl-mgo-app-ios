@@ -31,7 +31,8 @@ struct InputField: View {
 	private struct ViewTraits {
 		enum Image {
 			static let spacing: CGFloat = 8
-			static let size: CGFloat = 17
+			static let width: CGFloat = 17
+			static let height: CGFloat = 18
 		}
 		enum Input {
 			static let cornerRadius: CGFloat = 8
@@ -69,7 +70,7 @@ struct InputField: View {
 				HStack(alignment: .center, spacing: ViewTraits.Image.spacing) {
 					Image(ImageResource.Search.error)
 						.resizable()
-						.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
+						.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
 					
 					Text(errorMessage)
 						.rijksoverheidStyle(font: .bold, style: .body)
