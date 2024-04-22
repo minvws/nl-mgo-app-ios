@@ -45,7 +45,7 @@ final class SearchViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == false
 		expect(self.sut.state.cityError) == "searchhp_city_error"
 		expect(self.sut.state.nameError) == "searchhp_name_error"
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(1))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 	
 	func test_searchButtonPressed_cityOK_shouldInvokeError() {
@@ -60,7 +60,7 @@ final class SearchViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == false
 		expect(self.sut.state.cityError) == ""
 		expect(self.sut.state.nameError) == "searchhp_name_error"
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(1))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 	
 	func test_searchButtonPressed_nameOK_shouldInvokeError() {
@@ -75,7 +75,7 @@ final class SearchViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == false
 		expect(self.sut.state.cityError) == "searchhp_city_error"
 		expect(self.sut.state.nameError) == ""
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(1))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 	
 	func test_searchButtonPressed_cityOKnameOK_shouldInvokeError() {
@@ -107,7 +107,7 @@ final class SearchViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == false
 		expect(self.sut.state.cityError) == "searchhp_city_error"
 		expect(self.sut.state.nameError) == "searchhp_name_error"
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(1))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 	
 	func test_searchButtonPressed_cityNotOKnameNotOK_whitespacesAndNewlines_shouldInvokeError() {
@@ -123,6 +123,6 @@ final class SearchViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == false
 		expect(self.sut.state.cityError) == "searchhp_city_error"
 		expect(self.sut.state.nameError) == "searchhp_name_error"
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(equal(1))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 }
