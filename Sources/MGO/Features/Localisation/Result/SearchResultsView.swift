@@ -7,30 +7,36 @@
 
 import MGOFoundation
 import MGOUI
+import LocalisationServiceClient
 
 enum SearchResultViewState {
 	case loading
 	case failure(Error)
 	case success([SearchResult])
+	case empty(city: String, name: String)
 }
 
 class SearchResultViewModel: ObservableObject {
 	
-	@Published var name: String
-	@Published var city: String
-	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-		case persist
+//		case persist
 		case retry
 		case onAppear
 	}
 	
+	/// The state of the view
 	@Published var state: SearchResultViewState
 	
+	/// Search paramater name
+	private var name: String
+	
+	/// Search paramater city
+	private var city: String
+	
 	/// The flow coordintator for routing
-	@Published private  var coordinator: (any AppCoordinatorProtocol)?
+	private  var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
@@ -50,15 +56,39 @@ class SearchResultViewModel: ObservableObject {
 			
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
+
 			case .onAppear:
-				loadHealthcareProviders()
+				SwiftUI.Task {
+					await load()
+				}
 				
-			case .persist:
-				#warning("Todo: persist provider")
+//			case .persist:
+//				#warning("Todo: persist provider")
 			
 			case .retry:
 				loadHealthcareProviders()
 
+		}
+	}
+	
+	@MainActor
+	private func load() async {
+		
+		state = .loading
+		
+		do {
+			let client = try LocalisationServiceClient()
+			let organisations = try await client.searchHealthcareProviders(city: city, name: name)
+			logDebug("We found \(organisations.count) organisations. ")
+			if organisations.isEmpty {
+				state = .empty(city: city, name: name)
+			} else {
+				// Todo
+			}
+			
+		} catch {
+			logDebug("Error fetching orginasations \(error)")
+			state = .failure(error)
 		}
 	}
 	
@@ -113,14 +143,13 @@ struct SearchResultView: View {
 						viewModel.reduce(.retry)
 					})
 				
+				case let .empty(city: city, name: name):
+					ErrorView(viewModel: SearchResultNoResultsViewModel(city: city, name: name) {
+						viewModel.reduce(.backButtonPressed)
+					})
+					
 				case .success(let results):
-					if results.isEmpty {
-						ErrorView(viewModel: SearchResultNoResultsViewModel(city: viewModel.city, name: viewModel.name) {
-							viewModel.reduce(.backButtonPressed)
-						})
-					} else {
-						listSearchResults(results)
-					}
+					listSearchResults(results)
 			}
 		}
 		.onAppear {
