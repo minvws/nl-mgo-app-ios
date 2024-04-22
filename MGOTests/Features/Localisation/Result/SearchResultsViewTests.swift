@@ -8,6 +8,7 @@
 import MGOTest
 @testable import MGO
 import LocalisationServiceClient
+import MGOUI
 
 final class SearchResultViewTests: XCTestCase {
 
@@ -15,6 +16,7 @@ final class SearchResultViewTests: XCTestCase {
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: SearchResultViewModel!
+	private var sut: SearchResultView!
 
 	override func setUp() {
 		
@@ -27,26 +29,27 @@ final class SearchResultViewTests: XCTestCase {
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
 		viewModel = SearchResultViewModel(coordinator: coordinatorSpy, city: city, name: name, localisationServiceClient: localisationServiceClientSpy)
-		sut = SearchResultView(viewModel: viewModel)
+		sut = SearchResultView(viewModel: self.viewModel)
 	}
 
 	func test_loading() {
 		
 		// Given
 		createSut()
+		viewModel.state = .loading
 		
 		// When
 		let content = NavigationView { sut }
 		
 		// Then
 		takeSnapShots(content: content)
-
+	}
+	
 	func test_empty() {
 		
 		// Given
 		createSut()
-		localisationServiceClientSpy.stubbedSearchHealthcareProviders = []
-		sut.reduce(.onAppear)
+		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
 
 		// When
 		let content = NavigationView { sut }
@@ -60,8 +63,7 @@ final class SearchResultViewTests: XCTestCase {
 		// Given
 		createSut()
 		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
-		localisationServiceClientSpy.stubbedSearchHealthcareProviderError = error
-		sut.reduce(.onAppear)
+		viewModel.state = .failure(error)
 		
 		// When
 		let content = NavigationView { sut }
@@ -74,25 +76,13 @@ final class SearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [Components.Schemas.Organization] = [
-			Components.Schemas.Organization(
-				display_name: "Tandarts Tandje Erbij",
-				identification_type: "type",
-				identification_value: "value",
-				active: true,
-				addresses: [Components.Schemas.Address(
-					active: true,
-					address: "Boorplatform 5",
-					city: "Roermond",
-					postalcode: "1234AB",
-					_type: "postal")
-				],
-				names: [],
-				types: []
-			)
+		let list = [
+			SearchResult(id: "1", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
+			SearchResult(id: "2", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
+			SearchResult(id: "3", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
+			SearchResult(id: "4", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB")
 		]
-		localisationServiceClientSpy.stubbedSearchHealthcareProviders = list
-		sut.reduce(.onAppear)
+		viewModel.state = .success(list)
 		
 		// When
 		let content = NavigationView { sut }
