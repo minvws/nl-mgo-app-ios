@@ -18,7 +18,7 @@ class SearchResultNoResultsViewModel: ErrorViewModelProtocol {
 	/// Initializer
 	/// - Parameters:
 	///   - city: the city we searched on
-	///   - name: the name we searded on
+	///   - name: the name we searched on
 	///   - action: completion handler when the user presses the CTA  button
 	init(
 		city: String,
@@ -47,7 +47,7 @@ class SearchResultNoResultsViewModel: ErrorViewModelProtocol {
 	
 	/// The view for the body
 	/// - Returns: View
-	@ViewBuilder func viewForbody() -> some View {
+	@ViewBuilder func viewForBody() -> some View {
 		
 		Text(.init(String(format: String(localized: "searchresults_noresults_body"), arguments: [name, city])))
 	

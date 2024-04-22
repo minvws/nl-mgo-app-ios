@@ -19,7 +19,7 @@ protocol ErrorViewModelProtocol: ObservableObject {
 	
 	/// The view for the body
 	/// - Returns: View
-	func viewForbody() -> Body
+	func viewForBody() -> Body
 	
 	/// The body of the error view
 	var body: LocalizedStringKey { get set }
@@ -56,7 +56,7 @@ class ErrorViewModel: ErrorViewModelProtocol {
 	
 	@Published var action: () -> Void
 	
-	@ViewBuilder func viewForbody() -> some View {
+	@ViewBuilder func viewForBody() -> some View {
 		Text(body)
 	}
 }
@@ -106,7 +106,7 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 					.accessibilityHidden(true)
 					.padding(ErrorViewViewTraits.Image.insets)
 				
-				viewModel.viewForbody()
+				viewModel.viewForBody()
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
