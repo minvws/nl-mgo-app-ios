@@ -59,8 +59,16 @@ jobs:
           SLACK_URL: ${{ secrets.SLACK_URL }}
         run: |
           bundle exec fastlane ios test_ci
-      
-      - name: SonarCloud
+
+  sonar:
+    runs-on: ubuntu-22.04
+    name: SonarCloud
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run SonarCloud scanner
         uses: SonarSource/sonarcloud-github-action@v2.1.1
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
