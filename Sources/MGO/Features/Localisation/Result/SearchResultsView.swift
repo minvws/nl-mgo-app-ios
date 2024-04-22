@@ -59,20 +59,21 @@ class SearchResultViewModel: ObservableObject {
 
 			case .onAppear:
 				SwiftUI.Task {
-					await load()
+					await loadHealthcareProviders()
 				}
 				
 //			case .persist:
 //				#warning("Todo: persist provider")
 			
 			case .retry:
-				loadHealthcareProviders()
-
+				SwiftUI.Task {
+					await loadHealthcareProviders()
+				}
 		}
 	}
 	
 	@MainActor
-	private func load() async {
+	private func loadHealthcareProviders() async {
 		
 		state = .loading
 		
@@ -83,29 +84,14 @@ class SearchResultViewModel: ObservableObject {
 			if organisations.isEmpty {
 				state = .empty(city: city, name: name)
 			} else {
-				// Todo
+				let results = SearchResultDecorator.create(organisations)
+				state = .success(results)
 			}
 			
 		} catch {
 			logDebug("Error fetching orginasations \(error)")
 			state = .failure(error)
 		}
-	}
-	
-	private func loadHealthcareProviders() {
-		
-		state = .loading
-		
-//		delay(1.5) {
-			self.state = .success([
-				SearchResult(id: "1", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
-				SearchResult(id: "2", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
-				SearchResult(id: "3", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
-				SearchResult(id: "4", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
-				SearchResult(id: "5", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
-				SearchResult(id: "6", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB")
-			])
-//		}
 	}
 }
 
