@@ -18,14 +18,21 @@ enum SearchResultViewState: Equatable {
 
 	static func == (lhs: SearchResultViewState, rhs: SearchResultViewState) -> Bool {
 		switch (lhs, rhs) {
-			case (.loading, .loading): return true
+			
+			case (.loading, .loading):
+				return true
+			
 			case let(.failure(lhsError), .failure(rhsError)):
-			return lhsError.localizedDescription == rhsError.localizedDescription
+					return lhsError.localizedDescription == rhsError.localizedDescription
+			
 			case let(.success(lhsResults), .success(rhsResults)):
-				return lhsResults == rhsResults
+					return lhsResults == rhsResults
+			
 			case let(.empty(lhsCity, lhsName), .empty(rhsCity, rhsName)):
-				return lhsCity == rhsCity && lhsName == rhsName
-			default: return false
+					return lhsCity == rhsCity && lhsName == rhsName
+			
+			default:
+				return false
 		}
 	}
 }
@@ -35,7 +42,6 @@ class SearchResultViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-//		case persist
 		case retry
 		case onAppear
 	}
@@ -78,9 +84,6 @@ class SearchResultViewModel: ObservableObject {
 				SwiftUI.Task {
 					await loadHealthcareProviders()
 				}
-				
-//			case .persist:
-//				#warning("Todo: persist provider")
 			
 			case .retry:
 				SwiftUI.Task {
