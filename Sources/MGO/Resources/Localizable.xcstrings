@@ -504,7 +504,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgverlener zoeken"
+            "value" : "Zorgaanbier zoeken"
           }
         }
       }
@@ -859,7 +859,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welke zorgverlener wil je toevoegen?"
+            "value" : "Welke zorgaanbieder wil je toevoegen?"
           }
         }
       }
@@ -881,7 +881,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgverleners aan het zoeken..."
+            "value" : "Zorgaanbieders aan het zoeken..."
           }
         }
       }
@@ -892,7 +892,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze zorgverleners hebben we gevonden"
+            "value" : "Deze zorgaanbieders hebben we gevonden"
           }
         }
       }
@@ -936,7 +936,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vul de juiste naam in. Je vindt deze  op de rekening. Of vraag aan de zorgverlener hoe je hun naam schrijft."
+            "value" : "Vul de juiste naam in. Je vindt deze  op de rekening. Of vraag aan de zorgaanbieder hoe je hun naam schrijft."
           }
         }
       }
@@ -947,7 +947,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Heeft deze zorgverlener meerdere vestigingen? Vul dan de plaatsnaam van de hoofdvestiging in."
+            "value" : "Heeft deze zorgaanbieder meerdere vestigingen? Vul dan de plaatsnaam van de hoofdvestiging in."
           }
         }
       }
@@ -958,7 +958,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen zorgverleners gevonden"
+            "value" : "Geen zorgaanbieders gevonden"
           }
         }
       }

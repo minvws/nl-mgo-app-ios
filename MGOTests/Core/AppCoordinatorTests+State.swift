@@ -8,18 +8,25 @@
 import MGOTest
 import MGOFoundation
 import MGOUI
+import LocalisationServiceClient
 @testable import MGO
 
 final class AppCoordinatorStateTests: XCTestCase {
 	
 	private var sut: AppCoordinator!
 	private var servicesSpies: ServicesSpies!
+	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
-		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		localisationServiceClientSpy = LocalisationServiceClientSpy()
+		localisationServiceClientSpy.stubbedSearchHealthcareProviders = []
+		sut = AppCoordinator(
+			path: NavigationStackBackport.NavigationPath(),
+			localisationServiceClient: localisationServiceClientSpy
+		)
 	}
 	
 	// MARK: - State -
@@ -179,6 +186,18 @@ final class AppCoordinatorStateTests: XCTestCase {
 
 		// Given
 		let state = AppCoordination.State.searchHealthcareProvider
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
+	func test_coordinatorView_forSearchResults() throws {
+
+		// Given
+		let state = AppCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")
 		
 		// When
 		let view = sut.view(for: state)

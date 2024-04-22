@@ -272,7 +272,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.fhirClient])
 	}
 	
-	func test_coordinatorHandle_search() {
+	func test_coordinatorHandle_searchHealthcareProviders() {
 		
 		// Given
 		
@@ -281,5 +281,16 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProvider])
+	}
+	
+	func test_coordinatorHandle_search() {
+		
+		// Given
+		
+		// When
+		sut.handle(AppCoordination.Action.search(city: "Roermond", name: "Tandarts Tandje Erbij"))
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")])
 	}
 }

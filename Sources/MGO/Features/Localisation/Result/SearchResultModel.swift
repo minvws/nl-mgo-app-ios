@@ -8,7 +8,7 @@
 import MGOFoundation
 import LocalisationServiceClient
 
-struct SearchResult: Codable, Hashable {
+struct SearchResult: Codable, Hashable, Equatable {
 	var id: String
 	var name: String
 	var city: String?

@@ -9,11 +9,25 @@ import MGOFoundation
 import MGOUI
 import LocalisationServiceClient
 
-enum SearchResultViewState {
+enum SearchResultViewState: Equatable {
+	
 	case loading
 	case failure(Error)
 	case success([SearchResult])
 	case empty(city: String, name: String)
+
+	static func == (lhs: SearchResultViewState, rhs: SearchResultViewState) -> Bool {
+		switch (lhs, rhs) {
+			case (.loading, .loading): return true
+			case let(.failure(lhsError), .failure(rhsError)):
+			return lhsError.localizedDescription == rhsError.localizedDescription
+			case let(.success(lhsResults), .success(rhsResults)):
+				return lhsResults == rhsResults
+			case let(.empty(lhsCity, lhsName), .empty(rhsCity, rhsName)):
+				return lhsCity == rhsCity && lhsName == rhsName
+			default: return false
+		}
+	}
 }
 
 class SearchResultViewModel: ObservableObject {
@@ -36,14 +50,18 @@ class SearchResultViewModel: ObservableObject {
 	private var city: String
 	
 	/// The flow coordintator for routing
-	private  var coordinator: (any AppCoordinatorProtocol)?
+	private weak var coordinator: (any AppCoordinatorProtocol)?
+	
+	/// The localisation service client
+	private var localisationServiceClient: LocalisationServiceClientProtocol?
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
-	init(coordinator: (any AppCoordinatorProtocol)?, city: String, name: String) {
+	init(coordinator: (any AppCoordinatorProtocol)?, city: String, name: String, localisationServiceClient: LocalisationServiceClientProtocol?) {
 		self.coordinator = coordinator
 		self.city = city
 		self.name = name
+		self.localisationServiceClient = localisationServiceClient
 		self.state = .loading
 	}
 	
@@ -76,10 +94,15 @@ class SearchResultViewModel: ObservableObject {
 		
 		state = .loading
 		
+		guard let localisationServiceClient else {
+			state = .failure(LocalisationServiceClientError.noServer)
+			return
+		}
+		
 		do {
-			let client = try LocalisationServiceClient()
-			let organisations = try await client.searchHealthcareProviders(city: city, name: name)
-			logDebug("We found \(organisations.count) organisations. ")
+			
+			let organisations = try await localisationServiceClient.searchHealthcareProviders(city: city, name: name)
+			logDebug("We found \(organisations.count) organisations.")
 			if organisations.isEmpty {
 				state = .empty(city: city, name: name)
 			} else {
@@ -172,6 +195,6 @@ struct SearchResultView: View {
 
 #Preview {
 	NavigationView {
-		SearchResultView(viewModel: SearchResultViewModel(coordinator: nil, city: "Roermond", name: "Tandarts Tandje Erbij"))
+		SearchResultView(viewModel: SearchResultViewModel(coordinator: nil, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: LocalisationServiceClient()))
 	}
 }

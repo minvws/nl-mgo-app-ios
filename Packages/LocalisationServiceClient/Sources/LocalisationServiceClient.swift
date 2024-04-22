@@ -11,7 +11,7 @@ import OpenAPIURLSession
 public protocol LocalisationServiceClientProtocol {
 	
 	/// Initializer
-	init() throws
+	init?()
 	
 	/// Search for all the healthcare providers with this city and name
 	/// - Parameters:
@@ -27,8 +27,10 @@ public class LocalisationServiceClient: LocalisationServiceClientProtocol {
 	private var client: Client
 	
 	/// Initializer
-	required public init() throws {
-		self.client = Client(serverURL: try Servers.server1(), transport: URLSessionTransport())
+	required public init?() {
+		
+		guard let serverUrl = try? Servers.server1() else { return nil }
+		self.client = Client(serverURL: serverUrl, transport: URLSessionTransport())
 	}
 	
 	/// Search for all the healthcare providers with this city and name

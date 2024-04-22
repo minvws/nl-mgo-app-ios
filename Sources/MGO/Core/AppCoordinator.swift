@@ -9,6 +9,7 @@ import MGOUI
 import MGOFoundation
 import LocalAuthentication
 import RestrictedBrowser
+import LocalisationServiceClient
 
 protocol AppCoordinatorProtocol: ObservableObject {
 	
@@ -114,11 +115,16 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// the browser to open allowed domains in
 	private var browser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains())
 	
+	private var localisationServiceClient: LocalisationServiceClientProtocol?
+	
 	/// Initializer
 	/// - Parameter path: Navigation Path
-	init(path: NavigationStackBackport.NavigationPath) {
+	init(
+		path: NavigationStackBackport.NavigationPath,
+		localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient()) {
 		
 		self.path = path
+		self.localisationServiceClient = localisationServiceClient
 	}
 	
 	/// the URL for the privacy page
@@ -314,7 +320,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				SearchView(viewModel: SearchViewModel(coordinator: self))
 			
 			case let .searchHealthcareProviders(city, name):
-				SearchResultView(viewModel: SearchResultViewModel(coordinator: self, city: city, name: name))
+			SearchResultView(viewModel: SearchResultViewModel(coordinator: self, city: city, name: name, localisationServiceClient: self.localisationServiceClient))
 		
 			// POC
 			
