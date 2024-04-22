@@ -44,8 +44,7 @@ class SearchResultViewModel: ObservableObject {
 		self.coordinator = coordinator
 		self.city = city
 		self.name = name
-		
-		self.state = .failure(NSError(domain: "test error", code: 12345))
+		self.state = .loading
 	}
 	
 	/// Handle any action

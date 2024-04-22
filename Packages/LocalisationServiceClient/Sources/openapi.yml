@@ -4,7 +4,7 @@ info:
   version: 0.1.0
 servers:
   - url: https://lo-ad.test.mgo.irealisatie.nl/
-    description: MGO localization
+    description: MGO TEST localisation
 paths:
 #  "/":
 #    get:
@@ -39,7 +39,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/SearchRequest"
+              $ref: "#/components/schemas/SearchRequest"
         required: true
       responses:
         '200':
@@ -47,13 +47,13 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SearchResponse"
+                $ref: "#/components/schemas/SearchResponse"
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/HTTPValidationError"
+                $ref: "#/components/schemas/HTTPValidationError"
 #  "/localization/cities":
 #    get:
 #      tags:
@@ -74,13 +74,13 @@ paths:
 #          content:
 #            application/json:
 #              schema:
-#                "$ref": "#/components/schemas/CityResponse"
+#                $ref: "#/components/schemas/CityResponse"
 #        '422':
 #          description: Validation Error
 #          content:
 #            application/json:
 #              schema:
-#                "$ref": "#/components/schemas/HTTPValidationError"
+#                $ref: "#/components/schemas/HTTPValidationError"
 #  "/localization/cities/all":
 #    get:
 #      tags:
@@ -94,7 +94,7 @@ paths:
 #          content:
 #            application/json:
 #              schema:
-#                "$ref": "#/components/schemas/CityResponse"
+#                $ref: "#/components/schemas/CityResponse"
 #  "/addressing/services":
 #    post:
 #      tags:
@@ -106,7 +106,7 @@ paths:
 #          application/json:
 #            schema:
 #              items:
-#                "$ref": "#/components/schemas/ZalSearchRequestEntry"
+#                $ref: "#/components/schemas/ZalSearchRequestEntry"
 #              type: array
 #              title: Request
 #        required: true
@@ -116,13 +116,13 @@ paths:
 #          content:
 #            application/json:
 #              schema:
-#                "$ref": "#/components/schemas/ZalSearchResponse"
+#                $ref: "#/components/schemas/ZalSearchResponse"
 #        '422':
 #          description: Validation Error
 #          content:
 #            application/json:
 #              schema:
-#                "$ref": "#/components/schemas/HTTPValidationError"
+#                $ref: "#/components/schemas/HTTPValidationError"
 components:
   schemas:
     Address:
@@ -144,10 +144,10 @@ components:
             type: [string, null]
           type: array
           title: Lines
-#        geolocation:
-#           anyOf:
-#          - "$ref": "#/components/schemas/GeoLocation"
-#           - type: null
+        geolocation:
+          schema:
+            $ref: "$#/components/schemas/GeoLocation"
+          title: GeoLocation
         postalcode:
           type: [string, null]
           title: Postalcode
@@ -182,20 +182,20 @@ components:
       - display_name
       - type
       title: CType
-    CityResponse:
-      properties:
-        meta:
-          "$ref": "#/components/schemas/Meta"
-        items:
-          items:
-            type: string
-          type: array
-          title: Items
-      type: object
-      required:
-      - meta
-      - items
-      title: CityResponse
+#    CityResponse:
+#      properties:
+#        meta:
+#          $ref: "#/components/schemas/Meta"
+#        items:
+#          items:
+#            type: string
+#          type: array
+#          title: Items
+#      type: object
+#      required:
+#      - meta
+#      - items
+#      title: CityResponse
     GeoLocation:
       properties:
         latitude:
@@ -213,7 +213,7 @@ components:
       properties:
         detail:
           items:
-            "$ref": "#/components/schemas/ValidationError"
+            $ref: "#/components/schemas/ValidationError"
           type: array
           title: Detail
       type: object
@@ -226,23 +226,23 @@ components:
       - htn
       - ura
       title: IdentificationType
-    Meta:
-      properties:
-        limit:
-          type: integer
-          title: Limit
-        offset:
-          type: integer
-          title: Offset
-        total:
-          type: integer
-          title: Total
-      type: object
-      required:
-      - limit
-      - offset
-      - total
-      title: Meta
+#    Meta:
+#      properties:
+#        limit:
+#          type: integer
+#          title: Limit
+#        offset:
+#          type: integer
+#          title: Offset
+#        total:
+#          type: integer
+#          title: Total
+#      type: object
+#      required:
+#      - limit
+#      - offset
+#      - total
+#      title: Meta
     Name:
       properties:
         full_name:
@@ -272,17 +272,17 @@ components:
           title: Active
         addresses:
           items:
-            "$ref": "#/components/schemas/Address"
+            $ref: "#/components/schemas/Address"
           type: array
           title: Addresses
         names:
           items:
-            "$ref": "#/components/schemas/Name"
+            $ref: "#/components/schemas/Name"
           type: array
           title: Names
         types:
           items:
-            "$ref": "#/components/schemas/CType"
+            $ref: "#/components/schemas/CType"
           type: array
           title: Types
       type: object
@@ -309,7 +309,7 @@ components:
       properties:
         organizations:
           items:
-            "$ref": "#/components/schemas/Organization"
+            $ref: "#/components/schemas/Organization"
           type: array
           title: Organizations
       type: object
@@ -337,105 +337,105 @@ components:
       - msg
       - type
       title: ValidationError
-    ZalDataServiceResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        name:
-          type: string
-          title: Name
-        interface_version:
-          type: integer
-          title: Interface Version
-        auth_endpoint:
-          type: string
-          title: Auth Endpoint
-        token_endpoint:
-          type: string
-          title: Token Endpoint
-        roles:
-          items:
-            "$ref": "#/components/schemas/ZalDataServiceRoleResponse"
-          type: array
-          title: Roles
-      type: object
-      required:
-      - id
-      - name
-      - interface_version
-      - auth_endpoint
-      - token_endpoint
-      - roles
-      title: ZalDataServiceResponse
-    ZalDataServiceRoleResponse:
-      properties:
-        code:
-          type: string
-          title: Code
-        resource_endpoint:
-          type: string
-          title: Resource Endpoint
-      type: object
-      required:
-      - code
-      - resource_endpoint
-      title: ZalDataServiceRoleResponse
-    ZalSearchRequestEntry:
-      properties:
-        id_type:
-          "$ref": "#/components/schemas/IdentificationType"
-        id_value:
-          type: string
-          title: Id Value
-      type: object
-      required:
-      - id_type
-      - id_value
-      title: ZalSearchRequestEntry
-    ZalSearchResponse:
-      properties:
-        total:
-          type: integer
-          title: Total
-        found:
-          type: integer
-          title: Found
-        entries:
-          items:
-            "$ref": "#/components/schemas/ZalSearchResponseEntry"
-          type: array
-          title: Entries
-      type: object
-      required:
-      - total
-      - found
-      - entries
-      title: ZalSearchResponse
-    ZalSearchResponseEntry:
-      properties:
-        medmij_id:
-          type: string
-          title: Medmij Id
-        organization_type:
-          type: string
-          title: Organization Type
-        id_type:
-          type: string
-          title: Id Type
-        id_value:
-          type: string
-          title: Id Value
-        dataservices:
-          items:
-            "$ref": "#/components/schemas/ZalDataServiceResponse"
-          type: array
-          title: Dataservices
-      type: object
-      required:
-      - medmij_id
-      - organization_type
-      - id_type
-      - id_value
-      - dataservices
-      title: ZalSearchResponseEntry
+#    ZalDataServiceResponse:
+#      properties:
+#        id:
+#          type: integer
+#          title: Id
+#        name:
+#          type: string
+#          title: Name
+#        interface_version:
+#          type: integer
+#          title: Interface Version
+#        auth_endpoint:
+#          type: string
+#          title: Auth Endpoint
+#        token_endpoint:
+#          type: string
+#          title: Token Endpoint
+#        roles:
+#          items:
+#            $ref: "#/components/schemas/ZalDataServiceRoleResponse"
+#          type: array
+#          title: Roles
+#      type: object
+#      required:
+#      - id
+#      - name
+#      - interface_version
+#      - auth_endpoint
+#      - token_endpoint
+#      - roles
+#      title: ZalDataServiceResponse
+#    ZalDataServiceRoleResponse:
+#      properties:
+#        code:
+#          type: string
+#          title: Code
+#        resource_endpoint:
+#          type: string
+#          title: Resource Endpoint
+#      type: object
+#      required:
+#      - code
+#      - resource_endpoint
+#      title: ZalDataServiceRoleResponse
+#    ZalSearchRequestEntry:
+#      properties:
+#        id_type:
+#          $ref: "#/components/schemas/IdentificationType"
+#        id_value:
+#          type: string
+#          title: Id Value
+#      type: object
+#      required:
+#      - id_type
+#      - id_value
+#      title: ZalSearchRequestEntry
+#    ZalSearchResponse:
+#      properties:
+#        total:
+#          type: integer
+#          title: Total
+#        found:
+#          type: integer
+#          title: Found
+#        entries:
+#          items:
+#            $ref: "#/components/schemas/ZalSearchResponseEntry"
+#          type: array
+#          title: Entries
+#      type: object
+#      required:
+#      - total
+#      - found
+#      - entries
+#      title: ZalSearchResponse
+#    ZalSearchResponseEntry:
+#      properties:
+#        medmij_id:
+#          type: string
+#          title: Medmij Id
+#        organization_type:
+#          type: string
+#          title: Organization Type
+#        id_type:
+#          type: string
+#          title: Id Type
+#        id_value:
+#          type: string
+#          title: Id Value
+#        dataservices:
+#          items:
+#            $ref: "#/components/schemas/ZalDataServiceResponse"
+#          type: array
+#          title: Dataservices
+#      type: object
+#      required:
+#      - medmij_id
+#      - organization_type
+#      - id_type
+#      - id_value
+#      - dataservices
+#      title: ZalSearchResponseEntry
