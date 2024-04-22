@@ -11,7 +11,7 @@ import MGOFoundation
 struct SearchViewState {
 	
 	/// The name to search on
-	var name: String = "" {
+	var name: String = "Tandarts Tandje Erbij" {
 		didSet {
 			if name.isNotEmpty {
 				nameError = ""
@@ -23,7 +23,7 @@ struct SearchViewState {
 	var nameError: LocalizedStringKey = ""
 
 	/// The city to search on
-	var city: String = "" {
+	var city: String = "Roermond" {
 		didSet {
 			if city.isNotEmpty {
 				cityError = ""
@@ -80,17 +80,19 @@ class SearchViewModel: ObservableObject {
 	private func validateState() -> Bool {
 		
 		var allFieldsAreFilled = true
-		if state.name.isEmpty {
+		if let sanitized = Sanitizer.strip(state.name), sanitized.isNotEmpty {
+			state.nameError = ""
+			state.name = sanitized
+		} else {
 			allFieldsAreFilled = false
 			state.nameError = "searchhp_name_error"
-		} else {
-			state.nameError = ""
 		}
-		if state.city.isEmpty {
+		if let sanitized = Sanitizer.strip(state.city), sanitized.isNotEmpty {
+			state.cityError = ""
+			state.city = sanitized
+		} else {
 			allFieldsAreFilled = false
 			state.cityError = "searchhp_city_error"
-		} else {
-			state.cityError = ""
 		}
 		return allFieldsAreFilled
 	}
@@ -171,5 +173,11 @@ struct SearchView: View {
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)
 		})
+	}
+}
+
+#Preview {
+	NavigationView {
+		SearchView(viewModel: SearchViewModel(coordinator: nil))
 	}
 }

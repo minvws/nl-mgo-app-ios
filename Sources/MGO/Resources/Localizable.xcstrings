@@ -509,6 +509,39 @@
         }
       }
     },
+    "error_default_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer of je telefoon verbonden is met het internet en probeer het opnieuw."
+          }
+        }
+      }
+    },
+    "error_default_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probeer opnieuw"
+          }
+        }
+      }
+    },
+    "error_default_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er ging iets mis"
+          }
+        }
+      }
+    },
     "forgot_action_reset" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -827,6 +860,105 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Welke zorgverlener wil je toevoegen?"
+          }
+        }
+      }
+    },
+    "searchresults_backbutton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoeken"
+          }
+        }
+      }
+    },
+    "searchresults_loading_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgverleners aan het zoeken..."
+          }
+        }
+      }
+    },
+    "searchresults_loading_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgverleners hebben we gevonden"
+          }
+        }
+      }
+    },
+    "searchresults_noresults_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt gezocht naar **%@** in **%@**"
+          }
+        }
+      }
+    },
+    "searchresults_noresults_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opnieuw zoeken"
+          }
+        }
+      }
+    },
+    "searchresults_noresults_reason_1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer de spelling."
+          }
+        }
+      }
+    },
+    "searchresults_noresults_reason_2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vul de juiste naam in. Je vindt deze  op de rekening. Of vraag aan de zorgverlener hoe je hun naam schrijft."
+          }
+        }
+      }
+    },
+    "searchresults_noresults_reason_3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heeft deze zorgverlener meerdere vestigingen? Vul dan de plaatsnaam van de hoofdvestiging in."
+          }
+        }
+      }
+    },
+    "searchresults_noresults_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen zorgverleners gevonden"
           }
         }
       }

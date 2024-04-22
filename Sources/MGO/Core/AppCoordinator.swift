@@ -69,7 +69,7 @@ enum AppCoordination {
 	}
 	
 	/// A list of all the view states the app coordinator can show
-	enum State: String, Codable {
+	enum State: Equatable, Hashable, Codable {
 		case launch
 		
 		// Onboarding
@@ -89,6 +89,7 @@ enum AppCoordination {
 		
 		// Healthcare Provider flow
 		case searchHealthcareProvider
+		case searchHealthcareProviders(city: String, name: String)
 		
 		// Dashboard
 		case dashboard
@@ -215,9 +216,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 			// Healthcare Provider flow
 			case let .search(city, name):
-				#warning("Todo: Send name and city to coordinator for searching healthcare providers")
-				logDebug("We got to search on \(city) and \(name)")
-
+				path.append(AppCoordination.State.searchHealthcareProviders(city: city, name: name))
+			
 			// Dashboard
 			
 			case .fhirClient:
@@ -247,7 +247,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// - Parameter state: the desired state
 	private func navigateTo(state: AppCoordination.State) {
 		
-		if let index = path.indexOf(state.rawValue) {
+		if let index = path.indexOf(state) {
 			let elementsToBeRemoved = path.count - index - 1
 			logDebug("AppCoordinator navigateTo \(state) - index: \(index), count: \(path.count), toBeRemoved: \(elementsToBeRemoved)")
 			if elementsToBeRemoved >= 0 {
@@ -313,6 +313,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .searchHealthcareProvider:
 				SearchView(viewModel: SearchViewModel(coordinator: self))
 			
+			case let .searchHealthcareProviders(city, name):
+				SearchResultView(viewModel: SearchResultViewModel(coordinator: self, city: city, name: name))
+		
 			// POC
 			
 			case .fhirClient:
