@@ -100,6 +100,10 @@ struct LaunchView: View {
 		enum Spinner {
 			static let bottomOffset: CGFloat = 75
 		}
+		enum Rijkslint {
+			static let height: CGFloat = 100
+			static let width: CGFloat = 50
+		}
 	}
 	
 	/// Calculate the offset for the rijkslint so it stays just below the notch or dynamic island
@@ -126,6 +130,8 @@ struct LaunchView: View {
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
 				VStack {
 					Image(ImageResource.rijkslint)
+						.resizable()
+						.frame(width: ViewTraits.Rijkslint.width, height: ViewTraits.Rijkslint.height)
 						.padding(.top, rijkslintTopOffset)
 						.ignoresSafeArea()
 					
