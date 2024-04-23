@@ -9,6 +9,7 @@ import MGOUI
 import MGOFoundation
 import LocalAuthentication
 import RestrictedBrowser
+import LocalisationServiceClient
 
 protocol AppCoordinatorProtocol: ObservableObject {
 	
@@ -33,7 +34,7 @@ protocol AppCoordinatorProtocol: ObservableObject {
 enum AppCoordination {
 	
 	/// A list of all the action an app coordinator can do
-	enum Action {
+	enum Action: Equatable {
 		// Launch
 		case finishedLoading
 		
@@ -55,6 +56,13 @@ enum AppCoordination {
 		case loginWithDigiD
 		case loginWithAccessCode
 		
+		// Healthcare Provider flow
+		case search(city: String, name: String)
+		
+		// Dashboard
+		case fhirClient
+		case searchHealthcareProviders
+		
 		// Other
 		case sheetClosed
 		case backButtonPressed
@@ -62,7 +70,7 @@ enum AppCoordination {
 	}
 	
 	/// A list of all the view states the app coordinator can show
-	enum State: String, Codable {
+	enum State: Equatable, Hashable, Codable {
 		case launch
 		
 		// Onboarding
@@ -80,8 +88,15 @@ enum AppCoordination {
 		// Remote Auhtentication
 		case remoteAuthentication
 		
+		// Healthcare Provider flow
+		case searchHealthcareProvider
+		case searchHealthcareProviders(city: String, name: String)
+		
 		// Dashboard
 		case dashboard
+		
+		// POC
+		case fhirClient
 	}
 }
 
@@ -100,11 +115,16 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// the browser to open allowed domains in
 	private var browser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains())
 	
+	private var localisationServiceClient: LocalisationServiceClientProtocol?
+	
 	/// Initializer
 	/// - Parameter path: Navigation Path
-	init(path: NavigationStackBackport.NavigationPath) {
+	init(
+		path: NavigationStackBackport.NavigationPath,
+		localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient()) {
 		
 		self.path = path
+		self.localisationServiceClient = localisationServiceClient
 	}
 	
 	/// the URL for the privacy page
@@ -129,6 +149,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Onboarding
 			
 			case .finishedLoading:
+			
+//				path.append(AppCoordination.State.searchHealthcareProvider)
+			
 				if !Current.secureUserSettings.userHasSeenAppIntroduction {
 					// Only show the appIntroduction once
 					path.append(AppCoordination.State.appIntroduction)
@@ -197,6 +220,18 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .loginWithAccessCode:
 				path.append(AppCoordination.State.accessCodeValidation)
 			
+			// Healthcare Provider flow
+			case let .search(city, name):
+				path.append(AppCoordination.State.searchHealthcareProviders(city: city, name: name))
+			
+			// Dashboard
+			
+			case .fhirClient:
+				path.append(AppCoordination.State.fhirClient)
+			
+			case .searchHealthcareProviders:
+				path.append(AppCoordination.State.searchHealthcareProvider)
+			
 			// General
 			
 			case .sheetClosed, .dismissForgotAccessCode:
@@ -218,7 +253,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// - Parameter state: the desired state
 	private func navigateTo(state: AppCoordination.State) {
 		
-		if let index = path.indexOf(state.rawValue) {
+		if let index = path.indexOf(state) {
 			let elementsToBeRemoved = path.count - index - 1
 			logDebug("AppCoordinator navigateTo \(state) - index: \(index), count: \(path.count), toBeRemoved: \(elementsToBeRemoved)")
 			if elementsToBeRemoved >= 0 {
@@ -278,9 +313,20 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Dashboard
 	
 			case .dashboard:
-//				DashboardView(viewModel: DashboardViewModel(coordinator: self))
-				PatientView(viewModel: PatientViewModel(coordinator: self))
+				DashboardView(viewModel: DashboardViewModel(coordinator: self))
 
+			// Healthcare Provider flow
+			case .searchHealthcareProvider:
+				SearchView(viewModel: SearchViewModel(coordinator: self))
+			
+			case let .searchHealthcareProviders(city, name):
+			SearchResultView(viewModel: SearchResultViewModel(coordinator: self, city: city, name: name, localisationServiceClient: self.localisationServiceClient))
+		
+			// POC
+			
+			case .fhirClient:
+				PatientView(viewModel: PatientViewModel(coordinator: self))
+			
 			// Fallback
 			
 			case .none:
