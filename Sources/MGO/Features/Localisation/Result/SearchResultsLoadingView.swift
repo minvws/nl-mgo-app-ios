@@ -17,6 +17,9 @@ struct SearchResultsLoadingView: View {
 		enum General {
 			static let padding: CGFloat = 16
 		}
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
 	}
 	
 	/// Progress for the spinner
@@ -44,6 +47,7 @@ struct SearchResultsLoadingView: View {
 			Spacer()
 		}
 		.padding(.horizontal, ViewTraits.General.padding)
+		.padding(.top, ViewTraits.Navigation.padding)
 		.onAppear(perform: {
 			progress = 1
 		})

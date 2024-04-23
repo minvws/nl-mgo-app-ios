@@ -69,6 +69,9 @@ private struct ErrorViewViewTraits {
 	enum Image {
 		static let insets = EdgeInsets( top: 0, leading: 50, bottom: 0, trailing: 50)
 	}
+	enum Navigation {
+		static let padding: CGFloat = 8
+	}
 }
 
 struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
@@ -120,6 +123,7 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 			}
 			.padding(ErrorViewViewTraits.General.padding)
 		})
+		.padding(.top, ErrorViewViewTraits.Navigation.padding)
 	}
 }
 

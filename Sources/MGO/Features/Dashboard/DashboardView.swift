@@ -58,6 +58,16 @@ struct DashboardView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
+		enum General {
+			static let padding: CGFloat = 16
+		}
+	}
+	
 	var body: some View {
 		ZStack {
 			
@@ -70,18 +80,23 @@ struct DashboardView: View {
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.accessibilityAddTraits(.isHeader)
 					.multilineTextAlignment(.center)
+					.padding(.bottom, ViewTraits.General.padding)
 				
 				CallToActionButton("dashboard_poc") {
 					viewModel.reduce(.poc)
 				}
+				.padding(.bottom, ViewTraits.General.padding)
 
 				CallToActionButton("dashboard_search_healthcareProviders") {
 					viewModel.reduce(.search)
 				}
+				.padding(.bottom, ViewTraits.General.padding)
 				
 				Spacer()
 			}
-			.padding(.horizontal, 16)
+			.padding(.horizontal, ViewTraits.General.padding)
+			.padding(.top, ViewTraits.Navigation.padding)
+			
 		}
 		.navigationBarBackButtonHidden()
 		

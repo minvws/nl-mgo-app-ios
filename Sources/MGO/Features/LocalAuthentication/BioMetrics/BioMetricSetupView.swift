@@ -152,6 +152,9 @@ struct BioMetricSetupView: View {
 			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
 			static let spacing: CGFloat = 16
 		}
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
 	}
 
 	var body: some View {
@@ -219,6 +222,7 @@ struct BioMetricSetupView: View {
 				}
 				.padding(ViewTraits.Button.insets)
 			})
+			.padding(.top, ViewTraits.Navigation.padding)
 		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarTitleDisplayMode(.inline)

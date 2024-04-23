@@ -125,6 +125,9 @@ struct SearchView: View {
 		enum Image {
 			static let spacing: CGFloat = 8
 		}
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
 	}
 	
 	var body: some View {
@@ -168,6 +171,7 @@ struct SearchView: View {
 				.tag("search")
 				.padding(ViewTraits.General.padding)
 			}
+			.padding(.top, ViewTraits.Navigation.padding)
 		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton {

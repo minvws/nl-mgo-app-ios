@@ -468,6 +468,9 @@ struct AccessCodeView: View {
 			static let box: CGFloat = 0.16 // The boxes take 16 %
 			static let keyboard: CGFloat = 0.46 // The keyboard the remainder
 		}
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
 	}
 	
 	var body: some View {
@@ -532,6 +535,7 @@ struct AccessCodeView: View {
 				}
 				.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.text)
 				.position(x: geometry.size.width / 2, y: geometry.size.height * ViewTraits.Position.text / 2 )
+				.padding(.top, ViewTraits.Navigation.padding)
 				
 				HStack(spacing: ViewTraits.Box.spacing) {
 					ForEach($viewModel.boxStates, id: \.self) { element in
