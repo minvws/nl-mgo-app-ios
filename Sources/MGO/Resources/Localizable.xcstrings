@@ -230,7 +230,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vul je **5-cijferige toegangscode** in om verder te gaan naar de app."
+            "value" : "Vul je persoonlijke toegangscode in om in te loggen."
           }
         }
       }

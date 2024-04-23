@@ -100,6 +100,13 @@ struct PatientView: View {
 	
 	@StateObject var viewModel: PatientViewModel
 	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
+	}
+	
 	var body: some View {
 		ZStack {
 			theme.backgroundPrimary
@@ -165,6 +172,7 @@ struct PatientView: View {
 						.background(theme.backgroundTertiary)
 				}
 			}
+			.padding(.top, ViewTraits.Navigation.padding)
 		}
 	}
 }

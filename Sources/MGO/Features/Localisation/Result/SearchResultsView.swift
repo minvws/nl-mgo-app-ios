@@ -136,6 +136,9 @@ struct SearchResultView: View {
 		enum Image {
 			static let spacing: CGFloat = 8
 		}
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
 	}
 	
 	var body: some View {
@@ -193,6 +196,7 @@ struct SearchResultView: View {
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
 		}
+		.padding(.top, ViewTraits.Navigation.padding)
 	}
 }
 
