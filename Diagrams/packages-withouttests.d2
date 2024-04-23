@@ -33,6 +33,18 @@ FHIRModels: {
   shape: oval
   style.fill: "#8FCAE7"
 }
+swift-openapi-generator: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+swift-openapi-runtime: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+swift-openapi-urlsession: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 
 # Third-Party
 NavigationStackBackport: {
@@ -44,6 +56,9 @@ Logging: {
 DeviceKit: {
   shape: hexagon
 }
+SwiftSoup: {
+  shape: hexagon
+}
 
 # The application
 
@@ -52,6 +67,7 @@ MGOapp: {
 }
 
 MGOapp <- RestrictedBrowser
+MGOapp <- LocalisationServiceClient
 MGOapp <- MGOFoundation
 MGOapp <- MGOUI
 MGOapp <- UIKit
@@ -73,6 +89,7 @@ Managers <- FHIRClient
 Managers <- UIKit
 Managers <- Foundation
 Managers <- CommonCrypto
+Managers <- SwiftSoup
 
 RijksoverheidFont { style.fill: "#ffcc00" }
 RijksoverheidFont <- CoreGraphics
@@ -95,3 +112,8 @@ RestrictedBrowser <- WebKit
 
 Theme { style.fill: "#ffcc00" }
 Theme <- SwiftUI
+
+LocalisationServiceClient { style.fill: "#ffcc00" }
+LocalisationServiceClient <- swift-openapi-generator
+LocalisationServiceClient <- swift-openapi-runtime
+LocalisationServiceClient <- swift-openapi-urlsession

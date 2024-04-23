@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Close.pdf",
+      "filename" : "close.svg",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "Close 1.pdf",
+      "filename" : "close-dark.svg",
       "idiom" : "universal"
     }
   ],

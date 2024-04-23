@@ -230,7 +230,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vul je **5-cijferige toegangscode** in om verder te gaan naar de app."
+            "value" : "Vul je persoonlijke toegangscode in om in te loggen."
           }
         }
       }
@@ -487,6 +487,61 @@
         }
       }
     },
+    "dashboard_poc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FHIR Client Proof of Concept"
+          }
+        }
+      }
+    },
+    "dashboard_search_healthcareProviders" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieder zoeken"
+          }
+        }
+      }
+    },
+    "error_default_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer of je telefoon verbonden is met het internet en probeer het opnieuw."
+          }
+        }
+      }
+    },
+    "error_default_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probeer opnieuw"
+          }
+        }
+      }
+    },
+    "error_default_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er ging iets mis"
+          }
+        }
+      }
+    },
     "forgot_action_reset" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -720,6 +775,193 @@
     },
     "Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)" : {
 
+    },
+    "searchhp_action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoeken"
+          }
+        }
+      }
+    },
+    "searchhp_city" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plaats (verplicht)"
+          }
+        }
+      }
+    },
+    "searchhp_city_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vul een plaats in"
+          }
+        }
+      }
+    },
+    "searchhp_city_error_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het plaatsveld is verplicht, vul een plaats in"
+          }
+        }
+      }
+    },
+    "searchhp_name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naam (verplicht)"
+          }
+        }
+      }
+    },
+    "searchhp_name_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vul een naam in"
+          }
+        }
+      }
+    },
+    "searchhp_name_error_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het naamveld is verplicht, vul een naam in"
+          }
+        }
+      }
+    },
+    "searchhp_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welke zorgaanbieder wil je toevoegen?"
+          }
+        }
+      }
+    },
+    "searchresults_backbutton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoeken"
+          }
+        }
+      }
+    },
+    "searchresults_loading_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieders aan het zoeken..."
+          }
+        }
+      }
+    },
+    "searchresults_loading_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieders hebben we gevonden"
+          }
+        }
+      }
+    },
+    "searchresults_noresults_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt gezocht naar **%@** in **%@**"
+          }
+        }
+      }
+    },
+    "searchresults_noresults_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opnieuw zoeken"
+          }
+        }
+      }
+    },
+    "searchresults_noresults_reason_1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer de spelling."
+          }
+        }
+      }
+    },
+    "searchresults_noresults_reason_2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vul de juiste naam in. Je vindt deze  op de rekening. Of vraag aan de zorgaanbieder hoe je hun naam schrijft."
+          }
+        }
+      }
+    },
+    "searchresults_noresults_reason_3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heeft deze zorgaanbieder meerdere vestigingen? Vul dan de plaatsnaam van de hoofdvestiging in."
+          }
+        }
+      }
+    },
+    "searchresults_noresults_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen zorgaanbieders gevonden"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

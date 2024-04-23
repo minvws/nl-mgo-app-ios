@@ -28,8 +28,6 @@ class PatientViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case resetApplication
-		case showResetDialog
 		case search(String)
 	}
 	
@@ -63,12 +61,6 @@ class PatientViewModel: ObservableObject {
 	func reduce(_ action: PatientViewModel.Action) {
 		
 		switch action {
-			case .resetApplication:
-				coordinator?.handle(AppCoordination.Action.resetApplication)
-			
-			case .showResetDialog:
-				showResetDialog = true
-			
 			case .search:
 				SwiftUI.Task {
 					self.state = await readPatientAsync()
@@ -107,6 +99,13 @@ struct PatientView: View {
 	@Environment(\.theme) var theme
 	
 	@StateObject var viewModel: PatientViewModel
+	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
+	}
 	
 	var body: some View {
 		ZStack {
@@ -173,34 +172,8 @@ struct PatientView: View {
 						.background(theme.backgroundTertiary)
 				}
 			}
+			.padding(.top, ViewTraits.Navigation.padding)
 		}
-		.navigationBarBackButtonHidden()
-		
-		.confirmationDialog(
-			"Reset the application?",
-			isPresented: $viewModel.showResetDialog) {
-				Button("Reset the application?", role: .destructive) {
-					viewModel.reduce(.resetApplication)
-				}
-			} message: {
-				Text(verbatim: "You cannot undo this action")
-			}
-		
-		.toolbar {
-			ToolbarItem(id: "reset", placement: .destructiveAction) {
-				if viewModel.showResetButton {
-					Button(
-						action: {
-							viewModel.reduce(.showResetDialog)
-						}, label: {
-							Image(systemName: "exclamationmark.triangle")
-								.foregroundStyle(theme.notificationError)
-						}
-					)
-				}
-			}
-		}
-		
 	}
 }
 

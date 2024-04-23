@@ -50,6 +50,9 @@ struct PrivacyOverviewView: View {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
 		enum General {
 			static let padding: CGFloat = 16
 		}
@@ -67,7 +70,7 @@ struct PrivacyOverviewView: View {
 			
 			ScrollViewWithFixedBottom {
 				
-				VStack {
+				VStack(spacing: 0) {
 					
 					Text("privacyoverview_title")
 						.rijksoverheidStyle(font: .bold, style: .title)
@@ -122,6 +125,7 @@ struct PrivacyOverviewView: View {
 				.padding(ViewTraits.General.padding)
 			}
 		}
+		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)

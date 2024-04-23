@@ -445,11 +445,11 @@ struct AccessCodeView: View {
 			static let insets = EdgeInsets( top: 48, leading: 16, bottom: 16, trailing: 16)
 		}
 		enum Text {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
-			static let imageSpacing: CGFloat = 8
+			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 8, trailing: 16)
+			static let imageSpacing: CGFloat = 12
 		}
 		enum ForgotButton {
-			static let insets = EdgeInsets( top: 8, leading: 16, bottom: 0, trailing: 16)
+			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
 		}
 		enum Button {
 			static let minimumHeight: CGFloat = 44
@@ -467,6 +467,9 @@ struct AccessCodeView: View {
 			static let text: CGFloat = 0.38 // Text takes 38% of the screen height.
 			static let box: CGFloat = 0.16 // The boxes take 16 %
 			static let keyboard: CGFloat = 0.46 // The keyboard the remainder
+		}
+		enum Navigation {
+			static let padding: CGFloat = 8
 		}
 	}
 	
@@ -532,6 +535,7 @@ struct AccessCodeView: View {
 				}
 				.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.text)
 				.position(x: geometry.size.width / 2, y: geometry.size.height * ViewTraits.Position.text / 2 )
+				.padding(.top, ViewTraits.Navigation.padding)
 				
 				HStack(spacing: ViewTraits.Box.spacing) {
 					ForEach($viewModel.boxStates, id: \.self) { element in

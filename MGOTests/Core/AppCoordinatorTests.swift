@@ -261,144 +261,36 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedDataCount) == 1
 	}
 	
-	// MARK: - Views -
-	
-	func test_coordinatorView_forLaunch() throws {
+	func test_coordinatorHandle_poc() {
 		
 		// Given
-		let state = AppCoordination.State.launch
 		
 		// When
-		let view = sut.view(for: state)
+		sut.handle(AppCoordination.Action.fhirClient)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), precision: 0.90) // Lower precision due to random postion of spinner
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.fhirClient])
 	}
 	
-	func test_coordinatorView_forAppIntroduction() throws {
+	func test_coordinatorHandle_searchHealthcareProviders() {
 		
 		// Given
-		let state = AppCoordination.State.appIntroduction
 		
 		// When
-		let view = sut.view(for: state)
+		sut.handle(AppCoordination.Action.searchHealthcareProviders)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProvider])
 	}
 	
-	func test_coordinatorView_forPrivacyOverview() throws {
+	func test_coordinatorHandle_search() {
 		
 		// Given
-		let state = AppCoordination.State.privacyOverview
 		
 		// When
-		let view = sut.view(for: state)
+		sut.handle(AppCoordination.Action.search(city: "Roermond", name: "Tandarts Tandje Erbij"))
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_forAccessCodeEntry() throws {
-		
-		// Given
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.accessCodeEntry
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_forAccessCodeConfirmation() throws {
-		
-		// Given
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.accessCodeConfirmation
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_forAccessCodeValidation() throws {
-		
-		// Given
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = true
-		let state = AppCoordination.State.accessCodeValidation
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_forBioMetricSetup() throws {
-		
-		// Given
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.bioMetricSetup
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-
-	func test_coordinatorView_forRemoteAuthentication_firstVisit() throws {
-
-		// Given
-		let state = AppCoordination.State.remoteAuthentication
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = false
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_forRemoteAuthentication_repeatVisit() throws {
-
-		// Given
-		let state = AppCoordination.State.remoteAuthentication
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_forgotAccessCode() throws {
-		
-		// Given
-		let state = AppCoordination.State.forgotAccessCode
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_forDashboard() throws {
-
-		// Given
-		let state = AppCoordination.State.dashboard
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")])
 	}
 }

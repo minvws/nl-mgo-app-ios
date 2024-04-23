@@ -27,7 +27,7 @@ public class LocalAuthenticationProviderSpy: LocalAuthenticationProviderProtocol
 	public var invokedAuthenticateParametersList = [(localizedReason: String, Void)]()
 	public var stubbedAuthenticated = false
 	public var stubbedLocalAuthenticationError: LocalAuthenticationError?
-	
+
 	private let queue = DispatchQueue(label: "com.LocalAuthenticationProviderSpy.serialqueue.\(UUID().uuidString)")
 	
 	public func authenticate(localizedReason: String, localizedFallbackTitle: String) async throws -> Bool {

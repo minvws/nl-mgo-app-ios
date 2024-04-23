@@ -20,6 +20,8 @@ class DashboardViewModel: ObservableObject {
 	enum Action {
 		case resetApplication
 		case showResetDialog
+		case poc
+		case search
 	}
 	
 	/// Intitializer
@@ -40,6 +42,10 @@ class DashboardViewModel: ObservableObject {
 				coordinator?.handle(AppCoordination.Action.resetApplication)
 			case .showResetDialog:
 				showResetDialog = true
+			case .poc:
+				coordinator?.handle(.fhirClient)
+			case .search:
+				coordinator?.handle(.searchHealthcareProviders)
 		}
 	}
 }
@@ -51,6 +57,16 @@ struct DashboardView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
+		enum General {
+			static let padding: CGFloat = 16
+		}
+	}
 	
 	var body: some View {
 		ZStack {
@@ -64,10 +80,23 @@ struct DashboardView: View {
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.accessibilityAddTraits(.isHeader)
 					.multilineTextAlignment(.center)
+					.padding(.bottom, ViewTraits.General.padding)
 				
-				Text(verbatim: "That's all folks!")
-					.rijksoverheidStyle(font: .regular, style: .body)
+				CallToActionButton("dashboard_poc") {
+					viewModel.reduce(.poc)
+				}
+				.padding(.bottom, ViewTraits.General.padding)
+
+				CallToActionButton("dashboard_search_healthcareProviders") {
+					viewModel.reduce(.search)
+				}
+				.padding(.bottom, ViewTraits.General.padding)
+				
+				Spacer()
 			}
+			.padding(.horizontal, ViewTraits.General.padding)
+			.padding(.top, ViewTraits.Navigation.padding)
+			
 		}
 		.navigationBarBackButtonHidden()
 		

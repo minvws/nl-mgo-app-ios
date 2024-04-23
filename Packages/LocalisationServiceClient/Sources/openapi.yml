@@ -1,0 +1,441 @@
+openapi: 3.1.0
+info:
+  title: FastAPI
+  version: 0.1.0
+servers:
+  - url: https://lo-ad.test.mgo.irealisatie.nl/
+    description: MGO TEST localisation
+paths:
+#  "/":
+#    get:
+#      summary: Index
+#      operationId: index__get
+#      responses:
+#        '200':
+#          description: Successful Response
+#          content:
+#            application/json:
+#              schema: {}
+#  "/health":
+#    get:
+#      summary: Check the health of the application
+#      operationId: health_health_get
+#      responses:
+#        '200':
+#          description: Successful Response
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                title: Response Health Health Get
+  "/localization/organization/search":
+    post:
+      tags:
+      - localization
+      summary: Search for organizations based on the search parameters
+      description: Returns a list of organizations based on the search parameters
+      operationId: read_item_localization_organization_search_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchRequest"
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+#  "/localization/cities":
+#    get:
+#      tags:
+#      - localization
+#      summary: Search for cities based on the query parameter
+#      description: Returns a list of cities based on the query parameter
+#      operationId: get_cities_localization_cities_get
+#      parameters:
+#      - name: q
+#        in: query
+#        required: true
+#        schema:
+#          type: string
+#          title: Q
+#      responses:
+#        '200':
+#          description: Successful Response
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/CityResponse"
+#        '422':
+#          description: Validation Error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/HTTPValidationError"
+#  "/localization/cities/all":
+#    get:
+#      tags:
+#      - localization
+#      summary: Get all cities as a single JSON response
+#      description: Returns all cities as a single JSON response
+#      operationId: get_all_cities_localization_cities_all_get
+#      responses:
+#        '200':
+#          description: Successful Response
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/CityResponse"
+#  "/addressing/services":
+#    post:
+#      tags:
+#      - addressing
+#      summary: Search for healthcare services based on the search parameters
+#      operationId: post_services_addressing_services_post
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              items:
+#                $ref: "#/components/schemas/ZalSearchRequestEntry"
+#              type: array
+#              title: Request
+#        required: true
+#      responses:
+#        '200':
+#          description: Successful Response
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/ZalSearchResponse"
+#        '422':
+#          description: Validation Error
+#          content:
+#            application/json:
+#              schema:
+#                $ref: "#/components/schemas/HTTPValidationError"
+components:
+  schemas:
+    Address:
+      properties:
+        active:
+          type: boolean
+          title: Active
+        address:
+          type: string
+          title: Address
+        city:
+          type: string
+          title: City
+        country:
+          type: [string, null]
+          title: Country
+        lines:
+          items:
+            type: [string, null]
+          type: array
+          title: Lines
+        geolocation:
+          schema:
+            $ref: "$#/components/schemas/GeoLocation"
+          title: GeoLocation
+        postalcode:
+          type: [string, null]
+          title: Postalcode
+        state:
+          type: [string, null]
+          title: State
+        type:
+          type: string
+          title: Type
+      type: object
+      required:
+      - active
+      - address
+      - city
+      - country
+      - type
+      title: Address
+    CType:
+      properties:
+        code:
+          type: string
+          title: Code
+        display_name:
+          type: string
+          title: Display Name
+        type:
+          type: string
+          title: Type
+      type: object
+      required:
+      - code
+      - display_name
+      - type
+      title: CType
+#    CityResponse:
+#      properties:
+#        meta:
+#          $ref: "#/components/schemas/Meta"
+#        items:
+#          items:
+#            type: string
+#          type: array
+#          title: Items
+#      type: object
+#      required:
+#      - meta
+#      - items
+#      title: CityResponse
+    GeoLocation:
+      properties:
+        latitude:
+          type: number
+          title: Latitude
+        longitude:
+          type: number
+          title: Longitude
+      type: object
+      required:
+      - latitude
+      - longitude
+      title: GeoLocation
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: "#/components/schemas/ValidationError"
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    IdentificationType:
+      type: string
+      enum:
+      - agb-z
+      - medmij
+      - htn
+      - ura
+      title: IdentificationType
+#    Meta:
+#      properties:
+#        limit:
+#          type: integer
+#          title: Limit
+#        offset:
+#          type: integer
+#          title: Offset
+#        total:
+#          type: integer
+#          title: Total
+#      type: object
+#      required:
+#      - limit
+#      - offset
+#      - total
+#      title: Meta
+    Name:
+      properties:
+        full_name:
+          type: string
+          title: Full Name
+        preferred:
+          type: boolean
+          title: Preferred
+      type: object
+      required:
+      - full_name
+      - preferred
+      title: Name
+    Organization:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+        identification_type:
+          type: string
+          title: Identification Type
+        identification_value:
+          type: string
+          title: Identification Value
+        active:
+          type: boolean
+          title: Active
+        addresses:
+          items:
+            $ref: "#/components/schemas/Address"
+          type: array
+          title: Addresses
+        names:
+          items:
+            $ref: "#/components/schemas/Name"
+          type: array
+          title: Names
+        types:
+          items:
+            $ref: "#/components/schemas/CType"
+          type: array
+          title: Types
+      type: object
+      required:
+      - display_name
+      - identification_type
+      - identification_value
+      - active
+      - addresses
+      - names
+      - types
+      title: Organization
+    SearchRequest:
+      properties:
+        name:
+          type: [string, null]
+          title: Name
+        city:
+          type: [string, null]
+          title: City
+      type: object
+      title: SearchRequest
+    SearchResponse:
+      properties:
+        organizations:
+          items:
+            $ref: "#/components/schemas/Organization"
+          type: array
+          title: Organizations
+      type: object
+      required:
+      - organizations
+      title: SearchResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+#    ZalDataServiceResponse:
+#      properties:
+#        id:
+#          type: integer
+#          title: Id
+#        name:
+#          type: string
+#          title: Name
+#        interface_version:
+#          type: integer
+#          title: Interface Version
+#        auth_endpoint:
+#          type: string
+#          title: Auth Endpoint
+#        token_endpoint:
+#          type: string
+#          title: Token Endpoint
+#        roles:
+#          items:
+#            $ref: "#/components/schemas/ZalDataServiceRoleResponse"
+#          type: array
+#          title: Roles
+#      type: object
+#      required:
+#      - id
+#      - name
+#      - interface_version
+#      - auth_endpoint
+#      - token_endpoint
+#      - roles
+#      title: ZalDataServiceResponse
+#    ZalDataServiceRoleResponse:
+#      properties:
+#        code:
+#          type: string
+#          title: Code
+#        resource_endpoint:
+#          type: string
+#          title: Resource Endpoint
+#      type: object
+#      required:
+#      - code
+#      - resource_endpoint
+#      title: ZalDataServiceRoleResponse
+#    ZalSearchRequestEntry:
+#      properties:
+#        id_type:
+#          $ref: "#/components/schemas/IdentificationType"
+#        id_value:
+#          type: string
+#          title: Id Value
+#      type: object
+#      required:
+#      - id_type
+#      - id_value
+#      title: ZalSearchRequestEntry
+#    ZalSearchResponse:
+#      properties:
+#        total:
+#          type: integer
+#          title: Total
+#        found:
+#          type: integer
+#          title: Found
+#        entries:
+#          items:
+#            $ref: "#/components/schemas/ZalSearchResponseEntry"
+#          type: array
+#          title: Entries
+#      type: object
+#      required:
+#      - total
+#      - found
+#      - entries
+#      title: ZalSearchResponse
+#    ZalSearchResponseEntry:
+#      properties:
+#        medmij_id:
+#          type: string
+#          title: Medmij Id
+#        organization_type:
+#          type: string
+#          title: Organization Type
+#        id_type:
+#          type: string
+#          title: Id Type
+#        id_value:
+#          type: string
+#          title: Id Value
+#        dataservices:
+#          items:
+#            $ref: "#/components/schemas/ZalDataServiceResponse"
+#          type: array
+#          title: Dataservices
+#      type: object
+#      required:
+#      - medmij_id
+#      - organization_type
+#      - id_type
+#      - id_value
+#      - dataservices
+#      title: ZalSearchResponseEntry

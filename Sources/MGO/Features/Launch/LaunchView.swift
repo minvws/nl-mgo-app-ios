@@ -65,9 +65,9 @@ class LaunchViewModel: ObservableObject {
 		}
 	}
 	
-	internal func loadConfig(_ timeInterval: TimeInterval = 4.0) {
+	internal func loadConfig(_ timeInterval: TimeInterval = 1.0) {
 		
-		// Mocked for now, just take 4 seconds to finish
+		// Mocked for now, just take 1 seconds to finish
 		DispatchQueue.main.asyncAfter(deadline: .now() + timeInterval) {
 			self.reduce(.loaded)
 		}
@@ -100,6 +100,10 @@ struct LaunchView: View {
 		enum Spinner {
 			static let bottomOffset: CGFloat = 75
 		}
+		enum Rijkslint {
+			static let height: CGFloat = 100
+			static let width: CGFloat = 50
+		}
 	}
 	
 	/// Calculate the offset for the rijkslint so it stays just below the notch or dynamic island
@@ -126,6 +130,8 @@ struct LaunchView: View {
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
 				VStack {
 					Image(ImageResource.rijkslint)
+						.resizable()
+						.frame(width: ViewTraits.Rijkslint.width, height: ViewTraits.Rijkslint.height)
 						.padding(.top, rijkslintTopOffset)
 						.ignoresSafeArea()
 					
