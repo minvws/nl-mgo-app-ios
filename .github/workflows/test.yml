@@ -20,9 +20,9 @@ env:
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
   
 jobs:
-  validate:
+  test:
     runs-on: macos-14
-    name: Build & validate
+    name: Build & test
     timeout-minutes: 60
     steps:
       - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
