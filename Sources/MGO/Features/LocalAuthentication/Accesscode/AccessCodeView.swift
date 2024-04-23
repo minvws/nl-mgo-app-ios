@@ -445,11 +445,11 @@ struct AccessCodeView: View {
 			static let insets = EdgeInsets( top: 48, leading: 16, bottom: 16, trailing: 16)
 		}
 		enum Text {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
-			static let imageSpacing: CGFloat = 8
+			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 8, trailing: 16)
+			static let imageSpacing: CGFloat = 12
 		}
 		enum ForgotButton {
-			static let insets = EdgeInsets( top: 8, leading: 16, bottom: 0, trailing: 16)
+			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
 		}
 		enum Button {
 			static let minimumHeight: CGFloat = 44
