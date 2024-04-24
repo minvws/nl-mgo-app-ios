@@ -125,4 +125,18 @@ final class SearchViewModelTests: XCTestCase {
 		expect(self.sut.state.nameError) == "searchhp_name_error"
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
+	
+	func test_handleClear_shouldClearCityAndName() {
+		
+		// Given
+		sut.state.name = "Apotheek"
+		sut.state.city = "Den Haag"
+		
+		// When
+		sut.reduce(.clear)
+		
+		// Then
+		expect(self.sut.state.city) == ""
+		expect(self.sut.state.name) == ""
+	}
 }

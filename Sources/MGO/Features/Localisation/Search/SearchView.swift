@@ -8,6 +8,10 @@
 import MGOUI
 import MGOFoundation
 
+extension Notification.Name {
+	static let clearSearch = Notification.Name("nl.mijngezondheidsomgeving.clearSearch")
+}
+
 struct SearchViewState {
 	
 	/// The name to search on
@@ -37,8 +41,12 @@ struct SearchViewState {
 
 class SearchViewModel: ObservableObject {
 	
+//	@Binding var wipe: Bool
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
+		
+		case clear
 		case search
 		case backButtonPressed
 	}
@@ -52,6 +60,17 @@ class SearchViewModel: ObservableObject {
 	/// - Parameter coordinator: the coordinator
 	init(coordinator: (any AppCoordinatorProtocol)?) {
 		self.coordinator = coordinator
+		
+		setupObservers()
+	}
+	
+	/// Setup all the observers
+	private func setupObservers() {
+		
+		// Listen for reset notification
+		Current.notificationCenter.addObserver(forName: .clearSearch, object: nil, queue: OperationQueue.main) { _ in
+			self.reduce(.clear)
+		}
 	}
 	
 	/// Handle any action
@@ -59,6 +78,11 @@ class SearchViewModel: ObservableObject {
 	func reduce(_ action: SearchViewModel.Action) {
 		
 		switch action {
+			
+			case .clear:
+				state.city = ""
+				state.name = ""
+			
 			case .search:
 				guard validateState() else {
 					/// Announce the errors
@@ -177,6 +201,7 @@ struct SearchView: View {
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)
 		})
+		
 	}
 }
 
