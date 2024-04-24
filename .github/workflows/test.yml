@@ -64,9 +64,9 @@ jobs:
         run: |
           bundle exec fastlane ios test_ci
 
-      - name: Convert Coverage
-        run: |
-          bash Scripts/xccov-to-sonarqube-generic.sh "fastlane/test_output/MGO Dev.xcresult/" > fastlane/test_output/sonarqube-generic-coverage.xml
+#      - name: Convert Coverage
+#        run: |
+#          bash Scripts/xccov-to-sonarqube-generic.sh "fastlane/test_output/MGO Dev.xcresult/" > fastlane/test_output/sonarqube-generic-coverage.xml
 
      
   sonar:
