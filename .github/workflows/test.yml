@@ -89,7 +89,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: sonarqube-generic-coverage-${{ github.run_number }}.xml
-          path: fastlane/test_output/sonarqube-generic-coverage.xml
+          path: fastlane/test_output/
           
       - name: Run SonarCloud scanner
         uses: SonarSource/sonarcloud-github-action@v2.1.1
