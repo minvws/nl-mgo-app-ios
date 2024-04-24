@@ -95,3 +95,5 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v2.1.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        args: >
+         -Dsonar.coverageReportPaths=fastlane/test_output/sonarqube-generic-coverage.xml
