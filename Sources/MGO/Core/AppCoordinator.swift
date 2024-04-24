@@ -58,6 +58,7 @@ enum AppCoordination {
 		
 		// Healthcare Provider flow
 		case search(city: String, name: String)
+		case backToSearchHealthcareProvider
 		
 		// Dashboard
 		case fhirClient
@@ -150,8 +151,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 			case .finishedLoading:
 			
-//				path.append(AppCoordination.State.searchHealthcareProvider)
-			
 				if !Current.secureUserSettings.userHasSeenAppIntroduction {
 					// Only show the appIntroduction once
 					path.append(AppCoordination.State.appIntroduction)
@@ -223,6 +222,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Healthcare Provider flow
 			case let .search(city, name):
 				path.append(AppCoordination.State.searchHealthcareProviders(city: city, name: name))
+			
+			case .backToSearchHealthcareProvider:
+				navigateTo(state: .searchHealthcareProvider)
 			
 			// Dashboard
 			

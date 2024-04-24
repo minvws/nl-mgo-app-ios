@@ -41,6 +41,18 @@ final class SearchResultViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchHealthcareProviders).toEventually(beFalse())
 	}
 	
+	func test_noLocalisationServiceClient() {
+		
+		// Given
+		sut = SearchResultViewModel(coordinator: self.coordinatorSpy, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: nil)
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(.failure(LocalisationServiceClientError.noServer)))
+	}
+	
 	func test_empty() {
 		
 		// Given
@@ -133,5 +145,19 @@ final class SearchResultViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backButtonPressed
+	}
+	
+	func test_searchAgainButtonPressed_shouldCallCoordinator() {
+		
+		// Given
+		createSut()
+		
+		// When
+		sut.reduce(.backToSearch)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backToSearchHealthcareProvider
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 }

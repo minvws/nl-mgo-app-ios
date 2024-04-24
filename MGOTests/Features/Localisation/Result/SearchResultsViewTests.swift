@@ -80,7 +80,7 @@ final class SearchResultViewTests: XCTestCase {
 			SearchResult(id: "1", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
 			SearchResult(id: "2", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
 			SearchResult(id: "3", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
-			SearchResult(id: "4", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB")
+			SearchResult(id: "4", name: "Tandarts Tandje Erbij", city: nil, address: nil, postalCode: nil)
 		]
 		viewModel.state = .success(list)
 		
