@@ -320,6 +320,9 @@ schemeTemplates:
         "--unittesting": true
       language: nl
       region: NL
+      gatherCoverageData: true
+      coverageTargets:
+        - ${appTargetName}
 
 # - Schemes
 
@@ -334,7 +337,7 @@ schemes:
     run:
       language: nl
     test:
-      gatherCoverageData: true
+#      gatherCoverageData: true
       targets:
         - package: FHIRClient/FHIRClientTests
           randomExecutionOrder: true
