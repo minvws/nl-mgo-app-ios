@@ -64,9 +64,9 @@ jobs:
         run: |
           bundle exec fastlane ios test_ci
 
-      - name: Convert Coverage
-        run: |
-          bash Scripts/xccov-to-sonarqube-generic.sh fastlane/output/ResultBundle.xcresult/ > fastlane/output/sonarqube-generic-coverage.xml
+#      - name: Convert Coverage
+#        run: |
+#          bash Scripts/xccov-to-sonarqube-generic.sh fastlane/output/ResultBundle.xcresult/ > fastlane/output/sonarqube-generic-coverage.xml
 
       - name: SonarCloud Scanner
         uses: SonarSource/sonarcloud-github-action@v2.1.1

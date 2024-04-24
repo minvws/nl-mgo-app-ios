@@ -29,6 +29,7 @@ platform :ios do
       reinstall_app: true,
       app_identifier: "nl.rool.pifz.dev",
       code_coverage: true,
+      result_bundle: true,
       skip_slack: true,
       xcargs: "-skipPackagePluginValidation"
     )
