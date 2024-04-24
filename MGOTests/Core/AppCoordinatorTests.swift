@@ -293,4 +293,36 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")])
 	}
+	
+	func test_coordinatorHandle_backToSearchHealthcareProvider_presentInStack() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([
+			AppCoordination.State.remoteAuthentication,
+			AppCoordination.State.searchHealthcareProvider,
+			AppCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")
+		])
+		
+		// When
+		sut.handle(AppCoordination.Action.backToSearchHealthcareProvider)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.searchHealthcareProvider])
+		expect(self.sut.path.count) == 2
+	}
+	
+	func test_coordinatorHandle_backToSearchHealthcareProvider_notPresentInStack() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([
+			AppCoordination.State.remoteAuthentication
+		])
+		
+		// When
+		sut.handle(AppCoordination.Action.backToSearchHealthcareProvider)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.searchHealthcareProvider])
+		expect(self.sut.path.count) == 2
+	}
 }

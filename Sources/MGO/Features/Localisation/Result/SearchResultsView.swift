@@ -44,6 +44,7 @@ class SearchResultViewModel: ObservableObject {
 		case backButtonPressed
 		case retry
 		case onAppear
+		case backToSearch
 	}
 	
 	/// The state of the view
@@ -76,6 +77,10 @@ class SearchResultViewModel: ObservableObject {
 	func reduce(_ action: SearchResultViewModel.Action) {
 		
 		switch action {
+			
+			case .backToSearch:
+				Current.notificationCenter.post(name: .clearSearch, object: nil)
+				coordinator?.handle(.backToSearchHealthcareProvider)
 			
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
@@ -159,7 +164,7 @@ struct SearchResultView: View {
 				
 				case let .empty(city: city, name: name):
 					ErrorView(viewModel: SearchResultNoResultsViewModel(city: city, name: name) {
-						viewModel.reduce(.backButtonPressed)
+						viewModel.reduce(.backToSearch)
 					})
 					
 				case .success(let results):

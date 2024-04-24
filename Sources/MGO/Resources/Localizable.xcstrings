@@ -515,7 +515,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Controleer of je telefoon verbonden is met het internet en probeer het opnieuw."
+            "value" : "Controleer of je telefoon verbonden is met het internet. Probeer het daarna opnieuw."
           }
         }
       }
@@ -936,7 +936,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vul de juiste naam in. Je vindt deze  op de rekening. Of vraag aan de zorgaanbieder hoe je hun naam schrijft."
+            "value" : "Vul de juiste naam in. Je vindt deze op de rekening. Of vraag aan de zorgaanbieder hoe je hun naam schrijft."
           }
         }
       }
