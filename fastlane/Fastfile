@@ -28,6 +28,7 @@ platform :ios do
       scheme: "MGO Dev",
       reinstall_app: true,
       app_identifier: "nl.rool.pifz.dev",
+      code_coverage: true,
       skip_slack: true,
       xcargs: "-skipPackagePluginValidation"
     )
