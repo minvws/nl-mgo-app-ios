@@ -41,17 +41,6 @@ struct ProductionApp: App {
 	}
 }
 
-private struct SafeAreaInsetsKey: EnvironmentKey {
-	static var defaultValue: EdgeInsets = .init()
-}
-
-extension EnvironmentValues {
-	var safeAreaInsets: EdgeInsets {
-		get { self[SafeAreaInsetsKey.self] }
-		set { self[SafeAreaInsetsKey.self] = newValue }
-	}
-}
-
 struct TestApp: App {
 	
 	init() {
