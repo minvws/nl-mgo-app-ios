@@ -11,7 +11,7 @@ import WebKit
 struct WebView: UIViewRepresentable {
 	
 	/// The viewModel
-	@StateObject var viewModel: RestricedBrowserViewModel
+	@StateObject var viewModel: RestrictedBrowserViewModel
 	
 	/// The url to display
 	let url: URL
@@ -39,7 +39,7 @@ struct WebView: UIViewRepresentable {
 	
 	/// UIViewRepresentable method that adds the viewModel to the context
 	/// - Returns: view model as the WKNavigationDelegate
-	func makeCoordinator() -> RestricedBrowserViewModel {
+	func makeCoordinator() -> RestrictedBrowserViewModel {
 		return viewModel
 	}
 }

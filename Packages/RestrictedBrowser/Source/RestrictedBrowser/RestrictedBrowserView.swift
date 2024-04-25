@@ -1,0 +1,46 @@
+/*
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import SwiftUI
+import Theme
+
+public struct RestrictedBrowserView: View {
+	
+	/// Initializer
+	/// - Parameter viewModel: the view model
+	public init(viewModel: RestrictedBrowserViewModel) {
+		self._viewModel = StateObject(wrappedValue: viewModel)
+	}
+	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
+	/// The View Model
+	@StateObject var viewModel: RestrictedBrowserViewModel
+	
+	public var body: some View {
+		
+		VStack(spacing: 0) {
+			
+			Divider()
+				.overlay(theme.linesTertiary)
+			
+			WebView(viewModel: viewModel, url: viewModel.url)
+				.background(theme.backgroundPrimary)
+				.toolbar {
+					ToolbarItemGroup(placement: .topBarTrailing) {
+						Spacer()
+						Button {
+							viewModel.reduce(.safariButtonPressed)
+						} label: {
+							Image(systemName: "safari")
+						}
+					}
+				}
+		}
+	}
+}

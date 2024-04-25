@@ -10,7 +10,7 @@ import WebKit
 
 // MARK: - WKNavigationDelegate
 
-extension RestricedBrowserViewModel: WKNavigationDelegate {
+extension RestrictedBrowserViewModel: WKNavigationDelegate {
 	
 	/// WKNavigationDelegate method to decice if a navigtion is allowed or canceled.
 	/// - Parameters:

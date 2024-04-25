@@ -18,7 +18,7 @@ final class RestricedBrowserViewModelTests: XCTestCase {
 		urlOpenerSpy.stubbedCanOpenURLResult = true
 		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
 		let browser = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
-		let sut = RestricedBrowserViewModel(url: url, browser: browser)
+		let sut = RestrictedBrowserViewModel(url: url, browser: browser)
 		
 		// When
 		sut.reduce(.safariButtonPressed)
