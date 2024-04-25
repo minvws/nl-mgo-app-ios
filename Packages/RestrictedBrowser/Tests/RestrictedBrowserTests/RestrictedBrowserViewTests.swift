@@ -14,7 +14,7 @@ import ViewInspector
 
 final class RestrictedBrowserViewTests: XCTestCase {
 	
-	private var urlOpenerSpy:  URLOpenerSpy!
+	private var urlOpenerSpy: URLOpenerSpy!
 	private var sut: RestrictedBrowserView!
 	
 	func setupSut() throws {

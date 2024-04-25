@@ -13,7 +13,7 @@ import SwiftUI
 final class InAppBrowserViewTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
-	private var urlOpenerSpy:  URLOpenerSpy!
+	private var urlOpenerSpy: URLOpenerSpy!
 	private var sut: InAppBrowserView!
 	
 	func setupSut(title: LocalizedStringKey = "") throws {
