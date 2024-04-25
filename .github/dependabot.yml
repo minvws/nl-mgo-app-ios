@@ -22,6 +22,14 @@ updates:
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
+      
+  - package-ecosystem: "swift"
+    directory: "/Packages/LocalisationServiceClient"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
     directory: "/Packages/Managers"

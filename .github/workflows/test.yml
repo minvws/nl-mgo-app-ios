@@ -1,10 +1,14 @@
 # Syntax: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
 
-name: test
+name: CI
 
 on:
-  pull_request:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
@@ -16,9 +20,9 @@ env:
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
   
 jobs:
-
   test:
     runs-on: macos-14
+    name: Build & test
     timeout-minutes: 60
     steps:
       - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
@@ -59,3 +63,38 @@ jobs:
           SLACK_URL: ${{ secrets.SLACK_URL }}
         run: |
           bundle exec fastlane ios test_ci
+
+      - name: Convert Coverage
+        run: |
+          bash Scripts/xccov-to-sonarqube-generic.sh MGO.xcresult/ > sonarqube-generic-coverage.xml
+
+      - name: Upload Coverage file
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: sonarqube-generic-coverage-${{ github.run_number }}.xml
+          path: sonarqube-generic-coverage.xml
+     
+  sonar:
+    runs-on: ubuntu-22.04
+    needs: test
+    name: SonarCloud
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+    
+      - name: Download Coverage file
+        uses: actions/download-artifact@v4
+        with:
+          name: sonarqube-generic-coverage-${{ github.run_number }}.xml
+          path: ./
+          
+      - name: Run SonarCloud scanner
+        uses: SonarSource/sonarcloud-github-action@v2.1.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.coverageReportPaths=sonarqube-generic-coverage.xml
