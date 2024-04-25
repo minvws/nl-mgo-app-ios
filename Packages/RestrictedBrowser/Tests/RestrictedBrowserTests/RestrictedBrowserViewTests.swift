@@ -10,18 +10,27 @@ import Nimble
 @testable import RestrictedBrowser
 import SnapshotTesting
 import SwiftUI
+import ViewInspector
 
 final class RestrictedBrowserViewTests: XCTestCase {
 	
-	func test_restrictedBrowserView() throws {
+	private var urlOpenerSpy:  URLOpenerSpy!
+	private var sut: RestrictedBrowserView!
 	
-		// Given
-		let urlOpenerSpy = URLOpenerSpy()
+	func setupSut() throws {
+		
+		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
 		let url = try XCTUnwrap(URL(string: "https://localhost"))
 		let browser = RestrictedBrowser(allowedDomains: ["localhost"], urlOpener: urlOpenerSpy)
 		let viewModel = RestrictedBrowserViewModel(url: url, browser: browser)
-		let sut = RestrictedBrowserView(viewModel: viewModel)
+		sut = RestrictedBrowserView(viewModel: viewModel)
+	}
+	
+	func test_restrictedBrowserView() throws {
+	
+		// Given
+		try setupSut()
 		
 		// When
 		let content = NavigationView { sut }.frame(width: 300, height: 800)
