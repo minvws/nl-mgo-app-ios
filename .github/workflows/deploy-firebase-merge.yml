@@ -7,9 +7,9 @@ on:
       - main
       - 'release/*'
 
-concurrency:
-  group: build-${{ github.ref }}
-  cancel-in-progress: true
+#concurrency:
+#  group: build-${{ github.ref }}
+#  cancel-in-progress: true
 
 jobs:
   firebase-deploy-acc:
