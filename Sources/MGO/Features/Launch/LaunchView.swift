@@ -134,6 +134,7 @@ struct LaunchView: View {
 						.frame(width: ViewTraits.Rijkslint.width, height: ViewTraits.Rijkslint.height)
 						.padding(.top, rijkslintTopOffset)
 						.ignoresSafeArea()
+						.accessibilityLabel("launch_image_voiceover")
 					
 					Text("app_title")
 						.rijksoverheidStyle(font: .bold, style: .largeTitle)

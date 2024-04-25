@@ -619,6 +619,17 @@
         }
       }
     },
+    "launch_image_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logo Rijksoverheid"
+          }
+        }
+      }
+    },
     "launch_loading" : {
       "extractionState" : "manual",
       "localizations" : {
