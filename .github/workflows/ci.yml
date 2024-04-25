@@ -10,10 +10,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-concurrency:
-  group: build-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
 env:
   DEVELOPER_DIR: /Applications/Xcode_15.3.app/Contents/Developer
   FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 180
@@ -66,14 +62,14 @@ jobs:
 
       - name: Convert Coverage
         run: |
-          bash Scripts/xccov-to-sonarqube-generic.sh MGO.xcresult/ > sonarqube-generic-coverage.xml
+          bash Scripts/xccov-to-sonarqube-generic.sh MGO.xcresult/ > coverage.xml
 
       - name: Upload Coverage file
         uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
-          name: sonarqube-generic-coverage-${{ github.run_number }}.xml
-          path: sonarqube-generic-coverage.xml
+          name: coverage.xml
+          path: coverage.xml
      
   sonar:
     runs-on: ubuntu-22.04
@@ -88,13 +84,10 @@ jobs:
       - name: Download Coverage file
         uses: actions/download-artifact@v4
         with:
-          name: sonarqube-generic-coverage-${{ github.run_number }}.xml
+          name: coverage.xml
           path: ./
           
       - name: Run SonarCloud scanner
         uses: SonarSource/sonarcloud-github-action@v2.1.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.coverageReportPaths=sonarqube-generic-coverage.xml
