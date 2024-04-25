@@ -289,8 +289,9 @@ class AccessCodeViewModel: ObservableObject {
 			accessCode.append(value)
 			Haptic.light()
 			updateState()
-			
-			announceActiveField(accessCode.count + 1)
+			if accessCode.count < numberOfDigits {
+				announceActiveField(accessCode.count + 1)
+			}
 		}
 		if accessCode.count == numberOfDigits {
 			updateState()
@@ -361,10 +362,12 @@ class AccessCodeViewModel: ObservableObject {
 		}
 		// Shake it
 		Haptic.heavy()
-		inErrorState = true
+		if !UIAccessibility.isVoiceOverRunning {
+			inErrorState = true
+		}
 	}
 	
-	/// The user pressed the erate button
+	/// The user pressed the erase button
 	private func erasePressed() {
 		if accessCode.isNotEmpty {
 			Haptic.light()

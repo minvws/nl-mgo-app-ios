@@ -208,7 +208,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeEntered))
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(5))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	
 	func test_creation_touch_fiveDigits_accessCodeTooWeak() {
@@ -248,6 +248,6 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedTempAccessCode) == nil
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beFalse())
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(6))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(5))
 	}
 }

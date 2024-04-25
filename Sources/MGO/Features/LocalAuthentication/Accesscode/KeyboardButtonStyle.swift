@@ -30,7 +30,7 @@ struct KeyboardButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, maxHeight: .infinity)
+			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, maxHeight: .infinity, alignment: .center)
 			.rijksoverheidStyle(font: .regular, style: .largeTitle)
 			.foregroundStyle(isEnabled ? theme.contentPrimary : theme.iconsSecondary)
 			.background {
@@ -39,5 +39,7 @@ struct KeyboardButtonStyle: ButtonStyle {
 						.foregroundStyle(theme.backgroundTertiary)
 				}
 			}
+			.background(theme.backgroundPrimary)
+
 	}
 }
