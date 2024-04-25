@@ -364,7 +364,7 @@ class AccessCodeViewModel: ObservableObject {
 		inErrorState = true
 	}
 	
-	/// The user pressed the erate button
+	/// The user pressed the erase button
 	private func erasePressed() {
 		if accessCode.isNotEmpty {
 			Haptic.light()
