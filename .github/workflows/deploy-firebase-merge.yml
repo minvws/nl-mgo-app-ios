@@ -7,10 +7,6 @@ on:
       - main
       - 'release/*'
 
-#concurrency:
-#  group: build-${{ github.ref }}
-#  cancel-in-progress: true
-
 jobs:
   firebase-deploy-acc:
     if: github.event.repository.name == 'nl-mgo-app-ios-private' && (contains(github.event.ref, 'release/release-') || contains(github.event.ref, 'refs/heads/main'))
