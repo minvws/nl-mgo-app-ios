@@ -94,7 +94,7 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 	
 	var body: some View {
 		
-		ScrollViewWithFixedBottom(content: {
+		ScrollViewWithFixedBottom {
 			VStack(spacing: ErrorViewViewTraits.General.spacing) {
 				
 				Text(viewModel.title)
@@ -117,13 +117,14 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 				Spacer()
 			}
 			.padding(.horizontal, ErrorViewViewTraits.General.padding)
-		}, bottomView: {
+		} bottomView: {
 			CallToActionButton(viewModel.button) {
 				viewModel.action()
 			}
 			.padding(ErrorViewViewTraits.General.padding)
-		})
+		}
 		.padding(.top, ErrorViewViewTraits.Navigation.padding)
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 }
 

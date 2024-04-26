@@ -69,38 +69,31 @@ struct DashboardView: View {
 	}
 	
 	var body: some View {
-		ZStack {
-			
-			theme.backgroundPrimary
-				.ignoresSafeArea()
-			
-			VStack {
-				
-				Text("app_title")
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.accessibilityAddTraits(.isHeader)
-					.multilineTextAlignment(.center)
-					.padding(.bottom, ViewTraits.General.padding)
-				
-				CallToActionButton("dashboard_poc") {
-					viewModel.reduce(.poc)
-				}
-				.padding(.bottom, ViewTraits.General.padding)
-
-				CallToActionButton("dashboard_search_healthcareProviders") {
-					viewModel.reduce(.search)
-				}
-				.padding(.bottom, ViewTraits.General.padding)
-				
-				Spacer()
-			}
-			.padding(.horizontal, ViewTraits.General.padding)
-			.padding(.top, ViewTraits.Navigation.padding)
-			
-		}
-		.navigationBarBackButtonHidden()
 		
-		.confirmationDialog(
+		VStack {
+			
+			Text("app_title")
+				.rijksoverheidStyle(font: .bold, style: .title)
+				.accessibilityAddTraits(.isHeader)
+				.multilineTextAlignment(.center)
+				.padding(.bottom, ViewTraits.General.padding)
+			
+			CallToActionButton("dashboard_poc") {
+				viewModel.reduce(.poc)
+			}
+			.padding(.bottom, ViewTraits.General.padding)
+			
+			CallToActionButton("dashboard_search_healthcareProviders") {
+				viewModel.reduce(.search)
+			}
+			.padding(.bottom, ViewTraits.General.padding)
+			
+			Spacer()
+		}
+		.padding(.horizontal, ViewTraits.General.padding)
+		.padding(.top, ViewTraits.Navigation.padding)
+		.navigationBarBackButtonHidden()
+		.confirmationDialog (
 			"Reset the application?",
 			isPresented: $viewModel.showResetDialog) {
 				Button("Reset the application?", role: .destructive) {
@@ -109,7 +102,6 @@ struct DashboardView: View {
 			} message: {
 				Text(verbatim: "You cannot undo this action")
 			}
-		
 		.toolbar {
 			ToolbarItem(id: "reset", placement: .destructiveAction) {
 				if viewModel.showResetButton {
@@ -124,6 +116,7 @@ struct DashboardView: View {
 				}
 			}
 		}
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 }
 

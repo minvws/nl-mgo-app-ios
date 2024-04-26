@@ -62,74 +62,69 @@ struct PrivacyOverviewView: View {
 	}
 	
 	var body: some View {
-		ZStack {
+		
+		ScrollViewWithFixedBottom {
 			
-			theme.backgroundPrimary
-				.ignoresSafeArea()
-				.frame(maxWidth: .infinity, maxHeight: .infinity)
-			
-			ScrollViewWithFixedBottom {
+			VStack(spacing: 0) {
 				
-				VStack(spacing: 0) {
-					
-					Text("privacyoverview_title")
-						.rijksoverheidStyle(font: .bold, style: .title)
-						.foregroundStyle(theme.contentPrimary)
-						.padding(.bottom, ViewTraits.General.padding)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
-						.accessibilityAddTraits(.isHeader)
-					
-					Group {
-						let privacyIntro = String(localized: "privacyoverview_intro")
-						let statement = String(localized: "privacy_statement")
-						let elements = privacyIntro.components(separatedBy: "%@")
-						if elements.count == 2 {
-							Text(elements[0]) +
-							Text("[\(statement)](/privacystatement)").underline() +
-							Text(elements[1])
-						} else {
-							EmptyView()
-						}
-					}
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.padding(.bottom, ViewTraits.General.padding)
+				Text("privacyoverview_title")
+					.rijksoverheidStyle(font: .bold, style: .title)
 					.foregroundStyle(theme.contentPrimary)
-					.tint(theme.actionTertiaryDefault)
+					.padding(.bottom, ViewTraits.General.padding)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.environment(\.openURL, OpenURLAction { url in
-						// Catch the click on the privacy link
-						guard url.absoluteString.lowercased() == "/privacystatement" else {
-							return .discarded
-						}
-						viewModel.reduce(.privacyLinkClicked)
-						return .handled
-					})
-					.accessibilityIdentifier("introduction text")
-					
-					Group {
-						PrivacyShieldView("privacyoverview_item_1", shieldType: .encrypted)
-						PrivacyShieldView("privacyoverview_item_2", shieldType: .safety)
-						PrivacyShieldView("privacyoverview_item_3", shieldType: .checked)
-						PrivacyShieldView("privacyoverview_item_4", shieldType: .cross)
-					}
-					.padding(.bottom, ViewTraits.Items.bottom)
-					
-					Spacer()
-				}
-				.padding(.horizontal, ViewTraits.General.padding)
-			} bottomView: {
+					.accessibilityAddTraits(.isHeader)
 				
-				CallToActionButton("onboarding_action") {
-					viewModel.reduce(.nextButttonPressed)
+				Group {
+					let privacyIntro = String(localized: "privacyoverview_intro")
+					let statement = String(localized: "privacy_statement")
+					let elements = privacyIntro.components(separatedBy: "%@")
+					if elements.count == 2 {
+						Text(elements[0]) +
+						Text("[\(statement)](/privacystatement)").underline() +
+						Text(elements[1])
+					} else {
+						EmptyView()
+					}
 				}
-				.padding(ViewTraits.General.padding)
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.padding(.bottom, ViewTraits.General.padding)
+				.foregroundStyle(theme.contentPrimary)
+				.tint(theme.actionTertiaryDefault)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.environment(\.openURL, OpenURLAction { url in
+					// Catch the click on the privacy link
+					guard url.absoluteString.lowercased() == "/privacystatement" else {
+						return .discarded
+					}
+					viewModel.reduce(.privacyLinkClicked)
+					return .handled
+				})
+				.accessibilityIdentifier("introduction text")
+				
+				Group {
+					PrivacyShieldView("privacyoverview_item_1", shieldType: .encrypted)
+					PrivacyShieldView("privacyoverview_item_2", shieldType: .safety)
+					PrivacyShieldView("privacyoverview_item_3", shieldType: .checked)
+					PrivacyShieldView("privacyoverview_item_4", shieldType: .cross)
+				}
+				.padding(.bottom, ViewTraits.Items.bottom)
+				
+				Spacer()
 			}
+			.padding(.horizontal, ViewTraits.General.padding)
+		} bottomView: {
+			
+			CallToActionButton("onboarding_action") {
+				viewModel.reduce(.nextButttonPressed)
+			}
+			.padding(ViewTraits.General.padding)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)
 		})
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 }
 

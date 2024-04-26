@@ -148,10 +148,7 @@ struct SearchResultView: View {
 	
 	var body: some View {
 		
-		ZStack {
-			
-			theme.backgroundPrimary
-				.ignoresSafeArea()
+		Group {
 			
 			switch viewModel.state {
 				case .loading:
@@ -178,6 +175,7 @@ struct SearchResultView: View {
 		.navigationBarItems(leading: BackButton("searchresults_backbutton") {
 			viewModel.reduce(.backButtonPressed)
 		})
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 	
 	@ViewBuilder func listSearchResults(_ list: [SearchResult]) -> some View {

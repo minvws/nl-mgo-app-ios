@@ -156,51 +156,46 @@ struct SearchView: View {
 	
 	var body: some View {
 		
-		ZStack {
+		ScrollViewWithFixedBottom {
 			
-			theme.backgroundPrimary
-				.ignoresSafeArea()
-		
-			ScrollViewWithFixedBottom {
+			VStack {
 				
-				VStack {
-					
-					Text("searchhp_title")
-						.rijksoverheidStyle(font: .bold, style: .title)
-						.foregroundStyle(theme.contentPrimary)
-						.padding(.bottom, ViewTraits.General.padding)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
-						.accessibilityAddTraits(.isHeader)
-					
-					InputField(
-						input: $viewModel.state.name,
-						errorMessage: $viewModel.state.nameError,
-						title: "searchhp_name"
-					)
-						.padding(.bottom, ViewTraits.General.padding)
-					
-					InputField(
-						input: $viewModel.state.city,
-						errorMessage: $viewModel.state.cityError,
-						title: "searchhp_city"
-					)
-						.padding(.bottom, ViewTraits.General.padding)
-				}
-				.padding(.horizontal, ViewTraits.General.padding)
+				Text("searchhp_title")
+					.rijksoverheidStyle(font: .bold, style: .title)
+					.foregroundStyle(theme.contentPrimary)
+					.padding(.bottom, ViewTraits.General.padding)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityAddTraits(.isHeader)
 				
-			} bottomView: {
-				CallToActionButton("searchhp_action") {
-					viewModel.reduce(.search)
-				}
-				.tag("search")
-				.padding(ViewTraits.General.padding)
+				InputField(
+					input: $viewModel.state.name,
+					errorMessage: $viewModel.state.nameError,
+					title: "searchhp_name"
+				)
+				.padding(.bottom, ViewTraits.General.padding)
+				
+				InputField(
+					input: $viewModel.state.city,
+					errorMessage: $viewModel.state.cityError,
+					title: "searchhp_city"
+				)
+				.padding(.bottom, ViewTraits.General.padding)
 			}
-			.padding(.top, ViewTraits.Navigation.padding)
+			.padding(.horizontal, ViewTraits.General.padding)
+			
+		} bottomView: {
+			CallToActionButton("searchhp_action") {
+				viewModel.reduce(.search)
+			}
+			.tag("search")
+			.padding(ViewTraits.General.padding)
 		}
+		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)
 		})
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 		
 	}
 }

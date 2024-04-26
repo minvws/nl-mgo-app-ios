@@ -54,18 +54,13 @@ struct InAppBrowserView: View {
 	
 	var body: some View {
 		
-		ZStack {
-			
-			theme.backgroundPrimary
-				.ignoresSafeArea()
-				.frame(maxWidth: .infinity, maxHeight: .infinity)
-			
-			RestricedBrowserView(viewModel: RestricedBrowserViewModel(url: viewModel.url, browser: viewModel.browser))
-		}
+		RestricedBrowserView(viewModel: RestricedBrowserViewModel(url: viewModel.url, browser: viewModel.browser))
+		
 		.navigationTitle(viewModel.title ?? "")
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)
 		})
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 }
