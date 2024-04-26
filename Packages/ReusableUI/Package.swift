@@ -20,7 +20,7 @@ let package = Package(
 		// Testing:
 		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.16.0"),
 		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0"),
-		.package(url: "https://github.com/nalexn/ViewInspector", exact: "0.9.10")
+		.package(url: "https://github.com/nalexn/ViewInspector", exact: "0.9.11")
 	],
 	targets: [
 		// Targets are the basic building blocks of a package, defining a module or a test suite.

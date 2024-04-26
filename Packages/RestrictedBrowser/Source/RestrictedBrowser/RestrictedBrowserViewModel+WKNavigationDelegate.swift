@@ -10,7 +10,7 @@ import WebKit
 
 // MARK: - WKNavigationDelegate
 
-extension RestricedBrowserViewModel: WKNavigationDelegate {
+extension RestrictedBrowserViewModel: WKNavigationDelegate {
 	
 	/// WKNavigationDelegate method to decice if a navigtion is allowed or canceled.
 	/// - Parameters:
@@ -47,28 +47,7 @@ extension RestricedBrowserViewModel: WKNavigationDelegate {
 		
 		let authenticationMethod = challenge.protectionSpace.authenticationMethod
 		if authenticationMethod == NSURLAuthenticationMethodDefault || authenticationMethod == NSURLAuthenticationMethodHTTPBasic || authenticationMethod == NSURLAuthenticationMethodHTTPDigest {
-			let av = UIAlertController(title: String(localized: "login \(hostname)", table: "Browser", bundle: .module), message: nil, preferredStyle: .alert)
-			av.addTextField(configurationHandler: { textField in
-				textField.placeholder = String(localized: "username", table: "Browser", bundle: .module)
-			})
-			av.addTextField(configurationHandler: { textField in
-				textField.placeholder = String(localized: "password", table: "Browser", bundle: .module)
-				textField.isSecureTextEntry = true
-			})
-			
-			av.addAction(UIAlertAction(title: String(localized: "ok", table: "Browser", bundle: .module), style: .default, handler: { action in
-				guard let userId = av.textFields?.first?.text else {
-					return
-				}
-				guard let password = av.textFields?.last?.text else {
-					return
-				}
-				let credential = URLCredential(user: userId, password: password, persistence: .none)
-				completionHandler(.useCredential, credential)
-			}))
-			av.addAction(UIAlertAction(title: String(localized: "cancel", table: "Browser", bundle: .module), style: .cancel, handler: { _ in
-				completionHandler(.cancelAuthenticationChallenge, nil)
-			}))
+			let av = alertController(hostname: hostname, completionHandler: completionHandler)
 			UIApplication.shared.firstKeyWindow?.rootViewController?.present(av, animated: true)
 			
 		} else if authenticationMethod == NSURLAuthenticationMethodServerTrust {
@@ -76,5 +55,32 @@ extension RestricedBrowserViewModel: WKNavigationDelegate {
 		} else {
 			completionHandler(.cancelAuthenticationChallenge, nil)
 		}
+	}
+	
+	public func alertController(hostname: String, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> UIAlertController {
+		
+		let alertController = UIAlertController(title: String(localized: "login \(hostname)", table: "Browser", bundle: .module), message: nil, preferredStyle: .alert)
+		alertController.addTextField(configurationHandler: { textField in
+			textField.placeholder = String(localized: "username", table: "Browser", bundle: .module)
+		})
+		alertController.addTextField(configurationHandler: { textField in
+			textField.placeholder = String(localized: "password", table: "Browser", bundle: .module)
+			textField.isSecureTextEntry = true
+		})
+		
+		alertController.addAction(UIAlertAction(title: String(localized: "ok", table: "Browser", bundle: .module), style: .default, handler: { action in
+			guard let userId = alertController.textFields?.first?.text else {
+				return
+			}
+			guard let password = alertController.textFields?.last?.text else {
+				return
+			}
+			let credential = URLCredential(user: userId, password: password, persistence: .none)
+			completionHandler(.useCredential, credential)
+		}))
+		alertController.addAction(UIAlertAction(title: String(localized: "cancel", table: "Browser", bundle: .module), style: .cancel, handler: { _ in
+			completionHandler(.cancelAuthenticationChallenge, nil)
+		}))
+		return alertController
 	}
 }

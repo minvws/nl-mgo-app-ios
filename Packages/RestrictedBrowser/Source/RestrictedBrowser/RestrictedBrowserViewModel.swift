@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public class RestricedBrowserViewModel: NSObject, ObservableObject {
+public class RestrictedBrowserViewModel: NSObject, ObservableObject {
 	
 	/// The initial url to display
 	@Published var url: URL

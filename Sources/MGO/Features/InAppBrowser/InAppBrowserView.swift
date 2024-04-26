@@ -60,12 +60,24 @@ struct InAppBrowserView: View {
 				.ignoresSafeArea()
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			
-			RestricedBrowserView(viewModel: RestricedBrowserViewModel(url: viewModel.url, browser: viewModel.browser))
+			RestrictedBrowserView(viewModel: RestrictedBrowserViewModel(url: viewModel.url, browser: viewModel.browser))
 		}
 		.navigationTitle(viewModel.title ?? "")
 		.navigationBarBackButtonHidden(true)
-		.navigationBarItems(leading: BackButton {
-			viewModel.reduce(.backButtonPressed)
-		})
+		.navigationBarTitleDisplayMode(.inline)
+		.navigationBarItems(
+			leading:
+				Button(
+					action: {
+						viewModel.reduce(.backButtonPressed)
+					},
+					label: {
+						Text("general_close")
+							.rijksoverheidStyle(font: .regular, style: .headline)
+					}
+				)
+				.buttonStyle(BackButtonStyle())
+				.tag("close_view")
+		)
 	}
 }
