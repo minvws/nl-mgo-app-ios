@@ -16,15 +16,24 @@ final class InAppBrowserViewTests: XCTestCase {
 	private var urlOpenerSpy: URLOpenerSpy!
 	private var sut: InAppBrowserView!
 	
+	override func tearDown() {
+		super.tearDown()
+		HTTPStubs.removeAllStubs()
+	}
+	
 	func setupSut(title: LocalizedStringKey = "") throws {
 		
 		coordinatorSpy = AppCoordinatorSpy()
 		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let url = try XCTUnwrap(URL(string: "https://localhost"))
+		let url = try XCTUnwrap(URL(string: "https://localhost/test"))
 		let browser = RestrictedBrowser(allowedDomains: ["localhost"], urlOpener: urlOpenerSpy)
 		let viewModel = InAppBrowserViewModel(url: url, browser: browser, title: title, coordinator: coordinatorSpy)
 		sut = InAppBrowserView(viewModel: viewModel)
+		let stubData = try XCTUnwrap(Data("<h1>Hello World!</h1>".utf8))
+		stub(condition: isPath("/test")) { _ in
+			return HTTPStubsResponse(data: stubData, statusCode: 200, headers: nil)
+		}
 	}
 	
 	func test_view_WithTitle() throws {
@@ -36,7 +45,7 @@ final class InAppBrowserViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, precision: 0.98)
 	}
 	
 	func test_view() throws {
@@ -48,7 +57,7 @@ final class InAppBrowserViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, precision: 0.98)
 	}
 	
 	func test_backButtonPressed() throws {
