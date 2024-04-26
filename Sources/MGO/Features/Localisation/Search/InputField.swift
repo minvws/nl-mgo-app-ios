@@ -45,6 +45,9 @@ struct InputField: View {
 		}
 	}
 	
+	/// Helper to change the border color when the textfield is focused.
+	@FocusState private var isFieldFocused: Bool
+	
 	var body: some View {
 		
 		VStack(spacing: ViewTraits.VStack.spacing) {
@@ -55,6 +58,7 @@ struct InputField: View {
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 			
 			TextField("", text: $input)
+				.focused($isFieldFocused)
 				.padding(.horizontal, ViewTraits.Input.horizontalPadding)
 				.padding(.vertical, ViewTraits.Input.verticalPadding)
 				.foregroundStyle(theme.contentPrimary)
@@ -64,7 +68,7 @@ struct InputField: View {
 				.overlay(
 					RoundedRectangle(cornerRadius: ViewTraits.Input.cornerRadius)
 						.inset(by: ViewTraits.Input.inset)
-						.stroke(showError ? theme.notificationError : theme.contentPrimary, lineWidth: 1)
+						.stroke(showError ? theme.notificationError : isFieldFocused ? theme.contentPrimary : theme.input, lineWidth: 1)
 				)
 			if showError {
 				HStack(alignment: .center, spacing: ViewTraits.Image.spacing) {
