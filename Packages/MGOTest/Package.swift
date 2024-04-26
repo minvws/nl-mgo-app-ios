@@ -15,14 +15,16 @@ let package = Package(
 	dependencies: [
 		
 		// Testing:
+		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0"),
 		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.16.0"),
 		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0"),
-		.package(url: "https://github.com/nalexn/ViewInspector", exact: "0.9.10")
+		.package(url: "https://github.com/nalexn/ViewInspector", exact: "0.9.11")
 	],
 	targets: [
 		.target(
 			name: "MGOTest",
 			dependencies: [
+				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
 				.product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
 				.product(name: "Nimble", package: "Nimble"),
 				.product(name: "ViewInspector", package: "ViewInspector")

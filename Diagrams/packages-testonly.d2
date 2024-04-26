@@ -11,6 +11,9 @@ SwiftUI: {
 }
 
 # Third Party
+				OHHTTPStubs: {
+  shape: hexagon
+}
 Nimble: {
   shape: hexagon
 }
@@ -32,6 +35,7 @@ MGOapp <- MGOTest
 MGOTest { style.fill: "#ffcc00" }
 MGOTest <- XCTest
 MGOTest <- SwiftUI
+MGOTest <- OHHTTPStubs
 MGOTest <- Nimble
 MGOTest <- SnapshotTesting
 MGOTest <- ViewInspector
