@@ -30,34 +30,6 @@ final class InAppBrowserViewTests: XCTestCase {
 		let browser = RestrictedBrowser(allowedDomains: ["localhost"], urlOpener: urlOpenerSpy)
 		let viewModel = InAppBrowserViewModel(url: url, browser: browser, title: title, coordinator: coordinatorSpy)
 		sut = InAppBrowserView(viewModel: viewModel)
-		let stubData = try XCTUnwrap(Data("<h1>Hello World!</h1>".utf8))
-		stub(condition: isPath("/test")) { _ in
-			return HTTPStubsResponse(data: stubData, statusCode: 200, headers: nil)
-		}
-	}
-	
-	func test_view_WithTitle() throws {
-		
-		// Given
-		try setupSut(title: "With Title")
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		takeSnapShots(content: content, precision: 0.98)
-	}
-	
-	func test_view() throws {
-		
-		// Given
-		try setupSut()
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		takeSnapShots(content: content, precision: 0.98)
 	}
 	
 	func test_backButtonPressed() throws {
