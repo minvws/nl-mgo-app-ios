@@ -91,7 +91,7 @@ class AccessCodeViewModel: ObservableObject {
 	/// Tha strenth validator for the access code
 	private var strengthMeter: AccessCodeStrengthValidation
 	
-	/// The flow coordintator for routing
+	/// The flow coordinator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	private var inErrorState = false

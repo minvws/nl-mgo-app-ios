@@ -56,7 +56,7 @@ class SearchResultViewModel: ObservableObject {
 	/// Search paramater city
 	private var city: String
 	
-	/// The flow coordintator for routing
+	/// The flow coordinator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// The localisation service client

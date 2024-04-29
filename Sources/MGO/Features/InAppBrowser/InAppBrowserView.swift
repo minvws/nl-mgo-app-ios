@@ -11,7 +11,7 @@ import RestrictedBrowser
 
 class InAppBrowserViewModel: ObservableObject {
 	
-	/// The app coordintator for routing
+	/// The app coordinator for routing
 	weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	@Published var browser: RestrictedBrowser

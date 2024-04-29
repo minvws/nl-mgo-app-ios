@@ -26,7 +26,7 @@ class BioMetricSetupViewModel: ObservableObject {
 		public var showLockoutPopup: Bool = false
 	}
 	
-	/// The flow coordintator for routing
+	/// The flow coordinator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// What kind of key should we  dispaly (face ID, touch ID, optic ID)

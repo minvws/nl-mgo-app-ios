@@ -10,7 +10,7 @@ import MGOUI
 
 class PatientViewModel: ObservableObject {
 	
-	/// The app coordintator for routing
+	/// The app coordinator for routing
 	weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// The FHIR Client

@@ -10,7 +10,7 @@ import MGOFoundation
 
 class AppIntroductionViewModel: ObservableObject {
 	
-	/// The app coordintator for routing
+	/// The app coordinator for routing
 	weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// A list of all the actions this viewModel can handle
