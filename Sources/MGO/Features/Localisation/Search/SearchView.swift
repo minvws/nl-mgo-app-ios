@@ -49,11 +49,12 @@ class SearchViewModel: ObservableObject {
 		case clear
 		case search
 		case backButtonPressed
+		case endEditing
 	}
 	
 	@Published var state: SearchViewState = SearchViewState()
 
-	/// The flow coordintator for routing
+	/// The flow coordinator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// Initialzier
@@ -94,8 +95,12 @@ class SearchViewModel: ObservableObject {
 					return
 				}
 				coordinator?.handle(.search(city: state.city, name: state.name))
+	
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
+		
+			case .endEditing:
+				UIApplication.shared.endEditing()
 		}
 	}
 	
@@ -182,6 +187,9 @@ struct SearchView: View {
 				.padding(.bottom, ViewTraits.General.padding)
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
+			.onTapGesture {
+				viewModel.reduce(.endEditing)
+			}
 			
 		} bottomView: {
 			CallToActionButton("searchhp_action") {
@@ -196,7 +204,6 @@ struct SearchView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		
 	}
 }
 
