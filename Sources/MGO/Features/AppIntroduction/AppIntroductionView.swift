@@ -49,8 +49,7 @@ struct AppIntroductionView: View {
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
-			static let top: CGFloat = 50
-			static let insets = EdgeInsets( top: 50, leading: 20, bottom: 24, trailing: 20)
+			static let insets = EdgeInsets( top: 0, leading: 20, bottom: 24, trailing: 20)
 		}
 		enum Title {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 16, trailing: 16)
@@ -61,6 +60,9 @@ struct AppIntroductionView: View {
 		}
 		enum Button {
 			static let padding: CGFloat = 16
+		}
+		enum Navigation {
+			static let padding: CGFloat = 8
 		}
 	}
 	
@@ -80,7 +82,6 @@ struct AppIntroductionView: View {
 				Text("onboarding_title")
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.padding(ViewTraits.Title.insets)
-					.padding(.top, showImage ? 0 : ViewTraits.Image.top)
 					.accessibilityAddTraits(.isHeader)
 				
 				SplittedText(key: "onboarding_body", spacing: ViewTraits.Text.spacing)
@@ -112,6 +113,8 @@ struct AppIntroductionView: View {
 			}
 			.padding(ViewTraits.Button.padding)
 		}
+		.padding(.top, ViewTraits.Navigation.padding)
+		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
