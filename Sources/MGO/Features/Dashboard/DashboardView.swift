@@ -93,7 +93,7 @@ struct DashboardView: View {
 		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
-		.confirmationDialog (
+		.confirmationDialog(
 			"Reset the application?",
 			isPresented: $viewModel.showResetDialog) {
 				Button("Reset the application?", role: .destructive) {

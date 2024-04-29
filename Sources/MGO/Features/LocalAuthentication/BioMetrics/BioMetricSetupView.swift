@@ -42,10 +42,10 @@ class BioMetricSetupViewModel: ObservableObject {
 		coordinator: (any AppCoordinatorProtocol)?,
 		bioMetricType: () -> LocalAuthentication.BiometricType) {
 			
-			self.coordinator = coordinator
-			self.bioMetricType = bioMetricType()
-			updateState()
-		}
+		self.coordinator = coordinator
+		self.bioMetricType = bioMetricType()
+		updateState()
+	}
 	
 	/// Update the state
 	private func updateState() {
@@ -56,16 +56,16 @@ class BioMetricSetupViewModel: ObservableObject {
 	/// - Parameter action: the action to be handled
 	public func reduce(_ action: Action) {
 		switch action {
-		case .proceedWithBioMetric:
-			SwiftUI.Task {
-				await authenticate()
-			}
-			
-		case .proceedWithoutBioMetric:
-			finishedWithoutBioMetric()
-			
-		case .showTouchIDPopup:
-			state.showTouchPopup = true
+			case .proceedWithBioMetric:
+				SwiftUI.Task {
+					await authenticate()
+				}
+				
+			case .proceedWithoutBioMetric:
+				finishedWithoutBioMetric()
+				
+			case .showTouchIDPopup:
+				state.showTouchPopup = true
 		}
 	}
 	
