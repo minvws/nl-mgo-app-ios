@@ -1006,6 +1006,50 @@
           }
         }
       }
+    },
+    "storedhp_action_again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg een zorgaanbieder toe"
+          }
+        }
+      }
+    },
+    "storedhp_action_done" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klaar"
+          }
+        }
+      }
+    },
+    "storedhp_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt deze lijst nu aanpassen of dit later in je profiel doen."
+          }
+        }
+      }
+    },
+    "storedhp_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welke zorgaanbieders wil je in de app tonen?"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

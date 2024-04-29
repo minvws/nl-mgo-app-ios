@@ -59,6 +59,8 @@ enum AppCoordination {
 		// Healthcare Provider flow
 		case search(city: String, name: String)
 		case backToSearchHealthcareProvider
+		case storeHealthcareProvider
+		case finishedSearchingHealthcareProviders
 		
 		// Dashboard
 		case fhirClient
@@ -86,12 +88,13 @@ enum AppCoordination {
 		case bioMetricSetup
 		case forgotAccessCode
 		
-		// Remote Auhtentication
+		// Remote Authentication
 		case remoteAuthentication
 		
 		// Healthcare Provider flow
 		case searchHealthcareProvider
 		case searchHealthcareProviders(city: String, name: String)
+		case storedHealthcareProviders
 		
 		// Dashboard
 		case dashboard
@@ -226,6 +229,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .backToSearchHealthcareProvider:
 				navigateTo(state: .searchHealthcareProvider)
 			
+			case .finishedSearchingHealthcareProviders:
+				navigateTo(state: .dashboard)
+			
 			// Dashboard
 			
 			case .fhirClient:
@@ -233,6 +239,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 			case .searchHealthcareProviders:
 				path.append(AppCoordination.State.searchHealthcareProvider)
+			
+			case .storeHealthcareProvider:
+				path.append(AppCoordination.State.storedHealthcareProviders)
 			
 			// General
 			
@@ -322,8 +331,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				SearchView(viewModel: SearchViewModel(coordinator: self))
 			
 			case let .searchHealthcareProviders(city, name):
-			SearchResultView(viewModel: SearchResultViewModel(coordinator: self, city: city, name: name, localisationServiceClient: self.localisationServiceClient))
+				SearchResultView(viewModel: SearchResultViewModel(coordinator: self, city: city, name: name, localisationServiceClient: self.localisationServiceClient))
 		
+			case .storedHealthcareProviders:
+				StoredHealthcareProvidersView(viewModel: StoredHealthcareProvidersViewModel(coordinator: self))
+			
 			// POC
 			
 			case .fhirClient:

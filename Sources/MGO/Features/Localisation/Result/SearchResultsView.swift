@@ -45,6 +45,7 @@ class SearchResultViewModel: ObservableObject {
 		case retry
 		case onAppear
 		case backToSearch
+		case store
 	}
 	
 	/// The state of the view
@@ -94,6 +95,9 @@ class SearchResultViewModel: ObservableObject {
 				SwiftUI.Task {
 					await loadHealthcareProviders()
 				}
+			
+			case .store:
+				coordinator?.handle(.storeHealthcareProvider)
 		}
 	}
 	
@@ -192,7 +196,11 @@ struct SearchResultView: View {
 			
 				LazyVStack(spacing: 8, content: {
 					ForEach(list, id: \.self) { element in
-						SearchResultCardView(element: element, state: .regular)
+						Button {
+							viewModel.reduce(.store)
+						} label: {
+							SearchResultCardView(element: element, state: .regular)
+						}
 					}
 				})
 				
