@@ -14,8 +14,10 @@ public struct LinkButtonStyle: ButtonStyle {
 	/// The Theme
 	@Environment(\.theme) private var theme
 	
-	/// Initializer
-	public init() {}
+	/// Initlializer
+	public init() {
+		// Public initializer needed for public access.
+	}
 	
 	/// Style the button to a primary button
 	/// - Parameter configuration: the button configuration
