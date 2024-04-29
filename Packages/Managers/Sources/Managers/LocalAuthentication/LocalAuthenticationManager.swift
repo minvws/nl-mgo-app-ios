@@ -38,8 +38,10 @@ public enum LocalAuthenticationError: Error {
 
 public class LocalAuthenticationProvider: LocalAuthenticationProviderProtocol {
 	
-	/// Initializer
-	public init() { }
+	/// Initlializer
+	public init() {
+		// Public initializer needed for public access.
+	}
 
 	/// Get the biometric type for this device
 	public var biometricType: () -> LocalAuthentication.BiometricType = {

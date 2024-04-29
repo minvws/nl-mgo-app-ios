@@ -9,7 +9,10 @@ import Foundation
 
 public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 
-	public init() { }
+	/// Initlializer
+	public init() {
+		// Public initializer needed for public access.
+	}
 	
 	public var invokedTempAccessCodeSetter = false
 	public var invokedTempAccessCodeSetterCount = 0

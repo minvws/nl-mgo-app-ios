@@ -9,7 +9,10 @@ import Foundation
 
 public class LocalAuthenticationProviderSpy: LocalAuthenticationProviderProtocol {
 
-	public init() { }
+	/// Initlializer
+	public init() {
+		// Public initializer needed for public access.
+	}
 	
 	public var invokedBiometricTypeGetter = false
 	public var invokedBiometricTypeGetterCount = 0
