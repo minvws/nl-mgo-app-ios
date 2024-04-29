@@ -984,6 +984,28 @@
           }
         }
       }
+    },
+    "searchresults_provider_selected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder heb je al toegevoegd"
+          }
+        }
+      }
+    },
+    "searchresults_provider_warning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder doet niet mee. "
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

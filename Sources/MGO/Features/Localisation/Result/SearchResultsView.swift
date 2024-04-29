@@ -192,7 +192,7 @@ struct SearchResultView: View {
 			
 				LazyVStack(spacing: 8, content: {
 					ForEach(list, id: \.self) { element in
-						SearchResultCardView(element: element)
+						SearchResultCardView(element: element, state: .regular)
 					}
 				})
 				
