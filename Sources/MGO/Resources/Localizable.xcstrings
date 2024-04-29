@@ -586,6 +586,17 @@
         }
       }
     },
+    "general_clear" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis inhoud"
+          }
+        }
+      }
+    },
     "general_close" : {
       "extractionState" : "manual",
       "localizations" : {
