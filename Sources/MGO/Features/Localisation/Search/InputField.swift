@@ -59,7 +59,6 @@ struct InputField: View {
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.contentPrimary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
-		
 			
 			TextField("", text: $input)
 				.focused($isFieldFocused)
