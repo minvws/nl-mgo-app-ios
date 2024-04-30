@@ -100,8 +100,8 @@ final class SearchResultViewModelTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [Components.Schemas.Organization] = [
-			Components.Schemas.Organization(
+		let list: [HealthcareProvider] = [
+			HealthcareProvider(
 				display_name: "Tandarts Tandje Erbij",
 				identification_type: "type",
 				identification_value: "value",
@@ -118,19 +118,12 @@ final class SearchResultViewModelTests: XCTestCase {
 			)
 		]
 		localisationServiceClientSpy.stubbedSearchHealthcareProviders = list
-		let expectSearchResult = SearchResult(
-			id: "type|value",
-			name: "Tandarts Tandje Erbij",
-			city: "Roermond",
-			address: "Boorplatform 5",
-			postalCode: "1234AB"
-		)
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(.success([expectSearchResult])))
+		expect(self.sut.state).toEventually(equal(.success(list)))
 		expect(self.localisationServiceClientSpy.invokedSearchHealthcareProviders).toEventually(beTrue())
 	}
 	

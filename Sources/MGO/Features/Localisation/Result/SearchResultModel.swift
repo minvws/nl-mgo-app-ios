@@ -18,10 +18,10 @@ struct SearchResult: Codable, Hashable, Equatable {
 
 class SearchResultDecorator {
 	
-	/// Create a SearchResult from a Component.Schema.Organization
-	/// - Parameter from: Component.Schema.Organization
+	/// Create a SearchResult from a HealthcareProvider
+	/// - Parameter from: HealthcareProvider
 	/// - Returns: SearchResult
-	static func create(_ organisation: Components.Schemas.Organization) -> SearchResult {
+	static func create(_ organisation: HealthcareProvider) -> SearchResult {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = organisation.display_name // + " [\(identifier)]"
@@ -40,10 +40,10 @@ class SearchResultDecorator {
 		return SearchResult(id: identifier, name: name, city: city, address: address, postalCode: postalCode)
 	}
 	
-	/// Create an array of SearchResults from an array of Component.Schema.Organizations
-	/// - Parameter from: array of Component.Schema.Organization
+	/// Create an array of SearchResults from an array of HealthcareProviders
+	/// - Parameter from: array of HealthcareProvider
 	/// - Returns: array of search results
-	static func create(_ from: [Components.Schemas.Organization]) -> [SearchResult] {
+	static func create(_ from: [HealthcareProvider]) -> [SearchResult] {
 		
 		var result = [SearchResult]()
 		from.forEach { organisation in

@@ -13,7 +13,7 @@ enum SearchResultViewState: Equatable {
 	
 	case loading
 	case failure(Error)
-	case success([SearchResult])
+	case success([HealthcareProvider])
 	case empty(city: String, name: String)
 
 	static func == (lhs: SearchResultViewState, rhs: SearchResultViewState) -> Bool {
@@ -118,8 +118,7 @@ class SearchResultViewModel: ObservableObject {
 			if organisations.isEmpty {
 				state = .empty(city: city, name: name)
 			} else {
-				let results = SearchResultDecorator.create(organisations)
-				state = .success(results)
+				state = .success(organisations)
 			}
 			
 		} catch {
@@ -182,7 +181,7 @@ struct SearchResultView: View {
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 	
-	@ViewBuilder func listSearchResults(_ list: [SearchResult]) -> some View {
+	@ViewBuilder func listSearchResults(_ list: [HealthcareProvider]) -> some View {
 		
 		ScrollView {
 			
@@ -196,10 +195,11 @@ struct SearchResultView: View {
 			
 				LazyVStack(spacing: 8, content: {
 					ForEach(list, id: \.self) { element in
+						
 						Button {
 							viewModel.reduce(.store)
 						} label: {
-							SearchResultCardView(element: element, state: .regular)
+							SearchResultCardView(element: SearchResultDecorator.create(element), state: .regular)
 						}
 					}
 				})
@@ -212,7 +212,27 @@ struct SearchResultView: View {
 }
 
 #Preview {
-	NavigationView {
-		SearchResultView(viewModel: SearchResultViewModel(coordinator: nil, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: LocalisationServiceClient()))
+	
+	let spy = LocalisationServiceClientSpy()
+	spy.stubbedSearchHealthcareProviders = [
+		HealthcareProvider(
+			display_name: "Tandarts Tandje Erbij",
+			identification_type: "type",
+			identification_value: "value",
+			active: true,
+			addresses: [Components.Schemas.Address(
+				active: true,
+				address: "Boorplatform 5",
+				city: "Roermond",
+				postalcode: "1234AB",
+				_type: "postal")
+			],
+			names: [],
+			types: []
+		)
+	]
+	
+	return NavigationView {
+		SearchResultView(viewModel: SearchResultViewModel(coordinator: nil, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: spy))
 	}
 }

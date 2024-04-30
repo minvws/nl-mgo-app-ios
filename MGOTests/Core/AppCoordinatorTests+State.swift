@@ -183,7 +183,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 	}
 	
 	func test_coordinatorView_forSearch() throws {
-
+		
 		// Given
 		let state = AppCoordination.State.searchHealthcareProvider
 		

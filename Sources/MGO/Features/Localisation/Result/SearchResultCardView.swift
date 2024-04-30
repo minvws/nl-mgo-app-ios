@@ -19,6 +19,7 @@ struct SearchResultCardView: View {
 	/// The search result to display
 	var element: SearchResult
 	
+	/// The state of the card
 	var state: SearchResultCardState
 	
 	/// The Theme
@@ -40,7 +41,6 @@ struct SearchResultCardView: View {
 			static let spacing: CGFloat = 4.0
 			static let padding: CGFloat = 8.0
 			static let size: CGFloat = 24.0
-			static let warningWidth: CGFloat = 32.0
 		}
 	}
 	
@@ -81,7 +81,6 @@ struct SearchResultCardView: View {
 						case .warning:
 							HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
 								Image(ImageResource.warning)
-//									.padding(ViewTraits.Selected.padding)
 								Text("searchresults_provider_warning")
 									.rijksoverheidStyle(font: .regular, style: .body)
 							}
