@@ -28,7 +28,7 @@ struct AccessCodeBoxView: View {
 		}
 	}
 	
-	/// All posible states of the box
+	/// All possible states of the box
 	enum State {
 		// The box is empty.
 		case empty

@@ -10,7 +10,7 @@ import MGOUI
 
 class StoredHealthcareProvidersViewModel: ObservableObject {
 	
-	/// All posible states of the box
+	/// All possible states of the box
 	enum State {
 		case empty
 	}
@@ -18,7 +18,6 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-		case store
 		case remove
 		case backToSearch
 		case done
@@ -42,8 +41,6 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
-			case .store:
-				#warning("todo store")
 			case .remove:
 				#warning("todo remove")
 			case .backToSearch:
