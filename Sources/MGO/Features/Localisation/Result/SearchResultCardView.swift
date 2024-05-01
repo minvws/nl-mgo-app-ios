@@ -70,7 +70,7 @@ struct SearchResultCardView: View {
 							EmptyView()
 						case .selected:
 							HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
-								Image(ImageResource.check)
+								Image(ImageResource.Localisation.check)
 									.padding(ViewTraits.Selected.padding)
 								Text("searchresults_provider_selected")
 									.rijksoverheidStyle(font: .regular, style: .body)
@@ -80,7 +80,7 @@ struct SearchResultCardView: View {
 							.accessibilityElement(children: .combine)
 						case .warning:
 							HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
-								Image(ImageResource.warning)
+								Image(ImageResource.Localisation.warning)
 								Text("searchresults_provider_warning")
 									.rijksoverheidStyle(font: .regular, style: .body)
 							}
@@ -101,7 +101,7 @@ struct SearchResultCardView: View {
 						.foregroundStyle(theme.actionPrimaryBackground)
 						.font(Font.title2.bold())
 				case .selected:
-					Image(ImageResource.arrowForward)
+				Image(ImageResource.Localisation.arrowForward)
 						.foregroundStyle(theme.iconsPrimary)
 						.frame(width: ViewTraits.Selected.size, height: ViewTraits.Selected.size, alignment: .center)
 				case .warning:

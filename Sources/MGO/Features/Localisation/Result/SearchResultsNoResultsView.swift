@@ -55,17 +55,17 @@ class SearchResultNoResultsViewModel: ErrorViewModelProtocol {
 			
 			Label(
 				title: { Text("searchresults_noresults_reason_1") },
-				icon: { Image(ImageResource.arrowRight) }
+				icon: { Image(ImageResource.Localisation.arrowRight) }
 			)
 			
 			Label(
 				title: { Text("searchresults_noresults_reason_2") },
-				icon: { Image(ImageResource.arrowRight) }
+				icon: { Image(ImageResource.Localisation.arrowRight) }
 			)
 			
 			Label(
 				title: { Text("searchresults_noresults_reason_3") },
-				icon: { Image(ImageResource.arrowRight) }
+				icon: { Image(ImageResource.Localisation.arrowRight) }
 			)
 		}
 	}

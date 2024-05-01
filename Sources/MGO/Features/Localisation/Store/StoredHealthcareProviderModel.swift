@@ -8,7 +8,8 @@
 import MGOFoundation
 import LocalisationServiceClient
 
-struct SearchResult: Codable, Hashable, Equatable, Identifiable {
+struct StoredHealthcareProviderModel: Codable, Hashable, Equatable, Identifiable {
+	var type: String
 	var id: String
 	var name: String
 	var city: String?
@@ -16,25 +17,25 @@ struct SearchResult: Codable, Hashable, Equatable, Identifiable {
 	var postalCode: String?
 }
 
-class SearchResultDecorator {
+class StoredHealthcareProviderDecorator {
 	
 	/// Create a SearchResult from a HealthcareProvider
 	/// - Parameter from: HealthcareProvider
 	/// - Returns: SearchResult
-	static func create(_ organisation: HealthcareProvider) -> SearchResult {
+	static func create(_ organisation: HealthcareProvider) -> StoredHealthcareProviderModel {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = organisation.display_name // + " [\(identifier)]"
 		let (address, city, postalCode) = organisation.getAddress()
-		return SearchResult(id: identifier, name: name, city: city, address: address, postalCode: postalCode)
+		return StoredHealthcareProviderModel(type: "tandarts", id: identifier, name: name, city: city, address: address, postalCode: postalCode)
 	}
 	
 	/// Create an array of SearchResults from an array of HealthcareProviders
 	/// - Parameter from: array of HealthcareProvider
 	/// - Returns: array of search results
-	static func create(_ from: [HealthcareProvider]) -> [SearchResult] {
+	static func create(_ from: [HealthcareProvider]) -> [StoredHealthcareProviderModel] {
 		
-		var result = [SearchResult]()
+		var result = [StoredHealthcareProviderModel]()
 		from.forEach { organisation in
 			result.append( create(organisation))
 		}

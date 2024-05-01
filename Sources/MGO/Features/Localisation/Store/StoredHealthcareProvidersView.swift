@@ -92,10 +92,10 @@ struct StoredHealthcareProvidersView: View {
 					.accessibilityAddTraits(.isHeader)
 				
 				switch viewModel.state {
-				case .empty :
-					Text("storedhp_body_empty")
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
+					case .empty:
+						Text("storedhp_body_empty")
+							.rijksoverheidStyle(font: .regular, style: .body)
+							.frame(maxWidth: .infinity, alignment: .topLeading)
 					
 				}
 				
