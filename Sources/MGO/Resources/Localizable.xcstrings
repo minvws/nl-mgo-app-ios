@@ -1029,6 +1029,50 @@
         }
       }
     },
+    "storedhp_alert_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We halen je dossier van deze zorgaanbieder niet op. Je kunt deze later alsnog toevoegen via je profiel."
+          }
+        }
+      }
+    },
+    "storedhp_alert_cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toch tonen"
+          }
+        }
+      }
+    },
+    "storedhp_alert_remove" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weglaten"
+          }
+        }
+      }
+    },
+    "storedhp_alert_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ weglaten?"
+          }
+        }
+      }
+    },
     "storedhp_body" : {
       "extractionState" : "manual",
       "localizations" : {

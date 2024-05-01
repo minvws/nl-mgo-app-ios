@@ -20,6 +20,8 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
+		case cancelDialog
+		case showRemoveDialog(HealthcareProvider)
 		case remove
 		case backToSearch
 		case done
@@ -29,6 +31,10 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	@Published var state: State = .empty
+	
+	@Published var healthcareProviderToRemoveTitle: String?
+	
+	private var healthcareProviderToRemove: HealthcareProvider?
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
@@ -76,15 +82,32 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	func reduce(_ action: StoredHealthcareProvidersViewModel.Action) {
 		
 		switch action {
+		
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
+			
+			case .cancelDialog:
+				healthcareProviderToRemoveTitle = nil
+				healthcareProviderToRemove = nil
+			
 			case .remove:
-				#warning("todo remove")
+					#warning("todo remove")
+			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
 				coordinator?.handle(.backToSearchHealthcareProvider)
+				
 			case .done:
 				coordinator?.handle(.finishedSearchingHealthcareProviders)
+				
+			case .showRemoveDialog(let healthcareProvider):
+				healthcareProviderToRemove = healthcareProvider
+			
+				healthcareProviderToRemoveTitle = String(
+					format: String(localized: "storedhp_alert_title"),
+					arguments: ["\(healthcareProvider.display_name)"]
+				)
+			
 		}
 	}
 }
@@ -144,7 +167,7 @@ struct StoredHealthcareProvidersView: View {
 							ForEach(list, id: \.self) { element in
 								
 								Button {
-									viewModel.reduce(.remove)
+									viewModel.reduce(.showRemoveDialog(element))
 								} label: {
 									StoredHealthcareProviderCardView(element: StoredHealthcareProviderDecorator.create(element))
 								}
@@ -168,6 +191,12 @@ struct StoredHealthcareProvidersView: View {
 			.padding(ViewTraits.Button.insets)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
+		.alert(viewModel.healthcareProviderToRemoveTitle ?? "", isPresented: $viewModel.healthcareProviderToRemoveTitle.presence()) {
+			Button("storedhp_alert_cancel", role: .cancel) { viewModel.reduce(.cancelDialog) }
+			Button("storedhp_alert_remove") { viewModel.reduce(.remove) }
+		} message: {
+			Text("storedhp_alert_body")
+		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)
