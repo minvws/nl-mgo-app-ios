@@ -50,7 +50,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	/// fetch the healthcare providers
 	private func loadHealthcareProviders() async {
 		do {
-			let providers = try await Current.healthcareProviderStore.read()
+			let providers = try Current.healthcareProviderStore.read()
 			if providers.isEmpty {
 				state = .empty
 			} else {
@@ -166,6 +166,8 @@ struct StoredHealthcareProvidersView: View {
 								}
 							}
 						})
+
+						Spacer()
 				}
 			}
 			.padding(.horizontal, ViewTraits.General.padding)

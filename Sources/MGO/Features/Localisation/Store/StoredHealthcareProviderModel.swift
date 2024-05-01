@@ -9,11 +9,23 @@ import MGOFoundation
 import LocalisationServiceClient
 
 struct StoredHealthcareProviderModel: Codable, Hashable, Equatable, Identifiable {
-	var type: String
+	
+	/// The category of healthcare provider (dentist, gp, etc)
+	var category: String
+	
+	/// The identifier
 	var id: String
+	
+	/// The name of the healthcare provider
 	var name: String
+	
+	/// The city of the healthcare provider
 	var city: String?
+	
+	/// The address of the healthcare provider
 	var address: String?
+	
+	/// The postal code of the healthcare provider
 	var postalCode: String?
 }
 
@@ -27,7 +39,7 @@ class StoredHealthcareProviderDecorator {
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = organisation.display_name // + " [\(identifier)]"
 		let (address, city, postalCode) = organisation.getAddress()
-		return StoredHealthcareProviderModel(type: "tandarts", id: identifier, name: name, city: city, address: address, postalCode: postalCode)
+		return StoredHealthcareProviderModel(category: organisation.types.first?.display_name ?? "", id: identifier, name: name, city: city, address: address, postalCode: postalCode)
 	}
 	
 	/// Create an array of SearchResults from an array of HealthcareProviders

@@ -8,33 +8,58 @@
 import MGOFoundation
 
 public protocol FileStorageProtocol: AnyObject {
+	
+	/// Store data in documents directory
+	/// - Parameters:
+	///   - data: Store data
+	///   - fileName: Name of file
+	/// - Throws
 	func store(_ data: Data, as fileName: String) throws
+	
+	/// Get the content of a file
+	/// - Parameter fileName: the name of the file
+	/// - Returns: the content
 	func read(fileName: String) -> Data?
+	
+	/// Check if a file exists
+	/// - Parameter fileName: the name of the file
+	/// - Returns: True if it does.
 	func fileExists(_ fileName: String) -> Bool
+	
+	/// Check if a file exists
+	/// - Parameter fileName: the name of the file
+	/// - Returns: True if it does.
 	func remove(_ fileName: String)
-
+	
+	/// Get url to documents directory
 	var documentsURL: URL? { get }
 }
 
 final public class FileStorage: FileStorageProtocol {
 	
+	/// The underlying file manager
 	private let fileManager: FileManager
 	
+	/// Initializer
+	/// - Parameter fileManager: the File Manager
 	public init(fileManager: FileManager = FileManager.default) {
+		
 		self.fileManager = fileManager
 	}
-
+	
 	/// Get url to documents directory
 	public var documentsURL: URL? {
+		
 		return fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
 	}
-
+	
 	/// Store data in documents directory
 	/// - Parameters:
 	///   - data: Store data
 	///   - fileName: Name of file
 	/// - Throws
 	public func store(_ data: Data, as fileName: String) throws {
+		
 		guard let url = documentsURL else {
 			logError("Failed to load documents directory")
 			return
@@ -45,6 +70,9 @@ final public class FileStorage: FileStorageProtocol {
 		try data.write(to: fileUrl, options: .atomic)
 	}
 	
+	/// Get the content of a file
+	/// - Parameter fileName: the name of the file
+	/// - Returns: the content
 	public func read(fileName: String) -> Data? {
 		
 		guard let url = documentsURL else {
@@ -64,31 +92,31 @@ final public class FileStorage: FileStorageProtocol {
 			return nil
 		}
 	}
-
+	
 	/// Check if a file exists
 	/// - Parameter fileName: the name of the file
 	/// - Returns: True if it does.
 	public func fileExists(_ fileName: String) -> Bool {
-
+		
 		guard let url = documentsURL else {
 			logError("Failed to load documents directory")
 			return false
 		}
-
+		
 		let fileUrl = url.appendingPathComponent(fileName, isDirectory: false)
 		return fileManager.fileExists(atPath: fileUrl.path)
 	}
-
+	
 	/// Check if a file exists
 	/// - Parameter fileName: the name of the file
 	/// - Returns: True if it does.
 	public func remove(_ fileName: String) {
-
+		
 		guard let url = documentsURL else {
 			logError("Failed to load documents directory")
 			return
 		}
-
+		
 		let fileUrl = url.appendingPathComponent(fileName, isDirectory: false)
 		do {
 			try fileManager.removeItem(atPath: fileUrl.path)
@@ -96,5 +124,4 @@ final public class FileStorage: FileStorageProtocol {
 			logError("Failed to read directory \(error)")
 		}
 	}
-
 }

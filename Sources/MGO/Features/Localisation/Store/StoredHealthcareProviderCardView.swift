@@ -37,7 +37,7 @@ struct StoredHealthcareProviderCardView: View {
 			
 			VStack(alignment: .leading, spacing: 0) {
 				
-				Text(element.type)
+				Text(element.category)
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundStyle(theme.contentPrimary)
 					.padding(.bottom, ViewTraits.General.textPadding)
@@ -85,7 +85,7 @@ struct StoredHealthcareProviderCardView: View {
 	
 	StoredHealthcareProviderCardView(
 		element: StoredHealthcareProviderModel(
-			type: "Tandarts",
+			category: "Tandarts",
 			id: "1",
 			name: "Tandarts Tandje Erbij",
 			city: "Roermond",

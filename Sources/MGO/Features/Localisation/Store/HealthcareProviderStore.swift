@@ -16,7 +16,7 @@ protocol HealthcareProviderStoreProtocol {
 	
 	/// Get a list of all the stored healthcare providers
 	/// - Returns: array of healthcare providers
-	func read() async throws -> [HealthcareProvider]
+	func read() throws -> [HealthcareProvider]
 	
 	/// Delete a healthcare provider from storage
 	/// - Parameter provider: the healthcare provider to be removed
@@ -28,33 +28,24 @@ protocol HealthcareProviderStoreProtocol {
 
 class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	
-	private let queue = DispatchQueue(label: "com.healthcareProviderStore.serialqueue.\(UUID().uuidString)")
-	
+	/// The storage provider
 	private let storage = FileStorage()
 	
+	/// The name of the file where we store the healthcare providers
 	private let fileName = "healthcareproviders.json"
 	
 	/// Add a healthcare provider to the storage
 	/// - Parameter provider: the healthcare provider to store
 	func store(_ provider: HealthcareProvider) throws {
 		
-		try queue.sync {
-			
-			var list = [HealthcareProvider]()
-			
-			if let jsonData = storage.read(fileName: fileName) {
-				let data = try JSONDecoder().decode([HealthcareProvider].self, from: jsonData)
-				list = data
-			}
-			list.append(provider)
-			let encoded = try JSONEncoder().encode(list)
-			try storage.store(encoded, as: fileName)
-		}
+		var list = try read()
+		list.append(provider)
+		try storeList(list)
 	}
 	
 	/// Get a list of all the stored healthcare providers
 	/// - Returns: array of healthcare providers
-	func read() async throws -> [HealthcareProvider] {
+	func read() throws -> [HealthcareProvider] {
 		
 		if let jsonData = storage.read(fileName: fileName) {
 			let data = try JSONDecoder().decode([HealthcareProvider].self, from: jsonData)
@@ -67,19 +58,22 @@ class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	/// - Parameter provider: the healthcare provider to be removed
 	func remove(_ provider: HealthcareProvider) throws {
 		
-		var list = [HealthcareProvider]()
-		
-		if let jsonData = storage.read(fileName: fileName) {
-			let data = try JSONDecoder().decode([HealthcareProvider].self, from: jsonData)
-			list = data
-		}
+		var list = try read()
 		list = list.filter { $0 != provider }
-		let encoded = try JSONEncoder().encode(list)
-		try storage.store(encoded, as: fileName)
+		try storeList(list)
 	}
 	
 	/// Remove all the healthcare providers
 	func wipe() {
+		
 		storage.remove(fileName)
+	}
+	
+	/// Store a list of providers
+	/// - Parameter list: a list of healthcare providers
+	private func storeList(_ list: [HealthcareProvider]) throws {
+		
+		let encoded = try JSONEncoder().encode(list)
+		try storage.store(encoded, as: fileName)
 	}
 }
