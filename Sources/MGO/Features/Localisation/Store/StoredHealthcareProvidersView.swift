@@ -7,12 +7,14 @@
 
 import MGOFoundation
 import MGOUI
+import LocalisationServiceClient
 
 class StoredHealthcareProvidersViewModel: ObservableObject {
 	
 	/// All possible states of the box
 	enum State {
 		case empty
+		case list([HealthcareProvider])
 	}
 	
 	/// A list of all the actions this viewModel can handle
@@ -32,6 +34,41 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	/// - Parameter coordinator: the coordinator
 	init(coordinator: (any AppCoordinatorProtocol)?) {
 		self.coordinator = coordinator
+		
+		let list: [HealthcareProvider] = [
+			HealthcareProvider(
+				display_name: "Tandarts Tandje Erbij",
+				identification_type: "type",
+				identification_value: "1",
+				active: true,
+				addresses: [Components.Schemas.Address(
+					active: true,
+					address: "Boorplatform 5",
+					city: "Roermond",
+					postalcode: "1234AB",
+					_type: "postal")
+				],
+				names: [],
+				types: []
+			),
+			HealthcareProvider(
+				display_name: "Tandarts Tandje Erbij",
+				identification_type: "type",
+				identification_value: "2",
+				active: true,
+				addresses: [Components.Schemas.Address(
+					active: true,
+					address: "Boorplatform 5",
+					city: "Roermond",
+					postalcode: "1234AB",
+					_type: "postal")
+				],
+				names: [],
+				types: []
+			)
+		]
+		
+		state = State.list(list)
 	}
 	
 	/// Handle any action
@@ -75,6 +112,9 @@ struct StoredHealthcareProvidersView: View {
 		enum Navigation {
 			static let padding: CGFloat = 8
 		}
+		enum List {
+			static let spacing: CGFloat = 8
+		}
 	}
 	
 	var body: some View {
@@ -94,11 +134,23 @@ struct StoredHealthcareProvidersView: View {
 							.rijksoverheidStyle(font: .regular, style: .body)
 							.frame(maxWidth: .infinity, alignment: .topLeading)
 					
+					case let .list(list):
+					
+						Text("storedhp_body")
+							.rijksoverheidStyle(font: .regular, style: .body)
+							.frame(maxWidth: .infinity, alignment: .topLeading)
+					
+						LazyVStack(spacing: ViewTraits.List.spacing, content: {
+							ForEach(list, id: \.self) { element in
+								
+								Button {
+									viewModel.reduce(.remove)
+								} label: {
+									StoredHealthcareProviderCardView(element: StoredHealthcareProviderDecorator.create(element))
+								}
+							}
+						})
 				}
-				
-//				Text("storedhp_body")
-//					.rijksoverheidStyle(font: .regular, style: .body)
-//					.frame(maxWidth: .infinity, alignment: .topLeading)
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
 			

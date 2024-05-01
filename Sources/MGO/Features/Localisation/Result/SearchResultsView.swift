@@ -147,6 +147,9 @@ struct SearchResultView: View {
 		enum Navigation {
 			static let padding: CGFloat = 8
 		}
+		enum List {
+			static let spacing: CGFloat = 8
+		}
 	}
 	
 	var body: some View {
@@ -193,7 +196,7 @@ struct SearchResultView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 			
-				LazyVStack(spacing: 8, content: {
+				LazyVStack(spacing: ViewTraits.List.spacing, content: {
 					ForEach(list, id: \.self) { element in
 						
 						Button {
