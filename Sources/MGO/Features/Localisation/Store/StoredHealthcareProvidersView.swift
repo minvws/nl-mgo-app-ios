@@ -20,61 +20,45 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-		case cancelDialog
-		case showRemoveDialog(HealthcareProvider)
-		case remove
 		case backToSearch
+		case cancelDialog
 		case done
+		case onAppear
+		case remove
+		case showRemoveDialog(HealthcareProvider)
 	}
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
+	/// The state of the view
 	@Published var state: State = .empty
 	
+	/// The name of the healthcare provider to remove
 	@Published var healthcareProviderToRemoveTitle: String?
 	
+	/// the healthcare provider to remove
 	private var healthcareProviderToRemove: HealthcareProvider?
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
 	init(coordinator: (any AppCoordinatorProtocol)?) {
 		self.coordinator = coordinator
-		
-		let list: [HealthcareProvider] = [
-			HealthcareProvider(
-				display_name: "Tandarts Tandje Erbij",
-				identification_type: "type",
-				identification_value: "1",
-				active: true,
-				addresses: [Components.Schemas.Address(
-					active: true,
-					address: "Boorplatform 5",
-					city: "Roermond",
-					postalcode: "1234AB",
-					_type: "postal")
-				],
-				names: [],
-				types: []
-			),
-			HealthcareProvider(
-				display_name: "Tandarts Tandje Erbij",
-				identification_type: "type",
-				identification_value: "2",
-				active: true,
-				addresses: [Components.Schemas.Address(
-					active: true,
-					address: "Boorplatform 5",
-					city: "Roermond",
-					postalcode: "1234AB",
-					_type: "postal")
-				],
-				names: [],
-				types: []
-			)
-		]
-		
-		state = State.list(list)
+	}
+
+	@MainActor
+	/// fetch the healthcare providers
+	private func loadHealthcareProviders() async {
+		do {
+			let providers = try await Current.healthcareProviderStore.read()
+			if providers.isEmpty {
+				state = .empty
+			} else {
+				state = .list(providers)
+			}
+		} catch {
+			logError("error: \(error)")
+		}
 	}
 	
 	/// Handle any action
@@ -83,6 +67,11 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 		
 		switch action {
 		
+			case .onAppear:
+				SwiftUI.Task {
+					await loadHealthcareProviders()
+				}
+			
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 			
@@ -91,7 +80,12 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 				healthcareProviderToRemove = nil
 			
 			case .remove:
-					#warning("todo remove")
+				if let healthcareProviderToRemove {
+					try? Current.healthcareProviderStore.remove(healthcareProviderToRemove)
+				}
+				SwiftUI.Task {
+					await loadHealthcareProviders()
+				}
 			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
@@ -102,7 +96,6 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 				
 			case .showRemoveDialog(let healthcareProvider):
 				healthcareProviderToRemove = healthcareProvider
-			
 				healthcareProviderToRemoveTitle = String(
 					format: String(localized: "storedhp_alert_title"),
 					arguments: ["\(healthcareProvider.display_name)"]
@@ -202,6 +195,9 @@ struct StoredHealthcareProvidersView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.onAppear {
+			viewModel.reduce(.onAppear)
+		}
 	}
 }
 

@@ -45,7 +45,7 @@ class SearchResultViewModel: ObservableObject {
 		case retry
 		case onAppear
 		case backToSearch
-		case store
+		case store(HealthcareProvider)
 	}
 	
 	/// The state of the view
@@ -96,7 +96,8 @@ class SearchResultViewModel: ObservableObject {
 					await loadHealthcareProviders()
 				}
 			
-			case .store:
+			case .store(let provider):
+				try? Current.healthcareProviderStore.store(provider)
 				coordinator?.handle(.storeHealthcareProvider)
 		}
 	}
@@ -200,7 +201,7 @@ struct SearchResultView: View {
 					ForEach(list, id: \.self) { element in
 						
 						Button {
-							viewModel.reduce(.store)
+							viewModel.reduce(.store(element))
 						} label: {
 							SearchResultCardView(element: SearchResultDecorator.create(element), state: .regular)
 						}
