@@ -40,10 +40,16 @@ struct InputField: View {
 			static let horizontalPadding: CGFloat = 12
 			static let verticalPadding: CGFloat = 8
 		}
+		enum Button {
+			static let trailing: CGFloat = 12
+		}
 		enum VStack {
 			static let spacing: CGFloat = 8
 		}
 	}
+	
+	/// Helper to change the border color when the textfield is focused.
+	@FocusState private var isFieldFocused: Bool
 	
 	var body: some View {
 		
@@ -55,17 +61,35 @@ struct InputField: View {
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 			
 			TextField("", text: $input)
+				.focused($isFieldFocused)
 				.padding(.horizontal, ViewTraits.Input.horizontalPadding)
 				.padding(.vertical, ViewTraits.Input.verticalPadding)
 				.foregroundStyle(theme.contentPrimary)
 				.frame(maxWidth: .infinity, alignment: .leading)
 				.background(theme.backgroundSecondary)
 				.cornerRadius(ViewTraits.Input.cornerRadius)
+				.tag("input")
 				.overlay(
 					RoundedRectangle(cornerRadius: ViewTraits.Input.cornerRadius)
 						.inset(by: ViewTraits.Input.inset)
-						.stroke(showError ? theme.notificationError : theme.contentPrimary, lineWidth: 1)
+						.stroke(showError ? theme.notificationError : isFieldFocused ? theme.contentPrimary : theme.input, lineWidth: 1)
 				)
+				.overlay(alignment: .trailing) {
+					Button(
+						action: {
+							input = ""
+						},
+						label: {
+							Image(ImageResource.clear)
+						}
+					)
+					.buttonStyle(IconButtonStyle())
+					.accessibilityLabel("general_clear")
+					.accessibilityHidden(!isFieldFocused)
+					.padding(.trailing, ViewTraits.Button.trailing)
+					.opacity(isFieldFocused && input.isNotEmpty ? 1 : 0)
+				}
+				
 			if showError {
 				HStack(alignment: .center, spacing: ViewTraits.Image.spacing) {
 					Image(ImageResource.Search.error)
@@ -84,7 +108,8 @@ struct InputField: View {
 }
 
 #Preview {
-	VStack {
+	
+	return VStack {
 		
 		InputField(
 			input: .constant("correct"),

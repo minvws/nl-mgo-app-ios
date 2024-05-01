@@ -139,4 +139,15 @@ final class SearchViewModelTests: XCTestCase {
 		expect(self.sut.state.city) == ""
 		expect(self.sut.state.name) == ""
 	}
+	
+	func test_endEditing() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.endEditing)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == false
+	}
 }

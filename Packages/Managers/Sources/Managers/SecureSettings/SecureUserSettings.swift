@@ -40,8 +40,10 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 		public static var accessCode: String?
 	}
 	
-	/// Initializer
-	public init() {}
+	/// Initlializer
+	public init() {
+		// Public initializer needed for public access.
+	}
 	
 	@Keychain(name: "userHasSeenAppIntroduction", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var userHasSeenAppIntroduction: Bool = Defaults.userHasSeenAppIntroduction

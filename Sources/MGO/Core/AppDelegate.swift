@@ -16,7 +16,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		
 		// UI Settings
-		UITextField.appearance().clearButtonMode = .whileEditing
 		
 		// No bouncy scrollview
 		UIScrollView.appearance().bounces = false

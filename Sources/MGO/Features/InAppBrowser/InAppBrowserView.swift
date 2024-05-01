@@ -54,14 +54,7 @@ struct InAppBrowserView: View {
 	
 	var body: some View {
 		
-		ZStack {
-			
-			theme.backgroundPrimary
-				.ignoresSafeArea()
-				.frame(maxWidth: .infinity, maxHeight: .infinity)
-			
-			RestrictedBrowserView(viewModel: RestrictedBrowserViewModel(url: viewModel.url, browser: viewModel.browser))
-		}
+		RestrictedBrowserView(viewModel: RestrictedBrowserViewModel(url: viewModel.url, browser: viewModel.browser))
 		.navigationTitle(viewModel.title ?? "")
 		.navigationBarBackButtonHidden(true)
 		.navigationBarTitleDisplayMode(.inline)
@@ -79,5 +72,6 @@ struct InAppBrowserView: View {
 				.buttonStyle(BackButtonStyle())
 				.tag("close_view")
 		)
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 }

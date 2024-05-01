@@ -10,7 +10,9 @@ import Foundation
 public final class Configuration {
 
 	/// Initlializer
-	public init() { }
+	public init() {
+		// Public initializer needed for public access. 
+	}
 	
 	/// Which release are we?
 	/// - Returns: the flavour of the app (Production, Acceptance, Test, Development)

@@ -60,10 +60,10 @@ class BioMetricSetupViewModel: ObservableObject {
 				SwiftUI.Task {
 					await authenticate()
 				}
-			
+				
 			case .proceedWithoutBioMetric:
 				finishedWithoutBioMetric()
-			
+				
 			case .showTouchIDPopup:
 				state.showTouchPopup = true
 		}
@@ -111,7 +111,7 @@ class BioMetricSetupViewModel: ObservableObject {
 		} catch LocalAuthenticationError.userFallback {
 			logWarning("User selected password option")
 			finishedWithoutBioMetric()
-		
+			
 		} catch LocalAuthenticationError.declined {
 			logWarning("User declined biometric access")
 			finishedWithoutBioMetric()
@@ -129,7 +129,7 @@ class BioMetricSetupViewModel: ObservableObject {
 }
 
 struct BioMetricSetupView: View {
-
+	
 	/// The view model
 	@StateObject var viewModel: BioMetricSetupViewModel
 	
@@ -156,74 +156,67 @@ struct BioMetricSetupView: View {
 			static let padding: CGFloat = 8
 		}
 	}
-
+	
 	var body: some View {
 		
 		let bioMetricType = viewModel.state.bioMetricType
 		
-		ZStack {
+		ScrollViewWithFixedBottom {
 			
-			theme.backgroundPrimary
-				.ignoresSafeArea()
-				.frame(maxWidth: .infinity, maxHeight: .infinity)
+			HStack {
+				Spacer()
+				getBioMetricImage(type: bioMetricType)
+					.foregroundStyle(theme.actionPrimaryBackground)
+					.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
+					.padding(.top, ViewTraits.Image.top)
+				Spacer()
+			}
 			
-			ScrollViewWithFixedBottom(content: {
+			Text(getBioMetricTypeInterpolatedText("biometric_title", type: bioMetricType))
+				.rijksoverheidStyle(font: .bold, style: .title)
+				.padding(ViewTraits.Title.insets)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityAddTraits(.isHeader)
+			
+			Text(LocalizedStringKey(bioMetricTypedIntro(bioMetricType)))
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.padding(ViewTraits.Text.insets)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+			
+		} bottomView: {
+			
+			VStack(spacing: ViewTraits.Button.spacing) {
 				
-				HStack {
-					Spacer()
-					getBioMetricImage(type: bioMetricType)
-						.foregroundStyle(theme.actionPrimaryBackground)
-						.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
-						.padding(.top, ViewTraits.Image.top)
-					Spacer()
+				CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_without_biometric", type: bioMetricType)), style: .secondary) {
+					viewModel.reduce(.proceedWithoutBioMetric)
 				}
 				
-				Text(getBioMetricTypeInterpolatedText("biometric_title", type: bioMetricType))
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.padding(ViewTraits.Title.insets)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.accessibilityAddTraits(.isHeader)
-				
-				Text(LocalizedStringKey(bioMetricTypedIntro(bioMetricType)))
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.padding(ViewTraits.Text.insets)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-				
-			}, bottomView: {
-				
-				VStack(spacing: ViewTraits.Button.spacing) {
-					
-					CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_without_biometric", type: bioMetricType)), style: .secondary) {
-						viewModel.reduce(.proceedWithoutBioMetric)
-					}
-					
-					CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_with_biometric", type: bioMetricType))) {
-						if bioMetricType == .touchID {
-							viewModel.reduce(.showTouchIDPopup)
-						} else {
-							viewModel.reduce(.proceedWithBioMetric)
-						}
-					}
-					.alert("biometric_lockout_title", isPresented: $viewModel.state.showLockoutPopup) {
-						Button("general_ok") { }
-					} message: {
-						switch viewModel.state.bioMetricType {
-							case .none, .unknown:
-								// Should not happen
-								EmptyView()
-							case .touchID:
-								Text("biometric_lockout_body_touchid")
-							case .faceID:
-								Text("biometric_lockout_body_faceid")
-							case .opticID:
-								Text("biometric_lockout_body_opticid")
-						}
+				CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_with_biometric", type: bioMetricType))) {
+					if bioMetricType == .touchID {
+						viewModel.reduce(.showTouchIDPopup)
+					} else {
+						viewModel.reduce(.proceedWithBioMetric)
 					}
 				}
-				.padding(ViewTraits.Button.insets)
-			})
-			.padding(.top, ViewTraits.Navigation.padding)
+				.alert("biometric_lockout_title", isPresented: $viewModel.state.showLockoutPopup) {
+					Button("general_ok") { }
+				} message: {
+					switch viewModel.state.bioMetricType {
+						case .none, .unknown:
+							// Should not happen
+							EmptyView()
+						case .touchID:
+							Text("biometric_lockout_body_touchid")
+						case .faceID:
+							Text("biometric_lockout_body_faceid")
+						case .opticID:
+							Text("biometric_lockout_body_opticid")
+					}
+				}
+			}
+			.padding(ViewTraits.Button.insets)
 		}
+		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
 		.navigationBarTitleDisplayMode(.inline)
 		.alert("biometric_alert_title", isPresented: $viewModel.state.showTouchPopup) {
@@ -232,6 +225,7 @@ struct BioMetricSetupView: View {
 		} message: {
 			Text("biometric_alert_body")
 		}
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 	
 	/// Get the image for this biometric type
@@ -258,10 +252,10 @@ struct BioMetricSetupView: View {
 	///   - type: the biometric type
 	/// - Returns: interpolated string "Continue with FaceID"
 	private func getBioMetricTypeInterpolatedText(_ key: String, type: LocalAuthentication.BiometricType) -> String {
-	
+		
 		let formatString = String(localized: String.LocalizationValue(key))
 		let typeString = String(localized: String.LocalizationValue(bioMetricTypedString(type)))
-
+		
 		return String(format: formatString, typeString)
 	}
 	

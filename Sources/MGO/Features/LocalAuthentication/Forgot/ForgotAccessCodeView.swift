@@ -64,39 +64,34 @@ struct ForgotAccessCodeView: View {
 	}
 	
 	var body: some View {
-		ZStack {
+		
+		ScrollViewWithFixedBottom {
+			Text("forgot_title")
+				.rijksoverheidStyle(font: .bold, style: .title)
+				.padding(ViewTraits.Title.insets)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityAddTraits(.isHeader)
 			
-			theme.backgroundPrimary
-				.ignoresSafeArea()
-				.frame(maxWidth: .infinity, maxHeight: .infinity)
-			
-			ScrollViewWithFixedBottom {
-				Text("forgot_title")
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.padding(ViewTraits.Title.insets)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.accessibilityAddTraits(.isHeader)
+			Text("forgot_body")
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.padding(ViewTraits.Text.insets)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+		} bottomView: {
+			VStack(spacing: ViewTraits.Button.spacing) {
 				
-				Text("forgot_body")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.padding(ViewTraits.Text.insets)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-			} bottomView: {
-				VStack(spacing: ViewTraits.Button.spacing) {
-					
-					CallToActionButton("general_cancel", style: .secondary) {
-						viewModel.reduce(.cancelButtonPressed)
-					}
-					.tag("general_cancel")
-					
-					CallToActionButton("forgot_action_reset") {
-						viewModel.reduce(.recreateAccount)
-					}
-					.tag("forgot_action_reset")
+				CallToActionButton("general_cancel", style: .secondary) {
+					viewModel.reduce(.cancelButtonPressed)
 				}
-				.padding(ViewTraits.Button.insets)
+				.tag("general_cancel")
+				
+				CallToActionButton("forgot_action_reset") {
+					viewModel.reduce(.recreateAccount)
+				}
+				.tag("forgot_action_reset")
 			}
-			.padding(.top, ViewTraits.Navigation.padding)
+			.padding(ViewTraits.Button.insets)
 		}
+		.padding(.top, ViewTraits.Navigation.padding)
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 }
