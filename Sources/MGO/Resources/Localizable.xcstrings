@@ -1040,6 +1040,17 @@
         }
       }
     },
+    "storedhp_body_empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt nog geen zorgaanbieders toegevoegd aan deze lijst. Je kunt dit nu doen, of later via je profiel."
+          }
+        }
+      }
+    },
     "storedhp_title" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -10,6 +10,11 @@ import MGOUI
 
 class StoredHealthcareProvidersViewModel: ObservableObject {
 	
+	/// All posible states of the box
+	enum State {
+		case empty
+	}
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -21,6 +26,8 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
+	
+	@Published var state: State = .empty
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
@@ -84,9 +91,17 @@ struct StoredHealthcareProvidersView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 				
-				Text("storedhp_body")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
+				switch viewModel.state {
+				case .empty :
+					Text("storedhp_body_empty")
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.frame(maxWidth: .infinity, alignment: .topLeading)
+					
+				}
+				
+//				Text("storedhp_body")
+//					.rijksoverheidStyle(font: .regular, style: .body)
+//					.frame(maxWidth: .infinity, alignment: .topLeading)
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
 			
