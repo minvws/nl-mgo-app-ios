@@ -25,6 +25,9 @@ struct SearchResultCardView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -82,7 +85,7 @@ struct SearchResultCardView: View {
 								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
 								
 						}
-						.foregroundStyle(theme.actionPrimaryBackground)
+						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefault : theme.actionPrimaryBackground)
 						.padding(.top, ViewTraits.Selected.padding)
 						.accessibilityElement(children: .combine)
 						
@@ -94,7 +97,7 @@ struct SearchResultCardView: View {
 								.multilineTextAlignment(.leading)
 								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
 						}
-						.foregroundStyle(theme.actionPrimaryBackground)
+						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefault : theme.actionPrimaryBackground)
 						.padding(.top, ViewTraits.Selected.padding)
 						.accessibilityElement(children: .combine)
 				}
@@ -105,7 +108,7 @@ struct SearchResultCardView: View {
 			switch state {
 				case .regular:
 					Image(systemName: "plus")
-						.foregroundStyle(theme.actionPrimaryBackground)
+						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefault : theme.actionPrimaryBackground)
 						.font(Font.title2.bold())
 				case .selected:
 				Image(ImageResource.Localisation.arrowForward)
