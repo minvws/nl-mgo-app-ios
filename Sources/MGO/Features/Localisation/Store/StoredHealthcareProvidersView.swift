@@ -7,7 +7,6 @@
 
 import MGOFoundation
 import MGOUI
-import LocalisationServiceClient
 
 class StoredHealthcareProvidersViewModel: ObservableObject {
 	

@@ -6,8 +6,8 @@
  */
 
 import MGOTest
+import MGOFoundation
 @testable import MGO
-import LocalisationServiceClient
 
 final class SearchResultViewModelTests: XCTestCase {
 
@@ -152,5 +152,38 @@ final class SearchResultViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backToSearchHealthcareProvider
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
+	}
+	
+	func test_persist() {
+		
+		// Given
+		createSut()
+		let provider = HealthcareProvider(
+			display_name: "Tandarts Tandje Erbij",
+			identification_type: "type",
+			identification_value: "value",
+			active: true,
+			addresses: [Components.Schemas.Address(
+				active: true,
+				address: "Boorplatform 5",
+				city: "Roermond",
+				postalcode: "1234AB",
+				_type: "postal")
+			],
+			names: [],
+			types: []
+		)
+		let list: [HealthcareProvider] = [provider]
+		localisationServiceClientSpy.stubbedSearchHealthcareProviders = list
+		
+		// When
+		sut.reduce(.store(provider))
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.storeHealthcareProvider
+		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedStore) == true
+		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedStoreParameters?.provider) == provider
+		
 	}
 }

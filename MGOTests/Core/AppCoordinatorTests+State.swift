@@ -8,7 +8,6 @@
 import MGOTest
 import MGOFoundation
 import MGOUI
-import LocalisationServiceClient
 @testable import MGO
 
 final class AppCoordinatorStateTests: XCTestCase {

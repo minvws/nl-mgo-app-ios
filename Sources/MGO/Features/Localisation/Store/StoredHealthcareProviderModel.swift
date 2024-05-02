@@ -6,7 +6,6 @@
  */
 
 import MGOFoundation
-import LocalisationServiceClient
 
 struct StoredHealthcareProviderModel: Codable, Hashable, Equatable, Identifiable {
 	

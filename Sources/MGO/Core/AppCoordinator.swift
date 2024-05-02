@@ -9,7 +9,6 @@ import MGOUI
 import MGOFoundation
 import LocalAuthentication
 import RestrictedBrowser
-import LocalisationServiceClient
 
 protocol AppCoordinatorProtocol: ObservableObject {
 	

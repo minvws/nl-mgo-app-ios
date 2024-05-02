@@ -6,3 +6,4 @@
  */
 
 @_exported import FHIRClient
+@_exported import LocalisationService

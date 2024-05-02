@@ -7,7 +7,7 @@
 
 import MGOTest
 @testable import MGO
-import LocalisationServiceClient
+import MGOFoundation
 import MGOUI
 
 final class SearchResultViewTests: XCTestCase {

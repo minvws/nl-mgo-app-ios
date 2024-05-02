@@ -5,7 +5,8 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOFoundation
+import Foundation
+import Logging
 
 public protocol FileStorageProtocol: AnyObject {
 	

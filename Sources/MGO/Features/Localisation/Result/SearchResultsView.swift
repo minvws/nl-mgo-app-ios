@@ -7,7 +7,6 @@
 
 import MGOFoundation
 import MGOUI
-import LocalisationServiceClient
 
 enum SearchResultViewState: Equatable {
 	

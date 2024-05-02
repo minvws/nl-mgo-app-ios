@@ -5,8 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOFoundation
-import LocalisationServiceClient
+import Foundation
 
 class HealthcareProviderStoreSpy: HealthcareProviderStoreProtocol {
 

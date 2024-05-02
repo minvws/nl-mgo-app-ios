@@ -5,10 +5,10 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOFoundation
-import LocalisationServiceClient
+import Foundation
+import Logging
 
-protocol HealthcareProviderStoreProtocol {
+public protocol HealthcareProviderStoreProtocol {
 	
 	var providers: [HealthcareProvider] { get }
 	
@@ -28,7 +28,7 @@ protocol HealthcareProviderStoreProtocol {
 	func wipe()
 }
 
-class HealthcareProviderStore: HealthcareProviderStoreProtocol {
+public class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	
 	/// The storage provider
 	private let storage = FileStorage()
@@ -40,7 +40,7 @@ class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	
 	public var providers: [HealthcareProvider]
 	
-	init() {
+	public init() {
 		self.providers = []
 		do {
 			try self.providers = read()
@@ -52,7 +52,7 @@ class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	
 	/// Add a healthcare provider to the storage
 	/// - Parameter provider: the healthcare provider to store
-	func store(_ provider: HealthcareProvider) throws {
+	public func store(_ provider: HealthcareProvider) throws {
 		
 		guard !providers.contains(provider) else {
 			// Can't add twice
@@ -65,7 +65,7 @@ class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	
 	/// Get a list of all the stored healthcare providers
 	/// - Returns: array of healthcare providers
-	func read() throws -> [HealthcareProvider] {
+	public func read() throws -> [HealthcareProvider] {
 		
 		if let jsonData = storage.read(fileName: fileName) {
 			let data = try JSONDecoder().decode([HealthcareProvider].self, from: jsonData)
@@ -76,14 +76,14 @@ class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	
 	/// Delete a healthcare provider from storage
 	/// - Parameter provider: the healthcare provider to be removed
-	func remove(_ provider: HealthcareProvider) throws {
+	public func remove(_ provider: HealthcareProvider) throws {
 		
 		providers = providers.filter { $0 != provider }
 		try persistToDisk()
 	}
 	
 	/// Remove all the healthcare providers
-	func wipe() {
+	public func wipe() {
 		
 		storage.remove(fileName)
 	}

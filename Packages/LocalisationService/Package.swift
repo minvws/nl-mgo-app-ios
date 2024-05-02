@@ -4,23 +4,28 @@
 import PackageDescription
 
 let package = Package(
-	name: "LocalisationServiceClient",
+	name: "LocalisationService",
 	platforms: [.iOS(.v13)],
 	products: [
 		.library(
-			name: "LocalisationServiceClient",
-			targets: ["LocalisationServiceClient"]
+			name: "LocalisationService",
+			targets: ["LocalisationService"]
 		)
 	],
 	dependencies: [
+		// External
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.2.1"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.4.0"),
-		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.0.1")
+		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.0.1"),
+
+		// VWS
+		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main")
 	],
 	targets: [
 		.target(
-			name: "LocalisationServiceClient",
+			name: "LocalisationService",
 			dependencies: [
+				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")
 			],
