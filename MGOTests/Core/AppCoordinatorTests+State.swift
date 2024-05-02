@@ -204,4 +204,16 @@ final class AppCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
+	
+	func test_coordinatorView_storedHealthcareProviders() throws {
+
+		// Given
+		let state = AppCoordination.State.storedHealthcareProviders
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
 }
