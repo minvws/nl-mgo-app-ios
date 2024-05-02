@@ -40,16 +40,4 @@ class StoredHealthcareProviderDecorator {
 		let (address, city, postalCode) = organisation.getAddress()
 		return StoredHealthcareProviderModel(category: organisation.types.first?.display_name ?? "", id: identifier, name: name, city: city, address: address, postalCode: postalCode)
 	}
-	
-	/// Create an array of SearchResults from an array of HealthcareProviders
-	/// - Parameter from: array of HealthcareProvider
-	/// - Returns: array of search results
-	static func create(_ from: [HealthcareProvider]) -> [StoredHealthcareProviderModel] {
-		
-		var result = [StoredHealthcareProviderModel]()
-		from.forEach { organisation in
-			result.append( create(organisation))
-		}
-		return result
-	}
 }

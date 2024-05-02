@@ -73,9 +73,11 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 				healthcareProviderToRemove = nil
 			
 			case .remove:
-				if let healthcareProviderToRemove {
-					try? Current.healthcareProviderStore.remove(healthcareProviderToRemove)
+				if let provider = healthcareProviderToRemove {
+					try? Current.healthcareProviderStore.remove(provider)
 				}
+				healthcareProviderToRemoveTitle = nil
+				healthcareProviderToRemove = nil
 				loadHealthcareProviders()
 			
 			case .backToSearch:
@@ -169,10 +171,12 @@ struct StoredHealthcareProvidersView: View {
 				CallToActionButton("storedhp_action_again", style: .secondary) {
 					viewModel.reduce(.backToSearch)
 				}
+				.tag("storedhp_action_again")
 				
 				CallToActionButton("storedhp_action_done") {
 					viewModel.reduce(.done)
 				}
+				.tag("storedhp_action_done")
 			}
 			.padding(ViewTraits.Button.insets)
 		}
