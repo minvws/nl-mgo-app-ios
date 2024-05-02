@@ -75,7 +75,7 @@ final class StoredHealthcareProvidersViewModelTests: XCTestCase {
 	func test_showRemoveDialog_shouldShowDialog() {
 		
 		// Given
-		let provider = generateHealthcareProvider("1")
+		let provider = Generator.healthcareProvider("1")
 		
 		// When
 		sut.reduce(.showRemoveDialog(provider))
@@ -87,7 +87,7 @@ final class StoredHealthcareProvidersViewModelTests: XCTestCase {
 	func test_cancelDialog_shouldClearDialog() {
 		
 		// Given
-		let provider = generateHealthcareProvider("1")
+		let provider = Generator.healthcareProvider("1")
 		sut.reduce(.showRemoveDialog(provider))
 		
 		// When
@@ -100,7 +100,7 @@ final class StoredHealthcareProvidersViewModelTests: XCTestCase {
 	func test_remove_shouldCallStore() {
 		
 		// Given
-		let provider = generateHealthcareProvider("1")
+		let provider = Generator.healthcareProvider("1")
 		sut.reduce(.showRemoveDialog(provider))
 		self.servicesSpies.healthcareProviderStoreSpy.invokedProvidersGetter = false
 		self.servicesSpies.healthcareProviderStoreSpy.invokedProvidersGetterCount = 0
@@ -115,31 +115,5 @@ final class StoredHealthcareProvidersViewModelTests: XCTestCase {
 
 		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedProvidersGetter) == true
 		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedProvidersGetterCount) == 1
-	}
-
-	// MARK: - helper methods -
-	
-	private func generateHealthcareProvider(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB") -> HealthcareProvider {
-		return HealthcareProvider(
-			display_name: "Tandarts Tandje Erbij",
-			   identification_type: "type",
-			   identification_value: id,
-			   active: true,
-			   addresses: [Components.Schemas.Address(
-				   active: true,
-				   address: address,
-				   city: city,
-				   postalcode: postalCode,
-				   _type: "postal")
-			   ],
-			   names: [],
-			   types: [
-					Components.Schemas.CType(
-						code: "01",
-						display_name: "Tandarts",
-						_type: ""
-					)
-			   ]
-		   )
 	}
 }

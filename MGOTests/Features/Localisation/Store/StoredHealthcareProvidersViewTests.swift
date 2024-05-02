@@ -48,9 +48,9 @@ final class StoredHealthcareProvidersViewTests: XCTestCase {
 		
 		// Given
 		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = [
-			generateHealthcareProvider("1"),
-			generateHealthcareProvider("2"),
-			generateHealthcareProvider("3")
+			Generator.healthcareProvider("1"),
+			Generator.healthcareProvider("2"),
+			Generator.healthcareProvider("3")
 		]
 		createSut()
 		
@@ -88,31 +88,5 @@ final class StoredHealthcareProvidersViewTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.finishedSearchingHealthcareProviders
-	}
-
-	// MARK: - helper methods -
-	
-	private func generateHealthcareProvider(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB") -> HealthcareProvider {
-		return HealthcareProvider(
-			display_name: "Tandarts Tandje Erbij",
-			   identification_type: "type",
-			   identification_value: id,
-			   active: true,
-			   addresses: [Components.Schemas.Address(
-				   active: true,
-				   address: address,
-				   city: city,
-				   postalcode: postalCode,
-				   _type: "postal")
-			   ],
-			   names: [],
-			   types: [
-					Components.Schemas.CType(
-						code: "01",
-						display_name: "Tandarts",
-						_type: ""
-					)
-			   ]
-		   )
 	}
 }

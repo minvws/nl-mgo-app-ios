@@ -19,7 +19,11 @@ let package = Package(
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.0.1"),
 
 		// VWS
-		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main")
+		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
+		
+		// Testing:
+		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0"),
+		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0")
 	],
 	targets: [
 		.target(
@@ -31,6 +35,14 @@ let package = Package(
 			],
 			plugins: [
 				.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")
+			]
+		),
+		.testTarget(
+			name: "LocalisationServiceTests",
+			dependencies: [
+				"LocalisationService",
+				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
+				.product(name: "Nimble", package: "Nimble"),
 			]
 		)
 	]

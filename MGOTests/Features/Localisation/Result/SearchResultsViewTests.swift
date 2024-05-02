@@ -77,10 +77,10 @@ final class SearchResultViewTests: XCTestCase {
 		// Given
 		createSut()
 		let list = [
-			generateHealthcareProvider("1"),
-			generateHealthcareProvider("2"),
-			generateHealthcareProvider("3"),
-			generateHealthcareProvider("4", city: "", address: "", postalCode: "")
+			Generator.healthcareProvider("1"),
+			Generator.healthcareProvider("2"),
+			Generator.healthcareProvider("3"),
+			Generator.healthcareProvider("4", city: "", address: "", postalCode: "")
 		]
 		viewModel.state = .success(list)
 		
@@ -89,25 +89,5 @@ final class SearchResultViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
-	}
-	
-	// MARK: - helper methods -
-	
-	private func generateHealthcareProvider(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB") -> HealthcareProvider {
-		return HealthcareProvider(
-			display_name: "Tandarts Tandje Erbij",
-			   identification_type: "type",
-			   identification_value: id,
-			   active: true,
-			   addresses: [Components.Schemas.Address(
-				   active: true,
-				   address: address,
-				   city: city,
-				   postalcode: postalCode,
-				   _type: "postal")
-			   ],
-			   names: [],
-			   types: []
-		   )
 	}
 }

@@ -13,19 +13,16 @@ public extension HealthcareProvider {
 	/// - Returns: tuple of address, city and postal code
 	func getAddress() -> (address: String, city: String?, postalCode: String?) {
 	
-		let city = addresses.first?.city
-		let postalCode = addresses.first?.postalcode
-		var address = addresses.first?.address
-		if let city {
-			address = address?.replacingOccurrences(of: city, with: "")
-		}
-		if let postalCode {
-			address = address?.replacingOccurrences(of: postalCode, with: "")
-		}
-		if address != nil {
-			address = address!.trimmingCharacters(in: .whitespacesAndNewlines)
+		guard let firstAddress = addresses.first else {
+			return ("", nil, nil)
 		}
 		
-		return (address ?? "", city, postalCode)
+		var address = ""
+		if let lines = firstAddress.lines,
+			let firstLine = lines.first {
+			address = firstLine ?? ""
+		}
+		
+		return (address, firstAddress.city, firstAddress.postalcode)
 	}
 }
