@@ -10,6 +10,8 @@ import LocalisationServiceClient
 
 protocol HealthcareProviderStoreProtocol {
 	
+	var providers: [HealthcareProvider] { get }
+	
 	/// Add a healthcare provider to the storage
 	/// - Parameter provider: the healthcare provider to store
 	func store(_ provider: HealthcareProvider) throws
@@ -34,13 +36,31 @@ class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	/// The name of the file where we store the healthcare providers
 	private let fileName = "healthcareproviders.json"
 	
+	private let queue = DispatchQueue(label: "com.HealthcareProviderStore.serialqueue.\(UUID().uuidString)")
+	
+	public var providers: [HealthcareProvider]
+	
+	init() {
+		self.providers = []
+		do {
+			try self.providers = read()
+		} catch {
+			logError("HealthcareProviderStore - error initializing ", error)
+			self.providers = []
+		}
+	}
+	
 	/// Add a healthcare provider to the storage
 	/// - Parameter provider: the healthcare provider to store
 	func store(_ provider: HealthcareProvider) throws {
 		
-		var list = try read()
-		list.append(provider)
-		try storeList(list)
+		guard !providers.contains(provider) else {
+			// Can't add twice
+			return
+		}
+
+		providers.append(provider)
+		try persistToDisk()
 	}
 	
 	/// Get a list of all the stored healthcare providers
@@ -58,9 +78,8 @@ class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	/// - Parameter provider: the healthcare provider to be removed
 	func remove(_ provider: HealthcareProvider) throws {
 		
-		var list = try read()
-		list = list.filter { $0 != provider }
-		try storeList(list)
+		providers = providers.filter { $0 != provider }
+		try persistToDisk()
 	}
 	
 	/// Remove all the healthcare providers
@@ -70,10 +89,11 @@ class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	}
 	
 	/// Store a list of providers
-	/// - Parameter list: a list of healthcare providers
-	private func storeList(_ list: [HealthcareProvider]) throws {
+	private func persistToDisk() throws {
 		
-		let encoded = try JSONEncoder().encode(list)
-		try storage.store(encoded, as: fileName)
+		try queue.sync {
+			let encoded = try JSONEncoder().encode(providers)
+			try storage.store(encoded, as: fileName)
+		}
 	}
 }

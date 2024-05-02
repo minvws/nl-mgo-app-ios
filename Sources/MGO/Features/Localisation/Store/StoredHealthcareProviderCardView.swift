@@ -45,6 +45,7 @@ struct StoredHealthcareProviderCardView: View {
 				Text(element.name)
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentPrimary)
+					.multilineTextAlignment(.leading)
 					.padding(.bottom, ViewTraits.General.textPadding)
 				
 				Group {

@@ -87,6 +87,14 @@ class SearchResultViewModel: ObservableObject {
 				coordinator?.handle(.backButtonPressed)
 
 			case .onAppear:
+				if case let SearchResultViewState.success(list) = state {
+					// Reload the list on reentry
+					state = .success(list)
+				}
+			
+				// Only load the first time
+				guard state == .loading else { return }
+			
 				SwiftUI.Task {
 					await loadHealthcareProviders()
 				}
@@ -126,6 +134,18 @@ class SearchResultViewModel: ObservableObject {
 			logDebug("Error fetching orginasations \(error)")
 			state = .failure(error)
 		}
+	}
+	
+	func state(for provider: HealthcareProvider) -> SearchResultCardState {
+	
+		do {
+			let list = try HealthcareProviderStore().read()
+			return list.contains(provider) ? .selected : .regular
+
+		} catch {
+			logError("Could not fetch stored healthcare providers", error)
+		}
+		return .regular
 	}
 }
 
@@ -197,16 +217,19 @@ struct SearchResultView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 			
-				LazyVStack(spacing: ViewTraits.List.spacing, content: {
+				LazyVStack(spacing: ViewTraits.List.spacing) {
 					ForEach(list, id: \.self) { element in
-						
+							
 						Button {
 							viewModel.reduce(.store(element))
 						} label: {
-							SearchResultCardView(element: SearchResultDecorator.create(element), state: .regular)
+							SearchResultCardView(
+								element: SearchResultDecorator.create(element),
+								state: viewModel.state(for: element)
+							)
 						}
 					}
-				})
+				}
 				
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
@@ -222,7 +245,22 @@ struct SearchResultView: View {
 		HealthcareProvider(
 			display_name: "Tandarts Tandje Erbij",
 			identification_type: "type",
-			identification_value: "value",
+			identification_value: "1",
+			active: true,
+			addresses: [Components.Schemas.Address(
+				active: true,
+				address: "Boorplatform 5",
+				city: "Roermond",
+				postalcode: "1234AB",
+				_type: "postal")
+			],
+			names: [],
+			types: []
+		),
+		HealthcareProvider(
+			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
+			identification_type: "type",
+			identification_value: "2",
 			active: true,
 			addresses: [Components.Schemas.Address(
 				active: true,

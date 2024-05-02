@@ -53,6 +53,7 @@ struct SearchResultCardView: View {
 				Text(element.name)
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundStyle(theme.contentPrimary)
+					.multilineTextAlignment(.leading)
 					.padding(.bottom, ViewTraits.Title.padding)
 				
 				Group {
@@ -64,33 +65,39 @@ struct SearchResultCardView: View {
 						
 						Text(element.city ?? "")
 					}
-					
-					switch state {
-						case .regular:
-							EmptyView()
-						case .selected:
-							HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
-								Image(ImageResource.Localisation.check)
-									.padding(ViewTraits.Selected.padding)
-								Text("searchresults_provider_selected")
-									.rijksoverheidStyle(font: .regular, style: .body)
-							}
-							.foregroundStyle(theme.actionPrimaryBackground)
-							.padding(.top, ViewTraits.Selected.padding)
-							.accessibilityElement(children: .combine)
-						case .warning:
-							HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
-								Image(ImageResource.Localisation.warning)
-								Text("searchresults_provider_warning")
-									.rijksoverheidStyle(font: .regular, style: .body)
-							}
-							.foregroundStyle(theme.actionPrimaryBackground)
-							.padding(.top, ViewTraits.Selected.padding)
-							.accessibilityElement(children: .combine)
-					}
 				}
 				.rijksoverheidStyle(font: .italic, style: .body)
 				.foregroundStyle(theme.contentTertiary)
+				
+				switch state {
+					case .regular: EmptyView()
+						
+					case .selected:
+						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
+							Image(ImageResource.Localisation.check)
+								.padding(ViewTraits.Selected.padding)
+							Text("searchresults_provider_selected")
+								.rijksoverheidStyle(font: .regular, style: .body)
+								.multilineTextAlignment(.leading)
+								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+								
+						}
+						.foregroundStyle(theme.actionPrimaryBackground)
+						.padding(.top, ViewTraits.Selected.padding)
+						.accessibilityElement(children: .combine)
+						
+					case .warning:
+						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
+							Image(ImageResource.Localisation.warning)
+							Text("searchresults_provider_warning")
+								.rijksoverheidStyle(font: .regular, style: .body)
+								.multilineTextAlignment(.leading)
+								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+						}
+						.foregroundStyle(theme.actionPrimaryBackground)
+						.padding(.top, ViewTraits.Selected.padding)
+						.accessibilityElement(children: .combine)
+				}
 			}
 			
 			Spacer()
@@ -157,7 +164,7 @@ struct SearchResultCardView: View {
 		SearchResultCardView(
 			element: SearchResult(
 				id: "1",
-				name: "Tandarts Tandje Erbij",
+				name: "Tandartsenpraktijk Willem II Roermond B.V.",
 				city: "Roermond",
 				address: "Boorplatform 5",
 				postalCode: "1234AB"

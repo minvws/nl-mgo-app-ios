@@ -45,19 +45,15 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	init(coordinator: (any AppCoordinatorProtocol)?) {
 		self.coordinator = coordinator
 	}
-
-	@MainActor
+	
 	/// fetch the healthcare providers
-	private func loadHealthcareProviders() async {
-		do {
-			let providers = try Current.healthcareProviderStore.read()
-			if providers.isEmpty {
-				state = .empty
-			} else {
-				state = .list(providers)
-			}
-		} catch {
-			logError("error: \(error)")
+	private func loadHealthcareProviders() {
+
+		let providers = Current.healthcareProviderStore.providers
+		if providers.isEmpty {
+			state = .empty
+		} else {
+			state = .list(providers)
 		}
 	}
 	
@@ -68,9 +64,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 		switch action {
 		
 			case .onAppear:
-				SwiftUI.Task {
-					await loadHealthcareProviders()
-				}
+				loadHealthcareProviders()
 			
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
@@ -83,9 +77,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 				if let healthcareProviderToRemove {
 					try? Current.healthcareProviderStore.remove(healthcareProviderToRemove)
 				}
-				SwiftUI.Task {
-					await loadHealthcareProviders()
-				}
+				loadHealthcareProviders()
 			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
