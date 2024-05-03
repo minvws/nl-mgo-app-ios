@@ -80,7 +80,7 @@ struct InputField: View {
 							input = ""
 						},
 						label: {
-							Image(ImageResource.clear)
+							Image(ImageResource.Localisation.clear)
 						}
 					)
 					.buttonStyle(IconButtonStyle())
@@ -92,7 +92,7 @@ struct InputField: View {
 				
 			if showError {
 				HStack(alignment: .center, spacing: ViewTraits.Image.spacing) {
-					Image(ImageResource.Search.error)
+					Image(ImageResource.Localisation.error)
 						.resizable()
 						.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
 					

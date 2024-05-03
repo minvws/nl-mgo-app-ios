@@ -10,7 +10,7 @@ import MGOUI
 
 class DashboardViewModel: ObservableObject {
 	
-	/// The app coordintator for routing
+	/// The app coordinator for routing
 	weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	@Published var showResetButton: Bool = false

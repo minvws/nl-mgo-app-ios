@@ -10,7 +10,7 @@ import MGOUI
 
 class ForgotAccessCodeViewModel: ObservableObject {
 	
-	/// The flow coordintator for routing
+	/// The flow coordinator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// A list of all the actions this viewModel can handle

@@ -7,13 +7,12 @@
 
 import MGOFoundation
 import MGOUI
-import LocalisationServiceClient
 
 enum SearchResultViewState: Equatable {
 	
 	case loading
 	case failure(Error)
-	case success([SearchResult])
+	case success([HealthcareProvider])
 	case empty(city: String, name: String)
 
 	static func == (lhs: SearchResultViewState, rhs: SearchResultViewState) -> Bool {
@@ -45,6 +44,7 @@ class SearchResultViewModel: ObservableObject {
 		case retry
 		case onAppear
 		case backToSearch
+		case store(HealthcareProvider)
 	}
 	
 	/// The state of the view
@@ -56,7 +56,7 @@ class SearchResultViewModel: ObservableObject {
 	/// Search paramater city
 	private var city: String
 	
-	/// The flow coordintator for routing
+	/// The flow coordinator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// The localisation service client
@@ -86,6 +86,14 @@ class SearchResultViewModel: ObservableObject {
 				coordinator?.handle(.backButtonPressed)
 
 			case .onAppear:
+				if case let SearchResultViewState.success(list) = state {
+					// Reload the list on reentry
+					state = .success(list)
+				}
+			
+				// Only load the first time
+				guard state == .loading else { return }
+			
 				SwiftUI.Task {
 					await loadHealthcareProviders()
 				}
@@ -94,6 +102,10 @@ class SearchResultViewModel: ObservableObject {
 				SwiftUI.Task {
 					await loadHealthcareProviders()
 				}
+			
+			case .store(let provider):
+				try? Current.healthcareProviderStore.store(provider)
+				coordinator?.handle(.storeHealthcareProvider)
 		}
 	}
 	
@@ -114,14 +126,19 @@ class SearchResultViewModel: ObservableObject {
 			if organisations.isEmpty {
 				state = .empty(city: city, name: name)
 			} else {
-				let results = SearchResultDecorator.create(organisations)
-				state = .success(results)
+				state = .success(organisations)
 			}
 			
 		} catch {
 			logDebug("Error fetching orginasations \(error)")
 			state = .failure(error)
 		}
+	}
+	
+	func state(for provider: HealthcareProvider) -> SearchResultCardState {
+
+		let list = HealthcareProviderStore().providers
+		return list.contains(provider) ? .selected : .regular
 	}
 }
 
@@ -143,6 +160,9 @@ struct SearchResultView: View {
 		}
 		enum Navigation {
 			static let padding: CGFloat = 8
+		}
+		enum List {
+			static let spacing: CGFloat = 8
 		}
 	}
 	
@@ -178,7 +198,7 @@ struct SearchResultView: View {
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 	
-	@ViewBuilder func listSearchResults(_ list: [SearchResult]) -> some View {
+	@ViewBuilder func listSearchResults(_ list: [HealthcareProvider]) -> some View {
 		
 		ScrollView {
 			
@@ -190,11 +210,19 @@ struct SearchResultView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 			
-				LazyVStack(spacing: 8, content: {
+				LazyVStack(spacing: ViewTraits.List.spacing) {
 					ForEach(list, id: \.self) { element in
-						SearchResultCardView(element: element)
+							
+						Button {
+							viewModel.reduce(.store(element))
+						} label: {
+							SearchResultCardView(
+								element: SearchResultDecorator.create(element),
+								state: viewModel.state(for: element)
+							)
+						}
 					}
-				})
+				}
 				
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
@@ -204,7 +232,42 @@ struct SearchResultView: View {
 }
 
 #Preview {
-	NavigationView {
-		SearchResultView(viewModel: SearchResultViewModel(coordinator: nil, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: LocalisationServiceClient()))
+	
+	let spy = LocalisationServiceClientSpy()
+	spy.stubbedSearchHealthcareProviders = [
+		HealthcareProvider(
+			display_name: "Tandarts Tandje Erbij",
+			identification_type: "type",
+			identification_value: "1",
+			active: true,
+			addresses: [Components.Schemas.Address(
+				active: true,
+				address: "Boorplatform 5",
+				city: "Roermond",
+				postalcode: "1234AB",
+				_type: "postal")
+			],
+			names: [],
+			types: []
+		),
+		HealthcareProvider(
+			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
+			identification_type: "type",
+			identification_value: "2",
+			active: true,
+			addresses: [Components.Schemas.Address(
+				active: true,
+				address: "Boorplatform 5",
+				city: "Roermond",
+				postalcode: "1234AB",
+				_type: "postal")
+			],
+			names: [],
+			types: []
+		)
+	]
+	
+	return NavigationView {
+		SearchResultView(viewModel: SearchResultViewModel(coordinator: nil, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: spy))
 	}
 }

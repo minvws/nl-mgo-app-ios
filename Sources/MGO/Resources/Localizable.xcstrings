@@ -984,6 +984,127 @@
           }
         }
       }
+    },
+    "searchresults_provider_selected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder heb je al toegevoegd"
+          }
+        }
+      }
+    },
+    "searchresults_provider_warning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder doet niet mee. "
+          }
+        }
+      }
+    },
+    "storedhp_action_again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg een zorgaanbieder toe"
+          }
+        }
+      }
+    },
+    "storedhp_action_done" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klaar"
+          }
+        }
+      }
+    },
+    "storedhp_alert_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We halen je dossier van deze zorgaanbieder niet op. Je kunt deze later alsnog toevoegen via je profiel."
+          }
+        }
+      }
+    },
+    "storedhp_alert_cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toch tonen"
+          }
+        }
+      }
+    },
+    "storedhp_alert_remove" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weglaten"
+          }
+        }
+      }
+    },
+    "storedhp_alert_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ weglaten?"
+          }
+        }
+      }
+    },
+    "storedhp_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt deze lijst nu aanpassen of dit later in je profiel doen."
+          }
+        }
+      }
+    },
+    "storedhp_body_empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt nog geen zorgaanbieders toegevoegd aan deze lijst. Je kunt dit nu doen, of later via je profiel."
+          }
+        }
+      }
+    },
+    "storedhp_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welke zorgaanbieders wil je in de app tonen?"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

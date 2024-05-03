@@ -8,8 +8,8 @@ name: MGO
 packages:
   FHIRClient:
     path: ./Packages/FHIRClient
-  LocalisationServiceClient:
-    path: ./Packages/LocalisationServiceClient
+  LocalisationService:
+    path: ./Packages/LocalisationService
   Managers:
     path: ./Packages/Managers
   MGOFoundation:
@@ -129,7 +129,6 @@ targetTemplates:
 #       SPM:
       - package: MGOFoundation
       - package: MGOUI
-      - package: LocalisationServiceClient
       - package: RestrictedBrowser
         embed: false
     settings:
@@ -337,6 +336,9 @@ schemes:
       gatherCoverageData: true
       targets:
         - package: FHIRClient/FHIRClientTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: LocalisationService/LocalisationServiceTests
           randomExecutionOrder: true
           parallelizable: false
         - package: Managers/ManagersTests

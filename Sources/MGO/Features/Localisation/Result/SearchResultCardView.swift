@@ -8,13 +8,25 @@
 import MGOFoundation
 import MGOUI
 
+enum SearchResultCardState {
+	case regular
+	case selected
+	case warning
+}
+
 struct SearchResultCardView: View {
 	
 	/// The search result to display
 	var element: SearchResult
 	
+	/// The state of the card
+	var state: SearchResultCardState
+	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -28,6 +40,11 @@ struct SearchResultCardView: View {
 		enum Box {
 			static let inset: CGFloat = 0.5
 		}
+		enum Selected {
+			static let spacing: CGFloat = 4.0
+			static let padding: CGFloat = 8.0
+			static let size: CGFloat = 24.0
+		}
 	}
 	
 	var body: some View {
@@ -39,6 +56,7 @@ struct SearchResultCardView: View {
 				Text(element.name)
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundStyle(theme.contentPrimary)
+					.multilineTextAlignment(.leading)
 					.padding(.bottom, ViewTraits.Title.padding)
 				
 				Group {
@@ -53,38 +71,109 @@ struct SearchResultCardView: View {
 				}
 				.rijksoverheidStyle(font: .italic, style: .body)
 				.foregroundStyle(theme.contentTertiary)
+				
+				switch state {
+					case .regular: EmptyView()
+						
+					case .selected:
+						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
+							Image(ImageResource.Localisation.check)
+								.padding(ViewTraits.Selected.padding)
+							Text("searchresults_provider_selected")
+								.rijksoverheidStyle(font: .regular, style: .body)
+								.multilineTextAlignment(.leading)
+								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+								
+						}
+						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefault : theme.actionPrimaryBackground)
+						.padding(.top, ViewTraits.Selected.padding)
+						.accessibilityElement(children: .combine)
+						
+					case .warning:
+						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
+							Image(ImageResource.Localisation.warning)
+							Text("searchresults_provider_warning")
+								.rijksoverheidStyle(font: .regular, style: .body)
+								.multilineTextAlignment(.leading)
+								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+						}
+						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefault : theme.actionPrimaryBackground)
+						.padding(.top, ViewTraits.Selected.padding)
+						.accessibilityElement(children: .combine)
+				}
 			}
 			
 			Spacer()
 			
-			Image(systemName: "plus")
-				.foregroundStyle(theme.actionPrimaryBackground)
-				.font(Font.title2.bold())
-			
+			switch state {
+				case .regular:
+					Image(systemName: "plus")
+						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefault : theme.actionPrimaryBackground)
+						.font(Font.title2.bold())
+				case .selected:
+				Image(ImageResource.Localisation.arrowForward)
+						.foregroundStyle(theme.iconsPrimary)
+						.frame(width: ViewTraits.Selected.size, height: ViewTraits.Selected.size, alignment: .center)
+				case .warning:
+					EmptyView()
+			}
+
 		}
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
-		.background(theme.backgroundSecondary)
+		.if(state == .warning, transform: { view in
+			view.background(theme.backgroundTertiary)
+		})
 		.cornerRadius(ViewTraits.General.cornerRadius)
-		.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
-		.overlay(
-			RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius)
-				.inset(by: ViewTraits.Box.inset)
-				.stroke(theme.linesPrimary, lineWidth: 1)
-		)
+		.if(state != .warning, transform: { view in
+			view
+				.background(theme.backgroundSecondary)
+				.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
+				.overlay(
+					RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius)
+						.inset(by: ViewTraits.Box.inset)
+						.stroke(theme.linesPrimary, lineWidth: 1)
+				)
+		})
 	}
 }
 
 #Preview {
-	
-	SearchResultCardView(
-		element: SearchResult(
-			id: "1",
-			name: "Tandarts Tandje Erbij",
-			city: "Roermond",
-			address: "Boorplatform 5",
-			postalCode: "1234AB"
+
+	VStack(spacing: 8) {
+		
+		SearchResultCardView(
+			element: SearchResult(
+				id: "1",
+				name: "Tandarts Tandje Erbij",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .regular
 		)
-	)
-	.padding(16)
+	
+		SearchResultCardView(
+			element: SearchResult(
+				id: "1",
+				name: "Tandarts Tandje Erbij",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .selected
+		)
+		
+		SearchResultCardView(
+			element: SearchResult(
+				id: "1",
+				name: "Tandartsenpraktijk Willem II Roermond B.V.",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .warning
+		)
+	}
+	.padding(.horizontal, 16)
 }

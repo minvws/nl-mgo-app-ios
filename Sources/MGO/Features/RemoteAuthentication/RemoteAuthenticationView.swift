@@ -18,7 +18,7 @@ class RemoteAuthenticationViewModel: ObservableObject {
 	
 	@Published var showAccessCodeButton: Bool
 	
-	/// The flow coordintator for routing
+	/// The flow coordinator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
 	
 	/// Initializer

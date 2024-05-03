@@ -7,7 +7,7 @@
 
 import MGOTest
 @testable import MGO
-import LocalisationServiceClient
+import MGOFoundation
 import MGOUI
 
 final class SearchResultViewTests: XCTestCase {
@@ -77,10 +77,10 @@ final class SearchResultViewTests: XCTestCase {
 		// Given
 		createSut()
 		let list = [
-			SearchResult(id: "1", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
-			SearchResult(id: "2", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
-			SearchResult(id: "3", name: "Tandarts Tandje Erbij", city: "Roermond", address: "Boorplatform 5", postalCode: "1234AB"),
-			SearchResult(id: "4", name: "Tandarts Tandje Erbij", city: nil, address: nil, postalCode: nil)
+			Generator.healthcareProvider("1"),
+			Generator.healthcareProvider("2"),
+			Generator.healthcareProvider("3"),
+			Generator.healthcareProvider("4", city: "", address: "", postalCode: "")
 		]
 		viewModel.state = .success(list)
 		

@@ -259,6 +259,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedDataCount) == 1
+		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedWipePersistedDataCount) == 1
 	}
 	
 	func test_coordinatorHandle_poc() {
@@ -324,5 +325,51 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.searchHealthcareProvider])
 		expect(self.sut.path.count) == 2
+	}
+	
+	func test_coordinatorHandle_storeHealthcareProvider_presentInStack() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([
+			AppCoordination.State.dashboard
+		])
+		
+		// When
+		sut.handle(AppCoordination.Action.storeHealthcareProvider)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard, AppCoordination.State.storedHealthcareProviders])
+		expect(self.sut.path.count) == 2
+	}
+	
+	func test_coordinatorHandle_finishedSearchingHealthcareProviders_notPresentInStack() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([
+			AppCoordination.State.storedHealthcareProviders
+		])
+		
+		// When
+		sut.handle(AppCoordination.Action.finishedSearchingHealthcareProviders)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.storedHealthcareProviders, AppCoordination.State.dashboard])
+		expect(self.sut.path.count) == 2
+	}
+
+	func test_coordinatorHandle_finishedSearchingHealthcareProviders_presentInStack() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([
+			AppCoordination.State.dashboard,
+			AppCoordination.State.storedHealthcareProviders
+		])
+		
+		// When
+		sut.handle(AppCoordination.Action.finishedSearchingHealthcareProviders)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+		expect(self.sut.path.count) == 1
 	}
 }
