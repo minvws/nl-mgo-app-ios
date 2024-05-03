@@ -136,15 +136,9 @@ class SearchResultViewModel: ObservableObject {
 	}
 	
 	func state(for provider: HealthcareProvider) -> SearchResultCardState {
-	
-		do {
-			let list = try HealthcareProviderStore().read()
-			return list.contains(provider) ? .selected : .regular
 
-		} catch {
-			logError("Could not fetch stored healthcare providers", error)
-		}
-		return .regular
+		let list = HealthcareProviderStore().providers
+		return list.contains(provider) ? .selected : .regular
 	}
 }
 

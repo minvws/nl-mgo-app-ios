@@ -11,7 +11,9 @@ import Foundation
 
 public class LocalisationServiceClientSpy: LocalisationServiceClientProtocol {
 
-	public required init() {}
+	public required init() {
+		// Public initializer needed for public access. 
+	}
 
 	public var invokedSearchHealthcareProviders = false
 	public var invokedSearchHealthcareProvidersCount = 0

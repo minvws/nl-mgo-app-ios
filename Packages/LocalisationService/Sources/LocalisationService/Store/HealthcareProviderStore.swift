@@ -16,31 +16,38 @@ public protocol HealthcareProviderStoreProtocol {
 	/// - Parameter provider: the healthcare provider to store
 	func store(_ provider: HealthcareProvider) throws
 	
-	/// Get a list of all the stored healthcare providers
-	/// - Returns: array of healthcare providers
-	func read() throws -> [HealthcareProvider]
-	
 	/// Delete a healthcare provider from storage
 	/// - Parameter provider: the healthcare provider to be removed
 	func remove(_ provider: HealthcareProvider) throws
 	
 	/// Remove all the healthcare providers
-	func wipe()
+	func wipePersistedData()
 }
 
 public class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	
 	/// The storage provider
-	private let storage = FileStorage()
+	private let storage: FileStorageProtocol
 	
 	/// The name of the file where we store the healthcare providers
 	private let fileName = "healthcareproviders.json"
+
+	private let name: String = {
+		
+		if NSClassFromString("XCTestCase") == nil {
+			return "healthcareproviders.json"
+		} else {
+			return "healthcareproviders_test.json"
+		}
+	}()
 	
 	private let queue = DispatchQueue(label: "com.HealthcareProviderStore.serialqueue.\(UUID().uuidString)")
 	
 	public var providers: [HealthcareProvider]
 	
-	public init() {
+	public init(storage: FileStorageProtocol = FileStorage()) {
+		
+		self.storage = storage
 		self.providers = []
 		do {
 			try self.providers = read()
@@ -60,12 +67,12 @@ public class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 		}
 
 		providers.append(provider)
-		try persistToDisk()
+		try persistToStorage()
 	}
 	
 	/// Get a list of all the stored healthcare providers
 	/// - Returns: array of healthcare providers
-	public func read() throws -> [HealthcareProvider] {
+	internal func read() throws -> [HealthcareProvider] {
 		
 		if let jsonData = storage.read(fileName: fileName) {
 			let data = try JSONDecoder().decode([HealthcareProvider].self, from: jsonData)
@@ -79,17 +86,18 @@ public class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	public func remove(_ provider: HealthcareProvider) throws {
 		
 		providers = providers.filter { $0 != provider }
-		try persistToDisk()
+		try persistToStorage()
 	}
 	
 	/// Remove all the healthcare providers
-	public func wipe() {
+	public func wipePersistedData() {
 		
+		providers = []
 		storage.remove(fileName)
 	}
 	
 	/// Store a list of providers
-	private func persistToDisk() throws {
+	private func persistToStorage() throws {
 		
 		try queue.sync {
 			let encoded = try JSONEncoder().encode(providers)

@@ -39,20 +39,6 @@ public class HealthcareProviderStoreSpy: HealthcareProviderStoreProtocol {
 		}
 	}
 
-	public var invokedRead = false
-	public var invokedReadCount = 0
-	public var stubbedReadError: Error?
-	public var stubbedReadResult: [HealthcareProvider]! = []
-
-	public func read() throws -> [HealthcareProvider] {
-		invokedRead = true
-		invokedReadCount += 1
-		if let error = stubbedReadError {
-			throw error
-		}
-		return stubbedReadResult
-	}
-
 	public var invokedRemove = false
 	public var invokedRemoveCount = 0
 	public var invokedRemoveParameters: (provider: HealthcareProvider, Void)?
@@ -69,11 +55,11 @@ public class HealthcareProviderStoreSpy: HealthcareProviderStoreProtocol {
 		}
 	}
 
-	public var invokedWipe = false
-	public var invokedWipeCount = 0
+	public var invokedWipePersistedData = false
+	public var invokedWipePersistedDataCount = 0
 
-	public func wipe() {
-		invokedWipe = true
-		invokedWipeCount += 1
+	public func wipePersistedData() {
+		invokedWipePersistedData = true
+		invokedWipePersistedDataCount += 1
 	}
 }
