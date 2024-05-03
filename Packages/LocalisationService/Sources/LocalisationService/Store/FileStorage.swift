@@ -54,6 +54,9 @@ final public class FileStorage: FileStorageProtocol {
 		return fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
 	}
 	
+	/// Common directory error
+	private let directoryError = "Failed to load documents directory"
+	
 	/// Store data in documents directory
 	/// - Parameters:
 	///   - data: Store data
@@ -62,7 +65,7 @@ final public class FileStorage: FileStorageProtocol {
 	public func store(_ data: Data, as fileName: String) throws {
 		
 		guard let url = documentsURL else {
-			logError("Failed to load documents directory")
+			logError(directoryError)
 			return
 		}
 		let fileUrl = url.appendingPathComponent(fileName, isDirectory: false)
@@ -77,7 +80,7 @@ final public class FileStorage: FileStorageProtocol {
 	public func read(fileName: String) -> Data? {
 		
 		guard let url = documentsURL else {
-			logError("Failed to load documents directory")
+			logError(directoryError)
 			return nil
 		}
 		let fileUrl = url.appendingPathComponent(fileName, isDirectory: false)
@@ -100,7 +103,7 @@ final public class FileStorage: FileStorageProtocol {
 	public func fileExists(_ fileName: String) -> Bool {
 		
 		guard let url = documentsURL else {
-			logError("Failed to load documents directory")
+			logError(directoryError)
 			return false
 		}
 		
@@ -114,7 +117,7 @@ final public class FileStorage: FileStorageProtocol {
 	public func remove(_ fileName: String) {
 		
 		guard let url = documentsURL else {
-			logError("Failed to load documents directory")
+			logError(directoryError)
 			return
 		}
 		
