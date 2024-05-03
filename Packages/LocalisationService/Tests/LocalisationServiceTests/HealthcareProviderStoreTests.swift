@@ -67,6 +67,22 @@ final class HealthcareProviderStoreTests: XCTestCase {
 		expect(sut.providers).to(beEmpty())
 	}
 	
+	func test_wipePersistentData() throws {
+		
+		// Given
+		let sut = HealthcareProviderStore()
+		let provider = healthcareProvider("1")
+		try sut.store(provider)
+		
+		// When
+		try sut.wipePersistedData()
+		let list = try sut.read()
+		
+		// Then
+		expect(list).to(beEmpty())
+		expect(sut.providers).to(beEmpty())
+	}
+	
 	func healthcareProvider(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB") -> HealthcareProvider {
 		return HealthcareProvider(
 			display_name: "Tandarts Tandje Erbij",
@@ -92,24 +108,3 @@ final class HealthcareProviderStoreTests: XCTestCase {
 		)
 	}
 }
-
-/*
- 
- var providers: [HealthcareProvider] { get }
- 
- /// Add a healthcare provider to the storage
- /// - Parameter provider: the healthcare provider to store
- func store(_ provider: HealthcareProvider) throws
- 
- /// Get a list of all the stored healthcare providers
- /// - Returns: array of healthcare providers
- func read() throws -> [HealthcareProvider]
- 
- /// Delete a healthcare provider from storage
- /// - Parameter provider: the healthcare provider to be removed
- func remove(_ provider: HealthcareProvider) throws
- 
- /// Remove all the healthcare providers
- func wipe()
- 
- */
