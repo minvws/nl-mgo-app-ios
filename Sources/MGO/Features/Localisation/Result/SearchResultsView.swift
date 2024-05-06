@@ -254,6 +254,7 @@ struct SearchResultView: View {
 								state: element.cardState
 							)
 						}
+						.accessibilityHint(element.cardState.localizedStringKey)
 					}
 				}
 				

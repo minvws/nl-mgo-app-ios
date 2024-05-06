@@ -118,18 +118,14 @@ struct SearchResultCardView: View {
 					Image(systemName: "plus")
 						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefault : theme.actionPrimaryBackground)
 						.font(Font.title2.bold())
-						.accessibilityLabel(state.localizedStringKey)
 				
 				case .selected:
 					Image(ImageResource.Localisation.arrowForward)
 						.foregroundStyle(theme.iconsPrimary)
 						.frame(width: ViewTraits.Selected.size, height: ViewTraits.Selected.size, alignment: .center)
-						.accessibilityLabel(state.localizedStringKey)
 				
 				case .warning:
-					Spacer()
-					.accessibilityHidden(false)
-					.accessibilityLabel(state.localizedStringKey)
+					EmptyView()
 			}
 		}
 		.accessibilityElement(children: .combine)

@@ -892,7 +892,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgaanbieder toevoegen"
+            "value" : "Deze zorgaanbieder toevoegen"
           }
         }
       }
@@ -1024,7 +1024,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgaanbieder bekijken"
+            "value" : "Deze zorgaanbieder bekijken"
           }
         }
       }
@@ -1113,6 +1113,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Je hebt nog geen zorgaanbieders toegevoegd aan deze lijst. Je kunt dit nu doen, of later via je profiel."
+          }
+        }
+      }
+    },
+    "storedhp_remove_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder deze zorgaanbieder"
           }
         }
       }
