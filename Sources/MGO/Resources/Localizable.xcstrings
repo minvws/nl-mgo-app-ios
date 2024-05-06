@@ -487,6 +487,17 @@
         }
       }
     },
+    "dashboard_intro_empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je overzicht is leeg, omdat je nog geen zorgaanbieders hebt toegevoegd."
+          }
+        }
+      }
+    },
     "dashboard_poc" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -504,7 +515,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgaanbieder zoeken"
+            "value" : "Zorgaanbieders zoeken"
           }
         }
       }
