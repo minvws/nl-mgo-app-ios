@@ -19,7 +19,7 @@ final class SearchResultViewTests: XCTestCase {
 	private var sut: SearchResultView!
 
 	override func setUp() {
-		
+
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
@@ -72,15 +72,15 @@ final class SearchResultViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_list() {
+	func test_list_lightPortrait() {
 		
 		// Given
 		createSut()
-		let list = [
-			Generator.healthcareProvider("1"),
-			Generator.healthcareProvider("2"),
-			Generator.healthcareProvider("3"),
-			Generator.healthcareProvider("4", city: "", address: "", postalCode: "")
+		let list: [SearchResultSet] = [
+			((Generator.healthcareProvider("1"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("2"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("3"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("4", city: "", address: "", postalCode: ""), SearchResultCardState.regular))
 		]
 		viewModel.state = .success(list)
 		
@@ -88,6 +88,75 @@ final class SearchResultViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// Then
-		takeSnapShots(content: content)
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.light)),
+			as: .image(on: .iPhone15Pro(.portrait), precision: 1.0)
+		)
+	}
+	
+	func test_list_darkPortrait() {
+		
+		// Given
+		createSut()
+		let list: [SearchResultSet] = [
+			((Generator.healthcareProvider("1"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("2"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("3"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("4", city: "", address: "", postalCode: ""), SearchResultCardState.regular))
+		]
+		viewModel.state = .success(list)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.dark)),
+			as: .image(on: .iPhone15Pro(.portrait), precision: 1.0)
+		)
+	}
+	
+	func test_list_lightLandscape() {
+		
+		// Given
+		createSut()
+		let list: [SearchResultSet] = [
+			((Generator.healthcareProvider("1"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("2"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("3"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("4", city: "", address: "", postalCode: ""), SearchResultCardState.regular))
+		]
+		viewModel.state = .success(list)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.light)),
+			as: .image(on: .iPhone15Pro(.landscape), precision: 1.0)
+		)
+	}
+	
+	func test_list_darkLandscape() {
+		
+		// Given
+		createSut()
+		let list: [SearchResultSet] = [
+			((Generator.healthcareProvider("1"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("2"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("3"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("4", city: "", address: "", postalCode: ""), SearchResultCardState.regular))
+		]
+		viewModel.state = .success(list)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.dark)),
+			as: .image(on: .iPhone15Pro(.landscape), precision: 1.0)
+		)
 	}
 }
