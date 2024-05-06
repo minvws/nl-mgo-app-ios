@@ -67,8 +67,9 @@ struct StoredHealthcareProviderCardView: View {
 			Image(ImageResource.Localisation.delete)
 				.foregroundStyle(theme.iconsPrimary)
 				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size, alignment: .center)
-
+				.accessibilityHidden(true)
 		}
+		.accessibilityElement(children: .combine)
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.cornerRadius(ViewTraits.General.cornerRadius)

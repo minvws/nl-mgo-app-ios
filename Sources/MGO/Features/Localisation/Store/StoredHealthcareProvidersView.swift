@@ -157,9 +157,10 @@ struct StoredHealthcareProvidersView: View {
 								} label: {
 									StoredHealthcareProviderCardView(element: StoredHealthcareProviderDecorator.create(element))
 								}
+								.accessibilityHint("storedhp_remove_voiceover")
 							}
 						})
-
+					
 						Spacer()
 				}
 			}

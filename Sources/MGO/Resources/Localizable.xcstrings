@@ -886,6 +886,17 @@
         }
       }
     },
+    "searchresults_add_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder toevoegen"
+          }
+        }
+      }
+    },
     "searchresults_backbutton" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1007,6 +1018,17 @@
         }
       }
     },
+    "searchresults_view_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder bekijken"
+          }
+        }
+      }
+    },
     "storedhp_action_again" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1091,6 +1113,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Je hebt nog geen zorgaanbieders toegevoegd aan deze lijst. Je kunt dit nu doen, of later via je profiel."
+          }
+        }
+      }
+    },
+    "storedhp_remove_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder deze zorgaanbieder"
           }
         }
       }

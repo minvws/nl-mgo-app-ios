@@ -8,11 +8,16 @@
 import MGOFoundation
 import MGOUI
 
+typealias SearchResultSet = (
+	provider: HealthcareProvider,
+	cardState: SearchResultCardState
+)
+
 enum SearchResultViewState: Equatable {
 	
 	case loading
 	case failure(Error)
-	case success([HealthcareProvider])
+	case success([SearchResultSet])
 	case empty(city: String, name: String)
 
 	static func == (lhs: SearchResultViewState, rhs: SearchResultViewState) -> Bool {
@@ -25,7 +30,13 @@ enum SearchResultViewState: Equatable {
 					return lhsError.localizedDescription == rhsError.localizedDescription
 			
 			case let(.success(lhsResults), .success(rhsResults)):
-					return lhsResults == rhsResults
+				guard lhsResults.count == rhsResults.count else { return false}
+				var result = true
+				for index in lhsResults.indices {
+					result = result && lhsResults[index].provider == rhsResults[index].provider
+					result = result && lhsResults[index].cardState == rhsResults[index].cardState
+				}
+				return result
 			
 			case let(.empty(lhsCity, lhsName), .empty(rhsCity, rhsName)):
 					return lhsCity == rhsCity && lhsName == rhsName
@@ -50,11 +61,14 @@ class SearchResultViewModel: ObservableObject {
 	/// The state of the view
 	@Published var state: SearchResultViewState
 	
-	/// Search paramater name
+	/// Search parameter name
 	private var name: String
 	
-	/// Search paramater city
+	/// Search parameter city
 	private var city: String
+	
+	/// array to store the results
+	private var searchResultList = [HealthcareProvider]()
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
@@ -86,9 +100,8 @@ class SearchResultViewModel: ObservableObject {
 				coordinator?.handle(.backButtonPressed)
 
 			case .onAppear:
-				if case let SearchResultViewState.success(list) = state {
-					// Reload the list on reentry
-					state = .success(list)
+				if case SearchResultViewState.success = state {
+					applyListState()
 				}
 			
 				// Only load the first time
@@ -105,6 +118,7 @@ class SearchResultViewModel: ObservableObject {
 			
 			case .store(let provider):
 				try? Current.healthcareProviderStore.store(provider)
+				applyListState()
 				coordinator?.handle(.storeHealthcareProvider)
 		}
 	}
@@ -120,14 +134,10 @@ class SearchResultViewModel: ObservableObject {
 		}
 		
 		do {
+			searchResultList = try await localisationServiceClient.searchHealthcareProviders(city: city, name: name)
+			logDebug("We found \(searchResultList.count) organisations.")
 			
-			let organisations = try await localisationServiceClient.searchHealthcareProviders(city: city, name: name)
-			logDebug("We found \(organisations.count) organisations.")
-			if organisations.isEmpty {
-				state = .empty(city: city, name: name)
-			} else {
-				state = .success(organisations)
-			}
+			applyListState()
 			
 		} catch {
 			logDebug("Error fetching orginasations \(error)")
@@ -135,7 +145,29 @@ class SearchResultViewModel: ObservableObject {
 		}
 	}
 	
-	func state(for provider: HealthcareProvider) -> SearchResultCardState {
+	/// Apply the state for each of the health providers
+	func applyListState() {
+		
+		var list = [SearchResultSet]()
+		searchResultList.forEach {provider in
+			let cardState = cardState(for: provider)
+			
+			list.append((
+				provider: provider,
+				cardState: cardState)
+			)
+		}
+		if list.isEmpty {
+			state = .empty(city: city, name: name)
+		} else {
+			state = .success(list)
+		}
+	}
+	
+	/// Get the state for a card
+	/// - Parameter provider: the healthcare provider
+	/// - Returns: card state
+	private func cardState(for provider: HealthcareProvider) -> SearchResultCardState {
 
 		let list = HealthcareProviderStore().providers
 		return list.contains(provider) ? .selected : .regular
@@ -198,7 +230,7 @@ struct SearchResultView: View {
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 	
-	@ViewBuilder func listSearchResults(_ list: [HealthcareProvider]) -> some View {
+	@ViewBuilder func listSearchResults(_ list: [SearchResultSet]) -> some View {
 		
 		ScrollView {
 			
@@ -211,16 +243,18 @@ struct SearchResultView: View {
 					.accessibilityAddTraits(.isHeader)
 			
 				LazyVStack(spacing: ViewTraits.List.spacing) {
-					ForEach(list, id: \.self) { element in
-							
+					ForEach(list, id: \.provider) { element in
+						
 						Button {
-							viewModel.reduce(.store(element))
+							viewModel.reduce(.store(element.provider))
+							
 						} label: {
 							SearchResultCardView(
-								element: SearchResultDecorator.create(element),
-								state: viewModel.state(for: element)
+								element: SearchResultDecorator.create(element.provider),
+								state: element.cardState
 							)
 						}
+						.accessibilityHint(element.cardState.localizedStringKey)
 					}
 				}
 				

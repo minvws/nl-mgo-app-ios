@@ -100,30 +100,16 @@ final class SearchResultViewModelTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [HealthcareProvider] = [
-			HealthcareProvider(
-				display_name: "Tandarts Tandje Erbij",
-				identification_type: "type",
-				identification_value: "value",
-				active: true,
-				addresses: [Components.Schemas.Address(
-					active: true,
-					address: "Boorplatform 5",
-					city: "Roermond",
-					postalcode: "1234AB",
-					_type: "postal")
-				],
-				names: [],
-				types: []
-			)
-		]
+		let provider = Generator.healthcareProvider("value")
+		let list: [HealthcareProvider] = [provider]
 		localisationServiceClientSpy.stubbedSearchHealthcareProviders = list
+		let state = SearchResultViewState.success([SearchResultSet(provider, .regular)])
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(.success(list)))
+		expect(self.sut.state).toEventually(equal(state))
 		expect(self.localisationServiceClientSpy.invokedSearchHealthcareProviders).toEventually(beTrue())
 	}
 	
@@ -158,21 +144,7 @@ final class SearchResultViewModelTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let provider = HealthcareProvider(
-			display_name: "Tandarts Tandje Erbij",
-			identification_type: "type",
-			identification_value: "value",
-			active: true,
-			addresses: [Components.Schemas.Address(
-				active: true,
-				address: "Boorplatform 5",
-				city: "Roermond",
-				postalcode: "1234AB",
-				_type: "postal")
-			],
-			names: [],
-			types: []
-		)
+		let provider = Generator.healthcareProvider("value")
 		let list: [HealthcareProvider] = [provider]
 		localisationServiceClientSpy.stubbedSearchHealthcareProviders = list
 		
