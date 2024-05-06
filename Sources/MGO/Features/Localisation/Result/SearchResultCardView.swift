@@ -12,6 +12,14 @@ enum SearchResultCardState {
 	case regular
 	case selected
 	case warning
+	
+	var localizedStringKey: LocalizedStringKey {
+		switch self {
+			case .regular: return "searchresults_add_voiceover"
+			case .selected: return "searchresults_view_voiceover"
+			case .warning: return "searchresults_view_voiceover"
+		}
+	}
 }
 
 struct SearchResultCardView: View {
@@ -110,15 +118,21 @@ struct SearchResultCardView: View {
 					Image(systemName: "plus")
 						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefault : theme.actionPrimaryBackground)
 						.font(Font.title2.bold())
+						.accessibilityLabel(state.localizedStringKey)
+				
 				case .selected:
-				Image(ImageResource.Localisation.arrowForward)
+					Image(ImageResource.Localisation.arrowForward)
 						.foregroundStyle(theme.iconsPrimary)
 						.frame(width: ViewTraits.Selected.size, height: ViewTraits.Selected.size, alignment: .center)
+						.accessibilityLabel(state.localizedStringKey)
+				
 				case .warning:
-					EmptyView()
+					Spacer()
+					.accessibilityHidden(false)
+					.accessibilityLabel(state.localizedStringKey)
 			}
-
 		}
+		.accessibilityElement(children: .combine)
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.if(state == .warning, transform: { view in

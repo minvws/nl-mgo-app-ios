@@ -886,6 +886,17 @@
         }
       }
     },
+    "searchresults_add_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieder toevoegen"
+          }
+        }
+      }
+    },
     "searchresults_backbutton" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1003,6 +1014,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deze zorgaanbieder doet niet mee. "
+          }
+        }
+      }
+    },
+    "searchresults_view_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieder bekijken"
           }
         }
       }
