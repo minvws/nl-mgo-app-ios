@@ -15,8 +15,8 @@ final class SearchResultViewTests: XCTestCase {
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: SearchResultViewModel!
-	private var sut: SearchResultView!
+	private var viewModel: SearchResultsViewModel!
+	private var sut: SearchResultsView!
 
 	override func setUp() {
 
@@ -28,8 +28,8 @@ final class SearchResultViewTests: XCTestCase {
 	
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
-		viewModel = SearchResultViewModel(coordinator: coordinatorSpy, city: city, name: name, localisationServiceClient: localisationServiceClientSpy)
-		sut = SearchResultView(viewModel: self.viewModel)
+		viewModel = SearchResultsViewModel(coordinator: coordinatorSpy, city: city, name: name, localisationServiceClient: localisationServiceClientSpy)
+		sut = SearchResultsView(viewModel: self.viewModel)
 	}
 
 	func test_loading() {
