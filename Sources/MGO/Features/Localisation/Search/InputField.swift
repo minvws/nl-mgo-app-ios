@@ -59,6 +59,9 @@ struct InputField: View {
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.contentPrimary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.onTapGesture {
+					isFieldFocused.toggle()
+				}
 			
 			TextField("", text: $input)
 				.focused($isFieldFocused)

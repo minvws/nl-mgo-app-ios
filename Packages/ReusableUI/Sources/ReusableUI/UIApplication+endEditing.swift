@@ -5,9 +5,9 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
+import SwiftUI
 
-protocol EndEditing {
+public protocol EndEditing {
 	func endEditing()
 }
 
@@ -15,7 +15,7 @@ protocol EndEditing {
 extension UIApplication: EndEditing {
 	
 	/// End editing, resign first responder
-	func endEditing() {
+	public func endEditing() {
 		sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 	}
 }

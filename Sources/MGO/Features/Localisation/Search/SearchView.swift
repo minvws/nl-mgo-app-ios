@@ -185,11 +185,10 @@ struct SearchView: View {
 					title: "searchhp_city"
 				)
 				.padding(.bottom, ViewTraits.General.padding)
+				
+				Spacer()
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
-			.onTapGesture {
-				viewModel.reduce(.endEditing)
-			}
 			
 		} bottomView: {
 			CallToActionButton("searchhp_action") {
@@ -198,6 +197,12 @@ struct SearchView: View {
 			.tag("search")
 			.padding(ViewTraits.General.padding)
 		}
+		.onTapGesture {
+			_ = logDebug("Tapping outside the input")
+			viewModel.reduce(.endEditing)
+		}
+		.resignKeyboardOnDragGesture()
+		
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton {
@@ -212,3 +217,6 @@ struct SearchView: View {
 		SearchView(viewModel: SearchViewModel(coordinator: nil))
 	}
 }
+
+
+
