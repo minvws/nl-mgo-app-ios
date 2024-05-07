@@ -10,7 +10,7 @@ import MGOUI
 
 class DashboardViewModel: ObservableObject {
 	
-	enum State {
+	enum State: Equatable {
 		case empty
 		case list([HealthcareProvider])
 	}
@@ -95,52 +95,42 @@ struct DashboardView: View {
 		enum List {
 			static let spacing: CGFloat = 4
 		}
+		enum Button {
+			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+		}
 	}
 	
 	var body: some View {
 		
-		VStack {
+		ScrollViewWithFixedBottom {
 			
-			#warning("MGO-197: Header Bar")
-			// (https://vws-prd.jira.odc-noord.nl/browse/MGO-197)
-			HStack(alignment: .top, spacing: 16) {
+			VStack(spacing: ViewTraits.General.spacing) {
 				
-				Text(verbatim: "Goedemorgen, mevrouw de Bruijn")
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundColor(theme.contentPrimary)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.accessibilityAddTraits(.isHeader)
+				headerView()
 				
-				Spacer()
-				
-				Text(verbatim: "WB")
-					.rijksoverheidStyle(font: .regular, style: .callout)
-					.padding(.horizontal, 6)
-					.padding(.vertical, 8)
-					.multilineTextAlignment(.center)
-					.foregroundStyle(theme.backgroundPrimary)
-					.frame(width: 40, height: 40, alignment: .center)
-					.background(theme.iconsSecondary)
-					.cornerRadius(200)
-				
-			}
-			.padding(.horizontal, ViewTraits.General.padding)
-			
-			ScrollView {
-				
-				VStack(spacing: ViewTraits.General.spacing) {
-					
-					switch viewModel.state {
-						case .empty:
-							noHealthcareProviderView()
-							.padding(.horizontal, ViewTraits.General.padding)
-							
-						case let .list(list):
-							listHealthcareProviderView(list: list)
-					}
+				switch viewModel.state {
+					case .empty:
+						noHealthcareProviderView()
+						.padding(.horizontal, ViewTraits.General.padding)
+						
+					case let .list(list):
+						listHealthcareProviderView(list: list)
 				}
 			}
+			
 			Spacer()
+		} bottomView: {
+			
+			switch viewModel.state {
+				case .empty:
+					CallToActionButton("dashboard_search_healthcareProviders") {
+						viewModel.reduce(.search)
+					}
+					.padding(ViewTraits.Button.insets)
+					.tag("dashboard_search_healthcareProviders")
+				case .list:
+					EmptyView()
+			}
 		}
 		
 		.padding(.top, ViewTraits.Navigation.padding)
@@ -174,6 +164,34 @@ struct DashboardView: View {
 			}
 	}
 	
+	@ViewBuilder func headerView() -> some View {
+		
+		#warning("MGO-197: Header Bar")
+		// (https://vws-prd.jira.odc-noord.nl/browse/MGO-197)
+		HStack(alignment: .top, spacing: 16) {
+			
+			Text(verbatim: "Goedemorgen, mevrouw de Bruijn")
+				.rijksoverheidStyle(font: .bold, style: .title)
+				.foregroundColor(theme.contentPrimary)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityAddTraits(.isHeader)
+			
+			Spacer()
+			
+			Text(verbatim: "WB")
+				.rijksoverheidStyle(font: .regular, style: .callout)
+				.padding(.horizontal, 6)
+				.padding(.vertical, 8)
+				.multilineTextAlignment(.center)
+				.foregroundStyle(theme.backgroundPrimary)
+				.frame(width: 38, height: 38, alignment: .center)
+				.background(theme.iconsSecondary)
+				.cornerRadius(200)
+			
+		}
+		.padding(.horizontal, ViewTraits.General.padding)
+	}
+	
 	/// Create the empty state view
 	/// - Returns: View when the user has no stored healthcare providers
 	@ViewBuilder func noHealthcareProviderView() -> some View {
@@ -182,11 +200,6 @@ struct DashboardView: View {
 			.rijksoverheidStyle(font: .regular, style: .body)
 			.foregroundStyle(theme.contentTertiary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
-		
-		CallToActionButton("dashboard_search_healthcareProviders") {
-			viewModel.reduce(.search)
-		}
-		.padding(.bottom, ViewTraits.General.padding)
 		
 		Image(ImageResource.Dashboard.empty)
 			.resizable()
@@ -222,6 +235,7 @@ struct DashboardView: View {
 		CallToActionButton("dashboard_add_healthcareProviders") {
 			viewModel.reduce(.search)
 		}
+			.tag("dashboard_add_healthcareProviders")
 			.padding(.horizontal, ViewTraits.General.padding)
 			.padding(.bottom, ViewTraits.General.padding)
 

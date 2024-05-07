@@ -37,11 +37,13 @@ struct DashboardCardView: View {
 					
 					Text(name)
 						.rijksoverheidStyle(font: .bold, style: .body)
+						.multilineTextAlignment(.leading)
 						.foregroundColor(theme.contentPrimary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 					
 					Text(category)
 						.rijksoverheidStyle(font: .regular, style: .body)
+						.multilineTextAlignment(.leading)
 						.foregroundColor(theme.contentSecondary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 				}
