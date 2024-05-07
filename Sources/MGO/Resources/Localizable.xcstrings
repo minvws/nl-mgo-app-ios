@@ -487,6 +487,49 @@
         }
       }
     },
+    "dashboard_add_healthcareProviders" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieder toevoegen"
+          }
+        }
+      }
+    },
+    "dashboard_intro_empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je overzicht is leeg, omdat je nog geen zorgaanbieders hebt toegevoegd."
+          }
+        }
+      }
+    },
+    "dashboard_intro_list" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit is je persoonlijke overzicht. Je vindt hier al je medische gegevens."
+          }
+        }
+      }
+    },
+    "dashboard_list_action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder bekijken"
+          }
+        }
+      }
+    },
     "dashboard_poc" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -504,7 +547,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgaanbieder zoeken"
+            "value" : "Zorgaanbieders toevoegen"
           }
         }
       }
