@@ -30,9 +30,9 @@ struct StoredHealthcareProviderModel: Codable, Hashable, Equatable, Identifiable
 
 class StoredHealthcareProviderDecorator {
 	
-	/// Create a SearchResult from a HealthcareProvider
+	/// Create a StoredHealthcareProviderModel from a HealthcareProvider
 	/// - Parameter from: HealthcareProvider
-	/// - Returns: SearchResult
+	/// - Returns: StoredHealthcareProviderModel
 	static func create(_ organisation: HealthcareProvider) -> StoredHealthcareProviderModel {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
