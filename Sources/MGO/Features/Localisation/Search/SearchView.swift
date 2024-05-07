@@ -217,6 +217,3 @@ struct SearchView: View {
 		SearchView(viewModel: SearchViewModel(coordinator: nil))
 	}
 }
-
-
-
