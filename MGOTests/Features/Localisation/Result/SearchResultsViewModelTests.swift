@@ -14,7 +14,7 @@ final class SearchResultViewModelTests: XCTestCase {
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: SearchResultViewModel!
+	private var sut: SearchResultsViewModel!
 
 	override func setUp() {
 		
@@ -26,7 +26,7 @@ final class SearchResultViewModelTests: XCTestCase {
 	
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
-		sut = SearchResultViewModel(coordinator: coordinatorSpy, city: city, name: name, localisationServiceClient: localisationServiceClientSpy)
+		sut = SearchResultsViewModel(coordinator: coordinatorSpy, city: city, name: name, localisationServiceClient: localisationServiceClientSpy)
 	}
 
 	func test_loading() {
@@ -44,7 +44,7 @@ final class SearchResultViewModelTests: XCTestCase {
 	func test_noLocalisationServiceClient() {
 		
 		// Given
-		sut = SearchResultViewModel(coordinator: self.coordinatorSpy, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: nil)
+		sut = SearchResultsViewModel(coordinator: self.coordinatorSpy, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: nil)
 		
 		// When
 		sut.reduce(.onAppear)

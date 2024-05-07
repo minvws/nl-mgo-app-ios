@@ -50,6 +50,7 @@ struct AppIntroductionView: View {
 	private struct ViewTraits {
 		enum Image {
 			static let insets = EdgeInsets( top: 0, leading: 20, bottom: 24, trailing: 20)
+			static let height: CGFloat = 161
 		}
 		enum Title {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 16, trailing: 16)
@@ -72,11 +73,17 @@ struct AppIntroductionView: View {
 			
 			VStack(alignment: .leading, spacing: 0) {
 				if showImage {
-					Image(.onboarding)
-						.resizable()
-						.scaledToFit()
-						.accessibilityHidden(true)
+					HStack {
+						Spacer()
+						Image(.onboarding)
+							.resizable()
+							.scaledToFit()
+							.frame(height: ViewTraits.Image.height)
+							.accessibilityHidden(true)
 						.padding(ViewTraits.Image.insets)
+						Spacer()
+					}
+					.frame(maxWidth: .infinity, alignment: .topLeading)
 				}
 				
 				Text("onboarding_title")

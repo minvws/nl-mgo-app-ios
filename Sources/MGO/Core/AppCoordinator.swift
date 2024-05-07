@@ -330,7 +330,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				SearchView(viewModel: SearchViewModel(coordinator: self))
 			
 			case let .searchHealthcareProviders(city, name):
-				SearchResultView(viewModel: SearchResultViewModel(coordinator: self, city: city, name: name, localisationServiceClient: self.localisationServiceClient))
+				SearchResultsView(viewModel: SearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: self.localisationServiceClient))
 		
 			case .storedHealthcareProviders:
 				StoredHealthcareProvidersView(viewModel: StoredHealthcareProvidersViewModel(coordinator: self))

@@ -47,7 +47,7 @@ enum SearchResultViewState: Equatable {
 	}
 }
 
-class SearchResultViewModel: ObservableObject {
+class SearchResultsViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -68,7 +68,7 @@ class SearchResultViewModel: ObservableObject {
 	private var city: String
 	
 	/// array to store the results
-	private var searchResultList = [HealthcareProvider]()
+	private var searchResultsList = [HealthcareProvider]()
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any AppCoordinatorProtocol)?
@@ -88,7 +88,7 @@ class SearchResultViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: SearchResultViewModel.Action) {
+	func reduce(_ action: SearchResultsViewModel.Action) {
 		
 		switch action {
 			
@@ -134,8 +134,8 @@ class SearchResultViewModel: ObservableObject {
 		}
 		
 		do {
-			searchResultList = try await localisationServiceClient.searchHealthcareProviders(city: city, name: name)
-			logDebug("We found \(searchResultList.count) organisations.")
+			searchResultsList = try await localisationServiceClient.searchHealthcareProviders(city: city, name: name)
+			logDebug("We found \(searchResultsList.count) organisations.")
 			
 			applyListState()
 			
@@ -149,7 +149,7 @@ class SearchResultViewModel: ObservableObject {
 	func applyListState() {
 		
 		var list = [SearchResultSet]()
-		searchResultList.forEach {provider in
+		searchResultsList.forEach {provider in
 			let cardState = cardState(for: provider)
 			
 			list.append((
@@ -174,10 +174,10 @@ class SearchResultViewModel: ObservableObject {
 	}
 }
 
-struct SearchResultView: View {
+struct SearchResultsView: View {
 	
 	/// The view model
-	@StateObject var viewModel: SearchResultViewModel
+	@StateObject var viewModel: SearchResultsViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -302,6 +302,6 @@ struct SearchResultView: View {
 	]
 	
 	return NavigationView {
-		SearchResultView(viewModel: SearchResultViewModel(coordinator: nil, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: spy))
+		SearchResultsView(viewModel: SearchResultsViewModel(coordinator: nil, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: spy))
 	}
 }
