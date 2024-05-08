@@ -243,6 +243,7 @@ struct SearchResultsView: View {
 					.accessibilityAddTraits(.isHeader)
 			
 				LazyVStack(spacing: ViewTraits.List.spacing) {
+					
 					ForEach(list, id: \.provider) { element in
 						
 						ZStack {
@@ -261,7 +262,6 @@ struct SearchResultsView: View {
 						}
 					}
 				}
-				
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
 		}

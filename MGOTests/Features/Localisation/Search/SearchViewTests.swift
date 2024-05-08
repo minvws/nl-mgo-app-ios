@@ -25,6 +25,19 @@ final class SearchViewTests: XCTestCase {
 		sut = SearchView(viewModel: self.viewModel)
 	}
 
+	func test_backbuttonPressed() throws {
+		
+		// Given
+		let content = NavigationView { sut }
+		
+		// When
+		try content.inspect().find(viewWithTag: "back_button").button().tap()
+
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backButtonPressed
+	}
+	
 	func test_searchView() {
 		
 		// Given
