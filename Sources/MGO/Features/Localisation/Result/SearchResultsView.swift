@@ -245,16 +245,20 @@ struct SearchResultsView: View {
 				LazyVStack(spacing: ViewTraits.List.spacing) {
 					ForEach(list, id: \.provider) { element in
 						
-						Button {
-							viewModel.reduce(.store(element.provider))
+						ZStack {
+							Rectangle()
+								.foregroundStyle(.clear)
+								.accessibilityLabel(element.cardState.localizedStringKey)
+								.accessibilityAddTraits(.isButton)
 							
-						} label: {
 							SearchResultCardView(
 								element: SearchResultDecorator.create(element.provider),
 								state: element.cardState
 							)
+							.onTapGesture {
+								viewModel.reduce(.store(element.provider))
+							}
 						}
-						.accessibilityHint(element.cardState.localizedStringKey)
 					}
 				}
 				
@@ -278,6 +282,7 @@ struct SearchResultsView: View {
 				active: true,
 				address: "Boorplatform 5",
 				city: "Roermond",
+				lines: ["Boorplatform 5"],
 				postalcode: "1234AB",
 				_type: "postal")
 			],
@@ -293,6 +298,7 @@ struct SearchResultsView: View {
 				active: true,
 				address: "Boorplatform 5",
 				city: "Roermond",
+				lines: ["Boorplatform 5"],
 				postalcode: "1234AB",
 				_type: "postal")
 			],

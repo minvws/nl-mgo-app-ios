@@ -221,14 +221,20 @@ struct DashboardView: View {
 		LazyVStack(spacing: ViewTraits.List.spacing, content: {
 			
 			ForEach(list, id: \.self) { element in
-				Button {
-					#warning("MGO-240: Show Healthcare Provider")
-					// (https://vws-prd.jira.odc-noord.nl/browse/MGO-240)
-				} label: {
+				
+				ZStack {
+					Rectangle()
+						.foregroundStyle(.clear)
+						.accessibilityLabel("dashboard_list_action")
+						.accessibilityAddTraits(.isButton)
+					
 					let model = DashboardDecorator.create(element)
 					DashboardCardView(name: model.name, category: model.category)
+						.onTapGesture {
+							#warning("MGO-240: Show Healthcare Provider")
+							// (https://vws-prd.jira.odc-noord.nl/browse/MGO-240)
+						}
 				}
-					.accessibilityHint("dashboard_list_action")
 			}
 		})
 		

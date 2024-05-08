@@ -53,8 +53,10 @@ struct DashboardCardView: View {
 				Image(ImageResource.Dashboard.chevronRight)
 					.foregroundStyle(theme.iconsPrimary)
 					.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size, alignment: .center)
+					.accessibilityHidden(true)
 				
 			}
+			.accessibilityElement(children: .combine)
 			.padding(ViewTraits.General.padding)
 			.background(theme.backgroundSecondary)
 		
