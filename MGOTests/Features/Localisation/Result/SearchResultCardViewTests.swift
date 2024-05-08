@@ -69,4 +69,21 @@ final class SearchResultCardViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: sut)
 	}
+	
+	func test_searchResultCardView_nameOnly() {
+		
+		// Given
+		
+		// When
+		let sut = SearchResultCardView(
+			element: SearchResult(
+				id: "1",
+				name: "Tandarts Tandje Erbij"
+			),
+			state: .regular
+		)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
 }

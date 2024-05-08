@@ -31,6 +31,21 @@ final class StoredHealthcareProvidersViewTests: XCTestCase {
 		
 	}
 	
+	func test_backbuttonPressed() throws {
+		
+		// Given
+		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = []
+		createSut()
+		let content = NavigationView { sut }
+		
+		// When
+		try content.inspect().find(viewWithTag: "back_button").button().tap()
+
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backButtonPressed
+	}
+	
 	func test_storedHealthcareProviders_emptyList() {
 		
 		// Given

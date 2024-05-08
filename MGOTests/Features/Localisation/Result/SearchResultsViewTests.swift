@@ -19,7 +19,7 @@ final class SearchResultViewTests: XCTestCase {
 	private var sut: SearchResultsView!
 
 	override func setUp() {
-
+		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
@@ -45,6 +45,21 @@ final class SearchResultViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_backbuttonPressed() throws {
+		
+		// Given
+		createSut()
+		viewModel.state = .loading
+		let content = NavigationView { sut }
+		
+		// When
+		try content.inspect().find(viewWithTag: "back_button").button().tap()
+
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backButtonPressed
+	}
+	
 	func test_empty() {
 		
 		// Given
@@ -56,6 +71,21 @@ final class SearchResultViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
+	}
+	
+	func test_empty_action() throws {
+		
+		// Given
+		createSut()
+		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
+		
+		// When
+		try sut.inspect().find(viewWithTag: "action_button").button().tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backToSearchHealthcareProvider
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 
 	func test_failure() {
@@ -72,14 +102,29 @@ final class SearchResultViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_failure_action() throws {
+		
+		// Given
+		createSut()
+		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
+		viewModel.state = .failure(error)
+		
+		// When
+		try sut.inspect().find(viewWithTag: "action_button").button().tap()
+		
+		// Then
+		expect(self.viewModel.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
+		expect(self.localisationServiceClientSpy.invokedSearchHealthcareProviders).toEventually(beTrue())
+	}
+	
 	func test_list_lightPortrait() {
 		
 		// Given
 		createSut()
 		let list: [SearchResultSet] = [
 			((Generator.healthcareProvider("1"), SearchResultCardState.regular)),
-			((Generator.healthcareProvider("2"), SearchResultCardState.regular)),
-			((Generator.healthcareProvider("3"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("2"), SearchResultCardState.warning)),
+			((Generator.healthcareProvider("3"), SearchResultCardState.selected)),
 			((Generator.healthcareProvider("4", city: "", address: "", postalCode: ""), SearchResultCardState.regular))
 		]
 		viewModel.state = .success(list)
@@ -100,8 +145,8 @@ final class SearchResultViewTests: XCTestCase {
 		createSut()
 		let list: [SearchResultSet] = [
 			((Generator.healthcareProvider("1"), SearchResultCardState.regular)),
-			((Generator.healthcareProvider("2"), SearchResultCardState.regular)),
-			((Generator.healthcareProvider("3"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("2"), SearchResultCardState.warning)),
+			((Generator.healthcareProvider("3"), SearchResultCardState.selected)),
 			((Generator.healthcareProvider("4", city: "", address: "", postalCode: ""), SearchResultCardState.regular))
 		]
 		viewModel.state = .success(list)
@@ -122,8 +167,8 @@ final class SearchResultViewTests: XCTestCase {
 		createSut()
 		let list: [SearchResultSet] = [
 			((Generator.healthcareProvider("1"), SearchResultCardState.regular)),
-			((Generator.healthcareProvider("2"), SearchResultCardState.regular)),
-			((Generator.healthcareProvider("3"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("2"), SearchResultCardState.warning)),
+			((Generator.healthcareProvider("3"), SearchResultCardState.selected)),
 			((Generator.healthcareProvider("4", city: "", address: "", postalCode: ""), SearchResultCardState.regular))
 		]
 		viewModel.state = .success(list)
@@ -144,8 +189,8 @@ final class SearchResultViewTests: XCTestCase {
 		createSut()
 		let list: [SearchResultSet] = [
 			((Generator.healthcareProvider("1"), SearchResultCardState.regular)),
-			((Generator.healthcareProvider("2"), SearchResultCardState.regular)),
-			((Generator.healthcareProvider("3"), SearchResultCardState.regular)),
+			((Generator.healthcareProvider("2"), SearchResultCardState.warning)),
+			((Generator.healthcareProvider("3"), SearchResultCardState.selected)),
 			((Generator.healthcareProvider("4", city: "", address: "", postalCode: ""), SearchResultCardState.regular))
 		]
 		viewModel.state = .success(list)

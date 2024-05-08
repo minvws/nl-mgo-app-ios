@@ -75,7 +75,7 @@ final class HealthcareProviderStoreTests: XCTestCase {
 		try sut.store(provider)
 		
 		// When
-		try sut.wipePersistedData()
+		sut.wipePersistedData()
 		let list = try sut.read()
 		
 		// Then

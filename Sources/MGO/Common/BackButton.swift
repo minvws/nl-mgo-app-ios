@@ -54,6 +54,7 @@ struct BackButton: View {
 				}
 			}
 		)
+		.tag("back_button")
 		.buttonStyle(BackButtonStyle())
 		.frame(minWidth: ViewTraits.Button.minWidth, maxWidth: .infinity, alignment: .leading)
 	}
