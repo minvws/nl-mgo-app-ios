@@ -220,15 +220,18 @@ struct DashboardView: View {
 		
 		LazyVStack(spacing: ViewTraits.List.spacing, content: {
 			
-			ForEach(list, id: \.self) { element in
+			ForEach(list, id: \.self) { healthcareProvider in
 				
 				ZStack {
 					Rectangle()
 						.foregroundStyle(.clear)
-						.accessibilityLabel("dashboard_list_action")
+						.accessibilityLabel(String(
+							format: String(localized: "dashboard_list_action_voiceover"),
+										   arguments: ["\(healthcareProvider.display_name)"]
+									   ))
 						.accessibilityAddTraits(.isButton)
 					
-					let model = DashboardDecorator.create(element)
+					let model = DashboardDecorator.create(healthcareProvider)
 					DashboardCardView(name: model.name, category: model.category)
 						.onTapGesture {
 							#warning("MGO-240: Show Healthcare Provider")

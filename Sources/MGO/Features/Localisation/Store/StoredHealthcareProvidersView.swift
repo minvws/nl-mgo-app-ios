@@ -150,17 +150,23 @@ struct StoredHealthcareProvidersView: View {
 							.frame(maxWidth: .infinity, alignment: .topLeading)
 					
 						LazyVStack(spacing: ViewTraits.List.spacing, content: {
-							ForEach(list, id: \.self) { element in
+							ForEach(list, id: \.self) { healthcareProvider in
 								
 								ZStack {
+									
 									Rectangle()
 										.foregroundStyle(.clear)
-										.accessibilityLabel("storedhp_remove_voiceover")
+										.accessibilityLabel(
+											String(
+												format: String(localized: "storedhp_remove_voiceover"),
+												arguments: ["\(healthcareProvider.display_name)"]
+											)
+										)
 										.accessibilityAddTraits(.isButton)
 									
-									StoredHealthcareProviderCardView(element: StoredHealthcareProviderDecorator.create(element))
+									StoredHealthcareProviderCardView(element: StoredHealthcareProviderDecorator.create(healthcareProvider))
 										.onTapGesture {
-											viewModel.reduce(.showRemoveDialog(element))
+											viewModel.reduce(.showRemoveDialog(healthcareProvider))
 										}
 									
 								}

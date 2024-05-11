@@ -13,7 +13,7 @@ enum SearchResultCardState {
 	case selected
 	case warning
 	
-	var localizedStringKey: LocalizedStringKey {
+	var accessibilityLabel: String.LocalizationValue {
 		switch self {
 			case .regular: return "searchresults_add_voiceover"
 			case .selected: return "searchresults_view_voiceover"
