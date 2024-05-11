@@ -294,7 +294,8 @@ struct SearchResultsView: View {
 				_type: "postal")
 			],
 			names: [],
-			types: []
+			types: [],
+			data_services: []
 		),
 		HealthcareProvider(
 			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
@@ -310,7 +311,8 @@ struct SearchResultsView: View {
 				_type: "postal")
 			],
 			names: [],
-			types: []
+			types: [],
+			data_services: []
 		)
 	]
 	

@@ -285,6 +285,11 @@ components:
             $ref: "#/components/schemas/CType"
           type: array
           title: Types
+        data_services:
+          items:
+            "$ref": "#/components/schemas/ZalDataServiceResponse"
+          type: array
+          title: Data Services
       type: object
       required:
       - display_name
@@ -294,6 +299,7 @@ components:
       - addresses
       - names
       - types
+      - data_services
       title: Organization
     SearchRequest:
       properties:
@@ -337,50 +343,50 @@ components:
       - msg
       - type
       title: ValidationError
-#    ZalDataServiceResponse:
-#      properties:
-#        id:
-#          type: integer
-#          title: Id
-#        name:
-#          type: string
-#          title: Name
-#        interface_version:
-#          type: integer
-#          title: Interface Version
-#        auth_endpoint:
-#          type: string
-#          title: Auth Endpoint
-#        token_endpoint:
-#          type: string
-#          title: Token Endpoint
-#        roles:
-#          items:
-#            $ref: "#/components/schemas/ZalDataServiceRoleResponse"
-#          type: array
-#          title: Roles
-#      type: object
-#      required:
-#      - id
-#      - name
-#      - interface_version
-#      - auth_endpoint
-#      - token_endpoint
-#      - roles
-#      title: ZalDataServiceResponse
-#    ZalDataServiceRoleResponse:
-#      properties:
-#        code:
-#          type: string
-#          title: Code
-#        resource_endpoint:
-#          type: string
-#          title: Resource Endpoint
-#      type: object
-#      required:
-#      - code
-#      - resource_endpoint
-#      title: ZalDataServiceRoleResponse
+    ZalDataServiceResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        interface_version:
+          type: integer
+          title: Interface Version
+        auth_endpoint:
+          type: string
+          title: Auth Endpoint
+        token_endpoint:
+          type: string
+          title: Token Endpoint
+        roles:
+          items:
+            $ref: "#/components/schemas/ZalDataServiceRoleResponse"
+          type: array
+          title: Roles
+      type: object
+      required:
+      - id
+      - name
+      - interface_version
+      - auth_endpoint
+      - token_endpoint
+      - roles
+      title: ZalDataServiceResponse
+    ZalDataServiceRoleResponse:
+      properties:
+        code:
+          type: string
+          title: Code
+        resource_endpoint:
+          type: string
+          title: Resource Endpoint
+      type: object
+      required:
+      - code
+      - resource_endpoint
+      title: ZalDataServiceRoleResponse
 #    ZalSearchRequestEntry:
 #      properties:
 #        id_type:
