@@ -62,28 +62,4 @@ final class OverviewViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.searchHealthcareProviders
 	}
-	
-	func test_showResetDialog_shouldCallCoordinator() {
-		
-		// Given
-		
-		// When
-		sut.reduce(.showResetDialog)
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.sut.showResetDialog) == true
-	}
-	
-	func test_resetApplication_shouldCallCoordinator() {
-		
-		// Given
-		
-		// When
-		sut.reduce(.resetApplication)
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.resetApplication
-	}
 }

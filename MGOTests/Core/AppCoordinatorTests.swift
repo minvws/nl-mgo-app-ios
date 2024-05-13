@@ -159,7 +159,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(AppCoordination.Action.loginWithDigiD)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProvider])
 	}
 
 	func test_coordinatorHandle_loginWithAccessCode_shouldShowAccessCodeValidation() {
