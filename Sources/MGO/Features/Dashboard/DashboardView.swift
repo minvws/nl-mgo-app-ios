@@ -7,8 +7,45 @@
 
 import MGOUI
 
+enum DashboardTab {
+	case about
+	case overview
+}
+
 class DashboardViewModel: ObservableObject {
 	
+	/// The flow coordinator for routing
+	private weak var coordinator: (any AppCoordinatorProtocol)?
+	
+	/// Initialzier
+	/// - Parameter coordinator: the coordinator
+	init(coordinator: (any AppCoordinatorProtocol)?) {
+		self.coordinator = coordinator
+	}
+
+	@ViewBuilder func tab(for tab: DashboardTab) -> some View {
+		
+		switch tab {
+			case .about:
+				AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: self.coordinator))
+					.tabItem {
+						HStack {
+							Text("tab_about")
+								.rijksoverheidStyle(font: .regular, style: .body)
+							Image(ImageResource.Tab.about)
+						}
+					}
+			case .overview:
+				OverviewView(viewModel: OverviewViewModel(coordinator: self.coordinator))
+					.tabItem {
+						HStack {
+							Text("tab_overview")
+								.rijksoverheidStyle(font: .regular, style: .body)
+							Image(ImageResource.Tab.overview)
+						}
+					}
+		}
+	}
 }
 
 struct DashboardView: View {
@@ -23,24 +60,8 @@ struct DashboardView: View {
 			TabView {
 				
 				Group {
-					
-					OverviewView(viewModel: OverviewViewModel(coordinator: nil))
-						.tabItem {
-							HStack {
-								Text("tab_overview")
-									.rijksoverheidStyle(font: .regular, style: .body)
-								Image(ImageResource.Tab.overview)
-							}
-						}
-					
-					AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: nil))
-						.tabItem {
-							HStack {
-								Text("tab_about")
-									.rijksoverheidStyle(font: .regular, style: .body)
-								Image(ImageResource.Tab.about)
-							}
-						}
+					viewModel.tab(for: .overview)
+					viewModel.tab(for: .about)
 				}
 				.backportToolbarBackground()
 			}
@@ -51,5 +72,5 @@ struct DashboardView: View {
 }
 
 #Preview {
-	DashboardView(viewModel: DashboardViewModel())
+	DashboardView(viewModel: DashboardViewModel(coordinator: nil))
 }
