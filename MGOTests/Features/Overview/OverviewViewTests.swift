@@ -10,12 +10,12 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 
-final class DashboardViewTests: XCTestCase {
+final class OverviewViewTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: DashboardViewModel!
-	private var sut: DashboardView!
+	private var viewModel: OverviewViewModel!
+	private var sut: OverviewView!
 
 	override func setUp() {
 		
@@ -26,8 +26,8 @@ final class DashboardViewTests: XCTestCase {
 	
 	private func createSut() {
 		
-		viewModel = DashboardViewModel(coordinator: coordinatorSpy)
-		sut = DashboardView(viewModel: self.viewModel)
+		viewModel = OverviewViewModel(coordinator: coordinatorSpy)
+		sut = OverviewView(viewModel: self.viewModel)
 	}
 	
 	func test_dashboard_emptyList() {

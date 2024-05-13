@@ -24,7 +24,7 @@ struct MainTabView: View {
 				
 				Group {
 					
-					DashboardView(viewModel: DashboardViewModel(coordinator: nil))
+					OverviewView(viewModel: OverviewViewModel(coordinator: nil))
 					//			Text("tab_overview")
 						.tabItem {
 							HStack {

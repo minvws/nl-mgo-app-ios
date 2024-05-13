@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class DashboardViewModel: ObservableObject {
+class OverviewViewModel: ObservableObject {
 	
 	enum State: Equatable {
 		case empty
@@ -22,7 +22,7 @@ class DashboardViewModel: ObservableObject {
 	@Published var showResetDialog: Bool = false
 	
 	/// The state of the view
-	@Published var state: DashboardViewModel.State
+	@Published var state: OverviewViewModel.State
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -45,7 +45,7 @@ class DashboardViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: DashboardViewModel.Action) {
+	func reduce(_ action: OverviewViewModel.Action) {
 		
 		switch action {
 			case .resetApplication:
@@ -71,10 +71,10 @@ class DashboardViewModel: ObservableObject {
 	}
 }
 
-struct DashboardView: View {
+struct OverviewView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: DashboardViewModel
+	@StateObject var viewModel: OverviewViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -201,7 +201,7 @@ struct DashboardView: View {
 			.foregroundStyle(theme.contentTertiary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 		
-		Image(ImageResource.Dashboard.empty)
+		Image(ImageResource.Overview.empty)
 			.resizable()
 			.scaledToFit()
 			.accessibilityHidden(true)
@@ -228,8 +228,8 @@ struct DashboardView: View {
 						.accessibilityLabel("dashboard_list_action")
 						.accessibilityAddTraits(.isButton)
 					
-					let model = DashboardDecorator.create(element)
-					DashboardCardView(name: model.name, category: model.category)
+					let model = OverviewDecorator.create(element)
+					OverviewCardView(name: model.name, category: model.category)
 						.onTapGesture {
 							#warning("MGO-240: Show Healthcare Provider")
 							// (https://vws-prd.jira.odc-noord.nl/browse/MGO-240)
@@ -250,6 +250,6 @@ struct DashboardView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		DashboardView(viewModel: DashboardViewModel(coordinator: nil))
+		OverviewView(viewModel: OverviewViewModel(coordinator: nil))
 	}
 }

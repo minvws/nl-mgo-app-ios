@@ -194,6 +194,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				}
 			
 			case .accessCodeValidated:
+//				path = NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
 				path.append(AppCoordination.State.dashboard)
 			
 			case .didFinishLocalAuthentication:
@@ -217,6 +218,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 				Current.secureUserSettings.userHasRemoteAuthentication = true
 				path.append(AppCoordination.State.dashboard)
+//				path = NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
 			
 			case .loginWithAccessCode:
 				path.append(AppCoordination.State.accessCodeValidation)
@@ -323,7 +325,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Dashboard
 	
 			case .dashboard:
-				DashboardView(viewModel: DashboardViewModel(coordinator: self))
+//				OverviewView(viewModel: OverviewViewModel(coordinator: self))
+				MainTabView(viewModel: TabViewModel())
 
 			// Healthcare Provider flow
 			case .searchHealthcareProvider:
