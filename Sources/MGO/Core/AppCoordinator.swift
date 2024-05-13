@@ -217,7 +217,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .loginWithDigiD:
 			
 				Current.secureUserSettings.userHasRemoteAuthentication = true
-				path.append(AppCoordination.State.dashboard)
+				path.append(AppCoordination.State.searchHealthcareProvider)
+//				path.append(AppCoordination.State.dashboard)
 //				path = NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
 			
 			case .loginWithAccessCode:
@@ -326,7 +327,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 			case .dashboard:
 //				OverviewView(viewModel: OverviewViewModel(coordinator: self))
-				MainTabView(viewModel: TabViewModel())
+				DashboardView(viewModel: DashboardViewModel())
 
 			// Healthcare Provider flow
 			case .searchHealthcareProvider:

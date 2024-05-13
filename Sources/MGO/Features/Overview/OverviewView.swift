@@ -18,16 +18,11 @@ class OverviewViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any AppCoordinatorProtocol)?
 	
-	@Published var showResetButton: Bool = false
-	@Published var showResetDialog: Bool = false
-	
 	/// The state of the view
 	@Published var state: OverviewViewModel.State
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case resetApplication
-		case showResetDialog
 		case onAppear
 		case search
 	}
@@ -35,11 +30,8 @@ class OverviewViewModel: ObservableObject {
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
 	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
+		
 		self.coordinator = coordinator
-		
-		let release = Configuration().getRelease()
-		showResetButton = release != Release.production // Show only in Dev, Acc & Test
-		
 		self.state = .empty
 	}
 	
@@ -48,10 +40,6 @@ class OverviewViewModel: ObservableObject {
 	func reduce(_ action: OverviewViewModel.Action) {
 		
 		switch action {
-			case .resetApplication:
-				coordinator?.handle(AppCoordination.Action.resetApplication)
-			case .showResetDialog:
-				showResetDialog = true
 			case .onAppear:
 				loadHealthcareProviders()
 			case .search:
@@ -87,7 +75,6 @@ struct OverviewView: View {
 		enum General {
 			static let padding: CGFloat = 16
 			static let spacing: CGFloat = 24
-			
 		}
 		enum Image {
 			static let insets = EdgeInsets( top: 0, leading: 50, bottom: 0, trailing: 50)
@@ -135,33 +122,12 @@ struct OverviewView: View {
 		
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
-		.confirmationDialog(
-			"Reset the application?",
-			isPresented: $viewModel.showResetDialog) {
-				Button("Reset the application?", role: .destructive) {
-					viewModel.reduce(.resetApplication)
-				}
-			} message: {
-				Text(verbatim: "You cannot undo this action")
-			}
-			.toolbar {
-				ToolbarItem(id: "reset", placement: .destructiveAction) {
-					if viewModel.showResetButton {
-						Button(
-							action: {
-								viewModel.reduce(.showResetDialog)
-							}, label: {
-								Image(systemName: "exclamationmark.triangle")
-									.foregroundStyle(theme.notificationError)
-							}
-						)
-					}
-				}
-			}
-			.background(theme.backgroundPrimary.ignoresSafeArea())
-			.onAppear {
-				viewModel.reduce(.onAppear)
-			}
+		.navigationBarHidden(false)
+		.navigationBarTitleDisplayMode(.inline)
+		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.onAppear {
+			viewModel.reduce(.onAppear)
+		}
 	}
 	
 	@ViewBuilder func headerView() -> some View {

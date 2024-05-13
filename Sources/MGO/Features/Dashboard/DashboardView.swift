@@ -7,14 +7,14 @@
 
 import MGOUI
 
-class TabViewModel: ObservableObject {
+class DashboardViewModel: ObservableObject {
 	
 }
 
-struct MainTabView: View {
+struct DashboardView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: TabViewModel
+	@StateObject var viewModel: DashboardViewModel
 	
 	// The Theme
 	@Environment(\.theme) var theme
@@ -25,7 +25,6 @@ struct MainTabView: View {
 				Group {
 					
 					OverviewView(viewModel: OverviewViewModel(coordinator: nil))
-					//			Text("tab_overview")
 						.tabItem {
 							HStack {
 								Text("tab_overview")
@@ -34,7 +33,7 @@ struct MainTabView: View {
 							}
 						}
 					
-					Text("tab_about")
+					AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: nil))
 						.tabItem {
 							HStack {
 								Text("tab_about")
@@ -48,10 +47,9 @@ struct MainTabView: View {
 			.foregroundColor(theme.iconsPrimary)
 			.accentColor(theme.actionTertiaryDefault)
 			.navigationBarBackButtonHidden()
-
 	}
 }
 
 #Preview {
-	MainTabView(viewModel: TabViewModel())
+	DashboardView(viewModel: DashboardViewModel())
 }
