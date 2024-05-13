@@ -16,6 +16,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		
 		// UI Settings
+		if #unavailable(iOS 16.0) {
+			UITabBar.appearance().barTintColor = UIColor(Theme().backgroundSecondary)
+		}
 		
 		// No bouncy scrollview
 		UIScrollView.appearance().bounces = false
