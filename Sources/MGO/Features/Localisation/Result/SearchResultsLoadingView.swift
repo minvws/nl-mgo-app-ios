@@ -36,13 +36,15 @@ struct SearchResultsLoadingView: View {
 			
 			Spacer()
 	
-			CircularProgressView(progress: $progress)
-				.frame(width: 48, height: 48)
-				.padding(.bottom, 20)
+			VStack {
+				CircularProgressView(progress: $progress)
+					.frame(width: 48, height: 48)
+					.padding(.bottom, 20)
 			
-			Text("searchresults_loading_body")
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				Text("searchresults_loading_body")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentPrimary)
+			}
 			
 			Spacer()
 		}

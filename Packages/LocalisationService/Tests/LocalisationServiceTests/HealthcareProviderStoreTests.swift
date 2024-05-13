@@ -104,7 +104,8 @@ final class HealthcareProviderStoreTests: XCTestCase {
 					display_name: "Tandarts",
 					_type: ""
 				)
-			]
+			],
+			data_services: []
 		)
 	}
 }

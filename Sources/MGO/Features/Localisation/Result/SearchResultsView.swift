@@ -247,9 +247,16 @@ struct SearchResultsView: View {
 					ForEach(list, id: \.provider) { element in
 						
 						ZStack {
+							
 							Rectangle()
 								.foregroundStyle(.clear)
-								.accessibilityLabel(element.cardState.localizedStringKey)
+								.accessibilityLabel(
+									String(
+										format: String(
+											localized: element.cardState.accessibilityLabel),
+										arguments: ["\(element.provider.display_name)"]
+									)
+								)
 								.accessibilityAddTraits(.isButton)
 							
 							SearchResultCardView(
@@ -287,7 +294,8 @@ struct SearchResultsView: View {
 				_type: "postal")
 			],
 			names: [],
-			types: []
+			types: [],
+			data_services: []
 		),
 		HealthcareProvider(
 			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
@@ -303,7 +311,8 @@ struct SearchResultsView: View {
 				_type: "postal")
 			],
 			names: [],
-			types: []
+			types: [],
+			data_services: []
 		)
 	]
 	
