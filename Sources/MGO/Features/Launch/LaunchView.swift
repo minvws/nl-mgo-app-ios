@@ -61,7 +61,7 @@ class LaunchViewModel: ObservableObject {
 			
 			case .loaded:
 				state = .configLoaded
-				coordinator?.handle(.finishedLoading)
+				coordinator?.handle(AppCoordination.Action.finishedLoading)
 		}
 	}
 	

@@ -10,7 +10,7 @@ import MGOFoundation
 import LocalAuthentication
 import RestrictedBrowser
 
-protocol AppCoordinatorProtocol: ObservableObject {
+protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 	
 	associatedtype Body: View
 	
@@ -18,11 +18,12 @@ protocol AppCoordinatorProtocol: ObservableObject {
 	var path: NavigationStackBackport.NavigationPath { get set }
 	
 	/// The content type for the sheet
-	var sheet: AppCoordination.State? { get set }
+	var pathForSheet: NavigationStackBackport.NavigationPath { get set }
 	
-	/// Handle an incoming action from any of the view models
-	/// - Parameter action: an AppCoordination Action
-	func handle(_ action: AppCoordination.Action)
+	/// The state for the root view of the sheet
+	var rootStateForSheet: AppCoordination.State? { get set }
+	
+	var showChildCoordinator: Bool { get set }
 	
 	/// Get a View for the State
 	/// - Parameter state: the AppCoordination State
@@ -60,6 +61,7 @@ enum AppCoordination {
 		case backToSearchHealthcareProvider
 		case storeHealthcareProvider
 		case finishedSearchingHealthcareProviders
+		case searchHealthcareProvidersInSheet
 		
 		// Dashboard
 		case fhirClient
@@ -113,11 +115,18 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	@Published var path: NavigationStackBackport.NavigationPath
 	
 	/// The content type for the sheet
-	@Published var sheet: AppCoordination.State?
+	@Published var pathForSheet: NavigationStackBackport.NavigationPath = NavigationStackBackport.NavigationPath()
+	
+	/// the root state for the sheet
+	@Published var rootStateForSheet: AppCoordination.State?
+	
+	/// Should we show the child coordinator instead of ourself?
+	@Published var showChildCoordinator = false
 	
 	/// the browser to open allowed domains in
 	private var browser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains())
 	
+	/// The localisation client
 	private var localisationServiceClient: LocalisationServiceClientProtocol?
 	
 	/// Initializer
@@ -125,10 +134,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	init(
 		path: NavigationStackBackport.NavigationPath,
 		localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient()) {
-		
-		self.path = path
-		self.localisationServiceClient = localisationServiceClient
-	}
+			
+			self.path = path
+			self.localisationServiceClient = localisationServiceClient
+		}
 	
 	/// the URL for the privacy page
 	private var privacyURL: URL? {
@@ -143,122 +152,126 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
-	/// Handle an action
-	/// - Parameter action: an action, i.e. finishedLoading
-	func handle(_ action: AppCoordination.Action) {
-		
-		switch action {
-			
-			// Onboarding
-			
-			case .finishedLoading:
-			
-				if !Current.secureUserSettings.userHasSeenAppIntroduction {
-					// Only show the appIntroduction once
-					path.append(AppCoordination.State.appIntroduction)
-				} else if Current.secureUserSettings.accessCode == nil {
+	func handle(_ action: Any) {
+		if let castedAction = action as? AppCoordination.Action {
+			switch castedAction {
+				// Onboarding
+				
+				case .finishedLoading:
+					
+					if !Current.secureUserSettings.userHasSeenAppIntroduction {
+						// Only show the appIntroduction once
+						path.append(AppCoordination.State.appIntroduction)
+					} else if Current.secureUserSettings.accessCode == nil {
+						path.append(AppCoordination.State.accessCodeEntry)
+						
+					} else {
+						path.append(AppCoordination.State.accessCodeValidation)
+					}
+				case .nextButtonPressedOnAppIntroduction:
+					path.append(AppCoordination.State.privacyOverview)
+					
+				case .nextButtonPressedOnPrivacyOverview:
+					// Mark AppIntroduction Flow as seen.
+					Current.secureUserSettings.userHasSeenAppIntroduction = true
 					path.append(AppCoordination.State.accessCodeEntry)
 					
-				} else {
-					path.append(AppCoordination.State.accessCodeValidation)
-				}
-			case .nextButtonPressedOnAppIntroduction:
-				path.append(AppCoordination.State.privacyOverview)
-			
-			case .nextButtonPressedOnPrivacyOverview:
-				// Mark AppIntroduction Flow as seen.
-				Current.secureUserSettings.userHasSeenAppIntroduction = true
-				path.append(AppCoordination.State.accessCodeEntry)
-			
-			case .showPrivacyStatement:
-			
-				guard let privacyURL else { return }
-				
-				if browser.isDomainAllowed(privacyURL) {
-					path.append(AppCoordination.State.privacyStatement)
-				} else {
-					browser.handleUnallowedDomain(privacyURL)
-				}
-			
-			// Local Authentication
-			
-			case .accessCodeEntered:
-				path.append(AppCoordination.State.accessCodeConfirmation)
-			
-			case .accessCodeConfirmed:
-			
-				if Current.localAuthenticationProvider.biometricType() == .none {
+				case .showPrivacyStatement:
+					
+					guard let privacyURL else { return }
+					
+					if browser.isDomainAllowed(privacyURL) {
+						path.append(AppCoordination.State.privacyStatement)
+					} else {
+						browser.handleUnallowedDomain(privacyURL)
+					}
+					
+					// Local Authentication
+					
+				case .accessCodeEntered:
+					path.append(AppCoordination.State.accessCodeConfirmation)
+					
+				case .accessCodeConfirmed:
+					
+					if Current.localAuthenticationProvider.biometricType() == .none {
+						path.append(AppCoordination.State.remoteAuthentication)
+					} else {
+						path.append(AppCoordination.State.bioMetricSetup)
+					}
+					
+				case .accessCodeValidated:
+					showChildCoordinator = true
+					//				path.append(AppCoordination.State.dashboard)
+					
+				case .didFinishLocalAuthentication:
 					path.append(AppCoordination.State.remoteAuthentication)
-				} else {
-					path.append(AppCoordination.State.bioMetricSetup)
-				}
-			
-			case .accessCodeValidated:
-//				path = NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
-				path.append(AppCoordination.State.dashboard)
-			
-			case .didFinishLocalAuthentication:
-				path.append(AppCoordination.State.remoteAuthentication)
-			
-			case .forgotAccessCode:
-				sheet = AppCoordination.State.forgotAccessCode
-			
-			case .recreateAccount:
-				if sheet != nil {
-					sheet = nil
-				}
-				// Wipe Account
-				Current.wipePersistedData()
-				Current.secureUserSettings.userHasSeenAppIntroduction = true
-				path = NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
-			
-			// Remote Authentication
-			
-			case .loginWithDigiD:
-			
-				Current.secureUserSettings.userHasRemoteAuthentication = true
-				path.append(AppCoordination.State.searchHealthcareProvider)
-//				path.append(AppCoordination.State.dashboard)
-//				path = NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
-			
-			case .loginWithAccessCode:
-				path.append(AppCoordination.State.accessCodeValidation)
-			
-			// Healthcare Provider flow
-			case let .search(city, name):
-				path.append(AppCoordination.State.searchHealthcareProviders(city: city, name: name))
-			
-			case .backToSearchHealthcareProvider:
-				navigateTo(state: .searchHealthcareProvider)
-			
-			case .finishedSearchingHealthcareProviders:
-				navigateTo(state: .dashboard)
-			
-			// Dashboard
-			
-			case .fhirClient:
-				path.append(AppCoordination.State.fhirClient)
-			
-			case .searchHealthcareProviders:
-				path.append(AppCoordination.State.searchHealthcareProvider)
-			
-			case .storeHealthcareProvider:
-				path.append(AppCoordination.State.storedHealthcareProviders)
-			
-			// General
-			
-			case .sheetClosed, .dismissForgotAccessCode:
-				sheet = nil
-			
-			case .backButtonPressed:
-				guard !path.isEmpty else { return }
-				path.removeLast()
-			
-			case .resetApplication:
-				// Clear everything
-				Current.wipePersistedData()
-				path.removeLast(path.count)
-				Current.notificationCenter.post(name: .resetApplication, object: nil)
+					
+				case .forgotAccessCode:
+					rootStateForSheet = AppCoordination.State.forgotAccessCode
+					
+				case .recreateAccount:
+					if rootStateForSheet != nil {
+						rootStateForSheet = nil
+						pathForSheet = NavigationStackBackport.NavigationPath()
+					}
+					// Wipe Account
+					Current.wipePersistedData()
+					Current.secureUserSettings.userHasSeenAppIntroduction = true
+					path = NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
+					
+					// Remote Authentication
+					
+				case .loginWithDigiD:
+					
+					Current.secureUserSettings.userHasRemoteAuthentication = true
+					path.append(AppCoordination.State.searchHealthcareProvider)
+					
+				case .loginWithAccessCode:
+					path.append(AppCoordination.State.accessCodeValidation)
+					
+					// Healthcare Provider flow
+				case let .search(city, name):
+					path.append(AppCoordination.State.searchHealthcareProviders(city: city, name: name))
+					
+				case .backToSearchHealthcareProvider:
+					navigateTo(state: .searchHealthcareProvider)
+					
+				case .finishedSearchingHealthcareProviders:
+					showChildCoordinator = true
+					//				navigateTo(state: .dashboard)
+					
+				case .searchHealthcareProvidersInSheet:
+					rootStateForSheet = AppCoordination.State.searchHealthcareProvider
+					
+					// Dashboard
+					
+				case .fhirClient:
+					path.append(AppCoordination.State.fhirClient)
+					
+				case .searchHealthcareProviders:
+					path.append(AppCoordination.State.searchHealthcareProvider)
+					
+				case .storeHealthcareProvider:
+					path.append(AppCoordination.State.storedHealthcareProviders)
+					
+					// General
+					
+				case .sheetClosed, .dismissForgotAccessCode:
+					
+					pathForSheet = NavigationStackBackport.NavigationPath()
+					rootStateForSheet = nil
+					
+				case .backButtonPressed:
+					guard !path.isEmpty else { return }
+					path.removeLast()
+					
+				case .resetApplication:
+					// Clear everything
+					showChildCoordinator = false
+					Current.wipePersistedData()
+					path.removeLast(path.count)
+					Current.notificationCenter.post(name: .resetApplication, object: nil)
+			}
 		}
 	}
 	
@@ -285,67 +298,67 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		switch state {
 			case .launch:
 				LaunchView(viewModel: LaunchViewModel(coordinator: self))
-		
-			// Onboarding
-			
+				
+				// Onboarding
+				
 			case .appIntroduction:
 				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self))
-		
+				
 			case .privacyOverview:
 				PrivacyOverviewView(viewModel: PrivacyOverviewViewModel(coordinator: self))
-
+				
 			case .privacyStatement:
 				if let privacyURL {
 					InAppBrowserView(viewModel: InAppBrowserViewModel(url: privacyURL, browser: self.browser, title: "Mijn gezondheidsoverzicht", coordinator: self))
 				} else {
 					EmptyView()
 				}
-			
-			// Local Authentication
-			
+				
+				// Local Authentication
+				
 			case .accessCodeEntry:
 				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .creation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 				
 			case .accessCodeConfirmation:
 				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
-			
+				
 			case .accessCodeValidation:
 				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .validation, bioMetricType: Current.localAuthenticationProvider.biometricType))
-			
+				
 			case .bioMetricSetup:
 				BioMetricSetupView(viewModel: BioMetricSetupViewModel(coordinator: self, bioMetricType: Current.localAuthenticationProvider.biometricType))
-			
+				
 			case .forgotAccessCode:
 				ForgotAccessCodeView(viewModel: ForgotAccessCodeViewModel(coordinator: self))
-			
-			// Remote Authentication
-	
+				
+				// Remote Authentication
+				
 			case .remoteAuthentication:
 				RemoteAuthenticationView(viewModel: RemoteAuthenticationViewModel(coordinator: self))
-			
-			// Dashboard
-	
+				
+				// Dashboard
+				
 			case .dashboard:
-//				OverviewView(viewModel: OverviewViewModel(coordinator: self))
-				DashboardView(viewModel: DashboardViewModel())
-
-			// Healthcare Provider flow
+				DashboardCoordinatorView(coordinator: DashboardCoordinator(parentCoordinator: self))
+				
+				// Healthcare Provider flow
+				
 			case .searchHealthcareProvider:
 				SearchView(viewModel: SearchViewModel(coordinator: self))
-			
+				
 			case let .searchHealthcareProviders(city, name):
 				SearchResultsView(viewModel: SearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: self.localisationServiceClient))
-		
+				
 			case .storedHealthcareProviders:
 				StoredHealthcareProvidersView(viewModel: StoredHealthcareProvidersViewModel(coordinator: self))
-			
-			// POC
-			
+				
+				// POC
+				
 			case .fhirClient:
 				PatientView(viewModel: PatientViewModel(coordinator: self))
-			
-			// Fallback
-			
+				
+				// Fallback
+				
 			case .none:
 				EmptyView()
 		}

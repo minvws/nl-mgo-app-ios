@@ -35,9 +35,9 @@ class RemoteAuthenticationViewModel: ObservableObject {
 		
 		switch action {
 			case .loginWithDigiD:
-				coordinator?.handle(.loginWithDigiD)
+				coordinator?.handle(AppCoordination.Action.loginWithDigiD)
 			case .loginWithAccessCode:
-				coordinator?.handle(.loginWithAccessCode)
+				coordinator?.handle(AppCoordination.Action.loginWithAccessCode)
 		}
 	}
 }

@@ -28,7 +28,7 @@ class AppIntroductionViewModel: ObservableObject {
 	/// - Parameter action: the action to be handled
 	func reduce(_ action: AppIntroductionViewModel.Action) {
 		if action == .nextButttonPressed {
-			coordinator?.handle(.nextButtonPressedOnAppIntroduction)
+			coordinator?.handle(AppCoordination.Action.nextButtonPressedOnAppIntroduction)
 		}
 	}
 }

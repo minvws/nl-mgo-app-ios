@@ -21,6 +21,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 		case backButtonPressed
 		case backToSearch
 		case cancelDialog
+		case closeSheet
 		case done
 		case onAppear
 		case remove
@@ -66,11 +67,14 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 				loadHealthcareProviders()
 			
 			case .backButtonPressed:
-				coordinator?.handle(.backButtonPressed)
+				coordinator?.handle(AppCoordination.Action.backButtonPressed)
 			
 			case .cancelDialog:
 				healthcareProviderToRemoveTitle = nil
 				healthcareProviderToRemove = nil
+			
+			case .closeSheet:
+				coordinator?.handle(AppCoordination.Action.sheetClosed)
 			
 			case .remove:
 				if let provider = healthcareProviderToRemove {
@@ -82,10 +86,10 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
-				coordinator?.handle(.backToSearchHealthcareProvider)
+				coordinator?.handle(AppCoordination.Action.backToSearchHealthcareProvider)
 				
 			case .done:
-				coordinator?.handle(.finishedSearchingHealthcareProviders)
+				coordinator?.handle(AppCoordination.Action.finishedSearchingHealthcareProviders)
 				
 			case .showRemoveDialog(let healthcareProvider):
 				healthcareProviderToRemove = healthcareProvider
@@ -105,6 +109,9 @@ struct StoredHealthcareProvidersView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	/// Are we presented in a sheet?
+	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
 	/// Magic numbers
 	private struct ViewTraits {
@@ -195,8 +202,19 @@ struct StoredHealthcareProvidersView: View {
 			Text("storedhp_alert_body")
 		}
 		.navigationBarBackButtonHidden(true)
-		.navigationBarItems(leading: BackButton {
-			viewModel.reduce(.backButtonPressed)
+		.if(isPresentedAsSheet, transform: { view in
+			view
+				.toolbar {
+					ToolbarItem(content: { CloseButton {
+						viewModel.reduce(.closeSheet)
+					}})
+				}
+		})
+		.if(!isPresentedAsSheet, transform: { view in
+			view
+				.navigationBarItems(leading: BackButton("searchresults_backbutton") {
+					viewModel.reduce(.backButtonPressed)
+				})
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {

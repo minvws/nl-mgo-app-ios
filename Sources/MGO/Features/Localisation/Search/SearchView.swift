@@ -41,17 +41,17 @@ struct SearchViewState {
 
 class SearchViewModel: ObservableObject {
 	
-//	@Binding var wipe: Bool
-	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		
-		case clear
-		case search
 		case backButtonPressed
+		case clear
+		case closeSheet
 		case endEditing
+		case search
 	}
 	
+	/// The state for this view
 	@Published var state: SearchViewState = SearchViewState()
 
 	/// The flow coordinator for routing
@@ -94,10 +94,13 @@ class SearchViewModel: ObservableObject {
 					}
 					return
 				}
-				coordinator?.handle(.search(city: state.city, name: state.name))
+				coordinator?.handle(AppCoordination.Action.search(city: state.city, name: state.name))
 	
 			case .backButtonPressed:
-				coordinator?.handle(.backButtonPressed)
+				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+			
+			case .closeSheet:
+				coordinator?.handle(AppCoordination.Action.sheetClosed)
 		
 			case .endEditing:
 				UIApplication.shared.endEditing()
@@ -145,6 +148,9 @@ struct SearchView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	/// Are we presented in a sheet?
+	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -205,9 +211,21 @@ struct SearchView: View {
 		
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
-		.navigationBarItems(leading: BackButton {
-			viewModel.reduce(.backButtonPressed)
+		.if(isPresentedAsSheet, transform: { view in
+			view
+				.toolbar {
+					ToolbarItem(content: { CloseButton {
+						viewModel.reduce(.closeSheet)
+					}})
+				}
 		})
+		.if(!isPresentedAsSheet, transform: { view in
+			view
+				.navigationBarItems(leading: BackButton {
+					viewModel.reduce(.backButtonPressed)
+				})
+		})
+
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 }

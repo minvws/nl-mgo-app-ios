@@ -52,9 +52,10 @@ class SearchResultsViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-		case retry
-		case onAppear
 		case backToSearch
+		case closeSheet
+		case onAppear
+		case retry
 		case store(HealthcareProvider)
 	}
 	
@@ -94,11 +95,14 @@ class SearchResultsViewModel: ObservableObject {
 			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
-				coordinator?.handle(.backToSearchHealthcareProvider)
+				coordinator?.handle(AppCoordination.Action.backToSearchHealthcareProvider)
 			
 			case .backButtonPressed:
-				coordinator?.handle(.backButtonPressed)
-
+				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+			
+			case .closeSheet:
+				coordinator?.handle(AppCoordination.Action.sheetClosed)
+			
 			case .onAppear:
 				if case SearchResultViewState.success = state {
 					applyListState()
@@ -119,7 +123,7 @@ class SearchResultsViewModel: ObservableObject {
 			case .store(let provider):
 				try? Current.healthcareProviderStore.store(provider)
 				applyListState()
-				coordinator?.handle(.storeHealthcareProvider)
+				coordinator?.handle(AppCoordination.Action.storeHealthcareProvider)
 		}
 	}
 	
@@ -182,6 +186,9 @@ struct SearchResultsView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Are we presented in a sheet?
+	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -224,8 +231,19 @@ struct SearchResultsView: View {
 			viewModel.reduce(.onAppear)
 		}
 		.navigationBarBackButtonHidden(true)
-		.navigationBarItems(leading: BackButton("searchresults_backbutton") {
-			viewModel.reduce(.backButtonPressed)
+		.if(isPresentedAsSheet, transform: { view in
+			view
+				.toolbar {
+					ToolbarItem(content: { CloseButton {
+						viewModel.reduce(.closeSheet)
+					}})
+				}
+		})
+		.if(!isPresentedAsSheet, transform: { view in
+			view
+				.navigationBarItems(leading: BackButton("searchresults_backbutton") {
+					viewModel.reduce(.backButtonPressed)
+				})
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}

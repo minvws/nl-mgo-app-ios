@@ -75,7 +75,7 @@ class BioMetricSetupViewModel: ObservableObject {
 		// Do use biometric authentication
 		Current.secureUserSettings.bioMetricAuthenticationEnabled = true
 		// We are done
-		coordinator?.handle(.didFinishLocalAuthentication)
+		coordinator?.handle(AppCoordination.Action.didFinishLocalAuthentication)
 	}
 	
 	/// The user finished this page without bio metric access
@@ -84,7 +84,7 @@ class BioMetricSetupViewModel: ObservableObject {
 		// Do not use biometric authentication
 		Current.secureUserSettings.bioMetricAuthenticationEnabled = false
 		// We are done
-		coordinator?.handle(.didFinishLocalAuthentication)
+		coordinator?.handle(AppCoordination.Action.didFinishLocalAuthentication)
 	}
 	
 	@MainActor

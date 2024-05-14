@@ -272,7 +272,7 @@ class AccessCodeViewModel: ObservableObject {
 					self.showBioMetricLogin()
 				}
 			case .forgotAccessCode:
-				coordinator?.handle(.forgotAccessCode)
+				coordinator?.handle(AppCoordination.Action.forgotAccessCode)
 		}
 	}
 	
@@ -320,7 +320,7 @@ class AccessCodeViewModel: ObservableObject {
 		// All ok, store temp and move to confirmation
 		Haptic.light()
 		Current.secureUserSettings.tempAccessCode = code
-		coordinator?.handle(.accessCodeEntered)
+		coordinator?.handle(AppCoordination.Action.accessCodeEntered)
 		accessCode = []
 	}
 	
@@ -338,7 +338,7 @@ class AccessCodeViewModel: ObservableObject {
 		// All ok, store access code and get out of here.
 		Haptic.light()
 		Current.secureUserSettings.accessCode = code
-		coordinator?.handle(.accessCodeConfirmed)
+		coordinator?.handle(AppCoordination.Action.accessCodeConfirmed)
 	}
 	
 	/// Validation code entered, let's see if we can login
@@ -351,7 +351,7 @@ class AccessCodeViewModel: ObservableObject {
 			updateStateValidation(validationMismatch: true)
 			return
 		}
-		coordinator?.handle(.accessCodeValidated)
+		coordinator?.handle(AppCoordination.Action.accessCodeValidated)
 	}
 	
 	/// Something is not ok, make all the boxes red
@@ -400,7 +400,7 @@ class AccessCodeViewModel: ObservableObject {
 				accessCode = ["0", "0", "0", "0", "0"]
 				// Navigate to the next scene after a short delay to let the faceID/touchID animation complete.
 				delay(0.8) {
-					self.coordinator?.handle(.accessCodeValidated)
+					self.coordinator?.handle(AppCoordination.Action.accessCodeValidated)
 				}
 			} else {
 				logInfo("AccessCode: User has unsuccessfully tried to validate")

@@ -11,7 +11,7 @@ import MGOUI
 class AboutTheAppViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
-	weak var coordinator: (any AppCoordinatorProtocol)?
+	weak var coordinator: (any DashboardCoordinatorProtocol)?
 	
 	@Published var showResetButton: Bool = false
 	@Published var showResetDialog: Bool = false
@@ -24,7 +24,7 @@ class AboutTheAppViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
+	init(coordinator: (any DashboardCoordinatorProtocol)? = nil) {
 		self.coordinator = coordinator
 		
 		let release = Configuration().getRelease()
@@ -37,7 +37,7 @@ class AboutTheAppViewModel: ObservableObject {
 		
 		switch action {
 			case .resetApplication:
-				coordinator?.handle(AppCoordination.Action.resetApplication)
+				coordinator?.handle(DashboardCoordination.Action.resetApplication)
 			case .showResetDialog:
 				showResetDialog = true
 		}

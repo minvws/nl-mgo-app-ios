@@ -16,7 +16,7 @@ class OverviewViewModel: ObservableObject {
 	}
 	
 	/// The app coordinator for routing
-	weak var coordinator: (any AppCoordinatorProtocol)?
+	weak var coordinator: (any DashboardCoordinatorProtocol)?
 	
 	/// The state of the view
 	@Published var state: OverviewViewModel.State
@@ -29,7 +29,7 @@ class OverviewViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
+	init(coordinator: (any DashboardCoordinatorProtocol)? = nil) {
 		
 		self.coordinator = coordinator
 		self.state = .empty
@@ -43,7 +43,7 @@ class OverviewViewModel: ObservableObject {
 			case .onAppear:
 				loadHealthcareProviders()
 			case .search:
-				coordinator?.handle(.searchHealthcareProviders)
+				coordinator?.handle(DashboardCoordination.Action.searchHealthcareProviders)
 		}
 	}
 	

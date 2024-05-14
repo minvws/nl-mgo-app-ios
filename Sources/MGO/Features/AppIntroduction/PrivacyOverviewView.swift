@@ -33,7 +33,7 @@ class PrivacyOverviewViewModel: ObservableObject {
 			case .privacyLinkClicked:
 				coordinator?.handle(AppCoordination.Action.showPrivacyStatement)
 			case .nextButttonPressed:
-				coordinator?.handle(.nextButtonPressedOnPrivacyOverview)
+				coordinator?.handle(AppCoordination.Action.nextButtonPressedOnPrivacyOverview)
 			case .backButtonPressed:
 				coordinator?.handle(AppCoordination.Action.backButtonPressed)
 		}

@@ -31,9 +31,9 @@ class ForgotAccessCodeViewModel: ObservableObject {
 		
 		switch action {
 			case .cancelButtonPressed:
-				coordinator?.handle(.dismissForgotAccessCode)
+				coordinator?.handle(AppCoordination.Action.dismissForgotAccessCode)
 			case .recreateAccount:
-				coordinator?.handle(.recreateAccount)
+				coordinator?.handle(AppCoordination.Action.recreateAccount)
 		}
 	}
 }
