@@ -94,10 +94,8 @@ class SearchViewModel: ObservableObject {
 					}
 					return
 				}
-			#warning("This should be fixed, params to action")
 				coordinator?.handle(Coordination.Action(identifier: "search", params: [state.city, state.name]))
-//				coordinator?.handle(Coordination.Action.search(city: state.city, name: state.name))
-	
+			
 			case .backButtonPressed:
 				coordinator?.handle(Coordination.Action.backButtonPressed)
 			

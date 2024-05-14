@@ -9,7 +9,7 @@ import MGOUI
 import MGOFoundation
 
 extension Coordination.Action {
-	static let profile = Coordination.Action(identifier: "profile")
+	static let searchHealthcareProviders = Coordination.Action(identifier: "searchHealthcareProviders")
 }
 
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {

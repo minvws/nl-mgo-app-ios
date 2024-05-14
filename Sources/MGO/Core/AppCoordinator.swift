@@ -55,16 +55,11 @@ extension Coordination.Action {
 	static let loginWithAccessCode = Coordination.Action(identifier: "loginWithAccessCode")
 	
 	// Healthcare Provider flow
-//	case search(city: String, name: String)
 	static let search = Coordination.Action(identifier: "search")
 	static let backToSearchHealthcareProvider = Coordination.Action(identifier: "backToSearchHealthcareProvider")
 	static let storeHealthcareProvider = Coordination.Action(identifier: "storeHealthcareProvider")
 	static let finishedSearchingHealthcareProviders = Coordination.Action(identifier: "finishedSearchingHealthcareProviders")
 	static let searchHealthcareProvidersInSheet = Coordination.Action(identifier: "searchHealthcareProvidersInSheet")
-	
-	// Dashboard
-	static let fhirClient = Coordination.Action(identifier: "fhirClient")
-	static let searchHealthcareProviders = Coordination.Action(identifier: "searchHealthcareProviders")
 	
 	// Other
 	static let closeSheet = Coordination.Action(identifier: "closeSheet")
@@ -100,9 +95,6 @@ enum AppCoordination {
 		
 		// Dashboard
 		case dashboard
-		
-		// POC
-		case fhirClient
 	}
 }
 
@@ -154,10 +146,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	}
 	
 	func handle(_ action: Coordination.Action) {
-		switch action {
+		
+		switch action.identifier {
 			// Onboarding
 			
-			case .finishedLoading:
+			case Coordination.Action.finishedLoading.identifier:
 				
 				if !Current.secureUserSettings.userHasSeenAppIntroduction {
 					// Only show the appIntroduction once
@@ -168,15 +161,15 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				} else {
 					path.append(AppCoordination.State.accessCodeValidation)
 				}
-			case .nextButtonPressedOnAppIntroduction:
+			case Coordination.Action.nextButtonPressedOnAppIntroduction.identifier:
 				path.append(AppCoordination.State.privacyOverview)
 				
-			case .nextButtonPressedOnPrivacyOverview:
+			case Coordination.Action.nextButtonPressedOnPrivacyOverview.identifier:
 				// Mark AppIntroduction Flow as seen.
 				Current.secureUserSettings.userHasSeenAppIntroduction = true
 				path.append(AppCoordination.State.accessCodeEntry)
 				
-			case .showPrivacyStatement:
+			case Coordination.Action.showPrivacyStatement.identifier:
 				
 				guard let privacyURL else { return }
 				
@@ -186,12 +179,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 					browser.handleUnallowedDomain(privacyURL)
 				}
 				
-				// Local Authentication
+			// Local Authentication
 				
-			case .accessCodeEntered:
+			case Coordination.Action.accessCodeEntered.identifier:
 				path.append(AppCoordination.State.accessCodeConfirmation)
 				
-			case .accessCodeConfirmed:
+			case Coordination.Action.accessCodeConfirmed.identifier:
 				
 				if Current.localAuthenticationProvider.biometricType() == .none {
 					path.append(AppCoordination.State.remoteAuthentication)
@@ -199,17 +192,16 @@ final class AppCoordinator: AppCoordinatorProtocol {
 					path.append(AppCoordination.State.bioMetricSetup)
 				}
 				
-			case .accessCodeValidated:
+			case Coordination.Action.accessCodeValidated.identifier:
 				showChildCoordinator = true
-				//				path.append(AppCoordination.State.dashboard)
 				
-			case .didFinishLocalAuthentication:
+			case Coordination.Action.didFinishLocalAuthentication.identifier:
 				path.append(AppCoordination.State.remoteAuthentication)
 				
-			case .forgotAccessCode:
+			case Coordination.Action.forgotAccessCode.identifier:
 				rootStateForSheet = AppCoordination.State.forgotAccessCode
 				
-			case .recreateAccount:
+			case Coordination.Action.recreateAccount.identifier:
 				if rootStateForSheet != nil {
 					rootStateForSheet = nil
 					pathForSheet = NavigationStackBackport.NavigationPath()
@@ -221,58 +213,48 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 				// Remote Authentication
 				
-			case .loginWithDigiD:
+			case Coordination.Action.loginWithDigiD.identifier:
 				
 				Current.secureUserSettings.userHasRemoteAuthentication = true
 				path.append(AppCoordination.State.searchHealthcareProvider)
 				
-			case .loginWithAccessCode:
+			case Coordination.Action.loginWithAccessCode.identifier:
 				path.append(AppCoordination.State.accessCodeValidation)
 				
-				// Healthcare Provider flow
-//			case let .search(city, name):
-//				path.append(AppCoordination.State.searchHealthcareProviders(city: city, name: name))
+			// Healthcare Provider flow
 			
-			case .search:
+			case Coordination.Action.search.identifier:
 				if action.params.count == 2, let city = action.params.first, let name = action.params.last {
 					path.append(AppCoordination.State.searchHealthcareProviders(city: city, name: name))
 				} else {
-					logError("AppCoordinator, missing params for \(action)")
+					logError("AppCoordinator Coordinator, missing params for \(action)")
 				}
 				
-			case .backToSearchHealthcareProvider:
+			case Coordination.Action.backToSearchHealthcareProvider.identifier:
 				navigateTo(state: .searchHealthcareProvider)
 				
-			case .finishedSearchingHealthcareProviders:
+			case Coordination.Action.finishedSearchingHealthcareProviders.identifier:
 				showChildCoordinator = true
-				//				navigateTo(state: .dashboard)
 				
-			case .searchHealthcareProvidersInSheet:
+			case Coordination.Action.searchHealthcareProvidersInSheet.identifier:
 				rootStateForSheet = AppCoordination.State.searchHealthcareProvider
 				
-				// Dashboard
-				
-			case .fhirClient:
-				path.append(AppCoordination.State.fhirClient)
-				
-			case .searchHealthcareProviders:
-				path.append(AppCoordination.State.searchHealthcareProvider)
-				
-			case .storeHealthcareProvider:
+			case Coordination.Action.storeHealthcareProvider.identifier:
 				path.append(AppCoordination.State.storedHealthcareProviders)
 				
-				// General
+			// General
 				
-			case .closeSheet, .dismissForgotAccessCode:
+			case Coordination.Action.closeSheet.identifier,
+				Coordination.Action.dismissForgotAccessCode.identifier:
 				
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
 				
-			case .backButtonPressed:
+			case Coordination.Action.backButtonPressed.identifier:
 				guard !path.isEmpty else { return }
 				path.removeLast()
 				
-			case .resetApplication:
+			case Coordination.Action.resetApplication.identifier:
 				// Clear everything
 				showChildCoordinator = false
 				Current.wipePersistedData()
@@ -361,12 +343,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .storedHealthcareProviders:
 				StoredHealthcareProvidersView(viewModel: StoredHealthcareProvidersViewModel(coordinator: self))
 				
-				// POC
-				
-			case .fhirClient:
-				PatientView(viewModel: PatientViewModel(coordinator: self))
-				
-				// Fallback
+			// Fallback
 				
 			case .none:
 				EmptyView()
