@@ -10,7 +10,7 @@ import Managers
 
 class LaunchViewModel: ObservableObject {
 	
-	weak var coordinator: (any AppCoordinatorProtocol)?
+	weak var coordinator: (any Coordinator)?
 	
 	// All possible states for this ViewModel
 	enum State {
@@ -28,7 +28,7 @@ class LaunchViewModel: ObservableObject {
 	
 	@Published var state: State
 	
-	init(coordinator: (any AppCoordinatorProtocol)?, state: State = .idle) {
+	init(coordinator: (any Coordinator)?, state: State = .idle) {
 		self.coordinator = coordinator
 		self.state = state
 		

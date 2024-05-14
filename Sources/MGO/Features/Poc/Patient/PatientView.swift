@@ -11,7 +11,7 @@ import MGOUI
 class PatientViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
-	weak var coordinator: (any AppCoordinatorProtocol)?
+	weak var coordinator: (any Coordinator)?
 	
 	/// The FHIR Client
 	private let client: FHIRClient
@@ -41,7 +41,7 @@ class PatientViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
+	init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator
 		
 		let release = Configuration().getRelease()

@@ -11,7 +11,7 @@ import MGOUI
 class ForgotAccessCodeViewModel: ObservableObject {
 	
 	/// The flow coordinator for routing
-	private weak var coordinator: (any AppCoordinatorProtocol)?
+	private weak var coordinator: (any Coordinator)?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -21,7 +21,7 @@ class ForgotAccessCodeViewModel: ObservableObject {
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
-	init(coordinator: (any AppCoordinatorProtocol)?) {
+	init(coordinator: (any Coordinator)?) {
 		self.coordinator = coordinator
 	}
 	

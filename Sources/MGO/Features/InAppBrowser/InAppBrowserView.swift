@@ -12,7 +12,7 @@ import RestrictedBrowser
 class InAppBrowserViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
-	weak var coordinator: (any AppCoordinatorProtocol)?
+	weak var coordinator: (any Coordinator)?
 	
 	@Published var browser: RestrictedBrowser
 	@Published var title: LocalizedStringKey?
@@ -25,7 +25,7 @@ class InAppBrowserViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(url: URL, browser: RestrictedBrowser, title: LocalizedStringKey?, coordinator: (any AppCoordinatorProtocol)? = nil) {
+	init(url: URL, browser: RestrictedBrowser, title: LocalizedStringKey?, coordinator: (any Coordinator)? = nil) {
 		
 		self.url = url
 		self.browser = browser

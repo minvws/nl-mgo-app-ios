@@ -210,11 +210,8 @@ struct StoredHealthcareProvidersView: View {
 					}})
 				}
 		})
-		.if(!isPresentedAsSheet, transform: { view in
-			view
-				.navigationBarItems(leading: BackButton("searchresults_backbutton") {
-					viewModel.reduce(.backButtonPressed)
-				})
+		.navigationBarItems(leading: BackButton("searchresults_backbutton") {
+			viewModel.reduce(.backButtonPressed)
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {

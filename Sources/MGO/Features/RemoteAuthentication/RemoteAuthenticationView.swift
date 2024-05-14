@@ -19,11 +19,11 @@ class RemoteAuthenticationViewModel: ObservableObject {
 	@Published var showAccessCodeButton: Bool
 	
 	/// The flow coordinator for routing
-	private weak var coordinator: (any AppCoordinatorProtocol)?
+	private weak var coordinator: (any Coordinator)?
 	
 	/// Initializer
 	/// - Parameter coordinator: The coordinator
-	init(coordinator: (any AppCoordinatorProtocol)?) {
+	init(coordinator: (any Coordinator)?) {
 		
 		self.coordinator = coordinator
 		showAccessCodeButton = Current.secureUserSettings.userHasRemoteAuthentication

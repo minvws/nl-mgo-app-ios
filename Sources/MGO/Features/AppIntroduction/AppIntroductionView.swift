@@ -11,7 +11,7 @@ import MGOFoundation
 class AppIntroductionViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
-	weak var coordinator: (any AppCoordinatorProtocol)?
+	weak var coordinator: (any Coordinator)?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -20,7 +20,7 @@ class AppIntroductionViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any AppCoordinatorProtocol)?) {
+	init(coordinator: (any Coordinator)?) {
 		self.coordinator = coordinator
 	}
 	

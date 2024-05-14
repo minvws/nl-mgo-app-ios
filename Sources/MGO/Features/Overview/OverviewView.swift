@@ -16,7 +16,7 @@ class OverviewViewModel: ObservableObject {
 	}
 	
 	/// The app coordinator for routing
-	weak var coordinator: (any DashboardCoordinatorProtocol)?
+	weak var coordinator: (any Coordinator)?
 	
 	/// The state of the view
 	@Published var state: OverviewViewModel.State
@@ -29,7 +29,7 @@ class OverviewViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any DashboardCoordinatorProtocol)? = nil) {
+	init(coordinator: (any Coordinator)? = nil) {
 		
 		self.coordinator = coordinator
 		self.state = .empty

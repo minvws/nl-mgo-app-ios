@@ -92,7 +92,7 @@ class AccessCodeViewModel: ObservableObject {
 	private var strengthMeter: AccessCodeStrengthValidation
 	
 	/// The flow coordinator for routing
-	private weak var coordinator: (any AppCoordinatorProtocol)?
+	private weak var coordinator: (any Coordinator)?
 	
 	private var inErrorState = false
 	
@@ -127,7 +127,7 @@ class AccessCodeViewModel: ObservableObject {
 	/// - Parameter bioMetricType: Whick biometric type should we run in? TouchId , FaceId, Optic Id, none?
 	/// - Parameter strengthMeter: Access code strenght meter
 	init(
-		coordinator: (any AppCoordinatorProtocol)?,
+		coordinator: (any Coordinator)?,
 		mode: AccessCodeMode,
 		pinLimit: Int = 5,
 		bioMetricType: () -> LocalAuthentication.BiometricType,

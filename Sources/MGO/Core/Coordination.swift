@@ -21,15 +21,17 @@ public struct Coordination {
 	/// An action that the coordinator should handle
 	public struct Action: Equatable {
 		
+		/// the action identifier
+		public var identifier: String
+		
+		/// optional params for this action
+		public var params: [String: AnyHashable]
+
 		/// Initializer
 		/// - Parameter identifier: identifier
-		public init(identifier: String, params: [String] = []) {
+		public init(identifier: String, params: [String: AnyHashable] = [:]) {
 			self.identifier = identifier
 			self.params = params
 		}
-		
-		public var identifier: String
-		
-		public var params: [String]
 	}
 }

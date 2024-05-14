@@ -27,7 +27,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	}
 	
 	/// The flow coordinator for routing
-	private weak var coordinator: (any AppCoordinatorProtocol)?
+	private weak var coordinator: (any Coordinator)?
 	
 	/// What kind of key should we  dispaly (face ID, touch ID, optic ID)
 	private var bioMetricType: LocalAuthentication.BiometricType = .none
@@ -39,7 +39,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter bioMetricType: what biometric type do we have? (FaceID, TouchID, OpticID)
 	init(
-		coordinator: (any AppCoordinatorProtocol)?,
+		coordinator: (any Coordinator)?,
 		bioMetricType: () -> LocalAuthentication.BiometricType) {
 			
 		self.coordinator = coordinator

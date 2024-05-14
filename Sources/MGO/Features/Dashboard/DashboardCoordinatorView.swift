@@ -84,7 +84,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					rootStateForSheet = DashboardCoordination.State.searchHealthcareProvider
 				
 			case Coordination.Action.search.identifier:
-					if action.params.count == 2, let city = action.params.first, let name = action.params.last {
+					if action.params.count == 2,
+						let city = action.params["city"] as? String,
+						let name = action.params["name"] as? String {
 						pathForSheet.append(DashboardCoordination.State.searchHealthcareProviders(city: city, name: name))
 					} else {
 						logError("Dashboard Coordinator, missing params for \(action)")
