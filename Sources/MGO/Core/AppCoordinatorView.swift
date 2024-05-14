@@ -39,7 +39,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 				isPresented: $appCoordinator.rootStateForSheet.presence(),
 				onDismiss: {
 					// Called when the sheet is closed by dragging.
-					appCoordinator.handle(AppCoordination.Action.sheetClosed)
+					appCoordinator.handle(Coordination.Action.closeSheet)
 				},
 				content: {
 					NavigationStackBackport.NavigationStack(path: $appCoordinator.pathForSheet) {
@@ -68,7 +68,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 		
 		Button(
 			action: {
-				appCoordinator.handle(AppCoordination.Action.sheetClosed)
+				appCoordinator.handle(Coordination.Action.closeSheet)
 			}, label: {
 				Image(ImageResource.Icon.close)
 					.resizable()

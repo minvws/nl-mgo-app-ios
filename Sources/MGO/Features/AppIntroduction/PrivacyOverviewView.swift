@@ -31,11 +31,11 @@ class PrivacyOverviewViewModel: ObservableObject {
 		
 		switch action {
 			case .privacyLinkClicked:
-				coordinator?.handle(AppCoordination.Action.showPrivacyStatement)
+				coordinator?.handle(Coordination.Action.showPrivacyStatement)
 			case .nextButttonPressed:
-				coordinator?.handle(AppCoordination.Action.nextButtonPressedOnPrivacyOverview)
+				coordinator?.handle(Coordination.Action.nextButtonPressedOnPrivacyOverview)
 			case .backButtonPressed:
-				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+				coordinator?.handle(Coordination.Action.backButtonPressed)
 		}
 	}
 }

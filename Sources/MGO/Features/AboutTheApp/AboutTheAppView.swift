@@ -37,7 +37,7 @@ class AboutTheAppViewModel: ObservableObject {
 		
 		switch action {
 			case .resetApplication:
-				coordinator?.handle(DashboardCoordination.Action.resetApplication)
+				coordinator?.handle(Coordination.Action.resetApplication)
 			case .showResetDialog:
 				showResetDialog = true
 		}

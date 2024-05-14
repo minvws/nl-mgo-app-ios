@@ -44,7 +44,7 @@ final class StoredHealthcareProvidersViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backButtonPressed
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
 	func test_backToSearch_shouldCallCoordinator() {
@@ -56,7 +56,7 @@ final class StoredHealthcareProvidersViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backToSearchHealthcareProvider
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backToSearchHealthcareProvider
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 	
@@ -69,7 +69,7 @@ final class StoredHealthcareProvidersViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.finishedSearchingHealthcareProviders
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.finishedSearchingHealthcareProviders
 	}
 	
 	func test_showRemoveDialog_shouldShowDialog() {

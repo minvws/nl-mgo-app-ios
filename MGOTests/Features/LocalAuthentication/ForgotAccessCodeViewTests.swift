@@ -33,7 +33,7 @@ final class ForgotAccessCodeViewTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.dismissForgotAccessCode
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.dismissForgotAccessCode
 	}
 	
 	func test_loginWithDigiD() throws {
@@ -45,7 +45,7 @@ final class ForgotAccessCodeViewTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.recreateAccount
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.recreateAccount
 	}
 	
 	// MARK: - Snapshots -

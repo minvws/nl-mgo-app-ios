@@ -6,12 +6,10 @@
  */
 
 import MGOUI
+import MGOFoundation
 
-protocol Coordinator {
-	
-	/// Handle any incoming action from any of the view models
-	/// - Parameter action: any Action
-	func handle(_ action: Any)
+extension Coordination.Action {
+	static let profile = Coordination.Action(identifier: "profile")
 }
 
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
@@ -38,22 +36,6 @@ protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 
 enum DashboardCoordination {
 	
-	/// A list of all the action an app coordinator can do
-	enum Action: Equatable {
-		
-		// Healthcare Provider flow
-//		case search(city: String, name: String)
-//		case backToSearchHealthcareProvider
-//		case storeHealthcareProvider
-//		case finishedSearchingHealthcareProviders
-		case searchHealthcareProviders
-		
-		// Other
-		case sheetClosed
-		case backButtonPressed
-		case resetApplication
-	}
-	
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {
 		
@@ -62,8 +44,8 @@ enum DashboardCoordination {
 		
 //		// Healthcare Provider flow
 		case searchHealthcareProvider
-//		case searchHealthcareProviders(city: String, name: String)
-//		case storedHealthcareProviders
+		case searchHealthcareProviders(city: String, name: String)
+		case storedHealthcareProviders
 	}
 }
 
@@ -92,23 +74,49 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	
 	/// Handle any incoming action from any of the view models
 	/// - Parameter action: any Action
-	func handle(_ action: Any) {
-		if let castedAction = action as? DashboardCoordination.Action {
-			switch castedAction {
-				case .searchHealthcareProviders:
+	func handle(_ action: Coordination.Action) {
+		
+		switch action.identifier {
+			
+			// Healthcare Provider Search Flow
+			
+			case Coordination.Action.searchHealthcareProviders.identifier:
 					rootStateForSheet = DashboardCoordination.State.searchHealthcareProvider
 				
-				case .sheetClosed:
+			case Coordination.Action.search.identifier:
+					if action.params.count == 2, let city = action.params.first, let name = action.params.last {
+						pathForSheet.append(DashboardCoordination.State.searchHealthcareProviders(city: city, name: name))
+					} else {
+						logError("Dashboard Coordinator, missing params for \(action)")
+					}
+					
+			case Coordination.Action.storeHealthcareProvider.identifier:
+				pathForSheet.append(DashboardCoordination.State.storedHealthcareProviders)
+			
+			case Coordination.Action.finishedSearchingHealthcareProviders.identifier:
+				pathForSheet = NavigationStackBackport.NavigationPath()
+				rootStateForSheet = nil
+			
+			// General
+			
+			case Coordination.Action.closeSheet.identifier:
 					pathForSheet = NavigationStackBackport.NavigationPath()
 					rootStateForSheet = nil
 					
-				case .backButtonPressed:
+			case Coordination.Action.backButtonPressed.identifier:
+				if !pathForSheet.isEmpty {
+					pathForSheet.removeLast()
+				} else {
 					guard !firstTabPath.isEmpty else { return }
 					firstTabPath.removeLast()
+				}
+					
+			case Coordination.Action.resetApplication.identifier:
+					parentCoordinator?.handle(Coordination.Action.resetApplication)
 				
-				case .resetApplication:
-					parentCoordinator?.handle(AppCoordination.Action.resetApplication)
-			}
+			default:
+				// Unhandled
+				logWarning("Dashboard Coordinator does not handle \(action)")
 		}
 	}
 	
@@ -128,7 +136,13 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			
 			// Healthcare Provider Flow
 			case .searchHealthcareProvider:
-				SearchView(viewModel: SearchViewModel(coordinator: nil)).isPresentedAsSheet(true)
+				SearchView(viewModel: SearchViewModel(coordinator: self)).isPresentedAsSheet(true)
+			
+			case let .searchHealthcareProviders(city, name):
+				SearchResultsView(viewModel: SearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: LocalisationServiceClient())).isPresentedAsSheet(true)
+			
+			case .storedHealthcareProviders:
+				StoredHealthcareProvidersView(viewModel: StoredHealthcareProvidersViewModel(coordinator: self)).isPresentedAsSheet(true)
 			
 			default:
 				EmptyView()
@@ -196,7 +210,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				isPresented: $coordinator.rootStateForSheet.presence(),
 				onDismiss: {
 					// Called when the sheet is closed by dragging.
-					coordinator.handle(DashboardCoordination.Action.sheetClosed)
+					coordinator.handle(Coordination.Action.closeSheet)
 				},
 				content: {
 					NavigationStackBackport.NavigationStack(path: $coordinator.pathForSheet) {

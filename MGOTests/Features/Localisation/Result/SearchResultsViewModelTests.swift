@@ -123,7 +123,7 @@ final class SearchResultViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backButtonPressed
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
 	func test_searchAgainButtonPressed_shouldCallCoordinator() {
@@ -136,7 +136,7 @@ final class SearchResultViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.backToSearchHealthcareProvider
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backToSearchHealthcareProvider
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 	
@@ -153,7 +153,7 @@ final class SearchResultViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.storeHealthcareProvider
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.storeHealthcareProvider
 		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedStore) == true
 		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedStoreParameters?.provider) == provider
 		

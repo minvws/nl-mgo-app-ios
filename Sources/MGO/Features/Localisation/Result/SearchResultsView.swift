@@ -72,14 +72,14 @@ class SearchResultsViewModel: ObservableObject {
 	private var searchResultsList = [HealthcareProvider]()
 	
 	/// The flow coordinator for routing
-	private weak var coordinator: (any AppCoordinatorProtocol)?
+	private weak var coordinator: (any Coordinator)?
 	
 	/// The localisation service client
 	private var localisationServiceClient: LocalisationServiceClientProtocol?
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
-	init(coordinator: (any AppCoordinatorProtocol)?, city: String, name: String, localisationServiceClient: LocalisationServiceClientProtocol?) {
+	init(coordinator: (any Coordinator)?, city: String, name: String, localisationServiceClient: LocalisationServiceClientProtocol?) {
 		self.coordinator = coordinator
 		self.city = city
 		self.name = name
@@ -95,13 +95,13 @@ class SearchResultsViewModel: ObservableObject {
 			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
-				coordinator?.handle(AppCoordination.Action.backToSearchHealthcareProvider)
+				coordinator?.handle(Coordination.Action.backToSearchHealthcareProvider)
 			
 			case .backButtonPressed:
-				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+				coordinator?.handle(Coordination.Action.backButtonPressed)
 			
 			case .closeSheet:
-				coordinator?.handle(AppCoordination.Action.sheetClosed)
+				coordinator?.handle(Coordination.Action.closeSheet)
 			
 			case .onAppear:
 				if case SearchResultViewState.success = state {
@@ -123,7 +123,7 @@ class SearchResultsViewModel: ObservableObject {
 			case .store(let provider):
 				try? Current.healthcareProviderStore.store(provider)
 				applyListState()
-				coordinator?.handle(AppCoordination.Action.storeHealthcareProvider)
+				coordinator?.handle(Coordination.Action.storeHealthcareProvider)
 		}
 	}
 	
@@ -239,12 +239,11 @@ struct SearchResultsView: View {
 					}})
 				}
 		})
-		.if(!isPresentedAsSheet, transform: { view in
-			view
-				.navigationBarItems(leading: BackButton("searchresults_backbutton") {
-					viewModel.reduce(.backButtonPressed)
-				})
+
+		.navigationBarItems(leading: BackButton("searchresults_backbutton") {
+			viewModel.reduce(.backButtonPressed)
 		})
+
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 	

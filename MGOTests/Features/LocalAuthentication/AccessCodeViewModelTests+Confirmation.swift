@@ -176,7 +176,7 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 		expect(self.sut.boxStates) == expectedBoxState
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == "01234"
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeConfirmed))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.accessCodeConfirmed))
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	
@@ -210,6 +210,6 @@ final class AccessCodeViewModelConfirmationTests: XCTestCase {
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.backButtonPressed))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.backButtonPressed))
 	}
 }

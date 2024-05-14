@@ -55,11 +55,11 @@ class SearchViewModel: ObservableObject {
 	@Published var state: SearchViewState = SearchViewState()
 
 	/// The flow coordinator for routing
-	private weak var coordinator: (any AppCoordinatorProtocol)?
+	private weak var coordinator: (any Coordinator)?
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
-	init(coordinator: (any AppCoordinatorProtocol)?) {
+	init(coordinator: (any Coordinator)?) {
 		self.coordinator = coordinator
 		
 		setupObservers()
@@ -94,13 +94,15 @@ class SearchViewModel: ObservableObject {
 					}
 					return
 				}
-				coordinator?.handle(AppCoordination.Action.search(city: state.city, name: state.name))
+			#warning("This should be fixed, params to action")
+				coordinator?.handle(Coordination.Action(identifier: "search", params: [state.city, state.name]))
+//				coordinator?.handle(Coordination.Action.search(city: state.city, name: state.name))
 	
 			case .backButtonPressed:
-				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+				coordinator?.handle(Coordination.Action.backButtonPressed)
 			
 			case .closeSheet:
-				coordinator?.handle(AppCoordination.Action.sheetClosed)
+				coordinator?.handle(Coordination.Action.closeSheet)
 		
 			case .endEditing:
 				UIApplication.shared.endEditing()

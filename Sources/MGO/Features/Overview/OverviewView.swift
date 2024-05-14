@@ -43,7 +43,7 @@ class OverviewViewModel: ObservableObject {
 			case .onAppear:
 				loadHealthcareProviders()
 			case .search:
-				coordinator?.handle(DashboardCoordination.Action.searchHealthcareProviders)
+				coordinator?.handle(Coordination.Action.searchHealthcareProviders)
 		}
 	}
 	

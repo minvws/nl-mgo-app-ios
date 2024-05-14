@@ -39,7 +39,7 @@ class InAppBrowserViewModel: ObservableObject {
 		
 		switch action {
 			case .backButtonPressed:
-				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+				coordinator?.handle(Coordination.Action.backButtonPressed)
 		}
 	}
 }

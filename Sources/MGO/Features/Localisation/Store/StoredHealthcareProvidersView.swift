@@ -29,7 +29,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	}
 	
 	/// The flow coordinator for routing
-	private weak var coordinator: (any AppCoordinatorProtocol)?
+	private weak var coordinator: (any Coordinator)?
 	
 	/// The state of the view
 	@Published var state: State = .empty
@@ -42,7 +42,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
-	init(coordinator: (any AppCoordinatorProtocol)?) {
+	init(coordinator: (any Coordinator)?) {
 		self.coordinator = coordinator
 	}
 	
@@ -67,14 +67,14 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 				loadHealthcareProviders()
 			
 			case .backButtonPressed:
-				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+				coordinator?.handle(Coordination.Action.backButtonPressed)
 			
 			case .cancelDialog:
 				healthcareProviderToRemoveTitle = nil
 				healthcareProviderToRemove = nil
 			
 			case .closeSheet:
-				coordinator?.handle(AppCoordination.Action.sheetClosed)
+				coordinator?.handle(Coordination.Action.closeSheet)
 			
 			case .remove:
 				if let provider = healthcareProviderToRemove {
@@ -86,10 +86,10 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
-				coordinator?.handle(AppCoordination.Action.backToSearchHealthcareProvider)
+				coordinator?.handle(Coordination.Action.backToSearchHealthcareProvider)
 				
 			case .done:
-				coordinator?.handle(AppCoordination.Action.finishedSearchingHealthcareProviders)
+				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareProviders)
 				
 			case .showRemoveDialog(let healthcareProvider):
 				healthcareProviderToRemove = healthcareProvider
