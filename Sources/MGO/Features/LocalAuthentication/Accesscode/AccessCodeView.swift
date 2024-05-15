@@ -92,7 +92,7 @@ class AccessCodeViewModel: ObservableObject {
 	private var strengthMeter: AccessCodeStrengthValidation
 	
 	/// The flow coordinator for routing
-	private weak var coordinator: (any AppCoordinatorProtocol)?
+	private weak var coordinator: (any Coordinator)?
 	
 	private var inErrorState = false
 	
@@ -127,7 +127,7 @@ class AccessCodeViewModel: ObservableObject {
 	/// - Parameter bioMetricType: Whick biometric type should we run in? TouchId , FaceId, Optic Id, none?
 	/// - Parameter strengthMeter: Access code strenght meter
 	init(
-		coordinator: (any AppCoordinatorProtocol)?,
+		coordinator: (any Coordinator)?,
 		mode: AccessCodeMode,
 		pinLimit: Int = 5,
 		bioMetricType: () -> LocalAuthentication.BiometricType,
@@ -265,14 +265,14 @@ class AccessCodeViewModel: ObservableObject {
 			case .biometricKeyPressed:
 				showBioMetricLogin()
 			case .backButtonPressed:
-				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+				coordinator?.handle(Coordination.Action.backButtonPressed)
 			case .onAppear:
 				guard mode == .validation && Current.secureUserSettings.bioMetricAuthenticationEnabled else { return }
 				delay(0.5) {
 					self.showBioMetricLogin()
 				}
 			case .forgotAccessCode:
-				coordinator?.handle(.forgotAccessCode)
+				coordinator?.handle(Coordination.Action.forgotAccessCode)
 		}
 	}
 	
@@ -320,7 +320,7 @@ class AccessCodeViewModel: ObservableObject {
 		// All ok, store temp and move to confirmation
 		Haptic.light()
 		Current.secureUserSettings.tempAccessCode = code
-		coordinator?.handle(.accessCodeEntered)
+		coordinator?.handle(Coordination.Action.accessCodeEntered)
 		accessCode = []
 	}
 	
@@ -338,7 +338,7 @@ class AccessCodeViewModel: ObservableObject {
 		// All ok, store access code and get out of here.
 		Haptic.light()
 		Current.secureUserSettings.accessCode = code
-		coordinator?.handle(.accessCodeConfirmed)
+		coordinator?.handle(Coordination.Action.accessCodeConfirmed)
 	}
 	
 	/// Validation code entered, let's see if we can login
@@ -351,7 +351,7 @@ class AccessCodeViewModel: ObservableObject {
 			updateStateValidation(validationMismatch: true)
 			return
 		}
-		coordinator?.handle(.accessCodeValidated)
+		coordinator?.handle(Coordination.Action.accessCodeValidated)
 	}
 	
 	/// Something is not ok, make all the boxes red
@@ -400,7 +400,7 @@ class AccessCodeViewModel: ObservableObject {
 				accessCode = ["0", "0", "0", "0", "0"]
 				// Navigate to the next scene after a short delay to let the faceID/touchID animation complete.
 				delay(0.8) {
-					self.coordinator?.handle(.accessCodeValidated)
+					self.coordinator?.handle(Coordination.Action.accessCodeValidated)
 				}
 			} else {
 				logInfo("AccessCode: User has unsuccessfully tried to validate")

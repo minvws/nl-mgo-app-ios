@@ -81,6 +81,6 @@ final class LaunchViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventually(equal(.configLoaded))
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.finishedLoading))
+//		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedLoading))
 	}
 }

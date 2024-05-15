@@ -52,9 +52,10 @@ class SearchResultsViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-		case retry
-		case onAppear
 		case backToSearch
+		case closeSheet
+		case onAppear
+		case retry
 		case store(HealthcareProvider)
 	}
 	
@@ -71,14 +72,14 @@ class SearchResultsViewModel: ObservableObject {
 	private var searchResultsList = [HealthcareProvider]()
 	
 	/// The flow coordinator for routing
-	private weak var coordinator: (any AppCoordinatorProtocol)?
+	private weak var coordinator: (any Coordinator)?
 	
 	/// The localisation service client
 	private var localisationServiceClient: LocalisationServiceClientProtocol?
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
-	init(coordinator: (any AppCoordinatorProtocol)?, city: String, name: String, localisationServiceClient: LocalisationServiceClientProtocol?) {
+	init(coordinator: (any Coordinator)?, city: String, name: String, localisationServiceClient: LocalisationServiceClientProtocol?) {
 		self.coordinator = coordinator
 		self.city = city
 		self.name = name
@@ -94,11 +95,14 @@ class SearchResultsViewModel: ObservableObject {
 			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
-				coordinator?.handle(.backToSearchHealthcareProvider)
+				coordinator?.handle(Coordination.Action.backToSearchHealthcareProvider)
 			
 			case .backButtonPressed:
-				coordinator?.handle(.backButtonPressed)
-
+				coordinator?.handle(Coordination.Action.backButtonPressed)
+			
+			case .closeSheet:
+				coordinator?.handle(Coordination.Action.closeSheet)
+			
 			case .onAppear:
 				if case SearchResultViewState.success = state {
 					applyListState()
@@ -119,7 +123,7 @@ class SearchResultsViewModel: ObservableObject {
 			case .store(let provider):
 				try? Current.healthcareProviderStore.store(provider)
 				applyListState()
-				coordinator?.handle(.storeHealthcareProvider)
+				coordinator?.handle(Coordination.Action.storeHealthcareProvider)
 		}
 	}
 	
@@ -182,6 +186,9 @@ struct SearchResultsView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Are we presented in a sheet?
+	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -224,9 +231,19 @@ struct SearchResultsView: View {
 			viewModel.reduce(.onAppear)
 		}
 		.navigationBarBackButtonHidden(true)
+		.if(isPresentedAsSheet, transform: { view in
+			view
+				.toolbar {
+					ToolbarItem(content: { CloseButton {
+						viewModel.reduce(.closeSheet)
+					}})
+				}
+		})
+
 		.navigationBarItems(leading: BackButton("searchresults_backbutton") {
 			viewModel.reduce(.backButtonPressed)
 		})
+
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 	

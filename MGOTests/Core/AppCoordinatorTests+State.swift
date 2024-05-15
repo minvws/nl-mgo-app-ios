@@ -169,18 +169,6 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forfhirClient() throws {
-
-		// Given
-		let state = AppCoordination.State.fhirClient
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
 	func test_coordinatorView_forSearch() throws {
 		
 		// Given

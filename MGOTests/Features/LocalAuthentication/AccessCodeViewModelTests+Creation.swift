@@ -207,7 +207,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedTempAccessCode) == "01234"
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeEntered))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.accessCodeEntered))
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	

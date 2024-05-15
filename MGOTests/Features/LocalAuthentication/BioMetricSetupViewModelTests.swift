@@ -37,7 +37,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.didFinishLocalAuthentication
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.didFinishLocalAuthentication
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabled).toEventually(beFalse())
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
@@ -53,7 +53,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.didFinishLocalAuthentication
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.didFinishLocalAuthentication
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabled).toEventually(beTrue())
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
@@ -102,7 +102,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.didFinishLocalAuthentication
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.didFinishLocalAuthentication
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabled).toEventually(beFalse())
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
@@ -119,7 +119,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.didFinishLocalAuthentication
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.didFinishLocalAuthentication
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabled).toEventually(beFalse())
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}

@@ -174,7 +174,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		expect(self.sut.boxStates) == expectedBoxState
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == true
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeValidated))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.accessCodeValidated))
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	
@@ -191,7 +191,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeValidated))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.accessCodeValidated))
 	}
 	
 	func test_validation_biometricKeyPressed_authenticated() {
@@ -207,7 +207,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.accessCodeValidated))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.accessCodeValidated))
 	}
 	
 	func test_validation_biometricEnabled_authenticationFailed() {
@@ -401,6 +401,6 @@ final class AccessCodeViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(AppCoordination.Action.forgotAccessCode))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.forgotAccessCode))
 	}
 }

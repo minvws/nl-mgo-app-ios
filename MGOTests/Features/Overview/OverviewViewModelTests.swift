@@ -10,18 +10,19 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 
-final class DashboardViewModelTests: XCTestCase {
+final class OverviewViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: DashboardViewModel!
+	private var sut: OverviewViewModel!
 
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = DashboardViewModel(coordinator: coordinatorSpy)
+		
+		sut = OverviewViewModel(coordinator: coordinatorSpy)
 	}
 
 	func test_onAppear_shouldCallStore_noProviders_stateShouldBeEmtpy() {
@@ -60,30 +61,6 @@ final class DashboardViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.searchHealthcareProviders
-	}
-	
-	func test_showResetDialog_shouldCallCoordinator() {
-		
-		// Given
-		
-		// When
-		sut.reduce(.showResetDialog)
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.sut.showResetDialog) == true
-	}
-	
-	func test_resetApplication_shouldCallCoordinator() {
-		
-		// Given
-		
-		// When
-		sut.reduce(.resetApplication)
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == AppCoordination.Action.resetApplication
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.searchHealthcareProviders
 	}
 }

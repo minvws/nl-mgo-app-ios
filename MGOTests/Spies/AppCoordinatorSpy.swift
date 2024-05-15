@@ -33,37 +33,69 @@ class AppCoordinatorSpy: AppCoordinatorProtocol {
 		}
 	}
 
-	var invokedHandle = false
-	var invokedHandleCount = 0
-	var invokedHandleParameters: (action: AppCoordination.Action, Void)?
-	var invokedHandleParametersList = [(action: AppCoordination.Action, Void)]()
+	var invokedPathForSheetSetter = false
+	var invokedPathForSheetSetterCount = 0
+	var invokedPathForSheet: NavigationStackBackport.NavigationPath?
+	var invokedPathForSheetList = [NavigationStackBackport.NavigationPath]()
+	var invokedPathForSheetGetter = false
+	var invokedPathForSheetGetterCount = 0
+	var stubbedPathForSheet: NavigationStackBackport.NavigationPath!
 
-	func handle(_ action: AppCoordination.Action) {
-		invokedHandle = true
-		invokedHandleCount += 1
-		invokedHandleParameters = (action, ())
-		invokedHandleParametersList.append((action, ()))
-	}
-
-	var invokedSheetSetter = false
-	var invokedSheetSetterCount = 0
-	var invokedSheet: AppCoordination.State?
-	var invokedSheetList = [AppCoordination.State?]()
-	var invokedSheetGetter = false
-	var invokedSheetGetterCount = 0
-	var stubbedSheet: AppCoordination.State!
-
-	var sheet: AppCoordination.State? {
+	var pathForSheet: NavigationStackBackport.NavigationPath {
 		set {
-			invokedSheetSetter = true
-			invokedSheetSetterCount += 1
-			invokedSheet = newValue
-			invokedSheetList.append(newValue)
+			invokedPathForSheetSetter = true
+			invokedPathForSheetSetterCount += 1
+			invokedPathForSheet = newValue
+			invokedPathForSheetList.append(newValue)
 		}
 		get {
-			invokedSheetGetter = true
-			invokedSheetGetterCount += 1
-			return stubbedSheet
+			invokedPathForSheetGetter = true
+			invokedPathForSheetGetterCount += 1
+			return stubbedPathForSheet
+		}
+	}
+
+	var invokedRootStateForSheetSetter = false
+	var invokedRootStateForSheetSetterCount = 0
+	var invokedRootStateForSheet: AppCoordination.State?
+	var invokedRootStateForSheetList = [AppCoordination.State?]()
+	var invokedRootStateForSheetGetter = false
+	var invokedRootStateForSheetGetterCount = 0
+	var stubbedRootStateForSheet: AppCoordination.State!
+
+	var rootStateForSheet: AppCoordination.State? {
+		set {
+			invokedRootStateForSheetSetter = true
+			invokedRootStateForSheetSetterCount += 1
+			invokedRootStateForSheet = newValue
+			invokedRootStateForSheetList.append(newValue)
+		}
+		get {
+			invokedRootStateForSheetGetter = true
+			invokedRootStateForSheetGetterCount += 1
+			return stubbedRootStateForSheet
+		}
+	}
+
+	var invokedShowChildCoordinatorSetter = false
+	var invokedShowChildCoordinatorSetterCount = 0
+	var invokedShowChildCoordinator: Bool?
+	var invokedShowChildCoordinatorList = [Bool]()
+	var invokedShowChildCoordinatorGetter = false
+	var invokedShowChildCoordinatorGetterCount = 0
+	var stubbedShowChildCoordinator: Bool! = false
+
+	var showChildCoordinator: Bool {
+		set {
+			invokedShowChildCoordinatorSetter = true
+			invokedShowChildCoordinatorSetterCount += 1
+			invokedShowChildCoordinator = newValue
+			invokedShowChildCoordinatorList.append(newValue)
+		}
+		get {
+			invokedShowChildCoordinatorGetter = true
+			invokedShowChildCoordinatorGetterCount += 1
+			return stubbedShowChildCoordinator
 		}
 	}
 
@@ -83,5 +115,17 @@ class AppCoordinatorSpy: AppCoordinatorProtocol {
 				self.invokedViewParameters = (`for`, ())
 				self.invokedViewParametersList.append((`for`, ()))
 			}
+	}
+
+	var invokedHandle = false
+	var invokedHandleCount = 0
+	var invokedHandleParameters: (action: Coordination.Action, Void)?
+	var invokedHandleParametersList = [(action: Coordination.Action, Void)]()
+
+	func handle(_ action: Coordination.Action) {
+		invokedHandle = true
+		invokedHandleCount += 1
+		invokedHandleParameters = (action, ())
+		invokedHandleParametersList.append((action, ()))
 	}
 }

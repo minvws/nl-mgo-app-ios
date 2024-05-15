@@ -7,7 +7,7 @@
 
 import MGOFoundation
 
-struct DashboardModel: Codable, Hashable, Equatable, Identifiable {
+struct OverviewHealthcareProvider: Codable, Hashable, Equatable, Identifiable {
 	
 	/// The category of healthcare provider (dentist, gp, etc)
 	var category: String
@@ -19,16 +19,16 @@ struct DashboardModel: Codable, Hashable, Equatable, Identifiable {
 	var name: String
 }
 
-class DashboardDecorator {
+class OverviewDecorator {
 	
-	/// Create a DashboardModel from a HealthcareProvider
+	/// Create a OverviewHealthcareProvider from a HealthcareProvider
 	/// - Parameter from: HealthcareProvider
-	/// - Returns: DashboardModel
-	static func create(_ organisation: HealthcareProvider) -> DashboardModel {
+	/// - Returns: OverviewHealthcareProvider
+	static func create(_ organisation: HealthcareProvider) -> OverviewHealthcareProvider {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = organisation.display_name // + " [\(identifier)]"
 
-		return DashboardModel(category: organisation.types.first?.display_name ?? "", id: identifier, name: name)
+		return OverviewHealthcareProvider(category: organisation.types.first?.display_name ?? "", id: identifier, name: name)
 	}
 }

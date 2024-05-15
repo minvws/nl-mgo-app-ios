@@ -7,13 +7,15 @@
 
 import MGOUI
 
-struct DashboardCardView: View {
+struct OverviewCardView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// The name of the healthcare provider
 	var name: String
 	
+	/// The category of the healthcare provider
 	var category: String
 	
 	/// Magic Numbers
@@ -50,7 +52,7 @@ struct DashboardCardView: View {
 				
 				Spacer()
 				
-				Image(ImageResource.Dashboard.chevronRight)
+				Image(ImageResource.Overview.chevronRight)
 					.foregroundStyle(theme.iconsPrimary)
 					.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size, alignment: .center)
 					.accessibilityHidden(true)
@@ -69,8 +71,8 @@ struct DashboardCardView: View {
 
 #Preview {
 	VStack(spacing: 4) {
-		DashboardCardView(name: "Tandarts Tandje Erbij", category: "Tandartsen")
-		DashboardCardView(name: "Tandarts Tandje Erbij", category: "Tandartsen")
-		DashboardCardView(name: "Tandarts Tandje Erbij", category: "Tandartsen")
+		OverviewCardView(name: "Tandarts Tandje Erbij", category: "Tandartsen")
+		OverviewCardView(name: "Tandarts Tandje Erbij", category: "Tandartsen")
+		OverviewCardView(name: "Tandarts Tandje Erbij", category: "Tandartsen")
 	}
 }

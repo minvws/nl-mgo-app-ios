@@ -24,6 +24,9 @@ extension NavigationStackBackport.NavigationPath {
 				.filter { string in
 					string != "MGO.AppCoordination.State"
 				}
+				.filter { string in
+					string != "MGO.DashCoordination.State"
+				}
 				// remove non alphaNumeric chars
 				.map { $0.alphaNumeric }
 				// reverse the order

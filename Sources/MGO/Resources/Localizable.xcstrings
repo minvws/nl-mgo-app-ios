@@ -1181,6 +1181,28 @@
           }
         }
       }
+    },
+    "tab_about" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over de app"
+          }
+        }
+      }
+    },
+    "tab_overview" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overzicht"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

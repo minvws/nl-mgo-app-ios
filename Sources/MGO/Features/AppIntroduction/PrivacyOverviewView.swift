@@ -10,7 +10,7 @@ import MGOUI
 class PrivacyOverviewViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
-	weak var coordinator: (any AppCoordinatorProtocol)?
+	weak var coordinator: (any Coordinator)?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -21,7 +21,7 @@ class PrivacyOverviewViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
+	init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator
 	}
 	
@@ -31,11 +31,11 @@ class PrivacyOverviewViewModel: ObservableObject {
 		
 		switch action {
 			case .privacyLinkClicked:
-				coordinator?.handle(AppCoordination.Action.showPrivacyStatement)
+				coordinator?.handle(Coordination.Action.showPrivacyStatement)
 			case .nextButttonPressed:
-				coordinator?.handle(.nextButtonPressedOnPrivacyOverview)
+				coordinator?.handle(Coordination.Action.nextButtonPressedOnPrivacyOverview)
 			case .backButtonPressed:
-				coordinator?.handle(AppCoordination.Action.backButtonPressed)
+				coordinator?.handle(Coordination.Action.backButtonPressed)
 		}
 	}
 }

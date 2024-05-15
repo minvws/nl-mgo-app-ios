@@ -21,6 +21,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 		case backButtonPressed
 		case backToSearch
 		case cancelDialog
+		case closeSheet
 		case done
 		case onAppear
 		case remove
@@ -28,7 +29,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	}
 	
 	/// The flow coordinator for routing
-	private weak var coordinator: (any AppCoordinatorProtocol)?
+	private weak var coordinator: (any Coordinator)?
 	
 	/// The state of the view
 	@Published var state: State = .empty
@@ -41,7 +42,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	
 	/// Initialzier
 	/// - Parameter coordinator: the coordinator
-	init(coordinator: (any AppCoordinatorProtocol)?) {
+	init(coordinator: (any Coordinator)?) {
 		self.coordinator = coordinator
 	}
 	
@@ -66,11 +67,14 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 				loadHealthcareProviders()
 			
 			case .backButtonPressed:
-				coordinator?.handle(.backButtonPressed)
+				coordinator?.handle(Coordination.Action.backButtonPressed)
 			
 			case .cancelDialog:
 				healthcareProviderToRemoveTitle = nil
 				healthcareProviderToRemove = nil
+			
+			case .closeSheet:
+				coordinator?.handle(Coordination.Action.closeSheet)
 			
 			case .remove:
 				if let provider = healthcareProviderToRemove {
@@ -82,10 +86,10 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
-				coordinator?.handle(.backToSearchHealthcareProvider)
+				coordinator?.handle(Coordination.Action.backToSearchHealthcareProvider)
 				
 			case .done:
-				coordinator?.handle(.finishedSearchingHealthcareProviders)
+				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareProviders)
 				
 			case .showRemoveDialog(let healthcareProvider):
 				healthcareProviderToRemove = healthcareProvider
@@ -105,6 +109,9 @@ struct StoredHealthcareProvidersView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	/// Are we presented in a sheet?
+	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
 	/// Magic numbers
 	private struct ViewTraits {
@@ -192,6 +199,7 @@ struct StoredHealthcareProvidersView: View {
 				.tag("storedhp_action_done")
 			}
 			.padding(ViewTraits.Button.insets)
+			.padding(.top, ViewTraits.General.padding)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.alert(viewModel.healthcareProviderToRemoveTitle ?? "", isPresented: $viewModel.healthcareProviderToRemoveTitle.presence()) {
@@ -201,7 +209,15 @@ struct StoredHealthcareProvidersView: View {
 			Text("storedhp_alert_body")
 		}
 		.navigationBarBackButtonHidden(true)
-		.navigationBarItems(leading: BackButton {
+		.if(isPresentedAsSheet, transform: { view in
+			view
+				.toolbar {
+					ToolbarItem(content: { CloseButton {
+						viewModel.reduce(.closeSheet)
+					}})
+				}
+		})
+		.navigationBarItems(leading: BackButton("searchresults_backbutton") {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())

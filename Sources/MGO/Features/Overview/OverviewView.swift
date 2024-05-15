@@ -8,54 +8,57 @@
 import MGOFoundation
 import MGOUI
 
-class DashboardViewModel: ObservableObject {
+class OverviewViewModel: ObservableObject {
 	
+	/// The state for the overview scene
 	enum State: Equatable {
 		case empty
 		case list([HealthcareProvider])
 	}
 	
 	/// The app coordinator for routing
-	weak var coordinator: (any AppCoordinatorProtocol)?
-	
-	@Published var showResetButton: Bool = false
-	@Published var showResetDialog: Bool = false
+	weak var coordinator: (any Coordinator)?
 	
 	/// The state of the view
-	@Published var state: DashboardViewModel.State
+	@Published var state: OverviewViewModel.State
+	
+	/// Token for the observatory (needed for unregister)
+	private var observerToken: Observatory.ObserverToken?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case resetApplication
-		case showResetDialog
 		case onAppear
 		case search
 	}
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any AppCoordinatorProtocol)? = nil) {
+	init(coordinator: (any Coordinator)? = nil) {
+		
 		self.coordinator = coordinator
-		
-		let release = Configuration().getRelease()
-		showResetButton = release != Release.production // Show only in Dev, Acc & Test
-		
 		self.state = .empty
+		// Listen to changes in the stored provider list
+		self.observerToken = Current.healthcareProviderStore.observatory.append { [weak self] changed in
+			if changed {
+				self?.loadHealthcareProviders()
+			}
+		}
+	}
+	
+	deinit {
+		// Remove as observer
+		observerToken.map(Current.healthcareProviderStore.observatory.remove)
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: DashboardViewModel.Action) {
+	func reduce(_ action: OverviewViewModel.Action) {
 		
 		switch action {
-			case .resetApplication:
-				coordinator?.handle(AppCoordination.Action.resetApplication)
-			case .showResetDialog:
-				showResetDialog = true
 			case .onAppear:
 				loadHealthcareProviders()
 			case .search:
-				coordinator?.handle(.searchHealthcareProviders)
+				coordinator?.handle(Coordination.Action.searchHealthcareProviders)
 		}
 	}
 	
@@ -63,6 +66,7 @@ class DashboardViewModel: ObservableObject {
 	private func loadHealthcareProviders() {
 
 		let providers = Current.healthcareProviderStore.providers
+		logInfo("OverviewModel: loadHealthcareProviders, count: \(providers.count)")
 		if providers.isEmpty {
 			state = .empty
 		} else {
@@ -71,10 +75,10 @@ class DashboardViewModel: ObservableObject {
 	}
 }
 
-struct DashboardView: View {
+struct OverviewView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: DashboardViewModel
+	@StateObject var viewModel: OverviewViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -87,7 +91,6 @@ struct DashboardView: View {
 		enum General {
 			static let padding: CGFloat = 16
 			static let spacing: CGFloat = 24
-			
 		}
 		enum Image {
 			static let insets = EdgeInsets( top: 0, leading: 50, bottom: 0, trailing: 50)
@@ -96,7 +99,7 @@ struct DashboardView: View {
 			static let spacing: CGFloat = 4
 		}
 		enum Button {
-			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 		}
 	}
 	
@@ -129,39 +132,22 @@ struct DashboardView: View {
 					.padding(ViewTraits.Button.insets)
 					.tag("dashboard_search_healthcareProviders")
 				case .list:
-					EmptyView()
+					CallToActionButton("dashboard_add_healthcareProviders") {
+						viewModel.reduce(.search)
+					}
+					.padding(ViewTraits.Button.insets)
+					.tag("dashboard_add_healthcareProviders")
 			}
 		}
 		
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
-		.confirmationDialog(
-			"Reset the application?",
-			isPresented: $viewModel.showResetDialog) {
-				Button("Reset the application?", role: .destructive) {
-					viewModel.reduce(.resetApplication)
-				}
-			} message: {
-				Text(verbatim: "You cannot undo this action")
-			}
-			.toolbar {
-				ToolbarItem(id: "reset", placement: .destructiveAction) {
-					if viewModel.showResetButton {
-						Button(
-							action: {
-								viewModel.reduce(.showResetDialog)
-							}, label: {
-								Image(systemName: "exclamationmark.triangle")
-									.foregroundStyle(theme.notificationError)
-							}
-						)
-					}
-				}
-			}
-			.background(theme.backgroundPrimary.ignoresSafeArea())
-			.onAppear {
-				viewModel.reduce(.onAppear)
-			}
+		.navigationBarHidden(true)
+		.navigationBarTitleDisplayMode(.inline)
+		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.onAppear {
+			viewModel.reduce(.onAppear)
+		}
 	}
 	
 	@ViewBuilder func headerView() -> some View {
@@ -201,7 +187,7 @@ struct DashboardView: View {
 			.foregroundStyle(theme.contentTertiary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 		
-		Image(ImageResource.Dashboard.empty)
+		Image(ImageResource.Overview.empty)
 			.resizable()
 			.scaledToFit()
 			.accessibilityHidden(true)
@@ -231,8 +217,8 @@ struct DashboardView: View {
 									   ))
 						.accessibilityAddTraits(.isButton)
 					
-					let model = DashboardDecorator.create(healthcareProvider)
-					DashboardCardView(name: model.name, category: model.category)
+					let model = OverviewDecorator.create(healthcareProvider)
+					OverviewCardView(name: model.name, category: model.category)
 						.onTapGesture {
 							#warning("MGO-240: Show Healthcare Provider")
 							// (https://vws-prd.jira.odc-noord.nl/browse/MGO-240)
@@ -240,19 +226,11 @@ struct DashboardView: View {
 				}
 			}
 		})
-		
-		CallToActionButton("dashboard_add_healthcareProviders") {
-			viewModel.reduce(.search)
-		}
-			.tag("dashboard_add_healthcareProviders")
-			.padding(.horizontal, ViewTraits.General.padding)
-			.padding(.bottom, ViewTraits.General.padding)
-
 	}
 }
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		DashboardView(viewModel: DashboardViewModel(coordinator: nil))
+		OverviewView(viewModel: OverviewViewModel(coordinator: nil))
 	}
 }
