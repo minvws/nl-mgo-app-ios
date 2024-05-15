@@ -50,7 +50,9 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 							.navigationBarBackButtonHidden(true)
 							.navigationBarTitleDisplayMode(.inline)
 							.toolbar {
-								ToolbarItem(content: { closeButton() })
+								ToolbarItem(content: { CloseButton {
+									appCoordinator.handle(Coordination.Action.closeSheet)
+								}})
 							}
 					}
 				}
@@ -60,22 +62,6 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 				self.didAppear?(self)
 			}
 		}
-	}
-	
-	/// The close button
-	/// - Returns: Button
-	@ViewBuilder func closeButton() -> some View {
-		
-		Button(
-			action: {
-				appCoordinator.handle(Coordination.Action.closeSheet)
-			}, label: {
-				Image(ImageResource.Icon.close)
-					.resizable()
-					.frame(width: 28, height: 28)
-			}
-		)
-		.accessibilityLabel("general_close")
 	}
 }
 
