@@ -198,11 +198,9 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 							.navigationBarTitleDisplayMode(.inline)
 					}
 					.tabItem {
-						HStack {
-							Text("tab_overview")
-								.rijksoverheidStyle(font: .regular, style: .body)
-							Image(ImageResource.Tab.overview)
-						}
+						Image(ImageResource.Tab.overview)
+						Text("tab_overview")
+							.rijksoverheidStyle(font: .regular, style: .body)
 					}
 					
 					// Second Tab, About
@@ -214,17 +212,27 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 							.navigationBarTitleDisplayMode(.inline)
 					}
 					.tabItem {
-						HStack {
-							Text("tab_about")
-								.rijksoverheidStyle(font: .regular, style: .body)
-							Image(ImageResource.Tab.about)
-						}
+						Image(ImageResource.Tab.about)
+						Text("tab_about")
+							.rijksoverheidStyle(font: .regular, style: .body)
 					}
 				}
-				.backportToolbarBackground()
 			}
-			.foregroundColor(theme.iconsPrimary)
-			.accentColor(theme.actionTertiaryDefault)
+			.onAppear(perform: {
+				// Brute force styling
+				let tabBarAppearance = UITabBarAppearance()
+				tabBarAppearance.backgroundColor = UIColor(theme.backgroundSecondary)
+				tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor(theme.actionTertiaryDefault)
+				tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(theme.actionTertiaryDefault)]
+				tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(theme.iconsPrimary)]
+				tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor(theme.iconsPrimary)
+				
+				// Apply
+				UITabBar.appearance().standardAppearance = tabBarAppearance
+				UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+
+			})
+			.navigationBarHidden(true)
 			.navigationBarBackButtonHidden()
 			.inspectableSheet(
 				isPresented: $coordinator.rootStateForSheet.presence(),

@@ -138,7 +138,7 @@ struct OverviewView: View {
 		
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
-		.navigationBarHidden(false)
+		.navigationBarHidden(true)
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {
