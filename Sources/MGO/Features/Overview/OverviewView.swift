@@ -132,7 +132,11 @@ struct OverviewView: View {
 					.padding(ViewTraits.Button.insets)
 					.tag("dashboard_search_healthcareProviders")
 				case .list:
-					EmptyView()
+					CallToActionButton("dashboard_add_healthcareProviders") {
+						viewModel.reduce(.search)
+					}
+					.padding(ViewTraits.Button.insets)
+					.tag("dashboard_add_healthcareProviders")
 			}
 		}
 		
@@ -222,14 +226,6 @@ struct OverviewView: View {
 				}
 			}
 		})
-		
-		CallToActionButton("dashboard_add_healthcareProviders") {
-			viewModel.reduce(.search)
-		}
-			.tag("dashboard_add_healthcareProviders")
-			.padding(.horizontal, ViewTraits.General.padding)
-			.padding(.bottom, ViewTraits.General.padding)
-
 	}
 }
 
