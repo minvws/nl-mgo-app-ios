@@ -37,7 +37,8 @@ class Generator {
 					display_name: "Tandarts",
 					_type: ""
 				)
-			]
+			],
+			data_services: []
 		)
 	}
 }

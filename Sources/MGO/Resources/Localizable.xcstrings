@@ -519,13 +519,13 @@
         }
       }
     },
-    "dashboard_list_action" : {
+    "dashboard_list_action_voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze zorgaanbieder bekijken"
+            "value" : "%@ bekijken?"
           }
         }
       }
@@ -935,7 +935,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze zorgaanbieder toevoegen"
+            "value" : "%@ toevoegen?"
           }
         }
       }
@@ -1067,7 +1067,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze zorgaanbieder bekijken"
+            "value" : "%@ bekijken?"
           }
         }
       }
@@ -1166,7 +1166,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verwijder deze zorgaanbieder"
+            "value" : "%@ verwijderen?"
           }
         }
       }

@@ -202,12 +202,15 @@ struct OverviewView: View {
 		
 		LazyVStack(spacing: ViewTraits.List.spacing, content: {
 			
-			ForEach(list, id: \.self) { element in
+			ForEach(list, id: \.self) { healthcareProvider in
 				
 				ZStack {
 					Rectangle()
 						.foregroundStyle(.clear)
-						.accessibilityLabel("dashboard_list_action")
+						.accessibilityLabel(String(
+							format: String(localized: "dashboard_list_action_voiceover"),
+										   arguments: ["\(healthcareProvider.display_name)"]
+									   ))
 						.accessibilityAddTraits(.isButton)
 					
 					let model = OverviewDecorator.create(element)

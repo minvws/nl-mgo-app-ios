@@ -75,7 +75,9 @@ struct InputField: View {
 				.overlay(
 					RoundedRectangle(cornerRadius: ViewTraits.Input.cornerRadius)
 						.inset(by: ViewTraits.Input.inset)
-						.stroke(showError ? theme.notificationError : isFieldFocused ? theme.contentPrimary : theme.input, lineWidth: 1)
+						.stroke(
+							showError ? theme.notificationError : isFieldFocused ? theme.contentPrimary : theme.input,
+							lineWidth: isFieldFocused ? 2 : showError ? 2 : 1)
 				)
 				.overlay(alignment: .trailing) {
 					Button(
