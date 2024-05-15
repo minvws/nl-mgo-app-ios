@@ -14,7 +14,7 @@ import MGOFoundation
 ///
 final class ServicesSpies {
 	
-	fileprivate init() {}
+	fileprivate init() { /* private so it can not be initiated elsewhere */ }
 
 	var healthcareProviderStoreSpy: HealthcareProviderStoreSpy = {
 		let spy = HealthcareProviderStoreSpy()

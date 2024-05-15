@@ -29,7 +29,7 @@ public class Observatory<T> {
 	
 	// MARK: - Init
 	
-	private init() {}
+	private init() { /* private so it can not be initiated elsewhere */ }
 	
 	// MARK: - Vars
 	
