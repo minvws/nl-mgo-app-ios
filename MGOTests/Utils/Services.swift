@@ -17,7 +17,9 @@ final class ServicesSpies {
 	fileprivate init() {}
 
 	var healthcareProviderStoreSpy: HealthcareProviderStoreSpy = {
-		return  HealthcareProviderStoreSpy()
+		let spy = HealthcareProviderStoreSpy()
+		(spy.stubbedObservatory, _) = Observatory<Bool>.create()
+		return spy
 	}()
 	
 	var notificationCenterSpy: NotificationCenterSpy = {

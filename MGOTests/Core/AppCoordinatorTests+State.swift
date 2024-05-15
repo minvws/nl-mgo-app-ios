@@ -162,8 +162,6 @@ final class AppCoordinatorStateTests: XCTestCase {
 		// Given
 		
 		let state = AppCoordination.State.dashboard
-		var sendUpdate: ((Bool) -> Void)?
-		(servicesSpies.healthcareProviderStoreSpy.stubbedObservatory, sendUpdate) = Observatory<Bool>.create()
 		
 		// When
 		let view = sut.view(for: state)

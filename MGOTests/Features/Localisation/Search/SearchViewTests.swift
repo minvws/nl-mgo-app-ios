@@ -24,26 +24,24 @@ final class SearchViewTests: XCTestCase {
 		viewModel = SearchViewModel(coordinator: coordinatorSpy)
 		sut = SearchView(viewModel: self.viewModel)
 	}
-
-	func test_backbuttonPressed() throws {
-		
-		// Given
-		let content = NavigationView { sut }
-		
-		// When
-		try content.inspect().find(viewWithTag: "back_button").button().tap()
-
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
-	}
 	
 	func test_searchView() {
 		
 		// Given
 		
 		// When
-		let content = NavigationView { sut }
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_searchView_isPresentedAsSheet() {
+		
+		// Given
+		
+		// When
+		let content = NavigationView { sut.isPresentedAsSheet(true) }
 		
 		// Then
 		takeSnapShots(content: content)
@@ -52,7 +50,7 @@ final class SearchViewTests: XCTestCase {
 	func test_searchView_allFieldsBlank() throws {
 		
 		// Given
-		let content = NavigationView { sut }
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
 		// When
 		try sut.inspect().find(viewWithTag: "search").button().tap()
@@ -65,7 +63,7 @@ final class SearchViewTests: XCTestCase {
 		
 		// Given
 		viewModel.state.name = "Tandarts Tandje Erbij"
-		let content = NavigationView { sut }
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
 		// When
 		try sut.inspect().find(viewWithTag: "search").button().tap()
@@ -78,7 +76,7 @@ final class SearchViewTests: XCTestCase {
 		
 		// Given
 		viewModel.state.city = "Roermond"
-		let content = NavigationView { sut }
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
 		// When
 		try sut.inspect().find(viewWithTag: "search").button().tap()
@@ -92,7 +90,7 @@ final class SearchViewTests: XCTestCase {
 		// Given
 		viewModel.state.city = "Roermond"
 		viewModel.state.name = "Tandarts Tandje Erbij"
-		let content = NavigationView { sut }
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
 		// When
 		try sut.inspect().find(viewWithTag: "search").button().tap()

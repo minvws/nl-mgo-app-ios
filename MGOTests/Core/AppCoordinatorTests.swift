@@ -320,7 +320,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.count) == 2
 	}
 	
-	func test_coordinatorHandle_finishedSearchingHealthcareProviders_notPresentInStack() {
+	func test_coordinatorHandle_finishedSearchingHealthcareProviders() {
 		
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([
@@ -331,23 +331,6 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedSearchingHealthcareProviders)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.storedHealthcareProviders, AppCoordination.State.dashboard])
-		expect(self.sut.path.count) == 2
-	}
-
-	func test_coordinatorHandle_finishedSearchingHealthcareProviders_presentInStack() {
-		
-		// Given
-		sut.path = NavigationStackBackport.NavigationPath([
-			AppCoordination.State.dashboard,
-			AppCoordination.State.storedHealthcareProviders
-		])
-		
-		// When
-		sut.handle(Coordination.Action.finishedSearchingHealthcareProviders)
-		
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
-		expect(self.sut.path.count) == 1
+		expect(self.sut.showChildCoordinator) == true
 	}
 }

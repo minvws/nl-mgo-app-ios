@@ -213,7 +213,7 @@ struct OverviewView: View {
 									   ))
 						.accessibilityAddTraits(.isButton)
 					
-					let model = OverviewDecorator.create(element)
+					let model = OverviewDecorator.create(healthcareProvider)
 					OverviewCardView(name: model.name, category: model.category)
 						.onTapGesture {
 							#warning("MGO-240: Show Healthcare Provider")

@@ -22,8 +22,6 @@ final class OverviewViewTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		var sendUpdate: ((Bool) -> Void)?
-		(servicesSpies.healthcareProviderStoreSpy.stubbedObservatory, sendUpdate) = Observatory<Bool>.create()
 	}
 	
 	private func createSut() {
