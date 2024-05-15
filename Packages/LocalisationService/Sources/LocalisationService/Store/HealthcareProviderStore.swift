@@ -10,7 +10,11 @@ import Logging
 
 public protocol HealthcareProviderStoreProtocol {
 	
+	/// The list of stored healthcare provider
 	var providers: [HealthcareProvider] { get }
+	
+	/// Observatory for changes
+	var observatory: Observatory<Bool> { get }
 	
 	/// Add a healthcare provider to the storage
 	/// - Parameter provider: the healthcare provider to store
@@ -31,7 +35,8 @@ public class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	
 	/// The name of the file where we store the healthcare providers
 	private let fileName = "healthcareproviders.json"
-
+	
+	/// The name of file in which we store the providers
 	private let name: String = {
 		
 		if NSClassFromString("XCTestCase") == nil {
@@ -41,13 +46,25 @@ public class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 		}
 	}()
 	
+	/// Dispatch Queue
 	private let queue = DispatchQueue(label: "com.HealthcareProviderStore.serialqueue.\(UUID().uuidString)")
 	
+	/// Observatory for changes
+	public let observatory: Observatory<Bool>
+	
+	/// Observers for changes
+	private let observers: (Bool) -> Void
+	
+	/// The list of stored healthcare provider
 	public var providers: [HealthcareProvider]
 	
+	/// Initializer
+	/// - Parameter storage: storage protocol
 	public init(storage: FileStorageProtocol = FileStorage()) {
 		
 		self.storage = storage
+		(self.observatory, self.observers) = Observatory<Bool>.create()
+		
 		self.providers = []
 		do {
 			try self.providers = read()
@@ -67,6 +84,7 @@ public class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 		}
 
 		providers.append(provider)
+		observers(true)
 		try persistToStorage()
 	}
 	
@@ -86,6 +104,7 @@ public class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 	public func remove(_ provider: HealthcareProvider) throws {
 		
 		providers = providers.filter { $0 != provider }
+		observers(true)
 		try persistToStorage()
 	}
 	
@@ -94,6 +113,7 @@ public class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 		
 		providers = []
 		storage.remove(fileName)
+		observers(true)
 	}
 	
 	/// Store a list of providers

@@ -10,6 +10,7 @@ import MGOUI
 
 class OverviewViewModel: ObservableObject {
 	
+	/// The state for the overview scene
 	enum State: Equatable {
 		case empty
 		case list([HealthcareProvider])
@@ -20,6 +21,9 @@ class OverviewViewModel: ObservableObject {
 	
 	/// The state of the view
 	@Published var state: OverviewViewModel.State
+	
+	/// Token for the observatory (needed for unregister)
+	private var observerToken: Observatory.ObserverToken?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -33,6 +37,17 @@ class OverviewViewModel: ObservableObject {
 		
 		self.coordinator = coordinator
 		self.state = .empty
+		// Listen to changes in the stored provider list
+		self.observerToken = Current.healthcareProviderStore.observatory.append { [weak self] changed in
+			if changed {
+				self?.loadHealthcareProviders()
+			}
+		}
+	}
+	
+	deinit {
+		// Remove as observer
+		observerToken.map(Current.healthcareProviderStore.observatory.remove)
 	}
 	
 	/// Handle any action
@@ -51,6 +66,7 @@ class OverviewViewModel: ObservableObject {
 	private func loadHealthcareProviders() {
 
 		let providers = Current.healthcareProviderStore.providers
+		logInfo("OverviewModel: loadHealthcareProviders, count: \(providers.count)")
 		if providers.isEmpty {
 			state = .empty
 		} else {

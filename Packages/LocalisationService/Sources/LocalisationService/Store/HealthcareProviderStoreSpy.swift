@@ -10,7 +10,7 @@ import Foundation
 public class HealthcareProviderStoreSpy: HealthcareProviderStoreProtocol {
 
 	public init() {
-		// Public initializer needed for public access. 
+		// Public initializer needed for public access.
 	}
 	
 	public var invokedProvidersGetter = false
@@ -21,6 +21,16 @@ public class HealthcareProviderStoreSpy: HealthcareProviderStoreProtocol {
 		invokedProvidersGetter = true
 		invokedProvidersGetterCount += 1
 		return stubbedProviders
+	}
+
+	public var invokedObservatoryGetter = false
+	public var invokedObservatoryGetterCount = 0
+	public var stubbedObservatory: Observatory<Bool>!
+
+	public var observatory: Observatory<Bool> {
+		invokedObservatoryGetter = true
+		invokedObservatoryGetterCount += 1
+		return stubbedObservatory
 	}
 
 	public var invokedStore = false
