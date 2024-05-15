@@ -95,6 +95,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case Coordination.Action.storeHealthcareProvider.identifier:
 				pathForSheet.append(DashboardCoordination.State.storedHealthcareProviders)
 			
+			case Coordination.Action.backToSearchHealthcareProvider.identifier:
+				pathForSheet.removeLast(pathForSheet.count)
+			
 			case Coordination.Action.finishedSearchingHealthcareProviders.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
@@ -149,6 +152,21 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			default:
 				EmptyView()
 		}
+	}
+	
+	/// Navigate back to the state if present in the stack, else append to the stack
+	/// - Parameter state: the desired state
+	private func navigateTo(state: DashboardCoordination.State) {
+		
+		if let index = pathForSheet.indexOf(state) {
+			let elementsToBeRemoved = pathForSheet.count - index - 1
+			logDebug("DashboardCoordination navigateTo \(state) - index: \(index), count: \(pathForSheet.count), toBeRemoved: \(elementsToBeRemoved)")
+			if elementsToBeRemoved >= 0 {
+				pathForSheet.removeLast(elementsToBeRemoved)
+				return
+			}
+		}
+		pathForSheet.append(state)
 	}
 }
 

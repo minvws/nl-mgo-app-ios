@@ -193,6 +193,7 @@ struct StoredHealthcareProvidersView: View {
 				.tag("storedhp_action_done")
 			}
 			.padding(ViewTraits.Button.insets)
+			.padding(.top, ViewTraits.General.padding)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.alert(viewModel.healthcareProviderToRemoveTitle ?? "", isPresented: $viewModel.healthcareProviderToRemoveTitle.presence()) {

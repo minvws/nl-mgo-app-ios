@@ -44,7 +44,6 @@ class SearchViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		
-		case backButtonPressed
 		case clear
 		case closeSheet
 		case endEditing
@@ -95,9 +94,6 @@ class SearchViewModel: ObservableObject {
 					return
 				}
 			coordinator?.handle(Coordination.Action(identifier: "search", params: ["city": state.city, "name": state.name]))
-			
-			case .backButtonPressed:
-				coordinator?.handle(Coordination.Action.backButtonPressed)
 			
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
@@ -211,6 +207,7 @@ struct SearchView: View {
 		
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
+		.navigationBarHidden(false)
 		.if(isPresentedAsSheet, transform: { view in
 			view
 				.toolbar {
@@ -218,12 +215,6 @@ struct SearchView: View {
 						viewModel.reduce(.closeSheet)
 					}})
 				}
-		})
-		.if(!isPresentedAsSheet, transform: { view in
-			view
-				.navigationBarItems(leading: BackButton {
-					viewModel.reduce(.backButtonPressed)
-				})
 		})
 
 		.background(theme.backgroundPrimary.ignoresSafeArea())

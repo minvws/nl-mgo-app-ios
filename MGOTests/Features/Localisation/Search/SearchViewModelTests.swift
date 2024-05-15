@@ -27,11 +27,11 @@ final class SearchViewModelTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.reduce(.backButtonPressed)
+		sut.reduce(.closeSheet)
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
 	}
 	
 	func test_searchButtonPressed_shouldInvokeError() {
