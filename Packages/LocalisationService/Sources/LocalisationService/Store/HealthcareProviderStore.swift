@@ -113,7 +113,7 @@ public class HealthcareProviderStore: HealthcareProviderStoreProtocol {
 		
 		providers = []
 		storage.remove(fileName)
-		observers(true)
+		observatory.removeAll()
 	}
 	
 	/// Store a list of providers

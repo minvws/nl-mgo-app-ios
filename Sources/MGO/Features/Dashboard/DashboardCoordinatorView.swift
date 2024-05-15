@@ -81,16 +81,16 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			// Healthcare Provider Search Flow
 			
 			case Coordination.Action.searchHealthcareProviders.identifier:
-					rootStateForSheet = DashboardCoordination.State.searchHealthcareProvider
+				rootStateForSheet = DashboardCoordination.State.searchHealthcareProvider
 				
 			case Coordination.Action.search.identifier:
-					if action.params.count == 2,
-						let city = action.params["city"] as? String,
-						let name = action.params["name"] as? String {
-						pathForSheet.append(DashboardCoordination.State.searchHealthcareProviders(city: city, name: name))
-					} else {
-						logError("Dashboard Coordinator, missing params for \(action)")
-					}
+				if action.params.count == 2,
+					let city = action.params["city"] as? String,
+					let name = action.params["name"] as? String {
+					pathForSheet.append(DashboardCoordination.State.searchHealthcareProviders(city: city, name: name))
+				} else {
+					logError("Dashboard Coordinator, missing params for \(action)")
+				}
 					
 			case Coordination.Action.storeHealthcareProvider.identifier:
 				pathForSheet.append(DashboardCoordination.State.storedHealthcareProviders)
@@ -105,8 +105,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			// General
 			
 			case Coordination.Action.closeSheet.identifier:
-					pathForSheet = NavigationStackBackport.NavigationPath()
-					rootStateForSheet = nil
+				pathForSheet = NavigationStackBackport.NavigationPath()
+				rootStateForSheet = nil
 					
 			case Coordination.Action.backButtonPressed.identifier:
 				if !pathForSheet.isEmpty {
@@ -117,7 +117,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				}
 					
 			case Coordination.Action.resetApplication.identifier:
-					parentCoordinator?.handle(Coordination.Action.resetApplication)
+				parentCoordinator?.handle(Coordination.Action.resetApplication)
 				
 			default:
 				// Unhandled
@@ -152,21 +152,6 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			default:
 				EmptyView()
 		}
-	}
-	
-	/// Navigate back to the state if present in the stack, else append to the stack
-	/// - Parameter state: the desired state
-	private func navigateTo(state: DashboardCoordination.State) {
-		
-		if let index = pathForSheet.indexOf(state) {
-			let elementsToBeRemoved = pathForSheet.count - index - 1
-			logDebug("DashboardCoordination navigateTo \(state) - index: \(index), count: \(pathForSheet.count), toBeRemoved: \(elementsToBeRemoved)")
-			if elementsToBeRemoved >= 0 {
-				pathForSheet.removeLast(elementsToBeRemoved)
-				return
-			}
-		}
-		pathForSheet.append(state)
 	}
 }
 

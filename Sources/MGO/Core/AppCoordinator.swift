@@ -59,7 +59,6 @@ extension Coordination.Action {
 	static let backToSearchHealthcareProvider = Coordination.Action(identifier: "backToSearchHealthcareProvider")
 	static let storeHealthcareProvider = Coordination.Action(identifier: "storeHealthcareProvider")
 	static let finishedSearchingHealthcareProviders = Coordination.Action(identifier: "finishedSearchingHealthcareProviders")
-	static let searchHealthcareProvidersInSheet = Coordination.Action(identifier: "searchHealthcareProvidersInSheet")
 	
 	// Other
 	static let closeSheet = Coordination.Action(identifier: "closeSheet")
@@ -237,9 +236,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case Coordination.Action.finishedSearchingHealthcareProviders.identifier:
 				showChildCoordinator = true
-				
-			case Coordination.Action.searchHealthcareProvidersInSheet.identifier:
-				rootStateForSheet = AppCoordination.State.searchHealthcareProvider
 				
 			case Coordination.Action.storeHealthcareProvider.identifier:
 				path.append(AppCoordination.State.storedHealthcareProviders)
