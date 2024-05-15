@@ -116,13 +116,13 @@ class AppCoordinatorSpy: AppCoordinatorProtocol {
 				self.invokedViewParametersList.append((`for`, ()))
 			}
 	}
-	
+
 	var invokedHandle = false
 	var invokedHandleCount = 0
-	var invokedHandleParameters: (action: Any, Void)?
-	var invokedHandleParametersList = [(action: Any, Void)]()
+	var invokedHandleParameters: (action: Coordination.Action, Void)?
+	var invokedHandleParametersList = [(action: Coordination.Action, Void)]()
 
-	func handle(_ action: Any) {
+	func handle(_ action: Coordination.Action) {
 		invokedHandle = true
 		invokedHandleCount += 1
 		invokedHandleParameters = (action, ())

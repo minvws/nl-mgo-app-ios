@@ -181,7 +181,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.accessCodeValidated)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard])
+		expect(self.sut.showChildCoordinator) == true
 	}
 	
 	func test_coordinatorHandle_forgotAccessCode() {
@@ -192,33 +192,33 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.forgotAccessCode)
 		
 		// Then
-		expect(self.sut.sheet) == AppCoordination.State.forgotAccessCode
+		expect(self.sut.rootStateForSheet) == AppCoordination.State.forgotAccessCode
 	}
 	
 	func test_coordinatorHandle_dismissForgotAccessCode() {
 		
 		// Given
-		sut.sheet = AppCoordination.State.forgotAccessCode
+		sut.rootStateForSheet = AppCoordination.State.forgotAccessCode
 		
 		// When
 		sut.handle(Coordination.Action.dismissForgotAccessCode)
 		
 		// Then
-		expect(self.sut.sheet) == nil
+		expect(self.sut.rootStateForSheet) == nil
 	}
 	
 	func test_coordinatorHandle_recreateAccount_presentInStack() {
 		
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.accessCodeValidation])
-		sut.sheet = AppCoordination.State.forgotAccessCode
+		sut.rootStateForSheet = AppCoordination.State.forgotAccessCode
 		
 		// When
 		sut.handle(Coordination.Action.recreateAccount)
 		
 		// Then
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedData) == true
-		expect(self.sut.sheet) == nil
+		expect(self.sut.rootStateForSheet) == nil
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
 		expect(self.sut.path.count) == 1
 	}
@@ -262,34 +262,12 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedWipePersistedDataCount) == 1
 	}
 	
-	func test_coordinatorHandle_poc() {
-		
-		// Given
-		
-		// When
-		sut.handle(Coordination.Action.fhirClient)
-		
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.fhirClient])
-	}
-	
-	func test_coordinatorHandle_searchHealthcareProviders() {
-		
-		// Given
-		
-		// When
-		sut.handle(Coordination.Action.searchHealthcareProviders)
-		
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProvider])
-	}
-	
 	func test_coordinatorHandle_search() {
 		
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action.search(city: "Roermond", name: "Tandarts Tandje Erbij"))
+		sut.handle(Coordination.Action(identifier: "search", params: ["city": "Roermond", "name": "Tandarts Tandje Erbij"]))
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")])

@@ -91,7 +91,7 @@ final class SearchViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.sut.state.cityError) == ""
 		expect(self.sut.state.nameError) == ""
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.search(city: "Den Haag", name: "Apotheek")
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action(identifier: "search", params: ["city": "Den Haag", "name": "Apotheek"])
 	}
 	
 	func test_searchButtonPressed_cityNotOKnameNotOK_shouldInvokeError() {

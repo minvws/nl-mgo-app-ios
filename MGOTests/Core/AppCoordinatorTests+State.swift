@@ -160,19 +160,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forDashboard() throws {
 
 		// Given
+		
 		let state = AppCoordination.State.dashboard
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_forfhirClient() throws {
-
-		// Given
-		let state = AppCoordination.State.fhirClient
+		var sendUpdate: ((Bool) -> Void)?
+		(servicesSpies.healthcareProviderStoreSpy.stubbedObservatory, sendUpdate) = Observatory<Bool>.create()
 		
 		// When
 		let view = sut.view(for: state)

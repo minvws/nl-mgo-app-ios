@@ -21,6 +21,9 @@ final class OverviewViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
+		var sendUpdate: ((Bool) -> Void)?
+		(servicesSpies.healthcareProviderStoreSpy.stubbedObservatory, sendUpdate) = Observatory<Bool>.create()
+		
 		sut = OverviewViewModel(coordinator: coordinatorSpy)
 	}
 
