@@ -16,7 +16,7 @@ final class SearchResultCardViewTests: XCTestCase {
 		
 		// When
 		let sut = SearchResultCardView(
-			element: SearchResult(
+			model: SearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -36,7 +36,7 @@ final class SearchResultCardViewTests: XCTestCase {
 		
 		// When
 		let sut = SearchResultCardView(
-			element: SearchResult(
+			model: SearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -56,7 +56,7 @@ final class SearchResultCardViewTests: XCTestCase {
 		
 		// When
 		let sut = SearchResultCardView(
-			element: SearchResult(
+			model: SearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -76,7 +76,7 @@ final class SearchResultCardViewTests: XCTestCase {
 		
 		// When
 		let sut = SearchResultCardView(
-			element: SearchResult(
+			model: SearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij"
 			),
