@@ -150,7 +150,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Onboarding
 			
 			case Coordination.Action.finishedLoading.identifier:
-					// Only show the appIntroduction once
 				handleStartup()
 			
 			case Coordination.Action.nextButtonPressedOnAppIntroduction.identifier:
