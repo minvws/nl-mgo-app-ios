@@ -11,7 +11,13 @@ import MGOUI
 struct StoredHealthcareProviderCardView: View {
 	
 	/// The search result to display
-	var element: StoredHealthcareProviderModel
+	var model: StoredHealthcareProviderModel
+	
+	/// has the user pressed (but no released) the button
+	@State private var onHover = false
+	
+	/// The action to be performed when the user presses this card
+	var perform: (() -> Void)?
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -37,25 +43,25 @@ struct StoredHealthcareProviderCardView: View {
 			
 			VStack(alignment: .leading, spacing: 0) {
 				
-				Text(element.category)
+				Text(model.category)
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundStyle(theme.contentPrimary)
 					.padding(.bottom, ViewTraits.General.textPadding)
 				
-				Text(element.name)
+				Text(model.name)
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentPrimary)
 					.multilineTextAlignment(.leading)
 					.padding(.bottom, ViewTraits.General.textPadding)
 				
 				Group {
-					Text(element.address ?? "")
+					Text(model.address ?? "")
 					
 					HStack {
 						
-						Text(element.postalCode ?? "" )
+						Text(model.postalCode ?? "" )
 						
-						Text(element.city ?? "")
+						Text(model.city ?? "")
 					}
 				}
 				.rijksoverheidStyle(font: .italic, style: .body)
@@ -73,20 +79,25 @@ struct StoredHealthcareProviderCardView: View {
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.cornerRadius(ViewTraits.General.cornerRadius)
-		.background(theme.backgroundSecondary)
+		.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
 		.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
 		.overlay(
 			RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius)
 				.inset(by: ViewTraits.Box.inset)
 				.stroke(theme.linesPrimary, lineWidth: 1)
 		)
+		._onButtonGesture { pressed in
+			self.onHover = pressed
+		} perform: {
+			perform?()
+		}
 	}
 }
 
 #Preview {
 	
 	StoredHealthcareProviderCardView(
-		element: StoredHealthcareProviderModel(
+		model: StoredHealthcareProviderModel(
 			category: "Tandarts",
 			id: "1",
 			name: "Tandarts Tandje Erbij",

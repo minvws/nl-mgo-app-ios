@@ -106,6 +106,9 @@ struct InputField: View {
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.foregroundStyle(theme.notificationError)
 				}
+				.onTapGesture {
+					isFieldFocused.toggle()
+				}
 				.accessibilityElement(children: .combine)
 			}
 		}

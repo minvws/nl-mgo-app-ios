@@ -152,8 +152,6 @@ struct OverviewView: View {
 	
 	@ViewBuilder func headerView() -> some View {
 		
-		#warning("MGO-197: Header Bar")
-		// (https://vws-prd.jira.odc-noord.nl/browse/MGO-197)
 		HStack(alignment: .top, spacing: 16) {
 			
 			Text(verbatim: "Goedemorgen, mevrouw de Bruijn")
@@ -213,16 +211,19 @@ struct OverviewView: View {
 						.foregroundStyle(.clear)
 						.accessibilityLabel(String(
 							format: String(localized: "dashboard_list_action_voiceover"),
-										   arguments: ["\(healthcareProvider.display_name)"]
-									   ))
+							arguments: ["\(healthcareProvider.display_name)"]
+						))
 						.accessibilityAddTraits(.isButton)
 					
 					let model = OverviewDecorator.create(healthcareProvider)
-					OverviewCardView(name: model.name, category: model.category)
-						.onTapGesture {
+					OverviewCardView(
+						model: model,
+						perform: {
 							#warning("MGO-240: Show Healthcare Provider")
 							// (https://vws-prd.jira.odc-noord.nl/browse/MGO-240)
+							_ = logDebug("user tapped on \(model.name)")
 						}
+					)
 				}
 			}
 		})

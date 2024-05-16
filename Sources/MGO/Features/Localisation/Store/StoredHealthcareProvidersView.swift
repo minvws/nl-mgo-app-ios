@@ -171,11 +171,12 @@ struct StoredHealthcareProvidersView: View {
 										)
 										.accessibilityAddTraits(.isButton)
 									
-									StoredHealthcareProviderCardView(element: StoredHealthcareProviderDecorator.create(healthcareProvider))
-										.onTapGesture {
+									StoredHealthcareProviderCardView(
+										model: StoredHealthcareProviderDecorator.create(healthcareProvider),
+										perform: {
 											viewModel.reduce(.showRemoveDialog(healthcareProvider))
 										}
-									
+									)
 								}
 							}
 						})

@@ -277,12 +277,12 @@ struct SearchResultsView: View {
 								.accessibilityAddTraits(.isButton)
 							
 							SearchResultCardView(
-								element: SearchResultDecorator.create(element.provider),
-								state: element.cardState
+								model: SearchResultDecorator.create(element.provider),
+								state: element.cardState,
+								perform: {
+									viewModel.reduce(.store(element.provider))
+								}
 							)
-							.onTapGesture {
-								viewModel.reduce(.store(element.provider))
-							}
 						}
 					}
 				}
