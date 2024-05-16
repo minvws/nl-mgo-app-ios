@@ -12,11 +12,14 @@ struct OverviewCardView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
-	/// The name of the healthcare provider
-	var name: String
+	/// The model of the healthcare provider
+	var model: OverviewHealthcareProvider
 	
-	/// The category of the healthcare provider
-	var category: String
+	/// has the user pressed (but no released) the button
+	@State private var onHover = false
+	
+	/// The action to be performed when the user presses this card
+	var perform: (() -> Void)?
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -37,13 +40,13 @@ struct OverviewCardView: View {
 				
 				VStack(alignment: .leading, spacing: ViewTraits.General.spacing) {
 					
-					Text(name)
+					Text(model.name)
 						.rijksoverheidStyle(font: .bold, style: .body)
 						.multilineTextAlignment(.leading)
 						.foregroundColor(theme.contentPrimary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 					
-					Text(category)
+					Text(model.category)
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.multilineTextAlignment(.leading)
 						.foregroundColor(theme.contentSecondary)
@@ -60,19 +63,24 @@ struct OverviewCardView: View {
 			}
 			.accessibilityElement(children: .combine)
 			.padding(ViewTraits.General.padding)
-			.background(theme.backgroundSecondary)
+			.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
 		
 			Divider()
 				.overlay(theme.linesSecondary)
 			
+		}
+		._onButtonGesture { pressed in
+			self.onHover = pressed
+		} perform: {
+			perform?()
 		}
 	}
 }
 
 #Preview {
 	VStack(spacing: 4) {
-		OverviewCardView(name: "Tandarts Tandje Erbij", category: "Tandartsen")
-		OverviewCardView(name: "Tandarts Tandje Erbij", category: "Tandartsen")
-		OverviewCardView(name: "Tandarts Tandje Erbij", category: "Tandartsen")
+		OverviewCardView(model: OverviewHealthcareProvider(category: "Tandartsen", id: "1", name: "Tandarts Tandje Erbij"))
+		OverviewCardView(model: OverviewHealthcareProvider(category: "Tandartsen", id: "2", name: "Tandarts Tandje Erbij"))
+		OverviewCardView(model: OverviewHealthcareProvider(category: "Tandartsen", id: "3", name: "Tandarts Tandje Erbij"))
 	}
 }

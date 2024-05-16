@@ -25,10 +25,16 @@ enum SearchResultCardState {
 struct SearchResultCardView: View {
 	
 	/// The search result to display
-	var element: SearchResult
+	var model: SearchResult
 	
 	/// The state of the card
 	var state: SearchResultCardState
+	
+	/// has the user pressed (but no released) the button
+	@State private var onHover = false
+	
+	/// The action to be performed when the user presses this card
+	var perform: (() -> Void)?
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -61,20 +67,20 @@ struct SearchResultCardView: View {
 			
 			VStack(alignment: .leading, spacing: 0) {
 				
-				Text(element.name)
+				Text(model.name)
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundStyle(theme.contentPrimary)
 					.multilineTextAlignment(.leading)
 					.padding(.bottom, ViewTraits.Title.padding)
 				
 				Group {
-					Text(element.address ?? "")
+					Text(model.address ?? "")
 					
 					HStack {
 						
-						Text(element.postalCode ?? "" )
+						Text(model.postalCode ?? "" )
 						
-						Text(element.city ?? "")
+						Text(model.city ?? "")
 					}
 				}
 				.rijksoverheidStyle(font: .italic, style: .body)
@@ -137,7 +143,7 @@ struct SearchResultCardView: View {
 		.cornerRadius(ViewTraits.General.cornerRadius)
 		.if(state != .warning, transform: { view in
 			view
-				.background(theme.backgroundSecondary)
+				.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
 				.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
 				.overlay(
 					RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius)
@@ -145,6 +151,11 @@ struct SearchResultCardView: View {
 						.stroke(theme.linesPrimary, lineWidth: 1)
 				)
 		})
+		._onButtonGesture { pressed in
+			self.onHover = pressed
+		} perform: {
+			perform?()
+		}
 	}
 }
 
@@ -153,7 +164,7 @@ struct SearchResultCardView: View {
 	VStack(spacing: 8) {
 		
 		SearchResultCardView(
-			element: SearchResult(
+			model: SearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -164,7 +175,7 @@ struct SearchResultCardView: View {
 		)
 	
 		SearchResultCardView(
-			element: SearchResult(
+			model: SearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -175,7 +186,7 @@ struct SearchResultCardView: View {
 		)
 		
 		SearchResultCardView(
-			element: SearchResult(
+			model: SearchResult(
 				id: "1",
 				name: "Tandartsenpraktijk Willem II Roermond B.V.",
 				city: "Roermond",
