@@ -94,7 +94,7 @@ public class KeychainItem<T: Codable> {
 		
 		if let password = try? JSONDecoder().decode(Wrapped.self, from: passwordData) {
 			return password.value
-		} else if T.self is String.Type, let password = String(data: passwordData, encoding: .utf8), let value = password as? T {
+		} else if T.self is String.Type, let password = String(data: passwordData, encoding: .utf8), let value = password as? T { //swiftlint:disable:this non_optional_string_data_conversion
 			return value
 		} else {
 			throw KeychainError.unexpectedData
