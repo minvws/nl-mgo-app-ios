@@ -10,6 +10,7 @@ import MGOFoundation
 
 extension Coordination.Action {
 	static let searchHealthcareProviders = Coordination.Action(identifier: "searchHealthcareProviders")
+	static let showHealthcareProviderDetails = Coordination.Action(identifier: "showHealthcareProviderDetails")
 }
 
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
@@ -46,6 +47,7 @@ enum DashboardCoordination {
 		case searchHealthcareProvider
 		case searchHealthcareProviders(city: String, name: String)
 		case storedHealthcareProviders
+		case showHealthcareProviderDetails(healthcareProvider: HealthcareProvider)
 	}
 }
 
@@ -102,6 +104,16 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
 			
+			// Healthcare Provider Details
+			
+			case Coordination.Action.showHealthcareProviderDetails.identifier:
+				if action.params.count == 1,
+				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
+					firstTabPath.append(DashboardCoordination.State.showHealthcareProviderDetails(healthcareProvider: healthcareProvider))
+				} else {
+					logError("DashboardCoordinator Coordinator, missing params for \(action)")
+				}
+			
 			// General
 			
 			case Coordination.Action.closeSheet.identifier:
@@ -148,6 +160,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			
 			case .storedHealthcareProviders:
 				StoredHealthcareProvidersView(viewModel: StoredHealthcareProvidersViewModel(coordinator: self)).isPresentedAsSheet(true)
+			
+			case let .showHealthcareProviderDetails(healthcareProvider):
+				HealthcareProviderView(viewModel: HealthcareProviderViewModel(coordinator: self, healthcareProvider: healthcareProvider))
 			
 			default:
 				EmptyView()
