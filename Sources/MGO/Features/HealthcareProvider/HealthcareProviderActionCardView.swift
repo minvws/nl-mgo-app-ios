@@ -18,8 +18,10 @@ struct HealthcareProviderActionCardView: View {
 	/// The body of the card
 	var message: LocalizedStringKey
 	
+	/// The icon to use for the category
 	var icon: ImageResource
 	
+	/// The color for the icon background
 	var iconColor: Color
 	
 	/// has the user pressed (but no released) the button

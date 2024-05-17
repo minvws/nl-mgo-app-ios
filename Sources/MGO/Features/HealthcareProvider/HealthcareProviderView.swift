@@ -84,16 +84,20 @@ struct HealthcareProviderView: View {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
-				Text(viewModel.providerModel.name)
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.foregroundStyle(theme.contentPrimary)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.accessibilityAddTraits(.isHeader)
-				
-				Text(viewModel.providerModel.category)
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentTertiary)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
+				Group {
+					
+					Text(viewModel.providerModel.name)
+						.rijksoverheidStyle(font: .bold, style: .title)
+						.foregroundStyle(theme.contentPrimary)
+						.frame(maxWidth: .infinity, alignment: .topLeading)
+						.accessibilityAddTraits(.isHeader)
+					
+					Text(viewModel.providerModel.category)
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.foregroundStyle(theme.contentTertiary)
+						.frame(maxWidth: .infinity, alignment: .topLeading)
+				}
+				.padding(.horizontal, ViewTraits.General.padding)
 
 				VStack(spacing: ViewTraits.List.spacing) {
 					
@@ -150,7 +154,7 @@ struct HealthcareProviderView: View {
 				}
 				.padding(.top, ViewTraits.List.top)
 			}
-			.padding(.horizontal, ViewTraits.General.padding)
+			
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
