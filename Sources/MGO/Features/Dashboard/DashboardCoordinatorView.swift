@@ -10,6 +10,11 @@ import MGOFoundation
 
 extension Coordination.Action {
 	static let searchHealthcareProviders = Coordination.Action(identifier: "searchHealthcareProviders")
+	static let showHealthcareProviderDetails = Coordination.Action(identifier: "showHealthcareProviderDetails")
+	
+	static let showDiagnoses = Coordination.Action(identifier: "showDiagnoses")
+	static let showMedication = Coordination.Action(identifier: "showMedication")
+	static let showResults = Coordination.Action(identifier: "showResults")
 }
 
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
@@ -42,10 +47,16 @@ enum DashboardCoordination {
 		case aboutTheApp
 		case overview
 		
-//		// Healthcare Provider flow
+		// Search & Store Healthcare Provider flow
 		case searchHealthcareProvider
 		case searchHealthcareProviders(city: String, name: String)
 		case storedHealthcareProviders
+		
+		// Details Flow
+		case showHealthcareProviderDetails(healthcareProvider: HealthcareProvider)
+		case showDiagnoses(healthcareProvider: HealthcareProvider)
+		case showMedication(healthcareProvider: HealthcareProvider)
+		case showResults(healthcareProvider: HealthcareProvider)
 	}
 }
 
@@ -102,6 +113,40 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
 			
+			// Healthcare Provider Details
+			
+			case Coordination.Action.showHealthcareProviderDetails.identifier:
+				if action.params.count == 1,
+				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
+					firstTabPath.append(DashboardCoordination.State.showHealthcareProviderDetails(healthcareProvider: healthcareProvider))
+				} else {
+					logError("DashboardCoordinator Coordinator, missing params for \(action)")
+				}
+			
+			case Coordination.Action.showDiagnoses.identifier:
+				if action.params.count == 1,
+				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
+					firstTabPath.append(DashboardCoordination.State.showDiagnoses(healthcareProvider: healthcareProvider))
+				} else {
+					logError("DashboardCoordinator Coordinator, missing params for \(action)")
+				}
+			
+			case Coordination.Action.showMedication.identifier:
+				if action.params.count == 1,
+				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
+					firstTabPath.append(DashboardCoordination.State.showMedication(healthcareProvider: healthcareProvider))
+				} else {
+					logError("DashboardCoordinator Coordinator, missing params for \(action)")
+				}
+	
+			case Coordination.Action.showResults.identifier:
+				if action.params.count == 1,
+				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
+					firstTabPath.append(DashboardCoordination.State.showResults(healthcareProvider: healthcareProvider))
+				} else {
+					logError("DashboardCoordinator Coordinator, missing params for \(action)")
+				}
+			
 			// General
 			
 			case Coordination.Action.closeSheet.identifier:
@@ -148,6 +193,21 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			
 			case .storedHealthcareProviders:
 				StoredHealthcareProvidersView(viewModel: StoredHealthcareProvidersViewModel(coordinator: self)).isPresentedAsSheet(true)
+			
+			case let .showHealthcareProviderDetails(healthcareProvider):
+				HealthcareProviderView(viewModel: HealthcareProviderViewModel(coordinator: self, healthcareProvider: healthcareProvider))
+			
+			case let .showDiagnoses(healthcareProvider):
+				
+				Text(verbatim: "Todo: Diagnoses (MGO-???) for\n \(healthcareProvider.display_name)")
+				
+			case let .showMedication(healthcareProvider):
+				
+				Text(verbatim: "Todo: Medication (MGO-251) for\n \(healthcareProvider.display_name)")
+				
+			case let .showResults(healthcareProvider):
+				
+				Text(verbatim: "Todo: Results (MGO-378) for\n \(healthcareProvider.display_name)")
 			
 			default:
 				EmptyView()
