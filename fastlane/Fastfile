@@ -23,7 +23,7 @@ platform :ios do
   lane :test_ci do
     run_tests(
       app_name: "MGO",
-      destination: "platform=iOS Simulator,name=iPhone 15 Pro,OS=17.4",
+      destination: "platform=iOS Simulator,name=iPhone 15 Pro,OS=17.5",
       project: "MGO.xcodeproj",
       scheme: "MGO Dev",
       reinstall_app: true,
