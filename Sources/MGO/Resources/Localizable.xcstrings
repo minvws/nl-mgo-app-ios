@@ -673,6 +673,72 @@
         }
       }
     },
+    "hpdetails_diagnoses_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vastgesteld door je zorgaanbieder"
+          }
+        }
+      }
+    },
+    "hpdetails_diagnoses_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klachten en diagnoses"
+          }
+        }
+      }
+    },
+    "hpdetails_medication_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voorgeschreven door je zorgaanbieder"
+          }
+        }
+      }
+    },
+    "hpdetails_medication_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medicijnen"
+          }
+        }
+      }
+    },
+    "hpdetails_results_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultaten van jouw onderzoeken, (röntgen)foto's en scans"
+          }
+        }
+      }
+    },
+    "hpdetails_results_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitslagen"
+          }
+        }
+      }
+    },
     "launch_image_voiceover" : {
       "extractionState" : "manual",
       "localizations" : {

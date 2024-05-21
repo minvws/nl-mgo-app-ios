@@ -29,6 +29,7 @@ class OverviewViewModel: ObservableObject {
 	enum Action {
 		case onAppear
 		case search
+		case details(HealthcareProvider)
 	}
 	
 	/// Intitializer
@@ -55,10 +56,18 @@ class OverviewViewModel: ObservableObject {
 	func reduce(_ action: OverviewViewModel.Action) {
 		
 		switch action {
+		
 			case .onAppear:
-				loadHealthcareProviders()
+					loadHealthcareProviders()
+			
 			case .search:
-				coordinator?.handle(Coordination.Action.searchHealthcareProviders)
+					coordinator?.handle(Coordination.Action.searchHealthcareProviders)
+			
+			case .details(let healthcareProvider):
+					coordinator?.handle(Coordination.Action(
+						identifier: "showHealthcareProviderDetails",
+						params: ["healthcareProvider": healthcareProvider])
+					)
 		}
 	}
 	
@@ -96,6 +105,7 @@ struct OverviewView: View {
 		}
 		enum List {
 			static let spacing: CGFloat = 4
+			static let top: CGFloat = 8
 		}
 		enum Button {
 			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
@@ -218,14 +228,13 @@ struct OverviewView: View {
 					OverviewCardView(
 						model: model,
 						perform: {
-							#warning("MGO-240: Show Healthcare Provider")
-							// (https://vws-prd.jira.odc-noord.nl/browse/MGO-240)
-							_ = logDebug("user tapped on \(model.name)")
+							viewModel.reduce(.details(healthcareProvider))
 						}
 					)
 				}
 			}
 		})
+		.padding(.top, ViewTraits.List.top)
 	}
 }
 
