@@ -122,6 +122,9 @@ class SearchResultsViewModel: ObservableObject {
 			
 			case .store(let provider):
 				try? Current.healthcareProviderStore.store(provider)
+				if !(Current.secureUserSettings.userHasAddedHealthcareProvider) {
+					Current.secureUserSettings.userHasAddedHealthcareProvider = true
+				}
 				applyListState()
 				coordinator?.handle(Coordination.Action.storeHealthcareProvider)
 		}

@@ -143,23 +143,15 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				return URL(string: String(localized: "privacy_statement_overview_tst"))
 		}
 	}
-	
+		
 	func handle(_ action: Coordination.Action) {
 		
 		switch action.identifier {
 			// Onboarding
 			
 			case Coordination.Action.finishedLoading.identifier:
-				
-				if !Current.secureUserSettings.userHasSeenAppIntroduction {
-					// Only show the appIntroduction once
-					path.append(AppCoordination.State.appIntroduction)
-				} else if Current.secureUserSettings.accessCode == nil {
-					path.append(AppCoordination.State.accessCodeEntry)
-					
-				} else {
-					path.append(AppCoordination.State.accessCodeValidation)
-				}
+				handleStartup()
+			
 			case Coordination.Action.nextButtonPressedOnAppIntroduction.identifier:
 				path.append(AppCoordination.State.privacyOverview)
 				
@@ -184,15 +176,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.append(AppCoordination.State.accessCodeConfirmation)
 				
 			case Coordination.Action.accessCodeConfirmed.identifier:
-				
-				if Current.localAuthenticationProvider.biometricType() == .none {
-					path.append(AppCoordination.State.remoteAuthentication)
-				} else {
-					path.append(AppCoordination.State.bioMetricSetup)
-				}
+				handleAccessCodeConfirmed()
 				
 			case Coordination.Action.accessCodeValidated.identifier:
-				showChildCoordinator = true
+				handleAccessCodeValidated()
 				
 			case Coordination.Action.didFinishLocalAuthentication.identifier:
 				path.append(AppCoordination.State.remoteAuthentication)
@@ -264,6 +251,42 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
+	/// Handle the complex startup logic
+	private func handleStartup() {
+		
+		if !Current.secureUserSettings.userHasSeenAppIntroduction {
+			// Only show the appIntroduction once
+			path.append(AppCoordination.State.appIntroduction)
+		} else if Current.secureUserSettings.accessCode == nil {
+			// User must set an access code
+			path.append(AppCoordination.State.accessCodeEntry)
+		} else {
+			// Repeat login, user must authenticate with access code
+			path.append(AppCoordination.State.accessCodeValidation)
+		}
+	}
+	
+	/// Handle the access code validated state
+	private func handleAccessCodeValidated() {
+		
+		if !Current.secureUserSettings.userHasAddedHealthcareProvider {
+			// User must add at least once a healthcare provider
+			path.append(AppCoordination.State.searchHealthcareProvider)
+		} else {
+			showChildCoordinator = true
+		}
+	}
+	
+	/// Handle the access code confirmed state
+	private func handleAccessCodeConfirmed() {
+		
+		if Current.localAuthenticationProvider.biometricType() == .none {
+			path.append(AppCoordination.State.remoteAuthentication)
+		} else {
+			path.append(AppCoordination.State.bioMetricSetup)
+		}
+	}
+	
 	/// Navigate back to the state if present in the stack, else append to the stack
 	/// - Parameter state: the desired state
 	private func navigateTo(state: AppCoordination.State) {
@@ -288,7 +311,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .launch:
 				LaunchView(viewModel: LaunchViewModel(coordinator: self))
 				
-				// Onboarding
+			// Onboarding
 				
 			case .appIntroduction:
 				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self))
@@ -303,7 +326,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 					EmptyView()
 				}
 				
-				// Local Authentication
+			// Local Authentication
 				
 			case .accessCodeEntry:
 				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .creation, bioMetricType: Current.localAuthenticationProvider.biometricType))
@@ -320,17 +343,17 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .forgotAccessCode:
 				ForgotAccessCodeView(viewModel: ForgotAccessCodeViewModel(coordinator: self))
 				
-				// Remote Authentication
+			// Remote Authentication
 				
 			case .remoteAuthentication:
 				RemoteAuthenticationView(viewModel: RemoteAuthenticationViewModel(coordinator: self))
 				
-				// Dashboard
+			// Dashboard
 				
 			case .dashboard:
 				DashboardCoordinatorView(coordinator: DashboardCoordinator(parentCoordinator: self))
 				
-				// Healthcare Provider flow
+			// Healthcare Provider flow
 				
 			case .searchHealthcareProvider:
 				SearchView(viewModel: SearchViewModel(coordinator: self))

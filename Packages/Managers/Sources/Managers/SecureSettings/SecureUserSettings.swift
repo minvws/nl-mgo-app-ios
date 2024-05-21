@@ -16,9 +16,12 @@ public protocol SecureUserSettingsProtocol: AnyObject {
 	/// the access code
 	var accessCode: String? { get set }
 	
-	/// Do we have setup the biomtetric authentication
+	/// Do we have setup the biometric authentication
 	var bioMetricAuthenticationEnabled: Bool { get set }
 	
+	/// Have we added a healthcare provider
+	var userHasAddedHealthcareProvider: Bool { get set }
+
 	/// Have we seen the app introduction
 	var userHasSeenAppIntroduction: Bool { get set }
 	
@@ -29,11 +32,12 @@ public protocol SecureUserSettingsProtocol: AnyObject {
 	func wipePersistedData()
 }
 
-/// The class that holds all the secure usser settings
+/// The class that holds all the secure user settings
 public class SecureUserSettings: SecureUserSettingsProtocol {
 	
 	/// Default values
 	public struct Defaults {
+		public static var userHasAddedHealthcareProvider: Bool = false
 		public static var userHasSeenAppIntroduction: Bool = false
 		public static var userHasRemoteAuthentication: Bool = false
 		public static var bioMetricAuthenticationEnabled: Bool = false
@@ -44,6 +48,9 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	public init() {
 		// Public initializer needed for public access.
 	}
+	
+	@Keychain(name: "userHasAddedHealthcareProvider", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
+	public var userHasAddedHealthcareProvider: Bool = Defaults.userHasAddedHealthcareProvider
 	
 	@Keychain(name: "userHasSeenAppIntroduction", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var userHasSeenAppIntroduction: Bool = Defaults.userHasSeenAppIntroduction
@@ -77,6 +84,7 @@ extension SecureUserSettings {
 		accessCode = Defaults.accessCode
 		bioMetricAuthenticationEnabled = Defaults.bioMetricAuthenticationEnabled
 		tempAccessCode = Defaults.accessCode
+		userHasAddedHealthcareProvider = Defaults.userHasAddedHealthcareProvider
 		userHasSeenAppIntroduction = Defaults.userHasSeenAppIntroduction
 		userHasRemoteAuthentication = Defaults.userHasRemoteAuthentication
 	}
