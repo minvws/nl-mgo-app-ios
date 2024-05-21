@@ -75,7 +75,6 @@ class OverviewViewModel: ObservableObject {
 	private func loadHealthcareProviders() {
 
 		let providers = Current.healthcareProviderStore.providers
-		logInfo("OverviewModel: loadHealthcareProviders, count: \(providers.count)")
 		if providers.isEmpty {
 			state = .empty
 		} else {
