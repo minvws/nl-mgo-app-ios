@@ -25,9 +25,9 @@ class HealthcareProviderViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-		case medication
-		case diagnoses
-		case results
+		case showMedication
+		case showDiagnoses
+		case showResults
 	}
 	
 	/// Intitializer
@@ -46,12 +46,21 @@ class HealthcareProviderViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
-			case .medication:
-				break
-			case .diagnoses:
-				break
-			case .results:
-				break
+			case .showDiagnoses:
+				coordinator?.handle(Coordination.Action(
+					identifier: "showDiagnoses",
+					params: ["healthcareProvider": healthcareProvider])
+				)
+			case .showMedication:
+				coordinator?.handle(Coordination.Action(
+					identifier: "showMedication",
+					params: ["healthcareProvider": healthcareProvider])
+				)
+			case .showResults:
+				coordinator?.handle(Coordination.Action(
+					identifier: "showResults",
+					params: ["healthcareProvider": healthcareProvider])
+				)
 		}
 	}
 }
@@ -112,7 +121,7 @@ struct HealthcareProviderView: View {
 								message: "hpdetails_medication_body",
 								icon: .medication,
 								perform: {
-									viewModel.reduce(.medication)
+									viewModel.reduce(.showMedication)
 								}
 							)
 					}
@@ -128,7 +137,7 @@ struct HealthcareProviderView: View {
 							message: "hpdetails_diagnoses_body",
 							icon: .diagnoses,
 							perform: {
-								viewModel.reduce(.diagnoses)
+								viewModel.reduce(.showDiagnoses)
 							}
 						)
 					}
@@ -144,7 +153,7 @@ struct HealthcareProviderView: View {
 							message: "hpdetails_results_body",
 							icon: .results,
 							perform: {
-								viewModel.reduce(.results)
+								viewModel.reduce(.showResults)
 							}
 						)
 					}

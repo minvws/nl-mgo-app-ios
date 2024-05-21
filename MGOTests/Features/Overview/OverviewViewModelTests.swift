@@ -63,4 +63,20 @@ final class OverviewViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.searchHealthcareProviders
 	}
+	
+	func test_detailsButtonPressed_shouldCallCoordinator() {
+		
+		// Given
+		let healthcareProvider = Generator.healthcareProvider("1")
+		
+		// When
+		sut.reduce(.details(healthcareProvider))
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action(
+			identifier: "showHealthcareProviderDetails",
+			params: ["healthcareProvider": healthcareProvider]
+		)
+	}
 }
