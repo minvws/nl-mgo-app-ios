@@ -278,6 +278,12 @@ targets:
       - path: MGOTests
         excludes:
           - "**/__Snapshots__"
+          
+  MGOUITests:
+    templates:
+      - Standard_UITesting
+    sources:
+      - path: MGOUITests
 
 # - Scheme Templates
 
@@ -319,6 +325,16 @@ schemeTemplates:
         "--unittesting": true
       language: nl
       region: NL
+
+  # Template for adding UI tests to a scheme:
+  UITestScheme:
+    test:
+      language: nl
+      region: NL
+      targets:
+        - name: ${uiTestTargetName}
+          parallelizable: true
+          randomExecutionOrder: true
 
 # - Schemes
 
@@ -387,3 +403,14 @@ schemes:
     templateAttributes:
       appTargetName: MGO
       configEnvironment: AppStore
+      
+  MGO UI Tests:
+    templates:
+      - DevelopmentConfigScheme
+      - UITestScheme # This scheme has UI tests
+    templateAttributes:
+      appTargetName: MGO
+      uiTestTargetName: MGOUITests
+      configEnvironment: Development
+    run:
+      language: nl
