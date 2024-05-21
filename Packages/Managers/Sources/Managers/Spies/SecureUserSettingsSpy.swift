@@ -80,6 +80,28 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 		}
 	}
 
+	public var invokedUserHasAddedHealthcareProviderSetter = false
+	public var invokedUserHasAddedHealthcareProviderSetterCount = 0
+	public var invokedUserHasAddedHealthcareProvider: Bool?
+	public var invokedUserHasAddedHealthcareProviderList = [Bool]()
+	public var invokedUserHasAddedHealthcareProviderGetter = false
+	public var invokedUserHasAddedHealthcareProviderGetterCount = 0
+	public var stubbedUserHasAddedHealthcareProvider: Bool! = false
+
+	public var userHasAddedHealthcareProvider: Bool {
+		set {
+			invokedUserHasAddedHealthcareProviderSetter = true
+			invokedUserHasAddedHealthcareProviderSetterCount += 1
+			invokedUserHasAddedHealthcareProvider = newValue
+			invokedUserHasAddedHealthcareProviderList.append(newValue)
+		}
+		get {
+			invokedUserHasAddedHealthcareProviderGetter = true
+			invokedUserHasAddedHealthcareProviderGetterCount += 1
+			return stubbedUserHasAddedHealthcareProvider
+		}
+	}
+	
 	public var invokedUserHasSeenAppIntroductionSetter = false
 	public var invokedUserHasSeenAppIntroductionSetterCount = 0
 	public var invokedUserHasSeenAppIntroduction: Bool?
