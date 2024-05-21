@@ -107,11 +107,10 @@ struct HealthcareProviderView: View {
 							.accessibilityLabel("hpdetails_medication_title")
 							.accessibilityAddTraits(.isButton)
 						
-							HealthcareProviderActionCardView(
+							ActionCardView(
 								title: "hpdetails_medication_title",
 								message: "hpdetails_medication_body",
-								icon: ImageResource.Details.medication,
-								iconColor: theme.verpleeghuis,
+								icon: .medication,
 								perform: {
 									viewModel.reduce(.medication)
 								}
@@ -124,11 +123,10 @@ struct HealthcareProviderView: View {
 							.accessibilityLabel("hpdetails_diagnoses_title")
 							.accessibilityAddTraits(.isButton)
 						
-						HealthcareProviderActionCardView(
+						ActionCardView(
 							title: "hpdetails_diagnoses_title",
 							message: "hpdetails_diagnoses_body",
-							icon: ImageResource.Details.diagnoses,
-							iconColor: theme.tandarts,
+							icon: .diagnoses,
 							perform: {
 								viewModel.reduce(.diagnoses)
 							}
@@ -138,14 +136,13 @@ struct HealthcareProviderView: View {
 					ZStack {
 						Rectangle()
 							.foregroundStyle(.clear)
-							.accessibilityLabel("Todo")
+							.accessibilityLabel("hpdetails_results_title")
 							.accessibilityAddTraits(.isButton)
 						
-						HealthcareProviderActionCardView(
+						ActionCardView(
 							title: "hpdetails_results_title",
 							message: "hpdetails_results_body",
-							icon: ImageResource.Details.results,
-							iconColor: theme.fysiotherapeut,
+							icon: .results,
 							perform: {
 								viewModel.reduce(.results)
 							}

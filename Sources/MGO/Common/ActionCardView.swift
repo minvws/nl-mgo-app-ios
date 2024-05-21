@@ -7,7 +7,44 @@
 
 import MGOUI
 
-struct HealthcareProviderActionCardView: View {
+/// The various Icons for an action card
+enum ActionCardIcon {
+	
+	case diagnoses
+	case medication
+	case results
+	case none
+	
+	/// The image to use for the category
+	var image: ImageResource? {
+		switch self {
+			case .diagnoses:
+				return ImageResource.Details.diagnoses
+			case .medication:
+				return ImageResource.Details.medication
+			case .results:
+				return ImageResource.Details.results
+			case .none:
+				return nil
+		}
+	}
+	
+	/// The color for the icon background
+	var backgroundColor: Color? {
+		switch self {
+			case .diagnoses:
+				return Theme().tandarts
+			case .medication:
+				return Theme().verpleeghuis
+			case .results:
+				return Theme().fysiotherapeut
+			case .none:
+				return nil
+		}
+	}
+}
+
+struct ActionCardView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -18,11 +55,8 @@ struct HealthcareProviderActionCardView: View {
 	/// The body of the card
 	var message: LocalizedStringKey
 	
-	/// The icon to use for the category
-	var icon: ImageResource
-	
-	/// The color for the icon background
-	var iconColor: Color
+	/// The action icon
+	var icon: ActionCardIcon = .none
 	
 	/// has the user pressed (but no released) the button
 	@State private var onHover = false
@@ -47,12 +81,17 @@ struct HealthcareProviderActionCardView: View {
 			
 			HStack(alignment: .top, spacing: 0) {
 				
-				Image(icon)
-					.foregroundStyle(theme.backgroundSecondary)
-					.background(iconColor)
-					.cornerRadius(50)
-				
-				Spacer(minLength: ViewTraits.General.padding)
+				if icon != .none,
+				   let image = icon.image,
+				   let backgroundColor = icon.backgroundColor {
+					
+					Image(image)
+						.foregroundStyle(theme.backgroundSecondary)
+						.background(backgroundColor)
+						.cornerRadius(50)
+					
+					Spacer(minLength: ViewTraits.General.padding)
+				}
 				
 				VStack(alignment: .leading, spacing: ViewTraits.General.spacing) {
 					
@@ -78,7 +117,7 @@ struct HealthcareProviderActionCardView: View {
 			.accessibilityElement(children: .combine)
 			.padding(ViewTraits.General.padding)
 			.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
-		
+			
 			Divider()
 				.overlay(theme.linesSecondary)
 			
@@ -93,11 +132,10 @@ struct HealthcareProviderActionCardView: View {
 
 #Preview {
 	VStack(spacing: 4) {
-		HealthcareProviderActionCardView(
+		ActionCardView(
 			title: "hpdetails_medication_title",
 			message: "hpdetails_medication_body",
-			icon: ImageResource.Details.medication,
-			iconColor: .cyan
+			icon: ActionCardIcon.medication
 		)
 	}
 }
