@@ -202,8 +202,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				Text(verbatim: "Todo: Diagnoses (MGO-???) for\n \(healthcareProvider.display_name)")
 				
 			case let .showMedication(healthcareProvider):
-				
-				Text(verbatim: "Todo: Medication (MGO-251) for\n \(healthcareProvider.display_name)")
+				MedicationListView(viewModel: MedicationListViewModel(coordinator: self, healthcareProvider: healthcareProvider))
 				
 			case let .showResults(healthcareProvider):
 				
@@ -266,6 +265,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 			.onAppear(perform: {
 				// Brute force styling
 				let tabBarAppearance = UITabBarAppearance()
+				tabBarAppearance.shadowColor = UIColor(theme.linesTertiary)
 				tabBarAppearance.backgroundColor = UIColor(theme.backgroundSecondary)
 				tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor(theme.actionTertiaryDefault)
 				tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(theme.actionTertiaryDefault)]
