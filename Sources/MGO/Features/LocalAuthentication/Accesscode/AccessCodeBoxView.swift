@@ -110,7 +110,7 @@ struct AccessCodeBoxView: View {
 			case .error:
 				Circle()
 					.foregroundStyle(theme.notificationError)
-					.frame(width: ViewTraits.Circle.small, height: ViewTraits.Circle.small)
+					.frame(width: ViewTraits.Circle.big, height: ViewTraits.Circle.big)
 		}
 	}
 	
