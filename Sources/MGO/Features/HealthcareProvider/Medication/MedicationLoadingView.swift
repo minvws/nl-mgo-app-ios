@@ -7,7 +7,7 @@
 
 import MGOUI
 
-struct MedicationListLoadingView: View {
+struct MedicationLoadingView: View {
 
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -49,6 +49,6 @@ struct MedicationListLoadingView: View {
 
 #Preview {
 	NavigationView {
-		MedicationListLoadingView()
+		MedicationLoadingView()
 	}
 }

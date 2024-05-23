@@ -11,7 +11,7 @@ import MGOUI
 enum MedicationListViewState: Equatable {
 	
 	case loading
-	case failure(Error)
+	case failure
 	case success([MedicationStatement])
 
 	static func == (lhs: MedicationListViewState, rhs: MedicationListViewState) -> Bool {
@@ -20,8 +20,17 @@ enum MedicationListViewState: Equatable {
 			case (.loading, .loading):
 				return true
 				
-			case let(.failure(lhsError), .failure(rhsError)):
-				return lhsError.localizedDescription == rhsError.localizedDescription
+			case (.failure, .failure):
+				return true
+			
+			case let(.success(lhsList), .success(rhsList)):
+			
+				guard lhsList.count == rhsList.count else { return false }
+				var result = true
+				for index in lhsList.indices {
+					result = result && lhsList[index] == rhsList[index]
+				}
+				return result
 			
 			default:
 				return false
@@ -68,30 +77,23 @@ class MedicationListViewModel: ObservableObject {
 				}
 		}
 	}
-//URL: https://dva.test.mgo.irealisatie.nl/fhir/MedicationStatement?_format=json&category=urn%3Aoid%3A2.16.840.1.113883.2.4.3.11.60.20.77.5.3%7C6&_include=MedicationStatement%3Amedication
-	
-	private let serverURL = URL(string: "https://dva.test.mgo.irealisatie.nl/fhir")
 	
 	@MainActor
 	func loadMedication() async -> MedicationListViewState {
 	
-		let client = FHIRClient(baseURL: serverURL!)
+		guard let client = FHIRClient() else { return .failure }
 		
 		do {
-			let bundle = try await MedicationStatement.read("?_format=json&category=urn%3Aoid%3A2.16.840.1.113883.2.4.3.11.60.20.77.5.3%7C6&_include=MedicationStatement%3Amedication", client: client) as? ModelsSTU3.Bundle
-
-			
-			let observations = bundle?.entry?.compactMap {
+			let bundle = try await MedicationStatement.read("", client: client, parameters: DVPClient.BGZ.MedicationStatement) as? ModelsSTU3.Bundle
+			let statements: [MedicationStatement]? = bundle?.entry?.compactMap {
 				$0.resource?.get(if: ModelsSTU3.MedicationStatement.self)
 			}
+			guard let statements else { return .failure}
 			
-			if let result = observations {
-				return .success(result)
-			}
-			return .loading
+			return .success(statements)
 		} catch {
 			logError("Client read error: \(String(describing: error))")
-			return .failure(error)
+			return .failure
 		}
 	}
 }
@@ -140,10 +142,10 @@ struct MedicationListView: View {
 				switch viewModel.state {
 					case .loading:
 						Spacer()
-						MedicationListLoadingView()
+						MedicationLoadingView()
 						Spacer()
 					
-					case .failure(let error):
+					case .failure:
 						ErrorView(viewModel: ErrorViewModel {
 //							viewModel.reduce(.retry)
 						})

@@ -1,0 +1,31 @@
+/*
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import Foundation
+import FHIRClient
+
+extension FHIRClient {
+	
+	convenience public init?() {
+	
+		guard let serverURL = URL(string: "https://dva.test.mgo.irealisatie.nl/fhir") else { return nil }
+		self.init(baseURL: serverURL)
+	}
+}
+
+public struct DVPClient {
+	
+	public enum BGZ {
+		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017
+		
+		public static let MedicationStatement: RequestParameters = RequestParameters(
+			[RequestParameterField.category: "urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3|6",
+			 RequestParameterField.include: "MedicationStatement:medication"
+			]
+		)
+	}
+}
