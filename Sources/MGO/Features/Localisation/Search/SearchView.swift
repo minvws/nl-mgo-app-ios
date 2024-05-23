@@ -179,14 +179,16 @@ struct SearchView: View {
 					errorMessage: $viewModel.state.nameError,
 					title: "searchhp_name"
 				)
-				.padding(.bottom, ViewTraits.General.padding)
+                .padding(.bottom, ViewTraits.General.padding)
+                .accessibilityIdentifier("searchhp_name")
 				
 				InputField(
 					input: $viewModel.state.city,
 					errorMessage: $viewModel.state.cityError,
 					title: "searchhp_city"
 				)
-				.padding(.bottom, ViewTraits.General.padding)
+                .padding(.bottom, ViewTraits.General.padding)
+                .accessibilityIdentifier("searchhp_city")
 				
 				Spacer()
 			}
@@ -197,7 +199,8 @@ struct SearchView: View {
 				viewModel.reduce(.search)
 			}
 			.tag("search")
-			.padding(ViewTraits.General.padding)
+            .padding(ViewTraits.General.padding)
+            .accessibilityIdentifier("searchhp_action")
 		}
 		.onTapGesture {
 			_ = logDebug("Tapping outside the input")

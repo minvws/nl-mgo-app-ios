@@ -22,12 +22,59 @@ final class DemoUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testVoegZorgAanbiederToe() throws {
+            let app = XCUIApplication()
+        
+            app.launch()
+        
+            // ELEMENTS OF UI
+            let volgendeButton = app.buttons["Volgende"]
+            let kiescodeTextField = app.staticTexts["Kies een 5-cijferige toegangscode"]
+            let bevestigcodeTextField = app.staticTexts["Bevestig je 5-cijferige toegangscode"]
+            let nameTextField = app.textFields["searchhp_name"]
+            let cityTextField = app.textFields["searchhp_city"]
+            let searchButton  = app.buttons["searchhp_action"]
+            let digiDButton   = app.buttons["inloggen DigiD"]
+            let welkezorgaanbiederTextField = app.staticTexts["Welke zorgaanbieder wil je toevoegen?"]
+            let huisartsNooralishahiTextField = app.staticTexts["huisartsenpraktijk Nooralishahi"]
+            let huisartsNooralishahiButton = app.buttons["huisartsenparktijk Nooralishahi bekijken?"]
+            let klaarButton = app.buttons["Klaar"]
+            let zorgaanbiedertoevoegenButton = app.buttons["Zorgaanbieder toevoegen"]
+            let overdeappButton = app.buttons["Over de app"]
+            let resettheapplicationButton = app.buttons["Reset the application?"]
+        
+            // UI ACTIONS
+            volgendeButton.tap()
+            volgendeButton.tap()
+            XCTAssert(kiescodeTextField.exists)
+            app.buttons["1"].tap()
+            app.buttons["1"].tap()
+            app.buttons["2"].tap()
+            app.buttons["3"].tap()
+            app.buttons["4"].tap()
+            XCTAssert(bevestigcodeTextField.exists)
+//            XCTAssert(app.staticTexts["Log in met je persoonlijke toegangscode"].exists)
+            app.buttons["1"].tap()
+            app.buttons["1"].tap()
+            app.buttons["2"].tap()
+            app.buttons["3"].tap()
+            app.buttons["4"].tap()
+            digiDButton.tap()
+            XCTAssert(welkezorgaanbiederTextField.exists)
+            nameTextField.tap()
+            nameTextField.typeText("Huisarts")
+            cityTextField.tap()
+            cityTextField.typeText("Amsterdam")
+            searchButton.tap()
+//            XCTAssert(huisartsNooralishahiTextField.exists)
+            huisartsNooralishahiButton.tap()
+//            XCTAssert(huisartsNooralishahiTextField.exists)
+            klaarButton.tap()
+//            XCTAssert(huisartsNooralishahiTextField.exists)
+            XCTAssert(zorgaanbiedertoevoegenButton.exists)
+            overdeappButton.tap()
+            resettheapplicationButton.tap()
+        
     }
 
     func testLaunchPerformance() throws {
