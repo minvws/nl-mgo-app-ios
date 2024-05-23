@@ -778,7 +778,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dosering"
+            "value" : "Gebruiksinstructie"
           }
         }
       }
@@ -816,6 +816,17 @@
         }
       }
     },
+    "medication_details_status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
+          }
+        }
+      }
+    },
     "medication_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -823,6 +834,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Medicijnen"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_active" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actief"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_completed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afgerond"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_enteredInError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foutief toegevoegd"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_intended" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toekomstig"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_onHold" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestaakt"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_stopped" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestopt"
           }
         }
       }

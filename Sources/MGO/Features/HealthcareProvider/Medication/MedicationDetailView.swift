@@ -10,12 +10,20 @@ import MGOFoundation
 
 struct MedicationDetailView: View {
 	
+	/// The medication statement (STU3)
 	var statement: MedicationStatement
+	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum List {
+			static let spacing: CGFloat = 16
+		}
+	}
 	
 	var body: some View {
 		
 		AccordionView(title: statement.medicationName ?? "") {
-			VStack(alignment: .leading, spacing: 16) {
+			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				if let dosageText = statement.dosageText {
 					DetailRow(title: "medication_details_dosage", content: dosageText)
 				}
@@ -27,6 +35,9 @@ struct MedicationDetailView: View {
 				}
 				if let prescriber = statement.prescriber {
 					DetailRow(title: "medication_details_prescriber", content: prescriber)
+				}
+				if let printDescription = statement.status.value?.printDescription {
+					DetailRow(title: "medication_details_status", content: printDescription)
 				}
 			}
 		}
