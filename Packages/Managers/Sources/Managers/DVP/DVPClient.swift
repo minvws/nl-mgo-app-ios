@@ -8,15 +8,6 @@
 import Foundation
 import FHIRClient
 
-extension FHIRClient {
-	
-	convenience public init?() {
-	
-		guard let serverURL = URL(string: "https://dva.test.mgo.irealisatie.nl/fhir") else { return nil }
-		self.init(baseURL: serverURL)
-	}
-}
-
 public struct DVPClient {
 	
 	public enum BGZ {

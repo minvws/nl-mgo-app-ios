@@ -73,27 +73,30 @@ class MedicationListViewModel: ObservableObject {
 				coordinator?.handle(.backButtonPressed)
 			case .onAppear:
 				SwiftUI.Task {
-					self.state = await loadMedication()
+					 await loadMedication()
 				}
 		}
 	}
 	
 	@MainActor
-	func loadMedication() async -> MedicationListViewState {
+	/// Load the medication for the healthcare provider
+	func loadMedication() async {
 	
-		guard let client = FHIRClient() else { return .failure }
+		guard let repository: MedicationStatementRepository = FHIRClient() else {
+			state = .failure
+			return
+		}
 		
 		do {
-			let bundle = try await MedicationStatement.read("", client: client, parameters: DVPClient.BGZ.MedicationStatement) as? ModelsSTU3.Bundle
-			let statements: [MedicationStatement]? = bundle?.entry?.compactMap {
-				$0.resource?.get(if: ModelsSTU3.MedicationStatement.self)
+			let statements = try await repository.list()
+			guard statements.isNotEmpty else {
+				state = .failure
+				return
 			}
-			guard let statements else { return .failure}
-			
-			return .success(statements)
+			state = .success(statements)
 		} catch {
 			logError("Client read error: \(String(describing: error))")
-			return .failure
+			state = .failure
 		}
 	}
 }
