@@ -22,21 +22,21 @@ struct MedicationDetailView: View {
 	
 	var body: some View {
 		
-		AccordionView(title: statement.medicationName ?? "") {
+		AccordionView(title: Sanitizer.strip(statement.medicationName) ?? "") {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
-				if let dosageText = statement.dosageText {
+				if let dosageText = Sanitizer.strip(statement.dosageText) {
 					DetailRow(title: "medication_details_dosage", content: dosageText)
 				}
-				if let startDate = statement.startDate {
+				if let startDate = Sanitizer.strip(statement.startDate) {
 					DetailRow(title: "medication_details_startdate", content: startDate)
 				}
-				if let endDate = statement.endDate {
+				if let endDate = Sanitizer.strip(statement.endDate) {
 					DetailRow(title: "medication_details_enddate", content: endDate)
 				}
-				if let prescriber = statement.prescriber {
+				if let prescriber = Sanitizer.strip(statement.prescriber) {
 					DetailRow(title: "medication_details_prescriber", content: prescriber)
 				}
-				if let printDescription = statement.status.value?.printDescription {
+				if let printDescription = Sanitizer.strip(statement.status.value?.printDescription) {
 					DetailRow(title: "medication_details_status", content: printDescription)
 				}
 			}

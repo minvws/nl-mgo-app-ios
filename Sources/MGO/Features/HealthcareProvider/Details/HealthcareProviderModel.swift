@@ -29,6 +29,10 @@ class HealthcareProviderDecorator {
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = organisation.display_name // + " [\(identifier)]"
 
-		return HealthcareProviderModel(category: organisation.types.first?.display_name ?? "", id: identifier, name: name)
+		return HealthcareProviderModel(
+			category: Sanitizer.strip(organisation.types.first?.display_name) ?? "",
+			id: identifier,
+			name: Sanitizer.sanitize(name)
+		)
 	}
 }
