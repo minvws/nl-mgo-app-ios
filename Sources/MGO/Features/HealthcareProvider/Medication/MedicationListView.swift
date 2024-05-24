@@ -12,6 +12,7 @@ enum MedicationListViewState: Equatable {
 	
 	case loading
 	case failure
+	case empty
 	case success([MedicationStatement])
 
 	static func == (lhs: MedicationListViewState, rhs: MedicationListViewState) -> Bool {
@@ -21,6 +22,9 @@ enum MedicationListViewState: Equatable {
 				return true
 				
 			case (.failure, .failure):
+				return true
+				
+			case (.empty, .empty):
 				return true
 			
 			case let(.success(lhsList), .success(rhsList)):
@@ -49,6 +53,9 @@ class MedicationListViewModel: ObservableObject {
 	/// The healthcare provider to display
 	private var healthcareProvider: HealthcareProvider
 	
+	/// The repository for Medication Statements
+	private var medicationStatementRepository: MedicationStatementRepository!
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case onAppear
@@ -57,11 +64,20 @@ class MedicationListViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil, healthcareProvider: HealthcareProvider) {
+	init(
+		coordinator: (any Coordinator)? = nil,
+		healthcareProvider: HealthcareProvider,
+		repository: MedicationStatementRepository? = FHIRClient()) {
 		
 		self.coordinator = coordinator
 		self.healthcareProvider = healthcareProvider
-		self.state = .loading
+		
+		if let unwrapped = repository {
+			self.medicationStatementRepository = unwrapped
+			self.state = .loading
+		} else {
+			self.state = .failure
+		}
 	}
 	
 	/// Handle any action
@@ -81,19 +97,14 @@ class MedicationListViewModel: ObservableObject {
 	@MainActor
 	/// Load the medication for the healthcare provider
 	func loadMedication() async {
-	
-		guard let repository: MedicationStatementRepository = FHIRClient() else {
-			state = .failure
-			return
-		}
 		
 		do {
-			let statements = try await repository.list()
-			guard statements.isNotEmpty else {
-				state = .failure
-				return
+			let statements = try await medicationStatementRepository.fetchMedicationStatements()
+			if statements.isEmpty {
+				state = .empty
+			} else {
+				state = .success(statements)
 			}
-			state = .success(statements)
 		} catch {
 			logError("Client read error: \(String(describing: error))")
 			state = .failure
@@ -148,10 +159,13 @@ struct MedicationListView: View {
 						MedicationLoadingView()
 						Spacer()
 					
+					case .empty:
+					
+						Text("Todo: Empty")
+					
 					case .failure:
-						ErrorView(viewModel: ErrorViewModel {
-//							viewModel.reduce(.retry)
-						})
+					
+						Text("Todo: Feilure")
 					
 					case .success(let medicationStatements):
 						ForEach(medicationStatements, id: \.id) { statement in
