@@ -161,11 +161,19 @@ struct MedicationListView: View {
 					
 					case .empty:
 					
-						Text("Todo: Empty")
+						NotificationCardView(
+							icon: Image(ImageResource.Woman.womanOnCouch),
+							title: "medication_empty_title",
+							message: "medication_empty_body"
+						)
 					
 					case .failure:
 					
-						Text("Todo: Feilure")
+						NotificationCardView(
+							icon: Image(ImageResource.Woman.womanOnCouchExclamation),
+							title: "medication_failure_title",
+							message: "medication_failure_body"
+						)
 					
 					case .success(let medicationStatements):
 						ForEach(medicationStatements, id: \.id) { statement in

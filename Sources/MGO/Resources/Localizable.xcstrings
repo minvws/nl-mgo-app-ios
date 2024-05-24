@@ -827,6 +827,50 @@
         }
       }
     },
+    "medication_empty_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We hebben geen gegevens van jou gevonden in dit dossier van de zorgaanbieder. Klopt dit niet? Vraag het aan je zorgverlener voor meer informatie."
+          }
+        }
+      }
+    },
+    "medication_empty_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen gegevens gevonden"
+          }
+        }
+      }
+    },
+    "medication_failure_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sorry, maar het lijkt erop dat we geen verbinding kunnen maken met ons systeem. Daardoor kunnen we je gegevens niet ophalen. We proberen het probleem op te lossen. Kom later nog eens terug."
+          }
+        }
+      }
+    },
+    "medication_failure_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens ophalen mislukt"
+          }
+        }
+      }
+    },
     "medication_title" : {
       "extractionState" : "manual",
       "localizations" : {
