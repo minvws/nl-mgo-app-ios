@@ -89,7 +89,7 @@ public struct NotificationCardView: View {
 #Preview {
 	
 	NotificationCardView(
-		icon: nil,
+		icon: Image(systemName: "stethoscope"),
 		title: "title",
 		message: "message"
 	)
