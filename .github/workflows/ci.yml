@@ -88,6 +88,6 @@ jobs:
           path: ./
           
       - name: Run SonarCloud scanner
-        uses: SonarSource/sonarcloud-github-action@v2.1.1
+        uses: SonarSource/sonarcloud-github-action@v2.2.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
