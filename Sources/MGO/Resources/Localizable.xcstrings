@@ -761,6 +761,193 @@
         }
       }
     },
+    "medication_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door je zorgaanbieder."
+          }
+        }
+      }
+    },
+    "medication_details_dosage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruiksinstructie"
+          }
+        }
+      }
+    },
+    "medication_details_enddate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einddatum"
+          }
+        }
+      }
+    },
+    "medication_details_prescriber" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voorgeschreven door"
+          }
+        }
+      }
+    },
+    "medication_details_startdate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Startdatum"
+          }
+        }
+      }
+    },
+    "medication_details_status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
+          }
+        }
+      }
+    },
+    "medication_empty_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We hebben geen gegevens van jou gevonden in dit dossier van de zorgaanbieder. Klopt dit niet? Vraag het aan je zorgverlener voor meer informatie."
+          }
+        }
+      }
+    },
+    "medication_empty_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen gegevens gevonden"
+          }
+        }
+      }
+    },
+    "medication_failure_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sorry, maar het lijkt erop dat we geen verbinding kunnen maken met ons systeem. Daardoor kunnen we je gegevens niet ophalen. We proberen het probleem op te lossen. Kom later nog eens terug."
+          }
+        }
+      }
+    },
+    "medication_failure_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens ophalen mislukt"
+          }
+        }
+      }
+    },
+    "medication_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medicijnen"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_active" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actief"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_completed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afgerond"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_enteredInError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foutief toegevoegd"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_intended" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toekomstig"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_onHold" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestaakt"
+          }
+        }
+      }
+    },
+    "medicationStatementStatus_stopped" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestopt"
+          }
+        }
+      }
+    },
     "onboarding_action" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -15,14 +15,15 @@ public extension Resource {
 	 
 	 Forwards to class method `readFrom` with the resource's relative URL, created from the supplied id and the resource's base.
 	 
-	 - parameter id:       The id of the resource to read
-	 - parameter client:   The server from which to read
-	 - parameter options:  Options to use when executing this request, if any
-	 - parameter callback: The callback to execute once done. The callback is NOT guaranteed to be executed on the main thread!
+	 - parameter id:        The id of the resource to read
+	 - parameter client:    The server from which to read
+	 - parameter parameters  The request parameters to add
+	 - parameter options:   Options to use when executing this request, if any
+	 - parameter callback:  The callback to execute once done. The callback is NOT guaranteed to be executed on the main thread!
 	 */
-	class func read(_ id: String, client: FHIRClient, options: RequestOption = []) async throws -> Resource {
+	class func read(_ id: String, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = []) async throws -> Resource {
 		let path = "\(resourceType.rawValue)/\(id)"
-		return try await readFrom(path, client: client, options: options)
+		return try await readFrom(path, client: client, parameters: parameters, options: options)
 	}
 	
 	/**
@@ -31,16 +32,18 @@ public extension Resource {
 	 
 	 This method creates a FHIRJSONRequestHandler for a GET request and deserializes the returned JSON into an instance on success.
 	 
-	 - parameter path:     The relative path on the server from which to read resource data from
-	 - parameter client:   The server to use
-	 - parameter options:  Options to use when executing this request, if any
+	 - parameter path:      The relative path on the server from which to read resource data from
+	 - parameter client:    The server to use
+	 - parameter parameters  The request parameters to add
+	 - parameter options:   Options to use when executing this request, if any
 	 - Returns: the requested resource
 	 */
-	class func readFrom(_ path: String, client: FHIRClient, options: RequestOption = []) async throws -> Resource {
+	class func readFrom(_ path: String, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = []) async throws -> Resource {
 		guard var handler = client.handlerForRequest(withMethod: .GET, resource: nil) else {
 			throw FHIRError.noRequestHandlerAvailable(.GET)
 		}
 		handler.options = options
+		handler.parameters = parameters
 		let response = await client.performRequest(against: path, handler: handler)
 		
 		if let error = response.error {

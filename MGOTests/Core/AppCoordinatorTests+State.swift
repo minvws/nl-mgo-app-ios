@@ -158,7 +158,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 	}
 	
 	func test_coordinatorView_forDashboard() throws {
-
+		
 		// Given
 		let state = AppCoordination.State.dashboard
 		

@@ -44,8 +44,8 @@ public struct RequestParameters {
 }
 
 /**
-Describe valid (and supported) FHIR request query parameters.
-*/
+ Describe valid (and supported) FHIR request query parameters.
+ */
 public enum RequestParameterField: String {
 	
 	/// Request a summary; you probably want `Summary.true.rawValue` as its value.
@@ -53,6 +53,12 @@ public enum RequestParameterField: String {
 	
 	/// Include only the listed top-level elements; provide a comma-separated list of element names as value.
 	case elements = "_elements"
+	
+	/// Category for ZIB
+	case category = "category"
+	
+	/// Include the field
+	case include = "_include"
 	
 	/**
 	The options that are valid for the `summary` case.
