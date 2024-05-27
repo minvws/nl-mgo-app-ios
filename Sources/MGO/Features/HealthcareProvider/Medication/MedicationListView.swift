@@ -155,9 +155,8 @@ struct MedicationListView: View {
 				
 				switch viewModel.state {
 					case .loading:
-						Spacer()
-						MedicationLoadingView()
-						Spacer()
+						
+						MedicationLoadingView(title: "launch_loading")
 					
 					case .empty:
 					
@@ -176,11 +175,13 @@ struct MedicationListView: View {
 						)
 					
 					case .success(let medicationStatements):
+						
 						ForEach(medicationStatements, id: \.id) { statement in
 							MedicationDetailView(statement: statement)
 						}
-						Spacer()
 				}
+				
+				Spacer()
 			}
 		}
 		.padding(.horizontal, ViewTraits.General.padding)

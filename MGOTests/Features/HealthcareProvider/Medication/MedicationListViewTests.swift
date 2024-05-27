@@ -29,6 +29,18 @@ final class MedicationListViewTests: XCTestCase {
 		viewModel = MedicationListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
 		sut = MedicationListView(viewModel: self.viewModel)
 	}
+
+	func test_stateLoading() {
+		
+		// Given
+		viewModel.state = .loading
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
 	
 	func test_stateEmpty() {
 		

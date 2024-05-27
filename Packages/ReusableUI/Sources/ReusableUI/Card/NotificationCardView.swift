@@ -75,14 +75,7 @@ public struct NotificationCardView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 			}
 		}
-		.padding(ViewTraits.General.spacing)
-		.background(theme.backgroundSecondary)
-		.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
-		.overlay(
-			RoundedRectangle(cornerRadius: ViewTraits.General.radius)
-				.inset(by: ViewTraits.General.inset)
-				.stroke(theme.linesPrimary, lineWidth: 1)
-		)
+		.cardify()
 	}
 }
 

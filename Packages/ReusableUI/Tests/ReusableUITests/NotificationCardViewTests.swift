@@ -23,5 +23,4 @@ final class NotificationCardViewTests: XCTestCase {
 		// Then
 		assertSnapshot(of: view, as: .image)
 	}
-
 }

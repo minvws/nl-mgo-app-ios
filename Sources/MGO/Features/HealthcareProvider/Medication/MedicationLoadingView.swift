@@ -8,7 +8,7 @@
 import MGOUI
 
 struct MedicationLoadingView: View {
-
+	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
@@ -17,9 +17,15 @@ struct MedicationLoadingView: View {
 		enum General {
 			static let padding: CGFloat = 16
 		}
-		enum Navigation {
-			static let padding: CGFloat = 8
-		}
+	}
+	
+	/// The title of the loading card
+	private var title: LocalizedStringKey
+	
+	/// Initializer
+	/// - Parameter title: the title for the card
+	public init( title: LocalizedStringKey) {
+		self.title = title
 	}
 	
 	/// Progress for the spinner
@@ -27,28 +33,38 @@ struct MedicationLoadingView: View {
 
 	var body: some View {
 		
-		VStack {
+		GeometryReader { geometry in
 			
-			HStack {
+			HStack { // HStack to center the loader + Text
 				Spacer()
 				
-				CircularProgressView(progress: $progress)
-					.frame(width: 48, height: 48)
-					.padding(.bottom, 20)
-				
+				VStack {
+					CircularProgressView(progress: $progress)
+						.frame(width: 48, height: 48)
+						.padding(.bottom, 20)
+					
+					Text(title)
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.foregroundColor(theme.contentPrimary)
+						.frame(maxWidth: .infinity, alignment: .center)
+				}
+				.frame(maxHeight: .infinity) // Make the view take all its height.
 				Spacer()
 			}
+
+			.accessibilityElement(children: .combine)
+			.padding(.horizontal, ViewTraits.General.padding)
+			.onAppear(perform: {
+				progress = 1
+			})
+			.cardify()
+			.frame(width: geometry.size.width, height: geometry.size.width) // Make the view square
 		}
-		.padding(.horizontal, ViewTraits.General.padding)
-		.padding(.top, ViewTraits.Navigation.padding)
-		.onAppear(perform: {
-			progress = 1
-		})
 	}
 }
 
 #Preview {
 	NavigationView {
-		MedicationLoadingView()
+		MedicationLoadingView(title: "Aan het laden")
 	}
 }
