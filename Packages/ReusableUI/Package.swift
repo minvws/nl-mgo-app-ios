@@ -30,7 +30,8 @@ let package = Package(
 			dependencies: [
 				.product(name: "Theme", package: "Theme"),
 				.product(name: "RijksoverheidFont", package: "RijksoverheidFont"),
-			]
+			],
+			resources: [.process("Resources")]
 		),
 		.testTarget(
 			name: "ReusableUITests",
