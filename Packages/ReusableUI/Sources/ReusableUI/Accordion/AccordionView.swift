@@ -46,8 +46,9 @@ public struct AccordionView<Content: View>: View {
 				
 				Spacer()
 				
-				Image(showBody ? ImageResource.Accordion.arrowUp : ImageResource.Accordion.arrowDown)
+				Image(ImageResource.Accordion.arrowUp)
 					.accessibilityLabel(showBody ? Bundle.module.localizedString(forKey: "expanded", value: nil, table: "Accordion") : Bundle.module.localizedString(forKey: "collapsed", value: nil, table: "Accordion"))
+					.rotationEffect(showBody ? .zero : Angle(degrees: 90))
 			}
 			.if(!UIAccessibility.isVoiceOverRunning, transform: { view in
 				view
