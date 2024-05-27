@@ -14,7 +14,7 @@ let package = Package(
 	],
 	dependencies: [
 		// External
-		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.2.3"),
+		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.3.0"),
 		
 		// Testing
 		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0"),
