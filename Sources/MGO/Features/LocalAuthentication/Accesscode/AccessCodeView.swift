@@ -120,7 +120,7 @@ class AccessCodeViewModel: ObservableObject {
 	/// The state for each of the digits
 	@Published var boxStates: [AccessCodeBoxState] = []
 	
-	/// Initialzier
+	/// Initializer
 	/// - Parameter pinLimit: the pinLimt
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter mode: Which mode should we run in? Creation, Confirmation, Validation?

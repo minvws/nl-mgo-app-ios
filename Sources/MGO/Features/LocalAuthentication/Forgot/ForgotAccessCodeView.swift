@@ -19,7 +19,7 @@ class ForgotAccessCodeViewModel: ObservableObject {
 		case recreateAccount
 	}
 	
-	/// Initialzier
+	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	init(coordinator: (any Coordinator)?) {
 		self.coordinator = coordinator

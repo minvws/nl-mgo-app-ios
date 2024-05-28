@@ -77,7 +77,7 @@ class SearchResultsViewModel: ObservableObject {
 	/// The localisation service client
 	private var localisationServiceClient: LocalisationServiceClientProtocol?
 	
-	/// Initialzier
+	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	init(coordinator: (any Coordinator)?, city: String, name: String, localisationServiceClient: LocalisationServiceClientProtocol?) {
 		self.coordinator = coordinator

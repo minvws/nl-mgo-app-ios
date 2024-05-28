@@ -35,7 +35,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	/// The state of the view
 	@Published var state: State = State(bioMetricType: .none)
 	
-	/// Initialzier
+	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter bioMetricType: what biometric type do we have? (FaceID, TouchID, OpticID)
 	init(
