@@ -50,6 +50,11 @@ public protocol Themeable: ObservableObject {
 	var actionTertiaryDefault: Color { get }
 	var actionTertiaryHover: Color { get }
 	
+	// MARK: - Action Destructive -
+
+	var actionDestructiveBackground: Color { get }
+	var actionDestructiveBackgroundHover: Color { get }
+	
 	// MARK: - Notification -
 
 	var notificationInformation: Color { get }
