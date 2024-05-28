@@ -146,9 +146,12 @@ struct StoredHealthcareProvidersView: View {
 				
 				switch viewModel.state {
 					case .empty:
-						Text("storedhp_body_empty")
-							.rijksoverheidStyle(font: .regular, style: .body)
-							.frame(maxWidth: .infinity, alignment: .topLeading)
+					
+					NotificationCardView(
+						icon: Image(ImageResource.Woman.womanOnCouch),
+						title: "storedhp_title_empty",
+						message: "storedhp_body_empty"
+					)
 					
 					case let .list(list):
 					
@@ -189,15 +192,36 @@ struct StoredHealthcareProvidersView: View {
 		} bottomView: {
 			VStack(spacing: ViewTraits.Button.spacing) {
 				
-				CallToActionButton("storedhp_action_again", style: .secondary) {
-					viewModel.reduce(.backToSearch)
+				switch viewModel.state {
+					case .empty:
+						// Primary CTA in empty state is to
+						// add a healthcare provider
+						// Secondary go to overview
+						
+						CallToActionButton("storedhp_action_done", style: .secondary) {
+							viewModel.reduce(.done)
+						}
+						.tag("storedhp_action_done")
+						
+						CallToActionButton("storedhp_action_again") {
+							viewModel.reduce(.backToSearch)
+						}
+						.tag("storedhp_action_again")
+						
+					case .list:
+						// We already have a provider, so
+						// primary CTA is to go to the overview.
+						// secondary CTA is to add another provider
+						CallToActionButton("storedhp_action_again", style: .secondary) {
+							viewModel.reduce(.backToSearch)
+						}
+						.tag("storedhp_action_again")
+						
+						CallToActionButton("storedhp_action_done") {
+							viewModel.reduce(.done)
+						}
+						.tag("storedhp_action_done")
 				}
-				.tag("storedhp_action_again")
-				
-				CallToActionButton("storedhp_action_done") {
-					viewModel.reduce(.done)
-				}
-				.tag("storedhp_action_done")
 			}
 			.padding(ViewTraits.Button.insets)
 			.padding(.top, ViewTraits.General.padding)

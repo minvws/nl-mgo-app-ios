@@ -1342,7 +1342,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Klaar"
+            "value" : "Ga naar overzicht"
           }
         }
       }
@@ -1431,6 +1431,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Welke zorgaanbieders wil je in de app tonen?"
+          }
+        }
+      }
+    },
+    "storedhp_title_empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze lijst is nog leeg"
           }
         }
       }
