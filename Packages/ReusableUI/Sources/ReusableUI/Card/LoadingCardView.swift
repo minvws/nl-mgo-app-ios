@@ -5,9 +5,9 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
+import SwiftUI
 
-struct MedicationLoadingView: View {
+public struct LoadingCardView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -31,7 +31,7 @@ struct MedicationLoadingView: View {
 	/// Progress for the spinner
 	@State private var progress: Double = 0
 
-	var body: some View {
+	public var body: some View {
 		
 		GeometryReader { geometry in
 			
@@ -65,6 +65,6 @@ struct MedicationLoadingView: View {
 
 #Preview {
 	NavigationView {
-		MedicationLoadingView(title: "Aan het laden")
+		LoadingCardView(title: "Aan het laden")
 	}
 }

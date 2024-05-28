@@ -156,7 +156,7 @@ struct MedicationListView: View {
 				switch viewModel.state {
 					case .loading:
 						
-						MedicationLoadingView(title: "launch_loading")
+						LoadingCardView(title: "launch_loading")
 					
 					case .empty:
 					
