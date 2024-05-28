@@ -39,16 +39,16 @@ final class HealthcareProviderViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_showDiagnoses_shouldCallCoordinator() {
+	func test_showProblems_shouldCallCoordinator() {
 		
 		// Given
 		
 		// When
-		sut.reduce(.showDiagnoses)
+		sut.reduce(.showProblems)
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0.identifier) == "showDiagnoses"
+		expect(self.coordinatorSpy.invokedHandleParameters?.0.identifier) == "showProblems"
 	}
 	
 	func test_showMedication_shouldCallCoordinator() {
