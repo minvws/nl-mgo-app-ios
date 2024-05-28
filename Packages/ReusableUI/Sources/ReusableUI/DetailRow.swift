@@ -42,7 +42,7 @@ public struct DetailRow: View {
 				.foregroundColor(theme.contentPrimary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 		}
-		
+		.accessibilityElement(children: .combine)
 	}
 }
 

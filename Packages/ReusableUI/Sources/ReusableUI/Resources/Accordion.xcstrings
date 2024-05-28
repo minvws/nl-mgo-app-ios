@@ -1,0 +1,42 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "collapsed" : {
+      "comment" : "Voiceover for accordion in collapsed state",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collapsed, double-tap to open"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesloten, dubbel tap om te openen"
+          }
+        }
+      }
+    },
+    "expanded" : {
+      "comment" : "Voiceover for accordion in expanded state",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expanded, Double-tap to collapse"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geopend, dubbel tap om te sluiten"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
