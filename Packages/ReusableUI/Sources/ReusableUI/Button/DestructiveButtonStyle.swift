@@ -32,7 +32,7 @@ struct DestructiveButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(theme.actionPrimaryText)
+			.foregroundColor(theme.actionDestructiveText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(configuration.isPressed ? theme.actionDestructiveBackgroundHover : theme.actionDestructiveBackground)

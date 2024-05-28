@@ -54,6 +54,7 @@ public protocol Themeable: ObservableObject {
 
 	var actionDestructiveBackground: Color { get }
 	var actionDestructiveBackgroundHover: Color { get }
+	var actionDestructiveText: Color { get }
 	
 	// MARK: - Notification -
 

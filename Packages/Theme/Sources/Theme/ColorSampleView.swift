@@ -83,6 +83,7 @@ struct ColorSampleView: View {
 					HStack {
 						colorSample(theme.actionDestructiveBackground, text: "Background")
 						colorSample(theme.actionDestructiveBackgroundHover, text: "Background Hover")
+						colorSample(theme.actionDestructiveText, text: "Text")
 					}
 
 					Text("Notification").bold()

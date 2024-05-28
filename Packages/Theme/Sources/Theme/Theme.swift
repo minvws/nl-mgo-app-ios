@@ -59,6 +59,7 @@ public class Theme: Themeable {
 
 	@Published public var actionDestructiveBackground: Color = Color("actionDestructiveBackground", bundle: .module)
 	@Published public var actionDestructiveBackgroundHover: Color = Color("actionDestructiveBackgoundHover", bundle: .module)
+	@Published public var actionDestructiveText: Color = Color("actionDestructiveText", bundle: .module)
 	
 	// MARK: - Notification -
 	
