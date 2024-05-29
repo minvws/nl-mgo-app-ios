@@ -9,7 +9,7 @@ import RijksoverheidFont
 import SwiftUI
 import Theme
 
-struct SecondaryButtonStyle: ButtonStyle {
+struct DestructiveButtonStyle: ButtonStyle {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -25,17 +25,17 @@ struct SecondaryButtonStyle: ButtonStyle {
 		}
 	}
 	
-	/// Style the button to a secondary button
+	/// Style the button to a destructive button
 	/// - Parameter configuration: the button configuration
-	/// - Returns: secondary button
+	/// - Returns: destructive button
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(theme.actionSecondaryText)
+			.foregroundColor(theme.actionDestructiveText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.actionSecondaryBackgroundHover : theme.actionSecondaryBackground)
+			.background(configuration.isPressed ? theme.actionDestructiveBackgroundHover : theme.actionDestructiveBackground)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

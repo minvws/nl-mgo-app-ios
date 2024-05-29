@@ -25,6 +25,7 @@ public struct CallToActionButton: View {
 	public enum Style {
 		case primary
 		case secondary
+		case destructive
 	}
 	
 	/// Initializer
@@ -51,10 +52,19 @@ public struct CallToActionButton: View {
 		.if(style == .secondary, transform: { button in
 			button.buttonStyle(SecondaryButtonStyle())
 		})
+		.if(style == .destructive, transform: { button in
+			button.buttonStyle(DestructiveButtonStyle())
+		})
 	}
 }
 
 #Preview {
-	CallToActionButton("onboarding_action")
-		.padding(16)
+	VStack {
+		CallToActionButton("onboarding_action", style: .primary)
+			.padding(16)
+		CallToActionButton("onboarding_action", style: .secondary)
+			.padding(16)
+		CallToActionButton("onboarding_action", style: .destructive)
+			.padding(16)
+	}
 }

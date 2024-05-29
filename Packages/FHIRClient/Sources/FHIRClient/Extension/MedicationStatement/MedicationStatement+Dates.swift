@@ -12,45 +12,12 @@ extension MedicationStatement {
 	/// When should we start taking this medication?
 	public var startDate: String? {
 		
-		var date: Date?
-		do {
-			if case .period(let period) = self.effective {
-				date = try  period.start?.value?.date.asNSDate()
-			}
-			if case .dateTime(let dateTime) = self.effective {
-				date = try dateTime.value?.asNSDate()
-			}
-			
-			guard let date else { return nil }
-			
-			let formatter = DateFormatter()
-			formatter.dateStyle = .long
-			formatter.timeStyle = .none
-			
-			return formatter.string(from: date)
-		} catch {
-			return nil
+		if case .period(let period) = self.effective {
+			return period.start?.value?.date.description
 		}
-	}
-	
-	/// When should we stop taking this medication?
-	public var endDate: String? {
-		
-		var date: Date?
-		do {
-			if case .period(let period) = self.effective {
-				date = try  period.end?.value?.date.asNSDate()
-			}
-			
-			guard let date else { return nil }
-			
-			let formatter = DateFormatter()
-			formatter.dateStyle = .long
-			formatter.timeStyle = .none
-			
-			return formatter.string(from: date)
-		} catch {
-			return nil
+		if case .dateTime(let dateTime) = self.effective {
+			return dateTime.value?.description
 		}
+		return nil
 	}
 }
