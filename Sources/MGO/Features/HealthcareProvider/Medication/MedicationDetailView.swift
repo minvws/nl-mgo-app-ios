@@ -30,13 +30,10 @@ struct MedicationDetailView: View {
 				if let startDate = Sanitizer.strip(statement.startDate) {
 					DetailRow(title: "medication_details_startdate", content: startDate)
 				}
-				if let endDate = Sanitizer.strip(statement.endDate) {
-					DetailRow(title: "medication_details_enddate", content: endDate)
-				}
 				if let prescriber = Sanitizer.strip(statement.prescriber) {
 					DetailRow(title: "medication_details_prescriber", content: prescriber)
 				}
-				if let printDescription = Sanitizer.strip(statement.status.value?.printDescription) {
+				if let printDescription = Sanitizer.strip(statement.status.value?.rawValue) {
 					DetailRow(title: "medication_details_status", content: printDescription)
 				}
 			}

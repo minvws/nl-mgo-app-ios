@@ -19,11 +19,9 @@ final class MedicationStatementDatesTests: XCTestCase {
 		
 		// When
 		let startDate = medicationStatement.startDate
-		let endDate = medicationStatement.endDate
 		
 		// Then
-		expect(startDate) == "22 februari 2024"
-		expect(endDate) == nil
+		expect(startDate) == "2024-02-22"
 	}
 	
 	func test_medicationStatement_dates_2() throws {
@@ -34,10 +32,8 @@ final class MedicationStatementDatesTests: XCTestCase {
 		
 		// When
 		let startDate = medicationStatement.startDate
-		let endDate = medicationStatement.endDate
 		
 		// Then
-		expect(startDate) == "12 februari 2024"
-		expect(endDate) == "26 februari 2024"
+		expect(startDate) == "2024-02-12"
 	}
 }
