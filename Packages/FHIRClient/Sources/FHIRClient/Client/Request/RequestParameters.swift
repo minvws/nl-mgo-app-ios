@@ -60,6 +60,9 @@ public enum RequestParameterField: String {
 	/// Include the field
 	case include = "_include"
 	
+	/// Include the field
+	case format = "_format"
+	
 	/**
 	The options that are valid for the `summary` case.
 	*/
