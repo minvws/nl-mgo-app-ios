@@ -18,5 +18,9 @@ public struct DVPClient {
 			 RequestParameterField.include: "MedicationStatement:medication"
 			]
 		)
+		
+		public static let concern: RequestParameters = RequestParameters(
+			[RequestParameterField.format: "json"]
+		)
 	}
 }

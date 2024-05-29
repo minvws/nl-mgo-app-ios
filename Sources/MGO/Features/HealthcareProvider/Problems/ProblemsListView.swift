@@ -8,14 +8,14 @@
 import MGOFoundation
 import MGOUI
 
-enum MedicationListViewState: Equatable {
+enum ProblemsListViewState: Equatable {
 	
 	case loading
 	case failure
 	case empty
-	case success([MedicationStatement])
-
-	static func == (lhs: MedicationListViewState, rhs: MedicationListViewState) -> Bool {
+	case success([Condition])
+	
+	static func == (lhs: ProblemsListViewState, rhs: ProblemsListViewState) -> Bool {
 		switch (lhs, rhs) {
 			
 			case (.loading, .loading):
@@ -26,26 +26,26 @@ enum MedicationListViewState: Equatable {
 				
 			case (.empty, .empty):
 				return true
-			
+				
 			case let(.success(lhsList), .success(rhsList)):
-			
+				
 				guard lhsList.count == rhsList.count else { return false }
 				var result = true
 				for index in lhsList.indices {
 					result = result && lhsList[index] == rhsList[index]
 				}
 				return result
-			
+				
 			default:
 				return false
 		}
 	}
 }
 
-class MedicationListViewModel: ObservableObject {
+class ProblemsListViewModel: ObservableObject {
 	
 	/// The state of the view
-	@Published var state: MedicationListViewState
+	@Published var state: ProblemsListViewState
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -53,8 +53,8 @@ class MedicationListViewModel: ObservableObject {
 	/// The healthcare provider to display
 	private var healthcareProvider: HealthcareProvider
 	
-	/// The repository for Medication Statements
-	private var medicationStatementRepository: MedicationStatementRepository!
+	/// The repository for Conditions
+	private var conditionRepository: ConditionRepository!
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -67,43 +67,43 @@ class MedicationListViewModel: ObservableObject {
 	init(
 		coordinator: (any Coordinator)? = nil,
 		healthcareProvider: HealthcareProvider,
-		repository: MedicationStatementRepository? = FHIRClient()) {
-		
-		self.coordinator = coordinator
-		self.healthcareProvider = healthcareProvider
-		
-		if let unwrapped = repository {
-			self.medicationStatementRepository = unwrapped
-			self.state = .loading
-		} else {
-			self.state = .failure
+		repository: ConditionRepository? = FHIRClient()) {
+
+			self.coordinator = coordinator
+			self.healthcareProvider = healthcareProvider
+			
+			if let unwrapped = repository {
+				self.conditionRepository = unwrapped
+				self.state = .loading
+			} else {
+				self.state = .failure
+			}
 		}
-	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: MedicationListViewModel.Action) {
+	func reduce(_ action: ProblemsListViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 			case .onAppear:
 				SwiftUI.Task {
-					 await loadMedication()
+					await loadProblems()
 				}
 		}
 	}
 	
 	@MainActor
 	/// Load the medication for the healthcare provider
-	func loadMedication() async {
+	func loadProblems() async {
 		
 		do {
-			let statements = try await medicationStatementRepository.fetchMedicationStatements()
-			if statements.isEmpty {
+			let conditions = try await conditionRepository.fetchConditions()
+			if conditions.isEmpty {
 				state = .empty
 			} else {
-				state = .success(statements)
+				state = .success(conditions)
 			}
 		} catch {
 			logError("Client read error: \(String(describing: error))")
@@ -111,11 +111,11 @@ class MedicationListViewModel: ObservableObject {
 		}
 	}
 }
-
-struct MedicationListView: View {
+//
+struct ProblemsListView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: MedicationListViewModel
+	@StateObject var viewModel: ProblemsListViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -140,14 +140,14 @@ struct MedicationListView: View {
 		ScrollView {
 			
 			VStack(spacing: ViewTraits.General.padding) {
-					
-				Text("medication_title")
+				
+				Text("problems_title")
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
-					
-				Text("medication_body")
+				
+				Text("problems_body")
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentTertiary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -155,29 +155,29 @@ struct MedicationListView: View {
 				
 				switch viewModel.state {
 					case .loading:
-						
+			
 						LoadingCardView(title: "launch_loading")
-					
+				
 					case .empty:
-					
+						
 						NotificationCardView(
 							icon: Image(ImageResource.Woman.womanOnCouch),
 							title: "general_nodata_title",
 							message: "general_nodata_body"
 						)
-					
+				
 					case .failure:
-					
+
 						NotificationCardView(
 							icon: Image(ImageResource.Woman.womanOnCouchExclamation),
 							title: "general_failure_title",
 							message: "general_failure_body"
 						)
-					
-					case .success(let medicationStatements):
-						
-						ForEach(medicationStatements, id: \.id) { statement in
-							MedicationDetailView(statement: statement)
+				
+					case .success(let conditions):
+
+						ForEach(conditions, id: \.id) { condition in
+							ProblemDetailView(condition: condition)
 						}
 				}
 				
@@ -201,8 +201,8 @@ struct MedicationListView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		MedicationListView(
-			viewModel: MedicationListViewModel(
+		ProblemsListView(
+			viewModel: ProblemsListViewModel(
 				coordinator: nil,
 				healthcareProvider: HealthcareProvider(
 					display_name: "Tandarts Tandje Erbij",
