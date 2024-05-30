@@ -7,7 +7,7 @@
 
 import XCTest
 import Nimble
-@testable import FHIRClient
+@testable import FHIRExtensions
 
 final class MedicationStatementDosageTests: XCTestCase {
 
