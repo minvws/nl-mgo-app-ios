@@ -14,7 +14,6 @@ let package = Package(
 	dependencies: [
 		// Internal
 		.package(name: "FHIRClient", path: "../FHIRClient"),
-		.package(name: "FHIRExtensions", path: "../FHIRExtensions"),
 		.package(name: "LocalisationService", path: "../LocalisationService"),
 		
 		// External
@@ -28,7 +27,6 @@ let package = Package(
 			name: "Managers",
 			dependencies: [
 				.product(name: "FHIRClient", package: "FHIRClient"),
-				.product(name: "FHIRExtensions", package: "FHIRExtensions"),
 				.product(name: "LocalisationService", package: "LocalisationService"),
 				"SwiftSoup"
 			]

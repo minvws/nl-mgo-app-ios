@@ -9,6 +9,7 @@
 @_exported import Foundation
 
 // Internal
+@_exported import FHIRExtensions
 @_exported import Managers
 
 // VWS
