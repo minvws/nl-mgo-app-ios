@@ -10,8 +10,8 @@ import MGOFoundation
 
 struct ProblemDetailView: View {
 	
-	/// The  condition (STU3)
-	var condition: Condition
+	/// The  condition 
+	var condition: MGO.Condition
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -20,52 +20,43 @@ struct ProblemDetailView: View {
 		}
 	}
 	
-	var location: String? {
-		
-		guard var sanitized = Sanitizer.strip(condition.location) else { return nil }
-		if let locationType = condition.locationType {
-			sanitized += ", \(locationType)"
-		}
-		return sanitized
-	}
-	
 	var body: some View {
 		
-		AccordionView(title: Sanitizer.strip(condition.name) ?? "") {
+		AccordionView(title: Sanitizer.strip(condition.title) ?? "") {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
-				if let conditionType = condition.conditionType?.printDescription {
+				if let conditionType = condition.type {
 					DetailRow(
-						title: "condition_type",
+						title: "condition_details_type",
 						content: conditionType
 					)
 				}
 				
-				if let status = condition.status?.printDescription {
+				if let status = condition.status {
 					DetailRow(
-						title: "condition_status",
+						title: "condition_details_status",
 						content: status
 					)
 				}
-				
+		
 				DetailRow(
-					title: "medication_details_startdate",
+					title: "condition_details_startdate",
 					content: Sanitizer.strip(condition.startDate) ?? String(localized: "general_unknown")
 				)
 				
 				DetailRow(
-					title: "medication_details_enddate",
+					title: "condition_details_enddate",
 					content: Sanitizer.strip(condition.endDate) ?? String(localized: "general_unknown")
 				)
 				
-				if let location {
+				if let location = Sanitizer.strip(condition.bodyLocation) {
 					DetailRow(
-						title: "condition_location",
+						title: "condition_details_location",
 						content: location
 					)
 				}
 				
-				if let noteText = Sanitizer.strip(condition.noteText) {
+				if let noteText = Sanitizer.strip(condition.comment) {
 					DetailRow(
 						title: "condition_details_note",
 						content: noteText

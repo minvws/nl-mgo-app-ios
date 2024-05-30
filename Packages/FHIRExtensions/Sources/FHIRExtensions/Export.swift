@@ -5,6 +5,4 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@_exported import FHIRClient
-@_exported import FHIRExtensions
-@_exported import LocalisationService
+@_exported import ModelsSTU3

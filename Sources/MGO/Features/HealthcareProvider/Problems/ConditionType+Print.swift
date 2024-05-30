@@ -5,7 +5,6 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-
 import MGOFoundation
 
 extension Condition.ConditionType {
@@ -19,7 +18,6 @@ extension Condition.ConditionType {
 			case .complaint: return String(localized: "condition_type_compaint")
 			case .functionalLimitation: return String(localized: "condition_type_limitation")
 			case .complication: return String(localized: "condition_type_complication")
-			
 		}
 	}
 }

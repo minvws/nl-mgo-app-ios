@@ -1,0 +1,150 @@
+{
+    "resourceType": "MedicationStatement",
+    "id": "zib-medicationuse-02",
+    "meta": {
+        "profile": ["http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"]
+    },
+    "text": {
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><caption>MedicationStatement. Subject: Paul XXX_Mesker. Id: #MB_02j2#GE_02 (urn:oid:2.16.840.1.113883.2.4.3.11.999.77.6.2), 1bfa2275-8fdf-11ec-2032-020000000000 (urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6), Categorie: <span title=\"Medicatiegebruik (6 - 2.16.840.1.113883.2.4.3.11.60.20.77.5.3)\">Medicatiegebruik</span>, Status: voltooid<span style=\"display: block;\">Auteur: Vaste Huisarts 1 || Huisartsen || Maatschap Vaste Huisarts</span></caption><tbody><tr><th>Medicamenteuze behandel-id</th><td>#MB_02j2 (urn:oid:2.16.840.1.113883.2.4.3.11.999.77.1.2)</td></tr><tr><th>Medicatie</th><td>PARACETAMOL TABLET 500MG</td></tr><tr><th>Datum/tijd</th><td>Vanaf 21 juli 2020, 30 dag</td></tr><tr><th>Informant</th><td>21 juli 2020</td></tr><tr><th>Ondersteunende informatie</th><td>relatie naar medicatieafspraak (Id: #MB_03k3#MB_02 (urn:oid:2.16.840.1.113883.2.4.3.11.999.77.16076006.2))</td></tr><tr><th>Dosering</th><td><div>Volgnummer: 1</div><div>Tekst: Vanaf 12 februari 2024, gedurende 14 dagen, zo nodig maal per dag 1 à 2 stuks , maximaal 6 stuks per dag, rectaal</div><div>Timing: <div>max frequentie 4 maal per dag</div></div><div>Zo nodig: <span title=\"zo nodig (1137 - nhg-tabel-25-gebruiksvoorschrift#aanvullend-numeriek)\">zo nodig</span></div><div>Toedieningsweg: <span title=\"rectaal (9 - G-Standaard thesaurus subtabel 0007)\">rectaal</span></div><div>Dosering: 1 stuk - 2 stuk</div><div>Max dosering: 6 stuk / 1 dag (per period)</div></td></tr><tr><th>Medicatie gebruikt</th><td>ja</td></tr></tbody></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse-AsAgreedIndicator",
+            "valueBoolean": true
+        },
+        {
+            "url": "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse-Prescriber",
+            "valueReference": {
+                "reference": "Organization/nl-core-organization-02",
+                "display": "Orthopedie - UMCG"
+            }
+        },
+        {
+            "url": "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse-Author",
+            "valueReference": {
+                "reference": "PractitionerRole/nl-core-practitionerrole-01",
+                "display": "Medisch specialisten, Orthopedie || Orthopedie - UMCG"
+            }
+        },
+        {
+            "url": "http://nictiz.nl/fhir/StructureDefinition/zib-Medication-MedicationTreatment",
+            "valueIdentifier": {
+                "system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.77.1.2",
+                "value": "#MB_02j2"
+            }
+        },
+        {
+            "url": "http://nictiz.nl/fhir/StructureDefinition/zib-Medication-ReasonForChangeOrDiscontinuationOfUse",
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "102475006",
+                        "display": "Patient reaction finding (finding)"
+                    }
+                ]
+            }
+        }
+    ],
+    "identifier": [
+        {
+            "system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.77.6.2",
+            "value": "#MB_02j2#GE_02"
+        },
+        {
+            "system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6",
+            "value": "1bfa2275-8fdf-11ec-2032-020000000000"
+        }
+    ],
+    "status": "stopped",
+    "category": {
+        "coding": [
+            {
+                "system": "urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3",
+                "code": "6",
+                "display": "Medicatiegebruik"
+            }
+        ],
+        "text": "Medicatiegebruik"
+    },
+    "medicationReference": {
+        "reference": "Medication/zib-Product-03",
+        "display": "Metoclopramide zetpil 20mg"
+    },
+    "effectivePeriod": {
+        "extension": [
+            {
+                "url": "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse-Duration",
+                "valueDuration": {
+                    "value": 14,
+                    "unit": "dag",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "d"
+                }
+            }
+        ],
+        "start": "2024-02-12",
+        "end": "2024-02-26"
+    },
+    "dateAsserted": "2024-02-12",
+    "subject": {
+        "reference": "Patient/nl-core-patient-02",
+        "display": "Paul XXX_Mesker"
+    },
+    "derivedFrom": [
+        {
+            "identifier": {
+                "system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.77.16076006.2",
+                "value": "#MB_03k3#MB_02"
+            },
+            "display": "relatie naar medicatieafspraak"
+        }
+    ],
+    "taken": "na",
+    "dosage": [
+        {
+            "sequence": 1,
+            "text": "Vanaf 12 februari 2024, gedurende 14 dagen, bij koorts per dag 1 stuks, maximaal 2 stuks per dag, rectaal",
+            "timing": { "repeat": { "frequencyMax": 2, "period": 1, "periodUnit": "d" } },
+            "asNeededCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "https://referentiemodel.nhg.org/tabellen/nhg-tabel-25-gebruiksvoorschrift#aanvullend-numeriek",
+                        "code": "1145",
+                        "display": "bij koorts"
+                    }
+                ]
+            },
+            "route": {
+                "coding": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.2.4.4.11",
+                        "code": "12",
+                        "display": "rectaal"
+                    }
+                ]
+            },
+            "doseQuantity": {
+                "value": 1,
+                "unit": "stuk",
+                "system": "urn:oid:2.16.840.1.113883.2.4.4.1.900.2",
+                "code": "245"
+            },
+            "maxDosePerPeriod": {
+                "numerator": {
+                    "value": 2,
+                    "unit": "stuk",
+                    "system": "urn:oid:2.16.840.1.113883.2.4.4.1.900.2",
+                    "code": "245"
+                },
+                "denominator": {
+                    "value": 1,
+                    "unit": "dag",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "d"
+                }
+            }
+        }
+    ]
+}

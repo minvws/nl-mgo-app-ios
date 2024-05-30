@@ -13,7 +13,7 @@ extension Condition {
 	// And https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316863
 	
 	// Various condition types
-	public enum ConditionType {
+	public enum ConditionType: String {
 		case diagnose
 		case symptom
 		case complaint

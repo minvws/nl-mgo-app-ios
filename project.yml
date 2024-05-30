@@ -8,6 +8,8 @@ name: MGO
 packages:
   FHIRClient:
     path: ./Packages/FHIRClient
+  FHIRExtensions:
+    path: ./Packages/FHIRExtensions
   LocalisationService:
     path: ./Packages/LocalisationService
   Managers:
@@ -352,6 +354,9 @@ schemes:
       gatherCoverageData: true
       targets:
         - package: FHIRClient/FHIRClientTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: FHIRExtensions/FHIRExtensionsTests
           randomExecutionOrder: true
           parallelizable: false
         - package: LocalisationService/LocalisationServiceTests

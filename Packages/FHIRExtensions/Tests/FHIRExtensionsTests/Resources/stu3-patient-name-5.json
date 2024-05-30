@@ -1,0 +1,11 @@
+{
+	"resourceType": "Patient",
+	"id": "stu3-patient-name-5",
+	"name": [
+		{
+			"text":"Björk Guðmundsdóttir",
+			"family": "Guðmundsdóttir",
+			"given": ["Björk"]
+		}
+	]
+}

@@ -177,7 +177,9 @@ struct ProblemsListView: View {
 					case .success(let conditions):
 
 						ForEach(conditions, id: \.id) { condition in
-							ProblemDetailView(condition: condition)
+							if let mgoCondition = ConditionDecorator.create(condition) {
+								ProblemDetailView(condition: mgoCondition)
+							}
 						}
 				}
 				
