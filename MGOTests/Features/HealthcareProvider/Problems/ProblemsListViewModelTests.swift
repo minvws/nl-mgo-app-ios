@@ -10,22 +10,22 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class MedicationListViewModelTests: XCTestCase {
+final class ProblemsListViewModelTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: MedicationListViewModel!
+	private var sut: ProblemsListViewModel!
 	private var healthcareProvider: HealthcareProvider!
-	private var repositorySpy: MedicationStatementRepositorySpy!
-	
+	private var repositorySpy: ConditionRepositorySpy!
+
 	override func setUp() {
 		
 		super.setUp()
-		repositorySpy = MedicationStatementRepositorySpy()
+		repositorySpy = ConditionRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareProvider = Generator.healthcareProvider("1")
-		sut = MedicationListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
+		sut = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
 	}
 	
 	func test_initialState_shouldBeLoading() {
@@ -35,18 +35,18 @@ final class MedicationListViewModelTests: XCTestCase {
 		// When
 		
 		// Then
-		expect(self.sut.state) == MedicationListViewState.loading
+		expect(self.sut.state) == ProblemsListViewState.loading
 	}
 	
 	func test_initialState_noRepository_shouldBeFailure() {
 		
 		// Given
-		sut = MedicationListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: nil)
+		sut = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: nil)
 		
 		// When
 		
 		// Then
-		expect(self.sut.state) == MedicationListViewState.failure
+		expect(self.sut.state) == ProblemsListViewState.failure
 	}
 	
 	func test_backButtonPressed_shouldCallCoordinator() {
@@ -61,19 +61,19 @@ final class MedicationListViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_loadMedications_noResults() {
+	func test_loadProblems_noResults() {
 		
 		// Given
-		repositorySpy.stubbedFetchMedicationStatements = []
+		repositorySpy.stubbedFetchCondition = []
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(MedicationListViewState.empty))
+		expect(self.sut.state).toEventually(equal(ProblemsListViewState.empty))
 	}
 	
-	func test_loadMedications_throwsError() {
+	func test_loadProblemss_throwsError() {
 		
 		// Given
 		repositorySpy.stubbedError = NSError(domain: "MedicationListViewModelTests", code: 404)
@@ -82,22 +82,21 @@ final class MedicationListViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(MedicationListViewState.failure))
+		expect(self.sut.state).toEventually(equal(ProblemsListViewState.failure))
 	}
 
-	func test_loadMedications_result() {
-		
+	func test_loadProblems_result() {
+
 		// Given
-		let statement = Generator.medicationStatement()
-		
-		repositorySpy.stubbedFetchMedicationStatements = [
-			statement
+		let condition = Generator.condition()
+		repositorySpy.stubbedFetchCondition = [
+			condition
 		]
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(MedicationListViewState.success([statement]) ))
+		expect(self.sut.state).toEventually(equal(ProblemsListViewState.success([condition])))
 	}
 }

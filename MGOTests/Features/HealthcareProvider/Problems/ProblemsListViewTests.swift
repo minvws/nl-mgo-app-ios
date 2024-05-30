@@ -10,24 +10,24 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class MedicationListViewTests: XCTestCase {
+final class ProblemsListViewTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: MedicationListViewModel!
+	private var viewModel: ProblemsListViewModel!
 	private var healthcareProvider: HealthcareProvider!
-	private var repositorySpy: MedicationStatementRepositorySpy!
-	private var sut: MedicationListView!
+	private var repositorySpy: ConditionRepositorySpy!
+	private var sut: ProblemsListView!
 	
 	override func setUp() {
 		
 		super.setUp()
-		repositorySpy = MedicationStatementRepositorySpy()
+		repositorySpy = ConditionRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareProvider = Generator.healthcareProvider("1")
-		viewModel = MedicationListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
-		sut = MedicationListView(viewModel: self.viewModel)
+		viewModel = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
+		sut = ProblemsListView(viewModel: self.viewModel)
 	}
 
 	func test_stateLoading() {
@@ -69,8 +69,8 @@ final class MedicationListViewTests: XCTestCase {
 	func test_stateList() {
 		
 		// Given
-		let statement = Generator.medicationStatement()
-		viewModel.state = .success([statement, statement, statement])
+		let condition = Generator.condition()
+		viewModel.state = .success([condition, condition, condition])
 		
 		// When
 		let content = NavigationView { sut }
