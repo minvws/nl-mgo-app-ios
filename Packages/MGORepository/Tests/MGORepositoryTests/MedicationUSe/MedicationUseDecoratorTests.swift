@@ -15,7 +15,13 @@ final class MedicationUseDecoratorTests: XCTestCase {
 		
 		// Given
 		let medicationStatement = MockGenerator.medicationStatement()
-		let expectedMedicationUse = MgoMedicationUse(title: "PARACETAMOL TABLET 500MG", instructions: "Vanaf 22 februari 2024, gedurende 30 dagen, zo nodig maal per dag 1 à 2 stuks , maximaal 6 stuks per dag, oraal", prescribedBy: nil, startDate: "2024-02-21", status: "active")
+		let expectedMedicationUse = MgoMedicationUse(
+			title: "PARACETAMOL TABLET 500MG",
+			instructions: "Vanaf 22 februari 2024, gedurende 30 dagen, zo nodig maal per dag 1 à 2 stuks , maximaal 6 stuks per dag, oraal",
+			prescribedBy: nil,
+			startDate: "2024-02-21",
+			status: "active"
+		)
 		
 		// When
 		let actualMedicationUse = MedicationUseDecorator.create(medicationStatement)
