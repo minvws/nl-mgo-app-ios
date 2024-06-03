@@ -18,6 +18,7 @@ let package = Package(
 		.package(name: "FHIRExtensions", path: "../FHIRExtensions"),
 		
 		// Testing
+		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0"),
 		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0")
 	],
 	targets: [
@@ -32,9 +33,10 @@ let package = Package(
 			name: "MGORepositoryTests",
 			dependencies: [
 				"MGORepository",
+				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
 				.product(name: "Nimble", package: "Nimble")
-			]
-//			resources: [.process("Resources")]
+			],
+			resources: [.process("Resources")]
 		)
 	]
 )

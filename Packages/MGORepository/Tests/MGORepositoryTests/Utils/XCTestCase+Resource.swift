@@ -5,7 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@testable import FHIRClient
+@testable import MGORepository
 import XCTest
 
 extension XCTestCase {

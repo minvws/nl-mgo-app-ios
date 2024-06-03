@@ -9,7 +9,7 @@
 import XCTest
 import Nimble
 
-final class ConcernTests: XCTestCase {
+final class ConcernDecoratorTests: XCTestCase {
 	
 	func test_decorator() throws {
 		
