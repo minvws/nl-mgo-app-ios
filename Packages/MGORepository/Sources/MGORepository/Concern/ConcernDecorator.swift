@@ -32,14 +32,5 @@ public class ConcernDecorator {
 			bodyLocation: location,
 			comment: condition.noteText
 		)
-		
-//		if let json = try? JSONEncoder().encode(concerns) {
-//		if let json = try? JSONEncoder().encode(concerns) {
-//			
-//			logDebug("json:", json)
-//			
-//			logDebug("json:", String(decoding: json, as: UTF8.self))
-//			
-//		}
 	}
 }

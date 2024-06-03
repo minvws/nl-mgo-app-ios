@@ -17,8 +17,8 @@ public protocol MedicationUseRepository {
 
 extension FHIRClient: MedicationUseRepository {
 	
-	/// Fetch all the medication statements
-	/// - Returns: an array of medication statements
+	/// Fetch all the medication usage
+	/// - Returns: an array of medication use
 	public func fetchMedicationUse() async throws -> [MgoMedicationUse] {
 		
 		let bundle = try await MedicationStatement.read("", client: self, parameters: DVP.BGZ.medicationUse) as? ModelsSTU3.Bundle

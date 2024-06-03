@@ -8,8 +8,12 @@
 import Foundation
 import FHIRExtensions
 
+/// Decorator
 public class MedicationUseDecorator {
 	
+	/// Create a Mgo Medication Use from a STU3 Medication Statement
+	/// - Parameter statement: STU3 Medication Statement
+	/// - Returns: Mgo Medication Use
 	public static func create(_ statement: MedicationStatement) -> MgoMedicationUse? {
 		
 		return MgoMedicationUse(

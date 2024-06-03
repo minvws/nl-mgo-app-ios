@@ -7,16 +7,22 @@
 
 import Foundation
 
+/// Medication Use
 public struct MgoMedicationUse: Codable, Equatable, Hashable {
 	
+	/// The title of the medication
 	public var title: String
 	
+	/// The instructions how to take this medication
 	public var instructions: String?
 	
+	/// Who prescribed this medication
 	public var prescribedBy: String?
 	
+	/// When should we start with this medication
 	public var startDate: String?
 	
+	/// What is the status of this medication
 	public var status: String?
 	
 	public init(
