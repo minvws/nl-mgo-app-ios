@@ -16,6 +16,8 @@ packages:
     path: ./Packages/Managers
   MGOFoundation:
     path: ./Packages/MGOFoundation
+  MGORepository:
+    path: ./Packages/MGORepository
   MGOTest:
     path: ./Packages/MGOTest
   MGOUI:
@@ -363,6 +365,9 @@ schemes:
           randomExecutionOrder: true
           parallelizable: false
         - package: Managers/ManagersTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: MGORepository/MGORepositoryTests
           randomExecutionOrder: true
           parallelizable: false
         - name: MGOTests

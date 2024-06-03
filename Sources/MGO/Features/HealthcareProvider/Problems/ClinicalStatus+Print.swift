@@ -7,14 +7,14 @@
 
 import MGOFoundation
 
-extension Condition.ClinicalStatus {
-	
-	public var printDescription: String {
-		
-		switch self {
-	
-			case .active: String(localized: "condition_status_active")
-			case .inactive: String(localized: "condition_status_inactive")
-		}
-	}
-}
+//extension Condition.ClinicalStatus {
+//	
+//	public var printDescription: String {
+//		
+//		switch self {
+//	
+//			case .active: String(localized: "condition_status_active")
+//			case .inactive: String(localized: "condition_status_inactive")
+//		}
+//	}
+//}

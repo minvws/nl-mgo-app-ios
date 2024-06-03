@@ -8,24 +8,24 @@
 import Foundation
 import FHIRClient
 
-public class ConditionRepositorySpy: ConditionRepository {
+public class ConcernRepositorySpy: ConcernRepository {
 	
 	/// Initlializer
 	public init() {
 		// Public initializer needed for public access.
 	}
-	
-	public var invokedFetchConditions = false
-	public var invokedFetchConditionsCount = 0
-	public var stubbedFetchCondition: [Condition] = []
-	public var stubbedError: Error?
 
-	public func fetchConditions() async throws -> [Condition] {
-		invokedFetchConditions = true
-		invokedFetchConditionsCount += 1
+	public var invokedFetchConcerns = false
+	public var invokedFetchConcernsCount = 0
+	public var stubbedFetchConcerns: [MgoConcern] = []
+	public var stubbedError: Error?
+	
+	public func fetchConcerns() async throws -> [MgoConcern] {
+		invokedFetchConcerns = true
+		invokedFetchConcernsCount += 1
 		if let error = stubbedError {
 			throw error
 		}
-		return stubbedFetchCondition
+		return stubbedFetchConcerns
 	}
 }

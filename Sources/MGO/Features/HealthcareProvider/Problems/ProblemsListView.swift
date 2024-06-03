@@ -13,7 +13,7 @@ enum ProblemsListViewState: Equatable {
 	case loading
 	case failure
 	case empty
-	case success([Condition])
+	case success([MgoConcern])
 	
 	static func == (lhs: ProblemsListViewState, rhs: ProblemsListViewState) -> Bool {
 		switch (lhs, rhs) {
@@ -53,8 +53,8 @@ class ProblemsListViewModel: ObservableObject {
 	/// The healthcare provider to display
 	private var healthcareProvider: HealthcareProvider
 	
-	/// The repository for Conditions
-	private var conditionRepository: ConditionRepository!
+	/// The repository for Concerns
+	private var concernRepository: ConcernRepository!
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -67,18 +67,19 @@ class ProblemsListViewModel: ObservableObject {
 	init(
 		coordinator: (any Coordinator)? = nil,
 		healthcareProvider: HealthcareProvider,
-		repository: ConditionRepository? = FHIRClient()) {
+		repository: ConcernRepository? = FHIRClient()
+	) {
 
-			self.coordinator = coordinator
-			self.healthcareProvider = healthcareProvider
-			
-			if let unwrapped = repository {
-				self.conditionRepository = unwrapped
-				self.state = .loading
-			} else {
-				self.state = .failure
-			}
+		self.coordinator = coordinator
+		self.healthcareProvider = healthcareProvider
+		
+		if let unwrapped = repository {
+			self.concernRepository = unwrapped
+			self.state = .loading
+		} else {
+			self.state = .failure
 		}
+	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
@@ -99,11 +100,11 @@ class ProblemsListViewModel: ObservableObject {
 	func loadProblems() async {
 		
 		do {
-			let conditions = try await conditionRepository.fetchConditions()
-			if conditions.isEmpty {
+			let concerns = try await concernRepository.fetchConcerns()
+			if concerns.isEmpty {
 				state = .empty
 			} else {
-				state = .success(conditions)
+				state = .success(concerns)
 			}
 		} catch {
 			logError("Client read error: \(String(describing: error))")
@@ -174,12 +175,9 @@ struct ProblemsListView: View {
 							message: "general_failure_body"
 						)
 				
-					case .success(let conditions):
-
-						ForEach(conditions, id: \.id) { condition in
-							if let mgoCondition = ConditionDecorator.create(condition) {
-								ProblemDetailView(condition: mgoCondition)
-							}
+					case .success(let concerns):
+						ForEach(concerns, id: \.self) { concern in
+							ProblemDetailView(concern: concern)
 						}
 				}
 				

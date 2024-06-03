@@ -8,7 +8,7 @@
 import Foundation
 import FHIRClient
 
-public struct DVPClient {
+public struct DVP {
 	
 	public enum BGZ {
 		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017

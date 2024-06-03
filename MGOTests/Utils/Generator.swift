@@ -42,6 +42,19 @@ class Generator {
 		)
 	}
 	
+	static func concern() -> MgoConcern {
+		
+		return MgoConcern(
+			title: "Fractuur van pols (aandoening)",
+			type: "diagnose",
+			status: "inactive",
+			startDate: "2001",
+			endDate: "2001",
+			bodyLocation: "Gehele polsregio (lichaamsstructuur), Rechts",
+			comment: "Gevallen op kunstijsbaan."
+		)
+	}
+	
 	static func condition() -> ModelsSTU3.Condition {
 		
 		return ModelsSTU3.Condition(
@@ -122,6 +135,18 @@ class Generator {
 				reference: "Patient/nl-core-patient-01"
 			),
 			taken: FHIRPrimitive<MedicationStatementTaken>(.unk)
+		)
+	}
+	
+	static func medicationUse() -> MgoMedicationUse {
+		
+		return MgoMedicationUse(
+			
+			title: "Zestril tablet 10mg",
+			instructions: "1 maal per dag 1 tablet, oraal",
+			prescribedBy: "Huisartsen, niet nader gespecificeerd",
+			startDate: "2018-06-28",
+			status: "active"
 		)
 	}
 }

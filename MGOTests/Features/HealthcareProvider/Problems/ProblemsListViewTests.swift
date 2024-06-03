@@ -16,13 +16,13 @@ final class ProblemsListViewTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: ProblemsListViewModel!
 	private var healthcareProvider: HealthcareProvider!
-	private var repositorySpy: ConditionRepositorySpy!
+	private var repositorySpy: ConcernRepositorySpy!
 	private var sut: ProblemsListView!
 	
 	override func setUp() {
 		
 		super.setUp()
-		repositorySpy = ConditionRepositorySpy()
+		repositorySpy = ConcernRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareProvider = Generator.healthcareProvider("1")
@@ -69,8 +69,8 @@ final class ProblemsListViewTests: XCTestCase {
 	func test_stateList() {
 		
 		// Given
-		let condition = Generator.condition()
-		viewModel.state = .success([condition, condition, condition])
+		let concern = Generator.concern()
+		viewModel.state = .success([concern, concern, concern])
 		
 		// When
 		let content = NavigationView { sut }

@@ -5,37 +5,12 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOFoundation
+import Foundation
+import FHIRExtensions
 
-enum MGO {
-	// Name Space for mapped FHIR classes to MGO display classes
+public class ConcernDecorator {
 	
-}
-
-extension MGO {
-	
-	//
-	struct Condition: Codable {
-		
-		var title: String
-		
-		var type: String?
-		
-		var status: String?
-		
-		var startDate: String?
-		
-		var endDate: String?
-		
-		var bodyLocation: String?
-		
-		var comment: String?
-	}
-}
-
-class ConditionDecorator {
-	
-	static func create(_ condition: Condition) -> MGO.Condition? {
+	public static func create(_ condition: Condition) -> MgoConcern? {
 		
 		guard let title = condition.name else { return nil }
 		
@@ -48,7 +23,7 @@ class ConditionDecorator {
 			return unwrapped
 		}
 		
-		return MGO.Condition(
+		return MgoConcern(
 			title: title,
 			type: condition.conditionType?.rawValue,
 			status: condition.status?.rawValue,
@@ -57,5 +32,14 @@ class ConditionDecorator {
 			bodyLocation: location,
 			comment: condition.noteText
 		)
+		
+//		if let json = try? JSONEncoder().encode(concerns) {
+//		if let json = try? JSONEncoder().encode(concerns) {
+//			
+//			logDebug("json:", json)
+//			
+//			logDebug("json:", String(decoding: json, as: UTF8.self))
+//			
+//		}
 	}
 }

@@ -16,12 +16,12 @@ final class MedicationListViewModelTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var sut: MedicationListViewModel!
 	private var healthcareProvider: HealthcareProvider!
-	private var repositorySpy: MedicationStatementRepositorySpy!
+	private var repositorySpy: MedicationUseRepositorySpy!
 	
 	override func setUp() {
 		
 		super.setUp()
-		repositorySpy = MedicationStatementRepositorySpy()
+		repositorySpy = MedicationUseRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareProvider = Generator.healthcareProvider("1")
@@ -64,7 +64,7 @@ final class MedicationListViewModelTests: XCTestCase {
 	func test_loadMedications_noResults() {
 		
 		// Given
-		repositorySpy.stubbedFetchMedicationStatements = []
+		repositorySpy.stubbedFetchMedicationUse = []
 		
 		// When
 		sut.reduce(.onAppear)
@@ -88,9 +88,9 @@ final class MedicationListViewModelTests: XCTestCase {
 	func test_loadMedications_result() {
 		
 		// Given
-		let statement = Generator.medicationStatement()
+		let statement = Generator.medicationUse()
 		
-		repositorySpy.stubbedFetchMedicationStatements = [
+		repositorySpy.stubbedFetchMedicationUse = [
 			statement
 		]
 		

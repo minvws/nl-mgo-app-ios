@@ -16,7 +16,7 @@ let package = Package(
 		
 		// Internal
 		.package(name: "Managers", path: "../Managers"),
-		.package(name: "FHIRExtensions", path: "../FHIRExtensions"),
+		.package(name: "MGORepository", path: "../MGORepository"),
 		
 		// VWS
 		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main")
@@ -25,9 +25,9 @@ let package = Package(
 		.target(
 			name: "MGOFoundation",
 			dependencies: [
-				.product(name: "FHIRExtensions", package: "FHIRExtensions"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
-				.product(name: "Managers", package: "Managers")
+				.product(name: "Managers", package: "Managers"),
+				.product(name: "MGORepository", package: "MGORepository")
 			]
 		)
 	]

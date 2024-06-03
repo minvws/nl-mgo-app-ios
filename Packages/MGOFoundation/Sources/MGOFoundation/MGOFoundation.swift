@@ -10,7 +10,9 @@
 
 // Internal
 @_exported import FHIRExtensions
+@_exported import FHIRClient
 @_exported import Managers
+@_exported import MGORepository
 
 // VWS
 @_exported import Logging

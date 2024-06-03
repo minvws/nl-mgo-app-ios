@@ -16,12 +16,12 @@ final class ProblemsListViewModelTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var sut: ProblemsListViewModel!
 	private var healthcareProvider: HealthcareProvider!
-	private var repositorySpy: ConditionRepositorySpy!
+	private var repositorySpy: ConcernRepositorySpy!
 
 	override func setUp() {
 		
 		super.setUp()
-		repositorySpy = ConditionRepositorySpy()
+		repositorySpy = ConcernRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareProvider = Generator.healthcareProvider("1")
@@ -64,7 +64,7 @@ final class ProblemsListViewModelTests: XCTestCase {
 	func test_loadProblems_noResults() {
 		
 		// Given
-		repositorySpy.stubbedFetchCondition = []
+		repositorySpy.stubbedFetchConcerns = []
 		
 		// When
 		sut.reduce(.onAppear)
@@ -88,15 +88,15 @@ final class ProblemsListViewModelTests: XCTestCase {
 	func test_loadProblems_result() {
 
 		// Given
-		let condition = Generator.condition()
-		repositorySpy.stubbedFetchCondition = [
-			condition
+		let concern = Generator.concern()
+		repositorySpy.stubbedFetchConcerns = [
+			concern
 		]
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(ProblemsListViewState.success([condition])))
+		expect(self.sut.state).toEventually(equal(ProblemsListViewState.success([concern])))
 	}
 }

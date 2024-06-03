@@ -7,17 +7,17 @@
 
 import MGOFoundation
 
-extension MedicationStatementStatus {
-	
-	public var printDescription: String {
-		
-		switch self {
-			case .active: String(localized: "medicationStatementStatus_active")
-			case .completed: String(localized: "medicationStatementStatus_completed")
-			case .enteredInError: String(localized: "medicationStatementStatus_enteredInError")
-			case .intended: String(localized: "medicationStatementStatus_intended")
-			case .stopped: String(localized: "medicationStatementStatus_stopped")
-			case .onHold: String(localized: "medicationStatementStatus_onHold")
-		}
-	}
-}
+//extension MedicationStatementStatus {
+//	
+//	public var printDescription: String {
+//		
+//		switch self {
+//			case .active: String(localized: "medicationStatementStatus_active")
+//			case .completed: String(localized: "medicationStatementStatus_completed")
+//			case .enteredInError: String(localized: "medicationStatementStatus_enteredInError")
+//			case .intended: String(localized: "medicationStatementStatus_intended")
+//			case .stopped: String(localized: "medicationStatementStatus_stopped")
+//			case .onHold: String(localized: "medicationStatementStatus_onHold")
+//		}
+//	}
+//}

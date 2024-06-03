@@ -16,13 +16,13 @@ final class MedicationListViewTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: MedicationListViewModel!
 	private var healthcareProvider: HealthcareProvider!
-	private var repositorySpy: MedicationStatementRepositorySpy!
+	private var repositorySpy: MedicationUseRepositorySpy!
 	private var sut: MedicationListView!
 	
 	override func setUp() {
 		
 		super.setUp()
-		repositorySpy = MedicationStatementRepositorySpy()
+		repositorySpy = MedicationUseRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareProvider = Generator.healthcareProvider("1")
@@ -69,7 +69,7 @@ final class MedicationListViewTests: XCTestCase {
 	func test_stateList() {
 		
 		// Given
-		let statement = Generator.medicationStatement()
+		let statement = Generator.medicationUse()
 		viewModel.state = .success([statement, statement, statement])
 		
 		// When

@@ -10,8 +10,8 @@ import MGOFoundation
 
 struct ProblemDetailView: View {
 	
-	/// The  condition 
-	var condition: MGO.Condition
+	/// The  concern
+	var concern: MgoConcern
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -21,18 +21,17 @@ struct ProblemDetailView: View {
 	}
 	
 	var body: some View {
-		
-		AccordionView(title: Sanitizer.strip(condition.title) ?? "") {
+		AccordionView(title: Sanitizer.strip(concern.title) ?? "") {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
-				if let conditionType = condition.type {
+				if let conditionType = concern.type {
 					DetailRow(
 						title: "condition_details_type",
 						content: conditionType
 					)
 				}
 				
-				if let status = condition.status {
+				if let status = concern.status {
 					DetailRow(
 						title: "condition_details_status",
 						content: status
@@ -41,22 +40,22 @@ struct ProblemDetailView: View {
 		
 				DetailRow(
 					title: "condition_details_startdate",
-					content: Sanitizer.strip(condition.startDate) ?? String(localized: "general_unknown")
+					content: Sanitizer.strip(concern.startDate) ?? String(localized: "general_unknown")
 				)
 				
 				DetailRow(
 					title: "condition_details_enddate",
-					content: Sanitizer.strip(condition.endDate) ?? String(localized: "general_unknown")
+					content: Sanitizer.strip(concern.endDate) ?? String(localized: "general_unknown")
 				)
 				
-				if let location = Sanitizer.strip(condition.bodyLocation) {
+				if let location = Sanitizer.strip(concern.bodyLocation) {
 					DetailRow(
 						title: "condition_details_location",
 						content: location
 					)
 				}
 				
-				if let noteText = Sanitizer.strip(condition.comment) {
+				if let noteText = Sanitizer.strip(concern.comment) {
 					DetailRow(
 						title: "condition_details_note",
 						content: noteText
