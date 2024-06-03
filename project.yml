@@ -355,9 +355,9 @@ schemes:
     test:
       gatherCoverageData: true
       targets:
-#        - package: FHIRClient/FHIRClientTests
-#          randomExecutionOrder: true
-#          parallelizable: false
+        - package: FHIRClient/FHIRClientTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: FHIRExtensions/FHIRExtensionsTests
           randomExecutionOrder: true
           parallelizable: false
