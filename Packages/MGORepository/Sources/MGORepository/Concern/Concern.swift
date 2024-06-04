@@ -14,7 +14,7 @@ public struct MgoConcern: Codable, Equatable, Hashable {
 	
 	public var type: String?
 	
-	public var status: String?
+	public var clinicalStatus: String?
 	
 	public var startDate: String?
 	
@@ -27,14 +27,14 @@ public struct MgoConcern: Codable, Equatable, Hashable {
 	public init(
 		title: String,
 		type: String? = nil,
-		status: String? = nil,
+		clinicalStatus: String? = nil,
 		startDate: String? = nil,
 		endDate: String? = nil,
 		bodyLocation: String? = nil,
 		comment: String? = nil) {
 		self.title = title
 		self.type = type
-		self.status = status
+		self.clinicalStatus = clinicalStatus
 		self.startDate = startDate
 		self.endDate = endDate
 		self.bodyLocation = bodyLocation

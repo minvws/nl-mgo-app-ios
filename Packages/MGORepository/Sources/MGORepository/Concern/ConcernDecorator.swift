@@ -26,7 +26,7 @@ public class ConcernDecorator {
 		return MgoConcern(
 			title: title,
 			type: condition.conditionType?.rawValue,
-			status: condition.status?.rawValue,
+			clinicalStatus: condition.status?.rawValue,
 			startDate: condition.startDate,
 			endDate: condition.endDate,
 			bodyLocation: location,

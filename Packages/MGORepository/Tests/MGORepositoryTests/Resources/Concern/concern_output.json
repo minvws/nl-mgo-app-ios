@@ -2,7 +2,7 @@
 	{
 		"title":"Fractuur van pols (aandoening)",
 		"comment":"Gevallen op kunstijsbaan.",
-		"status":"inactive",
+		"clinicalStatus":"inactive",
 		"type":"diagnose",
 		"startDate":"2001",
 		"endDate": null,

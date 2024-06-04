@@ -31,7 +31,7 @@ struct ProblemDetailView: View {
 					)
 				}
 				
-				if let status = concern.status {
+				if let status = concern.clinicalStatus {
 					DetailRow(
 						title: "condition_details_status",
 						content: status
