@@ -36,8 +36,17 @@ class StoredHealthcareProviderDecorator {
 	static func create(_ organisation: HealthcareProvider) -> StoredHealthcareProviderModel {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
-		let name = organisation.display_name // + " [\(identifier)]"
+		let name = Sanitizer.strip(organisation.display_name) ?? ""
 		let (address, city, postalCode) = organisation.getAddress()
-		return StoredHealthcareProviderModel(category: organisation.types.first?.display_name ?? "", id: identifier, name: name, city: city, address: address, postalCode: postalCode)
+		let category = Sanitizer.strip(organisation.category) ?? ""
+		
+		return StoredHealthcareProviderModel(
+			category: category,
+			id: identifier,
+			name: name,
+			city: Sanitizer.strip(city),
+			address: Sanitizer.strip(address),
+			postalCode: Sanitizer.strip(postalCode)
+		)
 	}
 }

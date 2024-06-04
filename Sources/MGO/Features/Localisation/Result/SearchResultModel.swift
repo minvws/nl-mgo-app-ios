@@ -23,8 +23,8 @@ class SearchResultDecorator {
 	static func create(_ organisation: HealthcareProvider) -> SearchResult {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
-		let name = organisation.display_name // + " [\(identifier)]"
+		let name = Sanitizer.strip(organisation.display_name) ?? ""
 		let (address, city, postalCode) = organisation.getAddress()
-		return SearchResult(id: identifier, name: name, city: city, address: address, postalCode: postalCode)
+		return SearchResult(id: identifier, name: name, city: Sanitizer.strip(city), address: Sanitizer.strip(address), postalCode: Sanitizer.strip(postalCode))
 	}
 }
