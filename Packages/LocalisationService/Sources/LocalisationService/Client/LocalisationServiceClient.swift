@@ -8,8 +8,6 @@
 import OpenAPIRuntime
 import OpenAPIURLSession
 
-public typealias HealthcareProvider = Components.Schemas.Organization
-
 public protocol LocalisationServiceClientProtocol {
 	
 	/// Initializer
