@@ -16,7 +16,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	/// Closure used the handle inspection
 	var didAppear: ((Self) -> Void)?
 	
-	/// Initialzier
+	/// Initializer
 	/// - Parameter appCoordinator: An AppCoordinatorProtocol class
 	init(appCoordinator: T) {
 		self._appCoordinator = StateObject(wrappedValue: appCoordinator)

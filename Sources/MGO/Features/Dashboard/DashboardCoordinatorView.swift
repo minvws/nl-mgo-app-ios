@@ -12,7 +12,7 @@ extension Coordination.Action {
 	static let searchHealthcareProviders = Coordination.Action(identifier: "searchHealthcareProviders")
 	static let showHealthcareProviderDetails = Coordination.Action(identifier: "showHealthcareProviderDetails")
 	
-	static let showDiagnoses = Coordination.Action(identifier: "showDiagnoses")
+	static let showProblems = Coordination.Action(identifier: "showProblems")
 	static let showMedication = Coordination.Action(identifier: "showMedication")
 	static let showResults = Coordination.Action(identifier: "showResults")
 }
@@ -54,7 +54,7 @@ enum DashboardCoordination {
 		
 		// Details Flow
 		case showHealthcareProviderDetails(healthcareProvider: HealthcareProvider)
-		case showDiagnoses(healthcareProvider: HealthcareProvider)
+		case showProblems(healthcareProvider: HealthcareProvider)
 		case showMedication(healthcareProvider: HealthcareProvider)
 		case showResults(healthcareProvider: HealthcareProvider)
 	}
@@ -77,7 +77,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	/// The flow coordinator for routing
 	private weak var parentCoordinator: (any AppCoordinatorProtocol)?
 	
-	/// Initialzier
+	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	init(parentCoordinator: (any AppCoordinatorProtocol)?) {
 		self.parentCoordinator = parentCoordinator
@@ -123,10 +123,10 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 			
-			case Coordination.Action.showDiagnoses.identifier:
+			case Coordination.Action.showProblems.identifier:
 				if action.params.count == 1,
 				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
-					firstTabPath.append(DashboardCoordination.State.showDiagnoses(healthcareProvider: healthcareProvider))
+					firstTabPath.append(DashboardCoordination.State.showProblems(healthcareProvider: healthcareProvider))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -197,12 +197,21 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case let .showHealthcareProviderDetails(healthcareProvider):
 				HealthcareProviderView(viewModel: HealthcareProviderViewModel(coordinator: self, healthcareProvider: healthcareProvider))
 			
-			case let .showDiagnoses(healthcareProvider):
-				
-				Text(verbatim: "Todo: Diagnoses (MGO-???) for\n \(healthcareProvider.display_name)")
+			case let .showProblems(healthcareProvider):
+				ProblemsListView(
+					viewModel: ProblemsListViewModel(
+						coordinator: self,
+						healthcareProvider: healthcareProvider
+					)
+				)
 				
 			case let .showMedication(healthcareProvider):
-				MedicationListView(viewModel: MedicationListViewModel(coordinator: self, healthcareProvider: healthcareProvider))
+				MedicationListView(
+					viewModel: MedicationListViewModel(
+						coordinator: self,
+						healthcareProvider: healthcareProvider
+					)
+				)
 				
 			case let .showResults(healthcareProvider):
 				
@@ -219,7 +228,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 	/// The coordinator for handling state
 	@StateObject private var coordinator: T
 	
-	/// Initialzier
+	/// Initializer
 	/// - Parameter appCoordinator: An DashboardCoordinatorProtocol class
 	init(coordinator: T) {
 		self._coordinator = StateObject(wrappedValue: coordinator)

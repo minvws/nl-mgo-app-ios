@@ -10,8 +10,8 @@ import MGOFoundation
 
 struct MedicationDetailView: View {
 	
-	/// The medication statement (STU3)
-	var statement: MedicationStatement
+	/// The medication use
+	var statement: MgoMedicationUse
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -22,18 +22,18 @@ struct MedicationDetailView: View {
 	
 	var body: some View {
 		
-		AccordionView(title: Sanitizer.strip(statement.medicationName) ?? "") {
+		AccordionView(title: Sanitizer.strip(statement.title) ?? "") {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
-				if let dosageText = Sanitizer.strip(statement.dosageText) {
+				if let dosageText = Sanitizer.strip(statement.instructions) {
 					DetailRow(title: "medication_details_dosage", content: dosageText)
 				}
 				if let startDate = Sanitizer.strip(statement.startDate) {
 					DetailRow(title: "medication_details_startdate", content: startDate)
 				}
-				if let prescriber = Sanitizer.strip(statement.prescriber) {
+				if let prescriber = Sanitizer.strip(statement.prescribedBy) {
 					DetailRow(title: "medication_details_prescriber", content: prescriber)
 				}
-				if let printDescription = Sanitizer.strip(statement.status.value?.rawValue) {
+				if let printDescription = Sanitizer.strip(statement.status) {
 					DetailRow(title: "medication_details_status", content: printDescription)
 				}
 			}

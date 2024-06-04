@@ -13,7 +13,7 @@ enum MedicationListViewState: Equatable {
 	case loading
 	case failure
 	case empty
-	case success([MedicationStatement])
+	case success([MgoMedicationUse])
 
 	static func == (lhs: MedicationListViewState, rhs: MedicationListViewState) -> Bool {
 		switch (lhs, rhs) {
@@ -53,8 +53,8 @@ class MedicationListViewModel: ObservableObject {
 	/// The healthcare provider to display
 	private var healthcareProvider: HealthcareProvider
 	
-	/// The repository for Medication Statements
-	private var medicationStatementRepository: MedicationStatementRepository!
+	/// The repository for Medication Use
+	private var medicationUseRepository: MedicationUseRepository!
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -67,13 +67,14 @@ class MedicationListViewModel: ObservableObject {
 	init(
 		coordinator: (any Coordinator)? = nil,
 		healthcareProvider: HealthcareProvider,
-		repository: MedicationStatementRepository? = FHIRClient()) {
+		repository: MedicationUseRepository? = FHIRClient()
+	) {
 		
 		self.coordinator = coordinator
 		self.healthcareProvider = healthcareProvider
 		
 		if let unwrapped = repository {
-			self.medicationStatementRepository = unwrapped
+			self.medicationUseRepository = unwrapped
 			self.state = .loading
 		} else {
 			self.state = .failure
@@ -99,11 +100,11 @@ class MedicationListViewModel: ObservableObject {
 	func loadMedication() async {
 		
 		do {
-			let statements = try await medicationStatementRepository.fetchMedicationStatements()
-			if statements.isEmpty {
+			let usage = try await medicationUseRepository.fetchMedicationUse()
+			if usage.isEmpty {
 				state = .empty
 			} else {
-				state = .success(statements)
+				state = .success(usage)
 			}
 		} catch {
 			logError("Client read error: \(String(describing: error))")
@@ -156,27 +157,27 @@ struct MedicationListView: View {
 				switch viewModel.state {
 					case .loading:
 						
-						MedicationLoadingView(title: "launch_loading")
+						LoadingCardView(title: "launch_loading")
 					
 					case .empty:
 					
 						NotificationCardView(
 							icon: Image(ImageResource.Woman.womanOnCouch),
-							title: "medication_empty_title",
-							message: "medication_empty_body"
+							title: "general_nodata_title",
+							message: "general_nodata_body"
 						)
 					
 					case .failure:
 					
 						NotificationCardView(
 							icon: Image(ImageResource.Woman.womanOnCouchExclamation),
-							title: "medication_failure_title",
-							message: "medication_failure_body"
+							title: "general_failure_title",
+							message: "general_failure_body"
 						)
 					
 					case .success(let medicationStatements):
 						
-						ForEach(medicationStatements, id: \.id) { statement in
+						ForEach(medicationStatements, id: \.self) { statement in
 							MedicationDetailView(statement: statement)
 						}
 				}

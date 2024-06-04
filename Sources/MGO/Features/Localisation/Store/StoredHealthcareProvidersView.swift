@@ -40,7 +40,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	/// the healthcare provider to remove
 	private var healthcareProviderToRemove: HealthcareProvider?
 	
-	/// Initialzier
+	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	init(coordinator: (any Coordinator)?) {
 		self.coordinator = coordinator

@@ -26,7 +26,7 @@ class HealthcareProviderViewModel: ObservableObject {
 	enum Action {
 		case backButtonPressed
 		case showMedication
-		case showDiagnoses
+		case showProblems
 		case showResults
 	}
 	
@@ -46,9 +46,9 @@ class HealthcareProviderViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
-			case .showDiagnoses:
+			case .showProblems:
 				coordinator?.handle(Coordination.Action(
-					identifier: "showDiagnoses",
+					identifier: "showProblems",
 					params: ["healthcareProvider": healthcareProvider])
 				)
 			case .showMedication:
@@ -137,7 +137,7 @@ struct HealthcareProviderView: View {
 							message: "hpdetails_diagnoses_body",
 							icon: .diagnoses,
 							perform: {
-								viewModel.reduce(.showDiagnoses)
+								viewModel.reduce(.showProblems)
 							}
 						)
 					}

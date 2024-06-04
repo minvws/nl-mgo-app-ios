@@ -56,7 +56,7 @@ class SearchViewModel: ObservableObject {
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
 	
-	/// Initialzier
+	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	init(coordinator: (any Coordinator)?) {
 		self.coordinator = coordinator

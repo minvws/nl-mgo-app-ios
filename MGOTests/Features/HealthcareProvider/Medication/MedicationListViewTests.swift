@@ -16,13 +16,13 @@ final class MedicationListViewTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: MedicationListViewModel!
 	private var healthcareProvider: HealthcareProvider!
-	private var repositorySpy: MedicationStatementRepositorySpy!
+	private var repositorySpy: MedicationUseRepositorySpy!
 	private var sut: MedicationListView!
 	
 	override func setUp() {
 		
 		super.setUp()
-		repositorySpy = MedicationStatementRepositorySpy()
+		repositorySpy = MedicationUseRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareProvider = Generator.healthcareProvider("1")
@@ -69,14 +69,7 @@ final class MedicationListViewTests: XCTestCase {
 	func test_stateList() {
 		
 		// Given
-		let statement = MedicationStatement(
-			dosage: [Dosage(text: "Vanaf 22 februari 2024, gedurende 30 dagen, zo nodig maal per dag 1 à 2 stuks , maximaal 6 stuks per dag, oraal")],
-			effective: .period(Period(start: FHIRPrimitive<DateTime>("2024-02-21"))),
-			medication: .reference(Reference(display: "PARACETAMOL TABLET 500MG", reference: "Medication/zib-Product-02")),
-			status: FHIRPrimitive<MedicationStatementStatus>(.active),
-			subject: Reference(display: "Johan XXX_Helleman", reference: "Patient/nl-core-patient-01"),
-			taken: FHIRPrimitive<MedicationStatementTaken>(.unk)
-		)
+		let statement = Generator.medicationUse()
 		viewModel.state = .success([statement, statement, statement])
 		
 		// When

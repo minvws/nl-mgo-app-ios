@@ -59,8 +59,8 @@ public enum RequestParameterField: String {
 	
 	/// Include the field
 	case include = "_include"
-	
-	/// Include the field
+
+	/// format
 	case format = "_format"
 	
 	/**

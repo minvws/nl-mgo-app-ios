@@ -74,6 +74,7 @@ MGOapp <- UIKit
 # - Packages -
 
 MGOFoundation { style.fill: "#ffcc00" }
+MGOFoundation <- MGORepository
 MGOFoundation <- Foundation
 MGOFoundation <- Logging
 MGOFoundation <- Managers
@@ -84,7 +85,6 @@ MGOUI <- ReusableUI
 MGOUI <- SwiftUI
 
 Managers { style.fill: "#ffcc00" }
-Managers <- FHIRClient
 Managers <- UIKit
 Managers <- LocalisationService
 Managers <- Foundation
@@ -102,9 +102,18 @@ ReusableUI <- RijksoverheidFont
 ReusableUI <- SwiftUI
 ReusableUI <- Theme
 
+MGORepository  { style.fill: "#ffcc00" }
+MGORepository <- FHIRClient
+MGORepository <- FHIRExtensions
+MGORepository <- Foundation
+
 FHIRClient { style.fill: "#ffcc00" }
 FHIRClient <- FHIRModels
 FHIRClient <- Foundation
+
+FHIRExtensions { style.fill: "#ffcc00" }
+FHIRExtensions <- FHIRModels
+FHIRExtensions <- Foundation
 
 RestrictedBrowser { style.fill: "#ffcc00" }
 RestrictedBrowser <- SwiftUI

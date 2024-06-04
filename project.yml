@@ -8,12 +8,16 @@ name: MGO
 packages:
   FHIRClient:
     path: ./Packages/FHIRClient
+  FHIRExtensions:
+    path: ./Packages/FHIRExtensions
   LocalisationService:
     path: ./Packages/LocalisationService
   Managers:
     path: ./Packages/Managers
   MGOFoundation:
     path: ./Packages/MGOFoundation
+  MGORepository:
+    path: ./Packages/MGORepository
   MGOTest:
     path: ./Packages/MGOTest
   MGOUI:
@@ -354,10 +358,16 @@ schemes:
         - package: FHIRClient/FHIRClientTests
           randomExecutionOrder: true
           parallelizable: false
+        - package: FHIRExtensions/FHIRExtensionsTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: LocalisationService/LocalisationServiceTests
           randomExecutionOrder: true
           parallelizable: false
         - package: Managers/ManagersTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: MGORepository/MGORepositoryTests
           randomExecutionOrder: true
           parallelizable: false
         - name: MGOTests
