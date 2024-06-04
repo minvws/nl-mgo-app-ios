@@ -9,31 +9,31 @@ import XCTest
 import Nimble
 @testable import FHIRExtensions
 
-final class ConditionTypeTests: XCTestCase {
+final class ConditionCategoryTests: XCTestCase {
 
-	func test_condition_type_1() throws {
+	func test_condition_category_1() throws {
 		
 		// Given
 		let json = try getResource("stu3-condition-1")
 		let condition = try Resource.fromJSON(json, type: Condition.self)
 		
 		// When
-		let type = condition.conditionType
+		let categoryText = condition.categoryText
 		
 		// Then
-		expect(type) == .diagnose
+		expect(categoryText) == "interpretatie van diagnose (waarneembare entiteit)"
 	}
 	
-	func test_condition_type_2() throws {
+	func test_condition_category_2() throws {
 		
 		// Given
 		let json = try getResource("stu3-condition-2")
 		let condition = try Resource.fromJSON(json, type: Condition.self)
 		
 		// When
-		let type = condition.conditionType
+		let categoryText = condition.categoryText
 		
 		// Then
-		expect(type) == .complaint
+		expect(categoryText) == "Complaint"
 	}
 }

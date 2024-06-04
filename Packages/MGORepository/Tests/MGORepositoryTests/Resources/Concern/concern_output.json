@@ -3,7 +3,7 @@
 		"title":"Fractuur van pols (aandoening)",
 		"comment":"Gevallen op kunstijsbaan.",
 		"clinicalStatus":"inactive",
-		"type":"diagnose",
+		"category":"interpretatie van diagnose (waarneembare entiteit)",
 		"startDate":"2001",
 		"endDate": null,
 		"bodyLocation":"Gehele polsregio (lichaamsstructuur), Rechts"

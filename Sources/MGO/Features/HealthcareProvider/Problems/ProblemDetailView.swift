@@ -24,7 +24,7 @@ struct ProblemDetailView: View {
 		AccordionView(title: Sanitizer.strip(concern.title) ?? "") {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
-				if let conditionType = concern.type {
+				if let conditionType = concern.category {
 					DetailRow(
 						title: "condition_details_type",
 						content: conditionType

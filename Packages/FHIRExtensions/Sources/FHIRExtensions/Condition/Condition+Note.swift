@@ -12,6 +12,6 @@ extension Condition {
 	/// Is there a note for this condition?
 	public var noteText: String? {
 		
-		return self.note?.compactMap { $0.text.value?.string }.joined()
+		return self.note?.compactMap { $0.text.value?.string }.joined(separator: ", ")
 	}
 }

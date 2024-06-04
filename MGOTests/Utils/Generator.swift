@@ -46,7 +46,7 @@ class Generator {
 		
 		return MgoConcern(
 			title: "Fractuur van pols (aandoening)",
-			type: "diagnose",
+			category: "diagnose",
 			clinicalStatus: "inactive",
 			startDate: "2001",
 			endDate: "2001",
