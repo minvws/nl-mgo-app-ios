@@ -49,13 +49,16 @@ public struct AccordionView<Content: View>: View {
 				Image(ImageResource.Accordion.arrowUp)
 					.accessibilityLabel(showBody ? Bundle.module.localizedString(forKey: "expanded", value: nil, table: "Accordion") : Bundle.module.localizedString(forKey: "collapsed", value: nil, table: "Accordion"))
 					.rotationEffect(showBody ? .zero : Angle(degrees: 90))
+					.accessibilityRemoveTraits(.isImage)
+					.accessibilityAddTraits(.isButton)
 			}
+			.foregroundColor(theme.contentPrimary)
 			.if(!UIAccessibility.isVoiceOverRunning, transform: { view in
 				view
-				 .contentShape(Rectangle()) // Make the whole HStack tappable when voiceover is disable.
-				 // Without this weird hack, the first element did not respond to a tap in voiceover
+					.contentShape(Rectangle())
+				// Make the whole HStack tappable when voiceover is disable.
+				// Without this weird hack, the first element did not respond to a tap in voiceover
 			})
-			.foregroundColor(theme.contentPrimary)
 			._onButtonGesture { pressed in
 				self.onHover = pressed
 			} perform: {
@@ -63,7 +66,6 @@ public struct AccordionView<Content: View>: View {
 					showBody.toggle()
 				}
 			}
-			.accessibilityElement(children: .combine) // Makes the whole button tappable for voice over
 			if showBody {
 				content()
 					.padding(.top, 16)
