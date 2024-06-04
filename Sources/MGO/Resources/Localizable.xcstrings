@@ -1240,7 +1240,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je diagnoses en gezondheidsklachten, vastgesteld door je zorgaanbieder."
+            "value" : "Je diagnoses en gezondheidsklachten, vastgesteld door %@"
           }
         }
       }
