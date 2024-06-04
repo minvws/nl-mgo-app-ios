@@ -276,10 +276,13 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				let tabBarAppearance = UITabBarAppearance()
 				tabBarAppearance.shadowColor = UIColor(theme.linesTertiary)
 				tabBarAppearance.backgroundColor = UIColor(theme.backgroundSecondary)
-				tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor(theme.actionTertiaryDefault)
-				tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(theme.actionTertiaryDefault)]
-				tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(theme.iconsPrimary)]
-				tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor(theme.iconsPrimary)
+				
+				for appearance in [tabBarAppearance.stackedLayoutAppearance, tabBarAppearance.compactInlineLayoutAppearance] {
+					appearance.selected.iconColor = UIColor(theme.actionTertiaryDefault)
+					appearance.selected.titleTextAttributes = [.foregroundColor: UIColor(theme.actionTertiaryDefault)]
+					appearance.normal.titleTextAttributes = [.foregroundColor: UIColor(theme.iconsPrimary)]
+					appearance.normal.iconColor = UIColor(theme.iconsPrimary)
+				}
 				
 				// Apply
 				UITabBar.appearance().standardAppearance = tabBarAppearance
