@@ -28,7 +28,7 @@ class OverviewDecorator {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = Sanitizer.strip(organisation.display_name) ?? ""
-		let category = Sanitizer.strip(organisation.types.first?.display_name) ?? ""
+		let category = Sanitizer.strip(organisation.category) ?? ""
 
 		return OverviewHealthcareProvider(category: category, id: identifier, name: name)
 	}

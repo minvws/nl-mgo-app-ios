@@ -38,7 +38,7 @@ class StoredHealthcareProviderDecorator {
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = Sanitizer.strip(organisation.display_name) ?? ""
 		let (address, city, postalCode) = organisation.getAddress()
-		let category = Sanitizer.strip(organisation.types.first?.display_name) ?? ""
+		let category = Sanitizer.strip(organisation.category) ?? ""
 		
 		return StoredHealthcareProviderModel(
 			category: category,
