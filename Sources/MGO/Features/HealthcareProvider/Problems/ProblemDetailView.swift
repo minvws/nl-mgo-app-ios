@@ -24,14 +24,14 @@ struct ProblemDetailView: View {
 		AccordionView(title: Sanitizer.strip(concern.title) ?? "") {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
-				if let conditionType = concern.type {
+				if let conditionType = concern.category {
 					DetailRow(
 						title: "condition_details_type",
 						content: conditionType
 					)
 				}
 				
-				if let status = concern.status {
+				if let status = concern.clinicalStatus {
 					DetailRow(
 						title: "condition_details_status",
 						content: status

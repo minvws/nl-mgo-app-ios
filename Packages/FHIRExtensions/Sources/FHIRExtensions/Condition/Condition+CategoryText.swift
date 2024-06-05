@@ -9,9 +9,12 @@ import Foundation
 
 extension Condition {
 	
-	/// What is the name of this condition?
-	public var name: String? {
-		
-		return self.code?.coding?.compactMap { $0.display?.value?.string }.joined(separator: ", ")
+	public var categoryText: String? {
+	
+		return self.category?.compactMap {
+			$0.coding?.compactMap {
+				$0.display?.value?.string
+			}.joined(separator: ", ")
+		}.joined(separator: ", ")
 	}
 }

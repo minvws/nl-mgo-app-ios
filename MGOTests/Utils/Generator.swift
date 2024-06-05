@@ -46,8 +46,8 @@ class Generator {
 		
 		return MgoConcern(
 			title: "Fractuur van pols (aandoening)",
-			type: "diagnose",
-			status: "inactive",
+			category: "diagnose",
+			clinicalStatus: "inactive",
 			startDate: "2001",
 			endDate: "2001",
 			bodyLocation: "Gehele polsregio (lichaamsstructuur), Rechts",
