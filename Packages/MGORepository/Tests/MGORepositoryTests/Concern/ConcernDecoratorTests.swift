@@ -17,8 +17,8 @@ final class ConcernDecoratorTests: XCTestCase {
 		let condition = MockGenerator.condition()
 		let expectedConcern = MgoConcern(
 			title: "Fracture of wrist (disorder)",
-			type: "complaint",
-			status: "active",
+			category: "Complaint",
+			clinicalStatus: "active",
 			startDate: "2024-01-02",
 			endDate: "2024",
 			bodyLocation: "Entire wrist region, Right",
