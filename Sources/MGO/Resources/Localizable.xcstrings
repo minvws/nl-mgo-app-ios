@@ -937,6 +937,28 @@
         }
       }
     },
+    "labresults_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultaten van jouw onderzoeken, (röntgen)foto's en scans door %@"
+          }
+        }
+      }
+    },
+    "labresults_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitslagen"
+          }
+        }
+      }
+    },
     "launch_image_voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
