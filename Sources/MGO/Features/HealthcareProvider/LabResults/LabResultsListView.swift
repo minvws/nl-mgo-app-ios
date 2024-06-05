@@ -13,7 +13,7 @@ enum LabResultsListViewState: Equatable {
 	case loading
 	case failure
 	case empty
-//	case success([MgoConcern])
+	case success([MgoLaboratoryTestResult])
 	
 	static func == (lhs: LabResultsListViewState, rhs: LabResultsListViewState) -> Bool {
 		switch (lhs, rhs) {
@@ -27,14 +27,14 @@ enum LabResultsListViewState: Equatable {
 			case (.empty, .empty):
 				return true
 			
-//			case let(.success(lhsList), .success(rhsList)):
-//				
-//				guard lhsList.count == rhsList.count else { return false }
-//				var result = true
-//				for index in lhsList.indices {
-//					result = result && lhsList[index] == rhsList[index]
-//				}
-//				return result
+			case let(.success(lhsList), .success(rhsList)):
+				
+				guard lhsList.count == rhsList.count else { return false }
+				var result = true
+				for index in lhsList.indices {
+					result = result && lhsList[index] == rhsList[index]
+				}
+				return result
 				
 			default:
 				return false
@@ -54,7 +54,7 @@ class LabResultsListViewModel: ObservableObject {
 	@Published var healthcareProvider: HealthcareProvider
 	
 	/// The repository for Concerns
-	private var concernRepository: ConcernRepository!
+	private var laboratoryTestResultRepository: LaboratoryTestResultRepository!
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -67,14 +67,14 @@ class LabResultsListViewModel: ObservableObject {
 	init(
 		coordinator: (any Coordinator)? = nil,
 		healthcareProvider: HealthcareProvider,
-		repository: ConcernRepository? = FHIRClient()
+		repository: LaboratoryTestResultRepository? = FHIRClient()
 	) {
 
 		self.coordinator = coordinator
 		self.healthcareProvider = healthcareProvider
 		
 		if let unwrapped = repository {
-			self.concernRepository = unwrapped
+			self.laboratoryTestResultRepository = unwrapped
 			self.state = .loading
 		} else {
 			self.state = .failure
@@ -99,17 +99,17 @@ class LabResultsListViewModel: ObservableObject {
 	/// Load the laboratory test results for the healthcare provider
 	func loadResults() async {
 		
-//		do {
-//			let concerns = try await concernRepository.fetchConcerns()
-//			if concerns.isEmpty {
-//				state = .empty
-//			} else {
-//				state = .success(concerns)
-//			}
-//		} catch {
-//			logError("Client read error: \(String(describing: error))")
-//			state = .failure
-//		}
+		do {
+			let results = try await laboratoryTestResultRepository.fetchResults()
+			if results.isEmpty {
+				state = .empty
+			} else {
+				state = .success(results)
+			}
+		} catch {
+			logError("Client read error: \(String(describing: error))")
+			state = .failure
+		}
 	}
 }
 
@@ -128,10 +128,8 @@ struct LabResultsListView: View {
 		}
 		enum General {
 			static let padding: CGFloat = 16
-			static let spacing: CGFloat = 24
 		}
 		enum List {
-			static let spacing: CGFloat = 4
 			static let top: CGFloat = 8
 		}
 	}
@@ -154,39 +152,38 @@ struct LabResultsListView: View {
 						arguments: ["\(viewModel.healthcareProvider.display_name)"]
 					)
 				)
-				
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentTertiary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.padding(.bottom, ViewTraits.General.spacing)
-//				
-//				switch viewModel.state {
-//					case .loading:
-//			
-//						LoadingCardView(title: "launch_loading")
-//				
-//					case .empty:
-//						
-//						NotificationCardView(
-//							icon: Image(ImageResource.Woman.womanOnCouch),
-//							title: "general_nodata_title",
-//							message: "general_nodata_body"
-//						)
-//				
-//					case .failure:
-//
-//						NotificationCardView(
-//							icon: Image(ImageResource.Woman.womanOnCouchExclamation),
-//							title: "general_failure_title",
-//							message: "general_failure_body"
-//						)
-//				
-//					case .success(let concerns):
-//						ForEach(concerns, id: \.self) { concern in
-//							ProblemDetailView(concern: concern)
-//						}
-//				}
-//				
+					.padding(.bottom, ViewTraits.List.top)
+				
+				switch viewModel.state {
+					case .loading:
+			
+						LoadingCardView(title: "launch_loading")
+				
+					case .empty:
+						
+						NotificationCardView(
+							icon: Image(ImageResource.Woman.womanOnCouch),
+							title: "general_nodata_title",
+							message: "general_nodata_body"
+						)
+				
+					case .failure:
+
+						NotificationCardView(
+							icon: Image(ImageResource.Woman.womanOnCouchExclamation),
+							title: "general_failure_title",
+							message: "general_failure_body"
+						)
+				
+					case .success(let results):
+						ForEach(results, id: \.self) { result in
+							LabResultsDetailView(result: result)
+						}
+				}
+				
 				Spacer()
 			}
 		}

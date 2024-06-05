@@ -26,5 +26,16 @@ public struct DVP {
 		public static let concern: RequestParameters = RequestParameters(
 			[RequestParameterField.format: "json"]
 		)
+		
+		public static let laboratoryTestResult: RequestParameters = RequestParameters(
+			[
+//				RequestParameterField.format: "json",
+//				RequestParameterField.category: "http://snomed.info/sct|275711006",
+//				RequestParameterField.include: "Observation:related-target",
+//				RequestParameterField.include: "Observation:specimen"
+				
+				RequestParameterField.format: "json&category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen"
+			]
+		)
 	}
 }

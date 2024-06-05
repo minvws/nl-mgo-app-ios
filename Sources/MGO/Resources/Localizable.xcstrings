@@ -948,6 +948,105 @@
         }
       }
     },
+    "labresults_details_code" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testcode"
+          }
+        }
+      }
+    },
+    "labresults_details_collectionDateTime" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afnamedatum"
+          }
+        }
+      }
+    },
+    "labresults_details_dateTime" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testdatum"
+          }
+        }
+      }
+    },
+    "labresults_details_interpretation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interpretatie vlaggen"
+          }
+        }
+      }
+    },
+    "labresults_details_referenceRangeHigh" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Referentie bovengrens"
+          }
+        }
+      }
+    },
+    "labresults_details_referenceRangeLow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Referentie ondergrens"
+          }
+        }
+      }
+    },
+    "labresults_details_result" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testuitslag"
+          }
+        }
+      }
+    },
+    "labresults_details_specimen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monstermateriaal"
+          }
+        }
+      }
+    },
+    "labresults_details_status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testuitslag status"
+          }
+        }
+      }
+    },
     "labresults_title" : {
       "extractionState" : "manual",
       "localizations" : {

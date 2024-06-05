@@ -10,8 +10,8 @@ import MGOFoundation
 
 struct LabResultsDetailView: View {
 	
-	/// The  concern
-	var concern: MgoConcern
+	/// The  lab result
+	var result: MgoLaboratoryTestResult
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -21,44 +21,69 @@ struct LabResultsDetailView: View {
 	}
 	
 	var body: some View {
-		AccordionView(title: Sanitizer.strip(concern.title) ?? "") {
+		AccordionView(title: Sanitizer.strip(result.title) ?? "") {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
-				if let conditionType = concern.type {
+				if let code = result.code {
 					DetailRow(
-						title: "condition_details_type",
-						content: conditionType
+						title: "labresults_details_code",
+						content: code
 					)
 				}
 				
-				if let status = concern.status {
+				if let status = result.status {
 					DetailRow(
-						title: "condition_details_status",
+						title: "labresults_details_status",
 						content: status
 					)
 				}
-		
-				DetailRow(
-					title: "condition_details_startdate",
-					content: Sanitizer.strip(concern.startDate) ?? String(localized: "general_unknown")
-				)
 				
-				DetailRow(
-					title: "condition_details_enddate",
-					content: Sanitizer.strip(concern.endDate) ?? String(localized: "general_unknown")
-				)
-				
-				if let location = Sanitizer.strip(concern.bodyLocation) {
+				if let dateTime = result.dateTime {
 					DetailRow(
-						title: "condition_details_location",
-						content: location
+						title: "labresults_details_dateTime",
+						content: dateTime
 					)
 				}
 				
-				if let noteText = Sanitizer.strip(concern.comment) {
+				if let resultText = result.result {
 					DetailRow(
-						title: "condition_details_note",
-						content: noteText
+						title: "labresults_details_result",
+						content: resultText
+					)
+				}
+				
+				if let referenceRangeLow = result.referenceRangeLow {
+					DetailRow(
+						title: "labresults_details_referenceRangeLow",
+						content: referenceRangeLow
+					)
+				}
+				
+				if let referenceRangeHigh = result.referenceRangeHigh {
+					DetailRow(
+						title: "labresults_details_referenceRangeHigh",
+						content: referenceRangeHigh
+					)
+				}
+				
+				if let interpretation = result.interpretation {
+					DetailRow(
+						title: "labresults_details_interpretation",
+						content: interpretation
+					)
+				}
+				
+				if let specimen = result.specimen {
+					DetailRow(
+						title: "labresults_details_specimen",
+						content: specimen
+					)
+				}
+				
+				if let collectionDateTime = result.collectionDateTime {
+					DetailRow(
+						title: "labresults_details_collectionDateTime",
+						content: collectionDateTime
 					)
 				}
 			}
