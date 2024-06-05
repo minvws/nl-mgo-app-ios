@@ -30,23 +30,3 @@ public class LaboratoryTestResultDecorator {
 		)
 	}
 }
-
-extension Resource {
-	
-	func resolve<T: Resource>(_ reference: Reference?, from bundle: ModelsSTU3.Bundle) -> T? {
-		
-		guard let ref = reference?.reference?.value?.string else { return nil }
-		let elements = ref.components(separatedBy: "/")
-		guard elements.count == 2 else { return nil }
-		let type = elements[0]
-		let key = elements[1]
-		
-		guard String(describing: T.self) == type else { return nil }
-		
-		let targets: [T] = bundle.entry?.compactMap {
-			$0.resource?.get(if: T.self)
-		} ?? []
-		let result = targets.filter { $0.id?.value?.string == key }
-		return result.first
-	}
-}
