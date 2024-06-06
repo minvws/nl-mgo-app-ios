@@ -1086,7 +1086,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door je zorgaanbieder."
+            "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door %@"
           }
         }
       }
@@ -1361,7 +1361,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je diagnoses en gezondheidsklachten, vastgesteld door je zorgaanbieder."
+            "value" : "Je diagnoses en gezondheidsklachten, vastgesteld door %@"
           }
         }
       }

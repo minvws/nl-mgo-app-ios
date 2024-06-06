@@ -51,7 +51,7 @@ class MedicationListViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The healthcare provider to display
-	private var healthcareProvider: HealthcareProvider
+	@Published var healthcareProvider: HealthcareProvider
 	
 	/// The repository for Medication Use
 	private var medicationUseRepository: MedicationUseRepository!
@@ -146,7 +146,12 @@ struct MedicationListView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					
-				Text("medication_body")
+				Text(
+					String(
+						format: String(localized: "medication_body"),
+						arguments: ["\(viewModel.healthcareProvider.display_name)"]
+					)
+				)
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentTertiary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
