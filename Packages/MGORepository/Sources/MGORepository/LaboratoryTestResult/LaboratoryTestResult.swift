@@ -28,4 +28,28 @@ public struct MgoLaboratoryTestResult: Codable, Equatable, Hashable {
 	public var specimen: String?
 	
 	public var collectionDateTime: String?
+	
+	public init(
+		title: String,
+		code: String? = nil,
+		status: String? = nil,
+		dateTime: String? = nil,
+		result: String? = nil,
+		referenceRangeLow: String? = nil,
+		referenceRangeHigh: String? = nil,
+		interpretation: String? = nil,
+		specimen: String? = nil,
+		collectionDateTime: String? = nil) {
+		self.title = title
+		self.code = code
+		self.status = status
+		self.dateTime = dateTime
+		self.result = result
+		self.referenceRangeLow = referenceRangeLow
+		self.referenceRangeHigh = referenceRangeHigh
+		self.interpretation = interpretation
+		self.specimen = specimen
+		self.collectionDateTime = collectionDateTime
+	}
+	
 }
