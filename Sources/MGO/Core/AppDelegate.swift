@@ -15,6 +15,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		
+		if LaunchArgumentsHandler.shouldDisableTransitions() {
+			// Disable UIView animations for UI testing
+			UIView.setAnimationsEnabled(false)
+		}
+		
+		styleUI()
+		return true
+	}
+	
+	private func styleUI() {
+		
 		// No bouncy scrollview
 		UIScrollView.appearance().bounces = false
 
@@ -27,7 +38,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		UINavigationBar.appearance().compactAppearance = appearance
 		UINavigationBar.appearance().scrollEdgeAppearance = appearance
 		
-		return true
 	}
 	
 	// MARK: Orientation

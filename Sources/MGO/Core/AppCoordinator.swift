@@ -127,6 +127,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		path: NavigationStackBackport.NavigationPath,
 		localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient()) {
 			
+			if LaunchArgumentsHandler.shouldResetOnStart() {
+				Current.wipePersistedData()
+			}
+			
 			self.path = path
 			self.localisationServiceClient = localisationServiceClient
 		}
