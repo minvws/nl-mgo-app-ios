@@ -53,10 +53,10 @@ class AccessCodeViewModel: ObservableObject {
 	/// The various modes this scene can be run as.
 	public enum AccessCodeMode: Equatable {
 		case creation // Create an access code
-		case confirmation // Confirm that accces code
+		case confirmation // Confirm that access code
 		case validation // Validate the acces code (login)
 	}
-	/// A helper struct to make an enum (AccessCodeBoxView.State) identificable.
+	/// A helper struct to make an enum (AccessCodeBoxView.State) identifiable.
 	public struct AccessCodeBoxState: Identifiable, Hashable {
 		
 		var id: Int
@@ -88,12 +88,13 @@ class AccessCodeViewModel: ObservableObject {
 	/// The state of the view
 	@Published var state: AccessCodeViewState = AccessCodeViewState(backButtonKey: "", title: "", message: "")
 	
-	/// Tha strenth validator for the access code
+	/// The strength validator for the access code
 	private var strengthMeter: AccessCodeStrengthValidation
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
 	
+	/// Are we in error state?
 	private var inErrorState = false
 	
 	/// The access code
@@ -121,11 +122,11 @@ class AccessCodeViewModel: ObservableObject {
 	@Published var boxStates: [AccessCodeBoxState] = []
 	
 	/// Initializer
-	/// - Parameter pinLimit: the pinLimt
+	/// - Parameter pinLimit: the pin limit
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter mode: Which mode should we run in? Creation, Confirmation, Validation?
-	/// - Parameter bioMetricType: Whick biometric type should we run in? TouchId , FaceId, Optic Id, none?
-	/// - Parameter strengthMeter: Access code strenght meter
+	/// - Parameter bioMetricType: Which biometric type should we run in? TouchId , FaceId, Optic Id, none?
+	/// - Parameter strengthMeter: Access code strength meter
 	init(
 		coordinator: (any Coordinator)?,
 		mode: AccessCodeMode,
@@ -136,7 +137,6 @@ class AccessCodeViewModel: ObservableObject {
 		self.coordinator = coordinator
 		self.numberOfDigits = pinLimit
 		self.mode = mode
-		self.numberOfDigits = pinLimit
 		self.strengthMeter = strengthMeter
 		self.state.bioMetricType = bioMetricType()
 		
@@ -208,7 +208,7 @@ class AccessCodeViewModel: ObservableObject {
 		}
 	}
 	
-	/// Udpate the state for Validation mode
+	/// Update the state for Validation mode
 	/// - Parameter validationMismatch: does the validation code matches the stored accesscode?
 	private func updateStateValidation(validationMismatch: Bool = false) {
 		
