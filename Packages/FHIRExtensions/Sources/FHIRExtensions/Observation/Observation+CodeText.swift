@@ -9,12 +9,8 @@ import Foundation
 
 extension Observation {
 	
-	public var categoryText: String? {
+	public var codeText: String? {
 		
-		return self.category?.compactMap {
-			$0.coding?.compactMap {
-				$0.display?.value?.string
-			}.joined(separator: ", ")
-		}.joined(separator: ", ")
+		return self.code.coding?.first?.display?.value?.string
 	}
 }

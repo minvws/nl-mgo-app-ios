@@ -8,9 +8,20 @@
 import Foundation
 
 extension Observation {
-	
-	public var codeText: String? {
+
+	public var categoryText: String? {
 		
-		return self.code.coding?.first?.display?.value?.string
+		return self.category?.first?.coding?.compactMap {
+			$0.display?.value?.string
+		}.joined(separator: ", ")
+	}
+
+	public var categoryCompleteText: String? {
+		
+		return self.category?.compactMap {
+			$0.coding?.compactMap {
+				$0.display?.value?.string
+			}.joined(separator: ", ")
+		}.joined(separator: ", ")
 	}
 }
