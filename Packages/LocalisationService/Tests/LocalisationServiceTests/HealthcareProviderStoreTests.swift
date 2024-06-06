@@ -13,13 +13,13 @@ final class HealthcareProviderStoreTests: XCTestCase {
 	
 	override func tearDown() {
 		super.tearDown()
-		HealthcareProviderStore().wipePersistedData()
+		HealthcareProviderRepository().wipePersistedData()
 	}
 
 	func test_storeToDisk() throws {
 		
 		// Given
-		let sut = HealthcareProviderStore()
+		let sut = HealthcareProviderRepository()
 		let provider = healthcareProvider("1")
 		
 		// When
@@ -36,7 +36,7 @@ final class HealthcareProviderStoreTests: XCTestCase {
 	func test_storeToDiskTwice_savesJustOne() throws {
 		
 		// Given
-		let sut = HealthcareProviderStore()
+		let sut = HealthcareProviderRepository()
 		let provider = healthcareProvider("1")
 		
 		// When
@@ -54,7 +54,7 @@ final class HealthcareProviderStoreTests: XCTestCase {
 	func test_storeAndRemoveToDisk() throws {
 		
 		// Given
-		let sut = HealthcareProviderStore()
+		let sut = HealthcareProviderRepository()
 		let provider = healthcareProvider("1")
 		try sut.store(provider)
 		
@@ -70,7 +70,7 @@ final class HealthcareProviderStoreTests: XCTestCase {
 	func test_wipePersistentData() throws {
 		
 		// Given
-		let sut = HealthcareProviderStore()
+		let sut = HealthcareProviderRepository()
 		let provider = healthcareProvider("1")
 		try sut.store(provider)
 		

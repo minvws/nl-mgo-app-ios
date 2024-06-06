@@ -12,14 +12,14 @@ import MGOFoundation
 
 struct Services {
 	var now: () -> Date
-	var healthcareProviderStore: HealthcareProviderStoreProtocol
+	var healthcareProviderStore: HealthcareProviderRepositoryProtocol
 	var localAuthenticationProvider: LocalAuthenticationProviderProtocol
 	var notificationCenter: NotificationCenterProtocol
 	var secureUserSettings: SecureUserSettingsProtocol
 	
 	init(
 		now: @escaping () -> Date,
-		healthcareProviderStore: HealthcareProviderStoreProtocol,
+		healthcareProviderStore: HealthcareProviderRepositoryProtocol,
 		localAuthenticationProvider: LocalAuthenticationProviderProtocol,
 		notificationCenter: NotificationCenterProtocol,
 		secureUserSettings: SecureUserSettingsProtocol
@@ -34,7 +34,7 @@ struct Services {
 
 // MARK: - 2: Instantiate Private Dependencies
 
-private let healthcareProviderStore = HealthcareProviderStore()
+private let healthcareProviderStore = HealthcareProviderRepository()
 private let localAuthenticationProvider = LocalAuthenticationProvider()
 private let now: () -> Date = Date.init
 private let notificationCenter = NotificationCenter.default

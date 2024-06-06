@@ -15,6 +15,7 @@ let package = Package(
 	dependencies: [
 		
 		// Internal
+		.package(name: "LocalisationService", path: "../LocalisationService"),
 		.package(name: "Managers", path: "../Managers"),
 		.package(name: "MGORepository", path: "../MGORepository"),
 		
@@ -25,6 +26,7 @@ let package = Package(
 		.target(
 			name: "MGOFoundation",
 			dependencies: [
+				.product(name: "LocalisationService", package: "LocalisationService"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
 				.product(name: "Managers", package: "Managers"),
 				.product(name: "MGORepository", package: "MGORepository")

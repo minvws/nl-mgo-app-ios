@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class HealthcareProviderStoreSpy: HealthcareProviderStoreProtocol {
+public class HealthcareProviderRepositorySpy: HealthcareProviderRepositoryProtocol {
 
 	public init() {
 		// Public initializer needed for public access.
