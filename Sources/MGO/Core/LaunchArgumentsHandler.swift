@@ -8,7 +8,6 @@
 import UIKit
 
 public class LaunchArgumentsHandler {
-
 	
 	public static func shouldDisableTransitions() -> Bool {
 		
