@@ -24,7 +24,9 @@ final class DemoUITests: XCTestCase {
 
     func testVoegZorgAanbiederToe() throws {
             let app = XCUIApplication()
-        
+            
+            app.launchArguments.append("-resetOnStart")
+            app.launchArguments.append("--disableTransitions")
             app.launch()
         
             // ELEMENTS OF UI
