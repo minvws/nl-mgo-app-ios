@@ -14,7 +14,7 @@ extension Coordination.Action {
 	
 	static let showProblems = Coordination.Action(identifier: "showProblems")
 	static let showMedication = Coordination.Action(identifier: "showMedication")
-	static let showResults = Coordination.Action(identifier: "showResults")
+	static let showLabResults = Coordination.Action(identifier: "showLabResults")
 }
 
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
@@ -139,7 +139,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 	
-			case Coordination.Action.showResults.identifier:
+			case Coordination.Action.showLabResults.identifier:
 				if action.params.count == 1,
 				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
 					firstTabPath.append(DashboardCoordination.State.showLabResults(healthcareProvider: healthcareProvider))

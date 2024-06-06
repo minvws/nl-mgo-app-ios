@@ -58,7 +58,7 @@ class HealthcareProviderViewModel: ObservableObject {
 				)
 			case .showResults:
 				coordinator?.handle(Coordination.Action(
-					identifier: "showResults",
+					identifier: "showLabResults",
 					params: ["healthcareProvider": healthcareProvider])
 				)
 		}

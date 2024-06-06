@@ -186,4 +186,106 @@ final class DashboardCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
 	}
+	
+	func test_coordinatorHandle_showProblems_firstTabPath_shouldContainSearchHealthcareProviders() {
+
+		// Given
+		let provider = Generator.healthcareProvider("1")
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showProblems", params: ["healthcareProvider": provider]))
+
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showProblems(healthcareProvider: provider)])
+	}
+
+	func test_coordinatorHandle_showProblems_missingParams_firstTabPath_shouldBeEmpty() {
+
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showProblems", params: [:]))
+
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
+	}
+	
+	func test_coordinatorHandle_showProblems_wrongParams_firstTabPath_shouldBeEmpty() {
+
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showProblems", params: ["showHealthcareProviderDetails": "wrong"]))
+
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
+	}
+	
+	func test_coordinatorHandle_showMedication_firstTabPath_shouldContainSearchHealthcareProviders() {
+
+		// Given
+		let provider = Generator.healthcareProvider("1")
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showMedication", params: ["healthcareProvider": provider]))
+
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showMedication(healthcareProvider: provider)])
+	}
+
+	func test_coordinatorHandle_showMedication_missingParams_firstTabPath_shouldBeEmpty() {
+
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showMedication", params: [:]))
+
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
+	}
+	
+	func test_coordinatorHandle_showMedication_wrongParams_firstTabPath_shouldBeEmpty() {
+
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showMedication", params: ["showHealthcareProviderDetails": "wrong"]))
+
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
+	}
+	
+	func test_coordinatorHandle_showResults_firstTabPath_shouldContainSearchHealthcareProviders() {
+
+		// Given
+		let provider = Generator.healthcareProvider("1")
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showLabResults", params: ["healthcareProvider": provider]))
+
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showLabResults(healthcareProvider: provider)])
+	}
+
+	func test_coordinatorHandle_showResults_missingParams_firstTabPath_shouldBeEmpty() {
+
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showLabResults", params: [:]))
+
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
+	}
+	
+	func test_coordinatorHandle_showResults_wrongParams_firstTabPath_shouldBeEmpty() {
+
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showLabResults", params: ["showHealthcareProviderDetails": "wrong"]))
+
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
+	}
 }

@@ -96,4 +96,43 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
+	
+	func test_coordinatorView_forShowProblems() throws {
+
+		// Given
+		let provider = Generator.healthcareProvider("1")
+		let state = DashboardCoordination.State.showProblems(healthcareProvider: provider)
+		
+		// When
+		let view = sut.viewState(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
+	func test_coordinatorView_forShowMedication() throws {
+
+		// Given
+		let provider = Generator.healthcareProvider("1")
+		let state = DashboardCoordination.State.showMedication(healthcareProvider: provider)
+		
+		// When
+		let view = sut.viewState(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
+	func test_coordinatorView_forShowLabResults() throws {
+
+		// Given
+		let provider = Generator.healthcareProvider("1")
+		let state = DashboardCoordination.State.showLabResults(healthcareProvider: provider)
+		
+		// When
+		let view = sut.viewState(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
 }
