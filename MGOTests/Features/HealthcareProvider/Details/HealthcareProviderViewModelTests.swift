@@ -72,6 +72,6 @@ final class HealthcareProviderViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0.identifier) == "showResults"
+		expect(self.coordinatorSpy.invokedHandleParameters?.0.identifier) == "showLabResults"
 	}
 }

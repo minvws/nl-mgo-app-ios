@@ -1,0 +1,190 @@
+{
+    "resourceType": "Bundle",
+    "id": "0f282583-0b59-4707-937d-bdad3861d323",
+    "meta": {
+        "lastUpdated": "2024-04-15T07:01:10.177+00:00"
+    },
+    "type": "searchset",
+    "total": 1,
+    "link": [
+        {
+            "relation": "self",
+            "url": "{{BASE_URL}}fhir/Observation/$lastn?_include=Observation%3Arelated-target&_include=Observation%3Aspecimen&category=http%3A%2F%2Fsnomed.info%2Fsct%7C275711006&patient=Patient%2F93cde269-ce35-4077-a39d-19296670e949"
+        }
+    ],
+    "entry": [
+        {
+            "fullUrl": "{{BASE_URL}}fhir/Observation/65c1dfb7-a68c-4ccc-9851-ca94c5f647d7",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "65c1dfb7-a68c-4ccc-9851-ca94c5f647d7",
+                "meta": {
+                    "extension": [
+                        {
+                            "url": "http://hapifhir.io/fhir/StructureDefinition/resource-meta-source",
+                            "valueUri": "#0687da8460e3bc76"
+                        }
+                    ],
+                    "versionId": "1",
+                    "lastUpdated": "2023-06-22T05:04:29.976+00:00",
+                    "profile": [
+                        "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation"
+                    ]
+                },
+                "text": {
+                    "status": "extensions",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><caption>Observatie/bepaling. Subject: Johan XXX_Helleman. Id: 30be524c-e3e4-11eb-3878-020000000000 (urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6), Categorie:                               \n          <span title=\"Bevinding betreffende laboratoriumonderzoek (bevinding) (49581000146104 - SNOMED CT)\">Bevinding betreffende laboratoriumonderzoek (bevinding)</span>,                               \n          <span title=\"serumtest (verrichting) (275711006 - SNOMED CT)\">serumtest (verrichting)</span>, Status: definitief                        \n        </caption><tbody><tr><th>Bepalingdatum/tijd</th><td colspan=\"3\">12:00:00, 23 mei 2012</td></tr><tr><th>Specimen</th><td colspan=\"3\">Blood (substance)</td></tr><tr><th>Code</th><th>Waarde</th><th>Interpretatie</th><th>Referentiewaarden</th></tr><tr><td><span title=\"Chloride [mol/volume] in bloed (2069-3 - LOINC)\">Chloride [mol/volume] in bloed</span></td><td>109 mmol/l</td><td><span title=\"High (H - v2/0078)\">High</span></td><td><div>99 mmol/l - 108 mmol/l</div></td></tr></tbody></table></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6",
+                        "value": "30be524c-e3e4-11eb-3878-020000000000"
+                    }
+                ],
+                "status": "final",
+                "_status": {
+                    "extension": [
+                        {
+                            "url": "http://nictiz.nl/fhir/StructureDefinition/code-specification",
+                            "valueCodeableConcept": {
+                                "coding": [
+                                    {
+                                        "system": "urn:oid:2.16.840.1.113883.2.4.3.11.60.40.4.16.1",
+                                        "code": "final",
+                                        "display": "Final"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "49581000146104",
+                                "display": "Bevinding betreffende laboratoriumonderzoek (bevinding)"
+                            }
+                        ]
+                    },
+                    {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "275711006",
+                                "display": "serumtest (verrichting)"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "2069-3",
+                            "display": "Chloride [mol/volume] in bloed"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/93cde269-ce35-4077-a39d-19296670e949",
+                    "display": "Johan XXX_Helleman"
+                },
+                "effectiveDateTime": "2012-05-23T12:00:00+02:00",
+                "valueQuantity": {
+                    "value": 109,
+                    "unit": "mmol/l",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "mmol/L"
+                },
+                "interpretation": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/v2/0078",
+                            "code": "H",
+                            "display": "High"
+                        },
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "281302008",
+                            "display": "boven referentiebereik (kwalificatiewaarde)"
+                        }
+                    ]
+                },
+                "specimen": {
+                    "reference": "Specimen/c827e92c-6967-4d9a-8598-93c5977c8e2f",
+                    "display": "Blood (substance)"
+                },
+                "referenceRange": [
+                    {
+                        "low": {
+                            "value": 99,
+                            "unit": "mmol/l",
+                            "system": "http://unitsofmeasure.org",
+                            "code": "mmol/L"
+                        },
+                        "high": {
+                            "value": 108,
+                            "unit": "mmol/l",
+                            "system": "http://unitsofmeasure.org",
+                            "code": "mmol/L"
+                        }
+                    }
+                ]
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "{{BASE_URL}}fhir/Specimen/c827e92c-6967-4d9a-8598-93c5977c8e2f",
+            "resource": {
+                "resourceType": "Specimen",
+                "id": "c827e92c-6967-4d9a-8598-93c5977c8e2f",
+                "meta": {
+                    "extension": [
+                        {
+                            "url": "http://hapifhir.io/fhir/StructureDefinition/resource-meta-source",
+                            "valueUri": "#0687da8460e3bc76"
+                        }
+                    ],
+                    "versionId": "1",
+                    "lastUpdated": "2023-06-22T05:04:29.976+00:00",
+                    "profile": [
+                        "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen"
+                    ]
+                },
+                "text": {
+                    "status": "extensions",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><caption>Specimen. Subject: Johan XXX_Helleman. Id: 34499bec-e3e4-11eb-1223-020000000000 (urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6)</caption><tbody><tr><th>Type</th><td><span title=\"Bloed (substantie) (87612001 - SNOMED CT)\">Bloed (substantie)</span></td></tr><tr><th>Inzameling</th><td>08:08:00, 23 mei 2012</td></tr></tbody></table></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6",
+                        "value": "34499bec-e3e4-11eb-1223-020000000000"
+                    }
+                ],
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "87612001",
+                            "display": "Bloed (substantie)"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/93cde269-ce35-4077-a39d-19296670e949",
+                    "display": "Johan XXX_Helleman"
+                },
+                "collection": {
+                    "collectedDateTime": "2012-05-23T08:08:00+02:00"
+                }
+            },
+            "search": {
+                "mode": "include"
+            }
+        }
+    ]
+}

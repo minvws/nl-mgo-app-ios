@@ -21,8 +21,11 @@ public extension Resource {
 	 - parameter options:   Options to use when executing this request, if any
 	 - parameter callback:  The callback to execute once done. The callback is NOT guaranteed to be executed on the main thread!
 	 */
-	class func read(_ id: String, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = []) async throws -> Resource {
-		let path = "\(resourceType.rawValue)/\(id)"
+	class func read(_ id: String?, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = []) async throws -> Resource {
+		var path = "\(resourceType.rawValue)"
+		if let id {
+			path += "/\(id)"
+		}
 		return try await readFrom(path, client: client, parameters: parameters, options: options)
 	}
 	

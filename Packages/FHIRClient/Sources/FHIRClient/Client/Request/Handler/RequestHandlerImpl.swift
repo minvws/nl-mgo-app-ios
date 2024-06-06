@@ -59,10 +59,7 @@ open class RequestHandlerImpl: RequestHandler {
 	property and add appropriate query params.
 	*/
 	open func prepare(request: inout URLRequest) throws {
-		var params = parameters
-		if options.contains(.summary) {
-			params[.summary] = RequestParameterField.Summary.true.rawValue
-		}
+		let params = parameters
 		
 		method.prepare(request: &request, body: data)
 		headers.prepare(request: &request)

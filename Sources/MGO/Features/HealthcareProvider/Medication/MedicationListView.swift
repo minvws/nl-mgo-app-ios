@@ -128,10 +128,8 @@ struct MedicationListView: View {
 		}
 		enum General {
 			static let padding: CGFloat = 16
-			static let spacing: CGFloat = 24
 		}
 		enum List {
-			static let spacing: CGFloat = 4
 			static let top: CGFloat = 8
 		}
 	}
@@ -157,7 +155,7 @@ struct MedicationListView: View {
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentTertiary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.padding(.bottom, ViewTraits.General.spacing)
+					.padding(.bottom, ViewTraits.List.top)
 				
 				switch viewModel.state {
 					case .loading:

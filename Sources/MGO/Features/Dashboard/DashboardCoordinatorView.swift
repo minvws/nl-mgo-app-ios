@@ -14,7 +14,7 @@ extension Coordination.Action {
 	
 	static let showProblems = Coordination.Action(identifier: "showProblems")
 	static let showMedication = Coordination.Action(identifier: "showMedication")
-	static let showResults = Coordination.Action(identifier: "showResults")
+	static let showLabResults = Coordination.Action(identifier: "showLabResults")
 }
 
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
@@ -56,7 +56,7 @@ enum DashboardCoordination {
 		case showHealthcareProviderDetails(healthcareProvider: HealthcareProvider)
 		case showProblems(healthcareProvider: HealthcareProvider)
 		case showMedication(healthcareProvider: HealthcareProvider)
-		case showResults(healthcareProvider: HealthcareProvider)
+		case showLabResults(healthcareProvider: HealthcareProvider)
 	}
 }
 
@@ -139,10 +139,10 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 	
-			case Coordination.Action.showResults.identifier:
+			case Coordination.Action.showLabResults.identifier:
 				if action.params.count == 1,
 				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
-					firstTabPath.append(DashboardCoordination.State.showResults(healthcareProvider: healthcareProvider))
+					firstTabPath.append(DashboardCoordination.State.showLabResults(healthcareProvider: healthcareProvider))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -213,9 +213,13 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					)
 				)
 				
-			case let .showResults(healthcareProvider):
-				
-				Text(verbatim: "Todo: Results (MGO-378) for\n \(healthcareProvider.display_name)")
+			case let .showLabResults(healthcareProvider):
+				LabResultsListView(
+					viewModel: LabResultsListViewModel(
+						coordinator: self,
+						healthcareProvider: healthcareProvider
+					)
+				)
 			
 			default:
 				EmptyView()

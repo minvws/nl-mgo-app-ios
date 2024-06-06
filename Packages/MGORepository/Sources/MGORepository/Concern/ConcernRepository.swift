@@ -21,7 +21,7 @@ extension FHIRClient: ConcernRepository {
 	/// - Returns: an array of conditions
 	public func fetchConcerns() async throws -> [MgoConcern] {
 		
-		let bundle = try await Condition.read("", client: self, parameters: DVP.BGZ.concern) as? ModelsSTU3.Bundle
+		let bundle = try await Condition.read(nil, client: self, parameters: DVP.BGZ.concern) as? ModelsSTU3.Bundle
 		let conditions: [Condition] = bundle?.entry?.compactMap {
 			$0.resource?.get(if: ModelsSTU3.Condition.self)
 		} ?? []
