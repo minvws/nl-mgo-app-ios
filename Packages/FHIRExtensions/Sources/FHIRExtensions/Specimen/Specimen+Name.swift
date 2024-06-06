@@ -9,15 +9,9 @@ import Foundation
 
 extension Specimen {
 	
-	/// When was this specimen collected
-	public var collectedDate: String? {
+	/// What is the name of this condition?
+	public var name: String? {
 		
-		if case .period(let period) = self.collection?.collected {
-			return period.start?.value?.date.description
-		}
-		if case .dateTime(let dateTime) = self.collection?.collected {
-			return dateTime.value?.description
-		}
-		return nil
+		return type?.coding?.first { $0.system == "http://snomed.info/sct" }?.display?.value?.string
 	}
 }

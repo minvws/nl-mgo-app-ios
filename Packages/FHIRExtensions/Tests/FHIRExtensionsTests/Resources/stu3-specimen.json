@@ -1,0 +1,43 @@
+{
+   "resourceType":"Specimen",
+   "id":"c827e92c-6967-4d9a-8598-93c5977c8e2f",
+   "meta":{
+      "extension":[
+         {
+            "url":"http://hapifhir.io/fhir/StructureDefinition/resource-meta-source",
+            "valueUri":"#0687da8460e3bc76"
+         }
+      ],
+      "versionId":"1",
+      "lastUpdated":"2023-06-22T05:04:29.976+00:00",
+      "profile":[
+         "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen"
+      ]
+   },
+   "text":{
+      "status":"extensions",
+      "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><caption>Specimen. Subject: Johan XXX_Helleman. Id: 34499bec-e3e4-11eb-1223-020000000000 (urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6)</caption><tbody><tr><th>Type</th><td><span title=\"Bloed (substantie) (87612001 - SNOMED CT)\">Bloed (substantie)</span></td></tr><tr><th>Inzameling</th><td>08:08:00, 23 mei 2012</td></tr></tbody></table></div>"
+   },
+   "identifier":[
+      {
+         "system":"urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6",
+         "value":"34499bec-e3e4-11eb-1223-020000000000"
+      }
+   ],
+   "type":{
+      "coding":[
+         {
+            "system":"http://snomed.info/sct",
+            "code":"87612001",
+            "display":"Bloed (substantie)"
+         }
+      ]
+   },
+   "subject":{
+      "reference":"Patient/93cde269-ce35-4077-a39d-19296670e949",
+      "display":"Johan XXX_Helleman"
+   },
+   "collection":{
+      "collectedDateTime":"2012-05-23T08:08:00+02:00"
+   }
+}
