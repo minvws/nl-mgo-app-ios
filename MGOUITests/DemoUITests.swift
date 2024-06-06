@@ -26,7 +26,7 @@ final class DemoUITests: XCTestCase {
             let app = XCUIApplication()
             
             app.launchArguments.append("-resetOnStart")
-            app.launchArguments.append("--disableTransitions")
+            app.launchArguments.append("-disableTransitions")
             app.launch()
         
             // ELEMENTS OF UI
