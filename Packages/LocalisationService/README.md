@@ -18,11 +18,11 @@ let city: String = "Roermond"
 let name: String = "Tandarts"
 
 do {
-			let searchResultsList: [HealthcareProvider] = try await client.searchHealthcareProviders(city: city, name: name)
-			print("We found \(searchResultsList.count) organisations.")
-		} catch {
-			print("Error fetching organisations \(error)")
-		}
+	let searchResultsList: [HealthcareProvider] = try await client.searchHealthcareProviders(city: city, name: name)
+	print("We found \(searchResultsList.count) organisations.")
+} catch {
+	print("Error fetching organisations \(error)")
+}
 ```
 
 ### Storing Healthcare Providers
@@ -59,10 +59,10 @@ import LocalisationService
 let repository: HealthcareProviderRepositoryProtocol = HealthcareProviderRepository()
 @Published var healthcareProviders = repository.providers
 let observerToken: Observatory.ObserverToken? = repository.observatory.append { [weak self] changed in
-		if changed {
-			// refetch the providers
-      self?.healthcareProviders = repository.providers
-		}
+	if changed {
+		// refetch the providers
+		self?.healthcareProviders = repository.providers
+	}
 }
 
 // Unregister
