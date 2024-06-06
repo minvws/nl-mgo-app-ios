@@ -21,7 +21,7 @@ do {
 			let searchResultsList: [HealthcareProvider] = try await client.searchHealthcareProviders(city: city, name: name)
 			print("We found \(searchResultsList.count) organisations.")
 		} catch {
-			print("Error fetching orginasations \(error)")
+			print("Error fetching organisations \(error)")
 		}
 ```
 
