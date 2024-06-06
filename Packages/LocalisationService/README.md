@@ -10,7 +10,7 @@ With the use of the [open-api generator](https://github.com/apple/swift-openapi-
 
 You can search for healthcare providers with the LocalisationServiceClient by using two String parameters, city and name. It will return a list of healthcare providers. 
 
-```swi
+```swift
 import LocalisationService
 
 let client: LocalisationServiceClientProtocol = LocalisationServiceClient()
