@@ -176,7 +176,7 @@ class SearchResultsViewModel: ObservableObject {
 	/// - Returns: card state
 	private func cardState(for provider: HealthcareProvider) -> SearchResultCardState {
 
-		let list = HealthcareProviderStore().providers
+		let list = HealthcareProviderRepository().providers
 		return list.contains(provider) ? .selected : .regular
 	}
 }

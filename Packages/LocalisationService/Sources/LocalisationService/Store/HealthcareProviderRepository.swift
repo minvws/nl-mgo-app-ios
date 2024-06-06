@@ -8,7 +8,7 @@
 import Foundation
 import Logging
 
-public protocol HealthcareProviderStoreProtocol {
+public protocol HealthcareProviderRepositoryProtocol {
 	
 	/// The list of stored healthcare provider
 	var providers: [HealthcareProvider] { get }
@@ -28,7 +28,7 @@ public protocol HealthcareProviderStoreProtocol {
 	func wipePersistedData()
 }
 
-public class HealthcareProviderStore: HealthcareProviderStoreProtocol {
+public class HealthcareProviderRepository: HealthcareProviderRepositoryProtocol {
 	
 	/// The storage provider
 	private let storage: FileStorageProtocol

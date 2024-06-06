@@ -18,9 +18,6 @@ class HealthcareProviderViewModel: ObservableObject {
 	
 	/// Model to display
 	@Published var providerModel: HealthcareProviderModel
-
-	/// Token for the observatory (needed for unregister)
-	private var observerToken: Observatory.ObserverToken?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
