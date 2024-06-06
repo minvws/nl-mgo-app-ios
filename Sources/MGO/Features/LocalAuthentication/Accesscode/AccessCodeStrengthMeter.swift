@@ -31,7 +31,11 @@ class AccessCodeStrengthMeter: AccessCodeStrengthValidation {
 	/// - Returns: true if the code is not in the frequently used lst.
 	private func isFrequentlyUsed(_ code: String) -> Bool {
 		
-		let frequentlyUsed = ["12345", "54321", "13579", "12321", "90210", "38317", "09876", "98765", "01234", "42069"]
+		let frequentlyUsed = [
+			"12345", "54321", "13579", "12321", "90210", "38317", "09876", "98765", "01234", "42069",
+			"00012", "00098", "11123", "21012", "31415", "32123", "36963", "43210", "80087", "99987"
+		]
+		
 		return frequentlyUsed.contains(code)
 	}
 	
