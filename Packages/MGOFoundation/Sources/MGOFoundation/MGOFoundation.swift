@@ -11,6 +11,7 @@
 // Internal
 @_exported import FHIRExtensions
 @_exported import FHIRClient
+@_exported import LocalisationService
 @_exported import Managers
 @_exported import MGORepository
 

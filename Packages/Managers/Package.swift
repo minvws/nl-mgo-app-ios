@@ -12,8 +12,6 @@ let package = Package(
 			targets: ["Managers"]),
 	],
 	dependencies: [
-		// Internal
-		.package(name: "LocalisationService", path: "../LocalisationService"),
 		
 		// External
 		.package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.7.2"),
@@ -25,7 +23,6 @@ let package = Package(
 		.target(
 			name: "Managers",
 			dependencies: [
-				.product(name: "LocalisationService", package: "LocalisationService"),
 				"SwiftSoup"
 			]
 		),
