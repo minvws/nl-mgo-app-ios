@@ -1380,6 +1380,50 @@
     "Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)" : {
 
     },
+    "remoteAuthentication_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies de manier waarop je wilt inloggen. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
+          }
+        }
+      }
+    },
+    "remoteAuthentication_digid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met DigiD"
+          }
+        }
+      }
+    },
+    "remoteAuthentication_eidas" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met eIDAS"
+          }
+        }
+      }
+    },
+    "remoteAuthentication_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewijs wie je bent"
+          }
+        }
+      }
+    },
     "searchhp_action" : {
       "extractionState" : "manual",
       "localizations" : {
