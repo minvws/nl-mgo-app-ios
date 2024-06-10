@@ -24,68 +24,23 @@ struct LabResultsDetailView: View {
 		AccordionView(title: Sanitizer.strip(result.title) ?? "") {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
-				if let code = result.code {
-					DetailRow(
-						title: "labresults_details_code",
-						content: code
-					)
-				}
+				DetailRow(title: "labresults_details_code", content: Sanitizer.strip(result.code))
 				
-				if let status = result.status {
-					DetailRow(
-						title: "labresults_details_status",
-						content: status
-					)
-				}
+				DetailRow(title: "labresults_details_status", content: Sanitizer.strip(result.status))
 				
-				if let dateTime = result.dateTime {
-					DetailRow(
-						title: "labresults_details_dateTime",
-						content: dateTime
-					)
-				}
+				DetailRow(title: "labresults_details_dateTime", content: Sanitizer.strip(result.dateTime))
 				
-				if let resultText = result.result {
-					DetailRow(
-						title: "labresults_details_result",
-						content: resultText
-					)
-				}
+				DetailRow(title: "labresults_details_result", content: Sanitizer.strip(result.result))
 				
-				if let referenceRangeLow = result.referenceRangeLow {
-					DetailRow(
-						title: "labresults_details_referenceRangeLow",
-						content: referenceRangeLow
-					)
-				}
+				DetailRow(title: "labresults_details_referenceRangeLow", content: Sanitizer.strip(result.referenceRangeLow))
 				
-				if let referenceRangeHigh = result.referenceRangeHigh {
-					DetailRow(
-						title: "labresults_details_referenceRangeHigh",
-						content: referenceRangeHigh
-					)
-				}
+				DetailRow(title: "labresults_details_referenceRangeHigh", content: Sanitizer.strip(result.referenceRangeHigh))
 				
-				if let interpretation = result.interpretation {
-					DetailRow(
-						title: "labresults_details_interpretation",
-						content: interpretation
-					)
-				}
+				DetailRow(title: "labresults_details_interpretation", content: Sanitizer.strip(result.interpretation))
 				
-				if let specimen = result.specimen {
-					DetailRow(
-						title: "labresults_details_specimen",
-						content: specimen
-					)
-				}
+				DetailRow(title: "labresults_details_specimen", content: Sanitizer.strip(result.specimen))
 				
-				if let collectionDateTime = result.collectionDateTime {
-					DetailRow(
-						title: "labresults_details_collectionDateTime",
-						content: collectionDateTime
-					)
-				}
+				DetailRow(title: "labresults_details_collectionDateTime", content: Sanitizer.strip(result.collectionDateTime))
 			}
 		}
 	}
