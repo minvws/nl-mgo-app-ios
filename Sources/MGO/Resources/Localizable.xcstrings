@@ -142,7 +142,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voer ter controle nog een keer je persoonlijke toegangscode in."
+            "value" : "Voer ter controle nog een keer je 5-cijferige toegangscode in."
           }
         }
       }
@@ -153,7 +153,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bevestig je 5-cijferige toegangscode"
+            "value" : "Bevestig je toegangscode"
           }
         }
       }
@@ -318,7 +318,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met **herkenning van je gezicht**. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige pincode gewoon blijven gebruiken."
+            "value" : "Beveilig de app met gezichtsherkenning. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
           }
         }
       }
@@ -329,7 +329,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met **herkenning van je ogen**. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige pincode gewoon blijven gebruiken."
+            "value" : "Beveilig de app met oogherkenning. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
           }
         }
       }
@@ -340,7 +340,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met **je vingerafdruk**. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige pincode gewoon blijven gebruiken."
+            "value" : "Beveilig de app met je vingerafdruk. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
           }
         }
       }
@@ -351,7 +351,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ inschakelen"
+            "value" : "%@ aanzetten"
           }
         }
       }
@@ -471,7 +471,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wil je de volgende keer inloggen met %@?"
+            "value" : "Volgende keer inloggen met %@?"
           }
         }
       }
@@ -1229,7 +1229,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle informatie die je huisarts, ziekenhuis en andere zorgverleners over jou hebben. Op één plek. Veilig en overzichtelijk."
+            "value" : "Je vindt hier alle gegevens over je gezondheid. Van je huisarts, ziekenhuis en andere zorgaanbieders."
           }
         }
       }
@@ -1240,7 +1240,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gezondheidsgegevens in één overzicht"
+            "value" : "Welkom in Mijn Gezondheidsoverzicht"
           }
         }
       }
