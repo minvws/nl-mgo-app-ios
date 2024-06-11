@@ -196,9 +196,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 					pathForSheet = NavigationStackBackport.NavigationPath()
 				}
 				// Wipe Account
-				Current.wipePersistedData()
-				Current.secureUserSettings.userHasSeenAppIntroduction = true
-				path = NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
+//				Current.wipePersistedData()
+				Current.secureUserSettings.userHasSeenAppIntroduction = false
+				path = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction])
 				
 				// Remote Authentication
 				
