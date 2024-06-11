@@ -62,7 +62,7 @@ class PatientViewModel: ObservableObject {
 		
 		switch action {
 			case .search:
-				SwiftUI.Task {
+				_Concurrency.Task {
 					self.state = await readPatientAsync()
 				}
 		}
