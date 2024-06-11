@@ -57,7 +57,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	public func reduce(_ action: Action) {
 		switch action {
 			case .proceedWithBioMetric:
-				SwiftUI.Task {
+				_Concurrency.Task {
 					await authenticate()
 				}
 				

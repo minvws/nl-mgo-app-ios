@@ -111,12 +111,12 @@ class SearchResultsViewModel: ObservableObject {
 				// Only load the first time
 				guard state == .loading else { return }
 			
-				SwiftUI.Task {
+				_Concurrency.Task {
 					await loadHealthcareProviders()
 				}
 			
 			case .retry:
-				SwiftUI.Task {
+				_Concurrency.Task {
 					await loadHealthcareProviders()
 				}
 			

@@ -13,10 +13,8 @@ class RemoteAuthenticationViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case loginWithDigiD
-		case loginWithAccessCode
+		case loginWithEIDAS
 	}
-	
-	@Published var showAccessCodeButton: Bool
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
@@ -26,7 +24,6 @@ class RemoteAuthenticationViewModel: ObservableObject {
 	init(coordinator: (any Coordinator)?) {
 		
 		self.coordinator = coordinator
-		showAccessCodeButton = Current.secureUserSettings.userHasRemoteAuthentication
 	}
 	
 	/// Handle any action
@@ -34,10 +31,8 @@ class RemoteAuthenticationViewModel: ObservableObject {
 	public func reduce(_ action: Action) {
 		
 		switch action {
-			case .loginWithDigiD:
+			case .loginWithDigiD, .loginWithEIDAS:
 				coordinator?.handle(Coordination.Action.loginWithDigiD)
-			case .loginWithAccessCode:
-				coordinator?.handle(Coordination.Action.loginWithAccessCode)
 		}
 	}
 }
@@ -50,44 +45,60 @@ struct RemoteAuthenticationView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
-    var body: some View {
-		ZStack {
-			
-			theme.backgroundPrimary
-				.ignoresSafeArea()
-				.frame(maxWidth: .infinity, maxHeight: .infinity)
-			
-			VStack {
-				
-				Text(verbatim: "Placeholder Digid Keuze scherm")
-				
-				if viewModel.showAccessCodeButton {
-					Text(verbatim: "Welkom terug")
-				} else {
-					Text(verbatim: "Bewijs wie je bent")
-				}
-				
-				Button(action: {
-					viewModel.reduce(.loginWithDigiD)
-				}, label: {
-					Text(verbatim: "inloggen DigiD")
-				})
-					.padding()
-				
-				if viewModel.showAccessCodeButton {
-					
-					Button(action: {
-						viewModel.reduce(.loginWithAccessCode)
-					}, label: {
-						Text(verbatim: "Doorgaan zonder nieuwe gegevens")
-					})
-						.padding()
-				}
-				
-			}
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 8
 		}
-		.navigationBarTitleDisplayMode(.inline)
-		.navigationBarBackButtonHidden(true)
+		enum General {
+			static let padding: CGFloat = 16
+		}
+		enum Button {
+			static let top: CGFloat = 8
+			static let spacing: CGFloat = 12
+		}
+	}
+	
+	var body: some View {
+		
+		ScrollView {
+			
+			VStack(spacing: ViewTraits.General.padding) {
+				
+				Group {
+					
+					Text("remoteAuthentication_title")
+						.rijksoverheidStyle(font: .bold, style: .title)
+						.accessibilityAddTraits(.isHeader)
+					
+					Text("remoteAuthentication_body")
+						.rijksoverheidStyle(font: .regular, style: .body)
+				}
+				.foregroundStyle(theme.contentPrimary)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				
+				VStack(spacing: ViewTraits.Button.spacing, content: {
+					
+					DisclosureWithImageButton(
+						title: "remoteAuthentication_digid",
+						image: ImageResource.RemoteAuthentication.digid) {
+							viewModel.reduce(.loginWithDigiD)
+						}
+					
+					DisclosureWithImageButton(
+						title: "remoteAuthentication_eidas",
+						image: ImageResource.RemoteAuthentication.eidas) {
+							viewModel.reduce(.loginWithEIDAS)
+						}
+				})
+				.padding(.top, ViewTraits.Button.top)
+			}
+			.padding(.horizontal, ViewTraits.General.padding)
+			.navigationBarBackButtonHidden(true)
+			.navigationBarHidden(false)
+			.navigationBarTitleDisplayMode(.inline)
+			.background(theme.backgroundPrimary.ignoresSafeArea())
+		}
 	}
 }
 
@@ -95,5 +106,70 @@ struct RemoteAuthenticationView: View {
 	NavigationStackBackport.NavigationStack {
 		RemoteAuthenticationView(viewModel: RemoteAuthenticationViewModel(coordinator: nil)
 		)
+	}
+}
+
+struct DisclosureWithImageButton: View {
+	
+	/// The title for the button
+	var title: LocalizedStringKey
+	
+	/// The image for the button
+	var image: ImageResource
+	
+	/// The action to perform
+	var action: (() -> Void)?
+	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum Image {
+			static let size: CGFloat = 28
+		}
+		enum Chevron {
+			static let size: CGFloat = 28
+		}
+		enum General {
+			static let padding: CGFloat = 16
+			static let radius: CGFloat = 8
+		}
+	}
+	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
+	var body: some View {
+		
+		Button(action: {
+			action?()
+		}, label: {
+			
+			HStack(alignment: .center, spacing: 0) {
+				
+				Rectangle()
+					.foregroundColor(.clear)
+					.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
+					.background(
+						Image(image)
+							.resizable()
+							.aspectRatio(contentMode: .fill)
+							.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
+					)
+				
+				Text(title)
+					.rijksoverheidStyle(font: .bold, style: .body)
+					.foregroundColor(theme.contentPrimary)
+					.frame(maxWidth: .infinity, alignment: .leading)
+					.padding(.leading, ViewTraits.General.padding)
+				
+				Image(ImageResource.Localisation.arrowForward)
+					.foregroundStyle(theme.iconsPrimary)
+					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
+				
+			}
+			.frame(maxWidth: .infinity, alignment: .leading)
+			.background(.white)
+			.cornerRadius(ViewTraits.General.radius)
+			.cardify()
+		})
 	}
 }

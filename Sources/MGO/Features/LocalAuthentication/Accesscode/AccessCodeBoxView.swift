@@ -23,7 +23,7 @@ struct AccessCodeBoxView: View {
 			static let big: CGFloat = 24
 		}
 		enum Box {
-			static let radius: CGFloat = 5
+			static let radius: CGFloat = 6
 			static let aspectRatio: CGFloat = 0.80
 		}
 	}

@@ -52,7 +52,6 @@ extension Coordination.Action {
 	
 	// Remote Authentication
 	static let loginWithDigiD = Coordination.Action(identifier: "loginWithDigiD")
-	static let loginWithAccessCode = Coordination.Action(identifier: "loginWithAccessCode")
 	
 	// Healthcare Provider flow
 	static let search = Coordination.Action(identifier: "search")
@@ -207,9 +206,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 				Current.secureUserSettings.userHasRemoteAuthentication = true
 				path.append(AppCoordination.State.searchHealthcareProvider)
-				
-			case Coordination.Action.loginWithAccessCode.identifier:
-				path.append(AppCoordination.State.accessCodeValidation)
 				
 			// Healthcare Provider flow
 			

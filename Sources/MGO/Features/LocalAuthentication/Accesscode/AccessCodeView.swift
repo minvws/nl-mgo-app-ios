@@ -380,7 +380,7 @@ class AccessCodeViewModel: ObservableObject {
 	/// Show the FaceID / TouchID login
 	private func showBioMetricLogin() {
 		
-		SwiftUI.Task {
+		_Concurrency.Task {
 			await authenticate()
 		}
 	}
