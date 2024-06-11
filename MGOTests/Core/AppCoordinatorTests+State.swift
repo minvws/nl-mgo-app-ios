@@ -120,7 +120,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 	}
 
 	func test_coordinatorView_forRemoteAuthentication_firstVisit() throws {
-
+		
 		// Given
 		let state = AppCoordination.State.remoteAuthentication
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = false
