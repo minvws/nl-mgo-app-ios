@@ -89,7 +89,7 @@ class ProblemsListViewModel: ObservableObject {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 			case .onAppear:
-				SwiftUI.Task {
+				_Concurrency.Task {
 					await loadProblems()
 				}
 		}
