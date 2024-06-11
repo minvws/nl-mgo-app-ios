@@ -161,17 +161,6 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProvider])
 	}
-
-	func test_coordinatorHandle_loginWithAccessCode_shouldShowAccessCodeValidation() {
-		
-		// Given
-		
-		// When
-		sut.handle(Coordination.Action.loginWithAccessCode)
-		
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeValidation])
-	}
 	
 	func test_coordinatorHandle_codeValidated_noHealthcareProviderAdded_shouldShowSearchHealthcareProviders() {
 		

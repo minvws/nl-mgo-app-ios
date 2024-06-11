@@ -14,7 +14,7 @@ extension Font.TextStyle {
 	public var pointSize: CGFloat {
 		switch self {
 			case .largeTitle: isiPhoneSE ? 32 : 36
-			case .title: 30
+			case .title: isiPhoneSE ? 30 : 34
 			case .title2: 26
 			case .title3: 24
 			case .headline: 18
