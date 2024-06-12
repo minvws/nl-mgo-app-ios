@@ -126,7 +126,7 @@ class SearchResultsViewModel: ObservableObject {
 					Current.secureUserSettings.userHasAddedHealthcareProvider = true
 				}
 				applyListState()
-				coordinator?.handle(Coordination.Action.storeHealthcareProvider)
+				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareProviders)
 		}
 	}
 	
