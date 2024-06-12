@@ -19,12 +19,21 @@
       }
     },
     {
+      "identity" : "devicekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/devicekit/DeviceKit",
+      "state" : {
+        "revision" : "5757447e9f92c476ee2ca41ead7eb6db07936430",
+        "version" : "5.4.0"
+      }
+    },
+    {
       "identity" : "nimble",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Quick/Nimble",
       "state" : {
-        "revision" : "efe11bbca024b57115260709b5c05e01131470d0",
-        "version" : "13.2.1"
+        "revision" : "1c49fc1243018f81a7ea99cb5e0985b00096e9f4",
+        "version" : "13.3.0"
       }
     },
     {
@@ -32,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
       "state" : {
-        "revision" : "5b0c434778f2c1a4c9b5ebdb8682b28e84dd69bd",
-        "version" : "1.15.4"
+        "revision" : "625ccca8570773dd84a34ee51a81aa2bc5a4f97a",
+        "version" : "1.16.0"
       }
     },
     {
@@ -50,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nalexn/ViewInspector",
       "state" : {
-        "revision" : "67319287749b83f39dcc2f20edd520c610c012fd",
-        "version" : "0.9.10"
+        "revision" : "7b1732802ffe30e6a67754bda6c7819e5cb0eb70",
+        "version" : "0.9.11"
       }
     }
   ],

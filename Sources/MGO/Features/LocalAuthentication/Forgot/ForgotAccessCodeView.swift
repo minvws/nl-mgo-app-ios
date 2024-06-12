@@ -17,7 +17,11 @@ class ForgotAccessCodeViewModel: ObservableObject {
 	enum Action {
 		case cancelButtonPressed
 		case recreateAccount
+		case showDialog
+		case cancelDialog
 	}
+	
+	@Published var showDialog = false
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
@@ -34,6 +38,10 @@ class ForgotAccessCodeViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.dismissForgotAccessCode)
 			case .recreateAccount:
 				coordinator?.handle(Coordination.Action.recreateAccount)
+			case .showDialog:
+				showDialog = true
+			case .cancelDialog:
+				showDialog = false
 		}
 	}
 }
@@ -79,19 +87,26 @@ struct ForgotAccessCodeView: View {
 		} bottomView: {
 			VStack(spacing: ViewTraits.Button.spacing) {
 				
-				CallToActionButton("general_cancel", style: .secondary) {
+				CallToActionButton("forgot_action_reset", style: .secondary) {
+					viewModel.reduce(.showDialog)
+				}
+				.tag("forgot_action_reset")
+
+				CallToActionButton("general_cancel") {
 					viewModel.reduce(.cancelButtonPressed)
 				}
 				.tag("general_cancel")
 				
-				CallToActionButton("forgot_action_reset") {
-					viewModel.reduce(.recreateAccount)
-				}
-				.tag("forgot_action_reset")
 			}
 			.padding(ViewTraits.Button.insets)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.alert("forgot_alert_title", isPresented: $viewModel.showDialog) {
+			Button("general_no", role: .cancel) { viewModel.reduce(.cancelDialog) }
+			Button("general_yes", role: .destructive) { viewModel.reduce(.recreateAccount) }
+		} message: {
+			Text("forgot_alert_body")
+		}
 	}
 }
