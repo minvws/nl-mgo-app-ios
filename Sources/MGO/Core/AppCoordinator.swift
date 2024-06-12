@@ -72,7 +72,7 @@ enum AppCoordination {
 		case launch
 		
 		// Onboarding
-		case appIntroduction
+		case appIntroduction(recreated: Bool)
 		case privacyOverview
 		case privacyStatement
 		
@@ -197,8 +197,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				}
 				// Wipe Account
 				Current.wipePersistedData()
-				Current.secureUserSettings.userHasSeenAppIntroduction = true
-				path = NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
+				path = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction(recreated: true)])
 				
 				// Remote Authentication
 				
@@ -256,7 +255,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		if !Current.secureUserSettings.userHasSeenAppIntroduction {
 			// Only show the appIntroduction once
-			path.append(AppCoordination.State.appIntroduction)
+			path.append(AppCoordination.State.appIntroduction(recreated: false))
 		} else if Current.secureUserSettings.accessCode == nil {
 			// User must set an access code
 			path.append(AppCoordination.State.accessCodeEntry)
@@ -302,8 +301,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			// Onboarding
 				
-			case .appIntroduction:
-				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self))
+			case let .appIntroduction(recreated):
+				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self, showAccountDeletedToast: recreated))
 				
 			case .privacyOverview:
 				PrivacyOverviewView(viewModel: PrivacyOverviewViewModel(coordinator: self))
