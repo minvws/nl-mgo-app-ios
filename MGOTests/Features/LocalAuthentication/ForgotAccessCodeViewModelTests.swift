@@ -33,7 +33,7 @@ final class ForgotAccessCodeViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.dismissForgotAccessCode
 	}
 	
-	func test_loginWithDigiD() {
+	func test_recreateAccount() {
 		
 		// Given
 		
@@ -43,5 +43,28 @@ final class ForgotAccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.recreateAccount
+	}
+	
+	func test_showDialog() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.showDialog)
+		
+		// Then
+		expect(self.sut.showDialog) == true
+	}
+	
+	func test_cancelDialog() {
+		
+		// Given
+		sut.showDialog = true
+		
+		// When
+		sut.reduce(.cancelDialog)
+		
+		// Then
+		expect(self.sut.showDialog) == false
 	}
 }

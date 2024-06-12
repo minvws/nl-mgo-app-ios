@@ -36,7 +36,7 @@ final class ForgotAccessCodeViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.dismissForgotAccessCode
 	}
 	
-	func test_loginWithDigiD() throws {
+	func test_showDialog() throws {
 		
 		// Given
 		
@@ -44,8 +44,7 @@ final class ForgotAccessCodeViewTests: XCTestCase {
 		try sut.inspect().find(viewWithTag: "forgot_action_reset").button().tap()
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.recreateAccount
+		expect(self.coordinatorSpy.invokedHandle) == false
 	}
 	
 	// MARK: - Snapshots -
