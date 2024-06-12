@@ -182,7 +182,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				handleAccessCodeConfirmed()
 				
 			case Coordination.Action.accessCodeValidated.identifier:
-				handleAccessCodeValidated()
+				showChildCoordinator = true
 				
 			case Coordination.Action.didFinishLocalAuthentication.identifier:
 				path.append(AppCoordination.State.remoteAuthentication)
@@ -205,7 +205,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case Coordination.Action.loginWithDigiD.identifier:
 				
 				Current.secureUserSettings.userHasRemoteAuthentication = true
-				path.append(AppCoordination.State.searchHealthcareProvider)
+				showChildCoordinator = true
 				
 			// Healthcare Provider flow
 			
@@ -266,16 +266,16 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
-	/// Handle the access code validated state
-	private func handleAccessCodeValidated() {
-		
-		if !Current.secureUserSettings.userHasAddedHealthcareProvider {
-			// User must add at least once a healthcare provider
-			path.append(AppCoordination.State.searchHealthcareProvider)
-		} else {
-			showChildCoordinator = true
-		}
-	}
+//	/// Handle the access code validated state
+//	private func handleAccessCodeValidated() {
+//		
+////		if !Current.secureUserSettings.userHasAddedHealthcareProvider {
+////			// User must add at least once a healthcare provider
+////			path.append(AppCoordination.State.searchHealthcareProvider)
+////		} else {
+//			showChildCoordinator = true
+////		}
+//	}
 	
 	/// Handle the access code confirmed state
 	private func handleAccessCodeConfirmed() {
