@@ -1841,6 +1841,28 @@
           }
         }
       }
+    },
+    "toast_accountRemoved_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hieronder kun je een nieuw account aanmaken"
+          }
+        }
+      }
+    },
+    "toast_accountRemoved_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je account is verwijderd"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
