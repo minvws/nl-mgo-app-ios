@@ -50,17 +50,24 @@ public struct ToastView: View {
     public var body: some View {
 		
 		HStack(alignment: .top, spacing: ViewTraits.Toast.spacing) {
-			
-			switch toast.type {
-				case .info:
-					Image(ImageResource.Toast.info)
-				case .warning:
-					Image(ImageResource.Toast.warning)
-				case .error:
-					Image(ImageResource.Toast.error)
-				case .success:
-					Image(ImageResource.Toast.checked)
+			Group {
+				switch toast.type {
+					case .info:
+						Image(ImageResource.Toast.info)
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "toast_info", value: nil, table: "Toast"))
+					case .warning:
+						Image(ImageResource.Toast.warning)
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "toast_warning", value: nil, table: "Toast"))
+					case .error:
+						Image(ImageResource.Toast.error)
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "toast_error", value: nil, table: "Toast"))
+					case .success:
+						Image(ImageResource.Toast.checked)
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "toast_success", value: nil, table: "Toast"))
+				}
 			}
+				.accessibilitySortPriority(1000)
+				.accessibilityRemoveTraits(.isImage)
 			
 			VStack(alignment: .leading, spacing: ViewTraits.Toast.innerSpacing) {
 				
@@ -68,10 +75,12 @@ public struct ToastView: View {
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundColor(theme.contentPrimary)
 					.accessibilityAddTraits(.isHeader)
+					.accessibilitySortPriority(990)
 				
 				Text(toast.subtitle)
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundColor(theme.contentTertiary)
+					.accessibilitySortPriority(980)
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
 			
@@ -84,6 +93,10 @@ public struct ToastView: View {
 					perform?()
 				}
 				.foregroundColor(onHover ? theme.iconsPrimary : theme.iconsSecondary)
+				.accessibilitySortPriority(970)
+				.accessibilityRemoveTraits(.isImage)
+				.accessibilityAddTraits(.isButton)
+				.accessibilityLabel(Bundle.module.localizedString(forKey: "toast_close", value: nil, table: "Toast"))
 			
 		}
 		.cardify(padding: ViewTraits.Toast.padding, lineColor: theme.linesSecondary)

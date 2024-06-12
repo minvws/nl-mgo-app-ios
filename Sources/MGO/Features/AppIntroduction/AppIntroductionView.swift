@@ -149,6 +149,7 @@ struct AppIntroductionView: View {
 			CallToActionButton("onboarding_action") {
 				viewModel.reduce(.nextButttonPressed)
 			}
+			.tag("onboarding_action")
 			.padding(ViewTraits.Button.padding)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
