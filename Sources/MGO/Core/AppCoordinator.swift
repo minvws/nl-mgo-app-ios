@@ -51,7 +51,7 @@ extension Coordination.Action {
 	static let recreateAccount = Coordination.Action(identifier: "recreateAccount")
 	
 	// Remote Authentication
-	static let loginWithDigiD = Coordination.Action(identifier: "loginWithDigiD")
+	static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
 	
 	// Healthcare Provider flow
 	static let search = Coordination.Action(identifier: "search")
@@ -202,7 +202,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 				// Remote Authentication
 				
-			case Coordination.Action.loginWithDigiD.identifier:
+			case Coordination.Action.loggedInWithDigiD.identifier:
 				
 				Current.secureUserSettings.userHasRemoteAuthentication = true
 				showChildCoordinator = true

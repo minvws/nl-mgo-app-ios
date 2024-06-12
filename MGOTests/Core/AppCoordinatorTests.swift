@@ -156,7 +156,7 @@ final class AppCoordinatorTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action.loginWithDigiD)
+		sut.handle(Coordination.Action.loggedInWithDigiD)
 		
 		// Then
 		expect(self.sut.showChildCoordinator) == true
