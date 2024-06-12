@@ -156,13 +156,13 @@ final class AppCoordinatorTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action.loginWithDigiD)
+		sut.handle(Coordination.Action.loggedInWithDigiD)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProvider])
+		expect(self.sut.showChildCoordinator) == true
 	}
 	
-	func test_coordinatorHandle_codeValidated_noHealthcareProviderAdded_shouldShowSearchHealthcareProviders() {
+	func test_coordinatorHandle_codeValidated_noHealthcareProviderAdded_shouldShowDashboard() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasAddedHealthcareProvider = false
@@ -171,10 +171,10 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.accessCodeValidated)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProvider])
+		expect(self.sut.showChildCoordinator) == true
 	}
 	
-	func test_coordinatorHandle_codeValidated_shouldShowDashboard() {
+	func test_coordinatorHandle_codeValidated_healthcareProviderAdded_shouldShowDashboard() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasAddedHealthcareProvider = true
