@@ -32,7 +32,7 @@ class RemoteAuthenticationViewModel: ObservableObject {
 		
 		switch action {
 			case .loginWithDigiD, .loginWithEIDAS:
-				coordinator?.handle(Coordination.Action.loginWithDigiD)
+				coordinator?.handle(Coordination.Action.loggedInWithDigiD)
 		}
 	}
 }
