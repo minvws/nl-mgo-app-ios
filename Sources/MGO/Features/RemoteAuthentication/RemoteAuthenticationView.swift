@@ -167,7 +167,7 @@ struct DisclosureWithImageButton: View {
 				
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.background(.white)
+			.background(theme.backgroundSecondary)
 			.cornerRadius(ViewTraits.General.radius)
 			.cardify()
 		})
