@@ -121,6 +121,7 @@ struct AppIntroductionView: View {
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.padding(ViewTraits.Title.insets)
 					.accessibilityAddTraits(.isHeader)
+					.fixedSize(horizontal: false, vertical: true)
 				
 				SplittedText(key: "onboarding_body", spacing: ViewTraits.Text.spacing)
 					.rijksoverheidStyle(font: .regular, style: .body)
