@@ -55,7 +55,7 @@ struct RemoteAuthenticationView: View {
 		}
 		enum Button {
 			static let top: CGFloat = 8
-			static let spacing: CGFloat = 12
+			static let spacing: CGFloat = 16
 		}
 	}
 	
@@ -123,10 +123,10 @@ struct DisclosureWithImageButton: View {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Image {
-			static let size: CGFloat = 28
+			static let size: CGFloat = 32
 		}
 		enum Chevron {
-			static let size: CGFloat = 28
+			static let size: CGFloat = 32
 		}
 		enum General {
 			static let padding: CGFloat = 16
@@ -167,9 +167,9 @@ struct DisclosureWithImageButton: View {
 				
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.background(theme.backgroundSecondary)
 			.cornerRadius(ViewTraits.General.radius)
-			.cardify()
+			.cardify(setBackground: false)
 		})
+		.buttonStyle(HoverButtonStyle())
 	}
 }
