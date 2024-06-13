@@ -45,6 +45,9 @@ struct RemoteAuthenticationView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -81,7 +84,8 @@ struct RemoteAuthenticationView: View {
 					
 					DisclosureWithImageButton(
 						title: "remoteAuthentication_digid",
-						image: ImageResource.RemoteAuthentication.digid) {
+						image: ImageResource.RemoteAuthentication.digid,
+						showImageBorder: colorScheme == .dark) {
 							viewModel.reduce(.loginWithDigiD)
 						}
 					
@@ -117,6 +121,9 @@ struct DisclosureWithImageButton: View {
 	/// The image for the button
 	var image: ImageResource
 	
+	/// Should we show a border around the image?
+	var showImageBorder: Bool = false
+	
 	/// The action to perform
 	var action: (() -> Void)?
 	
@@ -146,8 +153,18 @@ struct DisclosureWithImageButton: View {
 			HStack(alignment: .center, spacing: 0) {
 				
 				Rectangle()
+					.if(showImageBorder, transform: { view in
+						view
+							.overlay {
+								Rectangle()
+									.inset(by: 1)
+									.stroke(theme.linesPrimary, lineWidth: 1)
+									.clipShape(RoundedRectangle(cornerRadius: 3))
+							}
+					})
 					.foregroundColor(.clear)
 					.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
+				
 					.background(
 						Image(image)
 							.resizable()
