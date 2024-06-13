@@ -45,6 +45,9 @@ struct RemoteAuthenticationView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -55,7 +58,7 @@ struct RemoteAuthenticationView: View {
 		}
 		enum Button {
 			static let top: CGFloat = 8
-			static let spacing: CGFloat = 12
+			static let spacing: CGFloat = 16
 		}
 	}
 	
@@ -81,7 +84,8 @@ struct RemoteAuthenticationView: View {
 					
 					DisclosureWithImageButton(
 						title: "remoteAuthentication_digid",
-						image: ImageResource.RemoteAuthentication.digid) {
+						image: ImageResource.RemoteAuthentication.digid,
+						showImageBorder: colorScheme == .dark) {
 							viewModel.reduce(.loginWithDigiD)
 						}
 					
@@ -117,16 +121,19 @@ struct DisclosureWithImageButton: View {
 	/// The image for the button
 	var image: ImageResource
 	
+	/// Should we show a border around the image?
+	var showImageBorder: Bool = false
+	
 	/// The action to perform
 	var action: (() -> Void)?
 	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Image {
-			static let size: CGFloat = 28
+			static let size: CGFloat = 32
 		}
 		enum Chevron {
-			static let size: CGFloat = 28
+			static let size: CGFloat = 32
 		}
 		enum General {
 			static let padding: CGFloat = 16
@@ -146,8 +153,18 @@ struct DisclosureWithImageButton: View {
 			HStack(alignment: .center, spacing: 0) {
 				
 				Rectangle()
+					.if(showImageBorder, transform: { view in
+						view
+							.overlay {
+								Rectangle()
+									.inset(by: 1)
+									.stroke(theme.linesPrimary, lineWidth: 1)
+									.clipShape(RoundedRectangle(cornerRadius: 3))
+							}
+					})
 					.foregroundColor(.clear)
 					.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
+				
 					.background(
 						Image(image)
 							.resizable()
@@ -167,9 +184,9 @@ struct DisclosureWithImageButton: View {
 				
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.background(theme.backgroundSecondary)
-			.cornerRadius(ViewTraits.General.radius)
-			.cardify()
+			.cardify(setBackground: false)
 		})
+		.buttonStyle(HoverButtonStyle())
+		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.General.radius))
 	}
 }
