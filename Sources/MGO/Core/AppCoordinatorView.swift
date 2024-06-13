@@ -65,10 +65,19 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	}
 }
 
+//#Preview {
+//	AppCoordinatorView<AppCoordinator>(
+//		appCoordinator: AppCoordinator(
+//			path: NavigationStackBackport.NavigationPath()
+//		)
+//	)
+//}
 #Preview {
-	AppCoordinatorView<AppCoordinator>(
-		appCoordinator: AppCoordinator(
-			path: NavigationStackBackport.NavigationPath()
-		)
-	)
+	
+	VStack {
+		ToastView(Toast(title: "Title", subtitle: "Text", type: .info))
+		ToastView(Toast(title: "Title", subtitle: "Text", type: .warning))
+		ToastView(Toast(title: "Title", subtitle: "Text", type: .error))
+		ToastView(Toast(title: "Title", subtitle: "Text", type: .success))
+	}.padding(.horizontal, 16)
 }

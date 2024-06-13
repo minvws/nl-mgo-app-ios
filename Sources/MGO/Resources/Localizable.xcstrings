@@ -695,6 +695,12 @@
         }
       }
     },
+    "Details First Section. Starts expanded." : {
+
+    },
+    "Details Second Section. Starts collapsed." : {
+
+    },
     "error_default_body" : {
       "extractionState" : "manual",
       "localizations" : {

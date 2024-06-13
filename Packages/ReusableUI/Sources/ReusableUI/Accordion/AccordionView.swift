@@ -83,5 +83,14 @@ public struct AccordionView<Content: View>: View {
 }
 
 #Preview {
-	AccordionView(title: "The title of the accordion") { Text("Body") }
+	
+	VStack {
+		AccordionView(title: "First section", startOpen: true) {
+			Text("Details First Section. Starts expanded.")
+		}
+		
+		AccordionView(title: "Second section") {
+			Text("Details Second Section. Starts collapsed.")
+		}
+	}
 }
