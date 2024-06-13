@@ -167,9 +167,9 @@ struct DisclosureWithImageButton: View {
 				
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.cornerRadius(ViewTraits.General.radius)
 			.cardify(setBackground: false)
 		})
 		.buttonStyle(HoverButtonStyle())
+		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.General.radius))
 	}
 }
