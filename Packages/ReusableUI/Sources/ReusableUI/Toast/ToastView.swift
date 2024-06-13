@@ -83,6 +83,7 @@ public struct ToastView: View {
 					.accessibilitySortPriority(980)
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
+			.fixedSize(horizontal: false, vertical: true)
 			
 			Image(ImageResource.Toast.close)
 				.frame(width: ViewTraits.Button.size, height: ViewTraits.Button.size)
