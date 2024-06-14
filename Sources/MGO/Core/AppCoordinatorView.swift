@@ -74,10 +74,11 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 //}
 #Preview {
 	
-	VStack {
-		ToastView(Toast(title: "Title", subtitle: "Text", type: .info))
-		ToastView(Toast(title: "Title", subtitle: "Text", type: .warning))
-		ToastView(Toast(title: "Title", subtitle: "Text", type: .error))
-		ToastView(Toast(title: "Title", subtitle: "Text", type: .success))
-	}.padding(.horizontal, 16)
+	NotificationCardView(
+		icon: Image(systemName: "stethoscope"),
+		title: "title",
+		message: "message"
+	)
+	.padding(16)
 }
+
