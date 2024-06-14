@@ -24,6 +24,8 @@ struct SearchResultsLoadingView: View {
 	
 	/// Progress for the spinner
 	@State private var progress: Double = 0
+	
+	@State private var showSpinner = false
 
 	var body: some View {
 		VStack {
@@ -36,23 +38,32 @@ struct SearchResultsLoadingView: View {
 			
 			Spacer()
 	
-			VStack {
-				CircularProgressView(progress: $progress)
-					.frame(width: 48, height: 48)
-					.padding(.bottom, 20)
-			
-				Text("searchresults_loading_body")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+			if showSpinner {
+				VStack {
+					CircularProgressView(progress: $progress)
+						.frame(width: 48, height: 48)
+						.padding(.bottom, 20)
+					
+					Text("searchresults_loading_body")
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.foregroundStyle(theme.contentPrimary)
+				}
 			}
-			
 			Spacer()
 		}
 		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
-		.onAppear(perform: {
-			progress = 1
-		})
+		.onAppear {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+				showSpinner = true
+			}
+		}
+		.if(showSpinner) { view in
+			view
+				.onAppear(perform: {
+					progress = 1
+				})
+		}
 	}
 }
 
