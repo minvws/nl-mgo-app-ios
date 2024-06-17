@@ -2,10 +2,25 @@
 
 ## Overview
 
-
+Downside of an in-app browser is the loss of Parental Control. As a solution, we came up with a restricted browser. While surfing the allowed domain, you remain in the in-app browser. When you navigate to another domain, you are redirected to the default browser.
 
 ## Usage
 
+```swift
+import RestrictedBrowser
+
+struct InAppBrowserView: View {
+	
+	private var browser = RestrictedBrowser(allowedDomains: ["apple.com", "www.apple.com])
+		
+	var body: some View {
+		
+		RestrictedBrowserView(viewModel: RestrictedBrowserViewModel(url: "https://apple.com", browser: browser))
+
+	}
+}
+
+```
 
 ## Contribution process
 
