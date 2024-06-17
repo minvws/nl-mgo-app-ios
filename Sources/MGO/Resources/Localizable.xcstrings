@@ -893,17 +893,6 @@
         }
       }
     },
-    "general_unknown" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Niet bekend"
-          }
-        }
-      }
-    },
     "general_yes" : {
       "extractionState" : "manual",
       "localizations" : {
