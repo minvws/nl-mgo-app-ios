@@ -17,7 +17,7 @@ let package = Package(
 		.package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.7.2"),
 		
 		// Testing:
-		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0")
+		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		.target(
@@ -30,7 +30,7 @@ let package = Package(
 			name: "ManagersTests",
 			dependencies: [
 				"Managers",
-					.product(name: "Nimble", package: "Nimble")
+					.product(name: "MGOTest", package: "MGOTest")
 				]
 			)
 	]

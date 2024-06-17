@@ -2,10 +2,11 @@
 
 ## Overview
 
-
+This package is a convenience package. It will expose the Reusable UI, Theme, RijksoverheidFont and the NavigationStack Backport packages for easy import.
 
 ## Usage
 
+In the app, just use `import MGOUI` instead of the sub packages. 
 
 ## Contribution process
 

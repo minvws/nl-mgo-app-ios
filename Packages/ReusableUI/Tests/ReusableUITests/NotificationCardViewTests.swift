@@ -7,8 +7,7 @@
 
 @testable import ReusableUI
 import SwiftUI
-import XCTest
-import SnapshotTesting
+import MGOTest
 
 final class NotificationCardViewTests: XCTestCase {
 

@@ -70,8 +70,6 @@ You can apply it to any view, Here is an example of a button:
 
 <img style="float: left;" src="illustrations/Login.png" />
 
-
-
 ### Circular Progress View
 
 To draw a circular progress view, you call 
@@ -166,8 +164,6 @@ Text("ConditionalViewModifier")
 			view.foregroundStyle(.orange)
 		})
 ```
-
-
 
 ### DetailRow
 

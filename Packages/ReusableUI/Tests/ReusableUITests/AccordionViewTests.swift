@@ -7,8 +7,7 @@
 
 @testable import ReusableUI
 import SwiftUI
-import XCTest
-import SnapshotTesting
+import MGOTest
 
 final class AccordionViewTests: XCTestCase {
 
@@ -37,5 +36,4 @@ final class AccordionViewTests: XCTestCase {
 		// Then
 		assertSnapshot(of: view, as: .image)
 	}
-
 }

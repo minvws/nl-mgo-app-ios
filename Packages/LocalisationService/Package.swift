@@ -22,8 +22,7 @@ let package = Package(
 		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
 		
 		// Testing:
-		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0"),
-		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0")
+		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		.target(
@@ -41,8 +40,7 @@ let package = Package(
 			name: "LocalisationServiceTests",
 			dependencies: [
 				"LocalisationService",
-				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
-				.product(name: "Nimble", package: "Nimble"),
+				.product(name: "MGOTest", package: "MGOTest")
 			]
 		)
 	]

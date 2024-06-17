@@ -6,7 +6,7 @@
  */
 
 @testable import MGORepository
-import XCTest
+import MGOTest
 
 extension XCTestCase {
 	

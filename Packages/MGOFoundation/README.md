@@ -2,10 +2,11 @@
 
 ## Overview
 
-
+This package is a convenience package. It will expose the LocalisationService, Managers, MGORepository and Logging packages for easy import in the unit tests.
 
 ## Usage
 
+In the app, just use `import MGOFoundation` instead of the sub packages. 
 
 ## Contribution process
 
@@ -18,3 +19,4 @@ Note that all commits should be signed using a [gpg key](https://docs.github.com
 ## License
 
 License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/LICENSE.txt) for details.
+

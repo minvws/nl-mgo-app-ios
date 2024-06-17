@@ -2,10 +2,11 @@
 
 ## Overview
 
-
+This package is a convenience package. It will expose the HTTP Stubs, Swift Snapshot Testing, Nimble and ViewInspector packages for easy import in the unit tests.
 
 ## Usage
 
+In the app, just use `import MGOTest` instead of the sub packages. 
 
 ## Contribution process
 
