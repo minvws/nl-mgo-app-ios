@@ -70,7 +70,20 @@ final class MedicationListViewTests: XCTestCase {
 		
 		// Given
 		let statement = Generator.medicationUse()
-		viewModel.state = .success([statement, statement, statement])
+		viewModel.state = .success(items: [statement, statement, statement], startOpen: false)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_stateList_startOpen() {
+		
+		// Given
+		let statement = Generator.medicationUse()
+		viewModel.state = .success(items: [statement, statement, statement], startOpen: true)
 		
 		// When
 		let content = NavigationView { sut }

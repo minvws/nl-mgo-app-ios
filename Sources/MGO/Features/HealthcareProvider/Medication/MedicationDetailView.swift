@@ -13,6 +13,9 @@ struct MedicationDetailView: View {
 	/// The medication use
 	var statement: MgoMedicationUse
 	
+	/// Should we start in an open State?
+	var startOpen: Bool
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum List {
@@ -22,7 +25,7 @@ struct MedicationDetailView: View {
 	
 	var body: some View {
 		
-		AccordionView(title: Sanitizer.strip(statement.title) ?? "") {
+		AccordionView(title: Sanitizer.strip(statement.title) ?? "", startOpen: startOpen) {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
 				DetailRow(title: "medication_details_dosage", content: Sanitizer.strip(statement.instructions))

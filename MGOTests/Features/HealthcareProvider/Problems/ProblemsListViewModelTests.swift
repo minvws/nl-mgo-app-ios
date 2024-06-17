@@ -97,6 +97,6 @@ final class ProblemsListViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(ProblemsListViewState.success([concern])))
+		expect(self.sut.state).toEventually(equal(ProblemsListViewState.success(items: [concern], startOpen: false)))
 	}
 }

@@ -13,6 +13,9 @@ struct ProblemDetailView: View {
 	/// The  concern
 	var concern: MgoConcern
 	
+	/// Should we start in an open State?
+	var startOpen: Bool
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum List {
@@ -21,7 +24,7 @@ struct ProblemDetailView: View {
 	}
 	
 	var body: some View {
-		AccordionView(title: Sanitizer.strip(concern.title) ?? "") {
+		AccordionView(title: Sanitizer.strip(concern.title) ?? "", startOpen: startOpen) {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
 				DetailRow(title: "condition_details_type", content: Sanitizer.strip(concern.category))

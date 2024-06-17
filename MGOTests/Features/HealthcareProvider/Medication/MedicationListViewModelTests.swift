@@ -98,6 +98,6 @@ final class MedicationListViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(MedicationListViewState.success([statement]) ))
+		expect(self.sut.state).toEventually(equal(MedicationListViewState.success(items: [statement], startOpen: false)))
 	}
 }
