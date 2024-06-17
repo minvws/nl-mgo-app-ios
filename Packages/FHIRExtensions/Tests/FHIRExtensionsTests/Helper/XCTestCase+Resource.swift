@@ -6,7 +6,7 @@
  */
 
 @testable import FHIRExtensions
-import XCTest
+import MGOTest
 
 extension XCTestCase {
 	

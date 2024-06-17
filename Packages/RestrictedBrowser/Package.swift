@@ -18,9 +18,7 @@ let package = Package(
 		.package(name: "Theme", path: "../Theme"),
 		
 		// Test
-		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.16.0"),
-		.package(url: "https://github.com/Quick/Nimble", from: "13.3.0"),
-		.package(url: "https://github.com/nalexn/ViewInspector", exact: "0.9.11")
+		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		.target(
@@ -33,9 +31,7 @@ let package = Package(
 			name: "RestrictedBrowserTests",
 			dependencies: [
 				"RestrictedBrowser",
-				.product(name: "Nimble", package: "Nimble"),
-				.product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
-				.product(name: "ViewInspector", package: "ViewInspector")
+				.product(name: "MGOTest", package: "MGOTest")
 			])
 	]
 )

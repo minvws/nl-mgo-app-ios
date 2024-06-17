@@ -1,23 +1,24 @@
 {
   "images" : [
     {
-      "filename" : "digid_eo_rgb_500px 1.png",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename" : "Logo_of_DigiD.svg",
+      "idiom" : "universal"
     },
     {
-      "filename" : "digid_eo_rgb_500px 1@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "digid_eo_rgb_500px 1@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }

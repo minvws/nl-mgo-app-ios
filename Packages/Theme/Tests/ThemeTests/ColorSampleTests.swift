@@ -7,9 +7,7 @@
 
 @testable import Theme
 import SwiftUI
-import XCTest
-import Nimble
-import SnapshotTesting
+import MGOTest
 
 final class ColorSampleTests: XCTestCase {
 	

@@ -22,10 +22,15 @@ public struct LoadingCardView: View {
 	/// The title of the loading card
 	private var title: LocalizedStringKey
 	
+	/// Should we show the border?
+	private var showBorder: Bool
+	
 	/// Initializer
 	/// - Parameter title: the title for the card
-	public init( title: LocalizedStringKey) {
+	/// - Parameter showBorder: Should we show the border?
+	public init( title: LocalizedStringKey, showBorder: Bool = true) {
 		self.title = title
+		self.showBorder = showBorder
 	}
 	
 	/// Progress for the spinner
@@ -57,7 +62,10 @@ public struct LoadingCardView: View {
 			.onAppear(perform: {
 				progress = 1
 			})
-			.cardify()
+			.if(showBorder, transform: { view in
+				view
+					.cardify()
+			})
 			.frame(width: geometry.size.width, height: geometry.size.width) // Make the view square
 		}
 	}

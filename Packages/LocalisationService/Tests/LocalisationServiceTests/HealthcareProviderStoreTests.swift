@@ -6,8 +6,7 @@
  */
 
 @testable import LocalisationService
-import XCTest
-import Nimble
+import MGOTest
 
 final class HealthcareProviderStoreTests: XCTestCase {
 	

@@ -16,19 +16,35 @@ class AppIntroductionViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case nextButttonPressed
+		case closeToast
+		case onDisappear
 	}
+	
+	/// Any toast to display?
+	@Published var toast: Toast?
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)?) {
+	init(coordinator: (any Coordinator)?, showAccountDeletedToast: Bool = false) {
 		self.coordinator = coordinator
+		
+		if showAccountDeletedToast {
+			toast = Toast(
+				title: String(localized: "toast_accountRemoved_title"),
+				subtitle: String(localized: "toast_accountRemoved_subtitle"),
+				type: .success
+			)
+		}
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	func reduce(_ action: AppIntroductionViewModel.Action) {
-		if action == .nextButttonPressed {
-			coordinator?.handle(Coordination.Action.nextButtonPressedOnAppIntroduction)
+		switch action {
+			case .nextButttonPressed:
+				coordinator?.handle(Coordination.Action.nextButtonPressedOnAppIntroduction)
+			case .closeToast, .onDisappear:
+				toast = nil
 		}
 	}
 }
@@ -65,6 +81,9 @@ struct AppIntroductionView: View {
 		enum Navigation {
 			static let padding: CGFloat = 8
 		}
+		enum Toast {
+			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 24, trailing: 16)
+		}
 	}
 	
 	var body: some View {
@@ -72,6 +91,18 @@ struct AppIntroductionView: View {
 		ScrollViewWithFixedBottom {
 			
 			VStack(alignment: .leading, spacing: 0) {
+				
+				if let toast = viewModel.toast {
+					
+					ToastView(toast) {
+						// User pressed on the close button
+						withAnimation {
+							viewModel.reduce(.closeToast)
+						}
+					}
+					.padding(ViewTraits.Toast.insets)
+				}
+				
 				if showImage {
 					HStack {
 						Spacer()
@@ -90,6 +121,7 @@ struct AppIntroductionView: View {
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.padding(ViewTraits.Title.insets)
 					.accessibilityAddTraits(.isHeader)
+					.fixedSize(horizontal: false, vertical: true)
 				
 				SplittedText(key: "onboarding_body", spacing: ViewTraits.Text.spacing)
 					.rijksoverheidStyle(font: .regular, style: .body)
@@ -118,17 +150,21 @@ struct AppIntroductionView: View {
 			CallToActionButton("onboarding_action") {
 				viewModel.reduce(.nextButttonPressed)
 			}
+			.tag("onboarding_action")
 			.padding(ViewTraits.Button.padding)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
 		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.onDisappear {
+			viewModel.reduce(.onDisappear)
+		}
 	}
 }
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: nil))
+		AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: nil, showAccountDeletedToast: true))
 	}
 }

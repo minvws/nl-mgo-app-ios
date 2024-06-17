@@ -6,10 +6,7 @@
  */
 
 @testable import MGORepository
-import XCTest
-import Nimble
-import OHHTTPStubs
-import OHHTTPStubsSwift
+import MGOTest
 import FHIRClient
 
 final class LaboratoryTestResultsRepositoryTests: XCTestCase {

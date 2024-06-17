@@ -6,8 +6,7 @@
 */
 
 @testable import LocalisationService
-import XCTest
-import Nimble
+import MGOTest
 
 class ObservatoryTests: XCTestCase {
 	typealias Value = String

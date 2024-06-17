@@ -160,7 +160,11 @@ struct LabResultsListView: View {
 				switch viewModel.state {
 					case .loading:
 			
-						LoadingCardView(title: "launch_loading")
+						Spacer()
+						LoadingCardView(
+							title: "launch_loading",
+							showBorder: false
+						)
 				
 					case .empty:
 						

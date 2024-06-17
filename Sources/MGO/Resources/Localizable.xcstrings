@@ -739,13 +739,35 @@
         }
       }
     },
+    "forgot_alert_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je account wordt hierdoor verwijderd. Je dossiers blijven wel bewaard bij je zorgaanbieders."
+          }
+        }
+      }
+    },
+    "forgot_alert_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weet je zeker dat je een nieuw account wilt maken?"
+          }
+        }
+      }
+    },
     "forgot_body" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dat kan gebeuren. Je kunt je toegangscode helaas niet meer wijzigen.\n\nJe kunt wel een nieuw account aanmaken. Hiervoor maak je een nieuwe toegangscode aan en log je in met DigiD."
+            "value" : "Je kunt wel een nieuwe toegangscode instellen als je een nieuw account aanmaakt."
           }
         }
       }
@@ -756,7 +778,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ben je je toegangscode vergeten?"
+            "value" : "Je kunt je toegangscode niet aanpassen"
           }
         }
       }
@@ -816,6 +838,17 @@
         }
       }
     },
+    "general_no" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nee"
+          }
+        }
+      }
+    },
     "general_nodata_body" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -867,6 +900,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Niet bekend"
+          }
+        }
+      }
+    },
+    "general_yes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja"
           }
         }
       }
@@ -1075,7 +1119,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aan het laden"
+            "value" : "Aan het laden..."
           }
         }
       }
@@ -1794,6 +1838,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Overzicht"
+          }
+        }
+      }
+    },
+    "toast_accountRemoved_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hieronder kun je een nieuw account aanmaken"
+          }
+        }
+      }
+    },
+    "toast_accountRemoved_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je account is verwijderd"
           }
         }
       }

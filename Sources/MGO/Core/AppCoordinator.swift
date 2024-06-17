@@ -51,7 +51,7 @@ extension Coordination.Action {
 	static let recreateAccount = Coordination.Action(identifier: "recreateAccount")
 	
 	// Remote Authentication
-	static let loginWithDigiD = Coordination.Action(identifier: "loginWithDigiD")
+	static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
 	
 	// Healthcare Provider flow
 	static let search = Coordination.Action(identifier: "search")
@@ -72,7 +72,7 @@ enum AppCoordination {
 		case launch
 		
 		// Onboarding
-		case appIntroduction
+		case appIntroduction(recreated: Bool)
 		case privacyOverview
 		case privacyStatement
 		
@@ -182,7 +182,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				handleAccessCodeConfirmed()
 				
 			case Coordination.Action.accessCodeValidated.identifier:
-				handleAccessCodeValidated()
+				showChildCoordinator = true
 				
 			case Coordination.Action.didFinishLocalAuthentication.identifier:
 				path.append(AppCoordination.State.remoteAuthentication)
@@ -197,15 +197,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				}
 				// Wipe Account
 				Current.wipePersistedData()
-				Current.secureUserSettings.userHasSeenAppIntroduction = true
-				path = NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
+				path = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction(recreated: true)])
 				
 				// Remote Authentication
 				
-			case Coordination.Action.loginWithDigiD.identifier:
+			case Coordination.Action.loggedInWithDigiD.identifier:
 				
 				Current.secureUserSettings.userHasRemoteAuthentication = true
-				path.append(AppCoordination.State.searchHealthcareProvider)
+				showChildCoordinator = true
 				
 			// Healthcare Provider flow
 			
@@ -256,24 +255,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		if !Current.secureUserSettings.userHasSeenAppIntroduction {
 			// Only show the appIntroduction once
-			path.append(AppCoordination.State.appIntroduction)
+			path.append(AppCoordination.State.appIntroduction(recreated: false))
 		} else if Current.secureUserSettings.accessCode == nil {
 			// User must set an access code
 			path.append(AppCoordination.State.accessCodeEntry)
 		} else {
 			// Repeat login, user must authenticate with access code
 			path.append(AppCoordination.State.accessCodeValidation)
-		}
-	}
-	
-	/// Handle the access code validated state
-	private func handleAccessCodeValidated() {
-		
-		if !Current.secureUserSettings.userHasAddedHealthcareProvider {
-			// User must add at least once a healthcare provider
-			path.append(AppCoordination.State.searchHealthcareProvider)
-		} else {
-			showChildCoordinator = true
 		}
 	}
 	
@@ -313,8 +301,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			// Onboarding
 				
-			case .appIntroduction:
-				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self))
+			case let .appIntroduction(recreated):
+				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self, showAccountDeletedToast: recreated))
 				
 			case .privacyOverview:
 				PrivacyOverviewView(viewModel: PrivacyOverviewViewModel(coordinator: self))

@@ -10,10 +10,18 @@ import SwiftUI
 /// Make a view look like a card
 public struct Cardify: ViewModifier {
 	
+	/// The general padding around the card
+	public var padding: CGFloat
+	
+	/// The line color
+	public var lineColor: Color
+	
+	/// Should we set a background
+	public var setBackground: Bool
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Card {
-			static let spacing: CGFloat = 16
 			static let radius: CGFloat = 8
 			static let inset: CGFloat = 0.5
 		}
@@ -25,13 +33,15 @@ public struct Cardify: ViewModifier {
 	public func body(content: Content) -> some View {
 		
 		content
-			.padding(ViewTraits.Card.spacing)
-			.background(theme.backgroundSecondary)
+			.padding(padding)
+			.if(setBackground, transform: { view in
+				view.background(theme.backgroundSecondary)
+			})
 			.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
 			.overlay(
 				RoundedRectangle(cornerRadius: ViewTraits.Card.radius)
 					.inset(by: ViewTraits.Card.inset)
-					.stroke(theme.linesPrimary, lineWidth: 1)
+					.stroke(lineColor, lineWidth: 1)
 			)
 	}
 }
@@ -40,7 +50,7 @@ extension View {
 	
 	/// Make the view look like a card
 	/// - Returns: card like view.
-	public func cardify() -> some View {
-		modifier(Cardify())
+	public func cardify(padding: CGFloat = 16, lineColor: Color = Theme().linesPrimary, setBackground: Bool = true) -> some View {
+		modifier(Cardify(padding: padding, lineColor: lineColor, setBackground: setBackground))
 	}
 }
