@@ -915,6 +915,39 @@
         }
       }
     },
+    "healthcare_organisation.remove.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieder verwijderen"
+          }
+        }
+      }
+    },
+    "healthcare_organisation.remove.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder niet meer tonen in de app"
+          }
+        }
+      }
+    },
+    "healthcare_organisation.setting.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen"
+          }
+        }
+      }
+    },
     "hpdetails_diagnoses_body" : {
       "extractionState" : "manual",
       "localizations" : {

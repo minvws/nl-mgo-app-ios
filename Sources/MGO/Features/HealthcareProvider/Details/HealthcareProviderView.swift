@@ -25,6 +25,7 @@ class HealthcareProviderViewModel: ObservableObject {
 		case showMedication
 		case showProblems
 		case showResults
+		case removeHealthcareProvider
 	}
 	
 	/// Intitializer
@@ -58,6 +59,12 @@ class HealthcareProviderViewModel: ObservableObject {
 					identifier: "showLabResults",
 					params: ["healthcareProvider": healthcareProvider])
 				)
+	
+			case .removeHealthcareProvider:
+				coordinator?.handle(Coordination.Action(
+					identifier: "removeHealthcareOrganisation",
+					params: ["healthcareOrganisation": healthcareProvider])
+			)
 		}
 	}
 }
@@ -88,7 +95,7 @@ struct HealthcareProviderView: View {
 		
 		ScrollView {
 			
-			VStack(spacing: ViewTraits.General.padding) {
+			VStack(alignment: .leading, spacing: ViewTraits.General.padding) {
 				
 				Group {
 					
@@ -156,6 +163,28 @@ struct HealthcareProviderView: View {
 					}
 				}
 				.padding(.top, ViewTraits.List.top)
+				
+				Text("healthcare_organisation.setting.title")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentTertiary)
+					.padding(.horizontal, ViewTraits.General.padding)
+					.padding(.top, ViewTraits.List.top)
+				
+				ZStack {
+					Rectangle()
+						.foregroundStyle(.clear)
+						.accessibilityLabel("healthcare_organisation.remove.heading")
+						.accessibilityAddTraits(.isButton)
+					
+						ActionCardView(
+							title: "healthcare_organisation.remove.heading",
+							message: "healthcare_organisation.remove.subheading",
+							icon: .remove,
+							perform: {
+								viewModel.reduce(.removeHealthcareProvider)
+							}
+						)
+				}
 			}
 			
 		}

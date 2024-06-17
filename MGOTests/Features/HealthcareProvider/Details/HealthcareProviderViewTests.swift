@@ -39,5 +39,4 @@ final class HealthcareProviderViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-
 }
