@@ -65,20 +65,10 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	}
 }
 
-//#Preview {
-//	AppCoordinatorView<AppCoordinator>(
-//		appCoordinator: AppCoordinator(
-//			path: NavigationStackBackport.NavigationPath()
-//		)
-//	)
-//}
 #Preview {
-	
-	NotificationCardView(
-		icon: Image(systemName: "stethoscope"),
-		title: "title",
-		message: "message"
+	AppCoordinatorView<AppCoordinator>(
+		appCoordinator: AppCoordinator(
+			path: NavigationStackBackport.NavigationPath()
+		)
 	)
-	.padding(16)
 }
-
