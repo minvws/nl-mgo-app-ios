@@ -6,8 +6,7 @@
  */
 
 @testable import MGORepository
-import XCTest
-import Nimble
+import MGOTest
 
 final class MedicationUseDecoratorTests: XCTestCase {
 	

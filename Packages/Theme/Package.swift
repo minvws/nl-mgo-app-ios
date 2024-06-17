@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "Theme",
-	platforms: [.iOS(.v13)],
+	platforms: [.iOS(.v15)],
 	products: [
 		.library(
 			name: "Theme",
@@ -14,8 +14,7 @@ let package = Package(
 	],
 	dependencies: [
 		// Testing
-		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0"),
-		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.16.0")
+		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		.target(
@@ -26,8 +25,7 @@ let package = Package(
 			name: "ThemeTests",
 			dependencies: [
 				"Theme",
-				.product(name: "Nimble", package: "Nimble"),
-				.product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+				.product(name: "MGOTest", package: "MGOTest")
 			]
 		)
 	]

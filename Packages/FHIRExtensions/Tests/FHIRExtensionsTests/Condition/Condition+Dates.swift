@@ -5,8 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import XCTest
-import Nimble
+import MGOTest
 @testable import FHIRExtensions
 
 final class ConditionDatesTests: XCTestCase {

@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "ReusableUI",
-	platforms: [.iOS(.v14)],
+	platforms: [.iOS(.v15)],
 	products: [
 		// Products define the executables and libraries a package produces, making them visible to other packages.
 		.library(
@@ -18,9 +18,7 @@ let package = Package(
 		.package(name: "RijksoverheidFont", path: "../RijksoverheidFont"),
 		
 		// Testing:
-		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.16.0"),
-		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0"),
-		.package(url: "https://github.com/nalexn/ViewInspector", exact: "0.9.11")
+		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		// Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -37,9 +35,7 @@ let package = Package(
 			name: "ReusableUITests",
 			dependencies: [
 				"ReusableUI",
-				.product(name: "Nimble", package: "Nimble"),
-				.product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
-				.product(name: "ViewInspector", package: "ViewInspector")
+				.product(name: "MGOTest", package: "MGOTest")
 			]
 		)
 	]

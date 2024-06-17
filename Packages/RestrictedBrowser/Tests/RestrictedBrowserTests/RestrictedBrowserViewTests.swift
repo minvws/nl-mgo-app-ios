@@ -5,12 +5,9 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import XCTest
-import Nimble
+import MGOTest
 @testable import RestrictedBrowser
-import SnapshotTesting
 import SwiftUI
-import ViewInspector
 
 final class RestrictedBrowserViewTests: XCTestCase {
 	

@@ -5,10 +5,8 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import XCTest
 @testable import RijksoverheidFont
-import Nimble
-import SnapshotTesting
+import MGOTest
 import SwiftUI
 
 final class RijksoverheidFontTests: XCTestCase {

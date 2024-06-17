@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "RijksoverheidFont",
-	platforms: [.iOS(.v14)],
+	platforms: [.iOS(.v15)],
 	products: [
 		.library(
 			name: "RijksoverheidFont",
@@ -17,8 +17,7 @@ let package = Package(
 		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.4.0"),
 		
 		// Testing
-		.package(url: "https://github.com/Quick/Nimble", exact: "13.3.0"),
-		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.16.0")
+		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		.target(
@@ -32,8 +31,7 @@ let package = Package(
 			name: "RijksoverheidFontTests",
 			dependencies: [
 				"RijksoverheidFont",
-				.product(name: "Nimble", package: "Nimble"),
-				.product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+				.product(name: "MGOTest", package: "MGOTest")
 			]
 		)
 	]
