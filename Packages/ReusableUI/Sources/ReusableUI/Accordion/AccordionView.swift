@@ -86,11 +86,11 @@ public struct AccordionView<Content: View>: View {
 	
 	VStack {
 		AccordionView(title: "First section", startOpen: true) {
-			Text("Details First Section. Starts expanded.")
+			Text(verbatim: "Details First Section. Starts expanded.")
 		}
 		
 		AccordionView(title: "Second section") {
-			Text("Details Second Section. Starts collapsed.")
+			Text(verbatim: "Details Second Section. Starts collapsed.")
 		}
 	}
 }
