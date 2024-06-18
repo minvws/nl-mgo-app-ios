@@ -1366,6 +1366,28 @@
         }
       }
     },
+    "overview.toast_removal.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ verwijderd"
+          }
+        }
+      }
+    },
+    "overview.toast_removal.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kan deze zorgaanbieder altijd weer toevoegen"
+          }
+        }
+      }
+    },
     "privacy_statement" : {
       "extractionState" : "manual",
       "localizations" : {
