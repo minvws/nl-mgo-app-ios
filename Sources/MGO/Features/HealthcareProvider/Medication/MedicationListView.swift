@@ -13,7 +13,7 @@ enum MedicationListViewState: Equatable {
 	case loading
 	case failure
 	case empty
-	case success([MgoMedicationUse])
+	case success(items: [MgoMedicationUse], startOpen: Bool)
 
 	static func == (lhs: MedicationListViewState, rhs: MedicationListViewState) -> Bool {
 		switch (lhs, rhs) {
@@ -27,9 +27,10 @@ enum MedicationListViewState: Equatable {
 			case (.empty, .empty):
 				return true
 			
-			case let(.success(lhsList), .success(rhsList)):
+			case let(.success(lhsList, lhsOpen), .success(rhsList, rhsOpen)):
 			
 				guard lhsList.count == rhsList.count else { return false }
+				guard lhsOpen == rhsOpen else { return false }
 				var result = true
 				for index in lhsList.indices {
 					result = result && lhsList[index] == rhsList[index]
@@ -56,6 +57,9 @@ class MedicationListViewModel: ObservableObject {
 	/// The repository for Medication Use
 	private var medicationUseRepository: MedicationUseRepository!
 	
+	/// Should we start with the first item open?
+	private var startOpen: Bool
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case onAppear
@@ -67,11 +71,14 @@ class MedicationListViewModel: ObservableObject {
 	init(
 		coordinator: (any Coordinator)? = nil,
 		healthcareProvider: HealthcareProvider,
-		repository: MedicationUseRepository? = FHIRClient()
+		repository: MedicationUseRepository? = FHIRClient(),
+		startOpen: Bool = false
+		
 	) {
 		
 		self.coordinator = coordinator
 		self.healthcareProvider = healthcareProvider
+		self.startOpen = startOpen
 		
 		if let unwrapped = repository {
 			self.medicationUseRepository = unwrapped
@@ -104,7 +111,7 @@ class MedicationListViewModel: ObservableObject {
 			if usage.isEmpty {
 				state = .empty
 			} else {
-				state = .success(usage)
+				state = .success(items: usage, startOpen: startOpen)
 			}
 		} catch {
 			logError("Client read error: \(String(describing: error))")
@@ -182,10 +189,10 @@ struct MedicationListView: View {
 							message: "general_failure_body"
 						)
 					
-					case .success(let medicationStatements):
+					case let .success(medicationStatements, startOpen):
 						
 						ForEach(medicationStatements, id: \.self) { statement in
-							MedicationDetailView(statement: statement)
+							MedicationDetailView(statement: statement, startOpen: startOpen && statement == medicationStatements.first)
 						}
 				}
 				

@@ -13,6 +13,9 @@ struct ProblemDetailView: View {
 	/// The  concern
 	var concern: MgoConcern
 	
+	/// Should we start in an open State?
+	var startOpen: Bool
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum List {
@@ -21,46 +24,20 @@ struct ProblemDetailView: View {
 	}
 	
 	var body: some View {
-		AccordionView(title: Sanitizer.strip(concern.title) ?? "") {
+		AccordionView(title: Sanitizer.strip(concern.title) ?? "", startOpen: startOpen) {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
-				if let conditionType = concern.category {
-					DetailRow(
-						title: "condition_details_type",
-						content: conditionType
-					)
-				}
+				DetailRow(title: "condition_details_type", content: Sanitizer.strip(concern.category))
 				
-				if let status = concern.clinicalStatus {
-					DetailRow(
-						title: "condition_details_status",
-						content: status
-					)
-				}
-		
-				DetailRow(
-					title: "condition_details_startdate",
-					content: Sanitizer.strip(concern.startDate) ?? String(localized: "general_unknown")
-				)
+				DetailRow(title: "condition_details_status", content: Sanitizer.strip(concern.clinicalStatus))
 				
-				DetailRow(
-					title: "condition_details_enddate",
-					content: Sanitizer.strip(concern.endDate) ?? String(localized: "general_unknown")
-				)
+				DetailRow(title: "condition_details_startdate", content: Sanitizer.strip(concern.startDate))
 				
-				if let location = Sanitizer.strip(concern.bodyLocation) {
-					DetailRow(
-						title: "condition_details_location",
-						content: location
-					)
-				}
+				DetailRow(title: "condition_details_enddate", content: Sanitizer.strip(concern.endDate))
 				
-				if let noteText = Sanitizer.strip(concern.comment) {
-					DetailRow(
-						title: "condition_details_note",
-						content: noteText
-					)
-				}
+				DetailRow(title: "condition_details_location", content: Sanitizer.strip(concern.bodyLocation))
+				
+				DetailRow(title: "condition_details_note", content: Sanitizer.strip(concern.comment))
 			}
 		}
 	}

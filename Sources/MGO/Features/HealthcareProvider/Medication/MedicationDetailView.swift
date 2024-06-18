@@ -13,6 +13,9 @@ struct MedicationDetailView: View {
 	/// The medication use
 	var statement: MgoMedicationUse
 	
+	/// Should we start in an open State?
+	var startOpen: Bool
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum List {
@@ -22,20 +25,16 @@ struct MedicationDetailView: View {
 	
 	var body: some View {
 		
-		AccordionView(title: Sanitizer.strip(statement.title) ?? "") {
+		AccordionView(title: Sanitizer.strip(statement.title) ?? "", startOpen: startOpen) {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
-				if let dosageText = Sanitizer.strip(statement.instructions) {
-					DetailRow(title: "medication_details_dosage", content: dosageText)
-				}
-				if let startDate = Sanitizer.strip(statement.startDate) {
-					DetailRow(title: "medication_details_startdate", content: startDate)
-				}
-				if let prescriber = Sanitizer.strip(statement.prescribedBy) {
-					DetailRow(title: "medication_details_prescriber", content: prescriber)
-				}
-				if let printDescription = Sanitizer.strip(statement.status) {
-					DetailRow(title: "medication_details_status", content: printDescription)
-				}
+				
+				DetailRow(title: "medication_details_dosage", content: Sanitizer.strip(statement.instructions))
+				
+				DetailRow(title: "medication_details_startdate", content: Sanitizer.strip(statement.startDate))
+				
+				DetailRow(title: "medication_details_prescriber", content: Sanitizer.strip(statement.prescribedBy))
+				
+				DetailRow(title: "medication_details_status", content: Sanitizer.strip(statement.status))
 			}
 		}
 	}

@@ -13,7 +13,7 @@ public struct DetailRow: View {
 	private var title: LocalizedStringKey
 	
 	/// The content of the detail row
-	private var content: String
+	private var content: String?
 	
 	/// The Theme
 	@Environment(\.theme) private var theme
@@ -22,7 +22,7 @@ public struct DetailRow: View {
 	/// - Parameters:
 	///   - title: the title of the view
 	///   - content: the body of the view
-	public init(title: LocalizedStringKey, content: String) {
+	public init(title: LocalizedStringKey, content: String?) {
 		self.title = title
 		self.content = content
 	}
@@ -37,7 +37,7 @@ public struct DetailRow: View {
 				.foregroundColor(theme.contentTertiary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 			
-			Text(content)
+			Text(content ?? "")
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundColor(theme.contentPrimary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)

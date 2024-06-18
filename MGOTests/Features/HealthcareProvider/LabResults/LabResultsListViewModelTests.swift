@@ -85,7 +85,7 @@ final class LabResultsListViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(LabResultsListViewState.failure))
 	}
 
-	func test_loadResuls_result() {
+	func test_loadResults_result() {
 
 		// Given
 		let labResult = Generator.labResult()
@@ -97,6 +97,6 @@ final class LabResultsListViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(LabResultsListViewState.success([labResult])))
+		expect(self.sut.state).toEventually(equal(LabResultsListViewState.success(items: [labResult], startOpen: false)))
 	}
 }

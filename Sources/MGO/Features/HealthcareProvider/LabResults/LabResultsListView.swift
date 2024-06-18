@@ -13,7 +13,7 @@ enum LabResultsListViewState: Equatable {
 	case loading
 	case failure
 	case empty
-	case success([MgoLaboratoryTestResult])
+	case success(items: [MgoLaboratoryTestResult], startOpen: Bool)
 	
 	static func == (lhs: LabResultsListViewState, rhs: LabResultsListViewState) -> Bool {
 		switch (lhs, rhs) {
@@ -27,9 +27,10 @@ enum LabResultsListViewState: Equatable {
 			case (.empty, .empty):
 				return true
 			
-			case let(.success(lhsList), .success(rhsList)):
+			case let(.success(lhsList, lhsOpen), .success(rhsList, rhsOpen)):
 				
 				guard lhsList.count == rhsList.count else { return false }
+				guard lhsOpen == rhsOpen else { return false }
 				var result = true
 				for index in lhsList.indices {
 					result = result && lhsList[index] == rhsList[index]
@@ -56,6 +57,9 @@ class LabResultsListViewModel: ObservableObject {
 	/// The repository for Concerns
 	private var laboratoryTestResultRepository: LaboratoryTestResultRepository!
 	
+	/// Should we start with the first item open?
+	private var startOpen: Bool
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case onAppear
@@ -67,11 +71,13 @@ class LabResultsListViewModel: ObservableObject {
 	init(
 		coordinator: (any Coordinator)? = nil,
 		healthcareProvider: HealthcareProvider,
-		repository: LaboratoryTestResultRepository? = FHIRClient()
+		repository: LaboratoryTestResultRepository? = FHIRClient(),
+		startOpen: Bool = false
 	) {
 
 		self.coordinator = coordinator
 		self.healthcareProvider = healthcareProvider
+		self.startOpen = startOpen
 		
 		if let unwrapped = repository {
 			self.laboratoryTestResultRepository = unwrapped
@@ -104,7 +110,7 @@ class LabResultsListViewModel: ObservableObject {
 			if results.isEmpty {
 				state = .empty
 			} else {
-				state = .success(results)
+				state = .success(items: results, startOpen: startOpen)
 			}
 		} catch {
 			logError("Client read error: \(String(describing: error))")
@@ -182,9 +188,9 @@ struct LabResultsListView: View {
 							message: "general_failure_body"
 						)
 				
-					case .success(let results):
+					case let .success(results, startOpen):
 						ForEach(results, id: \.self) { result in
-							LabResultsDetailView(result: result)
+							LabResultsDetailView(result: result, startOpen: startOpen && result == results.first)
 						}
 				}
 				
