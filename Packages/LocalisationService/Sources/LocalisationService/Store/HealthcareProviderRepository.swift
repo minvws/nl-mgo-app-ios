@@ -116,7 +116,8 @@ public class HealthcareProviderRepository: HealthcareProviderRepositoryProtocol 
 		logInfo("About to delete \(provider.display_name)")
 		providers = providers.filter { $0 != provider }
 		observers(true)
-		removalObservers(provider)
+		#warning("Removal notification disabled.")
+//		removalObservers(provider)
 		try persistToStorage()
 	}
 	
