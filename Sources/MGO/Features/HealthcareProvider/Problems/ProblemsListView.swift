@@ -211,7 +211,7 @@ struct ProblemsListView: View {
 		ProblemsListView(
 			viewModel: ProblemsListViewModel(
 				coordinator: nil,
-				healthcareProvider: PreviewContent.healthcareOrganisation
+				healthcareProvider: PreviewContent.healthcareOrganization
 			)
 		)
 	}

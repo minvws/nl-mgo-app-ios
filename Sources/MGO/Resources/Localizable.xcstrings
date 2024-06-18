@@ -1322,6 +1322,50 @@
         }
       }
     },
+    "organization.confirm_delete.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ verwijderen?"
+          }
+        }
+      }
+    },
+    "organization.confirm_delete.no_label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nee, annuleren"
+          }
+        }
+      }
+    },
+    "organization.confirm_delete.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daarmee verwijder je deze gegevens uit de app. Je gegevens blijven altijd bewaard bij de zorgaanbieder zelf. Je kunt %@ later altijd weer toevoegen aan de app."
+          }
+        }
+      }
+    },
+    "organization.confirm_delete.yes_label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja, verwijderen"
+          }
+        }
+      }
+    },
     "privacy_statement" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1497,50 +1541,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bewijs wie je bent"
-          }
-        }
-      }
-    },
-    "remove_healthcare_organisation.cancel_button.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nee, annuleren"
-          }
-        }
-      }
-    },
-    "remove_healthcare_organisation.page.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ verwijderen?"
-          }
-        }
-      }
-    },
-    "remove_healthcare_organisation.page.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Daarmee verwijder je deze gegevens uit de app. Je gegevens blijven altijd bewaard bij de zorgaanbieder zelf. Je kunt %@ later altijd weer toevoegen aan de app."
-          }
-        }
-      }
-    },
-    "remove_healthcare_organisation.remove_button.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ja, verwijderen"
           }
         }
       }

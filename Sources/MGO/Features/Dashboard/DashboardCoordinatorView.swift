@@ -15,6 +15,7 @@ extension Coordination.Action {
 	static let showProblems = Coordination.Action(identifier: "showProblems")
 	static let showMedication = Coordination.Action(identifier: "showMedication")
 	static let showLabResults = Coordination.Action(identifier: "showLabResults")
+	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
 }
 
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
@@ -57,6 +58,7 @@ enum DashboardCoordination {
 		case showProblems(healthcareProvider: HealthcareProvider)
 		case showMedication(healthcareProvider: HealthcareProvider)
 		case showLabResults(healthcareProvider: HealthcareProvider)
+		case removeHealthcareOrganization(healthcareOrganization: HealthcareProvider)
 	}
 }
 
@@ -146,7 +148,17 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
-			
+
+			case Coordination.Action.removeHealthcareOrganization.identifier:
+				if action.params.count == 1,
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareProvider {
+				
+					rootStateForSheet = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: healthcareOrganization)
+					
+				} else {
+					logError("DashboardCoordinator Coordinator, missing params for \(action)")
+				}
+
 			// General
 			
 			case Coordination.Action.closeSheet.identifier:
@@ -196,6 +208,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			
 			case let .showHealthcareProviderDetails(healthcareProvider):
 				HealthcareProviderView(viewModel: HealthcareProviderViewModel(coordinator: self, healthcareProvider: healthcareProvider))
+			
+			case let .removeHealthcareOrganization(healthcareOrganization):
+				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
 			
 			case let .showProblems(healthcareProvider):
 				ProblemsListView(

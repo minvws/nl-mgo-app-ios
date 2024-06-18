@@ -211,7 +211,7 @@ struct LabResultsListView: View {
 		LabResultsListView(
 			viewModel: LabResultsListViewModel(
 				coordinator: nil,
-				healthcareProvider: PreviewContent.healthcareOrganisation
+				healthcareProvider: PreviewContent.healthcareOrganization
 			)
 		)
 	}

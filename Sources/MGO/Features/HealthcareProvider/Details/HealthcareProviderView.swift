@@ -62,8 +62,8 @@ class HealthcareProviderViewModel: ObservableObject {
 	
 			case .removeHealthcareProvider:
 				coordinator?.handle(Coordination.Action(
-					identifier: "removeHealthcareOrganisation",
-					params: ["healthcareOrganisation": healthcareProvider])
+					identifier: "removeHealthcareOrganization",
+					params: ["healthcareOrganization": healthcareProvider])
 			)
 		}
 	}
@@ -204,7 +204,7 @@ struct HealthcareProviderView: View {
 		HealthcareProviderView(
 			viewModel: HealthcareProviderViewModel(
 				coordinator: nil,
-				healthcareProvider: PreviewContent.healthcareOrganisation
+				healthcareProvider: PreviewContent.healthcareOrganization
 			)
 		)
 	}

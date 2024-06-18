@@ -8,49 +8,47 @@
 import MGOFoundation
 import MGOUI
 
-class RemoveHealthcareOrganisationViewModel: ObservableObject {
+class RemoveHealthcareOrganizationViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
 	/// The healthcare provider to display
-	@Published var healthcareProvider: HealthcareProvider
+	@Published var healthcareOrganization: HealthcareProvider
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil, healthcareProvider: HealthcareProvider) {
+	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: HealthcareProvider) {
 		
 		self.coordinator = coordinator
-		self.healthcareProvider = healthcareProvider
+		self.healthcareOrganization = healthcareOrganization
 	}
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case removeOrganisation
+		case removeOrganization
 		case cancel
 		case closeSheet
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: RemoveHealthcareOrganisationViewModel.Action) {
+	func reduce(_ action: RemoveHealthcareOrganizationViewModel.Action) {
 		
 		switch action {
-	
-			case .cancel:
-				break
-			case .removeOrganisation:
-				break
-			case .closeSheet:
-				break
+			case .removeOrganization:
+				try? Current.healthcareProviderStore.remove(healthcareOrganization)
+			
+			case .cancel, .closeSheet:
+				coordinator?.handle(.closeSheet)
 		}
 	}
 }
 
-struct RemoveHealthcareOrganisationView: View {
+struct RemoveHealthcareOrganizationView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: RemoveHealthcareOrganisationViewModel
+	@StateObject var viewModel: RemoveHealthcareOrganizationViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -90,8 +88,8 @@ struct RemoveHealthcareOrganisationView: View {
 				.padding(.bottom, ViewTraits.Image.bottom)
 				
 				Text(String(
-					format: String(localized: "remove_healthcare_organisation.page.heading"),
-					   arguments: ["\(viewModel.healthcareProvider.display_name)"]
+					format: String(localized: "organization.confirm_delete.heading"),
+					   arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 				   ))
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.foregroundStyle(theme.contentPrimary)
@@ -100,8 +98,8 @@ struct RemoveHealthcareOrganisationView: View {
 					.accessibilityAddTraits(.isHeader)
 				
 				Text(String(
-						format: String(localized: "remove_healthcare_organisation.page.subheading"),
-						arguments: ["\(viewModel.healthcareProvider.display_name)"]
+						format: String(localized: "organization.confirm_delete.subheading"),
+						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 					))
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentTertiary)
@@ -113,12 +111,12 @@ struct RemoveHealthcareOrganisationView: View {
 			
 			VStack(spacing: ViewTraits.Button.spacing) {
 				
-				CallToActionButton("remove_healthcare_organisation.remove_button.title", style: .secondary) {
-					viewModel.reduce(.removeOrganisation)
+				CallToActionButton("organization.confirm_delete.yes_label", style: .secondary) {
+					viewModel.reduce(.removeOrganization)
 				}
 				.tag("remove")
 				
-				CallToActionButton("remove_healthcare_organisation.cancel_button.title") {
+				CallToActionButton("organization.confirm_delete.no_label") {
 					viewModel.reduce(.cancel)
 				}
 				.tag("cancel")
@@ -145,10 +143,11 @@ struct RemoveHealthcareOrganisationView: View {
 #Preview {
 	
 	NavigationView {
-		RemoveHealthcareOrganisationView(viewModel: RemoveHealthcareOrganisationViewModel(
-			coordinator: nil,
-			healthcareProvider: PreviewContent.healthcareOrganisation
-		)
+		RemoveHealthcareOrganizationView(
+			viewModel: RemoveHealthcareOrganizationViewModel(
+				coordinator: nil,
+				healthcareOrganization: PreviewContent.healthcareOrganization
+			)
 		)
 	}
 }

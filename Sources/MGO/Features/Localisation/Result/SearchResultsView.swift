@@ -300,7 +300,7 @@ struct SearchResultsView: View {
 	
 	let spy = LocalisationServiceClientSpy()
 	spy.stubbedSearchHealthcareProviders = [
-		PreviewContent.healthcareOrganisation,
+		PreviewContent.healthcareOrganization,
 		HealthcareProvider(
 			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
 			identification_type: "type",

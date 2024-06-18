@@ -212,7 +212,7 @@ struct MedicationListView: View {
 		MedicationListView(
 			viewModel: MedicationListViewModel(
 				coordinator: nil,
-				healthcareProvider: PreviewContent.healthcareOrganisation
+				healthcareProvider: PreviewContent.healthcareOrganization
 			)
 		)
 	}
