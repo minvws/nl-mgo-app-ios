@@ -30,7 +30,7 @@ final class MedicationUseRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let medications = try await client.fetchMedicationUse()
+		let medications = try await client.fetchMedicationUse(dvaTarget: "test")
 
 		// Then
 		await expect(medications).toEventually(haveCount(1))
