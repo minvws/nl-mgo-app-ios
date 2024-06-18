@@ -71,7 +71,8 @@ struct RemoveHealthcareOrganizationView: View {
 		}
 		enum Image {
 			static let size: CFloat = 102
-			static let bottom: CGFloat = 8
+			static let bottom: CGFloat = 16
+			static let top: CGFloat = 8
 		}
 	}
 	
@@ -84,8 +85,13 @@ struct RemoveHealthcareOrganizationView: View {
 				HStack {
 					Spacer()
 					Image(ImageResource.Details.bigTrashcan)
+						.background {
+							Circle()
+								.foregroundStyle(theme.backgroundSecondary)
+						}
 					Spacer()
 				}
+				.padding(.top, ViewTraits.Image.bottom)
 				.padding(.bottom, ViewTraits.Image.bottom)
 				
 				Text(String(
@@ -94,7 +100,6 @@ struct RemoveHealthcareOrganizationView: View {
 				   ))
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.foregroundStyle(theme.contentPrimary)
-					.padding(.bottom, ViewTraits.General.padding)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 				
@@ -103,7 +108,7 @@ struct RemoveHealthcareOrganizationView: View {
 						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 					))
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentTertiary)
+					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
