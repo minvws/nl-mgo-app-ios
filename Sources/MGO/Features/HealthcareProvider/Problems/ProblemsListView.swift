@@ -13,7 +13,7 @@ enum ProblemsListViewState: Equatable {
 	case loading
 	case failure
 	case empty
-	case success([MgoConcern])
+	case success(items: [MgoConcern], startOpen: Bool)
 	
 	static func == (lhs: ProblemsListViewState, rhs: ProblemsListViewState) -> Bool {
 		switch (lhs, rhs) {
@@ -27,9 +27,10 @@ enum ProblemsListViewState: Equatable {
 			case (.empty, .empty):
 				return true
 				
-			case let(.success(lhsList), .success(rhsList)):
-				
+			case let(.success(lhsList, lhsOpen), .success(rhsList, rhsOpen)):
+		
 				guard lhsList.count == rhsList.count else { return false }
+				guard lhsOpen == rhsOpen else { return false }
 				var result = true
 				for index in lhsList.indices {
 					result = result && lhsList[index] == rhsList[index]
@@ -56,6 +57,9 @@ class ProblemsListViewModel: ObservableObject {
 	/// The repository for Concerns
 	private var concernRepository: ConcernRepository!
 	
+	/// Should we start with the first item open?
+	private var startOpen: Bool
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case onAppear
@@ -67,11 +71,13 @@ class ProblemsListViewModel: ObservableObject {
 	init(
 		coordinator: (any Coordinator)? = nil,
 		healthcareProvider: HealthcareProvider,
-		repository: ConcernRepository? = FHIRClient()
+		repository: ConcernRepository? = FHIRClient(),
+		startOpen: Bool = false
 	) {
 
 		self.coordinator = coordinator
 		self.healthcareProvider = healthcareProvider
+		self.startOpen = startOpen
 		
 		if let unwrapped = repository {
 			self.concernRepository = unwrapped
@@ -104,7 +110,7 @@ class ProblemsListViewModel: ObservableObject {
 			if concerns.isEmpty {
 				state = .empty
 			} else {
-				state = .success(concerns)
+				state = .success(items: concerns, startOpen: startOpen)
 			}
 		} catch {
 			logError("Client read error: \(String(describing: error))")
@@ -182,9 +188,9 @@ struct ProblemsListView: View {
 							message: "general_failure_body"
 						)
 				
-					case .success(let concerns):
+					case let .success(concerns, startOpen):
 						ForEach(concerns, id: \.self) { concern in
-							ProblemDetailView(concern: concern)
+							ProblemDetailView(concern: concern, startOpen: startOpen && concern == concerns.first)
 						}
 				}
 				

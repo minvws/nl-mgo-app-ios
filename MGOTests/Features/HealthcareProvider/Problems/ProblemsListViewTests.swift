@@ -70,7 +70,20 @@ final class ProblemsListViewTests: XCTestCase {
 		
 		// Given
 		let concern = Generator.concern()
-		viewModel.state = .success([concern, concern, concern])
+		viewModel.state = .success(items: [concern, concern, concern], startOpen: false)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_stateList_startOpen() {
+		
+		// Given
+		let concern = Generator.concern()
+		viewModel.state = .success(items: [concern, concern, concern], startOpen: true)
 		
 		// When
 		let content = NavigationView { sut }

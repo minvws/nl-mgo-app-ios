@@ -70,7 +70,20 @@ final class LabResultsListViewTests: XCTestCase {
 		
 		// Given
 		let labResult = Generator.labResult()
-		viewModel.state = .success([labResult, labResult, labResult])
+		viewModel.state = .success(items: [labResult, labResult, labResult], startOpen: false)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_stateList_startOpen() {
+		
+		// Given
+		let labResult = Generator.labResult()
+		viewModel.state = .success(items: [labResult, labResult, labResult], startOpen: true)
 		
 		// When
 		let content = NavigationView { sut }
