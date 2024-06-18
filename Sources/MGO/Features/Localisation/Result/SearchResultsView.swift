@@ -300,23 +300,7 @@ struct SearchResultsView: View {
 	
 	let spy = LocalisationServiceClientSpy()
 	spy.stubbedSearchHealthcareProviders = [
-		HealthcareProvider(
-			display_name: "Tandarts Tandje Erbij",
-			identification_type: "type",
-			identification_value: "1",
-			active: true,
-			addresses: [Components.Schemas.Address(
-				active: true,
-				address: "Boorplatform 5",
-				city: "Roermond",
-				lines: ["Boorplatform 5"],
-				postalcode: "1234AB",
-				_type: "postal")
-			],
-			names: [],
-			types: [],
-			data_services: []
-		),
+		PreviewContent.healthcareOrganisation,
 		HealthcareProvider(
 			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
 			identification_type: "type",

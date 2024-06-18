@@ -211,23 +211,7 @@ struct ProblemsListView: View {
 		ProblemsListView(
 			viewModel: ProblemsListViewModel(
 				coordinator: nil,
-				healthcareProvider: HealthcareProvider(
-					display_name: "Tandarts Tandje Erbij",
-					identification_type: "type",
-					identification_value: "1",
-					active: true,
-					addresses: [Components.Schemas.Address(
-						active: true,
-						address: "Boorplatform 5",
-						city: "Roermond",
-						lines: ["Boorplatform 5"],
-						postalcode: "1234AB",
-						_type: "postal")
-					],
-					names: [],
-					types: [Components.Schemas.CType(code: "01", display_name: "Tandarts", _type: "")],
-					data_services: []
-				)
+				healthcareProvider: PreviewContent.healthcareOrganisation
 			)
 		)
 	}
