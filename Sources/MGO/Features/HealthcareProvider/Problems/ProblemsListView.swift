@@ -106,7 +106,7 @@ class ProblemsListViewModel: ObservableObject {
 	func loadProblems() async {
 		
 		do {
-			let concerns = try await concernRepository.fetchConcerns()
+			let concerns = try await concernRepository.fetchConcerns(dvaTarget: healthcareProvider.dvaTarget)
 			if concerns.isEmpty {
 				state = .empty
 			} else {

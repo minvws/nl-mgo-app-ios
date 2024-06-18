@@ -77,7 +77,7 @@ class PatientViewModel: ObservableObject {
 		}
 		
 		do {
-			let patient = try await Patient.read(patientID, client: client, options: .lenient)
+			let patient = try await Patient.read(patientID, client: client, options: .lenient, dvaTarget: nil)
 			if let pat = patient as? Patient {
 				return .patient(pat)
 			} else {

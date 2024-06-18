@@ -53,4 +53,5 @@ public enum RequestHeaderField: String {
 	case ifNoneMatch     = "If-None-Match"
 	case ifModifiedSince = "If-Modified-Since"
 	case ifNoneExist     = "If-None-Exist"
+	case dvaTarget       = "x-mgo-dva-target"
 }

@@ -19,14 +19,19 @@ public extension Resource {
 	 - parameter client:    The server from which to read
 	 - parameter parameters  The request parameters to add
 	 - parameter options:   Options to use when executing this request, if any
-	 - parameter callback:  The callback to execute once done. The callback is NOT guaranteed to be executed on the main thread!
+	 - parameter dvaTarget: What target should we add to the headers
 	 */
-	class func read(_ id: String?, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = []) async throws -> Resource {
+	class func read(_ id: String?, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = [], dvaTarget: String?) async throws -> Resource {
 		var path = "\(resourceType.rawValue)"
 		if let id {
 			path += "/\(id)"
 		}
-		return try await readFrom(path, client: client, parameters: parameters, options: options)
+		var headers: RequestHeaders?
+		if let dvaTarget {
+			headers = RequestHeaders([RequestHeaderField.dvaTarget: dvaTarget])
+		}
+		
+		return try await readFrom(path, client: client, parameters: parameters, options: options, headers: headers)
 	}
 	
 	/**
@@ -39,14 +44,18 @@ public extension Resource {
 	 - parameter client:    The server to use
 	 - parameter parameters  The request parameters to add
 	 - parameter options:   Options to use when executing this request, if any
+	 - parameter headers:   Headers to send to the server
 	 - Returns: the requested resource
 	 */
-	class func readFrom(_ path: String, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = []) async throws -> Resource {
+	class func readFrom(_ path: String, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = [], headers: RequestHeaders?) async throws -> Resource {
 		guard var handler = client.handlerForRequest(withMethod: .GET, resource: nil) else {
 			throw FHIRError.noRequestHandlerAvailable(.GET)
 		}
 		handler.options = options
 		handler.parameters = parameters
+		if let headers {
+			handler.add(headers: headers)
+		}
 		let response = await client.performRequest(against: path, handler: handler)
 		
 		if let error = response.error {

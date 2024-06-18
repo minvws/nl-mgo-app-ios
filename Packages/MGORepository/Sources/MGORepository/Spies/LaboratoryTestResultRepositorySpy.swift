@@ -20,7 +20,7 @@ public class LaboratoryTestResultRepositorySpy: LaboratoryTestResultRepository {
 	public var stubbedFetchResults: [MgoLaboratoryTestResult] = []
 	public var stubbedError: Error?
 	
-	public func fetchResults() async throws -> [MgoLaboratoryTestResult] {
+	public func fetchResults(dvaTarget: String?) async throws -> [MgoLaboratoryTestResult] {
 		invokedFetchResults = true
 		invokedFetchResultsCount += 1
 		if let error = stubbedError {

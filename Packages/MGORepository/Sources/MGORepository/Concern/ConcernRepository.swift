@@ -12,16 +12,16 @@ public protocol ConcernRepository {
 	
 	/// Fetch all the concerns
 	/// - Returns: an array of concerns
-	func fetchConcerns() async throws -> [MgoConcern]
+	func fetchConcerns(dvaTarget: String?) async throws -> [MgoConcern]
 }
 
 extension FHIRClient: ConcernRepository {
 	
 	/// Fetch all the conditions
 	/// - Returns: an array of conditions
-	public func fetchConcerns() async throws -> [MgoConcern] {
+	public func fetchConcerns(dvaTarget: String?) async throws -> [MgoConcern] {
 		
-		let bundle = try await Condition.read(nil, client: self, parameters: DVP.BGZ.concern) as? ModelsSTU3.Bundle
+		let bundle = try await Condition.read(nil, client: self, parameters: DVP.BGZ.concern, dvaTarget: dvaTarget) as? ModelsSTU3.Bundle
 		let conditions: [Condition] = bundle?.entry?.compactMap {
 			$0.resource?.get(if: ModelsSTU3.Condition.self)
 		} ?? []
