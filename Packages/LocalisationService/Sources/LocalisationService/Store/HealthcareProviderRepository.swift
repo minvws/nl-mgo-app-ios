@@ -102,7 +102,8 @@ public class HealthcareProviderRepository: HealthcareProviderRepositoryProtocol 
 	/// Delete a healthcare provider from storage
 	/// - Parameter provider: the healthcare provider to be removed
 	public func remove(_ provider: HealthcareProvider) throws {
-		
+	
+		logInfo("About to delete \(provider.display_name)")
 		providers = providers.filter { $0 != provider }
 		observers(true)
 		try persistToStorage()

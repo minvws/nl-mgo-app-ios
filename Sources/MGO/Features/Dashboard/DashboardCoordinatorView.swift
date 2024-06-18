@@ -16,6 +16,7 @@ extension Coordination.Action {
 	static let showMedication = Coordination.Action(identifier: "showMedication")
 	static let showLabResults = Coordination.Action(identifier: "showLabResults")
 	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
+	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
 }
 
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
@@ -158,7 +159,12 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
-
+			
+			case Coordination.Action.removedHealthcareOrganization.identifier:
+				pathForSheet = NavigationStackBackport.NavigationPath()
+				rootStateForSheet = nil
+				firstTabPath.removeLast()
+			
 			// General
 			
 			case Coordination.Action.closeSheet.identifier:

@@ -38,6 +38,7 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 		switch action {
 			case .removeOrganization:
 				try? Current.healthcareProviderStore.remove(healthcareOrganization)
+				coordinator?.handle(.removedHealthcareOrganization)
 			
 			case .cancel, .closeSheet:
 				coordinator?.handle(.closeSheet)
