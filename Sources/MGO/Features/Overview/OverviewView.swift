@@ -22,14 +22,21 @@ class OverviewViewModel: ObservableObject {
 	/// The state of the view
 	@Published var state: OverviewViewModel.State
 	
+	/// A toast
+	@Published var toast: Toast?
+	
 	/// Token for the observatory (needed for unregister)
 	private var observerToken: Observatory.ObserverToken?
+
+	/// Token for the observatory (needed for unregister)
+	private var removalObserverToken: Observatory.ObserverToken?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case onAppear
 		case search
 		case details(HealthcareProvider)
+		case closeToast
 	}
 	
 	/// Intitializer
@@ -38,17 +45,37 @@ class OverviewViewModel: ObservableObject {
 		
 		self.coordinator = coordinator
 		self.state = .empty
-		// Listen to changes in the stored provider list
+		
+		registerObservers()
+	}
+	
+	// Listen to changes in the stored provider list
+	private func registerObservers() {
+		
 		self.observerToken = Current.healthcareProviderStore.observatory.append { [weak self] changed in
 			if changed {
 				self?.loadHealthcareProviders()
 			}
+		}
+
+		self.removalObserverToken = Current.healthcareProviderStore.removalObservatory.append { [weak self] provider in
+			
+			self?.toast = Toast(
+				title: String(
+					format: String(localized: "overview.toast_removal.heading"),
+					arguments: ["\(provider.display_name)"]
+				),
+				subtitle: String(localized: "overview.toast_removal.subheading"),
+				type: .success
+			)
+			Haptic.light()
 		}
 	}
 	
 	deinit {
 		// Remove as observer
 		observerToken.map(Current.healthcareProviderStore.observatory.remove)
+		removalObserverToken.map(Current.healthcareProviderStore.removalObservatory.remove)
 	}
 	
 	/// Handle any action
@@ -58,16 +85,21 @@ class OverviewViewModel: ObservableObject {
 		switch action {
 		
 			case .onAppear:
-					loadHealthcareProviders()
+				loadHealthcareProviders()
 			
 			case .search:
-					coordinator?.handle(Coordination.Action.searchHealthcareProviders)
+				toast = nil
+				coordinator?.handle(Coordination.Action.searchHealthcareProviders)
 			
 			case .details(let healthcareProvider):
-					coordinator?.handle(Coordination.Action(
-						identifier: "showHealthcareProviderDetails",
-						params: ["healthcareProvider": healthcareProvider])
-					)
+				toast = nil
+				coordinator?.handle(Coordination.Action(
+					identifier: "showHealthcareProviderDetails",
+					params: ["healthcareProvider": healthcareProvider])
+				)
+			
+			case .closeToast:
+				toast = nil
 		}
 	}
 	
@@ -110,11 +142,25 @@ struct OverviewView: View {
 		enum Button {
 			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 		}
+		enum Toast {
+			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 24, trailing: 16)
+		}
 	}
 	
 	var body: some View {
 		
 		ScrollViewWithFixedBottom {
+			
+			if let toast = viewModel.toast {
+				
+				ToastView(toast) {
+					// User pressed on the close button
+					withAnimation {
+						viewModel.reduce(.closeToast)
+					}
+				}
+				.padding(ViewTraits.Toast.insets)
+			}
 			
 			VStack(spacing: ViewTraits.General.spacing) {
 				

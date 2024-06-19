@@ -179,16 +179,16 @@ struct SearchView: View {
 					errorMessage: $viewModel.state.nameError,
 					title: "searchhp_name"
 				)
-                .padding(.bottom, ViewTraits.General.padding)
-                .accessibilityIdentifier("searchhp_name")
+				.padding(.bottom, ViewTraits.General.padding)
+				.accessibilityIdentifier("searchhp_name")
 				
 				InputField(
 					input: $viewModel.state.city,
 					errorMessage: $viewModel.state.cityError,
 					title: "searchhp_city"
 				)
-                .padding(.bottom, ViewTraits.General.padding)
-                .accessibilityIdentifier("searchhp_city")
+				.padding(.bottom, ViewTraits.General.padding)
+				.accessibilityIdentifier("searchhp_city")
 				
 				Spacer()
 			}

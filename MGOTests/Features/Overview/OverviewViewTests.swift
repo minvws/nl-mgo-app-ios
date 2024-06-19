@@ -60,6 +60,33 @@ final class OverviewViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_dashboard_threeProviders_toast() {
+		
+		// Given
+		let provider = Generator.healthcareProvider("1")
+		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = [
+			provider,
+			Generator.healthcareProvider("2"),
+			Generator.healthcareProvider("3")
+		]
+		createSut()
+		
+		viewModel.toast = Toast(
+			title: String(
+				format: String(localized: "overview.toast_removal.heading"),
+				arguments: ["\(provider.display_name)"]
+			),
+			subtitle: String(localized: "overview.toast_removal.subheading"),
+			type: .success
+		)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	func test_dashboard_searchHealthcareProvider() throws {
 		
 		// Given

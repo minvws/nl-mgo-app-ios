@@ -32,6 +32,16 @@ public class HealthcareProviderRepositorySpy: HealthcareProviderRepositoryProtoc
 		invokedObservatoryGetterCount += 1
 		return stubbedObservatory
 	}
+	
+	public var invokedRemovalObservatoryGetter = false
+	public var invokedRemovalObservatoryGetterCount = 0
+	public var stubbedRemovalObservatory: Observatory<HealthcareProvider>!
+
+	public var removalObservatory: Observatory<HealthcareProvider> {
+		invokedRemovalObservatoryGetter = true
+		invokedRemovalObservatoryGetterCount += 1
+		return stubbedRemovalObservatory
+	}
 
 	public var invokedStore = false
 	public var invokedStoreCount = 0

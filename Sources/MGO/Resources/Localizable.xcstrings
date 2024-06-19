@@ -904,6 +904,39 @@
         }
       }
     },
+    "healthcare_organisation.remove.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieder verwijderen"
+          }
+        }
+      }
+    },
+    "healthcare_organisation.remove.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder niet meer tonen in de app"
+          }
+        }
+      }
+    },
+    "healthcare_organisation.setting.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen"
+          }
+        }
+      }
+    },
     "hpdetails_diagnoses_body" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1274,6 +1307,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Welkom in Mijn Gezondheidsoverzicht"
+          }
+        }
+      }
+    },
+    "organization.confirm_delete.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ verwijderen?"
+          }
+        }
+      }
+    },
+    "organization.confirm_delete.no_label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nee, annuleren"
+          }
+        }
+      }
+    },
+    "organization.confirm_delete.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daarmee verwijder je deze gegevens uit de app. Je gegevens blijven altijd bewaard bij de zorgaanbieder zelf. Je kunt %@ later altijd weer toevoegen aan de app."
+          }
+        }
+      }
+    },
+    "organization.confirm_delete.yes_label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja, verwijderen"
+          }
+        }
+      }
+    },
+    "overview.toast_removal.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ verwijderd"
+          }
+        }
+      }
+    },
+    "overview.toast_removal.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kan deze zorgaanbieder altijd weer toevoegen"
           }
         }
       }
