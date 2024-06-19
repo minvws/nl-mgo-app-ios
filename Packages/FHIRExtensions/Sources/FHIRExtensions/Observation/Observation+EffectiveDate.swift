@@ -9,7 +9,6 @@ import Foundation
 
 extension Observation {
 	
-	/// When should we start taking this medication?
 	public var effectiveDate: String? {
 		
 		if case .period(let period) = self.effective {

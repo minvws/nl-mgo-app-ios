@@ -1,11 +1,27 @@
-# FHIR CLient
+# FHIR Client
 
 ## Overview
 
-
+This package will handle all the FHIR calls to the server. 
 
 ## Usage
 
+```swift
+
+import FHIRClient
+
+let url = URL(string: "https://hapi.fhir.org/baseDstu3")
+let client = FHIRClient(baseURL: url)
+
+do {
+	let patient = try await Patient.read("123", client: client, options: .lenient)
+	...
+	
+} catch {
+	logError("Client read error: \(String(describing: error))")
+}
+
+```
 
 ## Contribution process
 

@@ -1,10 +1,51 @@
-# Reusable UI
+# FHIR Extensions
 
 ## Overview
 
-
+This package contains helper extensions to get certain fields from the (verbose and complicated) FHIR classes.
 
 ## Usage
+
+### Condition
+
+- locationType (which part of the body: Left, Right, Left and Right)
+- location (which part of the body)
+- startDate (when did this condition start)
+- endDate (when did this condition end)
+- name (what is the name of this condition)
+- note (concatinated notes)
+
+### Contact Point
+
+- The ContactPoint is now equatable and comparable (sortable)
+- The ContactPointUse is now equatable and comparable (sortable)
+
+### MedicationStatement
+- startDate (When should we start taking this medication?)
+- dosageText (What is the dosage for this medication?)
+- medicationName (What is the name of this medication)
+- prescriber (Who prescribed this medication?)
+
+### Observation
+- categoryText
+- codeText
+- effectiveDate
+- interpretationText
+- quantityText
+- referenceLowText
+- referenceHighText
+
+### Patient
+- email (The the primary email address of the patient)
+- humanName (Easy way to retrieve a string for the patient's name, with a preference for the "usual" use name.)
+
+### Resource
+- fromJSON (decode from JSON)
+- resolve (resolves a reference within the same bundle)
+
+### Specimen
+- collectedDate (When was this specimen collected)
+- name (What is the name of this specimen?)
 
 
 ## Contribution process

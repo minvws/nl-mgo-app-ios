@@ -9,7 +9,7 @@ import Foundation
 
 extension Specimen {
 	
-	/// What is the name of this condition?
+	/// What is the name of this specimen?
 	public var name: String? {
 		
 		return type?.coding?.first { $0.system == "http://snomed.info/sct" }?.display?.value?.string
