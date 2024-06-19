@@ -12,6 +12,7 @@ enum ActionCardIcon {
 	
 	case diagnoses
 	case medication
+	case remove
 	case results
 	case none
 	
@@ -20,10 +21,16 @@ enum ActionCardIcon {
 		switch self {
 			case .diagnoses:
 				return ImageResource.Details.diagnoses
+			
 			case .medication:
 				return ImageResource.Details.medication
+			
+			case .remove:
+				return ImageResource.Details.trashcan
+		
 			case .results:
 				return ImageResource.Details.results
+		
 			case .none:
 				return nil
 		}
@@ -36,6 +43,8 @@ enum ActionCardIcon {
 				return Theme().tandarts
 			case .medication:
 				return Theme().verpleeghuis
+			case .remove:
+				return Theme().notificationError
 			case .results:
 				return Theme().fysiotherapeut
 			case .none:

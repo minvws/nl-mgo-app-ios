@@ -79,4 +79,16 @@ final class OverviewViewModelTests: XCTestCase {
 			params: ["healthcareProvider": healthcareProvider]
 		)
 	}
+	
+	func test_closeToast_shouldRemoveToast() {
+		
+		// Given
+		sut.toast = Toast(title: "test", subtitle: "test", type: .error)
+		
+		// When
+		sut.reduce(.closeToast)
+		
+		// Then
+		expect(self.sut.toast) == nil
+	}
 }

@@ -10,23 +10,23 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class HealthcareProviderViewTests: XCTestCase {
+final class RemoveHealthcareOrganizationViewTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: HealthcareProviderViewModel!
-	private var healthcareProvider: HealthcareProvider!
-	private var sut: HealthcareProviderView!
+	private var viewModel: RemoveHealthcareOrganizationViewModel!
+	private var healthcareOrganization: HealthcareProvider!
+	private var sut: RemoveHealthcareOrganizationView!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
-		healthcareProvider = Generator.healthcareProvider("1")
+		healthcareOrganization = Generator.healthcareProvider("1")
 		
-		viewModel = HealthcareProviderViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider)
-		sut = HealthcareProviderView(viewModel: self.viewModel)
+		viewModel = RemoveHealthcareOrganizationViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization)
+		sut = RemoveHealthcareOrganizationView(viewModel: self.viewModel)
 	}
 	
 	func test_healthcareProvider_details() {
