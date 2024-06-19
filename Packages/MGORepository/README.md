@@ -1,10 +1,53 @@
-# Reusable UI
+# MGO Repository
 
 ## Overview
 
-
+The repositories for the BGZ Concern, LaboratoryTestResult and MedicationUse. Each of the repositories uses the FHIR Client and the FHIR Extensions to map the servers FHIR response on to readable classes. 
 
 ## Usage
+
+To fetch a list of concerns ([Condition](https://github.com/apple/FHIRModels/blob/main/Sources/ModelsSTU3/Condition.swift)) from the server:
+
+```swift
+
+import MGORepository
+
+let concernRepository: ConcernRepository? = FHIRClient()
+
+do {
+	let concerns: [MgoConcern] = try await concernRepository.fetchConcerns()
+	....
+} catch {
+	logError("Client read error: \(String(describing: error))")
+}
+```
+
+To fetch a list of laboratoryTestResuls ([Observation](https://github.com/apple/FHIRModels/blob/main/Sources/ModelsSTU3/Observation.swift)) from the server:
+
+```swift
+let resultRepository: LaboratoryTestResultRepository? = FHIRClient()
+
+do {
+	let results: [MgoLaboratoryTestResult] = try await resultRepository.fetchResults()
+	....
+} catch {
+	logError("Client read error: \(String(describing: error))")
+}
+```
+
+To fetch a list of medicationUse ([MedicationStatement](https://github.com/apple/FHIRModels/blob/main/Sources/ModelsSTU3/MedicationStatement.swift)) from the server:
+
+```swift
+let medicationRepository: MedicationUseRepository? = FHIRClient()
+
+do {
+	let medications: [MgoMedicationUse] = try await medicationRepository.fetchResults()
+	....
+} catch {
+	logError("Client read error: \(String(describing: error))")
+}
+
+```
 
 
 ## Contribution process
