@@ -95,7 +95,7 @@ final class MedicationListViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(LabResultsListViewState.empty))
+		expect(self.sut.state).toEventually(equal(MedicationListViewState.empty))
 	}
 
 	func test_loadMedications_result() {

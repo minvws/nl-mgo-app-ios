@@ -95,11 +95,11 @@ final class ProblemsListViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(LabResultsListViewState.empty))
+		expect(self.sut.state).toEventually(equal(ProblemsListViewState.empty))
 	}
-
+	
 	func test_loadProblems_result() {
-
+		
 		// Given
 		let concern = Generator.concern()
 		repositorySpy.stubbedFetchConcerns = [
