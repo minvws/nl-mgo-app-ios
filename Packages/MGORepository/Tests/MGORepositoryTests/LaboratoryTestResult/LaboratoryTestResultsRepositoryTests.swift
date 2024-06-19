@@ -25,7 +25,7 @@ final class LaboratoryTestResultsRepositoryTests: XCTestCase {
 		let outputJson = try getResource("observation_output")
 		let expectedResult = try JSONDecoder().decode([MgoLaboratoryTestResult].self, from: outputJson)
 
-		stub(condition: isPath("/fhir/Observation")) { _ in
+		stub(condition: isPath("/fhir/Observation/$lastn")) { _ in
 			return HTTPStubsResponse(data: inputJson, statusCode: 200, headers: nil)
 		}
 		
