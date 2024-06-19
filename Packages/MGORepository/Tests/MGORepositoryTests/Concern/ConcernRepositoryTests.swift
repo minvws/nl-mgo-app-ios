@@ -30,7 +30,7 @@ final class ConcernRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let concerns = try await client.fetchConcerns()
+		let concerns = try await client.fetchConcerns(dvaTarget: "test")
 		
 		// Then
 		await expect(concerns).toEventually(haveCount(1))

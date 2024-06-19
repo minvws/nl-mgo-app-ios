@@ -107,7 +107,7 @@ class MedicationListViewModel: ObservableObject {
 	func loadMedication() async {
 		
 		do {
-			let usage = try await medicationUseRepository.fetchMedicationUse()
+			let usage = try await medicationUseRepository.fetchMedicationUse(dvaTarget: healthcareProvider.dvaTarget)
 			if usage.isEmpty {
 				state = .empty
 			} else {

@@ -12,16 +12,16 @@ public protocol MedicationUseRepository {
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use
-	func fetchMedicationUse() async throws -> [MgoMedicationUse]
+	func fetchMedicationUse(dvaTarget: String?) async throws -> [MgoMedicationUse]
 }
 
 extension FHIRClient: MedicationUseRepository {
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use
-	public func fetchMedicationUse() async throws -> [MgoMedicationUse] {
+	public func fetchMedicationUse(dvaTarget: String?) async throws -> [MgoMedicationUse] {
 		
-		let bundle = try await MedicationStatement.read("", client: self, parameters: DVP.BGZ.medicationUse) as? ModelsSTU3.Bundle
+		let bundle = try await MedicationStatement.read(nil, client: self, parameters: DVP.BGZ.medicationUse, dvaTarget: dvaTarget) as? ModelsSTU3.Bundle
 		let statements: [MedicationStatement] = bundle?.entry?.compactMap {
 			$0.resource?.get(if: ModelsSTU3.MedicationStatement.self)
 		} ?? []

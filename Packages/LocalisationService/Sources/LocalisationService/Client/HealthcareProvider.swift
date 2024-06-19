@@ -16,4 +16,9 @@ public extension Components.Schemas.Organization {
 	var category: String? {
 		return types.first?.display_name
 	}
+	
+	/// What endpoint should we pass to the proxy?
+	var dvaTarget: String? {
+		return "https://dva-mock.test.mgo.prolocation.net/48"
+	}
 }

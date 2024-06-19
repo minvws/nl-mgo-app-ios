@@ -106,7 +106,7 @@ class LabResultsListViewModel: ObservableObject {
 	func loadResults() async {
 		
 		do {
-			let results = try await laboratoryTestResultRepository.fetchResults()
+			let results = try await laboratoryTestResultRepository.fetchResults(dvaTarget: healthcareProvider.dvaTarget)
 			if results.isEmpty {
 				state = .empty
 			} else {

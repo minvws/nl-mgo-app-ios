@@ -30,7 +30,7 @@ final class LaboratoryTestResultsRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let results = try await client.fetchResults()
+		let results = try await client.fetchResults(dvaTarget: "test")
 		
 		// Then
 		await expect(results).toEventually(haveCount(1))
