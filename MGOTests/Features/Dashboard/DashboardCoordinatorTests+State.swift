@@ -156,7 +156,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		let provider = Generator.healthcareProvider("1")
 		let state = DashboardCoordination.State.showLabResults(healthcareProvider: provider)
 		stub(condition: isPath("/fhir/Observation/$lastn")) { _ in
-			return HTTPStubsResponse(data: inputJson, statusCode: 200, headers: nil)
+			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
 		}
 		
 		// When
