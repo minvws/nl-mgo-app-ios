@@ -10,6 +10,13 @@ import FHIRClient
 
 public struct DVP {
 	
+	public enum ServiceId {
+		
+		public static let CommonClinicalDataset: Int = 48
+		public static let GeneralPractitioner: Int = 49
+		public static let Documents: Int = 51
+	}
+	
 	public enum BGZ {
 		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017
 		

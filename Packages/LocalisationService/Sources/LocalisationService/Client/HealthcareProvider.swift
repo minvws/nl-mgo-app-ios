@@ -18,7 +18,9 @@ public extension Components.Schemas.Organization {
 	}
 	
 	/// What endpoint should we pass to the proxy?
-	var dvaTarget: String? {
-		return "https://dva-mock.test.mgo.prolocation.net/48"
+	func getResourceEndpoint(identifier: Int) -> String? {
+		
+		let dataService = data_services.first { $0.id == identifier }
+		return dataService?.roles.first?.resource_endpoint
 	}
 }

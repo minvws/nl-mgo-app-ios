@@ -105,8 +105,13 @@ class ProblemsListViewModel: ObservableObject {
 	/// Load the medication for the healthcare provider
 	func loadProblems() async {
 		
+		guard let resourceEndpoint = healthcareProvider.getResourceEndpoint(identifier: DVP.ServiceId.CommonClinicalDataset) else {
+			state = .empty
+			return
+		}
+		
 		do {
-			let concerns = try await concernRepository.fetchConcerns(dvaTarget: healthcareProvider.dvaTarget)
+			let concerns = try await concernRepository.fetchConcerns(dvaTarget: resourceEndpoint)
 			if concerns.isEmpty {
 				state = .empty
 			} else {

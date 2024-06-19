@@ -38,7 +38,20 @@ class Generator {
 					_type: ""
 				)
 			],
-			data_services: []
+			data_services: [
+				Components.Schemas.ZalDataServiceResponse(
+					id: 48,
+					name: "Basisgegevens Zorg",
+					interface_version: 2,
+					auth_endpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/authorize",
+					token_endpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/token",
+					roles: [
+						Components.Schemas.ZalDataServiceRoleResponse(
+							code: "MM-3.0-BZB-FHIR",
+							resource_endpoint: "https://dva-mock.test.mgo.prolocation.net/48")
+					]
+				)
+			]
 		)
 	}
 	
