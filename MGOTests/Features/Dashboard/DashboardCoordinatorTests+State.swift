@@ -24,6 +24,11 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		sut = DashboardCoordinator(parentCoordinator: parentCoordinator)
 	}
 	
+	override func tearDown() {
+		super.tearDown()
+		HTTPStubs.removeAllStubs()
+	}
+	
 	func test_coordinatorView_forAboutTheApp() throws {
 		
 		// Given
@@ -64,6 +69,9 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		
 		// Given
 		let state = DashboardCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")
+		stub(condition: isPath("/localization/organization/search")) { _ in
+			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
+		}
 		
 		// When
 		let view = sut.viewState(for: state)
@@ -102,7 +110,10 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		// Given
 		let provider = Generator.healthcareProvider("1")
 		let state = DashboardCoordination.State.showProblems(healthcareProvider: provider)
-		
+		stub(condition: isPath("/fhir/Condition")) { _ in
+			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
+		}
+
 		// When
 		let view = sut.viewState(for: state)
 		
@@ -115,6 +126,9 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		// Given
 		let provider = Generator.healthcareProvider("1")
 		let state = DashboardCoordination.State.showMedication(healthcareProvider: provider)
+		stub(condition: isPath("/fhir/MedicationStatement")) { _ in
+			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
+		}
 		
 		// When
 		let view = sut.viewState(for: state)
@@ -128,6 +142,9 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		// Given
 		let provider = Generator.healthcareProvider("1")
 		let state = DashboardCoordination.State.showLabResults(healthcareProvider: provider)
+		stub(condition: isPath("/fhir/Observation/$lastn")) { _ in
+			return HTTPStubsResponse(data: inputJson, statusCode: 200, headers: nil)
+		}
 		
 		// When
 		let view = sut.viewState(for: state)
