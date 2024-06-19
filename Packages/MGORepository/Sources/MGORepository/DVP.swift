@@ -21,7 +21,9 @@ public struct DVP {
 		)
 		
 		public static let concern: RequestParameters = RequestParameters(
-			[(RequestParameterField.format, "json")]
+			[
+				(RequestParameterField.format, "json")
+			]
 		)
 		
 		public static let laboratoryTestResult: RequestParameters = RequestParameters(
