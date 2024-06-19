@@ -288,4 +288,34 @@ final class DashboardCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
 	}
+	
+	func test_coordinatorHandle_removeHealthcareOrganization() {
+
+		// Given
+		let provider = Generator.healthcareProvider("1")
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "removeHealthcareOrganization", params: ["healthcareOrganization": provider]))
+
+		// Then
+		expect(self.sut.rootStateForSheet) == DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: provider)
+	}
+	
+	func test_coordinatorHandle_removedHealthcareOrganization() {
+
+		// Given
+		let provider = Generator.healthcareProvider("1")
+		self.sut.rootStateForSheet = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: provider)
+		self.sut.firstTabPath = NavigationStackBackport.NavigationPath([
+			DashboardCoordination.State.overview,
+			DashboardCoordination.State.showHealthcareProviderDetails(healthcareProvider: provider)
+		])
+		
+		// When
+		sut.handle(Coordination.Action.removedHealthcareOrganization)
+
+		// Then
+		expect(self.sut.rootStateForSheet) == nil
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
+	}
 }

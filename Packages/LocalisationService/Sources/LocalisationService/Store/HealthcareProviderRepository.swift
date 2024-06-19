@@ -16,6 +16,9 @@ public protocol HealthcareProviderRepositoryProtocol {
 	/// Observatory for changes
 	var observatory: Observatory<Bool> { get }
 	
+	/// Observatory for removals
+	var removalObservatory: Observatory<HealthcareProvider> { get }
+	
 	/// Add a healthcare provider to the storage
 	/// - Parameter provider: the healthcare provider to store
 	func store(_ provider: HealthcareProvider) throws
@@ -55,6 +58,12 @@ public class HealthcareProviderRepository: HealthcareProviderRepositoryProtocol 
 	/// Observers for changes
 	private let observers: (Bool) -> Void
 	
+	/// Observatory for removal
+	public let removalObservatory: Observatory<HealthcareProvider>
+	
+	/// Observers for removal
+	private let removalObservers: (HealthcareProvider) -> Void
+	
 	/// The list of stored healthcare provider
 	public var providers: [HealthcareProvider]
 	
@@ -64,6 +73,7 @@ public class HealthcareProviderRepository: HealthcareProviderRepositoryProtocol 
 		
 		self.storage = storage
 		(self.observatory, self.observers) = Observatory<Bool>.create()
+		(self.removalObservatory, self.removalObservers) = Observatory<HealthcareProvider>.create()
 		
 		self.providers = []
 		do {
@@ -102,9 +112,12 @@ public class HealthcareProviderRepository: HealthcareProviderRepositoryProtocol 
 	/// Delete a healthcare provider from storage
 	/// - Parameter provider: the healthcare provider to be removed
 	public func remove(_ provider: HealthcareProvider) throws {
-		
+	
+		logInfo("About to delete \(provider.display_name)")
 		providers = providers.filter { $0 != provider }
 		observers(true)
+		#warning("Removal notification disabled.")
+//		removalObservers(provider)
 		try persistToStorage()
 	}
 	
@@ -114,6 +127,7 @@ public class HealthcareProviderRepository: HealthcareProviderRepositoryProtocol 
 		providers = []
 		storage.remove(fileName)
 		observatory.removeAll()
+		removalObservatory.removeAll()
 	}
 	
 	/// Store a list of providers
