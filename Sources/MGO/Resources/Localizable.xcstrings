@@ -241,7 +241,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welkom terug Wendy"
+            "value" : "Welkom terug"
           }
         }
       }
@@ -1351,6 +1351,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja, verwijderen"
+          }
+        }
+      }
+    },
+    "overview.page.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goedemorgen"
           }
         }
       }
