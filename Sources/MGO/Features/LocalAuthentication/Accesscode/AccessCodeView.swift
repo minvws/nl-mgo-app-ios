@@ -369,8 +369,10 @@ class AccessCodeViewModel: ObservableObject {
 	
 	/// The user pressed the erase button
 	private func erasePressed() {
+		
 		if accessCode.isNotEmpty {
 			Haptic.light()
+			inErrorState = false
 			accessCode = accessCode.dropLast()
 			announceActiveField(accessCode.count + 1)
 		}
