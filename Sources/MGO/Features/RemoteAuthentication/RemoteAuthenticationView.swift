@@ -98,11 +98,11 @@ struct RemoteAuthenticationView: View {
 				.padding(.top, ViewTraits.Button.top)
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
-			.navigationBarBackButtonHidden(true)
-			.navigationBarHidden(false)
-			.navigationBarTitleDisplayMode(.inline)
-			.background(theme.backgroundPrimary.ignoresSafeArea())
 		}
+		.navigationBarBackButtonHidden(true)
+		.navigationBarHidden(false)
+		.navigationBarTitleDisplayMode(.inline)
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 }
 
