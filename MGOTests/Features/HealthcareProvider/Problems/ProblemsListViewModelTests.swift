@@ -84,9 +84,22 @@ final class ProblemsListViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventually(equal(ProblemsListViewState.failure))
 	}
-
+	
+	func test_loadProblems_invalidService() {
+		
+		// Given
+		healthcareProvider = Generator.healthcareProvider("1", useDataService: false)
+		sut = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(ProblemsListViewState.empty))
+	}
+	
 	func test_loadProblems_result() {
-
+		
 		// Given
 		let concern = Generator.concern()
 		repositorySpy.stubbedFetchConcerns = [

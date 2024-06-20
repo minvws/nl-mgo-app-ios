@@ -105,8 +105,13 @@ class LabResultsListViewModel: ObservableObject {
 	/// Load the laboratory test results for the healthcare provider
 	func loadResults() async {
 		
+		guard let resourceEndpoint = healthcareProvider.getResourceEndpoint(identifier: DVP.ServiceId.CommonClinicalDataset) else {
+			state = .empty
+			return
+		}
+		
 		do {
-			let results = try await laboratoryTestResultRepository.fetchResults(dvaTarget: healthcareProvider.dvaTarget)
+			let results = try await laboratoryTestResultRepository.fetchResults(dvaTarget: resourceEndpoint)
 			if results.isEmpty {
 				state = .empty
 			} else {
