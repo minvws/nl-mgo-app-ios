@@ -207,28 +207,12 @@ struct OverviewView: View {
 	
 	@ViewBuilder func headerView() -> some View {
 		
-		HStack(alignment: .top, spacing: 16) {
-			
-			Text(verbatim: "Goedemorgen, mevrouw de Bruijn")
-				.rijksoverheidStyle(font: .bold, style: .title)
-				.foregroundColor(theme.contentPrimary)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityAddTraits(.isHeader)
-			
-			Spacer()
-			
-			Text(verbatim: "WB")
-				.rijksoverheidStyle(font: .regular, style: .callout)
-				.padding(.horizontal, 6)
-				.padding(.vertical, 8)
-				.multilineTextAlignment(.center)
-				.foregroundStyle(theme.backgroundPrimary)
-				.frame(width: 38, height: 38, alignment: .center)
-				.background(theme.iconsSecondary)
-				.cornerRadius(200)
-			
-		}
-		.padding(.horizontal, ViewTraits.General.padding)
+		Text("overview.page.title")
+			.rijksoverheidStyle(font: .bold, style: .title)
+			.foregroundColor(theme.contentPrimary)
+			.frame(maxWidth: .infinity, alignment: .topLeading)
+			.accessibilityAddTraits(.isHeader)
+			.padding(.horizontal, ViewTraits.General.padding)
 	}
 	
 	/// Create the empty state view
