@@ -84,6 +84,19 @@ final class MedicationListViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventually(equal(MedicationListViewState.failure))
 	}
+	
+	func test_loadMedications_invalidService() {
+		
+		// Given
+		healthcareProvider = Generator.healthcareProvider("1", useDataService: false)
+		sut = MedicationListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(MedicationListViewState.empty))
+	}
 
 	func test_loadMedications_result() {
 		

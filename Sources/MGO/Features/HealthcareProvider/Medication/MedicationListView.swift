@@ -106,8 +106,13 @@ class MedicationListViewModel: ObservableObject {
 	/// Load the medication for the healthcare provider
 	func loadMedication() async {
 		
+		guard let resourceEndpoint = healthcareProvider.getResourceEndpoint(identifier: DVP.ServiceId.CommonClinicalDataset) else {
+			state = .empty
+			return
+		}
+		
 		do {
-			let usage = try await medicationUseRepository.fetchMedicationUse(dvaTarget: healthcareProvider.dvaTarget)
+			let usage = try await medicationUseRepository.fetchMedicationUse(dvaTarget: resourceEndpoint)
 			if usage.isEmpty {
 				state = .empty
 			} else {

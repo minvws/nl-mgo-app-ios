@@ -21,7 +21,7 @@ extension FHIRClient: LaboratoryTestResultRepository {
 	/// - Returns: an array of lab results
 	public func fetchResults(dvaTarget: String?) async throws -> [MgoLaboratoryTestResult] {
 		
-		guard let bundle = try await Observation.read("$lastn", client: self, parameters: DVP.BGZ.laboratoryTestResult, dvaTarget: dvaTarget) as? ModelsSTU3.Bundle else { return [] }
+		guard let bundle = try await Observation.read("$lastn", client: self, parameters: DVP.CommonClinicalDataset.laboratoryTestResult, dvaTarget: dvaTarget) as? ModelsSTU3.Bundle else { return [] }
 		let observations: [Observation] = bundle.entry?.compactMap {
 			$0.resource?.get(if: ModelsSTU3.Observation.self)
 		} ?? []
