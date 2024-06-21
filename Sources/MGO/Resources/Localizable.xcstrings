@@ -1405,7 +1405,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "https://www.irealisatie.nl"
+            "value" : "https://web.test.mgo.irealisatie.nl/privacy"
           }
         }
       }
@@ -1416,7 +1416,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "https://www.irealisatie.nl"
+            "value" : "https://web.test.mgo.irealisatie.nl/privacy"
           }
         }
       }
@@ -1427,7 +1427,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "https://www.irealisatie.nl"
+            "value" : "https://web.test.mgo.irealisatie.nl/privacy"
           }
         }
       }
