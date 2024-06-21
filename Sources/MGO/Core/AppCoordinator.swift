@@ -115,7 +115,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	@Published var showChildCoordinator = false
 	
 	/// the browser to open allowed domains in
-	private var browser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains())
+	private var browser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
 	
 	/// The localisation client
 	private var localisationServiceClient: LocalisationServiceClientProtocol?

@@ -10,16 +10,18 @@ import Foundation
 extension Configuration {
 	
 	/// Which domains are considered safe for browsing in-app
-	/// - Returns: array fo allowed domains.
-	public func getAllowedDomains() -> [String] {
+	/// - Returns: array of allowed domains.
+	public func getAllowedDomains(for release: Release) -> [String] {
+
+		let testDomain = "web.test.mgo.irealisatie.nl"
+		let acceptationDomain = "web.acc.mgo.irealisatie.nl"
+		let productionDomain = "web.mgo.irealisatie.nl"
 		
-		let tempAllowed = ["irealisatie.nl", "www.irealisatie.nl"]
-		
-		switch getRelease() {
-			case .test: return tempAllowed + ["web.test.mgo.irealisatie.nl"]
-			case .acceptance: return tempAllowed + ["web.test.mgo.irealisatie.nl", "web.acc.mgo.irealisatie.nl"]
-			case .production: return ["web.mgo.irealisatie.nl"]
-			case .development: return tempAllowed + ["web.test.mgo.irealisatie.nl", "web.acc.mgo.irealisatie.nl", "web.mgo.irealisatie.nl"]
+		switch release {
+			case .test: return [testDomain]
+			case .acceptance: return [testDomain, acceptationDomain]
+			case .production: return [productionDomain]
+			case .development: return [testDomain, acceptationDomain, productionDomain]
 		}
 	}
 }
