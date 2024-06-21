@@ -36,4 +36,52 @@ final class InAppBrowserViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
+	
+	func test_allowedDomain_production() {
+		
+		// Given
+		let release = Release.production
+		
+		// When
+		let domains = Configuration().getAllowedDomains(for: release)
+		
+		// Then
+		expect(domains).to(haveCount(1))
+	}
+	
+	func test_allowedDomain_acceptance() {
+		
+		// Given
+		let release = Release.acceptance
+		
+		// When
+		let domains = Configuration().getAllowedDomains(for: release)
+		
+		// Then
+		expect(domains).to(haveCount(2))
+	}
+	
+	func test_allowedDomain_test() {
+		
+		// Given
+		let release = Release.test
+		
+		// When
+		let domains = Configuration().getAllowedDomains(for: release)
+		
+		// Then
+		expect(domains).to(haveCount(1))
+	}
+	
+	func test_allowedDomain_development() {
+		
+		// Given
+		let release = Release.development
+		
+		// When
+		let domains = Configuration().getAllowedDomains(for: release)
+		
+		// Then
+		expect(domains).to(haveCount(3))
+	}
 }

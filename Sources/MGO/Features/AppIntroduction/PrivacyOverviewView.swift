@@ -86,20 +86,20 @@ struct PrivacyOverviewView: View {
 						EmptyView()
 					}
 				}
+				.onTapGesture {
+					// Only called in VoiceOVer on iOS 15/16
+					if let url = URL(string: "/privacystatement") {
+						_ = handleURL(url)
+					}
+				}
+				.environment(\.openURL, OpenURLAction(handler: handleURL))
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.padding(.bottom, ViewTraits.General.padding)
 				.foregroundStyle(theme.contentPrimary)
 				.tint(theme.actionTertiaryDefault)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.environment(\.openURL, OpenURLAction { url in
-					// Catch the click on the privacy link
-					guard url.absoluteString.lowercased() == "/privacystatement" else {
-						return .discarded
-					}
-					viewModel.reduce(.privacyLinkClicked)
-					return .handled
-				})
 				.accessibilityIdentifier("introduction text")
+				.tag("privacylink")
 				
 				Group {
 					PrivacyShieldView("privacyoverview_item_1", shieldType: .encrypted)
@@ -126,6 +126,14 @@ struct PrivacyOverviewView: View {
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
+	
+	func handleURL(_ url: URL) -> OpenURLAction.Result {
+		guard url.absoluteString.lowercased() == "/privacystatement" else {
+			return .discarded
+		}
+		viewModel.reduce(.privacyLinkClicked)
+		return .handled
+		}
 }
 
 #Preview {
