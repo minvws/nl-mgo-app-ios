@@ -1443,17 +1443,6 @@
         }
       }
     },
-    "privacyoverview_intro_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In de [privacyverklaring](/privacystatement) staat hoe Mijn Gezondheidsoverzicht jouw gegevens gebruikt. Dit zijn de belangrijkste punten:"
-          }
-        }
-      }
-    },
     "privacyoverview_item_1" : {
       "extractionState" : "manual",
       "localizations" : {
