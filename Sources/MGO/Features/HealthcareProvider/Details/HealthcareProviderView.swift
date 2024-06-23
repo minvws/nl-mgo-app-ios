@@ -185,6 +185,8 @@ struct HealthcareProviderView: View {
 							}
 						)
 				}
+				
+				Spacer()
 			}
 			
 		}
