@@ -12,7 +12,7 @@ import MGOTest
 final class IPadLayoutTests: XCTestCase {
 
 	func test_layout() throws {
-		isRecording = true
+		
 		// Given
 		let sut = Text("A test for layout").background(.red).layoutForIPad(force: false)
 			
@@ -24,7 +24,7 @@ final class IPadLayoutTests: XCTestCase {
 	}
 	
 	func test_layout_forIpad() throws {
-		isRecording = true
+		
 		// Given
 		let sut = Text("A test for layout").background(.red).layoutForIPad(force: true)
 			
