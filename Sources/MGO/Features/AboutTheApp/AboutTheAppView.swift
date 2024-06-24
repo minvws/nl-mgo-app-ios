@@ -79,6 +79,16 @@ struct AboutTheAppView: View {
 					viewModel.reduce(.showResetDialog)
 				}
 				.padding(ViewTraits.Button.insets)
+				.confirmationDialog(
+					"Reset the application?",
+					isPresented: $viewModel.showResetDialog) {
+						Button("Reset the application?", role: .destructive) {
+							viewModel.reduce(.resetApplication)
+						}
+					} message: {
+						Text(verbatim: "You cannot undo this action")
+					}
+					.background(theme.backgroundPrimary.ignoresSafeArea())
 			}
 			
 			Spacer()
@@ -86,16 +96,7 @@ struct AboutTheAppView: View {
 		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
 		.layoutForIPad()
-		.confirmationDialog(
-			"Reset the application?",
-			isPresented: $viewModel.showResetDialog) {
-				Button("Reset the application?", role: .destructive) {
-					viewModel.reduce(.resetApplication)
-				}
-			} message: {
-				Text(verbatim: "You cannot undo this action")
-			}
-			.background(theme.backgroundPrimary.ignoresSafeArea())
+		
 	}
 }
 
