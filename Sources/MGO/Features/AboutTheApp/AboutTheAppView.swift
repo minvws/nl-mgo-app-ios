@@ -88,15 +88,14 @@ struct AboutTheAppView: View {
 					} message: {
 						Text(verbatim: "You cannot undo this action")
 					}
-					.background(theme.backgroundPrimary.ignoresSafeArea())
 			}
 			
 			Spacer()
 		}
 		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
-		
 	}
 }
 
