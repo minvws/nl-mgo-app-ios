@@ -1,0 +1,58 @@
+/*
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import SwiftUI
+
+/// Make a view look good on an iPad
+public struct IPadLayoutViewModifier: ViewModifier {
+	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum Gutter {
+			static let leading: Double = 0.25
+			static let trailing: Double = 0.25
+		}
+	}
+	
+	/// Should we adjust the layout for iPad (i.e., are we running on an iPad)?
+	var shouldLayoutForiPad: Bool { return UIDevice.current.userInterfaceIdiom == .pad }
+	
+	// The Theme
+	@Environment(\.theme) var theme
+	
+	/// The horizontal size classes (to determine the layout)
+	@Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+	
+	public func body(content: Content) -> some View {
+		
+		content
+		.if(shouldLayoutForiPad) { view in
+			GeometryReader { geometry in
+				if horizontalSizeClass == .regular {
+					
+					HStack(spacing: 0, content: {
+						Spacer(minLength: geometry.size.width * ViewTraits.Gutter.leading)
+						view
+						Spacer(minLength: geometry.size.width * ViewTraits.Gutter.trailing)
+					})
+					.background(theme.backgroundPrimary.ignoresSafeArea())
+				} else {
+					view
+				}
+			}
+		}
+	}
+}
+
+extension View {
+	
+	/// Layout the view for an iPad
+	/// - Returns: view optimized for iPad when viewed on an iPad
+	public func layoutForIPad() -> some View {
+		modifier(IPadLayoutViewModifier())
+	}
+}

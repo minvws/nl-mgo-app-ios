@@ -160,6 +160,7 @@ struct AppIntroductionView: View {
 		.onDisappear {
 			viewModel.reduce(.onDisappear)
 		}
+		.layoutForIPad()
 	}
 }
 

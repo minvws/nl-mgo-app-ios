@@ -103,6 +103,7 @@ struct RemoteAuthenticationView: View {
 		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.layoutForIPad()
 	}
 }
 

@@ -125,6 +125,7 @@ struct PrivacyOverviewView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.layoutForIPad()
 	}
 	
 	func handleURL(_ url: URL) -> OpenURLAction.Result {
