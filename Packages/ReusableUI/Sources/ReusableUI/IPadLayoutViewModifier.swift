@@ -27,10 +27,12 @@ public struct IPadLayoutViewModifier: ViewModifier {
 	/// The horizontal size classes (to determine the layout)
 	@Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
 	
+	var force: Bool = false
+	
 	public func body(content: Content) -> some View {
 		
 		content
-		.if(shouldLayoutForiPad && horizontalSizeClass == .regular) { view in
+		.if((shouldLayoutForiPad && horizontalSizeClass == .regular) || force) { view in
 			GeometryReader { geometry in
 				HStack(spacing: 0, content: {
 					Spacer(minLength: geometry.size.width * ViewTraits.Gutter.leading)
@@ -47,7 +49,8 @@ extension View {
 	
 	/// Layout the view for an iPad
 	/// - Returns: view optimized for iPad when viewed on an iPad
-	public func layoutForIPad() -> some View {
-		modifier(IPadLayoutViewModifier())
+	/// - Parameter force: Do not depend on the actual device, force the layout in iPad mode
+	public func layoutForIPad(force: Bool = false) -> some View {
+		modifier(IPadLayoutViewModifier(force: force))
 	}
 }
