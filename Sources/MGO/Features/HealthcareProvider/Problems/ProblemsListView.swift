@@ -214,6 +214,7 @@ struct ProblemsListView: View {
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
+		.layoutForIPad()
 	}
 }
 

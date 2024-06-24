@@ -302,10 +302,20 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				tabBarAppearance.shadowColor = UIColor(theme.linesTertiary)
 				tabBarAppearance.backgroundColor = UIColor(theme.backgroundSecondary)
 				
-				for appearance in [tabBarAppearance.stackedLayoutAppearance, tabBarAppearance.compactInlineLayoutAppearance] {
+				for appearance in [tabBarAppearance.stackedLayoutAppearance,
+								   tabBarAppearance.inlineLayoutAppearance,
+								   tabBarAppearance.compactInlineLayoutAppearance] {
+					
 					appearance.selected.iconColor = UIColor(theme.actionTertiaryDefault)
-					appearance.selected.titleTextAttributes = [.foregroundColor: UIColor(theme.actionTertiaryDefault)]
-					appearance.normal.titleTextAttributes = [.foregroundColor: UIColor(theme.iconsPrimary)]
+					appearance.selected.titleTextAttributes =
+					[
+						.foregroundColor: UIColor(theme.actionTertiaryDefault),
+						.paragraphStyle: NSParagraphStyle.default
+					]
+					appearance.normal.titleTextAttributes = [
+						.foregroundColor: UIColor(theme.iconsPrimary),
+						.paragraphStyle: NSParagraphStyle.default
+					]
 					appearance.normal.iconColor = UIColor(theme.iconsPrimary)
 				}
 				

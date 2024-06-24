@@ -216,6 +216,7 @@ struct MedicationListView: View {
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
+		.layoutForIPad()
 	}
 }
 

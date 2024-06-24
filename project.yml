@@ -138,7 +138,7 @@ targetTemplates:
     settings:
       base:
         CURRENT_PROJECT_VERSION: 1 # needs to be present for project to build locally, but is overwritten by fastlane. No need to change.
-        TARGETED_DEVICE_FAMILY: 2 #iPhone only for now #,2 # iPhone + iPad
+        TARGETED_DEVICE_FAMILY: 1,2
         PRODUCT_NAME: $(TARGET_NAME)
         PRODUCT_MODULE_NAME: MGO
     info:

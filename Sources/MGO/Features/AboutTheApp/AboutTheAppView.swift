@@ -85,6 +85,7 @@ struct AboutTheAppView: View {
 		}
 		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
+		.layoutForIPad()
 		.confirmationDialog(
 			"Reset the application?",
 			isPresented: $viewModel.showResetDialog) {
