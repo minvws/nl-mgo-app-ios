@@ -21,13 +21,20 @@ public struct IPadLayoutViewModifier: ViewModifier {
 	/// Should we adjust the layout for iPad (i.e., are we running on an iPad)?
 	private var shouldLayoutForiPad: Bool { return UIDevice.current.userInterfaceIdiom == .pad }
 	
-	// The Theme
+	/// The Theme
 	@Environment(\.theme) var theme
 	
 	/// The horizontal size classes (to determine the layout)
 	@Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+
+	/// should we force the iPad Layout?
+	public var force: Bool
 	
-	var force: Bool = false
+	/// Initializer
+	/// - Parameter force: should we force the iPad Layout?
+	public init(force: Bool = false) {
+		self.force = force
+	}
 	
 	public func body(content: Content) -> some View {
 		
