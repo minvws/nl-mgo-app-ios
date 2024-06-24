@@ -32,16 +32,16 @@ public struct IPadLayoutViewModifier: ViewModifier {
 	public func body(content: Content) -> some View {
 		
 		content
-		.if((shouldLayoutForiPad && horizontalSizeClass == .regular) || force) { view in
-			GeometryReader { geometry in
-				HStack(spacing: 0, content: {
-					Spacer(minLength: geometry.size.width * ViewTraits.Gutter.leading)
-					view
-					Spacer(minLength: geometry.size.width * ViewTraits.Gutter.trailing)
+			.if((shouldLayoutForiPad && horizontalSizeClass == .regular) || force, transform: { view in
+				GeometryReader(content: {geometry in
+					HStack(spacing: 0, content: {
+						Spacer(minLength: geometry.size.width * ViewTraits.Gutter.leading)
+						view
+						Spacer(minLength: geometry.size.width * ViewTraits.Gutter.trailing)
+					})
+					.background(theme.backgroundPrimary.ignoresSafeArea())
 				})
-				.background(theme.backgroundPrimary.ignoresSafeArea())
-			}
-		}
+			})
 	}
 }
 
