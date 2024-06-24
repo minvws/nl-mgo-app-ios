@@ -19,7 +19,7 @@ public struct IPadLayoutViewModifier: ViewModifier {
 	}
 	
 	/// Should we adjust the layout for iPad (i.e., are we running on an iPad)?
-	var shouldLayoutForiPad: Bool { return UIDevice.current.userInterfaceIdiom == .pad }
+	private var shouldLayoutForiPad: Bool { return UIDevice.current.userInterfaceIdiom == .pad }
 	
 	// The Theme
 	@Environment(\.theme) var theme
@@ -30,19 +30,14 @@ public struct IPadLayoutViewModifier: ViewModifier {
 	public func body(content: Content) -> some View {
 		
 		content
-		.if(shouldLayoutForiPad) { view in
+		.if(shouldLayoutForiPad && horizontalSizeClass == .regular) { view in
 			GeometryReader { geometry in
-				if horizontalSizeClass == .regular {
-					
-					HStack(spacing: 0, content: {
-						Spacer(minLength: geometry.size.width * ViewTraits.Gutter.leading)
-						view
-						Spacer(minLength: geometry.size.width * ViewTraits.Gutter.trailing)
-					})
-					.background(theme.backgroundPrimary.ignoresSafeArea())
-				} else {
+				HStack(spacing: 0, content: {
+					Spacer(minLength: geometry.size.width * ViewTraits.Gutter.leading)
 					view
-				}
+					Spacer(minLength: geometry.size.width * ViewTraits.Gutter.trailing)
+				})
+				.background(theme.backgroundPrimary.ignoresSafeArea())
 			}
 		}
 	}
