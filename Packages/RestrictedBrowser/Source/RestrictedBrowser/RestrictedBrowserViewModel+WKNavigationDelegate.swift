@@ -40,7 +40,7 @@ extension RestrictedBrowserViewModel: WKNavigationDelegate {
 		completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 			
 		// See https://stackoverflow.com/a/51667317/443270
-		
+			
 		guard let hostname = webView.url?.host else {
 			return
 		}
@@ -75,7 +75,7 @@ extension RestrictedBrowserViewModel: WKNavigationDelegate {
 			guard let password = alertController.textFields?.last?.text else {
 				return
 			}
-			let credential = URLCredential(user: userId, password: password, persistence: .none)
+			let credential = URLCredential(user: userId, password: password, persistence: .forSession)
 			completionHandler(.useCredential, credential)
 		}))
 		alertController.addAction(UIAlertAction(title: String(localized: "cancel", table: "Browser", bundle: .module), style: .cancel, handler: { _ in
