@@ -39,8 +39,24 @@ public struct RestrictedBrowserView: View {
 						} label: {
 							Image(systemName: "safari")
 						}
+						.buttonStyle(NavigationBarButtonStyle())
 					}
 				}
 		}
+	}
+}
+
+struct NavigationBarButtonStyle: ButtonStyle {
+	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
+	/// Style the button to a navigation bar button
+	/// - Parameter configuration: the button configuration
+	/// - Returns: primary button
+	func makeBody(configuration: Self.Configuration) -> some View {
+		
+		configuration.label
+			.foregroundStyle(configuration.isPressed ? theme.actionTertiaryHover : theme.actionTertiaryDefault)
 	}
 }
