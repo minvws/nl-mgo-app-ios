@@ -69,7 +69,7 @@ struct BackButtonStyle: ButtonStyle {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
-	/// Style the button to a primary button
+	/// Style the button to a back button
 	/// - Parameter configuration: the button configuration
 	/// - Returns: primary button
 	func makeBody(configuration: Self.Configuration) -> some View {
