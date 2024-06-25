@@ -77,6 +77,28 @@ class AppCoordinatorSpy: AppCoordinatorProtocol {
 		}
 	}
 
+	var invokedRootStateSetter = false
+	var invokedRootStateSetterCount = 0
+	var invokedRootState: AppCoordination.State?
+	var invokedRootStateList = [AppCoordination.State]()
+	var invokedRootStateGetter = false
+	var invokedRootStateGetterCount = 0
+	var stubbedRootState: AppCoordination.State!
+
+	var rootState: AppCoordination.State {
+		set {
+			invokedRootStateSetter = true
+			invokedRootStateSetterCount += 1
+			invokedRootState = newValue
+			invokedRootStateList.append(newValue)
+		}
+		get {
+			invokedRootStateGetter = true
+			invokedRootStateGetterCount += 1
+			return stubbedRootState
+		}
+	}
+
 	var invokedShowChildCoordinatorSetter = false
 	var invokedShowChildCoordinatorSetterCount = 0
 	var invokedShowChildCoordinator: Bool?
@@ -106,7 +128,7 @@ class AppCoordinatorSpy: AppCoordinatorProtocol {
 	var stubbedViewResult: some View {
 		EmptyView()
 	}
-
+	
 	func view(for: AppCoordination.State?) -> some View {
 		stubbedViewResult
 			.onAppear { [self] in

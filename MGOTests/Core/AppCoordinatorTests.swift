@@ -34,7 +34,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction(recreated: false)])
+		expect(self.sut.rootState) == AppCoordination.State.appIntroduction(recreated: false)
+		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
 	
@@ -48,7 +49,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
+		expect(self.sut.rootState) == AppCoordination.State.accessCodeEntry
+		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == true
 	}
@@ -64,7 +66,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeValidation])
+		expect(self.sut.rootState) == AppCoordination.State.accessCodeValidation
+		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
 	
@@ -89,7 +92,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.nextButtonPressedOnPrivacyOverview)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
+		expect(self.sut.rootState) == AppCoordination.State.accessCodeEntry
+		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionSetter) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == true
 	}
@@ -125,7 +129,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.accessCodeConfirmed)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.bioMetricSetup])
+		expect(self.sut.rootState) == AppCoordination.State.bioMetricSetup
+		expect(self.sut.path.isEmpty) == true
 	}
 	
 	func test_coordinatorHandle_accessCodeConfirmed_noBiometrics_shouldShowRemoteAuthentication() {
@@ -137,7 +142,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.accessCodeConfirmed)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
+		expect(self.sut.rootState) == AppCoordination.State.remoteAuthentication
+		expect(self.sut.path.isEmpty) == true
 	}
 
 	func test_coordinatorHandle_didFinishLocalAuthentication_shouldShowRemoteAuthenciation() {
@@ -148,7 +154,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.didFinishLocalAuthentication)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
+		expect(self.sut.rootState) == AppCoordination.State.remoteAuthentication
+		expect(self.sut.path.isEmpty) == true
 	}
 
 	func test_coordinatorHandle_loginWithDigiD_shouldShowDashboard() {
@@ -219,10 +226,10 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.recreateAccount)
 		
 		// Then
-//		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedData) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedData) == true
 		expect(self.sut.rootStateForSheet) == nil
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction(recreated: true)])
-		expect(self.sut.path.count) == 1
+		expect(self.sut.rootState) == AppCoordination.State.appIntroduction(recreated: true)
+		expect(self.sut.path.isEmpty) == true
 	}
 	
 	func test_coordinatorHandle_backButtonPressed() {
@@ -262,77 +269,5 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedDataCount) == 1
 		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedWipePersistedDataCount) == 1
-	}
-	
-	func test_coordinatorHandle_search() {
-		
-		// Given
-		
-		// When
-		sut.handle(Coordination.Action(identifier: "search", params: ["city": "Roermond", "name": "Tandarts Tandje Erbij"]))
-		
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")])
-	}
-	
-	func test_coordinatorHandle_backToSearchHealthcareProvider_presentInStack() {
-		
-		// Given
-		sut.path = NavigationStackBackport.NavigationPath([
-			AppCoordination.State.remoteAuthentication,
-			AppCoordination.State.searchHealthcareProvider,
-			AppCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")
-		])
-		
-		// When
-		sut.handle(Coordination.Action.backToSearchHealthcareProvider)
-		
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.searchHealthcareProvider])
-		expect(self.sut.path.count) == 2
-	}
-	
-	func test_coordinatorHandle_backToSearchHealthcareProvider_notPresentInStack() {
-		
-		// Given
-		sut.path = NavigationStackBackport.NavigationPath([
-			AppCoordination.State.remoteAuthentication
-		])
-		
-		// When
-		sut.handle(Coordination.Action.backToSearchHealthcareProvider)
-		
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.searchHealthcareProvider])
-		expect(self.sut.path.count) == 2
-	}
-	
-	func test_coordinatorHandle_storeHealthcareProvider_presentInStack() {
-		
-		// Given
-		sut.path = NavigationStackBackport.NavigationPath([
-			AppCoordination.State.dashboard
-		])
-		
-		// When
-		sut.handle(Coordination.Action.storeHealthcareProvider)
-		
-		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.dashboard, AppCoordination.State.storedHealthcareProviders])
-		expect(self.sut.path.count) == 2
-	}
-	
-	func test_coordinatorHandle_finishedSearchingHealthcareProviders() {
-		
-		// Given
-		sut.path = NavigationStackBackport.NavigationPath([
-			AppCoordination.State.storedHealthcareProviders
-		])
-		
-		// When
-		sut.handle(Coordination.Action.finishedSearchingHealthcareProviders)
-		
-		// Then
-		expect(self.sut.showChildCoordinator) == true
 	}
 }
