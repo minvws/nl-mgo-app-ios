@@ -28,7 +28,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 		} else {
 			
 			NavigationStackBackport.NavigationStack(path: $appCoordinator.path) {
-				appCoordinator.view(for: .launch)
+				appCoordinator.view(for: appCoordinator.rootState)
 					.backport.navigationDestination(for: AppCoordination.State.self) { state in
 						appCoordinator.view(for: state)
 					}
