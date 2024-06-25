@@ -23,6 +23,10 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 	/// The state for the root view of the sheet
 	var rootStateForSheet: AppCoordination.State? { get set }
 	
+	/// The state for the root view of the page
+	var rootState: AppCoordination.State { get set }
+	
+	/// Should we show the child coordinator?
 	var showChildCoordinator: Bool { get set }
 	
 	/// Get a View for the State
@@ -86,11 +90,6 @@ enum AppCoordination {
 		// Remote Authentication
 		case remoteAuthentication
 		
-		// Healthcare Provider flow
-		case searchHealthcareProvider
-		case searchHealthcareProviders(city: String, name: String)
-		case storedHealthcareProviders
-		
 		// Dashboard
 		case dashboard
 	}
@@ -110,6 +109,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// the root state for the sheet
 	@Published var rootStateForSheet: AppCoordination.State?
+	
+	/// The state for the root view of the page
+	@Published var rootState: AppCoordination.State
 	
 	/// Should we show the child coordinator instead of ourself?
 	@Published var showChildCoordinator = false
@@ -132,6 +134,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			
 			self.path = path
 			self.localisationServiceClient = localisationServiceClient
+			self.rootState = .launch
 		}
 	
 	/// the URL for the privacy page
@@ -161,7 +164,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case Coordination.Action.nextButtonPressedOnPrivacyOverview.identifier:
 				// Mark AppIntroduction Flow as seen.
 				Current.secureUserSettings.userHasSeenAppIntroduction = true
-				path.append(AppCoordination.State.accessCodeEntry)
+				resetNavigationStack(with: AppCoordination.State.accessCodeEntry)
 				
 			case Coordination.Action.showPrivacyStatement.identifier:
 				
@@ -185,7 +188,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				showChildCoordinator = true
 				
 			case Coordination.Action.didFinishLocalAuthentication.identifier:
-				path.append(AppCoordination.State.remoteAuthentication)
+				resetNavigationStack(with: AppCoordination.State.remoteAuthentication)
 				
 			case Coordination.Action.forgotAccessCode.identifier:
 				rootStateForSheet = AppCoordination.State.forgotAccessCode
@@ -197,7 +200,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				}
 				// Wipe Account
 				Current.wipePersistedData()
-				path = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction(recreated: true)])
+				resetNavigationStack(with: AppCoordination.State.appIntroduction(recreated: true))
 				
 				// Remote Authentication
 				
@@ -205,26 +208,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 				Current.secureUserSettings.userHasRemoteAuthentication = true
 				showChildCoordinator = true
-				
-			// Healthcare Provider flow
-			
-			case Coordination.Action.search.identifier:
-				if action.params.count == 2,
-				   let city = action.params["city"] as? String,
-				   let name = action.params["name"] as? String {
-					path.append(AppCoordination.State.searchHealthcareProviders(city: city, name: name))
-				} else {
-					logError("AppCoordinator Coordinator, missing params for \(action)")
-				}
-				
-			case Coordination.Action.backToSearchHealthcareProvider.identifier:
-				navigateTo(state: .searchHealthcareProvider)
-				
-			case Coordination.Action.finishedSearchingHealthcareProviders.identifier:
-				showChildCoordinator = true
-				
-			case Coordination.Action.storeHealthcareProvider.identifier:
-				path.append(AppCoordination.State.storedHealthcareProviders)
 				
 			// General
 				
@@ -255,13 +238,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		if !Current.secureUserSettings.userHasSeenAppIntroduction {
 			// Only show the appIntroduction once
-			path.append(AppCoordination.State.appIntroduction(recreated: false))
+			resetNavigationStack(with: AppCoordination.State.appIntroduction(recreated: false))
 		} else if Current.secureUserSettings.accessCode == nil {
 			// User must set an access code
-			path.append(AppCoordination.State.accessCodeEntry)
+			resetNavigationStack(with: AppCoordination.State.accessCodeEntry)
 		} else {
 			// Repeat login, user must authenticate with access code
-			path.append(AppCoordination.State.accessCodeValidation)
+			resetNavigationStack(with: AppCoordination.State.accessCodeValidation)
 		}
 	}
 	
@@ -269,25 +252,20 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	private func handleAccessCodeConfirmed() {
 		
 		if Current.localAuthenticationProvider.biometricType() == .none {
-			path.append(AppCoordination.State.remoteAuthentication)
+			resetNavigationStack(with: AppCoordination.State.remoteAuthentication)
 		} else {
-			path.append(AppCoordination.State.bioMetricSetup)
+			resetNavigationStack(with: AppCoordination.State.bioMetricSetup)
 		}
 	}
 	
-	/// Navigate back to the state if present in the stack, else append to the stack
-	/// - Parameter state: the desired state
-	private func navigateTo(state: AppCoordination.State) {
+	private func resetNavigationStack(with state: AppCoordination.State) {
 		
-		if let index = path.indexOf(state) {
-			let elementsToBeRemoved = path.count - index - 1
-			logDebug("AppCoordinator navigateTo \(state) - index: \(index), count: \(path.count), toBeRemoved: \(elementsToBeRemoved)")
-			if elementsToBeRemoved >= 0 {
-				path.removeLast(elementsToBeRemoved)
-				return
-			}
+		var transaction = Transaction()
+		transaction.disablesAnimations = true
+		withTransaction(transaction) {
+			path.removeLast(path.count)
+			rootState = state
 		}
-		path.append(state)
 	}
 	
 	/// Get a View for the State
@@ -340,18 +318,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case .dashboard:
 				DashboardCoordinatorView(coordinator: DashboardCoordinator(parentCoordinator: self))
-				
-			// Healthcare Provider flow
-				
-			case .searchHealthcareProvider:
-				SearchView(viewModel: SearchViewModel(coordinator: self))
-				
-			case let .searchHealthcareProviders(city, name):
-				SearchResultsView(viewModel: SearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: self.localisationServiceClient))
-				
-			case .storedHealthcareProviders:
-				StoredHealthcareProvidersView(viewModel: StoredHealthcareProvidersViewModel(coordinator: self))
-				
+			
 			// Fallback
 				
 			case .none:

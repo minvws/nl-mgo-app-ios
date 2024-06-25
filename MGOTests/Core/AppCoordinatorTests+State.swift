@@ -180,40 +180,4 @@ final class AppCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
-	
-	func test_coordinatorView_forSearch() throws {
-		
-		// Given
-		let state = AppCoordination.State.searchHealthcareProvider
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_forSearchResults() throws {
-
-		// Given
-		let state = AppCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_storedHealthcareProviders() throws {
-
-		// Given
-		let state = AppCoordination.State.storedHealthcareProviders
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
 }
