@@ -226,6 +226,7 @@ struct BioMetricSetupView: View {
 			Text("biometric_alert_body")
 		}
 		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.layoutForIPad()
 	}
 	
 	/// Get the image for this biometric type

@@ -638,6 +638,7 @@ struct AccessCodeView: View {
 			}
 		}
 		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.layoutForIPad()
 	}
 	
 	/// Create a button for a digit (0 ... 9)
