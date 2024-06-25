@@ -58,7 +58,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 				}
 			)
 			.onAppear {
-				// Make ourself availble for inspection
+				// Make ourself available for inspection
 				self.didAppear?(self)
 			}
 		}

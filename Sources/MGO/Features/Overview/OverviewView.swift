@@ -203,6 +203,7 @@ struct OverviewView: View {
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
+		.layoutForIPad()
 	}
 	
 	@ViewBuilder func headerView() -> some View {

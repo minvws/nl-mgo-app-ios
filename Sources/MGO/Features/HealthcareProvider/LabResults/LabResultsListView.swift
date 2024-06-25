@@ -214,6 +214,7 @@ struct LabResultsListView: View {
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
+		.layoutForIPad()
 	}
 }
 //
