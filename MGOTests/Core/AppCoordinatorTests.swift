@@ -34,7 +34,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction(recreated: false)])
+		expect(self.sut.rootState) == AppCoordination.State.appIntroduction(recreated: false)
+		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
 	
@@ -48,7 +49,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
+		expect(self.sut.rootState) == AppCoordination.State.accessCodeEntry
+		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == true
 	}
@@ -64,7 +66,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeValidation])
+		expect(self.sut.rootState) == AppCoordination.State.accessCodeValidation
+		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
 	
@@ -89,7 +92,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.nextButtonPressedOnPrivacyOverview)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeEntry])
+		expect(self.sut.rootState) == AppCoordination.State.accessCodeEntry
+		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionSetter) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == true
 	}
@@ -125,7 +129,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.accessCodeConfirmed)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.bioMetricSetup])
+		expect(self.sut.rootState) == AppCoordination.State.bioMetricSetup
+		expect(self.sut.path.isEmpty) == true
 	}
 	
 	func test_coordinatorHandle_accessCodeConfirmed_noBiometrics_shouldShowRemoteAuthentication() {
@@ -137,7 +142,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.accessCodeConfirmed)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
+		expect(self.sut.rootState) == AppCoordination.State.remoteAuthentication
+		expect(self.sut.path.isEmpty) == true
 	}
 
 	func test_coordinatorHandle_didFinishLocalAuthentication_shouldShowRemoteAuthenciation() {
@@ -148,7 +154,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.didFinishLocalAuthentication)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication])
+		expect(self.sut.rootState) == AppCoordination.State.remoteAuthentication
+		expect(self.sut.path.isEmpty) == true
 	}
 
 	func test_coordinatorHandle_loginWithDigiD_shouldShowDashboard() {
@@ -219,10 +226,10 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.recreateAccount)
 		
 		// Then
-//		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedData) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedData) == true
 		expect(self.sut.rootStateForSheet) == nil
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction(recreated: true)])
-		expect(self.sut.path.count) == 1
+		expect(self.sut.rootState) == AppCoordination.State.appIntroduction(recreated: true)
+		expect(self.sut.path.isEmpty) == true
 	}
 	
 	func test_coordinatorHandle_backButtonPressed() {
