@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class ForgotAccessCodeViewModel: ObservableObject {
+class ForgotPinCodeViewModel: ObservableObject {
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
@@ -35,7 +35,7 @@ class ForgotAccessCodeViewModel: ObservableObject {
 		
 		switch action {
 			case .cancelButtonPressed:
-				coordinator?.handle(Coordination.Action.dismissForgotAccessCode)
+				coordinator?.handle(Coordination.Action.dismissForgotPinCode)
 			case .recreateAccount:
 				coordinator?.handle(Coordination.Action.recreateAccount)
 			case .showDialog:
@@ -46,10 +46,10 @@ class ForgotAccessCodeViewModel: ObservableObject {
 	}
 }
 
-struct ForgotAccessCodeView: View {
+struct ForgotPinCodeView: View {
 	
 	/// The view model
-	@StateObject var viewModel: ForgotAccessCodeViewModel
+	@StateObject var viewModel: ForgotPinCodeViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme

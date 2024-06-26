@@ -76,7 +76,7 @@ class AccessCodeViewModel: ObservableObject {
 		case biometricKeyPressed
 		case backButtonPressed
 		case onAppear
-		case forgotAccessCode
+		case forgotPinCode
 	}
 	
 	/// The mode of this view (creation, validation)
@@ -271,8 +271,8 @@ class AccessCodeViewModel: ObservableObject {
 				delay(0.5) {
 					self.showBioMetricLogin()
 				}
-			case .forgotAccessCode:
-				coordinator?.handle(Coordination.Action.forgotAccessCode)
+			case .forgotPinCode:
+				coordinator?.handle(Coordination.Action.forgotPinCode)
 		}
 	}
 	
@@ -512,7 +512,7 @@ struct AccessCodeView: View {
 					
 					if viewModel.state.forgotCodeButtonVisible {
 						Button(action: {
-							viewModel.reduce(.forgotAccessCode)
+							viewModel.reduce(.forgotPinCode)
 						}, label: {
 							Text("biometric_forgot_accesscode")
 						})

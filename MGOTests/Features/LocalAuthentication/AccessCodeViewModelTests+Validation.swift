@@ -391,16 +391,16 @@ final class AccessCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
-	func test_forgotAccessCode() {
+	func test_forgotPinCode() {
 		
 		// Given
 		setupSut(mode: .validation, bioMetricType: { .touchID })
 		
 		// When
-		sut.reduce(.forgotAccessCode)
+		sut.reduce(.forgotPinCode)
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.forgotAccessCode))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.forgotPinCode))
 	}
 }

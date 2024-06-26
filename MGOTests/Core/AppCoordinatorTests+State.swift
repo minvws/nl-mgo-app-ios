@@ -157,10 +157,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forgotAccessCode() throws {
+	func test_coordinatorView_forgotPinCode() throws {
 		
 		// Given
-		let state = AppCoordination.State.forgotAccessCode
+		let state = AppCoordination.State.forgotPinCode
 		
 		// When
 		let view = sut.view(for: state)

@@ -50,8 +50,8 @@ extension Coordination.Action {
 	static let accessCodeConfirmed = Coordination.Action(identifier: "accessCodeConfirmed")
 	static let didFinishLocalAuthentication = Coordination.Action(identifier: "didFinishLocalAuthentication")
 	static let accessCodeValidated = Coordination.Action(identifier: "accessCodeValidated")
-	static let forgotAccessCode = Coordination.Action(identifier: "forgotAccessCode")
-	static let dismissForgotAccessCode = Coordination.Action(identifier: "dismissForgotAccessCode")
+	static let forgotPinCode = Coordination.Action(identifier: "forgotPinCode")
+	static let dismissForgotPinCode = Coordination.Action(identifier: "dismissForgotPinCode")
 	static let recreateAccount = Coordination.Action(identifier: "recreateAccount")
 	
 	// Remote Authentication
@@ -85,7 +85,7 @@ enum AppCoordination {
 		case accessCodeConfirmation
 		case accessCodeValidation
 		case bioMetricSetup
-		case forgotAccessCode
+		case forgotPinCode
 		
 		// Remote Authentication
 		case remoteAuthentication
@@ -190,8 +190,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case Coordination.Action.didFinishLocalAuthentication.identifier:
 				resetNavigationStack(with: AppCoordination.State.remoteAuthentication)
 				
-			case Coordination.Action.forgotAccessCode.identifier:
-				rootStateForSheet = AppCoordination.State.forgotAccessCode
+			case Coordination.Action.forgotPinCode.identifier:
+				rootStateForSheet = AppCoordination.State.forgotPinCode
 				
 			case Coordination.Action.recreateAccount.identifier:
 				if rootStateForSheet != nil {
@@ -212,7 +212,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// General
 				
 			case Coordination.Action.closeSheet.identifier,
-				Coordination.Action.dismissForgotAccessCode.identifier:
+				Coordination.Action.dismissForgotPinCode.identifier:
 				
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
@@ -306,8 +306,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .bioMetricSetup:
 				BioMetricSetupView(viewModel: BioMetricSetupViewModel(coordinator: self, bioMetricType: Current.localAuthenticationProvider.biometricType))
 				
-			case .forgotAccessCode:
-				ForgotAccessCodeView(viewModel: ForgotAccessCodeViewModel(coordinator: self))
+			case .forgotPinCode:
+				ForgotPinCodeView(viewModel: ForgotPinCodeViewModel(coordinator: self))
 				
 			// Remote Authentication
 				

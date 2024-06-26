@@ -193,24 +193,24 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showChildCoordinator) == true
 	}
 	
-	func test_coordinatorHandle_forgotAccessCode() {
+	func test_coordinatorHandle_forgotPinCode() {
 		
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action.forgotAccessCode)
+		sut.handle(Coordination.Action.forgotPinCode)
 		
 		// Then
-		expect(self.sut.rootStateForSheet) == AppCoordination.State.forgotAccessCode
+		expect(self.sut.rootStateForSheet) == AppCoordination.State.forgotPinCode
 	}
 	
-	func test_coordinatorHandle_dismissForgotAccessCode() {
+	func test_coordinatorHandle_dismissForgotPinCode() {
 		
 		// Given
-		sut.rootStateForSheet = AppCoordination.State.forgotAccessCode
+		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
 		
 		// When
-		sut.handle(Coordination.Action.dismissForgotAccessCode)
+		sut.handle(Coordination.Action.dismissForgotPinCode)
 		
 		// Then
 		expect(self.sut.rootStateForSheet) == nil
@@ -220,7 +220,7 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.accessCodeValidation])
-		sut.rootStateForSheet = AppCoordination.State.forgotAccessCode
+		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
 		
 		// When
 		sut.handle(Coordination.Action.recreateAccount)

@@ -10,15 +10,15 @@ import MGOTest
 import MGOUI
 @testable import MGO
 
-final class ForgotAccessCodeViewTests: XCTestCase {
+final class ForgotPinCodeViewTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
-	private var sut: ForgotAccessCodeView!
+	private var sut: ForgotPinCodeView!
 	
 	override func setUp() {
 		
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = ForgotAccessCodeView(viewModel: ForgotAccessCodeViewModel(coordinator: self.coordinatorSpy))
+		sut = ForgotPinCodeView(viewModel: ForgotPinCodeViewModel(coordinator: self.coordinatorSpy))
 		super.setUp()
 	}
 
@@ -33,7 +33,7 @@ final class ForgotAccessCodeViewTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.dismissForgotAccessCode
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.dismissForgotPinCode
 	}
 	
 	func test_showDialog() throws {
@@ -49,7 +49,7 @@ final class ForgotAccessCodeViewTests: XCTestCase {
 	
 	// MARK: - Snapshots -
 	
-	func test_forgotAccessCodeView() {
+	func test_forgotPinCodeView() {
 		
 		// Given
 		
