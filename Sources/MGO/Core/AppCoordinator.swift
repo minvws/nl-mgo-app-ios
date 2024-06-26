@@ -88,7 +88,7 @@ enum AppCoordination {
 		case forgotPinCode
 		
 		// Remote Authentication
-		case remoteAuthentication
+		case login
 		
 		// Dashboard
 		case dashboard
@@ -188,7 +188,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				showChildCoordinator = true
 				
 			case Coordination.Action.didFinishLocalAuthentication.identifier:
-				resetNavigationStack(with: AppCoordination.State.remoteAuthentication)
+				resetNavigationStack(with: AppCoordination.State.login)
 				
 			case Coordination.Action.forgotPinCode.identifier:
 				rootStateForSheet = AppCoordination.State.forgotPinCode
@@ -252,7 +252,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	private func handlePinCodeConfirmed() {
 		
 		if Current.localAuthenticationProvider.biometricType() == .none {
-			resetNavigationStack(with: AppCoordination.State.remoteAuthentication)
+			resetNavigationStack(with: AppCoordination.State.login)
 		} else {
 			resetNavigationStack(with: AppCoordination.State.bioMetricSetup)
 		}
@@ -311,8 +311,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			// Remote Authentication
 				
-			case .remoteAuthentication:
-				RemoteAuthenticationView(viewModel: RemoteAuthenticationViewModel(coordinator: self))
+			case .login:
+				LoginView(viewModel: LoginViewModel(coordinator: self))
 				
 			// Dashboard
 				

@@ -142,7 +142,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.pinCodeConfirmed)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.remoteAuthentication
+		expect(self.sut.rootState) == AppCoordination.State.login
 		expect(self.sut.path.isEmpty) == true
 	}
 
@@ -154,7 +154,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.didFinishLocalAuthentication)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.remoteAuthentication
+		expect(self.sut.rootState) == AppCoordination.State.login
 		expect(self.sut.path.isEmpty) == true
 	}
 
@@ -219,7 +219,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_recreateAccount_presentInStack() {
 		
 		// Given
-		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.pinCodeValidation])
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.login, AppCoordination.State.pinCodeValidation])
 		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
 		
 		// When
