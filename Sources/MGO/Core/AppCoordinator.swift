@@ -283,7 +283,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				IntroductionView(viewModel: IntroductionViewModel(coordinator: self, showAccountDeletedToast: recreated))
 				
 			case .privacyOverview:
-				PrivacyOverviewView(viewModel: PrivacyOverviewViewModel(coordinator: self))
+				PropositionView(viewModel: PropositionViewModel(coordinator: self))
 				
 			case .privacyStatement:
 				if let privacyURL {

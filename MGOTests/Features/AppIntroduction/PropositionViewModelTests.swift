@@ -8,15 +8,15 @@
 import MGOTest
 @testable import MGO
 
-final class PrivacyOverviewViewModelTests: XCTestCase {
+final class PropositionViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
-	private var sut: PrivacyOverviewViewModel!
+	private var sut: PropositionViewModel!
 	
 	override func setUp() {
 		
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = PrivacyOverviewViewModel(coordinator: coordinatorSpy)
+		sut = PropositionViewModel(coordinator: coordinatorSpy)
 		super.setUp()
 	}
 

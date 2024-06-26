@@ -9,7 +9,7 @@ import MGOTest
 import MGOUI
 @testable import MGO
 
-final class PrivacyOverviewViewTests: XCTestCase {
+final class PropositionViewTests: XCTestCase {
 	
 	private var coordinatorSpy: AppCoordinatorSpy!
 	
@@ -19,10 +19,10 @@ final class PrivacyOverviewViewTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func createSut() -> PrivacyOverviewView {
+	func createSut() -> PropositionView {
 		
-		return PrivacyOverviewView(
-			viewModel: PrivacyOverviewViewModel(
+		return PropositionView(
+			viewModel: PropositionViewModel(
 				coordinator: self.coordinatorSpy
 			)
 		)

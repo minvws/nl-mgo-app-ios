@@ -7,7 +7,7 @@
 
 import MGOUI
 
-class PrivacyOverviewViewModel: ObservableObject {
+class PropositionViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -27,7 +27,7 @@ class PrivacyOverviewViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: PrivacyOverviewViewModel.Action) {
+	func reduce(_ action: PropositionViewModel.Action) {
 		
 		switch action {
 			case .privacyLinkClicked:
@@ -40,10 +40,10 @@ class PrivacyOverviewViewModel: ObservableObject {
 	}
 }
 
-struct PrivacyOverviewView: View {
+struct PropositionView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: PrivacyOverviewViewModel
+	@StateObject var viewModel: PropositionViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -139,6 +139,6 @@ struct PrivacyOverviewView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		PrivacyOverviewView(viewModel: PrivacyOverviewViewModel())
+		PropositionView(viewModel: PropositionViewModel())
 	}
 }
