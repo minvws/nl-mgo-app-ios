@@ -33,7 +33,7 @@ class PropositionViewModel: ObservableObject {
 			case .privacyLinkClicked:
 				coordinator?.handle(Coordination.Action.showPrivacyStatement)
 			case .nextButttonPressed:
-				coordinator?.handle(Coordination.Action.nextButtonPressedOnPrivacyOverview)
+				coordinator?.handle(Coordination.Action.nextButtonPressedOnProposition)
 			case .backButtonPressed:
 				coordinator?.handle(Coordination.Action.backButtonPressed)
 		}

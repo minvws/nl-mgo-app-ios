@@ -30,7 +30,7 @@ final class IntroductionViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.toast) != nil
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.nextButtonPressedOnAppIntroduction
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.nextButtonPressedOnIntroduction
 	}
 	
 	func test_onDisappear_shouldRemoveToast() {

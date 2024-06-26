@@ -42,7 +42,7 @@ class IntroductionViewModel: ObservableObject {
 	func reduce(_ action: IntroductionViewModel.Action) {
 		switch action {
 			case .nextButttonPressed:
-				coordinator?.handle(Coordination.Action.nextButtonPressedOnAppIntroduction)
+				coordinator?.handle(Coordination.Action.nextButtonPressedOnIntroduction)
 			case .closeToast, .onDisappear:
 				toast = nil
 		}

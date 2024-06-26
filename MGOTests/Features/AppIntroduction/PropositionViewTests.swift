@@ -28,7 +28,7 @@ final class PropositionViewTests: XCTestCase {
 		)
 	}
 	
-	func test_showPrivacyOverviewView() {
+	func test_showProposition() {
 		
 		// Given
 		let sut = createSut()

@@ -42,10 +42,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view), precision: 0.90) // Lower precision due to random postion of spinner
 	}
 	
-	func test_coordinatorView_forAppIntroduction_recreatedFalse() throws {
+	func test_coordinatorView_forIntroduction_recreatedFalse() throws {
 		
 		// Given
-		let state = AppCoordination.State.appIntroduction(recreated: false)
+		let state = AppCoordination.State.introduction(recreated: false)
 		
 		// When
 		let view = sut.view(for: state)
@@ -54,10 +54,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAppIntroduction_recreatedTrue() throws {
+	func test_coordinatorView_forIntroduction_recreatedTrue() throws {
 		
 		// Given
-		let state = AppCoordination.State.appIntroduction(recreated: true)
+		let state = AppCoordination.State.introduction(recreated: true)
 		
 		// When
 		let view = sut.view(for: state)
@@ -66,10 +66,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forPrivacyOverview() throws {
+	func test_coordinatorView_forProposition() throws {
 		
 		// Given
-		let state = AppCoordination.State.privacyOverview
+		let state = AppCoordination.State.proposition
 		
 		// When
 		let view = sut.view(for: state)

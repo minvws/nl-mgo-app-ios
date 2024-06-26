@@ -34,7 +34,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.appIntroduction(recreated: false)
+		expect(self.sut.rootState) == AppCoordination.State.introduction(recreated: false)
 		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
@@ -76,10 +76,10 @@ final class AppCoordinatorTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action.nextButtonPressedOnAppIntroduction)
+		sut.handle(Coordination.Action.nextButtonPressedOnIntroduction)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacyOverview])
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.proposition])
 	}
 	
 	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainAccessCodeEntry_securitySettingsUpdated() {
@@ -89,7 +89,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == nil
 		
 		// When
-		sut.handle(Coordination.Action.nextButtonPressedOnPrivacyOverview)
+		sut.handle(Coordination.Action.nextButtonPressedOnProposition)
 		
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.accessCodeEntry
@@ -228,14 +228,14 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedData) == true
 		expect(self.sut.rootStateForSheet) == nil
-		expect(self.sut.rootState) == AppCoordination.State.appIntroduction(recreated: true)
+		expect(self.sut.rootState) == AppCoordination.State.introduction(recreated: true)
 		expect(self.sut.path.isEmpty) == true
 	}
 	
 	func test_coordinatorHandle_backButtonPressed() {
 		
 		// Given
-		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction(recreated: false)])
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.introduction(recreated: false)])
 		
 		// When
 		sut.handle(Coordination.Action.backButtonPressed)
@@ -259,7 +259,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_resetApplication() {
 		
 		// Given
-		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.appIntroduction(recreated: false)])
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.introduction(recreated: false)])
 		
 		// When
 		sut.handle(Coordination.Action.resetApplication)

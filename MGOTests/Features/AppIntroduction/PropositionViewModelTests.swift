@@ -29,7 +29,7 @@ final class PropositionViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.nextButtonPressedOnPrivacyOverview
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.nextButtonPressedOnProposition
 	}
 	
 	func test_privacyLinkClicked_shouldChangeState() {

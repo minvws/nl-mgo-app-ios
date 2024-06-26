@@ -41,8 +41,8 @@ extension Coordination.Action {
 	static let finishedLoading = Coordination.Action(identifier: "finishedLoading")
 	
 	// Onboarding
-	static let nextButtonPressedOnAppIntroduction = Coordination.Action(identifier: "nextButtonPressedOnAppIntroduction")
-	static let nextButtonPressedOnPrivacyOverview = Coordination.Action(identifier: "nextButtonPressedOnPrivacyOverview")
+	static let nextButtonPressedOnIntroduction = Coordination.Action(identifier: "nextButtonPressedOnIntroduction")
+	static let nextButtonPressedOnProposition = Coordination.Action(identifier: "nextButtonPressedOnProposition")
 	static let showPrivacyStatement = Coordination.Action(identifier: "showPrivacyStatement")
 	
 	// Local Authentication
@@ -76,8 +76,8 @@ enum AppCoordination {
 		case launch
 		
 		// Onboarding
-		case appIntroduction(recreated: Bool)
-		case privacyOverview
+		case introduction(recreated: Bool)
+		case proposition
 		case privacyStatement
 		
 		// Local Authentication
@@ -158,10 +158,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case Coordination.Action.finishedLoading.identifier:
 				handleStartup()
 			
-			case Coordination.Action.nextButtonPressedOnAppIntroduction.identifier:
-				path.append(AppCoordination.State.privacyOverview)
+			case Coordination.Action.nextButtonPressedOnIntroduction.identifier:
+				path.append(AppCoordination.State.proposition)
 				
-			case Coordination.Action.nextButtonPressedOnPrivacyOverview.identifier:
+			case Coordination.Action.nextButtonPressedOnProposition.identifier:
 				// Mark AppIntroduction Flow as seen.
 				Current.secureUserSettings.userHasSeenAppIntroduction = true
 				resetNavigationStack(with: AppCoordination.State.accessCodeEntry)
@@ -200,7 +200,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				}
 				// Wipe Account
 				Current.wipePersistedData()
-				resetNavigationStack(with: AppCoordination.State.appIntroduction(recreated: true))
+				resetNavigationStack(with: AppCoordination.State.introduction(recreated: true))
 				
 				// Remote Authentication
 				
@@ -238,7 +238,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		if !Current.secureUserSettings.userHasSeenAppIntroduction {
 			// Only show the appIntroduction once
-			resetNavigationStack(with: AppCoordination.State.appIntroduction(recreated: false))
+			resetNavigationStack(with: AppCoordination.State.introduction(recreated: false))
 		} else if Current.secureUserSettings.accessCode == nil {
 			// User must set an access code
 			resetNavigationStack(with: AppCoordination.State.accessCodeEntry)
@@ -279,10 +279,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			// Onboarding
 				
-			case let .appIntroduction(recreated):
+			case let .introduction(recreated):
 				IntroductionView(viewModel: IntroductionViewModel(coordinator: self, showAccountDeletedToast: recreated))
 				
-			case .privacyOverview:
+			case .proposition:
 				PropositionView(viewModel: PropositionViewModel(coordinator: self))
 				
 			case .privacyStatement:
