@@ -280,7 +280,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Onboarding
 				
 			case let .appIntroduction(recreated):
-				AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: self, showAccountDeletedToast: recreated))
+				IntroductionView(viewModel: IntroductionViewModel(coordinator: self, showAccountDeletedToast: recreated))
 				
 			case .privacyOverview:
 				PrivacyOverviewView(viewModel: PrivacyOverviewViewModel(coordinator: self))

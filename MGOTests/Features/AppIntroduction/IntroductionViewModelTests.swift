@@ -8,15 +8,15 @@
 import MGOTest
 @testable import MGO
 
-final class AppIntroductionViewModelTests: XCTestCase {
+final class IntroductionViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
-	private var sut: AppIntroductionViewModel!
+	private var sut: IntroductionViewModel!
 	
 	override func setUp() {
 		
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = AppIntroductionViewModel(coordinator: coordinatorSpy, showAccountDeletedToast: true)
+		sut = IntroductionViewModel(coordinator: coordinatorSpy, showAccountDeletedToast: true)
 		super.setUp()
 	}
 

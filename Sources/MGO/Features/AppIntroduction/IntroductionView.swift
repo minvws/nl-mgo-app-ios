@@ -8,7 +8,7 @@
 import MGOUI
 import MGOFoundation
 
-class AppIntroductionViewModel: ObservableObject {
+class IntroductionViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -39,7 +39,7 @@ class AppIntroductionViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AppIntroductionViewModel.Action) {
+	func reduce(_ action: IntroductionViewModel.Action) {
 		switch action {
 			case .nextButttonPressed:
 				coordinator?.handle(Coordination.Action.nextButtonPressedOnAppIntroduction)
@@ -49,10 +49,10 @@ class AppIntroductionViewModel: ObservableObject {
 	}
 }
 
-struct AppIntroductionView: View {
+struct IntroductionView: View {
 	
 	/// The view model
-	@StateObject var viewModel: AppIntroductionViewModel
+	@StateObject var viewModel: IntroductionViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -166,6 +166,6 @@ struct AppIntroductionView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		AppIntroductionView(viewModel: AppIntroductionViewModel(coordinator: nil, showAccountDeletedToast: true))
+		IntroductionView(viewModel: IntroductionViewModel(coordinator: nil, showAccountDeletedToast: true))
 	}
 }

@@ -9,11 +9,11 @@ import MGOTest
 import MGOUI
 @testable import MGO
 
-final class AppIntroductionViewTests: XCTestCase {
+final class IntroductionViewTests: XCTestCase {
 	
 	private var coordinatorSpy: AppCoordinatorSpy!
-	private var viewModel: AppIntroductionViewModel!
-	private var sut: AppIntroductionView!
+	private var viewModel: IntroductionViewModel!
+	private var sut: IntroductionView!
 	
 	override func setUp() {
 		
@@ -24,8 +24,8 @@ final class AppIntroductionViewTests: XCTestCase {
 	
 	func createSut(withToast: Bool = false) {
 		
-		viewModel = AppIntroductionViewModel(coordinator: coordinatorSpy, showAccountDeletedToast: withToast)
-		sut = AppIntroductionView(viewModel: self.viewModel)
+		viewModel = IntroductionViewModel(coordinator: coordinatorSpy, showAccountDeletedToast: withToast)
+		sut = IntroductionView(viewModel: self.viewModel)
 	}
 	
 	func test_appIntroductionView() {
