@@ -46,10 +46,10 @@ extension Coordination.Action {
 	static let showPrivacyStatement = Coordination.Action(identifier: "showPrivacyStatement")
 	
 	// Local Authentication
-	static let accessCodeEntered = Coordination.Action(identifier: "accessCodeEntered")
-	static let accessCodeConfirmed = Coordination.Action(identifier: "accessCodeConfirmed")
+	static let pinCodeEntered = Coordination.Action(identifier: "pinCodeEntered")
+	static let pinCodeConfirmed = Coordination.Action(identifier: "pinCodeConfirmed")
 	static let didFinishLocalAuthentication = Coordination.Action(identifier: "didFinishLocalAuthentication")
-	static let accessCodeValidated = Coordination.Action(identifier: "accessCodeValidated")
+	static let pinCodeValidated = Coordination.Action(identifier: "pinCodeValidated")
 	static let forgotPinCode = Coordination.Action(identifier: "forgotPinCode")
 	static let dismissForgotPinCode = Coordination.Action(identifier: "dismissForgotPinCode")
 	static let recreateAccount = Coordination.Action(identifier: "recreateAccount")
@@ -81,9 +81,9 @@ enum AppCoordination {
 		case privacyStatement
 		
 		// Local Authentication
-		case accessCodeEntry
-		case accessCodeConfirmation
-		case accessCodeValidation
+		case pinCodeEntry
+		case pinCodeConfirmation
+		case pinCodeValidation
 		case bioMetricSetup
 		case forgotPinCode
 		
@@ -164,7 +164,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case Coordination.Action.nextButtonPressedOnProposition.identifier:
 				// Mark AppIntroduction Flow as seen.
 				Current.secureUserSettings.userHasSeenAppIntroduction = true
-				resetNavigationStack(with: AppCoordination.State.accessCodeEntry)
+				resetNavigationStack(with: AppCoordination.State.pinCodeEntry)
 				
 			case Coordination.Action.showPrivacyStatement.identifier:
 				
@@ -178,13 +178,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			// Local Authentication
 				
-			case Coordination.Action.accessCodeEntered.identifier:
-				path.append(AppCoordination.State.accessCodeConfirmation)
+			case Coordination.Action.pinCodeEntered.identifier:
+				path.append(AppCoordination.State.pinCodeConfirmation)
 				
-			case Coordination.Action.accessCodeConfirmed.identifier:
-				handleAccessCodeConfirmed()
+			case Coordination.Action.pinCodeConfirmed.identifier:
+				handlePinCodeConfirmed()
 				
-			case Coordination.Action.accessCodeValidated.identifier:
+			case Coordination.Action.pinCodeValidated.identifier:
 				showChildCoordinator = true
 				
 			case Coordination.Action.didFinishLocalAuthentication.identifier:
@@ -239,17 +239,17 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		if !Current.secureUserSettings.userHasSeenAppIntroduction {
 			// Only show the appIntroduction once
 			resetNavigationStack(with: AppCoordination.State.introduction(recreated: false))
-		} else if Current.secureUserSettings.accessCode == nil {
-			// User must set an access code
-			resetNavigationStack(with: AppCoordination.State.accessCodeEntry)
+		} else if Current.secureUserSettings.pinCode == nil {
+			// User must set an pin code
+			resetNavigationStack(with: AppCoordination.State.pinCodeEntry)
 		} else {
-			// Repeat login, user must authenticate with access code
-			resetNavigationStack(with: AppCoordination.State.accessCodeValidation)
+			// Repeat login, user must authenticate with pin code
+			resetNavigationStack(with: AppCoordination.State.pinCodeValidation)
 		}
 	}
 	
-	/// Handle the access code confirmed state
-	private func handleAccessCodeConfirmed() {
+	/// Handle the pin code confirmed state
+	private func handlePinCodeConfirmed() {
 		
 		if Current.localAuthenticationProvider.biometricType() == .none {
 			resetNavigationStack(with: AppCoordination.State.remoteAuthentication)
@@ -294,14 +294,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			// Local Authentication
 				
-			case .accessCodeEntry:
-				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .creation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+			case .pinCodeEntry:
+				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .creation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 				
-			case .accessCodeConfirmation:
-				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+			case .pinCodeConfirmation:
+				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 				
-			case .accessCodeValidation:
-				AccessCodeView(viewModel: AccessCodeViewModel(coordinator: self, mode: .validation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+			case .pinCodeValidation:
+				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .validation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 				
 			case .bioMetricSetup:
 				BioMetricSetupView(viewModel: BioMetricSetupViewModel(coordinator: self, bioMetricType: Current.localAuthenticationProvider.biometricType))

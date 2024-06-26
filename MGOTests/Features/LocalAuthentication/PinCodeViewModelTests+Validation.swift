@@ -9,16 +9,16 @@ import MGOFoundation
 import MGOTest
 @testable import MGO
 
-final class AccessCodeViewModelTests: XCTestCase {
+final class PinCodeViewModelTests: XCTestCase {
 	
-	private var strengthMeterSpy: AccessCodeStrengthValidationSpy!
+	private var strengthMeterSpy: PinCodeStrengthValidationSpy!
 	private var coordinatorSpy: AppCoordinatorSpy!
-	private var sut: AccessCodeViewModel!
+	private var sut: PinCodeViewModel!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
-		strengthMeterSpy = AccessCodeStrengthValidationSpy()
+		strengthMeterSpy = PinCodeStrengthValidationSpy()
 		servicesSpies = setupServicesSpies()
 		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = true
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .touchID }
@@ -26,9 +26,9 @@ final class AccessCodeViewModelTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func setupSut(mode: AccessCodeViewModel.AccessCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) {
+	func setupSut(mode: PinCodeViewModel.PinCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) {
 		
-		sut = AccessCodeViewModel(
+		sut = PinCodeViewModel(
 			coordinator: coordinatorSpy,
 			mode: mode,
 			pinLimit: 5,
@@ -38,18 +38,18 @@ final class AccessCodeViewModelTests: XCTestCase {
 	}
 	
 	private func expectedBoxState(
-		_ state0: AccessCodeBoxView.State,
-		_ state1: AccessCodeBoxView.State,
-		_ state2: AccessCodeBoxView.State,
-		_ state3: AccessCodeBoxView.State,
-		_ state4: AccessCodeBoxView.State ) -> [AccessCodeViewModel.AccessCodeBoxState] {
+		_ state0: PinCodeBoxView.State,
+		_ state1: PinCodeBoxView.State,
+		_ state2: PinCodeBoxView.State,
+		_ state3: PinCodeBoxView.State,
+		_ state4: PinCodeBoxView.State ) -> [PinCodeViewModel.PinCodeBoxState] {
 			
 		return [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: state0),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: state1),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: state2),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: state3),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: state4)
+			PinCodeViewModel.PinCodeBoxState(id: 0, state: state0),
+			PinCodeViewModel.PinCodeBoxState(id: 1, state: state1),
+			PinCodeViewModel.PinCodeBoxState(id: 2, state: state2),
+			PinCodeViewModel.PinCodeBoxState(id: 3, state: state3),
+			PinCodeViewModel.PinCodeBoxState(id: 4, state: state4)
 		]
 	}
 	
@@ -58,7 +58,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 	func test_validation_touch() {
 		
 		// Given
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
 			eraseEnabled: false,
@@ -84,7 +84,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 	func test_validation_touch_twoDigits() {
 		
 		// Given
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
 			eraseEnabled: true,
@@ -112,7 +112,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 	func test_validation_touch_fiveDigits_accessCodeMisMatch() {
 		
 		// Given
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
 			eraseEnabled: true,
@@ -125,7 +125,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
-		self.servicesSpies.secureUserSettingsSpy.stubbedAccessCode = "11111"
+		self.servicesSpies.secureUserSettingsSpy.stubbedPinCode = "11111"
 		
 		// When
 		setupSut(mode: .validation, bioMetricType: { .touchID })
@@ -138,7 +138,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beFalse())
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(5))
 	}
@@ -146,7 +146,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 	func test_validation_touch_fiveDigits_accessCodeOk() {
 		
 		// Given
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
 			eraseEnabled: true,
@@ -159,7 +159,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.filled, .filled, .filled, .filled, .filling)
-		self.servicesSpies.secureUserSettingsSpy.stubbedAccessCode = "01234"
+		self.servicesSpies.secureUserSettingsSpy.stubbedPinCode = "01234"
 		
 		// When
 		setupSut(mode: .validation, bioMetricType: { .touchID })
@@ -172,9 +172,9 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.accessCodeValidated))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidated))
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	
@@ -188,10 +188,10 @@ final class AccessCodeViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.accessCodeValidated))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidated))
 	}
 	
 	func test_validation_biometricKeyPressed_authenticated() {
@@ -204,17 +204,17 @@ final class AccessCodeViewModelTests: XCTestCase {
 		sut.reduce(.biometricKeyPressed)
 		
 		// Then
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.accessCodeValidated))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidated))
 	}
 	
 	func test_validation_biometricEnabled_authenticationFailed() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
 			eraseEnabled: false,
@@ -235,7 +235,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventually(equal(expectedState))
 		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
@@ -244,7 +244,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
 		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .authenticationFailed
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
 			eraseEnabled: false,
@@ -266,7 +266,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventually(equal(expectedState))
 		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
@@ -275,7 +275,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
 		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .userFallback
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
 			eraseEnabled: false,
@@ -297,7 +297,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventually(equal(expectedState))
 		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
@@ -306,7 +306,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
 		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .canceled
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
 			eraseEnabled: false,
@@ -327,7 +327,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventually(equal(expectedState))
 		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
@@ -336,7 +336,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
 		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .declined
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
 			eraseEnabled: false,
@@ -357,7 +357,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventually(equal(expectedState))
 		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
@@ -366,7 +366,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
 		servicesSpies.localAuthenticationProviderSpy.stubbedLocalAuthenticationError = .lockout
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
 			eraseEnabled: false,
@@ -387,7 +387,7 @@ final class AccessCodeViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventually(equal(expectedState))
 		expect(self.sut.boxStates).toEventually(equal(expectedBoxState))
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == false
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	

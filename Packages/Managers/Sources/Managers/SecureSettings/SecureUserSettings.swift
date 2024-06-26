@@ -11,10 +11,10 @@ import Foundation
 public protocol SecureUserSettingsProtocol: AnyObject {
 	
 	/// the first entry of the access code
-	var tempAccessCode: String? { get set }
+	var tempPinCode: String? { get set }
 	
 	/// the access code
-	var accessCode: String? { get set }
+	var pinCode: String? { get set }
 	
 	/// Do we have setup the biometric authentication
 	var bioMetricAuthenticationEnabled: Bool { get set }
@@ -41,7 +41,7 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 		public static var userHasSeenAppIntroduction: Bool = false
 		public static var userHasRemoteAuthentication: Bool = false
 		public static var bioMetricAuthenticationEnabled: Bool = false
-		public static var accessCode: String?
+		public static var pinCode: String?
 	}
 	
 	/// Initlializer
@@ -56,13 +56,13 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	public var userHasSeenAppIntroduction: Bool = Defaults.userHasSeenAppIntroduction
 	
 	@Keychain(name: "accessCode", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
-	public var accessCode: String? = Defaults.accessCode
+	public var pinCode: String? = Defaults.pinCode
 	
 	@Keychain(name: "bioMetricAuthenticationEnabled", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var bioMetricAuthenticationEnabled: Bool = Defaults.bioMetricAuthenticationEnabled
 
-	@Keychain(name: "tempAccessCode", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
-	public var tempAccessCode: String? = Defaults.accessCode
+	@Keychain(name: "tempPinCode", service: "LocalAuthentication" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
+	public var tempPinCode: String? = Defaults.pinCode
 	
 	@Keychain(name: "userHasRemoteAuthentication", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var userHasRemoteAuthentication: Bool = Defaults.userHasRemoteAuthentication
@@ -81,9 +81,9 @@ extension SecureUserSettings {
 	
 	/// Wipe all persisted data
 	public func wipePersistedData() {
-		accessCode = Defaults.accessCode
+		pinCode = Defaults.pinCode
 		bioMetricAuthenticationEnabled = Defaults.bioMetricAuthenticationEnabled
-		tempAccessCode = Defaults.accessCode
+		tempPinCode = Defaults.pinCode
 		userHasAddedHealthcareProvider = Defaults.userHasAddedHealthcareProvider
 		userHasSeenAppIntroduction = Defaults.userHasSeenAppIntroduction
 		userHasRemoteAuthentication = Defaults.userHasRemoteAuthentication

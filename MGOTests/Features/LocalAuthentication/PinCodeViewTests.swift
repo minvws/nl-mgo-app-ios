@@ -10,24 +10,24 @@ import MGOTest
 import MGOUI
 @testable import MGO
 
-final class AccessCodeViewTests: XCTestCase {
+final class PinCodeViewTests: XCTestCase {
 
-	private var strengthMeterSpy: AccessCodeStrengthValidationSpy!
+	private var strengthMeterSpy: PinCodeStrengthValidationSpy!
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
-		strengthMeterSpy = AccessCodeStrengthValidationSpy()
+		strengthMeterSpy = PinCodeStrengthValidationSpy()
 		servicesSpies = setupServicesSpies()
 		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = true
 		coordinatorSpy = AppCoordinatorSpy()
 		super.setUp()
 	}
 	
-	func createSut(mode: AccessCodeViewModel.AccessCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) -> AccessCodeView {
+	func createSut(mode: PinCodeViewModel.PinCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) -> PinCodeView {
 		
-		let viewModel = AccessCodeViewModel(
+		let viewModel = PinCodeViewModel(
 			coordinator: coordinatorSpy,
 			mode: mode,
 			pinLimit: 5,
@@ -35,7 +35,7 @@ final class AccessCodeViewTests: XCTestCase {
 			strengthMeter: strengthMeterSpy
 		)
 		
-		return AccessCodeView(
+		return PinCodeView(
 			viewModel: viewModel
 		)
 	}
@@ -221,7 +221,7 @@ final class AccessCodeViewTests: XCTestCase {
 	func test_confirmation_touch_fiveDigits_different() throws {
 		
 		// Given
-		servicesSpies.secureUserSettingsSpy.stubbedTempAccessCode = "12345"
+		servicesSpies.secureUserSettingsSpy.stubbedTempPinCode = "12345"
 		let sut = createSut(mode: .confirmation, bioMetricType: { .touchID })
 		try sut.inspect().find(button: "1").tap()
 		try sut.inspect().find(button: "1").tap()
@@ -289,7 +289,7 @@ final class AccessCodeViewTests: XCTestCase {
 	func test_validation_touch_fiveDigits_different() throws {
 		
 		// Given
-		servicesSpies.secureUserSettingsSpy.stubbedAccessCode = "12345"
+		servicesSpies.secureUserSettingsSpy.stubbedPinCode = "12345"
 		let sut = createSut(mode: .validation, bioMetricType: { .touchID })
 		try sut.inspect().find(button: "1").tap()
 		try sut.inspect().find(button: "1").tap()

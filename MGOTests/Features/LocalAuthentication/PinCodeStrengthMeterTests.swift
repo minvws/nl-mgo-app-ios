@@ -8,12 +8,12 @@
 @testable import MGO
 import MGOTest
 
-final class AccessCodeStrengthMeterTests: XCTestCase {
+final class PinCodeStrengthMeterTests: XCTestCase {
 
-	var sut: AccessCodeStrengthMeter!
+	var sut: PinCodeStrengthMeter!
 	
 	override func setUp() {
-		sut = AccessCodeStrengthMeter()
+		sut = PinCodeStrengthMeter()
 	}
 	
 	func test_frequentlyUsed() {

@@ -9,7 +9,7 @@ import MGOFoundation
 import MGOUI
 
 /// An object to encapsulate the state of the view for access code
-struct AccessCodeViewState: Equatable {
+struct PinCodeViewState: Equatable {
 	
 	/// Various types of messages
 	enum MessageType: Equatable {
@@ -48,19 +48,19 @@ struct AccessCodeViewState: Equatable {
 	var showLockoutPopup: Bool = false
 }
 
-class AccessCodeViewModel: ObservableObject {
+class PinCodeViewModel: ObservableObject {
 	
 	/// The various modes this scene can be run as.
-	public enum AccessCodeMode: Equatable {
+	public enum PinCodeMode: Equatable {
 		case creation // Create an access code
 		case confirmation // Confirm that access code
 		case validation // Validate the acces code (login)
 	}
-	/// A helper struct to make an enum (AccessCodeBoxView.State) identifiable.
-	public struct AccessCodeBoxState: Identifiable, Hashable {
+	/// A helper struct to make an enum (PinCodeBoxView.State) identifiable.
+	public struct PinCodeBoxState: Identifiable, Hashable {
 		
 		var id: Int
-		var state: AccessCodeBoxView.State
+		var state: PinCodeBoxView.State
 		
 		func accessibilityLabel(index: Int, count: Int) -> String {
 			
@@ -80,16 +80,16 @@ class AccessCodeViewModel: ObservableObject {
 	}
 	
 	/// The mode of this view (creation, validation)
-	private var mode: AccessCodeMode
+	private var mode: PinCodeMode
 	
 	/// The number of digits for the access code
 	private var numberOfDigits: Int = 5
 	
 	/// The state of the view
-	@Published var state: AccessCodeViewState = AccessCodeViewState(backButtonKey: "", title: "", message: "")
+	@Published var state: PinCodeViewState = PinCodeViewState(backButtonKey: "", title: "", message: "")
 	
 	/// The strength validator for the access code
-	private var strengthMeter: AccessCodeStrengthValidation
+	private var strengthMeter: PinCodeStrengthValidation
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
@@ -119,7 +119,7 @@ class AccessCodeViewModel: ObservableObject {
 	}
 	
 	/// The state for each of the digits
-	@Published var boxStates: [AccessCodeBoxState] = []
+	@Published var boxStates: [PinCodeBoxState] = []
 	
 	/// Initializer
 	/// - Parameter pinLimit: the pin limit
@@ -129,10 +129,10 @@ class AccessCodeViewModel: ObservableObject {
 	/// - Parameter strengthMeter: Access code strength meter
 	init(
 		coordinator: (any Coordinator)?,
-		mode: AccessCodeMode,
+		mode: PinCodeMode,
 		pinLimit: Int = 5,
 		bioMetricType: () -> LocalAuthentication.BiometricType,
-		strengthMeter: AccessCodeStrengthValidation = AccessCodeStrengthMeter()) {
+		strengthMeter: PinCodeStrengthValidation = PinCodeStrengthMeter()) {
 		
 		self.coordinator = coordinator
 		self.numberOfDigits = pinLimit
@@ -145,9 +145,9 @@ class AccessCodeViewModel: ObservableObject {
 		
 		// Setup the initial state for the boxes.
 		// First box is ready to receive input, the others are empty
-		boxStates.append(AccessCodeBoxState(id: 0, state: .focus))
+		boxStates.append(PinCodeBoxState(id: 0, state: .focus))
 		for index in 1 ..< numberOfDigits {
-			boxStates.append(AccessCodeBoxState(id: index, state: .empty))
+			boxStates.append(PinCodeBoxState(id: index, state: .empty))
 		}
 	}
 	
@@ -319,8 +319,8 @@ class AccessCodeViewModel: ObservableObject {
 		
 		// All ok, store temp and move to confirmation
 		Haptic.light()
-		Current.secureUserSettings.tempAccessCode = code
-		coordinator?.handle(Coordination.Action.accessCodeEntered)
+		Current.secureUserSettings.tempPinCode = code
+		coordinator?.handle(Coordination.Action.pinCodeEntered)
 		accessCode = []
 	}
 	
@@ -328,8 +328,8 @@ class AccessCodeViewModel: ObservableObject {
 	private func handleConfirmationCompletion() {
 		
 		let code = accessCode.joined()
-		guard code == Current.secureUserSettings.tempAccessCode else {
-			// tempAccessCode and code do not match. Doh!
+		guard code == Current.secureUserSettings.tempPinCode else {
+			// tempPinCode and code do not match. Doh!
 			updateStateConfirmation(confirmationMismatch: true)
 			setErrorState()
 			return
@@ -337,21 +337,21 @@ class AccessCodeViewModel: ObservableObject {
 		
 		// All ok, store access code and get out of here.
 		Haptic.light()
-		Current.secureUserSettings.accessCode = code
-		coordinator?.handle(Coordination.Action.accessCodeConfirmed)
+		Current.secureUserSettings.pinCode = code
+		coordinator?.handle(Coordination.Action.pinCodeConfirmed)
 	}
 	
 	/// Validation code entered, let's see if we can login
 	private func handleValidationCompletion() {
 		
 		let code = accessCode.joined()
-		guard code == Current.secureUserSettings.accessCode else {
+		guard code == Current.secureUserSettings.pinCode else {
 			
 			setErrorState()
 			updateStateValidation(validationMismatch: true)
 			return
 		}
-		coordinator?.handle(Coordination.Action.accessCodeValidated)
+		coordinator?.handle(Coordination.Action.pinCodeValidated)
 	}
 	
 	/// Something is not ok, make all the boxes red
@@ -397,15 +397,15 @@ class AccessCodeViewModel: ObservableObject {
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_popup_fallback"))
 			)
 			if validated {
-				logInfo("AccessCode: User has been successfully validated")
+				logInfo("Pincode: User has been successfully validated")
 				// Fill the boxes to display success
 				accessCode = ["0", "0", "0", "0", "0"]
 				// Navigate to the next scene after a short delay to let the faceID/touchID animation complete.
 				delay(0.8) {
-					self.coordinator?.handle(Coordination.Action.accessCodeValidated)
+					self.coordinator?.handle(Coordination.Action.pinCodeValidated)
 				}
 			} else {
-				logInfo("AccessCode: User has unsuccessfully tried to validate")
+				logInfo("PinCode: User has unsuccessfully tried to validate")
 				setErrorState()
 			}
 		} catch LocalAuthenticationError.canceled {
@@ -432,10 +432,10 @@ class AccessCodeViewModel: ObservableObject {
 	}
 }
 
-struct AccessCodeView: View {
+struct PinCodeView: View {
 	
 	/// The view model
-	@StateObject var viewModel: AccessCodeViewModel
+	@StateObject var viewModel: PinCodeViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -529,7 +529,7 @@ struct AccessCodeView: View {
 			
 			HStack(spacing: ViewTraits.Box.spacing) {
 				ForEach($viewModel.boxStates, id: \.self) { element in
-					AccessCodeBoxView(state: element.state)
+					PinCodeBoxView(state: element.state)
 						.accessibilityHidden(false)
 						.accessibilityIdentifier("box \(element.id + 1)")
 						.accessibilityLabel(element.wrappedValue.accessibilityLabel(index: element.id + 1, count: viewModel.boxStates.count))
@@ -661,7 +661,7 @@ struct AccessCodeView: View {
 	///   - accessibilityLabel: the  label for voice over
 	/// - Returns: an action button
 	@ViewBuilder func actionButton(
-		for action: AccessCodeViewModel.Action,
+		for action: PinCodeViewModel.Action,
 		imageName: String,
 		accessibilityLabel: LocalizedStringKey) -> some View {
 			
@@ -677,8 +677,8 @@ struct AccessCodeView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		AccessCodeView(
-			viewModel: AccessCodeViewModel(
+		PinCodeView(
+			viewModel: PinCodeViewModel(
 				coordinator: nil,
 				mode: .validation,
 				bioMetricType: {

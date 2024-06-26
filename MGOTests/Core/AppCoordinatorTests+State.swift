@@ -78,11 +78,11 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAccessCodeEntry() throws {
+	func test_coordinatorView_forPinCodeEntry() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.accessCodeEntry
+		let state = AppCoordination.State.pinCodeEntry
 		
 		// When
 		let view = sut.view(for: state)
@@ -91,11 +91,11 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAccessCodeConfirmation() throws {
+	func test_coordinatorView_forPinCodeConfirmation() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.accessCodeConfirmation
+		let state = AppCoordination.State.pinCodeConfirmation
 		
 		// When
 		let view = sut.view(for: state)
@@ -104,12 +104,12 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAccessCodeValidation() throws {
+	func test_coordinatorView_forPinCodeValidation() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = true
-		let state = AppCoordination.State.accessCodeValidation
+		let state = AppCoordination.State.pinCodeValidation
 		
 		// When
 		let view = sut.view(for: state)

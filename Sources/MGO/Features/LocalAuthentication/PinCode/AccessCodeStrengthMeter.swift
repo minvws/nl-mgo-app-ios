@@ -7,8 +7,8 @@
 
 import MGOFoundation
 
-/// Protocol for Access Code Strenght Validation
-protocol AccessCodeStrengthValidation {
+/// Protocol for Access Code Strength Validation
+protocol PinCodeStrengthValidation {
 	
 	/// Is this code a strong enough  code
 	/// - Parameter code: the code to be checked
@@ -16,7 +16,7 @@ protocol AccessCodeStrengthValidation {
 	func validate(_ code: String) -> Bool
 }
 
-class AccessCodeStrengthMeter: AccessCodeStrengthValidation {
+class PinCodeStrengthMeter: PinCodeStrengthValidation {
 	
 	/// Is this code a strong enough  code
 	/// - Parameter code: the code to be checked

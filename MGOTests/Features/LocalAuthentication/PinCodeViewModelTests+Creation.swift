@@ -9,24 +9,24 @@ import MGOFoundation
 import MGOTest
 @testable import MGO
 
-final class AccessCodeViewModelCreationTests: XCTestCase {
+final class PinCodeViewModelCreationTests: XCTestCase {
 	
-	private var strengthMeterSpy: AccessCodeStrengthValidationSpy!
+	private var strengthMeterSpy: PinCodeStrengthValidationSpy!
 	private var coordinatorSpy: AppCoordinatorSpy!
-	private var sut: AccessCodeViewModel!
+	private var sut: PinCodeViewModel!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
-		strengthMeterSpy = AccessCodeStrengthValidationSpy()
+		strengthMeterSpy = PinCodeStrengthValidationSpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
 		super.setUp()
 	}
 	
-	func setupSut(mode: AccessCodeViewModel.AccessCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) {
+	func setupSut(mode: PinCodeViewModel.PinCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) {
 		
-		sut = AccessCodeViewModel(
+		sut = PinCodeViewModel(
 			coordinator: coordinatorSpy,
 			mode: mode,
 			pinLimit: 5,
@@ -40,7 +40,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 	func test_creation_touch() {
 		
 		// Given
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
 			eraseEnabled: false,
@@ -52,11 +52,11 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
+			PinCodeViewModel.PinCodeBoxState(id: 0, state: .focus),
+			PinCodeViewModel.PinCodeBoxState(id: 1, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 2, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 3, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 4, state: .empty)
 		]
 		
 		// When
@@ -71,7 +71,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 	func test_creation_touch_twoDigits() {
 		
 		// Given
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
 			eraseEnabled: true,
@@ -83,11 +83,11 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .filling),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .focus),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
+			PinCodeViewModel.PinCodeBoxState(id: 0, state: .filled),
+			PinCodeViewModel.PinCodeBoxState(id: 1, state: .filling),
+			PinCodeViewModel.PinCodeBoxState(id: 2, state: .focus),
+			PinCodeViewModel.PinCodeBoxState(id: 3, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 4, state: .empty)
 		]
 		
 		// When
@@ -104,7 +104,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 	func test_creation_touch_twoDigits_eraseButtonPressed() {
 		
 		// Given
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
 			eraseEnabled: true,
@@ -116,11 +116,11 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .focus),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
+			PinCodeViewModel.PinCodeBoxState(id: 0, state: .filled),
+			PinCodeViewModel.PinCodeBoxState(id: 1, state: .focus),
+			PinCodeViewModel.PinCodeBoxState(id: 2, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 3, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 4, state: .empty)
 		]
 		
 		// When
@@ -138,7 +138,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 	func test_creation_touch_fourDigits() {
 		
 		// Given
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
 			eraseEnabled: true,
@@ -150,11 +150,11 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .filled),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .filling),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .focus)
+			PinCodeViewModel.PinCodeBoxState(id: 0, state: .filled),
+			PinCodeViewModel.PinCodeBoxState(id: 1, state: .filled),
+			PinCodeViewModel.PinCodeBoxState(id: 2, state: .filled),
+			PinCodeViewModel.PinCodeBoxState(id: 3, state: .filling),
+			PinCodeViewModel.PinCodeBoxState(id: 4, state: .focus)
 		]
 		
 		// When
@@ -173,7 +173,7 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 	func test_creation_touch_fiveDigits_accessCodeOK() {
 		
 		// Given
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
 			eraseEnabled: true,
@@ -185,11 +185,11 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .focus),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .empty),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .empty)
+			PinCodeViewModel.PinCodeBoxState(id: 0, state: .focus),
+			PinCodeViewModel.PinCodeBoxState(id: 1, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 2, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 3, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 4, state: .empty)
 		]
 		strengthMeterSpy.stubbedValidateResult = true
 		
@@ -204,17 +204,17 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedTempAccessCode) == "01234"
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedTempPinCode) == "01234"
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.accessCodeEntered))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeEntered))
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	
 	func test_creation_touch_fiveDigits_accessCodeTooWeak() {
 		
 		// Given
-		let expectedState = AccessCodeViewState(
+		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
 			eraseEnabled: true,
@@ -226,11 +226,11 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
-			AccessCodeViewModel.AccessCodeBoxState(id: 0, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 1, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 2, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 3, state: .error),
-			AccessCodeViewModel.AccessCodeBoxState(id: 4, state: .error)
+			PinCodeViewModel.PinCodeBoxState(id: 0, state: .error),
+			PinCodeViewModel.PinCodeBoxState(id: 1, state: .error),
+			PinCodeViewModel.PinCodeBoxState(id: 2, state: .error),
+			PinCodeViewModel.PinCodeBoxState(id: 3, state: .error),
+			PinCodeViewModel.PinCodeBoxState(id: 4, state: .error)
 		]
 		strengthMeterSpy.stubbedValidateResult = false
 		
@@ -245,8 +245,8 @@ final class AccessCodeViewModelCreationTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedTempAccessCode) == nil
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCode) == nil
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedTempPinCode) == nil
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCode) == nil
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beFalse())
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(5))
 	}

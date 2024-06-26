@@ -8,7 +8,7 @@
 import MGOUI
 
 /// A small box for displaying a single digit of a pincode
-struct AccessCodeBoxView: View {
+struct PinCodeBoxView: View {
 	
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
@@ -144,11 +144,11 @@ struct AccessCodeBoxView: View {
 	ZStack {
 		Theme().backgroundPrimary
 		HStack(spacing: 12) {
-			AccessCodeBoxView(state: .constant(.filled))
-			AccessCodeBoxView(state: .constant(.filling))
-			AccessCodeBoxView(state: .constant(.focus))
-			AccessCodeBoxView(state: .constant(.empty))
-			AccessCodeBoxView(state: .constant(.error))
+			PinCodeBoxView(state: .constant(.filled))
+			PinCodeBoxView(state: .constant(.filling))
+			PinCodeBoxView(state: .constant(.focus))
+			PinCodeBoxView(state: .constant(.empty))
+			PinCodeBoxView(state: .constant(.error))
 		}
 	}
 }

@@ -7,7 +7,7 @@
 
 @testable import MGO
 
-public class AccessCodeStrengthValidationSpy: AccessCodeStrengthValidation {
+public class PinCodeStrengthValidationSpy: PinCodeStrengthValidation {
 
 	public var invokedValidate = false
 	public var invokedValidateCount = 0

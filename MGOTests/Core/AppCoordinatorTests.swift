@@ -49,24 +49,24 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.accessCodeEntry
+		expect(self.sut.rootState) == AppCoordination.State.pinCodeEntry
 		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedAccessCodeGetter) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
 	}
 	
-	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeSet_pathShouldContainAccessCodeValidation() {
+	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeSet_pathShouldContainPinCodeValidation() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = true
-		servicesSpies.secureUserSettingsSpy.stubbedAccessCode = "test"
+		servicesSpies.secureUserSettingsSpy.stubbedPinCode = "test"
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == false
 		
 		// When
 		sut.handle(Coordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.accessCodeValidation
+		expect(self.sut.rootState) == AppCoordination.State.pinCodeValidation
 		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
@@ -82,7 +82,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.proposition])
 	}
 	
-	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainAccessCodeEntry_securitySettingsUpdated() {
+	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainPinCodeEntry_securitySettingsUpdated() {
 		
 		// Given
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionSetter) == false
@@ -92,7 +92,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.nextButtonPressedOnProposition)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.accessCodeEntry
+		expect(self.sut.rootState) == AppCoordination.State.pinCodeEntry
 		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionSetter) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == true
@@ -109,15 +109,15 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacyStatement])
 	}
 	
-	func test_coordinatorHandle_accessCodeEntered_shouldShowAccessCodeConfirmation() {
+	func test_coordinatorHandle_accessCodeEntered_shouldShowPinCodeConfirmation() {
 		
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action.accessCodeEntered)
+		sut.handle(Coordination.Action.pinCodeEntered)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.accessCodeConfirmation])
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.pinCodeConfirmation])
 	}
 
 	func test_coordinatorHandle_accessCodeConfirmed_shouldShowBioMetricSetup() {
@@ -126,7 +126,7 @@ final class AppCoordinatorTests: XCTestCase {
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		
 		// When
-		sut.handle(Coordination.Action.accessCodeConfirmed)
+		sut.handle(Coordination.Action.pinCodeConfirmed)
 		
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.bioMetricSetup
@@ -139,7 +139,7 @@ final class AppCoordinatorTests: XCTestCase {
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .none }
 		
 		// When
-		sut.handle(Coordination.Action.accessCodeConfirmed)
+		sut.handle(Coordination.Action.pinCodeConfirmed)
 		
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.remoteAuthentication
@@ -175,7 +175,7 @@ final class AppCoordinatorTests: XCTestCase {
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasAddedHealthcareProvider = false
 		
 		// When
-		sut.handle(Coordination.Action.accessCodeValidated)
+		sut.handle(Coordination.Action.pinCodeValidated)
 		
 		// Then
 		expect(self.sut.showChildCoordinator) == true
@@ -187,7 +187,7 @@ final class AppCoordinatorTests: XCTestCase {
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasAddedHealthcareProvider = true
 
 		// When
-		sut.handle(Coordination.Action.accessCodeValidated)
+		sut.handle(Coordination.Action.pinCodeValidated)
 		
 		// Then
 		expect(self.sut.showChildCoordinator) == true
@@ -219,7 +219,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_recreateAccount_presentInStack() {
 		
 		// Given
-		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.accessCodeValidation])
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.remoteAuthentication, AppCoordination.State.pinCodeValidation])
 		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
 		
 		// When
