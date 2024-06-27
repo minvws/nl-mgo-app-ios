@@ -49,7 +49,7 @@ class OverviewViewModel: ObservableObject {
 		registerObservers()
 	}
 	
-	// Listen to changes in the stored provider list
+	// Listen to changes in the stored organizations list
 	private func registerObservers() {
 		
 		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] changed in
@@ -168,11 +168,11 @@ struct OverviewView: View {
 				
 				switch viewModel.state {
 					case .empty:
-						noHealthcareProviderView()
+						noHealthcareOrganizationView()
 						.padding(.horizontal, ViewTraits.General.padding)
 						
 					case let .list(list):
-						listHealthcareProviderView(list: list)
+						listHealthcareOrganizationView(list: list)
 				}
 			}
 			
@@ -217,8 +217,8 @@ struct OverviewView: View {
 	}
 	
 	/// Create the empty state view
-	/// - Returns: View when the user has no stored healthcare providers
-	@ViewBuilder func noHealthcareProviderView() -> some View {
+	/// - Returns: View when the user has no stored healthcare organizations
+	@ViewBuilder func noHealthcareOrganizationView() -> some View {
 		
 		Text("dashboard_intro_empty")
 			.rijksoverheidStyle(font: .regular, style: .body)
@@ -233,8 +233,8 @@ struct OverviewView: View {
 	}
 	
 	/// Create the list state view
-	/// - Returns: View when the user has some stored healthcare providers
-	@ViewBuilder func listHealthcareProviderView(list: [HealthcareOrganization]) -> some View {
+	/// - Returns: View when the user has some stored healthcare organizations
+	@ViewBuilder func listHealthcareOrganizationView(list: [HealthcareOrganization]) -> some View {
 		
 		Text("dashboard_intro_list")
 			.rijksoverheidStyle(font: .regular, style: .body)

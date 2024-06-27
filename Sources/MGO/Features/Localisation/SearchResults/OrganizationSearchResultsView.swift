@@ -8,19 +8,19 @@
 import MGOFoundation
 import MGOUI
 
-typealias SearchResultSet = (
-	provider: HealthcareOrganization,
+typealias OrganizationSearchResultSet = (
+	organization: HealthcareOrganization,
 	cardState: OrganizationSearchResultCardState
 )
 
-enum SearchResultViewState: Equatable {
+enum OrganizationSearchResultViewState: Equatable {
 	
 	case loading
 	case failure(Error)
-	case success([SearchResultSet])
+	case success([OrganizationSearchResultSet])
 	case empty(city: String, name: String)
 
-	static func == (lhs: SearchResultViewState, rhs: SearchResultViewState) -> Bool {
+	static func == (lhs: OrganizationSearchResultViewState, rhs: OrganizationSearchResultViewState) -> Bool {
 		switch (lhs, rhs) {
 			
 			case (.loading, .loading):
@@ -33,7 +33,7 @@ enum SearchResultViewState: Equatable {
 				guard lhsResults.count == rhsResults.count else { return false}
 				var result = true
 				for index in lhsResults.indices {
-					result = result && lhsResults[index].provider == rhsResults[index].provider
+					result = result && lhsResults[index].organization == rhsResults[index].organization
 					result = result && lhsResults[index].cardState == rhsResults[index].cardState
 				}
 				return result
@@ -60,7 +60,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 	}
 	
 	/// The state of the view
-	@Published var state: SearchResultViewState
+	@Published var state: OrganizationSearchResultViewState
 	
 	/// Search parameter name
 	private var name: String
@@ -104,7 +104,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.closeSheet)
 			
 			case .onAppear:
-				if case SearchResultViewState.success = state {
+				if case OrganizationSearchResultViewState.success = state {
 					applyListState()
 				}
 			
@@ -112,23 +112,23 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 				guard state == .loading else { return }
 			
 				_Concurrency.Task {
-					await loadHealthcareProviders()
+					await loadHealthcareOrganizations()
 				}
 			
 			case .retry:
 				_Concurrency.Task {
-					await loadHealthcareProviders()
+					await loadHealthcareOrganizations()
 				}
 			
-			case .store(let provider):
-				try? Current.healthcareOrganizationStore.store(provider)
+			case .store(let organization):
+				try? Current.healthcareOrganizationStore.store(organization)
 				applyListState()
 				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
 		}
 	}
 	
 	@MainActor
-	private func loadHealthcareProviders() async {
+	private func loadHealthcareOrganizations() async {
 		
 		state = .loading
 		
@@ -149,15 +149,15 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 		}
 	}
 	
-	/// Apply the state for each of the health providers
+	/// Apply the state for each of the health organizations
 	func applyListState() {
 		
-		var list = [SearchResultSet]()
-		searchResultsList.forEach {provider in
-			let cardState = cardState(for: provider)
+		var list = [OrganizationSearchResultSet]()
+		searchResultsList.forEach {organization in
+			let cardState = cardState(for: organization)
 			
 			list.append((
-				provider: provider,
+				organization: organization,
 				cardState: cardState)
 			)
 		}
@@ -169,12 +169,12 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 	}
 	
 	/// Get the state for a card
-	/// - Parameter provider: the healthcare provider
+	/// - Parameter organization: the healthcare organization
 	/// - Returns: card state
-	private func cardState(for provider: HealthcareOrganization) -> OrganizationSearchResultCardState {
+	private func cardState(for organization: HealthcareOrganization) -> OrganizationSearchResultCardState {
 
 		let list = HealthcareOrganizationRepository().organizations
-		return list.contains(provider) ? .selected : .regular
+		return list.contains(organization) ? .selected : .regular
 	}
 }
 
@@ -247,7 +247,7 @@ struct OrganizationSearchResultsView: View {
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 	
-	@ViewBuilder func listSearchResults(_ list: [SearchResultSet]) -> some View {
+	@ViewBuilder func listSearchResults(_ list: [OrganizationSearchResultSet]) -> some View {
 		
 		ScrollView {
 			
@@ -261,7 +261,7 @@ struct OrganizationSearchResultsView: View {
 			
 				LazyVStack(spacing: ViewTraits.List.spacing) {
 					
-					ForEach(list, id: \.provider) { element in
+					ForEach(list, id: \.organization) { element in
 						
 						ZStack {
 							
@@ -271,16 +271,16 @@ struct OrganizationSearchResultsView: View {
 									String(
 										format: String(
 											localized: element.cardState.accessibilityLabel),
-										arguments: ["\(element.provider.display_name)"]
+										arguments: ["\(element.organization.display_name)"]
 									)
 								)
 								.accessibilityAddTraits(.isButton)
 							
 							OrganizationSearchResultCardView(
-								model: OrganizationSearchResultDecorator.create(element.provider),
+								model: OrganizationSearchResultDecorator.create(element.organization),
 								state: element.cardState,
 								perform: {
-									viewModel.reduce(.store(element.provider))
+									viewModel.reduce(.store(element.organization))
 								}
 							)
 						}

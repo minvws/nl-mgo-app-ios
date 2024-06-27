@@ -103,7 +103,7 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		let organisation = Generator.healthcareOrganization("value")
 		let list: [HealthcareOrganization] = [organisation]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = SearchResultViewState.success([SearchResultSet(organisation, .regular)])
+		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organisation, .regular)])
 		
 		// When
 		sut.reduce(.onAppear)

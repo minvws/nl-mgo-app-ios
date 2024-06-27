@@ -121,7 +121,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [SearchResultSet] = [
+		let list: [OrganizationSearchResultSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.regular)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.warning)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),
@@ -143,7 +143,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [SearchResultSet] = [
+		let list: [OrganizationSearchResultSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.regular)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.warning)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),
@@ -165,7 +165,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [SearchResultSet] = [
+		let list: [OrganizationSearchResultSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.regular)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.warning)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),
@@ -187,7 +187,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [SearchResultSet] = [
+		let list: [OrganizationSearchResultSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.regular)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.warning)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),
