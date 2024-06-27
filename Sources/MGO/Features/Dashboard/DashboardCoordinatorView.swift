@@ -13,8 +13,8 @@ extension Coordination.Action {
 	// Healthcare Provider flow
 	static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
 	static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
-	static let storeHealthcareProvider = Coordination.Action(identifier: "storeHealthcareProvider")
-	static let finishedSearchingHealthcareProviders = Coordination.Action(identifier: "finishedSearchingHealthcareProviders")
+	static let listHealthcareOrganizations = Coordination.Action(identifier: "listHealthcareOrganizations")
+	static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
 	
 	static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
 	static let showHealthcareProviderDetails = Coordination.Action(identifier: "showHealthcareProviderDetails")
@@ -58,8 +58,8 @@ enum DashboardCoordination {
 		
 		// Search & Store Healthcare Provider flow
 		case addHealthcareOrganization
-		case searchHealthcareProviders(city: String, name: String)
-		case storedHealthcareProviders
+		case healthcareOrganizationSearchResults(city: String, name: String)
+		case listHealthcareOrganizations
 		
 		// Details Flow
 		case showHealthcareProviderDetails(healthcareProvider: HealthcareProvider)
@@ -108,18 +108,18 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				if action.params.count == 2,
 					let city = action.params["city"] as? String,
 					let name = action.params["name"] as? String {
-					pathForSheet.append(DashboardCoordination.State.searchHealthcareProviders(city: city, name: name))
+					pathForSheet.append(DashboardCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
 				} else {
 					logError("Dashboard Coordinator, missing params for \(action)")
 				}
 					
-			case Coordination.Action.storeHealthcareProvider.identifier:
-				pathForSheet.append(DashboardCoordination.State.storedHealthcareProviders)
+			case Coordination.Action.listHealthcareOrganizations.identifier:
+				pathForSheet.append(DashboardCoordination.State.listHealthcareOrganizations)
 			
 			case Coordination.Action.backToAddHealthcareOrganization.identifier:
 				pathForSheet.removeLast(pathForSheet.count)
 			
-			case Coordination.Action.finishedSearchingHealthcareProviders.identifier:
+			case Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
 			
@@ -213,11 +213,11 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case .addHealthcareOrganization:
 				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
 			
-			case let .searchHealthcareProviders(city, name):
+			case let .healthcareOrganizationSearchResults(city, name):
 				OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: LocalisationServiceClient())).isPresentedAsSheet(true)
 			
-			case .storedHealthcareProviders:
-				StoredHealthcareProvidersView(viewModel: StoredHealthcareProvidersViewModel(coordinator: self)).isPresentedAsSheet(true)
+			case .listHealthcareOrganizations:
+				OrganizationListView(viewModel: OrganizationListViewModel(coordinator: self)).isPresentedAsSheet(true)
 			
 			case let .showHealthcareProviderDetails(healthcareProvider):
 				HealthcareProviderView(viewModel: HealthcareProviderViewModel(coordinator: self, healthcareProvider: healthcareProvider))

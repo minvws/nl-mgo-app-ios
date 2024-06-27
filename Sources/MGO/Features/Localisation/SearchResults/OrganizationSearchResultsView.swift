@@ -123,7 +123,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 			case .store(let provider):
 				try? Current.healthcareProviderStore.store(provider)
 				applyListState()
-				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareProviders)
+				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
 		}
 	}
 	

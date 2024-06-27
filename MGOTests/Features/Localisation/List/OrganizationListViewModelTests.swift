@@ -10,18 +10,18 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 
-final class StoredHealthcareProvidersViewModelTests: XCTestCase {
+final class OrganizationListViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: StoredHealthcareProvidersViewModel!
+	private var sut: OrganizationListViewModel!
 
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = StoredHealthcareProvidersViewModel(coordinator: coordinatorSpy)
+		sut = OrganizationListViewModel(coordinator: coordinatorSpy)
 	}
 
 	func test_onAppear_shouldCallStore() {
@@ -69,7 +69,7 @@ final class StoredHealthcareProvidersViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.finishedSearchingHealthcareProviders
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.finishedSearchingHealthcareOrganizations
 	}
 	
 	func test_showRemoveDialog_shouldShowDialog() {

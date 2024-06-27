@@ -8,10 +8,10 @@
 import MGOFoundation
 import MGOUI
 
-struct StoredHealthcareProviderCardView: View {
+struct OrganizationListCardView: View {
 	
 	/// The search result to display
-	var model: StoredHealthcareProviderModel
+	var model: OrganizationListModel
 	
 	/// has the user pressed (but no released) the button
 	@State private var onHover = false
@@ -96,8 +96,8 @@ struct StoredHealthcareProviderCardView: View {
 
 #Preview {
 	
-	StoredHealthcareProviderCardView(
-		model: StoredHealthcareProviderModel(
+	OrganizationListCardView(
+		model: OrganizationListModel(
 			category: "Tandarts",
 			id: "1",
 			name: "Tandarts Tandje Erbij",

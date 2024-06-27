@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class StoredHealthcareProvidersViewModel: ObservableObject {
+class OrganizationListViewModel: ObservableObject {
 	
 	/// All possible states of the box
 	enum State {
@@ -59,7 +59,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: StoredHealthcareProvidersViewModel.Action) {
+	func reduce(_ action: OrganizationListViewModel.Action) {
 		
 		switch action {
 		
@@ -89,7 +89,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.backToAddHealthcareOrganization)
 				
 			case .done:
-				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareProviders)
+				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
 				
 			case .showRemoveDialog(let healthcareProvider):
 				healthcareProviderToRemove = healthcareProvider
@@ -102,10 +102,10 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 	}
 }
 
-struct StoredHealthcareProvidersView: View {
+struct OrganizationListView: View {
 	
 	/// The view model
-	@StateObject var viewModel: StoredHealthcareProvidersViewModel
+	@StateObject var viewModel: OrganizationListViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -174,7 +174,7 @@ struct StoredHealthcareProvidersView: View {
 										)
 										.accessibilityAddTraits(.isButton)
 									
-									StoredHealthcareProviderCardView(
+									OrganizationListCardView(
 										model: StoredHealthcareProviderDecorator.create(healthcareProvider),
 										perform: {
 											viewModel.reduce(.showRemoveDialog(healthcareProvider))
@@ -254,6 +254,6 @@ struct StoredHealthcareProvidersView: View {
 
 #Preview {
 	NavigationView {
-		StoredHealthcareProvidersView(viewModel: StoredHealthcareProvidersViewModel(coordinator: nil))
+		OrganizationListView(viewModel: OrganizationListViewModel(coordinator: nil))
 	}
 }

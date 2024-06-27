@@ -153,7 +153,7 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.finishedSearchingHealthcareProviders
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.finishedSearchingHealthcareOrganizations
 		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedStore) == true
 		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedStoreParameters?.provider) == provider
 	}

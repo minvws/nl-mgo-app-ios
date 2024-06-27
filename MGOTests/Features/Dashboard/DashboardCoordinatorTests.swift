@@ -45,7 +45,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action(identifier: "showHealthcareOrganizationSearchResults", params: ["city": "Roermond", "name": "Tandarts Tandje Erbij"]))
 
 		// Then
-		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")])
+		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")])
 	}
 
 	func test_coordinatorHandle_search_missingParams_pathForSheet_shouldBeEmpty() {
@@ -59,21 +59,21 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
 	}
 	
-	func test_coordinatorHandle_storeHealthcareProvider_pathForSheet_shouldBeSet() {
+	func test_coordinatorHandle_listHealthcareOrganizations_pathForSheet_shouldBeSet() {
 
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action.storeHealthcareProvider)
+		sut.handle(Coordination.Action.listHealthcareOrganizations)
 
 		// Then
-		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.storedHealthcareProviders])
+		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.listHealthcareOrganizations])
 	}
 	
 	func test_coordinatorHandle_backToAddHealthcareOrganization_pathForSheet_shouldBeEmpty() {
 
 		// Given
-		sut.pathForSheet = NavigationStackBackport.NavigationPath([DashboardCoordination.State.storedHealthcareProviders])
+		sut.pathForSheet = NavigationStackBackport.NavigationPath([DashboardCoordination.State.listHealthcareOrganizations])
 		
 		// When
 		sut.handle(Coordination.Action.backToAddHealthcareOrganization)
@@ -82,14 +82,14 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
 	}
 
-	func test_coordinatorHandle_finishedSearchingHealthcareProviders_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
+	func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
 
 		// Given
 		sut.rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
-		sut.pathForSheet = NavigationStackBackport.NavigationPath([DashboardCoordination.State.storedHealthcareProviders])
+		sut.pathForSheet = NavigationStackBackport.NavigationPath([DashboardCoordination.State.listHealthcareOrganizations])
 		
 		// When
-		sut.handle(Coordination.Action.finishedSearchingHealthcareProviders)
+		sut.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
 
 		// Then
 		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
@@ -100,7 +100,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 
 		// Given
 		sut.rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
-		sut.pathForSheet = NavigationStackBackport.NavigationPath([DashboardCoordination.State.storedHealthcareProviders])
+		sut.pathForSheet = NavigationStackBackport.NavigationPath([DashboardCoordination.State.listHealthcareOrganizations])
 		
 		// When
 		sut.handle(Coordination.Action.closeSheet)
@@ -116,7 +116,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		sut.firstTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
 		sut.pathForSheet = NavigationStackBackport.NavigationPath(
 			[DashboardCoordination.State.addHealthcareOrganization,
-			 DashboardCoordination.State.storedHealthcareProviders]
+			 DashboardCoordination.State.listHealthcareOrganizations]
 		)
 		
 		// When

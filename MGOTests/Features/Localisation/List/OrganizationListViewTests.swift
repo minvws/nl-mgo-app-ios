@@ -10,12 +10,12 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 
-final class StoredHealthcareProvidersViewTests: XCTestCase {
+final class OrganizationListViewTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: StoredHealthcareProvidersViewModel!
-	private var sut: StoredHealthcareProvidersView!
+	private var viewModel: OrganizationListViewModel!
+	private var sut: OrganizationListView!
 
 	override func setUp() {
 		
@@ -26,8 +26,8 @@ final class StoredHealthcareProvidersViewTests: XCTestCase {
 	
 	private func createSut() {
 		
-		viewModel = StoredHealthcareProvidersViewModel(coordinator: coordinatorSpy)
-		sut = StoredHealthcareProvidersView(viewModel: self.viewModel)
+		viewModel = OrganizationListViewModel(coordinator: coordinatorSpy)
+		sut = OrganizationListView(viewModel: self.viewModel)
 		
 	}
 	
@@ -91,7 +91,7 @@ final class StoredHealthcareProvidersViewTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 	
-	func test_storedHealthcareProviders_finishedSearchingHealthcareProviders() throws {
+	func test_storedHealthcareProviders_finishedSearchingHealthcareOrganizations() throws {
 		
 		// Given
 		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = []
@@ -102,6 +102,6 @@ final class StoredHealthcareProvidersViewTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.finishedSearchingHealthcareProviders
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.finishedSearchingHealthcareOrganizations
 	}
 }

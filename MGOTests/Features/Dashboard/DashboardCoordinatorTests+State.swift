@@ -68,7 +68,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forSearchHealthcareProviders() throws {
 		
 		// Given
-		let state = DashboardCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")
+		let state = DashboardCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")
 		stub(condition: isPath("/localization/organization/search")) { _ in
 			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
 		}
@@ -83,7 +83,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forStoredHealthcareProviders() throws {
 		
 		// Given
-		let state = DashboardCoordination.State.storedHealthcareProviders
+		let state = DashboardCoordination.State.listHealthcareOrganizations
 		
 		// When
 		let view = sut.viewState(for: state)
