@@ -169,23 +169,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showChildCoordinator) == true
 	}
 	
-	func test_coordinatorHandle_codeValidated_noHealthcareProviderAdded_shouldShowDashboard() {
+	func test_coordinatorHandle_codeValidated_shouldShowDashboard() {
 		
 		// Given
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasAddedHealthcareProvider = false
 		
-		// When
-		sut.handle(Coordination.Action.pinCodeValidated)
-		
-		// Then
-		expect(self.sut.showChildCoordinator) == true
-	}
-	
-	func test_coordinatorHandle_codeValidated_healthcareProviderAdded_shouldShowDashboard() {
-		
-		// Given
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasAddedHealthcareProvider = true
-
 		// When
 		sut.handle(Coordination.Action.pinCodeValidated)
 		

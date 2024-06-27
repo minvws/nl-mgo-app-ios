@@ -18,9 +18,6 @@ public protocol SecureUserSettingsProtocol: AnyObject {
 	
 	/// Do we have setup the biometric authentication
 	var bioMetricAuthenticationEnabled: Bool { get set }
-	
-	/// Have we added a healthcare provider
-	var userHasAddedHealthcareProvider: Bool { get set }
 
 	/// Have we seen the app introduction
 	var userHasSeenAppIntroduction: Bool { get set }
@@ -37,7 +34,6 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	
 	/// Default values
 	public struct Defaults {
-		public static var userHasAddedHealthcareProvider: Bool = false
 		public static var userHasSeenAppIntroduction: Bool = false
 		public static var userHasRemoteAuthentication: Bool = false
 		public static var bioMetricAuthenticationEnabled: Bool = false
@@ -48,9 +44,6 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	public init() {
 		// Public initializer needed for public access.
 	}
-	
-	@Keychain(name: "userHasAddedHealthcareProvider", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
-	public var userHasAddedHealthcareProvider: Bool = Defaults.userHasAddedHealthcareProvider
 	
 	@Keychain(name: "userHasSeenAppIntroduction", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var userHasSeenAppIntroduction: Bool = Defaults.userHasSeenAppIntroduction
@@ -84,7 +77,6 @@ extension SecureUserSettings {
 		pinCode = Defaults.pinCode
 		bioMetricAuthenticationEnabled = Defaults.bioMetricAuthenticationEnabled
 		tempPinCode = Defaults.pinCode
-		userHasAddedHealthcareProvider = Defaults.userHasAddedHealthcareProvider
 		userHasSeenAppIntroduction = Defaults.userHasSeenAppIntroduction
 		userHasRemoteAuthentication = Defaults.userHasRemoteAuthentication
 	}

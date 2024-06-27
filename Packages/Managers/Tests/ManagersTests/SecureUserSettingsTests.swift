@@ -29,7 +29,6 @@ final class SecureUserSettingsTests: XCTestCase {
 		
 		// Given
 		sut.userHasSeenAppIntroduction = true
-		sut.userHasAddedHealthcareProvider = true
 		sut.userHasRemoteAuthentication = true
 		sut.bioMetricAuthenticationEnabled = true
 		sut.pinCode = "TEST"
@@ -39,7 +38,6 @@ final class SecureUserSettingsTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.userHasSeenAppIntroduction) == false
-		expect(self.sut.userHasAddedHealthcareProvider) == false
 		expect(self.sut.userHasRemoteAuthentication) == false
 		expect(self.sut.bioMetricAuthenticationEnabled) == false
 		expect(self.sut.pinCode) == nil
@@ -79,18 +77,6 @@ final class SecureUserSettingsTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.userHasSeenAppIntroduction) == true
-	}
-	
-	func test_secureUserSettings_userHasAddedHealthcareProvider() {
-		
-		// Given
-		expect(self.sut.userHasAddedHealthcareProvider) == false
-		
-		// When
-		sut.userHasAddedHealthcareProvider = true
-		
-		// Then
-		expect(self.sut.userHasAddedHealthcareProvider) == true
 	}
 	
 	func test_secureUserSettings_setUserHasRemoteAuthentication() {

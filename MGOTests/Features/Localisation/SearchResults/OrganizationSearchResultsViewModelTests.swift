@@ -155,9 +155,6 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.finishedSearchingHealthcareProviders
 		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedStore) == true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasAddedHealthcareProvider) == true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasAddedHealthcareProviderSetter) == true
 		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedStoreParameters?.provider) == provider
-		
 	}
 }
