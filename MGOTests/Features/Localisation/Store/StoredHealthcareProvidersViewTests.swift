@@ -76,7 +76,7 @@ final class StoredHealthcareProvidersViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_storedHealthcareProviders_backToSearchHealthcareProvider() throws {
+	func test_storedHealthcareProviders_backToAddHealthcareOrganization() throws {
 		
 		// Given
 		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = []
@@ -87,7 +87,7 @@ final class StoredHealthcareProvidersViewTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backToSearchHealthcareProvider
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backToAddHealthcareOrganization
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 	

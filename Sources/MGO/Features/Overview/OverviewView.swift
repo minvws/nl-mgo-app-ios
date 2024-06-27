@@ -89,7 +89,7 @@ class OverviewViewModel: ObservableObject {
 			
 			case .search:
 				toast = nil
-				coordinator?.handle(Coordination.Action.searchHealthcareProviders)
+				coordinator?.handle(Coordination.Action.addHealthcareOrganization)
 			
 			case .details(let healthcareProvider):
 				toast = nil

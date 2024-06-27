@@ -8,18 +8,18 @@
 import MGOTest
 @testable import MGO
 
-final class SearchViewModelTests: XCTestCase {
+final class AddOrganizationViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: SearchViewModel!
+	private var sut: AddOrganizationViewModel!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = SearchViewModel(coordinator: coordinatorSpy)
+		sut = AddOrganizationViewModel(coordinator: coordinatorSpy)
 	}
 
 	func test_backButtonPressed_shouldCallCoordinator() {
@@ -91,7 +91,7 @@ final class SearchViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.sut.state.cityError) == ""
 		expect(self.sut.state.nameError) == ""
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action(identifier: "search", params: ["city": "Den Haag", "name": "Apotheek"])
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action(identifier: "showHealthcareOrganizationSearchResults", params: ["city": "Den Haag", "name": "Apotheek"])
 	}
 	
 	func test_searchButtonPressed_cityNotOKnameNotOK_shouldInvokeError() {

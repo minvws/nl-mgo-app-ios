@@ -57,12 +57,6 @@ extension Coordination.Action {
 	// Remote Authentication
 	static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
 	
-	// Healthcare Provider flow
-	static let search = Coordination.Action(identifier: "search")
-	static let backToSearchHealthcareProvider = Coordination.Action(identifier: "backToSearchHealthcareProvider")
-	static let storeHealthcareProvider = Coordination.Action(identifier: "storeHealthcareProvider")
-	static let finishedSearchingHealthcareProviders = Coordination.Action(identifier: "finishedSearchingHealthcareProviders")
-	
 	// Other
 	static let closeSheet = Coordination.Action(identifier: "closeSheet")
 	static let backButtonPressed = Coordination.Action(identifier: "backButtonPressed")

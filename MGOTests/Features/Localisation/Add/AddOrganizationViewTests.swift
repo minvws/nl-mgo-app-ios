@@ -9,23 +9,23 @@ import MGOTest
 @testable import MGO
 import SwiftUI
 
-final class SearchViewTests: XCTestCase {
+final class AddOrganizationViewTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: SearchViewModel!
-	private var sut: SearchView!
+	private var viewModel: AddOrganizationViewModel!
+	private var sut: AddOrganizationView!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		viewModel = SearchViewModel(coordinator: coordinatorSpy)
-		sut = SearchView(viewModel: self.viewModel)
+		viewModel = AddOrganizationViewModel(coordinator: coordinatorSpy)
+		sut = AddOrganizationView(viewModel: self.viewModel)
 	}
 	
-	func test_searchView() {
+	func test_addOrganizationView() {
 		
 		// Given
 		
@@ -36,7 +36,7 @@ final class SearchViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_searchView_isPresentedAsSheet() {
+	func test_addOrganizationView_isPresentedAsSheet() {
 		
 		// Given
 		
@@ -47,7 +47,7 @@ final class SearchViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_searchView_allFieldsBlank() throws {
+	func test_addOrganizationView_allFieldsBlank() throws {
 		
 		// Given
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
@@ -59,7 +59,7 @@ final class SearchViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_searchView_nameOK() throws {
+	func test_addOrganizationView_nameOK() throws {
 		
 		// Given
 		viewModel.state.name = "Tandarts Tandje Erbij"
@@ -72,7 +72,7 @@ final class SearchViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_searchView_cityOK() throws {
+	func test_addOrganizationView_cityOK() throws {
 		
 		// Given
 		viewModel.state.city = "Roermond"
@@ -85,7 +85,7 @@ final class SearchViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_searchView_allFieldsOK() throws {
+	func test_addOrganizationView_allFieldsOK() throws {
 		
 		// Given
 		viewModel.state.city = "Roermond"

@@ -95,7 +95,7 @@ class SearchResultsViewModel: ObservableObject {
 			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
-				coordinator?.handle(Coordination.Action.backToSearchHealthcareProvider)
+				coordinator?.handle(Coordination.Action.backToAddHealthcareOrganization)
 			
 			case .backButtonPressed:
 				coordinator?.handle(Coordination.Action.backButtonPressed)

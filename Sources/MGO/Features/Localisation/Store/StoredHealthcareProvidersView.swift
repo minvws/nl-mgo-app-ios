@@ -86,7 +86,7 @@ class StoredHealthcareProvidersViewModel: ObservableObject {
 			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
-				coordinator?.handle(Coordination.Action.backToSearchHealthcareProvider)
+				coordinator?.handle(Coordination.Action.backToAddHealthcareOrganization)
 				
 			case .done:
 				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareProviders)

@@ -56,7 +56,7 @@ final class StoredHealthcareProvidersViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backToSearchHealthcareProvider
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backToAddHealthcareOrganization
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 	

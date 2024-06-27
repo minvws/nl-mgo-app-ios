@@ -9,7 +9,14 @@ import MGOUI
 import MGOFoundation
 
 extension Coordination.Action {
-	static let searchHealthcareProviders = Coordination.Action(identifier: "searchHealthcareProviders")
+	
+	// Healthcare Provider flow
+	static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
+	static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
+	static let storeHealthcareProvider = Coordination.Action(identifier: "storeHealthcareProvider")
+	static let finishedSearchingHealthcareProviders = Coordination.Action(identifier: "finishedSearchingHealthcareProviders")
+	
+	static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
 	static let showHealthcareProviderDetails = Coordination.Action(identifier: "showHealthcareProviderDetails")
 	
 	static let showProblems = Coordination.Action(identifier: "showProblems")
@@ -50,7 +57,7 @@ enum DashboardCoordination {
 		case overview
 		
 		// Search & Store Healthcare Provider flow
-		case searchHealthcareProvider
+		case addHealthcareOrganization
 		case searchHealthcareProviders(city: String, name: String)
 		case storedHealthcareProviders
 		
@@ -94,10 +101,10 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			
 			// Healthcare Provider Search Flow
 			
-			case Coordination.Action.searchHealthcareProviders.identifier:
-				rootStateForSheet = DashboardCoordination.State.searchHealthcareProvider
+			case Coordination.Action.addHealthcareOrganization.identifier:
+				rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
 				
-			case Coordination.Action.search.identifier:
+			case Coordination.Action.showHealthcareOrganizationSearchResults.identifier:
 				if action.params.count == 2,
 					let city = action.params["city"] as? String,
 					let name = action.params["name"] as? String {
@@ -109,7 +116,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case Coordination.Action.storeHealthcareProvider.identifier:
 				pathForSheet.append(DashboardCoordination.State.storedHealthcareProviders)
 			
-			case Coordination.Action.backToSearchHealthcareProvider.identifier:
+			case Coordination.Action.backToAddHealthcareOrganization.identifier:
 				pathForSheet.removeLast(pathForSheet.count)
 			
 			case Coordination.Action.finishedSearchingHealthcareProviders.identifier:
@@ -203,8 +210,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				OverviewView(viewModel: OverviewViewModel(coordinator: self)).isPresentedAsSheet(false)
 			
 			// Healthcare Provider Flow
-			case .searchHealthcareProvider:
-				SearchView(viewModel: SearchViewModel(coordinator: self)).isPresentedAsSheet(true)
+			case .addHealthcareOrganization:
+				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
 			
 			case let .searchHealthcareProviders(city, name):
 				SearchResultsView(viewModel: SearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: LocalisationServiceClient())).isPresentedAsSheet(true)

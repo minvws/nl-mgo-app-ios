@@ -12,7 +12,7 @@ extension Notification.Name {
 	static let clearSearch = Notification.Name("nl.mijngezondheidsomgeving.clearSearch")
 }
 
-struct SearchViewState {
+struct AddOrganizationViewState {
 	
 	/// The name to search on
 	var name: String = "" {
@@ -39,7 +39,7 @@ struct SearchViewState {
 	var cityError: LocalizedStringKey = ""
 }
 
-class SearchViewModel: ObservableObject {
+class AddOrganizationViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -51,7 +51,7 @@ class SearchViewModel: ObservableObject {
 	}
 	
 	/// The state for this view
-	@Published var state: SearchViewState = SearchViewState()
+	@Published var state: AddOrganizationViewState = AddOrganizationViewState()
 
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
@@ -75,7 +75,7 @@ class SearchViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: SearchViewModel.Action) {
+	func reduce(_ action: AddOrganizationViewModel.Action) {
 		
 		switch action {
 			
@@ -93,7 +93,7 @@ class SearchViewModel: ObservableObject {
 					}
 					return
 				}
-			coordinator?.handle(Coordination.Action(identifier: "search", params: ["city": state.city, "name": state.name]))
+			coordinator?.handle(Coordination.Action(identifier: "showHealthcareOrganizationSearchResults", params: ["city": state.city, "name": state.name]))
 			
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
@@ -137,10 +137,10 @@ class SearchViewModel: ObservableObject {
 	}
 }
 
-struct SearchView: View {
+struct AddOrganizationView: View {
 	
 	/// The view model
-	@StateObject var viewModel: SearchViewModel
+	@StateObject var viewModel: AddOrganizationViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -226,6 +226,6 @@ struct SearchView: View {
 
 #Preview {
 	NavigationView {
-		SearchView(viewModel: SearchViewModel(coordinator: nil))
+		AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: nil))
 	}
 }
