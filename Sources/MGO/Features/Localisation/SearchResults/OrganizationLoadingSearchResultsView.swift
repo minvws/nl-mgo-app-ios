@@ -7,7 +7,7 @@
 
 import MGOUI
 
-struct SearchResultsLoadingView: View {
+struct OrganizationLoadingSearchResultsView: View {
 
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -69,6 +69,6 @@ struct SearchResultsLoadingView: View {
 
 #Preview {
 	NavigationView {
-		SearchResultsLoadingView()
+		OrganizationLoadingSearchResultsView()
 	}
 }

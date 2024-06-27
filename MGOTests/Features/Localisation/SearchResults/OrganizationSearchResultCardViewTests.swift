@@ -8,15 +8,15 @@
 import MGOTest
 @testable import MGO
 
-final class SearchResultCardViewTests: XCTestCase {
+final class OrganizationSearchResultCardViewTests: XCTestCase {
 
 	func test_searchResultCardView_regular() {
 		
 		// Given
 		
 		// When
-		let sut = SearchResultCardView(
-			model: SearchResult(
+		let sut = OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -35,8 +35,8 @@ final class SearchResultCardViewTests: XCTestCase {
 		// Given
 		
 		// When
-		let sut = SearchResultCardView(
-			model: SearchResult(
+		let sut = OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -55,8 +55,8 @@ final class SearchResultCardViewTests: XCTestCase {
 		// Given
 		
 		// When
-		let sut = SearchResultCardView(
-			model: SearchResult(
+		let sut = OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -75,8 +75,8 @@ final class SearchResultCardViewTests: XCTestCase {
 		// Given
 		
 		// When
-		let sut = SearchResultCardView(
-			model: SearchResult(
+		let sut = OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij"
 			),

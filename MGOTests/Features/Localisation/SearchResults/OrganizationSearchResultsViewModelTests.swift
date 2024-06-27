@@ -9,12 +9,12 @@ import MGOTest
 import MGOFoundation
 @testable import MGO
 
-final class SearchResultViewModelTests: XCTestCase {
+final class OrganizationSearchResultsViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: SearchResultsViewModel!
+	private var sut: OrganizationSearchResultsViewModel!
 
 	override func setUp() {
 		
@@ -26,7 +26,7 @@ final class SearchResultViewModelTests: XCTestCase {
 	
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
-		sut = SearchResultsViewModel(coordinator: coordinatorSpy, city: city, name: name, localisationServiceClient: localisationServiceClientSpy)
+		sut = OrganizationSearchResultsViewModel(coordinator: coordinatorSpy, city: city, name: name, localisationServiceClient: localisationServiceClientSpy)
 	}
 
 	func test_loading() {
@@ -44,7 +44,7 @@ final class SearchResultViewModelTests: XCTestCase {
 	func test_noLocalisationServiceClient() {
 		
 		// Given
-		sut = SearchResultsViewModel(coordinator: self.coordinatorSpy, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: nil)
+		sut = OrganizationSearchResultsViewModel(coordinator: self.coordinatorSpy, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: nil)
 		
 		// When
 		sut.reduce(.onAppear)

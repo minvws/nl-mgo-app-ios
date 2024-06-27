@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-enum SearchResultCardState {
+enum OrganizationSearchResultCardState {
 	case regular
 	case selected
 	case warning
@@ -22,13 +22,13 @@ enum SearchResultCardState {
 	}
 }
 
-struct SearchResultCardView: View {
+struct OrganizationSearchResultCardView: View {
 	
 	/// The search result to display
-	var model: SearchResult
+	var model: OrganizationSearchResult
 	
 	/// The state of the card
-	var state: SearchResultCardState
+	var state: OrganizationSearchResultCardState
 	
 	/// has the user pressed (but no released) the button
 	@State private var onHover = false
@@ -163,8 +163,8 @@ struct SearchResultCardView: View {
 
 	VStack(spacing: 8) {
 		
-		SearchResultCardView(
-			model: SearchResult(
+		OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -174,8 +174,8 @@ struct SearchResultCardView: View {
 			state: .regular
 		)
 	
-		SearchResultCardView(
-			model: SearchResult(
+		OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -185,8 +185,8 @@ struct SearchResultCardView: View {
 			state: .selected
 		)
 		
-		SearchResultCardView(
-			model: SearchResult(
+		OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
 				id: "1",
 				name: "Tandartsenpraktijk Willem II Roermond B.V.",
 				city: "Roermond",

@@ -7,7 +7,7 @@
 
 import MGOUI
 
-class SearchResultNoResultsViewModel: ErrorViewModelProtocol {
+class OrganizationNoSearchResultsViewModel: ErrorViewModelProtocol {
 	
 	/// The name we searched on
 	private var name: String
@@ -74,7 +74,7 @@ class SearchResultNoResultsViewModel: ErrorViewModelProtocol {
 #Preview {
 	NavigationView {
 		ErrorView(
-			viewModel: SearchResultNoResultsViewModel(
+			viewModel: OrganizationNoSearchResultsViewModel(
 				city: "Roermond",
 				name: "Tandarts Tandje Erbij",
 				action: {}

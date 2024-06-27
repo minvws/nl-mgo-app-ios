@@ -10,7 +10,7 @@ import MGOUI
 
 typealias SearchResultSet = (
 	provider: HealthcareProvider,
-	cardState: SearchResultCardState
+	cardState: OrganizationSearchResultCardState
 )
 
 enum SearchResultViewState: Equatable {
@@ -47,7 +47,7 @@ enum SearchResultViewState: Equatable {
 	}
 }
 
-class SearchResultsViewModel: ObservableObject {
+class OrganizationSearchResultsViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -89,7 +89,7 @@ class SearchResultsViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: SearchResultsViewModel.Action) {
+	func reduce(_ action: OrganizationSearchResultsViewModel.Action) {
 		
 		switch action {
 			
@@ -174,17 +174,17 @@ class SearchResultsViewModel: ObservableObject {
 	/// Get the state for a card
 	/// - Parameter provider: the healthcare provider
 	/// - Returns: card state
-	private func cardState(for provider: HealthcareProvider) -> SearchResultCardState {
+	private func cardState(for provider: HealthcareProvider) -> OrganizationSearchResultCardState {
 
 		let list = HealthcareProviderRepository().providers
 		return list.contains(provider) ? .selected : .regular
 	}
 }
 
-struct SearchResultsView: View {
+struct OrganizationSearchResultsView: View {
 	
 	/// The view model
-	@StateObject var viewModel: SearchResultsViewModel
+	@StateObject var viewModel: OrganizationSearchResultsViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -214,7 +214,7 @@ struct SearchResultsView: View {
 			
 			switch viewModel.state {
 				case .loading:
-					SearchResultsLoadingView()
+					OrganizationLoadingSearchResultsView()
 			
 				case .failure:
 					ErrorView(viewModel: ErrorViewModel {
@@ -222,7 +222,7 @@ struct SearchResultsView: View {
 					})
 				
 				case let .empty(city: city, name: name):
-					ErrorView(viewModel: SearchResultNoResultsViewModel(city: city, name: name) {
+					ErrorView(viewModel: OrganizationNoSearchResultsViewModel(city: city, name: name) {
 						viewModel.reduce(.backToSearch)
 					})
 					
@@ -279,8 +279,8 @@ struct SearchResultsView: View {
 								)
 								.accessibilityAddTraits(.isButton)
 							
-							SearchResultCardView(
-								model: SearchResultDecorator.create(element.provider),
+							OrganizationSearchResultCardView(
+								model: OrganizationSearchResultDecorator.create(element.provider),
 								state: element.cardState,
 								perform: {
 									viewModel.reduce(.store(element.provider))
@@ -321,6 +321,6 @@ struct SearchResultsView: View {
 	]
 	
 	return NavigationView {
-		SearchResultsView(viewModel: SearchResultsViewModel(coordinator: nil, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: spy))
+		OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(coordinator: nil, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: spy))
 	}
 }
