@@ -53,10 +53,10 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forSearchHealthcareProvider() throws {
+	func test_coordinatorView_forAddHealthcareOrganization() throws {
 		
 		// Given
-		let state = DashboardCoordination.State.searchHealthcareProvider
+		let state = DashboardCoordination.State.addHealthcareOrganization
 		
 		// When
 		let view = sut.viewState(for: state)
@@ -65,10 +65,10 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 
-	func test_coordinatorView_forSearchHealthcareProviders() throws {
+	func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
 		
 		// Given
-		let state = DashboardCoordination.State.searchHealthcareProviders(city: "Roermond", name: "Tandarts Tandje Erbij")
+		let state = DashboardCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")
 		stub(condition: isPath("/localization/organization/search")) { _ in
 			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
 		}
@@ -80,10 +80,10 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 
-	func test_coordinatorView_forStoredHealthcareProviders() throws {
+	func test_coordinatorView_forListHealthcareOrganizations() throws {
 		
 		// Given
-		let state = DashboardCoordination.State.storedHealthcareProviders
+		let state = DashboardCoordination.State.listHealthcareOrganizations
 		
 		// When
 		let view = sut.viewState(for: state)
@@ -92,11 +92,11 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forShowHealthcareProviderDetails() throws {
+	func test_coordinatorView_forShowHealthcareOrganization() throws {
 		
 		// Given
-		let provider = Generator.healthcareProvider("1")
-		let state = DashboardCoordination.State.showHealthcareProviderDetails(healthcareProvider: provider)
+		let organization = Generator.healthcareOrganization("1")
+		let state = DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: organization)
 		
 		// When
 		let view = sut.viewState(for: state)
@@ -105,11 +105,11 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forRemoveHealthcareProvider() throws {
+	func test_coordinatorView_forRemoveHealthcareOrganization() throws {
 		
 		// Given
-		let provider = Generator.healthcareProvider("1")
-		let state = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: provider)
+		let organization = Generator.healthcareOrganization("1")
+		let state = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: organization)
 		
 		// When
 		let view = sut.viewState(for: state)
@@ -121,8 +121,8 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forShowProblems() throws {
 
 		// Given
-		let provider = Generator.healthcareProvider("1")
-		let state = DashboardCoordination.State.showProblems(healthcareProvider: provider)
+		let organization = Generator.healthcareOrganization("1")
+		let state = DashboardCoordination.State.showProblems(healthcareOrganization: organization)
 		stub(condition: isPath("/fhir/Condition")) { _ in
 			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
 		}
@@ -137,8 +137,8 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forShowMedication() throws {
 
 		// Given
-		let provider = Generator.healthcareProvider("1")
-		let state = DashboardCoordination.State.showMedication(healthcareProvider: provider)
+		let organization = Generator.healthcareOrganization("1")
+		let state = DashboardCoordination.State.showMedication(healthcareOrganization: organization)
 		stub(condition: isPath("/fhir/MedicationStatement")) { _ in
 			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
 		}
@@ -153,8 +153,8 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forShowLabResults() throws {
 
 		// Given
-		let provider = Generator.healthcareProvider("1")
-		let state = DashboardCoordination.State.showLabResults(healthcareProvider: provider)
+		let organization = Generator.healthcareOrganization("1")
+		let state = DashboardCoordination.State.showLabResults(healthcareOrganization: organization)
 		stub(condition: isPath("/fhir/Observation/$lastn")) { _ in
 			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
 		}

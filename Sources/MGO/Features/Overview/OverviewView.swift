@@ -13,7 +13,7 @@ class OverviewViewModel: ObservableObject {
 	/// The state for the overview scene
 	enum State: Equatable {
 		case empty
-		case list([HealthcareProvider])
+		case list([HealthcareOrganization])
 	}
 	
 	/// The app coordinator for routing
@@ -35,7 +35,7 @@ class OverviewViewModel: ObservableObject {
 	enum Action {
 		case onAppear
 		case search
-		case details(HealthcareProvider)
+		case details(HealthcareOrganization)
 		case closeToast
 	}
 	
@@ -49,21 +49,21 @@ class OverviewViewModel: ObservableObject {
 		registerObservers()
 	}
 	
-	// Listen to changes in the stored provider list
+	// Listen to changes in the stored organizations list
 	private func registerObservers() {
 		
-		self.observerToken = Current.healthcareProviderStore.observatory.append { [weak self] changed in
+		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] changed in
 			if changed {
-				self?.loadHealthcareProviders()
+				self?.loadHealthcareOrganizations()
 			}
 		}
 
-		self.removalObserverToken = Current.healthcareProviderStore.removalObservatory.append { [weak self] provider in
+		self.removalObserverToken = Current.healthcareOrganizationStore.removalObservatory.append { [weak self] organization in
 			
 			self?.toast = Toast(
 				title: String(
 					format: String(localized: "overview.toast_removal.heading"),
-					arguments: ["\(provider.display_name)"]
+					arguments: ["\(organization.display_name)"]
 				),
 				subtitle: String(localized: "overview.toast_removal.subheading"),
 				type: .success
@@ -74,8 +74,8 @@ class OverviewViewModel: ObservableObject {
 	
 	deinit {
 		// Remove as observer
-		observerToken.map(Current.healthcareProviderStore.observatory.remove)
-		removalObserverToken.map(Current.healthcareProviderStore.removalObservatory.remove)
+		observerToken.map(Current.healthcareOrganizationStore.observatory.remove)
+		removalObserverToken.map(Current.healthcareOrganizationStore.removalObservatory.remove)
 	}
 	
 	/// Handle any action
@@ -85,17 +85,17 @@ class OverviewViewModel: ObservableObject {
 		switch action {
 		
 			case .onAppear:
-				loadHealthcareProviders()
+				loadHealthcareOrganizations()
 			
 			case .search:
 				toast = nil
-				coordinator?.handle(Coordination.Action.searchHealthcareProviders)
+				coordinator?.handle(Coordination.Action.addHealthcareOrganization)
 			
-			case .details(let healthcareProvider):
+			case .details(let healthcareOrganization):
 				toast = nil
 				coordinator?.handle(Coordination.Action(
-					identifier: "showHealthcareProviderDetails",
-					params: ["healthcareProvider": healthcareProvider])
+					identifier: "showHealthcareOrganization",
+					params: ["healthcareOrganization": healthcareOrganization])
 				)
 			
 			case .closeToast:
@@ -103,14 +103,14 @@ class OverviewViewModel: ObservableObject {
 		}
 	}
 	
-	/// fetch the healthcare providers
-	private func loadHealthcareProviders() {
+	/// fetch the healthcare organizations
+	private func loadHealthcareOrganizations() {
 
-		let providers = Current.healthcareProviderStore.providers
-		if providers.isEmpty {
+		let organizations = Current.healthcareOrganizationStore.organizations
+		if organizations.isEmpty {
 			state = .empty
 		} else {
-			state = .list(providers)
+			state = .list(organizations)
 		}
 	}
 }
@@ -168,11 +168,11 @@ struct OverviewView: View {
 				
 				switch viewModel.state {
 					case .empty:
-						noHealthcareProviderView()
+						noHealthcareOrganizationView()
 						.padding(.horizontal, ViewTraits.General.padding)
 						
 					case let .list(list):
-						listHealthcareProviderView(list: list)
+						listHealthcareOrganizationView(list: list)
 				}
 			}
 			
@@ -185,13 +185,13 @@ struct OverviewView: View {
 						viewModel.reduce(.search)
 					}
 					.padding(ViewTraits.Button.insets)
-					.tag("dashboard_search_healthcareProviders")
+					.tag("dashboard_search_healthcareOrganizations")
 				case .list:
 					CallToActionButton("dashboard_add_healthcareProviders") {
 						viewModel.reduce(.search)
 					}
 					.padding(ViewTraits.Button.insets)
-					.tag("dashboard_add_healthcareProviders")
+					.tag("dashboard_add_healthcareOrganizations")
 			}
 		}
 		
@@ -217,8 +217,8 @@ struct OverviewView: View {
 	}
 	
 	/// Create the empty state view
-	/// - Returns: View when the user has no stored healthcare providers
-	@ViewBuilder func noHealthcareProviderView() -> some View {
+	/// - Returns: View when the user has no stored healthcare organizations
+	@ViewBuilder func noHealthcareOrganizationView() -> some View {
 		
 		Text("dashboard_intro_empty")
 			.rijksoverheidStyle(font: .regular, style: .body)
@@ -233,8 +233,8 @@ struct OverviewView: View {
 	}
 	
 	/// Create the list state view
-	/// - Returns: View when the user has some stored healthcare providers
-	@ViewBuilder func listHealthcareProviderView(list: [HealthcareProvider]) -> some View {
+	/// - Returns: View when the user has some stored healthcare organizations
+	@ViewBuilder func listHealthcareOrganizationView(list: [HealthcareOrganization]) -> some View {
 		
 		Text("dashboard_intro_list")
 			.rijksoverheidStyle(font: .regular, style: .body)
@@ -244,22 +244,22 @@ struct OverviewView: View {
 		
 		LazyVStack(spacing: ViewTraits.List.spacing, content: {
 			
-			ForEach(list, id: \.self) { healthcareProvider in
+			ForEach(list, id: \.self) { healthcareOrganization in
 				
 				ZStack {
 					Rectangle()
 						.foregroundStyle(.clear)
 						.accessibilityLabel(String(
 							format: String(localized: "dashboard_list_action_voiceover"),
-							arguments: ["\(healthcareProvider.display_name)"]
+							arguments: ["\(healthcareOrganization.display_name)"]
 						))
 						.accessibilityAddTraits(.isButton)
 					
-					let model = OverviewDecorator.create(healthcareProvider)
+					let model = OverviewDecorator.create(healthcareOrganization)
 					OverviewCardView(
 						model: model,
 						perform: {
-							viewModel.reduce(.details(healthcareProvider))
+							viewModel.reduce(.details(healthcareOrganization))
 						}
 					)
 				}

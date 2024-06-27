@@ -14,47 +14,47 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 		// Public initializer needed for public access.
 	}
 	
-	public var invokedTempAccessCodeSetter = false
-	public var invokedTempAccessCodeSetterCount = 0
-	public var invokedTempAccessCode: String?
-	public var invokedTempAccessCodeList = [String?]()
-	public var invokedTempAccessCodeGetter = false
-	public var invokedTempAccessCodeGetterCount = 0
-	public var stubbedTempAccessCode: String!
+	public var invokedTempPinCodeSetter = false
+	public var invokedTempPinCodeSetterCount = 0
+	public var invokedTempPinCode: String?
+	public var invokedTempPinCodeList = [String?]()
+	public var invokedTempPinCodeGetter = false
+	public var invokedTempPinCodeGetterCount = 0
+	public var stubbedTempPinCode: String!
 
-	public var tempAccessCode: String? {
+	public var tempPinCode: String? {
 		set {
-			invokedTempAccessCodeSetter = true
-			invokedTempAccessCodeSetterCount += 1
-			invokedTempAccessCode = newValue
-			invokedTempAccessCodeList.append(newValue)
+			invokedTempPinCodeSetter = true
+			invokedTempPinCodeSetterCount += 1
+			invokedTempPinCode = newValue
+			invokedTempPinCodeList.append(newValue)
 		}
 		get {
-			invokedTempAccessCodeGetter = true
-			invokedTempAccessCodeGetterCount += 1
-			return stubbedTempAccessCode
+			invokedTempPinCodeGetter = true
+			invokedTempPinCodeGetterCount += 1
+			return stubbedTempPinCode
 		}
 	}
 
-	public var invokedAccessCodeSetter = false
-	public var invokedAccessCodeSetterCount = 0
-	public var invokedAccessCode: String?
-	public var invokedAccessCodeList = [String?]()
-	public var invokedAccessCodeGetter = false
-	public var invokedAccessCodeGetterCount = 0
-	public var stubbedAccessCode: String!
+	public var invokedPinCodeSetter = false
+	public var invokedPinCodeSetterCount = 0
+	public var invokedPinCode: String?
+	public var invokedPinCodeList = [String?]()
+	public var invokedPinCodeGetter = false
+	public var invokedPinCodeGetterCount = 0
+	public var stubbedPinCode: String!
 
-	public var accessCode: String? {
+	public var pinCode: String? {
 		set {
-			invokedAccessCodeSetter = true
-			invokedAccessCodeSetterCount += 1
-			invokedAccessCode = newValue
-			invokedAccessCodeList.append(newValue)
+			invokedPinCodeSetter = true
+			invokedPinCodeSetterCount += 1
+			invokedPinCode = newValue
+			invokedPinCodeList.append(newValue)
 		}
 		get {
-			invokedAccessCodeGetter = true
-			invokedAccessCodeGetterCount += 1
-			return stubbedAccessCode
+			invokedPinCodeGetter = true
+			invokedPinCodeGetterCount += 1
+			return stubbedPinCode
 		}
 	}
 
@@ -77,28 +77,6 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 			invokedBioMetricAuthenticationEnabledGetter = true
 			invokedBioMetricAuthenticationEnabledGetterCount += 1
 			return stubbedBioMetricAuthenticationEnabled
-		}
-	}
-
-	public var invokedUserHasAddedHealthcareProviderSetter = false
-	public var invokedUserHasAddedHealthcareProviderSetterCount = 0
-	public var invokedUserHasAddedHealthcareProvider: Bool?
-	public var invokedUserHasAddedHealthcareProviderList = [Bool]()
-	public var invokedUserHasAddedHealthcareProviderGetter = false
-	public var invokedUserHasAddedHealthcareProviderGetterCount = 0
-	public var stubbedUserHasAddedHealthcareProvider: Bool! = false
-
-	public var userHasAddedHealthcareProvider: Bool {
-		set {
-			invokedUserHasAddedHealthcareProviderSetter = true
-			invokedUserHasAddedHealthcareProviderSetterCount += 1
-			invokedUserHasAddedHealthcareProvider = newValue
-			invokedUserHasAddedHealthcareProviderList.append(newValue)
-		}
-		get {
-			invokedUserHasAddedHealthcareProviderGetter = true
-			invokedUserHasAddedHealthcareProviderGetterCount += 1
-			return stubbedUserHasAddedHealthcareProvider
 		}
 	}
 	

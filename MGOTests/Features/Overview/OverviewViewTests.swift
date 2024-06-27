@@ -33,7 +33,7 @@ final class OverviewViewTests: XCTestCase {
 	func test_dashboard_emptyList() {
 		
 		// Given
-		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = []
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		createSut()
 		
 		// When
@@ -43,13 +43,13 @@ final class OverviewViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_threeProviders() {
+	func test_dashboard_threeOrganizations() {
 		
 		// Given
-		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = [
-			Generator.healthcareProvider("1"),
-			Generator.healthcareProvider("2"),
-			Generator.healthcareProvider("3")
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
+			Generator.healthcareOrganization("1"),
+			Generator.healthcareOrganization("2"),
+			Generator.healthcareOrganization("3")
 		]
 		createSut()
 		
@@ -60,21 +60,21 @@ final class OverviewViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_threeProviders_toast() {
+	func test_dashboard_threeOrganizations_toast() {
 		
 		// Given
-		let provider = Generator.healthcareProvider("1")
-		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = [
-			provider,
-			Generator.healthcareProvider("2"),
-			Generator.healthcareProvider("3")
+		let healthcareOrganization = Generator.healthcareOrganization("1")
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
+			healthcareOrganization,
+			Generator.healthcareOrganization("2"),
+			Generator.healthcareOrganization("3")
 		]
 		createSut()
 		
 		viewModel.toast = Toast(
 			title: String(
 				format: String(localized: "overview.toast_removal.heading"),
-				arguments: ["\(provider.display_name)"]
+				arguments: ["\(healthcareOrganization.display_name)"]
 			),
 			subtitle: String(localized: "overview.toast_removal.subheading"),
 			type: .success
@@ -87,17 +87,17 @@ final class OverviewViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_searchHealthcareProvider() throws {
+	func test_dashboard_addHealthcareOrganization() throws {
 		
 		// Given
-		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = []
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		createSut()
 		
 		// When
-		try sut.inspect().find(viewWithTag: "dashboard_search_healthcareProviders").button().tap()
+		try sut.inspect().find(viewWithTag: "dashboard_search_healthcareOrganizations").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.searchHealthcareProviders
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
 	}
 }

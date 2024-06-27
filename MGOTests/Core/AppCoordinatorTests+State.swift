@@ -21,7 +21,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		localisationServiceClientSpy = LocalisationServiceClientSpy()
-		localisationServiceClientSpy.stubbedSearchHealthcareProviders = []
+		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = []
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
 			localisationServiceClient: localisationServiceClientSpy
@@ -42,10 +42,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view), precision: 0.90) // Lower precision due to random postion of spinner
 	}
 	
-	func test_coordinatorView_forAppIntroduction_recreatedFalse() throws {
+	func test_coordinatorView_forIntroduction_recreatedFalse() throws {
 		
 		// Given
-		let state = AppCoordination.State.appIntroduction(recreated: false)
+		let state = AppCoordination.State.introduction(recreated: false)
 		
 		// When
 		let view = sut.view(for: state)
@@ -54,10 +54,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAppIntroduction_recreatedTrue() throws {
+	func test_coordinatorView_forIntroduction_recreatedTrue() throws {
 		
 		// Given
-		let state = AppCoordination.State.appIntroduction(recreated: true)
+		let state = AppCoordination.State.introduction(recreated: true)
 		
 		// When
 		let view = sut.view(for: state)
@@ -66,10 +66,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forPrivacyOverview() throws {
+	func test_coordinatorView_forProposition() throws {
 		
 		// Given
-		let state = AppCoordination.State.privacyOverview
+		let state = AppCoordination.State.proposition
 		
 		// When
 		let view = sut.view(for: state)
@@ -78,24 +78,11 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAccessCodeEntry() throws {
-		
-		// Given
-		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.accessCodeEntry
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_forAccessCodeConfirmation() throws {
+	func test_coordinatorView_forPinCodeEntry() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.accessCodeConfirmation
+		let state = AppCoordination.State.pinCodeEntry
 		
 		// When
 		let view = sut.view(for: state)
@@ -104,12 +91,25 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAccessCodeValidation() throws {
+	func test_coordinatorView_forPinCodeConfirmation() throws {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
+		let state = AppCoordination.State.pinCodeConfirmation
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
+	func test_coordinatorView_forPinCodeValidation() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = true
-		let state = AppCoordination.State.accessCodeValidation
+		let state = AppCoordination.State.pinCodeValidation
 		
 		// When
 		let view = sut.view(for: state)
@@ -131,10 +131,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 
-	func test_coordinatorView_forRemoteAuthentication_firstVisit() throws {
+	func test_coordinatorView_forLogin_firstVisit() throws {
 		
 		// Given
-		let state = AppCoordination.State.remoteAuthentication
+		let state = AppCoordination.State.login
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = false
 		
 		// When
@@ -144,10 +144,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forRemoteAuthentication_repeatVisit() throws {
+	func test_coordinatorView_forLogin_repeatVisit() throws {
 
 		// Given
-		let state = AppCoordination.State.remoteAuthentication
+		let state = AppCoordination.State.login
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
 		
 		// When
@@ -157,10 +157,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forgotAccessCode() throws {
+	func test_coordinatorView_forgotPinCode() throws {
 		
 		// Given
-		let state = AppCoordination.State.forgotAccessCode
+		let state = AppCoordination.State.forgotPinCode
 		
 		// When
 		let view = sut.view(for: state)

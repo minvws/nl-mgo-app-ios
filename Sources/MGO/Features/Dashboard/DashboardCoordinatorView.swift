@@ -9,8 +9,15 @@ import MGOUI
 import MGOFoundation
 
 extension Coordination.Action {
-	static let searchHealthcareProviders = Coordination.Action(identifier: "searchHealthcareProviders")
-	static let showHealthcareProviderDetails = Coordination.Action(identifier: "showHealthcareProviderDetails")
+	
+	// Healthcare Organization flow
+	static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
+	static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
+	static let listHealthcareOrganizations = Coordination.Action(identifier: "listHealthcareOrganizations")
+	static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
+	
+	static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
+	static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
 	
 	static let showProblems = Coordination.Action(identifier: "showProblems")
 	static let showMedication = Coordination.Action(identifier: "showMedication")
@@ -49,17 +56,17 @@ enum DashboardCoordination {
 		case aboutTheApp
 		case overview
 		
-		// Search & Store Healthcare Provider flow
-		case searchHealthcareProvider
-		case searchHealthcareProviders(city: String, name: String)
-		case storedHealthcareProviders
+		// Search & Store Healthcare Organization flow
+		case addHealthcareOrganization
+		case healthcareOrganizationSearchResults(city: String, name: String)
+		case listHealthcareOrganizations
 		
 		// Details Flow
-		case showHealthcareProviderDetails(healthcareProvider: HealthcareProvider)
-		case showProblems(healthcareProvider: HealthcareProvider)
-		case showMedication(healthcareProvider: HealthcareProvider)
-		case showLabResults(healthcareProvider: HealthcareProvider)
-		case removeHealthcareOrganization(healthcareOrganization: HealthcareProvider)
+		case showHealthcareOrganization(healthcareOrganization: HealthcareOrganization)
+		case showProblems(healthcareOrganization: HealthcareOrganization)
+		case showMedication(healthcareOrganization: HealthcareOrganization)
+		case showLabResults(healthcareOrganization: HealthcareOrganization)
+		case removeHealthcareOrganization(healthcareOrganization: HealthcareOrganization)
 	}
 }
 
@@ -92,67 +99,67 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		
 		switch action.identifier {
 			
-			// Healthcare Provider Search Flow
+			// Healthcare Organization Search Flow
 			
-			case Coordination.Action.searchHealthcareProviders.identifier:
-				rootStateForSheet = DashboardCoordination.State.searchHealthcareProvider
+			case Coordination.Action.addHealthcareOrganization.identifier:
+				rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
 				
-			case Coordination.Action.search.identifier:
+			case Coordination.Action.showHealthcareOrganizationSearchResults.identifier:
 				if action.params.count == 2,
 					let city = action.params["city"] as? String,
 					let name = action.params["name"] as? String {
-					pathForSheet.append(DashboardCoordination.State.searchHealthcareProviders(city: city, name: name))
+					pathForSheet.append(DashboardCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
 				} else {
 					logError("Dashboard Coordinator, missing params for \(action)")
 				}
 					
-			case Coordination.Action.storeHealthcareProvider.identifier:
-				pathForSheet.append(DashboardCoordination.State.storedHealthcareProviders)
+			case Coordination.Action.listHealthcareOrganizations.identifier:
+				pathForSheet.append(DashboardCoordination.State.listHealthcareOrganizations)
 			
-			case Coordination.Action.backToSearchHealthcareProvider.identifier:
+			case Coordination.Action.backToAddHealthcareOrganization.identifier:
 				pathForSheet.removeLast(pathForSheet.count)
 			
-			case Coordination.Action.finishedSearchingHealthcareProviders.identifier:
+			case Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
 			
-			// Healthcare Provider Details
+			// Healthcare Organization Details
 			
-			case Coordination.Action.showHealthcareProviderDetails.identifier:
+			case Coordination.Action.showHealthcareOrganization.identifier:
 				if action.params.count == 1,
-				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
-					firstTabPath.append(DashboardCoordination.State.showHealthcareProviderDetails(healthcareProvider: healthcareProvider))
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+					firstTabPath.append(DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 			
 			case Coordination.Action.showProblems.identifier:
 				if action.params.count == 1,
-				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
-					firstTabPath.append(DashboardCoordination.State.showProblems(healthcareProvider: healthcareProvider))
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+					firstTabPath.append(DashboardCoordination.State.showProblems(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 			
 			case Coordination.Action.showMedication.identifier:
 				if action.params.count == 1,
-				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
-					firstTabPath.append(DashboardCoordination.State.showMedication(healthcareProvider: healthcareProvider))
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+					firstTabPath.append(DashboardCoordination.State.showMedication(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 	
 			case Coordination.Action.showLabResults.identifier:
 				if action.params.count == 1,
-				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
-					firstTabPath.append(DashboardCoordination.State.showLabResults(healthcareProvider: healthcareProvider))
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+					firstTabPath.append(DashboardCoordination.State.showLabResults(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 
 			case Coordination.Action.removeHealthcareOrganization.identifier:
 				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareProvider {
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
 				
 					rootStateForSheet = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: healthcareOrganization)
 					
@@ -202,43 +209,43 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case .overview:
 				OverviewView(viewModel: OverviewViewModel(coordinator: self)).isPresentedAsSheet(false)
 			
-			// Healthcare Provider Flow
-			case .searchHealthcareProvider:
-				SearchView(viewModel: SearchViewModel(coordinator: self)).isPresentedAsSheet(true)
+			// Healthcare Organization Flow
+			case .addHealthcareOrganization:
+				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
 			
-			case let .searchHealthcareProviders(city, name):
-				SearchResultsView(viewModel: SearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: LocalisationServiceClient())).isPresentedAsSheet(true)
+			case let .healthcareOrganizationSearchResults(city, name):
+				OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: LocalisationServiceClient())).isPresentedAsSheet(true)
 			
-			case .storedHealthcareProviders:
-				StoredHealthcareProvidersView(viewModel: StoredHealthcareProvidersViewModel(coordinator: self)).isPresentedAsSheet(true)
+			case .listHealthcareOrganizations:
+				OrganizationListView(viewModel: OrganizationListViewModel(coordinator: self)).isPresentedAsSheet(true)
 			
-			case let .showHealthcareProviderDetails(healthcareProvider):
-				HealthcareProviderView(viewModel: HealthcareProviderViewModel(coordinator: self, healthcareProvider: healthcareProvider))
+			case let .showHealthcareOrganization(healthcareOrganization):
+				OrganizationView(viewModel: OrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization))
 			
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
 			
-			case let .showProblems(healthcareProvider):
+			case let .showProblems(healthcareOrganization):
 				ProblemsListView(
 					viewModel: ProblemsListViewModel(
 						coordinator: self,
-						healthcareProvider: healthcareProvider
+						healthcareOrganization: healthcareOrganization
 					)
 				)
 				
-			case let .showMedication(healthcareProvider):
+			case let .showMedication(healthcareOrganization):
 				MedicationListView(
 					viewModel: MedicationListViewModel(
 						coordinator: self,
-						healthcareProvider: healthcareProvider
+						healthcareOrganization: healthcareOrganization
 					)
 				)
 				
-			case let .showLabResults(healthcareProvider):
+			case let .showLabResults(healthcareOrganization):
 				LabResultsListView(
 					viewModel: LabResultsListViewModel(
 						coordinator: self,
-						healthcareProvider: healthcareProvider
+						healthcareOrganization: healthcareOrganization
 					)
 				)
 			

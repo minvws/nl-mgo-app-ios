@@ -1,0 +1,101 @@
+/*
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import MGOTest
+@testable import MGO
+import SwiftUI
+
+final class AddOrganizationViewTests: XCTestCase {
+
+	private var coordinatorSpy: AppCoordinatorSpy!
+	private var servicesSpies: ServicesSpies!
+	private var viewModel: AddOrganizationViewModel!
+	private var sut: AddOrganizationView!
+	
+	override func setUp() {
+		
+		super.setUp()
+		servicesSpies = setupServicesSpies()
+		coordinatorSpy = AppCoordinatorSpy()
+		viewModel = AddOrganizationViewModel(coordinator: coordinatorSpy)
+		sut = AddOrganizationView(viewModel: self.viewModel)
+	}
+	
+	func test_addOrganizationView() {
+		
+		// Given
+		
+		// When
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_addOrganizationView_isPresentedAsSheet() {
+		
+		// Given
+		
+		// When
+		let content = NavigationView { sut.isPresentedAsSheet(true) }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_addOrganizationView_allFieldsBlank() throws {
+		
+		// Given
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		
+		// When
+		try sut.inspect().find(viewWithTag: "search").button().tap()
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_addOrganizationView_nameOK() throws {
+		
+		// Given
+		viewModel.state.name = "Tandarts Tandje Erbij"
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		
+		// When
+		try sut.inspect().find(viewWithTag: "search").button().tap()
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_addOrganizationView_cityOK() throws {
+		
+		// Given
+		viewModel.state.city = "Roermond"
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		
+		// When
+		try sut.inspect().find(viewWithTag: "search").button().tap()
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_addOrganizationView_allFieldsOK() throws {
+		
+		// Given
+		viewModel.state.city = "Roermond"
+		viewModel.state.name = "Tandarts Tandje Erbij"
+		let content = NavigationView { sut.isPresentedAsSheet(false) }
+		
+		// When
+		try sut.inspect().find(viewWithTag: "search").button().tap()
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+}

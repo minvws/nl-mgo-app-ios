@@ -1,0 +1,166 @@
+/*
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import MGOFoundation
+import MGOUI
+
+class RemoveHealthcareOrganizationViewModel: ObservableObject {
+	
+	/// The app coordinator for routing
+	weak var coordinator: (any Coordinator)?
+	
+	/// The healthcare organization to display
+	@Published var healthcareOrganization: HealthcareOrganization
+	
+	/// Intitializer
+	/// - Parameter coordinator: the app coordinator
+	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: HealthcareOrganization) {
+		
+		self.coordinator = coordinator
+		self.healthcareOrganization = healthcareOrganization
+	}
+	
+	/// A list of all the actions this viewModel can handle
+	enum Action {
+		case removeOrganization
+		case cancel
+		case closeSheet
+	}
+	
+	/// Handle any action
+	/// - Parameter action: the action to be handled
+	func reduce(_ action: RemoveHealthcareOrganizationViewModel.Action) {
+		
+		switch action {
+			case .removeOrganization:
+				try? Current.healthcareOrganizationStore.remove(healthcareOrganization)
+				coordinator?.handle(.removedHealthcareOrganization)
+			
+			case .cancel, .closeSheet:
+				coordinator?.handle(.closeSheet)
+		}
+	}
+}
+
+struct RemoveHealthcareOrganizationView: View {
+	
+	/// The View Model
+	@StateObject var viewModel: RemoveHealthcareOrganizationViewModel
+	
+	/// The Theme
+	@Environment(\.theme) var theme
+	
+	/// Are we presented in a sheet?
+	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
+	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
+		enum Button {
+			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+			static let spacing: CGFloat = 16
+		}
+		enum General {
+			static let padding: CGFloat = 16
+		}
+		enum Image {
+			static let size: CFloat = 102
+			static let bottom: CGFloat = 16
+			static let top: CGFloat = 8
+		}
+	}
+	
+	var body: some View {
+		
+		ScrollViewWithFixedBottom {
+			
+			VStack(spacing: ViewTraits.General.padding) {
+				
+				HStack {
+					Spacer()
+					Image(ImageResource.Details.bigTrashcan)
+						.background {
+							Circle()
+								.foregroundStyle(theme.backgroundSecondary)
+						}
+					Spacer()
+				}
+				.padding(.top, ViewTraits.Image.bottom)
+				.padding(.bottom, ViewTraits.Image.bottom)
+				
+				Text(String(
+					format: String(localized: "organization.confirm_delete.heading"),
+					   arguments: ["\(viewModel.healthcareOrganization.display_name)"]
+				   ))
+					.rijksoverheidStyle(font: .bold, style: .title)
+					.foregroundStyle(theme.contentPrimary)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityAddTraits(.isHeader)
+				
+				Text(String(
+						format: String(localized: "organization.confirm_delete.subheading"),
+						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
+					))
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentPrimary)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+			}
+			.padding(.horizontal, ViewTraits.General.padding)
+			
+		} bottomView: {
+			
+			bottomView()
+		}
+		.padding(.top, ViewTraits.Navigation.padding)
+		.navigationBarBackButtonHidden(true)
+		.navigationBarHidden(false)
+		.if(isPresentedAsSheet, transform: { view in
+			view
+				.toolbar {
+					ToolbarItem(content: { CloseButton {
+						viewModel.reduce(.closeSheet)
+					}})
+				}
+		})
+		.background(theme.backgroundPrimary.ignoresSafeArea())
+	}
+	
+	/// Get the call to action buttons view
+	/// - Returns: View containing the call to action buttons
+	@ViewBuilder func bottomView() -> some View {
+		
+		VStack(spacing: ViewTraits.Button.spacing) {
+			
+			CallToActionButton("organization.confirm_delete.yes_label", style: .secondary) {
+				viewModel.reduce(.removeOrganization)
+			}
+			.tag("remove")
+			
+			CallToActionButton("organization.confirm_delete.no_label") {
+				viewModel.reduce(.cancel)
+			}
+			.tag("cancel")
+			
+		}
+		.padding(ViewTraits.Button.insets)
+		.padding(.top, ViewTraits.General.padding)
+	}
+}
+
+#Preview {
+	
+	NavigationView {
+		RemoveHealthcareOrganizationView(
+			viewModel: RemoveHealthcareOrganizationViewModel(
+				coordinator: nil,
+				healthcareOrganization: PreviewContent.healthcareOrganization
+			)
+		)
+	}
+}

@@ -185,36 +185,7 @@ struct BioMetricSetupView: View {
 			
 		} bottomView: {
 			
-			VStack(spacing: ViewTraits.Button.spacing) {
-				
-				CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_without_biometric", type: bioMetricType)), style: .secondary) {
-					viewModel.reduce(.proceedWithoutBioMetric)
-				}
-				
-				CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_with_biometric", type: bioMetricType))) {
-					if bioMetricType == .touchID {
-						viewModel.reduce(.showTouchIDPopup)
-					} else {
-						viewModel.reduce(.proceedWithBioMetric)
-					}
-				}
-				.alert("biometric_lockout_title", isPresented: $viewModel.state.showLockoutPopup) {
-					Button("general_ok") { }
-				} message: {
-					switch viewModel.state.bioMetricType {
-						case .none, .unknown:
-							// Should not happen
-							EmptyView()
-						case .touchID:
-							Text("biometric_lockout_body_touchid")
-						case .faceID:
-							Text("biometric_lockout_body_faceid")
-						case .opticID:
-							Text("biometric_lockout_body_opticid")
-					}
-				}
-			}
-			.padding(ViewTraits.Button.insets)
+			bottomView(bioMetricType)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
@@ -294,6 +265,42 @@ struct BioMetricSetupView: View {
 			case .opticID:
 				return "biometric_body_opticid"
 		}
+	}
+	
+	/// Get the call to action buttons view
+	/// - Returns: View containing the call to action buttons
+	@ViewBuilder func bottomView(_ bioMetricType: LocalAuthentication.BiometricType) -> some View {
+		
+		VStack(spacing: ViewTraits.Button.spacing) {
+			
+			CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_without_biometric", type: bioMetricType)), style: .secondary) {
+				viewModel.reduce(.proceedWithoutBioMetric)
+			}
+			
+			CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_with_biometric", type: bioMetricType))) {
+				if bioMetricType == .touchID {
+					viewModel.reduce(.showTouchIDPopup)
+				} else {
+					viewModel.reduce(.proceedWithBioMetric)
+				}
+			}
+			.alert("biometric_lockout_title", isPresented: $viewModel.state.showLockoutPopup) {
+				Button("general_ok") { }
+			} message: {
+				switch viewModel.state.bioMetricType {
+					case .none, .unknown:
+						// Should not happen
+						EmptyView()
+					case .touchID:
+						Text("biometric_lockout_body_touchid")
+					case .faceID:
+						Text("biometric_lockout_body_faceid")
+					case .opticID:
+						Text("biometric_lockout_body_opticid")
+				}
+			}
+		}
+		.padding(ViewTraits.Button.insets)
 	}
 }
 

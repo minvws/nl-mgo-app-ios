@@ -8,70 +8,70 @@
 @testable import LocalisationService
 import MGOTest
 
-final class HealthcareProviderStoreTests: XCTestCase {
+final class HealthcareOrganiationRepositoryTests: XCTestCase {
 	
 	override func tearDown() {
 		super.tearDown()
-		HealthcareProviderRepository().wipePersistedData()
+		HealthcareOrganizationRepository().wipePersistedData()
 	}
 
 	func test_storeToDisk() throws {
 		
 		// Given
-		let sut = HealthcareProviderRepository()
-		let provider = healthcareProvider("1")
+		let sut = HealthcareOrganizationRepository()
+		let organization = healthcareOrganization("1")
 		
 		// When
-		try sut.store(provider)
+		try sut.store(organization)
 		let list = try sut.read()
 		
 		// Then
 		expect(list).to(haveCount(1))
-		expect(list.first) == provider
-		expect(sut.providers).to(haveCount(1))
-		expect(sut.providers) == list
+		expect(list.first) == organization
+		expect(sut.organizations).to(haveCount(1))
+		expect(sut.organizations) == list
 	}
 	
 	func test_storeToDiskTwice_savesJustOne() throws {
 		
 		// Given
-		let sut = HealthcareProviderRepository()
-		let provider = healthcareProvider("1")
+		let sut = HealthcareOrganizationRepository()
+		let organization = healthcareOrganization("1")
 		
 		// When
-		try sut.store(provider)
-		try sut.store(provider)
+		try sut.store(organization)
+		try sut.store(organization)
 		let list = try sut.read()
 		
 		// Then
 		expect(list).to(haveCount(1))
-		expect(list.first) == provider
-		expect(sut.providers).to(haveCount(1))
-		expect(sut.providers) == list
+		expect(list.first) == organization
+		expect(sut.organizations).to(haveCount(1))
+		expect(sut.organizations) == list
 	}
 
 	func test_storeAndRemoveToDisk() throws {
 		
 		// Given
-		let sut = HealthcareProviderRepository()
-		let provider = healthcareProvider("1")
-		try sut.store(provider)
+		let sut = HealthcareOrganizationRepository()
+		let organization = healthcareOrganization("1")
+		try sut.store(organization)
 		
 		// When
-		try sut.remove(provider)
+		try sut.remove(organization)
 		let list = try sut.read()
 		
 		// Then
 		expect(list).to(beEmpty())
-		expect(sut.providers).to(beEmpty())
+		expect(sut.organizations).to(beEmpty())
 	}
 	
 	func test_wipePersistentData() throws {
 		
 		// Given
-		let sut = HealthcareProviderRepository()
-		let provider = healthcareProvider("1")
-		try sut.store(provider)
+		let sut = HealthcareOrganizationRepository()
+		let organization = healthcareOrganization("1")
+		try sut.store(organization)
 		
 		// When
 		sut.wipePersistedData()
@@ -79,11 +79,11 @@ final class HealthcareProviderStoreTests: XCTestCase {
 		
 		// Then
 		expect(list).to(beEmpty())
-		expect(sut.providers).to(beEmpty())
+		expect(sut.organizations).to(beEmpty())
 	}
 	
-	func healthcareProvider(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB") -> HealthcareProvider {
-		return HealthcareProvider(
+	func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB") -> HealthcareOrganization {
+		return HealthcareOrganization(
 			display_name: "Tandarts Tandje Erbij",
 			identification_type: "type",
 			identification_value: id,
