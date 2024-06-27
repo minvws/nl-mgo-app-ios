@@ -199,8 +199,8 @@ struct AddOrganizationView: View {
 				viewModel.reduce(.search)
 			}
 			.tag("search")
-            .padding(ViewTraits.General.padding)
-            .accessibilityIdentifier("searchhp_action")
+			.padding(ViewTraits.General.padding)
+			.accessibilityIdentifier("searchhp_action")
 		}
 		.onTapGesture {
 			_ = logDebug("Tapping outside the input")

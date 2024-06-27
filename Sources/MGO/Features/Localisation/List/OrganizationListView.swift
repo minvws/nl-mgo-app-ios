@@ -190,41 +190,8 @@ struct OrganizationListView: View {
 			.padding(.horizontal, ViewTraits.General.padding)
 			
 		} bottomView: {
-			VStack(spacing: ViewTraits.Button.spacing) {
-				
-				switch viewModel.state {
-					case .empty:
-						// Primary CTA in empty state is to
-						// add a healthcare organization
-						// Secondary go to overview
-						
-						CallToActionButton("storedhp_action_done", style: .secondary) {
-							viewModel.reduce(.done)
-						}
-						.tag("storedhp_action_done")
-						
-						CallToActionButton("storedhp_action_again") {
-							viewModel.reduce(.backToSearch)
-						}
-						.tag("storedhp_action_again")
-						
-					case .list:
-						// We already have an organization, so
-						// primary CTA is to go to the overview.
-						// secondary CTA is to add another organization
-						CallToActionButton("storedhp_action_again", style: .secondary) {
-							viewModel.reduce(.backToSearch)
-						}
-						.tag("storedhp_action_again")
-						
-						CallToActionButton("storedhp_action_done") {
-							viewModel.reduce(.done)
-						}
-						.tag("storedhp_action_done")
-				}
-			}
-			.padding(ViewTraits.Button.insets)
-			.padding(.top, ViewTraits.General.padding)
+			
+			bottomView()
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.alert(viewModel.healthcareOrganizationToRemoveTitle ?? "", isPresented: $viewModel.healthcareOrganizationToRemoveTitle.presence()) {
@@ -249,6 +216,47 @@ struct OrganizationListView: View {
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
+	}
+	
+	/// Get the call to action buttons view
+	/// - Returns: View containing the call to action buttons
+	@ViewBuilder func bottomView() -> some View {
+		
+		VStack(spacing: ViewTraits.Button.spacing) {
+			
+			switch viewModel.state {
+				case .empty:
+					// Primary CTA in empty state is to
+					// add a healthcare organization
+					// Secondary go to overview
+					
+					CallToActionButton("storedhp_action_done", style: .secondary) {
+						viewModel.reduce(.done)
+					}
+					.tag("storedhp_action_done")
+					
+					CallToActionButton("storedhp_action_again") {
+						viewModel.reduce(.backToSearch)
+					}
+					.tag("storedhp_action_again")
+					
+				case .list:
+					// We already have an organization, so
+					// primary CTA is to go to the overview.
+					// secondary CTA is to add another organization
+					CallToActionButton("storedhp_action_again", style: .secondary) {
+						viewModel.reduce(.backToSearch)
+					}
+					.tag("storedhp_action_again")
+					
+					CallToActionButton("storedhp_action_done") {
+						viewModel.reduce(.done)
+					}
+					.tag("storedhp_action_done")
+			}
+		}
+		.padding(ViewTraits.Button.insets)
+		.padding(.top, ViewTraits.General.padding)
 	}
 }
 

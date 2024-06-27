@@ -85,20 +85,8 @@ struct ForgotPinCodeView: View {
 				.padding(ViewTraits.Text.insets)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 		} bottomView: {
-			VStack(spacing: ViewTraits.Button.spacing) {
-				
-				CallToActionButton("forgot_action_reset", style: .secondary) {
-					viewModel.reduce(.showDialog)
-				}
-				.tag("forgot_action_reset")
-
-				CallToActionButton("general_cancel") {
-					viewModel.reduce(.cancelButtonPressed)
-				}
-				.tag("general_cancel")
-				
-			}
-			.padding(ViewTraits.Button.insets)
+			
+			bottomView()
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
@@ -108,5 +96,24 @@ struct ForgotPinCodeView: View {
 		} message: {
 			Text("forgot_alert_body")
 		}
+	}
+	
+	/// Get the call to action buttons view
+	/// - Returns: View containing the call to action buttons
+	@ViewBuilder func bottomView() -> some View {
+		
+		VStack(spacing: ViewTraits.Button.spacing) {
+			CallToActionButton("forgot_action_reset", style: .secondary) {
+				viewModel.reduce(.showDialog)
+			}
+			.tag("forgot_action_reset")
+			
+			CallToActionButton("general_cancel") {
+				viewModel.reduce(.cancelButtonPressed)
+			}
+			.tag("general_cancel")
+			
+		}
+		.padding(ViewTraits.Button.insets)
 	}
 }

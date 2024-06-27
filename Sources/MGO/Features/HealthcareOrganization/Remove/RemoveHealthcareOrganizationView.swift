@@ -115,21 +115,7 @@ struct RemoveHealthcareOrganizationView: View {
 			
 		} bottomView: {
 			
-			VStack(spacing: ViewTraits.Button.spacing) {
-				
-				CallToActionButton("organization.confirm_delete.yes_label", style: .secondary) {
-					viewModel.reduce(.removeOrganization)
-				}
-				.tag("remove")
-				
-				CallToActionButton("organization.confirm_delete.no_label") {
-					viewModel.reduce(.cancel)
-				}
-				.tag("cancel")
-				
-			}
-			.padding(ViewTraits.Button.insets)
-			.padding(.top, ViewTraits.General.padding)
+			bottomView()
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
@@ -143,6 +129,27 @@ struct RemoveHealthcareOrganizationView: View {
 				}
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())
+	}
+	
+	/// Get the call to action buttons view
+	/// - Returns: View containing the call to action buttons
+	@ViewBuilder func bottomView() -> some View {
+		
+		VStack(spacing: ViewTraits.Button.spacing) {
+			
+			CallToActionButton("organization.confirm_delete.yes_label", style: .secondary) {
+				viewModel.reduce(.removeOrganization)
+			}
+			.tag("remove")
+			
+			CallToActionButton("organization.confirm_delete.no_label") {
+				viewModel.reduce(.cancel)
+			}
+			.tag("cancel")
+			
+		}
+		.padding(ViewTraits.Button.insets)
+		.padding(.top, ViewTraits.General.padding)
 	}
 }
 
