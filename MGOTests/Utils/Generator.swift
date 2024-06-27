@@ -9,13 +9,13 @@ import MGOFoundation
 
 class Generator {
 	
-	/// Create a healthcare provider
+	/// Create a healthcare organization
 	/// - Parameters:
-	///   - id: the identifier of the provider
-	///   - city: the city of the provider
-	///   - address: the address of the provider
-	///   - postalCode: the postal code of the provider
-	/// - Returns: a healthcare provider
+	///   - id: the identifier of the organization
+	///   - city: the city of the organization
+	///   - address: the address of the organization
+	///   - postalCode: the postal code of the organization
+	/// - Returns: a healthcare organization
 	static func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true ) -> HealthcareOrganization {
 		
 		var dataServices = [Components.Schemas.ZalDataServiceResponse]()

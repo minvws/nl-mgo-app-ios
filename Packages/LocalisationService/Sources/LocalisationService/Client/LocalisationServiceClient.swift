@@ -13,12 +13,12 @@ public protocol LocalisationServiceClientProtocol {
 	/// Initializer
 	init?()
 	
-	/// Search for all the healthcare providers with this city and name
+	/// Search for all the healthcare organizations with this city and name
 	/// - Parameters:
 	///   - city: the city to search with
 	///   - name: the name to search with
-	/// - Returns: An (empty) array of Healthcare Providers
-	func searchHealthcareProviders(city: String, name: String) async throws -> [HealthcareOrganization]
+	/// - Returns: An (empty) array of Healthcare Organizations
+	func searchHealthcareOrganizations(city: String, name: String) async throws -> [HealthcareOrganization]
 }
 
 public class LocalisationServiceClient: LocalisationServiceClientProtocol {
@@ -33,12 +33,12 @@ public class LocalisationServiceClient: LocalisationServiceClientProtocol {
 		self.client = Client(serverURL: serverUrl, transport: URLSessionTransport())
 	}
 	
-	/// Search for all the healthcare providers with this city and name
+	/// Search for all the healthcare organizations with this city and name
 	/// - Parameters:
 	///   - city: the city to search with
 	///   - name: the name to search with
-	/// - Returns: An (empty) array of Healthcare Providers
-	public func searchHealthcareProviders(city: String, name: String) async throws -> [HealthcareOrganization] {
+	/// - Returns: An (empty) array of Healthcare Organizations
+	public func searchHealthcareOrganizations(city: String, name: String) async throws -> [HealthcareOrganization] {
 		
 		let searchRequest = Components.Schemas.SearchRequest(name: name, city: city)
 		let input = Operations.read_item_localization_organization_search_post.Input(body: .json(searchRequest))

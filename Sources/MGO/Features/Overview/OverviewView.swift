@@ -58,12 +58,12 @@ class OverviewViewModel: ObservableObject {
 			}
 		}
 
-		self.removalObserverToken = Current.healthcareOrganizationStore.removalObservatory.append { [weak self] provider in
+		self.removalObserverToken = Current.healthcareOrganizationStore.removalObservatory.append { [weak self] organization in
 			
 			self?.toast = Toast(
 				title: String(
 					format: String(localized: "overview.toast_removal.heading"),
-					arguments: ["\(provider.display_name)"]
+					arguments: ["\(organization.display_name)"]
 				),
 				subtitle: String(localized: "overview.toast_removal.subheading"),
 				type: .success
@@ -103,7 +103,7 @@ class OverviewViewModel: ObservableObject {
 		}
 	}
 	
-	/// fetch the healthcare providers
+	/// fetch the healthcare organizations
 	private func loadHealthcareOrganizations() {
 
 		let organizations = Current.healthcareOrganizationStore.organizations

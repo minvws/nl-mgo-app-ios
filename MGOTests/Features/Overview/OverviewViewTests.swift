@@ -43,7 +43,7 @@ final class OverviewViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_threeProviders() {
+	func test_dashboard_threeOrganizations() {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
@@ -60,7 +60,7 @@ final class OverviewViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_threeProviders_toast() {
+	func test_dashboard_threeOrganizations_toast() {
 		
 		// Given
 		let healthcareOrganization = Generator.healthcareOrganization("1")
@@ -87,7 +87,7 @@ final class OverviewViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_searchHealthcareProvider() throws {
+	func test_dashboard_addHealthcareOrganization() throws {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []

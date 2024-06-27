@@ -9,8 +9,8 @@ import MGOUI
 
 struct OverviewCardView: View {
 	
-	/// The model of the healthcare provider
-	var model: OverviewHealthcareProvider
+	/// The model of the healthcare organization
+	var model: OverviewHealthcareOrganization
 	
 	/// The action to be performed when the user presses this card
 	var perform: (() -> Void)?
@@ -28,8 +28,8 @@ struct OverviewCardView: View {
 
 #Preview {
 	VStack(spacing: 4) {
-		OverviewCardView(model: OverviewHealthcareProvider(category: "Tandartsen", id: "1", name: "Tandarts Tandje Erbij"))
-		OverviewCardView(model: OverviewHealthcareProvider(category: "Tandartsen", id: "2", name: "Tandarts Tandje Erbij"))
-		OverviewCardView(model: OverviewHealthcareProvider(category: "Tandartsen", id: "3", name: "Tandarts Tandje Erbij"))
+		OverviewCardView(model: OverviewHealthcareOrganization(category: "Tandartsen", id: "1", name: "Tandarts Tandje Erbij"))
+		OverviewCardView(model: OverviewHealthcareOrganization(category: "Tandartsen", id: "2", name: "Tandarts Tandje Erbij"))
+		OverviewCardView(model: OverviewHealthcareOrganization(category: "Tandartsen", id: "3", name: "Tandarts Tandje Erbij"))
 	}
 }

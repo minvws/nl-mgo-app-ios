@@ -9,30 +9,30 @@ import MGOFoundation
 
 struct OrganizationListModel: Codable, Hashable, Equatable, Identifiable {
 	
-	/// The category of healthcare provider (dentist, gp, etc)
+	/// The category of a healthcare organization (dentist, gp, etc)
 	var category: String
 	
 	/// The identifier
 	var id: String
 	
-	/// The name of the healthcare provider
+	/// The name of the healthcare organization
 	var name: String
 	
-	/// The city of the healthcare provider
+	/// The city of the healthcare organization
 	var city: String?
 	
-	/// The address of the healthcare provider
+	/// The address of the healthcare organization
 	var address: String?
 	
-	/// The postal code of the healthcare provider
+	/// The postal code of the healthcare organization
 	var postalCode: String?
 }
 
-class StoredHealthcareProviderDecorator {
+class OrganizationListDecorator {
 	
-	/// Create a StoredHealthcareProviderModel from a HealthcareProvider
-	/// - Parameter from: HealthcareProvider
-	/// - Returns: StoredHealthcareProviderModel
+	/// Create a OrganizationListModel from a HealthcareOrganization
+	/// - Parameter from: HealthcareOrganization
+	/// - Returns: OrganizationListModel
 	static func create(_ organisation: HealthcareOrganization) -> OrganizationListModel {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value

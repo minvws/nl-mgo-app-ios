@@ -25,7 +25,7 @@ final class OverviewViewModelTests: XCTestCase {
 		sut = OverviewViewModel(coordinator: coordinatorSpy)
 	}
 
-	func test_onAppear_shouldCallStore_noProviders_stateShouldBeEmtpy() {
+	func test_onAppear_shouldCallStore_noOrganzations_stateShouldBeEmtpy() {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
@@ -38,7 +38,7 @@ final class OverviewViewModelTests: XCTestCase {
 		expect(self.sut.state) == .empty
 	}
 	
-	func test_onAppear_shouldCallStore_withProviders_stateShouldBeList() {
+	func test_onAppear_shouldCallStore_withOrganizations_stateShouldBeList() {
 		
 		// Given
 		let healthcareOrganization = Generator.healthcareOrganization("1")

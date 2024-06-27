@@ -17,8 +17,8 @@ struct OrganizationSearchResult: Codable, Hashable, Equatable, Identifiable {
 
 class OrganizationSearchResultDecorator {
 	
-	/// Create a SearchResult from a HealthcareProvider
-	/// - Parameter from: HealthcareProvider
+	/// Create a SearchResult from a HealthcareOrganization
+	/// - Parameter from: HealthcareOrganization
 	/// - Returns: SearchResult
 	static func create(_ organisation: HealthcareOrganization) -> OrganizationSearchResult {
 		

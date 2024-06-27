@@ -7,29 +7,29 @@
 
 import MGOFoundation
 
-struct OverviewHealthcareProvider: Codable, Hashable, Equatable, Identifiable {
+struct OverviewHealthcareOrganization: Codable, Hashable, Equatable, Identifiable {
 	
-	/// The category of healthcare provider (dentist, gp, etc)
+	/// The category of a healthcare organization (dentist, gp, etc)
 	var category: String
 	
 	/// The identifier
 	var id: String
 	
-	/// The name of the healthcare provider
+	/// The name of the healthcare organization
 	var name: String
 }
 
 class OverviewDecorator {
 	
-	/// Create a OverviewHealthcareProvider from a HealthcareProvider
-	/// - Parameter from: HealthcareProvider
-	/// - Returns: OverviewHealthcareProvider
-	static func create(_ organisation: HealthcareOrganization) -> OverviewHealthcareProvider {
+	/// Create a OverviewHealthcareOrganization from a HealthcareOrganization
+	/// - Parameter from: HealthcareOrganization
+	/// - Returns: OverviewHealthcareOrganization
+	static func create(_ organisation: HealthcareOrganization) -> OverviewHealthcareOrganization {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = Sanitizer.strip(organisation.display_name) ?? ""
 		let category = Sanitizer.strip(organisation.category) ?? ""
 
-		return OverviewHealthcareProvider(category: category, id: identifier, name: name)
+		return OverviewHealthcareOrganization(category: category, id: identifier, name: name)
 	}
 }

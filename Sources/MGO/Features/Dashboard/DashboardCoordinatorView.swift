@@ -10,7 +10,7 @@ import MGOFoundation
 
 extension Coordination.Action {
 	
-	// Healthcare Provider flow
+	// Healthcare Organization flow
 	static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
 	static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
 	static let listHealthcareOrganizations = Coordination.Action(identifier: "listHealthcareOrganizations")
@@ -56,7 +56,7 @@ enum DashboardCoordination {
 		case aboutTheApp
 		case overview
 		
-		// Search & Store Healthcare Provider flow
+		// Search & Store Healthcare Organization flow
 		case addHealthcareOrganization
 		case healthcareOrganizationSearchResults(city: String, name: String)
 		case listHealthcareOrganizations
@@ -99,7 +99,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		
 		switch action.identifier {
 			
-			// Healthcare Provider Search Flow
+			// Healthcare Organization Search Flow
 			
 			case Coordination.Action.addHealthcareOrganization.identifier:
 				rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
@@ -123,7 +123,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
 			
-			// Healthcare Provider Details
+			// Healthcare Organization Details
 			
 			case Coordination.Action.showHealthcareOrganization.identifier:
 				if action.params.count == 1,
@@ -209,7 +209,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case .overview:
 				OverviewView(viewModel: OverviewViewModel(coordinator: self)).isPresentedAsSheet(false)
 			
-			// Healthcare Provider Flow
+			// Healthcare Organization Flow
 			case .addHealthcareOrganization:
 				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
 			

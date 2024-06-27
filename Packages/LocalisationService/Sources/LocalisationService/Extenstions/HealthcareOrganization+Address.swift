@@ -9,7 +9,7 @@ import Foundation
 
 public extension HealthcareOrganization {
 	
-	/// Get the address details from a health provider
+	/// Get the address details from a health organization
 	/// - Returns: tuple of address, city and postal code
 	func getAddress() -> (address: String, city: String?, postalCode: String?) {
 	

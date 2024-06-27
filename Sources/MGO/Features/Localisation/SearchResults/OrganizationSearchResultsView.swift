@@ -138,7 +138,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 		}
 		
 		do {
-			searchResultsList = try await localisationServiceClient.searchHealthcareProviders(city: city, name: name)
+			searchResultsList = try await localisationServiceClient.searchHealthcareOrganizations(city: city, name: name)
 			logDebug("We found \(searchResultsList.count) organisations.")
 			
 			applyListState()
@@ -296,7 +296,7 @@ struct OrganizationSearchResultsView: View {
 #Preview {
 	
 	let spy = LocalisationServiceClientSpy()
-	spy.stubbedSearchHealthcareProviders = [
+	spy.stubbedSearchHealthcareOrganizations = [
 		PreviewContent.healthcareOrganization,
 		HealthcareOrganization(
 			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",

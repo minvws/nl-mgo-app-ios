@@ -34,10 +34,10 @@ class OrganizationListViewModel: ObservableObject {
 	/// The state of the view
 	@Published var state: State = .empty
 	
-	/// The name of the healthcare provider to remove
+	/// The name of the healthcare organization to remove
 	@Published var healthcareOrganizationToRemoveTitle: String?
 	
-	/// the healthcare provider to remove
+	/// the healthcare organization to remove
 	private var healthcareOrganizationToRemove: HealthcareOrganization?
 	
 	/// Initializer
@@ -46,14 +46,14 @@ class OrganizationListViewModel: ObservableObject {
 		self.coordinator = coordinator
 	}
 	
-	/// fetch the healthcare providers
-	private func loadHealthcareProviders() {
+	/// fetch the healthcare organization
+	private func loadHealthcareOrganizations() {
 
-		let providers = Current.healthcareOrganizationStore.organizations
-		if providers.isEmpty {
+		let organizations = Current.healthcareOrganizationStore.organizations
+		if organizations.isEmpty {
 			state = .empty
 		} else {
-			state = .list(providers)
+			state = .list(organizations)
 		}
 	}
 	
@@ -64,7 +64,7 @@ class OrganizationListViewModel: ObservableObject {
 		switch action {
 		
 			case .onAppear:
-				loadHealthcareProviders()
+				loadHealthcareOrganizations()
 			
 			case .backButtonPressed:
 				coordinator?.handle(Coordination.Action.backButtonPressed)
@@ -77,12 +77,12 @@ class OrganizationListViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.closeSheet)
 			
 			case .remove:
-				if let provider = healthcareOrganizationToRemove {
-					try? Current.healthcareOrganizationStore.remove(provider)
+				if let organization = healthcareOrganizationToRemove {
+					try? Current.healthcareOrganizationStore.remove(organization)
 				}
 				healthcareOrganizationToRemoveTitle = nil
 				healthcareOrganizationToRemove = nil
-				loadHealthcareProviders()
+				loadHealthcareOrganizations()
 			
 			case .backToSearch:
 				Current.notificationCenter.post(name: .clearSearch, object: nil)
@@ -175,7 +175,7 @@ struct OrganizationListView: View {
 										.accessibilityAddTraits(.isButton)
 									
 									OrganizationListCardView(
-										model: StoredHealthcareProviderDecorator.create(healthcareOrganization),
+										model: OrganizationListDecorator.create(healthcareOrganization),
 										perform: {
 											viewModel.reduce(.showRemoveDialog(healthcareOrganization))
 										}
@@ -195,7 +195,7 @@ struct OrganizationListView: View {
 				switch viewModel.state {
 					case .empty:
 						// Primary CTA in empty state is to
-						// add a healthcare provider
+						// add a healthcare organization
 						// Secondary go to overview
 						
 						CallToActionButton("storedhp_action_done", style: .secondary) {
@@ -209,9 +209,9 @@ struct OrganizationListView: View {
 						.tag("storedhp_action_again")
 						
 					case .list:
-						// We already have a provider, so
+						// We already have an organization, so
 						// primary CTA is to go to the overview.
-						// secondary CTA is to add another provider
+						// secondary CTA is to add another organization
 						CallToActionButton("storedhp_action_again", style: .secondary) {
 							viewModel.reduce(.backToSearch)
 						}

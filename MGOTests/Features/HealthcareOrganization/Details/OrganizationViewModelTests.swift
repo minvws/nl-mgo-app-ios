@@ -75,12 +75,12 @@ final class OrganizationViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0.identifier) == "showLabResults"
 	}
 	
-	func test_removeHealthcareProvider_shouldCallCoordinator() {
+	func test_removeHealthcareOrganization_shouldCallCoordinator() {
 		
 		// Given
 		
 		// When
-		sut.reduce(.removeHealthcareProvider)
+		sut.reduce(.removeHealthcareOrganization)
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

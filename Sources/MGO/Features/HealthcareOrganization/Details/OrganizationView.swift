@@ -17,7 +17,7 @@ class OrganizationViewModel: ObservableObject {
 	private var healthcareOrganization: HealthcareOrganization
 	
 	/// Model to display
-	@Published var providerModel: OrganizationModel
+	@Published var organizationModel: OrganizationModel
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -25,7 +25,7 @@ class OrganizationViewModel: ObservableObject {
 		case showMedication
 		case showProblems
 		case showResults
-		case removeHealthcareProvider
+		case removeHealthcareOrganization
 	}
 	
 	/// Intitializer
@@ -34,7 +34,7 @@ class OrganizationViewModel: ObservableObject {
 		
 		self.coordinator = coordinator
 		self.healthcareOrganization = healthcareOrganization
-		self.providerModel = OrganizationDecorator.create(healthcareOrganization)
+		self.organizationModel = OrganizationDecorator.create(healthcareOrganization)
 	}
 	
 	/// Handle any action
@@ -60,7 +60,7 @@ class OrganizationViewModel: ObservableObject {
 					params: ["healthcareOrganization": healthcareOrganization])
 				)
 	
-			case .removeHealthcareProvider:
+			case .removeHealthcareOrganization:
 				coordinator?.handle(Coordination.Action(
 					identifier: "removeHealthcareOrganization",
 					params: ["healthcareOrganization": healthcareOrganization])
@@ -99,13 +99,13 @@ struct OrganizationView: View {
 				
 				Group {
 					
-					Text(viewModel.providerModel.name)
+					Text(viewModel.organizationModel.name)
 						.rijksoverheidStyle(font: .bold, style: .title)
 						.foregroundStyle(theme.contentPrimary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.accessibilityAddTraits(.isHeader)
 					
-					Text(viewModel.providerModel.category)
+					Text(viewModel.organizationModel.category)
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.foregroundStyle(theme.contentTertiary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -181,7 +181,7 @@ struct OrganizationView: View {
 							message: "healthcare_organisation.remove.subheading",
 							icon: .remove,
 							perform: {
-								viewModel.reduce(.removeHealthcareProvider)
+								viewModel.reduce(.removeHealthcareOrganization)
 							}
 						)
 				}

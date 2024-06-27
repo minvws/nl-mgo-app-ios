@@ -10,7 +10,7 @@ import Logging
 
 public protocol HealthcareOrganizationRepositoryProtocol {
 	
-	/// The list of stored healthcare provider
+	/// The list of stored healthcare organization
 	var organizations: [HealthcareOrganization] { get }
 	
 	/// Observatory for changes
@@ -19,15 +19,15 @@ public protocol HealthcareOrganizationRepositoryProtocol {
 	/// Observatory for removals
 	var removalObservatory: Observatory<HealthcareOrganization> { get }
 	
-	/// Add a healthcare provider to the storage
-	/// - Parameter provider: the healthcare provider to store
-	func store(_ provider: HealthcareOrganization) throws
+	/// Add a healthcare organization to the storage
+	/// - Parameter organization: the healthcare organization to store
+	func store(_ organization: HealthcareOrganization) throws
 	
-	/// Delete a healthcare provider from storage
-	/// - Parameter provider: the healthcare provider to be removed
-	func remove(_ provider: HealthcareOrganization) throws
+	/// Delete a healthcare organization from storage
+	/// - Parameter organization: the healthcare organization to be removed
+	func remove(_ organization: HealthcareOrganization) throws
 	
-	/// Remove all the healthcare providers
+	/// Remove all the healthcare organizations
 	func wipePersistedData()
 }
 
@@ -36,10 +36,10 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	/// The storage provider
 	private let storage: FileStorageProtocol
 	
-	/// The name of the file where we store the healthcare providers
+	/// The name of the file where we store the healthcare organization
 	private let fileName = "healthcareproviders.json"
 	
-	/// The name of file in which we store the providers
+	/// The name of file in which we store the organizations
 	private let name: String = {
 		
 		if NSClassFromString("XCTestCase") == nil {
@@ -50,7 +50,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	}()
 	
 	/// Dispatch Queue
-	private let queue = DispatchQueue(label: "com.HealthcareProviderStore.serialqueue.\(UUID().uuidString)")
+	private let queue = DispatchQueue(label: "com.HealthcareOrganizationRepository.serialqueue.\(UUID().uuidString)")
 	
 	/// Observatory for changes
 	public let observatory: Observatory<Bool>
@@ -64,7 +64,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	/// Observers for removal
 	private let removalObservers: (HealthcareOrganization) -> Void
 	
-	/// The list of stored healthcare provider
+	/// The list of stored healthcare organization
 	public var organizations: [HealthcareOrganization]
 	
 	/// Initializer
@@ -79,27 +79,27 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 		do {
 			try self.organizations = read()
 		} catch {
-			logError("HealthcareProviderStore - error initializing ", error)
+			logError("HealthcareOrganizationRepository - error initializing ", error)
 			self.organizations = []
 		}
 	}
 	
-	/// Add a healthcare provider to the storage
-	/// - Parameter provider: the healthcare provider to store
-	public func store(_ provider: HealthcareOrganization) throws {
+	/// Add a healthcare organization to the storage
+	/// - Parameter organization: the healthcare organization to store
+	public func store(_ organization: HealthcareOrganization) throws {
 		
-		guard !organizations.contains(provider) else {
+		guard !organizations.contains(organization) else {
 			// Can't add twice
 			return
 		}
 
-		organizations.append(provider)
+		organizations.append(organization)
 		observers(true)
 		try persistToStorage()
 	}
 	
-	/// Get a list of all the stored healthcare providers
-	/// - Returns: array of healthcare providers
+	/// Get a list of all the stored healthcare organization
+	/// - Returns: array of healthcare organization
 	internal func read() throws -> [HealthcareOrganization] {
 		
 		if let jsonData = storage.read(fileName: fileName) {
@@ -109,19 +109,19 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 		return []
 	}
 	
-	/// Delete a healthcare provider from storage
-	/// - Parameter provider: the healthcare provider to be removed
-	public func remove(_ provider: HealthcareOrganization) throws {
+	/// Delete a healthcare organization from storage
+	/// - Parameter organization: the healthcare organization to be removed
+	public func remove(_ organization: HealthcareOrganization) throws {
 	
-		logInfo("About to delete \(provider.display_name)")
-		organizations = organizations.filter { $0 != provider }
+		logInfo("About to delete \(organization.display_name)")
+		organizations = organizations.filter { $0 != organization }
 		observers(true)
 		#warning("Removal notification disabled.")
-//		removalObservers(provider)
+//		removalObservers(organization)
 		try persistToStorage()
 	}
 	
-	/// Remove all the healthcare providers
+	/// Remove all the healthcare organizations
 	public func wipePersistedData() {
 		
 		organizations = []
@@ -130,7 +130,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 		removalObservatory.removeAll()
 	}
 	
-	/// Store a list of providers
+	/// Store a list of organizations
 	private func persistToStorage() throws {
 		
 		try queue.sync {

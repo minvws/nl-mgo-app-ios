@@ -21,9 +21,9 @@ struct OrganizationModel: Codable, Hashable, Equatable, Identifiable {
 
 class OrganizationDecorator {
 	
-	/// Create a OverviewHealthcareProvider from a HealthcareProvider
-	/// - Parameter from: HealthcareProvider
-	/// - Returns: OverviewHealthcareProvider
+	/// Create a OverviewModel from a HealthcareOrganization
+	/// - Parameter from: HealthcareOrganization
+	/// - Returns: OverviewHealthcareOrganization
 	static func create(_ organisation: HealthcareOrganization) -> OrganizationModel {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value

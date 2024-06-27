@@ -21,7 +21,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		localisationServiceClientSpy = LocalisationServiceClientSpy()
-		localisationServiceClientSpy.stubbedSearchHealthcareProviders = []
+		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = []
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
 			localisationServiceClient: localisationServiceClientSpy

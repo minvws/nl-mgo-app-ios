@@ -12,7 +12,7 @@ public typealias HealthcareOrganization = Components.Schemas.Organization
 
 public extension Components.Schemas.Organization {
 	
-	/// What is the category of a healthcare provider?
+	/// What is the category of a healthcare organization?
 	var category: String? {
 		return types.first?.display_name
 	}

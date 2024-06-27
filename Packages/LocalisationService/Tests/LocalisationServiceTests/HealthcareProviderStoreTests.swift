@@ -8,7 +8,7 @@
 @testable import LocalisationService
 import MGOTest
 
-final class HealthcareProviderStoreTests: XCTestCase {
+final class HealthcareOrganiationRepositoryTests: XCTestCase {
 	
 	override func tearDown() {
 		super.tearDown()
@@ -19,15 +19,15 @@ final class HealthcareProviderStoreTests: XCTestCase {
 		
 		// Given
 		let sut = HealthcareOrganizationRepository()
-		let provider = healthcareOrganization("1")
+		let organization = healthcareOrganization("1")
 		
 		// When
-		try sut.store(provider)
+		try sut.store(organization)
 		let list = try sut.read()
 		
 		// Then
 		expect(list).to(haveCount(1))
-		expect(list.first) == provider
+		expect(list.first) == organization
 		expect(sut.organizations).to(haveCount(1))
 		expect(sut.organizations) == list
 	}
@@ -36,16 +36,16 @@ final class HealthcareProviderStoreTests: XCTestCase {
 		
 		// Given
 		let sut = HealthcareOrganizationRepository()
-		let provider = healthcareOrganization("1")
+		let organization = healthcareOrganization("1")
 		
 		// When
-		try sut.store(provider)
-		try sut.store(provider)
+		try sut.store(organization)
+		try sut.store(organization)
 		let list = try sut.read()
 		
 		// Then
 		expect(list).to(haveCount(1))
-		expect(list.first) == provider
+		expect(list.first) == organization
 		expect(sut.organizations).to(haveCount(1))
 		expect(sut.organizations) == list
 	}
@@ -54,11 +54,11 @@ final class HealthcareProviderStoreTests: XCTestCase {
 		
 		// Given
 		let sut = HealthcareOrganizationRepository()
-		let provider = healthcareOrganization("1")
-		try sut.store(provider)
+		let organization = healthcareOrganization("1")
+		try sut.store(organization)
 		
 		// When
-		try sut.remove(provider)
+		try sut.remove(organization)
 		let list = try sut.read()
 		
 		// Then
@@ -70,8 +70,8 @@ final class HealthcareProviderStoreTests: XCTestCase {
 		
 		// Given
 		let sut = HealthcareOrganizationRepository()
-		let provider = healthcareOrganization("1")
-		try sut.store(provider)
+		let organization = healthcareOrganization("1")
+		try sut.store(organization)
 		
 		// When
 		sut.wipePersistedData()

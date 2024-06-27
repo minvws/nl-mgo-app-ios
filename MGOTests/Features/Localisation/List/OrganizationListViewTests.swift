@@ -46,7 +46,7 @@ final class OrganizationListViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_storedHealthcareProviders_emptyList() {
+	func test_listHealthcareOrganizations_emptyList() {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
@@ -59,7 +59,7 @@ final class OrganizationListViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_storedHealthcareProviders_threeProviders() {
+	func test_listHealthcareOrganizations_threeOrganizations() {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
@@ -76,7 +76,7 @@ final class OrganizationListViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_storedHealthcareProviders_backToAddHealthcareOrganization() throws {
+	func test_listHealthcareOrganizations_backToAddHealthcareOrganization() throws {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
@@ -91,7 +91,7 @@ final class OrganizationListViewTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 	
-	func test_storedHealthcareProviders_finishedSearchingHealthcareOrganizations() throws {
+	func test_listHealthcareOrganizations_finishedSearchingHealthcareOrganizations() throws {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []

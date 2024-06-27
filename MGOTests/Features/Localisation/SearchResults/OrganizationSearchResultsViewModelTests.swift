@@ -38,7 +38,7 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .loading
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareProviders).toEventually(beFalse())
+		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beFalse())
 	}
 	
 	func test_noLocalisationServiceClient() {
@@ -57,14 +57,14 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		
 		// Given
 		createSut()
-		localisationServiceClientSpy.stubbedSearchHealthcareProviders = []
+		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = []
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareProviders).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 
 	func test_failure() {
@@ -72,45 +72,45 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		// Given
 		createSut()
 		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
-		localisationServiceClientSpy.stubbedSearchHealthcareProviderError = error
+		localisationServiceClientSpy.stubbedSearchHealthcareOrganizationError = error
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(.failure(error)))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareProviders).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
 	func test_retry() {
 		
 		// Given
 		createSut()
-		localisationServiceClientSpy.stubbedSearchHealthcareProviders = []
+		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = []
 		
 		// When
 		sut.reduce(.retry)
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareProviders).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
 	func test_list() {
 		
 		// Given
 		createSut()
-		let provider = Generator.healthcareOrganization("value")
-		let list: [HealthcareOrganization] = [provider]
-		localisationServiceClientSpy.stubbedSearchHealthcareProviders = list
-		let state = SearchResultViewState.success([SearchResultSet(provider, .regular)])
+		let organisation = Generator.healthcareOrganization("value")
+		let list: [HealthcareOrganization] = [organisation]
+		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		let state = SearchResultViewState.success([SearchResultSet(organisation, .regular)])
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(state))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareProviders).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
 	func test_backButtonPressed_shouldCallCoordinator() {
@@ -146,7 +146,7 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		createSut()
 		let organization = Generator.healthcareOrganization("value")
 		let list: [HealthcareOrganization] = [organization]
-		localisationServiceClientSpy.stubbedSearchHealthcareProviders = list
+		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
 		
 		// When
 		sut.reduce(.store(organization))

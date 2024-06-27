@@ -75,10 +75,10 @@ final class OrganizationListViewModelTests: XCTestCase {
 	func test_showRemoveDialog_shouldShowDialog() {
 		
 		// Given
-		let provider = Generator.healthcareOrganization("1")
+		let organization = Generator.healthcareOrganization("1")
 		
 		// When
-		sut.reduce(.showRemoveDialog(provider))
+		sut.reduce(.showRemoveDialog(organization))
 		
 		// Then
 		expect(self.sut.healthcareOrganizationToRemoveTitle) == "Tandarts Tandje Erbij weglaten?"

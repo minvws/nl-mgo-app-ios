@@ -15,27 +15,27 @@ public class LocalisationServiceClientSpy: LocalisationServiceClientProtocol {
 		// Public initializer needed for public access. 
 	}
 
-	public var invokedSearchHealthcareProviders = false
-	public var invokedSearchHealthcareProvidersCount = 0
-	public var invokedSearchHealthcareProvidersParameters: (city: String, name: String)?
-	public var invokedSearchHealthcareProvidersParametersList = [(city: String, name: String)]()
-	public var stubbedSearchHealthcareProviders = [HealthcareOrganization]()
-	public var stubbedSearchHealthcareProviderError: Error?
+	public var invokedSearchHealthcareOrganizations = false
+	public var invokedSearchHealthcareOrganizationsCount = 0
+	public var invokedSearchHealthcareOrganizationsParameters: (city: String, name: String)?
+	public var invokedSearchHealthcareOrganizationsParametersList = [(city: String, name: String)]()
+	public var stubbedSearchHealthcareOrganizations = [HealthcareOrganization]()
+	public var stubbedSearchHealthcareOrganizationError: Error?
 	
 	private let queue = DispatchQueue(label: "com.LocalisationServiceClientSpy.serialqueue.\(UUID().uuidString)")
 
-	public func searchHealthcareProviders(city: String, name: String) async throws -> [HealthcareOrganization] {
+	public func searchHealthcareOrganizations(city: String, name: String) async throws -> [HealthcareOrganization] {
 		
 		queue.sync {
-			invokedSearchHealthcareProviders = true
-			invokedSearchHealthcareProvidersCount += 1
-			invokedSearchHealthcareProvidersParameters = (city, name)
-			invokedSearchHealthcareProvidersParametersList.append((city, name))
+			invokedSearchHealthcareOrganizations = true
+			invokedSearchHealthcareOrganizationsCount += 1
+			invokedSearchHealthcareOrganizationsParameters = (city, name)
+			invokedSearchHealthcareOrganizationsParametersList.append((city, name))
 		}
 		
-		if let error = stubbedSearchHealthcareProviderError {
+		if let error = stubbedSearchHealthcareOrganizationError {
 			throw error
 		}
-		return stubbedSearchHealthcareProviders
+		return stubbedSearchHealthcareOrganizations
 	}
 }
