@@ -51,8 +51,8 @@ class MedicationListViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
-	/// The healthcare provider to display
-	@Published var healthcareProvider: HealthcareProvider
+	/// The healthcare organization to display
+	@Published var healthcareOrganization: HealthcareOrganization
 	
 	/// The repository for Medication Use
 	private var medicationUseRepository: MedicationUseRepository!
@@ -70,14 +70,14 @@ class MedicationListViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
-		healthcareProvider: HealthcareProvider,
+		healthcareOrganization: HealthcareOrganization,
 		repository: MedicationUseRepository? = FHIRClient(),
 		startOpen: Bool = false
 		
 	) {
 		
 		self.coordinator = coordinator
-		self.healthcareProvider = healthcareProvider
+		self.healthcareOrganization = healthcareOrganization
 		self.startOpen = startOpen
 		
 		if let unwrapped = repository {
@@ -103,10 +103,10 @@ class MedicationListViewModel: ObservableObject {
 	}
 	
 	@MainActor
-	/// Load the medication for the healthcare provider
+	/// Load the medication for the healthcare organization
 	func loadMedication() async {
 		
-		guard let resourceEndpoint = healthcareProvider.getResourceEndpoint(identifier: DVP.ServiceId.CommonClinicalDataset) else {
+		guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.ServiceId.CommonClinicalDataset) else {
 			state = .empty
 			return
 		}
@@ -161,7 +161,7 @@ struct MedicationListView: View {
 				Text(
 					String(
 						format: String(localized: "medication_body"),
-						arguments: ["\(viewModel.healthcareProvider.display_name)"]
+						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 					)
 				)
 					.rijksoverheidStyle(font: .regular, style: .body)
@@ -225,7 +225,7 @@ struct MedicationListView: View {
 		MedicationListView(
 			viewModel: MedicationListViewModel(
 				coordinator: nil,
-				healthcareProvider: PreviewContent.healthcareOrganization
+				healthcareOrganization: PreviewContent.healthcareOrganization
 			)
 		)
 	}

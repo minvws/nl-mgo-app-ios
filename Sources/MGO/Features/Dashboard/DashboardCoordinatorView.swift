@@ -62,11 +62,11 @@ enum DashboardCoordination {
 		case listHealthcareOrganizations
 		
 		// Details Flow
-		case showHealthcareOrganization(healthcareProvider: HealthcareProvider)
-		case showProblems(healthcareProvider: HealthcareProvider)
-		case showMedication(healthcareProvider: HealthcareProvider)
-		case showLabResults(healthcareProvider: HealthcareProvider)
-		case removeHealthcareOrganization(healthcareOrganization: HealthcareProvider)
+		case showHealthcareOrganization(healthcareOrganization: HealthcareOrganization)
+		case showProblems(healthcareOrganization: HealthcareOrganization)
+		case showMedication(healthcareOrganization: HealthcareOrganization)
+		case showLabResults(healthcareOrganization: HealthcareOrganization)
+		case removeHealthcareOrganization(healthcareOrganization: HealthcareOrganization)
 	}
 }
 
@@ -127,39 +127,39 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			
 			case Coordination.Action.showHealthcareOrganization.identifier:
 				if action.params.count == 1,
-				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
-					firstTabPath.append(DashboardCoordination.State.showHealthcareOrganization(healthcareProvider: healthcareProvider))
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+					firstTabPath.append(DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 			
 			case Coordination.Action.showProblems.identifier:
 				if action.params.count == 1,
-				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
-					firstTabPath.append(DashboardCoordination.State.showProblems(healthcareProvider: healthcareProvider))
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+					firstTabPath.append(DashboardCoordination.State.showProblems(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 			
 			case Coordination.Action.showMedication.identifier:
 				if action.params.count == 1,
-				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
-					firstTabPath.append(DashboardCoordination.State.showMedication(healthcareProvider: healthcareProvider))
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+					firstTabPath.append(DashboardCoordination.State.showMedication(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 	
 			case Coordination.Action.showLabResults.identifier:
 				if action.params.count == 1,
-				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
-					firstTabPath.append(DashboardCoordination.State.showLabResults(healthcareProvider: healthcareProvider))
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+					firstTabPath.append(DashboardCoordination.State.showLabResults(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 
 			case Coordination.Action.removeHealthcareOrganization.identifier:
 				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareProvider {
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
 				
 					rootStateForSheet = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: healthcareOrganization)
 					
@@ -219,33 +219,33 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case .listHealthcareOrganizations:
 				OrganizationListView(viewModel: OrganizationListViewModel(coordinator: self)).isPresentedAsSheet(true)
 			
-			case let .showHealthcareOrganization(healthcareProvider):
-				OrganizationView(viewModel: OrganizationViewModel(coordinator: self, healthcareProvider: healthcareProvider))
+			case let .showHealthcareOrganization(healthcareOrganization):
+				OrganizationView(viewModel: OrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization))
 			
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
 			
-			case let .showProblems(healthcareProvider):
+			case let .showProblems(healthcareOrganization):
 				ProblemsListView(
 					viewModel: ProblemsListViewModel(
 						coordinator: self,
-						healthcareProvider: healthcareProvider
+						healthcareOrganization: healthcareOrganization
 					)
 				)
 				
-			case let .showMedication(healthcareProvider):
+			case let .showMedication(healthcareOrganization):
 				MedicationListView(
 					viewModel: MedicationListViewModel(
 						coordinator: self,
-						healthcareProvider: healthcareProvider
+						healthcareOrganization: healthcareOrganization
 					)
 				)
 				
-			case let .showLabResults(healthcareProvider):
+			case let .showLabResults(healthcareOrganization):
 				LabResultsListView(
 					viewModel: LabResultsListViewModel(
 						coordinator: self,
-						healthcareProvider: healthcareProvider
+						healthcareOrganization: healthcareOrganization
 					)
 				)
 			

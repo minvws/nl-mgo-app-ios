@@ -28,28 +28,28 @@ final class OverviewViewModelTests: XCTestCase {
 	func test_onAppear_shouldCallStore_noProviders_stateShouldBeEmtpy() {
 		
 		// Given
-		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = []
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedProvidersGetter) == true
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedOrganizationsGetter) == true
 		expect(self.sut.state) == .empty
 	}
 	
 	func test_onAppear_shouldCallStore_withProviders_stateShouldBeList() {
 		
 		// Given
-		let provider = Generator.healthcareProvider("1")
-		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = [provider]
+		let healthcareOrganization = Generator.healthcareOrganization("1")
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedProvidersGetter) == true
-		expect(self.sut.state) == .list([provider])
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedOrganizationsGetter) == true
+		expect(self.sut.state) == .list([healthcareOrganization])
 	}
 	
 	func test_searchButtonPressed_shouldCallCoordinator() {
@@ -67,16 +67,16 @@ final class OverviewViewModelTests: XCTestCase {
 	func test_detailsButtonPressed_shouldCallCoordinator() {
 		
 		// Given
-		let healthcareProvider = Generator.healthcareProvider("1")
+		let healthcareOrganization = Generator.healthcareOrganization("1")
 		
 		// When
-		sut.reduce(.details(healthcareProvider))
+		sut.reduce(.details(healthcareOrganization))
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action(
 			identifier: "showHealthcareOrganization",
-			params: ["healthcareProvider": healthcareProvider]
+			params: ["healthcareOrganization": healthcareOrganization]
 		)
 	}
 	

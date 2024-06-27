@@ -10,24 +10,24 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class MedicationListViewTests: XCTestCase {
+final class ProblemsListViewTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: MedicationListViewModel!
-	private var healthcareProvider: HealthcareProvider!
-	private var repositorySpy: MedicationUseRepositorySpy!
-	private var sut: MedicationListView!
+	private var viewModel: ProblemsListViewModel!
+	private var healthcareOrganization: HealthcareOrganization!
+	private var repositorySpy: ConcernRepositorySpy!
+	private var sut: ProblemsListView!
 	
 	override func setUp() {
 		
 		super.setUp()
-		repositorySpy = MedicationUseRepositorySpy()
+		repositorySpy = ConcernRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
-		healthcareProvider = Generator.healthcareProvider("1")
-		viewModel = MedicationListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
-		sut = MedicationListView(viewModel: self.viewModel)
+		healthcareOrganization = Generator.healthcareOrganization("1")
+		viewModel = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
+		sut = ProblemsListView(viewModel: self.viewModel)
 	}
 
 	func test_stateLoading() {
@@ -69,8 +69,8 @@ final class MedicationListViewTests: XCTestCase {
 	func test_stateList() {
 		
 		// Given
-		let statement = Generator.medicationUse()
-		viewModel.state = .success(items: [statement, statement, statement], startOpen: false)
+		let concern = Generator.concern()
+		viewModel.state = .success(items: [concern, concern, concern], startOpen: false)
 		
 		// When
 		let content = NavigationView { sut }
@@ -82,8 +82,8 @@ final class MedicationListViewTests: XCTestCase {
 	func test_stateList_startOpen() {
 		
 		// Given
-		let statement = Generator.medicationUse()
-		viewModel.state = .success(items: [statement, statement, statement], startOpen: true)
+		let concern = Generator.concern()
+		viewModel.state = .success(items: [concern, concern, concern], startOpen: true)
 		
 		// When
 		let content = NavigationView { sut }

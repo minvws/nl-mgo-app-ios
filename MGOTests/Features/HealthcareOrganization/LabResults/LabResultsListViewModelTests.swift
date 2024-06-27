@@ -15,7 +15,7 @@ final class LabResultsListViewModelTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var sut: LabResultsListViewModel!
-	private var healthcareProvider: HealthcareProvider!
+	private var healthcareOrganization: HealthcareOrganization!
 	private var repositorySpy: LaboratoryTestResultRepositorySpy!
 
 	override func setUp() {
@@ -24,8 +24,8 @@ final class LabResultsListViewModelTests: XCTestCase {
 		repositorySpy = LaboratoryTestResultRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
-		healthcareProvider = Generator.healthcareProvider("1")
-		sut = LabResultsListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
+		healthcareOrganization = Generator.healthcareOrganization("1")
+		sut = LabResultsListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
 	}
 	
 	func test_initialState_shouldBeLoading() {
@@ -41,7 +41,7 @@ final class LabResultsListViewModelTests: XCTestCase {
 	func test_initialState_noRepository_shouldBeFailure() {
 		
 		// Given
-		sut = LabResultsListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: nil)
+		sut = LabResultsListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: nil)
 		
 		// When
 		
@@ -88,8 +88,8 @@ final class LabResultsListViewModelTests: XCTestCase {
 	func test_loadResults_invalidService() {
 		
 		// Given
-		healthcareProvider = Generator.healthcareProvider("1", useDataService: false)
-		sut = LabResultsListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
+		healthcareOrganization = Generator.healthcareOrganization("1", useDataService: false)
+		sut = LabResultsListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
 		
 		// When
 		sut.reduce(.onAppear)

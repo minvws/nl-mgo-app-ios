@@ -13,8 +13,8 @@ class OrganizationViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
-	/// The healthcare provider to display
-	private var healthcareProvider: HealthcareProvider
+	/// The healthcare organization to display
+	private var healthcareOrganization: HealthcareOrganization
 	
 	/// Model to display
 	@Published var providerModel: OrganizationModel
@@ -30,11 +30,11 @@ class OrganizationViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil, healthcareProvider: HealthcareProvider) {
+	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: HealthcareOrganization) {
 		
 		self.coordinator = coordinator
-		self.healthcareProvider = healthcareProvider
-		self.providerModel = OrganizationDecorator.create(healthcareProvider)
+		self.healthcareOrganization = healthcareOrganization
+		self.providerModel = OrganizationDecorator.create(healthcareOrganization)
 	}
 	
 	/// Handle any action
@@ -47,23 +47,23 @@ class OrganizationViewModel: ObservableObject {
 			case .showProblems:
 				coordinator?.handle(Coordination.Action(
 					identifier: "showProblems",
-					params: ["healthcareProvider": healthcareProvider])
+					params: ["healthcareOrganization": healthcareOrganization])
 				)
 			case .showMedication:
 				coordinator?.handle(Coordination.Action(
 					identifier: "showMedication",
-					params: ["healthcareProvider": healthcareProvider])
+					params: ["healthcareOrganization": healthcareOrganization])
 				)
 			case .showResults:
 				coordinator?.handle(Coordination.Action(
 					identifier: "showLabResults",
-					params: ["healthcareProvider": healthcareProvider])
+					params: ["healthcareOrganization": healthcareOrganization])
 				)
 	
 			case .removeHealthcareProvider:
 				coordinator?.handle(Coordination.Action(
 					identifier: "removeHealthcareOrganization",
-					params: ["healthcareOrganization": healthcareProvider])
+					params: ["healthcareOrganization": healthcareOrganization])
 			)
 		}
 	}
@@ -207,7 +207,7 @@ struct OrganizationView: View {
 		OrganizationView(
 			viewModel: OrganizationViewModel(
 				coordinator: nil,
-				healthcareProvider: PreviewContent.healthcareOrganization
+				healthcareOrganization: PreviewContent.healthcareOrganization
 			)
 		)
 	}

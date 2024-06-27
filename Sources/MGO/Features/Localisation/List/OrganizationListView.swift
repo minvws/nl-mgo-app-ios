@@ -13,7 +13,7 @@ class OrganizationListViewModel: ObservableObject {
 	/// All possible states of the box
 	enum State {
 		case empty
-		case list([HealthcareProvider])
+		case list([HealthcareOrganization])
 	}
 	
 	/// A list of all the actions this viewModel can handle
@@ -25,7 +25,7 @@ class OrganizationListViewModel: ObservableObject {
 		case done
 		case onAppear
 		case remove
-		case showRemoveDialog(HealthcareProvider)
+		case showRemoveDialog(HealthcareOrganization)
 	}
 	
 	/// The flow coordinator for routing
@@ -35,10 +35,10 @@ class OrganizationListViewModel: ObservableObject {
 	@Published var state: State = .empty
 	
 	/// The name of the healthcare provider to remove
-	@Published var healthcareProviderToRemoveTitle: String?
+	@Published var healthcareOrganizationToRemoveTitle: String?
 	
 	/// the healthcare provider to remove
-	private var healthcareProviderToRemove: HealthcareProvider?
+	private var healthcareOrganizationToRemove: HealthcareOrganization?
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
@@ -49,7 +49,7 @@ class OrganizationListViewModel: ObservableObject {
 	/// fetch the healthcare providers
 	private func loadHealthcareProviders() {
 
-		let providers = Current.healthcareProviderStore.providers
+		let providers = Current.healthcareOrganizationStore.organizations
 		if providers.isEmpty {
 			state = .empty
 		} else {
@@ -70,18 +70,18 @@ class OrganizationListViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.backButtonPressed)
 			
 			case .cancelDialog:
-				healthcareProviderToRemoveTitle = nil
-				healthcareProviderToRemove = nil
+				healthcareOrganizationToRemoveTitle = nil
+				healthcareOrganizationToRemove = nil
 			
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
 			
 			case .remove:
-				if let provider = healthcareProviderToRemove {
-					try? Current.healthcareProviderStore.remove(provider)
+				if let provider = healthcareOrganizationToRemove {
+					try? Current.healthcareOrganizationStore.remove(provider)
 				}
-				healthcareProviderToRemoveTitle = nil
-				healthcareProviderToRemove = nil
+				healthcareOrganizationToRemoveTitle = nil
+				healthcareOrganizationToRemove = nil
 				loadHealthcareProviders()
 			
 			case .backToSearch:
@@ -91,11 +91,11 @@ class OrganizationListViewModel: ObservableObject {
 			case .done:
 				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
 				
-			case .showRemoveDialog(let healthcareProvider):
-				healthcareProviderToRemove = healthcareProvider
-				healthcareProviderToRemoveTitle = String(
+			case .showRemoveDialog(let healthcareOrganization):
+				healthcareOrganizationToRemove = healthcareOrganization
+				healthcareOrganizationToRemoveTitle = String(
 					format: String(localized: "storedhp_alert_title"),
-					arguments: ["\(healthcareProvider.display_name)"]
+					arguments: ["\(healthcareOrganization.display_name)"]
 				)
 			
 		}
@@ -160,7 +160,7 @@ struct OrganizationListView: View {
 							.frame(maxWidth: .infinity, alignment: .topLeading)
 					
 						LazyVStack(spacing: ViewTraits.List.spacing, content: {
-							ForEach(list, id: \.self) { healthcareProvider in
+							ForEach(list, id: \.self) { healthcareOrganization in
 								
 								ZStack {
 									
@@ -169,15 +169,15 @@ struct OrganizationListView: View {
 										.accessibilityLabel(
 											String(
 												format: String(localized: "storedhp_remove_voiceover"),
-												arguments: ["\(healthcareProvider.display_name)"]
+												arguments: ["\(healthcareOrganization.display_name)"]
 											)
 										)
 										.accessibilityAddTraits(.isButton)
 									
 									OrganizationListCardView(
-										model: StoredHealthcareProviderDecorator.create(healthcareProvider),
+										model: StoredHealthcareProviderDecorator.create(healthcareOrganization),
 										perform: {
-											viewModel.reduce(.showRemoveDialog(healthcareProvider))
+											viewModel.reduce(.showRemoveDialog(healthcareOrganization))
 										}
 									)
 								}
@@ -227,7 +227,7 @@ struct OrganizationListView: View {
 			.padding(.top, ViewTraits.General.padding)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
-		.alert(viewModel.healthcareProviderToRemoveTitle ?? "", isPresented: $viewModel.healthcareProviderToRemoveTitle.presence()) {
+		.alert(viewModel.healthcareOrganizationToRemoveTitle ?? "", isPresented: $viewModel.healthcareOrganizationToRemoveTitle.presence()) {
 			Button("storedhp_alert_cancel", role: .cancel) { viewModel.reduce(.cancelDialog) }
 			Button("storedhp_alert_remove") { viewModel.reduce(.remove) }
 		} message: {

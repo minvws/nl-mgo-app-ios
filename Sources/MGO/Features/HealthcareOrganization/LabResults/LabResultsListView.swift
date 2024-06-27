@@ -51,8 +51,8 @@ class LabResultsListViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
-	/// The healthcare provider to display
-	@Published var healthcareProvider: HealthcareProvider
+	/// The healthcare organization to display
+	@Published var healthcareOrganization: HealthcareOrganization
 	
 	/// The repository for Concerns
 	private var laboratoryTestResultRepository: LaboratoryTestResultRepository!
@@ -70,13 +70,13 @@ class LabResultsListViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
-		healthcareProvider: HealthcareProvider,
+		healthcareOrganization: HealthcareOrganization,
 		repository: LaboratoryTestResultRepository? = FHIRClient(),
 		startOpen: Bool = false
 	) {
 
 		self.coordinator = coordinator
-		self.healthcareProvider = healthcareProvider
+		self.healthcareOrganization = healthcareOrganization
 		self.startOpen = startOpen
 		
 		if let unwrapped = repository {
@@ -102,10 +102,10 @@ class LabResultsListViewModel: ObservableObject {
 	}
 	
 	@MainActor
-	/// Load the laboratory test results for the healthcare provider
+	/// Load the laboratory test results for the healthcare organization
 	func loadResults() async {
 		
-		guard let resourceEndpoint = healthcareProvider.getResourceEndpoint(identifier: DVP.ServiceId.CommonClinicalDataset) else {
+		guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.ServiceId.CommonClinicalDataset) else {
 			state = .empty
 			return
 		}
@@ -160,7 +160,7 @@ struct LabResultsListView: View {
 				Text(
 					String(
 						format: String(localized: "labresults_body"),
-						arguments: ["\(viewModel.healthcareProvider.display_name)"]
+						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 					)
 				)
 					.rijksoverheidStyle(font: .regular, style: .body)
@@ -223,7 +223,7 @@ struct LabResultsListView: View {
 		LabResultsListView(
 			viewModel: LabResultsListViewModel(
 				coordinator: nil,
-				healthcareProvider: PreviewContent.healthcareOrganization
+				healthcareOrganization: PreviewContent.healthcareOrganization
 			)
 		)
 	}

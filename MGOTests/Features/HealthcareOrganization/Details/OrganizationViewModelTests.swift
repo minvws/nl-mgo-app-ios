@@ -10,21 +10,21 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class HealthcareProviderViewModelTests: XCTestCase {
+final class OrganizationViewModelTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var sut: OrganizationViewModel!
-	private var healthcareProvider: HealthcareProvider!
+	private var healthcareOrganization: HealthcareOrganization!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
-		healthcareProvider = Generator.healthcareProvider("1")
+		healthcareOrganization = Generator.healthcareOrganization("1")
 		
-		sut = OrganizationViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider)
+		sut = OrganizationViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization)
 	}
 	
 	func test_backButtonPressed_shouldCallCoordinator() {

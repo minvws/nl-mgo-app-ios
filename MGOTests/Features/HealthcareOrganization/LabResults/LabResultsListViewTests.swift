@@ -10,24 +10,24 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class ProblemsListViewTests: XCTestCase {
+final class LabResultsListViewTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: ProblemsListViewModel!
-	private var healthcareProvider: HealthcareProvider!
-	private var repositorySpy: ConcernRepositorySpy!
-	private var sut: ProblemsListView!
+	private var viewModel: LabResultsListViewModel!
+	private var healthcareOrganization: HealthcareOrganization!
+	private var repositorySpy: LaboratoryTestResultRepositorySpy!
+	private var sut: LabResultsListView!
 	
 	override func setUp() {
 		
 		super.setUp()
-		repositorySpy = ConcernRepositorySpy()
+		repositorySpy = LaboratoryTestResultRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
-		healthcareProvider = Generator.healthcareProvider("1")
-		viewModel = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
-		sut = ProblemsListView(viewModel: self.viewModel)
+		healthcareOrganization = Generator.healthcareOrganization("1")
+		viewModel = LabResultsListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
+		sut = LabResultsListView(viewModel: self.viewModel)
 	}
 
 	func test_stateLoading() {
@@ -69,8 +69,8 @@ final class ProblemsListViewTests: XCTestCase {
 	func test_stateList() {
 		
 		// Given
-		let concern = Generator.concern()
-		viewModel.state = .success(items: [concern, concern, concern], startOpen: false)
+		let labResult = Generator.labResult()
+		viewModel.state = .success(items: [labResult, labResult, labResult], startOpen: false)
 		
 		// When
 		let content = NavigationView { sut }
@@ -82,8 +82,8 @@ final class ProblemsListViewTests: XCTestCase {
 	func test_stateList_startOpen() {
 		
 		// Given
-		let concern = Generator.concern()
-		viewModel.state = .success(items: [concern, concern, concern], startOpen: true)
+		let labResult = Generator.labResult()
+		viewModel.state = .success(items: [labResult, labResult, labResult], startOpen: true)
 		
 		// When
 		let content = NavigationView { sut }

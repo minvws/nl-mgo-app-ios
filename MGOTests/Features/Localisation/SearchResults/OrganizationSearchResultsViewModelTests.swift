@@ -100,8 +100,8 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let provider = Generator.healthcareProvider("value")
-		let list: [HealthcareProvider] = [provider]
+		let provider = Generator.healthcareOrganization("value")
+		let list: [HealthcareOrganization] = [provider]
 		localisationServiceClientSpy.stubbedSearchHealthcareProviders = list
 		let state = SearchResultViewState.success([SearchResultSet(provider, .regular)])
 		
@@ -144,17 +144,17 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let provider = Generator.healthcareProvider("value")
-		let list: [HealthcareProvider] = [provider]
+		let organization = Generator.healthcareOrganization("value")
+		let list: [HealthcareOrganization] = [organization]
 		localisationServiceClientSpy.stubbedSearchHealthcareProviders = list
 		
 		// When
-		sut.reduce(.store(provider))
+		sut.reduce(.store(organization))
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.finishedSearchingHealthcareOrganizations
-		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedStore) == true
-		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedStoreParameters?.provider) == provider
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedStore) == true
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedStoreParameters?.organization) == organization
 	}
 }

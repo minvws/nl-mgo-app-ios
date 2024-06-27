@@ -15,7 +15,7 @@ final class ProblemsListViewModelTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var sut: ProblemsListViewModel!
-	private var healthcareProvider: HealthcareProvider!
+	private var healthcareOrganization: HealthcareOrganization!
 	private var repositorySpy: ConcernRepositorySpy!
 
 	override func setUp() {
@@ -24,8 +24,8 @@ final class ProblemsListViewModelTests: XCTestCase {
 		repositorySpy = ConcernRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
-		healthcareProvider = Generator.healthcareProvider("1")
-		sut = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
+		healthcareOrganization = Generator.healthcareOrganization("1")
+		sut = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
 	}
 	
 	func test_initialState_shouldBeLoading() {
@@ -41,7 +41,7 @@ final class ProblemsListViewModelTests: XCTestCase {
 	func test_initialState_noRepository_shouldBeFailure() {
 		
 		// Given
-		sut = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: nil)
+		sut = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: nil)
 		
 		// When
 		
@@ -88,8 +88,8 @@ final class ProblemsListViewModelTests: XCTestCase {
 	func test_loadProblems_invalidService() {
 		
 		// Given
-		healthcareProvider = Generator.healthcareProvider("1", useDataService: false)
-		sut = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider, repository: repositorySpy)
+		healthcareOrganization = Generator.healthcareOrganization("1", useDataService: false)
+		sut = ProblemsListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
 		
 		// When
 		sut.reduce(.onAppear)

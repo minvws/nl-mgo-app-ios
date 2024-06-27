@@ -19,12 +19,12 @@ public class LocalisationServiceClientSpy: LocalisationServiceClientProtocol {
 	public var invokedSearchHealthcareProvidersCount = 0
 	public var invokedSearchHealthcareProvidersParameters: (city: String, name: String)?
 	public var invokedSearchHealthcareProvidersParametersList = [(city: String, name: String)]()
-	public var stubbedSearchHealthcareProviders = [HealthcareProvider]()
+	public var stubbedSearchHealthcareProviders = [HealthcareOrganization]()
 	public var stubbedSearchHealthcareProviderError: Error?
 	
 	private let queue = DispatchQueue(label: "com.LocalisationServiceClientSpy.serialqueue.\(UUID().uuidString)")
 
-	public func searchHealthcareProviders(city: String, name: String) async throws -> [HealthcareProvider] {
+	public func searchHealthcareProviders(city: String, name: String) async throws -> [HealthcareOrganization] {
 		
 		queue.sync {
 			invokedSearchHealthcareProviders = true

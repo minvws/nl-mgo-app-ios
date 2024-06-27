@@ -34,7 +34,7 @@ final class OrganizationListViewTests: XCTestCase {
 	func test_backbuttonPressed() throws {
 		
 		// Given
-		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = []
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		createSut()
 		let content = NavigationView { sut }
 		
@@ -49,7 +49,7 @@ final class OrganizationListViewTests: XCTestCase {
 	func test_storedHealthcareProviders_emptyList() {
 		
 		// Given
-		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = []
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		createSut()
 		
 		// When
@@ -62,10 +62,10 @@ final class OrganizationListViewTests: XCTestCase {
 	func test_storedHealthcareProviders_threeProviders() {
 		
 		// Given
-		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = [
-			Generator.healthcareProvider("1"),
-			Generator.healthcareProvider("2"),
-			Generator.healthcareProvider("3")
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
+			Generator.healthcareOrganization("1"),
+			Generator.healthcareOrganization("2"),
+			Generator.healthcareOrganization("3")
 		]
 		createSut()
 		
@@ -79,7 +79,7 @@ final class OrganizationListViewTests: XCTestCase {
 	func test_storedHealthcareProviders_backToAddHealthcareOrganization() throws {
 		
 		// Given
-		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = []
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		createSut()
 		
 		// When
@@ -94,7 +94,7 @@ final class OrganizationListViewTests: XCTestCase {
 	func test_storedHealthcareProviders_finishedSearchingHealthcareOrganizations() throws {
 		
 		// Given
-		servicesSpies.healthcareProviderStoreSpy.stubbedProviders = []
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		createSut()
 		
 		// When

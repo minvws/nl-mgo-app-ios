@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension HealthcareProvider {
+public extension HealthcareOrganization {
 	
 	/// Get the address details from a health provider
 	/// - Returns: tuple of address, city and postal code

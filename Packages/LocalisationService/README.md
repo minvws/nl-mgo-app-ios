@@ -34,8 +34,8 @@ A healthcare provider can be stored to and read from local disk with the Healthc
 import LocalisationService
 
 let repository: HealthcareProviderRepositoryProtocol = HealthcareProviderRepository()
-let healthcareProvider = searchResultList.first!
-repository.store(healthcareProvider)
+let healthcareOrganization = searchResultList.first!
+repository.store(healthcareOrganization)
 
 ```
 
@@ -44,7 +44,7 @@ repository.store(healthcareProvider)
 import LocalisationService
 
 let repository: HealthcareProviderRepositoryProtocol = HealthcareProviderRepository()
-let healthcareProviders = repository.providers
+let healthcareOrganizations = repository.providers
 
 ```
 
@@ -57,11 +57,11 @@ You can subscribe to a repository to get notified of changes in the provider lis
 import LocalisationService
 
 let repository: HealthcareProviderRepositoryProtocol = HealthcareProviderRepository()
-@Published var healthcareProviders = repository.providers
+@Published var healthcareOrganizations = repository.providers
 let observerToken: Observatory.ObserverToken? = repository.observatory.append { [weak self] changed in
 	if changed {
 		// refetch the providers
-		self?.healthcareProviders = repository.providers
+		self?.healthcareOrganizations = repository.providers
 	}
 }
 

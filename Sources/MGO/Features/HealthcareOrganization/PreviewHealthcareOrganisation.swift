@@ -9,7 +9,7 @@ import MGOFoundation
 
 struct PreviewContent {
 	
-	static let healthcareOrganization = HealthcareProvider(
+	static let healthcareOrganization = HealthcareOrganization(
 		display_name: "Tandarts Tandje Erbij",
 		identification_type: "type",
 		identification_value: "1",

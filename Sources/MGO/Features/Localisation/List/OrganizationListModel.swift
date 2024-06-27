@@ -33,7 +33,7 @@ class StoredHealthcareProviderDecorator {
 	/// Create a StoredHealthcareProviderModel from a HealthcareProvider
 	/// - Parameter from: HealthcareProvider
 	/// - Returns: StoredHealthcareProviderModel
-	static func create(_ organisation: HealthcareProvider) -> OrganizationListModel {
+	static func create(_ organisation: HealthcareOrganization) -> OrganizationListModel {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = Sanitizer.strip(organisation.display_name) ?? ""

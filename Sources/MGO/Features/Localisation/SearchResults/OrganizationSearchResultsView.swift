@@ -9,7 +9,7 @@ import MGOFoundation
 import MGOUI
 
 typealias SearchResultSet = (
-	provider: HealthcareProvider,
+	provider: HealthcareOrganization,
 	cardState: OrganizationSearchResultCardState
 )
 
@@ -56,7 +56,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 		case closeSheet
 		case onAppear
 		case retry
-		case store(HealthcareProvider)
+		case store(HealthcareOrganization)
 	}
 	
 	/// The state of the view
@@ -69,7 +69,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 	private var city: String
 	
 	/// array to store the results
-	private var searchResultsList = [HealthcareProvider]()
+	private var searchResultsList = [HealthcareOrganization]()
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
@@ -121,7 +121,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 				}
 			
 			case .store(let provider):
-				try? Current.healthcareProviderStore.store(provider)
+				try? Current.healthcareOrganizationStore.store(provider)
 				applyListState()
 				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
 		}
@@ -171,9 +171,9 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 	/// Get the state for a card
 	/// - Parameter provider: the healthcare provider
 	/// - Returns: card state
-	private func cardState(for provider: HealthcareProvider) -> OrganizationSearchResultCardState {
+	private func cardState(for provider: HealthcareOrganization) -> OrganizationSearchResultCardState {
 
-		let list = HealthcareProviderRepository().providers
+		let list = HealthcareOrganizationRepository().organizations
 		return list.contains(provider) ? .selected : .regular
 	}
 }
@@ -298,7 +298,7 @@ struct OrganizationSearchResultsView: View {
 	let spy = LocalisationServiceClientSpy()
 	spy.stubbedSearchHealthcareProviders = [
 		PreviewContent.healthcareOrganization,
-		HealthcareProvider(
+		HealthcareOrganization(
 			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
 			identification_type: "type",
 			identification_value: "2",

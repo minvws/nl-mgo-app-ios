@@ -13,12 +13,12 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
-	/// The healthcare provider to display
-	@Published var healthcareOrganization: HealthcareProvider
+	/// The healthcare organization to display
+	@Published var healthcareOrganization: HealthcareOrganization
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: HealthcareProvider) {
+	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: HealthcareOrganization) {
 		
 		self.coordinator = coordinator
 		self.healthcareOrganization = healthcareOrganization
@@ -37,7 +37,7 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 		
 		switch action {
 			case .removeOrganization:
-				try? Current.healthcareProviderStore.remove(healthcareOrganization)
+				try? Current.healthcareOrganizationStore.remove(healthcareOrganization)
 				coordinator?.handle(.removedHealthcareOrganization)
 			
 			case .cancel, .closeSheet:

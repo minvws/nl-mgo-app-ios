@@ -32,7 +32,7 @@ final class OrganizationListViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedProvidersGetter) == true
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedOrganizationsGetter) == true
 	}
 	
 	func test_backButtonPressed_shouldCallCoordinator() {
@@ -75,45 +75,45 @@ final class OrganizationListViewModelTests: XCTestCase {
 	func test_showRemoveDialog_shouldShowDialog() {
 		
 		// Given
-		let provider = Generator.healthcareProvider("1")
+		let provider = Generator.healthcareOrganization("1")
 		
 		// When
 		sut.reduce(.showRemoveDialog(provider))
 		
 		// Then
-		expect(self.sut.healthcareProviderToRemoveTitle) == "Tandarts Tandje Erbij weglaten?"
+		expect(self.sut.healthcareOrganizationToRemoveTitle) == "Tandarts Tandje Erbij weglaten?"
 	}
 	
 	func test_cancelDialog_shouldClearDialog() {
 		
 		// Given
-		let provider = Generator.healthcareProvider("1")
-		sut.reduce(.showRemoveDialog(provider))
+		let healthcareOrganization = Generator.healthcareOrganization("1")
+		sut.reduce(.showRemoveDialog(healthcareOrganization))
 		
 		// When
 		sut.reduce(.cancelDialog)
 		
 		// Then
-		expect(self.sut.healthcareProviderToRemoveTitle) == nil
+		expect(self.sut.healthcareOrganizationToRemoveTitle) == nil
 	}
 
 	func test_remove_shouldCallStore() {
 		
 		// Given
-		let provider = Generator.healthcareProvider("1")
-		sut.reduce(.showRemoveDialog(provider))
-		self.servicesSpies.healthcareProviderStoreSpy.invokedProvidersGetter = false
-		self.servicesSpies.healthcareProviderStoreSpy.invokedProvidersGetterCount = 0
+		let healthcareOrganization = Generator.healthcareOrganization("1")
+		sut.reduce(.showRemoveDialog(healthcareOrganization))
+		self.servicesSpies.healthcareOrganizationStoreSpy.invokedOrganizationsGetter = false
+		self.servicesSpies.healthcareOrganizationStoreSpy.invokedOrganizationsGetterCount = 0
 		
 		// When
 		sut.reduce(.remove)
 		
 		// Then
-		expect(self.sut.healthcareProviderToRemoveTitle) == nil
-		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedRemove) == true
-		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedRemoveParameters?.0) == provider
+		expect(self.sut.healthcareOrganizationToRemoveTitle) == nil
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedRemove) == true
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedRemoveParameters?.0) == healthcareOrganization
 
-		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedProvidersGetter) == true
-		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedProvidersGetterCount) == 1
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedOrganizationsGetter) == true
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedOrganizationsGetterCount) == 1
 	}
 }

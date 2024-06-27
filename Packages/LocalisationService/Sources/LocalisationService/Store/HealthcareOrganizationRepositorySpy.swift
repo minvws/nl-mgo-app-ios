@@ -7,20 +7,20 @@
 
 import Foundation
 
-public class HealthcareProviderRepositorySpy: HealthcareProviderRepositoryProtocol {
+public class HealthcareOrganizationRepositorySpy: HealthcareOrganizationRepositoryProtocol {
 
 	public init() {
 		// Public initializer needed for public access.
 	}
 	
-	public var invokedProvidersGetter = false
-	public var invokedProvidersGetterCount = 0
-	public var stubbedProviders: [HealthcareProvider]! = []
+	public var invokedOrganizationsGetter = false
+	public var invokedOrganizationsGetterCount = 0
+	public var stubbedOrganizations: [HealthcareOrganization]! = []
 
-	public var providers: [HealthcareProvider] {
-		invokedProvidersGetter = true
-		invokedProvidersGetterCount += 1
-		return stubbedProviders
+	public var organizations: [HealthcareOrganization] {
+		invokedOrganizationsGetter = true
+		invokedOrganizationsGetterCount += 1
+		return stubbedOrganizations
 	}
 
 	public var invokedObservatoryGetter = false
@@ -35,9 +35,9 @@ public class HealthcareProviderRepositorySpy: HealthcareProviderRepositoryProtoc
 	
 	public var invokedRemovalObservatoryGetter = false
 	public var invokedRemovalObservatoryGetterCount = 0
-	public var stubbedRemovalObservatory: Observatory<HealthcareProvider>!
+	public var stubbedRemovalObservatory: Observatory<HealthcareOrganization>!
 
-	public var removalObservatory: Observatory<HealthcareProvider> {
+	public var removalObservatory: Observatory<HealthcareOrganization> {
 		invokedRemovalObservatoryGetter = true
 		invokedRemovalObservatoryGetterCount += 1
 		return stubbedRemovalObservatory
@@ -45,15 +45,15 @@ public class HealthcareProviderRepositorySpy: HealthcareProviderRepositoryProtoc
 
 	public var invokedStore = false
 	public var invokedStoreCount = 0
-	public var invokedStoreParameters: (provider: HealthcareProvider, Void)?
-	public var invokedStoreParametersList = [(provider: HealthcareProvider, Void)]()
+	public var invokedStoreParameters: (organization: HealthcareOrganization, Void)?
+	public var invokedStoreParametersList = [(organization: HealthcareOrganization, Void)]()
 	public var stubbedStoreError: Error?
 
-	public func store(_ provider: HealthcareProvider) throws {
+	public func store(_ organization: HealthcareOrganization) throws {
 		invokedStore = true
 		invokedStoreCount += 1
-		invokedStoreParameters = (provider, ())
-		invokedStoreParametersList.append((provider, ()))
+		invokedStoreParameters = (organization, ())
+		invokedStoreParametersList.append((organization, ()))
 		if let error = stubbedStoreError {
 			throw error
 		}
@@ -61,15 +61,15 @@ public class HealthcareProviderRepositorySpy: HealthcareProviderRepositoryProtoc
 
 	public var invokedRemove = false
 	public var invokedRemoveCount = 0
-	public var invokedRemoveParameters: (provider: HealthcareProvider, Void)?
-	public var invokedRemoveParametersList = [(provider: HealthcareProvider, Void)]()
+	public var invokedRemoveParameters: (organization: HealthcareOrganization, Void)?
+	public var invokedRemoveParametersList = [(organization: HealthcareOrganization, Void)]()
 	public var stubbedRemoveError: Error?
 
-	public func remove(_ provider: HealthcareProvider) throws {
+	public func remove(_ organization: HealthcareOrganization) throws {
 		invokedRemove = true
 		invokedRemoveCount += 1
-		invokedRemoveParameters = (provider, ())
-		invokedRemoveParametersList.append((provider, ()))
+		invokedRemoveParameters = (organization, ())
+		invokedRemoveParametersList.append((organization, ()))
 		if let error = stubbedRemoveError {
 			throw error
 		}

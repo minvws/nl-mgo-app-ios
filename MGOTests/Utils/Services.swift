@@ -16,10 +16,10 @@ final class ServicesSpies {
 	
 	fileprivate init() { /* private so it can not be initiated elsewhere */ }
 
-	var healthcareProviderStoreSpy: HealthcareProviderRepositorySpy = {
-		let spy = HealthcareProviderRepositorySpy()
+	var healthcareOrganizationStoreSpy: HealthcareOrganizationRepositorySpy = {
+		let spy = HealthcareOrganizationRepositorySpy()
 		(spy.stubbedObservatory, _) = Observatory<Bool>.create()
-		(spy.stubbedRemovalObservatory, _) = Observatory<HealthcareProvider>.create()
+		(spy.stubbedRemovalObservatory, _) = Observatory<HealthcareOrganization>.create()
 		return spy
 	}()
 	
@@ -48,7 +48,7 @@ func setupServicesSpies() -> ServicesSpies {
 	
 	Current = Services(
 		now: { Date(timeIntervalSince1970: 1700000000) }, // Tuesday, 14 November 2023 22:13:20
-		healthcareProviderStore: spies.healthcareProviderStoreSpy,
+		healthcareOrganizationStore: spies.healthcareOrganizationStoreSpy,
 		localAuthenticationProvider: spies.localAuthenticationProviderSpy,
 		notificationCenter: spies.notificationCenterSpy,
 		secureUserSettings: spies.secureUserSettingsSpy

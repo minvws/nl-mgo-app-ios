@@ -15,14 +15,14 @@ final class RemoveHCOViewModelTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var sut: RemoveHealthcareOrganizationViewModel!
-	private var healthcareOrganization: HealthcareProvider!
+	private var healthcareOrganization: HealthcareOrganization!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
-		healthcareOrganization = Generator.healthcareProvider("1")
+		healthcareOrganization = Generator.healthcareOrganization("1")
 		
 		sut = RemoveHealthcareOrganizationViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization)
 	}
@@ -61,6 +61,6 @@ final class RemoveHCOViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.removedHealthcareOrganization
-		expect(self.servicesSpies.healthcareProviderStoreSpy.invokedRemove) == true
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedRemove) == true
 	}
 }
