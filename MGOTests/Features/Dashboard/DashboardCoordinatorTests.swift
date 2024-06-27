@@ -153,35 +153,35 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.parentCoordinator.invokedHandleParameters?.0) == Coordination.Action.resetApplication
 	}
 	
-	func test_coordinatorHandle_showHealthcareProviderDetails_firstTabPath_shouldContainSearchHealthcareProviders() {
+	func test_coordinatorHandle_showHealthcareOrganization_firstTabPath_shouldContainSearchHealthcareProviders() {
 
 		// Given
 		let provider = Generator.healthcareProvider("1")
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showHealthcareProviderDetails", params: ["healthcareProvider": provider]))
+		sut.handle(Coordination.Action(identifier: "showHealthcareOrganization", params: ["healthcareProvider": provider]))
 
 		// Then
-		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthcareProviderDetails(healthcareProvider: provider)])
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthcareOrganization(healthcareProvider: provider)])
 	}
 
-	func test_coordinatorHandle_showHealthcareProviderDetails_missingParams_firstTabPath_shouldBeEmpty() {
+	func test_coordinatorHandle_showHealthcareOrganization_missingParams_firstTabPath_shouldBeEmpty() {
 
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showHealthcareProviderDetails", params: [:]))
+		sut.handle(Coordination.Action(identifier: "showHealthcareOrganization", params: [:]))
 
 		// Then
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
 	}
 	
-	func test_coordinatorHandle_showHealthcareProviderDetails_wrongParams_firstTabPath_shouldBeEmpty() {
+	func test_coordinatorHandle_showHealthcareOrganization_wrongParams_firstTabPath_shouldBeEmpty() {
 
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showHealthcareProviderDetails", params: ["showHealthcareProviderDetails": "wrong"]))
+		sut.handle(Coordination.Action(identifier: "showHealthcareOrganization", params: ["showHealthcareOrganization": "wrong"]))
 
 		// Then
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
@@ -215,7 +215,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showProblems", params: ["showHealthcareProviderDetails": "wrong"]))
+		sut.handle(Coordination.Action(identifier: "showProblems", params: ["showHealthcareOrganization": "wrong"]))
 
 		// Then
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
@@ -249,7 +249,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showMedication", params: ["showHealthcareProviderDetails": "wrong"]))
+		sut.handle(Coordination.Action(identifier: "showMedication", params: ["showHealthcareOrganization": "wrong"]))
 
 		// Then
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
@@ -283,7 +283,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showLabResults", params: ["showHealthcareProviderDetails": "wrong"]))
+		sut.handle(Coordination.Action(identifier: "showLabResults", params: ["showHealthcareOrganization": "wrong"]))
 
 		// Then
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
@@ -308,7 +308,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		self.sut.rootStateForSheet = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: provider)
 		self.sut.firstTabPath = NavigationStackBackport.NavigationPath([
 			DashboardCoordination.State.overview,
-			DashboardCoordination.State.showHealthcareProviderDetails(healthcareProvider: provider)
+			DashboardCoordination.State.showHealthcareOrganization(healthcareProvider: provider)
 		])
 		
 		// When

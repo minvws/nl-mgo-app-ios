@@ -14,9 +14,9 @@ final class HealthcareProviderViewTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: HealthcareProviderViewModel!
+	private var viewModel: OrganizationViewModel!
 	private var healthcareProvider: HealthcareProvider!
-	private var sut: HealthcareProviderView!
+	private var sut: OrganizationView!
 	
 	override func setUp() {
 		
@@ -25,8 +25,8 @@ final class HealthcareProviderViewTests: XCTestCase {
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareProvider = Generator.healthcareProvider("1")
 		
-		viewModel = HealthcareProviderViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider)
-		sut = HealthcareProviderView(viewModel: self.viewModel)
+		viewModel = OrganizationViewModel(coordinator: coordinatorSpy, healthcareProvider: healthcareProvider)
+		sut = OrganizationView(viewModel: self.viewModel)
 	}
 	
 	func test_healthcareProvider_details() {

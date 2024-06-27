@@ -96,7 +96,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		
 		// Given
 		let provider = Generator.healthcareProvider("1")
-		let state = DashboardCoordination.State.showHealthcareProviderDetails(healthcareProvider: provider)
+		let state = DashboardCoordination.State.showHealthcareOrganization(healthcareProvider: provider)
 		
 		// When
 		let view = sut.viewState(for: state)

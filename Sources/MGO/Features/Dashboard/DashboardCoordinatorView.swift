@@ -17,7 +17,7 @@ extension Coordination.Action {
 	static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
 	
 	static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
-	static let showHealthcareProviderDetails = Coordination.Action(identifier: "showHealthcareProviderDetails")
+	static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
 	
 	static let showProblems = Coordination.Action(identifier: "showProblems")
 	static let showMedication = Coordination.Action(identifier: "showMedication")
@@ -62,7 +62,7 @@ enum DashboardCoordination {
 		case listHealthcareOrganizations
 		
 		// Details Flow
-		case showHealthcareProviderDetails(healthcareProvider: HealthcareProvider)
+		case showHealthcareOrganization(healthcareProvider: HealthcareProvider)
 		case showProblems(healthcareProvider: HealthcareProvider)
 		case showMedication(healthcareProvider: HealthcareProvider)
 		case showLabResults(healthcareProvider: HealthcareProvider)
@@ -125,10 +125,10 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			
 			// Healthcare Provider Details
 			
-			case Coordination.Action.showHealthcareProviderDetails.identifier:
+			case Coordination.Action.showHealthcareOrganization.identifier:
 				if action.params.count == 1,
 				   let healthcareProvider = action.params["healthcareProvider"] as? HealthcareProvider {
-					firstTabPath.append(DashboardCoordination.State.showHealthcareProviderDetails(healthcareProvider: healthcareProvider))
+					firstTabPath.append(DashboardCoordination.State.showHealthcareOrganization(healthcareProvider: healthcareProvider))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -219,8 +219,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case .listHealthcareOrganizations:
 				OrganizationListView(viewModel: OrganizationListViewModel(coordinator: self)).isPresentedAsSheet(true)
 			
-			case let .showHealthcareProviderDetails(healthcareProvider):
-				HealthcareProviderView(viewModel: HealthcareProviderViewModel(coordinator: self, healthcareProvider: healthcareProvider))
+			case let .showHealthcareOrganization(healthcareProvider):
+				OrganizationView(viewModel: OrganizationViewModel(coordinator: self, healthcareProvider: healthcareProvider))
 			
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)

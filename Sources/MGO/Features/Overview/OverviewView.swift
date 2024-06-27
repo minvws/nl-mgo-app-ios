@@ -94,7 +94,7 @@ class OverviewViewModel: ObservableObject {
 			case .details(let healthcareProvider):
 				toast = nil
 				coordinator?.handle(Coordination.Action(
-					identifier: "showHealthcareProviderDetails",
+					identifier: "showHealthcareOrganization",
 					params: ["healthcareProvider": healthcareProvider])
 				)
 			

@@ -7,7 +7,7 @@
 
 import MGOFoundation
 
-struct HealthcareProviderModel: Codable, Hashable, Equatable, Identifiable {
+struct OrganizationModel: Codable, Hashable, Equatable, Identifiable {
 	
 	/// The category of healthcare provider (dentist, gp, etc)
 	var category: String
@@ -19,17 +19,17 @@ struct HealthcareProviderModel: Codable, Hashable, Equatable, Identifiable {
 	var name: String
 }
 
-class HealthcareProviderDecorator {
+class OrganizationDecorator {
 	
 	/// Create a OverviewHealthcareProvider from a HealthcareProvider
 	/// - Parameter from: HealthcareProvider
 	/// - Returns: OverviewHealthcareProvider
-	static func create(_ organisation: HealthcareProvider) -> HealthcareProviderModel {
+	static func create(_ organisation: HealthcareProvider) -> OrganizationModel {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = organisation.display_name // + " [\(identifier)]"
 
-		return HealthcareProviderModel(
+		return OrganizationModel(
 			category: Sanitizer.strip(organisation.types.first?.display_name) ?? "",
 			id: identifier,
 			name: Sanitizer.sanitize(name)

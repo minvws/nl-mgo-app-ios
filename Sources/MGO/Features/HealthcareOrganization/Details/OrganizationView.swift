@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class HealthcareProviderViewModel: ObservableObject {
+class OrganizationViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -17,7 +17,7 @@ class HealthcareProviderViewModel: ObservableObject {
 	private var healthcareProvider: HealthcareProvider
 	
 	/// Model to display
-	@Published var providerModel: HealthcareProviderModel
+	@Published var providerModel: OrganizationModel
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -34,12 +34,12 @@ class HealthcareProviderViewModel: ObservableObject {
 		
 		self.coordinator = coordinator
 		self.healthcareProvider = healthcareProvider
-		self.providerModel = HealthcareProviderDecorator.create(healthcareProvider)
+		self.providerModel = OrganizationDecorator.create(healthcareProvider)
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthcareProviderViewModel.Action) {
+	func reduce(_ action: OrganizationViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
@@ -69,10 +69,10 @@ class HealthcareProviderViewModel: ObservableObject {
 	}
 }
 
-struct HealthcareProviderView: View {
+struct OrganizationView: View {
 
 	/// The View Model
-	@StateObject var viewModel: HealthcareProviderViewModel
+	@StateObject var viewModel: OrganizationViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -204,8 +204,8 @@ struct HealthcareProviderView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		HealthcareProviderView(
-			viewModel: HealthcareProviderViewModel(
+		OrganizationView(
+			viewModel: OrganizationViewModel(
 				coordinator: nil,
 				healthcareProvider: PreviewContent.healthcareOrganization
 			)
