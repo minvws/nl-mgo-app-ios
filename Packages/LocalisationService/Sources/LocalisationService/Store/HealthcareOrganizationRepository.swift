@@ -8,6 +8,7 @@
 import Foundation
 import Logging
 import Observatory
+import FileStorage
 
 public protocol HealthcareOrganizationRepositoryProtocol {
 	

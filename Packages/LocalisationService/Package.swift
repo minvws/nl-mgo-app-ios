@@ -14,6 +14,7 @@ let package = Package(
 	],
 	dependencies: [
 		// Internal
+		.package(name: "FileStorage", path: "../FileStorage"),
 		.package(name: "Observatory", path: "../Observatory"),
 		
 		// External
@@ -31,6 +32,7 @@ let package = Package(
 		.target(
 			name: "LocalisationService",
 			dependencies: [
+				.product(name: "FileStorage", package: "FileStorage"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
