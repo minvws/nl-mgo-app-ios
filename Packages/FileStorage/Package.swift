@@ -31,7 +31,8 @@ let package = Package(
 			dependencies: [
 				"FileStorage",
 				.product(name: "MGOTest", package: "MGOTest")
-			]
+			],
+			resources: [.process("Resources")]
 		)
 	]
 )
