@@ -5,7 +5,7 @@
 *  SPDX-License-Identifier: EUPL-1.2
 */
 
-@testable import LocalisationService
+@testable import Observatory
 import MGOTest
 
 class ObservatoryTests: XCTestCase {

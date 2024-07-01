@@ -6,28 +6,6 @@ servers:
   - url: https://lo-ad.test.mgo.irealisatie.nl/
     description: MGO TEST localisation
 paths:
-#  "/":
-#    get:
-#      summary: Index
-#      operationId: index__get
-#      responses:
-#        '200':
-#          description: Successful Response
-#          content:
-#            application/json:
-#              schema: {}
-#  "/health":
-#    get:
-#      summary: Check the health of the application
-#      operationId: health_health_get
-#      responses:
-#        '200':
-#          description: Successful Response
-#          content:
-#            application/json:
-#              schema:
-#                type: object
-#                title: Response Health Health Get
   "/localization/organization/search":
     post:
       tags:
@@ -54,75 +32,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
-#  "/localization/cities":
-#    get:
-#      tags:
-#      - localization
-#      summary: Search for cities based on the query parameter
-#      description: Returns a list of cities based on the query parameter
-#      operationId: get_cities_localization_cities_get
-#      parameters:
-#      - name: q
-#        in: query
-#        required: true
-#        schema:
-#          type: string
-#          title: Q
-#      responses:
-#        '200':
-#          description: Successful Response
-#          content:
-#            application/json:
-#              schema:
-#                $ref: "#/components/schemas/CityResponse"
-#        '422':
-#          description: Validation Error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: "#/components/schemas/HTTPValidationError"
-#  "/localization/cities/all":
-#    get:
-#      tags:
-#      - localization
-#      summary: Get all cities as a single JSON response
-#      description: Returns all cities as a single JSON response
-#      operationId: get_all_cities_localization_cities_all_get
-#      responses:
-#        '200':
-#          description: Successful Response
-#          content:
-#            application/json:
-#              schema:
-#                $ref: "#/components/schemas/CityResponse"
-#  "/addressing/services":
-#    post:
-#      tags:
-#      - addressing
-#      summary: Search for healthcare services based on the search parameters
-#      operationId: post_services_addressing_services_post
-#      requestBody:
-#        content:
-#          application/json:
-#            schema:
-#              items:
-#                $ref: "#/components/schemas/ZalSearchRequestEntry"
-#              type: array
-#              title: Request
-#        required: true
-#      responses:
-#        '200':
-#          description: Successful Response
-#          content:
-#            application/json:
-#              schema:
-#                $ref: "#/components/schemas/ZalSearchResponse"
-#        '422':
-#          description: Validation Error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: "#/components/schemas/HTTPValidationError"
 components:
   schemas:
     Address:
@@ -182,20 +91,6 @@ components:
       - display_name
       - type
       title: CType
-#    CityResponse:
-#      properties:
-#        meta:
-#          $ref: "#/components/schemas/Meta"
-#        items:
-#          items:
-#            type: string
-#          type: array
-#          title: Items
-#      type: object
-#      required:
-#      - meta
-#      - items
-#      title: CityResponse
     GeoLocation:
       properties:
         latitude:
@@ -226,23 +121,6 @@ components:
       - htn
       - ura
       title: IdentificationType
-#    Meta:
-#      properties:
-#        limit:
-#          type: integer
-#          title: Limit
-#        offset:
-#          type: integer
-#          title: Offset
-#        total:
-#          type: integer
-#          title: Total
-#      type: object
-#      required:
-#      - limit
-#      - offset
-#      - total
-#      title: Meta
     Name:
       properties:
         full_name:
@@ -387,61 +265,3 @@ components:
       - code
       - resource_endpoint
       title: ZalDataServiceRoleResponse
-#    ZalSearchRequestEntry:
-#      properties:
-#        id_type:
-#          $ref: "#/components/schemas/IdentificationType"
-#        id_value:
-#          type: string
-#          title: Id Value
-#      type: object
-#      required:
-#      - id_type
-#      - id_value
-#      title: ZalSearchRequestEntry
-#    ZalSearchResponse:
-#      properties:
-#        total:
-#          type: integer
-#          title: Total
-#        found:
-#          type: integer
-#          title: Found
-#        entries:
-#          items:
-#            $ref: "#/components/schemas/ZalSearchResponseEntry"
-#          type: array
-#          title: Entries
-#      type: object
-#      required:
-#      - total
-#      - found
-#      - entries
-#      title: ZalSearchResponse
-#    ZalSearchResponseEntry:
-#      properties:
-#        medmij_id:
-#          type: string
-#          title: Medmij Id
-#        organization_type:
-#          type: string
-#          title: Organization Type
-#        id_type:
-#          type: string
-#          title: Id Type
-#        id_value:
-#          type: string
-#          title: Id Value
-#        dataservices:
-#          items:
-#            $ref: "#/components/schemas/ZalDataServiceResponse"
-#          type: array
-#          title: Dataservices
-#      type: object
-#      required:
-#      - medmij_id
-#      - organization_type
-#      - id_type
-#      - id_value
-#      - dataservices
-#      title: ZalSearchResponseEntry
