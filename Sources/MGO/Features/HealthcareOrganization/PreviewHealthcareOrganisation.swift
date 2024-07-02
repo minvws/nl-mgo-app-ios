@@ -14,7 +14,7 @@ struct PreviewContent {
 		identification_type: "type",
 		identification_value: "1",
 		active: true,
-		addresses: [Components.Schemas.Address(
+		addresses: [LocalisationService.Components.Schemas.Address(
 			active: true,
 			address: "Boorplatform 5",
 			city: "Roermond",
@@ -23,7 +23,7 @@ struct PreviewContent {
 			_type: "postal")
 		],
 		names: [],
-		types: [Components.Schemas.CType(code: "01", display_name: "Tandarts", _type: "")],
+		types: [LocalisationService.Components.Schemas.CType(code: "01", display_name: "Tandarts", _type: "")],
 		data_services: []
 	)
 }
