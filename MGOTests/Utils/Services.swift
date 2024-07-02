@@ -38,6 +38,13 @@ final class ServicesSpies {
 		spy.stubbedBiometricType = { .faceID }
 		return spy
 	}()
+	
+	var remoteConfigurationRepositorySpy: RemoteConfigurationRepositorySpy = {
+		let spy = RemoteConfigurationRepositorySpy()
+		spy.stubbedStoredConfiguration = RemoteConfig.default
+		(spy.stubbedObservatory, _) = Observatory<RemoteConfig>.create()
+		return spy
+	}()
 }
 
 /// Setup the services spies
@@ -51,7 +58,9 @@ func setupServicesSpies() -> ServicesSpies {
 		healthcareOrganizationStore: spies.healthcareOrganizationStoreSpy,
 		localAuthenticationProvider: spies.localAuthenticationProviderSpy,
 		notificationCenter: spies.notificationCenterSpy,
+		remoteConfigurationRepository: spies.remoteConfigurationRepositorySpy,
 		secureUserSettings: spies.secureUserSettingsSpy
 	)
+	
 	return spies
 }

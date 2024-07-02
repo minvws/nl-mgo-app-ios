@@ -1,0 +1,144 @@
+/*
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import Foundation
+import Logging
+import Observatory
+import FileStorage
+
+public protocol RemoteConfigurationRepositoryProtocol {
+	
+	/// The remote configuration
+	var storedConfiguration: RemoteConfig { get }
+	
+	/// Observatory for changes
+	var observatory: Observatory<RemoteConfig> { get }
+
+	/// Remove the remote configuration from storage
+	func wipePersistedData()
+}
+
+public enum RemoteConfigurationError: Error {
+
+	case noApiClient
+}
+
+public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtocol {
+
+	/// The storage provider
+	private let storage: FileStorageProtocol
+	
+	/// The API Client
+	private let client: RemoteConfigurationClientProtocol?
+
+	/// The name of the file where we store the remote configuration
+	private let fileName: String = {
+		
+		if NSClassFromString("XCTestCase") == nil {
+			return "remoteconfiguration.json"
+		} else {
+			return "remoteconfiguration_test.json"
+		}
+	}()
+	
+	/// Dispatch Queue
+	private let queue = DispatchQueue(label: "com.RemoteConfigurationRepository.serialqueue.\(UUID().uuidString)")
+	
+	/// Observatory for changes
+	public let observatory: Observatory<RemoteConfig>
+	
+	/// Observers for changes
+	private let observers: (RemoteConfig) -> Void
+
+	/// The remote configuration
+	public var storedConfiguration: RemoteConfig
+
+	/// Initializer
+	/// - Parameter storage: storage protocol
+	/// - Parameter apiClient: storage protocol
+	public init(
+		storage: FileStorageProtocol = FileStorage(),
+		apiClient: RemoteConfigurationClientProtocol? = RemoteConfigurationClient()) {
+
+		self.storage = storage
+		self.client = apiClient
+		(self.observatory, self.observers) = Observatory<RemoteConfig>.create()
+		storedConfiguration = RemoteConfig.default
+		
+//		Task {
+//			await fetch()
+//		}
+	}
+	
+	func fetch() async {
+		
+		do {
+			// First attempt to fetch from the api
+			let config = try await fetchFromApi()
+			storedConfiguration = config
+			observers(config)
+			return
+		} catch {
+			logError("RemoteConfigurationRepository: Error fetching config", error)
+			// If that fails, fetch from disc.
+			do {
+				if let config = try readFromStorage() {
+					storedConfiguration = config
+					observers(config)
+					return
+				}
+			} catch {
+				logError("RemoteConfigurationRepository: Error reading config", error)
+			}
+		}
+	
+		// Finally revert to default config
+		logInfo("RemoteConfigurationRepository: Fail back to default config")
+		storedConfiguration = RemoteConfig.default
+		observers(storedConfiguration)
+	}
+	
+	/// Read the config from the API
+	/// - Returns: Remote config from API
+	internal func fetchFromApi() async throws -> RemoteConfig {
+		
+		guard let client else {
+			throw RemoteConfigurationError.noApiClient
+		}
+		
+		return try await client.fetchRemoteConfig()
+	}
+	
+	/// Read the config from storage
+	/// - Returns: remote config from storage
+	///
+	internal func readFromStorage() throws -> RemoteConfig? {
+		
+		if let jsonData = storage.read(fileName: fileName) {
+			let data = try JSONDecoder().decode(RemoteConfig.self, from: jsonData)
+			return data
+		}
+		return nil
+	}
+	
+	/// Reset the remote config to default, remove existing cached
+	public func wipePersistedData() {
+		
+		storedConfiguration = RemoteConfig.default
+		storage.remove(fileName)
+		observatory.removeAll()
+	}
+	
+	/// Persist the remote config to storage
+	private func persistToStorage() throws {
+		
+		try queue.sync {
+			let encoded = try JSONEncoder().encode(storedConfiguration)
+			try storage.store(encoded, as: fileName)
+		}
+	}
+}

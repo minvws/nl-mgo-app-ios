@@ -10,6 +10,8 @@ packages:
     path: ./Packages/FHIRClient
   FHIRExtensions:
     path: ./Packages/FHIRExtensions
+  FileStorage:
+    path: ./Packages/FileStorage
   LocalisationService:
     path: ./Packages/LocalisationService
   Managers:
@@ -22,6 +24,10 @@ packages:
     path: ./Packages/MGOTest
   MGOUI:
     path: ./Packages/MGOUI
+  Observatory:
+    path: ./Packages/Observatory
+  RemoteConfiguration:
+    path: ./Packages/RemoteConfiguration
   RestrictedBrowser:
     path: ./Packages/RestrictedBrowser
   ReusableUI:
@@ -361,6 +367,9 @@ schemes:
         - package: FHIRExtensions/FHIRExtensionsTests
           randomExecutionOrder: true
           parallelizable: false
+        - package: FileStorage/FileStorageTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: LocalisationService/LocalisationServiceTests
           randomExecutionOrder: true
           parallelizable: false
@@ -373,6 +382,12 @@ schemes:
         - name: MGOTests
           parallelizable: false
           randomExecutionOrder: true
+        - package: Observatory/ObservatoryTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: RemoteConfiguration/RemoteConfigurationTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: RestrictedBrowser/RestrictedBrowserTests
           randomExecutionOrder: true
           parallelizable: false

@@ -14,6 +14,8 @@
 @_exported import LocalisationService
 @_exported import Managers
 @_exported import MGORepository
+@_exported import Observatory
+@_exported import RemoteConfiguration
 
 // VWS
 @_exported import Logging
