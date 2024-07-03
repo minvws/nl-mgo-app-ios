@@ -9,17 +9,20 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
+import RemoteConfiguration
 
 final class AppCoordinatorTests: XCTestCase {
 	
 	private var sut: AppCoordinator!
 	private var servicesSpies: ServicesSpies!
+	private var appVersionSupplierSpy: AppVersionSupplierSpy!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
-		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		appVersionSupplierSpy = AppVersionSupplierSpy()
+		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath(), versionSupplier: appVersionSupplierSpy)
 	}
 	
 	// MARK: - Handle -
@@ -119,7 +122,7 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.pinCodeConfirmation])
 	}
-
+	
 	func test_coordinatorHandle_accessCodeConfirmed_shouldShowBioMetricSetup() {
 		
 		// Given
@@ -145,7 +148,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.rootState) == AppCoordination.State.login
 		expect(self.sut.path.isEmpty) == true
 	}
-
+	
 	func test_coordinatorHandle_didFinishLocalAuthentication_shouldShowRemoteAuthenciation() {
 		
 		// Given
@@ -157,7 +160,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.rootState) == AppCoordination.State.login
 		expect(self.sut.path.isEmpty) == true
 	}
-
+	
 	func test_coordinatorHandle_loginWithDigiD_shouldShowDashboard() {
 		
 		// Given
@@ -256,5 +259,59 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedDataCount) == 1
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedWipePersistedDataCount) == 1
+	}
+	
+	func test_coordinatorHandle_updateRequired() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.updateRequired)
+		
+		// Then
+		expect(self.sut.rootState) == AppCoordination.State.updateRequired
+		expect(self.sut.path.isEmpty) == true
+	}
+	
+	func test_handleRemoteConfigChanges_identicalVersion() {
+		
+		// Given
+		appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.0"
+		let remoteConfig = RemoteConfig(iosMinimumVersion: "1.0.0")
+		
+		// When
+		sut.handleRemoteConfigChanges(remoteConfiguration: remoteConfig)
+		
+		// Then
+		expect(self.sut.rootState) == AppCoordination.State.launch
+		expect(self.sut.path.isEmpty) == true
+	}
+	
+	func test_handleRemoteConfigChanges_shouldUpdate() {
+		
+		// Given
+		appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.1"
+		let remoteConfig = RemoteConfig(iosMinimumVersion: "1.0.0")
+		
+		// When
+		sut.handleRemoteConfigChanges(remoteConfiguration: remoteConfig)
+		
+		// Then
+		expect(self.sut.rootState) == AppCoordination.State.launch
+		expect(self.sut.path.isEmpty) == true
+	}
+	
+	func test_handleRemoteConfigChanges_shouldContinue() {
+		
+		// Given
+		appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.0"
+		let remoteConfig = RemoteConfig(iosMinimumVersion: "1.0.1")
+		
+		// When
+		sut.handleRemoteConfigChanges(remoteConfiguration: remoteConfig)
+		
+		// Then
+		expect(self.sut.rootState) == AppCoordination.State.updateRequired
+		expect(self.sut.path.isEmpty) == true
 	}
 }

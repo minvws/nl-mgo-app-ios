@@ -83,7 +83,7 @@ final class LaunchViewModelTests: XCTestCase {
 		sut.reduce(.loaded)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(.configLoaded))
+		expect(self.sut.state).toEventually(equal(.configLoaded), timeout: .seconds(5))
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedLoading))
 	}

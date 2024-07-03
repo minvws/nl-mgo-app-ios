@@ -159,7 +159,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		observerToken.map(Current.remoteConfigurationRepository.observatory.remove)
 	}
 	
-	private func handleRemoteConfigChanges(remoteConfiguration: RemoteConfig) {
+	internal func handleRemoteConfigChanges(remoteConfiguration: RemoteConfig) {
 		// Updated configuration
 		logDebug("AppCoordinator: new config", remoteConfiguration)
 		
@@ -168,12 +168,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		logInfo("We are \(currentVersion), minimum is \(minimumVersion)")
 		
-//			if minimumVersion.compare(currentVersion, options: .numeric) == .orderedDescending {
-//		_Concurrency.Task { @MainActor in
-//				self?.rootState = .updateRequired
+		if minimumVersion.compare(currentVersion, options: .numeric) == .orderedDescending {
 			self.handle(.updateRequired)
-//		}
-//			}
+		} else {
+			updateRequired = false
+		}
 	}
 	
 	/// the URL for the privacy page
@@ -188,8 +187,17 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				return URL(string: String(localized: "privacy_statement_overview_tst"))
 		}
 	}
-		
+	
+	/// Handle any Coordination Action
+	/// - Parameter action: Coordination Action
 	func handle(_ action: Coordination.Action) {
+
+		// Always allow the update app action
+		if action.identifier == Coordination.Action.showAppStore.identifier {
+			#warning("The appstore url needs to be updated (MGO-548)")
+			guard let appStoreUrl = URL(string: "https://apps.apple.com") else { return }
+			browser.handleUnallowedDomain(appStoreUrl)
+		}
 		
 		guard !updateRequired else {
 			logWarning("AppCoordinator: Skipping \(action), update is required")
