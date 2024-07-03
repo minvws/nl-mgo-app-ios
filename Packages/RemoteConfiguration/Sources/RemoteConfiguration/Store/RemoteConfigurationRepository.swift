@@ -17,6 +17,9 @@ public protocol RemoteConfigurationRepositoryProtocol {
 	
 	/// Observatory for changes
 	var observatory: Observatory<RemoteConfig> { get }
+	
+	/// Fetch the config and update all observers
+	func fetchAndUpdateObservers()
 
 	/// Remove the remote configuration from storage
 	func wipePersistedData()
@@ -68,38 +71,36 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 		self.client = apiClient
 		(self.observatory, self.observers) = Observatory<RemoteConfig>.create()
 		storedConfiguration = RemoteConfig.default
-		
-//		Task {
-//			await fetch()
-//		}
 	}
 	
-	func fetch() async {
+	public func fetchAndUpdateObservers() {
 		
+		_Concurrency.Task {
+			let config = await fetchConfig()
+			storedConfiguration = config
+			observers(config)
+		}
+	}
+	
+	func fetchConfig() async -> RemoteConfig {
 		do {
 			// First attempt to fetch from the api
 			let config = try await fetchFromApi()
-			storedConfiguration = config
-			observers(config)
-			return
+			return config
 		} catch {
 			logError("RemoteConfigurationRepository: Error fetching config", error)
 			// If that fails, fetch from disc.
 			do {
 				if let config = try readFromStorage() {
-					storedConfiguration = config
-					observers(config)
-					return
+					return config
 				}
 			} catch {
 				logError("RemoteConfigurationRepository: Error reading config", error)
 			}
 		}
 	
-		// Finally revert to default config
 		logInfo("RemoteConfigurationRepository: Fail back to default config")
-		storedConfiguration = RemoteConfig.default
-		observers(storedConfiguration)
+		return RemoteConfig.default
 	}
 	
 	/// Read the config from the API

@@ -34,7 +34,7 @@ public class RemoteConfigurationClient: RemoteConfigurationClientProtocol {
 	/// - Returns: the remote configuration
 	public func fetchRemoteConfig() async throws -> RemoteConfig {
 		
-		let response = try await client.get_sol_v1_sol_mgo_sol_config()
+		let response = try await client.get_sol_config()
 		let config = try response.ok.body.json
 		return config
 	}

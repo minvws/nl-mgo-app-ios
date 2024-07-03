@@ -37,6 +37,14 @@ public class RemoteConfigurationRepositorySpy: RemoteConfigurationRepositoryProt
 	public var invokedWipePersistedData = false
 	public var invokedWipePersistedDataCount = 0
 	
+	public var invokedFetchAndUpdateObservers = false
+	public var invokedFetchAndUpdateObserversCount = 0
+	
+	public func fetchAndUpdateObservers() {
+		invokedFetchAndUpdateObservers = true
+		invokedFetchAndUpdateObserversCount += 1
+	}
+
 	public func wipePersistedData() {
 		invokedWipePersistedData = true
 		invokedWipePersistedDataCount += 1
