@@ -1,0 +1,47 @@
+/*
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import MGOTest
+import MGOUI
+@testable import MGO
+
+final class UpdateRequiredViewTests: XCTestCase {
+	
+	private var coordinatorSpy: AppCoordinatorSpy!
+	private var viewModel: UpdateRequiredViewModel!
+	private var sut: UpdateRequiredView!
+	
+	override func setUp() {
+		
+		coordinatorSpy = AppCoordinatorSpy()
+		viewModel = UpdateRequiredViewModel(coordinator: coordinatorSpy)
+		sut = UpdateRequiredView(viewModel: self.viewModel)
+	}
+	
+	func test_updateRequiredView() {
+		
+		// Given
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_actionButtonPressed_shouldCallCoordinator() throws {
+		
+		// Given
+		
+		// When
+		try sut.inspect().find(viewWithTag: "update_required_action").button().tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showAppStore
+	}
+}

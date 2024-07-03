@@ -39,6 +39,11 @@ class LaunchViewModel: ObservableObject {
 		setupObservers()
 	}
 	
+	deinit {
+		// Remove as observer
+		observerToken.map(Current.remoteConfigurationRepository.observatory.remove)
+	}
+	
 	/// Setup all the observers
 	private func setupObservers() {
 		

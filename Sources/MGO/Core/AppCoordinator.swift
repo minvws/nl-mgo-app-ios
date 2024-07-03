@@ -39,6 +39,8 @@ extension Coordination.Action {
 	
 	// Launch
 	static let finishedLoading = Coordination.Action(identifier: "finishedLoading")
+	static let updateRequired = Coordination.Action(identifier: "updateRequired")
+	static let showAppStore = Coordination.Action(identifier: "showAppStore")
 	
 	// Onboarding
 	static let nextButtonPressedOnIntroduction = Coordination.Action(identifier: "nextButtonPressedOnIntroduction")
@@ -68,6 +70,7 @@ enum AppCoordination {
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {
 		case launch
+		case updateRequired
 		
 		// Onboarding
 		case introduction(recreated: Bool)
@@ -116,20 +119,62 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// The localisation client
 	private var localisationServiceClient: LocalisationServiceClientProtocol?
 	
+	/// Token for the observatory 
+	private var observerToken: Observatory.ObserverToken?
+	
+	/// The version supplier
+	private var versionSupplier: AppVersionSupplierProtocol
+	
+	/// Are we forced into update required mode?
+	private var updateRequired: Bool = false
+	
 	/// Initializer
 	/// - Parameter path: Navigation Path
 	init(
 		path: NavigationStackBackport.NavigationPath,
-		localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient()) {
+		localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(),
+		versionSupplier: AppVersionSupplierProtocol = AppVersionSupplier()
+	) {
 			
-			if LaunchArgumentsHandler.shouldResetOnStart() {
-				Current.wipePersistedData()
-			}
-			
-			self.path = path
-			self.localisationServiceClient = localisationServiceClient
-			self.rootState = .launch
+		if LaunchArgumentsHandler.shouldResetOnStart() {
+			Current.wipePersistedData()
 		}
+		
+		self.path = path
+		self.localisationServiceClient = localisationServiceClient
+		self.versionSupplier = versionSupplier
+		self.rootState = .launch
+		
+		self.observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
+			
+			guard let self else { return }
+			_Concurrency.Task { @MainActor in
+				self.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
+			}
+		}
+	}
+	
+	deinit {
+		// Remove as observer
+		observerToken.map(Current.remoteConfigurationRepository.observatory.remove)
+	}
+	
+	private func handleRemoteConfigChanges(remoteConfiguration: RemoteConfig) {
+		// Updated configuration
+		logDebug("AppCoordinator: new config", remoteConfiguration)
+		
+		let minimumVersion = remoteConfiguration.iosMinimumVersion.semanticVersion()
+		let currentVersion = versionSupplier.getCurrentVersion().semanticVersion()
+		
+		logInfo("We are \(currentVersion), minimum is \(minimumVersion)")
+		
+//			if minimumVersion.compare(currentVersion, options: .numeric) == .orderedDescending {
+//		_Concurrency.Task { @MainActor in
+//				self?.rootState = .updateRequired
+			self.handle(.updateRequired)
+//		}
+//			}
+	}
 	
 	/// the URL for the privacy page
 	private var privacyURL: URL? {
@@ -146,11 +191,20 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 	func handle(_ action: Coordination.Action) {
 		
+		guard !updateRequired else {
+			logWarning("AppCoordinator: Skipping \(action), update is required")
+			return
+		}
+		
 		switch action.identifier {
 			// Onboarding
 			
 			case Coordination.Action.finishedLoading.identifier:
 				handleStartup()
+			
+			case Coordination.Action.updateRequired.identifier:
+				updateRequired = true
+				resetNavigationStack(with: .updateRequired)
 			
 			case Coordination.Action.nextButtonPressedOnIntroduction.identifier:
 				path.append(AppCoordination.State.proposition)
@@ -270,6 +324,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		switch state {
 			case .launch:
 				LaunchView(viewModel: LaunchViewModel(coordinator: self))
+			
+			case .updateRequired:
+				UpdateRequiredView(viewModel: UpdateRequiredViewModel(coordinator: self))
 				
 			// Onboarding
 				
