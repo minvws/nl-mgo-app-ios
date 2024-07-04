@@ -18,6 +18,8 @@ let package = Package(
 		.package(name: "LocalisationService", path: "../LocalisationService"),
 		.package(name: "Managers", path: "../Managers"),
 		.package(name: "MGORepository", path: "../MGORepository"),
+		.package(name: "Observatory", path: "../Observatory"),
+		.package(name: "RemoteConfiguration", path: "../RemoteConfiguration"),
 		
 		// VWS
 		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main")
@@ -29,7 +31,9 @@ let package = Package(
 				.product(name: "LocalisationService", package: "LocalisationService"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
 				.product(name: "Managers", package: "Managers"),
-				.product(name: "MGORepository", package: "MGORepository")
+				.product(name: "MGORepository", package: "MGORepository"),
+				.product(name: "Observatory", package: "Observatory"),
+				.product(name: "RemoteConfiguration", package: "RemoteConfiguration")
 			]
 		)
 	]

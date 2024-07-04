@@ -57,7 +57,7 @@ struct IntroductionView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
-	/// Boolean to determine if the header image shoudl be shown (hidden in landscape)
+	/// Boolean to determine if the header image should be shown (hidden in landscape)
 	@State var showImage = true
 	
 	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?

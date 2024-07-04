@@ -32,6 +32,7 @@ final class LaunchViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .loadingConfig
+		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == true
 	}
 
 	func test_reduce_fromLoadingConfig_toLoadingConfig() {
@@ -44,6 +45,7 @@ final class LaunchViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .loadingConfig
+		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == false
 	}
 	
 	func test_reduce_fromConfigLoaded_toConfigLoaded() {
@@ -56,6 +58,7 @@ final class LaunchViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .configLoaded
+		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == false
 	}
 	
 	func test_reduce_fromConfigLoaded_toReset() {
@@ -68,6 +71,7 @@ final class LaunchViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .loadingConfig
+		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == true
 	}
 	
 	func test_loadConfig_shouldCallCoordinator() {
@@ -76,11 +80,11 @@ final class LaunchViewModelTests: XCTestCase {
 		sut.state = .idle
 		
 		// When
-		sut.loadConfig(0.2)
+		sut.reduce(.loaded)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(.configLoaded))
+		expect(self.sut.state).toEventually(equal(.configLoaded), timeout: .seconds(5))
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-//		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedLoading))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedLoading))
 	}
 }

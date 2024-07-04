@@ -303,7 +303,7 @@ struct OrganizationSearchResultsView: View {
 			identification_type: "type",
 			identification_value: "2",
 			active: true,
-			addresses: [Components.Schemas.Address(
+			addresses: [LocalisationService.Components.Schemas.Address(
 				active: true,
 				address: "Boorplatform 5",
 				city: "Roermond",
@@ -318,6 +318,13 @@ struct OrganizationSearchResultsView: View {
 	]
 	
 	return NavigationView {
-		OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(coordinator: nil, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: spy))
+		OrganizationSearchResultsView(
+			viewModel: OrganizationSearchResultsViewModel(
+				coordinator: nil,
+				city: "Roermond",
+				name: "Tandarts Tandje Erbij",
+				localisationServiceClient: spy
+			)
+		)
 	}
 }

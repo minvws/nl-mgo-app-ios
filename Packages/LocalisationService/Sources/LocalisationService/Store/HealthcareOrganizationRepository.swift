@@ -7,6 +7,8 @@
 
 import Foundation
 import Logging
+import Observatory
+import FileStorage
 
 public protocol HealthcareOrganizationRepositoryProtocol {
 	
@@ -36,11 +38,8 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	/// The storage provider
 	private let storage: FileStorageProtocol
 	
-	/// The name of the file where we store the healthcare organization
-	private let fileName = "healthcareproviders.json"
-	
 	/// The name of file in which we store the organizations
-	private let name: String = {
+	private let fileName: String = {
 		
 		if NSClassFromString("XCTestCase") == nil {
 			return "healthcareproviders.json"

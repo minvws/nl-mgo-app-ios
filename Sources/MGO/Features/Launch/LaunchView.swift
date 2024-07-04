@@ -6,11 +6,15 @@
  */
 
 import MGOUI
-import Managers
+import MGOFoundation
 
 class LaunchViewModel: ObservableObject {
 	
+	/// The flow coordinator for routing
 	weak var coordinator: (any Coordinator)?
+	
+	/// Token for the observatory
+	private var observerToken: Observatory.ObserverToken?
 	
 	// All possible states for this ViewModel
 	enum State {
@@ -35,29 +39,45 @@ class LaunchViewModel: ObservableObject {
 		setupObservers()
 	}
 	
+	deinit {
+		// Remove as observer
+		observerToken.map(Current.remoteConfigurationRepository.observatory.remove)
+	}
+	
 	/// Setup all the observers
 	private func setupObservers() {
 		
 		// Listen for reset notification
 		Current.notificationCenter.addObserver(forName: .resetApplication, object: nil, queue: OperationQueue.main) { _ in
-			self.reduce(.reset)
+			_Concurrency.Task { @MainActor in
+				self.reduce(.reset)
+			}
+		}
+		
+		// Listen to changes in the remote configuration
+		observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] _ in
+			
+			guard let self else { return }
+			// Updated configuration
+			logDebug("LaunchViewModel: config loaded")
+			_Concurrency.Task { @MainActor in
+				self.reduce(.loaded)
+			}
 		}
 	}
 	
 	/// Reduce the action to the next state
 	/// - Parameter action: the action
-	func reduce(_ action: LaunchViewModel.Action) {
+	public func reduce(_ action: LaunchViewModel.Action) {
 		
 		switch action {
 			case .start:
 			
 				guard state == .idle else { return }
-				state = .loadingConfig
-				loadConfig()
+				startLoadingConfig()
 			
 			case .reset:
-				state = .loadingConfig
-				loadConfig()
+				startLoadingConfig()
 			
 			case .loaded:
 				state = .configLoaded
@@ -65,12 +85,11 @@ class LaunchViewModel: ObservableObject {
 		}
 	}
 	
-	internal func loadConfig(_ timeInterval: TimeInterval = 1.0) {
+	/// Load the remote Config
+	private func startLoadingConfig() {
 		
-		// Mocked for now, just take 1 seconds to finish
-		DispatchQueue.main.asyncAfter(deadline: .now() + timeInterval) {
-			self.reduce(.loaded)
-		}
+		state = .loadingConfig
+		Current.remoteConfigurationRepository.fetchAndUpdateObservers()
 	}
 }
 

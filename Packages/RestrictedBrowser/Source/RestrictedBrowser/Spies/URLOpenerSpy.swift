@@ -5,18 +5,17 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
-@testable import RestrictedBrowser
+import UIKit
 
-class URLOpenerSpy: URLOpenerProtocol {
+public class URLOpenerSpy: URLOpenerProtocol {
 
-	var invokedCanOpenURL = false
-	var invokedCanOpenURLCount = 0
-	var invokedCanOpenURLParameters: (url: URL, Void)?
-	var invokedCanOpenURLParametersList = [(url: URL, Void)]()
-	var stubbedCanOpenURLResult: Bool! = false
+	public var invokedCanOpenURL = false
+	public var invokedCanOpenURLCount = 0
+	public var invokedCanOpenURLParameters: (url: URL, Void)?
+	public var invokedCanOpenURLParametersList = [(url: URL, Void)]()
+	public var stubbedCanOpenURLResult: Bool! = false
 
-	func canOpenURL(_ url: URL) -> Bool {
+	public func canOpenURL(_ url: URL) -> Bool {
 		invokedCanOpenURL = true
 		invokedCanOpenURLCount += 1
 		invokedCanOpenURLParameters = (url, ())
@@ -24,13 +23,13 @@ class URLOpenerSpy: URLOpenerProtocol {
 		return stubbedCanOpenURLResult
 	}
 
-	var invokedOpen = false
-	var invokedOpenCount = 0
-	var invokedOpenParameters: (url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any])?
-	var invokedOpenParametersList = [(url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any])]()
-	var stubbedOpenCompletionResult: (Bool, Void)?
+	public var invokedOpen = false
+	public var invokedOpenCount = 0
+	public var invokedOpenParameters: (url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any])?
+	public var invokedOpenParametersList = [(url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any])]()
+	public var stubbedOpenCompletionResult: (Bool, Void)?
 
-	func open(
+	public func open(
 		_ url: URL,
 		options: [UIApplication.OpenExternalURLOptionsKey: Any],
 		completionHandler completion: ((Bool) -> Swift.Void)?) {

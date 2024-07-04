@@ -66,19 +66,21 @@ MGOapp: {
   shape: package
 }
 
-MGOapp <- RestrictedBrowser
 MGOapp <- MGOFoundation
 MGOapp <- MGOUI
+MGOapp <- RestrictedBrowser
 MGOapp <- UIKit
 
 # - Packages -
 
 MGOFoundation { style.fill: "#ffcc00" }
-MGOFoundation <- MGORepository
 MGOFoundation <- Foundation
+MGOFoundation <- LocalisationService
 MGOFoundation <- Logging
 MGOFoundation <- Managers
-MGOFoundation <- LocalisationService
+MGOFoundation <- MGORepository
+MGOFoundation <- Observatory
+MGOFoundation <- RemoteConfiguration
 
 MGOUI { style.fill: "#ffcc00" }
 MGOUI <- NavigationStackBackport
@@ -86,10 +88,10 @@ MGOUI <- ReusableUI
 MGOUI <- SwiftUI
 
 Managers { style.fill: "#ffcc00" }
-Managers <- UIKit
-Managers <- Foundation
 Managers <- CommonCrypto
+Managers <- Foundation
 Managers <- SwiftSoup
+Managers <- UIKit
 
 RijksoverheidFont { style.fill: "#ffcc00" }
 RijksoverheidFont <- CoreGraphics
@@ -115,17 +117,34 @@ FHIRExtensions { style.fill: "#ffcc00" }
 FHIRExtensions <- FHIRModels
 FHIRExtensions <- Foundation
 
+FileStorage { style.fill: "#ffcc00" }
+FileStorage <- Foundation
+
+Observatory { style.fill: "#ffcc00" }
+Observatory <- Foundation
+
 RestrictedBrowser { style.fill: "#ffcc00" }
 RestrictedBrowser <- SwiftUI
-RestrictedBrowser <- WebKit
 RestrictedBrowser <- Theme
+RestrictedBrowser <- WebKit
 
 Theme { style.fill: "#ffcc00" }
 Theme <- SwiftUI
 
 LocalisationService { style.fill: "#ffcc00" }
 LocalisationService <- Foundation
+LocalisationService <- FileStorage
 LocalisationService <- Logging
+LocalisationService <- Observatory
 LocalisationService <- swift-openapi-generator
 LocalisationService <- swift-openapi-runtime
 LocalisationService <- swift-openapi-urlsession
+
+RemoteConfiguration { style.fill: "#ffcc00" }
+RemoteConfiguration <- Foundation
+RemoteConfiguration <- FileStorage
+RemoteConfiguration <- Logging
+RemoteConfiguration <- Observatory
+RemoteConfiguration <- swift-openapi-generator
+RemoteConfiguration <- swift-openapi-runtime
+RemoteConfiguration <- swift-openapi-urlsession

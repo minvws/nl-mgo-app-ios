@@ -1962,6 +1962,38 @@
           }
         }
       }
+    },
+    "update_required.download" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu downloaden"
+          }
+        }
+      }
+    },
+    "update_required.heading" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt een verouderde versie van de app"
+          }
+        }
+      }
+    },
+    "update_required.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download een nieuwe versie van de app om te zorgen dat Mijn Gezondheidsoverzicht goed blijft werken."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

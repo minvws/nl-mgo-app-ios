@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// For recording calls to an observer during tests (e.g. in ScanLockManagerTests)
+/// For recording calls to an observer during tests
 class ObserverCallbackRecorder<T> {
 	
 	var values: [T] = []

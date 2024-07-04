@@ -15,6 +15,7 @@ struct Services {
 	var healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol
 	var localAuthenticationProvider: LocalAuthenticationProviderProtocol
 	var notificationCenter: NotificationCenterProtocol
+	var remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol
 	var secureUserSettings: SecureUserSettingsProtocol
 	
 	init(
@@ -22,12 +23,14 @@ struct Services {
 		healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol,
 		localAuthenticationProvider: LocalAuthenticationProviderProtocol,
 		notificationCenter: NotificationCenterProtocol,
+		remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol,
 		secureUserSettings: SecureUserSettingsProtocol
 	) {
 		self.now = now
 		self.healthcareOrganizationStore = healthcareOrganizationStore
 		self.localAuthenticationProvider = localAuthenticationProvider
 		self.notificationCenter = notificationCenter
+		self.remoteConfigurationRepository = remoteConfigurationRepository
 		self.secureUserSettings = secureUserSettings
 	}
 }
@@ -39,6 +42,7 @@ private let localAuthenticationProvider = LocalAuthenticationProvider()
 private let now: () -> Date = Date.init
 private let notificationCenter = NotificationCenter.default
 private let secureUserSettings = SecureUserSettings()
+private let remoteConfigurationRepository = RemoteConfigurationRepository()
 
 // MARK: - 3: Instantiate the Services using private dependencies:
 
@@ -52,6 +56,7 @@ let services: () -> Services = {
 		healthcareOrganizationStore: healthcareOrganizationStore,
 		localAuthenticationProvider: localAuthenticationProvider,
 		notificationCenter: notificationCenter,
+		remoteConfigurationRepository: remoteConfigurationRepository,
 		secureUserSettings: secureUserSettings
 	)
 }

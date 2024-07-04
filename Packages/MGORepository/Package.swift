@@ -13,7 +13,7 @@ let package = Package(
 	],
 	dependencies: [
 
-		// External
+		// Internal
 		.package(name: "FHIRClient", path: "../FHIRClient"),
 		.package(name: "FHIRExtensions", path: "../FHIRExtensions"),
 		

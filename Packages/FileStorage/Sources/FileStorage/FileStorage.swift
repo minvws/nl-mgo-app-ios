@@ -55,7 +55,7 @@ final public class FileStorage: FileStorageProtocol {
 	}
 	
 	/// Common directory error
-	private let directoryError = "Failed to load documents directory"
+	private let directoryError = "🗄️🗄️: Failed to load documents directory"
 	
 	/// Store data in documents directory
 	/// - Parameters:
@@ -86,6 +86,7 @@ final public class FileStorage: FileStorageProtocol {
 		let fileUrl = url.appendingPathComponent(fileName, isDirectory: false)
 		
 		guard fileManager.fileExists(atPath: fileUrl.path) else {
+			logError("🗄️🗄️: No such file \(fileName)")
 			return nil
 		}
 		
@@ -93,6 +94,7 @@ final public class FileStorage: FileStorageProtocol {
 			let data = try Data(contentsOf: fileUrl)
 			return data
 		} catch {
+			logError("🗄️🗄️: Failed to read file \(fileUrl)")
 			return nil
 		}
 	}
@@ -125,7 +127,7 @@ final public class FileStorage: FileStorageProtocol {
 		do {
 			try fileManager.removeItem(atPath: fileUrl.path)
 		} catch {
-			logError("Failed to read directory \(error)")
+			logError("🗄️🗄️: Failed to read directory \(error)")
 		}
 	}
 }

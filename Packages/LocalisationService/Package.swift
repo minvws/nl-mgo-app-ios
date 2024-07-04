@@ -13,6 +13,10 @@ let package = Package(
 		)
 	],
 	dependencies: [
+		// Internal
+		.package(name: "FileStorage", path: "../FileStorage"),
+		.package(name: "Observatory", path: "../Observatory"),
+		
 		// External
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.2.1"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.4.0"),
@@ -28,7 +32,9 @@ let package = Package(
 		.target(
 			name: "LocalisationService",
 			dependencies: [
+				.product(name: "FileStorage", package: "FileStorage"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
+				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")
 			],
@@ -45,4 +51,3 @@ let package = Package(
 		)
 	]
 )
-

@@ -18,17 +18,17 @@ class Generator {
 	/// - Returns: a healthcare organization
 	static func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true ) -> HealthcareOrganization {
 		
-		var dataServices = [Components.Schemas.ZalDataServiceResponse]()
+		var dataServices = [LocalisationService.Components.Schemas.ZalDataServiceResponse]()
 		if useDataService {
 			dataServices.append(
-				Components.Schemas.ZalDataServiceResponse(
+				LocalisationService.Components.Schemas.ZalDataServiceResponse(
 					id: 48,
 					name: "Basisgegevens Zorg",
 					interface_version: 2,
 					auth_endpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/authorize",
 					token_endpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/token",
 					roles: [
-						Components.Schemas.ZalDataServiceRoleResponse(
+						LocalisationService.Components.Schemas.ZalDataServiceRoleResponse(
 							code: "MM-3.0-BZB-FHIR",
 							resource_endpoint: "https://dva-mock.test.mgo.prolocation.net/48")
 					]
@@ -41,7 +41,7 @@ class Generator {
 			identification_type: "type",
 			identification_value: id,
 			active: true,
-			addresses: [Components.Schemas.Address(
+			addresses: [LocalisationService.Components.Schemas.Address(
 				active: true,
 				address: "\(address) \r\n \(postalCode) \(city)",
 				city: city,
@@ -51,7 +51,7 @@ class Generator {
 			],
 			names: [],
 			types: [
-				Components.Schemas.CType(
+				LocalisationService.Components.Schemas.CType(
 					code: "01",
 					display_name: "Tandarts",
 					_type: ""
