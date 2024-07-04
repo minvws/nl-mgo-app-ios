@@ -121,8 +121,8 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 	internal func readFromStorage() throws -> RemoteConfig? {
 		
 		if let jsonData = storage.read(fileName: fileName) {
-			let data = try JSONDecoder().decode(RemoteConfig.self, from: jsonData)
-			return data
+			let config = try JSONDecoder().decode(RemoteConfig.self, from: jsonData)
+			return config
 		}
 		return nil
 	}
