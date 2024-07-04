@@ -10,19 +10,24 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 import RemoteConfiguration
+import RestrictedBrowser
 
 final class AppCoordinatorTests: XCTestCase {
 	
 	private var sut: AppCoordinator!
 	private var servicesSpies: ServicesSpies!
 	private var appVersionSupplierSpy: AppVersionSupplierSpy!
+	private var urlOpenerSpy: URLOpenerSpy!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		appVersionSupplierSpy = AppVersionSupplierSpy()
-		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath(), versionSupplier: appVersionSupplierSpy)
+		urlOpenerSpy = URLOpenerSpy()
+		urlOpenerSpy.stubbedCanOpenURLResult = true
+		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
+		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath(), versionSupplier: appVersionSupplierSpy, browser: browser)
 	}
 	
 	// MARK: - Handle -
@@ -101,7 +106,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == true
 	}
 	
-	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement() {
+	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement_domainNotAllowed() {
 		
 		// Given
 		
@@ -109,7 +114,22 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.showPrivacyStatement)
 		
 		// Then
+		expect(self.sut.path.isEmpty) == true
+		expect(self.urlOpenerSpy.invokedOpen) == true
+	}
+	
+	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement_domainAllowed() {
+		
+		// Given
+		let browser = RestrictedBrowser(allowedDomains: ["web.test.mgo.irealisatie.nl"], urlOpener: urlOpenerSpy)
+		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath(), versionSupplier: appVersionSupplierSpy, browser: browser)
+		
+		// When
+		sut.handle(Coordination.Action.showPrivacyStatement)
+		
+		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacyStatement])
+		expect(self.urlOpenerSpy.invokedOpen) == false
 	}
 	
 	func test_coordinatorHandle_accessCodeEntered_shouldShowPinCodeConfirmation() {
@@ -204,6 +224,19 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.rootStateForSheet) == nil
+	}
+	
+	func test_coordinatorHandle_dismissForgotPinCode_whenUpdateRequired() {
+		
+		// Given
+		sut.handle(Coordination.Action.updateRequired)
+		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
+		
+		// When
+		sut.handle(Coordination.Action.dismissForgotPinCode)
+		
+		// Then
+		expect(self.sut.rootStateForSheet) == AppCoordination.State.forgotPinCode
 	}
 	
 	func test_coordinatorHandle_recreateAccount_presentInStack() {
@@ -313,5 +346,28 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.updateRequired
 		expect(self.sut.path.isEmpty) == true
+	}
+	
+	func test_coordinatorHandle_showAppStore() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.showAppStore)
+		
+		// Then
+		expect(self.urlOpenerSpy.invokedOpen) == true
+	}
+	
+	func test_coordinatorHandle_showAppStore_evenWhenUpdateRequired() {
+		
+		// Given
+		sut.handle(Coordination.Action.updateRequired)
+		
+		// When
+		sut.handle(Coordination.Action.showAppStore)
+		
+		// Then
+		expect(self.urlOpenerSpy.invokedOpen) == true
 	}
 }

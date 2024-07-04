@@ -114,7 +114,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	@Published var showChildCoordinator = false
 	
 	/// the browser to open allowed domains in
-	private var browser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
+	private var browser: RestrictedBrowser!
 	
 	/// The localisation client
 	private var localisationServiceClient: LocalisationServiceClientProtocol?
@@ -123,7 +123,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	private var observerToken: Observatory.ObserverToken?
 	
 	/// The version supplier
-	private var versionSupplier: AppVersionSupplierProtocol
+	private var versionSupplier: AppVersionSupplierProtocol!
 	
 	/// Are we forced into update required mode?
 	private var updateRequired: Bool = false
@@ -133,7 +133,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	init(
 		path: NavigationStackBackport.NavigationPath,
 		localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(),
-		versionSupplier: AppVersionSupplierProtocol = AppVersionSupplier()
+		versionSupplier: AppVersionSupplierProtocol = AppVersionSupplier(),
+		browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
 	) {
 			
 		if LaunchArgumentsHandler.shouldResetOnStart() {
@@ -143,6 +144,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		self.path = path
 		self.localisationServiceClient = localisationServiceClient
 		self.versionSupplier = versionSupplier
+		self.browser = browser
 		self.rootState = .launch
 		
 		self.observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
@@ -197,6 +199,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			#warning("The appstore url needs to be updated (MGO-548)")
 			guard let appStoreUrl = URL(string: "https://apps.apple.com") else { return }
 			browser.handleUnallowedDomain(appStoreUrl)
+			return
 		}
 		
 		guard !updateRequired else {
