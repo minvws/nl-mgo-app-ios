@@ -12,11 +12,9 @@ final class UpdateRequiredViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var sut: UpdateRequiredViewModel!
-//	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
-//		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
 		sut = UpdateRequiredViewModel(coordinator: coordinatorSpy)
 		super.setUp()

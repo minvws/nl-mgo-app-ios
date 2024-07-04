@@ -41,7 +41,7 @@ final class ServicesSpies {
 	
 	var remoteConfigurationRepositorySpy: RemoteConfigurationRepositorySpy = {
 		let spy = RemoteConfigurationRepositorySpy()
-		spy.stubbedStoredConfiguration = RemoteConfig.default
+		spy.stubbedStoredConfiguration = RemoteConfig.fallback
 		(spy.stubbedObservatory, _) = Observatory<RemoteConfig>.create()
 		return spy
 	}()

@@ -13,7 +13,7 @@ public typealias RemoteConfig = Components.Schemas.RemoteConfig
 extension RemoteConfig {
 	
 	/// Default fallback configuration
-	public static var `default`: RemoteConfig {
+	public static var fallback: RemoteConfig {
 		return RemoteConfig(iosMinimumVersion: "0.0.1")
 	}
 }

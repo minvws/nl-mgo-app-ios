@@ -19,7 +19,7 @@ public protocol AppVersionSupplierProtocol {
 
 public struct AppVersionSupplier: AppVersionSupplierProtocol {
 	
-	public init() {}
+	public init() { /* public init for public access */ }
 	
 	/// Get the current version number of the app
 	/// - Returns: the current version number

@@ -70,7 +70,7 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 		self.storage = storage
 		self.client = apiClient
 		(self.observatory, self.observers) = Observatory<RemoteConfig>.create()
-		storedConfiguration = RemoteConfig.default
+		storedConfiguration = RemoteConfig.fallback
 	}
 	
 	public func fetchAndUpdateObservers() {
@@ -78,6 +78,7 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 		_Concurrency.Task {
 			let config = await fetchConfig()
 			storedConfiguration = config
+			try? persistToStorage()
 			observers(config)
 		}
 	}
@@ -100,7 +101,7 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 		}
 	
 		logInfo("RemoteConfigurationRepository: Fail back to default config")
-		return RemoteConfig.default
+		return RemoteConfig.fallback
 	}
 	
 	/// Read the config from the API
@@ -129,7 +130,7 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 	/// Reset the remote config to default, remove existing cached
 	public func wipePersistedData() {
 		
-		storedConfiguration = RemoteConfig.default
+		storedConfiguration = RemoteConfig.fallback
 		storage.remove(fileName)
 		observatory.removeAll()
 	}
