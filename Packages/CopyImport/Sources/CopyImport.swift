@@ -22,13 +22,13 @@ struct CopyImport: ParsableCommand {
 		
 		Figlet.say("Copy Import")
 		
-		print("Looking for the translations in \(self.sourcePath)")
+		print("Looking for the translations in \(self.sourcePath)") // swiftlint:disable:this disable_print
 		
 		let output = parseFile(readFile())
 		
 		try output.write(toFile: self.targetPath, atomically: true, encoding: .utf8)
 		
-		print("done")
+		print("done") // swiftlint:disable:this disable_print
 	}
 	
 	/// Read the content of the source path file
