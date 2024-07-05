@@ -30,8 +30,8 @@ class IntroductionViewModel: ObservableObject {
 		
 		if showAccountDeletedToast {
 			toast = Toast(
-				title: String(localized: "toast_accountRemoved_title"),
-				subtitle: String(localized: "toast_accountRemoved_subtitle"),
+				title: String(localized: "onboarding.accountRemoved.heading"),
+				subtitle: String(localized: "onboarding.accountRemoved.subheading"),
 				type: .success
 			)
 		}
@@ -117,13 +117,13 @@ struct IntroductionView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 				}
 				
-				Text("onboarding_title")
+				Text("introduction.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.padding(ViewTraits.Title.insets)
 					.accessibilityAddTraits(.isHeader)
 					.fixedSize(horizontal: false, vertical: true)
 				
-				SplittedText(key: "onboarding_body", spacing: ViewTraits.Text.spacing)
+				SplittedText(key: "introduction.subheading", spacing: ViewTraits.Text.spacing)
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.padding(ViewTraits.Text.insets)
 				
@@ -147,10 +147,10 @@ struct IntroductionView: View {
 			}
 		} bottomView: {
 			
-			CallToActionButton("onboarding_action") {
+			CallToActionButton("common.next") {
 				viewModel.reduce(.nextButttonPressed)
 			}
-			.tag("onboarding_action")
+			.tag("common.next")
 			.padding(ViewTraits.Button.padding)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)

@@ -114,7 +114,7 @@ struct PropositionView: View {
 			.padding(.horizontal, ViewTraits.General.padding)
 		} bottomView: {
 			
-			CallToActionButton("onboarding_action") {
+			CallToActionButton("common.next") {
 				viewModel.reduce(.nextButttonPressed)
 			}
 			.padding(ViewTraits.General.padding)
