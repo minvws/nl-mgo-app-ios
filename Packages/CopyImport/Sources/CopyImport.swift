@@ -89,7 +89,7 @@ struct CopyImport: ParsableCommand {
 		}
 	}
 	
-	/// Parse a value from the strings file
+	/// Parse a value from the strings file (replace html with markdown)
 	/// - Parameter input: the value
 	/// - Returns: cleanup value
 	private func parseValue(_ input: String) -> String {
