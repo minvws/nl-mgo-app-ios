@@ -108,6 +108,10 @@ struct CopyImport: ParsableCommand {
 		value = value.replacingOccurrences(of: "<em>", with: "*")
 		value = value.replacingOccurrences(of: "</em>", with: "*")
 		
+		// Replace href
+		value = value.replacingOccurrences(of: "<a href=\\\"%1$@\\\">", with: "[%@](")
+		value = value.replacingOccurrences(of: "</a>", with: ")")
+		
 		return value
 	}
 }
