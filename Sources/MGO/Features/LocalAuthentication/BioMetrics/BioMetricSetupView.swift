@@ -192,7 +192,7 @@ struct BioMetricSetupView: View {
 		.navigationBarTitleDisplayMode(.inline)
 		.alert("biometric_alert_title", isPresented: $viewModel.state.showTouchPopup) {
 			Button("biometric_alert_cancel", role: .cancel) { viewModel.reduce(.proceedWithoutBioMetric) }
-			Button("general_ok") { viewModel.reduce(.proceedWithBioMetric) }
+			Button("common.ok") { viewModel.reduce(.proceedWithBioMetric) }
 		} message: {
 			Text("biometric_alert_body")
 		}
@@ -285,7 +285,7 @@ struct BioMetricSetupView: View {
 				}
 			}
 			.alert("biometric_lockout_title", isPresented: $viewModel.state.showLockoutPopup) {
-				Button("general_ok") { }
+				Button("common.ok") { }
 			} message: {
 				switch viewModel.state.bioMetricType {
 					case .none, .unknown:

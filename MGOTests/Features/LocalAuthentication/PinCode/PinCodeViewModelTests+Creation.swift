@@ -46,8 +46,8 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			eraseEnabled: false,
 			backButtonVisible: false,
 			backButtonKey: "",
-			title: "accesscode_create_title",
-			message: "accesscode_create_body",
+			title: "pincode.create.heading",
+			message: "pincode.create.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -77,8 +77,8 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			eraseEnabled: true,
 			backButtonVisible: false,
 			backButtonKey: "",
-			title: "accesscode_create_title",
-			message: "accesscode_create_body",
+			title: "pincode.create.heading",
+			message: "pincode.create.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -110,8 +110,8 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			eraseEnabled: true,
 			backButtonVisible: false,
 			backButtonKey: "",
-			title: "accesscode_create_title",
-			message: "accesscode_create_body",
+			title: "pincode.create.heading",
+			message: "pincode.create.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -144,8 +144,8 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			eraseEnabled: true,
 			backButtonVisible: false,
 			backButtonKey: "",
-			title: "accesscode_create_title",
-			message: "accesscode_create_body",
+			title: "pincode.create.heading",
+			message: "pincode.create.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -179,8 +179,8 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			eraseEnabled: true,
 			backButtonVisible: false,
 			backButtonKey: "",
-			title: "accesscode_create_title",
-			message: "accesscode_create_body",
+			title: "pincode.create.heading",
+			message: "pincode.create.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -220,8 +220,8 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			eraseEnabled: true,
 			backButtonVisible: false,
 			backButtonKey: "",
-			title: "accesscode_create_title",
-			message: "accesscode_tooweak_body",
+			title: "pincode.create.heading",
+			message: "pincode.create.tooweak",
 			messageType: .alert,
 			showLockoutPopup: false
 		)

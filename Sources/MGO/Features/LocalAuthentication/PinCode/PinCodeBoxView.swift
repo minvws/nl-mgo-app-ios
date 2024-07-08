@@ -46,15 +46,15 @@ struct PinCodeBoxView: View {
 		func accessibilityVoiceOverValue() -> String {
 			switch self {
 				case .empty:
-					String(localized: "acccescode_box_voiceover_empty")
+					String(localized: "pincode.empty.voiceover")
 				case .focus:
-					String(localized: "acccescode_box_voiceover_focus")
+					String(localized: "pincode.focus.voiceover")
 				case .filling:
-					String(localized: "acccescode_box_voiceover_filled")
+					String(localized: "pincode.filled.voiceover")
 				case .filled:
-					String(localized: "acccescode_box_voiceover_filled")
+					String(localized: "pincode.filled.voiceover")
 				case .error:
-					String(localized: "acccescode_box_voiceover_error")
+					String(localized: "pincode.error.voiceover")
 			}
 		}
 	}

@@ -1,27 +1,6 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
-    "[privacyverklaring](/privacystatement)" : {
-
-    },
-    "biometric_alert_body" : {
-
-    },
-    "biometric_forgot_accesscode" : {
-
-    },
-    "biometric_lockout_body_faceid" : {
-
-    },
-    "biometric_lockout_body_opticid" : {
-
-    },
-    "biometric_lockout_body_touchid" : {
-
-    },
-    "biometric_title" : {
-
-    },
     "common.app_name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -88,6 +67,17 @@
         }
       }
     },
+    "common.ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
     "common.previous" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -109,12 +99,6 @@
           }
         }
       }
-    },
-    "dashboard_intro_empty" : {
-
-    },
-    "dashboard_intro_list" : {
-
     },
     "forgot_pincode.button" : {
       "extractionState" : "manual",
@@ -171,9 +155,6 @@
         }
       }
     },
-    "healthcare_organisation.setting.title" : {
-
-    },
     "introduction.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -196,9 +177,6 @@
         }
       }
     },
-    "labresults_title" : {
-
-    },
     "launch.image.voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -210,17 +188,313 @@
         }
       }
     },
-    "medication_title" : {
-
+    "pincode.announce.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veld %@, %@"
+          }
+        }
+      }
     },
-    "overview.page.title" : {
-
+    "pincode.confirm.backbutton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aanpassen"
+          }
+        }
+      }
     },
-    "problems_title" : {
-
+    "pincode.confirm.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bevestig je toegangscode"
+          }
+        }
+      }
     },
-    "Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)" : {
-
+    "pincode.confirm.mismatch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze persoonlijke toegangscode is **niet dezelfde als de vorige**. Voer de juiste code in om door te gaan."
+          }
+        }
+      }
+    },
+    "pincode.confirm.mismatch.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze persoonlijke toegangscode is niet dezelfde als de vorige. Voer de juiste code in om door te gaan."
+          }
+        }
+      }
+    },
+    "pincode.confirm.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voer ter controle nog een keer je 5-cijferige toegangscode in."
+          }
+        }
+      }
+    },
+    "pincode.create.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies een 5-cijferige toegangscode"
+          }
+        }
+      }
+    },
+    "pincode.create.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt een persoonlijke toegangscode nodig voor de app. Gebruik geen te simpele codes zoals 00000 of 12345."
+          }
+        }
+      }
+    },
+    "pincode.create.tooweak" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze persoonlijke toegangscode is **niet veilig genoeg**. Gebruik geen cijfers die na elkaar komen."
+          }
+        }
+      }
+    },
+    "pincode.create.tooweak.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze persoonlijke toegangscode is niet veilig genoeg. Gebruik geen cijfers die na elkaar komen."
+          }
+        }
+      }
+    },
+    "pincode.empty.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leeg"
+          }
+        }
+      }
+    },
+    "pincode.erase.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leeg"
+          }
+        }
+      }
+    },
+    "pincode.error.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foutief"
+          }
+        }
+      }
+    },
+    "pincode.faceid.lockout" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FaceID is vergrendeld omdat er te veel mislukte pogingen waren."
+          }
+        }
+      }
+    },
+    "pincode.faceid.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gebruik face ID"
+          }
+        }
+      }
+    },
+    "pincode.filled.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gevuld"
+          }
+        }
+      }
+    },
+    "pincode.focus.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actief"
+          }
+        }
+      }
+    },
+    "pincode.forgot" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toegangscode vergeten?"
+          }
+        }
+      }
+    },
+    "pincode.lockout" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lockout"
+          }
+        }
+      }
+    },
+    "pincode.opticid.lockout" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OpticID is vergrendeld omdat er te veel mislukte pogingen waren."
+          }
+        }
+      }
+    },
+    "pincode.opticid.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gebruik optic ID "
+          }
+        }
+      }
+    },
+    "pincode.touchid.lockout" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TouchID is vergrendeld omdat er te veel mislukte pogingen waren."
+          }
+        }
+      }
+    },
+    "pincode.touchid.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gebruik touch ID"
+          }
+        }
+      }
+    },
+    "pincode.validation.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welkom terug"
+          }
+        }
+      }
+    },
+    "pincode.validation.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vul je persoonlijke toegangscode in om in te loggen."
+          }
+        }
+      }
+    },
+    "pincode.validation.wrong" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De ingevoerde toegangscode is **onjuist**.\nProbeer het opnieuw. "
+          }
+        }
+      }
+    },
+    "pincode.validation.wrong.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De ingevoerde toegangscode is onjuist.\nProbeer het opnieuw. "
+          }
+        }
+      }
+    },
+    "pincode.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veld %@ van %@, %@"
+          }
+        }
+      }
     },
     "proposition.heading" : {
       "extractionState" : "manual",
@@ -321,51 +595,6 @@
         }
       }
     },
-    "remoteAuthentication_body" : {
-
-    },
-    "remoteAuthentication_title" : {
-
-    },
-    "searchhp_title" : {
-
-    },
-    "searchresults_loading_body" : {
-
-    },
-    "searchresults_loading_title" : {
-
-    },
-    "searchresults_noresults_reason_1" : {
-
-    },
-    "searchresults_noresults_reason_2" : {
-
-    },
-    "searchresults_noresults_reason_3" : {
-
-    },
-    "searchresults_provider_selected" : {
-
-    },
-    "searchresults_provider_warning" : {
-
-    },
-    "storedhp_alert_body" : {
-
-    },
-    "storedhp_body" : {
-
-    },
-    "storedhp_title" : {
-
-    },
-    "tab_about" : {
-
-    },
-    "tab_overview" : {
-
-    },
     "toast.accountRemoved.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -387,9 +616,6 @@
           }
         }
       }
-    },
-    "update_required.heading" : {
-
     }
   },
   "version" : "1.0"
