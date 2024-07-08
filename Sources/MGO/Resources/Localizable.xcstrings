@@ -33,6 +33,17 @@
         }
       }
     },
+    "common.cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuleren"
+          }
+        }
+      }
+    },
     "common.close" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -66,6 +77,17 @@
         }
       }
     },
+    "common.no" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nee"
+          }
+        }
+      }
+    },
     "common.previous" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -77,20 +99,77 @@
         }
       }
     },
+    "common.yes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja"
+          }
+        }
+      }
+    },
     "dashboard_intro_empty" : {
 
     },
     "dashboard_intro_list" : {
 
     },
-    "forgot_alert_body" : {
-
+    "forgot_pincode.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maak een nieuw account"
+          }
+        }
+      }
     },
-    "forgot_body" : {
-
+    "forgot_pincode.dialog.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weet je zeker dat je een nieuw account wilt maken?"
+          }
+        }
+      }
     },
-    "forgot_title" : {
-
+    "forgot_pincode.dialog.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt wel een nieuwe toegangscode instellen als je een nieuw account aanmaakt."
+          }
+        }
+      }
+    },
+    "forgot_pincode.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt je toegangscode niet aanpassen"
+          }
+        }
+      }
+    },
+    "forgot_pincode.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt wel een nieuwe toegangscode instellen als je een nieuw account aanmaakt."
+          }
+        }
+      }
     },
     "healthcare_organisation.setting.title" : {
 
