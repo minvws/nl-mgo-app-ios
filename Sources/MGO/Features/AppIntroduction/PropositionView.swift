@@ -133,7 +133,7 @@ struct PropositionView: View {
 		}
 		viewModel.reduce(.privacyLinkClicked)
 		return .handled
-		}
+	}
 }
 
 #Preview {

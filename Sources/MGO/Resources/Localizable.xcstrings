@@ -1,811 +1,31 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
-    "[%@](/privacystatement)" : {
+    "[privacyverklaring](/privacystatement)" : {
 
     },
-    "acccescode_box_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Veld %@ van %@, %@"
-          }
-        }
-      }
-    },
-    "acccescode_box_voiceover_announce" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Veld %@, %@"
-          }
-        }
-      }
-    },
-    "acccescode_box_voiceover_emptied" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geleegd"
-          }
-        }
-      }
-    },
-    "acccescode_box_voiceover_empty" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leeg"
-          }
-        }
-      }
-    },
-    "acccescode_box_voiceover_error" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Foutief"
-          }
-        }
-      }
-    },
-    "acccescode_box_voiceover_filled" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gevuld"
-          }
-        }
-      }
-    },
-    "acccescode_box_voiceover_focus" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actief"
-          }
-        }
-      }
-    },
-    "accesscode_button_accessibility_erase" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leeg"
-          }
-        }
-      }
-    },
-    "accesscode_button_accessibility_faceid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "gebruik face ID"
-          }
-        }
-      }
-    },
-    "accesscode_button_accessibility_opticid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "gebruik optic ID"
-          }
-        }
-      }
-    },
-    "accesscode_button_accessibility_touchid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "gebruik touch ID"
-          }
-        }
-      }
-    },
-    "accesscode_confirmation_backbutton" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aanpassen"
-          }
-        }
-      }
-    },
-    "accesscode_confirmation_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voer ter controle nog een keer je 5-cijferige toegangscode in."
-          }
-        }
-      }
-    },
-    "accesscode_confirmation_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bevestig je toegangscode"
-          }
-        }
-      }
-    },
-    "accesscode_create_body" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je hebt een persoonlijke toegangscode nodig voor de app. Gebruik geen te simpele codes zoals 00000 of 12345."
-          }
-        }
-      }
-    },
-    "accesscode_create_title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kies een 5-cijferige toegangscode"
-          }
-        }
-      }
-    },
-    "accesscode_mismatch_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze persoonlijke toegangscode is **niet dezelfde als de vorige**. Voer de juiste code in om door te gaan."
-          }
-        }
-      }
-    },
-    "accesscode_mismatch_body_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze persoonlijke toegangscode is niet dezelfde als de vorige. Voer de juiste code in om door te gaan."
-          }
-        }
-      }
-    },
-    "accesscode_tooweak_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze persoonlijke toegangscode is **niet veilig genoeg**. Gebruik geen cijfers die na elkaar komen."
-          }
-        }
-      }
-    },
-    "accesscode_tooweak_body_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze persoonlijke toegangscode is niet veilig genoeg. Gebruik geen cijfers die na elkaar komen."
-          }
-        }
-      }
-    },
-    "accesscode_validation_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vul je persoonlijke toegangscode in om in te loggen."
-          }
-        }
-      }
-    },
-    "accesscode_validation_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welkom terug"
-          }
-        }
-      }
-    },
-    "accesscode_wrong_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De ingevoerde toegangscode is **onjuist**.\nProbeer het opnieuw. "
-          }
-        }
-      }
-    },
-    "accesscode_wrong_body_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De ingevoerde toegangscode is onjuist.\nProbeer het opnieuw. "
-          }
-        }
-      }
-    },
     "app_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mijn\nGezondheidsoverzicht"
-          }
-        }
-      }
+
     },
     "biometric_alert_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log volgende keer in met je vingerafdruk"
-          }
-        }
-      }
-    },
-    "biometric_alert_cancel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sta niet toe"
-          }
-        }
-      }
-    },
-    "biometric_alert_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wil je toestaan dat Mijn Gezondheidsoverzicht Touch ID gebruikt?"
-          }
-        }
-      }
-    },
-    "biometric_body_faceid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beveilig de app met gezichtsherkenning. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
-          }
-        }
-      }
-    },
-    "biometric_body_opticid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beveilig de app met oogherkenning. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
-          }
-        }
-      }
-    },
-    "biometric_body_touchid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beveilig de app met je vingerafdruk. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
-          }
-        }
-      }
-    },
-    "biometric_button_with_biometric" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ aanzetten"
-          }
-        }
-      }
-    },
-    "biometric_button_without_biometric" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verder zonder %@"
-          }
-        }
-      }
-    },
-    "biometric_faceid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Face ID"
-          }
-        }
-      }
+
     },
     "biometric_forgot_accesscode" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toegangscode vergeten?"
-          }
-        }
-      }
+
     },
     "biometric_lockout_body_faceid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "FaceID is vergrendeld omdat er te veel mislukte pogingen waren."
-          }
-        }
-      }
+
     },
     "biometric_lockout_body_opticid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OpticID is vergrendeld omdat er te veel mislukte pogingen waren."
-          }
-        }
-      }
+
     },
     "biometric_lockout_body_touchid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "TouchID is vergrendeld omdat er te veel mislukte pogingen waren."
-          }
-        }
-      }
-    },
-    "biometric_lockout_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lockout"
-          }
-        }
-      }
-    },
-    "biometric_opticid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Optic ID"
-          }
-        }
-      }
-    },
-    "biometric_popup_fallback" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gebruik de toegangscode"
-          }
-        }
-      }
-    },
-    "biometric_popup_touchid_description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plaats je vinger om te bevestigen"
-          }
-        }
-      }
+
     },
     "biometric_title" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Volgende keer inloggen met %@?"
-          }
-        }
-      }
+
     },
-    "biometric_touchid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Touch ID"
-          }
-        }
-      }
-    },
-    "condition_details_enddate" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einddatum"
-          }
-        }
-      }
-    },
-    "condition_details_location" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anatomische locatie"
-          }
-        }
-      }
-    },
-    "condition_details_note" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toelichting"
-          }
-        }
-      }
-    },
-    "condition_details_startdate" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Begindatum"
-          }
-        }
-      }
-    },
-    "condition_details_status" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Status"
-          }
-        }
-      }
-    },
-    "condition_details_type" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Type"
-          }
-        }
-      }
-    },
-    "condition_status_active" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actueel"
-          }
-        }
-      }
-    },
-    "condition_status_inactive" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Niet actueel"
-          }
-        }
-      }
-    },
-    "condition_type_compaint" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klacht"
-          }
-        }
-      }
-    },
-    "condition_type_complication" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Complicatie"
-          }
-        }
-      }
-    },
-    "condition_type_diagnose" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diagnose"
-          }
-        }
-      }
-    },
-    "condition_type_limitation" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Functionele Beperking"
-          }
-        }
-      }
-    },
-    "condition_type_symptom" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Symptoom"
-          }
-        }
-      }
-    },
-    "dashboard_add_healthcareProviders" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zorgaanbieder toevoegen"
-          }
-        }
-      }
-    },
-    "dashboard_intro_empty" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je overzicht is leeg, omdat je nog geen zorgaanbieders hebt toegevoegd."
-          }
-        }
-      }
-    },
-    "dashboard_intro_list" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dit is je persoonlijke overzicht. Je vindt hier al je medische gegevens."
-          }
-        }
-      }
-    },
-    "dashboard_list_action_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ bekijken?"
-          }
-        }
-      }
-    },
-    "dashboard_poc" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "FHIR Client Proof of Concept"
-          }
-        }
-      }
-    },
-    "dashboard_search_healthcareProviders" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zorgaanbieders toevoegen"
-          }
-        }
-      }
-    },
-    "error_default_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controleer of je telefoon verbonden is met het internet. Probeer het daarna opnieuw."
-          }
-        }
-      }
-    },
-    "error_default_button" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Probeer opnieuw"
-          }
-        }
-      }
-    },
-    "error_default_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er ging iets mis"
-          }
-        }
-      }
-    },
-    "forgot_action_reset" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Maak een nieuw account"
-          }
-        }
-      }
-    },
-    "forgot_alert_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je account wordt hierdoor verwijderd. Je dossiers blijven wel bewaard bij je zorgaanbieders."
-          }
-        }
-      }
-    },
-    "forgot_alert_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Weet je zeker dat je een nieuw account wilt maken?"
-          }
-        }
-      }
-    },
-    "forgot_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je kunt wel een nieuwe toegangscode instellen als je een nieuw account aanmaakt."
-          }
-        }
-      }
-    },
-    "forgot_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je kunt je toegangscode niet aanpassen"
-          }
-        }
-      }
-    },
-    "general_cancel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annuleren"
-          }
-        }
-      }
-    },
-    "general_clear" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wis inhoud"
-          }
-        }
-      }
-    },
-    "general_close" : {
+    "common.close" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -816,469 +36,7 @@
         }
       }
     },
-    "general_failure_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sorry, maar het lijkt erop dat we geen verbinding kunnen maken met ons systeem. Daardoor kunnen we je gegevens niet ophalen. We proberen het probleem op te lossen. Kom later nog eens terug."
-          }
-        }
-      }
-    },
-    "general_failure_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gegevens ophalen mislukt"
-          }
-        }
-      }
-    },
-    "general_no" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nee"
-          }
-        }
-      }
-    },
-    "general_nodata_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We hebben geen gegevens van jou gevonden in dit dossier van de zorgaanbieder. Klopt dit niet? Vraag het aan je zorgverlener voor meer informatie."
-          }
-        }
-      }
-    },
-    "general_nodata_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geen gegevens gevonden"
-          }
-        }
-      }
-    },
-    "general_ok" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        }
-      }
-    },
-    "general_previous" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vorige"
-          }
-        }
-      }
-    },
-    "general_yes" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ja"
-          }
-        }
-      }
-    },
-    "healthcare_organisation.remove.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zorgaanbieder verwijderen"
-          }
-        }
-      }
-    },
-    "healthcare_organisation.remove.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze zorgaanbieder niet meer tonen in de app"
-          }
-        }
-      }
-    },
-    "healthcare_organisation.setting.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instellingen"
-          }
-        }
-      }
-    },
-    "hpdetails_diagnoses_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vastgesteld door je zorgaanbieder"
-          }
-        }
-      }
-    },
-    "hpdetails_diagnoses_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klachten en diagnoses"
-          }
-        }
-      }
-    },
-    "hpdetails_medication_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voorgeschreven door je zorgaanbieder"
-          }
-        }
-      }
-    },
-    "hpdetails_medication_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medicijnen"
-          }
-        }
-      }
-    },
-    "hpdetails_results_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resultaten van jouw onderzoeken, (röntgen)foto's en scans"
-          }
-        }
-      }
-    },
-    "hpdetails_results_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uitslagen"
-          }
-        }
-      }
-    },
-    "labresults_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resultaten van jouw onderzoeken, (röntgen)foto's en scans door %@"
-          }
-        }
-      }
-    },
-    "labresults_details_code" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Testcode"
-          }
-        }
-      }
-    },
-    "labresults_details_collectionDateTime" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afnamedatum"
-          }
-        }
-      }
-    },
-    "labresults_details_dateTime" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Testdatum"
-          }
-        }
-      }
-    },
-    "labresults_details_interpretation" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Interpretatie vlaggen"
-          }
-        }
-      }
-    },
-    "labresults_details_referenceRangeHigh" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Referentie bovengrens"
-          }
-        }
-      }
-    },
-    "labresults_details_referenceRangeLow" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Referentie ondergrens"
-          }
-        }
-      }
-    },
-    "labresults_details_result" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Testuitslag"
-          }
-        }
-      }
-    },
-    "labresults_details_specimen" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Monstermateriaal"
-          }
-        }
-      }
-    },
-    "labresults_details_status" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Testuitslag status"
-          }
-        }
-      }
-    },
-    "labresults_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uitslagen"
-          }
-        }
-      }
-    },
-    "launch_image_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Logo Rijksoverheid"
-          }
-        }
-      }
-    },
-    "launch_loading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aan het laden..."
-          }
-        }
-      }
-    },
-    "medication_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door %@"
-          }
-        }
-      }
-    },
-    "medication_details_dosage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gebruiksinstructie"
-          }
-        }
-      }
-    },
-    "medication_details_prescriber" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voorgeschreven door"
-          }
-        }
-      }
-    },
-    "medication_details_startdate" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Startdatum"
-          }
-        }
-      }
-    },
-    "medication_details_status" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Status"
-          }
-        }
-      }
-    },
-    "medication_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medicijnen"
-          }
-        }
-      }
-    },
-    "medicationStatementStatus_active" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Actief"
-          }
-        }
-      }
-    },
-    "medicationStatementStatus_completed" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afgerond"
-          }
-        }
-      }
-    },
-    "medicationStatementStatus_enteredInError" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Foutief toegevoegd"
-          }
-        }
-      }
-    },
-    "medicationStatementStatus_intended" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toekomstig"
-          }
-        }
-      }
-    },
-    "medicationStatementStatus_onHold" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gestaakt"
-          }
-        }
-      }
-    },
-    "medicationStatementStatus_stopped" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gestopt"
-          }
-        }
-      }
-    },
-    "onboarding_action" : {
+    "common.next" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1289,18 +47,36 @@
         }
       }
     },
-    "onboarding_body" : {
+    "common.previous" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je vindt hier alle gegevens over je gezondheid. Van je huisarts, ziekenhuis en andere zorgaanbieders."
+            "value" : "Vorige"
           }
         }
       }
     },
-    "onboarding_title" : {
+    "dashboard_intro_empty" : {
+
+    },
+    "dashboard_intro_list" : {
+
+    },
+    "forgot_alert_body" : {
+
+    },
+    "forgot_body" : {
+
+    },
+    "forgot_title" : {
+
+    },
+    "healthcare_organisation.setting.title" : {
+
+    },
+    "introduction.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1311,95 +87,47 @@
         }
       }
     },
-    "organization.confirm_delete.heading" : {
+    "introduction.subheading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ verwijderen?"
+            "value" : "Alle informatie die je huisarts, ziekenhuis en andere zorgverleners over jou hebben. Op één plek. Veilig en overzichtelijk."
           }
         }
       }
     },
-    "organization.confirm_delete.no_label" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nee, annuleren"
-          }
-        }
-      }
+    "labresults_title" : {
+
     },
-    "organization.confirm_delete.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Daarmee verwijder je deze gegevens uit de app. Je gegevens blijven altijd bewaard bij de zorgaanbieder zelf. Je kunt %@ later altijd weer toevoegen aan de app."
-          }
-        }
-      }
+    "launch_loading" : {
+
     },
-    "organization.confirm_delete.yes_label" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ja, verwijderen"
-          }
-        }
-      }
+    "medication_title" : {
+
     },
     "overview.page.title" : {
+
+    },
+    "problems_title" : {
+
+    },
+    "Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)" : {
+
+    },
+    "proposition.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Goedemorgen"
+            "value" : "Zo gebruikt de app jouw gegevens "
           }
         }
       }
     },
-    "overview.toast_removal.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ verwijderd"
-          }
-        }
-      }
-    },
-    "overview.toast_removal.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je kan deze zorgaanbieder altijd weer toevoegen"
-          }
-        }
-      }
-    },
-    "privacy_statement" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "privacyverklaring"
-          }
-        }
-      }
-    },
-    "privacy_statement_overview_acc" : {
+    "proposition.link.acc" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1410,7 +138,7 @@
         }
       }
     },
-    "privacy_statement_overview_prod" : {
+    "proposition.link.prod" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1421,7 +149,7 @@
         }
       }
     },
-    "privacy_statement_overview_tst" : {
+    "proposition.link.test" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1432,40 +160,29 @@
         }
       }
     },
-    "privacyoverview_intro" : {
+    "proposition.statement_1" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In de %@ staat hoe Mijn Gezondheidsoverzicht jouw gegevens gebruikt. Dit zijn de belangrijkste punten:"
+            "value" : "Je gegevens worden **versleuteld** en via een **veilige** verbinding opgehaald."
           }
         }
       }
     },
-    "privacyoverview_item_1" : {
+    "proposition.statement_2" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens worden **versleuteld** en via een **veilige verbinding** opgehaald."
+            "value" : "De website haalt je gegevens direct op bij de zorgverleners die jij kiest. **Alleen jij hebt toegang.**"
           }
         }
       }
     },
-    "privacyoverview_item_2" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De app haalt je gegevens direct op bij de zorgverleners die jij kiest. **Alleen jij hebt toegang.**"
-          }
-        }
-      }
-    },
-    "privacyoverview_item_3" : {
+    "proposition.statement_3" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1476,7 +193,7 @@
         }
       }
     },
-    "privacyoverview_item_4" : {
+    "proposition.statement_4" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1487,472 +204,63 @@
         }
       }
     },
-    "privacyoverview_title" : {
+    "proposition.subheading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zo gebruikt de app jouw gegevens"
+            "value" : "In de [%@](privacyverklaring) staat hoe Mijn Gezondheidsoverzicht jouw gegevens gebruikt. Dit zijn de belangrijkste punten:"
           }
         }
       }
-    },
-    "problems_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je diagnoses en gezondheidsklachten, vastgesteld door %@"
-          }
-        }
-      }
-    },
-    "problems_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klachten en diagnoses"
-          }
-        }
-      }
-    },
-    "Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)" : {
-
     },
     "remoteAuthentication_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kies de manier waarop je wilt inloggen. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
-          }
-        }
-      }
-    },
-    "remoteAuthentication_digid" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inloggen met DigiD"
-          }
-        }
-      }
-    },
-    "remoteAuthentication_eidas" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inloggen met eIDAS"
-          }
-        }
-      }
+
     },
     "remoteAuthentication_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewijs wie je bent"
-          }
-        }
-      }
-    },
-    "searchhp_action" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zoeken"
-          }
-        }
-      }
-    },
-    "searchhp_city" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plaats (verplicht)"
-          }
-        }
-      }
-    },
-    "searchhp_city_error" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vul een plaats in"
-          }
-        }
-      }
-    },
-    "searchhp_city_error_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het plaatsveld is verplicht, vul een plaats in"
-          }
-        }
-      }
-    },
-    "searchhp_name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Naam (verplicht)"
-          }
-        }
-      }
-    },
-    "searchhp_name_error" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vul een naam in"
-          }
-        }
-      }
-    },
-    "searchhp_name_error_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het naamveld is verplicht, vul een naam in"
-          }
-        }
-      }
+
     },
     "searchhp_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welke zorgaanbieder wil je toevoegen?"
-          }
-        }
-      }
-    },
-    "searchresults_add_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ toevoegen?"
-          }
-        }
-      }
-    },
-    "searchresults_backbutton" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zoeken"
-          }
-        }
-      }
+
     },
     "searchresults_loading_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zorgaanbieders aan het zoeken..."
-          }
-        }
-      }
+
     },
     "searchresults_loading_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze zorgaanbieders hebben we gevonden"
-          }
-        }
-      }
-    },
-    "searchresults_noresults_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je hebt gezocht naar **%@** in **%@**"
-          }
-        }
-      }
-    },
-    "searchresults_noresults_button" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opnieuw zoeken"
-          }
-        }
-      }
+
     },
     "searchresults_noresults_reason_1" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controleer de spelling."
-          }
-        }
-      }
+
     },
     "searchresults_noresults_reason_2" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vul de juiste naam in. Je vindt deze op de rekening. Of vraag aan de zorgaanbieder hoe je hun naam schrijft."
-          }
-        }
-      }
+
     },
     "searchresults_noresults_reason_3" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Heeft deze zorgaanbieder meerdere vestigingen? Vul dan de plaatsnaam van de hoofdvestiging in."
-          }
-        }
-      }
-    },
-    "searchresults_noresults_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geen zorgaanbieders gevonden"
-          }
-        }
-      }
+
     },
     "searchresults_provider_selected" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze zorgaanbieder heb je al toegevoegd"
-          }
-        }
-      }
+
     },
     "searchresults_provider_warning" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze zorgaanbieder doet niet mee. "
-          }
-        }
-      }
-    },
-    "searchresults_view_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ bekijken?"
-          }
-        }
-      }
-    },
-    "storedhp_action_again" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voeg een zorgaanbieder toe"
-          }
-        }
-      }
-    },
-    "storedhp_action_done" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ga naar overzicht"
-          }
-        }
-      }
+
     },
     "storedhp_alert_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We halen je dossier van deze zorgaanbieder niet op. Je kunt deze later alsnog toevoegen via je profiel."
-          }
-        }
-      }
-    },
-    "storedhp_alert_cancel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toch tonen"
-          }
-        }
-      }
-    },
-    "storedhp_alert_remove" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Weglaten"
-          }
-        }
-      }
-    },
-    "storedhp_alert_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ weglaten?"
-          }
-        }
-      }
+
     },
     "storedhp_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je kunt deze lijst nu aanpassen of dit later in je profiel doen."
-          }
-        }
-      }
-    },
-    "storedhp_body_empty" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je hebt nog geen zorgaanbieders toegevoegd aan deze lijst. Je kunt dit nu doen, of later via je profiel."
-          }
-        }
-      }
-    },
-    "storedhp_remove_voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ verwijderen?"
-          }
-        }
-      }
+
     },
     "storedhp_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welke zorgaanbieders wil je in de app tonen?"
-          }
-        }
-      }
-    },
-    "storedhp_title_empty" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze lijst is nog leeg"
-          }
-        }
-      }
+
     },
     "tab_about" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Over de app"
-          }
-        }
-      }
+
     },
     "tab_overview" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Overzicht"
-          }
-        }
-      }
+
     },
-    "toast_accountRemoved_subtitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hieronder kun je een nieuw account aanmaken"
-          }
-        }
-      }
-    },
-    "toast_accountRemoved_title" : {
+    "toast.accountRemoved.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1963,37 +271,19 @@
         }
       }
     },
-    "update_required.download" : {
+    "toast.accountRemoved.subheading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nu downloaden"
+            "value" : "Hieronder kun je een nieuw account aanmaken"
           }
         }
       }
     },
     "update_required.heading" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je hebt een verouderde versie van de app"
-          }
-        }
-      }
-    },
-    "update_required.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Download een nieuwe versie van de app om te zorgen dat Mijn Gezondheidsoverzicht goed blijft werken."
-          }
-        }
-      }
+
     }
   },
   "version" : "1.0"
