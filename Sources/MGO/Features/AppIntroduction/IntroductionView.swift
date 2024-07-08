@@ -30,8 +30,8 @@ class IntroductionViewModel: ObservableObject {
 		
 		if showAccountDeletedToast {
 			toast = Toast(
-				title: String(localized: "toast.accountRemoved.heading"),
-				subtitle: String(localized: "toast.accountRemoved.subheading"),
+				title: String(localized: "toast.account_removed.heading"),
+				subtitle: String(localized: "toast.account_removed.subheading"),
 				type: .success
 			)
 		}

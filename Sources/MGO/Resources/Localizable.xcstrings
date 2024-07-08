@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
-    "[privacyverklaring](/privacystatement)" : {
-
-    },
     "biometric_setup.button.with_biometric" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -158,6 +155,28 @@
         }
       }
     },
+    "bottombar.about_this_app" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over de app"
+          }
+        }
+      }
+    },
+    "bottombar.overview" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overzicht"
+          }
+        }
+      }
+    },
     "common.app_name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -257,12 +276,6 @@
         }
       }
     },
-    "dashboard_intro_empty" : {
-
-    },
-    "dashboard_intro_list" : {
-
-    },
     "forgot_pincode.button" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -318,9 +331,6 @@
         }
       }
     },
-    "healthcare_organisation.setting.title" : {
-
-    },
     "introduction.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -342,9 +352,6 @@
           }
         }
       }
-    },
-    "labresults_title" : {
-
     },
     "launch.image.voiceover" : {
       "extractionState" : "manual",
@@ -401,14 +408,71 @@
         }
       }
     },
-    "login.subheading" : {
-
+    "overview.add_organization" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieder toevoegen "
+          }
+        }
+      }
     },
-    "medication_title" : {
-
+    "overview.add_organizations" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieders toevoegen"
+          }
+        }
+      }
     },
-    "overview.page.title" : {
-
+    "overview.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goedemorgen"
+          }
+        }
+      }
+    },
+    "overview.no_organizations_found" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je overzicht is nog leeg, omdat je nog geen zorgaanbieders hebt toegevoegd."
+          }
+        }
+      }
+    },
+    "overview.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit is je persoonlijke overzicht.\nJe vindt hier al je medische gegevens."
+          }
+        }
+      }
+    },
+    "overview.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ bekijken?"
+          }
+        }
+      }
     },
     "pincode.announce.voiceover" : {
       "extractionState" : "manual",
@@ -718,12 +782,6 @@
         }
       }
     },
-    "problems_title" : {
-
-    },
-    "Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)" : {
-
-    },
     "proposition.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -823,46 +881,7 @@
         }
       }
     },
-    "searchhp_title" : {
-
-    },
-    "searchresults_loading_body" : {
-
-    },
-    "searchresults_loading_title" : {
-
-    },
-    "searchresults_noresults_reason_1" : {
-
-    },
-    "searchresults_noresults_reason_2" : {
-
-    },
-    "searchresults_noresults_reason_3" : {
-
-    },
-    "searchresults_provider_selected" : {
-
-    },
-    "searchresults_provider_warning" : {
-
-    },
-    "storedhp_alert_body" : {
-
-    },
-    "storedhp_body" : {
-
-    },
-    "storedhp_title" : {
-
-    },
-    "tab_about" : {
-
-    },
-    "tab_overview" : {
-
-    },
-    "toast.accountRemoved.heading" : {
+    "toast.account_removed.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -873,13 +892,35 @@
         }
       }
     },
-    "toast.accountRemoved.subheading" : {
+    "toast.account_removed.subheading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hieronder kun je een nieuw account aanmaken"
+          }
+        }
+      }
+    },
+    "toast.organization_removed.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@verwijderd"
+          }
+        }
+      }
+    },
+    "toast.organization_removed.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kan deze zorgaanbieder altijd weer toevoegen"
           }
         }
       }
