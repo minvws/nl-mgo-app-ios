@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
+    "[privacyverklaring](/privacystatement)" : {
+
+    },
     "biometric_setup.button.with_biometric" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -254,6 +257,12 @@
         }
       }
     },
+    "dashboard_intro_empty" : {
+
+    },
+    "dashboard_intro_list" : {
+
+    },
     "forgot_pincode.button" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -309,6 +318,9 @@
         }
       }
     },
+    "healthcare_organisation.setting.title" : {
+
+    },
     "introduction.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -331,6 +343,9 @@
         }
       }
     },
+    "labresults_title" : {
+
+    },
     "launch.image.voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -341,6 +356,59 @@
           }
         }
       }
+    },
+    "login.digid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met DigiD"
+          }
+        }
+      }
+    },
+    "login.error_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probeer het nog een keer"
+          }
+        }
+      }
+    },
+    "login.european" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met eIDAS"
+          }
+        }
+      }
+    },
+    "login.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewijs wie je bent"
+          }
+        }
+      }
+    },
+    "login.subheading" : {
+
+    },
+    "medication_title" : {
+
+    },
+    "overview.page.title" : {
+
     },
     "pincode.announce.voiceover" : {
       "extractionState" : "manual",
@@ -650,6 +718,12 @@
         }
       }
     },
+    "problems_title" : {
+
+    },
+    "Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)" : {
+
+    },
     "proposition.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -749,6 +823,45 @@
         }
       }
     },
+    "searchhp_title" : {
+
+    },
+    "searchresults_loading_body" : {
+
+    },
+    "searchresults_loading_title" : {
+
+    },
+    "searchresults_noresults_reason_1" : {
+
+    },
+    "searchresults_noresults_reason_2" : {
+
+    },
+    "searchresults_noresults_reason_3" : {
+
+    },
+    "searchresults_provider_selected" : {
+
+    },
+    "searchresults_provider_warning" : {
+
+    },
+    "storedhp_alert_body" : {
+
+    },
+    "storedhp_body" : {
+
+    },
+    "storedhp_title" : {
+
+    },
+    "tab_about" : {
+
+    },
+    "tab_overview" : {
+
+    },
     "toast.accountRemoved.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -767,6 +880,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hieronder kun je een nieuw account aanmaken"
+          }
+        }
+      }
+    },
+    "update_required.download" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu downloaden"
+          }
+        }
+      }
+    },
+    "update_required.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt een verouderde versie van de app"
+          }
+        }
+      }
+    },
+    "update_required.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download een nieuwe versie van de app om te zorgen dat Mijn Gezondheidsoverzicht goed blijft werken."
           }
         }
       }
