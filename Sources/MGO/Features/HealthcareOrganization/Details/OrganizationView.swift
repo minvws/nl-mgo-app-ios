@@ -117,12 +117,12 @@ struct OrganizationView: View {
 					ZStack {
 						Rectangle()
 							.foregroundStyle(.clear)
-							.accessibilityLabel("hpdetails_medication_title")
+							.accessibilityLabel("organization.medicine_heading")
 							.accessibilityAddTraits(.isButton)
 						
 							ActionCardView(
-								title: "hpdetails_medication_title",
-								message: "hpdetails_medication_body",
+								title: "organization.medicine_heading",
+								message: "organization.medicine_subheading",
 								icon: .medication,
 								perform: {
 									viewModel.reduce(.showMedication)
@@ -133,12 +133,12 @@ struct OrganizationView: View {
 					ZStack {
 						Rectangle()
 							.foregroundStyle(.clear)
-							.accessibilityLabel("hpdetails_diagnoses_title")
+							.accessibilityLabel("organization.diagnosis_heading")
 							.accessibilityAddTraits(.isButton)
 						
 						ActionCardView(
-							title: "hpdetails_diagnoses_title",
-							message: "hpdetails_diagnoses_body",
+							title: "organization.diagnosis_heading",
+							message: "organization.diagnosis_subheading",
 							icon: .diagnoses,
 							perform: {
 								viewModel.reduce(.showProblems)
@@ -149,12 +149,12 @@ struct OrganizationView: View {
 					ZStack {
 						Rectangle()
 							.foregroundStyle(.clear)
-							.accessibilityLabel("hpdetails_results_title")
+							.accessibilityLabel("organization.lab_results_heading")
 							.accessibilityAddTraits(.isButton)
 						
 						ActionCardView(
-							title: "hpdetails_results_title",
-							message: "hpdetails_results_body",
+							title: "organization.lab_results_heading",
+							message: "organization.lab_results_subheading",
 							icon: .results,
 							perform: {
 								viewModel.reduce(.showResults)
@@ -164,7 +164,7 @@ struct OrganizationView: View {
 				}
 				.padding(.top, ViewTraits.List.top)
 				
-				Text("healthcare_organisation.setting.title")
+				Text("common.settings")
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentTertiary)
 					.padding(.horizontal, ViewTraits.General.padding)
@@ -173,12 +173,12 @@ struct OrganizationView: View {
 				ZStack {
 					Rectangle()
 						.foregroundStyle(.clear)
-						.accessibilityLabel("healthcare_organisation.remove.heading")
+						.accessibilityLabel("organization.remove_organization_heading")
 						.accessibilityAddTraits(.isButton)
 					
 						ActionCardView(
-							title: "healthcare_organisation.remove.heading",
-							message: "healthcare_organisation.remove.subheading",
+							title: "organization.remove_organization_heading",
+							message: "organization.remove_organization_subheading",
 							icon: .remove,
 							perform: {
 								viewModel.reduce(.removeHealthcareOrganization)
