@@ -393,8 +393,8 @@ class PinCodeViewModel: ObservableObject {
 		
 		do {
 			let validated = try await Current.localAuthenticationProvider.authenticate(
-				localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")),
-				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_popup_fallback"))
+				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
+				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
 			if validated {
 				logInfo("Pincode: User has been successfully validated")

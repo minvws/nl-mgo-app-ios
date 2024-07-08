@@ -1,6 +1,160 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
+    "biometric_setup.button.with_biometric" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ aanzetten"
+          }
+        }
+      }
+    },
+    "biometric_setup.button.without_biometric" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verder zonder %@"
+          }
+        }
+      }
+    },
+    "biometric_setup.dialog.cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sta niet toe"
+          }
+        }
+      }
+    },
+    "biometric_setup.dialog.fallback" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik de toegangscode"
+          }
+        }
+      }
+    },
+    "biometric_setup.dialog.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wil je toestaan dat Mijn Gezondheidsoverzicht Touch ID gebruikt?"
+          }
+        }
+      }
+    },
+    "biometric_setup.dialog.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log volgende keer in met je vingerafdruk"
+          }
+        }
+      }
+    },
+    "biometric_setup.dialog.touchid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plaats je vinger om te bevestigen"
+          }
+        }
+      }
+    },
+    "biometric_setup.faceid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Face ID"
+          }
+        }
+      }
+    },
+    "biometric_setup.faceid.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveilig de app met gezichtsherkenning. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
+          }
+        }
+      }
+    },
+    "biometric_setup.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volgende keer inloggen met %@?"
+          }
+        }
+      }
+    },
+    "biometric_setup.opticid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optic ID"
+          }
+        }
+      }
+    },
+    "biometric_setup.opticid.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveilig de app met oogherkenning. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
+          }
+        }
+      }
+    },
+    "biometric_setup.touchid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID"
+          }
+        }
+      }
+    },
+    "biometric_setup.touchid.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveilig de app met je vingerafdruk. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
+          }
+        }
+      }
+    },
     "common.app_name" : {
       "extractionState" : "manual",
       "localizations" : {
