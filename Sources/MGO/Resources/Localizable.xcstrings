@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
-    "[privacyverklaring](/privacystatement)" : {
-
-    },
     "biometric_setup.button.with_biometric" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -213,6 +210,28 @@
         }
       }
     },
+    "common.failure_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens ophalen mislukt"
+          }
+        }
+      }
+    },
+    "common.failure_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sorry, maar het lijkt erop dat we geen verbinding kunnen maken met ons systeem. Daardoor kunnen we je gegevens niet ophalen. We proberen het probleem op te lossen. Kom later nog eens terug."
+          }
+        }
+      }
+    },
     "common.loading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -242,6 +261,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nee"
+          }
+        }
+      }
+    },
+    "common.no_results_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen gegevens gevonden"
+          }
+        }
+      }
+    },
+    "common.no_results_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We hebben geen gegevens van jou gevonden in dit dossier van de zorgaanbieder. Klopt dit niet? Vraag het aan je zorgaanbieder voor meer informatie."
           }
         }
       }
@@ -286,6 +327,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja"
+          }
+        }
+      }
+    },
+    "fhir.bodyLocation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anatomische locatie"
+          }
+        }
+      }
+    },
+    "fhir.category" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorie"
+          }
+        }
+      }
+    },
+    "fhir.clinicalStatus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
+          }
+        }
+      }
+    },
+    "fhir.comment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notitie"
+          }
+        }
+      }
+    },
+    "fhir.endDate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einddatum"
+          }
+        }
+      }
+    },
+    "fhir.startDate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Startdatum"
           }
         }
       }
@@ -367,9 +474,6 @@
         }
       }
     },
-    "labresults_title" : {
-
-    },
     "launch.image.voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -424,12 +528,6 @@
           }
         }
       }
-    },
-    "login.subheading" : {
-
-    },
-    "medication_title" : {
-
     },
     "organization.diagnosis_heading" : {
       "extractionState" : "manual",
@@ -893,11 +991,27 @@
         }
       }
     },
-    "problems_title" : {
-
+    "problems.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klachten en diagnoses"
+          }
+        }
+      }
     },
-    "Proof of Concept **FHIR Client**\nDeze client haalt de patient gegevens op van [hapi.fhir.org](https://hapi.fhir.org/home?serverId=home_21)" : {
-
+    "problems.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je diagnoses en gezondheidsklachten, vastgesteld door je zorgaanbieder."
+          }
+        }
+      }
     },
     "proposition.heading" : {
       "extractionState" : "manual",
@@ -1041,42 +1155,6 @@
           }
         }
       }
-    },
-    "searchhp_title" : {
-
-    },
-    "searchresults_loading_body" : {
-
-    },
-    "searchresults_loading_title" : {
-
-    },
-    "searchresults_noresults_reason_1" : {
-
-    },
-    "searchresults_noresults_reason_2" : {
-
-    },
-    "searchresults_noresults_reason_3" : {
-
-    },
-    "searchresults_provider_selected" : {
-
-    },
-    "searchresults_provider_warning" : {
-
-    },
-    "storedhp_alert_body" : {
-
-    },
-    "storedhp_body" : {
-
-    },
-    "storedhp_title" : {
-
-    },
-    "tab_about" : {
-
     },
     "toast.account_removed.heading" : {
       "extractionState" : "manual",
