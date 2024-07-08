@@ -173,7 +173,7 @@ struct ProblemsListView: View {
 			
 						Spacer()
 						LoadingCardView(
-							title: "launch_loading",
+							title: "common.loading",
 							showBorder: false
 						)
 				

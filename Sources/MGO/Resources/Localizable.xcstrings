@@ -4,9 +4,6 @@
     "[privacyverklaring](/privacystatement)" : {
 
     },
-    "app_title" : {
-
-    },
     "biometric_alert_body" : {
 
     },
@@ -25,6 +22,17 @@
     "biometric_title" : {
 
     },
+    "common.app_name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mijn Gezondheidsoverzicht"
+          }
+        }
+      }
+    },
     "common.close" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -32,6 +40,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sluiten"
+          }
+        }
+      }
+    },
+    "common.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bezig met laden..."
           }
         }
       }
@@ -101,8 +120,16 @@
     "labresults_title" : {
 
     },
-    "launch_loading" : {
-
+    "launch.image.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logo Rijksoverheid"
+          }
+        }
+      }
     },
     "medication_title" : {
 
