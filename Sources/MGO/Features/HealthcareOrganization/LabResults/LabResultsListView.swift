@@ -151,7 +151,7 @@ struct LabResultsListView: View {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
-				Text("labresults_title")
+				Text("lab_results.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -159,7 +159,7 @@ struct LabResultsListView: View {
 				
 				Text(
 					String(
-						format: String(localized: "labresults_body"),
+						format: String(localized: "lab_results.subheading"),
 						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 					)
 				)
@@ -181,16 +181,16 @@ struct LabResultsListView: View {
 						
 						NotificationCardView(
 							icon: Image(ImageResource.Woman.womanOnCouch),
-							title: "general_nodata_title",
-							message: "general_nodata_body"
+							title: "common.no_results_heading",
+							message: "common.no_results_subheading"
 						)
 				
 					case .failure:
 
 						NotificationCardView(
 							icon: Image(ImageResource.Woman.womanOnCouchExclamation),
-							title: "general_failure_title",
-							message: "general_failure_body"
+							title: "common.failure_heading",
+							message: "common.failure_subheading"
 						)
 				
 					case let .success(results, startOpen):

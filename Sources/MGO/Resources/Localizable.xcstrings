@@ -364,6 +364,28 @@
         }
       }
     },
+    "fhir.code" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testcode"
+          }
+        }
+      }
+    },
+    "fhir.collectionDateTime" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afnamedatum"
+          }
+        }
+      }
+    },
     "fhir.comment" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -371,6 +393,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notitie"
+          }
+        }
+      }
+    },
+    "fhir.dateTime" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testdatum"
           }
         }
       }
@@ -397,6 +430,17 @@
         }
       }
     },
+    "fhir.interpretation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interpretatie vlaggen"
+          }
+        }
+      }
+    },
     "fhir.medicationStatus" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -415,6 +459,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voorgeschreven door"
+          }
+        }
+      }
+    },
+    "fhir.referenceRangeHigh" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Referentie bovengrens"
+          }
+        }
+      }
+    },
+    "fhir.referenceRangeLow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Referentie ondergrens"
+          }
+        }
+      }
+    },
+    "fhir.result" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testuitslag"
+          }
+        }
+      }
+    },
+    "fhir.specimen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monstermateriaal"
           }
         }
       }
@@ -514,6 +602,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alle informatie die je huisarts, ziekenhuis en andere zorgverleners over jou hebben. Op één plek. Veilig en overzichtelijk."
+          }
+        }
+      }
+    },
+    "lab_results.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitslagen"
+          }
+        }
+      }
+    },
+    "lab_results.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultaten van jouw onderzoeken, (röntgen)foto's en scans."
           }
         }
       }
