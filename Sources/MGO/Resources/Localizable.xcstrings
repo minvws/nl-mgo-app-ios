@@ -386,6 +386,39 @@
         }
       }
     },
+    "fhir.instructions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosering"
+          }
+        }
+      }
+    },
+    "fhir.medicationStatus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "status"
+          }
+        }
+      }
+    },
+    "fhir.prescribedBy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voorgeschreven door"
+          }
+        }
+      }
+    },
     "fhir.startDate" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -393,6 +426,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Startdatum"
+          }
+        }
+      }
+    },
+    "fhir.status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test status"
           }
         }
       }
@@ -525,6 +569,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bewijs wie je bent"
+          }
+        }
+      }
+    },
+    "medication_use.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medicijnen"
+          }
+        }
+      }
+    },
+    "medication_use.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door je zorgaanbieder."
           }
         }
       }

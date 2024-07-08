@@ -28,13 +28,13 @@ struct MedicationDetailView: View {
 		AccordionView(title: Sanitizer.strip(statement.title) ?? "", startOpen: startOpen) {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
-				DetailRow(title: "medication_details_dosage", content: Sanitizer.strip(statement.instructions))
+				DetailRow(title: "fhir.instructions", content: Sanitizer.strip(statement.instructions))
 				
-				DetailRow(title: "medication_details_startdate", content: Sanitizer.strip(statement.startDate))
+				DetailRow(title: "fhir.startdate", content: Sanitizer.strip(statement.startDate))
 				
-				DetailRow(title: "medication_details_prescriber", content: Sanitizer.strip(statement.prescribedBy))
+				DetailRow(title: "fhir.prescribedBy", content: Sanitizer.strip(statement.prescribedBy))
 				
-				DetailRow(title: "medication_details_status", content: Sanitizer.strip(statement.status))
+				DetailRow(title: "fhir.medicationStatus", content: Sanitizer.strip(statement.status))
 			}
 		}
 	}

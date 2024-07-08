@@ -152,7 +152,7 @@ struct MedicationListView: View {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 					
-				Text("medication_title")
+				Text("medication_use.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -160,7 +160,7 @@ struct MedicationListView: View {
 					
 				Text(
 					String(
-						format: String(localized: "medication_body"),
+						format: String(localized: "medication_use.subheading"),
 						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
 					)
 				)
@@ -179,19 +179,19 @@ struct MedicationListView: View {
 						)
 					
 					case .empty:
-					
+						
 						NotificationCardView(
 							icon: Image(ImageResource.Woman.womanOnCouch),
-							title: "general_nodata_title",
-							message: "general_nodata_body"
+							title: "common.no_results_heading",
+							message: "common.no_results_subheading"
 						)
-					
+				
 					case .failure:
-					
+
 						NotificationCardView(
 							icon: Image(ImageResource.Woman.womanOnCouchExclamation),
-							title: "general_failure_title",
-							message: "general_failure_body"
+							title: "common.failure_heading",
+							message: "common.failure_subheading"
 						)
 					
 					case let .success(medicationStatements, startOpen):
