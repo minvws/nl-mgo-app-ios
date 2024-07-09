@@ -30,7 +30,7 @@ struct OrganizationLoadingSearchResultsView: View {
 	var body: some View {
 		VStack {
 			
-			Text("searchresults_loading_title")
+			Text("organization_search.heading")
 				.rijksoverheidStyle(font: .bold, style: .title)
 				.foregroundStyle(theme.contentPrimary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -44,7 +44,7 @@ struct OrganizationLoadingSearchResultsView: View {
 						.frame(width: 48, height: 48)
 						.padding(.bottom, 20)
 					
-					Text("searchresults_loading_body")
+					Text("organization_search.searching")
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.foregroundStyle(theme.contentPrimary)
 				}

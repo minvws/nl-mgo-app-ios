@@ -31,16 +31,16 @@ class OrganizationNoSearchResultsViewModel: ErrorViewModelProtocol {
 	}
 	
 	/// The title of the error view
-	@Published var title: LocalizedStringKey = "searchresults_noresults_title"
+	@Published var title: LocalizedStringKey = "organization_search.no_results_found_heading"
 	
 	/// The main image of the error view
 	@Published var image: ImageResource = ImageResource.defaultError
 	
 	/// The body of the error view
-	@Published var body: LocalizedStringKey = "searchresults_noresults_body"
+	@Published var body: LocalizedStringKey = "organization_search.no_results_found_subheading"
 	
 	/// The title of the action button
-	@Published var button: LocalizedStringKey = "searchresults_noresults_button"
+	@Published var button: LocalizedStringKey = "common.search_again"
 	
 	/// The action when the user pressed the CTA
 	@Published var action: () -> Void
@@ -49,22 +49,22 @@ class OrganizationNoSearchResultsViewModel: ErrorViewModelProtocol {
 	/// - Returns: View
 	@ViewBuilder func viewForBody() -> some View {
 		
-		Text(.init(String(format: String(localized: "searchresults_noresults_body"), arguments: [name, city])))
+		Text(.init(String(format: String(localized: "organization_search.no_results_found_subheading"), arguments: [name, city])))
 	
 		VStack(alignment: .leading, spacing: 8) {
 			
 			Label(
-				title: { Text("searchresults_noresults_reason_1") },
+				title: { Text("organization_search.search_hint_1") },
 				icon: { Image(ImageResource.Localisation.arrowRight) }
 			)
 			
 			Label(
-				title: { Text("searchresults_noresults_reason_2") },
+				title: { Text("organization_search.search_hint_2") },
 				icon: { Image(ImageResource.Localisation.arrowRight) }
 			)
 			
 			Label(
-				title: { Text("searchresults_noresults_reason_3") },
+				title: { Text("organization_search.search_hint_3") },
 				icon: { Image(ImageResource.Localisation.arrowRight) }
 			)
 		}

@@ -93,7 +93,7 @@ struct OrganizationSearchResultCardView: View {
 						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
 							Image(ImageResource.Localisation.check)
 								.padding(ViewTraits.Selected.padding)
-							Text("searchresults_provider_selected")
+							Text("add_organization.already_added")
 								.rijksoverheidStyle(font: .regular, style: .body)
 								.multilineTextAlignment(.leading)
 								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
@@ -106,7 +106,7 @@ struct OrganizationSearchResultCardView: View {
 					case .warning:
 						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
 							Image(ImageResource.Localisation.warning)
-							Text("searchresults_provider_warning")
+							Text("add_organization.not_participating")
 								.rijksoverheidStyle(font: .regular, style: .body)
 								.multilineTextAlignment(.leading)
 								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)

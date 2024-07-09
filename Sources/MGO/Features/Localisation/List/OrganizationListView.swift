@@ -209,7 +209,7 @@ struct OrganizationListView: View {
 					}})
 				}
 		})
-		.navigationBarItems(leading: BackButton("searchresults_backbutton") {
+		.navigationBarItems(leading: BackButton("common.search") {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())

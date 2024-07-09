@@ -89,7 +89,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 	}
 
 	func test_failure() {
-		
+		isRecording = true
 		// Given
 		createSut()
 		let error = NSError(domain: "SearchResultViewModelTests", code: 404)

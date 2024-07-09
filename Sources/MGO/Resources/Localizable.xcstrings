@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
+    "add_organization.already_added" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder heb je al toegevoegd"
+          }
+        }
+      }
+    },
     "add_organization.city" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -74,6 +85,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Naam (verplicht)"
+          }
+        }
+      }
+    },
+    "add_organization.not_participating" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder doet niet mee"
           }
         }
       }
@@ -404,6 +426,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zoeken"
+          }
+        }
+      }
+    },
+    "common.search_again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opnieuw zoeken"
           }
         }
       }
@@ -899,6 +932,83 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deze zorgaanbieder niet meer tonen in de app"
+          }
+        }
+      }
+    },
+    "organization_search.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieders hebben we gevonden"
+          }
+        }
+      }
+    },
+    "organization_search.no_results_found_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen zorgaanbieders gevonden"
+          }
+        }
+      }
+    },
+    "organization_search.no_results_found_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt gezocht naar **%1$@** in **%2$@**."
+          }
+        }
+      }
+    },
+    "organization_search.search_hint_1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer de spelling."
+          }
+        }
+      }
+    },
+    "organization_search.search_hint_2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vul de juiste naam in. Je vindt deze op de rekening. Of vraag aan de zorgaanbieder hoe je hun naam schrijft."
+          }
+        }
+      }
+    },
+    "organization_search.search_hint_3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heeft deze zorgaanbieder meerdere vestigingen? Vul dan de plaatsnaam van de hoofdvestiging in."
+          }
+        }
+      }
+    },
+    "organization_search.searching" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieders aan het zoeken..."
           }
         }
       }
