@@ -43,8 +43,8 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.sut.state.cityError) == "searchhp_city_error"
-		expect(self.sut.state.nameError) == "searchhp_name_error"
+		expect(self.sut.state.cityError) == "add_organization.error_missing_city"
+		expect(self.sut.state.nameError) == "add_organization.error_missing_name"
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 	
@@ -59,7 +59,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
 		expect(self.sut.state.cityError) == ""
-		expect(self.sut.state.nameError) == "searchhp_name_error"
+		expect(self.sut.state.nameError) == "add_organization.error_missing_name"
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 	
@@ -73,7 +73,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.sut.state.cityError) == "searchhp_city_error"
+		expect(self.sut.state.cityError) == "add_organization.error_missing_city"
 		expect(self.sut.state.nameError) == ""
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
@@ -105,8 +105,8 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.sut.state.cityError) == "searchhp_city_error"
-		expect(self.sut.state.nameError) == "searchhp_name_error"
+		expect(self.sut.state.cityError) == "add_organization.error_missing_city"
+		expect(self.sut.state.nameError) == "add_organization.error_missing_name"
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 	
@@ -121,8 +121,8 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.sut.state.cityError) == "searchhp_city_error"
-		expect(self.sut.state.nameError) == "searchhp_name_error"
+		expect(self.sut.state.cityError) == "add_organization.error_missing_city"
+		expect(self.sut.state.nameError) == "add_organization.error_missing_name"
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 	

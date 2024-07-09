@@ -87,9 +87,9 @@ class AddOrganizationViewModel: ObservableObject {
 				guard validateState() else {
 					/// Announce the errors
 					if state.nameError != "" {
-						announce(String(localized: "searchhp_name_error_voiceover"))
+						announce(String(localized: "add_organization.error_missing_name_voiceover"))
 					} else if state.cityError != "" {
-						announce(String(localized: "searchhp_city_error_voiceover"))
+						announce(String(localized: "add_organization.error_missing_city_voiceover"))
 					}
 					return
 				}
@@ -113,14 +113,14 @@ class AddOrganizationViewModel: ObservableObject {
 			state.name = sanitized
 		} else {
 			allFieldsAreFilled = false
-			state.nameError = "searchhp_name_error"
+			state.nameError = "add_organization.error_missing_name"
 		}
 		if let sanitized = Sanitizer.strip(state.city), sanitized.isNotEmpty {
 			state.cityError = ""
 			state.city = sanitized
 		} else {
 			allFieldsAreFilled = false
-			state.cityError = "searchhp_city_error"
+			state.cityError = "add_organization.error_missing_city"
 		}
 		return allFieldsAreFilled
 	}
@@ -167,7 +167,7 @@ struct AddOrganizationView: View {
 			
 			VStack {
 				
-				Text("searchhp_title")
+				Text("add_organization.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.foregroundStyle(theme.contentPrimary)
 					.padding(.bottom, ViewTraits.General.padding)
@@ -177,30 +177,30 @@ struct AddOrganizationView: View {
 				InputField(
 					input: $viewModel.state.name,
 					errorMessage: $viewModel.state.nameError,
-					title: "searchhp_name"
+					title: "add_organization.name"
 				)
 				.padding(.bottom, ViewTraits.General.padding)
-				.accessibilityIdentifier("searchhp_name")
+				.accessibilityIdentifier("add_organization.name")
 				
 				InputField(
 					input: $viewModel.state.city,
 					errorMessage: $viewModel.state.cityError,
-					title: "searchhp_city"
+					title: "add_organization.city"
 				)
 				.padding(.bottom, ViewTraits.General.padding)
-				.accessibilityIdentifier("searchhp_city")
+				.accessibilityIdentifier("add_organization.city")
 				
 				Spacer()
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
 			
 		} bottomView: {
-			CallToActionButton("searchhp_action") {
+			CallToActionButton("common.search") {
 				viewModel.reduce(.search)
 			}
 			.tag("search")
 			.padding(ViewTraits.General.padding)
-			.accessibilityIdentifier("searchhp_action")
+			.accessibilityIdentifier("common.search")
 		}
 		.onTapGesture {
 			_ = logDebug("Tapping outside the input")
