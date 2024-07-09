@@ -683,6 +683,17 @@
         }
       }
     },
+    "login.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies de manier waarop je wilt inloggen. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
+          }
+        }
+      }
+    },
     "medication_use.heading" : {
       "extractionState" : "manual",
       "localizations" : {
