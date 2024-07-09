@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
+    "add_organization.add_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ toevoegen?"
+          }
+        }
+      }
+    },
     "add_organization.already_added" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -96,6 +107,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deze zorgaanbieder doet niet mee"
+          }
+        }
+      }
+    },
+    "add_organization.view_voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ bekijken?"
           }
         }
       }

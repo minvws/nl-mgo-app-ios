@@ -15,9 +15,9 @@ enum OrganizationSearchResultCardState {
 	
 	var accessibilityLabel: String.LocalizationValue {
 		switch self {
-			case .regular: return "searchresults_add_voiceover"
-			case .selected: return "searchresults_view_voiceover"
-			case .warning: return "searchresults_view_voiceover"
+			case .regular: return "add_organization.add_voiceover"
+			case .selected: return "add_organization.view_voiceover"
+			case .warning: return "add_organization.view_voiceover"
 		}
 	}
 }
