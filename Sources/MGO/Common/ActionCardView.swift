@@ -142,8 +142,8 @@ struct ActionCardView: View {
 #Preview {
 	VStack(spacing: 4) {
 		ActionCardView(
-			title: "hpdetails_medication_title",
-			message: "hpdetails_medication_body",
+			title: "medication_use.heading",
+			message: "medication_use.subheading",
 			icon: ActionCardIcon.medication
 		)
 	}

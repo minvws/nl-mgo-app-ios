@@ -342,6 +342,28 @@
         }
       }
     },
+    "common.error_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er ging iets mis"
+          }
+        }
+      }
+    },
+    "common.error_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer of je telefoon verbonden is met het internet en probeer het opnieuw."
+          }
+        }
+      }
+    },
     "common.failure_heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -470,6 +492,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instellingen"
+          }
+        }
+      }
+    },
+    "common.try_again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probeer opnieuw"
           }
         }
       }

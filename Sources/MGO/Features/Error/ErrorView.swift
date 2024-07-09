@@ -34,10 +34,10 @@ protocol ErrorViewModelProtocol: ObservableObject {
 class ErrorViewModel: ErrorViewModelProtocol {
 	
 	init(
-		title: LocalizedStringKey = "error_default_title",
+		title: LocalizedStringKey = "common.error_heading",
 		image: ImageResource = ImageResource.defaultError,
-		body: LocalizedStringKey = "error_default_body",
-		button: LocalizedStringKey = "error_default_button",
+		body: LocalizedStringKey = "common.error_subheading",
+		button: LocalizedStringKey = "common.try_again",
 		action: @escaping () -> Void) {
 			self.title = title
 			self.image = image
