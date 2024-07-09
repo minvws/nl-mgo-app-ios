@@ -529,6 +529,39 @@
         }
       }
     },
+    "dialog.remove_organization_no" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nee, toch tonen"
+          }
+        }
+      }
+    },
+    "dialog.remove_organization_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We halen je dossier van deze zorgaanbieder niet op. Je kunt deze later alsnog toevoegen via je profiel."
+          }
+        }
+      }
+    },
+    "dialog.remove_organization_yes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja, weglaten"
+          }
+        }
+      }
+    },
     "fhir.bodyLocation" : {
       "extractionState" : "manual",
       "localizations" : {
