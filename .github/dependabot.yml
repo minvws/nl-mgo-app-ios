@@ -16,6 +16,14 @@ updates:
 
 # Swift Packages
   - package-ecosystem: "swift"
+    directory: "/Packages/CopyImport"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
     directory: "/Packages/FHIRClient"
     schedule:
       interval: weekly
@@ -25,6 +33,14 @@ updates:
 
   - package-ecosystem: "swift"
     directory: "/Packages/FHIRExtensions"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
+    directory: "/Packages/FileStorage"
     schedule:
       interval: weekly
       day: monday
@@ -79,6 +95,14 @@ updates:
       time: "08:30"
       timezone: Europe/Amsterdam
 
+  - package-ecosystem: "swift"
+    directory: "/Packages/Observatory"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+      
   - package-ecosystem: "swift"
     directory: "/Packages/RestrictedBrowser"
     schedule:
