@@ -67,7 +67,7 @@ struct PropositionView: View {
 			
 			VStack(spacing: 0) {
 				
-				Text("privacyoverview_title")
+				Text("proposition.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.foregroundStyle(theme.contentPrimary)
 					.padding(.bottom, ViewTraits.General.padding)
@@ -75,12 +75,11 @@ struct PropositionView: View {
 					.accessibilityAddTraits(.isHeader)
 				
 				Group {
-					let privacyIntro = String(localized: "privacyoverview_intro")
-					let statement = String(localized: "privacy_statement")
-					let elements = privacyIntro.components(separatedBy: "%@")
+					let privacyIntro = String(localized: "proposition.subheading")
+					let elements = privacyIntro.components(separatedBy: "[%@](privacyverklaring)")
 					if elements.count == 2 {
 						Text(elements[0]) +
-						Text("[\(statement)](/privacystatement)").underline() +
+						Text("[privacyverklaring](/privacystatement)").underline() +
 						Text(elements[1])
 					} else {
 						EmptyView()
@@ -98,14 +97,14 @@ struct PropositionView: View {
 				.foregroundStyle(theme.contentPrimary)
 				.tint(theme.actionTertiaryDefault)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityIdentifier("introduction text")
+				.accessibilityIdentifier("proposition.subheading")
 				.tag("privacylink")
 				
 				Group {
-					PrivacyShieldView("privacyoverview_item_1", shieldType: .encrypted)
-					PrivacyShieldView("privacyoverview_item_2", shieldType: .safety)
-					PrivacyShieldView("privacyoverview_item_3", shieldType: .checked)
-					PrivacyShieldView("privacyoverview_item_4", shieldType: .cross)
+					PrivacyShieldView("proposition.statement_1", shieldType: .encrypted)
+					PrivacyShieldView("proposition.statement_2", shieldType: .safety)
+					PrivacyShieldView("proposition.statement_3", shieldType: .checked)
+					PrivacyShieldView("proposition.statement_4", shieldType: .cross)
 				}
 				.padding(.bottom, ViewTraits.Items.bottom)
 				
@@ -114,7 +113,7 @@ struct PropositionView: View {
 			.padding(.horizontal, ViewTraits.General.padding)
 		} bottomView: {
 			
-			CallToActionButton("onboarding_action") {
+			CallToActionButton("common.next") {
 				viewModel.reduce(.nextButttonPressed)
 			}
 			.padding(ViewTraits.General.padding)
@@ -134,7 +133,7 @@ struct PropositionView: View {
 		}
 		viewModel.reduce(.privacyLinkClicked)
 		return .handled
-		}
+	}
 }
 
 #Preview {

@@ -65,8 +65,8 @@ final class PinCodeViewModelTests: XCTestCase {
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
-			title: "accesscode_validation_title",
-			message: "accesscode_validation_body",
+			title: "pincode.validation.heading",
+			message: "pincode.validation.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -91,8 +91,8 @@ final class PinCodeViewModelTests: XCTestCase {
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
-			title: "accesscode_validation_title",
-			message: "accesscode_validation_body",
+			title: "pincode.validation.heading",
+			message: "pincode.validation.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -119,8 +119,8 @@ final class PinCodeViewModelTests: XCTestCase {
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
-			title: "accesscode_validation_title",
-			message: "accesscode_wrong_body",
+			title: "pincode.validation.heading",
+			message: "pincode.validation.wrong",
 			messageType: .alert,
 			showLockoutPopup: false
 		)
@@ -153,8 +153,8 @@ final class PinCodeViewModelTests: XCTestCase {
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
-			title: "accesscode_validation_title",
-			message: "accesscode_validation_body",
+			title: "pincode.validation.heading",
+			message: "pincode.validation.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -221,8 +221,8 @@ final class PinCodeViewModelTests: XCTestCase {
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
-			title: "accesscode_validation_title",
-			message: "accesscode_validation_body",
+			title: "pincode.validation.heading",
+			message: "pincode.validation.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -251,8 +251,8 @@ final class PinCodeViewModelTests: XCTestCase {
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
-			title: "accesscode_validation_title",
-			message: "accesscode_validation_body",
+			title: "pincode.validation.heading",
+			message: "pincode.validation.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -282,8 +282,8 @@ final class PinCodeViewModelTests: XCTestCase {
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
-			title: "accesscode_validation_title",
-			message: "accesscode_validation_body",
+			title: "pincode.validation.heading",
+			message: "pincode.validation.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -313,8 +313,8 @@ final class PinCodeViewModelTests: XCTestCase {
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
-			title: "accesscode_validation_title",
-			message: "accesscode_validation_body",
+			title: "pincode.validation.heading",
+			message: "pincode.validation.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -343,8 +343,8 @@ final class PinCodeViewModelTests: XCTestCase {
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
-			title: "accesscode_validation_title",
-			message: "accesscode_validation_body",
+			title: "pincode.validation.heading",
+			message: "pincode.validation.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -373,8 +373,8 @@ final class PinCodeViewModelTests: XCTestCase {
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
-			title: "accesscode_validation_title",
-			message: "accesscode_validation_body",
+			title: "pincode.validation.heading",
+			message: "pincode.validation.subheading",
 			messageType: .regular,
 			showLockoutPopup: true
 		)

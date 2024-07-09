@@ -37,8 +37,8 @@ struct CloseButton: View {
 					.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
 			}
 		)
-		.accessibilityLabel("general_close")
-		.tag("general_close")
+		.accessibilityLabel("common.close")
+		.tag("common.close")
 	}
 }
 

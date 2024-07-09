@@ -284,7 +284,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					}
 					.tabItem {
 						Image(ImageResource.Tab.overview)
-						Text("tab_overview")
+						Text("bottombar.overview")
 							.rijksoverheidStyle(font: .regular, style: .body)
 					}
 					
@@ -298,7 +298,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					}
 					.tabItem {
 						Image(ImageResource.Tab.about)
-						Text("tab_about")
+						Text("bottombar.about_this_app")
 							.rijksoverheidStyle(font: .regular, style: .body)
 					}
 				}

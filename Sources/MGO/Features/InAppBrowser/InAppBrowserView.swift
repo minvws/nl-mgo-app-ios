@@ -65,7 +65,7 @@ struct InAppBrowserView: View {
 						viewModel.reduce(.backButtonPressed)
 					},
 					label: {
-						Text("general_close")
+						Text("common.close")
 							.rijksoverheidStyle(font: .regular, style: .headline)
 					}
 				)

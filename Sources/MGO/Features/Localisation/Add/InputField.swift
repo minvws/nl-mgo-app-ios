@@ -89,7 +89,7 @@ struct InputField: View {
 						}
 					)
 					.buttonStyle(IconButtonStyle())
-					.accessibilityLabel("general_clear")
+					.accessibilityLabel("common.clear")
 					.accessibilityHidden(!isFieldFocused)
 					.padding(.trailing, ViewTraits.Button.trailing)
 					.opacity(isFieldFocused && input.isNotEmpty ? 1 : 0)

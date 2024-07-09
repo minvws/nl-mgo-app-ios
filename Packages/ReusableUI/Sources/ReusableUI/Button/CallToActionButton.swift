@@ -60,11 +60,11 @@ public struct CallToActionButton: View {
 
 #Preview {
 	VStack {
-		CallToActionButton("onboarding_action", style: .primary)
+		CallToActionButton("common.next", style: .primary)
 			.padding(16)
-		CallToActionButton("onboarding_action", style: .secondary)
+		CallToActionButton("common.next", style: .secondary)
 			.padding(16)
-		CallToActionButton("onboarding_action", style: .destructive)
+		CallToActionButton("common.next", style: .destructive)
 			.padding(16)
 	}
 }

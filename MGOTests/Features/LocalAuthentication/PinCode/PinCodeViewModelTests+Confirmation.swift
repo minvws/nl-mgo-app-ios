@@ -45,9 +45,9 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: true,
-			backButtonKey: "accesscode_confirmation_backbutton",
-			title: "accesscode_confirmation_title",
-			message: "accesscode_confirmation_body",
+			backButtonKey: "pincode.confirm.backbutton",
+			title: "pincode.confirm.heading",
+			message: "pincode.confirm.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -76,9 +76,9 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: true,
-			backButtonKey: "accesscode_confirmation_backbutton",
-			title: "accesscode_confirmation_title",
-			message: "accesscode_confirmation_body",
+			backButtonKey: "pincode.confirm.backbutton",
+			title: "pincode.confirm.heading",
+			message: "pincode.confirm.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -109,9 +109,9 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: true,
-			backButtonKey: "accesscode_confirmation_backbutton",
-			title: "accesscode_confirmation_title",
-			message: "accesscode_mismatch_body",
+			backButtonKey: "pincode.confirm.backbutton",
+			title: "pincode.confirm.heading",
+			message: "pincode.confirm.mismatch",
 			messageType: .alert,
 			showLockoutPopup: false
 		)
@@ -148,9 +148,9 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: true,
 			backButtonVisible: true,
-			backButtonKey: "accesscode_confirmation_backbutton",
-			title: "accesscode_confirmation_title",
-			message: "accesscode_confirmation_body",
+			backButtonKey: "pincode.confirm.backbutton",
+			title: "pincode.confirm.heading",
+			message: "pincode.confirm.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)
@@ -188,9 +188,9 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 			bioMetricType: .touchID,
 			eraseEnabled: false,
 			backButtonVisible: true,
-			backButtonKey: "accesscode_confirmation_backbutton",
-			title: "accesscode_confirmation_title",
-			message: "accesscode_confirmation_body",
+			backButtonKey: "pincode.confirm.backbutton",
+			title: "pincode.confirm.heading",
+			message: "pincode.confirm.subheading",
 			messageType: .regular,
 			showLockoutPopup: false
 		)

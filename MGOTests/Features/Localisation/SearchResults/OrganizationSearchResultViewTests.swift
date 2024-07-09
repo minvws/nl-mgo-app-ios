@@ -53,7 +53,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// When
-		try content.inspect().find(viewWithTag: "back_button").button().tap()
+		try content.inspect().find(viewWithTag: "common.previous").button().tap()
 
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

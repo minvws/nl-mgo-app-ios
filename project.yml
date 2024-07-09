@@ -6,6 +6,8 @@ name: MGO
 # - Packages:
 
 packages:
+  CopyImport:
+    path: ./Packages/CopyImport
   FHIRClient:
     path: ./Packages/FHIRClient
   FHIRExtensions:
@@ -57,6 +59,7 @@ fileGroups:
   - fastlane
   - Diagrams
   - Scripts
+  - Makefile
   - README.md
 
 # - Project Level settings:

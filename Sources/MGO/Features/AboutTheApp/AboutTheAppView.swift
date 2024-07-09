@@ -68,7 +68,7 @@ struct AboutTheAppView: View {
 	var body: some View {
 		
 		VStack {
-			Text("tab_about")
+			Text("bottombar.about_this_app")
 				.rijksoverheidStyle(font: .bold, style: .title)
 				.foregroundColor(theme.contentPrimary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)

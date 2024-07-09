@@ -29,7 +29,7 @@ final class ForgotPinCodeViewTests: XCTestCase {
 		// Given
 		
 		// When
-		try sut.inspect().find(viewWithTag: "general_cancel").button().tap()
+		try sut.inspect().find(viewWithTag: "common.cancel").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
@@ -41,7 +41,7 @@ final class ForgotPinCodeViewTests: XCTestCase {
 		// Given
 		
 		// When
-		try sut.inspect().find(viewWithTag: "forgot_action_reset").button().tap()
+		try sut.inspect().find(viewWithTag: "forgot_pincode.button").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false

@@ -136,7 +136,7 @@ struct PatientView: View {
 					case .input:
 						EmptyView()
 					case .loading:
-						Text("launch_loading")
+						Text("common.loading")
 						
 					case .error(let error):
 						HStack {

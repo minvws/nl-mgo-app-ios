@@ -64,7 +64,7 @@ class PinCodeViewModel: ObservableObject {
 		
 		func accessibilityLabel(index: Int, count: Int) -> String {
 			
-			return String(format: String(localized: "acccescode_box_voiceover"), arguments: ["\(index)", "\(count)", state.accessibilityVoiceOverValue()]
+			return String(format: String(localized: "pincode.voiceover"), arguments: ["\(index)", "\(count)", state.accessibilityVoiceOverValue()]
 			)
 		}
 	}
@@ -174,14 +174,14 @@ class PinCodeViewModel: ObservableObject {
 		state.backButtonKey = ""
 		if tooWeak {
 			// Setup for access code is too weak
-			state.title = "accesscode_create_title"
-			state.message = "accesscode_tooweak_body"
+			state.title = "pincode.create.heading"
+			state.message = "pincode.create.tooweak"
 			state.messageType = .alert
-			announce(String(localized: "accesscode_tooweak_body_voiceover"))
+			announce(String(localized: "pincode.create.tooweak.voiceover"))
 		} else {
 			// Setup for regular access code entry
-			state.title = "accesscode_create_title"
-			state.message = "accesscode_create_body"
+			state.title = "pincode.create.heading"
+			state.message = "pincode.create.subheading"
 			state.messageType = .regular
 		}
 	}
@@ -193,17 +193,17 @@ class PinCodeViewModel: ObservableObject {
 		state.bioMetricEnabled = false
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = true
-		state.backButtonKey = "accesscode_confirmation_backbutton"
+		state.backButtonKey = "pincode.confirm.backbutton"
 		if confirmationMismatch {
 			// Setup for access codes do not match
-			state.title = "accesscode_confirmation_title"
-			state.message = "accesscode_mismatch_body"
+			state.title = "pincode.confirm.heading"
+			state.message = "pincode.confirm.mismatch"
 			state.messageType = .alert
-			announce(String(localized: "accesscode_mismatch_body_voiceover"))
+			announce(String(localized: "pincode.confirm.mismatch.voiceover"))
 		} else if mode == .confirmation {
 			// Setup for access code confirmation
-			state.title = "accesscode_confirmation_title"
-			state.message = "accesscode_confirmation_body"
+			state.title = "pincode.confirm.heading"
+			state.message = "pincode.confirm.subheading"
 			state.messageType = .regular
 		}
 	}
@@ -218,14 +218,14 @@ class PinCodeViewModel: ObservableObject {
 		state.forgotCodeButtonVisible = true
 		if validationMismatch {
 			// Setup for access codes do not match
-			state.title = "accesscode_validation_title"
-			state.message = "accesscode_wrong_body"
+			state.title = "pincode.validation.heading"
+			state.message = "pincode.validation.wrong"
 			state.messageType = .alert
-			announce(String(localized: "accesscode_wrong_body_voiceover"))
+			announce(String(localized: "pincode.validation.wrong.voiceover"))
 		} else if mode == .validation {
 			// Setup for access code validation
-			state.title = "accesscode_validation_title"
-			state.message = "accesscode_validation_body"
+			state.title = "pincode.validation.heading"
+			state.message = "pincode.validation.subheading"
 			state.messageType = .regular
 		}
 	}
@@ -234,10 +234,10 @@ class PinCodeViewModel: ObservableObject {
 	/// - Parameter field: the field number
 	private func announceActiveField(_ field: Int) {
 		let message = String(
-			format: String(localized: "acccescode_box_voiceover_announce"),
+			format: String(localized: "pincode.announce.voiceover"),
 			arguments: [
 				"\(field)",
-				String(localized: "acccescode_box_voiceover_focus")
+				String(localized: "pincode.focus.voiceover")
 			]
 		)
 		announce(message)
@@ -393,8 +393,8 @@ class PinCodeViewModel: ObservableObject {
 		
 		do {
 			let validated = try await Current.localAuthenticationProvider.authenticate(
-				localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")),
-				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_popup_fallback"))
+				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
+				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
 			if validated {
 				logInfo("Pincode: User has been successfully validated")
@@ -514,7 +514,7 @@ struct PinCodeView: View {
 						Button(action: {
 							viewModel.reduce(.forgotPinCode)
 						}, label: {
-							Text("biometric_forgot_accesscode")
+							Text("pincode.forgot")
 						})
 						.buttonStyle(LinkButtonStyle())
 						.padding(ViewTraits.ForgotButton.insets)
@@ -571,13 +571,13 @@ struct PinCodeView: View {
 									.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
 								
 							case .touchID:
-								actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "accesscode_button_touchid")
+								actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "pincode.touchid.voiceover")
 								
 							case .faceID:
-								actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "accesscode_button_faceid")
+								actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "pincode.faceid.voiceover")
 								
 							case .opticID:
-								actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "accesscode_button_opticid")
+								actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "pincode.opticid.voiceover")
 						}
 					} else {
 						Spacer()
@@ -590,7 +590,7 @@ struct PinCodeView: View {
 					actionButton(
 						for: .erasePressed,
 						imageName: "delete.backward",
-						accessibilityLabel: "accesscode_button_accessibility_erase")
+						accessibilityLabel: "pincode.erase.voiceover")
 					.disabled(!viewModel.state.eraseEnabled)
 				}
 			}
@@ -622,19 +622,19 @@ struct PinCodeView: View {
 				OrientationUtility.unlockOrientation()
 			}
 		}
-		.alert("biometric_lockout_title", isPresented: $viewModel.state.showLockoutPopup) {
-			Button("general_ok") { }
+		.alert("pincode.lockout", isPresented: $viewModel.state.showLockoutPopup) {
+			Button("common.ok") { }
 		} message: {
 			switch viewModel.state.bioMetricType {
 				case .none, .unknown:
 					// Should not happen
 					EmptyView()
 				case .touchID:
-					Text("biometric_lockout_body_touchid")
+					Text("pincode.touchid.lockout")
 				case .faceID:
-					Text("biometric_lockout_body_faceid")
+					Text("pincode.faceid.lockout")
 				case .opticID:
-					Text("biometric_lockout_body_opticid")
+					Text("pincode.opticid.lockout")
 			}
 		}
 		.background(theme.backgroundPrimary.ignoresSafeArea())

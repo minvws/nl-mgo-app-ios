@@ -95,18 +95,18 @@ struct RemoveHealthcareOrganizationView: View {
 				.padding(.bottom, ViewTraits.Image.bottom)
 				
 				Text(String(
-					format: String(localized: "organization.confirm_delete.heading"),
-					   arguments: ["\(viewModel.healthcareOrganization.display_name)"]
-				   ))
+					format: String(localized: "remove_organization.heading"),
+					arguments: ["\(viewModel.healthcareOrganization.display_name)"]
+				))
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 				
 				Text(String(
-						format: String(localized: "organization.confirm_delete.subheading"),
+						format: String(localized: "remove_organization.subheading"),
 						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
-					))
+				))
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -137,12 +137,12 @@ struct RemoveHealthcareOrganizationView: View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
 			
-			CallToActionButton("organization.confirm_delete.yes_label", style: .secondary) {
+			CallToActionButton("remove_organization.yes_delete", style: .secondary) {
 				viewModel.reduce(.removeOrganization)
 			}
 			.tag("remove")
 			
-			CallToActionButton("organization.confirm_delete.no_label") {
+			CallToActionButton("remove_organization.no_cancel") {
 				viewModel.reduce(.cancel)
 			}
 			.tag("cancel")

@@ -27,23 +27,23 @@ struct LabResultsDetailView: View {
 		AccordionView(title: Sanitizer.strip(result.title) ?? "", startOpen: startOpen) {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
-				DetailRow(title: "labresults_details_code", content: Sanitizer.strip(result.code))
+				DetailRow(title: "fhir.code", content: Sanitizer.strip(result.code))
 				
-				DetailRow(title: "labresults_details_status", content: Sanitizer.strip(result.status))
+				DetailRow(title: "fhir.status", content: Sanitizer.strip(result.status))
 				
-				DetailRow(title: "labresults_details_dateTime", content: Sanitizer.strip(result.dateTime))
+				DetailRow(title: "fhir.dateTime", content: Sanitizer.strip(result.dateTime))
 				
-				DetailRow(title: "labresults_details_result", content: Sanitizer.strip(result.result))
+				DetailRow(title: "fhir.result", content: Sanitizer.strip(result.result))
 				
-				DetailRow(title: "labresults_details_referenceRangeLow", content: Sanitizer.strip(result.referenceRangeLow))
+				DetailRow(title: "fhir.referenceRangeLow", content: Sanitizer.strip(result.referenceRangeLow))
 				
-				DetailRow(title: "labresults_details_referenceRangeHigh", content: Sanitizer.strip(result.referenceRangeHigh))
+				DetailRow(title: "fhir.referenceRangeHigh", content: Sanitizer.strip(result.referenceRangeHigh))
 				
-				DetailRow(title: "labresults_details_interpretation", content: Sanitizer.strip(result.interpretation))
+				DetailRow(title: "fhir.interpretation", content: Sanitizer.strip(result.interpretation))
 				
-				DetailRow(title: "labresults_details_specimen", content: Sanitizer.strip(result.specimen))
+				DetailRow(title: "fhir.specimen", content: Sanitizer.strip(result.specimen))
 				
-				DetailRow(title: "labresults_details_collectionDateTime", content: Sanitizer.strip(result.collectionDateTime))
+				DetailRow(title: "fhir.collectionDateTime", content: Sanitizer.strip(result.collectionDateTime))
 			}
 		}
 	}

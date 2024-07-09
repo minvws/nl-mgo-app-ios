@@ -62,7 +62,17 @@ install_githooks_xcodegen:
 install_githooks_gitlfs:
 	@git lfs install --force
 
+# -- Generating Diagrams --
+
 generate_diagrams:
 	@d2 Diagrams/packages-testonly.d2 Diagrams/packages-testonly.png --layout=elk
 	@d2 Diagrams/packages-withouttests.d2 Diagrams/packages-withouttests.png --layout=elk
 	@d2 Diagrams/legenda.d2 Diagrams/legenda.png --layout=elk
+
+download_translations:
+	@mkdir -p tmp/localization_downloads
+	@lokalise2 file download --token ${LOKALISE_API_KEY} --project-id "61099271667adf7aa39e27.29068045" --format strings --original-filenames false --unzip-to tmp/localization_downloads/ --export-sort a_z --export-empty-as skip --placeholder-format ios
+	@cd Packages/CopyImport/ && swift run CopyImport --source-path ../../tmp/localization_downloads/nl.lproj/Localizable.strings --target-path ../../tmp/localization_downloads/Localizable.xcstrings
+	@rm -f ./Sources/MGO/Resources/Localizable.xcstrings
+	@cp ./tmp/localization_downloads/Localizable.xcstrings ./Sources/MGO/Resources/Localizable.xcstrings
+	@rm -rf "tmp/localization_downloads"

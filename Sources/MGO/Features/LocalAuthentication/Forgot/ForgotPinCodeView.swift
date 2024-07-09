@@ -74,13 +74,13 @@ struct ForgotPinCodeView: View {
 	var body: some View {
 		
 		ScrollViewWithFixedBottom {
-			Text("forgot_title")
+			Text("forgot_pincode.heading")
 				.rijksoverheidStyle(font: .bold, style: .title)
 				.padding(ViewTraits.Title.insets)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
 			
-			Text("forgot_body")
+			Text("forgot_pincode.subheading")
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.padding(ViewTraits.Text.insets)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -90,11 +90,11 @@ struct ForgotPinCodeView: View {
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.alert("forgot_alert_title", isPresented: $viewModel.showDialog) {
-			Button("general_no", role: .cancel) { viewModel.reduce(.cancelDialog) }
-			Button("general_yes", role: .destructive) { viewModel.reduce(.recreateAccount) }
+		.alert("forgot_pincode.dialog.heading", isPresented: $viewModel.showDialog) {
+			Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }
+			Button("common.yes", role: .destructive) { viewModel.reduce(.recreateAccount) }
 		} message: {
-			Text("forgot_alert_body")
+			Text("forgot_pincode.dialog.subheading")
 		}
 	}
 	
@@ -103,15 +103,15 @@ struct ForgotPinCodeView: View {
 	@ViewBuilder func bottomView() -> some View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
-			CallToActionButton("forgot_action_reset", style: .secondary) {
+			CallToActionButton("forgot_pincode.button", style: .secondary) {
 				viewModel.reduce(.showDialog)
 			}
-			.tag("forgot_action_reset")
+			.tag("forgot_pincode.button")
 			
-			CallToActionButton("general_cancel") {
+			CallToActionButton("common.cancel") {
 				viewModel.reduce(.cancelButtonPressed)
 			}
-			.tag("general_cancel")
+			.tag("common.cancel")
 			
 		}
 		.padding(ViewTraits.Button.insets)

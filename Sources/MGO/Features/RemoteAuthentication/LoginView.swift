@@ -70,11 +70,11 @@ struct LoginView: View {
 				
 				Group {
 					
-					Text("remoteAuthentication_title")
+					Text("login.heading")
 						.rijksoverheidStyle(font: .bold, style: .title)
 						.accessibilityAddTraits(.isHeader)
 					
-					Text("remoteAuthentication_body")
+					Text("login.subheading")
 						.rijksoverheidStyle(font: .regular, style: .body)
 				}
 				.foregroundStyle(theme.contentPrimary)
@@ -83,14 +83,14 @@ struct LoginView: View {
 				VStack(spacing: ViewTraits.Button.spacing, content: {
 					
 					DisclosureWithImageButton(
-						title: "remoteAuthentication_digid",
+						title: "login.digid",
 						image: ImageResource.RemoteAuthentication.digid,
 						showImageBorder: colorScheme == .dark) {
 							viewModel.reduce(.loginWithDigiD)
 						}
 					
 					DisclosureWithImageButton(
-						title: "remoteAuthentication_eidas",
+						title: "login.european",
 						image: ImageResource.RemoteAuthentication.eidas) {
 							viewModel.reduce(.loginWithEIDAS)
 						}

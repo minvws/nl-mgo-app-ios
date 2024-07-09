@@ -240,7 +240,7 @@ struct OrganizationSearchResultsView: View {
 				}
 		})
 
-		.navigationBarItems(leading: BackButton("searchresults_backbutton") {
+		.navigationBarItems(leading: BackButton("common.search") {
 			viewModel.reduce(.backButtonPressed)
 		})
 
@@ -253,7 +253,7 @@ struct OrganizationSearchResultsView: View {
 			
 			VStack(alignment: .leading) {
 				
-				Text("searchresults_loading_title")
+				Text("organization_search.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)

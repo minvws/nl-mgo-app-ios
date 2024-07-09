@@ -27,17 +27,17 @@ struct ProblemDetailView: View {
 		AccordionView(title: Sanitizer.strip(concern.title) ?? "", startOpen: startOpen) {
 			VStack(alignment: .leading, spacing: ViewTraits.List.spacing) {
 				
-				DetailRow(title: "condition_details_type", content: Sanitizer.strip(concern.category))
+				DetailRow(title: "fhir.category", content: Sanitizer.strip(concern.category))
 				
-				DetailRow(title: "condition_details_status", content: Sanitizer.strip(concern.clinicalStatus))
+				DetailRow(title: "fhir.clinicalStatus", content: Sanitizer.strip(concern.clinicalStatus))
 				
-				DetailRow(title: "condition_details_startdate", content: Sanitizer.strip(concern.startDate))
+				DetailRow(title: "fhir.startDate", content: Sanitizer.strip(concern.startDate))
 				
-				DetailRow(title: "condition_details_enddate", content: Sanitizer.strip(concern.endDate))
+				DetailRow(title: "fhir.endDate", content: Sanitizer.strip(concern.endDate))
 				
-				DetailRow(title: "condition_details_location", content: Sanitizer.strip(concern.bodyLocation))
+				DetailRow(title: "fhir.bodyLocation", content: Sanitizer.strip(concern.bodyLocation))
 				
-				DetailRow(title: "condition_details_note", content: Sanitizer.strip(concern.comment))
+				DetailRow(title: "fhir.comment", content: Sanitizer.strip(concern.comment))
 			}
 		}
 	}

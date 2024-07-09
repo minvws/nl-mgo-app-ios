@@ -93,8 +93,8 @@ class BioMetricSetupViewModel: ObservableObject {
 		
 		do {
 			let authenticated = try await Current.localAuthenticationProvider.authenticate(
-				localizedReason: String(localized: String.LocalizationValue("biometric_popup_touchid_description")),
-				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_popup_fallback"))
+				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
+				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
 			if authenticated {
 				finishedWithBioMetric()
@@ -172,7 +172,7 @@ struct BioMetricSetupView: View {
 				Spacer()
 			}
 			
-			Text(getBioMetricTypeInterpolatedText("biometric_title", type: bioMetricType))
+			Text(getBioMetricTypeInterpolatedText("biometric_setup.heading", type: bioMetricType))
 				.rijksoverheidStyle(font: .bold, style: .title)
 				.padding(ViewTraits.Title.insets)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -190,11 +190,11 @@ struct BioMetricSetupView: View {
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
 		.navigationBarTitleDisplayMode(.inline)
-		.alert("biometric_alert_title", isPresented: $viewModel.state.showTouchPopup) {
-			Button("biometric_alert_cancel", role: .cancel) { viewModel.reduce(.proceedWithoutBioMetric) }
-			Button("general_ok") { viewModel.reduce(.proceedWithBioMetric) }
+		.alert("biometric_setup.dialog.heading", isPresented: $viewModel.state.showTouchPopup) {
+			Button("biometric_setup.dialog.cancel", role: .cancel) { viewModel.reduce(.proceedWithoutBioMetric) }
+			Button("common.ok") { viewModel.reduce(.proceedWithBioMetric) }
 		} message: {
-			Text("biometric_alert_body")
+			Text("biometric_setup.dialog.subheading")
 		}
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
@@ -241,11 +241,11 @@ struct BioMetricSetupView: View {
 				_ = logWarning("No translation for \(type)")
 				return ""
 			case .touchID:
-				return "biometric_touchid"
+				return "biometric_setup.touchid"
 			case .faceID:
-				return "biometric_faceid"
+				return "biometric_setup.faceid"
 			case .opticID:
-				return "biometric_opticid"
+				return "biometric_setup.opticid"
 		}
 	}
 	
@@ -259,11 +259,11 @@ struct BioMetricSetupView: View {
 				_ = logWarning("No translation for \(type)")
 				return ""
 			case .touchID:
-				return "biometric_body_touchid"
+				return "biometric_setup.touchid.subheading"
 			case .faceID:
-				return "biometric_body_faceid"
+				return "biometric_setup.faceid.subheading"
 			case .opticID:
-				return "biometric_body_opticid"
+				return "biometric_setup.opticid.subheading"
 		}
 	}
 	
@@ -273,30 +273,30 @@ struct BioMetricSetupView: View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
 			
-			CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_without_biometric", type: bioMetricType)), style: .secondary) {
+			CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_setup.button.without_biometric", type: bioMetricType)), style: .secondary) {
 				viewModel.reduce(.proceedWithoutBioMetric)
 			}
 			
-			CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_button_with_biometric", type: bioMetricType))) {
+			CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_setup.button.with_biometric", type: bioMetricType))) {
 				if bioMetricType == .touchID {
 					viewModel.reduce(.showTouchIDPopup)
 				} else {
 					viewModel.reduce(.proceedWithBioMetric)
 				}
 			}
-			.alert("biometric_lockout_title", isPresented: $viewModel.state.showLockoutPopup) {
-				Button("general_ok") { }
+			.alert("pincode.lockout", isPresented: $viewModel.state.showLockoutPopup) {
+				Button("common.ok") { }
 			} message: {
 				switch viewModel.state.bioMetricType {
 					case .none, .unknown:
 						// Should not happen
 						EmptyView()
 					case .touchID:
-						Text("biometric_lockout_body_touchid")
+						Text("pincode.touchid.lockout")
 					case .faceID:
-						Text("biometric_lockout_body_faceid")
+						Text("pincode.faceid.lockout")
 					case .opticID:
-						Text("biometric_lockout_body_opticid")
+						Text("pincode.opticid.lockout")
 				}
 			}
 		}

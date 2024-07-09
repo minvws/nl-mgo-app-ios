@@ -40,13 +40,25 @@ final class IntroductionViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_appIntroductionView_withToast() {
+		
+		// Given
+		createSut(withToast: true)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	func test_nextButtonPressed_shouldCallCoordinator() throws {
 		
 		// Given
 		createSut(withToast: true)
 		
 		// When
-		try sut.inspect().find(viewWithTag: "onboarding_action").button().tap()
+		try sut.inspect().find(viewWithTag: "common.next").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

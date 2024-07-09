@@ -15,9 +15,9 @@ enum OrganizationSearchResultCardState {
 	
 	var accessibilityLabel: String.LocalizationValue {
 		switch self {
-			case .regular: return "searchresults_add_voiceover"
-			case .selected: return "searchresults_view_voiceover"
-			case .warning: return "searchresults_view_voiceover"
+			case .regular: return "add_organization.add_voiceover"
+			case .selected: return "add_organization.view_voiceover"
+			case .warning: return "add_organization.view_voiceover"
 		}
 	}
 }
@@ -93,7 +93,7 @@ struct OrganizationSearchResultCardView: View {
 						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
 							Image(ImageResource.Localisation.check)
 								.padding(ViewTraits.Selected.padding)
-							Text("searchresults_provider_selected")
+							Text("add_organization.already_added")
 								.rijksoverheidStyle(font: .regular, style: .body)
 								.multilineTextAlignment(.leading)
 								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
@@ -106,7 +106,7 @@ struct OrganizationSearchResultCardView: View {
 					case .warning:
 						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
 							Image(ImageResource.Localisation.warning)
-							Text("searchresults_provider_warning")
+							Text("add_organization.not_participating")
 								.rijksoverheidStyle(font: .regular, style: .body)
 								.multilineTextAlignment(.leading)
 								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)

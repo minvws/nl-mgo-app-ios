@@ -182,11 +182,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		switch Configuration().getRelease() {
 			case .production:
-				return URL(string: String(localized: "privacy_statement_overview_prod"))
+				return URL(string: String(localized: "proposition.link.prod"))
 			case .acceptance:
-				return URL(string: String(localized: "privacy_statement_overview_acc"))
+				return URL(string: String(localized: "proposition.link.acc"))
 			case .test, .development:
-				return URL(string: String(localized: "privacy_statement_overview_tst"))
+				return URL(string: String(localized: "proposition.link.test"))
 		}
 	}
 	

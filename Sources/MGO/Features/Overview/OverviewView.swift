@@ -62,10 +62,10 @@ class OverviewViewModel: ObservableObject {
 			
 			self?.toast = Toast(
 				title: String(
-					format: String(localized: "overview.toast_removal.heading"),
+					format: String(localized: "toast.organization_removed.heading"),
 					arguments: ["\(organization.display_name)"]
 				),
-				subtitle: String(localized: "overview.toast_removal.subheading"),
+				subtitle: String(localized: "toast.organization_removed.subheading"),
 				type: .success
 			)
 			Haptic.light()
@@ -181,17 +181,17 @@ struct OverviewView: View {
 			
 			switch viewModel.state {
 				case .empty:
-					CallToActionButton("dashboard_search_healthcareProviders") {
+					CallToActionButton("overview.add_organizations") {
 						viewModel.reduce(.search)
 					}
 					.padding(ViewTraits.Button.insets)
-					.tag("dashboard_search_healthcareOrganizations")
+					.tag("overview.add_organizations")
 				case .list:
-					CallToActionButton("dashboard_add_healthcareProviders") {
+					CallToActionButton("overview.add_organization") {
 						viewModel.reduce(.search)
 					}
 					.padding(ViewTraits.Button.insets)
-					.tag("dashboard_add_healthcareOrganizations")
+					.tag("overview.add_organization")
 			}
 		}
 		
@@ -208,7 +208,7 @@ struct OverviewView: View {
 	
 	@ViewBuilder func headerView() -> some View {
 		
-		Text("overview.page.title")
+		Text("overview.heading")
 			.rijksoverheidStyle(font: .bold, style: .title)
 			.foregroundColor(theme.contentPrimary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -220,7 +220,7 @@ struct OverviewView: View {
 	/// - Returns: View when the user has no stored healthcare organizations
 	@ViewBuilder func noHealthcareOrganizationView() -> some View {
 		
-		Text("dashboard_intro_empty")
+		Text("overview.no_organizations_found")
 			.rijksoverheidStyle(font: .regular, style: .body)
 			.foregroundStyle(theme.contentTertiary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -236,7 +236,7 @@ struct OverviewView: View {
 	/// - Returns: View when the user has some stored healthcare organizations
 	@ViewBuilder func listHealthcareOrganizationView(list: [HealthcareOrganization]) -> some View {
 		
-		Text("dashboard_intro_list")
+		Text("overview.subheading")
 			.rijksoverheidStyle(font: .regular, style: .body)
 			.foregroundStyle(theme.contentTertiary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -250,7 +250,7 @@ struct OverviewView: View {
 					Rectangle()
 						.foregroundStyle(.clear)
 						.accessibilityLabel(String(
-							format: String(localized: "dashboard_list_action_voiceover"),
+							format: String(localized: "overview.voiceover"),
 							arguments: ["\(healthcareOrganization.display_name)"]
 						))
 						.accessibilityAddTraits(.isButton)

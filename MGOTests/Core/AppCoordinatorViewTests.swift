@@ -31,7 +31,7 @@ final class AppCoordinatorViewTests: XCTestCase {
 		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
 		
 		// Then
-		let value = try sut.inspect().find(viewWithTag: "app_title")
+		let value = try sut.inspect().find(viewWithTag: "common.app_name")
 		expect(value) != nil
 	}
 }

@@ -73,10 +73,10 @@ final class OverviewViewTests: XCTestCase {
 		
 		viewModel.toast = Toast(
 			title: String(
-				format: String(localized: "overview.toast_removal.heading"),
+				format: String(localized: "toast.organization_removed.heading"),
 				arguments: ["\(healthcareOrganization.display_name)"]
 			),
-			subtitle: String(localized: "overview.toast_removal.subheading"),
+			subtitle: String(localized: "toast.organization_removed.subheading"),
 			type: .success
 		)
 		
@@ -94,7 +94,7 @@ final class OverviewViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		try sut.inspect().find(viewWithTag: "dashboard_search_healthcareOrganizations").button().tap()
+		try sut.inspect().find(viewWithTag: "overview.add_organizations").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

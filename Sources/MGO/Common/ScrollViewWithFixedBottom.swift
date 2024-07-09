@@ -61,7 +61,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 		bottomView: { Button(
 			action: { },
 			label: {
-				CallToActionButton("onboarding_action")
+				CallToActionButton("common.next")
 			}
 		).padding(16)
 		}

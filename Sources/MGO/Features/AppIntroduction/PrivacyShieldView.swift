@@ -89,5 +89,5 @@ struct PrivacyShieldView: View {
 }
 
 #Preview {
-	PrivacyShieldView("privacy_item_1", shieldType: .safety)
+	PrivacyShieldView("proposition.statement_1", shieldType: .safety)
 }
