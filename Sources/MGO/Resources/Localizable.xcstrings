@@ -276,6 +276,17 @@
         }
       }
     },
+    "common.clear" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis inhoud"
+          }
+        }
+      }
+    },
     "common.close" : {
       "extractionState" : "manual",
       "localizations" : {
