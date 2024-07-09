@@ -94,7 +94,7 @@ class OrganizationListViewModel: ObservableObject {
 			case .showRemoveDialog(let healthcareOrganization):
 				healthcareOrganizationToRemove = healthcareOrganization
 				healthcareOrganizationToRemoveTitle = String(
-					format: String(localized: "storedhp_alert_title"),
+					format: String(localized: "dialog.remove_organization_heading"),
 					arguments: ["\(healthcareOrganization.display_name)"]
 				)
 			
@@ -139,7 +139,7 @@ struct OrganizationListView: View {
 			
 			VStack(alignment: .leading, spacing: ViewTraits.Content.spacing) {
 				
-				Text("storedhp_title")
+				Text("organization_list.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
@@ -149,13 +149,13 @@ struct OrganizationListView: View {
 					
 					NotificationCardView(
 						icon: Image(ImageResource.Woman.womanOnCouch),
-						title: "storedhp_title_empty",
-						message: "storedhp_body_empty"
+						title: "organization_list.no_results_heading",
+						message: "organization_list.no_results_subheading"
 					)
 					
 					case let .list(list):
 					
-						Text("storedhp_body")
+						Text("organization_list.subheading")
 							.rijksoverheidStyle(font: .regular, style: .body)
 							.frame(maxWidth: .infinity, alignment: .topLeading)
 					
@@ -168,7 +168,7 @@ struct OrganizationListView: View {
 										.foregroundStyle(.clear)
 										.accessibilityLabel(
 											String(
-												format: String(localized: "storedhp_remove_voiceover"),
+												format: String(localized: "remove_organization.heading"),
 												arguments: ["\(healthcareOrganization.display_name)"]
 											)
 										)
@@ -195,10 +195,10 @@ struct OrganizationListView: View {
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.alert(viewModel.healthcareOrganizationToRemoveTitle ?? "", isPresented: $viewModel.healthcareOrganizationToRemoveTitle.presence()) {
-			Button("storedhp_alert_cancel", role: .cancel) { viewModel.reduce(.cancelDialog) }
-			Button("storedhp_alert_remove") { viewModel.reduce(.remove) }
+			Button("dialog.remove_organization_no", role: .cancel) { viewModel.reduce(.cancelDialog) }
+			Button("dialog.remove_organization_yes") { viewModel.reduce(.remove) }
 		} message: {
-			Text("storedhp_alert_body")
+			Text("dialog.remove_organization_subheading")
 		}
 		.navigationBarBackButtonHidden(true)
 		.if(isPresentedAsSheet, transform: { view in
@@ -230,29 +230,29 @@ struct OrganizationListView: View {
 					// add a healthcare organization
 					// Secondary go to overview
 					
-					CallToActionButton("storedhp_action_done", style: .secondary) {
+					CallToActionButton("organization_list.to_overview", style: .secondary) {
 						viewModel.reduce(.done)
 					}
-					.tag("storedhp_action_done")
+					.tag("organization_list.to_overview")
 					
-					CallToActionButton("storedhp_action_again") {
+					CallToActionButton("organization_list.add_organization") {
 						viewModel.reduce(.backToSearch)
 					}
-					.tag("storedhp_action_again")
+					.tag("organization_list.add_organization")
 					
 				case .list:
 					// We already have an organization, so
 					// primary CTA is to go to the overview.
 					// secondary CTA is to add another organization
-					CallToActionButton("storedhp_action_again", style: .secondary) {
+					CallToActionButton("organization_list.add_organization", style: .secondary) {
 						viewModel.reduce(.backToSearch)
 					}
-					.tag("storedhp_action_again")
+					.tag("organization_list.add_organization")
 					
-					CallToActionButton("storedhp_action_done") {
+					CallToActionButton("organization_list.to_overview") {
 						viewModel.reduce(.done)
 					}
-					.tag("storedhp_action_done")
+					.tag("organization_list.to_overview")
 			}
 		}
 		.padding(ViewTraits.Button.insets)

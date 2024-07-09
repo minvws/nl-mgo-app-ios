@@ -83,7 +83,7 @@ final class OrganizationListViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		try sut.inspect().find(viewWithTag: "storedhp_action_again").button().tap()
+		try sut.inspect().find(viewWithTag: "organization_list.add_organization").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
@@ -98,7 +98,7 @@ final class OrganizationListViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		try sut.inspect().find(viewWithTag: "storedhp_action_done").button().tap()
+		try sut.inspect().find(viewWithTag: "organization_list.to_overview").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
