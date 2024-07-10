@@ -163,12 +163,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	internal func handleRemoteConfigChanges(remoteConfiguration: RemoteConfig) {
 		// Updated configuration
-		logDebug("AppCoordinator: new config", remoteConfiguration)
 		
 		let minimumVersion = remoteConfiguration.iosMinimumVersion.semanticVersion()
 		let currentVersion = versionSupplier.getCurrentVersion().semanticVersion()
 		
-		logInfo("We are \(currentVersion), minimum is \(minimumVersion)")
+		logDebug("AppCoordinator: Updated config, we are \(currentVersion), minimum is \(minimumVersion)")
 		
 		if minimumVersion.compare(currentVersion, options: .numeric) == .orderedDescending {
 			self.handle(.updateRequired)
