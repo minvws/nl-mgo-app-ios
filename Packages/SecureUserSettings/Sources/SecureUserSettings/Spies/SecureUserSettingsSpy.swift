@@ -101,6 +101,28 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 			return stubbedUserHasSeenAppIntroduction
 		}
 	}
+	
+	public var invokedUserHasSeenJailBreakWarningSetter = false
+	public var invokedUserHasSeenJailBreakWarningSetterCount = 0
+	public var invokedUserHasSeenJailBreakWarning: Bool?
+	public var invokedUserHasSeenJailBreakWarningList = [Bool]()
+	public var invokedUserHasSeenJailBreakWarningGetter = false
+	public var invokedUserHasSeenJailBreakWarningGetterCount = 0
+	public var stubbedUserHasSeenJailBreakWarning: Bool! = false
+
+	public var userHasSeenJailBreakWarning: Bool {
+		set {
+			invokedUserHasSeenJailBreakWarningSetter = true
+			invokedUserHasSeenJailBreakWarningSetterCount += 1
+			invokedUserHasSeenJailBreakWarning = newValue
+			invokedUserHasSeenJailBreakWarningList.append(newValue)
+		}
+		get {
+			invokedUserHasSeenJailBreakWarningGetter = true
+			invokedUserHasSeenJailBreakWarningGetterCount += 1
+			return stubbedUserHasSeenJailBreakWarning
+		}
+	}
 
 	public var invokedUserHasRemoteAuthenticationSetter = false
 	public var invokedUserHasRemoteAuthenticationSetterCount = 0

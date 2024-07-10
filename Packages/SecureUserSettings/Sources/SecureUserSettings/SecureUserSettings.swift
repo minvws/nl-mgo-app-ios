@@ -22,6 +22,9 @@ public protocol SecureUserSettingsProtocol: AnyObject {
 	/// Have we seen the app introduction
 	var userHasSeenAppIntroduction: Bool { get set }
 	
+	/// Have we seen the jail break warning?
+	var userHasSeenJailBreakWarning: Bool { get set }
+	
 	/// Did the user complete the DigiD flow?
 	var userHasRemoteAuthentication: Bool { get set }
 	
@@ -34,10 +37,11 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	
 	/// Default values
 	public struct Defaults {
-		public static var userHasSeenAppIntroduction: Bool = false
-		public static var userHasRemoteAuthentication: Bool = false
 		public static var bioMetricAuthenticationEnabled: Bool = false
 		public static var pinCode: String?
+		public static var userHasSeenAppIntroduction: Bool = false
+		public static var userHasSeenJailBreakWarning: Bool = false
+		public static var userHasRemoteAuthentication: Bool = false
 	}
 	
 	/// Initlializer
@@ -45,21 +49,24 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 		// Public initializer needed for public access.
 	}
 	
-	@Keychain(name: "userHasSeenAppIntroduction", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
-	public var userHasSeenAppIntroduction: Bool = Defaults.userHasSeenAppIntroduction
-	
-	@Keychain(name: "accessCode", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
+	@Keychain(name: "pinCode", service: "LocalAuthentication" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var pinCode: String? = Defaults.pinCode
-	
+
 	@Keychain(name: "bioMetricAuthenticationEnabled", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var bioMetricAuthenticationEnabled: Bool = Defaults.bioMetricAuthenticationEnabled
 
 	@Keychain(name: "tempPinCode", service: "LocalAuthentication" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var tempPinCode: String? = Defaults.pinCode
-	
+
 	@Keychain(name: "userHasRemoteAuthentication", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var userHasRemoteAuthentication: Bool = Defaults.userHasRemoteAuthentication
+
+	@Keychain(name: "userHasSeenAppIntroduction", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
+	public var userHasSeenAppIntroduction: Bool = Defaults.userHasSeenAppIntroduction
 	
+	@Keychain(name: "userHasSeenJailBreakWarning", service: "Security" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
+	public var userHasSeenJailBreakWarning: Bool = Defaults.userHasSeenJailBreakWarning
+		
 	/// Helper method to detect if we are unit testing.
 	/// If so, append `_test` to the service name to separate tests from production
 	static private var serviceExtension: String {
@@ -77,7 +84,8 @@ extension SecureUserSettings {
 		pinCode = Defaults.pinCode
 		bioMetricAuthenticationEnabled = Defaults.bioMetricAuthenticationEnabled
 		tempPinCode = Defaults.pinCode
-		userHasSeenAppIntroduction = Defaults.userHasSeenAppIntroduction
 		userHasRemoteAuthentication = Defaults.userHasRemoteAuthentication
+		userHasSeenAppIntroduction = Defaults.userHasSeenAppIntroduction
+		userHasSeenJailBreakWarning = Defaults.userHasSeenJailBreakWarning
 	}
 }
