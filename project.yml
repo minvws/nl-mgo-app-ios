@@ -55,6 +55,7 @@ configs:
 
 fileGroups:
   - project.yml
+  - sonar-project.properties
   - .github
   - fastlane
   - Diagrams
