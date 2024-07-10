@@ -594,7 +594,7 @@ struct PinCodeView: View {
 					.disabled(!viewModel.state.eraseEnabled)
 				}
 			}
-			.if(safeAreaInsets.bottom == 0) { view in
+			.when(safeAreaInsets.bottom == 0) { view in
 				view.padding(.bottom, ViewTraits.General.bottomPadding)
 			}
 			.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.keyboard)
@@ -603,7 +603,7 @@ struct PinCodeView: View {
 		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationBarBackButtonHidden(true)
-		.if(viewModel.state.backButtonVisible) { view in
+		.when(viewModel.state.backButtonVisible) { view in
 			// Show the backbutton
 			view.navigationBarItems(leading: BackButton(viewModel.state.backButtonKey) {
 				viewModel.reduce(.backButtonPressed)

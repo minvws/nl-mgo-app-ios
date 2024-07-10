@@ -18,7 +18,7 @@ final class ConditionalViewModifierTests: XCTestCase {
 		let condition = false
 		
 		// When
-		let sut = text.if(condition) { view in
+		let sut = text.when(condition) { view in
 			view.border(Color.red)
 		}
 		
@@ -33,7 +33,7 @@ final class ConditionalViewModifierTests: XCTestCase {
 		let condition = true
 		
 		// When
-		let sut = text.if(condition) { view in
+		let sut = text.when(condition) { view in
 			view.border(Color.red)
 		}
 		

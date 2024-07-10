@@ -231,7 +231,7 @@ struct OrganizationSearchResultsView: View {
 			viewModel.reduce(.onAppear)
 		}
 		.navigationBarBackButtonHidden(true)
-		.if(isPresentedAsSheet, transform: { view in
+		.when(isPresentedAsSheet, transform: { view in
 			view
 				.toolbar {
 					ToolbarItem(content: { CloseButton {

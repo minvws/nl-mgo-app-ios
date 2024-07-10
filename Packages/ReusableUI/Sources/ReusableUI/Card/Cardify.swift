@@ -34,7 +34,7 @@ public struct Cardify: ViewModifier {
 		
 		content
 			.padding(padding)
-			.if(setBackground, transform: { view in
+			.when(setBackground, transform: { view in
 				view.background(theme.backgroundSecondary)
 			})
 			.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)

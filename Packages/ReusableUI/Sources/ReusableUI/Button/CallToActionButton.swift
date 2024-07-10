@@ -46,13 +46,13 @@ public struct CallToActionButton: View {
 				Text(title)
 			}
 		)
-		.if(style == .primary, transform: { button in
+		.when(style == .primary, transform: { button in
 			button.buttonStyle(PrimaryButtonStyle())
 		})
-		.if(style == .secondary, transform: { button in
+		.when(style == .secondary, transform: { button in
 			button.buttonStyle(SecondaryButtonStyle())
 		})
-		.if(style == .destructive, transform: { button in
+		.when(style == .destructive, transform: { button in
 			button.buttonStyle(DestructiveButtonStyle())
 		})
 	}
