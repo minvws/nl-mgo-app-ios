@@ -106,7 +106,7 @@ class MedicationListViewModel: ObservableObject {
 	/// Load the medication for the healthcare organization
 	func loadMedication() async {
 		
-		guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.ServiceId.CommonClinicalDataset) else {
+		guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID) else {
 			state = .empty
 			return
 		}

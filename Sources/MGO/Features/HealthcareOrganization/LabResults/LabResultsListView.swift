@@ -105,7 +105,7 @@ class LabResultsListViewModel: ObservableObject {
 	/// Load the laboratory test results for the healthcare organization
 	func loadResults() async {
 		
-		guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.ServiceId.CommonClinicalDataset) else {
+		guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID) else {
 			state = .empty
 			return
 		}

@@ -10,15 +10,11 @@ import FHIRClient
 
 public struct DVP {
 	
-	public enum ServiceId {
-		
-		public static let CommonClinicalDataset: Int = 48
-		public static let GeneralPractitioner: Int = 49
-		public static let Documents: Int = 51
-	}
-	
+	/// The settings for the Basisgegevensset Zorg
 	public enum CommonClinicalDataset {
 		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017
+		
+		public static let serviceID: Int = 48
 		
 		public static let medicationUse: RequestParameters = RequestParameters(
 			[
@@ -40,5 +36,19 @@ public struct DVP {
 				(RequestParameterField.include, "Observation:specimen")
 			]
 		)
+	}
+	
+	/// The settings for the Huisartsgegevens
+	public enum GeneralPractitioner {
+		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/OntwerpHuisartsgegevens
+		
+		public static let serviceID: Int = 49
+	}
+	
+	/// The settings for the Documenten PDF/A
+	public enum Documents {
+		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/OntwerpPDFA
+		
+		public static let serviceID: Int = 51
 	}
 }
