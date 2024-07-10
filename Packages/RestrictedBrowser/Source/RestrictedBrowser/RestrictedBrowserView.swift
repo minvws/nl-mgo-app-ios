@@ -32,15 +32,18 @@ public struct RestrictedBrowserView: View {
 			WebView(viewModel: viewModel, url: viewModel.url)
 				.background(theme.backgroundPrimary)
 				.toolbar {
-					ToolbarItemGroup(placement: .topBarTrailing) {
-						Spacer()
-						Button {
-							viewModel.reduce(.safariButtonPressed)
-						} label: {
-							Image(systemName: "safari")
+					ToolbarItemGroup(
+						placement: .topBarTrailing,
+						content: {
+							Spacer()
+							Button {
+								viewModel.reduce(.safariButtonPressed)
+							} label: {
+								Image(systemName: "safari")
+							}
+							.buttonStyle(NavigationBarButtonStyle())
 						}
-						.buttonStyle(NavigationBarButtonStyle())
-					}
+					)
 				}
 		}
 	}
