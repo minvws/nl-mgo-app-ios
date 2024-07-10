@@ -50,6 +50,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {
 		
+		// See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623122-application
 		return extensionPointIdentifier != .keyboard
 	}
 }
