@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
+    "[privacyverklaring](/privacystatement)" : {
+
+    },
     "add_organization.add_voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -947,94 +950,6 @@
         }
       }
     },
-    "organization.diagnosis_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klachten en diagnoses"
-          }
-        }
-      }
-    },
-    "organization.diagnosis_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vastgesteld door je zorgaanbieder"
-          }
-        }
-      }
-    },
-    "organization.lab_results_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uitslagen"
-          }
-        }
-      }
-    },
-    "organization.lab_results_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resultaten van jouw onderzoeken, (röntgen)foto's en scans"
-          }
-        }
-      }
-    },
-    "organization.medicine_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medicijnen"
-          }
-        }
-      }
-    },
-    "organization.medicine_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voorgeschreven door je zorgaanbieder"
-          }
-        }
-      }
-    },
-    "organization.remove_organization_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zorgaanbieder verwijderen"
-          }
-        }
-      }
-    },
-    "organization.remove_organization_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze zorgaanbieder niet meer tonen in de app"
-          }
-        }
-      }
-    },
     "organization_list.add_organization" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1174,6 +1089,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zorgaanbieders aan het zoeken..."
+          }
+        }
+      }
+    },
+    "organization.diagnosis_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klachten en diagnoses"
+          }
+        }
+      }
+    },
+    "organization.diagnosis_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vastgesteld door je zorgaanbieder"
+          }
+        }
+      }
+    },
+    "organization.lab_results_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitslagen"
+          }
+        }
+      }
+    },
+    "organization.lab_results_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultaten van jouw onderzoeken, (röntgen)foto's en scans"
+          }
+        }
+      }
+    },
+    "organization.medicine_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medicijnen"
+          }
+        }
+      }
+    },
+    "organization.medicine_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voorgeschreven door je zorgaanbieder"
+          }
+        }
+      }
+    },
+    "organization.remove_organization_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieder verwijderen"
+          }
+        }
+      }
+    },
+    "organization.remove_organization_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder niet meer tonen in de app"
           }
         }
       }
