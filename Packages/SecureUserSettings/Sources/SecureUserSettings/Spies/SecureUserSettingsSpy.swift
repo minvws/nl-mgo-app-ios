@@ -10,9 +10,7 @@ import Foundation
 public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 
 	/// Initlializer
-	public init() {
-		// Public initializer needed for public access.
-	}
+	public init() { /* Public initializer needed for public access */ }
 	
 	public var invokedTempPinCodeSetter = false
 	public var invokedTempPinCodeSetterCount = 0
@@ -99,6 +97,28 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 			invokedUserHasSeenAppIntroductionGetter = true
 			invokedUserHasSeenAppIntroductionGetterCount += 1
 			return stubbedUserHasSeenAppIntroduction
+		}
+	}
+	
+	public var invokedUserHasSeenJailBreakWarningSetter = false
+	public var invokedUserHasSeenJailBreakWarningSetterCount = 0
+	public var invokedUserHasSeenJailBreakWarning: Bool?
+	public var invokedUserHasSeenJailBreakWarningList = [Bool]()
+	public var invokedUserHasSeenJailBreakWarningGetter = false
+	public var invokedUserHasSeenJailBreakWarningGetterCount = 0
+	public var stubbedUserHasSeenJailBreakWarning: Bool! = false
+
+	public var userHasSeenJailBreakWarning: Bool {
+		set {
+			invokedUserHasSeenJailBreakWarningSetter = true
+			invokedUserHasSeenJailBreakWarningSetterCount += 1
+			invokedUserHasSeenJailBreakWarning = newValue
+			invokedUserHasSeenJailBreakWarningList.append(newValue)
+		}
+		get {
+			invokedUserHasSeenJailBreakWarningGetter = true
+			invokedUserHasSeenJailBreakWarningGetterCount += 1
+			return stubbedUserHasSeenJailBreakWarning
 		}
 	}
 

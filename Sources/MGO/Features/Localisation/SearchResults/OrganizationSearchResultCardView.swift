@@ -137,11 +137,11 @@ struct OrganizationSearchResultCardView: View {
 		.accessibilityElement(children: .combine)
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
-		.if(state == .warning, transform: { view in
+		.when(state == .warning, transform: { view in
 			view.background(theme.backgroundTertiary)
 		})
 		.cornerRadius(ViewTraits.General.cornerRadius)
-		.if(state != .warning, transform: { view in
+		.when(state != .warning, transform: { view in
 			view
 				.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
 				.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)

@@ -50,6 +50,9 @@ swift-openapi-urlsession: {
 NavigationStackBackport: {
   shape: hexagon
 }
+iOSSecuritySuite: {
+  shape: hexagon
+}
 Logging: {
   shape: hexagon
 }
@@ -73,42 +76,6 @@ MGOapp <- UIKit
 
 # - Packages -
 
-MGOFoundation { style.fill: "#ffcc00" }
-MGOFoundation <- Foundation
-MGOFoundation <- LocalisationService
-MGOFoundation <- Logging
-MGOFoundation <- Managers
-MGOFoundation <- MGORepository
-MGOFoundation <- Observatory
-MGOFoundation <- RemoteConfiguration
-
-MGOUI { style.fill: "#ffcc00" }
-MGOUI <- NavigationStackBackport
-MGOUI <- ReusableUI
-MGOUI <- SwiftUI
-
-Managers { style.fill: "#ffcc00" }
-Managers <- CommonCrypto
-Managers <- Foundation
-Managers <- SwiftSoup
-Managers <- UIKit
-
-RijksoverheidFont { style.fill: "#ffcc00" }
-RijksoverheidFont <- CoreGraphics
-RijksoverheidFont <- CoreText
-RijksoverheidFont <- DeviceKit
-RijksoverheidFont <- SwiftUI
-
-ReusableUI { style.fill: "#ffcc00" }
-ReusableUI <- RijksoverheidFont
-ReusableUI <- SwiftUI
-ReusableUI <- Theme
-
-MGORepository  { style.fill: "#ffcc00" }
-MGORepository <- FHIRClient
-MGORepository <- FHIRExtensions
-MGORepository <- Foundation
-
 FHIRClient { style.fill: "#ffcc00" }
 FHIRClient <- FHIRModels
 FHIRClient <- Foundation
@@ -120,16 +87,9 @@ FHIRExtensions <- Foundation
 FileStorage { style.fill: "#ffcc00" }
 FileStorage <- Foundation
 
-Observatory { style.fill: "#ffcc00" }
-Observatory <- Foundation
-
-RestrictedBrowser { style.fill: "#ffcc00" }
-RestrictedBrowser <- SwiftUI
-RestrictedBrowser <- Theme
-RestrictedBrowser <- WebKit
-
-Theme { style.fill: "#ffcc00" }
-Theme <- SwiftUI
+JailBreakDetector { style.fill: "#ffcc00" }
+JailBreakDetector <- Foundation
+JailBreakDetector <- iOSSecuritySuite
 
 LocalisationService { style.fill: "#ffcc00" }
 LocalisationService <- Foundation
@@ -140,6 +100,35 @@ LocalisationService <- swift-openapi-generator
 LocalisationService <- swift-openapi-runtime
 LocalisationService <- swift-openapi-urlsession
 
+MGOFoundation { style.fill: "#ffcc00" }
+MGOFoundation <- Foundation
+MGOFoundation <- JailBreakDetector
+MGOFoundation <- LocalisationService
+MGOFoundation <- Logging
+MGOFoundation <- Managers
+MGOFoundation <- MGORepository
+MGOFoundation <- Observatory
+MGOFoundation <- SecureUserSettings
+MGOFoundation <- RemoteConfiguration
+
+MGOUI { style.fill: "#ffcc00" }
+MGOUI <- NavigationStackBackport
+MGOUI <- ReusableUI
+MGOUI <- SwiftUI
+
+Managers { style.fill: "#ffcc00" }
+Managers <- Foundation
+Managers <- SwiftSoup
+Managers <- UIKit
+
+MGORepository  { style.fill: "#ffcc00" }
+MGORepository <- FHIRClient
+MGORepository <- FHIRExtensions
+MGORepository <- Foundation
+
+Observatory { style.fill: "#ffcc00" }
+Observatory <- Foundation
+
 RemoteConfiguration { style.fill: "#ffcc00" }
 RemoteConfiguration <- Foundation
 RemoteConfiguration <- FileStorage
@@ -148,3 +137,26 @@ RemoteConfiguration <- Observatory
 RemoteConfiguration <- swift-openapi-generator
 RemoteConfiguration <- swift-openapi-runtime
 RemoteConfiguration <- swift-openapi-urlsession
+
+RestrictedBrowser { style.fill: "#ffcc00" }
+RestrictedBrowser <- SwiftUI
+RestrictedBrowser <- Theme
+RestrictedBrowser <- WebKit
+
+ReusableUI { style.fill: "#ffcc00" }
+ReusableUI <- RijksoverheidFont
+ReusableUI <- SwiftUI
+ReusableUI <- Theme
+
+RijksoverheidFont { style.fill: "#ffcc00" }
+RijksoverheidFont <- CoreGraphics
+RijksoverheidFont <- CoreText
+RijksoverheidFont <- DeviceKit
+RijksoverheidFont <- SwiftUI
+
+SecureUserSettings { style.fill: "#ffcc00" }
+SecureUserSettings <- CommonCrypto
+SecureUserSettings <- Foundation
+
+Theme { style.fill: "#ffcc00" }
+Theme <- SwiftUI

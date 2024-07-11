@@ -14,6 +14,8 @@ packages:
     path: ./Packages/FHIRExtensions
   FileStorage:
     path: ./Packages/FileStorage
+  JailBreakDetector:
+    path: ./Packages/JailBreakDetector
   LocalisationService:
     path: ./Packages/LocalisationService
   Managers:
@@ -38,6 +40,8 @@ packages:
     path: ./Packages/RijksoverheidFont
   Theme:
     path: ./Packages/Theme
+  SecureUserSettings:
+    path: ./Packages/SecureUserSettings
 
 # - Attributes:
 
@@ -55,6 +59,7 @@ configs:
 
 fileGroups:
   - project.yml
+  - sonar-project.properties
   - .github
   - fastlane
   - Diagrams
@@ -160,11 +165,19 @@ targetTemplates:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         ITSAppUsesNonExemptEncryption: false
         LSApplicationQueriesSchemes:
+          - 'tel'
+          - 'activator'
+          - 'cydia'
+          - 'filza'
+          - 'sileo'
+          - 'undecimus'
+          - 'zbra'
           - 'https'
           - 'googlechromes'
           - 'opera-https'
           - 'firefox'
           - 'microsoft-edge-https'
+          - 'itms-apps'
         LSRequiresIPhoneOS: true
         NSFaceIDUsageDescription: "Log volgende keer in met gezichtsherkenning."
         UIApplicationSupportsIndirectInputEvents: true
@@ -373,6 +386,9 @@ schemes:
         - package: FileStorage/FileStorageTests
           randomExecutionOrder: true
           parallelizable: false
+        - package: JailBreakDetector/JailBreakDetectorTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: LocalisationService/LocalisationServiceTests
           randomExecutionOrder: true
           parallelizable: false
@@ -403,7 +419,10 @@ schemes:
         - package: Theme/ThemeTests
           randomExecutionOrder: true
           parallelizable: false
-    
+        - package: SecureUserSettings/SecureUserSettingsTests
+          randomExecutionOrder: true
+          parallelizable: false
+
   MGO Acceptance:
     templates:
       - ConfigScheme

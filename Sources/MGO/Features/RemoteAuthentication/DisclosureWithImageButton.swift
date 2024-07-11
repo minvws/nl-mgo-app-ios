@@ -48,7 +48,7 @@ struct DisclosureWithImageButton: View {
 			HStack(alignment: .center, spacing: 0) {
 				
 				Rectangle()
-					.if(showImageBorder, transform: { view in
+					.when(showImageBorder, transform: { view in
 						view
 							.overlay {
 								Rectangle()

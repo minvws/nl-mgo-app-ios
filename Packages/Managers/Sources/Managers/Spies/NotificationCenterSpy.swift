@@ -10,9 +10,7 @@ import UIKit
 public class NotificationCenterSpy: NotificationCenterProtocol {
 
 	/// Initlializer
-	public init() {
-		// Public initializer needed for public access.
-	}
+	public init() { /* Public initializer needed for public access */ }
 	
 	public var invokedAddObserverSelector = false
 	public var invokedAddObserverSelectorCount = 0

@@ -35,7 +35,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 				// Change the background color of the bottom view if we should scroll
 				.background(scrollable ? theme.backgroundSecondary : theme.backgroundPrimary)
 				// Only apply the shadow if we should scroll
-				.if(scrollable) { view in
+				.when(scrollable) { view in
 					view
 						.shadow(color: theme.contentPrimary.opacity(0.05), radius: 7, x: 0, y: -6)
 						.shadow(color: theme.contentPrimary.opacity(0.06), radius: 3, x: 0, y: 0)

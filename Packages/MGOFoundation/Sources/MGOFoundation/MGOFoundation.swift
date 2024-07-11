@@ -11,10 +11,12 @@
 // Internal
 @_exported import FHIRExtensions
 @_exported import FHIRClient
+@_exported import JailBreakDetector
 @_exported import LocalisationService
 @_exported import Managers
 @_exported import MGORepository
 @_exported import Observatory
+@_exported import SecureUserSettings
 @_exported import RemoteConfiguration
 
 // VWS

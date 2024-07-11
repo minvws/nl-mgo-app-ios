@@ -11,9 +11,7 @@ import FHIRClient
 public class LaboratoryTestResultRepositorySpy: LaboratoryTestResultRepository {
 	
 	/// Initlializer
-	public init() {
-		// Public initializer needed for public access.
-	}
+	public init() { /* Public initializer needed for public access */ }
 
 	public var invokedFetchResults = false
 	public var invokedFetchResultsCount = 0

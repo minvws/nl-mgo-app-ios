@@ -53,7 +53,7 @@ public struct AccordionView<Content: View>: View {
 					.accessibilityAddTraits(.isButton)
 			}
 			.foregroundColor(theme.contentPrimary)
-			.if(!UIAccessibility.isVoiceOverRunning, transform: { view in
+			.when(!UIAccessibility.isVoiceOverRunning, transform: { view in
 				view
 					.contentShape(Rectangle())
 				// Make the whole HStack tappable when voiceover is disable.

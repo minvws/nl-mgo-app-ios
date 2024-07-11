@@ -6,7 +6,7 @@
  */
 
 import MGOTest
-@testable import Managers
+@testable import SecureUserSettings
 
 final class SecureUserSettingsTests: XCTestCase {
 	
@@ -29,6 +29,7 @@ final class SecureUserSettingsTests: XCTestCase {
 		
 		// Given
 		sut.userHasSeenAppIntroduction = true
+		sut.userHasSeenJailBreakWarning = true
 		sut.userHasRemoteAuthentication = true
 		sut.bioMetricAuthenticationEnabled = true
 		sut.pinCode = "TEST"
@@ -38,6 +39,7 @@ final class SecureUserSettingsTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.userHasSeenAppIntroduction) == false
+		expect(self.sut.userHasSeenJailBreakWarning) == false
 		expect(self.sut.userHasRemoteAuthentication) == false
 		expect(self.sut.bioMetricAuthenticationEnabled) == false
 		expect(self.sut.pinCode) == nil
@@ -55,6 +57,18 @@ final class SecureUserSettingsTests: XCTestCase {
 		expect(self.sut.pinCode) == "Testing"
 	}
 	
+	func test_secureUserSettings_setTempPinCode() {
+		
+		// Given
+		expect(self.sut.tempPinCode) == nil
+		
+		// When
+		sut.tempPinCode = "Testing"
+		
+		// Then
+		expect(self.sut.tempPinCode) == "Testing"
+	}
+	
 	func test_secureUserSettings_setBioMetricAuthenticationEnabled() {
 		
 		// Given
@@ -65,6 +79,18 @@ final class SecureUserSettingsTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.bioMetricAuthenticationEnabled) == true
+	}
+	
+	func test_secureUserSettings_setUserHasRemoteAuthentication() {
+		
+		// Given
+		expect(self.sut.userHasRemoteAuthentication) == false
+		
+		// When
+		sut.userHasRemoteAuthentication = true
+		
+		// Then
+		expect(self.sut.userHasRemoteAuthentication) == true
 	}
 	
 	func test_secureUserSettings_setUserHasSeenAppIntroduction() {
@@ -79,15 +105,15 @@ final class SecureUserSettingsTests: XCTestCase {
 		expect(self.sut.userHasSeenAppIntroduction) == true
 	}
 	
-	func test_secureUserSettings_setUserHasRemoteAuthentication() {
+	func test_secureUserSettings_setUserHasSeenJailBreakWarning() {
 		
 		// Given
-		expect(self.sut.userHasRemoteAuthentication) == false
+		expect(self.sut.userHasSeenJailBreakWarning) == false
 		
 		// When
-		sut.userHasRemoteAuthentication = true
+		sut.userHasSeenJailBreakWarning = true
 		
 		// Then
-		expect(self.sut.userHasRemoteAuthentication) == true
+		expect(self.sut.userHasSeenJailBreakWarning) == true
 	}
 }

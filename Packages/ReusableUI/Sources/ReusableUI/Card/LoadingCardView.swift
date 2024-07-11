@@ -62,7 +62,7 @@ public struct LoadingCardView: View {
 			.onAppear(perform: {
 				progress = 1
 			})
-			.if(showBorder, transform: { view in
+			.when(showBorder, transform: { view in
 				view
 					.cardify()
 			})

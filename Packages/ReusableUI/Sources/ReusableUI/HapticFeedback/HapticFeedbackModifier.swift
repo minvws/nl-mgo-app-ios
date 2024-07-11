@@ -14,7 +14,7 @@ public enum HapticFeedback {
 	case heavy
 }
 
-/// A View Modifer that gives haptic feedback
+/// A view modifier that gives haptic feedback
 struct HapticFeedbackModifier: ViewModifier {
 	
 	/// The feedback level
@@ -25,18 +25,21 @@ struct HapticFeedbackModifier: ViewModifier {
 	/// - Returns: feedback on press
 	public func body(content: Content) -> some View {
 		content
-			.onLongPressGesture(minimumDuration: 0, perform: {}, onPressingChanged: { pressing in
-				if pressing {
-					switch feedback {
-						case .light:
-							Haptic.light()
-						case .medium:
-							Haptic.medium()
-						case .heavy:
-							Haptic.heavy()
+			.onLongPressGesture(
+				minimumDuration: 0,
+				perform: { /* The action to perform when a long press is recognized. Nothing to do here */ },
+				onPressingChanged: { pressing in
+					if pressing {
+						switch feedback {
+							case .light:
+								Haptic.light()
+							case .medium:
+								Haptic.medium()
+							case .heavy:
+								Haptic.heavy()
+						}
 					}
 				}
-			}
 			)
 	}
 }
@@ -45,7 +48,7 @@ extension View {
 	
 	/// Give haptic feedback on press
 	/// - Parameter feedback: the level of feedback ( light, medium, heavy)
-	/// - Returns: modiffied view.
+	/// - Returns: modified view.
 	public func hapticFeedback(_ feedback: HapticFeedback) -> some View {
 		self.modifier(HapticFeedbackModifier(feedback: feedback))
 	}

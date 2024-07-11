@@ -211,7 +211,7 @@ struct AddOrganizationView: View {
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
 		.navigationBarHidden(false)
-		.if(isPresentedAsSheet, transform: { view in
+		.when(isPresentedAsSheet, transform: { view in
 			view
 				.toolbar {
 					ToolbarItem(content: { CloseButton {

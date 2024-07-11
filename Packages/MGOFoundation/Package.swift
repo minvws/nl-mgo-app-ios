@@ -15,10 +15,12 @@ let package = Package(
 	dependencies: [
 		
 		// Internal
+		.package(name: "JailBreakDetector", path: "../JailBreakDetector"),
 		.package(name: "LocalisationService", path: "../LocalisationService"),
 		.package(name: "Managers", path: "../Managers"),
 		.package(name: "MGORepository", path: "../MGORepository"),
 		.package(name: "Observatory", path: "../Observatory"),
+		.package(name: "SecureUserSettings", path: "../SecureUserSettings"),
 		.package(name: "RemoteConfiguration", path: "../RemoteConfiguration"),
 		
 		// VWS
@@ -28,11 +30,13 @@ let package = Package(
 		.target(
 			name: "MGOFoundation",
 			dependencies: [
+				.product(name: "JailBreakDetector", package: "JailBreakDetector"),
 				.product(name: "LocalisationService", package: "LocalisationService"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
 				.product(name: "Managers", package: "Managers"),
 				.product(name: "MGORepository", package: "MGORepository"),
 				.product(name: "Observatory", package: "Observatory"),
+				.product(name: "SecureUserSettings", package: "SecureUserSettings"),
 				.product(name: "RemoteConfiguration", package: "RemoteConfiguration")
 			]
 		)

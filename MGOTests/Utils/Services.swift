@@ -22,6 +22,12 @@ final class ServicesSpies {
 		(spy.stubbedRemovalObservatory, _) = Observatory<HealthcareOrganization>.create()
 		return spy
 	}()
+
+	var jailBreakSpy: JailBreakProtocolSpy = {
+		let spy = JailBreakProtocolSpy()
+		spy.stubbedIsJailBrokenResult = false
+		return spy
+	}()
 	
 	var notificationCenterSpy: NotificationCenterSpy = {
 		let spy = NotificationCenterSpy()
@@ -56,6 +62,7 @@ func setupServicesSpies() -> ServicesSpies {
 	Current = Services(
 		now: { Date(timeIntervalSince1970: 1700000000) }, // Tuesday, 14 November 2023 22:13:20
 		healthcareOrganizationStore: spies.healthcareOrganizationStoreSpy,
+		jailBreakDetector: spies.jailBreakSpy,
 		localAuthenticationProvider: spies.localAuthenticationProviderSpy,
 		notificationCenter: spies.notificationCenterSpy,
 		remoteConfigurationRepository: spies.remoteConfigurationRepositorySpy,

@@ -160,7 +160,7 @@ You can not aways use an **if** statement in a view, especially when using view 
 
 ```swift
 Text("ConditionalViewModifier")
-		.if(state == .warning, transform: { view in
+		.when(state == .warning, transform: { view in
 			view.foregroundStyle(.orange)
 		})
 ```

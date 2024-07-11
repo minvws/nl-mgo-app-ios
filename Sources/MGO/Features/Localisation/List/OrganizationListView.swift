@@ -201,7 +201,7 @@ struct OrganizationListView: View {
 			Text("dialog.remove_organization_subheading")
 		}
 		.navigationBarBackButtonHidden(true)
-		.if(isPresentedAsSheet, transform: { view in
+		.when(isPresentedAsSheet, transform: { view in
 			view
 				.toolbar {
 					ToolbarItem(content: { CloseButton {

@@ -58,7 +58,7 @@ struct OrganizationLoadingSearchResultsView: View {
 				showSpinner = true
 			}
 		}
-		.if(showSpinner) { view in
+		.when(showSpinner) { view in
 			view
 				.onAppear(perform: {
 					progress = 1
