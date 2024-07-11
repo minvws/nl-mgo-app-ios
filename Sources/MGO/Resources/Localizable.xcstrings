@@ -873,6 +873,28 @@
         }
       }
     },
+    "launch.jailbreak_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er zijn beveiligingsrisico’s gevonden"
+          }
+        }
+      }
+    },
+    "launch.jailbreak_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let op: je apparaat is gejailbreakt. Je gegevens zijn mogelijk niet veilig."
+          }
+        }
+      }
+    },
     "login.digid" : {
       "extractionState" : "manual",
       "localizations" : {

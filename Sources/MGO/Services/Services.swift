@@ -13,6 +13,7 @@ import MGOFoundation
 struct Services {
 	var now: () -> Date
 	var healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol
+	var jailBreakDetector: JailBreakProtocol
 	var localAuthenticationProvider: LocalAuthenticationProviderProtocol
 	var notificationCenter: NotificationCenterProtocol
 	var remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol
@@ -21,6 +22,7 @@ struct Services {
 	init(
 		now: @escaping () -> Date,
 		healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol,
+		jailBreakDetector: JailBreakProtocol,
 		localAuthenticationProvider: LocalAuthenticationProviderProtocol,
 		notificationCenter: NotificationCenterProtocol,
 		remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol,
@@ -28,6 +30,7 @@ struct Services {
 	) {
 		self.now = now
 		self.healthcareOrganizationStore = healthcareOrganizationStore
+		self.jailBreakDetector = jailBreakDetector
 		self.localAuthenticationProvider = localAuthenticationProvider
 		self.notificationCenter = notificationCenter
 		self.remoteConfigurationRepository = remoteConfigurationRepository
@@ -38,6 +41,7 @@ struct Services {
 // MARK: - 2: Instantiate Private Dependencies
 
 private let healthcareOrganizationStore = HealthcareOrganizationRepository()
+private let jailBreakDetector = JailBreakDetector()
 private let localAuthenticationProvider = LocalAuthenticationProvider()
 private let now: () -> Date = Date.init
 private let notificationCenter = NotificationCenter.default
@@ -54,6 +58,7 @@ let services: () -> Services = {
 	return Services(
 		now: now,
 		healthcareOrganizationStore: healthcareOrganizationStore,
+		jailBreakDetector: jailBreakDetector,
 		localAuthenticationProvider: localAuthenticationProvider,
 		notificationCenter: notificationCenter,
 		remoteConfigurationRepository: remoteConfigurationRepository,

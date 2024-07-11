@@ -32,7 +32,23 @@ final class LaunchViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .loadingConfig
+		expect(self.servicesSpies.jailBreakSpy.invokedIsJailBroken) == true
 		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == true
+	}
+	
+	func test_reduce_fromIdle_toLoadingConfig_jailbroken() throws {
+		
+		// Given
+		sut.state = .idle
+		servicesSpies.jailBreakSpy.stubbedIsJailBrokenResult = true
+		
+		// When
+		sut.reduce(.start)
+		
+		// Then
+		expect(self.sut.state) == .idle
+		expect(self.sut.showJailBreakDialog) == true
+		expect(self.servicesSpies.jailBreakSpy.invokedIsJailBroken) == true
 	}
 
 	func test_reduce_fromLoadingConfig_toLoadingConfig() {
@@ -86,5 +102,19 @@ final class LaunchViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(.configLoaded), timeout: .seconds(5))
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedLoading))
+	}
+	
+	func test_dissmissWarning_shouldUpdateSecureUserSettings() {
+		
+		// Given
+		sut.state = .idle
+		
+		// When
+		sut.reduce(.dismissWarning)
+		
+		// Then
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenJailBreakWarningSetter) == true
+		expect(self.sut.state) == .loadingConfig
+		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == true
 	}
 }

@@ -20,7 +20,7 @@ class LaunchViewModel: ObservableObject {
 	enum State {
 		case idle // Initial State
 		case loadingConfig // Loading the config
-		case configLoaded // Config is loaded (mocked for now, so no error state)
+		case configLoaded // Config is loaded
 	}
 	
 	/// All possible actions for this ViewModel
@@ -28,9 +28,14 @@ class LaunchViewModel: ObservableObject {
 		case start
 		case reset
 		case loaded
+		case dismissWarning
 	}
 	
+	/// The state of the view
 	@Published var state: State
+	
+	/// Should we show the device is jail broken dialog?
+	@Published var showJailBreakDialog = false
 	
 	init(coordinator: (any Coordinator)?, state: State = .idle) {
 		self.coordinator = coordinator
@@ -73,6 +78,11 @@ class LaunchViewModel: ObservableObject {
 		switch action {
 			case .start:
 			
+				guard !shouldShowJailBreakWarning() else {
+					showJailBreakDialog = true
+					return
+				}
+			
 				guard state == .idle else { return }
 				startLoadingConfig()
 			
@@ -82,7 +92,19 @@ class LaunchViewModel: ObservableObject {
 			case .loaded:
 				state = .configLoaded
 				coordinator?.handle(Coordination.Action.finishedLoading)
+			
+			case .dismissWarning:
+				// Mark warning as seen.
+				Current.secureUserSettings.userHasSeenJailBreakWarning = true
+				startLoadingConfig()
 		}
+	}
+	
+	/// Determine if we should show the jail break warning
+	/// - Returns: True if we should show the dialog
+	private func shouldShowJailBreakWarning() -> Bool {
+		
+		return !Current.secureUserSettings.userHasSeenJailBreakWarning && Current.jailBreakDetector.isJailBroken()
 	}
 	
 	/// Load the remote Config
@@ -182,6 +204,11 @@ struct LaunchView: View {
 					recalculateOffset(insets)
 					recalculateBottomPadding(insets)
 				}
+			}
+			.alert("launch.jailbreak_heading", isPresented: $viewModel.showJailBreakDialog ) {
+				Button("common.ok") { viewModel.reduce(.dismissWarning) }
+			} message: {
+				Text("launch.jailbreak_subheading")
 			}
 		}
 		.navigationBarBackButtonHidden()
