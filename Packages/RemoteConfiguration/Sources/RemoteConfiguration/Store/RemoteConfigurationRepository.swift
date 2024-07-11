@@ -137,7 +137,7 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 	
 	/// Persist the remote config to storage
 	private func persistToStorage() throws {
-		
+		#warning("This is stored in plain text on disk. Before release, this should be changed!")
 		try queue.sync {
 			let encoded = try JSONEncoder().encode(storedConfiguration)
 			try storage.store(encoded, as: fileName)
