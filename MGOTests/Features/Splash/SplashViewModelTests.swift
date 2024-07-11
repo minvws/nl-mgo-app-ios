@@ -8,17 +8,17 @@
 import MGOTest
 @testable import MGO
 
-final class LaunchViewModelTests: XCTestCase {
+final class SplashViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
-	private var sut: LaunchViewModel!
+	private var sut: SplashViewModel!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = LaunchViewModel(coordinator: coordinatorSpy, state: .idle)
+		sut = SplashViewModel(coordinator: coordinatorSpy, state: .idle)
 		super.setUp()
 	}
 	

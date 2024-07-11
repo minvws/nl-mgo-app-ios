@@ -33,7 +33,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forLaunch() throws {
 		
 		// Given
-		let state = AppCoordination.State.launch
+		let state = AppCoordination.State.splash
 		
 		// When
 		let view = sut.view(for: state)

@@ -9,7 +9,7 @@ import MGOTest
 import MGOUI
 @testable import MGO
 
-final class LaunchViewTests: XCTestCase {
+final class SplashViewTests: XCTestCase {
 	
 	private var servicesSpies: ServicesSpies!
 	
@@ -19,10 +19,10 @@ final class LaunchViewTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func createSut(state: LaunchViewModel.State) -> LaunchView {
+	func createSut(state: SplashViewModel.State) -> SplashView {
 		
-		return LaunchView(
-			viewModel: LaunchViewModel(
+		return SplashView(
+			viewModel: SplashViewModel(
 				coordinator: nil,
 				state: state
 			)
