@@ -45,9 +45,7 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	}
 	
 	/// Initlializer
-	public init() {
-		// Public initializer needed for public access.
-	}
+	public init() { /* Public initializer needed for public access */ }
 	
 	@Keychain(name: "pinCode", service: "LocalAuthentication" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var pinCode: String? = Defaults.pinCode

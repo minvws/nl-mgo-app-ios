@@ -10,9 +10,7 @@ import SwiftUI
 public class Theme: Themeable {
 	
 	/// Initlializer
-	public init() {
-		// Public initializer needed for public access.
-	}
+	public init() { /* Public initializer needed for public access */ }
 	
 	// MARK: - Background -
 	

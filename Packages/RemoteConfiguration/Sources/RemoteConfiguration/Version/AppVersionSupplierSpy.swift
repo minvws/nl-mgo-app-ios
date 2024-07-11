@@ -9,7 +9,7 @@ import Foundation
 
 public class AppVersionSupplierSpy: AppVersionSupplierProtocol {
 	
-	public init() { /* public initializer  */ }
+	public init() { /* Public initializer needed for public access */ }
 
 	public var invokedGetCurrentVersion = false
 	public var invokedGetCurrentVersionCount = 0

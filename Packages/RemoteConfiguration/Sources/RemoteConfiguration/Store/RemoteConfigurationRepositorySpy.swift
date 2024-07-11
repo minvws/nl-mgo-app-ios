@@ -10,9 +10,7 @@ import Observatory
 
 public class RemoteConfigurationRepositorySpy: RemoteConfigurationRepositoryProtocol {
 	
-	public init() {
-		// Public initializer needed for public access.
-	}
+	public init() { /* Public initializer needed for public access */ }
 	
 	public var invokedStoredConfigurationGetter = false
 	public var invokedStoredConfigurationGetterCount = 0

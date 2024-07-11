@@ -10,9 +10,7 @@ import Observatory
 
 public class HealthcareOrganizationRepositorySpy: HealthcareOrganizationRepositoryProtocol {
 
-	public init() {
-		// Public initializer needed for public access.
-	}
+	public init() { /* Public initializer needed for public access */ }
 	
 	public var invokedOrganizationsGetter = false
 	public var invokedOrganizationsGetterCount = 0

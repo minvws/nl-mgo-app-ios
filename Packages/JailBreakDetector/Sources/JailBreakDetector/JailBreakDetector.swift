@@ -16,7 +16,7 @@ public protocol JailBreakProtocol: AnyObject {
 
 public class JailBreakDetector: JailBreakProtocol {
 	
-	public init() {}
+	public init() { /* Public initializer needed for public access */ }
 	
 	/// Is this device jail broken?
 	public func isJailBroken() -> Bool {

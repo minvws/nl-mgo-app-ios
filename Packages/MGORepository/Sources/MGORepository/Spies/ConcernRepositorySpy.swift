@@ -11,9 +11,7 @@ import FHIRClient
 public class ConcernRepositorySpy: ConcernRepository {
 	
 	/// Initlializer
-	public init() {
-		// Public initializer needed for public access.
-	}
+	public init() { /* Public initializer needed for public access */ }
 
 	public var invokedFetchConcerns = false
 	public var invokedFetchConcernsCount = 0
