@@ -15,7 +15,7 @@ final class MedicationListViewTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: MedicationListViewModel!
-	private var healthcareOrganization: HealthcareOrganization!
+	private var healthcareOrganization: MgoOrganization!
 	private var repositorySpy: MedicationUseRepositorySpy!
 	private var sut: MedicationListView!
 	

@@ -15,7 +15,7 @@ final class ProblemsListViewTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: ProblemsListViewModel!
-	private var healthcareOrganization: HealthcareOrganization!
+	private var healthcareOrganization: MgoOrganization!
 	private var repositorySpy: ConcernRepositorySpy!
 	private var sut: ProblemsListView!
 	

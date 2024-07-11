@@ -15,7 +15,7 @@ final class LabResultsListViewModelTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var sut: LabResultsListViewModel!
-	private var healthcareOrganization: HealthcareOrganization!
+	private var healthcareOrganization: MgoOrganization!
 	private var repositorySpy: LaboratoryTestResultRepositorySpy!
 
 	override func setUp() {

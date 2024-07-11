@@ -24,7 +24,7 @@ class OrganizationDecorator {
 	/// Create a OverviewModel from a HealthcareOrganization
 	/// - Parameter from: HealthcareOrganization
 	/// - Returns: OverviewHealthcareOrganization
-	static func create(_ organisation: HealthcareOrganization) -> OrganizationModel {
+	static func create(_ organisation: MgoOrganization) -> OrganizationModel {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = organisation.display_name // + " [\(identifier)]"

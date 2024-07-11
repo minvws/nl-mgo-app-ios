@@ -52,7 +52,7 @@ class LabResultsListViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The healthcare organization to display
-	@Published var healthcareOrganization: HealthcareOrganization
+	@Published var healthcareOrganization: MgoOrganization
 	
 	/// The repository for Concerns
 	private var laboratoryTestResultRepository: LaboratoryTestResultRepository!
@@ -70,7 +70,7 @@ class LabResultsListViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
-		healthcareOrganization: HealthcareOrganization,
+		healthcareOrganization: MgoOrganization,
 		repository: LaboratoryTestResultRepository? = FHIRClient(),
 		startOpen: Bool = false
 	) {

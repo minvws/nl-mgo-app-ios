@@ -24,7 +24,7 @@ class OverviewDecorator {
 	/// Create a OverviewHealthcareOrganization from a HealthcareOrganization
 	/// - Parameter from: HealthcareOrganization
 	/// - Returns: OverviewHealthcareOrganization
-	static func create(_ organisation: HealthcareOrganization) -> OverviewHealthcareOrganization {
+	static func create(_ organisation: MgoOrganization) -> OverviewHealthcareOrganization {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = Sanitizer.strip(organisation.display_name) ?? ""

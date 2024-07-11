@@ -14,7 +14,7 @@ class OrganizationViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The healthcare organization to display
-	private var healthcareOrganization: HealthcareOrganization
+	private var healthcareOrganization: MgoOrganization
 	
 	/// Model to display
 	@Published var organizationModel: OrganizationModel
@@ -30,7 +30,7 @@ class OrganizationViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: HealthcareOrganization) {
+	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: MgoOrganization) {
 		
 		self.coordinator = coordinator
 		self.healthcareOrganization = healthcareOrganization

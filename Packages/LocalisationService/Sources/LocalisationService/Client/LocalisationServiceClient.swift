@@ -18,7 +18,7 @@ public protocol LocalisationServiceClientProtocol {
 	///   - city: the city to search with
 	///   - name: the name to search with
 	/// - Returns: An (empty) array of Healthcare Organizations
-	func searchHealthcareOrganizations(city: String, name: String) async throws -> [HealthcareOrganization]
+	func searchHealthcareOrganizations(city: String, name: String) async throws -> [MgoOrganization]
 }
 
 public class LocalisationServiceClient: LocalisationServiceClientProtocol {
@@ -38,7 +38,7 @@ public class LocalisationServiceClient: LocalisationServiceClientProtocol {
 	///   - city: the city to search with
 	///   - name: the name to search with
 	/// - Returns: An (empty) array of Healthcare Organizations
-	public func searchHealthcareOrganizations(city: String, name: String) async throws -> [HealthcareOrganization] {
+	public func searchHealthcareOrganizations(city: String, name: String) async throws -> [MgoOrganization] {
 		
 		let searchRequest = Components.Schemas.SearchRequest(name: name, city: city)
 		let input = Operations.read_item_localization_organization_search_post.Input(body: .json(searchRequest))

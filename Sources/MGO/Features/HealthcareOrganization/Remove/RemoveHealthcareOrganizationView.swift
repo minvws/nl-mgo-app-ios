@@ -14,11 +14,11 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The healthcare organization to display
-	@Published var healthcareOrganization: HealthcareOrganization
+	@Published var healthcareOrganization: MgoOrganization
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: HealthcareOrganization) {
+	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: MgoOrganization) {
 		
 		self.coordinator = coordinator
 		self.healthcareOrganization = healthcareOrganization

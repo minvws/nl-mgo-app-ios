@@ -13,7 +13,7 @@ class OrganizationListViewModel: ObservableObject {
 	/// All possible states of the box
 	enum State {
 		case empty
-		case list([HealthcareOrganization])
+		case list([MgoOrganization])
 	}
 	
 	/// A list of all the actions this viewModel can handle
@@ -25,7 +25,7 @@ class OrganizationListViewModel: ObservableObject {
 		case done
 		case onAppear
 		case remove
-		case showRemoveDialog(HealthcareOrganization)
+		case showRemoveDialog(MgoOrganization)
 	}
 	
 	/// The flow coordinator for routing
@@ -38,7 +38,7 @@ class OrganizationListViewModel: ObservableObject {
 	@Published var healthcareOrganizationToRemoveTitle: String?
 	
 	/// the healthcare organization to remove
-	private var healthcareOrganizationToRemove: HealthcareOrganization?
+	private var healthcareOrganizationToRemove: MgoOrganization?
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator

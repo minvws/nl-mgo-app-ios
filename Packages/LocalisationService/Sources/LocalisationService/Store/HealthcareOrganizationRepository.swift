@@ -13,21 +13,21 @@ import FileStorage
 public protocol HealthcareOrganizationRepositoryProtocol {
 	
 	/// The list of stored healthcare organization
-	var organizations: [HealthcareOrganization] { get }
+	var organizations: [MgoOrganization] { get }
 	
 	/// Observatory for changes
 	var observatory: Observatory<Bool> { get }
 	
 	/// Observatory for removals
-	var removalObservatory: Observatory<HealthcareOrganization> { get }
+	var removalObservatory: Observatory<MgoOrganization> { get }
 	
 	/// Add a healthcare organization to the storage
 	/// - Parameter organization: the healthcare organization to store
-	func store(_ organization: HealthcareOrganization) throws
+	func store(_ organization: MgoOrganization) throws
 	
 	/// Delete a healthcare organization from storage
 	/// - Parameter organization: the healthcare organization to be removed
-	func remove(_ organization: HealthcareOrganization) throws
+	func remove(_ organization: MgoOrganization) throws
 	
 	/// Remove all the healthcare organizations
 	func wipePersistedData()
@@ -58,13 +58,13 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	private let observers: (Bool) -> Void
 	
 	/// Observatory for removal
-	public let removalObservatory: Observatory<HealthcareOrganization>
+	public let removalObservatory: Observatory<MgoOrganization>
 	
 	/// Observers for removal
-	private let removalObservers: (HealthcareOrganization) -> Void
+	private let removalObservers: (MgoOrganization) -> Void
 	
 	/// The list of stored healthcare organization
-	public var organizations: [HealthcareOrganization]
+	public var organizations: [MgoOrganization]
 	
 	/// Initializer
 	/// - Parameter storage: storage protocol
@@ -72,7 +72,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 		
 		self.storage = storage
 		(self.observatory, self.observers) = Observatory<Bool>.create()
-		(self.removalObservatory, self.removalObservers) = Observatory<HealthcareOrganization>.create()
+		(self.removalObservatory, self.removalObservers) = Observatory<MgoOrganization>.create()
 		
 		self.organizations = []
 		do {
@@ -85,7 +85,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	
 	/// Add a healthcare organization to the storage
 	/// - Parameter organization: the healthcare organization to store
-	public func store(_ organization: HealthcareOrganization) throws {
+	public func store(_ organization: MgoOrganization) throws {
 		
 		guard !organizations.contains(organization) else {
 			// Can't add twice
@@ -99,10 +99,10 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	
 	/// Get a list of all the stored healthcare organization
 	/// - Returns: array of healthcare organization
-	internal func read() throws -> [HealthcareOrganization] {
+	internal func read() throws -> [MgoOrganization] {
 		
 		if let jsonData = storage.read(fileName: fileName) {
-			let data = try JSONDecoder().decode([HealthcareOrganization].self, from: jsonData)
+			let data = try JSONDecoder().decode([MgoOrganization].self, from: jsonData)
 			return data
 		}
 		return []
@@ -110,7 +110,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	
 	/// Delete a healthcare organization from storage
 	/// - Parameter organization: the healthcare organization to be removed
-	public func remove(_ organization: HealthcareOrganization) throws {
+	public func remove(_ organization: MgoOrganization) throws {
 	
 		logInfo("About to delete \(organization.display_name)")
 		organizations = organizations.filter { $0 != organization }

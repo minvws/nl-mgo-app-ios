@@ -62,11 +62,11 @@ enum DashboardCoordination {
 		case listHealthcareOrganizations
 		
 		// Details Flow
-		case showHealthcareOrganization(healthcareOrganization: HealthcareOrganization)
-		case showProblems(healthcareOrganization: HealthcareOrganization)
-		case showMedication(healthcareOrganization: HealthcareOrganization)
-		case showLabResults(healthcareOrganization: HealthcareOrganization)
-		case removeHealthcareOrganization(healthcareOrganization: HealthcareOrganization)
+		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
+		case showProblems(healthcareOrganization: MgoOrganization)
+		case showMedication(healthcareOrganization: MgoOrganization)
+		case showLabResults(healthcareOrganization: MgoOrganization)
+		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
 }
 
@@ -127,7 +127,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			
 			case Coordination.Action.showHealthcareOrganization.identifier:
 				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
 					firstTabPath.append(DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
@@ -135,7 +135,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			
 			case Coordination.Action.showProblems.identifier:
 				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
 					firstTabPath.append(DashboardCoordination.State.showProblems(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
@@ -143,7 +143,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			
 			case Coordination.Action.showMedication.identifier:
 				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
 					firstTabPath.append(DashboardCoordination.State.showMedication(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
@@ -151,7 +151,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	
 			case Coordination.Action.showLabResults.identifier:
 				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
 					firstTabPath.append(DashboardCoordination.State.showLabResults(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
@@ -159,7 +159,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 
 			case Coordination.Action.removeHealthcareOrganization.identifier:
 				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? HealthcareOrganization {
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
 				
 					rootStateForSheet = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: healthcareOrganization)
 					

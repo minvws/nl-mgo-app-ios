@@ -14,9 +14,9 @@ public class HealthcareOrganizationRepositorySpy: HealthcareOrganizationReposito
 	
 	public var invokedOrganizationsGetter = false
 	public var invokedOrganizationsGetterCount = 0
-	public var stubbedOrganizations: [HealthcareOrganization]! = []
+	public var stubbedOrganizations: [MgoOrganization]! = []
 
-	public var organizations: [HealthcareOrganization] {
+	public var organizations: [MgoOrganization] {
 		invokedOrganizationsGetter = true
 		invokedOrganizationsGetterCount += 1
 		return stubbedOrganizations
@@ -34,9 +34,9 @@ public class HealthcareOrganizationRepositorySpy: HealthcareOrganizationReposito
 	
 	public var invokedRemovalObservatoryGetter = false
 	public var invokedRemovalObservatoryGetterCount = 0
-	public var stubbedRemovalObservatory: Observatory<HealthcareOrganization>!
+	public var stubbedRemovalObservatory: Observatory<MgoOrganization>!
 
-	public var removalObservatory: Observatory<HealthcareOrganization> {
+	public var removalObservatory: Observatory<MgoOrganization> {
 		invokedRemovalObservatoryGetter = true
 		invokedRemovalObservatoryGetterCount += 1
 		return stubbedRemovalObservatory
@@ -44,11 +44,11 @@ public class HealthcareOrganizationRepositorySpy: HealthcareOrganizationReposito
 
 	public var invokedStore = false
 	public var invokedStoreCount = 0
-	public var invokedStoreParameters: (organization: HealthcareOrganization, Void)?
-	public var invokedStoreParametersList = [(organization: HealthcareOrganization, Void)]()
+	public var invokedStoreParameters: (organization: MgoOrganization, Void)?
+	public var invokedStoreParametersList = [(organization: MgoOrganization, Void)]()
 	public var stubbedStoreError: Error?
 
-	public func store(_ organization: HealthcareOrganization) throws {
+	public func store(_ organization: MgoOrganization) throws {
 		invokedStore = true
 		invokedStoreCount += 1
 		invokedStoreParameters = (organization, ())
@@ -60,11 +60,11 @@ public class HealthcareOrganizationRepositorySpy: HealthcareOrganizationReposito
 
 	public var invokedRemove = false
 	public var invokedRemoveCount = 0
-	public var invokedRemoveParameters: (organization: HealthcareOrganization, Void)?
-	public var invokedRemoveParametersList = [(organization: HealthcareOrganization, Void)]()
+	public var invokedRemoveParameters: (organization: MgoOrganization, Void)?
+	public var invokedRemoveParametersList = [(organization: MgoOrganization, Void)]()
 	public var stubbedRemoveError: Error?
 
-	public func remove(_ organization: HealthcareOrganization) throws {
+	public func remove(_ organization: MgoOrganization) throws {
 		invokedRemove = true
 		invokedRemoveCount += 1
 		invokedRemoveParameters = (organization, ())
