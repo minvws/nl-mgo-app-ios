@@ -157,12 +157,7 @@ struct ProblemsListView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 				
-				Text(
-					String(
-						format: String(localized: "problems.subheading"),
-						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
-					)
-				)
+				Text("problems.subheading")
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentTertiary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)

@@ -158,12 +158,7 @@ struct MedicationListView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					
-				Text(
-					String(
-						format: String(localized: "medication_use.subheading"),
-						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
-					)
-				)
+				Text("medication_use.subheading")
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentTertiary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
