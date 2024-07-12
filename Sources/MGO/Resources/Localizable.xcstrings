@@ -1660,7 +1660,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De website haalt je gegevens direct op bij de zorgverleners die jij kiest. **Alleen jij hebt toegang.**"
+            "value" : "De app haalt je gegevens direct op bij de zorgverleners die jij kiest. **Alleen jij hebt toegang.**"
           }
         }
       }
