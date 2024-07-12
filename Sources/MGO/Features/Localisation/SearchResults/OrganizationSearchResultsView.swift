@@ -9,7 +9,7 @@ import MGOFoundation
 import MGOUI
 
 typealias OrganizationSearchResultSet = (
-	organization: HealthcareOrganization,
+	organization: MgoOrganization,
 	cardState: OrganizationSearchResultCardState
 )
 
@@ -56,7 +56,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 		case closeSheet
 		case onAppear
 		case retry
-		case store(HealthcareOrganization)
+		case store(MgoOrganization)
 	}
 	
 	/// The state of the view
@@ -69,7 +69,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 	private var city: String
 	
 	/// array to store the results
-	private var searchResultsList = [HealthcareOrganization]()
+	private var searchResultsList = [MgoOrganization]()
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
@@ -171,7 +171,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 	/// Get the state for a card
 	/// - Parameter organization: the healthcare organization
 	/// - Returns: card state
-	private func cardState(for organization: HealthcareOrganization) -> OrganizationSearchResultCardState {
+	private func cardState(for organization: MgoOrganization) -> OrganizationSearchResultCardState {
 
 		let list = HealthcareOrganizationRepository().organizations
 		return list.contains(organization) ? .selected : .regular
@@ -298,7 +298,7 @@ struct OrganizationSearchResultsView: View {
 	let spy = LocalisationServiceClientSpy()
 	spy.stubbedSearchHealthcareOrganizations = [
 		PreviewContent.healthcareOrganization,
-		HealthcareOrganization(
+		MgoOrganization(
 			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
 			identification_type: "type",
 			identification_value: "2",

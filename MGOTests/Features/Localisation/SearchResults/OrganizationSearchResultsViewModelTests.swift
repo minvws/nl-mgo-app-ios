@@ -101,7 +101,7 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		// Given
 		createSut()
 		let organisation = Generator.healthcareOrganization("value")
-		let list: [HealthcareOrganization] = [organisation]
+		let list: [MgoOrganization] = [organisation]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
 		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organisation, .regular)])
 		
@@ -145,7 +145,7 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		// Given
 		createSut()
 		let organization = Generator.healthcareOrganization("value")
-		let list: [HealthcareOrganization] = [organization]
+		let list: [MgoOrganization] = [organization]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
 		
 		// When

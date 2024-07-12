@@ -15,7 +15,7 @@ final class OrganizationViewTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: OrganizationViewModel!
-	private var healthcareOrganization: HealthcareOrganization!
+	private var healthcareOrganization: MgoOrganization!
 	private var sut: OrganizationView!
 	
 	override func setUp() {

@@ -30,7 +30,7 @@ struct MedicationDetailView: View {
 				
 				DetailRow(title: "fhir.instructions", content: Sanitizer.strip(statement.instructions))
 				
-				DetailRow(title: "fhir.startdate", content: Sanitizer.strip(statement.startDate))
+				DetailRow(title: "fhir.startDate", content: Sanitizer.strip(statement.startDate))
 				
 				DetailRow(title: "fhir.prescribedBy", content: Sanitizer.strip(statement.prescribedBy))
 				

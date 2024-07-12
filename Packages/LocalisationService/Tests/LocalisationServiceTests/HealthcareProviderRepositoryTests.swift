@@ -82,8 +82,8 @@ final class HealthcareOrganiationRepositoryTests: XCTestCase {
 		expect(sut.organizations).to(beEmpty())
 	}
 	
-	func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB") -> HealthcareOrganization {
-		return HealthcareOrganization(
+	func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB") -> MgoOrganization {
+		return MgoOrganization(
 			display_name: "Tandarts Tandje Erbij",
 			identification_type: "type",
 			identification_value: id,

@@ -316,7 +316,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handleRemoteConfigChanges(remoteConfiguration: remoteConfig)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.launch
+		expect(self.sut.rootState) == AppCoordination.State.splash
 		expect(self.sut.path.isEmpty) == true
 	}
 	
@@ -330,7 +330,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handleRemoteConfigChanges(remoteConfiguration: remoteConfig)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.launch
+		expect(self.sut.rootState) == AppCoordination.State.splash
 		expect(self.sut.path.isEmpty) == true
 	}
 	

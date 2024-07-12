@@ -69,7 +69,7 @@ enum AppCoordination {
 	
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {
-		case launch
+		case splash
 		case updateRequired
 		
 		// Onboarding
@@ -145,7 +145,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		self.localisationServiceClient = localisationServiceClient
 		self.versionSupplier = versionSupplier
 		self.browser = browser
-		self.rootState = .launch
+		self.rootState = .splash
 		
 		self.observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
 			
@@ -332,8 +332,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	@ViewBuilder func view(for state: AppCoordination.State?) -> some View {
 		
 		switch state {
-			case .launch:
-				LaunchView(viewModel: LaunchViewModel(coordinator: self))
+			case .splash:
+				SplashView(viewModel: SplashViewModel(coordinator: self))
 			
 			case .updateRequired:
 				UpdateRequiredView(viewModel: UpdateRequiredViewModel(coordinator: self))

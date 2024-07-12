@@ -20,7 +20,7 @@ class OrganizationSearchResultDecorator {
 	/// Create a SearchResult from a HealthcareOrganization
 	/// - Parameter from: HealthcareOrganization
 	/// - Returns: SearchResult
-	static func create(_ organisation: HealthcareOrganization) -> OrganizationSearchResult {
+	static func create(_ organisation: MgoOrganization) -> OrganizationSearchResult {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = Sanitizer.strip(organisation.display_name) ?? ""

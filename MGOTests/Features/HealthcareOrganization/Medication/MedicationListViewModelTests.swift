@@ -15,7 +15,7 @@ final class MedicationListViewModelTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var sut: MedicationListViewModel!
-	private var healthcareOrganization: HealthcareOrganization!
+	private var healthcareOrganization: MgoOrganization!
 	private var repositorySpy: MedicationUseRepositorySpy!
 	
 	override func setUp() {

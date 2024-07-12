@@ -13,7 +13,7 @@ class OverviewViewModel: ObservableObject {
 	/// The state for the overview scene
 	enum State: Equatable {
 		case empty
-		case list([HealthcareOrganization])
+		case list([MgoOrganization])
 	}
 	
 	/// The app coordinator for routing
@@ -35,7 +35,7 @@ class OverviewViewModel: ObservableObject {
 	enum Action {
 		case onAppear
 		case search
-		case details(HealthcareOrganization)
+		case details(MgoOrganization)
 		case closeToast
 	}
 	
@@ -234,7 +234,7 @@ struct OverviewView: View {
 	
 	/// Create the list state view
 	/// - Returns: View when the user has some stored healthcare organizations
-	@ViewBuilder func listHealthcareOrganizationView(list: [HealthcareOrganization]) -> some View {
+	@ViewBuilder func listHealthcareOrganizationView(list: [MgoOrganization]) -> some View {
 		
 		Text("overview.subheading")
 			.rijksoverheidStyle(font: .regular, style: .body)

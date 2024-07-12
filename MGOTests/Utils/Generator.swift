@@ -16,7 +16,7 @@ class Generator {
 	///   - address: the address of the organization
 	///   - postalCode: the postal code of the organization
 	/// - Returns: a healthcare organization
-	static func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true ) -> HealthcareOrganization {
+	static func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true ) -> MgoOrganization {
 		
 		var dataServices = [LocalisationService.Components.Schemas.ZalDataServiceResponse]()
 		if useDataService {
@@ -36,7 +36,7 @@ class Generator {
 			)
 		}
 		
-		return HealthcareOrganization(
+		return MgoOrganization(
 			display_name: "Tandarts Tandje Erbij",
 			identification_type: "type",
 			identification_value: id,

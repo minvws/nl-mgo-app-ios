@@ -15,7 +15,7 @@ final class RemoveHealthcareOrganizationViewTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: RemoveHealthcareOrganizationViewModel!
-	private var healthcareOrganization: HealthcareOrganization!
+	private var healthcareOrganization: MgoOrganization!
 	private var sut: RemoveHealthcareOrganizationView!
 	
 	override func setUp() {

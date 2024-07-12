@@ -8,7 +8,7 @@
 import OpenAPIRuntime
 import OpenAPIURLSession
 
-public typealias HealthcareOrganization = Components.Schemas.Organization
+public typealias MgoOrganization = Components.Schemas.Organization
 
 public extension Components.Schemas.Organization {
 	

@@ -33,7 +33,7 @@ class OrganizationListDecorator {
 	/// Create a OrganizationListModel from a HealthcareOrganization
 	/// - Parameter from: HealthcareOrganization
 	/// - Returns: OrganizationListModel
-	static func create(_ organisation: HealthcareOrganization) -> OrganizationListModel {
+	static func create(_ organisation: MgoOrganization) -> OrganizationListModel {
 		
 		let identifier = organisation.identification_type + "|" + organisation.identification_value
 		let name = Sanitizer.strip(organisation.display_name) ?? ""

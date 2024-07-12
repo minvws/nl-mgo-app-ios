@@ -52,7 +52,7 @@ class ProblemsListViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The healthcare organization to display
-	@Published var healthcareOrganization: HealthcareOrganization
+	@Published var healthcareOrganization: MgoOrganization
 	
 	/// The repository for Concerns
 	private var concernRepository: ConcernRepository!
@@ -70,7 +70,7 @@ class ProblemsListViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
-		healthcareOrganization: HealthcareOrganization,
+		healthcareOrganization: MgoOrganization,
 		repository: ConcernRepository? = FHIRClient(),
 		startOpen: Bool = false
 	) {
@@ -157,12 +157,7 @@ struct ProblemsListView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 				
-				Text(
-					String(
-						format: String(localized: "problems.subheading"),
-						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
-					)
-				)
+				Text("problems.subheading")
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentTertiary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)

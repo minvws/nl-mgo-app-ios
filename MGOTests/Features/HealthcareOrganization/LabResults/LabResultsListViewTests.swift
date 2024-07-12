@@ -15,7 +15,7 @@ final class LabResultsListViewTests: XCTestCase {
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: LabResultsListViewModel!
-	private var healthcareOrganization: HealthcareOrganization!
+	private var healthcareOrganization: MgoOrganization!
 	private var repositorySpy: LaboratoryTestResultRepositorySpy!
 	private var sut: LabResultsListView!
 	

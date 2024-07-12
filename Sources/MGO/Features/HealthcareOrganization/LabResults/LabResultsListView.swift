@@ -52,7 +52,7 @@ class LabResultsListViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The healthcare organization to display
-	@Published var healthcareOrganization: HealthcareOrganization
+	@Published var healthcareOrganization: MgoOrganization
 	
 	/// The repository for Concerns
 	private var laboratoryTestResultRepository: LaboratoryTestResultRepository!
@@ -70,7 +70,7 @@ class LabResultsListViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
-		healthcareOrganization: HealthcareOrganization,
+		healthcareOrganization: MgoOrganization,
 		repository: LaboratoryTestResultRepository? = FHIRClient(),
 		startOpen: Bool = false
 	) {
@@ -157,12 +157,7 @@ struct LabResultsListView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 				
-				Text(
-					String(
-						format: String(localized: "lab_results.subheading"),
-						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
-					)
-				)
+				Text("lab_results.subheading")
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentTertiary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)

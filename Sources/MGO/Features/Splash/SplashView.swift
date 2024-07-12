@@ -8,7 +8,7 @@
 import MGOUI
 import MGOFoundation
 
-class LaunchViewModel: ObservableObject {
+class SplashViewModel: ObservableObject {
 	
 	/// The flow coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -73,7 +73,7 @@ class LaunchViewModel: ObservableObject {
 	
 	/// Reduce the action to the next state
 	/// - Parameter action: the action
-	public func reduce(_ action: LaunchViewModel.Action) {
+	public func reduce(_ action: SplashViewModel.Action) {
 		
 		switch action {
 			case .start:
@@ -115,10 +115,10 @@ class LaunchViewModel: ObservableObject {
 	}
 }
 
-struct LaunchView: View {
+struct SplashView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: LaunchViewModel
+	@StateObject var viewModel: SplashViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -196,7 +196,7 @@ struct LaunchView: View {
 					}
 				}
 				.onAppear {
-					viewModel.reduce(LaunchViewModel.Action.start)
+					viewModel.reduce(SplashViewModel.Action.start)
 					recalculateOffset(geometry.safeAreaInsets)
 					recalculateBottomPadding(geometry.safeAreaInsets)
 				}
@@ -217,5 +217,5 @@ struct LaunchView: View {
 }
 
 #Preview {
-	LaunchView(viewModel: LaunchViewModel(coordinator: nil))
+	SplashView(viewModel: SplashViewModel(coordinator: nil))
 }

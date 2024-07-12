@@ -52,7 +52,7 @@ class MedicationListViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The healthcare organization to display
-	@Published var healthcareOrganization: HealthcareOrganization
+	@Published var healthcareOrganization: MgoOrganization
 	
 	/// The repository for Medication Use
 	private var medicationUseRepository: MedicationUseRepository!
@@ -70,7 +70,7 @@ class MedicationListViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
-		healthcareOrganization: HealthcareOrganization,
+		healthcareOrganization: MgoOrganization,
 		repository: MedicationUseRepository? = FHIRClient(),
 		startOpen: Bool = false
 		
@@ -158,12 +158,7 @@ struct MedicationListView: View {
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 					
-				Text(
-					String(
-						format: String(localized: "medication_use.subheading"),
-						arguments: ["\(viewModel.healthcareOrganization.display_name)"]
-					)
-				)
+				Text("medication_use.subheading")
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentTertiary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
