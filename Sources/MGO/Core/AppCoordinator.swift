@@ -152,21 +152,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	private func registerObservers() {
 		
-		// Back and foreground
-		
-		NotificationCenter.default.addObserver(
-			self,
-			selector: #selector(onWillResignActiveNotification),
-			name: UIApplication.willResignActiveNotification,
-			object: nil
-		)
-		NotificationCenter.default.addObserver(
-			self,
-			selector: #selector(onDidBecomeActiveNotification),
-			name: UIApplication.didBecomeActiveNotification,
-			object: nil
-		)
-		
 		// Listen to changes in the remote configuration
 		
 		self.observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
@@ -409,53 +394,4 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
-	// MARK: - Privacy Snapshot -
-	
-	private enum Constants {
-		static let privacyWindowAnimationDuration: TimeInterval = 0.15
-	}
-	
-	/// Window that hosts the snapshot
-	private var privacySnapshotWindow: UIWindow?
-	
-	/// Handle the event that the application will resign active notification
-	@objc private func onWillResignActiveNotification() {
-		
-		if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-			privacySnapshotWindow = UIWindow(windowScene: windowScene)
-			
-			let shapshotViewController = UIHostingController(rootView: SnapshotView(showSpinner: .constant(false)))
-			privacySnapshotWindow?.rootViewController = shapshotViewController
-			// Present window above alert controllers
-			privacySnapshotWindow?.windowLevel = .alert + 1
-			privacySnapshotWindow?.alpha = 0
-			privacySnapshotWindow?.makeKeyAndVisible()
-			
-			withAnimation {
-				self.privacySnapshotWindow?.alpha = 1
-			}
-		}
-	}
-	
-	/// Handle the event the application did become active
-	@objc func onDidBecomeActiveNotification() {
-		
-		// Hide when app becomes active
-		if #available(iOS 17.0, *) {
-			withAnimation {
-				self.privacySnapshotWindow?.alpha = 0
-			} completion: {
-				self.privacySnapshotWindow?.isHidden = true
-				self.privacySnapshotWindow = nil
-			}
-		} else {
-			withAnimation(.linear(duration: Constants.privacyWindowAnimationDuration)) {
-				self.privacySnapshotWindow?.alpha = 0
-			}
-			delay(Constants.privacyWindowAnimationDuration) {
-				self.privacySnapshotWindow?.isHidden = true
-				self.privacySnapshotWindow = nil
-			}
-		}
-	}
 }
