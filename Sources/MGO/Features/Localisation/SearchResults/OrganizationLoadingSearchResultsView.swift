@@ -54,7 +54,7 @@ struct OrganizationLoadingSearchResultsView: View {
 		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
 		.onAppear {
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+			delay(0.01) {
 				showSpinner = true
 			}
 		}
