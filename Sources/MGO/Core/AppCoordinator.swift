@@ -136,7 +136,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		versionSupplier: AppVersionSupplierProtocol = AppVersionSupplier(),
 		browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
 	) {
-			
+		
 		if LaunchArgumentsHandler.shouldResetOnStart() {
 			Current.wipePersistedData()
 		}
@@ -146,6 +146,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		self.versionSupplier = versionSupplier
 		self.browser = browser
 		self.rootState = .splash
+		
+		registerObservers()
+	}
+	
+	private func registerObservers() {
+		
+		// Listen to changes in the remote configuration
 		
 		self.observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
 			
@@ -386,4 +393,5 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				EmptyView()
 		}
 	}
+	
 }

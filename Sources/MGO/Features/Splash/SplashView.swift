@@ -120,99 +120,20 @@ struct SplashView: View {
 	/// The View Model
 	@StateObject var viewModel: SplashViewModel
 	
-	/// The Theme
-	@Environment(\.theme) var theme
-	
-	@State private var rijkslintTopOffset: CGFloat = 0
-	@State private var spinnerBottomPadding: CGFloat = 0
-	
-	private struct ViewTraits {
-		enum DynamicIsland {
-			static let height: CGFloat = 59
-			static let offset: CGFloat = 11
-		}
-		enum Notch {
-			static let height: CGFloat = 47
-			static let offset: CGFloat = 16
-		}
-		enum Title {
-			static let topOffset: CGFloat = 64
-		}
-		enum Spinner {
-			static let bottomOffset: CGFloat = 75
-		}
-		enum Rijkslint {
-			static let height: CGFloat = 100
-			static let width: CGFloat = 50
-		}
-	}
-	
-	/// Calculate the offset for the rijkslint so it stays just below the notch or dynamic island
-	/// - Parameter safeAreaHeight: the height of the safe area
-	func recalculateOffset(_ safeAreaInsets: EdgeInsets) {
-		if safeAreaInsets.top >= ViewTraits.DynamicIsland.height {
-			rijkslintTopOffset = safeAreaInsets.top - ViewTraits.DynamicIsland.offset
-		} else if safeAreaInsets.top >= ViewTraits.Notch.height {
-			rijkslintTopOffset = safeAreaInsets.top - ViewTraits.Notch.offset
-		} else {
-			rijkslintTopOffset = 0
-		}
-	}
-	
-	private func recalculateBottomPadding(_ safeAreaInsets: EdgeInsets) {
-		spinnerBottomPadding = 70 - safeAreaInsets.bottom
-	}
+	/// Should we show the loading spinner?
+	@State private var showSpinner: Bool = false
 	
 	var body: some View {
-		GeometryReader { geometry in
-			ZStack {
-				theme.backgroundPrimary
-					.ignoresSafeArea()
-					.frame(maxWidth: .infinity, maxHeight: .infinity)
-				VStack {
-					Image(ImageResource.rijkslint)
-						.resizable()
-						.frame(width: ViewTraits.Rijkslint.width, height: ViewTraits.Rijkslint.height)
-						.padding(.top, rijkslintTopOffset)
-						.ignoresSafeArea()
-						.accessibilityLabel("launch.image.voiceover")
-					
-					Text("common.app_name")
-						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-						.foregroundStyle(theme.contentPrimary)
-						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
-						.accessibilityAddTraits(.isHeader)
-						.multilineTextAlignment(.center)
-						.tag("common.app_name")
-						.fixedSize(horizontal: false, vertical: true)
-					
-					Spacer()
-					if viewModel.state == .loadingConfig {
-						ProgressView("common.loading")
-							.tint(theme.actionPrimaryBackground)
-							.rijksoverheidStyle(font: .regular, style: .body)
-							.foregroundStyle(theme.contentPrimary)
-							.padding(.bottom, ViewTraits.Spinner.bottomOffset - geometry.safeAreaInsets.bottom)
-					}
-				}
-				.onAppear {
-					viewModel.reduce(SplashViewModel.Action.start)
-					recalculateOffset(geometry.safeAreaInsets)
-					recalculateBottomPadding(geometry.safeAreaInsets)
-				}
-				.onChange(of: geometry.safeAreaInsets) { insets in
-					recalculateOffset(insets)
-					recalculateBottomPadding(insets)
-				}
+		
+		SnapshotView(showSpinner: $showSpinner)
+			.onAppear {
+				viewModel.reduce(SplashViewModel.Action.start)
 			}
-			.alert("launch.jailbreak_heading", isPresented: $viewModel.showJailBreakDialog ) {
-				Button("common.ok") { viewModel.reduce(.dismissWarning) }
-			} message: {
-				Text("launch.jailbreak_subheading")
+			.navigationBarBackButtonHidden()
+			.navigationBarHidden(true)
+			.onChange(of: viewModel.state) { newValue in
+				showSpinner = newValue == .loadingConfig
 			}
-		}
-		.navigationBarBackButtonHidden()
-		.navigationBarHidden(true)
 	}
 }
 
