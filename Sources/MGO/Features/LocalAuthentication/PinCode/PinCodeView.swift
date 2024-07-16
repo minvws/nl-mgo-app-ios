@@ -489,6 +489,7 @@ struct PinCodeView: View {
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 						.accessibilityAddTraits(.isHeader)
 						.fixedSize(horizontal: false, vertical: true)
+						.accessibilityIdentifier("pincode.heading")
 				
 					switch viewModel.state.messageType {
 						
@@ -518,6 +519,7 @@ struct PinCodeView: View {
 						})
 						.buttonStyle(LinkButtonStyle())
 						.padding(ViewTraits.ForgotButton.insets)
+						.accessibilityIdentifier("pincode.forgot")
 					}
 					
 					Spacer()

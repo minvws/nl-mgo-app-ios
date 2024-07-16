@@ -73,9 +73,11 @@ struct LoginView: View {
 					Text("login.heading")
 						.rijksoverheidStyle(font: .bold, style: .title)
 						.accessibilityAddTraits(.isHeader)
+						.accessibilityIdentifier("login.heading")
 					
 					Text("login.subheading")
 						.rijksoverheidStyle(font: .regular, style: .body)
+						.accessibilityIdentifier("login.subheading")
 				}
 				.foregroundStyle(theme.contentPrimary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -88,12 +90,14 @@ struct LoginView: View {
 						showImageBorder: colorScheme == .dark) {
 							viewModel.reduce(.loginWithDigiD)
 						}
+						.accessibilityIdentifier("login.digid")
 					
 					DisclosureWithImageButton(
 						title: "login.european",
 						image: ImageResource.RemoteAuthentication.eidas) {
 							viewModel.reduce(.loginWithEIDAS)
 						}
+						.accessibilityIdentifier("login.european")
 				})
 				.padding(.top, ViewTraits.Button.top)
 			}

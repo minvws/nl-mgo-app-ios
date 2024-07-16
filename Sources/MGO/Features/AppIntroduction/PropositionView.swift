@@ -73,6 +73,7 @@ struct PropositionView: View {
 					.padding(.bottom, ViewTraits.General.padding)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
+					.accessibilityIdentifier("proposition.heading")
 				
 				Group {
 					let privacyIntro = String(localized: "proposition.subheading")
@@ -116,6 +117,7 @@ struct PropositionView: View {
 			CallToActionButton("common.next") {
 				viewModel.reduce(.nextButttonPressed)
 			}
+			.accessibilityIdentifier("common.next")
 			.padding(ViewTraits.General.padding)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
