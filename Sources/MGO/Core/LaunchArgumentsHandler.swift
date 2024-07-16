@@ -18,4 +18,9 @@ public class LaunchArgumentsHandler {
 		
 		return CommandLine.arguments.contains("-resetOnStart")
 	}
+	
+	public static func shouldShowUpdateRequired() -> Bool {
+		
+		return CommandLine.arguments.contains("-updateRequired")
+	}
 }

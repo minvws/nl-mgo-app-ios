@@ -95,6 +95,7 @@ struct UpdateRequiredView: View {
 					.padding(ViewTraits.Title.insets)
 					.accessibilityAddTraits(.isHeader)
 					.fixedSize(horizontal: false, vertical: true)
+					.accessibilityIdentifier("update_required.heading")
 				
 				SplittedText(key: "update_required.subheading", spacing: ViewTraits.Text.spacing)
 					.rijksoverheidStyle(font: .regular, style: .body)
@@ -123,7 +124,7 @@ struct UpdateRequiredView: View {
 			CallToActionButton("update_required.download") {
 				viewModel.reduce(.actionButtonPressed)
 			}
-			.tag("update_required_action")
+			.accessibilityIdentifier("update_required.download")
 			.padding(ViewTraits.Button.padding)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)

@@ -38,7 +38,7 @@ final class UpdateRequiredViewTests: XCTestCase {
 		// Given
 		
 		// When
-		try sut.inspect().find(viewWithTag: "update_required_action").button().tap()
+		try sut.inspect().find(viewWithAccessibilityIdentifier: "update_required.download").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
