@@ -76,11 +76,13 @@ public struct ToastView: View {
 					.foregroundColor(theme.contentPrimary)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilitySortPriority(990)
+					.accessibilityIdentifier("toast.heading")
 				
 				Text(toast.subtitle)
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundColor(theme.contentTertiary)
 					.accessibilitySortPriority(980)
+					.accessibilityIdentifier("toast.subheading")
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.fixedSize(horizontal: false, vertical: true)
@@ -98,6 +100,7 @@ public struct ToastView: View {
 				.accessibilityRemoveTraits(.isImage)
 				.accessibilityAddTraits(.isButton)
 				.accessibilityLabel(Bundle.module.localizedString(forKey: "toast_close", value: nil, table: "Toast"))
+				.accessibilityIdentifier("toast.close")
 			
 		}
 		.cardify(padding: ViewTraits.Toast.padding, lineColor: theme.linesSecondary)

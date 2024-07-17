@@ -38,7 +38,7 @@ struct CloseButton: View {
 			}
 		)
 		.accessibilityLabel("common.close")
-		.tag("common.close")
+		.accessibilityIdentifier("common.close")
 	}
 }
 

@@ -5,7 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import XCTest
+import MGOTest
 
 final class PincodeUITests: BaseUITest {
 	
@@ -60,7 +60,7 @@ final class PincodeUITests: BaseUITest {
 		// Confirm
 		enterPinCode(code: ["1", "2", "3", "6", "9"])
 		
-		// Login Page
+		// Assert Login Page
 		app.textExists("login.heading")
 		app.textExists("login.subheading")
 	}

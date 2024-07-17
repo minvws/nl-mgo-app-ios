@@ -298,10 +298,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the complex startup logic
 	private func handleStartup() {
 		
-		if !Current.secureUserSettings.userHasSeenAppIntroduction {
+		if !Current.secureUserSettings.userHasSeenAppIntroduction && !LaunchArgumentsHandler.hasPincodeSet() {
 			// Only show the appIntroduction once
 			resetNavigationStack(with: AppCoordination.State.introduction(recreated: false))
-		} else if Current.secureUserSettings.pinCode == nil {
+		} else if Current.secureUserSettings.pinCode == nil && !LaunchArgumentsHandler.hasPincodeSet() {
 			// User must set an pin code
 			resetNavigationStack(with: AppCoordination.State.pinCodeEntry)
 		} else {
