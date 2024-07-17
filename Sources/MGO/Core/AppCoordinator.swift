@@ -239,6 +239,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				handlePinCodeConfirmed()
 				
 			case Coordination.Action.pinCodeValidated.identifier:
+				guard Current.secureUserSettings.userHasRemoteAuthentication else {
+					resetNavigationStack(with: AppCoordination.State.login)
+					return
+				}
 				showChildCoordinator = true
 				
 			case Coordination.Action.didFinishLocalAuthentication.identifier:
