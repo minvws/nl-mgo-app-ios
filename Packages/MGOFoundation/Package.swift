@@ -24,7 +24,10 @@ let package = Package(
 		.package(name: "RemoteConfiguration", path: "../RemoteConfiguration"),
 		
 		// VWS
-		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main")
+		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
+		
+		// External
+		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0"),
 	],
 	targets: [
 		.target(
@@ -36,6 +39,7 @@ let package = Package(
 				.product(name: "Managers", package: "Managers"),
 				.product(name: "MGORepository", package: "MGORepository"),
 				.product(name: "Observatory", package: "Observatory"),
+				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
 				.product(name: "SecureUserSettings", package: "SecureUserSettings"),
 				.product(name: "RemoteConfiguration", package: "RemoteConfiguration")
 			]

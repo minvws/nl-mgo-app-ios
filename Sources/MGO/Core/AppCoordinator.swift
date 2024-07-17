@@ -146,16 +146,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		self.versionSupplier = versionSupplier
 		self.browser = browser
 		
-		if LaunchArgumentsHandler.shouldShowUpdateRequired() {
-			self.rootState = .updateRequired
-		} else {
-			self.rootState = .splash
-			self.observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
-				
-				guard let self else { return }
-				_Concurrency.Task { @MainActor in
-					self.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
-				}
+		self.rootState = .splash
+		self.observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
+			
+			guard let self else { return }
+			_Concurrency.Task { @MainActor in
+				self.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
 			}
 		}
 	}

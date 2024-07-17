@@ -21,3 +21,7 @@
 
 // VWS
 @_exported import Logging
+
+// External
+@_exported import OHHTTPStubs
+@_exported import OHHTTPStubsSwift

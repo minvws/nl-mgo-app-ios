@@ -10,6 +10,7 @@ import MGOTest
 final class UpdateRequiredUITests: BaseUITest {
 	
 	override func setUpWithError() throws {
+		
 		app.launchArguments.append("-updateRequired")
 		try super.setUpWithError()
 	}
