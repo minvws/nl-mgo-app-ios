@@ -55,6 +55,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 				return HTTPStubsResponse(jsonObject: ["iosMinimumVersion": "99999"], statusCode: 200, headers: nil)
 			}
 		}
+		if LaunchArgumentsHandler.shouldSkipOnboarding() {
+			Current.secureUserSettings.userHasSeenAppIntroduction = true
+		}
+		if let pincode = LaunchArgumentsHandler.hasPincode() {
+			Current.secureUserSettings.pinCode = pincode
+		}
 	}
 	
 	// MARK: Orientation

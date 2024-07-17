@@ -10,7 +10,8 @@ import MGOTest
 final class ForgotPincodeUITests: BaseUITest {
 	
 	override func setUpWithError() throws {
-		app.launchArguments.append("-hasPincodeSet")
+		app.launchArguments.append("-skipOnboarding")
+		app.launchArguments.append("-pincode:12345")
 		try super.setUpWithError()
 	}
 	

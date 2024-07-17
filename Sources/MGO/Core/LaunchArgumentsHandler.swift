@@ -27,9 +27,20 @@ public class LaunchArgumentsHandler {
 		return CommandLine.arguments.contains("-updateRequired")
 	}
 	
-	/// Do we have a pincode?
-	public static func hasPincodeSet() -> Bool {
+	/// Should we skip onboarding
+	public static func shouldSkipOnboarding() -> Bool {
 		
-		return CommandLine.arguments.contains("-hasPincodeSet")
+		return CommandLine.arguments.contains("-skipOnboarding")
+	}
+	
+	/// Should we use a provided pincode
+	/// - Returns: pincode
+	public static func hasPincode() -> String? {
+		
+		if let commandlineArgument = CommandLine.arguments.first(where: { $0.lowercased().starts(with: "-pincode:") }),
+		   let pincode = commandlineArgument.split(separator: ":").last {
+			return String(pincode)
+		}
+		return nil
 	}
 }
