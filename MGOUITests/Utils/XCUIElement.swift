@@ -29,4 +29,10 @@ extension XCUIElement {
 	func textNotExists(_ label: String) {
 		staticTexts[label].assertNotExistence()
 	}
+	
+	func typeText(_ label: String, text: String) {
+		let textField = textFields[label]
+		textField.tap()
+		textField.typeText(text)
+	}
 }

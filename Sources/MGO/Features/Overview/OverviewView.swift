@@ -185,13 +185,13 @@ struct OverviewView: View {
 						viewModel.reduce(.search)
 					}
 					.padding(ViewTraits.Button.insets)
-					.tag("overview.add_organizations")
+					.accessibilityIdentifier("overview.add_organizations")
 				case .list:
 					CallToActionButton("overview.add_organization") {
 						viewModel.reduce(.search)
 					}
 					.padding(ViewTraits.Button.insets)
-					.tag("overview.add_organization")
+					.accessibilityIdentifier("overview.add_organization")
 			}
 		}
 		
@@ -214,6 +214,7 @@ struct OverviewView: View {
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityAddTraits(.isHeader)
 			.padding(.horizontal, ViewTraits.General.padding)
+			.accessibilityIdentifier("overview.heading")
 	}
 	
 	/// Create the empty state view
@@ -224,6 +225,7 @@ struct OverviewView: View {
 			.rijksoverheidStyle(font: .regular, style: .body)
 			.foregroundStyle(theme.contentTertiary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
+			.accessibilityIdentifier("overview.no_organizations_found")
 		
 		Image(ImageResource.Overview.empty)
 			.resizable()
@@ -241,6 +243,7 @@ struct OverviewView: View {
 			.foregroundStyle(theme.contentTertiary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.padding(.horizontal, ViewTraits.General.padding)
+			.accessibilityIdentifier("overview.subheading")
 		
 		LazyVStack(spacing: ViewTraits.List.spacing, content: {
 			

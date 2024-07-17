@@ -173,6 +173,7 @@ struct AddOrganizationView: View {
 					.padding(.bottom, ViewTraits.General.padding)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
+					.accessibilityIdentifier("add_organization.heading")
 				
 				InputField(
 					input: $viewModel.state.name,
