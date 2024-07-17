@@ -136,10 +136,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		versionSupplier: AppVersionSupplierProtocol = AppVersionSupplier(),
 		browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
 	) {
-			
-		if LaunchArgumentsHandler.shouldResetOnStart() {
-			Current.wipePersistedData()
-		}
 		
 		self.path = path
 		self.localisationServiceClient = localisationServiceClient
