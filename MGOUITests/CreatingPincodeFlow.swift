@@ -7,7 +7,7 @@
 
 import MGOTest
 
-final class CreatingPincodeFlow: BaseUITest {
+final class CreatingPincodeFlow: BaseFlowTest {
 	
 	func test_creatingPincodeFlow_pincodeTooWeak() {
 		
@@ -45,21 +45,16 @@ final class CreatingPincodeFlow: BaseUITest {
 		assertLoginScreen()
 	}
 	
-	@available(iOS 17.0, *)
 	func test_createPincodeFlow_accessibilityAudit() {
 		
-		guard accessibilityAuditEnabled else { return }
-		do {
-			try app.performAccessibilityAudit()
-		} catch {
-			XCTFail("The automated accessibility audit fail because [\(error.localizedDescription)]")
-		}
+		navigateThroughOnboarding()
+		app.accessibilityAudit()
 	}
 }
 
 // MARK: - Assertions -
 
-extension BaseUITest {
+extension BaseFlowTest {
 	
 	/// Are we on the pincode screen?
 	func assertPincodeScreen() {
@@ -83,7 +78,7 @@ extension BaseUITest {
 
 // MARK: - Actions - 
 
-extension BaseUITest {
+extension BaseFlowTest {
 	
 	/// Enter the pincode
 	/// - Parameter code: the pincode

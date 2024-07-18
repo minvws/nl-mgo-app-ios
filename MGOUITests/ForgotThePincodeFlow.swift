@@ -7,7 +7,7 @@
 
 import MGOTest
 
-final class ForgotThePincodeFlow: BaseUITest {
+final class ForgotThePincodeFlow: BaseFlowTest {
 	
 	override func setUpWithError() throws {
 		
@@ -79,25 +79,17 @@ final class ForgotThePincodeFlow: BaseUITest {
 		app.buttons["toast.close"].tap()
 	}
 	
-	@available(iOS 17.0, *)
 	func test_forgotPincodeFlow_accessibilityAudit() {
-		
-		guard accessibilityAuditEnabled else { return }
 		
 		// Navigate to forgot pincode screen
 		app.buttons["pincode.forgot"].tap()
-		
-		do {
-			try app.performAccessibilityAudit()
-		} catch {
-			XCTFail("The automated accessibility audit fail because [\(error.localizedDescription)]")
-		}
+		app.accessibilityAudit()
 	}
 }
 
 // MARK: - Assertions -
 
-extension BaseUITest {
+extension BaseFlowTest {
 	
 	/// Are we on the Forgot Pincode screen?
 	func assertForgotPincodeScreen() {

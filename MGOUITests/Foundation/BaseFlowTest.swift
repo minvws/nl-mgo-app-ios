@@ -7,11 +7,10 @@
 
 import MGOTest
 
-class BaseUITest: XCTestCase {
+class BaseFlowTest: XCTestCase {
 	
 	let app = XCUIApplication()
 	let loginTimeout = 15.0
-	let accessibilityAuditEnabled = false
 	
 	override func setUpWithError() throws {
 		

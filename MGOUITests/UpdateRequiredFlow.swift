@@ -7,7 +7,7 @@
 
 import MGOTest
 
-final class UpdateRequiredFlow: BaseUITest {
+final class UpdateRequiredFlow: BaseFlowTest {
 	
 	override func setUpWithError() throws {
 		
@@ -21,21 +21,15 @@ final class UpdateRequiredFlow: BaseUITest {
 		app.buttons["update_required.download"].tap()
 	}
 	
-	@available(iOS 17.0, *)
 	func test_updateRequiredFlow_accessibilityAudit() {
 		
-		guard accessibilityAuditEnabled else { return }
-		do {
-			try app.performAccessibilityAudit()
-		} catch {
-			XCTFail("The automated accessibility audit fail because [\(error.localizedDescription)]")
-		}
+		app.accessibilityAudit()
 	}
 }
 
 // MARK: - Assertions -
 
-extension BaseUITest {
+extension BaseFlowTest {
 	
 	/// Are we on the Update Required screen?
 	func assertUpdateRequiredScreen() {

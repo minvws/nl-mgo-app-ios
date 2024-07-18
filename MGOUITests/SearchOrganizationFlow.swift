@@ -7,7 +7,7 @@
 
 import MGOTest
 
-final class SearchOrganizationFlow: BaseUITest {
+final class SearchOrganizationFlow: BaseFlowTest {
 	
 	override func setUpWithError() throws {
 		
@@ -47,7 +47,7 @@ final class SearchOrganizationFlow: BaseUITest {
 
 // MARK: - Assertions -
 
-extension BaseUITest {
+extension BaseFlowTest {
 	
 	/// Are we on the Overview screen in the no organizations state?
 	func assertOverviewNoOrganizationsScreen() {

@@ -5,7 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import XCTest
+import MGOTest
 
 extension XCUIElement {
 	
@@ -34,5 +34,21 @@ extension XCUIElement {
 		let textField = textFields[label]
 		textField.tap()
 		textField.typeText(text)
+	}
+}
+
+extension XCUIApplication {
+	
+	func accessibilityAudit() {
+		
+		if #available(iOS 17.0, *) {
+			do {
+				try performAccessibilityAudit(for: .all) { issue in
+					return issue.auditType == .dynamicType
+				}
+			} catch {
+				XCTFail("The automated accessibility audit fail because [\(error.localizedDescription)]")
+			}
+		}
 	}
 }
