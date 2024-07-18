@@ -122,6 +122,7 @@ struct IntroductionView: View {
 					.padding(ViewTraits.Title.insets)
 					.accessibilityAddTraits(.isHeader)
 					.fixedSize(horizontal: false, vertical: true)
+					.accessibilityIdentifier("introduction.heading")
 				
 				SplittedText(key: "introduction.subheading", spacing: ViewTraits.Text.spacing)
 					.rijksoverheidStyle(font: .regular, style: .body)
@@ -150,7 +151,7 @@ struct IntroductionView: View {
 			CallToActionButton("common.next") {
 				viewModel.reduce(.nextButttonPressed)
 			}
-			.tag("common.next")
+			.accessibilityIdentifier("common.next")
 			.padding(ViewTraits.Button.padding)
 		}
 		.padding(.top, ViewTraits.Navigation.padding)

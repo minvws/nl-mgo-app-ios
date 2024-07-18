@@ -79,11 +79,14 @@ struct ForgotPinCodeView: View {
 				.padding(ViewTraits.Title.insets)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
+				.accessibilityIdentifier("forgot_pincode.heading")
 			
 			Text("forgot_pincode.subheading")
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.padding(ViewTraits.Text.insets)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityIdentifier("forgot_pincode.subheading")
+			
 		} bottomView: {
 			
 			bottomView()
@@ -91,8 +94,8 @@ struct ForgotPinCodeView: View {
 		.padding(.top, ViewTraits.Navigation.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.alert("forgot_pincode.dialog.heading", isPresented: $viewModel.showDialog) {
-			Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }
-			Button("common.yes", role: .destructive) { viewModel.reduce(.recreateAccount) }
+			Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }.accessibilityIdentifier("common.no")
+			Button("common.yes", role: .destructive) { viewModel.reduce(.recreateAccount) }.accessibilityIdentifier("common.yes")
 		} message: {
 			Text("forgot_pincode.dialog.subheading")
 		}
@@ -106,12 +109,12 @@ struct ForgotPinCodeView: View {
 			CallToActionButton("forgot_pincode.button", style: .secondary) {
 				viewModel.reduce(.showDialog)
 			}
-			.tag("forgot_pincode.button")
+			.accessibilityIdentifier("forgot_pincode.button")
 			
 			CallToActionButton("common.cancel") {
 				viewModel.reduce(.cancelButtonPressed)
 			}
-			.tag("common.cancel")
+			.accessibilityIdentifier("common.cancel")
 			
 		}
 		.padding(ViewTraits.Button.insets)

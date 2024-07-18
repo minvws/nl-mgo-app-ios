@@ -220,6 +220,7 @@ targetTemplates:
     type: bundle.ui-testing
     dependencies:
       - target: MGO
+      - package: MGOTest
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES

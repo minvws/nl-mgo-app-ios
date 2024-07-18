@@ -142,21 +142,8 @@ final class AppCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
-
-	func test_coordinatorView_forLogin_firstVisit() throws {
-		
-		// Given
-		let state = AppCoordination.State.login
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = false
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
 	
-	func test_coordinatorView_forLogin_repeatVisit() throws {
+	func test_coordinatorView_forLogin() throws {
 
 		// Given
 		let state = AppCoordination.State.login

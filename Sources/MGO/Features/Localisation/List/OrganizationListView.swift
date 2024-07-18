@@ -143,6 +143,7 @@ struct OrganizationListView: View {
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
+					.accessibilityIdentifier("organization_list.heading")
 				
 				switch viewModel.state {
 					case .empty:

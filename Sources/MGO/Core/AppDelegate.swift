@@ -7,6 +7,7 @@
 
 import UIKit
 import MGOUI
+import MGOFoundation
 
 class AppDelegate: NSObject, UIApplicationDelegate {
 	
@@ -15,11 +16,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		
-		if LaunchArgumentsHandler.shouldDisableTransitions() {
-			// Disable UIView animations for UI testing
-			UIView.setAnimationsEnabled(false)
-		}
-		
+		HTTPStubs.removeAllStubs()
+		checkLaunchArguments()
 		styleUI()
 		registerObservers()
 		return true
@@ -38,7 +36,32 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		UINavigationBar.appearance().standardAppearance = appearance
 		UINavigationBar.appearance().compactAppearance = appearance
 		UINavigationBar.appearance().scrollEdgeAppearance = appearance
+	}
+	
+	private func checkLaunchArguments() {
 		
+		if LaunchArgumentsHandler.shouldDisableTransitions() {
+			// Disable UIView animations for UI testing
+			UIView.setAnimationsEnabled(false)
+		}
+		
+		if LaunchArgumentsHandler.shouldResetOnStart() {
+			// Wipe all data
+			Current.wipePersistedData()
+		}
+		
+		if LaunchArgumentsHandler.shouldShowUpdateRequired() {
+			// Stub the remote config call
+			stub(condition: isHost("app-api.test.mgo.irealisatie.nl")) { _ in
+				return HTTPStubsResponse(jsonObject: ["iosMinimumVersion": "99999"], statusCode: 200, headers: nil)
+			}
+		}
+		if LaunchArgumentsHandler.shouldSkipOnboarding() {
+			Current.secureUserSettings.userHasSeenAppIntroduction = true
+		}
+		if let pincode = LaunchArgumentsHandler.hasPincode() {
+			Current.secureUserSettings.pinCode = pincode
+		}
 	}
 	
 	// MARK: Orientation

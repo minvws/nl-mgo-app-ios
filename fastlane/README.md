@@ -34,6 +34,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Run tests for integration purposes
 
+### ios e2e_ci
+
+```sh
+[bundle exec] fastlane ios e2e_ci
+```
+
+Run end to end tests
+
 ### ios ship_app_to_testflight
 
 ```sh

@@ -94,7 +94,7 @@ final class OverviewViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		try sut.inspect().find(viewWithTag: "overview.add_organizations").button().tap()
+		try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.add_organizations").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

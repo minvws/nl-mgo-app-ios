@@ -195,6 +195,21 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_codeValidated_shouldShowDashboard() {
 		
 		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = false
+		
+		// When
+		sut.handle(Coordination.Action.pinCodeValidated)
+		
+		// Then
+		expect(self.sut.showChildCoordinator) == false
+		expect(self.sut.rootState) == AppCoordination.State.login
+		expect(self.sut.path.isEmpty) == true
+	}
+	
+	func test_coordinatorHandle_codeValidated_remoteAuthenticationDone_shouldShowDashboard() {
+		
+		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
 		
 		// When
 		sut.handle(Coordination.Action.pinCodeValidated)

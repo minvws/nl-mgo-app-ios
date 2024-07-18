@@ -137,16 +137,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
 	) {
 		
-		if LaunchArgumentsHandler.shouldResetOnStart() {
-			Current.wipePersistedData()
-		}
-		
 		self.path = path
 		self.localisationServiceClient = localisationServiceClient
 		self.versionSupplier = versionSupplier
 		self.browser = browser
 		self.rootState = .splash
-		
 		registerObservers()
 	}
 	
@@ -232,14 +227,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				resetNavigationStack(with: AppCoordination.State.pinCodeEntry)
 				
 			case Coordination.Action.showPrivacyStatement.identifier:
-				
-				guard let privacyURL else { return }
-				
-				if browser.isDomainAllowed(privacyURL) {
-					path.append(AppCoordination.State.privacyStatement)
-				} else {
-					browser.handleUnallowedDomain(privacyURL)
-				}
+				handleShowPrivacyStatement()
 				
 			// Local Authentication
 				
@@ -250,7 +238,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				handlePinCodeConfirmed()
 				
 			case Coordination.Action.pinCodeValidated.identifier:
-				showChildCoordinator = true
+				handlePinCodeValidated()
 				
 			case Coordination.Action.didFinishLocalAuthentication.identifier:
 				resetNavigationStack(with: AppCoordination.State.login)
@@ -259,15 +247,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				rootStateForSheet = AppCoordination.State.forgotPinCode
 				
 			case Coordination.Action.recreateAccount.identifier:
-				if rootStateForSheet != nil {
-					rootStateForSheet = nil
-					pathForSheet = NavigationStackBackport.NavigationPath()
-				}
-				// Wipe Account
-				Current.wipePersistedData()
-				resetNavigationStack(with: AppCoordination.State.introduction(recreated: true))
+				handleRecreateAccount()
 				
-				// Remote Authentication
+			// Remote Authentication
 				
 			case Coordination.Action.loggedInWithDigiD.identifier:
 				
@@ -313,7 +295,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
-	/// Handle the pin code confirmed state
+	/// Handle the pin code confirmed action
 	private func handlePinCodeConfirmed() {
 		
 		if Current.localAuthenticationProvider.biometricType() == .none {
@@ -323,6 +305,41 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
+	/// Handle the pincode validated action
+	private func handlePinCodeValidated() {
+		guard Current.secureUserSettings.userHasRemoteAuthentication else {
+			resetNavigationStack(with: AppCoordination.State.login)
+			return
+		}
+		showChildCoordinator = true
+	}
+	
+	/// Handle the show Privacy statement action
+	private func handleShowPrivacyStatement() {
+	
+		guard let privacyURL else { return }
+		
+		if browser.isDomainAllowed(privacyURL) {
+			path.append(AppCoordination.State.privacyStatement)
+		} else {
+			browser.handleUnallowedDomain(privacyURL)
+		}
+	}
+	
+	/// handle the account recreate action
+	private func handleRecreateAccount() {
+		
+		if rootStateForSheet != nil {
+			rootStateForSheet = nil
+			pathForSheet = NavigationStackBackport.NavigationPath()
+		}
+		// Wipe Account
+		Current.wipePersistedData()
+		resetNavigationStack(with: AppCoordination.State.introduction(recreated: true))
+	}
+	
+	/// Reset the navigation stack with this new root  state
+	/// - Parameter state: the new root state.
 	private func resetNavigationStack(with state: AppCoordination.State) {
 		
 		var transaction = Transaction()

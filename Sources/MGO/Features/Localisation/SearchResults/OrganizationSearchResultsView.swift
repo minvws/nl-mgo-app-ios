@@ -258,10 +258,11 @@ struct OrganizationSearchResultsView: View {
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
+					.accessibilityIdentifier("organization_search.heading")
 			
 				LazyVStack(spacing: ViewTraits.List.spacing) {
 					
-					ForEach(list, id: \.organization) { element in
+					ForEach(Array(list.enumerated()), id: \.offset) { index, element in
 						
 						ZStack {
 							
@@ -275,6 +276,7 @@ struct OrganizationSearchResultsView: View {
 									)
 								)
 								.accessibilityAddTraits(.isButton)
+								.accessibilityIdentifier("organization_search.result_\(index)")
 							
 							OrganizationSearchResultCardView(
 								model: OrganizationSearchResultDecorator.create(element.organization),

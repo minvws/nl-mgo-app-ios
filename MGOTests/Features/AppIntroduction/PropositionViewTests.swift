@@ -53,4 +53,17 @@ final class PropositionViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showPrivacyStatement
 	}
+	
+	func test_nextButtonPressed_shouldCallCoordinator() throws {
+		
+		// Given
+		let sut = createSut()
+		
+		// When
+		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.next").button().tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.nextButtonPressedOnProposition
+	}
 }

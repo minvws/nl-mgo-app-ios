@@ -58,7 +58,7 @@ final class IntroductionViewTests: XCTestCase {
 		createSut(withToast: true)
 		
 		// When
-		try sut.inspect().find(viewWithTag: "common.next").button().tap()
+		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.next").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
