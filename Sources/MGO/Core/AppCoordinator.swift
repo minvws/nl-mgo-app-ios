@@ -141,8 +141,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		self.localisationServiceClient = localisationServiceClient
 		self.versionSupplier = versionSupplier
 		self.browser = browser
-		
 		self.rootState = .splash
+		registerObservers()
+	}
+	
+	private func registerObservers() {
+		
+		// Listen to changes in the remote configuration
+		
 		self.observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
 			
 			guard let self else { return }
@@ -386,4 +392,5 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				EmptyView()
 		}
 	}
+	
 }
