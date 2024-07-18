@@ -34,6 +34,27 @@ platform :ios do
       xcargs: "-skipPackagePluginValidation"
     )
   end
+  
+  # -- E2E TESTING --
+
+  desc "Run end to end tests"
+  lane :e2e_ci do
+    run_tests(
+      app_name: "MGO",
+      destination: "platform=iOS Simulator,name=iPhone 15 Pro,OS=17.5",
+      project: "MGO.xcodeproj",
+      scheme: "MGO UI Tests",
+      reinstall_app: true,
+      fail_build: true,
+      reset_simulator: true,
+      number_of_retries: 1,
+      app_identifier: "nl.rool.pifz.dev",
+      result_bundle_path: "MGO.xcresult",
+      skip_slack: true,
+      result_bundle: true,
+      xcargs: "-skipPackagePluginValidation"
+    )
+  end
 
   # -- TestFlight --
 
