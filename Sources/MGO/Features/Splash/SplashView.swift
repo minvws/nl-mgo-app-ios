@@ -134,6 +134,11 @@ struct SplashView: View {
 			.onChange(of: viewModel.state) { newValue in
 				showSpinner = newValue == .loadingConfig
 			}
+			.alert("launch.jailbreak_heading", isPresented: $viewModel.showJailBreakDialog ) {
+				Button("common.ok") { viewModel.reduce(.dismissWarning) }
+			} message: {
+				Text("launch.jailbreak_subheading")
+			}
 	}
 }
 
