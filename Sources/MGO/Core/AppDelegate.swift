@@ -126,20 +126,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	/// Handle the event the application did become active
 	@objc func onDidBecomeActiveNotification() {
-		
-		// Hide when app becomes active
-		if #available(iOS 17.0, *) {
-			withAnimation {
-				self.privacySnapshotWindow?.alpha = 0
-			} completion: {
-				self.privacySnapshotWindow?.isHidden = true
-				self.privacySnapshotWindow = nil
-			}
-		} else {
-			// Animation in iOS 16 can cause transition errors when switching repeatedly very fast.
-			self.privacySnapshotWindow?.alpha = 0
-			self.privacySnapshotWindow?.isHidden = true
-			self.privacySnapshotWindow = nil
-		}
+
+		// Animation in iOS 16 can cause transition errors when switching repeatedly very fast.
+		self.privacySnapshotWindow?.alpha = 0
+		self.privacySnapshotWindow?.isHidden = true
+		self.privacySnapshotWindow = nil
 	}
 }
