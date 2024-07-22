@@ -98,21 +98,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		)
 	}
 	
-	private enum Constants {
-		static let privacyWindowAnimationDuration: TimeInterval = 0.15
-	}
+	// MARK: - Privacy Snapshot -
 	
 	/// Window that hosts the snapshot
 	private var privacySnapshotWindow: UIWindow?
 	
+	/// The privacy view
+	let privacyView = UIHostingController(rootView: SnapshotView(showSpinner: .constant(false)))
+
 	/// Handle the event that the application will resign active notification
 	@objc private func onWillResignActiveNotification() {
 		
 		if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
 			privacySnapshotWindow = UIWindow(windowScene: windowScene)
 			
-			let shapshotViewController = UIHostingController(rootView: SnapshotView(showSpinner: .constant(false)))
-			privacySnapshotWindow?.rootViewController = shapshotViewController
+			privacySnapshotWindow?.rootViewController = privacyView
 			// Present window above alert controllers
 			privacySnapshotWindow?.windowLevel = .alert + 1
 			privacySnapshotWindow?.alpha = 0
@@ -136,13 +136,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 				self.privacySnapshotWindow = nil
 			}
 		} else {
-			withAnimation(.linear(duration: Constants.privacyWindowAnimationDuration)) {
-				self.privacySnapshotWindow?.alpha = 0
-			}
-			delay(Constants.privacyWindowAnimationDuration) {
-				self.privacySnapshotWindow?.isHidden = true
-				self.privacySnapshotWindow = nil
-			}
+			// Animation in iOS 16 can cause transition errors when switching repeatedly very fast.
+			self.privacySnapshotWindow?.alpha = 0
+			self.privacySnapshotWindow?.isHidden = true
+			self.privacySnapshotWindow = nil
 		}
 	}
 }
