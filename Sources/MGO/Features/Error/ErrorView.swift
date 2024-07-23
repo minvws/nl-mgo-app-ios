@@ -35,7 +35,7 @@ class ErrorViewModel: ErrorViewModelProtocol {
 	
 	init(
 		title: LocalizedStringKey = "common.error_heading",
-		image: ImageResource = ImageResource.defaultError,
+		image: ImageResource = ImageResource.Woman.womanOnCouchExclamation,
 		body: LocalizedStringKey = "common.error_subheading",
 		button: LocalizedStringKey = "common.try_again",
 		action: @escaping () -> Void) {
