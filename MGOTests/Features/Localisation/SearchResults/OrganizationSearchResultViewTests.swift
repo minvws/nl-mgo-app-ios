@@ -71,6 +71,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
+		takeSnapShotsForiPad(content: content)
 	}
 	
 	func test_empty_action() throws {
