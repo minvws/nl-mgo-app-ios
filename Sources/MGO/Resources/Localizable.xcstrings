@@ -1770,7 +1770,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@verwijderd"
+            "value" : "Zorgaanbieder verwijderd"
           }
         }
       }
@@ -1781,7 +1781,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kan deze zorgaanbieder altijd weer toevoegen"
+            "value" : "Herstel"
           }
         }
       }

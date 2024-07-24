@@ -12,19 +12,19 @@ import Theme
 public struct BannerView: View {
 	
 	/// The Banner to display
-	public var banner: Feedback
+	public var feedback: Feedback
 	
 	/// The action to be performed when the user presses this card
 	public var perform: (() -> Void)?
 	
 	/// Initializer
 	/// - Parameters:
-	///   - banner: the banner to display
+	///   - feedback: the banner to display
 	///   - perform: The action to perform when the user presses on the close button
 	public init(
-		_ banner: Feedback,
+		_ feedback: Feedback,
 		perform: (() -> Void)? = nil) {
-		self.banner = banner
+		self.feedback = feedback
 		self.perform = perform
 	}
 	
@@ -51,7 +51,7 @@ public struct BannerView: View {
 		
 		HStack(alignment: .top, spacing: ViewTraits.Banner.spacing) {
 			Group {
-				switch banner.type {
+				switch feedback.type {
 					case .info:
 						Image(ImageResource.Banner.info)
 						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_info", value: nil, table: "Banner"))
@@ -71,14 +71,14 @@ public struct BannerView: View {
 			
 			VStack(alignment: .leading, spacing: ViewTraits.Banner.innerSpacing) {
 				
-				Text(banner.heading)
+				Text(feedback.heading)
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundColor(theme.contentPrimary)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilitySortPriority(990)
 					.accessibilityIdentifier("banner.heading")
 				
-				Text(banner.subheading)
+				Text(feedback.subheading)
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundColor(theme.contentTertiary)
 					.accessibilitySortPriority(980)
