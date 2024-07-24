@@ -12,7 +12,7 @@ import Theme
 public struct BannerView: View {
 	
 	/// The Banner to display
-	public var banner: Banner
+	public var banner: Feedback
 	
 	/// The action to be performed when the user presses this card
 	public var perform: (() -> Void)?
@@ -22,7 +22,7 @@ public struct BannerView: View {
 	///   - banner: the banner to display
 	///   - perform: The action to perform when the user presses on the close button
 	public init(
-		_ banner: Banner,
+		_ banner: Feedback,
 		perform: (() -> Void)? = nil) {
 		self.banner = banner
 		self.perform = perform
@@ -71,14 +71,14 @@ public struct BannerView: View {
 			
 			VStack(alignment: .leading, spacing: ViewTraits.Banner.innerSpacing) {
 				
-				Text(banner.title)
+				Text(banner.heading)
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundColor(theme.contentPrimary)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilitySortPriority(990)
 					.accessibilityIdentifier("banner.heading")
 				
-				Text(banner.subtitle)
+				Text(banner.subheading)
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundColor(theme.contentTertiary)
 					.accessibilitySortPriority(980)
@@ -109,9 +109,9 @@ public struct BannerView: View {
 
 #Preview {
 	VStack {
-		BannerView(Banner(title: "Title", subtitle: "Text", type: .info))
-		BannerView(Banner(title: "Title", subtitle: "Text", type: .warning))
-		BannerView(Banner(title: "Title", subtitle: "Text", type: .error))
-		BannerView(Banner(title: "Title", subtitle: "Text", type: .success))
+		BannerView(Feedback(title: "Title", subtitle: "Text", type: .info))
+		BannerView(Feedback(title: "Title", subtitle: "Text", type: .warning))
+		BannerView(Feedback(title: "Title", subtitle: "Text", type: .error))
+		BannerView(Feedback(title: "Title", subtitle: "Text", type: .success))
 	}
 }

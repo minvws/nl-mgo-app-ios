@@ -21,7 +21,7 @@ class IntroductionViewModel: ObservableObject {
 	}
 	
 	/// Any banner to display?
-	@Published var banner: Banner?
+	@Published var banner: Feedback?
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
@@ -29,7 +29,7 @@ class IntroductionViewModel: ObservableObject {
 		self.coordinator = coordinator
 		
 		if showAccountDeletedBanner {
-			banner = Banner(
+			banner = Feedback(
 				title: String(localized: "banner.account_removed.heading"),
 				subtitle: String(localized: "banner.account_removed.subheading"),
 				type: .success

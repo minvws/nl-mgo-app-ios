@@ -14,7 +14,7 @@ final class BannerViewTests: XCTestCase {
 	func test_banner_info() throws {
 		
 		// Given
-		let sut = BannerView(Banner(title: "Test Banner", subtitle: "Type Info", type: .info))
+		let sut = BannerView(Feedback(title: "Test Banner", subtitle: "Type Info", type: .info))
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -27,7 +27,7 @@ final class BannerViewTests: XCTestCase {
 	func test_banner_warning() throws {
 		
 		// Given
-		let sut = BannerView(Banner(title: "Test Banner", subtitle: "Type Warning", type: .warning))
+		let sut = BannerView(Feedback(title: "Test Banner", subtitle: "Type Warning", type: .warning))
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -40,7 +40,7 @@ final class BannerViewTests: XCTestCase {
 	func test_banner_error() throws {
 		
 		// Given
-		let sut = BannerView(Banner(title: "Test Banner", subtitle: "Type Error", type: .error))
+		let sut = BannerView(Feedback(title: "Test Banner", subtitle: "Type Error", type: .error))
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -53,7 +53,7 @@ final class BannerViewTests: XCTestCase {
 	func test_banner_success() throws {
 		
 		// Given
-		let sut = BannerView(Banner(title: "Test Banner", subtitle: "Type Success", type: .success))
+		let sut = BannerView(Feedback(title: "Test Banner", subtitle: "Type Success", type: .success))
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)

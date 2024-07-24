@@ -71,7 +71,7 @@ final class OverviewViewTests: XCTestCase {
 		]
 		createSut()
 		
-		viewModel.toast = Banner(
+		viewModel.toast = Feedback(
 			title: String(
 				format: String(localized: "toast.organization_removed.heading"),
 				arguments: ["\(healthcareOrganization.display_name)"]

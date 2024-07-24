@@ -23,7 +23,7 @@ class OverviewViewModel: ObservableObject {
 	@Published var state: OverviewViewModel.State
 	
 	/// A toast
-	@Published var toast: Banner?
+	@Published var toast: Feedback?
 	
 	/// Token for the observatory (needed for unregister)
 	private var observerToken: Observatory.ObserverToken?
@@ -60,7 +60,7 @@ class OverviewViewModel: ObservableObject {
 
 		self.removalObserverToken = Current.healthcareOrganizationStore.removalObservatory.append { [weak self] organization in
 			
-			self?.toast = Banner(
+			self?.toast = Feedback(
 				title: String(
 					format: String(localized: "toast.organization_removed.heading"),
 					arguments: ["\(organization.display_name)"]
