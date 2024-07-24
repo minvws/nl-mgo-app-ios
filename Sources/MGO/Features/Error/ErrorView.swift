@@ -35,7 +35,7 @@ class ErrorViewModel: ErrorViewModelProtocol {
 	
 	init(
 		title: LocalizedStringKey = "common.error_heading",
-		image: ImageResource = ImageResource.defaultError,
+		image: ImageResource = ImageResource.Woman.womanOnCouchExclamation,
 		body: LocalizedStringKey = "common.error_subheading",
 		button: LocalizedStringKey = "common.try_again",
 		action: @escaping () -> Void) {
@@ -68,6 +68,7 @@ private struct ErrorViewViewTraits {
 	}
 	enum Image {
 		static let insets = EdgeInsets( top: 0, leading: 50, bottom: 0, trailing: 50)
+		static let height: CGFloat = 161
 	}
 	enum Navigation {
 		static let padding: CGFloat = 8
@@ -92,6 +93,16 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 	/// Progress for the spinner
 	@State private var progress: Double = 0
 	
+	/// State vars for the width of the image
+	@State private var contentSize: CGSize = .zero
+	@State private var padding: CGFloat = 0
+	
+	/// The horizontal size classes (to determine the layout)
+	@Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+	
+	/// Should we adjust the layout for iPad (i.e., are we running on an iPad)?
+	private var shouldLayoutForiPad: Bool { return UIDevice.current.userInterfaceIdiom == .pad }
+	
 	var body: some View {
 		
 		ScrollViewWithFixedBottom {
@@ -105,9 +116,18 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 				
 				Image(viewModel.image)
 					.resizable()
-					.scaledToFit()
+					.aspectRatio(contentMode: .fill)
 					.accessibilityHidden(true)
 					.padding(ErrorViewViewTraits.Image.insets)
+					.readSize($contentSize)
+					.onChange(of: contentSize) { size in
+						if shouldLayoutForiPad && horizontalSizeClass == .regular {
+							padding = 0.25 * size.width
+						} else {
+							padding = 0
+						}
+					}
+					.padding(.horizontal, padding)
 				
 				viewModel.viewForBody()
 					.rijksoverheidStyle(font: .regular, style: .body)

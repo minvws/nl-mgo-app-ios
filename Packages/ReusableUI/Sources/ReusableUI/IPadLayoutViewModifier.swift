@@ -13,8 +13,8 @@ public struct IPadLayoutViewModifier: ViewModifier {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Gutter {
-			static let leading: Double = 0.25
-			static let trailing: Double = 0.25
+			static let leading: Double = 0.125
+			static let trailing: Double = 0.125
 		}
 	}
 	

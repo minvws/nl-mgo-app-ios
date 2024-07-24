@@ -227,11 +227,12 @@ struct OverviewView: View {
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityIdentifier("overview.no_organizations_found")
 		
-		Image(ImageResource.Overview.empty)
+		Image(ImageResource.Woman.womanOnCouch)
 			.resizable()
-			.scaledToFit()
+			.aspectRatio(contentMode: .fill)
 			.accessibilityHidden(true)
 			.padding(ViewTraits.Image.insets)
+			.layoutForIPad()
 	}
 	
 	/// Create the list state view

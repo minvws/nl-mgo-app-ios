@@ -34,7 +34,7 @@ class OrganizationNoSearchResultsViewModel: ErrorViewModelProtocol {
 	@Published var title: LocalizedStringKey = "organization_search.no_results_found_heading"
 	
 	/// The main image of the error view
-	@Published var image: ImageResource = ImageResource.defaultError
+	@Published var image: ImageResource = ImageResource.Woman.womanOnCouchExclamation
 	
 	/// The body of the error view
 	@Published var body: LocalizedStringKey = "organization_search.no_results_found_subheading"
