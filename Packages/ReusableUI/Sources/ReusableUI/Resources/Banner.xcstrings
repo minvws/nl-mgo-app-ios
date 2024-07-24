@@ -1,7 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "toast_close" : {
+    "banner_close" : {
       "comment" : "VoiceOver for close icon",
       "extractionState" : "manual",
       "localizations" : {
@@ -13,7 +13,7 @@
         }
       }
     },
-    "toast_error" : {
+    "banner_error" : {
       "comment" : "VoiceOver for error icon",
       "extractionState" : "manual",
       "localizations" : {
@@ -25,7 +25,7 @@
         }
       }
     },
-    "toast_info" : {
+    "banner_info" : {
       "comment" : "VoiceOver for info icon",
       "extractionState" : "manual",
       "localizations" : {
@@ -37,7 +37,7 @@
         }
       }
     },
-    "toast_success" : {
+    "banner_success" : {
       "comment" : "VoiceOver for success icon",
       "extractionState" : "manual",
       "localizations" : {
@@ -49,7 +49,7 @@
         }
       }
     },
-    "toast_warning" : {
+    "banner_warning" : {
       "comment" : "VoiceOver for warning icon",
       "extractionState" : "manual",
       "localizations" : {

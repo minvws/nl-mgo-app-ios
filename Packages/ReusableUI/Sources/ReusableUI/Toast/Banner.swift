@@ -7,34 +7,34 @@
 
 import SwiftUI
 
-public struct Toast: Codable, Equatable {
+public struct Banner: Codable, Equatable {
 	
-	public enum ToastType: String, Codable {
+	public enum BannerType: String, Codable {
 		case info
 		case warning
 		case error
 		case success
 	}
 	
-	/// The title of the Toast
+	/// The title of the banner
 	public var title: String
 	
-	/// The subtitle of the Toast
+	/// The subtitle of the banner
 	public var subtitle: String
 	
-	/// The type of the Toast (.info / .warning  / . error  / .success)
-	public var type: ToastType
+	/// The type of the banner (.info / .warning  / . error  / .success)
+	public var type: BannerType
 	
-	/// Create a Toast object
+	/// Create a Banner object
 	/// - Parameters:
-	///   - title: the title of the Toast
-	///   - text: the text of the Toast
-	///   - type: the type tof the Toast (.info / .warning  / . error  / .success)
+	///   - title: the title of the banner
+	///   - text: the text of the banner
+	///   - type: the type of the banner (.info / .warning  / . error  / .success)
 	///   - perform: The action to perform when the user presses on the close button
 	public init(
 		title: String,
 		subtitle: String,
-		type: Toast.ToastType) {
+		type: Banner.BannerType) {
 		self.title = title
 		self.subtitle = subtitle
 		self.type = type

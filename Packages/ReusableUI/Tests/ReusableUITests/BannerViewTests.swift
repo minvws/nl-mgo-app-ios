@@ -9,12 +9,12 @@
 import SwiftUI
 import MGOTest
 
-final class ToastViewTests: XCTestCase {
+final class BannerViewTests: XCTestCase {
 
-	func test_toast_info() throws {
+	func test_banner_info() throws {
 		
 		// Given
-		let sut = ToastView(Toast(title: "Test Toast", subtitle: "Type Info", type: .info))
+		let sut = BannerView(Banner(title: "Test Banner", subtitle: "Type Info", type: .info))
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -24,10 +24,10 @@ final class ToastViewTests: XCTestCase {
 		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
 	}
 	
-	func test_toast_warning() throws {
+	func test_banner_warning() throws {
 		
 		// Given
-		let sut = ToastView(Toast(title: "Test Toast", subtitle: "Type Warning", type: .warning))
+		let sut = BannerView(Banner(title: "Test Banner", subtitle: "Type Warning", type: .warning))
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -37,10 +37,10 @@ final class ToastViewTests: XCTestCase {
 		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
 	}
 	
-	func test_toast_error() throws {
+	func test_banner_error() throws {
 		
 		// Given
-		let sut = ToastView(Toast(title: "Test Toast", subtitle: "Type Error", type: .error))
+		let sut = BannerView(Banner(title: "Test Banner", subtitle: "Type Error", type: .error))
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -50,10 +50,10 @@ final class ToastViewTests: XCTestCase {
 		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
 	}
 	
-	func test_toast_success() throws {
+	func test_banner_success() throws {
 		
 		// Given
-		let sut = ToastView(Toast(title: "Test Toast", subtitle: "Type Success", type: .success))
+		let sut = BannerView(Banner(title: "Test Banner", subtitle: "Type Success", type: .success))
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)

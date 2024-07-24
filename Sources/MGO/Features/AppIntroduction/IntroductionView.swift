@@ -16,22 +16,22 @@ class IntroductionViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case nextButttonPressed
-		case closeToast
+		case closeBanner
 		case onDisappear
 	}
 	
-	/// Any toast to display?
-	@Published var toast: Toast?
+	/// Any banner to display?
+	@Published var banner: Banner?
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)?, showAccountDeletedToast: Bool = false) {
+	init(coordinator: (any Coordinator)?, showAccountDeletedBanner: Bool = false) {
 		self.coordinator = coordinator
 		
-		if showAccountDeletedToast {
-			toast = Toast(
-				title: String(localized: "toast.account_removed.heading"),
-				subtitle: String(localized: "toast.account_removed.subheading"),
+		if showAccountDeletedBanner {
+			banner = Banner(
+				title: String(localized: "banner.account_removed.heading"),
+				subtitle: String(localized: "banner.account_removed.subheading"),
 				type: .success
 			)
 		}
@@ -43,8 +43,8 @@ class IntroductionViewModel: ObservableObject {
 		switch action {
 			case .nextButttonPressed:
 				coordinator?.handle(Coordination.Action.nextButtonPressedOnIntroduction)
-			case .closeToast, .onDisappear:
-				toast = nil
+			case .closeBanner, .onDisappear:
+				banner = nil
 		}
 	}
 }
@@ -81,7 +81,7 @@ struct IntroductionView: View {
 		enum Navigation {
 			static let padding: CGFloat = 8
 		}
-		enum Toast {
+		enum Banner {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 24, trailing: 16)
 		}
 	}
@@ -92,15 +92,15 @@ struct IntroductionView: View {
 			
 			VStack(alignment: .leading, spacing: 0) {
 				
-				if let toast = viewModel.toast {
+				if let banner = viewModel.banner {
 					
-					ToastView(toast) {
+					BannerView(banner) {
 						// User pressed on the close button
 						withAnimation {
-							viewModel.reduce(.closeToast)
+							viewModel.reduce(.closeBanner)
 						}
 					}
-					.padding(ViewTraits.Toast.insets)
+					.padding(ViewTraits.Banner.insets)
 				}
 				
 				if showImage {
@@ -167,6 +167,6 @@ struct IntroductionView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		IntroductionView(viewModel: IntroductionViewModel(coordinator: nil, showAccountDeletedToast: true))
+		IntroductionView(viewModel: IntroductionViewModel(coordinator: nil, showAccountDeletedBanner: true))
 	}
 }

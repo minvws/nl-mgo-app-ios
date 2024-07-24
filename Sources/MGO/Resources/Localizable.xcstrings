@@ -125,6 +125,28 @@
         }
       }
     },
+    "banner.account_removed.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je account is verwijderd"
+          }
+        }
+      }
+    },
+    "banner.account_removed.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hieronder kun je een nieuw account aanmaken"
+          }
+        }
+      }
+    },
     "biometric_setup.button.with_biometric" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1738,28 +1760,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja, verwijderen"
-          }
-        }
-      }
-    },
-    "toast.account_removed.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je account is verwijderd"
-          }
-        }
-      }
-    },
-    "toast.account_removed.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hieronder kun je een nieuw account aanmaken"
           }
         }
       }

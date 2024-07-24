@@ -80,10 +80,10 @@ final class OverviewViewModelTests: XCTestCase {
 		)
 	}
 	
-	func test_closeToast_shouldRemoveToast() {
+	func test_closeBanner_shouldRemoveBanner() {
 		
 		// Given
-		sut.toast = Toast(title: "test", subtitle: "test", type: .error)
+		sut.toast = Banner(title: "test", subtitle: "test", type: .error)
 		
 		// When
 		sut.reduce(.closeToast)
