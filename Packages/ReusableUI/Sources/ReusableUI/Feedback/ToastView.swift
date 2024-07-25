@@ -15,7 +15,7 @@ public struct ToastView: View {
 	public var feedback: Feedback
 	
 	/// The action to be performed when the user presses this card
-	public var perform: (() -> Void)?
+	public var closeAction: (() -> Void)?
 	
 	/// Initializer
 	/// - Parameters:
@@ -23,13 +23,16 @@ public struct ToastView: View {
 	///   - perform: The action to perform when the user presses on the close button
 	public init(
 		_ feedback: Feedback,
-		perform: (() -> Void)? = nil) {
+		closeAction: (() -> Void)? = nil) {
 		self.feedback = feedback
-		self.perform = perform
+		self.closeAction = closeAction
 	}
 	
-	/// has the user pressed (but no released) the button
-	@State private var onHover = false
+	/// has the user pressed (but no released) the close button
+	@State private var onCloseHover = false
+	
+	/// has the user pressed (but no released) the action button
+	@State private var onActionHover = false
 	
 	/// The background color for the toast
 	var backgroundColor: Color {
@@ -48,14 +51,17 @@ public struct ToastView: View {
 	var foregroundColor: Color {
 		switch feedback.type {
 			case .info, .error, .success:
-				theme.actionPrimaryText
+				theme.backgroundSecondary
 			case .warning:
-				theme.contentPrimary
+			colorScheme == .light ?	theme.contentPrimary : theme.backgroundSecondary
 		}
 	}
 	
 	/// The Theme
 	@Environment(\.theme) private var theme
+	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -96,27 +102,29 @@ public struct ToastView: View {
 			HStack {
 				Text(feedback.heading)
 					.layoutPriority(1)
+					.foregroundStyle(foregroundColor)
 				Spacer()
 				Text(feedback.subheading)
 					.underline(color: foregroundColor)
+					.foregroundStyle(foregroundColor).opacity(onActionHover ? 0.5 : 1)
 					.layoutPriority(2)
-					._onButtonGesture { _ in
-//						self.onHover = pressed
+					._onButtonGesture { pressed in
+						self.onActionHover = pressed
 					} perform: {
 						feedback.action?()
 					}
 			}
 			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundStyle(foregroundColor)
+			
 			
 			Image(ImageResource.Toast.close)
 //				.frame(width: ViewTraits.Button.size, height: ViewTraits.Button.size)
-//				.offset(x: ViewTraits.Button.offset, y: -ViewTraits.Button.offset)
 				._onButtonGesture { pressed in
-					self.onHover = pressed
+					self.onCloseHover = pressed
 				} perform: {
-					perform?()
+					closeAction?()
 				}
+				.foregroundStyle(foregroundColor).opacity(onCloseHover ? 0.5 : 1)
 			
 		})
 		.padding(ViewTraits.Toast.padding)
@@ -191,39 +199,3 @@ public struct ToastView: View {
 		ToastView(Feedback(title: "Title", subtitle: "Text", type: .success))
 	}
 }
-
-public struct ToastModifier: ViewModifier {
-	
-	var feedback: Feedback?
-	
-	var closeAction: (() -> Void)?
-	
-	public func body(content: Content) -> some View {
-		if let feedback {
-			content
-				.overlay(alignment: .bottom) {
-					ToastView(feedback) {
-						withAnimation {
-							closeAction?()
-						}
-					}
-					.padding(16)
-				}
-		} else {
-			content
-		}
-	}
-}
-
-extension View {
-	
-	public func toast(_ feedback: Feedback?, closeAction: (() -> Void)?) -> some View {
-		modifier(ToastModifier(feedback: feedback, closeAction: closeAction))
-	}
-}
-
-//
-//#Preview {
-//	Text("Hello, world!")
-//		.modifier(MyModifier())
-//}
