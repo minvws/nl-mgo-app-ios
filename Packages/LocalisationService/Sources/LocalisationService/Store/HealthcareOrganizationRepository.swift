@@ -115,8 +115,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 		logInfo("About to delete \(organization.display_name)")
 		organizations = organizations.filter { $0 != organization }
 		observers(true)
-		#warning("Removal notification disabled.")
-//		removalObservers(organization)
+		removalObservers(organization)
 		try persistToStorage()
 	}
 	
