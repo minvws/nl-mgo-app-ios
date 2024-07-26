@@ -31,9 +31,6 @@ public struct ToastView: View {
 	/// has the user pressed (but no released) the close button
 	@State private var onCloseHover = false
 	
-	/// has the user pressed (but no released) the action button
-	@State private var onActionHover = false
-	
 	/// The background color for the toast
 	var backgroundColor: Color {
 		switch feedback.type {
@@ -116,39 +113,36 @@ public struct ToastView: View {
 				Spacer()
 				
 				// Action
-				
-				Text(feedback.subheading)
-					.underline(color: foregroundColor)
-					.foregroundStyle(foregroundColor).opacity(onActionHover ? 0.5 : 1)
-					.layoutPriority(2)
-					.padding(.vertical, ViewTraits.Toast.padding)
-					._onButtonGesture { pressed in
-						self.onActionHover = pressed
-					} perform: {
-						feedback.action?()
-					}
-					.accessibilityRemoveTraits(.isStaticText)
-					.accessibilityAddTraits(.isButton)
-					.accessibilitySortPriority(980)
-					.accessibilityIdentifier("toast.subheading")
+	
+				Button(action: {
+					feedback.action?()
+				}, label: {
+					Text(feedback.subheading)
+						.underline(color: foregroundColor)
+						.foregroundStyle(foregroundColor)
+				})
+				.layoutPriority(2)
+				.padding(.vertical, ViewTraits.Toast.padding)
+				.buttonStyle(ToastButtonStyle())
+				.accessibilitySortPriority(980)
+				.accessibilityIdentifier("toast.subheading")
 			}
 			.rijksoverheidStyle(font: .regular, style: .body)
 			
 			// Close Button
 			
-			Image(ImageResource.Toast.close)
-				._onButtonGesture { pressed in
-					self.onCloseHover = pressed
-				} perform: {
-					closeAction?()
-				}
-				.foregroundStyle(foregroundColor).opacity(onCloseHover ? 0.5 : 1)
-				.padding(.vertical, ViewTraits.Toast.padding)
-				.accessibilityRemoveTraits(.isImage)
-				.accessibilityAddTraits(.isButton)
-				.accessibilitySortPriority(970)
-				.accessibilityIdentifier("toast.close")
+			Button(action: {
+				closeAction?()
+			}, label: {
+				Image(ImageResource.Toast.close)
+					.foregroundStyle(foregroundColor)
+			})
+			.padding(.vertical, ViewTraits.Toast.padding)
+			.buttonStyle(ToastButtonStyle())
+			.accessibilitySortPriority(970)
+			.accessibilityIdentifier("toast.close")
 		})
+		.padding(.horizontal, ViewTraits.Toast.padding)
 		.frame(maxWidth: .infinity)
 		.background(backgroundColor)
 		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.Toast.cornerRadius))
