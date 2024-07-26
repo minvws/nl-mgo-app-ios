@@ -54,16 +54,16 @@ public struct BannerView: View {
 				switch feedback.type {
 					case .info:
 						Image(ImageResource.Banner.info)
-						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_info", value: nil, table: "Banner"))
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_info", value: nil, table: "Feedback"))
 					case .warning:
 						Image(ImageResource.Banner.warning)
-						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_warning", value: nil, table: "Banner"))
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_warning", value: nil, table: "Feedback"))
 					case .error:
 						Image(ImageResource.Banner.error)
-						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_error", value: nil, table: "Banner"))
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_error", value: nil, table: "Feedback"))
 					case .success:
 						Image(ImageResource.Banner.checked)
-						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_success", value: nil, table: "Banner"))
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_success", value: nil, table: "Feedback"))
 				}
 			}
 				.accessibilitySortPriority(1000)

@@ -24,9 +24,9 @@ public struct ToastView: View {
 	public init(
 		_ feedback: Feedback,
 		closeAction: (() -> Void)? = nil) {
-		self.feedback = feedback
-		self.closeAction = closeAction
-	}
+			self.feedback = feedback
+			self.closeAction = closeAction
+		}
 	
 	/// has the user pressed (but no released) the close button
 	@State private var onCloseHover = false
@@ -53,7 +53,8 @@ public struct ToastView: View {
 			case .info, .error, .success:
 				theme.backgroundSecondary
 			case .warning:
-			colorScheme == .light ?	theme.contentPrimary : theme.backgroundSecondary
+			// Different color for orange, white on orange is not accessible.
+				colorScheme == .light ?	theme.contentPrimary : theme.backgroundSecondary
 		}
 	}
 	
@@ -76,119 +77,82 @@ public struct ToastView: View {
 		}
 	}
 	
-    public var body: some View {
+	public var body: some View {
 		
 		HStack(spacing: ViewTraits.Toast.spacing, content: {
 			
-						Group {
-							switch feedback.type {
-								case .info:
-									Image(ImageResource.Toast.info)
-			//						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_info", value: nil, table: "Banner"))
-								case .warning:
-									Image(ImageResource.Toast.warning)
-			//						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_warning", value: nil, table: "Banner"))
-								case .error:
-									Image(ImageResource.Toast.error)
-			//						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_error", value: nil, table: "Banner"))
-								case .success:
-									Image(ImageResource.Toast.checked)
-			//						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_success", value: nil, table: "Banner"))
-							}
-						}
-			//				.accessibilitySortPriority(1000)
-							.accessibilityRemoveTraits(.isImage)
+			Group {
+				
+				// Toast type icon
+				
+				switch feedback.type {
+					case .info:
+						Image(ImageResource.Toast.info)
+							.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_info", value: nil, table: "Feedback"))
+					case .warning:
+						Image(ImageResource.Toast.warning)
+							.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_warning", value: nil, table: "Banner"))
+					case .error:
+						Image(ImageResource.Toast.error)
+							.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_error", value: nil, table: "Feedback"))
+					case .success:
+						Image(ImageResource.Toast.checked)
+							.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_success", value: nil, table: "Feedback"))
+				}
+			}
+			.accessibilitySortPriority(1000)
+			.accessibilityRemoveTraits(.isImage)
 			
 			HStack {
+				
+				// Heading
+				
 				Text(feedback.heading)
 					.layoutPriority(1)
 					.foregroundStyle(foregroundColor)
+					.accessibilitySortPriority(990)
+					.accessibilityIdentifier("toast.heading")
+				
 				Spacer()
+				
+				// Action
+				
 				Text(feedback.subheading)
 					.underline(color: foregroundColor)
 					.foregroundStyle(foregroundColor).opacity(onActionHover ? 0.5 : 1)
 					.layoutPriority(2)
+					.padding(.vertical, ViewTraits.Toast.padding)
 					._onButtonGesture { pressed in
 						self.onActionHover = pressed
 					} perform: {
 						feedback.action?()
 					}
+					.accessibilityRemoveTraits(.isStaticText)
+					.accessibilityAddTraits(.isButton)
+					.accessibilitySortPriority(980)
+					.accessibilityIdentifier("toast.subheading")
 			}
 			.rijksoverheidStyle(font: .regular, style: .body)
 			
+			// Close Button
 			
 			Image(ImageResource.Toast.close)
-//				.frame(width: ViewTraits.Button.size, height: ViewTraits.Button.size)
 				._onButtonGesture { pressed in
 					self.onCloseHover = pressed
 				} perform: {
 					closeAction?()
 				}
 				.foregroundStyle(foregroundColor).opacity(onCloseHover ? 0.5 : 1)
-			
+				.padding(.vertical, ViewTraits.Toast.padding)
+				.accessibilityRemoveTraits(.isImage)
+				.accessibilityAddTraits(.isButton)
+				.accessibilitySortPriority(970)
+				.accessibilityIdentifier("toast.close")
 		})
-		.padding(ViewTraits.Toast.padding)
 		.frame(maxWidth: .infinity)
 		.background(backgroundColor)
 		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.Toast.cornerRadius))
-
-		
-//		HStack(alignment: .top, spacing: ViewTraits.Banner.spacing) {
-//			Group {
-//				switch feedback.type {
-//					case .info:
-//						Image(ImageResource.Banner.info)
-//						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_info", value: nil, table: "Banner"))
-//					case .warning:
-//						Image(ImageResource.Banner.warning)
-//						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_warning", value: nil, table: "Banner"))
-//					case .error:
-//						Image(ImageResource.Banner.error)
-//						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_error", value: nil, table: "Banner"))
-//					case .success:
-//						Image(ImageResource.Banner.checked)
-//						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_success", value: nil, table: "Banner"))
-//				}
-//			}
-//				.accessibilitySortPriority(1000)
-//				.accessibilityRemoveTraits(.isImage)
-//			
-//			VStack(alignment: .leading, spacing: ViewTraits.Banner.innerSpacing) {
-//				
-//				Text(feedback.heading)
-//					.rijksoverheidStyle(font: .bold, style: .body)
-//					.foregroundColor(theme.contentPrimary)
-//					.accessibilityAddTraits(.isHeader)
-//					.accessibilitySortPriority(990)
-//					.accessibilityIdentifier("banner.heading")
-//				
-//				Text(feedback.subheading)
-//					.rijksoverheidStyle(font: .regular, style: .body)
-//					.foregroundColor(theme.contentTertiary)
-//					.accessibilitySortPriority(980)
-//					.accessibilityIdentifier("banner.subheading")
-//			}
-//			.frame(maxWidth: .infinity, alignment: .leading)
-//			.fixedSize(horizontal: false, vertical: true)
-//			
-//			Image(ImageResource.Banner.close)
-//				.frame(width: ViewTraits.Button.size, height: ViewTraits.Button.size)
-//				.offset(x: ViewTraits.Button.offset, y: -ViewTraits.Button.offset)
-//				._onButtonGesture { pressed in
-//					self.onHover = pressed
-//				} perform: {
-//					perform?()
-//				}
-//				.foregroundColor(onHover ? theme.iconsPrimary : theme.iconsSecondary)
-//				.accessibilitySortPriority(970)
-//				.accessibilityRemoveTraits(.isImage)
-//				.accessibilityAddTraits(.isButton)
-//				.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_close", value: nil, table: "Banner"))
-//				.accessibilityIdentifier("banner.close")
-//			
-//		}
-//		.cardify(padding: ViewTraits.Banner.padding, lineColor: theme.linesSecondary)
-    }
+	}
 }
 
 #Preview {
