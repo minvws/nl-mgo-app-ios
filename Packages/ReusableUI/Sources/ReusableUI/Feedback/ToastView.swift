@@ -105,10 +105,10 @@ public struct ToastView: View {
 				// Heading
 				
 				Text(feedback.heading)
-					.layoutPriority(1)
 					.foregroundStyle(foregroundColor)
 					.accessibilitySortPriority(990)
 					.accessibilityIdentifier("toast.heading")
+					.padding(.vertical, ViewTraits.Toast.padding)
 				
 				Spacer()
 				
@@ -121,7 +121,7 @@ public struct ToastView: View {
 						.underline(color: foregroundColor)
 						.foregroundStyle(foregroundColor)
 				})
-				.layoutPriority(2)
+				.layoutPriority(100)
 				.padding(.vertical, ViewTraits.Toast.padding)
 				.buttonStyle(ToastButtonStyle())
 				.accessibilitySortPriority(980)
