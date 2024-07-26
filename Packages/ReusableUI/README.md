@@ -89,7 +89,7 @@ Whenever you want to give some haptic feedback to the user, you can use `Haptic.
 
 There is a viewModifier variant, `Text("Press me").hapticFeedback(HapticFeedback.medium)`
 
-### Toast
+### Banner
 
 A simple view to diplay feedback to the user. 
 
@@ -100,17 +100,17 @@ class ContentViewModel: ObservableObject {
 
   /// A list of all the actions this viewModel can handle
 	enum Action {
-		case closeToast
+		case closeBanner
 	}
 	
-	/// Any toast to display?
-	@Published var toast: Toast?
+	/// Any banner to display?
+	@Published var banner: Banner?
 	
 	/// Intitializer
-	/// - Parameter showToast: should we show a toast
-	init(showToast: Bool = false) {
-		if showToast {
-			toast = Toast(
+	/// - Parameter showBanner: should we show a banner
+	init(showBanner: Bool = false) {
+		if showBanner {
+			banner = Banner(
 				title: String(localized: "title"),
 				subtitle: String(localized: "subtitle"),
 				type: .success
@@ -122,8 +122,8 @@ class ContentViewModel: ObservableObject {
 	/// - Parameter action: the action to be handled
 	func reduce(_ action: ContentViewModel.Action) {
 		switch action {
-			case .closeToast:
-				toast = nil
+			case .closeBanner:
+				banner = nil
 		}
 	}
 }
@@ -134,12 +134,12 @@ struct ContentView: View {
 	@StateObject var viewModel: ContentViewModel
 	...
   var body: some View {
-	  if let toast = viewModel.toast {
+	  if let banner = viewModel.banner {
 			
-		  ToastView(toast) {
+		  BannerView(banner) {
 			 // User pressed on the close button
 			  withAnimation {
-				  viewModel.reduce(.closeToast)
+				  viewModel.reduce(.closeBanner)
 			 }
 		 }
 	 }
@@ -148,9 +148,9 @@ struct ContentView: View {
 }
 ```
 
-There are four different types of Toasts: **.info**, **.warning**, **.error** and **.success**
+There are four different types of Banner: **.info**, **.warning**, **.error** and **.success**
 
-<img style="float: left;" src="illustrations/Toast.png" />
+<img style="float: left;" src="illustrations/Banner.png" />
 
 
 ### ConditionalViewModifier

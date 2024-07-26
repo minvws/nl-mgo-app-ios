@@ -125,6 +125,28 @@
         }
       }
     },
+    "banner.account_removed.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je account is verwijderd"
+          }
+        }
+      }
+    },
+    "banner.account_removed.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hieronder kun je een nieuw account aanmaken"
+          }
+        }
+      }
+    },
     "biometric_setup.button.with_biometric" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1742,35 +1764,13 @@
         }
       }
     },
-    "toast.account_removed.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je account is verwijderd"
-          }
-        }
-      }
-    },
-    "toast.account_removed.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hieronder kun je een nieuw account aanmaken"
-          }
-        }
-      }
-    },
     "toast.organization_removed.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@verwijderd"
+            "value" : "Zorgaanbieder verwijderd"
           }
         }
       }
@@ -1781,7 +1781,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kan deze zorgaanbieder altijd weer toevoegen"
+            "value" : "Herstel"
           }
         }
       }

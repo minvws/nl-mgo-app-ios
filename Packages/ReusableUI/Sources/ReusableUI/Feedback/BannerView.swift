@@ -9,22 +9,22 @@ import RijksoverheidFont
 import SwiftUI
 import Theme
 
-public struct ToastView: View {
+public struct BannerView: View {
 	
-	/// The Toast to display
-	public var toast: Toast
+	/// The Banner to display
+	public var feedback: Feedback
 	
 	/// The action to be performed when the user presses this card
 	public var perform: (() -> Void)?
 	
 	/// Initializer
 	/// - Parameters:
-	///   - toast: the toast to display
+	///   - feedback: the banner to display
 	///   - perform: The action to perform when the user presses on the close button
 	public init(
-		_ toast: Toast,
+		_ feedback: Feedback,
 		perform: (() -> Void)? = nil) {
-		self.toast = toast
+		self.feedback = feedback
 		self.perform = perform
 	}
 	
@@ -36,7 +36,7 @@ public struct ToastView: View {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
-		enum Toast {
+		enum Banner {
 			static let spacing: CGFloat = 12
 			static let padding: CGFloat = 12
 			static let innerSpacing: CGFloat = 4
@@ -49,45 +49,45 @@ public struct ToastView: View {
 	
     public var body: some View {
 		
-		HStack(alignment: .top, spacing: ViewTraits.Toast.spacing) {
+		HStack(alignment: .top, spacing: ViewTraits.Banner.spacing) {
 			Group {
-				switch toast.type {
+				switch feedback.type {
 					case .info:
-						Image(ImageResource.Toast.info)
-						.accessibilityLabel(Bundle.module.localizedString(forKey: "toast_info", value: nil, table: "Toast"))
+						Image(ImageResource.Banner.info)
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_info", value: nil, table: "Feedback"))
 					case .warning:
-						Image(ImageResource.Toast.warning)
-						.accessibilityLabel(Bundle.module.localizedString(forKey: "toast_warning", value: nil, table: "Toast"))
+						Image(ImageResource.Banner.warning)
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_warning", value: nil, table: "Feedback"))
 					case .error:
-						Image(ImageResource.Toast.error)
-						.accessibilityLabel(Bundle.module.localizedString(forKey: "toast_error", value: nil, table: "Toast"))
+						Image(ImageResource.Banner.error)
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_error", value: nil, table: "Feedback"))
 					case .success:
-						Image(ImageResource.Toast.checked)
-						.accessibilityLabel(Bundle.module.localizedString(forKey: "toast_success", value: nil, table: "Toast"))
+						Image(ImageResource.Banner.checked)
+						.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_success", value: nil, table: "Feedback"))
 				}
 			}
 				.accessibilitySortPriority(1000)
 				.accessibilityRemoveTraits(.isImage)
 			
-			VStack(alignment: .leading, spacing: ViewTraits.Toast.innerSpacing) {
+			VStack(alignment: .leading, spacing: ViewTraits.Banner.innerSpacing) {
 				
-				Text(toast.title)
+				Text(feedback.heading)
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundColor(theme.contentPrimary)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilitySortPriority(990)
-					.accessibilityIdentifier("toast.heading")
+					.accessibilityIdentifier("banner.heading")
 				
-				Text(toast.subtitle)
+				Text(feedback.subheading)
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundColor(theme.contentTertiary)
 					.accessibilitySortPriority(980)
-					.accessibilityIdentifier("toast.subheading")
+					.accessibilityIdentifier("banner.subheading")
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.fixedSize(horizontal: false, vertical: true)
 			
-			Image(ImageResource.Toast.close)
+			Image(ImageResource.Banner.close)
 				.frame(width: ViewTraits.Button.size, height: ViewTraits.Button.size)
 				.offset(x: ViewTraits.Button.offset, y: -ViewTraits.Button.offset)
 				._onButtonGesture { pressed in
@@ -99,19 +99,19 @@ public struct ToastView: View {
 				.accessibilitySortPriority(970)
 				.accessibilityRemoveTraits(.isImage)
 				.accessibilityAddTraits(.isButton)
-				.accessibilityLabel(Bundle.module.localizedString(forKey: "toast_close", value: nil, table: "Toast"))
-				.accessibilityIdentifier("toast.close")
+				.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_close", value: nil, table: "Banner"))
+				.accessibilityIdentifier("banner.close")
 			
 		}
-		.cardify(padding: ViewTraits.Toast.padding, lineColor: theme.linesSecondary)
+		.cardify(padding: ViewTraits.Banner.padding, lineColor: theme.linesSecondary)
     }
 }
 
 #Preview {
 	VStack {
-		ToastView(Toast(title: "Title", subtitle: "Text", type: .info))
-		ToastView(Toast(title: "Title", subtitle: "Text", type: .warning))
-		ToastView(Toast(title: "Title", subtitle: "Text", type: .error))
-		ToastView(Toast(title: "Title", subtitle: "Text", type: .success))
+		BannerView(Feedback(title: "Title", subtitle: "Text", type: .info))
+		BannerView(Feedback(title: "Title", subtitle: "Text", type: .warning))
+		BannerView(Feedback(title: "Title", subtitle: "Text", type: .error))
+		BannerView(Feedback(title: "Title", subtitle: "Text", type: .success))
 	}
 }

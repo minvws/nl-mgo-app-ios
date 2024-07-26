@@ -22,9 +22,9 @@ final class IntroductionViewTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func createSut(withToast: Bool = false) {
+	func createSut(withBanner: Bool = false) {
 		
-		viewModel = IntroductionViewModel(coordinator: coordinatorSpy, showAccountDeletedToast: withToast)
+		viewModel = IntroductionViewModel(coordinator: coordinatorSpy, showAccountDeletedBanner: withBanner)
 		sut = IntroductionView(viewModel: self.viewModel)
 	}
 	
@@ -40,10 +40,10 @@ final class IntroductionViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_appIntroductionView_withToast() {
+	func test_appIntroductionView_withBanner() {
 		
 		// Given
-		createSut(withToast: true)
+		createSut(withBanner: true)
 		
 		// When
 		let content = NavigationView { sut }
@@ -55,7 +55,7 @@ final class IntroductionViewTests: XCTestCase {
 	func test_nextButtonPressed_shouldCallCoordinator() throws {
 		
 		// Given
-		createSut(withToast: true)
+		createSut(withBanner: true)
 		
 		// When
 		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.next").button().tap()

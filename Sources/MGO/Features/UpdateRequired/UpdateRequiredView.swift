@@ -66,9 +66,6 @@ struct UpdateRequiredView: View {
 		enum Navigation {
 			static let padding: CGFloat = 8
 		}
-		enum Toast {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 24, trailing: 16)
-		}
 	}
 	
 	var body: some View {

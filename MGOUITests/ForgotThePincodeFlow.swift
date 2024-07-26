@@ -73,10 +73,10 @@ final class ForgotThePincodeFlow: BaseFlowTest {
 		
 		assertIntroductionScreen()
 		
-		assertIntroductionToast()
+		assertIntroductionBanner()
 		
-		// Dismiss Toast
-		app.buttons["toast.close"].tap()
+		// Dismiss Banner
+		app.buttons["banner.close"].tap()
 	}
 	
 	func test_forgotPincodeFlow_accessibilityAudit() {
@@ -104,10 +104,10 @@ extension BaseFlowTest {
 		app.textExists("introduction.heading")
 	}
 	
-	/// is the toast shown on the introduction screen?
-	func assertIntroductionToast() {
+	/// is the banner shown on the introduction screen?
+	func assertIntroductionBanner() {
 		
-		app.textExists("toast.heading")
-		app.textExists("toast.subheading")
+		app.textExists("banner.heading")
+		app.textExists("banner.subheading")
 	}
 }

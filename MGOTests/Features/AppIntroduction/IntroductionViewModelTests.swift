@@ -16,7 +16,7 @@ final class IntroductionViewModelTests: XCTestCase {
 	override func setUp() {
 		
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = IntroductionViewModel(coordinator: coordinatorSpy, showAccountDeletedToast: true)
+		sut = IntroductionViewModel(coordinator: coordinatorSpy, showAccountDeletedBanner: true)
 		super.setUp()
 	}
 
@@ -28,12 +28,12 @@ final class IntroductionViewModelTests: XCTestCase {
 		sut.reduce(.nextButttonPressed)
 		
 		// Then
-		expect(self.sut.toast) != nil
+		expect(self.sut.banner) != nil
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.nextButtonPressedOnIntroduction
 	}
 	
-	func test_onDisappear_shouldRemoveToast() {
+	func test_onDisappear_shouldRemoveBaner() {
 		
 		// Given
 		
@@ -41,19 +41,19 @@ final class IntroductionViewModelTests: XCTestCase {
 		sut.reduce(.onDisappear)
 		
 		// Then
-		expect(self.sut.toast) == nil
+		expect(self.sut.banner) == nil
 		expect(self.coordinatorSpy.invokedHandle) == false
 	}
 	
-	func test_toastCloseButtonPressed_shouldRemoveToast() {
+	func test_bannerCloseButtonPressed_shouldRemoveBanner() {
 		
 		// Given
 		
 		// When
-		sut.reduce(.closeToast)
+		sut.reduce(.closeBanner)
 		
 		// Then
-		expect(self.sut.toast) == nil
+		expect(self.sut.banner) == nil
 		expect(self.coordinatorSpy.invokedHandle) == false
 	}
 }

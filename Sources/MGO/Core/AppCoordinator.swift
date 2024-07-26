@@ -365,7 +365,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Onboarding
 				
 			case let .introduction(recreated):
-				IntroductionView(viewModel: IntroductionViewModel(coordinator: self, showAccountDeletedToast: recreated))
+				IntroductionView(viewModel: IntroductionViewModel(coordinator: self, showAccountDeletedBanner: recreated))
 				
 			case .proposition:
 				PropositionView(viewModel: PropositionViewModel(coordinator: self))
