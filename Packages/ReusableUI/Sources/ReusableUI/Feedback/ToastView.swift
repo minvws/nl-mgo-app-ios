@@ -141,6 +141,7 @@ public struct ToastView: View {
 			.buttonStyle(ToastButtonStyle())
 			.accessibilitySortPriority(970)
 			.accessibilityIdentifier("toast.close")
+			.accessibilityLabel(Bundle.module.localizedString(forKey: "banner_close", value: nil, table: "Feedback"))
 		})
 		.padding(.horizontal, ViewTraits.Toast.padding)
 		.frame(maxWidth: .infinity)
