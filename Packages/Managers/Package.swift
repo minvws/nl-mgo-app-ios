@@ -14,7 +14,7 @@ let package = Package(
 	dependencies: [
 		
 		// External
-		.package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.7.2"),
+		.package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.7.3"),
 		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
