@@ -16,7 +16,7 @@ let package = Package(
 		
 		// Testing:
 		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0"),
-		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.17.3"),
+		.package(url: "https://github.com/pointfreeco/swift-snapshot-testing", exact: "1.17.4"),
 		.package(url: "https://github.com/Quick/Nimble", exact: "13.4.0"),
 		.package(url: "https://github.com/nalexn/ViewInspector", exact: "0.9.11")
 	],
