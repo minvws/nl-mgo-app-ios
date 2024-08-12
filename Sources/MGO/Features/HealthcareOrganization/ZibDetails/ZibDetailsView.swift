@@ -37,7 +37,7 @@ enum ZibDetailViewState: Equatable {
 	}
 }
 
-class ZibDetailViewModel: ObservableObject {
+class ZibDetailsViewModel: ObservableObject {
 	
 	/// The state of the view
 	@Published var state: ZibDetailViewState
@@ -47,6 +47,8 @@ class ZibDetailViewModel: ObservableObject {
 	
 	/// The healthcare organization to display
 	@Published var healthcareOrganization: MgoOrganization
+	
+	@Published var title: String
 	
 	/// The repository for Medication Use
 	private var medicationUseRepository: MedicationUseRepository!
@@ -63,10 +65,12 @@ class ZibDetailViewModel: ObservableObject {
 	/// - Parameter repository: the repository
 	init(
 		coordinator: (any Coordinator)? = nil,
+		title: String,
 		healthcareOrganization: MgoOrganization,
 		repository: MedicationUseRepository? = FHIRClient()
 	) {
 		self.coordinator = coordinator
+		self.title = title
 		self.healthcareOrganization = healthcareOrganization
 		
 		if let unwrapped = repository {
@@ -117,7 +121,7 @@ class ZibDetailViewModel: ObservableObject {
 struct ZibDetailsView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: ZibDetailViewModel
+	@StateObject var viewModel: ZibDetailsViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -165,7 +169,7 @@ struct ZibDetailsView: View {
 					
 					case let .success(schema):
 					
-						UISchemaView(schema: schema)
+						UISchemaDetailsView(schema: schema)
 				}
 				Spacer()
 			}
@@ -177,7 +181,8 @@ struct ZibDetailsView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
-		.navigationBarTitleDisplayMode(.inline)
+		.navigationTitle(viewModel.title)
+		.navigationBarTitleDisplayMode(.automatic)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
@@ -185,136 +190,15 @@ struct ZibDetailsView: View {
 		.layoutForIPad()
 	}
 }
-//
-//#Preview {
-//	NavigationStackBackport.NavigationStack {
-//		MedicationListView(
-//			viewModel: MedicationListViewModel(
-//				coordinator: nil,
-//				healthcareOrganization: PreviewContent.healthcareOrganization
-//			)
-//		)
-//	}
-//}
 
-struct UISchemaView: View {
-	
-	/// The schema
-	var schema: UISchema
-	
-	/// The Theme
-	@Environment(\.theme) var theme
-	
-	/// Magic Numbers
-	private struct ViewTraits {
-		enum Navigation {
-			static let padding: CGFloat = 8
-		}
-		enum General {
-			static let padding: CGFloat = 16
-		}
-		enum List {
-			static let padding: CGFloat = 8
-			static let bottom: CGFloat = 16
-			static let cornerRadius: CGFloat = 8
-		}
-		enum Row {
-			static let padding: CGFloat = 16
-			static let spacing: CGFloat = 4
-		}
-	}
-	
-	var body: some View {
-		
-		VStack(spacing: ViewTraits.List.padding) {
-			ForEach(schema.children, id: \.self) { schemaGroup in
-				viewFor(schemaGroup)
-			}
-		}
-	}
-	
-	/// Show a block of rows
-	/// - Parameter schemaGroup: the schemaGroup to display
-	/// - Returns: block of rows
-	@ViewBuilder func viewFor(_ schemaGroup: UISchemaGroup) -> some View {
-		
-		// Section labels
-		
-		Text(.init(stringLiteral: schemaGroup.label))
-			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundStyle(theme.contentPrimary)
-			.frame(maxWidth: .infinity, alignment: .topLeading)
-			.accessibilityAddTraits(.isHeader)
-		
-		VStack(alignment: .leading) {
-			ForEach(schemaGroup.children, id: \.self) { valueDescription in
-				viewFor(valueDescription, isLastElement: valueDescription == schemaGroup.children.last)
-			}
-		}
-		.frame(maxWidth: .infinity, alignment: .topLeading)
-		.background(theme.backgroundSecondary)
-		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.List.cornerRadius))
-		.padding(.bottom, ViewTraits.List.bottom)
-	}
-	
-	/// Show a row of data for each child display
-	/// - Parameters:
-	///   - groupChild: the groupChild to display
-	///   - isLastElement: Boolean indicating if this is the last element in this block
-	/// - Returns: view for a groupChild
-	@ViewBuilder func viewFor(_ valueDescription: ValueDescription, isLastElement: Bool) -> some View {
-		
-		switch valueDescription.display {
-			case .string(let value):
-				rowViewFor(value, heading: valueDescription.label, showDivider: !isLastElement)
-				
-			case .unionArray(let displayElements):
-				ForEach(displayElements, id: \.self) { displayElement in
-					viewFor(displayElement, valueDescription: valueDescription, isLastElement: isLastElement && displayElement == displayElements.last)
-				}
-				
-			case .null:
-				rowViewFor(String(localized: "common.unknown"), heading: valueDescription.label, showDivider: !isLastElement)
-		}
-	}
-	
-	@ViewBuilder func viewFor(_ element: DisplayElement, valueDescription: ValueDescription, isLastElement: Bool) -> some View {
-		
-		switch element {
-			case .string(let value):
-				rowViewFor(value, heading: valueDescription.label, showDivider: !isLastElement)
-				.background(.orange)
-				
-			case .stringArray(let stringArray):
-				rowViewFor(stringArray.joined(separator: ", "), heading: valueDescription.label, showDivider: !isLastElement)
-				.background(.blue)
-		}
-	}
-	
-	/// Show a row of data (heading and value)
-	/// - Parameters:
-	///   - value: the value to display
-	///   - heading: the heading to display
-	///   - showDivider: True if we should show a divider at the bottom
-	/// - Returns: Row View
-	@ViewBuilder func rowViewFor(_ value: String, heading: String, showDivider: Bool = true) -> some View {
-		
-		VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
-			
-			Text(.init(stringLiteral: heading))
-				.rijksoverheidStyle(font: .regular, style: .callout)
-				.foregroundStyle(theme.contentTertiary)
-			
-			Text(Sanitizer.strip(value) ?? "common.unknown")
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
-		}
-		.padding(ViewTraits.Row.padding)
-		
-		if showDivider {
-			Divider()
-				.frame(height: 1)
-				.overlay(theme.linesPrimary)
-		}
+#Preview {
+	NavigationStackBackport.NavigationStack {
+		ZibDetailsView(
+			viewModel: ZibDetailsViewModel(
+				coordinator: nil,
+				title: "Alle medicijngegevens",
+				healthcareOrganization: PreviewContent.healthcareOrganization
+			)
+		)
 	}
 }

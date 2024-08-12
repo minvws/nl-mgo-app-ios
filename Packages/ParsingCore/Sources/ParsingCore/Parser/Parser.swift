@@ -13,13 +13,11 @@ import Logging
 
 public class FHIRParser {
 	
-	public init() { /* empty init for public access */ }
+	private let jsContext = JSContext()
 	
-	public func parse(_ bundle: ModelsSTU3.Bundle?) -> UISchema? {
-	
-		guard let bundle else { return nil }
+	/// Initializer
+	public init() {
 		
-		let jsContext = JSContext()
 		jsContext?.exceptionHandler = { (ctx: JSContext!, value: JSValue!) in
 			// type of String
 			let stacktrace = value.objectForKeyedSubscript("stack").toString()
@@ -28,8 +26,13 @@ public class FHIRParser {
 			// type of Number
 			let column = value.objectForKeyedSubscript("column")
 			let moreInfo = "in method \(String(describing: stacktrace)) Line number in file: \(String(describing: lineNumber)), column: \(String(describing: column))"
-			logError("JS ERROR: \(String(describing: value)) \(moreInfo)")
+			logError("FHIRParser JS ERROR: \(String(describing: value)) \(moreInfo)")
 		}
+	}
+	
+	public func parse(_ bundle: ModelsSTU3.Bundle?) -> UISchema? {
+		
+		guard let bundle else { return nil }
 		
 		guard let parserPath = Bundle.module.path(forResource: "parser", ofType: "js") else {
 			logError("file not found")
@@ -41,10 +44,10 @@ public class FHIRParser {
 			jsContext?.evaluateScript(sourceContents)
 			
 			let json = try Resource.toJson(bundle)
-			let jsonString = String(decoding: json, as: UTF8.self)
+			let bundleString = String(decoding: json, as: UTF8.self)
 			
-			let testFunction = jsContext?.objectForKeyedSubscript("exposedFunc")
-			let result = testFunction?.call(withArguments: [jsonString])
+			let functionString = "parseBundle(\(bundleString))"
+			let result = jsContext?.evaluateScript(functionString)
 			if let object = result?.toString() {
 				let schema = try UISchema(object)
 				return schema

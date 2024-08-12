@@ -253,8 +253,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		
 			case let .showMedicationZib(healthcareOrganization):
 				ZibDetailsView(
-					viewModel: ZibDetailViewModel(
+					viewModel: ZibDetailsViewModel(
 						coordinator: self,
+						title: String(localized: "zib_medication_use.title"),
 						healthcareOrganization: healthcareOrganization
 					)
 			)

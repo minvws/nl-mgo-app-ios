@@ -1,4 +1,4 @@
-var exposedFunc = function(input) {
+function parseBundle(input) {
 	return  JSON.stringify({
 		"label": "PARACETAMOL TABLET 500MG",
 		"children": [
