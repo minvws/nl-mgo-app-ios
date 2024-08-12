@@ -28,6 +28,8 @@ packages:
     path: ./Packages/MGOTest
   MGOUI:
     path: ./Packages/MGOUI
+  ParsingCore:
+    path: ./Packages/ParsingCore
   Observatory:
     path: ./Packages/Observatory
   RemoteConfiguration:
@@ -402,6 +404,9 @@ schemes:
         - name: MGOTests
           parallelizable: false
           randomExecutionOrder: true
+        - package: ParsingCore/ParsingCoreTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: Observatory/ObservatoryTests
           randomExecutionOrder: true
           parallelizable: false

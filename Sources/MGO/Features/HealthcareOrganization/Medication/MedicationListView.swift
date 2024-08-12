@@ -97,7 +97,7 @@ class MedicationListViewModel: ObservableObject {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 			case .onAppear:
-				tryJS()
+//				tryJS()
 				_Concurrency.Task {
 					 await loadMedication()
 				}
@@ -123,41 +123,6 @@ class MedicationListViewModel: ObservableObject {
 		} catch {
 			logError("Client read error: \(String(describing: error))")
 			state = .failure
-		}
-	}
-	
-	func tryJS() {
-		
-		var jsContext = JSContext()
-
-		// Specify the path to the jssource.js file.
-		if let jsSourcePath = Bundle.main.path(forResource: "test", ofType: "js") {
-			do {
-				let jsSourceContents = try String(contentsOfFile: jsSourcePath)
-				jsContext?.evaluateScript(jsSourceContents)
-				jsContext?.exceptionHandler = { (ctx: JSContext!, value: JSValue!) in
-					// type of String
-					let stacktrace = value.objectForKeyedSubscript("stack").toString()
-					// type of Number
-					let lineNumber = value.objectForKeyedSubscript("line")
-					// type of Number
-					let column = value.objectForKeyedSubscript("column")
-					let moreInfo = "in method \(stacktrace) Line number in file: \(lineNumber), column: \(column)"
-					logError("JS ERROR: \(value) \(moreInfo)")
-				}
-				
-				let testFunction = jsContext?.objectForKeyedSubscript("exposedFunc")
-//				let result = testFunction?.call(withArguments: ["{\"value\":\"Rool\"}"])
-				let result = testFunction?.call(withArguments: ["Rool"])
-				if let object = result?.toString() {
-					let schema = try? UISchema(object)
-					logDebug("schema: ", schema)
-				}
-			} catch {
-				logError(error.localizedDescription)
-			}
-		} else {
-			logError("file not found")
 		}
 	}
 }

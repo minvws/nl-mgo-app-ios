@@ -7,12 +7,17 @@
 
 import Foundation
 import FHIRClient
+import ParsingCore
 
 public protocol MedicationUseRepository {
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use
 	func fetchMedicationUse(dvaTarget: String?) async throws -> [MgoMedicationUse]
+	
+	/// Fetch all the medication usage
+	/// - Returns: an array of medication use
+	func fetchMedicationSchema(dvaTarget: String?) async throws -> UISchema?
 }
 
 extension FHIRClient: MedicationUseRepository {
@@ -29,5 +34,15 @@ extension FHIRClient: MedicationUseRepository {
 			MedicationUseDecorator.create($0)
 		}
 		return medicationUsage
+	}
+	
+	/// Fetch all the medication usage
+	/// - Returns: an array of medication use
+	public func fetchMedicationSchema(dvaTarget: String?) async throws -> UISchema? {
+		
+		let bundle = try await MedicationStatement.read(nil, client: self, parameters: DVP.CommonClinicalDataset.medicationUse, dvaTarget: dvaTarget) as? ModelsSTU3.Bundle
+		
+		let parser = FHIRParser()
+		return parser.parse(bundle)
 	}
 }

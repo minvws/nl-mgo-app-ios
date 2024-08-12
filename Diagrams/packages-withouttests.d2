@@ -33,6 +33,10 @@ FHIRModels: {
   shape: oval
   style.fill: "#8FCAE7"
 }
+JavaScriptCore: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 swift-openapi-generator: {
   shape: oval
   style.fill: "#8FCAE7"
@@ -129,6 +133,14 @@ MGORepository  { style.fill: "#ffcc00" }
 MGORepository <- FHIRClient
 MGORepository <- FHIRExtensions
 MGORepository <- Foundation
+MGORepository <- ParsingCore
+
+ParsingCore { style.fill: "#ffcc00" }
+ParsingCore <- FHIRClient
+ParsingCore <- FHIRExtensions
+ParsingCore <- Foundation
+ParsingCore <- JavaScriptCore
+ParsingCore <- Logging
 
 Observatory { style.fill: "#ffcc00" }
 Observatory <- Foundation

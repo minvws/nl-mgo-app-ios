@@ -532,6 +532,16 @@
         }
       }
     },
+    "common.unknown" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet bekend"
+          }
+        }
+      }
+    },
     "common.yes" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1815,6 +1825,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Download de nieuwste versie van de app om te zorgen dat Mijn Gezondheidsoverzicht goed blijft werken."
+          }
+        }
+      }
+    },
+    "zib_details.back" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terug"
           }
         }
       }
