@@ -44,19 +44,21 @@ struct UISchemaDetailsView: View {
 		}
 	}
 	
+	// MARK: - viewFor methods -
+	
 	/// Show a block of rows
 	/// - Parameter schemaGroup: the schemaGroup to display
 	/// - Returns: block of rows
 	@ViewBuilder func viewFor(_ schemaGroup: UISchemaGroup) -> some View {
 		
-		// Section labels
-		
+		// Section label
 		Text(.init(stringLiteral: schemaGroup.label))
 			.rijksoverheidStyle(font: .bold, style: .body)
 			.foregroundStyle(theme.contentPrimary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityAddTraits(.isHeader)
 		
+		// List of elements
 		VStack(alignment: .leading) {
 			ForEach(schemaGroup.children, id: \.self) { valueDescription in
 				viewFor(valueDescription, isLastElement: valueDescription == schemaGroup.children.last)
@@ -78,13 +80,13 @@ struct UISchemaDetailsView: View {
 		Group {
 			switch valueDescription.display {
 				case .string(let value):
-					rowViewFor(value, heading: valueDescription.label, type: valueDescription.type, showDivider: !isLastElement)
+					viewFor(value, heading: heading(valueDescription), showDivider: !isLastElement)
 					
 				case .unionArray(let displayElements):
 					viewFor(displayElements, valueDescription: valueDescription, isLastElement: isLastElement)
 					
 				case .null:
-					rowViewFor(String(localized: "common.unknown"), heading: valueDescription.label, type: valueDescription.type, showDivider: !isLastElement)
+					viewFor(String(localized: "common.unknown"), heading: heading(valueDescription), showDivider: !isLastElement)
 			}
 		}
 		.when(valueDescription.reference != nil) { view in
@@ -108,12 +110,12 @@ struct UISchemaDetailsView: View {
 
 		let singleValue = getSingleValuesValue(displayElements)
 		if singleValue.isNotEmpty {
-			rowViewFor(singleValue, heading: valueDescription.label, type: valueDescription.type, showDivider: !isLastElement)
+			viewFor(singleValue, heading: heading(valueDescription), showDivider: !isLastElement)
 		}
 		
 		let multipleValues = getMultipleValuesValue(displayElements)
 		ForEach(multipleValues, id: \.self) { multipleValue in
-			rowViewFor(multipleValue, heading: valueDescription.label, type: valueDescription.type, showDivider: !(isLastElement && multipleValue == multipleValues.last))
+			viewFor(multipleValue, heading: heading(valueDescription), showDivider: !(isLastElement && multipleValue == multipleValues.last))
 		}
 	}
 	
@@ -123,11 +125,11 @@ struct UISchemaDetailsView: View {
 	///   - heading: the heading to display
 	///   - showDivider: True if we should show a divider at the bottom
 	/// - Returns: Row View
-	@ViewBuilder func rowViewFor(_ value: String, heading: String, type: String?, showDivider: Bool = true) -> some View {
+	@ViewBuilder func viewFor(_ value: String, heading: String, showDivider: Bool = true) -> some View {
 		
 		VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 			
-			Text(headingForRow(heading, type: type))
+			Text(heading)
 				.rijksoverheidStyle(font: .regular, style: .callout)
 				.foregroundStyle(theme.contentTertiary)
 			
@@ -146,18 +148,19 @@ struct UISchemaDetailsView: View {
 		}
 	}
 	
+	// MARK: - private helpers -
+	
 	/// Get the heading for a row
 	/// - Parameters:
-	///   - heading: the heading text
-	///   - type: the type text
+	///   - valueDescription: the valueDescription
 	/// - Returns: type text if heading is not in the language file. heading if it is. 
-	private func headingForRow(_ heading: String, type: String?) -> String {
+	private func heading(_ valueDescription: ValueDescription) -> String {
 		
-		if let type {
-			let prependedType = "fhir." + type
-			return NSLocalizedString(heading, value: prependedType, comment: "")
-		}
-		return NSLocalizedString(heading, comment: "")
+		return NSLocalizedString(
+			valueDescription.label,
+			value: "fhir." + valueDescription.type,
+			comment: ""
+		)
 	}
 	
 	/// Get the concatenated single value from an array of DisplayElements
