@@ -169,28 +169,6 @@ struct OrganizationView: View {
 					}
 				}
 				.padding(.top, ViewTraits.List.top)
-
-				Text(verbatim: "Proof of concept")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentTertiary)
-					.padding(.horizontal, ViewTraits.General.padding)
-					.padding(.top, ViewTraits.List.top)
-				
-				ZStack {
-					Rectangle()
-						.foregroundStyle(.clear)
-						.accessibilityLabel("organization.medicine_heading")
-						.accessibilityAddTraits(.isButton)
-					
-						ActionCardView(
-							title: "organization.medicine_heading",
-							message: "organization.medicine_subheading",
-							icon: .medication,
-							perform: {
-								viewModel.reduce(.showMedicationZib)
-							}
-						)
-				}
 				
 				Text("common.settings")
 					.rijksoverheidStyle(font: .regular, style: .body)
