@@ -7,6 +7,7 @@
 
 import Foundation
 import FHIRClient
+import ParsingCore
 
 public protocol MedicationUseRepository {
 	

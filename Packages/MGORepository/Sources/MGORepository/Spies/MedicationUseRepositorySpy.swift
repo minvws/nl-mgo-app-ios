@@ -7,9 +7,10 @@
 
 import Foundation
 import FHIRClient
+import ParsingCore
 
 public class MedicationUseRepositorySpy: MedicationUseRepository {
-	
+
 	public init() {
 		// Public init for public access
 	}
@@ -26,5 +27,19 @@ public class MedicationUseRepositorySpy: MedicationUseRepository {
 			throw error
 		}
 		return stubbedFetchMedicationUse
+	}
+
+	public var invokedFetchMedicationSchema = false
+	public var invokedFetchMedicationSchemaCount = 0
+	public var invokedFetchMedicationSchemaParameters: (dvaTarget: String?, Void)?
+	public var invokedFetchMedicationSchemaParametersList = [(dvaTarget: String?, Void)]()
+	public var stubbedFetchMedicationSchema: UISchema?
+
+	public func fetchMedicationSchema(dvaTarget: String?) async throws -> UISchema? {
+		invokedFetchMedicationSchema = true
+		invokedFetchMedicationSchemaCount += 1
+		invokedFetchMedicationSchemaParameters = (dvaTarget, ())
+		invokedFetchMedicationSchemaParametersList.append((dvaTarget, ()))
+		return stubbedFetchMedicationSchema
 	}
 }
