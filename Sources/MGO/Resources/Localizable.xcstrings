@@ -1828,28 +1828,6 @@
           }
         }
       }
-    },
-    "zib_details.back" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terug"
-          }
-        }
-      }
-    },
-    "zib_medication_use.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle medicatiegegevens"
-          }
-        }
-      }
     }
   },
   "version" : "1.0"

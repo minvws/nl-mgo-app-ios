@@ -23,7 +23,6 @@ class OrganizationViewModel: ObservableObject {
 	enum Action {
 		case backButtonPressed
 		case showMedication
-		case showMedicationZib
 		case showProblems
 		case showResults
 		case removeHealthcareOrganization
@@ -53,11 +52,6 @@ class OrganizationViewModel: ObservableObject {
 			case .showMedication:
 				coordinator?.handle(Coordination.Action(
 					identifier: "showMedication",
-					params: ["healthcareOrganization": healthcareOrganization])
-				)
-			case .showMedicationZib:
-				coordinator?.handle(Coordination.Action(
-					identifier: "showMedicationZib",
 					params: ["healthcareOrganization": healthcareOrganization])
 				)
 			case .showResults:

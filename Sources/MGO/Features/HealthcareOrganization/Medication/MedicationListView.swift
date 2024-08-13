@@ -97,7 +97,6 @@ class MedicationListViewModel: ObservableObject {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 			case .onAppear:
-//				tryJS()
 				_Concurrency.Task {
 					 await loadMedication()
 				}
