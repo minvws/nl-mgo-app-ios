@@ -5,7 +5,6 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@testable import MGORepository
 import MGOTest
 
 extension XCTestCase {
