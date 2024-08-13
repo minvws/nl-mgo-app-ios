@@ -26,6 +26,20 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_UISchemaDetailsView_singleNullEntry() throws {
+		
+		// Given
+		let data = try getResource("singleNullEntry")
+		let schema = try UISchema(data: data)
+		let sut = UISchemaDetailsView(schema: schema)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	func test_UISchemaDetailsView_multipleValues_singleEntry() throws {
 		
 		// Given
