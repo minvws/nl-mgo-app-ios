@@ -179,7 +179,7 @@ extension DVP {
 			parameters: RequestParameters(
 				[
 					(RequestParameterField.category, "http://snomed.info/sct|16076005"),
-					(RequestParameterField.include, "MedicationStatement:medication")
+					(RequestParameterField.include, "MedicationRequest:medication")
 				]
 			)
 		)
@@ -190,7 +190,7 @@ extension DVP {
 			parameters: RequestParameters(
 				[
 					(RequestParameterField.category, "http://snomed.info/sct|422037009"),
-					(RequestParameterField.include, "MedicationStatement:medication")
+					(RequestParameterField.include, "MedicationDispense:medication")
 				]
 			)
 		)

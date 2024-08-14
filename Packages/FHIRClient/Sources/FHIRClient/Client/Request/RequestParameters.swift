@@ -12,7 +12,7 @@ Parameters to pass along when making a request.
 */
 public struct RequestParameters {
 	
-	private var parameters: [(RequestParameterField, String)]
+	internal var parameters: [(RequestParameterField, String)]
 	
 	/** Designated initializer. */
 	public init(_ params: [(RequestParameterField, String)]? = nil) {
