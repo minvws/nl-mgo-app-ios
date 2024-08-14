@@ -16,8 +16,10 @@ extension DVP {
 	
 	// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017
 	public enum CommonClinicalDataset {
-		
+				
 		public static let serviceID: Int = 48
+		
+		public static let lastn = "$lastn"
  
 		// MARK: - 1: Patient Information -
 		
@@ -80,7 +82,7 @@ extension DVP {
 					(RequestParameterField.category, "http://snomed.info/sct|118228005,http://snomed.info/sct|384821006")
 				]
 			),
-			directory: "$lastn"
+			directory: lastn
 		)
 		
 		// MARK: - 6: Problems -
@@ -100,7 +102,7 @@ extension DVP {
 					(RequestParameterField.code, "http://snomed.info/sct|365508006")
 				]
 			),
-			directory: "$lastn"
+			directory: lastn
 		)
 		
 		// DrugUse: GET [base]/Observation?code=http://snomed.info/sct|228366006
@@ -221,7 +223,7 @@ extension DVP {
 					(RequestParameterField.code, "http://loinc.org|85354-9")
 				]
 			),
-			directory: "$lastn"
+			directory: lastn
 		)
 		
 		// BodyWeight: GET [base]/Observation/$lastn?code=http://loinc.org|29463-7
@@ -232,7 +234,7 @@ extension DVP {
 					(RequestParameterField.code, "http://loinc.org|29463-7")
 				]
 			),
-			directory: "$lastn"
+			directory: lastn
 		)
 		
 		// BodyHeight: GET [base]/Observation/$lastn?code=http://loinc.org|8302-2,http://loinc.org|8306-3,http://loinc.org|8308-9
@@ -243,7 +245,7 @@ extension DVP {
 					(RequestParameterField.code, "http://loinc.org|8302-2,http://loinc.org|8306-3,http://loinc.org|8308-9")
 				]
 			),
-			directory: "$lastn"
+			directory: lastn
 		)
 
 		// MARK: - 14: Results -
@@ -258,7 +260,7 @@ extension DVP {
 					(RequestParameterField.include, "Observation:specimen")
 				]
 			),
-			directory: "$lastn"
+			directory: lastn
 		)
 		
 		// MARK: - 15: Procedures -
