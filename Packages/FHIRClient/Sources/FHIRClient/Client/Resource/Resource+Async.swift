@@ -10,31 +10,6 @@ import Foundation
 public extension Resource {
 	
 	/**
-	 Reads the resource with the given id from the given server.
-	 This is the async version
-	 
-	 Forwards to class method `readFrom` with the resource's relative URL, created from the supplied id and the resource's base.
-	 
-	 - parameter id:        The id of the resource to read
-	 - parameter client:    The server from which to read
-	 - parameter parameters  The request parameters to add
-	 - parameter options:   Options to use when executing this request, if any
-	 - parameter dvaTarget: What target should we add to the headers
-	 */
-	class func read(_ id: String?, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = [], dvaTarget: String?) async throws -> Resource {
-		var path = "\(resourceType.rawValue)"
-		if let id {
-			path += "/\(id)"
-		}
-		var headers: RequestHeaders?
-		if let dvaTarget {
-			headers = RequestHeaders([RequestHeaderField.dvaTarget: dvaTarget])
-		}
-		
-		return try await readFrom(path, client: client, parameters: parameters, options: options, headers: headers)
-	}
-	
-	/**
 	 Reads the resource from the given path on the given server.
 	 This is the async version
 	 

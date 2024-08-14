@@ -12,16 +12,17 @@ public protocol LaboratoryTestResultRepository {
 	
 	/// Fetch all the lab results
 	/// - Returns: an array of lab results
-	func fetchResults(dvaTarget: String?) async throws -> [MgoLaboratoryTestResult]
+	func fetchResults(dvaTarget: String) async throws -> [MgoLaboratoryTestResult]
 }
 
 extension FHIRClient: LaboratoryTestResultRepository {
 	
 	/// Fetch all the lab results
 	/// - Returns: an array of lab results
-	public func fetchResults(dvaTarget: String?) async throws -> [MgoLaboratoryTestResult] {
+	public func fetchResults(dvaTarget: String) async throws -> [MgoLaboratoryTestResult] {
 		
-		guard let bundle = try await Observation.read("$lastn", client: self, parameters: DVP.CommonClinicalDataset.laboratoryTestResult, dvaTarget: dvaTarget) as? ModelsSTU3.Bundle else { return [] }
+		guard let bundle = try await MGORepository(client: self).getBundle(endpoint: DVP.CommonClinicalDataset.laboratoryTestResult, dvaTarget: dvaTarget) else { return [] }
+		
 		let observations: [Observation] = bundle.entry?.compactMap {
 			$0.resource?.get(if: ModelsSTU3.Observation.self)
 		} ?? []

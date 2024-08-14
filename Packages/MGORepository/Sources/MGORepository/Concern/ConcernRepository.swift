@@ -12,17 +12,18 @@ public protocol ConcernRepository {
 	
 	/// Fetch all the concerns
 	/// - Returns: an array of concerns
-	func fetchConcerns(dvaTarget: String?) async throws -> [MgoConcern]
+	func fetchConcerns(dvaTarget: String) async throws -> [MgoConcern]
 }
 
 extension FHIRClient: ConcernRepository {
 	
 	/// Fetch all the conditions
 	/// - Returns: an array of conditions
-	public func fetchConcerns(dvaTarget: String?) async throws -> [MgoConcern] {
+	public func fetchConcerns(dvaTarget: String) async throws -> [MgoConcern] {
 		
-		let bundle = try await Condition.read(nil, client: self, parameters: DVP.CommonClinicalDataset.concern, dvaTarget: dvaTarget) as? ModelsSTU3.Bundle
-		let conditions: [Condition] = bundle?.entry?.compactMap {
+		guard let bundle = try await MGORepository(client: self).getBundle(endpoint: DVP.CommonClinicalDataset.problem, dvaTarget: dvaTarget) else { return [] }
+
+		let conditions: [Condition] = bundle.entry?.compactMap {
 			$0.resource?.get(if: ModelsSTU3.Condition.self)
 		} ?? []
 		

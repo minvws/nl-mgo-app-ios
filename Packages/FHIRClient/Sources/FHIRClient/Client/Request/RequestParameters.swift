@@ -12,7 +12,7 @@ Parameters to pass along when making a request.
 */
 public struct RequestParameters {
 	
-	private var parameters: [(RequestParameterField, String)]
+	internal var parameters: [(RequestParameterField, String)]
 	
 	/** Designated initializer. */
 	public init(_ params: [(RequestParameterField, String)]? = nil) {
@@ -46,9 +46,28 @@ public enum RequestParameterField: String {
 	/// Category for ZIB
 	case category = "category"
 	
-	/// Include the field
-	case include = "_include"
-
+	/// class
+	case classParam = "class"
+	
+	/// code
+	case code = "code"
+	
+	/// date
+	case date = "date"
+	
 	/// format
 	case format = "_format"
+	
+	/// Include the field
+	case include = "_include"
+	
+	/// Period of use
+	case periodOfUse = "periodofuse"
+	
+	/// status
+	case status = "status"
+	
+	/// type
+	case type = "type"
+	
 }
