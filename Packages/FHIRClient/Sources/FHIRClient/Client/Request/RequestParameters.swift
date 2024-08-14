@@ -45,12 +45,15 @@ public enum RequestParameterField: String {
 	
 	/// Category for ZIB
 	case category = "category"
-
+	
 	/// class
 	case `class` = "class"
 	
 	/// code
 	case code = "code"
+	
+	/// date
+	case date = "date"
 	
 	/// format
 	case format = "_format"
@@ -58,7 +61,13 @@ public enum RequestParameterField: String {
 	/// Include the field
 	case include = "_include"
 	
+	/// Period of use
+	case periodOfUse = "periodofuse"
+	
 	/// status
 	case status = "status"
+	
+	/// type
+	case type = "type"
 	
 }

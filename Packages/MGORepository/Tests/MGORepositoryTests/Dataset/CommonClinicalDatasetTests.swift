@@ -64,19 +64,6 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		expect { try self.contains(endpoint, key: "category", value: "http://snomed.info/sct|11341000146107") } == true
 	}
 	
-	func test_endpoint_contactPerson() throws {
-		
-		// Given
-		let endpoint = DVP.CommonClinicalDataset.contactPerson
-		
-		// When
-		
-		// Then
-		expect(endpoint.path) == "Patient"
-		expect(endpoint.directory) == nil
-		expect { try self.contains(endpoint, key: "_include", value: "Patient:general-practitioner") } == true
-	}
-	
 	func test_endpoint_functionalOrMentalStatus() throws {
 		
 		// Given
@@ -393,19 +380,6 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		expect(endpoint.path) == "Appointment"
 		expect(endpoint.directory) == nil
 		expect { try self.contains(endpoint, key: "status", value: "booked,pending,proposed") } == true
-	}
-	
-	func test_endpoint_healthProfessional() throws {
-		
-		// Given
-		let endpoint = DVP.CommonClinicalDataset.healthProfessional
-		
-		// When
-		
-		// Then
-		expect(endpoint.path) == "Patient"
-		expect(endpoint.directory) == nil
-		expect { try self.contains(endpoint, key: "_include", value: "Patient:general-practitioner") } == true
 	}
 	
 	// MARK: - private helpers -

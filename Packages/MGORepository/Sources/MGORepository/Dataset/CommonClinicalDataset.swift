@@ -68,15 +68,7 @@ extension DVP {
 		
 		// MARK: - 4: Contact Persons -
 		
-		// ContactPerson: GET [base]/Patient?_include=Patient:general-practitioner
-		public static let contactPerson: DVP.Endpoint = DVP.Endpoint(
-			path: "Patient",
-			parameters: RequestParameters(
-				[
-					(RequestParameterField.include, "Patient:general-practitioner")
-				]
-			)
-		)
+		// See Patient
 		
 		// MARK: - 5: Functional Status -
 		
@@ -333,22 +325,7 @@ extension DVP {
 		
 		// MARK: - 18: General Practitioner -
 		
-		// HealthProfessional: GET [base]/Patient?_include=Patient:general-practitioner
-		public static let healthProfessional: DVP.Endpoint = DVP.Endpoint(
-			path: "Patient",
-			parameters: RequestParameters(
-				[
-					(RequestParameterField.include, "Patient:general-practitioner")
-				]
-			)
-		)
-	}
-	
-	/// The settings for the Huisartsgegevens
-	public enum GeneralPractitioner {
-		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_GP_Data
-		
-		public static let serviceID: Int = 49
+		// See Patient
 	}
 	
 	/// The settings for the Documenten PDF/A
