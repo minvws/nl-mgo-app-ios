@@ -47,7 +47,7 @@ public enum RequestParameterField: String {
 	case category = "category"
 	
 	/// class
-	case `class` = "class"
+	case classParam = "class"
 	
 	/// code
 	case code = "code"

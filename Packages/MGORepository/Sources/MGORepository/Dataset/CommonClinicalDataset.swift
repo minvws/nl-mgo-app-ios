@@ -282,7 +282,7 @@ extension DVP {
 			path: "Encounter",
 			parameters: RequestParameters(
 				[
-					(RequestParameterField.class, "http://hl7.org/fhir/v3/ActCode|IMP,http://hl7.org/fhir/v3/ActCode|ACUTE,http://hl7.org/fhir/v3/ActCode|NONAC")
+					(RequestParameterField.classParam, "http://hl7.org/fhir/v3/ActCode|IMP,http://hl7.org/fhir/v3/ActCode|ACUTE,http://hl7.org/fhir/v3/ActCode|NONAC")
 				]
 			)
 		)
