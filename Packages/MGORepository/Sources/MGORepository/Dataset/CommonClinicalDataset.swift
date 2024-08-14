@@ -334,10 +334,4 @@ extension DVP {
 		
 		public static let serviceID: Int = 51
 	}
-	
-	public enum Vaccination {
-		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V6/FHIR_Vaccination-Immunization
-		
-		public static let serviceID: Int = 63
-	}
 }
