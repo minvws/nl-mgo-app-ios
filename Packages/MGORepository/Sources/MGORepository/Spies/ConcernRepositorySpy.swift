@@ -18,7 +18,7 @@ public class ConcernRepositorySpy: ConcernRepository {
 	public var stubbedFetchConcerns: [MgoConcern] = []
 	public var stubbedError: Error?
 	
-	public func fetchConcerns(dvaTarget: String?) async throws -> [MgoConcern] {
+	public func fetchConcerns(dvaTarget: String) async throws -> [MgoConcern] {
 		invokedFetchConcerns = true
 		invokedFetchConcernsCount += 1
 		if let error = stubbedError {
