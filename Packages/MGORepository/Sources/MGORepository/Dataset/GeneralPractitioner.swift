@@ -14,7 +14,6 @@ extension DVP {
 
 	// MARK: - GeneralPractitioner -
 	
-	
 	/// The settings for the Huisartsgegevens
 	public enum GeneralPractitioner {
 		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_GP_Data
@@ -60,10 +59,12 @@ extension DVP {
 		// MARK: - 6: Treatment -
 		
 		// TODO: No HCIM. GP systems do not yet export this info.
+		// swiftlint:disable:previous todo
 		
 		// MARK: - 7: Prophylaxis en precaution -
 		
 		// TODO: No HCIM. GP systems do not yet export this info. Unclear if it'll be anything beyond the Table 56 code (id, time, author, text?)
+		// swiftlint:disable:previous todo
 		
 		// MARK: - 8: Current Medication -
 		// GET [base]/MedicationRequest?periodofuse=ge[today]&category=http://snomed.info/sct|16076005&_include=MedicationRequest:medication
@@ -92,11 +93,12 @@ extension DVP {
 		// MARK: - 10: Correspondence -
 		
 		// TODO: No HCIM. GP systems do not yet export this info. For PDF(/A) based correspondence it is possible to turn to the relevant information standard for that type of data.
+		// swiftlint:disable:previous todo
 		
 		// MARK: - 11: 	Diagnostic and lab results -
 		
 		// Result GET [base]/Observation?code=https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen|&_include=Observation:related-target&_include=Observation:specimen&date=ge2017-01-01
-		public static let result: DVP.Endpoint = DVP.Endpoint(
+		public static let diagnosticAndLabResults: DVP.Endpoint = DVP.Endpoint(
 			path: "Observation",
 			parameters: RequestParameters(
 				[
