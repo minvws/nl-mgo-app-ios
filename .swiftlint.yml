@@ -24,7 +24,7 @@ excluded:
   - Packages/*/Package.swift
   - vendor
   - Packages/*/.build
-  - Packages/Swift-FHIR/*
+  - Packages/ParsingCore/Sources/ParsingCore/UISchema/UISchema.swift # Generated file.
 force_cast: warning
 force_try:
   severity: warning

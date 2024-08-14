@@ -7,6 +7,7 @@
 
 import MGOFoundation
 import MGOUI
+import JavaScriptCore
 
 enum MedicationListViewState: Equatable {
 	
