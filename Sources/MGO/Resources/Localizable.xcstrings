@@ -312,6 +312,17 @@
         }
       }
     },
+    "bottombar.healthcareproviders" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieders"
+          }
+        }
+      }
+    },
     "bottombar.overview" : {
       "extractionState" : "manual",
       "localizations" : {
