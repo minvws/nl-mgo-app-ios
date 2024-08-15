@@ -260,6 +260,9 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 	/// The coordinator for handling state
 	@StateObject private var coordinator: T
 	
+	/// Selected tab
+	@State private var selectedTab = 0
+	
 	/// Initializer
 	/// - Parameter appCoordinator: An DashboardCoordinatorProtocol class
 	init(coordinator: T) {
@@ -271,7 +274,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 	
 	var body: some View {
 		
-			TabView {
+		TabView(selection: $selectedTab) {
 				
 				Group {
 					// First Tab, Overview
@@ -283,10 +286,21 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 							.navigationBarTitleDisplayMode(.inline)
 					}
 					.tabItem {
-						Image(ImageResource.Tab.overview)
+						Image(selectedTab == 0 ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
 						Text("bottombar.overview")
-							.rijksoverheidStyle(font: .regular, style: .body)
+							.rijksoverheidStyle(font: .bold, style: .body)
 					}
+					.tag(0)
+					.accessibilityIdentifier("bottombar.overview")
+					
+					Text(verbatim: "todo: Zorgaanbieders")
+						.tabItem {
+							Image(selectedTab == 1 ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
+							Text("bottombar.healthcareproviders")
+								.rijksoverheidStyle(font: .bold, style: .body)
+						}
+						.tag(1)
+						.accessibilityIdentifier("bottombar.healthcareproviders")
 					
 					// Second Tab, About
 					NavigationStackBackport.NavigationStack(path: $coordinator.secondTabPath) {
@@ -297,10 +311,12 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 							.navigationBarTitleDisplayMode(.inline)
 					}
 					.tabItem {
-						Image(ImageResource.Tab.about)
+						Image(selectedTab == 2 ? ImageResource.Tab.Selected.about : ImageResource.Tab.Unselected.about)
 						Text("bottombar.about_this_app")
-							.rijksoverheidStyle(font: .regular, style: .body)
+							.rijksoverheidStyle(font: .bold, style: .body)
 					}
+					.tag(2)
+					.accessibilityIdentifier("bottombar.about_this_app")
 				}
 			}
 			.onAppear(perform: {
