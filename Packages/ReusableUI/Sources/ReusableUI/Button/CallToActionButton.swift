@@ -24,8 +24,8 @@ public struct CallToActionButton: View {
 	/// All possible styles
 	public enum Style {
 		case primary
+		case primaryNegative
 		case secondary
-		case destructive
 	}
 	
 	/// Initializer
@@ -47,13 +47,13 @@ public struct CallToActionButton: View {
 			}
 		)
 		.when(style == .primary, transform: { button in
-			button.buttonStyle(PrimaryButtonStyle())
+			button.buttonStyle(PrimaryDefaultButtonStyle())
 		})
 		.when(style == .secondary, transform: { button in
-			button.buttonStyle(SecondaryButtonStyle())
+			button.buttonStyle(SecondaryDefaultButtonStyle())
 		})
-		.when(style == .destructive, transform: { button in
-			button.buttonStyle(DestructiveButtonStyle())
+		.when(style == .primaryNegative, transform: { button in
+			button.buttonStyle(PrimaryNegativeButtonStyle())
 		})
 	}
 }
@@ -64,7 +64,7 @@ public struct CallToActionButton: View {
 			.padding(16)
 		CallToActionButton("common.next", style: .secondary)
 			.padding(16)
-		CallToActionButton("common.next", style: .destructive)
+		CallToActionButton("common.next", style: .primaryNegative)
 			.padding(16)
 	}
 }

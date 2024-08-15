@@ -9,7 +9,7 @@ import RijksoverheidFont
 import SwiftUI
 import Theme
 
-struct PrimaryButtonStyle: ButtonStyle {
+struct SecondaryDefaultButtonStyle: ButtonStyle {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -25,17 +25,17 @@ struct PrimaryButtonStyle: ButtonStyle {
 		}
 	}
 	
-	/// Style the button to a primary button
+	/// Style the button to a secondary button
 	/// - Parameter configuration: the button configuration
-	/// - Returns: primary button
+	/// - Returns: secondary button
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(theme.actionPrimaryText)
+			.foregroundColor(theme.actionSecondaryDefaultText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.actionPrimaryBackgroundHover : theme.actionPrimaryBackground)
+			.background(configuration.isPressed ? theme.actionSecondaryDefaultBackgroundHover : theme.actionSecondaryDefaultBackground)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

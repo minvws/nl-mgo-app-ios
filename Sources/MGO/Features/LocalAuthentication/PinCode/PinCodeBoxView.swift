@@ -66,8 +66,8 @@ struct PinCodeBoxView: View {
 	var borderColor: Color {
 		switch state {
 			case .focus, .filling:
-			colorScheme == .light ? theme.actionPrimaryBackground : theme.actionSecondaryBackground
-			case .empty, .filled: theme.input
+			colorScheme == .light ? theme.actionPrimaryDefaultBackground : theme.actionSecondaryDefaultBackground
+			case .empty, .filled: theme.strokesPrimary
 			case .error: theme.notificationError
 		}
 	}
@@ -99,12 +99,12 @@ struct PinCodeBoxView: View {
 			
 			case .filling:
 				Circle()
-					.foregroundStyle(colorScheme == .light ? theme.actionPrimaryBackground : theme.actionSecondaryBackground)
+					.foregroundStyle(colorScheme == .light ? theme.actionPrimaryDefaultBackground : theme.actionSecondaryDefaultBackground)
 					.frame(width: ViewTraits.Circle.big, height: ViewTraits.Circle.big)
 			
 			case .filled:
 				Circle()
-					.foregroundStyle(colorScheme == .light ? theme.actionPrimaryBackground : theme.actionSecondaryBackground)
+					.foregroundStyle(colorScheme == .light ? theme.actionPrimaryDefaultBackground : theme.actionSecondaryDefaultBackground)
 					.frame(width: ViewTraits.Circle.small, height: ViewTraits.Circle.small)
 			
 			case .error:

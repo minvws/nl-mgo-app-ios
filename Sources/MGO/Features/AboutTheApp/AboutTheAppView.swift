@@ -75,7 +75,7 @@ struct AboutTheAppView: View {
 				.accessibilityAddTraits(.isHeader)
 			
 			if viewModel.showResetButton {
-				CallToActionButton("Reset the application?") {
+				CallToActionButton("Reset the application?", style: .primaryNegative) {
 					viewModel.reduce(.showResetDialog)
 				}
 				.padding(ViewTraits.Button.insets)

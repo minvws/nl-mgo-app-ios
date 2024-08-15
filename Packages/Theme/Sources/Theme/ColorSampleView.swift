@@ -43,49 +43,60 @@ struct ColorSampleView: View {
 						colorSample(theme.iconsSecondary, text: "Secondary")
 					}
 					
-					Text("Lines").bold()
+					Text("Strokes").bold()
 					
 					HStack {
-						colorSample(theme.linesPrimary, text: "Primary")
-						colorSample(theme.linesSecondary, text: "Secondary")
-						colorSample(theme.linesTertiary, text: "Tertiary")
+						colorSample(theme.strokesPrimary, text: "Primary")
+						colorSample(theme.strokesSecondary, text: "Secondary")
+						colorSample(theme.strokesTertiary, text: "Tertiary")
 					}
+					
+					Text("Action Primary Default").bold()
 					
 					HStack {
-						colorSample(theme.input, text: "Input")
+						colorSample(theme.actionPrimaryDefaultBackground, text: "Background")
+						colorSample(theme.actionPrimaryDefaultBackgroundHover, text: "Background Hover")
+						colorSample(theme.actionPrimaryDefaultText, text: "Text")
 					}
 					
-					Text("Action Primary").bold()
+					Text("Action Primary Negative").bold()
 					
 					HStack {
-						colorSample(theme.actionPrimaryBackground, text: "Background")
-						colorSample(theme.actionPrimaryText, text: "Text")
-						colorSample(theme.actionPrimaryBackgroundHover, text: "Background Hover")
+						colorSample(theme.actionPrimaryNegativeBackground, text: "Background")
+						colorSample(theme.actionPrimaryNegativeBackgroundHover, text: "Background Hover")
+						colorSample(theme.actionPrimaryNegativeText, text: "Text")
 					}
 					
-					Text("Action Secondary").bold()
+					Text("Action Secondary Default").bold()
 					
 					HStack {
-						colorSample(theme.actionSecondaryBackground, text: "Background")
-						colorSample(theme.actionSecondaryText, text: "Text")
-						colorSample(theme.actionSecondaryBackgroundHover, text: "Background Hover")
+						colorSample(theme.actionSecondaryDefaultBackground, text: "Background")
+						colorSample(theme.actionSecondaryDefaultBackgroundHover, text: "Background Hover")
+						colorSample(theme.actionSecondaryDefaultText, text: "Text")
 					}
 					
-					Text("Action Tertiary").bold()
+					Text("Action Secondary Negative").bold()
 					
 					HStack {
-						colorSample(theme.actionTertiaryDefault, text: "Default")
-						colorSample(theme.actionTertiaryHover, text: "Hover")
+						colorSample(theme.actionSecondaryNegativeBackground, text: "Background")
+						colorSample(theme.actionSecondaryNegativeBackgroundHover, text: "Background Hover")
+						colorSample(theme.actionSecondaryNegativeText, text: "Text")
 					}
 					
-					Text("Action Destructive").bold()
+					Text("Action Tertiary Default").bold()
 					
 					HStack {
-						colorSample(theme.actionDestructiveBackground, text: "Background")
-						colorSample(theme.actionDestructiveBackgroundHover, text: "Background Hover")
-						colorSample(theme.actionDestructiveText, text: "Text")
+						colorSample(theme.actionTertiaryDefaultText, text: "Text")
+						colorSample(theme.actionTertiaryDefaultTextHover, text: "Hover")
 					}
-
+					
+					Text("Action Tertiary Negative").bold()
+					
+					HStack {
+						colorSample(theme.actionTertiaryNegativeText, text: "Text")
+						colorSample(theme.actionTertiaryNegativeTextHover, text: "Hover")
+					}
+					
 					Text("Notification").bold()
 
 					HStack {
@@ -114,12 +125,24 @@ struct ColorSampleView: View {
 					
 					HStack {
 						colorSample(theme.verpleeghuis, text: "Verpleeghuis")
+						colorSample(theme.thuiszorg, text: "Thuiszorg")
 						colorSample(theme.kliniek, text: "Kliniek")
-						colorSample(theme.overige, text: "Overige")
 					}
 					
 					HStack {
+						colorSample(theme.verloskundige, text: "Verloskundig")
+						colorSample(theme.overige, text: "Overige")
 						colorSample(theme.rijksLint, text: "Rijkslint")
+					}
+					
+					HStack {
+						colorSample(theme.rivm, text: "RIVM")
+						colorSample(theme.ggd, text: "GGD")
+						colorSample(theme.revalidatie, text: "Revalidatie")
+					}
+					
+					HStack {
+						colorSample(theme.gegevens, text: "Gegevens")
 					}
 				}
 			}

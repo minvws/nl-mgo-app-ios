@@ -128,7 +128,7 @@ struct ActionCardView: View {
 			.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
 			
 			Divider()
-				.overlay(theme.linesSecondary)
+				.overlay(theme.strokesSecondary)
 			
 		}
 		._onButtonGesture { pressed in

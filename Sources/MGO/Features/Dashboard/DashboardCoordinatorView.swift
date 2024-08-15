@@ -322,17 +322,17 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 			.onAppear(perform: {
 				// Brute force styling
 				let tabBarAppearance = UITabBarAppearance()
-				tabBarAppearance.shadowColor = UIColor(theme.linesTertiary)
+				tabBarAppearance.shadowColor = UIColor(theme.strokesTertiary)
 				tabBarAppearance.backgroundColor = UIColor(theme.backgroundSecondary)
 				
 				for appearance in [tabBarAppearance.stackedLayoutAppearance,
 								   tabBarAppearance.inlineLayoutAppearance,
 								   tabBarAppearance.compactInlineLayoutAppearance] {
 					
-					appearance.selected.iconColor = UIColor(theme.actionTertiaryDefault)
+					appearance.selected.iconColor = UIColor(theme.actionTertiaryDefaultText)
 					appearance.selected.titleTextAttributes =
 					[
-						.foregroundColor: UIColor(theme.actionTertiaryDefault),
+						.foregroundColor: UIColor(theme.actionTertiaryDefaultText),
 						.paragraphStyle: NSParagraphStyle.default
 					]
 					appearance.normal.titleTextAttributes = [

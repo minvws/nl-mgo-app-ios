@@ -50,7 +50,7 @@ extension View {
 	
 	/// Make the view look like a card
 	/// - Returns: card like view.
-	public func cardify(padding: CGFloat = 16, lineColor: Color = Theme().linesPrimary, setBackground: Bool = true) -> some View {
+	public func cardify(padding: CGFloat = 16, lineColor: Color = Theme().strokesPrimary, setBackground: Bool = true) -> some View {
 		modifier(Cardify(padding: padding, lineColor: lineColor, setBackground: setBackground))
 	}
 }
