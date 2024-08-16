@@ -144,7 +144,7 @@ struct UISchemaDetailsView: View {
 		if showDivider {
 			Divider()
 				.frame(height: 1)
-				.overlay(theme.linesPrimary)
+				.overlay(theme.strokesPrimary)
 		}
 	}
 	

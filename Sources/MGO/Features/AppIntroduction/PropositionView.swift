@@ -96,7 +96,7 @@ struct PropositionView: View {
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.padding(.bottom, ViewTraits.General.padding)
 				.foregroundStyle(theme.contentPrimary)
-				.tint(theme.actionTertiaryDefault)
+				.tint(theme.actionTertiaryDefaultText)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityIdentifier("proposition.subheading")
 				.tag("privacylink")

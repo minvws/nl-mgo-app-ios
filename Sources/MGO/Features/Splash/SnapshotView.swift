@@ -80,7 +80,7 @@ struct SnapshotView: View {
 					Spacer()
 					if showSpinner {
 						ProgressView("common.loading")
-							.tint(theme.actionPrimaryBackground)
+							.tint(theme.actionPrimaryDefaultBackground)
 							.rijksoverheidStyle(font: .regular, style: .body)
 							.foregroundStyle(theme.contentPrimary)
 							.padding(.bottom, ViewTraits.Spinner.bottomOffset - geometry.safeAreaInsets.bottom)

@@ -84,7 +84,7 @@ struct OrganizationListCardView: View {
 		.overlay(
 			RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius)
 				.inset(by: ViewTraits.Box.inset)
-				.stroke(theme.linesPrimary, lineWidth: 1)
+				.stroke(theme.strokesPrimary, lineWidth: 1)
 		)
 		._onButtonGesture { pressed in
 			self.onHover = pressed

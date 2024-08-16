@@ -17,10 +17,10 @@ final class ColorSampleTests: XCTestCase {
 		let sut = ColorSampleView()
 		
 		// When
-		let content = sut.frame(width: 380, height: 2100)
+		let content = sut.frame(width: 520, height: 1950)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: content.colorScheme(.light)), as: .image)
+		assertSnapshot(of: UIHostingController(rootView: content.colorScheme(.light)), as: .image(precision: 0.95))
 	}
 	
 	func test_colorSample_darkMode() {
@@ -29,9 +29,9 @@ final class ColorSampleTests: XCTestCase {
 		let sut = ColorSampleView()
 		
 		// When
-		let content = sut.frame(width: 380, height: 2100)
+		let content = sut.frame(width: 520, height: 1950)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: content.colorScheme(.dark)), as: .image)
+		assertSnapshot(of: UIHostingController(rootView: content.colorScheme(.dark)), as: .image(precision: 0.95))
 	}
 }

@@ -99,7 +99,7 @@ struct OrganizationSearchResultCardView: View {
 								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
 								
 						}
-						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefault : theme.actionPrimaryBackground)
+						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
 						.padding(.top, ViewTraits.Selected.padding)
 						.accessibilityElement(children: .combine)
 						
@@ -111,7 +111,7 @@ struct OrganizationSearchResultCardView: View {
 								.multilineTextAlignment(.leading)
 								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
 						}
-						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefault : theme.actionPrimaryBackground)
+						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
 						.padding(.top, ViewTraits.Selected.padding)
 						.accessibilityElement(children: .combine)
 				}
@@ -122,7 +122,7 @@ struct OrganizationSearchResultCardView: View {
 			switch state {
 				case .regular:
 					Image(systemName: "plus")
-						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefault : theme.actionPrimaryBackground)
+						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
 						.font(Font.title2.bold())
 				
 				case .selected:
@@ -148,7 +148,7 @@ struct OrganizationSearchResultCardView: View {
 				.overlay(
 					RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius)
 						.inset(by: ViewTraits.Box.inset)
-						.stroke(theme.linesPrimary, lineWidth: 1)
+						.stroke(theme.strokesPrimary, lineWidth: 1)
 				)
 		})
 		._onButtonGesture { pressed in

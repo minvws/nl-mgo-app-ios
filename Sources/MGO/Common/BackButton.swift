@@ -75,6 +75,6 @@ struct BackButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.foregroundStyle(configuration.isPressed ? theme.actionTertiaryHover : theme.actionTertiaryDefault)
+			.foregroundStyle(configuration.isPressed ? theme.actionTertiaryDefaultTextHover : theme.actionTertiaryDefaultText)
 	}
 }

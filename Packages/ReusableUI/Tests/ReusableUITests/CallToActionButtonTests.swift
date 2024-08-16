@@ -38,7 +38,7 @@ final class CallToActionButtonTests: XCTestCase {
 	func test_destructive() throws {
 		
 		// Given
-		let sut = CallToActionButton("Destructive", style: .destructive)
+		let sut = CallToActionButton("Destructive", style: .primaryNegative)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)

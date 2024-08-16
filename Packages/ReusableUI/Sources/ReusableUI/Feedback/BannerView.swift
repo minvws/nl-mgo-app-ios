@@ -103,7 +103,7 @@ public struct BannerView: View {
 				.accessibilityIdentifier("banner.close")
 			
 		}
-		.cardify(padding: ViewTraits.Banner.padding, lineColor: theme.linesSecondary)
+		.cardify(padding: ViewTraits.Banner.padding, lineColor: theme.strokesSecondary)
     }
 }
 

@@ -53,7 +53,7 @@ struct DisclosureWithImageButton: View {
 							.overlay {
 								Rectangle()
 									.inset(by: 1)
-									.stroke(theme.linesPrimary, lineWidth: 1)
+									.stroke(theme.strokesPrimary, lineWidth: 1)
 									.clipShape(RoundedRectangle(cornerRadius: 3))
 							}
 					})

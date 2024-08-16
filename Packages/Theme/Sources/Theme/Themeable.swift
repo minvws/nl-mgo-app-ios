@@ -28,33 +28,44 @@ public protocol Themeable: ObservableObject {
 	
 	// MARK: - Lines -
 	
-	var linesPrimary: Color { get }
-	var linesSecondary: Color { get }
-	var linesTertiary: Color { get }
+	var strokesPrimary: Color { get }
+	var strokesSecondary: Color { get }
+	var strokesTertiary: Color { get }
 	var input: Color { get }
 	
-	// MARK: - Action Primary -
+	// MARK: - Action Primary Default -
 	
-	var actionPrimaryBackground: Color { get }
-	var actionPrimaryText: Color { get }
-	var actionPrimaryBackgroundHover: Color { get }
+	var actionPrimaryDefaultBackground: Color { get }
+	var actionPrimaryDefaultBackgroundHover: Color { get }
+	var actionPrimaryDefaultText: Color { get }
+	
+	// MARK: - Action Primary Negative -
+	
+	var actionPrimaryNegativeBackground: Color { get }
+	var actionPrimaryNegativeBackgroundHover: Color { get }
+	var actionPrimaryNegativeText: Color { get }
 
-	// MARK: - Action Secondary -
+	// MARK: - Action Secondary Default -
 
-	var actionSecondaryBackground: Color { get }
-	var actionSecondaryText: Color { get }
-	var actionSecondaryBackgroundHover: Color { get }
+	var actionSecondaryDefaultBackground: Color { get }
+	var actionSecondaryDefaultBackgroundHover: Color { get }
+	var actionSecondaryDefaultText: Color { get }
 	
-	// MARK: - Action Tertiary -
-	
-	var actionTertiaryDefault: Color { get }
-	var actionTertiaryHover: Color { get }
-	
-	// MARK: - Action Destructive -
+	// MARK: - Action Secondary Negative -
 
-	var actionDestructiveBackground: Color { get }
-	var actionDestructiveBackgroundHover: Color { get }
-	var actionDestructiveText: Color { get }
+	var actionSecondaryNegativeBackground: Color { get }
+	var actionSecondaryNegativeBackgroundHover: Color { get }
+	var actionSecondaryNegativeText: Color { get }
+	
+	// MARK: - Action Tertiary Default -
+	
+	var actionTertiaryDefaultText: Color { get }
+	var actionTertiaryDefaultTextHover: Color { get }
+	
+	// MARK: - Action Tertiary Negative -
+	
+	var actionTertiaryNegativeText: Color { get }
+	var actionTertiaryNegativeTextHover: Color { get }
 	
 	// MARK: - Notification -
 
@@ -74,6 +85,11 @@ public protocol Themeable: ObservableObject {
 	var verpleeghuis: Color { get }
 	var thuiszorg: Color { get }
 	var kliniek: Color { get }
+	var verloskundige: Color { get }
 	var overige: Color { get }
 	var rijksLint: Color { get }
+	var rivm: Color { get }
+	var ggd: Color { get }
+	var revalidatie: Color { get }
+	var gegevens: Color { get }
 }
