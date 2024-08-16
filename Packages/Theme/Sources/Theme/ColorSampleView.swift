@@ -51,7 +51,8 @@ struct ColorSampleView: View {
 						colorSample(theme.strokesTertiary, text: "Tertiary")
 					}
 					
-					Text("Action Primary Default").bold()
+					Text("Action Primary").bold()
+					Text("Default")
 					
 					HStack {
 						colorSample(theme.actionPrimaryDefaultBackground, text: "Background")
@@ -59,7 +60,7 @@ struct ColorSampleView: View {
 						colorSample(theme.actionPrimaryDefaultText, text: "Text")
 					}
 					
-					Text("Action Primary Negative").bold()
+					Text("Negative")
 					
 					HStack {
 						colorSample(theme.actionPrimaryNegativeBackground, text: "Background")
@@ -67,7 +68,8 @@ struct ColorSampleView: View {
 						colorSample(theme.actionPrimaryNegativeText, text: "Text")
 					}
 					
-					Text("Action Secondary Default").bold()
+					Text("Action Secondary").bold()
+					Text("Default")
 					
 					HStack {
 						colorSample(theme.actionSecondaryDefaultBackground, text: "Background")
@@ -75,23 +77,21 @@ struct ColorSampleView: View {
 						colorSample(theme.actionSecondaryDefaultText, text: "Text")
 					}
 					
-					Text("Action Secondary Negative").bold()
-					
+					Text("Negative")
 					HStack {
 						colorSample(theme.actionSecondaryNegativeBackground, text: "Background")
 						colorSample(theme.actionSecondaryNegativeBackgroundHover, text: "Background Hover")
 						colorSample(theme.actionSecondaryNegativeText, text: "Text")
 					}
 					
-					Text("Action Tertiary Default").bold()
-					
+					Text("Action Tertiary").bold()
+					Text("Default")
 					HStack {
 						colorSample(theme.actionTertiaryDefaultText, text: "Text")
 						colorSample(theme.actionTertiaryDefaultTextHover, text: "Hover")
 					}
 					
-					Text("Action Tertiary Negative").bold()
-					
+					Text("Negative")
 					HStack {
 						colorSample(theme.actionTertiaryNegativeText, text: "Text")
 						colorSample(theme.actionTertiaryNegativeTextHover, text: "Hover")
@@ -103,9 +103,6 @@ struct ColorSampleView: View {
 						colorSample(theme.notificationInformation, text: "Information")
 						colorSample(theme.notificationSuccess, text: "Success")
 						colorSample(theme.notificationWarning, text: "Warning")
-					}
-					
-					HStack {
 						colorSample(theme.notificationError, text: "Error")
 					}
 					
@@ -115,21 +112,18 @@ struct ColorSampleView: View {
 						colorSample(theme.apotheek, text: "Apotheek")
 						colorSample(theme.ziekenhuis, text: "Ziekenhuis")
 						colorSample(theme.huisarts, text: "Huisarts")
+						colorSample(theme.tandarts, text: "Tandarts")
 					}
 					
 					HStack {
-						colorSample(theme.tandarts, text: "Tandarts")
 						colorSample(theme.ggz, text: "GGZ")
 						colorSample(theme.fysiotherapeut, text: "Fysiotherapeut")
-					}
-					
-					HStack {
 						colorSample(theme.verpleeghuis, text: "Verpleeghuis")
 						colorSample(theme.thuiszorg, text: "Thuiszorg")
-						colorSample(theme.kliniek, text: "Kliniek")
 					}
 					
 					HStack {
+						colorSample(theme.kliniek, text: "Kliniek")
 						colorSample(theme.verloskundige, text: "Verloskundig")
 						colorSample(theme.overige, text: "Overige")
 						colorSample(theme.rijksLint, text: "Rijkslint")
@@ -139,9 +133,6 @@ struct ColorSampleView: View {
 						colorSample(theme.rivm, text: "RIVM")
 						colorSample(theme.ggd, text: "GGD")
 						colorSample(theme.revalidatie, text: "Revalidatie")
-					}
-					
-					HStack {
 						colorSample(theme.gegevens, text: "Gegevens")
 					}
 				}
@@ -161,7 +152,7 @@ struct ColorSampleView: View {
 			Rectangle()
 				.fill(color)
 				.border(.gray)
-				.frame(width: 120, height: 60)
+				.frame(width: 120, height: 40)
 			Text(text)
 				.font(.footnote)
 				.frame(width: 120, height: 40)
