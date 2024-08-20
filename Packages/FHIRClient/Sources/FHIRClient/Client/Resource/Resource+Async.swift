@@ -22,7 +22,7 @@ public extension Resource {
 	 - parameter headers:   Headers to send to the server
 	 - Returns: the requested resource
 	 */
-	class func readFrom(_ path: String, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = [], headers: RequestHeaders?) async throws -> Resource {
+	class func readResourceFrom(_ path: String, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = [], headers: RequestHeaders?) async throws -> Resource {
 		guard var handler = client.handlerForRequest(withMethod: .GET, resource: nil) else {
 			throw FHIRError.noRequestHandlerAvailable(.GET)
 		}
@@ -47,6 +47,41 @@ public extension Resource {
 			} catch {
 				throw error.asFHIRError
 			}
+		}
+	}
+	
+	/**
+	 Reads the resource from the given path on the given server as Data.
+	 This is the async version
+	 
+	 This method creates a FHIRJSONRequestHandler for a GET request and returns the data.
+	 Parsing of the response into FHIR Resources will be done by the Parser in a separate step. 
+	 
+	 - parameter path:      The relative path on the server from which to read resource data from
+	 - parameter client:    The server to use
+	 - parameter parameters  The request parameters to add
+	 - parameter options:   Options to use when executing this request, if any
+	 - parameter headers:   Headers to send to the server
+	 - Returns: the requested data
+	 */
+	class func readDataFrom(_ path: String, client: FHIRClient, parameters: RequestParameters = RequestParameters(), options: RequestOption = [], headers: RequestHeaders?) async throws -> Data {
+		guard var handler = client.handlerForRequest(withMethod: .GET, resource: nil) else {
+			throw FHIRError.noRequestHandlerAvailable(.GET)
+		}
+		handler.options = options
+		handler.parameters = parameters
+		if let headers {
+			handler.add(headers: headers)
+		}
+		let response = await client.performRequest(against: path, handler: handler)
+		
+		if let error = response.error {
+			throw error
+		} else {
+			guard let body = response.body else {
+				throw FHIRError.responseNoResourceReceived
+			}
+			return body
 		}
 	}
 }

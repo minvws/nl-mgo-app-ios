@@ -14,9 +14,4 @@ extension Resource {
 		let decoder = JSONDecoder()
 		return try decoder.decode(T.self, from: json)
 	}
-	
-	public static func toJson<T>(_ type: T) throws -> Data where T: Encodable {
-		let encoder = JSONEncoder()
-		return try encoder.encode(type)
-	}
 }
