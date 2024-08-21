@@ -6,7 +6,7 @@
  */
 
 import FHIRClient
-import FHIRExtensions
+//import FHIRExtensions
 import Foundation
 import JavaScriptCore
 import Logging
