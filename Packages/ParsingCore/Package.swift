@@ -17,6 +17,7 @@ let package = Package(
 		// Internal
 		.package(name: "FHIRClient", path: "../FHIRClient"),
 		.package(name: "FHIRExtensions", path: "../FHIRExtensions"),
+		.package(name: "Zibs", path: "../Zibs"),
 		
 		// VWS
 		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
@@ -33,6 +34,7 @@ let package = Package(
 				.product(name: "FHIRClient", package: "FHIRClient"),
 				.product(name: "FHIRExtensions", package: "FHIRExtensions"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
+				.product(name: "Zibs", package: "Zibs")
 			],
 			resources: [.process("Resources")]
 		),
@@ -41,7 +43,8 @@ let package = Package(
 			dependencies: [
 				"ParsingCore",
 					.product(name: "MGOTest", package: "MGOTest")
-			]
+			],
+			resources: [.process("Resources")]
 		)
 	]
 )

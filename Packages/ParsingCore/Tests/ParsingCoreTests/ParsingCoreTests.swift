@@ -1,12 +1,31 @@
-import XCTest
+/*
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import MGOTest
 @testable import ParsingCore
 
 final class ParsingCoreTests: XCTestCase {
-    func testExample() throws {
-        // XCTest Documentation
-        // https://developer.apple.com/documentation/xctest
-
-        // Defining Test Cases and Test Methods
-        // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
-    }
+	
+	var sut: FHIRParser!
+	
+	override func setUp() {
+		super.setUp()
+		sut = FHIRParser()
+	}
+	
+	func test_getBundleResourcesJson() throws {
+		
+		// Given
+		let json = try getResource("bundle")
+		
+		// When
+		let result = sut.getBundleResourcesJson(json)
+		
+		// Then
+		expect(result).to(haveCount(2))
+	}
 }

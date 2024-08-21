@@ -25,6 +25,7 @@ excluded:
   - vendor
   - Packages/*/.build
   - Packages/ParsingCore/Sources/ParsingCore/UISchema/UISchema.swift # Generated file.
+  - Packages/Zibs/Sources/Zibs/ZibMedicationUse.swift # Generated file.
 force_cast: warning
 force_try:
   severity: warning

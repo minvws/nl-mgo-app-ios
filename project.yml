@@ -44,6 +44,8 @@ packages:
     path: ./Packages/Theme
   SecureUserSettings:
     path: ./Packages/SecureUserSettings
+  Zibs:
+    path: ./Packages/Zibs
 
 # - Attributes:
 
