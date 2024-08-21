@@ -4,6 +4,282 @@ var __publicField = (obj, key, value2) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value2);
   return value2;
 };
+function getBundleResources$1(bundle, resourceTypeFilter) {
+  if (!bundle.entry?.length)
+    return [];
+  const resources2 = bundle.entry.map((entry) => entry.resource);
+  if (resourceTypeFilter) {
+    return resources2.filter(
+      (x) => x?.resourceType === resourceTypeFilter
+    );
+  }
+  return resources2.filter((x) => x !== void 0);
+}
+function getReference(bundle, { reference: reference2 } = {}) {
+  if (!bundle?.entry?.length || !reference2)
+    return;
+  return bundle.entry.find((x) => x.fullUrl?.endsWith(reference2))?.resource;
+}
+const resourceTypes = [
+  "Account",
+  "ActivityDefinition",
+  "AdverseEvent",
+  "AllergyIntolerance",
+  "Appointment",
+  "AppointmentResponse",
+  "AuditEvent",
+  "Basic",
+  "Binary",
+  "BodySite",
+  "Bundle",
+  "CapabilityStatement",
+  "CarePlan",
+  "CareTeam",
+  "ChargeItem",
+  "Claim",
+  "ClaimResponse",
+  "ClinicalImpression",
+  "CodeSystem",
+  "Communication",
+  "CommunicationRequest",
+  "CompartmentDefinition",
+  "Composition",
+  "ConceptMap",
+  "Condition",
+  "Consent",
+  "Contract",
+  "Coverage",
+  "DataElement",
+  "DetectedIssue",
+  "Device",
+  "DeviceComponent",
+  "DeviceMetric",
+  "DeviceRequest",
+  "DeviceUseStatement",
+  "DiagnosticReport",
+  "DocumentManifest",
+  "DocumentReference",
+  "EligibilityRequest",
+  "EligibilityResponse",
+  "Encounter",
+  "Endpoint",
+  "EnrollmentRequest",
+  "EnrollmentResponse",
+  "EpisodeOfCare",
+  "ExpansionProfile",
+  "ExplanationOfBenefit",
+  "FamilyMemberHistory",
+  "Flag",
+  "Goal",
+  "GraphDefinition",
+  "Group",
+  "GuidanceResponse",
+  "HealthcareService",
+  "ImagingManifest",
+  "ImagingStudy",
+  "Immunization",
+  "ImmunizationRecommendation",
+  "ImplementationGuide",
+  "Library",
+  "Linkage",
+  "List",
+  "Location",
+  "Measure",
+  "MeasureReport",
+  "Media",
+  "Medication",
+  "MedicationAdministration",
+  "MedicationDispense",
+  "MedicationRequest",
+  "MedicationStatement",
+  "MessageDefinition",
+  "MessageHeader",
+  "NamingSystem",
+  "NutritionOrder",
+  "Observation",
+  "OperationDefinition",
+  "OperationOutcome",
+  "Organization",
+  "Parameters",
+  "Patient",
+  "PaymentNotice",
+  "PaymentReconciliation",
+  "Person",
+  "PlanDefinition",
+  "Practitioner",
+  "PractitionerRole",
+  "Procedure",
+  "ProcedureRequest",
+  "ProcessRequest",
+  "ProcessResponse",
+  "Provenance",
+  "Questionnaire",
+  "QuestionnaireResponse",
+  "ReferralRequest",
+  "RelatedPerson",
+  "RequestGroup",
+  "ResearchStudy",
+  "ResearchSubject",
+  "RiskAssessment",
+  "Schedule",
+  "SearchParameter",
+  "Sequence",
+  "ServiceDefinition",
+  "Slot",
+  "Specimen",
+  "StructureDefinition",
+  "StructureMap",
+  "Subscription",
+  "Substance",
+  "SupplyDelivery",
+  "SupplyRequest",
+  "Task",
+  "TestReport",
+  "TestScript",
+  "ValueSet",
+  "VisionPrescription"
+];
+function isFhirResource(value2, type) {
+  const resource = value2;
+  if (!type) {
+    return resourceTypes.includes(resource?.resourceType);
+  }
+  return resource?.resourceType === type;
+}
+function findByUse(collection, priority, defaultValue) {
+  if (!collection?.length)
+    return defaultValue;
+  for (const use of priority) {
+    const item = collection.find((x) => x.use === use);
+    if (item)
+      return item;
+  }
+  return defaultValue;
+}
+function safeGet(object, getFunction, defaultValue) {
+  try {
+    const result = getFunction(object);
+    return result === void 0 ? defaultValue : result;
+  } catch (error) {
+    if (error instanceof TypeError) {
+      return defaultValue;
+    }
+    throw error;
+  }
+}
+function safeGetBulk(object, config, defaultValues) {
+  const result = {};
+  for (const [key, value2] of Object.entries(config)) {
+    if (typeof value2 === "object") {
+      result[key] = safeGetBulk(
+        object,
+        value2,
+        defaultValues?.[key]
+      );
+    } else if (typeof value2 === "function") {
+      result[key] = safeGet(
+        object,
+        value2,
+        defaultValues?.[key]
+      );
+    }
+  }
+  return result;
+}
+function isNullish(value2) {
+  return value2 === void 0 || value2 === null;
+}
+function isNonNullish(value2) {
+  return !isNullish(value2);
+}
+function map(items, iteratee) {
+  if (!items?.length)
+    return null;
+  return items.map(iteratee).filter(isNonNullish);
+}
+function getMgoProblems(bundle) {
+  const conditions = getBundleResources$1(bundle, "Condition");
+  return conditions.map((condition) => {
+    return {
+      ...safeGetBulk(condition, {
+        title: ({ code: code2 }) => code2.coding[0].display,
+        comment: ({ note }) => note.map((x) => x.text).join(", "),
+        clinicalStatus: ({ clinicalStatus }) => clinicalStatus,
+        category: ({ category }) => category.map((x) => x.coding.map((y) => y.display)).flat().join(", "),
+        startDate: ({ onsetDateTime }) => onsetDateTime,
+        endDate: ({ abatementDateTime }) => abatementDateTime ?? null,
+        bodyLocation: ({ bodySite }) => `${bodySite[0].coding[0].display}, ${bodySite[0].extension[0].valueCodeableConcept.coding[0].display}`
+      })
+    };
+  });
+}
+function getMgoMedicationStatements(bundle) {
+  const medicationStatements = getBundleResources$1(bundle, "MedicationStatement");
+  return medicationStatements.map((medicationStatement) => {
+    return {
+      ...safeGetBulk(medicationStatement, {
+        title: ({ medicationReference }) => medicationReference.display,
+        instructions: ({ dosage }) => dosage.map((x) => x.text).join(" "),
+        prescribedBy: ({ extension: extension2 }) => extension2.find(
+          (x) => x.url === "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse-Prescriber"
+        )?.valueReference.display,
+        status: ({ status }) => status,
+        startDate: ({ effectiveDateTime, effectivePeriod }) => effectiveDateTime || effectivePeriod.start
+      })
+    };
+  });
+}
+function numberToString$1(value2) {
+  if (value2 === void 0)
+    return "-";
+  return value2.toString();
+}
+function quantityToString(quantity2) {
+  if (!quantity2)
+    return "";
+  const { value: value2, unit } = quantity2;
+  return numberToString$1(value2) + (unit ? ` ${unit}` : "");
+}
+function getMgoObservations(bundle) {
+  const observations = getBundleResources$1(bundle, "Observation");
+  return observations.map((observation) => {
+    const specimen = getReference(bundle, observation.specimen);
+    return {
+      ...safeGetBulk(observation, {
+        title: ({ category }) => category[0].coding[0].display,
+        code: ({ code: { coding: coding2 } }) => coding2[0].display,
+        status: ({ status }) => status,
+        dateTime: ({ effectiveDateTime }) => effectiveDateTime,
+        result: ({ valueQuantity }) => quantityToString(valueQuantity),
+        referenceRangeLow: ({ referenceRange: [{ low }] }) => quantityToString(low),
+        referenceRangeHigh: ({ referenceRange: [{ high }] }) => quantityToString(high),
+        interpretation: ({ interpretation: { coding: coding2 } }) => coding2.find(({ system }) => system === "http://snomed.info/sct")?.display
+      }),
+      specimen: safeGet(
+        specimen,
+        ({ type }) => type.coding[0].display,
+        observation.specimen?.display
+      ),
+      collectionDateTime: safeGet(specimen, ({ collection }) => collection.collectedDateTime)
+    };
+  });
+}
+function getMgoDocuments(bundle) {
+  const manifest = getBundleResources$1(bundle, "DocumentReference");
+  return manifest.map(getMgoDocument);
+}
+function getMgoDocument(document) {
+  return {
+    ...safeGetBulk(document, {
+      id: ({ id }) => id,
+      title: ({ description }) => description,
+      content: ({ content }) => content,
+      indexed: ({ indexed }) => indexed,
+      status: ({ securityLabel }) => securityLabel.map((x) => x.coding.map((y) => y.display)).flat().join(", "),
+      author: ({ author }) => author.map((x) => x.display).flat().join(", ")
+    })
+  };
+}
 function isInteger(value2) {
   return INTEGER_REGEX.test(value2);
 }
@@ -426,8 +702,10 @@ const codeLowercaseE = 101;
 const codeUppercaseF = 70;
 const codeLowercaseF = 102;
 function stringify(value2, replacer, space, numberStringifiers) {
-  const resolvedSpace = resolveSpace();
-  const replacedValue = value2;
+  const resolvedSpace = resolveSpace(space);
+  const replacedValue = typeof replacer === "function" ? replacer.call({
+    "": value2
+  }, "", value2) : value2;
   return stringifyValue(replacedValue, "");
   function stringifyValue(value3, indent) {
     if (Array.isArray(numberStringifiers)) {
@@ -464,7 +742,7 @@ function stringify(value2, replacer, space, numberStringifiers) {
     const childIndent = resolvedSpace ? indent + resolvedSpace : void 0;
     let str = resolvedSpace ? "[\n" : "[";
     for (let i = 0; i < array.length; i++) {
-      const item = array[i];
+      const item = typeof replacer === "function" ? replacer.call(array, String(i), array[i]) : array[i];
       if (resolvedSpace) {
         str += childIndent;
       }
@@ -492,7 +770,7 @@ function stringify(value2, replacer, space, numberStringifiers) {
     let first = true;
     let str = resolvedSpace ? "{\n" : "{";
     keys.forEach((key) => {
-      const value3 = object[key];
+      const value3 = typeof replacer === "function" ? replacer.call(object, key, object[key]) : object[key];
       if (includeProperty(key, value3)) {
         if (first) {
           first = false;
@@ -512,157 +790,25 @@ function stringify(value2, replacer, space, numberStringifiers) {
   }
 }
 function resolveSpace(space) {
+  if (typeof space === "number") {
+    return " ".repeat(space);
+  }
+  if (typeof space === "string" && space !== "") {
+    return space;
+  }
   return void 0;
 }
-function losslessParse(text, useDoubleParse = false) {
+function losslessParse(text) {
   if (typeof text !== "string") {
     throw new Error("Input is not a (JSON) string");
   }
-  let result = parse$1(text);
-  if (typeof result === "string" && useDoubleParse) {
-    result = parse$1(result);
-  }
-  return result;
+  return parse$1(text);
 }
-function losslessStringify(value2) {
+function losslessStringify(value2, format2 = false) {
+  if (format2) {
+    return stringify(value2, null, 2);
+  }
   return stringify(value2);
-}
-const resourceTypes = [
-  "Account",
-  "ActivityDefinition",
-  "AdverseEvent",
-  "AllergyIntolerance",
-  "Appointment",
-  "AppointmentResponse",
-  "AuditEvent",
-  "Basic",
-  "Binary",
-  "BodySite",
-  "Bundle",
-  "CapabilityStatement",
-  "CarePlan",
-  "CareTeam",
-  "ChargeItem",
-  "Claim",
-  "ClaimResponse",
-  "ClinicalImpression",
-  "CodeSystem",
-  "Communication",
-  "CommunicationRequest",
-  "CompartmentDefinition",
-  "Composition",
-  "ConceptMap",
-  "Condition",
-  "Consent",
-  "Contract",
-  "Coverage",
-  "DataElement",
-  "DetectedIssue",
-  "Device",
-  "DeviceComponent",
-  "DeviceMetric",
-  "DeviceRequest",
-  "DeviceUseStatement",
-  "DiagnosticReport",
-  "DocumentManifest",
-  "DocumentReference",
-  "EligibilityRequest",
-  "EligibilityResponse",
-  "Encounter",
-  "Endpoint",
-  "EnrollmentRequest",
-  "EnrollmentResponse",
-  "EpisodeOfCare",
-  "ExpansionProfile",
-  "ExplanationOfBenefit",
-  "FamilyMemberHistory",
-  "Flag",
-  "Goal",
-  "GraphDefinition",
-  "Group",
-  "GuidanceResponse",
-  "HealthcareService",
-  "ImagingManifest",
-  "ImagingStudy",
-  "Immunization",
-  "ImmunizationRecommendation",
-  "ImplementationGuide",
-  "Library",
-  "Linkage",
-  "List",
-  "Location",
-  "Measure",
-  "MeasureReport",
-  "Media",
-  "Medication",
-  "MedicationAdministration",
-  "MedicationDispense",
-  "MedicationRequest",
-  "MedicationStatement",
-  "MessageDefinition",
-  "MessageHeader",
-  "NamingSystem",
-  "NutritionOrder",
-  "Observation",
-  "OperationDefinition",
-  "OperationOutcome",
-  "Organization",
-  "Parameters",
-  "Patient",
-  "PaymentNotice",
-  "PaymentReconciliation",
-  "Person",
-  "PlanDefinition",
-  "Practitioner",
-  "PractitionerRole",
-  "Procedure",
-  "ProcedureRequest",
-  "ProcessRequest",
-  "ProcessResponse",
-  "Provenance",
-  "Questionnaire",
-  "QuestionnaireResponse",
-  "ReferralRequest",
-  "RelatedPerson",
-  "RequestGroup",
-  "ResearchStudy",
-  "ResearchSubject",
-  "RiskAssessment",
-  "Schedule",
-  "SearchParameter",
-  "Sequence",
-  "ServiceDefinition",
-  "Slot",
-  "Specimen",
-  "StructureDefinition",
-  "StructureMap",
-  "Subscription",
-  "Substance",
-  "SupplyDelivery",
-  "SupplyRequest",
-  "Task",
-  "TestReport",
-  "TestScript",
-  "ValueSet",
-  "VisionPrescription"
-];
-function isFhirResource(value2, type) {
-  const resource = value2;
-  if (!type) {
-    return resourceTypes.includes(resource?.resourceType);
-  }
-  return resource?.resourceType === type;
-}
-function isNullish(value2) {
-  return value2 === void 0 || value2 === null;
-}
-function isNonNullish(value2) {
-  return !isNullish(value2);
-}
-function map(items, iteratee) {
-  if (!items?.length)
-    return null;
-  return items.map(iteratee).filter(isNonNullish);
 }
 function isMgoResource(resource) {
   const resourceTyped = resource;
@@ -676,13 +822,13 @@ function getBundleResources(bundle) {
 }
 const EMPTY_VALUE = null;
 function deepReplaceUndefined(value2) {
-  if (value2 === void 0) {
+  if (value2 === void 0 || value2 === null) {
     return EMPTY_VALUE;
   }
   if (Array.isArray(value2)) {
     return value2.map(deepReplaceUndefined);
   }
-  if (typeof value2 === "object" && value2 !== null) {
+  if (typeof value2 === "object" && !isLosslessNumber(value2)) {
     return Object.fromEntries(
       Object.entries(value2).map(([key, value22]) => [key, deepReplaceUndefined(value22)])
     );
@@ -2273,7 +2419,7 @@ lodash.exports;
           if (isObject2(srcValue)) {
             baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
           } else {
-            var newValue = customizer ? customizer(safeGet(object, key), srcValue, key + "", object, source, stack) : undefined$1;
+            var newValue = customizer ? customizer(safeGet2(object, key), srcValue, key + "", object, source, stack) : undefined$1;
             if (newValue === undefined$1) {
               newValue = srcValue;
             }
@@ -2282,7 +2428,7 @@ lodash.exports;
         }, keysIn);
       }
       function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
-        var objValue = safeGet(object, key), srcValue = safeGet(source, key), stacked = stack.get(srcValue);
+        var objValue = safeGet2(object, key), srcValue = safeGet2(source, key), stacked = stack.get(srcValue);
         if (stacked) {
           assignMergeValue(object, key, stacked);
           return;
@@ -3735,7 +3881,7 @@ lodash.exports;
         }
         return array;
       }
-      function safeGet(object, key) {
+      function safeGet2(object, key) {
         if (key === "constructor" && typeof object[key] === "function") {
           return;
         }
@@ -6876,38 +7022,52 @@ function parseResource(resource) {
   const config = getResourceConfig(resource);
   return config.parse(resource);
 }
-function getBundleResourcesJson(fhirBundleJson) {
-  const fhirBundle = losslessParse(fhirBundleJson, false);
+function getBundleResourcesJson(fhirBundleJson, formatResponse = false) {
+  const fhirBundle = losslessParse(fhirBundleJson);
   if (!isFhirResource(fhirBundle, "Bundle")) {
     throw new Error(
       `input does not seem to be a Fhir Bundle. Received resourceType: "${fhirBundle?.resourceType}"`
     );
   }
   const resources2 = getBundleResources(fhirBundle);
-  return losslessStringify(resources2);
+  return losslessStringify(resources2, formatResponse);
 }
-function parseResourceJson(fhirResourceJson) {
-  const fhirResource = losslessParse(fhirResourceJson, false);
+function parseResourceJson(fhirResourceJson, formatResponse = false) {
+  const fhirResource = losslessParse(fhirResourceJson);
   if (!isFhirResource(fhirResource)) {
     throw new Error(
       `input does not seem to be a valid Fhir Resource. Received resourceType: "${fhirResource?.resourceType}"`
     );
   }
   const result = parseResource(fhirResource);
-  return losslessStringify(result);
+  return losslessStringify(result, formatResponse);
 }
-function getUiSchemaJson(mgoResourceJson) {
-  const mgoResource = losslessParse(mgoResourceJson, false);
+function getUiSchemaJson(mgoResourceJson, formatResponse = false) {
+  const mgoResource = losslessParse(mgoResourceJson);
   if (!isMgoResource(mgoResource)) {
     throw new Error(
       `input does not seem to be a valid MGO Resource. Received MGO resource profile: "${mgoResource?._profile}"`
     );
   }
   const uiSchema2 = getUiSchema(mgoResource);
-  return losslessStringify(uiSchema2);
+  return losslessStringify(uiSchema2, formatResponse);
 }
 //export {
+//  findByUse,
+//  getBundleResources$1 as getBundleResources,
 //  getBundleResourcesJson,
+//  getMgoDocument,
+//  getMgoDocuments,
+//  getMgoMedicationStatements,
+//  getMgoObservations,
+//  getMgoProblems,
+//  getReference,
 //  getUiSchemaJson,
-//  parseResourceJson
+//  isFhirResource,
+//  isNullish,
+//  map,
+//  parseResourceJson,
+//  quantityToString,
+//  safeGet,
+//  safeGetBulk
 //};

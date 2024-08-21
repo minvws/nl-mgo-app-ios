@@ -13,6 +13,7 @@ import Logging
 
 public class FHIRParser {
 	
+	/// path to the shared JS library
 	private let parserPath: String?
 	
 	/// Initializer
@@ -51,7 +52,6 @@ public class FHIRParser {
 		do {
 			let sourceContents = try String(contentsOfFile: parserPath)
 			context.evaluateScript(sourceContents)
-			
 		} catch {
 			logError(error.localizedDescription)
 		}
@@ -69,14 +69,12 @@ public class FHIRParser {
 		
 		do {
 			let bundleString = String(decoding: json, as: UTF8.self)
-
-			
 			let parseBundleFunction = jsContext.objectForKeyedSubscript("getBundleResourcesJson")
 			guard let resourcesJSValue = parseBundleFunction?.call(withArguments: [bundleString]) else {
-			  print("Failed to parse bundle resources")
+				logError("Failed to parse bundle resources")
 			  return []
 			}
-//			print(resourcesJSValue)
+//			logDebug("\(resourcesJSValue)")
 			let data = Data(resourcesJSValue.toString().utf8)
 			let json2 = try JSONSerialization.jsonObject(with: data, options: [])
 			if let array = json2 as? [Any] {
@@ -98,15 +96,13 @@ public class FHIRParser {
 		}
 		prepareParser(context: jsContext)
 		
-		
 		let resourceString = String(decoding: json, as: UTF8.self)
-		
 		let parseResourceFunction = jsContext.objectForKeyedSubscript("parseResourceJson")
 		guard let resourcesJSValue = parseResourceFunction?.call(withArguments: [resourceString]) else {
-			print("Failed to parse resource json")
+			logError("Failed to parse resource json")
 			return nil
 		}
-		//			print(resourcesJSValue)
+//		logDebug("\(resourcesJSValue)")
 		let data = Data(resourcesJSValue.toString().utf8)
 		return data
 	}
@@ -122,14 +118,13 @@ public class FHIRParser {
 		
 		do {
 			let resourceString = String(decoding: json, as: UTF8.self)
-				.replacingOccurrences(of: "[object Object]", with: "1")
 			
 			let getUISchemaFunction = jsContext.objectForKeyedSubscript("getUiSchemaJson")
 			guard let resourcesJSValue = getUISchemaFunction?.call(withArguments: [resourceString]) else {
-				print("Failed to get UISchema")
+				logError("Failed to get UISchema")
 				return nil
 			}
-			//			print(resourcesJSValue)
+//			logDebug("\(resourcesJSValue)")
 			if let object = resourcesJSValue.toString() {
 				let schema = try UISchema(object)
 				return schema
