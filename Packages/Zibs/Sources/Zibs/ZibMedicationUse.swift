@@ -5,7 +5,6 @@
 //   let nictizNlProfile = try NictizNlProfile(json)
 //   let zibMedicationUse = try ZibMedicationUse(json)
 
-//
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
 // for types that require the use of JSONAny, nor will the implementation of Hashable be
@@ -91,7 +90,7 @@ public extension ZibMedicationUse {
 		asAgreedIndicator: Bool?? = nil,
 		author: PurpleAuthor?? = nil,
 		category: [Category]?? = nil,
-		dateAsserted: String? = nil,
+		dateAsserted: String?? = nil,
 		dosage: [Dosage]?? = nil,
 		effectiveDuration: EffectiveDuration?? = nil,
 		effectivePeriod: EffectivePeriod?? = nil,
@@ -1334,10 +1333,9 @@ public struct Timing: Codable, Hashable, Sendable {
 	public let durationUnit: String?
 	public let frequency, frequencyMax, period: Double?
 	public let periodUnit: String?
-	public let timeOfDay: [[String]]?
-	public let when: [String]?
+	public let timeOfDay, when: [String]?
 
-	public init(dayOfWeek: [String]?, duration: Double?, durationUnit: String?, frequency: Double?, frequencyMax: Double?, period: Double?, periodUnit: String?, timeOfDay: [[String]]?, when: [String]?) {
+	public init(dayOfWeek: [String]?, duration: Double?, durationUnit: String?, frequency: Double?, frequencyMax: Double?, period: Double?, periodUnit: String?, timeOfDay: [String]?, when: [String]?) {
 		self.dayOfWeek = dayOfWeek
 		self.duration = duration
 		self.durationUnit = durationUnit
@@ -1376,7 +1374,7 @@ public extension Timing {
 		frequencyMax: Double?? = nil,
 		period: Double?? = nil,
 		periodUnit: String?? = nil,
-		timeOfDay: [[String]]?? = nil,
+		timeOfDay: [String]?? = nil,
 		when: [String]?? = nil
 	) -> Timing {
 		return Timing(
@@ -1501,8 +1499,8 @@ public extension EffectivePeriod {
 	}
 
 	func with(
-		end: String? = nil,
-		start: String? = nil
+		end: String?? = nil,
+		start: String?? = nil
 	) -> EffectivePeriod {
 		return EffectivePeriod(
 			end: end ?? self.end,
@@ -1878,9 +1876,9 @@ public extension FluffyType {
 public struct Note: Codable, Hashable, Sendable {
 	public let author: FluffyAuthor?
 	public let text: String
-	public let time: [String]?
+	public let time: String?
 
-	public init(author: FluffyAuthor?, text: String, time: [String]?) {
+	public init(author: FluffyAuthor?, text: String, time: String?) {
 		self.author = author
 		self.text = text
 		self.time = time
@@ -1908,7 +1906,7 @@ public extension Note {
 	func with(
 		author: FluffyAuthor?? = nil,
 		text: String? = nil,
-		time: [String]?? = nil
+		time: String?? = nil
 	) -> Note {
 		return Note(
 			author: author ?? self.author,
@@ -2261,59 +2259,6 @@ public extension Subject {
 		return String(data: try self.jsonData(), encoding: encoding)
 	}
 }
-
-//public typealias DateTimeString = [String]
-//public typealias NictizNlProfile = [String]
-//
-//public extension Array where Element == DateTimeString.Element {
-//	init(data: Data) throws {
-//		self = try newJSONDecoder().decode(DateTimeString.self, from: data)
-//	}
-//
-//	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-//		guard let data = json.data(using: encoding) else {
-//			throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-//		}
-//		try self.init(data: data)
-//	}
-//
-//	init(fromURL url: URL) throws {
-//		try self.init(data: try Data(contentsOf: url))
-//	}
-//
-//	func jsonData() throws -> Data {
-//		return try newJSONEncoder().encode(self)
-//	}
-//
-//	func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-//		return String(data: try self.jsonData(), encoding: encoding)
-//	}
-//}
-//
-//public extension Array where Element == NictizNlProfile.Element {
-//	init(data: Data) throws {
-//		self = try newJSONDecoder().decode(NictizNlProfile.self, from: data)
-//	}
-//
-//	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-//		guard let data = json.data(using: encoding) else {
-//			throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-//		}
-//		try self.init(data: data)
-//	}
-//
-//	init(fromURL url: URL) throws {
-//		try self.init(data: try Data(contentsOf: url))
-//	}
-//
-//	func jsonData() throws -> Data {
-//		return try newJSONEncoder().encode(self)
-//	}
-//
-//	func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-//		return String(data: try self.jsonData(), encoding: encoding)
-//	}
-//}
 
 // MARK: - Helper functions for creating encoders and decoders
 

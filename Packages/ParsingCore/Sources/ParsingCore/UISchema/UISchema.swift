@@ -21,110 +21,6 @@
 
 import Foundation
 
-// MARK: - UISchemaElement
-public struct UISchemaElement: Codable, Hashable, Sendable {
-	public let label: String
-
-	public init(label: String) {
-		self.label = label
-	}
-}
-
-// MARK: UISchemaElement convenience initializers and mutators
-
-public extension UISchemaElement {
-	init(data: Data) throws {
-		self = try newJSONDecoder().decode(UISchemaElement.self, from: data)
-	}
-
-	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-		guard let data = json.data(using: encoding) else {
-			throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-		}
-		try self.init(data: data)
-	}
-
-	init(fromURL url: URL) throws {
-		try self.init(data: try Data(contentsOf: url))
-	}
-
-	func with(
-		label: String? = nil
-	) -> UISchemaElement {
-		return UISchemaElement(
-			label: label ?? self.label
-		)
-	}
-
-	func jsonData() throws -> Data {
-		return try newJSONEncoder().encode(self)
-	}
-
-	func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-		return String(data: try self.jsonData(), encoding: encoding)
-	}
-}
-
-//
-// Hashable or Equatable:
-// The compiler will not be able to synthesize the implementation of Hashable or Equatable
-// for types that require the use of JSONAny, nor will the implementation of Hashable be
-// synthesized for types that have collections (such as arrays or dictionaries).
-
-// MARK: - ValueOptions
-public struct ValueOptions: Codable, Hashable, Sendable {
-	public let summary: Bool?
-	public let type: String
-
-	public init(summary: Bool?, type: String) {
-		self.summary = summary
-		self.type = type
-	}
-}
-
-// MARK: ValueOptions convenience initializers and mutators
-
-public extension ValueOptions {
-	init(data: Data) throws {
-		self = try newJSONDecoder().decode(ValueOptions.self, from: data)
-	}
-
-	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-		guard let data = json.data(using: encoding) else {
-			throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-		}
-		try self.init(data: data)
-	}
-
-	init(fromURL url: URL) throws {
-		try self.init(data: try Data(contentsOf: url))
-	}
-
-	func with(
-		summary: Bool?? = nil,
-		type: String? = nil
-	) -> ValueOptions {
-		return ValueOptions(
-			summary: summary ?? self.summary,
-			type: type ?? self.type
-		)
-	}
-
-	func jsonData() throws -> Data {
-		return try newJSONEncoder().encode(self)
-	}
-
-	func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-		return String(data: try self.jsonData(), encoding: encoding)
-	}
-}
-
-//
-// Hashable or Equatable:
-// The compiler will not be able to synthesize the implementation of Hashable or Equatable
-// for types that require the use of JSONAny, nor will the implementation of Hashable be
-// synthesized for types that have collections (such as arrays or dictionaries).
-
 // MARK: - BaseValueDescriptionT
 public struct BaseValueDescriptionT: Codable, Hashable, Sendable {
 	public let display: [DisplayElement]?
@@ -215,14 +111,14 @@ public enum DisplayElement: Codable, Hashable, Sendable {
 // for types that require the use of JSONAny, nor will the implementation of Hashable be
 // synthesized for types that have collections (such as arrays or dictionaries).
 
-// MARK: - SingleValue
-public struct SingleValue: Codable, Hashable, Sendable {
-	public let display: String?
+// MARK: - MultipleGroupValue
+public struct MultipleGroupValue: Codable, Hashable, Sendable {
+	public let display: [[String]]?
 	public let label: String
 	public let summary: Bool?
 	public let type: String
 
-	public init(display: String?, label: String, summary: Bool?, type: String) {
+	public init(display: [[String]]?, label: String, summary: Bool?, type: String) {
 		self.display = display
 		self.label = label
 		self.summary = summary
@@ -230,11 +126,11 @@ public struct SingleValue: Codable, Hashable, Sendable {
 	}
 }
 
-// MARK: SingleValue convenience initializers and mutators
+// MARK: MultipleGroupValue convenience initializers and mutators
 
-public extension SingleValue {
+public extension MultipleGroupValue {
 	init(data: Data) throws {
-		self = try newJSONDecoder().decode(SingleValue.self, from: data)
+		self = try newJSONDecoder().decode(MultipleGroupValue.self, from: data)
 	}
 
 	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -249,12 +145,12 @@ public extension SingleValue {
 	}
 
 	func with(
-		display: String?? = nil,
+		display: [[String]]?? = nil,
 		label: String? = nil,
 		summary: Bool?? = nil,
 		type: String? = nil
-	) -> SingleValue {
-		return SingleValue(
+	) -> MultipleGroupValue {
+		return MultipleGroupValue(
 			display: display ?? self.display,
 			label: label ?? self.label,
 			summary: summary ?? self.summary,
@@ -339,68 +235,6 @@ public extension MultipleValue {
 // for types that require the use of JSONAny, nor will the implementation of Hashable be
 // synthesized for types that have collections (such as arrays or dictionaries).
 
-// MARK: - MultipleGroupValue
-public struct MultipleGroupValue: Codable, Hashable, Sendable {
-	public let display: [[String]]?
-	public let label: String
-	public let summary: Bool?
-	public let type: String
-
-	public init(display: [[String]]?, label: String, summary: Bool?, type: String) {
-		self.display = display
-		self.label = label
-		self.summary = summary
-		self.type = type
-	}
-}
-
-// MARK: MultipleGroupValue convenience initializers and mutators
-
-public extension MultipleGroupValue {
-	init(data: Data) throws {
-		self = try newJSONDecoder().decode(MultipleGroupValue.self, from: data)
-	}
-
-	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-		guard let data = json.data(using: encoding) else {
-			throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-		}
-		try self.init(data: data)
-	}
-
-	init(fromURL url: URL) throws {
-		try self.init(data: try Data(contentsOf: url))
-	}
-
-	func with(
-		display: [[String]]?? = nil,
-		label: String? = nil,
-		summary: Bool?? = nil,
-		type: String? = nil
-	) -> MultipleGroupValue {
-		return MultipleGroupValue(
-			display: display ?? self.display,
-			label: label ?? self.label,
-			summary: summary ?? self.summary,
-			type: type ?? self.type
-		)
-	}
-
-	func jsonData() throws -> Data {
-		return try newJSONEncoder().encode(self)
-	}
-
-	func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-		return String(data: try self.jsonData(), encoding: encoding)
-	}
-}
-
-//
-// Hashable or Equatable:
-// The compiler will not be able to synthesize the implementation of Hashable or Equatable
-// for types that require the use of JSONAny, nor will the implementation of Hashable be
-// synthesized for types that have collections (such as arrays or dictionaries).
-
 // MARK: - Reference
 public struct Reference: Codable, Hashable, Sendable {
 	public let display: String?
@@ -447,6 +281,68 @@ public extension Reference {
 			display: display ?? self.display,
 			label: label ?? self.label,
 			reference: reference ?? self.reference,
+			summary: summary ?? self.summary,
+			type: type ?? self.type
+		)
+	}
+
+	func jsonData() throws -> Data {
+		return try newJSONEncoder().encode(self)
+	}
+
+	func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+		return String(data: try self.jsonData(), encoding: encoding)
+	}
+}
+
+//
+// Hashable or Equatable:
+// The compiler will not be able to synthesize the implementation of Hashable or Equatable
+// for types that require the use of JSONAny, nor will the implementation of Hashable be
+// synthesized for types that have collections (such as arrays or dictionaries).
+
+// MARK: - SingleValue
+public struct SingleValue: Codable, Hashable, Sendable {
+	public let display: String?
+	public let label: String
+	public let summary: Bool?
+	public let type: String
+
+	public init(display: String?, label: String, summary: Bool?, type: String) {
+		self.display = display
+		self.label = label
+		self.summary = summary
+		self.type = type
+	}
+}
+
+// MARK: SingleValue convenience initializers and mutators
+
+public extension SingleValue {
+	init(data: Data) throws {
+		self = try newJSONDecoder().decode(SingleValue.self, from: data)
+	}
+
+	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+		guard let data = json.data(using: encoding) else {
+			throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+		}
+		try self.init(data: data)
+	}
+
+	init(fromURL url: URL) throws {
+		try self.init(data: try Data(contentsOf: url))
+	}
+
+	func with(
+		display: String?? = nil,
+		label: String? = nil,
+		summary: Bool?? = nil,
+		type: String? = nil
+	) -> SingleValue {
+		return SingleValue(
+			display: display ?? self.display,
+			label: label ?? self.label,
 			summary: summary ?? self.summary,
 			type: type ?? self.type
 		)
@@ -667,6 +563,106 @@ public enum ValueDescriptionDisplay: Codable, Hashable, Sendable {
 		case .null:
 			try container.encodeNil()
 		}
+	}
+}
+
+//
+// Hashable or Equatable:
+// The compiler will not be able to synthesize the implementation of Hashable or Equatable
+// for types that require the use of JSONAny, nor will the implementation of Hashable be
+// synthesized for types that have collections (such as arrays or dictionaries).
+
+// MARK: - UISchemaElement
+public struct UISchemaElement: Codable, Hashable, Sendable {
+	public let label: String
+
+	public init(label: String) {
+		self.label = label
+	}
+}
+
+// MARK: UISchemaElement convenience initializers and mutators
+
+public extension UISchemaElement {
+	init(data: Data) throws {
+		self = try newJSONDecoder().decode(UISchemaElement.self, from: data)
+	}
+
+	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+		guard let data = json.data(using: encoding) else {
+			throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+		}
+		try self.init(data: data)
+	}
+
+	init(fromURL url: URL) throws {
+		try self.init(data: try Data(contentsOf: url))
+	}
+
+	func with(
+		label: String? = nil
+	) -> UISchemaElement {
+		return UISchemaElement(
+			label: label ?? self.label
+		)
+	}
+
+	func jsonData() throws -> Data {
+		return try newJSONEncoder().encode(self)
+	}
+
+	func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+		return String(data: try self.jsonData(), encoding: encoding)
+	}
+}
+
+//
+// Hashable or Equatable:
+// The compiler will not be able to synthesize the implementation of Hashable or Equatable
+// for types that require the use of JSONAny, nor will the implementation of Hashable be
+// synthesized for types that have collections (such as arrays or dictionaries).
+
+// MARK: - ValueOptions
+public struct ValueOptions: Codable, Hashable, Sendable {
+	public let summary: Bool?
+
+	public init(summary: Bool?) {
+		self.summary = summary
+	}
+}
+
+// MARK: ValueOptions convenience initializers and mutators
+
+public extension ValueOptions {
+	init(data: Data) throws {
+		self = try newJSONDecoder().decode(ValueOptions.self, from: data)
+	}
+
+	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+		guard let data = json.data(using: encoding) else {
+			throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+		}
+		try self.init(data: data)
+	}
+
+	init(fromURL url: URL) throws {
+		try self.init(data: try Data(contentsOf: url))
+	}
+
+	func with(
+		summary: Bool?? = nil
+	) -> ValueOptions {
+		return ValueOptions(
+			summary: summary ?? self.summary
+		)
+	}
+
+	func jsonData() throws -> Data {
+		return try newJSONEncoder().encode(self)
+	}
+
+	func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+		return String(data: try self.jsonData(), encoding: encoding)
 	}
 }
 

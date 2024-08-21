@@ -14,12 +14,6 @@
 
 import Foundation
 
-//
-// Hashable or Equatable:
-// The compiler will not be able to synthesize the implementation of Hashable or Equatable
-// for types that require the use of JSONAny, nor will the implementation of Hashable be
-// synthesized for types that have collections (such as arrays or dictionaries).
-
 // MARK: - ZibProduct
 public struct ZibProduct: Codable, Hashable, Sendable {
 	public let profile: String
@@ -562,9 +556,9 @@ public extension Package {
 // MARK: - Content
 public struct Content: Codable, Hashable, Sendable {
 	public let item: [FluffyItem]?
-	public let reference: Reference?
+	public let reference: ReferenceClass?
 
-	public init(item: [FluffyItem]?, reference: Reference?) {
+	public init(item: [FluffyItem]?, reference: ReferenceClass?) {
 		self.item = item
 		self.reference = reference
 	}
@@ -590,7 +584,7 @@ public extension Content {
 
 	func with(
 		item: [FluffyItem]?? = nil,
-		reference: Reference?? = nil
+		reference: ReferenceClass?? = nil
 	) -> Content {
 		return Content(
 			item: item ?? self.item,
@@ -669,8 +663,8 @@ public extension FluffyItem {
 // for types that require the use of JSONAny, nor will the implementation of Hashable be
 // synthesized for types that have collections (such as arrays or dictionaries).
 
-// MARK: - Reference
-public struct Reference: Codable, Hashable, Sendable {
+// MARK: - ReferenceClass
+public struct ReferenceClass: Codable, Hashable, Sendable {
 	public let display, reference: String?
 
 	public init(display: String?, reference: String?) {
@@ -679,11 +673,11 @@ public struct Reference: Codable, Hashable, Sendable {
 	}
 }
 
-// MARK: Reference convenience initializers and mutators
+// MARK: ReferenceClass convenience initializers and mutators
 
-public extension Reference {
+public extension ReferenceClass {
 	init(data: Data) throws {
-		self = try newJSONDecoder().decode(Reference.self, from: data)
+		self = try newJSONDecoder().decode(ReferenceClass.self, from: data)
 	}
 
 	init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -700,8 +694,8 @@ public extension Reference {
 	func with(
 		display: String?? = nil,
 		reference: String?? = nil
-	) -> Reference {
-		return Reference(
+	) -> ReferenceClass {
+		return ReferenceClass(
 			display: display ?? self.display,
 			reference: reference ?? self.reference
 		)
