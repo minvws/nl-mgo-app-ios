@@ -31,7 +31,8 @@ let package = Package(
 			dependencies: [
 				"Zibs",
 					.product(name: "MGOTest", package: "MGOTest")
-			]
+			],
+			resources: [.process("Resources")]
 		)
 	]
 )

@@ -430,7 +430,10 @@ schemes:
         - package: SecureUserSettings/SecureUserSettingsTests
           randomExecutionOrder: true
           parallelizable: false
-
+        - package: Zibs/ZibsTests
+          randomExecutionOrder: true
+          parallelizable: false
+          
   MGO Acceptance:
     templates:
       - ConfigScheme

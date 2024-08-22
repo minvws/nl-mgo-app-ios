@@ -44,7 +44,7 @@ final class ParsingCoreTests: XCTestCase {
 	func test_parseResourceJson() throws {
 		
 		// Given
-		let resource = try getStringResource("medicationResource", fileExtension: ".txt")
+		let resource = try getStringResource("medicationResource")
 		let data = Data(resource.utf8)
 		
 		// When
@@ -73,7 +73,7 @@ final class ParsingCoreTests: XCTestCase {
 	func test_getUiSchemaJson() throws {
 		
 		// Given
-		let resource = try getStringResource("zibMedicationUse", fileExtension: ".txt")
+		let resource = try getStringResource("zibMedicationUse")
 		let data = Data(resource.utf8)
 		
 		// When
