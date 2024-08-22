@@ -8,6 +8,7 @@
 import Foundation
 import FHIRClient
 import ParsingCore
+import Zibs
 
 public class MedicationUseRepositorySpy: MedicationUseRepository {
 
