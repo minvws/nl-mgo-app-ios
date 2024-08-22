@@ -28,7 +28,7 @@ public class MGORepository {
 			parameters = params
 		}
 		
-		let resource = try await ModelsSTU3.Resource.readFrom(
+		let resource = try await ModelsSTU3.Resource.readResourceFrom(
 			path,
 			client: client,
 			parameters: parameters,
@@ -37,5 +37,28 @@ public class MGORepository {
 		)
 		
 		return resource as? ModelsSTU3.Bundle
+	}
+	
+	public func getBundleData(endpoint: DVP.Endpoint, dvaTarget: String) async throws -> Data {
+		
+		var path = endpoint.path
+		if let directory = endpoint.directory {
+			path += "/\(directory)"
+		}
+		
+		var parameters = RequestParameters()
+		if let params = endpoint.parameters {
+			parameters = params
+		}
+		
+		let data = try await ModelsSTU3.Resource.readDataFrom(
+			path,
+			client: client,
+			parameters: parameters,
+			options: [],
+			headers: RequestHeaders([RequestHeaderField.dvaTarget: dvaTarget])
+		)
+		
+		return data
 	}
 }
