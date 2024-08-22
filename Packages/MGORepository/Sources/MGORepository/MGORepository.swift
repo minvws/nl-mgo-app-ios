@@ -10,12 +10,20 @@ import FHIRClient
 
 public class MGORepository {
 	
-	var client: FHIRClient
+	/// The FHIR Client
+	private var client: FHIRClient
 	
+	/// Initializer
+	/// - Parameter client: the FHIR client
 	public init(client: FHIRClient) {
 		self.client = client
 	}
 	
+	/// Get a STU3 Bundle from the endpoint
+	/// - Parameters:
+	///   - endpoint: the endpoint to use
+	///   - dvaTarget: the target
+	/// - Returns: STU3.Bundle
 	public func getBundle(endpoint: DVP.Endpoint, dvaTarget: String) async throws -> ModelsSTU3.Bundle? {
 		
 		var path = endpoint.path
@@ -39,6 +47,11 @@ public class MGORepository {
 		return resource as? ModelsSTU3.Bundle
 	}
 	
+	/// Get the Bundle from the DVP as data
+	/// - Parameters:
+	///   - endpoint: the endpoint to use
+	///   - dvaTarget: the dva target
+	/// - Returns: Bundle as data.
 	public func getBundleData(endpoint: DVP.Endpoint, dvaTarget: String) async throws -> Data {
 		
 		var path = endpoint.path
