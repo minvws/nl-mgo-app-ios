@@ -102,7 +102,9 @@ public class FHIRParser {
 		return []
 	}
 	
-	// parseResourceJson, i.e. transform the incoming FHIR Resource into a Zib object
+	/// parseResourceJson, i.e. transform the incoming FHIR Resource into a Zib object
+	/// - Parameter json: resource to parse
+	/// - Returns: Zib as data
 	public func parseResourceJson(_ json: Data) -> Data? {
 		
 		do {
@@ -133,23 +135,17 @@ public class FHIRParser {
 	}
 }
 
-public enum FHIRParserError: Error, CustomStringConvertible {
+public enum FHIRParserError: Error {
 	
+	// This method is not available in the js parser
 	case invalidMethod
-	case noJSContext
-	case noResult
-	case parserNotFound
 	
-	public var description: String {
-		switch self {
-			case .invalidMethod:
-				"This method is invalid."
-			case .noJSContext:
-				"The JSContext could not be created"
-			case .noResult:
-				"No result found"
-			case .parserNotFound:
-				"The source file for the parser was not found."
-		}
-	}
+	// Failed to initiate a JS Context
+	case noJSContext
+	
+	// There was no output
+	case noResult
+	
+	// The parser was not found at its location
+	case parserNotFound
 }

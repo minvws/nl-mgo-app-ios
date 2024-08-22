@@ -7,6 +7,7 @@
 
 import MGOTest
 @testable import ParsingCore
+import Zibs
 
 final class ParsingCoreTests: XCTestCase {
 	
@@ -27,5 +28,69 @@ final class ParsingCoreTests: XCTestCase {
 		
 		// Then
 		expect(result).to(haveCount(2))
+	}
+	
+	func test_getBundleResourcesJson_error() throws {
+		
+		// Given
+		
+		// When
+		let result = sut.getBundleResourcesJson(Data("wrong".utf8))
+		
+		// Then
+		expect(result).to(beEmpty())
+	}
+	
+	func test_parseResourceJson() throws {
+		
+		// Given
+		let resource = try getStringResource("medicationResource", fileExtension: ".txt")
+		let data = Data(resource.utf8)
+		
+		// When
+		let zib = sut.parseResourceJson(data)
+		
+		// Then
+		if let zib {
+			let zibMedicationUse = ZibFactory.createZibMedicationUse(zib)
+			expect(zibMedicationUse?.medication?.display) == "Zestril tablet 10mg"
+		} else {
+			fail("Could not unwrap zib")
+		}
+	}
+	
+	func test_parseResourceJson_error() throws {
+		
+		// Given
+		
+		// When
+		let zib = sut.parseResourceJson(Data("wrong".utf8))
+		
+		// Then
+		expect(zib) == Data("undefined".utf8)
+	}
+	
+	func test_getUiSchemaJson() throws {
+		
+		// Given
+		let resource = try getStringResource("zibMedicationUse", fileExtension: ".txt")
+		let data = Data(resource.utf8)
+		
+		// When
+		let schema = sut.getUiSchemaJson(data)
+		
+		// Then
+		expect(schema?.label) == "Zestril tablet 10mg"
+	}
+	
+	func test_getUiSchemaJson_error() throws {
+		
+		// Given
+		
+		// When
+		let schema = sut.getUiSchemaJson(Data("wrong".utf8))
+		
+		// Then
+		expect(schema) == nil
 	}
 }

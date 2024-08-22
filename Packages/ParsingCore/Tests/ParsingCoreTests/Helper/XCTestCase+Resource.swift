@@ -21,4 +21,10 @@ extension XCTestCase {
 		let resourceUrl = try XCTUnwrap(bundle.url(forResource: fileName, withExtension: fileExtension))
 		return try Data(contentsOf: resourceUrl)
 	}
+	
+	func getStringResource(_ fileName: String, fileExtension: String = ".json", bundle: Foundation.Bundle = Foundation.Bundle.module) throws -> String {
+		
+		let resourceUrl = try XCTUnwrap(bundle.url(forResource: fileName, withExtension: fileExtension))
+		return try String(contentsOf: resourceUrl)
+	}
 }
