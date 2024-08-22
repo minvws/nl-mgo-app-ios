@@ -7,16 +7,31 @@ let package = Package(
 	name: "Zibs",
 	platforms: [.iOS(.v15)],
 	products: [
-		// Products define the executables and libraries a package produces, making them visible to other packages.
 		.library(
 			name: "Zibs",
 			targets: ["Zibs"]),
 	],
+	dependencies: [
+		
+		// VWS
+		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
+		
+		// Testing
+		.package(name: "MGOTest", path: "../MGOTest")
+	],
 	targets: [
-		// Targets are the basic building blocks of a package, defining a module or a test suite.
-		// Targets can depend on other targets in this package and products from dependencies.
 		.target(
-			name: "Zibs"
+			name: "Zibs",
+			dependencies: [
+				.product(name: "Logging", package: "nl-rdo-app-ios-modules")
+			]
+		),
+		.testTarget(
+			name: "ZibsTests",
+			dependencies: [
+				"Zibs",
+					.product(name: "MGOTest", package: "MGOTest")
+			]
 		)
 	]
 )
