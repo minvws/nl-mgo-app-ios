@@ -47,12 +47,17 @@ final class MGORepositoryTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("bundle")
-		stub(condition: isPath("/MedicationStatement")) { _ in
+		let endpoint = DVP.Endpoint(
+			path: "TestPath",
+			parameters: RequestParameters([(RequestParameterField.include, "test")]),
+			directory: "TestDirectory"
+		)
+		stub(condition: isPath("/TestPath/TestDirectory")) { _ in
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
 		}
 		
 		// When
-		let data = try await sut.getBundleData(endpoint: DVP.CommonClinicalDataset.medicationUse, dvaTarget: "test")
+		let data = try await sut.getBundleData(endpoint: endpoint, dvaTarget: "test")
 		
 		// Then
 		expect(data) == json
