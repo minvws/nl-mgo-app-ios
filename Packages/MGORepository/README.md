@@ -48,7 +48,6 @@ do {
 }
 
 ```
-mak
 
 ## Contribution process
 
