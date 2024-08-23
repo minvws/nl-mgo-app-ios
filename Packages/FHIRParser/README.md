@@ -15,7 +15,7 @@ The FHIR Parser is a three step process.
 The parser can split a FHIR Bundle into an array of FHIR resources. The resulting array is of type **Any**. 
 
 ```swift
-import ParsingCore
+import FHIRParser
 
 let json = """
 {
@@ -37,7 +37,7 @@ let resources: [Any] = parser.getBundleResourcesJson(data)
 Each of the resources found by step 1 can be transformed into a Zib object. 
 
 ```swift
-import ParsingCore
+import FHIRParser
 import Zibs
 
 for element in resources {
@@ -49,7 +49,7 @@ for element in resources {
 ```
 We can transform the zib to a typed zib object
 ```swift
-import ParsingCore
+import FHIRParser
 import Zibs
 
 let zibMedicationUse = ZibFactory.createZibMedicationUse(zib)
@@ -61,7 +61,7 @@ The zib definitions are generated from a shared json schema, to be easily shared
 
 Transforming that zib into a fixed UISchema is simple:
 ```swift
-import ParsingCore
+import FHIRParser
 
 let schema = parser.getUiSchemaJson(zib)
 ```

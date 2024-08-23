@@ -91,6 +91,13 @@ FHIRExtensions { style.fill: "#ffcc00" }
 FHIRExtensions <- FHIRModels
 FHIRExtensions <- Foundation
 
+FHIRParser { style.fill: "#ffcc00" }
+FHIRParser <- FHIRClient
+FHIRParser <- Foundation
+FHIRParser <- JavaScriptCore
+FHIRParser <- Logging
+FHIRParser <- Zibs
+
 FileStorage { style.fill: "#ffcc00" }
 FileStorage <- Foundation
 
@@ -133,14 +140,7 @@ MGORepository  { style.fill: "#ffcc00" }
 MGORepository <- FHIRClient
 MGORepository <- FHIRExtensions
 MGORepository <- Foundation
-MGORepository <- ParsingCore
-
-ParsingCore { style.fill: "#ffcc00" }
-ParsingCore <- FHIRClient
-ParsingCore <- Foundation
-ParsingCore <- JavaScriptCore
-ParsingCore <- Logging
-ParsingCore <- Zibs
+MGORepository <- FHIRParser
 
 Observatory { style.fill: "#ffcc00" }
 Observatory <- Foundation

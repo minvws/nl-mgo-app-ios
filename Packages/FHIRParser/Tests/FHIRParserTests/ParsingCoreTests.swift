@@ -6,10 +6,10 @@
  */
 
 import MGOTest
-@testable import ParsingCore
+@testable import FHIRParser
 import Zibs
 
-final class ParsingCoreTests: XCTestCase {
+final class FHIRParserTests: XCTestCase {
 	
 	var sut: FHIRParser!
 	

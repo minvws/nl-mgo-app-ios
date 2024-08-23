@@ -4,13 +4,13 @@
 import PackageDescription
 
 let package = Package(
-	name: "ParsingCore",
+	name: "FHIRParser",
 	platforms: [.iOS(.v15)],
 	products: [
 		// Products define the executables and libraries a package produces, making them visible to other packages.
 		.library(
-			name: "ParsingCore",
-			targets: ["ParsingCore"]),
+			name: "FHIRParser",
+			targets: ["FHIRParser"]),
 	],
 	dependencies: [
 
@@ -28,7 +28,7 @@ let package = Package(
 		// Targets are the basic building blocks of a package, defining a module or a test suite.
 		// Targets can depend on other targets in this package and products from dependencies.
 		.target(
-			name: "ParsingCore",
+			name: "FHIRParser",
 			dependencies: [
 				.product(name: "FHIRClient", package: "FHIRClient"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
@@ -37,9 +37,9 @@ let package = Package(
 			resources: [.process("Resources")]
 		),
 		.testTarget(
-			name: "ParsingCoreTests",
+			name: "FHIRParserTests",
 			dependencies: [
-				"ParsingCore",
+				"FHIRParser",
 					.product(name: "MGOTest", package: "MGOTest")
 			],
 			resources: [.process("Resources")]

@@ -7,7 +7,7 @@
 
 import Foundation
 import FHIRClient
-import ParsingCore
+import FHIRParser
 import Zibs
 
 public class MedicationUseRepositorySpy: MedicationUseRepository {
