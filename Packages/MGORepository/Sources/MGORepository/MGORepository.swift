@@ -64,9 +64,8 @@ public class MGORepository {
 			parameters = params
 		}
 		
-		let data = try await ModelsSTU3.Resource.readDataFrom(
+		let data = try await client.readDataFrom(
 			path,
-			client: client,
 			parameters: parameters,
 			options: [],
 			headers: RequestHeaders([RequestHeaderField.dvaTarget: dvaTarget])

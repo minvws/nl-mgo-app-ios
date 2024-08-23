@@ -31,9 +31,8 @@ class FHIRClientTests: XCTestCase {
 		}
 		
 		// When
-		let data = try await ModelsSTU3.Resource.readDataFrom(
+		let data = try await client.readDataFrom(
 			"MedicationStatement",
-			client: client,
 			parameters: parameters,
 			options: [],
 			headers: RequestHeaders([RequestHeaderField.dvaTarget: "dvaTarget"])
@@ -62,9 +61,8 @@ class FHIRClientTests: XCTestCase {
 		// When
 		
 		// Then
-		await expect { try await ModelsSTU3.Resource.readDataFrom(
+		await expect { try await client.readDataFrom(
 			"MedicationStatement",
-			client: client,
 			parameters: parameters,
 			options: [],
 			headers: RequestHeaders([RequestHeaderField.dvaTarget: "dvaTarget"]))
