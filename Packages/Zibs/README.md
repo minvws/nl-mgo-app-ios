@@ -8,8 +8,8 @@ These are the generated Zorg Informatie Bouwstenen, the building blocks for medi
 
 | Zib                                                          | Definition                                                   |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [ZibMedicationUse](Sources/Zibs/GeneratedZibs/ZibMedicationUse) |  https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317279 |
-| [ZibProduct](Sources/Zibs/GeneratedZibs/ZibProduct) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317343 |
+| [ZibMedicationUse](Sources/Zibs/Generated/ZibMedicationUse) |  https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317279 |
+| [ZibProduct](Sources/Zibs/Generated/ZibProduct) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317343 |
 |                                                              |                                                              |
 
 
