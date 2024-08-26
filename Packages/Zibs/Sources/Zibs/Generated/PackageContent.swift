@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let package = try Package(json)
+//   let packageContent = try PackageContent(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,20 +10,22 @@
 
 import Foundation
 
-// MARK: - Package
-public struct Package: Codable, Hashable, Sendable {
-    public let content: [PackageContent]?
+// MARK: - PackageContent
+public struct PackageContent: Codable, Hashable, Sendable {
+    public let item: [MgoCoding]?
+    public let reference: MgoReference?
 
-    public init(content: [PackageContent]?) {
-        self.content = content
+    public init(item: [MgoCoding]?, reference: MgoReference?) {
+        self.item = item
+        self.reference = reference
     }
 }
 
-// MARK: Package convenience initializers and mutators
+// MARK: PackageContent convenience initializers and mutators
 
-public extension Package {
+public extension PackageContent {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Package.self, from: data)
+        self = try newJSONDecoder().decode(PackageContent.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -38,10 +40,12 @@ public extension Package {
     }
 
     func with(
-        content: [PackageContent]?? = nil
-    ) -> Package {
-        return Package(
-            content: content ?? self.content
+        item: [MgoCoding]?? = nil,
+        reference: MgoReference?? = nil
+    ) -> PackageContent {
+        return PackageContent(
+            item: item ?? self.item,
+            reference: reference ?? self.reference
         )
     }
 

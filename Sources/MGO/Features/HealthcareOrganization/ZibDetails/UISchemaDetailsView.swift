@@ -37,7 +37,6 @@ struct UISchemaDetailsView: View {
 	}
 	
 	var body: some View {
-		
 		VStack(spacing: ViewTraits.List.padding) {
 			ForEach(schema.children, id: \.self) { schemaGroup in
 				viewFor(schemaGroup)
@@ -86,7 +85,7 @@ struct UISchemaDetailsView: View {
 				case .unionArray(let displayElements):
 					viewFor(displayElements, valueDescription: valueDescription, isLastElement: isLastElement)
 					
-				case .null:
+				case .none:
 					viewFor(String(localized: "common.unknown"), heading: heading(valueDescription), showDivider: !isLastElement)
 			}
 		}

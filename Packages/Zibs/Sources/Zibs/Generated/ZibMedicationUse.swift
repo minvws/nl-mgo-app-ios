@@ -17,6 +17,7 @@ public struct ZibMedicationUse: Codable, Hashable, Sendable {
     public let author: MgoReference?
     public let category: [MgoCoding]?
     public let dateAsserted: String?
+    public let dosage: [Dosage]?
     public let effectiveDuration: MgoQuantity?
     public let effectivePeriod: MgoPeriod?
     public let id: String?
@@ -34,15 +35,16 @@ public struct ZibMedicationUse: Codable, Hashable, Sendable {
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
-        case asAgreedIndicator, author, category, dateAsserted, effectiveDuration, effectivePeriod, id, identifier, informationSource, medication, medicationTreatment, note, prescriber, reasonCode, reasonForChangeOrDiscontinuationOfUse, repeatPeriodCyclicalSchedule, resourceType, status, subject, taken
+        case asAgreedIndicator, author, category, dateAsserted, dosage, effectiveDuration, effectivePeriod, id, identifier, informationSource, medication, medicationTreatment, note, prescriber, reasonCode, reasonForChangeOrDiscontinuationOfUse, repeatPeriodCyclicalSchedule, resourceType, status, subject, taken
     }
 
-    public init(profile: String, asAgreedIndicator: Bool?, author: MgoReference?, category: [MgoCoding]?, dateAsserted: String?, effectiveDuration: MgoQuantity?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medication: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, prescriber: MgoReference?, reasonCode: [[MgoCoding]]?, reasonForChangeOrDiscontinuationOfUse: [MgoCoding]?, repeatPeriodCyclicalSchedule: MgoQuantity?, resourceType: String?, status: String?, subject: MgoReference?, taken: String?) {
+    public init(profile: String, asAgreedIndicator: Bool?, author: MgoReference?, category: [MgoCoding]?, dateAsserted: String?, dosage: [Dosage]?, effectiveDuration: MgoQuantity?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medication: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, prescriber: MgoReference?, reasonCode: [[MgoCoding]]?, reasonForChangeOrDiscontinuationOfUse: [MgoCoding]?, repeatPeriodCyclicalSchedule: MgoQuantity?, resourceType: String?, status: String?, subject: MgoReference?, taken: String?) {
         self.profile = profile
         self.asAgreedIndicator = asAgreedIndicator
         self.author = author
         self.category = category
         self.dateAsserted = dateAsserted
+        self.dosage = dosage
         self.effectiveDuration = effectiveDuration
         self.effectivePeriod = effectivePeriod
         self.id = id
@@ -86,6 +88,7 @@ public extension ZibMedicationUse {
         author: MgoReference?? = nil,
         category: [MgoCoding]?? = nil,
         dateAsserted: String?? = nil,
+        dosage: [Dosage]?? = nil,
         effectiveDuration: MgoQuantity?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
         id: String?? = nil,
@@ -109,6 +112,7 @@ public extension ZibMedicationUse {
             author: author ?? self.author,
             category: category ?? self.category,
             dateAsserted: dateAsserted ?? self.dateAsserted,
+            dosage: dosage ?? self.dosage,
             effectiveDuration: effectiveDuration ?? self.effectiveDuration,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             id: id ?? self.id,
