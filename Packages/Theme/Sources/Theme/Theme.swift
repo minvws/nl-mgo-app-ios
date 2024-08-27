@@ -34,7 +34,6 @@ public class Theme: Themeable {
 	@Published public var strokesPrimary: Color = Color("strokesPrimary", bundle: .module)
 	@Published public var strokesSecondary: Color = Color("strokesSecondary", bundle: .module)
 	@Published public var strokesTertiary: Color = Color("strokesTertiary", bundle: .module)
-	@Published public var input: Color = Color("input", bundle: .module)
 	
 	// MARK: - Action Primary Default -
 	
