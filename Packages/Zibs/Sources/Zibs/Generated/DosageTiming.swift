@@ -1,0 +1,84 @@
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
+//
+//   let dosageTiming = try DosageTiming(json)
+//
+// Hashable or Equatable:
+// The compiler will not be able to synthesize the implementation of Hashable or Equatable
+// for types that require the use of JSONAny, nor will the implementation of Hashable be
+// synthesized for types that have collections (such as arrays or dictionaries).
+
+import Foundation
+
+// MARK: - DosageTiming
+public struct DosageTiming: Codable, Hashable, Sendable {
+    public let dayOfWeek: [String]?
+    public let duration: Double?
+    public let durationUnit: String?
+    public let frequency, frequencyMax, period: Double?
+    public let periodUnit: String?
+    public let timeOfDay, when: [String]?
+
+    public init(dayOfWeek: [String]?, duration: Double?, durationUnit: String?, frequency: Double?, frequencyMax: Double?, period: Double?, periodUnit: String?, timeOfDay: [String]?, when: [String]?) {
+        self.dayOfWeek = dayOfWeek
+        self.duration = duration
+        self.durationUnit = durationUnit
+        self.frequency = frequency
+        self.frequencyMax = frequencyMax
+        self.period = period
+        self.periodUnit = periodUnit
+        self.timeOfDay = timeOfDay
+        self.when = when
+    }
+}
+
+// MARK: DosageTiming convenience initializers and mutators
+
+public extension DosageTiming {
+    init(data: Data) throws {
+        self = try newJSONDecoder().decode(DosageTiming.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func with(
+        dayOfWeek: [String]?? = nil,
+        duration: Double?? = nil,
+        durationUnit: String?? = nil,
+        frequency: Double?? = nil,
+        frequencyMax: Double?? = nil,
+        period: Double?? = nil,
+        periodUnit: String?? = nil,
+        timeOfDay: [String]?? = nil,
+        when: [String]?? = nil
+    ) -> DosageTiming {
+        return DosageTiming(
+            dayOfWeek: dayOfWeek ?? self.dayOfWeek,
+            duration: duration ?? self.duration,
+            durationUnit: durationUnit ?? self.durationUnit,
+            frequency: frequency ?? self.frequency,
+            frequencyMax: frequencyMax ?? self.frequencyMax,
+            period: period ?? self.period,
+            periodUnit: periodUnit ?? self.periodUnit,
+            timeOfDay: timeOfDay ?? self.timeOfDay,
+            when: when ?? self.when
+        )
+    }
+
+    func jsonData() throws -> Data {
+        return try newJSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}

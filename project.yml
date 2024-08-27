@@ -12,6 +12,8 @@ packages:
     path: ./Packages/FHIRClient
   FHIRExtensions:
     path: ./Packages/FHIRExtensions
+  FHIRParser:
+    path: ./Packages/FHIRParser
   FileStorage:
     path: ./Packages/FileStorage
   JailBreakDetector:
@@ -28,8 +30,6 @@ packages:
     path: ./Packages/MGOTest
   MGOUI:
     path: ./Packages/MGOUI
-  ParsingCore:
-    path: ./Packages/ParsingCore
   Observatory:
     path: ./Packages/Observatory
   RemoteConfiguration:
@@ -44,6 +44,8 @@ packages:
     path: ./Packages/Theme
   SecureUserSettings:
     path: ./Packages/SecureUserSettings
+  Zibs:
+    path: ./Packages/Zibs
 
 # - Attributes:
 
@@ -386,6 +388,9 @@ schemes:
         - package: FHIRExtensions/FHIRExtensionsTests
           randomExecutionOrder: true
           parallelizable: false
+        - package: FHIRParser/FHIRParserTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: FileStorage/FileStorageTests
           randomExecutionOrder: true
           parallelizable: false
@@ -404,9 +409,6 @@ schemes:
         - name: MGOTests
           parallelizable: false
           randomExecutionOrder: true
-        - package: ParsingCore/ParsingCoreTests
-          randomExecutionOrder: true
-          parallelizable: false
         - package: Observatory/ObservatoryTests
           randomExecutionOrder: true
           parallelizable: false
@@ -428,7 +430,10 @@ schemes:
         - package: SecureUserSettings/SecureUserSettingsTests
           randomExecutionOrder: true
           parallelizable: false
-
+        - package: Zibs/ZibsTests
+          randomExecutionOrder: true
+          parallelizable: false
+          
   MGO Acceptance:
     templates:
       - ConfigScheme

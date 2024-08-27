@@ -4,19 +4,19 @@
 import PackageDescription
 
 let package = Package(
-	name: "ParsingCore",
+	name: "FHIRParser",
 	platforms: [.iOS(.v15)],
 	products: [
 		// Products define the executables and libraries a package produces, making them visible to other packages.
 		.library(
-			name: "ParsingCore",
-			targets: ["ParsingCore"]),
+			name: "FHIRParser",
+			targets: ["FHIRParser"]),
 	],
 	dependencies: [
 
 		// Internal
 		.package(name: "FHIRClient", path: "../FHIRClient"),
-		.package(name: "FHIRExtensions", path: "../FHIRExtensions"),
+		.package(name: "Zibs", path: "../Zibs"),
 		
 		// VWS
 		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
@@ -28,20 +28,21 @@ let package = Package(
 		// Targets are the basic building blocks of a package, defining a module or a test suite.
 		// Targets can depend on other targets in this package and products from dependencies.
 		.target(
-			name: "ParsingCore",
+			name: "FHIRParser",
 			dependencies: [
 				.product(name: "FHIRClient", package: "FHIRClient"),
-				.product(name: "FHIRExtensions", package: "FHIRExtensions"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
+				.product(name: "Zibs", package: "Zibs")
 			],
 			resources: [.process("Resources")]
 		),
 		.testTarget(
-			name: "ParsingCoreTests",
+			name: "FHIRParserTests",
 			dependencies: [
-				"ParsingCore",
+				"FHIRParser",
 					.product(name: "MGOTest", package: "MGOTest")
-			]
+			],
+			resources: [.process("Resources")]
 		)
 	]
 )

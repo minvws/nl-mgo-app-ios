@@ -16,7 +16,7 @@ let package = Package(
 		// Internal
 		.package(name: "FHIRClient", path: "../FHIRClient"),
 		.package(name: "FHIRExtensions", path: "../FHIRExtensions"),
-		.package(name: "ParsingCore", path: "../ParsingCore"),
+		.package(name: "FHIRParser", path: "../FHIRParser"),
 		
 		// Testing
 		.package(name: "MGOTest", path: "../MGOTest")
@@ -27,7 +27,7 @@ let package = Package(
 			dependencies: [
 				.product(name: "FHIRClient", package: "FHIRClient"),
 				.product(name: "FHIRExtensions", package: "FHIRExtensions"),
-				.product(name: "ParsingCore", package: "ParsingCore")
+				.product(name: "FHIRParser", package: "FHIRParser")
 			]
 		),
 		.testTarget(

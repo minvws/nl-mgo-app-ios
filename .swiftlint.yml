@@ -24,7 +24,7 @@ excluded:
   - Packages/*/Package.swift
   - vendor
   - Packages/*/.build
-  - Packages/ParsingCore/Sources/ParsingCore/UISchema/UISchema.swift # Generated file.
+  - Packages/Zibs/Sources/Zibs/*/*.swift # Generated files.
 force_cast: warning
 force_try:
   severity: warning

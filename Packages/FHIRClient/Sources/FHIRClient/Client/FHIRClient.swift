@@ -51,7 +51,7 @@ public class FHIRClient {
 	
 	- returns:            An appropriate `RequestHandler`, for example a _FHIRJSONRequestHandler_ if sending and receiving JSON
 	*/
-	open func handlerForRequest(withMethod method: RequestMethod, resource: Resource?) -> RequestHandler? {
+	open func handlerForRequest(withMethod method: RequestMethod, resource: Resource?) -> RequestHandler {
 		return JSONRequestHandler(method, resource: resource)
 	}
 	

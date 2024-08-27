@@ -16,7 +16,7 @@
 @_exported import Managers
 @_exported import MGORepository
 @_exported import Observatory
-@_exported import ParsingCore
+@_exported import FHIRParser
 @_exported import SecureUserSettings
 @_exported import RemoteConfiguration
 

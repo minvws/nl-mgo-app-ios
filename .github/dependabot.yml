@@ -96,7 +96,7 @@ updates:
       timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
-    directory: "/Packages/ParsingCore"
+    directory: "/Packages/FHIRParser"
     schedule:
       interval: weekly
       day: monday

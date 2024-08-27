@@ -49,7 +49,6 @@ do {
 
 ```
 
-
 ## Contribution process
 
 The development team works on the repository in a private fork (for reasons of compliance with existing processes) and shares its work as often as possible.
