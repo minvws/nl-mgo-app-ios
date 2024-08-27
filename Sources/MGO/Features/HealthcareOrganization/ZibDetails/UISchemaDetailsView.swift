@@ -158,7 +158,7 @@ struct UISchemaDetailsView: View {
 		
 		return NSLocalizedString(
 			valueDescription.label,
-			value: "fhir." + valueDescription.type,
+			value: "fhir." + (valueDescription.label.split(separator: ".").last ?? "unknown"),
 			comment: ""
 		)
 	}
