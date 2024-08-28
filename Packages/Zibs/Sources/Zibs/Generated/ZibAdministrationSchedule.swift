@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let dosageTiming = try DosageTiming(json)
+//   let zibAdministrationSchedule = try ZibAdministrationSchedule(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - DosageTiming
-public struct DosageTiming: Codable, Hashable, Sendable {
+// MARK: - ZibAdministrationSchedule
+public struct ZibAdministrationSchedule: Codable, Hashable, Sendable {
     public let dayOfWeek: [String]?
     public let duration: Double?
     public let durationUnit: String?
@@ -32,11 +32,11 @@ public struct DosageTiming: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: DosageTiming convenience initializers and mutators
+// MARK: ZibAdministrationSchedule convenience initializers and mutators
 
-public extension DosageTiming {
+public extension ZibAdministrationSchedule {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(DosageTiming.self, from: data)
+        self = try newJSONDecoder().decode(ZibAdministrationSchedule.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -60,8 +60,8 @@ public extension DosageTiming {
         periodUnit: String?? = nil,
         timeOfDay: [String]?? = nil,
         when: [String]?? = nil
-    ) -> DosageTiming {
-        return DosageTiming(
+    ) -> ZibAdministrationSchedule {
+        return ZibAdministrationSchedule(
             dayOfWeek: dayOfWeek ?? self.dayOfWeek,
             duration: duration ?? self.duration,
             durationUnit: durationUnit ?? self.durationUnit,

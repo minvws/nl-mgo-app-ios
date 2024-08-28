@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let mgoQuantity = try MgoQuantity(json)
+//   let zibProductIngredient = try ZibProductIngredient(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,25 +10,22 @@
 
 import Foundation
 
-// MARK: - MgoQuantity
-public struct MgoQuantity: Codable, Hashable, Sendable {
-    public let code, comparator, system, unit: String?
-    public let value: Double?
+// MARK: - ZibProductIngredient
+public struct ZibProductIngredient: Codable, Hashable, Sendable {
+    public let amount: MgoRatio?
+    public let item: [MgoCoding]?
 
-    public init(code: String?, comparator: String?, system: String?, unit: String?, value: Double?) {
-        self.code = code
-        self.comparator = comparator
-        self.system = system
-        self.unit = unit
-        self.value = value
+    public init(amount: MgoRatio?, item: [MgoCoding]?) {
+        self.amount = amount
+        self.item = item
     }
 }
 
-// MARK: MgoQuantity convenience initializers and mutators
+// MARK: ZibProductIngredient convenience initializers and mutators
 
-public extension MgoQuantity {
+public extension ZibProductIngredient {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(MgoQuantity.self, from: data)
+        self = try newJSONDecoder().decode(ZibProductIngredient.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -43,18 +40,12 @@ public extension MgoQuantity {
     }
 
     func with(
-        code: String?? = nil,
-        comparator: String?? = nil,
-        system: String?? = nil,
-        unit: String?? = nil,
-        value: Double?? = nil
-    ) -> MgoQuantity {
-        return MgoQuantity(
-            code: code ?? self.code,
-            comparator: comparator ?? self.comparator,
-            system: system ?? self.system,
-            unit: unit ?? self.unit,
-            value: value ?? self.value
+        amount: MgoRatio?? = nil,
+        item: [MgoCoding]?? = nil
+    ) -> ZibProductIngredient {
+        return ZibProductIngredient(
+            amount: amount ?? self.amount,
+            item: item ?? self.item
         )
     }
 

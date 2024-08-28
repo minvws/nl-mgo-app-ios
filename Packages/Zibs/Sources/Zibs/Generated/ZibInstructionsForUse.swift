@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let dosage = try Dosage(json)
+//   let zibInstructionsForUse = try ZibInstructionsForUse(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - Dosage
-public struct Dosage: Codable, Hashable, Sendable {
+// MARK: - ZibInstructionsForUse
+public struct ZibInstructionsForUse: Codable, Hashable, Sendable {
     public let additionalInstruction: [[MgoCoding]]?
     public let asNeeded: [MgoCoding]?
     public let doseQuantity: MgoQuantity?
@@ -20,9 +20,9 @@ public struct Dosage: Codable, Hashable, Sendable {
     public let rateQuantity: MgoQuantity?
     public let rateRange: MgoRange?
     public let rateRatio: MgoRatio?
-    public let timing: DosageTiming
+    public let timing: ZibAdministrationSchedule
 
-    public init(additionalInstruction: [[MgoCoding]]?, asNeeded: [MgoCoding]?, doseQuantity: MgoQuantity?, doseRange: MgoRange?, maxDosePerPeriod: MgoRatio?, rateQuantity: MgoQuantity?, rateRange: MgoRange?, rateRatio: MgoRatio?, timing: DosageTiming) {
+    public init(additionalInstruction: [[MgoCoding]]?, asNeeded: [MgoCoding]?, doseQuantity: MgoQuantity?, doseRange: MgoRange?, maxDosePerPeriod: MgoRatio?, rateQuantity: MgoQuantity?, rateRange: MgoRange?, rateRatio: MgoRatio?, timing: ZibAdministrationSchedule) {
         self.additionalInstruction = additionalInstruction
         self.asNeeded = asNeeded
         self.doseQuantity = doseQuantity
@@ -35,11 +35,11 @@ public struct Dosage: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: Dosage convenience initializers and mutators
+// MARK: ZibInstructionsForUse convenience initializers and mutators
 
-public extension Dosage {
+public extension ZibInstructionsForUse {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Dosage.self, from: data)
+        self = try newJSONDecoder().decode(ZibInstructionsForUse.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -62,9 +62,9 @@ public extension Dosage {
         rateQuantity: MgoQuantity?? = nil,
         rateRange: MgoRange?? = nil,
         rateRatio: MgoRatio?? = nil,
-        timing: DosageTiming? = nil
-    ) -> Dosage {
-        return Dosage(
+        timing: ZibAdministrationSchedule? = nil
+    ) -> ZibInstructionsForUse {
+        return ZibInstructionsForUse(
             additionalInstruction: additionalInstruction ?? self.additionalInstruction,
             asNeeded: asNeeded ?? self.asNeeded,
             doseQuantity: doseQuantity ?? self.doseQuantity,

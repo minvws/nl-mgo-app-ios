@@ -12,28 +12,23 @@ import Foundation
 
 // MARK: - ZibProduct
 public struct ZibProduct: Codable, Hashable, Sendable {
-    public let profile: String
     public let code: [MgoCoding]?
     public let description: String?
     public let form: [MgoCoding]?
     public let id: String?
-    public let ingredient: [Ingredient]?
+    public let ingredient: [ZibProductIngredient]?
     public let package: Package
+    public let profile: String
     public let resourceType: String?
 
-    public enum CodingKeys: String, CodingKey {
-        case profile = "_profile"
-        case code, description, form, id, ingredient, package, resourceType
-    }
-
-    public init(profile: String, code: [MgoCoding]?, description: String?, form: [MgoCoding]?, id: String?, ingredient: [Ingredient]?, package: Package, resourceType: String?) {
-        self.profile = profile
+    public init(code: [MgoCoding]?, description: String?, form: [MgoCoding]?, id: String?, ingredient: [ZibProductIngredient]?, package: Package, profile: String, resourceType: String?) {
         self.code = code
         self.description = description
         self.form = form
         self.id = id
         self.ingredient = ingredient
         self.package = package
+        self.profile = profile
         self.resourceType = resourceType
     }
 }
@@ -57,23 +52,23 @@ public extension ZibProduct {
     }
 
     func with(
-        profile: String? = nil,
         code: [MgoCoding]?? = nil,
         description: String?? = nil,
         form: [MgoCoding]?? = nil,
         id: String?? = nil,
-        ingredient: [Ingredient]?? = nil,
+        ingredient: [ZibProductIngredient]?? = nil,
         package: Package? = nil,
+        profile: String? = nil,
         resourceType: String?? = nil
     ) -> ZibProduct {
         return ZibProduct(
-            profile: profile ?? self.profile,
             code: code ?? self.code,
             description: description ?? self.description,
             form: form ?? self.form,
             id: id ?? self.id,
             ingredient: ingredient ?? self.ingredient,
             package: package ?? self.package,
+            profile: profile ?? self.profile,
             resourceType: resourceType ?? self.resourceType
         )
     }

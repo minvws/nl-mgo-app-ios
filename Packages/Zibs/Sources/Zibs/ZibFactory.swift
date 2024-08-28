@@ -56,7 +56,7 @@ public class ZibFactory: ZibFactoryProtocol {
 //		logDebug("ZibFactory: trying to decoding \(String(decoding: data, as: UTF8.self))")
 		do {
 			if let object = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-			   let profile = object["_profile"] as? String, profile == profileDefinition {
+			   let profile = object["profile"] as? String, profile == profileDefinition {
 				
 				let zib = try JSONDecoder().decode(T.self, from: data)
 				return zib

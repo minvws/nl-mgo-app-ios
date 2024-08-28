@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let ingredient = try Ingredient(json)
+//   let zibProductPackageContent = try ZibProductPackageContent(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,22 @@
 
 import Foundation
 
-// MARK: - Ingredient
-public struct Ingredient: Codable, Hashable, Sendable {
-    public let amount: MgoRatio?
+// MARK: - ZibProductPackageContent
+public struct ZibProductPackageContent: Codable, Hashable, Sendable {
     public let item: [MgoCoding]?
+    public let reference: MgoReference?
 
-    public init(amount: MgoRatio?, item: [MgoCoding]?) {
-        self.amount = amount
+    public init(item: [MgoCoding]?, reference: MgoReference?) {
         self.item = item
+        self.reference = reference
     }
 }
 
-// MARK: Ingredient convenience initializers and mutators
+// MARK: ZibProductPackageContent convenience initializers and mutators
 
-public extension Ingredient {
+public extension ZibProductPackageContent {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Ingredient.self, from: data)
+        self = try newJSONDecoder().decode(ZibProductPackageContent.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,12 +40,12 @@ public extension Ingredient {
     }
 
     func with(
-        amount: MgoRatio?? = nil,
-        item: [MgoCoding]?? = nil
-    ) -> Ingredient {
-        return Ingredient(
-            amount: amount ?? self.amount,
-            item: item ?? self.item
+        item: [MgoCoding]?? = nil,
+        reference: MgoReference?? = nil
+    ) -> ZibProductPackageContent {
+        return ZibProductPackageContent(
+            item: item ?? self.item,
+            reference: reference ?? self.reference
         )
     }
 

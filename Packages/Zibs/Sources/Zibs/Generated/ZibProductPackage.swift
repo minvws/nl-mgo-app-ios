@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let content = try Content(json)
+//   let zibProductPackage = try ZibProductPackage(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,20 @@
 
 import Foundation
 
-// MARK: - Content
-public struct Content: Codable, Hashable, Sendable {
-    public let item: [MgoCoding]?
-    public let reference: MgoReference?
+// MARK: - ZibProductPackage
+public struct ZibProductPackage: Codable, Hashable, Sendable {
+    public let content: [ZibProductPackageContent]?
 
-    public init(item: [MgoCoding]?, reference: MgoReference?) {
-        self.item = item
-        self.reference = reference
+    public init(content: [ZibProductPackageContent]?) {
+        self.content = content
     }
 }
 
-// MARK: Content convenience initializers and mutators
+// MARK: ZibProductPackage convenience initializers and mutators
 
-public extension Content {
+public extension ZibProductPackage {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Content.self, from: data)
+        self = try newJSONDecoder().decode(ZibProductPackage.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,12 +38,10 @@ public extension Content {
     }
 
     func with(
-        item: [MgoCoding]?? = nil,
-        reference: MgoReference?? = nil
-    ) -> Content {
-        return Content(
-            item: item ?? self.item,
-            reference: reference ?? self.reference
+        content: [ZibProductPackageContent]?? = nil
+    ) -> ZibProductPackage {
+        return ZibProductPackage(
+            content: content ?? self.content
         )
     }
 

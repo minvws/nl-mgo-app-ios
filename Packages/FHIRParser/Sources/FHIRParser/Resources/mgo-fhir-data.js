@@ -4,281 +4,80 @@ var __publicField = (obj, key, value2) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value2);
   return value2;
 };
-function getBundleResources$1(bundle, resourceTypeFilter) {
-  if (!bundle.entry?.length)
-    return [];
-  const resources2 = bundle.entry.map((entry) => entry.resource);
-  if (resourceTypeFilter) {
-    return resources2.filter(
-      (x) => x?.resourceType === resourceTypeFilter
-    );
+const parse = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  get annotation() {
+    return annotation$1;
+  },
+  get boolean() {
+    return boolean$1;
+  },
+  get code() {
+    return code$2;
+  },
+  get codeableConcept() {
+    return codeableConcept$1;
+  },
+  get coding() {
+    return coding$1;
+  },
+  get date() {
+    return date$2;
+  },
+  get dateTime() {
+    return dateTime$3;
+  },
+  get decimal() {
+    return decimal;
+  },
+  get duration() {
+    return duration$1;
+  },
+  get identifier() {
+    return identifier$1;
+  },
+  get integer() {
+    return integer;
+  },
+  get integer64() {
+    return integer64;
+  },
+  get period() {
+    return period$1;
+  },
+  get positiveInt() {
+    return positiveInt;
+  },
+  get quantity() {
+    return quantity$1;
+  },
+  get range() {
+    return range$1;
+  },
+  get ratio() {
+    return ratio$1;
+  },
+  get reference() {
+    return reference$1;
+  },
+  get string() {
+    return string;
+  },
+  get unsignedInt() {
+    return unsignedInt;
   }
-  return resources2.filter((x) => x !== void 0);
-}
-function getReference(bundle, { reference: reference2 } = {}) {
-  if (!bundle?.entry?.length || !reference2)
-    return;
-  return bundle.entry.find((x) => x.fullUrl?.endsWith(reference2))?.resource;
-}
-const resourceTypes = [
-  "Account",
-  "ActivityDefinition",
-  "AdverseEvent",
-  "AllergyIntolerance",
-  "Appointment",
-  "AppointmentResponse",
-  "AuditEvent",
-  "Basic",
-  "Binary",
-  "BodySite",
-  "Bundle",
-  "CapabilityStatement",
-  "CarePlan",
-  "CareTeam",
-  "ChargeItem",
-  "Claim",
-  "ClaimResponse",
-  "ClinicalImpression",
-  "CodeSystem",
-  "Communication",
-  "CommunicationRequest",
-  "CompartmentDefinition",
-  "Composition",
-  "ConceptMap",
-  "Condition",
-  "Consent",
-  "Contract",
-  "Coverage",
-  "DataElement",
-  "DetectedIssue",
-  "Device",
-  "DeviceComponent",
-  "DeviceMetric",
-  "DeviceRequest",
-  "DeviceUseStatement",
-  "DiagnosticReport",
-  "DocumentManifest",
-  "DocumentReference",
-  "EligibilityRequest",
-  "EligibilityResponse",
-  "Encounter",
-  "Endpoint",
-  "EnrollmentRequest",
-  "EnrollmentResponse",
-  "EpisodeOfCare",
-  "ExpansionProfile",
-  "ExplanationOfBenefit",
-  "FamilyMemberHistory",
-  "Flag",
-  "Goal",
-  "GraphDefinition",
-  "Group",
-  "GuidanceResponse",
-  "HealthcareService",
-  "ImagingManifest",
-  "ImagingStudy",
-  "Immunization",
-  "ImmunizationRecommendation",
-  "ImplementationGuide",
-  "Library",
-  "Linkage",
-  "List",
-  "Location",
-  "Measure",
-  "MeasureReport",
-  "Media",
-  "Medication",
-  "MedicationAdministration",
-  "MedicationDispense",
-  "MedicationRequest",
-  "MedicationStatement",
-  "MessageDefinition",
-  "MessageHeader",
-  "NamingSystem",
-  "NutritionOrder",
-  "Observation",
-  "OperationDefinition",
-  "OperationOutcome",
-  "Organization",
-  "Parameters",
-  "Patient",
-  "PaymentNotice",
-  "PaymentReconciliation",
-  "Person",
-  "PlanDefinition",
-  "Practitioner",
-  "PractitionerRole",
-  "Procedure",
-  "ProcedureRequest",
-  "ProcessRequest",
-  "ProcessResponse",
-  "Provenance",
-  "Questionnaire",
-  "QuestionnaireResponse",
-  "ReferralRequest",
-  "RelatedPerson",
-  "RequestGroup",
-  "ResearchStudy",
-  "ResearchSubject",
-  "RiskAssessment",
-  "Schedule",
-  "SearchParameter",
-  "Sequence",
-  "ServiceDefinition",
-  "Slot",
-  "Specimen",
-  "StructureDefinition",
-  "StructureMap",
-  "Subscription",
-  "Substance",
-  "SupplyDelivery",
-  "SupplyRequest",
-  "Task",
-  "TestReport",
-  "TestScript",
-  "ValueSet",
-  "VisionPrescription"
-];
-function isFhirResource(value2, type) {
-  const resource = value2;
-  if (!type) {
-    return resourceTypes.includes(resource?.resourceType);
-  }
-  return resource?.resourceType === type;
-}
-function findByUse(collection, priority, defaultValue) {
-  if (!collection?.length)
-    return defaultValue;
-  for (const use of priority) {
-    const item = collection.find((x) => x.use === use);
-    if (item)
-      return item;
-  }
-  return defaultValue;
-}
-function safeGet(object, getFunction, defaultValue) {
-  try {
-    const result = getFunction(object);
-    return result === void 0 ? defaultValue : result;
-  } catch (error) {
-    if (error instanceof TypeError) {
-      return defaultValue;
-    }
-    throw error;
-  }
-}
-function safeGetBulk(object, config, defaultValues) {
-  const result = {};
-  for (const [key, value2] of Object.entries(config)) {
-    if (typeof value2 === "object") {
-      result[key] = safeGetBulk(
-        object,
-        value2,
-        defaultValues?.[key]
-      );
-    } else if (typeof value2 === "function") {
-      result[key] = safeGet(
-        object,
-        value2,
-        defaultValues?.[key]
-      );
-    }
-  }
-  return result;
-}
+}, Symbol.toStringTag, { value: "Module" }));
 function isNullish(value2) {
   return value2 === void 0 || value2 === null;
 }
 function isNonNullish(value2) {
   return !isNullish(value2);
 }
-function map(items, iteratee) {
-  if (!items?.length)
-    return null;
-  return items.map(iteratee).filter(isNonNullish);
-}
-function getMgoProblems(bundle) {
-  const conditions = getBundleResources$1(bundle, "Condition");
-  return conditions.map((condition) => {
-    return {
-      ...safeGetBulk(condition, {
-        title: ({ code: code2 }) => code2.coding[0].display,
-        comment: ({ note }) => note.map((x) => x.text).join(", "),
-        clinicalStatus: ({ clinicalStatus }) => clinicalStatus,
-        category: ({ category }) => category.map((x) => x.coding.map((y) => y.display)).flat().join(", "),
-        startDate: ({ onsetDateTime }) => onsetDateTime,
-        endDate: ({ abatementDateTime }) => abatementDateTime ?? null,
-        bodyLocation: ({ bodySite }) => `${bodySite[0].coding[0].display}, ${bodySite[0].extension[0].valueCodeableConcept.coding[0].display}`
-      })
-    };
-  });
-}
-function getMgoMedicationStatements(bundle) {
-  const medicationStatements = getBundleResources$1(bundle, "MedicationStatement");
-  return medicationStatements.map((medicationStatement) => {
-    return {
-      ...safeGetBulk(medicationStatement, {
-        title: ({ medicationReference }) => medicationReference.display,
-        instructions: ({ dosage }) => dosage.map((x) => x.text).join(" "),
-        prescribedBy: ({ extension: extension2 }) => extension2.find(
-          (x) => x.url === "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse-Prescriber"
-        )?.valueReference.display,
-        status: ({ status }) => status,
-        startDate: ({ effectiveDateTime, effectivePeriod }) => effectiveDateTime || effectivePeriod.start
-      })
-    };
-  });
-}
-function numberToString$1(value2) {
-  if (value2 === void 0)
-    return "-";
-  return value2.toString();
-}
-function quantityToString(quantity2) {
-  if (!quantity2)
-    return "";
-  const { value: value2, unit } = quantity2;
-  return numberToString$1(value2) + (unit ? ` ${unit}` : "");
-}
-function getMgoObservations(bundle) {
-  const observations = getBundleResources$1(bundle, "Observation");
-  return observations.map((observation) => {
-    const specimen = getReference(bundle, observation.specimen);
-    return {
-      ...safeGetBulk(observation, {
-        title: ({ category }) => category[0].coding[0].display,
-        code: ({ code: { coding: coding2 } }) => coding2[0].display,
-        status: ({ status }) => status,
-        dateTime: ({ effectiveDateTime }) => effectiveDateTime,
-        result: ({ valueQuantity }) => quantityToString(valueQuantity),
-        referenceRangeLow: ({ referenceRange: [{ low }] }) => quantityToString(low),
-        referenceRangeHigh: ({ referenceRange: [{ high }] }) => quantityToString(high),
-        interpretation: ({ interpretation: { coding: coding2 } }) => coding2.find(({ system }) => system === "http://snomed.info/sct")?.display
-      }),
-      specimen: safeGet(
-        specimen,
-        ({ type }) => type.coding[0].display,
-        observation.specimen?.display
-      ),
-      collectionDateTime: safeGet(specimen, ({ collection }) => collection.collectedDateTime)
-    };
-  });
-}
-function getMgoDocuments(bundle) {
-  const manifest = getBundleResources$1(bundle, "DocumentReference");
-  return manifest.map(getMgoDocument);
-}
-function getMgoDocument(document) {
-  return {
-    ...safeGetBulk(document, {
-      id: ({ id }) => id,
-      title: ({ description }) => description,
-      content: ({ content }) => content,
-      indexed: ({ indexed }) => indexed,
-      status: ({ securityLabel }) => securityLabel.map((x) => x.coding.map((y) => y.display)).flat().join(", "),
-      author: ({ author }) => author.map((x) => x.display).flat().join(", ")
-    })
-  };
+function getBundleResources(bundle) {
+  const resources2 = bundle.entry?.map((entry) => entry.resource).filter(isNonNullish);
+  if (!resources2?.length)
+    return;
+  return resources2;
 }
 function isInteger(value2) {
   return INTEGER_REGEX.test(value2);
@@ -798,43 +597,167 @@ function resolveSpace(space) {
   }
   return void 0;
 }
-function losslessParse(text) {
-  if (typeof text !== "string") {
-    throw new Error("Input is not a (JSON) string");
+const resourceTypes = [
+  "Account",
+  "ActivityDefinition",
+  "AdverseEvent",
+  "AllergyIntolerance",
+  "Appointment",
+  "AppointmentResponse",
+  "AuditEvent",
+  "Basic",
+  "Binary",
+  "BodySite",
+  "Bundle",
+  "CapabilityStatement",
+  "CarePlan",
+  "CareTeam",
+  "ChargeItem",
+  "Claim",
+  "ClaimResponse",
+  "ClinicalImpression",
+  "CodeSystem",
+  "Communication",
+  "CommunicationRequest",
+  "CompartmentDefinition",
+  "Composition",
+  "ConceptMap",
+  "Condition",
+  "Consent",
+  "Contract",
+  "Coverage",
+  "DataElement",
+  "DetectedIssue",
+  "Device",
+  "DeviceComponent",
+  "DeviceMetric",
+  "DeviceRequest",
+  "DeviceUseStatement",
+  "DiagnosticReport",
+  "DocumentManifest",
+  "DocumentReference",
+  "EligibilityRequest",
+  "EligibilityResponse",
+  "Encounter",
+  "Endpoint",
+  "EnrollmentRequest",
+  "EnrollmentResponse",
+  "EpisodeOfCare",
+  "ExpansionProfile",
+  "ExplanationOfBenefit",
+  "FamilyMemberHistory",
+  "Flag",
+  "Goal",
+  "GraphDefinition",
+  "Group",
+  "GuidanceResponse",
+  "HealthcareService",
+  "ImagingManifest",
+  "ImagingStudy",
+  "Immunization",
+  "ImmunizationRecommendation",
+  "ImplementationGuide",
+  "Library",
+  "Linkage",
+  "List",
+  "Location",
+  "Measure",
+  "MeasureReport",
+  "Media",
+  "Medication",
+  "MedicationAdministration",
+  "MedicationDispense",
+  "MedicationRequest",
+  "MedicationStatement",
+  "MessageDefinition",
+  "MessageHeader",
+  "NamingSystem",
+  "NutritionOrder",
+  "Observation",
+  "OperationDefinition",
+  "OperationOutcome",
+  "Organization",
+  "Parameters",
+  "Patient",
+  "PaymentNotice",
+  "PaymentReconciliation",
+  "Person",
+  "PlanDefinition",
+  "Practitioner",
+  "PractitionerRole",
+  "Procedure",
+  "ProcedureRequest",
+  "ProcessRequest",
+  "ProcessResponse",
+  "Provenance",
+  "Questionnaire",
+  "QuestionnaireResponse",
+  "ReferralRequest",
+  "RelatedPerson",
+  "RequestGroup",
+  "ResearchStudy",
+  "ResearchSubject",
+  "RiskAssessment",
+  "Schedule",
+  "SearchParameter",
+  "Sequence",
+  "ServiceDefinition",
+  "Slot",
+  "Specimen",
+  "StructureDefinition",
+  "StructureMap",
+  "Subscription",
+  "Substance",
+  "SupplyDelivery",
+  "SupplyRequest",
+  "Task",
+  "TestReport",
+  "TestScript",
+  "ValueSet",
+  "VisionPrescription"
+];
+function isFhirResource(value2, type) {
+  const resource = value2;
+  if (!type) {
+    return resourceTypes.includes(resource?.resourceType);
   }
-  return parse$1(text);
+  return resource?.resourceType === type;
 }
-function losslessStringify(value2, format2 = false) {
-  if (format2) {
-    return stringify(value2, null, 2);
-  }
-  return stringify(value2);
+function map(items, iteratee) {
+  if (!items?.length)
+    return;
+  return items.map(iteratee).filter(isNonNullish);
 }
-function isMgoResource(resource) {
-  const resourceTyped = resource;
-  return !!resourceTyped?.id && !!resourceTyped?.resourceType && !!resourceTyped?._profile;
+function createTypeParser(parser) {
+  return (value2) => {
+    if (isNullish(value2))
+      return;
+    return parser(value2);
+  };
 }
-function getBundleResources(bundle) {
-  const resources2 = bundle.entry?.map((entry) => entry.resource).filter(isNonNullish);
-  if (!resources2?.length)
-    return null;
-  return resources2;
+function quantityLike(value2) {
+  const { value: valueQuantity, comparator, unit, system, code: code2 } = value2;
+  return { value: valueQuantity, comparator, unit, system, code: code2 };
 }
-const EMPTY_VALUE = null;
-function deepReplaceUndefined(value2) {
-  if (value2 === void 0 || value2 === null) {
-    return EMPTY_VALUE;
-  }
-  if (Array.isArray(value2)) {
-    return value2.map(deepReplaceUndefined);
-  }
-  if (typeof value2 === "object" && !isLosslessNumber(value2)) {
-    return Object.fromEntries(
-      Object.entries(value2).map(([key, value22]) => [key, deepReplaceUndefined(value22)])
-    );
-  }
-  return value2;
-}
+const quantity$1 = createTypeParser(quantityLike);
+const dateTime$3 = createTypeParser((value2) => value2);
+const reference$1 = createTypeParser((value2) => {
+  const { reference: reference2, display } = value2;
+  return {
+    reference: reference2,
+    display
+  };
+});
+const annotation$1 = createTypeParser((value2) => {
+  const { time, text, authorReference } = value2;
+  return {
+    time: dateTime$3(time),
+    text,
+    author: reference$1(authorReference)
+  };
+});
+const boolean$1 = createTypeParser((value2) => value2);
+const code$2 = createTypeParser((value2) => value2);
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 var lodash = { exports: {} };
 /**
@@ -2419,7 +2342,7 @@ lodash.exports;
           if (isObject2(srcValue)) {
             baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
           } else {
-            var newValue = customizer ? customizer(safeGet2(object, key), srcValue, key + "", object, source, stack) : undefined$1;
+            var newValue = customizer ? customizer(safeGet(object, key), srcValue, key + "", object, source, stack) : undefined$1;
             if (newValue === undefined$1) {
               newValue = srcValue;
             }
@@ -2428,7 +2351,7 @@ lodash.exports;
         }, keysIn);
       }
       function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
-        var objValue = safeGet2(object, key), srcValue = safeGet2(source, key), stacked = stack.get(srcValue);
+        var objValue = safeGet(object, key), srcValue = safeGet(source, key), stacked = stack.get(srcValue);
         if (stacked) {
           assignMergeValue(object, key, stacked);
           return;
@@ -3881,7 +3804,7 @@ lodash.exports;
         }
         return array;
       }
-      function safeGet2(object, key) {
+      function safeGet(object, key) {
         if (key === "constructor" && typeof object[key] === "function") {
           return;
         }
@@ -6318,125 +6241,19 @@ lodash.exports;
   }).call(commonjsGlobal);
 })(lodash, lodash.exports);
 var lodashExports = lodash.exports;
-function typeParser() {
-  return (parser) => {
-    return (value2) => {
-      if (isNullish(value2))
-        return null;
-      return parser(value2);
-    };
-  };
-}
-function noConversion(value2) {
-  return value2;
-}
-const date$3 = typeParser()((value2) => {
-  return value2;
-});
-const dateTime$2 = typeParser()((value2) => {
-  return value2;
-});
-const boolean$1 = typeParser()(noConversion);
-const code$2 = typeParser()(noConversion);
-const string = typeParser()(noConversion);
-const primitive$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  boolean: boolean$1,
-  code: code$2,
-  date: date$3,
-  dateTime: dateTime$2,
-  string
-}, Symbol.toStringTag, { value: "Module" }));
-const reference$1 = typeParser()((value2) => {
-  const { reference: reference2, display } = value2;
-  return deepReplaceUndefined({
-    reference: reference2,
-    display
-  });
-});
-const special$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  reference: reference$1
-}, Symbol.toStringTag, { value: "Module" }));
-const annotation$1 = typeParser()((value2) => {
-  const { time, text, authorReference } = value2;
-  return deepReplaceUndefined({
-    time: dateTime$2(time),
-    text,
-    author: reference$1(authorReference)
-  });
-});
-const codeableConcept$1 = typeParser()((value2) => {
-  if (!value2.coding?.length)
-    return null;
-  return map(value2.coding, coding$1);
-});
-const coding$1 = typeParser()((value2) => {
-  const { code: code2, display, system } = value2;
-  return deepReplaceUndefined({
-    code: code2,
-    display,
-    system
-  });
-});
-const identifier$1 = typeParser()((identifierValue) => {
-  const { use, system, value: value2, type } = identifierValue;
-  return deepReplaceUndefined({
-    use,
-    system,
-    value: value2,
-    type: codeableConcept$1(type)
-  });
-});
-const period$1 = typeParser()((value2) => {
-  const { start, end } = value2;
-  return { start: dateTime$2(start), end: dateTime$2(end) };
-});
-function quantityLike(value2) {
-  const { value: valueQuantity, comparator, unit, system, code: code2 } = value2;
-  return deepReplaceUndefined({ value: valueQuantity, comparator, unit, system, code: code2 });
-}
-const quantity$1 = typeParser()(quantityLike);
-const duration$1 = typeParser()(quantityLike);
-const ratio$1 = typeParser()((value2) => {
-  const { numerator, denominator } = value2;
-  return { numerator: quantity$1(numerator), denominator: quantity$1(denominator) };
-});
-const range$1 = typeParser()((value2) => {
-  return {
-    low: quantity$1(value2.low),
-    high: quantity$1(value2.high)
-  };
-});
-const general$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  annotation: annotation$1,
-  codeableConcept: codeableConcept$1,
-  coding: coding$1,
-  duration: duration$1,
-  identifier: identifier$1,
-  period: period$1,
-  quantity: quantity$1,
-  range: range$1,
-  ratio: ratio$1
-}, Symbol.toStringTag, { value: "Module" }));
-const parse = {
-  ...primitive$1,
-  ...general$1,
-  ...special$1
-};
-function keyX(value2, xKey, xType) {
+function valueX(value2, valueXType) {
   if (isNullish(value2))
-    return null;
-  const parser = parse[xType];
-  const keyXValue = value2[`${xKey}${lodashExports.upperFirst(xType)}`];
-  const parsedValue = parser(keyXValue);
-  return parsedValue;
+    return;
+  const parser = parse[valueXType];
+  const valueX2 = value2[`value${lodashExports.upperFirst(valueXType)}`];
+  return parser(valueX2);
 }
-function valueX(value2, xType) {
-  if (isNullish(value2))
-    return null;
-  return keyX(value2, "value", xType);
+function getExtension(resource, url) {
+  return resource?.extension?.find((x) => x.url === url) ?? resource?.modifierExtension?.find((x) => x.url === url);
+}
+function extension(resource, url, valueType) {
+  const extension2 = getExtension(resource, url);
+  return valueX(extension2, valueType);
 }
 const nictizIdValueXMap = {
   "zib-MedicationUse-AsAgreedIndicator": "boolean",
@@ -6448,13 +6265,6 @@ const nictizIdValueXMap = {
   "zib-MedicationUse-Duration": "duration",
   "zib-Product-Description": "string"
 };
-function getExtension(resource, url) {
-  return resource?.extension?.find((x) => x.url === url) || resource?.modifierExtension?.find((x) => x.url === url);
-}
-function extension(resource, url, type) {
-  const extension2 = getExtension(resource, url);
-  return valueX(extension2, type);
-}
 function extensionNictiz(resource, zibId) {
   return extension(
     resource,
@@ -6462,12 +6272,65 @@ function extensionNictiz(resource, zibId) {
     nictizIdValueXMap[zibId]
   );
 }
+function passThrough(value2) {
+  return value2;
+}
+const coding$1 = createTypeParser((value2) => {
+  const { code: code2, display, system } = value2;
+  return {
+    code: code2,
+    display,
+    system
+  };
+});
+const codeableConcept$1 = createTypeParser((value2) => {
+  if (!value2.coding?.length)
+    return [];
+  return map(value2.coding, coding$1);
+});
+const date$2 = createTypeParser((value2) => value2);
+const duration$1 = createTypeParser(quantityLike);
+const identifier$1 = createTypeParser((value2) => {
+  const { use, system, value: identifierValue, type } = value2;
+  return {
+    use,
+    system,
+    value: identifierValue,
+    type: codeableConcept$1(type)
+  };
+});
+const period$1 = createTypeParser((value2) => {
+  const { start, end } = value2;
+  return {
+    start: dateTime$3(start),
+    end: dateTime$3(end)
+  };
+});
+const range$1 = createTypeParser((value2) => {
+  return {
+    low: quantity$1(value2.low),
+    high: quantity$1(value2.high)
+  };
+});
+const ratio$1 = createTypeParser((value2) => {
+  const { numerator, denominator } = value2;
+  return {
+    numerator: quantity$1(numerator),
+    denominator: quantity$1(denominator)
+  };
+});
+const string = createTypeParser((value2) => value2);
+const decimal = createTypeParser(passThrough);
+const unsignedInt = createTypeParser(passThrough);
+const integer = createTypeParser(passThrough);
+const integer64 = createTypeParser(passThrough);
+const positiveInt = createTypeParser(passThrough);
 function multipleValue(label, value2, parse2, options) {
   const { type } = parse2("", null);
-  let display = null;
+  let display = void 0;
   if (isNonNullish(value2)) {
-    const values = value2.map((x) => parse2("", x));
-    display = values.map((x) => x.display).filter(isNonNullish);
+    const entries = value2.map((x) => parse2("", x));
+    display = entries.map((x) => x.display).filter(isNonNullish);
   }
   return {
     label,
@@ -6478,18 +6341,13 @@ function multipleValue(label, value2, parse2, options) {
 }
 function toString(value2) {
   if (isNullish(value2))
-    return null;
+    return;
   return `${value2}`;
 }
 function numberToString(value2) {
   if (isNullish(value2))
-    return null;
+    return;
   return value2.toString();
-}
-function replaceUndefined(value2) {
-  if (isNullish(value2))
-    return null;
-  return value2;
 }
 function changeDescriptionType(value2, oldType, newType) {
   const regexp = new RegExp(`^${oldType}`);
@@ -6500,7 +6358,7 @@ function changeDescriptionType(value2, oldType, newType) {
 }
 function valueWithUnit(value2, unit) {
   if (isNullish(value2))
-    return null;
+    return;
   const valueString = numberToString(value2);
   if (isNullish(unit))
     return valueString;
@@ -6508,7 +6366,7 @@ function valueWithUnit(value2, unit) {
 }
 function valueWithMaxValue(value2, maxValue) {
   if (isNullish(value2))
-    return null;
+    return;
   const valueString = numberToString(value2);
   if (isNullish(maxValue))
     return valueString;
@@ -6519,24 +6377,27 @@ const value = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePropert
   valueWithMaxValue,
   valueWithUnit
 }, Symbol.toStringTag, { value: "Module" }));
+function date(value2) {
+  if (isNullish(value2))
+    return;
+  return `${value2}`;
+}
+const date$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  date
+}, Symbol.toStringTag, { value: "Module" }));
 function dateTime$1(value2) {
   if (isNullish(value2))
-    return null;
+    return;
   return `${value2}`;
 }
-function date$1(value2) {
-  if (isNullish(value2))
-    return null;
-  return `${value2}`;
-}
-const date$2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const dateTime$2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  date: date$1,
   dateTime: dateTime$1
 }, Symbol.toStringTag, { value: "Module" }));
 function codeWithSystem(code2, system) {
   if (isNullish(code2) || code2 === "")
-    return null;
+    return;
   if (isNullish(system) || system === "")
     return code2;
   return `${code2} in code systeem ${system}`;
@@ -6547,26 +6408,36 @@ const code$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
 }, Symbol.toStringTag, { value: "Module" }));
 const format = {
   ...value,
-  ...date$2,
+  ...date$1,
+  ...dateTime$2,
   ...code$1
 };
-function annotation(label, value2, options) {
+const annotation = (label, value2, options) => {
   return {
     label,
-    display: replaceUndefined(value2?.text),
+    display: value2?.text,
     type: "annotation",
     ...options
   };
-}
-function codeableConcept(label, value2, options) {
-  return changeDescriptionType(
-    multipleValue(label, value2, coding, options),
-    "coding",
-    "codable_concept"
-  );
-}
-function coding(label, value2, options) {
-  const { display, code: code2, system } = value2 || {};
+};
+const boolean = (label, value2, options) => {
+  return {
+    label,
+    type: "boolean",
+    display: toString(value2),
+    ...options
+  };
+};
+const code = (label, value2, options) => {
+  return {
+    label,
+    type: "code",
+    display: toString(value2),
+    ...options
+  };
+};
+const coding = (label, value2, options) => {
+  const { display, code: code2, system } = value2 ?? {};
   let displayString = display ?? "";
   const codeString = format.codeWithSystem(code2, system);
   if (codeString)
@@ -6574,36 +6445,27 @@ function coding(label, value2, options) {
   return {
     label,
     type: "coding",
-    display: displayString === "" ? null : displayString,
+    display: displayString === "" ? void 0 : displayString,
     ...options
   };
-}
-function identifier(label, value2, options) {
+};
+const codeableConcept = (label, value2, options) => {
+  return changeDescriptionType(
+    multipleValue(label, value2, coding, options),
+    "coding",
+    "codable_concept"
+  );
+};
+const dateTime = (label, value2, options) => {
   return {
     label,
-    type: "identifier",
-    display: replaceUndefined(value2?.value),
+    type: "date_time",
+    display: format.dateTime(value2),
     ...options
   };
-}
-function period(label, value2, options) {
-  return [
-    {
-      label: `${label}.start`,
-      type: `period.start`,
-      display: replaceUndefined(format.dateTime(value2?.start)),
-      ...options
-    },
-    {
-      label: `${label}.end`,
-      type: `period.end`,
-      display: replaceUndefined(format.dateTime(value2?.end)),
-      ...options
-    }
-  ];
-}
-function quantity(label, value2, options) {
-  const { value: quantityValue, unit, code: code2, system } = value2 || {};
+};
+const quantity = (label, value2, options) => {
+  const { value: quantityValue, unit, code: code2, system } = value2 ?? {};
   return [
     {
       label: `${label}.value`,
@@ -6618,24 +6480,38 @@ function quantity(label, value2, options) {
       ...options
     }
   ];
-}
-function duration(label, value2, options) {
+};
+const duration = (label, value2, options) => {
   const values = quantity(label, value2, options);
   return values.map(
     (valueDescription) => changeDescriptionType(valueDescription, "quantity", "duration")
   );
-}
-function ratio(label, value2, options) {
+};
+const identifier = (label, value2, options) => {
+  return {
+    label,
+    type: "identifier",
+    display: value2?.value,
+    ...options
+  };
+};
+const period = (label, value2, options) => {
   return [
-    ...quantity(`${label}.numerator`, value2?.numerator, options).map(
-      (valueDescription) => changeDescriptionType(valueDescription, "quantity", "ratio.numerator")
-    ),
-    ...quantity(`${label}.denominator`, value2?.denominator, options).map(
-      (valueDescription) => changeDescriptionType(valueDescription, "quantity", "ratio.denominator")
-    )
+    {
+      label: `${label}.start`,
+      type: `period.start`,
+      display: format.dateTime(value2?.start),
+      ...options
+    },
+    {
+      label: `${label}.end`,
+      type: `period.end`,
+      display: format.dateTime(value2?.end),
+      ...options
+    }
   ];
-}
-function range(label, value2, options) {
+};
+const range = (label, value2, options) => {
   return [
     ...quantity(`${label}.low`, value2?.low, options).map(
       (valueDescription) => changeDescriptionType(valueDescription, "quantity", "range.low")
@@ -6644,73 +6520,25 @@ function range(label, value2, options) {
       (valueDescription) => changeDescriptionType(valueDescription, "quantity", "range.high")
     )
   ];
-}
-const general = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  annotation,
-  codeableConcept,
-  coding,
-  duration,
-  identifier,
-  period,
-  quantity,
-  range,
-  ratio
-}, Symbol.toStringTag, { value: "Module" }));
-function date(label, value2, options) {
-  return {
-    label,
-    type: "date",
-    display: format.date(value2),
-    ...options
-  };
-}
-function dateTime(label, value2, options) {
-  return {
-    label,
-    type: "date_time",
-    display: format.dateTime(value2),
-    ...options
-  };
-}
-function toStringField(label, value2, options) {
-  return {
-    label,
-    type: "string",
-    display: toString(value2),
-    ...options
-  };
-}
-function boolean(label, value2, options) {
-  return changeDescriptionType(toStringField(label, value2, options), "string", "boolean");
-}
-function code(label, value2, options) {
-  return changeDescriptionType(toStringField(label, value2, options), "string", "code");
-}
-const primitive = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  boolean,
-  code,
-  date,
-  dateTime
-}, Symbol.toStringTag, { value: "Module" }));
-function reference(label, value2, options) {
+};
+const ratio = (label, value2, options) => {
+  return [
+    ...quantity(`${label}.numerator`, value2?.numerator, options).map(
+      (valueDescription) => changeDescriptionType(valueDescription, "quantity", "ratio.numerator")
+    ),
+    ...quantity(`${label}.denominator`, value2?.denominator, options).map(
+      (valueDescription) => changeDescriptionType(valueDescription, "quantity", "ratio.denominator")
+    )
+  ];
+};
+const reference = (label, value2, options) => {
   return {
     label,
     type: "reference",
-    display: replaceUndefined(value2?.display),
-    reference: replaceUndefined(value2?.reference),
+    display: value2?.display,
+    reference: value2?.reference,
     ...options
   };
-}
-const special = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  reference
-}, Symbol.toStringTag, { value: "Module" }));
-const ui = {
-  ...primitive,
-  ...general,
-  ...special
 };
 function uiSchemaGroup$3(resource) {
   const i18n = "zib_administration_schedule";
@@ -6737,7 +6565,7 @@ function uiSchemaGroup$3(resource) {
         type: "day_of_week",
         display: resource?.dayOfWeek
       },
-      multipleValue(`${i18n}.time_of_day`, resource?.timeOfDay, ui.dateTime),
+      multipleValue(`${i18n}.time_of_day`, resource?.timeOfDay, dateTime),
       {
         label: `${i18n}.when`,
         type: "when",
@@ -6747,18 +6575,18 @@ function uiSchemaGroup$3(resource) {
   };
 }
 function parseZibAdministrationSchedule(value2) {
-  const { repeat } = value2 || {};
-  return deepReplaceUndefined({
-    duration: repeat?.duration,
-    durationUnit: parse.code(repeat?.durationUnit),
-    frequency: repeat?.frequency,
-    frequencyMax: repeat?.frequencyMax,
-    period: repeat?.period,
-    periodUnit: parse.code(repeat?.periodUnit),
-    dayOfWeek: map(repeat?.dayOfWeek, parse.code),
-    timeOfDay: map(repeat?.timeOfDay, parse.dateTime),
-    when: map(repeat?.when, parse.code)
-  });
+  const { repeat } = value2 ?? {};
+  return {
+    duration: decimal(repeat?.duration),
+    durationUnit: code$2(repeat?.durationUnit),
+    frequency: integer(repeat?.frequency),
+    frequencyMax: integer(repeat?.frequencyMax),
+    period: decimal(repeat?.period),
+    periodUnit: code$2(repeat?.periodUnit),
+    dayOfWeek: map(repeat?.dayOfWeek, code$2),
+    timeOfDay: map(repeat?.timeOfDay, dateTime$3),
+    when: map(repeat?.when, code$2)
+  };
 }
 const zibAdministrationSchedule = {
   parse: parseZibAdministrationSchedule,
@@ -6773,29 +6601,29 @@ function uiSchemaGroup$2(resource) {
       multipleValue(
         `${i18n}.additional_instruction`,
         resource.additionalInstruction,
-        ui.codeableConcept
+        codeableConcept
       ),
-      ui.codeableConcept(`${i18n}.as_needed`, resource.asNeeded),
-      ...ui.quantity(`${i18n}.dose_quantity`, resource.doseQuantity),
-      ...ui.range(`${i18n}.dose_range`, resource.doseRange),
-      ...ui.ratio(`${i18n}.max_dose_per_period`, resource.maxDosePerPeriod),
-      ...ui.ratio(`${i18n}.rate_ratio`, resource.rateRatio),
-      ...ui.range(`${i18n}.rate_range`, resource.rateRange),
-      ...ui.quantity(`${i18n}.rate_quantity`, resource.rateQuantity),
+      codeableConcept(`${i18n}.as_needed`, resource.asNeeded),
+      ...quantity(`${i18n}.dose_quantity`, resource.doseQuantity),
+      ...range(`${i18n}.dose_range`, resource.doseRange),
+      ...ratio(`${i18n}.max_dose_per_period`, resource.maxDosePerPeriod),
+      ...ratio(`${i18n}.rate_ratio`, resource.rateRatio),
+      ...range(`${i18n}.rate_range`, resource.rateRange),
+      ...quantity(`${i18n}.rate_quantity`, resource.rateQuantity),
       ...administrationSchedule
     ]
   };
 }
 function parseZibInstructionsForUse(value2) {
   return {
-    additionalInstruction: map(value2?.additionalInstruction, parse.codeableConcept),
-    asNeeded: parse.codeableConcept(value2?.asNeededCodeableConcept),
-    doseQuantity: parse.quantity(value2?.doseQuantity),
-    doseRange: parse.range(value2?.doseRange),
-    maxDosePerPeriod: parse.ratio(value2?.maxDosePerPeriod),
-    rateRatio: parse.ratio(value2?.rateRatio),
-    rateRange: parse.range(value2?.rateRange),
-    rateQuantity: parse.quantity(value2?.rateQuantity),
+    additionalInstruction: map(value2?.additionalInstruction, codeableConcept$1),
+    asNeeded: codeableConcept$1(value2?.asNeededCodeableConcept),
+    doseQuantity: quantity$1(value2?.doseQuantity),
+    doseRange: range$1(value2?.doseRange),
+    maxDosePerPeriod: ratio$1(value2?.maxDosePerPeriod),
+    rateRatio: ratio$1(value2?.rateRatio),
+    rateRange: range$1(value2?.rateRange),
+    rateQuantity: quantity$1(value2?.rateQuantity),
     timing: zibAdministrationSchedule.parse(value2?.timing)
   };
 }
@@ -6808,15 +6636,15 @@ function uiSchemaGroup$1(resource) {
   return {
     label: `${i18n}.group`,
     children: [
-      ui.codeableConcept(`${i18n}.item`, resource.item),
-      ...ui.ratio(`${i18n}.amount`, resource.amount)
+      codeableConcept(`${i18n}.item`, resource.item),
+      ...ratio(`${i18n}.amount`, resource.amount)
     ]
   };
 }
 function parseZibProductIngredient(value2) {
   return {
-    item: parse.codeableConcept(value2?.itemCodeableConcept),
-    amount: parse.ratio(value2?.amount)
+    item: codeableConcept$1(value2?.itemCodeableConcept),
+    amount: ratio$1(value2?.amount)
   };
 }
 const zibProductIngredient = {
@@ -6827,20 +6655,20 @@ function uiSchemaGroup(resource) {
   const i18n = "zib_product_package";
   const contents = map(resource.content, (content) => {
     return [
-      ui.codeableConcept(`${i18n}.content_item`, content.item),
-      ui.reference(`${i18n}.content_reference`, content.reference)
+      codeableConcept(`${i18n}.content_item`, content.item),
+      reference(`${i18n}.content_reference`, content.reference)
     ];
   });
   return {
     label: `${i18n}.group`,
-    children: [...(contents || []).flat()]
+    children: [...(contents ?? []).flat()]
   };
 }
 function parseZibProductPackage(value2) {
   return {
     content: map(value2?.content, ({ itemCodeableConcept, itemReference }) => ({
-      item: parse.codeableConcept(itemCodeableConcept),
-      reference: parse.reference(itemReference)
+      item: codeableConcept$1(itemCodeableConcept),
+      reference: reference$1(itemReference)
     }))
   };
 }
@@ -6850,40 +6678,39 @@ const zibProductPackage = {
 };
 function parseResourceMeta(statement, profile2) {
   const { resourceType, id, meta } = statement;
-  const hasProfile = meta?.profile?.includes(profile2);
-  if (!hasProfile) {
+  if (!meta?.profile?.includes(profile2)) {
     throw new Error(
       `Resource does not have the expected profile: "${profile2}". Got: ${meta?.profile}`
     );
   }
-  return deepReplaceUndefined({
-    id: parse.string(id),
-    resourceType: parse.string(resourceType),
-    _profile: profile2
-  });
+  return {
+    id: string(id),
+    resourceType: string(resourceType),
+    profile: profile2
+  };
 }
 function uiSchema$1(resource) {
   const i18n = "zib_medication_use";
-  const instructionsForUse = map(resource.dosage, uiSchemaGroup$2) || [];
+  const instructionsForUse = map(resource.dosage, uiSchemaGroup$2) ?? [];
   return {
-    label: resource.medication?.display || "",
+    label: resource.medication?.display,
     children: [
       {
         label: `${i18n}.group_general_information`,
         children: [
-          ui.dateTime(`${i18n}.date_asserted`, resource.dateAsserted, { summary: true }),
-          ui.reference(`${i18n}.prescriber`, resource.prescriber, { summary: true }),
-          ui.code(`${i18n}.status`, resource.status, { summary: true }),
-          ui.codeableConcept(
+          dateTime(`${i18n}.date_asserted`, resource.dateAsserted, { summary: true }),
+          reference(`${i18n}.prescriber`, resource.prescriber, { summary: true }),
+          code(`${i18n}.status`, resource.status, { summary: true }),
+          codeableConcept(
             `${i18n}.reason_for_change_or_discontinuation_of_use`,
             resource.reasonForChangeOrDiscontinuationOfUse
           ),
-          ui.codeableConcept(`${i18n}.category`, resource.category, { summary: true }),
-          ...ui.duration(
+          codeableConcept(`${i18n}.category`, resource.category, { summary: true }),
+          ...duration(
             `${i18n}.reason_for_change_or_discontinuation_of_use`,
             resource.repeatPeriodCyclicalSchedule
           ),
-          ui.boolean(`${i18n}.as_agreed_indicator`, resource.asAgreedIndicator, {
+          boolean(`${i18n}.as_agreed_indicator`, resource.asAgreedIndicator, {
             summary: true
           })
         ]
@@ -6891,26 +6718,26 @@ function uiSchema$1(resource) {
       {
         label: `${i18n}.group_effective_period`,
         children: [
-          ...ui.period(`${i18n}.effective_period`, resource.effectivePeriod),
-          ...ui.duration(`${i18n}.effective_duration`, resource.effectiveDuration)
+          ...period(`${i18n}.effective_period`, resource.effectivePeriod),
+          ...duration(`${i18n}.effective_duration`, resource.effectiveDuration)
         ]
       },
       {
         label: `${i18n}.group_medication`,
         children: [
-          multipleValue(`${i18n}.identifier`, resource.identifier, ui.identifier),
-          ui.reference(`${i18n}.medication`, resource.medication),
-          ui.identifier(`${i18n}.medication_treatment`, resource.medicationTreatment)
+          multipleValue(`${i18n}.identifier`, resource.identifier, identifier),
+          reference(`${i18n}.medication`, resource.medication),
+          identifier(`${i18n}.medication_treatment`, resource.medicationTreatment)
         ]
       },
       {
         label: `${i18n}.group_details`,
         children: [
-          ui.reference(`${i18n}.information_source`, resource.informationSource),
-          ui.reference(`${i18n}.subject`, resource.subject),
-          ui.code(`${i18n}.taken`, resource.taken),
-          multipleValue(`${i18n}.reason_code`, resource.reasonCode, ui.codeableConcept),
-          multipleValue(`${i18n}.note`, resource.note, ui.annotation)
+          reference(`${i18n}.information_source`, resource.informationSource),
+          reference(`${i18n}.subject`, resource.subject),
+          code(`${i18n}.taken`, resource.taken),
+          multipleValue(`${i18n}.reason_code`, resource.reasonCode, codeableConcept),
+          multipleValue(`${i18n}.note`, resource.note, annotation)
         ]
       },
       ...instructionsForUse
@@ -6933,18 +6760,18 @@ function parseZibMedicationUse(resource) {
       resource,
       "zib-Medication-RepeatPeriodCyclicalSchedule"
     ),
-    identifier: map(resource.identifier, parse.identifier),
-    status: parse.code(resource.status),
-    category: parse.codeableConcept(resource.category),
-    medication: parse.reference(resource.medicationReference),
+    identifier: map(resource.identifier, identifier$1),
+    status: code$2(resource.status),
+    category: codeableConcept$1(resource.category),
+    medication: reference$1(resource.medicationReference),
     effectiveDuration: extensionNictiz(resource.effectivePeriod, "zib-MedicationUse-Duration"),
-    effectivePeriod: parse.period(resource.effectivePeriod),
-    dateAsserted: parse.dateTime(resource.dateAsserted),
-    informationSource: parse.reference(resource.informationSource),
-    subject: parse.reference(resource.subject),
-    taken: parse.code(resource.taken),
-    reasonCode: map(resource.reasonCode, parse.codeableConcept),
-    note: map(resource.note, parse.annotation),
+    effectivePeriod: period$1(resource.effectivePeriod),
+    dateAsserted: dateTime$3(resource.dateAsserted),
+    informationSource: reference$1(resource.informationSource),
+    subject: reference$1(resource.subject),
+    taken: code$2(resource.taken),
+    reasonCode: map(resource.reasonCode, codeableConcept$1),
+    note: map(resource.note, annotation$1),
     dosage: map(resource.dosage, zibInstructionsForUse.parse)
   };
 }
@@ -6958,19 +6785,18 @@ function uiSchema(resource) {
   const productPackage = zibProductPackage.uiSchemaGroup(resource.package);
   const ingredients = map(resource.ingredient, zibProductIngredient.uiSchemaGroup);
   return {
-    label: resource.description || "",
+    label: resource.description,
     children: [
       {
         label: `${i18n}.group_general_information`,
         children: [
-          ui.codeableConcept(`${i18n}.code`, resource.code, { summary: true }),
-          ui.codeableConcept(`${i18n}.form`, resource.form, { summary: true }),
-          ui.codeableConcept(`${i18n}.form`, resource.form, { summary: true })
+          codeableConcept(`${i18n}.code`, resource.code, { summary: true }),
+          codeableConcept(`${i18n}.form`, resource.form, { summary: true })
         ]
       },
       {
         label: `${i18n}.group_ingredients`,
-        children: (ingredients || []).map((x) => x.children).flat()
+        children: (ingredients ?? []).map((x) => x.children).flat()
       },
       productPackage
     ]
@@ -6981,8 +6807,8 @@ function parseZibProduct(resource) {
   return {
     ...parseResourceMeta(resource, profile),
     description: extensionNictiz(resource, "zib-Product-Description"),
-    code: parse.codeableConcept(resource.code),
-    form: parse.codeableConcept(resource.form),
+    code: codeableConcept$1(resource.code),
+    form: codeableConcept$1(resource.form),
     ingredient: map(resource.ingredient, zibProductIngredient.parse),
     package: zibProductPackage.parse(resource.package)
   };
@@ -6992,19 +6818,16 @@ const zibProduct = {
   parse: parseZibProduct,
   uiSchema
 };
-const resources = [zibMedicationUse, zibProduct];
-const resourcesMap = Object.fromEntries(resources.map((x) => [x.profile, x]));
-function getResourceConfig(resource) {
-  if (isMgoResource(resource)) {
-    const config = resourcesMap[resource._profile];
-    if (!config) {
-      throw new Error(
-        `No config found for MGO Resource with profile: "${resource._profile}"`
-      );
-    }
-    return config;
-  }
-  const profiles = resource.meta?.profile || [];
+const resources = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  zibMedicationUse,
+  zibProduct
+}, Symbol.toStringTag, { value: "Module" }));
+const resourcesMap = Object.fromEntries(
+  Object.entries(resources).map(([_name, config]) => [config.profile, config])
+);
+function getResourceConfig$1(resource) {
+  const profiles = resource.meta?.profile ?? [];
   for (const profile2 of profiles) {
     const config = resourcesMap[profile2];
     if (config)
@@ -7014,13 +6837,21 @@ function getResourceConfig(resource) {
     `No config found for fhir resourceType: "${resource.resourceType}" with profile: "${resource.meta?.profile}"`
   );
 }
-function getUiSchema(resource) {
-  const config = getResourceConfig(resource);
-  return config.uiSchema(resource);
-}
-function parseResource(resource) {
-  const config = getResourceConfig(resource);
+function getMgoResource(resource) {
+  const config = getResourceConfig$1(resource);
   return config.parse(resource);
+}
+function losslessParse(text) {
+  if (typeof text !== "string") {
+    throw new Error("Input is not a (JSON) string");
+  }
+  return parse$1(text);
+}
+function losslessStringify(value2, format2 = false) {
+  if (format2) {
+    return stringify(value2, null, 2);
+  }
+  return stringify(value2);
 }
 function getBundleResourcesJson(fhirBundleJson, formatResponse = false) {
   const fhirBundle = losslessParse(fhirBundleJson);
@@ -7032,42 +6863,46 @@ function getBundleResourcesJson(fhirBundleJson, formatResponse = false) {
   const resources2 = getBundleResources(fhirBundle);
   return losslessStringify(resources2, formatResponse);
 }
-function parseResourceJson(fhirResourceJson, formatResponse = false) {
+function getMgoResourceJson(fhirResourceJson, formatResponse = false) {
   const fhirResource = losslessParse(fhirResourceJson);
   if (!isFhirResource(fhirResource)) {
     throw new Error(
       `input does not seem to be a valid Fhir Resource. Received resourceType: "${fhirResource?.resourceType}"`
     );
   }
-  const result = parseResource(fhirResource);
+  const result = getMgoResource(fhirResource);
   return losslessStringify(result, formatResponse);
+}
+function getResourceConfig(resource) {
+  const config = resourcesMap[resource.profile];
+  if (!config) {
+    throw new Error(`No config found for MGO Resource with profile: "${resource.profile}"`);
+  }
+  return config;
+}
+function getUiSchema(resource) {
+  const config = getResourceConfig(resource);
+  return config.uiSchema(resource);
+}
+function isMgoResource(value2) {
+  const resourceTyped = value2;
+  return !!resourceTyped?.id && !!resourceTyped?.resourceType && !!resourceTyped?.profile;
 }
 function getUiSchemaJson(mgoResourceJson, formatResponse = false) {
   const mgoResource = losslessParse(mgoResourceJson);
   if (!isMgoResource(mgoResource)) {
     throw new Error(
-      `input does not seem to be a valid MGO Resource. Received MGO resource profile: "${mgoResource?._profile}"`
+      `input does not seem to be a valid MGO Resource. Received MGO resource profile: "${mgoResource?.profile}"`
     );
   }
   const uiSchema2 = getUiSchema(mgoResource);
   return losslessStringify(uiSchema2, formatResponse);
 }
 //export {
-//  findByUse,
-//  getBundleResources$1 as getBundleResources,
+//  getBundleResources,
 //  getBundleResourcesJson,
-//  getMgoDocument,
-//  getMgoDocuments,
-//  getMgoMedicationStatements,
-//  getMgoObservations,
-//  getMgoProblems,
-//  getReference,
-//  getUiSchemaJson,
-//  isFhirResource,
-//  isNullish,
-//  map,
-//  parseResourceJson,
-//  quantityToString,
-//  safeGet,
-//  safeGetBulk
+//  getMgoResource,
+//  getMgoResourceJson,
+//  getUiSchema,
+//  getUiSchemaJson
 //};

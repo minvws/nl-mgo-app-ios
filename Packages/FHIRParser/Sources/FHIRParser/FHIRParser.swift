@@ -105,10 +105,10 @@ public class FHIRParser {
 	/// parseResourceJson, i.e. transform the incoming FHIR Resource into a Zib object
 	/// - Parameter json: resource to parse
 	/// - Returns: Zib as data
-	public func parseResourceJson(_ json: Data) -> Data? {
+	public func getMgoResourceJson(_ json: Data) -> Data? {
 		
 		do {
-			let resourcesJSValue = try callJSMethod("parseResourceJson", with: json)
+			let resourcesJSValue = try callJSMethod("getMgoResourceJson", with: json)
 			let data = Data(resourcesJSValue.toString().utf8)
 			return data
 			

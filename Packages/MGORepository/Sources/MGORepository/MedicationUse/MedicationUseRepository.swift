@@ -31,7 +31,7 @@ extension FHIRClient: MedicationUseRepository {
 	
 		for element in resources {
 			let resource = try JSONSerialization.data(withJSONObject: element)
-			if let zib = parser.parseResourceJson(resource) {
+			if let zib = parser.getMgoResourceJson(resource) {
 				if let zibMedicationUse = ZibFactory.createZibMedicationUse(zib) {
 					let schema = parser.getUiSchemaJson(zib)
 					result.append(ZibSchema(zib: zibMedicationUse, schema: schema))

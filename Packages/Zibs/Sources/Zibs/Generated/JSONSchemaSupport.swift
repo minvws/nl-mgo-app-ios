@@ -5,7 +5,12 @@ public typealias MgoCode = String
 public typealias MgoCodeableConcept = [MgoCoding]
 public typealias MgoDate = String
 public typealias MgoDateTime = String
+public typealias MgoDecimal = Double
+public typealias MgoInteger = Double
+public typealias MgoInteger64 = Double
+public typealias MgoPositiveInt = Double
 public typealias MgoString = String
+public typealias MgoUnsignedInt = Double
 
 public extension Array where Element == MgoCodeableConcept.Element {
     init(data: Data) throws {
