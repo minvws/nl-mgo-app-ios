@@ -9,12 +9,13 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
+import Zibs
 
-final class MedicationListViewModelTests: XCTestCase {
+final class MedicationOverviewViewModelTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: MedicationListViewModel!
+	private var sut: MedicationOverviewViewModel!
 	private var healthcareOrganization: MgoOrganization!
 	private var repositorySpy: MedicationUseRepositorySpy!
 	
@@ -25,7 +26,7 @@ final class MedicationListViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
-		sut = MedicationListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
+		sut = MedicationOverviewViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
 	}
 	
 	func test_initialState_shouldBeLoading() {
@@ -35,18 +36,18 @@ final class MedicationListViewModelTests: XCTestCase {
 		// When
 		
 		// Then
-		expect(self.sut.state) == MedicationListViewState.loading
+		expect(self.sut.state) == MedicationOverviewViewState.loading
 	}
 	
 	func test_initialState_noRepository_shouldBeFailure() {
 		
 		// Given
-		sut = MedicationListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: nil)
+		sut = MedicationOverviewViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: nil)
 		
 		// When
 		
 		// Then
-		expect(self.sut.state) == MedicationListViewState.failure
+		expect(self.sut.state) == MedicationOverviewViewState.failure
 	}
 	
 	func test_backButtonPressed_shouldCallCoordinator() {
@@ -70,7 +71,7 @@ final class MedicationListViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(MedicationListViewState.empty))
+		expect(self.sut.state).toEventually(equal(MedicationOverviewViewState.empty))
 	}
 	
 	func test_loadMedications_throwsError() {
@@ -82,35 +83,44 @@ final class MedicationListViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(MedicationListViewState.failure))
+		expect(self.sut.state).toEventually(equal(MedicationOverviewViewState.failure))
 	}
 	
 	func test_loadMedications_invalidService() {
 		
 		// Given
 		healthcareOrganization = Generator.healthcareOrganization("1", useDataService: false)
-		sut = MedicationListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
+		sut = MedicationOverviewViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(MedicationListViewState.empty))
+		expect(self.sut.state).toEventually(equal(MedicationOverviewViewState.empty))
 	}
 
 	func test_loadMedications_result() {
 		
 		// Given
-		let statement = Generator.medicationUse()
-		
+		let zibMedicationUse = Generator.medicationUse()
+		let schema = UISchema(children: [], label: "demo schema")
+
 		repositorySpy.stubbedFetchMedicationUse = [
-			statement
+			ZibSchema(zib: zibMedicationUse, schema: schema)
 		]
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(MedicationListViewState.success(items: [statement], startOpen: false)))
+		expect(self.sut.state).toEventuallyNot(equal(MedicationOverviewViewState.loading))
+		if case let MedicationOverviewViewState.success(items) = sut.state {
+			
+			expect(items.first?.heading) == "demo schema"
+			expect(items.first?.subHeading) == "Tandarts Tandje Erbij"
+
+		} else {
+			fail("wrong state")
+		}
 	}
 }

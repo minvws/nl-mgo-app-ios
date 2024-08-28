@@ -7,6 +7,7 @@
 
 import MGOUI
 import MGOFoundation
+import Zibs
 
 extension Coordination.Action {
 	
@@ -22,6 +23,7 @@ extension Coordination.Action {
 	static let showProblems = Coordination.Action(identifier: "showProblems")
 	static let showMedication = Coordination.Action(identifier: "showMedication")
 	static let showLabResults = Coordination.Action(identifier: "showLabResults")
+	static let showZibDetails = Coordination.Action(identifier: "showZibDetails")
 	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
 	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
 }
@@ -66,6 +68,7 @@ enum DashboardCoordination {
 		case showProblems(healthcareOrganization: MgoOrganization)
 		case showMedication(healthcareOrganization: MgoOrganization)
 		case showLabResults(healthcareOrganization: MgoOrganization)
+		case showZibDetails(schema: UISchema)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
 }
@@ -156,6 +159,15 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
+			
+			case Coordination.Action.showZibDetails.identifier:
+				if action.params.count == 2,
+//				   let zib = action.params["zib"] as? Zib,
+				   let schema = action.params["uiSchema"] as? UISchema {
+					firstTabPath.append(DashboardCoordination.State.showZibDetails(schema: schema))
+				} else {
+					logError("DashboardCoordinator Coordinator, missing params for \(action)")
+				}
 
 			case Coordination.Action.removeHealthcareOrganization.identifier:
 				if action.params.count == 1,
@@ -234,8 +246,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				)
 				
 			case let .showMedication(healthcareOrganization):
-				MedicationListView(
-					viewModel: MedicationListViewModel(
+				MedicationOverviewView(
+					viewModel: MedicationOverviewViewModel(
 						coordinator: self,
 						healthcareOrganization: healthcareOrganization
 					)
@@ -246,6 +258,15 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					viewModel: LabResultsListViewModel(
 						coordinator: self,
 						healthcareOrganization: healthcareOrganization
+					)
+				)
+			
+			case let .showZibDetails(schema: schema):
+				ZibDetailsView(
+					viewModel: ZibDetailsViewModel(
+						coordinator: self,
+						title: "medication_details.heading",
+						schema: schema
 					)
 				)
 			

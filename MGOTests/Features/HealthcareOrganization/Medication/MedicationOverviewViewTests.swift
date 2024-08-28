@@ -10,14 +10,14 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class MedicationListViewTests: XCTestCase {
+final class MedicationOverviewViewTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: MedicationListViewModel!
+	private var viewModel: MedicationOverviewViewModel!
 	private var healthcareOrganization: MgoOrganization!
 	private var repositorySpy: MedicationUseRepositorySpy!
-	private var sut: MedicationListView!
+	private var sut: MedicationOverviewView!
 	
 	override func setUp() {
 		
@@ -26,8 +26,8 @@ final class MedicationListViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = MedicationListViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
-		sut = MedicationListView(viewModel: self.viewModel)
+		viewModel = MedicationOverviewViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
+		sut = MedicationOverviewView(viewModel: self.viewModel)
 	}
 
 	func test_stateLoading() {
@@ -69,8 +69,11 @@ final class MedicationListViewTests: XCTestCase {
 	func test_stateList() {
 		
 		// Given
-		let statement = Generator.medicationUse()
-		viewModel.state = .success(items: [statement, statement, statement], startOpen: false)
+		let block1 = OverviewBlock(heading: "Zestril tablet 10mg", subHeading: "Tandarts Tandje Erbij", action: nil)
+		let block2 = OverviewBlock(heading: "Zestril tablet 10mg", subHeading: "Tandarts Tandje Erbij", action: nil)
+		let block3 = OverviewBlock(heading: "Zestril tablet 10mg", subHeading: "Tandarts Tandje Erbij", action: nil)
+		
+		viewModel.state = .success(items: [block1, block2, block3])
 		
 		// When
 		let content = NavigationView { sut }
@@ -78,17 +81,5 @@ final class MedicationListViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-	
-	func test_stateList_startOpen() {
-		
-		// Given
-		let statement = Generator.medicationUse()
-		viewModel.state = .success(items: [statement, statement, statement], startOpen: true)
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
+
 }
