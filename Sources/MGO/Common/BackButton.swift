@@ -54,7 +54,7 @@ struct BackButton: View {
 				}
 			}
 		)
-		.tag("common.previous")
+		.accessibilityIdentifier("common.previous")
 		.buttonStyle(BackButtonStyle())
 		.frame(minWidth: ViewTraits.Button.minWidth, maxWidth: .infinity, alignment: .leading)
 	}

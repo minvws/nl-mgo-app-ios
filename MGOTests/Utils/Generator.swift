@@ -91,7 +91,7 @@ class Generator {
 					display: "Medicatiegebruik",
 					system: "urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3"
 				)
-			], 
+			],
 			dateAsserted: "2018-08-16",
 			dosage: [
 				Dosage(

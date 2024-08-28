@@ -82,4 +82,16 @@ final class MedicationOverviewViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 
+	func test_backbuttonPressed() throws {
+		
+		// Given
+		let content = NavigationView { sut }
+		
+		// When
+		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
+
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
+	}
 }
