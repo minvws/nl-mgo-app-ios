@@ -13,6 +13,8 @@ import Zibs
 
 public class FHIRParser {
 	
+	public static let nameSpace = "MgoFhirData"
+	
 	/// Initializer
 	public init() {
 		// Empty public initializer, needed for public access
@@ -61,25 +63,31 @@ public class FHIRParser {
 	/// - Returns: the result of invoking that method
 	private func callJSMethod(_ method: String, with input: Data) throws -> JSValue {
 		
+		// Step 1: Create a new JS context
 		guard let jsContext = createContext() else {
 			logError("FHIRParser: Could not create JS Context")
 			throw FHIRParserError.noJSContext
 		}
 		
+		// Step 2: Load the mgo-fhir-data javascript source
 		try loadSource(jsContext: jsContext)
 		
-		guard let parseFunction = jsContext.objectForKeyedSubscript(method) else {
-			logError("FHIRParser: the parser method \(method) could not be found")
-			throw FHIRParserError.invalidMethod
+		// Step 3: Search for the MgoFhirData namespace
+		guard let nameSpace = jsContext.objectForKeyedSubscript(FHIRParser.nameSpace) else {
+			throw FHIRParserError.invalidNameSpace
 		}
 		
+		// Step 4: Stringify the input (json)
 		let inputString = String(decoding: input, as: UTF8.self)
-		
-		guard let resourcesJSValue = parseFunction.call(withArguments: [inputString]) else {
-			logError("Failed to parse bundle resources")
+	
+		// Step 5: call the desired method (getBundleResourcesJson etc) on the namespace with the input
+		guard let resourcesJSValue = nameSpace.invokeMethod(method, withArguments: [inputString]) else {
+			logError("Failed to invoke \(method) on the nameSpace")
 			throw FHIRParserError.noResult
 		}
 //		logDebug("\(resourcesJSValue)")
+		
+		// Step 6: return the outcome of the call
 		return resourcesJSValue
 	}
 	
@@ -139,6 +147,9 @@ public enum FHIRParserError: Error {
 	
 	// This method is not available in the js parser
 	case invalidMethod
+	
+	// This namespace is not available in the js parser
+	case invalidNameSpace
 	
 	// Failed to initiate a JS Context
 	case noJSContext

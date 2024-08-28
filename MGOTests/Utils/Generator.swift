@@ -81,8 +81,16 @@ class Generator {
 	
 	static func medicationUse() -> ZibMedicationUse {
 		
+//		return ZibMedicationUse(
+//			asAgreedIndicator: <#T##Bool?#>,
+//			author: <#T##MgoReference?#>,
+//			category: <#T##[MgoCoding]?#>,
+//			dateAsserted: <#T##String?#>,
+//			dosage: <#T##[ZibInstructionsForUse]?#>,
+//			effectiveDuration: <#T##MgoQuantity?#>, effectivePeriod: <#T##MgoPeriod?#>, id: <#T##String?#>, identifier: <#T##[MgoIdentifier]?#>, informationSource: <#T##MgoReference?#>, medication: <#T##MgoReference?#>, medicationTreatment: <#T##MgoIdentifier?#>, note: <#T##[MgoAnnotation]?#>, prescriber: <#T##MgoReference?#>, profile: <#T##String#>, reasonCode: <#T##[[MgoCoding]]?#>, reasonForChangeOrDiscontinuationOfUse: <#T##[MgoCoding]?#>, repeatPeriodCyclicalSchedule: <#T##MgoQuantity?#>, resourceType: <#T##String?#>, status: <#T##String?#>, subject: <#T##MgoReference?#>, taken: <#T##String?#>)
+		
+		
 		return ZibMedicationUse(
-			profile: "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse",
 			asAgreedIndicator: true,
 			author: nil,
 			category: [
@@ -94,7 +102,7 @@ class Generator {
 			],
 			dateAsserted: "2018-08-16",
 			dosage: [
-				Dosage(
+				ZibInstructionsForUse(
 					additionalInstruction: nil,
 					asNeeded: nil,
 					doseQuantity: MgoQuantity(
@@ -109,7 +117,7 @@ class Generator {
 					rateQuantity: nil,
 					rateRange: nil,
 					rateRatio: nil,
-					timing: DosageTiming(
+					timing: ZibAdministrationSchedule(
 						dayOfWeek: nil,
 						duration: nil,
 						durationUnit: nil,
@@ -159,6 +167,7 @@ class Generator {
 				display: "Huisartsen, niet nader gespecificeerd",
 				reference: "PractitionerRole/1a249336-3fe7-488f-bc88-44bc8e1ad2aa"
 			),
+			profile: "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse",
 			reasonCode: nil,
 			reasonForChangeOrDiscontinuationOfUse: nil,
 			repeatPeriodCyclicalSchedule: nil,

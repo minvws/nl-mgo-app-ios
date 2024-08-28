@@ -110,7 +110,6 @@ public class MockGenerator {
 	public static func medicationUse() -> ZibMedicationUse {
 		
 		return ZibMedicationUse(
-			profile: "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse",
 			asAgreedIndicator: true,
 			author: nil,
 			category: [
@@ -122,7 +121,7 @@ public class MockGenerator {
 			],
 			dateAsserted: "2018-08-16",
 			dosage: [
-				Dosage(
+				ZibInstructionsForUse(
 					additionalInstruction: nil,
 					asNeeded: nil,
 					doseQuantity: MgoQuantity(
@@ -137,7 +136,7 @@ public class MockGenerator {
 					rateQuantity: nil,
 					rateRange: nil,
 					rateRatio: nil,
-					timing: DosageTiming(
+					timing: ZibAdministrationSchedule(
 						dayOfWeek: nil,
 						duration: nil,
 						durationUnit: nil,
@@ -187,6 +186,7 @@ public class MockGenerator {
 				display: "Huisartsen, niet nader gespecificeerd",
 				reference: "PractitionerRole/1a249336-3fe7-488f-bc88-44bc8e1ad2aa"
 			),
+			profile: "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse",
 			reasonCode: nil,
 			reasonForChangeOrDiscontinuationOfUse: nil,
 			repeatPeriodCyclicalSchedule: nil,
