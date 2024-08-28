@@ -81,15 +81,6 @@ class Generator {
 	
 	static func medicationUse() -> ZibMedicationUse {
 		
-//		return ZibMedicationUse(
-//			asAgreedIndicator: <#T##Bool?#>,
-//			author: <#T##MgoReference?#>,
-//			category: <#T##[MgoCoding]?#>,
-//			dateAsserted: <#T##String?#>,
-//			dosage: <#T##[ZibInstructionsForUse]?#>,
-//			effectiveDuration: <#T##MgoQuantity?#>, effectivePeriod: <#T##MgoPeriod?#>, id: <#T##String?#>, identifier: <#T##[MgoIdentifier]?#>, informationSource: <#T##MgoReference?#>, medication: <#T##MgoReference?#>, medicationTreatment: <#T##MgoIdentifier?#>, note: <#T##[MgoAnnotation]?#>, prescriber: <#T##MgoReference?#>, profile: <#T##String#>, reasonCode: <#T##[[MgoCoding]]?#>, reasonForChangeOrDiscontinuationOfUse: <#T##[MgoCoding]?#>, repeatPeriodCyclicalSchedule: <#T##MgoQuantity?#>, resourceType: <#T##String?#>, status: <#T##String?#>, subject: <#T##MgoReference?#>, taken: <#T##String?#>)
-		
-		
 		return ZibMedicationUse(
 			asAgreedIndicator: true,
 			author: nil,
