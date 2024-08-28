@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let valueDescription = try ValueDescription(json)
+//   let childElement = try ChildElement(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,15 +10,15 @@
 
 import Foundation
 
-// MARK: - ValueDescription
-public struct ValueDescription: Codable, Hashable, Sendable {
-    public let display: ValueDescriptionDisplay?
+// MARK: - ChildElement
+public struct ChildElement: Codable, Hashable, Sendable {
+    public let display: ChildDisplay?
     public let label: String
     public let summary: Bool?
     public let type: String
     public let reference: String?
 
-    public init(display: ValueDescriptionDisplay?, label: String, summary: Bool?, type: String, reference: String?) {
+    public init(display: ChildDisplay?, label: String, summary: Bool?, type: String, reference: String?) {
         self.display = display
         self.label = label
         self.summary = summary
@@ -27,11 +27,11 @@ public struct ValueDescription: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: ValueDescription convenience initializers and mutators
+// MARK: ChildElement convenience initializers and mutators
 
-public extension ValueDescription {
+public extension ChildElement {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(ValueDescription.self, from: data)
+        self = try newJSONDecoder().decode(ChildElement.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -46,13 +46,13 @@ public extension ValueDescription {
     }
 
     func with(
-        display: ValueDescriptionDisplay?? = nil,
+        display: ChildDisplay?? = nil,
         label: String? = nil,
         summary: Bool?? = nil,
         type: String? = nil,
         reference: String?? = nil
-    ) -> ValueDescription {
-        return ValueDescription(
+    ) -> ChildElement {
+        return ChildElement(
             display: display ?? self.display,
             label: label ?? self.label,
             summary: summary ?? self.summary,

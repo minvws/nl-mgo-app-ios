@@ -106,15 +106,15 @@ struct ZibDetailsView: View {
 						children: [
 							UISchemaGroup(
 								children: [
-									ValueDescription(
-										display: ValueDescriptionDisplay.string("Value"),
+									ChildElement(
+										display: ChildDisplay.string("Value"),
 										label: "field.label",
 										summary: true,
 										type: "Field Type",
 										reference: nil
 									),
-									ValueDescription(
-										display: ValueDescriptionDisplay.string("Value2"),
+									ChildElement(
+										display: ChildDisplay.string("Value2"),
 										label: "field.label2",
 										summary: true,
 										type: "Field Type",
@@ -125,14 +125,14 @@ struct ZibDetailsView: View {
 							
 							UISchemaGroup(
 								children: [
-									ValueDescription(
-										display: ValueDescriptionDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
+									ChildElement(
+										display: ChildDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
 										label: "field.label3",
 										summary: true,
 										type: "Field Type",
 										reference: nil
 									),
-									ValueDescription(
+									ChildElement(
 										display: nil,
 										label: "field.label4",
 										summary: true,

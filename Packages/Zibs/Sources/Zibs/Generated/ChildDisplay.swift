@@ -1,6 +1,6 @@
 import Foundation
 
-public enum ValueDescriptionDisplay: Codable, Hashable, Sendable {
+public enum ChildDisplay: Codable, Hashable, Sendable {
     case string(String)
     case unionArray([DisplayElement])
 
@@ -14,7 +14,7 @@ public enum ValueDescriptionDisplay: Codable, Hashable, Sendable {
             self = .string(x)
             return
         }
-        throw DecodingError.typeMismatch(ValueDescriptionDisplay.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for ValueDescriptionDisplay"))
+        throw DecodingError.typeMismatch(ChildDisplay.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for ChildDisplay"))
     }
 
     public func encode(to encoder: Encoder) throws {
