@@ -20,12 +20,6 @@ This package contains helper extensions to get certain fields from the (verbose 
 - The ContactPoint is now equatable and comparable (sortable)
 - The ContactPointUse is now equatable and comparable (sortable)
 
-### MedicationStatement
-- startDate (When should we start taking this medication?)
-- dosageText (What is the dosage for this medication?)
-- medicationName (What is the name of this medication)
-- prescriber (Who prescribed this medication?)
-
 ### Observation
 - categoryText
 - codeText

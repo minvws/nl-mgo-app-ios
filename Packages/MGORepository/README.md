@@ -41,7 +41,7 @@ To fetch a list of medicationUse ([MedicationStatement](https://github.com/apple
 let medicationRepository: MedicationUseRepository? = FHIRClient()
 
 do {
-	let medications: [MgoMedicationUse] = try await medicationRepository.fetchResults()
+	let tuples: [(Zib, UISchema)] = try await medicationRepository.fetchMedicationUse()
 	....
 } catch {
 	logError("Client read error: \(String(describing: error))")
