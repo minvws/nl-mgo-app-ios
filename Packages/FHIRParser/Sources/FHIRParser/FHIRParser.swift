@@ -42,7 +42,7 @@ public class FHIRParser {
 	/// - Parameter jsContext: the context to load the source in.
 	private func loadSource(jsContext: JSContext) throws {
 		
-		guard let parserPath = Bundle.module.path(forResource: "mgo-fhir-data", ofType: "js") else {
+		guard let parserPath = Bundle.module.path(forResource: "mgo-fhir-data.iife", ofType: "js") else {
 			logError("FHIRParser: The parser file could not be found")
 			throw FHIRParserError.parserNotFound
 		}
