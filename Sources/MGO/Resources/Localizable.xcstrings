@@ -993,8 +993,72 @@
         }
       }
     },
-    "medication_overview.back" : {
+    "medication_details.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle medicijngegevens"
+          }
+        }
+      }
+    },
+    "medication_overview.back" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overzicht"
+          }
+        }
+      }
+    },
+    "medication_overview.noresults_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen medicijnen gevonden"
+          }
+        }
+      }
+    },
+    "medication_overview.noresults_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probeer opnieuw te zoeken."
+          }
+        }
+      }
+    },
+    "medication_overview.search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek een medicijn"
+          }
+        }
+      }
+    },
+    "medication_overview.voiceover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %@ bekijken?"
+          }
+        }
+      }
+    },
     "medication_use.heading" : {
       "extractionState" : "manual",
       "localizations" : {
