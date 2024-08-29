@@ -993,6 +993,8 @@
         }
       }
     },
+    "medication_overview.back" : {
+        "nl" : {
     "medication_use.heading" : {
       "extractionState" : "manual",
       "localizations" : {

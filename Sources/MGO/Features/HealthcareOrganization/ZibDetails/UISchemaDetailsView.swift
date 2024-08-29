@@ -156,9 +156,14 @@ struct UISchemaDetailsView: View {
 	/// - Returns: type text if heading is not in the language file. heading if it is.
 	private func heading(_ childElement: ChildElement) -> String {
 		
+		var elements = childElement.label.split(separator: ".")
+		if elements.count > 1 {
+			elements[0] = "fhir"
+		}
+		
 		return NSLocalizedString(
 			childElement.label,
-			value: "fhir." + (childElement.label.split(separator: ".").last ?? "unknown"),
+			value: elements.joined(separator: "."),
 			comment: ""
 		)
 	}
