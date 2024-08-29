@@ -77,7 +77,7 @@ struct ActionCardView: View {
 	private struct ViewTraits {
 		enum General {
 			static let padding: CGFloat = 16
-			static let spacing: CGFloat = 4
+			static let spacing: CGFloat = 8
 		}
 		enum Icon {
 			static let size: CGFloat = 32.0
@@ -88,7 +88,7 @@ struct ActionCardView: View {
 		
 		VStack(spacing: 0) {
 			
-			HStack(alignment: .top, spacing: 0) {
+			HStack(alignment: .center, spacing: 0) {
 				
 				if icon != .none,
 				   let image = icon.image,
@@ -126,9 +126,6 @@ struct ActionCardView: View {
 			.accessibilityElement(children: .combine)
 			.padding(ViewTraits.General.padding)
 			.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
-			
-			Divider()
-				.overlay(theme.strokesSecondary)
 			
 		}
 		._onButtonGesture { pressed in

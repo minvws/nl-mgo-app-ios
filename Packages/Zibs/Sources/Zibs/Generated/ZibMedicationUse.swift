@@ -12,12 +12,11 @@ import Foundation
 
 // MARK: - ZibMedicationUse
 public struct ZibMedicationUse: Codable, Hashable, Sendable {
-    public let profile: String
     public let asAgreedIndicator: Bool?
     public let author: MgoReference?
     public let category: [MgoCoding]?
     public let dateAsserted: String?
-    public let dosage: [Dosage]?
+    public let dosage: [ZibInstructionsForUse]?
     public let effectiveDuration: MgoQuantity?
     public let effectivePeriod: MgoPeriod?
     public let id: String?
@@ -26,6 +25,7 @@ public struct ZibMedicationUse: Codable, Hashable, Sendable {
     public let medicationTreatment: MgoIdentifier?
     public let note: [MgoAnnotation]?
     public let prescriber: MgoReference?
+    public let profile: String
     public let reasonCode: [[MgoCoding]]?
     public let reasonForChangeOrDiscontinuationOfUse: [MgoCoding]?
     public let repeatPeriodCyclicalSchedule: MgoQuantity?
@@ -33,13 +33,7 @@ public struct ZibMedicationUse: Codable, Hashable, Sendable {
     public let subject: MgoReference?
     public let taken: String?
 
-    public enum CodingKeys: String, CodingKey {
-        case profile = "_profile"
-        case asAgreedIndicator, author, category, dateAsserted, dosage, effectiveDuration, effectivePeriod, id, identifier, informationSource, medication, medicationTreatment, note, prescriber, reasonCode, reasonForChangeOrDiscontinuationOfUse, repeatPeriodCyclicalSchedule, resourceType, status, subject, taken
-    }
-
-    public init(profile: String, asAgreedIndicator: Bool?, author: MgoReference?, category: [MgoCoding]?, dateAsserted: String?, dosage: [Dosage]?, effectiveDuration: MgoQuantity?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medication: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, prescriber: MgoReference?, reasonCode: [[MgoCoding]]?, reasonForChangeOrDiscontinuationOfUse: [MgoCoding]?, repeatPeriodCyclicalSchedule: MgoQuantity?, resourceType: String?, status: String?, subject: MgoReference?, taken: String?) {
-        self.profile = profile
+    public init(asAgreedIndicator: Bool?, author: MgoReference?, category: [MgoCoding]?, dateAsserted: String?, dosage: [ZibInstructionsForUse]?, effectiveDuration: MgoQuantity?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medication: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, prescriber: MgoReference?, profile: String, reasonCode: [[MgoCoding]]?, reasonForChangeOrDiscontinuationOfUse: [MgoCoding]?, repeatPeriodCyclicalSchedule: MgoQuantity?, resourceType: String?, status: String?, subject: MgoReference?, taken: String?) {
         self.asAgreedIndicator = asAgreedIndicator
         self.author = author
         self.category = category
@@ -54,6 +48,7 @@ public struct ZibMedicationUse: Codable, Hashable, Sendable {
         self.medicationTreatment = medicationTreatment
         self.note = note
         self.prescriber = prescriber
+        self.profile = profile
         self.reasonCode = reasonCode
         self.reasonForChangeOrDiscontinuationOfUse = reasonForChangeOrDiscontinuationOfUse
         self.repeatPeriodCyclicalSchedule = repeatPeriodCyclicalSchedule
@@ -83,12 +78,11 @@ public extension ZibMedicationUse {
     }
 
     func with(
-        profile: String? = nil,
         asAgreedIndicator: Bool?? = nil,
         author: MgoReference?? = nil,
         category: [MgoCoding]?? = nil,
         dateAsserted: String?? = nil,
-        dosage: [Dosage]?? = nil,
+        dosage: [ZibInstructionsForUse]?? = nil,
         effectiveDuration: MgoQuantity?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
         id: String?? = nil,
@@ -98,6 +92,7 @@ public extension ZibMedicationUse {
         medicationTreatment: MgoIdentifier?? = nil,
         note: [MgoAnnotation]?? = nil,
         prescriber: MgoReference?? = nil,
+        profile: String? = nil,
         reasonCode: [[MgoCoding]]?? = nil,
         reasonForChangeOrDiscontinuationOfUse: [MgoCoding]?? = nil,
         repeatPeriodCyclicalSchedule: MgoQuantity?? = nil,
@@ -107,7 +102,6 @@ public extension ZibMedicationUse {
         taken: String?? = nil
     ) -> ZibMedicationUse {
         return ZibMedicationUse(
-            profile: profile ?? self.profile,
             asAgreedIndicator: asAgreedIndicator ?? self.asAgreedIndicator,
             author: author ?? self.author,
             category: category ?? self.category,
@@ -122,6 +116,7 @@ public extension ZibMedicationUse {
             medicationTreatment: medicationTreatment ?? self.medicationTreatment,
             note: note ?? self.note,
             prescriber: prescriber ?? self.prescriber,
+            profile: profile ?? self.profile,
             reasonCode: reasonCode ?? self.reasonCode,
             reasonForChangeOrDiscontinuationOfUse: reasonForChangeOrDiscontinuationOfUse ?? self.reasonForChangeOrDiscontinuationOfUse,
             repeatPeriodCyclicalSchedule: repeatPeriodCyclicalSchedule ?? self.repeatPeriodCyclicalSchedule,

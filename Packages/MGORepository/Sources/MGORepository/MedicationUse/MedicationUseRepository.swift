@@ -8,27 +8,42 @@
 import Foundation
 import FHIRClient
 import FHIRParser
+import Zibs
 
 public protocol MedicationUseRepository {
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use
-	func fetchMedicationUse(dvaTarget: String) async throws -> [MgoMedicationUse]
+	func fetchMedicationUse(dvaTarget: String) async throws -> [ZibSchema]
 }
 
 extension FHIRClient: MedicationUseRepository {
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use
-	public func fetchMedicationUse(dvaTarget: String) async throws -> [MgoMedicationUse] {
+	public func fetchMedicationUse(dvaTarget: String) async throws -> [ZibSchema] {
 		
-		guard let bundle = try await MGORepository(client: self).getBundle(endpoint: DVP.CommonClinicalDataset.medicationUse, dvaTarget: dvaTarget) else { return [] }
-		let statements: [MedicationStatement] = bundle.entry?.compactMap {
-			$0.resource?.get(if: ModelsSTU3.MedicationStatement.self)
-		} ?? []
-		let medicationUsage: [MgoMedicationUse] = statements.compactMap {
-			MedicationUseDecorator.create($0)
+		let parser = FHIRParser()
+		let data = try await MGORepository(client: self).getBundleData(endpoint: DVP.CommonClinicalDataset.medicationUse, dvaTarget: dvaTarget)
+		let resources = parser.getBundleResourcesJson(data)
+		
+		var result = [ZibSchema]()
+	
+		for element in resources {
+			let resource = try JSONSerialization.data(withJSONObject: element)
+			if let zib = parser.getMgoResourceJson(resource) {
+				if let zibMedicationUse = ZibFactory.createZibMedicationUse(zib) {
+					let schema = parser.getUiSchemaJson(zib)
+					result.append(ZibSchema(zib: zibMedicationUse, schema: schema))
+				}
+				if let zibProduct = ZibFactory.createZibProduct(zib) {
+					let schema = parser.getUiSchemaJson(zib)
+					result.append(ZibSchema(zib: zibProduct, schema: schema))
+				}
+			}
 		}
-		return medicationUsage
+		return result
 	}
 }
+
+public typealias ZibSchema = (zib: Zib, schema: UISchema?)

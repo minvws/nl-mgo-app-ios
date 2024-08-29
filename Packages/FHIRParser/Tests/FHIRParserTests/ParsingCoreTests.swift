@@ -48,7 +48,7 @@ final class FHIRParserTests: XCTestCase {
 		let data = Data(resource.utf8)
 		
 		// When
-		let zib = sut.parseResourceJson(data)
+		let zib = sut.getMgoResourceJson(data)
 		
 		// Then
 		if let zib {
@@ -64,7 +64,7 @@ final class FHIRParserTests: XCTestCase {
 		// Given
 		
 		// When
-		let zib = sut.parseResourceJson(Data("wrong".utf8))
+		let zib = sut.getMgoResourceJson(Data("wrong".utf8))
 		
 		// Then
 		expect(zib) == Data("undefined".utf8)

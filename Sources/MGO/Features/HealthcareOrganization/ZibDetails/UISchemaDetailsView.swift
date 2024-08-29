@@ -60,8 +60,8 @@ struct UISchemaDetailsView: View {
 		
 		// List of elements
 		VStack(alignment: .leading) {
-			ForEach(schemaGroup.children, id: \.self) { valueDescription in
-				viewFor(valueDescription, isLastElement: valueDescription == schemaGroup.children.last)
+			ForEach(schemaGroup.children, id: \.self) { childElement in
+				viewFor(childElement, isLastElement: childElement == schemaGroup.children.last)
 			}
 		}
 		.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -72,50 +72,50 @@ struct UISchemaDetailsView: View {
 	
 	/// Show a row of data for each child display
 	/// - Parameters:
-	///   - groupChild: the groupChild to display
+	///   - childElement: the childElement to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
 	/// - Returns: view for a groupChild
-	@ViewBuilder func viewFor(_ valueDescription: ValueDescription, isLastElement: Bool) -> some View {
+	@ViewBuilder func viewFor(_ childElement: ChildElement, isLastElement: Bool) -> some View {
 		
 		Group {
-			switch valueDescription.display {
+			switch childElement.display {
 				case .string(let value):
-					viewFor(value, heading: heading(valueDescription), showDivider: !isLastElement)
+					viewFor(value, heading: heading(childElement), showDivider: !isLastElement)
 					
 				case .unionArray(let displayElements):
-					viewFor(displayElements, valueDescription: valueDescription, isLastElement: isLastElement)
+					viewFor(displayElements, childElement: childElement, isLastElement: isLastElement)
 					
 				case .none:
-					viewFor(String(localized: "common.unknown"), heading: heading(valueDescription), showDivider: !isLastElement)
+					viewFor(String(localized: "common.unknown"), heading: heading(childElement), showDivider: !isLastElement)
 			}
 		}
-		.when(valueDescription.reference != nil) { view in
+		.when(childElement.reference != nil) { view in
 			view
 				.onTapGesture {
-					_ = logInfo("Tapped on", valueDescription.reference as Any)
+					_ = logInfo("Tapped on", childElement.reference as Any)
 				}
 				.accessibilityAddTraits(.isButton)
 				.accessibilityRemoveTraits(.isStaticText)
-				.accessibilityIdentifier(valueDescription.label)
+				.accessibilityIdentifier(childElement.label)
 		}
 	}
 	
 	/// Get the view for an array of DisplayElements
 	/// - Parameters:
 	///   - displayElements: the array of displayElements to be displayed.
-	///   - valueDescription: The parent valueDescription for the heading
-	///   - isLastElement: True if this is the last element in the array of ValueDescriptions
+	///   - childElement: The parent childElement for the heading
+	///   - isLastElement: True if this is the last element in the array of ChildElements
 	/// - Returns: view for the array of DisplayElements
-	@ViewBuilder func viewFor(_ displayElements: [DisplayElement], valueDescription: ValueDescription, isLastElement: Bool) -> some View {
+	@ViewBuilder func viewFor(_ displayElements: [DisplayElement], childElement: ChildElement, isLastElement: Bool) -> some View {
 
 		let singleValue = getSingleValuesValue(displayElements)
 		if singleValue.isNotEmpty {
-			viewFor(singleValue, heading: heading(valueDescription), showDivider: !isLastElement)
+			viewFor(singleValue, heading: heading(childElement), showDivider: !isLastElement)
 		}
 		
 		let multipleValues = getMultipleValuesValue(displayElements)
 		ForEach(multipleValues, id: \.self) { multipleValue in
-			viewFor(multipleValue, heading: heading(valueDescription), showDivider: !(isLastElement && multipleValue == multipleValues.last))
+			viewFor(multipleValue, heading: heading(childElement), showDivider: !(isLastElement && multipleValue == multipleValues.last))
 		}
 	}
 	
@@ -152,13 +152,18 @@ struct UISchemaDetailsView: View {
 	
 	/// Get the heading for a row
 	/// - Parameters:
-	///   - valueDescription: the valueDescription
-	/// - Returns: type text if heading is not in the language file. heading if it is. 
-	private func heading(_ valueDescription: ValueDescription) -> String {
+	///   - childElement: the childElement
+	/// - Returns: type text if heading is not in the language file. heading if it is.
+	private func heading(_ childElement: ChildElement) -> String {
+		
+		var elements = childElement.label.split(separator: ".")
+		if elements.count > 1 {
+			elements[0] = "fhir"
+		}
 		
 		return NSLocalizedString(
-			valueDescription.label,
-			value: "fhir." + valueDescription.type,
+			childElement.label,
+			value: elements.joined(separator: "."),
 			comment: ""
 		)
 	}

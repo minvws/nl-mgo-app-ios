@@ -25,14 +25,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	private func styleUI() {
 		
-		// No bouncy scrollview
-		UIScrollView.appearance().bounces = false
-		
 		// Navigation bar
 		let appearance = UINavigationBarAppearance()
-		appearance.configureWithOpaqueBackground()
-		appearance.backgroundColor = UIColor(Theme().backgroundPrimary)
-		appearance.shadowColor = .clear
+		appearance.configureWithTransparentBackground()
+		appearance.backgroundEffect = UIBlurEffect(style: .light)
+		appearance.backgroundColor = UIColor(Theme().backgroundPrimary).withAlphaComponent(0.25)
+		
+		appearance.largeTitleTextAttributes = [
+			.foregroundColor: UIColor(Theme().contentPrimary),
+			.font: UIFont(name: RijksoverheidSansWebTextFont.bold.fontName, size: Font.TextStyle.title.pointSize) as Any
+		]
+		appearance.titleTextAttributes = [
+			.foregroundColor: UIColor(Theme().contentPrimary),
+			.font: UIFont(name: RijksoverheidSansWebTextFont.bold.fontName, size: Font.TextStyle.headline.pointSize) as Any
+		]
+		appearance.shadowColor = UIColor(Theme().contentPrimary).withAlphaComponent(0.15)
 		UINavigationBar.appearance().standardAppearance = appearance
 		UINavigationBar.appearance().compactAppearance = appearance
 		UINavigationBar.appearance().scrollEdgeAppearance = appearance

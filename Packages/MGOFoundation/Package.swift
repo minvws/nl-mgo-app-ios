@@ -27,7 +27,7 @@ let package = Package(
 		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
 		
 		// External
-		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.1.0"),
+		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", exact: "9.1.0"),
 	],
 	targets: [
 		.target(

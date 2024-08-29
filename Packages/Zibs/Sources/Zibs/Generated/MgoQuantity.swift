@@ -12,12 +12,10 @@ import Foundation
 
 // MARK: - MgoQuantity
 public struct MgoQuantity: Codable, Hashable, Sendable {
-    public let code: String?
-    public let comparator: Comparator?
-    public let system, unit: String?
+    public let code, comparator, system, unit: String?
     public let value: Double?
 
-    public init(code: String?, comparator: Comparator?, system: String?, unit: String?, value: Double?) {
+    public init(code: String?, comparator: String?, system: String?, unit: String?, value: Double?) {
         self.code = code
         self.comparator = comparator
         self.system = system
@@ -46,7 +44,7 @@ public extension MgoQuantity {
 
     func with(
         code: String?? = nil,
-        comparator: Comparator?? = nil,
+        comparator: String?? = nil,
         system: String?? = nil,
         unit: String?? = nil,
         value: Double?? = nil

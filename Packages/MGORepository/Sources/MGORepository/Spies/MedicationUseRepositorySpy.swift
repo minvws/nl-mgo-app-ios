@@ -11,36 +11,22 @@ import FHIRParser
 import Zibs
 
 public class MedicationUseRepositorySpy: MedicationUseRepository {
-
+	
 	public init() {
 		// Public init for public access
 	}
 
 	public var invokedFetchMedicationUse = false
 	public var invokedFetchMedicationUseCount = 0
-	public var stubbedFetchMedicationUse: [MgoMedicationUse] = []
+	public var stubbedFetchMedicationUse: [ZibSchema] = []
 	public var stubbedError: Error?
 
-	public func fetchMedicationUse(dvaTarget: String) async throws -> [MgoMedicationUse] {
+	public func fetchMedicationUse(dvaTarget: String) async throws -> [ZibSchema] {
 		invokedFetchMedicationUse = true
 		invokedFetchMedicationUseCount += 1
 		if let error = stubbedError {
 			throw error
 		}
 		return stubbedFetchMedicationUse
-	}
-
-	public var invokedFetchMedicationSchema = false
-	public var invokedFetchMedicationSchemaCount = 0
-	public var invokedFetchMedicationSchemaParameters: (dvaTarget: String?, Void)?
-	public var invokedFetchMedicationSchemaParametersList = [(dvaTarget: String?, Void)]()
-	public var stubbedFetchMedicationSchema: UISchema?
-
-	public func fetchMedicationSchema(dvaTarget: String?) async throws -> UISchema? {
-		invokedFetchMedicationSchema = true
-		invokedFetchMedicationSchemaCount += 1
-		invokedFetchMedicationSchemaParameters = (dvaTarget, ())
-		invokedFetchMedicationSchemaParametersList.append((dvaTarget, ()))
-		return stubbedFetchMedicationSchema
 	}
 }

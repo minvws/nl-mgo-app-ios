@@ -31,7 +31,6 @@ public protocol Themeable: ObservableObject {
 	var strokesPrimary: Color { get }
 	var strokesSecondary: Color { get }
 	var strokesTertiary: Color { get }
-	var input: Color { get }
 	
 	// MARK: - Action Primary Default -
 	

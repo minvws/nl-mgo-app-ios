@@ -13,9 +13,9 @@ import Foundation
 // MARK: - UISchema
 public struct UISchema: Codable, Hashable, Sendable {
     public let children: [UISchemaGroup]
-    public let label: String
+    public let label: String?
 
-    public init(children: [UISchemaGroup], label: String) {
+    public init(children: [UISchemaGroup], label: String?) {
         self.children = children
         self.label = label
     }
@@ -41,7 +41,7 @@ public extension UISchema {
 
     func with(
         children: [UISchemaGroup]? = nil,
-        label: String? = nil
+        label: String?? = nil
     ) -> UISchema {
         return UISchema(
             children: children ?? self.children,

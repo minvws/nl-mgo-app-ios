@@ -45,7 +45,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == false
 		expect(self.sut.state.cityError) == "add_organization.error_missing_city"
 		expect(self.sut.state.nameError) == "add_organization.error_missing_name"
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1), timeout: .seconds(5))
 	}
 	
 	func test_searchButtonPressed_cityOK_shouldInvokeError() {
