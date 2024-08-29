@@ -94,4 +94,32 @@ final class MedicationOverviewViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
+	
+	func test_search_itemNotFound() {
+		
+		// Given
+		let block = OverviewBlock(heading: "Zestril tablet 10mg", subHeading: "Tandarts Tandje Erbij", action: nil)
+		viewModel.state = .success(items: [block])
+		viewModel.searchText = "Paracetamol"
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_search_itemFound() {
+		
+		// Given
+		let block = OverviewBlock(heading: "Zestril tablet 10mg", subHeading: "Tandarts Tandje Erbij", action: nil)
+		viewModel.state = .success(items: [block])
+		viewModel.searchText = "Zestril"
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
 }

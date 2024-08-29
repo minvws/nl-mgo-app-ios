@@ -75,6 +75,9 @@ class MedicationOverviewViewModel: ObservableObject {
 	/// The repository for Medication Use
 	private var medicationUseRepository: MedicationUseRepository!
 	
+	/// The text to filter the results on. 
+	@Published var searchText = ""
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -125,12 +128,13 @@ class MedicationOverviewViewModel: ObservableObject {
 		}
 		do {
 			let results = try await medicationUseRepository.fetchMedicationUse(dvaTarget: resourceEndpoint)
-			
+	
 			let items: [OverviewBlock] = results
 				.filter { element in
 					element.zib is ZibMedicationUse
 				}
 				.compactMap { element in
+		
 					OverviewBlock(
 						heading: element.schema?.label,
 						subHeading: healthcareOrganization.display_name) {
@@ -157,8 +161,6 @@ struct MedicationOverviewView: View {
 	
 	/// The View Model
 	@StateObject var viewModel: MedicationOverviewViewModel
-	
-	@State private var searchText = ""
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -240,12 +242,12 @@ struct MedicationOverviewView: View {
 	@ViewBuilder func listOverviewBlocks(list: [OverviewBlock]) -> some View {
 		
 		var searchResults: [OverviewBlock] {
-			if searchText.isEmpty {
+			if viewModel.searchText.isEmpty {
 				return list
 			} else {
 				return list.filter {
-					($0.heading?.localizedCaseInsensitiveContains(searchText.lowercased()) ?? false) ||
-					$0.subHeading?.localizedCaseInsensitiveContains(searchText.lowercased()) ?? false
+					($0.heading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
+					$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
 				}
 			}
 		}
@@ -257,31 +259,35 @@ struct MedicationOverviewView: View {
 			} else {
 				LazyVStack(spacing: ViewTraits.List.spacing, content: {
 					
-					ForEach(searchResults) { item in
+					ForEach(Array(searchResults.enumerated()), id: \.offset) { index, element in
 						
 						ZStack {
 							Rectangle()
 								.foregroundStyle(.clear)
 								.accessibilityLabel(String(
 									format: String(localized: "medication_overview.voiceover"),
-									arguments: ["\(item.heading ?? "")", "\(item.subHeading ?? "")"]
+									arguments: ["\(element.heading ?? "")", "\(element.subHeading ?? "")"]
 								))
 								.accessibilityAddTraits(.isButton)
 							
 							ActionCardView(
-								title: LocalizedStringKey(stringLiteral: item.heading ?? ""),
-								message: LocalizedStringKey(stringLiteral: item.subHeading ?? ""),
+								title: LocalizedStringKey(stringLiteral: element.heading ?? ""),
+								message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
 								icon: .none,
-								perform: item.action
+								perform: element.action
 							)
 							.cornerRadius(ViewTraits.List.cornerRadius)
+						}
+						.accessibilityIdentifier("block_\(index)")
+						.onTapGesture {
+							element.action?()
 						}
 					}
 				})
 				.padding(.top, ViewTraits.Navigation.padding)
 			}
 		}
-		.searchable(text: $searchText, prompt: "medication_overview.search")
+		.searchable(text: $viewModel.searchText, prompt: "medication_overview.search")
 		.padding(.top, ViewTraits.List.top)
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.foregroundColor(theme.contentTertiary)
