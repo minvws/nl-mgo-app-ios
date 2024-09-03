@@ -861,6 +861,171 @@
         }
       }
     },
+    "health_categories.back" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieders"
+          }
+        }
+      }
+    },
+    "health_categories.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overzicht"
+          }
+        }
+      }
+    },
+    "health_categories.remove_organization" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder zorgaanbieder"
+          }
+        }
+      }
+    },
+    "health_category.allergies" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allergieën"
+          }
+        }
+      }
+    },
+    "health_category.complaints" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klachten"
+          }
+        }
+      }
+    },
+    "health_category.documents" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Documenten"
+          }
+        }
+      }
+    },
+    "health_category.labresults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uittslagen"
+          }
+        }
+      }
+    },
+    "health_category.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ophalen..."
+          }
+        }
+      }
+    },
+    "health_category.measurements" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metingen"
+          }
+        }
+      }
+    },
+    "health_category.medication" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medicijnen"
+          }
+        }
+      }
+    },
+    "health_category.no_data" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen gegevens"
+          }
+        }
+      }
+    },
+    "health_category.not_available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nog niet beschikbaar"
+          }
+        }
+      }
+    },
+    "health_category.reports" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verslagen"
+          }
+        }
+      }
+    },
+    "health_category.treatments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelingen"
+          }
+        }
+      }
+    },
+    "health_category.vaccinations" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inentingen"
+          }
+        }
+      }
+    },
     "introduction.heading" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -232,8 +232,14 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				OrganizationListView(viewModel: OrganizationListViewModel(coordinator: self)).isPresentedAsSheet(true)
 			
 			case let .showHealthcareOrganization(healthcareOrganization):
-				OrganizationView(viewModel: OrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization))
-			
+				HealthCategoriesView(
+					viewModel:
+						HealthCategoriesViewModel(
+							coordinator: self,
+							mode: .single( healthcareOrganization)
+						)
+					)
+				
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
 			
