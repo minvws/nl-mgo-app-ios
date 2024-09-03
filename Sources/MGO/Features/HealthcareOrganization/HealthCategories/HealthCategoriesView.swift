@@ -69,8 +69,8 @@ class HealthCategoriesViewModel: ObservableObject {
 		}
 		
 		let backbuttonTitle: LocalizedStringKey = switch mode {
-			case .single: "health_categories.back"
-			case .multiple: "general.previous"
+			case .single: "healthcare_organizations.heading"
+			case .multiple: "common.previous"
 		}
 		
 		self.state = HealthCategoriesViewState(

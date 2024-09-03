@@ -433,6 +433,17 @@
         }
       }
     },
+    "common.loading_data" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ophalen..."
+          }
+        }
+      }
+    },
     "common.next" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -451,6 +462,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nee"
+          }
+        }
+      }
+    },
+    "common.no_data" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen gegevens"
           }
         }
       }
@@ -560,6 +582,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja"
+          }
+        }
+      }
+    },
+    "commony.not_available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nog niet beschikbaar"
           }
         }
       }
@@ -861,17 +894,6 @@
         }
       }
     },
-    "health_categories.back" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zorgaanbieders"
-          }
-        }
-      }
-    },
     "health_categories.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -938,17 +960,6 @@
         }
       }
     },
-    "health_category.loading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ophalen..."
-          }
-        }
-      }
-    },
     "health_category.measurements" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -967,28 +978,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Medicijnen"
-          }
-        }
-      }
-    },
-    "health_category.no_data" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geen gegevens"
-          }
-        }
-      }
-    },
-    "health_category.not_available" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nog niet beschikbaar"
           }
         }
       }
@@ -1022,6 +1011,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inentingen"
+          }
+        }
+      }
+    },
+    "healthcare_organizations.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieders"
           }
         }
       }

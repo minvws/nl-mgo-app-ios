@@ -46,14 +46,14 @@ struct HealthCategoryRowView: View {
 			Group {
 				switch block.state {
 					case .empty:
-						Text("health_category.no_data")
+						Text("common.no_data")
 					case .loaded:
 						Image(systemName: "chevron.right")
 							.font(.body)
 							.foregroundStyle(theme.iconsSecondary)
 					case .loading:
 						HStack {
-							Text("health_category.loading")
+							Text("common.loading_data")
 						
 							ProgressView()
 								.progressViewStyle(.circular)
@@ -61,7 +61,7 @@ struct HealthCategoryRowView: View {
 								.tint(theme.iconsSecondary)
 						}
 					case .notAvailabe:
-						Text("health_category.not_available")
+						Text("common.not_available")
 						.rijksoverheidStyle(font: .regular, style: .caption)
 				}
 			}
