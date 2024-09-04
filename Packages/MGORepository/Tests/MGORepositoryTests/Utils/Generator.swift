@@ -186,9 +186,10 @@ public class MockGenerator {
 				display: "Huisartsen, niet nader gespecificeerd",
 				reference: "PractitionerRole/1a249336-3fe7-488f-bc88-44bc8e1ad2aa"
 			),
-			profile: "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse",
+			profile: ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse,
 			reasonCode: nil,
 			reasonForChangeOrDiscontinuationOfUse: nil,
+			referenceID: "1",
 			repeatPeriodCyclicalSchedule: nil,
 			resourceType: "MedicationStatement",
 			status: "active",

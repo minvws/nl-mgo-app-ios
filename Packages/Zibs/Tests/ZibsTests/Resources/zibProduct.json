@@ -1,5 +1,6 @@
 {
 	"id": "8f017a48-fdab-42f5-a2d7-f7bb6d84a762",
+	"referenceId": "Medication/8f017a48-fdab-42f5-a2d7-f7bb6d84a762",
 	"resourceType": "Medication",
 	"profile": "http://nictiz.nl/fhir/StructureDefinition/zib-Product",
 	"description": null,

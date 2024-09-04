@@ -1,5 +1,6 @@
 {
 	"id": "cafa8f45-74bc-4107-a6f8-6eb58c6ed670",
+	"referenceId": "MedicationStatement/cafa8f45-74bc-4107-a6f8-6eb58c6ed670",
 	"resourceType": "MedicationStatement",
 	"profile": "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse",
 	"asAgreedIndicator": true,

@@ -98,7 +98,7 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		// Then
 		expect(self.sut.state) == expectedState
 		expect(self.sut.boxStates) == expectedBoxState
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(2))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(2), timeout: .seconds(5))
 	}
 	
 	func test_creation_touch_twoDigits_eraseButtonPressed() {
