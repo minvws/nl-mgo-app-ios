@@ -10,7 +10,7 @@ import MGOUI
 
 struct HealthCategories {
 	
-	enum Category: Int {
+	enum Category: Int, CaseIterable {
 		case medication = 1
 		case allergies = 2
 		case measurements = 3

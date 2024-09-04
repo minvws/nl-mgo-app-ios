@@ -28,7 +28,9 @@ struct HealthCategoriesViewState {
 	mutating func updateCategoryState(id: Int, state: CategoryButtonState) {
 		withAnimation {
 			for index in 0..<healthCategories.count where healthCategories[index].id == id {
-				healthCategories[index].state = state
+				if healthCategories[index].state != .notAvailabe {
+					healthCategories[index].state = state
+				}
 			}
 		}
 	}
@@ -101,7 +103,14 @@ class HealthCategoriesViewModel: ObservableObject {
 			
 			case .refresh:
 				logInfo("Todo: Pull to refresh")
-			
+				if case let .single(healthcareOrganization) = mode {
+					Current.dataStore.clear(organizationId: healthcareOrganization.identifier)
+					for element in HealthCategories.Category.allCases {
+						state.updateCategoryState(id: element.rawValue, state: .loading)
+					}
+					reduce(.onAppear)
+				}
+
 			case let .categorySelected(categoryButton):
 				
 				logInfo("tapped on", categoryButton.id)
@@ -148,6 +157,7 @@ class HealthCategoriesViewModel: ObservableObject {
 					  let result = try await medicationUseRepository?.fetchMedicationUse(
 						dataStore: Current.dataStore,
 						organisationId: healthcareOrganization.identifier,
+						organizationName: healthcareOrganization.display_name,
 						dvaTarget: resourceEndpoint) else {
 					
 					state.updateCategoryState(id: id, state: .empty)

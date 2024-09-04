@@ -7,12 +7,24 @@
 
 import Foundation
 
-class MgoDataStoreSpy: MGODataStoreProtocol {
+class MgoDataStoreSpy: MgoDataStoreProtocol {
 
 	public init() {
 		// Public init for public access
 	}
 	
+	public var invokedClear = false
+	public var invokedClearCount = 0
+	public var invokedClearParameters: (organizationId: String, Void)?
+	public var invokedClearParametersList = [(organizationId: String, Void)]()
+
+	public func clear(organizationId: String) {
+		invokedClear = true
+		invokedClearCount += 1
+		invokedClearParameters = (organizationId, ())
+		invokedClearParametersList.append((organizationId, ()))
+	}
+
 	public var invokedGetCategoryId = false
 	public var invokedGetCategoryIdCount = 0
 	public var invokedGetCategoryIdParameters: (categoryId: String, organizationId: String)?

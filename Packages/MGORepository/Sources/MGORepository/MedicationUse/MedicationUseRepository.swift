@@ -17,14 +17,14 @@ public protocol MedicationUseRepository {
 	/// - Returns: an array of medication use
 	func fetchMedicationUse(dvaTarget: String) async throws -> [ZibSchema]
 	
-	func fetchMedicationUse(dataStore: MGODataStoreProtocol, organisationId: String, dvaTarget: String) async throws -> MgoDataSet
+	func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, organizationName: String, dvaTarget: String) async throws -> MgoDataSet
 }
 
 extension FHIRClient: MedicationUseRepository {
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use
-	public func fetchMedicationUse(dataStore: MGODataStoreProtocol, organisationId: String, dvaTarget: String) async throws -> MgoDataSet {
+	public func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, organizationName: String, dvaTarget: String) async throws -> MgoDataSet {
 		
 		let cacheResult = dataStore.get(categoryId: "Medication", organizationId: organisationId)
 		switch cacheResult {
@@ -36,7 +36,7 @@ extension FHIRClient: MedicationUseRepository {
 				logInfo("Cache miss: \(failure)")
 				do {
 					let schemas = try await fetchMedicationUse(dvaTarget: dvaTarget)
-					let response = MgoDataSet(categoryId: "Medication", organizationId: organisationId, zibSchemas: schemas, name: "Todo: name")
+					let response = MgoDataSet(categoryId: "Medication", organizationId: organisationId, zibSchemas: schemas, name: organizationName)
 					dataStore.store(data: response)
 					logInfo("Cache store")
 					return response

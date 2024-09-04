@@ -8,8 +8,12 @@
 import Foundation
 import FHIRClient
 
-public protocol MGODataStoreProtocol {
-
+public protocol MgoDataStoreProtocol {
+	
+	/// Remove all entries from the store for this organization
+	/// - Parameter organizationId: the id of the organization to remove for
+	func clear(organizationId: String)
+	
 	func get(categoryId: String, organizationId: String) -> Result<MgoDataSet, Error>
 	
 	func get(categoryId: String) -> Result<[MgoDataSet], Error>
@@ -19,11 +23,20 @@ public protocol MGODataStoreProtocol {
 
 public typealias MgoDataSet = (categoryId: String, organizationId: String, zibSchemas: [ZibSchema], name: String)
 
-public class MGOMemoryDataStore: MGODataStoreProtocol {
+public class MgoMemoryDataStore: MgoDataStoreProtocol {
 	
 	private var dataSource = [MgoDataSet]()
 	
 	public init() { /* public init for public access */ }
+	
+	/// Remove all entries from the store for this organization
+	/// - Parameter organizationId: the id of the organization to remove for
+	public func clear(organizationId: String) {
+		
+		dataSource = dataSource.filter({ entry in
+			entry.organizationId != organizationId
+		})
+	}
 	
 	public func get(categoryId: String, organizationId: String) -> Result<MgoDataSet, any Error> {
 		
