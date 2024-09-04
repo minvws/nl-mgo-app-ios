@@ -29,4 +29,9 @@ public class MedicationUseRepositorySpy: MedicationUseRepository {
 		}
 		return stubbedFetchMedicationUse
 	}
+	
+	public func fetchMedicationUse(dataStore: any MGODataStoreProtocol, organisationId: String, dvaTarget: String) async throws -> MgoDataSet {
+		
+		return MgoDataSet(categoryId: "1", organizationId: "1", zibSchemas: [], name: "Todo: name")
+	}
 }

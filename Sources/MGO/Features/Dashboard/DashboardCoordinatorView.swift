@@ -24,6 +24,9 @@ extension Coordination.Action {
 	static let showMedication = Coordination.Action(identifier: "showMedication")
 	static let showLabResults = Coordination.Action(identifier: "showLabResults")
 	static let showZibDetails = Coordination.Action(identifier: "showZibDetails")
+	
+	static let showCategoryOverview = Coordination.Action(identifier: "showCategoryOverview")
+	
 	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
 	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
 }
@@ -65,6 +68,7 @@ enum DashboardCoordination {
 		
 		// Details Flow
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
+		case showCategoryOverview(categoryId: Int, organizationId: String)
 		case showProblems(healthcareOrganization: MgoOrganization)
 		case showMedication(healthcareOrganization: MgoOrganization)
 		case showLabResults(healthcareOrganization: MgoOrganization)
@@ -132,6 +136,15 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				if action.params.count == 1,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
 					firstTabPath.append(DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: healthcareOrganization))
+				} else {
+					logError("DashboardCoordinator Coordinator, missing params for \(action)")
+				}
+			
+			case Coordination.Action.showCategoryOverview.identifier:
+				if action.params.count == 2,
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
+				   let categoryId = action.params["categoryId"] as? Int {
+					firstTabPath.append(DashboardCoordination.State.showCategoryOverview(categoryId: categoryId, organizationId: healthcareOrganization.identifier))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -276,8 +289,18 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					)
 				)
 			
+			case let .showCategoryOverview(categoryId: categoryId, organizationId: organizationId):
+				
+				switch categoryId {
+					case HealthCategories.Category.medication.rawValue:
+					MedicationOverviewView2(viewModel: MedicationOverviewViewModel2(coordinator: self, organizationId: organizationId))
+					default:
+					Text(verbatim: "Todo, Overview for Category \(categoryId)")
+				}
+			
 			default:
 				EmptyView()
+				.logError("DashboardCoordinator, no view for", state as Any)
 		}
 	}
 }

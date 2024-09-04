@@ -17,10 +17,15 @@ public extension Components.Schemas.Organization {
 		return types.first?.display_name
 	}
 	
-	/// What endpoint should we pass to the proxy?
+	/// What data service endpoint should we pass to the proxy?
 	func getResourceEndpoint(identifier: Int) -> String? {
 		
 		let dataService = data_services.first { $0.id == identifier }
 		return dataService?.roles.first?.resource_endpoint
+	}
+	
+	/// The identifier of the organization
+	var identifier: String {
+		return identification_type + "|" + identification_value
 	}
 }

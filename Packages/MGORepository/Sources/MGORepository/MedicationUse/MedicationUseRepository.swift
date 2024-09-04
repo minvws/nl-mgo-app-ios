@@ -9,15 +9,44 @@ import Foundation
 import FHIRClient
 import FHIRParser
 import Zibs
+import Logging
 
 public protocol MedicationUseRepository {
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use
 	func fetchMedicationUse(dvaTarget: String) async throws -> [ZibSchema]
+	
+	func fetchMedicationUse(dataStore: MGODataStoreProtocol, organisationId: String, dvaTarget: String) async throws -> MgoDataSet
 }
 
 extension FHIRClient: MedicationUseRepository {
+	
+	/// Fetch all the medication usage
+	/// - Returns: an array of medication use
+	public func fetchMedicationUse(dataStore: MGODataStoreProtocol, organisationId: String, dvaTarget: String) async throws -> MgoDataSet {
+		
+		let cacheResult = dataStore.get(categoryId: "Medication", organizationId: organisationId)
+		switch cacheResult {
+			case .success(let success):
+				logInfo("Cache hit")
+				return success
+			
+			case .failure(let failure):
+				logInfo("Cache miss: \(failure)")
+				do {
+					let schemas = try await fetchMedicationUse(dvaTarget: dvaTarget)
+					let response = MgoDataSet(categoryId: "Medication", organizationId: organisationId, zibSchemas: schemas, name: "Todo: name")
+					dataStore.store(data: response)
+					logInfo("Cache store")
+					return response
+					
+				} catch {
+					throw error
+				}
+				throw failure
+		}
+	}
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use

@@ -499,6 +499,16 @@
         }
       }
     },
+    "common.not_available" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nog niet beschikbaar"
+          }
+        }
+      }
+    },
     "common.ok" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -582,17 +592,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja"
-          }
-        }
-      }
-    },
-    "commony.not_available" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nog niet beschikbaar"
           }
         }
       }

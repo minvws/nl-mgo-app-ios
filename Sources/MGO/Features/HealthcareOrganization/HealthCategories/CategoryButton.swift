@@ -39,55 +39,55 @@ struct CategoryButton: Identifiable {
 	@ViewBuilder func getIcon(_ theme: any Themeable) -> some View {
 		
 		switch id {
-			case HealthCategories.medication.id:
+			case HealthCategories.Category.medication.rawValue:
 				// Medication
 				Image(ImageResource.OrganizationDetails.pill)
 					.resizable()
 					.foregroundStyle(theme.huisarts)
 				
-			case HealthCategories.allergies.id:
+			case HealthCategories.Category.allergies.rawValue:
 				// Allergies
 				Image(ImageResource.OrganizationDetails.allergies)
 					.resizable()
 					.foregroundStyle(theme.kliniek)
 				
-			case HealthCategories.measurements.id:
+			case HealthCategories.Category.measurements.rawValue:
 				// Measurements
 				Image(ImageResource.OrganizationDetails.vitalSigns)
 					.resizable()
 					.foregroundStyle(theme.apotheek)
 				
-			case HealthCategories.vaccinations.id:
+			case HealthCategories.Category.vaccinations.rawValue:
 				// Vaccinations
 				Image(ImageResource.OrganizationDetails.syringe)
 					.resizable()
 					.foregroundStyle(theme.tandarts)
 				
-			case HealthCategories.complaints.id:
+			case HealthCategories.Category.complaints.rawValue:
 				// Complaints
 				Image(ImageResource.OrganizationDetails.complaint)
 					.resizable()
 					.foregroundStyle(theme.verpleeghuis)
 				
-			case HealthCategories.treatments.id:
+			case HealthCategories.Category.treatments.rawValue:
 				// Treatments
 				Image(ImageResource.OrganizationDetails.case)
 					.resizable()
 					.foregroundStyle(theme.ggz)
 				
-			case HealthCategories.labresults.id:
+			case HealthCategories.Category.labresults.rawValue:
 				// Lab results
 				Image(ImageResource.OrganizationDetails.tube)
 					.resizable()
 					.foregroundStyle(theme.ziekenhuis)
 				
-			case HealthCategories.reports.id:
+			case HealthCategories.Category.reports.rawValue:
 				// Reports
 				Image(ImageResource.OrganizationDetails.report)
 					.resizable()
 					.foregroundStyle(theme.fysiotherapeut)
 				
-			case HealthCategories.documents.id:
+			case HealthCategories.Category.documents.rawValue:
 				// Documents
 				Image(ImageResource.OrganizationDetails.folder)
 					.resizable()

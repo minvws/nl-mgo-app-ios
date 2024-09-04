@@ -49,7 +49,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	enum Action {
 		case backButtonPressed
 		case refresh
-		case categorySelected(Int)
+		case categorySelected(CategoryButton)
 		case removeHealthcareOrganization
 		case onAppear
 	}
@@ -77,15 +77,15 @@ class HealthCategoriesViewModel: ObservableObject {
 			title: title,
 			showRemoveHealthcareProvider: true,
 			healthCategories: [
-				HealthCategories.medication,
-				HealthCategories.allergies,
-				HealthCategories.measurements,
-				HealthCategories.vaccinations,
-				HealthCategories.reports,
-				HealthCategories.documents,
-				HealthCategories.complaints,
-				HealthCategories.treatments,
-				HealthCategories.labresults
+				CategoryButton(id: HealthCategories.Category.medication.rawValue, title: "health_category.medication", state: .loading),
+				CategoryButton(id: HealthCategories.Category.allergies.rawValue, title: "health_category.allergies", state: .notAvailabe),
+				CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "health_category.measurements", state: .notAvailabe),
+				CategoryButton(id: HealthCategories.Category.vaccinations.rawValue, title: "health_category.vaccinations", state: .notAvailabe),
+				CategoryButton(id: HealthCategories.Category.complaints.rawValue, title: "health_category.complaints", state: .notAvailabe),
+				CategoryButton(id: HealthCategories.Category.treatments.rawValue, title: "health_category.treatments", state: .notAvailabe),
+				CategoryButton(id: HealthCategories.Category.labresults.rawValue, title: "health_category.labresults", state: .notAvailabe),
+				CategoryButton(id: HealthCategories.Category.reports.rawValue, title: "health_category.reports", state: .notAvailabe),
+				CategoryButton(id: HealthCategories.Category.documents.rawValue, title: "health_category.documents", state: .notAvailabe)
 			],
 			backbuttonTitle: backbuttonTitle
 		)
@@ -102,13 +102,27 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .refresh:
 				logInfo("Todo: Pull to refresh")
 			
-			case let .categorySelected(identifier):
-				logInfo("tapped on", identifier)
+			case let .categorySelected(categoryButton):
+				
+				logInfo("tapped on", categoryButton.id)
+				if case let .single(healthcareOrganization) = mode {
+					coordinator?.handle(
+						Coordination.Action(
+							identifier: "showCategoryOverview",
+							params: [
+								"categoryId": categoryButton.id,
+								"healthcareOrganization": healthcareOrganization
+							]
+						)
+					)
+				} else {
+					logInfo("Todo, handle click on category in multiple mode")
+				}
 			
 			case .onAppear:
-			_Concurrency.Task {
-				await loadMedication(id: 1)
-			}
+				_Concurrency.Task {
+					await loadMedication(id: HealthCategories.Category.medication.rawValue)
+				}
 			
 			case .removeHealthcareOrganization:
 				if case let .single(healthcareOrganization) = mode {
@@ -129,21 +143,20 @@ class HealthCategoriesViewModel: ObservableObject {
 		
 		if case let .single(healthcareOrganization) = mode {
 
-			guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID) else {
-
-				state.updateCategoryState(id: id, state: .empty)
-				return
-			}
 			do {
-				guard let results = try await medicationUseRepository?.fetchMedicationUse(dvaTarget: resourceEndpoint) else {
+				guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID),
+					  let result = try await medicationUseRepository?.fetchMedicationUse(
+						dataStore: Current.dataStore,
+						organisationId: healthcareOrganization.identifier,
+						dvaTarget: resourceEndpoint) else {
+					
 					state.updateCategoryState(id: id, state: .empty)
 					return
 				}
-					
-				if results.isEmpty {
-					state.updateCategoryState(id: id, state: .empty)
-				} else {
+				if result.zibSchemas.isNotEmpty {
 					state.updateCategoryState(id: id, state: .loaded)
+				} else {
+					state.updateCategoryState(id: id, state: .empty)
 				}
 				
 			} catch {
@@ -204,7 +217,7 @@ struct HealthCategoriesView: View {
 								HealthCategoryRowView(block: block)
 									.when(block.state == .loaded) { view in
 										Button(action: {
-											viewModel.reduce(.categorySelected(block.id))
+											viewModel.reduce(.categorySelected(block))
 										}, label: {
 											view
 										})
