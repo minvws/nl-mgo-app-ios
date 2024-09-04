@@ -6,7 +6,6 @@
  */
 
 import Foundation
-import FHIRClient
 
 public protocol MgoDataStoreProtocol {
 	
@@ -30,5 +29,3 @@ public protocol MgoDataStoreProtocol {
 	/// - Parameter data: the data set to store
 	func store(data: MgoDataStoreRecord)
 }
-
-public typealias MgoDataStoreRecord = (categoryId: String, organizationId: String, resources: [MgoResource], name: String)

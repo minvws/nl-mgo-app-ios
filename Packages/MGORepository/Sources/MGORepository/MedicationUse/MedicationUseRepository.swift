@@ -61,7 +61,7 @@ extension FHIRClient: MedicationUseRepository {
 	}
 	
 	/// Fetch all the medication usage
-	/// - Returns: an array of medication use
+	/// - Returns: an array of Mgo Resources for MedicationUse
 	public func fetchMedicationUse(dvaTarget: String) async throws -> [MgoResource] {
 		
 		// The repository
@@ -70,7 +70,7 @@ extension FHIRClient: MedicationUseRepository {
 		// Get the FHIR Bundle
 		let data = try await repository.getBundleData(endpoint: DVP.CommonClinicalDataset.medicationUse, dvaTarget: dvaTarget)
 		
-		// Transfrom the FHIR bundle into MgoResources
+		// Transform the FHIR bundle into MgoResources
 		let mgoResources = try repository.process(data)
 		
 		return mgoResources.filter { resource in
@@ -80,5 +80,3 @@ extension FHIRClient: MedicationUseRepository {
 		}
 	}
 }
-
-public typealias MgoResource = Data
