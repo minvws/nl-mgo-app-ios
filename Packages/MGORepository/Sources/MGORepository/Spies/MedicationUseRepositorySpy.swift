@@ -30,8 +30,8 @@ public class MedicationUseRepositorySpy: MedicationUseRepository {
 		return stubbedFetchMedicationUse
 	}
 	
-	public func fetchMedicationUse(dataStore: any MgoDataStoreProtocol, organisationId: String, organizationName: String, dvaTarget: String) async throws -> MgoDataSet {
+	public func fetchMedicationUse(dataStore: any MgoDataStoreProtocol, organisationId: String, organizationName: String, dvaTarget: String) async throws -> MgoDataStoreRecord {
 		
-		return MgoDataSet(categoryId: "1", organizationId: "1", zibSchemas: [], name: organizationName)
+		return MgoDataStoreRecord(categoryId: "1", organizationId: "1", zibSchemas: [], name: organizationName)
 	}
 }

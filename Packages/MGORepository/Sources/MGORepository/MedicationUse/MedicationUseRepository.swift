@@ -17,14 +17,26 @@ public protocol MedicationUseRepository {
 	/// - Returns: an array of medication use
 	func fetchMedicationUse(dvaTarget: String) async throws -> [ZibSchema]
 	
-	func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, organizationName: String, dvaTarget: String) async throws -> MgoDataSet
+	/// Get a data store record for medication
+	/// - Parameters:
+	///   - dataStore: the data store to use
+	///   - organisationId: the id of the organization to fetch from
+	///   - organizationName: the name of organization to fetch from
+	///   - dvaTarget: the target for the API
+	/// - Returns: data record.
+	func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, organizationName: String, dvaTarget: String) async throws -> MgoDataStoreRecord
 }
 
 extension FHIRClient: MedicationUseRepository {
 	
-	/// Fetch all the medication usage
-	/// - Returns: an array of medication use
-	public func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, organizationName: String, dvaTarget: String) async throws -> MgoDataSet {
+	/// Get a data store record for medication
+	/// - Parameters:
+	///   - dataStore: the data store to use
+	///   - organisationId: the id of the organization to fetch from
+	///   - organizationName: the name of organization to fetch from
+	///   - dvaTarget: the target for the API
+	/// - Returns: data record.
+	public func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, organizationName: String, dvaTarget: String) async throws -> MgoDataStoreRecord {
 		
 		let cacheResult = dataStore.get(categoryId: "Medication", organizationId: organisationId)
 		switch cacheResult {
@@ -36,7 +48,7 @@ extension FHIRClient: MedicationUseRepository {
 				logInfo("Cache miss: \(failure)")
 				do {
 					let schemas = try await fetchMedicationUse(dvaTarget: dvaTarget)
-					let response = MgoDataSet(categoryId: "Medication", organizationId: organisationId, zibSchemas: schemas, name: organizationName)
+					let response = MgoDataStoreRecord(categoryId: "Medication", organizationId: organisationId, zibSchemas: schemas, name: organizationName)
 					dataStore.store(data: response)
 					logInfo("Cache store")
 					return response
