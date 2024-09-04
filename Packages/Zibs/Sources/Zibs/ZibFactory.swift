@@ -31,7 +31,7 @@ public class ZibFactory: ZibFactoryProtocol {
 		
 		return decode(
 			data: data,
-			profileDefinition: "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"
+			profileDefinition: ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue
 		)
 	}
 	
@@ -42,7 +42,7 @@ public class ZibFactory: ZibFactoryProtocol {
 		
 		return decode(
 			data: data,
-			profileDefinition: "http://nictiz.nl/fhir/StructureDefinition/zib-Product"
+			profileDefinition: ZibProductProfile.httpNictizNlFhirStructureDefinitionZibProduct.rawValue
 		)
 	}
 	

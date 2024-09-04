@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MgoDataStoreSpy: MgoDataStoreProtocol {
+public class MgoDataStoreSpy: MgoDataStoreProtocol {
 
 	public init() {
 		// Public init for public access

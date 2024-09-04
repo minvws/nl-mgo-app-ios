@@ -8,9 +8,7 @@
 import Foundation
 
 public protocol Zib {
-	var profile: String { get }
 	var id: String? { get }
-	var resourceType: String? { get }
 }
 
 extension ZibMedicationUse: Zib { }
