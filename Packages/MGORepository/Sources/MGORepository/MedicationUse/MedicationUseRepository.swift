@@ -75,31 +75,10 @@ extension FHIRClient: MedicationUseRepository {
 		
 		return mgoResources.filter { resource in
 			
-			resource.isOfMgoType(ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue) ||
-			resource.isOfMgoType(ZibProductProfile.httpNictizNlFhirStructureDefinitionZibProduct.rawValue)
+			resource.hasProfile(ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue) ||
+			resource.hasProfile(ZibProductProfile.httpNictizNlFhirStructureDefinitionZibProduct.rawValue)
 		}
-
-		//		let resources = parser.getBundleResourcesJson(data)
-		//
-		//		var result = [ZibSchema]()
-		//
-		//		for element in resources {
-		//			let resource = try JSONSerialization.data(withJSONObject: element)
-		//			if let zib = parser.getMgoResourceJson(resource) {
-		//				if let zibMedicationUse = ZibFactory.createZibMedicationUse(zib) {
-		//					let schema = parser.getUiSchemaJson(zib)
-		//					result.append(ZibSchema(zib: zibMedicationUse, schema: schema))
-		//				}
-		//				if let zibProduct = ZibFactory.createZibProduct(zib) {
-		//					let schema = parser.getUiSchemaJson(zib)
-		//					result.append(ZibSchema(zib: zibProduct, schema: schema))
-		//				}
-		//			}
-		//		}
-		//		return result
 	}
 }
-
-public typealias ZibSchema = (zib: Zib, schema: UISchema?)
 
 public typealias MgoResource = Data

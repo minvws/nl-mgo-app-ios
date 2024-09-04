@@ -8,21 +8,7 @@
 import Foundation
 import Logging
 
-public protocol ZibFactoryProtocol {
-	
-	/// Create a Zib MedicationUse from a parsed resource
-	/// - Parameter data: the parsed resource
-	/// - Returns: Zib Medication use
-	static func createZibMedicationUse(_ data: Data) -> ZibMedicationUse?
-	
-	/// Create a Zib Product from a parsed resource
-	/// - Parameter data: the parsed resource
-	/// - Returns: Zib Product
-	static func createZibProduct(_ data: Data) -> ZibProduct?
-	
-}
-
-public class ZibFactory: ZibFactoryProtocol {
+public class ZibFactory {
 	
 	/// Create a Zib MedicationUse from a parsed resource
 	/// - Parameter data: the parsed resource
@@ -49,12 +35,12 @@ public class ZibFactory: ZibFactoryProtocol {
 	/// Generic decode method to decode a parsed resource into a zib
 	/// - Parameters:
 	///   - data: the parsed resource
-	///   - profileDefinition: the zib definition
+	///   - profileDefinition: the profile definition
 	/// - Returns: zib
-	public static func decode<T: Decodable>(data: Data, profileDefinition: String) -> T? {
+	private static func decode<T: Decodable>(data: Data, profileDefinition: String) -> T? {
 		
-		//		logDebug("ZibFactory: trying to decoding \(String(decoding: data, as: UTF8.self))")
-		guard data.isOfMgoType(profileDefinition) else { return nil }
+//		logDebug("ZibFactory: trying to decoding \(String(decoding: data, as: UTF8.self))")
+		guard data.hasProfile(profileDefinition) else { return nil }
 		
 		do {
 			let zib = try JSONDecoder().decode(T.self, from: data)
@@ -63,20 +49,5 @@ public class ZibFactory: ZibFactoryProtocol {
 			logError("ZibFactory: error decoding for \(profileDefinition): \(error)")
 		}
 		return nil
-	}
-}
-
-public extension Data {
-	
-	func isOfMgoType(_ profileDefinition: String) -> Bool {
-		do {
-			if let object = try JSONSerialization.jsonObject(with: self) as? [String: Any],
-			   let profile = object["profile"] as? String, profile == profileDefinition {
-				return true
-			}
-		} catch {
-			logError("ZibFactory - isOfMgoType: \(error)")
-		}
-		return false
 	}
 }
