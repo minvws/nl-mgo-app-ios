@@ -163,7 +163,7 @@ class HealthCategoriesViewModel: ObservableObject {
 					state.updateCategoryState(id: id, state: .empty)
 					return
 				}
-				if result.zibSchemas.isNotEmpty {
+				if result.resources.isNotEmpty {
 					state.updateCategoryState(id: id, state: .loaded)
 				} else {
 					state.updateCategoryState(id: id, state: .empty)

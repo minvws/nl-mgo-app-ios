@@ -129,26 +129,27 @@ class MedicationOverviewViewModel: ObservableObject {
 		do {
 			let results = try await medicationUseRepository.fetchMedicationUse(dvaTarget: resourceEndpoint)
 	
-			let items: [OverviewBlock] = results
-				.filter { element in
-					element.zib is ZibMedicationUse
-				}
-				.compactMap { element in
-		
-					OverviewBlock(
-						heading: element.schema?.label,
-						subHeading: healthcareOrganization.display_name) {
-							self.coordinator?.handle(Coordination.Action(
-								identifier: "showZibDetails",
-								params: ["zib": element.zib as? ZibMedicationUse, "uiSchema": element.schema])
-							)
-						}
-				}
-			if items.isEmpty {
-				state = .empty
-			} else {
-				state = .success(items: items)
-			}
+//			let items: [OverviewBlock] = results
+//				.filter { element in
+//					
+//					element.zib is ZibMedicationUse
+//				}
+//				.compactMap { element in
+//		
+//					OverviewBlock(
+//						heading: element.schema?.label,
+//						subHeading: healthcareOrganization.display_name) {
+//							self.coordinator?.handle(Coordination.Action(
+//								identifier: "showZibDetails",
+//								params: ["zib": element.zib as? ZibMedicationUse, "uiSchema": element.schema])
+//							)
+//						}
+//				}
+//			if items.isEmpty {
+//				state = .empty
+//			} else {
+//				state = .success(items: items)
+//			}
 			
 		} catch {
 			logError("Client read error: \(String(describing: error))")

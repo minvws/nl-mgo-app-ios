@@ -15,7 +15,7 @@ public protocol MedicationUseRepository {
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use
-	func fetchMedicationUse(dvaTarget: String) async throws -> [ZibSchema]
+	func fetchMedicationUse(dvaTarget: String) async throws -> [MgoResource]
 	
 	/// Get a data store record for medication
 	/// - Parameters:
@@ -43,12 +43,12 @@ extension FHIRClient: MedicationUseRepository {
 			case .success(let success):
 				logInfo("Cache hit")
 				return success
-			
+				
 			case .failure(let failure):
 				logInfo("Cache miss: \(failure)")
 				do {
-					let schemas = try await fetchMedicationUse(dvaTarget: dvaTarget)
-					let response = MgoDataStoreRecord(categoryId: "Medication", organizationId: organisationId, zibSchemas: schemas, name: organizationName)
+					let mgoResources = try await fetchMedicationUse(dvaTarget: dvaTarget)
+					let response = MgoDataStoreRecord(categoryId: "Medication", organizationId: organisationId, resources: mgoResources, name: organizationName)
 					dataStore.store(data: response)
 					logInfo("Cache store")
 					return response
@@ -62,29 +62,44 @@ extension FHIRClient: MedicationUseRepository {
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use
-	public func fetchMedicationUse(dvaTarget: String) async throws -> [ZibSchema] {
+	public func fetchMedicationUse(dvaTarget: String) async throws -> [MgoResource] {
 		
-		let parser = FHIRParser()
-		let data = try await MGORepository(client: self).getBundleData(endpoint: DVP.CommonClinicalDataset.medicationUse, dvaTarget: dvaTarget)
-		let resources = parser.getBundleResourcesJson(data)
+		// The repository
+		let repository = MGORepository(client: self)
 		
-		var result = [ZibSchema]()
-	
-		for element in resources {
-			let resource = try JSONSerialization.data(withJSONObject: element)
-			if let zib = parser.getMgoResourceJson(resource) {
-				if let zibMedicationUse = ZibFactory.createZibMedicationUse(zib) {
-					let schema = parser.getUiSchemaJson(zib)
-					result.append(ZibSchema(zib: zibMedicationUse, schema: schema))
-				}
-				if let zibProduct = ZibFactory.createZibProduct(zib) {
-					let schema = parser.getUiSchemaJson(zib)
-					result.append(ZibSchema(zib: zibProduct, schema: schema))
-				}
-			}
+		// Get the FHIR Bundle
+		let data = try await repository.getBundleData(endpoint: DVP.CommonClinicalDataset.medicationUse, dvaTarget: dvaTarget)
+		
+		// Transfrom the FHIR bundle into MgoResources
+		let mgoResources = try repository.process(data)
+		
+		return mgoResources.filter { resource in
+			
+			resource.isOfMgoType(ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue) ||
+			resource.isOfMgoType(ZibProductProfile.httpNictizNlFhirStructureDefinitionZibProduct.rawValue)
 		}
-		return result
+
+		//		let resources = parser.getBundleResourcesJson(data)
+		//
+		//		var result = [ZibSchema]()
+		//
+		//		for element in resources {
+		//			let resource = try JSONSerialization.data(withJSONObject: element)
+		//			if let zib = parser.getMgoResourceJson(resource) {
+		//				if let zibMedicationUse = ZibFactory.createZibMedicationUse(zib) {
+		//					let schema = parser.getUiSchemaJson(zib)
+		//					result.append(ZibSchema(zib: zibMedicationUse, schema: schema))
+		//				}
+		//				if let zibProduct = ZibFactory.createZibProduct(zib) {
+		//					let schema = parser.getUiSchemaJson(zib)
+		//					result.append(ZibSchema(zib: zibProduct, schema: schema))
+		//				}
+		//			}
+		//		}
+		//		return result
 	}
 }
 
 public typealias ZibSchema = (zib: Zib, schema: UISchema?)
+
+public typealias MgoResource = Data

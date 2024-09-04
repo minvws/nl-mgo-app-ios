@@ -18,7 +18,7 @@ final class ServicesSpies {
 	
 	var dataStoreSpy: MgoDataStoreSpy = {
 		let spy = MgoDataStoreSpy()
-		spy.stubbedGetCategoryIdResult = .success(MgoDataSet(categoryId: "test", organizationId: "test", zibSchemas: [], name: "test organization"))
+		spy.stubbedGetCategoryIdResult = .success(MgoDataStoreRecord(categoryId: "test", organizationId: "test", resources: [], name: "test organization"))
 		return spy
 	}()
 

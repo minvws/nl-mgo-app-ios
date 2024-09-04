@@ -31,4 +31,4 @@ public protocol MgoDataStoreProtocol {
 	func store(data: MgoDataStoreRecord)
 }
 
-public typealias MgoDataStoreRecord = (categoryId: String, organizationId: String, zibSchemas: [ZibSchema], name: String)
+public typealias MgoDataStoreRecord = (categoryId: String, organizationId: String, resources: [MgoResource], name: String)

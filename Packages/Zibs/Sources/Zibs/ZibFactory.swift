@@ -53,17 +53,30 @@ public class ZibFactory: ZibFactoryProtocol {
 	/// - Returns: zib
 	public static func decode<T: Decodable>(data: Data, profileDefinition: String) -> T? {
 		
-//		logDebug("ZibFactory: trying to decoding \(String(decoding: data, as: UTF8.self))")
+		//		logDebug("ZibFactory: trying to decoding \(String(decoding: data, as: UTF8.self))")
+		guard data.isOfMgoType(profileDefinition) else { return nil }
+		
 		do {
-			if let object = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-			   let profile = object["profile"] as? String, profile == profileDefinition {
-				
-				let zib = try JSONDecoder().decode(T.self, from: data)
-				return zib
-			}
+			let zib = try JSONDecoder().decode(T.self, from: data)
+			return zib
 		} catch {
 			logError("ZibFactory: error decoding for \(profileDefinition): \(error)")
 		}
 		return nil
+	}
+}
+
+public extension Data {
+	
+	func isOfMgoType(_ profileDefinition: String) -> Bool {
+		do {
+			if let object = try JSONSerialization.jsonObject(with: self) as? [String: Any],
+			   let profile = object["profile"] as? String, profile == profileDefinition {
+				return true
+			}
+		} catch {
+			logError("ZibFactory - isOfMgoType: \(error)")
+		}
+		return false
 	}
 }

@@ -111,22 +111,23 @@ class MedicationOverviewViewModel2: ObservableObject {
 		let cacheResult = Current.dataStore.get(categoryId: "Medication", organizationId: organizationId)
 		
 		switch cacheResult {
-			case .success(let results):
-				let items: [OverviewBlock2] = results.zibSchemas
-					.filter { element in
-						element.zib is ZibMedicationUse
-					}
-					.compactMap { element in
+			case .success(let record):
 			
-						OverviewBlock2(
-							heading: element.schema?.label,
-							subHeading: results.name) {
-								self.coordinator?.handle(Coordination.Action(
-									identifier: "showZibDetails",
-									params: ["zib": element.zib as? ZibMedicationUse, "uiSchema": element.schema])
-								)
-							}
+				var items = [OverviewBlock2]()
+				// For all the MgoResources
+				for resource in record.resources {
+					// If it is a ZibMedicationUse and we can create a UISchema from it
+					if let zib = ZibFactory.createZibMedicationUse(resource),
+					   let uiSchema = FHIRParser().getUiSchemaJson(resource) {
+						// Add a OverviewBlock to the display list
+						items.append(OverviewBlock2(heading: uiSchema.label, subHeading: record.name) {
+							self.coordinator?.handle(Coordination.Action(
+								identifier: "showZibDetails",
+								params: ["zib": zib, "uiSchema": uiSchema])
+							)
+						})
 					}
+				}
 				if items.isEmpty {
 					state = .empty
 				} else {
@@ -134,7 +135,6 @@ class MedicationOverviewViewModel2: ObservableObject {
 				}
 			case .failure(let failure):
 				state = .failure
-			
 		}
 	}
 }
