@@ -134,22 +134,6 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forShowMedication() throws {
-
-		// Given
-		let organization = Generator.healthcareOrganization("1")
-		let state = DashboardCoordination.State.showMedication(healthcareOrganization: organization)
-		stub(condition: isPath("/fhir/MedicationStatement")) { _ in
-			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
-		}
-		
-		// When
-		let view = sut.viewState(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
 	func test_coordinatorView_forShowLabResults() throws {
 
 		// Given

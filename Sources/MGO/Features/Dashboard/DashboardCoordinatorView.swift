@@ -21,7 +21,6 @@ extension Coordination.Action {
 	static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
 	
 	static let showProblems = Coordination.Action(identifier: "showProblems")
-	static let showMedication = Coordination.Action(identifier: "showMedication")
 	static let showLabResults = Coordination.Action(identifier: "showLabResults")
 	static let showZibDetails = Coordination.Action(identifier: "showZibDetails")
 	
@@ -70,7 +69,6 @@ enum DashboardCoordination {
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		case showCategoryOverview(categoryId: Int, organizationId: String)
 		case showProblems(healthcareOrganization: MgoOrganization)
-		case showMedication(healthcareOrganization: MgoOrganization)
 		case showLabResults(healthcareOrganization: MgoOrganization)
 		case showZibDetails(schema: UISchema)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
@@ -153,14 +151,6 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				if action.params.count == 1,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
 					firstTabPath.append(DashboardCoordination.State.showProblems(healthcareOrganization: healthcareOrganization))
-				} else {
-					logError("DashboardCoordinator Coordinator, missing params for \(action)")
-				}
-			
-			case Coordination.Action.showMedication.identifier:
-				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
-					firstTabPath.append(DashboardCoordination.State.showMedication(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -259,14 +249,6 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case let .showProblems(healthcareOrganization):
 				ProblemsListView(
 					viewModel: ProblemsListViewModel(
-						coordinator: self,
-						healthcareOrganization: healthcareOrganization
-					)
-				)
-				
-			case let .showMedication(healthcareOrganization):
-				MedicationOverviewView(
-					viewModel: MedicationOverviewViewModel(
 						coordinator: self,
 						healthcareOrganization: healthcareOrganization
 					)

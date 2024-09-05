@@ -93,7 +93,7 @@ class MedicationOverviewViewModel2: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: MedicationOverviewViewModel.Action) {
+	func reduce(_ action: MedicationOverviewViewModel2.Action) {
 		
 		switch action {
 			case .backButtonPressed:
@@ -324,10 +324,10 @@ struct MedicationOverviewView2: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		MedicationOverviewView(
-			viewModel: MedicationOverviewViewModel(
+		MedicationOverviewView2(
+			viewModel: MedicationOverviewViewModel2(
 				coordinator: nil,
-				healthcareOrganization: PreviewContent.healthcareOrganization
+				organizationId: "1"
 			)
 		)
 	}
