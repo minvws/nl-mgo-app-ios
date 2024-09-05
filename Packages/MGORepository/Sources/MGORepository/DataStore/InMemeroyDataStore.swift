@@ -9,10 +9,10 @@ import Foundation
 import FHIRClient
 
 /// The in memory data store
-public class MgoMemoryDataStore: MgoDataStoreProtocol {
+public class InMemoryDataStore: MgoDataStoreProtocol {
 	
 	/// The in memory data source
-	private var dataSource = [MgoDataStoreRecord]()
+	private var dataSource = [MgoResourceRecord]()
 	
 	/// Create an in memory data store
 	public init() { /* public init for public access */ }
@@ -22,30 +22,33 @@ public class MgoMemoryDataStore: MgoDataStoreProtocol {
 	///   - categoryId: the id of the category
 	///   - organizationId: the id of the organization
 	/// - Returns: Result object with dataset or error
-	public func get(categoryId: String, organizationId: String) -> Result<MgoDataStoreRecord, any Error> {
+	public func get(categoryId: String, organizationId: String) -> Result<MgoResourceRecord, any Error> {
 		
 		for element in dataSource where element.categoryId == categoryId && element.organizationId == organizationId {
 			return .success(element)
 		}
-		return .failure(NSError(domain: "MGODataStore", code: 404))
+		return .failure(DataStoreError.noData)
 	}
 	
 	/// Get all data sets for a category
 	/// - Parameter categoryId: the id of the category
 	/// - Returns: Result object with data sets or error
-	public func get(categoryId: String) -> Result<[MgoDataStoreRecord], any Error> {
+	public func get(categoryId: String) -> Result<[MgoResourceRecord], any Error> {
 		
-		var result = [MgoDataStoreRecord]()
+		var result = [MgoResourceRecord]()
 		
 		for element in dataSource where element.categoryId == categoryId {
 			result.append(element)
+		}
+		if result.isEmpty {
+			return .failure(DataStoreError.noData)
 		}
 		return .success(result)
 	}
 	
 	/// Store a data set
 	/// - Parameter data: the data set to store
-	public func store(data: MgoDataStoreRecord) {
+	public func store(data: MgoResourceRecord) {
 		
 		var found = false
 

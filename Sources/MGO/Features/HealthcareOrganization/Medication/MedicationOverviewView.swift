@@ -120,7 +120,9 @@ class MedicationOverviewViewModel: ObservableObject {
 					if let zib = ZibFactory.createZibMedicationUse(resource),
 					   let uiSchema = FHIRParser().getUiSchemaJson(resource) {
 						// Add a OverviewBlock to the display list
-						items.append(OverviewBlock(heading: uiSchema.label, subHeading: record.name) {
+						items.append(OverviewBlock(
+							heading: uiSchema.label,
+							subHeading: getOrganizationName(record.organizationId)) {
 							self.coordinator?.handle(Coordination.Action(
 								identifier: "showZibDetails",
 								params: ["zib": zib, "uiSchema": uiSchema])
@@ -136,6 +138,11 @@ class MedicationOverviewViewModel: ObservableObject {
 			case .failure(let failure):
 				state = .failure
 		}
+	}
+	
+	func getOrganizationName(_ identifier: String) -> String? {
+		
+		return 	Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }?.display_name
 	}
 }
 

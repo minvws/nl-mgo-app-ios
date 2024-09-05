@@ -14,16 +14,16 @@ public protocol MgoDataStoreProtocol {
 	///   - categoryId: the id of the category
 	///   - organizationId: the id of the organization
 	/// - Returns: Result object with dataset or error
-	func get(categoryId: String, organizationId: String) -> Result<MgoDataStoreRecord, Error>
+	func get(categoryId: String, organizationId: String) -> Result<MgoResourceRecord, Error>
 	
 	/// Get all data sets for a category
 	/// - Parameter categoryId: the id of the category
 	/// - Returns: Result object with data sets or error
-	func get(categoryId: String) -> Result<[MgoDataStoreRecord], Error>
+	func get(categoryId: String) -> Result<[MgoResourceRecord], Error>
 	
 	/// Store a data set
 	/// - Parameter data: the data set to store
-	func store(data: MgoDataStoreRecord)
+	func store(data: MgoResourceRecord)
 	
 	/// Remove all entries from the store for this organization
 	/// - Parameter organizationId: the id of the organization to remove for
@@ -31,4 +31,8 @@ public protocol MgoDataStoreProtocol {
 
 	/// Wipe all persisted data
 	func wipePersistedData()
+}
+
+public enum DataStoreError: Error {
+	case noData
 }

@@ -7,4 +7,4 @@
 
 import Foundation
 
-public typealias MgoDataStoreRecord = (categoryId: String, organizationId: String, resources: [MgoResource], name: String)
+public typealias MgoResourceRecord = (categoryId: String, organizationId: String, resources: [MgoResource])

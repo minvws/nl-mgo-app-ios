@@ -43,7 +43,7 @@ struct Services {
 
 // MARK: - 2: Instantiate Private Dependencies
 
-private let dataStore = MgoMemoryDataStore()
+private let dataStore = InMemoryDataStore()
 private let healthcareOrganizationStore = HealthcareOrganizationRepository()
 private let jailBreakDetector = JailBreakDetector()
 private let localAuthenticationProvider = LocalAuthenticationProvider()

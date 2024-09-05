@@ -24,7 +24,7 @@ public protocol MedicationUseRepository {
 	///   - organizationName: the name of organization to fetch from
 	///   - dvaTarget: the target for the API
 	/// - Returns: data record.
-	func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, organizationName: String, dvaTarget: String) async throws -> MgoDataStoreRecord
+	func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, dvaTarget: String) async throws -> MgoResourceRecord
 }
 
 extension FHIRClient: MedicationUseRepository {
@@ -36,7 +36,7 @@ extension FHIRClient: MedicationUseRepository {
 	///   - organizationName: the name of organization to fetch from
 	///   - dvaTarget: the target for the API
 	/// - Returns: data record.
-	public func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, organizationName: String, dvaTarget: String) async throws -> MgoDataStoreRecord {
+	public func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, dvaTarget: String) async throws -> MgoResourceRecord {
 		
 		let cacheResult = dataStore.get(categoryId: "Medication", organizationId: organisationId)
 		switch cacheResult {
@@ -48,7 +48,7 @@ extension FHIRClient: MedicationUseRepository {
 				logInfo("Cache miss: \(failure)")
 				do {
 					let mgoResources = try await fetchMedicationUse(dvaTarget: dvaTarget)
-					let response = MgoDataStoreRecord(categoryId: "Medication", organizationId: organisationId, resources: mgoResources, name: organizationName)
+					let response = MgoResourceRecord(categoryId: "Medication", organizationId: organisationId, resources: mgoResources)
 					dataStore.store(data: response)
 					logInfo("Cache store")
 					return response

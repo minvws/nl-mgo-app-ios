@@ -154,7 +154,6 @@ class HealthCategoriesViewModel: ObservableObject {
 					  let result = try await medicationUseRepository?.fetchMedicationUse(
 						dataStore: Current.dataStore,
 						organisationId: healthcareOrganization.identifier,
-						organizationName: healthcareOrganization.display_name,
 						dvaTarget: resourceEndpoint) else {
 					
 					state.updateCategoryState(id: id, state: .empty)
