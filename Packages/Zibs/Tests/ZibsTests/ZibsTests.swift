@@ -10,6 +10,19 @@ import MGOTest
 
 final class ZibsTests: XCTestCase {
 	
+	func test_factory_invalidData() throws {
+		
+		// Given
+		let resource = try getStringResource("invalid")
+		let data = Data(resource.utf8)
+		
+		// When
+		let object = ZibFactory.createZibMedicationUse(data)
+		
+		// Then
+		expect(object) == nil
+	}
+	
 	func test_factory_zibMedicationUse() throws {
 		
 		// Given

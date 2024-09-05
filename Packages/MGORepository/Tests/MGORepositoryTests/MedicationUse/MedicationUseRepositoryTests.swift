@@ -17,24 +17,47 @@ final class MedicationUseRepositoryTests: XCTestCase {
 		HTTPStubs.removeAllStubs()
 	}
 	
-	func test_repository() async throws {
+	func test_repository_medicationUse() async throws {
 		
-//		// Given
-//		let inputJson = try getResource("medication_statement_input_1")
-//		let client = try XCTUnwrap(FHIRClient())
-//	
-//		let outputJson = try getResource("medication_statement_output_1")
-//		let expectedMedication = try JSONDecoder().decode(ZibMedicationUse.self, from: outputJson)
-//
-//		stub(condition: isPath("/fhir/MedicationStatement")) { _ in
-//			return HTTPStubsResponse(data: inputJson, statusCode: 200, headers: nil)
-//		}
-//		
-//		// When
-//		let result = try await client.fetchMedicationUse(dvaTarget: "test")
-//
-//		// Then
-//		await expect(result.first?.schema?.label).toEventually(equal("Zestril tablet 10mg"))
-//		expect(result.first?.zib as? ZibMedicationUse) == expectedMedication
+		// Given
+		let inputJson = try getResource("medication_statement_input_1")
+		let client = try XCTUnwrap(FHIRClient())
+	
+		let outputJson = try getResource("medication_statement_output_1")
+		let expectedMedication = try JSONDecoder().decode(ZibMedicationUse.self, from: outputJson)
+
+		stub(condition: isPath("/fhir/MedicationStatement")) { _ in
+			return HTTPStubsResponse(data: inputJson, statusCode: 200, headers: nil)
+		}
+		
+		// When
+		let result = try await client.fetchMedicationUse(dvaTarget: "test")
+		let medicationUseResult = try XCTUnwrap(result.first)
+		let medication = ZibFactory.createZibMedicationUse(medicationUseResult)
+
+		// Then
+		expect(medication) == expectedMedication
+	}
+	
+	func test_repository_product() async throws {
+		
+		// Given
+		let inputJson = try getResource("medication_statement_input_1")
+		let client = try XCTUnwrap(FHIRClient())
+	
+		let outputJson = try getResource("medication_statement_output_2")
+		let expectedProduct = try JSONDecoder().decode(ZibProduct.self, from: outputJson)
+
+		stub(condition: isPath("/fhir/MedicationStatement")) { _ in
+			return HTTPStubsResponse(data: inputJson, statusCode: 200, headers: nil)
+		}
+		
+		// When
+		let result = try await client.fetchMedicationUse(dvaTarget: "test")
+		let productResult = try XCTUnwrap(result.last)
+		let product = ZibFactory.createZibProduct(productResult)
+
+		// Then
+		expect(product) == expectedProduct
 	}
 }

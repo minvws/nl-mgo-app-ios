@@ -1,0 +1,19 @@
+{
+	"id": "8f017a48-fdab-42f5-a2d7-f7bb6d84a762",
+	"referenceId": "Medication/8f017a48-fdab-42f5-a2d7-f7bb6d84a762",
+	"resourceType": "Medication",
+	"profile": "http://nictiz.nl/fhir/StructureDefinition/zib-Product",
+	"description": null,
+	"code": [
+		{
+			"code": "615560",
+			"display": "Zestril tablet 10mg",
+			"system": "urn:oid:2.16.840.1.113883.2.4.4.7"
+		}
+	],
+	"form": null,
+	"ingredient": null,
+	"package": {
+		"content": null
+	}
+}
