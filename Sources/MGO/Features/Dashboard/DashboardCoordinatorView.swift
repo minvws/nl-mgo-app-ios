@@ -275,7 +275,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				
 				switch categoryId {
 					case HealthCategories.Category.medication.rawValue:
-					MedicationOverviewView2(viewModel: MedicationOverviewViewModel2(coordinator: self, organizationId: organizationId))
+					MedicationOverviewView(viewModel: MedicationOverviewViewModel(coordinator: self, organizationId: organizationId))
 					default:
 					Text(verbatim: "Todo, Overview for Category \(categoryId)")
 				}

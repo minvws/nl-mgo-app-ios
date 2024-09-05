@@ -10,9 +10,9 @@ import MGOUI
 import JavaScriptCore
 import Zibs
 
-struct OverviewBlock2: Equatable, Identifiable {
+struct OverviewBlock: Equatable, Identifiable {
 	
-	static func == (lhs: OverviewBlock2, rhs: OverviewBlock2) -> Bool {
+	static func == (lhs: OverviewBlock, rhs: OverviewBlock) -> Bool {
 		return lhs.heading == rhs.heading &&
 		lhs.subHeading == rhs.subHeading &&
 		lhs.id == rhs.id
@@ -27,14 +27,14 @@ struct OverviewBlock2: Equatable, Identifiable {
 	var action: (() -> Void)?
 }
 
-enum MedicationOverviewViewState2: Equatable {
+enum MedicationOverviewViewState: Equatable {
 	
 	case loading
 	case failure
 	case empty
-	case success(items: [OverviewBlock2])
+	case success(items: [OverviewBlock])
 
-	static func == (lhs: MedicationOverviewViewState2, rhs: MedicationOverviewViewState2) -> Bool {
+	static func == (lhs: MedicationOverviewViewState, rhs: MedicationOverviewViewState) -> Bool {
 		switch (lhs, rhs) {
 			
 			case (.loading, .loading):
@@ -61,10 +61,10 @@ enum MedicationOverviewViewState2: Equatable {
 	}
 }
 
-class MedicationOverviewViewModel2: ObservableObject {
+class MedicationOverviewViewModel: ObservableObject {
 	
 	/// The state of the view
-	@Published var state: MedicationOverviewViewState2
+	@Published var state: MedicationOverviewViewState
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -93,7 +93,7 @@ class MedicationOverviewViewModel2: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: MedicationOverviewViewModel2.Action) {
+	func reduce(_ action: MedicationOverviewViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
@@ -113,14 +113,14 @@ class MedicationOverviewViewModel2: ObservableObject {
 		switch cacheResult {
 			case .success(let record):
 			
-				var items = [OverviewBlock2]()
+				var items = [OverviewBlock]()
 				// For all the MgoResources
 				for resource in record.resources {
 					// If it is a ZibMedicationUse and we can create a UISchema from it
 					if let zib = ZibFactory.createZibMedicationUse(resource),
 					   let uiSchema = FHIRParser().getUiSchemaJson(resource) {
 						// Add a OverviewBlock to the display list
-						items.append(OverviewBlock2(heading: uiSchema.label, subHeading: record.name) {
+						items.append(OverviewBlock(heading: uiSchema.label, subHeading: record.name) {
 							self.coordinator?.handle(Coordination.Action(
 								identifier: "showZibDetails",
 								params: ["zib": zib, "uiSchema": uiSchema])
@@ -139,10 +139,10 @@ class MedicationOverviewViewModel2: ObservableObject {
 	}
 }
 
-struct MedicationOverviewView2: View {
+struct MedicationOverviewView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: MedicationOverviewViewModel2
+	@StateObject var viewModel: MedicationOverviewViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -221,9 +221,9 @@ struct MedicationOverviewView2: View {
 	
 	/// Create the list state view
 	/// - Returns: View when the user has some stored healthcare organizations
-	@ViewBuilder func listOverviewBlocks(list: [OverviewBlock2]) -> some View {
+	@ViewBuilder func listOverviewBlocks(list: [OverviewBlock]) -> some View {
 		
-		var searchResults: [OverviewBlock2] {
+		var searchResults: [OverviewBlock] {
 			if viewModel.searchText.isEmpty {
 				return list
 			} else {
@@ -324,8 +324,8 @@ struct MedicationOverviewView2: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		MedicationOverviewView2(
-			viewModel: MedicationOverviewViewModel2(
+		MedicationOverviewView(
+			viewModel: MedicationOverviewViewModel(
 				coordinator: nil,
 				organizationId: "1"
 			)
