@@ -62,6 +62,6 @@ final class RemoveHCOViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.removedHealthcareOrganization
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedRemove) == true
-		expect(self.servicesSpies.dataStoreSpy.invokedClear) == true
+		expect(self.servicesSpies.dataStoreSpy.invokedWipePersistedDataOrganizationId) == true
 	}
 }

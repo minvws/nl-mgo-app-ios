@@ -17,15 +17,6 @@ public class MgoMemoryDataStore: MgoDataStoreProtocol {
 	/// Create an in memory data store
 	public init() { /* public init for public access */ }
 	
-	/// Remove all entries from the store for this organization
-	/// - Parameter organizationId: the id of the organization to remove for
-	public func clear(organizationId: String) {
-		
-		dataSource = dataSource.filter({ entry in
-			entry.organizationId != organizationId
-		})
-	}
-	
 	/// Get a data set for a category and an organization
 	/// - Parameters:
 	///   - categoryId: the id of the category
@@ -66,5 +57,19 @@ public class MgoMemoryDataStore: MgoDataStoreProtocol {
 		if !found {
 			dataSource.append(data)
 		}
+	}
+	
+	/// Remove all entries from the store for this organization
+	/// - Parameter organizationId: the id of the organization to remove for
+	public func wipePersistedData(organizationId: String) {
+		
+		dataSource = dataSource.filter({ entry in
+			entry.organizationId != organizationId
+		})
+	}
+	
+	/// Wipe all persisted data
+	public func wipePersistedData() {
+		dataSource.removeAll()
 	}
 }

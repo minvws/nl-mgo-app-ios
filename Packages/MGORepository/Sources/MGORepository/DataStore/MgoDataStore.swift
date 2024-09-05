@@ -9,10 +9,6 @@ import Foundation
 
 public protocol MgoDataStoreProtocol {
 	
-	/// Remove all entries from the store for this organization
-	/// - Parameter organizationId: the id of the organization to remove for
-	func clear(organizationId: String)
-	
 	/// Get a data set for a category and an organization
 	/// - Parameters:
 	///   - categoryId: the id of the category
@@ -28,4 +24,11 @@ public protocol MgoDataStoreProtocol {
 	/// Store a data set
 	/// - Parameter data: the data set to store
 	func store(data: MgoDataStoreRecord)
+	
+	/// Remove all entries from the store for this organization
+	/// - Parameter organizationId: the id of the organization to remove for
+	func wipePersistedData(organizationId: String)
+
+	/// Wipe all persisted data
+	func wipePersistedData()
 }

@@ -13,18 +13,6 @@ public class MgoDataStoreSpy: MgoDataStoreProtocol {
 		// Public init for public access
 	}
 	
-	public var invokedClear = false
-	public var invokedClearCount = 0
-	public var invokedClearParameters: (organizationId: String, Void)?
-	public var invokedClearParametersList = [(organizationId: String, Void)]()
-
-	public func clear(organizationId: String) {
-		invokedClear = true
-		invokedClearCount += 1
-		invokedClearParameters = (organizationId, ())
-		invokedClearParametersList.append((organizationId, ()))
-	}
-
 	public var invokedGetCategoryId = false
 	public var invokedGetCategoryIdCount = 0
 	public var invokedGetCategoryIdParameters: (categoryId: String, organizationId: String)?
@@ -63,5 +51,25 @@ public class MgoDataStoreSpy: MgoDataStoreProtocol {
 		invokedStoreCount += 1
 		invokedStoreParameters = (data, ())
 		invokedStoreParametersList.append((data, ()))
+	}
+
+	public var invokedWipePersistedDataOrganizationId = false
+	public var invokedWipePersistedDataOrganizationIdCount = 0
+	public var invokedWipePersistedDataOrganizationIdParameters: (organizationId: String, Void)?
+	public var invokedWipePersistedDataOrganizationIdParametersList = [(organizationId: String, Void)]()
+
+	public func wipePersistedData(organizationId: String) {
+		invokedWipePersistedDataOrganizationId = true
+		invokedWipePersistedDataOrganizationIdCount += 1
+		invokedWipePersistedDataOrganizationIdParameters = (organizationId, ())
+		invokedWipePersistedDataOrganizationIdParametersList.append((organizationId, ()))
+	}
+
+	public var invokedWipePersistedData = false
+	public var invokedWipePersistedDataCount = 0
+
+	public func wipePersistedData() {
+		invokedWipePersistedData = true
+		invokedWipePersistedDataCount += 1
 	}
 }

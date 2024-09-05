@@ -102,18 +102,15 @@ class HealthCategoriesViewModel: ObservableObject {
 				coordinator?.handle(.backButtonPressed)
 			
 			case .refresh:
-				logInfo("Todo: Pull to refresh")
 				if case let .single(healthcareOrganization) = mode {
-					Current.dataStore.clear(organizationId: healthcareOrganization.identifier)
-					for element in HealthCategories.Category.allCases {
-						state.updateCategoryState(id: element.rawValue, state: .loading)
-					}
-					reduce(.onAppear)
+					Current.dataStore.wipePersistedData(organizationId: healthcareOrganization.identifier)
+				} else {
+					Current.dataStore.wipePersistedData()
 				}
+				reduce(.onAppear)
 
 			case let .categorySelected(categoryButton):
 				
-				logInfo("tapped on", categoryButton.id)
 				if case let .single(healthcareOrganization) = mode {
 					coordinator?.handle(
 						Coordination.Action(
@@ -147,7 +144,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	
 	@MainActor
 	func loadMedication(id: Int) async {
-		
+		state.updateCategoryState(id: id, state: .loading)
 		let medicationUseRepository: MedicationUseRepository? = FHIRClient()
 		
 		if case let .single(healthcareOrganization) = mode {
