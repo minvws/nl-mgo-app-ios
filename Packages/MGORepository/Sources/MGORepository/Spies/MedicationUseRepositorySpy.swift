@@ -21,7 +21,7 @@ public class MedicationUseRepositorySpy: MedicationUseRepository {
 	public var stubbedFetchMedicationUse: [MgoResource] = []
 	public var stubbedError: Error?
 
-	public func fetchMedicationUse(dvaTarget: String) async throws -> [MgoResource] {
+	public func fetchResources(dvaTarget: String) async throws -> [MgoResource] {
 		invokedFetchMedicationUse = true
 		invokedFetchMedicationUseCount += 1
 		if let error = stubbedError {

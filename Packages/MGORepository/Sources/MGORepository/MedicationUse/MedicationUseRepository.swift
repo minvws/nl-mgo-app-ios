@@ -15,54 +15,14 @@ public protocol MedicationUseRepository {
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use
-	func fetchMedicationUse(dvaTarget: String) async throws -> [MgoResource]
-	
-	/// Get a data store record for medication
-	/// - Parameters:
-	///   - dataStore: the data store to use
-	///   - organisationId: the id of the organization to fetch from
-	///   - organizationName: the name of organization to fetch from
-	///   - dvaTarget: the target for the API
-	/// - Returns: data record.
-	func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, dvaTarget: String) async throws -> MgoResourceRecord
+	func fetchResources(dvaTarget: String) async throws -> [MgoResource]
 }
 
 extension FHIRClient: MedicationUseRepository {
 	
-	/// Get a data store record for medication
-	/// - Parameters:
-	///   - dataStore: the data store to use
-	///   - organisationId: the id of the organization to fetch from
-	///   - organizationName: the name of organization to fetch from
-	///   - dvaTarget: the target for the API
-	/// - Returns: data record.
-	public func fetchMedicationUse(dataStore: MgoDataStoreProtocol, organisationId: String, dvaTarget: String) async throws -> MgoResourceRecord {
-		
-		let cacheResult = dataStore.get(categoryId: "Medication", organizationId: organisationId)
-		switch cacheResult {
-			case .success(let success):
-				logInfo("Cache hit")
-				return success
-				
-			case .failure(let failure):
-				logInfo("Cache miss: \(failure)")
-				do {
-					let mgoResources = try await fetchMedicationUse(dvaTarget: dvaTarget)
-					let response = MgoResourceRecord(categoryId: "Medication", organizationId: organisationId, resources: mgoResources)
-					dataStore.store(data: response)
-					logInfo("Cache store")
-					return response
-					
-				} catch {
-					throw error
-				}
-				throw failure
-		}
-	}
-	
 	/// Fetch all the medication usage
 	/// - Returns: an array of Mgo Resources for MedicationUse
-	public func fetchMedicationUse(dvaTarget: String) async throws -> [MgoResource] {
+	public func fetchResources(dvaTarget: String) async throws -> [MgoResource] {
 		
 		// The repository
 		let repository = MGORepository(client: self)

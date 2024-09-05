@@ -145,29 +145,57 @@ class HealthCategoriesViewModel: ObservableObject {
 	@MainActor
 	func loadMedication(id: Int) async {
 		state.updateCategoryState(id: id, state: .loading)
-		let medicationUseRepository: MedicationUseRepository? = FHIRClient()
 		
 		if case let .single(healthcareOrganization) = mode {
 
-			do {
-				guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID),
-					  let result = try await medicationUseRepository?.fetchMedicationUse(
-						dataStore: Current.dataStore,
-						organisationId: healthcareOrganization.identifier,
-						dvaTarget: resourceEndpoint) else {
-					
-					state.updateCategoryState(id: id, state: .empty)
-					return
-				}
-				if result.resources.isNotEmpty {
-					state.updateCategoryState(id: id, state: .loaded)
-				} else {
-					state.updateCategoryState(id: id, state: .empty)
-				}
+			let cacheResult = Current.dataStore.get(categoryId: "\(id)", organizationId: healthcareOrganization.identifier)
+			switch cacheResult {
+				case .success(let success):
 				
-			} catch {
-				logError("Client read error: \(String(describing: error))")
-				state.updateCategoryState(id: id, state: .empty)
+					logVerbose("DataStore hit")
+					if success.resources.isNotEmpty {
+						state.updateCategoryState(id: id, state: .loaded)
+					} else {
+						state.updateCategoryState(id: id, state: .empty)
+						return
+					}
+				
+				case .failure(let failure):
+					guard case DataStoreError.noData = failure else {
+						logError("DataStore error: \(failure)")
+						state.updateCategoryState(id: id, state: .empty)
+						return
+					}
+					
+					guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID) else {
+						
+						state.updateCategoryState(id: id, state: .empty)
+						return
+					}
+					
+					guard let medicationUseRepository: MedicationUseRepository = FHIRClient() else {
+						state.updateCategoryState(id: id, state: .empty)
+						return
+					}
+					
+					do {
+						let mgoResources = try await medicationUseRepository.fetchResources(dvaTarget: resourceEndpoint)
+						
+						let recordToStore = MgoResourceRecord(categoryId: "\(id)", organizationId: healthcareOrganization.identifier, resources: mgoResources)
+						Current.dataStore.store(data: recordToStore)
+						logVerbose("DataStore store new record")
+
+						if mgoResources.isNotEmpty {
+							state.updateCategoryState(id: id, state: .loaded)
+						} else {
+							state.updateCategoryState(id: id, state: .empty)
+							return
+						}
+
+					} catch {
+						logError("medicationUseRepository error: \(failure)")
+						state.updateCategoryState(id: id, state: .empty)
+					}
 			}
 		}
 	}

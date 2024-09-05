@@ -31,7 +31,7 @@ final class MedicationUseRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let result = try await client.fetchMedicationUse(dvaTarget: "test")
+		let result = try await client.fetchResources(dvaTarget: "test")
 		let medicationUseResult = try XCTUnwrap(result.first)
 		let medication = ZibFactory.createZibMedicationUse(medicationUseResult)
 
@@ -53,7 +53,7 @@ final class MedicationUseRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let result = try await client.fetchMedicationUse(dvaTarget: "test")
+		let result = try await client.fetchResources(dvaTarget: "test")
 		let productResult = try XCTUnwrap(result.last)
 		let product = ZibFactory.createZibProduct(productResult)
 

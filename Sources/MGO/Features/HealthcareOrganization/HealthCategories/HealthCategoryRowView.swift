@@ -70,6 +70,7 @@ struct HealthCategoryRowView: View {
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.padding(ViewTraits.Block.spacing)
 		.frame(minHeight: ViewTraits.Block.minHeight)
+		.background(theme.backgroundSecondary)
 	}
 }
 

@@ -108,7 +108,7 @@ class MedicationOverviewViewModel: ObservableObject {
 	@MainActor
 	func loadMedication() async {
 		
-		let cacheResult = Current.dataStore.get(categoryId: "Medication", organizationId: organizationId)
+		let cacheResult = Current.dataStore.get(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: organizationId)
 		
 		switch cacheResult {
 			case .success(let record):
@@ -120,14 +120,16 @@ class MedicationOverviewViewModel: ObservableObject {
 					if let zib = ZibFactory.createZibMedicationUse(resource),
 					   let uiSchema = FHIRParser().getUiSchemaJson(resource) {
 						// Add a OverviewBlock to the display list
-						items.append(OverviewBlock(
-							heading: uiSchema.label,
-							subHeading: getOrganizationName(record.organizationId)) {
-							self.coordinator?.handle(Coordination.Action(
-								identifier: "showZibDetails",
-								params: ["zib": zib, "uiSchema": uiSchema])
-							)
-						})
+						items.append(
+							OverviewBlock(
+								heading: Sanitizer.strip(uiSchema.label),
+								subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) {
+									self.coordinator?.handle(Coordination.Action(
+										identifier: Coordination.Action.showZibDetails.identifier,
+										params: ["zib": zib, "uiSchema": uiSchema])
+									)
+								}
+						)
 					}
 				}
 				if items.isEmpty {
