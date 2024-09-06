@@ -11,7 +11,7 @@ import MGOUI
 /// The various states the page can be in
 enum HealthCategoriesViewMode {
 	
-	/// This is a detailed single healthcare organization
+	/// This is a detailed single healthcare organization view
 	case single(MgoOrganization)
 	
 	/// This is an overview of all your healthcare organizations
@@ -110,11 +110,16 @@ class HealthCategoriesViewModel: ObservableObject {
 				reduce(.onAppear)
 
 			case let .categorySelected(categoryButton):
+			
+				guard categoryButton.state == .loaded else {
+					logError("Trying to select a category with invalid state", categoryButton)
+					return
+				}
 				
 				if case let .single(healthcareOrganization) = mode {
 					coordinator?.handle(
 						Coordination.Action(
-							identifier: "showCategoryOverview",
+							identifier: Coordination.Action.showCategoryOverview.identifier,
 							params: [
 								"categoryId": categoryButton.id,
 								"healthcareOrganization": healthcareOrganization
@@ -272,6 +277,7 @@ struct HealthCategoriesView: View {
 							style: .tertiaryNegative) {
 								viewModel.reduce(.removeHealthcareOrganization)
 							}
+							.accessibilityIdentifier("health_categories.remove_organization")
 					}
 				}
 			} // List
