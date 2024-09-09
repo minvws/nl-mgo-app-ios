@@ -500,6 +500,7 @@
       }
     },
     "common.not_available" : {
+      "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
@@ -576,6 +577,7 @@
       }
     },
     "common.unknown" : {
+      "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
@@ -592,6 +594,105 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja"
+          }
+        }
+      }
+    },
+    "detail_allergies.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle allergie gegevens"
+          }
+        }
+      }
+    },
+    "detail_complaints.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle klacht gegevens"
+          }
+        }
+      }
+    },
+    "detail_documents.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle document gegevens"
+          }
+        }
+      }
+    },
+    "detail_lab_results.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle resultaat gegevens"
+          }
+        }
+      }
+    },
+    "detail_measurements.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle meetgegevens"
+          }
+        }
+      }
+    },
+    "detail_medication.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle medicijngegevens"
+          }
+        }
+      }
+    },
+    "detail_reports.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle verslag gegevens"
+          }
+        }
+      }
+    },
+    "detail_treatments.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle behandelgegevens"
+          }
+        }
+      }
+    },
+    "detail_vaccinations.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle inenting gegevens"
           }
         }
       }
@@ -981,6 +1082,28 @@
         }
       }
     },
+    "health_category.medication.no_search_results" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen medicijnen gevonden"
+          }
+        }
+      }
+    },
+    "health_category.medication.search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek een medicijn"
+          }
+        }
+      }
+    },
     "health_category.reports" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -988,6 +1111,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verslagen"
+          }
+        }
+      }
+    },
+    "health_category.search_again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probeer opnieuw te zoeken."
           }
         }
       }
@@ -1009,7 +1143,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inentingen"
+            "value" : "Intentingen"
           }
         }
       }
@@ -1164,61 +1298,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alle medicijngegevens"
-          }
-        }
-      }
-    },
-    "medication_overview.back" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Overzicht"
-          }
-        }
-      }
-    },
-    "medication_overview.noresults_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geen medicijnen gevonden"
-          }
-        }
-      }
-    },
-    "medication_overview.noresults_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Probeer opnieuw te zoeken."
-          }
-        }
-      }
-    },
-    "medication_overview.search" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zoek een medicijn"
-          }
-        }
-      }
-    },
-    "medication_overview.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ %@ bekijken?"
           }
         }
       }
@@ -1498,13 +1577,35 @@
         }
       }
     },
+    "overview.empty.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je overzicht is nog leeg"
+          }
+        }
+      }
+    },
+    "overview.empty.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg zorgaanbieders toe om hier gegevens over je gezondheid te zien."
+          }
+        }
+      }
+    },
     "overview.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Goedemorgen"
+            "value" : "Overzicht"
           }
         }
       }
@@ -1768,7 +1869,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "gebruik optic ID "
+            "value" : "gebruik optic ID"
           }
         }
       }
@@ -1823,7 +1924,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De ingevoerde toegangscode is **onjuist**.\nProbeer het opnieuw. "
+            "value" : "De ingevoerde toegangscode is **onjuist**.\nProbeer het opnieuw."
           }
         }
       }
@@ -1834,7 +1935,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De ingevoerde toegangscode is onjuist.\nProbeer het opnieuw. "
+            "value" : "De ingevoerde toegangscode is onjuist.\nProbeer het opnieuw."
           }
         }
       }
@@ -1878,7 +1979,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zo gebruikt de app jouw gegevens "
+            "value" : "Zo gebruikt de app jouw gegevens"
           }
         }
       }
@@ -1922,7 +2023,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens worden **versleuteld** en via een **veilige** verbinding opgehaald."
+            "value" : "Je gegevens worden **beveiligd** en via een **veilige verbinding** opgehaald."
           }
         }
       }
@@ -1944,7 +2045,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "**Je kiest zelf** hoe je je gegevens wilt gebruiken en of je ze wel of niet deelt met anderen."
+            "value" : "**Je kiest zelf** hoe je je gegevens wilt gebruiken en of je ze deelt met anderen."
           }
         }
       }
@@ -1955,7 +2056,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt de gegevens in je overzicht **altijd verwijderen of opnieuw opvragen.**"
+            "value" : "Je kunt de gegevens in je overzicht altijd **verwijderen of opnieuw ophalen**."
           }
         }
       }
@@ -2066,6 +2167,270 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Download de nieuwste versie van de app om te zorgen dat Mijn Gezondheidsoverzicht goed blijft werken."
+          }
+        }
+      }
+    },
+    "zib_medication_use.as_agreed_indicator" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volgens afspraak indicator"
+          }
+        }
+      }
+    },
+    "zib_medication_use.category" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorie"
+          }
+        }
+      }
+    },
+    "zib_medication_use.date_asserted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registratiedatum"
+          }
+        }
+      }
+    },
+    "zib_medication_use.effective_duration.code" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code"
+          }
+        }
+      }
+    },
+    "zib_medication_use.effective_duration.value" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duur"
+          }
+        }
+      }
+    },
+    "zib_medication_use.effective_period.end" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eind datum"
+          }
+        }
+      }
+    },
+    "zib_medication_use.effective_period.start" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start datum"
+          }
+        }
+      }
+    },
+    "zib_medication_use.group_effective_period" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruiksperiode"
+          }
+        }
+      }
+    },
+    "zib_medication_use.group_general_information" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algemene informatie"
+          }
+        }
+      }
+    },
+    "zib_medication_use.group_medication" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruiksproduct"
+          }
+        }
+      }
+    },
+    "zib_medication_use.group_other" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overig"
+          }
+        }
+      }
+    },
+    "zib_medication_use.identifier" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identificatie nummer"
+          }
+        }
+      }
+    },
+    "zib_medication_use.information_source" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informatiebron"
+          }
+        }
+      }
+    },
+    "zib_medication_use.medication" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruiksproduct"
+          }
+        }
+      }
+    },
+    "zib_medication_use.medication_treatment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medicamenteuze Behandeling"
+          }
+        }
+      }
+    },
+    "zib_medication_use.note" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toelichting"
+          }
+        }
+      }
+    },
+    "zib_medication_use.prescriber" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voorschrijver"
+          }
+        }
+      }
+    },
+    "zib_medication_use.reason_code" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reden gebruik"
+          }
+        }
+      }
+    },
+    "zib_medication_use.reason_for_change_or_discontinuation_of_use" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reden wijzigen of stoppen gebruik"
+          }
+        }
+      }
+    },
+    "zib_medication_use.repeat_period_cyclical_schedule.code" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herhaalperiode cyclisch schema (code)"
+          }
+        }
+      }
+    },
+    "zib_medication_use.repeat_period_cyclical_schedule.value" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herhaalperiode cyclisch schema"
+          }
+        }
+      }
+    },
+    "zib_medication_use.status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
+          }
+        }
+      }
+    },
+    "zib_medication_use.subject" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Patiënt"
+          }
+        }
+      }
+    },
+    "zib_medication_use.taken" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik indicator"
           }
         }
       }

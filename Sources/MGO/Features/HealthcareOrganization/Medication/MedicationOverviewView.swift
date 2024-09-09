@@ -215,7 +215,7 @@ struct MedicationOverviewView: View {
 		}
 		.padding(.horizontal, ViewTraits.General.padding)
 		.navigationBarBackButtonHidden()
-		.navigationBarItems(leading: BackButton("medication_overview.back") {
+		.navigationBarItems(leading: BackButton("health_categories.heading") {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
@@ -278,7 +278,7 @@ struct MedicationOverviewView: View {
 				.padding(.top, ViewTraits.Navigation.padding)
 			}
 		}
-		.searchable(text: $viewModel.searchText, prompt: "medication_overview.search")
+		.searchable(text: $viewModel.searchText, prompt: "health_category.medication.search")
 		.padding(.top, ViewTraits.List.top)
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.foregroundColor(theme.contentTertiary)
@@ -309,12 +309,12 @@ struct MedicationOverviewView: View {
 					// Texts, full width
 					VStack(alignment: .center) {
 						
-						Text("medication_overview.noresults_heading")
+						Text("health_category.medication.no_search_results")
 							.rijksoverheidStyle(font: .bold, style: .title3)
 							.foregroundColor(theme.contentPrimary)
 							.multilineTextAlignment(.center)
 						
-						Text("medication_overview.noresults_subheading")
+						Text("health_category.search_again")
 							.rijksoverheidStyle(font: .regular, style: .body)
 							.foregroundColor(theme.contentTertiary)
 							.multilineTextAlignment(.center)
