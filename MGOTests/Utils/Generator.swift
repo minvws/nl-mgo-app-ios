@@ -62,21 +62,6 @@ class Generator {
 		)
 	}
 	
-	// MARK: - Concern
-	
-	static func concern() -> MgoConcern {
-		
-		return MgoConcern(
-			title: "Fractuur van pols (aandoening)",
-			category: "diagnose",
-			clinicalStatus: "inactive",
-			startDate: "2001",
-			endDate: "2001",
-			bodyLocation: "Gehele polsregio (lichaamsstructuur), Rechts",
-			comment: "Gevallen op kunstijsbaan."
-		)
-	}
-	
 	// MARK: - MedicationUse
 	
 	static func medicationUse() -> ZibMedicationUse {

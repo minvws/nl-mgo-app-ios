@@ -1850,28 +1850,6 @@
         }
       }
     },
-    "problems.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klachten en diagnoses"
-          }
-        }
-      }
-    },
-    "problems.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je diagnoses en gezondheidsklachten, vastgesteld door je zorgaanbieder."
-          }
-        }
-      }
-    },
     "proposition.heading" : {
       "extractionState" : "manual",
       "localizations" : {
