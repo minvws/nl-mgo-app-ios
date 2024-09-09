@@ -209,40 +209,6 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
 	}
 	
-	func test_coordinatorHandle_showResults_firstTabPath_shouldContainSearchHealthcareOrganizations() {
-
-		// Given
-		let organization = Generator.healthcareOrganization("1")
-		
-		// When
-		sut.handle(Coordination.Action(identifier: "showLabResults", params: ["healthcareOrganization": organization]))
-
-		// Then
-		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showLabResults(healthcareOrganization: organization)])
-	}
-
-	func test_coordinatorHandle_showResults_missingParams_firstTabPath_shouldBeEmpty() {
-
-		// Given
-		
-		// When
-		sut.handle(Coordination.Action(identifier: "showLabResults", params: [:]))
-
-		// Then
-		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
-	}
-	
-	func test_coordinatorHandle_showResults_wrongParams_firstTabPath_shouldBeEmpty() {
-
-		// Given
-		
-		// When
-		sut.handle(Coordination.Action(identifier: "showLabResults", params: ["showHealthcareOrganization": "wrong"]))
-
-		// Then
-		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
-	}
-	
 	func test_coordinatorHandle_removeHealthcareOrganization() {
 
 		// Given

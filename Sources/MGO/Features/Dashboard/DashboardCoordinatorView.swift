@@ -20,7 +20,6 @@ extension Coordination.Action {
 	static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
 	static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
 	
-	static let showLabResults = Coordination.Action(identifier: "showLabResults")
 	static let showZibDetails = Coordination.Action(identifier: "showZibDetails")
 	
 	static let showCategoryOverview = Coordination.Action(identifier: "showCategoryOverview")
@@ -67,7 +66,6 @@ enum DashboardCoordination {
 		// Details Flow
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		case showCategoryOverview(categoryId: Int, organizationId: String)
-		case showLabResults(healthcareOrganization: MgoOrganization)
 		case showZibDetails(schema: UISchema)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
@@ -141,14 +139,6 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let categoryId = action.params["categoryId"] as? Int {
 					firstTabPath.append(DashboardCoordination.State.showCategoryOverview(categoryId: categoryId, organizationId: healthcareOrganization.identifier))
-				} else {
-					logError("DashboardCoordinator Coordinator, missing params for \(action)")
-				}
-	
-			case Coordination.Action.showLabResults.identifier:
-				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
-					firstTabPath.append(DashboardCoordination.State.showLabResults(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -235,14 +225,6 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
-				
-			case let .showLabResults(healthcareOrganization):
-				LabResultsListView(
-					viewModel: LabResultsListViewModel(
-						coordinator: self,
-						healthcareOrganization: healthcareOrganization
-					)
-				)
 			
 			case let .showZibDetails(schema: schema):
 				ZibDetailsView(
