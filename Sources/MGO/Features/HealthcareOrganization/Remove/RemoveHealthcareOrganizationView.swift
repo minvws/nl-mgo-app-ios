@@ -37,6 +37,7 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 		
 		switch action {
 			case .removeOrganization:
+				Current.dataStore.wipePersistedData(organizationId: healthcareOrganization.identifier)
 				try? Current.healthcareOrganizationStore.remove(healthcareOrganization)
 				coordinator?.handle(.removedHealthcareOrganization)
 			

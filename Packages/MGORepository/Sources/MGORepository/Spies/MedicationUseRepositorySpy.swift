@@ -18,15 +18,20 @@ public class MedicationUseRepositorySpy: MedicationUseRepository {
 
 	public var invokedFetchMedicationUse = false
 	public var invokedFetchMedicationUseCount = 0
-	public var stubbedFetchMedicationUse: [ZibSchema] = []
+	public var stubbedFetchMedicationUse: [MgoResource] = []
 	public var stubbedError: Error?
 
-	public func fetchMedicationUse(dvaTarget: String) async throws -> [ZibSchema] {
+	public func fetchResources(dvaTarget: String) async throws -> [MgoResource] {
 		invokedFetchMedicationUse = true
 		invokedFetchMedicationUseCount += 1
 		if let error = stubbedError {
 			throw error
 		}
 		return stubbedFetchMedicationUse
+	}
+	
+	public func fetchMedicationUse(dataStore: any MgoDataStoreProtocol, organisationId: String, dvaTarget: String) async throws -> MgoResourceRecord {
+		
+		return MgoResourceRecord(categoryId: "1", organizationId: "1", resources: [])
 	}
 }

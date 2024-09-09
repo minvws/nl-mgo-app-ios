@@ -15,6 +15,12 @@ import MGOFoundation
 final class ServicesSpies {
 	
 	fileprivate init() { /* private so it can not be initiated elsewhere */ }
+	
+	var dataStoreSpy: MgoDataStoreSpy = {
+		let spy = MgoDataStoreSpy()
+		spy.stubbedGetCategoryIdResult = .success(MgoResourceRecord(categoryId: "test", organizationId: "test", resources: []))
+		return spy
+	}()
 
 	var healthcareOrganizationStoreSpy: HealthcareOrganizationRepositorySpy = {
 		let spy = HealthcareOrganizationRepositorySpy()
@@ -61,6 +67,7 @@ func setupServicesSpies() -> ServicesSpies {
 	
 	Current = Services(
 		now: { Date(timeIntervalSince1970: 1700000000) }, // Tuesday, 14 November 2023 22:13:20
+		dataStore: spies.dataStoreSpy,
 		healthcareOrganizationStore: spies.healthcareOrganizationStoreSpy,
 		jailBreakDetector: spies.jailBreakSpy,
 		localAuthenticationProvider: spies.localAuthenticationProviderSpy,

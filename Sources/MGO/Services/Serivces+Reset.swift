@@ -12,6 +12,7 @@ extension Services {
 	/// Reset all the data within applicable Services
 	func wipePersistedData() {
 		
+		dataStore.wipePersistedData()
 		healthcareOrganizationStore.wipePersistedData()
 		remoteConfigurationRepository.wipePersistedData()
 		secureUserSettings.wipePersistedData()

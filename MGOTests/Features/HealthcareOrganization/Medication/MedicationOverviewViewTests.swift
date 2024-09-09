@@ -16,17 +16,14 @@ final class MedicationOverviewViewTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: MedicationOverviewViewModel!
 	private var healthcareOrganization: MgoOrganization!
-	private var repositorySpy: MedicationUseRepositorySpy!
 	private var sut: MedicationOverviewView!
-	
+
 	override func setUp() {
 		
-		super.setUp()
-		repositorySpy = MedicationUseRepositorySpy()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = MedicationOverviewViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization, repository: repositorySpy)
+		viewModel = MedicationOverviewViewModel(coordinator: coordinatorSpy, organizationId: healthcareOrganization.identifier)
 		sut = MedicationOverviewView(viewModel: self.viewModel)
 	}
 
@@ -45,40 +42,47 @@ final class MedicationOverviewViewTests: XCTestCase {
 	func test_stateEmpty() {
 		
 		// Given
-		viewModel.state = .empty
-		
-		// When
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])
+		)
 		let content = NavigationView { sut }
 		
+		// When
+		sut.viewModel.reduce(.onAppear)
+		
 		// Then
+		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
 	}
 	
 	func test_stateFailure() {
 		
 		// Given
-		viewModel.state = .failure
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(DataStoreError.noData)
+		let content = NavigationView { sut }
 		
 		// When
-		let content = NavigationView { sut }
+		sut.viewModel.reduce(.onAppear)
 		
 		// Then
 		takeSnapShots(content: content)
 	}
 
-	func test_stateList() {
+	func test_stateList() throws {
 		
 		// Given
-		let block1 = OverviewBlock(heading: "Zestril tablet 10mg", subHeading: "Tandarts Tandje Erbij", action: nil)
-		let block2 = OverviewBlock(heading: "Zestril tablet 10mg", subHeading: "Tandarts Tandje Erbij", action: nil)
-		let block3 = OverviewBlock(heading: "Zestril tablet 10mg", subHeading: "Tandarts Tandje Erbij", action: nil)
-		
-		viewModel.state = .success(items: [block1, block2, block3])
-		
-		// When
+		let resource = try getResource("zibMedicationUse")
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])
+		)
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
 		
+		// When
+		sut.viewModel.reduce(.onAppear)
+		
 		// Then
+		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
 	}
 
@@ -95,31 +99,41 @@ final class MedicationOverviewViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_search_itemNotFound() {
+	func test_search_itemNotFound() throws {
 		
 		// Given
-		let block = OverviewBlock(heading: "Zestril tablet 10mg", subHeading: "Tandarts Tandje Erbij", action: nil)
-		viewModel.state = .success(items: [block])
-		viewModel.searchText = "Paracetamol"
+		let resource = try getResource("zibMedicationUse")
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])
+		)
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
+		let content = NavigationView { sut }
+		sut.viewModel.reduce(.onAppear)
 		
 		// When
-		let content = NavigationView { sut }
+		viewModel.searchText = "Paracetamol"
 		
 		// Then
+		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
 	}
 	
-	func test_search_itemFound() {
+	func test_search_itemFound() throws {
 		
 		// Given
-		let block = OverviewBlock(heading: "Zestril tablet 10mg", subHeading: "Tandarts Tandje Erbij", action: nil)
-		viewModel.state = .success(items: [block])
-		viewModel.searchText = "Zestril"
+		let resource = try getResource("zibMedicationUse")
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])
+		)
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
+		let content = NavigationView { sut }
+		sut.viewModel.reduce(.onAppear)
 		
 		// When
-		let content = NavigationView { sut }
+		viewModel.searchText = "Zestril"
 		
 		// Then
+		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
 	}
 }

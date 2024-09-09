@@ -18,10 +18,17 @@ public struct ZibProduct: Codable, Hashable, Sendable {
     public let id: String?
     public let ingredient: [ZibProductIngredient]?
     public let package: Package
-    public let profile: String
+    public let profile: ZibProductProfile
+    public let referenceID: String
     public let resourceType: String?
 
-    public init(code: [MgoCoding]?, description: String?, form: [MgoCoding]?, id: String?, ingredient: [ZibProductIngredient]?, package: Package, profile: String, resourceType: String?) {
+    public enum CodingKeys: String, CodingKey {
+        case code, description, form, id, ingredient, package, profile
+        case referenceID = "referenceId"
+        case resourceType
+    }
+
+    public init(code: [MgoCoding]?, description: String?, form: [MgoCoding]?, id: String?, ingredient: [ZibProductIngredient]?, package: Package, profile: ZibProductProfile, referenceID: String, resourceType: String?) {
         self.code = code
         self.description = description
         self.form = form
@@ -29,6 +36,7 @@ public struct ZibProduct: Codable, Hashable, Sendable {
         self.ingredient = ingredient
         self.package = package
         self.profile = profile
+        self.referenceID = referenceID
         self.resourceType = resourceType
     }
 }
@@ -58,7 +66,8 @@ public extension ZibProduct {
         id: String?? = nil,
         ingredient: [ZibProductIngredient]?? = nil,
         package: Package? = nil,
-        profile: String? = nil,
+        profile: ZibProductProfile? = nil,
+        referenceID: String? = nil,
         resourceType: String?? = nil
     ) -> ZibProduct {
         return ZibProduct(
@@ -69,6 +78,7 @@ public extension ZibProduct {
             ingredient: ingredient ?? self.ingredient,
             package: package ?? self.package,
             profile: profile ?? self.profile,
+            referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType
         )
     }

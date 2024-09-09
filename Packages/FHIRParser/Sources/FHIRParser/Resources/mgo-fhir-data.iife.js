@@ -6701,15 +6701,18 @@ var __publicField = (obj, key, value) => {
     uiSchemaGroup
   };
   function parseResourceMeta(statement, profile2) {
-    const { resourceType, id, meta } = statement;
+    const { resourceType: statementResourceType, id, meta } = statement;
     if (!meta?.profile?.includes(profile2)) {
       throw new Error(
         `Resource does not have the expected profile: "${profile2}". Got: ${meta?.profile}`
       );
     }
+    const resourceId = string(id);
+    const resourceType = string(statementResourceType);
     return {
-      id: string(id),
-      resourceType: string(resourceType),
+      id: resourceId,
+      referenceId: `${resourceType}/${resourceId}`,
+      resourceType,
       profile: profile2
     };
   }
@@ -6772,6 +6775,7 @@ var __publicField = (obj, key, value) => {
   function parseZibMedicationUse(resource) {
     return {
       ...parseResourceMeta(resource, profile$1),
+      profile: profile$1,
       asAgreedIndicator: extensionNictiz(resource, "zib-MedicationUse-AsAgreedIndicator"),
       prescriber: extensionNictiz(resource, "zib-MedicationUse-Prescriber"),
       author: extensionNictiz(resource, "zib-MedicationUse-Author"),
@@ -6830,6 +6834,7 @@ var __publicField = (obj, key, value) => {
   function parseZibProduct(resource) {
     return {
       ...parseResourceMeta(resource, profile),
+      profile,
       description: extensionNictiz(resource, "zib-Product-Description"),
       code: codeableConcept$1(resource.code),
       form: codeableConcept$1(resource.form),

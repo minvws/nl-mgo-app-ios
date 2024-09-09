@@ -7,6 +7,7 @@
 
 import Foundation
 import FHIRClient
+import FHIRParser
 
 public class MGORepository {
 	
@@ -72,5 +73,32 @@ public class MGORepository {
 		)
 		
 		return data
+	}
+	
+	/// process the bundle FHIR data into mgoResources
+	/// - Parameter data: FHIR bundle
+	/// - Returns: array of mgoResources (as Data)
+	public func process(_ data: Data) throws -> [MgoResource] {
+
+		// The parser
+		let parser = FHIRParser()
+		
+		// Transform the bundle into FHIR resources
+		let fhirResources = parser.getBundleResourcesJson(data)
+		
+		// The result set
+		var mgoResources = [MgoResource]()
+	
+		// Loop over all FHIR resources
+		for element in fhirResources {
+			// Cast to data
+			let resource = try JSONSerialization.data(withJSONObject: element)
+			
+			// Transfrom to MgoResource
+			if let mgoResource = parser.getMgoResourceJson(resource) {
+				mgoResources.append(mgoResource)
+			}
+		}
+		return mgoResources
 	}
 }

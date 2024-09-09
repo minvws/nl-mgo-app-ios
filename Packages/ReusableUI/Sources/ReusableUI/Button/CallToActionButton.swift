@@ -26,6 +26,7 @@ public struct CallToActionButton: View {
 		case primary
 		case primaryNegative
 		case secondary
+		case tertiaryNegative
 	}
 	
 	/// Initializer
@@ -55,6 +56,9 @@ public struct CallToActionButton: View {
 		.when(style == .primaryNegative, transform: { button in
 			button.buttonStyle(PrimaryNegativeButtonStyle())
 		})
+		.when(style == .tertiaryNegative, transform: { button in
+			button.buttonStyle(TertiaryNegativeButtonStyle())
+		})
 	}
 }
 
@@ -65,6 +69,8 @@ public struct CallToActionButton: View {
 		CallToActionButton("common.next", style: .secondary)
 			.padding(16)
 		CallToActionButton("common.next", style: .primaryNegative)
+			.padding(16)
+		CallToActionButton("common.next", style: .tertiaryNegative)
 			.padding(16)
 	}
 }

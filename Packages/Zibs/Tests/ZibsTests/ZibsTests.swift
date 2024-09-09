@@ -10,6 +10,19 @@ import MGOTest
 
 final class ZibsTests: XCTestCase {
 	
+	func test_factory_invalidData() throws {
+		
+		// Given
+		let resource = try getStringResource("invalid")
+		let data = Data(resource.utf8)
+		
+		// When
+		let object = ZibFactory.createZibMedicationUse(data)
+		
+		// Then
+		expect(object) == nil
+	}
+	
 	func test_factory_zibMedicationUse() throws {
 		
 		// Given
@@ -22,7 +35,7 @@ final class ZibsTests: XCTestCase {
 		// Then
 		expect(object?.id) == "cafa8f45-74bc-4107-a6f8-6eb58c6ed670"
 		expect(object?.resourceType) == "MedicationStatement"
-		expect(object?.profile) == "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"
+		expect(object?.profile.rawValue) == "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"
 		expect(object?.asAgreedIndicator) == true
 		expect(object?.prescriber?.display) == "Huisartsen, niet nader gespecificeerd"
 		expect(object?.prescriber?.reference) == "PractitionerRole/1a249336-3fe7-488f-bc88-44bc8e1ad2aa"
@@ -90,7 +103,7 @@ final class ZibsTests: XCTestCase {
 		// Then
 		expect(object?.id) == "8f017a48-fdab-42f5-a2d7-f7bb6d84a762"
 		expect(object?.resourceType) == "Medication"
-		expect(object?.profile) == "http://nictiz.nl/fhir/StructureDefinition/zib-Product"
+		expect(object?.profile.rawValue) == "http://nictiz.nl/fhir/StructureDefinition/zib-Product"
 		expect(object?.description) == nil
 		expect(object?.code?.first?.code) == "615560"
 		expect(object?.code?.first?.display) == "Zestril tablet 10mg"

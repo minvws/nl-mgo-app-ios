@@ -9,41 +9,34 @@ import Foundation
 import FHIRClient
 import FHIRParser
 import Zibs
+import Logging
 
 public protocol MedicationUseRepository {
 	
 	/// Fetch all the medication usage
 	/// - Returns: an array of medication use
-	func fetchMedicationUse(dvaTarget: String) async throws -> [ZibSchema]
+	func fetchResources(dvaTarget: String) async throws -> [MgoResource]
 }
 
 extension FHIRClient: MedicationUseRepository {
 	
 	/// Fetch all the medication usage
-	/// - Returns: an array of medication use
-	public func fetchMedicationUse(dvaTarget: String) async throws -> [ZibSchema] {
+	/// - Returns: an array of Mgo Resources for MedicationUse
+	public func fetchResources(dvaTarget: String) async throws -> [MgoResource] {
 		
-		let parser = FHIRParser()
-		let data = try await MGORepository(client: self).getBundleData(endpoint: DVP.CommonClinicalDataset.medicationUse, dvaTarget: dvaTarget)
-		let resources = parser.getBundleResourcesJson(data)
+		// The repository
+		let repository = MGORepository(client: self)
 		
-		var result = [ZibSchema]()
-	
-		for element in resources {
-			let resource = try JSONSerialization.data(withJSONObject: element)
-			if let zib = parser.getMgoResourceJson(resource) {
-				if let zibMedicationUse = ZibFactory.createZibMedicationUse(zib) {
-					let schema = parser.getUiSchemaJson(zib)
-					result.append(ZibSchema(zib: zibMedicationUse, schema: schema))
-				}
-				if let zibProduct = ZibFactory.createZibProduct(zib) {
-					let schema = parser.getUiSchemaJson(zib)
-					result.append(ZibSchema(zib: zibProduct, schema: schema))
-				}
-			}
+		// Get the FHIR Bundle
+		let data = try await repository.getBundleData(endpoint: DVP.CommonClinicalDataset.medicationUse, dvaTarget: dvaTarget)
+		
+		// Transform the FHIR bundle into MgoResources
+		let mgoResources = try repository.process(data)
+		
+		return mgoResources.filter { resource in
+			
+			resource.hasProfile(ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue) ||
+			resource.hasProfile(ZibProductProfile.httpNictizNlFhirStructureDefinitionZibProduct.rawValue)
 		}
-		return result
 	}
 }
-
-public typealias ZibSchema = (zib: Zib, schema: UISchema?)

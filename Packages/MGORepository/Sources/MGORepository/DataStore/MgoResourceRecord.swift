@@ -7,11 +7,4 @@
 
 import Foundation
 
-public protocol Zib {
-	var profile: String { get }
-	var id: String? { get }
-	var resourceType: String? { get }
-}
-
-extension ZibMedicationUse: Zib { }
-extension ZibProduct: Zib { }
+public typealias MgoResourceRecord = (categoryId: String, organizationId: String, resources: [MgoResource])
