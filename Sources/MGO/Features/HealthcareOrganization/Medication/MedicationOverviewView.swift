@@ -264,7 +264,6 @@ struct MedicationOverviewView: View {
 							ActionCardView(
 								title: LocalizedStringKey(stringLiteral: element.heading ?? ""),
 								message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
-								icon: .none,
 								perform: element.action
 							)
 							.cornerRadius(ViewTraits.List.cornerRadius)
