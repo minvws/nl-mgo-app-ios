@@ -6,7 +6,6 @@
  */
 
 import MGORepository
-import FHIRExtensions
 import Zibs
 
 public class MockGenerator {
