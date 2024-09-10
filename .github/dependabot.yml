@@ -32,14 +32,6 @@ updates:
       timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
-    directory: "/Packages/FHIRExtensions"
-    schedule:
-      interval: weekly
-      day: monday
-      time: "08:30"
-      timezone: Europe/Amsterdam
-
-  - package-ecosystem: "swift"
     directory: "/Packages/FileStorage"
     schedule:
       interval: weekly

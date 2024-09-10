@@ -20,7 +20,6 @@ struct OverviewCardView: View {
 		ActionCardView(
 			title: LocalizedStringKey(stringLiteral: model.name),
 			message: LocalizedStringKey(stringLiteral: model.category),
-			icon: .none,
 			perform: perform
 		)
 	}

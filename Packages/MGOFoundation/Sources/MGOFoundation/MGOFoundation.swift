@@ -9,7 +9,6 @@
 @_exported import Foundation
 
 // Internal
-@_exported import FHIRExtensions
 @_exported import FHIRClient
 @_exported import JailBreakDetector
 @_exported import LocalisationService

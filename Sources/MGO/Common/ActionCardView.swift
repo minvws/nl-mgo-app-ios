@@ -7,52 +7,6 @@
 
 import MGOUI
 
-/// The various Icons for an action card
-enum ActionCardIcon {
-	
-	case diagnoses
-	case medication
-	case remove
-	case results
-	case none
-	
-	/// The image to use for the category
-	var image: ImageResource? {
-		switch self {
-			case .diagnoses:
-				return ImageResource.Details.diagnoses
-			
-			case .medication:
-				return ImageResource.Details.medication
-			
-			case .remove:
-				return ImageResource.Details.trashcan
-		
-			case .results:
-				return ImageResource.Details.results
-		
-			case .none:
-				return nil
-		}
-	}
-	
-	/// The color for the icon background
-	var backgroundColor: Color? {
-		switch self {
-			case .diagnoses:
-				return Theme().tandarts
-			case .medication:
-				return Theme().verpleeghuis
-			case .remove:
-				return Theme().notificationError
-			case .results:
-				return Theme().fysiotherapeut
-			case .none:
-				return nil
-		}
-	}
-}
-
 struct ActionCardView: View {
 	
 	/// The Theme
@@ -63,9 +17,6 @@ struct ActionCardView: View {
 	
 	/// The body of the card
 	var message: LocalizedStringKey
-	
-	/// The action icon
-	var icon: ActionCardIcon = .none
 	
 	/// has the user pressed (but no released) the button
 	@State private var onHover = false
@@ -79,7 +30,7 @@ struct ActionCardView: View {
 			static let padding: CGFloat = 16
 			static let spacing: CGFloat = 8
 		}
-		enum Icon {
+		enum Chevron {
 			static let size: CGFloat = 32.0
 		}
 	}
@@ -89,18 +40,6 @@ struct ActionCardView: View {
 		VStack(spacing: 0) {
 			
 			HStack(alignment: .center, spacing: 0) {
-				
-				if icon != .none,
-				   let image = icon.image,
-				   let backgroundColor = icon.backgroundColor {
-					
-					Image(image)
-						.foregroundStyle(theme.backgroundSecondary)
-						.background(backgroundColor)
-						.cornerRadius(50)
-					
-					Spacer(minLength: ViewTraits.General.padding)
-				}
 				
 				VStack(alignment: .leading, spacing: ViewTraits.General.spacing) {
 					
@@ -119,7 +58,7 @@ struct ActionCardView: View {
 				
 				Image(ImageResource.Overview.chevronRight)
 					.foregroundStyle(theme.iconsPrimary)
-					.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size, alignment: .center)
+					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
 					.accessibilityHidden(true)
 				
 			}
@@ -140,8 +79,7 @@ struct ActionCardView: View {
 	VStack(spacing: 4) {
 		ActionCardView(
 			title: "medication_use.heading",
-			message: "medication_use.subheading",
-			icon: ActionCardIcon.medication
+			message: "medication_use.subheading"
 		)
 	}
 }

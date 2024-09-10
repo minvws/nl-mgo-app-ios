@@ -10,8 +10,6 @@ packages:
     path: ./Packages/CopyImport
   FHIRClient:
     path: ./Packages/FHIRClient
-  FHIRExtensions:
-    path: ./Packages/FHIRExtensions
   FHIRParser:
     path: ./Packages/FHIRParser
   FileStorage:
@@ -383,9 +381,6 @@ schemes:
       gatherCoverageData: true
       targets:
         - package: FHIRClient/FHIRClientTests
-          randomExecutionOrder: true
-          parallelizable: false
-        - package: FHIRExtensions/FHIRExtensionsTests
           randomExecutionOrder: true
           parallelizable: false
         - package: FHIRParser/FHIRParserTests
