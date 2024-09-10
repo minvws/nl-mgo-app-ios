@@ -72,17 +72,23 @@ public struct CallToActionButton: View {
 
 #Preview {
 	VStack {
-		CallToActionButton("primary", style: .primary)
-			.padding(16)
-		CallToActionButton("primaryNegative", style: .primaryNegative)
-			.padding(16)
-		CallToActionButton("secondary", style: .secondary)
-			.padding(16)
-		CallToActionButton("secondaryNegative", style: .secondaryNegative)
-			.padding(16)
-		CallToActionButton("tertiary", style: .tertiary)
-			.padding(16)
-		CallToActionButton("tertiaryNegative", style: .tertiaryNegative)
-			.padding(16)
+		HStack {
+			CallToActionButton(".primary", style: .primary)
+				.padding(16)
+			CallToActionButton(".primaryNegative", style: .primaryNegative)
+				.padding(16)
+		}
+		HStack {
+			CallToActionButton(".secondary", style: .secondary)
+				.padding(16)
+			CallToActionButton(".secondaryNegative", style: .secondaryNegative)
+				.padding(16)
+		}
+		HStack {
+			CallToActionButton(".tertiary", style: .tertiary)
+				.padding(16)
+			CallToActionButton(".tertiaryNegative", style: .tertiaryNegative)
+				.padding(16)
+		}
 	}
 }

@@ -33,20 +33,31 @@ struct DetailView: View {
 
 ### Button
 
-The main call to action button is available in three flavors:
+The main call to action button is available in six flavors:
 
 ```swift
 import ReusebleUI 
 struct ButtonView: View {	
 	var body: some View {
-			VStack {
-				CallToActionButton("common.next", style: .primary)
-					.padding(16)
-				CallToActionButton("common.next", style: .secondary)
-					.padding(16)
-				CallToActionButton("common.next", style: .destructive)
-					.padding(16)
-			}
+		VStack {
+		  HStack {
+			  CallToActionButton(".primary", style: .primary)
+				  .padding(16)
+			  CallToActionButton(".primaryNegative", style: .primaryNegative)
+				  .padding(16)
+		  }
+		  HStack {
+			  CallToActionButton(".secondary", style: .secondary)
+				  .padding(16)
+			  CallToActionButton(".secondaryNegative", style: .secondaryNegative)
+				  .padding(16)
+		  }
+		  HStack {
+			  CallToActionButton(".tertiary", style: .tertiary)
+				  .padding(16)
+			  CallToActionButton(".tertiaryNegative", style: .tertiaryNegative)
+				  .padding(16)
+		  }
 		}
 	}
 }
