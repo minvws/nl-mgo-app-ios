@@ -9,7 +9,7 @@ import RijksoverheidFont
 import SwiftUI
 import Theme
 
-struct TertiaryNegativeButtonStyle: ButtonStyle {
+struct TertiaryButtonStyle: ButtonStyle {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -32,7 +32,7 @@ struct TertiaryNegativeButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(configuration.isPressed ? theme.actionTertiaryNegativeTextHover : theme.actionTertiaryNegativeText)
+			.foregroundColor(configuration.isPressed ? theme.actionTertiaryDefaultTextHover : theme.actionTertiaryDefaultText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(Color.clear)

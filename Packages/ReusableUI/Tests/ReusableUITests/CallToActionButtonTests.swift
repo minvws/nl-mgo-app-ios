@@ -23,6 +23,18 @@ final class CallToActionButtonTests: XCTestCase {
 		assertSnapshot(of: view, as: .image)
 	}
 	
+	func test_primaryNegative() throws {
+		
+		// Given
+		let sut = CallToActionButton("Primary Negative", style: .primaryNegative)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
 	func test_secondary() throws {
 		
 		// Given
@@ -35,10 +47,22 @@ final class CallToActionButtonTests: XCTestCase {
 		assertSnapshot(of: view, as: .image)
 	}
 	
-	func test_primaryNegative() throws {
+	func test_secondaryNegative() throws {
 		
 		// Given
-		let sut = CallToActionButton("Primary Negative", style: .primaryNegative)
+		let sut = CallToActionButton("Secondary Negative", style: .secondaryNegative)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_tertiary() throws {
+		
+		// Given
+		let sut = CallToActionButton("Tertiary", style: .tertiary)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)

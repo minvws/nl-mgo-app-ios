@@ -26,6 +26,8 @@ public struct CallToActionButton: View {
 		case primary
 		case primaryNegative
 		case secondary
+		case secondaryNegative
+		case tertiary
 		case tertiaryNegative
 	}
 	
@@ -50,11 +52,17 @@ public struct CallToActionButton: View {
 		.when(style == .primary, transform: { button in
 			button.buttonStyle(PrimaryDefaultButtonStyle())
 		})
+		.when(style == .primaryNegative, transform: { button in
+			button.buttonStyle(PrimaryNegativeButtonStyle())
+		})
 		.when(style == .secondary, transform: { button in
 			button.buttonStyle(SecondaryDefaultButtonStyle())
 		})
-		.when(style == .primaryNegative, transform: { button in
-			button.buttonStyle(PrimaryNegativeButtonStyle())
+		.when(style == .secondaryNegative, transform: { button in
+			button.buttonStyle(SecondaryNegativeButtonStyle())
+		})
+		.when(style == .tertiary, transform: { button in
+			button.buttonStyle(TertiaryButtonStyle())
 		})
 		.when(style == .tertiaryNegative, transform: { button in
 			button.buttonStyle(TertiaryNegativeButtonStyle())
@@ -64,13 +72,23 @@ public struct CallToActionButton: View {
 
 #Preview {
 	VStack {
-		CallToActionButton("common.next", style: .primary)
-			.padding(16)
-		CallToActionButton("common.next", style: .secondary)
-			.padding(16)
-		CallToActionButton("common.next", style: .primaryNegative)
-			.padding(16)
-		CallToActionButton("common.next", style: .tertiaryNegative)
-			.padding(16)
+		HStack {
+			CallToActionButton(".primary", style: .primary)
+				.padding(16)
+			CallToActionButton(".primaryNegative", style: .primaryNegative)
+				.padding(16)
+		}
+		HStack {
+			CallToActionButton(".secondary", style: .secondary)
+				.padding(16)
+			CallToActionButton(".secondaryNegative", style: .secondaryNegative)
+				.padding(16)
+		}
+		HStack {
+			CallToActionButton(".tertiary", style: .tertiary)
+				.padding(16)
+			CallToActionButton(".tertiaryNegative", style: .tertiaryNegative)
+				.padding(16)
+		}
 	}
 }
