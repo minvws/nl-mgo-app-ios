@@ -52,7 +52,7 @@ struct UISchemaDetailsView: View {
 	@ViewBuilder func viewFor(_ schemaGroup: UISchemaGroup) -> some View {
 		
 		// Section label
-		Text(.init(stringLiteral: schemaGroup.label))
+		Text(NSLocalizedString(schemaGroup.label, comment: ""))
 			.rijksoverheidStyle(font: .bold, style: .body)
 			.foregroundStyle(theme.contentPrimary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
