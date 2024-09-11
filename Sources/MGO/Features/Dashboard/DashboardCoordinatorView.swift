@@ -38,6 +38,9 @@ protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 	/// The navigation path for the second tab
 	var secondTabPath: NavigationStackBackport.NavigationPath { get set }
 	
+	/// The navigation path for the third tab
+	var thirdTabPath: NavigationStackBackport.NavigationPath { get set }
+	
 	/// The content type for the sheet
 	var pathForSheet: NavigationStackBackport.NavigationPath { get set }
 	
@@ -48,6 +51,15 @@ protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 	/// - Parameter state: the DashboardCoordination State
 	/// - Returns: A view for that state
 	func viewState(for: DashboardCoordination.State?) -> Body
+	
+	/// The selected tab
+	var selectedTab: Int { get set }
+}
+
+enum DashboardTab: Int {
+	case healthCategories = 0
+	case overview = 1
+	case about = 2
 }
 
 enum DashboardCoordination {
@@ -64,6 +76,7 @@ enum DashboardCoordination {
 		case listHealthcareOrganizations
 		
 		// Details Flow
+		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		case showCategoryOverview(categoryId: Int, organizationId: String)
 		case showZibDetails(schema: UISchema)
@@ -78,6 +91,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 
 	/// The navigation path for the second tab
 	@Published var secondTabPath = NavigationStackBackport.NavigationPath()
+	
+	/// The navigation path for the third tab
+	@Published var thirdTabPath = NavigationStackBackport.NavigationPath()
 
 	/// The navigation path for the sheet.
 	@Published var pathForSheet = NavigationStackBackport.NavigationPath()
@@ -87,6 +103,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	
 	/// The flow coordinator for routing
 	private weak var parentCoordinator: (any AppCoordinatorProtocol)?
+	
+	/// The selected tab
+	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
@@ -129,7 +148,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case Coordination.Action.showHealthcareOrganization.identifier:
 				if action.params.count == 1,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
-					firstTabPath.append(DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: healthcareOrganization))
+					
+					setState(DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: healthcareOrganization))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -138,7 +158,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				if action.params.count == 2,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let categoryId = action.params["categoryId"] as? Int {
-					firstTabPath.append(DashboardCoordination.State.showCategoryOverview(categoryId: categoryId, organizationId: healthcareOrganization.identifier))
+					setState(DashboardCoordination.State.showCategoryOverview(categoryId: categoryId, organizationId: healthcareOrganization.identifier))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -147,7 +167,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				if action.params.count == 2,
 //				   let zib = action.params["zib"] as? Zib,
 				   let schema = action.params["uiSchema"] as? UISchema {
-					firstTabPath.append(DashboardCoordination.State.showZibDetails(schema: schema))
+					setState(DashboardCoordination.State.showZibDetails(schema: schema))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -165,7 +185,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case Coordination.Action.removedHealthcareOrganization.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
-				firstTabPath.removeLast()
+				secondTabPath.removeLast()
 			
 			// General
 			
@@ -177,8 +197,13 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				if !pathForSheet.isEmpty {
 					pathForSheet.removeLast()
 				} else {
-					guard !firstTabPath.isEmpty else { return }
-					firstTabPath.removeLast()
+					if selectedTab == DashboardTab.healthCategories.rawValue {
+						guard !firstTabPath.isEmpty else { return }
+						firstTabPath.removeLast()
+					} else if selectedTab == DashboardTab.overview.rawValue {
+						guard !secondTabPath.isEmpty else { return }
+						secondTabPath.removeLast()
+					}
 				}
 					
 			case Coordination.Action.resetApplication.identifier:
@@ -187,6 +212,16 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			default:
 				// Unhandled
 				logWarning("Dashboard Coordinator does not handle \(action)")
+		}
+	}
+	
+	/// Add the new state to the active tab
+	/// - Parameter target: the new state
+	private func setState(_ target: DashboardCoordination.State) {
+		if selectedTab == DashboardTab.healthCategories.rawValue {
+			firstTabPath.append(target)
+		} else if selectedTab == DashboardTab.overview.rawValue {
+			secondTabPath.append(target)
 		}
 	}
 	
@@ -222,7 +257,16 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 							mode: .single( healthcareOrganization)
 						)
 					)
-				
+			
+			case .showHealthCategories:
+				HealthCategoriesView(
+					viewModel:
+						HealthCategoriesViewModel(
+							coordinator: self,
+							mode: .multiple([])
+						)
+					)
+			
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
 			
@@ -256,9 +300,6 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 	/// The coordinator for handling state
 	@StateObject private var coordinator: T
 	
-	/// Selected tab
-	@State private var selectedTab = 0
-	
 	/// Initializer
 	/// - Parameter appCoordinator: An DashboardCoordinatorProtocol class
 	init(coordinator: T) {
@@ -270,11 +311,27 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 	
 	var body: some View {
 		
-		TabView(selection: $selectedTab) {
+		TabView(selection: $coordinator.selectedTab) {
 				
 				Group {
 					// First Tab, Overview
 					NavigationStackBackport.NavigationStack(path: $coordinator.firstTabPath) {
+						coordinator.viewState(for: .showHealthCategories)
+							.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
+								coordinator.viewState(for: state)
+							}
+							.navigationBarTitleDisplayMode(.inline)
+					}
+					.tabItem {
+						Image(coordinator.selectedTab == DashboardTab.healthCategories.rawValue ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
+						Text("bottombar.overview")
+							.rijksoverheidStyle(font: .bold, style: .body)
+					}
+					.tag(DashboardTab.healthCategories.rawValue)
+					.accessibilityIdentifier("bottombar.overview")
+					
+					// Second Tab, Healthcare organizations
+					NavigationStackBackport.NavigationStack(path: $coordinator.secondTabPath) {
 						coordinator.viewState(for: .overview)
 							.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
 								coordinator.viewState(for: state)
@@ -282,24 +339,15 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 							.navigationBarTitleDisplayMode(.inline)
 					}
 					.tabItem {
-						Image(selectedTab == 0 ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
-						Text("bottombar.overview")
+						Image(coordinator.selectedTab == DashboardTab.overview.rawValue ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
+						Text("bottombar.healthcareproviders")
 							.rijksoverheidStyle(font: .bold, style: .body)
 					}
-					.tag(0)
-					.accessibilityIdentifier("bottombar.overview")
+					.tag(DashboardTab.overview.rawValue)
+					.accessibilityIdentifier("bottombar.healthcareproviders")
 					
-					Text(verbatim: "todo: Zorgaanbieders")
-						.tabItem {
-							Image(selectedTab == 1 ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
-							Text("bottombar.healthcareproviders")
-								.rijksoverheidStyle(font: .bold, style: .body)
-						}
-						.tag(1)
-						.accessibilityIdentifier("bottombar.healthcareproviders")
-					
-					// Second Tab, About
-					NavigationStackBackport.NavigationStack(path: $coordinator.secondTabPath) {
+					// Third Tab, About
+					NavigationStackBackport.NavigationStack(path: $coordinator.thirdTabPath) {
 						coordinator.viewState(for: .aboutTheApp)
 							.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
 								coordinator.viewState(for: state)
@@ -307,11 +355,11 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 							.navigationBarTitleDisplayMode(.inline)
 					}
 					.tabItem {
-						Image(selectedTab == 2 ? ImageResource.Tab.Selected.about : ImageResource.Tab.Unselected.about)
+						Image(coordinator.selectedTab == DashboardTab.about.rawValue ? ImageResource.Tab.Selected.about : ImageResource.Tab.Unselected.about)
 						Text("bottombar.about_this_app")
 							.rijksoverheidStyle(font: .bold, style: .body)
 					}
-					.tag(2)
+					.tag(DashboardTab.about.rawValue)
 					.accessibilityIdentifier("bottombar.about_this_app")
 				}
 			}

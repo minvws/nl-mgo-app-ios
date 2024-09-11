@@ -32,4 +32,28 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: sut)
 	}
+	
+	func test_secondTab() throws {
+		
+		// Given
+		let sut = DashboardCoordinatorView(coordinator: coordinator)
+		
+		// When
+		coordinator.selectedTab = DashboardTab.overview.rawValue
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
+	func test_thirdTab() throws {
+		
+		// Given
+		let sut = DashboardCoordinatorView(coordinator: coordinator)
+		
+		// When
+		coordinator.selectedTab = DashboardTab.about.rawValue
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
 }
