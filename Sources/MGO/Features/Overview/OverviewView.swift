@@ -145,7 +145,7 @@ struct OverviewView: View {
 		enum List {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let spacing: CGFloat = 16
-			static let padding: CGFloat = 8
+			static let padding: CGFloat = 16
 		}
 		enum NoResults {
 			static let top: CGFloat = 36
@@ -235,75 +235,61 @@ struct OverviewView: View {
 	}
 	
 	/// Create the list state view
+	/// - Parameter list: The list of healthcare organizations
 	/// - Returns: View when the user has some stored healthcare organizations
 	@ViewBuilder func listHealthcareOrganizationView(list: [MgoOrganization]) -> some View {
 		
 		List {
+			// Top Section with all the healthcare organizations
 			Section {
 				ForEach(list, id: \.self) { healthcareOrganization in
-					Button {
-						viewModel.reduce(.details(healthcareOrganization))
-					} label: {
-						rowFor(title: healthcareOrganization.display_name, imageResource: ImageResource.Overview.chevronRight)
-							.padding(.vertical, ViewTraits.List.padding)
-					}
+					rowFor(
+						title: healthcareOrganization.display_name,
+						imageResource: ImageResource.Overview.chevronRight) {
+							viewModel.reduce(.details(healthcareOrganization))
+						}
 				}
 			}
 			
+			// Bottom section for add button
 			Section {
-				
-				Button {
-					viewModel.reduce(.search)
-				} label: {
-					rowFor(title: String(localized: "organization_list.add_organization"), imageResource: ImageResource.Overview.add)
-						.padding(.vertical, ViewTraits.List.padding)
-				}
+				rowFor(
+					title: String(localized: "organization_list.add_organization"),
+					imageResource: ImageResource.Overview.add) {
+						viewModel.reduce(.search)
+					}
 			}
 		}
 		.listStyle(.insetGrouped)
 		.backportListSectionSpacing(ViewTraits.List.spacing)
-		
-//		LazyVStack(spacing: 8 /*ViewTraits.List.spacing*/, content: {
-//			
-//			ForEach(list, id: \.self) { healthcareOrganization in
-//				
-//				Text(healthcareOrganization.display_name)
-//				
-//				ZStack {
-//					Rectangle()
-//						.foregroundStyle(.clear)
-//						.accessibilityLabel(String(
-//							format: String(localized: "overview.voiceover"),
-//							arguments: ["\(healthcareOrganization.display_name)"]
-//						))
-//						.accessibilityAddTraits(.isButton)
-//					
-//					let model = OverviewDecorator.create(healthcareOrganization)
-//					OverviewCardView(
-//						model: model,
-//						perform: {
-//							viewModel.reduce(.details(healthcareOrganization))
-//						}
-//					)
-//				}
-//			}
-//		})
-//		.padding(.top, ViewTraits.List.top)
 	}
 	
-	@ViewBuilder func rowFor(title: String, imageResource: ImageResource) -> some View {
+	/// The view for a row of the healthcare organizations list
+	/// - Parameters:
+	///   - title: the title of the row
+	///   - imageResource: the image resource for the trailing end
+	///   - action: the action when tapped on
+	/// - Returns: row view
+	@ViewBuilder func rowFor(title: String, imageResource: ImageResource, action: @escaping () -> Void) -> some View {
 		
 		Section {
-			HStack {
-				Text(title)
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
-
-				Spacer()
-
-				Image(imageResource)
-					.foregroundColor(theme.iconsSecondary)
+			Button {
+				action()
+			} label: {
+				HStack {
+					Text(title)
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.foregroundStyle(theme.contentPrimary)
+					
+					Spacer()
+					
+					Image(imageResource)
+						.foregroundColor(theme.iconsSecondary)
+				}
+				.padding(ViewTraits.List.padding)
 			}
+			.frame( maxWidth: .infinity, alignment: .leading)
+			.buttonStyle(HoverButtonStyle())
 		}
 		.listRowInsets(ViewTraits.List.rowInset)
 	}
