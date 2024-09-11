@@ -287,46 +287,13 @@ struct MedicationOverviewView: View {
 	/// - Returns: view
 	@ViewBuilder func noSearchItems() -> some View {
 		
-		GeometryReader { geometry in
-			HStack(spacing: ViewTraits.NoResults.spacing) {
-				
-				Spacer()
-				
-				VStack(alignment: .center) {
-					
-					// Image, 50% width
-					VStack(alignment: .center) {
-						Spacer()
-						
-						Image(ImageResource.Woman.womanWithPhoneInCircleExclamation)
-							.resizable()
-							.aspectRatio(contentMode: .fill)
-							.padding(.bottom, ViewTraits.NoResults.padding)
-					}
-					.frame(maxWidth: geometry.size.width * ViewTraits.NoResults.width)
-					
-					// Texts, full width
-					VStack(alignment: .center) {
-						
-						Text("health_category.medication.no_search_results")
-							.rijksoverheidStyle(font: .bold, style: .title3)
-							.foregroundColor(theme.contentPrimary)
-							.multilineTextAlignment(.center)
-						
-						Text("health_category.search_again")
-							.rijksoverheidStyle(font: .regular, style: .body)
-							.foregroundColor(theme.contentTertiary)
-							.multilineTextAlignment(.center)
-						
-						Spacer()
-					}
-				}
-				
-				Spacer()
-			}
+		EmptyListView(
+			icon: Image(ImageResource.Woman.womanWithPhoneInCircleExclamation),
+			heading: "health_category.medication.no_search_results",
+			subHeading: "health_category.search_again"
+		)
+			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
-			.accessibilityElement(children: .combine)
-		}
 	}
 }
 

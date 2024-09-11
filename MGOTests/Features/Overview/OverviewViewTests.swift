@@ -84,14 +84,14 @@ final class OverviewViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_addHealthcareOrganization() throws {
+	func test_dashboard_addHealthcareOrganization_noOrganizations() throws {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		createSut()
 		
 		// When
-		try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.add_organizations").button().tap()
+		try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.empty.action").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

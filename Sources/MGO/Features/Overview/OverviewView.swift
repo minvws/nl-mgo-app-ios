@@ -98,7 +98,7 @@ class OverviewViewModel: ObservableObject {
 			case .details(let healthcareOrganization):
 				toast = nil
 				coordinator?.handle(Coordination.Action(
-					identifier: "showHealthcareOrganization",
+					identifier: Coordination.Action.showHealthcareOrganization.identifier,
 					params: ["healthcareOrganization": healthcareOrganization])
 				)
 			
@@ -134,63 +134,57 @@ struct OverviewView: View {
 		}
 		enum General {
 			static let padding: CGFloat = 16
-			static let spacing: CGFloat = 24
+			static let spacing: CGFloat = 8
+		}
+		enum Account {
+			static let size: CGFloat = 32
 		}
 		enum Image {
 			static let insets = EdgeInsets( top: 0, leading: 50, bottom: 0, trailing: 50)
 		}
 		enum List {
-			static let spacing: CGFloat = 4
-			static let top: CGFloat = 8
+			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+			static let spacing: CGFloat = 16
+			static let padding: CGFloat = 16
 		}
-		enum Button {
-			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
-		}
-		enum Toast {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 24, trailing: 16)
+		enum NoResults {
+			static let top: CGFloat = 36
 		}
 	}
 	
 	var body: some View {
-		
-		ScrollViewWithFixedBottom {
-			
-			VStack(spacing: ViewTraits.General.spacing) {
-				
-				headerView()
-				
-				switch viewModel.state {
-					case .empty:
-						noHealthcareOrganizationView()
-						.padding(.horizontal, ViewTraits.General.padding)
-						
-					case let .list(list):
-						listHealthcareOrganizationView(list: list)
-				}
-			}
-			
-			Spacer()
-		} bottomView: {
-			
+
+		Group {
 			switch viewModel.state {
 				case .empty:
-					CallToActionButton("overview.add_organizations") {
-						viewModel.reduce(.search)
+					ScrollView {
+						VStack(spacing: ViewTraits.General.spacing) {
+							
+							headerView()
+							
+							noHealthcareOrganizationView()
+							
+							Spacer()
+						}
 					}
-					.padding(ViewTraits.Button.insets)
-					.accessibilityIdentifier("overview.add_organizations")
-				case .list:
-					CallToActionButton("overview.add_organization") {
-						viewModel.reduce(.search)
+					.padding(.horizontal, ViewTraits.General.padding)
+				
+				case let .list(list):
+					
+					VStack(spacing: ViewTraits.General.spacing) {
+						
+						headerView()
+							.padding(.horizontal, ViewTraits.General.padding)
+						
+						listHealthcareOrganizationView(list: list)
+						
+						Spacer()
 					}
-					.padding(ViewTraits.Button.insets)
-					.accessibilityIdentifier("overview.add_organization")
 			}
 		}
-		
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
-		.navigationBarHidden(true)
+		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {
@@ -200,72 +194,105 @@ struct OverviewView: View {
 			viewModel.reduce(.closeToast)
 		}
 		.layoutForIPad()
+		
 	}
 	
 	@ViewBuilder func headerView() -> some View {
-		
-		Text("overview.heading")
-			.rijksoverheidStyle(font: .bold, style: .title)
-			.foregroundColor(theme.contentPrimary)
-			.frame(maxWidth: .infinity, alignment: .topLeading)
-			.accessibilityAddTraits(.isHeader)
-			.padding(.horizontal, ViewTraits.General.padding)
-			.accessibilityIdentifier("overview.heading")
+	
+		HStack {
+			Text("healthcare_organizations.heading")
+				.rijksoverheidStyle(font: .bold, style: .title)
+				.foregroundColor(theme.contentPrimary)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityAddTraits(.isHeader)
+				.accessibilityIdentifier("healthcare_organizations.heading")
+			
+			Spacer()
+			
+			Image(ImageResource.Overview.accountCircle)
+				.resizable()
+				.frame(width: ViewTraits.Account.size, height: ViewTraits.Account.size)
+				.accessibilityHidden(true)
+		}
 	}
 	
 	/// Create the empty state view
 	/// - Returns: View when the user has no stored healthcare organizations
 	@ViewBuilder func noHealthcareOrganizationView() -> some View {
 		
-		Text("overview.no_organizations_found")
-			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundStyle(theme.contentTertiary)
-			.frame(maxWidth: .infinity, alignment: .topLeading)
-			.accessibilityIdentifier("overview.no_organizations_found")
+		EmptyListView(
+			icon: Image(ImageResource.Woman.womanWithPhone),
+			heading: "overview.empty.heading",
+			subHeading: "overview.empty.subheading"
+		)
+			.fixedSize(horizontal: false, vertical: true)
+			.padding(.top, ViewTraits.NoResults.top)
 		
-		Image(ImageResource.Woman.womanOnCouch)
-			.resizable()
-			.aspectRatio(contentMode: .fill)
-			.accessibilityHidden(true)
-			.padding(ViewTraits.Image.insets)
-			.layoutForIPad()
+		CallToActionButton("overview.empty.action") {
+			viewModel.reduce(.search)
+		}
+		.accessibilityIdentifier("overview.empty.action")
 	}
 	
 	/// Create the list state view
+	/// - Parameter list: The list of healthcare organizations
 	/// - Returns: View when the user has some stored healthcare organizations
 	@ViewBuilder func listHealthcareOrganizationView(list: [MgoOrganization]) -> some View {
 		
-		Text("overview.subheading")
-			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundStyle(theme.contentTertiary)
-			.frame(maxWidth: .infinity, alignment: .topLeading)
-			.padding(.horizontal, ViewTraits.General.padding)
-			.accessibilityIdentifier("overview.subheading")
-		
-		LazyVStack(spacing: ViewTraits.List.spacing, content: {
-			
-			ForEach(list, id: \.self) { healthcareOrganization in
-				
-				ZStack {
-					Rectangle()
-						.foregroundStyle(.clear)
-						.accessibilityLabel(String(
-							format: String(localized: "overview.voiceover"),
-							arguments: ["\(healthcareOrganization.display_name)"]
-						))
-						.accessibilityAddTraits(.isButton)
-					
-					let model = OverviewDecorator.create(healthcareOrganization)
-					OverviewCardView(
-						model: model,
-						perform: {
+		List {
+			// Top Section with all the healthcare organizations
+			Section {
+				ForEach(list, id: \.self) { healthcareOrganization in
+					rowFor(
+						title: Sanitizer.sanitize(healthcareOrganization.display_name),
+						imageResource: ImageResource.Overview.chevronRight,
+						accessibilityIdentifier: Sanitizer.sanitize(healthcareOrganization.display_name)) {
 							viewModel.reduce(.details(healthcareOrganization))
 						}
-					)
 				}
 			}
-		})
-		.padding(.top, ViewTraits.List.top)
+			
+			// Bottom section for add button
+			Section {
+				rowFor(
+					title: String(localized: "organization_list.add_organization"),
+					imageResource: ImageResource.Overview.add,
+					accessibilityIdentifier: "organization_list.add_organization") {
+						viewModel.reduce(.search)
+					}
+			}
+		}
+		.listStyle(.insetGrouped)
+		.backportListSectionSpacing(ViewTraits.List.spacing)
+	}
+	
+	/// The view for a row of the healthcare organizations list
+	/// - Parameters:
+	///   - title: the title of the row
+	///   - imageResource: the image resource for the trailing end
+	///   - action: the action when tapped on
+	/// - Returns: row view
+	@ViewBuilder func rowFor(title: String, imageResource: ImageResource, accessibilityIdentifier: String, action: @escaping () -> Void) -> some View {
+		
+		Button {
+			action()
+		} label: {
+			HStack {
+				Text(title)
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentPrimary)
+				
+				Spacer()
+				
+				Image(imageResource)
+					.foregroundColor(theme.iconsSecondary)
+			}
+			.padding(ViewTraits.List.padding)
+		}
+		.frame( maxWidth: .infinity, alignment: .leading)
+		.buttonStyle(HoverButtonStyle())
+		.accessibilityIdentifier(accessibilityIdentifier)
+		.listRowInsets(ViewTraits.List.rowInset)
 	}
 }
 
