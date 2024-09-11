@@ -75,7 +75,7 @@ final class OverviewViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action(
-			identifier: "showHealthcareOrganization",
+			identifier: Coordination.Action.showHealthcareOrganization.identifier,
 			params: ["healthcareOrganization": healthcareOrganization]
 		)
 	}

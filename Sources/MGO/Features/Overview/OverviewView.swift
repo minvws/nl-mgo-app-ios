@@ -244,8 +244,9 @@ struct OverviewView: View {
 			Section {
 				ForEach(list, id: \.self) { healthcareOrganization in
 					rowFor(
-						title: healthcareOrganization.display_name,
-						imageResource: ImageResource.Overview.chevronRight) {
+						title: Sanitizer.sanitize(healthcareOrganization.display_name),
+						imageResource: ImageResource.Overview.chevronRight,
+						accessibilityIdentifier: Sanitizer.sanitize(healthcareOrganization.display_name)) {
 							viewModel.reduce(.details(healthcareOrganization))
 						}
 				}
@@ -255,7 +256,8 @@ struct OverviewView: View {
 			Section {
 				rowFor(
 					title: String(localized: "organization_list.add_organization"),
-					imageResource: ImageResource.Overview.add) {
+					imageResource: ImageResource.Overview.add,
+					accessibilityIdentifier: "organization_list.add_organization") {
 						viewModel.reduce(.search)
 					}
 			}
@@ -270,27 +272,26 @@ struct OverviewView: View {
 	///   - imageResource: the image resource for the trailing end
 	///   - action: the action when tapped on
 	/// - Returns: row view
-	@ViewBuilder func rowFor(title: String, imageResource: ImageResource, action: @escaping () -> Void) -> some View {
+	@ViewBuilder func rowFor(title: String, imageResource: ImageResource, accessibilityIdentifier: String, action: @escaping () -> Void) -> some View {
 		
-		Section {
-			Button {
-				action()
-			} label: {
-				HStack {
-					Text(title)
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundStyle(theme.contentPrimary)
-					
-					Spacer()
-					
-					Image(imageResource)
-						.foregroundColor(theme.iconsSecondary)
-				}
-				.padding(ViewTraits.List.padding)
+		Button {
+			action()
+		} label: {
+			HStack {
+				Text(title)
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentPrimary)
+				
+				Spacer()
+				
+				Image(imageResource)
+					.foregroundColor(theme.iconsSecondary)
 			}
-			.frame( maxWidth: .infinity, alignment: .leading)
-			.buttonStyle(HoverButtonStyle())
+			.padding(ViewTraits.List.padding)
 		}
+		.frame( maxWidth: .infinity, alignment: .leading)
+		.buttonStyle(HoverButtonStyle())
+		.accessibilityIdentifier(accessibilityIdentifier)
 		.listRowInsets(ViewTraits.List.rowInset)
 	}
 }
