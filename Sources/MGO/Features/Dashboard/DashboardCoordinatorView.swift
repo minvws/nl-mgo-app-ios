@@ -222,6 +222,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			firstTabPath.append(target)
 		} else if selectedTab == DashboardTab.overview.rawValue {
 			secondTabPath.append(target)
+		} else if selectedTab == DashboardTab.about.rawValue {
+			thirdTabPath.append(target)
 		}
 	}
 	

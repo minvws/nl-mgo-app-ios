@@ -23,7 +23,7 @@ struct HealthCategoriesViewState {
 	var title: String
 	var showRemoveHealthcareProvider: Bool
 	var healthCategories: [CategoryButton]
-	var backbuttonTitle: LocalizedStringKey
+	var backbuttonTitle: LocalizedStringKey?
 	
 	mutating func updateCategoryState(id: Int, state: CategoryButtonState) {
 		withAnimation {
@@ -70,14 +70,19 @@ class HealthCategoriesViewModel: ObservableObject {
 				String(localized: "health_categories.heading")
 		}
 		
-		let backbuttonTitle: LocalizedStringKey = switch mode {
+		let backbuttonTitle: LocalizedStringKey? = switch mode {
 			case .single: "healthcare_organizations.heading"
-			case .multiple: "common.previous"
+			case .multiple: nil
+		}
+		
+		let showRemoveHealthcareProvider: Bool = switch mode {
+			case .single: true
+			case .multiple: false
 		}
 		
 		self.state = HealthCategoriesViewState(
 			title: title,
-			showRemoveHealthcareProvider: true,
+			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
 				CategoryButton(id: HealthCategories.Category.medication.rawValue, title: "health_category.medication", state: .loading),
 				CategoryButton(id: HealthCategories.Category.allergies.rawValue, title: "health_category.allergies", state: .notAvailabe),
@@ -288,8 +293,11 @@ struct HealthCategoriesView: View {
 
 		} // VStack
 		.navigationBarBackButtonHidden()
-		.navigationBarItems(leading: BackButton(viewModel.state.backbuttonTitle) {
-			viewModel.reduce(.backButtonPressed)
+		.when(viewModel.state.backbuttonTitle != nil, transform: { view in
+			view
+				.navigationBarItems(leading: BackButton(viewModel.state.backbuttonTitle!) {
+					viewModel.reduce(.backButtonPressed)
+				})
 		})
 		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.inline)
