@@ -1269,13 +1269,24 @@
         }
       }
     },
+    "overview.empty.action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg zorgaanbieders toe"
+          }
+        }
+      }
+    },
     "overview.empty.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je overzicht is nog leeg"
+            "value" : "Je hebt nog geen zorgaanbieders toegevoegd"
           }
         }
       }
@@ -1286,7 +1297,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg zorgaanbieders toe om hier gegevens over je gezondheid te zien."
+            "value" : "Voeg zorgaanbieders toe om gegevens over je gezondheid te zien."
           }
         }
       }
@@ -1298,28 +1309,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Overzicht"
-          }
-        }
-      }
-    },
-    "overview.no_organizations_found" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je overzicht is nog leeg, omdat je nog geen zorgaanbieders hebt toegevoegd."
-          }
-        }
-      }
-    },
-    "overview.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dit is je persoonlijke overzicht.\nJe vindt hier al je medische gegevens."
           }
         }
       }

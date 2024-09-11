@@ -71,6 +71,7 @@ struct HealthCategoryRowView: View {
 		.padding(ViewTraits.Block.spacing)
 		.frame(minHeight: ViewTraits.Block.minHeight)
 		.background(theme.backgroundSecondary)
+		.accessibilityElement(children: .combine)
 	}
 }
 
