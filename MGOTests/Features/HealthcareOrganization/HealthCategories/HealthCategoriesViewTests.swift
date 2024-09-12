@@ -42,7 +42,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 	func test_initialState_multipleMode() {
 		
 		// Given
-		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .multiple([healthcareOrganization]))
+		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 		
 		// When

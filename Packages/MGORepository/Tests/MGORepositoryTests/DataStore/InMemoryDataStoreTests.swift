@@ -126,7 +126,7 @@ final class InMemoryDataStoreTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.wipePersistedData(organizationId: "test organization")
+		sut.removeRecords(for: "test organization")
 		
 		// Then
 		let result = sut.get(categoryId: "test category", organizationId: "test organization")
@@ -139,7 +139,7 @@ final class InMemoryDataStoreTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.wipePersistedData(organizationId: "test organization 2")
+		sut.removeRecords(for: "test organization 2")
 		
 		// Then
 		let result = sut.get(categoryId: "test category", organizationId: "test organization")

@@ -6,6 +6,7 @@
  */
 
 import Foundation
+import Observatory
 
 public class MgoDataStoreSpy: MgoDataStoreProtocol {
 
@@ -13,6 +14,16 @@ public class MgoDataStoreSpy: MgoDataStoreProtocol {
 		// Public init for public access
 	}
 	
+	public var invokedObservatoryGetter = false
+	public var invokedObservatoryGetterCount = 0
+	public var stubbedObservatory: Observatory<Bool>!
+
+	public var observatory: Observatory<Bool> {
+		invokedObservatoryGetter = true
+		invokedObservatoryGetterCount += 1
+		return stubbedObservatory
+	}
+
 	public var invokedGetCategoryId = false
 	public var invokedGetCategoryIdCount = 0
 	public var invokedGetCategoryIdParameters: (categoryId: String, organizationId: String)?
@@ -53,16 +64,24 @@ public class MgoDataStoreSpy: MgoDataStoreProtocol {
 		invokedStoreParametersList.append((data, ()))
 	}
 
-	public var invokedWipePersistedDataOrganizationId = false
-	public var invokedWipePersistedDataOrganizationIdCount = 0
-	public var invokedWipePersistedDataOrganizationIdParameters: (organizationId: String, Void)?
-	public var invokedWipePersistedDataOrganizationIdParametersList = [(organizationId: String, Void)]()
+	public var invokedRemoveRecords = false
+	public var invokedRemoveRecordsCount = 0
+	public var invokedRemoveRecordsParameters: (organizationId: String, Void)?
+	public var invokedRemoveRecordsParametersList = [(organizationId: String, Void)]()
 
-	public func wipePersistedData(organizationId: String) {
-		invokedWipePersistedDataOrganizationId = true
-		invokedWipePersistedDataOrganizationIdCount += 1
-		invokedWipePersistedDataOrganizationIdParameters = (organizationId, ())
-		invokedWipePersistedDataOrganizationIdParametersList.append((organizationId, ()))
+	public func removeRecords(for organizationId: String) {
+		invokedRemoveRecords = true
+		invokedRemoveRecordsCount += 1
+		invokedRemoveRecordsParameters = (organizationId, ())
+		invokedRemoveRecordsParametersList.append((organizationId, ()))
+	}
+
+	public var invokedRemoveAllRecords = false
+	public var invokedRemoveAllRecordsCount = 0
+
+	public func removeAllRecords() {
+		invokedRemoveAllRecords = true
+		invokedRemoveAllRecordsCount += 1
 	}
 
 	public var invokedWipePersistedData = false

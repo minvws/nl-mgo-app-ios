@@ -15,7 +15,7 @@ enum HealthCategoriesViewMode {
 	case single(MgoOrganization)
 	
 	/// This is an overview of all your healthcare organizations
-	case multiple([MgoOrganization])
+	case all
 }
 
 struct HealthCategoriesViewState {
@@ -23,7 +23,7 @@ struct HealthCategoriesViewState {
 	var title: String
 	var showRemoveHealthcareProvider: Bool
 	var healthCategories: [CategoryButton]
-	var backbuttonTitle: LocalizedStringKey?
+	var backButtonTitle: LocalizedStringKey?
 	
 	mutating func updateCategoryState(id: Int, state: CategoryButtonState) {
 		withAnimation {
@@ -66,18 +66,18 @@ class HealthCategoriesViewModel: ObservableObject {
 		let title: String = switch mode {
 			case .single(let mgoOrganization):
 				mgoOrganization.display_name
-			case .multiple:
+			case .all:
 				String(localized: "health_categories.heading")
 		}
 		
 		let backbuttonTitle: LocalizedStringKey? = switch mode {
 			case .single: "healthcare_organizations.heading"
-			case .multiple: nil
+			case .all: nil
 		}
 		
 		let showRemoveHealthcareProvider: Bool = switch mode {
 			case .single: true
-			case .multiple: false
+			case .all: false
 		}
 		
 		self.state = HealthCategoriesViewState(
@@ -94,7 +94,7 @@ class HealthCategoriesViewModel: ObservableObject {
 				CategoryButton(id: HealthCategories.Category.reports.rawValue, title: "health_category.reports", state: .notAvailabe),
 				CategoryButton(id: HealthCategories.Category.documents.rawValue, title: "health_category.documents", state: .notAvailabe)
 			],
-			backbuttonTitle: backbuttonTitle
+			backButtonTitle: backbuttonTitle
 		)
 	}
 	
@@ -108,9 +108,9 @@ class HealthCategoriesViewModel: ObservableObject {
 			
 			case .refresh:
 				if case let .single(healthcareOrganization) = mode {
-					Current.dataStore.wipePersistedData(organizationId: healthcareOrganization.identifier)
+					Current.dataStore.removeRecords(for: healthcareOrganization.identifier)
 				} else {
-					Current.dataStore.wipePersistedData()
+					Current.dataStore.removeAllRecords()
 				}
 				reduce(.onAppear)
 
@@ -293,9 +293,9 @@ struct HealthCategoriesView: View {
 
 		} // VStack
 		.navigationBarBackButtonHidden()
-		.when(viewModel.state.backbuttonTitle != nil, transform: { view in
+		.when(viewModel.state.backButtonTitle != nil, transform: { view in
 			view
-				.navigationBarItems(leading: BackButton(viewModel.state.backbuttonTitle!) {
+				.navigationBarItems(leading: BackButton(viewModel.state.backButtonTitle!) {
 					viewModel.reduce(.backButtonPressed)
 				})
 		})

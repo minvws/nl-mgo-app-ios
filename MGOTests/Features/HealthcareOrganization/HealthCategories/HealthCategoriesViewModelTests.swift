@@ -210,14 +210,14 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state.healthCategories.first?.state) == .loading
-		expect(self.servicesSpies.dataStoreSpy.invokedWipePersistedDataOrganizationId) == true
-		expect(self.servicesSpies.dataStoreSpy.invokedWipePersistedData) == false
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == true
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
 	}
 	
 	func test_refresh_multipleMode() {
 		
 		// Given
-		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .multiple([healthcareOrganization]))
+		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
 		// When
@@ -225,7 +225,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state.healthCategories.first?.state) == .loading
-		expect(self.servicesSpies.dataStoreSpy.invokedWipePersistedDataOrganizationId) == false
-		expect(self.servicesSpies.dataStoreSpy.invokedWipePersistedData) == true
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == false
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == true
 	}
 }

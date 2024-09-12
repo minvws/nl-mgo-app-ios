@@ -265,7 +265,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					viewModel:
 						HealthCategoriesViewModel(
 							coordinator: self,
-							mode: .multiple([])
+							mode: .all
 						)
 					)
 			

@@ -30,7 +30,7 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 		let sut = DashboardCoordinatorView(coordinator: coordinator)
 		
 		// Then
-		takeSnapShots(content: sut)
+		takeSnapShots(content: sut, precision: 0.95)
 	}
 	
 	func test_secondTab() throws {

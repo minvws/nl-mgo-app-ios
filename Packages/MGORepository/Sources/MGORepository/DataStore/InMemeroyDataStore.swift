@@ -7,6 +7,7 @@
 
 import Foundation
 import FHIRClient
+import Observatory
 
 /// The in memory data store
 public class InMemoryDataStore: MgoDataStoreProtocol {
@@ -14,8 +15,17 @@ public class InMemoryDataStore: MgoDataStoreProtocol {
 	/// The in memory data source
 	private var dataSource = [MgoResourceRecord]()
 	
+	/// Observatory for changes
+	public let observatory: Observatory<Bool>
+	
+	/// Observers for changes
+	private let observers: (Bool) -> Void
+	
 	/// Create an in memory data store
-	public init() { /* public init for public access */ }
+	public init() {
+		
+		(self.observatory, self.observers) = Observatory<Bool>.create()
+	}
 	
 	/// Get a data set for a category and an organization
 	/// - Parameters:
@@ -60,19 +70,26 @@ public class InMemoryDataStore: MgoDataStoreProtocol {
 		if !found {
 			dataSource.append(data)
 		}
+		observers(true)
 	}
 	
 	/// Remove all entries from the store for this organization
 	/// - Parameter organizationId: the id of the organization to remove for
-	public func wipePersistedData(organizationId: String) {
+	public func removeRecords(for organizationId: String) {
 		
 		dataSource = dataSource.filter({ entry in
 			entry.organizationId != organizationId
 		})
 	}
 	
+	/// Remove all records from the store
+	public func removeAllRecords() {
+		dataSource.removeAll()
+	}
+	
 	/// Wipe all persisted data
 	public func wipePersistedData() {
-		dataSource.removeAll()
+		removeAllRecords()
+		observatory.removeAll()
 	}
 }
