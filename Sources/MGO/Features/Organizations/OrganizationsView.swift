@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class OverviewViewModel: ObservableObject {
+class OrganizationsViewModel: ObservableObject {
 	
 	/// The state for the overview scene
 	enum State: Equatable {
@@ -20,7 +20,7 @@ class OverviewViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The state of the view
-	@Published var state: OverviewViewModel.State
+	@Published var state: OrganizationsViewModel.State
 	
 	/// A toast
 	@Published var toast: Feedback?
@@ -84,7 +84,7 @@ class OverviewViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: OverviewViewModel.Action) {
+	func reduce(_ action: OrganizationsViewModel.Action) {
 		
 		switch action {
 		
@@ -119,10 +119,10 @@ class OverviewViewModel: ObservableObject {
 	}
 }
 
-struct OverviewView: View {
+struct OrganizationsView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: OverviewViewModel
+	@StateObject var viewModel: OrganizationsViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -298,6 +298,6 @@ struct OverviewView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		OverviewView(viewModel: OverviewViewModel(coordinator: nil))
+		OrganizationsView(viewModel: OrganizationsViewModel(coordinator: nil))
 	}
 }

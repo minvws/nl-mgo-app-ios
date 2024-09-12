@@ -242,7 +242,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: self))
 			
 			case .overview:
-				OverviewView(viewModel: OverviewViewModel(coordinator: self)).isPresentedAsSheet(false)
+				OrganizationsView(viewModel: OrganizationsViewModel(coordinator: self)).isPresentedAsSheet(false)
 			
 			// Healthcare Organization Flow
 			case .addHealthcareOrganization:
