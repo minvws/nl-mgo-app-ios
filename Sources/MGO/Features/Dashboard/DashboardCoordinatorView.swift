@@ -78,7 +78,7 @@ enum DashboardCoordination {
 		// Details Flow
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
-		case showCategoryOverview(categoryId: Int, organizationId: String)
+		case showCategoryOverview(categoryId: Int, organizationId: String?)
 		case showZibDetails(schema: UISchema)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
@@ -159,6 +159,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let categoryId = action.params["categoryId"] as? Int {
 					setState(DashboardCoordination.State.showCategoryOverview(categoryId: categoryId, organizationId: healthcareOrganization.identifier))
+				} else if action.params.count == 1,
+					let categoryId = action.params["categoryId"] as? Int {
+					 setState(DashboardCoordination.State.showCategoryOverview(categoryId: categoryId, organizationId: nil))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}

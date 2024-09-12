@@ -17,7 +17,7 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var sut: MedicationOverviewViewModel!
 	private var healthcareOrganization: MgoOrganization!
-
+	
 	override func setUp() {
 		
 		servicesSpies = setupServicesSpies()
@@ -61,7 +61,22 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventually(equal(MedicationOverviewViewState.empty))
 	}
-
+	
+	func test_loadMedications_noResults_noOrganizationId() {
+		
+		// Given
+		sut = MedicationOverviewViewModel(coordinator: coordinatorSpy, organizationId: nil)
+		servicesSpies.dataStoreSpy.stubbedGetResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
+		)
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(MedicationOverviewViewState.empty))
+	}
+	
 	func test_loadMedications_withResults_noName() throws {
 		
 		// Given
@@ -103,10 +118,45 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		}
 	}
 	
+	func test_loadMedications_withResults_withName_noOrganisationId() throws {
+		
+		// Given
+		sut = MedicationOverviewViewModel(coordinator: coordinatorSpy, organizationId: nil)
+		let resource = try getResource("zibMedicationUse")
+		servicesSpies.dataStoreSpy.stubbedGetResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+		)
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+		if case let MedicationOverviewViewState.success(items) = sut.state {
+			expect(items).toEventually(haveCount(1))
+		} else {
+			fail("Invalid state")
+		}
+	}
+	
 	func test_loadMedications_noResults_cacheMiss() {
 		
 		// Given
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(DataStoreError.noData)
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(.failure))
+	}
+	
+	func test_loadMedications_noResults_cacheMiss_noOrganizationId() {
+		
+		// Given
+		sut = MedicationOverviewViewModel(coordinator: coordinatorSpy, organizationId: nil)
+		servicesSpies.dataStoreSpy.stubbedGetResult = .failure(DataStoreError.noData)
 		
 		// When
 		sut.reduce(.onAppear)

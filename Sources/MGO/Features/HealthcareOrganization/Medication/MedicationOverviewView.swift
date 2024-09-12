@@ -69,7 +69,7 @@ class MedicationOverviewViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
-	private var organizationId: String
+	private var organizationId: String?
 	
 	/// The text to filter the results on. 
 	@Published var searchText = ""
@@ -84,7 +84,7 @@ class MedicationOverviewViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
-		organizationId: String
+		organizationId: String?
 	) {
 		self.coordinator = coordinator
 		self.organizationId = organizationId
@@ -108,40 +108,68 @@ class MedicationOverviewViewModel: ObservableObject {
 	@MainActor
 	func loadMedication() async {
 		
-		let cacheResult = Current.dataStore.get(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: organizationId)
-		
-		switch cacheResult {
-			case .success(let record):
-			
-				var items = [OverviewBlock]()
-				// For all the MgoResources
-				for resource in record.resources {
-					// If it is a ZibMedicationUse and we can create a UISchema from it
-					if let zib = ZibFactory.createZibMedicationUse(resource),
-					   let uiSchema = FHIRParser().getUiSchemaJson(resource) {
-						// Add a OverviewBlock to the display list
-						items.append(
-							OverviewBlock(
-								heading: Sanitizer.strip(uiSchema.label),
-								subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) {
-									self.coordinator?.handle(Coordination.Action(
-										identifier: Coordination.Action.showZibDetails.identifier,
-										params: ["zib": zib, "uiSchema": uiSchema])
-									)
-								}
-						)
+		if let organizationId {
+			let cacheResult = Current.dataStore.get(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: organizationId)
+			switch cacheResult {
+				case .success(let record):
+					let items = parseRecord(record)
+						if items.isEmpty {
+							state = .empty
+						} else {
+							state = .success(items: items)
+						}
+				case .failure:
+					state = .failure
+			}
+		} else {
+			let cacheResult = Current.dataStore.get(categoryId: "\(HealthCategories.Category.medication.rawValue)")
+			switch cacheResult {
+				case .success(let records):
+					var items = [OverviewBlock]()
+					for record in records {
+						items.append(contentsOf: parseRecord(record))
 					}
-				}
-				if items.isEmpty {
-					state = .empty
-				} else {
-					state = .success(items: items)
-				}
-			case .failure(let failure):
-				state = .failure
+					if items.isEmpty {
+						state = .empty
+					} else {
+						state = .success(items: items)
+					}
+				case .failure:
+					state = .failure
+			}
 		}
 	}
 	
+	/// Extract items from the data store records
+	/// - Parameter record: the record
+	/// - Returns: displayable items
+	private func parseRecord(_ record: MgoResourceRecord) -> [OverviewBlock] {
+		
+		var items = [OverviewBlock]()
+		// For all the MgoResources
+		for resource in record.resources {
+			// If it is a ZibMedicationUse and we can create a UISchema from it
+			if let zib = ZibFactory.createZibMedicationUse(resource),
+			   let uiSchema = FHIRParser().getUiSchemaJson(resource) {
+				// Add a OverviewBlock to the display list
+				items.append(
+					OverviewBlock(
+						heading: Sanitizer.strip(uiSchema.label),
+						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) {
+							self.coordinator?.handle(Coordination.Action(
+								identifier: Coordination.Action.showZibDetails.identifier,
+								params: ["zib": zib, "uiSchema": uiSchema])
+							)
+						}
+				)
+			}
+		}
+		return items
+	}
+	
+	/// Get the name of a healthcare organisation
+	/// - Parameter identifier: the identifier of the organization
+	/// - Returns: optional name
 	func getOrganizationName(_ identifier: String) -> String? {
 		
 		return 	Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }?.display_name
