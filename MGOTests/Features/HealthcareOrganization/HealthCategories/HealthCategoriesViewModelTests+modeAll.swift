@@ -10,7 +10,7 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class HealthCategoriesViewModelTests: XCTestCase {
+final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
@@ -23,7 +23,8 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
-		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .single(healthcareOrganization))
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
+		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 	}
 	
 	func test_backButtonPressed_shouldCallCoordinator() {
@@ -51,7 +52,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
 		expect(params.identifier) == Coordination.Action.showCategoryOverview.identifier
 		expect(params.params["categoryId"]) == AnyHashable(3)
-		expect(params.params["healthcareOrganization"]) != nil
+		expect(params.params["healthcareOrganization"]) == nil
 	}
 
 	func test_categorySelected_invalidState_shouldNotCallCoordinator() {
@@ -74,18 +75,15 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		sut.reduce(.removeHealthcareOrganization)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.removeHealthcareOrganization.identifier
-		expect(params.params["healthcareOrganization"]) != nil
+		expect(self.coordinatorSpy.invokedHandle) == false
 	}
 	
 	func test_loadMedication_withData() throws {
 		
 		// Given
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])
+		servicesSpies.dataStoreSpy.stubbedGetResult = .success(
+			[MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
@@ -99,8 +97,8 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 	func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])
+		servicesSpies.dataStoreSpy.stubbedGetResult = .success(
+			[MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
 		)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
@@ -114,7 +112,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 	func test_loadMedication_noData_stateShouldBeLoading() throws {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(DataStoreError.noData)
+		servicesSpies.dataStoreSpy.stubbedGetResult = .failure(DataStoreError.noData)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
 		// When
@@ -127,7 +125,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 	func test_loadMedication_dataError_stateShouldBeEmpty() throws {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(NSError(domain: "test_loadMedication_cacheMiss_dataError", code: 404))
+		servicesSpies.dataStoreSpy.stubbedGetResult = .failure(NSError(domain: "test_loadMedication_cacheMiss_dataError", code: 404))
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
 		// When
@@ -139,13 +137,15 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 	
 	func test_refresh() {
 		
+		// Given
+		servicesSpies.dataStoreSpy.stubbedGetResult = .success([])
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
 		// When
 		sut.reduce(.refresh)
 		
 		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == true
-		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == false
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == true
 	}
 }

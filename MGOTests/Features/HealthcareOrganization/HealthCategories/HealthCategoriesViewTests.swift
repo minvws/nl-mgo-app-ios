@@ -26,6 +26,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		healthcareOrganization = Generator.healthcareOrganization("1")
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .single(healthcareOrganization))
 		sut = HealthCategoriesView(viewModel: self.viewModel)
+		
 	}
 	
 	func test_initialState_singleMode() {
@@ -43,6 +44,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		
 		// Given
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		servicesSpies.dataStoreSpy.stubbedGetResult = .success([])
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 		
 		// When

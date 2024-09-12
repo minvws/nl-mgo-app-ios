@@ -21,6 +21,7 @@ enum HealthCategoriesViewMode {
 struct HealthCategoriesViewState {
 	
 	var title: String
+	var showAccount: Bool
 	var showRemoveHealthcareProvider: Bool
 	var healthCategories: [CategoryButton]
 	var backButtonTitle: LocalizedStringKey?
@@ -46,6 +47,9 @@ class HealthCategoriesViewModel: ObservableObject {
 	
 	/// The state of the view
 	@Published var state: HealthCategoriesViewState
+	
+	/// Token for the observatory
+	private var observerToken: Observatory.ObserverToken?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -79,9 +83,15 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .single: true
 			case .all: false
 		}
+
+		let showAccount: Bool = switch mode {
+			case .single: false
+			case .all: true
+		}
 		
 		self.state = HealthCategoriesViewState(
 			title: title,
+			showAccount: showAccount,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
 				CategoryButton(id: HealthCategories.Category.medication.rawValue, title: "health_category.medication", state: .loading),
@@ -96,6 +106,21 @@ class HealthCategoriesViewModel: ObservableObject {
 			],
 			backButtonTitle: backbuttonTitle
 		)
+		
+		registerObservers()
+	}
+	
+	private func registerObservers() {
+		self.observerToken = Current.dataStore.observatory.append { [weak self] changed in
+			if changed {
+				self?.updateState()
+			}
+		}
+	}
+	
+	deinit {
+		// Remove as observer
+		observerToken.map(Current.healthcareOrganizationStore.observatory.remove)
 	}
 	
 	/// Handle any action
@@ -115,30 +140,32 @@ class HealthCategoriesViewModel: ObservableObject {
 				reduce(.onAppear)
 
 			case let .categorySelected(categoryButton):
-			
+				
 				guard categoryButton.state == .loaded else {
 					logError("Trying to select a category with invalid state", categoryButton)
 					return
 				}
 				
+				var params: [String: AnyHashable] = ["categoryId": categoryButton.id]
 				if case let .single(healthcareOrganization) = mode {
-					coordinator?.handle(
-						Coordination.Action(
-							identifier: Coordination.Action.showCategoryOverview.identifier,
-							params: [
-								"categoryId": categoryButton.id,
-								"healthcareOrganization": healthcareOrganization
-							]
-						)
+					params["healthcareOrganization"] = healthcareOrganization
+				}
+				
+				coordinator?.handle(
+					Coordination.Action(
+						identifier: Coordination.Action.showCategoryOverview.identifier,
+						params: params
 					)
-				} else {
-					logInfo("Todo, handle click on category in multiple mode")
-				}
-			
+				)
+				
 			case .onAppear:
-				_Concurrency.Task {
-					await loadMedication(id: HealthCategories.Category.medication.rawValue)
-				}
+//				_Concurrency.Task {
+//					await loadMedication(id: HealthCategories.Category.medication.rawValue)
+//					await loadMedication(id: HealthCategories.Category.allergies.rawValue)
+//					await loadMedication(id: HealthCategories.Category.measurements.rawValue)
+//					await loadMedication(id: HealthCategories.Category.vaccinations.rawValue)
+//				}
+				updateState()
 			
 			case .removeHealthcareOrganization:
 				if case let .single(healthcareOrganization) = mode {
@@ -154,59 +181,103 @@ class HealthCategoriesViewModel: ObservableObject {
 	
 	@MainActor
 	func loadMedication(id: Int) async {
-		state.updateCategoryState(id: id, state: .loading)
 		
+		var organizations = [MgoOrganization]()
 		if case let .single(healthcareOrganization) = mode {
-
-			let cacheResult = Current.dataStore.get(categoryId: "\(id)", organizationId: healthcareOrganization.identifier)
-			switch cacheResult {
-				case .success(let success):
-				
-					logVerbose("DataStore hit")
-					if success.resources.isNotEmpty {
-						state.updateCategoryState(id: id, state: .loaded)
-					} else {
-						state.updateCategoryState(id: id, state: .empty)
-						return
-					}
-				
-				case .failure(let failure):
-					guard case DataStoreError.noData = failure else {
-						logError("DataStore error: \(failure)")
-						state.updateCategoryState(id: id, state: .empty)
-						return
-					}
-					
-					guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID) else {
-						
-						state.updateCategoryState(id: id, state: .empty)
-						return
-					}
-					
-					guard let medicationUseRepository: MedicationUseRepository = FHIRClient() else {
-						state.updateCategoryState(id: id, state: .empty)
-						return
-					}
-					
-					do {
-						let mgoResources = try await medicationUseRepository.fetchResources(dvaTarget: resourceEndpoint)
-						
-						let recordToStore = MgoResourceRecord(categoryId: "\(id)", organizationId: healthcareOrganization.identifier, resources: mgoResources)
-						Current.dataStore.store(data: recordToStore)
-						logVerbose("DataStore store new record")
-
-						if mgoResources.isNotEmpty {
-							state.updateCategoryState(id: id, state: .loaded)
-						} else {
-							state.updateCategoryState(id: id, state: .empty)
-							return
-						}
-
-					} catch {
-						logError("medicationUseRepository error: \(failure)")
-						state.updateCategoryState(id: id, state: .empty)
-					}
+			organizations.append(healthcareOrganization)
+		}
+		if case .all = mode {
+			organizations = Current.healthcareOrganizationStore.organizations
+		}
+		
+		for healthcareOrganization in organizations {
+			
+			guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID) else {
+				return
 			}
+			guard let medicationUseRepository: MedicationUseRepository = FHIRClient() else {
+				return
+			}
+			
+			do {
+				let mgoResources = try await medicationUseRepository.fetchResources(dvaTarget: resourceEndpoint)
+				
+				let recordToStore = MgoResourceRecord(categoryId: "\(id)", organizationId: healthcareOrganization.identifier, resources: mgoResources)
+				Current.dataStore.store(data: recordToStore)
+				logVerbose("DataStore store new record")
+
+			} catch {
+				logError("medicationUseRepository error: \(error)")
+			}
+		}
+	}
+	
+	/// The store has changed, update the
+	private func updateState() {
+		
+		for button in state.healthCategories {
+			// Only update if the category is enabled.
+			guard button.state != .notAvailabe else { return }
+			
+			switch mode {
+				case .single(let mgoOrganization): updateStateSingleMode(mgoOrganization, button: button)
+				case .all: updateStateAllMode(button: button)
+			}
+		}
+	}
+	
+	/// Update the state in Single Mode
+	/// - Parameters:
+	///   - healthcareOrganization: the healthcare organization
+	///   - button: the button to update
+	private func updateStateSingleMode(_ healthcareOrganization: MgoOrganization, button: CategoryButton) {
+		
+		// the store was updated, so try to get the records from the store for this category and healthcare organization
+		let cacheResult = Current.dataStore.get(categoryId: "\(button.id)", organizationId: healthcareOrganization.identifier)
+		switch cacheResult {
+			case let .success(record):
+				// Success, we have (empty) records for the this organization and category
+				state.updateCategoryState(id: button.id, state: record.resources.isNotEmpty ? .loaded : .empty)
+			
+			case let .failure(error):
+				// No records available. Keep in loading state.
+				guard case DataStoreError.noData = error else {
+					logError("Error", error)
+					state.updateCategoryState(id: button.id, state: .empty)
+					return
+				}
+				state.updateCategoryState(id: button.id, state: .loading)
+		}
+	}
+	
+	/// Update the state in All Mode
+	/// - Parameter button: the button to update
+	private func updateStateAllMode(button: CategoryButton) {
+		
+		// the store was updated, so try to get the records from the store for this category
+		let cacheResult = Current.dataStore.get(categoryId: "\(button.id)")
+		switch cacheResult {
+			case let .success(records):
+				// Success, there was some records for this category
+				if records.count == Current.healthcareOrganizationStore.organizations.count {
+					// There are records for all organizations. Let's check if any of them has data
+					var found = false
+					for record in records where record.resources.isNotEmpty {
+						found = true
+					}
+					state.updateCategoryState(id: button.id, state: found ? .loaded : .empty)
+				} else {
+					// We don't have data for all organizations. Keep loading
+					state.updateCategoryState(id: button.id, state: .loading)
+				}
+			case let .failure(error):
+				// No records available. Keep in loading state.
+				guard case DataStoreError.noData = error else {
+					logError("Error", error)
+					state.updateCategoryState(id: button.id, state: .empty)
+					return
+				}
+				state.updateCategoryState(id: button.id, state: .loading)
 		}
 	}
 }
@@ -231,19 +302,16 @@ struct HealthCategoriesView: View {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let spacing: CGFloat = 16
 		}
+		enum Account {
+			static let size: CGFloat = 32
+		}
 	}
 	
 	var body: some View {
 			
 		VStack(alignment: .leading, spacing: 0) {
 			
-			Text(viewModel.state.title)
-				.rijksoverheidStyle(font: .bold, style: .title)
-				.foregroundStyle(theme.contentPrimary)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityAddTraits(.isHeader)
-				.padding(.horizontal, ViewTraits.General.padding)
-				.padding(.top, ViewTraits.Navigation.padding)
+			headerView()
 			
 			List {
 				
@@ -308,6 +376,29 @@ struct HealthCategoriesView: View {
 		}.onAppear {
 			viewModel.reduce(.onAppear)
 		}
+	}
+	
+	@ViewBuilder func headerView() -> some View {
+	
+		HStack {
+			Text(viewModel.state.title)
+				.rijksoverheidStyle(font: .bold, style: .title)
+				.foregroundColor(theme.contentPrimary)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityAddTraits(.isHeader)
+				.accessibilityIdentifier("healthcare_organizations.heading")
+			
+			Spacer()
+			
+			if viewModel.state.showAccount {
+				Image(ImageResource.Overview.accountCircle)
+					.resizable()
+					.frame(width: ViewTraits.Account.size, height: ViewTraits.Account.size)
+					.accessibilityHidden(true)
+			}
+		}
+		.padding(.horizontal, ViewTraits.General.padding)
+		.padding(.top, ViewTraits.Navigation.padding)
 	}
 }
 
