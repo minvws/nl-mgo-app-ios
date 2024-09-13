@@ -51,8 +51,8 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 	func test_loadMedications_noResults() {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
 		)
 		
 		// When
@@ -81,8 +81,8 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		
 		// Given
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
 		
 		// When
@@ -101,8 +101,8 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		
 		// Given
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		

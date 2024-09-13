@@ -24,6 +24,18 @@ final class DashboardCoordinatorTests: XCTestCase {
 		sut = DashboardCoordinator(parentCoordinator: parentCoordinator)
 	}
 	
+	// MARK: - Init -
+	
+	func test_init() {
+		
+		// Given
+		
+		// When
+		
+		// Then
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoad) == true
+	}
+	
 	// MARK: - Handle -
 	
 	func test_coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet() {

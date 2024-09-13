@@ -28,9 +28,9 @@ public class MgoDataStoreSpy: MgoDataStoreProtocol {
 	public var invokedGetCategoryIdCount = 0
 	public var invokedGetCategoryIdParameters: (categoryId: String, organizationId: String)?
 	public var invokedGetCategoryIdParametersList = [(categoryId: String, organizationId: String)]()
-	public var stubbedGetCategoryIdResult: Result<MgoResourceRecord, Error>!
+	public var stubbedGetCategoryIdResult: Result<[MgoResourceRecord], Error>!
 
-	public func get(categoryId: String, organizationId: String) -> Result<MgoResourceRecord, Error> {
+	public func get(categoryId: String, organizationId: String) -> Result<[MgoResourceRecord], Error> {
 		invokedGetCategoryId = true
 		invokedGetCategoryIdCount += 1
 		invokedGetCategoryIdParameters = (categoryId, organizationId)

@@ -110,9 +110,11 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	init(parentCoordinator: (any AppCoordinatorProtocol)?) {
+		
 		self.parentCoordinator = parentCoordinator
 		
-		Loader().load()
+		// Load all the resources
+		Current.resourceRepository.load()
 	}
 	
 	/// Handle any incoming action from any of the view models

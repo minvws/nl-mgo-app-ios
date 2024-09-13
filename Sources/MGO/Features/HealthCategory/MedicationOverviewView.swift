@@ -108,35 +108,26 @@ class MedicationOverviewViewModel: ObservableObject {
 	@MainActor
 	func loadMedication() async {
 		
-		if let organizationId {
-			let cacheResult = Current.dataStore.get(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: organizationId)
-			switch cacheResult {
-				case .success(let record):
-					let items = parseRecord(record)
-						if items.isEmpty {
-							state = .empty
-						} else {
-							state = .success(items: items)
-						}
-				case .failure:
-					state = .failure
+		let cacheResult: Result<[MgoResourceRecord], Error> = {
+			if let organizationId {
+				return Current.dataStore.get(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: organizationId)
+			} else {
+				return Current.dataStore.get(categoryId: "\(HealthCategories.Category.medication.rawValue)")
 			}
-		} else {
-			let cacheResult = Current.dataStore.get(categoryId: "\(HealthCategories.Category.medication.rawValue)")
-			switch cacheResult {
-				case .success(let records):
-					var items = [OverviewBlock]()
-					for record in records {
-						items.append(contentsOf: parseRecord(record))
-					}
-					if items.isEmpty {
-						state = .empty
-					} else {
-						state = .success(items: items)
-					}
-				case .failure:
-					state = .failure
-			}
+		}()
+		switch cacheResult {
+			case .success(let records):
+				var items = [OverviewBlock]()
+				for record in records {
+					items.append(contentsOf: parseRecord(record))
+				}
+				if items.isEmpty {
+					state = .empty
+				} else {
+					state = .success(items: items)
+				}
+			case .failure:
+				state = .failure
 		}
 	}
 	

@@ -18,6 +18,7 @@ struct Services {
 	var localAuthenticationProvider: LocalAuthenticationProviderProtocol
 	var notificationCenter: NotificationCenterProtocol
 	var remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol
+	var resourceRepository: ResourceRepositoryProtocol
 	var secureUserSettings: SecureUserSettingsProtocol
 	
 	init(
@@ -28,6 +29,7 @@ struct Services {
 		localAuthenticationProvider: LocalAuthenticationProviderProtocol,
 		notificationCenter: NotificationCenterProtocol,
 		remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol,
+		resourceRepository: ResourceRepositoryProtocol,
 		secureUserSettings: SecureUserSettingsProtocol
 	) {
 		self.now = now
@@ -37,6 +39,7 @@ struct Services {
 		self.localAuthenticationProvider = localAuthenticationProvider
 		self.notificationCenter = notificationCenter
 		self.remoteConfigurationRepository = remoteConfigurationRepository
+		self.resourceRepository = resourceRepository
 		self.secureUserSettings = secureUserSettings
 	}
 }
@@ -51,6 +54,7 @@ private let now: () -> Date = Date.init
 private let notificationCenter = NotificationCenter.default
 private let secureUserSettings = SecureUserSettings()
 private let remoteConfigurationRepository = RemoteConfigurationRepository()
+private let resourceRepository = ResourceRepository()
 
 // MARK: - 3: Instantiate the Services using private dependencies:
 
@@ -67,6 +71,7 @@ let services: () -> Services = {
 		localAuthenticationProvider: localAuthenticationProvider,
 		notificationCenter: notificationCenter,
 		remoteConfigurationRepository: remoteConfigurationRepository,
+		resourceRepository: resourceRepository,
 		secureUserSettings: secureUserSettings
 	)
 }

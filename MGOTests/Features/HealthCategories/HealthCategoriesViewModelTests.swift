@@ -84,8 +84,8 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		
 		// Given
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
@@ -99,8 +99,8 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 	func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
 		)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
@@ -147,5 +147,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == true
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 0
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForCount) == 1
 	}
 }

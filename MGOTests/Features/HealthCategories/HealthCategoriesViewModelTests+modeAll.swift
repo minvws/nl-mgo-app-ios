@@ -147,5 +147,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == false
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == true
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 1
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForCount) == 0
 	}
 }

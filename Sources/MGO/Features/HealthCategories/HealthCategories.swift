@@ -40,7 +40,7 @@ struct HealthCategories {
 		var endPoint: [DVP.Endpoint] {
 			switch self {
 				case .medication:
-				[DVP.CommonClinicalDataset.medicationUse]
+					[DVP.CommonClinicalDataset.medicationUse]
 				case .allergies:
 					[DVP.CommonClinicalDataset.allergyIntolerance]
 				default: []

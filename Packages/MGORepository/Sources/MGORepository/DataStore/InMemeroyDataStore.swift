@@ -35,12 +35,17 @@ public class InMemoryDataStore: MgoDataStoreProtocol {
 	///   - categoryId: the id of the category
 	///   - organizationId: the id of the organization
 	/// - Returns: Result object with dataset or error
-	public func get(categoryId: String, organizationId: String) -> Result<MgoResourceRecord, any Error> {
+	public func get(categoryId: String, organizationId: String) -> Result<[MgoResourceRecord], any Error> {
+		
+		var result = [MgoResourceRecord]()
 		
 		for element in dataSource where element.categoryId == categoryId && element.organizationId == organizationId {
-			return .success(element)
+			result.append(element)
 		}
-		return .failure(DataStoreError.noData)
+		if result.isEmpty {
+			return .failure(DataStoreError.noData)
+		}
+		return .success(result)
 	}
 	
 	/// Get all data sets for a category
@@ -64,16 +69,7 @@ public class InMemoryDataStore: MgoDataStoreProtocol {
 	public func store(data: MgoResourceRecord) {
 		
 		queue.sync {
-			var found = false
-			for (index, element) in dataSource.enumerated() where element.categoryId == data.categoryId && element.organizationId == data.organizationId {
-				
-				dataSource[index] = data
-				found = true
-			}
-			
-			if !found {
-				dataSource.append(data)
-			}
+			dataSource.append(data)
 		}
 		DispatchQueue.main.async {
 			self.observers(true)

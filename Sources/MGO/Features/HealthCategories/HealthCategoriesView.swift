@@ -134,10 +134,11 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .refresh:
 				if case let .single(healthcareOrganization) = mode {
 					Current.dataStore.removeRecords(for: healthcareOrganization.identifier)
+					Current.resourceRepository.loadFor(healthcareOrganization)
 				} else {
 					Current.dataStore.removeAllRecords()
+					Current.resourceRepository.load()
 				}
-				Loader().load()
 				reduce(.onAppear)
 
 			case let .categorySelected(categoryButton):
@@ -181,47 +182,37 @@ class HealthCategoriesViewModel: ObservableObject {
 			// Only update if the category is enabled.
 			guard button.state != .notAvailabe else { return }
 			
-			switch mode {
-				case .single(let mgoOrganization): updateStateSingleMode(mgoOrganization, button: button)
-				case .all: updateStateAllMode(button: button)
-			}
-		}
-	}
-	
-	/// Update the state in Single Mode
-	/// - Parameters:
-	///   - healthcareOrganization: the healthcare organization
-	///   - button: the button to update
-	private func updateStateSingleMode(_ healthcareOrganization: MgoOrganization, button: CategoryButton) {
-		
-		// the store was updated, so try to get the records from the store for this category and healthcare organization
-		let cacheResult = Current.dataStore.get(categoryId: "\(button.id)", organizationId: healthcareOrganization.identifier)
-		switch cacheResult {
-			case let .success(record):
-				// Success, we have (empty) records for the this organization and category
-				state.updateCategoryState(id: button.id, state: record.resources.isNotEmpty ? .loaded : .empty)
-			
-			case let .failure(error):
-				// No records available. Keep in loading state.
-				guard case DataStoreError.noData = error else {
-					logError("Error", error)
-					state.updateCategoryState(id: button.id, state: .empty)
-					return
+			let cacheResult: Result<[MgoResourceRecord], Error> = {
+				switch mode {
+					case .single(let healthcareOrganization):
+						return Current.dataStore.get(categoryId: "\(button.id)", organizationId: healthcareOrganization.identifier)
+					case .all:
+						return Current.dataStore.get(categoryId: "\(button.id)")
 				}
-				state.updateCategoryState(id: button.id, state: .loading)
+			}()
+			
+			handleCacheResult(cacheResult, button: button)
 		}
 	}
-	
-	/// Update the state in All Mode
+
+	/// Update the state
 	/// - Parameter button: the button to update
-	private func updateStateAllMode(button: CategoryButton) {
+	private func handleCacheResult(_ cacheResult: Result<[MgoResourceRecord], Error>, button: CategoryButton) {
 		
-		// the store was updated, so try to get the records from the store for this category
-		let cacheResult = Current.dataStore.get(categoryId: "\(button.id)")
 		switch cacheResult {
 			case let .success(records):
+			
+				let threshold: Int = {
+					switch mode {
+						case .single:
+							return 1
+						case .all:
+							return Current.healthcareOrganizationStore.organizations.count
+					}
+				}()
+			
 				// Success, there was some records for this category
-				if records.count == Current.healthcareOrganizationStore.organizations.count {
+				if records.count >= threshold {
 					// There are records for all organizations. Let's check if any of them has data
 					var found = false
 					for record in records where record.resources.isNotEmpty {
