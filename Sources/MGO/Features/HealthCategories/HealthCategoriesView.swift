@@ -137,6 +137,7 @@ class HealthCategoriesViewModel: ObservableObject {
 				} else {
 					Current.dataStore.removeAllRecords()
 				}
+				Loader().load()
 				reduce(.onAppear)
 
 			case let .categorySelected(categoryButton):
@@ -159,12 +160,6 @@ class HealthCategoriesViewModel: ObservableObject {
 				)
 				
 			case .onAppear:
-//				_Concurrency.Task {
-//					await loadMedication(id: HealthCategories.Category.medication.rawValue)
-//					await loadMedication(id: HealthCategories.Category.allergies.rawValue)
-//					await loadMedication(id: HealthCategories.Category.measurements.rawValue)
-//					await loadMedication(id: HealthCategories.Category.vaccinations.rawValue)
-//				}
 				updateState()
 			
 			case .removeHealthcareOrganization:
@@ -176,39 +171,6 @@ class HealthCategoriesViewModel: ObservableObject {
 						)
 					)
 				}
-		}
-	}
-	
-	@MainActor
-	func loadMedication(id: Int) async {
-		
-		var organizations = [MgoOrganization]()
-		if case let .single(healthcareOrganization) = mode {
-			organizations.append(healthcareOrganization)
-		}
-		if case .all = mode {
-			organizations = Current.healthcareOrganizationStore.organizations
-		}
-		
-		for healthcareOrganization in organizations {
-			
-			guard let resourceEndpoint = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID) else {
-				return
-			}
-			guard let medicationUseRepository: MedicationUseRepository = FHIRClient() else {
-				return
-			}
-			
-			do {
-				let mgoResources = try await medicationUseRepository.fetchResources(dvaTarget: resourceEndpoint)
-				
-				let recordToStore = MgoResourceRecord(categoryId: "\(id)", organizationId: healthcareOrganization.identifier, resources: mgoResources)
-				Current.dataStore.store(data: recordToStore)
-				logVerbose("DataStore store new record")
-
-			} catch {
-				logError("medicationUseRepository error: \(error)")
-			}
 		}
 	}
 	

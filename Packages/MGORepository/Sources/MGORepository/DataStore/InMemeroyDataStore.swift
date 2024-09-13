@@ -21,6 +21,9 @@ public class InMemoryDataStore: MgoDataStoreProtocol {
 	/// Observers for changes
 	private let observers: (Bool) -> Void
 	
+	/// Keep the datastore in sync across threads
+	private let queue = DispatchQueue(label: "nl.mijngezondheidsomgeving.datastore.serialqueue.\(UUID().uuidString)")
+	
 	/// Create an in memory data store
 	public init() {
 		
@@ -60,31 +63,38 @@ public class InMemoryDataStore: MgoDataStoreProtocol {
 	/// - Parameter data: the data set to store
 	public func store(data: MgoResourceRecord) {
 		
-		var found = false
-
-		for (index, element) in dataSource.enumerated() where element.categoryId == data.categoryId && element.organizationId == data.organizationId {
-			dataSource[index] = data
-			found = true
+		queue.sync {
+			var found = false
+			for (index, element) in dataSource.enumerated() where element.categoryId == data.categoryId && element.organizationId == data.organizationId {
+				
+				dataSource[index] = data
+				found = true
+			}
+			
+			if !found {
+				dataSource.append(data)
+			}
 		}
-		
-		if !found {
-			dataSource.append(data)
+		DispatchQueue.main.async {
+			self.observers(true)
 		}
-		observers(true)
 	}
 	
 	/// Remove all entries from the store for this organization
 	/// - Parameter organizationId: the id of the organization to remove for
 	public func removeRecords(for organizationId: String) {
-		
-		dataSource = dataSource.filter({ entry in
-			entry.organizationId != organizationId
-		})
+		queue.sync {
+			dataSource = dataSource.filter({ entry in
+				entry.organizationId != organizationId
+			})
+		}
 	}
 	
 	/// Remove all records from the store
 	public func removeAllRecords() {
-		dataSource.removeAll()
+		queue.sync {
+			dataSource.removeAll()
+		}
 	}
 	
 	/// Wipe all persisted data

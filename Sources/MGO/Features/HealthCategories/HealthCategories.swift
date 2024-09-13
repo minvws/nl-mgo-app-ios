@@ -7,6 +7,7 @@
 
 import MGOFoundation
 import MGOUI
+import Zibs
 
 struct HealthCategories {
 	
@@ -20,5 +21,30 @@ struct HealthCategories {
 		case labresults = 7
 		case reports = 8
 		case documents = 9
+		
+		/// Which of the Nictiz profiles do we accept for a category?
+		var acceptedProfiles: [String] {
+			switch self {
+				
+				case .medication:
+					[
+						ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue,
+						ZibProductProfile.httpNictizNlFhirStructureDefinitionZibProduct.rawValue
+					]
+					
+				default: []
+			}
+		}
+		
+		/// What endpoints should we use for a category?
+		var endPoint: [DVP.Endpoint] {
+			switch self {
+				case .medication:
+				[DVP.CommonClinicalDataset.medicationUse]
+				case .allergies:
+					[DVP.CommonClinicalDataset.allergyIntolerance]
+				default: []
+			}
+		}
 	}
 }
