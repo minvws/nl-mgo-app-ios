@@ -81,4 +81,19 @@ final class HealthCategoriesViewTests: XCTestCase {
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
 		expect(params.identifier) == Coordination.Action.removeHealthcareOrganization.identifier
 	}
+	
+	func test_addHealthcareOrganization_noOrganizations() throws {
+		
+		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
+		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		sut = HealthCategoriesView(viewModel: self.viewModel)
+		
+		// When
+		try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.empty.action").button().tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
+	}
 }

@@ -150,4 +150,16 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 1
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForCount) == 0
 	}
+	
+	func test_searchButtonPressed_shouldCallCoordinator() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.search)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
+	}
 }

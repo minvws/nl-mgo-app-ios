@@ -59,6 +59,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		case categorySelected(CategoryButton)
 		case removeHealthcareOrganization
 		case onAppear
+		case search
 	}
 	
 	/// Intitializer
@@ -132,6 +133,9 @@ class HealthCategoriesViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
+			
+			case .search:
+				coordinator?.handle(Coordination.Action.addHealthcareOrganization)
 			
 			case .refresh:
 				if case let .single(healthcareOrganization) = mode {
@@ -380,7 +384,7 @@ struct HealthCategoriesView: View {
 			.padding(.top, ViewTraits.NoResults.top)
 		
 		CallToActionButton("overview.empty.action") {
-//			viewModel.reduce(.search)
+			viewModel.reduce(.search)
 		}
 		.accessibilityIdentifier("overview.empty.action")
 	}
