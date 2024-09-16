@@ -42,8 +42,8 @@ final class MedicationOverviewViewTests: XCTestCase {
 	func test_stateEmpty() {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
 		)
 		let content = NavigationView { sut }
 		
@@ -72,8 +72,8 @@ final class MedicationOverviewViewTests: XCTestCase {
 		
 		// Given
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
@@ -103,8 +103,8 @@ final class MedicationOverviewViewTests: XCTestCase {
 		
 		// Given
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
@@ -122,8 +122,8 @@ final class MedicationOverviewViewTests: XCTestCase {
 		
 		// Given
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }

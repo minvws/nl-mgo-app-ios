@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class OverviewViewModel: ObservableObject {
+class OrganizationsViewModel: ObservableObject {
 	
 	/// The state for the overview scene
 	enum State: Equatable {
@@ -20,16 +20,13 @@ class OverviewViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The state of the view
-	@Published var state: OverviewViewModel.State
+	@Published var state: OrganizationsViewModel.State
 	
 	/// A toast
 	@Published var toast: Feedback?
 	
 	/// Token for the observatory (needed for unregister)
 	private var observerToken: Observatory.ObserverToken?
-
-	/// Token for the observatory (needed for unregister)
-	private var removalObserverToken: Observatory.ObserverToken?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -52,39 +49,36 @@ class OverviewViewModel: ObservableObject {
 	// Listen to changes in the stored organizations list
 	private func registerObservers() {
 		
-		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] changed in
-			if changed {
-				self?.loadHealthcareOrganizations()
+		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] organization, reason in
+			switch reason {
+				case .added:
+					self?.loadHealthcareOrganizations()
+				case .removed:
+					self?.toast = Feedback(
+						title: String(localized: "toast.organization_removed.heading"),
+						subtitle: String(localized: "toast.organization_removed.subheading"),
+						type: .success,
+						perform: { [weak self] in
+							// Undo deletion
+							try? Current.healthcareOrganizationStore.store(organization)
+							withAnimation {
+								self?.toast = nil
+							}
+						}
+					)
+					Haptic.light()
 			}
-		}
-
-		self.removalObserverToken = Current.healthcareOrganizationStore.removalObservatory.append { [weak self] organization in
-			
-			self?.toast = Feedback(
-				title: String(localized: "toast.organization_removed.heading"),
-				subtitle: String(localized: "toast.organization_removed.subheading"),
-				type: .success,
-				perform: { [weak self] in
-					// Undo deletion
-					try? Current.healthcareOrganizationStore.store(organization)
-					withAnimation {
-						self?.toast = nil
-					}
-				}
-			)
-			Haptic.light()
 		}
 	}
 	
 	deinit {
 		// Remove as observer
 		observerToken.map(Current.healthcareOrganizationStore.observatory.remove)
-		removalObserverToken.map(Current.healthcareOrganizationStore.removalObservatory.remove)
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: OverviewViewModel.Action) {
+	func reduce(_ action: OrganizationsViewModel.Action) {
 		
 		switch action {
 		
@@ -119,10 +113,10 @@ class OverviewViewModel: ObservableObject {
 	}
 }
 
-struct OverviewView: View {
+struct OrganizationsView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: OverviewViewModel
+	@StateObject var viewModel: OrganizationsViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -298,6 +292,6 @@ struct OverviewView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		OverviewView(viewModel: OverviewViewModel(coordinator: nil))
+		OrganizationsView(viewModel: OrganizationsViewModel(coordinator: nil))
 	}
 }

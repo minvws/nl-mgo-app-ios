@@ -24,24 +24,14 @@ public class HealthcareOrganizationRepositorySpy: HealthcareOrganizationReposito
 
 	public var invokedObservatoryGetter = false
 	public var invokedObservatoryGetterCount = 0
-	public var stubbedObservatory: Observatory<Bool>!
+	public var stubbedObservatory: Observatory<(MgoOrganization, HealthcareOrganizationReason)>!
 
-	public var observatory: Observatory<Bool> {
+	public var observatory: Observatory<(MgoOrganization, HealthcareOrganizationReason)> {
 		invokedObservatoryGetter = true
 		invokedObservatoryGetterCount += 1
 		return stubbedObservatory
 	}
 	
-	public var invokedRemovalObservatoryGetter = false
-	public var invokedRemovalObservatoryGetterCount = 0
-	public var stubbedRemovalObservatory: Observatory<MgoOrganization>!
-
-	public var removalObservatory: Observatory<MgoOrganization> {
-		invokedRemovalObservatoryGetter = true
-		invokedRemovalObservatoryGetterCount += 1
-		return stubbedRemovalObservatory
-	}
-
 	public var invokedStore = false
 	public var invokedStoreCount = 0
 	public var invokedStoreParameters: (organization: MgoOrganization, Void)?

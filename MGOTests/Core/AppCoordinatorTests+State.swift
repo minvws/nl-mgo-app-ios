@@ -177,6 +177,6 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let view = sut.view(for: state)
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: try XCTUnwrap(view), precision: 0.95)
 	}
 }

@@ -24,6 +24,18 @@ final class DashboardCoordinatorTests: XCTestCase {
 		sut = DashboardCoordinator(parentCoordinator: parentCoordinator)
 	}
 	
+	// MARK: - Init -
+	
+	func test_init() {
+		
+		// Given
+		
+		// When
+		
+		// Then
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoad) == true
+	}
+	
 	// MARK: - Handle -
 	
 	func test_coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet() {
@@ -226,7 +238,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		// Given
 		let organization = Generator.healthcareOrganization("1")
 		self.sut.rootStateForSheet = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: organization)
-		self.sut.firstTabPath = NavigationStackBackport.NavigationPath([
+		self.sut.secondTabPath = NavigationStackBackport.NavigationPath([
 			DashboardCoordination.State.overview,
 			DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: organization)
 		])
@@ -236,6 +248,6 @@ final class DashboardCoordinatorTests: XCTestCase {
 
 		// Then
 		expect(self.sut.rootStateForSheet) == nil
-		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
+		expect(self.sut.secondTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
 	}
 }

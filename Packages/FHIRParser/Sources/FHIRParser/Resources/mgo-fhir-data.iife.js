@@ -6,69 +6,6 @@ var __publicField = (obj, key, value) => {
   return value;
 };
 
-  const parse = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-    __proto__: null,
-    get annotation() {
-      return annotation$1;
-    },
-    get boolean() {
-      return boolean$1;
-    },
-    get code() {
-      return code$2;
-    },
-    get codeableConcept() {
-      return codeableConcept$1;
-    },
-    get coding() {
-      return coding$1;
-    },
-    get date() {
-      return date$2;
-    },
-    get dateTime() {
-      return dateTime$3;
-    },
-    get decimal() {
-      return decimal;
-    },
-    get duration() {
-      return duration$1;
-    },
-    get identifier() {
-      return identifier$1;
-    },
-    get integer() {
-      return integer;
-    },
-    get integer64() {
-      return integer64;
-    },
-    get period() {
-      return period$1;
-    },
-    get positiveInt() {
-      return positiveInt;
-    },
-    get quantity() {
-      return quantity$1;
-    },
-    get range() {
-      return range$1;
-    },
-    get ratio() {
-      return ratio$1;
-    },
-    get reference() {
-      return reference$1;
-    },
-    get string() {
-      return string;
-    },
-    get unsignedInt() {
-      return unsignedInt;
-    }
-  }, Symbol.toStringTag, { value: "Module" }));
   function isInteger(value2) {
     return INTEGER_REGEX.test(value2);
   }
@@ -718,12 +655,12 @@ var __publicField = (obj, key, value) => {
     "ValueSet",
     "VisionPrescription"
   ];
-  function isFhirResource(value2, type) {
+  function isFhirResource(value2, type2) {
     const resource = value2;
-    if (!type) {
+    if (!type2) {
       return resourceTypes.includes(resource?.resourceType);
     }
-    return resource?.resourceType === type;
+    return resource?.resourceType === type2;
   }
   function isNullish(value2) {
     return value2 === void 0 || value2 === null;
@@ -731,9 +668,10 @@ var __publicField = (obj, key, value) => {
   function isNonNullish(value2) {
     return !isNullish(value2);
   }
-  function map(items, iteratee) {
-    if (!items?.length)
-      return;
+  function map(items, iteratee, returnEmpty = false) {
+    if (!items?.length) {
+      return returnEmpty ? [] : void 0;
+    }
     return items.map(iteratee).filter(isNonNullish);
   }
   function getBundleResources(bundle) {
@@ -752,36 +690,6 @@ var __publicField = (obj, key, value) => {
     const resources2 = getBundleResources(fhirBundle);
     return losslessStringify(resources2, formatResponse);
   }
-  function createTypeParser(parser) {
-    return (value2) => {
-      if (isNullish(value2))
-        return;
-      return parser(value2);
-    };
-  }
-  function quantityLike(value2) {
-    const { value: valueQuantity, comparator, unit, system, code: code2 } = value2;
-    return { value: valueQuantity, comparator, unit, system, code: code2 };
-  }
-  const quantity$1 = createTypeParser(quantityLike);
-  const dateTime$3 = createTypeParser((value2) => value2);
-  const reference$1 = createTypeParser((value2) => {
-    const { reference: reference2, display } = value2;
-    return {
-      reference: reference2,
-      display
-    };
-  });
-  const annotation$1 = createTypeParser((value2) => {
-    const { time, text, authorReference } = value2;
-    return {
-      time: dateTime$3(time),
-      text,
-      author: reference$1(authorReference)
-    };
-  });
-  const boolean$1 = createTypeParser((value2) => value2);
-  const code$2 = createTypeParser((value2) => value2);
   var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
   var lodash = { exports: {} };
   /**
@@ -1393,9 +1301,9 @@ var __publicField = (obj, key, value) => {
         return reHasUnicodeWord.test(string2);
       }
       function iteratorToArray(iterator) {
-        var data, result = [];
-        while (!(data = iterator.next()).done) {
-          result.push(data.value);
+        var data2, result = [];
+        while (!(data2 = iterator.next()).done) {
+          result.push(data2.value);
         }
         return result;
       }
@@ -1640,11 +1548,11 @@ var __publicField = (obj, key, value) => {
               index += dir;
               var iterIndex = -1, value2 = array[index];
               while (++iterIndex < iterLength) {
-                var data = iteratees[iterIndex], iteratee2 = data.iteratee, type = data.type, computed = iteratee2(value2);
-                if (type == LAZY_MAP_FLAG) {
+                var data2 = iteratees[iterIndex], iteratee2 = data2.iteratee, type2 = data2.type, computed = iteratee2(value2);
+                if (type2 == LAZY_MAP_FLAG) {
                   value2 = computed;
                 } else if (!computed) {
-                  if (type == LAZY_FILTER_FLAG) {
+                  if (type2 == LAZY_FILTER_FLAG) {
                     continue outer;
                   } else {
                     break outer;
@@ -1675,21 +1583,21 @@ var __publicField = (obj, key, value) => {
           return result2;
         }
         function hashGet(key) {
-          var data = this.__data__;
+          var data2 = this.__data__;
           if (nativeCreate) {
-            var result2 = data[key];
+            var result2 = data2[key];
             return result2 === HASH_UNDEFINED ? undefined$1 : result2;
           }
-          return hasOwnProperty.call(data, key) ? data[key] : undefined$1;
+          return hasOwnProperty.call(data2, key) ? data2[key] : undefined$1;
         }
         function hashHas(key) {
-          var data = this.__data__;
-          return nativeCreate ? data[key] !== undefined$1 : hasOwnProperty.call(data, key);
+          var data2 = this.__data__;
+          return nativeCreate ? data2[key] !== undefined$1 : hasOwnProperty.call(data2, key);
         }
         function hashSet(key, value2) {
-          var data = this.__data__;
+          var data2 = this.__data__;
           this.size += this.has(key) ? 0 : 1;
-          data[key] = nativeCreate && value2 === undefined$1 ? HASH_UNDEFINED : value2;
+          data2[key] = nativeCreate && value2 === undefined$1 ? HASH_UNDEFINED : value2;
           return this;
         }
         Hash.prototype.clear = hashClear;
@@ -1710,33 +1618,33 @@ var __publicField = (obj, key, value) => {
           this.size = 0;
         }
         function listCacheDelete(key) {
-          var data = this.__data__, index = assocIndexOf(data, key);
+          var data2 = this.__data__, index = assocIndexOf(data2, key);
           if (index < 0) {
             return false;
           }
-          var lastIndex = data.length - 1;
+          var lastIndex = data2.length - 1;
           if (index == lastIndex) {
-            data.pop();
+            data2.pop();
           } else {
-            splice.call(data, index, 1);
+            splice.call(data2, index, 1);
           }
           --this.size;
           return true;
         }
         function listCacheGet(key) {
-          var data = this.__data__, index = assocIndexOf(data, key);
-          return index < 0 ? undefined$1 : data[index][1];
+          var data2 = this.__data__, index = assocIndexOf(data2, key);
+          return index < 0 ? undefined$1 : data2[index][1];
         }
         function listCacheHas(key) {
           return assocIndexOf(this.__data__, key) > -1;
         }
         function listCacheSet(key, value2) {
-          var data = this.__data__, index = assocIndexOf(data, key);
+          var data2 = this.__data__, index = assocIndexOf(data2, key);
           if (index < 0) {
             ++this.size;
-            data.push([key, value2]);
+            data2.push([key, value2]);
           } else {
-            data[index][1] = value2;
+            data2[index][1] = value2;
           }
           return this;
         }
@@ -1773,9 +1681,9 @@ var __publicField = (obj, key, value) => {
           return getMapData(this, key).has(key);
         }
         function mapCacheSet(key, value2) {
-          var data = getMapData(this, key), size2 = data.size;
-          data.set(key, value2);
-          this.size += data.size == size2 ? 0 : 1;
+          var data2 = getMapData(this, key), size2 = data2.size;
+          data2.set(key, value2);
+          this.size += data2.size == size2 ? 0 : 1;
           return this;
         }
         MapCache.prototype.clear = mapCacheClear;
@@ -1800,16 +1708,16 @@ var __publicField = (obj, key, value) => {
         SetCache.prototype.add = SetCache.prototype.push = setCacheAdd;
         SetCache.prototype.has = setCacheHas;
         function Stack(entries) {
-          var data = this.__data__ = new ListCache(entries);
-          this.size = data.size;
+          var data2 = this.__data__ = new ListCache(entries);
+          this.size = data2.size;
         }
         function stackClear() {
           this.__data__ = new ListCache();
           this.size = 0;
         }
         function stackDelete(key) {
-          var data = this.__data__, result2 = data["delete"](key);
-          this.size = data.size;
+          var data2 = this.__data__, result2 = data2["delete"](key);
+          this.size = data2.size;
           return result2;
         }
         function stackGet(key) {
@@ -1819,18 +1727,18 @@ var __publicField = (obj, key, value) => {
           return this.__data__.has(key);
         }
         function stackSet(key, value2) {
-          var data = this.__data__;
-          if (data instanceof ListCache) {
-            var pairs = data.__data__;
+          var data2 = this.__data__;
+          if (data2 instanceof ListCache) {
+            var pairs = data2.__data__;
             if (!Map || pairs.length < LARGE_ARRAY_SIZE - 1) {
               pairs.push([key, value2]);
-              this.size = ++data.size;
+              this.size = ++data2.size;
               return this;
             }
-            data = this.__data__ = new MapCache(pairs);
+            data2 = this.__data__ = new MapCache(pairs);
           }
-          data.set(key, value2);
-          this.size = data.size;
+          data2.set(key, value2);
+          this.size = data2.size;
           return this;
         }
         Stack.prototype.clear = stackClear;
@@ -2253,15 +2161,15 @@ var __publicField = (obj, key, value) => {
           }
           object = Object2(object);
           while (index--) {
-            var data = matchData[index];
-            if (noCustomizer && data[2] ? data[1] !== object[data[0]] : !(data[0] in object)) {
+            var data2 = matchData[index];
+            if (noCustomizer && data2[2] ? data2[1] !== object[data2[0]] : !(data2[0] in object)) {
               return false;
             }
           }
           while (++index < length) {
-            data = matchData[index];
-            var key = data[0], objValue = object[key], srcValue = data[1];
-            if (noCustomizer && data[2]) {
+            data2 = matchData[index];
+            var key = data2[0], objValue = object[key], srcValue = data2[1];
+            if (noCustomizer && data2[2]) {
               if (objValue === undefined$1 && !(key in object)) {
                 return false;
               }
@@ -2564,8 +2472,8 @@ var __publicField = (obj, key, value) => {
           }
           return object;
         }
-        var baseSetData = !metaMap ? identity : function(func, data) {
-          metaMap.set(func, data);
+        var baseSetData = !metaMap ? identity : function(func, data2) {
+          metaMap.set(func, data2);
           return func;
         };
         var baseSetToString = !defineProperty ? identity : function(func, string2) {
@@ -3069,9 +2977,9 @@ var __publicField = (obj, key, value) => {
             index = wrapper ? index : length;
             while (++index < length) {
               func = funcs[index];
-              var funcName = getFuncName(func), data = funcName == "wrapper" ? getData(func) : undefined$1;
-              if (data && isLaziable(data[0]) && data[1] == (WRAP_ARY_FLAG | WRAP_CURRY_FLAG | WRAP_PARTIAL_FLAG | WRAP_REARG_FLAG) && !data[4].length && data[9] == 1) {
-                wrapper = wrapper[getFuncName(data[0])].apply(wrapper, data[3]);
+              var funcName = getFuncName(func), data2 = funcName == "wrapper" ? getData(func) : undefined$1;
+              if (data2 && isLaziable(data2[0]) && data2[1] == (WRAP_ARY_FLAG | WRAP_CURRY_FLAG | WRAP_PARTIAL_FLAG | WRAP_REARG_FLAG) && !data2[4].length && data2[9] == 1) {
+                wrapper = wrapper[getFuncName(data2[0])].apply(wrapper, data2[3]);
               } else {
                 wrapper = func.length == 1 && isLaziable(func) ? wrapper[funcName]() : wrapper.thru(func);
               }
@@ -3298,7 +3206,7 @@ var __publicField = (obj, key, value) => {
             var partialsRight = partials, holdersRight = holders;
             partials = holders = undefined$1;
           }
-          var data = isBindKey ? undefined$1 : getData(func);
+          var data2 = isBindKey ? undefined$1 : getData(func);
           var newData = [
             func,
             bitmask,
@@ -3311,8 +3219,8 @@ var __publicField = (obj, key, value) => {
             ary2,
             arity
           ];
-          if (data) {
-            mergeData(newData, data);
+          if (data2) {
+            mergeData(newData, data2);
           }
           func = newData[0];
           bitmask = newData[1];
@@ -3332,7 +3240,7 @@ var __publicField = (obj, key, value) => {
           } else {
             result2 = createHybrid.apply(undefined$1, newData);
           }
-          var setter = data ? baseSetData : setData;
+          var setter = data2 ? baseSetData : setData;
           return setWrapToString(setter(result2, newData), func, bitmask);
         }
         function customDefaultsAssignIn(objValue, srcValue, key, object) {
@@ -3499,9 +3407,9 @@ var __publicField = (obj, key, value) => {
         function getFuncName(func) {
           var result2 = func.name + "", array = realNames[result2], length = hasOwnProperty.call(realNames, result2) ? array.length : 0;
           while (length--) {
-            var data = array[length], otherFunc = data.func;
+            var data2 = array[length], otherFunc = data2.func;
             if (otherFunc == null || otherFunc == func) {
-              return data.name;
+              return data2.name;
             }
           }
           return result2;
@@ -3516,8 +3424,8 @@ var __publicField = (obj, key, value) => {
           return arguments.length ? result2(arguments[0], arguments[1]) : result2;
         }
         function getMapData(map3, key) {
-          var data = map3.__data__;
-          return isKeyable(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
+          var data2 = map3.__data__;
+          return isKeyable(key) ? data2[typeof key == "string" ? "string" : "hash"] : data2.map;
         }
         function getMatchData(object) {
           var result2 = keys(object), length = result2.length;
@@ -3589,8 +3497,8 @@ var __publicField = (obj, key, value) => {
         function getView(start, end, transforms) {
           var index = -1, length = transforms.length;
           while (++index < length) {
-            var data = transforms[index], size2 = data.size;
-            switch (data.type) {
+            var data2 = transforms[index], size2 = data2.size;
+            switch (data2.type) {
               case "drop":
                 start += size2;
                 break;
@@ -3685,16 +3593,16 @@ var __publicField = (obj, key, value) => {
           return isArray(value2) || isArguments(value2) || !!(spreadableSymbol && value2 && value2[spreadableSymbol]);
         }
         function isIndex(value2, length) {
-          var type = typeof value2;
+          var type2 = typeof value2;
           length = length == null ? MAX_SAFE_INTEGER : length;
-          return !!length && (type == "number" || type != "symbol" && reIsUint.test(value2)) && (value2 > -1 && value2 % 1 == 0 && value2 < length);
+          return !!length && (type2 == "number" || type2 != "symbol" && reIsUint.test(value2)) && (value2 > -1 && value2 % 1 == 0 && value2 < length);
         }
         function isIterateeCall(value2, index, object) {
           if (!isObject2(object)) {
             return false;
           }
-          var type = typeof index;
-          if (type == "number" ? isArrayLike(object) && isIndex(index, object.length) : type == "string" && index in object) {
+          var type2 = typeof index;
+          if (type2 == "number" ? isArrayLike(object) && isIndex(index, object.length) : type2 == "string" && index in object) {
             return eq(object[index], value2);
           }
           return false;
@@ -3703,15 +3611,15 @@ var __publicField = (obj, key, value) => {
           if (isArray(value2)) {
             return false;
           }
-          var type = typeof value2;
-          if (type == "number" || type == "symbol" || type == "boolean" || value2 == null || isSymbol(value2)) {
+          var type2 = typeof value2;
+          if (type2 == "number" || type2 == "symbol" || type2 == "boolean" || value2 == null || isSymbol(value2)) {
             return true;
           }
           return reIsPlainProp.test(value2) || !reIsDeepProp.test(value2) || object != null && value2 in Object2(object);
         }
         function isKeyable(value2) {
-          var type = typeof value2;
-          return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value2 !== "__proto__" : value2 === null;
+          var type2 = typeof value2;
+          return type2 == "string" || type2 == "number" || type2 == "symbol" || type2 == "boolean" ? value2 !== "__proto__" : value2 === null;
         }
         function isLaziable(func) {
           var funcName = getFuncName(func), other = lodash2[funcName];
@@ -3721,8 +3629,8 @@ var __publicField = (obj, key, value) => {
           if (func === other) {
             return true;
           }
-          var data = getData(other);
-          return !!data && func === data[0];
+          var data2 = getData(other);
+          return !!data2 && func === data2[0];
         }
         function isMasked(func) {
           return !!maskSrcKey && maskSrcKey in func;
@@ -3753,41 +3661,41 @@ var __publicField = (obj, key, value) => {
           var cache = result2.cache;
           return result2;
         }
-        function mergeData(data, source) {
-          var bitmask = data[1], srcBitmask = source[1], newBitmask = bitmask | srcBitmask, isCommon = newBitmask < (WRAP_BIND_FLAG | WRAP_BIND_KEY_FLAG | WRAP_ARY_FLAG);
-          var isCombo = srcBitmask == WRAP_ARY_FLAG && bitmask == WRAP_CURRY_FLAG || srcBitmask == WRAP_ARY_FLAG && bitmask == WRAP_REARG_FLAG && data[7].length <= source[8] || srcBitmask == (WRAP_ARY_FLAG | WRAP_REARG_FLAG) && source[7].length <= source[8] && bitmask == WRAP_CURRY_FLAG;
+        function mergeData(data2, source) {
+          var bitmask = data2[1], srcBitmask = source[1], newBitmask = bitmask | srcBitmask, isCommon = newBitmask < (WRAP_BIND_FLAG | WRAP_BIND_KEY_FLAG | WRAP_ARY_FLAG);
+          var isCombo = srcBitmask == WRAP_ARY_FLAG && bitmask == WRAP_CURRY_FLAG || srcBitmask == WRAP_ARY_FLAG && bitmask == WRAP_REARG_FLAG && data2[7].length <= source[8] || srcBitmask == (WRAP_ARY_FLAG | WRAP_REARG_FLAG) && source[7].length <= source[8] && bitmask == WRAP_CURRY_FLAG;
           if (!(isCommon || isCombo)) {
-            return data;
+            return data2;
           }
           if (srcBitmask & WRAP_BIND_FLAG) {
-            data[2] = source[2];
+            data2[2] = source[2];
             newBitmask |= bitmask & WRAP_BIND_FLAG ? 0 : WRAP_CURRY_BOUND_FLAG;
           }
           var value2 = source[3];
           if (value2) {
-            var partials = data[3];
-            data[3] = partials ? composeArgs(partials, value2, source[4]) : value2;
-            data[4] = partials ? replaceHolders(data[3], PLACEHOLDER) : source[4];
+            var partials = data2[3];
+            data2[3] = partials ? composeArgs(partials, value2, source[4]) : value2;
+            data2[4] = partials ? replaceHolders(data2[3], PLACEHOLDER) : source[4];
           }
           value2 = source[5];
           if (value2) {
-            partials = data[5];
-            data[5] = partials ? composeArgsRight(partials, value2, source[6]) : value2;
-            data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : source[6];
+            partials = data2[5];
+            data2[5] = partials ? composeArgsRight(partials, value2, source[6]) : value2;
+            data2[6] = partials ? replaceHolders(data2[5], PLACEHOLDER) : source[6];
           }
           value2 = source[7];
           if (value2) {
-            data[7] = value2;
+            data2[7] = value2;
           }
           if (srcBitmask & WRAP_ARY_FLAG) {
-            data[8] = data[8] == null ? source[8] : nativeMin(data[8], source[8]);
+            data2[8] = data2[8] == null ? source[8] : nativeMin(data2[8], source[8]);
           }
-          if (data[9] == null) {
-            data[9] = source[9];
+          if (data2[9] == null) {
+            data2[9] = source[9];
           }
-          data[0] = source[0];
-          data[1] = newBitmask;
-          return data;
+          data2[0] = source[0];
+          data2[1] = newBitmask;
+          return data2;
         }
         function nativeKeysIn(object) {
           var result2 = [];
@@ -4906,8 +4814,8 @@ var __publicField = (obj, key, value) => {
           return typeof value2 == "number" && value2 > -1 && value2 % 1 == 0 && value2 <= MAX_SAFE_INTEGER;
         }
         function isObject2(value2) {
-          var type = typeof value2;
-          return value2 != null && (type == "object" || type == "function");
+          var type2 = typeof value2;
+          return value2 != null && (type2 == "object" || type2 == "function");
         }
         function isObjectLike(value2) {
           return value2 != null && typeof value2 == "object";
@@ -6118,12 +6026,12 @@ var __publicField = (obj, key, value) => {
           };
         });
         arrayEach(["filter", "map", "takeWhile"], function(methodName, index) {
-          var type = index + 1, isFilter = type == LAZY_FILTER_FLAG || type == LAZY_WHILE_FLAG;
+          var type2 = index + 1, isFilter = type2 == LAZY_FILTER_FLAG || type2 == LAZY_WHILE_FLAG;
           LazyWrapper.prototype[methodName] = function(iteratee2) {
             var result2 = this.clone();
             result2.__iteratees__.push({
               "iteratee": getIteratee(iteratee2, 3),
-              "type": type
+              "type": type2
             });
             result2.__filtered__ = result2.__filtered__ || isFilter;
             return result2;
@@ -6265,20 +6173,36 @@ var __publicField = (obj, key, value) => {
     }).call(commonjsGlobal);
   })(lodash, lodash.exports);
   var lodashExports = lodash.exports;
-  function valueX(value2, valueXType) {
-    if (isNullish(value2))
-      return;
-    const parser = parse[valueXType];
-    const valueX2 = value2[`value${lodashExports.upperFirst(valueXType)}`];
-    return parser(valueX2);
+  function createTypeParser(parser) {
+    return (value2) => {
+      if (isNullish(value2))
+        return;
+      return parser(value2);
+    };
   }
-  function getExtension(resource, url) {
-    return resource?.extension?.find((x) => x.url === url) ?? resource?.modifierExtension?.find((x) => x.url === url);
+  function quantityLike(value2) {
+    const { value: valueQuantity, comparator, unit, system, code: code2 } = value2;
+    return { value: valueQuantity, comparator, unit, system, code: code2 };
   }
-  function extension(resource, url, valueType) {
-    const extension2 = getExtension(resource, url);
-    return valueX(extension2, valueType);
-  }
+  const quantity$1 = createTypeParser(quantityLike);
+  const dateTime$3 = createTypeParser((value2) => value2);
+  const reference$1 = createTypeParser((value2) => {
+    const { reference: reference2, display } = value2;
+    return {
+      reference: reference2,
+      display
+    };
+  });
+  const annotation$1 = createTypeParser((value2) => {
+    const { time, text, authorReference } = value2;
+    return {
+      time: dateTime$3(time),
+      text,
+      author: reference$1(authorReference)
+    };
+  });
+  const boolean$1 = createTypeParser((value2) => value2);
+  const code$2 = createTypeParser((value2) => value2);
   const nictizIdValueXMap = {
     "zib-MedicationUse-AsAgreedIndicator": "boolean",
     "zib-MedicationUse-Prescriber": "reference",
@@ -6312,15 +6236,15 @@ var __publicField = (obj, key, value) => {
       return [];
     return map(value2.coding, coding$1);
   });
-  const date$2 = createTypeParser((value2) => value2);
+  const date$3 = createTypeParser((value2) => value2);
   const duration$1 = createTypeParser(quantityLike);
   const identifier$1 = createTypeParser((value2) => {
-    const { use, system, value: identifierValue, type } = value2;
+    const { use, system, value: identifierValue, type: type2 } = value2;
     return {
       use,
       system,
       value: identifierValue,
-      type: codeableConcept$1(type)
+      type: codeableConcept$1(type2)
     };
   });
   const period$1 = createTypeParser((value2) => {
@@ -6343,26 +6267,73 @@ var __publicField = (obj, key, value) => {
       denominator: quantity$1(denominator)
     };
   });
-  const string = createTypeParser((value2) => value2);
-  const decimal = createTypeParser(passThrough);
-  const unsignedInt = createTypeParser(passThrough);
-  const integer = createTypeParser(passThrough);
-  const integer64 = createTypeParser(passThrough);
-  const positiveInt = createTypeParser(passThrough);
-  function multipleValue(label, value2, parse2, options) {
-    const { type } = parse2("", null);
-    let display = void 0;
-    if (isNonNullish(value2)) {
-      const entries = value2.map((x) => parse2("", x));
-      display = entries.map((x) => x.display).filter(isNonNullish);
+  const string$1 = createTypeParser((value2) => value2);
+  const decimal$1 = createTypeParser(passThrough);
+  const unsignedInt$1 = createTypeParser(passThrough);
+  const integer$1 = createTypeParser(passThrough);
+  const integer64$1 = createTypeParser(passThrough);
+  const positiveInt$1 = createTypeParser(passThrough);
+  const parse = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+    __proto__: null,
+    annotation: annotation$1,
+    boolean: boolean$1,
+    code: code$2,
+    codeableConcept: codeableConcept$1,
+    coding: coding$1,
+    date: date$3,
+    dateTime: dateTime$3,
+    decimal: decimal$1,
+    duration: duration$1,
+    identifier: identifier$1,
+    integer: integer$1,
+    integer64: integer64$1,
+    period: period$1,
+    positiveInt: positiveInt$1,
+    quantity: quantity$1,
+    range: range$1,
+    ratio: ratio$1,
+    reference: reference$1,
+    string: string$1,
+    unsignedInt: unsignedInt$1
+  }, Symbol.toStringTag, { value: "Module" }));
+  function valueX(value2, valueXType) {
+    if (isNullish(value2))
+      return;
+    const parser = parse[valueXType];
+    const valueX2 = value2[`value${lodashExports.upperFirst(valueXType)}`];
+    return parser(valueX2);
+  }
+  function getExtension(resource, url) {
+    return resource?.extension?.find((x) => x.url === url) ?? resource?.modifierExtension?.find((x) => x.url === url);
+  }
+  function extension(resource, url, valueType) {
+    const extension2 = getExtension(resource, url);
+    return valueX(extension2, valueType);
+  }
+  function resourceMeta(resource, profile2) {
+    const { resourceType: fhirResourceType, id, meta } = resource;
+    if (!meta?.profile?.includes(profile2)) {
+      throw new Error(
+        `Resource does not have the expected profile: "${profile2}". Got: ${meta?.profile}`
+      );
     }
+    const resourceId = string$1(id);
+    const resourceType = string$1(fhirResourceType);
     return {
-      label,
-      type,
-      display,
-      ...options
+      id: resourceId,
+      referenceId: `${resourceType}/${resourceId}`,
+      resourceType,
+      profile: profile2
     };
   }
+  const annotation = (label, value2, options) => {
+    return {
+      label,
+      display: value2?.text,
+      type: "annotation",
+      ...options
+    };
+  };
   function toString(value2) {
     if (isNullish(value2))
       return;
@@ -6380,7 +6351,45 @@ var __publicField = (obj, key, value) => {
       type: value2.type.replace(regexp, newType)
     };
   }
-  function valueWithUnit(value2, unit) {
+  function getChildren(value2) {
+    if (isNullish(value2))
+      return [];
+    if (Array.isArray(value2)) {
+      return value2.map((x) => x.children).flat();
+    }
+    return value2.children;
+  }
+  const boolean = (label, value2, options) => {
+    return {
+      label,
+      type: "boolean",
+      display: toString(value2),
+      ...options
+    };
+  };
+  const code$1 = (label, value2, options) => {
+    return {
+      label,
+      type: "code",
+      display: toString(value2),
+      ...options
+    };
+  };
+  function multipleValue(label, value2, parse2, options) {
+    const { type: type2 } = parse2("", null);
+    let display = void 0;
+    if (isNonNullish(value2)) {
+      const entries = value2.map((x) => parse2("", x));
+      display = entries.map((x) => x.display).filter(isNonNullish);
+    }
+    return {
+      label,
+      type: type2,
+      display,
+      ...options
+    };
+  }
+  function valueWithUnit$1(value2, unit) {
     if (isNullish(value2))
       return;
     const valueString = numberToString(value2);
@@ -6399,16 +6408,16 @@ var __publicField = (obj, key, value) => {
   const value = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     __proto__: null,
     valueWithMaxValue,
-    valueWithUnit
+    valueWithUnit: valueWithUnit$1
   }, Symbol.toStringTag, { value: "Module" }));
-  function date(value2) {
+  function date$1(value2) {
     if (isNullish(value2))
       return;
     return `${value2}`;
   }
-  const date$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  const date$2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     __proto__: null,
-    date
+    date: date$1
   }, Symbol.toStringTag, { value: "Module" }));
   function dateTime$1(value2) {
     if (isNullish(value2))
@@ -6426,40 +6435,38 @@ var __publicField = (obj, key, value) => {
       return code2;
     return `${code2} in code systeem ${system}`;
   }
-  const code$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  const code = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     __proto__: null,
     codeWithSystem
   }, Symbol.toStringTag, { value: "Module" }));
   const format = {
     ...value,
-    ...date$1,
+    ...date$2,
     ...dateTime$2,
-    ...code$1
+    ...code
   };
-  const annotation = (label, value2, options) => {
+  const valueWithMax = (label, value2, max, options) => {
     return {
       label,
-      display: value2?.text,
-      type: "annotation",
+      display: format.valueWithMaxValue(value2, max),
+      type: "valueWithMax",
       ...options
     };
   };
-  const boolean = (label, value2, options) => {
+  const valueWithUnit = (label, value2, unit, options) => {
     return {
       label,
-      type: "boolean",
-      display: toString(value2),
+      display: format.valueWithUnit(value2, unit),
+      type: "valueWithUnit",
       ...options
     };
   };
-  const code = (label, value2, options) => {
-    return {
-      label,
-      type: "code",
-      display: toString(value2),
-      ...options
-    };
-  };
+  const special = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+    __proto__: null,
+    multipleValue,
+    valueWithMax,
+    valueWithUnit
+  }, Symbol.toStringTag, { value: "Module" }));
   const coding = (label, value2, options) => {
     const { display, code: code2, system } = value2 ?? {};
     let displayString = display ?? "";
@@ -6479,6 +6486,14 @@ var __publicField = (obj, key, value) => {
       "coding",
       "codable_concept"
     );
+  };
+  const date = (label, value2, options) => {
+    return {
+      label,
+      type: "date",
+      display: format.date(value2),
+      ...options
+    };
   };
   const dateTime = (label, value2, options) => {
     return {
@@ -6564,48 +6579,106 @@ var __publicField = (obj, key, value) => {
       ...options
     };
   };
-  function uiSchemaGroup$3(resource) {
+  const string = (label, value2, options) => {
+    return {
+      label,
+      type: "string",
+      display: toString(value2),
+      ...options
+    };
+  };
+  const decimal = (label, value2, options) => {
+    return {
+      label,
+      type: "decimal",
+      display: numberToString(value2),
+      ...options
+    };
+  };
+  const integer = (label, value2, options) => {
+    return {
+      label,
+      type: "integer",
+      display: numberToString(value2),
+      ...options
+    };
+  };
+  const integer64 = (label, value2, options) => {
+    return {
+      label,
+      type: "integer64",
+      display: numberToString(value2),
+      ...options
+    };
+  };
+  const unsignedInt = (label, value2, options) => {
+    return {
+      label,
+      type: "unsignedInt",
+      display: numberToString(value2),
+      ...options
+    };
+  };
+  const positiveInt = (label, value2, options) => {
+    return {
+      label,
+      type: "positiveInt",
+      display: numberToString(value2),
+      ...options
+    };
+  };
+  const type = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+    __proto__: null,
+    annotation,
+    boolean,
+    code: code$1,
+    codeableConcept,
+    coding,
+    date,
+    dateTime,
+    decimal,
+    duration,
+    identifier,
+    integer,
+    integer64,
+    period,
+    positiveInt,
+    quantity,
+    range,
+    ratio,
+    reference,
+    string,
+    unsignedInt
+  }, Symbol.toStringTag, { value: "Module" }));
+  const ui = {
+    ...type,
+    ...special,
+    helpers: {
+      getChildren
+    }
+  };
+  function uiSchemaGroup$f(resource) {
     const i18n = "zib_administration_schedule";
     return {
-      label: `${i18n}.group`,
+      label: i18n,
       children: [
-        {
-          label: `${i18n}.duration`,
-          type: "duration",
-          display: format.valueWithUnit(resource?.duration, resource?.durationUnit)
-        },
-        {
-          label: `${i18n}.frequency`,
-          type: "frequency",
-          display: format.valueWithMaxValue(resource?.frequency, resource?.frequencyMax)
-        },
-        {
-          label: `${i18n}.period`,
-          type: "period",
-          display: format.valueWithUnit(resource?.period, resource?.periodUnit)
-        },
-        {
-          label: `${i18n}.day_of_week`,
-          type: "day_of_week",
-          display: resource?.dayOfWeek
-        },
-        multipleValue(`${i18n}.time_of_day`, resource?.timeOfDay, dateTime),
-        {
-          label: `${i18n}.when`,
-          type: "when",
-          display: resource?.when
-        }
+        ui.valueWithUnit(`${i18n}.duration`, resource?.duration, resource?.durationUnit),
+        ui.valueWithMax(`${i18n}.frequency`, resource?.frequency, resource?.frequencyMax),
+        ui.valueWithUnit(`${i18n}.period`, resource?.period, resource?.periodUnit),
+        ui.multipleValue(`${i18n}.day_of_week`, resource?.dayOfWeek, ui.string),
+        ui.multipleValue(`${i18n}.time_of_day`, resource?.timeOfDay, ui.dateTime),
+        ui.multipleValue(`${i18n}.when`, resource?.when, ui.string)
       ]
     };
   }
   function parseZibAdministrationSchedule(value2) {
     const { repeat } = value2 ?? {};
     return {
-      duration: decimal(repeat?.duration),
+      duration: decimal$1(repeat?.duration),
       durationUnit: code$2(repeat?.durationUnit),
-      frequency: integer(repeat?.frequency),
-      frequencyMax: integer(repeat?.frequencyMax),
-      period: decimal(repeat?.period),
+      frequency: integer$1(repeat?.frequency),
+      frequencyMax: integer$1(repeat?.frequencyMax),
+      period: decimal$1(repeat?.period),
       periodUnit: code$2(repeat?.periodUnit),
       dayOfWeek: map(repeat?.dayOfWeek, code$2),
       timeOfDay: map(repeat?.timeOfDay, dateTime$3),
@@ -6614,26 +6687,26 @@ var __publicField = (obj, key, value) => {
   }
   const zibAdministrationSchedule = {
     parse: parseZibAdministrationSchedule,
-    uiSchemaGroup: uiSchemaGroup$3
+    uiSchemaGroup: uiSchemaGroup$f
   };
-  function uiSchemaGroup$2(resource) {
+  function uiSchemaGroup$e(resource) {
     const i18n = "zib_instructions_for_use";
-    const administrationSchedule = uiSchemaGroup$3(resource.timing).children;
+    const administrationSchedule = uiSchemaGroup$f(resource.timing).children;
     return {
-      label: `${i18n}.group`,
+      label: i18n,
       children: [
-        multipleValue(
+        ui.multipleValue(
           `${i18n}.additional_instruction`,
           resource.additionalInstruction,
-          codeableConcept
+          ui.codeableConcept
         ),
-        codeableConcept(`${i18n}.as_needed`, resource.asNeeded),
-        ...quantity(`${i18n}.dose_quantity`, resource.doseQuantity),
-        ...range(`${i18n}.dose_range`, resource.doseRange),
-        ...ratio(`${i18n}.max_dose_per_period`, resource.maxDosePerPeriod),
-        ...ratio(`${i18n}.rate_ratio`, resource.rateRatio),
-        ...range(`${i18n}.rate_range`, resource.rateRange),
-        ...quantity(`${i18n}.rate_quantity`, resource.rateQuantity),
+        ui.codeableConcept(`${i18n}.as_needed`, resource.asNeeded),
+        ...ui.quantity(`${i18n}.dose_quantity`, resource.doseQuantity),
+        ...ui.range(`${i18n}.dose_range`, resource.doseRange),
+        ...ui.ratio(`${i18n}.max_dose_per_period`, resource.maxDosePerPeriod),
+        ...ui.ratio(`${i18n}.rate_ratio`, resource.rateRatio),
+        ...ui.range(`${i18n}.rate_range`, resource.rateRange),
+        ...ui.quantity(`${i18n}.rate_quantity`, resource.rateQuantity),
         ...administrationSchedule
       ]
     };
@@ -6653,15 +6726,15 @@ var __publicField = (obj, key, value) => {
   }
   const zibInstructionsForUse = {
     parse: parseZibInstructionsForUse,
-    uiSchemaGroup: uiSchemaGroup$2
+    uiSchemaGroup: uiSchemaGroup$e
   };
-  function uiSchemaGroup$1(resource) {
+  function uiSchemaGroup$d(resource) {
     const i18n = "zib_product_ingredient";
     return {
-      label: `${i18n}.group`,
+      label: i18n,
       children: [
-        codeableConcept(`${i18n}.item`, resource.item),
-        ...ratio(`${i18n}.amount`, resource.amount)
+        ui.codeableConcept(`${i18n}.item`, resource.item),
+        ...ui.ratio(`${i18n}.amount`, resource.amount)
       ]
     };
   }
@@ -6673,19 +6746,23 @@ var __publicField = (obj, key, value) => {
   }
   const zibProductIngredient = {
     parse: parseZibProductIngredient,
-    uiSchemaGroup: uiSchemaGroup$1
+    uiSchemaGroup: uiSchemaGroup$d
   };
-  function uiSchemaGroup(resource) {
+  function uiSchemaGroup$c(resource) {
     const i18n = "zib_product_package";
-    const contents = map(resource.content, (content) => {
-      return [
-        codeableConcept(`${i18n}.content_item`, content.item),
-        reference(`${i18n}.content_reference`, content.reference)
-      ];
-    });
+    const contents = map(
+      resource.content,
+      (content) => {
+        return [
+          ui.codeableConcept(`${i18n}.content_item`, content.item),
+          ui.reference(`${i18n}.content_reference`, content.reference)
+        ];
+      },
+      true
+    );
     return {
-      label: `${i18n}.group`,
-      children: [...(contents ?? []).flat()]
+      label: i18n,
+      children: [...contents.flat()]
     };
   }
   function parseZibProductPackage(value2) {
@@ -6698,46 +6775,122 @@ var __publicField = (obj, key, value) => {
   }
   const zibProductPackage = {
     parse: parseZibProductPackage,
-    uiSchemaGroup
+    uiSchemaGroup: uiSchemaGroup$c
   };
-  function parseResourceMeta(statement, profile2) {
-    const { resourceType: statementResourceType, id, meta } = statement;
-    if (!meta?.profile?.includes(profile2)) {
-      throw new Error(
-        `Resource does not have the expected profile: "${profile2}". Got: ${meta?.profile}`
-      );
-    }
-    const resourceId = string(id);
-    const resourceType = string(statementResourceType);
+  function uiSchemaGroup$b(resource) {
+    const i18n = "nl_core_address";
     return {
-      id: resourceId,
-      referenceId: `${resourceType}/${resourceId}`,
-      resourceType,
-      profile: profile2
+      label: i18n,
+      children: [
+        ui.string(`${i18n}.use`, resource?.use),
+        ui.string(`${i18n}.type`, resource?.type),
+        ui.string(`${i18n}.text`, resource?.text),
+        ui.multipleValue(`${i18n}.line`, resource?.line, ui.string),
+        ui.string(`${i18n}.city`, resource?.city),
+        ui.string(`${i18n}.district`, resource?.district),
+        ui.string(`${i18n}.state`, resource?.state),
+        ui.string(`${i18n}.postalCode`, resource?.postalCode),
+        ui.string(`${i18n}.country`, resource?.country),
+        ...ui.period(`${i18n}.period`, resource?.period)
+      ]
     };
   }
-  function uiSchema$1(resource) {
+  function parseNlCoreAddress(value2) {
+    return {
+      use: code$2(value2?.use),
+      type: code$2(value2?.type),
+      text: string$1(value2?.text),
+      line: map(value2?.line, string$1),
+      city: string$1(value2?.city),
+      district: string$1(value2?.district),
+      state: string$1(value2?.state),
+      postalCode: string$1(value2?.postalCode),
+      country: string$1(value2?.country),
+      period: period$1(value2?.period)
+    };
+  }
+  const nlCoreAddress = {
+    parse: parseNlCoreAddress,
+    uiSchemaGroup: uiSchemaGroup$b
+  };
+  function uiSchemaGroup$a(resource) {
+    const i18n = "nl_core_contact_point";
+    return {
+      label: i18n,
+      children: [
+        ui.string(`${i18n}.system`, resource?.system),
+        ui.string(`${i18n}.value`, resource?.value),
+        ui.string(`${i18n}.use`, resource?.use),
+        ui.positiveInt(`${i18n}.rank`, resource?.rank),
+        ...ui.period(`${i18n}.period`, resource.period)
+      ]
+    };
+  }
+  function parseNlCoreContactpoint(value2) {
+    return {
+      system: code$2(value2?.system),
+      value: string$1(value2?.value),
+      use: code$2(value2?.use),
+      rank: positiveInt$1(value2?.rank),
+      period: period$1(value2?.period)
+    };
+  }
+  const nlCoreContactpoint = {
+    parse: parseNlCoreContactpoint,
+    uiSchemaGroup: uiSchemaGroup$a
+  };
+  function uiSchemaGroup$9(resource) {
+    const i18n = "nl_core_humanname";
+    return {
+      label: i18n,
+      children: [
+        ui.string(`${i18n}.family`, resource?.family),
+        ui.multipleValue(`${i18n}.given`, resource?.given, ui.string),
+        ...ui.period(`${i18n}.period`, resource?.period),
+        ui.multipleValue(`${i18n}.prefix`, resource?.prefix, ui.string),
+        ui.multipleValue(`${i18n}.suffix`, resource?.suffix, ui.string),
+        ui.string(`${i18n}.use`, resource?.use),
+        ui.string(`${i18n}.text`, resource?.text)
+      ]
+    };
+  }
+  function parseNlCoreHumanname(value2) {
+    return {
+      family: string$1(value2?.family),
+      given: map(value2?.given, string$1),
+      period: period$1(value2?.period),
+      prefix: map(value2?.prefix, string$1),
+      suffix: map(value2?.suffix, string$1),
+      text: string$1(value2?.text),
+      use: string$1(value2?.use)
+    };
+  }
+  const nlCoreHumanname = {
+    parse: parseNlCoreHumanname,
+    uiSchemaGroup: uiSchemaGroup$9
+  };
+  function uiSchema$4(resource) {
     const i18n = "zib_medication_use";
-    const instructionsForUse = map(resource.dosage, uiSchemaGroup$2) ?? [];
+    const instructionsForUse = map(resource.dosage, uiSchemaGroup$e, true);
     return {
       label: resource.medication?.display,
       children: [
         {
           label: `${i18n}.group_general_information`,
           children: [
-            dateTime(`${i18n}.date_asserted`, resource.dateAsserted, { summary: true }),
-            reference(`${i18n}.prescriber`, resource.prescriber, { summary: true }),
-            code(`${i18n}.status`, resource.status, { summary: true }),
-            codeableConcept(
+            ui.dateTime(`${i18n}.date_asserted`, resource.dateAsserted, { summary: true }),
+            ui.reference(`${i18n}.prescriber`, resource.prescriber, { summary: true }),
+            ui.code(`${i18n}.status`, resource.status, { summary: true }),
+            ui.codeableConcept(
               `${i18n}.reason_for_change_or_discontinuation_of_use`,
               resource.reasonForChangeOrDiscontinuationOfUse
             ),
-            codeableConcept(`${i18n}.category`, resource.category, { summary: true }),
-            ...duration(
+            ui.codeableConcept(`${i18n}.category`, resource.category, { summary: true }),
+            ...ui.duration(
               `${i18n}.reason_for_change_or_discontinuation_of_use`,
               resource.repeatPeriodCyclicalSchedule
             ),
-            boolean(`${i18n}.as_agreed_indicator`, resource.asAgreedIndicator, {
+            ui.boolean(`${i18n}.as_agreed_indicator`, resource.asAgreedIndicator, {
               summary: true
             })
           ]
@@ -6745,37 +6898,40 @@ var __publicField = (obj, key, value) => {
         {
           label: `${i18n}.group_effective_period`,
           children: [
-            ...period(`${i18n}.effective_period`, resource.effectivePeriod),
-            ...duration(`${i18n}.effective_duration`, resource.effectiveDuration)
+            ...ui.period(`${i18n}.effective_period`, resource.effectivePeriod),
+            ...ui.duration(`${i18n}.effective_duration`, resource.effectiveDuration)
           ]
         },
         {
           label: `${i18n}.group_medication`,
           children: [
-            multipleValue(`${i18n}.identifier`, resource.identifier, identifier),
-            reference(`${i18n}.medication`, resource.medication),
-            identifier(`${i18n}.medication_treatment`, resource.medicationTreatment)
+            ui.multipleValue(`${i18n}.identifier`, resource.identifier, ui.identifier),
+            ui.reference(`${i18n}.medication`, resource.medication),
+            ui.identifier(`${i18n}.medication_treatment`, resource.medicationTreatment)
           ]
         },
         {
           label: `${i18n}.group_details`,
           children: [
-            reference(`${i18n}.information_source`, resource.informationSource),
-            reference(`${i18n}.subject`, resource.subject),
-            code(`${i18n}.taken`, resource.taken),
-            multipleValue(`${i18n}.reason_code`, resource.reasonCode, codeableConcept),
-            multipleValue(`${i18n}.note`, resource.note, annotation)
+            ui.reference(`${i18n}.information_source`, resource.informationSource),
+            ui.reference(`${i18n}.subject`, resource.subject),
+            ui.code(`${i18n}.taken`, resource.taken),
+            ui.multipleValue(
+              `${i18n}.reason_code`,
+              resource.reasonCode,
+              ui.codeableConcept
+            ),
+            ui.multipleValue(`${i18n}.note`, resource.note, ui.annotation)
           ]
         },
         ...instructionsForUse
       ]
     };
   }
-  const profile$1 = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse";
+  const profile$4 = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse";
   function parseZibMedicationUse(resource) {
     return {
-      ...parseResourceMeta(resource, profile$1),
-      profile: profile$1,
+      ...resourceMeta(resource, profile$4),
       asAgreedIndicator: extensionNictiz(resource, "zib-MedicationUse-AsAgreedIndicator"),
       prescriber: extensionNictiz(resource, "zib-MedicationUse-Prescriber"),
       author: extensionNictiz(resource, "zib-MedicationUse-Author"),
@@ -6792,7 +6948,10 @@ var __publicField = (obj, key, value) => {
       status: code$2(resource.status),
       category: codeableConcept$1(resource.category),
       medication: reference$1(resource.medicationReference),
-      effectiveDuration: extensionNictiz(resource.effectivePeriod, "zib-MedicationUse-Duration"),
+      effectiveDuration: extensionNictiz(
+        resource.effectivePeriod,
+        "zib-MedicationUse-Duration"
+      ),
       effectivePeriod: period$1(resource.effectivePeriod),
       dateAsserted: dateTime$3(resource.dateAsserted),
       informationSource: reference$1(resource.informationSource),
@@ -6804,37 +6963,36 @@ var __publicField = (obj, key, value) => {
     };
   }
   const zibMedicationUse = {
-    profile: profile$1,
+    profile: profile$4,
     parse: parseZibMedicationUse,
-    uiSchema: uiSchema$1
+    uiSchema: uiSchema$4
   };
-  function uiSchema(resource) {
+  function uiSchema$3(resource) {
     const i18n = "zib_product";
     const productPackage = zibProductPackage.uiSchemaGroup(resource.package);
-    const ingredients = map(resource.ingredient, zibProductIngredient.uiSchemaGroup);
+    const ingredients = map(resource.ingredient, zibProductIngredient.uiSchemaGroup, true);
     return {
       label: resource.description,
       children: [
         {
           label: `${i18n}.group_general_information`,
           children: [
-            codeableConcept(`${i18n}.code`, resource.code, { summary: true }),
-            codeableConcept(`${i18n}.form`, resource.form, { summary: true })
+            ui.codeableConcept(`${i18n}.code`, resource.code, { summary: true }),
+            ui.codeableConcept(`${i18n}.form`, resource.form, { summary: true })
           ]
         },
         {
           label: `${i18n}.group_ingredients`,
-          children: (ingredients ?? []).map((x) => x.children).flat()
+          children: ui.helpers.getChildren(ingredients)
         },
         productPackage
       ]
     };
   }
-  const profile = "http://nictiz.nl/fhir/StructureDefinition/zib-Product";
+  const profile$3 = "http://nictiz.nl/fhir/StructureDefinition/zib-Product";
   function parseZibProduct(resource) {
     return {
-      ...parseResourceMeta(resource, profile),
-      profile,
+      ...resourceMeta(resource, profile$3),
       description: extensionNictiz(resource, "zib-Product-Description"),
       code: codeableConcept$1(resource.code),
       form: codeableConcept$1(resource.form),
@@ -6843,14 +7001,452 @@ var __publicField = (obj, key, value) => {
     };
   }
   const zibProduct = {
-    profile,
+    profile: profile$3,
     parse: parseZibProduct,
+    uiSchema: uiSchema$3
+  };
+  function uiSchemaGroup$8(resource) {
+    const i18n = "attachment";
+    return {
+      label: i18n,
+      children: [
+        ui.string(`${i18n}.contentType`, resource.contentType),
+        ui.string(`${i18n}.language`, resource.language),
+        ui.string(`${i18n}.data`, resource.data),
+        ui.string(`${i18n}.url`, resource.url),
+        ui.unsignedInt(`${i18n}.size`, resource.size),
+        ui.string(`${i18n}.hash`, resource.hash),
+        ui.string(`${i18n}.title`, resource.title),
+        ui.dateTime(`${i18n}.creation`, resource.creation)
+      ]
+    };
+  }
+  function parseAttachment(value2) {
+    return {
+      contentType: code$2(value2?.contentType),
+      language: code$2(value2?.language),
+      data: string$1(value2?.data),
+      url: string$1(value2?.url),
+      size: unsignedInt$1(value2?.size),
+      hash: string$1(value2?.hash),
+      title: string$1(value2?.title),
+      creation: dateTime$3(value2?.creation)
+    };
+  }
+  const attachment = {
+    parse: parseAttachment,
+    uiSchemaGroup: uiSchemaGroup$8
+  };
+  function uiSchemaGroup$7(resource) {
+    const i18n = "nl_core_patient.communication";
+    return {
+      label: i18n,
+      children: [
+        ui.codeableConcept(`${i18n}.language`, resource.language),
+        ui.boolean(`${i18n}.preferred`, resource.preferred)
+      ]
+    };
+  }
+  function parseCommunication(value2) {
+    return {
+      language: codeableConcept$1(value2?.language),
+      preferred: boolean$1(value2?.preferred)
+    };
+  }
+  const communication = {
+    parse: parseCommunication,
+    uiSchemaGroup: uiSchemaGroup$7
+  };
+  function uiSchemaGroup$6(resource) {
+    const i18n = "nl_core_patient.contact";
+    const telecom = map(resource.telecom, uiSchemaGroup$a, true);
+    return {
+      label: i18n,
+      children: [
+        ...uiSchemaGroup$9(resource.name).children,
+        ...ui.helpers.getChildren(telecom),
+        ...uiSchemaGroup$b(resource.address).children,
+        ui.string(`${i18n}.gender`, resource.gender),
+        ui.reference(`${i18n}.organization`, resource.organization),
+        ...ui.period(`${i18n}.period`, resource.period)
+      ]
+    };
+  }
+  function parseContact(value2) {
+    return {
+      relationship: map(value2?.relationship, codeableConcept$1),
+      name: nlCoreHumanname.parse(value2?.name),
+      telecom: map(value2?.telecom, nlCoreContactpoint.parse),
+      address: nlCoreAddress.parse(value2?.address),
+      gender: code$2(value2?.gender),
+      organization: reference$1(value2?.organization),
+      period: period$1(value2?.period)
+    };
+  }
+  const contact = {
+    parse: parseContact,
+    uiSchemaGroup: uiSchemaGroup$6
+  };
+  function uiSchemaGroup$5(resource) {
+    const i18n = "nl_core_patient.link";
+    return {
+      label: i18n,
+      children: [
+        ui.reference(`${i18n}.other`, resource.other),
+        ui.code(`${i18n}.type`, resource.type)
+      ]
+    };
+  }
+  function parseLink(value2) {
+    return {
+      other: reference$1(value2?.other),
+      type: code$2(value2?.type)
+    };
+  }
+  const link = {
+    parse: parseLink,
+    uiSchemaGroup: uiSchemaGroup$5
+  };
+  function uiSchema$2(resource) {
+    const i18n = "nl_core_patient";
+    const address = map(resource.address, uiSchemaGroup$b, true);
+    const communication2 = map(resource.communication, uiSchemaGroup$7, true);
+    const contact2 = map(resource.contact, uiSchemaGroup$6, true);
+    const link2 = map(resource.link, uiSchemaGroup$5, true);
+    const name = map(resource.name, uiSchemaGroup$9, true);
+    const photo = map(resource.photo, uiSchemaGroup$8, true);
+    const telecom = map(resource.telecom, uiSchemaGroup$a, true);
+    return {
+      label: resource.name?.at(0)?.text,
+      children: [
+        {
+          label: `${i18n}.group_details`,
+          children: [
+            ui.boolean(`${i18n}.active`, resource.active),
+            ui.date(`${i18n}.birth_date`, resource.birthDate),
+            ui.boolean(`${i18n}.deceased`, resource.deceased),
+            ui.dateTime(`${i18n}.deceased_date_time`, resource.deceasedDateTime),
+            ui.code(`${i18n}.gender`, resource.gender),
+            ui.multipleValue(
+              `${i18n}.general_practitioner`,
+              resource.generalPractitioner,
+              ui.reference
+            ),
+            ui.multipleValue(`${i18n}.identifier`, resource.identifier, ui.identifier),
+            ui.reference(`${i18n}.managing_organization`, resource.managingOrganization),
+            ui.codeableConcept(`${i18n}.marital_status`, resource.maritalStatus),
+            ui.boolean(`${i18n}.multiple_birth`, resource.multipleBirth),
+            ui.integer(`${i18n}.multiple_birth_integer`, resource.multipleBirthInteger)
+          ]
+        },
+        ...address,
+        ...communication2,
+        ...contact2,
+        ...link2,
+        ...name,
+        ...photo,
+        ...telecom
+      ]
+    };
+  }
+  const profile$2 = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
+  function parseNlCorePatient(resource) {
+    return {
+      ...resourceMeta(resource, profile$2),
+      active: boolean$1(resource.active),
+      address: map(resource.address, nlCoreAddress.parse),
+      birthDate: date$3(resource.birthDate),
+      communication: map(resource.communication, communication.parse),
+      contact: map(resource.contact, contact.parse),
+      deceased: boolean$1(resource.deceasedBoolean),
+      deceasedDateTime: dateTime$3(resource.deceasedDateTime),
+      gender: code$2(resource.gender),
+      generalPractitioner: map(resource.generalPractitioner, reference$1),
+      identifier: map(resource.identifier, identifier$1),
+      link: map(resource.link, link.parse),
+      managingOrganization: reference$1(resource.managingOrganization),
+      maritalStatus: codeableConcept$1(resource.maritalStatus),
+      multipleBirth: boolean$1(resource.multipleBirthBoolean),
+      multipleBirthInteger: integer$1(resource.multipleBirthInteger),
+      name: map(resource.name, nlCoreHumanname.parse),
+      photo: map(resource.photo, attachment.parse),
+      telecom: map(resource.telecom, nlCoreContactpoint.parse)
+    };
+  }
+  const nlCorePatient = {
+    profile: profile$2,
+    parse: parseNlCorePatient,
+    uiSchema: uiSchema$2
+  };
+  function uiSchemaGroup$4(resource) {
+    const i18n = "zib_treatment_directive.actor";
+    return {
+      label: i18n,
+      children: [
+        ui.codeableConcept(`${i18n}.role`, resource.role),
+        ui.reference(`${i18n}.reference`, resource.reference)
+      ]
+    };
+  }
+  function parseActor(value2) {
+    return {
+      role: codeableConcept$1(value2?.role),
+      reference: reference$1(value2?.reference)
+    };
+  }
+  const actor = {
+    parse: parseActor,
+    uiSchemaGroup: uiSchemaGroup$4
+  };
+  function uiSchemaGroup$3(resource) {
+    const i18n = "zib_treatment_directive.data";
+    return {
+      label: i18n,
+      children: [
+        ui.code(`${i18n}.meaning`, resource.meaning),
+        ui.reference(`${i18n}.reference`, resource.reference)
+      ]
+    };
+  }
+  function parseData(value2) {
+    return {
+      meaning: code$2(value2?.meaning),
+      reference: reference$1(value2?.reference)
+    };
+  }
+  const data = {
+    parse: parseData,
+    uiSchemaGroup: uiSchemaGroup$3
+  };
+  function uiSchemaGroup$2(resource) {
+    const i18n = "zib_treatment_directive.except";
+    const actor2 = map(resource.actor, uiSchemaGroup$4);
+    const data2 = map(resource.data, uiSchemaGroup$3);
+    return {
+      label: i18n,
+      children: [
+        ui.code(`${i18n}.type`, resource.type),
+        ...ui.period(`${i18n}.period`, resource.period),
+        ui.multipleValue(`${i18n}.action`, resource.action, ui.codeableConcept),
+        ui.multipleValue(`${i18n}.security_label`, resource.securityLabel, ui.coding),
+        ui.multipleValue(`${i18n}.purpose`, resource.purpose, ui.coding),
+        ui.multipleValue(`${i18n}.class`, resource.class, ui.coding),
+        ui.multipleValue(`${i18n}.code`, resource.code, ui.coding),
+        ...ui.period(`${i18n}.plan`, resource.dataPeriod),
+        ...ui.helpers.getChildren(actor2),
+        ...ui.helpers.getChildren(data2)
+      ]
+    };
+  }
+  function parseExcept(value2) {
+    return {
+      type: code$2(value2?.type),
+      period: period$1(value2?.period),
+      actor: map(value2?.actor, actor.parse),
+      action: map(value2?.action, codeableConcept$1),
+      securityLabel: map(value2?.securityLabel, coding$1),
+      purpose: map(value2?.purpose, coding$1),
+      class: map(value2?.class, coding$1),
+      code: map(value2?.code, coding$1),
+      dataPeriod: period$1(value2?.dataPeriod),
+      data: map(value2?.data, data.parse)
+    };
+  }
+  const except = {
+    parse: parseExcept,
+    uiSchemaGroup: uiSchemaGroup$2
+  };
+  function uiSchemaGroup$1(resource) {
+    const i18n = "zib_treatment_directive.policy";
+    return {
+      label: i18n,
+      children: [
+        ui.string(`${i18n}.id`, resource.id),
+        ui.string(`${i18n}.authority`, resource.authority),
+        ui.string(`${i18n}.uri`, resource.uri)
+      ]
+    };
+  }
+  function parsePolicy(value2) {
+    return {
+      id: string$1(value2?.id),
+      authority: string$1(value2?.authority),
+      uri: string$1(value2?.uri)
+    };
+  }
+  const policy = {
+    parse: parsePolicy,
+    uiSchemaGroup: uiSchemaGroup$1
+  };
+  function uiSchema$1(resource) {
+    const i18n = "zib_treatment_directive";
+    const actor2 = map(resource.actor, uiSchemaGroup$4, true);
+    const data2 = map(resource.data, uiSchemaGroup$3, true);
+    const except2 = map(resource.except, uiSchemaGroup$2, true);
+    const policy2 = map(resource.policy, uiSchemaGroup$1, true);
+    return {
+      label: resource.identifier?.value,
+      children: [
+        {
+          label: `${i18n}.group_details`,
+          children: [
+            ui.identifier(`${i18n}.identifier`, resource.identifier),
+            ui.code(`${i18n}.status`, resource.status),
+            ui.multipleValue(`${i18n}.category`, resource.category, ui.codeableConcept),
+            ui.reference(`${i18n}.patient`, resource.patient),
+            ...ui.period(`${i18n}.period`, resource.period),
+            ui.dateTime(`${i18n}.date_time`, resource.dateTime),
+            ui.multipleValue(
+              `${i18n}.consenting_party`,
+              resource.consentingParty,
+              ui.reference
+            ),
+            ui.multipleValue(`${i18n}.action`, resource.action, ui.codeableConcept),
+            ui.multipleValue(`${i18n}.organization`, resource.organization, ui.reference),
+            ui.identifier(`${i18n}.source_identifier`, resource.sourceIdentifier),
+            ui.reference(`${i18n}.source_reference`, resource.sourceReference),
+            ui.string(`${i18n}.policy_rule`, resource.policyRule),
+            ui.multipleValue(`${i18n}.security_label`, resource.securityLabel, ui.coding),
+            ui.multipleValue(`${i18n}.purpose`, resource.purpose, ui.coding),
+            ...ui.period(`${i18n}.data_period`, resource.dataPeriod)
+          ]
+        },
+        uiSchemaGroup$8(resource.sourceAttachment),
+        ...actor2,
+        ...data2,
+        ...except2,
+        ...policy2
+      ]
+    };
+  }
+  const profile$1 = "http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective";
+  function parseZibTreatmentDirective(resource) {
+    return {
+      ...resourceMeta(resource, profile$1),
+      identifier: identifier$1(resource.identifier),
+      status: code$2(resource.status),
+      category: map(resource.category, codeableConcept$1),
+      patient: reference$1(resource.patient),
+      period: period$1(resource.period),
+      dateTime: dateTime$3(resource.dateTime),
+      consentingParty: map(resource.consentingParty, reference$1),
+      actor: map(resource.actor, actor.parse),
+      action: map(resource.action, codeableConcept$1),
+      organization: map(resource.organization, reference$1),
+      sourceAttachment: attachment.parse(resource.sourceAttachment),
+      sourceIdentifier: identifier$1(resource.sourceIdentifier),
+      sourceReference: reference$1(resource.sourceReference),
+      policy: map(resource.policy, policy.parse),
+      policyRule: string$1(resource.policyRule),
+      securityLabel: map(resource.securityLabel, coding$1),
+      purpose: map(resource.purpose, coding$1),
+      dataPeriod: period$1(resource.dataPeriod),
+      data: map(resource.data, data.parse),
+      except: map(resource.except, except.parse)
+    };
+  }
+  const zibTreatmentDirective = {
+    profile: profile$1,
+    parse: parseZibTreatmentDirective,
+    uiSchema: uiSchema$1
+  };
+  function uiSchemaGroup(resource) {
+    const i18n = "zib_payer.grouping";
+    return {
+      label: i18n,
+      children: [
+        ui.string(`${i18n}.group`, resource.groupDisplay),
+        ui.string(`${i18n}.sub_group`, resource.subGroupDisplay),
+        ui.string(`${i18n}.plan`, resource.planDisplay),
+        ui.string(`${i18n}.sub_plan`, resource.subPlanDisplay),
+        ui.string(`${i18n}.class`, resource.classDisplay),
+        ui.string(`${i18n}.sub_class`, resource.subClassDisplay)
+      ]
+    };
+  }
+  function parseGrouping(value2) {
+    return {
+      group: string$1(value2?.group),
+      groupDisplay: string$1(value2?.groupDisplay),
+      subGroup: string$1(value2?.subGroup),
+      subGroupDisplay: string$1(value2?.subGroupDisplay),
+      plan: string$1(value2?.plan),
+      planDisplay: string$1(value2?.planDisplay),
+      subPlan: string$1(value2?.subPlan),
+      subPlanDisplay: string$1(value2?.subPlanDisplay),
+      class: string$1(value2?.class),
+      classDisplay: string$1(value2?.classDisplay),
+      subClass: string$1(value2?.subClass),
+      subClassDisplay: string$1(value2?.subClassDisplay)
+    };
+  }
+  const grouping = {
+    parse: parseGrouping,
+    uiSchemaGroup
+  };
+  function uiSchema(resource) {
+    const i18n = "zib_payer";
+    return {
+      label: resource.identifier?.at(0)?.value,
+      children: [
+        {
+          label: `${i18n}.group_details`,
+          children: [
+            ui.multipleValue(`${i18n}.identifier`, resource.identifier, ui.identifier),
+            ui.code(`${i18n}.status`, resource.status),
+            ui.codeableConcept(`${i18n}.type`, resource.type),
+            ui.reference(`${i18n}.policy_holder`, resource.policyHolder),
+            ui.reference(`${i18n}.subscriber`, resource.subscriber),
+            ui.string(`${i18n}.subscriber_id`, resource.subscriberId),
+            ui.reference(`${i18n}.beneficiary`, resource.beneficiary),
+            ui.codeableConcept(`${i18n}.relationship`, resource.relationship),
+            ...ui.period(`${i18n}.period`, resource.period),
+            ui.multipleValue(`${i18n}.payor`, resource.payor, ui.reference),
+            ui.string(`${i18n}.dependent`, resource.dependent),
+            ui.string(`${i18n}.sequence`, resource.sequence),
+            ui.positiveInt(`${i18n}.order`, resource.order),
+            ui.string(`${i18n}.network`, resource.network),
+            ui.multipleValue(`${i18n}.contract`, resource.contract, ui.reference)
+          ]
+        },
+        uiSchemaGroup(resource.grouping)
+      ]
+    };
+  }
+  const profile = "http://nictiz.nl/fhir/StructureDefinition/zib-Payer";
+  function parseZibPayer(resource) {
+    return {
+      ...resourceMeta(resource, profile),
+      identifier: map(resource.identifier, identifier$1),
+      status: code$2(resource.status),
+      type: codeableConcept$1(resource.type),
+      policyHolder: reference$1(resource.policyHolder),
+      subscriber: reference$1(resource.subscriber),
+      subscriberId: string$1(resource.subscriberId),
+      beneficiary: reference$1(resource.beneficiary),
+      relationship: codeableConcept$1(resource.relationship),
+      period: period$1(resource.period),
+      payor: map(resource.payor, reference$1),
+      grouping: grouping.parse(resource.grouping),
+      dependent: string$1(resource.dependent),
+      sequence: string$1(resource.sequence),
+      order: positiveInt$1(resource.order),
+      network: string$1(resource.network),
+      contract: map(resource.contract, reference$1)
+    };
+  }
+  const zibPayer = {
+    profile,
+    parse: parseZibPayer,
     uiSchema
   };
   const resources = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     __proto__: null,
+    nlCorePatient,
     zibMedicationUse,
-    zibProduct
+    zibPayer,
+    zibProduct,
+    zibTreatmentDirective
   }, Symbol.toStringTag, { value: "Module" }));
   const resourcesMap = Object.fromEntries(
     Object.entries(resources).map(([_name, config]) => [config.profile, config])

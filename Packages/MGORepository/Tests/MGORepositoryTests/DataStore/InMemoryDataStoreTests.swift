@@ -21,7 +21,7 @@ final class InMemoryDataStoreTests: XCTestCase {
 		sut.store(data: self.otherRecord)
 	}
 	
-	func test_store_shouldOverwrite() {
+	func test_store_shouldNotOverwrite() {
 		
 		// Given
 		var result = sut.get(categoryId: "test category")
@@ -32,7 +32,7 @@ final class InMemoryDataStoreTests: XCTestCase {
 		
 		// Then
 		result = sut.get(categoryId: "test category")
-		expect(result.successValue?.count) == 2
+		expect(result.successValue?.count) == 3
 	}
 	
 	func test_get_forOrganization_dataAvailable() {
@@ -44,9 +44,10 @@ final class InMemoryDataStoreTests: XCTestCase {
 		
 		// Then
 		expect(result.isSuccess) == true
-		expect(result.successValue?.categoryId) == "test category"
-		expect(result.successValue?.organizationId) == "test organization"
-		expect(result.successValue?.resources) == [Data("test".utf8)]
+		expect(result.successValue?.count) == 1
+		expect(result.successValue?[0].categoryId) == "test category"
+		expect(result.successValue?[0].organizationId) == "test organization"
+		expect(result.successValue?[0].resources) == [Data("test".utf8)]
 		
 		// Extra result checks
 		expect(result.isFailure) == false
@@ -62,9 +63,10 @@ final class InMemoryDataStoreTests: XCTestCase {
 		
 		// Then
 		expect(result.isSuccess) == true
-		expect(result.successValue?.categoryId) == "test category"
-		expect(result.successValue?.organizationId) == "test organization 2"
-		expect(result.successValue?.resources) == [Data("test".utf8)]
+		expect(result.successValue?.count) == 1
+		expect(result.successValue?[0].categoryId) == "test category"
+		expect(result.successValue?[0].organizationId) == "test organization 2"
+		expect(result.successValue?[0].resources) == [Data("test".utf8)]
 	}
 	
 	func test_get_forOrganization_invalidOrganization() {
@@ -126,7 +128,7 @@ final class InMemoryDataStoreTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.wipePersistedData(organizationId: "test organization")
+		sut.removeRecords(for: "test organization")
 		
 		// Then
 		let result = sut.get(categoryId: "test category", organizationId: "test organization")
@@ -139,14 +141,15 @@ final class InMemoryDataStoreTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.wipePersistedData(organizationId: "test organization 2")
+		sut.removeRecords(for: "test organization 2")
 		
 		// Then
 		let result = sut.get(categoryId: "test category", organizationId: "test organization")
 		expect(result.isSuccess) == true
-		expect(result.successValue?.categoryId) == "test category"
-		expect(result.successValue?.organizationId) == "test organization"
-		expect(result.successValue?.resources) == [Data("test".utf8)]
+		expect(result.successValue?.count) == 1
+		expect(result.successValue?[0].categoryId) == "test category"
+		expect(result.successValue?[0].organizationId) == "test organization"
+		expect(result.successValue?[0].resources) == [Data("test".utf8)]
 	}
 	
 	func test_wipePersistentData() {

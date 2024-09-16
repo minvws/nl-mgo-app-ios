@@ -10,11 +10,11 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 
-final class OverviewViewModelTests: XCTestCase {
+final class OrganizationsViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: OverviewViewModel!
+	private var sut: OrganizationsViewModel!
 
 	override func setUp() {
 		
@@ -22,7 +22,7 @@ final class OverviewViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
 		
-		sut = OverviewViewModel(coordinator: coordinatorSpy)
+		sut = OrganizationsViewModel(coordinator: coordinatorSpy)
 	}
 
 	func test_onAppear_shouldCallStore_noOrganzations_stateShouldBeEmtpy() {
