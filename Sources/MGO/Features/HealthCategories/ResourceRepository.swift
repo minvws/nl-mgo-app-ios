@@ -20,9 +20,49 @@ protocol ResourceRepositoryProtocol {
 
 class ResourceRepository: ResourceRepositoryProtocol {
 	
+	/// Token for the observatory (needed for unregister)
+	private var observerToken: Observatory.ObserverToken?
+	
+	private var healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol?
+	
+	private var dataRepository: MgoDataStoreProtocol?
+	
+	init(healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol, dataRepository: MgoDataStoreProtocol) {
+		
+		self.healthcareOrganizationRepository = healthcareOrganizationRepository
+		self.dataRepository = dataRepository
+		registerObservers()
+	}
+	
+	// Listen to changes in the stored organizations list
+	private func registerObservers() {
+		
+		self.observerToken = healthcareOrganizationRepository?.observatory.append { [weak self] organization, reason in
+			switch reason {
+				case .added:
+					// New organization, load the data
+					logVerbose("ResourceRepository observatory .added triggered for  \(organization.display_name)")
+					self?.loadFor(organization)
+					
+				case .removed:
+					// Remove stored data for the removed organization
+					logVerbose("ResourceRepository observatory .removed for \(organization.display_name)")
+					self?.dataRepository?.removeRecords(for: organization.identifier)
+			}
+		}
+	}
+	
+	deinit {
+		// Remove as observer
+		if let healthcareOrganizationRepository {
+			observerToken.map(healthcareOrganizationRepository.observatory.remove)
+		}
+	}
+	
 	/// Load all the categories for a healthcare organization
 	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
 	func loadFor(_ healthcareOrganization: MgoOrganization) {
+		logVerbose("ResourceRepository - LoadFor", healthcareOrganization.identifier)
 		for category in HealthCategories.Category.allCases {
 			
 			switch category {
@@ -51,7 +91,9 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// Load all the categories for all the stored healthcare organizations
 	func load() {
 		
-		for healthcareOrganization in Current.healthcareOrganizationStore.organizations {
+		guard let healthcareOrganizationRepository else { return }
+		
+		for healthcareOrganization in healthcareOrganizationRepository.organizations {
 			loadFor(healthcareOrganization)
 		}
 	}
@@ -66,7 +108,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				category: .medication
 			)
 		} catch {
-			logError("loadMedication error: \(error)")
+			logError("ResourceRepository - loadMedication error: \(error)")
 		}
 	}
 	
@@ -86,7 +128,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 		
 		for endpoint in category.endPoint {
-			logVerbose("Loader: calling endpoint for \(dvaTarget)", endpoint)
+			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
 			let data = try await repository.getBundleData(endpoint: endpoint, dvaTarget: dvaTarget)
 			var mgoResources = try repository.process(data)
 			
@@ -100,7 +142,8 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			}
 			
 			let recordToStore = MgoResourceRecord(categoryId: "\(category.rawValue)", organizationId: healthcareOrganization.identifier, resources: mgoResources)
-			Current.dataStore.store(data: recordToStore)
+			logVerbose("ResourceRepository - Adding to the store", recordToStore)
+			dataRepository?.store(data: recordToStore)
 		}
 	}
 }

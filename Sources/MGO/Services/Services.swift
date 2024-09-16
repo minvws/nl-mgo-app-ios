@@ -54,7 +54,10 @@ private let now: () -> Date = Date.init
 private let notificationCenter = NotificationCenter.default
 private let secureUserSettings = SecureUserSettings()
 private let remoteConfigurationRepository = RemoteConfigurationRepository()
-private let resourceRepository = ResourceRepository()
+private let resourceRepository = ResourceRepository(
+	healthcareOrganizationRepository: healthcareOrganizationStore,
+	dataRepository: dataStore
+)
 
 // MARK: - 3: Instantiate the Services using private dependencies:
 

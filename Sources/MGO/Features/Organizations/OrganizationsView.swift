@@ -27,9 +27,6 @@ class OrganizationsViewModel: ObservableObject {
 	
 	/// Token for the observatory (needed for unregister)
 	private var observerToken: Observatory.ObserverToken?
-
-	/// Token for the observatory (needed for unregister)
-	private var removalObserverToken: Observatory.ObserverToken?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -52,34 +49,31 @@ class OrganizationsViewModel: ObservableObject {
 	// Listen to changes in the stored organizations list
 	private func registerObservers() {
 		
-		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] changed in
-			if changed {
-				self?.loadHealthcareOrganizations()
+		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] organization, reason in
+			switch reason {
+				case .added:
+					self?.loadHealthcareOrganizations()
+				case .removed:
+					self?.toast = Feedback(
+						title: String(localized: "toast.organization_removed.heading"),
+						subtitle: String(localized: "toast.organization_removed.subheading"),
+						type: .success,
+						perform: { [weak self] in
+							// Undo deletion
+							try? Current.healthcareOrganizationStore.store(organization)
+							withAnimation {
+								self?.toast = nil
+							}
+						}
+					)
+					Haptic.light()
 			}
-		}
-
-		self.removalObserverToken = Current.healthcareOrganizationStore.removalObservatory.append { [weak self] organization in
-			
-			self?.toast = Feedback(
-				title: String(localized: "toast.organization_removed.heading"),
-				subtitle: String(localized: "toast.organization_removed.subheading"),
-				type: .success,
-				perform: { [weak self] in
-					// Undo deletion
-					try? Current.healthcareOrganizationStore.store(organization)
-					withAnimation {
-						self?.toast = nil
-					}
-				}
-			)
-			Haptic.light()
 		}
 	}
 	
 	deinit {
 		// Remove as observer
 		observerToken.map(Current.healthcareOrganizationStore.observatory.remove)
-		removalObserverToken.map(Current.healthcareOrganizationStore.removalObservatory.remove)
 	}
 	
 	/// Handle any action

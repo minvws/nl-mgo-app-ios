@@ -10,16 +10,18 @@ import Logging
 import Observatory
 import FileStorage
 
+public enum HealthcareOrganizationReason {
+	case added
+	case removed
+}
+
 public protocol HealthcareOrganizationRepositoryProtocol {
 	
 	/// The list of stored healthcare organization
 	var organizations: [MgoOrganization] { get }
 	
 	/// Observatory for changes
-	var observatory: Observatory<Bool> { get }
-	
-	/// Observatory for removals
-	var removalObservatory: Observatory<MgoOrganization> { get }
+	var observatory: Observatory<(MgoOrganization, HealthcareOrganizationReason)> { get }
 	
 	/// Add a healthcare organization to the storage
 	/// - Parameter organization: the healthcare organization to store
@@ -52,16 +54,10 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	private let queue = DispatchQueue(label: "com.HealthcareOrganizationRepository.serialqueue.\(UUID().uuidString)")
 	
 	/// Observatory for changes
-	public let observatory: Observatory<Bool>
+	public let observatory: Observatory<(MgoOrganization, HealthcareOrganizationReason)>
 	
 	/// Observers for changes
-	private let observers: (Bool) -> Void
-	
-	/// Observatory for removal
-	public let removalObservatory: Observatory<MgoOrganization>
-	
-	/// Observers for removal
-	private let removalObservers: (MgoOrganization) -> Void
+	private let observers: ((MgoOrganization, HealthcareOrganizationReason)) -> Void
 	
 	/// The list of stored healthcare organization
 	public var organizations: [MgoOrganization]
@@ -71,8 +67,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	public init(storage: FileStorageProtocol = FileStorage()) {
 		
 		self.storage = storage
-		(self.observatory, self.observers) = Observatory<Bool>.create()
-		(self.removalObservatory, self.removalObservers) = Observatory<MgoOrganization>.create()
+		(self.observatory, self.observers) = Observatory<(MgoOrganization, HealthcareOrganizationReason)>.create()
 		
 		self.organizations = []
 		do {
@@ -93,7 +88,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 		}
 
 		organizations.append(organization)
-		observers(true)
+		observers((organization, .added))
 		try persistToStorage()
 	}
 	
@@ -114,8 +109,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	
 		logInfo("About to delete \(organization.display_name)")
 		organizations = organizations.filter { $0 != organization }
-		observers(true)
-		removalObservers(organization)
+		observers((organization, .removed))
 		try persistToStorage()
 	}
 	
@@ -125,7 +119,6 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 		organizations = []
 		storage.remove(fileName)
 		observatory.removeAll()
-		removalObservatory.removeAll()
 	}
 	
 	/// Store a list of organizations

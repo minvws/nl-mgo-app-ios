@@ -27,8 +27,7 @@ final class ServicesSpies {
 
 	var healthcareOrganizationStoreSpy: HealthcareOrganizationRepositorySpy = {
 		let spy = HealthcareOrganizationRepositorySpy()
-		(spy.stubbedObservatory, _) = Observatory<Bool>.create()
-		(spy.stubbedRemovalObservatory, _) = Observatory<MgoOrganization>.create()
+		(spy.stubbedObservatory, _) = Observatory<(MgoOrganization, HealthcareOrganizationReason)>.create()
 		return spy
 	}()
 
