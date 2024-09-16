@@ -281,6 +281,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					)
 			
 			case .showHealthCategories:
+			
 				HealthCategoriesView(
 					viewModel:
 						HealthCategoriesViewModel(

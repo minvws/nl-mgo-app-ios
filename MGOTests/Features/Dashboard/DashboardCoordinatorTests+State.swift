@@ -105,6 +105,20 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view), precision: 0.95)
 	}
 	
+	func test_coordinatorView_forShowHealthcareOrganization_withStore() throws {
+		
+		// Given
+		let organization = Generator.healthcareOrganization("1")
+		let state = DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: organization)
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [organization]
+		
+		// When
+		let view = sut.viewState(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view), precision: 0.95)
+	}
+	
 	func test_coordinatorView_forRemoveHealthcareOrganization() throws {
 		
 		// Given

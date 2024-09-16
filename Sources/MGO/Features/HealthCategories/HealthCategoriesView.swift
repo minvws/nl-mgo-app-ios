@@ -22,6 +22,7 @@ struct HealthCategoriesViewState {
 	
 	var title: String
 	var showAccount: Bool
+	var showEmptyView: Bool
 	var showRemoveHealthcareProvider: Bool
 	var healthCategories: [CategoryButton]
 	var backButtonTitle: LocalizedStringKey?
@@ -92,6 +93,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		self.state = HealthCategoriesViewState(
 			title: title,
 			showAccount: showAccount,
+			showEmptyView: Current.healthcareOrganizationStore.organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
 				CategoryButton(id: HealthCategories.Category.medication.rawValue, title: "health_category.medication", state: .loading),
@@ -258,6 +260,9 @@ struct HealthCategoriesView: View {
 		enum Account {
 			static let size: CGFloat = 32
 		}
+		enum NoResults {
+			static let top: CGFloat = 36
+		}
 	}
 	
 	var body: some View {
@@ -266,35 +271,42 @@ struct HealthCategoriesView: View {
 			
 			headerView()
 			
-			List {
+			if viewModel.state.showEmptyView {
+				noHealthcareOrganizationView()
+					.padding(.top, ViewTraits.Navigation.padding)
+					.padding(.horizontal, ViewTraits.General.padding)
+				Spacer()
+			} else {
 				
-				ForEach(CategoryButtonState.allCases, id: \.self) { category in
+				List {
 					
-					Section {
+					ForEach(CategoryButtonState.allCases, id: \.self) { category in
 						
-						let list = viewModel.state.healthCategories
-							.filter { $0.state == category }
-							.sorted(by: { $0.id < $1.id })
-						
-						ForEach(list, id: \.id) { block in
-						
-							VStack(spacing: 0) {
-								HealthCategoryRowView(block: block)
-									.when(block.state == .loaded) { view in
-										Button(action: {
-											viewModel.reduce(.categorySelected(block))
-										}, label: {
-											view
-										})
-									}
+						Section {
+							
+							let list = viewModel.state.healthCategories
+								.filter { $0.state == category }
+								.sorted(by: { $0.id < $1.id })
+							
+							ForEach(list, id: \.id) { block in
+								
+								VStack(spacing: 0) {
+									HealthCategoryRowView(block: block)
+										.when(block.state == .loaded) { view in
+											Button(action: {
+												viewModel.reduce(.categorySelected(block))
+											}, label: {
+												view
+											})
+										}
+								}
 							}
 						}
+						.listRowInsets(ViewTraits.List.rowInset)
 					}
-					.listRowInsets(ViewTraits.List.rowInset)
-				}
-				
-				if viewModel.state.showRemoveHealthcareProvider {
-					Section { /* Empty section */ }
+					
+					if viewModel.state.showRemoveHealthcareProvider {
+						Section { /* Empty section */ }
 					footer: {
 						// Button in footer of an empty section so it is
 						// at the bottom of the list, and without a rounded list background
@@ -305,12 +317,13 @@ struct HealthCategoriesView: View {
 							}
 							.accessibilityIdentifier("health_categories.remove_organization")
 					}
-				}
-			} // List
-			.listStyle(.insetGrouped)
-			.backportListSectionSpacing(ViewTraits.List.spacing)
-			
-			Spacer()
+					}
+				} // List
+				.listStyle(.insetGrouped)
+				.backportListSectionSpacing(ViewTraits.List.spacing)
+				
+				Spacer()
+			}
 
 		} // VStack
 		.navigationBarBackButtonHidden()
@@ -352,6 +365,24 @@ struct HealthCategoriesView: View {
 		}
 		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
+	}
+	
+	/// Create the empty state view
+	/// - Returns: View when the user has no stored healthcare organizations
+	@ViewBuilder func noHealthcareOrganizationView() -> some View {
+		
+		EmptyListView(
+			icon: Image(ImageResource.Woman.womanWithPhone),
+			heading: "overview.empty.heading",
+			subHeading: "overview.empty.subheading"
+		)
+			.fixedSize(horizontal: false, vertical: true)
+			.padding(.top, ViewTraits.NoResults.top)
+		
+		CallToActionButton("overview.empty.action") {
+//			viewModel.reduce(.search)
+		}
+		.accessibilityIdentifier("overview.empty.action")
 	}
 }
 
