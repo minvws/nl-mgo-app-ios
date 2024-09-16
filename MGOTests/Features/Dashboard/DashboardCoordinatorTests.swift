@@ -250,4 +250,49 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == nil
 		expect(self.sut.secondTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
 	}
+	
+	func test_switchTab_to1_shouldResetOtherTabs() {
+		
+		// Given
+		sut.firstTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
+		expect(self.sut.firstTabPath.count) == 1
+		
+		// When
+		sut.selectedTab = 1
+		
+		// Then
+		expect(self.sut.firstTabPath.count) == 0
+	}
+	
+	func test_switchTab_to2_shouldResetOtherTabs() {
+		
+		// Given
+		sut.firstTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
+		sut.secondTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
+		expect(self.sut.firstTabPath.count) == 1
+		expect(self.sut.secondTabPath.count) == 1
+		
+		// When
+		sut.selectedTab = 2
+		
+		// Then
+		expect(self.sut.firstTabPath.count) == 0
+		expect(self.sut.secondTabPath.count) == 0
+	}
+	
+	func test_switchTab_to0_shouldResetOtherTabs() {
+		
+		// Given
+		sut.firstTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
+		sut.secondTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
+		expect(self.sut.firstTabPath.count) == 1
+		expect(self.sut.secondTabPath.count) == 1
+		
+		// When
+		sut.selectedTab = 0
+		
+		// Then
+		expect(self.sut.firstTabPath.count) == 1
+		expect(self.sut.secondTabPath.count) == 0
+	}
 }

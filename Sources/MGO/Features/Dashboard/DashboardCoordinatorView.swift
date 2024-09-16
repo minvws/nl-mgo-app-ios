@@ -105,7 +105,20 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	private weak var parentCoordinator: (any AppCoordinatorProtocol)?
 	
 	/// The selected tab
-	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue
+	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue {
+		didSet {
+			if selectedTab == 0 {
+				secondTabPath.reset()
+				thirdTabPath.reset()
+			} else if selectedTab == 1 {
+				firstTabPath.reset()
+				thirdTabPath.reset()
+			} else if selectedTab == 2 {
+				firstTabPath.reset()
+				secondTabPath.reset()
+			}
+		}
+	}
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
