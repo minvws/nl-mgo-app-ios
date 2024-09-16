@@ -18,14 +18,16 @@ final class ServicesSpies {
 	
 	var dataStoreSpy: MgoDataStoreSpy = {
 		let spy = MgoDataStoreSpy()
-		spy.stubbedGetCategoryIdResult = .success(MgoResourceRecord(categoryId: "test", organizationId: "test", resources: []))
+		(spy.stubbedObservatory, _) = Observatory<Bool>.create()
+		let records = [MgoResourceRecord(categoryId: "test", organizationId: "test", resources: [])]
+		spy.stubbedGetResult = .success(records)
+		spy.stubbedGetCategoryIdResult = .success(records)
 		return spy
 	}()
 
 	var healthcareOrganizationStoreSpy: HealthcareOrganizationRepositorySpy = {
 		let spy = HealthcareOrganizationRepositorySpy()
-		(spy.stubbedObservatory, _) = Observatory<Bool>.create()
-		(spy.stubbedRemovalObservatory, _) = Observatory<MgoOrganization>.create()
+		(spy.stubbedObservatory, _) = Observatory<(MgoOrganization, HealthcareOrganizationReason)>.create()
 		return spy
 	}()
 
@@ -57,6 +59,10 @@ final class ServicesSpies {
 		(spy.stubbedObservatory, _) = Observatory<RemoteConfig>.create()
 		return spy
 	}()
+	
+	var resourceRepositorySpy: ResourceRepositorySpy = {
+		return ResourceRepositorySpy()
+	}()
 }
 
 /// Setup the services spies
@@ -73,6 +79,7 @@ func setupServicesSpies() -> ServicesSpies {
 		localAuthenticationProvider: spies.localAuthenticationProviderSpy,
 		notificationCenter: spies.notificationCenterSpy,
 		remoteConfigurationRepository: spies.remoteConfigurationRepositorySpy,
+		resourceRepository: spies.resourceRepositorySpy,
 		secureUserSettings: spies.secureUserSettingsSpy
 	)
 	

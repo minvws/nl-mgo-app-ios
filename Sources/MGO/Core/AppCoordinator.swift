@@ -128,6 +128,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Are we forced into update required mode?
 	private var updateRequired: Bool = false
 	
+	private var dashboardCoordinator: DashboardCoordinator!
+	
 	/// Initializer
 	/// - Parameter path: Navigation Path
 	init(
@@ -142,6 +144,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		self.versionSupplier = versionSupplier
 		self.browser = browser
 		self.rootState = .splash
+		self.dashboardCoordinator = DashboardCoordinator(parentCoordinator: self)
 		registerObservers()
 	}
 	
@@ -402,7 +405,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Dashboard
 				
 			case .dashboard:
-				DashboardCoordinatorView(coordinator: DashboardCoordinator(parentCoordinator: self))
+				DashboardCoordinatorView(coordinator: dashboardCoordinator)
 			
 			// Fallback
 				
@@ -410,5 +413,4 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				EmptyView()
 		}
 	}
-	
 }

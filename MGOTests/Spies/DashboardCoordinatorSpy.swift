@@ -54,6 +54,28 @@ class DashboardCoordinatorSpy: DashboardCoordinatorProtocol {
 			return stubbedSecondTabPath
 		}
 	}
+	
+	var invokedThirdTabPathSetter = false
+	var invokedThirdTabPathSetterCount = 0
+	var invokedThirdTabPath: NavigationStackBackport.NavigationPath?
+	var invokedThirdTabPathList = [NavigationStackBackport.NavigationPath]()
+	var invokedThirdTabPathGetter = false
+	var invokedThirdTabPathGetterCount = 0
+	var stubbedThirdTabPath: NavigationStackBackport.NavigationPath!
+
+	var thirdTabPath: NavigationStackBackport.NavigationPath {
+		set {
+			invokedThirdTabPathSetter = true
+			invokedThirdTabPathSetterCount += 1
+			invokedThirdTabPath = newValue
+			invokedThirdTabPathList.append(newValue)
+		}
+		get {
+			invokedThirdTabPathGetter = true
+			invokedThirdTabPathGetterCount += 1
+			return stubbedThirdTabPath
+		}
+	}
 
 	var invokedPathForSheetSetter = false
 	var invokedPathForSheetSetterCount = 0
@@ -127,5 +149,27 @@ class DashboardCoordinatorSpy: DashboardCoordinatorProtocol {
 		invokedHandleCount += 1
 		invokedHandleParameters = (action, ())
 		invokedHandleParametersList.append((action, ()))
+	}
+	
+	var invokedSelectedTabSetter = false
+	var invokedSelectedTabSetterCount = 0
+	var invokedSelectedTab: Int?
+	var invokedSelectedTabList = [Int]()
+	var invokedSelectedTabGetter = false
+	var invokedSelectedTabGetterCount = 0
+	var stubbedSelectedTab: Int! = 0
+
+	var selectedTab: Int {
+		set {
+			invokedSelectedTabSetter = true
+			invokedSelectedTabSetterCount += 1
+			invokedSelectedTab = newValue
+			invokedSelectedTabList.append(newValue)
+		}
+		get {
+			invokedSelectedTabGetter = true
+			invokedSelectedTabGetterCount += 1
+			return stubbedSelectedTab
+		}
 	}
 }

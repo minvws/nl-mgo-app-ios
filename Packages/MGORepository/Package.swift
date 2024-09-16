@@ -16,6 +16,7 @@ let package = Package(
 		// Internal
 		.package(name: "FHIRClient", path: "../FHIRClient"),
 		.package(name: "FHIRParser", path: "../FHIRParser"),
+		.package(name: "Observatory", path: "../Observatory"),
 		
 		// Testing
 		.package(name: "MGOTest", path: "../MGOTest")
@@ -25,7 +26,8 @@ let package = Package(
 			name: "MGORepository",
 			dependencies: [
 				.product(name: "FHIRClient", package: "FHIRClient"),
-				.product(name: "FHIRParser", package: "FHIRParser")
+				.product(name: "FHIRParser", package: "FHIRParser"),
+				.product(name: "Observatory", package: "Observatory")
 			]
 		),
 		.testTarget(

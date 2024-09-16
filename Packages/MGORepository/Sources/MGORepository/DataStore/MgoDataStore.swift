@@ -6,15 +6,19 @@
  */
 
 import Foundation
+import Observatory
 
 public protocol MgoDataStoreProtocol {
+	
+	/// Observatory for changes
+	var observatory: Observatory<Bool> { get }
 	
 	/// Get a data set for a category and an organization
 	/// - Parameters:
 	///   - categoryId: the id of the category
 	///   - organizationId: the id of the organization
 	/// - Returns: Result object with dataset or error
-	func get(categoryId: String, organizationId: String) -> Result<MgoResourceRecord, Error>
+	func get(categoryId: String, organizationId: String) -> Result<[MgoResourceRecord], Error>
 	
 	/// Get all data sets for a category
 	/// - Parameter categoryId: the id of the category
@@ -27,8 +31,11 @@ public protocol MgoDataStoreProtocol {
 	
 	/// Remove all entries from the store for this organization
 	/// - Parameter organizationId: the id of the organization to remove for
-	func wipePersistedData(organizationId: String)
+	func removeRecords(for organizationId: String)
 
+	/// Remove all records from the store
+	func removeAllRecords()
+	
 	/// Wipe all persisted data
 	func wipePersistedData()
 }

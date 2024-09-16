@@ -31,10 +31,16 @@ struct MainEntryPoint {
 struct ProductionApp: App {
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	
+	private var coordinator: AppCoordinator
+	
+	init() {
+		coordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+	}
+	
 	var body: some Scene {
 		WindowGroup {
 			GeometryReader { geo in
-				AppCoordinatorView<AppCoordinator>(appCoordinator: AppCoordinator(path: NavigationStackBackport.NavigationPath()))
+				AppCoordinatorView<AppCoordinator>(appCoordinator: coordinator)
 					.environment(\.safeAreaInsets, geo.safeAreaInsets)
 			}
 		}
