@@ -49,8 +49,11 @@ class HealthCategoriesViewModel: ObservableObject {
 	/// The state of the view
 	@Published var state: HealthCategoriesViewState
 	
-	/// Token for the observatory
-	private var observerToken: Observatory.ObserverToken?
+	/// Token for the data store observatory
+	private var dataStoreToken: Observatory.ObserverToken?
+	
+	/// Token for the healthcare organization observatory
+	private var healtcareOrganizationStoreToken: Observatory.ObserverToken?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -97,15 +100,15 @@ class HealthCategoriesViewModel: ObservableObject {
 			showEmptyView: Current.healthcareOrganizationStore.organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
-				CategoryButton(id: HealthCategories.Category.medication.rawValue, title: "health_category.medication", state: .loading),
-				CategoryButton(id: HealthCategories.Category.allergies.rawValue, title: "health_category.allergies", state: .notAvailabe),
-				CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "health_category.measurements", state: .notAvailabe),
-				CategoryButton(id: HealthCategories.Category.vaccinations.rawValue, title: "health_category.vaccinations", state: .notAvailabe),
-				CategoryButton(id: HealthCategories.Category.complaints.rawValue, title: "health_category.complaints", state: .notAvailabe),
-				CategoryButton(id: HealthCategories.Category.treatments.rawValue, title: "health_category.treatments", state: .notAvailabe),
-				CategoryButton(id: HealthCategories.Category.labresults.rawValue, title: "health_category.labresults", state: .notAvailabe),
-				CategoryButton(id: HealthCategories.Category.reports.rawValue, title: "health_category.reports", state: .notAvailabe),
-				CategoryButton(id: HealthCategories.Category.documents.rawValue, title: "health_category.documents", state: .notAvailabe)
+				CategoryButton(id: HealthCategories.Category.medication.rawValue, title: "health_category.medication", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.allergies.rawValue, title: "health_category.allergies", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "health_category.measurements", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.vaccinations.rawValue, title: "health_category.vaccinations", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.complaints.rawValue, title: "health_category.complaints", state: .notAvailabe, box: 2),
+				CategoryButton(id: HealthCategories.Category.treatments.rawValue, title: "health_category.treatments", state: .notAvailabe, box: 2),
+				CategoryButton(id: HealthCategories.Category.labresults.rawValue, title: "health_category.labresults", state: .notAvailabe, box: 2),
+				CategoryButton(id: HealthCategories.Category.reports.rawValue, title: "health_category.reports", state: .notAvailabe, box: 3),
+				CategoryButton(id: HealthCategories.Category.documents.rawValue, title: "health_category.documents", state: .notAvailabe, box: 3)
 			],
 			backButtonTitle: backbuttonTitle
 		)
@@ -114,16 +117,22 @@ class HealthCategoriesViewModel: ObservableObject {
 	}
 	
 	private func registerObservers() {
-		self.observerToken = Current.dataStore.observatory.append { [weak self] changed in
+		self.dataStoreToken = Current.dataStore.observatory.append { [weak self] changed in
 			if changed {
+				// Handle updates in the fetched data
 				self?.updateState()
 			}
+		}
+		self.healtcareOrganizationStoreToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _ in
+			// Check if there are any healthcare organizations left.
+			self?.state.showEmptyView = Current.healthcareOrganizationStore.organizations.isEmpty
 		}
 	}
 	
 	deinit {
 		// Remove as observer
-		observerToken.map(Current.healthcareOrganizationStore.observatory.remove)
+		dataStoreToken.map(Current.dataStore.observatory.remove)
+		healtcareOrganizationStoreToken.map(Current.healthcareOrganizationStore.observatory.remove)
 	}
 	
 	/// Handle any action
@@ -284,12 +293,12 @@ struct HealthCategoriesView: View {
 				
 				List {
 					
-					ForEach(CategoryButtonState.allCases, id: \.self) { category in
+					ForEach(1..<4) { box in
 						
 						Section {
 							
 							let list = viewModel.state.healthCategories
-								.filter { $0.state == category }
+								.filter { $0.box == box }
 								.sorted(by: { $0.id < $1.id })
 							
 							ForEach(list, id: \.id) { block in

@@ -42,7 +42,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	func test_categorySelected_shouldCallCoordinator() throws {
 		
 		// Given
-		let button = CategoryButton(id: 3, title: "test", state: .loaded)
+		let button = CategoryButton(id: 3, title: "test", state: .loaded, box: 1)
 		
 		// When
 		sut.reduce(.categorySelected(button))
@@ -58,7 +58,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	func test_categorySelected_invalidState_shouldNotCallCoordinator() {
 
 		// Given
-		let button = CategoryButton(id: 3, title: "test", state: .loading)
+		let button = CategoryButton(id: 3, title: "test", state: .loading, box: 1)
 		
 		// When
 		sut.reduce(.categorySelected(button))
@@ -161,5 +161,26 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
+	}
+	
+	func test_emptyState_withOrganizations() {
+		
+		// Given
+		
+		// When
+		
+		// Then
+		expect(self.sut.state.showEmptyView) == false
+	}
+	
+	func test_emptyState_withoutOrganizations() {
+		
+		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
+		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+	// When
+	
+	// Then
+		expect(self.sut.state.showEmptyView) == true
 	}
 }

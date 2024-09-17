@@ -27,7 +27,6 @@ final class HealthCategoriesViewTests: XCTestCase {
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .single(healthcareOrganization))
 		sut = HealthCategoriesView(viewModel: self.viewModel)
-		
 	}
 	
 	func test_initialState_singleMode() {

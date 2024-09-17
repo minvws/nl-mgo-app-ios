@@ -36,6 +36,9 @@ struct CategoryButton: Identifiable {
 	/// The state of the category (loading, loaded, empty)
 	var state: CategoryButtonState
 	
+	/// Which box should the category be in?
+	var box: Int
+	
 	@ViewBuilder func getIcon(_ theme: any Themeable) -> some View {
 		
 		switch id {
