@@ -75,7 +75,7 @@ struct UISchemaDetailsView: View {
 	///   - childElement: the childElement to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
 	/// - Returns: view for a groupChild
-	@ViewBuilder func viewFor(_ childElement: ChildElement, isLastElement: Bool) -> some View {
+	@ViewBuilder func viewFor(_ childElement: Value, isLastElement: Bool) -> some View {
 		
 		Group {
 			switch childElement.display {
@@ -106,7 +106,7 @@ struct UISchemaDetailsView: View {
 	///   - childElement: The parent childElement for the heading
 	///   - isLastElement: True if this is the last element in the array of ChildElements
 	/// - Returns: view for the array of DisplayElements
-	@ViewBuilder func viewFor(_ displayElements: [DisplayElement], childElement: ChildElement, isLastElement: Bool) -> some View {
+	@ViewBuilder func viewFor(_ displayElements: [DisplayElement], childElement: Value, isLastElement: Bool) -> some View {
 
 		let singleValue = getSingleValuesValue(displayElements)
 		if singleValue.isNotEmpty {
@@ -154,7 +154,7 @@ struct UISchemaDetailsView: View {
 	/// - Parameters:
 	///   - childElement: the childElement
 	/// - Returns: type text if heading is not in the language file. heading if it is.
-	private func heading(_ childElement: ChildElement) -> String {
+	private func heading(_ childElement: Value) -> String {
 		
 		var elements = childElement.label.split(separator: ".")
 		if elements.count > 1 {
