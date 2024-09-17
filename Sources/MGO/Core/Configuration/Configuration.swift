@@ -48,7 +48,7 @@ extension Configuration {
 		do {
 			switch getRelease() {
 				case .acceptance, .production: return try RemoteConfiguration.Servers.server2()
-			case .development, .test: return try RemoteConfiguration.Servers.server1()
+				case .development, .test: return try RemoteConfiguration.Servers.server1()
 			}
 			
 		} catch {
