@@ -23,6 +23,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .single(healthcareOrganization))
 	}
 	
