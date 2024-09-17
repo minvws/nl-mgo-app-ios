@@ -266,7 +266,12 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
 			
 			case let .healthcareOrganizationSearchResults(city, name):
-				OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: LocalisationServiceClient())).isPresentedAsSheet(true)
+				OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(
+					coordinator: self,
+					city: city,
+					name: name,
+					localisationServiceClient: LocalisationServiceClient(serverUrl: Configuration().urlForLocalisation()))
+				).isPresentedAsSheet(true)
 			
 			case .listHealthcareOrganizations:
 				OrganizationListView(viewModel: OrganizationListViewModel(coordinator: self)).isPresentedAsSheet(true)

@@ -134,7 +134,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// - Parameter path: Navigation Path
 	init(
 		path: NavigationStackBackport.NavigationPath,
-		localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(),
+		localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(serverUrl: Configuration().urlForLocalisation()),
 		versionSupplier: AppVersionSupplierProtocol = AppVersionSupplier(),
 		browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
 	) {
