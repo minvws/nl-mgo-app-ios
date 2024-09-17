@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let childElement = try ChildElement(json)
+//   let referenceValue = try ReferenceValue(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,28 +10,28 @@
 
 import Foundation
 
-// MARK: - ChildElement
-public struct ChildElement: Codable, Hashable, Sendable {
-    public let display: ChildDisplay?
+// MARK: - ReferenceValue
+public struct ReferenceValue: Codable, Hashable, Sendable {
+    public let display: String?
     public let label: String
+    public let reference: String?
     public let summary: Bool?
     public let type: String
-    public let reference: String?
 
-    public init(display: ChildDisplay?, label: String, summary: Bool?, type: String, reference: String?) {
+    public init(display: String?, label: String, reference: String?, summary: Bool?, type: String) {
         self.display = display
         self.label = label
+        self.reference = reference
         self.summary = summary
         self.type = type
-        self.reference = reference
     }
 }
 
-// MARK: ChildElement convenience initializers and mutators
+// MARK: ReferenceValue convenience initializers and mutators
 
-public extension ChildElement {
+public extension ReferenceValue {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(ChildElement.self, from: data)
+        self = try newJSONDecoder().decode(ReferenceValue.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -46,18 +46,18 @@ public extension ChildElement {
     }
 
     func with(
-        display: ChildDisplay?? = nil,
+        display: String?? = nil,
         label: String? = nil,
+        reference: String?? = nil,
         summary: Bool?? = nil,
-        type: String? = nil,
-        reference: String?? = nil
-    ) -> ChildElement {
-        return ChildElement(
+        type: String? = nil
+    ) -> ReferenceValue {
+        return ReferenceValue(
             display: display ?? self.display,
             label: label ?? self.label,
+            reference: reference ?? self.reference,
             summary: summary ?? self.summary,
-            type: type ?? self.type,
-            reference: reference ?? self.reference
+            type: type ?? self.type
         )
     }
 

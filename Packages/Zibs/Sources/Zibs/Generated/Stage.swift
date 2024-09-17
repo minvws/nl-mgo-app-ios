@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let uISchemaGroup = try UISchemaGroup(json)
+//   let stage = try Stage(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,22 @@
 
 import Foundation
 
-// MARK: - UISchemaGroup
-public struct UISchemaGroup: Codable, Hashable, Sendable {
-    public let children: [Value]
-    public let label: String
+// MARK: - Stage
+public struct Stage: Codable, Hashable, Sendable {
+    public let assessment: [MgoReference]?
+    public let summary: [MgoCoding]?
 
-    public init(children: [Value], label: String) {
-        self.children = children
-        self.label = label
+    public init(assessment: [MgoReference]?, summary: [MgoCoding]?) {
+        self.assessment = assessment
+        self.summary = summary
     }
 }
 
-// MARK: UISchemaGroup convenience initializers and mutators
+// MARK: Stage convenience initializers and mutators
 
-public extension UISchemaGroup {
+public extension Stage {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(UISchemaGroup.self, from: data)
+        self = try newJSONDecoder().decode(Stage.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,12 +40,12 @@ public extension UISchemaGroup {
     }
 
     func with(
-        children: [Value]? = nil,
-        label: String? = nil
-    ) -> UISchemaGroup {
-        return UISchemaGroup(
-            children: children ?? self.children,
-            label: label ?? self.label
+        assessment: [MgoReference]?? = nil,
+        summary: [MgoCoding]?? = nil
+    ) -> Stage {
+        return Stage(
+            assessment: assessment ?? self.assessment,
+            summary: summary ?? self.summary
         )
     }
 
