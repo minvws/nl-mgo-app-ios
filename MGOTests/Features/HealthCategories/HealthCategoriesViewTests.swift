@@ -24,9 +24,9 @@ final class HealthCategoriesViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .single(healthcareOrganization))
 		sut = HealthCategoriesView(viewModel: self.viewModel)
-		
 	}
 	
 	func test_initialState_singleMode() {
@@ -79,5 +79,20 @@ final class HealthCategoriesViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
 		expect(params.identifier) == Coordination.Action.removeHealthcareOrganization.identifier
+	}
+	
+	func test_addHealthcareOrganization_noOrganizations() throws {
+		
+		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
+		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		sut = HealthCategoriesView(viewModel: self.viewModel)
+		
+		// When
+		try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.empty.action").button().tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
 	}
 }

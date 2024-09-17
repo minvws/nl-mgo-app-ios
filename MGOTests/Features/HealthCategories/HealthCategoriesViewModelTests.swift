@@ -23,6 +23,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .single(healthcareOrganization))
 	}
 	
@@ -41,7 +42,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 	func test_categorySelected_shouldCallCoordinator() throws {
 		
 		// Given
-		let button = CategoryButton(id: 3, title: "test", state: .loaded)
+		let button = CategoryButton(id: 3, title: "test", state: .loaded, box: 1)
 		
 		// When
 		sut.reduce(.categorySelected(button))
@@ -57,7 +58,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 	func test_categorySelected_invalidState_shouldNotCallCoordinator() {
 
 		// Given
-		let button = CategoryButton(id: 3, title: "test", state: .loading)
+		let button = CategoryButton(id: 3, title: "test", state: .loading, box: 1)
 		
 		// When
 		sut.reduce(.categorySelected(button))
