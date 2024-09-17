@@ -58,7 +58,8 @@ private let remoteConfigurationRepository = RemoteConfigurationRepository(
 )
 private let resourceRepository = ResourceRepository(
 	healthcareOrganizationRepository: healthcareOrganizationStore,
-	dataRepository: dataStore
+	dataRepository: dataStore,
+	serverUrl: Configuration().urlForDVP()
 )
 
 // MARK: - 3: Instantiate the Services using private dependencies:

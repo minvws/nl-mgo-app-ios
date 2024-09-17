@@ -21,12 +21,13 @@ final class MedicationUseRepositoryTests: XCTestCase {
 		
 		// Given
 		let inputJson = try getResource("medication_statement_input_1")
-		let client = try XCTUnwrap(FHIRClient())
+		let url = try XCTUnwrap(URL(string: "https:example.com"))
+		let client = try XCTUnwrap(FHIRClient(baseURL: url))
 	
 		let outputJson = try getResource("medication_statement_output_1")
 		let expectedMedication = try JSONDecoder().decode(ZibMedicationUse.self, from: outputJson)
 
-		stub(condition: isPath("/fhir/MedicationStatement")) { _ in
+		stub(condition: isPath("/MedicationStatement")) { _ in
 			return HTTPStubsResponse(data: inputJson, statusCode: 200, headers: nil)
 		}
 		
@@ -43,12 +44,13 @@ final class MedicationUseRepositoryTests: XCTestCase {
 		
 		// Given
 		let inputJson = try getResource("medication_statement_input_1")
-		let client = try XCTUnwrap(FHIRClient())
+		let url = try XCTUnwrap(URL(string: "https:example.com"))
+		let client = try XCTUnwrap(FHIRClient(baseURL: url))
 	
 		let outputJson = try getResource("medication_statement_output_2")
 		let expectedProduct = try JSONDecoder().decode(ZibProduct.self, from: outputJson)
 
-		stub(condition: isPath("/fhir/MedicationStatement")) { _ in
+		stub(condition: isPath("/MedicationStatement")) { _ in
 			return HTTPStubsResponse(data: inputJson, statusCode: 200, headers: nil)
 		}
 		

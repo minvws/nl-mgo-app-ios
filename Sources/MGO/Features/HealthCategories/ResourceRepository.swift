@@ -27,10 +27,13 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	
 	private var dataRepository: MgoDataStoreProtocol?
 	
-	init(healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol, dataRepository: MgoDataStoreProtocol) {
+	private var serverUrl: Foundation.URL
+	
+	init(healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol, dataRepository: MgoDataStoreProtocol, serverUrl: Foundation.URL) {
 		
 		self.healthcareOrganizationRepository = healthcareOrganizationRepository
 		self.dataRepository = dataRepository
+		self.serverUrl = serverUrl
 		registerObservers()
 	}
 	
@@ -118,10 +121,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	///   - category: the category to load the resources for.
 	private func loadResource(healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async throws {
 		
-		guard let client = FHIRClient() else {
-			return
-		}
-		let repository = MGORepository(client: client)
+		let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
 		
 		guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID) else {
 			return
