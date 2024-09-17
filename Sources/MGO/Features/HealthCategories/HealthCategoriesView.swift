@@ -104,7 +104,7 @@ class HealthCategoriesViewModel: ObservableObject {
 				CategoryButton(id: HealthCategories.Category.allergies.rawValue, title: "health_category.allergies", state: .notAvailabe, box: 1),
 				CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "health_category.measurements", state: .notAvailabe, box: 1),
 				CategoryButton(id: HealthCategories.Category.vaccinations.rawValue, title: "health_category.vaccinations", state: .notAvailabe, box: 1),
-				CategoryButton(id: HealthCategories.Category.complaints.rawValue, title: "health_category.complaints", state: .notAvailabe, box: 2),
+				CategoryButton(id: HealthCategories.Category.complaints.rawValue, title: "health_category.complaints", state: .loading, box: 2),
 				CategoryButton(id: HealthCategories.Category.treatments.rawValue, title: "health_category.treatments", state: .notAvailabe, box: 2),
 				CategoryButton(id: HealthCategories.Category.labresults.rawValue, title: "health_category.labresults", state: .notAvailabe, box: 2),
 				CategoryButton(id: HealthCategories.Category.reports.rawValue, title: "health_category.reports", state: .notAvailabe, box: 3),
@@ -195,7 +195,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		
 		for button in state.healthCategories {
 			// Only update if the category is enabled.
-			guard button.state != .notAvailabe else { return }
+			guard button.state != .notAvailabe else { continue }
 			
 			let cacheResult: Result<[MgoResourceRecord], Error> = {
 				switch mode {

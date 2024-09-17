@@ -31,6 +31,10 @@ struct HealthCategories {
 						ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue,
 						ZibProductProfile.httpNictizNlFhirStructureDefinitionZibProduct.rawValue
 					]
+				case .complaints:
+					[
+						ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue
+					]
 					
 				default: []
 			}
@@ -43,6 +47,8 @@ struct HealthCategories {
 					[DVP.CommonClinicalDataset.medicationUse]
 				case .allergies:
 					[DVP.CommonClinicalDataset.allergyIntolerance]
+				case .complaints:
+					[DVP.CommonClinicalDataset.problem]
 				default: []
 			}
 		}
