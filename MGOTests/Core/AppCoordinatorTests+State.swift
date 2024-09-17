@@ -16,7 +16,6 @@ final class AppCoordinatorStateTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	
-	
 	override func setUpWithError() throws {
 		
 		try super.setUpWithError()

@@ -39,3 +39,21 @@ extension Configuration {
 		fatalError("Configuration: No url for the localisation service")
 	}
 }
+
+extension Configuration {
+	
+	/// Get the url for the localisation server
+	/// - Returns: url of the localisation server
+	func urlForRemoteConfiguration() -> URL {
+		do {
+			switch getRelease() {
+				case .production: return try RemoteConfiguration.Servers.server2()
+				case .development, .test, .acceptance: return try RemoteConfiguration.Servers.server1()
+			}
+			
+		} catch {
+			logError("Configuration: error creating localisation url", error)
+		}
+		fatalError("Configuration: No url for the localisation service")
+	}
+}

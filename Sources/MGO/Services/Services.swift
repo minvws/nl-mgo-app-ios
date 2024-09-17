@@ -53,7 +53,9 @@ private let localAuthenticationProvider = LocalAuthenticationProvider()
 private let now: () -> Date = Date.init
 private let notificationCenter = NotificationCenter.default
 private let secureUserSettings = SecureUserSettings()
-private let remoteConfigurationRepository = RemoteConfigurationRepository()
+private let remoteConfigurationRepository = RemoteConfigurationRepository(
+	apiClient: RemoteConfigurationClient(serverUrl: Configuration().urlForRemoteConfiguration())
+)
 private let resourceRepository = ResourceRepository(
 	healthcareOrganizationRepository: healthcareOrganizationStore,
 	dataRepository: dataStore

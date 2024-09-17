@@ -11,7 +11,7 @@ import Foundation
 
 public class RemoteConfigurationClientSpy: RemoteConfigurationClientProtocol {
 
-	public required init() { /* Public initializer needed for public access */ }
+	public required init(serverUrl: Foundation.URL) { /* Public initializer needed for public access */ }
 
 	public var invokedFetchRemoteConfig = false
 	public var invokedFetchRemoteConfigCount = 0

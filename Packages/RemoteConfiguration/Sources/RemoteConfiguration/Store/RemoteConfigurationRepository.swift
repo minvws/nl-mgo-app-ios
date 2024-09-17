@@ -65,7 +65,7 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 	/// - Parameter apiClient: storage protocol
 	public init(
 		storage: FileStorageProtocol = FileStorage(),
-		apiClient: RemoteConfigurationClientProtocol? = RemoteConfigurationClient()) {
+		apiClient: RemoteConfigurationClientProtocol?) {
 
 		self.storage = storage
 		self.client = apiClient
