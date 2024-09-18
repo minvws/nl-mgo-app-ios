@@ -227,10 +227,6 @@ class HealthCategoryViewModel: ObservableObject {
 		
 		return 	Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }?.display_name
 	}
-	
-	func getZib(_ resource: MgoResource) -> (any Hashable)? {
-		return nil
-	}
 }
 
 struct HealthCategoryView: View {

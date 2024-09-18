@@ -10,21 +10,23 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class MedicationOverviewViewTests: XCTestCase {
+final class MedicationHealthCategoryViewTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: MedicationOverviewViewModel!
+	private var viewModel: HealthCategoryViewModel!
 	private var healthcareOrganization: MgoOrganization!
-	private var sut: MedicationOverviewView!
+	private var sut: HealthCategoryView!
 
 	override func setUp() {
 		
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = MedicationOverviewViewModel(coordinator: coordinatorSpy, organizationId: healthcareOrganization.identifier)
-		sut = MedicationOverviewView(viewModel: self.viewModel)
+		viewModel = MedicationHealthCategoryViewModel(
+			coordinator: coordinatorSpy,
+			organizationId: healthcareOrganization.identifier)
+		sut = HealthCategoryView(viewModel: self.viewModel)
 	}
 
 	func test_stateLoading() {
@@ -43,7 +45,7 @@ final class MedicationOverviewViewTests: XCTestCase {
 		
 		// Given
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.complaints.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
 		)
 		let content = NavigationView { sut }
 		

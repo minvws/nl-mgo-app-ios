@@ -171,7 +171,7 @@ class HealthCategoriesViewModel: ObservableObject {
 					
 					coordinator?.handle(
 						Coordination.Action(
-							identifier: Coordination.Action.showCategoryCategory.identifier,
+							identifier: Coordination.Action.showHealthCategory.identifier,
 							params: params
 						)
 					)

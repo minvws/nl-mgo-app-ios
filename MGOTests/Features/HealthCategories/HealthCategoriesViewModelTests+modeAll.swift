@@ -50,8 +50,8 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.showCategoryCategory.identifier
-		expect(params.params["categoryId"]) == HealthCategories.Category.measurements
+		expect(params.identifier) == Coordination.Action.showHealthCategory.identifier
+		expect(params.params["category"] as? HealthCategories.Category) == HealthCategories.Category.measurements
 		expect(params.params["healthcareOrganization"]) == nil
 	}
 

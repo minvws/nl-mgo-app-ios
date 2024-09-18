@@ -11,11 +11,11 @@ import MGOUI
 @testable import MGO
 import Zibs
 
-final class MedicationOverviewViewModelTests: XCTestCase {
+final class HealthCategoryViewModelTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: MedicationOverviewViewModel!
+	private var sut: HealthCategoryViewModel!
 	private var healthcareOrganization: MgoOrganization!
 	
 	override func setUp() {
@@ -23,7 +23,22 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
-		sut = MedicationOverviewViewModel(coordinator: coordinatorSpy, organizationId: healthcareOrganization.identifier)
+		setupSut(organizationId: healthcareOrganization.identifier)
+	}
+	
+	func setupSut(organizationId: String?) {
+		
+		sut = HealthCategoryViewModel(
+			coordinator: coordinatorSpy,
+			categoryId: "\(HealthCategories.Category.complaints.rawValue)",
+			organizationId: organizationId,
+			translations: HealthCategoryViewTranslations(
+				heading: "health_category.complaints",
+				search: "health_category.complaints.search",
+				noSearchResults: "health_category.complaints.no_search_results",
+				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.complaints.details_heading")
+			)
+		)
 	}
 	
 	func test_initialState_shouldBeLoading() {
@@ -33,7 +48,7 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		// When
 		
 		// Then
-		expect(self.sut.state) == MedicationOverviewViewState.loading
+		expect(self.sut.state) == HealthCategoryViewState.loading
 	}
 	
 	func test_backButtonPressed_shouldCallCoordinator() {
@@ -48,7 +63,7 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_loadMedications_noResults() {
+	func test_loadResources_noResults() {
 		
 		// Given
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
@@ -59,13 +74,13 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(MedicationOverviewViewState.empty))
+		expect(self.sut.state).toEventually(equal(HealthCategoryViewState.empty))
 	}
 	
-	func test_loadMedications_noResults_noOrganizationId() {
-		
+	func test_loadResources_noResults_noOrganizationId() {
+
 		// Given
-		sut = MedicationOverviewViewModel(coordinator: coordinatorSpy, organizationId: nil)
+		setupSut(organizationId: nil)
 		servicesSpies.dataStoreSpy.stubbedGetResult = .success([
 			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
 		)
@@ -74,10 +89,10 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(MedicationOverviewViewState.empty))
+		expect(self.sut.state).toEventually(equal(HealthCategoryViewState.empty))
 	}
 	
-	func test_loadMedications_withResults_noName() throws {
+	func test_loadResources_withResults_noName() throws {
 		
 		// Given
 		let resource = try getResource("zibMedicationUse")
@@ -90,15 +105,15 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let MedicationOverviewViewState.success(items) = sut.state {
+		if case let HealthCategoryViewState.success(items) = sut.state {
 			expect(items).toEventually(haveCount(1))
 		} else {
 			fail("Invalid state")
 		}
 	}
 	
-	func test_loadMedications_withResults_withName() throws {
-		
+	func test_loadResources_withResults_withName() throws {
+
 		// Given
 		let resource = try getResource("zibMedicationUse")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
@@ -111,17 +126,45 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let MedicationOverviewViewState.success(items) = sut.state {
+		if case let HealthCategoryViewState.success(items) = sut.state {
 			expect(items).toEventually(haveCount(1))
 		} else {
 			fail("Invalid state")
 		}
 	}
 	
-	func test_loadMedications_withResults_withName_noOrganisationId() throws {
-		
+	func test_loadResources_withResults_withName_action() throws {
+
 		// Given
-		sut = MedicationOverviewViewModel(coordinator: coordinatorSpy, organizationId: nil)
+		let resource = try getResource("zibMedicationUse")
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+		)
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
+		sut.reduce(.onAppear)
+		
+		// When
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+		if case let HealthCategoryViewState.success(items) = sut.state {
+			items.first?.action?()
+		} else {
+			fail("Invalid state")
+		}
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
+		expect(params.identifier) == Coordination.Action.showZibDetails.identifier
+		expect(params.params["resource"] as? MgoResource) == resource
+		expect(params.params["heading"] as? String) == "Alle klachtgegevens"
+		expect((params.params["uiSchema"] as? UISchema)?.label) == "Zestril tablet 10mg"
+		
+	}
+	
+	func test_loadResources_withResults_withName_noOrganisationId() throws {
+
+		// Given
+		setupSut(organizationId: nil)
 		let resource = try getResource("zibMedicationUse")
 		servicesSpies.dataStoreSpy.stubbedGetResult = .success([
 			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
@@ -133,30 +176,17 @@ final class MedicationOverviewViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let MedicationOverviewViewState.success(items) = sut.state {
+		if case let HealthCategoryViewState.success(items) = sut.state {
 			expect(items).toEventually(haveCount(1))
 		} else {
 			fail("Invalid state")
 		}
 	}
 	
-	func test_loadMedications_noResults_cacheMiss() {
+	func test_loadResources_noResults_cacheMiss() {
 		
 		// Given
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(DataStoreError.noData)
-		
-		// When
-		sut.reduce(.onAppear)
-		
-		// Then
-		expect(self.sut.state).toEventually(equal(.failure))
-	}
-	
-	func test_loadMedications_noResults_cacheMiss_noOrganizationId() {
-		
-		// Given
-		sut = MedicationOverviewViewModel(coordinator: coordinatorSpy, organizationId: nil)
-		servicesSpies.dataStoreSpy.stubbedGetResult = .failure(DataStoreError.noData)
 		
 		// When
 		sut.reduce(.onAppear)

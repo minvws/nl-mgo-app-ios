@@ -20,9 +20,8 @@ extension Coordination.Action {
 	static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
 	static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
 	
+	static let showHealthCategory = Coordination.Action(identifier: "showHealthCategory")
 	static let showZibDetails = Coordination.Action(identifier: "showZibDetails")
-	
-	static let showCategoryCategory = Coordination.Action(identifier: "showCategoryCategory")
 	
 	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
 	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
@@ -78,7 +77,7 @@ enum DashboardCoordination {
 		// Details Flow
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
-		case showCategoryCategory(category: HealthCategories.Category, organizationId: String?)
+		case showHealthCategory(category: HealthCategories.Category, organizationId: String?)
 		case showZibDetails(heading: String, schema: UISchema)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
@@ -171,14 +170,14 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 			
-			case Coordination.Action.showCategoryCategory.identifier:
+			case Coordination.Action.showHealthCategory.identifier:
 				if action.params.count == 2,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let category = action.params["category"] as? HealthCategories.Category {
-					setState(DashboardCoordination.State.showCategoryCategory(category: category, organizationId: healthcareOrganization.identifier))
+					setState(DashboardCoordination.State.showHealthCategory(category: category, organizationId: healthcareOrganization.identifier))
 				} else if action.params.count == 1,
 					let category = action.params["category"] as? HealthCategories.Category {
-					setState(DashboardCoordination.State.showCategoryCategory(category: category, organizationId: nil))
+					setState(DashboardCoordination.State.showHealthCategory(category: category, organizationId: nil))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -303,7 +302,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					)
 				)
 			
-			case let .showCategoryCategory(category: category, organizationId: organizationId):
+			case let .showHealthCategory(category: category, organizationId: organizationId):
 			
 				switch category {
 					case HealthCategories.Category.medication:
