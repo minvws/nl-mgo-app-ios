@@ -128,7 +128,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			}
 			
 			let recordToStore = MgoResourceRecord(categoryId: "\(category.rawValue)", organizationId: healthcareOrganization.identifier, resources: mgoResources)
-			logInfo("ResourceRepository - Adding to the store", recordToStore)
+			logVerbose("ResourceRepository - Adding to the store", recordToStore)
 			dataRepository?.store(data: recordToStore)
 		}
 	}

@@ -142,10 +142,10 @@ class HealthCategoriesViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
-			
+				
 			case .search:
 				coordinator?.handle(Coordination.Action.addHealthcareOrganization)
-			
+				
 			case .refresh:
 				if case let .single(healthcareOrganization) = mode {
 					Current.dataStore.removeRecords(for: healthcareOrganization.identifier)
@@ -155,7 +155,7 @@ class HealthCategoriesViewModel: ObservableObject {
 					Current.resourceRepository.load()
 				}
 				reduce(.onAppear)
-
+			
 			case let .categorySelected(categoryButton):
 				
 				guard categoryButton.state == .loaded else {
@@ -163,17 +163,21 @@ class HealthCategoriesViewModel: ObservableObject {
 					return
 				}
 				
-				var params: [String: AnyHashable] = ["categoryId": categoryButton.id]
-				if case let .single(healthcareOrganization) = mode {
-					params["healthcareOrganization"] = healthcareOrganization
-				}
-				
-				coordinator?.handle(
-					Coordination.Action(
-						identifier: Coordination.Action.showCategoryOverview.identifier,
-						params: params
+				if let category = HealthCategories.Category(rawValue: categoryButton.id) {
+					var params: [String: AnyHashable] = ["category": category]
+					if case let .single(healthcareOrganization) = mode {
+						params["healthcareOrganization"] = healthcareOrganization
+					}
+					
+					coordinator?.handle(
+						Coordination.Action(
+							identifier: Coordination.Action.showCategoryCategory.identifier,
+							params: params
+						)
 					)
-				)
+				} else {
+					logError("Can't create a category for", categoryButton)
+				}
 				
 			case .onAppear:
 				updateState()
