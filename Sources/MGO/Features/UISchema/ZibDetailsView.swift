@@ -11,7 +11,7 @@ import Zibs
 
 struct ZibDetailViewState {
 	
-	var title: LocalizedStringKey
+	var title: String
 	var schema: UISchema
 }
 
@@ -30,11 +30,11 @@ class ZibDetailsViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	/// - Parameter healthcareOrganization: the healthcare organization
-	/// - Parameter repository: the repository
+	/// - Parameter title: the title for the page
+	/// - Parameter schema: the UISchema to display
 	init(
 		coordinator: (any Coordinator)? = nil,
-		title: LocalizedStringKey,
+		title: String,
 		schema: UISchema
 	) {
 		self.coordinator = coordinator

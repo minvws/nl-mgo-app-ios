@@ -10,9 +10,9 @@ import MGOUI
 import JavaScriptCore
 import Zibs
 
-struct OverviewBlock: Equatable, Identifiable {
+struct HealthCategoryBlock: Equatable, Identifiable {
 	
-	static func == (lhs: OverviewBlock, rhs: OverviewBlock) -> Bool {
+	static func == (lhs: HealthCategoryBlock, rhs: HealthCategoryBlock) -> Bool {
 		return lhs.heading == rhs.heading &&
 		lhs.subHeading == rhs.subHeading &&
 		lhs.id == rhs.id
@@ -27,14 +27,14 @@ struct OverviewBlock: Equatable, Identifiable {
 	var action: (() -> Void)?
 }
 
-enum MedicationOverviewViewState: Equatable {
+enum HealthCategoryViewState: Equatable {
 	
 	case loading
 	case failure
 	case empty
-	case success(items: [OverviewBlock])
+	case success(items: [HealthCategoryBlock])
 
-	static func == (lhs: MedicationOverviewViewState, rhs: MedicationOverviewViewState) -> Bool {
+	static func == (lhs: HealthCategoryViewState, rhs: HealthCategoryViewState) -> Bool {
 		switch (lhs, rhs) {
 			
 			case (.loading, .loading):
@@ -61,15 +61,71 @@ enum MedicationOverviewViewState: Equatable {
 	}
 }
 
-class MedicationOverviewViewModel: ObservableObject {
+struct HealthCategoryViewTranslations {
+
+	/// the title key of the page
+	var heading: LocalizedStringKey
+
+	/// the text key for the search bar
+	var search: LocalizedStringKey
+	
+	/// the text key for no search results
+	var noSearchResults: LocalizedStringKey
+	
+	/// The text key for the heading of the details
+	var detailsHeading: String.LocalizationValue
+}
+
+class ComplaintsHealthCategoryViewModel: HealthCategoryViewModel {
+	
+	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+		super.init(
+			coordinator: coordinator,
+			categoryId: "\(HealthCategories.Category.complaints.rawValue)",
+			organizationId: organizationId,
+			translations: HealthCategoryViewTranslations(
+				heading: "health_category.complaints",
+				search: "health_category.complaints.search",
+				noSearchResults: "health_category.complaints.no_search_results",
+				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.complaints.details_heading")
+			)
+		)
+	}
+}
+
+class MedicationHealthCategoryViewModel: HealthCategoryViewModel {
+	
+	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+		super.init(
+			coordinator: coordinator,
+			categoryId: "\(HealthCategories.Category.medication.rawValue)",
+			organizationId: organizationId,
+			translations: HealthCategoryViewTranslations(
+				heading: "health_category.medication",
+				search: "health_category.medication.search",
+				noSearchResults: "health_category.medication.no_search_results",
+				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.medication.details_heading")
+			)
+		)
+	}
+}
+
+class HealthCategoryViewModel: ObservableObject {
 	
 	/// The state of the view
-	@Published var state: MedicationOverviewViewState
+	@Published var state: HealthCategoryViewState
+	
+	/// All the translated copy
+	@Published var translations: HealthCategoryViewTranslations
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
+	/// The organization to show the categories for (optional, if nil, then show all organizations)
 	private var organizationId: String?
+	
+	/// The category to show
+	private var categoryId: String
 	
 	/// The text to filter the results on. 
 	@Published var searchText = ""
@@ -84,40 +140,44 @@ class MedicationOverviewViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
-		organizationId: String?
+		categoryId: String,
+		organizationId: String?,
+		translations: HealthCategoryViewTranslations
 	) {
 		self.coordinator = coordinator
+		self.categoryId = categoryId
 		self.organizationId = organizationId
 		self.state = .loading
+		self.translations = translations
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: MedicationOverviewViewModel.Action) {
+	func reduce(_ action: HealthCategoryViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 			case .onAppear:
 				_Concurrency.Task {
-					 await loadMedication()
+					 await loadResources()
 				}
 		}
 	}
 	
 	@MainActor
-	func loadMedication() async {
+	func loadResources() async {
 		
 		let cacheResult: Result<[MgoResourceRecord], Error> = {
 			if let organizationId {
-				return Current.dataStore.get(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: organizationId)
+				return Current.dataStore.get(categoryId: categoryId, organizationId: organizationId)
 			} else {
-				return Current.dataStore.get(categoryId: "\(HealthCategories.Category.medication.rawValue)")
+				return Current.dataStore.get(categoryId: categoryId)
 			}
 		}()
 		switch cacheResult {
 			case .success(let records):
-				var items = [OverviewBlock]()
+				var items = [HealthCategoryBlock]()
 				for record in records {
 					items.append(contentsOf: parseRecord(record))
 				}
@@ -134,22 +194,24 @@ class MedicationOverviewViewModel: ObservableObject {
 	/// Extract items from the data store records
 	/// - Parameter record: the record
 	/// - Returns: displayable items
-	private func parseRecord(_ record: MgoResourceRecord) -> [OverviewBlock] {
+	private func parseRecord(_ record: MgoResourceRecord) -> [HealthCategoryBlock] {
 		
-		var items = [OverviewBlock]()
+		var items = [HealthCategoryBlock]()
 		// For all the MgoResources
 		for resource in record.resources {
-			// If it is a ZibMedicationUse and we can create a UISchema from it
-			if let zib = ZibFactory.createZibMedicationUse(resource),
-			   let uiSchema = FHIRParser().getUiSchemaJson(resource) {
+			if let uiSchema = FHIRParser().getUiSchemaJson(resource) {
 				// Add a OverviewBlock to the display list
 				items.append(
-					OverviewBlock(
+					HealthCategoryBlock(
 						heading: Sanitizer.strip(uiSchema.label),
 						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) {
 							self.coordinator?.handle(Coordination.Action(
 								identifier: Coordination.Action.showZibDetails.identifier,
-								params: ["zib": zib, "uiSchema": uiSchema])
+								params: [
+									"heading": String(localized: self.translations.detailsHeading),
+									"resource": resource,
+									"uiSchema": uiSchema
+								])
 							)
 						}
 				)
@@ -167,10 +229,10 @@ class MedicationOverviewViewModel: ObservableObject {
 	}
 }
 
-struct MedicationOverviewView: View {
+struct HealthCategoryView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: MedicationOverviewViewModel
+	@StateObject var viewModel: HealthCategoryViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -239,7 +301,7 @@ struct MedicationOverviewView: View {
 		})
 		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.large)
-		.navigationTitle("medication_use.heading")
+		.navigationTitle(viewModel.translations.heading)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
@@ -249,9 +311,9 @@ struct MedicationOverviewView: View {
 	
 	/// Create the list state view
 	/// - Returns: View when the user has some stored healthcare organizations
-	@ViewBuilder func listOverviewBlocks(list: [OverviewBlock]) -> some View {
+	@ViewBuilder func listOverviewBlocks(list: [HealthCategoryBlock]) -> some View {
 		
-		var searchResults: [OverviewBlock] {
+		var searchResults: [HealthCategoryBlock] {
 			if viewModel.searchText.isEmpty {
 				return list
 			} else {
@@ -296,7 +358,7 @@ struct MedicationOverviewView: View {
 				.padding(.top, ViewTraits.Navigation.padding)
 			}
 		}
-		.searchable(text: $viewModel.searchText, prompt: "health_category.medication.search")
+		.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
 		.padding(.top, ViewTraits.List.top)
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.foregroundColor(theme.contentTertiary)
@@ -308,7 +370,7 @@ struct MedicationOverviewView: View {
 		
 		EmptyListView(
 			icon: Image(ImageResource.Woman.womanWithPhoneInCircleExclamation),
-			heading: "health_category.medication.no_search_results",
+			heading: viewModel.translations.noSearchResults,
 			subHeading: "health_category.search_again"
 		)
 			.fixedSize(horizontal: false, vertical: true)
@@ -318,10 +380,17 @@ struct MedicationOverviewView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		MedicationOverviewView(
-			viewModel: MedicationOverviewViewModel(
+		HealthCategoryView(
+			viewModel: HealthCategoryViewModel(
 				coordinator: nil,
-				organizationId: "1"
+				categoryId: "1",
+				organizationId: "1",
+				translations: HealthCategoryViewTranslations(
+					heading: "health_category.medication",
+					search: "health_category.medication.search",
+					noSearchResults: "health_category.medication.no_search_results",
+					detailsHeading: "health_category.medication.details_heading"
+				)
 			)
 		)
 	}

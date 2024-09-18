@@ -11,7 +11,7 @@ import Zibs
 
 struct HealthCategories {
 	
-	enum Category: Int, CaseIterable {
+	enum Category: Int, CaseIterable, Codable {
 		case medication = 1
 		case allergies = 2
 		case measurements = 3
@@ -28,8 +28,12 @@ struct HealthCategories {
 				
 				case .medication:
 					[
-						ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue,
-						ZibProductProfile.httpNictizNlFhirStructureDefinitionZibProduct.rawValue
+						ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue
+					]
+				
+				case .complaints:
+					[
+						ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue
 					]
 					
 				default: []
@@ -43,6 +47,8 @@ struct HealthCategories {
 					[DVP.CommonClinicalDataset.medicationUse]
 				case .allergies:
 					[DVP.CommonClinicalDataset.allergyIntolerance]
+				case .complaints:
+					[DVP.CommonClinicalDataset.problem]
 				default: []
 			}
 		}

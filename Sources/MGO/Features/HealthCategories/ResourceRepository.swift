@@ -67,7 +67,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			
 			switch category {
 				case .medication:
-					_Concurrency.Task { await loadMedication(healthcareOrganization: healthcareOrganization) }
+					_Concurrency.Task { try await loadResource(healthcareOrganization, category: .medication) }
 				case .allergies:
 					break
 				case .measurements:
@@ -75,7 +75,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				case .vaccinations:
 					break
 				case .complaints:
-					break
+					_Concurrency.Task { try await loadResource(healthcareOrganization, category: .complaints) }
 				case .treatments:
 					break
 				case .labresults:
@@ -98,25 +98,11 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 	}
 	
-	/// Load the medications for a healthcare organization
-	/// - Parameter healthcareOrganization: healthcare organization
-	private func loadMedication(healthcareOrganization: MgoOrganization) async {
-		
-		do {
-			try await loadResource(
-				healthcareOrganization: healthcareOrganization,
-				category: .medication
-			)
-		} catch {
-			logError("ResourceRepository - loadMedication error: \(error)")
-		}
-	}
-	
 	/// Load the resources
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
 	///   - category: the category to load the resources for.
-	private func loadResource(healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async throws {
+	private func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async throws {
 		
 		guard let client = FHIRClient() else {
 			return

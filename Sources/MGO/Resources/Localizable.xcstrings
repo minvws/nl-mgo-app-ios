@@ -653,17 +653,6 @@
         }
       }
     },
-    "detail_medication.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle medicijngegevens"
-          }
-        }
-      }
-    },
     "detail_reports.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -840,6 +829,39 @@
         }
       }
     },
+    "health_category.complaints.details_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle klachtgegevens"
+          }
+        }
+      }
+    },
+    "health_category.complaints.no_search_results" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen klachten gevonden"
+          }
+        }
+      }
+    },
+    "health_category.complaints.search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek een klacht"
+          }
+        }
+      }
+    },
     "health_category.documents" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -880,6 +902,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Medicijnen"
+          }
+        }
+      }
+    },
+    "health_category.medication.details_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle medicijngegevens"
           }
         }
       }
@@ -1067,17 +1100,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kies de manier waarop je wilt inloggen. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
-          }
-        }
-      }
-    },
-    "medication_details.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle medicijngegevens"
           }
         }
       }
