@@ -1,0 +1,112 @@
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
+//
+//   let zibLivingSituation = try ZibLivingSituation(json)
+//
+// Hashable or Equatable:
+// The compiler will not be able to synthesize the implementation of Hashable or Equatable
+// for types that require the use of JSONAny, nor will the implementation of Hashable be
+// synthesized for types that have collections (such as arrays or dictionaries).
+
+import Foundation
+
+// MARK: - ZibLivingSituation
+public struct ZibLivingSituation: Codable, Hashable, Sendable {
+    public let bodySite: [MgoCoding]?
+    public let category: [[MgoCoding]]?
+    public let comment: String?
+    public let context: MgoReference?
+    public let dataAbsentReason: [MgoCoding]?
+    public let effectiveDateTime: String?
+    public let effectivePeriod: MgoPeriod?
+    public let id: String?
+    public let identifier: [MgoIdentifier]?
+    public let profile: ZibLivingSituationProfile
+    public let referenceID: String
+    public let resourceType, status: String?
+    public let subject: MgoReference?
+
+    public enum CodingKeys: String, CodingKey {
+        case bodySite, category, comment, context, dataAbsentReason, effectiveDateTime, effectivePeriod, id, identifier, profile
+        case referenceID = "referenceId"
+        case resourceType, status, subject
+    }
+
+    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, profile: ZibLivingSituationProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
+        self.bodySite = bodySite
+        self.category = category
+        self.comment = comment
+        self.context = context
+        self.dataAbsentReason = dataAbsentReason
+        self.effectiveDateTime = effectiveDateTime
+        self.effectivePeriod = effectivePeriod
+        self.id = id
+        self.identifier = identifier
+        self.profile = profile
+        self.referenceID = referenceID
+        self.resourceType = resourceType
+        self.status = status
+        self.subject = subject
+    }
+}
+
+// MARK: ZibLivingSituation convenience initializers and mutators
+
+public extension ZibLivingSituation {
+    init(data: Data) throws {
+        self = try newJSONDecoder().decode(ZibLivingSituation.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func with(
+        bodySite: [MgoCoding]?? = nil,
+        category: [[MgoCoding]]?? = nil,
+        comment: String?? = nil,
+        context: MgoReference?? = nil,
+        dataAbsentReason: [MgoCoding]?? = nil,
+        effectiveDateTime: String?? = nil,
+        effectivePeriod: MgoPeriod?? = nil,
+        id: String?? = nil,
+        identifier: [MgoIdentifier]?? = nil,
+        profile: ZibLivingSituationProfile? = nil,
+        referenceID: String? = nil,
+        resourceType: String?? = nil,
+        status: String?? = nil,
+        subject: MgoReference?? = nil
+    ) -> ZibLivingSituation {
+        return ZibLivingSituation(
+            bodySite: bodySite ?? self.bodySite,
+            category: category ?? self.category,
+            comment: comment ?? self.comment,
+            context: context ?? self.context,
+            dataAbsentReason: dataAbsentReason ?? self.dataAbsentReason,
+            effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
+            effectivePeriod: effectivePeriod ?? self.effectivePeriod,
+            id: id ?? self.id,
+            identifier: identifier ?? self.identifier,
+            profile: profile ?? self.profile,
+            referenceID: referenceID ?? self.referenceID,
+            resourceType: resourceType ?? self.resourceType,
+            status: status ?? self.status,
+            subject: subject ?? self.subject
+        )
+    }
+
+    func jsonData() throws -> Data {
+        return try newJSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}
