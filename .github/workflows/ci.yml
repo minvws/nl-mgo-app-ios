@@ -14,8 +14,6 @@ env:
   DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
   FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 180
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
-  MGO_BASIC_AUTH_USERNAME: ${{ secrets.BASIC_AUTH_USER }}
-  MGO_BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
   
 jobs:
   test:
@@ -48,6 +46,9 @@ jobs:
           git checkout .
 
       - name: Generate project
+        env:
+          MGO_BASIC_AUTH_USERNAME: ${{ secrets.BASIC_AUTH_USER }}
+          MGO_BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
         run: |
           make generate_project
 
