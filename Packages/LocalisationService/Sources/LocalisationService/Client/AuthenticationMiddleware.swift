@@ -44,14 +44,12 @@ public struct AuthenticationMiddleware: ClientMiddleware {
 		next: @Sendable (HTTPRequest, HTTPBody?, URL) async throws -> (HTTPResponse, HTTPBody?)
 	) async throws -> (HTTPResponse, HTTPBody?) {
 		
-		let loginString = String(format: "%@:%@", username, password)
-		guard let loginData = loginString.data(using: String.Encoding.utf8) else {
-			return try await next(request, body, baseURL)
-		}
-		let base64LoginString = loginData.base64EncodedString()
-		
 		var request = request
-		request.headerFields[.authorization] = "Basic \(base64LoginString)"
+		let loginString = String(format: "%@:%@", username, password)
+		if let loginData = loginString.data(using: String.Encoding.utf8) {
+			let base64LoginString = loginData.base64EncodedString()
+			request.headerFields[.authorization] = "Basic \(base64LoginString)"
+		}
 		return try await next(request, body, baseURL)
 	}
 }
