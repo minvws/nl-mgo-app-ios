@@ -328,6 +328,9 @@ schemeTemplates:
       config: ${configEnvironment}
     run:
       config: ${configEnvironment}
+      environmentVariables:
+        MGO_BASIC_AUTH_PASSWORD: ${MGO_BASIC_AUTH_PASSWORD}
+        MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
     profile:
       config: ${configEnvironment}
     analyze:

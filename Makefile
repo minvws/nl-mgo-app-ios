@@ -40,7 +40,7 @@ mint_ci:
 # -- -- Generate Xcode project -- 
 
 generate_project: 
-	mint run xcodegen  --spec project.yml
+	mint run xcodegen --spec project.yml
 
 open_project: 
 	open MDRF.xcodeproj
