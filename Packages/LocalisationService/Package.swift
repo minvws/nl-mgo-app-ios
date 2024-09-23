@@ -18,6 +18,7 @@ let package = Package(
 		.package(name: "Observatory", path: "../Observatory"),
 		
 		// External
+		.package(url: "https://github.com/apple/swift-http-types", exact: "1.3.0"),
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.3.1"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.5.0"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.0.2"),
@@ -33,6 +34,7 @@ let package = Package(
 			name: "LocalisationService",
 			dependencies: [
 				.product(name: "FileStorage", package: "FileStorage"),
+				.product(name: "HTTPTypes", package: "swift-http-types"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
