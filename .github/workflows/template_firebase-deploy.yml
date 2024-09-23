@@ -22,9 +22,9 @@ on:
         required: true
       SLACK_URL:
         required: true
-      MGO_BASIC_AUTH_USERNAME
+      MGO_BASIC_AUTH_USERNAME:
         required: true
-      MGO_BASIC_AUTH_PASSWORD
+      MGO_BASIC_AUTH_PASSWORD:
         required: true
 
 env:
