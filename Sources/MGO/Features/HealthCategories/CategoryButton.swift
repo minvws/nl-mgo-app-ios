@@ -48,54 +48,96 @@ struct CategoryButton: Identifiable {
 					.resizable()
 					.foregroundStyle(theme.huisarts)
 				
-			case HealthCategories.Category.allergies.rawValue:
-				// Allergies
-				Image(ImageResource.OrganizationDetails.allergies)
-					.resizable()
-					.foregroundStyle(theme.kliniek)
-				
 			case HealthCategories.Category.measurements.rawValue:
 				// Measurements
 				Image(ImageResource.OrganizationDetails.vitalSigns)
 					.resizable()
 					.foregroundStyle(theme.apotheek)
-				
+			
+			case HealthCategories.Category.labresults.rawValue:
+				// Lab results
+				Image(ImageResource.OrganizationDetails.tube)
+					.resizable()
+					.foregroundStyle(theme.ziekenhuis)
+			
+			case HealthCategories.Category.allergies.rawValue:
+				// Allergies
+				Image(ImageResource.OrganizationDetails.allergies)
+						.resizable()
+						.foregroundStyle(theme.kliniek)
+					
+			case HealthCategories.Category.treatments.rawValue:
+				// Treatments
+				Image(ImageResource.OrganizationDetails.case)
+					.resizable()
+					.foregroundStyle(theme.ggz)
+			
+			case HealthCategories.Category.appointments.rawValue:
+				// Appointments
+				Image(ImageResource.OrganizationDetails.appointment)
+					.resizable()
+					.foregroundStyle(theme.ggd)
+
 			case HealthCategories.Category.vaccinations.rawValue:
 				// Vaccinations
 				Image(ImageResource.OrganizationDetails.syringe)
 					.resizable()
 					.foregroundStyle(theme.tandarts)
 				
-			case HealthCategories.Category.complaints.rawValue:
-				// Complaints
-				Image(ImageResource.OrganizationDetails.complaint)
-					.resizable()
-					.foregroundStyle(theme.verpleeghuis)
-				
-			case HealthCategories.Category.treatments.rawValue:
-				// Treatments
-				Image(ImageResource.OrganizationDetails.case)
-					.resizable()
-					.foregroundStyle(theme.ggz)
-				
-			case HealthCategories.Category.labresults.rawValue:
-				// Lab results
-				Image(ImageResource.OrganizationDetails.tube)
-					.resizable()
-					.foregroundStyle(theme.ziekenhuis)
-				
-			case HealthCategories.Category.reports.rawValue:
-				// Reports
-				Image(ImageResource.OrganizationDetails.report)
-					.resizable()
-					.foregroundStyle(theme.fysiotherapeut)
-				
 			case HealthCategories.Category.documents.rawValue:
 				// Documents
 				Image(ImageResource.OrganizationDetails.folder)
 					.resizable()
 					.foregroundStyle(theme.thuiszorg)
-				
+			
+			case HealthCategories.Category.complaints.rawValue:
+				// Complaints
+				Image(ImageResource.OrganizationDetails.complaint)
+					.resizable()
+					.foregroundStyle(theme.verpleeghuis)
+			
+			case HealthCategories.Category.patient.rawValue:
+				// Patient
+				Image(ImageResource.OrganizationDetails.patient)
+					.resizable()
+					.foregroundStyle(theme.overige)
+
+			case HealthCategories.Category.alerts.rawValue:
+				// Alert
+				Image(ImageResource.OrganizationDetails.alert)
+					.resizable()
+					.foregroundStyle(theme.rivm)
+			
+			case HealthCategories.Category.payment.rawValue:
+				// Payment
+				Image(ImageResource.OrganizationDetails.payment)
+					.resizable()
+					.foregroundStyle(theme.verloskundige)
+			
+			case HealthCategories.Category.plans.rawValue:
+				// Plans
+				Image(ImageResource.OrganizationDetails.plans)
+					.resizable()
+					.foregroundStyle(theme.revalidatie)
+			
+			case HealthCategories.Category.devices.rawValue:
+				// Device
+				Image(ImageResource.OrganizationDetails.device)
+					.resizable()
+					.foregroundStyle(theme.rijksLint)
+
+			case HealthCategories.Category.mental.rawValue:
+				// Mental wellbeing
+				Image(ImageResource.OrganizationDetails.smile)
+					.resizable()
+					.foregroundStyle(theme.notificationInformation)
+		
+			case HealthCategories.Category.lifestyle.rawValue:
+				// Lifestyle
+				Image(ImageResource.OrganizationDetails.lifestyle)
+					.resizable()
+					.foregroundStyle(theme.gegevens)
+			
 			default:
 				EmptyView()
 		}

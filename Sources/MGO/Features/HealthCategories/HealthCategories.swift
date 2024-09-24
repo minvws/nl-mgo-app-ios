@@ -13,14 +13,21 @@ struct HealthCategories {
 	
 	enum Category: Int, CaseIterable, Codable {
 		case medication = 1
-		case allergies = 2
-		case measurements = 3
-		case vaccinations = 4
-		case complaints = 5
-		case treatments = 6
-		case labresults = 7
-		case reports = 8
-		case documents = 9
+		case measurements = 2
+		case labresults = 3
+		case allergies = 4
+		case treatments = 5
+		case appointments = 6
+		case vaccinations = 7
+		case documents = 8
+		case complaints = 9
+		case patient = 10
+		case alerts = 11
+		case payment = 12
+		case plans = 13
+		case devices = 14
+		case mental = 15
+		case lifestyle = 16
 		
 		/// Which of the Nictiz profiles do we accept for a category?
 		var acceptedProfiles: [String] {
@@ -33,17 +40,30 @@ struct HealthCategories {
 						ZibAdministrationAgreementProfile.httpNictizNlFhirStructureDefinitionZibAdministrationAgreement.rawValue
 					]
 				
-				case .complaints:
-					[
-						ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue
-					]
+				case .measurements: []
+				case .labresults: []
 				
 				case .allergies:
 					[
 						ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue
 					]
-					
-				default: []
+				case .treatments: []
+				case .appointments: []
+				case .vaccinations: []
+				case .documents: []
+				
+				case .complaints:
+					[
+						ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue
+					]
+				
+				case .patient: []
+				case .alerts: []
+				case .payment: []
+				case .plans: []
+				case .devices: []
+				case .mental: []
+				case .lifestyle: []
 			}
 		}
 		

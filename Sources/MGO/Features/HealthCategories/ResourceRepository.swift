@@ -80,10 +80,10 @@ class ResourceRepository: ResourceRepositoryProtocol {
 					break
 				case .labresults:
 					break
-				case .reports:
-					break
 				case .documents:
 					break
+			default:
+				break
 			}
 		}
 	}
