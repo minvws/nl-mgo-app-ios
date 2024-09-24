@@ -126,7 +126,7 @@ struct CategoryButton: Identifiable {
 					.resizable()
 					.foregroundStyle(theme.rijksLint)
 
-			case HealthCategories.Category.mental.rawValue:
+			case HealthCategories.Category.functionalOrMentalStatus.rawValue:
 				// Mental wellbeing
 				Image(ImageResource.OrganizationDetails.smile)
 					.resizable()

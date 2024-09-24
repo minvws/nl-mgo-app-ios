@@ -109,12 +109,12 @@ class HealthCategoriesViewModel: ObservableObject {
 				CategoryButton(id: HealthCategories.Category.vaccinations.rawValue, title: "health_category.vaccinations", state: .notAvailabe, box: 1),
 				CategoryButton(id: HealthCategories.Category.documents.rawValue, title: "health_category.documents", state: .notAvailabe, box: 1),
 				CategoryButton(id: HealthCategories.Category.complaints.rawValue, title: "health_category.complaints", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.patient.rawValue, title: "health_category.patient", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.patient.rawValue, title: "health_category.patient", state: .notAvailabe, box: 1),
 				CategoryButton(id: HealthCategories.Category.alerts.rawValue, title: "health_category.alerts", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.payment.rawValue, title: "health_category.payment", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.plans.rawValue, title: "health_category.plans", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.devices.rawValue, title: "health_category.devices", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.mental.rawValue, title: "health_category.mental", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.payment.rawValue, title: "health_category.payment", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.plans.rawValue, title: "health_category.plans", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.devices.rawValue, title: "health_category.devices", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.functionalOrMentalStatus.rawValue, title: "health_category.mental", state: .loading, box: 1),
 				CategoryButton(id: HealthCategories.Category.lifestyle.rawValue, title: "health_category.lifestyle", state: .loading, box: 1)
 			],
 			backButtonTitle: backbuttonTitle

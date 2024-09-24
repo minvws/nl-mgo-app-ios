@@ -26,7 +26,7 @@ struct HealthCategories {
 		case payment = 12
 		case plans = 13
 		case devices = 14
-		case mental = 15
+		case functionalOrMentalStatus = 15
 		case lifestyle = 16
 		
 		/// Which of the Nictiz profiles do we accept for a category?
@@ -71,7 +71,7 @@ struct HealthCategories {
 				case .devices: [
 					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue
 				]
-				case .mental: [
+				case .functionalOrMentalStatus: [
 					ZibFunctionalOrMentalStatusProfile.httpNictizNlFhirStructureDefinitionZibFunctionalOrMentalStatus.rawValue
 				]
 				case .lifestyle: [
@@ -152,16 +152,16 @@ struct HealthCategories {
 //					(DVP.CommonClinicalDataset.medicalDevice, DVP.CommonClinicalDataset.serviceID)
 				]
 				
-				case .mental: [
-//					(DVP.CommonClinicalDataset.functionalOrMentalStatus, DVP.CommonClinicalDataset.serviceID)
+				case .functionalOrMentalStatus: [
+					(DVP.CommonClinicalDataset.functionalOrMentalStatus, DVP.CommonClinicalDataset.serviceID)
 				]
 				
 				case .lifestyle: [
-//					(DVP.CommonClinicalDataset.livingSituation, DVP.CommonClinicalDataset.serviceID),
-//					(DVP.CommonClinicalDataset.drugUse, DVP.CommonClinicalDataset.serviceID),
-//					(DVP.CommonClinicalDataset.alcoholUse, DVP.CommonClinicalDataset.serviceID),
-//					(DVP.CommonClinicalDataset.tobaccoUse, DVP.CommonClinicalDataset.serviceID),
-//					(DVP.CommonClinicalDataset.nutritionAdvice, DVP.CommonClinicalDataset.serviceID)
+					(DVP.CommonClinicalDataset.livingSituation, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.drugUse, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.alcoholUse, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.tobaccoUse, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.nutritionAdvice, DVP.CommonClinicalDataset.serviceID)
 				]
 			}
 		}

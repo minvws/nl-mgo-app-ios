@@ -127,6 +127,23 @@ class ComplaintsHealthCategoryViewModel: HealthCategoryViewModel {
 	}
 }
 
+class LifestyleHealthCategoryViewModel: HealthCategoryViewModel {
+	
+	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+		super.init(
+			coordinator: coordinator,
+			categoryId: "\(HealthCategories.Category.lifestyle.rawValue)",
+			organizationId: organizationId,
+			translations: HealthCategoryViewTranslations(
+				heading: "health_category.lifestyle",
+				search: "health_category.lifestyle.search",
+				noSearchResults: "health_category.lifestyle.no_search_results",
+				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.lifestyle.details_heading")
+			)
+		)
+	}
+}
+
 class MedicationHealthCategoryViewModel: HealthCategoryViewModel {
 	
 	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
@@ -139,6 +156,23 @@ class MedicationHealthCategoryViewModel: HealthCategoryViewModel {
 				search: "health_category.medication.search",
 				noSearchResults: "health_category.medication.no_search_results",
 				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.medication.details_heading")
+			)
+		)
+	}
+}
+
+class MentalStatusHealthCategoryViewModel: HealthCategoryViewModel {
+	
+	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+		super.init(
+			coordinator: coordinator,
+			categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)",
+			organizationId: organizationId,
+			translations: HealthCategoryViewTranslations(
+				heading: "health_category.mental",
+				search: "health_category.mental.search",
+				noSearchResults: "health_category.mental.no_search_results",
+				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.mental.details_heading")
 			)
 		)
 	}
