@@ -73,7 +73,7 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	func test_stateList() throws {
 		
 		// Given
-		let resource = try getResource("ZibAlert")
+		let resource = try getResource("zibAlert")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
 			MgoResourceRecord(categoryId: "\(HealthCategories.Category.alerts.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
@@ -104,7 +104,7 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	func test_search_itemNotFound() throws {
 		
 		// Given
-		let resource = try getResource("ZibAlert")
+		let resource = try getResource("zibAlert")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
 			MgoResourceRecord(categoryId: "\(HealthCategories.Category.alerts.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
@@ -123,7 +123,7 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	func test_search_itemFound() throws {
 		
 		// Given
-		let resource = try getResource("ZibAlert")
+		let resource = try getResource("zibAlert")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
 			MgoResourceRecord(categoryId: "\(HealthCategories.Category.alerts.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
