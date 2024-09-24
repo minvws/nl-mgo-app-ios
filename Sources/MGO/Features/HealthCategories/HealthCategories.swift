@@ -35,20 +35,29 @@ struct HealthCategories {
 					[
 						ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue
 					]
+				
+				case .allergies:
+					[
+						ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue
+					]
 					
 				default: []
 			}
 		}
 		
 		/// What endpoints should we use for a category?
-		var endPoint: [DVP.Endpoint] {
+		var endPoint: [(DVP.Endpoint, Int)] {
 			switch self {
-				case .medication:
-					[DVP.CommonClinicalDataset.medicationUse]
-				case .allergies:
-					[DVP.CommonClinicalDataset.allergyIntolerance]
-				case .complaints:
-					[DVP.CommonClinicalDataset.problem]
+				case .medication: [
+					(DVP.CommonClinicalDataset.medicationUse, DVP.CommonClinicalDataset.serviceID)
+				]
+				case .allergies: [
+					(DVP.CommonClinicalDataset.allergyIntolerance, DVP.CommonClinicalDataset.serviceID),
+					(DVP.GeneralPractitioner.allergyIntolerance, DVP.GeneralPractitioner.serviceID)
+				]
+				case .complaints: [
+					(DVP.CommonClinicalDataset.problem, DVP.CommonClinicalDataset.serviceID)
+				]
 				default: []
 			}
 		}

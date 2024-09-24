@@ -101,7 +101,7 @@ class HealthCategoriesViewModel: ObservableObject {
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
 				CategoryButton(id: HealthCategories.Category.medication.rawValue, title: "health_category.medication", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.allergies.rawValue, title: "health_category.allergies", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.allergies.rawValue, title: "health_category.allergies", state: .loading, box: 1),
 				CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "health_category.measurements", state: .notAvailabe, box: 1),
 				CategoryButton(id: HealthCategories.Category.vaccinations.rawValue, title: "health_category.vaccinations", state: .notAvailabe, box: 1),
 				CategoryButton(id: HealthCategories.Category.complaints.rawValue, title: "health_category.complaints", state: .loading, box: 2),

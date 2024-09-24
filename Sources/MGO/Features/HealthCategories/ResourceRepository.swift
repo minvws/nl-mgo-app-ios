@@ -69,7 +69,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				case .medication:
 					_Concurrency.Task { try await loadResource(healthcareOrganization, category: .medication) }
 				case .allergies:
-					break
+					_Concurrency.Task { try await loadResource(healthcareOrganization, category: .allergies) }
 				case .measurements:
 					break
 				case .vaccinations:
@@ -109,13 +109,14 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 		let repository = MGORepository(client: client)
 		
-		guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID) else {
-			return
-		}
-		
 		for endpoint in category.endPoint {
-			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
-			let data = try await repository.getBundleData(endpoint: endpoint, dvaTarget: dvaTarget)
+			
+			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: endpoint.1) else {
+				continue
+			}
+			
+			logInfo("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
+			let data = try await repository.getBundleData(endpoint: endpoint.0, dvaTarget: dvaTarget)
 			var mgoResources = try repository.process(data)
 			
 			mgoResources = mgoResources.filter { resource in
@@ -128,7 +129,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			}
 			
 			let recordToStore = MgoResourceRecord(categoryId: "\(category.rawValue)", organizationId: healthcareOrganization.identifier, resources: mgoResources)
-			logVerbose("ResourceRepository - Adding to the store", recordToStore)
+			logInfo("ResourceRepository - Adding to the store", recordToStore)
 			dataRepository?.store(data: recordToStore)
 		}
 	}
