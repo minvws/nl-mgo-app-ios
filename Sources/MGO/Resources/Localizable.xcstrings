@@ -807,6 +807,17 @@
         }
       }
     },
+    "health_category.alerts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waarschuwingen"
+          }
+        }
+      }
+    },
     "health_category.allergies" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -814,6 +825,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Allergieën"
+          }
+        }
+      }
+    },
+    "health_category.appointments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afspraken"
           }
         }
       }
@@ -862,6 +884,17 @@
         }
       }
     },
+    "health_category.devices" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medische hulpmiddelen"
+          }
+        }
+      }
+    },
     "health_category.documents" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -880,6 +913,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uitslagen"
+          }
+        }
+      }
+    },
+    "health_category.lifestyle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leefstijl"
           }
         }
       }
@@ -935,6 +979,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zoek een medicijn"
+          }
+        }
+      }
+    },
+    "health_category.mental" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mentaal welzijn"
+          }
+        }
+      }
+    },
+    "health_category.patient" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persoonlijke gegevens"
+          }
+        }
+      }
+    },
+    "health_category.payment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Betaalgegevens"
+          }
+        }
+      }
+    },
+    "health_category.plans" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelwensen- en plan"
           }
         }
       }

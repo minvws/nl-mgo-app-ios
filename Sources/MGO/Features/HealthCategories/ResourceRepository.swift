@@ -64,27 +64,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	func loadFor(_ healthcareOrganization: MgoOrganization) {
 		logVerbose("ResourceRepository - LoadFor", healthcareOrganization.identifier)
 		for category in HealthCategories.Category.allCases {
-			
-			switch category {
-				case .medication:
-					_Concurrency.Task { try await loadResource(healthcareOrganization, category: .medication) }
-				case .allergies:
-					break
-				case .measurements:
-					break
-				case .vaccinations:
-					break
-				case .complaints:
-					_Concurrency.Task { try await loadResource(healthcareOrganization, category: .complaints) }
-				case .treatments:
-					break
-				case .labresults:
-					break
-				case .reports:
-					break
-				case .documents:
-					break
-			}
+			_Concurrency.Task { try await loadResource(healthcareOrganization, category: category) }
 		}
 	}
 	
@@ -109,13 +89,14 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 		let repository = MGORepository(client: client)
 		
-		guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID) else {
-			return
-		}
-		
 		for endpoint in category.endPoint {
+			
+			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: endpoint.1) else {
+				continue
+			}
+			
 			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
-			let data = try await repository.getBundleData(endpoint: endpoint, dvaTarget: dvaTarget)
+			let data = try await repository.getBundleData(endpoint: endpoint.0, dvaTarget: dvaTarget)
 			var mgoResources = try repository.process(data)
 			
 			mgoResources = mgoResources.filter { resource in

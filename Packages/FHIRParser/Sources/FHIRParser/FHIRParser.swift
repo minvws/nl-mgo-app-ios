@@ -78,8 +78,8 @@ public class FHIRParser {
 		}
 		
 		// Step 4: Stringify the input (json)
-		let inputString = String(decoding: input, as: UTF8.self)
-	
+		guard let inputString = String(data: input, encoding: .utf8) else { throw FHIRParserError.invalidInput }
+		
 		// Step 5: call the desired method (getBundleResourcesJson etc) on the namespace with the input
 		guard let resourcesJSValue = nameSpace.invokeMethod(method, withArguments: [inputString]) else {
 			logError("Failed to invoke \(method) on the nameSpace")
@@ -143,7 +143,10 @@ public class FHIRParser {
 	}
 }
 
+/// the FHIR parse errors
 public enum FHIRParserError: Error {
+	// The input could not be converted
+	case invalidInput
 	
 	// This method is not available in the js parser
 	case invalidMethod

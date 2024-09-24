@@ -328,6 +328,9 @@ schemeTemplates:
       config: ${configEnvironment}
     run:
       config: ${configEnvironment}
+      environmentVariables:
+        MGO_BASIC_AUTH_PASSWORD: ${MGO_BASIC_AUTH_PASSWORD}
+        MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
     profile:
       config: ${configEnvironment}
     analyze:
@@ -354,6 +357,9 @@ schemeTemplates:
         "--unittesting": true
       language: nl
       region: NL
+      environmentVariables:
+        MGO_BASIC_AUTH_PASSWORD: ${MGO_BASIC_AUTH_PASSWORD}
+        MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
 
   # Template for adding UI tests to a scheme:
   UITestScheme:
@@ -364,6 +370,9 @@ schemeTemplates:
         - name: ${uiTestTargetName}
           parallelizable: true
           randomExecutionOrder: true
+      environmentVariables:
+        MGO_BASIC_AUTH_PASSWORD: ${MGO_BASIC_AUTH_PASSWORD}
+        MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
 
 # - Schemes
 
