@@ -20,7 +20,7 @@ jobs:
         # 🧐 when changing below, don't forget to also change the device name in the Fastfile too: 
         run: | 
           xcrun simctl boot "iPhone 15 Pro" || true
-      
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -47,7 +47,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      
+
       - name: Build and run e2e tests
         env:
           SLACK_URL: ${{ secrets.SLACK_URL }}
@@ -62,4 +62,4 @@ jobs:
           path: |
             fastlane/test_output/
             ~/Library/Developer/Xcode/DerivedData/MGO*/Logs/Test/*.xcresult
-     
+

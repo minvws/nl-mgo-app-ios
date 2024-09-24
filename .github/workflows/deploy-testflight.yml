@@ -17,7 +17,6 @@ jobs:
   upload:
     if: github.event.repository.name == 'nl-mgo-app-ios-private'
     runs-on: macos-14
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,7 +26,7 @@ jobs:
       - name: Log Build Number
         run: |
           ./Scripts/log-build-number.sh
-                    
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -46,9 +45,12 @@ jobs:
           git checkout .
 
       - name: Generate project
+        env:
+          MGO_BASIC_AUTH_USERNAME: ${{ secrets.BASIC_AUTH_USER }}
+          MGO_BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
         run: |
           make generate_project
-                
+
       - name: Write p8 Key
         if: github.event.repository.name == 'nl-mgo-app-ios-private'
         env:

@@ -20,7 +20,9 @@ jobs:
       DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       SLACK_URL: ${{ secrets.SLACK_URL }}
-      
+      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
+
   firebase-deploy-test:
     if: github.event.repository.name == 'nl-mgo-app-ios-private' && (contains(github.event.ref, 'release/release-') || contains(github.event.ref, 'refs/heads/main'))
     uses: ./.github/workflows/template_firebase-deploy.yml
@@ -33,6 +35,8 @@ jobs:
       DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       SLACK_URL: ${{ secrets.SLACK_URL }}
+      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
 
   firebase-deploy-prod:
     if: github.event.repository.name == 'nl-mgo-app-ios-private' && (contains(github.event.ref, 'release/release-') || contains(github.event.ref, 'refs/heads/main'))
@@ -46,4 +50,6 @@ jobs:
       DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       SLACK_URL: ${{ secrets.SLACK_URL }}
-        
+      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
+
