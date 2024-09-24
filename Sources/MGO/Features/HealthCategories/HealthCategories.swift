@@ -69,7 +69,8 @@ struct HealthCategories {
 					ZibTreatmentDirectiveProfile.httpNictizNlFhirStructureDefinitionZibTreatmentDirective.rawValue
 				]
 				case .devices: [
-					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue
+					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue,
+					ZibMedicalDeviceProductProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceProduct.rawValue
 				]
 				case .functionalOrMentalStatus: [
 					ZibFunctionalOrMentalStatusProfile.httpNictizNlFhirStructureDefinitionZibFunctionalOrMentalStatus.rawValue
@@ -149,7 +150,7 @@ struct HealthCategories {
 				]
 				
 				case .devices: [
-//					(DVP.CommonClinicalDataset.medicalDevice, DVP.CommonClinicalDataset.serviceID)
+					(DVP.CommonClinicalDataset.medicalDevice, DVP.CommonClinicalDataset.serviceID)
 				]
 				
 				case .functionalOrMentalStatus: [
