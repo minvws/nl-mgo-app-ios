@@ -16,6 +16,7 @@ public struct ZibMedicalDevice: Codable, Hashable, Sendable {
     public let device: MgoReference?
     public let id: String?
     public let identifier: [MgoIdentifier]?
+    public let laterality: [MgoCoding]?
     public let note: [MgoAnnotation]?
     public let organization, patient, practitioner: MgoReference?
     public let profile: ZibMedicalDeviceProfile
@@ -28,16 +29,17 @@ public struct ZibMedicalDevice: Codable, Hashable, Sendable {
     public let whenUsed: MgoPeriod?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, device, id, identifier, note, organization, patient, practitioner, profile, reason, recordedOn
+        case bodySite, device, id, identifier, laterality, note, organization, patient, practitioner, profile, reason, recordedOn
         case referenceID = "referenceId"
         case resourceType, source, status, whenUsed
     }
 
-    public init(bodySite: [MgoCoding]?, device: MgoReference?, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, organization: MgoReference?, patient: MgoReference?, practitioner: MgoReference?, profile: ZibMedicalDeviceProfile, reason: MgoReference?, recordedOn: String?, referenceID: String, resourceType: String?, source: MgoReference?, status: String?, whenUsed: MgoPeriod?) {
+    public init(bodySite: [MgoCoding]?, device: MgoReference?, id: String?, identifier: [MgoIdentifier]?, laterality: [MgoCoding]?, note: [MgoAnnotation]?, organization: MgoReference?, patient: MgoReference?, practitioner: MgoReference?, profile: ZibMedicalDeviceProfile, reason: MgoReference?, recordedOn: String?, referenceID: String, resourceType: String?, source: MgoReference?, status: String?, whenUsed: MgoPeriod?) {
         self.bodySite = bodySite
         self.device = device
         self.id = id
         self.identifier = identifier
+        self.laterality = laterality
         self.note = note
         self.organization = organization
         self.patient = patient
@@ -76,6 +78,7 @@ public extension ZibMedicalDevice {
         device: MgoReference?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
+        laterality: [MgoCoding]?? = nil,
         note: [MgoAnnotation]?? = nil,
         organization: MgoReference?? = nil,
         patient: MgoReference?? = nil,
@@ -94,6 +97,7 @@ public extension ZibMedicalDevice {
             device: device ?? self.device,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
+            laterality: laterality ?? self.laterality,
             note: note ?? self.note,
             organization: organization ?? self.organization,
             patient: patient ?? self.patient,

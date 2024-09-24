@@ -308,8 +308,20 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					case HealthCategories.Category.medication:
 						HealthCategoryView(viewModel: MedicationHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
 					
+					case HealthCategories.Category.allergies:
+						HealthCategoryView(viewModel: AllergiesHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+					
 					case HealthCategories.Category.complaints:
 						HealthCategoryView(viewModel: ComplaintsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+					
+					case HealthCategories.Category.alerts:
+						HealthCategoryView(viewModel: AlertsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+					
+					case HealthCategories.Category.functionalOrMentalStatus:
+						HealthCategoryView(viewModel: MentalStatusHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+					
+					case HealthCategories.Category.lifestyle:
+						HealthCategoryView(viewModel: LifestyleHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
 					
 					default:
 						Text(verbatim: "Todo, Overview for Category \(category)")

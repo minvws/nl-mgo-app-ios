@@ -6199,6 +6199,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const boolean$1 = createTypeParser((value2) => value2);
   const code$2 = createTypeParser((value2) => value2);
   const nictizIdValueXMap = {
+    "BodySite-Qualifier": "codeableConcept",
     "deviceUseStatement-reasonReferenceSTU3": "reference",
     "zib-MedicalDevice-Organization": "reference",
     "zib-MedicalDevice-Practitioner": "reference",
@@ -7370,6 +7371,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           children: [
             ui.multipleValue(`${i18n}.note`, resource.note, ui.annotation),
             ui.codeableConcept(`${i18n}.bodySite`, resource.bodySite),
+            ui.codeableConcept(`${i18n}.laterality`, resource.laterality),
             ui.reference(`${i18n}.reason`, resource.reason)
           ]
         },
@@ -7402,6 +7404,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       device: reference$1(resource.device),
       // indication
       bodySite: codeableConcept$1(resource.bodySite),
+      laterality: extensionNictiz(resource.bodySite, "BodySite-Qualifier"),
       note: map(resource.note, annotation$1)
     };
   }
