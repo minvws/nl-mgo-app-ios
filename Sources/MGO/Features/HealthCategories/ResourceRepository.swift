@@ -66,24 +66,51 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		for category in HealthCategories.Category.allCases {
 			
 			switch category {
-				case .medication:
-					_Concurrency.Task { try await loadResource(healthcareOrganization, category: .medication) }
-				case .allergies:
-					_Concurrency.Task { try await loadResource(healthcareOrganization, category: .allergies) }
+				case .medication: _Concurrency.Task { try await loadResource(healthcareOrganization, category: .medication) }
+					
 				case .measurements:
-					break
-				case .vaccinations:
-					break
-				case .complaints:
-					_Concurrency.Task { try await loadResource(healthcareOrganization, category: .complaints) }
-				case .treatments:
-					break
+						break
+					
 				case .labresults:
-					break
+						break
+					
+				case .allergies: _Concurrency.Task { try await loadResource(healthcareOrganization, category: .allergies) }
+					
+				case .treatments:
+						break
+					
+				case .appointments:
+						break
+					
+				case .vaccinations:
+						break
+					
 				case .documents:
 					break
-			default:
-				break
+
+				case .complaints: _Concurrency.Task { try await loadResource(healthcareOrganization, category: .complaints) }
+
+				case .patient:
+					break
+
+				case .alerts:
+					break
+
+				case .payment:
+					break
+
+				case .plans:
+					break
+
+				case .devices:
+					break
+
+				case .mental:
+					break
+
+				case .lifestyle:
+					break
+
 			}
 		}
 	}
