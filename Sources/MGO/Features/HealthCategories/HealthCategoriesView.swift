@@ -113,7 +113,7 @@ class HealthCategoriesViewModel: ObservableObject {
 				CategoryButton(id: HealthCategories.Category.alerts.rawValue, title: "health_category.alerts", state: .loading, box: 1),
 				CategoryButton(id: HealthCategories.Category.payment.rawValue, title: "health_category.payment", state: .notAvailabe, box: 1),
 				CategoryButton(id: HealthCategories.Category.plans.rawValue, title: "health_category.plans", state: .notAvailabe, box: 1),
-				CategoryButton(id: HealthCategories.Category.devices.rawValue, title: "health_category.devices", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.devices.rawValue, title: "health_category.devices", state: .loading, box: 1),
 				CategoryButton(id: HealthCategories.Category.functionalOrMentalStatus.rawValue, title: "health_category.mental", state: .loading, box: 1),
 				CategoryButton(id: HealthCategories.Category.lifestyle.rawValue, title: "health_category.lifestyle", state: .loading, box: 1)
 			],
