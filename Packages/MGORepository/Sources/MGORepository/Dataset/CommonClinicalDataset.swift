@@ -79,8 +79,7 @@ extension DVP {
 			path: "Observation",
 			parameters: RequestParameters(
 				[
-//					(RequestParameterField.category, "http://snomed.info/sct|118228005,http://snomed.info/sct|384821006")
-					(RequestParameterField.category, "http://snomed.info/sct|11291000146105,http://snomed.info/sct|384821006")
+					(RequestParameterField.category, "http://snomed.info/sct|118228005,http://snomed.info/sct|384821006")
 				]
 			),
 			directory: lastn
