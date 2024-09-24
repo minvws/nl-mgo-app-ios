@@ -64,54 +64,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	func loadFor(_ healthcareOrganization: MgoOrganization) {
 		logVerbose("ResourceRepository - LoadFor", healthcareOrganization.identifier)
 		for category in HealthCategories.Category.allCases {
-			
-			switch category {
-				case .medication: _Concurrency.Task { try await loadResource(healthcareOrganization, category: .medication) }
-					
-				case .measurements:
-						break
-					
-				case .labresults:
-						break
-					
-				case .allergies: _Concurrency.Task { try await loadResource(healthcareOrganization, category: .allergies) }
-					
-				case .treatments:
-						break
-					
-				case .appointments:
-						break
-					
-				case .vaccinations:
-						break
-					
-				case .documents:
-					break
-
-				case .complaints: _Concurrency.Task { try await loadResource(healthcareOrganization, category: .complaints) }
-
-				case .patient:
-					break
-
-				case .alerts:
-					break
-
-				case .payment:
-					break
-
-				case .plans:
-					break
-
-				case .devices:
-					break
-
-				case .mental:
-					break
-
-				case .lifestyle:
-					break
-
-			}
+			_Concurrency.Task { try await loadResource(healthcareOrganization, category: category) }
 		}
 	}
 	
@@ -142,7 +95,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				continue
 			}
 			
-			logInfo("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
+			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
 			let data = try await repository.getBundleData(endpoint: endpoint.0, dvaTarget: dvaTarget)
 			var mgoResources = try repository.process(data)
 			
@@ -156,7 +109,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			}
 			
 			let recordToStore = MgoResourceRecord(categoryId: "\(category.rawValue)", organizationId: healthcareOrganization.identifier, resources: mgoResources)
-			logInfo("ResourceRepository - Adding to the store", recordToStore)
+			logVerbose("ResourceRepository - Adding to the store", recordToStore)
 			dataRepository?.store(data: recordToStore)
 		}
 	}

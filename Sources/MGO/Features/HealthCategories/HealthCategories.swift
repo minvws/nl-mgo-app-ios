@@ -33,37 +33,54 @@ struct HealthCategories {
 		var acceptedProfiles: [String] {
 			switch self {
 				
-				case .medication:
-					[
-						ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue,
-						ZibMedicationAgreementProfile.httpNictizNlFhirStructureDefinitionZibMedicationAgreement.rawValue,
-						ZibAdministrationAgreementProfile.httpNictizNlFhirStructureDefinitionZibAdministrationAgreement.rawValue
-					]
+				case .medication: [
+					ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue,
+					ZibMedicationAgreementProfile.httpNictizNlFhirStructureDefinitionZibMedicationAgreement.rawValue,
+					ZibAdministrationAgreementProfile.httpNictizNlFhirStructureDefinitionZibAdministrationAgreement.rawValue
+				]
 				
 				case .measurements: []
 				case .labresults: []
 				
-				case .allergies:
-					[
-						ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue
-					]
+				case .allergies: [
+					ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue
+				]
 				case .treatments: []
 				case .appointments: []
 				case .vaccinations: []
 				case .documents: []
 				
-				case .complaints:
-					[
-						ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue
-					]
+				case .complaints: [
+					ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue
+				]
 				
-				case .patient: []
-				case .alerts: []
-				case .payment: []
-				case .plans: []
-				case .devices: []
-				case .mental: []
-				case .lifestyle: []
+				case .patient: [
+					NlCorePatientProfile.httpFhirNlFhirStructureDefinitionNlCorePatient.rawValue
+				]
+				
+				case .alerts: [
+					ZibAlertProfile.httpNictizNlFhirStructureDefinitionZibAlert.rawValue
+				]
+				case .payment:  [
+					ZibPayerProfile.httpNictizNlFhirStructureDefinitionZibPayer.rawValue
+				]
+				
+				case .plans: [
+					ZibTreatmentDirectiveProfile.httpNictizNlFhirStructureDefinitionZibTreatmentDirective.rawValue
+				]
+				case .devices: [
+					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue
+				]
+				case .mental: [
+					ZibFunctionalOrMentalStatusProfile.httpNictizNlFhirStructureDefinitionZibFunctionalOrMentalStatus.rawValue
+				]
+				case .lifestyle: [
+					ZibLivingSituationProfile.httpNictizNlFhirStructureDefinitionZibLivingSituation.rawValue,
+					ZibDrugUseProfile.httpNictizNlFhirStructureDefinitionZibDrugUse.rawValue,
+					ZibAlcoholUseProfile.httpNictizNlFhirStructureDefinitionZibAlcoholUse.rawValue,
+					ZibTobaccoUseProfile.httpNictizNlFhirStructureDefinitionZibTobaccoUse.rawValue,
+					ZibNutritionAdviceProfile.httpNictizNlFhirStructureDefinitionZibNutritionAdvice.rawValue
+				]
 			}
 		}
 		
@@ -76,14 +93,76 @@ struct HealthCategories {
 					(DVP.GeneralPractitioner.currentMedication, DVP.GeneralPractitioner.serviceID),
 					(DVP.CommonClinicalDataset.administrationAgreement, DVP.CommonClinicalDataset.serviceID)
 				]
+				
+				case .measurements: [
+//					(DVP.CommonClinicalDataset.bloodPressure, DVP.CommonClinicalDataset.serviceID),
+//					(DVP.CommonClinicalDataset.bodyWeight, DVP.CommonClinicalDataset.serviceID),
+//					(DVP.CommonClinicalDataset.bodyHeight, DVP.CommonClinicalDataset.serviceID),
+//					(DVP.GeneralPractitioner.diagnosticAndLabResults, DVP.GeneralPractitioner.serviceID)
+				]
+				
+				case .labresults: [
+//					(DVP.CommonClinicalDataset.laboratoryTestResult, DVP.CommonClinicalDataset.serviceID),
+//					(DVP.GeneralPractitioner.diagnosticAndLabResults, DVP.GeneralPractitioner.serviceID)
+				]
+				
 				case .allergies: [
 					(DVP.CommonClinicalDataset.allergyIntolerance, DVP.CommonClinicalDataset.serviceID),
 					(DVP.GeneralPractitioner.allergyIntolerance, DVP.GeneralPractitioner.serviceID)
 				]
+//				
+				case .treatments: [
+//					(DVP.CommonClinicalDataset.procedure, DVP.CommonClinicalDataset.serviceID),
+//					(DVP.CommonClinicalDataset.plannedProcedures, DVP.CommonClinicalDataset.serviceID)
+				]
+				
+				case .appointments: [
+//					(DVP.CommonClinicalDataset.encounter, DVP.CommonClinicalDataset.serviceID),
+//					(DVP.CommonClinicalDataset.plannedEncounters, DVP.CommonClinicalDataset.serviceID)
+				]
+				
+				case .vaccinations: [
+//					(DVP.CommonClinicalDataset.vaccination, DVP.CommonClinicalDataset.serviceID)
+				]
+				
+				case .documents: []
+				
 				case .complaints: [
 					(DVP.CommonClinicalDataset.problem, DVP.CommonClinicalDataset.serviceID)
 				]
-				default: []
+				
+				case .patient: [
+//					(DVP.CommonClinicalDataset.patient, DVP.CommonClinicalDataset.serviceID),
+//					(DVP.GeneralPractitioner.patient, DVP.GeneralPractitioner.serviceID)
+				]
+				
+				case .alerts: [
+					(DVP.CommonClinicalDataset.alert, DVP.CommonClinicalDataset.serviceID)
+				]
+				
+				case .payment: [
+//					(DVP.CommonClinicalDataset.payer, DVP.CommonClinicalDataset.serviceID)
+				]
+				
+				case .plans: [
+//					(DVP.CommonClinicalDataset.treatmentDirective, DVP.CommonClinicalDataset.serviceID)
+				]
+				
+				case .devices: [
+//					(DVP.CommonClinicalDataset.medicalDevice, DVP.CommonClinicalDataset.serviceID)
+				]
+				
+				case .mental: [
+//					(DVP.CommonClinicalDataset.functionalOrMentalStatus, DVP.CommonClinicalDataset.serviceID)
+				]
+				
+				case .lifestyle: [
+//					(DVP.CommonClinicalDataset.livingSituation, DVP.CommonClinicalDataset.serviceID),
+//					(DVP.CommonClinicalDataset.drugUse, DVP.CommonClinicalDataset.serviceID),
+//					(DVP.CommonClinicalDataset.alcoholUse, DVP.CommonClinicalDataset.serviceID),
+//					(DVP.CommonClinicalDataset.tobaccoUse, DVP.CommonClinicalDataset.serviceID),
+//					(DVP.CommonClinicalDataset.nutritionAdvice, DVP.CommonClinicalDataset.serviceID)
+				]
 			}
 		}
 	}

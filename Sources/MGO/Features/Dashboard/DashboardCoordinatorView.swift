@@ -314,6 +314,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					case HealthCategories.Category.complaints:
 						HealthCategoryView(viewModel: ComplaintsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
 					
+					case HealthCategories.Category.alerts:
+						HealthCategoryView(viewModel: AlertsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+					
 					default:
 						Text(verbatim: "Todo, Overview for Category \(category)")
 				}

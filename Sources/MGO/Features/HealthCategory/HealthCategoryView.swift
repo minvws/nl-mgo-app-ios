@@ -76,6 +76,23 @@ struct HealthCategoryViewTranslations {
 	var detailsHeading: String.LocalizationValue
 }
 
+class AlertsHealthCategoryViewModel: HealthCategoryViewModel {
+	
+	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+		super.init(
+			coordinator: coordinator,
+			categoryId: "\(HealthCategories.Category.alerts.rawValue)",
+			organizationId: organizationId,
+			translations: HealthCategoryViewTranslations(
+				heading: "health_category.alerts",
+				search: "health_category.alerts.search",
+				noSearchResults: "health_category.alerts.no_search_results",
+				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.alerts.details_heading")
+			)
+		)
+	}
+}
+
 class AllergiesHealthCategoryViewModel: HealthCategoryViewModel {
 	
 	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {

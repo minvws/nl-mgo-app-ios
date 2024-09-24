@@ -10,7 +10,7 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class AllergiesHealthCategoryViewTests: XCTestCase {
+final class AlertsHealthCategoryViewTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
@@ -23,7 +23,7 @@ final class AllergiesHealthCategoryViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = AllergiesHealthCategoryViewModel(
+		viewModel = AlertsHealthCategoryViewModel(
 			coordinator: coordinatorSpy,
 			organizationId: healthcareOrganization.identifier)
 		sut = HealthCategoryView(viewModel: self.viewModel)
@@ -45,7 +45,7 @@ final class AllergiesHealthCategoryViewTests: XCTestCase {
 		
 		// Given
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.allergies.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.alerts.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
 		)
 		let content = NavigationView { sut }
 		
@@ -73,9 +73,9 @@ final class AllergiesHealthCategoryViewTests: XCTestCase {
 	func test_stateList() throws {
 		
 		// Given
-		let resource = try getResource("zibAllergyIntolerance")
+		let resource = try getResource("ZibAlert")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.allergies.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.alerts.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
@@ -104,16 +104,16 @@ final class AllergiesHealthCategoryViewTests: XCTestCase {
 	func test_search_itemNotFound() throws {
 		
 		// Given
-		let resource = try getResource("zibAllergyIntolerance")
+		let resource = try getResource("ZibAlert")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.allergies.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.alerts.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
 		sut.viewModel.reduce(.onAppear)
 		
 		// When
-		viewModel.searchText = "Allergy"
+		viewModel.searchText = "alerts"
 		
 		// Then
 		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
@@ -123,16 +123,16 @@ final class AllergiesHealthCategoryViewTests: XCTestCase {
 	func test_search_itemFound() throws {
 		
 		// Given
-		let resource = try getResource("zibAllergyIntolerance")
+		let resource = try getResource("ZibAlert")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.allergies.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.alerts.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
 		sut.viewModel.reduce(.onAppear)
 		
 		// When
-		viewModel.searchText = "18e3"
+		viewModel.searchText = "alert"
 		
 		// Then
 		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
