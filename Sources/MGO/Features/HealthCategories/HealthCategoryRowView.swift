@@ -45,7 +45,7 @@ struct HealthCategoryRowView: View {
 			
 			Group {
 				switch block.state {
-					case .empty:
+					case .empty, .notAvailabe:
 						Text("common.no_data")
 					case .loaded:
 						Image(systemName: "chevron.right")
@@ -60,9 +60,6 @@ struct HealthCategoryRowView: View {
 								.frame(width: ViewTraits.Spinner.size, height: ViewTraits.Spinner.size)
 								.tint(theme.iconsSecondary)
 						}
-					case .notAvailabe:
-						Text("common.not_available")
-						.rijksoverheidStyle(font: .regular, style: .caption)
 				}
 			}
 			.foregroundStyle(theme.contentTertiary)

@@ -317,6 +317,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					case HealthCategories.Category.alerts:
 						HealthCategoryView(viewModel: AlertsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
 					
+					case HealthCategories.Category.devices:
+						HealthCategoryView(viewModel: DevicesHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+					
 					case HealthCategories.Category.functionalOrMentalStatus:
 						HealthCategoryView(viewModel: MentalStatusHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
 					

@@ -127,6 +127,23 @@ class ComplaintsHealthCategoryViewModel: HealthCategoryViewModel {
 	}
 }
 
+class DevicesHealthCategoryViewModel: HealthCategoryViewModel {
+	
+	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+		super.init(
+			coordinator: coordinator,
+			categoryId: "\(HealthCategories.Category.devices.rawValue)",
+			organizationId: organizationId,
+			translations: HealthCategoryViewTranslations(
+				heading: "health_category.devices",
+				search: "health_category.devices.search",
+				noSearchResults: "health_category.devices.no_search_results",
+				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.devices.details_heading")
+			)
+		)
+	}
+}
+
 class LifestyleHealthCategoryViewModel: HealthCategoryViewModel {
 	
 	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
