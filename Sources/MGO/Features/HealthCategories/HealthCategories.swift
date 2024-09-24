@@ -28,7 +28,9 @@ struct HealthCategories {
 				
 				case .medication:
 					[
-						ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue
+						ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue,
+						ZibMedicationAgreementProfile.httpNictizNlFhirStructureDefinitionZibMedicationAgreement.rawValue,
+						ZibAdministrationAgreementProfile.httpNictizNlFhirStructureDefinitionZibAdministrationAgreement.rawValue
 					]
 				
 				case .complaints:
@@ -49,7 +51,10 @@ struct HealthCategories {
 		var endPoint: [(DVP.Endpoint, Int)] {
 			switch self {
 				case .medication: [
-					(DVP.CommonClinicalDataset.medicationUse, DVP.CommonClinicalDataset.serviceID)
+					(DVP.CommonClinicalDataset.medicationUse, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.medicationAgreement, DVP.CommonClinicalDataset.serviceID),
+					(DVP.GeneralPractitioner.currentMedication, DVP.GeneralPractitioner.serviceID),
+					(DVP.CommonClinicalDataset.administrationAgreement, DVP.CommonClinicalDataset.serviceID)
 				]
 				case .allergies: [
 					(DVP.CommonClinicalDataset.allergyIntolerance, DVP.CommonClinicalDataset.serviceID),
