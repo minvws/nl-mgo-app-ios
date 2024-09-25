@@ -101,14 +101,21 @@ class HealthCategoriesViewModel: ObservableObject {
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
 				CategoryButton(id: HealthCategories.Category.medication.rawValue, title: "health_category.medication", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.allergies.rawValue, title: "health_category.allergies", state: .notAvailabe, box: 1),
 				CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "health_category.measurements", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.labresults.rawValue, title: "health_category.labresults", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.allergies.rawValue, title: "health_category.allergies", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.treatments.rawValue, title: "health_category.treatments", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.appointments.rawValue, title: "health_category.appointments", state: .notAvailabe, box: 1),
 				CategoryButton(id: HealthCategories.Category.vaccinations.rawValue, title: "health_category.vaccinations", state: .notAvailabe, box: 1),
-				CategoryButton(id: HealthCategories.Category.complaints.rawValue, title: "health_category.complaints", state: .notAvailabe, box: 2),
-				CategoryButton(id: HealthCategories.Category.treatments.rawValue, title: "health_category.treatments", state: .notAvailabe, box: 2),
-				CategoryButton(id: HealthCategories.Category.labresults.rawValue, title: "health_category.labresults", state: .notAvailabe, box: 2),
-				CategoryButton(id: HealthCategories.Category.reports.rawValue, title: "health_category.reports", state: .notAvailabe, box: 3),
-				CategoryButton(id: HealthCategories.Category.documents.rawValue, title: "health_category.documents", state: .notAvailabe, box: 3)
+				CategoryButton(id: HealthCategories.Category.documents.rawValue, title: "health_category.documents", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.complaints.rawValue, title: "health_category.complaints", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.patient.rawValue, title: "health_category.patient", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.alerts.rawValue, title: "health_category.alerts", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.payment.rawValue, title: "health_category.payment", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.plans.rawValue, title: "health_category.plans", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.devices.rawValue, title: "health_category.devices", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.functionalOrMentalStatus.rawValue, title: "health_category.mental", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.lifestyle.rawValue, title: "health_category.lifestyle", state: .loading, box: 1)
 			],
 			backButtonTitle: backbuttonTitle
 		)
@@ -142,10 +149,10 @@ class HealthCategoriesViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
-			
+				
 			case .search:
 				coordinator?.handle(Coordination.Action.addHealthcareOrganization)
-			
+				
 			case .refresh:
 				if case let .single(healthcareOrganization) = mode {
 					Current.dataStore.removeRecords(for: healthcareOrganization.identifier)
@@ -155,7 +162,7 @@ class HealthCategoriesViewModel: ObservableObject {
 					Current.resourceRepository.load()
 				}
 				reduce(.onAppear)
-
+			
 			case let .categorySelected(categoryButton):
 				
 				guard categoryButton.state == .loaded else {
@@ -163,17 +170,21 @@ class HealthCategoriesViewModel: ObservableObject {
 					return
 				}
 				
-				var params: [String: AnyHashable] = ["categoryId": categoryButton.id]
-				if case let .single(healthcareOrganization) = mode {
-					params["healthcareOrganization"] = healthcareOrganization
-				}
-				
-				coordinator?.handle(
-					Coordination.Action(
-						identifier: Coordination.Action.showCategoryOverview.identifier,
-						params: params
+				if let category = HealthCategories.Category(rawValue: categoryButton.id) {
+					var params: [String: AnyHashable] = ["category": category]
+					if case let .single(healthcareOrganization) = mode {
+						params["healthcareOrganization"] = healthcareOrganization
+					}
+					
+					coordinator?.handle(
+						Coordination.Action(
+							identifier: Coordination.Action.showHealthCategory.identifier,
+							params: params
+						)
 					)
-				)
+				} else {
+					logError("Can't create a category for", categoryButton)
+				}
 				
 			case .onAppear:
 				updateState()
@@ -195,7 +206,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		
 		for button in state.healthCategories {
 			// Only update if the category is enabled.
-			guard button.state != .notAvailabe else { return }
+			guard button.state != .notAvailabe else { continue }
 			
 			let cacheResult: Result<[MgoResourceRecord], Error> = {
 				switch mode {

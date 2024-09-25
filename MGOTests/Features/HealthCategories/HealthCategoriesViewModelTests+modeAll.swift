@@ -42,7 +42,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	func test_categorySelected_shouldCallCoordinator() throws {
 		
 		// Given
-		let button = CategoryButton(id: 3, title: "test", state: .loaded, box: 1)
+		let button = CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "test", state: .loaded, box: 1)
 		
 		// When
 		sut.reduce(.categorySelected(button))
@@ -50,8 +50,8 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.showCategoryOverview.identifier
-		expect(params.params["categoryId"]) == AnyHashable(3)
+		expect(params.identifier) == Coordination.Action.showHealthCategory.identifier
+		expect(params.params["category"] as? HealthCategories.Category) == HealthCategories.Category.measurements
 		expect(params.params["healthcareOrganization"]) == nil
 	}
 

@@ -18,6 +18,7 @@ protocol ResourceRepositoryProtocol {
 	func loadFor(_ healthcareOrganization: MgoOrganization)
 }
 
+/// Load the resources from the server
 class ResourceRepository: ResourceRepositoryProtocol {
 	
 	/// Token for the observatory (needed for unregister)
@@ -29,11 +30,31 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	
 	private var serverUrl: Foundation.URL
 	
-	init(healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol, dataRepository: MgoDataStoreProtocol, serverUrl: Foundation.URL) {
+	/// the authentication username
+	private var username: String?
+	
+	/// The authentication password
+	private var password: String?
+	
+	/// Create the Resource Repository
+	/// - Parameters:
+	///   - healthcareOrganizationRepository: the repository for healthcare organizations
+	///   - dataRepository: the repository for data storage
+	///   - serverUrl: the url of the server
+	///   - username: the authentication username
+	///   - password: the authentication password
+	init(
+		healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol,
+		dataRepository: MgoDataStoreProtocol,
+		serverUrl: Foundation.URL,
+		username: String?,
+		password: String?) {
 		
 		self.healthcareOrganizationRepository = healthcareOrganizationRepository
 		self.dataRepository = dataRepository
 		self.serverUrl = serverUrl
+		self.username = username
+		self.password = password
 		registerObservers()
 	}
 	
@@ -67,27 +88,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	func loadFor(_ healthcareOrganization: MgoOrganization) {
 		logVerbose("ResourceRepository - LoadFor", healthcareOrganization.identifier)
 		for category in HealthCategories.Category.allCases {
-			
-			switch category {
-				case .medication:
-					_Concurrency.Task { await loadMedication(healthcareOrganization: healthcareOrganization) }
-				case .allergies:
-					break
-				case .measurements:
-					break
-				case .vaccinations:
-					break
-				case .complaints:
-					break
-				case .treatments:
-					break
-				case .labresults:
-					break
-				case .reports:
-					break
-				case .documents:
-					break
-			}
+			_Concurrency.Task { try await loadResource(healthcareOrganization, category: category) }
 		}
 	}
 	
@@ -101,35 +102,27 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 	}
 	
-	/// Load the medications for a healthcare organization
-	/// - Parameter healthcareOrganization: healthcare organization
-	private func loadMedication(healthcareOrganization: MgoOrganization) async {
-		
-		do {
-			try await loadResource(
-				healthcareOrganization: healthcareOrganization,
-				category: .medication
-			)
-		} catch {
-			logError("ResourceRepository - loadMedication error: \(error)")
-		}
-	}
-	
 	/// Load the resources
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
 	///   - category: the category to load the resources for.
-	private func loadResource(healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async throws {
+	private func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async throws {
 		
 		let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
 		
-		guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: DVP.CommonClinicalDataset.serviceID) else {
-			return
-		}
-		
 		for endpoint in category.endPoint {
+			
+			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: endpoint.1) else {
+				continue
+			}
+			
 			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
-			let data = try await repository.getBundleData(endpoint: endpoint, dvaTarget: dvaTarget)
+			let data = try await repository.getBundleData(
+				endpoint: endpoint.0,
+				dvaTarget: dvaTarget,
+				username: username,
+				password: password
+			)
 			var mgoResources = try repository.process(data)
 			
 			mgoResources = mgoResources.filter { resource in

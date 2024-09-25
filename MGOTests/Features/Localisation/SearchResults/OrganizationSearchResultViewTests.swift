@@ -24,12 +24,21 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
 		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
-		localisationServiceClientSpy = LocalisationServiceClientSpy(serverUrl: serverUrl)
+		localisationServiceClientSpy = LocalisationServiceClientSpy(
+			serverUrl: serverUrl,
+			username: "test",
+			password: "test"
+		)
 	}
 	
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
-		viewModel = OrganizationSearchResultsViewModel(coordinator: coordinatorSpy, city: city, name: name, localisationServiceClient: localisationServiceClientSpy)
+		viewModel = OrganizationSearchResultsViewModel(
+			coordinator: coordinatorSpy,
+			city: city,
+			name: name,
+			localisationServiceClient: localisationServiceClientSpy
+		)
 		sut = OrganizationSearchResultsView(viewModel: self.viewModel)
 	}
 

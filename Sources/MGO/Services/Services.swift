@@ -59,7 +59,9 @@ private let remoteConfigurationRepository = RemoteConfigurationRepository(
 private let resourceRepository = ResourceRepository(
 	healthcareOrganizationRepository: healthcareOrganizationStore,
 	dataRepository: dataStore,
-	serverUrl: Configuration().urlForDVP()
+	serverUrl: Configuration().urlForDVP(),
+	username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+	password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
 )
 
 // MARK: - 3: Instantiate the Services using private dependencies:

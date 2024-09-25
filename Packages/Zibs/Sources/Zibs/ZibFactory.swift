@@ -32,6 +32,17 @@ public class ZibFactory {
 		)
 	}
 	
+	/// Create a Zib Problem from a parsed resource
+	/// - Parameter data: the parsed resource
+	/// - Returns: Zib Product
+	public static func createZibProblem(_ data: Data) -> ZibProblem? {
+		
+		return decode(
+			data: data,
+			profileDefinition: ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue
+		)
+	}
+	
 	/// Generic decode method to decode a parsed resource into a zib
 	/// - Parameters:
 	///   - data: the parsed resource

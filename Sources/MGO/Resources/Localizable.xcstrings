@@ -653,17 +653,6 @@
         }
       }
     },
-    "detail_medication.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle medicijngegevens"
-          }
-        }
-      }
-    },
     "detail_reports.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -818,6 +807,17 @@
         }
       }
     },
+    "health_category.alerts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waarschuwingen"
+          }
+        }
+      }
+    },
     "health_category.allergies" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -829,6 +829,17 @@
         }
       }
     },
+    "health_category.appointments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afspraken"
+          }
+        }
+      }
+    },
     "health_category.complaints" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -836,6 +847,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Klachten"
+          }
+        }
+      }
+    },
+    "health_category.complaints.details_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle klachtgegevens"
+          }
+        }
+      }
+    },
+    "health_category.complaints.no_search_results" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen klachten gevonden"
+          }
+        }
+      }
+    },
+    "health_category.complaints.search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek een klacht"
+          }
+        }
+      }
+    },
+    "health_category.devices" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medische hulpmiddelen"
           }
         }
       }
@@ -862,6 +917,17 @@
         }
       }
     },
+    "health_category.lifestyle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leefstijl"
+          }
+        }
+      }
+    },
     "health_category.measurements" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -884,6 +950,17 @@
         }
       }
     },
+    "health_category.medication.details_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle medicijngegevens"
+          }
+        }
+      }
+    },
     "health_category.medication.no_search_results" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -902,6 +979,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zoek een medicijn"
+          }
+        }
+      }
+    },
+    "health_category.mental" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mentaal welzijn"
+          }
+        }
+      }
+    },
+    "health_category.patient" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persoonlijke gegevens"
+          }
+        }
+      }
+    },
+    "health_category.payment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Betaalgegevens"
+          }
+        }
+      }
+    },
+    "health_category.plans" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelwensen- en plan"
           }
         }
       }
@@ -1067,17 +1188,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kies de manier waarop je wilt inloggen. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
-          }
-        }
-      }
-    },
-    "medication_details.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle medicijngegevens"
           }
         }
       }

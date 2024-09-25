@@ -25,7 +25,7 @@ jobs:
         # 🧐 when changing below, don't forget to also change the device name in the Fastfile too: 
         run: | 
           xcrun simctl boot "iPhone 15 Pro" || true
-      
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -35,7 +35,7 @@ jobs:
 
       - name: Build mint dependencies
         uses: ./.github/actions/build-mint
-      
+
       - name: Run SwiftLint 
         run: |
           make run_swiftlint
@@ -46,6 +46,9 @@ jobs:
           git checkout .
 
       - name: Generate project
+        env:
+          MGO_BASIC_AUTH_USERNAME: ${{ secrets.BASIC_AUTH_USER }}
+          MGO_BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
         run: |
           make generate_project
 
@@ -53,7 +56,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      
+
       - name: Build and test
         env:
           SLACK_URL: ${{ secrets.SLACK_URL }}
@@ -80,13 +83,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-    
+
       - name: Download Coverage file
         uses: actions/download-artifact@v4
         with:
           name: coverage.xml
           path: ./
-          
+
       - name: Run SonarCloud scanner
         uses: minvws/nl-irealisatie-generic-pipelines/.github/actions/sonarcloud@main
         with:

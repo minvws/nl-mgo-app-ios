@@ -1,0 +1,36 @@
+{
+	"id": "zib-functionalormentalstatus-01",
+	"referenceId": "Observation/zib-functionalormentalstatus-01",
+	"resourceType": "Observation",
+	"profile": "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus",
+	"identifier": [
+		{
+			"use": null,
+			"system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6",
+			"value": "1a56e129-8fdf-11ec-2982-020000000000",
+			"type": null
+		}
+	],
+	"status": "final",
+	"category": [
+		[
+			{
+				"code": "118228005",
+				"display": "Functional finding (finding)",
+				"system": "http://snomed.info/sct"
+			}
+		]
+	],
+	"subject": {
+		"reference": "Patient/nl-core-patient-01",
+		"display": "Johan XXX_Helleman"
+	},
+	"context": null,
+	"effectivePeriod": {
+		"start": "2001",
+		"end": null
+	},
+	"dataAbsentReason": null,
+	"comment": null,
+	"bodySite": null
+}

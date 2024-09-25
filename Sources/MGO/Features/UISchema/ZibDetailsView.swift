@@ -11,7 +11,7 @@ import Zibs
 
 struct ZibDetailViewState {
 	
-	var title: LocalizedStringKey
+	var title: String
 	var schema: UISchema
 }
 
@@ -30,11 +30,11 @@ class ZibDetailsViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	/// - Parameter healthcareOrganization: the healthcare organization
-	/// - Parameter repository: the repository
+	/// - Parameter title: the title for the page
+	/// - Parameter schema: the UISchema to display
 	init(
 		coordinator: (any Coordinator)? = nil,
-		title: LocalizedStringKey,
+		title: String,
 		schema: UISchema
 	) {
 		self.coordinator = coordinator
@@ -106,14 +106,14 @@ struct ZibDetailsView: View {
 						children: [
 							UISchemaGroup(
 								children: [
-									ChildElement(
+									Value(
 										display: ChildDisplay.string("Value"),
 										label: "field.label",
 										summary: true,
 										type: "Field Type",
 										reference: nil
 									),
-									ChildElement(
+									Value(
 										display: ChildDisplay.string("Value2"),
 										label: "field.label2",
 										summary: true,
@@ -125,14 +125,14 @@ struct ZibDetailsView: View {
 							
 							UISchemaGroup(
 								children: [
-									ChildElement(
+									Value(
 										display: ChildDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
 										label: "field.label3",
 										summary: true,
 										type: "Field Type",
 										reference: nil
 									),
-									ChildElement(
+									Value(
 										display: nil,
 										label: "field.label4",
 										summary: true,

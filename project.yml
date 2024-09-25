@@ -280,7 +280,9 @@ targets:
 #           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
     info:
       path: Sources/MGO/Info.plist
-#      properties:
+      properties:
+        MGO_BASIC_AUTH_PASSWORD: ${MGO_BASIC_AUTH_PASSWORD}
+        MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
 #        CFBundleURLTypes:
 #            - CFBundleTypeRole: Editor
 #              CFBundleURLName: nl.rijksoverheid.mgo

@@ -16,6 +16,7 @@ JSON body data can be greated from the resource, if the receiver holds on to one
 open class JSONRequestHandler: RequestHandlerImpl {
 	
 	override open func prepare(request: inout URLRequest) throws {
+		
 		headers[.accept] = "application/fhir+json"
 		switch method {
 			case .PUT:

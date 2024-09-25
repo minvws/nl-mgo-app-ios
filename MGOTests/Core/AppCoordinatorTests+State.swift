@@ -14,18 +14,13 @@ final class AppCoordinatorStateTests: XCTestCase {
 	
 	private var sut: AppCoordinator!
 	private var servicesSpies: ServicesSpies!
-	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	
 	override func setUpWithError() throws {
 		
 		try super.setUpWithError()
 		servicesSpies = setupServicesSpies()
-		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
-		localisationServiceClientSpy = LocalisationServiceClientSpy(serverUrl: serverUrl)
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = []
 		sut = AppCoordinator(
-			path: NavigationStackBackport.NavigationPath(),
-			localisationServiceClient: localisationServiceClientSpy
+			path: NavigationStackBackport.NavigationPath()
 		)
 	}
 	

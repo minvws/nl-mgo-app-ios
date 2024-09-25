@@ -13,7 +13,9 @@ public protocol LocalisationServiceClientProtocol {
 	
 	/// Create a LocalisationServiceClient
 	/// - Parameter serverUrl: the url for the service
-	init(serverUrl: Foundation.URL)
+	/// - Parameter username: authentication user name
+	/// - Parameter password: authentication password
+	init(serverUrl: Foundation.URL, username: String?, password: String?)
 	
 	/// Search for all the healthcare organizations with this city and name
 	/// - Parameters:
@@ -30,9 +32,26 @@ public class LocalisationServiceClient: LocalisationServiceClientProtocol {
 	
 	/// Create a LocalisationServiceClient
 	/// - Parameter serverUrl: the url for the service
-	required public init(serverUrl: Foundation.URL) {
+	/// - Parameter username: authentication user name
+	/// - Parameter password: authentication password
+	required public init(serverUrl: Foundation.URL, username: String?, password: String?) {
 		
-		self.client = Client(serverURL: serverUrl, transport: URLSessionTransport())
+		if let username, let password {
+			let authenticationMiddleWare = AuthenticationMiddleware(
+				username: username,
+				password: password
+			)
+			self.client = Client(
+				serverURL: serverUrl,
+				transport: URLSessionTransport(),
+				middlewares: [authenticationMiddleWare]
+			)
+		} else {
+			self.client = Client(
+				serverURL: serverUrl,
+				transport: URLSessionTransport()
+			)
+		}
 	}
 	
 	/// Search for all the healthcare organizations with this city and name

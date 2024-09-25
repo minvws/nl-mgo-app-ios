@@ -18,8 +18,15 @@ final class ResourceRepositoryTests: XCTestCase {
 	override func setUpWithError() throws {
 		
 		servicesSpies = setupServicesSpies()
+
 		let url = try XCTUnwrap(URL(string: "https:example.com"))
-		sut = ResourceRepository(healthcareOrganizationRepository: servicesSpies.healthcareOrganizationStoreSpy, dataRepository: servicesSpies.dataStoreSpy, serverUrl: url)
+		sut = ResourceRepository(
+			healthcareOrganizationRepository: servicesSpies.healthcareOrganizationStoreSpy,
+			dataRepository: servicesSpies.dataStoreSpy,
+			serverUrl: url,
+			username: "test",
+			password: "test"
+		)
 	}
 	
 	override func tearDown() {

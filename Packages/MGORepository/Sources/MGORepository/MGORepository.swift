@@ -20,40 +20,12 @@ public class MGORepository {
 		self.client = client
 	}
 	
-	/// Get a STU3 Bundle from the endpoint
-	/// - Parameters:
-	///   - endpoint: the endpoint to use
-	///   - dvaTarget: the target
-	/// - Returns: STU3.Bundle
-	public func getBundle(endpoint: DVP.Endpoint, dvaTarget: String) async throws -> ModelsSTU3.Bundle? {
-		
-		var path = endpoint.path
-		if let directory = endpoint.directory {
-			path += "/\(directory)"
-		}
-		
-		var parameters = RequestParameters()
-		if let params = endpoint.parameters {
-			parameters = params
-		}
-		
-		let resource = try await ModelsSTU3.Resource.readResourceFrom(
-			path,
-			client: client,
-			parameters: parameters,
-			options: [],
-			headers: RequestHeaders([RequestHeaderField.dvaTarget: dvaTarget])
-		)
-		
-		return resource as? ModelsSTU3.Bundle
-	}
-	
 	/// Get the Bundle from the DVP as data
 	/// - Parameters:
 	///   - endpoint: the endpoint to use
 	///   - dvaTarget: the dva target
 	/// - Returns: Bundle as data.
-	public func getBundleData(endpoint: DVP.Endpoint, dvaTarget: String) async throws -> Data {
+	public func getBundleData(endpoint: DVP.Endpoint, dvaTarget: String, username: String?, password: String?) async throws -> Data {
 		
 		var path = endpoint.path
 		if let directory = endpoint.directory {
@@ -65,14 +37,30 @@ public class MGORepository {
 			parameters = params
 		}
 		
+		var headers: [RequestHeaderField: String] = [RequestHeaderField.dvaTarget: dvaTarget]
+		if let basicAuth = basicAuthenticationHeader(username: username, password: password) {
+			headers[RequestHeaderField.authorization] = basicAuth
+		}
 		let data = try await client.readDataFrom(
 			path,
 			parameters: parameters,
 			options: [],
-			headers: RequestHeaders([RequestHeaderField.dvaTarget: dvaTarget])
+			headers: RequestHeaders(headers)
 		)
 		
 		return data
+	}
+	
+	private func basicAuthenticationHeader(username: String?, password: String?) -> String? {
+		
+		guard let username, let password else { return nil }
+		
+		let loginString = String(format: "%@:%@", username, password)
+		if let loginData = loginString.data(using: String.Encoding.utf8) {
+			let base64LoginString = loginData.base64EncodedString()
+			return "Basic \(base64LoginString)"
+		}
+		return nil
 	}
 	
 	/// process the bundle FHIR data into mgoResources

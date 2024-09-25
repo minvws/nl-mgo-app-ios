@@ -1,0 +1,56 @@
+{
+    "id": "zib-medicaldevice-01",
+    "referenceId": "DeviceUseStatement/zib-medicaldevice-01",
+    "resourceType": "DeviceUseStatement",
+    "profile": "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDevice",
+    "identifier": [
+        {
+            "use": null,
+            "system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6",
+            "value": "1b7c5449-8fdf-11ec-2143-020000000000",
+            "type": null
+        }
+    ],
+    "organization": {
+        "reference": "Organization/nl-core-organization-03",
+        "display": "Test Medisch Centrum"
+    },
+    "practitioner": null,
+    "reason": null,
+    "status": "active",
+    "patient": {
+        "reference": "Patient/nl-core-patient-01",
+        "display": "Johan XXX_Helleman"
+    },
+    "whenUsed": {
+        "start": "2007",
+        "end": null
+    },
+    "recordedOn": null,
+    "source": null,
+    "device": {
+        "reference": "Device/zib-MedicalDeviceProduct-03",
+        "display": "Gehoorapparaat"
+    },
+    "bodySite": [
+        {
+            "code": "117590005",
+            "display": "Ear Structure",
+            "system": "http://snomed.info/sct"
+        }
+    ],
+    "laterality": [
+        {
+            "code": "24028007",
+            "display": "Right",
+            "system": "http://snomed.info/sct"
+        }
+    ],
+    "note": [
+        {
+            "time": null,
+            "text": "Apparaat niet zichtbaar (diep in de gehooringang)",
+            "author": null
+        }
+    ]
+}
