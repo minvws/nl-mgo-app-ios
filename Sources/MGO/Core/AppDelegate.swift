@@ -28,8 +28,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		// Navigation bar
 		let appearance = UINavigationBarAppearance()
 		appearance.configureWithTransparentBackground()
-		appearance.backgroundEffect = UIBlurEffect(style: .light)
-		appearance.backgroundColor = UIColor(Theme().backgroundPrimary).withAlphaComponent(0.25)
+		appearance.backgroundEffect = UIBlurEffect(style: .systemMaterial)
+		appearance.backgroundColor = UIColor(Theme().backgroundPrimary).withAlphaComponent(0.75)
 		
 		appearance.largeTitleTextAttributes = [
 			.foregroundColor: UIColor(Theme().contentPrimary),
