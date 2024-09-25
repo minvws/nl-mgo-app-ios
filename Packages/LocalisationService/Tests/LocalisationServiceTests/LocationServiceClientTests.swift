@@ -18,13 +18,14 @@ final class LocationServiceClientTests: XCTestCase {
 	func test_client() async throws {
 		
 		// Given
-		let client = LocalisationServiceClient(username: "test", password: "test")
+		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
+		let client = LocalisationServiceClient(serverUrl: serverUrl, username: "test", password: "test")
 		stub(condition: isPath("/localization/organization/search")) { _ in
 			return HTTPStubsResponse(jsonObject: ["organizations": []], statusCode: 200, headers: nil)
 		}
 		
 		// When
-		let result = try await client?.searchHealthcareOrganizations(city: "test", name: "test")
+		let result = try await client.searchHealthcareOrganizations(city: "test", name: "test")
 		
 		// Then
 		expect(result).to(beEmpty())
