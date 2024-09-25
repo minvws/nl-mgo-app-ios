@@ -33,6 +33,8 @@ jobs:
       DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       SLACK_URL: ${{ secrets.SLACK_URL }}
+      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
 
   firebase-deploy-acc:
     if: ${{ github.event.inputs.acc == 'true' }}
@@ -46,6 +48,8 @@ jobs:
       DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       SLACK_URL: ${{ secrets.SLACK_URL }}
+      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
 
   firebase-deploy-prod:
     if: ${{ github.event.inputs.prod == 'true' }}
@@ -59,4 +63,6 @@ jobs:
       DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       SLACK_URL: ${{ secrets.SLACK_URL }}
-        
+      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
+

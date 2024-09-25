@@ -18,6 +18,7 @@ protocol ResourceRepositoryProtocol {
 	func loadFor(_ healthcareOrganization: MgoOrganization)
 }
 
+/// Load the resources from the server
 class ResourceRepository: ResourceRepositoryProtocol {
 	
 	/// Token for the observatory (needed for unregister)
@@ -27,10 +28,18 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	
 	private var dataRepository: MgoDataStoreProtocol?
 	
-	init(healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol, dataRepository: MgoDataStoreProtocol) {
+	/// the authentication username
+	private var username: String?
+	
+	/// The authentication password
+	private var password: String?
+	
+	init(healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol, dataRepository: MgoDataStoreProtocol, username: String?, password: String?) {
 		
 		self.healthcareOrganizationRepository = healthcareOrganizationRepository
 		self.dataRepository = dataRepository
+		self.username = username
+		self.password = password
 		registerObservers()
 	}
 	
@@ -96,7 +105,12 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			}
 			
 			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
-			let data = try await repository.getBundleData(endpoint: endpoint.0, dvaTarget: dvaTarget)
+			let data = try await repository.getBundleData(
+				endpoint: endpoint.0,
+				dvaTarget: dvaTarget,
+				username: username,
+				password: password
+			)
 			var mgoResources = try repository.process(data)
 			
 			mgoResources = mgoResources.filter { resource in

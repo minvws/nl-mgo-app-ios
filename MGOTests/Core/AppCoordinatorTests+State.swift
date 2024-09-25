@@ -14,17 +14,13 @@ final class AppCoordinatorStateTests: XCTestCase {
 	
 	private var sut: AppCoordinator!
 	private var servicesSpies: ServicesSpies!
-	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
-		localisationServiceClientSpy = LocalisationServiceClientSpy()
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = []
 		sut = AppCoordinator(
-			path: NavigationStackBackport.NavigationPath(),
-			localisationServiceClient: localisationServiceClientSpy
+			path: NavigationStackBackport.NavigationPath()
 		)
 	}
 	

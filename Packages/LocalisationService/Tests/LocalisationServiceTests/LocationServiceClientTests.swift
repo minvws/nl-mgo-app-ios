@@ -18,7 +18,7 @@ final class LocationServiceClientTests: XCTestCase {
 	func test_client() async throws {
 		
 		// Given
-		let client = LocalisationServiceClient()
+		let client = LocalisationServiceClient(username: "test", password: "test")
 		stub(condition: isPath("/localization/organization/search")) { _ in
 			return HTTPStubsResponse(jsonObject: ["organizations": []], statusCode: 200, headers: nil)
 		}

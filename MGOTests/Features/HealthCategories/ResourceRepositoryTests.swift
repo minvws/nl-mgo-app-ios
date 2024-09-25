@@ -17,7 +17,12 @@ final class ResourceRepositoryTests: XCTestCase {
 	
 	override func setUp() {
 		servicesSpies = setupServicesSpies()
-		sut = ResourceRepository(healthcareOrganizationRepository: servicesSpies.healthcareOrganizationStoreSpy, dataRepository: servicesSpies.dataStoreSpy)
+		sut = ResourceRepository(
+			healthcareOrganizationRepository: servicesSpies.healthcareOrganizationStoreSpy,
+			dataRepository: servicesSpies.dataStoreSpy,
+			username: "test",
+			password: "test"
+		)
 	}
 	
 	override func tearDown() {
