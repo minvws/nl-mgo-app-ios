@@ -297,7 +297,7 @@ struct OrganizationSearchResultsView: View {
 
 #Preview {
 	
-	let spy = LocalisationServiceClientSpy()
+	let spy = LocalisationServiceClientSpy(username: "", password: "")
 	spy.stubbedSearchHealthcareOrganizations = [
 		PreviewContent.healthcareOrganization,
 		MgoOrganization(

@@ -21,12 +21,17 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		localisationServiceClientSpy = LocalisationServiceClientSpy()
+		localisationServiceClientSpy = LocalisationServiceClientSpy(username: nil, password: nil)
 	}
 	
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
-		sut = OrganizationSearchResultsViewModel(coordinator: coordinatorSpy, city: city, name: name, localisationServiceClient: localisationServiceClientSpy)
+		sut = OrganizationSearchResultsViewModel(
+			coordinator: coordinatorSpy,
+			city: city,
+			name: name,
+			localisationServiceClient: localisationServiceClientSpy
+		)
 	}
 
 	func test_loading() {
@@ -44,7 +49,12 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 	func test_noLocalisationServiceClient() {
 		
 		// Given
-		sut = OrganizationSearchResultsViewModel(coordinator: self.coordinatorSpy, city: "Roermond", name: "Tandarts Tandje Erbij", localisationServiceClient: nil)
+		sut = OrganizationSearchResultsViewModel(
+			coordinator: self.coordinatorSpy,
+			city: "Roermond",
+			name: "Tandarts Tandje Erbij",
+			localisationServiceClient: nil
+		)
 		
 		// When
 		sut.reduce(.onAppear)

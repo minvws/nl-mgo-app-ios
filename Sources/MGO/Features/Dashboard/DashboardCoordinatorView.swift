@@ -266,7 +266,11 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
 			
 			case let .healthcareOrganizationSearchResults(city, name):
-				OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: LocalisationServiceClient())).isPresentedAsSheet(true)
+				let username = ProcessInfo.processInfo.environment["MGO_BASIC_AUTH_USERNAME"]
+				let password = ProcessInfo.processInfo.environment["MGO_BASIC_AUTH_PASSWORD"]
+				let client: LocalisationServiceClientProtocol? = LocalisationServiceClient(username: username, password: password)
+
+				OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: client)).isPresentedAsSheet(true)
 			
 			case .listHealthcareOrganizations:
 				OrganizationListView(viewModel: OrganizationListViewModel(coordinator: self)).isPresentedAsSheet(true)

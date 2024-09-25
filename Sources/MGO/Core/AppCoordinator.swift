@@ -116,9 +116,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// the browser to open allowed domains in
 	private var browser: RestrictedBrowser!
 	
-	/// The localisation client
-	private var localisationServiceClient: LocalisationServiceClientProtocol?
-	
 	/// Token for the observatory 
 	private var observerToken: Observatory.ObserverToken?
 	
@@ -134,13 +131,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// - Parameter path: Navigation Path
 	init(
 		path: NavigationStackBackport.NavigationPath,
-		localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(),
 		versionSupplier: AppVersionSupplierProtocol = AppVersionSupplier(),
 		browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
 	) {
-		
 		self.path = path
-		self.localisationServiceClient = localisationServiceClient
 		self.versionSupplier = versionSupplier
 		self.browser = browser
 		self.rootState = .splash

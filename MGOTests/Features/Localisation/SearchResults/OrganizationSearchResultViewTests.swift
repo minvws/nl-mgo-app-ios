@@ -23,12 +23,17 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		localisationServiceClientSpy = LocalisationServiceClientSpy()
+		localisationServiceClientSpy = LocalisationServiceClientSpy(username: "test", password: "test")
 	}
 	
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
-		viewModel = OrganizationSearchResultsViewModel(coordinator: coordinatorSpy, city: city, name: name, localisationServiceClient: localisationServiceClientSpy)
+		viewModel = OrganizationSearchResultsViewModel(
+			coordinator: coordinatorSpy,
+			city: city,
+			name: name,
+			localisationServiceClient: localisationServiceClientSpy
+		)
 		sut = OrganizationSearchResultsView(viewModel: self.viewModel)
 	}
 

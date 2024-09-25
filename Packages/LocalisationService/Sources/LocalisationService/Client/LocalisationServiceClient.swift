@@ -12,7 +12,10 @@ import Foundation
 public protocol LocalisationServiceClientProtocol {
 	
 	/// Create a localisation service client
-	init?()
+	/// - Parameters:
+	///   - username: authentication user name
+	///   - password: authentication password
+	init?(username: String?, password: String?)
 	
 	/// Search for all the healthcare organizations with this city and name
 	/// - Parameters:
@@ -28,21 +31,29 @@ public class LocalisationServiceClient: LocalisationServiceClientProtocol {
 	private var client: Client
 	
 	/// Create a localisation service client
-	required public init?() {
+	/// - Parameters:
+	///   - username: authentication user name
+	///   - password: auhtentication password
+	required public init?(username: String?, password: String?) {
 		
 		guard let serverUrl = try? Servers.server1() else { return nil }
-		guard let username = ProcessInfo.processInfo.environment["MGO_BASIC_AUTH_USERNAME"],
-			  let password = ProcessInfo.processInfo.environment["MGO_BASIC_AUTH_PASSWORD"] else { return nil }
 		
-		let authenticationMiddleWare = AuthenticationMiddleware(
-			username: username,
-			password: password
-		)
-		self.client = Client(
-			serverURL: serverUrl,
-			transport: URLSessionTransport(),
-			middlewares: [authenticationMiddleWare]
-		)
+		if let username, let password {
+			let authenticationMiddleWare = AuthenticationMiddleware(
+				username: username,
+				password: password
+			)
+			self.client = Client(
+				serverURL: serverUrl,
+				transport: URLSessionTransport(),
+				middlewares: [authenticationMiddleWare]
+			)
+		} else {
+			self.client = Client(
+				serverURL: serverUrl,
+				transport: URLSessionTransport()
+			)
+		}
 	}
 	
 	/// Search for all the healthcare organizations with this city and name
