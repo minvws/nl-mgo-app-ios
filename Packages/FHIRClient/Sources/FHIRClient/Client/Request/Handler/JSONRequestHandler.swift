@@ -17,15 +17,6 @@ open class JSONRequestHandler: RequestHandlerImpl {
 	
 	override open func prepare(request: inout URLRequest) throws {
 		
-		if let username = ProcessInfo.processInfo.environment["MGO_BASIC_AUTH_USERNAME"],
-		   let password = ProcessInfo.processInfo.environment["MGO_BASIC_AUTH_PASSWORD"] {
-			let loginString = String(format: "%@:%@", username, password)
-			if let loginData = loginString.data(using: String.Encoding.utf8) {
-				let base64LoginString = loginData.base64EncodedString()
-				headers[.authorization] = "Basic \(base64LoginString)"
-			}
-		}
-		
 		headers[.accept] = "application/fhir+json"
 		switch method {
 			case .PUT:

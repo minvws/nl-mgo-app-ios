@@ -56,7 +56,9 @@ private let secureUserSettings = SecureUserSettings()
 private let remoteConfigurationRepository = RemoteConfigurationRepository()
 private let resourceRepository = ResourceRepository(
 	healthcareOrganizationRepository: healthcareOrganizationStore,
-	dataRepository: dataStore
+	dataRepository: dataStore,
+	username: ProcessInfo.processInfo.environment["MGO_BASIC_AUTH_USERNAME"],
+	password: ProcessInfo.processInfo.environment["MGO_BASIC_AUTH_PASSWORD"]
 )
 
 // MARK: - 3: Instantiate the Services using private dependencies:

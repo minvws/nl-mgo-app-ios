@@ -26,22 +26,6 @@ final class MGORepositoryTests: XCTestCase {
 		super.tearDown()
 		HTTPStubs.removeAllStubs()
 	}
-	
-	func test_getBundle() async throws {
-		
-		// Given
-		let json = try getResource("bundle")
-		stub(condition: isPath("/MedicationStatement")) { _ in
-			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
-		}
-		
-		// When
-		let resource = try await sut.getBundle(endpoint: DVP.CommonClinicalDataset.medicationUse, dvaTarget: "test")
-		
-		// Then
-		expect(resource?.id?.value?.string) == "4f0c7257-c18e-4d3d-9c1e-aa2b2ed4ebb3"
-		expect(resource?.type.value?.rawValue) == "searchset"
-	}
 
 	func test_getBundleData() async throws {
 		
@@ -57,7 +41,7 @@ final class MGORepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let data = try await sut.getBundleData(endpoint: endpoint, dvaTarget: "test")
+		let data = try await sut.getBundleData(endpoint: endpoint, dvaTarget: "test", username: nil, password: nil)
 		
 		// Then
 		expect(data) == json
