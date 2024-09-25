@@ -6,6 +6,8 @@ info:
 servers:
   - url: https://app-api.test.mgo.irealisatie.nl/v1/mgo
     description: Application API TEST
+  - url: https://app-api.acc.mgo.irealisatie.nl/v1/mgo
+    description: Application API Acceptance
 paths:
   "config":
     get:

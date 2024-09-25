@@ -17,9 +17,11 @@ final class RemoteConfigurationClientTests: XCTestCase {
 		HTTPStubs.removeAllStubs()
 	}
 	
-	override func setUp() {
+	override func setUpWithError() throws {
 		
-		sut = try? XCTUnwrap(RemoteConfigurationClient())
+		try super.setUpWithError()
+		let serverUrl = try XCTUnwrap(URL(string: "https://example.com/v1/mgo"))
+		sut = try XCTUnwrap(RemoteConfigurationClient(serverUrl: serverUrl))
 	}
 	
 	func test_fetchRemoteConfig() async throws {

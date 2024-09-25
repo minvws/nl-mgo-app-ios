@@ -5,6 +5,8 @@ info:
 servers:
   - url: https://lo-ad.test.mgo.irealisatie.nl
     description: MGO TEST localisation
+  - url: https://lo-ad.acc.mgo.irealisatie.nl
+    description: MGO Acceptance localisation
 paths:
   "localization/organization/search":
     post:
@@ -146,7 +148,7 @@ components:
           type: string
           title: Identification Value
         active:
-          type: boolean
+          type: [boolean, null]
           title: Active
         addresses:
           items:
@@ -173,7 +175,6 @@ components:
       - display_name
       - identification_type
       - identification_value
-      - active
       - addresses
       - names
       - types

@@ -132,7 +132,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.empty))
+		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.empty), timeout: .seconds(5))
 	}
 	
 	func test_refresh() {

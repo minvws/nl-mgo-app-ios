@@ -28,16 +28,31 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	
 	private var dataRepository: MgoDataStoreProtocol?
 	
+	private var serverUrl: Foundation.URL
+	
 	/// the authentication username
 	private var username: String?
 	
 	/// The authentication password
 	private var password: String?
 	
-	init(healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol, dataRepository: MgoDataStoreProtocol, username: String?, password: String?) {
+	/// Create the Resource Repository
+	/// - Parameters:
+	///   - healthcareOrganizationRepository: the repository for healthcare organizations
+	///   - dataRepository: the repository for data storage
+	///   - serverUrl: the url of the server
+	///   - username: the authentication username
+	///   - password: the authentication password
+	init(
+		healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol,
+		dataRepository: MgoDataStoreProtocol,
+		serverUrl: Foundation.URL,
+		username: String?,
+		password: String?) {
 		
 		self.healthcareOrganizationRepository = healthcareOrganizationRepository
 		self.dataRepository = dataRepository
+		self.serverUrl = serverUrl
 		self.username = username
 		self.password = password
 		registerObservers()
@@ -93,10 +108,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	///   - category: the category to load the resources for.
 	private func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async throws {
 		
-		guard let client = FHIRClient() else {
-			return
-		}
-		let repository = MGORepository(client: client)
+		let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
 		
 		for endpoint in category.endPoint {
 			

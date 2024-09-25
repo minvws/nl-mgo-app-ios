@@ -53,10 +53,13 @@ private let localAuthenticationProvider = LocalAuthenticationProvider()
 private let now: () -> Date = Date.init
 private let notificationCenter = NotificationCenter.default
 private let secureUserSettings = SecureUserSettings()
-private let remoteConfigurationRepository = RemoteConfigurationRepository()
+private let remoteConfigurationRepository = RemoteConfigurationRepository(
+	apiClient: RemoteConfigurationClient(serverUrl: Configuration().urlForRemoteConfiguration())
+)
 private let resourceRepository = ResourceRepository(
 	healthcareOrganizationRepository: healthcareOrganizationStore,
 	dataRepository: dataStore,
+	serverUrl: Configuration().urlForDVP(),
 	username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
 	password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
 )

@@ -268,9 +268,17 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case let .healthcareOrganizationSearchResults(city, name):
 				let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String
 				let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-				let client: LocalisationServiceClientProtocol? = LocalisationServiceClient(username: username, password: password)
-
-				OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(coordinator: self, city: city, name: name, localisationServiceClient: client)).isPresentedAsSheet(true)
+				let client: LocalisationServiceClientProtocol? = LocalisationServiceClient(
+					serverUrl: Configuration().urlForLocalisation(),
+					username: username,
+					password: password
+				)
+				OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(
+					coordinator: self,
+					city: city,
+					name: name,
+					localisationServiceClient: client)
+				).isPresentedAsSheet(true)
 			
 			case .listHealthcareOrganizations:
 				OrganizationListView(viewModel: OrganizationListViewModel(coordinator: self)).isPresentedAsSheet(true)

@@ -15,9 +15,9 @@ final class AppCoordinatorStateTests: XCTestCase {
 	private var sut: AppCoordinator!
 	private var servicesSpies: ServicesSpies!
 	
-	override func setUp() {
+	override func setUpWithError() throws {
 		
-		super.setUp()
+		try super.setUpWithError()
 		servicesSpies = setupServicesSpies()
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath()

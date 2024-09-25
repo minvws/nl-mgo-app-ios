@@ -15,11 +15,15 @@ final class ResourceRepositoryTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var sut: ResourceRepository!
 	
-	override func setUp() {
+	override func setUpWithError() throws {
+		
 		servicesSpies = setupServicesSpies()
+
+		let url = try XCTUnwrap(URL(string: "https:example.com"))
 		sut = ResourceRepository(
 			healthcareOrganizationRepository: servicesSpies.healthcareOrganizationStoreSpy,
 			dataRepository: servicesSpies.dataStoreSpy,
+			serverUrl: url,
 			username: "test",
 			password: "test"
 		)
@@ -35,7 +39,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		let json = try getResource("bundle")
-		stub(condition: isPath("/fhir/MedicationStatement")) { _ in
+		stub(condition: isPath("/MedicationStatement")) { _ in
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
 		}
 		
@@ -52,7 +56,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [Generator.healthcareOrganization("1")]
 		let json = try getResource("bundle")
 
-		stub(condition: isPath("/fhir/MedicationStatement")) { _ in
+		stub(condition: isPath("/MedicationStatement")) { _ in
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
 		}
 		
@@ -66,10 +70,13 @@ final class ResourceRepositoryTests: XCTestCase {
 	func test_load_twoOrganizations() throws {
 		
 		// Given
-		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [Generator.healthcareOrganization("1"), Generator.healthcareOrganization("2")]
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
+			Generator.healthcareOrganization("1"),
+			Generator.healthcareOrganization("2")
+		]
 		let json = try getResource("bundle")
 
-		stub(condition: isPath("/fhir/MedicationStatement")) { _ in
+		stub(condition: isPath("/MedicationStatement")) { _ in
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
 		}
 		
@@ -77,6 +84,6 @@ final class ResourceRepositoryTests: XCTestCase {
 		sut.load()
 		
 		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(2))
+		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(2), timeout: .seconds(5))
 	}
 }

@@ -18,12 +18,17 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 	private var viewModel: OrganizationSearchResultsViewModel!
 	private var sut: OrganizationSearchResultsView!
 
-	override func setUp() {
+	override func setUpWithError() throws {
 		
-		super.setUp()
+		try super.setUpWithError()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		localisationServiceClientSpy = LocalisationServiceClientSpy(username: "test", password: "test")
+		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
+		localisationServiceClientSpy = LocalisationServiceClientSpy(
+			serverUrl: serverUrl,
+			username: "test",
+			password: "test"
+		)
 	}
 	
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {

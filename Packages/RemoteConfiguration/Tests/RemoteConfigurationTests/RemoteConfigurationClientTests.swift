@@ -14,10 +14,12 @@ final class RemoteConfigurationRepositoryTests: XCTestCase {
 	private var clientSpy: RemoteConfigurationClientSpy!
 	private var sut: RemoteConfigurationRepository!
 	
-	override func setUp() {
+	override func setUpWithError() throws {
 		
+		try super.setUpWithError()
+		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
 		storageSpy = FileStorageSpy()
-		clientSpy = RemoteConfigurationClientSpy()
+		clientSpy = RemoteConfigurationClientSpy(serverUrl: serverUrl)
 		sut = RemoteConfigurationRepository(storage: storageSpy, apiClient: clientSpy)
 	}
 	
