@@ -270,6 +270,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				showChildCoordinator = false
 				Current.wipePersistedData()
 				path.removeLast(path.count)
+				self.rootState = .splash
 				Current.notificationCenter.post(name: .resetApplication, object: nil)
 			
 			default:
