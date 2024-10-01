@@ -108,18 +108,20 @@ class HealthCategoryViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The organization to show the categories for (optional, if nil, then show all organizations)
-	private var organizationId: String?
+	private var organization: MgoOrganization?
 	
 	/// The category to show
-	private var categoryId: String
+	private var category: HealthCategories.Category
 	
 	/// The text to filter the results on. 
 	@Published var searchText = ""
 	
+	/// Token for the data store observatory
+	private var dataStoreToken: Observatory.ObserverToken?
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-		case closeBanner
 		case onAppear
 		case retry
 	}
@@ -128,15 +130,25 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
-		categoryId: String,
-		organizationId: String?,
+		category: HealthCategories.Category,
+		organization: MgoOrganization?,
 		translations: HealthCategoryViewTranslations
 	) {
 		self.coordinator = coordinator
-		self.categoryId = categoryId
-		self.organizationId = organizationId
+		self.category = category
+		self.organization = organization
 		self.state = .loading
 		self.translations = translations
+		registerObservers()
+	}
+	
+	private func registerObservers() {
+		self.dataStoreToken = Current.dataStore.observatory.append { [weak self] changed in
+			if changed {
+				// Handle updates in the fetched data
+				self?.handleDataStoreChanges()
+			}
+		}
 	}
 	
 	/// Handle any action
@@ -146,29 +158,70 @@ class HealthCategoryViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
-			case .closeBanner:
-				logInfo("close banner")
 			case .onAppear:
 				_Concurrency.Task {
 					 await loadResources()
 				}
 			case .retry:
-				logInfo("Retry")
+				retry()
+				Haptic.light()
+		}
+	}
+	
+	func retry() {
+		
+		state = .loading
+		Current.dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
+		
+		guard category.services.isNotEmpty else {
+			_Concurrency.Task { await loadResources() }
+			return
+		}
+		
+		_Concurrency.Task {
+			if let organization {
+				await Current.resourceRepository.loadResource(organization, category: category)
+			} else {
+				await Current.resourceRepository.loadFor(category)
+			}
+		}
+	}
+	
+	func handleDataStoreChanges() {
+		let expectedNumberOfResults: Int = {
+			if organization == nil {
+				return category.services.count * Current.healthcareOrganizationStore.organizations.count
+			} else {
+				return category.services.count
+			}
+		}()
+		
+		logInfo("HealthCategoryViewModel: expectedNumberOfResults = \(expectedNumberOfResults)")
+		
+		_Concurrency.Task {
+			 await loadResources(threshold: expectedNumberOfResults)
 		}
 	}
 	
 	@MainActor
-	func loadResources() async {
+	func loadResources(threshold: Int = 0) async {
 		
 		let cacheResult: Result<[MgoResourceRecord], Error> = {
-			if let organizationId {
-				return Current.dataStore.get(categoryId: categoryId, organizationId: organizationId)
+			if let organization {
+				return Current.dataStore.get(categoryId: "\(category.rawValue)", organizationId: organization.identifier)
 			} else {
-				return Current.dataStore.get(categoryId: categoryId)
+				return Current.dataStore.get(categoryId: "\(category.rawValue)")
 			}
 		}()
+		
 		switch cacheResult {
 			case .success(let records):
+				guard records.count >= threshold else {
+					// Not all results are in. Keep loading
+					state = .loading
+					return
+				}
+			
 				var items = [HealthCategoryBlock]()
 				var partial = false
 				for record in records {
@@ -219,7 +272,7 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Returns: optional name
 	func getOrganizationName(_ identifier: String) -> String? {
 		
-		return 	Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }?.display_name
+		return Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }?.display_name
 	}
 }
 
@@ -408,8 +461,8 @@ struct HealthCategoryView: View {
 		HealthCategoryView(
 			viewModel: HealthCategoryViewModel(
 				coordinator: nil,
-				categoryId: "1",
-				organizationId: "1",
+				category: HealthCategories.Category.medication,
+				organization: PreviewContent.healthcareOrganization,
 				translations: HealthCategoryViewTranslations(
 					heading: "health_category.medication",
 					search: "health_category.medication.search",

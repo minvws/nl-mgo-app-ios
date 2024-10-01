@@ -32,6 +32,11 @@ public protocol MgoDataStoreProtocol {
 	/// Remove all entries from the store for this organization
 	/// - Parameter organizationId: the id of the organization to remove for
 	func removeRecords(for organizationId: String)
+	
+	/// Remove all entries from the store for this organization and category
+	/// - Parameter categoryID: the id of the category to remove for
+	/// - Parameter organizationId: the id of the organization to remove for
+	func removeRecords(for categoryID: String, organizationId: String?)
 
 	/// Remove all records from the store
 	func removeAllRecords()

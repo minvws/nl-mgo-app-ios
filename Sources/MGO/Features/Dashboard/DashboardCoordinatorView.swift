@@ -77,7 +77,7 @@ enum DashboardCoordination {
 		// Details Flow
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
-		case showHealthCategory(category: HealthCategories.Category, organizationId: String?)
+		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
 		case showZibDetails(heading: String, schema: UISchema)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
@@ -174,10 +174,10 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				if action.params.count == 2,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let category = action.params["category"] as? HealthCategories.Category {
-					setState(DashboardCoordination.State.showHealthCategory(category: category, organizationId: healthcareOrganization.identifier))
+					setState(DashboardCoordination.State.showHealthCategory(category: category, organization: healthcareOrganization))
 				} else if action.params.count == 1,
 						  let category = action.params["category"] as? HealthCategories.Category {
-					setState(DashboardCoordination.State.showHealthCategory(category: category, organizationId: nil))
+					setState(DashboardCoordination.State.showHealthCategory(category: category, organization: nil))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -314,9 +314,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					)
 				)
 				
-			case let .showHealthCategory(category: category, organizationId: organizationId):
+			case let .showHealthCategory(category: category, organization: organization):
 				
-				viewState(for: category, organizationId: organizationId)
+				viewState(for: category, organization: organization)
 				
 			default:
 				EmptyView()
@@ -324,56 +324,56 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		}
 	}
 	
-	@ViewBuilder private func viewState(for category: HealthCategories.Category, organizationId: String? = nil) -> some View {
+	@ViewBuilder private func viewState(for category: HealthCategories.Category, organization: MgoOrganization? = nil) -> some View {
 
 		switch category {
 			case HealthCategories.Category.medication:
-				HealthCategoryView(viewModel: MedicationHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: MedicationHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.measurements:
-				HealthCategoryView(viewModel: MeasurementsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: MeasurementsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.labresults:
-				HealthCategoryView(viewModel: LabResultsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: LabResultsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.allergies:
-				HealthCategoryView(viewModel: AllergiesHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: AllergiesHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.treatments:
-				HealthCategoryView(viewModel: TreatmentsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: TreatmentsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.appointments:
-				HealthCategoryView(viewModel: AppointmentsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: AppointmentsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.vaccinations:
-				HealthCategoryView(viewModel: VaccinationsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: VaccinationsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.documents:
-				HealthCategoryView(viewModel: DocumentsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: DocumentsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.complaints:
-				HealthCategoryView(viewModel: ComplaintsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: ComplaintsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.patient:
-				HealthCategoryView(viewModel: PatientHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: PatientHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.alerts:
-				HealthCategoryView(viewModel: AlertsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: AlertsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.payment:
-				HealthCategoryView(viewModel: PaymentHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: PaymentHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.plans:
-				HealthCategoryView(viewModel: PlansHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: PlansHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.devices:
-				HealthCategoryView(viewModel: DevicesHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: DevicesHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.functionalOrMentalStatus:
-				HealthCategoryView(viewModel: MentalStatusHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: MentalStatusHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.lifestyle:
-				HealthCategoryView(viewModel: LifestyleHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
+				HealthCategoryView(viewModel: LifestyleHealthCategoryViewModel(coordinator: self, organization: organization))
 		}
 	}
 }

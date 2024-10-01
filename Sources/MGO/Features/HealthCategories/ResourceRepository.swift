@@ -16,6 +16,16 @@ protocol ResourceRepositoryProtocol {
 	/// Load all the categories for a healthcare organization
 	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
 	func loadFor(_ healthcareOrganization: MgoOrganization)
+	
+	/// Load all the categories for a category
+	/// - Parameter category: the category to load  for
+	func loadFor(_ category: HealthCategories.Category) async
+	
+	/// Load the resources
+	/// - Parameters:
+	///   - healthcareOrganization: healthcare organization
+	///   - category: the category to load the resources for.
+	func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async
 }
 
 /// Load the resources from the server
@@ -92,6 +102,18 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		}
 	}
 	
+	/// Load all the categories for a category
+	/// - Parameter category: the category to load  for
+	func loadFor(_ category: HealthCategories.Category) async {
+		logVerbose("ResourceRepository - LoadFor", category)
+		
+		guard let healthcareOrganizationRepository else { return }
+		
+		for healthcareOrganization in healthcareOrganizationRepository.organizations {
+			_Concurrency.Task { await loadResource(healthcareOrganization, category: category) }
+		}
+	}
+	
 	/// Load all the categories for all the stored healthcare organizations
 	func load() {
 		
@@ -106,7 +128,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
 	///   - category: the category to load the resources for.
-	private func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async {
+	func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async {
 		
 		let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
 		

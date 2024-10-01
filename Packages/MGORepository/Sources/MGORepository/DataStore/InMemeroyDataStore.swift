@@ -86,6 +86,23 @@ public class InMemoryDataStore: MgoDataStoreProtocol {
 		}
 	}
 	
+	/// Remove all entries from the store for this organization and category
+	/// - Parameter categoryID: the id of the category to remove for
+	/// - Parameter organizationId: the id of the organization to remove for
+	public func removeRecords(for categoryId: String, organizationId: String?) {
+		queue.sync {
+			if let organizationId {
+				dataSource = dataSource.filter({ entry in
+					entry.organizationId != organizationId && entry.categoryId != categoryId
+				})
+			} else {
+				dataSource = dataSource.filter({ entry in
+					entry.categoryId != categoryId
+				})
+			}
+		}
+	}
+	
 	/// Remove all records from the store
 	public func removeAllRecords() {
 		queue.sync {

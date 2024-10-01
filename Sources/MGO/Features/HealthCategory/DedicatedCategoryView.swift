@@ -10,11 +10,11 @@ import MGOUI
 
 class AlertsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.alerts.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.alerts,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.alerts",
 				search: "health_category.alerts.search",
@@ -27,11 +27,11 @@ class AlertsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class AllergiesHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.allergies.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.allergies,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.allergies",
 				search: "health_category.allergies.search",
@@ -44,11 +44,11 @@ class AllergiesHealthCategoryViewModel: HealthCategoryViewModel {
 
 class AppointmentsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.appointments.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.appointments,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.appointments",
 				search: "health_category.appointments.search",
@@ -61,11 +61,11 @@ class AppointmentsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class ComplaintsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.complaints.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.complaints,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.complaints",
 				search: "health_category.complaints.search",
@@ -78,11 +78,11 @@ class ComplaintsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class DevicesHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.devices.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.devices,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.devices",
 				search: "health_category.devices.search",
@@ -95,11 +95,11 @@ class DevicesHealthCategoryViewModel: HealthCategoryViewModel {
 
 class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.documents.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.documents,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.documents",
 				search: "health_category.documents.search",
@@ -112,11 +112,11 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class LabResultsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.labresults.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.labresults,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.labresults",
 				search: "health_category.labresults.search",
@@ -129,11 +129,11 @@ class LabResultsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class LifestyleHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.lifestyle.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.lifestyle,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.lifestyle",
 				search: "health_category.lifestyle.search",
@@ -146,11 +146,11 @@ class LifestyleHealthCategoryViewModel: HealthCategoryViewModel {
 
 class MeasurementsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.measurements.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.measurements,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.measurements",
 				search: "health_category.measurements.search",
@@ -163,11 +163,11 @@ class MeasurementsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class MedicationHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.medication.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.medication,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.medication",
 				search: "health_category.medication.search",
@@ -180,11 +180,11 @@ class MedicationHealthCategoryViewModel: HealthCategoryViewModel {
 
 class MentalStatusHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.functionalOrMentalStatus,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.mental",
 				search: "health_category.mental.search",
@@ -197,11 +197,11 @@ class MentalStatusHealthCategoryViewModel: HealthCategoryViewModel {
 
 class PatientHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.patient.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.patient,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.patient",
 				search: "health_category.patient.search",
@@ -214,11 +214,11 @@ class PatientHealthCategoryViewModel: HealthCategoryViewModel {
 
 class PaymentHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.payment.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.payment,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.payment",
 				search: "health_category.payment.search",
@@ -231,11 +231,11 @@ class PaymentHealthCategoryViewModel: HealthCategoryViewModel {
 
 class PlansHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.plans.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.plans,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.plans",
 				search: "health_category.plans.search",
@@ -248,11 +248,11 @@ class PlansHealthCategoryViewModel: HealthCategoryViewModel {
 
 class TreatmentsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.treatments.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.treatments,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.treatments",
 				search: "health_category.treatments.search",
@@ -265,11 +265,11 @@ class TreatmentsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class VaccinationsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
+	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.vaccinations.rawValue)",
-			organizationId: organizationId,
+			category: HealthCategories.Category.vaccinations,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.vaccinations",
 				search: "health_category.vaccinations.search",

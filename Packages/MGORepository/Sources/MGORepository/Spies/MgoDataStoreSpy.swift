@@ -76,6 +76,18 @@ public class MgoDataStoreSpy: MgoDataStoreProtocol {
 		invokedRemoveRecordsParametersList.append((organizationId, ()))
 	}
 
+	public var invokedRemoveRecordsFor = false
+	public var invokedRemoveRecordsForCount = 0
+	public var invokedRemoveRecordsForParameters: (categoryID: String, organizationId: String?)?
+	public var invokedRemoveRecordsForParametersList = [(categoryID: String, organizationId: String?)]()
+
+	public func removeRecords(for categoryID: String, organizationId: String?) {
+		invokedRemoveRecordsFor = true
+		invokedRemoveRecordsForCount += 1
+		invokedRemoveRecordsForParameters = (categoryID, organizationId)
+		invokedRemoveRecordsForParametersList.append((categoryID, organizationId))
+	}
+
 	public var invokedRemoveAllRecords = false
 	public var invokedRemoveAllRecordsCount = 0
 
