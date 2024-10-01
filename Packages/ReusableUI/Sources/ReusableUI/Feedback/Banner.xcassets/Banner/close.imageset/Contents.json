@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "close.svg",
+      "filename" : "close_small.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "close_small 1.svg",
       "idiom" : "universal"
     }
   ],

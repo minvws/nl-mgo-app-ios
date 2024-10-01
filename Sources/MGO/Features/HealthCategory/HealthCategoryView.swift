@@ -10,8 +10,14 @@ import MGOUI
 import JavaScriptCore
 import Zibs
 
+/// A small struct for each category result
 struct HealthCategoryBlock: Equatable, Identifiable {
 	
+	/// Equality
+	/// - Parameters:
+	///   - lhs: the left hand block
+	///   - rhs: the right hand block
+	/// - Returns: True is both blocks are equal
 	static func == (lhs: HealthCategoryBlock, rhs: HealthCategoryBlock) -> Bool {
 		return lhs.heading == rhs.heading &&
 		lhs.subHeading == rhs.subHeading &&
@@ -27,26 +33,30 @@ struct HealthCategoryBlock: Equatable, Identifiable {
 	var action: (() -> Void)?
 }
 
+/// The state of the view
 enum HealthCategoryViewState: Equatable {
-	
-	case loading
-	case failure
-	case empty
-	case success(items: [HealthCategoryBlock])
 
+	/// The data is being loading
+	case loading
+	
+	/// All the data is available
+	case list(items: [HealthCategoryBlock])
+	
+	/// Only partial data is available
+	case partial(items: [HealthCategoryBlock])
+	
+	/// Equality
+	/// - Parameters:
+	///   - lhs: left hand state
+	///   - rhs: right hand state
+	/// - Returns: True if both states are equal
 	static func == (lhs: HealthCategoryViewState, rhs: HealthCategoryViewState) -> Bool {
 		switch (lhs, rhs) {
 			
 			case (.loading, .loading):
 				return true
-				
-			case (.failure, .failure):
-				return true
-				
-			case (.empty, .empty):
-				return true
 			
-			case let(.success(lhsList), .success(rhsList)):
+			case let(.list(lhsList), .list(rhsList)):
 			
 				guard lhsList.count == rhsList.count else { return false }
 				var result = true
@@ -55,12 +65,22 @@ enum HealthCategoryViewState: Equatable {
 				}
 				return result
 			
+			case let(.partial(lhsList), .partial(rhsList)):
+		
+				guard lhsList.count == rhsList.count else { return false }
+				var result = true
+				for index in lhsList.indices {
+					result = result && lhsList[index] == rhsList[index]
+				}
+			return result
+			
 			default:
 				return false
 		}
 	}
 }
 
+// A small struct for the various translations for each category
 struct HealthCategoryViewTranslations {
 
 	/// the title key of the page
@@ -99,7 +119,9 @@ class HealthCategoryViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
+		case closeBanner
 		case onAppear
+		case retry
 	}
 	
 	/// Create a MedicationOverview VM
@@ -124,10 +146,14 @@ class HealthCategoryViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
+			case .closeBanner:
+				logInfo("close banner")
 			case .onAppear:
 				_Concurrency.Task {
 					 await loadResources()
 				}
+			case .retry:
+				logInfo("Retry")
 		}
 	}
 	
@@ -144,16 +170,18 @@ class HealthCategoryViewModel: ObservableObject {
 		switch cacheResult {
 			case .success(let records):
 				var items = [HealthCategoryBlock]()
+				var partial = false
 				for record in records {
 					items.append(contentsOf: parseRecord(record))
+					partial = partial || record.error
 				}
-				if items.isEmpty {
-					state = .empty
+				if partial {
+					state = .partial(items: items)
 				} else {
-					state = .success(items: items)
+					state = .list(items: items)
 				}
 			case .failure:
-				state = .failure
+				state = .partial(items: [])
 		}
 	}
 	
@@ -203,6 +231,8 @@ struct HealthCategoryView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	@State private var showBanner = true
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -237,25 +267,30 @@ struct HealthCategoryView: View {
 						showBorder: false
 					)
 					
-				case .empty:
+				case let .list(items):
 					
-					NotificationCardView(
-						icon: Image(ImageResource.Woman.womanOnCouch),
-						title: "common.no_results_heading",
-						message: "common.no_results_subheading"
-					)
-					
-				case .failure:
-					
-					NotificationCardView(
-						icon: Image(ImageResource.Woman.womanOnCouchExclamation),
-						title: "common.failure_heading",
-						message: "common.failure_subheading"
-					)
-					
-				case let .success(items):
-					
-					listOverviewBlocks(list: items)
+					listOverview(list: items)
+				
+				case let .partial(items: items):
+				
+					if showBanner {
+						BannerView(
+							Feedback(
+								title: String(localized: "health_category.error.banner.heading"),
+								subtitle: String(localized: "health_category.error.banner.subheading"),
+								actionTitle: String(localized: "health_category.error.banner.try_again"),
+								type: .warning,
+								perform: {
+									viewModel.reduce(.retry)
+								}
+							)
+						) {
+							withAnimation {
+								showBanner = false
+							}
+						}
+					}
+					listOverview(list: items)
 			}
 			
 			Spacer()
@@ -273,6 +308,17 @@ struct HealthCategoryView: View {
 			viewModel.reduce(.onAppear)
 		}
 		.layoutForIPad()
+	}
+	
+	/// Create the list state view
+	/// - Returns: View when the user has some stored healthcare organizations
+	@ViewBuilder func listOverview(list: [HealthCategoryBlock]) -> some View {
+	
+		if list.isNotEmpty {
+			listOverviewBlocks(list: list)
+		} else {
+			noItems()
+		}
 	}
 	
 	/// Create the list state view
@@ -338,6 +384,19 @@ struct HealthCategoryView: View {
 			icon: Image(ImageResource.Woman.womanWithPhoneInCircleExclamation),
 			heading: viewModel.translations.noSearchResults,
 			subHeading: "health_category.search_again"
+		)
+			.fixedSize(horizontal: false, vertical: true)
+			.padding(.top, ViewTraits.NoResults.top)
+	}
+	
+	/// The view for no  items
+	/// - Returns: view
+	@ViewBuilder func noItems() -> some View {
+		
+		EmptyListView(
+			icon: Image(ImageResource.Woman.womanWithPhone),
+			heading: "health_category.empty.heading",
+			subHeading: "health_category.empty.subheading"
 		)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)

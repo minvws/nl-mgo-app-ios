@@ -83,6 +83,13 @@ public struct BannerView: View {
 					.foregroundColor(theme.contentTertiary)
 					.accessibilitySortPriority(980)
 					.accessibilityIdentifier("banner.subheading")
+				
+				if let actionTitle = feedback.actionTitle {
+					Button(actionTitle) {
+						feedback.action?()
+					}
+					.buttonStyle(LinkButtonStyle())
+				}
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
 			.fixedSize(horizontal: false, vertical: true)

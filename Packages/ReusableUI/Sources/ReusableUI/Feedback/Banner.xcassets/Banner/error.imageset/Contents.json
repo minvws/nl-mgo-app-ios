@@ -3,6 +3,16 @@
     {
       "filename" : "error.svg",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "error 1.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
