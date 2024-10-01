@@ -45,7 +45,7 @@ final class MentalStatusHealthCategoryViewTests: XCTestCase {
 		
 		// Given
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)]
 		)
 		let content = NavigationView { sut }
 		
@@ -75,7 +75,7 @@ final class MentalStatusHealthCategoryViewTests: XCTestCase {
 		// Given
 		let resource = try getResource("zibFunctionalOrMentalStatus")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
@@ -106,7 +106,7 @@ final class MentalStatusHealthCategoryViewTests: XCTestCase {
 		// Given
 		let resource = try getResource("zibFunctionalOrMentalStatus")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
@@ -125,7 +125,7 @@ final class MentalStatusHealthCategoryViewTests: XCTestCase {
 		// Given
 		let resource = try getResource("zibFunctionalOrMentalStatus")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }

@@ -19,7 +19,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		servicesSpies = setupServicesSpies()
 
-		let url = try XCTUnwrap(URL(string: "https:example.com"))
+		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		sut = ResourceRepository(
 			healthcareOrganizationRepository: servicesSpies.healthcareOrganizationStoreSpy,
 			dataRepository: servicesSpies.dataStoreSpy,
@@ -39,7 +39,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		let json = try getResource("bundle")
-		stub(condition: isPath("/MedicationStatement")) { _ in
+		stub(condition: isHost("example.com")) { _ in
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
 		}
 		
@@ -56,7 +56,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [Generator.healthcareOrganization("1")]
 		let json = try getResource("bundle")
 
-		stub(condition: isPath("/MedicationStatement")) { _ in
+		stub(condition: isHost("example.com")) { _ in
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
 		}
 		
@@ -64,7 +64,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		sut.load()
 		
 		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(1))
+		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(13))
 	}
 	
 	func test_load_twoOrganizations() throws {
@@ -76,7 +76,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		]
 		let json = try getResource("bundle")
 
-		stub(condition: isPath("/MedicationStatement")) { _ in
+		stub(condition: isHost("example.com")) { _ in
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
 		}
 		
@@ -84,6 +84,6 @@ final class ResourceRepositoryTests: XCTestCase {
 		sut.load()
 		
 		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(2), timeout: .seconds(5))
+		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(26), timeout: .seconds(5))
 	}
 }

@@ -88,7 +88,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	func loadFor(_ healthcareOrganization: MgoOrganization) {
 		logVerbose("ResourceRepository - LoadFor", healthcareOrganization.identifier)
 		for category in HealthCategories.Category.allCases {
-			_Concurrency.Task { try await loadResource(healthcareOrganization, category: category) }
+			_Concurrency.Task { await loadResource(healthcareOrganization, category: category) }
 		}
 	}
 	
@@ -106,35 +106,40 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
 	///   - category: the category to load the resources for.
-	private func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async throws {
+	private func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async {
 		
 		let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
 		
-		for endpoint in category.endPoint {
+		for service in category.services {
 			
-			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: endpoint.1) else {
+			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: service.serviceID) else {
 				continue
 			}
 			
-			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
-			let data = try await repository.getBundleData(
-				endpoint: endpoint.0,
-				dvaTarget: dvaTarget,
-				username: username,
-				password: password
-			)
-			var mgoResources = try repository.process(data)
+			var mgoResources = [MgoResource]()
+			var resourceError = false
 			
-			mgoResources = mgoResources.filter { resource in
-				
-				var result = false
-				for profile in category.acceptedProfiles {
-					result = result || resource.hasProfile(profile)
+			do {
+				logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", service)
+				let data = try await repository.getBundleData(
+					endpoint: service.endpoint,
+					dvaTarget: dvaTarget,
+					username: username,
+					password: password
+				)
+				mgoResources = try repository.process(data)
+				mgoResources = mgoResources.filter { resource in
+					
+					var result = false
+					for profile in category.acceptedProfiles {
+						result = result || resource.hasProfile(profile)
+					}
+					return result
 				}
-				return result
+			} catch {
+				resourceError = true
 			}
-			
-			let recordToStore = MgoResourceRecord(categoryId: "\(category.rawValue)", organizationId: healthcareOrganization.identifier, resources: mgoResources)
+			let recordToStore = MgoResourceRecord(categoryId: "\(category.rawValue)", organizationId: healthcareOrganization.identifier, resources: mgoResources, error: resourceError)
 			logVerbose("ResourceRepository - Adding to the store", recordToStore)
 			dataRepository?.store(data: recordToStore)
 		}

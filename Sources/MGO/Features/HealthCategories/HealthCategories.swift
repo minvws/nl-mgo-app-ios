@@ -69,8 +69,8 @@ struct HealthCategories {
 					ZibTreatmentDirectiveProfile.httpNictizNlFhirStructureDefinitionZibTreatmentDirective.rawValue
 				]
 				case .devices: [
-					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue,
-					ZibMedicalDeviceProductProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceProduct.rawValue
+					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue
+//					ZibMedicalDeviceProductProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceProduct.rawValue
 				]
 				case .functionalOrMentalStatus: [
 					ZibFunctionalOrMentalStatusProfile.httpNictizNlFhirStructureDefinitionZibFunctionalOrMentalStatus.rawValue
@@ -86,7 +86,7 @@ struct HealthCategories {
 		}
 		
 		/// What endpoints should we use for a category?
-		var endPoint: [(DVP.Endpoint, Int)] {
+		var services: [(endpoint: DVP.Endpoint, serviceID: Int)] {
 			switch self {
 				case .medication: [
 					(DVP.CommonClinicalDataset.medicationUse, DVP.CommonClinicalDataset.serviceID),

@@ -11,8 +11,8 @@ import MGOTest
 final class InMemoryDataStoreTests: XCTestCase {
 
 	var sut: InMemoryDataStore!
-	let record = MgoResourceRecord(categoryId: "test category", organizationId: "test organization", resources: [Data("test".utf8)])
-	let otherRecord = MgoResourceRecord(categoryId: "test category", organizationId: "test organization 2", resources: [Data("test".utf8)])
+	let record = MgoResourceRecord(categoryId: "test category", organizationId: "test organization", resources: [Data("test".utf8)], error: false)
+	let otherRecord = MgoResourceRecord(categoryId: "test category", organizationId: "test organization 2", resources: [Data("test".utf8)], error: false)
 	
 	override func setUp() {
 		super.setUp()

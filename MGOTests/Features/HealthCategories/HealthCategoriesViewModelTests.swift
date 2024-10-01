@@ -85,8 +85,9 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		
 		// Given
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+		let mgoResource = MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
@@ -100,8 +101,9 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 	func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
+		let mgoResource = MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	

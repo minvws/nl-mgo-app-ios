@@ -165,7 +165,7 @@ class HealthCategoriesViewModel: ObservableObject {
 			
 			case let .categorySelected(categoryButton):
 				
-				guard categoryButton.state == .loaded else {
+				guard categoryButton.state != .loading else {
 					logError("Trying to select a category with invalid state", categoryButton)
 					return
 				}
@@ -228,17 +228,26 @@ class HealthCategoriesViewModel: ObservableObject {
 		switch cacheResult {
 			case let .success(records):
 			
-				let threshold: Int = {
+				// There better be a category for this button
+				guard let category = HealthCategories.Category(rawValue: button.id) else {
+					logError("HealthCategoriesViewModel, unknown category for", button)
+					return
+				}
+			
+				let expectedNumberOfResults: Int = {
 					switch mode {
 						case .single:
-							return 1
+							// All the services for that category
+							return category.services.count
 						case .all:
-							return Current.healthcareOrganizationStore.organizations.count
+							// All the services for that category * the number of organizations
+							return category.services.count * Current.healthcareOrganizationStore.organizations.count
 					}
 				}()
+				logVerbose("HealthCategoriesViewModel: expectedNumberOfResults = \(expectedNumberOfResults)")
 			
 				// Success, there was some records for this category
-				if records.count >= threshold {
+				if records.count >= expectedNumberOfResults {
 					// There are records for all organizations. Let's check if any of them has data
 					var found = false
 					for record in records where record.resources.isNotEmpty {
@@ -316,7 +325,7 @@ struct HealthCategoriesView: View {
 								
 								VStack(spacing: 0) {
 									HealthCategoryRowView(block: block)
-										.when(block.state == .loaded) { view in
+										.when(block.state != .loading) { view in
 											Button(action: {
 												viewModel.reduce(.categorySelected(block))
 											}, label: {
