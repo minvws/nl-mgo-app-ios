@@ -86,4 +86,60 @@ final class ResourceRepositoryTests: XCTestCase {
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(26), timeout: .seconds(5))
 	}
+	
+	func test_loadForOrganization() throws {
+		
+		// Given
+		let organization = Generator.healthcareOrganization("1")
+		let json = try getResource("bundle")
+
+		stub(condition: isHost("example.com")) { _ in
+			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
+		}
+		
+		// When
+		sut.loadFor(organization)
+		
+		// Then
+		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(13))
+	}
+	
+	func test_loadForCategory_oneOrganization() async throws {
+		
+		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
+			Generator.healthcareOrganization("1")
+		]
+		let json = try getResource("bundle")
+
+		stub(condition: isHost("example.com")) { _ in
+			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
+		}
+		
+		// When
+		await sut.loadFor(HealthCategories.Category.medication)
+		
+		// Then
+		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(3))
+	}
+	
+	func test_loadForCategory_twoOrganizations() async throws {
+		
+		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
+			Generator.healthcareOrganization("1"),
+			Generator.healthcareOrganization("2")
+		]
+		let json = try getResource("bundle")
+
+		stub(condition: isHost("example.com")) { _ in
+			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
+		}
+		
+		// When
+		await sut.loadFor(HealthCategories.Category.medication)
+		
+		// Then
+		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(6))
+	}
 }

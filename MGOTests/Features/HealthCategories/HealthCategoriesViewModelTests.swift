@@ -39,7 +39,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_categorySelected_shouldCallCoordinator() throws {
+	func test_categorySelected_shouldCallCoordinator_whenStateIsLoaded() throws {
 		
 		// Given
 		let button = CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "test", state: .loaded, box: 1)
@@ -54,11 +54,39 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		expect(params.params["category"] as? HealthCategories.Category) == HealthCategories.Category.measurements
 		expect(params.params["healthcareOrganization"]) != nil
 	}
+	
+	func test_categorySelected_shouldCallCoordinator_whenStateIsEmpty() throws {
+		
+		// Given
+		let button = CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "test", state: .empty, box: 1)
+		
+		// When
+		sut.reduce(.categorySelected(button))
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
+		expect(params.identifier) == Coordination.Action.showHealthCategory.identifier
+		expect(params.params["category"] as? HealthCategories.Category) == HealthCategories.Category.measurements
+		expect(params.params["healthcareOrganization"]) != nil
+	}
 
-	func test_categorySelected_invalidState_shouldNotCallCoordinator() {
+	func test_categorySelected_shouldNotCallCoordinator_whenStateIsLoading() {
 
 		// Given
 		let button = CategoryButton(id: 3, title: "test", state: .loading, box: 1)
+		
+		// When
+		sut.reduce(.categorySelected(button))
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == false
+	}
+	
+	func test_categorySelected_shouldNotCallCoordinator_whenCategoryIsInvalid() {
+
+		// Given
+		let button = CategoryButton(id: 9999, title: "test", state: .loaded, box: 1)
 		
 		// When
 		sut.reduce(.categorySelected(button))
@@ -151,6 +179,6 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == true
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 0
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForCount) == 1
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 1
 	}
 }

@@ -195,9 +195,6 @@ class HealthCategoryViewModel: ObservableObject {
 				return category.services.count
 			}
 		}()
-		
-		logInfo("HealthCategoryViewModel: expectedNumberOfResults = \(expectedNumberOfResults)")
-		
 		_Concurrency.Task {
 			 await loadResources(threshold: expectedNumberOfResults)
 		}

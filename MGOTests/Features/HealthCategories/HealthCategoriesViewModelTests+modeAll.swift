@@ -27,19 +27,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 	}
 	
-	func test_backButtonPressed_shouldCallCoordinator() {
-		
-		// Given
-		
-		// When
-		sut.reduce(.backButtonPressed)
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
-	}
-	
-	func test_categorySelected_shouldCallCoordinator() throws {
+	func test_categorySelected_shouldCallCoordinator_whenStateIsLoaded() throws {
 		
 		// Given
 		let button = CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "test", state: .loaded, box: 1)
@@ -54,8 +42,24 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(params.params["category"] as? HealthCategories.Category) == HealthCategories.Category.measurements
 		expect(params.params["healthcareOrganization"]) == nil
 	}
+	
+	func test_categorySelected_shouldCallCoordinator_whenStateIsEmpty() throws {
+		
+		// Given
+		let button = CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "test", state: .empty, box: 1)
+		
+		// When
+		sut.reduce(.categorySelected(button))
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
+		expect(params.identifier) == Coordination.Action.showHealthCategory.identifier
+		expect(params.params["category"] as? HealthCategories.Category) == HealthCategories.Category.measurements
+		expect(params.params["healthcareOrganization"]) == nil
+	}
 
-	func test_categorySelected_invalidState_shouldNotCallCoordinator() {
+	func test_categorySelected_shouldNotCallCoordinator_whenStateIsLoading() {
 
 		// Given
 		let button = CategoryButton(id: 3, title: "test", state: .loading, box: 1)
@@ -67,23 +71,12 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == false
 	}
 	
-	func test_removeHealthcareOrganization_shouldCallCoordinator() throws {
-		
-		// Given
-		
-		// When
-		sut.reduce(.removeHealthcareOrganization)
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == false
-	}
-	
 	func test_loadMedication_withData() throws {
 		
 		// Given
 		let resource = try getResource("zibMedicationUse")
 		let mgoResource = MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+		servicesSpies.dataStoreSpy.stubbedGetResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
@@ -99,7 +92,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		
 		// Given
 		let mgoResource = MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+		servicesSpies.dataStoreSpy.stubbedGetResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
@@ -150,7 +143,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == false
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == true
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 1
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForCount) == 0
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 0
 	}
 	
 	func test_searchButtonPressed_shouldCallCoordinator() {
