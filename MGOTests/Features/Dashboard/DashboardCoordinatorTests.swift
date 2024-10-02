@@ -8,6 +8,7 @@
 import MGOTest
 import MGOFoundation
 import MGOUI
+import Zibs
 @testable import MGO
 
 final class DashboardCoordinatorTests: XCTestCase {
@@ -249,6 +250,68 @@ final class DashboardCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.rootStateForSheet) == nil
 		expect(self.sut.secondTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
+	}
+	
+	func test_coordinatorHandle_showHealthCategory() {
+		
+		// Given
+		let organization = Generator.healthcareOrganization("1")
+		let category = HealthCategories.Category.medication
+	
+		// When
+		sut.handle(Coordination.Action(identifier: "showHealthCategory", params: ["category": category, "healthcareOrganization": organization]))
+		
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthCategory(category: category, organization: organization)])
+	}
+	
+	func test_coordinatorHandle_showHealthCategory_withoutOrganization() {
+		
+		// Given
+		let category = HealthCategories.Category.medication
+	
+		// When
+		sut.handle(Coordination.Action(identifier: "showHealthCategory", params: ["category": category]))
+		
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthCategory(category: category, organization: nil)])
+	}
+	
+	func test_coordinatorHandle_showHealthCategory_invalidParam() {
+		
+		// Given
+	
+		// When
+		sut.handle(Coordination.Action(identifier: "showHealthCategory", params: ["param": "wrong"]))
+		
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
+	}
+	
+	func test_coordinatorHandle_showZibDetails() {
+		
+		// Given
+		let heading = "showZibDetails"
+		let schema = UISchema(children: [], label: "test")
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showZibDetails", params: ["resource": Data(), "heading": heading, "uiSchema": schema]))
+		
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showZibDetails(heading: heading, schema: schema)])
+	}
+	
+	func test_coordinatorHandle_showZibDetails_missingParam() {
+		
+		// Given
+		let heading = "showZibDetails"
+		let schema = UISchema(children: [], label: "test")
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showZibDetails", params: ["heading": heading, "uiSchema": schema]))
+		
+		// Then
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
 	}
 	
 	func test_switchTab_to1_shouldResetOtherTabs() {
