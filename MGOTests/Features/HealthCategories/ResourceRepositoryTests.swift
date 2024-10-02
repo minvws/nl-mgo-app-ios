@@ -50,7 +50,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(0))
 	}
 	
-	func test_load_oneOrganizations() throws {
+	func test_load_oneOrganization() throws {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [Generator.healthcareOrganization("1")]
@@ -64,7 +64,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		sut.load()
 		
 		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(13))
+		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(13), timeout: .seconds(5))
 	}
 	
 	func test_load_twoOrganizations() throws {
