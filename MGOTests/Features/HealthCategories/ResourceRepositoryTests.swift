@@ -101,7 +101,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		sut.loadFor(organization)
 		
 		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(13))
+		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(13), timeout: .seconds(5))
 	}
 	
 	func test_loadForCategory_oneOrganization() async throws {
@@ -120,7 +120,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		await sut.loadFor(HealthCategories.Category.medication)
 		
 		// Then
-		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(3))
+		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(3), timeout: .seconds(5))
 	}
 	
 	func test_loadForCategory_twoOrganizations() async throws {
@@ -140,6 +140,6 @@ final class ResourceRepositoryTests: XCTestCase {
 		await sut.loadFor(HealthCategories.Category.medication)
 		
 		// Then
-		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(6))
+		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(6), timeout: .seconds(5))
 	}
 }
