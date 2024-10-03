@@ -156,6 +156,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_resetApplication_shouldCallParentCoordinator() {
 
 		// Given
+		sut.selectedTab = DashboardTab.about.rawValue
 		
 		// When
 		sut.handle(Coordination.Action.resetApplication)
@@ -163,6 +164,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.parentCoordinator.invokedHandle).toEventually(beTrue())
 		expect(self.parentCoordinator.invokedHandleParameters?.0) == Coordination.Action.resetApplication
+		expect(self.sut.selectedTab) == DashboardTab.healthCategories.rawValue
 	}
 	
 	func test_coordinatorHandle_showHealthcareOrganization_firstTabPath_shouldContainShowHealthcareOrganization() {
