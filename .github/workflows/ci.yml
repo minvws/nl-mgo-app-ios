@@ -11,7 +11,7 @@ on:
     types: [opened, synchronize, reopened]
 
 env:
-  DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode_16.app/Contents/Developer
   FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 180
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
   
@@ -24,7 +24,7 @@ jobs:
       - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
         # 🧐 when changing below, don't forget to also change the device name in the Fastfile too: 
         run: | 
-          xcrun simctl boot "iPhone 15 Pro" || true
+          xcrun simctl boot "iPhone 16 Pro" || true
 
       - name: Checkout
         uses: actions/checkout@v4
