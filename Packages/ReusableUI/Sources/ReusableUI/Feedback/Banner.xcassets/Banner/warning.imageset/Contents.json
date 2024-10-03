@@ -3,6 +3,16 @@
     {
       "filename" : "warning.svg",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "warning 1.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {

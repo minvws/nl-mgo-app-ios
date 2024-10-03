@@ -132,7 +132,6 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 		
 		storedConfiguration = RemoteConfig.fallback
 		storage.remove(fileName)
-		observatory.removeAll()
 	}
 	
 	/// Persist the remote config to storage

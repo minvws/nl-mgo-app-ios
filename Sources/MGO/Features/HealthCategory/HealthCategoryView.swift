@@ -10,8 +10,14 @@ import MGOUI
 import JavaScriptCore
 import Zibs
 
+/// A small struct for each category result
 struct HealthCategoryBlock: Equatable, Identifiable {
 	
+	/// Equality
+	/// - Parameters:
+	///   - lhs: the left hand block
+	///   - rhs: the right hand block
+	/// - Returns: True is both blocks are equal
 	static func == (lhs: HealthCategoryBlock, rhs: HealthCategoryBlock) -> Bool {
 		return lhs.heading == rhs.heading &&
 		lhs.subHeading == rhs.subHeading &&
@@ -27,26 +33,30 @@ struct HealthCategoryBlock: Equatable, Identifiable {
 	var action: (() -> Void)?
 }
 
+/// The state of the view
 enum HealthCategoryViewState: Equatable {
-	
-	case loading
-	case failure
-	case empty
-	case success(items: [HealthCategoryBlock])
 
+	/// The data is being loading
+	case loading
+	
+	/// All the data is available
+	case list(items: [HealthCategoryBlock])
+	
+	/// Only partial data is available
+	case partial(items: [HealthCategoryBlock])
+	
+	/// Equality
+	/// - Parameters:
+	///   - lhs: left hand state
+	///   - rhs: right hand state
+	/// - Returns: True if both states are equal
 	static func == (lhs: HealthCategoryViewState, rhs: HealthCategoryViewState) -> Bool {
 		switch (lhs, rhs) {
 			
 			case (.loading, .loading):
 				return true
-				
-			case (.failure, .failure):
-				return true
-				
-			case (.empty, .empty):
-				return true
 			
-			case let(.success(lhsList), .success(rhsList)):
+			case let(.list(lhsList), .list(rhsList)):
 			
 				guard lhsList.count == rhsList.count else { return false }
 				var result = true
@@ -55,12 +65,22 @@ enum HealthCategoryViewState: Equatable {
 				}
 				return result
 			
+			case let(.partial(lhsList), .partial(rhsList)):
+		
+				guard lhsList.count == rhsList.count else { return false }
+				var result = true
+				for index in lhsList.indices {
+					result = result && lhsList[index] == rhsList[index]
+				}
+			return result
+			
 			default:
 				return false
 		}
 	}
 }
 
+// A small struct for the various translations for each category
 struct HealthCategoryViewTranslations {
 
 	/// the title key of the page
@@ -76,125 +96,6 @@ struct HealthCategoryViewTranslations {
 	var detailsHeading: String.LocalizationValue
 }
 
-class AlertsHealthCategoryViewModel: HealthCategoryViewModel {
-	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
-		super.init(
-			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.alerts.rawValue)",
-			organizationId: organizationId,
-			translations: HealthCategoryViewTranslations(
-				heading: "health_category.alerts",
-				search: "health_category.alerts.search",
-				noSearchResults: "health_category.alerts.no_search_results",
-				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.alerts.details_heading")
-			)
-		)
-	}
-}
-
-class AllergiesHealthCategoryViewModel: HealthCategoryViewModel {
-	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
-		super.init(
-			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.allergies.rawValue)",
-			organizationId: organizationId,
-			translations: HealthCategoryViewTranslations(
-				heading: "health_category.allergies",
-				search: "health_category.allergies.search",
-				noSearchResults: "health_category.allergies.no_search_results",
-				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.allergies.details_heading")
-			)
-		)
-	}
-}
-
-class ComplaintsHealthCategoryViewModel: HealthCategoryViewModel {
-	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
-		super.init(
-			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.complaints.rawValue)",
-			organizationId: organizationId,
-			translations: HealthCategoryViewTranslations(
-				heading: "health_category.complaints",
-				search: "health_category.complaints.search",
-				noSearchResults: "health_category.complaints.no_search_results",
-				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.complaints.details_heading")
-			)
-		)
-	}
-}
-
-class DevicesHealthCategoryViewModel: HealthCategoryViewModel {
-	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
-		super.init(
-			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.devices.rawValue)",
-			organizationId: organizationId,
-			translations: HealthCategoryViewTranslations(
-				heading: "health_category.devices",
-				search: "health_category.devices.search",
-				noSearchResults: "health_category.devices.no_search_results",
-				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.devices.details_heading")
-			)
-		)
-	}
-}
-
-class LifestyleHealthCategoryViewModel: HealthCategoryViewModel {
-	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
-		super.init(
-			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.lifestyle.rawValue)",
-			organizationId: organizationId,
-			translations: HealthCategoryViewTranslations(
-				heading: "health_category.lifestyle",
-				search: "health_category.lifestyle.search",
-				noSearchResults: "health_category.lifestyle.no_search_results",
-				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.lifestyle.details_heading")
-			)
-		)
-	}
-}
-
-class MedicationHealthCategoryViewModel: HealthCategoryViewModel {
-	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
-		super.init(
-			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.medication.rawValue)",
-			organizationId: organizationId,
-			translations: HealthCategoryViewTranslations(
-				heading: "health_category.medication",
-				search: "health_category.medication.search",
-				noSearchResults: "health_category.medication.no_search_results",
-				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.medication.details_heading")
-			)
-		)
-	}
-}
-
-class MentalStatusHealthCategoryViewModel: HealthCategoryViewModel {
-	
-	init(coordinator: (any Coordinator)? = nil, organizationId: String?) {
-		super.init(
-			coordinator: coordinator,
-			categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)",
-			organizationId: organizationId,
-			translations: HealthCategoryViewTranslations(
-				heading: "health_category.mental",
-				search: "health_category.mental.search",
-				noSearchResults: "health_category.mental.no_search_results",
-				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.mental.details_heading")
-			)
-		)
-	}
-}
-
 class HealthCategoryViewModel: ObservableObject {
 	
 	/// The state of the view
@@ -207,33 +108,52 @@ class HealthCategoryViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The organization to show the categories for (optional, if nil, then show all organizations)
-	private var organizationId: String?
+	private var organization: MgoOrganization?
 	
 	/// The category to show
-	private var categoryId: String
+	private var category: HealthCategories.Category
 	
 	/// The text to filter the results on. 
 	@Published var searchText = ""
+	
+	/// Token for the data store observatory
+	private var dataStoreToken: Observatory.ObserverToken?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
 		case onAppear
+		case retry
 	}
 	
 	/// Create a MedicationOverview VM
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
-		categoryId: String,
-		organizationId: String?,
+		category: HealthCategories.Category,
+		organization: MgoOrganization?,
 		translations: HealthCategoryViewTranslations
 	) {
 		self.coordinator = coordinator
-		self.categoryId = categoryId
-		self.organizationId = organizationId
+		self.category = category
+		self.organization = organization
 		self.state = .loading
 		self.translations = translations
+		registerObservers()
+	}
+	
+	deinit {
+		// Remove as observer
+		dataStoreToken.map(Current.dataStore.observatory.remove)
+	}
+	
+	private func registerObservers() {
+		self.dataStoreToken = Current.dataStore.observatory.append { [weak self] changed in
+			if changed {
+				// Handle updates in the fetched data
+				self?.handleDataStoreChanges()
+			}
+		}
 	}
 	
 	/// Handle any action
@@ -247,32 +167,78 @@ class HealthCategoryViewModel: ObservableObject {
 				_Concurrency.Task {
 					 await loadResources()
 				}
+			case .retry:
+				retry()
+				Haptic.light()
+		}
+	}
+	
+	func retry() {
+		
+		state = .loading
+		Current.dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
+		
+		guard category.services.isNotEmpty else {
+			_Concurrency.Task.delayed(byTimeInterval: 1.5) { [weak self] in
+				await self?.loadResources()
+			}
+			return
+		}
+		
+		_Concurrency.Task {
+			if let organization {
+				await Current.resourceRepository.loadResource(organization, category: category)
+			} else {
+				await Current.resourceRepository.loadFor(category)
+			}
+		}
+	}
+	
+	func handleDataStoreChanges() {
+		let expectedNumberOfResults: Int = {
+			if organization == nil {
+				return category.services.count * Current.healthcareOrganizationStore.organizations.count
+			} else {
+				return category.services.count
+			}
+		}()
+		_Concurrency.Task {
+			 await loadResources(threshold: expectedNumberOfResults)
 		}
 	}
 	
 	@MainActor
-	func loadResources() async {
+	func loadResources(threshold: Int = 0) async {
 		
 		let cacheResult: Result<[MgoResourceRecord], Error> = {
-			if let organizationId {
-				return Current.dataStore.get(categoryId: categoryId, organizationId: organizationId)
+			if let organization {
+				return Current.dataStore.get(categoryId: "\(category.rawValue)", organizationId: organization.identifier)
 			} else {
-				return Current.dataStore.get(categoryId: categoryId)
+				return Current.dataStore.get(categoryId: "\(category.rawValue)")
 			}
 		}()
+		
 		switch cacheResult {
 			case .success(let records):
+				guard records.count >= threshold else {
+					// Not all results are in. Keep loading
+					state = .loading
+					return
+				}
+			
 				var items = [HealthCategoryBlock]()
+				var partial = false
 				for record in records {
 					items.append(contentsOf: parseRecord(record))
+					partial = partial || record.error
 				}
-				if items.isEmpty {
-					state = .empty
+				if partial {
+					state = .partial(items: items)
 				} else {
-					state = .success(items: items)
+					state = .list(items: items)
 				}
 			case .failure:
-				state = .failure
+				state = .partial(items: [])
 		}
 	}
 	
@@ -310,7 +276,7 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Returns: optional name
 	func getOrganizationName(_ identifier: String) -> String? {
 		
-		return 	Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }?.display_name
+		return Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }?.display_name
 	}
 }
 
@@ -321,6 +287,8 @@ struct HealthCategoryView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	@State private var showBanner = true
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -356,25 +324,30 @@ struct HealthCategoryView: View {
 						showBorder: false
 					)
 					
-				case .empty:
+				case let .list(items):
 					
-					NotificationCardView(
-						icon: Image(ImageResource.Woman.womanOnCouch),
-						title: "common.no_results_heading",
-						message: "common.no_results_subheading"
-					)
-					
-				case .failure:
-					
-					NotificationCardView(
-						icon: Image(ImageResource.Woman.womanOnCouchExclamation),
-						title: "common.failure_heading",
-						message: "common.failure_subheading"
-					)
-					
-				case let .success(items):
-					
-					listOverviewBlocks(list: items)
+					listOverview(list: items)
+				
+				case let .partial(items: items):
+				
+					if showBanner {
+						BannerView(
+							Feedback(
+								title: String(localized: "health_category.error.banner.heading"),
+								subtitle: String(localized: "health_category.error.banner.subheading"),
+								actionTitle: String(localized: "health_category.error.banner.try_again"),
+								type: .warning,
+								perform: {
+									viewModel.reduce(.retry)
+								}
+							)
+						) {
+							withAnimation {
+								showBanner = false
+							}
+						}
+					}
+					listOverview(list: items)
 			}
 			
 			Spacer()
@@ -392,6 +365,17 @@ struct HealthCategoryView: View {
 			viewModel.reduce(.onAppear)
 		}
 		.layoutForIPad()
+	}
+	
+	/// Create the list state view
+	/// - Returns: View when the user has some stored healthcare organizations
+	@ViewBuilder func listOverview(list: [HealthCategoryBlock]) -> some View {
+	
+		if list.isNotEmpty {
+			listOverviewBlocks(list: list)
+		} else {
+			noItems()
+		}
 	}
 	
 	/// Create the list state view
@@ -461,6 +445,19 @@ struct HealthCategoryView: View {
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
 	}
+	
+	/// The view for no  items
+	/// - Returns: view
+	@ViewBuilder func noItems() -> some View {
+		
+		EmptyListView(
+			icon: Image(ImageResource.Woman.womanWithPhone),
+			heading: "health_category.empty.heading",
+			subHeading: "health_category.empty.subheading"
+		)
+			.fixedSize(horizontal: false, vertical: true)
+			.padding(.top, ViewTraits.NoResults.top)
+	}
 }
 
 #Preview {
@@ -468,8 +465,8 @@ struct HealthCategoryView: View {
 		HealthCategoryView(
 			viewModel: HealthCategoryViewModel(
 				coordinator: nil,
-				categoryId: "1",
-				organizationId: "1",
+				category: HealthCategories.Category.medication,
+				organization: PreviewContent.healthcareOrganization,
 				translations: HealthCategoryViewTranslations(
 					heading: "health_category.medication",
 					search: "health_category.medication.search",

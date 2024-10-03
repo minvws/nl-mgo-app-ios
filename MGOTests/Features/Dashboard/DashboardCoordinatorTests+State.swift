@@ -8,6 +8,7 @@
 import MGOTest
 import MGOFoundation
 import MGOUI
+import Zibs
 @testable import MGO
 
 final class DashboardCoordinatorStateTests: XCTestCase {
@@ -130,5 +131,236 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
+	func test_coordinatorView_forShowZibDetails() throws {
+		
+		// Given
+		let schema = UISchema(
+			children: [
+				UISchemaGroup(
+					children: [
+						Value(
+							display: .string("value 1"),
+							label: "label",
+							summary: true,
+							type: "type",
+							reference: nil
+						)
+					],
+					label: "section heading")
+			],
+			label: "zib details"
+		)
+		let state = DashboardCoordination.State.showZibDetails(heading: "Heading", schema: schema)
+		
+		// When
+		let view = sut.viewState(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
+	func test_coordinatorView_showHealthCategories() throws {
+		
+		// Given
+		
+		// When
+		let view = sut.viewState(for: .showHealthCategories)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
+	func test_coordinatorView_showHealthCategory_alerts() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .alerts, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_allergies() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .allergies, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_appointments() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .appointments, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_complaints() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .complaints, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_devices() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .devices, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_documents() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .documents, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_labresults() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .labresults, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_lifestyle() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .lifestyle, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_measurements() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .measurements, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_medication() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .medication, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_functionalOrMentalStatus() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .functionalOrMentalStatus, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_patient() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .patient, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_payment() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .payment, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_plans() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .plans, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_treatments() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .treatments, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_showHealthCategory_vaccinations() throws {
+		
+		// Given
+		let view = sut.viewState(for: .showHealthCategory(category: .vaccinations, organization: nil))
+		
+		// When
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(content))
 	}
 }

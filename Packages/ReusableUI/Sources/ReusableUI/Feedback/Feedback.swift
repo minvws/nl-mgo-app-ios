@@ -23,6 +23,9 @@ public struct Feedback: Equatable {
 	/// The sub heading for the feedback
 	public var subheading: String
 	
+	/// The title for the action
+	public var actionTitle: String?
+	
 	/// The action that could be taken
 	public var action: (() -> Void)?
 	
@@ -33,15 +36,18 @@ public struct Feedback: Equatable {
 	/// - Parameters:
 	///   - title: the title for the feedback
 	///   - subtitle: the subtitle  for the feedback
+	///   - actionTitle: the title for the action
 	///   - type: the type for the feedback (.info / .warning  / . error  / .success)
 	///   - perform: the action to perform when the user presses on the action button
 	public init(
 		title: String,
 		subtitle: String,
+		actionTitle: String? = nil,
 		type: FeedbackType,
 		perform: (() -> Void)? = nil) {
 			self.heading = title
 			self.subheading = subtitle
+			self.actionTitle = actionTitle
 			self.type = type
 			self.action = perform
 		}

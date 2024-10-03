@@ -1,0 +1,108 @@
+/*
+ *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import MGOTest
+import MGOFoundation
+import MGOUI
+@testable import MGO
+
+final class VaccinationsHealthCategoryViewTests: XCTestCase {
+	
+	private var coordinatorSpy: DashboardCoordinatorSpy!
+	private var servicesSpies: ServicesSpies!
+	private var viewModel: HealthCategoryViewModel!
+	private var healthcareOrganization: MgoOrganization!
+	private var sut: HealthCategoryView!
+
+	override func setUp() {
+		
+		servicesSpies = setupServicesSpies()
+		coordinatorSpy = DashboardCoordinatorSpy()
+		healthcareOrganization = Generator.healthcareOrganization("1")
+		viewModel = VaccinationsHealthCategoryViewModel(
+			coordinator: coordinatorSpy,
+			organization: healthcareOrganization)
+		sut = HealthCategoryView(viewModel: self.viewModel)
+	}
+
+	func test_stateLoading() {
+		
+		// Given
+		viewModel.state = .loading
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
+	func test_stateEmptyList() {
+		
+		// Given
+		let content = NavigationView { sut }
+		
+		// When
+		sut.viewModel.state = .list(items: [])
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_stateEmptyPartialList() {
+		
+		// Given
+		let content = NavigationView { sut }
+		
+		// When
+		sut.viewModel.state = .partial(items: [])
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+
+	func test_stateList() throws {
+		
+		// Given
+		let content = NavigationView { sut }
+		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
+		
+		// When
+		sut.viewModel.state = .list(items: [item])
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_search_itemNotFound() throws {
+		
+		// Given
+		let content = NavigationView { sut }
+		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
+		sut.viewModel.state = .list(items: [item])
+		
+		// When
+		viewModel.searchText = "MGO"
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_search_itemFound() throws {
+		
+		// Given
+		let content = NavigationView { sut }
+		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
+		sut.viewModel.state = .list(items: [item])
+		
+		// When
+		viewModel.searchText = "health"
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+}

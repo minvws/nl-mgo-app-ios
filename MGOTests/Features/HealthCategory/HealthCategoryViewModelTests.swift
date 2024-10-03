@@ -23,15 +23,15 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
-		setupSut(organizationId: healthcareOrganization.identifier)
+		setupSut(organization: healthcareOrganization)
 	}
 	
-	func setupSut(organizationId: String?) {
+	func setupSut(organization: MgoOrganization?, category: HealthCategories.Category = HealthCategories.Category.complaints) {
 		
 		sut = HealthCategoryViewModel(
 			coordinator: coordinatorSpy,
-			categoryId: "\(HealthCategories.Category.complaints.rawValue)",
-			organizationId: organizationId,
+			category: category,
+			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "health_category.complaints",
 				search: "health_category.complaints.search",
@@ -67,37 +67,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Given
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
-		)
-		
-		// When
-		sut.reduce(.onAppear)
-		
-		// Then
-		expect(self.sut.state).toEventually(equal(HealthCategoryViewState.empty))
-	}
-	
-	func test_loadResources_noResults_noOrganizationId() {
-
-		// Given
-		setupSut(organizationId: nil)
-		servicesSpies.dataStoreSpy.stubbedGetResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
-		)
-		
-		// When
-		sut.reduce(.onAppear)
-		
-		// Then
-		expect(self.sut.state).toEventually(equal(HealthCategoryViewState.empty))
-	}
-	
-	func test_loadResources_withResults_noName() throws {
-		
-		// Given
-		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)]
 		)
 		
 		// When
@@ -105,7 +75,66 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.success(items) = sut.state {
+		if case let HealthCategoryViewState.list(items) = sut.state {
+			expect(items).to(beEmpty())
+		} else {
+			fail("Invalid state")
+		}
+	}
+	
+	func test_loadResources_noResults_noOrganization() {
+
+		// Given
+		setupSut(organization: nil)
+		servicesSpies.dataStoreSpy.stubbedGetResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)]
+		)
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+		if case let HealthCategoryViewState.list(items) = sut.state {
+			expect(items).to(beEmpty())
+		} else {
+			fail("Invalid state")
+		}
+	}
+	
+	func test_loadResources_error() {
+
+		// Given
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: true)]
+		)
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+		if case let HealthCategoryViewState.partial(items) = sut.state {
+			expect(items).to(beEmpty())
+		} else {
+			fail("Invalid state")
+		}
+	}
+	
+	func test_loadResources_withResults_noName() throws {
+		
+		// Given
+		let resource = try getResource("zibMedicationUse")
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
+		)
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+		if case let HealthCategoryViewState.list(items) = sut.state {
 			expect(items).toEventually(haveCount(1))
 		} else {
 			fail("Invalid state")
@@ -117,7 +146,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Given
 		let resource = try getResource("zibMedicationUse")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		
@@ -126,7 +155,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.success(items) = sut.state {
+		if case let HealthCategoryViewState.list(items) = sut.state {
 			expect(items).toEventually(haveCount(1))
 		} else {
 			fail("Invalid state")
@@ -138,14 +167,14 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Given
 		let resource = try getResource("zibMedicationUse")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		sut.reduce(.onAppear)
 		
 		// When
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.success(items) = sut.state {
+		if case let HealthCategoryViewState.list(items) = sut.state {
 			items.first?.action?()
 		} else {
 			fail("Invalid state")
@@ -158,16 +187,15 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		expect(params.params["resource"] as? MgoResource) == resource
 		expect(params.params["heading"] as? String) == "Alle klachtgegevens"
 		expect((params.params["uiSchema"] as? UISchema)?.label) == "Zestril tablet 10mg"
-		
 	}
 	
-	func test_loadResources_withResults_withName_noOrganisationId() throws {
+	func test_loadResources_withResults_withName_noOrganisation() throws {
 
 		// Given
-		setupSut(organizationId: nil)
+		setupSut(organization: nil)
 		let resource = try getResource("zibMedicationUse")
 		servicesSpies.dataStoreSpy.stubbedGetResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		
@@ -176,7 +204,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.success(items) = sut.state {
+		if case let HealthCategoryViewState.list(items) = sut.state {
 			expect(items).toEventually(haveCount(1))
 		} else {
 			fail("Invalid state")
@@ -192,6 +220,85 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(.failure))
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+		if case let HealthCategoryViewState.partial(items) = sut.state {
+			expect(items).to(beEmpty())
+		} else {
+			fail("Invalid state")
+		}
+	}
+	
+	func test_retry() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.retry)
+		
+		// Then
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount) == 1
+	}
+	
+	func test_retry_noServices() {
+		
+		// Given
+		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.vaccinations)
+		
+		// When
+		sut.reduce(.retry)
+		
+		// Then
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount) == 0
+	}
+	
+	func test_retry_noOrganization() {
+		
+		// Given
+		setupSut(organization: nil)
+		
+		// When
+		sut.reduce(.retry)
+		
+		// Then
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForHealthCategoriesCategoryCount) == 1
+	}
+	
+	func test_handleDataStoreChanges() {
+		
+		// Given
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)]
+		)
+		
+		// When
+		sut.handleDataStoreChanges()
+		
+		// Then
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+		if case let HealthCategoryViewState.list(items) = sut.state {
+			expect(items).to(beEmpty())
+		} else {
+			fail("Invalid state")
+		}
+	}
+	
+	func test_handleDataStoreChanges_belowThreshold_shouldKeepLoading() {
+		
+		// Given
+		setupSut(organization: healthcareOrganization, category: .medication)
+		
+		// one (empty) result, but medication does more than one call.
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)]
+		)
+		
+		// When
+		sut.handleDataStoreChanges()
+		
+		// Then
+		expect(self.sut.state) == .loading
 	}
 }

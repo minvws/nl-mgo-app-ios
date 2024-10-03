@@ -25,7 +25,7 @@ final class MentalStatusHealthCategoryViewTests: XCTestCase {
 		healthcareOrganization = Generator.healthcareOrganization("1")
 		viewModel = MentalStatusHealthCategoryViewModel(
 			coordinator: coordinatorSpy,
-			organizationId: healthcareOrganization.identifier)
+			organization: healthcareOrganization)
 		sut = HealthCategoryView(viewModel: self.viewModel)
 	}
 
@@ -41,30 +41,25 @@ final class MentalStatusHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_stateEmpty() {
+	func test_stateEmptyList() {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
-		)
 		let content = NavigationView { sut }
 		
 		// When
-		sut.viewModel.reduce(.onAppear)
+		sut.viewModel.state = .list(items: [])
 		
 		// Then
-		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
 	}
 	
-	func test_stateFailure() {
+	func test_stateEmptyPartialList() {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(DataStoreError.noData)
 		let content = NavigationView { sut }
 		
 		// When
-		sut.viewModel.reduce(.onAppear)
+		sut.viewModel.state = .partial(items: [])
 		
 		// Then
 		takeSnapShots(content: content)
@@ -73,69 +68,41 @@ final class MentalStatusHealthCategoryViewTests: XCTestCase {
 	func test_stateList() throws {
 		
 		// Given
-		let resource = try getResource("zibFunctionalOrMentalStatus")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
-		)
-		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
+		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
 		
 		// When
-		sut.viewModel.reduce(.onAppear)
+		sut.viewModel.state = .list(items: [item])
 		
 		// Then
-		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
-	}
-
-	func test_backbuttonPressed() throws {
-		
-		// Given
-		let content = NavigationView { sut }
-		
-		// When
-		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
-
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
 	func test_search_itemNotFound() throws {
 		
 		// Given
-		let resource = try getResource("zibFunctionalOrMentalStatus")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
-		)
-		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
-		sut.viewModel.reduce(.onAppear)
+		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
+		sut.viewModel.state = .list(items: [item])
 		
 		// When
-		viewModel.searchText = "Huisarts"
+		viewModel.searchText = "MGO"
 		
 		// Then
-		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
 	}
 	
 	func test_search_itemFound() throws {
 		
 		// Given
-		let resource = try getResource("zibFunctionalOrMentalStatus")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.functionalOrMentalStatus.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
-		)
-		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
-		sut.viewModel.reduce(.onAppear)
+		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
+		sut.viewModel.state = .list(items: [item])
 		
 		// When
-		viewModel.searchText = "Tandarts"
+		viewModel.searchText = "health"
 		
 		// Then
-		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
 	}
 }

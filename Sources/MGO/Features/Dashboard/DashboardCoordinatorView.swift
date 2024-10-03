@@ -77,7 +77,7 @@ enum DashboardCoordination {
 		// Details Flow
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
-		case showHealthCategory(category: HealthCategories.Category, organizationId: String?)
+		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
 		case showZibDetails(heading: String, schema: UISchema)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
@@ -87,13 +87,13 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	
 	/// The navigation path for the first tab
 	@Published var firstTabPath = NavigationStackBackport.NavigationPath()
-
+	
 	/// The navigation path for the second tab
 	@Published var secondTabPath = NavigationStackBackport.NavigationPath()
 	
 	/// The navigation path for the third tab
 	@Published var thirdTabPath = NavigationStackBackport.NavigationPath()
-
+	
 	/// The navigation path for the sheet.
 	@Published var pathForSheet = NavigationStackBackport.NavigationPath()
 	
@@ -142,25 +142,25 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				
 			case Coordination.Action.showHealthcareOrganizationSearchResults.identifier:
 				if action.params.count == 2,
-					let city = action.params["city"] as? String,
-					let name = action.params["name"] as? String {
+				   let city = action.params["city"] as? String,
+				   let name = action.params["name"] as? String {
 					pathForSheet.append(DashboardCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
 				} else {
 					logError("Dashboard Coordinator, missing params for \(action)")
 				}
-					
+				
 			case Coordination.Action.listHealthcareOrganizations.identifier:
 				pathForSheet.append(DashboardCoordination.State.listHealthcareOrganizations)
-			
+				
 			case Coordination.Action.backToAddHealthcareOrganization.identifier:
 				pathForSheet.removeLast(pathForSheet.count)
-			
+				
 			case Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
-			
-			// Healthcare Organization Details
-			
+				
+				// Healthcare Organization Details
+				
 			case Coordination.Action.showHealthcareOrganization.identifier:
 				if action.params.count == 1,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
@@ -169,50 +169,50 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
-			
+				
 			case Coordination.Action.showHealthCategory.identifier:
 				if action.params.count == 2,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let category = action.params["category"] as? HealthCategories.Category {
-					setState(DashboardCoordination.State.showHealthCategory(category: category, organizationId: healthcareOrganization.identifier))
+					setState(DashboardCoordination.State.showHealthCategory(category: category, organization: healthcareOrganization))
 				} else if action.params.count == 1,
-					let category = action.params["category"] as? HealthCategories.Category {
-					setState(DashboardCoordination.State.showHealthCategory(category: category, organizationId: nil))
+						  let category = action.params["category"] as? HealthCategories.Category {
+					setState(DashboardCoordination.State.showHealthCategory(category: category, organization: nil))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
-			
+				
 			case Coordination.Action.showZibDetails.identifier:
 				if action.params.count == 3,
-//				   let resource = action.params["resource"] as? MgoResouce,
+				   //				   let resource = action.params["resource"] as? MgoResouce,
 				   let heading = action.params["heading"] as? String,
 				   let schema = action.params["uiSchema"] as? UISchema {
 					setState(DashboardCoordination.State.showZibDetails(heading: heading, schema: schema))
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
-
+				
 			case Coordination.Action.removeHealthcareOrganization.identifier:
 				if action.params.count == 1,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
-				
+					
 					rootStateForSheet = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: healthcareOrganization)
 					
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
-			
+				
 			case Coordination.Action.removedHealthcareOrganization.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
 				secondTabPath.removeLast()
-			
-			// General
-			
+				
+				// General
+				
 			case Coordination.Action.closeSheet.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
-					
+				
 			case Coordination.Action.backButtonPressed.identifier:
 				if !pathForSheet.isEmpty {
 					pathForSheet.removeLast()
@@ -225,7 +225,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 						secondTabPath.removeLast()
 					}
 				}
-					
+				
 			case Coordination.Action.resetApplication.identifier:
 				parentCoordinator?.handle(Coordination.Action.resetApplication)
 				selectedTab = DashboardTab.healthCategories.rawValue
@@ -258,14 +258,14 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			// Initial states
 			case .aboutTheApp:
 				AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: self))
-			
+				
 			case .overview:
 				OrganizationsView(viewModel: OrganizationsViewModel(coordinator: self)).isPresentedAsSheet(false)
-			
-			// Healthcare Organization Flow
+				
+				// Healthcare Organization Flow
 			case .addHealthcareOrganization:
 				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
-			
+				
 			case let .healthcareOrganizationSearchResults(city, name):
 				let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String
 				let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
@@ -280,10 +280,10 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					name: name,
 					localisationServiceClient: client)
 				).isPresentedAsSheet(true)
-			
+				
 			case .listHealthcareOrganizations:
 				OrganizationListView(viewModel: OrganizationListViewModel(coordinator: self)).isPresentedAsSheet(true)
-			
+				
 			case let .showHealthcareOrganization(healthcareOrganization):
 				HealthCategoriesView(
 					viewModel:
@@ -291,21 +291,21 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 							coordinator: self,
 							mode: .single( healthcareOrganization)
 						)
-					)
-			
+				)
+				
 			case .showHealthCategories:
-			
+				
 				HealthCategoriesView(
 					viewModel:
 						HealthCategoriesViewModel(
 							coordinator: self,
 							mode: .all
 						)
-					)
-			
+				)
+				
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
-			
+				
 			case let .showZibDetails(heading: heading, schema: schema):
 				ZibDetailsView(
 					viewModel: ZibDetailsViewModel(
@@ -314,38 +314,67 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 						schema: schema
 					)
 				)
-			
-			case let .showHealthCategory(category: category, organizationId: organizationId):
-			
-				switch category {
-					case HealthCategories.Category.medication:
-						HealthCategoryView(viewModel: MedicationHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
-					
-					case HealthCategories.Category.allergies:
-						HealthCategoryView(viewModel: AllergiesHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
-					
-					case HealthCategories.Category.complaints:
-						HealthCategoryView(viewModel: ComplaintsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
-					
-					case HealthCategories.Category.alerts:
-						HealthCategoryView(viewModel: AlertsHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
-					
-					case HealthCategories.Category.devices:
-						HealthCategoryView(viewModel: DevicesHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
-					
-					case HealthCategories.Category.functionalOrMentalStatus:
-						HealthCategoryView(viewModel: MentalStatusHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
-					
-					case HealthCategories.Category.lifestyle:
-						HealthCategoryView(viewModel: LifestyleHealthCategoryViewModel(coordinator: self, organizationId: organizationId))
-					
-					default:
-						Text(verbatim: "Todo, Overview for Category \(category)")
-				}
-			
+				
+			case let .showHealthCategory(category: category, organization: organization):
+				
+				viewState(for: category, organization: organization)
+				
 			default:
 				EmptyView()
-				.logError("DashboardCoordinator, no view for", state as Any)
+					.logError("DashboardCoordinator, no view for", state as Any)
+		}
+	}
+	
+	@ViewBuilder private func viewState(for category: HealthCategories.Category, organization: MgoOrganization? = nil) -> some View {
+
+		switch category {
+			case HealthCategories.Category.medication:
+				HealthCategoryView(viewModel: MedicationHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.measurements:
+				HealthCategoryView(viewModel: MeasurementsHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.labresults:
+				HealthCategoryView(viewModel: LabResultsHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.allergies:
+				HealthCategoryView(viewModel: AllergiesHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.treatments:
+				HealthCategoryView(viewModel: TreatmentsHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.appointments:
+				HealthCategoryView(viewModel: AppointmentsHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.vaccinations:
+				HealthCategoryView(viewModel: VaccinationsHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.documents:
+				HealthCategoryView(viewModel: DocumentsHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.complaints:
+				HealthCategoryView(viewModel: ComplaintsHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.patient:
+				HealthCategoryView(viewModel: PatientHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.alerts:
+				HealthCategoryView(viewModel: AlertsHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.payment:
+				HealthCategoryView(viewModel: PaymentHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.plans:
+				HealthCategoryView(viewModel: PlansHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.devices:
+				HealthCategoryView(viewModel: DevicesHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.functionalOrMentalStatus:
+				HealthCategoryView(viewModel: MentalStatusHealthCategoryViewModel(coordinator: self, organization: organization))
+				
+			case HealthCategories.Category.lifestyle:
+				HealthCategoryView(viewModel: LifestyleHealthCategoryViewModel(coordinator: self, organization: organization))
 		}
 	}
 }

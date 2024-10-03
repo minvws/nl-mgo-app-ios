@@ -906,6 +906,61 @@
         }
       }
     },
+    "health_category.empty.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen gegevens gevonden"
+          }
+        }
+      }
+    },
+    "health_category.empty.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er is hier niets opgeslagen."
+          }
+        }
+      }
+    },
+    "health_category.error.banner.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens ophalen mislukt"
+          }
+        }
+      }
+    },
+    "health_category.error.banner.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er ging iets mis in ons systeem."
+          }
+        }
+      }
+    },
+    "health_category.error.banner.try_again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probeer opnieuw"
+          }
+        }
+      }
+    },
     "health_category.labresults" : {
       "extractionState" : "manual",
       "localizations" : {

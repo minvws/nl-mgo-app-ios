@@ -19,15 +19,39 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 		invokedLoadCount += 1
 	}
 
-	var invokedLoadFor = false
-	var invokedLoadForCount = 0
-	var invokedLoadForParameters: (healthcareOrganization: MgoOrganization, Void)?
-	var invokedLoadForParametersList = [(healthcareOrganization: MgoOrganization, Void)]()
+	var invokedLoadForMgoOrganization = false
+	var invokedLoadForMgoOrganizationCount = 0
+	var invokedLoadForMgoOrganizationParameters: (healthcareOrganization: MgoOrganization, Void)?
+	var invokedLoadForMgoOrganizationParametersList = [(healthcareOrganization: MgoOrganization, Void)]()
 
 	func loadFor(_ healthcareOrganization: MgoOrganization) {
-		invokedLoadFor = true
-		invokedLoadForCount += 1
-		invokedLoadForParameters = (healthcareOrganization, ())
-		invokedLoadForParametersList.append((healthcareOrganization, ()))
+		invokedLoadForMgoOrganization = true
+		invokedLoadForMgoOrganizationCount += 1
+		invokedLoadForMgoOrganizationParameters = (healthcareOrganization, ())
+		invokedLoadForMgoOrganizationParametersList.append((healthcareOrganization, ()))
+	}
+
+	var invokedLoadForHealthCategoriesCategory = false
+	var invokedLoadForHealthCategoriesCategoryCount = 0
+	var invokedLoadForHealthCategoriesCategoryParameters: (category: HealthCategories.Category, Void)?
+	var invokedLoadForHealthCategoriesCategoryParametersList = [(category: HealthCategories.Category, Void)]()
+
+	func loadFor(_ category: HealthCategories.Category) {
+		invokedLoadForHealthCategoriesCategory = true
+		invokedLoadForHealthCategoriesCategoryCount += 1
+		invokedLoadForHealthCategoriesCategoryParameters = (category, ())
+		invokedLoadForHealthCategoriesCategoryParametersList.append((category, ()))
+	}
+
+	var invokedLoadResource = false
+	var invokedLoadResourceCount = 0
+	var invokedLoadResourceParameters: (healthcareOrganization: MgoOrganization, category: HealthCategories.Category)?
+	var invokedLoadResourceParametersList = [(healthcareOrganization: MgoOrganization, category: HealthCategories.Category)]()
+
+	func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) {
+		invokedLoadResource = true
+		invokedLoadResourceCount += 1
+		invokedLoadResourceParameters = (healthcareOrganization, category)
+		invokedLoadResourceParametersList.append((healthcareOrganization, category))
 	}
 }

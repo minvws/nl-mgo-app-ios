@@ -17,7 +17,7 @@ final class AllergiesHealthCategoryViewTests: XCTestCase {
 	private var viewModel: HealthCategoryViewModel!
 	private var healthcareOrganization: MgoOrganization!
 	private var sut: HealthCategoryView!
-
+	
 	override func setUp() {
 		
 		servicesSpies = setupServicesSpies()
@@ -25,10 +25,10 @@ final class AllergiesHealthCategoryViewTests: XCTestCase {
 		healthcareOrganization = Generator.healthcareOrganization("1")
 		viewModel = AllergiesHealthCategoryViewModel(
 			coordinator: coordinatorSpy,
-			organizationId: healthcareOrganization.identifier)
+			organization: healthcareOrganization)
 		sut = HealthCategoryView(viewModel: self.viewModel)
 	}
-
+	
 	func test_stateLoading() {
 		
 		// Given
@@ -41,101 +41,68 @@ final class AllergiesHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_stateEmpty() {
+	func test_stateEmptyList() {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.allergies.rawValue)", organizationId: healthcareOrganization.identifier, resources: [])]
-		)
 		let content = NavigationView { sut }
 		
 		// When
-		sut.viewModel.reduce(.onAppear)
+		sut.viewModel.state = .list(items: [])
 		
 		// Then
-		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
 	}
 	
-	func test_stateFailure() {
+	func test_stateEmptyPartialList() {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(DataStoreError.noData)
 		let content = NavigationView { sut }
 		
 		// When
-		sut.viewModel.reduce(.onAppear)
+		sut.viewModel.state = .partial(items: [])
 		
 		// Then
 		takeSnapShots(content: content)
 	}
-
+	
 	func test_stateList() throws {
 		
 		// Given
-		let resource = try getResource("zibAllergyIntolerance")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.allergies.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
-		)
-		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
+		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
 		
 		// When
-		sut.viewModel.reduce(.onAppear)
+		sut.viewModel.state = .list(items: [item])
 		
 		// Then
-		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
-	}
-
-	func test_backbuttonPressed() throws {
-		
-		// Given
-		let content = NavigationView { sut }
-		
-		// When
-		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
-
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
 	func test_search_itemNotFound() throws {
 		
 		// Given
-		let resource = try getResource("zibAllergyIntolerance")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.allergies.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
-		)
-		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
-		sut.viewModel.reduce(.onAppear)
+		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
+		sut.viewModel.state = .list(items: [item])
 		
 		// When
-		viewModel.searchText = "Allergy"
+		viewModel.searchText = "MGO"
 		
 		// Then
-		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
 	}
 	
 	func test_search_itemFound() throws {
 		
 		// Given
-		let resource = try getResource("zibAllergyIntolerance")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.allergies.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource])]
-		)
-		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		let content = NavigationView { sut }
-		sut.viewModel.reduce(.onAppear)
+		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
+		sut.viewModel.state = .list(items: [item])
 		
 		// When
-		viewModel.searchText = "18e3"
+		viewModel.searchText = "health"
 		
 		// Then
-		expect(self.viewModel.state).toEventuallyNot(equal(.loading))
 		takeSnapShots(content: content)
 	}
 }
