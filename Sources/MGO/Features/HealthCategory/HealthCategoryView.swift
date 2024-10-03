@@ -142,6 +142,11 @@ class HealthCategoryViewModel: ObservableObject {
 		registerObservers()
 	}
 	
+	deinit {
+		// Remove as observer
+		dataStoreToken.map(Current.dataStore.observatory.remove)
+	}
+	
 	private func registerObservers() {
 		self.dataStoreToken = Current.dataStore.observatory.append { [weak self] changed in
 			if changed {
