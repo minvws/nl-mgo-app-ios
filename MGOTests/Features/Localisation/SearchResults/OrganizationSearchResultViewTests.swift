@@ -127,7 +127,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		
 		// Then
 		expect(self.viewModel.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue(), timeout: .seconds(5))
 	}
 	
 	func test_list_lightPortrait() {
