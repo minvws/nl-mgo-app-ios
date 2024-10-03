@@ -228,7 +228,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					
 			case Coordination.Action.resetApplication.identifier:
 				parentCoordinator?.handle(Coordination.Action.resetApplication)
-				
+				selectedTab = DashboardTab.healthCategories.rawValue
+			
 			default:
 				// Unhandled
 				logWarning("Dashboard Coordinator does not handle \(action)")
