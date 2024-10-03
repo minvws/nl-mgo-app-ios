@@ -25,7 +25,7 @@ final class RestrictedBrowserViewModelTests: XCTestCase {
 		
 		// Then
 		expect(urlOpenerSpy.invokedCanOpenURL) == true
-		expect(urlOpenerSpy.invokedOpen) == true
+		expect(urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
 	func test_alertController() throws {
