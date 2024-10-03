@@ -113,6 +113,5 @@ public class InMemoryDataStore: MgoDataStoreProtocol {
 	/// Wipe all persisted data
 	public func wipePersistedData() {
 		removeAllRecords()
-		observatory.removeAll()
 	}
 }

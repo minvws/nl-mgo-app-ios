@@ -118,7 +118,6 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 		
 		organizations = []
 		storage.remove(fileName)
-		observatory.removeAll()
 	}
 	
 	/// Store a list of organizations
