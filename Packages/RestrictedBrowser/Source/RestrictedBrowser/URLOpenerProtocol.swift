@@ -16,15 +16,12 @@ public protocol URLOpenerProtocol {
 	func canOpenURL(_ url: URL) -> Bool
 
 	/// Open the url
-	///
+	/// 
 	/// - Parameters:
 	///   - url: the url to open
 	///   - options: the options
-	///   - completion: completion handler
-	func open(
-		_ url: URL,
-		options: [UIApplication.OpenExternalURLOptionsKey: Any],
-		completionHandler completion: ((Bool) -> Swift.Void)?)
+	/// - Returns: True if the url is opened
+	func open(_ url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any]) async -> Bool
 }
 
 extension URLOpenerProtocol {
@@ -32,7 +29,9 @@ extension URLOpenerProtocol {
 	public func openUrlIfPossible(_ url: URL) {
 		
 		if canOpenURL(url) {
-			open(url, options: [:], completionHandler: nil)
+			_Concurrency.Task {
+				_ = await open(url, options: [:])
+			}
 		}
 	}
 }
