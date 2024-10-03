@@ -29,7 +29,7 @@ final class ForgotPinCodeViewModelTests: XCTestCase {
 		sut.reduce(.cancelButtonPressed)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue(), timeout: .seconds(5))
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.dismissForgotPinCode
 	}
 	

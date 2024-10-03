@@ -71,7 +71,7 @@ struct InputField: View {
 				.frame(maxWidth: .infinity, alignment: .leading)
 				.background(theme.backgroundSecondary)
 				.cornerRadius(ViewTraits.Input.cornerRadius)
-				.tag("input")
+				.accessibilityIdentifier("input")
 				.overlay(
 					RoundedRectangle(cornerRadius: ViewTraits.Input.cornerRadius)
 						.inset(by: ViewTraits.Input.inset)

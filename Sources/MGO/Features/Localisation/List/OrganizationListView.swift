@@ -234,12 +234,12 @@ struct OrganizationListView: View {
 					CallToActionButton("organization_list.to_overview", style: .secondary) {
 						viewModel.reduce(.done)
 					}
-					.tag("organization_list.to_overview")
+					.accessibilityIdentifier("organization_list.to_overview")
 					
 					CallToActionButton("organization_list.add_organization") {
 						viewModel.reduce(.backToSearch)
 					}
-					.tag("organization_list.add_organization")
+					.accessibilityIdentifier("organization_list.add_organization")
 					
 				case .list:
 					// We already have an organization, so
@@ -248,12 +248,12 @@ struct OrganizationListView: View {
 					CallToActionButton("organization_list.add_organization", style: .secondary) {
 						viewModel.reduce(.backToSearch)
 					}
-					.tag("organization_list.add_organization")
+					.accessibilityIdentifier("organization_list.add_organization")
 					
 					CallToActionButton("organization_list.to_overview") {
 						viewModel.reduce(.done)
 					}
-					.tag("organization_list.to_overview")
+					.accessibilityIdentifier("organization_list.to_overview")
 			}
 		}
 		.padding(ViewTraits.Button.insets)

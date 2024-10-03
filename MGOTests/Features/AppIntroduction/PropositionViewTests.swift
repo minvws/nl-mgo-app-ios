@@ -46,7 +46,7 @@ final class PropositionViewTests: XCTestCase {
 		let sut = createSut()
 		
 		// When
-		let element = try sut.inspect().find(viewWithTag: "privacylink")
+		let element = try sut.inspect().find(viewWithAccessibilityIdentifier: "proposition.subheading")
 		try element.callOnTapGesture()
 		
 		// Then
@@ -60,7 +60,8 @@ final class PropositionViewTests: XCTestCase {
 		let sut = createSut()
 		
 		// When
-		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.next").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.next")
+		try view.view(CallToActionButton.self).find(button: "common.next").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

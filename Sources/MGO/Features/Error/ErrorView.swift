@@ -141,7 +141,7 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 			CallToActionButton(viewModel.button) {
 				viewModel.action()
 			}
-			.tag("action_button")
+			.accessibilityIdentifier("action_button")
 			.padding(ErrorViewViewTraits.General.padding)
 		}
 		.padding(.top, ErrorViewViewTraits.Navigation.padding)

@@ -86,6 +86,7 @@ struct PropositionView: View {
 						EmptyView()
 					}
 				}
+				.accessibilityIdentifier("proposition.subheading")
 				.onTapGesture {
 					// Only called in VoiceOVer on iOS 15/16
 					if let url = URL(string: "/privacystatement") {
@@ -98,8 +99,6 @@ struct PropositionView: View {
 				.foregroundStyle(theme.contentPrimary)
 				.tint(theme.actionTertiaryDefaultText)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityIdentifier("proposition.subheading")
-				.tag("privacylink")
 				
 				Group {
 					PrivacyShieldView("proposition.statement_1", shieldType: .encrypted)

@@ -73,7 +73,8 @@ final class HealthCategoriesViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// When
-		try content.inspect().find(viewWithAccessibilityIdentifier: "health_categories.remove_organization").button().tap()
+		let view = try content.inspect().find(viewWithAccessibilityIdentifier: "health_categories.remove_organization")
+		try view.view(CallToActionButton.self).find(button: "health_categories.remove_organization").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
@@ -89,7 +90,8 @@ final class HealthCategoriesViewTests: XCTestCase {
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 		
 		// When
-		try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.empty.action").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.empty.action")
+		try view.view(CallToActionButton.self).find(button: "overview.empty.action").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

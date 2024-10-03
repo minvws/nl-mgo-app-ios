@@ -141,12 +141,12 @@ struct RemoveHealthcareOrganizationView: View {
 			CallToActionButton("remove_organization.yes_delete", style: .secondary) {
 				viewModel.reduce(.removeOrganization)
 			}
-			.tag("remove")
+			.accessibilityIdentifier("remove")
 			
 			CallToActionButton("remove_organization.no_cancel") {
 				viewModel.reduce(.cancel)
 			}
-			.tag("cancel")
+			.accessibilityIdentifier("cancel")
 			
 		}
 		.padding(ViewTraits.Button.insets)

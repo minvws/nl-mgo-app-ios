@@ -199,7 +199,6 @@ struct AddOrganizationView: View {
 			CallToActionButton("common.search") {
 				viewModel.reduce(.search)
 			}
-			.tag("search")
 			.padding(ViewTraits.General.padding)
 			.accessibilityIdentifier("common.search")
 		}

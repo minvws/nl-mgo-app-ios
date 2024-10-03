@@ -91,7 +91,8 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
 		
 		// When
-		try sut.inspect().find(viewWithTag: "action_button").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "action_button")
+		try view.view(CallToActionButton.self).find(button: "common.search_again").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
@@ -121,7 +122,8 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		viewModel.state = .failure(error)
 		
 		// When
-		try sut.inspect().find(viewWithTag: "action_button").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "action_button")
+		try view.view(CallToActionButton.self).find(button: "common.try_again").tap()
 		
 		// Then
 		expect(self.viewModel.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))

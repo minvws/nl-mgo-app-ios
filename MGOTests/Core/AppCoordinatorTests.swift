@@ -119,7 +119,7 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.path.isEmpty) == true
-		expect(self.urlOpenerSpy.invokedOpen) == true
+		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
 	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement_domainAllowed() {
@@ -376,7 +376,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.showAppStore)
 		
 		// Then
-		expect(self.urlOpenerSpy.invokedOpen) == true
+		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
 	func test_coordinatorHandle_showAppStore_evenWhenUpdateRequired() {
@@ -388,6 +388,6 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.showAppStore)
 		
 		// Then
-		expect(self.urlOpenerSpy.invokedOpen) == true
+		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 }

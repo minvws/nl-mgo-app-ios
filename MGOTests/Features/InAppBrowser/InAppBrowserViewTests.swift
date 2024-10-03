@@ -7,8 +7,8 @@
 
 import MGOTest
 import RestrictedBrowser
+import MGOUI
 @testable import MGO
-import SwiftUI
 
 final class InAppBrowserViewTests: XCTestCase {
 
