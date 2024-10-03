@@ -174,7 +174,9 @@ class HealthCategoryViewModel: ObservableObject {
 		Current.dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
 		
 		guard category.services.isNotEmpty else {
-			_Concurrency.Task { await loadResources() }
+			_Concurrency.Task.delayed(byTimeInterval: 1.5) { [weak self] in
+				await self?.loadResources()
+			}
 			return
 		}
 		
