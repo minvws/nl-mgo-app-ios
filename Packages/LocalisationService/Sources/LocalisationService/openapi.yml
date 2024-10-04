@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: FastAPI
-  version: 0.4.2
+  version: 0.5.0
 servers:
   - url: https://lo-ad.test.mgo.irealisatie.nl
     description: MGO TEST localisation
