@@ -301,10 +301,9 @@ struct OrganizationSearchResultsView: View {
 	spy.stubbedSearchHealthcareOrganizations = [
 		PreviewContent.healthcareOrganization,
 		MgoOrganization(
+			medmij_id: "medmij",
 			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
-			identification_type: "type",
-			identification_value: "2",
-			active: true,
+			identification: "2",
 			addresses: [LocalisationService.Components.Schemas.Address(
 				active: true,
 				address: "Boorplatform 5",
@@ -313,7 +312,6 @@ struct OrganizationSearchResultsView: View {
 				postalcode: "1234AB",
 				_type: "postal")
 			],
-			names: [],
 			types: [],
 			data_services: []
 		)

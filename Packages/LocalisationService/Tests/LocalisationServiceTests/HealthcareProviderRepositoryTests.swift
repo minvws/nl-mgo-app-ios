@@ -84,10 +84,9 @@ final class HealthcareOrganiationRepositoryTests: XCTestCase {
 	
 	func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB") -> MgoOrganization {
 		return MgoOrganization(
+			medmij_id: "test",
 			display_name: "Tandarts Tandje Erbij",
-			identification_type: "type",
-			identification_value: id,
-			active: true,
+			identification: id,
 			addresses: [Components.Schemas.Address(
 				active: true,
 				address: "\(address) \r\n \(postalCode) \(city)",
@@ -96,7 +95,6 @@ final class HealthcareOrganiationRepositoryTests: XCTestCase {
 				postalcode: postalCode,
 				_type: "postal")
 			],
-			names: [],
 			types: [
 				Components.Schemas.CType(
 					code: "01",

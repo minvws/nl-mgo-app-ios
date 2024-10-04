@@ -17,7 +17,7 @@ extension DVP {
 	public enum Vaccination {
 		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V6/FHIR_Vaccination-Immunization
 		
-		public static let serviceID: Int = 63
+		public static let serviceID: String = "63"
 		
 		// MARK: - 1: Vaccination -
 

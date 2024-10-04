@@ -13,7 +13,7 @@ public extension MgoOrganization {
 	/// - Returns: tuple of address, city and postal code
 	func getAddress() -> (address: String, city: String?, postalCode: String?) {
 	
-		guard let firstAddress = addresses.first else {
+		guard let firstAddress = addresses?.first else {
 			return ("", nil, nil)
 		}
 		
