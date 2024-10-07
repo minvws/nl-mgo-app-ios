@@ -10,10 +10,9 @@ import MGOFoundation
 struct PreviewContent {
 	
 	static let healthcareOrganization = MgoOrganization(
+		medmij_id: "test",
 		display_name: "Tandarts Tandje Erbij",
-		identification_type: "type",
-		identification_value: "1",
-		active: true,
+		identification: "1",
 		addresses: [LocalisationService.Components.Schemas.Address(
 			active: true,
 			address: "Boorplatform 5",
@@ -22,7 +21,6 @@ struct PreviewContent {
 			postalcode: "1234AB",
 			_type: "postal")
 		],
-		names: [],
 		types: [LocalisationService.Components.Schemas.CType(code: "01", display_name: "Tandarts", _type: "")],
 		data_services: []
 	)

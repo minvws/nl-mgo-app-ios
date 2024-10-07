@@ -86,7 +86,7 @@ struct HealthCategories {
 		}
 		
 		/// What endpoints should we use for a category?
-		var services: [(endpoint: DVP.Endpoint, serviceID: Int)] {
+		var services: [(endpoint: DVP.Endpoint, serviceID: String)] {
 			switch self {
 				case .medication: [
 					(DVP.CommonClinicalDataset.medicationUse, DVP.CommonClinicalDataset.serviceID),

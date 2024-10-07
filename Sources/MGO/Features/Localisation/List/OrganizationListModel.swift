@@ -35,7 +35,7 @@ class OrganizationListDecorator {
 	/// - Returns: OrganizationListModel
 	static func create(_ organisation: MgoOrganization) -> OrganizationListModel {
 		
-		let identifier = organisation.identification_type + "|" + organisation.identification_value
+		let identifier = organisation.identifier
 		let name = Sanitizer.strip(organisation.display_name) ?? ""
 		let (address, city, postalCode) = organisation.getAddress()
 		let category = Sanitizer.strip(organisation.category) ?? ""
