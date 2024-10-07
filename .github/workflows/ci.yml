@@ -21,10 +21,10 @@ jobs:
     name: Build & test
     timeout-minutes: 60
     steps:
-      - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
-        # 🧐 when changing below, don't forget to also change the device name in the Fastfile too: 
-        run: | 
-          xcrun simctl boot "iPhone 15 Pro" || true
+#      - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
+#        # 🧐 when changing below, don't forget to also change the device name in the Fastfile too: 
+#        run: | 
+#          xcrun simctl boot "iPhone 15 Pro" || true
 
       - name: Checkout
         uses: actions/checkout@v4
