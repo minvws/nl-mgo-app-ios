@@ -31,8 +31,7 @@ platform :ios do
       code_coverage: true,
       result_bundle_path: "MGO.xcresult",
       skip_slack: true,
-      xcargs: "-skipPackagePluginValidation",
-      xcodebuild_formatter: "xcpretty"
+      xcargs: "-skipPackagePluginValidation"
     )
   end
   
@@ -53,8 +52,7 @@ platform :ios do
       result_bundle_path: "MGO.xcresult",
       skip_slack: true,
       result_bundle: true,
-      xcargs: "-skipPackagePluginValidation",
-      xcodebuild_formatter: "xcpretty"
+      xcargs: "-skipPackagePluginValidation"
     )
   end
 
