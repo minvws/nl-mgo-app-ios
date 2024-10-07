@@ -23,9 +23,9 @@ class Generator {
 		if useDataService {
 			dataServices.append(
 				LocalisationService.Components.Schemas.ZalDataServiceResponse(
-					id: 48,
+					id: "48",
 					name: "Basisgegevens Zorg",
-					interface_version: 2,
+					interface_versions: ["2"],
 					auth_endpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/authorize",
 					token_endpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/token",
 					roles: [
@@ -38,10 +38,9 @@ class Generator {
 		}
 		
 		return MgoOrganization(
+			medmij_id: "test",
 			display_name: "Tandarts Tandje Erbij",
-			identification_type: "type",
-			identification_value: id,
-			active: true,
+			identification: id,
 			addresses: [LocalisationService.Components.Schemas.Address(
 				active: true,
 				address: "\(address) \r\n \(postalCode) \(city)",
@@ -50,7 +49,6 @@ class Generator {
 				postalcode: postalCode,
 				_type: "postal")
 			],
-			names: [],
 			types: [
 				LocalisationService.Components.Schemas.CType(
 					code: "01",

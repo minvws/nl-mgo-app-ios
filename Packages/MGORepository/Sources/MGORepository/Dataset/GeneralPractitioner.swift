@@ -18,7 +18,7 @@ extension DVP {
 	public enum GeneralPractitioner {
 		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_GP_Data
 		
-		public static let serviceID: Int = 49
+		public static let serviceID: String = "49"
 		
 		// MARK: - 1: General practitioner -
 		

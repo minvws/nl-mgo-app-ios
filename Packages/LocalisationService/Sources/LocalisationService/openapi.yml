@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: FastAPI
-  version: 0.2.0
+  version: 0.5.0
 servers:
   - url: https://lo-ad.test.mgo.irealisatie.nl
     description: MGO TEST localisation
@@ -39,10 +39,10 @@ components:
     Address:
       properties:
         active:
-          type: boolean
+          type: [boolean, null]
           title: Active
         address:
-          type: string
+          type: [string, null]
           title: Address
         city:
           type: string
@@ -70,8 +70,6 @@ components:
           title: Type
       type: object
       required:
-      - active
-      - address
       - city
       - country
       - type
@@ -115,38 +113,17 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    IdentificationType:
-      type: string
-      enum:
-      - agb-z
-      - medmij
-      - htn
-      - ura
-      title: IdentificationType
-    Name:
-      properties:
-        full_name:
-          type: string
-          title: Full Name
-        preferred:
-          type: boolean
-          title: Preferred
-      type: object
-      required:
-      - full_name
-      - preferred
-      title: Name
     Organization:
       properties:
+        medmij_id:
+          type: [string, null]
+          title: Medmij Id
         display_name:
           type: string
           title: Display Name
-        identification_type:
+        identification:
           type: string
-          title: Identification Type
-        identification_value:
-          type: string
-          title: Identification Value
+          title: Identification
         active:
           type: [boolean, null]
           title: Active
@@ -155,11 +132,6 @@ components:
             $ref: "#/components/schemas/Address"
           type: array
           title: Addresses
-        names:
-          items:
-            $ref: "#/components/schemas/Name"
-          type: array
-          title: Names
         types:
           items:
             $ref: "#/components/schemas/CType"
@@ -172,13 +144,10 @@ components:
           title: Data Services
       type: object
       required:
+      - medmij_id
       - display_name
-      - identification_type
-      - identification_value
-      - addresses
-      - names
+      - identification
       - types
-      - data_services
       title: Organization
     SearchRequest:
       properties:
@@ -225,14 +194,16 @@ components:
     ZalDataServiceResponse:
       properties:
         id:
-          type: integer
+          type: string
           title: Id
         name:
           type: string
           title: Name
-        interface_version:
-          type: integer
-          title: Interface Version
+        interface_versions:
+          items:
+            type: [string, null]
+          type: array
+          title: Interface versions
         auth_endpoint:
           type: string
           title: Auth Endpoint
@@ -248,7 +219,7 @@ components:
       required:
       - id
       - name
-      - interface_version
+      - interface_versions
       - auth_endpoint
       - token_endpoint
       - roles
