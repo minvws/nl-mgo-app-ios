@@ -22,7 +22,7 @@ class OrganizationSearchResultDecorator {
 	/// - Returns: SearchResult
 	static func create(_ organisation: MgoOrganization) -> OrganizationSearchResult {
 		
-		let identifier = organisation.identification_type + "|" + organisation.identification_value
+		let identifier = organisation.identifier
 		let name = Sanitizer.strip(organisation.display_name) ?? ""
 		let (address, city, postalCode) = organisation.getAddress()
 		return OrganizationSearchResult(id: identifier, name: name, city: Sanitizer.strip(city), address: Sanitizer.strip(address), postalCode: Sanitizer.strip(postalCode))

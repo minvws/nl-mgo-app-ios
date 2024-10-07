@@ -17,7 +17,7 @@ extension DVP {
 	// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017
 	public enum CommonClinicalDataset {
 				
-		public static let serviceID: Int = 48
+		public static let serviceID: String = "48"
 		
 		public static let lastn = "$lastn"
  
