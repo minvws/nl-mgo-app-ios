@@ -176,7 +176,6 @@ class HealthCategoryViewModel: ObservableObject {
 	func retry() {
 		
 		state = .loading
-		Current.dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
 		
 		guard category.services.isNotEmpty else {
 			_Concurrency.Task.delayed(byTimeInterval: 1.5) { [weak self] in
@@ -185,6 +184,7 @@ class HealthCategoryViewModel: ObservableObject {
 			return
 		}
 		
+		Current.dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
 		_Concurrency.Task {
 			if let organization {
 				await Current.resourceRepository.loadResource(organization, category: category)

@@ -10,6 +10,8 @@ import Observatory
 
 public class MgoDataStoreSpy: MgoDataStoreProtocol {
 
+	private let queue = DispatchQueue(label: "com.MgoDataStoreSpy.serialqueue.\(UUID().uuidString)")
+	
 	public init() {
 		// Public init for public access
 	}
@@ -56,12 +58,14 @@ public class MgoDataStoreSpy: MgoDataStoreProtocol {
 	public var invokedStoreCount = 0
 	public var invokedStoreParameters: (data: MgoResourceRecord, Void)?
 	public var invokedStoreParametersList = [(data: MgoResourceRecord, Void)]()
-
+	
 	public func store(data: MgoResourceRecord) {
-		invokedStore = true
-		invokedStoreCount += 1
-		invokedStoreParameters = (data, ())
-		invokedStoreParametersList.append((data, ()))
+		queue.sync {
+			invokedStore = true
+			invokedStoreCount += 1
+			invokedStoreParameters = (data, ())
+			invokedStoreParametersList.append((data, ()))
+		}
 	}
 
 	public var invokedRemoveRecords = false
@@ -70,10 +74,12 @@ public class MgoDataStoreSpy: MgoDataStoreProtocol {
 	public var invokedRemoveRecordsParametersList = [(organizationId: String, Void)]()
 
 	public func removeRecords(for organizationId: String) {
-		invokedRemoveRecords = true
-		invokedRemoveRecordsCount += 1
-		invokedRemoveRecordsParameters = (organizationId, ())
-		invokedRemoveRecordsParametersList.append((organizationId, ()))
+		queue.sync {
+			invokedRemoveRecords = true
+			invokedRemoveRecordsCount += 1
+			invokedRemoveRecordsParameters = (organizationId, ())
+			invokedRemoveRecordsParametersList.append((organizationId, ()))
+		}
 	}
 
 	public var invokedRemoveRecordsFor = false
@@ -82,10 +88,12 @@ public class MgoDataStoreSpy: MgoDataStoreProtocol {
 	public var invokedRemoveRecordsForParametersList = [(categoryID: String, organizationId: String?)]()
 
 	public func removeRecords(for categoryID: String, organizationId: String?) {
-		invokedRemoveRecordsFor = true
-		invokedRemoveRecordsForCount += 1
-		invokedRemoveRecordsForParameters = (categoryID, organizationId)
-		invokedRemoveRecordsForParametersList.append((categoryID, organizationId))
+		queue.sync {
+			invokedRemoveRecordsFor = true
+			invokedRemoveRecordsForCount += 1
+			invokedRemoveRecordsForParameters = (categoryID, organizationId)
+			invokedRemoveRecordsForParametersList.append((categoryID, organizationId))
+		}
 	}
 
 	public var invokedRemoveAllRecords = false

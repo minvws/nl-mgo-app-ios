@@ -249,8 +249,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		sut.reduce(.retry)
 		
 		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount) == 0
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == false
 	}
 	
 	func test_retry_noOrganization() {
