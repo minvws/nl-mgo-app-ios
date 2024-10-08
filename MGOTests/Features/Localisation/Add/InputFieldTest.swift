@@ -6,8 +6,8 @@
  */
 
 import MGOTest
+import MGOUI
 @testable import MGO
-import SwiftUI
 
 final class InputFieldTests: XCTestCase {
 	

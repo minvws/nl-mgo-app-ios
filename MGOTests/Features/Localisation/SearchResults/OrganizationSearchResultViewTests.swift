@@ -91,7 +91,8 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		viewModel.state = .empty(city: "Roermond", name: "Tandarts Tandje Erbij")
 		
 		// When
-		try sut.inspect().find(viewWithTag: "action_button").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "action_button")
+		try view.view(CallToActionButton.self).find(button: "common.search_again").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
@@ -121,11 +122,12 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		viewModel.state = .failure(error)
 		
 		// When
-		try sut.inspect().find(viewWithTag: "action_button").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "action_button")
+		try view.view(CallToActionButton.self).find(button: "common.try_again").tap()
 		
 		// Then
 		expect(self.viewModel.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue(), timeout: .seconds(5))
 	}
 	
 	func test_list_lightPortrait() {
@@ -146,7 +148,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone15Pro(.portrait), precision: 1.0)
+			as: .image(on: .iPhone16Pro(.portrait), precision: 1.0)
 		)
 	}
 	
@@ -168,7 +170,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone15Pro(.portrait), precision: 1.0)
+			as: .image(on: .iPhone16Pro(.portrait), precision: 1.0)
 		)
 	}
 	
@@ -190,7 +192,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone15Pro(.landscape), precision: 1.0)
+			as: .image(on: .iPhone16Pro(.landscape), precision: 1.0)
 		)
 	}
 	
@@ -212,7 +214,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone15Pro(.landscape), precision: 1.0)
+			as: .image(on: .iPhone16Pro(.landscape), precision: 1.0)
 		)
 	}
 }

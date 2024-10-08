@@ -62,7 +62,7 @@ final class RestrictedBrowserTests: XCTestCase {
 		
 		// Then
 		expect(urlOpenerSpy.invokedCanOpenURL) == true
-		expect(urlOpenerSpy.invokedOpen) == true
+		expect(urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
 	func test_openInDefaultBrowser() throws {
@@ -78,6 +78,6 @@ final class RestrictedBrowserTests: XCTestCase {
 		
 		// Then
 		expect(urlOpenerSpy.invokedCanOpenURL) == true
-		expect(urlOpenerSpy.invokedOpen) == true
+		expect(urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 }

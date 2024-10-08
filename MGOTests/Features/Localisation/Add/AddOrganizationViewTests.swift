@@ -6,8 +6,8 @@
  */
 
 import MGOTest
+import MGOUI
 @testable import MGO
-import SwiftUI
 
 final class AddOrganizationViewTests: XCTestCase {
 
@@ -53,7 +53,8 @@ final class AddOrganizationViewTests: XCTestCase {
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
 		// When
-		try sut.inspect().find(viewWithTag: "search").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.search")
+		try view.view(CallToActionButton.self).find(button: "common.search").tap()
 		
 		// Then
 		takeSnapShots(content: content)
@@ -66,7 +67,8 @@ final class AddOrganizationViewTests: XCTestCase {
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
 		// When
-		try sut.inspect().find(viewWithTag: "search").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.search")
+		try view.view(CallToActionButton.self).find(button: "common.search").tap()
 		
 		// Then
 		takeSnapShots(content: content)
@@ -79,7 +81,8 @@ final class AddOrganizationViewTests: XCTestCase {
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
 		// When
-		try sut.inspect().find(viewWithTag: "search").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.search")
+		try view.view(CallToActionButton.self).find(button: "common.search").tap()
 		
 		// Then
 		takeSnapShots(content: content)
@@ -93,7 +96,8 @@ final class AddOrganizationViewTests: XCTestCase {
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
 		// When
-		try sut.inspect().find(viewWithTag: "search").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.search")
+		try view.view(CallToActionButton.self).find(button: "common.search").tap()
 		
 		// Then
 		takeSnapShots(content: content)

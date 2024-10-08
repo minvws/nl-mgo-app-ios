@@ -58,7 +58,8 @@ final class IntroductionViewTests: XCTestCase {
 		createSut(withBanner: true)
 		
 		// When
-		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.next").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.next")
+		try view.view(CallToActionButton.self).find(button: "common.next").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

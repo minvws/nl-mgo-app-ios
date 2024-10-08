@@ -29,7 +29,8 @@ final class ForgotPinCodeViewTests: XCTestCase {
 		// Given
 		
 		// When
-		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.cancel").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.cancel")
+		try view.view(CallToActionButton.self).find(button: "common.cancel").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
@@ -41,7 +42,8 @@ final class ForgotPinCodeViewTests: XCTestCase {
 		// Given
 		
 		// When
-		try sut.inspect().find(viewWithAccessibilityIdentifier: "forgot_pincode.button").button().tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "forgot_pincode.button")
+		try view.view(CallToActionButton.self).find(button: "forgot_pincode.button").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false

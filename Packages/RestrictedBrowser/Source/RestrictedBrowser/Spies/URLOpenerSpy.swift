@@ -27,18 +27,13 @@ public class URLOpenerSpy: URLOpenerProtocol {
 	public var invokedOpenCount = 0
 	public var invokedOpenParameters: (url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any])?
 	public var invokedOpenParametersList = [(url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any])]()
-	public var stubbedOpenCompletionResult: (Bool, Void)?
+	public var stubbedOpenCompletionResult: Bool! = false
 
-	public func open(
-		_ url: URL,
-		options: [UIApplication.OpenExternalURLOptionsKey: Any],
-		completionHandler completion: ((Bool) -> Swift.Void)?) {
+	public func open(_ url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any]) async -> Bool {
 		invokedOpen = true
 		invokedOpenCount += 1
 		invokedOpenParameters = (url, options)
 		invokedOpenParametersList.append((url, options))
-		if let result = stubbedOpenCompletionResult {
-			_ = completion?(result.0)
-		}
+		return stubbedOpenCompletionResult
 	}
 }

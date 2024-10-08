@@ -6,7 +6,7 @@
 */
 
 import SnapshotTesting
-import SwiftUI
+import MGOUI
 import XCTest
 
 extension XCTestCase {
@@ -30,7 +30,7 @@ extension XCTestCase {
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone15Pro(.portrait), precision: precision),
+			as: .image(on: .iPhone16Pro(.portrait), precision: precision),
 			named: "_darkPortrait",
 			file: file,
 			testName: name
@@ -39,7 +39,7 @@ extension XCTestCase {
 		// Light Mode & Portrait orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone15Pro(.portrait), precision: precision),
+			as: .image(on: .iPhone16Pro(.portrait), precision: precision),
 			named: "_lightPortrait",
 			file: file,
 			testName: name
@@ -48,7 +48,7 @@ extension XCTestCase {
 		// Dark Mode & Landscape orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
-			as: .image(on: .iPhone15Pro(.landscape), precision: precision),
+			as: .image(on: .iPhone16Pro(.landscape), precision: precision),
 			named: "_darkLandscape",
 			file: file,
 			testName: name
@@ -57,7 +57,7 @@ extension XCTestCase {
 		// Light Mode & Landscape orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
-			as: .image(on: .iPhone15Pro(.landscape), precision: precision),
+			as: .image(on: .iPhone16Pro(.landscape), precision: precision),
 			named: "_lightLandscape",
 			file: file,
 			testName: name
