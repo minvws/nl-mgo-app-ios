@@ -4,6 +4,39 @@
     "[privacyverklaring](/privacystatement)" : {
 
     },
+    "account_removed.action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oké, begrepen"
+          }
+        }
+      }
+    },
+    "account_removed.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je account is verwijderd"
+          }
+        }
+      }
+    },
+    "account_removed.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je gegevens zijn verwijderd van je telefoon. Ze blijven wel veilig bewaard bij je zorgaanbieders. Als je een nieuw account maakt, kun je je gegevens opnieuw ophalen."
+          }
+        }
+      }
+    },
     "add_organization.add_voiceover" : {
       "extractionState" : "manual",
       "localizations" : {

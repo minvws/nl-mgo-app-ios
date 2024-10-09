@@ -437,7 +437,7 @@ struct HealthCategoryView: View {
 	/// - Returns: view
 	@ViewBuilder func noSearchItems() -> some View {
 		
-		EmptyListView(
+		ImageContentView(
 			icon: Image(ImageResource.Woman.womanWithPhoneInCircleExclamation),
 			heading: viewModel.translations.noSearchResults,
 			subHeading: "health_category.search_again"
@@ -450,7 +450,7 @@ struct HealthCategoryView: View {
 	/// - Returns: view
 	@ViewBuilder func noItems() -> some View {
 		
-		EmptyListView(
+		ImageContentView(
 			icon: Image(ImageResource.Woman.womanWithPhone),
 			heading: "health_category.empty.heading",
 			subHeading: "health_category.empty.subheading"

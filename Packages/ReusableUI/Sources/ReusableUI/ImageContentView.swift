@@ -7,7 +7,13 @@
 
 import SwiftUI
 
-public struct EmptyListView: View {
+/// <#Description#>
+public struct ImageContentView: View {
+	
+	public enum Alignment {
+		case leading
+		case center
+	}
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -17,10 +23,22 @@ public struct EmptyListView: View {
 	///   - icon: the icon to be displayed
 	///   - heading: the heading of the empty state
 	///   - subHeading: the sub heading of the empty state
-	public init(icon: Image, heading: LocalizedStringKey, subHeading: LocalizedStringKey) {
+	///   - textAlignment: the alignment of the texts
+	///   - textSpacing: the spacing between the texts
+	///   - titleStyle: the style of the title
+	public init(
+		icon: Image,
+		heading: LocalizedStringKey,
+		subHeading: LocalizedStringKey,
+		textAlignment: ImageContentView.Alignment = .center,
+		textSpacing: CGFloat = 8,
+		titleStyle: Font.TextStyle = .title3) {
 		self.icon = icon
 		self.heading = heading
 		self.subHeading = subHeading
+		self.textAlignment = textAlignment
+		self.textSpacing = textSpacing
+		self.titleStyle = titleStyle
 	}
 	
 	/// The icon to be displayed
@@ -31,6 +49,15 @@ public struct EmptyListView: View {
 	
 	/// The language key for the sub heading
 	public var subHeading: LocalizedStringKey
+	
+	/// The alignment of the texts
+	private var textAlignment: Alignment
+	
+	/// The style for the title
+	private var titleStyle: Font.TextStyle
+	
+	/// The style for the title
+	private var textSpacing: CGFloat
 	
 	/// helper to calculate the size of the view
 	@State private var contentSize: CGSize = .zero
@@ -65,17 +92,17 @@ public struct EmptyListView: View {
 				.frame(maxWidth: contentSize.width * ViewTraits.Empty.width)
 				
 				// Texts, full width
-				VStack(alignment: .center, spacing: ViewTraits.Empty.spacing) {
+				VStack(alignment: textAlignment == .center ? .center : .leading, spacing: textSpacing) {
 					
 					Text(heading)
-						.rijksoverheidStyle(font: .bold, style: .title3)
+						.rijksoverheidStyle(font: .bold, style: titleStyle)
 						.foregroundColor(theme.contentPrimary)
-						.multilineTextAlignment(.center)
+						.multilineTextAlignment(textAlignment == .center ? .center : .leading)
 					
 					Text(subHeading)
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.foregroundColor(theme.contentTertiary)
-						.multilineTextAlignment(.center)
+						.multilineTextAlignment(textAlignment == .center ? .center : .leading)
 					
 					Spacer()
 				}
@@ -89,7 +116,7 @@ public struct EmptyListView: View {
 }
 
 #Preview {
-	EmptyListView(
+	ImageContentView(
 		icon: Image(systemName: "42.circle"),
 		heading: "Heading",
 		subHeading: "SubHeading"

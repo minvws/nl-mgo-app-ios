@@ -83,6 +83,7 @@ enum AppCoordination {
 		case pinCodeValidation
 		case bioMetricSetup
 		case forgotPinCode
+		case accountRemoved
 		
 		// Remote Authentication
 		case login
@@ -331,9 +332,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			rootStateForSheet = nil
 			pathForSheet = NavigationStackBackport.NavigationPath()
 		}
-		// Wipe Account
-		Current.wipePersistedData()
-		resetNavigationStack(with: AppCoordination.State.introduction(recreated: true))
+//		// Wipe Account
+//		Current.wipePersistedData()
+//		resetNavigationStack(with: AppCoordination.State.introduction(recreated: true))
+		
+		rootState = .accountRemoved
 	}
 	
 	/// Reset the navigation stack with this new root  state
@@ -391,6 +394,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case .forgotPinCode:
 				ForgotPinCodeView(viewModel: ForgotPinCodeViewModel(coordinator: self))
+			
+			case .accountRemoved:
+				AccountRemovedView(viewModel: AccountRemovedViewModel(coordinator: self))
 				
 			// Remote Authentication
 				
