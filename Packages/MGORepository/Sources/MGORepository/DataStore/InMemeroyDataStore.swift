@@ -93,7 +93,7 @@ public class InMemoryDataStore: MgoDataStoreProtocol {
 		queue.sync {
 			if let organizationId {
 				dataSource = dataSource.filter({ entry in
-					entry.organizationId != organizationId && entry.categoryId != categoryId
+					entry.organizationId != organizationId || entry.categoryId != categoryId
 				})
 			} else {
 				dataSource = dataSource.filter({ entry in
