@@ -747,7 +747,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Weet je zeker dat je een nieuw account wilt maken?"
+            "value" : "Nieuw account maken?"
           }
         }
       }
@@ -758,7 +758,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je account wordt hierdoor verwijderd. Je dossiers blijven wel bewaard bij je zorgaanbieders."
+            "value" : "Je kunt je gegevens straks opnieuw ophalen. Het andere account wordt verwijderd."
           }
         }
       }
