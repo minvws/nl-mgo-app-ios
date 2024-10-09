@@ -290,8 +290,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Only show the appIntroduction once
 			resetNavigationStack(with: AppCoordination.State.introduction)
 		} else if Current.secureUserSettings.pinCode == nil {
-			// User must set an pin code
-			resetNavigationStack(with: AppCoordination.State.pinCodeEntry)
+			// User must set an pin code, but show introduction first.
+			resetNavigationStack(with: AppCoordination.State.introduction)
 		} else {
 			// Repeat login, user must authenticate with pin code
 			resetNavigationStack(with: AppCoordination.State.pinCodeValidation)
