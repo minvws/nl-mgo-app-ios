@@ -123,7 +123,7 @@ final class InMemoryDataStoreTests: XCTestCase {
 		expect(result.failureError) != nil
 	}
 	
-	func test_wipePersistentData_forOrganization() {
+	func test_removeRecords_forOrganization() {
 		
 		// Given
 		
@@ -136,12 +136,28 @@ final class InMemoryDataStoreTests: XCTestCase {
 		expect(result.failureError) != nil
 	}
 	
-	func test_wipePersistentData_forOrganization_removeOtherOrganization() {
+	func test_removeRecords_forOrganization_removeOtherOrganization() {
 		
 		// Given
 		
 		// When
 		sut.removeRecords(for: "test organization 2")
+		
+		// Then
+		let result = sut.get(categoryId: "test category", organizationId: "test organization")
+		expect(result.isSuccess) == true
+		expect(result.successValue?.count) == 1
+		expect(result.successValue?[0].categoryId) == "test category"
+		expect(result.successValue?[0].organizationId) == "test organization"
+		expect(result.successValue?[0].resources) == [Data("test".utf8)]
+	}
+	
+	func test_removeRecords_forCategory_forOrganization() {
+		
+		// Given
+		
+		// When
+		sut.removeRecords(for: "test category", organizationId: "test organization 2")
 		
 		// Then
 		let result = sut.get(categoryId: "test category", organizationId: "test organization")

@@ -82,7 +82,7 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
+		let error = NSError(domain: "OrganizationSearchResultsViewModelTests", code: 404)
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizationError = error
 		
 		// When
