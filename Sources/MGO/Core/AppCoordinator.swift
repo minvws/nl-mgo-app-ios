@@ -337,7 +337,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			pathForSheet = NavigationStackBackport.NavigationPath()
 		}
 		// Wipe Account
-//		Current.wipePersistedData()
+		Current.wipePersistedData()
 		
 		rootState = .accountRemoved
 	}
