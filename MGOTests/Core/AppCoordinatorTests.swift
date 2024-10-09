@@ -46,12 +46,12 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.introduction(recreated: false)
+		expect(self.sut.rootState) == AppCoordination.State.introduction
 		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
 	
-	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeNotSet_pathShouldContainAccesCodeEntry() {
+	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeNotSet_pathShouldContainIntroduction() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = true
@@ -61,7 +61,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedLoading)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.pinCodeEntry
+		expect(self.sut.rootState) == AppCoordination.State.introduction
 		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
@@ -258,7 +258,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == AppCoordination.State.forgotPinCode
 	}
 	
-	func test_coordinatorHandle_recreateAccount_presentInStack() {
+	func test_coordinatorHandle_recreateAccount() {
 		
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.login, AppCoordination.State.pinCodeValidation])
@@ -270,14 +270,26 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedData) == true
 		expect(self.sut.rootStateForSheet) == nil
-		expect(self.sut.rootState) == AppCoordination.State.introduction(recreated: true)
-		expect(self.sut.path.isEmpty) == true
+		expect(self.sut.rootState) == AppCoordination.State.accountRemoved
+	}
+	
+	func test_coordinatorHandle_restart() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.accountRemoved])
+		sut.rootStateForSheet = nil
+		
+		// When
+		sut.handle(Coordination.Action.restart)
+		
+		// Then
+		expect(self.sut.rootState) == AppCoordination.State.introduction
 	}
 	
 	func test_coordinatorHandle_backButtonPressed() {
 		
 		// Given
-		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.introduction(recreated: false)])
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.introduction])
 		
 		// When
 		sut.handle(Coordination.Action.backButtonPressed)
@@ -301,7 +313,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_resetApplication() {
 		
 		// Given
-		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.introduction(recreated: false)])
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.introduction])
 		
 		// When
 		sut.handle(Coordination.Action.resetApplication)

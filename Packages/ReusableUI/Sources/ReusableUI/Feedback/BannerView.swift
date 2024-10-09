@@ -119,6 +119,6 @@ public struct BannerView: View {
 		BannerView(Feedback(title: "Title", subtitle: "Text", type: .info))
 		BannerView(Feedback(title: "Title", subtitle: "Text", type: .warning))
 		BannerView(Feedback(title: "Title", subtitle: "Text", type: .error))
-		BannerView(Feedback(title: "Title", subtitle: "Text", type: .success))
+		BannerView(Feedback(title: "Title", subtitle: "Text", actionTitle: "Click me!", type: .success))
 	}
 }

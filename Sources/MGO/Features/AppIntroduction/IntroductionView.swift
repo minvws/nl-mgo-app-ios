@@ -16,25 +16,13 @@ class IntroductionViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case nextButttonPressed
-		case closeBanner
-		case onDisappear
 	}
-	
-	/// Any banner to display?
-	@Published var banner: Feedback?
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)?, showAccountDeletedBanner: Bool = false) {
+	init(coordinator: (any Coordinator)?) {
 		self.coordinator = coordinator
-		
-		if showAccountDeletedBanner {
-			banner = Feedback(
-				title: String(localized: "banner.account_removed.heading"),
-				subtitle: String(localized: "banner.account_removed.subheading"),
-				type: .success
-			)
-		}
+
 	}
 	
 	/// Handle any action
@@ -43,8 +31,6 @@ class IntroductionViewModel: ObservableObject {
 		switch action {
 			case .nextButttonPressed:
 				coordinator?.handle(Coordination.Action.nextButtonPressedOnIntroduction)
-			case .closeBanner, .onDisappear:
-				banner = nil
 		}
 	}
 }
@@ -91,17 +77,6 @@ struct IntroductionView: View {
 		ScrollViewWithFixedBottom {
 			
 			VStack(alignment: .leading, spacing: 0) {
-				
-				if let banner = viewModel.banner {
-					
-					BannerView(banner) {
-						// User pressed on the close button
-						withAnimation {
-							viewModel.reduce(.closeBanner)
-						}
-					}
-					.padding(ViewTraits.Banner.insets)
-				}
 				
 				if showImage {
 					HStack {
@@ -158,15 +133,12 @@ struct IntroductionView: View {
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.onDisappear {
-			viewModel.reduce(.onDisappear)
-		}
 		.layoutForIPad()
 	}
 }
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		IntroductionView(viewModel: IntroductionViewModel(coordinator: nil, showAccountDeletedBanner: true))
+		IntroductionView(viewModel: IntroductionViewModel(coordinator: nil))
 	}
 }

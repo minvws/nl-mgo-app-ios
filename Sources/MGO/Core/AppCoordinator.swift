@@ -55,6 +55,7 @@ extension Coordination.Action {
 	static let forgotPinCode = Coordination.Action(identifier: "forgotPinCode")
 	static let dismissForgotPinCode = Coordination.Action(identifier: "dismissForgotPinCode")
 	static let recreateAccount = Coordination.Action(identifier: "recreateAccount")
+	static let restart = Coordination.Action(identifier: "restart")
 	
 	// Remote Authentication
 	static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
@@ -73,7 +74,7 @@ enum AppCoordination {
 		case updateRequired
 		
 		// Onboarding
-		case introduction(recreated: Bool)
+		case introduction
 		case proposition
 		case privacyStatement
 		
@@ -83,6 +84,7 @@ enum AppCoordination {
 		case pinCodeValidation
 		case bioMetricSetup
 		case forgotPinCode
+		case accountRemoved
 		
 		// Remote Authentication
 		case login
@@ -245,6 +247,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case Coordination.Action.recreateAccount.identifier:
 				handleRecreateAccount()
+			
+			case Coordination.Action.restart.identifier:
+				restart()
 				
 			// Remote Authentication
 				
@@ -283,10 +288,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		if !Current.secureUserSettings.userHasSeenAppIntroduction {
 			// Only show the appIntroduction once
-			resetNavigationStack(with: AppCoordination.State.introduction(recreated: false))
+			resetNavigationStack(with: AppCoordination.State.introduction)
 		} else if Current.secureUserSettings.pinCode == nil {
-			// User must set an pin code
-			resetNavigationStack(with: AppCoordination.State.pinCodeEntry)
+			// User must set an pin code, but show introduction first.
+			resetNavigationStack(with: AppCoordination.State.introduction)
 		} else {
 			// Repeat login, user must authenticate with pin code
 			resetNavigationStack(with: AppCoordination.State.pinCodeValidation)
@@ -333,7 +338,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 		// Wipe Account
 		Current.wipePersistedData()
-		resetNavigationStack(with: AppCoordination.State.introduction(recreated: true))
+		
+		rootState = .accountRemoved
+	}
+	
+	private func restart() {
+		
+		resetNavigationStack(with: AppCoordination.State.introduction)
 	}
 	
 	/// Reset the navigation stack with this new root  state
@@ -362,8 +373,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			// Onboarding
 				
-			case let .introduction(recreated):
-				IntroductionView(viewModel: IntroductionViewModel(coordinator: self, showAccountDeletedBanner: recreated))
+			case .introduction:
+				IntroductionView(viewModel: IntroductionViewModel(coordinator: self))
 				
 			case .proposition:
 				PropositionView(viewModel: PropositionViewModel(coordinator: self))
@@ -391,6 +402,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case .forgotPinCode:
 				ForgotPinCodeView(viewModel: ForgotPinCodeViewModel(coordinator: self))
+			
+			case .accountRemoved:
+				AccountRemovedView(viewModel: AccountRemovedViewModel(coordinator: self))
 				
 			// Remote Authentication
 				

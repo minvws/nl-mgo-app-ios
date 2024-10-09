@@ -18,32 +18,15 @@ final class IntroductionViewTests: XCTestCase {
 	override func setUp() {
 		
 		coordinatorSpy = AppCoordinatorSpy()
+		viewModel = IntroductionViewModel(coordinator: coordinatorSpy)
+		sut = IntroductionView(viewModel: self.viewModel)
 		
 		super.setUp()
-	}
-	
-	func createSut(withBanner: Bool = false) {
-		
-		viewModel = IntroductionViewModel(coordinator: coordinatorSpy, showAccountDeletedBanner: withBanner)
-		sut = IntroductionView(viewModel: self.viewModel)
 	}
 	
 	func test_appIntroductionView() {
 		
 		// Given
-		createSut()
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	func test_appIntroductionView_withBanner() {
-		
-		// Given
-		createSut(withBanner: true)
 		
 		// When
 		let content = NavigationView { sut }
@@ -55,7 +38,6 @@ final class IntroductionViewTests: XCTestCase {
 	func test_nextButtonPressed_shouldCallCoordinator() throws {
 		
 		// Given
-		createSut(withBanner: true)
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.next")

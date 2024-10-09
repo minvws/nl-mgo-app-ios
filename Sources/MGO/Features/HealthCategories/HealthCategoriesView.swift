@@ -404,7 +404,7 @@ struct HealthCategoriesView: View {
 	/// - Returns: View when the user has no stored healthcare organizations
 	@ViewBuilder func noHealthcareOrganizationView() -> some View {
 		
-		EmptyListView(
+		ImageContentView(
 			icon: Image(ImageResource.Woman.womanWithPhone),
 			heading: "overview.empty.heading",
 			subHeading: "overview.empty.subheading"
