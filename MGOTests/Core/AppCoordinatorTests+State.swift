@@ -50,22 +50,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forIntroduction_recreatedFalse() throws {
+	func test_coordinatorView_forIntroduction() throws {
 		
 		// Given
-		let state = AppCoordination.State.introduction(recreated: false)
-		
-		// When
-		let view = sut.view(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
-	
-	func test_coordinatorView_forIntroduction_recreatedTrue() throws {
-		
-		// Given
-		let state = AppCoordination.State.introduction(recreated: true)
+		let state = AppCoordination.State.introduction
 		
 		// When
 		let view = sut.view(for: state)
@@ -156,6 +144,18 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// Given
 		let state = AppCoordination.State.forgotPinCode
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
+	func test_coordinatorView_accountRemoved() throws {
+		
+		// Given
+		let state = AppCoordination.State.accountRemoved
 		
 		// When
 		let view = sut.view(for: state)

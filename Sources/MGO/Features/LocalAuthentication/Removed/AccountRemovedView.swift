@@ -30,7 +30,7 @@ class AccountRemovedViewModel: ObservableObject {
 		
 		switch action {
 			case .restart:
-				logInfo("Handle button")
+				coordinator?.handle(.restart)
 		}
 	}
 }
@@ -82,7 +82,7 @@ struct AccountRemovedView: View {
 }
 
 #Preview {
-	NavigationView {
+	NavigationStackBackport.NavigationStack {
 		AccountRemovedView(
 			viewModel: AccountRemovedViewModel(
 				coordinator: nil
