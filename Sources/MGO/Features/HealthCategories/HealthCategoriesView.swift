@@ -225,26 +225,35 @@ class HealthCategoriesViewModel: ObservableObject {
 	/// - Parameter button: the button to update
 	private func handleCacheResult(_ cacheResult: Result<[MgoResourceRecord], Error>, button: CategoryButton) {
 		
+		// There better be a category for this button
+		guard let category = HealthCategories.Category(rawValue: button.id) else {
+			logError("HealthCategoriesViewModel, unknown category for", button)
+			return
+		}
+	
+		let expectedNumberOfResults: Int = {
+			switch mode {
+				case .single(let organization):
+					// All the services for that category
+					return organization.servicesForCategory(category)
+				case .all:
+					// All the services for that category * the number of organizations
+					var result = 0
+					for organization in Current.healthcareOrganizationStore.organizations {
+						result += organization.servicesForCategory(category)
+					}
+					return result
+			}
+		}()
+		logVerbose("HealthCategoriesViewModel: expectedNumberOfResults = \(expectedNumberOfResults) for \(category)")
+		
+		guard expectedNumberOfResults > 0 else {
+			state.updateCategoryState(id: button.id, state: .empty)
+			return
+		}
+		
 		switch cacheResult {
 			case let .success(records):
-			
-				// There better be a category for this button
-				guard let category = HealthCategories.Category(rawValue: button.id) else {
-					logError("HealthCategoriesViewModel, unknown category for", button)
-					return
-				}
-			
-				let expectedNumberOfResults: Int = {
-					switch mode {
-						case .single:
-							// All the services for that category
-							return category.services.count
-						case .all:
-							// All the services for that category * the number of organizations
-							return category.services.count * Current.healthcareOrganizationStore.organizations.count
-					}
-				}()
-				logVerbose("HealthCategoriesViewModel: expectedNumberOfResults = \(expectedNumberOfResults)")
 			
 				// Success, there was some records for this category
 				if records.count >= expectedNumberOfResults {
