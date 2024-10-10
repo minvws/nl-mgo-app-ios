@@ -136,6 +136,17 @@
         }
       }
     },
+    "add_organization.not_implemented" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze zorgaanbieder ondersteunen we nog niet"
+          }
+        }
+      }
+    },
     "add_organization.not_participating" : {
       "extractionState" : "manual",
       "localizations" : {

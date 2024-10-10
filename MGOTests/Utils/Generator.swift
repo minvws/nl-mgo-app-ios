@@ -16,14 +16,16 @@ class Generator {
 	///   - city: the city of the organization
 	///   - address: the address of the organization
 	///   - postalCode: the postal code of the organization
+	///   - useDataService: should we include a data service?
+	///   - serviceId: the id for the data service
 	/// - Returns: a healthcare organization
-	static func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true ) -> MgoOrganization {
+	static func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true, serviceId: String = "48" ) -> MgoOrganization {
 		
-		var dataServices = [LocalisationService.Components.Schemas.ZalDataServiceResponse]()
+		var dataServices = [DataService]()
 		if useDataService {
 			dataServices.append(
-				LocalisationService.Components.Schemas.ZalDataServiceResponse(
-					id: "48",
+				DataService(
+					id: serviceId,
 					name: "Basisgegevens Zorg",
 					interface_versions: ["2"],
 					auth_endpoint: "https://medmij-inlog.vzvz.nl/2.0.0/oauth2/authorize",

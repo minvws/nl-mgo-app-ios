@@ -172,9 +172,28 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 	/// - Parameter organization: the healthcare organization
 	/// - Returns: card state
 	private func cardState(for organization: MgoOrganization) -> OrganizationSearchResultCardState {
-
-		let list = HealthcareOrganizationRepository().organizations
-		return list.contains(organization) ? .selected : .regular
+		
+		guard let dts = organization.data_services, dts.isNotEmpty else {
+			return .notParticipating
+		}
+		
+		var activeServices = [DataService]()
+		for service in dts {
+			if service.id == DVP.CommonClinicalDataset.serviceID || service.id == DVP.GeneralPractitioner.serviceID {
+				activeServices.append(service)
+			}
+		}
+		guard activeServices.isNotEmpty else {
+			return .notImplemented
+		}
+		
+		let list = Current.healthcareOrganizationStore.organizations
+		for item in list where organization.identifier == item.identifier {
+			return .selected
+		}
+		return .regular
+		
+//		return list.contains(organization) ? .selected : .regular
 	}
 }
 
@@ -282,7 +301,9 @@ struct OrganizationSearchResultsView: View {
 								model: OrganizationSearchResultDecorator.create(element.organization),
 								state: element.cardState,
 								perform: {
-									viewModel.reduce(.store(element.organization))
+									if element.cardState == .regular {
+										viewModel.reduce(.store(element.organization))
+									}
 								}
 							)
 						}

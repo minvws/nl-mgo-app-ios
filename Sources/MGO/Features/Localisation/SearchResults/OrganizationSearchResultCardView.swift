@@ -11,13 +11,14 @@ import MGOUI
 enum OrganizationSearchResultCardState {
 	case regular
 	case selected
-	case warning
+	case notParticipating
+	case notImplemented
 	
 	var accessibilityLabel: String.LocalizationValue {
 		switch self {
 			case .regular: return "add_organization.add_voiceover"
 			case .selected: return "add_organization.view_voiceover"
-			case .warning: return "add_organization.view_voiceover"
+			case .notParticipating, .notImplemented: return "add_organization.view_voiceover"
 		}
 	}
 }
@@ -103,10 +104,18 @@ struct OrganizationSearchResultCardView: View {
 						.padding(.top, ViewTraits.Selected.padding)
 						.accessibilityElement(children: .combine)
 						
-					case .warning:
+					case .notParticipating, .notImplemented:
 						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
 							Image(ImageResource.Localisation.warning)
-							Text("add_organization.not_participating")
+							Group {
+								if case .notParticipating = state {
+									Text("add_organization.not_participating")
+								}
+								if case .notImplemented
+									= state {
+									Text("add_organization.not_implemented")
+								}
+							}
 								.rijksoverheidStyle(font: .regular, style: .body)
 								.multilineTextAlignment(.leading)
 								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
@@ -130,27 +139,23 @@ struct OrganizationSearchResultCardView: View {
 						.foregroundStyle(theme.iconsPrimary)
 						.frame(width: ViewTraits.Selected.size, height: ViewTraits.Selected.size, alignment: .center)
 				
-				case .warning:
+				case .notParticipating, .notImplemented:
 					EmptyView()
 			}
 		}
 		.accessibilityElement(children: .combine)
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
-		.when(state == .warning, transform: { view in
+		.when(state == .notParticipating || state == .notImplemented, transform: { view in
 			view.background(theme.backgroundTertiary)
 		})
-		.cornerRadius(ViewTraits.General.cornerRadius)
-		.when(state != .warning, transform: { view in
+		
+		.when(state != .notParticipating && state != .notImplemented, transform: { view in
 			view
 				.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
 				.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
-				.overlay(
-					RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius)
-						.inset(by: ViewTraits.Box.inset)
-						.stroke(theme.strokesPrimary, lineWidth: 1)
-				)
 		})
+		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius))
 		._onButtonGesture { pressed in
 			self.onHover = pressed
 		} perform: {
@@ -193,8 +198,20 @@ struct OrganizationSearchResultCardView: View {
 				address: "Boorplatform 5",
 				postalCode: "1234AB"
 			),
-			state: .warning
+			state: .notParticipating
+		)
+		
+		OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
+				id: "1",
+				name: "Tandartsenpraktijk Willem II Roermond B.V.",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .notImplemented
 		)
 	}
 	.padding(.horizontal, 16)
+	.background(Theme().backgroundPrimary)
 }

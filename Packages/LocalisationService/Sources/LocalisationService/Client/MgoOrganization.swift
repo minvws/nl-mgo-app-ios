@@ -10,6 +10,8 @@ import OpenAPIURLSession
 
 public typealias MgoOrganization = Components.Schemas.Organization
 
+public typealias DataService = Components.Schemas.ZalDataServiceResponse
+
 public extension Components.Schemas.Organization {
 	
 	/// What is the category of a healthcare organization?
