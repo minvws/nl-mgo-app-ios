@@ -63,7 +63,27 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 				address: "Boorplatform 5",
 				postalCode: "1234AB"
 			),
-			state: .warning
+			state: .notParticipating
+		)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
+	func test_searchResultCardView_notImplmented() {
+		
+		// Given
+		
+		// When
+		let sut = OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
+				id: "1",
+				name: "Tandarts Tandje Erbij",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .notImplemented
 		)
 		
 		// Then

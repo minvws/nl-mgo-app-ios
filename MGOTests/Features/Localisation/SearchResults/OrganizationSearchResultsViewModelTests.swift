@@ -124,6 +124,58 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
+	func test_list_noDataServices() {
+		
+		// Given
+		createSut()
+		let organisation = Generator.healthcareOrganization("value", useDataService: false)
+		let list: [MgoOrganization] = [organisation]
+		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organisation, .notParticipating)])
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(state))
+		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+	}
+	
+	func test_list_unsupportedDataServices() {
+		
+		// Given
+		createSut()
+		let organisation = Generator.healthcareOrganization("value", useDataService: true, serviceId: "999")
+		let list: [MgoOrganization] = [organisation]
+		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organisation, .notImplemented)])
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(state))
+		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+	}
+	
+	func test_list_selected() {
+		
+		// Given
+		createSut()
+		let organisation = Generator.healthcareOrganization("value", useDataService: true)
+		let list: [MgoOrganization] = [organisation]
+		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organisation, .selected)])
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = list
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(state))
+		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+	}
+	
 	func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
