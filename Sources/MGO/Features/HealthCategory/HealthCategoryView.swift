@@ -197,9 +197,13 @@ class HealthCategoryViewModel: ObservableObject {
 	func handleDataStoreChanges() {
 		let expectedNumberOfResults: Int = {
 			if organization == nil {
-				return category.services.count * Current.healthcareOrganizationStore.organizations.count
+				var result = 0
+				for organization in Current.healthcareOrganizationStore.organizations {
+					result += organization.servicesForCategory(category)
+				}
+				return result
 			} else {
-				return category.services.count
+				return organization?.servicesForCategory(category) ?? 0
 			}
 		}()
 		_Concurrency.Task {
