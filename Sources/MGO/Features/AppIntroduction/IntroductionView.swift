@@ -46,19 +46,23 @@ struct IntroductionView: View {
 	/// Boolean to determine if the header image should be shown (hidden in landscape)
 	@State var showImage = true
 	
+	/// helper to calculate the size of the view
+	@State private var contentSize: CGSize = .zero
+	
+	/// The size classes
 	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 	
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
-			static let insets = EdgeInsets( top: 0, leading: 20, bottom: 24, trailing: 20)
-			static let height: CGFloat = 161
+			static let width: CGFloat = 0.5
+			static let bottom: CGFloat = 24
 		}
 		enum Title {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 16, trailing: 16)
+			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
 		}
 		enum Text {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
+			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
 			static let spacing: CGFloat = 8
 		}
 		enum Button {
@@ -68,7 +72,7 @@ struct IntroductionView: View {
 			static let padding: CGFloat = 8
 		}
 		enum Banner {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 24, trailing: 16)
+			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 24, trailing: 16)
 		}
 	}
 	
@@ -76,35 +80,38 @@ struct IntroductionView: View {
 		
 		ScrollViewWithFixedBottom {
 			
-			VStack(alignment: .leading, spacing: 0) {
+			VStack(alignment: .center, spacing: 0) {
 				
 				if showImage {
-					HStack {
+					// Image, 50% width
+					VStack(alignment: .center) {
 						Spacer()
-						Image(.onboarding)
+						
+						Image(ImageResource.Woman.womanWithPhone)
 							.resizable()
-							.scaledToFit()
-							.frame(height: ViewTraits.Image.height)
-							.accessibilityHidden(true)
-						.padding(ViewTraits.Image.insets)
-						Spacer()
+							.aspectRatio(contentMode: .fill)
+							.padding(.bottom, ViewTraits.Image.bottom)
 					}
-					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.frame(maxWidth: contentSize.width * ViewTraits.Image.width)
 				}
 				
-				Text("introduction.heading")
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.padding(ViewTraits.Title.insets)
-					.accessibilityAddTraits(.isHeader)
-					.fixedSize(horizontal: false, vertical: true)
-					.accessibilityIdentifier("introduction.heading")
-				
-				SplittedText(key: "introduction.subheading", spacing: ViewTraits.Text.spacing)
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.padding(ViewTraits.Text.insets)
+				VStack(alignment: .leading) {
+					
+					Text("introduction.heading")
+						.rijksoverheidStyle(font: .bold, style: .title)
+						.padding(ViewTraits.Title.insets)
+						.accessibilityAddTraits(.isHeader)
+						.fixedSize(horizontal: false, vertical: true)
+						.accessibilityIdentifier("introduction.heading")
+					
+					SplittedText(key: "introduction.subheading", spacing: ViewTraits.Text.spacing)
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.padding(ViewTraits.Text.insets)
+				}
 				
 				Spacer()
 			}
+			.readSize($contentSize)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.foregroundStyle(theme.contentPrimary)
 			.onRotate { newOrientation in
