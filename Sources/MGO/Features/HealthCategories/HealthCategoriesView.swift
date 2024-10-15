@@ -21,7 +21,6 @@ enum HealthCategoriesViewMode {
 struct HealthCategoriesViewState {
 	
 	var title: String
-	var showAccount: Bool
 	var showEmptyView: Bool
 	var showRemoveHealthcareProvider: Bool
 	var healthCategories: [CategoryButton]
@@ -88,15 +87,9 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .single: true
 			case .all: false
 		}
-
-		let showAccount: Bool = switch mode {
-			case .single: false
-			case .all: true
-		}
 		
 		self.state = HealthCategoriesViewState(
 			title: title,
-			showAccount: showAccount,
 			showEmptyView: Current.healthcareOrganizationStore.organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
@@ -299,9 +292,6 @@ struct HealthCategoriesView: View {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let spacing: CGFloat = 16
 		}
-		enum Account {
-			static let size: CGFloat = 32
-		}
 		enum NoResults {
 			static let top: CGFloat = 36
 		}
@@ -397,13 +387,7 @@ struct HealthCategoriesView: View {
 				.accessibilityIdentifier("healthcare_organizations.heading")
 			
 			Spacer()
-			
-			if viewModel.state.showAccount {
-				Image(ImageResource.Overview.accountCircle)
-					.resizable()
-					.frame(width: ViewTraits.Account.size, height: ViewTraits.Account.size)
-					.accessibilityHidden(true)
-			}
+
 		}
 		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)

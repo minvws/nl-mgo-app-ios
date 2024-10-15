@@ -130,9 +130,6 @@ struct OrganizationsView: View {
 			static let padding: CGFloat = 16
 			static let spacing: CGFloat = 8
 		}
-		enum Account {
-			static let size: CGFloat = 32
-		}
 		enum Image {
 			static let insets = EdgeInsets( top: 0, leading: 50, bottom: 0, trailing: 50)
 		}
@@ -202,11 +199,6 @@ struct OrganizationsView: View {
 				.accessibilityIdentifier("healthcare_organizations.heading")
 			
 			Spacer()
-			
-			Image(ImageResource.Overview.accountCircle)
-				.resizable()
-				.frame(width: ViewTraits.Account.size, height: ViewTraits.Account.size)
-				.accessibilityHidden(true)
 		}
 	}
 	
