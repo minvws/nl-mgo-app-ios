@@ -48,7 +48,9 @@ struct AccountRemovedView: View {
 		enum Text {
 			static let spacing: CGFloat = 16
 		}
-		
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
 		enum Button {
 			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 		}
@@ -66,6 +68,7 @@ struct AccountRemovedView: View {
 				textSpacing: ViewTraits.Text.spacing,
 				titleStyle: .title
 			)
+			.padding(.top, ViewTraits.Navigation.padding)
 			
 		} bottomView: {
 			CallToActionButton("account_removed.action") {

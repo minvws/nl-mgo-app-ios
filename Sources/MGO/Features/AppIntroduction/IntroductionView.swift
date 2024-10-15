@@ -111,6 +111,7 @@ struct IntroductionView: View {
 				
 				Spacer()
 			}
+			.padding(.top, ViewTraits.Navigation.padding)
 			.readSize($contentSize)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.foregroundStyle(theme.contentPrimary)
@@ -136,7 +137,6 @@ struct IntroductionView: View {
 			.accessibilityIdentifier("common.next")
 			.padding(ViewTraits.Button.padding)
 		}
-		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
 		.background(theme.backgroundPrimary.ignoresSafeArea())

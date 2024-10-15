@@ -22,6 +22,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	@State private var scrollViewSize: CGSize = .zero
 	@State private var contentSize: CGSize = .zero
 	@State private var scrollable: Bool = false
+	@State private var isScrolling: Bool = false
 	
 	var body: some View {
 		VStack {
@@ -29,7 +30,12 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 			ScrollView {
 				content.readSize($contentSize)
 			}
+			.backportOnScrollPhaseChanged($isScrolling)
 			.readSize($scrollViewSize)
+			.onChange(of: isScrolling) { newValue in
+				_ = logDebug("SvFB: isScrolling: \(newValue)")
+			}
+			.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
 			
 			bottomView
 				// Change the background color of the bottom view if we should scroll
@@ -47,6 +53,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 					recalculateScrollable()
 				}
 		}
+		
 	}
 	
 	/// Recalculate if we should scroll
@@ -67,3 +74,51 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 		}
 	)
 }
+
+public struct BackportesOnSchrollPhaseChanged: ViewModifier {
+	
+	@Binding var isScrolling: Bool
+
+	public func body(content: Content) -> some View {
+		if #available(iOS 18.0, *) {
+			content
+				.onScrollPhaseChange { oldPhase, newPhase in
+					isScrolling = newPhase.isScrolling
+				}
+		} else {
+			content
+			
+		}
+	}
+}
+
+extension View {
+	public func backportOnScrollPhaseChanged(_ isScrolling: Binding<Bool>) -> some View {
+		modifier(BackportesOnSchrollPhaseChanged(isScrolling: isScrolling))
+	}
+}
+
+/*
+ 
+ 
+ public struct BackportListSectionSpacing: ViewModifier {
+	 
+	 var spacing: CGFloat
+	 
+	 public func body(content: Content) -> some View {
+		 
+		 if #available(iOS 17.0, *) {
+			 content
+				 .listSectionSpacing(spacing)
+		 } else {
+			 content
+		 }
+	 }
+ }
+
+ extension View {
+	 public func backportListSectionSpacing(_ spacing: CGFloat) -> some View {
+		 modifier(BackportListSectionSpacing(spacing: spacing))
+	 }
+ }
+ */

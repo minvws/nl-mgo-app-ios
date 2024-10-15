@@ -111,6 +111,7 @@ struct PropositionView: View {
 				Spacer()
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
+			.padding(.top, ViewTraits.Navigation.padding)
 		} bottomView: {
 			
 			CallToActionButton("common.next") {
@@ -119,7 +120,6 @@ struct PropositionView: View {
 			.accessibilityIdentifier("common.next")
 			.padding(ViewTraits.General.padding)
 		}
-		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)

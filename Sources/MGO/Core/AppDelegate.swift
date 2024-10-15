@@ -39,7 +39,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 			.foregroundColor: UIColor(Theme().contentPrimary),
 			.font: UIFont(name: RijksoverheidSansWebTextFont.bold.fontName, size: Font.TextStyle.headline.pointSize) as Any
 		]
-		appearance.shadowColor = UIColor(Theme().contentPrimary).withAlphaComponent(0.15)
 		UINavigationBar.appearance().standardAppearance = appearance
 		UINavigationBar.appearance().compactAppearance = appearance
 		UINavigationBar.appearance().scrollEdgeAppearance = appearance
