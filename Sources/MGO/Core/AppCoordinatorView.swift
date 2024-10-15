@@ -52,7 +52,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 				}
 			}
 			.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
-				_ = logDebug("ACV isScrolling: \(newValue.last ?? false)")
+				_ = logVerbose("ACV isScrolling: \(newValue.last ?? false)")
 				isScrolling = newValue.last ?? false
 			})
 			// not a sheet, but an inspectable sheet, so we can confirm this in a test.

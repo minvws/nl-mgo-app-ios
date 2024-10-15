@@ -33,7 +33,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 			.backportOnScrollPhaseChanged($isScrolling)
 			.readSize($scrollViewSize)
 			.onChange(of: isScrolling) { newValue in
-				_ = logDebug("SvFB: isScrolling: \(newValue)")
+				_ = logVerbose("SvFB: isScrolling: \(newValue)")
 			}
 			.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
 			
