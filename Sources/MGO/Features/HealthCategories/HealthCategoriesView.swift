@@ -325,11 +325,17 @@ struct HealthCategoriesView: View {
 								VStack(spacing: 0) {
 									HealthCategoryRowView(block: block)
 										.when(block.state != .loading) { view in
-											Button(action: {
+											Button {
 												viewModel.reduce(.categorySelected(block))
-											}, label: {
+											} label: {
 												view
-											})
+											}
+											.frame( maxWidth: .infinity, alignment: .leading)
+											.buttonStyle(HoverButtonStyle())
+										}
+										.when(block.state == .loading) { view in
+											view
+												.background(theme.backgroundSecondary)
 										}
 								}
 							}
