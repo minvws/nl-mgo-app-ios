@@ -74,24 +74,26 @@ struct ForgotPinCodeView: View {
 	var body: some View {
 		
 		ScrollViewWithFixedBottom {
-			Text("forgot_pincode.heading")
-				.rijksoverheidStyle(font: .bold, style: .title)
-				.padding(ViewTraits.Title.insets)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityAddTraits(.isHeader)
-				.accessibilityIdentifier("forgot_pincode.heading")
-			
-			Text("forgot_pincode.subheading")
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.padding(ViewTraits.Text.insets)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityIdentifier("forgot_pincode.subheading")
+			Group {
+				Text("forgot_pincode.heading")
+					.rijksoverheidStyle(font: .bold, style: .title)
+					.padding(ViewTraits.Title.insets)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityAddTraits(.isHeader)
+					.accessibilityIdentifier("forgot_pincode.heading")
+				
+				Text("forgot_pincode.subheading")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.padding(ViewTraits.Text.insets)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityIdentifier("forgot_pincode.subheading")
+			}
+				.padding(.top, ViewTraits.Navigation.padding)
 			
 		} bottomView: {
 			
 			bottomView()
 		}
-		.padding(.top, ViewTraits.Navigation.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.alert("forgot_pincode.dialog.heading", isPresented: $viewModel.showDialog) {
 			Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }.accessibilityIdentifier("common.no")

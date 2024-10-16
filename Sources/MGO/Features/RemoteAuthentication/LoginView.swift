@@ -70,19 +70,11 @@ struct LoginView: View {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
-				Group {
-					
-					Text("login.heading")
-						.rijksoverheidStyle(font: .bold, style: .title)
-						.accessibilityAddTraits(.isHeader)
-						.accessibilityIdentifier("login.heading")
-					
-					Text("login.subheading")
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.accessibilityIdentifier("login.subheading")
-				}
-				.foregroundStyle(theme.contentPrimary)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
+				Text("login.subheading")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.accessibilityIdentifier("login.subheading")
+					.foregroundStyle(theme.contentPrimary)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
 				
 				VStack(spacing: ViewTraits.Button.spacing, content: {
 					
@@ -109,7 +101,7 @@ struct LoginView: View {
 		.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
 		.navigationBarBackButtonHidden(true)
 		.navigationBarHidden(false)
-		.navigationBarTitleDisplayMode(.inline)
+		.navigationTitle("login.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 	}

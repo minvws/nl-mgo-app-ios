@@ -33,9 +33,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), precision: 0.90) // Lower precision due to random position of spinner
+		takeSnapShots(content: content, precision: 0.90) // Lower precision due to random position of spinner
 	}
 
 	func test_coordinatorView_forRequiredUpdate() throws {
@@ -45,9 +46,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: content )
 	}
 	
 	func test_coordinatorView_forIntroduction() throws {
@@ -57,9 +59,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: content )
 	}
 	
 	func test_coordinatorView_forProposition() throws {
@@ -69,9 +72,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: content )
 	}
 	
 	func test_coordinatorView_forPinCodeEntry() throws {
@@ -82,9 +86,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: content )
 	}
 	
 	func test_coordinatorView_forPinCodeConfirmation() throws {
@@ -95,9 +100,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: content )
 	}
 	
 	func test_coordinatorView_forPinCodeValidation() throws {
@@ -109,9 +115,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: content )
 	}
 	
 	func test_coordinatorView_forBioMetricSetup() throws {
@@ -122,22 +129,24 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: content )
 	}
 	
 	func test_coordinatorView_forLogin() throws {
-
+		
 		// Given
 		let state = AppCoordination.State.login
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: content )
 	}
 	
 	func test_coordinatorView_forgotPinCode() throws {
@@ -147,9 +156,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: content )
 	}
 	
 	func test_coordinatorView_accountRemoved() throws {
@@ -159,9 +169,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		takeSnapShots(content: content )
 	}
 	
 	func test_coordinatorView_forDashboard() throws {
@@ -171,8 +182,9 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// When
 		let view = sut.view(for: state)
+		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: try XCTUnwrap(view), precision: 0.95)
+		takeSnapShots(content: content, precision: 0.95)
 	}
 }

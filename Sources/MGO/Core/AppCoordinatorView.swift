@@ -48,7 +48,6 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 								appCoordinator.view(for: state)
 							}
 						}
-						.navigationBarTitleDisplayMode(.inline)
 				}
 			}
 			.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
