@@ -122,7 +122,7 @@ struct HealthCategories {
 				]
 				
 				case .appointments: [
-					(DVP.CommonClinicalDataset.encounter, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.encounter, DVP.CommonClinicalDataset.serviceID)
 //					(DVP.CommonClinicalDataset.plannedEncounters, DVP.CommonClinicalDataset.serviceID)
 				]
 				
