@@ -192,8 +192,6 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 			return .selected
 		}
 		return .regular
-		
-//		return list.contains(organization) ? .selected : .regular
 	}
 }
 
