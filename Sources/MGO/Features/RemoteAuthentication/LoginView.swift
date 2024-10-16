@@ -48,8 +48,6 @@ struct LoginView: View {
 	/// Color scheme (light, dark)
 	@Environment(\.colorScheme) var colorScheme
 	
-	@State private var isScrolling: Bool = false
-	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -66,7 +64,7 @@ struct LoginView: View {
 	
 	var body: some View {
 		
-		ScrollView {
+		ScrollViewWithDivider {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
@@ -97,8 +95,6 @@ struct LoginView: View {
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
 		}
-		.backportOnScrollPhaseChanged($isScrolling)
-		.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
 		.navigationBarBackButtonHidden(true)
 		.navigationBarHidden(false)
 		.navigationTitle("login.heading")

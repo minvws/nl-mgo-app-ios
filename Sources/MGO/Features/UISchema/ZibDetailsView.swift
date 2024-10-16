@@ -72,7 +72,7 @@ struct ZibDetailsView: View {
 	
 	var body: some View {
 		
-		ScrollView {
+		ScrollViewWithDivider {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
