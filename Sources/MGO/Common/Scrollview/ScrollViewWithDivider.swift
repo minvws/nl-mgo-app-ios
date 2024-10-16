@@ -22,9 +22,6 @@ struct ScrollViewWithDivider<V1: View>: View {
 			content
 		}
 		.backportOnScrollPhaseChanged($isScrolling)
-		.onChange(of: isScrolling) { newValue in
-			_ = logVerbose("SvWD: isScrolling: \(newValue)")
-		}
 		.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
 	}
 }
