@@ -16,10 +16,21 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	/// Closure used the handle inspection
 	var didAppear: ((Self) -> Void)?
 	
+	@State private var isScrolling: Bool = false
+	
 	/// Initializer
 	/// - Parameter appCoordinator: An AppCoordinatorProtocol class
 	init(appCoordinator: T) {
 		self._appCoordinator = StateObject(wrappedValue: appCoordinator)
+	}
+	
+	@ViewBuilder func withDividerIfScrolling(content: () -> some View) -> some View {
+		VStack(spacing: 0) {
+			if isScrolling {
+				NavigationDivider()
+			}
+			content()
+		}
 	}
 	
 	var body: some View {
@@ -28,12 +39,21 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 		} else {
 			
 			NavigationStackBackport.NavigationStack(path: $appCoordinator.path) {
-				appCoordinator.view(for: appCoordinator.rootState)
-					.backport.navigationDestination(for: AppCoordination.State.self) { state in
-						appCoordinator.view(for: state)
-					}
-					.navigationBarTitleDisplayMode(.inline)
+				
+				withDividerIfScrolling {
+					
+					appCoordinator.view(for: appCoordinator.rootState)
+						.backport.navigationDestination(for: AppCoordination.State.self) { state in
+							withDividerIfScrolling {
+								appCoordinator.view(for: state)
+							}
+						}
+				}
 			}
+			.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
+				_ = logVerbose("ACV isScrolling: \(newValue.last ?? false)")
+				isScrolling = newValue.last ?? false
+			})
 			// not a sheet, but an inspectable sheet, so we can confirm this in a test.
 			.inspectableSheet(
 				isPresented: $appCoordinator.rootStateForSheet.presence(),

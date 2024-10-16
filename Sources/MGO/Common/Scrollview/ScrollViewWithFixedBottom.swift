@@ -22,6 +22,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	@State private var scrollViewSize: CGSize = .zero
 	@State private var contentSize: CGSize = .zero
 	@State private var scrollable: Bool = false
+	@State private var isScrolling: Bool = false
 	
 	var body: some View {
 		VStack {
@@ -29,7 +30,9 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 			ScrollView {
 				content.readSize($contentSize)
 			}
+			.backportOnScrollPhaseChanged($isScrolling)
 			.readSize($scrollViewSize)
+			.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
 			
 			bottomView
 				// Change the background color of the bottom view if we should scroll
@@ -47,6 +50,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 					recalculateScrollable()
 				}
 		}
+		
 	}
 	
 	/// Recalculate if we should scroll

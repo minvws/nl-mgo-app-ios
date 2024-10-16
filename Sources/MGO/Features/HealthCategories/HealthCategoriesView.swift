@@ -21,7 +21,7 @@ enum HealthCategoriesViewMode {
 struct HealthCategoriesViewState {
 	
 	var title: String
-	var showAccount: Bool
+	var showLargeTitle: Bool
 	var showEmptyView: Bool
 	var showRemoveHealthcareProvider: Bool
 	var healthCategories: [CategoryButton]
@@ -88,15 +88,15 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .single: true
 			case .all: false
 		}
-
-		let showAccount: Bool = switch mode {
+		
+		let showLargeTitle: Bool = switch mode {
 			case .single: false
 			case .all: true
 		}
 		
 		self.state = HealthCategoriesViewState(
 			title: title,
-			showAccount: showAccount,
+			showLargeTitle: showLargeTitle,
 			showEmptyView: Current.healthcareOrganizationStore.organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
@@ -284,6 +284,9 @@ struct HealthCategoriesView: View {
 	/// The View Model
 	@StateObject var viewModel: HealthCategoriesViewModel
 	
+	/// Are we scrolling
+	@State private var isScrolling: Bool = false
+	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
@@ -299,11 +302,8 @@ struct HealthCategoriesView: View {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let spacing: CGFloat = 16
 		}
-		enum Account {
-			static let size: CGFloat = 32
-		}
 		enum NoResults {
-			static let top: CGFloat = 36
+			static let top: CGFloat = 44
 		}
 	}
 	
@@ -311,16 +311,21 @@ struct HealthCategoriesView: View {
 			
 		VStack(alignment: .leading, spacing: 0) {
 			
-			headerView()
+			if !viewModel.state.showLargeTitle {
+				headerView()
+			}
 			
 			if viewModel.state.showEmptyView {
 				noHealthcareOrganizationView()
-					.padding(.top, ViewTraits.Navigation.padding)
 					.padding(.horizontal, ViewTraits.General.padding)
-				Spacer()
 			} else {
 				
 				List {
+					
+					Section { /* Empty section */ }
+					header: {
+						Spacer(minLength: 0).listRowInsets(EdgeInsets())
+					}
 					
 					ForEach(1..<4) { box in
 						
@@ -335,35 +340,50 @@ struct HealthCategoriesView: View {
 								VStack(spacing: 0) {
 									HealthCategoryRowView(block: block)
 										.when(block.state != .loading) { view in
-											Button(action: {
+											Button {
 												viewModel.reduce(.categorySelected(block))
-											}, label: {
+											} label: {
 												view
-											})
+											}
+											.frame( maxWidth: .infinity, alignment: .leading)
+											.buttonStyle(HoverButtonStyle())
+										}
+										.when(block.state == .loading) { view in
+											view
+												.background(theme.backgroundSecondary)
 										}
 								}
 							}
 						}
 						.listRowInsets(ViewTraits.List.rowInset)
+						.environment(\.defaultMinListHeaderHeight, ViewTraits.Navigation.padding)
 					}
 					
 					if viewModel.state.showRemoveHealthcareProvider {
 						Section { /* Empty section */ }
-					footer: {
-						// Button in footer of an empty section so it is
-						// at the bottom of the list, and without a rounded list background
-						CallToActionButton(
-							"health_categories.remove_organization",
-							style: .tertiaryNegative) {
-								viewModel.reduce(.removeHealthcareOrganization)
-							}
-							.accessibilityIdentifier("health_categories.remove_organization")
-					}
+						footer: {
+							// Button in footer of an empty section so it is
+							// at the bottom of the list, and without a rounded list background
+							CallToActionButton(
+								"health_categories.remove_organization",
+								style: .tertiaryNegative) {
+									viewModel.reduce(.removeHealthcareOrganization)
+								}
+								.accessibilityIdentifier("health_categories.remove_organization")
+						}
 					}
 				} // List
 				.listStyle(.insetGrouped)
 				.backportListSectionSpacing(ViewTraits.List.spacing)
-				
+				.when(viewModel.state.showLargeTitle) { view in
+					view
+						.simultaneousGesture(
+							DragGesture()
+								.onChanged { _ in isScrolling = true }
+								.onEnded { _ in isScrolling = false }
+						)
+						.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
+				}
 				Spacer()
 			}
 
@@ -375,8 +395,10 @@ struct HealthCategoriesView: View {
 					viewModel.reduce(.backButtonPressed)
 				})
 		})
+		.when(viewModel.state.showLargeTitle) { view in
+			view.navigationTitle(viewModel.state.title)
+		}
 		.navigationBarHidden(false)
-		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 		.refreshable {
@@ -397,13 +419,7 @@ struct HealthCategoriesView: View {
 				.accessibilityIdentifier("healthcare_organizations.heading")
 			
 			Spacer()
-			
-			if viewModel.state.showAccount {
-				Image(ImageResource.Overview.accountCircle)
-					.resizable()
-					.frame(width: ViewTraits.Account.size, height: ViewTraits.Account.size)
-					.accessibilityHidden(true)
-			}
+
 		}
 		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
@@ -413,18 +429,21 @@ struct HealthCategoriesView: View {
 	/// - Returns: View when the user has no stored healthcare organizations
 	@ViewBuilder func noHealthcareOrganizationView() -> some View {
 		
-		ImageContentView(
-			icon: Image(ImageResource.Woman.womanWithPhone),
-			heading: "overview.empty.heading",
-			subHeading: "overview.empty.subheading"
-		)
+		ScrollViewWithDivider {
+			
+			ImageContentView(
+				icon: Image(ImageResource.Woman.womanWithPhone),
+				heading: "overview.empty.heading",
+				subHeading: "overview.empty.subheading"
+			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
-		
-		CallToActionButton("overview.empty.action") {
-			viewModel.reduce(.search)
+			
+			CallToActionButton("overview.empty.action") {
+				viewModel.reduce(.search)
+			}
+			.accessibilityIdentifier("overview.empty.action")
 		}
-		.accessibilityIdentifier("overview.empty.action")
 	}
 }
 

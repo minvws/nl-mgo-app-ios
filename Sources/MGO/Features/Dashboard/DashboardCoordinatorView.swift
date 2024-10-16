@@ -384,6 +384,8 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 	/// The coordinator for handling state
 	@StateObject private var coordinator: T
 	
+	@State private var isScrolling: Bool = false
+	
 	/// Initializer
 	/// - Parameter appCoordinator: An DashboardCoordinatorProtocol class
 	init(coordinator: T) {
@@ -393,6 +395,15 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 	// The Theme
 	@Environment(\.theme) var theme
 	
+	@ViewBuilder func withDividerIfScrolling(content: () -> some View) -> some View {
+		VStack(spacing: 0) {
+			if isScrolling {
+				NavigationDivider()
+			}
+			content()
+		}
+	}
+	
 	var body: some View {
 		
 		TabView(selection: $coordinator.selectedTab) {
@@ -400,11 +411,14 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				Group {
 					// First Tab, Overview
 					NavigationStackBackport.NavigationStack(path: $coordinator.firstTabPath) {
-						coordinator.viewState(for: .showHealthCategories)
-							.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
-								coordinator.viewState(for: state)
-							}
-							.navigationBarTitleDisplayMode(.inline)
+						withDividerIfScrolling {
+							coordinator.viewState(for: .showHealthCategories)
+								.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
+									withDividerIfScrolling {
+										coordinator.viewState(for: state)
+									}
+								}
+						}
 					}
 					.tabItem {
 						Image(coordinator.selectedTab == DashboardTab.healthCategories.rawValue ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
@@ -416,11 +430,14 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					
 					// Second Tab, Healthcare organizations
 					NavigationStackBackport.NavigationStack(path: $coordinator.secondTabPath) {
-						coordinator.viewState(for: .overview)
-							.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
-								coordinator.viewState(for: state)
-							}
-							.navigationBarTitleDisplayMode(.inline)
+						withDividerIfScrolling {
+							coordinator.viewState(for: .overview)
+								.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
+									withDividerIfScrolling {
+										coordinator.viewState(for: state)
+									}
+								}
+						}
 					}
 					.tabItem {
 						Image(coordinator.selectedTab == DashboardTab.overview.rawValue ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
@@ -432,11 +449,14 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					
 					// Third Tab, About
 					NavigationStackBackport.NavigationStack(path: $coordinator.thirdTabPath) {
-						coordinator.viewState(for: .aboutTheApp)
-							.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
-								coordinator.viewState(for: state)
-							}
-							.navigationBarTitleDisplayMode(.inline)
+						withDividerIfScrolling {
+							coordinator.viewState(for: .aboutTheApp)
+								.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
+									withDividerIfScrolling {
+										coordinator.viewState(for: state)
+									}
+								}
+						}
 					}
 					.tabItem {
 						Image(coordinator.selectedTab == DashboardTab.about.rawValue ? ImageResource.Tab.Selected.about : ImageResource.Tab.Unselected.about)
@@ -477,6 +497,10 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 			})
 			.navigationBarHidden(true)
 			.navigationBarBackButtonHidden()
+			.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
+				_ = logVerbose("ACV isScrolling: \(newValue.last ?? false)")
+				isScrolling = newValue.last ?? false
+			})
 			.inspectableSheet(
 				isPresented: $coordinator.rootStateForSheet.presence(),
 				onDismiss: {

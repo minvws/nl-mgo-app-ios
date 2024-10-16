@@ -317,7 +317,7 @@ struct HealthCategoryView: View {
 	
 	var body: some View {
 		
-		ScrollView {
+		ScrollViewWithDivider {
 			
 			switch viewModel.state {
 				case .loading:
@@ -362,7 +362,6 @@ struct HealthCategoryView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
-		.navigationBarTitleDisplayMode(.large)
 		.navigationTitle(viewModel.translations.heading)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {

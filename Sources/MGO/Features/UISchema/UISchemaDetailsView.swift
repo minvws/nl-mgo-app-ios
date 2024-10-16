@@ -145,6 +145,7 @@ struct UISchemaDetailsView: View {
 			Divider()
 				.frame(height: 1)
 				.overlay(theme.strokesPrimary)
+				.padding(.leading, ViewTraits.Row.padding)
 		}
 	}
 	
@@ -195,4 +196,53 @@ struct UISchemaDetailsView: View {
 		}
 		return result
 	}
+}
+
+#Preview {
+	UISchemaDetailsView(
+		schema:
+			UISchema(
+				children: [
+					UISchemaGroup(
+						children: [
+							Value(
+								display: ChildDisplay.string("Value"),
+								label: "field.label",
+								summary: true,
+								type: "Field Type",
+								reference: nil
+							),
+							Value(
+								display: ChildDisplay.string("Value2"),
+								label: "field.label2",
+								summary: true,
+								type: "Field Type",
+								reference: nil
+							)
+						],
+						label: "Section Header"),
+					
+					UISchemaGroup(
+						children: [
+							Value(
+								display: ChildDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
+								label: "field.label3",
+								summary: true,
+								type: "Field Type",
+								reference: nil
+							),
+							Value(
+								display: nil,
+								label: "field.label4",
+								summary: true,
+								type: "Field Type",
+								reference: nil
+							)
+						],
+						label: "Section Header 2")
+					
+				],
+				label: "UI Schema"
+			)
+	)
 }

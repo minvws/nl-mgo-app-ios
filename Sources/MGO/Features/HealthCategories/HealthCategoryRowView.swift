@@ -38,7 +38,6 @@ struct HealthCategoryRowView: View {
 				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
 			
 			Text(block.title)
-
 			.foregroundStyle(theme.contentPrimary)
 			
 			Spacer()
@@ -67,7 +66,6 @@ struct HealthCategoryRowView: View {
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.padding(ViewTraits.Block.spacing)
 		.frame(minHeight: ViewTraits.Block.minHeight)
-		.background(theme.backgroundSecondary)
 		.accessibilityElement(children: .combine)
 	}
 }

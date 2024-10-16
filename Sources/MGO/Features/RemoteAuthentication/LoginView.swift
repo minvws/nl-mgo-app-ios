@@ -64,23 +64,15 @@ struct LoginView: View {
 	
 	var body: some View {
 		
-		ScrollView {
+		ScrollViewWithDivider {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
-				Group {
-					
-					Text("login.heading")
-						.rijksoverheidStyle(font: .bold, style: .title)
-						.accessibilityAddTraits(.isHeader)
-						.accessibilityIdentifier("login.heading")
-					
-					Text("login.subheading")
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.accessibilityIdentifier("login.subheading")
-				}
-				.foregroundStyle(theme.contentPrimary)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
+				Text("login.subheading")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.accessibilityIdentifier("login.subheading")
+					.foregroundStyle(theme.contentPrimary)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
 				
 				VStack(spacing: ViewTraits.Button.spacing, content: {
 					
@@ -105,7 +97,7 @@ struct LoginView: View {
 		}
 		.navigationBarBackButtonHidden(true)
 		.navigationBarHidden(false)
-		.navigationBarTitleDisplayMode(.inline)
+		.navigationTitle("login.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 	}
@@ -113,7 +105,7 @@ struct LoginView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		LoginView(viewModel: LoginViewModel(coordinator: nil)
+			LoginView(viewModel: LoginViewModel(coordinator: nil)
 		)
 	}
 }

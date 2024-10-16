@@ -163,31 +163,33 @@ struct BioMetricSetupView: View {
 		
 		ScrollViewWithFixedBottom {
 			
-			HStack {
-				Spacer()
-				getBioMetricImage(type: bioMetricType)
-					.foregroundStyle(theme.actionPrimaryDefaultBackground)
-					.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
-					.padding(.top, ViewTraits.Image.top)
-				Spacer()
+			Group {
+				
+				HStack {
+					Spacer()
+					getBioMetricImage(type: bioMetricType)
+						.foregroundStyle(theme.actionPrimaryDefaultBackground)
+						.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
+						.padding(.top, ViewTraits.Image.top)
+					Spacer()
+				}
+				
+				Text(getBioMetricTypeInterpolatedText("biometric_setup.heading", type: bioMetricType))
+					.rijksoverheidStyle(font: .bold, style: .title)
+					.padding(ViewTraits.Title.insets)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityAddTraits(.isHeader)
+				
+				Text(LocalizedStringKey(bioMetricTypedIntro(bioMetricType)))
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.padding(ViewTraits.Text.insets)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
 			}
-			
-			Text(getBioMetricTypeInterpolatedText("biometric_setup.heading", type: bioMetricType))
-				.rijksoverheidStyle(font: .bold, style: .title)
-				.padding(ViewTraits.Title.insets)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityAddTraits(.isHeader)
-			
-			Text(LocalizedStringKey(bioMetricTypedIntro(bioMetricType)))
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.padding(ViewTraits.Text.insets)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-			
+				.padding(.top, ViewTraits.Navigation.padding)
 		} bottomView: {
 			
 			bottomView(bioMetricType)
 		}
-		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden(true)
 		.navigationBarTitleDisplayMode(.inline)
 		.alert("biometric_setup.dialog.heading", isPresented: $viewModel.state.showTouchPopup) {
