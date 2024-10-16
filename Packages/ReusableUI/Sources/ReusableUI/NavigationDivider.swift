@@ -9,6 +9,9 @@ import SwiftUI
 
 public struct NavigationDivider: View {
 	
+	/// Create a Navigation Divider
+	public init() { /* empty init */ }
+	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
