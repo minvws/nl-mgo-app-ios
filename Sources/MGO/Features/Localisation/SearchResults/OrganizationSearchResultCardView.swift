@@ -84,27 +84,13 @@ struct OrganizationSearchResultCardView: View {
 						Text(model.city ?? "")
 					}
 				}
-				.rijksoverheidStyle(font: .italic, style: .body)
+				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.contentTertiary)
 				
 				switch state {
 					case .regular: EmptyView()
 						
-					case .selected:
-						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
-							Image(ImageResource.Localisation.check)
-								.padding(ViewTraits.Selected.padding)
-							Text("add_organization.already_added")
-								.rijksoverheidStyle(font: .regular, style: .body)
-								.multilineTextAlignment(.leading)
-								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-								
-						}
-						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
-						.padding(.top, ViewTraits.Selected.padding)
-						.accessibilityElement(children: .combine)
-						
-					case .notParticipating, .notImplemented:
+					case .notParticipating, .notImplemented, .selected:
 						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
 							Image(ImageResource.Localisation.warning)
 							Group {
@@ -114,6 +100,10 @@ struct OrganizationSearchResultCardView: View {
 								if case .notImplemented
 									= state {
 									Text("add_organization.not_implemented")
+								}
+								if case .selected
+									= state {
+									Text("add_organization.already_added")
 								}
 							}
 								.rijksoverheidStyle(font: .regular, style: .body)
@@ -134,23 +124,17 @@ struct OrganizationSearchResultCardView: View {
 						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
 						.font(Font.title2.bold())
 				
-				case .selected:
-					Image(ImageResource.Localisation.arrowForward)
-						.foregroundStyle(theme.iconsPrimary)
-						.frame(width: ViewTraits.Selected.size, height: ViewTraits.Selected.size, alignment: .center)
-				
-				case .notParticipating, .notImplemented:
+				case .notParticipating, .notImplemented, .selected:
 					EmptyView()
 			}
 		}
 		.accessibilityElement(children: .combine)
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
-		.when(state == .notParticipating || state == .notImplemented, transform: { view in
+		.when(state != .regular, transform: { view in
 			view.background(theme.backgroundTertiary)
 		})
-		
-		.when(state != .notParticipating && state != .notImplemented, transform: { view in
+		.when(state == .regular, transform: { view in
 			view
 				.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
 				.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
