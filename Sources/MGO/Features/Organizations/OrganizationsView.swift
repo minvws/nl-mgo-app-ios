@@ -121,6 +121,9 @@ struct OrganizationsView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Are we scrolling
+	@State private var isScrolling: Bool = false
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -128,10 +131,6 @@ struct OrganizationsView: View {
 		}
 		enum General {
 			static let padding: CGFloat = 16
-			static let spacing: CGFloat = 8
-		}
-		enum Image {
-			static let insets = EdgeInsets( top: 0, leading: 50, bottom: 0, trailing: 50)
 		}
 		enum List {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
@@ -148,35 +147,19 @@ struct OrganizationsView: View {
 		Group {
 			switch viewModel.state {
 				case .empty:
-					ScrollView {
-						VStack(spacing: ViewTraits.General.spacing) {
-							
-							headerView()
-							
-							noHealthcareOrganizationView()
-							
-							Spacer()
-						}
+					ScrollViewWithDivider {
+						noHealthcareOrganizationView()
+							.padding(.top, ViewTraits.Navigation.padding)
 					}
 					.padding(.horizontal, ViewTraits.General.padding)
 				
 				case let .list(list):
-					
-					VStack(spacing: ViewTraits.General.spacing) {
-						
-						headerView()
-							.padding(.horizontal, ViewTraits.General.padding)
-						
-						listHealthcareOrganizationView(list: list)
-						
-						Spacer()
-					}
+					listHealthcareOrganizationView(list: list)
 			}
 		}
-		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
 		.navigationBarHidden(false)
-		.navigationBarTitleDisplayMode(.inline)
+		.navigationTitle("healthcare_organizations.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
@@ -185,21 +168,6 @@ struct OrganizationsView: View {
 			viewModel.reduce(.closeToast)
 		}
 		.layoutForIPad()
-		
-	}
-	
-	@ViewBuilder func headerView() -> some View {
-	
-		HStack {
-			Text("healthcare_organizations.heading")
-				.rijksoverheidStyle(font: .bold, style: .title)
-				.foregroundColor(theme.contentPrimary)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityAddTraits(.isHeader)
-				.accessibilityIdentifier("healthcare_organizations.heading")
-			
-			Spacer()
-		}
 	}
 	
 	/// Create the empty state view
@@ -236,6 +204,8 @@ struct OrganizationsView: View {
 							viewModel.reduce(.details(healthcareOrganization))
 						}
 				}
+			} header: {
+				Spacer(minLength: 0).listRowInsets(EdgeInsets())
 			}
 			
 			// Bottom section for add button
@@ -250,6 +220,13 @@ struct OrganizationsView: View {
 		}
 		.listStyle(.insetGrouped)
 		.backportListSectionSpacing(ViewTraits.List.spacing)
+		.environment(\.defaultMinListHeaderHeight, ViewTraits.List.spacing)
+		.simultaneousGesture(
+			DragGesture()
+				.onChanged { _ in isScrolling = true }
+				.onEnded { _ in isScrolling = false }
+		)
+		.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
 	}
 	
 	/// The view for a row of the healthcare organizations list

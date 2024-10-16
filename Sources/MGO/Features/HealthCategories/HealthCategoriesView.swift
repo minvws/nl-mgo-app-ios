@@ -322,6 +322,11 @@ struct HealthCategoriesView: View {
 				
 				List {
 					
+					Section { /* Empty section */ }
+					header: {
+						Spacer(minLength: 0).listRowInsets(EdgeInsets())
+					}
+					
 					ForEach(1..<4) { box in
 						
 						Section {
@@ -351,20 +356,21 @@ struct HealthCategoriesView: View {
 							}
 						}
 						.listRowInsets(ViewTraits.List.rowInset)
+						.environment(\.defaultMinListHeaderHeight, ViewTraits.Navigation.padding)
 					}
 					
 					if viewModel.state.showRemoveHealthcareProvider {
 						Section { /* Empty section */ }
-					footer: {
-						// Button in footer of an empty section so it is
-						// at the bottom of the list, and without a rounded list background
-						CallToActionButton(
-							"health_categories.remove_organization",
-							style: .tertiaryNegative) {
-								viewModel.reduce(.removeHealthcareOrganization)
-							}
-							.accessibilityIdentifier("health_categories.remove_organization")
-					}
+						footer: {
+							// Button in footer of an empty section so it is
+							// at the bottom of the list, and without a rounded list background
+							CallToActionButton(
+								"health_categories.remove_organization",
+								style: .tertiaryNegative) {
+									viewModel.reduce(.removeHealthcareOrganization)
+								}
+								.accessibilityIdentifier("health_categories.remove_organization")
+						}
 					}
 				} // List
 				.listStyle(.insetGrouped)
