@@ -46,8 +46,12 @@ struct HealthCategories {
 					ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue
 				]
 				case .treatments: []
-				case .appointments: []
-				case .vaccinations: []
+				case .appointments: [
+					ZibEncounterProfile.httpNictizNlFhirStructureDefinitionZibEncounter.rawValue
+				]
+				case .vaccinations: [
+					ZibVaccinationProfile.httpNictizNlFhirStructureDefinitionZibVaccination.rawValue
+				]
 				case .documents: []
 				
 				case .complaints: [
@@ -118,12 +122,12 @@ struct HealthCategories {
 				]
 				
 				case .appointments: [
-//					(DVP.CommonClinicalDataset.encounter, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.encounter, DVP.CommonClinicalDataset.serviceID),
 //					(DVP.CommonClinicalDataset.plannedEncounters, DVP.CommonClinicalDataset.serviceID)
 				]
 				
 				case .vaccinations: [
-//					(DVP.CommonClinicalDataset.vaccination, DVP.CommonClinicalDataset.serviceID)
+					(DVP.CommonClinicalDataset.vaccination, DVP.CommonClinicalDataset.serviceID)
 				]
 				
 				case .documents: []
