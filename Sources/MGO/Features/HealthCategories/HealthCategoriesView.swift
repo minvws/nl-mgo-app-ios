@@ -21,7 +21,7 @@ enum HealthCategoriesViewMode {
 struct HealthCategoriesViewState {
 	
 	var title: String
-	var showLargeTitle: Bool
+	var canTitleCollapse: Bool
 	var showEmptyView: Bool
 	var showRemoveHealthcareProvider: Bool
 	var healthCategories: [CategoryButton]
@@ -89,14 +89,14 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .all: false
 		}
 		
-		let showLargeTitle: Bool = switch mode {
+		let canTitleCollapse: Bool = switch mode {
 			case .single: false
 			case .all: true
 		}
 		
 		self.state = HealthCategoriesViewState(
 			title: title,
-			showLargeTitle: showLargeTitle,
+			canTitleCollapse: canTitleCollapse,
 			showEmptyView: Current.healthcareOrganizationStore.organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
@@ -301,6 +301,7 @@ struct HealthCategoriesView: View {
 		enum List {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let spacing: CGFloat = 16
+			static let top: CGFloat = 24
 		}
 		enum NoResults {
 			static let top: CGFloat = 44
@@ -312,9 +313,9 @@ struct HealthCategoriesView: View {
 	
 	var body: some View {
 			
-		VStack(alignment: .leading, spacing: 0) {
+		Group {
 			
-			if !viewModel.state.showLargeTitle {
+			if !viewModel.state.canTitleCollapse {
 				headerView()
 			}
 			
@@ -323,11 +324,6 @@ struct HealthCategoriesView: View {
 			} else {
 				
 				List {
-					
-					Section { /* Empty section */ }
-					header: {
-						Spacer(minLength: 0).listRowInsets(EdgeInsets())
-					}
 					
 					ForEach(1..<4) { box in
 						
@@ -377,7 +373,7 @@ struct HealthCategoriesView: View {
 				} // List
 				.listStyle(.insetGrouped)
 				.backportListSectionSpacing(ViewTraits.List.spacing)
-				.when(viewModel.state.showLargeTitle) { view in
+				.when(viewModel.state.canTitleCollapse) { view in
 					view
 						.simultaneousGesture(
 							DragGesture()
@@ -385,7 +381,13 @@ struct HealthCategoriesView: View {
 								.onEnded { _ in isScrolling = false }
 						)
 						.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
+						.safeAreaInset(edge: .top, spacing: .zero) {
+							Spacer()
+								.frame(height: ViewTraits.List.top)
+								.frame(maxWidth: .infinity)
+						}
 				}
+				
 				Spacer()
 			}
 
@@ -397,7 +399,7 @@ struct HealthCategoriesView: View {
 					viewModel.reduce(.backButtonPressed)
 				})
 		})
-		.when(viewModel.state.showLargeTitle) { view in
+		.when(viewModel.state.canTitleCollapse) { view in
 			view.navigationTitle(viewModel.state.title)
 		}
 		.navigationBarHidden(false)
