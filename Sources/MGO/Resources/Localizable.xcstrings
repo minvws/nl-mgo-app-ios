@@ -180,17 +180,6 @@
         }
       }
     },
-    "biometric_setup.button.without_biometric" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verder zonder %@"
-          }
-        }
-      }
-    },
     "biometric_setup.dialog.cancel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -252,7 +241,18 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Face ID"
+            "value" : "Gezichtsherkenning"
+          }
+        }
+      }
+    },
+    "biometric_setup.faceid.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met gezichtsherkenning?"
           }
         }
       }
@@ -263,18 +263,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met gezichtsherkenning. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
-          }
-        }
-      }
-    },
-    "biometric_setup.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Volgende keer inloggen met %@?"
+            "value" : "Beveilig de app met gezichtsherkenning. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
           }
         }
       }
@@ -285,7 +274,18 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Optic ID"
+            "value" : "Oogherkenning"
+          }
+        }
+      }
+    },
+    "biometric_setup.opticid.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met oogherkenning?"
           }
         }
       }
@@ -296,7 +296,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met oogherkenning. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
+            "value" : "Beveilig de app met oogherkenning. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
           }
         }
       }
@@ -307,7 +307,18 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Touch ID"
+            "value" : "Vingerafdruk"
+          }
+        }
+      }
+    },
+    "biometric_setup.touchid.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met je vingerafdruk?"
           }
         }
       }
@@ -318,7 +329,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met je vingerafdruk. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
+            "value" : "Beveilig de app met je vingerafdruk. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
           }
         }
       }
@@ -583,6 +594,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instellingen"
+          }
+        }
+      }
+    },
+    "common.skip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overslaan"
           }
         }
       }
