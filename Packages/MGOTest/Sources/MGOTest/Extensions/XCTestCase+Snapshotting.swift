@@ -10,14 +10,6 @@ import MGOUI
 import XCTest
 
 extension XCTestCase {
-	// Uncomment to enable global snapshot re-recording:
-//	open override func setUp() {
-//		super.setUp()
-//		isRecording = true
-//	}
-}
-
-extension XCTestCase {
 	
 	/// Take a snapshot of this content in light and dark Mode, in landscape and portrait.
 	/// - Parameters:
