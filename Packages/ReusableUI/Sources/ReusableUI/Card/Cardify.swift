@@ -43,6 +43,7 @@ public struct Cardify: ViewModifier {
 					.inset(by: ViewTraits.Card.inset)
 					.stroke(lineColor, lineWidth: 1)
 			)
+			.clipShape(RoundedRectangle(cornerRadius: ViewTraits.Card.radius))
 	}
 }
 
