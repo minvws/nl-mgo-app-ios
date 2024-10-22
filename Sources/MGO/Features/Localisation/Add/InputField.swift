@@ -49,7 +49,7 @@ struct InputField: View {
 	}
 	
 	/// Helper to change the border color when the textfield is focused.
-	@FocusState private var isFieldFocused: Bool
+	@FocusState var isFieldFocused: Bool
 	
 	var body: some View {
 		

@@ -148,6 +148,8 @@ struct AddOrganizationView: View {
 	/// Are we presented in a sheet?
 	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
+	@FocusState var isCityFieldFocused: Bool
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
@@ -183,16 +185,25 @@ struct AddOrganizationView: View {
 				.padding(.bottom, ViewTraits.General.padding)
 				.accessibilityIdentifier("add_organization.name")
 				.submitLabel(.next)
-				.onAppear()
+				.onSubmit {
+					// Make the next field focussed
+					isCityFieldFocused = true
+				}
 				
 				InputField(
 					input: $viewModel.state.city,
 					errorMessage: $viewModel.state.cityError,
-					title: "add_organization.city"
+					title: "add_organization.city",
+					isFieldFocused: _isCityFieldFocused
 				)
 				.padding(.bottom, ViewTraits.General.padding)
 				.accessibilityIdentifier("add_organization.city")
 				.submitLabel(.search)
+				.onSubmit {
+					isCityFieldFocused = false
+					// Search
+					viewModel.reduce(.search)
+				}
 				
 				Spacer()
 			}
