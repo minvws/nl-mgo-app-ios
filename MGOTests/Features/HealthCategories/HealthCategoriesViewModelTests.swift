@@ -71,16 +71,20 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		expect(params.params["healthcareOrganization"]) != nil
 	}
 
-	func test_categorySelected_shouldNotCallCoordinator_whenStateIsLoading() {
+	func test_categorySelected_shouldCallCoordinator_whenStateIsLoading() throws {
 
 		// Given
-		let button = CategoryButton(id: 3, title: "test", state: .loading, box: 1)
+		let button = CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "test", state: .loading, box: 1)
 		
 		// When
 		sut.reduce(.categorySelected(button))
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == false
+		expect(self.coordinatorSpy.invokedHandle) == true
+		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
+		expect(params.identifier) == Coordination.Action.showHealthCategory.identifier
+		expect(params.params["category"] as? HealthCategories.Category) == HealthCategories.Category.measurements
+		expect(params.params["healthcareOrganization"]) != nil
 	}
 	
 	func test_categorySelected_shouldNotCallCoordinator_whenCategoryIsInvalid() {

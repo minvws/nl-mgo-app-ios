@@ -165,11 +165,6 @@ class HealthCategoriesViewModel: ObservableObject {
 			
 			case let .categorySelected(categoryButton):
 				
-				guard categoryButton.state != .loading else {
-					logError("Trying to select a category with invalid state", categoryButton)
-					return
-				}
-				
 				if let category = HealthCategories.Category(rawValue: categoryButton.id) {
 					var params: [String: AnyHashable] = ["category": category]
 					if case let .single(healthcareOrganization) = mode {
@@ -338,20 +333,13 @@ struct HealthCategoriesView: View {
 							ForEach(list, id: \.id) { block in
 								
 								VStack(spacing: 0) {
-									HealthCategoryRowView(block: block)
-										.when(block.state != .loading) { view in
-											Button {
-												viewModel.reduce(.categorySelected(block))
-											} label: {
-												view
-											}
-											.frame( maxWidth: .infinity, alignment: .leading)
-											.buttonStyle(HoverButtonStyle())
-										}
-										.when(block.state == .loading) { view in
-											view
-												.background(theme.backgroundSecondary)
-										}
+									Button {
+										viewModel.reduce(.categorySelected(block))
+									} label: {
+										HealthCategoryRowView(block: block)
+									}
+									.frame( maxWidth: .infinity, alignment: .leading)
+									.buttonStyle(HoverButtonStyle())
 								}
 							}
 						}
