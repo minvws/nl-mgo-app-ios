@@ -725,7 +725,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle inenting gegevens"
+            "value" : "Alle vaccinatie gegevens"
           }
         }
       }
@@ -1165,7 +1165,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inentingen"
+            "value" : "Vaccinaties"
           }
         }
       }
