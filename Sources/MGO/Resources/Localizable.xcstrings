@@ -422,28 +422,6 @@
         }
       }
     },
-    "common.failure_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gegevens ophalen mislukt"
-          }
-        }
-      }
-    },
-    "common.failure_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sorry, maar het lijkt erop dat we geen verbinding kunnen maken met ons systeem. Daardoor kunnen we je gegevens niet ophalen. We proberen het probleem op te lossen. Kom later nog eens terug."
-          }
-        }
-      }
-    },
     "common.loading" : {
       "extractionState" : "manual",
       "localizations" : {
