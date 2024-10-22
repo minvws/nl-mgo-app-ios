@@ -305,6 +305,9 @@ struct HealthCategoriesView: View {
 		enum NoResults {
 			static let top: CGFloat = 44
 		}
+		enum Button {
+			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+		}
 	}
 	
 	var body: some View {
@@ -317,7 +320,6 @@ struct HealthCategoriesView: View {
 			
 			if viewModel.state.showEmptyView {
 				noHealthcareOrganizationView()
-					.padding(.horizontal, ViewTraits.General.padding)
 			} else {
 				
 				List {
@@ -429,7 +431,7 @@ struct HealthCategoriesView: View {
 	/// - Returns: View when the user has no stored healthcare organizations
 	@ViewBuilder func noHealthcareOrganizationView() -> some View {
 		
-		ScrollViewWithDivider {
+		ScrollViewWithFixedBottom {
 			
 			ImageContentView(
 				icon: Image(ImageResource.Woman.womanWithPhone),
@@ -438,11 +440,15 @@ struct HealthCategoriesView: View {
 			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
+			.padding(.horizontal, ViewTraits.General.padding)
+			
+		} bottomView: {
 			
 			CallToActionButton("overview.empty.action") {
 				viewModel.reduce(.search)
 			}
 			.accessibilityIdentifier("overview.empty.action")
+			.padding(ViewTraits.Button.insets)
 		}
 	}
 }

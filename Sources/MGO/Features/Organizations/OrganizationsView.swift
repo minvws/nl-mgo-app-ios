@@ -138,7 +138,10 @@ struct OrganizationsView: View {
 			static let padding: CGFloat = 16
 		}
 		enum NoResults {
-			static let top: CGFloat = 36
+			static let top: CGFloat = 44
+		}
+		enum Button {
+			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
 		}
 	}
 	
@@ -147,11 +150,7 @@ struct OrganizationsView: View {
 		Group {
 			switch viewModel.state {
 				case .empty:
-					ScrollViewWithDivider {
-						noHealthcareOrganizationView()
-							.padding(.top, ViewTraits.Navigation.padding)
-					}
-					.padding(.horizontal, ViewTraits.General.padding)
+					noHealthcareOrganizationView()
 				
 				case let .list(list):
 					listHealthcareOrganizationView(list: list)
@@ -174,18 +173,25 @@ struct OrganizationsView: View {
 	/// - Returns: View when the user has no stored healthcare organizations
 	@ViewBuilder func noHealthcareOrganizationView() -> some View {
 		
-		ImageContentView(
-			icon: Image(ImageResource.Woman.womanWithPhone),
-			heading: "overview.empty.heading",
-			subHeading: "overview.empty.subheading"
-		)
+		ScrollViewWithFixedBottom {
+			
+			ImageContentView(
+				icon: Image(ImageResource.Woman.womanWithPhone),
+				heading: "overview.empty.heading",
+				subHeading: "overview.empty.subheading"
+			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
-		
-		CallToActionButton("overview.empty.action") {
-			viewModel.reduce(.search)
+			.padding(.horizontal, ViewTraits.General.padding)
+			
+		} bottomView: {
+			
+			CallToActionButton("overview.empty.action") {
+				viewModel.reduce(.search)
+			}
+			.accessibilityIdentifier("overview.empty.action")
+			.padding(ViewTraits.Button.insets)
 		}
-		.accessibilityIdentifier("overview.empty.action")
 	}
 	
 	/// Create the list state view
