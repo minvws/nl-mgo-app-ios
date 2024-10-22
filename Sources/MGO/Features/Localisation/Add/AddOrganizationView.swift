@@ -182,6 +182,8 @@ struct AddOrganizationView: View {
 				)
 				.padding(.bottom, ViewTraits.General.padding)
 				.accessibilityIdentifier("add_organization.name")
+				.submitLabel(.next)
+				.onAppear()
 				
 				InputField(
 					input: $viewModel.state.city,
@@ -190,6 +192,7 @@ struct AddOrganizationView: View {
 				)
 				.padding(.bottom, ViewTraits.General.padding)
 				.accessibilityIdentifier("add_organization.city")
+				.submitLabel(.search)
 				
 				Spacer()
 			}
