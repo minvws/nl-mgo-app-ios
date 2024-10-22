@@ -38,7 +38,7 @@ struct InputField: View {
 			static let cornerRadius: CGFloat = 8
 			static let inset: CGFloat = 0.5
 			static let horizontalPadding: CGFloat = 12
-			static let verticalPadding: CGFloat = 8
+			static let verticalPadding: CGFloat = 12
 		}
 		enum Button {
 			static let trailing: CGFloat = 12
