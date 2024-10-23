@@ -62,6 +62,7 @@ class OrganizationsViewModel: ObservableObject {
 							// Undo deletion
 							try? Current.healthcareOrganizationStore.store(organization)
 							withAnimation {
+								Haptic.heavy()
 								self?.toast = nil
 							}
 						}
