@@ -48,7 +48,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "pincode.create.heading",
 			message: "pincode.create.subheading",
-			messageType: .regular,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
@@ -79,7 +78,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "pincode.create.heading",
 			message: "pincode.create.subheading",
-			messageType: .regular,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
@@ -112,7 +110,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "pincode.create.heading",
 			message: "pincode.create.subheading",
-			messageType: .regular,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
@@ -146,7 +143,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "pincode.create.heading",
 			message: "pincode.create.subheading",
-			messageType: .regular,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
@@ -181,7 +177,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "pincode.create.heading",
 			message: "pincode.create.subheading",
-			messageType: .regular,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
@@ -222,7 +217,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			backButtonKey: "",
 			title: "pincode.create.heading",
 			message: "pincode.create.tooweak",
-			messageType: .alert,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [

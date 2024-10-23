@@ -1572,18 +1572,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze persoonlijke toegangscode is **niet dezelfde als de vorige**. Voer de juiste code in om door te gaan."
-          }
-        }
-      }
-    },
-    "pincode.confirm.mismatch.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze persoonlijke toegangscode is niet dezelfde als de vorige. Voer de juiste code in om door te gaan."
+            "value" : "Dit is een andere code dan de vorige. Voer dezelfde code in om verder te gaan."
           }
         }
       }
@@ -1594,7 +1583,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voer ter controle nog een keer je 5-cijferige toegangscode in."
+            "value" : "Voer je 5-cijferige code nog een keer in."
           }
         }
       }
@@ -1605,7 +1594,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kies een 5-cijferige toegangscode"
+            "value" : "Kies je toegangscode"
           }
         }
       }
@@ -1616,23 +1605,12 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt een persoonlijke toegangscode nodig voor de app. Gebruik geen te simpele codes zoals 00000 of 12345."
+            "value" : "Je hebt een code van 5 cijfers nodig. Gebruik geen simpele codes zoals 00000 of 12345."
           }
         }
       }
     },
     "pincode.create.tooweak" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze persoonlijke toegangscode is **niet veilig genoeg**. Gebruik geen cijfers die na elkaar komen."
-          }
-        }
-      }
-    },
-    "pincode.create.tooweak.voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1803,7 +1781,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vul je persoonlijke toegangscode in om in te loggen."
+            "value" : "Vul je toegangscode in om door te gaan"
           }
         }
       }
@@ -1815,17 +1793,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "De ingevoerde toegangscode is **onjuist**.\nProbeer het opnieuw."
-          }
-        }
-      }
-    },
-    "pincode.validation.wrong.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De ingevoerde toegangscode is onjuist.\nProbeer het opnieuw."
           }
         }
       }

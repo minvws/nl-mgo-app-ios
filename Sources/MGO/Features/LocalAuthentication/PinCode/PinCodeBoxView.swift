@@ -63,7 +63,7 @@ struct PinCodeBoxView: View {
 		switch state {
 			case .error: theme.notificationError
 			default:
-				colorScheme == .light ? theme.actionPrimaryDefaultBackground : theme.actionSecondaryDefaultBackground
+				theme.actionPrimaryDefaultBackground
 		}
 	}
 	
@@ -72,7 +72,7 @@ struct PinCodeBoxView: View {
 			case .empty, .focus:
 				.clear
 			case .filling, .filled:
-				colorScheme == .light ? theme.actionPrimaryDefaultBackground : theme.actionSecondaryDefaultBackground
+				theme.actionPrimaryDefaultBackground
 			case .error:
 				theme.notificationError
 		}
