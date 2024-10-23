@@ -20,7 +20,8 @@ struct KeyboardButtonStyle: ButtonStyle {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Button {
-			static let minimumHeight: CGFloat = 44
+			static let minimumHeight: CGFloat = 46
+			static let cornerRadius: CGFloat = 5
 		}
 	}
 	
@@ -30,16 +31,10 @@ struct KeyboardButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, maxHeight: .infinity, alignment: .center)
-			.rijksoverheidStyle(font: .regular, style: .largeTitle)
+			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
+			.rijksoverheidStyle(font: .regular, style: .title2)
 			.foregroundStyle(isEnabled ? theme.contentPrimary : theme.iconsSecondary)
-			.background {
-				if configuration.isPressed {
-					Circle()
-						.foregroundStyle(theme.backgroundTertiary)
-				}
-			}
-			.background(theme.backgroundPrimary)
-
+			.background(configuration.isPressed ? theme.backgroundTertiary : theme.backgroundSecondary)
+			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

@@ -445,32 +445,19 @@ struct PinCodeView: View {
 	
 	/// Magic numbers
 	private struct ViewTraits {
-		enum Title {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 16, trailing: 16)
-		}
-		enum Text {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 8, trailing: 16)
-			static let imageSpacing: CGFloat = 12
-		}
 		enum ForgotButton {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
 		}
 		enum Button {
-			static let minimumHeight: CGFloat = 44
+			static let minimumHeight: CGFloat = 46
 		}
 		enum General {
-			static let spacing: CGFloat = 8
+			static let spacing: CGFloat = 6
 			static let horizontalPadding: CGFloat = 16
 			static let bottomPadding: CGFloat = 16
 		}
 		enum Box {
 			static let spacing: CGFloat = 12
-			static let bottomMargin: CGFloat = 20
-		}
-		enum Position {
-			static let text: CGFloat = 0.38 // Text takes 38% of the screen height.
-			static let box: CGFloat = 0.16 // The boxes take 16 %
-			static let keyboard: CGFloat = 0.46 // The keyboard the remainder
 		}
 		enum Navigation {
 			static let padding: CGFloat = 8
@@ -478,71 +465,48 @@ struct PinCodeView: View {
 	}
 	
 	var body: some View {
-		GeometryReader { geometry in
-			
-			VStack(alignment: .leading, spacing: 0) {
+		
+		ScrollViewWithFixedBottom {
+			VStack(alignment: .center, spacing: 16) {
 				
-				ScrollView {
-					Text(viewModel.state.title)
-						.rijksoverheidStyle(font: .bold, style: .title)
-						.padding(ViewTraits.Title.insets)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
-						.accessibilityAddTraits(.isHeader)
-						.fixedSize(horizontal: false, vertical: true)
-						.accessibilityIdentifier("pincode.heading")
+				Text(viewModel.state.title)
+					.rijksoverheidStyle(font: .bold, style: .title)
+					.frame(maxWidth: .infinity, alignment: .center)
+					.accessibilityAddTraits(.isHeader)
+					.fixedSize(horizontal: false, vertical: true)
+					.accessibilityIdentifier("pincode.heading")
 				
-					switch viewModel.state.messageType {
-						
-						case .regular:
-							Text(viewModel.state.message)
-								.rijksoverheidStyle(font: .regular, style: .body)
-								.padding(ViewTraits.Text.insets)
-								.frame(maxWidth: .infinity, alignment: .topLeading)
-							
-						case .alert:
-							HStack(alignment: .top, spacing: ViewTraits.Text.imageSpacing) {
-								Image(ImageResource.Notification.error)
-								
-								Text(viewModel.state.message)
-									.rijksoverheidStyle(font: .regular, style: .body)
-									.frame(maxWidth: .infinity, alignment: .topLeading)
-							}
-							.padding(ViewTraits.Text.insets)
-							.accessibilityElement(children: .combine)
+				Text(viewModel.state.message)
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.frame(maxWidth: .infinity, alignment: .center)
+				
+				Spacer()
+				
+				HStack(spacing: ViewTraits.Box.spacing) {
+					ForEach($viewModel.boxStates, id: \.self) { element in
+						PinCodeBoxView(state: element.state)
+							.accessibilityHidden(false)
+							.accessibilityIdentifier("box \(element.id + 1)")
+							.accessibilityLabel(element.wrappedValue.accessibilityLabel(index: element.id + 1, count: viewModel.boxStates.count))
 					}
-					
-					if viewModel.state.forgotCodeButtonVisible {
-						Button(action: {
-							viewModel.reduce(.forgotPinCode)
-						}, label: {
-							Text("pincode.forgot")
-						})
-						.buttonStyle(LinkButtonStyle())
-						.padding(ViewTraits.ForgotButton.insets)
-						.accessibilityIdentifier("pincode.forgot")
-					}
-					
-					Spacer()
+				}
+				.padding(.horizontal, ViewTraits.General.horizontalPadding)
+				
+				Spacer()
+				
+				if viewModel.state.forgotCodeButtonVisible {
+					Button(action: {
+						viewModel.reduce(.forgotPinCode)
+					}, label: {
+						Text("pincode.forgot")
+					})
+					.buttonStyle(LinkButtonStyle())
+					.padding(ViewTraits.ForgotButton.insets)
+					.accessibilityIdentifier("pincode.forgot")
 				}
 			}
-			.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.text)
-			.position(x: geometry.size.width / 2, y: geometry.size.height * ViewTraits.Position.text / 2 )
-			.padding(.top, ViewTraits.Navigation.padding)
-			
-			HStack(spacing: ViewTraits.Box.spacing) {
-				ForEach($viewModel.boxStates, id: \.self) { element in
-					PinCodeBoxView(state: element.state)
-						.accessibilityHidden(false)
-						.accessibilityIdentifier("box \(element.id + 1)")
-						.accessibilityLabel(element.wrappedValue.accessibilityLabel(index: element.id + 1, count: viewModel.boxStates.count))
-				}
-			}
-			.padding(.horizontal, ViewTraits.General.horizontalPadding)
-			.padding(.bottom, ViewTraits.Box.bottomMargin)
-			.frame(maxWidth: .infinity, alignment: .center)
-			.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.box)
-			.position(x: geometry.size.width / 2, y: geometry.size.height * ( ViewTraits.Position.text + ViewTraits.Position.box / 2) )
-			
+			.background(.red)
+		} bottomView: {
 			VStack {
 				
 				HStack(spacing: ViewTraits.General.spacing) {
@@ -562,7 +526,7 @@ struct PinCodeView: View {
 					digitButton(for: "8")
 					digitButton(for: "9")
 				}
-				
+	
 				HStack(spacing: ViewTraits.General.spacing) {
 					
 					if viewModel.state.bioMetricEnabled {
@@ -584,7 +548,6 @@ struct PinCodeView: View {
 					} else {
 						Spacer()
 							.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
-						
 					}
 					
 					digitButton(for: "0")
@@ -599,14 +562,13 @@ struct PinCodeView: View {
 			.when(safeAreaInsets.bottom == 0) { view in
 				view.padding(.bottom, ViewTraits.General.bottomPadding)
 			}
-			.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.keyboard)
-			.position(x: geometry.size.width / 2, y: geometry.size.height * (1 - ViewTraits.Position.keyboard / 2) )
 		}
+		.padding(.horizontal, ViewTraits.Navigation.padding)
 		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationBarBackButtonHidden(true)
 		.when(viewModel.state.backButtonVisible) { view in
-			// Show the backbutton
+			// Show the back button
 			view.navigationBarItems(leading: BackButton(viewModel.state.backButtonKey) {
 				viewModel.reduce(.backButtonPressed)
 			})
