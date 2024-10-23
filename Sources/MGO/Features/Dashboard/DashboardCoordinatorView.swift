@@ -466,6 +466,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					.tag(DashboardTab.about.rawValue)
 					.accessibilityIdentifier("bottombar.about_this_app")
 				}
+				.tint(theme.actionTertiaryDefaultText)
 			}
 			.onAppear(perform: {
 				// Brute force styling
