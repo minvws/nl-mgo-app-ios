@@ -111,7 +111,7 @@ public struct BannerView: View {
 			
 		}
 		.cardify(padding: ViewTraits.Banner.padding, lineColor: theme.strokesSecondary)
-    }
+	}
 }
 
 #Preview {
@@ -121,4 +121,6 @@ public struct BannerView: View {
 		BannerView(Feedback(title: "Title", subtitle: "Text", type: .error))
 		BannerView(Feedback(title: "Title", subtitle: "Text", actionTitle: "Click me!", type: .success))
 	}
+	.padding(.vertical, 20)
+	.padding(.horizontal, 16)
 }

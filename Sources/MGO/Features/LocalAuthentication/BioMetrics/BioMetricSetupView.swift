@@ -139,11 +139,11 @@ struct BioMetricSetupView: View {
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Image {
-			static let top: CGFloat = 50
-			static let size: CGFloat = 60
+			static let top: CGFloat = 100
+			static let size: CGFloat = 100
 		}
 		enum Title {
-			static let insets = EdgeInsets( top: 35, leading: 16, bottom: 16, trailing: 16)
+			static let insets = EdgeInsets( top: 74, leading: 16, bottom: 16, trailing: 16)
 		}
 		enum Text {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
@@ -174,7 +174,7 @@ struct BioMetricSetupView: View {
 					Spacer()
 				}
 				
-				Text(getBioMetricTypeInterpolatedText("biometric_setup.heading", type: bioMetricType))
+				Text(LocalizedStringKey(bioMetricTypedHeading(bioMetricType)))
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.padding(ViewTraits.Title.insets)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -254,6 +254,24 @@ struct BioMetricSetupView: View {
 	/// Get the intro text for a biometric type
 	/// - Parameter type: biometric type
 	/// - Returns: the right intro text.
+	private func bioMetricTypedHeading(_ type: LocalAuthentication.BiometricType) -> String {
+		switch type {
+			case .none, .unknown:
+				// Should not happen
+				_ = logWarning("No translation for \(type)")
+				return ""
+			case .touchID:
+				return "biometric_setup.touchid.heading"
+			case .faceID:
+				return "biometric_setup.faceid.heading"
+			case .opticID:
+				return "biometric_setup.opticid.heading"
+		}
+	}
+	
+	/// Get the intro text for a biometric type
+	/// - Parameter type: biometric type
+	/// - Returns: the right intro text.
 	private func bioMetricTypedIntro(_ type: LocalAuthentication.BiometricType) -> String {
 		switch type {
 			case .none, .unknown:
@@ -275,7 +293,7 @@ struct BioMetricSetupView: View {
 		
 		VStack(spacing: ViewTraits.Button.spacing) {
 			
-			CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_setup.button.without_biometric", type: bioMetricType)), style: .secondary) {
+			CallToActionButton("common.skip", style: .secondary) {
 				viewModel.reduce(.proceedWithoutBioMetric)
 			}
 			

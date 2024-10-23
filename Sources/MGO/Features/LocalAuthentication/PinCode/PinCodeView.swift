@@ -11,12 +11,6 @@ import MGOUI
 /// An object to encapsulate the state of the view for access code
 struct PinCodeViewState: Equatable {
 	
-	/// Various types of messages
-	enum MessageType: Equatable {
-		case regular
-		case alert
-	}
-	
 	/// Is the biometric key (face ID, touch ID) enabled?
 	var bioMetricEnabled: Bool = false
 	
@@ -41,8 +35,8 @@ struct PinCodeViewState: Equatable {
 	/// The key for the body
 	var message: LocalizedStringKey
 	
-	/// Is this message a regular message, or should we show an alert icon?
-	var messageType: MessageType = .regular
+	/// How should the title and text be aligned?
+	var textAlignment: TextAlignment = .leading
 	
 	/// Should we show the popup when biomertric access is locked out?
 	var showLockoutPopup: Bool = false
@@ -176,13 +170,11 @@ class PinCodeViewModel: ObservableObject {
 			// Setup for access code is too weak
 			state.title = "pincode.create.heading"
 			state.message = "pincode.create.tooweak"
-			state.messageType = .alert
-			announce(String(localized: "pincode.create.tooweak.voiceover"))
+			announce(Sanitizer.sanitize(String(localized: "pincode.create.tooweak")))
 		} else {
 			// Setup for regular access code entry
 			state.title = "pincode.create.heading"
 			state.message = "pincode.create.subheading"
-			state.messageType = .regular
 		}
 	}
 	
@@ -198,13 +190,11 @@ class PinCodeViewModel: ObservableObject {
 			// Setup for access codes do not match
 			state.title = "pincode.confirm.heading"
 			state.message = "pincode.confirm.mismatch"
-			state.messageType = .alert
-			announce(String(localized: "pincode.confirm.mismatch.voiceover"))
+			announce(Sanitizer.sanitize(String(localized: "pincode.confirm.mismatch")))
 		} else if mode == .confirmation {
 			// Setup for access code confirmation
 			state.title = "pincode.confirm.heading"
 			state.message = "pincode.confirm.subheading"
-			state.messageType = .regular
 		}
 	}
 	
@@ -216,17 +206,16 @@ class PinCodeViewModel: ObservableObject {
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = false
 		state.forgotCodeButtonVisible = true
+		state.textAlignment = .center
 		if validationMismatch {
 			// Setup for access codes do not match
 			state.title = "pincode.validation.heading"
 			state.message = "pincode.validation.wrong"
-			state.messageType = .alert
-			announce(String(localized: "pincode.validation.wrong.voiceover"))
+			announce(Sanitizer.sanitize(String(localized: "pincode.validation.wrong")))
 		} else if mode == .validation {
 			// Setup for access code validation
 			state.title = "pincode.validation.heading"
 			state.message = "pincode.validation.subheading"
-			state.messageType = .regular
 		}
 	}
 	
@@ -443,34 +432,23 @@ struct PinCodeView: View {
 	/// Safe Area insets
 	@Environment(\.safeAreaInsets) var safeAreaInsets
 	
+	@State private var scrollViewSize: CGSize = .zero
+	
 	/// Magic numbers
 	private struct ViewTraits {
-		enum Title {
+		enum ForgotButton {
 			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 16, trailing: 16)
 		}
-		enum Text {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 8, trailing: 16)
-			static let imageSpacing: CGFloat = 12
-		}
-		enum ForgotButton {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
-		}
 		enum Button {
-			static let minimumHeight: CGFloat = 44
+			static let minimumHeight: CGFloat = 46
 		}
 		enum General {
-			static let spacing: CGFloat = 8
+			static let spacing: CGFloat = 6
 			static let horizontalPadding: CGFloat = 16
 			static let bottomPadding: CGFloat = 16
 		}
 		enum Box {
 			static let spacing: CGFloat = 12
-			static let bottomMargin: CGFloat = 20
-		}
-		enum Position {
-			static let text: CGFloat = 0.38 // Text takes 38% of the screen height.
-			static let box: CGFloat = 0.16 // The boxes take 16 %
-			static let keyboard: CGFloat = 0.46 // The keyboard the remainder
 		}
 		enum Navigation {
 			static let padding: CGFloat = 8
@@ -478,70 +456,55 @@ struct PinCodeView: View {
 	}
 	
 	var body: some View {
-		GeometryReader { geometry in
-			
-			VStack(alignment: .leading, spacing: 0) {
-				
-				ScrollView {
+		VStack {
+			ScrollView {
+				VStack(alignment: .leading, spacing: 16) {
+
 					Text(viewModel.state.title)
 						.rijksoverheidStyle(font: .bold, style: .title)
-						.padding(ViewTraits.Title.insets)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
+						.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
 						.accessibilityAddTraits(.isHeader)
 						.fixedSize(horizontal: false, vertical: true)
 						.accessibilityIdentifier("pincode.heading")
-				
-					switch viewModel.state.messageType {
-						
-						case .regular:
-							Text(viewModel.state.message)
-								.rijksoverheidStyle(font: .regular, style: .body)
-								.padding(ViewTraits.Text.insets)
-								.frame(maxWidth: .infinity, alignment: .topLeading)
-							
-						case .alert:
-							HStack(alignment: .top, spacing: ViewTraits.Text.imageSpacing) {
-								Image(ImageResource.Notification.error)
-								
-								Text(viewModel.state.message)
-									.rijksoverheidStyle(font: .regular, style: .body)
-									.frame(maxWidth: .infinity, alignment: .topLeading)
+					
+					Text(viewModel.state.message)
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
+						.multilineTextAlignment(viewModel.state.textAlignment)
+					
+					Spacer()
+					
+					HStack(spacing: 0) {
+						Spacer()
+						HStack(spacing: ViewTraits.Box.spacing) {
+							ForEach($viewModel.boxStates, id: \.self) { element in
+								PinCodeBoxView(state: element.state)
+									.accessibilityHidden(false)
+									.accessibilityIdentifier("box \(element.id + 1)")
+									.accessibilityLabel(element.wrappedValue.accessibilityLabel(index: element.id + 1, count: viewModel.boxStates.count))
 							}
-							.padding(ViewTraits.Text.insets)
-							.accessibilityElement(children: .combine)
+						}
+						.padding(.horizontal, ViewTraits.General.horizontalPadding)
+						Spacer()
 					}
+					
+					Spacer()
 					
 					if viewModel.state.forgotCodeButtonVisible {
 						Button(action: {
 							viewModel.reduce(.forgotPinCode)
 						}, label: {
 							Text("pincode.forgot")
+								.frame(maxWidth: .infinity, alignment: .center)
 						})
 						.buttonStyle(LinkButtonStyle())
 						.padding(ViewTraits.ForgotButton.insets)
 						.accessibilityIdentifier("pincode.forgot")
 					}
-					
-					Spacer()
 				}
+				.frame(height: scrollViewSize.height)
 			}
-			.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.text)
-			.position(x: geometry.size.width / 2, y: geometry.size.height * ViewTraits.Position.text / 2 )
-			.padding(.top, ViewTraits.Navigation.padding)
-			
-			HStack(spacing: ViewTraits.Box.spacing) {
-				ForEach($viewModel.boxStates, id: \.self) { element in
-					PinCodeBoxView(state: element.state)
-						.accessibilityHidden(false)
-						.accessibilityIdentifier("box \(element.id + 1)")
-						.accessibilityLabel(element.wrappedValue.accessibilityLabel(index: element.id + 1, count: viewModel.boxStates.count))
-				}
-			}
-			.padding(.horizontal, ViewTraits.General.horizontalPadding)
-			.padding(.bottom, ViewTraits.Box.bottomMargin)
-			.frame(maxWidth: .infinity, alignment: .center)
-			.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.box)
-			.position(x: geometry.size.width / 2, y: geometry.size.height * ( ViewTraits.Position.text + ViewTraits.Position.box / 2) )
+			.readSize($scrollViewSize)
 			
 			VStack {
 				
@@ -565,28 +528,7 @@ struct PinCodeView: View {
 				
 				HStack(spacing: ViewTraits.General.spacing) {
 					
-					if viewModel.state.bioMetricEnabled {
-						// The bioMetric key (face ID, touch ID or optic ID)
-						switch viewModel.state.bioMetricType {
-							case .none, .unknown:
-								Spacer()
-									.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
-								
-							case .touchID:
-								actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "pincode.touchid.voiceover")
-								
-							case .faceID:
-								actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "pincode.faceid.voiceover")
-								
-							case .opticID:
-								actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "pincode.opticid.voiceover")
-						}
-					} else {
-						Spacer()
-							.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
-						
-					}
-					
+					bioMetricButton()
 					digitButton(for: "0")
 					// The erase button
 					actionButton(
@@ -599,14 +541,13 @@ struct PinCodeView: View {
 			.when(safeAreaInsets.bottom == 0) { view in
 				view.padding(.bottom, ViewTraits.General.bottomPadding)
 			}
-			.frame(width: geometry.size.width, height: geometry.size.height * ViewTraits.Position.keyboard)
-			.position(x: geometry.size.width / 2, y: geometry.size.height * (1 - ViewTraits.Position.keyboard / 2) )
 		}
+		.padding(.horizontal, ViewTraits.Navigation.padding)
 		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationBarBackButtonHidden(true)
 		.when(viewModel.state.backButtonVisible) { view in
-			// Show the backbutton
+			// Show the back button
 			view.navigationBarItems(leading: BackButton(viewModel.state.backButtonKey) {
 				viewModel.reduce(.backButtonPressed)
 			})
@@ -641,6 +582,29 @@ struct PinCodeView: View {
 		}
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
+	}
+	
+	@ViewBuilder func bioMetricButton() -> some View {
+		if viewModel.state.bioMetricEnabled {
+			// The bioMetric key (face ID, touch ID or optic ID)
+			switch viewModel.state.bioMetricType {
+				case .none, .unknown:
+					Spacer()
+						.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
+					
+				case .touchID:
+					actionButton(for: .biometricKeyPressed, imageName: "touchid", accessibilityLabel: "pincode.touchid.voiceover")
+					
+				case .faceID:
+					actionButton(for: .biometricKeyPressed, imageName: "faceid", accessibilityLabel: "pincode.faceid.voiceover")
+					
+				case .opticID:
+					actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "pincode.opticid.voiceover")
+			}
+		} else {
+			Spacer()
+				.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
+		}
 	}
 	
 	/// Create a button for a digit (0 ... 9)

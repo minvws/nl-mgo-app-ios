@@ -22,6 +22,7 @@ public struct ToastModifier: ViewModifier {
 					ToastView(feedback) {
 						withAnimation {
 							closeAction?()
+							Haptic.light()
 						}
 					}
 					.padding(16)

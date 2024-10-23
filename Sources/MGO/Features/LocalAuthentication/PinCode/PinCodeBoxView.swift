@@ -19,12 +19,8 @@ struct PinCodeBoxView: View {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Circle {
-			static let small: CGFloat = 16
-			static let big: CGFloat = 24
-		}
-		enum Box {
-			static let radius: CGFloat = 6
-			static let aspectRatio: CGFloat = 0.80
+			static let border: CGFloat = 2
+			static let size: CGFloat = 32
 		}
 	}
 	
@@ -65,70 +61,29 @@ struct PinCodeBoxView: View {
 	/// The color of the border for the various states
 	var borderColor: Color {
 		switch state {
-			case .focus, .filling:
-			colorScheme == .light ? theme.actionPrimaryDefaultBackground : theme.actionSecondaryDefaultBackground
-			case .empty, .filled: theme.strokesPrimary
 			case .error: theme.notificationError
+			default:
+				theme.actionPrimaryDefaultBackground
 		}
 	}
 	
-	/// The width of the border for the various states
-	var borderWidth: CGFloat {
+	var fill: Color {
 		switch state {
-			case .empty, .filled: 2
-			case .focus, .filling, .error: 3
-		}
-	}
-	
-	/// The height of the border for the various states
-	var inset: CGFloat {
-		switch state {
-			case .empty, .filled, .error: 3
-			case .focus, .filling: 0
-		}
-	}
-	
-	/// The inside of the box for the various states
-	@ViewBuilder var icon: some View {
-		switch state {
-			case .empty:
-				EmptyView()
-			
-			case .focus:
-				EmptyView()
-			
-			case .filling:
-				Circle()
-					.foregroundStyle(colorScheme == .light ? theme.actionPrimaryDefaultBackground : theme.actionSecondaryDefaultBackground)
-					.frame(width: ViewTraits.Circle.big, height: ViewTraits.Circle.big)
-			
-			case .filled:
-				Circle()
-					.foregroundStyle(colorScheme == .light ? theme.actionPrimaryDefaultBackground : theme.actionSecondaryDefaultBackground)
-					.frame(width: ViewTraits.Circle.small, height: ViewTraits.Circle.small)
-			
+			case .empty, .focus:
+				.clear
+			case .filling, .filled:
+				theme.actionPrimaryDefaultBackground
 			case .error:
-				Circle()
-					.foregroundStyle(theme.notificationError)
-					.frame(width: ViewTraits.Circle.big, height: ViewTraits.Circle.big)
+				theme.notificationError
 		}
 	}
 	
 	var body: some View {
-		Rectangle()
-			.foregroundStyle(.clear)
-			.aspectRatio(ViewTraits.Box.aspectRatio, contentMode: .fit)
-			.background(theme.backgroundSecondary)
-			.cornerRadius(ViewTraits.Box.radius)
-			.overlay(
-				ZStack {
-					RoundedRectangle(cornerRadius: ViewTraits.Box.radius)
-						.inset(by: inset)
-						.stroke(borderColor, lineWidth: borderWidth)
-					icon
-					
-				}
-			)
+
+		Circle()
+			.strokeBorder(borderColor, lineWidth: ViewTraits.Circle.border)
+			.background(Circle().fill(fill))
+			.frame(width: ViewTraits.Circle.size, height: ViewTraits.Circle.size)
 			.onAppear {
 				if state == .filling {
 					withAnimation(Animation.linear(duration: 0.05)) {

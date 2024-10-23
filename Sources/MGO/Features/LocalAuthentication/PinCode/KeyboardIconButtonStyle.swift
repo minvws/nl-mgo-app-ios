@@ -31,7 +31,7 @@ struct KeyboardIconButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, maxHeight: .infinity, alignment: .center)
+			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.font(.system(size: ViewTraits.Button.fontSize))
 			.foregroundStyle(isEnabled ? theme.iconsPrimary : theme.iconsPrimary.opacity(ViewTraits.Button.disabledOpacity))
 			.background {

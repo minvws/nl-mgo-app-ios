@@ -67,7 +67,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "pincode.validation.heading",
 			message: "pincode.validation.subheading",
-			messageType: .regular,
+			textAlignment: .center,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
@@ -93,7 +93,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "pincode.validation.heading",
 			message: "pincode.validation.subheading",
-			messageType: .regular,
+			textAlignment: .center,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.filled, .filling, .focus, .empty, .empty)
@@ -121,7 +121,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "pincode.validation.heading",
 			message: "pincode.validation.wrong",
-			messageType: .alert,
+			textAlignment: .center,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
@@ -155,7 +155,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "pincode.validation.heading",
 			message: "pincode.validation.subheading",
-			messageType: .regular,
+			textAlignment: .center,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.filled, .filled, .filled, .filled, .filling)
@@ -223,7 +223,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "pincode.validation.heading",
 			message: "pincode.validation.subheading",
-			messageType: .regular,
+			textAlignment: .center,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
@@ -253,7 +253,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "pincode.validation.heading",
 			message: "pincode.validation.subheading",
-			messageType: .regular,
+			textAlignment: .center,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
@@ -284,7 +284,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "pincode.validation.heading",
 			message: "pincode.validation.subheading",
-			messageType: .regular,
+			textAlignment: .center,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
@@ -315,7 +315,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "pincode.validation.heading",
 			message: "pincode.validation.subheading",
-			messageType: .regular,
+			textAlignment: .center,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
@@ -345,7 +345,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "pincode.validation.heading",
 			message: "pincode.validation.subheading",
-			messageType: .regular,
+			textAlignment: .center,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
@@ -375,7 +375,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			forgotCodeButtonVisible: true,
 			title: "pincode.validation.heading",
 			message: "pincode.validation.subheading",
-			messageType: .regular,
+			textAlignment: .center,
 			showLockoutPopup: true
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)

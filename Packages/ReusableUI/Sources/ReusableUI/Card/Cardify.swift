@@ -38,11 +38,7 @@ public struct Cardify: ViewModifier {
 				view.background(theme.backgroundSecondary)
 			})
 			.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
-			.overlay(
-				RoundedRectangle(cornerRadius: ViewTraits.Card.radius)
-					.inset(by: ViewTraits.Card.inset)
-					.stroke(lineColor, lineWidth: 1)
-			)
+			.clipShape(RoundedRectangle(cornerRadius: ViewTraits.Card.radius))
 	}
 }
 

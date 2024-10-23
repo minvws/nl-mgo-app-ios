@@ -48,7 +48,6 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 			backButtonKey: "pincode.confirm.backbutton",
 			title: "pincode.confirm.heading",
 			message: "pincode.confirm.subheading",
-			messageType: .regular,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
@@ -79,7 +78,6 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 			backButtonKey: "pincode.confirm.backbutton",
 			title: "pincode.confirm.heading",
 			message: "pincode.confirm.subheading",
-			messageType: .regular,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
@@ -112,7 +110,6 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 			backButtonKey: "pincode.confirm.backbutton",
 			title: "pincode.confirm.heading",
 			message: "pincode.confirm.mismatch",
-			messageType: .alert,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
@@ -151,7 +148,6 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 			backButtonKey: "pincode.confirm.backbutton",
 			title: "pincode.confirm.heading",
 			message: "pincode.confirm.subheading",
-			messageType: .regular,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [
@@ -191,7 +187,6 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 			backButtonKey: "pincode.confirm.backbutton",
 			title: "pincode.confirm.heading",
 			message: "pincode.confirm.subheading",
-			messageType: .regular,
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [

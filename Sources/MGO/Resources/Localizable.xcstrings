@@ -180,17 +180,6 @@
         }
       }
     },
-    "biometric_setup.button.without_biometric" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verder zonder %@"
-          }
-        }
-      }
-    },
     "biometric_setup.dialog.cancel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -252,7 +241,18 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Face ID"
+            "value" : "Gezichtsherkenning"
+          }
+        }
+      }
+    },
+    "biometric_setup.faceid.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met gezichtsherkenning?"
           }
         }
       }
@@ -263,18 +263,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met gezichtsherkenning. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
-          }
-        }
-      }
-    },
-    "biometric_setup.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Volgende keer inloggen met %@?"
+            "value" : "Beveilig de app met gezichtsherkenning. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
           }
         }
       }
@@ -285,7 +274,18 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Optic ID"
+            "value" : "Oogherkenning"
+          }
+        }
+      }
+    },
+    "biometric_setup.opticid.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met oogherkenning?"
           }
         }
       }
@@ -296,7 +296,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met oogherkenning. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
+            "value" : "Beveilig de app met oogherkenning. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
           }
         }
       }
@@ -307,7 +307,18 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Touch ID"
+            "value" : "Vingerafdruk"
+          }
+        }
+      }
+    },
+    "biometric_setup.touchid.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met je vingerafdruk?"
           }
         }
       }
@@ -318,7 +329,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met je vingerafdruk. Zo log je de volgende keer nog sneller in. Je kunt ook je 5-cijferige code blijven gebruiken."
+            "value" : "Beveilig de app met je vingerafdruk. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
           }
         }
       }
@@ -565,6 +576,17 @@
         }
       }
     },
+    "common.skip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overslaan"
+          }
+        }
+      }
+    },
     "common.try_again" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -681,7 +703,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle inenting gegevens"
+            "value" : "Alle vaccinatie gegevens"
           }
         }
       }
@@ -1121,7 +1143,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inentingen"
+            "value" : "Vaccinaties"
           }
         }
       }
@@ -1528,18 +1550,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze persoonlijke toegangscode is **niet dezelfde als de vorige**. Voer de juiste code in om door te gaan."
-          }
-        }
-      }
-    },
-    "pincode.confirm.mismatch.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze persoonlijke toegangscode is niet dezelfde als de vorige. Voer de juiste code in om door te gaan."
+            "value" : "Dit is een andere code dan de vorige. Voer dezelfde code in om verder te gaan."
           }
         }
       }
@@ -1550,7 +1561,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voer ter controle nog een keer je 5-cijferige toegangscode in."
+            "value" : "Voer je 5-cijferige code nog een keer in."
           }
         }
       }
@@ -1561,7 +1572,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kies een 5-cijferige toegangscode"
+            "value" : "Kies je toegangscode"
           }
         }
       }
@@ -1572,23 +1583,12 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt een persoonlijke toegangscode nodig voor de app. Gebruik geen te simpele codes zoals 00000 of 12345."
+            "value" : "Je hebt een code van 5 cijfers nodig. Gebruik geen simpele codes zoals 00000 of 12345."
           }
         }
       }
     },
     "pincode.create.tooweak" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze persoonlijke toegangscode is **niet veilig genoeg**. Gebruik geen cijfers die na elkaar komen."
-          }
-        }
-      }
-    },
-    "pincode.create.tooweak.voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1759,7 +1759,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vul je persoonlijke toegangscode in om in te loggen."
+            "value" : "Vul je toegangscode in om door te gaan"
           }
         }
       }
@@ -1771,17 +1771,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "De ingevoerde toegangscode is **onjuist**.\nProbeer het opnieuw."
-          }
-        }
-      }
-    },
-    "pincode.validation.wrong.voiceover" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De ingevoerde toegangscode is onjuist.\nProbeer het opnieuw."
           }
         }
       }
