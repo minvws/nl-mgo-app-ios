@@ -467,6 +467,10 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					.accessibilityIdentifier("bottombar.about_this_app")
 				}
 				.tint(theme.actionTertiaryDefaultText)
+				.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
+//					_ = logVerbose("ACV isScrolling: \(newValue.last ?? false)")
+					isScrolling = newValue.last ?? false
+				})
 			}
 			.onAppear(perform: {
 				// Brute force styling
@@ -494,14 +498,9 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				// Apply
 				UITabBar.appearance().standardAppearance = tabBarAppearance
 				UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-
 			})
 			.navigationBarHidden(true)
 			.navigationBarBackButtonHidden()
-			.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
-				_ = logVerbose("ACV isScrolling: \(newValue.last ?? false)")
-				isScrolling = newValue.last ?? false
-			})
 			.inspectableSheet(
 				isPresented: $coordinator.rootStateForSheet.presence(),
 				onDismiss: {
