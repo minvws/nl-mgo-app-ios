@@ -12,7 +12,7 @@ env:
   
 jobs:
   test:
-    runs-on: macos-14
+    runs-on: macos-15
     name: Build & run end to end tests
     timeout-minutes: 60
     steps:
