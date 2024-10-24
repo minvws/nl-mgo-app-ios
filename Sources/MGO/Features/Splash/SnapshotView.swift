@@ -57,45 +57,28 @@ struct SnapshotView: View {
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
+				
 				theme.backgroundPrimary
-					.ignoresSafeArea()
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
-				VStack {
-					Image(ImageResource.rijkslint)
-						.resizable()
-						.frame(width: ViewTraits.Rijkslint.width, height: ViewTraits.Rijkslint.height)
-						.padding(.top, rijkslintTopOffset)
-						.ignoresSafeArea()
-						.accessibilityLabel("launch.image.voiceover")
-					
-					Text("common.app_name")
-						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-						.foregroundStyle(theme.contentPrimary)
-						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
-						.accessibilityAddTraits(.isHeader)
-						.multilineTextAlignment(.center)
-						.tag("common.app_name")
-						.fixedSize(horizontal: false, vertical: true)
-					
-					Spacer()
-					if showSpinner {
+				
+				Image(ImageResource.splashLogo)
+					.accessibilityLabel("common.app_name")
+				
+				if showSpinner {
+					VStack {
+						Spacer()
 						ProgressView("common.loading")
-							.tint(theme.actionPrimaryDefaultBackground)
+//							.tint(theme.actionPrimaryDefaultBackground)
 							.rijksoverheidStyle(font: .regular, style: .body)
 							.foregroundStyle(theme.contentPrimary)
-							.padding(.bottom, ViewTraits.Spinner.bottomOffset - geometry.safeAreaInsets.bottom)
+							.offset(y: -geometry.size.height / 4)
 					}
 				}
-				.onAppear {
-					recalculateOffset(geometry.safeAreaInsets)
-					recalculateBottomPadding(geometry.safeAreaInsets)
-				}
-				.onChange(of: geometry.safeAreaInsets) { insets in
-					recalculateOffset(insets)
-					recalculateBottomPadding(insets)
-				}
+				
 			}
 		}
+		.navigationBarHidden(true)
+		.ignoresSafeArea()
 	}
 }
 
