@@ -21,18 +21,20 @@ public struct ZibLivingSituation: Codable, Hashable, Sendable {
     public let effectivePeriod: MgoPeriod?
     public let id: String?
     public let identifier: [MgoIdentifier]?
+    public let method: [MgoCoding]?
     public let profile: ZibLivingSituationProfile
     public let referenceID: String
     public let resourceType, status: String?
     public let subject: MgoReference?
+    public let valueQuantity: MgoQuantity?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, category, comment, context, dataAbsentReason, effectiveDateTime, effectivePeriod, id, identifier, profile
+        case bodySite, category, comment, context, dataAbsentReason, effectiveDateTime, effectivePeriod, id, identifier, method, profile
         case referenceID = "referenceId"
-        case resourceType, status, subject
+        case resourceType, status, subject, valueQuantity
     }
 
-    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, profile: ZibLivingSituationProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
+    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, profile: ZibLivingSituationProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoQuantity?) {
         self.bodySite = bodySite
         self.category = category
         self.comment = comment
@@ -42,11 +44,13 @@ public struct ZibLivingSituation: Codable, Hashable, Sendable {
         self.effectivePeriod = effectivePeriod
         self.id = id
         self.identifier = identifier
+        self.method = method
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
         self.status = status
         self.subject = subject
+        self.valueQuantity = valueQuantity
     }
 }
 
@@ -78,11 +82,13 @@ public extension ZibLivingSituation {
         effectivePeriod: MgoPeriod?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
+        method: [MgoCoding]?? = nil,
         profile: ZibLivingSituationProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
         status: String?? = nil,
-        subject: MgoReference?? = nil
+        subject: MgoReference?? = nil,
+        valueQuantity: MgoQuantity?? = nil
     ) -> ZibLivingSituation {
         return ZibLivingSituation(
             bodySite: bodySite ?? self.bodySite,
@@ -94,11 +100,13 @@ public extension ZibLivingSituation {
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
+            method: method ?? self.method,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
             status: status ?? self.status,
-            subject: subject ?? self.subject
+            subject: subject ?? self.subject,
+            valueQuantity: valueQuantity ?? self.valueQuantity
         )
     }
 
