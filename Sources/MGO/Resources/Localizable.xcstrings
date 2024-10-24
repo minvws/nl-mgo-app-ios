@@ -1176,7 +1176,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle informatie die je huisarts, ziekenhuis en andere zorgverleners over jou hebben. Op één plek. Veilig en overzichtelijk."
+            "value" : "Eén app met alle gegevens die je huisarts, ziekenhuis en andere zorgaanbieders over jou hebben. Veilig en overzichtelijk."
           }
         }
       }
@@ -1847,7 +1847,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De app haalt je gegevens direct op bij de zorgverleners die jij kiest. **Alleen jij hebt toegang.**"
+            "value" : "Je gegevens komen direct van de zorgaanbieder die je kiest. **Alleen jij hebt toegang.**"
           }
         }
       }
