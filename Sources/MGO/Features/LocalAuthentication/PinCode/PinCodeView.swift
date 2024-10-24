@@ -542,7 +542,7 @@ struct PinCodeView: View {
 				view.padding(.bottom, ViewTraits.General.bottomPadding)
 			}
 		}
-		.padding(.horizontal, ViewTraits.Navigation.padding)
+		.padding(.horizontal, ViewTraits.General.horizontalPadding)
 		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationBarBackButtonHidden(true)
