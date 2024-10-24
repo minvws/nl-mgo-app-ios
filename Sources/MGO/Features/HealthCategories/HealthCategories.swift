@@ -39,19 +39,33 @@ struct HealthCategories {
 					ZibAdministrationAgreementProfile.httpNictizNlFhirStructureDefinitionZibAdministrationAgreement.rawValue
 				]
 				
-				case .measurements: []
-				case .labresults: []
+				case .measurements: [
+					ZibBloodPressureProfile.httpNictizNlFhirStructureDefinitionZibBloodPressure.rawValue,
+					ZibBodyWeightProfile.httpNictizNlFhirStructureDefinitionZibBodyWeight.rawValue,
+					ZibBodyHeightProfile.httpNictizNlFhirStructureDefinitionZibBodyHeight.rawValue
+				]
+				
+				case .labresults: [
+					ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue,
+					ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue
+				]
 				
 				case .allergies: [
 					ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue
 				]
-				case .treatments: []
+				
+				case .treatments: [
+					ZibProcedureProfile.httpNictizNlFhirStructureDefinitionZibProcedure.rawValue
+				]
+				
 				case .appointments: [
 					ZibEncounterProfile.httpNictizNlFhirStructureDefinitionZibEncounter.rawValue
 				]
+				
 				case .vaccinations: [
 					ZibVaccinationProfile.httpNictizNlFhirStructureDefinitionZibVaccination.rawValue
 				]
+				
 				case .documents: []
 				
 				case .complaints: [
@@ -70,15 +84,19 @@ struct HealthCategories {
 				]
 				
 				case .plans: [
-					ZibTreatmentDirectiveProfile.httpNictizNlFhirStructureDefinitionZibTreatmentDirective.rawValue
+					ZibTreatmentDirectiveProfile.httpNictizNlFhirStructureDefinitionZibTreatmentDirective.rawValue,
+					ZibAdvanceDirectiveProfile.httpNictizNlFhirStructureDefinitionZibAdvanceDirective.rawValue
 				]
+				
 				case .devices: [
 					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue
 //					ZibMedicalDeviceProductProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceProduct.rawValue
 				]
+				
 				case .functionalOrMentalStatus: [
 					ZibFunctionalOrMentalStatusProfile.httpNictizNlFhirStructureDefinitionZibFunctionalOrMentalStatus.rawValue
 				]
+				
 				case .lifestyle: [
 					ZibLivingSituationProfile.httpNictizNlFhirStructureDefinitionZibLivingSituation.rawValue,
 					ZibDrugUseProfile.httpNictizNlFhirStructureDefinitionZibDrugUse.rawValue,
@@ -100,14 +118,14 @@ struct HealthCategories {
 				]
 				
 				case .measurements: [
-//					(DVP.CommonClinicalDataset.bloodPressure, DVP.CommonClinicalDataset.serviceID),
-//					(DVP.CommonClinicalDataset.bodyWeight, DVP.CommonClinicalDataset.serviceID),
-//					(DVP.CommonClinicalDataset.bodyHeight, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.bloodPressure, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.bodyWeight, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.bodyHeight, DVP.CommonClinicalDataset.serviceID)
 //					(DVP.GeneralPractitioner.diagnosticAndLabResults, DVP.GeneralPractitioner.serviceID)
 				]
 				
 				case .labresults: [
-//					(DVP.CommonClinicalDataset.laboratoryTestResult, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.laboratoryTestResult, DVP.CommonClinicalDataset.serviceID)
 //					(DVP.GeneralPractitioner.diagnosticAndLabResults, DVP.GeneralPractitioner.serviceID)
 				]
 				
@@ -117,7 +135,7 @@ struct HealthCategories {
 				]
 //				
 				case .treatments: [
-//					(DVP.CommonClinicalDataset.procedure, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.procedure, DVP.CommonClinicalDataset.serviceID)
 //					(DVP.CommonClinicalDataset.plannedProcedures, DVP.CommonClinicalDataset.serviceID)
 				]
 				
@@ -150,7 +168,8 @@ struct HealthCategories {
 				]
 				
 				case .plans: [
-//					(DVP.CommonClinicalDataset.treatmentDirective, DVP.CommonClinicalDataset.serviceID)
+					(DVP.CommonClinicalDataset.treatmentDirective, DVP.CommonClinicalDataset.serviceID),
+					(DVP.CommonClinicalDataset.advanceDirective, DVP.CommonClinicalDataset.serviceID)
 				]
 				
 				case .devices: [

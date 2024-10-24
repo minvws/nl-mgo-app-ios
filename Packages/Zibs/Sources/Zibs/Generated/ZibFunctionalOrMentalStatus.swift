@@ -20,18 +20,20 @@ public struct ZibFunctionalOrMentalStatus: Codable, Hashable, Sendable {
     public let effectivePeriod: MgoPeriod?
     public let id: String?
     public let identifier: [MgoIdentifier]?
+    public let method: [MgoCoding]?
     public let profile: ZibFunctionalOrMentalStatusProfile
     public let referenceID: String
     public let resourceType, status: String?
     public let subject: MgoReference?
+    public let valueQuantity: MgoQuantity?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, category, comment, context, dataAbsentReason, effectivePeriod, id, identifier, profile
+        case bodySite, category, comment, context, dataAbsentReason, effectivePeriod, id, identifier, method, profile
         case referenceID = "referenceId"
-        case resourceType, status, subject
+        case resourceType, status, subject, valueQuantity
     }
 
-    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
+    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoQuantity?) {
         self.bodySite = bodySite
         self.category = category
         self.comment = comment
@@ -40,11 +42,13 @@ public struct ZibFunctionalOrMentalStatus: Codable, Hashable, Sendable {
         self.effectivePeriod = effectivePeriod
         self.id = id
         self.identifier = identifier
+        self.method = method
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
         self.status = status
         self.subject = subject
+        self.valueQuantity = valueQuantity
     }
 }
 
@@ -75,11 +79,13 @@ public extension ZibFunctionalOrMentalStatus {
         effectivePeriod: MgoPeriod?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
+        method: [MgoCoding]?? = nil,
         profile: ZibFunctionalOrMentalStatusProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
         status: String?? = nil,
-        subject: MgoReference?? = nil
+        subject: MgoReference?? = nil,
+        valueQuantity: MgoQuantity?? = nil
     ) -> ZibFunctionalOrMentalStatus {
         return ZibFunctionalOrMentalStatus(
             bodySite: bodySite ?? self.bodySite,
@@ -90,11 +96,13 @@ public extension ZibFunctionalOrMentalStatus {
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
+            method: method ?? self.method,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
             status: status ?? self.status,
-            subject: subject ?? self.subject
+            subject: subject ?? self.subject,
+            valueQuantity: valueQuantity ?? self.valueQuantity
         )
     }
 

@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let zibTobaccoUse = try ZibTobaccoUse(json)
+//   let zibBodyWeight = try ZibBodyWeight(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,35 +10,39 @@
 
 import Foundation
 
-// MARK: - ZibTobaccoUse
-public struct ZibTobaccoUse: Codable, Hashable, Sendable {
+// MARK: - ZibBodyWeight
+public struct ZibBodyWeight: Codable, Hashable, Sendable {
     public let bodySite: [MgoCoding]?
     public let category: [[MgoCoding]]?
+    public let clothing: Clothing
     public let comment: String?
     public let context: MgoReference?
     public let dataAbsentReason: [MgoCoding]?
+    public let effectiveDateTime: String?
     public let effectivePeriod: MgoPeriod?
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let method: [MgoCoding]?
-    public let profile: ZibTobaccoUseProfile
+    public let profile: ZibBodyWeightProfile
     public let referenceID: String
     public let resourceType, status: String?
     public let subject: MgoReference?
     public let valueQuantity: MgoQuantity?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, category, comment, context, dataAbsentReason, effectivePeriod, id, identifier, method, profile
+        case bodySite, category, clothing, comment, context, dataAbsentReason, effectiveDateTime, effectivePeriod, id, identifier, method, profile
         case referenceID = "referenceId"
         case resourceType, status, subject, valueQuantity
     }
 
-    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, profile: ZibTobaccoUseProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoQuantity?) {
+    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, clothing: Clothing, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, profile: ZibBodyWeightProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoQuantity?) {
         self.bodySite = bodySite
         self.category = category
+        self.clothing = clothing
         self.comment = comment
         self.context = context
         self.dataAbsentReason = dataAbsentReason
+        self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
         self.id = id
         self.identifier = identifier
@@ -52,11 +56,11 @@ public struct ZibTobaccoUse: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: ZibTobaccoUse convenience initializers and mutators
+// MARK: ZibBodyWeight convenience initializers and mutators
 
-public extension ZibTobaccoUse {
+public extension ZibBodyWeight {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(ZibTobaccoUse.self, from: data)
+        self = try newJSONDecoder().decode(ZibBodyWeight.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -73,26 +77,30 @@ public extension ZibTobaccoUse {
     func with(
         bodySite: [MgoCoding]?? = nil,
         category: [[MgoCoding]]?? = nil,
+        clothing: Clothing? = nil,
         comment: String?? = nil,
         context: MgoReference?? = nil,
         dataAbsentReason: [MgoCoding]?? = nil,
+        effectiveDateTime: String?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         method: [MgoCoding]?? = nil,
-        profile: ZibTobaccoUseProfile? = nil,
+        profile: ZibBodyWeightProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
         status: String?? = nil,
         subject: MgoReference?? = nil,
         valueQuantity: MgoQuantity?? = nil
-    ) -> ZibTobaccoUse {
-        return ZibTobaccoUse(
+    ) -> ZibBodyWeight {
+        return ZibBodyWeight(
             bodySite: bodySite ?? self.bodySite,
             category: category ?? self.category,
+            clothing: clothing ?? self.clothing,
             comment: comment ?? self.comment,
             context: context ?? self.context,
             dataAbsentReason: dataAbsentReason ?? self.dataAbsentReason,
+            effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
