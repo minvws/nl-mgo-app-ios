@@ -37,16 +37,28 @@ class SplashViewModel: ObservableObject {
 	/// Should we show the device is jail broken dialog?
 	@Published var showJailBreakDialog = false
 	
+	/// Create a splash view
+	/// - Parameters:
+	///   - coordinator: the flow coordinator
+	///   - state: initial state
 	init(coordinator: (any Coordinator)?, state: State = .idle) {
 		self.coordinator = coordinator
 		self.state = state
 		
 		setupObservers()
+		startServices()
 	}
 	
 	deinit {
 		// Remove as observer
 		observerToken.map(Current.remoteConfigurationRepository.observatory.remove)
+	}
+	
+	/// Start the services fetching remote data
+	private func startServices() {
+		
+		Current.remoteConfigurationRepository.fetchAndUpdateObservers()
+		Current.resourceRepository.load()
 	}
 	
 	/// Setup all the observers
@@ -84,19 +96,19 @@ class SplashViewModel: ObservableObject {
 				}
 			
 				guard state == .idle else { return }
-				startLoadingConfig()
+				coordinator?.handle(Coordination.Action.finishedSplash)
 			
 			case .reset:
 				startLoadingConfig()
 			
 			case .loaded:
 				state = .configLoaded
-				coordinator?.handle(Coordination.Action.finishedLoading)
+				coordinator?.handle(Coordination.Action.finishedSplash)
 			
 			case .dismissWarning:
 				// Mark warning as seen.
 				Current.secureUserSettings.userHasSeenJailBreakWarning = true
-				startLoadingConfig()
+				coordinator?.handle(Coordination.Action.finishedSplash)
 		}
 	}
 	
@@ -111,7 +123,8 @@ class SplashViewModel: ObservableObject {
 	private func startLoadingConfig() {
 		
 		state = .loadingConfig
-		Current.remoteConfigurationRepository.fetchAndUpdateObservers()
+		startServices()
+		coordinator?.handle(Coordination.Action.finishedSplash)
 	}
 }
 

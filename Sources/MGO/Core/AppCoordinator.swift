@@ -38,7 +38,7 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 extension Coordination.Action {
 	
 	// Launch
-	static let finishedLoading = Coordination.Action(identifier: "finishedLoading")
+	static let finishedSplash = Coordination.Action(identifier: "finishedSplash")
 	static let updateRequired = Coordination.Action(identifier: "updateRequired")
 	static let showAppStore = Coordination.Action(identifier: "showAppStore")
 	
@@ -127,10 +127,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Are we forced into update required mode?
 	private var updateRequired: Bool = false
 	
+	/// The coordinator for all dashboard activities
 	private var dashboardCoordinator: DashboardCoordinator!
 	
-	/// Initializer
+	/// Create an AppCoordinator
 	/// - Parameter path: Navigation Path
+	/// - Parameter versionSupplier: the version supplier
+	/// - Parameter browser: the browser for displaying urls
 	init(
 		path: NavigationStackBackport.NavigationPath,
 		versionSupplier: AppVersionSupplierProtocol = AppVersionSupplier(),
@@ -147,7 +150,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	private func registerObservers() {
 		
 		// Listen to changes in the remote configuration
-		
 		self.observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
 			
 			guard let self else { return }
@@ -210,7 +212,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		switch action.identifier {
 			// Onboarding
 			
-			case Coordination.Action.finishedLoading.identifier:
+			case Coordination.Action.finishedSplash.identifier:
 				handleStartup()
 			
 			case Coordination.Action.updateRequired.identifier:
