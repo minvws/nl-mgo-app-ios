@@ -130,10 +130,48 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	/// - Parameter action: any Action
 	func handle(_ action: Coordination.Action) {
 		
+		handleSearchFlow(action)
+		handleDetailFlow(action)
+		
 		switch action.identifier {
 			
-			// Healthcare Organization Search Flow
+			// General
+				
+			case Coordination.Action.closeSheet.identifier, Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
+				pathForSheet = NavigationStackBackport.NavigationPath()
+				rootStateForSheet = nil
+				
+			case Coordination.Action.backButtonPressed.identifier:
+				if !pathForSheet.isEmpty {
+					pathForSheet.removeLast()
+				} else {
+					if selectedTab == DashboardTab.healthCategories.rawValue {
+						guard !firstTabPath.isEmpty else { return }
+						firstTabPath.removeLast()
+					} else if selectedTab == DashboardTab.overview.rawValue {
+						guard !secondTabPath.isEmpty else { return }
+						secondTabPath.removeLast()
+					}
+				}
+				
+			case Coordination.Action.resetApplication.identifier:
+				parentCoordinator?.handle(Coordination.Action.resetApplication)
+				selectedTab = DashboardTab.healthCategories.rawValue
 			
+			default:
+				// Unhandled
+				logWarning("Dashboard Coordinator does not handle \(action)")
+		}
+	}
+	
+	/// Handle the search flow action from any of the view models
+	/// - Parameter action: any Action
+	private func handleSearchFlow(_ action: Coordination.Action) {
+		
+		switch action.identifier {
+			
+				// Healthcare Organization Search Flow
+				
 			case Coordination.Action.addHealthcareOrganization.identifier:
 				rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
 				
@@ -152,12 +190,17 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case Coordination.Action.backToAddHealthcareOrganization.identifier:
 				pathForSheet.removeLast(pathForSheet.count)
 				
-			case Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
-				pathForSheet = NavigationStackBackport.NavigationPath()
-				rootStateForSheet = nil
-				
-				// Healthcare Organization Details
-				
+			default:
+				break
+		}
+	}
+	
+	/// Handle the detail flow action from any of the view models
+	/// - Parameter action: any Action
+	func handleDetailFlow(_ action: Coordination.Action) {
+		
+		switch action.identifier {
+			
 			case Coordination.Action.showHealthcareOrganization.identifier:
 				if action.params.count == 1,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
@@ -204,32 +247,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				rootStateForSheet = nil
 				secondTabPath.removeLast()
 				
-				// General
-				
-			case Coordination.Action.closeSheet.identifier:
-				pathForSheet = NavigationStackBackport.NavigationPath()
-				rootStateForSheet = nil
-				
-			case Coordination.Action.backButtonPressed.identifier:
-				if !pathForSheet.isEmpty {
-					pathForSheet.removeLast()
-				} else {
-					if selectedTab == DashboardTab.healthCategories.rawValue {
-						guard !firstTabPath.isEmpty else { return }
-						firstTabPath.removeLast()
-					} else if selectedTab == DashboardTab.overview.rawValue {
-						guard !secondTabPath.isEmpty else { return }
-						secondTabPath.removeLast()
-					}
-				}
-				
-			case Coordination.Action.resetApplication.identifier:
-				parentCoordinator?.handle(Coordination.Action.resetApplication)
-				selectedTab = DashboardTab.healthCategories.rawValue
-			
 			default:
-				// Unhandled
-				logWarning("Dashboard Coordinator does not handle \(action)")
+				break
 		}
 	}
 	
