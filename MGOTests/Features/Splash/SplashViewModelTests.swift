@@ -22,6 +22,16 @@ final class SplashViewModelTests: XCTestCase {
 		super.setUp()
 	}
 	
+	func test_init() {
+		// Given
+		
+		// When
+		
+		// Then
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoad) == true
+		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == true
+	}
+	
 	func test_reduce_fromIdle_toLoadingConfig() {
 		
 		// Given
@@ -31,9 +41,10 @@ final class SplashViewModelTests: XCTestCase {
 		sut.reduce(.start)
 		
 		// Then
-		expect(self.sut.state) == .loadingConfig
+		expect(self.sut.state) == .idle
 		expect(self.servicesSpies.jailBreakSpy.invokedIsJailBroken) == true
-		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == true
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedSplash))
 	}
 	
 	func test_reduce_fromIdle_toLoadingConfig_jailbroken() throws {
@@ -61,7 +72,6 @@ final class SplashViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .loadingConfig
-		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == false
 	}
 	
 	func test_reduce_fromConfigLoaded_toConfigLoaded() {
@@ -74,7 +84,6 @@ final class SplashViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .configLoaded
-		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == false
 	}
 	
 	func test_reduce_fromConfigLoaded_toReset() {
@@ -101,7 +110,7 @@ final class SplashViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventually(equal(.configLoaded), timeout: .seconds(5))
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedLoading))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedSplash))
 	}
 	
 	func test_dissmissWarning_shouldUpdateSecureUserSettings() {
@@ -114,7 +123,7 @@ final class SplashViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenJailBreakWarningSetter) == true
-		expect(self.sut.state) == .loadingConfig
-		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == true
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedSplash))
 	}
 }

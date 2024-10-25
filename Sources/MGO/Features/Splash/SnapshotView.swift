@@ -14,88 +14,52 @@ struct SnapshotView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
-	@State private var rijkslintTopOffset: CGFloat = 0
-	@State private var spinnerBottomPadding: CGFloat = 0
-	
+	/// Magic Numbers
 	private struct ViewTraits {
-		enum DynamicIsland {
-			static let height: CGFloat = 59
-			static let offset: CGFloat = 11
+		enum General {
+			static let padding: CGFloat = 16
+			static let spacing: CGFloat = 6
+			static let opacity: CGFloat = 0.6
 		}
-		enum Notch {
-			static let height: CGFloat = 47
-			static let offset: CGFloat = 16
-		}
-		enum Title {
-			static let topOffset: CGFloat = 64
-		}
-		enum Spinner {
-			static let bottomOffset: CGFloat = 75
-		}
-		enum Rijkslint {
-			static let height: CGFloat = 100
-			static let width: CGFloat = 50
-		}
-	}
-	
-	/// Calculate the offset for the rijkslint so it stays just below the notch or dynamic island
-	/// - Parameter safeAreaHeight: the height of the safe area
-	func recalculateOffset(_ safeAreaInsets: EdgeInsets) {
-		if safeAreaInsets.top >= ViewTraits.DynamicIsland.height {
-			rijkslintTopOffset = safeAreaInsets.top - ViewTraits.DynamicIsland.offset
-		} else if safeAreaInsets.top >= ViewTraits.Notch.height {
-			rijkslintTopOffset = safeAreaInsets.top - ViewTraits.Notch.offset
-		} else {
-			rijkslintTopOffset = 0
-		}
-	}
-	
-	private func recalculateBottomPadding(_ safeAreaInsets: EdgeInsets) {
-		spinnerBottomPadding = 70 - safeAreaInsets.bottom
 	}
 	
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
+				
 				theme.backgroundPrimary
-					.ignoresSafeArea()
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
-				VStack {
-					Image(ImageResource.rijkslint)
-						.resizable()
-						.frame(width: ViewTraits.Rijkslint.width, height: ViewTraits.Rijkslint.height)
-						.padding(.top, rijkslintTopOffset)
-						.ignoresSafeArea()
-						.accessibilityLabel("launch.image.voiceover")
-					
-					Text("common.app_name")
-						.rijksoverheidStyle(font: .bold, style: .largeTitle)
-						.foregroundStyle(theme.contentPrimary)
-						.padding(.top, ViewTraits.Title.topOffset - rijkslintTopOffset)
-						.accessibilityAddTraits(.isHeader)
-						.multilineTextAlignment(.center)
-						.tag("common.app_name")
-						.fixedSize(horizontal: false, vertical: true)
-					
-					Spacer()
-					if showSpinner {
-						ProgressView("common.loading")
-							.tint(theme.actionPrimaryDefaultBackground)
-							.rijksoverheidStyle(font: .regular, style: .body)
-							.foregroundStyle(theme.contentPrimary)
-							.padding(.bottom, ViewTraits.Spinner.bottomOffset - geometry.safeAreaInsets.bottom)
+				
+				Image(ImageResource.splashLogo)
+					.accessibilityLabel("common.app_name")
+					.accessibilityIdentifier("common.app_name")
+				
+				if showSpinner {
+					VStack {
+						
+						Spacer()
+						
+						HStack(spacing: ViewTraits.General.spacing) {
+							
+							Spacer()
+							
+							ProgressView()
+								.tint(theme.contentPrimary.opacity(ViewTraits.General.opacity))
+								.accessibilityHidden(true)
+							
+							Text("common.loading")
+								.foregroundStyle(theme.contentPrimary.opacity(ViewTraits.General.opacity))
+								.rijksoverheidStyle(font: .regular, style: .body)
+							
+							Spacer()
+						}
+						.offset(y: -geometry.size.height / 4)
 					}
-				}
-				.onAppear {
-					recalculateOffset(geometry.safeAreaInsets)
-					recalculateBottomPadding(geometry.safeAreaInsets)
-				}
-				.onChange(of: geometry.safeAreaInsets) { insets in
-					recalculateOffset(insets)
-					recalculateBottomPadding(insets)
 				}
 			}
 		}
+		.navigationBarHidden(true)
+		.ignoresSafeArea()
 	}
 }
 

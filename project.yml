@@ -196,6 +196,8 @@ targetTemplates:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         UILaunchScreen:
+          UIColorName: SplashColor
+          UIImageName: SplashLogo
 
     preBuildScripts:
       - name: Run SwiftLint

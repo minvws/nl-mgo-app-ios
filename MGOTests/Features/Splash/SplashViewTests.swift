@@ -37,7 +37,7 @@ final class SplashViewTests: XCTestCase {
 		// When
 		
 		// Then
-		takeSnapShots(content: sut, precision: 0.90) // Lower precision due to random position of spinner
+		takeSnapShots(content: sut)
 	}
 	
 	func test_launch_stateLoadingConfig() {
@@ -48,7 +48,7 @@ final class SplashViewTests: XCTestCase {
 		// When
 		
 		// Then
-		takeSnapShots(content: sut, precision: 0.90) // Lower precision due to random position of spinner
+		takeSnapShots(content: sut)
 	}
 
 	func test_launch_stateConfigLoaded() {

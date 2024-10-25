@@ -36,14 +36,14 @@ final class AppCoordinatorTests: XCTestCase {
 	
 	// MARK: - Handle -
 	
-	func test_coordinatorHandle_actionFinishedLoading_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
+	func test_coordinatorHandle_actionFinishedSplash_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = false
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == false
 		
 		// When
-		sut.handle(Coordination.Action.finishedLoading)
+		sut.handle(Coordination.Action.finishedSplash)
 		
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.introduction
@@ -51,14 +51,14 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 	}
 	
-	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeNotSet_pathShouldContainIntroduction() {
+	func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_accessCodeNotSet_pathShouldContainIntroduction() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == false
 		
 		// When
-		sut.handle(Coordination.Action.finishedLoading)
+		sut.handle(Coordination.Action.finishedSplash)
 		
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.introduction
@@ -67,7 +67,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
 	}
 	
-	func test_coordinatorHandle_actionFinishedLoading_appIntroductionSeen_accessCodeSet_pathShouldContainPinCodeValidation() {
+	func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_accessCodeSet_pathShouldContainPinCodeValidation() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = true
@@ -75,7 +75,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == false
 		
 		// When
-		sut.handle(Coordination.Action.finishedLoading)
+		sut.handle(Coordination.Action.finishedSplash)
 		
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.pinCodeValidation
