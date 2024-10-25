@@ -14,7 +14,7 @@ final class SnapshotViewTests: XCTestCase {
 	func test_snapshot_withSpinner() {
 	
 		// Given
-		let sut = SnapshotView(showSpinner: true)
+		let sut = SnapshotView(showSpinner: .constant(true))
 		
 		// When
 		
@@ -25,7 +25,7 @@ final class SnapshotViewTests: XCTestCase {
 	func test_snapshot_withoutSpinner() {
 		
 		// Given
-		let sut = SnapshotView(showSpinner: true)
+		let sut = SnapshotView(showSpinner: .constant(false))
 		
 		// When
 		
