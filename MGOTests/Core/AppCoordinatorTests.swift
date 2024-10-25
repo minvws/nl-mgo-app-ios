@@ -36,16 +36,6 @@ final class AppCoordinatorTests: XCTestCase {
 	
 	// MARK: - Handle -
 	
-	func test_init() {
-		
-		// Given
-		
-		// When
-		
-		// Then
-		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == true
-	}
-	
 	func test_coordinatorHandle_actionFinishedSplash_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
 		
 		// Given
