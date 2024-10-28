@@ -14,7 +14,7 @@ let package = Package(
 	dependencies: [
 
 		// External
-		.package(url: "https://github.com/apple/FHIRModels", exact: "0.5.0"),
+		.package(url: "https://github.com/apple/FHIRModels", exact: "0.6.0"),
 		
 		// Testing
 		.package(name: "MGOTest", path: "../MGOTest")
