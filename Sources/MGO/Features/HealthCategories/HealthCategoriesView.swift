@@ -425,8 +425,8 @@ struct HealthCategoriesView: View {
 			
 			ImageContentView(
 				icon: Image(ImageResource.Woman.womanWithPhone),
-				heading: "overview.empty.heading",
-				subHeading: "overview.empty.subheading"
+				heading: "common.no_organizations_heading",
+				subHeading: "common.no_organizations_subheading"
 			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
@@ -434,10 +434,10 @@ struct HealthCategoriesView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton("overview.empty.action") {
+			CallToActionButton("common.add_organizations") {
 				viewModel.reduce(.search)
 			}
-			.accessibilityIdentifier("overview.empty.action")
+			.accessibilityIdentifier("common.add_organizations")
 			.padding(ViewTraits.Button.insets)
 		}
 	}

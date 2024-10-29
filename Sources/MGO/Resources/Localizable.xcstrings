@@ -432,6 +432,17 @@
         }
       }
     },
+    "common.add_organizations" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg zorgaanbieders toe"
+          }
+        }
+      }
+    },
     "common.app_name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -571,6 +582,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geen gegevens"
+          }
+        }
+      }
+    },
+    "common.no_organizations_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt nog geen zorgaanbieders toegevoegd"
+          }
+        }
+      }
+    },
+    "common.no_organizations_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg zorgaanbieders toe om gegevens over je gezondheid te zien."
           }
         }
       }
@@ -1391,39 +1424,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voeg een zorgaanbieder toe"
-          }
-        }
-      }
-    },
-    "overview.empty.action" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voeg zorgaanbieders toe"
-          }
-        }
-      }
-    },
-    "overview.empty.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je hebt nog geen zorgaanbieders toegevoegd"
-          }
-        }
-      }
-    },
-    "overview.empty.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voeg zorgaanbieders toe om gegevens over je gezondheid te zien."
           }
         }
       }
