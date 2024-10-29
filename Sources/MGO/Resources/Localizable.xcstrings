@@ -422,6 +422,17 @@
         }
       }
     },
+    "common.error_in_system" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er ging iets mis in ons systeem."
+          }
+        }
+      }
+    },
     "common.error_subheading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -429,6 +440,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Controleer of je telefoon verbonden is met het internet en probeer het opnieuw."
+          }
+        }
+      }
+    },
+    "common.failed_to_load_data" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegevens ophalen mislukt"
           }
         }
       }
@@ -1155,39 +1177,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Er is hier niets opgeslagen."
-          }
-        }
-      }
-    },
-    "health_category.error.banner.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gegevens ophalen mislukt"
-          }
-        }
-      }
-    },
-    "health_category.error.banner.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er ging iets mis in ons systeem."
-          }
-        }
-      }
-    },
-    "health_category.error.banner.try_again" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Probeer opnieuw"
           }
         }
       }

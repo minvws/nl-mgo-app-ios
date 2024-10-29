@@ -337,9 +337,9 @@ struct HealthCategoryView: View {
 					if showBanner {
 						BannerView(
 							Feedback(
-								title: String(localized: "health_category.error.banner.heading"),
-								subtitle: String(localized: "health_category.error.banner.subheading"),
-								actionTitle: String(localized: "health_category.error.banner.try_again"),
+								title: String(localized: "common.failed_to_load_data"),
+								subtitle: String(localized: "common.error_in_system"),
+								actionTitle: String(localized: "common.try_again"),
 								type: .warning,
 								perform: {
 									viewModel.reduce(.retry)
