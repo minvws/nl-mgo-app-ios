@@ -471,10 +471,10 @@ struct HealthCategoryView: View {
 				category: HealthCategories.Category.medication,
 				organization: PreviewContent.healthcareOrganization,
 				translations: HealthCategoryViewTranslations(
-					heading: "health_category.medication",
-					search: "health_category.medication.search",
-					noSearchResults: "health_category.medication.no_search_results",
-					detailsHeading: "health_category.medication.details_heading"
+					heading: "hc_medication.heading",
+					search: "hc_medication.search",
+					noSearchResults: "hc_medication.no_search_results",
+					detailsHeading: "hc_medication.heading_detail"
 				)
 			)
 		)

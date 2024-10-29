@@ -78,8 +78,8 @@ struct ActionCardView: View {
 #Preview {
 	VStack(spacing: 4) {
 		ActionCardView(
-			title: "medication_use.heading",
-			message: "medication_use.subheading"
+			title: "hc_medication.heading",
+			message: "hc_medication.heading_detail"
 		)
 	}
 }

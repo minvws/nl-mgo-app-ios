@@ -620,94 +620,6 @@
         }
       }
     },
-    "detail_allergies.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle allergie gegevens"
-          }
-        }
-      }
-    },
-    "detail_complaints.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle klacht gegevens"
-          }
-        }
-      }
-    },
-    "detail_documents.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle document gegevens"
-          }
-        }
-      }
-    },
-    "detail_lab_results.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle resultaat gegevens"
-          }
-        }
-      }
-    },
-    "detail_measurements.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle meetgegevens"
-          }
-        }
-      }
-    },
-    "detail_reports.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle verslag gegevens"
-          }
-        }
-      }
-    },
-    "detail_treatments.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle behandelgegevens"
-          }
-        }
-      }
-    },
-    "detail_vaccinations.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle vaccinatie gegevens"
-          }
-        }
-      }
-    },
     "dialog.remove_organization_heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -807,6 +719,380 @@
         }
       }
     },
+    "hc_alerts.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waarschuwingen"
+          }
+        }
+      }
+    },
+    "hc_alerts.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle waarschuwing gegevens"
+          }
+        }
+      }
+    },
+    "hc_allergies.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allergieën"
+          }
+        }
+      }
+    },
+    "hc_allergies.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle allergiegegevens"
+          }
+        }
+      }
+    },
+    "hc_appointments.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afspraken"
+          }
+        }
+      }
+    },
+    "hc_appointments.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle afspraakgegevens"
+          }
+        }
+      }
+    },
+    "hc_complaints.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klachten"
+          }
+        }
+      }
+    },
+    "hc_complaints.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle klachtgegevens"
+          }
+        }
+      }
+    },
+    "hc_devices.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medische hulpmiddelen"
+          }
+        }
+      }
+    },
+    "hc_devices.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle medische hulpmiddel gegevens"
+          }
+        }
+      }
+    },
+    "hc_documents.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Documenten"
+          }
+        }
+      }
+    },
+    "hc_documents.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle documentgegevens"
+          }
+        }
+      }
+    },
+    "hc_lab_results.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitslagen"
+          }
+        }
+      }
+    },
+    "hc_lab_results.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle uitslaggegevens"
+          }
+        }
+      }
+    },
+    "hc_lifestyle.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leefstijl"
+          }
+        }
+      }
+    },
+    "hc_lifestyle.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle leefstijlgegevens"
+          }
+        }
+      }
+    },
+    "hc_measurements.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metingen"
+          }
+        }
+      }
+    },
+    "hc_measurements.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle meetgegevens"
+          }
+        }
+      }
+    },
+    "hc_medication.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medicijnen"
+          }
+        }
+      }
+    },
+    "hc_medication.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle medicijngegevens"
+          }
+        }
+      }
+    },
+    "hc_medication.heading.search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek een medicijn"
+          }
+        }
+      }
+    },
+    "hc_medication.no_search_results" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen medicijnen gevonden"
+          }
+        }
+      }
+    },
+    "hc_mental.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mentaal welzijn"
+          }
+        }
+      }
+    },
+    "hc_mental.heading_details" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All mentaal welzijngegevens"
+          }
+        }
+      }
+    },
+    "hc_patient.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persoonlijke gegevens"
+          }
+        }
+      }
+    },
+    "hc_patient.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle persoonlijke gegevens"
+          }
+        }
+      }
+    },
+    "hc_payment.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Betaalgegevens"
+          }
+        }
+      }
+    },
+    "hc_payment.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle betaalgegevens"
+          }
+        }
+      }
+    },
+    "hc_plans.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelwensen- en plan"
+          }
+        }
+      }
+    },
+    "hc_plans.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle behandelwens/plan gegevens"
+          }
+        }
+      }
+    },
+    "hc_treatments.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelingen"
+          }
+        }
+      }
+    },
+    "hc_treatments.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle behandelgegevens"
+          }
+        }
+      }
+    },
+    "hc_vaccinations.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaccinaties"
+          }
+        }
+      }
+    },
+    "hc_vaccinations.heading_detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle vaccinatiegegevens"
+          }
+        }
+      }
+    },
     "health_categories.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -829,61 +1115,6 @@
         }
       }
     },
-    "health_category.alerts" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Waarschuwingen"
-          }
-        }
-      }
-    },
-    "health_category.allergies" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allergieën"
-          }
-        }
-      }
-    },
-    "health_category.appointments" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afspraken"
-          }
-        }
-      }
-    },
-    "health_category.complaints" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klachten"
-          }
-        }
-      }
-    },
-    "health_category.complaints.details_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle klachtgegevens"
-          }
-        }
-      }
-    },
     "health_category.complaints.no_search_results" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -902,28 +1133,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zoek een klacht"
-          }
-        }
-      }
-    },
-    "health_category.devices" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medische hulpmiddelen"
-          }
-        }
-      }
-    },
-    "health_category.documents" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Documenten"
           }
         }
       }
@@ -983,127 +1192,6 @@
         }
       }
     },
-    "health_category.labresults" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uitslagen"
-          }
-        }
-      }
-    },
-    "health_category.lifestyle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leefstijl"
-          }
-        }
-      }
-    },
-    "health_category.measurements" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Metingen"
-          }
-        }
-      }
-    },
-    "health_category.medication" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medicijnen"
-          }
-        }
-      }
-    },
-    "health_category.medication.details_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle medicijngegevens"
-          }
-        }
-      }
-    },
-    "health_category.medication.no_search_results" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geen medicijnen gevonden"
-          }
-        }
-      }
-    },
-    "health_category.medication.search" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zoek een medicijn"
-          }
-        }
-      }
-    },
-    "health_category.mental" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mentaal welzijn"
-          }
-        }
-      }
-    },
-    "health_category.patient" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Persoonlijke gegevens"
-          }
-        }
-      }
-    },
-    "health_category.payment" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Betaalgegevens"
-          }
-        }
-      }
-    },
-    "health_category.plans" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Behandelwensen- en plan"
-          }
-        }
-      }
-    },
     "health_category.reports" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1122,28 +1210,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Probeer opnieuw te zoeken."
-          }
-        }
-      }
-    },
-    "health_category.treatments" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Behandelingen"
-          }
-        }
-      }
-    },
-    "health_category.vaccinations" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vaccinaties"
           }
         }
       }
@@ -1265,28 +1331,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kies de manier waarop je wilt inloggen. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
-          }
-        }
-      }
-    },
-    "medication_use.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medicijnen"
-          }
-        }
-      }
-    },
-    "medication_use.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door je zorgaanbieder."
           }
         }
       }
