@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let mgoRange = try MgoRange(json)
+//   let mgoDuration = try MgoDuration(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,21 +10,25 @@
 
 import Foundation
 
-// MARK: - MgoRange
-public struct MgoRange: Codable, Hashable, Sendable {
-    public let high, low: MgoDuration?
+// MARK: - MgoDuration
+public struct MgoDuration: Codable, Hashable, Sendable {
+    public let code, comparator, system, unit: String?
+    public let value: Double?
 
-    public init(high: MgoDuration?, low: MgoDuration?) {
-        self.high = high
-        self.low = low
+    public init(code: String?, comparator: String?, system: String?, unit: String?, value: Double?) {
+        self.code = code
+        self.comparator = comparator
+        self.system = system
+        self.unit = unit
+        self.value = value
     }
 }
 
-// MARK: MgoRange convenience initializers and mutators
+// MARK: MgoDuration convenience initializers and mutators
 
-public extension MgoRange {
+public extension MgoDuration {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(MgoRange.self, from: data)
+        self = try newJSONDecoder().decode(MgoDuration.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -39,12 +43,18 @@ public extension MgoRange {
     }
 
     func with(
-        high: MgoDuration?? = nil,
-        low: MgoDuration?? = nil
-    ) -> MgoRange {
-        return MgoRange(
-            high: high ?? self.high,
-            low: low ?? self.low
+        code: String?? = nil,
+        comparator: String?? = nil,
+        system: String?? = nil,
+        unit: String?? = nil,
+        value: Double?? = nil
+    ) -> MgoDuration {
+        return MgoDuration(
+            code: code ?? self.code,
+            comparator: comparator ?? self.comparator,
+            system: system ?? self.system,
+            unit: unit ?? self.unit,
+            value: value ?? self.value
         )
     }
 

@@ -12,7 +12,7 @@ import Foundation
 
 // MARK: - ZibVaccination
 public struct ZibVaccination: Codable, Hashable, Sendable {
-    public let dose: MgoQuantity?
+    public let dose: MgoDuration?
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let note: [MgoAnnotation]?
@@ -29,7 +29,7 @@ public struct ZibVaccination: Codable, Hashable, Sendable {
         case resourceType, vaccinationDate, vaccineCode
     }
 
-    public init(dose: MgoQuantity?, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, patient: MgoReference?, practitioner: [Practitioner]?, profile: ZibVaccinationProfile, referenceID: String, resourceType: String?, vaccinationDate: String?, vaccineCode: [MgoCoding]?) {
+    public init(dose: MgoDuration?, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, patient: MgoReference?, practitioner: [Practitioner]?, profile: ZibVaccinationProfile, referenceID: String, resourceType: String?, vaccinationDate: String?, vaccineCode: [MgoCoding]?) {
         self.dose = dose
         self.id = id
         self.identifier = identifier
@@ -63,7 +63,7 @@ public extension ZibVaccination {
     }
 
     func with(
-        dose: MgoQuantity?? = nil,
+        dose: MgoDuration?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         note: [MgoAnnotation]?? = nil,
