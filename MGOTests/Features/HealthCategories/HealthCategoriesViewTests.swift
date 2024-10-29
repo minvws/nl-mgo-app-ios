@@ -73,8 +73,8 @@ final class HealthCategoriesViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// When
-		let view = try content.inspect().find(viewWithAccessibilityIdentifier: "health_categories.remove_organization")
-		try view.view(CallToActionButton.self).find(button: "health_categories.remove_organization").tap()
+		let view = try content.inspect().find(viewWithAccessibilityIdentifier: "organizations.remove_organization")
+		try view.view(CallToActionButton.self).find(button: "organizations.remove_organization").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

@@ -351,11 +351,11 @@ struct HealthCategoriesView: View {
 							// Button in footer of an empty section so it is
 							// at the bottom of the list, and without a rounded list background
 							CallToActionButton(
-								"health_categories.remove_organization",
+								"organizations.remove_organization",
 								style: .tertiaryNegative) {
 									viewModel.reduce(.removeHealthcareOrganization)
 								}
-								.accessibilityIdentifier("health_categories.remove_organization")
+								.accessibilityIdentifier("organizations.remove_organization")
 						}
 					}
 				} // List

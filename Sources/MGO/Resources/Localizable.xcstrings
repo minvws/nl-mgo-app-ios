@@ -504,7 +504,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Controleer of je telefoon verbonden is met het internet en probeer het opnieuw."
+            "value" : "Sorry, maar het lijkt erop dat we geen verbinding kunnen maken met ons systeem. Probeer het opnieuw."
           }
         }
       }
@@ -575,38 +575,8 @@
         }
       }
     },
-    "common.no_results_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geen gegevens gevonden"
-          }
-        }
-      }
-    },
-    "common.no_results_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We hebben geen gegevens van jou gevonden in dit dossier van de zorgaanbieder. Klopt dit niet? Vraag het aan je zorgaanbieder voor meer informatie."
-          }
-        }
-      }
-    },
     "common.ok" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        }
-      }
+      "extractionState" : "manual"
     },
     "common.previous" : {
       "extractionState" : "manual",
@@ -1136,24 +1106,13 @@
         }
       }
     },
-    "health_categories.remove_organization" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijder zorgaanbieder"
-          }
-        }
-      }
-    },
     "health_category.empty.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen gegevens gevonden"
+            "value" : "Geen gegevens gevonden "
           }
         }
       }
@@ -1165,28 +1124,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Er is hier niets opgeslagen."
-          }
-        }
-      }
-    },
-    "health_category.search_again" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Probeer opnieuw te zoeken."
-          }
-        }
-      }
-    },
-    "healthcare_organizations.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zorgaanbieders"
           }
         }
       }
@@ -1212,6 +1149,9 @@
           }
         }
       }
+    },
+    "Key" : {
+      "extractionState" : "manual"
     },
     "launch.image.voiceover" : {
       "extractionState" : "manual",
@@ -1301,13 +1241,35 @@
         }
       }
     },
-    "organization_list.add_organization" : {
+    "medication_details.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg een zorgaanbieder toe"
+            "value" : "Alle medicijngegevens"
+          }
+        }
+      }
+    },
+    "medication_use.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medicijnen"
+          }
+        }
+      }
+    },
+    "medication_use.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door je zorgaanbieder."
           }
         }
       }
@@ -1319,50 +1281,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Welke zorgaanbieders wil je in de app tonen?"
-          }
-        }
-      }
-    },
-    "organization_list.no_results_heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze lijst is nog leeg"
-          }
-        }
-      }
-    },
-    "organization_list.no_results_subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je hebt nog geen zorgaanbieders toegevoegd aan deze lijst. Je kunt dit nu doen, of later via je profiel."
-          }
-        }
-      }
-    },
-    "organization_list.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je kunt zelf zorgaanbieders toevoegen of verwijderen. Dit kun je ook later in je profiel doen."
-          }
-        }
-      }
-    },
-    "organization_list.to_overview" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ga naar het overzicht"
           }
         }
       }
@@ -1444,24 +1362,35 @@
         }
       }
     },
+    "organizations.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieders"
+          }
+        }
+      }
+    },
+    "organizations.remove_organization" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder zorgaanbieder"
+          }
+        }
+      }
+    },
     "overview.add_organization" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgaanbieder toevoegen "
-          }
-        }
-      }
-    },
-    "overview.add_organizations" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zorgaanbieders toevoegen"
+            "value" : "Voeg een zorgaanbieder toe"
           }
         }
       }
@@ -1506,6 +1435,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Overzicht"
+          }
+        }
+      }
+    },
+    "overview.no_results_action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg zorgaanbieders toe"
           }
         }
       }

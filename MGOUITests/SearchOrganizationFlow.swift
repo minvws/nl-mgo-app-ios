@@ -27,7 +27,7 @@ final class SearchOrganizationFlow: BaseFlowTest {
 		assertOverviewNoOrganizationsScreen()
 		
 		// Navigate to Add Organization
-		app.buttons["overview.add_organizations"].tap()
+		app.buttons["overview.add_organization"].tap()
 		
 		assertAddOrganizationScreen()
 		
