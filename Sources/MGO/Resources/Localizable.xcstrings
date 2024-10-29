@@ -1137,28 +1137,6 @@
         }
       }
     },
-    "health_category.complaints.no_search_results" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geen klachten gevonden"
-          }
-        }
-      }
-    },
-    "health_category.complaints.search" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zoek een klacht"
-          }
-        }
-      }
-    },
     "health_category.empty.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1177,17 +1155,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Er is hier niets opgeslagen."
-          }
-        }
-      }
-    },
-    "health_category.reports" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verslagen"
           }
         }
       }
