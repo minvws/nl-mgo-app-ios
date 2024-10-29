@@ -83,8 +83,8 @@ final class OrganizationListViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "organization_list.add_organization")
-		try view.view(CallToActionButton.self).find(button: "organization_list.add_organization").tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.add_organization")
+		try view.view(CallToActionButton.self).find(button: "overview.add_organization").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
@@ -99,8 +99,8 @@ final class OrganizationListViewTests: XCTestCase {
 		createSut()
 		
 		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "organization_list.to_overview")
-		try view.view(CallToActionButton.self).find(button: "organization_list.to_overview").tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "add_organization_list.to_overview")
+		try view.view(CallToActionButton.self).find(button: "add_organization_list.to_overview").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

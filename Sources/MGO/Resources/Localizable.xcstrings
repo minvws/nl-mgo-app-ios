@@ -37,6 +37,71 @@
         }
       }
     },
+    "add_organization_list.add_organization" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg een zorgaanbieder toe"
+          }
+        }
+      }
+    },
+    "add_organization_list.heading" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welke zorgaanbieders wil je in je overzicht tonen?"
+          }
+        }
+      }
+    },
+    "add_organization_list.no_results_heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze lijst is nog leeg"
+          }
+        }
+      }
+    },
+    "add_organization_list.no_results_subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt nog geen zorgaanbieders toegevoegd aan deze lijst. Je kunt dit nu doen, of later via je profiel."
+          }
+        }
+      }
+    },
+    "add_organization_list.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt zelf zorgaanbieders toevoegen of verwijderen. Dit kun je ook later in je profiel doen."
+          }
+        }
+      }
+    },
+    "add_organization_list.to_overview" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ga naar het overzicht"
+          }
+        }
+      }
+    },
     "add_organization.add_voiceover" : {
       "extractionState" : "manual",
       "localizations" : {

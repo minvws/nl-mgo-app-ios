@@ -159,7 +159,7 @@ struct OrganizationsView: View {
 		}
 		.navigationBarBackButtonHidden()
 		.navigationBarHidden(false)
-		.navigationTitle("healthcare_organizations.heading")
+		.navigationTitle("organizations.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
@@ -218,9 +218,9 @@ struct OrganizationsView: View {
 			// Bottom section for add button
 			Section {
 				rowFor(
-					title: String(localized: "organization_list.add_organization"),
+					title: String(localized: "overview.add_organization"),
 					imageResource: ImageResource.Overview.add,
-					accessibilityIdentifier: "organization_list.add_organization") {
+					accessibilityIdentifier: "overview.add_organization") {
 						viewModel.reduce(.search)
 					}
 			}
