@@ -76,7 +76,7 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .single(let mgoOrganization):
 				mgoOrganization.display_name
 			case .all:
-				String(localized: "health_categories.heading")
+				String(localized: "overview.heading")
 		}
 		
 		let backbuttonTitle: LocalizedStringKey? = switch mode {

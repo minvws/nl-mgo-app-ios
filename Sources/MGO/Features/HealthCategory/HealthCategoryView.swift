@@ -358,7 +358,7 @@ struct HealthCategoryView: View {
 		}
 		.padding(.horizontal, ViewTraits.General.padding)
 		.navigationBarBackButtonHidden()
-		.navigationBarItems(leading: BackButton("health_categories.heading") {
+		.navigationBarItems(leading: BackButton("overview.heading") {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
