@@ -257,7 +257,18 @@ class HealthCategoryViewModel: ObservableObject {
 							subCat.items.append(contentsOf: parseRecord(record, acceptedProfile: profile))
 							partial = partial || record.error
 						}
-						items.append(subCat)
+						// There might be another subcategory with the same heading.
+						// Append to that subcategory rather then append as a new subcategory
+						var existingSubCategory = false
+						items.enumerated().forEach { index, item in
+							if item.heading == subCat.heading {
+								items[index].items.append(contentsOf: subCat.items)
+								existingSubCategory = true
+							}
+						}
+						if !existingSubCategory {
+							items.append(subCat)
+						}
 					}
 				}
 				if partial {

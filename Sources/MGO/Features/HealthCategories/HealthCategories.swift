@@ -128,7 +128,7 @@ struct HealthCategories {
 					"zip_body_height.heading"
 				
 				// Labresults
-				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue:
+				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue, GPLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue:
 					"zip_laboratory_test_result_observation.heading"
 				
 				// Allergies
