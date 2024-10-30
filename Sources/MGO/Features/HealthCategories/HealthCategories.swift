@@ -47,7 +47,7 @@ struct HealthCategories {
 				
 				case .labresults: [
 					ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue,
-					ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue
+//					ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue
 				]
 				
 				case .allergies: [
@@ -104,6 +104,94 @@ struct HealthCategories {
 					ZibTobaccoUseProfile.httpNictizNlFhirStructureDefinitionZibTobaccoUse.rawValue,
 					ZibNutritionAdviceProfile.httpNictizNlFhirStructureDefinitionZibNutritionAdvice.rawValue
 				]
+			}
+		}
+		
+		func subCategory(_ profileDefinition: String) -> String.LocalizationValue? {
+			return switch profileDefinition {
+			
+				// Medication
+				case ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue:
+					"zib_medication_use.heading"
+				case ZibMedicationAgreementProfile.httpNictizNlFhirStructureDefinitionZibMedicationAgreement.rawValue:
+					"zib_medication_agreement.heading"
+				case ZibAdministrationAgreementProfile.httpNictizNlFhirStructureDefinitionZibAdministrationAgreement.rawValue:
+					"zib_administration_agreement.heading"
+				
+				// Measurements
+				case ZibBloodPressureProfile.httpNictizNlFhirStructureDefinitionZibBloodPressure.rawValue:
+					"zib_blood_pressure.heading"
+				case ZibBodyWeightProfile.httpNictizNlFhirStructureDefinitionZibBodyWeight.rawValue:
+					"zip_body_weight.heading"
+				case ZibBodyHeightProfile.httpNictizNlFhirStructureDefinitionZibBodyHeight.rawValue:
+					"zip_body_height.heading"
+				
+				// Labresults
+				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue:
+					"zip_laboratory_test_result_observation.heading"
+				
+				// Allergies
+				case ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue:
+					"zip_allergy_intolerance.heading"
+				
+				// Treatments
+				case ZibProcedureProfile.httpNictizNlFhirStructureDefinitionZibProcedure.rawValue:
+					"zib_procedure.heading"
+				
+				// Appointments
+				case ZibEncounterProfile.httpNictizNlFhirStructureDefinitionZibEncounter.rawValue:
+					"zip_encounter.heading"
+				
+				// Vaccinations
+				case ZibVaccinationProfile.httpNictizNlFhirStructureDefinitionZibVaccination.rawValue:
+					"zip_vaccination.heading"
+				
+				// Documents
+				
+				// Complaints
+				case ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue:
+					"zib_problem.heading"
+				
+				// Patient
+				case NlCorePatientProfile.httpFhirNlFhirStructureDefinitionNlCorePatient.rawValue:
+					"zib_patient.heading"
+				
+				// Alerts
+				case ZibAlertProfile.httpNictizNlFhirStructureDefinitionZibAlert.rawValue:
+					"zib_alert.heading"
+				
+				// Payment
+				case ZibPayerProfile.httpNictizNlFhirStructureDefinitionZibPayer.rawValue:
+					"zib_payer.heading"
+				
+				// Plans
+				case ZibTreatmentDirectiveProfile.httpNictizNlFhirStructureDefinitionZibTreatmentDirective.rawValue:
+					"zib_treatment_directive.heading"
+				case ZibAdvanceDirectiveProfile.httpNictizNlFhirStructureDefinitionZibAdvanceDirective.rawValue:
+					"zib_advance_directive.heading"
+				
+				// Devices
+				case ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue:
+					"zib_medical_device.heading"
+				
+				// FunctionalOrMentalStatus
+				case ZibFunctionalOrMentalStatusProfile.httpNictizNlFhirStructureDefinitionZibFunctionalOrMentalStatus.rawValue:
+					"zib_functional_or_mental_status.heading"
+				
+				// Lifestyle
+				case ZibLivingSituationProfile.httpNictizNlFhirStructureDefinitionZibLivingSituation.rawValue:
+					"zib_living_situation.heading"
+				case ZibDrugUseProfile.httpNictizNlFhirStructureDefinitionZibDrugUse.rawValue:
+					"zib_drug_use.heading"
+				case ZibAlcoholUseProfile.httpNictizNlFhirStructureDefinitionZibAlcoholUse.rawValue:
+					"zib_alcohol_use.heading"
+				case ZibTobaccoUseProfile.httpNictizNlFhirStructureDefinitionZibTobaccoUse.rawValue:
+					"zib_tobacco_use.heading"
+				case ZibNutritionAdviceProfile.httpNictizNlFhirStructureDefinitionZibNutritionAdvice.rawValue:
+					"zib_nutrition_advice.heading"
+				
+				default:
+					nil
 			}
 		}
 		
