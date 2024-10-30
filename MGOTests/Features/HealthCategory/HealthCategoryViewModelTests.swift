@@ -20,6 +20,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	
 	override func setUp() {
 		
+		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
@@ -33,10 +34,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
-				heading: "health_category.complaints",
+				heading: "hc_complaints.heading",
 				search: "health_category.complaints.search",
 				noSearchResults: "health_category.complaints.no_search_results",
-				detailsHeading: String.LocalizationValue(stringLiteral: "health_category.complaints.details_heading")
+				detailsHeading: String.LocalizationValue(stringLiteral: "hc_complaints.heading_detail")
 			)
 		)
 	}

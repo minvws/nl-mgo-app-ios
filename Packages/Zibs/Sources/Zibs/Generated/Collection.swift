@@ -15,9 +15,9 @@ public struct Collection: Codable, Hashable, Sendable {
     public let bodySite: BodySite
     public let collected: Effective?
     public let method: [MgoCoding]?
-    public let quantity: MgoQuantity?
+    public let quantity: MgoDuration?
 
-    public init(bodySite: BodySite, collected: Effective?, method: [MgoCoding]?, quantity: MgoQuantity?) {
+    public init(bodySite: BodySite, collected: Effective?, method: [MgoCoding]?, quantity: MgoDuration?) {
         self.bodySite = bodySite
         self.collected = collected
         self.method = method
@@ -47,7 +47,7 @@ public extension Collection {
         bodySite: BodySite? = nil,
         collected: Effective?? = nil,
         method: [MgoCoding]?? = nil,
-        quantity: MgoQuantity?? = nil
+        quantity: MgoDuration?? = nil
     ) -> Collection {
         return Collection(
             bodySite: bodySite ?? self.bodySite,

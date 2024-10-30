@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - MgoRange
 public struct MgoRange: Codable, Hashable, Sendable {
-    public let high, low: MgoQuantity?
+    public let high, low: MgoDuration?
 
-    public init(high: MgoQuantity?, low: MgoQuantity?) {
+    public init(high: MgoDuration?, low: MgoDuration?) {
         self.high = high
         self.low = low
     }
@@ -39,8 +39,8 @@ public extension MgoRange {
     }
 
     func with(
-        high: MgoQuantity?? = nil,
-        low: MgoQuantity?? = nil
+        high: MgoDuration?? = nil,
+        low: MgoDuration?? = nil
     ) -> MgoRange {
         return MgoRange(
             high: high ?? self.high,

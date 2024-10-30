@@ -6676,6 +6676,145 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
   };
   function uiSchemaGroup$q(resource) {
+    const i18n = "zib_laboratory_test_result_observation.reference_range";
+    return {
+      label: `${i18n}`,
+      children: [
+        ui.simpleQuantity(`${i18n}.low`, resource.low),
+        ui.simpleQuantity(`${i18n}.high`, resource.high)
+      ]
+    };
+  }
+  function parseReferenceRange(value2) {
+    return {
+      low: quantity$1(value2?.low),
+      high: quantity$1(value2?.high)
+    };
+  }
+  const referenceRange = {
+    parse: parseReferenceRange,
+    uiSchemaGroup: uiSchemaGroup$q
+  };
+  function uiSchemaGroup$p(resource) {
+    return {
+      label: "zib_laboratory_test_result_observation.related",
+      children: [
+        ui.reference(`zib_laboratory_test_result_observation.related`, resource.target, {
+          summary: true
+        })
+      ]
+    };
+  }
+  function parseRelated(value2) {
+    return {
+      target: reference$1(value2?.target)
+    };
+  }
+  const related = {
+    parse: parseRelated,
+    uiSchemaGroup: uiSchemaGroup$p
+  };
+  function uiSchema$s(resource) {
+    const i18n = "zib_laboratory_test_result_observation";
+    const related2 = map(resource.related, uiSchemaGroup$p, true);
+    const referenceRange2 = map(resource.referenceRange, uiSchemaGroup$q, true);
+    const title = resource.category?.[0]?.[0]?.display ?? `${i18n}`;
+    const effective = typeof resource.effective === "string" ? [ui.dateTime(`${i18n}.effective`, resource.effective)] : ui.period(`${i18n}.effective`, resource.effective);
+    return {
+      label: title,
+      children: [
+        {
+          label: `${i18n}`,
+          children: [
+            ui.multipleValue(`${i18n}.identifier`, resource.identifier, ui.identifier),
+            ui.reference(`${i18n}.specimen`, resource.specimen),
+            ui.codeableConcept(
+              "zib_laboratory_test_result_diagnostic_report.code",
+              resource.code
+            ),
+            ui.string(
+              "zib_laboratory_test_result_diagnostic_report.status",
+              resource.status
+            ),
+            ui.string(`${i18n}.comment`, resource.comment),
+            ui.multipleValue(`${i18n}.result_type`, resource.category, ui.codeableConcept),
+            ...ui.helpers.getChildren(related2),
+            ui.multipleValue(`${i18n}.based_on`, resource.basedOn, ui.reference)
+          ]
+        },
+        {
+          label: `${i18n}.test`,
+          children: [
+            ui.codeableConcept(`${i18n}.code`, resource.code),
+            ui.codeableConcept(`${i18n}.method`, resource.method),
+            ...effective,
+            ui.simpleQuantity(`${i18n}.value`, resource.result),
+            ui.string(`${i18n}.status`, resource.status),
+            ...ui.helpers.getChildren(referenceRange2),
+            ui.codeableConcept(
+              `${i18n}.interpretation.interpretatie_vlaggen_codelijst`,
+              resource.interpretation
+            ),
+            ui.string(`${i18n}.comment`, resource.comment)
+          ]
+        }
+      ]
+    };
+  }
+  const profile$s = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
+  function parseZibLaboratoryTestResultObservation(resource) {
+    return {
+      ...resourceMeta(resource, profile$s),
+      identifier: map(resource.identifier, identifier$1),
+      subject: reference$1(resource.subject),
+      code: codeableConcept$1(resource?.code),
+      method: codeableConcept$1(resource?.method),
+      effective: dateTime$3(resource?.effectiveDateTime) ?? period$1(resource?.effectivePeriod),
+      result: quantity$1(resource?.valueQuantity),
+      status: string$1(resource?.status),
+      referenceRange: map(resource?.referenceRange, referenceRange.parse),
+      interpretation: codeableConcept$1(resource?.interpretation),
+      specimen: reference$1(resource.specimen),
+      comment: string$1(resource.comment),
+      category: map(resource.category, codeableConcept$1),
+      related: map(resource.related, related.parse),
+      basedOn: map(resource.basedOn, reference$1)
+    };
+  }
+  const zibLaboratoryTestResultObservation = {
+    profile: profile$s,
+    parse: parseZibLaboratoryTestResultObservation,
+    uiSchema: uiSchema$s
+  };
+  function uiSchema$r(resource) {
+    return zibLaboratoryTestResultObservation.uiSchema(resource);
+  }
+  const profile$r = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
+  function parseGPLaboratoryResult(resource) {
+    return {
+      ...resourceMeta(resource, profile$r),
+      identifier: map(resource.identifier, identifier$1),
+      subject: reference$1(resource.subject),
+      code: codeableConcept$1(resource?.code),
+      method: codeableConcept$1(resource?.method),
+      effective: dateTime$3(resource?.effectiveDateTime) ?? period$1(resource?.effectivePeriod),
+      result: quantity$1(resource?.valueQuantity),
+      status: string$1(resource?.status),
+      referenceRange: map(resource?.referenceRange, referenceRange.parse),
+      interpretation: codeableConcept$1(resource?.interpretation),
+      specimen: reference$1(resource.specimen),
+      comment: string$1(resource.comment),
+      category: map(resource.category, codeableConcept$1),
+      related: map(resource.related, related.parse),
+      basedOn: map(resource.basedOn, reference$1)
+    };
+  }
+  const gpLaboratoryResult = {
+    profile: profile$r,
+    parse: parseGPLaboratoryResult,
+    uiSchema: uiSchema$r
+  };
+  function uiSchemaGroup$o(resource) {
     const i18n = "zib_administration_schedule";
     return {
       label: i18n,
@@ -6705,11 +6844,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const zibAdministrationSchedule = {
     parse: parseZibAdministrationSchedule,
-    uiSchemaGroup: uiSchemaGroup$q
+    uiSchemaGroup: uiSchemaGroup$o
   };
-  function uiSchemaGroup$p(resource) {
+  function uiSchemaGroup$n(resource) {
     const i18n = "zib_instructions_for_use";
-    const administrationSchedule = uiSchemaGroup$q(resource.timing).children;
+    const administrationSchedule = uiSchemaGroup$o(resource.timing).children;
     return {
       label: i18n,
       children: [
@@ -6744,9 +6883,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const zibInstructionsForUse = {
     parse: parseZibInstructionsForUse,
-    uiSchemaGroup: uiSchemaGroup$p
+    uiSchemaGroup: uiSchemaGroup$n
   };
-  function uiSchemaGroup$o(resource) {
+  function uiSchemaGroup$m(resource) {
     const i18n = "zib_product_ingredient";
     return {
       label: i18n,
@@ -6764,9 +6903,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const zibProductIngredient = {
     parse: parseZibProductIngredient,
-    uiSchemaGroup: uiSchemaGroup$o
+    uiSchemaGroup: uiSchemaGroup$m
   };
-  function uiSchemaGroup$n(resource) {
+  function uiSchemaGroup$l(resource) {
     const i18n = "zib_product_package";
     const contents = map(
       resource.content,
@@ -6793,9 +6932,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const zibProductPackage = {
     parse: parseZibProductPackage,
-    uiSchemaGroup: uiSchemaGroup$n
+    uiSchemaGroup: uiSchemaGroup$l
   };
-  function uiSchemaGroup$m(resource) {
+  function uiSchemaGroup$k(resource) {
     const i18n = "nl_core_address";
     return {
       label: i18n,
@@ -6829,9 +6968,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const nlCoreAddress = {
     parse: parseNlCoreAddress,
-    uiSchemaGroup: uiSchemaGroup$m
+    uiSchemaGroup: uiSchemaGroup$k
   };
-  function uiSchemaGroup$l(resource) {
+  function uiSchemaGroup$j(resource) {
     const i18n = "nl_core_contact_point";
     return {
       label: i18n,
@@ -6855,9 +6994,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const nlCoreContactpoint = {
     parse: parseNlCoreContactpoint,
-    uiSchemaGroup: uiSchemaGroup$l
+    uiSchemaGroup: uiSchemaGroup$j
   };
-  function uiSchemaGroup$k(resource) {
+  function uiSchemaGroup$i(resource) {
     const i18n = "nl_core_humanname";
     return {
       label: i18n,
@@ -6885,9 +7024,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const nlCoreHumanname = {
     parse: parseNlCoreHumanname,
-    uiSchemaGroup: uiSchemaGroup$k
+    uiSchemaGroup: uiSchemaGroup$i
   };
-  function uiSchemaGroup$j(resource) {
+  function uiSchemaGroup$h(resource) {
     const i18n = "attachment";
     return {
       label: i18n,
@@ -6917,9 +7056,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const attachment = {
     parse: parseAttachment,
-    uiSchemaGroup: uiSchemaGroup$j
+    uiSchemaGroup: uiSchemaGroup$h
   };
-  function uiSchemaGroup$i(resource) {
+  function uiSchemaGroup$g(resource) {
     const i18n = "nl_core_patient.communication";
     return {
       label: i18n,
@@ -6937,17 +7076,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const communication = {
     parse: parseCommunication,
-    uiSchemaGroup: uiSchemaGroup$i
+    uiSchemaGroup: uiSchemaGroup$g
   };
-  function uiSchemaGroup$h(resource) {
+  function uiSchemaGroup$f(resource) {
     const i18n = "nl_core_patient.contact";
-    const telecom = map(resource.telecom, uiSchemaGroup$l, true);
+    const telecom = map(resource.telecom, uiSchemaGroup$j, true);
     return {
       label: i18n,
       children: [
-        ...uiSchemaGroup$k(resource.name).children,
+        ...uiSchemaGroup$i(resource.name).children,
         ...ui.helpers.getChildren(telecom),
-        ...uiSchemaGroup$m(resource.address).children,
+        ...uiSchemaGroup$k(resource.address).children,
         ui.string(`${i18n}.gender`, resource.gender),
         ui.reference(`${i18n}.organization`, resource.organization),
         ...ui.period(`${i18n}.period`, resource.period)
@@ -6967,9 +7106,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const contact = {
     parse: parseContact,
-    uiSchemaGroup: uiSchemaGroup$h
+    uiSchemaGroup: uiSchemaGroup$f
   };
-  function uiSchemaGroup$g(resource) {
+  function uiSchemaGroup$e(resource) {
     const i18n = "nl_core_patient.link";
     return {
       label: i18n,
@@ -6987,17 +7126,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const link = {
     parse: parseLink,
-    uiSchemaGroup: uiSchemaGroup$g
+    uiSchemaGroup: uiSchemaGroup$e
   };
-  function uiSchema$r(resource) {
+  function uiSchema$q(resource) {
     const i18n = "nl_core_patient";
-    const address = map(resource.address, uiSchemaGroup$m, true);
-    const communication2 = map(resource.communication, uiSchemaGroup$i, true);
-    const contact2 = map(resource.contact, uiSchemaGroup$h, true);
-    const link2 = map(resource.link, uiSchemaGroup$g, true);
-    const name = map(resource.name, uiSchemaGroup$k, true);
-    const photo = map(resource.photo, uiSchemaGroup$j, true);
-    const telecom = map(resource.telecom, uiSchemaGroup$l, true);
+    const address = map(resource.address, uiSchemaGroup$k, true);
+    const communication2 = map(resource.communication, uiSchemaGroup$g, true);
+    const contact2 = map(resource.contact, uiSchemaGroup$f, true);
+    const link2 = map(resource.link, uiSchemaGroup$e, true);
+    const name = map(resource.name, uiSchemaGroup$i, true);
+    const photo = map(resource.photo, uiSchemaGroup$h, true);
+    const telecom = map(resource.telecom, uiSchemaGroup$j, true);
     return {
       label: resource.name?.at(0)?.text,
       children: [
@@ -7031,10 +7170,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$r = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
+  const profile$q = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
   function parseNlCorePatient(resource) {
     return {
-      ...resourceMeta(resource, profile$r),
+      ...resourceMeta(resource, profile$q),
       active: boolean$1(resource.active),
       address: map(resource.address, nlCoreAddress.parse),
       birthDate: date$3(resource.birthDate),
@@ -7056,11 +7195,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const nlCorePatient = {
-    profile: profile$r,
+    profile: profile$q,
     parse: parseNlCorePatient,
-    uiSchema: uiSchema$r
+    uiSchema: uiSchema$q
   };
-  function uiSchema$q(resource) {
+  function uiSchema$p(resource) {
     const i18n = "zib_alert";
     return {
       label: i18n,
@@ -7081,10 +7220,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$q = "http://nictiz.nl/fhir/StructureDefinition/zib-Alert";
+  const profile$p = "http://nictiz.nl/fhir/StructureDefinition/zib-Alert";
   function parseZibAlert(resource) {
     return {
-      ...resourceMeta(resource, profile$q),
+      ...resourceMeta(resource, profile$p),
       identifier: map(resource.identifier, identifier$1),
       status: code$2(resource.status),
       category: codeableConcept$1(resource.category),
@@ -7096,15 +7235,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibAlert = {
-    profile: profile$q,
+    profile: profile$p,
     parse: parseZibAlert,
-    uiSchema: uiSchema$q
+    uiSchema: uiSchema$p
   };
-  function uiSchema$p(resource) {
+  function uiSchema$o(resource) {
     const i18n = "zib_administration_agreement";
     const instructionsForUse = map(
       resource.dossageInstruction,
-      uiSchemaGroup$p,
+      uiSchemaGroup$n,
       true
     );
     return {
@@ -7138,10 +7277,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$p = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement";
+  const profile$o = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement";
   function parseZibAdministrationAgreement(resource) {
     return {
-      ...resourceMeta(resource, profile$p),
+      ...resourceMeta(resource, profile$o),
       authoredOn: extensionNictiz(resource, "zib-AdministrationAgreement-AuthoredOn"),
       agreementReason: extensionNictiz(
         resource,
@@ -7169,15 +7308,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibAdministrationAgreement = {
-    profile: profile$p,
+    profile: profile$o,
     parse: parseZibAdministrationAgreement,
-    uiSchema: uiSchema$p
+    uiSchema: uiSchema$o
   };
-  function uiSchema$o(resource) {
+  function uiSchema$n(resource) {
     const i18n = "zib_medication_agreement";
     const instructionsForUse = map(
       resource.dossageInstruction,
-      uiSchemaGroup$p,
+      uiSchemaGroup$n,
       true
     );
     return {
@@ -7210,10 +7349,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$o = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement";
+  const profile$n = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement";
   function parseZibMedicationAgreement(resource) {
     return {
-      ...resourceMeta(resource, profile$o),
+      ...resourceMeta(resource, profile$n),
       periodOfUse: extensionNictiz(resource, "zib-Medication-PeriodOfUse"),
       usageDuration: extensionNictiz(resource, "zib-MedicationUse-Duration"),
       medicationTreatment: extensionNictiz(resource, "zib-Medication-MedicationTreatment"),
@@ -7236,11 +7375,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibMedicationAgreement = {
-    profile: profile$o,
+    profile: profile$n,
     parse: parseZibMedicationAgreement,
-    uiSchema: uiSchema$o
+    uiSchema: uiSchema$n
   };
-  function uiSchema$n(resource) {
+  function uiSchema$m(resource) {
     const i18n = "zib_allergy_intolerance";
     return {
       label: resource.identifier?.at(0)?.value,
@@ -7261,10 +7400,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$n = "http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance";
+  const profile$m = "http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance";
   function parseZibAllergyIntolerance(resource) {
     return {
-      ...resourceMeta(resource, profile$n),
+      ...resourceMeta(resource, profile$m),
       identifier: map(resource.identifier, identifier$1),
       clinicalStatus: code$2(resource.clinicalStatus),
       verificationStatus: code$2(resource.verificationStatus),
@@ -7276,13 +7415,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibAllergyIntolerance = {
-    profile: profile$n,
+    profile: profile$m,
     parse: parseZibAllergyIntolerance,
-    uiSchema: uiSchema$n
+    uiSchema: uiSchema$m
   };
-  function uiSchema$m(resource) {
+  function uiSchema$l(resource) {
     const i18n = "zib_medication_use";
-    const instructionsForUse = map(resource.dosage, uiSchemaGroup$p, true);
+    const instructionsForUse = map(resource.dosage, uiSchemaGroup$n, true);
     return {
       label: resource.medication?.display,
       children: [
@@ -7339,10 +7478,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$m = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse";
+  const profile$l = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse";
   function parseZibMedicationUse(resource) {
     return {
-      ...resourceMeta(resource, profile$m),
+      ...resourceMeta(resource, profile$l),
       asAgreedIndicator: extensionNictiz(resource, "zib-MedicationUse-AsAgreedIndicator"),
       prescriber: extensionNictiz(resource, "zib-MedicationUse-Prescriber"),
       author: extensionNictiz(resource, "zib-MedicationUse-Author"),
@@ -7374,11 +7513,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibMedicationUse = {
-    profile: profile$m,
+    profile: profile$l,
     parse: parseZibMedicationUse,
-    uiSchema: uiSchema$m
+    uiSchema: uiSchema$l
   };
-  function uiSchema$l(resource) {
+  function uiSchema$k(resource) {
     const i18n = "zib_medical_device";
     return {
       label: resource.device?.display,
@@ -7414,10 +7553,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$l = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDevice";
+  const profile$k = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDevice";
   function parseZibMedicalDevice(resource) {
     return {
-      ...resourceMeta(resource, profile$l),
+      ...resourceMeta(resource, profile$k),
       identifier: map(resource.identifier, identifier$1),
       organization: extensionNictiz(resource, "zib-MedicalDevice-Organization"),
       practitioner: extensionNictiz(resource, "zib-MedicalDevice-Practitioner"),
@@ -7436,11 +7575,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibMedicalDevice = {
-    profile: profile$l,
+    profile: profile$k,
     parse: parseZibMedicalDevice,
-    uiSchema: uiSchema$l
+    uiSchema: uiSchema$k
   };
-  function uiSchemaGroup$f(resource) {
+  function uiSchemaGroup$d(resource) {
     const i18n = "zib_payer.grouping";
     return {
       label: i18n,
@@ -7472,9 +7611,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const grouping = {
     parse: parseGrouping,
-    uiSchemaGroup: uiSchemaGroup$f
+    uiSchemaGroup: uiSchemaGroup$d
   };
-  function uiSchema$k(resource) {
+  function uiSchema$j(resource) {
     const i18n = "zib_payer";
     return {
       label: resource.identifier?.at(0)?.value,
@@ -7499,14 +7638,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             ui.multipleValue(`${i18n}.contract`, resource.contract, ui.reference)
           ]
         },
-        uiSchemaGroup$f(resource.grouping)
+        uiSchemaGroup$d(resource.grouping)
       ]
     };
   }
-  const profile$k = "http://nictiz.nl/fhir/StructureDefinition/zib-Payer";
+  const profile$j = "http://nictiz.nl/fhir/StructureDefinition/zib-Payer";
   function parseZibPayer(resource) {
     return {
-      ...resourceMeta(resource, profile$k),
+      ...resourceMeta(resource, profile$j),
       identifier: map(resource.identifier, identifier$1),
       status: code$2(resource.status),
       type: codeableConcept$1(resource.type),
@@ -7526,11 +7665,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibPayer = {
-    profile: profile$k,
+    profile: profile$j,
     parse: parseZibPayer,
-    uiSchema: uiSchema$k
+    uiSchema: uiSchema$j
   };
-  function uiSchemaGroup$e(resource) {
+  function uiSchemaGroup$c(resource) {
     const i18n = "evidence";
     return {
       label: i18n,
@@ -7548,9 +7687,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const evidence = {
     parse: parseEvidence,
-    uiSchemaGroup: uiSchemaGroup$e
+    uiSchemaGroup: uiSchemaGroup$c
   };
-  function uiSchemaGroup$d(resource) {
+  function uiSchemaGroup$b(resource) {
     const i18n = "stage";
     return {
       label: i18n,
@@ -7568,12 +7707,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const stage = {
     parse: parseStage,
-    uiSchemaGroup: uiSchemaGroup$d
+    uiSchemaGroup: uiSchemaGroup$b
   };
-  function uiSchema$j(resource) {
+  function uiSchema$i(resource) {
     const i18n = "zib_problem";
-    const stage2 = uiSchemaGroup$d(resource.stage);
-    const evidence2 = map(resource.evidence, uiSchemaGroup$e) ?? [];
+    const stage2 = uiSchemaGroup$b(resource.stage);
+    const evidence2 = map(resource.evidence, uiSchemaGroup$c) ?? [];
     return {
       label: resource.code?.at(0)?.display,
       children: [
@@ -7606,10 +7745,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$j = "http://nictiz.nl/fhir/StructureDefinition/zib-Problem";
+  const profile$i = "http://nictiz.nl/fhir/StructureDefinition/zib-Problem";
   function parseZibProblem(resource) {
     return {
-      ...resourceMeta(resource, profile$j),
+      ...resourceMeta(resource, profile$i),
       identifier: map(resource.identifier, identifier$1),
       clinicalStatus: code$2(resource.clinicalStatus),
       verificationStatus: code$2(resource.verificationStatus),
@@ -7629,11 +7768,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibProblem = {
-    profile: profile$j,
+    profile: profile$i,
     parse: parseZibProblem,
-    uiSchema: uiSchema$j
+    uiSchema: uiSchema$i
   };
-  function uiSchema$i(resource) {
+  function uiSchema$h(resource) {
     const i18n = "zib_product";
     const productPackage = zibProductPackage.uiSchemaGroup(resource.package);
     const ingredients = map(resource.ingredient, zibProductIngredient.uiSchemaGroup, true);
@@ -7655,10 +7794,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$i = "http://nictiz.nl/fhir/StructureDefinition/zib-Product";
+  const profile$h = "http://nictiz.nl/fhir/StructureDefinition/zib-Product";
   function parseZibProduct(resource) {
     return {
-      ...resourceMeta(resource, profile$i),
+      ...resourceMeta(resource, profile$h),
       description: extensionNictiz(resource, "zib-Product-Description"),
       code: codeableConcept$1(resource.code),
       form: codeableConcept$1(resource.form),
@@ -7667,11 +7806,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibProduct = {
-    profile: profile$i,
+    profile: profile$h,
     parse: parseZibProduct,
-    uiSchema: uiSchema$i
+    uiSchema: uiSchema$h
   };
-  function uiSchemaGroup$c(resource) {
+  function uiSchemaGroup$a(resource) {
     const i18n = "zib_treatment_directive.actor";
     return {
       label: i18n,
@@ -7689,9 +7828,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const actor$1 = {
     parse: parseActor$1,
-    uiSchemaGroup: uiSchemaGroup$c
+    uiSchemaGroup: uiSchemaGroup$a
   };
-  function uiSchemaGroup$b(resource) {
+  function uiSchemaGroup$9(resource) {
     const i18n = "zib_treatment_directive.data";
     return {
       label: i18n,
@@ -7709,12 +7848,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const data = {
     parse: parseData,
-    uiSchemaGroup: uiSchemaGroup$b
+    uiSchemaGroup: uiSchemaGroup$9
   };
-  function uiSchemaGroup$a(resource) {
+  function uiSchemaGroup$8(resource) {
     const i18n = "zib_treatment_directive.except";
-    const actor2 = map(resource.actor, uiSchemaGroup$c);
-    const data2 = map(resource.data, uiSchemaGroup$b);
+    const actor2 = map(resource.actor, uiSchemaGroup$a);
+    const data2 = map(resource.data, uiSchemaGroup$9);
     return {
       label: i18n,
       children: [
@@ -7747,9 +7886,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const except = {
     parse: parseExcept,
-    uiSchemaGroup: uiSchemaGroup$a
+    uiSchemaGroup: uiSchemaGroup$8
   };
-  function uiSchemaGroup$9(resource) {
+  function uiSchemaGroup$7(resource) {
     const i18n = "zib_treatment_directive.policy";
     return {
       label: i18n,
@@ -7769,14 +7908,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const policy = {
     parse: parsePolicy,
-    uiSchemaGroup: uiSchemaGroup$9
+    uiSchemaGroup: uiSchemaGroup$7
   };
-  function uiSchema$h(resource) {
+  function uiSchema$g(resource) {
     const i18n = "zib_treatment_directive";
-    const actor2 = map(resource.actor, uiSchemaGroup$c, true);
-    const data2 = map(resource.data, uiSchemaGroup$b, true);
-    const except2 = map(resource.except, uiSchemaGroup$a, true);
-    const policy2 = map(resource.policy, uiSchemaGroup$9, true);
+    const actor2 = map(resource.actor, uiSchemaGroup$a, true);
+    const data2 = map(resource.data, uiSchemaGroup$9, true);
+    const except2 = map(resource.except, uiSchemaGroup$8, true);
+    const policy2 = map(resource.policy, uiSchemaGroup$7, true);
     return {
       label: resource.identifier?.value,
       children: [
@@ -7804,7 +7943,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             ...ui.period(`${i18n}.data_period`, resource.dataPeriod)
           ]
         },
-        uiSchemaGroup$j(resource.sourceAttachment),
+        uiSchemaGroup$h(resource.sourceAttachment),
         ...actor2,
         ...data2,
         ...except2,
@@ -7812,10 +7951,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$h = "http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective";
+  const profile$g = "http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective";
   function parseZibTreatmentDirective(resource) {
     return {
-      ...resourceMeta(resource, profile$h),
+      ...resourceMeta(resource, profile$g),
       identifier: identifier$1(resource.identifier),
       status: code$2(resource.status),
       category: map(resource.category, codeableConcept$1),
@@ -7839,11 +7978,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibTreatmentDirective = {
-    profile: profile$h,
+    profile: profile$g,
     parse: parseZibTreatmentDirective,
-    uiSchema: uiSchema$h
+    uiSchema: uiSchema$g
   };
-  function uiSchema$g(resource) {
+  function uiSchema$f(resource) {
     const i18n = "nl_core_observation";
     return {
       label: resource.identifier?.[0]?.value,
@@ -7869,7 +8008,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$g = "http://fhir.nl/fhir/StructureDefinition/nl-core-observation";
+  const profile$f = "http://fhir.nl/fhir/StructureDefinition/nl-core-observation";
   function parseNlCoreObservationBase(resource, profile2) {
     return {
       ...resourceMeta(resource, profile2),
@@ -7887,75 +8026,75 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       comment: string$1(resource.comment)
     };
   }
-  const parseNlCoreObservation = (resource) => parseNlCoreObservationBase(resource, profile$g);
+  const parseNlCoreObservation = (resource) => parseNlCoreObservationBase(resource, profile$f);
   const nlCoreObservation = {
-    profile: profile$g,
-    parse: parseNlCoreObservation,
-    uiSchema: uiSchema$g
-  };
-  function uiSchema$f(resource) {
-    return nlCoreObservation.uiSchema(resource);
-  }
-  const profile$f = "http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation";
-  const parseZibLivingSituation = (resource) => parseNlCoreObservationBase(resource, profile$f);
-  const zibLivingSituation = {
     profile: profile$f,
-    parse: parseZibLivingSituation,
+    parse: parseNlCoreObservation,
     uiSchema: uiSchema$f
   };
   function uiSchema$e(resource) {
     return nlCoreObservation.uiSchema(resource);
   }
-  const profile$e = "http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse";
-  function parseZibAlcoholUse(resource) {
-    const { effectiveDateTime: _, ...rest } = parseNlCoreObservationBase(resource, profile$e);
-    return rest;
-  }
-  const zibAlcoholUse = {
+  const profile$e = "http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation";
+  const parseZibLivingSituation = (resource) => parseNlCoreObservationBase(resource, profile$e);
+  const zibLivingSituation = {
     profile: profile$e,
-    parse: parseZibAlcoholUse,
+    parse: parseZibLivingSituation,
     uiSchema: uiSchema$e
   };
   function uiSchema$d(resource) {
     return nlCoreObservation.uiSchema(resource);
   }
-  const profile$d = "http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse";
-  function parseZibDrugUse(resource) {
+  const profile$d = "http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse";
+  function parseZibAlcoholUse(resource) {
     const { effectiveDateTime: _, ...rest } = parseNlCoreObservationBase(resource, profile$d);
     return rest;
   }
-  const zibDrugUse = {
+  const zibAlcoholUse = {
     profile: profile$d,
-    parse: parseZibDrugUse,
+    parse: parseZibAlcoholUse,
     uiSchema: uiSchema$d
   };
   function uiSchema$c(resource) {
     return nlCoreObservation.uiSchema(resource);
   }
-  const profile$c = "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus";
-  function parseZibFunctionalOrMentalStatus(resource) {
+  const profile$c = "http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse";
+  function parseZibDrugUse(resource) {
     const { effectiveDateTime: _, ...rest } = parseNlCoreObservationBase(resource, profile$c);
     return rest;
   }
-  const zibFunctionalOrMentalStatus = {
+  const zibDrugUse = {
     profile: profile$c,
-    parse: parseZibFunctionalOrMentalStatus,
+    parse: parseZibDrugUse,
     uiSchema: uiSchema$c
   };
   function uiSchema$b(resource) {
     return nlCoreObservation.uiSchema(resource);
   }
-  const profile$b = "http://nictiz.nl/fhir/StructureDefinition/zib-TobaccoUse";
-  function parseZibTobaccoUse(resource) {
+  const profile$b = "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus";
+  function parseZibFunctionalOrMentalStatus(resource) {
     const { effectiveDateTime: _, ...rest } = parseNlCoreObservationBase(resource, profile$b);
     return rest;
   }
-  const zibTobaccoUse = {
+  const zibFunctionalOrMentalStatus = {
     profile: profile$b,
-    parse: parseZibTobaccoUse,
+    parse: parseZibFunctionalOrMentalStatus,
     uiSchema: uiSchema$b
   };
   function uiSchema$a(resource) {
+    return nlCoreObservation.uiSchema(resource);
+  }
+  const profile$a = "http://nictiz.nl/fhir/StructureDefinition/zib-TobaccoUse";
+  function parseZibTobaccoUse(resource) {
+    const { effectiveDateTime: _, ...rest } = parseNlCoreObservationBase(resource, profile$a);
+    return rest;
+  }
+  const zibTobaccoUse = {
+    profile: profile$a,
+    parse: parseZibTobaccoUse,
+    uiSchema: uiSchema$a
+  };
+  function uiSchema$9(resource) {
     const i18n = "zib_nutrition_advice";
     return {
       label: resource.identifier?.at(0)?.value,
@@ -7978,10 +8117,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$a = "http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice";
+  const profile$9 = "http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice";
   function parseZibNutritionAdvice(resource) {
     return {
-      ...resourceMeta(resource, profile$a),
+      ...resourceMeta(resource, profile$9),
       comment: extensionNictiz(resource, "zib-NutritionAdvice-Explanation"),
       identifier: map(resource.identifier, identifier$1),
       status: code$2(resource.status),
@@ -7991,11 +8130,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibNutritionAdvice = {
-    profile: profile$a,
+    profile: profile$9,
     parse: parseZibNutritionAdvice,
-    uiSchema: uiSchema$a
+    uiSchema: uiSchema$9
   };
-  function uiSchema$9(resource) {
+  function uiSchema$8(resource) {
     const i18n = "zib_medical_device_product";
     return {
       label: resource.id,
@@ -8011,28 +8150,28 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$9 = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceProduct";
+  const profile$8 = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceProduct";
   function parseZibMedicalDeviceProduct(resource) {
     return {
-      ...resourceMeta(resource, profile$9),
+      ...resourceMeta(resource, profile$8),
       note: map(resource.note, annotation$1),
       patient: reference$1(resource.patient),
       expirationDate: dateTime$3(resource.expirationDate)
     };
   }
   const zibMedicalDeviceProduct = {
-    profile: profile$9,
+    profile: profile$8,
     parse: parseZibMedicalDeviceProduct,
-    uiSchema: uiSchema$9
+    uiSchema: uiSchema$8
   };
-  function uiSchemaGroup$8(resource) {
+  function uiSchemaGroup$6(resource) {
     return {
       label: "Immunization.practitioner.actor",
       children: [ui.reference(`Immunization.practitioner.actor`, resource.actor)]
     };
   }
-  function uiSchema$8(resource) {
-    const practitioners = map(resource.practitioner, uiSchemaGroup$8, true);
+  function uiSchema$7(resource) {
+    const practitioners = map(resource.practitioner, uiSchemaGroup$6, true);
     return {
       label: resource.vaccineCode?.[0]?.display ?? "",
       children: [
@@ -8060,12 +8199,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const actor = {
     parse: parseActor,
-    uiSchemaGroup: uiSchemaGroup$8
+    uiSchemaGroup: uiSchemaGroup$6
   };
-  const profile$8 = "http://nictiz.nl/fhir/StructureDefinition/zib-Vaccination";
+  const profile$7 = "http://nictiz.nl/fhir/StructureDefinition/zib-Vaccination";
   function parseZibVaccination(resource) {
     return {
-      ...resourceMeta(resource, profile$8),
+      ...resourceMeta(resource, profile$7),
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.patient),
       vaccineCode: codeableConcept$1(resource.vaccineCode),
@@ -8076,11 +8215,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibVaccination = {
-    profile: profile$8,
+    profile: profile$7,
     parse: parseZibVaccination,
-    uiSchema: uiSchema$8
+    uiSchema: uiSchema$7
   };
-  function uiSchemaGroup$7(resource) {
+  function uiSchemaGroup$5(resource) {
     return {
       label: "Encounter.diagnosis",
       children: [
@@ -8097,9 +8236,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const diagnosis = {
     parse: parseDiagnosis,
-    uiSchemaGroup: uiSchemaGroup$7
+    uiSchemaGroup: uiSchemaGroup$5
   };
-  function uiSchemaGroup$6(resource) {
+  function uiSchemaGroup$4(resource) {
     return {
       label: "Encounter.hospitalization",
       children: [
@@ -8119,9 +8258,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const hospitalization = {
     parse: parseHospitalization,
-    uiSchemaGroup: uiSchemaGroup$6
+    uiSchemaGroup: uiSchemaGroup$4
   };
-  function uiSchemaGroup$5(resource) {
+  function uiSchemaGroup$3(resource) {
     return {
       label: "Encounter.participant",
       children: [ui.reference(`Encounter.participant.individual`, resource.individual)]
@@ -8134,12 +8273,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const participant = {
     parse: parseParticipant,
-    uiSchemaGroup: uiSchemaGroup$5
+    uiSchemaGroup: uiSchemaGroup$3
   };
-  function uiSchema$7(resource) {
+  function uiSchema$6(resource) {
     const profile2 = "Encounter";
-    const diagnosis2 = map(resource.diagnosis, uiSchemaGroup$7, true);
-    const participants = map(resource.participant, uiSchemaGroup$5, true);
+    const diagnosis2 = map(resource.diagnosis, uiSchemaGroup$5, true);
+    const participants = map(resource.participant, uiSchemaGroup$3, true);
     return {
       label: resource.serviceProvider?.display,
       children: [
@@ -8152,16 +8291,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             ...ui.period(`${profile2}.period`, resource.period),
             ...ui.helpers.getChildren(diagnosis2),
             ui.multipleValue(`${profile2}.reason`, resource.reason, ui.codeableConcept),
-            ...ui.helpers.getChildren(uiSchemaGroup$6(resource.hospitalization))
+            ...ui.helpers.getChildren(uiSchemaGroup$4(resource.hospitalization))
           ]
         }
       ]
     };
   }
-  const profile$7 = "http://nictiz.nl/fhir/StructureDefinition/zib-Encounter";
+  const profile$6 = "http://nictiz.nl/fhir/StructureDefinition/zib-Encounter";
   function parseZibEncounter(resource) {
     return {
-      ...resourceMeta(resource, profile$7),
+      ...resourceMeta(resource, profile$6),
       class: coding$1(resource.class),
       participant: map(resource.participant, participant.parse),
       serviceProvider: reference$1(resource.serviceProvider),
@@ -8172,11 +8311,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibEncounter = {
-    profile: profile$7,
+    profile: profile$6,
     parse: parseZibEncounter,
-    uiSchema: uiSchema$7
+    uiSchema: uiSchema$6
   };
-  function uiSchema$6(resource) {
+  function uiSchema$5(resource) {
     const profile2 = "zib_blood_pressure";
     return {
       label: resource.effectiveDateTime,
@@ -8226,7 +8365,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$6 = "http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure";
+  const profile$5 = "http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure";
   function parseZibBloodPressure(resource) {
     const cuffTypeLOINC = componentSlice(resource.component, "8358-4");
     const cuffTypeSNOMED = componentSlice(resource.component, "70665002");
@@ -8238,7 +8377,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const positionSNOMED = componentSlice(resource.component, "424724000");
     const positionLOINC = componentSlice(resource.component, "8361-8");
     return {
-      ...parseNlCoreObservationBase(resource, profile$6),
+      ...parseNlCoreObservationBase(resource, profile$5),
       cuffTypeLOINC: {
         valueCodeableConcept: codeableConcept$1(cuffTypeLOINC?.valueCodeableConcept)
       },
@@ -8269,11 +8408,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibBloodPressure = {
-    profile: profile$6,
+    profile: profile$5,
     parse: parseZibBloodPressure,
-    uiSchema: uiSchema$6
+    uiSchema: uiSchema$5
   };
-  function uiSchema$5(resource) {
+  function uiSchema$4(resource) {
     const profile2 = "zib_body_weight";
     return {
       label: resource.effectiveDateTime,
@@ -8293,22 +8432,22 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$5 = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight";
+  const profile$4 = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight";
   function parseZibBodyWeight(resource) {
     const clothing = componentSlice(resource.component, "8352-7");
     return {
-      ...parseNlCoreObservationBase(resource, profile$5),
+      ...parseNlCoreObservationBase(resource, profile$4),
       clothing: {
         valueCodeableConcept: codeableConcept$1(clothing?.valueCodeableConcept)
       }
     };
   }
   const zibBodyWeight = {
-    profile: profile$5,
+    profile: profile$4,
     parse: parseZibBodyWeight,
-    uiSchema: uiSchema$5
+    uiSchema: uiSchema$4
   };
-  function uiSchema$4(resource) {
+  function uiSchema$3(resource) {
     const profile2 = "zib_body_height";
     return {
       label: resource.effectiveDateTime,
@@ -8324,16 +8463,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$4 = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight";
+  const profile$3 = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight";
   function parseZibBodyHeight(resource) {
-    return parseNlCoreObservationBase(resource, profile$4);
+    return parseNlCoreObservationBase(resource, profile$3);
   }
   const zibBodyHeight = {
-    profile: profile$4,
+    profile: profile$3,
     parse: parseZibBodyHeight,
-    uiSchema: uiSchema$4
+    uiSchema: uiSchema$3
   };
-  function uiSchemaGroup$4(resource) {
+  function uiSchemaGroup$2(resource) {
     return {
       label: "zib_procedure.focal_device",
       children: [
@@ -8350,9 +8489,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const focalDevice = {
     parse: parseFocalDevice,
-    uiSchemaGroup: uiSchemaGroup$4
+    uiSchemaGroup: uiSchemaGroup$2
   };
-  function uiSchemaGroup$3(resource) {
+  function uiSchemaGroup$1(resource) {
     return {
       label: "zib_procedure.performer",
       children: [ui.reference(`zib_procedure.performer`, resource.actor, { summary: true })]
@@ -8365,12 +8504,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const performer = {
     parse: parsePerformer,
-    uiSchemaGroup: uiSchemaGroup$3
+    uiSchemaGroup: uiSchemaGroup$1
   };
-  function uiSchema$3(resource) {
+  function uiSchema$2(resource) {
     const profile2 = "zib_procedure";
-    const focalDevices = map(resource.focalDevice, uiSchemaGroup$4, true);
-    const performers = map(resource.performer, uiSchemaGroup$3, true);
+    const focalDevices = map(resource.focalDevice, uiSchemaGroup$2, true);
+    const performers = map(resource.performer, uiSchemaGroup$1, true);
     return {
       label: resource.code?.at(0)?.display,
       children: [
@@ -8400,10 +8539,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$3 = "http://nictiz.nl/fhir/StructureDefinition/zib-Procedure";
+  const profile$2 = "http://nictiz.nl/fhir/StructureDefinition/zib-Procedure";
   function parseZibProcedure(resource) {
     return {
-      ...resourceMeta(resource, profile$3),
+      ...resourceMeta(resource, profile$2),
       performedPeriod: period$1(resource.performedPeriod),
       bodySite: map(resource.bodySite, codeableConcept$1),
       bodySiteQualifier: resource.bodySite?.map((x) => extensionNictiz(x, "BodySite-Qualifier")).filter(isNonNullish),
@@ -8421,119 +8560,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibProcedure = {
-    profile: profile$3,
-    parse: parseZibProcedure,
-    uiSchema: uiSchema$3
-  };
-  function uiSchemaGroup$2(resource) {
-    return {
-      label: "zib_laboratory_test_result_observation.related",
-      children: [
-        ui.reference(`zib_laboratory_test_result_observation.related`, resource.target, {
-          summary: true
-        })
-      ]
-    };
-  }
-  function uiSchemaGroup$1(resource) {
-    const i18n = "zib_laboratory_test_result_observation.reference_range";
-    return {
-      label: `${i18n}`,
-      children: [
-        ui.simpleQuantity(`${i18n}.low`, resource.low),
-        ui.simpleQuantity(`${i18n}.high`, resource.high)
-      ]
-    };
-  }
-  function uiSchema$2(resource) {
-    const i18n = "zib_laboratory_test_result_observation";
-    const related2 = map(resource.related, uiSchemaGroup$2, true);
-    const referenceRange2 = map(resource.referenceRange, uiSchemaGroup$1, true);
-    const title = resource.category?.[0]?.[0]?.display ?? `${i18n}`;
-    const effective = typeof resource.effective === "string" ? [ui.dateTime(`${i18n}.effective`, resource.effective)] : ui.period(`${i18n}.effective`, resource.effective);
-    return {
-      label: title,
-      children: [
-        {
-          label: `${i18n}`,
-          children: [
-            ui.multipleValue(`${i18n}.identifier`, resource.identifier, ui.identifier),
-            ui.reference(`${i18n}.specimen`, resource.specimen),
-            ui.codeableConcept(
-              "zib_laboratory_test_result_diagnostic_report.code",
-              resource.code
-            ),
-            ui.string(
-              "zib_laboratory_test_result_diagnostic_report.status",
-              resource.status
-            ),
-            ui.string(`${i18n}.comment`, resource.comment),
-            ui.multipleValue(`${i18n}.result_type`, resource.category, ui.codeableConcept),
-            ...ui.helpers.getChildren(related2),
-            ui.multipleValue(`${i18n}.based_on`, resource.basedOn, ui.reference)
-          ]
-        },
-        {
-          label: `${i18n}.test`,
-          children: [
-            ui.codeableConcept(`${i18n}.code`, resource.code),
-            ui.codeableConcept(`${i18n}.method`, resource.method),
-            ...effective,
-            ui.simpleQuantity(`${i18n}.value`, resource.result),
-            ui.string(`${i18n}.status`, resource.status),
-            ...ui.helpers.getChildren(referenceRange2),
-            ui.codeableConcept(
-              `${i18n}.interpretation.interpretatie_vlaggen_codelijst`,
-              resource.interpretation
-            ),
-            ui.string(`${i18n}.comment`, resource.comment)
-          ]
-        }
-      ]
-    };
-  }
-  function parseRelated(value2) {
-    return {
-      target: reference$1(value2?.target)
-    };
-  }
-  const related = {
-    parse: parseRelated,
-    uiSchemaGroup: uiSchemaGroup$2
-  };
-  function parseReferenceRange(value2) {
-    return {
-      low: quantity$1(value2?.low),
-      high: quantity$1(value2?.high)
-    };
-  }
-  const referenceRange = {
-    parse: parseReferenceRange,
-    uiSchemaGroup: uiSchemaGroup$1
-  };
-  const profile$2 = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
-  function parseZibLaboratoryTestResultObservation(resource) {
-    return {
-      ...resourceMeta(resource, profile$2),
-      identifier: map(resource.identifier, identifier$1),
-      subject: reference$1(resource.subject),
-      code: codeableConcept$1(resource?.code),
-      method: codeableConcept$1(resource?.method),
-      effective: dateTime$3(resource?.effectiveDateTime) ?? period$1(resource?.effectivePeriod),
-      result: quantity$1(resource?.valueQuantity),
-      status: string$1(resource?.status),
-      referenceRange: map(resource?.referenceRange, referenceRange.parse),
-      interpretation: codeableConcept$1(resource?.interpretation),
-      specimen: reference$1(resource.specimen),
-      comment: string$1(resource.comment),
-      category: map(resource.category, codeableConcept$1),
-      related: map(resource.related, related.parse),
-      basedOn: map(resource.basedOn, reference$1)
-    };
-  }
-  const zibLaboratoryTestResultObservation = {
     profile: profile$2,
-    parse: parseZibLaboratoryTestResultObservation,
+    parse: parseZibProcedure,
     uiSchema: uiSchema$2
   };
   function uiSchemaGroup(resource) {
@@ -8621,7 +8649,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function uiSchema(resource) {
     const profile2 = "zib_advance_directive";
-    const attachment2 = uiSchemaGroup$j(resource.source.attachment);
+    const attachment2 = uiSchemaGroup$h(resource.source.attachment);
     return {
       label: resource.dateTime,
       children: [
@@ -8670,6 +8698,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const resources = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     __proto__: null,
+    gpLaboratoryResult,
     nlCoreObservation,
     nlCorePatient,
     zibAdministrationAgreement,

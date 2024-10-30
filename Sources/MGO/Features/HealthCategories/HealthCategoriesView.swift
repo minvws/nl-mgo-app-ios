@@ -76,7 +76,7 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .single(let mgoOrganization):
 				mgoOrganization.display_name
 			case .all:
-				String(localized: "health_categories.heading")
+				String(localized: "overview.heading")
 		}
 		
 		let backbuttonTitle: LocalizedStringKey? = switch mode {
@@ -100,22 +100,22 @@ class HealthCategoriesViewModel: ObservableObject {
 			showEmptyView: Current.healthcareOrganizationStore.organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
-				CategoryButton(id: HealthCategories.Category.medication.rawValue, title: "health_category.medication", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "health_category.measurements", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.labresults.rawValue, title: "health_category.labresults", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.allergies.rawValue, title: "health_category.allergies", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.treatments.rawValue, title: "health_category.treatments", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.appointments.rawValue, title: "health_category.appointments", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.vaccinations.rawValue, title: "health_category.vaccinations", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.documents.rawValue, title: "health_category.documents", state: .notAvailabe, box: 1),
-				CategoryButton(id: HealthCategories.Category.complaints.rawValue, title: "health_category.complaints", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.patient.rawValue, title: "health_category.patient", state: .notAvailabe, box: 1),
-				CategoryButton(id: HealthCategories.Category.alerts.rawValue, title: "health_category.alerts", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.payment.rawValue, title: "health_category.payment", state: .notAvailabe, box: 1),
-				CategoryButton(id: HealthCategories.Category.plans.rawValue, title: "health_category.plans", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.devices.rawValue, title: "health_category.devices", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.functionalOrMentalStatus.rawValue, title: "health_category.mental", state: .loading, box: 1),
-				CategoryButton(id: HealthCategories.Category.lifestyle.rawValue, title: "health_category.lifestyle", state: .loading, box: 1)
+				CategoryButton(id: HealthCategories.Category.medication.rawValue, title: "hc_medication.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "hc_measurements.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.labresults.rawValue, title: "hc_lab_results.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.allergies.rawValue, title: "hc_allergies.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.treatments.rawValue, title: "hc_treatments.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.appointments.rawValue, title: "hc_appointments.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.vaccinations.rawValue, title: "hc_vaccinations.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.documents.rawValue, title: "hc_documents.heading", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.complaints.rawValue, title: "hc_complaints.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.patient.rawValue, title: "hc_patient.heading", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.alerts.rawValue, title: "hc_alerts.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.payment.rawValue, title: "hc_payment.heading", state: .notAvailabe, box: 1),
+				CategoryButton(id: HealthCategories.Category.plans.rawValue, title: "hc_plans.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.devices.rawValue, title: "hc_devices.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.functionalOrMentalStatus.rawValue, title: "hc_mental.heading", state: .loading, box: 1),
+				CategoryButton(id: HealthCategories.Category.lifestyle.rawValue, title: "hc_lifestyle.heading", state: .loading, box: 1)
 			],
 			backButtonTitle: backbuttonTitle
 		)
@@ -351,11 +351,11 @@ struct HealthCategoriesView: View {
 							// Button in footer of an empty section so it is
 							// at the bottom of the list, and without a rounded list background
 							CallToActionButton(
-								"health_categories.remove_organization",
+								"organizations.remove_organization",
 								style: .tertiaryNegative) {
 									viewModel.reduce(.removeHealthcareOrganization)
 								}
-								.accessibilityIdentifier("health_categories.remove_organization")
+								.accessibilityIdentifier("organizations.remove_organization")
 						}
 					}
 				} // List
@@ -425,8 +425,8 @@ struct HealthCategoriesView: View {
 			
 			ImageContentView(
 				icon: Image(ImageResource.Woman.womanWithPhone),
-				heading: "overview.empty.heading",
-				subHeading: "overview.empty.subheading"
+				heading: "common.no_organizations_heading",
+				subHeading: "common.no_organizations_subheading"
 			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
@@ -434,10 +434,10 @@ struct HealthCategoriesView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton("overview.empty.action") {
+			CallToActionButton("common.add_organizations") {
 				viewModel.reduce(.search)
 			}
-			.accessibilityIdentifier("overview.empty.action")
+			.accessibilityIdentifier("common.add_organizations")
 			.padding(ViewTraits.Button.insets)
 		}
 	}

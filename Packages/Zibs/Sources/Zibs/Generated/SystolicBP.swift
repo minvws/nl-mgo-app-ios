@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - SystolicBP
 public struct SystolicBP: Codable, Hashable, Sendable {
-    public let valueQuantity: MgoQuantity?
+    public let valueQuantity: MgoDuration?
 
-    public init(valueQuantity: MgoQuantity?) {
+    public init(valueQuantity: MgoDuration?) {
         self.valueQuantity = valueQuantity
     }
 }
@@ -38,7 +38,7 @@ public extension SystolicBP {
     }
 
     func with(
-        valueQuantity: MgoQuantity?? = nil
+        valueQuantity: MgoDuration?? = nil
     ) -> SystolicBP {
         return SystolicBP(
             valueQuantity: valueQuantity ?? self.valueQuantity

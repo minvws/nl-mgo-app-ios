@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - AverageBloodPressureLOINC
 public struct AverageBloodPressureLOINC: Codable, Hashable, Sendable {
-    public let valueQuantity: MgoQuantity?
+    public let valueQuantity: MgoDuration?
 
-    public init(valueQuantity: MgoQuantity?) {
+    public init(valueQuantity: MgoDuration?) {
         self.valueQuantity = valueQuantity
     }
 }
@@ -38,7 +38,7 @@ public extension AverageBloodPressureLOINC {
     }
 
     func with(
-        valueQuantity: MgoQuantity?? = nil
+        valueQuantity: MgoDuration?? = nil
     ) -> AverageBloodPressureLOINC {
         return AverageBloodPressureLOINC(
             valueQuantity: valueQuantity ?? self.valueQuantity

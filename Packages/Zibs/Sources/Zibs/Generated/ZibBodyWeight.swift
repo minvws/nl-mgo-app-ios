@@ -27,7 +27,7 @@ public struct ZibBodyWeight: Codable, Hashable, Sendable {
     public let referenceID: String
     public let resourceType, status: String?
     public let subject: MgoReference?
-    public let valueQuantity: MgoQuantity?
+    public let valueQuantity: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
         case bodySite, category, clothing, comment, context, dataAbsentReason, effectiveDateTime, effectivePeriod, id, identifier, method, profile
@@ -35,7 +35,7 @@ public struct ZibBodyWeight: Codable, Hashable, Sendable {
         case resourceType, status, subject, valueQuantity
     }
 
-    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, clothing: Clothing, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, profile: ZibBodyWeightProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoQuantity?) {
+    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, clothing: Clothing, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, profile: ZibBodyWeightProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoDuration?) {
         self.bodySite = bodySite
         self.category = category
         self.clothing = clothing
@@ -91,7 +91,7 @@ public extension ZibBodyWeight {
         resourceType: String?? = nil,
         status: String?? = nil,
         subject: MgoReference?? = nil,
-        valueQuantity: MgoQuantity?? = nil
+        valueQuantity: MgoDuration?? = nil
     ) -> ZibBodyWeight {
         return ZibBodyWeight(
             bodySite: bodySite ?? self.bodySite,
