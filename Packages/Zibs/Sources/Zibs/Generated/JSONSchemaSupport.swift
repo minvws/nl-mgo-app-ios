@@ -1,8 +1,8 @@
 import Foundation
 
+public typealias MgoCodeableConcept = [MgoCoding]
 public typealias MgoBoolean = Bool
 public typealias MgoCode = String
-public typealias MgoCodeableConcept = [MgoCoding]
 public typealias MgoDate = String
 public typealias MgoDateTime = String
 public typealias MgoDecimal = Double

@@ -363,9 +363,9 @@ struct HealthCategoryView: View {
 					if showBanner {
 						BannerView(
 							Feedback(
-								title: String(localized: "health_category.error.banner.heading"),
-								subtitle: String(localized: "health_category.error.banner.subheading"),
-								actionTitle: String(localized: "health_category.error.banner.try_again"),
+								title: String(localized: "common.failed_to_load_data"),
+								subtitle: String(localized: "common.error_in_system"),
+								actionTitle: String(localized: "common.try_again"),
 								type: .warning,
 								perform: {
 									viewModel.reduce(.retry)
@@ -384,7 +384,7 @@ struct HealthCategoryView: View {
 		}
 		.padding(.horizontal, ViewTraits.General.padding)
 		.navigationBarBackButtonHidden()
-		.navigationBarItems(leading: BackButton("health_categories.heading") {
+		.navigationBarItems(leading: BackButton("overview.heading") {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
@@ -516,10 +516,10 @@ struct HealthCategoryView: View {
 				category: HealthCategories.Category.medication,
 				organization: PreviewContent.healthcareOrganization,
 				translations: HealthCategoryViewTranslations(
-					heading: "health_category.medication",
-					search: "health_category.medication.search",
-					noSearchResults: "health_category.medication.no_search_results",
-					detailsHeading: "health_category.medication.details_heading"
+					heading: "hc_medication.heading",
+					search: "hc_medication.search",
+					noSearchResults: "hc_medication.no_search_results",
+					detailsHeading: "hc_medication.heading_detail"
 				)
 			)
 		)

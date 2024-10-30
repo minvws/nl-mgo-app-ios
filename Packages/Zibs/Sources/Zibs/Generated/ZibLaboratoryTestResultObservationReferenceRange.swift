@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let related = try Related(json)
+//   let zibLaboratoryTestResultObservationReferenceRange = try ZibLaboratoryTestResultObservationReferenceRange(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,20 +10,21 @@
 
 import Foundation
 
-// MARK: - Related
-public struct Related: Codable, Hashable, Sendable {
-    public let target: MgoReference?
+// MARK: - ZibLaboratoryTestResultObservationReferenceRange
+public struct ZibLaboratoryTestResultObservationReferenceRange: Codable, Hashable, Sendable {
+    public let high, low: MgoDuration?
 
-    public init(target: MgoReference?) {
-        self.target = target
+    public init(high: MgoDuration?, low: MgoDuration?) {
+        self.high = high
+        self.low = low
     }
 }
 
-// MARK: Related convenience initializers and mutators
+// MARK: ZibLaboratoryTestResultObservationReferenceRange convenience initializers and mutators
 
-public extension Related {
+public extension ZibLaboratoryTestResultObservationReferenceRange {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Related.self, from: data)
+        self = try newJSONDecoder().decode(ZibLaboratoryTestResultObservationReferenceRange.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -38,10 +39,12 @@ public extension Related {
     }
 
     func with(
-        target: MgoReference?? = nil
-    ) -> Related {
-        return Related(
-            target: target ?? self.target
+        high: MgoDuration?? = nil,
+        low: MgoDuration?? = nil
+    ) -> ZibLaboratoryTestResultObservationReferenceRange {
+        return ZibLaboratoryTestResultObservationReferenceRange(
+            high: high ?? self.high,
+            low: low ?? self.low
         )
     }
 

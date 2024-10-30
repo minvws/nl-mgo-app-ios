@@ -14,15 +14,15 @@ import Foundation
 public struct ZibInstructionsForUse: Codable, Hashable, Sendable {
     public let additionalInstruction: [[MgoCoding]]?
     public let asNeeded: [MgoCoding]?
-    public let doseQuantity: MgoQuantity?
+    public let doseQuantity: MgoDuration?
     public let doseRange: MgoRange?
     public let maxDosePerPeriod: MgoRatio?
-    public let rateQuantity: MgoQuantity?
+    public let rateQuantity: MgoDuration?
     public let rateRange: MgoRange?
     public let rateRatio: MgoRatio?
     public let timing: ZibAdministrationSchedule
 
-    public init(additionalInstruction: [[MgoCoding]]?, asNeeded: [MgoCoding]?, doseQuantity: MgoQuantity?, doseRange: MgoRange?, maxDosePerPeriod: MgoRatio?, rateQuantity: MgoQuantity?, rateRange: MgoRange?, rateRatio: MgoRatio?, timing: ZibAdministrationSchedule) {
+    public init(additionalInstruction: [[MgoCoding]]?, asNeeded: [MgoCoding]?, doseQuantity: MgoDuration?, doseRange: MgoRange?, maxDosePerPeriod: MgoRatio?, rateQuantity: MgoDuration?, rateRange: MgoRange?, rateRatio: MgoRatio?, timing: ZibAdministrationSchedule) {
         self.additionalInstruction = additionalInstruction
         self.asNeeded = asNeeded
         self.doseQuantity = doseQuantity
@@ -56,10 +56,10 @@ public extension ZibInstructionsForUse {
     func with(
         additionalInstruction: [[MgoCoding]]?? = nil,
         asNeeded: [MgoCoding]?? = nil,
-        doseQuantity: MgoQuantity?? = nil,
+        doseQuantity: MgoDuration?? = nil,
         doseRange: MgoRange?? = nil,
         maxDosePerPeriod: MgoRatio?? = nil,
-        rateQuantity: MgoQuantity?? = nil,
+        rateQuantity: MgoDuration?? = nil,
         rateRange: MgoRange?? = nil,
         rateRatio: MgoRatio?? = nil,
         timing: ZibAdministrationSchedule? = nil

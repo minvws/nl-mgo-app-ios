@@ -159,7 +159,7 @@ struct OrganizationsView: View {
 		}
 		.navigationBarBackButtonHidden()
 		.navigationBarHidden(false)
-		.navigationTitle("healthcare_organizations.heading")
+		.navigationTitle("organizations.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
@@ -178,8 +178,8 @@ struct OrganizationsView: View {
 			
 			ImageContentView(
 				icon: Image(ImageResource.Woman.womanWithPhone),
-				heading: "overview.empty.heading",
-				subHeading: "overview.empty.subheading"
+				heading: "common.no_organizations_heading",
+				subHeading: "common.no_organizations_subheading"
 			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
@@ -187,10 +187,10 @@ struct OrganizationsView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton("overview.empty.action") {
+			CallToActionButton("common.add_organizations") {
 				viewModel.reduce(.search)
 			}
-			.accessibilityIdentifier("overview.empty.action")
+			.accessibilityIdentifier("common.add_organizations")
 			.padding(ViewTraits.Button.insets)
 		}
 	}
@@ -218,9 +218,9 @@ struct OrganizationsView: View {
 			// Bottom section for add button
 			Section {
 				rowFor(
-					title: String(localized: "organization_list.add_organization"),
+					title: String(localized: "overview.add_organization"),
 					imageResource: ImageResource.Overview.add,
-					accessibilityIdentifier: "organization_list.add_organization") {
+					accessibilityIdentifier: "overview.add_organization") {
 						viewModel.reduce(.search)
 					}
 			}

@@ -27,6 +27,7 @@ final class AllergiesHealthCategoryViewTests: XCTestCase {
 	
 	override func setUp() {
 		
+		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")

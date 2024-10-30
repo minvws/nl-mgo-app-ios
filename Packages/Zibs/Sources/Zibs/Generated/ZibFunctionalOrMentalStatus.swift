@@ -25,7 +25,7 @@ public struct ZibFunctionalOrMentalStatus: Codable, Hashable, Sendable {
     public let referenceID: String
     public let resourceType, status: String?
     public let subject: MgoReference?
-    public let valueQuantity: MgoQuantity?
+    public let valueQuantity: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
         case bodySite, category, comment, context, dataAbsentReason, effectivePeriod, id, identifier, method, profile
@@ -33,7 +33,7 @@ public struct ZibFunctionalOrMentalStatus: Codable, Hashable, Sendable {
         case resourceType, status, subject, valueQuantity
     }
 
-    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoQuantity?) {
+    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoDuration?) {
         self.bodySite = bodySite
         self.category = category
         self.comment = comment
@@ -85,7 +85,7 @@ public extension ZibFunctionalOrMentalStatus {
         resourceType: String?? = nil,
         status: String?? = nil,
         subject: MgoReference?? = nil,
-        valueQuantity: MgoQuantity?? = nil
+        valueQuantity: MgoDuration?? = nil
     ) -> ZibFunctionalOrMentalStatus {
         return ZibFunctionalOrMentalStatus(
             bodySite: bodySite ?? self.bodySite,

@@ -48,6 +48,7 @@ struct HealthCategories {
 				case .labresults: [
 					ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue,
 //					ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue
+					GPLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue
 				]
 				
 				case .allergies: [
@@ -213,8 +214,8 @@ struct HealthCategories {
 				]
 				
 				case .labresults: [
-					(DVP.CommonClinicalDataset.laboratoryTestResult, DVP.CommonClinicalDataset.serviceID)
-//					(DVP.GeneralPractitioner.diagnosticAndLabResults, DVP.GeneralPractitioner.serviceID)
+					(DVP.CommonClinicalDataset.laboratoryTestResult, DVP.CommonClinicalDataset.serviceID),
+					(DVP.GeneralPractitioner.diagnosticAndLabResults, DVP.GeneralPractitioner.serviceID)
 				]
 				
 				case .allergies: [

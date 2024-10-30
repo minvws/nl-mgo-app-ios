@@ -22,10 +22,10 @@ public struct ZibLaboratoryTestResultObservation: Codable, Hashable, Sendable {
     public let interpretation, method: [MgoCoding]?
     public let profile: ZibLaboratoryTestResultObservationProfile
     public let referenceID: String
-    public let referenceRange: [ReferenceRange]?
-    public let related: [Related]?
+    public let referenceRange: [ZibLaboratoryTestResultObservationReferenceRange]?
+    public let related: [ZibLaboratoryTestResultObservationRelated]?
     public let resourceType: String?
-    public let result: MgoQuantity?
+    public let result: MgoDuration?
     public let specimen: MgoReference?
     public let status: String?
     public let subject: MgoReference?
@@ -36,7 +36,7 @@ public struct ZibLaboratoryTestResultObservation: Codable, Hashable, Sendable {
         case referenceRange, related, resourceType, result, specimen, status, subject
     }
 
-    public init(basedOn: [MgoReference]?, category: [[MgoCoding]]?, code: [MgoCoding]?, comment: String?, effective: Effective?, id: String?, identifier: [MgoIdentifier]?, interpretation: [MgoCoding]?, method: [MgoCoding]?, profile: ZibLaboratoryTestResultObservationProfile, referenceID: String, referenceRange: [ReferenceRange]?, related: [Related]?, resourceType: String?, result: MgoQuantity?, specimen: MgoReference?, status: String?, subject: MgoReference?) {
+    public init(basedOn: [MgoReference]?, category: [[MgoCoding]]?, code: [MgoCoding]?, comment: String?, effective: Effective?, id: String?, identifier: [MgoIdentifier]?, interpretation: [MgoCoding]?, method: [MgoCoding]?, profile: ZibLaboratoryTestResultObservationProfile, referenceID: String, referenceRange: [ZibLaboratoryTestResultObservationReferenceRange]?, related: [ZibLaboratoryTestResultObservationRelated]?, resourceType: String?, result: MgoDuration?, specimen: MgoReference?, status: String?, subject: MgoReference?) {
         self.basedOn = basedOn
         self.category = category
         self.code = code
@@ -88,10 +88,10 @@ public extension ZibLaboratoryTestResultObservation {
         method: [MgoCoding]?? = nil,
         profile: ZibLaboratoryTestResultObservationProfile? = nil,
         referenceID: String? = nil,
-        referenceRange: [ReferenceRange]?? = nil,
-        related: [Related]?? = nil,
+        referenceRange: [ZibLaboratoryTestResultObservationReferenceRange]?? = nil,
+        related: [ZibLaboratoryTestResultObservationRelated]?? = nil,
         resourceType: String?? = nil,
-        result: MgoQuantity?? = nil,
+        result: MgoDuration?? = nil,
         specimen: MgoReference?? = nil,
         status: String?? = nil,
         subject: MgoReference?? = nil

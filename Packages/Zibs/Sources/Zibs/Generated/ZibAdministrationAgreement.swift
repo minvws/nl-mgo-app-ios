@@ -15,7 +15,7 @@ public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
     public let additionalInformation: [MgoCoding]?
     public let agreementReason, authoredOn: String?
     public let category: [MgoCoding]?
-    public let daysSupply: MgoQuantity?
+    public let daysSupply: MgoDuration?
     public let dossageInstruction: [ZibInstructionsForUse]?
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -23,12 +23,12 @@ public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
     public let medicationTreatment: MgoIdentifier?
     public let note: [MgoAnnotation]?
     public let profile: ZibAdministrationAgreementProfile
-    public let quantity: MgoQuantity?
+    public let quantity: MgoDuration?
     public let referenceID: String
-    public let repeatPeriodCyclicalSchedule: MgoQuantity?
+    public let repeatPeriodCyclicalSchedule: MgoDuration?
     public let resourceType, status: String?
     public let stopType: [MgoCoding]?
-    public let usageDuration: MgoQuantity?
+    public let usageDuration: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
         case additionalInformation, agreementReason, authoredOn, category, daysSupply, dossageInstruction, id, identifier, medicationReference, medicationTreatment, note, profile, quantity
@@ -36,7 +36,7 @@ public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
         case repeatPeriodCyclicalSchedule, resourceType, status, stopType, usageDuration
     }
 
-    public init(additionalInformation: [MgoCoding]?, agreementReason: String?, authoredOn: String?, category: [MgoCoding]?, daysSupply: MgoQuantity?, dossageInstruction: [ZibInstructionsForUse]?, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, profile: ZibAdministrationAgreementProfile, quantity: MgoQuantity?, referenceID: String, repeatPeriodCyclicalSchedule: MgoQuantity?, resourceType: String?, status: String?, stopType: [MgoCoding]?, usageDuration: MgoQuantity?) {
+    public init(additionalInformation: [MgoCoding]?, agreementReason: String?, authoredOn: String?, category: [MgoCoding]?, daysSupply: MgoDuration?, dossageInstruction: [ZibInstructionsForUse]?, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, profile: ZibAdministrationAgreementProfile, quantity: MgoDuration?, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: String?, stopType: [MgoCoding]?, usageDuration: MgoDuration?) {
         self.additionalInformation = additionalInformation
         self.agreementReason = agreementReason
         self.authoredOn = authoredOn
@@ -82,7 +82,7 @@ public extension ZibAdministrationAgreement {
         agreementReason: String?? = nil,
         authoredOn: String?? = nil,
         category: [MgoCoding]?? = nil,
-        daysSupply: MgoQuantity?? = nil,
+        daysSupply: MgoDuration?? = nil,
         dossageInstruction: [ZibInstructionsForUse]?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
@@ -90,13 +90,13 @@ public extension ZibAdministrationAgreement {
         medicationTreatment: MgoIdentifier?? = nil,
         note: [MgoAnnotation]?? = nil,
         profile: ZibAdministrationAgreementProfile? = nil,
-        quantity: MgoQuantity?? = nil,
+        quantity: MgoDuration?? = nil,
         referenceID: String? = nil,
-        repeatPeriodCyclicalSchedule: MgoQuantity?? = nil,
+        repeatPeriodCyclicalSchedule: MgoDuration?? = nil,
         resourceType: String?? = nil,
         status: String?? = nil,
         stopType: [MgoCoding]?? = nil,
-        usageDuration: MgoQuantity?? = nil
+        usageDuration: MgoDuration?? = nil
     ) -> ZibAdministrationAgreement {
         return ZibAdministrationAgreement(
             additionalInformation: additionalInformation ?? self.additionalInformation,

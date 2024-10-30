@@ -139,24 +139,24 @@ struct OrganizationListView: View {
 			
 			VStack(alignment: .leading, spacing: ViewTraits.Content.spacing) {
 				
-				Text("organization_list.heading")
+				Text("add_organization_list.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
-					.accessibilityIdentifier("organization_list.heading")
+					.accessibilityIdentifier("add_organization_list.heading")
 				
 				switch viewModel.state {
 					case .empty:
 					
 					NotificationCardView(
 						icon: Image(ImageResource.Woman.womanOnCouch),
-						title: "organization_list.no_results_heading",
-						message: "organization_list.no_results_subheading"
+						title: "add_organization_list.no_results_heading",
+						message: "add_organization_list.no_results_subheading"
 					)
 					
 					case let .list(list):
 					
-						Text("organization_list.subheading")
+						Text("add_organization_list.subheading")
 							.rijksoverheidStyle(font: .regular, style: .body)
 							.frame(maxWidth: .infinity, alignment: .topLeading)
 					
@@ -231,29 +231,29 @@ struct OrganizationListView: View {
 					// add a healthcare organization
 					// Secondary go to overview
 					
-					CallToActionButton("organization_list.to_overview", style: .secondary) {
+					CallToActionButton("add_organization_list.to_overview", style: .secondary) {
 						viewModel.reduce(.done)
 					}
-					.accessibilityIdentifier("organization_list.to_overview")
+					.accessibilityIdentifier("add_organization_list.to_overview")
 					
-					CallToActionButton("organization_list.add_organization") {
+					CallToActionButton("overview.add_organization") {
 						viewModel.reduce(.backToSearch)
 					}
-					.accessibilityIdentifier("organization_list.add_organization")
+					.accessibilityIdentifier("overview.add_organization")
 					
 				case .list:
 					// We already have an organization, so
 					// primary CTA is to go to the overview.
 					// secondary CTA is to add another organization
-					CallToActionButton("organization_list.add_organization", style: .secondary) {
+					CallToActionButton("overview.add_organization", style: .secondary) {
 						viewModel.reduce(.backToSearch)
 					}
-					.accessibilityIdentifier("organization_list.add_organization")
+					.accessibilityIdentifier("overview.add_organization")
 					
-					CallToActionButton("organization_list.to_overview") {
+					CallToActionButton("add_organization_list.to_overview") {
 						viewModel.reduce(.done)
 					}
-					.accessibilityIdentifier("organization_list.to_overview")
+					.accessibilityIdentifier("add_organization_list.to_overview")
 			}
 		}
 		.padding(ViewTraits.Button.insets)
