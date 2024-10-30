@@ -39,7 +39,7 @@ struct HealthCategoryBlock: Equatable, Identifiable {
 
 struct HealthSubCategory: Equatable, Identifiable {
 	
-	/// Identifier of a block
+	/// Identifier of a sub category
 	let id = UUID()
 	
 	/// The heading for a sub category
@@ -266,7 +266,7 @@ class HealthCategoryViewModel: ObservableObject {
 								existingSubCategory = true
 							}
 						}
-						if !existingSubCategory {
+						if !existingSubCategory && subCat.items.isNotEmpty {
 							items.append(subCat)
 						}
 					}
