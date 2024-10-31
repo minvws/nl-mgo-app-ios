@@ -107,6 +107,7 @@ struct IntroductionView: View {
 					SplittedText(key: "introduction.subheading", spacing: ViewTraits.Text.spacing)
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.padding(ViewTraits.Text.insets)
+						.fixedSize(horizontal: false, vertical: true)
 				}
 				
 				Spacer()

@@ -15,3 +15,4 @@
 
 // External
 @_exported import NavigationStackBackport
+@_exported import SwiftUIIntrospect

@@ -432,6 +432,9 @@ struct PinCodeView: View {
 	/// Safe Area insets
 	@Environment(\.safeAreaInsets) var safeAreaInsets
 	
+	/// Accessibility size category
+	@Environment(\.dynamicTypeSize) var dynamicTypeSize
+	
 	@State private var scrollViewSize: CGSize = .zero
 	
 	/// Magic numbers
@@ -458,89 +461,18 @@ struct PinCodeView: View {
 	var body: some View {
 		VStack {
 			ScrollView {
-				VStack(alignment: .leading, spacing: 16) {
-
-					Text(viewModel.state.title)
-						.rijksoverheidStyle(font: .bold, style: .title)
-						.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
-						.accessibilityAddTraits(.isHeader)
-						.fixedSize(horizontal: false, vertical: true)
-						.accessibilityIdentifier("pincode.heading")
-					
-					Text(viewModel.state.message)
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
-						.multilineTextAlignment(viewModel.state.textAlignment)
-					
-					Spacer()
-					
-					HStack(spacing: 0) {
-						Spacer()
-						HStack(spacing: ViewTraits.Box.spacing) {
-							ForEach($viewModel.boxStates, id: \.self) { element in
-								PinCodeBoxView(state: element.state)
-									.accessibilityHidden(false)
-									.accessibilityIdentifier("box \(element.id + 1)")
-									.accessibilityLabel(element.wrappedValue.accessibilityLabel(index: element.id + 1, count: viewModel.boxStates.count))
-							}
-						}
-						.padding(.horizontal, ViewTraits.General.horizontalPadding)
-						Spacer()
-					}
-					
-					Spacer()
-					
-					if viewModel.state.forgotCodeButtonVisible {
-						Button(action: {
-							viewModel.reduce(.forgotPinCode)
-						}, label: {
-							Text("pincode.forgot")
-								.frame(maxWidth: .infinity, alignment: .center)
-						})
-						.buttonStyle(LinkButtonStyle())
-						.padding(ViewTraits.ForgotButton.insets)
-						.accessibilityIdentifier("pincode.forgot")
-					}
+				pinCodeTopView()
+					.when(dynamicTypeSize < DynamicTypeSize.xxLarge) { view in
+					view
+						.frame(height: scrollViewSize.height)
 				}
-				.frame(height: scrollViewSize.height)
 			}
+			.introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18), customize: { view in
+				view.bounces = false
+			})
 			.readSize($scrollViewSize)
 			
-			VStack {
-				
-				HStack(spacing: ViewTraits.General.spacing) {
-					digitButton(for: "1")
-					digitButton(for: "2")
-					digitButton(for: "3")
-				}
-				
-				HStack(spacing: ViewTraits.General.spacing) {
-					digitButton(for: "4")
-					digitButton(for: "5")
-					digitButton(for: "6")
-				}
-				
-				HStack(spacing: ViewTraits.General.spacing) {
-					digitButton(for: "7")
-					digitButton(for: "8")
-					digitButton(for: "9")
-				}
-				
-				HStack(spacing: ViewTraits.General.spacing) {
-					
-					bioMetricButton()
-					digitButton(for: "0")
-					// The erase button
-					actionButton(
-						for: .erasePressed,
-						imageName: "delete.backward",
-						accessibilityLabel: "pincode.erase.voiceover")
-					.disabled(!viewModel.state.eraseEnabled)
-				}
-			}
-			.when(safeAreaInsets.bottom == 0) { view in
-				view.padding(.bottom, ViewTraits.General.bottomPadding)
-			}
+			pincodeKeyboardView()
 		}
 		.padding(.horizontal, ViewTraits.General.horizontalPadding)
 		.navigationBarHidden(false)
@@ -584,6 +516,104 @@ struct PinCodeView: View {
 		.layoutForIPad()
 	}
 	
+	/// The top half of the view
+	/// - Returns: top view
+	@ViewBuilder func pinCodeTopView() -> some View {
+		
+		VStack(alignment: .leading, spacing: 16) {
+			
+			Text(viewModel.state.title)
+				.rijksoverheidStyle(font: .bold, style: .title)
+				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
+				.accessibilityAddTraits(.isHeader)
+				.accessibilityIdentifier("pincode.heading")
+			
+			Text(viewModel.state.message)
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
+				.multilineTextAlignment(viewModel.state.textAlignment)
+			
+			Spacer()
+			
+			pinCodeCircles()
+			
+			Spacer()
+			
+			if viewModel.state.forgotCodeButtonVisible {
+				Button(action: {
+					viewModel.reduce(.forgotPinCode)
+				}, label: {
+					Text("pincode.forgot")
+						.frame(maxWidth: .infinity, alignment: .center)
+				})
+				.buttonStyle(LinkButtonStyle())
+				.padding(ViewTraits.ForgotButton.insets)
+				.accessibilityIdentifier("pincode.forgot")
+			}
+		}
+	}
+	
+	/// The boxes for the entered pinCode
+	/// - Returns: box view
+	@ViewBuilder func pinCodeCircles() -> some View {
+		
+		HStack(spacing: 0) {
+			Spacer()
+			HStack(spacing: ViewTraits.Box.spacing) {
+				ForEach($viewModel.boxStates, id: \.self) { element in
+					PinCodeBoxView(state: element.state)
+						.accessibilityHidden(false)
+						.accessibilityIdentifier("box \(element.id + 1)")
+						.accessibilityLabel(element.wrappedValue.accessibilityLabel(index: element.id + 1, count: viewModel.boxStates.count))
+				}
+			}
+			.padding(.horizontal, ViewTraits.General.horizontalPadding)
+			Spacer()
+		}
+	}
+	
+	/// Build the keyboard
+	/// - Returns: keyboard view
+	@ViewBuilder func pincodeKeyboardView() -> some View {
+		VStack {
+			
+			HStack(spacing: ViewTraits.General.spacing) {
+				digitButton(for: "1")
+				digitButton(for: "2")
+				digitButton(for: "3")
+			}
+			
+			HStack(spacing: ViewTraits.General.spacing) {
+				digitButton(for: "4")
+				digitButton(for: "5")
+				digitButton(for: "6")
+			}
+			
+			HStack(spacing: ViewTraits.General.spacing) {
+				digitButton(for: "7")
+				digitButton(for: "8")
+				digitButton(for: "9")
+			}
+			
+			HStack(spacing: ViewTraits.General.spacing) {
+				
+				bioMetricButton()
+				digitButton(for: "0")
+				// The erase button
+				actionButton(
+					for: .erasePressed,
+					imageName: "delete.backward",
+					accessibilityLabel: "pincode.erase.voiceover")
+				.disabled(!viewModel.state.eraseEnabled)
+			}
+		}
+		.when(safeAreaInsets.bottom == 0) { view in
+			view.padding(.bottom, ViewTraits.General.bottomPadding)
+		}
+	}
+	
+	/// The button for biometric access
+	/// - Returns: the biometric button
 	@ViewBuilder func bioMetricButton() -> some View {
 		if viewModel.state.bioMetricEnabled {
 			// The bioMetric key (face ID, touch ID or optic ID)

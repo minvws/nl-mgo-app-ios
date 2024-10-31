@@ -103,6 +103,7 @@ public struct ImageContentView: View {
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.foregroundColor(theme.contentTertiary)
 						.multilineTextAlignment(textAlignment == .center ? .center : .leading)
+						.fixedSize(horizontal: false, vertical: true)
 					
 					Spacer()
 				}

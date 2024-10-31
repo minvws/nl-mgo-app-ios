@@ -142,7 +142,7 @@ struct OrganizationsView: View {
 			static let top: CGFloat = 44
 		}
 		enum Button {
-			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 		}
 	}
 	
