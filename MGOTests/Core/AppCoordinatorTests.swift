@@ -39,8 +39,6 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_actionFinishedSplash_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
 		
 		// Given
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = false
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == false
 		
 		// When
 		sut.handle(Coordination.Action.finishedSplash)
@@ -48,31 +46,13 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.introduction
 		expect(self.sut.path.isEmpty) == true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
-	}
-	
-	func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_accessCodeNotSet_pathShouldContainIntroduction() {
-		
-		// Given
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == false
-		
-		// When
-		sut.handle(Coordination.Action.finishedSplash)
-		
-		// Then
-		expect(self.sut.rootState) == AppCoordination.State.introduction
-		expect(self.sut.path.isEmpty) == true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
 	}
 	
 	func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_accessCodeSet_pathShouldContainPinCodeValidation() {
 		
 		// Given
-		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenAppIntroduction = true
 		servicesSpies.secureUserSettingsSpy.stubbedPinCode = "test"
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == false
 		
 		// When
 		sut.handle(Coordination.Action.finishedSplash)
@@ -80,7 +60,7 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.pinCodeValidation
 		expect(self.sut.path.isEmpty) == true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionGetter) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
 	}
 	
 	func test_coordinatorHandle_actionNextButtonPressedOnAppIntroduction_pathShouldContainPrivacy() {
@@ -94,20 +74,16 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.proposition])
 	}
 	
-	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainPinCodeEntry_securitySettingsUpdated() {
+	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainPinCodeEntry() {
 		
 		// Given
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionSetter) == false
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == nil
 		
 		// When
 		sut.handle(Coordination.Action.nextButtonPressedOnProposition)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.pinCodeEntry
-		expect(self.sut.path.isEmpty) == true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroductionSetter) == true
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenAppIntroduction) == true
+		expect(self.sut.rootState) == AppCoordination.State.splash
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.pinCodeEntry])
 	}
 	
 	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement_domainNotAllowed() {

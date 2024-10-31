@@ -223,9 +223,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.append(AppCoordination.State.proposition)
 				
 			case Coordination.Action.nextButtonPressedOnProposition.identifier:
-				// Mark AppIntroduction Flow as seen.
-				Current.secureUserSettings.userHasSeenAppIntroduction = true
-				resetNavigationStack(with: AppCoordination.State.pinCodeEntry)
+				path.append(AppCoordination.State.pinCodeEntry)
 				
 			case Coordination.Action.showPrivacyStatement.identifier:
 				handleShowPrivacyStatement()
@@ -288,10 +286,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the complex startup logic
 	private func handleStartup() {
 		
-		if !Current.secureUserSettings.userHasSeenAppIntroduction {
-			// Only show the appIntroduction once
-			resetNavigationStack(with: AppCoordination.State.introduction)
-		} else if Current.secureUserSettings.pinCode == nil {
+		if Current.secureUserSettings.pinCode == nil {
 			// User must set an pin code, but show introduction first.
 			resetNavigationStack(with: AppCoordination.State.introduction)
 		} else {

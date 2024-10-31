@@ -11,7 +11,6 @@ final class ForgotThePincodeFlow: BaseFlowTest {
 	
 	override func setUpWithError() throws {
 		
-		app.launchArguments.append("-skipOnboarding")
 		app.launchArguments.append("-pincode:12345")
 		try super.setUpWithError()
 	}

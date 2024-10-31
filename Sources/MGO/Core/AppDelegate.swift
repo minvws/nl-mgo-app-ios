@@ -29,7 +29,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		let appearance = UINavigationBarAppearance()
 		appearance.configureWithTransparentBackground()
 		appearance.backgroundEffect = UIBlurEffect(style: .systemMaterial)
-		appearance.backgroundColor = UIColor(Theme().backgroundPrimary).withAlphaComponent(0.75)
+		appearance.backgroundColor = UIColor(Theme().backgroundPrimary)
 		
 		appearance.largeTitleTextAttributes = [
 			.foregroundColor: UIColor(Theme().contentPrimary),
@@ -61,9 +61,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 			stub(condition: isHost("app-api.test.mgo.irealisatie.nl")) { _ in
 				return HTTPStubsResponse(jsonObject: ["iosMinimumVersion": "99999"], statusCode: 200, headers: nil)
 			}
-		}
-		if LaunchArgumentsHandler.shouldSkipOnboarding() {
-			Current.secureUserSettings.userHasSeenAppIntroduction = true
 		}
 		if let pincode = LaunchArgumentsHandler.hasPincode() {
 			Current.secureUserSettings.pinCode = pincode

@@ -20,7 +20,6 @@ struct TertiaryNegativeButtonStyle: ButtonStyle {
 			static let insets = EdgeInsets( top: 16, leading: 24, bottom: 16, trailing: 24)
 		}
 		enum Button {
-			static let cornerRadius: CGFloat = 8
 			static let minimumHeight: CGFloat = 48
 		}
 	}
@@ -36,6 +35,5 @@ struct TertiaryNegativeButtonStyle: ButtonStyle {
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(Color.clear)
-			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }
