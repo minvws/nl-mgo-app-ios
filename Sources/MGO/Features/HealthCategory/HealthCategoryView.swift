@@ -24,13 +24,29 @@ struct HealthCategoryBlock: Equatable, Identifiable {
 		lhs.id == rhs.id
 	}
 
+	/// Identifier of a block
 	let id = UUID()
 	
-	var heading: String?
+	/// The title heading of a block
+	let heading: String?
 	
-	var subHeading: String?
+	/// The subtitle of a block
+	let subHeading: String?
 	
+	/// action to perform when the user taps on this block
 	var action: (() -> Void)?
+}
+
+struct HealthSubCategory: Equatable, Identifiable {
+	
+	/// Identifier of a sub category
+	let id = UUID()
+	
+	/// The heading for a sub category
+	let heading: String
+	
+	/// The health category block items
+	var items: [HealthCategoryBlock]
 }
 
 /// The state of the view
@@ -40,10 +56,10 @@ enum HealthCategoryViewState: Equatable {
 	case loading
 	
 	/// All the data is available
-	case list(items: [HealthCategoryBlock])
+	case list(items: [HealthSubCategory])
 	
 	/// Only partial data is available
-	case partial(items: [HealthCategoryBlock])
+	case partial(items: [HealthSubCategory])
 	
 	/// Equality
 	/// - Parameters:
@@ -229,12 +245,31 @@ class HealthCategoryViewModel: ObservableObject {
 					state = .loading
 					return
 				}
-			
-				var items = [HealthCategoryBlock]()
+				
+				var items = [HealthSubCategory]()
 				var partial = false
-				for record in records {
-					items.append(contentsOf: parseRecord(record))
-					partial = partial || record.error
+				
+				// Create list of subcategories
+				for profile in category.acceptedProfiles {
+					if let heading = category.subCategory(profile) {
+						var subCat = HealthSubCategory(heading: String(localized: heading), items: [])
+						for record in records {
+							subCat.items.append(contentsOf: parseRecord(record, acceptedProfile: profile))
+							partial = partial || record.error
+						}
+						// There might be another subcategory with the same heading.
+						// Append to that subcategory rather then append as a new subcategory
+						var existingSubCategory = false
+						items.enumerated().forEach { index, item in
+							if item.heading == subCat.heading {
+								items[index].items.append(contentsOf: subCat.items)
+								existingSubCategory = true
+							}
+						}
+						if !existingSubCategory && subCat.items.isNotEmpty {
+							items.append(subCat)
+						}
+					}
 				}
 				if partial {
 					state = .partial(items: items)
@@ -249,12 +284,14 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Extract items from the data store records
 	/// - Parameter record: the record
 	/// - Returns: displayable items
-	private func parseRecord(_ record: MgoResourceRecord) -> [HealthCategoryBlock] {
+	private func parseRecord(_ record: MgoResourceRecord, acceptedProfile: String) -> [HealthCategoryBlock] {
 		
 		var items = [HealthCategoryBlock]()
 		// For all the MgoResources
 		for resource in record.resources {
-			if let uiSchema = FHIRParser().getUiSchemaJson(resource) {
+			if let uiSchema = FHIRParser().getUiSchemaJson(resource),
+			   resource.hasProfile(acceptedProfile) {
+				
 				// Add a OverviewBlock to the display list
 				items.append(
 					HealthCategoryBlock(
@@ -372,7 +409,7 @@ struct HealthCategoryView: View {
 	
 	/// Create the list state view
 	/// - Returns: View when the user has some stored healthcare organizations
-	@ViewBuilder func listOverview(list: [HealthCategoryBlock]) -> some View {
+	@ViewBuilder func listOverview(list: [HealthSubCategory]) -> some View {
 	
 		if list.isNotEmpty {
 			listOverviewBlocks(list: list)
@@ -383,16 +420,23 @@ struct HealthCategoryView: View {
 	
 	/// Create the list state view
 	/// - Returns: View when the user has some stored healthcare organizations
-	@ViewBuilder func listOverviewBlocks(list: [HealthCategoryBlock]) -> some View {
+	@ViewBuilder func listOverviewBlocks(list: [HealthSubCategory]) -> some View {
 		
-		var searchResults: [HealthCategoryBlock] {
+		var searchResults: [HealthSubCategory] {
 			if viewModel.searchText.isEmpty {
 				return list
 			} else {
-				return list.filter {
-					($0.heading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
-					$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
+				var result = [HealthSubCategory]()
+				for sub in list {
+					let filteredItems = sub.items.filter {
+						($0.heading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
+						$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
+					}
+					if filteredItems.isNotEmpty {
+						result.append(HealthSubCategory(heading: sub.heading, items: filteredItems))
+					}
 				}
+				return result
 			}
 		}
 		
@@ -401,29 +445,41 @@ struct HealthCategoryView: View {
 			if searchResults.isEmpty {
 				noSearchItems()
 			} else {
-				LazyVStack(spacing: ViewTraits.List.spacing, content: {
+				VStack(alignment: .leading, spacing: ViewTraits.List.spacing, content: {
 					
-					ForEach(Array(searchResults.enumerated()), id: \.offset) { index, element in
-						
-						ZStack {
-							Rectangle()
-								.foregroundStyle(.clear)
-								.accessibilityLabel(String(
-									format: String(localized: "medication_overview.voiceover"),
-									arguments: ["\(element.heading ?? "")", "\(element.subHeading ?? "")"]
-								))
-								.accessibilityAddTraits(.isButton)
+					ForEach(searchResults) { subCategory in
+					
+						if subCategory.items.isNotEmpty {
+							if searchResults.count != 1 {
+								Text(subCategory.heading)
+									.rijksoverheidStyle(font: .regular, style: .body)
+									.foregroundColor(theme.contentPrimary)
+									.padding(.top, ViewTraits.List.top)
+							}
 							
-							ActionCardView(
-								title: LocalizedStringKey(stringLiteral: element.heading ?? ""),
-								message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
-								perform: element.action
-							)
-							.cornerRadius(ViewTraits.List.cornerRadius)
-						}
-						.accessibilityIdentifier("block_\(index)")
-						.onTapGesture {
-							element.action?()
+							ForEach(Array(subCategory.items.enumerated()), id: \.offset) { index, element in
+								
+								ZStack {
+									Rectangle()
+										.foregroundStyle(.clear)
+										.accessibilityLabel(String(
+											format: String(localized: "medication_overview.voiceover"),
+											arguments: ["\(element.heading ?? "")", "\(element.subHeading ?? "")"]
+										))
+										.accessibilityAddTraits(.isButton)
+									
+									ActionCardView(
+										title: LocalizedStringKey(stringLiteral: element.heading ?? ""),
+										message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
+										perform: element.action
+									)
+									.cornerRadius(ViewTraits.List.cornerRadius)
+								}
+								.accessibilityIdentifier("block_\(index)")
+								.onTapGesture {
+									element.action?()
+								}
+							}
 						}
 					}
 				})
@@ -431,7 +487,7 @@ struct HealthCategoryView: View {
 			}
 		}
 		.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
-		.padding(.top, ViewTraits.List.top)
+//		.padding(.top, ViewTraits.List.top)
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.foregroundColor(theme.contentTertiary)
 	}
