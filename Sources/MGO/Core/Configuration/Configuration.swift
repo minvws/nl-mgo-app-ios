@@ -29,8 +29,8 @@ extension Configuration {
 	func urlForLocalisation() -> URL {
 		do {
 			switch getRelease() {
-				case .acceptance, .production: return try LocalisationService.Servers.server2()
-				case .development, .test: return try LocalisationService.Servers.server1()
+				case .acceptance, .production: return try LocalisationService.Servers.Server2.url()
+				case .development, .test: return try LocalisationService.Servers.Server1.url()
 			}
 			
 		} catch {
@@ -47,8 +47,8 @@ extension Configuration {
 	func urlForRemoteConfiguration() -> URL {
 		do {
 			switch getRelease() {
-				case .acceptance, .production: return try RemoteConfiguration.Servers.server2()
-				case .development, .test: return try RemoteConfiguration.Servers.server1()
+				case .acceptance, .production: return try RemoteConfiguration.Servers.Server2.url()
+				case .development, .test: return try RemoteConfiguration.Servers.Server1.url()
 			}
 			
 		} catch {

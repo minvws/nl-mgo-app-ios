@@ -119,7 +119,7 @@ class LabResultsHealthCategoryViewModel: HealthCategoryViewModel {
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_lab_results.heading",
-				search: "hc_lab_resultss.search",
+				search: "hc_lab_results.search",
 				noSearchResults: "hc_lab_results.no_search_results",
 				detailsHeading: String.LocalizationValue(stringLiteral: "hc_lab_results.heading_detail")
 			)

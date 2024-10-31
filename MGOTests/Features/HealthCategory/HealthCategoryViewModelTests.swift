@@ -125,6 +125,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	func test_loadResources_withResults_noName() throws {
 		
 		// Given
+		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.medication)
 		let resource = try getResource("zibMedicationUse")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
 			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
@@ -145,6 +146,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	func test_loadResources_withResults_withName() throws {
 
 		// Given
+		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.medication)
 		let resource = try getResource("zibMedicationUse")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
 			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
@@ -166,6 +168,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	func test_loadResources_withResults_withName_action() throws {
 
 		// Given
+		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.medication)
 		let resource = try getResource("zibMedicationUse")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
 			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
@@ -176,7 +179,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// When
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.list(items) = sut.state {
-			items.first?.action?()
+			items.first?.items.first?.action?()
 		} else {
 			fail("Invalid state")
 		}
@@ -193,7 +196,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	func test_loadResources_withResults_withName_noOrganisation() throws {
 
 		// Given
-		setupSut(organization: nil)
+		setupSut(organization: nil, category: HealthCategories.Category.medication)
 		let resource = try getResource("zibMedicationUse")
 		servicesSpies.dataStoreSpy.stubbedGetResult = .success([
 			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]

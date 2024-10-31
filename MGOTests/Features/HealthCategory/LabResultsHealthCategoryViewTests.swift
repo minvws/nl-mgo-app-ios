@@ -17,6 +17,13 @@ final class LabResultsHealthCategoryViewTests: XCTestCase {
 	private var viewModel: HealthCategoryViewModel!
 	private var healthcareOrganization: MgoOrganization!
 	private var sut: HealthCategoryView!
+	
+	private let item = HealthSubCategory(
+		heading: "heading subcategory",
+		items: [
+			HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
+		]
+	)
 
 	override func setUp() {
 		
@@ -70,7 +77,6 @@ final class LabResultsHealthCategoryViewTests: XCTestCase {
 		
 		// Given
 		let content = NavigationView { sut }
-		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
 		
 		// When
 		sut.viewModel.state = .list(items: [item])
@@ -83,7 +89,6 @@ final class LabResultsHealthCategoryViewTests: XCTestCase {
 		
 		// Given
 		let content = NavigationView { sut }
-		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
 		sut.viewModel.state = .list(items: [item])
 		
 		// When
@@ -97,7 +102,6 @@ final class LabResultsHealthCategoryViewTests: XCTestCase {
 		
 		// Given
 		let content = NavigationView { sut }
-		let item = HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
 		sut.viewModel.state = .list(items: [item])
 		
 		// When
