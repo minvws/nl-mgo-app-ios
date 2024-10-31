@@ -28,7 +28,6 @@ final class SecureUserSettingsTests: XCTestCase {
 	func test_secureUserSettings_wipePersistedData() {
 		
 		// Given
-		sut.userHasSeenAppIntroduction = true
 		sut.userHasSeenJailBreakWarning = true
 		sut.userHasRemoteAuthentication = true
 		sut.bioMetricAuthenticationEnabled = true
@@ -38,7 +37,6 @@ final class SecureUserSettingsTests: XCTestCase {
 		sut.wipePersistedData()
 		
 		// Then
-		expect(self.sut.userHasSeenAppIntroduction) == false
 		expect(self.sut.userHasSeenJailBreakWarning) == false
 		expect(self.sut.userHasRemoteAuthentication) == false
 		expect(self.sut.bioMetricAuthenticationEnabled) == false
@@ -91,18 +89,6 @@ final class SecureUserSettingsTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.userHasRemoteAuthentication) == true
-	}
-	
-	func test_secureUserSettings_setUserHasSeenAppIntroduction() {
-		
-		// Given
-		expect(self.sut.userHasSeenAppIntroduction) == false
-		
-		// When
-		sut.userHasSeenAppIntroduction = true
-		
-		// Then
-		expect(self.sut.userHasSeenAppIntroduction) == true
 	}
 	
 	func test_secureUserSettings_setUserHasSeenJailBreakWarning() {

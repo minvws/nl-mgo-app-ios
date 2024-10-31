@@ -18,9 +18,6 @@ public protocol SecureUserSettingsProtocol: AnyObject {
 	
 	/// Do we have setup the biometric authentication
 	var bioMetricAuthenticationEnabled: Bool { get set }
-
-	/// Have we seen the app introduction
-	var userHasSeenAppIntroduction: Bool { get set }
 	
 	/// Have we seen the jail break warning?
 	var userHasSeenJailBreakWarning: Bool { get set }
@@ -39,7 +36,6 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	public struct Defaults {
 		public static var bioMetricAuthenticationEnabled: Bool = false
 		public static var pinCode: String?
-		public static var userHasSeenAppIntroduction: Bool = false
 		public static var userHasSeenJailBreakWarning: Bool = false
 		public static var userHasRemoteAuthentication: Bool = false
 	}
@@ -58,9 +54,6 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 
 	@Keychain(name: "userHasRemoteAuthentication", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var userHasRemoteAuthentication: Bool = Defaults.userHasRemoteAuthentication
-
-	@Keychain(name: "userHasSeenAppIntroduction", service: "AppIntroduction" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
-	public var userHasSeenAppIntroduction: Bool = Defaults.userHasSeenAppIntroduction
 	
 	@Keychain(name: "userHasSeenJailBreakWarning", service: "Security" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var userHasSeenJailBreakWarning: Bool = Defaults.userHasSeenJailBreakWarning
@@ -83,7 +76,6 @@ extension SecureUserSettings {
 		bioMetricAuthenticationEnabled = Defaults.bioMetricAuthenticationEnabled
 		tempPinCode = Defaults.pinCode
 		userHasRemoteAuthentication = Defaults.userHasRemoteAuthentication
-		userHasSeenAppIntroduction = Defaults.userHasSeenAppIntroduction
 		userHasSeenJailBreakWarning = Defaults.userHasSeenJailBreakWarning
 	}
 }

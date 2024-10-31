@@ -164,8 +164,8 @@ class PinCodeViewModel: ObservableObject {
 		
 		state.bioMetricEnabled = false
 		state.eraseEnabled = accessCode.isNotEmpty
-		state.backButtonVisible = false
-		state.backButtonKey = ""
+		state.backButtonVisible = true
+		state.backButtonKey = "common.previous"
 		if tooWeak {
 			// Setup for access code is too weak
 			state.title = "pincode.create.heading"

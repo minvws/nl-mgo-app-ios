@@ -5,7 +5,6 @@
 - `-resetOnStart` will clear any existing data and create a first visit experience
 - `-disableTransitions` will speedup animation and navigation
 - `-updateRequired` will force the update required flow by mocking the remote configuration
-- `-skipOnboarding` will skip the appIntroduction and privacy statement
 - `-pincode:xxxxx` will set the pincode to `xxxxx` so you can try the repeat visitor experience. 
 
 To use a launch option, you have to overwrite the `setupWithError` method

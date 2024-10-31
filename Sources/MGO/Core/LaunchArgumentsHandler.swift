@@ -27,12 +27,6 @@ public class LaunchArgumentsHandler {
 		return CommandLine.arguments.contains("-updateRequired")
 	}
 	
-	/// Should we skip onboarding
-	public static func shouldSkipOnboarding() -> Bool {
-		
-		return CommandLine.arguments.contains("-skipOnboarding")
-	}
-	
 	/// Should we use a provided pincode
 	/// - Returns: pincode
 	public static func hasPincode() -> String? {
