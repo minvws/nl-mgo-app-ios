@@ -227,6 +227,7 @@ struct OrganizationsView: View {
 		}
 		.listStyle(.insetGrouped)
 		.backportListSectionSpacing(ViewTraits.List.spacing)
+		.backportScrollContentBackground(.hidden)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.List.spacing)
 		.simultaneousGesture(
 			DragGesture()

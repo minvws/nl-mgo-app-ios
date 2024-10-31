@@ -80,7 +80,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		}
 		
 		let backbuttonTitle: LocalizedStringKey? = switch mode {
-			case .single: "healthcare_organizations.heading"
+			case .single: "organizations.heading"
 			case .all: nil
 		}
 		
@@ -318,47 +318,7 @@ struct HealthCategoriesView: View {
 				noHealthcareOrganizationView()
 			} else {
 				
-				List {
-					
-					ForEach(1..<4) { box in
-						
-						Section {
-							
-							let list = viewModel.state.healthCategories
-								.filter { $0.box == box }
-								.sorted(by: { $0.id < $1.id })
-							
-							ForEach(list, id: \.id) { block in
-								
-								VStack(spacing: 0) {
-									Button {
-										viewModel.reduce(.categorySelected(block))
-									} label: {
-										HealthCategoryRowView(block: block)
-									}
-									.frame( maxWidth: .infinity, alignment: .leading)
-									.buttonStyle(HoverButtonStyle())
-								}
-							}
-						}
-						.listRowInsets(ViewTraits.List.rowInset)
-						.environment(\.defaultMinListHeaderHeight, ViewTraits.Navigation.padding)
-					}
-					
-					if viewModel.state.showRemoveHealthcareProvider {
-						Section { /* Empty section */ }
-						footer: {
-							// Button in footer of an empty section so it is
-							// at the bottom of the list, and without a rounded list background
-							CallToActionButton(
-								"organizations.remove_organization",
-								style: .tertiaryNegative) {
-									viewModel.reduce(.removeHealthcareOrganization)
-								}
-								.accessibilityIdentifier("organizations.remove_organization")
-						}
-					}
-				} // List
+				categoriesView()
 				.listStyle(.insetGrouped)
 				.backportListSectionSpacing(ViewTraits.List.spacing)
 				.when(viewModel.state.canTitleCollapse) { view in
@@ -400,6 +360,8 @@ struct HealthCategoriesView: View {
 		}
 	}
 	
+	/// The view for the header
+	/// - Returns: header view
 	@ViewBuilder func headerView() -> some View {
 	
 		HStack {
@@ -415,6 +377,54 @@ struct HealthCategoriesView: View {
 		}
 		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
+	}
+	
+	/// The view for the categories
+	/// - Returns: category view
+	@ViewBuilder func categoriesView() -> some View {
+		
+		List {
+			
+			ForEach(1..<4) { box in
+				
+				Section {
+					
+					let list = viewModel.state.healthCategories
+						.filter { $0.box == box }
+						.sorted(by: { $0.id < $1.id })
+					
+					ForEach(list, id: \.id) { block in
+						
+						VStack(spacing: 0) {
+							Button {
+								viewModel.reduce(.categorySelected(block))
+							} label: {
+								HealthCategoryRowView(block: block)
+							}
+							.frame( maxWidth: .infinity, alignment: .leading)
+							.buttonStyle(HoverButtonStyle())
+						}
+					}
+				}
+				.listRowInsets(ViewTraits.List.rowInset)
+				.environment(\.defaultMinListHeaderHeight, ViewTraits.Navigation.padding)
+			}
+			
+			if viewModel.state.showRemoveHealthcareProvider {
+				Section { /* Empty section */ }
+				footer: {
+					// Button in footer of an empty section so it is
+					// at the bottom of the list, and without a rounded list background
+					CallToActionButton(
+						"organizations.remove_organization",
+						style: .tertiaryNegative) {
+							viewModel.reduce(.removeHealthcareOrganization)
+						}
+						.accessibilityIdentifier("organizations.remove_organization")
+				}
+			}
+		} // List
+		.backportScrollContentBackground(.hidden)
 	}
 	
 	/// Create the empty state view
