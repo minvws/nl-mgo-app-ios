@@ -247,7 +247,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	func test_retry_noServices() {
 		
 		// Given
-		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.payment)
+		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.documents)
 		
 		// When
 		sut.reduce(.retry)
