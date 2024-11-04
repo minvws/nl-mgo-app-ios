@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let gPLaboratoryResultRelated = try GPLaboratoryResultRelated(json)
+//   let gpLaboratoryResultRelated = try GpLaboratoryResultRelated(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - GPLaboratoryResultRelated
-public struct GPLaboratoryResultRelated: Codable, Hashable, Sendable {
+// MARK: - GpLaboratoryResultRelated
+public struct GpLaboratoryResultRelated: Codable, Hashable, Sendable {
     public let target: MgoReference?
 
     public init(target: MgoReference?) {
@@ -19,11 +19,11 @@ public struct GPLaboratoryResultRelated: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: GPLaboratoryResultRelated convenience initializers and mutators
+// MARK: GpLaboratoryResultRelated convenience initializers and mutators
 
-public extension GPLaboratoryResultRelated {
+public extension GpLaboratoryResultRelated {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(GPLaboratoryResultRelated.self, from: data)
+        self = try newJSONDecoder().decode(GpLaboratoryResultRelated.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -39,8 +39,8 @@ public extension GPLaboratoryResultRelated {
 
     func with(
         target: MgoReference?? = nil
-    ) -> GPLaboratoryResultRelated {
-        return GPLaboratoryResultRelated(
+    ) -> GpLaboratoryResultRelated {
+        return GpLaboratoryResultRelated(
             target: target ?? self.target
         )
     }

@@ -48,7 +48,7 @@ struct HealthCategories {
 				case .labresults: [
 					ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue,
 //					ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue
-					GPLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue
+					GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue
 				]
 				
 				case .allergies: [
@@ -128,7 +128,7 @@ struct HealthCategories {
 					"zip_body_height.heading"
 				
 				// Labresults
-				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue, GPLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue:
+				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue, GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue:
 					"zip_laboratory_test_result_observation.heading"
 				
 				// Allergies
@@ -244,8 +244,8 @@ struct HealthCategories {
 				]
 				
 				case .patient: [
-//					(DVP.CommonClinicalDataset.patient, DVP.CommonClinicalDataset.serviceID),
-//					(DVP.GeneralPractitioner.patient, DVP.GeneralPractitioner.serviceID)
+					(DVP.CommonClinicalDataset.patient, DVP.CommonClinicalDataset.serviceID),
+					(DVP.GeneralPractitioner.patient, DVP.GeneralPractitioner.serviceID)
 				]
 				
 				case .alerts: [
@@ -253,7 +253,7 @@ struct HealthCategories {
 				]
 				
 				case .payment: [
-//					(DVP.CommonClinicalDataset.payer, DVP.CommonClinicalDataset.serviceID)
+					(DVP.CommonClinicalDataset.payer, DVP.CommonClinicalDataset.serviceID)
 				]
 				
 				case .plans: [

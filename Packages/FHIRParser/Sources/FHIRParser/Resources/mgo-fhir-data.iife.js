@@ -6714,7 +6714,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseRelated,
     uiSchemaGroup: uiSchemaGroup$p
   };
-  function uiSchema$s(resource) {
+  function uiSchema$u(resource) {
     const i18n = "zib_laboratory_test_result_observation";
     const related2 = map(resource.related, uiSchemaGroup$p, true);
     const referenceRange2 = map(resource.referenceRange, uiSchemaGroup$q, true);
@@ -6761,10 +6761,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$s = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
+  const profile$u = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
   function parseZibLaboratoryTestResultObservation(resource) {
     return {
-      ...resourceMeta(resource, profile$s),
+      ...resourceMeta(resource, profile$u),
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
       code: codeableConcept$1(resource?.code),
@@ -6782,17 +6782,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibLaboratoryTestResultObservation = {
-    profile: profile$s,
+    profile: profile$u,
     parse: parseZibLaboratoryTestResultObservation,
-    uiSchema: uiSchema$s
+    uiSchema: uiSchema$u
   };
-  function uiSchema$r(resource) {
+  function uiSchema$t(resource) {
     return zibLaboratoryTestResultObservation.uiSchema(resource);
   }
-  const profile$r = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
-  function parseGPLaboratoryResult(resource) {
+  const profile$t = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
+  function parseGpLaboratoryResult(resource) {
     return {
-      ...resourceMeta(resource, profile$r),
+      ...resourceMeta(resource, profile$t),
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
       code: codeableConcept$1(resource?.code),
@@ -6810,9 +6810,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const gpLaboratoryResult = {
-    profile: profile$r,
-    parse: parseGPLaboratoryResult,
-    uiSchema: uiSchema$r
+    profile: profile$t,
+    parse: parseGpLaboratoryResult,
+    uiSchema: uiSchema$t
   };
   function uiSchemaGroup$o(resource) {
     const i18n = "zib_administration_schedule";
@@ -7128,7 +7128,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseLink,
     uiSchemaGroup: uiSchemaGroup$e
   };
-  function uiSchema$q(resource) {
+  function uiSchema$s(resource) {
     const i18n = "nl_core_patient";
     const address = map(resource.address, uiSchemaGroup$k, true);
     const communication2 = map(resource.communication, uiSchemaGroup$g, true);
@@ -7170,10 +7170,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$q = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
+  const profile$s = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
   function parseNlCorePatient(resource) {
     return {
-      ...resourceMeta(resource, profile$q),
+      ...resourceMeta(resource, profile$s),
       active: boolean$1(resource.active),
       address: map(resource.address, nlCoreAddress.parse),
       birthDate: date$3(resource.birthDate),
@@ -7195,8 +7195,82 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const nlCorePatient = {
-    profile: profile$q,
+    profile: profile$s,
     parse: parseNlCorePatient,
+    uiSchema: uiSchema$s
+  };
+  function uiSchema$r(resource) {
+    const profile2 = "nl_core_practitioner";
+    const address = map(resource.address, uiSchemaGroup$k, true);
+    const name = map(resource.name, uiSchemaGroup$i, true);
+    const telecom = map(resource.telecom, uiSchemaGroup$j, true);
+    return {
+      label: resource.name?.at(0)?.text,
+      children: [
+        {
+          label: `${profile2}.group_details`,
+          children: [
+            ui.multipleValue(`${profile2}.identifier`, resource.identifier, ui.identifier)
+          ]
+        },
+        ...address,
+        ...name,
+        ...telecom
+      ]
+    };
+  }
+  const profile$r = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitioner";
+  function parseNlCorePractitioner(resource) {
+    console.log(resource);
+    return {
+      ...resourceMeta(resource, profile$r),
+      identifier: map(resource.identifier, identifier$1),
+      name: map(resource.name, nlCoreHumanname.parse),
+      address: map(resource.address, nlCoreAddress.parse),
+      telecom: map(resource.telecom, nlCoreContactpoint.parse)
+    };
+  }
+  const nlCorePractitioner = {
+    profile: profile$r,
+    parse: parseNlCorePractitioner,
+    uiSchema: uiSchema$r
+  };
+  function uiSchema$q(resource) {
+    const profile2 = "nl_core_practitionerrole";
+    const telecom = map(resource.telecom, uiSchemaGroup$j, true);
+    return {
+      label: resource.identifier?.at(0)?.value,
+      children: [
+        {
+          label: `${profile2}.group_details`,
+          children: [
+            ui.multipleValue(`${profile2}.identifier`, resource.identifier, ui.identifier),
+            ui.reference(`${profile2}.organization`, resource.organization),
+            ui.multipleValue(
+              `${profile2}.specialty`,
+              resource.specialty,
+              ui.codeableConcept
+            )
+          ]
+        },
+        ...telecom
+      ]
+    };
+  }
+  const profile$q = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitionerrole";
+  function parseNlCorePractitionerRole(resource) {
+    console.log(resource);
+    return {
+      ...resourceMeta(resource, profile$q),
+      identifier: map(resource.identifier, identifier$1),
+      organization: reference$1(resource.organization),
+      specialty: map(resource.specialty, codeableConcept$1),
+      telecom: map(resource.telecom, nlCoreContactpoint.parse)
+    };
+  }
+  const nlCorePractitionerRole = {
+    profile: profile$q,
+    parse: parseNlCorePractitionerRole,
     uiSchema: uiSchema$q
   };
   function uiSchema$p(resource) {
@@ -8701,6 +8775,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     gpLaboratoryResult,
     nlCoreObservation,
     nlCorePatient,
+    nlCorePractitioner,
+    nlCorePractitionerRole,
     zibAdministrationAgreement,
     zibAdvanceDirective,
     zibAlcoholUse,
