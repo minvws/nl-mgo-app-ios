@@ -130,8 +130,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	/// - Parameter action: any Action
 	func handle(_ action: Coordination.Action) {
 		
-		handleSearchFlow(action)
-		handleDetailFlow(action)
+		guard !handleSearchFlow(action) else { return }
+		guard !handleHealthDataFlow(action) else { return }
 		
 		switch action.identifier {
 			
@@ -166,7 +166,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	
 	/// Handle the search flow action from any of the view models
 	/// - Parameter action: any Action
-	private func handleSearchFlow(_ action: Coordination.Action) {
+	/// - Returns: True if the action is consumed
+	private func handleSearchFlow(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			
@@ -174,6 +175,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				
 			case Coordination.Action.addHealthcareOrganization.identifier:
 				rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
+				return true
 				
 			case Coordination.Action.showHealthcareOrganizationSearchResults.identifier:
 				if action.params.count == 2,
@@ -182,22 +184,26 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					pathForSheet.append(DashboardCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
 				} else {
 					logError("Dashboard Coordinator, missing params for \(action)")
-				}
+					}
+				return true
 				
 			case Coordination.Action.listHealthcareOrganizations.identifier:
 				pathForSheet.append(DashboardCoordination.State.listHealthcareOrganizations)
+				return true
 				
 			case Coordination.Action.backToAddHealthcareOrganization.identifier:
 				pathForSheet.removeLast(pathForSheet.count)
+				return true
 				
 			default:
-				break
+				return false
 		}
 	}
 	
 	/// Handle the detail flow action from any of the view models
 	/// - Parameter action: any Action
-	func handleDetailFlow(_ action: Coordination.Action) {
+	/// - Returns: True if the action is consumed
+	func handleHealthDataFlow(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			
@@ -206,6 +212,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
 					
 					setState(DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: healthcareOrganization))
+					return true
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -215,9 +222,11 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let category = action.params["category"] as? HealthCategories.Category {
 					setState(DashboardCoordination.State.showHealthCategory(category: category, organization: healthcareOrganization))
+					return true
 				} else if action.params.count == 1,
 						  let category = action.params["category"] as? HealthCategories.Category {
 					setState(DashboardCoordination.State.showHealthCategory(category: category, organization: nil))
+					return true
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -228,6 +237,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				   let heading = action.params["heading"] as? String,
 				   let schema = action.params["uiSchema"] as? UISchema {
 					setState(DashboardCoordination.State.showZibDetails(heading: heading, schema: schema))
+					return true
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -237,7 +247,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
 					
 					rootStateForSheet = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: healthcareOrganization)
-					
+					return true
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
@@ -246,10 +256,12 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
 				secondTabPath.removeLast()
+				return true
 				
 			default:
-				break
+				return false
 		}
+		return false
 	}
 	
 	/// Add the new state to the active tab

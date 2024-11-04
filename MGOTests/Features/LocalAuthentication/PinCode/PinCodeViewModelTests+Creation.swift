@@ -24,11 +24,15 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func setupSut(mode: PinCodeViewModel.PinCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) {
+	private func setupSut(
+		mode: PinCodeViewModel.PinCodeMode = .creation,
+		backButtonVisible: Bool = true,
+		bioMetricType: () -> LocalAuthentication.BiometricType) {
 		
 		sut = PinCodeViewModel(
 			coordinator: coordinatorSpy,
 			mode: mode,
+			backButtonVisible: backButtonVisible,
 			pinLimit: 5,
 			bioMetricType: bioMetricType,
 			strengthMeter: strengthMeterSpy
@@ -60,6 +64,36 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		
 		// When
 		setupSut(mode: .creation, bioMetricType: { .touchID })
+		
+		// Then
+		expect(self.sut.state) == expectedState
+		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount) == 0
+	}
+	
+	func test_creation_touch_withoutBackButton() {
+		
+		// Given
+		let expectedState = PinCodeViewState(
+			bioMetricEnabled: false,
+			bioMetricType: .touchID,
+			eraseEnabled: false,
+			backButtonVisible: false,
+			backButtonKey: "common.previous",
+			title: "pincode.create.heading",
+			message: "pincode.create.subheading",
+			showLockoutPopup: false
+		)
+		let expectedBoxState = [
+			PinCodeViewModel.PinCodeBoxState(id: 0, state: .focus),
+			PinCodeViewModel.PinCodeBoxState(id: 1, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 2, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 3, state: .empty),
+			PinCodeViewModel.PinCodeBoxState(id: 4, state: .empty)
+		]
+		
+		// When
+		setupSut(mode: .creation, backButtonVisible: false, bioMetricType: { .touchID })
 		
 		// Then
 		expect(self.sut.state) == expectedState

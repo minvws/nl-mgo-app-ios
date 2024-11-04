@@ -83,7 +83,7 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.rootState) == AppCoordination.State.splash
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.pinCodeEntry])
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.pinCodeEntry(backButtonVisible: true)])
 	}
 	
 	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement_domainNotAllowed() {
@@ -259,7 +259,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.restart)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.introduction
+		expect(self.sut.rootState) == AppCoordination.State.pinCodeEntry(backButtonVisible: false)
 	}
 	
 	func test_coordinatorHandle_backButtonPressed() {

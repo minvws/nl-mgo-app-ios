@@ -82,7 +82,21 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
-		let state = AppCoordination.State.pinCodeEntry
+		let state = AppCoordination.State.pinCodeEntry(backButtonVisible: true)
+		
+		// When
+		let view = sut.view(for: state)
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: content )
+	}
+	
+	func test_coordinatorView_forPinCodeEntry_withoutBackbutton() throws {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
+		let state = AppCoordination.State.pinCodeEntry(backButtonVisible: false)
 		
 		// When
 		let view = sut.view(for: state)
