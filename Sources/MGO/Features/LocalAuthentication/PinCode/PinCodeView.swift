@@ -48,7 +48,7 @@ class PinCodeViewModel: ObservableObject {
 	public enum PinCodeMode: Equatable {
 		case creation // Create an access code
 		case confirmation // Confirm that access code
-		case validation // Validate the acces code (login)
+		case validation // Validate the access code (login)
 	}
 	/// A helper struct to make an enum (PinCodeBoxView.State) identifiable.
 	public struct PinCodeBoxState: Identifiable, Hashable {
@@ -91,6 +91,9 @@ class PinCodeViewModel: ObservableObject {
 	/// Are we in error state?
 	private var inErrorState = false
 	
+	/// Should we show the back button?
+	private var backButtonVisible = false
+	
 	/// The access code
 	private var accessCode: [String] = [] {
 		didSet {
@@ -124,6 +127,7 @@ class PinCodeViewModel: ObservableObject {
 	init(
 		coordinator: (any Coordinator)?,
 		mode: PinCodeMode,
+		backButtonVisible: Bool = true,
 		pinLimit: Int = 5,
 		bioMetricType: () -> LocalAuthentication.BiometricType,
 		strengthMeter: PinCodeStrengthValidation = PinCodeStrengthMeter()) {
@@ -131,6 +135,7 @@ class PinCodeViewModel: ObservableObject {
 		self.coordinator = coordinator
 		self.numberOfDigits = pinLimit
 		self.mode = mode
+		self.backButtonVisible = backButtonVisible
 		self.strengthMeter = strengthMeter
 		self.state.bioMetricType = bioMetricType()
 		
@@ -164,7 +169,7 @@ class PinCodeViewModel: ObservableObject {
 		
 		state.bioMetricEnabled = false
 		state.eraseEnabled = accessCode.isNotEmpty
-		state.backButtonVisible = true
+		state.backButtonVisible = backButtonVisible
 		state.backButtonKey = "common.previous"
 		if tooWeak {
 			// Setup for access code is too weak

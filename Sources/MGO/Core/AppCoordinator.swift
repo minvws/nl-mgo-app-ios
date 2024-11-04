@@ -79,7 +79,7 @@ enum AppCoordination {
 		case privacyStatement
 		
 		// Local Authentication
-		case pinCodeEntry
+		case pinCodeEntry(backButtonVisible: Bool)
 		case pinCodeConfirmation
 		case pinCodeValidation
 		case bioMetricSetup
@@ -223,7 +223,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				path.append(AppCoordination.State.proposition)
 				
 			case Coordination.Action.nextButtonPressedOnProposition.identifier:
-				path.append(AppCoordination.State.pinCodeEntry)
+				path.append(AppCoordination.State.pinCodeEntry(backButtonVisible: true))
 				
 			case Coordination.Action.showPrivacyStatement.identifier:
 				handleShowPrivacyStatement()
@@ -341,7 +341,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	private func restart() {
 		
-		resetNavigationStack(with: AppCoordination.State.pinCodeEntry)
+		resetNavigationStack(with: AppCoordination.State.pinCodeEntry(backButtonVisible: false))
 	}
 	
 	/// Reset the navigation stack with this new root  state
@@ -385,8 +385,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			// Local Authentication
 				
-			case .pinCodeEntry:
-				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .creation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+			case let .pinCodeEntry(backButtonVisible):
+				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .creation, backButtonVisible: backButtonVisible, bioMetricType: Current.localAuthenticationProvider.biometricType))
 				
 			case .pinCodeConfirmation:
 				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
