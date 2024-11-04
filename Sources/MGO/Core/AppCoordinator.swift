@@ -341,7 +341,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	private func restart() {
 		
-		resetNavigationStack(with: AppCoordination.State.introduction)
+		resetNavigationStack(with: AppCoordination.State.pinCodeEntry)
 	}
 	
 	/// Reset the navigation stack with this new root  state

@@ -259,7 +259,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.restart)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.introduction
+		expect(self.sut.rootState) == AppCoordination.State.pinCodeEntry
 	}
 	
 	func test_coordinatorHandle_backButtonPressed() {
