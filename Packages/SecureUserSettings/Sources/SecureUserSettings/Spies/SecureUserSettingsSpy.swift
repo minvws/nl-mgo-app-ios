@@ -129,4 +129,26 @@ public class SecureUserSettingsSpy: SecureUserSettingsProtocol {
 		invokedWipePersistedData = true
 		invokedWipePersistedDataCount += 1
 	}
+	
+	public var invokedEnteredBackgroundSetter = false
+	public var invokedEnteredBackgroundSetterCount = 0
+	public var invokedEnteredBackground: Date?
+	public var invokedEnteredBackgroundList = [Date?]()
+	public var invokedEnteredBackgroundGetter = false
+	public var invokedEnteredBackgroundGetterCount = 0
+	public var stubbedEnteredBackground: Date!
+
+	public var enteredBackground: Date? {
+		set {
+			invokedEnteredBackgroundSetter = true
+			invokedEnteredBackgroundSetterCount += 1
+			invokedEnteredBackground = newValue
+			invokedEnteredBackgroundList.append(newValue)
+		}
+		get {
+			invokedEnteredBackgroundGetter = true
+			invokedEnteredBackgroundGetterCount += 1
+			return stubbedEnteredBackground
+		}
+	}
 }

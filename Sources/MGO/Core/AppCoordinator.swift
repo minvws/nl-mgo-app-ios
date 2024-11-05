@@ -26,6 +26,8 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 	/// The state for the root view of the page
 	var rootState: AppCoordination.State { get set }
 	
+	var showAuthenticationModal: Bool { get set }
+	
 	/// Should we show the child coordinator?
 	var showChildCoordinator: Bool { get set }
 	
@@ -94,10 +96,6 @@ enum AppCoordination {
 	}
 }
 
-extension Notification.Name {
-	static let resetApplication = Notification.Name("nl.mijngezondheidsomgeving.resetApplication")
-}
-
 final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The navigation path
@@ -111,6 +109,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The state for the root view of the page
 	@Published var rootState: AppCoordination.State
+	
+	/// Show the full screen authentication modal?
+	@Published var showAuthenticationModal: Bool = false
 	
 	/// Should we show the child coordinator instead of ourself?
 	@Published var showChildCoordinator = false
@@ -155,6 +156,15 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			guard let self else { return }
 			_Concurrency.Task { @MainActor in
 				self.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
+			}
+		}
+		
+		// Listen for authentication notification
+		Current.notificationCenter.addObserver(forName: .showLocalAuthentication, object: nil, queue: OperationQueue.main) { _ in
+			_Concurrency.Task { @MainActor in
+				// todo
+				logDebug("AppCoordinator - receivied showLocalAuthentication")
+				self.showAuthenticationModal = true
 			}
 		}
 	}
@@ -307,6 +317,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// Handle the pincode validated action
 	private func handlePinCodeValidated() {
+		guard Current.secureUserSettings.enteredBackground == nil else {
+			showAuthenticationModal = false
+			Current.secureUserSettings.enteredBackground = nil
+			return
+		}
+		
 		guard Current.secureUserSettings.userHasRemoteAuthentication else {
 			resetNavigationStack(with: AppCoordination.State.login)
 			return

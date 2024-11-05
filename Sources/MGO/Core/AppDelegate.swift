@@ -20,6 +20,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		checkLaunchArguments()
 		styleUI()
 		registerObservers()
+		Current.secureUserSettings.enteredBackground = nil
 		return true
 	}
 	
@@ -117,13 +118,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 			
 			privacySnapshotWindow?.rootViewController = privacyView
 			// Present window above alert controllers
-			privacySnapshotWindow?.windowLevel = .alert + 1
+			privacySnapshotWindow?.windowLevel = .alert + 2
 			privacySnapshotWindow?.alpha = 0
 			privacySnapshotWindow?.makeKeyAndVisible()
 			
 			withAnimation {
 				self.privacySnapshotWindow?.alpha = 1
 			}
+			// Mark the date
+			guard Current.secureUserSettings.enteredBackground == nil else { return }
+			let timeStamp = Current.now()
+			Current.secureUserSettings.enteredBackground = timeStamp
+			logWarning("Entered background at", timeStamp)
 		}
 	}
 	
@@ -134,5 +140,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		self.privacySnapshotWindow?.alpha = 0
 		self.privacySnapshotWindow?.isHidden = true
 		self.privacySnapshotWindow = nil
+		
+		guard let enteredBackground = Current.secureUserSettings.enteredBackground else { return }
+		if Date().timeIntervalSince(enteredBackground) > 5 {
+			logWarning("We are in the background for too long.")
+			Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
+		} else {
+			logVerbose("We returned in time, reset enteredBackground to nil.")
+			Current.secureUserSettings.enteredBackground = nil
+		}
 	}
 }

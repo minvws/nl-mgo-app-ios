@@ -31,6 +31,7 @@ final class SecureUserSettingsTests: XCTestCase {
 		sut.userHasSeenJailBreakWarning = true
 		sut.userHasRemoteAuthentication = true
 		sut.bioMetricAuthenticationEnabled = true
+		sut.enteredBackground = Date()
 		sut.pinCode = "TEST"
 		
 		// When
@@ -40,6 +41,7 @@ final class SecureUserSettingsTests: XCTestCase {
 		expect(self.sut.userHasSeenJailBreakWarning) == false
 		expect(self.sut.userHasRemoteAuthentication) == false
 		expect(self.sut.bioMetricAuthenticationEnabled) == false
+		expect(self.sut.enteredBackground) == nil
 		expect(self.sut.pinCode) == nil
 	}
 
@@ -101,5 +103,18 @@ final class SecureUserSettingsTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.userHasSeenJailBreakWarning) == true
+	}
+	
+	func test_secureUserSettings_setEnteredBackground() {
+		
+		// Given
+		expect(self.sut.enteredBackground) == nil
+		let timestamp = Date()
+		
+		// When
+		sut.enteredBackground = timestamp
+		
+		// Then
+		expect(self.sut.enteredBackground) == timestamp
 	}
 }
