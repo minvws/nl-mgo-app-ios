@@ -162,8 +162,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		// Listen for authentication notification
 		Current.notificationCenter.addObserver(forName: .showLocalAuthentication, object: nil, queue: OperationQueue.main) { _ in
 			_Concurrency.Task { @MainActor in
-				// todo
-				logDebug("AppCoordinator - receivied showLocalAuthentication")
 				self.showAuthenticationModal = true
 			}
 		}

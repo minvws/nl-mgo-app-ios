@@ -172,7 +172,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showChildCoordinator) == true
 	}
 	
-	func test_coordinatorHandle_codeValidated_shouldShowDashboard() {
+	func test_coordinatorHandle_codeValidated_shouldShowRemoteAuthentication() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = false
@@ -196,6 +196,19 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.showChildCoordinator) == true
+	}
+	
+	func test_coordinatorHandle_codeValidated_whenReturningFromBackground() {
+		
+		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedEnteredBackground = Date()
+		
+		// When
+		sut.handle(Coordination.Action.pinCodeValidated)
+		
+		// Then
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedEnteredBackground) == nil
+		expect(self.sut.showAuthenticationModal) == false
 	}
 	
 	func test_coordinatorHandle_forgotPinCode() {
