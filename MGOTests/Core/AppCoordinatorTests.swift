@@ -211,6 +211,24 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showAuthenticationModal) == false
 	}
 	
+	func test_coordinator_receiveNotification_whenReturningFromBackground() {
+		
+		// Given
+		Current.notificationCenter = NotificationCenter.default
+		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
+		sut = AppCoordinator(
+			path: NavigationStackBackport.NavigationPath(),
+			versionSupplier: appVersionSupplierSpy,
+			browser: browser
+		)
+		
+		// When
+		Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
+		
+		// Then
+		expect(self.sut.showAuthenticationModal).toEventually(beTrue())
+	}
+	
 	func test_coordinatorHandle_forgotPinCode() {
 		
 		// Given
