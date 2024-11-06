@@ -10,6 +10,9 @@ import Foundation
 /// Protocol for the secure user settings
 public protocol SecureUserSettingsProtocol: AnyObject {
 	
+	/// Timestamp the app went to the background
+	var enteredBackground: Date? { get set }
+	
 	/// the first entry of the access code
 	var tempPinCode: String? { get set }
 	
@@ -34,14 +37,18 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	
 	/// Default values
 	public struct Defaults {
+		public static var enteredBackground: Date?
 		public static var bioMetricAuthenticationEnabled: Bool = false
 		public static var pinCode: String?
 		public static var userHasSeenJailBreakWarning: Bool = false
 		public static var userHasRemoteAuthentication: Bool = false
 	}
 	
-	/// Initlializer
+	/// Create the secure user settings
 	public init() { /* Public initializer needed for public access */ }
+	
+	@Keychain(name: "enteredBackground", service: "Security" + SecureUserSettings.serviceExtension, clearOnReinstall: false)
+	public var enteredBackground: Date? = Defaults.enteredBackground
 	
 	@Keychain(name: "pinCode", service: "LocalAuthentication" + SecureUserSettings.serviceExtension, clearOnReinstall: true)
 	public var pinCode: String? = Defaults.pinCode
@@ -72,6 +79,7 @@ extension SecureUserSettings {
 	
 	/// Wipe all persisted data
 	public func wipePersistedData() {
+		enteredBackground = Defaults.enteredBackground
 		pinCode = Defaults.pinCode
 		bioMetricAuthenticationEnabled = Defaults.bioMetricAuthenticationEnabled
 		tempPinCode = Defaults.pinCode

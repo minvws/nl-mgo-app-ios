@@ -36,6 +36,9 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	var body: some View {
 		if appCoordinator.showChildCoordinator {
 			appCoordinator.view(for: .dashboard)
+				.fullScreenCover(isPresented: $appCoordinator.showAuthenticationModal, content: {
+					appCoordinator.view(for: .pinCodeValidation)
+				})
 		} else {
 			
 			NavigationStackBackport.NavigationStack(path: $appCoordinator.path) {

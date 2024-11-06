@@ -34,4 +34,17 @@ final class AppCoordinatorViewTests: XCTestCase {
 		let value = try sut.inspect().find(viewWithAccessibilityLabel: "common.app_name")
 		expect(value) != nil
 	}
+	
+	func test_childCoordinator() throws {
+		
+		// Given
+		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		appCoordinator.showChildCoordinator = true
+		
+		// When
+		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
 }
