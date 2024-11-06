@@ -33,24 +33,26 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 			.backportOnScrollPhaseChanged($isScrolling)
 			.readSize($scrollViewSize)
 			.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
-			
-			bottomView
-				// Change the background color of the bottom view if we should scroll
-				.background(scrollable ? theme.backgroundSecondary : theme.backgroundPrimary)
-				// Only apply the shadow if we should scroll
-				.when(scrollable) { view in
-					view
-						.shadow(color: theme.contentPrimary.opacity(0.05), radius: 7, x: 0, y: -6)
-						.shadow(color: theme.contentPrimary.opacity(0.06), radius: 3, x: 0, y: 0)
-				}
-				.onChange(of: contentSize) { _ in
-					recalculateScrollable()
-				}
-				.onChange(of: scrollViewSize) { _ in
-					recalculateScrollable()
-				}
 		}
-		
+		.safeAreaInset(edge: VerticalEdge.bottom) {
+			
+			VStack(spacing: 0) {
+				
+				if scrollable || isScrolling {
+					NavigationDivider()
+				}
+				
+				bottomView
+					.background(scrollable ? theme.backgroundSecondary.opacity(0.25) : theme.backgroundPrimary)
+					.background(.ultraThinMaterial)
+					.onChange(of: contentSize) { _ in
+						recalculateScrollable()
+					}
+					.onChange(of: scrollViewSize) { _ in
+						recalculateScrollable()
+					}
+			}
+		}
 	}
 	
 	/// Recalculate if we should scroll
