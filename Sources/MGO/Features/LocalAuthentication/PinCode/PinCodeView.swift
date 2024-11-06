@@ -604,12 +604,7 @@ struct PinCodeView: View {
 				
 				bioMetricButton()
 				digitButton(for: "0")
-				// The erase button
-				actionButton(
-					for: .erasePressed,
-					imageName: "delete.backward",
-					accessibilityLabel: "pincode.erase.voiceover")
-				.disabled(!viewModel.state.eraseEnabled)
+				eraseButton()
 			}
 		}
 		.when(safeAreaInsets.bottom == 0) { view in
@@ -636,6 +631,19 @@ struct PinCodeView: View {
 				case .opticID:
 					actionButton(for: .biometricKeyPressed, imageName: "opticid", accessibilityLabel: "pincode.opticid.voiceover")
 			}
+		} else {
+			Spacer()
+				.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
+		}
+	}
+	
+	@ViewBuilder func eraseButton() -> some View {
+		
+		if viewModel.state.eraseEnabled {
+			actionButton(
+				for: .erasePressed,
+				imageName: "delete.backward",
+				accessibilityLabel: "pincode.erase.voiceover")
 		} else {
 			Spacer()
 				.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)

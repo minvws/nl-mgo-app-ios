@@ -609,7 +609,15 @@
       }
     },
     "common.ok" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ok"
+          }
+        }
+      }
     },
     "common.previous" : {
       "extractionState" : "manual",
