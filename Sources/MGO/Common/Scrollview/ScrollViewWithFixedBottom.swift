@@ -30,6 +30,9 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 			ScrollView {
 				content.readSize($contentSize)
 			}
+			.introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18), customize: { view in
+					view.bounces = scrollable
+			})
 			.backportOnScrollPhaseChanged($isScrolling)
 			.readSize($scrollViewSize)
 			.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
