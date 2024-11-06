@@ -392,7 +392,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case .privacyStatement:
 				if let privacyURL {
-					InAppBrowserView(viewModel: InAppBrowserViewModel(url: privacyURL, browser: self.browser, title: "Mijn gezondheidsoverzicht", coordinator: self))
+					InAppBrowserView(viewModel: InAppBrowserViewModel(url: privacyURL, browser: self.browser, title: "privacy.heading", coordinator: self))
 				} else {
 					EmptyView()
 				}

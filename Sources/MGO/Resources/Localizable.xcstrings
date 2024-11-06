@@ -1744,6 +1744,17 @@
         }
       }
     },
+    "privacy.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacyverklaring"
+          }
+        }
+      }
+    },
     "proposition.heading" : {
       "extractionState" : "manual",
       "localizations" : {
