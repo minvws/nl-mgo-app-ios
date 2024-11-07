@@ -327,7 +327,7 @@ struct OrganizationSearchResultsView: View {
 				active: true,
 				address: "Boorplatform 5",
 				city: "Roermond",
-				lines: nil, //["Boorplatform 5"],
+				lines: ["Boorplatform 5"],
 				postalcode: "1234AB",
 				_type: "postal")
 			],
