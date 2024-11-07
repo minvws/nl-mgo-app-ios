@@ -162,7 +162,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		// Listen for authentication notification
 		Current.notificationCenter.addObserver(forName: .showLocalAuthentication, object: nil, queue: OperationQueue.main) { _ in
 			_Concurrency.Task { @MainActor in
-				self.showAuthenticationModal = true
+				if self.showChildCoordinator {
+					self.showAuthenticationModal = true
+					self.rootStateForSheet = .pinCodeValidation
+				} else {
+					logInfo("Not through onboarding, not showing authentication modal")
+				}
 			}
 		}
 	}
@@ -251,7 +256,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				resetNavigationStack(with: AppCoordination.State.login)
 				
 			case Coordination.Action.forgotPinCode.identifier:
-				rootStateForSheet = AppCoordination.State.forgotPinCode
+				if showAuthenticationModal {
+					pathForSheet.append(AppCoordination.State.forgotPinCode)
+				} else {
+					rootStateForSheet = AppCoordination.State.forgotPinCode
+				}
 				
 			case Coordination.Action.recreateAccount.identifier:
 				handleRecreateAccount()
@@ -270,9 +279,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case Coordination.Action.closeSheet.identifier,
 				Coordination.Action.dismissForgotPinCode.identifier:
-				
 				pathForSheet = NavigationStackBackport.NavigationPath()
-				rootStateForSheet = nil
+				
+				if !showAuthenticationModal {
+					rootStateForSheet = nil
+				}
 				
 			case Coordination.Action.backButtonPressed.identifier:
 				guard !path.isEmpty else { return }
@@ -317,6 +328,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	private func handlePinCodeValidated() {
 		guard Current.secureUserSettings.enteredBackground == nil else {
 			showAuthenticationModal = false
+			rootStateForSheet = nil
+			pathForSheet = NavigationStackBackport.NavigationPath()
 			Current.secureUserSettings.enteredBackground = nil
 			return
 		}
@@ -346,6 +359,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		if rootStateForSheet != nil {
 			rootStateForSheet = nil
 			pathForSheet = NavigationStackBackport.NavigationPath()
+		}
+		if showAuthenticationModal {
+			showChildCoordinator = false
+			showAuthenticationModal = false
 		}
 		// Wipe Account
 		Current.wipePersistedData()

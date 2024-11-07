@@ -36,8 +36,8 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	var body: some View {
 		if appCoordinator.showChildCoordinator {
 			appCoordinator.view(for: .dashboard)
-				.fullScreenCover(isPresented: $appCoordinator.showAuthenticationModal, content: {
-					appCoordinator.view(for: .pinCodeValidation)
+				.fullScreenCover(isPresented: $appCoordinator.rootStateForSheet.presence(), content: {
+					sheetContent(withCloseButton: false)
 				})
 		} else {
 			
@@ -65,25 +65,34 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 					appCoordinator.handle(Coordination.Action.closeSheet)
 				},
 				content: {
-					NavigationStackBackport.NavigationStack(path: $appCoordinator.pathForSheet) {
-						appCoordinator.view(for: appCoordinator.rootStateForSheet)
-							.backport.navigationDestination(for: AppCoordination.State.self) { state in
-								appCoordinator.view(for: state)
-							}
-							.navigationBarBackButtonHidden(true)
-							.navigationBarTitleDisplayMode(.inline)
-							.toolbar {
-								ToolbarItem(content: { CloseButton {
-									appCoordinator.handle(Coordination.Action.closeSheet)
-								}})
-							}
-					}
+					sheetContent(withCloseButton: true)
 				}
 			)
 			.onAppear {
 				// Make ourself available for inspection
 				self.didAppear?(self)
 			}
+		}
+	}
+	
+	@ViewBuilder func sheetContent(withCloseButton: Bool) -> some View {
+		
+		NavigationStackBackport.NavigationStack(path: $appCoordinator.pathForSheet) {
+			appCoordinator.view(for: appCoordinator.rootStateForSheet)
+				.backport.navigationDestination(for: AppCoordination.State.self) { state in
+					appCoordinator.view(for: state)
+						.navigationBarBackButtonHidden(true)
+						.navigationBarHidden(false)
+						.navigationBarTitleDisplayMode(.inline)
+				}
+				.when(withCloseButton) { view in
+					view
+						.toolbar {
+							ToolbarItem(content: { CloseButton {
+								appCoordinator.handle(Coordination.Action.closeSheet)
+							}})
+						}
+				}
 		}
 	}
 }
