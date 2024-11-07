@@ -106,4 +106,44 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: sut)
 	}
+	
+	func test_searchResultCardView_noStreet() {
+		
+		// Given
+		
+		// When
+		let sut = OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
+				id: "1",
+				name: "Tandarts Tandje Erbij",
+				city: "Roermond",
+				address: nil,
+				postalCode: "1234AB"
+			),
+			state: .regular
+		)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
+	func test_searchResultCardView_noPostalCode() {
+		
+		// Given
+		
+		// When
+		let sut = OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
+				id: "1",
+				name: "Tandarts Tandje Erbij",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: nil
+			),
+			state: .regular
+		)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
 }
