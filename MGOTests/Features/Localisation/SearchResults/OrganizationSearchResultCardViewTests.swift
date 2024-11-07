@@ -9,6 +9,7 @@ import MGOTest
 @testable import MGO
 
 final class OrganizationSearchResultCardViewTests: XCTestCase {
+	
 
 	func test_searchResultCardView_regular() {
 		
@@ -53,7 +54,7 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 	func test_searchResultCardView_warning() {
 		
 		// Given
-		
+		isRecording = true
 		// When
 		let sut = OrganizationSearchResultCardView(
 			model: OrganizationSearchResult(
@@ -64,26 +65,6 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 				postalCode: "1234AB"
 			),
 			state: .notParticipating
-		)
-		
-		// Then
-		takeSnapShots(content: sut)
-	}
-	
-	func test_searchResultCardView_notImplmented() {
-		
-		// Given
-		
-		// When
-		let sut = OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
-				id: "1",
-				name: "Tandarts Tandje Erbij",
-				city: "Roermond",
-				address: "Boorplatform 5",
-				postalCode: "1234AB"
-			),
-			state: .notImplemented
 		)
 		
 		// Then

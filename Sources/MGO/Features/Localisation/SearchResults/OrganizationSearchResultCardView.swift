@@ -12,13 +12,12 @@ enum OrganizationSearchResultCardState {
 	case regular
 	case selected
 	case notParticipating
-	case notImplemented
 	
 	var accessibilityLabel: String.LocalizationValue {
 		switch self {
 			case .regular: return "add_organization.add_voiceover"
 			case .selected: return "add_organization.view_voiceover"
-			case .notParticipating, .notImplemented: return "add_organization.view_voiceover"
+			case .notParticipating: return "add_organization.view_voiceover"
 		}
 	}
 }
@@ -101,8 +100,8 @@ struct OrganizationSearchResultCardView: View {
 			
 			if state == .regular {
 				Image(ImageResource.Localisation.Icon.add)
-						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
-						.font(Font.title2.bold())
+					.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
+					.font(Font.title2.bold())
 			}
 
 		}
@@ -131,16 +130,9 @@ struct OrganizationSearchResultCardView: View {
 		switch state {
 			case .regular: EmptyView()
 				
-			case .notParticipating, .notImplemented, .selected:
+			case .notParticipating, .selected:
 				HStack(alignment: .center, spacing: ViewTraits.Selected.spacing) {
 					if case .notParticipating = state {
-						Image(ImageResource.Localisation.Icon.error)
-							
-						Text("add_organization.not_participating")
-							.foregroundStyle(theme.notificationError)
-					}
-					if case .notImplemented
-						= state {
 						
 						Image(ImageResource.Localisation.Icon.info)
 						Text("add_organization.not_implemented")
@@ -198,17 +190,6 @@ struct OrganizationSearchResultCardView: View {
 				postalCode: "1234AB"
 			),
 			state: .notParticipating
-		)
-		
-		OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
-				id: "1",
-				name: "Tandartsenpraktijk Willem II Roermond B.V.",
-				city: "Roermond",
-				address: nil,
-				postalCode: "1234AB"
-			),
-			state: .notImplemented
 		)
 	}
 	.padding(16)

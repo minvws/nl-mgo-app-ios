@@ -148,7 +148,7 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		let organisation = Generator.healthcareOrganization("value", useDataService: true, serviceId: "999")
 		let list: [MgoOrganization] = [organisation]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organisation, .notImplemented)])
+		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organisation, .notParticipating)])
 		
 		// When
 		sut.reduce(.onAppear)
