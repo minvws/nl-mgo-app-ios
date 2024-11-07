@@ -54,7 +54,7 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 	func test_searchResultCardView_warning() {
 		
 		// Given
-		isRecording = true
+		
 		// When
 		let sut = OrganizationSearchResultCardView(
 			model: OrganizationSearchResult(
