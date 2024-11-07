@@ -26,6 +26,8 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 	/// The state for the root view of the page
 	var rootState: AppCoordination.State { get set }
 	
+	var showAuthenticationModal: Bool { get set }
+	
 	/// Should we show the child coordinator?
 	var showChildCoordinator: Bool { get set }
 	
@@ -94,10 +96,6 @@ enum AppCoordination {
 	}
 }
 
-extension Notification.Name {
-	static let resetApplication = Notification.Name("nl.mijngezondheidsomgeving.resetApplication")
-}
-
 final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The navigation path
@@ -111,6 +109,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The state for the root view of the page
 	@Published var rootState: AppCoordination.State
+	
+	/// Show the full screen authentication modal?
+	@Published var showAuthenticationModal: Bool = false
 	
 	/// Should we show the child coordinator instead of ourself?
 	@Published var showChildCoordinator = false
@@ -155,6 +156,18 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			guard let self else { return }
 			_Concurrency.Task { @MainActor in
 				self.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
+			}
+		}
+		
+		// Listen for authentication notification
+		Current.notificationCenter.addObserver(forName: .showLocalAuthentication, object: nil, queue: OperationQueue.main) { _ in
+			_Concurrency.Task { @MainActor in
+				if self.showChildCoordinator {
+					self.showAuthenticationModal = true
+					self.rootStateForSheet = .pinCodeValidation
+				} else {
+					logInfo("Not through onboarding, not showing authentication modal")
+				}
 			}
 		}
 	}
@@ -243,7 +256,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				resetNavigationStack(with: AppCoordination.State.login)
 				
 			case Coordination.Action.forgotPinCode.identifier:
-				rootStateForSheet = AppCoordination.State.forgotPinCode
+				if showAuthenticationModal {
+					pathForSheet.append(AppCoordination.State.forgotPinCode)
+				} else {
+					rootStateForSheet = AppCoordination.State.forgotPinCode
+				}
 				
 			case Coordination.Action.recreateAccount.identifier:
 				handleRecreateAccount()
@@ -262,9 +279,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case Coordination.Action.closeSheet.identifier,
 				Coordination.Action.dismissForgotPinCode.identifier:
-				
 				pathForSheet = NavigationStackBackport.NavigationPath()
-				rootStateForSheet = nil
+				
+				if !showAuthenticationModal {
+					rootStateForSheet = nil
+				}
 				
 			case Coordination.Action.backButtonPressed.identifier:
 				guard !path.isEmpty else { return }
@@ -307,6 +326,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// Handle the pincode validated action
 	private func handlePinCodeValidated() {
+		guard Current.secureUserSettings.enteredBackground == nil else {
+			showAuthenticationModal = false
+			rootStateForSheet = nil
+			pathForSheet = NavigationStackBackport.NavigationPath()
+			Current.secureUserSettings.enteredBackground = nil
+			return
+		}
+		
 		guard Current.secureUserSettings.userHasRemoteAuthentication else {
 			resetNavigationStack(with: AppCoordination.State.login)
 			return
@@ -332,6 +359,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		if rootStateForSheet != nil {
 			rootStateForSheet = nil
 			pathForSheet = NavigationStackBackport.NavigationPath()
+		}
+		if showAuthenticationModal {
+			showChildCoordinator = false
+			showAuthenticationModal = false
 		}
 		// Wipe Account
 		Current.wipePersistedData()
@@ -378,7 +409,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case .privacyStatement:
 				if let privacyURL {
-					InAppBrowserView(viewModel: InAppBrowserViewModel(url: privacyURL, browser: self.browser, title: "Mijn gezondheidsoverzicht", coordinator: self))
+					InAppBrowserView(viewModel: InAppBrowserViewModel(url: privacyURL, browser: self.browser, title: "privacy.heading", coordinator: self))
 				} else {
 					EmptyView()
 				}

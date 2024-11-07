@@ -34,4 +34,64 @@ final class AppCoordinatorViewTests: XCTestCase {
 		let value = try sut.inspect().find(viewWithAccessibilityLabel: "common.app_name")
 		expect(value) != nil
 	}
+	
+	func test_childCoordinator() throws {
+		
+		// Given
+		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		appCoordinator.showChildCoordinator = true
+		
+		// When
+		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
+	func test_fullscreenCover() throws {
+		
+		// Given
+		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		appCoordinator.showChildCoordinator = true
+		appCoordinator.showAuthenticationModal = true
+		appCoordinator.rootStateForSheet = AppCoordination.State.forgotPinCode
+		
+		// When
+		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
+	func test_fullscreenCover_pathForSheet() throws {
+		
+		// Given
+		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		appCoordinator.showChildCoordinator = true
+		appCoordinator.showAuthenticationModal = true
+		appCoordinator.rootStateForSheet = AppCoordination.State.forgotPinCode
+		appCoordinator.pathForSheet.append(AppCoordination.State.accountRemoved)
+		
+		// When
+		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
+	func test_inspectableSheet_pathForSheet() throws {
+		
+		// Given
+		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		appCoordinator.showChildCoordinator = false
+		appCoordinator.showAuthenticationModal = false
+		appCoordinator.rootStateForSheet = AppCoordination.State.forgotPinCode
+		appCoordinator.pathForSheet.append(AppCoordination.State.accountRemoved)
+		
+		// When
+		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
 }

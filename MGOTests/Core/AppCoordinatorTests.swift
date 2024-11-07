@@ -172,7 +172,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showChildCoordinator) == true
 	}
 	
-	func test_coordinatorHandle_codeValidated_shouldShowDashboard() {
+	func test_coordinatorHandle_codeValidated_shouldShowRemoteAuthentication() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = false
@@ -198,6 +198,57 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showChildCoordinator) == true
 	}
 	
+	func test_coordinatorHandle_codeValidated_whenReturningFromBackground() {
+		
+		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedEnteredBackground = Date()
+		
+		// When
+		sut.handle(Coordination.Action.pinCodeValidated)
+		
+		// Then
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedEnteredBackground) == nil
+		expect(self.sut.showAuthenticationModal) == false
+	}
+	
+	func test_coordinator_receiveNotification_whenReturningFromBackground_duringOnboarding() {
+		
+		// Given
+		Current.notificationCenter = NotificationCenter.default
+		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
+		sut = AppCoordinator(
+			path: NavigationStackBackport.NavigationPath(),
+			versionSupplier: appVersionSupplierSpy,
+			browser: browser
+		)
+		sut.showChildCoordinator = false
+		
+		// When
+		Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
+		
+		// Then
+		expect(self.sut.showAuthenticationModal).toEventually(beFalse())
+	}
+	
+	func test_coordinator_receiveNotification_whenReturningFromBackground_duringDashboard() {
+		
+		// Given
+		Current.notificationCenter = NotificationCenter.default
+		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
+		sut = AppCoordinator(
+			path: NavigationStackBackport.NavigationPath(),
+			versionSupplier: appVersionSupplierSpy,
+			browser: browser
+		)
+		sut.showChildCoordinator = true
+		
+		// When
+		Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
+		
+		// Then
+		expect(self.sut.showAuthenticationModal).toEventually(beTrue())
+	}
+	
 	func test_coordinatorHandle_forgotPinCode() {
 		
 		// Given
@@ -207,18 +258,49 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.rootStateForSheet) == AppCoordination.State.forgotPinCode
+		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
+	}
+	
+	func test_coordinatorHandle_forgotPinCode_withAuthenticationModal() {
+		
+		// Given
+		sut.showAuthenticationModal = true
+		
+		// When
+		sut.handle(Coordination.Action.forgotPinCode)
+		
+		// Then
+		expect(self.sut.rootStateForSheet) == nil
+		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath([AppCoordination.State.forgotPinCode])
 	}
 	
 	func test_coordinatorHandle_dismissForgotPinCode() {
 		
 		// Given
-		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
+		sut.rootStateForSheet = AppCoordination.State.pinCodeValidation
+		sut.pathForSheet = NavigationStackBackport.NavigationPath([AppCoordination.State.forgotPinCode])
 		
 		// When
 		sut.handle(Coordination.Action.dismissForgotPinCode)
 		
 		// Then
 		expect(self.sut.rootStateForSheet) == nil
+		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
+	}
+	
+	func test_coordinatorHandle_dismissForgotPinCode_showAuthenticationModal() {
+		
+		// Given
+		sut.rootStateForSheet = AppCoordination.State.pinCodeValidation
+		sut.pathForSheet = NavigationStackBackport.NavigationPath([AppCoordination.State.forgotPinCode])
+		sut.showAuthenticationModal = true
+		
+		// When
+		sut.handle(Coordination.Action.dismissForgotPinCode)
+		
+		// Then
+		expect(self.sut.rootStateForSheet) == AppCoordination.State.pinCodeValidation
+		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
 	}
 	
 	func test_coordinatorHandle_dismissForgotPinCode_whenUpdateRequired() {
@@ -247,6 +329,25 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedData) == true
 		expect(self.sut.rootStateForSheet) == nil
 		expect(self.sut.rootState) == AppCoordination.State.accountRemoved
+	}
+	
+	func test_coordinatorHandle_recreateAccount_withAuthenticationModal() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.login, AppCoordination.State.pinCodeValidation])
+		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
+		sut.showChildCoordinator = true
+		sut.showAuthenticationModal = true
+		
+		// When
+		sut.handle(Coordination.Action.recreateAccount)
+		
+		// Then
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedData) == true
+		expect(self.sut.rootStateForSheet) == nil
+		expect(self.sut.rootState) == AppCoordination.State.accountRemoved
+		expect(self.sut.showChildCoordinator) == false
+		expect(self.sut.showAuthenticationModal) == false
 	}
 	
 	func test_coordinatorHandle_restart() {

@@ -12,13 +12,12 @@ enum OrganizationSearchResultCardState {
 	case regular
 	case selected
 	case notParticipating
-	case notImplemented
 	
 	var accessibilityLabel: String.LocalizationValue {
 		switch self {
 			case .regular: return "add_organization.add_voiceover"
 			case .selected: return "add_organization.view_voiceover"
-			case .notParticipating, .notImplemented: return "add_organization.view_voiceover"
+			case .notParticipating: return "add_organization.view_voiceover"
 		}
 	}
 }
@@ -47,7 +46,7 @@ struct OrganizationSearchResultCardView: View {
 	private struct ViewTraits {
 		enum General {
 			static let padding: CGFloat = 12
-			static let cornerRadius: CGFloat = 8
+			static let cornerRadius: CGFloat = 10
 		}
 		enum Title {
 			static let padding: CGFloat = 4
@@ -74,76 +73,84 @@ struct OrganizationSearchResultCardView: View {
 					.multilineTextAlignment(.leading)
 					.padding(.bottom, ViewTraits.Title.padding)
 				
-				Group {
-					Text(model.address ?? "")
-					
-					HStack {
-						
-						Text(model.postalCode ?? "" )
-						
-						Text(model.city ?? "")
-					}
+				if let address = model.address, address.isNotEmpty {
+					Text(address)
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.foregroundStyle(theme.contentSecondary)
 				}
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentTertiary)
 				
-				switch state {
-					case .regular: EmptyView()
-						
-					case .notParticipating, .notImplemented, .selected:
-						HStack(alignment: .top, spacing: ViewTraits.Selected.spacing) {
-							Image(ImageResource.Localisation.warning)
-							Group {
-								if case .notParticipating = state {
-									Text("add_organization.not_participating")
-								}
-								if case .notImplemented
-									= state {
-									Text("add_organization.not_implemented")
-								}
-								if case .selected
-									= state {
-									Text("add_organization.already_added")
-								}
-							}
-								.rijksoverheidStyle(font: .regular, style: .body)
-								.multilineTextAlignment(.leading)
-								.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+				if model.postalCode != nil || model.city != nil {
+					HStack {
+						if let postalCode = model.postalCode, postalCode.isNotEmpty {
+							Text(postalCode)
 						}
-						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
-						.padding(.top, ViewTraits.Selected.padding)
-						.accessibilityElement(children: .combine)
+						if let city = model.city, city.isNotEmpty {
+							Text(city)
+						}
+					}
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentSecondary)
+				}
+				if state != .regular {
+					organizationStatusView(state)
 				}
 			}
 			
 			Spacer()
 			
-			switch state {
-				case .regular:
-					Image(systemName: "plus")
-						.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
-						.font(Font.title2.bold())
-				
-				case .notParticipating, .notImplemented, .selected:
-					EmptyView()
+			if state == .regular {
+				Image(ImageResource.Localisation.Icon.add)
+					.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
+					.font(Font.title2.bold())
 			}
+
 		}
 		.accessibilityElement(children: .combine)
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.when(state != .regular, transform: { view in
-			view.background(theme.backgroundTertiary)
+			view.background(theme.backgroundSecondary.opacity(0.50))
 		})
 		.when(state == .regular, transform: { view in
 			view
 				.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
-				.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
 		})
 		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius))
 		._onButtonGesture { pressed in
 			self.onHover = pressed
 		} perform: {
 			perform?()
+		}
+	}
+	
+	/// The view for the status of the organization
+	/// - Parameter state: state
+	/// - Returns: status view
+	@ViewBuilder func organizationStatusView(_ state: OrganizationSearchResultCardState) -> some View {
+		switch state {
+			case .regular: EmptyView()
+				
+			case .notParticipating, .selected:
+				HStack(alignment: .center, spacing: ViewTraits.Selected.spacing) {
+					if case .notParticipating = state {
+						
+						Image(ImageResource.Localisation.Icon.info)
+						Text("add_organization.not_implemented")
+							.foregroundStyle(theme.notificationInformation)
+					}
+					if case .selected
+						= state {
+						
+						Image(ImageResource.Localisation.Icon.checkCircle)
+						Text("add_organization.already_added")
+							.foregroundStyle(theme.notificationSuccess)
+					}
+				}
+				.rijksoverheidStyle(font: .bold, style: .body)
+				.multilineTextAlignment(.leading)
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.padding(.top, ViewTraits.Selected.padding)
+				.accessibilityElement(children: .combine)
 		}
 	}
 }
@@ -184,18 +191,7 @@ struct OrganizationSearchResultCardView: View {
 			),
 			state: .notParticipating
 		)
-		
-		OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
-				id: "1",
-				name: "Tandartsenpraktijk Willem II Roermond B.V.",
-				city: "Roermond",
-				address: "Boorplatform 5",
-				postalCode: "1234AB"
-			),
-			state: .notImplemented
-		)
 	}
-	.padding(.horizontal, 16)
+	.padding(16)
 	.background(Theme().backgroundPrimary)
 }

@@ -9,10 +9,25 @@ import XCTest
 extension XCTestCase {
 	
 	open override func setUp() {
-		// Uncomment to enable global snapshot re-recording:
-//		isRecording = true
 		super.setUp()
+		setupPollingDefaults()
+		recordSnapshots()
+	}
+	
+	open override func setUpWithError() throws {
+		
+		try super.setUpWithError()
+		setupPollingDefaults()
+		recordSnapshots()
+	}
+	
+	private func setupPollingDefaults() {
 		Nimble.PollingDefaults.pollInterval = .milliseconds(200)
 		Nimble.PollingDefaults.timeout = .seconds(5)
+	}
+	
+	private func recordSnapshots() {
+		// Uncomment to enable global snapshot re-recording:
+//		isRecording = true
 	}
 }

@@ -34,12 +34,6 @@ struct KeyboardIconButtonStyle: ButtonStyle {
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.font(.system(size: ViewTraits.Button.fontSize))
 			.foregroundStyle(isEnabled ? theme.iconsPrimary : theme.iconsPrimary.opacity(ViewTraits.Button.disabledOpacity))
-			.background {
-				if configuration.isPressed {
-					Circle()
-						.foregroundStyle(theme.backgroundTertiary)
-				}
-			}
-			.background(theme.backgroundPrimary)
+			.background(configuration.isPressed ? theme.backgroundTertiary : theme.backgroundPrimary)
 	}
 }

@@ -20,6 +20,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		checkLaunchArguments()
 		styleUI()
 		registerObservers()
+		Current.secureUserSettings.enteredBackground = nil
 		return true
 	}
 	
@@ -104,26 +105,34 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	// MARK: - Privacy Snapshot -
 	
 	/// Window that hosts the snapshot
-	private var privacySnapshotWindow: UIWindow?
+	internal var privacySnapshotWindow: UIWindow?
 	
 	/// The privacy view
-	let privacyView = UIHostingController(rootView: SnapshotView(showSpinner: .constant(false)))
+	internal let privacyView = UIHostingController(rootView: SnapshotView(showSpinner: .constant(false)))
+	
+	/// How many seconds must we be in the background before we show the local authentication view upon reentry?
+	internal let localAuthenticationTimeOut: TimeInterval = 120
 
 	/// Handle the event that the application will resign active notification
-	@objc private func onWillResignActiveNotification() {
+	@objc func onWillResignActiveNotification() {
 		
 		if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
 			privacySnapshotWindow = UIWindow(windowScene: windowScene)
 			
 			privacySnapshotWindow?.rootViewController = privacyView
 			// Present window above alert controllers
-			privacySnapshotWindow?.windowLevel = .alert + 1
+			privacySnapshotWindow?.windowLevel = .alert + 2
 			privacySnapshotWindow?.alpha = 0
 			privacySnapshotWindow?.makeKeyAndVisible()
 			
 			withAnimation {
 				self.privacySnapshotWindow?.alpha = 1
 			}
+			// Mark the date
+			guard Current.secureUserSettings.enteredBackground == nil else { return }
+			let timeStamp = Current.now()
+			Current.secureUserSettings.enteredBackground = timeStamp
+			logWarning("Entered background at", timeStamp)
 		}
 	}
 	
@@ -134,5 +143,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		self.privacySnapshotWindow?.alpha = 0
 		self.privacySnapshotWindow?.isHidden = true
 		self.privacySnapshotWindow = nil
+		
+		// Check the timestamp we entered the background.
+		guard let enteredBackground = Current.secureUserSettings.enteredBackground else { return }
+		if Date().timeIntervalSince(enteredBackground) >= localAuthenticationTimeOut {
+			logWarning("We are in the background longer then \(localAuthenticationTimeOut) seconds. Post show Local Authentication")
+			Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
+		} else {
+			logVerbose("We returned in time, reset enteredBackground to nil.")
+			Current.secureUserSettings.enteredBackground = nil
+		}
 	}
 }

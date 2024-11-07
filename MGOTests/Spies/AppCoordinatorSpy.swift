@@ -99,6 +99,28 @@ class AppCoordinatorSpy: AppCoordinatorProtocol {
 		}
 	}
 
+	var invokedShowAuthenticationModalSetter = false
+	var invokedShowAuthenticationModalSetterCount = 0
+	var invokedShowAuthenticationModal: Bool?
+	var invokedShowAuthenticationModalList = [Bool]()
+	var invokedShowAuthenticationModalGetter = false
+	var invokedShowAuthenticationModalGetterCount = 0
+	var stubbedShowAuthenticationModal: Bool! = false
+
+	var showAuthenticationModal: Bool {
+		set {
+			invokedShowAuthenticationModalSetter = true
+			invokedShowAuthenticationModalSetterCount += 1
+			invokedShowAuthenticationModal = newValue
+			invokedShowAuthenticationModalList.append(newValue)
+		}
+		get {
+			invokedShowAuthenticationModalGetter = true
+			invokedShowAuthenticationModalGetterCount += 1
+			return stubbedShowAuthenticationModal
+		}
+	}
+
 	var invokedShowChildCoordinatorSetter = false
 	var invokedShowChildCoordinatorSetterCount = 0
 	var invokedShowChildCoordinator: Bool?

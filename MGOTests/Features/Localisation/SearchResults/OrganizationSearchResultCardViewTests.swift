@@ -9,7 +9,7 @@ import MGOTest
 @testable import MGO
 
 final class OrganizationSearchResultCardViewTests: XCTestCase {
-
+	
 	func test_searchResultCardView_regular() {
 		
 		// Given
@@ -70,7 +70,44 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_searchResultCardView_notImplmented() {
+	func test_searchResultCardView_nameOnly() {
+		
+		// Given
+		
+		// When
+		let sut = OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
+				id: "1",
+				name: "Tandarts Tandje Erbij"
+			),
+			state: .regular
+		)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
+	func test_searchResultCardView_noStreet() {
+		
+		// Given
+		
+		// When
+		let sut = OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
+				id: "1",
+				name: "Tandarts Tandje Erbij",
+				city: "Roermond",
+				address: nil,
+				postalCode: "1234AB"
+			),
+			state: .regular
+		)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
+	func test_searchResultCardView_noPostalCode() {
 		
 		// Given
 		
@@ -81,24 +118,7 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
 				address: "Boorplatform 5",
-				postalCode: "1234AB"
-			),
-			state: .notImplemented
-		)
-		
-		// Then
-		takeSnapShots(content: sut)
-	}
-	
-	func test_searchResultCardView_nameOnly() {
-		
-		// Given
-		
-		// When
-		let sut = OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
-				id: "1",
-				name: "Tandarts Tandje Erbij"
+				postalCode: nil
 			),
 			state: .regular
 		)
