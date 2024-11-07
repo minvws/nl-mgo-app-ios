@@ -135,7 +135,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		// Given
 		createSut()
 		let list: [OrganizationSearchResultSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notImplemented)),
+			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),
 			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.regular))
@@ -157,7 +157,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		// Given
 		createSut()
 		let list: [OrganizationSearchResultSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notImplemented)),
+			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),
 			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.regular))
@@ -179,7 +179,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		// Given
 		createSut()
 		let list: [OrganizationSearchResultSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notImplemented)),
+			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),
 			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.regular))
@@ -201,7 +201,7 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 		// Given
 		createSut()
 		let list: [OrganizationSearchResultSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notImplemented)),
+			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),
 			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.regular))
