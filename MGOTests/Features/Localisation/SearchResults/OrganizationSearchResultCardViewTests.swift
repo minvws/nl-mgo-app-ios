@@ -10,7 +10,6 @@ import MGOTest
 
 final class OrganizationSearchResultCardViewTests: XCTestCase {
 	
-
 	func test_searchResultCardView_regular() {
 		
 		// Given
