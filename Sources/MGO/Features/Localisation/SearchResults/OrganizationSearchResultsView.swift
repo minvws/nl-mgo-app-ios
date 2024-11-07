@@ -184,7 +184,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 			}
 		}
 		guard activeServices.isNotEmpty else {
-			return .notImplemented
+			return .notParticipating
 		}
 		
 		let list = Current.healthcareOrganizationStore.organizations
