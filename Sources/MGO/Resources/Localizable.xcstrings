@@ -119,7 +119,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze zorgaanbieder heb je al toegevoegd"
+            "value" : "Zorgaanbieder al toevoegd"
           }
         }
       }
@@ -207,7 +207,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze zorgaanbieder ondersteunen we nog niet"
+            "value" : "Zorgaanbieder nog niet beschikbaar"
           }
         }
       }
@@ -218,7 +218,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze zorgaanbieder doet niet mee"
+            "value" : "Zorgaanbieder niet aangesloten"
           }
         }
       }
