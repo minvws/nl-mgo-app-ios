@@ -68,8 +68,6 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-
-	
 	
 	func test_UISchemaDetailsView_multipleValues_singleEntry() throws {
 		

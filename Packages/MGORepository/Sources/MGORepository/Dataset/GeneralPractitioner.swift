@@ -35,7 +35,8 @@ extension DVP {
 				[
 					(RequestParameterField.include, "Patient:general-practitioner")
 				]
-			)
+			),
+			serviceId: GeneralPractitioner.serviceID
 		)
 		
 		// MARK: - 3: Episodes -
@@ -45,7 +46,8 @@ extension DVP {
 		 */
 		// Patient: GET [base]/EpisodeOfCare
 		public static let episodes: DVP.Endpoint = DVP.Endpoint(
-			path: "EpisodeOfCare"
+			path: "EpisodeOfCare",
+			serviceId: GeneralPractitioner.serviceID
 		)
 		
 		// MARK: - 4: Episodes with alert flag -
@@ -76,7 +78,8 @@ extension DVP {
 					(RequestParameterField.category, "http://snomed.info/sct|16076005"),
 					(RequestParameterField.include, "MedicationRequest:medication")
 				]
-			)
+			),
+			serviceId: GeneralPractitioner.serviceID
 		)
 		
 		// MARK: - 9: 	Medication intolerance -
@@ -87,7 +90,8 @@ extension DVP {
 				[
 					(RequestParameterField.category, "medication")
 				]
-			)
+			),
+			serviceId: GeneralPractitioner.serviceID
 		)
 		
 		// MARK: - 10: Correspondence -
@@ -107,7 +111,8 @@ extension DVP {
 					(RequestParameterField.include, "Observation:specimen"),
 					(RequestParameterField.date, "ge2017-01-01")
 				]
-			)
+			),
+			serviceId: GeneralPractitioner.serviceID
 		)
 		
 		// MARK: - 12: SOAP entries -
@@ -119,15 +124,16 @@ extension DVP {
 				[
 					(RequestParameterField.type, "http://loinc.org|67781-5")
 				]
-			)
+			),
+			serviceId: GeneralPractitioner.serviceID
 		)
 		
 		// MARK: - 13: Encounters -
 		
 		// Contact: GET [base]/Encounter
 		public static let encounter: DVP.Endpoint = DVP.Endpoint(
-			path: "Encounter"
+			path: "Encounter",
+			serviceId: GeneralPractitioner.serviceID
 		)
-		
 	}
 }

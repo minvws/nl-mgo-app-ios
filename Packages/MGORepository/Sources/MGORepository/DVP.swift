@@ -17,10 +17,12 @@ public struct DVP {
 		///   - path: the resource path
 		///   - parameters: the request params
 		///   - directory: the url directory
-		public init(path: String, parameters: RequestParameters? = nil, directory: String? = nil) {
+		///   - serviceId: the identifier of the service
+		public init(path: String, parameters: RequestParameters? = nil, directory: String? = nil, serviceId: String) {
 			self.path = path
 			self.parameters = parameters
 			self.directory = directory
+			self.serviceId = serviceId
 		}
 		
 		/// The path for this endpoint
@@ -31,5 +33,8 @@ public struct DVP {
 		
 		/// Any directory?
 		public let directory: String?
+		
+		/// The identifier of the service
+		public let serviceId: String
 	}
 }

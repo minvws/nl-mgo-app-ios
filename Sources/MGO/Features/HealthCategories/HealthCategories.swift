@@ -223,89 +223,89 @@ struct HealthCategories {
 		}
 		
 		// What endpoints should we use for a category?
-		var services: [(endpoint: DVP.Endpoint, serviceID: String)] {
+		var services: [DVP.Endpoint] {
 			switch self {
 				case .medication: [
-					(DVP.CommonClinicalDataset.medicationUse, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.medicationAgreement, DVP.CommonClinicalDataset.serviceID),
-					(DVP.GeneralPractitioner.currentMedication, DVP.GeneralPractitioner.serviceID),
-					(DVP.CommonClinicalDataset.administrationAgreement, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.medicationUse,
+					DVP.CommonClinicalDataset.medicationAgreement,
+					DVP.GeneralPractitioner.currentMedication,
+					DVP.CommonClinicalDataset.administrationAgreement
 				]
 				
 				case .measurements: [
-					(DVP.CommonClinicalDataset.bloodPressure, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.bodyWeight, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.bodyHeight, DVP.CommonClinicalDataset.serviceID),
-					(DVP.GeneralPractitioner.diagnosticAndLabResults, DVP.GeneralPractitioner.serviceID)
+					DVP.CommonClinicalDataset.bloodPressure,
+					DVP.CommonClinicalDataset.bodyWeight,
+					DVP.CommonClinicalDataset.bodyHeight,
+					DVP.GeneralPractitioner.diagnosticAndLabResults
 				]
 				
 				case .labresults: [
-					(DVP.CommonClinicalDataset.laboratoryTestResult, DVP.CommonClinicalDataset.serviceID),
-					(DVP.GeneralPractitioner.diagnosticAndLabResults, DVP.GeneralPractitioner.serviceID)
+					DVP.CommonClinicalDataset.laboratoryTestResult,
+					DVP.GeneralPractitioner.diagnosticAndLabResults
 				]
 				
 				case .allergies: [
-					(DVP.CommonClinicalDataset.allergyIntolerance, DVP.CommonClinicalDataset.serviceID),
-					(DVP.GeneralPractitioner.allergyIntolerance, DVP.GeneralPractitioner.serviceID)
+					DVP.CommonClinicalDataset.allergyIntolerance,
+					DVP.GeneralPractitioner.allergyIntolerance
 				]
 				
 				case .treatments: [
-					(DVP.CommonClinicalDataset.procedure, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.plannedProcedures, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.procedure,
+					DVP.CommonClinicalDataset.plannedProcedures
 				]
 				
 				case .appointments: [
-					(DVP.CommonClinicalDataset.encounter, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.plannedEncounters, DVP.CommonClinicalDataset.serviceID),
-					(DVP.GeneralPractitioner.encounter, DVP.GeneralPractitioner.serviceID),
-					(DVP.GeneralPractitioner.soapEntries, DVP.GeneralPractitioner.serviceID)
+					DVP.CommonClinicalDataset.encounter,
+					DVP.CommonClinicalDataset.plannedEncounters,
+					DVP.GeneralPractitioner.encounter,
+					DVP.GeneralPractitioner.soapEntries
 				]
 				
 				case .vaccinations: [
-					(DVP.CommonClinicalDataset.vaccination, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.plannedImmunization, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.vaccination,
+					DVP.CommonClinicalDataset.plannedImmunization
 				]
 				
 				case .documents: []
 				
 				case .complaints: [
-					(DVP.CommonClinicalDataset.problem, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.problem
 				]
 				
 				case .patient: [
-					(DVP.CommonClinicalDataset.patient, DVP.CommonClinicalDataset.serviceID),
-					(DVP.GeneralPractitioner.patient, DVP.GeneralPractitioner.serviceID)
+					DVP.CommonClinicalDataset.patient,
+					DVP.GeneralPractitioner.patient
 				]
 				
 				case .functionalOrMentalStatus: [
-					(DVP.CommonClinicalDataset.functionalOrMentalStatus, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.functionalOrMentalStatus
 				]
 				
 				case .alerts: [
-					(DVP.CommonClinicalDataset.alert, DVP.CommonClinicalDataset.serviceID)
-//					(DVP.GeneralPractitioner.episodes, DVP.GeneralPractitioner.serviceID)
+					DVP.CommonClinicalDataset.alert
+//					DVP.GeneralPractitioner.episodes
 				]
 				
 				case .lifestyle: [
-					(DVP.CommonClinicalDataset.livingSituation, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.drugUse, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.alcoholUse, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.tobaccoUse, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.nutritionAdvice, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.livingSituation,
+					DVP.CommonClinicalDataset.drugUse,
+					DVP.CommonClinicalDataset.alcoholUse,
+					DVP.CommonClinicalDataset.tobaccoUse,
+					DVP.CommonClinicalDataset.nutritionAdvice
 				]
 				
 				case .devices: [
-					(DVP.CommonClinicalDataset.medicalDevice, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.plannedMedicalDevices, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.medicalDevice,
+					DVP.CommonClinicalDataset.plannedMedicalDevices
 				]
 				
 				case .plans: [
-					(DVP.CommonClinicalDataset.treatmentDirective, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.advanceDirective, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.treatmentDirective,
+					DVP.CommonClinicalDataset.advanceDirective
 				]
 				
 				case .payment: [
-					(DVP.CommonClinicalDataset.payer, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.payer
 				]
 			}
 		}

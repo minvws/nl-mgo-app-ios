@@ -134,7 +134,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		
 		for service in category.services {
 			
-			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: service.serviceID) else {
+			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: service.serviceId) else {
 				continue
 			}
 			
@@ -144,7 +144,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			do {
 				logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", service)
 				let data = try await repository.getBundleData(
-					endpoint: service.endpoint,
+					endpoint: service,
 					dvaTarget: dvaTarget,
 					username: username,
 					password: password
