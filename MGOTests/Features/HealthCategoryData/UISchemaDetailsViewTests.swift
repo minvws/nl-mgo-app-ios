@@ -41,6 +41,36 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_UISchemaDetailsView_downloadLink() throws {
+		
+		// Given
+		let data = try getResource("downloadLink")
+		let schema = try UISchema(data: data)
+		let sut = UISchemaView(schema: schema)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_UISchemaDetailsView_reference() throws {
+		
+		// Given
+		let data = try getResource("reference")
+		let schema = try UISchema(data: data)
+		let sut = UISchemaView(schema: schema)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+
+	
+	
 	func test_UISchemaDetailsView_multipleValues_singleEntry() throws {
 		
 		// Given

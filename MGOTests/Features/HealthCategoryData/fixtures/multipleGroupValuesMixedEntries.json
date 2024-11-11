@@ -11,8 +11,10 @@
 						["Single Entry in another array", "Second Entry in another array"],
 						["Single Entry in the third array"]
 					],
-					"type": "overwrite.label",
-					"summary": false
+					"type": "MULTIPLE_GROUPED_VALUES",
+					"summary": false,
+					"reference": null,
+					"url": null
 				}
 			]
 		}

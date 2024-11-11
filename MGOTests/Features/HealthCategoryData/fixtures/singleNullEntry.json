@@ -7,8 +7,10 @@
 				{
 					"label": "The label",
 					"display": null,
-					"type": "overwrite.label",
-					"summary": false
+					"type": "SINGLE_VALUE",
+					"summary": false,
+					"reference": null,
+					"url": null
 				}
 			]
 		}

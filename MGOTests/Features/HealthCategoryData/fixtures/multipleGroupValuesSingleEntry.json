@@ -7,8 +7,10 @@
 				{
 					"label": "The label",
 					"display": [["Single Entry in an array"]],
-					"type": "overwrite.label",
-					"summary": false
+					"type": "MULTIPLE_GROUPED_VALUES",
+					"summary": false,
+					"reference": null,
+					"url": null
 				}
 			]
 		}

@@ -7,8 +7,10 @@
 				{
 					"label": "The label",
 					"display": ["First Entry in an array", "Second Entry in an array"],
-					"type": "overwrite.label",
-					"summary": false
+					"type": "MULTIPLE_VALUES",
+					"summary": false,
+					"reference": null,
+					"url": null
 				}
 			]
 		}
