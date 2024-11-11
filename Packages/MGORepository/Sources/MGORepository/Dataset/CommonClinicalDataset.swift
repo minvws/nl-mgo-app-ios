@@ -358,11 +358,4 @@ extension DVP {
 		
 		// See Patient
 	}
-	
-	/// The settings for the Documenten PDF/A
-	public enum Documents {
-		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/OntwerpPDFA
-		
-		public static let serviceID: Int = 51
-	}
 }
