@@ -6236,7 +6236,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function passThrough(value2) {
     return value2;
   }
-  function componentSlice(components, code2) {
+  function findComponentByCode(components, code2) {
     return components?.find((component) => component.code.coding?.find((x) => x.code === code2));
   }
   function oneOfValueX(value2, valueArray, valuePrefix = "value") {
@@ -6750,7 +6750,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseRelated,
     uiSchemaGroup: uiSchemaGroup$r
   };
-  function uiSchema$D(resource) {
+  function uiSchema$E(resource) {
     const i18n = "zib_laboratory_test_result_observation";
     const related2 = map(resource.related, uiSchemaGroup$r, true);
     const referenceRange2 = map(resource.referenceRange, uiSchemaGroup$s, true);
@@ -6797,8 +6797,36 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$D = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
+  const profile$E = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
   function parseZibLaboratoryTestResultObservation(resource) {
+    return {
+      ...resourceMeta(resource, profile$E),
+      identifier: map(resource.identifier, identifier$1),
+      subject: reference$1(resource.subject),
+      code: codeableConcept$1(resource?.code),
+      method: codeableConcept$1(resource?.method),
+      effective: dateTime$3(resource?.effectiveDateTime) ?? period$1(resource?.effectivePeriod),
+      result: quantity$1(resource?.valueQuantity),
+      status: string$1(resource?.status),
+      referenceRange: map(resource?.referenceRange, referenceRange.parse),
+      interpretation: codeableConcept$1(resource?.interpretation),
+      specimen: reference$1(resource.specimen),
+      comment: string$1(resource.comment),
+      category: map(resource.category, codeableConcept$1),
+      related: map(resource.related, related.parse),
+      basedOn: map(resource.basedOn, reference$1)
+    };
+  }
+  const zibLaboratoryTestResultObservation = {
+    profile: profile$E,
+    parse: parseZibLaboratoryTestResultObservation,
+    uiSchema: uiSchema$E
+  };
+  function uiSchema$D(resource) {
+    return zibLaboratoryTestResultObservation.uiSchema(resource);
+  }
+  const profile$D = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
+  function parseGpLaboratoryResult(resource) {
     return {
       ...resourceMeta(resource, profile$D),
       identifier: map(resource.identifier, identifier$1),
@@ -6817,40 +6845,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       basedOn: map(resource.basedOn, reference$1)
     };
   }
-  const zibLaboratoryTestResultObservation = {
+  const gpLaboratoryResult = {
     profile: profile$D,
-    parse: parseZibLaboratoryTestResultObservation,
+    parse: parseGpLaboratoryResult,
     uiSchema: uiSchema$D
   };
   function uiSchema$C(resource) {
-    return zibLaboratoryTestResultObservation.uiSchema(resource);
-  }
-  const profile$C = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
-  function parseGpLaboratoryResult(resource) {
-    return {
-      ...resourceMeta(resource, profile$C),
-      identifier: map(resource.identifier, identifier$1),
-      subject: reference$1(resource.subject),
-      code: codeableConcept$1(resource?.code),
-      method: codeableConcept$1(resource?.method),
-      effective: dateTime$3(resource?.effectiveDateTime) ?? period$1(resource?.effectivePeriod),
-      result: quantity$1(resource?.valueQuantity),
-      status: string$1(resource?.status),
-      referenceRange: map(resource?.referenceRange, referenceRange.parse),
-      interpretation: codeableConcept$1(resource?.interpretation),
-      specimen: reference$1(resource.specimen),
-      comment: string$1(resource.comment),
-      category: map(resource.category, codeableConcept$1),
-      related: map(resource.related, related.parse),
-      basedOn: map(resource.basedOn, reference$1)
-    };
-  }
-  const gpLaboratoryResult = {
-    profile: profile$C,
-    parse: parseGpLaboratoryResult,
-    uiSchema: uiSchema$C
-  };
-  function uiSchema$B(resource) {
     const profile2 = "gp_diagnostic_result";
     return {
       label: resource.context?.display,
@@ -6873,10 +6873,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$B = "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult";
+  const profile$C = "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult";
   function parseGpDiagnosticResult(resource) {
     return {
-      ...resourceMeta(resource, profile$B),
+      ...resourceMeta(resource, profile$C),
       identifier: map(resource.identifier, identifier$1),
       context: reference$1(resource.context),
       subject: reference$1(resource.subject),
@@ -6898,9 +6898,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const gpDiagnosticResult = {
-    profile: profile$B,
+    profile: profile$C,
     parse: parseGpDiagnosticResult,
-    uiSchema: uiSchema$B
+    uiSchema: uiSchema$C
   };
   function uiSchemaGroup$q(resource) {
     return {
@@ -6917,7 +6917,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseEncounterParticipant,
     uiSchemaGroup: uiSchemaGroup$q
   };
-  function uiSchema$A(resource) {
+  function uiSchema$B(resource) {
     const profile2 = "Encounter";
     const participants = map(resource.participant, uiSchemaGroup$q, true);
     return {
@@ -6936,10 +6936,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const profile$A = "http://nictiz.nl/fhir/StructureDefinition/gp-Encounter";
+  const profile$B = "http://nictiz.nl/fhir/StructureDefinition/gp-Encounter";
   function parseGpEncounter(resource) {
     return {
-      ...resourceMeta(resource, profile$A),
+      ...resourceMeta(resource, profile$B),
       class: coding$1(resource.class),
       participant: map(resource.participant, encounterParticipant.parse),
       serviceProvider: reference$1(resource.serviceProvider),
@@ -6948,8 +6948,56 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const gpEncounter = {
-    profile: profile$A,
+    profile: profile$B,
     parse: parseGpEncounter,
+    uiSchema: uiSchema$B
+  };
+  function uiSchema$A(resource) {
+    const profile2 = "gp_journal_entry";
+    return {
+      label: resource.context?.display,
+      children: [
+        {
+          label: `${profile2}.group_details`,
+          children: [
+            ui.multipleValues(`${profile2}.identifier`, resource.identifier, ui.identifier),
+            ui.string(`${profile2}.status`, resource.status),
+            ui.codeableConcept(`${profile2}.code`, resource.code),
+            ui.reference(`${profile2}.context`, resource.context),
+            ...valueX(`${profile2}.effective`, resource, "effective"),
+            ui.multipleValues(`${profile2}.performer`, resource.performer, ui.reference),
+            ui.string(`${profile2}.valueString`, resource.valueString),
+            ui.codeableConcept(`${profile2}.ICPC_S`, resource.ICPC_S.valueCodeableConcept),
+            ui.codeableConcept(`${profile2}.ICPC_E`, resource.ICPC_E.valueCodeableConcept)
+          ]
+        }
+      ]
+    };
+  }
+  const profile$A = "http://nictiz.nl/fhir/StructureDefinition/gp-JournalEntry";
+  function parseGpJournalEntry(resource) {
+    const ICPC_S = findComponentByCode(resource.component, "ADMDX");
+    const ICPC_E = findComponentByCode(resource.component, "DISDX");
+    return {
+      ...resourceMeta(resource, profile$A),
+      identifier: map(resource.identifier, identifier$1),
+      status: string$1(resource.status),
+      code: codeableConcept$1(resource.code),
+      context: reference$1(resource.context),
+      ...oneOfValueX(resource, ["dateTime", "period"], "effective"),
+      performer: map(resource.performer, reference$1),
+      valueString: string$1(resource.valueString),
+      ICPC_S: {
+        valueCodeableConcept: codeableConcept$1(ICPC_S?.valueCodeableConcept)
+      },
+      ICPC_E: {
+        valueCodeableConcept: codeableConcept$1(ICPC_E?.valueCodeableConcept)
+      }
+    };
+  }
+  const gpJournalEntry = {
+    profile: profile$A,
+    parse: parseGpJournalEntry,
     uiSchema: uiSchema$A
   };
   function parseSection(value2) {
@@ -8672,15 +8720,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const profile$a = "http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure";
   function parseZibBloodPressure(resource) {
-    const cuffTypeLOINC = componentSlice(resource.component, "8358-4");
-    const cuffTypeSNOMED = componentSlice(resource.component, "70665002");
-    const diastolicEndpoint = componentSlice(resource.component, "85549003");
-    const systolicBP = componentSlice(resource.component, "8480-6");
-    const diastolicBP = componentSlice(resource.component, "8462-4");
-    const averageBloodPressureLOINC = componentSlice(resource.component, "8478-0");
-    const averageBloodPressureSNOMED = componentSlice(resource.component, "6797001");
-    const positionSNOMED = componentSlice(resource.component, "424724000");
-    const positionLOINC = componentSlice(resource.component, "8361-8");
+    const cuffTypeLOINC = findComponentByCode(resource.component, "8358-4");
+    const cuffTypeSNOMED = findComponentByCode(resource.component, "70665002");
+    const diastolicEndpoint = findComponentByCode(resource.component, "85549003");
+    const systolicBP = findComponentByCode(resource.component, "8480-6");
+    const diastolicBP = findComponentByCode(resource.component, "8462-4");
+    const averageBloodPressureLOINC = findComponentByCode(resource.component, "8478-0");
+    const averageBloodPressureSNOMED = findComponentByCode(resource.component, "6797001");
+    const positionSNOMED = findComponentByCode(resource.component, "424724000");
+    const positionLOINC = findComponentByCode(resource.component, "8361-8");
     return {
       ...parseNlCoreObservationBase(resource, profile$a),
       cuffTypeLOINC: {
@@ -8739,7 +8787,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const profile$9 = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight";
   function parseZibBodyWeight(resource) {
-    const clothing = componentSlice(resource.component, "8352-7");
+    const clothing = findComponentByCode(resource.component, "8352-7");
     return {
       ...parseNlCoreObservationBase(resource, profile$9),
       clothing: {
@@ -9224,6 +9272,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     gpDiagnosticResult,
     gpEncounter,
     gpEncounterReport,
+    gpJournalEntry,
     gpLaboratoryResult,
     iheMhdMinimalDocumentReference,
     nlCoreObservation,
