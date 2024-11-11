@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let singleValue = try SingleValue(json)
+//   let uIEntryValueMULTIPLEGROUPEDVALUESString = try UIEntryValueMULTIPLEGROUPEDVALUESString(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,14 +10,14 @@
 
 import Foundation
 
-// MARK: - SingleValue
-public struct SingleValue: Codable, Hashable, Sendable {
-    public let display: String?
+// MARK: - UIEntryValueMULTIPLEGROUPEDVALUESString
+public struct UIEntryValueMULTIPLEGROUPEDVALUESString: Codable, Hashable, Sendable {
+    public let display: [[String]]?
     public let label: String
     public let summary: Bool?
-    public let type: SingleValueType
+    public let type: MultipleGroupedValuesType
 
-    public init(display: String?, label: String, summary: Bool?, type: SingleValueType) {
+    public init(display: [[String]]?, label: String, summary: Bool?, type: MultipleGroupedValuesType) {
         self.display = display
         self.label = label
         self.summary = summary
@@ -25,11 +25,11 @@ public struct SingleValue: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: SingleValue convenience initializers and mutators
+// MARK: UIEntryValueMULTIPLEGROUPEDVALUESString convenience initializers and mutators
 
-public extension SingleValue {
+public extension UIEntryValueMULTIPLEGROUPEDVALUESString {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(SingleValue.self, from: data)
+        self = try newJSONDecoder().decode(UIEntryValueMULTIPLEGROUPEDVALUESString.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -44,12 +44,12 @@ public extension SingleValue {
     }
 
     func with(
-        display: String?? = nil,
+        display: [[String]]?? = nil,
         label: String? = nil,
         summary: Bool?? = nil,
-        type: SingleValueType? = nil
-    ) -> SingleValue {
-        return SingleValue(
+        type: MultipleGroupedValuesType? = nil
+    ) -> UIEntryValueMULTIPLEGROUPEDVALUESString {
+        return UIEntryValueMULTIPLEGROUPEDVALUESString(
             display: display ?? self.display,
             label: label ?? self.label,
             summary: summary ?? self.summary,

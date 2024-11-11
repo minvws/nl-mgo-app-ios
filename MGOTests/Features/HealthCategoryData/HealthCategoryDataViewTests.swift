@@ -11,12 +11,12 @@ import MGOUI
 @testable import MGO
 import Zibs
 
-final class ZibDetailsViewTests: XCTestCase {
+final class HealthCategoryDataViewTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: ZibDetailsViewModel!
-	private var sut: ZibDetailsView!
+	private var viewModel: HealthCategoryDataViewModel!
+	private var sut: HealthCategoryDataView!
 	
 	override func setUpWithError() throws {
 		
@@ -25,11 +25,11 @@ final class ZibDetailsViewTests: XCTestCase {
 		coordinatorSpy = DashboardCoordinatorSpy()
 		let data = try getResource("multipleValuesMultipleEntries")
 		let schema = try UISchema(data: data)
-		viewModel = ZibDetailsViewModel(coordinator: coordinatorSpy, title: "test_zibDetailsView", schema: schema)
-		sut = ZibDetailsView(viewModel: self.viewModel)
+		viewModel = HealthCategoryDataViewModel(coordinator: coordinatorSpy, title: "test_HealthCategoryDataView", schema: schema)
+		sut = HealthCategoryDataView(viewModel: self.viewModel)
 	}
 
-	func test_zibDetailsView() throws {
+	func test_HealthCategoryDataView() throws {
 		
 		// Given
 

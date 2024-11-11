@@ -15,7 +15,7 @@ struct ZibDetailViewState {
 	var schema: UISchema
 }
 
-class ZibDetailsViewModel: ObservableObject {
+class HealthCategoryDataViewModel: ObservableObject {
 	
 	/// The state of the view
 	@Published var state: ZibDetailViewState
@@ -43,7 +43,7 @@ class ZibDetailsViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: ZibDetailsViewModel.Action) {
+	func reduce(_ action: HealthCategoryDataViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
@@ -52,10 +52,10 @@ class ZibDetailsViewModel: ObservableObject {
 	}
 }
 
-struct ZibDetailsView: View {
+struct HealthCategoryDataView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: ZibDetailsViewModel
+	@StateObject var viewModel: HealthCategoryDataViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -76,7 +76,7 @@ struct ZibDetailsView: View {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
-				UISchemaDetailsView(schema: viewModel.state.schema)
+				UISchemaView(schema: viewModel.state.schema)
 				
 				Spacer()
 			}
@@ -97,51 +97,51 @@ struct ZibDetailsView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		ZibDetailsView(
+		HealthCategoryDataView(
 			viewModel:
-				ZibDetailsViewModel(
+				HealthCategoryDataViewModel(
 					coordinator: nil,
-					title: "Alle medicijngegevens",
+					title: String(localized: "hc_medication.heading_detail"),
 					schema: UISchema(
 						children: [
-							UISchemaGroup(
-								children: [
-									Value(
-										display: ChildDisplay.string("Value"),
-										label: "field.label",
-										summary: true,
-										type: "Field Type",
-										reference: nil
-									),
-									Value(
-										display: ChildDisplay.string("Value2"),
-										label: "field.label2",
-										summary: true,
-										type: "Field Type",
-										reference: nil
-									)
-								],
-								label: "Section Header"),
-							
-							UISchemaGroup(
-								children: [
-									Value(
-										display: ChildDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
-										label: "field.label3",
-										summary: true,
-										type: "Field Type",
-										reference: nil
-									),
-									Value(
-										display: nil,
-										label: "field.label4",
-										summary: true,
-										type: "Field Type",
-										reference: nil
-									)
-								],
-								label: "Section Header 2")
-							
+//							UISchemaGroup(
+//								children: [
+//									Value(
+//										display: ChildDisplay.string("Value"),
+//										label: "field.label",
+//										summary: true,
+//										type: "Field Type",
+//										reference: nil
+//									),
+//									Value(
+//										display: ChildDisplay.string("Value2"),
+//										label: "field.label2",
+//										summary: true,
+//										type: "Field Type",
+//										reference: nil
+//									)
+//								],
+//								label: "Section Header"),
+//							
+//							UISchemaGroup(
+//								children: [
+//									Value(
+//										display: ChildDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
+//										label: "field.label3",
+//										summary: true,
+//										type: "Field Type",
+//										reference: nil
+//									),
+//									Value(
+//										display: nil,
+//										label: "field.label4",
+//										summary: true,
+//										type: "Field Type",
+//										reference: nil
+//									)
+//								],
+//								label: "Section Header 2")
+//							
 						],
 						label: "UI Schema"
 					)

@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let multipleValue = try MultipleValue(json)
+//   let uIEntryValueSINGLEVALUEString = try UIEntryValueSINGLEVALUEString(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,14 +10,14 @@
 
 import Foundation
 
-// MARK: - MultipleValue
-public struct MultipleValue: Codable, Hashable, Sendable {
-    public let display: [String]?
+// MARK: - UIEntryValueSINGLEVALUEString
+public struct UIEntryValueSINGLEVALUEString: Codable, Hashable, Sendable {
+    public let display: String?
     public let label: String
     public let summary: Bool?
-    public let type: String
+    public let type: SingleValueType
 
-    public init(display: [String]?, label: String, summary: Bool?, type: String) {
+    public init(display: String?, label: String, summary: Bool?, type: SingleValueType) {
         self.display = display
         self.label = label
         self.summary = summary
@@ -25,11 +25,11 @@ public struct MultipleValue: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: MultipleValue convenience initializers and mutators
+// MARK: UIEntryValueSINGLEVALUEString convenience initializers and mutators
 
-public extension MultipleValue {
+public extension UIEntryValueSINGLEVALUEString {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(MultipleValue.self, from: data)
+        self = try newJSONDecoder().decode(UIEntryValueSINGLEVALUEString.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -44,12 +44,12 @@ public extension MultipleValue {
     }
 
     func with(
-        display: [String]?? = nil,
+        display: String?? = nil,
         label: String? = nil,
         summary: Bool?? = nil,
-        type: String? = nil
-    ) -> MultipleValue {
-        return MultipleValue(
+        type: SingleValueType? = nil
+    ) -> UIEntryValueSINGLEVALUEString {
+        return UIEntryValueSINGLEVALUEString(
             display: display ?? self.display,
             label: label ?? self.label,
             summary: summary ?? self.summary,

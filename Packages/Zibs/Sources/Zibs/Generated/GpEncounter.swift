@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let zibEncounter = try ZibEncounter(json)
+//   let gpEncounter = try GpEncounter(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,31 +10,27 @@
 
 import Foundation
 
-// MARK: - ZibEncounter
-public struct ZibEncounter: Codable, Hashable, Sendable {
-    public let zibEncounterClass: MgoCoding?
-    public let diagnosis: [Diagnosis]?
-    public let hospitalization: Hospitalization
+// MARK: - GpEncounter
+public struct GpEncounter: Codable, Hashable, Sendable {
+    public let gpEncounterClass: MgoCoding?
     public let id: String?
-    public let participant: [ZibEncounterParticipant]?
+    public let participant: [GpEncounterParticipant]?
     public let period: MgoPeriod?
-    public let profile: ZibEncounterProfile
+    public let profile: GpEncounterProfile
     public let reason: [[MgoCoding]]?
     public let referenceID: String
     public let resourceType: String?
     public let serviceProvider: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case zibEncounterClass = "class"
-        case diagnosis, hospitalization, id, participant, period, profile, reason
+        case gpEncounterClass = "class"
+        case id, participant, period, profile, reason
         case referenceID = "referenceId"
         case resourceType, serviceProvider
     }
 
-    public init(zibEncounterClass: MgoCoding?, diagnosis: [Diagnosis]?, hospitalization: Hospitalization, id: String?, participant: [ZibEncounterParticipant]?, period: MgoPeriod?, profile: ZibEncounterProfile, reason: [[MgoCoding]]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
-        self.zibEncounterClass = zibEncounterClass
-        self.diagnosis = diagnosis
-        self.hospitalization = hospitalization
+    public init(gpEncounterClass: MgoCoding?, id: String?, participant: [GpEncounterParticipant]?, period: MgoPeriod?, profile: GpEncounterProfile, reason: [[MgoCoding]]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
+        self.gpEncounterClass = gpEncounterClass
         self.id = id
         self.participant = participant
         self.period = period
@@ -46,11 +42,11 @@ public struct ZibEncounter: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: ZibEncounter convenience initializers and mutators
+// MARK: GpEncounter convenience initializers and mutators
 
-public extension ZibEncounter {
+public extension GpEncounter {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(ZibEncounter.self, from: data)
+        self = try newJSONDecoder().decode(GpEncounter.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -65,22 +61,18 @@ public extension ZibEncounter {
     }
 
     func with(
-        zibEncounterClass: MgoCoding?? = nil,
-        diagnosis: [Diagnosis]?? = nil,
-        hospitalization: Hospitalization? = nil,
+        gpEncounterClass: MgoCoding?? = nil,
         id: String?? = nil,
-        participant: [ZibEncounterParticipant]?? = nil,
+        participant: [GpEncounterParticipant]?? = nil,
         period: MgoPeriod?? = nil,
-        profile: ZibEncounterProfile? = nil,
+        profile: GpEncounterProfile? = nil,
         reason: [[MgoCoding]]?? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
         serviceProvider: MgoReference?? = nil
-    ) -> ZibEncounter {
-        return ZibEncounter(
-            zibEncounterClass: zibEncounterClass ?? self.zibEncounterClass,
-            diagnosis: diagnosis ?? self.diagnosis,
-            hospitalization: hospitalization ?? self.hospitalization,
+    ) -> GpEncounter {
+        return GpEncounter(
+            gpEncounterClass: gpEncounterClass ?? self.gpEncounterClass,
             id: id ?? self.id,
             participant: participant ?? self.participant,
             period: period ?? self.period,

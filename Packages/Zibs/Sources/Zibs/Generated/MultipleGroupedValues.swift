@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let source = try Source(json)
+//   let multipleGroupedValues = try MultipleGroupedValues(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,24 +10,26 @@
 
 import Foundation
 
-// MARK: - Source
-public struct Source: Codable, Hashable, Sendable {
-    public let attachment: MgoAttachment
-    public let identifier: MgoIdentifier?
-    public let reference: MgoReference?
+// MARK: - MultipleGroupedValues
+public struct MultipleGroupedValues: Codable, Hashable, Sendable {
+    public let display: [[String]]?
+    public let label: String
+    public let summary: Bool?
+    public let type: MultipleGroupedValuesType
 
-    public init(attachment: MgoAttachment, identifier: MgoIdentifier?, reference: MgoReference?) {
-        self.attachment = attachment
-        self.identifier = identifier
-        self.reference = reference
+    public init(display: [[String]]?, label: String, summary: Bool?, type: MultipleGroupedValuesType) {
+        self.display = display
+        self.label = label
+        self.summary = summary
+        self.type = type
     }
 }
 
-// MARK: Source convenience initializers and mutators
+// MARK: MultipleGroupedValues convenience initializers and mutators
 
-public extension Source {
+public extension MultipleGroupedValues {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Source.self, from: data)
+        self = try newJSONDecoder().decode(MultipleGroupedValues.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -42,14 +44,16 @@ public extension Source {
     }
 
     func with(
-        attachment: MgoAttachment? = nil,
-        identifier: MgoIdentifier?? = nil,
-        reference: MgoReference?? = nil
-    ) -> Source {
-        return Source(
-            attachment: attachment ?? self.attachment,
-            identifier: identifier ?? self.identifier,
-            reference: reference ?? self.reference
+        display: [[String]]?? = nil,
+        label: String? = nil,
+        summary: Bool?? = nil,
+        type: MultipleGroupedValuesType? = nil
+    ) -> MultipleGroupedValues {
+        return MultipleGroupedValues(
+            display: display ?? self.display,
+            label: label ?? self.label,
+            summary: summary ?? self.summary,
+            type: type ?? self.type
         )
     }
 

@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let uISchemaGroup = try UISchemaGroup(json)
+//   let uIEntry = try UIEntry(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,29 @@
 
 import Foundation
 
-// MARK: - UISchemaGroup
-public struct UISchemaGroup: Codable, Hashable, Sendable {
-    public let children: [UIEntry]
+// MARK: - UIEntry
+public struct UIEntry: Codable, Hashable, Sendable {
+    public let display: UIEntryDisplay?
     public let label: String
+    public let summary: Bool?
+    public let type: UIEntryType
+    public let reference, url: String?
 
-    public init(children: [UIEntry], label: String) {
-        self.children = children
+    public init(display: UIEntryDisplay?, label: String, summary: Bool?, type: UIEntryType, reference: String?, url: String?) {
+        self.display = display
         self.label = label
+        self.summary = summary
+        self.type = type
+        self.reference = reference
+        self.url = url
     }
 }
 
-// MARK: UISchemaGroup convenience initializers and mutators
+// MARK: UIEntry convenience initializers and mutators
 
-public extension UISchemaGroup {
+public extension UIEntry {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(UISchemaGroup.self, from: data)
+        self = try newJSONDecoder().decode(UIEntry.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,12 +47,20 @@ public extension UISchemaGroup {
     }
 
     func with(
-        children: [UIEntry]? = nil,
-        label: String? = nil
-    ) -> UISchemaGroup {
-        return UISchemaGroup(
-            children: children ?? self.children,
-            label: label ?? self.label
+        display: UIEntryDisplay?? = nil,
+        label: String? = nil,
+        summary: Bool?? = nil,
+        type: UIEntryType? = nil,
+        reference: String?? = nil,
+        url: String?? = nil
+    ) -> UIEntry {
+        return UIEntry(
+            display: display ?? self.display,
+            label: label ?? self.label,
+            summary: summary ?? self.summary,
+            type: type ?? self.type,
+            reference: reference ?? self.reference,
+            url: url ?? self.url
         )
     }
 

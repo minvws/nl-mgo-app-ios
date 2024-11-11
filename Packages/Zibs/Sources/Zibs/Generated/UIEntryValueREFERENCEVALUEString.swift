@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let multipleGroupValue = try MultipleGroupValue(json)
+//   let uIEntryValueREFERENCEVALUEString = try UIEntryValueREFERENCEVALUEString(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,14 +10,14 @@
 
 import Foundation
 
-// MARK: - MultipleGroupValue
-public struct MultipleGroupValue: Codable, Hashable, Sendable {
-    public let display: [[String]]?
+// MARK: - UIEntryValueREFERENCEVALUEString
+public struct UIEntryValueREFERENCEVALUEString: Codable, Hashable, Sendable {
+    public let display: String?
     public let label: String
     public let summary: Bool?
-    public let type: String
+    public let type: ReferenceValueType
 
-    public init(display: [[String]]?, label: String, summary: Bool?, type: String) {
+    public init(display: String?, label: String, summary: Bool?, type: ReferenceValueType) {
         self.display = display
         self.label = label
         self.summary = summary
@@ -25,11 +25,11 @@ public struct MultipleGroupValue: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: MultipleGroupValue convenience initializers and mutators
+// MARK: UIEntryValueREFERENCEVALUEString convenience initializers and mutators
 
-public extension MultipleGroupValue {
+public extension UIEntryValueREFERENCEVALUEString {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(MultipleGroupValue.self, from: data)
+        self = try newJSONDecoder().decode(UIEntryValueREFERENCEVALUEString.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -44,12 +44,12 @@ public extension MultipleGroupValue {
     }
 
     func with(
-        display: [[String]]?? = nil,
+        display: String?? = nil,
         label: String? = nil,
         summary: Bool?? = nil,
-        type: String? = nil
-    ) -> MultipleGroupValue {
-        return MultipleGroupValue(
+        type: ReferenceValueType? = nil
+    ) -> UIEntryValueREFERENCEVALUEString {
+        return UIEntryValueREFERENCEVALUEString(
             display: display ?? self.display,
             label: label ?? self.label,
             summary: summary ?? self.summary,

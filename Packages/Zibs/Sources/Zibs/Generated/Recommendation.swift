@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let participant = try Participant(json)
+//   let recommendation = try Recommendation(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,20 +10,24 @@
 
 import Foundation
 
-// MARK: - Participant
-public struct Participant: Codable, Hashable, Sendable {
-    public let individual: MgoReference?
+// MARK: - Recommendation
+public struct Recommendation: Codable, Hashable, Sendable {
+    public let code: [MgoCoding]?
+    public let date: String?
+    public let dateCriterion: [String]?
 
-    public init(individual: MgoReference?) {
-        self.individual = individual
+    public init(code: [MgoCoding]?, date: String?, dateCriterion: [String]?) {
+        self.code = code
+        self.date = date
+        self.dateCriterion = dateCriterion
     }
 }
 
-// MARK: Participant convenience initializers and mutators
+// MARK: Recommendation convenience initializers and mutators
 
-public extension Participant {
+public extension Recommendation {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Participant.self, from: data)
+        self = try newJSONDecoder().decode(Recommendation.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -38,10 +42,14 @@ public extension Participant {
     }
 
     func with(
-        individual: MgoReference?? = nil
-    ) -> Participant {
-        return Participant(
-            individual: individual ?? self.individual
+        code: [MgoCoding]?? = nil,
+        date: String?? = nil,
+        dateCriterion: [String]?? = nil
+    ) -> Recommendation {
+        return Recommendation(
+            code: code ?? self.code,
+            date: date ?? self.date,
+            dateCriterion: dateCriterion ?? self.dateCriterion
         )
     }
 

@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let value = try Value(json)
+//   let uIEntryValueMULTIPLEVALUESString = try UIEntryValueMULTIPLEVALUESString(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,28 +10,26 @@
 
 import Foundation
 
-// MARK: - Value
-public struct Value: Codable, Hashable, Sendable {
-    public let display: ChildDisplay?
+// MARK: - UIEntryValueMULTIPLEVALUESString
+public struct UIEntryValueMULTIPLEVALUESString: Codable, Hashable, Sendable {
+    public let display: [String]?
     public let label: String
     public let summary: Bool?
-    public let type: String
-    public let reference: String?
+    public let type: MultipleValuesType
 
-    public init(display: ChildDisplay?, label: String, summary: Bool?, type: String, reference: String?) {
+    public init(display: [String]?, label: String, summary: Bool?, type: MultipleValuesType) {
         self.display = display
         self.label = label
         self.summary = summary
         self.type = type
-        self.reference = reference
     }
 }
 
-// MARK: Value convenience initializers and mutators
+// MARK: UIEntryValueMULTIPLEVALUESString convenience initializers and mutators
 
-public extension Value {
+public extension UIEntryValueMULTIPLEVALUESString {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Value.self, from: data)
+        self = try newJSONDecoder().decode(UIEntryValueMULTIPLEVALUESString.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -46,18 +44,16 @@ public extension Value {
     }
 
     func with(
-        display: ChildDisplay?? = nil,
+        display: [String]?? = nil,
         label: String? = nil,
         summary: Bool?? = nil,
-        type: String? = nil,
-        reference: String?? = nil
-    ) -> Value {
-        return Value(
+        type: MultipleValuesType? = nil
+    ) -> UIEntryValueMULTIPLEVALUESString {
+        return UIEntryValueMULTIPLEVALUESString(
             display: display ?? self.display,
             label: label ?? self.label,
             summary: summary ?? self.summary,
-            type: type ?? self.type,
-            reference: reference ?? self.reference
+            type: type ?? self.type
         )
     }
 

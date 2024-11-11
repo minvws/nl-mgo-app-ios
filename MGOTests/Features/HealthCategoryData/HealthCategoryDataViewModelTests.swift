@@ -11,18 +11,18 @@ import MGOUI
 @testable import MGO
 import Zibs
 
-final class ZibDetailsViewModelTests: XCTestCase {
+final class HealthCategoryDataViewModelTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: ZibDetailsViewModel!
+	private var sut: HealthCategoryDataViewModel!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
-		sut = ZibDetailsViewModel(coordinator: coordinatorSpy, title: "ZibDetailsViewModelTests", schema: UISchema(children: [], label: "test"))
+		sut = HealthCategoryDataViewModel(coordinator: coordinatorSpy, title: "HealthCategoryDataViewModelTests", schema: UISchema(children: [], label: "test"))
 	}
 
 	func test_state() {
@@ -33,7 +33,7 @@ final class ZibDetailsViewModelTests: XCTestCase {
 		let state = sut.state
 		
 		// Then
-		expect(state.title) == "ZibDetailsViewModelTests"
+		expect(state.title) == "HealthCategoryDataViewModelTests"
 		expect(state.schema) == UISchema(children: [], label: "test")
 	}
 	

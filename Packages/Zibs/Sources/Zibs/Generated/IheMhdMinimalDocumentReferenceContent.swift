@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let source = try Source(json)
+//   let iheMhdMinimalDocumentReferenceContent = try IheMhdMinimalDocumentReferenceContent(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,24 +10,20 @@
 
 import Foundation
 
-// MARK: - Source
-public struct Source: Codable, Hashable, Sendable {
-    public let attachment: MgoAttachment
-    public let identifier: MgoIdentifier?
-    public let reference: MgoReference?
+// MARK: - IheMhdMinimalDocumentReferenceContent
+public struct IheMhdMinimalDocumentReferenceContent: Codable, Hashable, Sendable {
+    public let attachment: MgoAttachment?
 
-    public init(attachment: MgoAttachment, identifier: MgoIdentifier?, reference: MgoReference?) {
+    public init(attachment: MgoAttachment?) {
         self.attachment = attachment
-        self.identifier = identifier
-        self.reference = reference
     }
 }
 
-// MARK: Source convenience initializers and mutators
+// MARK: IheMhdMinimalDocumentReferenceContent convenience initializers and mutators
 
-public extension Source {
+public extension IheMhdMinimalDocumentReferenceContent {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Source.self, from: data)
+        self = try newJSONDecoder().decode(IheMhdMinimalDocumentReferenceContent.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -42,14 +38,10 @@ public extension Source {
     }
 
     func with(
-        attachment: MgoAttachment? = nil,
-        identifier: MgoIdentifier?? = nil,
-        reference: MgoReference?? = nil
-    ) -> Source {
-        return Source(
-            attachment: attachment ?? self.attachment,
-            identifier: identifier ?? self.identifier,
-            reference: reference ?? self.reference
+        attachment: MgoAttachment?? = nil
+    ) -> IheMhdMinimalDocumentReferenceContent {
+        return IheMhdMinimalDocumentReferenceContent(
+            attachment: attachment ?? self.attachment
         )
     }
 

@@ -18,7 +18,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		// Given
 		let data = try getResource("singleEntry")
 		let schema = try UISchema(data: data)
-		let sut = UISchemaDetailsView(schema: schema)
+		let sut = UISchemaView(schema: schema)
 		
 		// When
 		let content = NavigationView { sut }
@@ -32,7 +32,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		// Given
 		let data = try getResource("singleNullEntry")
 		let schema = try UISchema(data: data)
-		let sut = UISchemaDetailsView(schema: schema)
+		let sut = UISchemaView(schema: schema)
 		
 		// When
 		let content = NavigationView { sut }
@@ -46,7 +46,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		// Given
 		let data = try getResource("multipleValuesSingleEntry")
 		let schema = try UISchema(data: data)
-		let sut = UISchemaDetailsView(schema: schema)
+		let sut = UISchemaView(schema: schema)
 		
 		// When
 		let content = NavigationView { sut }
@@ -60,7 +60,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		// Given
 		let data = try getResource("multipleValuesMultipleEntries")
 		let schema = try UISchema(data: data)
-		let sut = UISchemaDetailsView(schema: schema)
+		let sut = UISchemaView(schema: schema)
 		
 		// When
 		let content = NavigationView { sut }
@@ -74,7 +74,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		// Given
 		let data = try getResource("multipleGroupValuesSingleEntry")
 		let schema = try UISchema(data: data)
-		let sut = UISchemaDetailsView(schema: schema)
+		let sut = UISchemaView(schema: schema)
 		
 		// When
 		let content = NavigationView { sut }
@@ -88,7 +88,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		// Given
 		let data = try getResource("multipleGroupValuesMultipleEntries")
 		let schema = try UISchema(data: data)
-		let sut = UISchemaDetailsView(schema: schema)
+		let sut = UISchemaView(schema: schema)
 		
 		// When
 		let content = NavigationView { sut }
@@ -102,7 +102,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		// Given
 		let data = try getResource("multipleGroupValuesMixedEntries")
 		let schema = try UISchema(data: data)
-		let sut = UISchemaDetailsView(schema: schema)
+		let sut = UISchemaView(schema: schema)
 		
 		// When
 		let content = NavigationView { sut }

@@ -32,7 +32,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
     public let referenceID: String
     public let resourceType: String?
     public let securityLabel: [MgoCoding]?
-    public let sourceAttachment: SourceAttachment
+    public let sourceAttachment: MgoAttachment
     public let sourceIdentifier: MgoIdentifier?
     public let sourceReference: MgoReference?
     public let status: String?
@@ -43,7 +43,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
         case resourceType, securityLabel, sourceAttachment, sourceIdentifier, sourceReference, status
     }
 
-    public init(action: [[MgoCoding]]?, actor: [ZibTreatmentDirectiveActor]?, category: [[MgoCoding]]?, consentingParty: [MgoReference]?, data: [ZibTreatmentDirectiveDatum]?, dataPeriod: MgoPeriod?, dateTime: String?, except: [Except]?, id: String?, identifier: MgoIdentifier?, organization: [MgoReference]?, patient: MgoReference?, period: MgoPeriod?, policy: [Policy]?, policyRule: String?, profile: ZibTreatmentDirectiveProfile, purpose: [MgoCoding]?, referenceID: String, resourceType: String?, securityLabel: [MgoCoding]?, sourceAttachment: SourceAttachment, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, status: String?) {
+    public init(action: [[MgoCoding]]?, actor: [ZibTreatmentDirectiveActor]?, category: [[MgoCoding]]?, consentingParty: [MgoReference]?, data: [ZibTreatmentDirectiveDatum]?, dataPeriod: MgoPeriod?, dateTime: String?, except: [Except]?, id: String?, identifier: MgoIdentifier?, organization: [MgoReference]?, patient: MgoReference?, period: MgoPeriod?, policy: [Policy]?, policyRule: String?, profile: ZibTreatmentDirectiveProfile, purpose: [MgoCoding]?, referenceID: String, resourceType: String?, securityLabel: [MgoCoding]?, sourceAttachment: MgoAttachment, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, status: String?) {
         self.action = action
         self.actor = actor
         self.category = category
@@ -110,7 +110,7 @@ public extension ZibTreatmentDirective {
         referenceID: String? = nil,
         resourceType: String?? = nil,
         securityLabel: [MgoCoding]?? = nil,
-        sourceAttachment: SourceAttachment? = nil,
+        sourceAttachment: MgoAttachment? = nil,
         sourceIdentifier: MgoIdentifier?? = nil,
         sourceReference: MgoReference?? = nil,
         status: String?? = nil

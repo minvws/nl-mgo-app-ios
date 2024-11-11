@@ -9,7 +9,7 @@ import MGOFoundation
 import MGOUI
 import Zibs
 
-struct UISchemaDetailsView: View {
+struct UISchemaView: View {
 	
 	/// The schema
 	var schema: UISchema
@@ -38,6 +38,7 @@ struct UISchemaDetailsView: View {
 	
 	var body: some View {
 		VStack(spacing: ViewTraits.List.padding) {
+			// A UISchema consists of an array of schema groups (blocks of correlated data)
 			ForEach(schema.children, id: \.self) { schemaGroup in
 				viewFor(schemaGroup)
 			}
@@ -46,12 +47,12 @@ struct UISchemaDetailsView: View {
 	
 	// MARK: - viewFor methods -
 	
-	/// Show a block of rows
-	/// - Parameter schemaGroup: the schemaGroup to display
-	/// - Returns: block of rows
+	/// Get the view for a schema group
+	/// - Parameter schemaGroup: the schema group to display
+	/// - Returns: block view
 	@ViewBuilder func viewFor(_ schemaGroup: UISchemaGroup) -> some View {
 		
-		// Section label
+		// A schema group has a section label
 		Text(NSLocalizedString(schemaGroup.label, comment: ""))
 			.rijksoverheidStyle(font: .bold, style: .body)
 			.foregroundStyle(theme.contentPrimary)
@@ -60,6 +61,7 @@ struct UISchemaDetailsView: View {
 		
 		// List of elements
 		VStack(alignment: .leading) {
+			// A schema group consists of an array of UIEntries
 			ForEach(schemaGroup.children, id: \.self) { childElement in
 				viewFor(childElement, isLastElement: childElement == schemaGroup.children.last)
 			}
@@ -70,33 +72,53 @@ struct UISchemaDetailsView: View {
 		.padding(.bottom, ViewTraits.List.bottom)
 	}
 	
-	/// Show a row of data for each child display
+	/// Show a row of key: value for a UIEntry
 	/// - Parameters:
-	///   - childElement: the childElement to display
+	///   - entry: the UIEntry to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
-	/// - Returns: view for a groupChild
-	@ViewBuilder func viewFor(_ childElement: Value, isLastElement: Bool) -> some View {
+	/// - Returns: view for a UIEntry
+	@ViewBuilder func viewFor(_ entry: UIEntry, isLastElement: Bool) -> some View {
 		
-		Group {
-			switch childElement.display {
-				case .string(let value):
-					viewFor(value, heading: heading(childElement), showDivider: !isLastElement)
-					
-				case .unionArray(let displayElements):
-					viewFor(displayElements, childElement: childElement, isLastElement: isLastElement)
-					
-				case .none:
-					viewFor(String(localized: "common.unknown"), heading: heading(childElement), showDivider: !isLastElement)
-			}
-		}
-		.when(childElement.reference != nil) { view in
+		viewFor(entry.display, entry: entry, isLastElement: isLastElement)
+		.when(entry.reference != nil) { view in
 			view
 				.onTapGesture {
-					_ = logInfo("Tapped on", childElement.reference as Any)
+					_ = logInfo("Tapped on", entry.reference as Any)
 				}
 				.accessibilityAddTraits(.isButton)
 				.accessibilityRemoveTraits(.isStaticText)
-				.accessibilityIdentifier(childElement.label)
+				.accessibilityIdentifier(entry.label)
+		}
+		.when(entry.url != nil) { view in
+			view
+				.onTapGesture {
+					_ = logInfo("Tapped on", entry.url as Any)
+				}
+				.accessibilityAddTraits(.isButton)
+				.accessibilityRemoveTraits(.isStaticText)
+				.accessibilityIdentifier(entry.label)
+		}
+	}
+	
+	/// Get the row for a UIEntryDisplay
+	/// - Parameters:
+	///   - display: the UIEntryDisplay to display
+	///   - entry: the parent UIEntry
+	///   - isLastElement: True if this is the last element in the array of UIEntries
+	/// - Returns: row for a UIEntry display
+	@ViewBuilder func viewFor(_ display: UIEntryDisplay?, entry: UIEntry, isLastElement: Bool) -> some View {
+		
+		let heading = heading(entry)
+		
+		switch display {
+			case .string(let value):
+				viewFor(value, heading: heading, showDivider: !isLastElement)
+				
+			case .unionArray(let displayElements):
+				viewFor(displayElements, entry: entry, isLastElement: isLastElement)
+				
+			case .none:
+				viewFor(String(localized: "common.unknown"), heading: heading, showDivider: !isLastElement)
 		}
 	}
 	
@@ -106,16 +128,16 @@ struct UISchemaDetailsView: View {
 	///   - childElement: The parent childElement for the heading
 	///   - isLastElement: True if this is the last element in the array of ChildElements
 	/// - Returns: view for the array of DisplayElements
-	@ViewBuilder func viewFor(_ displayElements: [DisplayElement], childElement: Value, isLastElement: Bool) -> some View {
+	@ViewBuilder func viewFor(_ displayElements: [DisplayElement], entry: UIEntry, isLastElement: Bool) -> some View {
 
 		let singleValue = getSingleValuesValue(displayElements)
 		if singleValue.isNotEmpty {
-			viewFor(singleValue, heading: heading(childElement), showDivider: !isLastElement)
+			viewFor(singleValue, heading: heading(entry), showDivider: !isLastElement)
 		}
 		
 		let multipleValues = getMultipleValuesValue(displayElements)
 		ForEach(multipleValues, id: \.self) { multipleValue in
-			viewFor(multipleValue, heading: heading(childElement), showDivider: !(isLastElement && multipleValue == multipleValues.last))
+			viewFor(multipleValue, heading: heading(entry), showDivider: !(isLastElement && multipleValue == multipleValues.last))
 		}
 	}
 	
@@ -154,18 +176,13 @@ struct UISchemaDetailsView: View {
 	
 	/// Get the heading for a row
 	/// - Parameters:
-	///   - childElement: the childElement
+	///   - entry: the UIEntry
 	/// - Returns: type text if heading is not in the language file. heading if it is.
-	private func heading(_ childElement: Value) -> String {
-		
-		var elements = childElement.label.split(separator: ".")
-		if elements.count > 1 {
-			elements[0] = "fhir"
-		}
+	private func heading(_ entry: UIEntry) -> String {
 		
 		return NSLocalizedString(
-			childElement.label,
-			value: elements.joined(separator: "."),
+			entry.label,
+			value: entry.label,
 			comment: ""
 		)
 	}
@@ -200,48 +217,56 @@ struct UISchemaDetailsView: View {
 }
 
 #Preview {
-	UISchemaDetailsView(
+	UISchemaView(
 		schema:
 			UISchema(
 				children: [
+					// Schema Group 1
 					UISchemaGroup(
 						children: [
-							Value(
-								display: ChildDisplay.string("Value"),
-								label: "field.label",
+							UIEntry(
+								display: UIEntryDisplay.string("single value"),
+								label: "label single value",
 								summary: true,
-								type: "Field Type",
-								reference: nil
+								type: .singleValue,
+								reference: nil,
+								url: nil
 							),
-							Value(
-								display: ChildDisplay.string("Value2"),
-								label: "field.label2",
-								summary: true,
-								type: "Field Type",
-								reference: nil
-							)
-						],
-						label: "Section Header"),
-					
-					UISchemaGroup(
-						children: [
-							Value(
-								display: ChildDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
-								label: "field.label3",
-								summary: true,
-								type: "Field Type",
-								reference: nil
-							),
-							Value(
+							
+							UIEntry(
 								display: nil,
-								label: "field.label4",
+								label: "label reference",
 								summary: true,
-								type: "Field Type",
-								reference: nil
+								type: .referenceValue,
+								reference: "reference",
+								url: nil
+							),
+							UIEntry(
+								display: nil,
+								label: "label download link",
+								summary: true,
+								type: .downloadLink,
+								reference: nil,
+								url: "https://www.apple.com"
 							)
 						],
-						label: "Section Header 2")
+						label: "Section Header first group"),
 					
+					// Schema Group 2
+					UISchemaGroup(
+						children: [
+							// Unknown
+							UIEntry(
+								display: nil,
+								label: "label single value nil",
+								summary: true,
+								type: .singleValue,
+								reference: nil,
+								url: nil
+							)
+							
+						],
+						label: "Section Header second group")
 				],
 				label: "UI Schema"
 			)

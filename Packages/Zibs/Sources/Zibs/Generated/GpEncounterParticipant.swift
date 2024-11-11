@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let source = try Source(json)
+//   let gpEncounterParticipant = try GpEncounterParticipant(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,24 +10,20 @@
 
 import Foundation
 
-// MARK: - Source
-public struct Source: Codable, Hashable, Sendable {
-    public let attachment: MgoAttachment
-    public let identifier: MgoIdentifier?
-    public let reference: MgoReference?
+// MARK: - GpEncounterParticipant
+public struct GpEncounterParticipant: Codable, Hashable, Sendable {
+    public let individual: MgoReference?
 
-    public init(attachment: MgoAttachment, identifier: MgoIdentifier?, reference: MgoReference?) {
-        self.attachment = attachment
-        self.identifier = identifier
-        self.reference = reference
+    public init(individual: MgoReference?) {
+        self.individual = individual
     }
 }
 
-// MARK: Source convenience initializers and mutators
+// MARK: GpEncounterParticipant convenience initializers and mutators
 
-public extension Source {
+public extension GpEncounterParticipant {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Source.self, from: data)
+        self = try newJSONDecoder().decode(GpEncounterParticipant.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -42,14 +38,10 @@ public extension Source {
     }
 
     func with(
-        attachment: MgoAttachment? = nil,
-        identifier: MgoIdentifier?? = nil,
-        reference: MgoReference?? = nil
-    ) -> Source {
-        return Source(
-            attachment: attachment ?? self.attachment,
-            identifier: identifier ?? self.identifier,
-            reference: reference ?? self.reference
+        individual: MgoReference?? = nil
+    ) -> GpEncounterParticipant {
+        return GpEncounterParticipant(
+            individual: individual ?? self.individual
         )
     }
 

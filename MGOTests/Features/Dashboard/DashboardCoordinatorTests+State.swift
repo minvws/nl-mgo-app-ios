@@ -133,26 +133,27 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forShowZibDetails() throws {
+	func test_coordinatorView_forshowHealthCategoryData() throws {
 		
 		// Given
 		let schema = UISchema(
 			children: [
 				UISchemaGroup(
 					children: [
-						Value(
+						UIEntry(
 							display: .string("value 1"),
 							label: "label",
 							summary: true,
-							type: "type",
-							reference: nil
+							type: .singleValue,
+							reference: nil,
+							url: nil
 						)
 					],
 					label: "section heading")
 			],
 			label: "zib details"
 		)
-		let state = DashboardCoordination.State.showZibDetails(heading: "Heading", schema: schema)
+		let state = DashboardCoordination.State.showHealthCategoryData(heading: "Heading", schema: schema)
 		
 		// When
 		let view = sut.viewState(for: state)
