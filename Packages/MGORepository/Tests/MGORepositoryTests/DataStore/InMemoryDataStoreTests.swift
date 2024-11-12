@@ -168,6 +168,19 @@ final class InMemoryDataStoreTests: XCTestCase {
 		expect(result.successValue?[0].resources) == [Data("test".utf8)]
 	}
 	
+	func test_removeRecords_forCategory() {
+		
+		// Given
+		
+		// When
+		sut.removeRecords(for: "test category", organizationId: nil)
+		
+		// Then
+		let result = sut.get(categoryId: "test category", organizationId: "test organization")
+		expect(result.isFailure) == true
+		expect(result.failureError) != nil
+	}
+	
 	func test_wipePersistentData() {
 		
 		// Given
