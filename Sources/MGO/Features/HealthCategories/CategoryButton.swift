@@ -38,20 +38,7 @@ struct CategoryButton: Identifiable {
 	
 	/// Which box should the category be in?
 	var box: Int
-	
-	/// Create a Category Button
-	/// - Parameters:
-	///   - id: The identifier of the the category
-	///   - title: The language key for the title
-	///   - state: The state of the category (loading, loaded, empty)
-	///   - box: Which box should the category be in?
-	internal init(category: HealthCategories.Category, title: LocalizedStringKey, state: CategoryButtonState = .loading, box: Int = 1) {
-		self.id = category.rawValue
-		self.title = title
-		self.state = state
-		self.box = box
-	}
-	
+		
 	/// Get the display icon for the category
 	/// - Parameter theme: the theme
 	/// - Returns: a view witch the right themed icon
@@ -157,5 +144,21 @@ struct CategoryButton: Identifiable {
 			default:
 				EmptyView()
 		}
+	}
+}
+
+extension CategoryButton {
+	
+	/// Create a Category Button
+	/// - Parameters:
+	///   - category:The  category
+	///   - title: The language key for the title
+	///   - state: The state of the category (loading, loaded, empty)
+	///   - box: Which box should the category be in?
+	init(category: HealthCategories.Category, title: LocalizedStringKey, state: CategoryButtonState = .loading, box: Int = 1) {
+		self.id = category.rawValue
+		self.title = title
+		self.state = state
+		self.box = box
 	}
 }

@@ -20,7 +20,6 @@ extension DVP {
 		
 		public static let serviceID: String = "51"
 		
-		
 		// MARK: - 1: Document -
 		
 		/*
