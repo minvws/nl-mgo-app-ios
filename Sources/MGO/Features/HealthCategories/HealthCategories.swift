@@ -74,7 +74,9 @@ struct HealthCategories {
 					ZibVaccinationRecommendationProfile.httpNictizNlFhirStructureDefinitionZibVaccinationRecommendation.rawValue
 				]
 				
-				case .documents: []
+				case .documents: [
+					IheMhdMinimalDocumentReferenceProfile.httpNictizNlFhirStructureDefinitionIHEMHDMinimalDocumentReference.rawValue
+				]
 				
 				case .complaints: [
 					ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue
@@ -170,6 +172,8 @@ struct HealthCategories {
 					"zip_vaccination_recommendation.heading"
 				
 				// Documents
+				case IheMhdMinimalDocumentReferenceProfile.httpNictizNlFhirStructureDefinitionIHEMHDMinimalDocumentReference.rawValue:
+					"ihe_mhd_minimal_document_reference.heading"
 				
 				// Complaints
 				case ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue:
@@ -266,7 +270,9 @@ struct HealthCategories {
 					DVP.CommonClinicalDataset.plannedImmunization
 				]
 				
-				case .documents: []
+				case .documents: [
+					DVP.Documents.documentReference
+				]
 				
 				case .complaints: [
 					DVP.CommonClinicalDataset.problem
