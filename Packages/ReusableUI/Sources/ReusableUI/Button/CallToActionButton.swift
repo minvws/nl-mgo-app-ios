@@ -13,7 +13,13 @@ import Theme
 public struct CallToActionButton: View {
 	
 	/// The key of the localized text to be displayed as title
-	public var title: LocalizedStringKey
+	public var key: LocalizedStringKey?
+	
+	/// The  title
+	public var title: String?
+	
+	/// An icon
+	public var icon: Image?
 	
 	/// The action to perform when the user presses the button
 	public var action: (() -> Void)?
@@ -24,6 +30,8 @@ public struct CallToActionButton: View {
 	/// All possible styles
 	public enum Style {
 		case primary
+		case primaryWithIcon
+		case primaryWithSpinner
 		case primaryNegative
 		case secondary
 		case secondaryNegative
@@ -33,10 +41,20 @@ public struct CallToActionButton: View {
 	
 	/// Initializer
 	/// - Parameter title: The key of the localized text to be displayed as title
-	public init(_ title: LocalizedStringKey, style: Style = .primary, action: ( () -> Void)? = nil) {
+	public init(_ key: LocalizedStringKey, icon: Image? = nil, style: Style = .primary, action: ( () -> Void)? = nil) {
+		self.key = key
+		self.style = style
+		self.action = action
+		self.icon = icon
+	}
+
+	/// Initializer
+	/// - Parameter title: The key of the localized text to be displayed as title
+	public init(title: String, icon: Image? = nil, style: Style = .primary, action: ( () -> Void)? = nil) {
 		self.title = title
 		self.style = style
 		self.action = action
+		self.icon = icon
 	}
 	
 	public var body: some View {
@@ -46,10 +64,25 @@ public struct CallToActionButton: View {
 				action?()
 			},
 			label: {
-				Text(title)
+				if style == .primaryWithIcon, let icon {
+					HStack {
+						titleLabel()
+						Spacer()
+						icon
+					}
+				} else if style == .primaryWithSpinner {
+					HStack {
+						titleLabel()
+						Spacer()
+						ProgressView()
+							.progressViewStyle(.circular)
+					}
+				} else {
+					titleLabel()
+				}
 			}
 		)
-		.when(style == .primary, transform: { button in
+		.when([.primary, .primaryWithIcon, .primaryWithSpinner].contains(style), transform: { button in
 			button.buttonStyle(PrimaryDefaultButtonStyle())
 		})
 		.when(style == .primaryNegative, transform: { button in
@@ -68,6 +101,17 @@ public struct CallToActionButton: View {
 			button.buttonStyle(TertiaryNegativeButtonStyle())
 		})
 	}
+	
+	/// Get the view for the title
+	/// - Returns: title label
+	@ViewBuilder func titleLabel() -> some View {
+		
+		if let key {
+			Text(key)
+		} else {
+			Text(title ?? "")
+		}
+	}
 }
 
 #Preview {
@@ -76,6 +120,12 @@ public struct CallToActionButton: View {
 			CallToActionButton(".primary", style: .primary)
 				.padding(16)
 			CallToActionButton(".primaryNegative", style: .primaryNegative)
+				.padding(16)
+		}
+		HStack {
+			CallToActionButton(".primaryWithIcon", icon: Image(systemName: "stethoscope"), style: .primaryWithIcon)
+				.padding(16)
+			CallToActionButton(".primaryWithSpinner", style: .primaryWithSpinner)
 				.padding(16)
 		}
 		HStack {

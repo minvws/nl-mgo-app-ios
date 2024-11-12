@@ -147,8 +147,34 @@ struct HealthCategoryDataView: View {
 											type: .singleValue,
 											reference: nil,
 											url: nil
+										),
+										UIEntry(
+											display: UIEntryDisplay.unionArray([
+												DisplayElement.stringArray(["one", "two"]),
+												DisplayElement.stringArray(["three", "four"])
+											]),
+											label: "label multiple group value",
+											summary: true,
+											type: .multipleGroupedValues,
+											reference: nil,
+											url: nil
+										),
+										UIEntry(
+											display: UIEntryDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
+											label: "label multiple value",
+											summary: true,
+											type: .multipleValues,
+											reference: nil,
+											url: nil
+										),
+										UIEntry(
+											display: UIEntryDisplay.unionArray([DisplayElement.string("one")]),
+											label: "label union value",
+											summary: true,
+											type: .multipleValues,
+											reference: nil,
+											url: nil
 										)
-										
 									],
 									label: "Section Header second group")
 							],
