@@ -1191,9 +1191,6 @@
         }
       }
     },
-    "Key" : {
-      "extractionState" : "manual"
-    },
     "launch.image.voiceover" : {
       "extractionState" : "manual",
       "localizations" : {

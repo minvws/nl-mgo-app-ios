@@ -102,49 +102,58 @@ struct HealthCategoryDataView: View {
 				HealthCategoryDataViewModel(
 					coordinator: nil,
 					title: String(localized: "hc_medication.heading_detail"),
-					schema: UISchema(
-						children: [
-//							UISchemaGroup(
-//								children: [
-//									Value(
-//										display: ChildDisplay.string("Value"),
-//										label: "field.label",
-//										summary: true,
-//										type: "Field Type",
-//										reference: nil
-//									),
-//									Value(
-//										display: ChildDisplay.string("Value2"),
-//										label: "field.label2",
-//										summary: true,
-//										type: "Field Type",
-//										reference: nil
-//									)
-//								],
-//								label: "Section Header"),
-//							
-//							UISchemaGroup(
-//								children: [
-//									Value(
-//										display: ChildDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
-//										label: "field.label3",
-//										summary: true,
-//										type: "Field Type",
-//										reference: nil
-//									),
-//									Value(
-//										display: nil,
-//										label: "field.label4",
-//										summary: true,
-//										type: "Field Type",
-//										reference: nil
-//									)
-//								],
-//								label: "Section Header 2")
-//							
-						],
-						label: "UI Schema"
-					)
+					schema:
+						UISchema(
+							children: [
+								// Schema Group 1
+								UISchemaGroup(
+									children: [
+										UIEntry(
+											display: UIEntryDisplay.string("single value"),
+											label: "label single value",
+											summary: true,
+											type: .singleValue,
+											reference: nil,
+											url: nil
+										),
+										
+										UIEntry(
+											display: nil,
+											label: "label reference",
+											summary: true,
+											type: .referenceValue,
+											reference: "reference",
+											url: nil
+										),
+										UIEntry(
+											display: nil,
+											label: "label download link",
+											summary: true,
+											type: .downloadLink,
+											reference: nil,
+											url: "https://www.apple.com"
+										)
+									],
+									label: "Section Header first group"),
+								
+								// Schema Group 2
+								UISchemaGroup(
+									children: [
+										// Unknown
+										UIEntry(
+											display: nil,
+											label: "label single value nil",
+											summary: true,
+											type: .singleValue,
+											reference: nil,
+											url: nil
+										)
+										
+									],
+									label: "Section Header second group")
+							],
+							label: "UI Schema"
+						)
 				)
 		)
 	}

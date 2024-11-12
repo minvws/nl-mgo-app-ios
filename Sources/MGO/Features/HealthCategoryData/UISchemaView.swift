@@ -79,24 +79,33 @@ struct UISchemaView: View {
 	/// - Returns: view for a UIEntry
 	@ViewBuilder func viewFor(_ entry: UIEntry, isLastElement: Bool) -> some View {
 		
-		viewFor(entry.display, entry: entry, isLastElement: isLastElement)
-		.when(entry.reference != nil) { view in
-			view
-				.onTapGesture {
-					_ = logInfo("Tapped on", entry.reference as Any)
+		if case .downloadLink = entry.type {
+		
+			CallToActionButton(title: entry.label, icon: Image(ImageResource.Schema.download), style: .primaryWithIcon) {
+				// todo
+			}
+			
+		} else {
+			
+			viewFor(entry.display, entry: entry, isLastElement: isLastElement)
+				.when(entry.reference != nil) { view in
+					view
+						.onTapGesture {
+							_ = logInfo("Tapped on", entry.reference as Any)
+						}
+						.accessibilityAddTraits(.isButton)
+						.accessibilityRemoveTraits(.isStaticText)
+						.accessibilityIdentifier(entry.label)
 				}
-				.accessibilityAddTraits(.isButton)
-				.accessibilityRemoveTraits(.isStaticText)
-				.accessibilityIdentifier(entry.label)
-		}
-		.when(entry.url != nil) { view in
-			view
-				.onTapGesture {
-					_ = logInfo("Tapped on", entry.url as Any)
+				.when(entry.url != nil) { view in
+					view
+						.onTapGesture {
+							_ = logInfo("Tapped on", entry.url as Any)
+						}
+						.accessibilityAddTraits(.isButton)
+						.accessibilityRemoveTraits(.isStaticText)
+						.accessibilityIdentifier(entry.label)
 				}
-				.accessibilityAddTraits(.isButton)
-				.accessibilityRemoveTraits(.isStaticText)
-				.accessibilityIdentifier(entry.label)
 		}
 	}
 	

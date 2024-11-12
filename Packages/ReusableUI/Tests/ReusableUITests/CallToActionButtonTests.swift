@@ -23,6 +23,42 @@ final class CallToActionButtonTests: XCTestCase {
 		assertSnapshot(of: view, as: .image)
 	}
 	
+	func test_primary_asTitle() throws {
+		
+		// Given
+		let sut = CallToActionButton(title: "Primary Title", style: .primary)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_primary_withIcon() throws {
+		
+		// Given
+		let sut = CallToActionButton("Primary With Icon", icon: Image(systemName: "stethoscope"), style: .primaryWithIcon)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_primary_withSpinner() throws {
+		
+		// Given
+		let sut = CallToActionButton("Primary with spinner", style: .primaryWithSpinner)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image(precision: 0.95))
+	}
+	
 	func test_primaryNegative() throws {
 		
 		// Given

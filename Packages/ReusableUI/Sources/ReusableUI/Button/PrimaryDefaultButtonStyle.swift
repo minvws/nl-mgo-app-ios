@@ -33,6 +33,7 @@ struct PrimaryDefaultButtonStyle: ButtonStyle {
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
 			.foregroundColor(theme.actionPrimaryDefaultText)
+			.tint(theme.actionPrimaryDefaultText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(configuration.isPressed ? theme.actionPrimaryDefaultBackgroundHover : theme.actionPrimaryDefaultBackground)
