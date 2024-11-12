@@ -15,9 +15,9 @@ public struct SingleValue: Codable, Hashable, Sendable {
     public let display: String?
     public let label: String
     public let summary: Bool?
-    public let type: String
+    public let type: SingleValueType
 
-    public init(display: String?, label: String, summary: Bool?, type: String) {
+    public init(display: String?, label: String, summary: Bool?, type: SingleValueType) {
         self.display = display
         self.label = label
         self.summary = summary
@@ -47,7 +47,7 @@ public extension SingleValue {
         display: String?? = nil,
         label: String? = nil,
         summary: Bool?? = nil,
-        type: String? = nil
+        type: SingleValueType? = nil
     ) -> SingleValue {
         return SingleValue(
             display: display ?? self.display,

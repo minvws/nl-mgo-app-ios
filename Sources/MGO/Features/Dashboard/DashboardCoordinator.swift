@@ -21,7 +21,7 @@ extension Coordination.Action {
 	static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
 	
 	static let showHealthCategory = Coordination.Action(identifier: "showHealthCategory")
-	static let showZibDetails = Coordination.Action(identifier: "showZibDetails")
+	static let showHealthCategoryData = Coordination.Action(identifier: "showHealthCategoryData")
 	
 	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
 	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
@@ -78,7 +78,7 @@ enum DashboardCoordination {
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
-		case showZibDetails(heading: String, schema: UISchema)
+		case showHealthCategoryData(heading: String, schema: UISchema)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
 }
@@ -231,12 +231,12 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 				
-			case Coordination.Action.showZibDetails.identifier:
+			case Coordination.Action.showHealthCategoryData.identifier:
 				if action.params.count == 3,
 				   //				   let resource = action.params["resource"] as? MgoResouce,
 				   let heading = action.params["heading"] as? String,
 				   let schema = action.params["uiSchema"] as? UISchema {
-					setState(DashboardCoordination.State.showZibDetails(heading: heading, schema: schema))
+					setState(DashboardCoordination.State.showHealthCategoryData(heading: heading, schema: schema))
 					return true
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
@@ -334,9 +334,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
 				
-			case let .showZibDetails(heading: heading, schema: schema):
-				ZibDetailsView(
-					viewModel: ZibDetailsViewModel(
+			case let .showHealthCategoryData(heading: heading, schema: schema):
+				HealthCategoryDataView(
+					viewModel: HealthCategoryDataViewModel(
 						coordinator: self,
 						title: heading,
 						schema: schema

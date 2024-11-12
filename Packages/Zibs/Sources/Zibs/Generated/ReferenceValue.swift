@@ -16,9 +16,9 @@ public struct ReferenceValue: Codable, Hashable, Sendable {
     public let label: String
     public let reference: String?
     public let summary: Bool?
-    public let type: String
+    public let type: ReferenceValueType
 
-    public init(display: String?, label: String, reference: String?, summary: Bool?, type: String) {
+    public init(display: String?, label: String, reference: String?, summary: Bool?, type: ReferenceValueType) {
         self.display = display
         self.label = label
         self.reference = reference
@@ -50,7 +50,7 @@ public extension ReferenceValue {
         label: String? = nil,
         reference: String?? = nil,
         summary: Bool?? = nil,
-        type: String? = nil
+        type: ReferenceValueType? = nil
     ) -> ReferenceValue {
         return ReferenceValue(
             display: display ?? self.display,

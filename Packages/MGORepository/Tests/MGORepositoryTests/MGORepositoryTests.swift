@@ -34,7 +34,8 @@ final class MGORepositoryTests: XCTestCase {
 		let endpoint = DVP.Endpoint(
 			path: "TestPath",
 			parameters: RequestParameters([(RequestParameterField.include, "test")]),
-			directory: "TestDirectory"
+			directory: "TestDirectory",
+			serviceId: "TestServiceId"
 		)
 		stub(condition: isPath("/TestPath/TestDirectory")) { _ in
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)

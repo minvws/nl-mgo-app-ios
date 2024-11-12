@@ -30,7 +30,8 @@ extension DVP {
 				[
 					(RequestParameterField.include, "Patient:general-practitioner")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 2: Payment Details -
@@ -43,7 +44,8 @@ extension DVP {
 					(RequestParameterField.include, "Coverage:payor:Patient"),
 					(RequestParameterField.include, "Coverage:payor:Organization")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 3: Treatment Directives -
@@ -55,7 +57,8 @@ extension DVP {
 				[
 					(RequestParameterField.category, "http://snomed.info/sct|11291000146105")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// AdvanceDirective: GET [base]/Consent?category=http://snomed.info/sct|11341000146107
@@ -65,7 +68,8 @@ extension DVP {
 				[
 					(RequestParameterField.category, "http://snomed.info/sct|11341000146107")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 4: Contact Persons -
@@ -82,14 +86,17 @@ extension DVP {
 					(RequestParameterField.category, "http://snomed.info/sct|118228005,http://snomed.info/sct|384821006")
 				]
 			),
-			directory: lastn
+			directory: lastn,
+			serviceId: CommonClinicalDataset.serviceID
+			
 		)
 		
 		// MARK: - 6: Problems -
 		
 		// GET [base]/Condition
 		public static let problem: DVP.Endpoint = DVP.Endpoint(
-			path: "Condition"
+			path: "Condition",
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 7: Social history -
@@ -102,7 +109,8 @@ extension DVP {
 					(RequestParameterField.code, "http://snomed.info/sct|365508006")
 				]
 			),
-			directory: lastn
+			directory: lastn,
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// DrugUse: GET [base]/Observation?code=http://snomed.info/sct|228366006
@@ -112,7 +120,8 @@ extension DVP {
 				[
 					(RequestParameterField.code, "http://snomed.info/sct|228366006")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// AlcoholUse: GET [base]/Observation?code=http://snomed.info/sct|228273003
@@ -122,7 +131,8 @@ extension DVP {
 				[
 					(RequestParameterField.code, "http://snomed.info/sct|228273003")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// TobaccoUse: GET [base]/Observation?code=http://snomed.info/sct|365980008
@@ -132,26 +142,30 @@ extension DVP {
 				[
 					(RequestParameterField.code, "http://snomed.info/sct|365980008")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// NutritionAdvice: GET [base]/NutritionOrder
 		public static let nutritionAdvice: DVP.Endpoint = DVP.Endpoint(
-			path: "NutritionOrder"
+			path: "NutritionOrder",
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 8: Alerts -
 		
 		// Alert: GET [base]/Flag
 		public static let alert: DVP.Endpoint = DVP.Endpoint(
-			path: "Flag"
+			path: "Flag",
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 9: Allergies -
 		
 		// AllergyIntolerance: GET [base]/AllergyIntolerance
 		public static let allergyIntolerance: DVP.Endpoint = DVP.Endpoint(
-			path: "AllergyIntolerance"
+			path: "AllergyIntolerance",
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 10: Medication -
@@ -164,7 +178,8 @@ extension DVP {
 					(RequestParameterField.category, "urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3|6"),
 					(RequestParameterField.include, "MedicationStatement:medication")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MedicationAgreement: GET [base]/MedicationRequest?category=http://snomed.info/sct|16076005&_include=MedicationRequest:medication
@@ -175,7 +190,8 @@ extension DVP {
 					(RequestParameterField.category, "http://snomed.info/sct|16076005"),
 					(RequestParameterField.include, "MedicationRequest:medication")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// AdministrationAgreement: GET [base]/MedicationDispense?category=http://snomed.info/sct|422037009&_include=MedicationDispense:medication
@@ -186,7 +202,8 @@ extension DVP {
 					(RequestParameterField.category, "http://snomed.info/sct|422037009"),
 					(RequestParameterField.include, "MedicationDispense:medication")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 11: Medical aids -
@@ -198,7 +215,8 @@ extension DVP {
 				[
 					(RequestParameterField.include, "DeviceUseStatement:device")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 
 		// MARK: - 12: Vaccinations -
@@ -210,7 +228,8 @@ extension DVP {
 				[
 					(RequestParameterField.status, "completed")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 13: Vital signs -
@@ -223,7 +242,8 @@ extension DVP {
 					(RequestParameterField.code, "http://loinc.org|85354-9")
 				]
 			),
-			directory: lastn
+			directory: lastn,
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// BodyWeight: GET [base]/Observation/$lastn?code=http://loinc.org|29463-7
@@ -234,7 +254,8 @@ extension DVP {
 					(RequestParameterField.code, "http://loinc.org|29463-7")
 				]
 			),
-			directory: lastn
+			directory: lastn,
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// BodyHeight: GET [base]/Observation/$lastn?code=http://loinc.org|8302-2,http://loinc.org|8306-3,http://loinc.org|8308-9
@@ -245,7 +266,8 @@ extension DVP {
 					(RequestParameterField.code, "http://loinc.org|8302-2,http://loinc.org|8306-3,http://loinc.org|8308-9")
 				]
 			),
-			directory: lastn
+			directory: lastn,
+			serviceId: CommonClinicalDataset.serviceID
 		)
 
 		// MARK: - 14: Results -
@@ -260,7 +282,8 @@ extension DVP {
 					(RequestParameterField.include, "Observation:specimen")
 				]
 			),
-			directory: lastn
+			directory: lastn,
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 15: Procedures -
@@ -272,7 +295,8 @@ extension DVP {
 				[
 					(RequestParameterField.category, "http://snomed.info/sct|387713003")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 16: Encounters -
@@ -284,7 +308,8 @@ extension DVP {
 				[
 					(RequestParameterField.classParam, "http://hl7.org/fhir/v3/ActCode|IMP,http://hl7.org/fhir/v3/ActCode|ACUTE,http://hl7.org/fhir/v3/ActCode|NONAC")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 17: Planned Care -
@@ -296,12 +321,14 @@ extension DVP {
 				[
 					(RequestParameterField.status, "active")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// PlannedImmunization: GET [base]/ImmunizationRecommendation
 		public static let plannedImmunization: DVP.Endpoint = DVP.Endpoint(
-			path: "ImmunizationRecommendation"
+			path: "ImmunizationRecommendation",
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// PlannedMedicalDevices: GET [base]/DeviceRequest?status=active&_include=DeviceRequest:device
@@ -312,7 +339,8 @@ extension DVP {
 					(RequestParameterField.status, "active"),
 					(RequestParameterField.include, "DeviceRequest:device")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// PlannedEncounters: GET [base]/Appointment?status=booked,pending,proposed
@@ -322,18 +350,12 @@ extension DVP {
 				[
 					(RequestParameterField.status, "booked,pending,proposed")
 				]
-			)
+			),
+			serviceId: CommonClinicalDataset.serviceID
 		)
 		
 		// MARK: - 18: General Practitioner -
 		
 		// See Patient
-	}
-	
-	/// The settings for the Documenten PDF/A
-	public enum Documents {
-		// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/OntwerpPDFA
-		
-		public static let serviceID: Int = 51
 	}
 }

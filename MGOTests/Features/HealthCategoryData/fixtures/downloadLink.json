@@ -1,0 +1,18 @@
+{
+	"label": "Single Entry",
+	"children": [
+		{
+			"label": "Section for a download link",
+			"children": [
+				{
+					"label": "The label",
+					"display": "Download link",
+					"type": "DOWNLOAD_LINK",
+					"summary": false,
+					"reference": null,
+					"url": "https://apple.com"
+				}
+			]
+		}
+	]
+}

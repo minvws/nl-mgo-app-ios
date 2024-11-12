@@ -187,7 +187,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.showZibDetails.identifier
+		expect(params.identifier) == Coordination.Action.showHealthCategoryData.identifier
 		expect(params.params["resource"] as? MgoResource) == resource
 		expect(params.params["heading"] as? String) == "Alle klachtgegevens"
 		expect((params.params["uiSchema"] as? UISchema)?.label) == "Zestril tablet 10mg"
@@ -247,7 +247,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	func test_retry_noServices() {
 		
 		// Given
-		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.payment)
+		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.documents)
 		
 		// When
 		sut.reduce(.retry)

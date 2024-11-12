@@ -1,0 +1,18 @@
+{
+	"label": "Single Null Entry",
+	"children": [
+		{
+			"label": "Section for a single entry wiht null value",
+			"children": [
+				{
+					"label": "The label",
+					"display": null,
+					"type": "SINGLE_VALUE",
+					"summary": false,
+					"reference": null,
+					"url": null
+				}
+			]
+		}
+	]
+}

@@ -20,7 +20,7 @@ extension MgoOrganization {
 		}
 		
 		for service in category.services {
-			for dataService in dts where service.serviceID == dataService.id {
+			for dataService in dts where service.serviceId == dataService.id {
 				result += 1
 			}
 		}

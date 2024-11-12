@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let gPLaboratoryResult = try GPLaboratoryResult(json)
+//   let gpLaboratoryResult = try GpLaboratoryResult(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - GPLaboratoryResult
-public struct GPLaboratoryResult: Codable, Hashable, Sendable {
+// MARK: - GpLaboratoryResult
+public struct GpLaboratoryResult: Codable, Hashable, Sendable {
     public let basedOn: [MgoReference]?
     public let category: [[MgoCoding]]?
     public let code: [MgoCoding]?
@@ -20,10 +20,10 @@ public struct GPLaboratoryResult: Codable, Hashable, Sendable {
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let interpretation, method: [MgoCoding]?
-    public let profile: GPLaboratoryResultProfile
+    public let profile: GpLaboratoryResultProfile
     public let referenceID: String
-    public let referenceRange: [GPLaboratoryResultReferenceRange]?
-    public let related: [GPLaboratoryResultRelated]?
+    public let referenceRange: [GpLaboratoryResultReferenceRange]?
+    public let related: [GpLaboratoryResultRelated]?
     public let resourceType: String?
     public let result: MgoDuration?
     public let specimen: MgoReference?
@@ -36,7 +36,7 @@ public struct GPLaboratoryResult: Codable, Hashable, Sendable {
         case referenceRange, related, resourceType, result, specimen, status, subject
     }
 
-    public init(basedOn: [MgoReference]?, category: [[MgoCoding]]?, code: [MgoCoding]?, comment: String?, effective: Effective?, id: String?, identifier: [MgoIdentifier]?, interpretation: [MgoCoding]?, method: [MgoCoding]?, profile: GPLaboratoryResultProfile, referenceID: String, referenceRange: [GPLaboratoryResultReferenceRange]?, related: [GPLaboratoryResultRelated]?, resourceType: String?, result: MgoDuration?, specimen: MgoReference?, status: String?, subject: MgoReference?) {
+    public init(basedOn: [MgoReference]?, category: [[MgoCoding]]?, code: [MgoCoding]?, comment: String?, effective: Effective?, id: String?, identifier: [MgoIdentifier]?, interpretation: [MgoCoding]?, method: [MgoCoding]?, profile: GpLaboratoryResultProfile, referenceID: String, referenceRange: [GpLaboratoryResultReferenceRange]?, related: [GpLaboratoryResultRelated]?, resourceType: String?, result: MgoDuration?, specimen: MgoReference?, status: String?, subject: MgoReference?) {
         self.basedOn = basedOn
         self.category = category
         self.code = code
@@ -58,11 +58,11 @@ public struct GPLaboratoryResult: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: GPLaboratoryResult convenience initializers and mutators
+// MARK: GpLaboratoryResult convenience initializers and mutators
 
-public extension GPLaboratoryResult {
+public extension GpLaboratoryResult {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(GPLaboratoryResult.self, from: data)
+        self = try newJSONDecoder().decode(GpLaboratoryResult.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -86,17 +86,17 @@ public extension GPLaboratoryResult {
         identifier: [MgoIdentifier]?? = nil,
         interpretation: [MgoCoding]?? = nil,
         method: [MgoCoding]?? = nil,
-        profile: GPLaboratoryResultProfile? = nil,
+        profile: GpLaboratoryResultProfile? = nil,
         referenceID: String? = nil,
-        referenceRange: [GPLaboratoryResultReferenceRange]?? = nil,
-        related: [GPLaboratoryResultRelated]?? = nil,
+        referenceRange: [GpLaboratoryResultReferenceRange]?? = nil,
+        related: [GpLaboratoryResultRelated]?? = nil,
         resourceType: String?? = nil,
         result: MgoDuration?? = nil,
         specimen: MgoReference?? = nil,
         status: String?? = nil,
         subject: MgoReference?? = nil
-    ) -> GPLaboratoryResult {
-        return GPLaboratoryResult(
+    ) -> GpLaboratoryResult {
+        return GpLaboratoryResult(
             basedOn: basedOn ?? self.basedOn,
             category: category ?? self.category,
             code: code ?? self.code,

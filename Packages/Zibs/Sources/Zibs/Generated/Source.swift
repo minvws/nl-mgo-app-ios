@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - Source
 public struct Source: Codable, Hashable, Sendable {
-    public let attachment: Attachment
+    public let attachment: MgoAttachment
     public let identifier: MgoIdentifier?
     public let reference: MgoReference?
 
-    public init(attachment: Attachment, identifier: MgoIdentifier?, reference: MgoReference?) {
+    public init(attachment: MgoAttachment, identifier: MgoIdentifier?, reference: MgoReference?) {
         self.attachment = attachment
         self.identifier = identifier
         self.reference = reference
@@ -42,7 +42,7 @@ public extension Source {
     }
 
     func with(
-        attachment: Attachment? = nil,
+        attachment: MgoAttachment? = nil,
         identifier: MgoIdentifier?? = nil,
         reference: MgoReference?? = nil
     ) -> Source {

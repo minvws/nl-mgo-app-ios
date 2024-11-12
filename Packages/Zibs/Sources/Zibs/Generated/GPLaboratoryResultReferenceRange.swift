@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let gPLaboratoryResultReferenceRange = try GPLaboratoryResultReferenceRange(json)
+//   let gpLaboratoryResultReferenceRange = try GpLaboratoryResultReferenceRange(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - GPLaboratoryResultReferenceRange
-public struct GPLaboratoryResultReferenceRange: Codable, Hashable, Sendable {
+// MARK: - GpLaboratoryResultReferenceRange
+public struct GpLaboratoryResultReferenceRange: Codable, Hashable, Sendable {
     public let high, low: MgoDuration?
 
     public init(high: MgoDuration?, low: MgoDuration?) {
@@ -20,11 +20,11 @@ public struct GPLaboratoryResultReferenceRange: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: GPLaboratoryResultReferenceRange convenience initializers and mutators
+// MARK: GpLaboratoryResultReferenceRange convenience initializers and mutators
 
-public extension GPLaboratoryResultReferenceRange {
+public extension GpLaboratoryResultReferenceRange {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(GPLaboratoryResultReferenceRange.self, from: data)
+        self = try newJSONDecoder().decode(GpLaboratoryResultReferenceRange.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -41,8 +41,8 @@ public extension GPLaboratoryResultReferenceRange {
     func with(
         high: MgoDuration?? = nil,
         low: MgoDuration?? = nil
-    ) -> GPLaboratoryResultReferenceRange {
-        return GPLaboratoryResultReferenceRange(
+    ) -> GpLaboratoryResultReferenceRange {
+        return GpLaboratoryResultReferenceRange(
             high: high ?? self.high,
             low: low ?? self.low
         )

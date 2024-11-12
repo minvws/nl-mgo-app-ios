@@ -1,0 +1,18 @@
+{
+	"label": "Single Entry",
+	"children": [
+		{
+			"label": "Section for a reference",
+			"children": [
+				{
+					"label": "The label",
+					"display": "Reference",
+					"type": "REFERENCE_VALUE",
+					"summary": false,
+					"reference": "reference/link",
+					"url": null
+				}
+			]
+		}
+	]
+}

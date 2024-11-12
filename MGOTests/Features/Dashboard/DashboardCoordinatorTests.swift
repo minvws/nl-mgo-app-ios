@@ -278,27 +278,27 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
 	}
 	
-	func test_coordinatorHandle_showZibDetails() {
+	func test_coordinatorHandle_showHealthCategoryData() {
 		
 		// Given
-		let heading = "showZibDetails"
+		let heading = "showHealthCategoryData"
 		let schema = UISchema(children: [], label: "test")
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showZibDetails", params: ["resource": Data(), "heading": heading, "uiSchema": schema]))
+		sut.handle(Coordination.Action(identifier: "showHealthCategoryData", params: ["resource": Data(), "heading": heading, "uiSchema": schema]))
 		
 		// Then
-		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showZibDetails(heading: heading, schema: schema)])
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthCategoryData(heading: heading, schema: schema)])
 	}
 	
-	func test_coordinatorHandle_showZibDetails_missingParam() {
+	func test_coordinatorHandle_showHealthCategoryData_missingParam() {
 		
 		// Given
-		let heading = "showZibDetails"
+		let heading = "showHealthCategoryData"
 		let schema = UISchema(children: [], label: "test")
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showZibDetails", params: ["heading": heading, "uiSchema": schema]))
+		sut.handle(Coordination.Action(identifier: "showHealthCategoryData", params: ["heading": heading, "uiSchema": schema]))
 		
 		// Then
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()

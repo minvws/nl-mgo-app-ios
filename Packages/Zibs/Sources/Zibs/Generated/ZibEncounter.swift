@@ -16,7 +16,7 @@ public struct ZibEncounter: Codable, Hashable, Sendable {
     public let diagnosis: [Diagnosis]?
     public let hospitalization: Hospitalization
     public let id: String?
-    public let participant: [Participant]?
+    public let participant: [ZibEncounterParticipant]?
     public let period: MgoPeriod?
     public let profile: ZibEncounterProfile
     public let reason: [[MgoCoding]]?
@@ -31,7 +31,7 @@ public struct ZibEncounter: Codable, Hashable, Sendable {
         case resourceType, serviceProvider
     }
 
-    public init(zibEncounterClass: MgoCoding?, diagnosis: [Diagnosis]?, hospitalization: Hospitalization, id: String?, participant: [Participant]?, period: MgoPeriod?, profile: ZibEncounterProfile, reason: [[MgoCoding]]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
+    public init(zibEncounterClass: MgoCoding?, diagnosis: [Diagnosis]?, hospitalization: Hospitalization, id: String?, participant: [ZibEncounterParticipant]?, period: MgoPeriod?, profile: ZibEncounterProfile, reason: [[MgoCoding]]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
         self.zibEncounterClass = zibEncounterClass
         self.diagnosis = diagnosis
         self.hospitalization = hospitalization
@@ -69,7 +69,7 @@ public extension ZibEncounter {
         diagnosis: [Diagnosis]?? = nil,
         hospitalization: Hospitalization? = nil,
         id: String?? = nil,
-        participant: [Participant]?? = nil,
+        participant: [ZibEncounterParticipant]?? = nil,
         period: MgoPeriod?? = nil,
         profile: ZibEncounterProfile? = nil,
         reason: [[MgoCoding]]?? = nil,

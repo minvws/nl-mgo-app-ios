@@ -22,12 +22,12 @@ struct HealthCategories {
 		case documents = 8
 		case complaints = 9
 		case patient = 10
-		case alerts = 11
-		case payment = 12
-		case plans = 13
+		case functionalOrMentalStatus = 11
+		case alerts = 12
+		case lifestyle = 13
 		case devices = 14
-		case functionalOrMentalStatus = 15
-		case lifestyle = 16
+		case plans = 15
+		case payment = 16
 		
 		/// Which of the Nictiz profiles do we accept for a category?
 		var acceptedProfiles: [String] {
@@ -42,13 +42,14 @@ struct HealthCategories {
 				case .measurements: [
 					ZibBloodPressureProfile.httpNictizNlFhirStructureDefinitionZibBloodPressure.rawValue,
 					ZibBodyWeightProfile.httpNictizNlFhirStructureDefinitionZibBodyWeight.rawValue,
-					ZibBodyHeightProfile.httpNictizNlFhirStructureDefinitionZibBodyHeight.rawValue
+					ZibBodyHeightProfile.httpNictizNlFhirStructureDefinitionZibBodyHeight.rawValue,
+					GpDiagnosticResultProfile.httpNictizNlFhirStructureDefinitionGpDiagnosticResult.rawValue
 				]
 				
 				case .labresults: [
 					ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue,
-//					ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue
-					GPLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue
+					ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue,
+					GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue
 				]
 				
 				case .allergies: [
@@ -56,15 +57,21 @@ struct HealthCategories {
 				]
 				
 				case .treatments: [
-					ZibProcedureProfile.httpNictizNlFhirStructureDefinitionZibProcedure.rawValue
+					ZibProcedureProfile.httpNictizNlFhirStructureDefinitionZibProcedure.rawValue,
+					ZibProcedureRequestProfile.httpNictizNlFhirStructureDefinitionZibProcedureRequest.rawValue
 				]
 				
 				case .appointments: [
-					ZibEncounterProfile.httpNictizNlFhirStructureDefinitionZibEncounter.rawValue
+					ZibEncounterProfile.httpNictizNlFhirStructureDefinitionZibEncounter.rawValue,
+					EAfspraakAppointmentProfile.httpNictizNlFhirStructureDefinitionEAfspraakAppointment.rawValue,
+					GpEncounterProfile.httpNictizNlFhirStructureDefinitionGpEncounter.rawValue,
+					GpEncounterReportProfile.httpNictizNlFhirStructureDefinitionGpEncounterReport.rawValue,
+					GpJournalEntryProfile.httpNictizNlFhirStructureDefinitionGpJournalEntry.rawValue
 				]
 				
 				case .vaccinations: [
-					ZibVaccinationProfile.httpNictizNlFhirStructureDefinitionZibVaccination.rawValue
+					ZibVaccinationProfile.httpNictizNlFhirStructureDefinitionZibVaccination.rawValue,
+					ZibVaccinationRecommendationProfile.httpNictizNlFhirStructureDefinitionZibVaccinationRecommendation.rawValue
 				]
 				
 				case .documents: []
@@ -90,8 +97,9 @@ struct HealthCategories {
 				]
 				
 				case .devices: [
-					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue
-//					ZibMedicalDeviceProductProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceProduct.rawValue
+					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue,
+					ZibMedicalDeviceProductProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceProduct.rawValue,
+					ZibMedicalDeviceRequestProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceRequest.rawValue
 				]
 				
 				case .functionalOrMentalStatus: [
@@ -126,9 +134,11 @@ struct HealthCategories {
 					"zip_body_weight.heading"
 				case ZibBodyHeightProfile.httpNictizNlFhirStructureDefinitionZibBodyHeight.rawValue:
 					"zip_body_height.heading"
+				case GpDiagnosticResultProfile.httpNictizNlFhirStructureDefinitionGpDiagnosticResult.rawValue:
+					"gp_diagnostic_result.heading"
 				
 				// Labresults
-				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue, GPLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue:
+				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue, GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue:
 					"zip_laboratory_test_result_observation.heading"
 				
 				// Allergies
@@ -138,14 +148,26 @@ struct HealthCategories {
 				// Treatments
 				case ZibProcedureProfile.httpNictizNlFhirStructureDefinitionZibProcedure.rawValue:
 					"zib_procedure.heading"
+				case ZibProcedureRequestProfile.httpNictizNlFhirStructureDefinitionZibProcedureRequest.rawValue:
+					"zib_procedure_request.heading"
 				
 				// Appointments
 				case ZibEncounterProfile.httpNictizNlFhirStructureDefinitionZibEncounter.rawValue:
 					"zip_encounter.heading"
+				case EAfspraakAppointmentProfile.httpNictizNlFhirStructureDefinitionEAfspraakAppointment.rawValue:
+					"eAfspraak_appointment.heading"
+				case GpEncounterProfile.httpNictizNlFhirStructureDefinitionGpEncounter.rawValue:
+					"gp_encounter.heading"
+				case GpEncounterReportProfile.httpNictizNlFhirStructureDefinitionGpEncounterReport.rawValue:
+					"gp_encounter_report.heading"
+				case GpJournalEntryProfile.httpNictizNlFhirStructureDefinitionGpJournalEntry.rawValue:
+					"gp_journal_entry.heading"
 				
 				// Vaccinations
 				case ZibVaccinationProfile.httpNictizNlFhirStructureDefinitionZibVaccination.rawValue:
 					"zip_vaccination.heading"
+				case ZibVaccinationRecommendationProfile.httpNictizNlFhirStructureDefinitionZibVaccinationRecommendation.rawValue:
+					"zip_vaccination_recommendation.heading"
 				
 				// Documents
 				
@@ -174,6 +196,10 @@ struct HealthCategories {
 				// Devices
 				case ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue:
 					"zib_medical_device.heading"
+				case ZibMedicalDeviceProductProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceProduct.rawValue:
+					"zib_medical_device_product.heading"
+				case ZibMedicalDeviceRequestProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceRequest.rawValue:
+					"zib_medical_device_request.heading"
 				
 				// FunctionalOrMentalStatus
 				case ZibFunctionalOrMentalStatusProfile.httpNictizNlFhirStructureDefinitionZibFunctionalOrMentalStatus.rawValue:
@@ -196,85 +222,90 @@ struct HealthCategories {
 			}
 		}
 		
-		/// What endpoints should we use for a category?
-		var services: [(endpoint: DVP.Endpoint, serviceID: String)] {
+		// What endpoints should we use for a category?
+		var services: [DVP.Endpoint] {
 			switch self {
 				case .medication: [
-					(DVP.CommonClinicalDataset.medicationUse, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.medicationAgreement, DVP.CommonClinicalDataset.serviceID),
-					(DVP.GeneralPractitioner.currentMedication, DVP.GeneralPractitioner.serviceID),
-					(DVP.CommonClinicalDataset.administrationAgreement, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.medicationUse,
+					DVP.CommonClinicalDataset.medicationAgreement,
+					DVP.GeneralPractitioner.currentMedication,
+					DVP.CommonClinicalDataset.administrationAgreement
 				]
 				
 				case .measurements: [
-					(DVP.CommonClinicalDataset.bloodPressure, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.bodyWeight, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.bodyHeight, DVP.CommonClinicalDataset.serviceID)
-//					(DVP.GeneralPractitioner.diagnosticAndLabResults, DVP.GeneralPractitioner.serviceID)
+					DVP.CommonClinicalDataset.bloodPressure,
+					DVP.CommonClinicalDataset.bodyWeight,
+					DVP.CommonClinicalDataset.bodyHeight,
+					DVP.GeneralPractitioner.diagnosticAndLabResults
 				]
 				
 				case .labresults: [
-					(DVP.CommonClinicalDataset.laboratoryTestResult, DVP.CommonClinicalDataset.serviceID),
-					(DVP.GeneralPractitioner.diagnosticAndLabResults, DVP.GeneralPractitioner.serviceID)
+					DVP.CommonClinicalDataset.laboratoryTestResult,
+					DVP.GeneralPractitioner.diagnosticAndLabResults
 				]
 				
 				case .allergies: [
-					(DVP.CommonClinicalDataset.allergyIntolerance, DVP.CommonClinicalDataset.serviceID),
-					(DVP.GeneralPractitioner.allergyIntolerance, DVP.GeneralPractitioner.serviceID)
+					DVP.CommonClinicalDataset.allergyIntolerance,
+					DVP.GeneralPractitioner.allergyIntolerance
 				]
-//				
+				
 				case .treatments: [
-					(DVP.CommonClinicalDataset.procedure, DVP.CommonClinicalDataset.serviceID)
-//					(DVP.CommonClinicalDataset.plannedProcedures, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.procedure,
+					DVP.CommonClinicalDataset.plannedProcedures
 				]
 				
 				case .appointments: [
-					(DVP.CommonClinicalDataset.encounter, DVP.CommonClinicalDataset.serviceID)
-//					(DVP.CommonClinicalDataset.plannedEncounters, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.encounter,
+					DVP.CommonClinicalDataset.plannedEncounters,
+					DVP.GeneralPractitioner.encounter,
+					DVP.GeneralPractitioner.soapEntries
 				]
 				
 				case .vaccinations: [
-					(DVP.CommonClinicalDataset.vaccination, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.vaccination,
+					DVP.CommonClinicalDataset.plannedImmunization
 				]
 				
 				case .documents: []
 				
 				case .complaints: [
-					(DVP.CommonClinicalDataset.problem, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.problem
 				]
 				
 				case .patient: [
-//					(DVP.CommonClinicalDataset.patient, DVP.CommonClinicalDataset.serviceID),
-//					(DVP.GeneralPractitioner.patient, DVP.GeneralPractitioner.serviceID)
-				]
-				
-				case .alerts: [
-					(DVP.CommonClinicalDataset.alert, DVP.CommonClinicalDataset.serviceID)
-				]
-				
-				case .payment: [
-//					(DVP.CommonClinicalDataset.payer, DVP.CommonClinicalDataset.serviceID)
-				]
-				
-				case .plans: [
-					(DVP.CommonClinicalDataset.treatmentDirective, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.advanceDirective, DVP.CommonClinicalDataset.serviceID)
-				]
-				
-				case .devices: [
-					(DVP.CommonClinicalDataset.medicalDevice, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.patient,
+					DVP.GeneralPractitioner.patient
 				]
 				
 				case .functionalOrMentalStatus: [
-					(DVP.CommonClinicalDataset.functionalOrMentalStatus, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.functionalOrMentalStatus
+				]
+				
+				case .alerts: [
+					DVP.CommonClinicalDataset.alert
+//					DVP.GeneralPractitioner.episodes
 				]
 				
 				case .lifestyle: [
-					(DVP.CommonClinicalDataset.livingSituation, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.drugUse, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.alcoholUse, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.tobaccoUse, DVP.CommonClinicalDataset.serviceID),
-					(DVP.CommonClinicalDataset.nutritionAdvice, DVP.CommonClinicalDataset.serviceID)
+					DVP.CommonClinicalDataset.livingSituation,
+					DVP.CommonClinicalDataset.drugUse,
+					DVP.CommonClinicalDataset.alcoholUse,
+					DVP.CommonClinicalDataset.tobaccoUse,
+					DVP.CommonClinicalDataset.nutritionAdvice
+				]
+				
+				case .devices: [
+					DVP.CommonClinicalDataset.medicalDevice,
+					DVP.CommonClinicalDataset.plannedMedicalDevices
+				]
+				
+				case .plans: [
+					DVP.CommonClinicalDataset.treatmentDirective,
+					DVP.CommonClinicalDataset.advanceDirective
+				]
+				
+				case .payment: [
+					DVP.CommonClinicalDataset.payer
 				]
 			}
 		}
