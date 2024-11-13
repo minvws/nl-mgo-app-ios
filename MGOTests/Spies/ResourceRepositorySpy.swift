@@ -54,4 +54,19 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 		invokedLoadResourceParameters = (healthcareOrganization, category)
 		invokedLoadResourceParametersList.append((healthcareOrganization, category))
 	}
+
+	var invokedLoadBinary = false
+	var invokedLoadBinaryCount = 0
+	var invokedLoadBinaryParameters: (healthcareOrganization: MgoOrganization, serviceId: String, url: String)?
+	var invokedLoadBinaryParametersList = [(healthcareOrganization: MgoOrganization, serviceId: String, url: String)]()
+
+	func loadBinary(
+		_ healthcareOrganization: MgoOrganization,
+		serviceId: String,
+		url: String) {
+		invokedLoadBinary = true
+		invokedLoadBinaryCount += 1
+		invokedLoadBinaryParameters = (healthcareOrganization, serviceId, url)
+		invokedLoadBinaryParametersList.append((healthcareOrganization, serviceId, url))
+	}
 }

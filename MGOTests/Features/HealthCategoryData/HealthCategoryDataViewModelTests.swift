@@ -22,7 +22,12 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
-		sut = HealthCategoryDataViewModel(coordinator: coordinatorSpy, title: "HealthCategoryDataViewModelTests", schema: UISchema(children: [], label: "test"))
+		sut = HealthCategoryDataViewModel(
+			coordinator: coordinatorSpy,
+			title: "HealthCategoryDataViewModelTests",
+			schema: UISchema(children: [], label: "test"),
+			healthcareOrganization: Generator.healthcareOrganization("1")
+		)
 	}
 
 	func test_state() {

@@ -14,6 +14,9 @@ struct UISchemaView: View {
 	/// The schema
 	var schema: UISchema
 	
+	/// The healthcare organization
+	var healthcareOrganization: MgoOrganization
+	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
@@ -80,11 +83,14 @@ struct UISchemaView: View {
 	@ViewBuilder func viewFor(_ entry: UIEntry, isLastElement: Bool) -> some View {
 		
 		if case .downloadLink = entry.type {
-		
-			CallToActionButton(title: entry.label, icon: Image(ImageResource.Schema.download), style: .primaryWithIcon) {
-				// todo
-			}
 			
+			HealthCategoryDownloadView(
+				viewModel:
+					HealthCategoryDownloadViewModel(
+						healthcareOrganization: healthcareOrganization,
+						entry: entry
+					)
+			)
 		} else {
 			
 			viewFor(entry.display, entry: entry, isLastElement: isLastElement)
@@ -92,15 +98,6 @@ struct UISchemaView: View {
 					view
 						.onTapGesture {
 							_ = logInfo("Tapped on", entry.reference as Any)
-						}
-						.accessibilityAddTraits(.isButton)
-						.accessibilityRemoveTraits(.isStaticText)
-						.accessibilityIdentifier(entry.label)
-				}
-				.when(entry.url != nil) { view in
-					view
-						.onTapGesture {
-							_ = logInfo("Tapped on", entry.url as Any)
 						}
 						.accessibilityAddTraits(.isButton)
 						.accessibilityRemoveTraits(.isStaticText)
@@ -304,6 +301,7 @@ struct UISchemaView: View {
 						label: "Section Header second group")
 				],
 				label: "UI Schema"
-			)
+			),
+		healthcareOrganization: PreviewContent.healthcareOrganization
 	).padding(.horizontal, 16)
 }

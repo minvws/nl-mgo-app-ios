@@ -285,10 +285,10 @@ final class DashboardCoordinatorTests: XCTestCase {
 		let schema = UISchema(children: [], label: "test")
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showHealthCategoryData", params: ["resource": Data(), "heading": heading, "uiSchema": schema]))
+		sut.handle(Coordination.Action(identifier: "showHealthCategoryData", params: ["resource": Data(), "heading": heading, "uiSchema": schema, "healthcareOrganization": Generator.healthcareOrganization("1")]))
 		
 		// Then
-		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthCategoryData(heading: heading, schema: schema)])
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthCategoryData(heading: heading, schema: schema, organization: Generator.healthcareOrganization("1"))])
 	}
 	
 	func test_coordinatorHandle_showHealthCategoryData_missingParam() {

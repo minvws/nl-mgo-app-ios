@@ -23,6 +23,9 @@ class HealthCategoryDataViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
+	/// The healthcare organization
+	var healthcareOrganization: MgoOrganization
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -32,13 +35,16 @@ class HealthCategoryDataViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	/// - Parameter title: the title for the page
 	/// - Parameter schema: the UISchema to display
+	/// - Parameter healthcareOrganization: the healthcare organization
 	init(
 		coordinator: (any Coordinator)? = nil,
 		title: String,
-		schema: UISchema
+		schema: UISchema,
+		healthcareOrganization: MgoOrganization
 	) {
 		self.coordinator = coordinator
 		self.state = ZibDetailViewState(title: title, schema: schema)
+		self.healthcareOrganization = healthcareOrganization
 	}
 	
 	/// Handle any action
@@ -76,8 +82,10 @@ struct HealthCategoryDataView: View {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
-				UISchemaView(schema: viewModel.state.schema)
-				
+				UISchemaView(
+					schema: viewModel.state.schema,
+					healthcareOrganization: viewModel.healthcareOrganization
+				)
 				Spacer()
 			}
 			.padding(.top, ViewTraits.Navigation.padding)
@@ -179,7 +187,8 @@ struct HealthCategoryDataView: View {
 									label: "Section Header second group")
 							],
 							label: "UI Schema"
-						)
+						),
+					healthcareOrganization: PreviewContent.healthcareOrganization
 				)
 		)
 	}

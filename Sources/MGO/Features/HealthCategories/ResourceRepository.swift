@@ -26,6 +26,11 @@ protocol ResourceRepositoryProtocol {
 	///   - healthcareOrganization: healthcare organization
 	///   - category: the category to load the resources for.
 	func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async
+	
+	func loadBinary(
+		_ healthcareOrganization: MgoOrganization,
+		serviceId: String,
+		url: String) async
 }
 
 /// Load the resources from the server
@@ -161,9 +166,43 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			} catch {
 				resourceError = true
 			}
+			
+			#warning("To do: store data service id?")
 			let recordToStore = MgoResourceRecord(categoryId: "\(category.rawValue)", organizationId: healthcareOrganization.identifier, resources: mgoResources, error: resourceError)
 			logVerbose("ResourceRepository - Adding to the store", recordToStore)
 			dataRepository?.store(data: recordToStore)
 		}
+	}
+	
+	/// Load the resources
+	/// - Parameters:
+	///   - healthcareOrganization: healthcare organization
+	///   - url: reference url
+	func loadBinary(
+		_ healthcareOrganization: MgoOrganization,
+		serviceId: String,
+		url: String) async {
+		
+			let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
+			
+			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId) else {
+				return
+			}
+			
+			let endpoint = DVP.Endpoint(path: url, serviceId: serviceId)
+		
+			do {
+				logInfo("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
+				let data = try await repository.getBundleData(
+					endpoint: endpoint,
+					dvaTarget: dvaTarget,
+					username: username,
+					password: password
+				)
+				logInfo("data", String(decoding: data, as: UTF8.self))
+				#warning("To do: cast to Binary and return it")
+			} catch {
+				
+			}
 	}
 }
