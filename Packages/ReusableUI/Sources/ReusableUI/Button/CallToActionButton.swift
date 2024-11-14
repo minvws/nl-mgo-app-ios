@@ -30,13 +30,12 @@ public struct CallToActionButton: View {
 	/// All possible styles
 	public enum Style {
 		case primary
-		case primaryWithIcon
-		case primaryWithSpinner
 		case primaryNegative
 		case secondary
 		case secondaryNegative
 		case tertiary
 		case tertiaryNegative
+		case tertiaryWithIcon
 	}
 	
 	/// Initializer
@@ -64,25 +63,18 @@ public struct CallToActionButton: View {
 				action?()
 			},
 			label: {
-				if style == .primaryWithIcon, let icon {
+				if style == .tertiaryWithIcon, let icon {
 					HStack {
 						titleLabel()
 						Spacer()
 						icon
-					}
-				} else if style == .primaryWithSpinner {
-					HStack {
-						titleLabel()
-						Spacer()
-						ProgressView()
-							.progressViewStyle(.circular)
 					}
 				} else {
 					titleLabel()
 				}
 			}
 		)
-		.when([.primary, .primaryWithIcon, .primaryWithSpinner].contains(style), transform: { button in
+		.when(style == .primary, transform: { button in
 			button.buttonStyle(PrimaryDefaultButtonStyle())
 		})
 		.when(style == .primaryNegative, transform: { button in
@@ -96,6 +88,9 @@ public struct CallToActionButton: View {
 		})
 		.when(style == .tertiary, transform: { button in
 			button.buttonStyle(TertiaryButtonStyle())
+		})
+		.when(style == .tertiaryWithIcon, transform: { button in
+			button.buttonStyle(TertiaryButtonWithIconStyle())
 		})
 		.when(style == .tertiaryNegative, transform: { button in
 			button.buttonStyle(TertiaryNegativeButtonStyle())
@@ -123,12 +118,6 @@ public struct CallToActionButton: View {
 				.padding(16)
 		}
 		HStack {
-			CallToActionButton(".primaryWithIcon", icon: Image(systemName: "stethoscope"), style: .primaryWithIcon)
-				.padding(16)
-			CallToActionButton(".primaryWithSpinner", style: .primaryWithSpinner)
-				.padding(16)
-		}
-		HStack {
 			CallToActionButton(".secondary", style: .secondary)
 				.padding(16)
 			CallToActionButton(".secondaryNegative", style: .secondaryNegative)
@@ -138,6 +127,10 @@ public struct CallToActionButton: View {
 			CallToActionButton(".tertiary", style: .tertiary)
 				.padding(16)
 			CallToActionButton(".tertiaryNegative", style: .tertiaryNegative)
+				.padding(16)
+		}
+		HStack {
+			CallToActionButton(".tertiaryWithIcon", icon: Image(systemName: "stethoscope"), style: .tertiaryWithIcon)
 				.padding(16)
 		}
 	}
