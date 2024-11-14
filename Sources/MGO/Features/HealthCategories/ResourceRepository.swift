@@ -30,7 +30,7 @@ protocol ResourceRepositoryProtocol {
 	func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		url: String) async
+		url: String) async throws -> Zibs.Binary?
 }
 
 /// Load the resources from the server
@@ -177,16 +177,18 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// Load the resources
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
+	///   - serviceId: the id of the data service
 	///   - url: reference url
+	/// - Returns: Binary Object
 	func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		url: String) async {
+		url: String) async throws -> Zibs.Binary? {
 		
 			let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
 			
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId) else {
-				return
+				return nil
 			}
 			
 			let endpoint = DVP.Endpoint(path: url, serviceId: serviceId)
@@ -199,10 +201,12 @@ class ResourceRepository: ResourceRepositoryProtocol {
 					username: username,
 					password: password
 				)
-				logInfo("data", String(decoding: data, as: UTF8.self))
-				#warning("To do: cast to Binary and return it")
-			} catch {
 				
+				let binary = try Binary(data: data)
+				return binary
+			} catch {
+				// Should be error
+				return nil
 			}
 	}
 }
