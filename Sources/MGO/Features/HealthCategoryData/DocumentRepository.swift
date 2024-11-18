@@ -70,7 +70,7 @@ class BinaryRepository: BinaryRepositoryProtocol {
 		do {
 			try fileManager.removeItem(atPath: url.path)
 		} catch {
-			logError("🗄️🗄️: Failed to read directory \(error)")
+			logError("🗄️🗄️: Failed to clear directory \(error)")
 		}
 	}
 }

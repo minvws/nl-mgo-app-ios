@@ -8,6 +8,7 @@
 import MGOFoundation
 import MGOUI
 @testable import MGO
+import Zibs
 
 class ResourceRepositorySpy: ResourceRepositoryProtocol {
 
@@ -59,14 +60,18 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 	var invokedLoadBinaryCount = 0
 	var invokedLoadBinaryParameters: (healthcareOrganization: MgoOrganization, serviceId: String, url: String)?
 	var invokedLoadBinaryParametersList = [(healthcareOrganization: MgoOrganization, serviceId: String, url: String)]()
+	var stubbedBinary: Zibs.Binary?
 
-	func loadBinary(
-		_ healthcareOrganization: MgoOrganization,
-		serviceId: String,
-		url: String) {
-		invokedLoadBinary = true
-		invokedLoadBinaryCount += 1
-		invokedLoadBinaryParameters = (healthcareOrganization, serviceId, url)
-		invokedLoadBinaryParametersList.append((healthcareOrganization, serviceId, url))
+	private let queue = DispatchQueue(label: "com.ResourceRepositorySpy.serialqueue.\(UUID().uuidString)")
+
+	func loadBinary(_ healthcareOrganization: MgoOrganization, serviceId: String, url: String) async throws -> Zibs.Binary? {
+			
+		queue.sync {
+			invokedLoadBinary = true
+			invokedLoadBinaryCount += 1
+			invokedLoadBinaryParameters = (healthcareOrganization, serviceId, url)
+			invokedLoadBinaryParametersList.append((healthcareOrganization, serviceId, url))
+			return stubbedBinary
+		}
 	}
 }
