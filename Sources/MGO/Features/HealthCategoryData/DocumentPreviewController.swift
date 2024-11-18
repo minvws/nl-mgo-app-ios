@@ -10,13 +10,13 @@ import MGOUI
 struct DocumentPreviewController: UIViewControllerRepresentable {
 	
 	private var isActive: Binding<Bool>
-	private var didOpen: Binding<Bool>
+	private var failedToOpen: Binding<Bool>
 	private let viewController = UIViewController()
 	private let docController: UIDocumentInteractionController
 	
-	init(_ isActive: Binding<Bool>, didOpen: Binding<Bool>, url: URL) {
+	init(_ isActive: Binding<Bool>, failedToOpen: Binding<Bool>, url: URL) {
 		self.isActive = isActive
-		self.didOpen = didOpen
+		self.failedToOpen = failedToOpen
 		self.docController = UIDocumentInteractionController(url: url)
 	}
 	
@@ -29,21 +29,23 @@ struct DocumentPreviewController: UIViewControllerRepresentable {
 		if self.isActive.wrappedValue && docController.delegate == nil { // to not show twice
 			docController.delegate = context.coordinator
 			let result = self.docController.presentPreview(animated: true)
-			print("Could we open the preview? \(result)") /// how do we pass result back to the caller?
-//			context.coordinator.didOpen(result)
+			context.coordinator.didOpen(result)
 		}
 	}
 	
 	func makeCoordinator() -> DocumentPreviewCoordinator {
 		
-		return DocumentPreviewCoordinator(owner: self)
+		return DocumentPreviewCoordinator(owner: self, failedToOpen: failedToOpen)
 	}
 	
 	final class DocumentPreviewCoordinator: NSObject, UIDocumentInteractionControllerDelegate { // works as delegate
 		let owner: DocumentPreviewController
 		
-		init(owner: DocumentPreviewController) {
+		let failedToOpen: Binding<Bool>
+		
+		init(owner: DocumentPreviewController, failedToOpen: Binding<Bool>) {
 			self.owner = owner
+			self.failedToOpen = failedToOpen
 		}
 		func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
 			return owner.viewController
@@ -55,7 +57,9 @@ struct DocumentPreviewController: UIViewControllerRepresentable {
 		}
 		
 		func didOpen(_ value: Bool) {
-			owner.didOpen.wrappedValue = value
+			DispatchQueue.main.async {
+				self.failedToOpen.wrappedValue = !value
+			}
 		}
 	}
 }

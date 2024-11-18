@@ -8,12 +8,15 @@
 import MGOFoundation
 import MGOUI
 import Zibs
+import RestrictedBrowser
 
 /// The states of a download view
 enum HealthCategoryDownloadState: Equatable {
 	
 	case loading
-	case idle(label: String, documentUrl: URL?)
+	case idle(label: String)
+	case downloaded(label: String, documentUrl: URL)
+	case external(label: String, documentUrl: URL)
 	case noDocument
 	case error
 }
@@ -29,17 +32,11 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 	/// Part of the UISchema we need to display for this download
 	private var entry: UIEntry
 	
-	var documentUrl: URL?
-	
+	/// show the preview when downloaded
 	@Published var showPreview: Bool = false
 	
-//	@Published var canOpenPreview: Bool = false //{
-////		didSet {
-////			print("We can open the preview \(canOpenPreview)")
-////		}
-////	}
-	
-	private let fileManager = FileManager.default
+	/// The repository for binaries
+	private let binaryRepository: BinaryRepositoryProtocol = BinaryRepository()
 	
 	/// Create a Download View
 	/// - Parameters:
@@ -53,41 +50,83 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 		if entry.url == nil {
 			state = .noDocument
 		} else {
-			do {
-				var fileName = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).path
-				fileName.append("/\(entry.label).zzz")
-				self.state = .idle(label: entry.label, documentUrl: URL(fileURLWithPath: fileName))
-				self.documentUrl = URL(fileURLWithPath: fileName)
-			} catch {
-				state = .noDocument
-			}
+			state = .idle(label: entry.label)
 		}
+	}
+	
+	deinit {
+		binaryRepository.clear()
 	}
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case download
+		case shareDocument(url: URL)
+		case shareUrl(url: URL)
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	func reduce(_ action: HealthCategoryDownloadViewModel.Action) {
 		
-		guard let url = entry.url else {
+		switch action {
+			case .download: download()
+			case let .shareDocument(url): shareDocument(url)
+			case let .shareUrl(url): shareUrl(url)
+		}
+	}
+	
+	private func download() {
+		
+		guard let urlString = entry.url else {
 			state = .noDocument
 			return
 		}
 		
-		if action == .download {
+		guard state != .loading else { return }
+		state = .loading
+		
+		logInfo("Tapped on", entry.url as Any)
+		
+		if urlString.starts(with: "https") {
 			
-			guard state != .loading else { return }
-			state = .loading
-			
-			logInfo("Tapped on", entry.url as Any)
-			_Concurrency.Task {
-				await loadBinary(url)
+			guard let externalUrl = URL(string: urlString) else {
+				state = .noDocument
+				return
 			}
+			openExternalUrl(externalUrl)
+		
+		} else if urlString.starts(with: "Binary/") {
+			
+			_Concurrency.Task {
+				await loadBinary(urlString)
+			}
+		} else {
+			state = .noDocument
 		}
+	}
+	
+	private func openExternalUrl(_ url: URL) {
+		
+		state = .external(label: entry.label, documentUrl: url)
+		shareUrl(url)
+	}
+	
+	private func shareDocument(_ url: URL) {
+		
+		guard let vc = UIApplication.shared.firstKeyWindow?.rootViewController else { return }
+		
+		let shareActivity = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+		shareActivity.popoverPresentationController?.sourceView = vc.view
+		shareActivity.popoverPresentationController?.sourceRect = CGRect(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height, width: 0, height: 0)
+		shareActivity.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
+		vc.present(shareActivity, animated: true, completion: nil)
+	}
+	
+	private func shareUrl(_ url: URL) {
+		
+		let browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: [])
+		browser.handleUnallowedDomain(url)
 	}
 	
 	@MainActor
@@ -95,24 +134,15 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 		do {
 			if let binary = try await Current.resourceRepository.loadBinary(healthcareOrganization, serviceId: "51", url: url) {
 				logInfo("binary", binary.contentType)
-				self.state = .idle(label: entry.label, documentUrl: documentUrl)
 				
-				if let filePath = documentUrl?.path, let content = Data(base64Encoded: binary.content) {
-					fileManager.createFile(atPath: filePath, contents: content)
-					showPreview = true
-					
-////					{
-//								guard let vc = UIApplication.shared.connectedScenes.compactMap({$0 as? UIWindowScene}).first?.windows.first?.rootViewController else{
-//									return
-//								}
-//					let shareActivity = UIActivityViewController(activityItems: [documentUrl!], applicationActivities: nil)
-//								shareActivity.popoverPresentationController?.sourceView = vc.view
-//								shareActivity.popoverPresentationController?.sourceRect = CGRect(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height, width: 0, height: 0)
-//								shareActivity.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.down
-//								vc.present(shareActivity, animated: true, completion: nil)
-////							}
-					
+				var name = entry.label
+				switch binary.contentType {
+					case "application/pdf": name += ".pdf"
+					default: break
 				}
+				let url = try binaryRepository.store(binary, as: name)
+				self.state = .downloaded(label: entry.label, documentUrl: url)
+				showPreview = true
 			}
 		} catch {
 			state = .error
@@ -128,7 +158,7 @@ struct HealthCategoryDownloadView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
-	@State private var didOpen: Bool = true
+	@State private var failedToOpenPreview: Bool = false
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -144,40 +174,42 @@ struct HealthCategoryDownloadView: View {
 		
 		switch viewModel.state {
 			
-			case let .idle(label: label, documentUrl: documentUrl):
+			case let .idle(label: label):
 				CallToActionButton(
 					title: label,
 					icon: Image(ImageResource.Schema.attachFile),
 					style: .tertiaryWithIcon) {
 						viewModel.reduce(.download)
 					}
-					.when(documentUrl != nil) { view in
-						view
-							.background(DocumentPreviewController($viewModel.showPreview, didOpen: $didOpen, url: documentUrl!))
+			
+			case let .downloaded(label: label, documentUrl: documentUrl):
+				CallToActionButton(
+					title: label,
+					icon: Image(ImageResource.Schema.attachFile),
+					style: .tertiaryWithIcon) {
+						if failedToOpenPreview {
+							viewModel.reduce(.shareDocument(url: documentUrl))
+						} else {
+							viewModel.showPreview = true
+						}
+					}
+					.background(DocumentPreviewController($viewModel.showPreview, failedToOpen: $failedToOpenPreview, url: documentUrl))
+					.onChange(of: failedToOpenPreview) { newValue in
+						if newValue {
+							viewModel.reduce(.shareDocument(url: documentUrl))
+						}
+					}
+			
+			case let .external(label: label, documentUrl: documentUrl):
+				CallToActionButton(
+					title: label,
+					icon: Image(ImageResource.Schema.attachFile),
+					style: .tertiaryWithIcon) {
+						viewModel.reduce(.shareUrl(url: documentUrl))
 					}
 			
 			case .loading:
-				
 				loadingView()
-			
-//			case .loading, .idle:
-////			if let url = viewModel.documentUrl {
-//				CallToActionButton(
-//					title: viewModel.label,
-//					icon: Image(ImageResource.Schema.attachFile),
-//					style: viewModel.state == .loading ? .primaryWithSpinner : .tertiaryWithIcon) {
-//						viewModel.reduce(.download)
-//					}
-////					.background(DocumentPreview($viewModel.showPreview, url: url))
-//////					.sheet(isPresented: $viewModel.showPreview, onDismiss: {
-//////						print("Dismiss")
-//////					}, content: {
-//////						ActivityViewController(activityItems: [url])
-//////					})
-////				
-////			} else {
-////				EmptyView()
-////			}
 			
 			case .noDocument:
 				feedbackView(
