@@ -42,7 +42,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 	func test_categorySelected_shouldCallCoordinator_whenStateIsLoaded() throws {
 		
 		// Given
-		let button = CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "test", state: .loaded, box: 1)
+		let button = CategoryButton(category: HealthCategories.Category.measurements, title: "test", state: .loaded, box: 1)
 		
 		// When
 		sut.reduce(.categorySelected(button))
@@ -58,7 +58,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 	func test_categorySelected_shouldCallCoordinator_whenStateIsEmpty() throws {
 		
 		// Given
-		let button = CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "test", state: .empty, box: 1)
+		let button = CategoryButton(category: HealthCategories.Category.measurements, title: "test", state: .empty, box: 1)
 		
 		// When
 		sut.reduce(.categorySelected(button))

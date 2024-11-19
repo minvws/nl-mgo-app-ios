@@ -25,7 +25,8 @@ final class HealthCategoryDataViewTests: XCTestCase {
 		coordinatorSpy = DashboardCoordinatorSpy()
 		let data = try getResource("multipleValuesMultipleEntries")
 		let schema = try UISchema(data: data)
-		viewModel = HealthCategoryDataViewModel(coordinator: coordinatorSpy, title: "test_HealthCategoryDataView", schema: schema)
+		let healthcareOrganization = Generator.healthcareOrganization("1")
+		viewModel = HealthCategoryDataViewModel(coordinator: coordinatorSpy, title: "test_HealthCategoryDataView", schema: schema, healthcareOrganization: healthcareOrganization)
 		sut = HealthCategoryDataView(viewModel: self.viewModel)
 	}
 

@@ -1,0 +1,17 @@
+
+{
+  "resourceType": "Binary",
+  "id": "pdfa-binary2",
+  "meta": {
+	"extension": [
+	  {
+		"url": "http://hapifhir.io/fhir/StructureDefinition/resource-meta-source",
+		"valueUri": "#80a9646c624465b8"
+	  }
+	],
+	"versionId": "1",
+	"lastUpdated": "2023-07-05T09:33:48.100+00:00"
+  },
+  "contentType": "application/pdf",
+  "content": "Um9vbA=="
+}

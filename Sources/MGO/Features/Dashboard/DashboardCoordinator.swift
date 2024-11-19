@@ -78,7 +78,7 @@ enum DashboardCoordination {
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
-		case showHealthCategoryData(heading: String, schema: UISchema)
+		case showHealthCategoryData(heading: String, schema: UISchema, organization: MgoOrganization)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
 }
@@ -232,11 +232,12 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				}
 				
 			case Coordination.Action.showHealthCategoryData.identifier:
-				if action.params.count == 3,
+				if action.params.count == 4,
 				   //				   let resource = action.params["resource"] as? MgoResouce,
+				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let heading = action.params["heading"] as? String,
 				   let schema = action.params["uiSchema"] as? UISchema {
-					setState(DashboardCoordination.State.showHealthCategoryData(heading: heading, schema: schema))
+					setState(DashboardCoordination.State.showHealthCategoryData(heading: heading, schema: schema, organization: healthcareOrganization))
 					return true
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
@@ -334,12 +335,13 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
 				
-			case let .showHealthCategoryData(heading: heading, schema: schema):
+			case let .showHealthCategoryData(heading: heading, schema: schema, organization: healthcareOrganization):
 				HealthCategoryDataView(
 					viewModel: HealthCategoryDataViewModel(
 						coordinator: self,
 						title: heading,
-						schema: schema
+						schema: schema,
+						healthcareOrganization: healthcareOrganization
 					)
 				)
 				
