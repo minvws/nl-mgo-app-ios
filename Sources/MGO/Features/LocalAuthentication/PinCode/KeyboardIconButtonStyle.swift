@@ -22,6 +22,7 @@ struct KeyboardIconButtonStyle: ButtonStyle {
 			static let minimumHeight: CGFloat = 44
 			static let fontSize: CGFloat = 30
 			static let disabledOpacity: Double = 0.25
+			static let cornerRadius: CGFloat = 5
 		}
 	}
 	
@@ -33,7 +34,8 @@ struct KeyboardIconButtonStyle: ButtonStyle {
 		configuration.label
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.font(.system(size: ViewTraits.Button.fontSize))
-			.foregroundStyle(isEnabled ? theme.iconsPrimary : theme.iconsPrimary.opacity(ViewTraits.Button.disabledOpacity))
+			.foregroundStyle(isEnabled ? theme.contentPrimary : theme.contentPrimary.opacity(ViewTraits.Button.disabledOpacity))
 			.background(configuration.isPressed ? theme.backgroundTertiary : theme.backgroundPrimary)
+			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }
