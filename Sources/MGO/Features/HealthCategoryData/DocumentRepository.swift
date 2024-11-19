@@ -55,10 +55,9 @@ class BinaryRepository: BinaryRepositoryProtocol {
 		
 		let fileUrl = documentsURL.appendingPathComponent(filename)
 		
-		if let content = Data(base64Encoded: binary.content) {
-			if fileManager.createFile(atPath: fileUrl.path, contents: content) {
-				return fileUrl
-			}
+		if let content = Data(base64Encoded: binary.content),
+		   fileManager.createFile(atPath: fileUrl.path, contents: content) {
+			return fileUrl
 		}
 		throw BinaryRepositoryError.couldNotSaveBinary
 	}

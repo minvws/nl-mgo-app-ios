@@ -136,9 +136,8 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 				logInfo("binary", binary.contentType)
 				
 				var name = entry.label
-				switch binary.contentType {
-					case "application/pdf": name += ".pdf"
-					default: break
+				if binary.contentType == "application/pdf" {
+					name += ".pdf"
 				}
 				let url = try binaryRepository.store(binary, as: name)
 				self.state = .downloaded(label: entry.label, documentUrl: url)
