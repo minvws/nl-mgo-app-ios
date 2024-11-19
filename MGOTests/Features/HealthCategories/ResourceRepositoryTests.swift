@@ -154,7 +154,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let zib = await try sut.loadBinary(organization, serviceId: "48", url: url)
+		let zib = try await sut.loadBinary(organization, serviceId: "48", url: url)
 		
 		// Then
 		expect(zib?.contentType) == "application/pdf"
@@ -171,7 +171,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let zib = await try sut.loadBinary(organization, serviceId: "48", url: url)
+		let zib = try await sut.loadBinary(organization, serviceId: "48", url: url)
 		
 		// Then
 		expect(zib) == nil

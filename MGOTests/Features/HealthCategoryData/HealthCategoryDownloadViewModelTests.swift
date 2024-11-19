@@ -142,25 +142,3 @@ final class HealthCategoryDownloadViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(.downloaded(label: "label", documentUrl: url)))
 	}
 }
-
-/*
- 
- 
- 
-
-	 if let binary = try await Current.resourceRepository.loadBinary(healthcareOrganization, serviceId: "51", url: url) {
-		 logInfo("binary", binary.contentType)
-		 
-		 var name = entry.label
-		 switch binary.contentType {
-			 case "application/pdf": name += ".pdf"
-			 default: break
-		 }
-		 let url = try binaryRepository.store(binary, as: name)
-		 self.state = .downloaded(label: entry.label, documentUrl: url)
-		 showPreview = true
-	 }
-
- 
- */
-
