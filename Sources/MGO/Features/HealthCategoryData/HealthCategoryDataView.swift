@@ -23,6 +23,9 @@ class HealthCategoryDataViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
+	/// The healthcare organization
+	var healthcareOrganization: MgoOrganization
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -32,13 +35,16 @@ class HealthCategoryDataViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	/// - Parameter title: the title for the page
 	/// - Parameter schema: the UISchema to display
+	/// - Parameter healthcareOrganization: the healthcare organization
 	init(
 		coordinator: (any Coordinator)? = nil,
 		title: String,
-		schema: UISchema
+		schema: UISchema,
+		healthcareOrganization: MgoOrganization
 	) {
 		self.coordinator = coordinator
 		self.state = ZibDetailViewState(title: title, schema: schema)
+		self.healthcareOrganization = healthcareOrganization
 	}
 	
 	/// Handle any action
@@ -76,8 +82,10 @@ struct HealthCategoryDataView: View {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
-				UISchemaView(schema: viewModel.state.schema)
-				
+				UISchemaView(
+					schema: viewModel.state.schema,
+					healthcareOrganization: viewModel.healthcareOrganization
+				)
 				Spacer()
 			}
 			.padding(.top, ViewTraits.Navigation.padding)
@@ -102,49 +110,85 @@ struct HealthCategoryDataView: View {
 				HealthCategoryDataViewModel(
 					coordinator: nil,
 					title: String(localized: "hc_medication.heading_detail"),
-					schema: UISchema(
-						children: [
-//							UISchemaGroup(
-//								children: [
-//									Value(
-//										display: ChildDisplay.string("Value"),
-//										label: "field.label",
-//										summary: true,
-//										type: "Field Type",
-//										reference: nil
-//									),
-//									Value(
-//										display: ChildDisplay.string("Value2"),
-//										label: "field.label2",
-//										summary: true,
-//										type: "Field Type",
-//										reference: nil
-//									)
-//								],
-//								label: "Section Header"),
-//							
-//							UISchemaGroup(
-//								children: [
-//									Value(
-//										display: ChildDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
-//										label: "field.label3",
-//										summary: true,
-//										type: "Field Type",
-//										reference: nil
-//									),
-//									Value(
-//										display: nil,
-//										label: "field.label4",
-//										summary: true,
-//										type: "Field Type",
-//										reference: nil
-//									)
-//								],
-//								label: "Section Header 2")
-//							
-						],
-						label: "UI Schema"
-					)
+					schema:
+						UISchema(
+							children: [
+								// Schema Group 1
+								UISchemaGroup(
+									children: [
+										UIEntry(
+											display: UIEntryDisplay.string("single value"),
+											label: "label single value",
+											summary: true,
+											type: .singleValue,
+											reference: nil,
+											url: nil
+										),
+										
+										UIEntry(
+											display: nil,
+											label: "label reference",
+											summary: true,
+											type: .referenceValue,
+											reference: "reference",
+											url: nil
+										),
+										UIEntry(
+											display: nil,
+											label: "label download link",
+											summary: true,
+											type: .downloadLink,
+											reference: nil,
+											url: "https://www.apple.com"
+										)
+									],
+									label: "Section Header first group"),
+								
+								// Schema Group 2
+								UISchemaGroup(
+									children: [
+										// Unknown
+										UIEntry(
+											display: nil,
+											label: "label single value nil",
+											summary: true,
+											type: .singleValue,
+											reference: nil,
+											url: nil
+										),
+										UIEntry(
+											display: UIEntryDisplay.unionArray([
+												DisplayElement.stringArray(["one", "two"]),
+												DisplayElement.stringArray(["three", "four"])
+											]),
+											label: "label multiple group value",
+											summary: true,
+											type: .multipleGroupedValues,
+											reference: nil,
+											url: nil
+										),
+										UIEntry(
+											display: UIEntryDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
+											label: "label multiple value",
+											summary: true,
+											type: .multipleValues,
+											reference: nil,
+											url: nil
+										),
+										UIEntry(
+											display: UIEntryDisplay.unionArray([DisplayElement.string("one")]),
+											label: "label union value",
+											summary: true,
+											type: .multipleValues,
+											reference: nil,
+											url: nil
+										)
+									],
+									label: "Section Header second group")
+							],
+							label: "UI Schema"
+						),
+					healthcareOrganization: PreviewContent.healthcareOrganization
 				)
 		)
 	}

@@ -72,10 +72,10 @@ struct HealthCategoryRowView: View {
 
 #Preview {
 	VStack {
-		HealthCategoryRowView(block: CategoryButton(id: 1, title: "Medicijnen", state: .loading, box: 1))
-		HealthCategoryRowView(block: CategoryButton(id: 2, title: "Medicijnen", state: .loaded, box: 1))
-		HealthCategoryRowView(block: CategoryButton(id: 3, title: "Medicijnen", state: .empty, box: 2))
-		HealthCategoryRowView(block: CategoryButton(id: 4, title: "Medicijnen", state: .notAvailabe, box: 3))
+		HealthCategoryRowView(block: CategoryButton(category: .medication, title: "Medicijnen"))
+		HealthCategoryRowView(block: CategoryButton(category: .measurements, title: "Metingen", state: .loaded, box: 1))
+		HealthCategoryRowView(block: CategoryButton(category: .complaints, title: "Klachten", state: .empty, box: 2))
+		HealthCategoryRowView(block: CategoryButton(category: .payment, title: "Betaalgegevens", state: .notAvailabe, box: 3))
 	}
 	.background(Theme().backgroundPrimary)
 }

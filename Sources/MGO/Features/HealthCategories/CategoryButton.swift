@@ -38,108 +38,127 @@ struct CategoryButton: Identifiable {
 	
 	/// Which box should the category be in?
 	var box: Int
-	
+		
+	/// Get the display icon for the category
+	/// - Parameter theme: the theme
+	/// - Returns: a view witch the right themed icon
 	@ViewBuilder func getIcon(_ theme: any Themeable) -> some View {
 		
 		switch id {
 			case HealthCategories.Category.medication.rawValue:
 				// Medication
-				Image(ImageResource.OrganizationDetails.pill)
+			Image(ImageResource.HealthCategory.pill)
 					.resizable()
 					.foregroundStyle(theme.huisarts)
 				
 			case HealthCategories.Category.measurements.rawValue:
 				// Measurements
-				Image(ImageResource.OrganizationDetails.vitalSigns)
+				Image(ImageResource.HealthCategory.vitalSigns)
 					.resizable()
 					.foregroundStyle(theme.apotheek)
 			
 			case HealthCategories.Category.labresults.rawValue:
 				// Lab results
-				Image(ImageResource.OrganizationDetails.tube)
+				Image(ImageResource.HealthCategory.tube)
 					.resizable()
 					.foregroundStyle(theme.ziekenhuis)
 			
 			case HealthCategories.Category.allergies.rawValue:
 				// Allergies
-				Image(ImageResource.OrganizationDetails.allergies)
+				Image(ImageResource.HealthCategory.allergies)
 						.resizable()
 						.foregroundStyle(theme.kliniek)
 					
 			case HealthCategories.Category.treatments.rawValue:
 				// Treatments
-				Image(ImageResource.OrganizationDetails.case)
+				Image(ImageResource.HealthCategory.case)
 					.resizable()
 					.foregroundStyle(theme.ggz)
 			
 			case HealthCategories.Category.appointments.rawValue:
 				// Appointments
-				Image(ImageResource.OrganizationDetails.appointment)
+				Image(ImageResource.HealthCategory.appointment)
 					.resizable()
 					.foregroundStyle(theme.ggd)
 
 			case HealthCategories.Category.vaccinations.rawValue:
 				// Vaccinations
-				Image(ImageResource.OrganizationDetails.syringe)
+				Image(ImageResource.HealthCategory.syringe)
 					.resizable()
 					.foregroundStyle(theme.tandarts)
 				
 			case HealthCategories.Category.documents.rawValue:
 				// Documents
-				Image(ImageResource.OrganizationDetails.folder)
+				Image(ImageResource.HealthCategory.folder)
 					.resizable()
 					.foregroundStyle(theme.thuiszorg)
 			
 			case HealthCategories.Category.complaints.rawValue:
 				// Complaints
-				Image(ImageResource.OrganizationDetails.complaint)
+				Image(ImageResource.HealthCategory.complaint)
 					.resizable()
 					.foregroundStyle(theme.verpleeghuis)
 			
 			case HealthCategories.Category.patient.rawValue:
 				// Patient
-				Image(ImageResource.OrganizationDetails.patient)
+				Image(ImageResource.HealthCategory.patient)
 					.resizable()
 					.foregroundStyle(theme.overige)
 
 			case HealthCategories.Category.alerts.rawValue:
 				// Alert
-				Image(ImageResource.OrganizationDetails.alert)
+				Image(ImageResource.HealthCategory.alert)
 					.resizable()
 					.foregroundStyle(theme.rivm)
 			
 			case HealthCategories.Category.payment.rawValue:
 				// Payment
-				Image(ImageResource.OrganizationDetails.payment)
+				Image(ImageResource.HealthCategory.payment)
 					.resizable()
 					.foregroundStyle(theme.verloskundige)
 			
 			case HealthCategories.Category.plans.rawValue:
 				// Plans
-				Image(ImageResource.OrganizationDetails.plans)
+				Image(ImageResource.HealthCategory.plans)
 					.resizable()
 					.foregroundStyle(theme.revalidatie)
 			
 			case HealthCategories.Category.devices.rawValue:
 				// Device
-				Image(ImageResource.OrganizationDetails.device)
+				Image(ImageResource.HealthCategory.device)
 					.resizable()
 					.foregroundStyle(theme.rijksLint)
 
 			case HealthCategories.Category.functionalOrMentalStatus.rawValue:
 				// Mental wellbeing
-				Image(ImageResource.OrganizationDetails.smile)
+				Image(ImageResource.HealthCategory.smile)
 					.resizable()
 					.foregroundStyle(theme.notificationInformation)
 		
 			case HealthCategories.Category.lifestyle.rawValue:
 				// Lifestyle
-				Image(ImageResource.OrganizationDetails.lifestyle)
+				Image(ImageResource.HealthCategory.lifestyle)
 					.resizable()
 					.foregroundStyle(theme.gegevens)
 			
 			default:
 				EmptyView()
 		}
+	}
+}
+
+extension CategoryButton {
+	
+	/// Create a Category Button
+	/// - Parameters:
+	///   - category:The  category
+	///   - title: The language key for the title
+	///   - state: The state of the category (loading, loaded, empty)
+	///   - box: Which box should the category be in?
+	init(category: HealthCategories.Category, title: LocalizedStringKey, state: CategoryButtonState = .loading, box: Int = 1) {
+		self.id = category.rawValue
+		self.title = title
+		self.state = state
+		self.box = box
 	}
 }

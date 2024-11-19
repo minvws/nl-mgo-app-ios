@@ -905,6 +905,17 @@
         }
       }
     },
+    "hc_documents.error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sorry, we kunnen de bijlage nu niet ophalen. Probeer het later opnieuw."
+          }
+        }
+      }
+    },
     "hc_documents.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -923,6 +934,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alle documentgegevens"
+          }
+        }
+      }
+    },
+    "hc_documents.no_document" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen bijlage gevonden. Klopt dit niet? Vraag je zorgaanbieder om hulp."
           }
         }
       }
@@ -1190,9 +1212,6 @@
           }
         }
       }
-    },
-    "Key" : {
-      "extractionState" : "manual"
     },
     "launch.image.voiceover" : {
       "extractionState" : "manual",

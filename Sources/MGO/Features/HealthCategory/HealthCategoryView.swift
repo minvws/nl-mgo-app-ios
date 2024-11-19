@@ -300,6 +300,7 @@ class HealthCategoryViewModel: ObservableObject {
 							self.coordinator?.handle(Coordination.Action(
 								identifier: Coordination.Action.showHealthCategoryData.identifier,
 								params: [
+									"healthcareOrganization": self.getOrganization(record.organizationId),
 									"heading": String(localized: self.translations.detailsHeading),
 									"resource": resource,
 									"uiSchema": uiSchema
@@ -317,7 +318,15 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Returns: optional name
 	func getOrganizationName(_ identifier: String) -> String? {
 		
-		return Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }?.display_name
+		return getOrganization(identifier)?.display_name
+	}
+	
+	/// Get the name of a healthcare organisation
+	/// - Parameter identifier: the identifier of the organization
+	/// - Returns: optional name
+	func getOrganization(_ identifier: String) -> MgoOrganization? {
+		
+		return Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }
 	}
 }
 

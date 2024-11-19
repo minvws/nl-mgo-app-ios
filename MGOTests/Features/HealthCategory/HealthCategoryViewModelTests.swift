@@ -244,19 +244,6 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount).toEventually(equal(1), timeout: .seconds(5))
 	}
 	
-	func test_retry_noServices() {
-		
-		// Given
-		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.documents)
-		
-		// When
-		sut.reduce(.retry)
-		
-		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount) == 0
-	}
-	
 	func test_retry_noOrganization() {
 		
 		// Given

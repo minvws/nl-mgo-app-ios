@@ -14,6 +14,9 @@ struct UISchemaView: View {
 	/// The schema
 	var schema: UISchema
 	
+	/// The healthcare organization
+	var healthcareOrganization: MgoOrganization
+	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
@@ -79,24 +82,27 @@ struct UISchemaView: View {
 	/// - Returns: view for a UIEntry
 	@ViewBuilder func viewFor(_ entry: UIEntry, isLastElement: Bool) -> some View {
 		
-		viewFor(entry.display, entry: entry, isLastElement: isLastElement)
-		.when(entry.reference != nil) { view in
-			view
-				.onTapGesture {
-					_ = logInfo("Tapped on", entry.reference as Any)
+		if case .downloadLink = entry.type {
+			
+			HealthCategoryDownloadView(
+				viewModel:
+					HealthCategoryDownloadViewModel(
+						healthcareOrganization: healthcareOrganization,
+						entry: entry
+					)
+			)
+		} else {
+			
+			viewFor(entry.display, entry: entry, isLastElement: isLastElement)
+				.when(entry.reference != nil) { view in
+					view
+						.onTapGesture {
+							_ = logInfo("Tapped on", entry.reference as Any)
+						}
+						.accessibilityAddTraits(.isButton)
+						.accessibilityRemoveTraits(.isStaticText)
+						.accessibilityIdentifier(entry.label)
 				}
-				.accessibilityAddTraits(.isButton)
-				.accessibilityRemoveTraits(.isStaticText)
-				.accessibilityIdentifier(entry.label)
-		}
-		.when(entry.url != nil) { view in
-			view
-				.onTapGesture {
-					_ = logInfo("Tapped on", entry.url as Any)
-				}
-				.accessibilityAddTraits(.isButton)
-				.accessibilityRemoveTraits(.isStaticText)
-				.accessibilityIdentifier(entry.label)
 		}
 	}
 	
@@ -263,12 +269,39 @@ struct UISchemaView: View {
 								type: .singleValue,
 								reference: nil,
 								url: nil
+							),
+							UIEntry(
+								display: UIEntryDisplay.unionArray([
+									DisplayElement.stringArray(["one", "two"]),
+									DisplayElement.stringArray(["three", "four"])
+								]),
+								label: "label multiple group value",
+								summary: true,
+								type: .multipleGroupedValues,
+								reference: nil,
+								url: nil
+							),
+							UIEntry(
+								display: UIEntryDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
+								label: "label multiple value",
+								summary: true,
+								type: .multipleValues,
+								reference: nil,
+								url: nil
+							),
+							UIEntry(
+								display: UIEntryDisplay.unionArray([DisplayElement.string("one")]),
+								label: "label union value",
+								summary: true,
+								type: .multipleValues,
+								reference: nil,
+								url: nil
 							)
-							
 						],
 						label: "Section Header second group")
 				],
 				label: "UI Schema"
-			)
-	)
+			),
+		healthcareOrganization: PreviewContent.healthcareOrganization
+	).padding(.horizontal, 16)
 }

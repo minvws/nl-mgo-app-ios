@@ -136,6 +136,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forshowHealthCategoryData() throws {
 		
 		// Given
+		let healthcareOrganization = Generator.healthcareOrganization("1")
 		let schema = UISchema(
 			children: [
 				UISchemaGroup(
@@ -153,7 +154,11 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 			],
 			label: "zib details"
 		)
-		let state = DashboardCoordination.State.showHealthCategoryData(heading: "Heading", schema: schema)
+		let state = DashboardCoordination.State.showHealthCategoryData(
+			heading: "Heading",
+			schema: schema,
+			organization: healthcareOrganization
+		)
 		
 		// When
 		let view = sut.viewState(for: state)

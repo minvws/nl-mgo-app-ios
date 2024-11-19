@@ -56,11 +56,9 @@ public class MGORepository {
 		guard let username, let password else { return nil }
 		
 		let loginString = String(format: "%@:%@", username, password)
-		if let loginData = loginString.data(using: String.Encoding.utf8) {
-			let base64LoginString = loginData.base64EncodedString()
-			return "Basic \(base64LoginString)"
-		}
-		return nil
+		let loginData = Data(loginString.utf8)
+		let base64LoginString = loginData.base64EncodedString()
+		return "Basic \(base64LoginString)"
 	}
 	
 	/// process the bundle FHIR data into mgoResources

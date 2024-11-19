@@ -13,7 +13,13 @@ import Theme
 public struct CallToActionButton: View {
 	
 	/// The key of the localized text to be displayed as title
-	public var title: LocalizedStringKey
+	public var key: LocalizedStringKey?
+	
+	/// The  title
+	public var title: String?
+	
+	/// An icon
+	public var icon: Image?
 	
 	/// The action to perform when the user presses the button
 	public var action: (() -> Void)?
@@ -29,14 +35,25 @@ public struct CallToActionButton: View {
 		case secondaryNegative
 		case tertiary
 		case tertiaryNegative
+		case tertiaryWithIcon
 	}
 	
 	/// Initializer
 	/// - Parameter title: The key of the localized text to be displayed as title
-	public init(_ title: LocalizedStringKey, style: Style = .primary, action: ( () -> Void)? = nil) {
+	public init(_ key: LocalizedStringKey, icon: Image? = nil, style: Style = .primary, action: ( () -> Void)? = nil) {
+		self.key = key
+		self.style = style
+		self.action = action
+		self.icon = icon
+	}
+
+	/// Initializer
+	/// - Parameter title: The key of the localized text to be displayed as title
+	public init(title: String, icon: Image? = nil, style: Style = .primary, action: ( () -> Void)? = nil) {
 		self.title = title
 		self.style = style
 		self.action = action
+		self.icon = icon
 	}
 	
 	public var body: some View {
@@ -46,7 +63,15 @@ public struct CallToActionButton: View {
 				action?()
 			},
 			label: {
-				Text(title)
+				if style == .tertiaryWithIcon, let icon {
+					HStack {
+						titleLabel()
+						Spacer()
+						icon
+					}
+				} else {
+					titleLabel()
+				}
 			}
 		)
 		.when(style == .primary, transform: { button in
@@ -64,9 +89,23 @@ public struct CallToActionButton: View {
 		.when(style == .tertiary, transform: { button in
 			button.buttonStyle(TertiaryButtonStyle())
 		})
+		.when(style == .tertiaryWithIcon, transform: { button in
+			button.buttonStyle(TertiaryButtonWithIconStyle())
+		})
 		.when(style == .tertiaryNegative, transform: { button in
 			button.buttonStyle(TertiaryNegativeButtonStyle())
 		})
+	}
+	
+	/// Get the view for the title
+	/// - Returns: title label
+	@ViewBuilder func titleLabel() -> some View {
+		
+		if let key {
+			Text(key)
+		} else {
+			Text(title ?? "")
+		}
 	}
 }
 
@@ -88,6 +127,10 @@ public struct CallToActionButton: View {
 			CallToActionButton(".tertiary", style: .tertiary)
 				.padding(16)
 			CallToActionButton(".tertiaryNegative", style: .tertiaryNegative)
+				.padding(16)
+		}
+		HStack {
+			CallToActionButton(".tertiaryWithIcon", icon: Image(systemName: "stethoscope"), style: .tertiaryWithIcon)
 				.padding(16)
 		}
 	}

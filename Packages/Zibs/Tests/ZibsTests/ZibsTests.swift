@@ -111,5 +111,49 @@ final class ZibsTests: XCTestCase {
 		expect(object?.form) == nil
 		expect(object?.ingredient) == nil
 		expect(object?.package.content) == nil
+		expect(object?.referenceID) == "Medication/8f017a48-fdab-42f5-a2d7-f7bb6d84a762"
+	}
+	
+	func test_factory_zibProblem() throws {
+		
+		// Given
+		let resource = try getStringResource("zibProblem")
+		let data = Data(resource.utf8)
+		
+		// When
+		let object = ZibFactory.createZibProblem(data)
+		
+		// Then
+		expect(object?.id) == "zib-problem-01"
+		expect(object?.resourceType) == "Condition"
+		expect(object?.profile.rawValue) == "http://nictiz.nl/fhir/StructureDefinition/zib-Problem"
+		expect(object?.abatementDateTime) == "2002"
+		expect(object?.assertedDate) == nil
+		expect(object?.asserter) == nil
+		expect(object?.bodySite?.first?.first?.code) == "361289009"
+		expect(object?.bodySite?.first?.first?.display) == "Entire wrist region"
+		expect(object?.bodySite?.first?.first?.system) == "http://snomed.info/sct"
+		expect(object?.category) == nil
+		expect(object?.clinicalStatus) == "active"
+		expect(object?.code?.first?.code) == "31641000146105"
+		expect(object?.code?.first?.display) == "Fracture of wrist (disorder)"
+		expect(object?.code?.first?.system) == "http://snomed.info/sct"
+		expect(object?.context) == nil
+		expect(object?.evidence) == nil
+		expect(object?.identifier?.first?.system) == "urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6"
+		expect(object?.identifier?.first?.type) == nil
+		expect(object?.identifier?.first?.use) == nil
+		expect(object?.identifier?.first?.value) == "1d1451f3-8fdf-11ec-5384-020000000000"
+		expect(object?.note?.first?.author) == nil
+		expect(object?.note?.first?.text) == "Gevallen op de kunstijsbaan"
+		expect(object?.note?.first?.time) == nil
+		expect(object?.onsetDateTime) == "2001"
+		expect(object?.referenceID) == "Condition/zib-problem-01"
+		expect(object?.severity) == nil
+		expect(object?.stage.assessment) == nil
+		expect(object?.stage.summary) == nil
+		expect(object?.subject?.display) == "Johan XXX_Helleman"
+		expect(object?.subject?.reference) == "Patient/nl-core-patient-01"
+		expect(object?.verificationStatus) == "unknown"
 	}
 }
