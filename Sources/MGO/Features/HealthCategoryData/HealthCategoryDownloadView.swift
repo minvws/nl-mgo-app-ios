@@ -32,20 +32,31 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 	/// Part of the UISchema we need to display for this download
 	private var entry: UIEntry
 	
+	/// Helper to open urls
+	private var urlOpener: URLOpenerProtocol
+	
 	/// show the preview when downloaded
 	@Published var showPreview: Bool = false
 	
 	/// The repository for binaries
-	private let binaryRepository: BinaryRepositoryProtocol = BinaryRepository()
+	private let binaryRepository: BinaryRepositoryProtocol
 	
 	/// Create a Download View
 	/// - Parameters:
 	///   - healthcareOrganization: the healthcare organization
 	///   - entry: the UI Entry with download link
-	init(healthcareOrganization: MgoOrganization, entry: UIEntry) {
+	///   - urlOpener: the helper to open urls.
+	///   - binaryRepository: the repository for binaries
+	init(
+		healthcareOrganization: MgoOrganization,
+		entry: UIEntry,
+		urlOpener: URLOpenerProtocol = UIApplication.shared,
+		binaryRepository: BinaryRepositoryProtocol = BinaryRepository()) {
 		
 		self.healthcareOrganization = healthcareOrganization
 		self.entry = entry
+		self.urlOpener = urlOpener
+		self.binaryRepository = binaryRepository
 		
 		if entry.url == nil {
 			state = .noDocument
@@ -72,7 +83,7 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 		switch action {
 			case .download: download()
 			case let .shareDocument(url): shareDocument(url)
-			case let .shareUrl(url): shareUrl(url)
+			case let .shareUrl(url): urlOpener.openUrlIfPossible(url)
 		}
 	}
 	
@@ -90,11 +101,12 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 		
 		if urlString.starts(with: "https") {
 			
-			guard let externalUrl = URL(string: urlString) else {
+			guard let externalUrl = Foundation.URL(string: urlString) else {
 				state = .noDocument
 				return
 			}
-			openExternalUrl(externalUrl)
+			state = .external(label: entry.label, documentUrl: externalUrl)
+			urlOpener.openUrlIfPossible(externalUrl)
 		
 		} else if urlString.starts(with: "Binary/") {
 			
@@ -106,12 +118,6 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 		}
 	}
 	
-	private func openExternalUrl(_ url: URL) {
-		
-		state = .external(label: entry.label, documentUrl: url)
-		shareUrl(url)
-	}
-	
 	private func shareDocument(_ url: URL) {
 		
 		guard let vc = UIApplication.shared.firstKeyWindow?.rootViewController else { return }
@@ -121,12 +127,6 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 		shareActivity.popoverPresentationController?.sourceRect = CGRect(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height, width: 0, height: 0)
 		shareActivity.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
 		vc.present(shareActivity, animated: true, completion: nil)
-	}
-	
-	private func shareUrl(_ url: URL) {
-		
-		let browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: [])
-		browser.handleUnallowedDomain(url)
 	}
 	
 	@MainActor
@@ -143,6 +143,8 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 				let url = try binaryRepository.store(binary, as: name)
 				self.state = .downloaded(label: entry.label, documentUrl: url)
 				showPreview = true
+			} else {
+				state = .error
 			}
 		} catch {
 			state = .error

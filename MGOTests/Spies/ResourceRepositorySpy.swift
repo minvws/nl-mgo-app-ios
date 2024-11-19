@@ -60,7 +60,8 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 	var invokedLoadBinaryCount = 0
 	var invokedLoadBinaryParameters: (healthcareOrganization: MgoOrganization, serviceId: String, url: String)?
 	var invokedLoadBinaryParametersList = [(healthcareOrganization: MgoOrganization, serviceId: String, url: String)]()
-	var stubbedBinary: Zibs.Binary?
+	var stubbedLoadBinary: Zibs.Binary?
+	var stubbedLoadBinaryError: Error?
 
 	private let queue = DispatchQueue(label: "com.ResourceRepositorySpy.serialqueue.\(UUID().uuidString)")
 
@@ -71,7 +72,10 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 			invokedLoadBinaryCount += 1
 			invokedLoadBinaryParameters = (healthcareOrganization, serviceId, url)
 			invokedLoadBinaryParametersList.append((healthcareOrganization, serviceId, url))
-			return stubbedBinary
 		}
+		if let error = stubbedLoadBinaryError {
+			throw error
+		}
+		return stubbedLoadBinary
 	}
 }
