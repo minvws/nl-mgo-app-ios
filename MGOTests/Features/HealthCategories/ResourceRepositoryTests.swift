@@ -142,4 +142,55 @@ final class ResourceRepositoryTests: XCTestCase {
 		// Then
 		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(6), timeout: .seconds(5))
 	}
+	
+	func test_loadBinary() async throws {
+		
+		// Given
+		let organization = Generator.healthcareOrganization("1")
+		let url = "https://example.com/Binary/file1"
+		let json = try getResource("binary")
+		stub(condition: isHost("example.com")) { _ in
+			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
+		}
+		
+		// When
+		let zib = await try sut.loadBinary(organization, serviceId: "48", url: url)
+		
+		// Then
+		expect(zib?.contentType) == "application/pdf"
+	}
+	
+	func test_loadBinary_noDataService() async throws {
+		
+		// Given
+		let organization = Generator.healthcareOrganization("1", useDataService: false)
+		let url = "https://example.com/Binary/file1"
+		let json = try getResource("binary")
+		stub(condition: isHost("example.com")) { _ in
+			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
+		}
+		
+		// When
+		let zib = await try sut.loadBinary(organization, serviceId: "48", url: url)
+		
+		// Then
+		expect(zib) == nil
+	}
+	
+	func test_loadBinary_invalidBinary() async throws {
+		
+		// Given
+		let organization = Generator.healthcareOrganization("1")
+		let url = "https://example.com/Binary/file1"
+		let json = try getResource("bundle")
+		stub(condition: isHost("example.com")) { _ in
+			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
+		}
+		
+		// When
+		let zib = try await sut.loadBinary(organization, serviceId: "48", url: url)
+		
+		// Then
+		expect(zib) == nil
+	}
 }
