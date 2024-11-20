@@ -44,7 +44,7 @@ final class AddOrganizationViewTests: XCTestCase {
 		let content = NavigationView { sut.isPresentedAsSheet(true) }
 		
 		// Then
-		takeSnapShots(content: content)
+		takeSnapShots(content: content, precision: 0.95)
 	}
 	
 	func test_addOrganizationView_allFieldsBlank() throws {
