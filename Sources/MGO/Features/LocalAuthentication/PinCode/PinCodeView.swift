@@ -8,43 +8,6 @@
 import MGOFoundation
 import MGOUI
 
-/// An object to encapsulate the state of the view for access code
-struct PinCodeViewState: Equatable {
-	
-	/// Is the biometric key (face ID, touch ID) enabled?
-	var bioMetricEnabled: Bool = false
-	
-	/// What kind of key should we  display (face ID, touch ID, optic ID)
-	var bioMetricType: LocalAuthentication.BiometricType = .none
-	
-	/// Is the erase button enabled? Disabled when the access code is empty
-	var eraseEnabled: Bool = false
-	
-	/// Is the back visible?
-	var backButtonVisible: Bool = false
-	
-	/// The key for the back button text
-	var backButtonKey: LocalizedStringKey
-	
-	/// Do we show the forgot access code button?
-	var forgotCodeButtonVisible: Bool = false
-	
-	/// The key for the title
-	var title: LocalizedStringKey
-	
-	/// The key for the body
-	var message: LocalizedStringKey
-	
-	/// The key for the error
-	var error: LocalizedStringKey?
-	
-	/// How should the title and text be aligned?
-	var textAlignment: TextAlignment = .leading
-	
-	/// Should we show the popup when biometric access is locked out?
-	var showLockoutPopup: Bool = false
-}
-
 class PinCodeViewModel: ObservableObject {
 	
 	/// The various modes this scene can be run as.
@@ -463,7 +426,7 @@ struct PinCodeView: View {
 		}
 		enum Heading {
 			static let spacing: CGFloat = 16
-			static let minHeight: CGFloat = 75
+			static let minHeight: CGFloat = 150
 		}
 		enum Feedback {
 			static let spacing: CGFloat = 4
@@ -536,12 +499,11 @@ struct PinCodeView: View {
 		
 		VStack(alignment: .leading, spacing: ViewTraits.Heading.spacing) {
 			
-			textView()
-//				.frame(minHeight: ViewTraits.Heading.minHeight, alignment: .top)
+			headingView()
 
 			Spacer()
 			
-			pinCodeCircles()
+			pincodeDisplayBoxes()
 				
 			feedbackView()
 				.padding(.top, ViewTraits.Feedback.padding)
@@ -562,23 +524,29 @@ struct PinCodeView: View {
 		}
 	}
 	
-	@ViewBuilder func textView() -> some View {
+	/// Create the headers for the page
+	/// - Returns: the header view
+	@ViewBuilder func headingView() -> some View {
 		
-		Text(viewModel.state.title)
-			.rijksoverheidStyle(font: .bold, style: .title)
-			.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
-			.accessibilityAddTraits(.isHeader)
-			.accessibilityIdentifier("pincode.heading")
-		
-		Text(viewModel.state.message)
-			.rijksoverheidStyle(font: .regular, style: .body)
-			.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
-			.multilineTextAlignment(viewModel.state.textAlignment)
+		VStack(alignment: .center, spacing: ViewTraits.Heading.spacing, content: {
+			
+			Text(viewModel.state.title)
+				.rijksoverheidStyle(font: .bold, style: .title)
+				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
+				.accessibilityAddTraits(.isHeader)
+				.accessibilityIdentifier("pincode.heading")
+			
+			Text(viewModel.state.message)
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
+				.multilineTextAlignment(viewModel.state.textAlignment)
+		})
 		.frame(minHeight: ViewTraits.Heading.minHeight, alignment: .top)
 	}
+	
 	/// The boxes for the entered pinCode
 	/// - Returns: box view
-	@ViewBuilder func pinCodeCircles() -> some View {
+	@ViewBuilder func pincodeDisplayBoxes() -> some View {
 		
 		HStack(spacing: 0) {
 			Spacer()
