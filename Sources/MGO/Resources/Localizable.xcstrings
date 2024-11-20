@@ -1527,7 +1527,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dit is een andere code dan de vorige. Voer dezelfde code in om verder te gaan."
+            "value" : "Deze code is anders dan de vorige"
           }
         }
       }
@@ -1571,7 +1571,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze persoonlijke toegangscode is niet veilig genoeg. Gebruik geen cijfers die na elkaar komen."
+            "value" : "Deze code is te simpel en dus onveilig"
           }
         }
       }
@@ -1747,7 +1747,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De ingevoerde toegangscode is **onjuist**.\nProbeer het opnieuw."
+            "value" : "Deze code klopt niet"
           }
         }
       }
