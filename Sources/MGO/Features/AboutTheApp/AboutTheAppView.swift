@@ -68,11 +68,6 @@ struct AboutTheAppView: View {
 	var body: some View {
 		
 		VStack {
-			Text("bottombar.about_this_app")
-				.rijksoverheidStyle(font: .bold, style: .title)
-				.foregroundColor(theme.contentPrimary)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityAddTraits(.isHeader)
 			
 			if viewModel.showResetButton {
 				CallToActionButton("Reset the application?", style: .primaryNegative) {
@@ -95,6 +90,7 @@ struct AboutTheAppView: View {
 		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.navigationTitle("bottombar.about_this_app")
 		.layoutForIPad()
 	}
 }
