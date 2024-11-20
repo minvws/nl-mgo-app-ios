@@ -120,7 +120,8 @@ final class PinCodeViewModelTests: XCTestCase {
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
 			title: "pincode.validation.heading",
-			message: "pincode.validation.wrong",
+			message: "pincode.validation.subheading",
+			error: "pincode.validation.wrong",
 			textAlignment: .center,
 			showLockoutPopup: false
 		)

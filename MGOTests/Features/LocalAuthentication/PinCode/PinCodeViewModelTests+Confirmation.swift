@@ -109,7 +109,8 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 			backButtonVisible: true,
 			backButtonKey: "pincode.confirm.backbutton",
 			title: "pincode.confirm.heading",
-			message: "pincode.confirm.mismatch",
+			message: "pincode.confirm.subheading",
+			error: "pincode.confirm.mismatch",
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [

@@ -250,7 +250,8 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 			backButtonVisible: true,
 			backButtonKey: "common.previous",
 			title: "pincode.create.heading",
-			message: "pincode.create.tooweak",
+			message: "pincode.create.subheading",
+			error: "pincode.create.tooweak",
 			showLockoutPopup: false
 		)
 		let expectedBoxState = [

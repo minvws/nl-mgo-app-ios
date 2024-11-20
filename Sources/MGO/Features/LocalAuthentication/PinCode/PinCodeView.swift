@@ -8,40 +8,6 @@
 import MGOFoundation
 import MGOUI
 
-/// An object to encapsulate the state of the view for access code
-struct PinCodeViewState: Equatable {
-	
-	/// Is the biometric key (face ID, touch ID) enabled?
-	var bioMetricEnabled: Bool = false
-	
-	/// What kind of key should we  dispaly (face ID, touch ID, optic ID)
-	var bioMetricType: LocalAuthentication.BiometricType = .none
-	
-	/// Is the erase button enabled? Disabled when the access code is empty
-	var eraseEnabled: Bool = false
-	
-	/// Is the back visible?
-	var backButtonVisible: Bool = false
-	
-	/// The key for the back button text
-	var backButtonKey: LocalizedStringKey
-	
-	/// Do we show the forgot access code button?
-	var forgotCodeButtonVisible: Bool = false
-	
-	/// The key for the title
-	var title: LocalizedStringKey
-	
-	/// The key for the body
-	var message: LocalizedStringKey
-	
-	/// How should the title and text be aligned?
-	var textAlignment: TextAlignment = .leading
-	
-	/// Should we show the popup when biomertric access is locked out?
-	var showLockoutPopup: Bool = false
-}
-
 class PinCodeViewModel: ObservableObject {
 	
 	/// The various modes this scene can be run as.
@@ -171,15 +137,14 @@ class PinCodeViewModel: ObservableObject {
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = backButtonVisible
 		state.backButtonKey = "common.previous"
+		state.title = "pincode.create.heading"
+		state.message = "pincode.create.subheading"
 		if tooWeak {
 			// Setup for access code is too weak
-			state.title = "pincode.create.heading"
-			state.message = "pincode.create.tooweak"
+			state.error = "pincode.create.tooweak"
 			announce(Sanitizer.sanitize(String(localized: "pincode.create.tooweak")))
 		} else {
-			// Setup for regular access code entry
-			state.title = "pincode.create.heading"
-			state.message = "pincode.create.subheading"
+			state.error = nil
 		}
 	}
 	
@@ -191,15 +156,14 @@ class PinCodeViewModel: ObservableObject {
 		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = true
 		state.backButtonKey = "pincode.confirm.backbutton"
+		state.title = "pincode.confirm.heading"
+		state.message = "pincode.confirm.subheading"
 		if confirmationMismatch {
 			// Setup for access codes do not match
-			state.title = "pincode.confirm.heading"
-			state.message = "pincode.confirm.mismatch"
+			state.error = "pincode.confirm.mismatch"
 			announce(Sanitizer.sanitize(String(localized: "pincode.confirm.mismatch")))
 		} else if mode == .confirmation {
-			// Setup for access code confirmation
-			state.title = "pincode.confirm.heading"
-			state.message = "pincode.confirm.subheading"
+			state.error = nil
 		}
 	}
 	
@@ -212,15 +176,14 @@ class PinCodeViewModel: ObservableObject {
 		state.backButtonVisible = false
 		state.forgotCodeButtonVisible = true
 		state.textAlignment = .center
+		state.title = "pincode.validation.heading"
+		state.message = "pincode.validation.subheading"
 		if validationMismatch {
 			// Setup for access codes do not match
-			state.title = "pincode.validation.heading"
-			state.message = "pincode.validation.wrong"
+			state.error = "pincode.validation.wrong"
 			announce(Sanitizer.sanitize(String(localized: "pincode.validation.wrong")))
 		} else if mode == .validation {
-			// Setup for access code validation
-			state.title = "pincode.validation.heading"
-			state.message = "pincode.validation.subheading"
+			state.error = nil
 		}
 	}
 	
@@ -463,7 +426,12 @@ struct PinCodeView: View {
 		}
 		enum Heading {
 			static let spacing: CGFloat = 16
-			static let minHeight: CGFloat = 75
+			static let minHeight: CGFloat = 150
+		}
+		enum Feedback {
+			static let spacing: CGFloat = 4
+			static let minHeight: CGFloat = 25
+			static let padding: CGFloat = 8
 		}
 	}
 	
@@ -531,21 +499,14 @@ struct PinCodeView: View {
 		
 		VStack(alignment: .leading, spacing: ViewTraits.Heading.spacing) {
 			
-			Text(viewModel.state.title)
-				.rijksoverheidStyle(font: .bold, style: .title)
-				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
-				.accessibilityAddTraits(.isHeader)
-				.accessibilityIdentifier("pincode.heading")
-			
-			Text(viewModel.state.message)
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
-				.multilineTextAlignment(viewModel.state.textAlignment)
-			.frame(minHeight: ViewTraits.Heading.minHeight, alignment: .top)
-			
+			headingView()
+
 			Spacer()
 			
-			pinCodeCircles()
+			pincodeDisplayBoxes()
+				
+			feedbackView()
+				.padding(.top, ViewTraits.Feedback.padding)
 			
 			Spacer()
 			
@@ -563,9 +524,29 @@ struct PinCodeView: View {
 		}
 	}
 	
+	/// Create the headers for the page
+	/// - Returns: the header view
+	@ViewBuilder func headingView() -> some View {
+		
+		VStack(alignment: .center, spacing: ViewTraits.Heading.spacing, content: {
+			
+			Text(viewModel.state.title)
+				.rijksoverheidStyle(font: .bold, style: .title)
+				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
+				.accessibilityAddTraits(.isHeader)
+				.accessibilityIdentifier("pincode.heading")
+			
+			Text(viewModel.state.message)
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
+				.multilineTextAlignment(viewModel.state.textAlignment)
+		})
+		.frame(minHeight: ViewTraits.Heading.minHeight, alignment: .top)
+	}
+	
 	/// The boxes for the entered pinCode
 	/// - Returns: box view
-	@ViewBuilder func pinCodeCircles() -> some View {
+	@ViewBuilder func pincodeDisplayBoxes() -> some View {
 		
 		HStack(spacing: 0) {
 			Spacer()
@@ -580,6 +561,28 @@ struct PinCodeView: View {
 			.padding(.horizontal, ViewTraits.General.horizontalPadding)
 			Spacer()
 		}
+	}
+	
+	/// Show feedback to the user if the pincode is wrong, too weak etc.
+	/// - Returns: feedback view
+	@ViewBuilder func feedbackView() -> some View {
+		
+		HStack(spacing: ViewTraits.Feedback.spacing) {
+			if let error = viewModel.state.error {
+				Spacer()
+				
+				Image(ImageResource.Icon.error)
+				
+				Text(error)
+					.rijksoverheidStyle(font: .bold, style: .body)
+				
+				Spacer()
+			} else {
+				Spacer()
+			}
+		}
+		.foregroundStyle(theme.notificationError)
+		.frame(minHeight: ViewTraits.Feedback.minHeight, alignment: .top)
 	}
 	
 	/// Build the keyboard
