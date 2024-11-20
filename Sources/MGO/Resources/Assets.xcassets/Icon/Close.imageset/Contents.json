@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "close.svg",
+      "filename" : "Close.svg",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "close-dark.svg",
+      "filename" : "Dark.svg",
       "idiom" : "universal"
     }
   ],

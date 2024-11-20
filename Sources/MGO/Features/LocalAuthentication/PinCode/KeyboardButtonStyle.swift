@@ -36,5 +36,6 @@ struct KeyboardButtonStyle: ButtonStyle {
 			.foregroundStyle(isEnabled ? theme.contentPrimary : theme.iconsSecondary)
 			.background(configuration.isPressed ? theme.backgroundTertiary : theme.backgroundSecondary)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
+			.shadow(color: theme.strokesPrimary, radius: 0, x: 0, y: 0.5)
 	}
 }

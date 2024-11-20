@@ -461,6 +461,10 @@ struct PinCodeView: View {
 		enum Navigation {
 			static let padding: CGFloat = 8
 		}
+		enum Heading {
+			static let spacing: CGFloat = 16
+			static let minHeight: CGFloat = 75
+		}
 	}
 	
 	var body: some View {
@@ -525,7 +529,7 @@ struct PinCodeView: View {
 	/// - Returns: top view
 	@ViewBuilder func pinCodeTopView() -> some View {
 		
-		VStack(alignment: .leading, spacing: 16) {
+		VStack(alignment: .leading, spacing: ViewTraits.Heading.spacing) {
 			
 			Text(viewModel.state.title)
 				.rijksoverheidStyle(font: .bold, style: .title)
@@ -537,6 +541,7 @@ struct PinCodeView: View {
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.frame(maxWidth: .infinity, alignment: viewModel.state.textAlignment == .center ? .center : .leading)
 				.multilineTextAlignment(viewModel.state.textAlignment)
+			.frame(minHeight: ViewTraits.Heading.minHeight, alignment: .top)
 			
 			Spacer()
 			
