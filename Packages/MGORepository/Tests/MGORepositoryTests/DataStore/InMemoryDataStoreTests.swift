@@ -34,8 +34,39 @@ final class InMemoryDataStoreTests: XCTestCase {
 		result = sut.get(categoryId: "test category")
 		expect(result.successValue?.count) == 3
 	}
-	
+
 	func test_get_forOrganization_dataAvailable() {
+		
+		// Given
+		
+		// When
+		let result = sut.get(organizationId: "test organization")
+		
+		// Then
+		expect(result.isSuccess) == true
+		expect(result.successValue?.count) == 1
+		expect(result.successValue?[0].categoryId) == "test category"
+		expect(result.successValue?[0].organizationId) == "test organization"
+		expect(result.successValue?[0].resources) == [Data("test".utf8)]
+		
+		// Extra result checks
+		expect(result.isFailure) == false
+		expect(result.failureError) == nil
+	}
+	
+	func test_get_forOrganization_noDataAvailable() {
+		
+		// Given
+		
+		// When
+		let result = sut.get(organizationId: "no data available")
+		
+		// Then
+		expect(result.isFailure) == true
+		expect(result.failureError) != nil
+	}
+	
+	func test_get_forCategoryAndOrganization_dataAvailable() {
 		
 		// Given
 		
@@ -54,7 +85,7 @@ final class InMemoryDataStoreTests: XCTestCase {
 		expect(result.failureError) == nil
 	}
 	
-	func test_get_forOrganization_fetchOtherData() {
+	func test_get_forCategoryAndOrganization_fetchOtherData() {
 		
 		// Given
 		
@@ -69,7 +100,7 @@ final class InMemoryDataStoreTests: XCTestCase {
 		expect(result.successValue?[0].resources) == [Data("test".utf8)]
 	}
 	
-	func test_get_forOrganization_invalidOrganization() {
+	func test_get_forCategoryAndOrganization_invalidOrganization() {
 		
 		// Given
 		
@@ -85,7 +116,7 @@ final class InMemoryDataStoreTests: XCTestCase {
 		expect(result.successValue) == nil
 	}
 	
-	func test_get_forOrganization_invalidCategory() {
+	func test_get_forCategoryAndOrganization_invalidCategory() {
 		
 		// Given
 		
