@@ -311,5 +311,6 @@ struct UISchemaView: View {
 				label: "UI Schema"
 			),
 		healthcareOrganization: PreviewContent.healthcareOrganization
-	).padding(.horizontal, 16)
+	)
+	.padding(.horizontal, 16)
 }

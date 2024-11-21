@@ -165,10 +165,6 @@ final class ResourceRepositoryTests: XCTestCase {
 		// Given
 		let organization = Generator.healthcareOrganization("1", useDataService: false)
 		let url = "https://example.com/Binary/file1"
-		let json = try getResource("binary")
-		stub(condition: isHost("example.com")) { _ in
-			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
-		}
 		
 		// When
 		let zib = try await sut.loadBinary(organization, serviceId: "48", url: url)
