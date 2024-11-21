@@ -64,6 +64,23 @@ public class InMemoryDataStore: MgoDataStoreProtocol {
 		return .success(result)
 	}
 	
+	/// Get a data set for an organization
+	/// - Parameters:
+	///   - organizationId: the id of the organization
+	/// - Returns: Result object with dataset or error
+	public func get(organizationId: String) -> Result<[MgoResourceRecord], any Error> {
+		
+		var result = [MgoResourceRecord]()
+		
+		for element in dataSource where element.organizationId == organizationId {
+			result.append(element)
+		}
+		if result.isEmpty {
+			return .failure(DataStoreError.noData)
+		}
+		return .success(result)
+	}
+	
 	/// Store a data set
 	/// - Parameter data: the data set to store
 	public func store(data: MgoResourceRecord) {

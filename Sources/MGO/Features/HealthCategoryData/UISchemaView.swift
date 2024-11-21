@@ -17,6 +17,9 @@ struct UISchemaView: View {
 	/// The healthcare organization
 	var healthcareOrganization: MgoOrganization
 	
+	/// Handler when a user taps on a reference
+	var referenceTapped: ((String?) -> Void)?
+	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
@@ -36,6 +39,9 @@ struct UISchemaView: View {
 		enum Row {
 			static let padding: CGFloat = 16
 			static let spacing: CGFloat = 4
+		}
+		enum Divider {
+			static let height: CGFloat = 0.33
 		}
 	}
 	
@@ -94,10 +100,11 @@ struct UISchemaView: View {
 		} else {
 			
 			viewFor(entry.display, entry: entry, isLastElement: isLastElement)
-				.when(entry.reference != nil) { view in
+				.when(entry.type == .referenceValue && entry.reference != nil) { view in
 					view
+						.contentShape(Rectangle()) // Make the whole view listen to the tap gesture instead of only the text
 						.onTapGesture {
-							_ = logInfo("Tapped on", entry.reference as Any)
+							self.referenceTapped?(entry.reference)
 						}
 						.accessibilityAddTraits(.isButton)
 						.accessibilityRemoveTraits(.isStaticText)
@@ -172,7 +179,7 @@ struct UISchemaView: View {
 		
 		if showDivider {
 			Divider()
-				.frame(height: 1)
+				.frame(height: ViewTraits.Divider.height)
 				.overlay(theme.strokesPrimary)
 				.padding(.leading, ViewTraits.Row.padding)
 		}

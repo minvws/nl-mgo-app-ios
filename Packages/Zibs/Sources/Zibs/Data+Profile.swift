@@ -24,4 +24,19 @@ public extension Data {
 		}
 		return false
 	}
+	
+	/// is this data of a certain profile type
+	/// - Parameter reference: the profile
+	/// - Returns: True if the data is of type profile
+	func isReference(_ reference: String) -> Bool {
+		do {
+			if let object = try JSONSerialization.jsonObject(with: self) as? [String: Any],
+			   let referenceId = object["referenceId"] as? String, referenceId == reference {
+				return true
+			}
+		} catch {
+			logError("ZibFactory - isReference \(reference): \(error)")
+		}
+		return false
+	}
 }

@@ -24,6 +24,12 @@ public protocol MgoDataStoreProtocol {
 	/// - Parameter categoryId: the id of the category
 	/// - Returns: Result object with data sets or error
 	func get(categoryId: String) -> Result<[MgoResourceRecord], Error>
+
+	/// Get a data set for an organization
+	/// - Parameters:
+	///   - organizationId: the id of the organization
+	/// - Returns: Result object with dataset or error
+	func get(organizationId: String) -> Result<[MgoResourceRecord], Error>
 	
 	/// Store a data set
 	/// - Parameter data: the data set to store

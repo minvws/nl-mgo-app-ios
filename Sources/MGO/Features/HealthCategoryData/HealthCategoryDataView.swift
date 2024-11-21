@@ -26,9 +26,12 @@ class HealthCategoryDataViewModel: ObservableObject {
 	/// The healthcare organization
 	var healthcareOrganization: MgoOrganization
 	
+	var referenceResolver: ReferenceResolverProtocol
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
+		case reference(String)
 	}
 	
 	/// Intitializer
@@ -36,15 +39,18 @@ class HealthCategoryDataViewModel: ObservableObject {
 	/// - Parameter title: the title for the page
 	/// - Parameter schema: the UISchema to display
 	/// - Parameter healthcareOrganization: the healthcare organization
+	/// - Parameter referenceResolver: the handler to resolve references
 	init(
 		coordinator: (any Coordinator)? = nil,
 		title: String,
 		schema: UISchema,
-		healthcareOrganization: MgoOrganization
+		healthcareOrganization: MgoOrganization,
+		referenceResolver: ReferenceResolverProtocol = ReferenceResolver()
 	) {
 		self.coordinator = coordinator
 		self.state = ZibDetailViewState(title: title, schema: schema)
 		self.healthcareOrganization = healthcareOrganization
+		self.referenceResolver = referenceResolver
 	}
 	
 	/// Handle any action
@@ -54,6 +60,26 @@ class HealthCategoryDataViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
+			case let .reference(reference):
+				referenceTapped(reference)
+		}
+	}
+	
+	/// Handle the reference tap
+	/// - Parameter reference: the reference id tapped on
+	private func referenceTapped(_ reference: String) {
+		
+		if let (resource, refSchema) = referenceResolver.resolve(reference: reference, healthcareOrganization: healthcareOrganization) {
+			
+			self.coordinator?.handle(Coordination.Action(
+				identifier: Coordination.Action.showHealthCategoryData.identifier,
+				params: [
+					"healthcareOrganization": healthcareOrganization,
+					"heading": refSchema.label ?? "",
+					"resource": resource,
+					"uiSchema": refSchema
+				])
+			)
 		}
 	}
 }
@@ -84,7 +110,12 @@ struct HealthCategoryDataView: View {
 				
 				UISchemaView(
 					schema: viewModel.state.schema,
-					healthcareOrganization: viewModel.healthcareOrganization
+					healthcareOrganization: viewModel.healthcareOrganization,
+					referenceTapped: { reference in
+						if let reference {
+							viewModel.reduce(.reference(reference))
+						}
+					}
 				)
 				Spacer()
 			}
