@@ -109,6 +109,7 @@ struct UISchemaView: View {
 						.accessibilityAddTraits(.isButton)
 						.accessibilityRemoveTraits(.isStaticText)
 						.accessibilityIdentifier(entry.label)
+//						.background(.green.opacity(0.5))
 				}
 		}
 	}
