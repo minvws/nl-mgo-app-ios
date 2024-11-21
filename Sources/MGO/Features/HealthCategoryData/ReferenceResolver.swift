@@ -22,8 +22,12 @@ class ReferenceResolver: ReferenceResolverProtocol {
 		let fetchResult = Current.dataStore.get(organizationId: healthcareOrganization.identifier)
 				
 		if case .success(let records) = fetchResult {
+			
 			// Loop over all records
 			for record in records {
+				
+				guard !record.error else { continue }
+				
 				let resources = record.resources.filter { resource in
 					return resource.isReference(reference)
 				}
