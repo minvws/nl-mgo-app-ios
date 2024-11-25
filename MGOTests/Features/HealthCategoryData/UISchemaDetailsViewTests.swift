@@ -14,18 +14,28 @@ import Zibs
 final class UISchemaDetailsViewTests: XCTestCase {
 	
 	private var healthcareOrganization: MgoOrganization!
+	private var sut: UISchemaView!
 	
 	override func setUp() {
 		super.setUp()
 		healthcareOrganization = Generator.healthcareOrganization("1")
 	}
 	
+	func setupSut(_ resource: String, resolvedReferences: [String: Bool] = [:]) throws {
+		
+		let data = try getResource(resource)
+		let schema = try UISchema(data: data)
+		sut = UISchemaView(
+			schema: schema,
+			healthcareOrganization: healthcareOrganization,
+			resolvedReferences: resolvedReferences
+		)
+	}
+	
 	func test_UISchemaDetailsView_singleEntry() throws {
 		
 		// Given
-		let data = try getResource("singleEntry")
-		let schema = try UISchema(data: data)
-		let sut = UISchemaView(schema: schema, healthcareOrganization: healthcareOrganization)
+		try setupSut("singleEntry")
 		
 		// When
 		let content = NavigationView { sut }
@@ -37,9 +47,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 	func test_UISchemaDetailsView_singleNullEntry() throws {
 		
 		// Given
-		let data = try getResource("singleNullEntry")
-		let schema = try UISchema(data: data)
-		let sut = UISchemaView(schema: schema, healthcareOrganization: healthcareOrganization)
+		try setupSut("singleNullEntry")
 		
 		// When
 		let content = NavigationView { sut }
@@ -51,9 +59,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 	func test_UISchemaDetailsView_downloadLink() throws {
 		
 		// Given
-		let data = try getResource("downloadLink")
-		let schema = try UISchema(data: data)
-		let sut = UISchemaView(schema: schema, healthcareOrganization: healthcareOrganization)
+		try setupSut("downloadLink")
 		
 		// When
 		let content = NavigationView { sut }
@@ -65,9 +71,19 @@ final class UISchemaDetailsViewTests: XCTestCase {
 	func test_UISchemaDetailsView_reference() throws {
 		
 		// Given
-		let data = try getResource("reference")
-		let schema = try UISchema(data: data)
-		let sut = UISchemaView(schema: schema, healthcareOrganization: healthcareOrganization)
+		try setupSut("reference", resolvedReferences: ["reference/link": true])
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_UISchemaDetailsView_reference_unresolved() throws {
+		
+		// Given
+		try setupSut("reference")
 		
 		// When
 		let content = NavigationView { sut }
@@ -79,9 +95,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 	func test_UISchemaDetailsView_multipleValues_singleEntry() throws {
 		
 		// Given
-		let data = try getResource("multipleValuesSingleEntry")
-		let schema = try UISchema(data: data)
-		let sut = UISchemaView(schema: schema, healthcareOrganization: healthcareOrganization)
+		try setupSut("multipleValuesSingleEntry")
 		
 		// When
 		let content = NavigationView { sut }
@@ -93,9 +107,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 	func test_UISchemaDetailsView_multipleValues_multipleEntries() throws {
 		
 		// Given
-		let data = try getResource("multipleValuesMultipleEntries")
-		let schema = try UISchema(data: data)
-		let sut = UISchemaView(schema: schema, healthcareOrganization: healthcareOrganization)
+		try setupSut("multipleValuesMultipleEntries")
 		
 		// When
 		let content = NavigationView { sut }
@@ -107,9 +119,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 	func test_UISchemaDetailsView_multipleGroupValues_singleEntry() throws {
 		
 		// Given
-		let data = try getResource("multipleGroupValuesSingleEntry")
-		let schema = try UISchema(data: data)
-		let sut = UISchemaView(schema: schema, healthcareOrganization: healthcareOrganization)
+		try setupSut("multipleGroupValuesSingleEntry")
 		
 		// When
 		let content = NavigationView { sut }
@@ -121,9 +131,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 	func test_UISchemaDetailsView_multipleGroupValues_multipleEntries() throws {
 		
 		// Given
-		let data = try getResource("multipleGroupValuesMultipleEntries")
-		let schema = try UISchema(data: data)
-		let sut = UISchemaView(schema: schema, healthcareOrganization: healthcareOrganization)
+		try setupSut("multipleGroupValuesMultipleEntries")
 		
 		// When
 		let content = NavigationView { sut }
@@ -135,9 +143,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 	func test_UISchemaDetailsView_multipleGroupValues_mixedEntries() throws {
 		
 		// Given
-		let data = try getResource("multipleGroupValuesMixedEntries")
-		let schema = try UISchema(data: data)
-		let sut = UISchemaView(schema: schema, healthcareOrganization: healthcareOrganization)
+		try setupSut("multipleGroupValuesMixedEntries")
 		
 		// When
 		let content = NavigationView { sut }

@@ -24,10 +24,44 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		referenceResolverSpy = ReferenceResolverSpy()
+		setupSut()
+	}
+	
+	private func setupSut() {
+		
 		sut = HealthCategoryDataViewModel(
 			coordinator: coordinatorSpy,
 			title: "HealthCategoryDataViewModelTests",
-			schema: UISchema(children: [], label: "test"),
+			schema: UISchema(children: [UISchemaGroup(
+				children: [
+					UIEntry(
+						display: UIEntryDisplay.string("single value"),
+						label: "label single value",
+						summary: true,
+						type: .singleValue,
+						reference: nil,
+						url: nil
+					),
+					UIEntry(
+						display: UIEntryDisplay.string("reference value"),
+						label: "label reference",
+						summary: true,
+						type: .referenceValue,
+						reference: "test_resolveReference",
+						url: "reference/link"
+					),
+					UIEntry(
+						display: nil,
+						label: "label download link",
+						summary: true,
+						type: .downloadLink,
+						reference: nil,
+						url: "https://www.apple.com"
+					)
+				],
+				label: "Section Header first group")
+			],
+			label: "test"),
 			healthcareOrganization: Generator.healthcareOrganization("1"),
 			referenceResolver: referenceResolverSpy
 		)
@@ -42,7 +76,7 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 		
 		// Then
 		expect(state.title) == "HealthCategoryDataViewModelTests"
-		expect(state.schema) == UISchema(children: [], label: "test")
+		expect(state.schema.label) == "test"
 	}
 	
 	func test_backButtonPressed_shouldCallCoordinator() {
@@ -62,6 +96,7 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 		// Given
 		let schema = UISchema(children: [], label: "test")
 		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
+		setupSut()
 		
 		// When
 		sut.reduce(.reference("test_resolveReference"))
@@ -81,6 +116,7 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 		// Given
 		let schema = UISchema(children: [], label: nil)
 		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
+		setupSut()
 		
 		// When
 		sut.reduce(.reference("test_resolveReference"))

@@ -20,13 +20,20 @@ class HealthCategoryDataViewModel: ObservableObject {
 	/// The state of the view
 	@Published var state: ZibDetailViewState
 	
+	/// An array of resolved references
+	@Published var resolvedReferences: [String: Bool] = [:]
+
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
 	/// The healthcare organization
 	var healthcareOrganization: MgoOrganization
-	
+
+	/// The reference resolver
 	var referenceResolver: ReferenceResolverProtocol
+	
+	/// The store for references
+	var referenceStore = [String: (MgoResource, UISchema)?]()
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -34,7 +41,7 @@ class HealthCategoryDataViewModel: ObservableObject {
 		case reference(String)
 	}
 	
-	/// Intitializer
+	/// Create a Healthcare Data View Model
 	/// - Parameter coordinator: the app coordinator
 	/// - Parameter title: the title for the page
 	/// - Parameter schema: the UISchema to display
@@ -51,6 +58,23 @@ class HealthCategoryDataViewModel: ObservableObject {
 		self.state = ZibDetailViewState(title: title, schema: schema)
 		self.healthcareOrganization = healthcareOrganization
 		self.referenceResolver = referenceResolver
+		
+		prepareReferences()
+	}
+	
+	private func prepareReferences() {
+	
+		let referenceStrings = Set<String>(state.schema.children
+			.flatMap { $0.children }
+			.filter { $0.type == .referenceValue }
+			.compactMap { $0.reference }
+		)
+		referenceStrings.forEach { reference in
+			
+			let result = referenceResolver.resolve(reference: reference, healthcareOrganization: healthcareOrganization)
+			referenceStore[reference] = result
+			resolvedReferences[reference] = result != nil
+		}
 	}
 	
 	/// Handle any action
@@ -69,7 +93,9 @@ class HealthCategoryDataViewModel: ObservableObject {
 	/// - Parameter reference: the reference id tapped on
 	private func referenceTapped(_ reference: String) {
 		
-		if let (resource, refSchema) = referenceResolver.resolve(reference: reference, healthcareOrganization: healthcareOrganization) {
+		guard let resolved = referenceStore[reference] else { return }
+		
+		if let (resource, refSchema) = resolved {
 			
 			self.coordinator?.handle(Coordination.Action(
 				identifier: Coordination.Action.showHealthCategoryData.identifier,
@@ -115,7 +141,8 @@ struct HealthCategoryDataView: View {
 						if let reference {
 							viewModel.reduce(.reference(reference))
 						}
-					}
+					},
+					resolvedReferences: viewModel.resolvedReferences
 				)
 				Spacer()
 			}
