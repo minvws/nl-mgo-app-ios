@@ -21,6 +21,7 @@ final class HealthCategoryDownloadViewTests: XCTestCase {
 
 		try super.setUpWithError()
 
+		servicesSpies = setupServicesSpies()
 		let entry = UIEntry(display: nil, label: "label", summary: false, type: .downloadLink, reference: nil, url: "Binary/demo1")
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		viewModel = HealthCategoryDownloadViewModel(healthcareOrganization: healthcareOrganization, entry: entry)

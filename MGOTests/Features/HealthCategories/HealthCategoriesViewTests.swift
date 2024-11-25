@@ -44,7 +44,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		
 		// Given
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
-		servicesSpies.dataStoreSpy.stubbedGetResult = .success([])
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 		
 		// When

@@ -155,14 +155,6 @@ class ResourceRepository: ResourceRepositoryProtocol {
 					password: password
 				)
 				mgoResources = try repository.process(data)
-				mgoResources = mgoResources.filter { resource in
-					
-					var result = false
-					for profile in category.acceptedProfiles {
-						result = result || resource.hasProfile(profile)
-					}
-					return result
-				}
 			} catch {
 				resourceError = true
 			}

@@ -233,7 +233,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				
 			case Coordination.Action.showHealthCategoryData.identifier:
 				if action.params.count == 4,
-				   //				   let resource = action.params["resource"] as? MgoResouce,
+				   // let resource = action.params["resource"] as? MgoResouce,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let heading = action.params["heading"] as? String,
 				   let schema = action.params["uiSchema"] as? UISchema {

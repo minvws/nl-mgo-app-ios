@@ -17,17 +17,17 @@ struct UISchemaView: View {
 	/// The healthcare organization
 	var healthcareOrganization: MgoOrganization
 	
+	/// Handler when a user taps on a reference
+	var referenceTapped: ((String?) -> Void)?
+	
+	/// An array with the state of references
+	var resolvedReferences: [String: Bool]
+	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
 	/// Magic Numbers
 	private struct ViewTraits {
-		enum Navigation {
-			static let padding: CGFloat = 8
-		}
-		enum General {
-			static let padding: CGFloat = 16
-		}
 		enum List {
 			static let padding: CGFloat = 8
 			static let bottom: CGFloat = 16
@@ -36,6 +36,12 @@ struct UISchemaView: View {
 		enum Row {
 			static let padding: CGFloat = 16
 			static let spacing: CGFloat = 4
+		}
+		enum Divider {
+			static let height: CGFloat = 0.33
+		}
+		enum Chevron {
+			static let size: CGFloat = 32.0
 		}
 	}
 	
@@ -63,7 +69,7 @@ struct UISchemaView: View {
 			.accessibilityAddTraits(.isHeader)
 		
 		// List of elements
-		VStack(alignment: .leading) {
+		VStack(alignment: .leading, spacing: 0) {
 			// A schema group consists of an array of UIEntries
 			ForEach(schemaGroup.children, id: \.self) { childElement in
 				viewFor(childElement, isLastElement: childElement == schemaGroup.children.last)
@@ -82,8 +88,9 @@ struct UISchemaView: View {
 	/// - Returns: view for a UIEntry
 	@ViewBuilder func viewFor(_ entry: UIEntry, isLastElement: Bool) -> some View {
 		
-		if case .downloadLink = entry.type {
+		if entry.type == .downloadLink {
 			
+			// Document Download
 			HealthCategoryDownloadView(
 				viewModel:
 					HealthCategoryDownloadViewModel(
@@ -91,18 +98,20 @@ struct UISchemaView: View {
 						entry: entry
 					)
 			)
+		} else if entry.type == .referenceValue, let ref = entry.reference, resolvedReferences[ref] == true, case let .string(value) = entry.display {
+			
+			// Resolvable Reference
+			Button {
+				self.referenceTapped?(entry.reference)
+			} label: {
+				viewFor(value, heading: heading(entry), showDivider: !isLastElement, showChevron: true)
+			}
+			.buttonStyle(HoverButtonStyle())
+			.accessibilityIdentifier(entry.label)
 		} else {
 			
+			// Other
 			viewFor(entry.display, entry: entry, isLastElement: isLastElement)
-				.when(entry.reference != nil) { view in
-					view
-						.onTapGesture {
-							_ = logInfo("Tapped on", entry.reference as Any)
-						}
-						.accessibilityAddTraits(.isButton)
-						.accessibilityRemoveTraits(.isStaticText)
-						.accessibilityIdentifier(entry.label)
-				}
 		}
 	}
 	
@@ -153,17 +162,30 @@ struct UISchemaView: View {
 	///   - heading: the heading to display
 	///   - showDivider: True if we should show a divider at the bottom
 	/// - Returns: Row View
-	@ViewBuilder func viewFor(_ value: String, heading: String, showDivider: Bool = true) -> some View {
+	@ViewBuilder func viewFor(_ value: String, heading: String, showDivider: Bool = true, showChevron: Bool = false) -> some View {
 		
-		VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
+		HStack(alignment: .center, spacing: 0) {
 			
-			Text(heading)
-				.rijksoverheidStyle(font: .regular, style: .callout)
-				.foregroundStyle(theme.contentTertiary)
+			VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
+				
+				Text(heading)
+					.rijksoverheidStyle(font: .regular, style: .callout)
+					.foregroundStyle(theme.contentTertiary)
+				
+				Text(Sanitizer.strip(value) ?? "common.unknown")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentPrimary)
+			}
 			
-			Text(Sanitizer.strip(value) ?? "common.unknown")
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+			if showChevron {
+				
+				Spacer()
+				
+				Image(ImageResource.Overview.chevronRight)
+					.foregroundStyle(theme.iconsPrimary)
+					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
+					.accessibilityHidden(true)
+			}
 		}
 		.textSelection(.enabled)
 		.padding(ViewTraits.Row.padding)
@@ -172,7 +194,7 @@ struct UISchemaView: View {
 		
 		if showDivider {
 			Divider()
-				.frame(height: 1)
+				.frame(height: ViewTraits.Divider.height)
 				.overlay(theme.strokesPrimary)
 				.padding(.leading, ViewTraits.Row.padding)
 		}
@@ -240,7 +262,7 @@ struct UISchemaView: View {
 							),
 							
 							UIEntry(
-								display: nil,
+								display: UIEntryDisplay.string("reference value"),
 								label: "label reference",
 								summary: true,
 								type: .referenceValue,
@@ -302,6 +324,8 @@ struct UISchemaView: View {
 				],
 				label: "UI Schema"
 			),
-		healthcareOrganization: PreviewContent.healthcareOrganization
-	).padding(.horizontal, 16)
+		healthcareOrganization: PreviewContent.healthcareOrganization,
+		resolvedReferences: ["reference": true]
+	)
+	.padding(.horizontal, 16)
 }

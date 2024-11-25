@@ -48,7 +48,6 @@ struct HealthCategories {
 				
 				case .labresults: [
 					ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue,
-					ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue,
 					GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue
 				]
 				
@@ -100,7 +99,6 @@ struct HealthCategories {
 				
 				case .devices: [
 					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue,
-					ZibMedicalDeviceProductProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceProduct.rawValue,
 					ZibMedicalDeviceRequestProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceRequest.rawValue
 				]
 				

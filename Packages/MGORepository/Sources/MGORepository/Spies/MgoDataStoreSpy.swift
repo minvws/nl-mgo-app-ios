@@ -26,32 +26,46 @@ public class MgoDataStoreSpy: MgoDataStoreProtocol {
 		return stubbedObservatory
 	}
 
-	public var invokedGetCategoryId = false
-	public var invokedGetCategoryIdCount = 0
-	public var invokedGetCategoryIdParameters: (categoryId: String, organizationId: String)?
-	public var invokedGetCategoryIdParametersList = [(categoryId: String, organizationId: String)]()
-	public var stubbedGetCategoryIdResult: Result<[MgoResourceRecord], Error>!
+	public var invokedGetCategoryIdOrganizationId = false
+	public var invokedGetCategoryIdOrganizationIdCount = 0
+	public var invokedGetCategoryIdOrganizationIdParameters: (categoryId: String, organizationId: String)?
+	public var invokedGetCategoryIdOrganizationIdParametersList = [(categoryId: String, organizationId: String)]()
+	public var stubbedGetCategoryIdOrganizationIdResult: Result<[MgoResourceRecord], Error>!
 
 	public func get(categoryId: String, organizationId: String) -> Result<[MgoResourceRecord], Error> {
+		invokedGetCategoryIdOrganizationId = true
+		invokedGetCategoryIdOrganizationIdCount += 1
+		invokedGetCategoryIdOrganizationIdParameters = (categoryId, organizationId)
+		invokedGetCategoryIdOrganizationIdParametersList.append((categoryId, organizationId))
+		return stubbedGetCategoryIdOrganizationIdResult
+	}
+
+	public var invokedGetCategoryId = false
+	public var invokedGetCategoryIdCount = 0
+	public var invokedGetCategoryIdParameters: (categoryId: String, Void)?
+	public var invokedGetCategoryIdParametersList = [(categoryId: String, Void)]()
+	public var stubbedGetCategoryIdResult: Result<[MgoResourceRecord], Error>!
+
+	public func get(categoryId: String) -> Result<[MgoResourceRecord], Error> {
 		invokedGetCategoryId = true
 		invokedGetCategoryIdCount += 1
-		invokedGetCategoryIdParameters = (categoryId, organizationId)
-		invokedGetCategoryIdParametersList.append((categoryId, organizationId))
+		invokedGetCategoryIdParameters = (categoryId, ())
+		invokedGetCategoryIdParametersList.append((categoryId, ()))
 		return stubbedGetCategoryIdResult
 	}
 
-	public var invokedGet = false
-	public var invokedGetCount = 0
-	public var invokedGetParameters: (categoryId: String, Void)?
-	public var invokedGetParametersList = [(categoryId: String, Void)]()
-	public var stubbedGetResult: Result<[MgoResourceRecord], Error>!
+	public var invokedGetOrganizationId = false
+	public var invokedGetOrganizationIdCount = 0
+	public var invokedGetOrganizationIdParameters: (organizationId: String, Void)?
+	public var invokedGetOrganizationIdParametersList = [(organizationId: String, Void)]()
+	public var stubbedGetOrganizationIdResult: Result<[MgoResourceRecord], Error>!
 
-	public func get(categoryId: String) -> Result<[MgoResourceRecord], Error> {
-		invokedGet = true
-		invokedGetCount += 1
-		invokedGetParameters = (categoryId, ())
-		invokedGetParametersList.append((categoryId, ()))
-		return stubbedGetResult
+	public func get(organizationId: String) -> Result<[MgoResourceRecord], Error> {
+		invokedGetOrganizationId = true
+		invokedGetOrganizationIdCount += 1
+		invokedGetOrganizationIdParameters = (organizationId, ())
+		invokedGetOrganizationIdParametersList.append((organizationId, ()))
+		return stubbedGetOrganizationIdResult
 	}
 
 	public var invokedStore = false

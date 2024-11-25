@@ -80,7 +80,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		// Given
 		let resource = try getResource("zibMedicationUse")
 		let mgoResource = MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)
-		servicesSpies.dataStoreSpy.stubbedGetResult = .success(
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
@@ -96,7 +96,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		
 		// Given
 		let mgoResource = MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)
-		servicesSpies.dataStoreSpy.stubbedGetResult = .success(
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
@@ -111,7 +111,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	func test_loadMedication_noData_stateShouldBeLoading() throws {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetResult = .failure(DataStoreError.noData)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(DataStoreError.noData)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
 		// When
@@ -124,7 +124,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	func test_loadMedication_dataError_stateShouldBeEmpty() throws {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetResult = .failure(NSError(domain: "test_loadMedication_cacheMiss_dataError", code: 404))
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(NSError(domain: "test_loadMedication_cacheMiss_dataError", code: 404))
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
 		// When
@@ -137,7 +137,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	func test_refresh() {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetResult = .success([])
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
 		// When
