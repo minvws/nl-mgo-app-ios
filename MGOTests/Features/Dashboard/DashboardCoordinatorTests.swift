@@ -145,7 +145,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_resetApplication_shouldCallParentCoordinator() {
 
 		// Given
-		sut.selectedTab = DashboardTab.about.rawValue
+		sut.selectedTab = DashboardTab.settings.rawValue
 		
 		// When
 		sut.handle(Coordination.Action.resetApplication)

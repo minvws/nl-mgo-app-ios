@@ -13,6 +13,7 @@ extension Services {
 	func wipePersistedData() {
 		
 		dataStore.wipePersistedData()
+		featureFlagManager.wipePersistedData()
 		healthcareOrganizationStore.wipePersistedData()
 		remoteConfigurationRepository.wipePersistedData()
 		secureUserSettings.wipePersistedData()

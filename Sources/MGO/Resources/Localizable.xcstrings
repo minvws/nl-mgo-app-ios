@@ -399,17 +399,6 @@
         }
       }
     },
-    "bottombar.about_this_app" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Over de app"
-          }
-        }
-      }
-    },
     "bottombar.healthcareproviders" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -428,6 +417,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Overzicht"
+          }
+        }
+      }
+    },
+    "bottombar.settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen"
           }
         }
       }
@@ -1913,6 +1913,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja, verwijderen"
+          }
+        }
+      }
+    },
+    "settings.featureflag.localization" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatische lokalisatie"
+          }
+        }
+      }
+    },
+    "settings.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen"
           }
         }
       }

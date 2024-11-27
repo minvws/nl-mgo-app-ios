@@ -10,18 +10,18 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 
-final class AboutTheAppViewModelTests: XCTestCase {
+final class SettingsViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: AboutTheAppViewModel!
+	private var sut: SettingsViewModel!
 
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = AboutTheAppViewModel(coordinator: coordinatorSpy)
+		sut = SettingsViewModel(coordinator: coordinatorSpy)
 	}
 	
 	func test_showResetDialog_shouldCallCoordinator() {
@@ -46,5 +46,18 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.resetApplication
+	}
+	
+	func test_automaticLocalization() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.automaticLocalization(false))
+		
+		// Then
+		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabledSetter) == true
+		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabled) == false
+		
 	}
 }

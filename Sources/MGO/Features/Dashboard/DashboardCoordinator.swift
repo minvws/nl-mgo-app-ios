@@ -58,7 +58,7 @@ protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 enum DashboardTab: Int {
 	case healthCategories = 0
 	case overview = 1
-	case about = 2
+	case settings = 2
 }
 
 enum DashboardCoordination {
@@ -66,7 +66,7 @@ enum DashboardCoordination {
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {
 		
-		case aboutTheApp
+		case settings
 		case overview
 		
 		// Search & Store Healthcare Organization flow
@@ -272,7 +272,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			firstTabPath.append(target)
 		} else if selectedTab == DashboardTab.overview.rawValue {
 			secondTabPath.append(target)
-		} else if selectedTab == DashboardTab.about.rawValue {
+		} else if selectedTab == DashboardTab.settings.rawValue {
 			thirdTabPath.append(target)
 		}
 	}
@@ -285,8 +285,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		switch state {
 			
 			// Initial states
-			case .aboutTheApp:
-				AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: self))
+			case .settings:
+				SettingsView(viewModel: SettingsViewModel(coordinator: self))
 				
 			case .overview:
 				OrganizationsView(viewModel: OrganizationsViewModel(coordinator: self)).isPresentedAsSheet(false)

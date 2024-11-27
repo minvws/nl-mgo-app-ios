@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class AboutTheAppViewModel: ObservableObject {
+class SettingsViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -20,6 +20,7 @@ class AboutTheAppViewModel: ObservableObject {
 	enum Action {
 		case resetApplication
 		case showResetDialog
+		case automaticLocalization(Bool)
 	}
 	
 	/// Intitializer
@@ -33,24 +34,29 @@ class AboutTheAppViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AboutTheAppViewModel.Action) {
+	func reduce(_ action: SettingsViewModel.Action) {
 		
 		switch action {
 			case .resetApplication:
 				coordinator?.handle(Coordination.Action.resetApplication)
 			case .showResetDialog:
 				showResetDialog = true
+			case let .automaticLocalization(automaticLocalization):
+				Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
 		}
 	}
 }
 
-struct AboutTheAppView: View {
+struct SettingsView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: AboutTheAppViewModel
+	@StateObject var viewModel: SettingsViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	/// Variable to change the automatic localization setting
+	@State private var automaticLocalization: Bool = Current.featureFlagManager.isAutomaticLocalizationEnabled
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -68,16 +74,27 @@ struct AboutTheAppView: View {
 	var body: some View {
 		
 		VStack {
+			List {
+				Section {
+					Toggle(isOn: $automaticLocalization) {
+						Text("settings.featureflag.localization")
+					}.toggleStyle(.switch)
+					.tint(theme.actionPrimaryDefaultBackground)
+				}
+			}
+			.onChange(of: automaticLocalization) { newValue in
+				viewModel.reduce(.automaticLocalization(newValue))
+			}
 			
 			if viewModel.showResetButton {
-				CallToActionButton("Reset the application?", style: .primaryNegative) {
+				CallToActionButton("Reset de app", style: .primaryNegative) {
 					viewModel.reduce(.showResetDialog)
 				}
 				.padding(ViewTraits.Button.insets)
 				.confirmationDialog(
-					"Reset the application?",
+					"Reset de app?",
 					isPresented: $viewModel.showResetDialog) {
-						Button("Reset the application?", role: .destructive) {
+						Button("Reset", role: .destructive) {
 							viewModel.reduce(.resetApplication)
 						}
 					} message: {
@@ -87,16 +104,15 @@ struct AboutTheAppView: View {
 			
 			Spacer()
 		}
-		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.navigationTitle("bottombar.about_this_app")
+		.navigationTitle("settings.heading")
 		.layoutForIPad()
 	}
 }
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: nil))
+		SettingsView(viewModel: SettingsViewModel(coordinator: nil))
 	}
 }
