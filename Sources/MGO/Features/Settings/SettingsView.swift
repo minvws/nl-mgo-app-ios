@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class AboutTheAppViewModel: ObservableObject {
+class SettingsViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -34,7 +34,7 @@ class AboutTheAppViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AboutTheAppViewModel.Action) {
+	func reduce(_ action: SettingsViewModel.Action) {
 		
 		switch action {
 			case .resetApplication:
@@ -47,10 +47,10 @@ class AboutTheAppViewModel: ObservableObject {
 	}
 }
 
-struct AboutTheAppView: View {
+struct SettingsView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: AboutTheAppViewModel
+	@StateObject var viewModel: SettingsViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -106,13 +106,13 @@ struct AboutTheAppView: View {
 		}
 		.padding(.top, ViewTraits.Navigation.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.navigationTitle("bottombar.about_this_app")
+		.navigationTitle("settings.heading")
 		.layoutForIPad()
 	}
 }
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: nil))
+		SettingsView(viewModel: SettingsViewModel(coordinator: nil))
 	}
 }

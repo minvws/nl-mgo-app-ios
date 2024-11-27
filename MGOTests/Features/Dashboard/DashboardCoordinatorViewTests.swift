@@ -51,7 +51,7 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 		let sut = DashboardCoordinatorView(coordinator: coordinator)
 		
 		// When
-		coordinator.selectedTab = DashboardTab.about.rawValue
+		coordinator.selectedTab = DashboardTab.settings.rawValue
 		
 		// Then
 		takeSnapShots(content: sut)

@@ -30,10 +30,10 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		HTTPStubs.removeAllStubs()
 	}
 	
-	func test_coordinatorView_forAboutTheApp() throws {
+	func test_coordinatorView_forSettings() throws {
 		
 		// Given
-		let state = DashboardCoordination.State.aboutTheApp
+		let state = DashboardCoordination.State.settings
 		
 		// When
 		let view = sut.viewState(for: state)

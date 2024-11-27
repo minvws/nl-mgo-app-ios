@@ -76,10 +76,10 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					.tag(DashboardTab.overview.rawValue)
 					.accessibilityIdentifier("bottombar.healthcareproviders")
 					
-					// Third Tab, About
+					// Third Tab, Settings
 					NavigationStackBackport.NavigationStack(path: $coordinator.thirdTabPath) {
 						withDividerIfScrolling {
-							coordinator.viewState(for: .aboutTheApp)
+							coordinator.viewState(for: .settings)
 								.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
 									withDividerIfScrolling {
 										coordinator.viewState(for: state)
@@ -88,16 +88,15 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 						}
 					}
 					.tabItem {
-						Image(coordinator.selectedTab == DashboardTab.about.rawValue ? ImageResource.Tab.Selected.about : ImageResource.Tab.Unselected.about)
-						Text("bottombar.about_this_app")
+						Image(coordinator.selectedTab == DashboardTab.settings.rawValue ? ImageResource.Tab.Selected.settings : ImageResource.Tab.Unselected.settings)
+						Text("bottombar.settings")
 							.rijksoverheidStyle(font: .bold, style: .body)
 					}
-					.tag(DashboardTab.about.rawValue)
-					.accessibilityIdentifier("bottombar.about_this_app")
+					.tag(DashboardTab.settings.rawValue)
+					.accessibilityIdentifier("bottombar.settings")
 				}
 				.tint(theme.actionTertiaryDefaultText)
 				.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
-//					_ = logVerbose("ACV isScrolling: \(newValue.last ?? false)")
 					isScrolling = newValue.last ?? false
 				})
 			}
