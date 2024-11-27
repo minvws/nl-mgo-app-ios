@@ -75,9 +75,9 @@ struct AboutTheAppView: View {
 		
 		VStack {
 			List {
-				Section(header: Text("about.featureflag.heading")) {
+				Section {
 					Toggle(isOn: $automaticLocalization) {
-						Text("about.featureflag.localization")
+						Text("settings.featureflag.localization")
 					}.toggleStyle(.switch)
 					.tint(theme.actionPrimaryDefaultBackground)
 				}
@@ -87,14 +87,14 @@ struct AboutTheAppView: View {
 			}
 			
 			if viewModel.showResetButton {
-				CallToActionButton("Reset the application?", style: .primaryNegative) {
+				CallToActionButton("Reset de app", style: .primaryNegative) {
 					viewModel.reduce(.showResetDialog)
 				}
 				.padding(ViewTraits.Button.insets)
 				.confirmationDialog(
-					"Reset the application?",
+					"Reset de app?",
 					isPresented: $viewModel.showResetDialog) {
-						Button("Reset the application?", role: .destructive) {
+						Button("Reset", role: .destructive) {
 							viewModel.reduce(.resetApplication)
 						}
 					} message: {

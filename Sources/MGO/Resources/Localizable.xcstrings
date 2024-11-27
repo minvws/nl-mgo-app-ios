@@ -4,26 +4,6 @@
     "[privacyverklaring](/privacystatement)" : {
 
     },
-    "about.featureflag.heading" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings"
-          }
-        }
-      }
-    },
-    "about.featureflag.localization" : {
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gebruik automatische lokalisatie"
-          }
-        }
-      }
-    },
     "account_removed.action" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -425,7 +405,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Over de app"
+            "value" : "Instellingen"
           }
         }
       }
@@ -1933,6 +1913,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja, verwijderen"
+          }
+        }
+      }
+    },
+    "settings.featureflag.localization" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatische lokalisatie"
           }
         }
       }
