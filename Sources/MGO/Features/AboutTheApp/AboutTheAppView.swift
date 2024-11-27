@@ -20,6 +20,7 @@ class AboutTheAppViewModel: ObservableObject {
 	enum Action {
 		case resetApplication
 		case showResetDialog
+		case automaticLocalization(Bool)
 	}
 	
 	/// Intitializer
@@ -40,6 +41,8 @@ class AboutTheAppViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.resetApplication)
 			case .showResetDialog:
 				showResetDialog = true
+			case let .automaticLocalization(automaticLocalization):
+				Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
 		}
 	}
 }
@@ -51,6 +54,9 @@ struct AboutTheAppView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	/// Variable to change the automatic localization setting
+	@State private var automaticLocalization: Bool = Current.featureFlagManager.isAutomaticLocalizationEnabled
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -68,6 +74,17 @@ struct AboutTheAppView: View {
 	var body: some View {
 		
 		VStack {
+			List {
+				Section(header: Text("about.featureflag.heading")) {
+					Toggle(isOn: $automaticLocalization) {
+						Text("about.featureflag.localization")
+					}.toggleStyle(.switch)
+					.tint(theme.actionPrimaryDefaultBackground)
+				}
+			}
+			.onChange(of: automaticLocalization) { newValue in
+				viewModel.reduce(.automaticLocalization(newValue))
+			}
 			
 			if viewModel.showResetButton {
 				CallToActionButton("Reset the application?", style: .primaryNegative) {
@@ -87,7 +104,6 @@ struct AboutTheAppView: View {
 			
 			Spacer()
 		}
-		.padding(.horizontal, ViewTraits.General.padding)
 		.padding(.top, ViewTraits.Navigation.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.navigationTitle("bottombar.about_this_app")

@@ -47,4 +47,17 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.resetApplication
 	}
+	
+	func test_automaticLocalization() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.automaticLocalization(false))
+		
+		// Then
+		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabledSetter) == true
+		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabled) == false
+		
+	}
 }

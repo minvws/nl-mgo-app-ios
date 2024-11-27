@@ -24,7 +24,13 @@ final class ServicesSpies {
 		(spy.stubbedObservatory, _) = Observatory<Bool>.create()
 		return spy
 	}()
-
+	
+	var featureFlagSpy: FeatureFlagManagerSpy = {
+		let spy = FeatureFlagManagerSpy()
+		spy.stubbedIsAutomaticLocalizationEnabled = true
+		return spy
+	}()
+	
 	var healthcareOrganizationStoreSpy: HealthcareOrganizationRepositorySpy = {
 		let spy = HealthcareOrganizationRepositorySpy()
 		(spy.stubbedObservatory, _) = Observatory<(MgoOrganization, HealthcareOrganizationReason)>.create()
@@ -74,6 +80,7 @@ func setupServicesSpies() -> ServicesSpies {
 	Current = Services(
 		now: { Date(timeIntervalSince1970: 1700000000) }, // Tuesday, 14 November 2023 22:13:20
 		dataStore: spies.dataStoreSpy,
+		featureFlagManager: spies.featureFlagSpy,
 		healthcareOrganizationStore: spies.healthcareOrganizationStoreSpy,
 		jailBreakDetector: spies.jailBreakSpy,
 		localAuthenticationProvider: spies.localAuthenticationProviderSpy,
