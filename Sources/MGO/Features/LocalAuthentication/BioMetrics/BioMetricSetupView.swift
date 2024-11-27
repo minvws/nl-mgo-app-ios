@@ -191,7 +191,6 @@ struct BioMetricSetupView: View {
 			bottomView(bioMetricType)
 		}
 		.navigationBarBackButtonHidden(true)
-		.navigationBarTitleDisplayMode(.inline)
 		.alert("biometric_setup.dialog.heading", isPresented: $viewModel.state.showTouchPopup) {
 			Button("biometric_setup.dialog.cancel", role: .cancel) { viewModel.reduce(.proceedWithoutBioMetric) }
 			Button("common.ok") { viewModel.reduce(.proceedWithBioMetric) }

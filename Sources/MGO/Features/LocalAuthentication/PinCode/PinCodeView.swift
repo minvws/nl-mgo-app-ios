@@ -453,7 +453,6 @@ struct PinCodeView: View {
 		}
 		.padding(.horizontal, ViewTraits.General.horizontalPadding)
 		.navigationBarHidden(false)
-		.navigationBarTitleDisplayMode(.inline)
 		.navigationBarBackButtonHidden(true)
 		.when(viewModel.state.backButtonVisible) { view in
 			// Show the back button

@@ -272,9 +272,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case Coordination.Action.loggedInWithDigiD.identifier:
 				
-				Current.secureUserSettings.userHasRemoteAuthentication = true
-				showChildCoordinator = true
-				
+//				Current.secureUserSettings.userHasRemoteAuthentication = true
+			
+//				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+//					logDebug("Show Automatic Localization")
+//				} else {
+					showChildCoordinator = true
+//				}
 			// General
 				
 			case Coordination.Action.closeSheet.identifier,

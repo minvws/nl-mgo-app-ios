@@ -303,7 +303,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					username: username,
 					password: password
 				)
-				OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(
+				OrganizationManualSearchResultsView(viewModel: OrganizationManualSearchResultsViewModel(
 					coordinator: self,
 					city: city,
 					name: name,

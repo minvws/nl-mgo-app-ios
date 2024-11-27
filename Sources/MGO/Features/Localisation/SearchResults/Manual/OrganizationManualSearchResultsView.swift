@@ -47,7 +47,7 @@ enum OrganizationSearchResultViewState: Equatable {
 	}
 }
 
-class OrganizationSearchResultsViewModel: ObservableObject {
+class OrganizationManualSearchResultsViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -89,7 +89,7 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: OrganizationSearchResultsViewModel.Action) {
+	func reduce(_ action: OrganizationManualSearchResultsViewModel.Action) {
 		
 		switch action {
 			
@@ -195,10 +195,10 @@ class OrganizationSearchResultsViewModel: ObservableObject {
 	}
 }
 
-struct OrganizationSearchResultsView: View {
+struct OrganizationManualSearchResultsView: View {
 	
 	/// The view model
-	@StateObject var viewModel: OrganizationSearchResultsViewModel
+	@StateObject var viewModel: OrganizationManualSearchResultsViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -337,8 +337,8 @@ struct OrganizationSearchResultsView: View {
 	]
 	
 	return NavigationView {
-		OrganizationSearchResultsView(
-			viewModel: OrganizationSearchResultsViewModel(
+		OrganizationManualSearchResultsView(
+			viewModel: OrganizationManualSearchResultsViewModel(
 				coordinator: nil,
 				city: "Roermond",
 				name: "Tandarts Tandje Erbij",
