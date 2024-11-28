@@ -9,7 +9,7 @@ import MGOTest
 import MGOFoundation
 @testable import MGO
 
-final class OrganizationManualSearchResultsViewModelTests: XCTestCase {
+final class ManualSearchResultsViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!

@@ -8,14 +8,15 @@
 import MGOFoundation
 import MGOUI
 
-enum OrganizationSearchResultCardState {
+enum OrganizationSearchResultCardState: Equatable {
 	case regular
 	case selected
 	case notParticipating
+	case automatic(isSelected: Bool)
 	
 	var accessibilityLabel: String.LocalizationValue {
 		switch self {
-			case .regular: return "add_organization.add_voiceover"
+			case .regular, .automatic: return "add_organization.add_voiceover"
 			case .selected: return "add_organization.view_voiceover"
 			case .notParticipating: return "add_organization.view_voiceover"
 		}
@@ -45,7 +46,7 @@ struct OrganizationSearchResultCardView: View {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
-			static let padding: CGFloat = 12
+			static let padding: CGFloat = 16
 			static let cornerRadius: CGFloat = 10
 		}
 		enum Title {
@@ -103,15 +104,23 @@ struct OrganizationSearchResultCardView: View {
 					.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
 					.font(Font.title2.bold())
 			}
-
+			if case let .automatic(isSelected) = state {
+				if isSelected {
+					Image(ImageResource.Localisation.Icon.checked)
+						.foregroundStyle(theme.actionPrimaryDefaultText)
+				} else {
+					Image(ImageResource.Localisation.Icon.circle)
+						.foregroundStyle(theme.iconsPrimary)
+				}
+			}
 		}
 		.accessibilityElement(children: .combine)
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
-		.when(state != .regular, transform: { view in
+		.when(state == .notParticipating || state == .selected, transform: { view in
 			view.background(theme.backgroundSecondary.opacity(0.50))
 		})
-		.when(state == .regular, transform: { view in
+		.when(state != .notParticipating && state != .selected, transform: { view in
 			view
 				.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
 		})
@@ -128,7 +137,7 @@ struct OrganizationSearchResultCardView: View {
 	/// - Returns: status view
 	@ViewBuilder func organizationStatusView(_ state: OrganizationSearchResultCardState) -> some View {
 		switch state {
-			case .regular: EmptyView()
+			case .regular, .automatic: EmptyView()
 				
 			case .notParticipating, .selected:
 				HStack(alignment: .center, spacing: ViewTraits.Selected.spacing) {
