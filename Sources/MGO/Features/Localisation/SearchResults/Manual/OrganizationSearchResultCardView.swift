@@ -54,6 +54,7 @@ struct OrganizationSearchResultCardView: View {
 		}
 		enum Box {
 			static let inset: CGFloat = 0.5
+			static let opacity: Double = 0.50
 		}
 		enum Selected {
 			static let spacing: CGFloat = 4.0
@@ -118,7 +119,7 @@ struct OrganizationSearchResultCardView: View {
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.when(state == .notParticipating || state == .selected, transform: { view in
-			view.background(theme.backgroundSecondary.opacity(0.50))
+			view.background(theme.backgroundSecondary.opacity(ViewTraits.Box.opacity))
 		})
 		.when(state != .notParticipating && state != .selected, transform: { view in
 			view
@@ -199,6 +200,26 @@ struct OrganizationSearchResultCardView: View {
 				postalCode: "1234AB"
 			),
 			state: .notParticipating
+		)
+		OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
+				id: "1",
+				name: "Tandartsenpraktijk Willem II Roermond B.V.",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .automatic(isSelected: true)
+		)
+		OrganizationSearchResultCardView(
+			model: OrganizationSearchResult(
+				id: "1",
+				name: "Tandartsenpraktijk Willem II Roermond B.V.",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .automatic(isSelected: false)
 		)
 	}
 	.padding(16)

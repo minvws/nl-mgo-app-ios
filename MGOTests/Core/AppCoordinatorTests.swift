@@ -161,7 +161,20 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_loginWithDigiD_shouldShowDashboard() {
+	func test_coordinatorHandle_loginWithDigiD_shouldShowDashboard_whenAutomaticLocalizationEnabled() {
+		
+		// Given
+		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
+		
+		// When
+		sut.handle(Coordination.Action.loggedInWithDigiD)
+		
+		// Then
+		expect(self.sut.showChildCoordinator) == true
+		expect(self.sut.path.isEmpty) == true
+	}
+	
+	func test_coordinatorHandle_loginWithDigiD_shouldAutomaticLocalization_whenAutomaticLocalizationEnabled() {
 		
 		// Given
 		
@@ -169,7 +182,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.loggedInWithDigiD)
 		
 		// Then
-		expect(self.sut.showChildCoordinator) == true
+		expect(self.sut.showChildCoordinator) == false
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.automaticLocalization])
 	}
 	
 	func test_coordinatorHandle_codeValidated_shouldShowRemoteAuthentication() {
@@ -478,5 +492,9 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
+	}
+	
+	func test_x() {
+		
 	}
 }

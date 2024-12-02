@@ -91,6 +91,9 @@ enum AppCoordination {
 		// Remote Authentication
 		case login
 		
+		// Automatic Localization
+		case automaticLocalization
+		
 		// Dashboard
 		case dashboard
 	}
@@ -271,14 +274,18 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Remote Authentication
 				
 			case Coordination.Action.loggedInWithDigiD.identifier:
-				
+#warning("Re-enable userHasRemoteAuthentication")
 //				Current.secureUserSettings.userHasRemoteAuthentication = true
 			
-//				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
-//					logDebug("Show Automatic Localization")
-//				} else {
+				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+					path.append(AppCoordination.State.automaticLocalization)
+				} else {
 					showChildCoordinator = true
-//				}
+				}
+			
+			case Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
+				showChildCoordinator = true
+			
 			// General
 				
 			case Coordination.Action.closeSheet.identifier,
@@ -443,6 +450,25 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .login:
 				LoginView(viewModel: LoginViewModel(coordinator: self))
 				
+			// Automatic Localization
+			
+			case .automaticLocalization:
+				let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String
+				let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+				let client: LocalisationServiceClientProtocol? = LocalisationServiceClient(
+					serverUrl: Configuration().urlForLocalisation(),
+					username: username,
+					password: password
+				)
+				
+				AutomaticSearchResultsView(
+					viewModel: AutomaticSearchResultsViewModel(
+						coordinator: self,
+						localisationServiceClient: client,
+						preselectAllOrganizations: true
+					)
+				)
+			
 			// Dashboard
 				
 			case .dashboard:
