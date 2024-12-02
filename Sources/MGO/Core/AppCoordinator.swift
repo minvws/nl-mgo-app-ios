@@ -274,8 +274,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Remote Authentication
 				
 			case Coordination.Action.loggedInWithDigiD.identifier:
-#warning("Re-enable userHasRemoteAuthentication")
-//				Current.secureUserSettings.userHasRemoteAuthentication = true
+				Current.secureUserSettings.userHasRemoteAuthentication = true
 			
 				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
 					path.append(AppCoordination.State.automaticLocalization)

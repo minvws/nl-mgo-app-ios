@@ -172,6 +172,7 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.showChildCoordinator) == true
 		expect(self.sut.path.isEmpty) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
 	}
 	
 	func test_coordinatorHandle_loginWithDigiD_shouldAutomaticLocalization_whenAutomaticLocalizationEnabled() {
