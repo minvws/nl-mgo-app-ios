@@ -24,10 +24,10 @@ class AutomaticSearchResultsViewModel: ObservableObject {
 	@Published var state: OrganizationSearchResultViewState
 	
 	/// array to store the results
-	private var searchResultsList = [MgoOrganization]()
+	internal var searchResultsList = [MgoOrganization]()
 	
 	/// array of selected search results
-	private var selectedSearchResultsList = [MgoOrganization]()
+	internal var selectedSearchResultsList = [MgoOrganization]()
 	
 	/// array of not participating  search results
 	private var notParticipatingList = [MgoOrganization]()
@@ -116,6 +116,8 @@ class AutomaticSearchResultsViewModel: ObservableObject {
 				// We should however not select the organizations without any services, or already selected
 				selectedSearchResultsList = searchResultsList
 					.filter { ssrItem in notParticipatingList.filter { nplItem in nplItem.identifier == ssrItem.identifier }.isEmpty }
+				
+				selectedSearchResultsList = selectedSearchResultsList
 					.filter { ssrItem in Current.healthcareOrganizationStore.organizations.filter { choItem in choItem.identifier == ssrItem.identifier }.isEmpty }
 			}
 			
