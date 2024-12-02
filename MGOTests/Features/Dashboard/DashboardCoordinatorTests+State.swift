@@ -66,6 +66,21 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 
+	func test_coordinatorView_forAutomaticLocalization() throws {
+		
+		// Given
+		let state = DashboardCoordination.State.automaticLocalization
+		stub(condition: isPath("/localization/organization/search")) { _ in
+			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
+		}
+		
+		// When
+		let view = sut.viewState(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
 	func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
 		
 		// Given
