@@ -104,7 +104,7 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 				heading: "hc_documents.heading",
 				search: "hc_documents.search",
 				noSearchResults: "hc_documents.no_search_results",
-				detailsHeading: String.LocalizationValue(stringLiteral: "hc_documents.heading.details_heading")
+				detailsHeading: String.LocalizationValue(stringLiteral: "hc_documents.heading_detail")
 			)
 		)
 	}

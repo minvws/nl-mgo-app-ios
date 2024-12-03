@@ -663,6 +663,17 @@
         }
       }
     },
+    "common.to_overview" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naar overzicht"
+          }
+        }
+      }
+    },
     "common.try_again" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1418,6 +1429,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zorgaanbieders aan het zoeken..."
+          }
+        }
+      }
+    },
+    "organization_search.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welke wil je toevoegen aan de app? Je kunt dit later altijd veranderen."
           }
         }
       }

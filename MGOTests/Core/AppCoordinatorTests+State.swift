@@ -38,7 +38,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content, precision: 0.90) // Lower precision due to random position of spinner
 	}
-
+	
 	func test_coordinatorView_forRequiredUpdate() throws {
 		
 		// Given
@@ -193,6 +193,19 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		// Given
 		let state = AppCoordination.State.dashboard
+		
+		// When
+		let view = sut.view(for: state)
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
+	func test_coordinatorView_forAutomaticLocalization() throws {
+		
+		// Given
+		let state = AppCoordination.State.automaticLocalization
 		
 		// When
 		let view = sut.view(for: state)

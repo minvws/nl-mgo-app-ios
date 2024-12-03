@@ -10,13 +10,13 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 
-final class OrganizationSearchResultViewTests: XCTestCase {
+final class OrganizationManualSearchResultViewTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: OrganizationSearchResultsViewModel!
-	private var sut: OrganizationSearchResultsView!
+	private var viewModel: OrganizationManualSearchResultsViewModel!
+	private var sut: OrganizationManualSearchResultsView!
 
 	override func setUpWithError() throws {
 		
@@ -33,13 +33,13 @@ final class OrganizationSearchResultViewTests: XCTestCase {
 	
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
-		viewModel = OrganizationSearchResultsViewModel(
+		viewModel = OrganizationManualSearchResultsViewModel(
 			coordinator: coordinatorSpy,
 			city: city,
 			name: name,
 			localisationServiceClient: localisationServiceClientSpy
 		)
-		sut = OrganizationSearchResultsView(viewModel: self.viewModel)
+		sut = OrganizationManualSearchResultsView(viewModel: self.viewModel)
 	}
 
 	func test_loading() {

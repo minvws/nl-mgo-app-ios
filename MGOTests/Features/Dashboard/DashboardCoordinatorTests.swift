@@ -30,6 +30,19 @@ final class DashboardCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet() {
 
 		// Given
+		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
+		
+		// When
+		sut.handle(Coordination.Action.addHealthcareOrganization)
+
+		// Then
+		expect(self.sut.rootStateForSheet) == DashboardCoordination.State.automaticLocalization
+	}
+	
+	func test_coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet_featureFlagOff() {
+
+		// Given
+		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		
 		// When
 		sut.handle(Coordination.Action.addHealthcareOrganization)

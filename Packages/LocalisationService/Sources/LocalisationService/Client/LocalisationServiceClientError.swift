@@ -10,4 +10,5 @@ import Foundation
 /// Errors for the Localisation Service Client
 public enum LocalisationServiceClientError: Error {
 	case noServer
+	case noOrganizations
 }

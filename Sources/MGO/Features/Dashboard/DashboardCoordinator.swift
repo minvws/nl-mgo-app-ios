@@ -71,6 +71,7 @@ enum DashboardCoordination {
 		
 		// Search & Store Healthcare Organization flow
 		case addHealthcareOrganization
+		case automaticLocalization
 		case healthcareOrganizationSearchResults(city: String, name: String)
 		case listHealthcareOrganizations
 		
@@ -118,6 +119,12 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			}
 		}
 	}
+	
+	private let localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(
+		serverUrl: Configuration().urlForLocalisation(),
+		username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+		password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+	)
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
@@ -174,7 +181,11 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				// Healthcare Organization Search Flow
 				
 			case Coordination.Action.addHealthcareOrganization.identifier:
-				rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
+				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+					rootStateForSheet = DashboardCoordination.State.automaticLocalization
+				} else {
+					rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
+				}
 				return true
 				
 			case Coordination.Action.showHealthcareOrganizationSearchResults.identifier:
@@ -295,20 +306,27 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case .addHealthcareOrganization:
 				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
 				
-			case let .healthcareOrganizationSearchResults(city, name):
-				let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String
-				let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-				let client: LocalisationServiceClientProtocol? = LocalisationServiceClient(
-					serverUrl: Configuration().urlForLocalisation(),
-					username: username,
-					password: password
+			case .automaticLocalization:
+				
+				AutomaticSearchResultsView(
+					viewModel: AutomaticSearchResultsViewModel(
+						coordinator: self,
+						localisationServiceClient: self.localisationServiceClient,
+						preselectAllOrganizations: false
+					)
 				)
-				OrganizationSearchResultsView(viewModel: OrganizationSearchResultsViewModel(
-					coordinator: self,
-					city: city,
-					name: name,
-					localisationServiceClient: client)
-				).isPresentedAsSheet(true)
+				.isPresentedAsSheet(true)
+				
+			case let .healthcareOrganizationSearchResults(city, name):
+				OrganizationManualSearchResultsView(
+					viewModel: OrganizationManualSearchResultsViewModel(
+						coordinator: self,
+						city: city,
+						name: name,
+						localisationServiceClient: self.localisationServiceClient
+					)
+				)
+				.isPresentedAsSheet(true)
 				
 			case .listHealthcareOrganizations:
 				OrganizationListView(viewModel: OrganizationListViewModel(coordinator: self)).isPresentedAsSheet(true)

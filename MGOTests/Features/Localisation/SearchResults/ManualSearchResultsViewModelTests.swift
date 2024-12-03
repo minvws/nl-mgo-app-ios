@@ -9,12 +9,12 @@ import MGOTest
 import MGOFoundation
 @testable import MGO
 
-final class OrganizationSearchResultsViewModelTests: XCTestCase {
+final class ManualSearchResultsViewModelTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: OrganizationSearchResultsViewModel!
+	private var sut: OrganizationManualSearchResultsViewModel!
 
 	override func setUpWithError() throws {
 		
@@ -27,7 +27,7 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 	
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
-		sut = OrganizationSearchResultsViewModel(
+		sut = OrganizationManualSearchResultsViewModel(
 			coordinator: coordinatorSpy,
 			city: city,
 			name: name,
@@ -50,7 +50,7 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 	func test_noLocalisationServiceClient() {
 		
 		// Given
-		sut = OrganizationSearchResultsViewModel(
+		sut = OrganizationManualSearchResultsViewModel(
 			coordinator: self.coordinatorSpy,
 			city: "Roermond",
 			name: "Tandarts Tandje Erbij",
@@ -219,5 +219,18 @@ final class OrganizationSearchResultsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.finishedSearchingHealthcareOrganizations
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedStore) == true
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedStoreParameters?.organization) == organization
+	}
+	
+	func test_closeSheet_shouldCallCoordinator() {
+		
+		// Given
+		createSut()
+		
+		// When
+		sut.reduce(.closeSheet)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
 	}
 }
