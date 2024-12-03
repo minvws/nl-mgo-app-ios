@@ -220,4 +220,17 @@ final class ManualSearchResultsViewModelTests: XCTestCase {
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedStore) == true
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedStoreParameters?.organization) == organization
 	}
+	
+	func test_closeSheet_shouldCallCoordinator() {
+		
+		// Given
+		createSut()
+		
+		// When
+		sut.reduce(.closeSheet)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
+	}
 }

@@ -187,6 +187,18 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.automaticLocalization])
 	}
 	
+	func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_shouldShowDashboard() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
+		
+		// Then
+		expect(self.sut.showChildCoordinator) == true
+		expect(self.sut.path.isEmpty) == true
+	}
+	
 	func test_coordinatorHandle_codeValidated_shouldShowRemoteAuthentication() {
 		
 		// Given

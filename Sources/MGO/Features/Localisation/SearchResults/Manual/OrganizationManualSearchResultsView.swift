@@ -121,6 +121,8 @@ class OrganizationManualSearchResultsViewModel: ObservableObject {
 				}
 			
 			case .store(let organization):
+				guard cardState(for: organization) == .regular else { return }
+			
 				try? Current.healthcareOrganizationStore.store(organization)
 				applyListState()
 				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
@@ -299,9 +301,7 @@ struct OrganizationManualSearchResultsView: View {
 								model: OrganizationSearchResultDecorator.create(element.organization),
 								state: element.cardState,
 								perform: {
-									if element.cardState == .regular {
-										viewModel.reduce(.store(element.organization))
-									}
+									viewModel.reduce(.store(element.organization))
 								}
 							)
 						}
