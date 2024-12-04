@@ -105,7 +105,7 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 		}
 		
 		do {
-			searchResultsList = try await localisationServiceClient.searchHealthcareOrganizations(city: "test", name: "test")
+			searchResultsList = try await localisationServiceClient.searchDemoOrganizations()
 			logDebug("We found \(searchResultsList.count) organizations.")
 			
 			selectNotParticipatingOrganizations()

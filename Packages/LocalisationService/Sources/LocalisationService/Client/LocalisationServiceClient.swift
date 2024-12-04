@@ -23,6 +23,11 @@ public protocol LocalisationServiceClientProtocol {
 	///   - name: the name to search with
 	/// - Returns: An (empty) array of Healthcare Organizations
 	func searchHealthcareOrganizations(city: String, name: String) async throws -> [MgoOrganization]
+	
+	/// Search for all the healthcare organizations for the demo
+	/// - Parameters:
+	/// - Returns: An (empty) array of Healthcare Organizations
+	func searchDemoOrganizations() async throws -> [MgoOrganization]
 }
 
 public class LocalisationServiceClient: LocalisationServiceClientProtocol {
@@ -67,4 +72,15 @@ public class LocalisationServiceClient: LocalisationServiceClientProtocol {
 		let organizations = try response.ok.body.json.organizations
 		return organizations
 	}
+	
+	/// Search for all the healthcare organizations for the demo
+	/// - Parameters:
+	/// - Returns: An (empty) array of Healthcare Organizations
+	public func searchDemoOrganizations() async throws -> [MgoOrganization] {
+		
+		let response = try await client.demo_healthcare_providers_localization_organization_search_demo_post()
+		let organizations = try response.ok.body.json.organizations
+		return organizations
+	}
+	
 }

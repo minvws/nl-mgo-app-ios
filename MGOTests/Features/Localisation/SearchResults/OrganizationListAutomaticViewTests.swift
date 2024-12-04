@@ -78,7 +78,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		
 		// Then
 		viewModel.state = .failure(error)
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue(), timeout: .seconds(5))
+		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue(), timeout: .seconds(5))
 	}
 	
 	func test_list_lightPortrait() {

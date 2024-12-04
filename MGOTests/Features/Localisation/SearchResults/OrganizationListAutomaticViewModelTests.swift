@@ -43,7 +43,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .loading
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beFalse())
+		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beFalse())
 	}
 	
 	func test_noLocalisationServiceClient() {
@@ -66,14 +66,14 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		
 		// Given
 		createSut()
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = []
+		localisationServiceClientSpy.stubbedSearchDemoOrganizations = []
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(.failure(LocalisationServiceClientError.noOrganizations)))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 
 	func test_failure() {
@@ -81,28 +81,28 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		// Given
 		createSut()
 		let error = NSError(domain: "AutomaticSearchResultsViewModelTests", code: 404)
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizationError = error
+		localisationServiceClientSpy.stubbedSearchDemoOrganizationError = error
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(.failure(error)))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
 	func test_retry() {
 		
 		// Given
 		createSut()
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = []
+		localisationServiceClientSpy.stubbedSearchDemoOrganizations = []
 		
 		// When
 		sut.reduce(.retry)
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(.failure(LocalisationServiceClientError.noOrganizations)))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
 	func test_list() {
@@ -111,7 +111,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		createSut()
 		let organization = Generator.healthcareOrganization("value")
 		let list: [MgoOrganization] = [organization]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
 		let state = OrganizationListViewState.success([OrganizationListSet(organization, .automatic(isSelected: true))])
 		
 		// When
@@ -119,7 +119,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(state))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
 	func test_list_notPreselected() {
@@ -128,7 +128,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		createSut(preselectAllOrganizations: false)
 		let organization = Generator.healthcareOrganization("value")
 		let list: [MgoOrganization] = [organization]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
 		let state = OrganizationListViewState.success([OrganizationListSet(organization, .automatic(isSelected: false))])
 		
 		// When
@@ -136,7 +136,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(state))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
 	func test_list_noDataServices() {
@@ -145,7 +145,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		createSut()
 		let organization = Generator.healthcareOrganization("value", useDataService: false)
 		let list: [MgoOrganization] = [organization]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
 		let state = OrganizationListViewState.success([OrganizationListSet(organization, .notParticipating)])
 		
 		// When
@@ -153,7 +153,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(state))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
 	func test_list_unsupportedDataServices() {
@@ -162,7 +162,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		createSut()
 		let organization = Generator.healthcareOrganization("value", useDataService: true, serviceId: "999")
 		let list: [MgoOrganization] = [organization]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
 		let state = OrganizationListViewState.success([OrganizationListSet(organization, .notParticipating)])
 		
 		// When
@@ -170,7 +170,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(state))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
 	func test_list_selected() {
@@ -179,7 +179,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		createSut()
 		let organization = Generator.healthcareOrganization("value", useDataService: true)
 		let list: [MgoOrganization] = [organization]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
 		let state = OrganizationListViewState.success([OrganizationListSet(organization, .selected)])
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = list
 		
@@ -188,7 +188,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(state))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
 	func test_closeSheet_shouldCallCoordinator() {
@@ -210,7 +210,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		createSut(preselectAllOrganizations: false)
 		let organization = Generator.healthcareOrganization("value", useDataService: true)
 		let list: [MgoOrganization] = [organization]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
 		sut.reduce(.onAppear)
 		
 		// When
@@ -227,7 +227,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		createSut()
 		let organization = Generator.healthcareOrganization("value", useDataService: true)
 		let list: [MgoOrganization] = [organization]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
 		sut.searchResultsList = list
 		sut.selectedSearchResultsList = list
 		
@@ -245,7 +245,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		createSut()
 		let organization = Generator.healthcareOrganization("value", useDataService: true)
 		let list: [MgoOrganization] = [organization]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
 		sut.searchResultsList = list
 		sut.selectedSearchResultsList = list
 		
