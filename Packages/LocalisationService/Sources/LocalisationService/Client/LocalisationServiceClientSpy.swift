@@ -10,9 +10,9 @@ import OpenAPIURLSession
 import Foundation
 
 public class LocalisationServiceClientSpy: LocalisationServiceClientProtocol {
-
+	
 	public required init(serverUrl: Foundation.URL, username: String?, password: String?) { /* Public initializer needed for public access */ }
-
+	
 	public var invokedSearchHealthcareOrganizations = false
 	public var invokedSearchHealthcareOrganizationsCount = 0
 	public var invokedSearchHealthcareOrganizationsParameters: (city: String, name: String)?
@@ -21,7 +21,7 @@ public class LocalisationServiceClientSpy: LocalisationServiceClientProtocol {
 	public var stubbedSearchHealthcareOrganizationError: Error?
 	
 	private let queue = DispatchQueue(label: "com.LocalisationServiceClientSpy.serialqueue.\(UUID().uuidString)")
-
+	
 	public func searchHealthcareOrganizations(city: String, name: String) async throws -> [MgoOrganization] {
 		
 		queue.sync {
@@ -35,5 +35,24 @@ public class LocalisationServiceClientSpy: LocalisationServiceClientProtocol {
 			throw error
 		}
 		return stubbedSearchHealthcareOrganizations
+	}
+	
+	public var invokedSearchDemoOrganizations = false
+	public var invokedSearchDemoOrganizationsCount = 0
+	public var stubbedSearchDemoOrganizations = [MgoOrganization]()
+	public var stubbedSearchDemoOrganizationError: Error?
+	
+	public func searchDemoOrganizations() async throws -> [MgoOrganization] {
+		
+		queue.sync {
+			
+			invokedSearchDemoOrganizations = true
+			invokedSearchDemoOrganizationsCount += 1
+		}
+		if let error = stubbedSearchDemoOrganizationError {
+			throw error
+		}
+		
+		return stubbedSearchDemoOrganizations
 	}
 }

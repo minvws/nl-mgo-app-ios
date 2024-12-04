@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: FastAPI
-  version: 0.5.0
+  version: 0.6.0
 servers:
   - url: https://lo-ad.test.mgo.irealisatie.nl
     description: MGO TEST localisation
@@ -34,6 +34,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
+  "localization/organization/search-demo":
+    post:
+      tags:
+      - localization
+      summary: Demo Healthcare Providers
+      operationId: demo_healthcare_providers_localization_organization_search_demo_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
 components:
   schemas:
     Address:
