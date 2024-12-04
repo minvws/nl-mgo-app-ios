@@ -10,7 +10,7 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 
-final class OrganizationManualSearchResultViewTests: XCTestCase {
+final class OrganizationListManualViewTests: XCTestCase {
 
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!

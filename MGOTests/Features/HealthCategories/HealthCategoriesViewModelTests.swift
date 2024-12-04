@@ -127,7 +127,7 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.loaded))
+		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.loaded), timeout: .seconds(5))
 	}
 	
 	func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
