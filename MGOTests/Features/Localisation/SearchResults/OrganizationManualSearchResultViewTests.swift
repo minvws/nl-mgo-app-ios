@@ -15,8 +15,8 @@ final class OrganizationManualSearchResultViewTests: XCTestCase {
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: OrganizationManualSearchResultsViewModel!
-	private var sut: OrganizationManualSearchResultsView!
+	private var viewModel: OrganizationListManualViewModel!
+	private var sut: OrganizationListManualView!
 
 	override func setUpWithError() throws {
 		
@@ -33,13 +33,13 @@ final class OrganizationManualSearchResultViewTests: XCTestCase {
 	
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
-		viewModel = OrganizationManualSearchResultsViewModel(
+		viewModel = OrganizationListManualViewModel(
 			coordinator: coordinatorSpy,
 			city: city,
 			name: name,
 			localisationServiceClient: localisationServiceClientSpy
 		)
-		sut = OrganizationManualSearchResultsView(viewModel: self.viewModel)
+		sut = OrganizationListManualView(viewModel: self.viewModel)
 	}
 
 	func test_loading() {
@@ -134,7 +134,7 @@ final class OrganizationManualSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [OrganizationSearchResultSet] = [
+		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),
@@ -156,7 +156,7 @@ final class OrganizationManualSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [OrganizationSearchResultSet] = [
+		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),
@@ -178,7 +178,7 @@ final class OrganizationManualSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [OrganizationSearchResultSet] = [
+		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),
@@ -200,7 +200,7 @@ final class OrganizationManualSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [OrganizationSearchResultSet] = [
+		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.selected)),

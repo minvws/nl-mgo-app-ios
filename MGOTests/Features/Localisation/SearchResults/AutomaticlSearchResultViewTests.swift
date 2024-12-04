@@ -15,8 +15,8 @@ final class AutomaticSearchResultViewTests: XCTestCase {
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: AutomaticSearchResultsViewModel!
-	private var sut: AutomaticSearchResultsView!
+	private var viewModel: OrganizationListAutomaticViewModel!
+	private var sut: OrganizationListAutomaticView!
 
 	override func setUpWithError() throws {
 		
@@ -29,13 +29,13 @@ final class AutomaticSearchResultViewTests: XCTestCase {
 	
 	private func createSut(preselectAllOrganizations: Bool = true) {
 		
-		viewModel = AutomaticSearchResultsViewModel(
+		viewModel = OrganizationListAutomaticViewModel(
 			coordinator: coordinatorSpy,
 			localisationServiceClient: localisationServiceClientSpy,
 			preselectAllOrganizations: preselectAllOrganizations
 		)
 		
-		sut = AutomaticSearchResultsView(viewModel: self.viewModel)
+		sut = OrganizationListAutomaticView(viewModel: self.viewModel)
 	}
 	
 	func test_loading() {
@@ -85,7 +85,7 @@ final class AutomaticSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [OrganizationSearchResultSet] = [
+		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),
@@ -107,7 +107,7 @@ final class AutomaticSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [OrganizationSearchResultSet] = [
+		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),
@@ -129,7 +129,7 @@ final class AutomaticSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-	let list: [OrganizationSearchResultSet] = [
+	let list: [OrganizationListSet] = [
 		((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
 		((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 		((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),
@@ -151,7 +151,7 @@ final class AutomaticSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [OrganizationSearchResultSet] = [
+		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
 			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
 			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),

@@ -8,19 +8,19 @@
 import MGOFoundation
 import MGOUI
 
-typealias OrganizationSearchResultSet = (
+typealias OrganizationListSet = (
 	organization: MgoOrganization,
 	cardState: OrganizationSearchResultCardState
 )
 
-enum OrganizationSearchResultViewState: Equatable {
+enum OrganizationListViewState: Equatable {
 	
 	case loading
 	case failure(Error)
-	case success([OrganizationSearchResultSet])
+	case success([OrganizationListSet])
 	case empty(city: String, name: String)
 
-	static func == (lhs: OrganizationSearchResultViewState, rhs: OrganizationSearchResultViewState) -> Bool {
+	static func == (lhs: OrganizationListViewState, rhs: OrganizationListViewState) -> Bool {
 		switch (lhs, rhs) {
 			
 			case (.loading, .loading):
@@ -47,7 +47,7 @@ enum OrganizationSearchResultViewState: Equatable {
 	}
 }
 
-class OrganizationManualSearchResultsViewModel: ObservableObject {
+class OrganizationListManualViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -60,7 +60,7 @@ class OrganizationManualSearchResultsViewModel: ObservableObject {
 	}
 	
 	/// The state of the view
-	@Published var state: OrganizationSearchResultViewState
+	@Published var state: OrganizationListViewState
 	
 	/// Search parameter name
 	private var name: String
@@ -89,7 +89,7 @@ class OrganizationManualSearchResultsViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: OrganizationManualSearchResultsViewModel.Action) {
+	func reduce(_ action: OrganizationListManualViewModel.Action) {
 		
 		switch action {
 			
@@ -104,7 +104,7 @@ class OrganizationManualSearchResultsViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.closeSheet)
 			
 			case .onAppear:
-				if case OrganizationSearchResultViewState.success = state {
+				if case OrganizationListViewState.success = state {
 					applyListState()
 				}
 			
@@ -154,7 +154,7 @@ class OrganizationManualSearchResultsViewModel: ObservableObject {
 	/// Apply the state for each of the health organizations
 	func applyListState() {
 		
-		var list = [OrganizationSearchResultSet]()
+		var list = [OrganizationListSet]()
 		searchResultsList.forEach {organization in
 			let cardState = cardState(for: organization)
 			
@@ -197,10 +197,10 @@ class OrganizationManualSearchResultsViewModel: ObservableObject {
 	}
 }
 
-struct OrganizationManualSearchResultsView: View {
+struct OrganizationListManualView: View {
 	
 	/// The view model
-	@StateObject var viewModel: OrganizationManualSearchResultsViewModel
+	@StateObject var viewModel: OrganizationListManualViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -230,7 +230,7 @@ struct OrganizationManualSearchResultsView: View {
 			
 			switch viewModel.state {
 				case .loading:
-					OrganizationLoadingSearchResultsView()
+					OrganizationListManualLoadingView()
 			
 				case .failure:
 					ErrorView(viewModel: ErrorViewModel {
@@ -266,7 +266,7 @@ struct OrganizationManualSearchResultsView: View {
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 	
-	@ViewBuilder func listSearchResults(_ list: [OrganizationSearchResultSet]) -> some View {
+	@ViewBuilder func listSearchResults(_ list: [OrganizationListSet]) -> some View {
 		
 		ScrollView {
 			
@@ -337,8 +337,8 @@ struct OrganizationManualSearchResultsView: View {
 	]
 	
 	return NavigationView {
-		OrganizationManualSearchResultsView(
-			viewModel: OrganizationManualSearchResultsViewModel(
+		OrganizationListManualView(
+			viewModel: OrganizationListManualViewModel(
 				coordinator: nil,
 				city: "Roermond",
 				name: "Tandarts Tandje Erbij",

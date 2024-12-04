@@ -14,7 +14,7 @@ final class AutomaticSearchResultsViewModelTests: XCTestCase {
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: AutomaticSearchResultsViewModel!
+	private var sut: OrganizationListAutomaticViewModel!
 
 	override func setUpWithError() throws {
 		
@@ -27,7 +27,7 @@ final class AutomaticSearchResultsViewModelTests: XCTestCase {
 	
 	private func createSut(preselectAllOrganizations: Bool = true) {
 		
-		sut = AutomaticSearchResultsViewModel(
+		sut = OrganizationListAutomaticViewModel(
 			coordinator: coordinatorSpy,
 			localisationServiceClient: localisationServiceClientSpy,
 			preselectAllOrganizations: preselectAllOrganizations
@@ -49,7 +49,7 @@ final class AutomaticSearchResultsViewModelTests: XCTestCase {
 	func test_noLocalisationServiceClient() {
 		
 		// Given
-		sut = AutomaticSearchResultsViewModel(
+		sut = OrganizationListAutomaticViewModel(
 			coordinator: self.coordinatorSpy,
 			localisationServiceClient: nil,
 			preselectAllOrganizations: true
@@ -112,7 +112,7 @@ final class AutomaticSearchResultsViewModelTests: XCTestCase {
 		let organization = Generator.healthcareOrganization("value")
 		let list: [MgoOrganization] = [organization]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organization, .automatic(isSelected: true))])
+		let state = OrganizationListViewState.success([OrganizationSearchResultSet(organization, .automatic(isSelected: true))])
 		
 		// When
 		sut.reduce(.onAppear)
@@ -129,7 +129,7 @@ final class AutomaticSearchResultsViewModelTests: XCTestCase {
 		let organization = Generator.healthcareOrganization("value")
 		let list: [MgoOrganization] = [organization]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organization, .automatic(isSelected: false))])
+		let state = OrganizationListViewState.success([OrganizationSearchResultSet(organization, .automatic(isSelected: false))])
 		
 		// When
 		sut.reduce(.onAppear)
@@ -146,7 +146,7 @@ final class AutomaticSearchResultsViewModelTests: XCTestCase {
 		let organization = Generator.healthcareOrganization("value", useDataService: false)
 		let list: [MgoOrganization] = [organization]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organization, .notParticipating)])
+		let state = OrganizationListViewState.success([OrganizationSearchResultSet(organization, .notParticipating)])
 		
 		// When
 		sut.reduce(.onAppear)
@@ -163,7 +163,7 @@ final class AutomaticSearchResultsViewModelTests: XCTestCase {
 		let organization = Generator.healthcareOrganization("value", useDataService: true, serviceId: "999")
 		let list: [MgoOrganization] = [organization]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organization, .notParticipating)])
+		let state = OrganizationListViewState.success([OrganizationSearchResultSet(organization, .notParticipating)])
 		
 		// When
 		sut.reduce(.onAppear)
@@ -180,7 +180,7 @@ final class AutomaticSearchResultsViewModelTests: XCTestCase {
 		let organization = Generator.healthcareOrganization("value", useDataService: true)
 		let list: [MgoOrganization] = [organization]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organization, .selected)])
+		let state = OrganizationListViewState.success([OrganizationSearchResultSet(organization, .selected)])
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = list
 		
 		// When
@@ -217,7 +217,7 @@ final class AutomaticSearchResultsViewModelTests: XCTestCase {
 		sut.reduce(.select(organization))
 		
 		// Then
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organization, .automatic(isSelected: true))])
+		let state = OrganizationListViewState.success([OrganizationSearchResultSet(organization, .automatic(isSelected: true))])
 		expect(self.sut.state).toEventually(equal(state))
 	}
 	
@@ -235,7 +235,7 @@ final class AutomaticSearchResultsViewModelTests: XCTestCase {
 		sut.reduce(.unselect(organization))
 		
 		// Then
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organization, .automatic(isSelected: false))])
+		let state = OrganizationListViewState.success([OrganizationSearchResultSet(organization, .automatic(isSelected: false))])
 		expect(self.sut.state).toEventually(equal(state))
 	}
 	

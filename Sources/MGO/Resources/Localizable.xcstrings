@@ -49,6 +49,7 @@
       }
     },
     "add_organization_list.heading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "nl" : {
           "stringUnit" : {

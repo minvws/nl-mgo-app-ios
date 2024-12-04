@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class AutomaticSearchResultsViewModel: ObservableObject {
+class OrganizationListAutomaticViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -21,7 +21,7 @@ class AutomaticSearchResultsViewModel: ObservableObject {
 	}
 	
 	/// The state of the view
-	@Published var state: OrganizationSearchResultViewState
+	@Published var state: OrganizationListViewState
 	
 	/// array to store the results
 	internal var searchResultsList = [MgoOrganization]()
@@ -56,7 +56,7 @@ class AutomaticSearchResultsViewModel: ObservableObject {
 
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AutomaticSearchResultsViewModel.Action) {
+	func reduce(_ action: OrganizationListAutomaticViewModel.Action) {
 		
 		switch action {
 			
@@ -132,7 +132,7 @@ class AutomaticSearchResultsViewModel: ObservableObject {
 	/// Apply the state for each of the health organizations
 	func applyListState() {
 		
-		var list = [OrganizationSearchResultSet]()
+		var list = [OrganizationListSet]()
 		searchResultsList.forEach {organization in
 			let cardState = cardState(for: organization)
 			
@@ -191,10 +191,10 @@ class AutomaticSearchResultsViewModel: ObservableObject {
 	}
 }
 
-struct AutomaticSearchResultsView: View {
+struct OrganizationListAutomaticView: View {
 	
 	/// The view model
-	@StateObject var viewModel: AutomaticSearchResultsViewModel
+	@StateObject var viewModel: OrganizationListAutomaticViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -227,7 +227,7 @@ struct AutomaticSearchResultsView: View {
 			
 			switch viewModel.state {
 				case .loading:
-					AutomaticLoadingSearchResultsView()
+					OrganizationListAutomaticLoadingView()
 				
 				case .failure:
 					ErrorView(viewModel: ErrorViewModel {
@@ -259,7 +259,7 @@ struct AutomaticSearchResultsView: View {
 	/// Create a list of organizations
 	/// - Parameter list: the list of search results
 	/// - Returns: the list view
-	@ViewBuilder private func listSearchResults(_ list: [OrganizationSearchResultSet]) -> some View {
+	@ViewBuilder private func listSearchResults(_ list: [OrganizationListSet]) -> some View {
 		
 		ScrollViewWithFixedBottom {
 			
@@ -304,7 +304,7 @@ struct AutomaticSearchResultsView: View {
 	/// Build the view for an organization
 	/// - Parameter element: a result set
 	/// - Returns: the card for the organization
-	@ViewBuilder private func cardView(_ element: OrganizationSearchResultSet, index: Int) -> some View {
+	@ViewBuilder private func cardView(_ element: OrganizationListSet, index: Int) -> some View {
 		
 		ZStack {
 			
@@ -360,8 +360,8 @@ struct AutomaticSearchResultsView: View {
 	]
 	
 	return NavigationView {
-		AutomaticSearchResultsView(
-			viewModel: AutomaticSearchResultsViewModel(
+		OrganizationListAutomaticView(
+			viewModel: OrganizationListAutomaticViewModel(
 				coordinator: nil,
 				localisationServiceClient: spy,
 				preselectAllOrganizations: true

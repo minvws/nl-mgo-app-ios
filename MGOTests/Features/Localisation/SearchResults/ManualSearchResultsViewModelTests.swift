@@ -14,7 +14,7 @@ final class ManualSearchResultsViewModelTests: XCTestCase {
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: OrganizationManualSearchResultsViewModel!
+	private var sut: OrganizationListManualViewModel!
 
 	override func setUpWithError() throws {
 		
@@ -27,7 +27,7 @@ final class ManualSearchResultsViewModelTests: XCTestCase {
 	
 	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
-		sut = OrganizationManualSearchResultsViewModel(
+		sut = OrganizationListManualViewModel(
 			coordinator: coordinatorSpy,
 			city: city,
 			name: name,
@@ -50,7 +50,7 @@ final class ManualSearchResultsViewModelTests: XCTestCase {
 	func test_noLocalisationServiceClient() {
 		
 		// Given
-		sut = OrganizationManualSearchResultsViewModel(
+		sut = OrganizationListManualViewModel(
 			coordinator: self.coordinatorSpy,
 			city: "Roermond",
 			name: "Tandarts Tandje Erbij",
@@ -114,7 +114,7 @@ final class ManualSearchResultsViewModelTests: XCTestCase {
 		let organisation = Generator.healthcareOrganization("value")
 		let list: [MgoOrganization] = [organisation]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organisation, .regular)])
+		let state = OrganizationListViewState.success([OrganizationSearchResultSet(organisation, .regular)])
 		
 		// When
 		sut.reduce(.onAppear)
@@ -131,7 +131,7 @@ final class ManualSearchResultsViewModelTests: XCTestCase {
 		let organisation = Generator.healthcareOrganization("value", useDataService: false)
 		let list: [MgoOrganization] = [organisation]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organisation, .notParticipating)])
+		let state = OrganizationListViewState.success([OrganizationSearchResultSet(organisation, .notParticipating)])
 		
 		// When
 		sut.reduce(.onAppear)
@@ -148,7 +148,7 @@ final class ManualSearchResultsViewModelTests: XCTestCase {
 		let organisation = Generator.healthcareOrganization("value", useDataService: true, serviceId: "999")
 		let list: [MgoOrganization] = [organisation]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organisation, .notParticipating)])
+		let state = OrganizationListViewState.success([OrganizationSearchResultSet(organisation, .notParticipating)])
 		
 		// When
 		sut.reduce(.onAppear)
@@ -165,7 +165,7 @@ final class ManualSearchResultsViewModelTests: XCTestCase {
 		let organisation = Generator.healthcareOrganization("value", useDataService: true)
 		let list: [MgoOrganization] = [organisation]
 		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationSearchResultViewState.success([OrganizationSearchResultSet(organisation, .selected)])
+		let state = OrganizationListViewState.success([OrganizationSearchResultSet(organisation, .selected)])
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = list
 		
 		// When
