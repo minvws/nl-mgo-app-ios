@@ -175,7 +175,7 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 	/// Get the state for a card
 	/// - Parameter organization: the healthcare organization
 	/// - Returns: card state
-	private func cardState(for organization: MgoOrganization) -> OrganizationSearchResultCardState {
+	private func cardState(for organization: MgoOrganization) -> OrganizationListCardState {
 		
 		guard !notParticipatingList.contains(organization) else { return .notParticipating }
 		
@@ -320,8 +320,8 @@ struct OrganizationListAutomaticView: View {
 				.accessibilityAddTraits(.isButton)
 				.accessibilityIdentifier("organization_search.result_\(index)")
 			
-			OrganizationSearchResultCardView(
-				model: OrganizationSearchResultDecorator.create(element.organization),
+			OrganizationListCardView(
+				model: OrganizationDisplayDecorator.create(element.organization),
 				state: element.cardState,
 				perform: {
 					if case let .automatic(isSelected) = element.cardState {

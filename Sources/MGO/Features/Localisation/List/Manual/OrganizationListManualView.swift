@@ -10,7 +10,7 @@ import MGOUI
 
 typealias OrganizationListSet = (
 	organization: MgoOrganization,
-	cardState: OrganizationSearchResultCardState
+	cardState: OrganizationListCardState
 )
 
 enum OrganizationListViewState: Equatable {
@@ -173,7 +173,7 @@ class OrganizationListManualViewModel: ObservableObject {
 	/// Get the state for a card
 	/// - Parameter organization: the healthcare organization
 	/// - Returns: card state
-	private func cardState(for organization: MgoOrganization) -> OrganizationSearchResultCardState {
+	private func cardState(for organization: MgoOrganization) -> OrganizationListCardState {
 		
 		guard let dts = organization.data_services, dts.isNotEmpty else {
 			return .notParticipating
@@ -238,7 +238,7 @@ struct OrganizationListManualView: View {
 					})
 				
 				case let .empty(city: city, name: name):
-					ErrorView(viewModel: OrganizationNoSearchResultsViewModel(city: city, name: name) {
+					ErrorView(viewModel: OrganizationListEmptyViewModel(city: city, name: name) {
 						viewModel.reduce(.backToSearch)
 					})
 					
@@ -297,8 +297,8 @@ struct OrganizationListManualView: View {
 								.accessibilityAddTraits(.isButton)
 								.accessibilityIdentifier("organization_search.result_\(index)")
 							
-							OrganizationSearchResultCardView(
-								model: OrganizationSearchResultDecorator.create(element.organization),
+							OrganizationListCardView(
+								model: OrganizationDisplayDecorator.create(element.organization),
 								state: element.cardState,
 								perform: {
 									viewModel.reduce(.store(element.organization))

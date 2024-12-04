@@ -86,10 +86,10 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		// Given
 		createSut()
 		let list: [OrganizationListSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
-			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
-			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),
-			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.selected))
+			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+			((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
 		]
 		viewModel.state = .success(list)
 		
@@ -108,10 +108,10 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		// Given
 		createSut()
 		let list: [OrganizationListSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
-			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
-			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),
-			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.selected))
+			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+			((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
 		]
 		viewModel.state = .success(list)
 		
@@ -130,10 +130,10 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		// Given
 		createSut()
 	let list: [OrganizationListSet] = [
-		((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
-		((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
-		((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),
-		((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.selected))
+		((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+		((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+		((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+		((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
 	]
 		viewModel.state = .success(list)
 		
@@ -152,10 +152,10 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		// Given
 		createSut()
 		let list: [OrganizationListSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
-			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
-			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),
-			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.selected))
+			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+			((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
 		]
 		viewModel.state = .success(list)
 		

@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-enum OrganizationSearchResultCardState: Equatable {
+enum OrganizationListCardState: Equatable {
 	case regular
 	case selected
 	case notParticipating
@@ -23,13 +23,13 @@ enum OrganizationSearchResultCardState: Equatable {
 	}
 }
 
-struct OrganizationSearchResultCardView: View {
+struct OrganizationListCardView: View {
 	
 	/// The search result to display
-	var model: OrganizationSearchResult
+	var model: OrganizationDisplayModel
 	
 	/// The state of the card
-	var state: OrganizationSearchResultCardState
+	var state: OrganizationListCardState
 	
 	/// has the user pressed (but no released) the button
 	@State private var onHover = false
@@ -136,7 +136,7 @@ struct OrganizationSearchResultCardView: View {
 	/// The view for the status of the organization
 	/// - Parameter state: state
 	/// - Returns: status view
-	@ViewBuilder func organizationStatusView(_ state: OrganizationSearchResultCardState) -> some View {
+	@ViewBuilder func organizationStatusView(_ state: OrganizationListCardState) -> some View {
 		switch state {
 			case .regular, .automatic: EmptyView()
 				
@@ -169,8 +169,8 @@ struct OrganizationSearchResultCardView: View {
 
 	VStack(spacing: 8) {
 		
-		OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -180,8 +180,8 @@ struct OrganizationSearchResultCardView: View {
 			state: .regular
 		)
 	
-		OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -191,8 +191,8 @@ struct OrganizationSearchResultCardView: View {
 			state: .selected
 		)
 		
-		OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandartsenpraktijk Willem II Roermond B.V.",
 				city: "Roermond",
@@ -201,8 +201,8 @@ struct OrganizationSearchResultCardView: View {
 			),
 			state: .notParticipating
 		)
-		OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandartsenpraktijk Willem II Roermond B.V.",
 				city: "Roermond",
@@ -211,8 +211,8 @@ struct OrganizationSearchResultCardView: View {
 			),
 			state: .automatic(isSelected: true)
 		)
-		OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandartsenpraktijk Willem II Roermond B.V.",
 				city: "Roermond",
