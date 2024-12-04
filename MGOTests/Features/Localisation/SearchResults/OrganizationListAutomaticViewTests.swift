@@ -10,13 +10,13 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 
-final class AutomaticSearchResultViewTests: XCTestCase {
+final class OrganizationListAutomaticViewTests: XCTestCase {
 	
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var localisationServiceClientSpy: LocalisationServiceClientSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: AutomaticSearchResultsViewModel!
-	private var sut: AutomaticSearchResultsView!
+	private var viewModel: OrganizationListAutomaticViewModel!
+	private var sut: OrganizationListAutomaticView!
 
 	override func setUpWithError() throws {
 		
@@ -29,13 +29,13 @@ final class AutomaticSearchResultViewTests: XCTestCase {
 	
 	private func createSut(preselectAllOrganizations: Bool = true) {
 		
-		viewModel = AutomaticSearchResultsViewModel(
+		viewModel = OrganizationListAutomaticViewModel(
 			coordinator: coordinatorSpy,
 			localisationServiceClient: localisationServiceClientSpy,
 			preselectAllOrganizations: preselectAllOrganizations
 		)
 		
-		sut = AutomaticSearchResultsView(viewModel: self.viewModel)
+		sut = OrganizationListAutomaticView(viewModel: self.viewModel)
 	}
 	
 	func test_loading() {
@@ -85,11 +85,11 @@ final class AutomaticSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [OrganizationSearchResultSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
-			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
-			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),
-			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.selected))
+		let list: [OrganizationListSet] = [
+			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+			((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
 		]
 		viewModel.state = .success(list)
 		
@@ -107,11 +107,11 @@ final class AutomaticSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [OrganizationSearchResultSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
-			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
-			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),
-			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.selected))
+		let list: [OrganizationListSet] = [
+			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+			((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
 		]
 		viewModel.state = .success(list)
 		
@@ -129,11 +129,11 @@ final class AutomaticSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-	let list: [OrganizationSearchResultSet] = [
-		((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
-		((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
-		((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),
-		((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.selected))
+	let list: [OrganizationListSet] = [
+		((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+		((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+		((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+		((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
 	]
 		viewModel.state = .success(list)
 		
@@ -151,11 +151,11 @@ final class AutomaticSearchResultViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let list: [OrganizationSearchResultSet] = [
-			((Generator.healthcareOrganization("1"), OrganizationSearchResultCardState.automatic(isSelected: true))),
-			((Generator.healthcareOrganization("2"), OrganizationSearchResultCardState.notParticipating)),
-			((Generator.healthcareOrganization("3"), OrganizationSearchResultCardState.automatic(isSelected: false))),
-			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationSearchResultCardState.selected))
+		let list: [OrganizationListSet] = [
+			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
+			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
+			((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
 		]
 		viewModel.state = .success(list)
 		

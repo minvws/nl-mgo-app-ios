@@ -460,8 +460,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 					password: password
 				)
 				
-				AutomaticSearchResultsView(
-					viewModel: AutomaticSearchResultsViewModel(
+				OrganizationListAutomaticView(
+					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
 						localisationServiceClient: client,
 						preselectAllOrganizations: true

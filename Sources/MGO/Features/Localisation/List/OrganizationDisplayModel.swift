@@ -7,7 +7,7 @@
 
 import MGOFoundation
 
-struct OrganizationSearchResult: Codable, Hashable, Equatable, Identifiable {
+struct OrganizationDisplayModel: Codable, Hashable, Equatable, Identifiable {
 	var id: String
 	var name: String
 	var city: String?
@@ -15,16 +15,16 @@ struct OrganizationSearchResult: Codable, Hashable, Equatable, Identifiable {
 	var postalCode: String?
 }
 
-class OrganizationSearchResultDecorator {
+class OrganizationDisplayDecorator {
 	
 	/// Create a SearchResult from a HealthcareOrganization
 	/// - Parameter from: HealthcareOrganization
 	/// - Returns: SearchResult
-	static func create(_ organisation: MgoOrganization) -> OrganizationSearchResult {
+	static func create(_ organisation: MgoOrganization) -> OrganizationDisplayModel {
 		
 		let identifier = organisation.identifier
 		let name = Sanitizer.strip(organisation.display_name) ?? ""
 		let (address, city, postalCode) = organisation.getAddress()
-		return OrganizationSearchResult(id: identifier, name: name, city: Sanitizer.strip(city), address: Sanitizer.strip(address), postalCode: Sanitizer.strip(postalCode))
+		return OrganizationDisplayModel(id: identifier, name: name, city: Sanitizer.strip(city), address: Sanitizer.strip(address), postalCode: Sanitizer.strip(postalCode))
 	}
 }

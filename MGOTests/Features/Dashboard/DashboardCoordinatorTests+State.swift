@@ -95,18 +95,6 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
-
-	func test_coordinatorView_forListHealthcareOrganizations() throws {
-		
-		// Given
-		let state = DashboardCoordination.State.listHealthcareOrganizations
-		
-		// When
-		let view = sut.viewState(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
 	
 	func test_coordinatorView_forShowHealthcareOrganization() throws {
 		

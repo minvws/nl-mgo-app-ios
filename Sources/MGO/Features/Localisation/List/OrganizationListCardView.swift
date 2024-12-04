@@ -8,10 +8,28 @@
 import MGOFoundation
 import MGOUI
 
+enum OrganizationListCardState: Equatable {
+	case regular
+	case selected
+	case notParticipating
+	case automatic(isSelected: Bool)
+	
+	var accessibilityLabel: String.LocalizationValue {
+		switch self {
+			case .regular, .automatic: return "add_organization.add_voiceover"
+			case .selected: return "add_organization.view_voiceover"
+			case .notParticipating: return "add_organization.view_voiceover"
+		}
+	}
+}
+
 struct OrganizationListCardView: View {
 	
 	/// The search result to display
-	var model: OrganizationListModel
+	var model: OrganizationDisplayModel
+	
+	/// The state of the card
+	var state: OrganizationListCardState
 	
 	/// has the user pressed (but no released) the button
 	@State private var onHover = false
@@ -22,89 +40,188 @@ struct OrganizationListCardView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum General {
-			static let padding: CGFloat = 12
-			static let cornerRadius: CGFloat = 8
-			static let textPadding: CGFloat = 4
+			static let padding: CGFloat = 16
+			static let cornerRadius: CGFloat = 10
+		}
+		enum Title {
+			static let padding: CGFloat = 4
 		}
 		enum Box {
 			static let inset: CGFloat = 0.5
+			static let opacity: Double = 0.50
 		}
-		enum Icon {
+		enum Selected {
+			static let spacing: CGFloat = 4.0
+			static let padding: CGFloat = 8.0
 			static let size: CGFloat = 24.0
 		}
 	}
 	
 	var body: some View {
 		
-		HStack(alignment: .top) {
+		HStack {
 			
 			VStack(alignment: .leading, spacing: 0) {
 				
-				Text(model.category)
+				Text(model.name)
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundStyle(theme.contentPrimary)
-					.padding(.bottom, ViewTraits.General.textPadding)
-				
-				Text(model.name)
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
 					.multilineTextAlignment(.leading)
-					.padding(.bottom, ViewTraits.General.textPadding)
+					.padding(.bottom, ViewTraits.Title.padding)
 				
-				Group {
-					Text(model.address ?? "")
-					
-					HStack {
-						
-						Text(model.postalCode ?? "" )
-						
-						Text(model.city ?? "")
-					}
+				if let address = model.address, address.isNotEmpty {
+					Text(address)
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.foregroundStyle(theme.contentSecondary)
 				}
-				.rijksoverheidStyle(font: .italic, style: .body)
-				.foregroundStyle(theme.contentTertiary)
+				
+				if model.postalCode != nil || model.city != nil {
+					HStack {
+						if let postalCode = model.postalCode, postalCode.isNotEmpty {
+							Text(postalCode)
+						}
+						if let city = model.city, city.isNotEmpty {
+							Text(city)
+						}
+					}
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentSecondary)
+				}
+				if state != .regular {
+					organizationStatusView(state)
+				}
 			}
 			
 			Spacer()
 			
-			Image(ImageResource.Localisation.delete)
-				.foregroundStyle(theme.iconsPrimary)
-				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size, alignment: .center)
-				.accessibilityHidden(true)
+			if state == .regular {
+				Image(ImageResource.Localisation.Icon.add)
+					.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
+					.font(Font.title2.bold())
+			}
+			if case let .automatic(isSelected) = state {
+				if isSelected {
+					Image(ImageResource.Localisation.Icon.checked)
+						.foregroundStyle(theme.actionPrimaryDefaultText)
+				} else {
+					Image(ImageResource.Localisation.Icon.circle)
+						.foregroundStyle(theme.iconsPrimary)
+				}
+			}
 		}
 		.accessibilityElement(children: .combine)
 		.padding(ViewTraits.General.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
-		.cornerRadius(ViewTraits.General.cornerRadius)
-		.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
-		.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
-		.overlay(
-			RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius)
-				.inset(by: ViewTraits.Box.inset)
-				.stroke(theme.strokesPrimary, lineWidth: 1)
-		)
+		.when(state == .notParticipating || state == .selected, transform: { view in
+			view.background(theme.backgroundSecondary.opacity(ViewTraits.Box.opacity))
+		})
+		.when(state != .notParticipating && state != .selected, transform: { view in
+			view
+				.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
+		})
+		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.General.cornerRadius))
 		._onButtonGesture { pressed in
 			self.onHover = pressed
 		} perform: {
 			perform?()
 		}
 	}
+	
+	/// The view for the status of the organization
+	/// - Parameter state: state
+	/// - Returns: status view
+	@ViewBuilder func organizationStatusView(_ state: OrganizationListCardState) -> some View {
+		switch state {
+			case .regular, .automatic: EmptyView()
+				
+			case .notParticipating, .selected:
+				HStack(alignment: .center, spacing: ViewTraits.Selected.spacing) {
+					if case .notParticipating = state {
+						
+						Image(ImageResource.Localisation.Icon.info)
+						Text("add_organization.not_implemented")
+							.foregroundStyle(theme.notificationInformation)
+					}
+					if case .selected
+						= state {
+						
+						Image(ImageResource.Localisation.Icon.checkCircle)
+						Text("add_organization.already_added")
+							.foregroundStyle(theme.notificationSuccess)
+					}
+				}
+				.rijksoverheidStyle(font: .bold, style: .body)
+				.multilineTextAlignment(.leading)
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.padding(.top, ViewTraits.Selected.padding)
+				.accessibilityElement(children: .combine)
+		}
+	}
 }
 
 #Preview {
-	
-	OrganizationListCardView(
-		model: OrganizationListModel(
-			category: "Tandarts",
-			id: "1",
-			name: "Tandarts Tandje Erbij",
-			city: "Roermond",
-			address: "Boorplatform 5",
-			postalCode: "1234AB"
+
+	VStack(spacing: 8) {
+		
+		OrganizationListCardView(
+			model: OrganizationDisplayModel(
+				id: "1",
+				name: "Tandarts Tandje Erbij",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .regular
 		)
-	)
-	.padding(.horizontal, 16)
+	
+		OrganizationListCardView(
+			model: OrganizationDisplayModel(
+				id: "1",
+				name: "Tandarts Tandje Erbij",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .selected
+		)
+		
+		OrganizationListCardView(
+			model: OrganizationDisplayModel(
+				id: "1",
+				name: "Tandartsenpraktijk Willem II Roermond B.V.",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .notParticipating
+		)
+		OrganizationListCardView(
+			model: OrganizationDisplayModel(
+				id: "1",
+				name: "Tandartsenpraktijk Willem II Roermond B.V.",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .automatic(isSelected: true)
+		)
+		OrganizationListCardView(
+			model: OrganizationDisplayModel(
+				id: "1",
+				name: "Tandartsenpraktijk Willem II Roermond B.V.",
+				city: "Roermond",
+				address: "Boorplatform 5",
+				postalCode: "1234AB"
+			),
+			state: .automatic(isSelected: false)
+		)
+	}
+	.padding(16)
+	.background(Theme().backgroundPrimary)
 }

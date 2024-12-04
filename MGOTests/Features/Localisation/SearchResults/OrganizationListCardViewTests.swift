@@ -8,15 +8,15 @@
 import MGOTest
 @testable import MGO
 
-final class OrganizationSearchResultCardViewTests: XCTestCase {
+final class OrganizationListCardViewTests: XCTestCase {
 	
 	func test_searchResultCardView_regular() {
 		
 		// Given
 		
 		// When
-		let sut = OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		let sut = OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -35,8 +35,8 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 		// Given
 		
 		// When
-		let sut = OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		let sut = OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -55,8 +55,8 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 		// Given
 		
 		// When
-		let sut = OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		let sut = OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -75,8 +75,8 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 		// Given
 		
 		// When
-		let sut = OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		let sut = OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandarts Tandje Erbij"
 			),
@@ -92,8 +92,8 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 		// Given
 		
 		// When
-		let sut = OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		let sut = OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -112,8 +112,8 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 		// Given
 		
 		// When
-		let sut = OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		let sut = OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -132,8 +132,8 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 		// Given
 		
 		// When
-		let sut = OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		let sut = OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",
@@ -152,8 +152,8 @@ final class OrganizationSearchResultCardViewTests: XCTestCase {
 		// Given
 		
 		// When
-		let sut = OrganizationSearchResultCardView(
-			model: OrganizationSearchResult(
+		let sut = OrganizationListCardView(
+			model: OrganizationDisplayModel(
 				id: "1",
 				name: "Tandarts Tandje Erbij",
 				city: "Roermond",

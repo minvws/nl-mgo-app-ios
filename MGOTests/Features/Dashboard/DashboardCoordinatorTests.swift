@@ -72,35 +72,12 @@ final class DashboardCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
 	}
-	
-	func test_coordinatorHandle_listHealthcareOrganizations_pathForSheet_shouldBeSet() {
-
-		// Given
-		
-		// When
-		sut.handle(Coordination.Action.listHealthcareOrganizations)
-
-		// Then
-		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.listHealthcareOrganizations])
-	}
-	
-	func test_coordinatorHandle_backToAddHealthcareOrganization_pathForSheet_shouldBeEmpty() {
-
-		// Given
-		sut.pathForSheet = NavigationStackBackport.NavigationPath([DashboardCoordination.State.listHealthcareOrganizations])
-		
-		// When
-		sut.handle(Coordination.Action.backToAddHealthcareOrganization)
-
-		// Then
-		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
-	}
 
 	func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
 
 		// Given
 		sut.rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
-		sut.pathForSheet = NavigationStackBackport.NavigationPath([DashboardCoordination.State.listHealthcareOrganizations])
+		sut.pathForSheet = NavigationStackBackport.NavigationPath([DashboardCoordination.State.automaticLocalization])
 		
 		// When
 		sut.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
@@ -114,7 +91,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 
 		// Given
 		sut.rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
-		sut.pathForSheet = NavigationStackBackport.NavigationPath([DashboardCoordination.State.listHealthcareOrganizations])
+		sut.pathForSheet = NavigationStackBackport.NavigationPath([DashboardCoordination.State.automaticLocalization])
 		
 		// When
 		sut.handle(Coordination.Action.closeSheet)
@@ -130,7 +107,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		sut.firstTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
 		sut.pathForSheet = NavigationStackBackport.NavigationPath(
 			[DashboardCoordination.State.addHealthcareOrganization,
-			 DashboardCoordination.State.listHealthcareOrganizations]
+			 DashboardCoordination.State.automaticLocalization]
 		)
 		
 		// When

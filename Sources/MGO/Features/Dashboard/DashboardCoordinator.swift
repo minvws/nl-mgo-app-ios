@@ -14,7 +14,6 @@ extension Coordination.Action {
 	// Healthcare Organization flow
 	static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
 	static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
-	static let listHealthcareOrganizations = Coordination.Action(identifier: "listHealthcareOrganizations")
 	static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
 	
 	static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
@@ -73,7 +72,6 @@ enum DashboardCoordination {
 		case addHealthcareOrganization
 		case automaticLocalization
 		case healthcareOrganizationSearchResults(city: String, name: String)
-		case listHealthcareOrganizations
 		
 		// Details Flow
 		case showHealthCategories
@@ -198,10 +196,6 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					}
 				return true
 				
-			case Coordination.Action.listHealthcareOrganizations.identifier:
-				pathForSheet.append(DashboardCoordination.State.listHealthcareOrganizations)
-				return true
-				
 			case Coordination.Action.backToAddHealthcareOrganization.identifier:
 				pathForSheet.removeLast(pathForSheet.count)
 				return true
@@ -308,8 +302,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				
 			case .automaticLocalization:
 				
-				AutomaticSearchResultsView(
-					viewModel: AutomaticSearchResultsViewModel(
+				OrganizationListAutomaticView(
+					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
 						localisationServiceClient: self.localisationServiceClient,
 						preselectAllOrganizations: false
@@ -318,8 +312,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				.isPresentedAsSheet(true)
 				
 			case let .healthcareOrganizationSearchResults(city, name):
-				OrganizationManualSearchResultsView(
-					viewModel: OrganizationManualSearchResultsViewModel(
+				OrganizationListManualView(
+					viewModel: OrganizationListManualViewModel(
 						coordinator: self,
 						city: city,
 						name: name,
@@ -327,9 +321,6 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					)
 				)
 				.isPresentedAsSheet(true)
-				
-			case .listHealthcareOrganizations:
-				OrganizationListView(viewModel: OrganizationListViewModel(coordinator: self)).isPresentedAsSheet(true)
 				
 			case let .showHealthcareOrganization(healthcareOrganization):
 				HealthCategoriesView(
