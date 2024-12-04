@@ -10,7 +10,7 @@ import SwiftUI
 import MGOTest
 
 final class BannerViewTests: XCTestCase {
-
+	
 	func test_banner_info() throws {
 		
 		// Given
