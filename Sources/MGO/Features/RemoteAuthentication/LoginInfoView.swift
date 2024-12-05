@@ -11,7 +11,7 @@ class LoginInfoViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case next
+		case nextButttonPressed
 	}
 	
 	/// The flow coordinator for routing
@@ -28,7 +28,7 @@ class LoginInfoViewModel: ObservableObject {
 	/// - Parameter action: the action to be handled
 	public func reduce(_ action: Action) {
 		
-		if action == .next {
+		if action == .nextButttonPressed {
 			coordinator?.handle(Coordination.Action.nextButtonPressedOnLoginInfo)
 		}
 	}
@@ -67,7 +67,7 @@ struct LoginInfoView: View {
 			
 		} bottomView: {
 			CallToActionButton("common.next") {
-				viewModel.reduce(.next)
+				viewModel.reduce(.nextButttonPressed)
 			}
 			.accessibilityIdentifier("common.next")
 			.padding(ViewTraits.Button.insets)
