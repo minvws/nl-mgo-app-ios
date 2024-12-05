@@ -53,7 +53,7 @@ final class FHIRParserTests: XCTestCase {
 		// Then
 		if let zib {
 			let zibMedicationUse = ZibFactory.createZibMedicationUse(zib)
-			expect(zibMedicationUse?.medication?.display) == "Zestril tablet 10mg"
+			expect(zibMedicationUse?.medicationReference?.display) == "Zestril tablet 10mg"
 		} else {
 			fail("Could not unwrap zib")
 		}
