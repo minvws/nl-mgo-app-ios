@@ -61,6 +61,7 @@ extension Coordination.Action {
 	
 	// Remote Authentication
 	static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
+	static let nextButtonPressedOnLoginInfo = Coordination.Action(identifier: "nextButtonPressedOnLoginInfo")
 	
 	// Other
 	static let closeSheet = Coordination.Action(identifier: "closeSheet")
@@ -90,6 +91,7 @@ enum AppCoordination {
 		
 		// Remote Authentication
 		case login
+		case loginInfo
 		
 		// Automatic Localization
 		case automaticLocalization
@@ -276,6 +278,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case Coordination.Action.loggedInWithDigiD.identifier:
 				Current.secureUserSettings.userHasRemoteAuthentication = true
 			
+				path.append(AppCoordination.State.loginInfo)
+			
+			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
+			
 				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
 					path.append(AppCoordination.State.automaticLocalization)
 				} else {
@@ -448,6 +454,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case .login:
 				LoginView(viewModel: LoginViewModel(coordinator: self))
+			
+			case .loginInfo:
+				LoginInfoView(viewModel: LoginInfoViewModel(coordinator: self))
 				
 			// Automatic Localization
 			
