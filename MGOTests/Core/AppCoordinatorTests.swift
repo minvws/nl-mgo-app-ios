@@ -170,17 +170,30 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.loggedInWithDigiD)
 		
 		// Then
-		expect(self.sut.showChildCoordinator) == true
-		expect(self.sut.path.isEmpty) == true
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.loginInfo])
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
 	}
 	
-	func test_coordinatorHandle_loginWithDigiD_shouldAutomaticLocalization_whenAutomaticLocalizationEnabled() {
+	func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldShowDashboard_whenAutomaticLocalizationEnabled() {
+		
+		// Given
+		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
+		
+		// When
+		sut.handle(Coordination.Action.nextButtonPressedOnLoginInfo)
+		
+		// Then
+		expect(self.sut.showChildCoordinator) == true
+		expect(self.sut.path.isEmpty) == true
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == false
+	}
+	
+	func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldAutomaticLocalization_whenAutomaticLocalizationEnabled() {
 		
 		// Given
 		
 		// When
-		sut.handle(Coordination.Action.loggedInWithDigiD)
+		sut.handle(Coordination.Action.nextButtonPressedOnLoginInfo)
 		
 		// Then
 		expect(self.sut.showChildCoordinator) == false

@@ -163,6 +163,20 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content )
 	}
 	
+	func test_coordinatorView_forLoginInfo() throws {
+		
+		// Given
+		let state = AppCoordination.State.loginInfo
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
+		
+		// When
+		let view = sut.view(for: state)
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: content )
+	}
+	
 	func test_coordinatorView_forgotPinCode() throws {
 		
 		// Given

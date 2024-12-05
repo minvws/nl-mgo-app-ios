@@ -32,13 +32,16 @@ public struct ImageContentView: View {
 		subHeading: LocalizedStringKey,
 		textAlignment: ImageContentView.Alignment = .center,
 		textSpacing: CGFloat = 8,
-		titleStyle: Font.TextStyle = .title3) {
+		titleStyle: Font.TextStyle = .title3,
+		subHeadingForegroundColor: Color? = nil
+	) {
 		self.icon = icon
 		self.heading = heading
 		self.subHeading = subHeading
 		self.textAlignment = textAlignment
 		self.textSpacing = textSpacing
 		self.titleStyle = titleStyle
+		self.subHeadingForegroundColor = subHeadingForegroundColor
 	}
 	
 	/// The icon to be displayed
@@ -58,6 +61,8 @@ public struct ImageContentView: View {
 	
 	/// The style for the title
 	private var textSpacing: CGFloat
+	
+	private var subHeadingForegroundColor: Color?
 	
 	/// helper to calculate the size of the view
 	@State private var contentSize: CGSize = .zero
@@ -98,10 +103,11 @@ public struct ImageContentView: View {
 						.rijksoverheidStyle(font: .bold, style: titleStyle)
 						.foregroundColor(theme.contentPrimary)
 						.multilineTextAlignment(textAlignment == .center ? .center : .leading)
+						.fixedSize(horizontal: false, vertical: true)
 					
 					Text(subHeading)
 						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundColor(theme.contentTertiary)
+						.foregroundColor(subHeadingForegroundColor ?? theme.contentTertiary)
 						.multilineTextAlignment(textAlignment == .center ? .center : .leading)
 						.fixedSize(horizontal: false, vertical: true)
 					
@@ -120,6 +126,8 @@ public struct ImageContentView: View {
 	ImageContentView(
 		icon: Image(systemName: "42.circle"),
 		heading: "Heading",
-		subHeading: "SubHeading"
+		subHeading: "SubHeading",
+		titleStyle: .largeTitle,
+		subHeadingForegroundColor: Color.pink
 	)
 }
