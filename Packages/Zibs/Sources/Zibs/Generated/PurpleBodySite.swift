@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let container = try Container(json)
+//   let purpleBodySite = try PurpleBodySite(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,22 @@
 
 import Foundation
 
-// MARK: - Container
-public struct Container: Codable, Hashable, Sendable {
-    public let identifier: [MgoIdentifier]?
-    public let type: [MgoCoding]?
+// MARK: - PurpleBodySite
+public struct PurpleBodySite: Codable, Hashable, Sendable {
+    public let laterality, morphology, value: MgoCodeableConcept?
 
-    public init(identifier: [MgoIdentifier]?, type: [MgoCoding]?) {
-        self.identifier = identifier
-        self.type = type
+    public init(laterality: MgoCodeableConcept?, morphology: MgoCodeableConcept?, value: MgoCodeableConcept?) {
+        self.laterality = laterality
+        self.morphology = morphology
+        self.value = value
     }
 }
 
-// MARK: Container convenience initializers and mutators
+// MARK: PurpleBodySite convenience initializers and mutators
 
-public extension Container {
+public extension PurpleBodySite {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Container.self, from: data)
+        self = try newJSONDecoder().decode(PurpleBodySite.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,12 +40,14 @@ public extension Container {
     }
 
     func with(
-        identifier: [MgoIdentifier]?? = nil,
-        type: [MgoCoding]?? = nil
-    ) -> Container {
-        return Container(
-            identifier: identifier ?? self.identifier,
-            type: type ?? self.type
+        laterality: MgoCodeableConcept?? = nil,
+        morphology: MgoCodeableConcept?? = nil,
+        value: MgoCodeableConcept?? = nil
+    ) -> PurpleBodySite {
+        return PurpleBodySite(
+            laterality: laterality ?? self.laterality,
+            morphology: morphology ?? self.morphology,
+            value: value ?? self.value
         )
     }
 

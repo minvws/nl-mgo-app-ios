@@ -13,9 +13,9 @@ import Foundation
 // MARK: - Stage
 public struct Stage: Codable, Hashable, Sendable {
     public let assessment: [MgoReference]?
-    public let summary: [MgoCoding]?
+    public let summary: MgoCodeableConcept?
 
-    public init(assessment: [MgoReference]?, summary: [MgoCoding]?) {
+    public init(assessment: [MgoReference]?, summary: MgoCodeableConcept?) {
         self.assessment = assessment
         self.summary = summary
     }
@@ -41,7 +41,7 @@ public extension Stage {
 
     func with(
         assessment: [MgoReference]?? = nil,
-        summary: [MgoCoding]?? = nil
+        summary: MgoCodeableConcept?? = nil
     ) -> Stage {
         return Stage(
             assessment: assessment ?? self.assessment,

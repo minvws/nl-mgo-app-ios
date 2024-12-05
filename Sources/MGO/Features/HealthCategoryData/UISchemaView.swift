@@ -255,7 +255,7 @@ struct UISchemaView: View {
 							UIEntry(
 								display: UIEntryDisplay.string("single value"),
 								label: "label single value",
-								summary: true,
+								showEmpty: true,
 								type: .singleValue,
 								reference: nil,
 								url: nil
@@ -264,7 +264,7 @@ struct UISchemaView: View {
 							UIEntry(
 								display: UIEntryDisplay.string("reference value"),
 								label: "label reference",
-								summary: true,
+								showEmpty: true,
 								type: .referenceValue,
 								reference: "reference",
 								url: nil
@@ -272,7 +272,7 @@ struct UISchemaView: View {
 							UIEntry(
 								display: nil,
 								label: "label download link",
-								summary: true,
+								showEmpty: true,
 								type: .downloadLink,
 								reference: nil,
 								url: "https://www.apple.com"
@@ -287,7 +287,7 @@ struct UISchemaView: View {
 							UIEntry(
 								display: nil,
 								label: "label single value nil",
-								summary: true,
+								showEmpty: true,
 								type: .singleValue,
 								reference: nil,
 								url: nil
@@ -298,7 +298,7 @@ struct UISchemaView: View {
 									DisplayElement.stringArray(["three", "four"])
 								]),
 								label: "label multiple group value",
-								summary: true,
+								showEmpty: true,
 								type: .multipleGroupedValues,
 								reference: nil,
 								url: nil
@@ -306,7 +306,7 @@ struct UISchemaView: View {
 							UIEntry(
 								display: UIEntryDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
 								label: "label multiple value",
-								summary: true,
+								showEmpty: true,
 								type: .multipleValues,
 								reference: nil,
 								url: nil
@@ -314,7 +314,7 @@ struct UISchemaView: View {
 							UIEntry(
 								display: UIEntryDisplay.unionArray([DisplayElement.string("one")]),
 								label: "label union value",
-								summary: true,
+								showEmpty: true,
 								type: .multipleValues,
 								reference: nil,
 								url: nil

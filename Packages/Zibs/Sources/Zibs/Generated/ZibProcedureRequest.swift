@@ -12,7 +12,8 @@ import Foundation
 
 // MARK: - ZibProcedureRequest
 public struct ZibProcedureRequest: Codable, Hashable, Sendable {
-    public let code: [MgoCoding]?
+    public let code: MgoCodeableConcept?
+    public let fhirVersion: FhirVersionR3
     public let id, intent: String?
     public let occurrence: MgoPeriod?
     public let perfomer: MgoReference?
@@ -23,13 +24,14 @@ public struct ZibProcedureRequest: Codable, Hashable, Sendable {
     public let subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case code, id, intent, occurrence, perfomer, profile, reason
+        case code, fhirVersion, id, intent, occurrence, perfomer, profile, reason
         case referenceID = "referenceId"
         case resourceType, status, subject
     }
 
-    public init(code: [MgoCoding]?, id: String?, intent: String?, occurrence: MgoPeriod?, perfomer: MgoReference?, profile: ZibProcedureRequestProfile, reason: [MgoReference]?, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
+    public init(code: MgoCodeableConcept?, fhirVersion: FhirVersionR3, id: String?, intent: String?, occurrence: MgoPeriod?, perfomer: MgoReference?, profile: ZibProcedureRequestProfile, reason: [MgoReference]?, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
         self.code = code
+        self.fhirVersion = fhirVersion
         self.id = id
         self.intent = intent
         self.occurrence = occurrence
@@ -62,7 +64,8 @@ public extension ZibProcedureRequest {
     }
 
     func with(
-        code: [MgoCoding]?? = nil,
+        code: MgoCodeableConcept?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         intent: String?? = nil,
         occurrence: MgoPeriod?? = nil,
@@ -76,6 +79,7 @@ public extension ZibProcedureRequest {
     ) -> ZibProcedureRequest {
         return ZibProcedureRequest(
             code: code ?? self.code,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             intent: intent ?? self.intent,
             occurrence: occurrence ?? self.occurrence,

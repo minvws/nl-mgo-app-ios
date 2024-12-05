@@ -12,14 +12,15 @@ import Foundation
 
 // MARK: - ZibTreatmentDirective
 public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
-    public let action: [[MgoCoding]]?
+    public let action: [MgoCodeableConcept]?
     public let actor: [ZibTreatmentDirectiveActor]?
-    public let category: [[MgoCoding]]?
+    public let category: [MgoCodeableConcept]?
     public let consentingParty: [MgoReference]?
     public let data: [ZibTreatmentDirectiveDatum]?
     public let dataPeriod: MgoPeriod?
     public let dateTime: String?
     public let except: [Except]?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: MgoIdentifier?
     public let organization: [MgoReference]?
@@ -38,12 +39,12 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
     public let status: String?
 
     public enum CodingKeys: String, CodingKey {
-        case action, actor, category, consentingParty, data, dataPeriod, dateTime, except, id, identifier, organization, patient, period, policy, policyRule, profile, purpose
+        case action, actor, category, consentingParty, data, dataPeriod, dateTime, except, fhirVersion, id, identifier, organization, patient, period, policy, policyRule, profile, purpose
         case referenceID = "referenceId"
         case resourceType, securityLabel, sourceAttachment, sourceIdentifier, sourceReference, status
     }
 
-    public init(action: [[MgoCoding]]?, actor: [ZibTreatmentDirectiveActor]?, category: [[MgoCoding]]?, consentingParty: [MgoReference]?, data: [ZibTreatmentDirectiveDatum]?, dataPeriod: MgoPeriod?, dateTime: String?, except: [Except]?, id: String?, identifier: MgoIdentifier?, organization: [MgoReference]?, patient: MgoReference?, period: MgoPeriod?, policy: [Policy]?, policyRule: String?, profile: ZibTreatmentDirectiveProfile, purpose: [MgoCoding]?, referenceID: String, resourceType: String?, securityLabel: [MgoCoding]?, sourceAttachment: MgoAttachment, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, status: String?) {
+    public init(action: [MgoCodeableConcept]?, actor: [ZibTreatmentDirectiveActor]?, category: [MgoCodeableConcept]?, consentingParty: [MgoReference]?, data: [ZibTreatmentDirectiveDatum]?, dataPeriod: MgoPeriod?, dateTime: String?, except: [Except]?, fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, organization: [MgoReference]?, patient: MgoReference?, period: MgoPeriod?, policy: [Policy]?, policyRule: String?, profile: ZibTreatmentDirectiveProfile, purpose: [MgoCoding]?, referenceID: String, resourceType: String?, securityLabel: [MgoCoding]?, sourceAttachment: MgoAttachment, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, status: String?) {
         self.action = action
         self.actor = actor
         self.category = category
@@ -52,6 +53,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
         self.dataPeriod = dataPeriod
         self.dateTime = dateTime
         self.except = except
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.organization = organization
@@ -90,14 +92,15 @@ public extension ZibTreatmentDirective {
     }
 
     func with(
-        action: [[MgoCoding]]?? = nil,
+        action: [MgoCodeableConcept]?? = nil,
         actor: [ZibTreatmentDirectiveActor]?? = nil,
-        category: [[MgoCoding]]?? = nil,
+        category: [MgoCodeableConcept]?? = nil,
         consentingParty: [MgoReference]?? = nil,
         data: [ZibTreatmentDirectiveDatum]?? = nil,
         dataPeriod: MgoPeriod?? = nil,
         dateTime: String?? = nil,
         except: [Except]?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: MgoIdentifier?? = nil,
         organization: [MgoReference]?? = nil,
@@ -124,6 +127,7 @@ public extension ZibTreatmentDirective {
             dataPeriod: dataPeriod ?? self.dataPeriod,
             dateTime: dateTime ?? self.dateTime,
             except: except ?? self.except,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             organization: organization ?? self.organization,

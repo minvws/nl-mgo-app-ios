@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - Evidence
 public struct Evidence: Codable, Hashable, Sendable {
-    public let code: [[MgoCoding]]?
+    public let code: [MgoCodeableConcept]?
     public let detail: [MgoReference]?
 
-    public init(code: [[MgoCoding]]?, detail: [MgoReference]?) {
+    public init(code: [MgoCodeableConcept]?, detail: [MgoReference]?) {
         self.code = code
         self.detail = detail
     }
@@ -40,7 +40,7 @@ public extension Evidence {
     }
 
     func with(
-        code: [[MgoCoding]]?? = nil,
+        code: [MgoCodeableConcept]?? = nil,
         detail: [MgoReference]?? = nil
     ) -> Evidence {
         return Evidence(

@@ -14,13 +14,13 @@ import Foundation
 public struct UIEntryValueREFERENCEVALUEString: Codable, Hashable, Sendable {
     public let display: String?
     public let label: String
-    public let summary: Bool?
+    public let showEmpty: Bool?
     public let type: ReferenceValueType
 
-    public init(display: String?, label: String, summary: Bool?, type: ReferenceValueType) {
+    public init(display: String?, label: String, showEmpty: Bool?, type: ReferenceValueType) {
         self.display = display
         self.label = label
-        self.summary = summary
+        self.showEmpty = showEmpty
         self.type = type
     }
 }
@@ -46,13 +46,13 @@ public extension UIEntryValueREFERENCEVALUEString {
     func with(
         display: String?? = nil,
         label: String? = nil,
-        summary: Bool?? = nil,
+        showEmpty: Bool?? = nil,
         type: ReferenceValueType? = nil
     ) -> UIEntryValueREFERENCEVALUEString {
         return UIEntryValueREFERENCEVALUEString(
             display: display ?? self.display,
             label: label ?? self.label,
-            summary: summary ?? self.summary,
+            showEmpty: showEmpty ?? self.showEmpty,
             type: type ?? self.type
         )
     }

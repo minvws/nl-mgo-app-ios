@@ -14,9 +14,9 @@ import Foundation
 public struct Diagnosis: Codable, Hashable, Sendable {
     public let condition: MgoReference?
     public let rank: Double?
-    public let role: [MgoCoding]?
+    public let role: MgoCodeableConcept?
 
-    public init(condition: MgoReference?, rank: Double?, role: [MgoCoding]?) {
+    public init(condition: MgoReference?, rank: Double?, role: MgoCodeableConcept?) {
         self.condition = condition
         self.rank = rank
         self.role = role
@@ -44,7 +44,7 @@ public extension Diagnosis {
     func with(
         condition: MgoReference?? = nil,
         rank: Double?? = nil,
-        role: [MgoCoding]?? = nil
+        role: MgoCodeableConcept?? = nil
     ) -> Diagnosis {
         return Diagnosis(
             condition: condition ?? self.condition,

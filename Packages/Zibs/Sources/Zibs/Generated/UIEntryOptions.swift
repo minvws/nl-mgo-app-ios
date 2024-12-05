@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - UIEntryOptions
 public struct UIEntryOptions: Codable, Hashable, Sendable {
-    public let summary: Bool?
+    public let showEmpty: Bool?
 
-    public init(summary: Bool?) {
-        self.summary = summary
+    public init(showEmpty: Bool?) {
+        self.showEmpty = showEmpty
     }
 }
 
@@ -38,10 +38,10 @@ public extension UIEntryOptions {
     }
 
     func with(
-        summary: Bool?? = nil
+        showEmpty: Bool?? = nil
     ) -> UIEntryOptions {
         return UIEntryOptions(
-            summary: summary ?? self.summary
+            showEmpty: showEmpty ?? self.showEmpty
         )
     }
 

@@ -12,6 +12,9 @@ import Foundation
 
 // MARK: - ZibAdministrationSchedule
 public struct ZibAdministrationSchedule: Codable, Hashable, Sendable {
+    public let boundsDuration: MgoDuration?
+    public let boundsPeriod: MgoPeriod?
+    public let boundsRange: MgoRange?
     public let dayOfWeek: [String]?
     public let duration: Double?
     public let durationUnit: String?
@@ -19,7 +22,10 @@ public struct ZibAdministrationSchedule: Codable, Hashable, Sendable {
     public let periodUnit: String?
     public let timeOfDay, when: [String]?
 
-    public init(dayOfWeek: [String]?, duration: Double?, durationUnit: String?, frequency: Double?, frequencyMax: Double?, period: Double?, periodUnit: String?, timeOfDay: [String]?, when: [String]?) {
+    public init(boundsDuration: MgoDuration?, boundsPeriod: MgoPeriod?, boundsRange: MgoRange?, dayOfWeek: [String]?, duration: Double?, durationUnit: String?, frequency: Double?, frequencyMax: Double?, period: Double?, periodUnit: String?, timeOfDay: [String]?, when: [String]?) {
+        self.boundsDuration = boundsDuration
+        self.boundsPeriod = boundsPeriod
+        self.boundsRange = boundsRange
         self.dayOfWeek = dayOfWeek
         self.duration = duration
         self.durationUnit = durationUnit
@@ -51,6 +57,9 @@ public extension ZibAdministrationSchedule {
     }
 
     func with(
+        boundsDuration: MgoDuration?? = nil,
+        boundsPeriod: MgoPeriod?? = nil,
+        boundsRange: MgoRange?? = nil,
         dayOfWeek: [String]?? = nil,
         duration: Double?? = nil,
         durationUnit: String?? = nil,
@@ -62,6 +71,9 @@ public extension ZibAdministrationSchedule {
         when: [String]?? = nil
     ) -> ZibAdministrationSchedule {
         return ZibAdministrationSchedule(
+            boundsDuration: boundsDuration ?? self.boundsDuration,
+            boundsPeriod: boundsPeriod ?? self.boundsPeriod,
+            boundsRange: boundsRange ?? self.boundsRange,
             dayOfWeek: dayOfWeek ?? self.dayOfWeek,
             duration: duration ?? self.duration,
             durationUnit: durationUnit ?? self.durationUnit,

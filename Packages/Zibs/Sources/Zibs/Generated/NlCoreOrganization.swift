@@ -13,25 +13,27 @@ import Foundation
 // MARK: - NlCoreOrganization
 public struct NlCoreOrganization: Codable, Hashable, Sendable {
     public let address: [NlCoreAddress]?
-    public let departmentSpecialty: [[MgoCoding]]?
+    public let departmentSpecialty: [MgoCodeableConcept]?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let name: String?
-    public let organizationType: [[MgoCoding]]?
+    public let organizationType: [MgoCodeableConcept]?
     public let profile: NlCoreOrganizationProfile
     public let referenceID: String
     public let resourceType: String?
     public let telecom: [NlCoreContactpoint]?
 
     public enum CodingKeys: String, CodingKey {
-        case address, departmentSpecialty, id, identifier, name, organizationType, profile
+        case address, departmentSpecialty, fhirVersion, id, identifier, name, organizationType, profile
         case referenceID = "referenceId"
         case resourceType, telecom
     }
 
-    public init(address: [NlCoreAddress]?, departmentSpecialty: [[MgoCoding]]?, id: String?, identifier: [MgoIdentifier]?, name: String?, organizationType: [[MgoCoding]]?, profile: NlCoreOrganizationProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
+    public init(address: [NlCoreAddress]?, departmentSpecialty: [MgoCodeableConcept]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, name: String?, organizationType: [MgoCodeableConcept]?, profile: NlCoreOrganizationProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
         self.address = address
         self.departmentSpecialty = departmentSpecialty
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.name = name
@@ -63,11 +65,12 @@ public extension NlCoreOrganization {
 
     func with(
         address: [NlCoreAddress]?? = nil,
-        departmentSpecialty: [[MgoCoding]]?? = nil,
+        departmentSpecialty: [MgoCodeableConcept]?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         name: String?? = nil,
-        organizationType: [[MgoCoding]]?? = nil,
+        organizationType: [MgoCodeableConcept]?? = nil,
         profile: NlCoreOrganizationProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
@@ -76,6 +79,7 @@ public extension NlCoreOrganization {
         return NlCoreOrganization(
             address: address ?? self.address,
             departmentSpecialty: departmentSpecialty ?? self.departmentSpecialty,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             name: name ?? self.name,

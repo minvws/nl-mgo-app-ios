@@ -13,7 +13,8 @@ import Foundation
 // MARK: - ZibNutritionAdvice
 public struct ZibNutritionAdvice: Codable, Hashable, Sendable {
     public let comment, dateTime: String?
-    public let foodPreferenceModifier: [[MgoCoding]]?
+    public let fhirVersion: FhirVersionR3
+    public let foodPreferenceModifier: [MgoCodeableConcept]?
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let patient: MgoReference?
@@ -22,14 +23,15 @@ public struct ZibNutritionAdvice: Codable, Hashable, Sendable {
     public let resourceType, status: String?
 
     public enum CodingKeys: String, CodingKey {
-        case comment, dateTime, foodPreferenceModifier, id, identifier, patient, profile
+        case comment, dateTime, fhirVersion, foodPreferenceModifier, id, identifier, patient, profile
         case referenceID = "referenceId"
         case resourceType, status
     }
 
-    public init(comment: String?, dateTime: String?, foodPreferenceModifier: [[MgoCoding]]?, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, profile: ZibNutritionAdviceProfile, referenceID: String, resourceType: String?, status: String?) {
+    public init(comment: String?, dateTime: String?, fhirVersion: FhirVersionR3, foodPreferenceModifier: [MgoCodeableConcept]?, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, profile: ZibNutritionAdviceProfile, referenceID: String, resourceType: String?, status: String?) {
         self.comment = comment
         self.dateTime = dateTime
+        self.fhirVersion = fhirVersion
         self.foodPreferenceModifier = foodPreferenceModifier
         self.id = id
         self.identifier = identifier
@@ -62,7 +64,8 @@ public extension ZibNutritionAdvice {
     func with(
         comment: String?? = nil,
         dateTime: String?? = nil,
-        foodPreferenceModifier: [[MgoCoding]]?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
+        foodPreferenceModifier: [MgoCodeableConcept]?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         patient: MgoReference?? = nil,
@@ -74,6 +77,7 @@ public extension ZibNutritionAdvice {
         return ZibNutritionAdvice(
             comment: comment ?? self.comment,
             dateTime: dateTime ?? self.dateTime,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             foodPreferenceModifier: foodPreferenceModifier ?? self.foodPreferenceModifier,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,

@@ -12,23 +12,26 @@ import Foundation
 
 // MARK: - EAfspraakAppointment
 public struct EAfspraakAppointment: Codable, Hashable, Sendable {
-    public let description, end, id: String?
+    public let description, end: String?
+    public let fhirVersion: FhirVersionR3
+    public let id: String?
     public let participant: [EAfspraakAppointmentParticipant]?
     public let profile: EAfspraakAppointmentProfile
     public let referenceID: String
     public let resourceType: String?
-    public let specialty: [[MgoCoding]]?
+    public let specialty: [MgoCodeableConcept]?
     public let start, status: String?
 
     public enum CodingKeys: String, CodingKey {
-        case description, end, id, participant, profile
+        case description, end, fhirVersion, id, participant, profile
         case referenceID = "referenceId"
         case resourceType, specialty, start, status
     }
 
-    public init(description: String?, end: String?, id: String?, participant: [EAfspraakAppointmentParticipant]?, profile: EAfspraakAppointmentProfile, referenceID: String, resourceType: String?, specialty: [[MgoCoding]]?, start: String?, status: String?) {
+    public init(description: String?, end: String?, fhirVersion: FhirVersionR3, id: String?, participant: [EAfspraakAppointmentParticipant]?, profile: EAfspraakAppointmentProfile, referenceID: String, resourceType: String?, specialty: [MgoCodeableConcept]?, start: String?, status: String?) {
         self.description = description
         self.end = end
+        self.fhirVersion = fhirVersion
         self.id = id
         self.participant = participant
         self.profile = profile
@@ -61,18 +64,20 @@ public extension EAfspraakAppointment {
     func with(
         description: String?? = nil,
         end: String?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         participant: [EAfspraakAppointmentParticipant]?? = nil,
         profile: EAfspraakAppointmentProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        specialty: [[MgoCoding]]?? = nil,
+        specialty: [MgoCodeableConcept]?? = nil,
         start: String?? = nil,
         status: String?? = nil
     ) -> EAfspraakAppointment {
         return EAfspraakAppointment(
             description: description ?? self.description,
             end: end ?? self.end,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             participant: participant ?? self.participant,
             profile: profile ?? self.profile,

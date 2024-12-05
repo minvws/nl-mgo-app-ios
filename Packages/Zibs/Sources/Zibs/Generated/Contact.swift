@@ -17,10 +17,10 @@ public struct Contact: Codable, Hashable, Sendable {
     public let name: NlCoreHumanname?
     public let organization: MgoReference?
     public let period: MgoPeriod?
-    public let relationship: [[MgoCoding]]?
+    public let relationship: [MgoCodeableConcept]?
     public let telecom: [NlCoreContactpoint]?
 
-    public init(address: NlCoreAddress?, gender: String?, name: NlCoreHumanname?, organization: MgoReference?, period: MgoPeriod?, relationship: [[MgoCoding]]?, telecom: [NlCoreContactpoint]?) {
+    public init(address: NlCoreAddress?, gender: String?, name: NlCoreHumanname?, organization: MgoReference?, period: MgoPeriod?, relationship: [MgoCodeableConcept]?, telecom: [NlCoreContactpoint]?) {
         self.address = address
         self.gender = gender
         self.name = name
@@ -55,7 +55,7 @@ public extension Contact {
         name: NlCoreHumanname?? = nil,
         organization: MgoReference?? = nil,
         period: MgoPeriod?? = nil,
-        relationship: [[MgoCoding]]?? = nil,
+        relationship: [MgoCodeableConcept]?? = nil,
         telecom: [NlCoreContactpoint]?? = nil
     ) -> Contact {
         return Contact(

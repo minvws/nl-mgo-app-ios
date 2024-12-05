@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - IcpcS
 public struct IcpcS: Codable, Hashable, Sendable {
-    public let valueCodeableConcept: [MgoCoding]?
+    public let valueCodeableConcept: MgoCodeableConcept?
 
-    public init(valueCodeableConcept: [MgoCoding]?) {
+    public init(valueCodeableConcept: MgoCodeableConcept?) {
         self.valueCodeableConcept = valueCodeableConcept
     }
 }
@@ -38,7 +38,7 @@ public extension IcpcS {
     }
 
     func with(
-        valueCodeableConcept: [MgoCoding]?? = nil
+        valueCodeableConcept: MgoCodeableConcept?? = nil
     ) -> IcpcS {
         return IcpcS(
             valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept

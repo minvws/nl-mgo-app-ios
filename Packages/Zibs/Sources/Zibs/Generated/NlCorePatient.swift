@@ -18,13 +18,15 @@ public struct NlCorePatient: Codable, Hashable, Sendable {
     public let communication: [Communication]?
     public let contact: [Contact]?
     public let deceased: Bool?
-    public let deceasedDateTime, gender: String?
+    public let deceasedDateTime: String?
+    public let fhirVersion: FhirVersionR3
+    public let gender: String?
     public let generalPractitioner: [MgoReference]?
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let link: [Link]?
     public let managingOrganization: MgoReference?
-    public let maritalStatus: [MgoCoding]?
+    public let maritalStatus: MgoCodeableConcept?
     public let multipleBirth: Bool?
     public let multipleBirthInteger: Double?
     public let name: [NlCoreHumanname]?
@@ -35,12 +37,12 @@ public struct NlCorePatient: Codable, Hashable, Sendable {
     public let telecom: [NlCoreContactpoint]?
 
     public enum CodingKeys: String, CodingKey {
-        case active, address, birthDate, communication, contact, deceased, deceasedDateTime, gender, generalPractitioner, id, identifier, link, managingOrganization, maritalStatus, multipleBirth, multipleBirthInteger, name, photo, profile
+        case active, address, birthDate, communication, contact, deceased, deceasedDateTime, fhirVersion, gender, generalPractitioner, id, identifier, link, managingOrganization, maritalStatus, multipleBirth, multipleBirthInteger, name, photo, profile
         case referenceID = "referenceId"
         case resourceType, telecom
     }
 
-    public init(active: Bool?, address: [NlCoreAddress]?, birthDate: String?, communication: [Communication]?, contact: [Contact]?, deceased: Bool?, deceasedDateTime: String?, gender: String?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, link: [Link]?, managingOrganization: MgoReference?, maritalStatus: [MgoCoding]?, multipleBirth: Bool?, multipleBirthInteger: Double?, name: [NlCoreHumanname]?, photo: [MgoAttachment]?, profile: NlCorePatientProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
+    public init(active: Bool?, address: [NlCoreAddress]?, birthDate: String?, communication: [Communication]?, contact: [Contact]?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR3, gender: String?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, link: [Link]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, multipleBirthInteger: Double?, name: [NlCoreHumanname]?, photo: [MgoAttachment]?, profile: NlCorePatientProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
         self.active = active
         self.address = address
         self.birthDate = birthDate
@@ -48,6 +50,7 @@ public struct NlCorePatient: Codable, Hashable, Sendable {
         self.contact = contact
         self.deceased = deceased
         self.deceasedDateTime = deceasedDateTime
+        self.fhirVersion = fhirVersion
         self.gender = gender
         self.generalPractitioner = generalPractitioner
         self.id = id
@@ -92,13 +95,14 @@ public extension NlCorePatient {
         contact: [Contact]?? = nil,
         deceased: Bool?? = nil,
         deceasedDateTime: String?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         gender: String?? = nil,
         generalPractitioner: [MgoReference]?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         link: [Link]?? = nil,
         managingOrganization: MgoReference?? = nil,
-        maritalStatus: [MgoCoding]?? = nil,
+        maritalStatus: MgoCodeableConcept?? = nil,
         multipleBirth: Bool?? = nil,
         multipleBirthInteger: Double?? = nil,
         name: [NlCoreHumanname]?? = nil,
@@ -116,6 +120,7 @@ public extension NlCorePatient {
             contact: contact ?? self.contact,
             deceased: deceased ?? self.deceased,
             deceasedDateTime: deceasedDateTime ?? self.deceasedDateTime,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             gender: gender ?? self.gender,
             generalPractitioner: generalPractitioner ?? self.generalPractitioner,
             id: id ?? self.id,

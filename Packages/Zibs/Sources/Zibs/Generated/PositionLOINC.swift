@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - PositionLOINC
 public struct PositionLOINC: Codable, Hashable, Sendable {
-    public let valueCodeableConcept: [MgoCoding]?
+    public let valueCodeableConcept: MgoCodeableConcept?
 
-    public init(valueCodeableConcept: [MgoCoding]?) {
+    public init(valueCodeableConcept: MgoCodeableConcept?) {
         self.valueCodeableConcept = valueCodeableConcept
     }
 }
@@ -38,7 +38,7 @@ public extension PositionLOINC {
     }
 
     func with(
-        valueCodeableConcept: [MgoCoding]?? = nil
+        valueCodeableConcept: MgoCodeableConcept?? = nil
     ) -> PositionLOINC {
         return PositionLOINC(
             valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept

@@ -37,7 +37,7 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 					UIEntry(
 						display: UIEntryDisplay.string("single value"),
 						label: "label single value",
-						summary: true,
+						showEmpty: true,
 						type: .singleValue,
 						reference: nil,
 						url: nil
@@ -45,7 +45,7 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 					UIEntry(
 						display: UIEntryDisplay.string("reference value"),
 						label: "label reference",
-						summary: true,
+						showEmpty: true,
 						type: .referenceValue,
 						reference: "test_resolveReference",
 						url: "reference/link"
@@ -53,7 +53,7 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 					UIEntry(
 						display: nil,
 						label: "label download link",
-						summary: true,
+						showEmpty: true,
 						type: .downloadLink,
 						reference: nil,
 						url: "https://www.apple.com"

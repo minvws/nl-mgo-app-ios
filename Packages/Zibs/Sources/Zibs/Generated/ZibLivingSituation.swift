@@ -12,16 +12,17 @@ import Foundation
 
 // MARK: - ZibLivingSituation
 public struct ZibLivingSituation: Codable, Hashable, Sendable {
-    public let bodySite: [MgoCoding]?
-    public let category: [[MgoCoding]]?
+    public let bodySite: MgoCodeableConcept?
+    public let category: [MgoCodeableConcept]?
     public let comment: String?
     public let context: MgoReference?
-    public let dataAbsentReason: [MgoCoding]?
+    public let dataAbsentReason: MgoCodeableConcept?
     public let effectiveDateTime: String?
     public let effectivePeriod: MgoPeriod?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let method: [MgoCoding]?
+    public let method: MgoCodeableConcept?
     public let profile: ZibLivingSituationProfile
     public let referenceID: String
     public let resourceType, status: String?
@@ -29,12 +30,12 @@ public struct ZibLivingSituation: Codable, Hashable, Sendable {
     public let valueQuantity: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, category, comment, context, dataAbsentReason, effectiveDateTime, effectivePeriod, id, identifier, method, profile
+        case bodySite, category, comment, context, dataAbsentReason, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, method, profile
         case referenceID = "referenceId"
         case resourceType, status, subject, valueQuantity
     }
 
-    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, profile: ZibLivingSituationProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoDuration?) {
+    public init(bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, dataAbsentReason: MgoCodeableConcept?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, profile: ZibLivingSituationProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoDuration?) {
         self.bodySite = bodySite
         self.category = category
         self.comment = comment
@@ -42,6 +43,7 @@ public struct ZibLivingSituation: Codable, Hashable, Sendable {
         self.dataAbsentReason = dataAbsentReason
         self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.method = method
@@ -73,16 +75,17 @@ public extension ZibLivingSituation {
     }
 
     func with(
-        bodySite: [MgoCoding]?? = nil,
-        category: [[MgoCoding]]?? = nil,
+        bodySite: MgoCodeableConcept?? = nil,
+        category: [MgoCodeableConcept]?? = nil,
         comment: String?? = nil,
         context: MgoReference?? = nil,
-        dataAbsentReason: [MgoCoding]?? = nil,
+        dataAbsentReason: MgoCodeableConcept?? = nil,
         effectiveDateTime: String?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        method: [MgoCoding]?? = nil,
+        method: MgoCodeableConcept?? = nil,
         profile: ZibLivingSituationProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
@@ -98,6 +101,7 @@ public extension ZibLivingSituation {
             dataAbsentReason: dataAbsentReason ?? self.dataAbsentReason,
             effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             method: method ?? self.method,

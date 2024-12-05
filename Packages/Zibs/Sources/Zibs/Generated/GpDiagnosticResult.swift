@@ -12,19 +12,21 @@ import Foundation
 
 // MARK: - GpDiagnosticResult
 public struct GpDiagnosticResult: Codable, Hashable, Sendable {
-    public let code: [MgoCoding]?
+    public let code: MgoCodeableConcept?
     public let comment: String?
     public let context: MgoReference?
-    public let effective, id: String?
+    public let effective: String?
+    public let fhirVersion: FhirVersionR3
+    public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let method: [MgoCoding]?
+    public let method: MgoCodeableConcept?
     public let performer: [MgoReference]?
     public let profile: GpDiagnosticResultProfile
     public let referenceID: String
     public let resourceType, status: String?
     public let subject: MgoReference?
     public let valueBoolean: Bool?
-    public let valueCodeableConcept: [MgoCoding]?
+    public let valueCodeableConcept: MgoCodeableConcept?
     public let valueDateTime: String?
     public let valuePeriod: MgoPeriod?
     public let valueQuantity: MgoDuration?
@@ -32,16 +34,17 @@ public struct GpDiagnosticResult: Codable, Hashable, Sendable {
     public let valueString: String?
 
     public enum CodingKeys: String, CodingKey {
-        case code, comment, context, effective, id, identifier, method, performer, profile
+        case code, comment, context, effective, fhirVersion, id, identifier, method, performer, profile
         case referenceID = "referenceId"
         case resourceType, status, subject, valueBoolean, valueCodeableConcept, valueDateTime, valuePeriod, valueQuantity, valueRange, valueString
     }
 
-    public init(code: [MgoCoding]?, comment: String?, context: MgoReference?, effective: String?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, performer: [MgoReference]?, profile: GpDiagnosticResultProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueBoolean: Bool?, valueCodeableConcept: [MgoCoding]?, valueDateTime: String?, valuePeriod: MgoPeriod?, valueQuantity: MgoDuration?, valueRange: MgoRange?, valueString: String?) {
+    public init(code: MgoCodeableConcept?, comment: String?, context: MgoReference?, effective: String?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: GpDiagnosticResultProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueBoolean: Bool?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: String?, valuePeriod: MgoPeriod?, valueQuantity: MgoDuration?, valueRange: MgoRange?, valueString: String?) {
         self.code = code
         self.comment = comment
         self.context = context
         self.effective = effective
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.method = method
@@ -80,13 +83,14 @@ public extension GpDiagnosticResult {
     }
 
     func with(
-        code: [MgoCoding]?? = nil,
+        code: MgoCodeableConcept?? = nil,
         comment: String?? = nil,
         context: MgoReference?? = nil,
         effective: String?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        method: [MgoCoding]?? = nil,
+        method: MgoCodeableConcept?? = nil,
         performer: [MgoReference]?? = nil,
         profile: GpDiagnosticResultProfile? = nil,
         referenceID: String? = nil,
@@ -94,7 +98,7 @@ public extension GpDiagnosticResult {
         status: String?? = nil,
         subject: MgoReference?? = nil,
         valueBoolean: Bool?? = nil,
-        valueCodeableConcept: [MgoCoding]?? = nil,
+        valueCodeableConcept: MgoCodeableConcept?? = nil,
         valueDateTime: String?? = nil,
         valuePeriod: MgoPeriod?? = nil,
         valueQuantity: MgoDuration?? = nil,
@@ -106,6 +110,7 @@ public extension GpDiagnosticResult {
             comment: comment ?? self.comment,
             context: context ?? self.context,
             effective: effective ?? self.effective,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             method: method ?? self.method,

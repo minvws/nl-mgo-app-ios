@@ -13,9 +13,9 @@ import Foundation
 // MARK: - ExceptActor
 public struct ExceptActor: Codable, Hashable, Sendable {
     public let reference: MgoReference?
-    public let role: [MgoCoding]?
+    public let role: MgoCodeableConcept?
 
-    public init(reference: MgoReference?, role: [MgoCoding]?) {
+    public init(reference: MgoReference?, role: MgoCodeableConcept?) {
         self.reference = reference
         self.role = role
     }
@@ -41,7 +41,7 @@ public extension ExceptActor {
 
     func with(
         reference: MgoReference?? = nil,
-        role: [MgoCoding]?? = nil
+        role: MgoCodeableConcept?? = nil
     ) -> ExceptActor {
         return ExceptActor(
             reference: reference ?? self.reference,
