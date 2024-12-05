@@ -1,4 +1,5 @@
 {
+	"id": "3c77bb22-795d-4e5e-815e-1db080fca69f",
 	"referenceId": "Condition/3c77bb22-795d-4e5e-815e-1db080fca69f",
 	"resourceType": "Condition",
 	"profile": "http://nictiz.nl/fhir/StructureDefinition/zib-Problem",
