@@ -161,7 +161,10 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 			// State .notParticipating for data services we don't handle (yet)
 			var activeServices = [DataService]()
 			for service in dts {
-				if service.id == DVP.CommonClinicalDataset.serviceID || service.id == DVP.GeneralPractitioner.serviceID {
+				if service.id == DVP.CommonClinicalDataset.serviceID ||
+					service.id == DVP.GeneralPractitioner.serviceID ||
+					service.id == DVP.Vaccination.serviceID ||
+					service.id == DVP.Documents.serviceID {
 					activeServices.append(service)
 				}
 			}
