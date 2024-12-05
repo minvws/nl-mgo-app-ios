@@ -20,7 +20,8 @@ enum HealthCategoriesViewMode {
 
 struct HealthCategoriesViewState {
 	
-	var title: String
+	var heading: String
+	var subheading: String
 	var canTitleCollapse: Bool
 	var showEmptyView: Bool
 	var showRemoveHealthcareProvider: Bool
@@ -72,11 +73,18 @@ class HealthCategoriesViewModel: ObservableObject {
 		self.coordinator = coordinator
 		self.mode = mode
 		
-		let title: String = switch mode {
+		let heading: String = switch mode {
 			case .single(let mgoOrganization):
 				mgoOrganization.display_name
 			case .all:
 				String(localized: "overview.heading")
+		}
+		
+		let subheading: String = switch mode {
+			case .single:
+				String(localized: "overview.organizations.subheading")
+			case .all:
+				String(localized: "overview.subheading")
 		}
 		
 		let backbuttonTitle: LocalizedStringKey? = switch mode {
@@ -95,7 +103,8 @@ class HealthCategoriesViewModel: ObservableObject {
 		}
 		
 		self.state = HealthCategoriesViewState(
-			title: title,
+			heading: heading,
+			subheading: subheading,
 			canTitleCollapse: canTitleCollapse,
 			showEmptyView: Current.healthcareOrganizationStore.organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
@@ -295,8 +304,8 @@ struct HealthCategoriesView: View {
 		}
 		enum List {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-			static let spacing: CGFloat = 16
-			static let top: CGFloat = 24
+			static let spacing: CGFloat = 4
+			static let bottom: CGFloat = 16
 		}
 		enum NoResults {
 			static let top: CGFloat = 44
@@ -307,38 +316,32 @@ struct HealthCategoriesView: View {
 	}
 	
 	var body: some View {
-			
-		Group {
+		
+		// Bottom margin needs to be fixed
+		
+		VStack(spacing: 0) {
 			
 			if !viewModel.state.canTitleCollapse {
-				headerView()
+				heading()
+					.padding(.bottom, ViewTraits.General.padding / 2)
 			}
 			
 			if viewModel.state.showEmptyView {
 				noHealthcareOrganizationView()
 			} else {
-				
 				categoriesView()
-				.listStyle(.insetGrouped)
-				.backportListSectionSpacing(ViewTraits.List.spacing)
-				.when(viewModel.state.canTitleCollapse) { view in
-					view
-						.simultaneousGesture(
-							DragGesture()
-								.onChanged { _ in isScrolling = true }
-								.onEnded { _ in isScrolling = false }
-						)
-						.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
-						.safeAreaInset(edge: .top, spacing: .zero) {
-							Spacer()
-								.frame(height: ViewTraits.List.top)
-								.frame(maxWidth: .infinity)
-						}
-				}
-				
-				Spacer()
+					.backportListSectionSpacing(ViewTraits.List.spacing)
+					.backportVerticalContentMargins(0)
+					.when(viewModel.state.canTitleCollapse) { view in
+						view
+							.simultaneousGesture(
+								DragGesture()
+									.onChanged { _ in isScrolling = true }
+									.onEnded { _ in isScrolling = false }
+							)
+							.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
+					}
 			}
-
 		} // VStack
 		.navigationBarBackButtonHidden()
 		.when(viewModel.state.backButtonTitle != nil, transform: { view in
@@ -348,35 +351,42 @@ struct HealthCategoriesView: View {
 				})
 		})
 		.when(viewModel.state.canTitleCollapse) { view in
-			view.navigationTitle(viewModel.state.title)
+			view.navigationTitle(viewModel.state.heading)
 		}
 		.navigationBarHidden(false)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 		.refreshable {
 			viewModel.reduce(.refresh)
-		}.onAppear {
+		}
+		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
 	}
 	
 	/// The view for the header
 	/// - Returns: header view
-	@ViewBuilder func headerView() -> some View {
+	@ViewBuilder func heading() -> some View {
+		
+		Text(viewModel.state.heading)
+			.rijksoverheidStyle(font: .bold, style: .title)
+			.foregroundColor(theme.contentPrimary)
+			.frame(maxWidth: .infinity, alignment: .topLeading)
+			.accessibilityAddTraits(.isHeader)
+			.accessibilityIdentifier("healthcare_organizations.heading")
+			.padding(.horizontal, ViewTraits.General.padding)
+			.padding(.top, ViewTraits.Navigation.padding)
+	}
 	
-		HStack {
-			Text(viewModel.state.title)
-				.rijksoverheidStyle(font: .bold, style: .title)
-				.foregroundColor(theme.contentPrimary)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityAddTraits(.isHeader)
-				.accessibilityIdentifier("healthcare_organizations.heading")
-			
-			Spacer()
-
-		}
-		.padding(.horizontal, ViewTraits.General.padding)
-		.padding(.top, ViewTraits.Navigation.padding)
+	/// The view for the sub heading
+	/// - Returns: sub heading view
+	@ViewBuilder func subHeading() -> some View {
+		
+		Text(viewModel.state.subheading)
+			.rijksoverheidStyle(font: .regular, style: .body)
+			.foregroundColor(theme.contentPrimary)
+			.frame(maxWidth: .infinity, alignment: .topLeading)
+			.accessibilityIdentifier("overview.subheading")
 	}
 	
 	/// The view for the categories
@@ -384,11 +394,17 @@ struct HealthCategoriesView: View {
 	@ViewBuilder func categoriesView() -> some View {
 		
 		List {
-			
+			Section {
+				subHeading()
+					.padding(.bottom, viewModel.state.canTitleCollapse ? 0 : ViewTraits.General.padding / 2)
+			}
+			.listRowBackground(Color.clear)
+			.listRowInsets(ViewTraits.List.rowInset)
+
 			ForEach(1..<4) { box in
 				
 				Section {
-					
+				
 					let list = viewModel.state.healthCategories
 						.filter { $0.box == box }
 						.sorted(by: { $0.id < $1.id })
@@ -407,12 +423,11 @@ struct HealthCategoriesView: View {
 					}
 				}
 				.listRowInsets(ViewTraits.List.rowInset)
-				.environment(\.defaultMinListHeaderHeight, ViewTraits.Navigation.padding)
 			}
 			
-			if viewModel.state.showRemoveHealthcareProvider {
-				Section { /* Empty section */ }
-				footer: {
+			Section { /* Empty section */ }
+			footer: {
+				if viewModel.state.showRemoveHealthcareProvider {
 					// Button in footer of an empty section so it is
 					// at the bottom of the list, and without a rounded list background
 					CallToActionButton(
@@ -421,10 +436,13 @@ struct HealthCategoriesView: View {
 							viewModel.reduce(.removeHealthcareOrganization)
 						}
 						.accessibilityIdentifier("organizations.remove_organization")
+				} else {
+					Spacer(minLength: ViewTraits.List.bottom)
 				}
 			}
 		} // List
 		.backportScrollContentBackground(.hidden)
+		.listStyle(.insetGrouped)
 	}
 	
 	/// Create the empty state view

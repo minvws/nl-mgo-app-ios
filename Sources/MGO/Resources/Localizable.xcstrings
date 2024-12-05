@@ -1500,6 +1500,28 @@
         }
       }
     },
+    "overview.organizations.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al je gegevens van deze zorgaanbieder"
+          }
+        }
+      }
+    },
+    "overview.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al je zorgaanbieders op één plek"
+          }
+        }
+      }
+    },
     "overview.voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
