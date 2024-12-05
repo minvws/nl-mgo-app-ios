@@ -154,7 +154,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 					username: username,
 					password: password
 				)
-				mgoResources = try repository.process(data)
+				mgoResources = try repository.process(data, fhirVersion: service.fhirVersion.rawValue)
 			} catch {
 				resourceError = true
 			}

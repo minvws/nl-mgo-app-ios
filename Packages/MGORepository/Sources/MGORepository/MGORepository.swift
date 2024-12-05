@@ -64,7 +64,7 @@ public class MGORepository {
 	/// process the bundle FHIR data into mgoResources
 	/// - Parameter data: FHIR bundle
 	/// - Returns: array of mgoResources (as Data)
-	public func process(_ data: Data) throws -> [MgoResource] {
+	public func process(_ data: Data, fhirVersion: String) throws -> [MgoResource] {
 
 		// The parser
 		let parser = FHIRParser()

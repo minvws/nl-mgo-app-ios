@@ -61,7 +61,7 @@ public class FHIRParser {
 	///   - method: the method in javascript to be called
 	///   - input: the input for that method
 	/// - Returns: the result of invoking that method
-	private func callJSMethod(_ method: String, with input: Data) throws -> JSValue {
+	private func callJSMethod(_ method: String, with input: Data, fhirVersion: String = "R3") throws -> JSValue {
 		
 		// Step 1: Create a new JS context
 		guard let jsContext = createContext() else {
@@ -81,7 +81,7 @@ public class FHIRParser {
 		guard let inputString = String(data: input, encoding: .utf8) else { throw FHIRParserError.invalidInput }
 		
 		// Step 5: call the desired method (getBundleResourcesJson etc) on the namespace with the input
-		guard let resourcesJSValue = nameSpace.invokeMethod(method, withArguments: [inputString]) else {
+		guard let resourcesJSValue = nameSpace.invokeMethod(method, withArguments: [inputString, fhirVersion]) else {
 			logError("Failed to invoke \(method) on the nameSpace")
 			throw FHIRParserError.noResult
 		}
@@ -113,10 +113,10 @@ public class FHIRParser {
 	/// parseResourceJson, i.e. transform the incoming FHIR Resource into a Zib object
 	/// - Parameter json: resource to parse
 	/// - Returns: Zib as data
-	public func getMgoResourceJson(_ json: Data) -> Data? {
+	public func getMgoResourceJson(_ json: Data, fhirVersion: String = "R3") -> Data? {
 		
 		do {
-			let resourcesJSValue = try callJSMethod("getMgoResourceJson", with: json)
+			let resourcesJSValue = try callJSMethod("getMgoResourceJson", with: json, fhirVersion: fhirVersion)
 			let data = Data(resourcesJSValue.toString().utf8)
 			return data
 			
@@ -163,3 +163,4 @@ public enum FHIRParserError: Error {
 	// The parser was not found at its location
 	case parserNotFound
 }
+
