@@ -170,7 +170,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.loggedInWithDigiD)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.loginInfo])
+		expect(self.sut.rootState) == AppCoordination.State.loginInfo
+		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
 	}
 	
@@ -197,7 +198,8 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.showChildCoordinator) == false
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.automaticLocalization])
+		expect(self.sut.rootState) == AppCoordination.State.automaticLocalization
+		expect(self.sut.path.isEmpty) == true
 	}
 	
 	func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_shouldShowDashboard() {
