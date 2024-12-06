@@ -2006,6 +2006,28 @@
         }
       }
     },
+    "settings.reset_app.dialog.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wil je de app resetten?"
+          }
+        }
+      }
+    },
+    "settings.reset_app.dialog.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daarmee verwijder je je account. Je kunt later wel weer een nieuw account aanmaken als je dat wilt."
+          }
+        }
+      }
+    },
     "toast.organization_removed.heading" : {
       "extractionState" : "manual",
       "localizations" : {

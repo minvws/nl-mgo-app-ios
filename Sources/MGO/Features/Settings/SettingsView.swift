@@ -21,6 +21,7 @@ class SettingsViewModel: ObservableObject {
 		case resetApplication
 		case showResetDialog
 		case automaticLocalization(Bool)
+		case cancelDialog
 	}
 	
 	/// Intitializer
@@ -41,6 +42,8 @@ class SettingsViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.resetApplication)
 			case .showResetDialog:
 				showResetDialog = true
+			case .cancelDialog:
+				showResetDialog = false
 			case let .automaticLocalization(automaticLocalization):
 				Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
 		}
@@ -91,14 +94,15 @@ struct SettingsView: View {
 					viewModel.reduce(.showResetDialog)
 				}
 				.padding(ViewTraits.Button.insets)
-				.confirmationDialog(
-					"Reset de app?",
+				.alert(
+					"settings.reset_app.dialog.heading",
 					isPresented: $viewModel.showResetDialog) {
-						Button("Reset", role: .destructive) {
-							viewModel.reduce(.resetApplication)
-						}
+						Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }
+							.accessibilityIdentifier("common.no")
+						Button("common.yes", role: .destructive) { viewModel.reduce(.resetApplication) }
+							.accessibilityIdentifier("common.yes")
 					} message: {
-						Text(verbatim: "You cannot undo this action")
+						Text("settings.reset_app.dialog.subheading")
 					}
 			}
 			
