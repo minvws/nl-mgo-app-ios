@@ -179,6 +179,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		
 			let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
 			
+			// The binary call also needs the DVA Target header
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId) else {
 				return nil
 			}

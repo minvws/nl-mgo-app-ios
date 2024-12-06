@@ -21,6 +21,7 @@ final class VaccinationTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Immunization"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r4
 		expect { try self.contains(endpoint, key: "_include", value: "patient") } == true
 	}
 	
@@ -34,6 +35,7 @@ final class VaccinationTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Immunization"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r4
 		expect { try self.contains(endpoint, key: "_include", value: "location") } == true
 	}
 	
@@ -47,6 +49,7 @@ final class VaccinationTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Immunization"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r4
 		expect { try self.contains(endpoint, key: "_include", value: "performer") } == true
 	}
 
