@@ -24,7 +24,7 @@ final class SettingsViewModelTests: XCTestCase {
 		sut = SettingsViewModel(coordinator: coordinatorSpy)
 	}
 	
-	func test_showResetDialog_shouldCallCoordinator() {
+	func test_showResetDialog_shouldShowDialog() {
 		
 		// Given
 		
@@ -34,6 +34,19 @@ final class SettingsViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
 		expect(self.sut.showResetDialog) == true
+	}
+	
+	func test_cancelDialog_shouldRemoveDialog() {
+		
+		// Given
+		sut.showResetButton = true
+		
+		// When
+		sut.reduce(.cancelDialog)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == false
+		expect(self.sut.showResetDialog) == false
 	}
 	
 	func test_resetApplication_shouldCallCoordinator() {

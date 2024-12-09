@@ -21,6 +21,7 @@ class SettingsViewModel: ObservableObject {
 		case resetApplication
 		case showResetDialog
 		case automaticLocalization(Bool)
+		case cancelDialog
 	}
 	
 	/// Intitializer
@@ -41,6 +42,8 @@ class SettingsViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.resetApplication)
 			case .showResetDialog:
 				showResetDialog = true
+			case .cancelDialog:
+				showResetDialog = false
 			case let .automaticLocalization(automaticLocalization):
 				Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
 		}
@@ -79,31 +82,33 @@ struct SettingsView: View {
 					Toggle(isOn: $automaticLocalization) {
 						Text("settings.featureflag.localization")
 					}.toggleStyle(.switch)
-					.tint(theme.actionPrimaryDefaultBackground)
+						.tint(theme.actionPrimaryDefaultBackground)
 				}
 			}
 			.onChange(of: automaticLocalization) { newValue in
 				viewModel.reduce(.automaticLocalization(newValue))
 			}
-			
-			if viewModel.showResetButton {
-				CallToActionButton("Reset de app", style: .primaryNegative) {
-					viewModel.reduce(.showResetDialog)
-				}
-				.padding(ViewTraits.Button.insets)
-				.confirmationDialog(
-					"Reset de app?",
-					isPresented: $viewModel.showResetDialog) {
-						Button("Reset", role: .destructive) {
-							viewModel.reduce(.resetApplication)
-						}
-					} message: {
-						Text(verbatim: "You cannot undo this action")
-					}
-			}
-			
-			Spacer()
 		}
+		.when(viewModel.showResetButton) { view in
+			view
+				.safeAreaInset(edge: VerticalEdge.bottom) {
+					CallToActionButton("settings.reset_app.button", style: .primaryNegative) {
+						viewModel.reduce(.showResetDialog)
+					}
+					.padding(ViewTraits.Button.insets)
+				}
+		}
+		.alert(
+			"settings.reset_app.dialog.heading",
+			isPresented: $viewModel.showResetDialog) {
+				Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }
+					.accessibilityIdentifier("common.no")
+				Button("common.yes", role: .destructive) { viewModel.reduce(.resetApplication) }
+					.accessibilityIdentifier("common.yes")
+			} message: {
+				Text("settings.reset_app.dialog.subheading")
+			}
+
 		.padding(.top, ViewTraits.Navigation.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.navigationTitle("settings.heading")

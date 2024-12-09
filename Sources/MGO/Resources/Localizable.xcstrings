@@ -653,6 +653,17 @@
         }
       }
     },
+    "common.search_organizations" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoeken naar zorgaanbieders"
+          }
+        }
+      }
+    },
     "common.skip" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2002,6 +2013,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instellingen"
+          }
+        }
+      }
+    },
+    "settings.reset_app.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset de app"
+          }
+        }
+      }
+    },
+    "settings.reset_app.dialog.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wil je de app resetten?"
+          }
+        }
+      }
+    },
+    "settings.reset_app.dialog.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daarmee verwijder je je account. Je kunt later wel weer een nieuw account aanmaken als je dat wilt."
           }
         }
       }
