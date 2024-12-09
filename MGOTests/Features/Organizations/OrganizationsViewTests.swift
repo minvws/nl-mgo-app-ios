@@ -21,6 +21,7 @@ final class OrganizationsViewTests: XCTestCase {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
+		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		coordinatorSpy = AppCoordinatorSpy()
 	}
 	
@@ -43,6 +44,20 @@ final class OrganizationsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_dashboard_emptyList_automaticLocalizationEnabled() {
+		
+		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
+		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
+		createSut()
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	func test_dashboard_threeOrganizations() {
 		
 		// Given
@@ -51,6 +66,24 @@ final class OrganizationsViewTests: XCTestCase {
 			Generator.healthcareOrganization("2"),
 			Generator.healthcareOrganization("3")
 		]
+		createSut()
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_dashboard_threeOrganizations_automaticLocalizationEnabled() {
+		
+		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
+			Generator.healthcareOrganization("1"),
+			Generator.healthcareOrganization("2"),
+			Generator.healthcareOrganization("3")
+		]
+		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
 		createSut()
 		
 		// When
@@ -87,6 +120,7 @@ final class OrganizationsViewTests: XCTestCase {
 	func test_dashboard_addHealthcareOrganization_noOrganizations() throws {
 		
 		// Given
+		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		createSut()
 		

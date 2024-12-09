@@ -90,7 +90,7 @@ struct SettingsView: View {
 			}
 			
 			if viewModel.showResetButton {
-				CallToActionButton("Reset de app", style: .primaryNegative) {
+				CallToActionButton("settings.reset_app.button", style: .primaryNegative) {
 					viewModel.reduce(.showResetDialog)
 				}
 				.padding(ViewTraits.Button.insets)

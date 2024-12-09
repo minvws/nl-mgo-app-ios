@@ -653,6 +653,17 @@
         }
       }
     },
+    "common.search_organizations" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoeken naar zorgaanbieders"
+          }
+        }
+      }
+    },
     "common.skip" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2002,6 +2013,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instellingen"
+          }
+        }
+      }
+    },
+    "settings.reset_app.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset de app"
           }
         }
       }
