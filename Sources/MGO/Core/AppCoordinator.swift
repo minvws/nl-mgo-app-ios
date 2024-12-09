@@ -278,12 +278,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case Coordination.Action.loggedInWithDigiD.identifier:
 				Current.secureUserSettings.userHasRemoteAuthentication = true
 			
-				path.append(AppCoordination.State.loginInfo)
+				resetNavigationStack(with: AppCoordination.State.loginInfo)
 			
 			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
 			
 				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
-					path.append(AppCoordination.State.automaticLocalization)
+					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
 				} else {
 					showChildCoordinator = true
 				}

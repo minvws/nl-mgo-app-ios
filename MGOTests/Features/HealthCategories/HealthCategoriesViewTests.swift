@@ -85,6 +85,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 	func test_addHealthcareOrganization_noOrganizations() throws {
 		
 		// Given
+		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 		sut = HealthCategoriesView(viewModel: self.viewModel)
@@ -96,5 +97,35 @@ final class HealthCategoriesViewTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
+	}
+	
+	func test_noOrganizations_automaticLocalizationEnabled() throws {
+		
+		// Given
+		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
+		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		sut = HealthCategoriesView(viewModel: self.viewModel)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
+	func test_noOrganizations_automaticLocalizationDisabled() throws {
+		
+		// Given
+		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
+		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		sut = HealthCategoriesView(viewModel: self.viewModel)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
 	}
 }

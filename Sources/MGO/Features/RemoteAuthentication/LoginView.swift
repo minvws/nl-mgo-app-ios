@@ -10,6 +10,8 @@ import MGOUI
 
 class LoginViewModel: ObservableObject {
 	
+	@Published var isEIDASenabled: Bool = false
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case loginWithDigiD
@@ -21,9 +23,11 @@ class LoginViewModel: ObservableObject {
 	
 	/// Initializer
 	/// - Parameter coordinator: The coordinator
-	init(coordinator: (any Coordinator)?) {
+	/// - Parameter isEIDASenabled: Boolean indicating the eIDAS state
+	init(coordinator: (any Coordinator)?, isEIDASenabled: Bool = false) {
 		
 		self.coordinator = coordinator
+		self.isEIDASenabled = isEIDASenabled
 	}
 	
 	/// Handle any action
@@ -84,12 +88,15 @@ struct LoginView: View {
 						}
 						.accessibilityIdentifier("login.digid")
 					
-					DisclosureWithImageButton(
-						title: "login.european",
-						image: ImageResource.RemoteAuthentication.eidas) {
-							viewModel.reduce(.loginWithEIDAS)
-						}
-						.accessibilityIdentifier("login.european")
+					if viewModel.isEIDASenabled {
+						
+						DisclosureWithImageButton(
+							title: "login.european",
+							image: ImageResource.RemoteAuthentication.eidas) {
+								viewModel.reduce(.loginWithEIDAS)
+							}
+							.accessibilityIdentifier("login.european")
+					}
 				})
 				.padding(.top, ViewTraits.Button.top)
 			}

@@ -462,7 +462,7 @@ struct HealthCategoriesView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton("common.add_organizations") {
+			CallToActionButton(Current.featureFlagManager.isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
 				viewModel.reduce(.search)
 			}
 			.accessibilityIdentifier("common.add_organizations")
