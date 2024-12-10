@@ -2078,7 +2078,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nu downloaden"
+            "value" : "Installeer update"
           }
         }
       }
@@ -2089,7 +2089,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt een oude versie van de app"
+            "value" : "Tijd voor een update"
           }
         }
       }
@@ -2100,7 +2100,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Download de nieuwste versie van de app om te zorgen dat Mijn Gezondheidsoverzicht goed blijft werken."
+            "value" : "Je hebt de nieuwste versie van de app nodig om verder te gaan."
           }
         }
       }
