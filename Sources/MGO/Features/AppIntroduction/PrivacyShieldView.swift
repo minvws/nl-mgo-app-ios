@@ -25,13 +25,13 @@ struct PrivacyShieldView: View {
 		var image: ImageResource {
 			switch self {
 				case .encrypted:
-					.shieldEncrypted
+					.Shields.encrypted
 				case .safety:
-					.shieldPlus
+					.Shields.plus
 				case .checked:
-					.shieldChecked
+					.Shields.checked
 				case .cross:
-					.shieldCross
+					.Shields.cross
 			}
 		}
 	}
