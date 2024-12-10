@@ -81,7 +81,7 @@ public class MGORepository {
 			let resource = try JSONSerialization.data(withJSONObject: element)
 			
 			// Transfrom to MgoResource
-			if let mgoResource = parser.getMgoResourceJson(resource) {
+			if let mgoResource = parser.getMgoResourceJson(resource, fhirVersion: fhirVersion) {
 				mgoResources.append(mgoResource)
 			}
 		}

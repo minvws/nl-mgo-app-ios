@@ -10060,15 +10060,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     if (!config) return;
     return config.parse(resource);
   }
-  function getMgoResourceJson(fhirResourceJson, formatResponse = false) {
+  function getMgoResourceJson(fhirResourceJson, fhirVersion = FhirVersion.R3) {
     const fhirResource = losslessParse(fhirResourceJson);
     if (!isFhirResource(fhirResource)) {
       throw new Error(
         `input does not seem to be a valid Fhir Resource. Received resourceType: "${fhirResource?.resourceType}"`
       );
     }
-    const result = getMgoResource(fhirResource, FhirVersion.R3);
-    return losslessStringify(result, formatResponse);
+    const result = getMgoResource(fhirResource, fhirVersion);
+    return losslessStringify(result);
   }
   function isMgoResource(value2) {
     const resourceTyped = value2;

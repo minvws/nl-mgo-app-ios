@@ -60,9 +60,9 @@ public class FHIRParser {
 	/// - Parameters:
 	///   - method: the method in javascript to be called
 	///   - input: the input for that method
-	///   - fhirVersion: the FHIR version of the expected resource, defaults to `R3`
+	///   - fhirVersion: the FHIR version of the expected resource,
 	/// - Returns: the result of invoking that method
-	private func callJSMethod(_ method: String, with input: Data, fhirVersion: String = "R3") throws -> JSValue {
+	private func callJSMethod(_ method: String, with input: Data, fhirVersion: String? = nil) throws -> JSValue {
 		
 		// Step 1: Create a new JS context
 		guard let jsContext = createContext() else {
@@ -80,9 +80,13 @@ public class FHIRParser {
 		
 		// Step 4: Stringify the input (json)
 		guard let inputString = String(data: input, encoding: .utf8) else { throw FHIRParserError.invalidInput }
+		var arguments = [inputString]
+		if let fhirVersion {
+			arguments.append(fhirVersion)
+		}
 		
 		// Step 5: call the desired method (getBundleResourcesJson etc) on the namespace with the input
-		guard let resourcesJSValue = nameSpace.invokeMethod(method, withArguments: [inputString, fhirVersion]) else {
+		guard let resourcesJSValue = nameSpace.invokeMethod(method, withArguments: arguments) else {
 			logError("Failed to invoke \(method) on the nameSpace")
 			throw FHIRParserError.noResult
 		}
