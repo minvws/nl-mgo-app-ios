@@ -77,7 +77,7 @@ struct UpdateRequiredView: View {
 				if showImage {
 					HStack {
 						Spacer(minLength: ViewTraits.Image.padding)
-						Image(ImageResource.Woman.womanOnCouchSettings)
+						Image(ImageResource.Woman.womanWithPhoneCog)
 							.resizable()
 							.scaledToFit()
 							.accessibilityHidden(true)
