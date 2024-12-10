@@ -506,7 +506,7 @@ struct HealthCategoryView: View {
 	@ViewBuilder func noSearchItems() -> some View {
 		
 		ImageContentView(
-			icon: Image(ImageResource.Woman.womanWithPhoneInCircleExclamation),
+			icon: Image(ImageResource.Woman.womanWithPhoneExclamation),
 			heading: viewModel.translations.noSearchResults,
 			subHeading: "health_category.search_again"
 		)
