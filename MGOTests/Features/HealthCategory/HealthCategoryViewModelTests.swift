@@ -225,7 +225,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
-		if case let HealthCategoryViewState.partial(items) = sut.state {
+		if case let HealthCategoryViewState.list(items) = sut.state {
 			expect(items).to(beEmpty())
 		} else {
 			fail("Invalid state")
