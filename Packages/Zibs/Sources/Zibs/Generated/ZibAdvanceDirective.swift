@@ -12,11 +12,12 @@ import Foundation
 
 // MARK: - ZibAdvanceDirective
 public struct ZibAdvanceDirective: Codable, Hashable, Sendable {
-    public let category: [[MgoCoding]]?
+    public let category: [MgoCodeableConcept]?
     public let comment: String?
     public let consentingParty: [MgoReference]?
     public let dateTime: String?
     public let disorder: MgoReference?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let profile: ZibAdvanceDirectiveProfile
     public let referenceID: String
@@ -24,17 +25,18 @@ public struct ZibAdvanceDirective: Codable, Hashable, Sendable {
     public let source: Source
 
     public enum CodingKeys: String, CodingKey {
-        case category, comment, consentingParty, dateTime, disorder, id, profile
+        case category, comment, consentingParty, dateTime, disorder, fhirVersion, id, profile
         case referenceID = "referenceId"
         case resourceType, source
     }
 
-    public init(category: [[MgoCoding]]?, comment: String?, consentingParty: [MgoReference]?, dateTime: String?, disorder: MgoReference?, id: String?, profile: ZibAdvanceDirectiveProfile, referenceID: String, resourceType: String?, source: Source) {
+    public init(category: [MgoCodeableConcept]?, comment: String?, consentingParty: [MgoReference]?, dateTime: String?, disorder: MgoReference?, fhirVersion: FhirVersionR3, id: String?, profile: ZibAdvanceDirectiveProfile, referenceID: String, resourceType: String?, source: Source) {
         self.category = category
         self.comment = comment
         self.consentingParty = consentingParty
         self.dateTime = dateTime
         self.disorder = disorder
+        self.fhirVersion = fhirVersion
         self.id = id
         self.profile = profile
         self.referenceID = referenceID
@@ -62,11 +64,12 @@ public extension ZibAdvanceDirective {
     }
 
     func with(
-        category: [[MgoCoding]]?? = nil,
+        category: [MgoCodeableConcept]?? = nil,
         comment: String?? = nil,
         consentingParty: [MgoReference]?? = nil,
         dateTime: String?? = nil,
         disorder: MgoReference?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         profile: ZibAdvanceDirectiveProfile? = nil,
         referenceID: String? = nil,
@@ -79,6 +82,7 @@ public extension ZibAdvanceDirective {
             consentingParty: consentingParty ?? self.consentingParty,
             dateTime: dateTime ?? self.dateTime,
             disorder: disorder ?? self.disorder,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,

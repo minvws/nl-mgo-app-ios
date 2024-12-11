@@ -14,14 +14,14 @@ import Foundation
 public struct UIEntry: Codable, Hashable, Sendable {
     public let display: UIEntryDisplay?
     public let label: String
-    public let summary: Bool?
+    public let showEmpty: Bool?
     public let type: UIEntryType
     public let reference, url: String?
 
-    public init(display: UIEntryDisplay?, label: String, summary: Bool?, type: UIEntryType, reference: String?, url: String?) {
+    public init(display: UIEntryDisplay?, label: String, showEmpty: Bool?, type: UIEntryType, reference: String?, url: String?) {
         self.display = display
         self.label = label
-        self.summary = summary
+        self.showEmpty = showEmpty
         self.type = type
         self.reference = reference
         self.url = url
@@ -49,7 +49,7 @@ public extension UIEntry {
     func with(
         display: UIEntryDisplay?? = nil,
         label: String? = nil,
-        summary: Bool?? = nil,
+        showEmpty: Bool?? = nil,
         type: UIEntryType? = nil,
         reference: String?? = nil,
         url: String?? = nil
@@ -57,7 +57,7 @@ public extension UIEntry {
         return UIEntry(
             display: display ?? self.display,
             label: label ?? self.label,
-            summary: summary ?? self.summary,
+            showEmpty: showEmpty ?? self.showEmpty,
             type: type ?? self.type,
             reference: reference ?? self.reference,
             url: url ?? self.url

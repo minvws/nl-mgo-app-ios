@@ -13,9 +13,9 @@ import Foundation
 // MARK: - ZibProductIngredient
 public struct ZibProductIngredient: Codable, Hashable, Sendable {
     public let amount: MgoRatio?
-    public let item: [MgoCoding]?
+    public let item: MgoCodeableConcept?
 
-    public init(amount: MgoRatio?, item: [MgoCoding]?) {
+    public init(amount: MgoRatio?, item: MgoCodeableConcept?) {
         self.amount = amount
         self.item = item
     }
@@ -41,7 +41,7 @@ public extension ZibProductIngredient {
 
     func with(
         amount: MgoRatio?? = nil,
-        item: [MgoCoding]?? = nil
+        item: MgoCodeableConcept?? = nil
     ) -> ZibProductIngredient {
         return ZibProductIngredient(
             amount: amount ?? self.amount,

@@ -13,6 +13,7 @@ import Foundation
 // MARK: - NlCorePractitioner
 public struct NlCorePractitioner: Codable, Hashable, Sendable {
     public let address: [NlCoreAddress]?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let name: [NlCoreHumanname]?
@@ -22,13 +23,14 @@ public struct NlCorePractitioner: Codable, Hashable, Sendable {
     public let telecom: [NlCoreContactpoint]?
 
     public enum CodingKeys: String, CodingKey {
-        case address, id, identifier, name, profile
+        case address, fhirVersion, id, identifier, name, profile
         case referenceID = "referenceId"
         case resourceType, telecom
     }
 
-    public init(address: [NlCoreAddress]?, id: String?, identifier: [MgoIdentifier]?, name: [NlCoreHumanname]?, profile: NlCorePractitionerProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
+    public init(address: [NlCoreAddress]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, name: [NlCoreHumanname]?, profile: NlCorePractitionerProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
         self.address = address
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.name = name
@@ -59,6 +61,7 @@ public extension NlCorePractitioner {
 
     func with(
         address: [NlCoreAddress]?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         name: [NlCoreHumanname]?? = nil,
@@ -69,6 +72,7 @@ public extension NlCorePractitioner {
     ) -> NlCorePractitioner {
         return NlCorePractitioner(
             address: address ?? self.address,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             name: name ?? self.name,

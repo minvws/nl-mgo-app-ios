@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let bodySite = try BodySite(json)
+//   let zibLaboratoryTestResultSpecimenContainer = try ZibLaboratoryTestResultSpecimenContainer(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,22 @@
 
 import Foundation
 
-// MARK: - BodySite
-public struct BodySite: Codable, Hashable, Sendable {
-    public let laterality, morphology, value: [MgoCoding]?
+// MARK: - ZibLaboratoryTestResultSpecimenContainer
+public struct ZibLaboratoryTestResultSpecimenContainer: Codable, Hashable, Sendable {
+    public let identifier: [MgoIdentifier]?
+    public let type: MgoCodeableConcept?
 
-    public init(laterality: [MgoCoding]?, morphology: [MgoCoding]?, value: [MgoCoding]?) {
-        self.laterality = laterality
-        self.morphology = morphology
-        self.value = value
+    public init(identifier: [MgoIdentifier]?, type: MgoCodeableConcept?) {
+        self.identifier = identifier
+        self.type = type
     }
 }
 
-// MARK: BodySite convenience initializers and mutators
+// MARK: ZibLaboratoryTestResultSpecimenContainer convenience initializers and mutators
 
-public extension BodySite {
+public extension ZibLaboratoryTestResultSpecimenContainer {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(BodySite.self, from: data)
+        self = try newJSONDecoder().decode(ZibLaboratoryTestResultSpecimenContainer.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,14 +40,12 @@ public extension BodySite {
     }
 
     func with(
-        laterality: [MgoCoding]?? = nil,
-        morphology: [MgoCoding]?? = nil,
-        value: [MgoCoding]?? = nil
-    ) -> BodySite {
-        return BodySite(
-            laterality: laterality ?? self.laterality,
-            morphology: morphology ?? self.morphology,
-            value: value ?? self.value
+        identifier: [MgoIdentifier]?? = nil,
+        type: MgoCodeableConcept?? = nil
+    ) -> ZibLaboratoryTestResultSpecimenContainer {
+        return ZibLaboratoryTestResultSpecimenContainer(
+            identifier: identifier ?? self.identifier,
+            type: type ?? self.type
         )
     }
 

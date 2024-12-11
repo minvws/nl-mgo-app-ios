@@ -12,17 +12,18 @@ import Foundation
 
 // MARK: - ZibBodyWeight
 public struct ZibBodyWeight: Codable, Hashable, Sendable {
-    public let bodySite: [MgoCoding]?
-    public let category: [[MgoCoding]]?
+    public let bodySite: MgoCodeableConcept?
+    public let category: [MgoCodeableConcept]?
     public let clothing: Clothing
     public let comment: String?
     public let context: MgoReference?
-    public let dataAbsentReason: [MgoCoding]?
+    public let dataAbsentReason: MgoCodeableConcept?
     public let effectiveDateTime: String?
     public let effectivePeriod: MgoPeriod?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let method: [MgoCoding]?
+    public let method: MgoCodeableConcept?
     public let profile: ZibBodyWeightProfile
     public let referenceID: String
     public let resourceType, status: String?
@@ -30,12 +31,12 @@ public struct ZibBodyWeight: Codable, Hashable, Sendable {
     public let valueQuantity: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, category, clothing, comment, context, dataAbsentReason, effectiveDateTime, effectivePeriod, id, identifier, method, profile
+        case bodySite, category, clothing, comment, context, dataAbsentReason, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, method, profile
         case referenceID = "referenceId"
         case resourceType, status, subject, valueQuantity
     }
 
-    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, clothing: Clothing, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, profile: ZibBodyWeightProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoDuration?) {
+    public init(bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, clothing: Clothing, comment: String?, context: MgoReference?, dataAbsentReason: MgoCodeableConcept?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, profile: ZibBodyWeightProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoDuration?) {
         self.bodySite = bodySite
         self.category = category
         self.clothing = clothing
@@ -44,6 +45,7 @@ public struct ZibBodyWeight: Codable, Hashable, Sendable {
         self.dataAbsentReason = dataAbsentReason
         self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.method = method
@@ -75,17 +77,18 @@ public extension ZibBodyWeight {
     }
 
     func with(
-        bodySite: [MgoCoding]?? = nil,
-        category: [[MgoCoding]]?? = nil,
+        bodySite: MgoCodeableConcept?? = nil,
+        category: [MgoCodeableConcept]?? = nil,
         clothing: Clothing? = nil,
         comment: String?? = nil,
         context: MgoReference?? = nil,
-        dataAbsentReason: [MgoCoding]?? = nil,
+        dataAbsentReason: MgoCodeableConcept?? = nil,
         effectiveDateTime: String?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        method: [MgoCoding]?? = nil,
+        method: MgoCodeableConcept?? = nil,
         profile: ZibBodyWeightProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
@@ -102,6 +105,7 @@ public extension ZibBodyWeight {
             dataAbsentReason: dataAbsentReason ?? self.dataAbsentReason,
             effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             method: method ?? self.method,

@@ -21,6 +21,7 @@ final class GeneralPractitionerTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Patient"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "_include", value: "Patient:general-practitioner") } == true
 	}
 	
@@ -34,6 +35,7 @@ final class GeneralPractitionerTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "EpisodeOfCare"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect(endpoint.parameters) == nil
 	}
 	
@@ -47,6 +49,7 @@ final class GeneralPractitionerTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "MedicationRequest"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "periodofuse", value: "ge[today]") } == true
 		expect { try self.contains(endpoint, key: "category", value: "http://snomed.info/sct|16076005") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "MedicationRequest:medication") } == true
@@ -62,6 +65,7 @@ final class GeneralPractitionerTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "AllergyIntolerance"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "category", value: "medication") } == true
 	}
 	
@@ -75,6 +79,7 @@ final class GeneralPractitionerTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Observation"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "code", value: "https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen|") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "Observation:related-target") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "Observation:specimen") } == true
@@ -91,6 +96,7 @@ final class GeneralPractitionerTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Composition"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "type", value: "http://loinc.org|67781-5") } == true
 	}
 	
@@ -104,6 +110,7 @@ final class GeneralPractitionerTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Encounter"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect(endpoint.parameters) == nil
 	}
 }

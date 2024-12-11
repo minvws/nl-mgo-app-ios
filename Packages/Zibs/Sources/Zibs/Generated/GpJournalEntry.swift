@@ -12,10 +12,11 @@ import Foundation
 
 // MARK: - GpJournalEntry
 public struct GpJournalEntry: Codable, Hashable, Sendable {
-    public let code: [MgoCoding]?
+    public let code: MgoCodeableConcept?
     public let context: MgoReference?
     public let effectiveDateTime: String?
     public let effectivePeriod: MgoPeriod?
+    public let fhirVersion: FhirVersionR3
     public let icpcE: IcpcE
     public let icpcS: IcpcS
     public let id: String?
@@ -26,7 +27,7 @@ public struct GpJournalEntry: Codable, Hashable, Sendable {
     public let resourceType, status, valueString: String?
 
     public enum CodingKeys: String, CodingKey {
-        case code, context, effectiveDateTime, effectivePeriod
+        case code, context, effectiveDateTime, effectivePeriod, fhirVersion
         case icpcE = "ICPC_E"
         case icpcS = "ICPC_S"
         case id, identifier, performer, profile
@@ -34,11 +35,12 @@ public struct GpJournalEntry: Codable, Hashable, Sendable {
         case resourceType, status, valueString
     }
 
-    public init(code: [MgoCoding]?, context: MgoReference?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, icpcE: IcpcE, icpcS: IcpcS, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: GpJournalEntryProfile, referenceID: String, resourceType: String?, status: String?, valueString: String?) {
+    public init(code: MgoCodeableConcept?, context: MgoReference?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, icpcE: IcpcE, icpcS: IcpcS, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: GpJournalEntryProfile, referenceID: String, resourceType: String?, status: String?, valueString: String?) {
         self.code = code
         self.context = context
         self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
+        self.fhirVersion = fhirVersion
         self.icpcE = icpcE
         self.icpcS = icpcS
         self.id = id
@@ -71,10 +73,11 @@ public extension GpJournalEntry {
     }
 
     func with(
-        code: [MgoCoding]?? = nil,
+        code: MgoCodeableConcept?? = nil,
         context: MgoReference?? = nil,
         effectiveDateTime: String?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         icpcE: IcpcE? = nil,
         icpcS: IcpcS? = nil,
         id: String?? = nil,
@@ -91,6 +94,7 @@ public extension GpJournalEntry {
             context: context ?? self.context,
             effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             icpcE: icpcE ?? self.icpcE,
             icpcS: icpcS ?? self.icpcS,
             id: id ?? self.id,

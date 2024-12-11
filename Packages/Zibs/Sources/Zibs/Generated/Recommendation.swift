@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - Recommendation
 public struct Recommendation: Codable, Hashable, Sendable {
-    public let code: [MgoCoding]?
+    public let code: MgoCodeableConcept?
     public let date: String?
     public let dateCriterion: [String]?
 
-    public init(code: [MgoCoding]?, date: String?, dateCriterion: [String]?) {
+    public init(code: MgoCodeableConcept?, date: String?, dateCriterion: [String]?) {
         self.code = code
         self.date = date
         self.dateCriterion = dateCriterion
@@ -42,7 +42,7 @@ public extension Recommendation {
     }
 
     func with(
-        code: [MgoCoding]?? = nil,
+        code: MgoCodeableConcept?? = nil,
         date: String?? = nil,
         dateCriterion: [String]?? = nil
     ) -> Recommendation {

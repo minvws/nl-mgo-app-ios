@@ -14,11 +14,12 @@ import Foundation
 public struct ZibProblem: Codable, Hashable, Sendable {
     public let abatementDateTime, assertedDate: String?
     public let asserter: MgoReference?
-    public let bodySite, category: [[MgoCoding]]?
+    public let bodySite, category: [MgoCodeableConcept]?
     public let clinicalStatus: String?
-    public let code: [MgoCoding]?
+    public let code: MgoCodeableConcept?
     public let context: MgoReference?
     public let evidence: [Evidence]?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let note: [MgoAnnotation]?
@@ -26,18 +27,18 @@ public struct ZibProblem: Codable, Hashable, Sendable {
     public let profile: ZibProblemProfile
     public let referenceID: String
     public let resourceType: String?
-    public let severity: [MgoCoding]?
+    public let severity: MgoCodeableConcept?
     public let stage: Stage
     public let subject: MgoReference?
     public let verificationStatus: String?
 
     public enum CodingKeys: String, CodingKey {
-        case abatementDateTime, assertedDate, asserter, bodySite, category, clinicalStatus, code, context, evidence, id, identifier, note, onsetDateTime, profile
+        case abatementDateTime, assertedDate, asserter, bodySite, category, clinicalStatus, code, context, evidence, fhirVersion, id, identifier, note, onsetDateTime, profile
         case referenceID = "referenceId"
         case resourceType, severity, stage, subject, verificationStatus
     }
 
-    public init(abatementDateTime: String?, assertedDate: String?, asserter: MgoReference?, bodySite: [[MgoCoding]]?, category: [[MgoCoding]]?, clinicalStatus: String?, code: [MgoCoding]?, context: MgoReference?, evidence: [Evidence]?, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, onsetDateTime: String?, profile: ZibProblemProfile, referenceID: String, resourceType: String?, severity: [MgoCoding]?, stage: Stage, subject: MgoReference?, verificationStatus: String?) {
+    public init(abatementDateTime: String?, assertedDate: String?, asserter: MgoReference?, bodySite: [MgoCodeableConcept]?, category: [MgoCodeableConcept]?, clinicalStatus: String?, code: MgoCodeableConcept?, context: MgoReference?, evidence: [Evidence]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, onsetDateTime: String?, profile: ZibProblemProfile, referenceID: String, resourceType: String?, severity: MgoCodeableConcept?, stage: Stage, subject: MgoReference?, verificationStatus: String?) {
         self.abatementDateTime = abatementDateTime
         self.assertedDate = assertedDate
         self.asserter = asserter
@@ -47,6 +48,7 @@ public struct ZibProblem: Codable, Hashable, Sendable {
         self.code = code
         self.context = context
         self.evidence = evidence
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.note = note
@@ -83,12 +85,13 @@ public extension ZibProblem {
         abatementDateTime: String?? = nil,
         assertedDate: String?? = nil,
         asserter: MgoReference?? = nil,
-        bodySite: [[MgoCoding]]?? = nil,
-        category: [[MgoCoding]]?? = nil,
+        bodySite: [MgoCodeableConcept]?? = nil,
+        category: [MgoCodeableConcept]?? = nil,
         clinicalStatus: String?? = nil,
-        code: [MgoCoding]?? = nil,
+        code: MgoCodeableConcept?? = nil,
         context: MgoReference?? = nil,
         evidence: [Evidence]?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         note: [MgoAnnotation]?? = nil,
@@ -96,7 +99,7 @@ public extension ZibProblem {
         profile: ZibProblemProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        severity: [MgoCoding]?? = nil,
+        severity: MgoCodeableConcept?? = nil,
         stage: Stage? = nil,
         subject: MgoReference?? = nil,
         verificationStatus: String?? = nil
@@ -111,6 +114,7 @@ public extension ZibProblem {
             code: code ?? self.code,
             context: context ?? self.context,
             evidence: evidence ?? self.evidence,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             note: note ?? self.note,

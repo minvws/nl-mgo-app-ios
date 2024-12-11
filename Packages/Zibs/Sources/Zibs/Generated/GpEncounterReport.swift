@@ -15,6 +15,7 @@ public struct GpEncounterReport: Codable, Hashable, Sendable {
     public let author: [MgoReference]?
     public let date: String?
     public let encounter: MgoReference?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: MgoIdentifier?
     public let profile: GpEncounterReportProfile
@@ -25,15 +26,16 @@ public struct GpEncounterReport: Codable, Hashable, Sendable {
     public let type: [MgoCoding]?
 
     public enum CodingKeys: String, CodingKey {
-        case author, date, encounter, id, identifier, profile
+        case author, date, encounter, fhirVersion, id, identifier, profile
         case referenceID = "referenceId"
         case resourceType, section, status, title, type
     }
 
-    public init(author: [MgoReference]?, date: String?, encounter: MgoReference?, id: String?, identifier: MgoIdentifier?, profile: GpEncounterReportProfile, referenceID: String, resourceType: String?, section: [Section]?, status: String?, title: String?, type: [MgoCoding]?) {
+    public init(author: [MgoReference]?, date: String?, encounter: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, profile: GpEncounterReportProfile, referenceID: String, resourceType: String?, section: [Section]?, status: String?, title: String?, type: [MgoCoding]?) {
         self.author = author
         self.date = date
         self.encounter = encounter
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.profile = profile
@@ -68,6 +70,7 @@ public extension GpEncounterReport {
         author: [MgoReference]?? = nil,
         date: String?? = nil,
         encounter: MgoReference?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: MgoIdentifier?? = nil,
         profile: GpEncounterReportProfile? = nil,
@@ -82,6 +85,7 @@ public extension GpEncounterReport {
             author: author ?? self.author,
             date: date ?? self.date,
             encounter: encounter ?? self.encounter,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             profile: profile ?? self.profile,

@@ -13,10 +13,10 @@ import Foundation
 // MARK: - MgoIdentifier
 public struct MgoIdentifier: Codable, Hashable, Sendable {
     public let system: String?
-    public let type: [MgoCoding]?
+    public let type: MgoCodeableConcept?
     public let use, value: String?
 
-    public init(system: String?, type: [MgoCoding]?, use: String?, value: String?) {
+    public init(system: String?, type: MgoCodeableConcept?, use: String?, value: String?) {
         self.system = system
         self.type = type
         self.use = use
@@ -44,7 +44,7 @@ public extension MgoIdentifier {
 
     func with(
         system: String?? = nil,
-        type: [MgoCoding]?? = nil,
+        type: MgoCodeableConcept?? = nil,
         use: String?? = nil,
         value: String?? = nil
     ) -> MgoIdentifier {

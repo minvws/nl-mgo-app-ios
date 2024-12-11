@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - ZibProductPackageContent
 public struct ZibProductPackageContent: Codable, Hashable, Sendable {
-    public let item: [MgoCoding]?
+    public let item: MgoCodeableConcept?
     public let reference: MgoReference?
 
-    public init(item: [MgoCoding]?, reference: MgoReference?) {
+    public init(item: MgoCodeableConcept?, reference: MgoReference?) {
         self.item = item
         self.reference = reference
     }
@@ -40,7 +40,7 @@ public extension ZibProductPackageContent {
     }
 
     func with(
-        item: [MgoCoding]?? = nil,
+        item: MgoCodeableConcept?? = nil,
         reference: MgoReference?? = nil
     ) -> ZibProductPackageContent {
         return ZibProductPackageContent(

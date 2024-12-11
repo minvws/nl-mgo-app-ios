@@ -13,24 +13,26 @@ import Foundation
 // MARK: - GpEncounter
 public struct GpEncounter: Codable, Hashable, Sendable {
     public let gpEncounterClass: MgoCoding?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let participant: [GpEncounterParticipant]?
     public let period: MgoPeriod?
     public let profile: GpEncounterProfile
-    public let reason: [[MgoCoding]]?
+    public let reason: [MgoCodeableConcept]?
     public let referenceID: String
     public let resourceType: String?
     public let serviceProvider: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
         case gpEncounterClass = "class"
-        case id, participant, period, profile, reason
+        case fhirVersion, id, participant, period, profile, reason
         case referenceID = "referenceId"
         case resourceType, serviceProvider
     }
 
-    public init(gpEncounterClass: MgoCoding?, id: String?, participant: [GpEncounterParticipant]?, period: MgoPeriod?, profile: GpEncounterProfile, reason: [[MgoCoding]]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
+    public init(gpEncounterClass: MgoCoding?, fhirVersion: FhirVersionR3, id: String?, participant: [GpEncounterParticipant]?, period: MgoPeriod?, profile: GpEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
         self.gpEncounterClass = gpEncounterClass
+        self.fhirVersion = fhirVersion
         self.id = id
         self.participant = participant
         self.period = period
@@ -62,17 +64,19 @@ public extension GpEncounter {
 
     func with(
         gpEncounterClass: MgoCoding?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         participant: [GpEncounterParticipant]?? = nil,
         period: MgoPeriod?? = nil,
         profile: GpEncounterProfile? = nil,
-        reason: [[MgoCoding]]?? = nil,
+        reason: [MgoCodeableConcept]?? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
         serviceProvider: MgoReference?? = nil
     ) -> GpEncounter {
         return GpEncounter(
             gpEncounterClass: gpEncounterClass ?? self.gpEncounterClass,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             participant: participant ?? self.participant,
             period: period ?? self.period,

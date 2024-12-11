@@ -15,14 +15,14 @@ public struct ReferenceValue: Codable, Hashable, Sendable {
     public let display: String?
     public let label: String
     public let reference: String?
-    public let summary: Bool?
+    public let showEmpty: Bool?
     public let type: ReferenceValueType
 
-    public init(display: String?, label: String, reference: String?, summary: Bool?, type: ReferenceValueType) {
+    public init(display: String?, label: String, reference: String?, showEmpty: Bool?, type: ReferenceValueType) {
         self.display = display
         self.label = label
         self.reference = reference
-        self.summary = summary
+        self.showEmpty = showEmpty
         self.type = type
     }
 }
@@ -49,14 +49,14 @@ public extension ReferenceValue {
         display: String?? = nil,
         label: String? = nil,
         reference: String?? = nil,
-        summary: Bool?? = nil,
+        showEmpty: Bool?? = nil,
         type: ReferenceValueType? = nil
     ) -> ReferenceValue {
         return ReferenceValue(
             display: display ?? self.display,
             label: label ?? self.label,
             reference: reference ?? self.reference,
-            summary: summary ?? self.summary,
+            showEmpty: showEmpty ?? self.showEmpty,
             type: type ?? self.type
         )
     }

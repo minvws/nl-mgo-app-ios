@@ -13,9 +13,9 @@ import Foundation
 // MARK: - ZibTreatmentDirectiveActor
 public struct ZibTreatmentDirectiveActor: Codable, Hashable, Sendable {
     public let reference: MgoReference?
-    public let role: [MgoCoding]?
+    public let role: MgoCodeableConcept?
 
-    public init(reference: MgoReference?, role: [MgoCoding]?) {
+    public init(reference: MgoReference?, role: MgoCodeableConcept?) {
         self.reference = reference
         self.role = role
     }
@@ -41,7 +41,7 @@ public extension ZibTreatmentDirectiveActor {
 
     func with(
         reference: MgoReference?? = nil,
-        role: [MgoCoding]?? = nil
+        role: MgoCodeableConcept?? = nil
     ) -> ZibTreatmentDirectiveActor {
         return ZibTreatmentDirectiveActor(
             reference: reference ?? self.reference,

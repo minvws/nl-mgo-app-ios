@@ -12,7 +12,9 @@ import Foundation
 
 // MARK: - ZibMedicalDeviceProduct
 public struct ZibMedicalDeviceProduct: Codable, Hashable, Sendable {
-    public let expirationDate, id: String?
+    public let expirationDate: String?
+    public let fhirVersion: FhirVersionR3
+    public let id: String?
     public let note: [MgoAnnotation]?
     public let patient: MgoReference?
     public let profile: ZibMedicalDeviceProductProfile
@@ -20,13 +22,14 @@ public struct ZibMedicalDeviceProduct: Codable, Hashable, Sendable {
     public let resourceType: String?
 
     public enum CodingKeys: String, CodingKey {
-        case expirationDate, id, note, patient, profile
+        case expirationDate, fhirVersion, id, note, patient, profile
         case referenceID = "referenceId"
         case resourceType
     }
 
-    public init(expirationDate: String?, id: String?, note: [MgoAnnotation]?, patient: MgoReference?, profile: ZibMedicalDeviceProductProfile, referenceID: String, resourceType: String?) {
+    public init(expirationDate: String?, fhirVersion: FhirVersionR3, id: String?, note: [MgoAnnotation]?, patient: MgoReference?, profile: ZibMedicalDeviceProductProfile, referenceID: String, resourceType: String?) {
         self.expirationDate = expirationDate
+        self.fhirVersion = fhirVersion
         self.id = id
         self.note = note
         self.patient = patient
@@ -56,6 +59,7 @@ public extension ZibMedicalDeviceProduct {
 
     func with(
         expirationDate: String?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         note: [MgoAnnotation]?? = nil,
         patient: MgoReference?? = nil,
@@ -65,6 +69,7 @@ public extension ZibMedicalDeviceProduct {
     ) -> ZibMedicalDeviceProduct {
         return ZibMedicalDeviceProduct(
             expirationDate: expirationDate ?? self.expirationDate,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             note: note ?? self.note,
             patient: patient ?? self.patient,

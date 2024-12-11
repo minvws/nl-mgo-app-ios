@@ -14,20 +14,21 @@ import Foundation
 public struct ZibMedicationUse: Codable, Hashable, Sendable {
     public let asAgreedIndicator: Bool?
     public let author: MgoReference?
-    public let category: [MgoCoding]?
+    public let category: MgoCodeableConcept?
     public let dateAsserted: String?
     public let dosage: [ZibInstructionsForUse]?
     public let effectiveDuration: MgoDuration?
     public let effectivePeriod: MgoPeriod?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let informationSource, medication: MgoReference?
+    public let informationSource, medicationReference: MgoReference?
     public let medicationTreatment: MgoIdentifier?
     public let note: [MgoAnnotation]?
     public let prescriber: MgoReference?
     public let profile: ZibMedicationUseProfile
-    public let reasonCode: [[MgoCoding]]?
-    public let reasonForChangeOrDiscontinuationOfUse: [MgoCoding]?
+    public let reasonCode: [MgoCodeableConcept]?
+    public let reasonForChangeOrDiscontinuationOfUse: MgoCodeableConcept?
     public let referenceID: String
     public let repeatPeriodCyclicalSchedule: MgoDuration?
     public let resourceType, status: String?
@@ -35,12 +36,12 @@ public struct ZibMedicationUse: Codable, Hashable, Sendable {
     public let taken: String?
 
     public enum CodingKeys: String, CodingKey {
-        case asAgreedIndicator, author, category, dateAsserted, dosage, effectiveDuration, effectivePeriod, id, identifier, informationSource, medication, medicationTreatment, note, prescriber, profile, reasonCode, reasonForChangeOrDiscontinuationOfUse
+        case asAgreedIndicator, author, category, dateAsserted, dosage, effectiveDuration, effectivePeriod, fhirVersion, id, identifier, informationSource, medicationReference, medicationTreatment, note, prescriber, profile, reasonCode, reasonForChangeOrDiscontinuationOfUse
         case referenceID = "referenceId"
         case repeatPeriodCyclicalSchedule, resourceType, status, subject, taken
     }
 
-    public init(asAgreedIndicator: Bool?, author: MgoReference?, category: [MgoCoding]?, dateAsserted: String?, dosage: [ZibInstructionsForUse]?, effectiveDuration: MgoDuration?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medication: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, prescriber: MgoReference?, profile: ZibMedicationUseProfile, reasonCode: [[MgoCoding]]?, reasonForChangeOrDiscontinuationOfUse: [MgoCoding]?, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: String?, subject: MgoReference?, taken: String?) {
+    public init(asAgreedIndicator: Bool?, author: MgoReference?, category: MgoCodeableConcept?, dateAsserted: String?, dosage: [ZibInstructionsForUse]?, effectiveDuration: MgoDuration?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, prescriber: MgoReference?, profile: ZibMedicationUseProfile, reasonCode: [MgoCodeableConcept]?, reasonForChangeOrDiscontinuationOfUse: MgoCodeableConcept?, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: String?, subject: MgoReference?, taken: String?) {
         self.asAgreedIndicator = asAgreedIndicator
         self.author = author
         self.category = category
@@ -48,10 +49,11 @@ public struct ZibMedicationUse: Codable, Hashable, Sendable {
         self.dosage = dosage
         self.effectiveDuration = effectiveDuration
         self.effectivePeriod = effectivePeriod
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.informationSource = informationSource
-        self.medication = medication
+        self.medicationReference = medicationReference
         self.medicationTreatment = medicationTreatment
         self.note = note
         self.prescriber = prescriber
@@ -88,21 +90,22 @@ public extension ZibMedicationUse {
     func with(
         asAgreedIndicator: Bool?? = nil,
         author: MgoReference?? = nil,
-        category: [MgoCoding]?? = nil,
+        category: MgoCodeableConcept?? = nil,
         dateAsserted: String?? = nil,
         dosage: [ZibInstructionsForUse]?? = nil,
         effectiveDuration: MgoDuration?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         informationSource: MgoReference?? = nil,
-        medication: MgoReference?? = nil,
+        medicationReference: MgoReference?? = nil,
         medicationTreatment: MgoIdentifier?? = nil,
         note: [MgoAnnotation]?? = nil,
         prescriber: MgoReference?? = nil,
         profile: ZibMedicationUseProfile? = nil,
-        reasonCode: [[MgoCoding]]?? = nil,
-        reasonForChangeOrDiscontinuationOfUse: [MgoCoding]?? = nil,
+        reasonCode: [MgoCodeableConcept]?? = nil,
+        reasonForChangeOrDiscontinuationOfUse: MgoCodeableConcept?? = nil,
         referenceID: String? = nil,
         repeatPeriodCyclicalSchedule: MgoDuration?? = nil,
         resourceType: String?? = nil,
@@ -118,10 +121,11 @@ public extension ZibMedicationUse {
             dosage: dosage ?? self.dosage,
             effectiveDuration: effectiveDuration ?? self.effectiveDuration,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             informationSource: informationSource ?? self.informationSource,
-            medication: medication ?? self.medication,
+            medicationReference: medicationReference ?? self.medicationReference,
             medicationTreatment: medicationTreatment ?? self.medicationTreatment,
             note: note ?? self.note,
             prescriber: prescriber ?? self.prescriber,

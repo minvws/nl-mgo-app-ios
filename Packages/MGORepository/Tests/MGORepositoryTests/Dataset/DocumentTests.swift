@@ -21,6 +21,7 @@ final class DocumentTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "DocumentReference"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "status", value: "current") } == true
 	}
 	
@@ -34,6 +35,7 @@ final class DocumentTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "DocumentManifest"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "status", value: "current") } == true
 	}
 }

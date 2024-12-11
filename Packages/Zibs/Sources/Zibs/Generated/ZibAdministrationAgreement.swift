@@ -12,11 +12,12 @@ import Foundation
 
 // MARK: - ZibAdministrationAgreement
 public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
-    public let additionalInformation: [MgoCoding]?
+    public let additionalInformation: MgoCodeableConcept?
     public let agreementReason, authoredOn: String?
-    public let category: [MgoCoding]?
+    public let category: MgoCodeableConcept?
     public let daysSupply: MgoDuration?
     public let dossageInstruction: [ZibInstructionsForUse]?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let medicationReference: MgoReference?
@@ -27,22 +28,23 @@ public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
     public let referenceID: String
     public let repeatPeriodCyclicalSchedule: MgoDuration?
     public let resourceType, status: String?
-    public let stopType: [MgoCoding]?
+    public let stopType: MgoCodeableConcept?
     public let usageDuration: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
-        case additionalInformation, agreementReason, authoredOn, category, daysSupply, dossageInstruction, id, identifier, medicationReference, medicationTreatment, note, profile, quantity
+        case additionalInformation, agreementReason, authoredOn, category, daysSupply, dossageInstruction, fhirVersion, id, identifier, medicationReference, medicationTreatment, note, profile, quantity
         case referenceID = "referenceId"
         case repeatPeriodCyclicalSchedule, resourceType, status, stopType, usageDuration
     }
 
-    public init(additionalInformation: [MgoCoding]?, agreementReason: String?, authoredOn: String?, category: [MgoCoding]?, daysSupply: MgoDuration?, dossageInstruction: [ZibInstructionsForUse]?, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, profile: ZibAdministrationAgreementProfile, quantity: MgoDuration?, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: String?, stopType: [MgoCoding]?, usageDuration: MgoDuration?) {
+    public init(additionalInformation: MgoCodeableConcept?, agreementReason: String?, authoredOn: String?, category: MgoCodeableConcept?, daysSupply: MgoDuration?, dossageInstruction: [ZibInstructionsForUse]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, profile: ZibAdministrationAgreementProfile, quantity: MgoDuration?, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: String?, stopType: MgoCodeableConcept?, usageDuration: MgoDuration?) {
         self.additionalInformation = additionalInformation
         self.agreementReason = agreementReason
         self.authoredOn = authoredOn
         self.category = category
         self.daysSupply = daysSupply
         self.dossageInstruction = dossageInstruction
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.medicationReference = medicationReference
@@ -78,12 +80,13 @@ public extension ZibAdministrationAgreement {
     }
 
     func with(
-        additionalInformation: [MgoCoding]?? = nil,
+        additionalInformation: MgoCodeableConcept?? = nil,
         agreementReason: String?? = nil,
         authoredOn: String?? = nil,
-        category: [MgoCoding]?? = nil,
+        category: MgoCodeableConcept?? = nil,
         daysSupply: MgoDuration?? = nil,
         dossageInstruction: [ZibInstructionsForUse]?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         medicationReference: MgoReference?? = nil,
@@ -95,7 +98,7 @@ public extension ZibAdministrationAgreement {
         repeatPeriodCyclicalSchedule: MgoDuration?? = nil,
         resourceType: String?? = nil,
         status: String?? = nil,
-        stopType: [MgoCoding]?? = nil,
+        stopType: MgoCodeableConcept?? = nil,
         usageDuration: MgoDuration?? = nil
     ) -> ZibAdministrationAgreement {
         return ZibAdministrationAgreement(
@@ -105,6 +108,7 @@ public extension ZibAdministrationAgreement {
             category: category ?? self.category,
             daysSupply: daysSupply ?? self.daysSupply,
             dossageInstruction: dossageInstruction ?? self.dossageInstruction,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             medicationReference: medicationReference ?? self.medicationReference,

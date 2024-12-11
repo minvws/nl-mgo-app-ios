@@ -13,6 +13,7 @@ import Foundation
 // MARK: - ZibVaccination
 public struct ZibVaccination: Codable, Hashable, Sendable {
     public let dose: MgoDuration?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let note: [MgoAnnotation]?
@@ -21,16 +22,17 @@ public struct ZibVaccination: Codable, Hashable, Sendable {
     public let profile: ZibVaccinationProfile
     public let referenceID: String
     public let resourceType, vaccinationDate: String?
-    public let vaccineCode: [MgoCoding]?
+    public let vaccineCode: MgoCodeableConcept?
 
     public enum CodingKeys: String, CodingKey {
-        case dose, id, identifier, note, patient, practitioner, profile
+        case dose, fhirVersion, id, identifier, note, patient, practitioner, profile
         case referenceID = "referenceId"
         case resourceType, vaccinationDate, vaccineCode
     }
 
-    public init(dose: MgoDuration?, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, patient: MgoReference?, practitioner: [Practitioner]?, profile: ZibVaccinationProfile, referenceID: String, resourceType: String?, vaccinationDate: String?, vaccineCode: [MgoCoding]?) {
+    public init(dose: MgoDuration?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, patient: MgoReference?, practitioner: [Practitioner]?, profile: ZibVaccinationProfile, referenceID: String, resourceType: String?, vaccinationDate: String?, vaccineCode: MgoCodeableConcept?) {
         self.dose = dose
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.note = note
@@ -64,6 +66,7 @@ public extension ZibVaccination {
 
     func with(
         dose: MgoDuration?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         note: [MgoAnnotation]?? = nil,
@@ -73,10 +76,11 @@ public extension ZibVaccination {
         referenceID: String? = nil,
         resourceType: String?? = nil,
         vaccinationDate: String?? = nil,
-        vaccineCode: [MgoCoding]?? = nil
+        vaccineCode: MgoCodeableConcept?? = nil
     ) -> ZibVaccination {
         return ZibVaccination(
             dose: dose ?? self.dose,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             note: note ?? self.note,

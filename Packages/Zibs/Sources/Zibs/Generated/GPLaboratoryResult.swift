@@ -13,13 +13,14 @@ import Foundation
 // MARK: - GpLaboratoryResult
 public struct GpLaboratoryResult: Codable, Hashable, Sendable {
     public let basedOn: [MgoReference]?
-    public let category: [[MgoCoding]]?
-    public let code: [MgoCoding]?
+    public let category: [MgoCodeableConcept]?
+    public let code: MgoCodeableConcept?
     public let comment: String?
     public let effective: Effective?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let interpretation, method: [MgoCoding]?
+    public let interpretation, method: MgoCodeableConcept?
     public let profile: GpLaboratoryResultProfile
     public let referenceID: String
     public let referenceRange: [GpLaboratoryResultReferenceRange]?
@@ -31,17 +32,18 @@ public struct GpLaboratoryResult: Codable, Hashable, Sendable {
     public let subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case basedOn, category, code, comment, effective, id, identifier, interpretation, method, profile
+        case basedOn, category, code, comment, effective, fhirVersion, id, identifier, interpretation, method, profile
         case referenceID = "referenceId"
         case referenceRange, related, resourceType, result, specimen, status, subject
     }
 
-    public init(basedOn: [MgoReference]?, category: [[MgoCoding]]?, code: [MgoCoding]?, comment: String?, effective: Effective?, id: String?, identifier: [MgoIdentifier]?, interpretation: [MgoCoding]?, method: [MgoCoding]?, profile: GpLaboratoryResultProfile, referenceID: String, referenceRange: [GpLaboratoryResultReferenceRange]?, related: [GpLaboratoryResultRelated]?, resourceType: String?, result: MgoDuration?, specimen: MgoReference?, status: String?, subject: MgoReference?) {
+    public init(basedOn: [MgoReference]?, category: [MgoCodeableConcept]?, code: MgoCodeableConcept?, comment: String?, effective: Effective?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, interpretation: MgoCodeableConcept?, method: MgoCodeableConcept?, profile: GpLaboratoryResultProfile, referenceID: String, referenceRange: [GpLaboratoryResultReferenceRange]?, related: [GpLaboratoryResultRelated]?, resourceType: String?, result: MgoDuration?, specimen: MgoReference?, status: String?, subject: MgoReference?) {
         self.basedOn = basedOn
         self.category = category
         self.code = code
         self.comment = comment
         self.effective = effective
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.interpretation = interpretation
@@ -78,14 +80,15 @@ public extension GpLaboratoryResult {
 
     func with(
         basedOn: [MgoReference]?? = nil,
-        category: [[MgoCoding]]?? = nil,
-        code: [MgoCoding]?? = nil,
+        category: [MgoCodeableConcept]?? = nil,
+        code: MgoCodeableConcept?? = nil,
         comment: String?? = nil,
         effective: Effective?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        interpretation: [MgoCoding]?? = nil,
-        method: [MgoCoding]?? = nil,
+        interpretation: MgoCodeableConcept?? = nil,
+        method: MgoCodeableConcept?? = nil,
         profile: GpLaboratoryResultProfile? = nil,
         referenceID: String? = nil,
         referenceRange: [GpLaboratoryResultReferenceRange]?? = nil,
@@ -102,6 +105,7 @@ public extension GpLaboratoryResult {
             code: code ?? self.code,
             comment: comment ?? self.comment,
             effective: effective ?? self.effective,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             interpretation: interpretation ?? self.interpretation,

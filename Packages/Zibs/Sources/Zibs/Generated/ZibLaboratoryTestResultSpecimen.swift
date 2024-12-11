@@ -12,8 +12,9 @@ import Foundation
 
 // MARK: - ZibLaboratoryTestResultSpecimen
 public struct ZibLaboratoryTestResultSpecimen: Codable, Hashable, Sendable {
-    public let collection: Collection
-    public let container: [Container]?
+    public let collection: ZibLaboratoryTestResultSpecimenCollection
+    public let container: [ZibLaboratoryTestResultSpecimenContainer]?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let note: [MgoAnnotation]?
@@ -22,18 +23,18 @@ public struct ZibLaboratoryTestResultSpecimen: Codable, Hashable, Sendable {
     public let referenceID: String
     public let resourceType: String?
     public let subject: MgoReference?
-    public let substance: String?
-    public let type: [MgoCoding]?
+    public let type: MgoCodeableConcept?
 
     public enum CodingKeys: String, CodingKey {
-        case collection, container, id, identifier, note, profile, receivedTime
+        case collection, container, fhirVersion, id, identifier, note, profile, receivedTime
         case referenceID = "referenceId"
-        case resourceType, subject, substance, type
+        case resourceType, subject, type
     }
 
-    public init(collection: Collection, container: [Container]?, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, profile: ZibLaboratoryTestResultSpecimenProfile, receivedTime: String?, referenceID: String, resourceType: String?, subject: MgoReference?, substance: String?, type: [MgoCoding]?) {
+    public init(collection: ZibLaboratoryTestResultSpecimenCollection, container: [ZibLaboratoryTestResultSpecimenContainer]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, profile: ZibLaboratoryTestResultSpecimenProfile, receivedTime: String?, referenceID: String, resourceType: String?, subject: MgoReference?, type: MgoCodeableConcept?) {
         self.collection = collection
         self.container = container
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.note = note
@@ -42,7 +43,6 @@ public struct ZibLaboratoryTestResultSpecimen: Codable, Hashable, Sendable {
         self.referenceID = referenceID
         self.resourceType = resourceType
         self.subject = subject
-        self.substance = substance
         self.type = type
     }
 }
@@ -66,8 +66,9 @@ public extension ZibLaboratoryTestResultSpecimen {
     }
 
     func with(
-        collection: Collection? = nil,
-        container: [Container]?? = nil,
+        collection: ZibLaboratoryTestResultSpecimenCollection? = nil,
+        container: [ZibLaboratoryTestResultSpecimenContainer]?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         note: [MgoAnnotation]?? = nil,
@@ -76,12 +77,12 @@ public extension ZibLaboratoryTestResultSpecimen {
         referenceID: String? = nil,
         resourceType: String?? = nil,
         subject: MgoReference?? = nil,
-        substance: String?? = nil,
-        type: [MgoCoding]?? = nil
+        type: MgoCodeableConcept?? = nil
     ) -> ZibLaboratoryTestResultSpecimen {
         return ZibLaboratoryTestResultSpecimen(
             collection: collection ?? self.collection,
             container: container ?? self.container,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             note: note ?? self.note,
@@ -90,7 +91,6 @@ public extension ZibLaboratoryTestResultSpecimen {
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
             subject: subject ?? self.subject,
-            substance: substance ?? self.substance,
             type: type ?? self.type
         )
     }

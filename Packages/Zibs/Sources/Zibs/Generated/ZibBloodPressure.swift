@@ -14,20 +14,21 @@ import Foundation
 public struct ZibBloodPressure: Codable, Hashable, Sendable {
     public let averageBloodPressureLOINC: AverageBloodPressureLOINC
     public let averageBloodPressureSNOMED: AverageBloodPressureSNOMED
-    public let bodySite: [MgoCoding]?
-    public let category: [[MgoCoding]]?
+    public let bodySite: MgoCodeableConcept?
+    public let category: [MgoCodeableConcept]?
     public let comment: String?
     public let context: MgoReference?
     public let cuffTypeLOINC: CuffTypeLOINC
     public let cuffTypeSNOMED: CuffTypeSNOMED
-    public let dataAbsentReason: [MgoCoding]?
+    public let dataAbsentReason: MgoCodeableConcept?
     public let diastolicBP: DiastolicBP
     public let diastolicEndpoint: DiastolicEndpoint
     public let effectiveDateTime: String?
     public let effectivePeriod: MgoPeriod?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let method: [MgoCoding]?
+    public let method: MgoCodeableConcept?
     public let positionLOINC: PositionLOINC
     public let positionSNOMED: PositionSNOMED
     public let profile: ZibBloodPressureProfile
@@ -38,12 +39,12 @@ public struct ZibBloodPressure: Codable, Hashable, Sendable {
     public let valueQuantity: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
-        case averageBloodPressureLOINC, averageBloodPressureSNOMED, bodySite, category, comment, context, cuffTypeLOINC, cuffTypeSNOMED, dataAbsentReason, diastolicBP, diastolicEndpoint, effectiveDateTime, effectivePeriod, id, identifier, method, positionLOINC, positionSNOMED, profile
+        case averageBloodPressureLOINC, averageBloodPressureSNOMED, bodySite, category, comment, context, cuffTypeLOINC, cuffTypeSNOMED, dataAbsentReason, diastolicBP, diastolicEndpoint, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, method, positionLOINC, positionSNOMED, profile
         case referenceID = "referenceId"
         case resourceType, status, subject, systolicBP, valueQuantity
     }
 
-    public init(averageBloodPressureLOINC: AverageBloodPressureLOINC, averageBloodPressureSNOMED: AverageBloodPressureSNOMED, bodySite: [MgoCoding]?, category: [[MgoCoding]]?, comment: String?, context: MgoReference?, cuffTypeLOINC: CuffTypeLOINC, cuffTypeSNOMED: CuffTypeSNOMED, dataAbsentReason: [MgoCoding]?, diastolicBP: DiastolicBP, diastolicEndpoint: DiastolicEndpoint, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, positionLOINC: PositionLOINC, positionSNOMED: PositionSNOMED, profile: ZibBloodPressureProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, systolicBP: SystolicBP, valueQuantity: MgoDuration?) {
+    public init(averageBloodPressureLOINC: AverageBloodPressureLOINC, averageBloodPressureSNOMED: AverageBloodPressureSNOMED, bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, cuffTypeLOINC: CuffTypeLOINC, cuffTypeSNOMED: CuffTypeSNOMED, dataAbsentReason: MgoCodeableConcept?, diastolicBP: DiastolicBP, diastolicEndpoint: DiastolicEndpoint, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, positionLOINC: PositionLOINC, positionSNOMED: PositionSNOMED, profile: ZibBloodPressureProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, systolicBP: SystolicBP, valueQuantity: MgoDuration?) {
         self.averageBloodPressureLOINC = averageBloodPressureLOINC
         self.averageBloodPressureSNOMED = averageBloodPressureSNOMED
         self.bodySite = bodySite
@@ -57,6 +58,7 @@ public struct ZibBloodPressure: Codable, Hashable, Sendable {
         self.diastolicEndpoint = diastolicEndpoint
         self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.method = method
@@ -93,20 +95,21 @@ public extension ZibBloodPressure {
     func with(
         averageBloodPressureLOINC: AverageBloodPressureLOINC? = nil,
         averageBloodPressureSNOMED: AverageBloodPressureSNOMED? = nil,
-        bodySite: [MgoCoding]?? = nil,
-        category: [[MgoCoding]]?? = nil,
+        bodySite: MgoCodeableConcept?? = nil,
+        category: [MgoCodeableConcept]?? = nil,
         comment: String?? = nil,
         context: MgoReference?? = nil,
         cuffTypeLOINC: CuffTypeLOINC? = nil,
         cuffTypeSNOMED: CuffTypeSNOMED? = nil,
-        dataAbsentReason: [MgoCoding]?? = nil,
+        dataAbsentReason: MgoCodeableConcept?? = nil,
         diastolicBP: DiastolicBP? = nil,
         diastolicEndpoint: DiastolicEndpoint? = nil,
         effectiveDateTime: String?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        method: [MgoCoding]?? = nil,
+        method: MgoCodeableConcept?? = nil,
         positionLOINC: PositionLOINC? = nil,
         positionSNOMED: PositionSNOMED? = nil,
         profile: ZibBloodPressureProfile? = nil,
@@ -131,6 +134,7 @@ public extension ZibBloodPressure {
             diastolicEndpoint: diastolicEndpoint ?? self.diastolicEndpoint,
             effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             method: method ?? self.method,

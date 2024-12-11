@@ -14,8 +14,10 @@ import Foundation
 public struct ZibAllergyIntolerance: Codable, Hashable, Sendable {
     public let category: [String]?
     public let clinicalStatus: String?
-    public let code: [MgoCoding]?
-    public let criticality, id: String?
+    public let code: MgoCodeableConcept?
+    public let criticality: String?
+    public let fhirVersion: FhirVersionR3
+    public let id: String?
     public let identifier: [MgoIdentifier]?
     public let patient: MgoReference?
     public let profile: ZibAllergyIntoleranceProfile
@@ -23,16 +25,17 @@ public struct ZibAllergyIntolerance: Codable, Hashable, Sendable {
     public let resourceType, type, verificationStatus: String?
 
     public enum CodingKeys: String, CodingKey {
-        case category, clinicalStatus, code, criticality, id, identifier, patient, profile
+        case category, clinicalStatus, code, criticality, fhirVersion, id, identifier, patient, profile
         case referenceID = "referenceId"
         case resourceType, type, verificationStatus
     }
 
-    public init(category: [String]?, clinicalStatus: String?, code: [MgoCoding]?, criticality: String?, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, profile: ZibAllergyIntoleranceProfile, referenceID: String, resourceType: String?, type: String?, verificationStatus: String?) {
+    public init(category: [String]?, clinicalStatus: String?, code: MgoCodeableConcept?, criticality: String?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, profile: ZibAllergyIntoleranceProfile, referenceID: String, resourceType: String?, type: String?, verificationStatus: String?) {
         self.category = category
         self.clinicalStatus = clinicalStatus
         self.code = code
         self.criticality = criticality
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.patient = patient
@@ -65,8 +68,9 @@ public extension ZibAllergyIntolerance {
     func with(
         category: [String]?? = nil,
         clinicalStatus: String?? = nil,
-        code: [MgoCoding]?? = nil,
+        code: MgoCodeableConcept?? = nil,
         criticality: String?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         patient: MgoReference?? = nil,
@@ -81,6 +85,7 @@ public extension ZibAllergyIntolerance {
             clinicalStatus: clinicalStatus ?? self.clinicalStatus,
             code: code ?? self.code,
             criticality: criticality ?? self.criticality,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             patient: patient ?? self.patient,

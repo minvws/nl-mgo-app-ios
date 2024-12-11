@@ -35,7 +35,8 @@ final class MGORepositoryTests: XCTestCase {
 			path: "TestPath",
 			parameters: RequestParameters([(RequestParameterField.include, "test")]),
 			directory: "TestDirectory",
-			serviceId: "TestServiceId"
+			serviceId: "TestServiceId",
+			fhirVersion: .r3
 		)
 		stub(condition: isPath("/TestPath/TestDirectory")) { _ in
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)

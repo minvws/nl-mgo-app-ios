@@ -15,6 +15,7 @@ public struct ZibPayer: Codable, Hashable, Sendable {
     public let beneficiary: MgoReference?
     public let contract: [MgoReference]?
     public let dependent: String?
+    public let fhirVersion: FhirVersionR3
     public let grouping: Grouping
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -25,24 +26,25 @@ public struct ZibPayer: Codable, Hashable, Sendable {
     public let policyHolder: MgoReference?
     public let profile: ZibPayerProfile
     public let referenceID: String
-    public let relationship: [MgoCoding]?
+    public let relationship: MgoCodeableConcept?
     public let resourceType, sequence, status: String?
     public let subscriber: MgoReference?
     public let subscriberID: String?
-    public let type: [MgoCoding]?
+    public let type: MgoCodeableConcept?
 
     public enum CodingKeys: String, CodingKey {
-        case beneficiary, contract, dependent, grouping, id, identifier, network, order, payor, period, policyHolder, profile
+        case beneficiary, contract, dependent, fhirVersion, grouping, id, identifier, network, order, payor, period, policyHolder, profile
         case referenceID = "referenceId"
         case relationship, resourceType, sequence, status, subscriber
         case subscriberID = "subscriberId"
         case type
     }
 
-    public init(beneficiary: MgoReference?, contract: [MgoReference]?, dependent: String?, grouping: Grouping, id: String?, identifier: [MgoIdentifier]?, network: String?, order: Double?, payor: [MgoReference]?, period: MgoPeriod?, policyHolder: MgoReference?, profile: ZibPayerProfile, referenceID: String, relationship: [MgoCoding]?, resourceType: String?, sequence: String?, status: String?, subscriber: MgoReference?, subscriberID: String?, type: [MgoCoding]?) {
+    public init(beneficiary: MgoReference?, contract: [MgoReference]?, dependent: String?, fhirVersion: FhirVersionR3, grouping: Grouping, id: String?, identifier: [MgoIdentifier]?, network: String?, order: Double?, payor: [MgoReference]?, period: MgoPeriod?, policyHolder: MgoReference?, profile: ZibPayerProfile, referenceID: String, relationship: MgoCodeableConcept?, resourceType: String?, sequence: String?, status: String?, subscriber: MgoReference?, subscriberID: String?, type: MgoCodeableConcept?) {
         self.beneficiary = beneficiary
         self.contract = contract
         self.dependent = dependent
+        self.fhirVersion = fhirVersion
         self.grouping = grouping
         self.id = id
         self.identifier = identifier
@@ -85,6 +87,7 @@ public extension ZibPayer {
         beneficiary: MgoReference?? = nil,
         contract: [MgoReference]?? = nil,
         dependent: String?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         grouping: Grouping? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
@@ -95,18 +98,19 @@ public extension ZibPayer {
         policyHolder: MgoReference?? = nil,
         profile: ZibPayerProfile? = nil,
         referenceID: String? = nil,
-        relationship: [MgoCoding]?? = nil,
+        relationship: MgoCodeableConcept?? = nil,
         resourceType: String?? = nil,
         sequence: String?? = nil,
         status: String?? = nil,
         subscriber: MgoReference?? = nil,
         subscriberID: String?? = nil,
-        type: [MgoCoding]?? = nil
+        type: MgoCodeableConcept?? = nil
     ) -> ZibPayer {
         return ZibPayer(
             beneficiary: beneficiary ?? self.beneficiary,
             contract: contract ?? self.contract,
             dependent: dependent ?? self.dependent,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             grouping: grouping ?? self.grouping,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,

@@ -13,13 +13,13 @@ import Foundation
 // MARK: - DownloadLink
 public struct DownloadLink: Codable, Hashable, Sendable {
     public let label: String
-    public let summary: Bool?
+    public let showEmpty: Bool?
     public let type: DownloadLinkType
     public let url: String
 
-    public init(label: String, summary: Bool?, type: DownloadLinkType, url: String) {
+    public init(label: String, showEmpty: Bool?, type: DownloadLinkType, url: String) {
         self.label = label
-        self.summary = summary
+        self.showEmpty = showEmpty
         self.type = type
         self.url = url
     }
@@ -45,13 +45,13 @@ public extension DownloadLink {
 
     func with(
         label: String? = nil,
-        summary: Bool?? = nil,
+        showEmpty: Bool?? = nil,
         type: DownloadLinkType? = nil,
         url: String? = nil
     ) -> DownloadLink {
         return DownloadLink(
             label: label ?? self.label,
-            summary: summary ?? self.summary,
+            showEmpty: showEmpty ?? self.showEmpty,
             type: type ?? self.type,
             url: url ?? self.url
         )
