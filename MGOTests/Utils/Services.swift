@@ -28,6 +28,7 @@ final class ServicesSpies {
 	var featureFlagSpy: FeatureFlagManagerSpy = {
 		let spy = FeatureFlagManagerSpy()
 		spy.stubbedIsAutomaticLocalizationEnabled = true
+		spy.isDemo = false
 		return spy
 	}()
 	

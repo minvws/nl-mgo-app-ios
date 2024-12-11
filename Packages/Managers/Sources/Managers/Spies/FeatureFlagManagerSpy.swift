@@ -33,6 +33,16 @@ public class FeatureFlagManagerSpy: FeatureFlagManaging {
 		}
 	}
 
+	public var invokedIsDemoGetter = false
+	public var invokedIsDemoGetterCount = 0
+	public var stubbedIsDemo: Bool! = false
+	
+	public var isDemo: Bool {
+		invokedIsDemoGetter = true
+		invokedIsDemoGetterCount += 1
+		return stubbedIsDemo
+	}
+
 	public var invokedWipePersistedData = false
 	public var invokedWipePersistedDataCount = 0
 
@@ -40,4 +50,5 @@ public class FeatureFlagManagerSpy: FeatureFlagManaging {
 		invokedWipePersistedData = true
 		invokedWipePersistedDataCount += 1
 	}
+
 }
