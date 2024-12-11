@@ -25,6 +25,12 @@ class OrganizationDisplayDecorator {
 		let identifier = organisation.identifier
 		let name = Sanitizer.strip(organisation.display_name) ?? ""
 		let (address, city, postalCode) = organisation.getAddress()
-		return OrganizationDisplayModel(id: identifier, name: name, city: Sanitizer.strip(city), address: Sanitizer.strip(address), postalCode: Sanitizer.strip(postalCode))
+		return OrganizationDisplayModel(
+			id: identifier,
+			name: name,
+			city: Sanitizer.strip(city),
+			address: Sanitizer.strip(address),
+			postalCode: Sanitizer.strip(postalCode)
+		)
 	}
 }
