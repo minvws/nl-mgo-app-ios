@@ -23,6 +23,9 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 	/// The state of the view
 	@Published var state: OrganizationListViewState
 	
+	/// Did we make any changes?
+	private var hasChanges: Bool = false
+	
 	/// array to store the results
 	internal var searchResultsList = [MgoOrganization]()
 	
@@ -78,18 +81,28 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 				}
 			
 			case let .select(organization):
+				hasChanges = true
 				selectedSearchResultsList.append(organization)
 				applyListState()
 				
 			case let .unselect(organization):
+				hasChanges = true
 				selectedSearchResultsList = selectedSearchResultsList.filter { $0.identifier != organization.identifier }
 				applyListState()
 			
 			case .store:
-				selectedSearchResultsList.forEach { organization in
-					try? Current.healthcareOrganizationStore.store(organization)
+				if hasChanges {
+					// Do not add twice, clear store
+					Current.healthcareOrganizationStore.organizations.forEach { organization in
+						try? Current.healthcareOrganizationStore.remove(organization)
+					}
+					
+					// Add selected organizations
+					selectedSearchResultsList.forEach { organization in
+						try? Current.healthcareOrganizationStore.store(organization)
+					}
+					applyListState()
 				}
-				applyListState()
 				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
 		}
 	}
@@ -113,12 +126,11 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 			if preselectAllOrganizations {
 				// On first launch we want all the organizations pre-selected.
 				// On re-entry, we should respect the selection the user had made.
-				// We should however not select the organizations without any services, or already selected
+				// We should however not select the organizations without any services
 				selectedSearchResultsList = searchResultsList
 					.filter { ssrItem in notParticipatingList.filter { nplItem in nplItem.identifier == ssrItem.identifier }.isEmpty }
-				
-				selectedSearchResultsList = selectedSearchResultsList
-					.filter { ssrItem in Current.healthcareOrganizationStore.organizations.filter { choItem in choItem.identifier == ssrItem.identifier }.isEmpty }
+			} else {
+				selectedSearchResultsList = Current.healthcareOrganizationStore.organizations
 			}
 			
 			applyListState()
@@ -182,15 +194,13 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 		
 		guard !notParticipatingList.contains(organization) else { return .notParticipating }
 		
-		// Apply .selected to organizations already selected
-		let list = Current.healthcareOrganizationStore.organizations
-		for item in list where organization.identifier == item.identifier {
-			return .selected
-		}
-		
 		// Apply .automatic to all remaining organizations
 		// with isSelected true if the user selected that one.
-		return .automatic(isSelected: selectedSearchResultsList.contains(organization))
+		let found = selectedSearchResultsList.filter { ssrItem in
+			ssrItem.identifier == organization.identifier
+		}.isNotEmpty
+		
+		return .automatic(isSelected: found)
 	}
 }
 

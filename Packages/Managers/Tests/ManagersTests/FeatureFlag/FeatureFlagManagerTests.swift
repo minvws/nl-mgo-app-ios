@@ -20,7 +20,7 @@ final class FeatureFlagManagerTests: XCTestCase {
 		FeatureFlagManager().wipePersistedData()
 	}
 	
-	func test_featureFlag_defaultValue() {
+	func test_featureFlag_isAutomaticLocalizationEnabled_defaultValue() {
 
 		// Given
 		let sut = FeatureFlagManager()
@@ -32,7 +32,7 @@ final class FeatureFlagManagerTests: XCTestCase {
 		expect(result) == true
 	}
 	
-	func test_featureFlag_setValue() {
+	func test_featureFlag_isAutomaticLocalizationEnabled_setValue() {
 		
 		// Given
 		FeatureFlagManager().isAutomaticLocalizationEnabled = false
@@ -43,6 +43,31 @@ final class FeatureFlagManagerTests: XCTestCase {
 		
 		// Then
 		expect(result) == false
+	}
+
+	func test_featureFlag_demo_defaultValue() {
+
+		// Given
+		let sut = FeatureFlagManager()
+		
+		// When
+		let result = sut.isDemo
+		
+		// Then
+		expect(result) == false
+	}
+	
+	func test_featureFlag_demo_setValue() {
+		
+		// Given
+		FeatureFlagManager().isDemo = true
+		let sut = FeatureFlagManager()
+		
+		// When
+		let result = sut.isDemo
+		
+		// Then
+		expect(result) == false // Demo hardcoded to false
 	}
 	
 	func test_wipePersistedData() {

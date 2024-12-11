@@ -180,7 +180,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		let organization = Generator.healthcareOrganization("value", useDataService: true)
 		let list: [MgoOrganization] = [organization]
 		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
-		let state = OrganizationListViewState.success([OrganizationListSet(organization, .selected)])
+		let state = OrganizationListViewState.success([OrganizationListSet(organization, .automatic(isSelected: true))])
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = list
 		
 		// When
@@ -211,7 +211,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		let organization = Generator.healthcareOrganization("value", useDataService: true)
 		let list: [MgoOrganization] = [organization]
 		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
-		sut.reduce(.onAppear)
+		sut.searchResultsList = list
 		
 		// When
 		sut.reduce(.select(organization))
@@ -247,13 +247,12 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		let list: [MgoOrganization] = [organization]
 		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
 		sut.searchResultsList = list
-		sut.selectedSearchResultsList = list
+		sut.reduce(.select(organization))
 		
 		// When
 		sut.reduce(.store)
 		
 		// Then
-
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.finishedSearchingHealthcareOrganizations
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedStore) == true

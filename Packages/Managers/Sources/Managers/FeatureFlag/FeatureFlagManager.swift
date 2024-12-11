@@ -19,7 +19,7 @@ public protocol FeatureFlagManaging {
 	/// Do we use automatic localization?
 	var isAutomaticLocalizationEnabled: Bool { get set }
 	
-	var isDemo: Bool { get }
+	var isDemo: Bool { get set }
 	
 	func wipePersistedData()
 }

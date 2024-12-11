@@ -54,6 +54,8 @@ class OrganizationsViewModel: ObservableObject {
 				case .added:
 					self?.loadHealthcareOrganizations()
 				case .removed:
+				
+					guard !Current.featureFlagManager.isAutomaticLocalizationEnabled else { return }
 					self?.toast = Feedback(
 						title: String(localized: "toast.organization_removed.heading"),
 						subtitle: String(localized: "toast.organization_removed.subheading"),
