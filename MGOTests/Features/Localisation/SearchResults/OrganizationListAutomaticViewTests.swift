@@ -88,7 +88,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
 			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
-			((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("3", withLines: false), OrganizationListCardState.automatic(isSelected: false))),
 			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
 		]
 		viewModel.state = .success(list)
@@ -110,7 +110,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		let list: [OrganizationListSet] = [
 			((Generator.healthcareOrganization("1"), OrganizationListCardState.automatic(isSelected: true))),
 			((Generator.healthcareOrganization("2"), OrganizationListCardState.notParticipating)),
-			((Generator.healthcareOrganization("3"), OrganizationListCardState.automatic(isSelected: false))),
+			((Generator.healthcareOrganization("3", withLines: false), OrganizationListCardState.automatic(isSelected: false))),
 			((Generator.healthcareOrganization("4", city: "", address: "", postalCode: ""), OrganizationListCardState.selected))
 		]
 		viewModel.state = .success(list)

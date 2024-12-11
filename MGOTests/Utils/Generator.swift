@@ -18,8 +18,9 @@ class Generator {
 	///   - postalCode: the postal code of the organization
 	///   - useDataService: should we include a data service?
 	///   - serviceId: the id for the data service
+	///   - withLines: use address as input for the lines part?
 	/// - Returns: a healthcare organization
-	static func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true, serviceId: String = "48" ) -> MgoOrganization {
+	static func healthcareOrganization(_ id: String, city: String = "Roermond", address: String = "Boorplatform 5", postalCode: String = "1234AB", useDataService: Bool = true, serviceId: String = "48", withLines: Bool = true ) -> MgoOrganization {
 		
 		var dataServices = [DataService]()
 		if useDataService {
@@ -47,7 +48,7 @@ class Generator {
 				active: true,
 				address: "\(address) \r\n \(postalCode) \(city)",
 				city: city,
-				lines: [address],
+				lines: withLines ? [address] : nil,
 				postalcode: postalCode,
 				_type: "postal")
 			],

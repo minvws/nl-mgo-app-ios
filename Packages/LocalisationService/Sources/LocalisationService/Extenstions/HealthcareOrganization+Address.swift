@@ -21,6 +21,17 @@ public extension MgoOrganization {
 		if let lines = firstAddress.lines,
 			let firstLine = lines.first {
 			address = firstLine ?? ""
+		} else {
+			if var rawAddress = firstAddress.address {
+				rawAddress = rawAddress.replacingOccurrences(of: "\r\n", with: "|")
+				rawAddress = rawAddress.replacingOccurrences(of: "\n", with: "|")
+				rawAddress = rawAddress.replacingOccurrences(of: ",", with: "|")
+				
+				let addressParts = rawAddress.split(separator: "|")
+				if let addressPart = addressParts.first {
+					address = String(addressPart)
+				}
+			}
 		}
 		
 		return (address, firstAddress.city, firstAddress.postalcode)
