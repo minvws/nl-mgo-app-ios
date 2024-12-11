@@ -12,9 +12,10 @@ import Foundation
 
 // MARK: - ZibProduct
 public struct ZibProduct: Codable, Hashable, Sendable {
-    public let code: [MgoCoding]?
+    public let code: MgoCodeableConcept?
     public let description: String?
-    public let form: [MgoCoding]?
+    public let fhirVersion: FhirVersionR3
+    public let form: MgoCodeableConcept?
     public let id: String?
     public let ingredient: [ZibProductIngredient]?
     public let package: Package
@@ -23,14 +24,15 @@ public struct ZibProduct: Codable, Hashable, Sendable {
     public let resourceType: String?
 
     public enum CodingKeys: String, CodingKey {
-        case code, description, form, id, ingredient, package, profile
+        case code, description, fhirVersion, form, id, ingredient, package, profile
         case referenceID = "referenceId"
         case resourceType
     }
 
-    public init(code: [MgoCoding]?, description: String?, form: [MgoCoding]?, id: String?, ingredient: [ZibProductIngredient]?, package: Package, profile: ZibProductProfile, referenceID: String, resourceType: String?) {
+    public init(code: MgoCodeableConcept?, description: String?, fhirVersion: FhirVersionR3, form: MgoCodeableConcept?, id: String?, ingredient: [ZibProductIngredient]?, package: Package, profile: ZibProductProfile, referenceID: String, resourceType: String?) {
         self.code = code
         self.description = description
+        self.fhirVersion = fhirVersion
         self.form = form
         self.id = id
         self.ingredient = ingredient
@@ -60,9 +62,10 @@ public extension ZibProduct {
     }
 
     func with(
-        code: [MgoCoding]?? = nil,
+        code: MgoCodeableConcept?? = nil,
         description: String?? = nil,
-        form: [MgoCoding]?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
+        form: MgoCodeableConcept?? = nil,
         id: String?? = nil,
         ingredient: [ZibProductIngredient]?? = nil,
         package: Package? = nil,
@@ -73,6 +76,7 @@ public extension ZibProduct {
         return ZibProduct(
             code: code ?? self.code,
             description: description ?? self.description,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             form: form ?? self.form,
             id: id ?? self.id,
             ingredient: ingredient ?? self.ingredient,

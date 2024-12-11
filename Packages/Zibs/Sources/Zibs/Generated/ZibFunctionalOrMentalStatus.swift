@@ -12,15 +12,16 @@ import Foundation
 
 // MARK: - ZibFunctionalOrMentalStatus
 public struct ZibFunctionalOrMentalStatus: Codable, Hashable, Sendable {
-    public let bodySite: [MgoCoding]?
-    public let category: [[MgoCoding]]?
+    public let bodySite: MgoCodeableConcept?
+    public let category: [MgoCodeableConcept]?
     public let comment: String?
     public let context: MgoReference?
-    public let dataAbsentReason: [MgoCoding]?
+    public let dataAbsentReason: MgoCodeableConcept?
     public let effectivePeriod: MgoPeriod?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let method: [MgoCoding]?
+    public let method: MgoCodeableConcept?
     public let profile: ZibFunctionalOrMentalStatusProfile
     public let referenceID: String
     public let resourceType, status: String?
@@ -28,18 +29,19 @@ public struct ZibFunctionalOrMentalStatus: Codable, Hashable, Sendable {
     public let valueQuantity: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, category, comment, context, dataAbsentReason, effectivePeriod, id, identifier, method, profile
+        case bodySite, category, comment, context, dataAbsentReason, effectivePeriod, fhirVersion, id, identifier, method, profile
         case referenceID = "referenceId"
         case resourceType, status, subject, valueQuantity
     }
 
-    public init(bodySite: [MgoCoding]?, category: [[MgoCoding]]?, comment: String?, context: MgoReference?, dataAbsentReason: [MgoCoding]?, effectivePeriod: MgoPeriod?, id: String?, identifier: [MgoIdentifier]?, method: [MgoCoding]?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoDuration?) {
+    public init(bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, dataAbsentReason: MgoCodeableConcept?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoDuration?) {
         self.bodySite = bodySite
         self.category = category
         self.comment = comment
         self.context = context
         self.dataAbsentReason = dataAbsentReason
         self.effectivePeriod = effectivePeriod
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.method = method
@@ -71,15 +73,16 @@ public extension ZibFunctionalOrMentalStatus {
     }
 
     func with(
-        bodySite: [MgoCoding]?? = nil,
-        category: [[MgoCoding]]?? = nil,
+        bodySite: MgoCodeableConcept?? = nil,
+        category: [MgoCodeableConcept]?? = nil,
         comment: String?? = nil,
         context: MgoReference?? = nil,
-        dataAbsentReason: [MgoCoding]?? = nil,
+        dataAbsentReason: MgoCodeableConcept?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        method: [MgoCoding]?? = nil,
+        method: MgoCodeableConcept?? = nil,
         profile: ZibFunctionalOrMentalStatusProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
@@ -94,6 +97,7 @@ public extension ZibFunctionalOrMentalStatus {
             context: context ?? self.context,
             dataAbsentReason: dataAbsentReason ?? self.dataAbsentReason,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             method: method ?? self.method,

@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - CuffTypeLOINC
 public struct CuffTypeLOINC: Codable, Hashable, Sendable {
-    public let valueCodeableConcept: [MgoCoding]?
+    public let valueCodeableConcept: MgoCodeableConcept?
 
-    public init(valueCodeableConcept: [MgoCoding]?) {
+    public init(valueCodeableConcept: MgoCodeableConcept?) {
         self.valueCodeableConcept = valueCodeableConcept
     }
 }
@@ -38,7 +38,7 @@ public extension CuffTypeLOINC {
     }
 
     func with(
-        valueCodeableConcept: [MgoCoding]?? = nil
+        valueCodeableConcept: MgoCodeableConcept?? = nil
     ) -> CuffTypeLOINC {
         return CuffTypeLOINC(
             valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept

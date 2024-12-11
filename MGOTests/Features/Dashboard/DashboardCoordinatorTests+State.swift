@@ -147,7 +147,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 						UIEntry(
 							display: .string("value 1"),
 							label: "label",
-							summary: true,
+							showEmpty: true,
 							type: .singleValue,
 							reference: nil,
 							url: nil

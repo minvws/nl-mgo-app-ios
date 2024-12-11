@@ -12,7 +12,7 @@ import Foundation
 
 // MARK: - Except
 public struct Except: Codable, Hashable, Sendable {
-    public let action: [[MgoCoding]]?
+    public let action: [MgoCodeableConcept]?
     public let actor: [ExceptActor]?
     public let exceptClass, code: [MgoCoding]?
     public let data: [ExceptDatum]?
@@ -26,7 +26,7 @@ public struct Except: Codable, Hashable, Sendable {
         case code, data, dataPeriod, period, purpose, securityLabel, type
     }
 
-    public init(action: [[MgoCoding]]?, actor: [ExceptActor]?, exceptClass: [MgoCoding]?, code: [MgoCoding]?, data: [ExceptDatum]?, dataPeriod: MgoPeriod?, period: MgoPeriod?, purpose: [MgoCoding]?, securityLabel: [MgoCoding]?, type: String?) {
+    public init(action: [MgoCodeableConcept]?, actor: [ExceptActor]?, exceptClass: [MgoCoding]?, code: [MgoCoding]?, data: [ExceptDatum]?, dataPeriod: MgoPeriod?, period: MgoPeriod?, purpose: [MgoCoding]?, securityLabel: [MgoCoding]?, type: String?) {
         self.action = action
         self.actor = actor
         self.exceptClass = exceptClass
@@ -59,7 +59,7 @@ public extension Except {
     }
 
     func with(
-        action: [[MgoCoding]]?? = nil,
+        action: [MgoCodeableConcept]?? = nil,
         actor: [ExceptActor]?? = nil,
         exceptClass: [MgoCoding]?? = nil,
         code: [MgoCoding]?? = nil,

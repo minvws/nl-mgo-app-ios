@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let collection = try Collection(json)
+//   let zibLaboratoryTestResultSpecimenIsolateCollection = try ZibLaboratoryTestResultSpecimenIsolateCollection(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,26 +10,28 @@
 
 import Foundation
 
-// MARK: - Collection
-public struct Collection: Codable, Hashable, Sendable {
-    public let bodySite: BodySite
-    public let collected: Effective?
-    public let method: [MgoCoding]?
+// MARK: - ZibLaboratoryTestResultSpecimenIsolateCollection
+public struct ZibLaboratoryTestResultSpecimenIsolateCollection: Codable, Hashable, Sendable {
+    public let bodySite: FluffyBodySite
+    public let collectedDateTime: String?
+    public let collectedPeriod: MgoPeriod?
+    public let method: MgoCodeableConcept?
     public let quantity: MgoDuration?
 
-    public init(bodySite: BodySite, collected: Effective?, method: [MgoCoding]?, quantity: MgoDuration?) {
+    public init(bodySite: FluffyBodySite, collectedDateTime: String?, collectedPeriod: MgoPeriod?, method: MgoCodeableConcept?, quantity: MgoDuration?) {
         self.bodySite = bodySite
-        self.collected = collected
+        self.collectedDateTime = collectedDateTime
+        self.collectedPeriod = collectedPeriod
         self.method = method
         self.quantity = quantity
     }
 }
 
-// MARK: Collection convenience initializers and mutators
+// MARK: ZibLaboratoryTestResultSpecimenIsolateCollection convenience initializers and mutators
 
-public extension Collection {
+public extension ZibLaboratoryTestResultSpecimenIsolateCollection {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Collection.self, from: data)
+        self = try newJSONDecoder().decode(ZibLaboratoryTestResultSpecimenIsolateCollection.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -44,14 +46,16 @@ public extension Collection {
     }
 
     func with(
-        bodySite: BodySite? = nil,
-        collected: Effective?? = nil,
-        method: [MgoCoding]?? = nil,
+        bodySite: FluffyBodySite? = nil,
+        collectedDateTime: String?? = nil,
+        collectedPeriod: MgoPeriod?? = nil,
+        method: MgoCodeableConcept?? = nil,
         quantity: MgoDuration?? = nil
-    ) -> Collection {
-        return Collection(
+    ) -> ZibLaboratoryTestResultSpecimenIsolateCollection {
+        return ZibLaboratoryTestResultSpecimenIsolateCollection(
             bodySite: bodySite ?? self.bodySite,
-            collected: collected ?? self.collected,
+            collectedDateTime: collectedDateTime ?? self.collectedDateTime,
+            collectedPeriod: collectedPeriod ?? self.collectedPeriod,
             method: method ?? self.method,
             quantity: quantity ?? self.quantity
         )

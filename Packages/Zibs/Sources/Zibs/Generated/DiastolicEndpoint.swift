@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - DiastolicEndpoint
 public struct DiastolicEndpoint: Codable, Hashable, Sendable {
-    public let valueCodeableConcept: [MgoCoding]?
+    public let valueCodeableConcept: MgoCodeableConcept?
 
-    public init(valueCodeableConcept: [MgoCoding]?) {
+    public init(valueCodeableConcept: MgoCodeableConcept?) {
         self.valueCodeableConcept = valueCodeableConcept
     }
 }
@@ -38,7 +38,7 @@ public extension DiastolicEndpoint {
     }
 
     func with(
-        valueCodeableConcept: [MgoCoding]?? = nil
+        valueCodeableConcept: MgoCodeableConcept?? = nil
     ) -> DiastolicEndpoint {
         return DiastolicEndpoint(
             valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept

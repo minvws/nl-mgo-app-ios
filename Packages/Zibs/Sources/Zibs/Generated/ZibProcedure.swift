@@ -12,14 +12,15 @@ import Foundation
 
 // MARK: - ZibProcedure
 public struct ZibProcedure: Codable, Hashable, Sendable {
-    public let bodySite, bodySiteQualifier: [[MgoCoding]]?
-    public let code: [MgoCoding]?
+    public let bodySite, bodySiteQualifier: [MgoCodeableConcept]?
+    public let code: MgoCodeableConcept?
+    public let fhirVersion: FhirVersionR3
     public let focalDevice: [FocalDevice]?
     public let id: String?
     public let location: MgoReference?
     public let performedPeriod: MgoPeriod?
     public let performer: [Performer]?
-    public let procedureMethod: [MgoCoding]?
+    public let procedureMethod: MgoCodeableConcept?
     public let profile: ZibProcedureProfile
     public let reasonReference: [MgoReference]?
     public let referenceID: String
@@ -27,15 +28,16 @@ public struct ZibProcedure: Codable, Hashable, Sendable {
     public let subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, bodySiteQualifier, code, focalDevice, id, location, performedPeriod, performer, procedureMethod, profile, reasonReference
+        case bodySite, bodySiteQualifier, code, fhirVersion, focalDevice, id, location, performedPeriod, performer, procedureMethod, profile, reasonReference
         case referenceID = "referenceId"
         case resourceType, subject
     }
 
-    public init(bodySite: [[MgoCoding]]?, bodySiteQualifier: [[MgoCoding]]?, code: [MgoCoding]?, focalDevice: [FocalDevice]?, id: String?, location: MgoReference?, performedPeriod: MgoPeriod?, performer: [Performer]?, procedureMethod: [MgoCoding]?, profile: ZibProcedureProfile, reasonReference: [MgoReference]?, referenceID: String, resourceType: String?, subject: MgoReference?) {
+    public init(bodySite: [MgoCodeableConcept]?, bodySiteQualifier: [MgoCodeableConcept]?, code: MgoCodeableConcept?, fhirVersion: FhirVersionR3, focalDevice: [FocalDevice]?, id: String?, location: MgoReference?, performedPeriod: MgoPeriod?, performer: [Performer]?, procedureMethod: MgoCodeableConcept?, profile: ZibProcedureProfile, reasonReference: [MgoReference]?, referenceID: String, resourceType: String?, subject: MgoReference?) {
         self.bodySite = bodySite
         self.bodySiteQualifier = bodySiteQualifier
         self.code = code
+        self.fhirVersion = fhirVersion
         self.focalDevice = focalDevice
         self.id = id
         self.location = location
@@ -69,15 +71,16 @@ public extension ZibProcedure {
     }
 
     func with(
-        bodySite: [[MgoCoding]]?? = nil,
-        bodySiteQualifier: [[MgoCoding]]?? = nil,
-        code: [MgoCoding]?? = nil,
+        bodySite: [MgoCodeableConcept]?? = nil,
+        bodySiteQualifier: [MgoCodeableConcept]?? = nil,
+        code: MgoCodeableConcept?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         focalDevice: [FocalDevice]?? = nil,
         id: String?? = nil,
         location: MgoReference?? = nil,
         performedPeriod: MgoPeriod?? = nil,
         performer: [Performer]?? = nil,
-        procedureMethod: [MgoCoding]?? = nil,
+        procedureMethod: MgoCodeableConcept?? = nil,
         profile: ZibProcedureProfile? = nil,
         reasonReference: [MgoReference]?? = nil,
         referenceID: String? = nil,
@@ -88,6 +91,7 @@ public extension ZibProcedure {
             bodySite: bodySite ?? self.bodySite,
             bodySiteQualifier: bodySiteQualifier ?? self.bodySiteQualifier,
             code: code ?? self.code,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             focalDevice: focalDevice ?? self.focalDevice,
             id: id ?? self.id,
             location: location ?? self.location,

@@ -29,7 +29,8 @@ extension DVP {
 					(RequestParameterField.include, "patient")
 				]
 			),
-			serviceId: Vaccination.serviceID
+			serviceId: Vaccination.serviceID,
+			fhirVersion: .r4
 		)
 		
 		// Location: GET [base]/Immunization?_include:location
@@ -40,7 +41,8 @@ extension DVP {
 					(RequestParameterField.include, "location")
 				]
 			),
-			serviceId: Vaccination.serviceID
+			serviceId: Vaccination.serviceID,
+			fhirVersion: .r4
 		)
 		
 		// Performer: GET [base]/Immunization?_include:performer
@@ -51,7 +53,8 @@ extension DVP {
 					(RequestParameterField.include, "performer")
 				]
 			),
-			serviceId: Vaccination.serviceID
+			serviceId: Vaccination.serviceID,
+			fhirVersion: .r4
 		)
 	}
 }

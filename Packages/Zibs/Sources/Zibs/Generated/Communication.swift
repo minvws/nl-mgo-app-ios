@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - Communication
 public struct Communication: Codable, Hashable, Sendable {
-    public let language: [MgoCoding]?
+    public let language: MgoCodeableConcept?
     public let preferred: Bool?
 
-    public init(language: [MgoCoding]?, preferred: Bool?) {
+    public init(language: MgoCodeableConcept?, preferred: Bool?) {
         self.language = language
         self.preferred = preferred
     }
@@ -40,7 +40,7 @@ public extension Communication {
     }
 
     func with(
-        language: [MgoCoding]?? = nil,
+        language: MgoCodeableConcept?? = nil,
         preferred: Bool?? = nil
     ) -> Communication {
         return Communication(

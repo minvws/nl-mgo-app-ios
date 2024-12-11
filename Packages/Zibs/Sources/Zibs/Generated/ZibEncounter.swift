@@ -14,26 +14,28 @@ import Foundation
 public struct ZibEncounter: Codable, Hashable, Sendable {
     public let zibEncounterClass: MgoCoding?
     public let diagnosis: [Diagnosis]?
+    public let fhirVersion: FhirVersionR3
     public let hospitalization: Hospitalization
     public let id: String?
     public let participant: [ZibEncounterParticipant]?
     public let period: MgoPeriod?
     public let profile: ZibEncounterProfile
-    public let reason: [[MgoCoding]]?
+    public let reason: [MgoCodeableConcept]?
     public let referenceID: String
     public let resourceType: String?
     public let serviceProvider: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
         case zibEncounterClass = "class"
-        case diagnosis, hospitalization, id, participant, period, profile, reason
+        case diagnosis, fhirVersion, hospitalization, id, participant, period, profile, reason
         case referenceID = "referenceId"
         case resourceType, serviceProvider
     }
 
-    public init(zibEncounterClass: MgoCoding?, diagnosis: [Diagnosis]?, hospitalization: Hospitalization, id: String?, participant: [ZibEncounterParticipant]?, period: MgoPeriod?, profile: ZibEncounterProfile, reason: [[MgoCoding]]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
+    public init(zibEncounterClass: MgoCoding?, diagnosis: [Diagnosis]?, fhirVersion: FhirVersionR3, hospitalization: Hospitalization, id: String?, participant: [ZibEncounterParticipant]?, period: MgoPeriod?, profile: ZibEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
         self.zibEncounterClass = zibEncounterClass
         self.diagnosis = diagnosis
+        self.fhirVersion = fhirVersion
         self.hospitalization = hospitalization
         self.id = id
         self.participant = participant
@@ -67,12 +69,13 @@ public extension ZibEncounter {
     func with(
         zibEncounterClass: MgoCoding?? = nil,
         diagnosis: [Diagnosis]?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         hospitalization: Hospitalization? = nil,
         id: String?? = nil,
         participant: [ZibEncounterParticipant]?? = nil,
         period: MgoPeriod?? = nil,
         profile: ZibEncounterProfile? = nil,
-        reason: [[MgoCoding]]?? = nil,
+        reason: [MgoCodeableConcept]?? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
         serviceProvider: MgoReference?? = nil
@@ -80,6 +83,7 @@ public extension ZibEncounter {
         return ZibEncounter(
             zibEncounterClass: zibEncounterClass ?? self.zibEncounterClass,
             diagnosis: diagnosis ?? self.diagnosis,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             hospitalization: hospitalization ?? self.hospitalization,
             id: id ?? self.id,
             participant: participant ?? self.participant,

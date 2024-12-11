@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - Hospitalization
 public struct Hospitalization: Codable, Hashable, Sendable {
-    public let admitSource, dischargeDisposition: [MgoCoding]?
+    public let admitSource, dischargeDisposition: MgoCodeableConcept?
 
-    public init(admitSource: [MgoCoding]?, dischargeDisposition: [MgoCoding]?) {
+    public init(admitSource: MgoCodeableConcept?, dischargeDisposition: MgoCodeableConcept?) {
         self.admitSource = admitSource
         self.dischargeDisposition = dischargeDisposition
     }
@@ -39,8 +39,8 @@ public extension Hospitalization {
     }
 
     func with(
-        admitSource: [MgoCoding]?? = nil,
-        dischargeDisposition: [MgoCoding]?? = nil
+        admitSource: MgoCodeableConcept?? = nil,
+        dischargeDisposition: MgoCodeableConcept?? = nil
     ) -> Hospitalization {
         return Hospitalization(
             admitSource: admitSource ?? self.admitSource,

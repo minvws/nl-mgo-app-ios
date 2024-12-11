@@ -12,22 +12,24 @@ import Foundation
 
 // MARK: - NlCorePractitionerRole
 public struct NlCorePractitionerRole: Codable, Hashable, Sendable {
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let organization: MgoReference?
     public let profile: NlCorePractitionerRoleProfile
     public let referenceID: String
     public let resourceType: String?
-    public let specialty: [[MgoCoding]]?
+    public let specialty: [MgoCodeableConcept]?
     public let telecom: [NlCoreContactpoint]?
 
     public enum CodingKeys: String, CodingKey {
-        case id, identifier, organization, profile
+        case fhirVersion, id, identifier, organization, profile
         case referenceID = "referenceId"
         case resourceType, specialty, telecom
     }
 
-    public init(id: String?, identifier: [MgoIdentifier]?, organization: MgoReference?, profile: NlCorePractitionerRoleProfile, referenceID: String, resourceType: String?, specialty: [[MgoCoding]]?, telecom: [NlCoreContactpoint]?) {
+    public init(fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, organization: MgoReference?, profile: NlCorePractitionerRoleProfile, referenceID: String, resourceType: String?, specialty: [MgoCodeableConcept]?, telecom: [NlCoreContactpoint]?) {
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.organization = organization
@@ -58,16 +60,18 @@ public extension NlCorePractitionerRole {
     }
 
     func with(
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         organization: MgoReference?? = nil,
         profile: NlCorePractitionerRoleProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        specialty: [[MgoCoding]]?? = nil,
+        specialty: [MgoCodeableConcept]?? = nil,
         telecom: [NlCoreContactpoint]?? = nil
     ) -> NlCorePractitionerRole {
         return NlCorePractitionerRole(
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             organization: organization ?? self.organization,

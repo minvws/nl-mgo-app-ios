@@ -10,6 +10,12 @@ import FHIRClient
 
 public struct DVP {
 	
+	/// Potential FHIR versions of the response
+	public enum FhirVersion: String {
+		case r3 = "R3"
+		case r4 = "R4"
+	}
+	
 	public struct Endpoint {
 		
 		/// Create an Dataset Endpoint
@@ -18,11 +24,19 @@ public struct DVP {
 		///   - parameters: the request params
 		///   - directory: the url directory
 		///   - serviceId: the identifier of the service
-		public init(path: String, parameters: RequestParameters? = nil, directory: String? = nil, serviceId: String) {
+		///   - fhirVersion: The FHIR version of the resource
+		
+		public init(
+			path: String,
+			parameters: RequestParameters? = nil,
+			directory: String? = nil,
+			serviceId: String,
+			fhirVersion: DVP.FhirVersion = .r3) {
 			self.path = path
 			self.parameters = parameters
 			self.directory = directory
 			self.serviceId = serviceId
+			self.fhirVersion = fhirVersion
 		}
 		
 		/// The path for this endpoint
@@ -36,5 +50,8 @@ public struct DVP {
 		
 		/// The identifier of the service
 		public let serviceId: String
+		
+		/// The FHIR version of the resource
+		public let fhirVersion: DVP.FhirVersion
 	}
 }

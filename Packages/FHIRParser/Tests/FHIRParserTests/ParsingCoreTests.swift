@@ -53,10 +53,41 @@ final class FHIRParserTests: XCTestCase {
 		// Then
 		if let zib {
 			let zibMedicationUse = ZibFactory.createZibMedicationUse(zib)
-			expect(zibMedicationUse?.medication?.display) == "Zestril tablet 10mg"
+			expect(zibMedicationUse?.medicationReference?.display) == "Zestril tablet 10mg"
 		} else {
 			fail("Could not unwrap zib")
 		}
+	}
+	
+	func test_parseResourceJson_explicitFhirVersion() throws {
+		
+		// Given
+		let resource = try getStringResource("medicationResource")
+		let data = Data(resource.utf8)
+		
+		// When
+		let zib = sut.getMgoResourceJson(data, fhirVersion: "R3")
+		
+		// Then
+		if let zib {
+			let zibMedicationUse = ZibFactory.createZibMedicationUse(zib)
+			expect(zibMedicationUse?.medicationReference?.display) == "Zestril tablet 10mg"
+		} else {
+			fail("Could not unwrap zib")
+		}
+	}
+	
+	func test_parseResourceJson_wrongFhirVersion() throws {
+		
+		// Given
+		let resource = try getStringResource("medicationResource")
+		let data = Data(resource.utf8)
+		
+		// When
+		let zib = sut.getMgoResourceJson(data, fhirVersion: "R4")
+		
+		// Then
+		expect(zib) == Data("undefined".utf8)
 	}
 	
 	func test_parseResourceJson_error() throws {

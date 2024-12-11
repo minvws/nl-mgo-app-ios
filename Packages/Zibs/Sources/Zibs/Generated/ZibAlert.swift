@@ -13,8 +13,9 @@ import Foundation
 // MARK: - ZibAlert
 public struct ZibAlert: Codable, Hashable, Sendable {
     public let author: MgoReference?
-    public let category, code: [MgoCoding]?
+    public let category, code: MgoCodeableConcept?
     public let encounter: MgoReference?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let period: MgoPeriod?
@@ -24,16 +25,17 @@ public struct ZibAlert: Codable, Hashable, Sendable {
     public let subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case author, category, code, encounter, id, identifier, period, profile
+        case author, category, code, encounter, fhirVersion, id, identifier, period, profile
         case referenceID = "referenceId"
         case resourceType, status, subject
     }
 
-    public init(author: MgoReference?, category: [MgoCoding]?, code: [MgoCoding]?, encounter: MgoReference?, id: String?, identifier: [MgoIdentifier]?, period: MgoPeriod?, profile: ZibAlertProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
+    public init(author: MgoReference?, category: MgoCodeableConcept?, code: MgoCodeableConcept?, encounter: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, period: MgoPeriod?, profile: ZibAlertProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
         self.author = author
         self.category = category
         self.code = code
         self.encounter = encounter
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.period = period
@@ -65,9 +67,10 @@ public extension ZibAlert {
 
     func with(
         author: MgoReference?? = nil,
-        category: [MgoCoding]?? = nil,
-        code: [MgoCoding]?? = nil,
+        category: MgoCodeableConcept?? = nil,
+        code: MgoCodeableConcept?? = nil,
         encounter: MgoReference?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         period: MgoPeriod?? = nil,
@@ -82,6 +85,7 @@ public extension ZibAlert {
             category: category ?? self.category,
             code: code ?? self.code,
             encounter: encounter ?? self.encounter,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             period: period ?? self.period,

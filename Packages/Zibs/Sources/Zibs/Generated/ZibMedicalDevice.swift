@@ -12,11 +12,12 @@ import Foundation
 
 // MARK: - ZibMedicalDevice
 public struct ZibMedicalDevice: Codable, Hashable, Sendable {
-    public let bodySite: [MgoCoding]?
+    public let bodySite: MgoCodeableConcept?
     public let device: MgoReference?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let laterality: [MgoCoding]?
+    public let laterality: MgoCodeableConcept?
     public let note: [MgoAnnotation]?
     public let organization, patient, practitioner: MgoReference?
     public let profile: ZibMedicalDeviceProfile
@@ -29,14 +30,15 @@ public struct ZibMedicalDevice: Codable, Hashable, Sendable {
     public let whenUsed: MgoPeriod?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, device, id, identifier, laterality, note, organization, patient, practitioner, profile, reason, recordedOn
+        case bodySite, device, fhirVersion, id, identifier, laterality, note, organization, patient, practitioner, profile, reason, recordedOn
         case referenceID = "referenceId"
         case resourceType, source, status, whenUsed
     }
 
-    public init(bodySite: [MgoCoding]?, device: MgoReference?, id: String?, identifier: [MgoIdentifier]?, laterality: [MgoCoding]?, note: [MgoAnnotation]?, organization: MgoReference?, patient: MgoReference?, practitioner: MgoReference?, profile: ZibMedicalDeviceProfile, reason: MgoReference?, recordedOn: String?, referenceID: String, resourceType: String?, source: MgoReference?, status: String?, whenUsed: MgoPeriod?) {
+    public init(bodySite: MgoCodeableConcept?, device: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, laterality: MgoCodeableConcept?, note: [MgoAnnotation]?, organization: MgoReference?, patient: MgoReference?, practitioner: MgoReference?, profile: ZibMedicalDeviceProfile, reason: MgoReference?, recordedOn: String?, referenceID: String, resourceType: String?, source: MgoReference?, status: String?, whenUsed: MgoPeriod?) {
         self.bodySite = bodySite
         self.device = device
+        self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.laterality = laterality
@@ -74,11 +76,12 @@ public extension ZibMedicalDevice {
     }
 
     func with(
-        bodySite: [MgoCoding]?? = nil,
+        bodySite: MgoCodeableConcept?? = nil,
         device: MgoReference?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        laterality: [MgoCoding]?? = nil,
+        laterality: MgoCodeableConcept?? = nil,
         note: [MgoAnnotation]?? = nil,
         organization: MgoReference?? = nil,
         patient: MgoReference?? = nil,
@@ -95,6 +98,7 @@ public extension ZibMedicalDevice {
         return ZibMedicalDevice(
             bodySite: bodySite ?? self.bodySite,
             device: device ?? self.device,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             laterality: laterality ?? self.laterality,

@@ -13,9 +13,10 @@ import Foundation
 // MARK: - ZibMedicationAgreement
 public struct ZibMedicationAgreement: Codable, Hashable, Sendable {
     public let basedOn: [MgoReference]?
-    public let category: [MgoCoding]?
+    public let category: MgoCodeableConcept?
     public let definition: [MgoReference]?
     public let dossageInstruction: [ZibInstructionsForUse]?
+    public let fhirVersion: FhirVersionR3
     public let groupIdentifier: MgoIdentifier?
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -29,20 +30,21 @@ public struct ZibMedicationAgreement: Codable, Hashable, Sendable {
     public let referenceID: String
     public let repeatPeriodCyclicalSchedule: MgoDuration?
     public let resourceType, status: String?
-    public let stopType: [MgoCoding]?
+    public let stopType: MgoCodeableConcept?
     public let usageDuration: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
-        case basedOn, category, definition, dossageInstruction, groupIdentifier, id, identifier, intent, medicationReference, medicationTreatment, note, periodOfUse, priority, profile
+        case basedOn, category, definition, dossageInstruction, fhirVersion, groupIdentifier, id, identifier, intent, medicationReference, medicationTreatment, note, periodOfUse, priority, profile
         case referenceID = "referenceId"
         case repeatPeriodCyclicalSchedule, resourceType, status, stopType, usageDuration
     }
 
-    public init(basedOn: [MgoReference]?, category: [MgoCoding]?, definition: [MgoReference]?, dossageInstruction: [ZibInstructionsForUse]?, groupIdentifier: MgoIdentifier?, id: String?, identifier: [MgoIdentifier]?, intent: String?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, periodOfUse: MgoPeriod?, priority: String?, profile: ZibMedicationAgreementProfile, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: String?, stopType: [MgoCoding]?, usageDuration: MgoDuration?) {
+    public init(basedOn: [MgoReference]?, category: MgoCodeableConcept?, definition: [MgoReference]?, dossageInstruction: [ZibInstructionsForUse]?, fhirVersion: FhirVersionR3, groupIdentifier: MgoIdentifier?, id: String?, identifier: [MgoIdentifier]?, intent: String?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, periodOfUse: MgoPeriod?, priority: String?, profile: ZibMedicationAgreementProfile, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: String?, stopType: MgoCodeableConcept?, usageDuration: MgoDuration?) {
         self.basedOn = basedOn
         self.category = category
         self.definition = definition
         self.dossageInstruction = dossageInstruction
+        self.fhirVersion = fhirVersion
         self.groupIdentifier = groupIdentifier
         self.id = id
         self.identifier = identifier
@@ -82,9 +84,10 @@ public extension ZibMedicationAgreement {
 
     func with(
         basedOn: [MgoReference]?? = nil,
-        category: [MgoCoding]?? = nil,
+        category: MgoCodeableConcept?? = nil,
         definition: [MgoReference]?? = nil,
         dossageInstruction: [ZibInstructionsForUse]?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         groupIdentifier: MgoIdentifier?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
@@ -99,7 +102,7 @@ public extension ZibMedicationAgreement {
         repeatPeriodCyclicalSchedule: MgoDuration?? = nil,
         resourceType: String?? = nil,
         status: String?? = nil,
-        stopType: [MgoCoding]?? = nil,
+        stopType: MgoCodeableConcept?? = nil,
         usageDuration: MgoDuration?? = nil
     ) -> ZibMedicationAgreement {
         return ZibMedicationAgreement(
@@ -107,6 +110,7 @@ public extension ZibMedicationAgreement {
             category: category ?? self.category,
             definition: definition ?? self.definition,
             dossageInstruction: dossageInstruction ?? self.dossageInstruction,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             groupIdentifier: groupIdentifier ?? self.groupIdentifier,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,

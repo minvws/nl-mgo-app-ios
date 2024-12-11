@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - Section
 public struct Section: Codable, Hashable, Sendable {
-    public let code: [MgoCoding]?
+    public let code: MgoCodeableConcept?
     public let entry: [MgoReference]?
 
-    public init(code: [MgoCoding]?, entry: [MgoReference]?) {
+    public init(code: MgoCodeableConcept?, entry: [MgoReference]?) {
         self.code = code
         self.entry = entry
     }
@@ -40,7 +40,7 @@ public extension Section {
     }
 
     func with(
-        code: [MgoCoding]?? = nil,
+        code: MgoCodeableConcept?? = nil,
         entry: [MgoReference]?? = nil
     ) -> Section {
         return Section(

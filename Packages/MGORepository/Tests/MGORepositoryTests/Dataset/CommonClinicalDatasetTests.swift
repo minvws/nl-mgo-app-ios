@@ -21,6 +21,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Patient"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "_include", value: "Patient:general-practitioner") } == true
 	}
 	
@@ -34,6 +35,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Coverage"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "_include", value: "Coverage:payor:Patient") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "Coverage:payor:Organization") } == true
 	}
@@ -48,6 +50,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Consent"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "category", value: "http://snomed.info/sct|11291000146105") } == true
 	}
 	
@@ -61,6 +64,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Consent"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "category", value: "http://snomed.info/sct|11341000146107") } == true
 	}
 	
@@ -74,6 +78,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Observation"
 		expect(endpoint.directory) == "$lastn"
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "category", value: "http://snomed.info/sct|118228005,http://snomed.info/sct|384821006") } == true
 	}
 	
@@ -87,6 +92,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Condition"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect(endpoint.parameters) == nil
 	}
 	
@@ -100,6 +106,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Observation"
 		expect(endpoint.directory) == "$lastn"
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "code", value: "http://snomed.info/sct|365508006") } == true
 	}
 	
@@ -113,6 +120,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Observation"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "code", value: "http://snomed.info/sct|228366006") } == true
 	}
 	
@@ -126,6 +134,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Observation"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "code", value: "http://snomed.info/sct|228273003") } == true
 	}
 	
@@ -139,6 +148,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Observation"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "code", value: "http://snomed.info/sct|365980008") } == true
 	}
 	
@@ -152,6 +162,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "NutritionOrder"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect(endpoint.parameters) == nil
 	}
 	
@@ -165,6 +176,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Flag"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect(endpoint.parameters) == nil
 	}
 	
@@ -178,6 +190,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "AllergyIntolerance"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect(endpoint.parameters) == nil
 	}
 	
@@ -191,6 +204,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "MedicationStatement"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "category", value: "urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3|6") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "MedicationStatement:medication") } == true
 	}
@@ -205,6 +219,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "MedicationRequest"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "category", value: "http://snomed.info/sct|16076005") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "MedicationRequest:medication") } == true
 	}
@@ -219,6 +234,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "MedicationDispense"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "category", value: "http://snomed.info/sct|422037009") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "MedicationDispense:medication") } == true
 	}
@@ -233,6 +249,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "DeviceUseStatement"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "_include", value: "DeviceUseStatement:device") } == true
 	}
 	
@@ -246,6 +263,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Immunization"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "status", value: "completed") } == true
 	}
 	
@@ -259,6 +277,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Observation"
 		expect(endpoint.directory) == "$lastn"
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "code", value: "http://loinc.org|85354-9") } == true
 	}
 	
@@ -272,6 +291,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Observation"
 		expect(endpoint.directory) == "$lastn"
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "code", value: "http://loinc.org|29463-7") } == true
 	}
 	
@@ -285,6 +305,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Observation"
 		expect(endpoint.directory) == "$lastn"
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "code", value: "http://loinc.org|8302-2,http://loinc.org|8306-3,http://loinc.org|8308-9") } == true
 	}
 	
@@ -298,6 +319,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Observation"
 		expect(endpoint.directory) == "$lastn"
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "category", value: "http://snomed.info/sct|275711006") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "Observation:related-target") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "Observation:specimen") } == true
@@ -313,6 +335,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Procedure"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "category", value: "http://snomed.info/sct|387713003") } == true
 	}
 	
@@ -326,6 +349,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Encounter"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "class", value: "http://hl7.org/fhir/v3/ActCode|IMP,http://hl7.org/fhir/v3/ActCode|ACUTE,http://hl7.org/fhir/v3/ActCode|NONAC") } == true
 	}
 	
@@ -339,6 +363,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "ProcedureRequest"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "status", value: "active") } == true
 	}
 	
@@ -352,6 +377,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "ImmunizationRecommendation"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect(endpoint.parameters) == nil
 	}
 	
@@ -365,6 +391,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "DeviceRequest"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "status", value: "active") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "DeviceRequest:device") } == true
 	}
@@ -379,6 +406,7 @@ final class CommonClinicalDatasetTests: XCTestCase {
 		// Then
 		expect(endpoint.path) == "Appointment"
 		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
 		expect { try self.contains(endpoint, key: "status", value: "booked,pending,proposed") } == true
 	}
 }

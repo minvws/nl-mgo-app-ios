@@ -12,10 +12,11 @@ import Foundation
 
 // MARK: - ZibMedicalDeviceRequest
 public struct ZibMedicalDeviceRequest: Codable, Hashable, Sendable {
-    public let codeCodeableConcept: [MgoCoding]?
+    public let codeCodeableConcept: MgoCodeableConcept?
     public let codeReference: MgoReference?
+    public let fhirVersion: FhirVersionR3
     public let id: String?
-    public let intent: [MgoCoding]?
+    public let intent: MgoCodeableConcept?
     public let occurrence: MgoPeriod?
     public let perfomer: MgoReference?
     public let profile: ZibMedicalDeviceRequestProfile
@@ -24,14 +25,15 @@ public struct ZibMedicalDeviceRequest: Codable, Hashable, Sendable {
     public let subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case codeCodeableConcept, codeReference, id, intent, occurrence, perfomer, profile
+        case codeCodeableConcept, codeReference, fhirVersion, id, intent, occurrence, perfomer, profile
         case referenceID = "referenceId"
         case resourceType, status, subject
     }
 
-    public init(codeCodeableConcept: [MgoCoding]?, codeReference: MgoReference?, id: String?, intent: [MgoCoding]?, occurrence: MgoPeriod?, perfomer: MgoReference?, profile: ZibMedicalDeviceRequestProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
+    public init(codeCodeableConcept: MgoCodeableConcept?, codeReference: MgoReference?, fhirVersion: FhirVersionR3, id: String?, intent: MgoCodeableConcept?, occurrence: MgoPeriod?, perfomer: MgoReference?, profile: ZibMedicalDeviceRequestProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
         self.codeCodeableConcept = codeCodeableConcept
         self.codeReference = codeReference
+        self.fhirVersion = fhirVersion
         self.id = id
         self.intent = intent
         self.occurrence = occurrence
@@ -63,10 +65,11 @@ public extension ZibMedicalDeviceRequest {
     }
 
     func with(
-        codeCodeableConcept: [MgoCoding]?? = nil,
+        codeCodeableConcept: MgoCodeableConcept?? = nil,
         codeReference: MgoReference?? = nil,
+        fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
-        intent: [MgoCoding]?? = nil,
+        intent: MgoCodeableConcept?? = nil,
         occurrence: MgoPeriod?? = nil,
         perfomer: MgoReference?? = nil,
         profile: ZibMedicalDeviceRequestProfile? = nil,
@@ -78,6 +81,7 @@ public extension ZibMedicalDeviceRequest {
         return ZibMedicalDeviceRequest(
             codeCodeableConcept: codeCodeableConcept ?? self.codeCodeableConcept,
             codeReference: codeReference ?? self.codeReference,
+            fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             intent: intent ?? self.intent,
             occurrence: occurrence ?? self.occurrence,

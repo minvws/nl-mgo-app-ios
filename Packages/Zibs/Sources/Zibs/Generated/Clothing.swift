@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - Clothing
 public struct Clothing: Codable, Hashable, Sendable {
-    public let valueCodeableConcept: [MgoCoding]?
+    public let valueCodeableConcept: MgoCodeableConcept?
 
-    public init(valueCodeableConcept: [MgoCoding]?) {
+    public init(valueCodeableConcept: MgoCodeableConcept?) {
         self.valueCodeableConcept = valueCodeableConcept
     }
 }
@@ -38,7 +38,7 @@ public extension Clothing {
     }
 
     func with(
-        valueCodeableConcept: [MgoCoding]?? = nil
+        valueCodeableConcept: MgoCodeableConcept?? = nil
     ) -> Clothing {
         return Clothing(
             valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept
