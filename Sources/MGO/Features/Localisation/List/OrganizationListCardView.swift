@@ -108,7 +108,6 @@ struct OrganizationListCardView: View {
 			if case let .automatic(isSelected) = state {
 				if isSelected {
 					Image(ImageResource.Localisation.Icon.checked)
-						.foregroundStyle(theme.actionPrimaryDefaultText)
 				} else {
 					Image(ImageResource.Localisation.Icon.circle)
 						.foregroundStyle(theme.iconsPrimary)
@@ -145,12 +144,12 @@ struct OrganizationListCardView: View {
 					if case .notParticipating = state {
 						
 						Image(ImageResource.Localisation.Icon.info)
-						Text("add_organization.not_implemented")
+						Text("add_organization.not_participating")
 							.foregroundStyle(theme.notificationInformation)
 					}
 					if case .selected
 						= state {
-						
+							
 						Image(ImageResource.Localisation.Icon.checkCircle)
 						Text("add_organization.already_added")
 							.foregroundStyle(theme.notificationSuccess)

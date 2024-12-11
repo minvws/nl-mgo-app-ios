@@ -22,6 +22,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		
 		try super.setUpWithError()
 		servicesSpies = setupServicesSpies()
+		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
 		coordinatorSpy = AppCoordinatorSpy()
 		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
 		localisationServiceClientSpy = LocalisationServiceClientSpy(serverUrl: serverUrl, username: nil, password: nil)
