@@ -277,7 +277,7 @@ class HealthCategoryViewModel: ObservableObject {
 					state = .list(items: items)
 				}
 			case .failure:
-				state = .partial(items: [])
+				state = .list(items: [])
 		}
 	}
 	

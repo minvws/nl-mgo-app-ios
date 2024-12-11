@@ -12,29 +12,14 @@ import Foundation
 
 // MARK: - ZibAdministrationSchedule
 public struct ZibAdministrationSchedule: Codable, Hashable, Sendable {
-    public let boundsDuration: MgoDuration?
-    public let boundsPeriod: MgoPeriod?
-    public let boundsRange: MgoRange?
-    public let dayOfWeek: [String]?
-    public let duration: Double?
-    public let durationUnit: String?
-    public let frequency, frequencyMax, period: Double?
-    public let periodUnit: String?
-    public let timeOfDay, when: [String]?
+    public let zibAdministrationScheduleRepeat: Repeat
 
-    public init(boundsDuration: MgoDuration?, boundsPeriod: MgoPeriod?, boundsRange: MgoRange?, dayOfWeek: [String]?, duration: Double?, durationUnit: String?, frequency: Double?, frequencyMax: Double?, period: Double?, periodUnit: String?, timeOfDay: [String]?, when: [String]?) {
-        self.boundsDuration = boundsDuration
-        self.boundsPeriod = boundsPeriod
-        self.boundsRange = boundsRange
-        self.dayOfWeek = dayOfWeek
-        self.duration = duration
-        self.durationUnit = durationUnit
-        self.frequency = frequency
-        self.frequencyMax = frequencyMax
-        self.period = period
-        self.periodUnit = periodUnit
-        self.timeOfDay = timeOfDay
-        self.when = when
+    public enum CodingKeys: String, CodingKey {
+        case zibAdministrationScheduleRepeat = "repeat"
+    }
+
+    public init(zibAdministrationScheduleRepeat: Repeat) {
+        self.zibAdministrationScheduleRepeat = zibAdministrationScheduleRepeat
     }
 }
 
@@ -57,32 +42,10 @@ public extension ZibAdministrationSchedule {
     }
 
     func with(
-        boundsDuration: MgoDuration?? = nil,
-        boundsPeriod: MgoPeriod?? = nil,
-        boundsRange: MgoRange?? = nil,
-        dayOfWeek: [String]?? = nil,
-        duration: Double?? = nil,
-        durationUnit: String?? = nil,
-        frequency: Double?? = nil,
-        frequencyMax: Double?? = nil,
-        period: Double?? = nil,
-        periodUnit: String?? = nil,
-        timeOfDay: [String]?? = nil,
-        when: [String]?? = nil
+        zibAdministrationScheduleRepeat: Repeat? = nil
     ) -> ZibAdministrationSchedule {
         return ZibAdministrationSchedule(
-            boundsDuration: boundsDuration ?? self.boundsDuration,
-            boundsPeriod: boundsPeriod ?? self.boundsPeriod,
-            boundsRange: boundsRange ?? self.boundsRange,
-            dayOfWeek: dayOfWeek ?? self.dayOfWeek,
-            duration: duration ?? self.duration,
-            durationUnit: durationUnit ?? self.durationUnit,
-            frequency: frequency ?? self.frequency,
-            frequencyMax: frequencyMax ?? self.frequencyMax,
-            period: period ?? self.period,
-            periodUnit: periodUnit ?? self.periodUnit,
-            timeOfDay: timeOfDay ?? self.timeOfDay,
-            when: when ?? self.when
+            zibAdministrationScheduleRepeat: zibAdministrationScheduleRepeat ?? self.zibAdministrationScheduleRepeat
         )
     }
 

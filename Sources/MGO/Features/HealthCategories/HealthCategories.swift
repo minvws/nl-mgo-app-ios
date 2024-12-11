@@ -289,8 +289,8 @@ struct HealthCategories {
 				]
 				
 				case .alerts: [
-					DVP.CommonClinicalDataset.alert
-//					DVP.GeneralPractitioner.episodes
+					DVP.CommonClinicalDataset.alert,
+					DVP.GeneralPractitioner.episodes
 				]
 				
 				case .lifestyle: [

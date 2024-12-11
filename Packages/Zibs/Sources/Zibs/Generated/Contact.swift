@@ -12,15 +12,15 @@ import Foundation
 
 // MARK: - Contact
 public struct Contact: Codable, Hashable, Sendable {
-    public let address: NlCoreAddress?
+    public let address: NlCoreAddress
     public let gender: String?
-    public let name: NlCoreHumanname?
+    public let name: NlCoreHumanname
     public let organization: MgoReference?
     public let period: MgoPeriod?
-    public let relationship: [MgoCodeableConcept]?
-    public let telecom: [NlCoreContactpoint]?
+    public let relationship: [MgoCodeableConcept]
+    public let telecom: [NlCoreContactpoint]
 
-    public init(address: NlCoreAddress?, gender: String?, name: NlCoreHumanname?, organization: MgoReference?, period: MgoPeriod?, relationship: [MgoCodeableConcept]?, telecom: [NlCoreContactpoint]?) {
+    public init(address: NlCoreAddress, gender: String?, name: NlCoreHumanname, organization: MgoReference?, period: MgoPeriod?, relationship: [MgoCodeableConcept], telecom: [NlCoreContactpoint]) {
         self.address = address
         self.gender = gender
         self.name = name
@@ -50,13 +50,13 @@ public extension Contact {
     }
 
     func with(
-        address: NlCoreAddress?? = nil,
+        address: NlCoreAddress? = nil,
         gender: String?? = nil,
-        name: NlCoreHumanname?? = nil,
+        name: NlCoreHumanname? = nil,
         organization: MgoReference?? = nil,
         period: MgoPeriod?? = nil,
-        relationship: [MgoCodeableConcept]?? = nil,
-        telecom: [NlCoreContactpoint]?? = nil
+        relationship: [MgoCodeableConcept]? = nil,
+        telecom: [NlCoreContactpoint]? = nil
     ) -> Contact {
         return Contact(
             address: address ?? self.address,
