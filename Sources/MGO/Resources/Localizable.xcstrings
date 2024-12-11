@@ -285,7 +285,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log volgende keer in met je vingerafdruk"
+            "value" : "Log volgende keer in met je vingerafdruk."
           }
         }
       }
@@ -1539,7 +1539,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al je gegevens van deze zorgaanbieder"
+            "value" : "Je gegevens van deze zorgaanbieder"
           }
         }
       }
@@ -1550,7 +1550,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al je zorgaanbieders op één plek"
+            "value" : "Je gegevens van alle zorgaanbieders"
           }
         }
       }
