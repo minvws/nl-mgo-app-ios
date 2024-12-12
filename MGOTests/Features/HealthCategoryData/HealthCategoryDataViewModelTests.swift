@@ -111,6 +111,21 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
 	}
 	
+	func test_resolveReference_demoMode_shouldNotCallCoordinator() throws {
+		
+		// Given
+		servicesSpies.featureFlagSpy.stubbedIsDemo = true
+		let schema = UISchema(children: [], label: "test")
+		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
+		setupSut()
+		
+		// When
+		sut.reduce(.reference("test_resolveReference"))
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == false
+	}
+	
 	func test_resolveReference_labelIsEmpty_shouldCallCoordinator() throws {
 		
 		// Given
