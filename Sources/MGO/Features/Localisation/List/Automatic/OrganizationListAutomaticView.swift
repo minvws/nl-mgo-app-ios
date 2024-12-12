@@ -55,6 +55,9 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 		self.localisationServiceClient = localisationServiceClient
 		self.preselectAllOrganizations = preselectAllOrganizations
 		self.state = .loading
+		if preselectAllOrganizations {
+			self.hasChanges = true
+		}
 	}
 
 	/// Handle any action
