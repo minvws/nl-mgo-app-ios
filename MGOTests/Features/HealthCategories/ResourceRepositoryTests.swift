@@ -23,6 +23,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		sut = ResourceRepository(
 			healthcareOrganizationRepository: servicesSpies.healthcareOrganizationStoreSpy,
 			dataRepository: servicesSpies.dataStoreSpy,
+			featureFlagManager: servicesSpies.featureFlagSpy,
 			serverUrl: url,
 			username: "test",
 			password: "test"

@@ -39,10 +39,16 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// Token for the observatory (needed for unregister)
 	private var observerToken: Observatory.ObserverToken?
 	
+	/// Local version of the healthcare organization store
 	private var healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol?
 	
+	/// Local version of the data repository
 	private var dataRepository: MgoDataStoreProtocol?
 	
+	/// Local version of the feature flag manager
+	private var featureFlagManager: FeatureFlagManaging?
+	
+	/// The url of the resource server
 	private var serverUrl: Foundation.URL
 	
 	/// the authentication username
@@ -61,12 +67,14 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	init(
 		healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol,
 		dataRepository: MgoDataStoreProtocol,
+		featureFlagManager: FeatureFlagManaging,
 		serverUrl: Foundation.URL,
 		username: String?,
 		password: String?) {
 		
 		self.healthcareOrganizationRepository = healthcareOrganizationRepository
 		self.dataRepository = dataRepository
+		self.featureFlagManager = featureFlagManager
 		self.serverUrl = serverUrl
 		self.username = username
 		self.password = password
@@ -162,7 +170,14 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			#warning("To do: store data service id?")
 			let recordToStore = MgoResourceRecord(categoryId: "\(category.rawValue)", organizationId: healthcareOrganization.identifier, resources: mgoResources, error: resourceError)
 			logVerbose("ResourceRepository - Adding to the store", recordToStore)
-			dataRepository?.store(data: recordToStore)
+			
+			if featureFlagManager?.isDemo ?? false {
+				delay(5) {
+					self.dataRepository?.store(data: recordToStore)
+				}
+			} else {
+				self.dataRepository?.store(data: recordToStore)
+			}
 		}
 	}
 	
