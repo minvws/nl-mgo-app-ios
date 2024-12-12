@@ -63,6 +63,7 @@ private let remoteConfigurationRepository = RemoteConfigurationRepository(
 private let resourceRepository = ResourceRepository(
 	healthcareOrganizationRepository: healthcareOrganizationStore,
 	dataRepository: dataStore,
+	featureFlagManager: featureFlagManager,
 	serverUrl: Configuration().urlForDVP(),
 	username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
 	password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String

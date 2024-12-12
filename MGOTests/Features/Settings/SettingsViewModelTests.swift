@@ -71,6 +71,5 @@ final class SettingsViewModelTests: XCTestCase {
 		// Then
 		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabledSetter) == true
 		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabled) == false
-		
 	}
 }

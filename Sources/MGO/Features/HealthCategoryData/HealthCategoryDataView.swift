@@ -71,9 +71,15 @@ class HealthCategoryDataViewModel: ObservableObject {
 		)
 		referenceStrings.forEach { reference in
 			
-			let result = referenceResolver.resolve(reference: reference, healthcareOrganization: healthcareOrganization)
-			referenceStore[reference] = result
-			resolvedReferences[reference] = result != nil
+			if Current.featureFlagManager.isDemo {
+				
+				resolvedReferences[reference] = false
+			} else {
+				
+				let result = referenceResolver.resolve(reference: reference, healthcareOrganization: healthcareOrganization)
+				referenceStore[reference] = result
+				resolvedReferences[reference] = result != nil
+			}
 		}
 	}
 	

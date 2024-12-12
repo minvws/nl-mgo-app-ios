@@ -225,9 +225,15 @@ struct HealthCategories {
 					nil
 			}
 		}
-		
+
 		// What endpoints should we use for a category?
 		var services: [DVP.Endpoint] {
+			guard Current.featureFlagManager.isDemo else { return liveServices }
+			return demoServices
+		}
+		
+		// What endpoints should we use for a category for the real world?
+		private var liveServices: [DVP.Endpoint] {
 			switch self {
 				case .medication: [
 					DVP.CommonClinicalDataset.medicationUse,
@@ -314,6 +320,31 @@ struct HealthCategories {
 				case .payment: [
 					DVP.CommonClinicalDataset.payer
 				]
+			}
+		}
+		
+		// What endpoints should we use for a category for a demo?
+		private var demoServices: [DVP.Endpoint] {
+			switch self {
+				case .medication: return [
+					DVP.CommonClinicalDataset.medicationUse
+				]
+					
+				case .labresults: return [
+					DVP.CommonClinicalDataset.laboratoryTestResult,
+					DVP.GeneralPractitioner.diagnosticAndLabResults
+				]
+					
+				case .vaccinations: return [
+					DVP.Vaccination.patient
+				]
+					
+				case .documents: return [
+					DVP.Documents.documentReference
+				]
+					
+				default:
+					return []
 			}
 		}
 	}

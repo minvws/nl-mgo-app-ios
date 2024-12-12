@@ -56,4 +56,17 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: sut)
 	}
+	
+	func test_thirdTab_demoMode() throws {
+		
+		// Given
+		servicesSpies.featureFlagSpy.stubbedIsDemo = true
+		let sut = DashboardCoordinatorView(coordinator: coordinator)
+		
+		// When
+		coordinator.selectedTab = DashboardTab.settings.rawValue
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
 }

@@ -15,6 +15,7 @@ class SettingsViewModel: ObservableObject {
 	
 	@Published var showResetButton: Bool = false
 	@Published var showResetDialog: Bool = false
+	@Published var showAutomaticLocalizationOption: Bool = false
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -31,6 +32,7 @@ class SettingsViewModel: ObservableObject {
 		
 		let release = Configuration().getRelease()
 		showResetButton = release != Release.production // Show only in Dev, Acc & Test
+		showAutomaticLocalizationOption = !Current.featureFlagManager.isDemo
 	}
 	
 	/// Handle any action
@@ -77,16 +79,20 @@ struct SettingsView: View {
 	var body: some View {
 		
 		VStack {
-			List {
-				Section {
-					Toggle(isOn: $automaticLocalization) {
-						Text("settings.featureflag.localization")
-					}.toggleStyle(.switch)
-						.tint(theme.actionPrimaryDefaultBackground)
+			if viewModel.showAutomaticLocalizationOption {
+				List {
+					Section {
+						Toggle(isOn: $automaticLocalization) {
+							Text("settings.featureflag.localization")
+						}.toggleStyle(.switch)
+							.tint(theme.actionPrimaryDefaultBackground)
+					}
 				}
-			}
-			.onChange(of: automaticLocalization) { newValue in
-				viewModel.reduce(.automaticLocalization(newValue))
+				.onChange(of: automaticLocalization) { newValue in
+					viewModel.reduce(.automaticLocalization(newValue))
+				}
+			} else {
+				Spacer()
 			}
 		}
 		.when(viewModel.showResetButton) { view in
