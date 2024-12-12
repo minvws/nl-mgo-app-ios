@@ -355,6 +355,7 @@ class PinCodeViewModel: ObservableObject {
 			)
 			if validated {
 				logInfo("Pincode: User has been successfully validated")
+				Current.secureUserSettings.enteredBackground = nil
 				// Fill the boxes to display success
 				accessCode = ["0", "0", "0", "0", "0"]
 				// Navigate to the next scene after a short delay to let the faceID/touchID animation complete.
