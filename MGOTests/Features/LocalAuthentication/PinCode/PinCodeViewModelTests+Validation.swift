@@ -189,6 +189,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		sut.reduce(.onAppear)
 		
 		// Then
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedEnteredBackgroundSetter).toEventually(beTrue())
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue(), timeout: .seconds(5))
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue(), timeout: .seconds(5))
