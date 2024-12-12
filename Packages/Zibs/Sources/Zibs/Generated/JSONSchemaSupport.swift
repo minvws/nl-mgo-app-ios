@@ -7,6 +7,7 @@ public typealias MgoBoolean = Bool
 public typealias MgoCode = String
 public typealias MgoDate = String
 public typealias MgoDecimal = Double
+public typealias MgoInstant = String
 public typealias MgoInteger = Double
 public typealias MgoInteger64 = Double
 public typealias MgoPositiveInt = Double

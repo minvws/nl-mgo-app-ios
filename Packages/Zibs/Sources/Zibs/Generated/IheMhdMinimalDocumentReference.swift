@@ -15,7 +15,6 @@ public struct IheMhdMinimalDocumentReference: Codable, Hashable, Sendable {
     public let author: [MgoReference]?
     public let iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?
     public let content: IheMhdMinimalDocumentReferenceContent
-    public let created: String?
     public let fhirVersion: FhirVersionR3
     public let id, indexed: String?
     public let masterIdentifier: MgoIdentifier?
@@ -30,16 +29,15 @@ public struct IheMhdMinimalDocumentReference: Codable, Hashable, Sendable {
     public enum CodingKeys: String, CodingKey {
         case author
         case iheMhdMinimalDocumentReferenceClass = "class"
-        case content, created, fhirVersion, id, indexed, masterIdentifier, profile
+        case content, fhirVersion, id, indexed, masterIdentifier, profile
         case referenceID = "referenceId"
         case resourceType, securityLabel, status, subject, type
     }
 
-    public init(author: [MgoReference]?, iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?, content: IheMhdMinimalDocumentReferenceContent, created: String?, fhirVersion: FhirVersionR3, id: String?, indexed: String?, masterIdentifier: MgoIdentifier?, profile: IheMhdMinimalDocumentReferenceProfile, referenceID: String, resourceType: String?, securityLabel: [MgoCodeableConcept]?, status: String?, subject: MgoReference?, type: MgoCodeableConcept?) {
+    public init(author: [MgoReference]?, iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?, content: IheMhdMinimalDocumentReferenceContent, fhirVersion: FhirVersionR3, id: String?, indexed: String?, masterIdentifier: MgoIdentifier?, profile: IheMhdMinimalDocumentReferenceProfile, referenceID: String, resourceType: String?, securityLabel: [MgoCodeableConcept]?, status: String?, subject: MgoReference?, type: MgoCodeableConcept?) {
         self.author = author
         self.iheMhdMinimalDocumentReferenceClass = iheMhdMinimalDocumentReferenceClass
         self.content = content
-        self.created = created
         self.fhirVersion = fhirVersion
         self.id = id
         self.indexed = indexed
@@ -76,7 +74,6 @@ public extension IheMhdMinimalDocumentReference {
         author: [MgoReference]?? = nil,
         iheMhdMinimalDocumentReferenceClass: MgoCodeableConcept?? = nil,
         content: IheMhdMinimalDocumentReferenceContent? = nil,
-        created: String?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         indexed: String?? = nil,
@@ -93,7 +90,6 @@ public extension IheMhdMinimalDocumentReference {
             author: author ?? self.author,
             iheMhdMinimalDocumentReferenceClass: iheMhdMinimalDocumentReferenceClass ?? self.iheMhdMinimalDocumentReferenceClass,
             content: content ?? self.content,
-            created: created ?? self.created,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             indexed: indexed ?? self.indexed,
