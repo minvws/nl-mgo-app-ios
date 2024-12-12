@@ -73,7 +73,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		
 		// When
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		
 		// Then
 		expect(self.sut.state) == expectedState
@@ -99,7 +99,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedBoxState = expectedBoxState(.filled, .filling, .focus, .empty, .empty)
 		
 		// When
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		sut.reduce(.buttonPressed(value: "0"))
 		sut.reduce(.buttonPressed(value: "1"))
 
@@ -129,7 +129,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		self.servicesSpies.secureUserSettingsSpy.stubbedPinCode = "11111"
 		
 		// When
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		sut.reduce(.buttonPressed(value: "0"))
 		sut.reduce(.buttonPressed(value: "1"))
 		sut.reduce(.buttonPressed(value: "2"))
@@ -163,7 +163,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		self.servicesSpies.secureUserSettingsSpy.stubbedPinCode = "01234"
 		
 		// When
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		sut.reduce(.buttonPressed(value: "0"))
 		sut.reduce(.buttonPressed(value: "1"))
 		sut.reduce(.buttonPressed(value: "2"))
@@ -183,24 +183,39 @@ final class PinCodeViewModelTests: XCTestCase {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = true
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedEnteredBackgroundSetter).toEventually(beTrue())
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue(), timeout: .seconds(5))
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue(), timeout: .seconds(5))
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidated), timeout: .seconds(5))
 	}
 	
+	func test_validation_biometricEnabled_authenticated_lockOutMode() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = true
+		setupSut(mode: .validation(lockOut: true), bioMetricType: { .touchID })
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
+		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue(), timeout: .seconds(5))
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue(), timeout: .seconds(5))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidatedAfterLockout), timeout: .seconds(5))
+	}
+	
 	func test_validation_biometricKeyPressed_authenticated() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = true
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		
 		// When
 		sut.reduce(.biometricKeyPressed)
@@ -210,6 +225,22 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidated))
+	}
+	
+	func test_validation_biometricKeyPressed_authenticated_lockOutMode() {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = true
+		setupSut(mode: .validation(lockOut: true), bioMetricType: { .touchID })
+		
+		// When
+		sut.reduce(.biometricKeyPressed)
+		
+		// Then
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
+		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidatedAfterLockout))
 	}
 	
 	func test_validation_biometricEnabled_authenticationFailed() {
@@ -229,7 +260,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		
 		// When
 		sut.reduce(.onAppear)
@@ -260,7 +291,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		)
 		let expectedBoxState = expectedBoxState(.error, .error, .error, .error, .error)
 		
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		
 		// When
 		sut.reduce(.onAppear)
@@ -291,7 +322,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
 		
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		
 		// When
 		sut.reduce(.onAppear)
@@ -321,7 +352,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		
 		// When
 		sut.reduce(.onAppear)
@@ -351,7 +382,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			showLockoutPopup: false
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		
 		// When
 		sut.reduce(.onAppear)
@@ -381,7 +412,7 @@ final class PinCodeViewModelTests: XCTestCase {
 			showLockoutPopup: true
 		)
 		let expectedBoxState = expectedBoxState(.focus, .empty, .empty, .empty, .empty)
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		
 		// When
 		sut.reduce(.onAppear)
@@ -396,7 +427,7 @@ final class PinCodeViewModelTests: XCTestCase {
 	func test_forgotPinCode() {
 		
 		// Given
-		setupSut(mode: .validation, bioMetricType: { .touchID })
+		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		
 		// When
 		sut.reduce(.forgotPinCode)

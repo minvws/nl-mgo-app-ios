@@ -14,7 +14,7 @@ class PinCodeViewModel: ObservableObject {
 	public enum PinCodeMode: Equatable {
 		case creation // Create an access code
 		case confirmation // Confirm that access code
-		case validation // Validate the access code (login)
+		case validation(lockOut: Bool) // Validate the access code (login)
 	}
 	/// A helper struct to make an enum (PinCodeBoxView.State) identifiable.
 	public struct PinCodeBoxState: Identifiable, Hashable {
@@ -182,7 +182,7 @@ class PinCodeViewModel: ObservableObject {
 			// Setup for access codes do not match
 			state.error = "pincode.validation.wrong"
 			announce(Sanitizer.sanitize(String(localized: "pincode.validation.wrong")))
-		} else if mode == .validation {
+		} else if case .validation = mode {
 			state.error = nil
 		}
 	}
@@ -224,9 +224,12 @@ class PinCodeViewModel: ObservableObject {
 			case .backButtonPressed:
 				coordinator?.handle(Coordination.Action.backButtonPressed)
 			case .onAppear:
-				guard mode == .validation && Current.secureUserSettings.bioMetricAuthenticationEnabled else { return }
-				delay(0.5) {
-					self.showBioMetricLogin()
+				if case .validation = mode {
+					
+					guard Current.secureUserSettings.bioMetricAuthenticationEnabled else { return }
+					delay(0.5) {
+						self.showBioMetricLogin()
+					}
 				}
 			case .forgotPinCode:
 				coordinator?.handle(Coordination.Action.forgotPinCode)
@@ -256,7 +259,7 @@ class PinCodeViewModel: ObservableObject {
 				handleCreationCompletion()
 			} else if mode == .confirmation {
 				handleConfirmationCompletion()
-			} else if mode == .validation {
+			} else if case .validation = mode {
 				handleValidationCompletion()
 			}
 		}
@@ -355,12 +358,21 @@ class PinCodeViewModel: ObservableObject {
 			)
 			if validated {
 				logInfo("Pincode: User has been successfully validated")
-				Current.secureUserSettings.enteredBackground = nil
 				// Fill the boxes to display success
 				accessCode = ["0", "0", "0", "0", "0"]
 				// Navigate to the next scene after a short delay to let the faceID/touchID animation complete.
 				delay(0.8) {
-					self.coordinator?.handle(Coordination.Action.pinCodeValidated)
+					switch self.mode {
+						case .creation, .confirmation:
+							break
+		
+						case .validation(let lockOut):
+							if lockOut {
+								self.coordinator?.handle(Coordination.Action.pinCodeValidatedAfterLockout)
+							} else {
+								self.coordinator?.handle(Coordination.Action.pinCodeValidated)
+							}
+					}
 				}
 			} else {
 				logInfo("PinCode: User has unsuccessfully tried to validate")
@@ -697,7 +709,7 @@ struct PinCodeView: View {
 		PinCodeView(
 			viewModel: PinCodeViewModel(
 				coordinator: nil,
-				mode: .validation,
+				mode: .validation(lockOut: false),
 				bioMetricType: {
 					.touchID // Preview as touch
 				}
