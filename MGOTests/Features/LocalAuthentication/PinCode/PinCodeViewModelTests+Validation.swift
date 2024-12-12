@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOTest
 @testable import MGO
-
+// swiftlint:disable type_body_length
 final class PinCodeViewModelTests: XCTestCase {
 	
 	private var strengthMeterSpy: PinCodeStrengthValidationSpy!
@@ -437,3 +437,4 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.forgotPinCode))
 	}
 }
+// swiftlint: enable type_body_length
