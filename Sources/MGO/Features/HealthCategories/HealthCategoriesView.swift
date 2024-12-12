@@ -102,6 +102,8 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .all: true
 		}
 		
+		let disabledForDemoBox: Int = Current.featureFlagManager.isDemo ? 2 : 1
+		
 		self.state = HealthCategoriesViewState(
 			heading: heading,
 			subheading: subheading,
@@ -109,22 +111,22 @@ class HealthCategoriesViewModel: ObservableObject {
 			showEmptyView: Current.healthcareOrganizationStore.organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
-				CategoryButton(category: .medication, title: "hc_medication.heading"),
-				CategoryButton(category: .measurements, title: "hc_measurements.heading"),
-				CategoryButton(category: .labresults, title: "hc_lab_results.heading"),
-				CategoryButton(category: .allergies, title: "hc_allergies.heading"),
-				CategoryButton(category: .treatments, title: "hc_treatments.heading"),
-				CategoryButton(category: .appointments, title: "hc_appointments.heading"),
-				CategoryButton(category: .vaccinations, title: "hc_vaccinations.heading"),
-				CategoryButton(category: .documents, title: "hc_documents.heading"),
-				CategoryButton(category: .complaints, title: "hc_complaints.heading"),
-				CategoryButton(category: .patient, title: "hc_patient.heading"),
-				CategoryButton(category: .alerts, title: "hc_alerts.heading"),
-				CategoryButton(category: .payment, title: "hc_payment.heading"),
-				CategoryButton(category: .plans, title: "hc_plans.heading"),
-				CategoryButton(category: .devices, title: "hc_devices.heading"),
-				CategoryButton(category: .functionalOrMentalStatus, title: "hc_mental.heading"),
-				CategoryButton(category: .lifestyle, title: "hc_lifestyle.heading")
+				CategoryButton(category: .medication, title: "hc_medication.heading", box: 1),
+				CategoryButton(category: .measurements, title: "hc_measurements.heading", box: disabledForDemoBox),
+				CategoryButton(category: .labresults, title: "hc_lab_results.heading", box: 1),
+				CategoryButton(category: .allergies, title: "hc_allergies.heading", box: disabledForDemoBox),
+				CategoryButton(category: .treatments, title: "hc_treatments.heading", box: disabledForDemoBox),
+				CategoryButton(category: .appointments, title: "hc_appointments.heading", box: disabledForDemoBox),
+				CategoryButton(category: .vaccinations, title: "hc_vaccinations.heading", box: 1),
+				CategoryButton(category: .documents, title: "hc_documents.heading", box: 1),
+				CategoryButton(category: .complaints, title: "hc_complaints.heading", box: disabledForDemoBox),
+				CategoryButton(category: .patient, title: "hc_patient.heading", box: disabledForDemoBox),
+				CategoryButton(category: .alerts, title: "hc_alerts.heading", box: disabledForDemoBox),
+				CategoryButton(category: .payment, title: "hc_payment.heading", box: disabledForDemoBox),
+				CategoryButton(category: .plans, title: "hc_plans.heading", box: disabledForDemoBox),
+				CategoryButton(category: .devices, title: "hc_devices.heading", box: disabledForDemoBox),
+				CategoryButton(category: .functionalOrMentalStatus, title: "hc_mental.heading", box: disabledForDemoBox),
+				CategoryButton(category: .lifestyle, title: "hc_lifestyle.heading", box: disabledForDemoBox)
 			],
 			backButtonTitle: backbuttonTitle
 		)
@@ -304,7 +306,7 @@ struct HealthCategoriesView: View {
 		}
 		enum List {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-			static let spacing: CGFloat = 4
+			static let spacing: CGFloat = Current.featureFlagManager.isDemo ? 16 : 4
 			static let bottom: CGFloat = 16
 		}
 		enum NoResults {
