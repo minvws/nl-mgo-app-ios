@@ -12,14 +12,16 @@ import Foundation
 
 // MARK: - NlCoreVaccinationEvent
 public struct NlCoreVaccinationEvent: Codable, Hashable, Sendable {
-    public let administrator: [MgoReference]?
     public let doseQuantity: MgoDuration?
     public let fhirVersion: FhirVersionR4
     public let id: String?
+    public let identifier: [MgoIdentifier]?
     public let location: MgoReference?
     public let note: [MgoAnnotation]?
     public let occurrenceDateTime: String?
-    public let patient, pharmaceuticalProduct: MgoReference?
+    public let patient: MgoReference?
+    public let performer: [MgoReference]?
+    public let pharmaceuticalProduct: MgoReference?
     public let profile: NlCoreVaccinationEventProfile
     public let protocolApplied: [ProtocolApplied]?
     public let referenceID: String
@@ -30,20 +32,21 @@ public struct NlCoreVaccinationEvent: Codable, Hashable, Sendable {
     public let vaccineCode: MgoCodeableConcept?
 
     public enum CodingKeys: String, CodingKey {
-        case administrator, doseQuantity, fhirVersion, id, location, note, occurrenceDateTime, patient, pharmaceuticalProduct, profile, protocolApplied
+        case doseQuantity, fhirVersion, id, identifier, location, note, occurrenceDateTime, patient, performer, pharmaceuticalProduct, profile, protocolApplied
         case referenceID = "referenceId"
         case resourceType, route, site, status, vaccinationIndication, vaccinationMotive, vaccineCode
     }
 
-    public init(administrator: [MgoReference]?, doseQuantity: MgoDuration?, fhirVersion: FhirVersionR4, id: String?, location: MgoReference?, note: [MgoAnnotation]?, occurrenceDateTime: String?, patient: MgoReference?, pharmaceuticalProduct: MgoReference?, profile: NlCoreVaccinationEventProfile, protocolApplied: [ProtocolApplied]?, referenceID: String, resourceType: String?, route: MgoCodeableConcept?, site: MgoCodeableConcept?, status: String?, vaccinationIndication: [MgoCodeableConcept]?, vaccinationMotive: [MgoCodeableConcept]?, vaccineCode: MgoCodeableConcept?) {
-        self.administrator = administrator
+    public init(doseQuantity: MgoDuration?, fhirVersion: FhirVersionR4, id: String?, identifier: [MgoIdentifier]?, location: MgoReference?, note: [MgoAnnotation]?, occurrenceDateTime: String?, patient: MgoReference?, performer: [MgoReference]?, pharmaceuticalProduct: MgoReference?, profile: NlCoreVaccinationEventProfile, protocolApplied: [ProtocolApplied]?, referenceID: String, resourceType: String?, route: MgoCodeableConcept?, site: MgoCodeableConcept?, status: String?, vaccinationIndication: [MgoCodeableConcept]?, vaccinationMotive: [MgoCodeableConcept]?, vaccineCode: MgoCodeableConcept?) {
         self.doseQuantity = doseQuantity
         self.fhirVersion = fhirVersion
         self.id = id
+        self.identifier = identifier
         self.location = location
         self.note = note
         self.occurrenceDateTime = occurrenceDateTime
         self.patient = patient
+        self.performer = performer
         self.pharmaceuticalProduct = pharmaceuticalProduct
         self.profile = profile
         self.protocolApplied = protocolApplied
@@ -77,14 +80,15 @@ public extension NlCoreVaccinationEvent {
     }
 
     func with(
-        administrator: [MgoReference]?? = nil,
         doseQuantity: MgoDuration?? = nil,
         fhirVersion: FhirVersionR4? = nil,
         id: String?? = nil,
+        identifier: [MgoIdentifier]?? = nil,
         location: MgoReference?? = nil,
         note: [MgoAnnotation]?? = nil,
         occurrenceDateTime: String?? = nil,
         patient: MgoReference?? = nil,
+        performer: [MgoReference]?? = nil,
         pharmaceuticalProduct: MgoReference?? = nil,
         profile: NlCoreVaccinationEventProfile? = nil,
         protocolApplied: [ProtocolApplied]?? = nil,
@@ -98,14 +102,15 @@ public extension NlCoreVaccinationEvent {
         vaccineCode: MgoCodeableConcept?? = nil
     ) -> NlCoreVaccinationEvent {
         return NlCoreVaccinationEvent(
-            administrator: administrator ?? self.administrator,
             doseQuantity: doseQuantity ?? self.doseQuantity,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
+            identifier: identifier ?? self.identifier,
             location: location ?? self.location,
             note: note ?? self.note,
             occurrenceDateTime: occurrenceDateTime ?? self.occurrenceDateTime,
             patient: patient ?? self.patient,
+            performer: performer ?? self.performer,
             pharmaceuticalProduct: pharmaceuticalProduct ?? self.pharmaceuticalProduct,
             profile: profile ?? self.profile,
             protocolApplied: protocolApplied ?? self.protocolApplied,

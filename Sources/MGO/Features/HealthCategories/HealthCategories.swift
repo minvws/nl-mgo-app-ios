@@ -336,8 +336,6 @@ struct HealthCategories {
 				]
 					
 				case .vaccinations: return [
-					DVP.CommonClinicalDataset.vaccination,
-					DVP.CommonClinicalDataset.plannedImmunization,
 					DVP.Vaccination.patient
 				]
 					
