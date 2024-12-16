@@ -122,6 +122,24 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
+	func test_list_demoMode() {
+		
+		// Given
+		servicesSpies.featureFlagSpy.stubbedIsDemo = true
+		createSut()
+		let organization = Generator.healthcareOrganization("value")
+		let list: [MgoOrganization] = [organization]
+		localisationServiceClientSpy.stubbedSearchDemoOrganizations = list
+		let state = OrganizationListViewState.success([OrganizationListSet(organization, .automatic(isSelected: true))])
+		
+		// When
+		sut.reduce(.onAppear)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(state))
+		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue(), timeout: .seconds(10))
+	}
+	
 	func test_list_notPreselected() {
 		
 		// Given

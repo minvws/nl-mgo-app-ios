@@ -9,6 +9,11 @@ import Foundation
 
 public func delay(_ delayInSeconds: Double, action: @escaping () -> Void) {
 	
+	guard delayInSeconds > 0 else {
+		action()
+		return
+	}
+	
 	DispatchQueue.main.asyncAfter(deadline: .now() + delayInSeconds) {
 		action()
 	}

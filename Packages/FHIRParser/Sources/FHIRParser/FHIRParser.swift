@@ -15,9 +15,13 @@ public class FHIRParser {
 	
 	public static let nameSpace = "MgoFhirData"
 	
+	private var jsContext: JSContext?
+	
 	/// Create a FHIR Parser
 	public init() {
+		jsContext = createContext()
 		// Empty public initializer, needed for public access
+		try loadSource(jsContext: jsContext)
 	}
 	
 	/// Create the JavaScript Context
@@ -65,7 +69,7 @@ public class FHIRParser {
 	private func callJSMethod(_ method: String, with input: Data, fhirVersion: String? = nil) throws -> JSValue {
 		
 		// Step 1: Create a new JS context
-		guard let jsContext = createContext() else {
+		guard let jsContext else {
 			logError("FHIRParser: Could not create JS Context")
 			throw FHIRParserError.noJSContext
 		}
