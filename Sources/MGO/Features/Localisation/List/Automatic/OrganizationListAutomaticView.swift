@@ -74,10 +74,12 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 				// Only load the first time
 				guard state == .loading else { return }
 				
-				_Concurrency.Task {
-					await loadHealthcareOrganizations()
+				delay(Current.featureFlagManager.isDemo ? 3 : 0) {
+					_Concurrency.Task {
+						await self.loadHealthcareOrganizations()
+					}
 				}
-			
+
 			case .retry:
 				_Concurrency.Task {
 					await loadHealthcareOrganizations()
@@ -263,11 +265,13 @@ struct OrganizationListAutomaticView: View {
 		.navigationBarBackButtonHidden(true)
 		.when(isPresentedAsSheet, transform: { view in
 			view
-				.toolbar {
-					ToolbarItem(content: { CloseButton {
-						viewModel.reduce(.closeSheet)
-					}})
-				}
+				.toolbar(content: {
+					ToolbarItem(content: {
+						CloseButton({
+							viewModel.reduce(.closeSheet)
+						})
+					})
+				})
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
@@ -279,7 +283,7 @@ struct OrganizationListAutomaticView: View {
 		
 		ScrollViewWithFixedBottom {
 			
-			VStack(alignment: .leading, spacing: ViewTraits.General.padding) {
+			VStack(alignment: .leading, spacing: ViewTraits.General.padding, content: {
 				
 				Text("organization_search.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
@@ -293,15 +297,13 @@ struct OrganizationListAutomaticView: View {
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityIdentifier("organization_search.subheading")
-			
-				LazyVStack(spacing: ViewTraits.List.spacing) {
-					
+				
+				LazyVStack(spacing: ViewTraits.List.spacing, content: {
 					ForEach(Array(list.enumerated()), id: \.offset) { index, element in
-						
 						cardView(element, index: index)
 					}
-				}
-			}
+				})
+			})
 			.padding(.horizontal, ViewTraits.General.padding)
 		} bottomView: {
 			
