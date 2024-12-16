@@ -125,7 +125,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = true
-		let state = AppCoordination.State.pinCodeValidation
+		let state = AppCoordination.State.pinCodeValidation(lockOut: false)
 		
 		// When
 		let view = sut.view(for: state)
