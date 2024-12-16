@@ -54,6 +54,7 @@ extension Coordination.Action {
 	static let pinCodeConfirmed = Coordination.Action(identifier: "pinCodeConfirmed")
 	static let didFinishLocalAuthentication = Coordination.Action(identifier: "didFinishLocalAuthentication")
 	static let pinCodeValidated = Coordination.Action(identifier: "pinCodeValidated")
+	static let pinCodeValidatedAfterLockout = Coordination.Action(identifier: "pinCodeValidatedAfterLockout")
 	static let forgotPinCode = Coordination.Action(identifier: "forgotPinCode")
 	static let dismissForgotPinCode = Coordination.Action(identifier: "dismissForgotPinCode")
 	static let recreateAccount = Coordination.Action(identifier: "recreateAccount")
@@ -84,7 +85,7 @@ enum AppCoordination {
 		// Local Authentication
 		case pinCodeEntry(backButtonVisible: Bool)
 		case pinCodeConfirmation
-		case pinCodeValidation
+		case pinCodeValidation(lockOut: Bool)
 		case bioMetricSetup
 		case forgotPinCode
 		case accountRemoved
@@ -169,7 +170,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			_Concurrency.Task { @MainActor in
 				if self.showChildCoordinator {
 					self.showAuthenticationModal = true
-					self.rootStateForSheet = .pinCodeValidation
+					self.rootStateForSheet = .pinCodeValidation(lockOut: true)
 				} else {
 					logInfo("Not through onboarding, not showing authentication modal")
 				}
@@ -256,6 +257,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case Coordination.Action.pinCodeValidated.identifier:
 				handlePinCodeValidated()
+			
+			case Coordination.Action.pinCodeValidatedAfterLockout.identifier:
+				handlePinCodeValidatedAfterLockout()
 				
 			case Coordination.Action.didFinishLocalAuthentication.identifier:
 				resetNavigationStack(with: AppCoordination.State.login)
@@ -326,7 +330,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			resetNavigationStack(with: AppCoordination.State.introduction)
 		} else {
 			// Repeat login, user must authenticate with pin code
-			resetNavigationStack(with: AppCoordination.State.pinCodeValidation)
+			resetNavigationStack(with: AppCoordination.State.pinCodeValidation(lockOut: false))
 		}
 	}
 	
@@ -342,6 +346,16 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// Handle the pincode validated action
 	private func handlePinCodeValidated() {
+		
+		guard Current.secureUserSettings.userHasRemoteAuthentication else {
+			resetNavigationStack(with: AppCoordination.State.login)
+			return
+		}
+		showChildCoordinator = true
+	}
+	
+	/// Handle the pincode validated action
+	private func handlePinCodeValidatedAfterLockout() {
 		guard Current.secureUserSettings.enteredBackground == nil else {
 			showAuthenticationModal = false
 			rootStateForSheet = nil
@@ -349,12 +363,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			Current.secureUserSettings.enteredBackground = nil
 			return
 		}
-		
-		guard Current.secureUserSettings.userHasRemoteAuthentication else {
-			resetNavigationStack(with: AppCoordination.State.login)
-			return
-		}
-		showChildCoordinator = true
 	}
 	
 	/// Handle the show Privacy statement action
@@ -438,8 +446,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .pinCodeConfirmation:
 				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
 				
-			case .pinCodeValidation:
-				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .validation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+			case let .pinCodeValidation(lockOut):
+				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .validation(lockOut: lockOut), bioMetricType: Current.localAuthenticationProvider.biometricType))
 				
 			case .bioMetricSetup:
 				BioMetricSetupView(viewModel: BioMetricSetupViewModel(coordinator: self, bioMetricType: Current.localAuthenticationProvider.biometricType))

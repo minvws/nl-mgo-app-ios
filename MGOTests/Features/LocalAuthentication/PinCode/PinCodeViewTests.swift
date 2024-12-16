@@ -241,7 +241,7 @@ final class PinCodeViewTests: XCTestCase {
 	func test_validation_noBioMetric() {
 		
 		// Given
-		let sut = createSut(mode: .validation, bioMetricType: { .none })
+		let sut = createSut(mode: .validation(lockOut: false), bioMetricType: { .none })
 		
 		// When
 		let content = NavigationView { sut }
@@ -253,7 +253,7 @@ final class PinCodeViewTests: XCTestCase {
 	func test_validation_touch() {
 		
 		// Given
-		let sut = createSut(mode: .validation, bioMetricType: { .touchID })
+		let sut = createSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		
 		// When
 		let content = NavigationView { sut }
@@ -265,7 +265,7 @@ final class PinCodeViewTests: XCTestCase {
 	func test_validation_face() {
 		
 		// Given
-		let sut = createSut(mode: .validation, bioMetricType: { .faceID })
+		let sut = createSut(mode: .validation(lockOut: false), bioMetricType: { .faceID })
 		
 		// When
 		let content = NavigationView { sut }
@@ -277,7 +277,7 @@ final class PinCodeViewTests: XCTestCase {
 	func test_validation_vison() {
 		
 		// Given
-		let sut = createSut(mode: .validation, bioMetricType: { .opticID })
+		let sut = createSut(mode: .validation(lockOut: false), bioMetricType: { .opticID })
 		
 		// When
 		let content = NavigationView { sut }
@@ -290,7 +290,7 @@ final class PinCodeViewTests: XCTestCase {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedPinCode = "12345"
-		let sut = createSut(mode: .validation, bioMetricType: { .touchID })
+		let sut = createSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
 		try sut.inspect().find(button: "1").tap()
 		try sut.inspect().find(button: "1").tap()
 		try sut.inspect().find(button: "1").tap()
