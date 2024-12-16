@@ -58,7 +58,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.finishedSplash)
 		
 		// Then
-		expect(self.sut.rootState) == AppCoordination.State.pinCodeValidation
+		expect(self.sut.rootState) == AppCoordination.State.pinCodeValidation(lockOut: false)
 		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
 	}
@@ -253,6 +253,22 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showAuthenticationModal) == false
 	}
 	
+	func test_coordinatorHandle_pinCodeValidatedAfterLockout() {
+		
+		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = false
+		servicesSpies.secureUserSettingsSpy.stubbedEnteredBackground = Date()
+		
+		// When
+		sut.handle(Coordination.Action.pinCodeValidatedAfterLockout)
+		
+		// Then
+		expect(self.sut.showAuthenticationModal) == false
+		expect(self.sut.rootStateForSheet) == nil
+		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedEnteredBackground) == nil
+	}
+	
 	func test_coordinator_receiveNotification_whenReturningFromBackground_duringOnboarding() {
 		
 		// Given
@@ -319,7 +335,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_dismissForgotPinCode() {
 		
 		// Given
-		sut.rootStateForSheet = AppCoordination.State.pinCodeValidation
+		sut.rootStateForSheet = AppCoordination.State.pinCodeValidation(lockOut: false)
 		sut.pathForSheet = NavigationStackBackport.NavigationPath([AppCoordination.State.forgotPinCode])
 		
 		// When
@@ -333,7 +349,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_dismissForgotPinCode_showAuthenticationModal() {
 		
 		// Given
-		sut.rootStateForSheet = AppCoordination.State.pinCodeValidation
+		sut.rootStateForSheet = AppCoordination.State.pinCodeValidation(lockOut: true)
 		sut.pathForSheet = NavigationStackBackport.NavigationPath([AppCoordination.State.forgotPinCode])
 		sut.showAuthenticationModal = true
 		
@@ -341,7 +357,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.dismissForgotPinCode)
 		
 		// Then
-		expect(self.sut.rootStateForSheet) == AppCoordination.State.pinCodeValidation
+		expect(self.sut.rootStateForSheet) == AppCoordination.State.pinCodeValidation(lockOut: true)
 		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
 	}
 	
@@ -361,7 +377,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_recreateAccount() {
 		
 		// Given
-		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.login, AppCoordination.State.pinCodeValidation])
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.login, AppCoordination.State.pinCodeValidation(lockOut: false)])
 		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
 		
 		// When
@@ -376,7 +392,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_recreateAccount_withAuthenticationModal() {
 		
 		// Given
-		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.login, AppCoordination.State.pinCodeValidation])
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.login, AppCoordination.State.pinCodeValidation(lockOut: false)])
 		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
 		sut.showChildCoordinator = true
 		sut.showAuthenticationModal = true
