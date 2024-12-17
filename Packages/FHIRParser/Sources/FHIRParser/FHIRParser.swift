@@ -20,8 +20,6 @@ public class FHIRParser {
 	/// Create a FHIR Parser
 	public init() {
 		jsContext = createContext()
-		// Empty public initializer, needed for public access
-		try loadSource(jsContext: jsContext)
 	}
 	
 	/// Create the JavaScript Context
