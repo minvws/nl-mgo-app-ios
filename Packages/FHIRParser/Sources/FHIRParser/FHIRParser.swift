@@ -158,7 +158,6 @@ public class FHIRParser {
 		} catch {
 			logError(error.localizedDescription)
 		}
-		
 		return nil
 	}
 }
