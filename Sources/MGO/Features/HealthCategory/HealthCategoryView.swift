@@ -9,7 +9,6 @@ import MGOFoundation
 import MGOUI
 import JavaScriptCore
 import Zibs
-//import MGODebug
 
 /// A small struct for each category result
 struct HealthCategoryBlock: Equatable, Identifiable {
@@ -250,7 +249,6 @@ class HealthCategoryViewModel: ObservableObject {
 				var items = [HealthSubCategory]()
 				var partial = false
 				
-			getMemory("start")
 				// Create list of subcategories
 				for profile in category.acceptedProfiles {
 					if let heading = category.subCategory(profile) {
@@ -273,7 +271,6 @@ class HealthCategoryViewModel: ObservableObject {
 						}
 					}
 				}
-			getMemory("end")
 				if partial {
 					state = .partial(items: items)
 				} else {
