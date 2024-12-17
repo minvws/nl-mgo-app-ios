@@ -247,7 +247,6 @@ struct HealthCategories {
 					DVP.CommonClinicalDataset.bodyWeight,
 					DVP.CommonClinicalDataset.bodyHeight,
 					DVP.GeneralPractitioner.diagnosticAndLabResults
-				]
 				
 				case .labresults: [
 					DVP.CommonClinicalDataset.laboratoryTestResult,

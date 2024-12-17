@@ -83,6 +83,7 @@ MGOapp: {
   shape: package
 }
 
+MGOapp <- MGODebug
 MGOapp <- MGOFoundation
 MGOapp <- MGOUI
 MGOapp <- RestrictedBrowser
@@ -117,6 +118,10 @@ LocalisationService <- swift-http-types
 LocalisationService <- swift-openapi-generator
 LocalisationService <- swift-openapi-runtime
 LocalisationService <- swift-openapi-urlsession
+
+MGODebug { style.fill: "#ffcc00" }
+MGODebug <- Foundation
+MGODebug <- Logging
 
 MGOFoundation { style.fill: "#ffcc00" }
 MGOFoundation <- Foundation
