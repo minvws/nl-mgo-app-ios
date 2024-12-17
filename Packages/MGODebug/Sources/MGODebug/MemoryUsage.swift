@@ -10,12 +10,10 @@ import Logging
 
 public struct MemoryUsage {
 	
-	public func getMemory(_ title: String) {
+	public static func printMemoryUsage(_ title: String) {
 		
-		logDebug("-- \(title) --")
 		let vm = TaskInfo.vm
-		logDebug("VM memory usage: \(vm.internal / (1024 * 1024)) MB")
-		logDebug("---------------")
+		logDebug("\(title) -> VM memory usage: \(vm.internal / (1024 * 1024)) MB")
 	}
 }
 

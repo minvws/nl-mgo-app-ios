@@ -10,6 +10,7 @@ import Foundation
 import JavaScriptCore
 import Logging
 import Zibs
+import MGODebug
 
 public class FHIRParser {
 	
@@ -20,6 +21,8 @@ public class FHIRParser {
 	/// Create a FHIR Parser
 	public init() {
 		jsContext = createContext()
+		
+		try? loadSource(jsContext: jsContext)
 	}
 	
 	/// Create the JavaScript Context
@@ -42,7 +45,11 @@ public class FHIRParser {
 	
 	/// Load the source for the parser
 	/// - Parameter jsContext: the context to load the source in.
-	private func loadSource(jsContext: JSContext) throws {
+	private func loadSource(jsContext: JSContext?) throws {
+		
+		guard let jsContext else {
+			throw FHIRParserError.noJSContext
+		}
 		
 		guard let parserPath = Bundle.module.path(forResource: "mgo-fhir-data.iife", ofType: "js") else {
 			logError("FHIRParser: The parser file could not be found")
@@ -71,9 +78,10 @@ public class FHIRParser {
 			logError("FHIRParser: Could not create JS Context")
 			throw FHIRParserError.noJSContext
 		}
-		
-		// Step 2: Load the mgo-fhir-data javascript source
-		try loadSource(jsContext: jsContext)
+//		MemoryUsage.getMemory("before loadSource")
+//		// Step 2: Load the mgo-fhir-data javascript source
+//		try loadSource(jsContext: jsContext)
+//		MemoryUsage.getMemory("after loadSource")
 		
 		// Step 3: Search for the MgoFhirData namespace
 		guard let nameSpace = jsContext.objectForKeyedSubscript(FHIRParser.nameSpace) else {
@@ -105,11 +113,13 @@ public class FHIRParser {
 	public func getBundleResourcesJson(_ json: Data) -> [Any] {
 		
 		do {
+			MemoryUsage.printMemoryUsage("before bundle")
 			let resourcesJSValue = try callJSMethod("getBundleResourcesJson", with: json)
 			let data = Data(resourcesJSValue.toString().utf8)
 			
 			let json2 = try JSONSerialization.jsonObject(with: data, options: [])
 			if let array = json2 as? [Any] {
+				MemoryUsage.printMemoryUsage("after bundle")
 				return array
 			}
 		} catch {
@@ -125,7 +135,9 @@ public class FHIRParser {
 	public func getMgoResourceJson(_ json: Data, fhirVersion: String = "R3") -> Data? {
 		
 		do {
+			MemoryUsage.printMemoryUsage("before resource")
 			let resourcesJSValue = try callJSMethod("getMgoResourceJson", with: json, fhirVersion: fhirVersion)
+			MemoryUsage.printMemoryUsage("after resource")
 			return Data(resourcesJSValue.toString().utf8)
 			
 		} catch {
