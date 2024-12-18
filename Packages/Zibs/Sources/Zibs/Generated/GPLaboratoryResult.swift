@@ -13,50 +13,70 @@ import Foundation
 // MARK: - GpLaboratoryResult
 public struct GpLaboratoryResult: Codable, Hashable, Sendable {
     public let basedOn: [MgoReference]?
-    public let category: [MgoCodeableConcept]?
     public let code: MgoCodeableConcept?
-    public let comment: String?
-    public let effective: Effective?
+    public let comment, effectiveDateTime: String?
+    public let effectivePeriod: MgoPeriod?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let interpretation, method: MgoCodeableConcept?
+    public let interpretation: MgoCodeableConcept?
+    public let laboratoryTestResultCode: [MgoCodeableConcept]?
+    public let method: MgoCodeableConcept?
+    public let performer: [MgoReference]?
     public let profile: GpLaboratoryResultProfile
     public let referenceID: String
     public let referenceRange: [GpLaboratoryResultReferenceRange]?
     public let related: [GpLaboratoryResultRelated]?
     public let resourceType: String?
-    public let result: MgoDuration?
+    public let resultType: [MgoCodeableConcept]?
     public let specimen: MgoReference?
     public let status: String?
     public let subject: MgoReference?
+    public let valueBoolean: Bool?
+    public let valueCodeableConcept: MgoCodeableConcept?
+    public let valueDateTime: String?
+    public let valuePeriod: MgoPeriod?
+    public let valueQuantity: MgoDuration?
+    public let valueRange: MgoRange?
+    public let valueRatio: MgoRatio?
+    public let valueString: String?
 
     public enum CodingKeys: String, CodingKey {
-        case basedOn, category, code, comment, effective, fhirVersion, id, identifier, interpretation, method, profile
+        case basedOn, code, comment, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, interpretation, laboratoryTestResultCode, method, performer, profile
         case referenceID = "referenceId"
-        case referenceRange, related, resourceType, result, specimen, status, subject
+        case referenceRange, related, resourceType, resultType, specimen, status, subject, valueBoolean, valueCodeableConcept, valueDateTime, valuePeriod, valueQuantity, valueRange, valueRatio, valueString
     }
 
-    public init(basedOn: [MgoReference]?, category: [MgoCodeableConcept]?, code: MgoCodeableConcept?, comment: String?, effective: Effective?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, interpretation: MgoCodeableConcept?, method: MgoCodeableConcept?, profile: GpLaboratoryResultProfile, referenceID: String, referenceRange: [GpLaboratoryResultReferenceRange]?, related: [GpLaboratoryResultRelated]?, resourceType: String?, result: MgoDuration?, specimen: MgoReference?, status: String?, subject: MgoReference?) {
+    public init(basedOn: [MgoReference]?, code: MgoCodeableConcept?, comment: String?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, interpretation: MgoCodeableConcept?, laboratoryTestResultCode: [MgoCodeableConcept]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: GpLaboratoryResultProfile, referenceID: String, referenceRange: [GpLaboratoryResultReferenceRange]?, related: [GpLaboratoryResultRelated]?, resourceType: String?, resultType: [MgoCodeableConcept]?, specimen: MgoReference?, status: String?, subject: MgoReference?, valueBoolean: Bool?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: String?, valuePeriod: MgoPeriod?, valueQuantity: MgoDuration?, valueRange: MgoRange?, valueRatio: MgoRatio?, valueString: String?) {
         self.basedOn = basedOn
-        self.category = category
         self.code = code
         self.comment = comment
-        self.effective = effective
+        self.effectiveDateTime = effectiveDateTime
+        self.effectivePeriod = effectivePeriod
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.interpretation = interpretation
+        self.laboratoryTestResultCode = laboratoryTestResultCode
         self.method = method
+        self.performer = performer
         self.profile = profile
         self.referenceID = referenceID
         self.referenceRange = referenceRange
         self.related = related
         self.resourceType = resourceType
-        self.result = result
+        self.resultType = resultType
         self.specimen = specimen
         self.status = status
         self.subject = subject
+        self.valueBoolean = valueBoolean
+        self.valueCodeableConcept = valueCodeableConcept
+        self.valueDateTime = valueDateTime
+        self.valuePeriod = valuePeriod
+        self.valueQuantity = valueQuantity
+        self.valueRange = valueRange
+        self.valueRatio = valueRatio
+        self.valueString = valueString
     }
 }
 
@@ -80,45 +100,65 @@ public extension GpLaboratoryResult {
 
     func with(
         basedOn: [MgoReference]?? = nil,
-        category: [MgoCodeableConcept]?? = nil,
         code: MgoCodeableConcept?? = nil,
         comment: String?? = nil,
-        effective: Effective?? = nil,
+        effectiveDateTime: String?? = nil,
+        effectivePeriod: MgoPeriod?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         interpretation: MgoCodeableConcept?? = nil,
+        laboratoryTestResultCode: [MgoCodeableConcept]?? = nil,
         method: MgoCodeableConcept?? = nil,
+        performer: [MgoReference]?? = nil,
         profile: GpLaboratoryResultProfile? = nil,
         referenceID: String? = nil,
         referenceRange: [GpLaboratoryResultReferenceRange]?? = nil,
         related: [GpLaboratoryResultRelated]?? = nil,
         resourceType: String?? = nil,
-        result: MgoDuration?? = nil,
+        resultType: [MgoCodeableConcept]?? = nil,
         specimen: MgoReference?? = nil,
         status: String?? = nil,
-        subject: MgoReference?? = nil
+        subject: MgoReference?? = nil,
+        valueBoolean: Bool?? = nil,
+        valueCodeableConcept: MgoCodeableConcept?? = nil,
+        valueDateTime: String?? = nil,
+        valuePeriod: MgoPeriod?? = nil,
+        valueQuantity: MgoDuration?? = nil,
+        valueRange: MgoRange?? = nil,
+        valueRatio: MgoRatio?? = nil,
+        valueString: String?? = nil
     ) -> GpLaboratoryResult {
         return GpLaboratoryResult(
             basedOn: basedOn ?? self.basedOn,
-            category: category ?? self.category,
             code: code ?? self.code,
             comment: comment ?? self.comment,
-            effective: effective ?? self.effective,
+            effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
+            effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             interpretation: interpretation ?? self.interpretation,
+            laboratoryTestResultCode: laboratoryTestResultCode ?? self.laboratoryTestResultCode,
             method: method ?? self.method,
+            performer: performer ?? self.performer,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             referenceRange: referenceRange ?? self.referenceRange,
             related: related ?? self.related,
             resourceType: resourceType ?? self.resourceType,
-            result: result ?? self.result,
+            resultType: resultType ?? self.resultType,
             specimen: specimen ?? self.specimen,
             status: status ?? self.status,
-            subject: subject ?? self.subject
+            subject: subject ?? self.subject,
+            valueBoolean: valueBoolean ?? self.valueBoolean,
+            valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept,
+            valueDateTime: valueDateTime ?? self.valueDateTime,
+            valuePeriod: valuePeriod ?? self.valuePeriod,
+            valueQuantity: valueQuantity ?? self.valueQuantity,
+            valueRange: valueRange ?? self.valueRange,
+            valueRatio: valueRatio ?? self.valueRatio,
+            valueString: valueString ?? self.valueString
         )
     }
 

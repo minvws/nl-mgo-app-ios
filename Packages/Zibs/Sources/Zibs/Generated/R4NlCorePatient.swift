@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCorePatientR4 = try NlCorePatientR4(json)
+//   let r4NlCorePatient = try R4NlCorePatient(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,9 +10,9 @@
 
 import Foundation
 
-// MARK: - NlCorePatientR4
-public struct NlCorePatientR4: Codable, Hashable, Sendable {
-    public let address: [NlCorePatientR4Address]?
+// MARK: - R4NlCorePatient
+public struct R4NlCorePatient: Codable, Hashable, Sendable {
+    public let address: [R4NlCorePatientAddress]?
     public let birthDate: String?
     public let deceased: Bool?
     public let deceasedDateTime: String?
@@ -24,8 +24,8 @@ public struct NlCorePatientR4: Codable, Hashable, Sendable {
     public let managingOrganization: MgoReference?
     public let maritalStatus: MgoCodeableConcept?
     public let multipleBirth: Bool?
-    public let name: [NlCorePatientR4Name]?
-    public let profile: NlCorePatientR4Profile
+    public let name: [R4NlCorePatientName]?
+    public let profile: R4NlCorePatientProfile
     public let referenceID: String
     public let resourceType: String?
 
@@ -35,7 +35,7 @@ public struct NlCorePatientR4: Codable, Hashable, Sendable {
         case resourceType
     }
 
-    public init(address: [NlCorePatientR4Address]?, birthDate: String?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR4, gender: String?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, name: [NlCorePatientR4Name]?, profile: NlCorePatientR4Profile, referenceID: String, resourceType: String?) {
+    public init(address: [R4NlCorePatientAddress]?, birthDate: String?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR4, gender: String?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, name: [R4NlCorePatientName]?, profile: R4NlCorePatientProfile, referenceID: String, resourceType: String?) {
         self.address = address
         self.birthDate = birthDate
         self.deceased = deceased
@@ -55,11 +55,11 @@ public struct NlCorePatientR4: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: NlCorePatientR4 convenience initializers and mutators
+// MARK: R4NlCorePatient convenience initializers and mutators
 
-public extension NlCorePatientR4 {
+public extension R4NlCorePatient {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCorePatientR4.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCorePatient.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -74,7 +74,7 @@ public extension NlCorePatientR4 {
     }
 
     func with(
-        address: [NlCorePatientR4Address]?? = nil,
+        address: [R4NlCorePatientAddress]?? = nil,
         birthDate: String?? = nil,
         deceased: Bool?? = nil,
         deceasedDateTime: String?? = nil,
@@ -86,12 +86,12 @@ public extension NlCorePatientR4 {
         managingOrganization: MgoReference?? = nil,
         maritalStatus: MgoCodeableConcept?? = nil,
         multipleBirth: Bool?? = nil,
-        name: [NlCorePatientR4Name]?? = nil,
-        profile: NlCorePatientR4Profile? = nil,
+        name: [R4NlCorePatientName]?? = nil,
+        profile: R4NlCorePatientProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil
-    ) -> NlCorePatientR4 {
-        return NlCorePatientR4(
+    ) -> R4NlCorePatient {
+        return R4NlCorePatient(
             address: address ?? self.address,
             birthDate: birthDate ?? self.birthDate,
             deceased: deceased ?? self.deceased,

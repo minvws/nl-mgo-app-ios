@@ -12,11 +12,17 @@ import Foundation
 
 // MARK: - GpLaboratoryResultReferenceRange
 public struct GpLaboratoryResultReferenceRange: Codable, Hashable, Sendable {
+    public let age: MgoRange?
+    public let appliesTo: [MgoCodeableConcept]?
     public let high, low: MgoDuration?
+    public let type: MgoCodeableConcept?
 
-    public init(high: MgoDuration?, low: MgoDuration?) {
+    public init(age: MgoRange?, appliesTo: [MgoCodeableConcept]?, high: MgoDuration?, low: MgoDuration?, type: MgoCodeableConcept?) {
+        self.age = age
+        self.appliesTo = appliesTo
         self.high = high
         self.low = low
+        self.type = type
     }
 }
 
@@ -39,12 +45,18 @@ public extension GpLaboratoryResultReferenceRange {
     }
 
     func with(
+        age: MgoRange?? = nil,
+        appliesTo: [MgoCodeableConcept]?? = nil,
         high: MgoDuration?? = nil,
-        low: MgoDuration?? = nil
+        low: MgoDuration?? = nil,
+        type: MgoCodeableConcept?? = nil
     ) -> GpLaboratoryResultReferenceRange {
         return GpLaboratoryResultReferenceRange(
+            age: age ?? self.age,
+            appliesTo: appliesTo ?? self.appliesTo,
             high: high ?? self.high,
-            low: low ?? self.low
+            low: low ?? self.low,
+            type: type ?? self.type
         )
     }
 

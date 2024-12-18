@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCoreHealthProfessionalPractitionerName = try NlCoreHealthProfessionalPractitionerName(json)
+//   let r4NlCoreHealthProfessionalPractitionerName = try R4NlCoreHealthProfessionalPractitionerName(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - NlCoreHealthProfessionalPractitionerName
-public struct NlCoreHealthProfessionalPractitionerName: Codable, Hashable, Sendable {
+// MARK: - R4NlCoreHealthProfessionalPractitionerName
+public struct R4NlCoreHealthProfessionalPractitionerName: Codable, Hashable, Sendable {
     public let family: String?
     public let given, givenInitials, givenNames: [String]?
     public let nameUsage: String?
@@ -40,11 +40,11 @@ public struct NlCoreHealthProfessionalPractitionerName: Codable, Hashable, Senda
     }
 }
 
-// MARK: NlCoreHealthProfessionalPractitionerName convenience initializers and mutators
+// MARK: R4NlCoreHealthProfessionalPractitionerName convenience initializers and mutators
 
-public extension NlCoreHealthProfessionalPractitionerName {
+public extension R4NlCoreHealthProfessionalPractitionerName {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCoreHealthProfessionalPractitionerName.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCoreHealthProfessionalPractitionerName.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -69,8 +69,8 @@ public extension NlCoreHealthProfessionalPractitionerName {
         suffix: [String]?? = nil,
         text: String?? = nil,
         use: Use? = nil
-    ) -> NlCoreHealthProfessionalPractitionerName {
-        return NlCoreHealthProfessionalPractitionerName(
+    ) -> R4NlCoreHealthProfessionalPractitionerName {
+        return R4NlCoreHealthProfessionalPractitionerName(
             family: family ?? self.family,
             given: given ?? self.given,
             givenInitials: givenInitials ?? self.givenInitials,

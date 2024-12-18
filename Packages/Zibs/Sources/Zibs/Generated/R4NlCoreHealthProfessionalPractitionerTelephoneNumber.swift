@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let emailAddress = try EmailAddress(json)
+//   let r4NlCoreHealthProfessionalPractitionerTelephoneNumber = try R4NlCoreHealthProfessionalPractitionerTelephoneNumber(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,23 +10,27 @@
 
 import Foundation
 
-// MARK: - EmailAddress
-public struct EmailAddress: Codable, Hashable, Sendable {
-    public let system: EmailAddressSystem
+// MARK: - R4NlCoreHealthProfessionalPractitionerTelephoneNumber
+public struct R4NlCoreHealthProfessionalPractitionerTelephoneNumber: Codable, Hashable, Sendable {
+    public let comment: String?
+    public let system: TelephoneNumberSystem
+    public let telecomType: MgoCodeableConcept?
     public let use, value: String?
 
-    public init(system: EmailAddressSystem, use: String?, value: String?) {
+    public init(comment: String?, system: TelephoneNumberSystem, telecomType: MgoCodeableConcept?, use: String?, value: String?) {
+        self.comment = comment
         self.system = system
+        self.telecomType = telecomType
         self.use = use
         self.value = value
     }
 }
 
-// MARK: EmailAddress convenience initializers and mutators
+// MARK: R4NlCoreHealthProfessionalPractitionerTelephoneNumber convenience initializers and mutators
 
-public extension EmailAddress {
+public extension R4NlCoreHealthProfessionalPractitionerTelephoneNumber {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(EmailAddress.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCoreHealthProfessionalPractitionerTelephoneNumber.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -41,12 +45,16 @@ public extension EmailAddress {
     }
 
     func with(
-        system: EmailAddressSystem? = nil,
+        comment: String?? = nil,
+        system: TelephoneNumberSystem? = nil,
+        telecomType: MgoCodeableConcept?? = nil,
         use: String?? = nil,
         value: String?? = nil
-    ) -> EmailAddress {
-        return EmailAddress(
+    ) -> R4NlCoreHealthProfessionalPractitionerTelephoneNumber {
+        return R4NlCoreHealthProfessionalPractitionerTelephoneNumber(
+            comment: comment ?? self.comment,
             system: system ?? self.system,
+            telecomType: telecomType ?? self.telecomType,
             use: use ?? self.use,
             value: value ?? self.value
         )

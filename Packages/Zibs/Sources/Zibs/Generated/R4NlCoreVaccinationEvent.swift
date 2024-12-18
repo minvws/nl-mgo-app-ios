@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCoreVaccinationEvent = try NlCoreVaccinationEvent(json)
+//   let r4NlCoreVaccinationEvent = try R4NlCoreVaccinationEvent(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - NlCoreVaccinationEvent
-public struct NlCoreVaccinationEvent: Codable, Hashable, Sendable {
+// MARK: - R4NlCoreVaccinationEvent
+public struct R4NlCoreVaccinationEvent: Codable, Hashable, Sendable {
     public let doseQuantity: MgoDuration?
     public let fhirVersion: FhirVersionR4
     public let id: String?
@@ -22,7 +22,7 @@ public struct NlCoreVaccinationEvent: Codable, Hashable, Sendable {
     public let patient: MgoReference?
     public let performer: [MgoReference]?
     public let pharmaceuticalProduct: MgoReference?
-    public let profile: NlCoreVaccinationEventProfile
+    public let profile: R4NlCoreVaccinationEventProfile
     public let protocolApplied: [ProtocolApplied]?
     public let referenceID: String
     public let resourceType: String?
@@ -37,7 +37,7 @@ public struct NlCoreVaccinationEvent: Codable, Hashable, Sendable {
         case resourceType, route, site, status, vaccinationIndication, vaccinationMotive, vaccineCode
     }
 
-    public init(doseQuantity: MgoDuration?, fhirVersion: FhirVersionR4, id: String?, identifier: [MgoIdentifier]?, location: MgoReference?, note: [MgoAnnotation]?, occurrenceDateTime: String?, patient: MgoReference?, performer: [MgoReference]?, pharmaceuticalProduct: MgoReference?, profile: NlCoreVaccinationEventProfile, protocolApplied: [ProtocolApplied]?, referenceID: String, resourceType: String?, route: MgoCodeableConcept?, site: MgoCodeableConcept?, status: String?, vaccinationIndication: [MgoCodeableConcept]?, vaccinationMotive: [MgoCodeableConcept]?, vaccineCode: MgoCodeableConcept?) {
+    public init(doseQuantity: MgoDuration?, fhirVersion: FhirVersionR4, id: String?, identifier: [MgoIdentifier]?, location: MgoReference?, note: [MgoAnnotation]?, occurrenceDateTime: String?, patient: MgoReference?, performer: [MgoReference]?, pharmaceuticalProduct: MgoReference?, profile: R4NlCoreVaccinationEventProfile, protocolApplied: [ProtocolApplied]?, referenceID: String, resourceType: String?, route: MgoCodeableConcept?, site: MgoCodeableConcept?, status: String?, vaccinationIndication: [MgoCodeableConcept]?, vaccinationMotive: [MgoCodeableConcept]?, vaccineCode: MgoCodeableConcept?) {
         self.doseQuantity = doseQuantity
         self.fhirVersion = fhirVersion
         self.id = id
@@ -61,11 +61,11 @@ public struct NlCoreVaccinationEvent: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: NlCoreVaccinationEvent convenience initializers and mutators
+// MARK: R4NlCoreVaccinationEvent convenience initializers and mutators
 
-public extension NlCoreVaccinationEvent {
+public extension R4NlCoreVaccinationEvent {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCoreVaccinationEvent.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCoreVaccinationEvent.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -90,7 +90,7 @@ public extension NlCoreVaccinationEvent {
         patient: MgoReference?? = nil,
         performer: [MgoReference]?? = nil,
         pharmaceuticalProduct: MgoReference?? = nil,
-        profile: NlCoreVaccinationEventProfile? = nil,
+        profile: R4NlCoreVaccinationEventProfile? = nil,
         protocolApplied: [ProtocolApplied]?? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
@@ -100,8 +100,8 @@ public extension NlCoreVaccinationEvent {
         vaccinationIndication: [MgoCodeableConcept]?? = nil,
         vaccinationMotive: [MgoCodeableConcept]?? = nil,
         vaccineCode: MgoCodeableConcept?? = nil
-    ) -> NlCoreVaccinationEvent {
-        return NlCoreVaccinationEvent(
+    ) -> R4NlCoreVaccinationEvent {
+        return R4NlCoreVaccinationEvent(
             doseQuantity: doseQuantity ?? self.doseQuantity,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
