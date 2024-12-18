@@ -20,7 +20,10 @@ public class FHIRParser {
 	public init() {
 		
 		jsContext = createContext()
-		try? loadSource(jsContext: jsContext)
+		if !ProcessInfo.processInfo.arguments.contains("--unittesting") {
+			
+			try? loadSource(jsContext: jsContext)
+		}
 	}
 	
 	/// Create the JavaScript Context
@@ -75,6 +78,11 @@ public class FHIRParser {
 		guard let jsContext else {
 			logError("FHIRParser: Could not create JS Context")
 			throw FHIRParserError.noJSContext
+		}
+		
+		if ProcessInfo.processInfo.arguments.contains("--unittesting") {
+			
+			try? loadSource(jsContext: jsContext)
 		}
 		
 		// Step 2: Search for the MgoFhirData namespace
