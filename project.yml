@@ -20,6 +20,8 @@ packages:
     path: ./Packages/LocalisationService
   Managers:
     path: ./Packages/Managers
+  MGODebug:
+    path: ./Packages/MGODebug
   MGOFoundation:
     path: ./Packages/MGOFoundation
   MGORepository:
@@ -149,6 +151,7 @@ targetTemplates:
 #       SPM:
       - package: MGOFoundation
       - package: MGOUI
+      - package: MGODebug
       - package: RestrictedBrowser
         embed: false
     settings:

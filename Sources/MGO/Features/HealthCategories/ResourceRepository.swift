@@ -144,10 +144,12 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async {
 		
 		let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
+//		let repository = MGORepository(client: FHIRClient(baseURL: URL(string: "http://localhost:8001/fhir/")!))
 		
 		for service in category.services {
 			
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: service.serviceId) else {
+//			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: service.serviceId)?.replacingOccurrences(of: "dva-mock.test.mgo.prolocation.net", with: "mock") else {
 				continue
 			}
 			
@@ -189,6 +191,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		url: String) async throws -> Zibs.Binary? {
 		
 			let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
+//			let repository = MGORepository(client: FHIRClient(baseURL: URL(string: "http://localhost:8001/fhir/")!))
 			
 			// The binary call also needs the DVA Target header
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId) else {

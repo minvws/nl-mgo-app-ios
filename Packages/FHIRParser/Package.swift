@@ -16,6 +16,7 @@ let package = Package(
 
 		// Internal
 		.package(name: "FHIRClient", path: "../FHIRClient"),
+		.package(name: "MGODebug", path: "../MGODebug"),
 		.package(name: "Zibs", path: "../Zibs"),
 		
 		// VWS
@@ -32,6 +33,7 @@ let package = Package(
 			dependencies: [
 				.product(name: "FHIRClient", package: "FHIRClient"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
+				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "Zibs", package: "Zibs")
 			],
 			resources: [.process("Resources")]

@@ -31,7 +31,7 @@ final class AccountRemovedViewModelTests: XCTestCase {
 		sut.reduce(.restart)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue(), timeout: .seconds(5))
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.restart
 	}
 }

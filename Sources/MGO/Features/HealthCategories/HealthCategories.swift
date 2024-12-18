@@ -235,6 +235,7 @@ struct HealthCategories {
 		// What endpoints should we use for a category for the real world?
 		private var liveServices: [DVP.Endpoint] {
 			switch self {
+				
 				case .medication: [
 					DVP.CommonClinicalDataset.medicationUse,
 					DVP.CommonClinicalDataset.medicationAgreement,

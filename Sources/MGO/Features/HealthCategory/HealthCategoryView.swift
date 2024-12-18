@@ -286,12 +286,17 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Returns: displayable items
 	private func parseRecord(_ record: MgoResourceRecord, acceptedProfile: String) -> [HealthCategoryBlock] {
 		
+		let parser = FHIRParser()
+		
 		var items = [HealthCategoryBlock]()
 		// For all the MgoResources
-		for resource in record.resources {
-			if let uiSchema = FHIRParser().getUiSchemaJson(resource),
-			   resource.hasProfile(acceptedProfile) {
-				
+		for resource in record.resources where resource.hasProfile(acceptedProfile) {
+			
+			guard resource.hasProfile(acceptedProfile) else { continue }
+			
+//			MemoryUsage.getMemory("before getUiSchemaJson")
+			if let uiSchema = parser.getUiSchemaJson(resource) {
+//				MemoryUsage.getMemory("after \(uiSchema.label)")
 				// Add a OverviewBlock to the display list
 				items.append(
 					HealthCategoryBlock(

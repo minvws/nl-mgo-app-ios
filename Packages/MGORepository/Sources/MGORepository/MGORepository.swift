@@ -65,12 +65,12 @@ public class MGORepository {
 	/// - Parameter data: FHIR bundle
 	/// - Returns: array of mgoResources (as Data)
 	public func process(_ data: Data, fhirVersion: String) throws -> [MgoResource] {
-
+		
 		// The parser
 		let parser = FHIRParser()
 		
 		// Transform the bundle into FHIR resources
-		let fhirResources = parser.getBundleResourcesJson(data)
+		let fhirResources = parser.splitBundleIntoResources(data)
 		
 		// The result set
 		var mgoResources = [MgoResource]()
@@ -81,7 +81,7 @@ public class MGORepository {
 			let resource = try JSONSerialization.data(withJSONObject: element)
 			
 			// Transfrom to MgoResource
-			if let mgoResource = parser.getMgoResourceJson(resource, fhirVersion: fhirVersion) {
+			if let mgoResource = parser.transformFHIRResourceIntoMGOResource(resource, fhirVersion: fhirVersion) {
 				mgoResources.append(mgoResource)
 			}
 		}
