@@ -24,7 +24,7 @@ final class FHIRParserTests: XCTestCase {
 		let json = try getResource("bundle")
 		
 		// When
-		let result = sut.getBundleResourcesJson(json)
+		let result = sut.splitBundleIntoResources(json)
 		
 		// Then
 		expect(result).to(haveCount(2))
@@ -35,7 +35,7 @@ final class FHIRParserTests: XCTestCase {
 		// Given
 		
 		// When
-		let result = sut.getBundleResourcesJson(Data("wrong".utf8))
+		let result = sut.splitBundleIntoResources(Data("wrong".utf8))
 		
 		// Then
 		expect(result).to(beEmpty())
@@ -48,7 +48,7 @@ final class FHIRParserTests: XCTestCase {
 		let data = Data(resource.utf8)
 		
 		// When
-		let zib = sut.getMgoResourceJson(data)
+		let zib = sut.transformFHIRResourceIntoMGOResource(data)
 		
 		// Then
 		if let zib {
@@ -66,7 +66,7 @@ final class FHIRParserTests: XCTestCase {
 		let data = Data(resource.utf8)
 		
 		// When
-		let zib = sut.getMgoResourceJson(data, fhirVersion: "R3")
+		let zib = sut.transformFHIRResourceIntoMGOResource(data, fhirVersion: "R3")
 		
 		// Then
 		if let zib {
@@ -84,7 +84,7 @@ final class FHIRParserTests: XCTestCase {
 		let data = Data(resource.utf8)
 		
 		// When
-		let zib = sut.getMgoResourceJson(data, fhirVersion: "R4")
+		let zib = sut.transformFHIRResourceIntoMGOResource(data, fhirVersion: "R4")
 		
 		// Then
 		expect(zib) == Data("undefined".utf8)
@@ -95,7 +95,7 @@ final class FHIRParserTests: XCTestCase {
 		// Given
 		
 		// When
-		let zib = sut.getMgoResourceJson(Data("wrong".utf8))
+		let zib = sut.transformFHIRResourceIntoMGOResource(Data("wrong".utf8))
 		
 		// Then
 		expect(zib) == Data("undefined".utf8)

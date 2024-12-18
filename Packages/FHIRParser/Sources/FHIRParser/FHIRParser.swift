@@ -5,12 +5,10 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import FHIRClient
 import Foundation
 import JavaScriptCore
 import Logging
 import Zibs
-import MGODebug
 
 public class FHIRParser {
 	
@@ -20,8 +18,8 @@ public class FHIRParser {
 	
 	/// Create a FHIR Parser
 	public init() {
-		jsContext = createContext()
 		
+		jsContext = createContext()
 		try? loadSource(jsContext: jsContext)
 	}
 	
@@ -73,53 +71,45 @@ public class FHIRParser {
 	/// - Returns: the result of invoking that method
 	private func callJSMethod(_ method: String, with input: Data, fhirVersion: String? = nil) throws -> JSValue {
 		
-		// Step 1: Create a new JS context
+		// Step 1: Confirm existing JS context
 		guard let jsContext else {
 			logError("FHIRParser: Could not create JS Context")
 			throw FHIRParserError.noJSContext
 		}
-//		MemoryUsage.getMemory("before loadSource")
-//		// Step 2: Load the mgo-fhir-data javascript source
-//		try loadSource(jsContext: jsContext)
-//		MemoryUsage.getMemory("after loadSource")
 		
-		// Step 3: Search for the MgoFhirData namespace
+		// Step 2: Search for the MgoFhirData namespace
 		guard let nameSpace = jsContext.objectForKeyedSubscript(FHIRParser.nameSpace) else {
 			throw FHIRParserError.invalidNameSpace
 		}
 		
-		// Step 4: Stringify the input (json)
+		// Step 3: Stringify the input (json)
 		guard let inputString = String(data: input, encoding: .utf8) else { throw FHIRParserError.invalidInput }
 		var arguments = [inputString]
 		if let fhirVersion {
 			arguments.append(fhirVersion)
 		}
 		
-		// Step 5: call the desired method (getBundleResourcesJson etc) on the namespace with the input
+		// Step 4: call the desired method (getBundleResourcesJson etc) on the namespace with the input
 		guard let resourcesJSValue = nameSpace.invokeMethod(method, withArguments: arguments) else {
 			logError("Failed to invoke \(method) on the nameSpace")
 			throw FHIRParserError.noResult
 		}
 		
-//		logDebug("\(resourcesJSValue)")
-		
-		// Step 6: return the outcome of the call
+		// Step 5: return the outcome of the call
 		return resourcesJSValue
 	}
 	
-	/// getBundleResourcesJson, i.e. split the incoming FHIR Bundle into separate Resources.
-	/// - Parameter json: The bundle json from the DVP (as Data)
+	/// getBundleResourcesJson, i.e. split the incoming FHIR Bundle into separate FHIR Resources.
+	/// - Parameter bundle: The bundle json from the DVA (as Data)
 	/// - Returns: Array of FHIR resources.
-	public func getBundleResourcesJson(_ json: Data) -> [Any] {
+	public func splitBundleIntoResources(_ bundle: Data) -> [Any] {
 		
 		do {
-			MemoryUsage.printMemoryUsage("before bundle")
-			let resourcesJSValue = try callJSMethod("getBundleResourcesJson", with: json)
+			let resourcesJSValue = try callJSMethod("getBundleResourcesJson", with: bundle)
 			let data = Data(resourcesJSValue.toString().utf8)
 			
 			let json2 = try JSONSerialization.jsonObject(with: data, options: [])
 			if let array = json2 as? [Any] {
-				MemoryUsage.printMemoryUsage("after bundle")
 				return array
 			}
 		} catch {
@@ -129,15 +119,13 @@ public class FHIRParser {
 	}
 	
 	/// parseResourceJson, i.e. transform the incoming FHIR Resource into a Zib object
-	/// - Parameter json: resource to parse
+	/// - Parameter fhirResource: resource to parse
 	/// - Parameter fhirVersion: the FHIR version of the expected resource, defaults to `R3`
 	/// - Returns: Zib as data
-	public func getMgoResourceJson(_ json: Data, fhirVersion: String = "R3") -> Data? {
+	public func transformFHIRResourceIntoMGOResource(_ fhirResource: Data, fhirVersion: String = "R3") -> Data? {
 		
 		do {
-			MemoryUsage.printMemoryUsage("before resource")
-			let resourcesJSValue = try callJSMethod("getMgoResourceJson", with: json, fhirVersion: fhirVersion)
-			MemoryUsage.printMemoryUsage("after resource")
+			let resourcesJSValue = try callJSMethod("getMgoResourceJson", with: fhirResource, fhirVersion: fhirVersion)
 			return Data(resourcesJSValue.toString().utf8)
 			
 		} catch {
@@ -146,11 +134,13 @@ public class FHIRParser {
 		return nil
 	}
 	
-	// getUiSchemaJson, i.e. transform a Zib object into a UISchema
-	public func getUiSchemaJson(_ json: Data) -> UISchema? {
+	/// getUiSchemaJson, i.e. transform a Zib object into a UISchema
+	/// - Parameter resource: the zib / mgo resource
+	/// - Returns: Generated UISchema
+	public func getUiSchemaJson(_ resource: Data) -> UISchema? {
 		
 		do {
-			let resourcesJSValue = try callJSMethod("getUiSchemaJson", with: json)
+			let resourcesJSValue = try callJSMethod("getUiSchemaJson", with: resource)
 			if let object = resourcesJSValue.toString() {
 				let schema = try UISchema(object)
 				return schema
