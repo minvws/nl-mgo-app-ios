@@ -12,11 +12,13 @@ import Zibs
 
 public class FHIRParser {
 	
+	/// The namespace used in the JavaScript context
 	public static let nameSpace = "MgoFhirData"
 	
+	/// the JavaScript Context
 	private var jsContext: JSContext?
 	
-	/// Create a FHIR Parser
+	/// Create a JS backed FHIR Parser
 	public init() {
 		
 		jsContext = createContext()
@@ -30,8 +32,8 @@ public class FHIRParser {
 	/// - Returns: the JavaScript Context
 	private func createContext() -> JSContext? {
 		
-		let jsContext = JSContext()
-		jsContext?.exceptionHandler = { (ctx: JSContext!, value: JSValue!) in
+		let context = JSContext()
+		context?.exceptionHandler = { (ctx: JSContext!, value: JSValue!) in
 			// type of String
 			let stackTrace = value.objectForKeyedSubscript("stack").toString()
 			// type of Number
@@ -41,7 +43,7 @@ public class FHIRParser {
 			let moreInfo = "in method \(String(describing: stackTrace)) Line number in file: \(String(describing: lineNumber)), column: \(String(describing: column))"
 			logError("FHIRParser JS ERROR: \(String(describing: value)) \(moreInfo)")
 		}
-		return jsContext
+		return context
 	}
 	
 	/// Load the source for the parser
