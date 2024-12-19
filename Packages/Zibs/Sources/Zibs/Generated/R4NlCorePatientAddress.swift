@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCoreHealthProfessionalPractitionerAddress = try NlCoreHealthProfessionalPractitionerAddress(json)
+//   let r4NlCorePatientAddress = try R4NlCorePatientAddress(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - NlCoreHealthProfessionalPractitionerAddress
-public struct NlCoreHealthProfessionalPractitionerAddress: Codable, Hashable, Sendable {
+// MARK: - R4NlCorePatientAddress
+public struct R4NlCorePatientAddress: Codable, Hashable, Sendable {
     public let additionalInformation: String?
     public let addressType: MgoCodeableConcept?
     public let city, country: String?
@@ -38,11 +38,11 @@ public struct NlCoreHealthProfessionalPractitionerAddress: Codable, Hashable, Se
     }
 }
 
-// MARK: NlCoreHealthProfessionalPractitionerAddress convenience initializers and mutators
+// MARK: R4NlCorePatientAddress convenience initializers and mutators
 
-public extension NlCoreHealthProfessionalPractitionerAddress {
+public extension R4NlCorePatientAddress {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCoreHealthProfessionalPractitionerAddress.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCorePatientAddress.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -70,8 +70,8 @@ public extension NlCoreHealthProfessionalPractitionerAddress {
         period: MgoPeriod?? = nil,
         postalCode: String?? = nil,
         streetName: String?? = nil
-    ) -> NlCoreHealthProfessionalPractitionerAddress {
-        return NlCoreHealthProfessionalPractitionerAddress(
+    ) -> R4NlCorePatientAddress {
+        return R4NlCorePatientAddress(
             additionalInformation: additionalInformation ?? self.additionalInformation,
             addressType: addressType ?? self.addressType,
             city: city ?? self.city,

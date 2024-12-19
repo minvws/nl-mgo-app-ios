@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCorePatientR4Name = try NlCorePatientR4Name(json)
+//   let r4NlCorePatientName = try R4NlCorePatientName(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - NlCorePatientR4Name
-public struct NlCorePatientR4Name: Codable, Hashable, Sendable {
+// MARK: - R4NlCorePatientName
+public struct R4NlCorePatientName: Codable, Hashable, Sendable {
     public let family: String?
     public let given, givenInitials, givenNames: [String]?
     public let nameUsage: String?
@@ -40,11 +40,11 @@ public struct NlCorePatientR4Name: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: NlCorePatientR4Name convenience initializers and mutators
+// MARK: R4NlCorePatientName convenience initializers and mutators
 
-public extension NlCorePatientR4Name {
+public extension R4NlCorePatientName {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCorePatientR4Name.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCorePatientName.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -69,8 +69,8 @@ public extension NlCorePatientR4Name {
         suffix: [String]?? = nil,
         text: String?? = nil,
         use: Use? = nil
-    ) -> NlCorePatientR4Name {
-        return NlCorePatientR4Name(
+    ) -> R4NlCorePatientName {
+        return R4NlCorePatientName(
             family: family ?? self.family,
             given: given ?? self.given,
             givenInitials: givenInitials ?? self.givenInitials,

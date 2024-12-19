@@ -71,7 +71,7 @@ struct HealthCategories {
 				case .vaccinations: [
 					ZibVaccinationProfile.httpNictizNlFhirStructureDefinitionZibVaccination.rawValue,
 					ZibVaccinationRecommendationProfile.httpNictizNlFhirStructureDefinitionZibVaccinationRecommendation.rawValue,
-					NlCoreVaccinationEventProfile.httpNictizNlFhirStructureDefinitionNlCoreVaccinationEvent.rawValue
+					R4NlCoreVaccinationEventProfile.httpNictizNlFhirStructureDefinitionNlCoreVaccinationEvent.rawValue
 				]
 				
 				case .documents: [
@@ -166,7 +166,7 @@ struct HealthCategories {
 				
 				// Vaccinations
 				case ZibVaccinationProfile.httpNictizNlFhirStructureDefinitionZibVaccination.rawValue,
-					NlCoreVaccinationEventProfile.httpNictizNlFhirStructureDefinitionNlCoreVaccinationEvent.rawValue:
+					R4NlCoreVaccinationEventProfile.httpNictizNlFhirStructureDefinitionNlCoreVaccinationEvent.rawValue:
 					"zip_vaccination.heading"
 				case ZibVaccinationRecommendationProfile.httpNictizNlFhirStructureDefinitionZibVaccinationRecommendation.rawValue:
 					"zip_vaccination_recommendation.heading"

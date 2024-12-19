@@ -12,11 +12,13 @@ import Zibs
 
 public class FHIRParser {
 	
+	/// The namespace used in the JavaScript context
 	public static let nameSpace = "MgoFhirData"
 	
+	/// the JavaScript Context
 	private var jsContext: JSContext?
 	
-	/// Create a FHIR Parser
+	/// Create a JS backed FHIR Parser
 	public init() {
 		
 		jsContext = createContext()
@@ -30,8 +32,8 @@ public class FHIRParser {
 	/// - Returns: the JavaScript Context
 	private func createContext() -> JSContext? {
 		
-		let jsContext = JSContext()
-		jsContext?.exceptionHandler = { (ctx: JSContext!, value: JSValue!) in
+		let context = JSContext()
+		context?.exceptionHandler = { (ctx: JSContext!, value: JSValue!) in
 			// type of String
 			let stackTrace = value.objectForKeyedSubscript("stack").toString()
 			// type of Number
@@ -41,7 +43,7 @@ public class FHIRParser {
 			let moreInfo = "in method \(String(describing: stackTrace)) Line number in file: \(String(describing: lineNumber)), column: \(String(describing: column))"
 			logError("FHIRParser JS ERROR: \(String(describing: value)) \(moreInfo)")
 		}
-		return jsContext
+		return context
 	}
 	
 	/// Load the source for the parser
@@ -110,16 +112,22 @@ public class FHIRParser {
 	/// getBundleResourcesJson, i.e. split the incoming FHIR Bundle into separate FHIR Resources.
 	/// - Parameter bundle: The bundle json from the DVA (as Data)
 	/// - Returns: Array of FHIR resources.
-	public func splitBundleIntoResources(_ bundle: Data) -> [Any] {
+	public func splitBundleIntoResources(_ bundle: Data) -> [Data] {
 		
 		do {
 			let resourcesJSValue = try callJSMethod("getBundleResourcesJson", with: bundle)
-			let data = Data(resourcesJSValue.toString().utf8)
 			
-			let json2 = try JSONSerialization.jsonObject(with: data, options: [])
-			if let array = json2 as? [Any] {
-				return array
+			guard let resourceString = resourcesJSValue.toString(),
+				  resourceString.hasSuffix("]"),
+				  resourceString.hasPrefix("[") else {
+				throw FHIRParserError.noResult
 			}
+			
+			let result = String(resourceString.dropFirst().dropLast())
+				.replacingOccurrences(of: "},{\"res", with: "}💊{\"res")
+				.split(separator: "💊")
+				.map { Data(String($0).utf8) }
+			return result
 		} catch {
 			logError(error.localizedDescription)
 		}

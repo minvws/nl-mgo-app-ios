@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCoreHealthProfessionalPractitioner = try NlCoreHealthProfessionalPractitioner(json)
+//   let r4NlCoreHealthProfessionalPractitioner = try R4NlCoreHealthProfessionalPractitioner(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,21 +10,21 @@
 
 import Foundation
 
-// MARK: - NlCoreHealthProfessionalPractitioner
-public struct NlCoreHealthProfessionalPractitioner: Codable, Hashable, Sendable {
-    public let address: [NlCoreHealthProfessionalPractitionerAddress]?
+// MARK: - R4NlCoreHealthProfessionalPractitioner
+public struct R4NlCoreHealthProfessionalPractitioner: Codable, Hashable, Sendable {
+    public let address: [R4NlCoreHealthProfessionalPractitionerAddress]?
     public let birthDate: String?
     public let communication: [MgoCodeableConcept]?
-    public let emailAddresses: [EmailAddress]?
+    public let emailAddresses: [R4NlCoreHealthProfessionalPractitionerEmailAddress]?
     public let fhirVersion: FhirVersionR4
     public let gender, id: String?
     public let identifier: [MgoIdentifier]?
-    public let name: [NlCoreHealthProfessionalPractitionerName]?
-    public let profile: NlCoreHealthProfessionalPractitionerProfile
+    public let name: [R4NlCoreHealthProfessionalPractitionerName]?
+    public let profile: R4NlCoreHealthProfessionalPractitionerProfile
     public let qualification: [Qualification]?
     public let referenceID: String
     public let resourceType: String?
-    public let telephoneNumbers: [TelephoneNumber]?
+    public let telephoneNumbers: [R4NlCoreHealthProfessionalPractitionerTelephoneNumber]?
 
     public enum CodingKeys: String, CodingKey {
         case address, birthDate, communication, emailAddresses, fhirVersion, gender, id, identifier, name, profile, qualification
@@ -32,7 +32,7 @@ public struct NlCoreHealthProfessionalPractitioner: Codable, Hashable, Sendable 
         case resourceType, telephoneNumbers
     }
 
-    public init(address: [NlCoreHealthProfessionalPractitionerAddress]?, birthDate: String?, communication: [MgoCodeableConcept]?, emailAddresses: [EmailAddress]?, fhirVersion: FhirVersionR4, gender: String?, id: String?, identifier: [MgoIdentifier]?, name: [NlCoreHealthProfessionalPractitionerName]?, profile: NlCoreHealthProfessionalPractitionerProfile, qualification: [Qualification]?, referenceID: String, resourceType: String?, telephoneNumbers: [TelephoneNumber]?) {
+    public init(address: [R4NlCoreHealthProfessionalPractitionerAddress]?, birthDate: String?, communication: [MgoCodeableConcept]?, emailAddresses: [R4NlCoreHealthProfessionalPractitionerEmailAddress]?, fhirVersion: FhirVersionR4, gender: String?, id: String?, identifier: [MgoIdentifier]?, name: [R4NlCoreHealthProfessionalPractitionerName]?, profile: R4NlCoreHealthProfessionalPractitionerProfile, qualification: [Qualification]?, referenceID: String, resourceType: String?, telephoneNumbers: [R4NlCoreHealthProfessionalPractitionerTelephoneNumber]?) {
         self.address = address
         self.birthDate = birthDate
         self.communication = communication
@@ -50,11 +50,11 @@ public struct NlCoreHealthProfessionalPractitioner: Codable, Hashable, Sendable 
     }
 }
 
-// MARK: NlCoreHealthProfessionalPractitioner convenience initializers and mutators
+// MARK: R4NlCoreHealthProfessionalPractitioner convenience initializers and mutators
 
-public extension NlCoreHealthProfessionalPractitioner {
+public extension R4NlCoreHealthProfessionalPractitioner {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCoreHealthProfessionalPractitioner.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCoreHealthProfessionalPractitioner.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -69,22 +69,22 @@ public extension NlCoreHealthProfessionalPractitioner {
     }
 
     func with(
-        address: [NlCoreHealthProfessionalPractitionerAddress]?? = nil,
+        address: [R4NlCoreHealthProfessionalPractitionerAddress]?? = nil,
         birthDate: String?? = nil,
         communication: [MgoCodeableConcept]?? = nil,
-        emailAddresses: [EmailAddress]?? = nil,
+        emailAddresses: [R4NlCoreHealthProfessionalPractitionerEmailAddress]?? = nil,
         fhirVersion: FhirVersionR4? = nil,
         gender: String?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        name: [NlCoreHealthProfessionalPractitionerName]?? = nil,
-        profile: NlCoreHealthProfessionalPractitionerProfile? = nil,
+        name: [R4NlCoreHealthProfessionalPractitionerName]?? = nil,
+        profile: R4NlCoreHealthProfessionalPractitionerProfile? = nil,
         qualification: [Qualification]?? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        telephoneNumbers: [TelephoneNumber]?? = nil
-    ) -> NlCoreHealthProfessionalPractitioner {
-        return NlCoreHealthProfessionalPractitioner(
+        telephoneNumbers: [R4NlCoreHealthProfessionalPractitionerTelephoneNumber]?? = nil
+    ) -> R4NlCoreHealthProfessionalPractitioner {
+        return R4NlCoreHealthProfessionalPractitioner(
             address: address ?? self.address,
             birthDate: birthDate ?? self.birthDate,
             communication: communication ?? self.communication,

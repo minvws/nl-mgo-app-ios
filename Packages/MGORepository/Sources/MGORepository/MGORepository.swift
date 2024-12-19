@@ -51,6 +51,11 @@ public class MGORepository {
 		return data
 	}
 	
+	/// The Basic Auth header value
+	/// - Parameters:
+	///   - username: username
+	///   - password: password
+	/// - Returns: Basis Auth header value
 	private func basicAuthenticationHeader(username: String?, password: String?) -> String? {
 		
 		guard let username, let password else { return nil }
@@ -64,24 +69,22 @@ public class MGORepository {
 	/// process the bundle FHIR data into mgoResources
 	/// - Parameter data: FHIR bundle
 	/// - Returns: array of mgoResources (as Data)
-	public func process(_ data: Data, fhirVersion: String) throws -> [MgoResource] {
+	public func process(_ bundle: Data, fhirVersion: String) throws -> [MgoResource] {
 		
 		// The parser
 		let parser = FHIRParser()
 		
-		// Transform the bundle into FHIR resources
-		let fhirResources = parser.splitBundleIntoResources(data)
+		// Split the bundle into FHIR resources
+		let fhirResources = parser.splitBundleIntoResources(bundle)
 		
 		// The result set
 		var mgoResources = [MgoResource]()
 	
 		// Loop over all FHIR resources
 		for element in fhirResources {
-			// Cast to data
-			let resource = try JSONSerialization.data(withJSONObject: element)
 			
-			// Transfrom to MgoResource
-			if let mgoResource = parser.transformFHIRResourceIntoMGOResource(resource, fhirVersion: fhirVersion) {
+			// Transform to MgoResource
+			if let mgoResource = parser.transformFHIRResourceIntoMGOResource(element, fhirVersion: fhirVersion) {
 				mgoResources.append(mgoResource)
 			}
 		}
