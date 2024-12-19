@@ -179,6 +179,41 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	
+	func test_validation_touch_fiveDigits_accessCodeOk_lockoutMode() {
+		
+		// Given
+		let expectedState = PinCodeViewState(
+			bioMetricEnabled: true,
+			bioMetricType: .touchID,
+			eraseEnabled: true,
+			backButtonVisible: false,
+			backButtonKey: "",
+			forgotCodeButtonVisible: true,
+			title: "pincode.validation.heading",
+			message: "pincode.validation.subheading",
+			textAlignment: .center,
+			showLockoutPopup: false
+		)
+		let expectedBoxState = expectedBoxState(.filled, .filled, .filled, .filled, .filling)
+		self.servicesSpies.secureUserSettingsSpy.stubbedPinCode = "01234"
+		
+		// When
+		setupSut(mode: .validation(lockOut: true), bioMetricType: { .touchID })
+		sut.reduce(.buttonPressed(value: "0"))
+		sut.reduce(.buttonPressed(value: "1"))
+		sut.reduce(.buttonPressed(value: "2"))
+		sut.reduce(.buttonPressed(value: "3"))
+		sut.reduce(.buttonPressed(value: "4"))
+
+		// Then
+		expect(self.sut.state) == expectedState
+		expect(self.sut.boxStates) == expectedBoxState
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidatedAfterLockout))
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
+	}
+	
 	func test_validation_biometricEnabled_authenticated() {
 		
 		// Given

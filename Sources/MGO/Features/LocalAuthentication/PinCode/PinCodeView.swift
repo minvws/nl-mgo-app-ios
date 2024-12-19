@@ -311,7 +311,10 @@ class PinCodeViewModel: ObservableObject {
 			updateStateValidation(validationMismatch: true)
 			return
 		}
-		coordinator?.handle(Coordination.Action.pinCodeValidated)
+		
+		if case let .validation(lockOut) = mode {
+			self.coordinator?.handle(lockOut ? .pinCodeValidatedAfterLockout : .pinCodeValidated)
+		}
 	}
 	
 	/// Something is not ok, make all the boxes red
