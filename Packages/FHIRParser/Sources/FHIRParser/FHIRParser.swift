@@ -110,16 +110,22 @@ public class FHIRParser {
 	/// getBundleResourcesJson, i.e. split the incoming FHIR Bundle into separate FHIR Resources.
 	/// - Parameter bundle: The bundle json from the DVA (as Data)
 	/// - Returns: Array of FHIR resources.
-	public func splitBundleIntoResources(_ bundle: Data) -> [Any] {
+	public func splitBundleIntoResources(_ bundle: Data) -> [Data] {
 		
 		do {
 			let resourcesJSValue = try callJSMethod("getBundleResourcesJson", with: bundle)
-			let data = Data(resourcesJSValue.toString().utf8)
 			
-			let json2 = try JSONSerialization.jsonObject(with: data, options: [])
-			if let array = json2 as? [Any] {
-				return array
+			guard let resourceString = resourcesJSValue.toString(),
+				  resourceString.hasSuffix("]"),
+				  resourceString.hasPrefix("[") else {
+				throw FHIRParserError.noResult
 			}
+			
+			let result = String(resourceString.dropFirst().dropLast())
+				.replacingOccurrences(of: "},{\"res", with: "}💊{\"res")
+				.split(separator: "💊")
+				.map { Data(String($0).utf8) }
+			return result
 		} catch {
 			logError(error.localizedDescription)
 		}

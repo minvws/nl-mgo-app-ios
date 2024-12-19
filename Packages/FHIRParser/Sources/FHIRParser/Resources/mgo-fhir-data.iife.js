@@ -47656,32 +47656,82 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const uiSchemaGroup$z = (resource, context) => {
-    const i18n = "zib_laboratory_test_result_observation.reference_range";
-    const ui = context.ui;
+    const i18n = "r3.zib_laboratory_test_result_observation.reference_range";
+    const { ui, formatMessage: formatMessage2 } = context;
     return {
-      label: `${i18n}`,
+      label: formatMessage2(i18n),
       children: [
         ui.quantity(`${i18n}.low`, resource.low),
-        ui.quantity(`${i18n}.high`, resource.high)
+        ui.quantity(`${i18n}.high`, resource.high),
+        ui.codeableConcept(`${i18n}.type`, resource.type)
       ]
     };
   };
-  function parseReferenceRange(value2) {
-    return {
-      low: quantity$1(value2?.low),
-      high: quantity$1(value2?.high)
-    };
-  }
-  const referenceRange = {
-    parse: parseReferenceRange,
-    uiSchemaGroup: uiSchemaGroup$z
-  };
   const uiSchemaGroup$y = (resource, context) => {
-    const ui = context.ui;
+    const { ui, formatMessage: formatMessage2 } = context;
     return {
-      label: "zib_laboratory_test_result_observation.related",
-      children: [ui.reference(`zib_laboratory_test_result_observation.related`, resource.target)]
+      label: formatMessage2("r3.zib_laboratory_test_result_observation.related"),
+      children: [
+        ui.reference(`r3.zib_laboratory_test_result_observation.related`, resource.target)
+      ]
     };
+  };
+  const uiSchema$K = (resource, context) => {
+    const i18n = "r3.zib_laboratory_test_result_observation";
+    const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
+    const hcimLaboratoryTestResult = {
+      BasedOn: ui.reference(`${i18n}.based_on`, resource.basedOn),
+      Status: ui.string(`${i18n}.status`, resource.status),
+      ResultType: ui.codeableConcept(`${i18n}.result_type`, resource.resultType),
+      Code: ui.codeableConcept(`${i18n}.code`, resource.code),
+      Effective: ui.oneOfValueX(`${i18n}.effective`, resource, "effective"),
+      Value: ui.oneOfValueX(`${i18n}.value`, resource),
+      Interpretation: ui.codeableConcept(`${i18n}.interpretation`, resource.interpretation),
+      Comment: ui.string(`${i18n}.comment`, resource.comment),
+      Method: ui.codeableConcept(`${i18n}.method`, resource.method),
+      Specimen: ui.reference(`${i18n}.specimen`, resource.specimen),
+      ReferenceRange: map(
+        resource.referenceRange,
+        (x) => uiSchemaGroup$z(x, context),
+        true
+      ).flat(),
+      Related: map(resource.related, (x) => uiSchemaGroup$y(x, context), true).flat()
+    };
+    const hcimBasicElements = {
+      Identifier: ui.identifier(`${i18n}.identifier`, resource.identifier),
+      Subject: ui.reference(`${i18n}.subject`, resource.subject),
+      Performer: ui.reference(`${i18n}.performer`, resource.performer)
+    };
+    const label = resource.resultType?.at(0)?.coding.at(0)?.display ?? resource.laboratoryTestResultCode?.at(0)?.coding.at(0)?.display;
+    return setEmptyEntries2({
+      label: label ?? formatMessage2(i18n),
+      children: [
+        {
+          label: formatMessage2(i18n),
+          children: [
+            hcimBasicElements.Identifier,
+            hcimBasicElements.Subject,
+            ...hcimLaboratoryTestResult.Effective
+          ]
+        },
+        {
+          label: formatMessage2(`${i18n}.general_test_information`),
+          children: [hcimLaboratoryTestResult.ResultType, hcimLaboratoryTestResult.Comment]
+        },
+        {
+          label: formatMessage2(`${i18n}.lab_test`),
+          children: [
+            hcimLaboratoryTestResult.Code,
+            hcimLaboratoryTestResult.Method,
+            ...hcimLaboratoryTestResult.Effective,
+            ...hcimLaboratoryTestResult.Value,
+            hcimLaboratoryTestResult.Status,
+            ...ui.helpers.getChildren(hcimLaboratoryTestResult.ReferenceRange),
+            hcimLaboratoryTestResult.Interpretation
+          ]
+        }
+      ]
+    });
   };
   function parseRelated(value2) {
     return {
@@ -47692,126 +47742,109 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseRelated,
     uiSchemaGroup: uiSchemaGroup$y
   };
-  const uiSchema$J = (resource, context) => {
-    const ui = context.ui;
-    const i18n = "zib_laboratory_test_result_observation";
-    const related2 = map(resource.related, (x) => uiSchemaGroup$y(x, context), true);
-    const referenceRange2 = map(
-      resource.referenceRange,
-      (x) => uiSchemaGroup$z(x, context),
-      true
-    );
-    const title = resource.category?.[0]?.coding?.[0]?.display ?? `${i18n}`;
-    const effective = typeof resource.effective === "string" ? [ui.dateTime(`${i18n}.effective`, resource.effective)] : ui.period(`${i18n}.effective`, resource.effective);
+  function parseReferenceRange(value2) {
     return {
-      label: title,
-      children: [
-        {
-          label: `${i18n}`,
-          children: [
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.reference(`${i18n}.specimen`, resource.specimen),
-            ui.codeableConcept(
-              "zib_laboratory_test_result_diagnostic_report.code",
-              resource.code
-            ),
-            ui.string(
-              "zib_laboratory_test_result_diagnostic_report.status",
-              resource.status
-            ),
-            ui.string(`${i18n}.comment`, resource.comment),
-            ui.codeableConcept(`${i18n}.result_type`, resource.category),
-            ...ui.helpers.getChildren(related2),
-            ui.reference(`${i18n}.based_on`, resource.basedOn)
-          ]
-        },
-        {
-          label: `${i18n}.test`,
-          children: [
-            ui.codeableConcept(`${i18n}.code`, resource.code),
-            ui.codeableConcept(`${i18n}.method`, resource.method),
-            ...effective,
-            ui.quantity(`${i18n}.value`, resource.result),
-            ui.string(`${i18n}.status`, resource.status),
-            ...ui.helpers.getChildren(referenceRange2),
-            ui.codeableConcept(
-              `${i18n}.interpretation.interpretatie_vlaggen_codelijst`,
-              resource.interpretation
-            ),
-            ui.string(`${i18n}.comment`, resource.comment)
-          ]
-        }
-      ]
+      low: quantity$1(value2?.low),
+      high: quantity$1(value2?.high),
+      type: codeableConcept$1(value2?.type),
+      appliesTo: map(value2?.appliesTo, codeableConcept$1),
+      age: range$1(value2?.age)
     };
+  }
+  const referenceRange = {
+    parse: parseReferenceRange,
+    uiSchemaGroup: uiSchemaGroup$z
   };
-  const profile$J = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
-  function parseZibLaboratoryTestResultObservation(resource) {
+  const SNOMED_SYSTEM = "http://snomed.info/sct";
+  var Snomed = /* @__PURE__ */ ((Snomed2) => {
+    Snomed2["LABORATORY_TEST_FINDING"] = "49581000146104";
+    Snomed2["HEMATOLOGY"] = "252275004";
+    Snomed2["CHEMISTRY"] = "275711006";
+    Snomed2["SEROLOGY"] = "68793005";
+    Snomed2["VIROLOGY"] = "395124008";
+    Snomed2["TOXICOLOGY"] = "314076009";
+    Snomed2["MICROBIOLOGY"] = "19851009";
+    Snomed2["MOLECULAR_GENETICS"] = "405825005";
+    return Snomed2;
+  })(Snomed || {});
+  const SnomedResultTypes = [
+    "252275004",
+    "275711006",
+    "68793005",
+    "395124008",
+    "314076009",
+    "19851009",
+    "405825005"
+    /* MOLECULAR_GENETICS */
+  ];
+  const profile$K = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
+  function parseZibLaboratoryTestResultObservationBase(resource) {
+    const laboratoryTestResultCode = filterCodeableConceptByCoding(
+      resource.category,
+      (x) => x.system === SNOMED_SYSTEM && x.code === Snomed.LABORATORY_TEST_FINDING
+    );
+    const resultType = filterCodeableConceptByCoding(
+      resource.category,
+      (x) => x.system === SNOMED_SYSTEM && SnomedResultTypes.includes(x.code)
+    );
     return {
-      ...resourceMeta(resource, profile$J, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
       code: codeableConcept$1(resource?.code),
-      // NL-CM:13.1.8
       method: codeableConcept$1(resource?.method),
-      // NL-CM:13.1.9
-      effective: dateTime$3(resource?.effectiveDateTime) ?? period$1(resource?.effectivePeriod),
-      // NL-CM:13.1.13
-      result: quantity$1(resource?.valueQuantity),
-      // NL-CM:13.1.10
+      ...oneOfValueX$1(resource, ["dateTime", "period"], "effective"),
+      ...oneOfValueX$1(resource, [
+        "quantity",
+        "codeableConcept",
+        "string",
+        "boolean",
+        "range",
+        "ratio",
+        "dateTime",
+        "period"
+      ]),
       status: string$1(resource?.status),
-      // NL-CM:13.1.31
       referenceRange: map(resource?.referenceRange, referenceRange.parse),
-      // NL-CM:13.1.11 & NL-CM:13.1.12
       interpretation: codeableConcept$1(resource?.interpretation),
-      // NL-CM:13.1.14
       specimen: reference$1(resource.specimen),
-      // NL-CM:13.1.2
       comment: string$1(resource.comment),
-      // NL-CM:13.1.5
-      category: map(resource.category, codeableConcept$1),
-      // NL-CM:13.1.7
+      laboratoryTestResultCode: map(laboratoryTestResultCode, codeableConcept$1),
+      resultType: map(resultType, codeableConcept$1),
       related: map(resource.related, related.parse),
-      // NL-CM:13.1.33 or NL-CM:13.1.3
-      basedOn: map(resource.basedOn, reference$1)
-      // NL-CM:13.1.34
+      basedOn: map(resource.basedOn, reference$1),
+      performer: map(resource.performer, reference$1)
+    };
+  }
+  function parseZibLaboratoryTestResultObservation(resource) {
+    return {
+      ...resourceMeta(resource, profile$K, FhirVersion.R3),
+      ...parseZibLaboratoryTestResultObservationBase(resource)
     };
   }
   const zibLaboratoryTestResultObservation = {
-    profile: profile$J,
+    profile: profile$K,
     parse: parseZibLaboratoryTestResultObservation,
-    uiSchema: uiSchema$J
+    uiSchema: uiSchema$K
   };
-  const uiSchema$I = (resource, context) => {
+  const uiSchema$J = (resource, context) => {
     return zibLaboratoryTestResultObservation.uiSchema(resource, context);
   };
-  const profile$I = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
+  const profile$J = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
   function parseGpLaboratoryResult(resource) {
+    const { ...rest } = parseZibLaboratoryTestResultObservationBase(resource);
     return {
-      ...resourceMeta(resource, profile$I, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
-      subject: reference$1(resource.subject),
-      code: codeableConcept$1(resource?.code),
-      method: codeableConcept$1(resource?.method),
-      effective: dateTime$3(resource?.effectiveDateTime) ?? period$1(resource?.effectivePeriod),
-      result: quantity$1(resource?.valueQuantity),
-      status: string$1(resource?.status),
-      referenceRange: map(resource?.referenceRange, referenceRange.parse),
-      interpretation: codeableConcept$1(resource?.interpretation),
-      specimen: reference$1(resource.specimen),
-      comment: string$1(resource.comment),
-      category: map(resource.category, codeableConcept$1),
-      related: map(resource.related, related.parse),
-      basedOn: map(resource.basedOn, reference$1)
+      ...rest,
+      ...resourceMeta(resource, profile$J, FhirVersion.R3)
     };
   }
   const gpLaboratoryResult = {
-    profile: profile$I,
+    profile: profile$J,
     parse: parseGpLaboratoryResult,
-    uiSchema: uiSchema$I
+    uiSchema: uiSchema$J
   };
-  const uiSchema$H = (resource, context) => {
+  const uiSchema$I = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "gp_diagnostic_result";
+    const profile2 = "r3.gp_diagnostic_result";
     return {
       label: resource.context?.display,
       children: [
@@ -47833,10 +47866,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$H = "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult";
+  const profile$I = "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult";
   function parseGpDiagnosticResult(resource) {
     return {
-      ...resourceMeta(resource, profile$H, FhirVersion.R3),
+      ...resourceMeta(resource, profile$I, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       context: reference$1(resource.context),
       subject: reference$1(resource.subject),
@@ -47858,9 +47891,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const gpDiagnosticResult = {
-    profile: profile$H,
+    profile: profile$I,
     parse: parseGpDiagnosticResult,
-    uiSchema: uiSchema$H
+    uiSchema: uiSchema$I
   };
   const uiSchemaGroup$x = (resource, context) => {
     const ui = context.ui;
@@ -47878,9 +47911,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseEncounterParticipant,
     uiSchemaGroup: uiSchemaGroup$x
   };
-  const uiSchema$G = (resource, context) => {
+  const uiSchema$H = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "Encounter";
+    const profile2 = "r3.Encounter";
     const participants = map(
       resource.participant,
       (x) => uiSchemaGroup$x(x, context),
@@ -47902,10 +47935,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$G = "http://nictiz.nl/fhir/StructureDefinition/gp-Encounter";
+  const profile$H = "http://nictiz.nl/fhir/StructureDefinition/gp-Encounter";
   function parseGpEncounter(resource) {
     return {
-      ...resourceMeta(resource, profile$G, FhirVersion.R3),
+      ...resourceMeta(resource, profile$H, FhirVersion.R3),
       class: coding$1(resource.class),
       participant: map(resource.participant, encounterParticipant.parse),
       serviceProvider: reference$1(resource.serviceProvider),
@@ -47914,13 +47947,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const gpEncounter = {
-    profile: profile$G,
+    profile: profile$H,
     parse: parseGpEncounter,
-    uiSchema: uiSchema$G
+    uiSchema: uiSchema$H
   };
-  const uiSchema$F = (resource, context) => {
+  const uiSchema$G = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "gp_journal_entry";
+    const profile2 = "r3.gp_journal_entry";
     return {
       label: resource.context?.display,
       children: [
@@ -47941,12 +47974,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$F = "http://nictiz.nl/fhir/StructureDefinition/gp-JournalEntry";
+  const profile$G = "http://nictiz.nl/fhir/StructureDefinition/gp-JournalEntry";
   function parseGpJournalEntry(resource) {
     const ICPC_S = findComponentByCode(resource.component, "ADMDX");
     const ICPC_E = findComponentByCode(resource.component, "DISDX");
     return {
-      ...resourceMeta(resource, profile$F, FhirVersion.R3),
+      ...resourceMeta(resource, profile$G, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       status: string$1(resource.status),
       code: codeableConcept$1(resource.code),
@@ -47963,9 +47996,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const gpJournalEntry = {
-    profile: profile$F,
+    profile: profile$G,
     parse: parseGpJournalEntry,
-    uiSchema: uiSchema$F
+    uiSchema: uiSchema$G
   };
   function parseSection(value2) {
     return {
@@ -47984,9 +48017,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const uiSchema$E = (resource, context) => {
+  const uiSchema$F = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "EncounterReport";
+    const profile2 = "r3.EncounterReport";
     const section = map(resource.section, (x) => uiSchemaGroup$w(x, context), true);
     return {
       label: resource.title,
@@ -48006,10 +48039,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$E = "http://nictiz.nl/fhir/StructureDefinition/gp-EncounterReport";
+  const profile$F = "http://nictiz.nl/fhir/StructureDefinition/gp-EncounterReport";
   function parseGpEncounterReport(resource) {
     return {
-      ...resourceMeta(resource, profile$E, FhirVersion.R3),
+      ...resourceMeta(resource, profile$F, FhirVersion.R3),
       identifier: identifier$1(resource.identifier),
       status: string$1(resource.status),
       type: map(resource.type.coding, coding$1),
@@ -48021,12 +48054,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const gpEncounterReport = {
-    profile: profile$E,
+    profile: profile$F,
     parse: parseGpEncounterReport,
-    uiSchema: uiSchema$E
+    uiSchema: uiSchema$F
   };
   const uiSchemaGroup$v = (resource, { ui, formatMessage: formatMessage2 }) => {
-    const i18n = "zib_administration_schedule";
+    const i18n = "r3.zib_administration_schedule";
     const { repeat: repeat2 } = resource;
     const hcimInstructionsForUse = {
       DoseDuration: ui.oneOfValueX(`${i18n}.repeat.bounds`, repeat2, "bounds"),
@@ -48082,7 +48115,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$v
   };
   const uiSchemaGroup$u = (resource, context) => {
-    const i18n = "zib_instructions_for_use";
+    const i18n = "r3.zib_instructions_for_use";
     const { ui, formatMessage: formatMessage2 } = context;
     const hcimInstructionsForUse = {
       SequenceNumber: ui.integer(`${i18n}.sequence`, resource.sequence),
@@ -48138,7 +48171,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$u
   };
   const uiSchemaGroup$t = (resource, context) => {
-    const i18n = "zib_product_ingredient";
+    const i18n = "r3.zib_product_ingredient";
     const ui = context.ui;
     return {
       label: i18n,
@@ -48159,7 +48192,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$t
   };
   const uiSchemaGroup$s = (resource, context) => {
-    const i18n = "zib_product_package";
+    const i18n = "r3.zib_product_package";
     const ui = context.ui;
     const contents = map(
       resource.content,
@@ -48189,7 +48222,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$s
   };
   const uiSchemaGroup$r = (resource, context) => {
-    const i18n = "nl_core_address";
+    const i18n = "r3.nl_core_address";
     const ui = context.ui;
     return {
       label: i18n,
@@ -48225,7 +48258,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$r
   };
   const uiSchemaGroup$q = (resource, context) => {
-    const i18n = "nl_core_contact_point";
+    const i18n = "r3.nl_core_contact_point";
     const ui = context.ui;
     return {
       label: i18n,
@@ -48252,7 +48285,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$q
   };
   const uiSchemaGroup$p = (resource, context) => {
-    const i18n = "nl_core_humanname";
+    const i18n = "r3.nl_core_humanname";
     const ui = context.ui;
     return {
       label: i18n,
@@ -48283,7 +48316,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$p
   };
   const uiSchemaGroup$o = (resource, context) => {
-    const i18n = "attachment";
+    const i18n = "r3.attachment";
     const ui = context.ui;
     return {
       label: i18n,
@@ -48316,7 +48349,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$o
   };
   const uiSchemaGroup$n = (resource, context) => {
-    const i18n = "nl_core_patient.communication";
+    const i18n = "r3.nl_core_patient.communication";
     const ui = context.ui;
     return {
       label: i18n,
@@ -48337,7 +48370,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$n
   };
   const uiSchemaGroup$m = (resource, context) => {
-    const i18n = "nl_core_patient.contact";
+    const i18n = "r3.nl_core_patient.contact";
     const ui = context.ui;
     const telecom = map(
       resource.telecom,
@@ -48372,7 +48405,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$m
   };
   const uiSchemaGroup$l = (resource, context) => {
-    const i18n = "nl_core_patient.link";
+    const i18n = "r3.nl_core_patient.link";
     const ui = context.ui;
     return {
       label: i18n,
@@ -48392,9 +48425,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseLink,
     uiSchemaGroup: uiSchemaGroup$l
   };
-  const uiSchema$D = (resource, context) => {
+  const uiSchema$E = (resource, context) => {
     const ui = context.ui;
-    const i18n = "nl_core_patient";
+    const i18n = "r3.nl_core_patient";
     const address = map(resource.address, (x) => nlCoreAddress.uiSchemaGroup(x, context), true);
     const communication2 = map(
       resource.communication,
@@ -48439,10 +48472,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$D = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
+  const profile$E = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
   function parseNlCorePatient$1(resource) {
     return {
-      ...resourceMeta(resource, profile$D, FhirVersion.R3),
+      ...resourceMeta(resource, profile$E, FhirVersion.R3),
       active: boolean$1(resource.active),
       address: map(resource.address, nlCoreAddress.parse),
       birthDate: date$4(resource.birthDate),
@@ -48464,13 +48497,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const nlCorePatient = {
-    profile: profile$D,
+    profile: profile$E,
     parse: parseNlCorePatient$1,
-    uiSchema: uiSchema$D
+    uiSchema: uiSchema$E
   };
-  const uiSchema$C = (resource, context) => {
+  const uiSchema$D = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "nl_core_organization";
+    const profile2 = "r3.nl_core_organization";
     const address = map(
       resource.address,
       (x) => nlCoreAddress.uiSchemaGroup(x, context),
@@ -48501,10 +48534,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$C = "http://fhir.nl/fhir/StructureDefinition/nl-core-organization";
+  const profile$D = "http://fhir.nl/fhir/StructureDefinition/nl-core-organization";
   function parseNlCoreOrganization(resource) {
     return {
-      ...resourceMeta(resource, profile$C, FhirVersion.R3),
+      ...resourceMeta(resource, profile$D, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       name: string$1(resource.name),
       departmentSpecialty: map(
@@ -48527,13 +48560,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const nlCoreOrganization = {
-    profile: profile$C,
+    profile: profile$D,
     parse: parseNlCoreOrganization,
-    uiSchema: uiSchema$C
+    uiSchema: uiSchema$D
   };
-  const uiSchema$B = (resource, context) => {
+  const uiSchema$C = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "nl_core_practitioner";
+    const profile2 = "r3.nl_core_practitioner";
     const address = map(resource.address, (x) => nlCoreAddress.uiSchemaGroup(x, context), true);
     const name = map(resource.name, (x) => nlCoreHumanname.uiSchemaGroup(x, context), true);
     const telecom = map(
@@ -48554,10 +48587,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$B = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitioner";
+  const profile$C = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitioner";
   function parseNlCorePractitioner(resource) {
     return {
-      ...resourceMeta(resource, profile$B, FhirVersion.R3),
+      ...resourceMeta(resource, profile$C, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       name: map(resource.name, nlCoreHumanname.parse),
       address: map(resource.address, nlCoreAddress.parse),
@@ -48565,13 +48598,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const nlCorePractitioner = {
-    profile: profile$B,
+    profile: profile$C,
     parse: parseNlCorePractitioner,
-    uiSchema: uiSchema$B
+    uiSchema: uiSchema$C
   };
-  const uiSchema$A = (resource, context) => {
+  const uiSchema$B = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "nl_core_practitionerrole";
+    const profile2 = "r3.nl_core_practitionerrole";
     const telecom = map(
       resource.telecom,
       (x) => nlCoreContactpoint.uiSchemaGroup(x, context),
@@ -48592,10 +48625,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$A = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitionerrole";
+  const profile$B = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitionerrole";
   function parseNlCorePractitionerRole(resource) {
     return {
-      ...resourceMeta(resource, profile$A, FhirVersion.R3),
+      ...resourceMeta(resource, profile$B, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       organization: reference$1(resource.organization),
       specialty: map(resource.specialty, codeableConcept$1),
@@ -48603,13 +48636,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const nlCorePractitionerRole = {
-    profile: profile$A,
+    profile: profile$B,
     parse: parseNlCorePractitionerRole,
-    uiSchema: uiSchema$A
+    uiSchema: uiSchema$B
   };
-  const uiSchema$z = (resource, context) => {
+  const uiSchema$A = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_alert";
+    const i18n = "r3.zib_alert";
     return {
       label: i18n,
       children: [
@@ -48629,10 +48662,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$z = "http://nictiz.nl/fhir/StructureDefinition/zib-Alert";
+  const profile$A = "http://nictiz.nl/fhir/StructureDefinition/zib-Alert";
   function parseZibAlert(resource) {
     return {
-      ...resourceMeta(resource, profile$z, FhirVersion.R3),
+      ...resourceMeta(resource, profile$A, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       status: code$1(resource.status),
       category: codeableConcept$1(resource.category),
@@ -48644,13 +48677,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibAlert = {
-    profile: profile$z,
+    profile: profile$A,
     parse: parseZibAlert,
-    uiSchema: uiSchema$z
+    uiSchema: uiSchema$A
   };
-  const uiSchema$y = (resource, context) => {
+  const uiSchema$z = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_administration_agreement";
+    const i18n = "r3.zib_administration_agreement";
     const instructionsForUse = map(
       resource.dossageInstruction,
       (x) => uiSchemaGroup$u(x, context),
@@ -48687,10 +48720,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$y = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement";
+  const profile$z = "http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement";
   function parseZibAdministrationAgreement(resource) {
     return {
-      ...resourceMeta(resource, profile$y, FhirVersion.R3),
+      ...resourceMeta(resource, profile$z, FhirVersion.R3),
       authoredOn: extensionNictiz(resource, "zib-AdministrationAgreement-AuthoredOn"),
       agreementReason: extensionNictiz(
         resource,
@@ -48718,13 +48751,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibAdministrationAgreement = {
-    profile: profile$y,
+    profile: profile$z,
     parse: parseZibAdministrationAgreement,
-    uiSchema: uiSchema$y
+    uiSchema: uiSchema$z
   };
-  const uiSchema$x = (resource, context) => {
+  const uiSchema$y = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_medication_agreement";
+    const i18n = "r3.zib_medication_agreement";
     const instructionsForUse = map(
       resource.dossageInstruction,
       (x) => uiSchemaGroup$u(x, context),
@@ -48760,10 +48793,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$x = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement";
+  const profile$y = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement";
   function parseZibMedicationAgreement(resource) {
     return {
-      ...resourceMeta(resource, profile$x, FhirVersion.R3),
+      ...resourceMeta(resource, profile$y, FhirVersion.R3),
       periodOfUse: extensionNictiz(resource, "zib-Medication-PeriodOfUse"),
       usageDuration: extensionNictiz(resource, "zib-MedicationUse-Duration"),
       medicationTreatment: extensionNictiz(resource, "zib-Medication-MedicationTreatment"),
@@ -48786,13 +48819,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibMedicationAgreement = {
-    profile: profile$x,
+    profile: profile$y,
     parse: parseZibMedicationAgreement,
-    uiSchema: uiSchema$x
+    uiSchema: uiSchema$y
   };
-  const uiSchema$w = (resource, context) => {
+  const uiSchema$x = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_allergy_intolerance";
+    const i18n = "r3.zib_allergy_intolerance";
     return {
       label: resource.identifier?.at(0)?.value,
       children: [
@@ -48812,10 +48845,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$w = "http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance";
+  const profile$x = "http://nictiz.nl/fhir/StructureDefinition/zib-AllergyIntolerance";
   function parseZibAllergyIntolerance(resource) {
     return {
-      ...resourceMeta(resource, profile$w, FhirVersion.R3),
+      ...resourceMeta(resource, profile$x, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       clinicalStatus: code$1(resource.clinicalStatus),
       verificationStatus: code$1(resource.verificationStatus),
@@ -48827,12 +48860,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibAllergyIntolerance = {
-    profile: profile$w,
+    profile: profile$x,
     parse: parseZibAllergyIntolerance,
-    uiSchema: uiSchema$w
+    uiSchema: uiSchema$x
   };
-  const uiSchema$v = (resource, context) => {
-    const i18n = "zib_medication_use";
+  const uiSchema$w = (resource, context) => {
+    const i18n = "r3.zib_medication_use";
     const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
     const hcimMedicationUse2 = {
       AsAgreedIndicator: ui.boolean(`${i18n}.as_agreed_indicator`, resource.asAgreedIndicator),
@@ -48889,10 +48922,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     });
   };
-  const profile$v = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse";
+  const profile$w = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse";
   function parseZibMedicationUse(resource) {
     return {
-      ...resourceMeta(resource, profile$v, FhirVersion.R3),
+      ...resourceMeta(resource, profile$w, FhirVersion.R3),
       asAgreedIndicator: extensionNictiz(resource, "zib-MedicationUse-AsAgreedIndicator"),
       prescriber: extensionNictiz(resource, "zib-MedicationUse-Prescriber"),
       author: extensionNictiz(resource, "zib-MedicationUse-Author"),
@@ -48924,13 +48957,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibMedicationUse = {
-    profile: profile$v,
+    profile: profile$w,
     parse: parseZibMedicationUse,
-    uiSchema: uiSchema$v
+    uiSchema: uiSchema$w
   };
-  const uiSchema$u = (resource, context) => {
+  const uiSchema$v = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_medical_device";
+    const i18n = "r3.zib_medical_device";
     return {
       label: resource.device?.display,
       children: [
@@ -48965,10 +48998,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$u = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDevice";
+  const profile$v = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDevice";
   function parseZibMedicalDevice(resource) {
     return {
-      ...resourceMeta(resource, profile$u, FhirVersion.R3),
+      ...resourceMeta(resource, profile$v, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       organization: extensionNictiz(resource, "zib-MedicalDevice-Organization"),
       practitioner: extensionNictiz(resource, "zib-MedicalDevice-Practitioner"),
@@ -48987,12 +49020,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibMedicalDevice = {
-    profile: profile$u,
+    profile: profile$v,
     parse: parseZibMedicalDevice,
-    uiSchema: uiSchema$u
+    uiSchema: uiSchema$v
   };
   const uiSchemaGroup$k = (resource, context) => {
-    const i18n = "zib_payer.grouping";
+    const i18n = "r3.zib_payer.grouping";
     const ui = context.ui;
     return {
       label: i18n,
@@ -49026,9 +49059,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseGrouping,
     uiSchemaGroup: uiSchemaGroup$k
   };
-  const uiSchema$t = (resource, context) => {
+  const uiSchema$u = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_payer";
+    const i18n = "r3.zib_payer";
     return {
       label: resource.identifier?.at(0)?.value,
       children: [
@@ -49056,10 +49089,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$t = "http://nictiz.nl/fhir/StructureDefinition/zib-Payer";
+  const profile$u = "http://nictiz.nl/fhir/StructureDefinition/zib-Payer";
   function parseZibPayer(resource) {
     return {
-      ...resourceMeta(resource, profile$t, FhirVersion.R3),
+      ...resourceMeta(resource, profile$u, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       status: code$1(resource.status),
       type: codeableConcept$1(resource.type),
@@ -49079,12 +49112,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibPayer = {
-    profile: profile$t,
+    profile: profile$u,
     parse: parseZibPayer,
-    uiSchema: uiSchema$t
+    uiSchema: uiSchema$u
   };
   const uiSchemaGroup$j = (resource, context) => {
-    const i18n = "evidence";
+    const i18n = "r3.evidence";
     const ui = context.ui;
     return {
       label: i18n,
@@ -49105,7 +49138,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$j
   };
   const uiSchemaGroup$i = (resource, context) => {
-    const i18n = "stage";
+    const i18n = "r3.stage";
     const ui = context.ui;
     return {
       label: i18n,
@@ -49125,9 +49158,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseStage,
     uiSchemaGroup: uiSchemaGroup$i
   };
-  const uiSchema$s = (resource, context) => {
+  const uiSchema$t = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_problem";
+    const i18n = "r3.zib_problem";
     const stage2 = uiSchemaGroup$i(resource.stage, context);
     const evidence2 = map(resource.evidence, (x) => uiSchemaGroup$j(x, context), true);
     return {
@@ -49162,10 +49195,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$s = "http://nictiz.nl/fhir/StructureDefinition/zib-Problem";
+  const profile$t = "http://nictiz.nl/fhir/StructureDefinition/zib-Problem";
   function parseZibProblem(resource) {
     return {
-      ...resourceMeta(resource, profile$s, FhirVersion.R3),
+      ...resourceMeta(resource, profile$t, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       clinicalStatus: code$1(resource.clinicalStatus),
       verificationStatus: code$1(resource.verificationStatus),
@@ -49185,13 +49218,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibProblem = {
-    profile: profile$s,
+    profile: profile$t,
     parse: parseZibProblem,
-    uiSchema: uiSchema$s
+    uiSchema: uiSchema$t
   };
-  const uiSchema$r = (resource, context) => {
+  const uiSchema$s = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_product";
+    const i18n = "r3.zib_product";
     const productPackage = zibProductPackage.uiSchemaGroup(resource.package, context);
     const ingredients = map(
       resource.ingredient,
@@ -49216,10 +49249,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$r = "http://nictiz.nl/fhir/StructureDefinition/zib-Product";
+  const profile$s = "http://nictiz.nl/fhir/StructureDefinition/zib-Product";
   function parseZibProduct(resource) {
     return {
-      ...resourceMeta(resource, profile$r, FhirVersion.R3),
+      ...resourceMeta(resource, profile$s, FhirVersion.R3),
       description: extensionNictiz(resource, "zib-Product-Description"),
       code: codeableConcept$1(resource.code),
       form: codeableConcept$1(resource.form),
@@ -49228,12 +49261,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibProduct = {
-    profile: profile$r,
+    profile: profile$s,
     parse: parseZibProduct,
-    uiSchema: uiSchema$r
+    uiSchema: uiSchema$s
   };
   const uiSchemaGroup$h = (resource, context) => {
-    const i18n = "zib_treatment_directive.actor";
+    const i18n = "r3.zib_treatment_directive.actor";
     const ui = context.ui;
     return {
       label: i18n,
@@ -49254,7 +49287,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$h
   };
   const uiSchemaGroup$g = (resource, context) => {
-    const i18n = "zib_treatment_directive.data";
+    const i18n = "r3.zib_treatment_directive.data";
     const ui = context.ui;
     return {
       label: i18n,
@@ -49275,7 +49308,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$g
   };
   const uiSchemaGroup$f = (resource, context) => {
-    const i18n = "zib_treatment_directive.except";
+    const i18n = "r3.zib_treatment_directive.except";
     const ui = context.ui;
     const actor2 = map(resource.actor, (x) => uiSchemaGroup$h(x, context));
     const data2 = map(resource.data, (x) => uiSchemaGroup$g(x, context));
@@ -49314,7 +49347,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$f
   };
   const uiSchemaGroup$e = (resource, context) => {
-    const i18n = "zib_treatment_directive.policy";
+    const i18n = "r3.zib_treatment_directive.policy";
     const ui = context.ui;
     return {
       label: i18n,
@@ -49336,9 +49369,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parsePolicy,
     uiSchemaGroup: uiSchemaGroup$e
   };
-  const uiSchema$q = (resource, context) => {
+  const uiSchema$r = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_treatment_directive";
+    const i18n = "r3.zib_treatment_directive";
     const actor2 = map(resource.actor, (x) => uiSchemaGroup$h(x, context), true);
     const data2 = map(resource.data, (x) => uiSchemaGroup$g(x, context), true);
     const except2 = map(resource.except, (x) => uiSchemaGroup$f(x, context), true);
@@ -49374,10 +49407,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$q = "http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective";
+  const profile$r = "http://nictiz.nl/fhir/StructureDefinition/zib-TreatmentDirective";
   function parseZibTreatmentDirective(resource) {
     return {
-      ...resourceMeta(resource, profile$q, FhirVersion.R3),
+      ...resourceMeta(resource, profile$r, FhirVersion.R3),
       identifier: identifier$1(resource.identifier),
       status: code$1(resource.status),
       category: map(resource.category, codeableConcept$1),
@@ -49401,13 +49434,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibTreatmentDirective = {
-    profile: profile$q,
+    profile: profile$r,
     parse: parseZibTreatmentDirective,
-    uiSchema: uiSchema$q
+    uiSchema: uiSchema$r
   };
-  const uiSchema$p = (resource, context) => {
+  const uiSchema$q = (resource, context) => {
     const ui = context.ui;
-    const i18n = "nl_core_observation";
+    const i18n = "r3.nl_core_observation";
     return {
       label: resource.identifier?.[0]?.value,
       children: [
@@ -49432,7 +49465,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$p = "http://fhir.nl/fhir/StructureDefinition/nl-core-observation";
+  const profile$q = "http://fhir.nl/fhir/StructureDefinition/nl-core-observation";
   function parseNlCoreObservationBase(resource) {
     return {
       identifier: map(resource.identifier, identifier$1),
@@ -49451,97 +49484,97 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   function parseNlCoreObservation(resource) {
     return {
-      ...resourceMeta(resource, profile$p, FhirVersion.R3),
+      ...resourceMeta(resource, profile$q, FhirVersion.R3),
       ...parseNlCoreObservationBase(resource)
     };
   }
   const nlCoreObservation = {
-    profile: profile$p,
+    profile: profile$q,
     parse: parseNlCoreObservation,
+    uiSchema: uiSchema$q
+  };
+  const uiSchema$p = (resource, context) => {
+    return nlCoreObservation.uiSchema(resource, context);
+  };
+  const profile$p = "http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation";
+  const parseZibLivingSituation = (resource) => {
+    return {
+      ...parseNlCoreObservationBase(resource),
+      ...resourceMeta(resource, profile$p, FhirVersion.R3)
+    };
+  };
+  const zibLivingSituation = {
+    profile: profile$p,
+    parse: parseZibLivingSituation,
     uiSchema: uiSchema$p
   };
   const uiSchema$o = (resource, context) => {
     return nlCoreObservation.uiSchema(resource, context);
   };
-  const profile$o = "http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation";
-  const parseZibLivingSituation = (resource) => {
+  const profile$o = "http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse";
+  function parseZibAlcoholUse(resource) {
+    const { effectiveDateTime: _, ...rest } = parseNlCoreObservationBase(resource);
     return {
-      ...parseNlCoreObservationBase(resource),
+      ...rest,
       ...resourceMeta(resource, profile$o, FhirVersion.R3)
     };
-  };
-  const zibLivingSituation = {
+  }
+  const zibAlcoholUse = {
     profile: profile$o,
-    parse: parseZibLivingSituation,
+    parse: parseZibAlcoholUse,
     uiSchema: uiSchema$o
   };
   const uiSchema$n = (resource, context) => {
     return nlCoreObservation.uiSchema(resource, context);
   };
-  const profile$n = "http://nictiz.nl/fhir/StructureDefinition/zib-AlcoholUse";
-  function parseZibAlcoholUse(resource) {
+  const profile$n = "http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse";
+  function parseZibDrugUse(resource) {
     const { effectiveDateTime: _, ...rest } = parseNlCoreObservationBase(resource);
     return {
       ...rest,
       ...resourceMeta(resource, profile$n, FhirVersion.R3)
     };
   }
-  const zibAlcoholUse = {
+  const zibDrugUse = {
     profile: profile$n,
-    parse: parseZibAlcoholUse,
+    parse: parseZibDrugUse,
     uiSchema: uiSchema$n
   };
   const uiSchema$m = (resource, context) => {
     return nlCoreObservation.uiSchema(resource, context);
   };
-  const profile$m = "http://nictiz.nl/fhir/StructureDefinition/zib-DrugUse";
-  function parseZibDrugUse(resource) {
+  const profile$m = "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus";
+  function parseZibFunctionalOrMentalStatus(resource) {
     const { effectiveDateTime: _, ...rest } = parseNlCoreObservationBase(resource);
     return {
       ...rest,
       ...resourceMeta(resource, profile$m, FhirVersion.R3)
     };
   }
-  const zibDrugUse = {
+  const zibFunctionalOrMentalStatus = {
     profile: profile$m,
-    parse: parseZibDrugUse,
+    parse: parseZibFunctionalOrMentalStatus,
     uiSchema: uiSchema$m
   };
   const uiSchema$l = (resource, context) => {
     return nlCoreObservation.uiSchema(resource, context);
   };
-  const profile$l = "http://nictiz.nl/fhir/StructureDefinition/zib-FunctionalOrMentalStatus";
-  function parseZibFunctionalOrMentalStatus(resource) {
+  const profile$l = "http://nictiz.nl/fhir/StructureDefinition/zib-TobaccoUse";
+  function parseZibTobaccoUse(resource) {
     const { effectiveDateTime: _, ...rest } = parseNlCoreObservationBase(resource);
     return {
       ...rest,
       ...resourceMeta(resource, profile$l, FhirVersion.R3)
     };
   }
-  const zibFunctionalOrMentalStatus = {
+  const zibTobaccoUse = {
     profile: profile$l,
-    parse: parseZibFunctionalOrMentalStatus,
+    parse: parseZibTobaccoUse,
     uiSchema: uiSchema$l
   };
   const uiSchema$k = (resource, context) => {
-    return nlCoreObservation.uiSchema(resource, context);
-  };
-  const profile$k = "http://nictiz.nl/fhir/StructureDefinition/zib-TobaccoUse";
-  function parseZibTobaccoUse(resource) {
-    const { effectiveDateTime: _, ...rest } = parseNlCoreObservationBase(resource);
-    return {
-      ...rest,
-      ...resourceMeta(resource, profile$k, FhirVersion.R3)
-    };
-  }
-  const zibTobaccoUse = {
-    profile: profile$k,
-    parse: parseZibTobaccoUse,
-    uiSchema: uiSchema$k
-  };
-  const uiSchema$j = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_nutrition_advice";
+    const i18n = "r3.zib_nutrition_advice";
     return {
       label: resource.identifier?.at(0)?.value,
       children: [
@@ -49562,10 +49595,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$j = "http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice";
+  const profile$k = "http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice";
   function parseZibNutritionAdvice(resource) {
     return {
-      ...resourceMeta(resource, profile$j, FhirVersion.R3),
+      ...resourceMeta(resource, profile$k, FhirVersion.R3),
       comment: extensionNictiz(resource, "zib-NutritionAdvice-Explanation"),
       identifier: map(resource.identifier, identifier$1),
       status: code$1(resource.status),
@@ -49575,13 +49608,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibNutritionAdvice = {
-    profile: profile$j,
+    profile: profile$k,
     parse: parseZibNutritionAdvice,
-    uiSchema: uiSchema$j
+    uiSchema: uiSchema$k
   };
-  const uiSchema$i = (resource, context) => {
+  const uiSchema$j = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_medical_device_product";
+    const i18n = "r3.zib_medical_device_product";
     return {
       label: resource.id,
       children: [
@@ -49596,28 +49629,28 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$i = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceProduct";
+  const profile$j = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceProduct";
   function parseZibMedicalDeviceProduct(resource) {
     return {
-      ...resourceMeta(resource, profile$i, FhirVersion.R3),
+      ...resourceMeta(resource, profile$j, FhirVersion.R3),
       note: map(resource.note, annotation$1),
       patient: reference$1(resource.patient),
       expirationDate: dateTime$3(resource.expirationDate)
     };
   }
   const zibMedicalDeviceProduct = {
-    profile: profile$i,
+    profile: profile$j,
     parse: parseZibMedicalDeviceProduct,
-    uiSchema: uiSchema$i
+    uiSchema: uiSchema$j
   };
   const uiSchemaGroup$d = (resource, context) => {
     const ui = context.ui;
     return {
-      label: "Immunization.practitioner.actor",
-      children: [ui.reference(`Immunization.practitioner.actor`, resource.actor)]
+      label: "r3.immunization.practitioner.actor",
+      children: [ui.reference(`r3.immunization.practitioner.actor`, resource.actor)]
     };
   };
-  const uiSchema$h = (resource, context) => {
+  const uiSchema$i = (resource, context) => {
     const ui = context.ui;
     const practitioners = map(resource.practitioner, (x) => uiSchemaGroup$d(x, context), true);
     return {
@@ -49645,10 +49678,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseActor,
     uiSchemaGroup: uiSchemaGroup$d
   };
-  const profile$h = "http://nictiz.nl/fhir/StructureDefinition/zib-Vaccination";
+  const profile$i = "http://nictiz.nl/fhir/StructureDefinition/zib-Vaccination";
   function parseZibVaccination(resource) {
     return {
-      ...resourceMeta(resource, profile$h, FhirVersion.R3),
+      ...resourceMeta(resource, profile$i, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       patient: reference$1(resource.patient),
       vaccineCode: codeableConcept$1(resource.vaccineCode),
@@ -49659,9 +49692,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibVaccination = {
-    profile: profile$h,
+    profile: profile$i,
     parse: parseZibVaccination,
-    uiSchema: uiSchema$h
+    uiSchema: uiSchema$i
   };
   const uiSchemaGroup$c = (resource, context) => {
     const ui = context.ui;
@@ -49704,9 +49737,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseHospitalization,
     uiSchemaGroup: uiSchemaGroup$b
   };
-  const uiSchema$g = (resource, context) => {
+  const uiSchema$h = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "Encounter";
+    const profile2 = "r3.Encounter";
     const diagnosis2 = map(resource.diagnosis, (x) => uiSchemaGroup$c(x, context), true);
     const participants = map(
       resource.participant,
@@ -49733,10 +49766,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$g = "http://nictiz.nl/fhir/StructureDefinition/zib-Encounter";
+  const profile$h = "http://nictiz.nl/fhir/StructureDefinition/zib-Encounter";
   function parseZibEncounter(resource) {
     return {
-      ...resourceMeta(resource, profile$g, FhirVersion.R3),
+      ...resourceMeta(resource, profile$h, FhirVersion.R3),
       class: coding$1(resource.class),
       participant: map(resource.participant, encounterParticipant.parse),
       serviceProvider: reference$1(resource.serviceProvider),
@@ -49747,13 +49780,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibEncounter = {
-    profile: profile$g,
+    profile: profile$h,
     parse: parseZibEncounter,
-    uiSchema: uiSchema$g
+    uiSchema: uiSchema$h
   };
-  const uiSchema$f = (resource, context) => {
+  const uiSchema$g = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "zib_blood_pressure";
+    const profile2 = "r3.zib_blood_pressure";
     return {
       label: resource.effectiveDateTime,
       children: [
@@ -49799,7 +49832,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$f = "http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure";
+  const profile$g = "http://nictiz.nl/fhir/StructureDefinition/zib-BloodPressure";
   function parseZibBloodPressure(resource) {
     const cuffTypeLOINC = findComponentByCode(resource.component, "8358-4");
     const cuffTypeSNOMED = findComponentByCode(resource.component, "70665002");
@@ -49812,7 +49845,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const positionLOINC = findComponentByCode(resource.component, "8361-8");
     return {
       ...parseNlCoreObservationBase(resource),
-      ...resourceMeta(resource, profile$f, FhirVersion.R3),
+      ...resourceMeta(resource, profile$g, FhirVersion.R3),
       cuffTypeLOINC: {
         valueCodeableConcept: codeableConcept$1(cuffTypeLOINC?.valueCodeableConcept)
       },
@@ -49843,13 +49876,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibBloodPressure = {
-    profile: profile$f,
+    profile: profile$g,
     parse: parseZibBloodPressure,
-    uiSchema: uiSchema$f
+    uiSchema: uiSchema$g
   };
-  const uiSchema$e = (resource, context) => {
+  const uiSchema$f = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "zib_body_weight";
+    const profile2 = "r3.zib_body_weight";
     return {
       label: resource.effectiveDateTime,
       children: [
@@ -49868,25 +49901,25 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$e = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight";
+  const profile$f = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyWeight";
   function parseZibBodyWeight(resource) {
     const clothing = findComponentByCode(resource.component, "8352-7");
     return {
       ...parseNlCoreObservationBase(resource),
-      ...resourceMeta(resource, profile$e, FhirVersion.R3),
+      ...resourceMeta(resource, profile$f, FhirVersion.R3),
       clothing: {
         valueCodeableConcept: codeableConcept$1(clothing?.valueCodeableConcept)
       }
     };
   }
   const zibBodyWeight = {
-    profile: profile$e,
+    profile: profile$f,
     parse: parseZibBodyWeight,
-    uiSchema: uiSchema$e
+    uiSchema: uiSchema$f
   };
-  const uiSchema$d = (resource, context) => {
+  const uiSchema$e = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "zib_body_height";
+    const profile2 = "r3.zib_body_height";
     return {
       label: resource.effectiveDateTime,
       children: [
@@ -49901,23 +49934,23 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$d = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight";
+  const profile$e = "http://nictiz.nl/fhir/StructureDefinition/zib-BodyHeight";
   function parseZibBodyHeight(resource) {
     return {
       ...parseNlCoreObservationBase(resource),
-      ...resourceMeta(resource, profile$d, FhirVersion.R3)
+      ...resourceMeta(resource, profile$e, FhirVersion.R3)
     };
   }
   const zibBodyHeight = {
-    profile: profile$d,
+    profile: profile$e,
     parse: parseZibBodyHeight,
-    uiSchema: uiSchema$d
+    uiSchema: uiSchema$e
   };
   const uiSchemaGroup$a = (resource, context) => {
     const ui = context.ui;
     return {
       label: "zib_procedure.focal_device",
-      children: [ui.reference(`zib_procedure.focal_device.manipulated`, resource.manipulated)]
+      children: [ui.reference(`r3.zib_procedure.focal_device.manipulated`, resource.manipulated)]
     };
   };
   function parseFocalDevice(value2) {
@@ -49933,7 +49966,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const ui = context.ui;
     return {
       label: "zib_procedure.performer",
-      children: [ui.reference(`zib_procedure.performer`, resource.actor)]
+      children: [ui.reference(`r3.zib_procedure.performer`, resource.actor)]
     };
   };
   function parsePerformer(value2) {
@@ -49945,9 +49978,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parsePerformer,
     uiSchemaGroup: uiSchemaGroup$9
   };
-  const uiSchema$c = (resource, context) => {
+  const uiSchema$d = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "zib_procedure";
+    const profile2 = "r3.zib_procedure";
     const focalDevices = map(resource.focalDevice, (x) => uiSchemaGroup$a(x, context), true);
     const performers = map(resource.performer, (x) => uiSchemaGroup$9(x, context), true);
     return {
@@ -49974,10 +50007,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$c = "http://nictiz.nl/fhir/StructureDefinition/zib-Procedure";
+  const profile$d = "http://nictiz.nl/fhir/StructureDefinition/zib-Procedure";
   function parseZibProcedure(resource) {
     return {
-      ...resourceMeta(resource, profile$c, FhirVersion.R3),
+      ...resourceMeta(resource, profile$d, FhirVersion.R3),
       performedPeriod: period$1(resource.performedPeriod),
       bodySite: map(resource.bodySite, codeableConcept$1),
       bodySiteQualifier: resource.bodySite?.map((x) => extensionNictiz(x, "BodySite-Qualifier")).filter(isNonNullish),
@@ -49996,13 +50029,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibProcedure = {
-    profile: profile$c,
+    profile: profile$d,
     parse: parseZibProcedure,
-    uiSchema: uiSchema$c
+    uiSchema: uiSchema$d
   };
   const uiSchemaGroup$8 = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_laboratory_test_result_specimen.container";
+    const i18n = "r3.zib_laboratory_test_result_specimen.container";
     return {
       label: `${i18n}`,
       children: [
@@ -50011,9 +50044,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const uiSchema$b = (resource, context) => {
+  const uiSchema$c = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "zib_laboratory_test_result_specimen";
+    const profile2 = "r3.zib_laboratory_test_result_specimen";
     const container2 = map(resource.container, (x) => uiSchemaGroup$8(x, context), true);
     return {
       label: resource.type?.coding?.[0]?.display ?? `${profile2}`,
@@ -50054,11 +50087,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseContainer$1,
     uiSchemaGroup: uiSchemaGroup$8
   };
-  const profile$b = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen";
+  const profile$c = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen";
   function parseZibLaboratoryTestResultSpecimen(resource) {
     const collection = resource.collection;
     return {
-      ...resourceMeta(resource, profile$b, FhirVersion.R3),
+      ...resourceMeta(resource, profile$c, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       // NL-CM:13.1.15
       subject: reference$1(resource.subject),
@@ -50090,13 +50123,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibLaboratoryTestResultSpecimen = {
-    profile: profile$b,
+    profile: profile$c,
     parse: parseZibLaboratoryTestResultSpecimen,
-    uiSchema: uiSchema$b
+    uiSchema: uiSchema$c
   };
   const uiSchemaGroup$7 = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_laboratory_test_result_specimen_isolate.container";
+    const i18n = "r3.zib_laboratory_test_result_specimen_isolate.container";
     return {
       label: `${i18n}`,
       children: [
@@ -50105,9 +50138,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const uiSchema$a = (resource, context) => {
+  const uiSchema$b = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "zib_laboratory_test_result_specimen_isolate";
+    const profile2 = "r3.zib_laboratory_test_result_specimen_isolate";
     const container2 = map(resource.container, (x) => uiSchemaGroup$7(x, context), true);
     return {
       label: resource.type?.coding?.[0]?.display ?? `${profile2}`,
@@ -50148,11 +50181,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseContainer,
     uiSchemaGroup: uiSchemaGroup$7
   };
-  const profile$a = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen-Isolate";
+  const profile$b = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Specimen-Isolate";
   function parseZibLaboratoryTestResultSpecimenIsolate(resource) {
     const collection = resource.collection;
     return {
-      ...resourceMeta(resource, profile$a, FhirVersion.R3),
+      ...resourceMeta(resource, profile$b, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       // NL-CM:13.1.15
       subject: reference$1(resource.subject),
@@ -50184,13 +50217,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibLaboratoryTestResultSpecimenIsolate = {
-    profile: profile$a,
+    profile: profile$b,
     parse: parseZibLaboratoryTestResultSpecimenIsolate,
-    uiSchema: uiSchema$a
+    uiSchema: uiSchema$b
   };
-  const uiSchema$9 = (resource, context) => {
+  const uiSchema$a = (resource, context) => {
     const ui = context.ui;
-    const i18n = "zib_laboratory_test_result_substance";
+    const i18n = "r3.zib_laboratory_test_result_substance";
     return {
       label: `${i18n}`,
       children: [
@@ -50201,10 +50234,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$9 = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Substance";
+  const profile$a = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Substance";
   function parseZibLaboratoryTestResultSubstance(resource) {
     return {
-      ...resourceMeta(resource, profile$9, FhirVersion.R3),
+      ...resourceMeta(resource, profile$a, FhirVersion.R3),
       identifier: map(resource.identifier, identifier$1),
       status: string$1(resource?.status),
       category: map(resource.category, codeableConcept$1),
@@ -50214,13 +50247,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibLaboratoryTestResultSubstance = {
-    profile: profile$9,
+    profile: profile$a,
     parse: parseZibLaboratoryTestResultSubstance,
-    uiSchema: uiSchema$9
+    uiSchema: uiSchema$a
   };
-  const uiSchema$8 = (resource, context) => {
+  const uiSchema$9 = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "zib_advance_directive";
+    const profile2 = "r3.zib_advance_directive";
     const attachment2 = uiSchemaGroup$o(resource.source.attachment, context);
     return {
       label: resource.dateTime,
@@ -50239,10 +50272,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$8 = "http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective";
+  const profile$9 = "http://nictiz.nl/fhir/StructureDefinition/zib-AdvanceDirective";
   function parseZibAdvanceDirective(resource) {
     return {
-      ...resourceMeta(resource, profile$8, FhirVersion.R3),
+      ...resourceMeta(resource, profile$9, FhirVersion.R3),
       category: map(resource.category, codeableConcept$1),
       dateTime: dateTime$3(resource.dateTime),
       disorder: extensionNictiz(resource, "zib-AdvanceDirective-Disorder"),
@@ -50256,13 +50289,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibAdvanceDirective = {
-    profile: profile$8,
+    profile: profile$9,
     parse: parseZibAdvanceDirective,
-    uiSchema: uiSchema$8
+    uiSchema: uiSchema$9
   };
-  const uiSchema$7 = (resource, context) => {
+  const uiSchema$8 = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "zib_procedure_request";
+    const profile2 = "r3.zib_procedure_request";
     return {
       label: resource.code?.coding?.at(0)?.display,
       children: [
@@ -50278,10 +50311,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$7 = "http://nictiz.nl/fhir/StructureDefinition/zib-ProcedureRequest";
+  const profile$8 = "http://nictiz.nl/fhir/StructureDefinition/zib-ProcedureRequest";
   function parseZibProcedureRequest(resource) {
     return {
-      ...resourceMeta(resource, profile$7, FhirVersion.R3),
+      ...resourceMeta(resource, profile$8, FhirVersion.R3),
       status: string$1(resource.status),
       occurrence: period$1(resource.occurrencePeriod),
       code: codeableConcept$1(resource.code),
@@ -50292,13 +50325,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibProcedureRequest = {
-    profile: profile$7,
+    profile: profile$8,
     parse: parseZibProcedureRequest,
-    uiSchema: uiSchema$7
+    uiSchema: uiSchema$8
   };
-  const uiSchema$6 = (resource, context) => {
+  const uiSchema$7 = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "zib_medical_device_request";
+    const profile2 = "r3.zib_medical_device_request";
     return {
       label: resource.occurrence?.start,
       children: [
@@ -50314,10 +50347,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$6 = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceRequest";
+  const profile$7 = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicalDeviceRequest";
   function parseZibMedicalDeviceRequest(resource) {
     return {
-      ...resourceMeta(resource, profile$6, FhirVersion.R3),
+      ...resourceMeta(resource, profile$7, FhirVersion.R3),
       status: string$1(resource.status),
       occurrence: period$1(resource.occurrencePeriod),
       ...oneOfValueX$1(resource, ["reference", "codeableConcept"], "code"),
@@ -50327,9 +50360,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const zibMedicalDeviceRequest = {
-    profile: profile$6,
+    profile: profile$7,
     parse: parseZibMedicalDeviceRequest,
-    uiSchema: uiSchema$6
+    uiSchema: uiSchema$7
   };
   const uiSchemaGroup$6 = (resource, context) => {
     const profile2 = "zib_vaccination_recommendation.recommendation";
@@ -50354,9 +50387,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseRecommendation,
     uiSchemaGroup: uiSchemaGroup$6
   };
-  const uiSchema$5 = (resource, context) => {
+  const uiSchema$6 = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "zib_vaccination_recommendation";
+    const profile2 = "r3.zib_vaccination_recommendation";
     const recommendation2 = map(
       resource.recommendation,
       (x) => uiSchemaGroup$6(x, context),
@@ -50375,22 +50408,22 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$5 = "http://nictiz.nl/fhir/StructureDefinition/zib-VaccinationRecommendation";
+  const profile$6 = "http://nictiz.nl/fhir/StructureDefinition/zib-VaccinationRecommendation";
   function parseZibVaccinationRecommendation(resource) {
     return {
-      ...resourceMeta(resource, profile$5, FhirVersion.R3),
+      ...resourceMeta(resource, profile$6, FhirVersion.R3),
       orderStatus: extensionNictiz(resource, "zib-VaccinationRecommendation-OrderStatus"),
       recommendation: map(resource.recommendation, recommendation.parse)
     };
   }
   const zibVaccinationRecommendation = {
-    profile: profile$5,
+    profile: profile$6,
     parse: parseZibVaccinationRecommendation,
-    uiSchema: uiSchema$5
+    uiSchema: uiSchema$6
   };
-  const uiSchema$4 = (resource, context) => {
+  const uiSchema$5 = (resource, context) => {
     const ui = context.ui;
-    const profile2 = "e_afspraak_appointment";
+    const profile2 = "r3.e_afspraak_appointment";
     return {
       label: resource.description,
       children: [
@@ -50411,10 +50444,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$4 = "http://nictiz.nl/fhir/StructureDefinition/eAfspraak-Appointment";
+  const profile$5 = "http://nictiz.nl/fhir/StructureDefinition/eAfspraak-Appointment";
   function parseEAfspraakAppointment(resource) {
     return {
-      ...resourceMeta(resource, profile$4, FhirVersion.R3),
+      ...resourceMeta(resource, profile$5, FhirVersion.R3),
       status: string$1(resource.status),
       specialty: map(resource.specialty, codeableConcept$1),
       description: string$1(resource.description),
@@ -50424,18 +50457,18 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const eAfspraakAppointment = {
-    profile: profile$4,
+    profile: profile$5,
     parse: parseEAfspraakAppointment,
-    uiSchema: uiSchema$4
+    uiSchema: uiSchema$5
   };
   function parseContent(value2) {
     return {
       attachment: value2?.attachment ? attachment.parse(value2.attachment) : void 0
     };
   }
-  const uiSchema$3 = (resource, context) => {
+  const uiSchema$4 = (resource, context) => {
     const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
-    const i18n = "ihe_mhd_minimal_document_reference";
+    const i18n = "r3.ihe_mhd_minimal_document_reference";
     const generalInformation = {
       MasterIdentifier: ui.identifier(`${i18n}.master_identifier`, resource.masterIdentifier),
       Status: ui.code(`${i18n}.status`, resource.status),
@@ -50503,10 +50536,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     });
   };
-  const profile$3 = "http://nictiz.nl/fhir/StructureDefinition/IHE.MHD.Minimal.DocumentReference";
+  const profile$4 = "http://nictiz.nl/fhir/StructureDefinition/IHE.MHD.Minimal.DocumentReference";
   function parseIheMhdMinimalDocumentReference(resource) {
     return {
-      ...resourceMeta(resource, profile$3, FhirVersion.R3),
+      ...resourceMeta(resource, profile$4, FhirVersion.R3),
       masterIdentifier: identifier$1(resource.masterIdentifier),
       status: code$1(resource.status),
       type: codeableConcept$1(resource.type),
@@ -50519,9 +50552,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const iheMhdMinimalDocumentReference = {
-    profile: profile$3,
+    profile: profile$4,
     parse: parseIheMhdMinimalDocumentReference,
-    uiSchema: uiSchema$3
+    uiSchema: uiSchema$4
   };
   const resourcesR3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     __proto__: null,
@@ -50716,10 +50749,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$4
   };
   const uiSchemaGroup$3 = (resource, context) => {
-    const i18n = "nl_core_contact_information_email_addresses";
-    const ui = context.ui;
+    const i18n = "r4.nl_core_contact_information_email_addresses";
+    const { ui, formatMessage: formatMessage2 } = context;
     return {
-      label: i18n,
+      label: formatMessage2(i18n),
       children: [
         ui.string(`${i18n}.value`, resource?.value),
         ui.string(`${i18n}.use`, resource?.use)
@@ -50739,15 +50772,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$3
   };
   const uiSchemaGroup$2 = (resource, context) => {
-    const i18n = "nl_core_contact_information_telephone_numbers";
-    const ui = context.ui;
+    const i18n = "r4.nl_core_contact_information_telephone_numbers";
+    const { ui, formatMessage: formatMessage2 } = context;
     return {
-      label: i18n,
+      label: formatMessage2(i18n),
       children: [
         ui.string(`${i18n}.value`, resource?.value),
         ui.string(`${i18n}.use`, resource?.use),
         ui.string(`${i18n}.comment`, resource?.comment),
-        ui.codeableConcept(`${i18n}.telecomType`, resource?.telecomType)
+        ui.codeableConcept(`${i18n}.telecom_type`, resource?.telecomType)
       ]
     };
   };
@@ -50775,8 +50808,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseNlCoreContactInformationTelephoneNumbers,
     uiSchemaGroup: uiSchemaGroup$2
   };
-  const uiSchema$2 = (resource, context) => {
-    const i18n = "nl_core_patient";
+  const uiSchema$3 = (resource, context) => {
+    const i18n = "r4.nl_core_patient";
     const ui = context.ui;
     const name = map(resource.name, (x) => nlCoreNameInformation.uiSchemaGroup(x, context), true);
     const addresses = map(
@@ -50806,10 +50839,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$2 = "http://nictiz.nl/fhir/StructureDefinition/nl-core-Patient";
+  const profile$3 = "http://nictiz.nl/fhir/StructureDefinition/nl-core-Patient";
   function parseNlCorePatient(resource) {
     return {
-      ...resourceMeta(resource, profile$2, FhirVersion.R4),
+      ...resourceMeta(resource, profile$3, FhirVersion.R4),
       name: map(resource.name, nlCoreNameInformation.parse),
       identifier: map(resource.identifier, identifier$1),
       // NL-CM:0.1.7
@@ -50829,9 +50862,57 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       maritalStatus: codeableConcept$1(resource.maritalStatus)
     };
   }
-  const nlCorePatientR4 = {
-    profile: profile$2,
+  const r4NlCorePatient = {
+    profile: profile$3,
     parse: parseNlCorePatient,
+    uiSchema: uiSchema$3
+  };
+  const uiSchema$2 = (resource, context) => {
+    const profile2 = "r4.nl_core_health_professional_practitioner_role";
+    const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
+    const zibHealthProfessional = {
+      Organization: ui.reference(`${profile2}.organization`, resource.organization),
+      Speciality: ui.codeableConcept(`${profile2}.speciality`, resource.speciality)
+    };
+    const zibContactInformation = {
+      TelephoneNumbers: map(
+        resource.telephoneNumbers,
+        (x) => nlCoreContactInformationTelephoneNumbers.uiSchemaGroup(x, context),
+        true
+      ).flat(),
+      EmailAddresses: map(
+        resource.emailAddresses,
+        (x) => nlCoreContactInformationEmailAddresses.uiSchemaGroup(x, context),
+        true
+      ).flat()
+    };
+    return setEmptyEntries2({
+      label: resource.speciality?.at(0)?.coding.at(0)?.display ?? formatMessage2(`${profile2}`),
+      children: [
+        {
+          label: formatMessage2(`${profile2}`),
+          children: [zibHealthProfessional.Organization, zibHealthProfessional.Speciality]
+        },
+        ...zibContactInformation.EmailAddresses,
+        ...zibContactInformation.TelephoneNumbers
+      ]
+    });
+  };
+  const profile$2 = "http://nictiz.nl/fhir/StructureDefinition/nl-core-HealthProfessional-PractitionerRole";
+  function parseNlCoreHealthProfessionalPractitionerRole(resource) {
+    return {
+      ...resourceMeta(resource, profile$2, FhirVersion.R3),
+      practitioner: reference$1(resource.practitioner),
+      organization: reference$1(resource.organization),
+      location: map(resource.location, reference$1),
+      speciality: map(resource.specialty, codeableConcept$1),
+      telephoneNumbers: map(resource.telecom, nlCoreContactInformationTelephoneNumbers.parse),
+      emailAddresses: map(resource.telecom, nlCoreContactInformationEmailAddresses.parse)
+    };
+  }
+  const nlCoreHealthProfessionalPractitionerRole = {
+    profile: profile$2,
+    parse: parseNlCoreHealthProfessionalPractitionerRole,
     uiSchema: uiSchema$2
   };
   const uiSchemaGroup$1 = (resource, context) => {
@@ -50848,7 +50929,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   };
   const uiSchema$1 = (resource, context) => {
-    const profile2 = "nl_core_health_professional_practitioner";
+    const profile2 = "r4.nl_core_health_professional_practitioner";
     const ui = context.ui;
     const address = map(
       resource.address,
@@ -50924,7 +51005,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       communication: map(resource.communication, codeableConcept$1)
     };
   }
-  const nlCoreHealthProfessionalPractitioner = {
+  const r4NlCoreHealthProfessionalPractitioner = {
     profile: profile$1,
     parse: parseNlCoreHealthProfessionalPractitioner,
     uiSchema: uiSchema$1
@@ -50936,9 +51017,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       label: formatMessage2(profile2),
       children: [
         ui.reference(`${profile2}.authority`, resource.authority),
-        ui.codeableConcept(`${profile2}.targetDisease`, resource.targetDisease),
-        ...ui.oneOfValueX(`${profile2}.doseNumber`, resource, "doseNumber"),
-        ...ui.oneOfValueX(`${profile2}.seriesDoses`, resource, "seriesDoses")
+        ui.codeableConcept(`${profile2}.target_disease`, resource.targetDisease),
+        ...ui.oneOfValueX(`${profile2}.dose_number`, resource, "doseNumber"),
+        ...ui.oneOfValueX(`${profile2}.series_doses`, resource, "seriesDoses")
       ]
     };
   };
@@ -51044,11 +51125,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseNlCoreVaccinationEvent(resource) {
     const vaccinationIndication = filterCodeableConceptByCoding(
       resource.reasonCode,
-      (x) => x.code && x.code in VaccinationIndication
+      (x) => x.code && Object.values(VaccinationIndication).includes(x.code)
     );
     const vaccinationMotive = filterCodeableConceptByCoding(
       resource.reasonCode,
-      (x) => x.code && x.code in VaccinationMotive
+      (x) => x.code && Object.values(VaccinationMotive).includes(x.code)
     );
     return {
       ...resourceMeta(resource, profile, FhirVersion.R4),
@@ -51085,16 +51166,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       protocolApplied: map(resource.protocolApplied, parseProtocolApplied)
     };
   }
-  const nlCoreVaccinationEvent = {
+  const r4NlCoreVaccinationEvent = {
     profile,
     parse: parseNlCoreVaccinationEvent,
     uiSchema
   };
   const resourcesR4 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     __proto__: null,
-    nlCoreHealthProfessionalPractitioner,
-    nlCorePatientR4,
-    nlCoreVaccinationEvent
+    nlCoreHealthProfessionalPractitionerRole,
+    r4NlCoreHealthProfessionalPractitioner,
+    r4NlCorePatient,
+    r4NlCoreVaccinationEvent
   }, Symbol.toStringTag, { value: "Module" }));
   const resourcesMapR3 = Object.fromEntries(
     Object.entries(resourcesR3).map(([_name, config2]) => [config2.profile, config2])
@@ -55143,102 +55225,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         value: "system"
       }
     ],
-    "ihe_mhd_minimal_document_reference.author": [
-      {
-        type: 0,
-        value: "Auteur"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.class": [
-      {
-        type: 0,
-        value: "Categorie"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.content": [
-      {
-        type: 0,
-        value: "Inhoud"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.content.attachment.content_type": [
-      {
-        type: 0,
-        value: "Inhoudstype"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.content.attachment.creation": [
-      {
-        type: 0,
-        value: "Gecreëerd"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.content.attachment.language": [
-      {
-        type: 0,
-        value: "Taal"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.content.attachment.title": [
-      {
-        type: 0,
-        value: "Titel"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.content.attachment.url": [
-      {
-        type: 0,
-        value: "Url"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.group_attachment": [
-      {
-        type: 0,
-        value: "Inhoud"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.group_author": [
-      {
-        type: 0,
-        value: "Opgesteld door"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.indexed": [
-      {
-        type: 0,
-        value: "Gecreëerd"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.master_identifier": [
-      {
-        type: 0,
-        value: "Identifier"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.security_label": [
-      {
-        type: 0,
-        value: "Beveiligingslabel"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.status": [
-      {
-        type: 0,
-        value: "Status"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.subject": [
-      {
-        type: 0,
-        value: "Onderwerp"
-      }
-    ],
-    "ihe_mhd_minimal_document_reference.type": [
-      {
-        type: 0,
-        value: "Type"
-      }
-    ],
     "schema.empty_entry_display": [
       {
         type: 0,
@@ -55250,5130 +55236,10335 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         type: 0,
         value: "G-Standaard Toedieningswegen (tabel 7)"
       }
-    ],
-    "zib_medication_use.repeat_period_cyclical_schedule": [
-      {
-        type: 0,
-        value: "Herhaalperiode cyclisch schema"
-      }
     ]
   };
-  const gp_encounter_report = [
-    {
-      type: 0,
-      value: "Deelcontactverslag"
-    }
-  ];
-  const nl_core_address = [
-    {
-      type: 0,
-      value: "Adres informatie"
-    }
-  ];
-  const nl_core_contactpoint = [
-    {
-      type: 0,
-      value: "Contactgegevens"
-    }
-  ];
-  const nl_core_organization = [
-    {
-      type: 0,
-      value: "Zorgaanbieder"
-    }
-  ];
-  const nl_core_patient = [
-    {
-      type: 0,
-      value: "Patiënt"
-    }
-  ];
-  const nl_core_practitioner = [
-    {
-      type: 0,
-      value: "Zorgverlener"
-    }
-  ];
-  const zib_ability_to_dress_oneself = [
-    {
-      type: 0,
-      value: "Vermogen tot zich kleden"
-    }
-  ];
-  const zib_ability_to_drink = [
-    {
-      type: 0,
-      value: "Vermogen tot drinken"
-    }
-  ];
-  const zib_ability_to_eat = [
-    {
-      type: 0,
-      value: "Vermogen tot eten"
-    }
-  ];
-  const zib_ability_to_groome = [
-    {
-      type: 0,
-      value: "Vermogen tot uiterlijke verzorging"
-    }
-  ];
-  const zib_ability_to_manage_medication = [
-    {
-      type: 0,
-      value: "Ability to manage medication"
-    }
-  ];
-  const zib_ability_to_perform_mouthcare_activities = [
-    {
-      type: 0,
-      value: "Vermogen tot mondverzorging"
-    }
-  ];
-  const zib_ability_to_perform_mouthcare_activities_medical_device = [
-    {
-      type: 0,
-      value: "Prothese"
-    }
-  ];
-  const zib_ability_to_perform_nursing_activities = [
-    {
-      type: 0,
-      value: "Vermogen tot verpleegtechnische handelingen"
-    }
-  ];
-  const zib_ability_to_use_toilet = [
-    {
-      type: 0,
-      value: "Vermogen tot toiletgang"
-    }
-  ];
-  const zib_ability_to_wash_one_self = [
-    {
-      type: 0,
-      value: "Vermogen tot zich wassen"
-    }
-  ];
-  const zib_administration_agreement = [
-    {
-      type: 0,
-      value: "Toedieningsafspraak"
-    }
-  ];
-  const zib_administration_schedule = [
-    {
-      type: 0,
-      value: "Toedieningsschema"
-    }
-  ];
-  const zib_advance_directive = [
-    {
-      type: 0,
-      value: "Wilsverklaring"
-    }
-  ];
-  const zib_alcohol_use = [
-    {
-      type: 0,
-      value: "Alcohol gebruik"
-    }
-  ];
-  const zib_allergy_intolerance = [
-    {
-      type: 0,
-      value: "Allergie intolerantie"
-    }
-  ];
-  const zib_bladder_function = [
-    {
-      type: 0,
-      value: "Blaasfunctie"
-    }
-  ];
-  const zib_blood_pressure = [
-    {
-      type: 0,
-      value: "Bloeddruk"
-    }
-  ];
-  const zib_body_height = [
-    {
-      type: 0,
-      value: "Lichaamslengte"
-    }
-  ];
-  const zib_body_temperature = [
-    {
-      type: 0,
-      value: "Lichaamstemperatuur"
-    }
-  ];
-  const zib_body_weight = [
-    {
-      type: 0,
-      value: "Lichaamsgewicht"
-    }
-  ];
-  const zib_bowel_function = [
-    {
-      type: 0,
-      value: "Darmfunctie"
-    }
-  ];
-  const zib_burn_wound = [
-    {
-      type: 0,
-      value: "Brandwond"
-    }
-  ];
-  const zib_burn_wound_extent = [
-    {
-      type: 0,
-      value: "Uitgebreidheid"
-    }
-  ];
-  const zib_checklist_pain_behaviour = [
-    {
-      type: 0,
-      value: "Checklist pijn gedrag"
-    }
-  ];
-  const zib_comfort_scale = [
-    {
-      type: 0,
-      value: "Comfort score"
-    }
-  ];
-  const zib_contact_information_telecom_type = [
-    {
-      type: 0,
-      value: "Definieert een specifieke gecodeerde waarde voor het concept telecom type gebruikt in de zib contactgegevens, zodat de in de zib gedefinieerde waardelijst kan worden gebruikt."
-    }
-  ];
-  const zib_development_child = [
-    {
-      type: 0,
-      value: "Ontwikkeling kind"
-    }
-  ];
-  const zib_dispense = [
-    {
-      type: 0,
-      value: "Verstrekking"
-    }
-  ];
-  const zib_dispense_request = [
-    {
-      type: 0,
-      value: "Verstrekkingsverzoek"
-    }
-  ];
-  const zib_drug_use = [
-    {
-      type: 0,
-      value: "Drugs gebruik"
-    }
-  ];
-  const zib_encounter = [
-    {
-      type: 0,
-      value: "Contact"
-    }
-  ];
-  const zib_family_situation = [
-    {
-      type: 0,
-      value: "Gezinssituatie"
-    }
-  ];
-  const zib_family_situation_child = [
-    {
-      type: 0,
-      value: "Gezinssituatie kind"
-    }
-  ];
-  const zib_family_situation_living_at_home_indicator = [
-    {
-      type: 0,
-      value: "Inwonend"
-    }
-  ];
-  const zib_feeding_pattern_infant = [
-    {
-      type: 0,
-      value: "Voedingspatroon zuigeling"
-    }
-  ];
-  const zib_feeding_tube_system = [
-    {
-      type: 0,
-      value: "Sonde systeem"
-    }
-  ];
-  const zib_feeding_tube_system_enteral_nutrition = [
-    {
-      type: 0,
-      value: "Sonde voeding"
-    }
-  ];
-  const zib_feeding_tube_system_feeding_tube_length = [
-    {
-      type: 0,
-      value: "Sonde lengte"
-    }
-  ];
-  const zib_flacc_pain_scale = [
-    {
-      type: 0,
-      value: "FLAC cpijn score"
-    }
-  ];
-  const zib_fluid_balance = [
-    {
-      type: 0,
-      value: "Vochtbalans"
-    }
-  ];
-  const zib_freedom_restricting_measures = [
-    {
-      type: 0,
-      value: "Vrijheidsbeperkende maatregelen"
-    }
-  ];
-  const zib_freedom_restricting_measures_permission = [
-    {
-      type: 0,
-      value: "Toestemming"
-    }
-  ];
-  const zib_functional_or_mental_status = [
-    {
-      type: 0,
-      value: "Functionele of mentale status"
-    }
-  ];
-  const zib_general_measurement = [
-    {
-      type: 0,
-      value: "Meet uitslag"
-    }
-  ];
-  const zib_head_circumference = [
-    {
-      type: 0,
-      value: "Schedelomvang"
-    }
-  ];
-  const zib_hearing_function = [
-    {
-      type: 0,
-      value: "Functie horen"
-    }
-  ];
-  const zib_hearing_function_hearing_aid = [
-    {
-      type: 0,
-      value: "Horen hulpmiddel"
-    }
-  ];
-  const zib_heart_rate = [
-    {
-      type: 0,
-      value: "Hartfrequentie"
-    }
-  ];
-  const zib_illness_perception = [
-    {
-      type: 0,
-      value: "Ziektebeleving"
-    }
-  ];
-  const zib_infusion = [
-    {
-      type: 0,
-      value: "Infuus"
-    }
-  ];
-  const zib_infusion_lumen_or_line = [
-    {
-      type: 0,
-      value: "Lumen of lijn"
-    }
-  ];
-  const zib_instructions_for_use = [
-    {
-      type: 0,
-      value: "Gebruiksinstructie"
-    }
-  ];
-  const zib_laboratory_test_result_diagnostic_report = [
-    {
-      type: 0,
-      value: "Laboratorium uitslag"
-    }
-  ];
-  const zib_laboratory_test_result_observation = [
-    {
-      type: 0,
-      value: "Laboratorium uitslag"
-    }
-  ];
-  const zib_laboratory_test_result_specimen = [
-    {
-      type: 0,
-      value: "Monster"
-    }
-  ];
-  const zib_laboratory_test_result_specimen_isolate = [
-    {
-      type: 0,
-      value: "Monster"
-    }
-  ];
-  const zib_living_situation = [
-    {
-      type: 0,
-      value: "Woonsituatie"
-    }
-  ];
-  const zib_medical_device = [
-    {
-      type: 0,
-      value: "Medisch hulpmiddel"
-    }
-  ];
-  const zib_medical_device_product = [
-    {
-      type: 0,
-      value: "Product"
-    }
-  ];
-  const zib_medication_administration = [
-    {
-      type: 0,
-      value: "Medicatie toediening"
-    }
-  ];
-  const zib_medication_agreement = [
-    {
-      type: 0,
-      value: "Medicatieafspraak"
-    }
-  ];
-  const zib_medication_period_of_use = [
-    {
-      type: 0,
-      value: "Gebruiksperiode"
-    }
-  ];
-  const zib_medication_use = [
-    {
-      type: 0,
-      value: "Medicatiegebruik"
-    }
-  ];
-  const zib_mobility = [
-    {
-      type: 0,
-      value: "Mobiliteit"
-    }
-  ];
-  const zib_must_score = [
-    {
-      type: 0,
-      value: "MUST score"
-    }
-  ];
-  const zib_nursing_intervention = [
-    {
-      type: 0,
-      value: "Verpleegkundige interventie"
-    }
-  ];
-  const zib_nursing_intervention_interval = [
-    {
-      type: 0,
-      value: "Interval"
-    }
-  ];
-  const zib_nutrition_advice = [
-    {
-      type: 0,
-      value: "Voedingsadvies"
-    }
-  ];
-  const zib_outcome_of_care = [
-    {
-      type: 0,
-      value: "Uitkomst van zorg"
-    }
-  ];
-  const zib_oxygen_saturation = [
-    {
-      type: 0,
-      value: "O2 saturatie"
-    }
-  ];
-  const zib_pain_score = [
-    {
-      type: 0,
-      value: "Pijnscore"
-    }
-  ];
-  const zib_participation_in_society = [
-    {
-      type: 0,
-      value: "Participatie in maatschappij"
-    }
-  ];
-  const zib_payer = [
-    {
-      type: 0,
-      value: "Verzekering"
-    }
-  ];
-  const zib_payer_bank_information = [
-    {
-      type: 0,
-      value: "Bankgegevens"
-    }
-  ];
-  const zib_pregnancy = [
-    {
-      type: 0,
-      value: "Zwangerschap"
-    }
-  ];
-  const zib_pressure_ulcer = [
-    {
-      type: 0,
-      value: "Decubitus wond"
-    }
-  ];
-  const zib_problem = [
-    {
-      type: 0,
-      value: "Concern"
-    }
-  ];
-  const zib_procedure = [
-    {
-      type: 0,
-      value: "Verrichting"
-    }
-  ];
-  const zib_procedure_request = [
-    {
-      type: 0,
-      value: "Verrichting"
-    }
-  ];
-  const zib_product = [
-    {
-      type: 0,
-      value: "Geneesmiddel"
-    }
-  ];
-  const zib_pulse_rate = [
-    {
-      type: 0,
-      value: "Polsfrequentie"
-    }
-  ];
-  const zib_respiration_administered_oxygen_administration_device = [
-    {
-      type: 0,
-      value: "Toediening hulpmiddel"
-    }
-  ];
-  const zib_skin_disorder = [
-    {
-      type: 0,
-      value: "Huidaandoening"
-    }
-  ];
-  const zib_sna_qrc_score = [
-    {
-      type: 0,
-      value: "SNA qrc score"
-    }
-  ];
-  const zib_snaq_65_plus_score = [
-    {
-      type: 0,
-      value: "SNAQ65+score"
-    }
-  ];
-  const zib_snaq_score = [
-    {
-      type: 0,
-      value: "SNAQ score"
-    }
-  ];
-  const zib_stoma = [
-    {
-      type: 0,
-      value: "Stoma"
-    }
-  ];
-  const zib_strong_kids_score = [
-    {
-      type: 0,
-      value: "Strong kids score"
-    }
-  ];
-  const zib_text_result = [
-    {
-      type: 0,
-      value: "Tekst uitslag"
-    }
-  ];
-  const zib_tobacco_use = [
-    {
-      type: 0,
-      value: "Tabak gebruik"
-    }
-  ];
-  const zib_treatment_directive = [
-    {
-      type: 0,
-      value: "Behandel aanwijzing"
-    }
-  ];
-  const zib_treatment_directive_verification = [
-    {
-      type: 0,
-      value: "Verificatie"
-    }
-  ];
-  const zib_treatment_objective = [
-    {
-      type: 0,
-      value: "Behandeldoel"
-    }
-  ];
-  const zib_vaccination = [
-    {
-      type: 0,
-      value: "Vaccinatie"
-    }
-  ];
-  const zib_visual_function = [
-    {
-      type: 0,
-      value: "Functie zien"
-    }
-  ];
-  const zib_visual_function_visual_aid = [
-    {
-      type: 0,
-      value: "Zien hulpmiddel"
-    }
-  ];
-  const zib_wound = [
-    {
-      type: 0,
-      value: "Wond"
-    }
-  ];
-  const resourceLabels = {
-    gp_encounter_report,
-    "gp_journal_entry.value": [
+  const r3ResourceLabels = {
+    "r3.gp_encounter_report": [
+      {
+        type: 0,
+        value: "Deelcontactverslag"
+      }
+    ],
+    "r3.gp_journal_entry.value": [
       {
         type: 0,
         value: "Journaalregel tekst"
       }
     ],
-    nl_core_address,
-    "nl_core_address.address_type.value": [
+    "r3.nl_core_address": [
+      {
+        type: 0,
+        value: "Adres informatie"
+      }
+    ],
+    "r3.nl_core_address.address_type.value": [
       {
         type: 0,
         value: "Adres soort"
       }
     ],
-    "nl_core_address.city": [
+    "r3.nl_core_address.city": [
       {
         type: 0,
         value: "Municipality"
       }
     ],
-    "nl_core_address.country": [
+    "r3.nl_core_address.country": [
       {
         type: 0,
         value: "Land"
       }
     ],
-    "nl_core_address.country.country_code.value": [
+    "r3.nl_core_address.country.country_code.value": [
       {
         type: 0,
         value: "Land GBA codelijst"
       }
     ],
-    "nl_core_address.district": [
+    "r3.nl_core_address.district": [
       {
         type: 0,
         value: "Gemeente"
       }
     ],
-    "nl_core_address.official": [
+    "r3.nl_core_address.official": [
       {
         type: 0,
         value: "Markeer een adres als een 'officieel geregistreerd adres."
       }
     ],
-    "nl_core_address.postal_code": [
+    "r3.nl_core_address.postal_code": [
       {
         type: 0,
         value: "Postcode"
       }
     ],
-    "nl_core_address.state": [
+    "r3.nl_core_address.state": [
       {
         type: 0,
         value: "Provincie"
       }
     ],
-    "nl_core_address_official.value": [
+    "r3.nl_core_address_official.value": [
       {
         type: 0,
         value: "True als deze deel is van een officieel register. false indien dat niet het geval is"
       }
     ],
-    "nl_core_careplan.nursing_intervention.detail.code": [
+    "r3.nl_core_careplan.nursing_intervention.detail.code": [
       {
         type: 0,
         value: "Interventie"
       }
     ],
-    "nl_core_careplan.nursing_intervention.detail.goal": [
+    "r3.nl_core_careplan.nursing_intervention.detail.goal": [
       {
         type: 0,
         value: "Behandeldoel"
       }
     ],
-    "nl_core_careplan.nursing_intervention.detail.medical_device": [
+    "r3.nl_core_careplan.nursing_intervention.detail.medical_device": [
       {
         type: 0,
         value: "Medisch hulpmiddel"
       }
     ],
-    "nl_core_careplan.nursing_intervention.detail.performer": [
+    "r3.nl_core_careplan.nursing_intervention.detail.performer": [
       {
         type: 0,
         value: "Uitvoerder"
       }
     ],
-    "nl_core_careplan.nursing_intervention.detail.reason_reference": [
+    "r3.nl_core_careplan.nursing_intervention.detail.reason_reference": [
       {
         type: 0,
         value: "Indicatie"
       }
     ],
-    "nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.bounds_period.end": [
+    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.bounds_period.end": [
       {
         type: 0,
         value: "Actie eind datum tijd"
       }
     ],
-    "nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.bounds_period.start": [
+    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.bounds_period.start": [
       {
         type: 0,
         value: "Actie start datum tijd"
       }
     ],
-    "nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.frequency": [
+    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.frequency": [
       {
         type: 0,
         value: "Frequentie"
       }
     ],
-    "nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.period": [
+    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.period": [
       {
         type: 0,
         value: "Interval"
       }
     ],
-    "nl_core_careplan.nursing_intervention.outcome_codeable_concept.text": [
+    "r3.nl_core_careplan.nursing_intervention.outcome_codeable_concept.text": [
       {
         type: 0,
         value: "Zorgresultaat"
       }
     ],
-    "nl_core_careplan.nursing_intervention.outcome_reference": [
+    "r3.nl_core_careplan.nursing_intervention.outcome_reference": [
       {
         type: 0,
         value: "Meetwaarde"
       }
     ],
-    "nl_core_careteam.participant.role.health_professional_role": [
+    "r3.nl_core_careteam.participant.role.health_professional_role": [
       {
         type: 0,
         value: "Zorgverlener rol"
       }
     ],
-    nl_core_contactpoint,
-    "nl_core_contactpoint.system": [
+    "r3.nl_core_contactpoint": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r3.nl_core_contactpoint.system": [
       {
         type: 0,
         value: "Telecom type / email soort"
       }
     ],
-    "nl_core_contactpoint.telecom_type": [
+    "r3.nl_core_contactpoint.telecom_type": [
       {
         type: 0,
         value: "Telecom type"
       }
     ],
-    "nl_core_contactpoint.use": [
+    "r3.nl_core_contactpoint.use": [
       {
         type: 0,
         value: "Telecom type / nummer soort / email soort"
       }
     ],
-    "nl_core_contactpoint.value": [
+    "r3.nl_core_contactpoint.value": [
       {
         type: 0,
         value: "Telefoonnummer / e-mailadres"
       }
     ],
-    "nl_core_episodeofcare.type.text": [
+    "r3.nl_core_episodeofcare.type.text": [
       {
         type: 0,
         value: "Concern label"
       }
     ],
-    "nl_core_healthcareservice.telecom": [
+    "r3.nl_core_healthcareservice.telecom": [
       {
         type: 0,
         value: "Contactgegevens"
       }
     ],
-    "nl_core_humanname.family": [
+    "r3.nl_core_humanname.family": [
       {
         type: 0,
         value: "Achternaam"
       }
     ],
-    "nl_core_humanname.family.humanname_own_name": [
+    "r3.nl_core_humanname.family.humanname_own_name": [
       {
         type: 0,
         value: "Geslachtsnaam"
       }
     ],
-    "nl_core_humanname.family.humanname_own_prefix": [
+    "r3.nl_core_humanname.family.humanname_own_prefix": [
       {
         type: 0,
         value: "Voorvoegsel geslachtsnaam"
       }
     ],
-    "nl_core_humanname.family.humanname_partner_name": [
+    "r3.nl_core_humanname.family.humanname_partner_name": [
       {
         type: 0,
         value: "Geslachtsnaam partner"
       }
     ],
-    "nl_core_humanname.family.humanname_partner_prefix": [
+    "r3.nl_core_humanname.family.humanname_partner_prefix": [
       {
         type: 0,
         value: "Voorvoegsel geslachtsnaam partner"
       }
     ],
-    "nl_core_humanname.given": [
+    "r3.nl_core_humanname.given": [
       {
         type: 0,
         value: "Voornamen"
       }
     ],
-    "nl_core_humanname.humanname_assembly_order": [
+    "r3.nl_core_humanname.humanname_assembly_order": [
       {
         type: 0,
         value: "Voorkeursvolgorde van de naamdelen."
       }
     ],
-    "nl_core_location.address": [
+    "r3.nl_core_location.address": [
       {
         type: 0,
         value: "Adresgegevens"
       }
     ],
-    "nl_core_location.name": [
+    "r3.nl_core_location.name": [
       {
         type: 0,
         value: "Organization location"
       }
     ],
-    "nl_core_location.telecom": [
+    "r3.nl_core_location.telecom": [
       {
         type: 0,
         value: "Contactgegevens"
       }
     ],
-    nl_core_organization,
-    "nl_core_organization.address": [
+    "r3.nl_core_organization": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r3.nl_core_organization.address": [
       {
         type: 0,
         value: "Adresgegevens"
       }
     ],
-    "nl_core_organization.agb": [
+    "r3.nl_core_organization.agb": [
       {
         type: 0,
         value: "AGB"
       }
     ],
-    "nl_core_organization.agb.value": [
+    "r3.nl_core_organization.agb.value": [
       {
         type: 0,
         value: "AGB-z (vektis AGB-z zorgverlenertabel)"
       }
     ],
-    "nl_core_organization.alias": [
+    "r3.nl_core_organization.alias": [
       {
         type: 0,
         value: "Organisatie alias"
       }
     ],
-    "nl_core_organization.department_specialty": [
+    "r3.nl_core_organization.department_specialty": [
       {
         type: 0,
         value: "Afdeling specialisme"
       }
     ],
-    "nl_core_organization.name": [
+    "r3.nl_core_organization.name": [
       {
         type: 0,
         value: "Organisatie naam of afdeling naam"
       }
     ],
-    "nl_core_organization.organization_type": [
+    "r3.nl_core_organization.organization_type": [
       {
         type: 0,
         value: "Organisatie type"
       }
     ],
-    "nl_core_organization.telecom": [
+    "r3.nl_core_organization.telecom": [
       {
         type: 0,
         value: "Contactgegevens"
       }
     ],
-    "nl_core_organization.ura": [
+    "r3.nl_core_organization.ura": [
       {
         type: 0,
         value: "URA"
       }
     ],
-    "nl_core_organization.ura.value": [
+    "r3.nl_core_organization.ura.value": [
       {
         type: 0,
         value: "URA (UZI-register abonneenummer)"
       }
     ],
-    "nl_core_organization.uzovi": [
+    "r3.nl_core_organization.uzovi": [
       {
         type: 0,
         value: "UZOVI"
       }
     ],
-    "nl_core_organization.uzovi.value": [
+    "r3.nl_core_organization.uzovi.value": [
       {
         type: 0,
         value: "Unieke zorgverekeraar identificatie (het UZOVI-nummer)"
       }
     ],
-    nl_core_patient,
-    "nl_core_patient.address": [
+    "r3.nl_core_patient": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.nl_core_patient.address": [
       {
         type: 0,
         value: "Adresgegevens"
       }
     ],
-    "nl_core_patient.birth_date": [
+    "r3.nl_core_patient.birth_date": [
       {
         type: 0,
         value: "Geboortedatum"
       }
     ],
-    "nl_core_patient.bsn": [
+    "r3.nl_core_patient.bsn": [
       {
         type: 0,
         value: "BSN"
       }
     ],
-    "nl_core_patient.bsn.value": [
+    "r3.nl_core_patient.bsn.value": [
       {
         type: 0,
         value: "BSN"
       }
     ],
-    "nl_core_patient.communication": [
+    "r3.nl_core_patient.communication": [
       {
         type: 0,
         value: "Taalvaardigheid"
       }
     ],
-    "nl_core_patient.communication.language": [
+    "r3.nl_core_patient.communication.language": [
       {
         type: 0,
         value: "Communicatie taal"
       }
     ],
-    "nl_core_patient.contact": [
+    "r3.nl_core_patient.contact": [
       {
         type: 0,
         value: "Contactpersoon"
       }
     ],
-    "nl_core_patient.contact.address": [
+    "r3.nl_core_patient.contact.address": [
       {
         type: 0,
         value: "Adresgegevens"
       }
     ],
-    "nl_core_patient.contact.name": [
+    "r3.nl_core_patient.contact.name": [
       {
         type: 0,
         value: "Naamgegevens"
       }
     ],
-    "nl_core_patient.contact.relationship": [
+    "r3.nl_core_patient.contact.relationship": [
       {
         type: 0,
         value: "Relatie"
       }
     ],
-    "nl_core_patient.contact.role": [
+    "r3.nl_core_patient.contact.role": [
       {
         type: 0,
         value: "Rol"
       }
     ],
-    "nl_core_patient.deceased": [
+    "r3.nl_core_patient.deceased": [
       {
         type: 0,
         value: "Overlijdensindicator/datum overlijden"
       }
     ],
-    "nl_core_patient.gender": [
+    "r3.nl_core_patient.gender": [
       {
         type: 0,
         value: "Geslacht"
       }
     ],
-    "nl_core_patient.gender.geslacht_codelijst": [
+    "r3.nl_core_patient.gender.geslacht_codelijst": [
       {
         type: 0,
         value: "Geslacht"
       }
     ],
-    "nl_core_patient.general_practitioner": [
+    "r3.nl_core_patient.general_practitioner": [
       {
         type: 0,
         value: "Huisarts"
       }
     ],
-    "nl_core_patient.identifier": [
+    "r3.nl_core_patient.identifier": [
       {
         type: 0,
         value: "Identificatienummer"
       }
     ],
-    "nl_core_patient.marital_status": [
+    "r3.nl_core_patient.marital_status": [
       {
         type: 0,
         value: "Burgerlijke staat"
       }
     ],
-    "nl_core_patient.multiple_birth": [
+    "r3.nl_core_patient.multiple_birth": [
       {
         type: 0,
         value: "Meerlingindicator"
       }
     ],
-    "nl_core_patient.name": [
+    "r3.nl_core_patient.name": [
       {
         type: 0,
         value: "Naamgegevens"
       }
     ],
-    "nl_core_patient.nationality": [
+    "r3.nl_core_patient.nationality": [
       {
         type: 0,
         value: "Nationaliteit"
       }
     ],
-    "nl_core_patient.preferred_pharmacy": [
+    "r3.nl_core_patient.preferred_pharmacy": [
       {
         type: 0,
         value: "Verwijst naar de voorkeursapotheek van de patiënt"
       }
     ],
-    "nl_core_person.address": [
+    "r3.nl_core_person.address": [
       {
         type: 0,
         value: "Adresgegevens"
       }
     ],
-    "nl_core_person.birth_date": [
+    "r3.nl_core_person.birth_date": [
       {
         type: 0,
         value: "Geboortedatum"
       }
     ],
-    "nl_core_person.bsn": [
+    "r3.nl_core_person.bsn": [
       {
         type: 0,
         value: "BSN"
       }
     ],
-    "nl_core_person.bsn.value": [
+    "r3.nl_core_person.bsn.value": [
       {
         type: 0,
         value: "BSN"
       }
     ],
-    "nl_core_person.gender": [
+    "r3.nl_core_person.gender": [
       {
         type: 0,
         value: "Geslacht"
       }
     ],
-    "nl_core_person.identifier": [
+    "r3.nl_core_person.identifier": [
       {
         type: 0,
         value: "Identificatienummer"
       }
     ],
-    "nl_core_person.name": [
+    "r3.nl_core_person.name": [
       {
         type: 0,
         value: "Naamgegevens"
       }
     ],
-    "nl_core_person.telecom": [
+    "r3.nl_core_person.telecom": [
       {
         type: 0,
         value: "Contactgegevens"
       }
     ],
-    nl_core_practitioner,
-    "nl_core_practitioner.address": [
+    "r3.nl_core_practitioner": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r3.nl_core_practitioner.address": [
       {
         type: 0,
         value: "Adresgegevens"
       }
     ],
-    "nl_core_practitioner.agb": [
+    "r3.nl_core_practitioner.agb": [
       {
         type: 0,
         value: "AGB"
       }
     ],
-    "nl_core_practitioner.big": [
+    "r3.nl_core_practitioner.big": [
       {
         type: 0,
         value: "BIG"
       }
     ],
-    "nl_core_practitioner.identifier": [
+    "r3.nl_core_practitioner.identifier": [
       {
         type: 0,
         value: "Zorgverlener identificatie nummer"
       }
     ],
-    "nl_core_practitioner.name": [
+    "r3.nl_core_practitioner.name": [
       {
         type: 0,
         value: "Naamgegevens"
       }
     ],
-    "nl_core_practitioner.uzi": [
+    "r3.nl_core_practitioner.uzi": [
       {
         type: 0,
         value: "UZI"
       }
     ],
-    "nl_core_practitionerrole.organization": [
+    "r3.nl_core_practitionerrole.organization": [
       {
         type: 0,
         value: "Zorgaanbieder"
       }
     ],
-    "nl_core_practitionerrole.specialty": [
+    "r3.nl_core_practitionerrole.specialty": [
       {
         type: 0,
         value: "Specialisme"
       }
     ],
-    "nl_core_practitionerrole.specialty.specialty_agb": [
+    "r3.nl_core_practitionerrole.specialty.specialty_agb": [
       {
         type: 0,
         value: "Specialisme AGB"
       }
     ],
-    "nl_core_practitionerrole.specialty.specialty_uzi": [
+    "r3.nl_core_practitionerrole.specialty.specialty_uzi": [
       {
         type: 0,
         value: "Specialisme UZI"
       }
     ],
-    "nl_core_relatedperson.address": [
+    "r3.nl_core_relatedperson.address": [
       {
         type: 0,
         value: "Adresgegevens"
       }
     ],
-    "nl_core_relatedperson.name": [
+    "r3.nl_core_relatedperson.name": [
       {
         type: 0,
         value: "Naamgegevens"
       }
     ],
-    "nl_core_relatedperson.relationship": [
+    "r3.nl_core_relatedperson.relationship": [
       {
         type: 0,
         value: "Relatie"
       }
     ],
-    "nl_core_relatedperson.role": [
+    "r3.nl_core_relatedperson.role": [
       {
         type: 0,
         value: "Rol"
       }
     ],
-    "nl_core_relatedperson_role.value": [
+    "r3.nl_core_relatedperson_role.value": [
       {
         type: 0,
         value: "Rol"
       }
     ],
-    zib_ability_to_dress_oneself,
-    "zib_ability_to_dress_oneself.body_part_to_be_dressed.value": [
+    "r3.zib_ability_to_dress_oneself": [
+      {
+        type: 0,
+        value: "Vermogen tot zich kleden"
+      }
+    ],
+    "r3.zib_ability_to_dress_oneself.body_part_to_be_dressed.value": [
       {
         type: 0,
         value: "Te kleden lichaamsdeel"
       }
     ],
-    "zib_ability_to_dress_oneself.value": [
+    "r3.zib_ability_to_dress_oneself.value": [
       {
         type: 0,
         value: "Zich kleden"
       }
     ],
-    zib_ability_to_drink,
-    "zib_ability_to_drink.drinking_limitations.value": [
+    "r3.zib_ability_to_drink": [
+      {
+        type: 0,
+        value: "Vermogen tot drinken"
+      }
+    ],
+    "r3.zib_ability_to_drink.drinking_limitations.value": [
       {
         type: 0,
         value: "Drink beperkingen"
       }
     ],
-    "zib_ability_to_drink.value": [
+    "r3.zib_ability_to_drink.value": [
       {
         type: 0,
         value: "Drinken"
       }
     ],
-    zib_ability_to_eat,
-    "zib_ability_to_eat.eating_limitations.value": [
+    "r3.zib_ability_to_eat": [
+      {
+        type: 0,
+        value: "Vermogen tot eten"
+      }
+    ],
+    "r3.zib_ability_to_eat.eating_limitations.value": [
       {
         type: 0,
         value: "Eet beperkingen"
       }
     ],
-    "zib_ability_to_eat.value": [
+    "r3.zib_ability_to_eat.value": [
       {
         type: 0,
         value: "Eten"
       }
     ],
-    zib_ability_to_groome,
-    "zib_ability_to_groome.value": [
+    "r3.zib_ability_to_groome": [
+      {
+        type: 0,
+        value: "Vermogen tot uiterlijke verzorging"
+      }
+    ],
+    "r3.zib_ability_to_groome.value": [
       {
         type: 0,
         value: "Uiterlijke verzorging"
       }
     ],
-    zib_ability_to_manage_medication,
-    "zib_ability_to_manage_medication.required_assistance.value": [
+    "r3.zib_ability_to_manage_medication": [
+      {
+        type: 0,
+        value: "Ability to manage medication"
+      }
+    ],
+    "r3.zib_ability_to_manage_medication.required_assistance.value": [
       {
         type: 0,
         value: "Hulp bij toediening"
       }
     ],
-    "zib_ability_to_manage_medication.value": [
+    "r3.zib_ability_to_manage_medication.value": [
       {
         type: 0,
         value: "Zelfstandig medicatiegebruik"
       }
     ],
-    zib_ability_to_perform_mouthcare_activities,
-    "zib_ability_to_perform_mouthcare_activities.value": [
+    "r3.zib_ability_to_perform_mouthcare_activities": [
+      {
+        type: 0,
+        value: "Vermogen tot mondverzorging"
+      }
+    ],
+    "r3.zib_ability_to_perform_mouthcare_activities.value": [
       {
         type: 0,
         value: "Verzorgen tanden"
       }
     ],
-    zib_ability_to_perform_mouthcare_activities_medical_device,
-    zib_ability_to_perform_nursing_activities,
-    "zib_ability_to_perform_nursing_activities.focus.value": [
+    "r3.zib_ability_to_perform_mouthcare_activities_medical_device": [
+      {
+        type: 0,
+        value: "Prothese"
+      }
+    ],
+    "r3.zib_ability_to_perform_nursing_activities": [
+      {
+        type: 0,
+        value: "Vermogen tot verpleegtechnische handelingen"
+      }
+    ],
+    "r3.zib_ability_to_perform_nursing_activities.focus.value": [
       {
         type: 0,
         value: "Betrokkene"
       }
     ],
-    "zib_ability_to_perform_nursing_activities.nursing_intervention.value": [
+    "r3.zib_ability_to_perform_nursing_activities.nursing_intervention.value": [
       {
         type: 0,
         value: "Verpleegkundige interventie"
       }
     ],
-    "zib_ability_to_perform_nursing_activities.value": [
+    "r3.zib_ability_to_perform_nursing_activities.value": [
       {
         type: 0,
         value: "Verrichten VPK handeling"
       }
     ],
-    zib_ability_to_use_toilet,
-    "zib_ability_to_use_toilet.menstrual_care.value": [
+    "r3.zib_ability_to_use_toilet": [
+      {
+        type: 0,
+        value: "Vermogen tot toiletgang"
+      }
+    ],
+    "r3.zib_ability_to_use_toilet.menstrual_care.value": [
       {
         type: 0,
         value: "Zorg bij menstruatie"
       }
     ],
-    "zib_ability_to_use_toilet.toilet_use.value": [
+    "r3.zib_ability_to_use_toilet.toilet_use.value": [
       {
         type: 0,
         value: "Toiletgebruik"
       }
     ],
-    zib_ability_to_wash_one_self,
-    "zib_ability_to_wash_one_self.body_part_to_be_bathed.value": [
+    "r3.zib_ability_to_wash_one_self": [
+      {
+        type: 0,
+        value: "Vermogen tot zich wassen"
+      }
+    ],
+    "r3.zib_ability_to_wash_one_self.body_part_to_be_bathed.value": [
       {
         type: 0,
         value: "Te wassen lichaamsdeel"
       }
     ],
-    "zib_ability_to_wash_one_self.value": [
+    "r3.zib_ability_to_wash_one_self.value": [
       {
         type: 0,
         value: "Zich wassen"
       }
     ],
-    zib_administration_agreement,
-    "zib_administration_agreement.additional_information": [
+    "r3.zib_administration_agreement": [
+      {
+        type: 0,
+        value: "Toedieningsafspraak"
+      }
+    ],
+    "r3.zib_administration_agreement.additional_information": [
       {
         type: 0,
         value: "Toedieningsafspraak aanvullende informatie"
       }
     ],
-    "zib_administration_agreement.agreement_reason": [
+    "r3.zib_administration_agreement.agreement_reason": [
       {
         type: 0,
         value: "Reden afspraak"
       }
     ],
-    "zib_administration_agreement.authored_on": [
+    "r3.zib_administration_agreement.authored_on": [
       {
         type: 0,
         value: "Toedieningsafspraak datum tijd"
       }
     ],
-    "zib_administration_agreement.authorizing_prescription": [
+    "r3.zib_administration_agreement.authorizing_prescription": [
       {
         type: 0,
         value: "Medicatieafspraak"
       }
     ],
-    "zib_administration_agreement.medication_reference": [
+    "r3.zib_administration_agreement.medication_reference": [
       {
         type: 0,
         value: "Geneesmiddel bij toedienings afspraak"
       }
     ],
-    "zib_administration_agreement.medication_treatment": [
+    "r3.zib_administration_agreement.medication_treatment": [
       {
         type: 0,
         value: "Medicamenteuze behandeling"
       }
     ],
-    "zib_administration_agreement.note": [
+    "r3.zib_administration_agreement.note": [
       {
         type: 0,
         value: "Toelichting"
       }
     ],
-    "zib_administration_agreement.performer": [
+    "r3.zib_administration_agreement.performer": [
       {
         type: 0,
         value: "Verstrekker"
       }
     ],
-    "zib_administration_agreement.status": [
+    "r3.zib_administration_agreement.status": [
       {
         type: 0,
         value: "Geannuleerd indicator"
       }
     ],
-    "zib_administration_agreement.usage_duration": [
+    "r3.zib_administration_agreement.usage_duration": [
       {
         type: 0,
         value: "Gebruiksduur"
       }
     ],
-    zib_administration_schedule,
-    "zib_administration_schedule.repeat.bounds": [
+    "r3.zib_administration_schedule": [
+      {
+        type: 0,
+        value: "Toedieningsschema"
+      }
+    ],
+    "r3.zib_administration_schedule.repeat.bounds": [
       {
         type: 0,
         value: "Doseerduur"
       }
     ],
-    "zib_administration_schedule.repeat.day_of_week": [
+    "r3.zib_administration_schedule.repeat.day_of_week": [
       {
         type: 0,
         value: "Weekdagen"
       }
     ],
-    "zib_administration_schedule.repeat.duration": [
+    "r3.zib_administration_schedule.repeat.duration": [
       {
         type: 0,
         value: "Toedieninsgduur"
       }
     ],
-    "zib_administration_schedule.repeat.duration_unit": [
+    "r3.zib_administration_schedule.repeat.duration_unit": [
       {
         type: 0,
         value: "Toedieninsgduur"
       }
     ],
-    "zib_administration_schedule.repeat.frequency": [
+    "r3.zib_administration_schedule.repeat.frequency": [
       {
         type: 0,
         value: "Frequentie"
       }
     ],
-    "zib_administration_schedule.repeat.frequency_max": [
+    "r3.zib_administration_schedule.repeat.frequency_max": [
       {
         type: 0,
         value: "Maximum waarde"
       }
     ],
-    "zib_administration_schedule.repeat.period": [
+    "r3.zib_administration_schedule.repeat.period": [
       {
         type: 0,
         value: "Interval"
       }
     ],
-    "zib_administration_schedule.repeat.period_unit": [
+    "r3.zib_administration_schedule.repeat.period_unit": [
       {
         type: 0,
         value: "Interval"
       }
     ],
-    "zib_administration_schedule.repeat.time_of_day": [
+    "r3.zib_administration_schedule.repeat.time_of_day": [
       {
         type: 0,
         value: "Toedientijd"
       }
     ],
-    "zib_administration_schedule.repeat.when": [
+    "r3.zib_administration_schedule.repeat.when": [
       {
         type: 0,
         value: "Dagdeel"
       }
     ],
-    zib_advance_directive,
-    "zib_advance_directive.consenting_party": [
-      {
-        type: 0,
-        value: "Vertegenwoordiger"
-      }
-    ],
-    "zib_advance_directive.date_time": [
-      {
-        type: 0,
-        value: "Wilsverklaring datum"
-      }
-    ],
-    "zib_advance_directive.disorder": [
-      {
-        type: 0,
-        value: "Aandoening"
-      }
-    ],
-    "zib_advance_directive.source": [
-      {
-        type: 0,
-        value: "Wilsverklaring document"
-      }
-    ],
-    "zib_advance_directive.type_of_living_will": [
-      {
-        type: 0,
-        value: "Wilsverklaring type"
-      }
-    ],
-    zib_alcohol_use,
-    "zib_alcohol_use.amount.value": [
-      {
-        type: 0,
-        value: "Hoeveelheid"
-      }
-    ],
-    "zib_alcohol_use.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_alcohol_use.effective_period.end": [
-      {
-        type: 0,
-        value: "Stop datum"
-      }
-    ],
-    "zib_alcohol_use.effective_period.start": [
-      {
-        type: 0,
-        value: "Start datum"
-      }
-    ],
-    "zib_alcohol_use.value": [
-      {
-        type: 0,
-        value: "Alcohol gebruik status"
-      }
-    ],
-    "zib_alert.category": [
-      {
-        type: 0,
-        value: "Alert type"
-      }
-    ],
-    "zib_alert.code": [
-      {
-        type: 0,
-        value: "Alert naam"
-      }
-    ],
-    "zib_alert.concern_reference": [
-      {
-        type: 0,
-        value: "Conditie"
-      }
-    ],
-    "zib_alert.period.start": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    zib_allergy_intolerance,
-    "zib_allergy_intolerance.category.allergie_categorie_codelijst": [
-      {
-        type: 0,
-        value: "Allergie categorie"
-      }
-    ],
-    "zib_allergy_intolerance.clinical_status": [
-      {
-        type: 0,
-        value: "Allergie status"
-      }
-    ],
-    "zib_allergy_intolerance.clinical_status.allergie_status_codelijst": [
-      {
-        type: 0,
-        value: "Allergie status"
-      }
-    ],
-    "zib_allergy_intolerance.code": [
-      {
-        type: 0,
-        value: "Veroorzakende stof"
-      }
-    ],
-    "zib_allergy_intolerance.criticality.critical_extent_codelist": [
-      {
-        type: 0,
-        value: "Mate van kritiek zijn"
-      }
-    ],
-    "zib_allergy_intolerance.identifier": [
-      {
-        type: 0,
-        value: "Identificatie"
-      }
-    ],
-    "zib_allergy_intolerance.last_occurrence": [
-      {
-        type: 0,
-        value: "Laatste reactie datum tijd"
-      }
-    ],
-    "zib_allergy_intolerance.note.author": [
-      {
-        type: 0,
-        value: "Auteur"
-      }
-    ],
-    "zib_allergy_intolerance.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_allergy_intolerance.onset_date_time": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    "zib_allergy_intolerance.patient": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "zib_allergy_intolerance.reaction": [
-      {
-        type: 0,
-        value: "Reactie"
-      }
-    ],
-    "zib_allergy_intolerance.reaction.description": [
-      {
-        type: 0,
-        value: "Reactie beschrijving"
-      }
-    ],
-    "zib_allergy_intolerance.reaction.exposure_route": [
-      {
-        type: 0,
-        value: "Wijze van blootstelling"
-      }
-    ],
-    "zib_allergy_intolerance.reaction.manifestation": [
-      {
-        type: 0,
-        value: "Symptoom"
-      }
-    ],
-    "zib_allergy_intolerance.reaction.onset": [
-      {
-        type: 0,
-        value: "Reactie tijdstip"
-      }
-    ],
-    "zib_allergy_intolerance.reaction.severity": [
-      {
-        type: 0,
-        value: "Ernst"
-      }
-    ],
-    "zib_allergy_intolerance.reaction.substance": [
-      {
-        type: 0,
-        value: "Specifieke stof"
-      }
-    ],
-    "zib_allergy_intolerance.recorder": [
-      {
-        type: 0,
-        value: "Auteur"
-      }
-    ],
-    "zib_allergy_intolerance.verification_status": [
-      {
-        type: 0,
-        value: "Allergie status"
-      }
-    ],
-    "zib_apgar_score.10_minute_appearance_score.value": [
-      {
-        type: 0,
-        value: "Huidskleur score"
-      }
-    ],
-    "zib_apgar_score.10_minute_grimace_score.value": [
-      {
-        type: 0,
-        value: "Reflexen score"
-      }
-    ],
-    "zib_apgar_score.10_minute_muscle_tone_score.value": [
-      {
-        type: 0,
-        value: "Spierspanning score"
-      }
-    ],
-    "zib_apgar_score.10_minute_pulse_score.value": [
-      {
-        type: 0,
-        value: "Hartslag score"
-      }
-    ],
-    "zib_apgar_score.10_minute_respiratory_score.value": [
-      {
-        type: 0,
-        value: "Ademhaling score"
-      }
-    ],
-    "zib_apgar_score.1_minute_appearance_score.value": [
-      {
-        type: 0,
-        value: "Huidskleur score"
-      }
-    ],
-    "zib_apgar_score.1_minute_grimace_score.value": [
-      {
-        type: 0,
-        value: "Reflexen score"
-      }
-    ],
-    "zib_apgar_score.1_minute_muscle_tone_score.value": [
-      {
-        type: 0,
-        value: "Spierspanning score"
-      }
-    ],
-    "zib_apgar_score.1_minute_pulse_score.value": [
-      {
-        type: 0,
-        value: "Hartslag score"
-      }
-    ],
-    "zib_apgar_score.1_minute_respiratory_score.value": [
-      {
-        type: 0,
-        value: "Ademhaling score"
-      }
-    ],
-    "zib_apgar_score.5_minute_appearance_score.value": [
-      {
-        type: 0,
-        value: "Huidskleur score"
-      }
-    ],
-    "zib_apgar_score.5_minute_grimace_score.value": [
-      {
-        type: 0,
-        value: "Reflexen score"
-      }
-    ],
-    "zib_apgar_score.5_minute_muscle_tone_score.value": [
-      {
-        type: 0,
-        value: "Spierspanning score"
-      }
-    ],
-    "zib_apgar_score.5_minute_pulse_score.value": [
-      {
-        type: 0,
-        value: "Hartslag score"
-      }
-    ],
-    "zib_apgar_score.5_minute_respiratory_score.value": [
-      {
-        type: 0,
-        value: "Ademhaling score"
-      }
-    ],
-    "zib_apgar_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_apgar_score.effective_date_time": [
-      {
-        type: 0,
-        value: "Apgar score datum tijd"
-      }
-    ],
-    "zib_apgar_score.value": [
-      {
-        type: 0,
-        value: "Apgar score totaal"
-      }
-    ],
-    zib_bladder_function,
-    "zib_bladder_function.code": [
-      {
-        type: 0,
-        value: "Blaasfunctie"
-      }
-    ],
-    "zib_bladder_function.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_bladder_function.value": [
-      {
-        type: 0,
-        value: "Urine continentie"
-      }
-    ],
-    zib_blood_pressure,
-    "zib_blood_pressure.average_blood_pressure_loinc.value": [
-      {
-        type: 0,
-        value: "Gemiddelde bloeddruk"
-      }
-    ],
-    "zib_blood_pressure.average_blood_pressure_snomed.value": [
-      {
-        type: 0,
-        value: "Gemiddelde bloeddruk"
-      }
-    ],
-    "zib_blood_pressure.body_site": [
-      {
-        type: 0,
-        value: "Meet locatie"
-      }
-    ],
-    "zib_blood_pressure.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_blood_pressure.cuff_type_loinc.value": [
-      {
-        type: 0,
-        value: "Manchet type"
-      }
-    ],
-    "zib_blood_pressure.cuff_type_snomed.value": [
-      {
-        type: 0,
-        value: "Manchet type"
-      }
-    ],
-    "zib_blood_pressure.diastolic_bp.code": [
-      {
-        type: 0,
-        value: "Diastolische bloeddruk"
-      }
-    ],
-    "zib_blood_pressure.diastolic_endpoint.code": [
-      {
-        type: 0,
-        value: "Component test"
-      }
-    ],
-    "zib_blood_pressure.diastolic_endpoint.value": [
-      {
-        type: 0,
-        value: "Diastolisch eindpunt"
-      }
-    ],
-    "zib_blood_pressure.effective": [
-      {
-        type: 0,
-        value: "Bloeddruk datum tijd"
-      }
-    ],
-    "zib_blood_pressure.method": [
-      {
-        type: 0,
-        value: "Meetmethode"
-      }
-    ],
-    "zib_blood_pressure.position_loinc.value": [
-      {
-        type: 0,
-        value: "Houding"
-      }
-    ],
-    "zib_blood_pressure.position_snomed.value": [
-      {
-        type: 0,
-        value: "Houding"
-      }
-    ],
-    "zib_blood_pressure.systolic_bp.value": [
-      {
-        type: 0,
-        value: "Systolische bloeddruk"
-      }
-    ],
-    zib_body_height,
-    "zib_body_height.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_body_height.effective": [
-      {
-        type: 0,
-        value: "Lengte datum tijd"
-      }
-    ],
-    "zib_body_height.subject": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "zib_body_height.value": [
-      {
-        type: 0,
-        value: "Lengte waarde"
-      }
-    ],
-    zib_body_temperature,
-    "zib_body_temperature.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_body_temperature.effective": [
-      {
-        type: 0,
-        value: "Temperatuur datum tijd"
-      }
-    ],
-    "zib_body_temperature.method": [
-      {
-        type: 0,
-        value: "Temperatuur type"
-      }
-    ],
-    "zib_body_temperature.value": [
-      {
-        type: 0,
-        value: "Temperatuur waarde"
-      }
-    ],
-    zib_body_weight,
-    "zib_body_weight.clothing.value": [
-      {
-        type: 0,
-        value: "Kleding"
-      }
-    ],
-    "zib_body_weight.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_body_weight.effective": [
-      {
-        type: 0,
-        value: "Gewicht datum tijd"
-      }
-    ],
-    "zib_body_weight.value": [
-      {
-        type: 0,
-        value: "Gewicht waarde"
-      }
-    ],
-    zib_bowel_function,
-    "zib_bowel_function.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_bowel_function.defecation_color.value": [
-      {
-        type: 0,
-        value: "Defecatie kleur"
-      }
-    ],
-    "zib_bowel_function.defecation_consistency.value": [
-      {
-        type: 0,
-        value: "Defecatie consistentie"
-      }
-    ],
-    "zib_bowel_function.fecal_continence.value": [
-      {
-        type: 0,
-        value: "Feces continentie"
-      }
-    ],
-    "zib_bowel_function.frequency.value": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    zib_burn_wound,
-    "zib_burn_wound.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "zib_burn_wound.body_site.laterality.value": [
-      {
-        type: 0,
-        value: "Lateraliteit"
-      }
-    ],
-    "zib_burn_wound.code": [
-      {
-        type: 0,
-        value: "Brandwond"
-      }
-    ],
-    "zib_burn_wound.code.burn_type.value": [
-      {
-        type: 0,
-        value: "Brandwond soort"
-      }
-    ],
-    "zib_burn_wound.date_of_last_dressing_change.value": [
-      {
-        type: 0,
-        value: "Datum laatste verbandwissel"
-      }
-    ],
-    "zib_burn_wound.extent.value": [
-      {
-        type: 0,
-        value: "Uitgebreidheid"
-      }
-    ],
-    "zib_burn_wound.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_burn_wound.onset": [
-      {
-        type: 0,
-        value: "Ontstaans datum"
-      }
-    ],
-    "zib_burn_wound.stage.summary": [
-      {
-        type: 0,
-        value: "Dieptegraad"
-      }
-    ],
-    zib_burn_wound_extent,
-    zib_checklist_pain_behaviour,
-    "zib_checklist_pain_behaviour.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_checklist_pain_behaviour.cry.value": [
-      {
-        type: 0,
-        value: "Huilen"
-      }
-    ],
-    "zib_checklist_pain_behaviour.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "zib_checklist_pain_behaviour.eyes.value": [
-      {
-        type: 0,
-        value: "Ogen"
-      }
-    ],
-    "zib_checklist_pain_behaviour.face.value": [
-      {
-        type: 0,
-        value: "Gezicht"
-      }
-    ],
-    "zib_checklist_pain_behaviour.grimace.value": [
-      {
-        type: 0,
-        value: "Grimas"
-      }
-    ],
-    "zib_checklist_pain_behaviour.looking_sad.value": [
-      {
-        type: 0,
-        value: "Verdrietige blik"
-      }
-    ],
-    "zib_checklist_pain_behaviour.moaning.value": [
-      {
-        type: 0,
-        value: "Kreunen"
-      }
-    ],
-    "zib_checklist_pain_behaviour.mouth.value": [
-      {
-        type: 0,
-        value: "Mond"
-      }
-    ],
-    "zib_checklist_pain_behaviour.panic.value": [
-      {
-        type: 0,
-        value: "Paniek"
-      }
-    ],
-    "zib_checklist_pain_behaviour.sounds_of_restlessness.value": [
-      {
-        type: 0,
-        value: "Onrustige geluiden"
-      }
-    ],
-    "zib_checklist_pain_behaviour.tears.value": [
-      {
-        type: 0,
-        value: "Tranen"
-      }
-    ],
-    "zib_checklist_pain_behaviour.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    zib_comfort_scale,
-    "zib_comfort_scale.alertness.value": [
-      {
-        type: 0,
-        value: "Alertheid"
-      }
-    ],
-    "zib_comfort_scale.body_movement.value": [
-      {
-        type: 0,
-        value: "Lichaamsbeweging"
-      }
-    ],
-    "zib_comfort_scale.body_muscle_tone.value": [
-      {
-        type: 0,
-        value: "Spierspanning"
-      }
-    ],
-    "zib_comfort_scale.calmness_agitation.value": [
-      {
-        type: 0,
-        value: "Kalmte_ agitatie"
-      }
-    ],
-    "zib_comfort_scale.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_comfort_scale.crying.value": [
-      {
-        type: 0,
-        value: "Ademhalingsreactie"
-      }
-    ],
-    "zib_comfort_scale.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "zib_comfort_scale.facial_tone.value": [
-      {
-        type: 0,
-        value: "Gezichtsspanning"
-      }
-    ],
-    "zib_comfort_scale.respiratory_response.value": [
-      {
-        type: 0,
-        value: "Ademhalingsreactie"
-      }
-    ],
-    "zib_comfort_scale.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    zib_contact_information_telecom_type,
-    zib_development_child,
-    "zib_development_child.age_first_menstruation.value": [
-      {
-        type: 0,
-        value: "Leeftijd eerste menstruatie"
-      }
-    ],
-    "zib_development_child.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_development_child.development_cognition.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling verstandelijk"
-      }
-    ],
-    "zib_development_child.development_linguistics.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling taal"
-      }
-    ],
-    "zib_development_child.development_locomotion.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling motoriek"
-      }
-    ],
-    "zib_development_child.development_social.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling sociaal"
-      }
-    ],
-    "zib_development_child.effective_date_time": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind datum tijd"
-      }
-    ],
-    "zib_development_child.toilet_trainedness_feces.value": [
-      {
-        type: 0,
-        value: "Zindelijkheid feces"
-      }
-    ],
-    "zib_development_child.toilet_trainedness_urine.value": [
-      {
-        type: 0,
-        value: "Zindelijkheid urine"
-      }
-    ],
-    zib_dispense,
-    "zib_dispense.additional_information": [
-      {
-        type: 0,
-        value: "Verstrekking aanvullende informatie"
-      }
-    ],
-    "zib_dispense.authorizing_prescription": [
-      {
-        type: 0,
-        value: "Verstrekkingsverzoek"
-      }
-    ],
-    "zib_dispense.days_supply": [
-      {
-        type: 0,
-        value: "Verbruiks duur"
-      }
-    ],
-    "zib_dispense.destination": [
-      {
-        type: 0,
-        value: "Afleverlocatie"
-      }
-    ],
-    "zib_dispense.distribution_form": [
-      {
-        type: 0,
-        value: "Distributievorm"
-      }
-    ],
-    "zib_dispense.medication_reference": [
-      {
-        type: 0,
-        value: "Verstrek geneesmiddel"
-      }
-    ],
-    "zib_dispense.medication_treatment": [
-      {
-        type: 0,
-        value: "Medicamenteuze behandeling"
-      }
-    ],
-    "zib_dispense.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_dispense.performer": [
-      {
-        type: 0,
-        value: "Verstrekker"
-      }
-    ],
-    "zib_dispense.quantity": [
-      {
-        type: 0,
-        value: "Verstrekte hoeveelheid"
-      }
-    ],
-    "zib_dispense.request_date": [
-      {
-        type: 0,
-        value: "Aanschrijfdatum"
-      }
-    ],
-    "zib_dispense.when_handed_over": [
-      {
-        type: 0,
-        value: "Verstrekkings datum tijd"
-      }
-    ],
-    zib_dispense_request,
-    "zib_dispense_request.additional_wishes": [
-      {
-        type: 0,
-        value: "Aanvullende wensen"
-      }
-    ],
-    "zib_dispense_request.authored_on": [
-      {
-        type: 0,
-        value: "Verstrekkingsverzoek datum"
-      }
-    ],
-    "zib_dispense_request.dispense_request": [
-      {
-        type: 0,
-        value: "Verstrekkingsverzoek"
-      }
-    ],
-    "zib_dispense_request.dispense_request.dispense_location": [
-      {
-        type: 0,
-        value: "Afleverlocatie"
-      }
-    ],
-    "zib_dispense_request.dispense_request.expected_supply_duration": [
-      {
-        type: 0,
-        value: "Duur"
-      }
-    ],
-    "zib_dispense_request.dispense_request.number_of_repeats_allowed": [
-      {
-        type: 0,
-        value: "Aantal herhalingen"
-      }
-    ],
-    "zib_dispense_request.dispense_request.performer": [
-      {
-        type: 0,
-        value: "Beoogd verstrekker"
-      }
-    ],
-    "zib_dispense_request.dispense_request.quantity": [
-      {
-        type: 0,
-        value: "Te verstrekken hoeveelheid"
-      }
-    ],
-    "zib_dispense_request.dispense_request.validity_period": [
-      {
-        type: 0,
-        value: "Verbruiksperiode"
-      }
-    ],
-    "zib_dispense_request.dispense_request.validity_period.end": [
-      {
-        type: 0,
-        value: "Einddatum"
-      }
-    ],
-    "zib_dispense_request.dispense_request.validity_period.start": [
-      {
-        type: 0,
-        value: "Ingangsdatum"
-      }
-    ],
-    "zib_dispense_request.medication_reference": [
-      {
-        type: 0,
-        value: "Geneesmiddel"
-      }
-    ],
-    "zib_dispense_request.medication_treatment": [
-      {
-        type: 0,
-        value: "Medicamenteuze behandeling"
-      }
-    ],
-    "zib_dispense_request.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    zib_drug_use,
-    "zib_drug_use.amount.value": [
-      {
-        type: 0,
-        value: "Hoeveelheid"
-      }
-    ],
-    "zib_drug_use.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_drug_use.drug_or_medication_type.value": [
-      {
-        type: 0,
-        value: "Drugs of geneesmiddel soort"
-      }
-    ],
-    "zib_drug_use.effective_period.end": [
-      {
-        type: 0,
-        value: "Stop datum"
-      }
-    ],
-    "zib_drug_use.effective_period.start": [
-      {
-        type: 0,
-        value: "Start datum"
-      }
-    ],
-    "zib_drug_use.route_of_administration.value": [
-      {
-        type: 0,
-        value: "Toedieningsweg"
-      }
-    ],
-    "zib_drug_use.value": [
-      {
-        type: 0,
-        value: "Drug gebruik status"
-      }
-    ],
-    zib_encounter,
-    "zib_encounter.class": [
-      {
-        type: 0,
-        value: "Contact type"
-      }
-    ],
-    "zib_encounter.diagnosis.condition": [
-      {
-        type: 0,
-        value: "Probleem"
-      }
-    ],
-    "zib_encounter.hospitalization.admit_source": [
-      {
-        type: 0,
-        value: "Herkomst"
-      }
-    ],
-    "zib_encounter.hospitalization.discharge_disposition": [
-      {
-        type: 0,
-        value: "Bestemming"
-      }
-    ],
-    "zib_encounter.participant.individual": [
-      {
-        type: 0,
-        value: "Contact met"
-      }
-    ],
-    "zib_encounter.participant.type.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "zib_encounter.period.end": [
-      {
-        type: 0,
-        value: "Eind datum tijd"
-      }
-    ],
-    "zib_encounter.period.start": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    "zib_encounter.reason": [
-      {
-        type: 0,
-        value: "Afwijkende uitslag"
-      }
-    ],
-    "zib_encounter.reason.text": [
-      {
-        type: 0,
-        value: "Afwijkende uitslag"
-      }
-    ],
-    "zib_encounter.service_provider": [
-      {
-        type: 0,
-        value: "Locatie"
-      }
-    ],
-    zib_family_situation,
-    "zib_family_situation.care_responsibility.value": [
-      {
-        type: 0,
-        value: "Zorgtaak"
-      }
-    ],
-    "zib_family_situation.child.value": [
-      {
-        type: 0,
-        value: "Geboortedatum"
-      }
-    ],
-    "zib_family_situation.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_family_situation.family_composition.value": [
-      {
-        type: 0,
-        value: "Gezinssamenstelling"
-      }
-    ],
-    "zib_family_situation.number_of_children.value": [
-      {
-        type: 0,
-        value: "Aantal kinderen"
-      }
-    ],
-    "zib_family_situation.number_of_children_living_at_home.value": [
-      {
-        type: 0,
-        value: "Aantal kinderen inwonend"
-      }
-    ],
-    zib_family_situation_child,
-    "zib_family_situation_child.child": [
-      {
-        type: 0,
-        value: "Kind"
-      }
-    ],
-    "zib_family_situation_child.child.contact_person": [
-      {
-        type: 0,
-        value: "Contact persoon"
-      }
-    ],
-    "zib_family_situation_child.child.value": [
-      {
-        type: 0,
-        value: "Geboortedatum"
-      }
-    ],
-    "zib_family_situation_child.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_family_situation_child.family_composition.value": [
-      {
-        type: 0,
-        value: "Gezinssamenstelling"
-      }
-    ],
-    "zib_family_situation_child.number_of_siblings.value": [
-      {
-        type: 0,
-        value: "Aantal kinderen"
-      }
-    ],
-    "zib_family_situation_child.parent_carer.parent_carer": [
-      {
-        type: 0,
-        value: "Ouder verzorger"
-      }
-    ],
-    "zib_family_situation_child.sibling": [
-      {
-        type: 0,
-        value: "Broer of zus"
-      }
-    ],
-    "zib_family_situation_child.sibling.contact_person": [
-      {
-        type: 0,
-        value: "Contactpersoon"
-      }
-    ],
-    "zib_family_situation_child.sibling.value": [
-      {
-        type: 0,
-        value: "Geboortedatum zus broer"
-      }
-    ],
-    zib_family_situation_living_at_home_indicator,
-    "zib_family_situation_living_at_home_indicator.value": [
-      {
-        type: 0,
-        value: "Inwonend"
-      }
-    ],
-    zib_feeding_pattern_infant,
-    "zib_feeding_pattern_infant.based_on": [
-      {
-        type: 0,
-        value: "Voedingsadvies"
-      }
-    ],
-    "zib_feeding_pattern_infant.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_feeding_pattern_infant.effective_date_time": [
-      {
-        type: 0,
-        value: "Voedingspatroon zuigeling datum tijd"
-      }
-    ],
-    "zib_feeding_pattern_infant.feeding_frequency.value": [
-      {
-        type: 0,
-        value: "Voeding frequentie"
-      }
-    ],
-    "zib_feeding_pattern_infant.feeding_supplement.value": [
-      {
-        type: 0,
-        value: "Voeding toevoeging"
-      }
-    ],
-    "zib_feeding_pattern_infant.feeding_type.feeding_method.value": [
-      {
-        type: 0,
-        value: "Voeding methode"
-      }
-    ],
-    "zib_feeding_pattern_infant.feeding_type.value": [
-      {
-        type: 0,
-        value: "Voeding soort"
-      }
-    ],
-    zib_feeding_tube_system,
-    "zib_feeding_tube_system.medical_device": [
-      {
-        type: 0,
-        value: "Medisch hulpmiddel"
-      }
-    ],
-    zib_feeding_tube_system_enteral_nutrition,
-    zib_feeding_tube_system_feeding_tube_length,
-    zib_flacc_pain_scale,
-    "zib_flacc_pain_scale.activity.value": [
-      {
-        type: 0,
-        value: "Activiteit"
-      }
-    ],
-    "zib_flacc_pain_scale.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_flacc_pain_scale.consolability.value": [
-      {
-        type: 0,
-        value: "Troostbaar"
-      }
-    ],
-    "zib_flacc_pain_scale.cry.value": [
-      {
-        type: 0,
-        value: "Huilen"
-      }
-    ],
-    "zib_flacc_pain_scale.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "zib_flacc_pain_scale.face.value": [
-      {
-        type: 0,
-        value: "Gezicht"
-      }
-    ],
-    "zib_flacc_pain_scale.legs.value": [
-      {
-        type: 0,
-        value: "Benen"
-      }
-    ],
-    "zib_flacc_pain_scale.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    zib_fluid_balance,
-    "zib_fluid_balance.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_fluid_balance.effective_period.end": [
-      {
-        type: 0,
-        value: "Vochtbalans stoptijd"
-      }
-    ],
-    "zib_fluid_balance.effective_period.start": [
-      {
-        type: 0,
-        value: "Vochtbalans starttijd"
-      }
-    ],
-    "zib_fluid_balance.fluid_total_in.value": [
-      {
-        type: 0,
-        value: "Vocht totaal in"
-      }
-    ],
-    "zib_fluid_balance.fluid_total_out.value": [
-      {
-        type: 0,
-        value: "Vocht totaal uit"
-      }
-    ],
-    zib_freedom_restricting_measures,
-    "zib_freedom_restricting_measures.legal_status": [
-      {
-        type: 0,
-        value: "Juridische status"
-      }
-    ],
-    "zib_freedom_restricting_measures.legally_capable.legally_capable_comment": [
-      {
-        type: 0,
-        value: "Wilsbekwaam toelichting"
-      }
-    ],
-    "zib_freedom_restricting_measures.legally_capable.legally_capable_indicator": [
-      {
-        type: 0,
-        value: "Wilsbekwaam"
-      }
-    ],
-    "zib_freedom_restricting_measures.performed_period.end": [
-      {
-        type: 0,
-        value: "Einde episode"
-      }
-    ],
-    "zib_freedom_restricting_measures.performed_period.start": [
-      {
-        type: 0,
-        value: "Aanvang episode"
-      }
-    ],
-    "zib_freedom_restricting_measures_legally_capable.legally_capable_comment.value": [
-      {
-        type: 0,
-        value: "Wilsbekwaam toelichting"
-      }
-    ],
-    "zib_freedom_restricting_measures_legally_capable.legally_capable_indicator.value": [
-      {
-        type: 0,
-        value: "Wilsbekwaam"
-      }
-    ],
-    zib_freedom_restricting_measures_permission,
-    zib_functional_or_mental_status,
-    "zib_functional_or_mental_status.code": [
-      {
-        type: 0,
-        value: "Status naam"
-      }
-    ],
-    "zib_functional_or_mental_status.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_functional_or_mental_status.effective_period.start": [
-      {
-        type: 0,
-        value: "Status datum"
-      }
-    ],
-    "zib_functional_or_mental_status.medical_device": [
-      {
-        type: 0,
-        value: "Hulpmiddel"
-      }
-    ],
-    "zib_functional_or_mental_status.subject": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "zib_functional_or_mental_status.value": [
-      {
-        type: 0,
-        value: "Status waarde"
-      }
-    ],
-    "zib_functional_or_mental_status_medical_device.value": [
-      {
-        type: 0,
-        value: "Medisch hulpmiddel"
-      }
-    ],
-    zib_general_measurement,
-    "zib_general_measurement.code": [
-      {
-        type: 0,
-        value: "Onderzoek"
-      }
-    ],
-    "zib_general_measurement.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_general_measurement.effective": [
-      {
-        type: 0,
-        value: "Uitslag datum tijd"
-      }
-    ],
-    "zib_general_measurement.method": [
-      {
-        type: 0,
-        value: "Meetmethode"
-      }
-    ],
-    "zib_general_measurement.related": [
-      {
-        type: 0,
-        value: "Meet uitslag"
-      }
-    ],
-    "zib_general_measurement.status.result_status_codelist": [
-      {
-        type: 0,
-        value: "Resultaat status"
-      }
-    ],
-    "zib_general_measurement.value": [
-      {
-        type: 0,
-        value: "Uitslag waarde"
-      }
-    ],
-    zib_head_circumference,
-    "zib_head_circumference.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_head_circumference.effective": [
-      {
-        type: 0,
-        value: "Schedelomvang datum tijd"
-      }
-    ],
-    "zib_head_circumference.method": [
-      {
-        type: 0,
-        value: "Schedelomvang meetmethode"
-      }
-    ],
-    "zib_head_circumference.value": [
-      {
-        type: 0,
-        value: "Schedelomvang waarde"
-      }
-    ],
-    zib_hearing_function,
-    "zib_hearing_function.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_hearing_function.value": [
-      {
-        type: 0,
-        value: "Hoor functie"
-      }
-    ],
-    zib_hearing_function_hearing_aid,
-    "zib_hearing_function_hearing_aid.body_site": [
-      {
-        type: 0,
-        value: "Hulpmiddel anatomische locatie"
-      }
-    ],
-    zib_heart_rate,
-    "zib_heart_rate.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_heart_rate.effective": [
-      {
-        type: 0,
-        value: "Hartfrequentie datum tijd"
-      }
-    ],
-    "zib_heart_rate.interpretation": [
-      {
-        type: 0,
-        value: "Hartslag regelmatigheid"
-      }
-    ],
-    "zib_heart_rate.method": [
-      {
-        type: 0,
-        value: "Hartslag meet methode"
-      }
-    ],
-    "zib_heart_rate.value": [
-      {
-        type: 0,
-        value: "Hartfrequentie waarde"
-      }
-    ],
-    "zib_help_from_others.activity": [
-      {
-        type: 0,
-        value: "Hulp van anderen"
-      }
-    ],
-    "zib_help_from_others.activity.detail.category": [
-      {
-        type: 0,
-        value: "Soort hulp"
-      }
-    ],
-    "zib_help_from_others.activity.detail.code": [
-      {
-        type: 0,
-        value: "Aard"
-      }
-    ],
-    "zib_help_from_others.activity.detail.description": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_help_from_others.activity.detail.performer": [
-      {
-        type: 0,
-        value: "Hulpverlener"
-      }
-    ],
-    "zib_help_from_others.activity.detail.scheduled_string": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    zib_illness_perception,
-    "zib_illness_perception.coping_with_illness_by_family": [
-      {
-        type: 0,
-        value: "Omgaan met ziekteproces door naasten"
-      }
-    ],
-    "zib_illness_perception.coping_with_illness_by_patient": [
-      {
-        type: 0,
-        value: "Omgaan met ziekteproces door patiënt"
-      }
-    ],
-    "zib_illness_perception.patient_illness_insight": [
-      {
-        type: 0,
-        value: "Ziekte inzicht van patiënt"
-      }
-    ],
-    zib_infusion,
-    "zib_infusion_administering_system.device.peripheral": [
-      {
-        type: 0,
-        value: "Randapparaat"
-      }
-    ],
-    "zib_infusion_administering_system.note.text": [
-      {
-        type: 0,
-        value: "Toedienings systeem toelichting"
-      }
-    ],
-    zib_infusion_lumen_or_line,
-    "zib_infusion_lumen_or_line.administering_system": [
-      {
-        type: 0,
-        value: "Toedienings systeem"
-      }
-    ],
-    "zib_infusion_lumen_or_line.line_status": [
-      {
-        type: 0,
-        value: "Lijn status"
-      }
-    ],
-    "zib_infusion_lumen_or_line.lock_fluid": [
-      {
-        type: 0,
-        value: "Slot vloeistof"
-      }
-    ],
-    "zib_infusion_lumen_or_line.lumen_location": [
-      {
-        type: 0,
-        value: "Lumen locatie"
-      }
-    ],
-    zib_instructions_for_use,
-    "zib_instructions_for_use.additional_instruction": [
-      {
-        type: 0,
-        value: "Aanvullende instructie"
-      }
-    ],
-    "zib_instructions_for_use.as_needed_codeable_concept": [
-      {
-        type: 0,
-        value: "Zo nodig"
-      }
-    ],
-    "zib_instructions_for_use.dose": [
-      {
-        type: 0,
-        value: "Keerdosis"
-      }
-    ],
-    "zib_instructions_for_use.max_dose_per_period": [
-      {
-        type: 0,
-        value: "Maximale dosering"
-      }
-    ],
-    "zib_instructions_for_use.rate": [
-      {
-        type: 0,
-        value: "Toedieningssnelheid"
-      }
-    ],
-    "zib_instructions_for_use.route": [
-      {
-        type: 0,
-        value: "Toedieningsweg"
-      }
-    ],
-    "zib_instructions_for_use.sequence": [
-      {
-        type: 0,
-        value: "Volgnummer"
-      }
-    ],
-    "zib_instructions_for_use.text": [
-      {
-        type: 0,
-        value: "Omschrijving"
-      }
-    ],
-    zib_laboratory_test_result_diagnostic_report,
-    "zib_laboratory_test_result_diagnostic_report.based_on": [
-      {
-        type: 0,
-        value: "Aanvrager"
-      }
-    ],
-    "zib_laboratory_test_result_diagnostic_report.category.result_type": [
-      {
-        type: 0,
-        value: "Resultaat type"
-      }
-    ],
-    "zib_laboratory_test_result_diagnostic_report.code": [
-      {
-        type: 0,
-        value: "Onderzoek"
-      }
-    ],
-    "zib_laboratory_test_result_diagnostic_report.conclusion": [
-      {
-        type: 0,
-        value: "Uitslag interpretatie en/of toelichting"
-      }
-    ],
-    "zib_laboratory_test_result_diagnostic_report.identifier": [
-      {
-        type: 0,
-        value: "Identificatie"
-      }
-    ],
-    "zib_laboratory_test_result_diagnostic_report.performer.role.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "zib_laboratory_test_result_diagnostic_report.specimen": [
-      {
-        type: 0,
-        value: "Monster"
-      }
-    ],
-    "zib_laboratory_test_result_diagnostic_report.status": [
-      {
-        type: 0,
-        value: "Resultaat status"
-      }
-    ],
-    "zib_laboratory_test_result_diagnostic_report.status.result_status": [
-      {
-        type: 0,
-        value: "Resultaat status"
-      }
-    ],
-    zib_laboratory_test_result_observation,
-    "zib_laboratory_test_result_observation.based_on": [
-      {
-        type: 0,
-        value: "Aanvrager"
-      }
-    ],
-    "zib_laboratory_test_result_observation.code": [
-      {
-        type: 0,
-        value: "Test code"
-      }
-    ],
-    "zib_laboratory_test_result_observation.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_laboratory_test_result_observation.component": [
-      {
-        type: 0,
-        value: "Laboratorium test"
-      }
-    ],
-    "zib_laboratory_test_result_observation.component.code": [
-      {
-        type: 0,
-        value: "Test code"
-      }
-    ],
-    "zib_laboratory_test_result_observation.component.interpretation": [
-      {
-        type: 0,
-        value: "Interpretatie vlaggen"
-      }
-    ],
-    "zib_laboratory_test_result_observation.component.value": [
-      {
-        type: 0,
-        value: "Test uitslag"
-      }
-    ],
-    "zib_laboratory_test_result_observation.effective": [
-      {
-        type: 0,
-        value: "Test datum tijd"
-      }
-    ],
-    "zib_laboratory_test_result_observation.identifier": [
-      {
-        type: 0,
-        value: "Identificatie"
-      }
-    ],
-    "zib_laboratory_test_result_observation.interpretation.interpretatie_vlaggen_codelijst": [
-      {
-        type: 0,
-        value: "Interpretatie vlaggen"
-      }
-    ],
-    "zib_laboratory_test_result_observation.method": [
-      {
-        type: 0,
-        value: "Testmethode"
-      }
-    ],
-    "zib_laboratory_test_result_observation.reference_range": [
-      {
-        type: 0,
-        value: "Referentie"
-      }
-    ],
-    "zib_laboratory_test_result_observation.reference_range.high": [
-      {
-        type: 0,
-        value: "Referentie bovengrens"
-      }
-    ],
-    "zib_laboratory_test_result_observation.reference_range.low": [
-      {
-        type: 0,
-        value: "Referentie ondergrens"
-      }
-    ],
-    "zib_laboratory_test_result_observation.related": [
-      {
-        type: 0,
-        value: "Gerelateerde uitslag"
-      }
-    ],
-    "zib_laboratory_test_result_observation.result_type": [
-      {
-        type: 0,
-        value: "Resultaat type"
-      }
-    ],
-    "zib_laboratory_test_result_observation.specimen": [
-      {
-        type: 0,
-        value: "Monster"
-      }
-    ],
-    "zib_laboratory_test_result_observation.status": [
-      {
-        type: 0,
-        value: "Test uitslag status"
-      }
-    ],
-    "zib_laboratory_test_result_observation.status.test_result_status": [
-      {
-        type: 0,
-        value: "Test uitslag status"
-      }
-    ],
-    "zib_laboratory_test_result_observation.subject": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "zib_laboratory_test_result_observation.value": [
-      {
-        type: 0,
-        value: "Test uitslag"
-      }
-    ],
-    zib_laboratory_test_result_specimen,
-    "zib_laboratory_test_result_specimen.collection.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.collection.body_site.morphology": [
-      {
-        type: 0,
-        value: "Morfologie"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.collection.collected_date_time": [
-      {
-        type: 0,
-        value: "Afname datum tijd"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.collection.collected_period": [
-      {
-        type: 0,
-        value: "Verzamelperiode"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.collection.method": [
-      {
-        type: 0,
-        value: "Afnameprocedure"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.collection.quantity": [
-      {
-        type: 0,
-        value: "Verzamelvolume"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.container": [
-      {
-        type: 0,
-        value: "Monstercontainer"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.container.identifier": [
-      {
-        type: 0,
-        value: "Monstervolgnummer"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.container.type": [
-      {
-        type: 0,
-        value: "Containertype"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.identifier": [
-      {
-        type: 0,
-        value: "Monsternummer"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.received_time": [
-      {
-        type: 0,
-        value: "Aanname datum tijd"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.subject": [
-      {
-        type: 0,
-        value: "Bron monster"
-      }
-    ],
-    "zib_laboratory_test_result_specimen.type": [
-      {
-        type: 0,
-        value: "Monstermateriaal"
-      }
-    ],
-    zib_laboratory_test_result_specimen_isolate,
-    "zib_laboratory_test_result_specimen_isolate.collection.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.collection.body_site.morphology": [
-      {
-        type: 0,
-        value: "Morfologie"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.collection.collected_date_time": [
-      {
-        type: 0,
-        value: "Afname datum tijd"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.collection.collected_period": [
-      {
-        type: 0,
-        value: "Verzamelperiode"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.collection.method": [
-      {
-        type: 0,
-        value: "Afnameprocedure"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.collection.quantity": [
-      {
-        type: 0,
-        value: "Verzamelvolume"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.container": [
-      {
-        type: 0,
-        value: "Monstercontainer"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.container.identifier": [
-      {
-        type: 0,
-        value: "Monstervolgnummer"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.container.type": [
-      {
-        type: 0,
-        value: "Containertype"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.identifier": [
-      {
-        type: 0,
-        value: "Monsternummer"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.received_time": [
-      {
-        type: 0,
-        value: "Aanname datum tijd"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.subject": [
-      {
-        type: 0,
-        value: "Bron monster"
-      }
-    ],
-    "zib_laboratory_test_result_specimen_isolate.type": [
-      {
-        type: 0,
-        value: "Microorganisme"
-      }
-    ],
-    "zib_laboratory_test_result_substance.code": [
-      {
-        type: 0,
-        value: "Microorganisme"
-      }
-    ],
-    "zib_life_stance.value": [
-      {
-        type: 0,
-        value: "Levensovertuiging"
-      }
-    ],
-    zib_living_situation,
-    "zib_living_situation.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_living_situation.value": [
-      {
-        type: 0,
-        value: "Woning type"
-      }
-    ],
-    zib_medical_device,
-    "zib_medical_device.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "zib_medical_device.health_professional": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "zib_medical_device.healthcare_provider": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "zib_medical_device.indication.indication_problem": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "zib_medical_device.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_medical_device.when_used": [
-      {
-        type: 0,
-        value: "Tijdsduur gedefinieerd door start- en einddatum/tijd"
-      }
-    ],
-    "zib_medical_device.when_used.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "zib_medical_device_organization.value": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "zib_medical_device_practitioner.value": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "zib_medical_device_problem.value": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    zib_medical_device_product,
-    "zib_medical_device_product.identifier": [
-      {
-        type: 0,
-        value: "Product ID"
-      }
-    ],
-    "zib_medical_device_product.note.text": [
-      {
-        type: 0,
-        value: "Product omschrijving"
-      }
-    ],
-    "zib_medical_device_product.type": [
-      {
-        type: 0,
-        value: "Product type"
-      }
-    ],
-    "zib_medical_device_request.code_codeable_concept": [
-      {
-        type: 0,
-        value: "Product type"
-      }
-    ],
-    "zib_medical_device_request.code_reference": [
-      {
-        type: 0,
-        value: "Product"
-      }
-    ],
-    "zib_medical_device_request.occurrence_period.end": [
-      {
-        type: 0,
-        value: "Eind datum"
-      }
-    ],
-    "zib_medical_device_request.occurrence_period.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "zib_medical_device_request.performer_type.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "zib_medical_device_request.status.order_status": [
-      {
-        type: 0,
-        value: "Order status"
-      }
-    ],
-    zib_medication_administration,
-    "zib_medication_administration.agreed_date_time": [
-      {
-        type: 0,
-        value: "Afgesproken datum tijd"
-      }
-    ],
-    "zib_medication_administration.dosage.dose": [
-      {
-        type: 0,
-        value: "Toegediende hoeveelheid"
-      }
-    ],
-    "zib_medication_administration.dosage.rate": [
-      {
-        type: 0,
-        value: "Toedieningssnelheid"
-      }
-    ],
-    "zib_medication_administration.dosage.route": [
-      {
-        type: 0,
-        value: "Toedieningsweg"
-      }
-    ],
-    "zib_medication_administration.double_check_performed": [
-      {
-        type: 0,
-        value: "Dubbele controle uitgevoerd"
-      }
-    ],
-    "zib_medication_administration.effective": [
-      {
-        type: 0,
-        value: "Toedienings datum tijd"
-      }
-    ],
-    "zib_medication_administration.medication_reference": [
-      {
-        type: 0,
-        value: "Product"
-      }
-    ],
-    "zib_medication_administration.medication_treatment": [
-      {
-        type: 0,
-        value: "Medicamenteuze behandeling"
-      }
-    ],
-    "zib_medication_administration.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_medication_administration.performer": [
-      {
-        type: 0,
-        value: "Toediener"
-      }
-    ],
-    "zib_medication_administration.status": [
-      {
-        type: 0,
-        value: "Medicatie toediening status"
-      }
-    ],
-    "zib_medication_administration.status.order_status": [
-      {
-        type: 0,
-        value: "Order status"
-      }
-    ],
-    "zib_medication_administration.supporting_information": [
-      {
-        type: 0,
-        value: "Gerelateerde afspraak"
-      }
-    ],
-    "zib_medication_administration_deviating_administration.deviation": [
-      {
-        type: 0,
-        value: "Afwijkende toediening"
-      }
-    ],
-    "zib_medication_administration_deviating_administration.reason_for_deviation": [
-      {
-        type: 0,
-        value: "Medicatie toediening reden van afwijken"
-      }
-    ],
-    zib_medication_agreement,
-    "zib_medication_agreement.additional_information": [
-      {
-        type: 0,
-        value: "Medicatieafspraak aanvullende informatie"
-      }
-    ],
-    "zib_medication_agreement.authored_on": [
-      {
-        type: 0,
-        value: "Afspraakdatum"
-      }
-    ],
-    "zib_medication_agreement.medication_reference": [
-      {
-        type: 0,
-        value: "Afgesprokengeneesmiddel"
-      }
-    ],
-    "zib_medication_agreement.medication_treatment": [
-      {
-        type: 0,
-        value: "Medicamenteuze behandeling"
-      }
-    ],
-    "zib_medication_agreement.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_medication_agreement.reason_code": [
-      {
-        type: 0,
-        value: "Reden medicatieafspraak"
-      }
-    ],
-    "zib_medication_agreement.reason_reference": [
-      {
-        type: 0,
-        value: "Reden van voorschrijven"
-      }
-    ],
-    "zib_medication_agreement.requester": [
-      {
-        type: 0,
-        value: "Voorschrijver"
-      }
-    ],
-    "zib_medication_agreement.usage_duration": [
-      {
-        type: 0,
-        value: "Duur"
-      }
-    ],
-    zib_medication_period_of_use,
-    zib_medication_use,
-    "zib_medication_use.as_agreed_indicator": [
-      {
-        type: 0,
-        value: "Volgens afspraak indicator"
-      }
-    ],
-    "zib_medication_use.author": [
-      {
-        type: 0,
-        value: "Auteur"
-      }
-    ],
-    "zib_medication_use.date_asserted": [
-      {
-        type: 0,
-        value: "Registratiedatum"
-      }
-    ],
-    "zib_medication_use.effective_period": [
-      {
-        type: 0,
-        value: "Gebruiksperiode"
-      }
-    ],
-    "zib_medication_use.effective_period.duration": [
-      {
-        type: 0,
-        value: "Tijds duur"
-      }
-    ],
-    "zib_medication_use.effective_period.end": [
-      {
-        type: 0,
-        value: "Einddatum"
-      }
-    ],
-    "zib_medication_use.effective_period.start": [
-      {
-        type: 0,
-        value: "Ingangsdatum"
-      }
-    ],
-    "zib_medication_use.medication_reference": [
-      {
-        type: 0,
-        value: "Gebruiksproduct"
-      }
-    ],
-    "zib_medication_use.medication_treatment": [
-      {
-        type: 0,
-        value: "Medicamenteuze behandeling"
-      }
-    ],
-    "zib_medication_use.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_medication_use.prescriber": [
-      {
-        type: 0,
-        value: "Voorschrijver"
-      }
-    ],
-    "zib_medication_use.reason_code.text": [
-      {
-        type: 0,
-        value: "Reden gebruik"
-      }
-    ],
-    "zib_medication_use.reason_for_change_or_discontinuation_of_use": [
-      {
-        type: 0,
-        value: "Reden wijzigen of stoppen gebruik"
-      }
-    ],
-    "zib_medication_use.status": [
-      {
-        type: 0,
-        value: "Medicatie gebruik stop type"
-      }
-    ],
-    "zib_medication_use.taken": [
-      {
-        type: 0,
-        value: "Gebruik indicator"
-      }
-    ],
-    "zib_medication_use_duration.value": [
-      {
-        type: 0,
-        value: "Gebruiksduur"
-      }
-    ],
-    "zib_medication_use_reason_for_change_or_discontinuation_of_use.value": [
-      {
-        type: 0,
-        value: "Reden wijzigen of stoppen gebruik"
-      }
-    ],
-    zib_mobility,
-    "zib_mobility.changing_position.value": [
-      {
-        type: 0,
-        value: "Houding veranderen"
-      }
-    ],
-    "zib_mobility.climbing_stairs.value": [
-      {
-        type: 0,
-        value: "Traplopen"
-      }
-    ],
-    "zib_mobility.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_mobility.maintaining_position.value": [
-      {
-        type: 0,
-        value: "Houding handhaven"
-      }
-    ],
-    "zib_mobility.transfer.value": [
-      {
-        type: 0,
-        value: "Uitvoeren transfer"
-      }
-    ],
-    "zib_mobility.walking.value": [
-      {
-        type: 0,
-        value: "Lopen"
-      }
-    ],
-    zib_must_score,
-    "zib_must_score.bmi_score.value": [
-      {
-        type: 0,
-        value: "BMI score"
-      }
-    ],
-    "zib_must_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_must_score.effective_date_time": [
-      {
-        type: 0,
-        value: "MUST score datum tijd"
-      }
-    ],
-    "zib_must_score.illness_score.value": [
-      {
-        type: 0,
-        value: "Ziekte score"
-      }
-    ],
-    "zib_must_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "zib_must_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    zib_nursing_intervention,
-    "zib_nursing_intervention.code": [
-      {
-        type: 0,
-        value: "Interventie"
-      }
-    ],
-    "zib_nursing_intervention.frequency": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    "zib_nursing_intervention.instruction": [
-      {
-        type: 0,
-        value: "Instructie"
-      }
-    ],
-    "zib_nursing_intervention.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_nursing_intervention.performed_period.end": [
-      {
-        type: 0,
-        value: "Actie eind datum tijd"
-      }
-    ],
-    "zib_nursing_intervention.performed_period.start": [
-      {
-        type: 0,
-        value: "Actie start datum tijd"
-      }
-    ],
-    "zib_nursing_intervention.performer": [
-      {
-        type: 0,
-        value: "Uitvoerder"
-      }
-    ],
-    "zib_nursing_intervention.performer.role.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "zib_nursing_intervention.reason_reference": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "zib_nursing_intervention.requester": [
-      {
-        type: 0,
-        value: "Aanvrager"
-      }
-    ],
-    "zib_nursing_intervention.treatment_objective": [
-      {
-        type: 0,
-        value: "Behandeldoel"
-      }
-    ],
-    zib_nursing_intervention_interval,
-    "zib_nursing_intervention_requester.value": [
-      {
-        type: 0,
-        value: "Aanvrager"
-      }
-    ],
-    zib_nutrition_advice,
-    "zib_nutrition_advice.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_nutrition_advice.oral_diet.fluid_consistency_type.text": [
-      {
-        type: 0,
-        value: "Consistentie"
-      }
-    ],
-    "zib_nutrition_advice.oral_diet.texture.food_type.text": [
-      {
-        type: 0,
-        value: "Consistentie"
-      }
-    ],
-    "zib_nutrition_advice.oral_diet.texture.modifier.text": [
-      {
-        type: 0,
-        value: "Consistentie"
-      }
-    ],
-    "zib_nutrition_advice.oral_diet.type.text": [
-      {
-        type: 0,
-        value: "Dieet type"
-      }
-    ],
-    "zib_nutrition_advice_explanation.value": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    zib_outcome_of_care,
-    "zib_outcome_of_care.conclusion": [
-      {
-        type: 0,
-        value: "Zorgresultaat"
-      }
-    ],
-    "zib_outcome_of_care.health_condition": [
-      {
-        type: 0,
-        value: "Gezondheidstoestand"
-      }
-    ],
-    "zib_outcome_of_care.intervention.value": [
-      {
-        type: 0,
-        value: "Interventie"
-      }
-    ],
-    "zib_outcome_of_care.measurement_value": [
-      {
-        type: 0,
-        value: "Meetwaarde"
-      }
-    ],
-    zib_oxygen_saturation,
-    "zib_oxygen_saturation.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_oxygen_saturation.effective": [
-      {
-        type: 0,
-        value: "O2 saturatie datum tijd"
-      }
-    ],
-    "zib_oxygen_saturation.extra_oxygen_administration.value": [
-      {
-        type: 0,
-        value: "Extra zuurstof toediening"
-      }
-    ],
-    "zib_oxygen_saturation.value": [
-      {
-        type: 0,
-        value: "Sp o2 waarde"
-      }
-    ],
-    zib_pain_score,
-    "zib_pain_score.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "zib_pain_score.body_site.laterality": [
-      {
-        type: 0,
-        value: "Lateraliteit"
-      }
-    ],
-    "zib_pain_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_pain_score.effective_date_time": [
-      {
-        type: 0,
-        value: "Pijnscore datum tijd"
-      }
-    ],
-    "zib_pain_score.method": [
-      {
-        type: 0,
-        value: "Pijn meetmethode"
-      }
-    ],
-    "zib_pain_score.value": [
-      {
-        type: 0,
-        value: "Pijnscore waarde"
-      }
-    ],
-    zib_participation_in_society,
-    "zib_participation_in_society.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_participation_in_society.hobby.value": [
-      {
-        type: 0,
-        value: "Vrijetijdsbesteding"
-      }
-    ],
-    "zib_participation_in_society.social_network": [
-      {
-        type: 0,
-        value: "Social network"
-      }
-    ],
-    "zib_participation_in_society.social_network.value": [
-      {
-        type: 0,
-        value: "Sociaal netwerk"
-      }
-    ],
-    "zib_participation_in_society.work_situation.value": [
-      {
-        type: 0,
-        value: "Arbeidssituatie"
-      }
-    ],
-    zib_payer,
-    "zib_payer.payor": [
-      {
-        type: 0,
-        value: "Verzekeraar"
-      }
-    ],
-    "zib_payer.payor.bank_information.account_number": [
-      {
-        type: 0,
-        value: "Rekeningnummer"
-      }
-    ],
-    "zib_payer.payor.bank_information.bank_name": [
-      {
-        type: 0,
-        value: "Bank naam"
-      }
-    ],
-    "zib_payer.payor.bank_information.bankcode": [
-      {
-        type: 0,
-        value: "Bankcode"
-      }
-    ],
-    "zib_payer.period.end": [
-      {
-        type: 0,
-        value: "Eind datum tijd"
-      }
-    ],
-    "zib_payer.period.start": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    "zib_payer.subscriber_id": [
-      {
-        type: 0,
-        value: "Verzekerde nummer"
-      }
-    ],
-    "zib_payer.type": [
-      {
-        type: 0,
-        value: "Verzekerings soort"
-      }
-    ],
-    zib_payer_bank_information,
-    "zib_payer_bank_information.account_number.value": [
-      {
-        type: 0,
-        value: "Rekeningnummer"
-      }
-    ],
-    "zib_payer_bank_information.bank_name.value": [
-      {
-        type: 0,
-        value: "Bank naam"
-      }
-    ],
-    "zib_payer_bank_information.bankcode.value": [
-      {
-        type: 0,
-        value: "Bankcode"
-      }
-    ],
-    zib_pregnancy,
-    "zib_pregnancy_date_last_menstruation.value": [
-      {
-        type: 0,
-        value: "Datum laatste menstruatie"
-      }
-    ],
-    "zib_pregnancy_gravidity.value": [
-      {
-        type: 0,
-        value: "Graviditeit"
-      }
-    ],
-    "zib_pregnancy_parity.value": [
-      {
-        type: 0,
-        value: "Pariteit"
-      }
-    ],
-    "zib_pregnancy_pregnancy_duration.value": [
-      {
-        type: 0,
-        value: "Zwangerschapsduur"
-      }
-    ],
-    "zib_pregnancy_pregnancy_status.value": [
-      {
-        type: 0,
-        value: "Zwanger"
-      }
-    ],
-    "zib_pregnancy_term_date.value": [
-      {
-        type: 0,
-        value: "A terme datum"
-      }
-    ],
-    zib_pressure_ulcer,
-    "zib_pressure_ulcer.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "zib_pressure_ulcer.body_site.laterality.value": [
-      {
-        type: 0,
-        value: "Lateraliteit"
-      }
-    ],
-    "zib_pressure_ulcer.code": [
-      {
-        type: 0,
-        value: "Decubitus wond"
-      }
-    ],
-    "zib_pressure_ulcer.date_of_last_dressing_change.value": [
-      {
-        type: 0,
-        value: "Datum laatste verband wissel"
-      }
-    ],
-    "zib_pressure_ulcer.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_pressure_ulcer.onset": [
-      {
-        type: 0,
-        value: "Ontstaans datum"
-      }
-    ],
-    "zib_pressure_ulcer.stage.summary": [
-      {
-        type: 0,
-        value: "Decubitus categorie"
-      }
-    ],
-    zib_problem,
-    "zib_problem.abatement_date_time": [
-      {
-        type: 0,
-        value: "Probleem eind datum"
-      }
-    ],
-    "zib_problem.body_site": [
-      {
-        type: 0,
-        value: "Probleem anatomische locatie"
-      }
-    ],
-    "zib_problem.body_site.laterality": [
-      {
-        type: 0,
-        value: "Probleem lateraliteit"
-      }
-    ],
-    "zib_problem.category": [
-      {
-        type: 0,
-        value: "Probleem type"
-      }
-    ],
-    "zib_problem.clinical_status": [
-      {
-        type: 0,
-        value: "Probleem status"
-      }
-    ],
-    "zib_problem.clinical_status.problem_status_codelist": [
-      {
-        type: 0,
-        value: "Probleemstatus"
-      }
-    ],
-    "zib_problem.code": [
-      {
-        type: 0,
-        value: "Probleem naam"
-      }
-    ],
-    "zib_problem.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_problem.onset_date_time": [
-      {
-        type: 0,
-        value: "Probleem begin datum"
-      }
-    ],
-    "zib_problem.verification_status": [
-      {
-        type: 0,
-        value: "Verificatie status"
-      }
-    ],
-    "zib_problem.verification_status.verificatie_status_codelijst": [
-      {
-        type: 0,
-        value: "Verificatie status codelijst"
-      }
-    ],
-    zib_procedure,
-    "zib_procedure.body_site": [
-      {
-        type: 0,
-        value: "Verrichting anatomische locatie"
-      }
-    ],
-    "zib_procedure.code": [
-      {
-        type: 0,
-        value: "Verrichting type"
-      }
-    ],
-    "zib_procedure.code.verrichting_type_codelijst": [
-      {
-        type: 0,
-        value: "Verrichting type"
-      }
-    ],
-    "zib_procedure.focal_device.manipulated": [
-      {
-        type: 0,
-        value: "Medisch hulpmiddel"
-      }
-    ],
-    "zib_procedure.performed_period.end": [
-      {
-        type: 0,
-        value: "Verrichting eind datum"
-      }
-    ],
-    "zib_procedure.performed_period.start": [
-      {
-        type: 0,
-        value: "Verrichting start datum"
-      }
-    ],
-    "zib_procedure.performer": [
-      {
-        type: 0,
-        value: "Uitgevoerd door"
-      }
-    ],
-    "zib_procedure.performer.role.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "zib_procedure.procedure_method.value": [
-      {
-        type: 0,
-        value: "Verrichting methode"
-      }
-    ],
-    "zib_procedure.reason_reference": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    zib_procedure_request,
-    "zib_procedure_request.body_site": [
-      {
-        type: 0,
-        value: "Verrichting anatomische locatie"
-      }
-    ],
-    "zib_procedure_request.code": [
-      {
-        type: 0,
-        value: "Verrichting type"
-      }
-    ],
-    "zib_procedure_request.code.verrichting_type_codelijst": [
-      {
-        type: 0,
-        value: "Verrichting type codelijst"
-      }
-    ],
-    "zib_procedure_request.occurrence_period.end": [
-      {
-        type: 0,
-        value: "Eind datum"
-      }
-    ],
-    "zib_procedure_request.occurrence_period.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "zib_procedure_request.occurrence_timing.repeat.frequency": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    "zib_procedure_request.occurrence_timing.repeat.period": [
-      {
-        type: 0,
-        value: "Interval"
-      }
-    ],
-    "zib_procedure_request.performer": [
-      {
-        type: 0,
-        value: "Uitgevoerd door"
-      }
-    ],
-    "zib_procedure_request.performer_type.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "zib_procedure_request.reason_reference": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "zib_procedure_request.requester.agent": [
-      {
-        type: 0,
-        value: "Aangevraagd door"
-      }
-    ],
-    "zib_procedure_request.status.order_status": [
-      {
-        type: 0,
-        value: "Order status"
-      }
-    ],
-    zib_product,
-    "zib_product.code.coding": [
-      {
-        type: 0,
-        value: "Product code"
-      }
-    ],
-    "zib_product.code.text": [
-      {
-        type: 0,
-        value: "Product naam"
-      }
-    ],
-    "zib_product.description": [
-      {
-        type: 0,
-        value: "Omschrijving"
-      }
-    ],
-    "zib_product.form": [
-      {
-        type: 0,
-        value: "Farmaceutische vorm"
-      }
-    ],
-    "zib_product.ingredient": [
-      {
-        type: 0,
-        value: "Ingredient"
-      }
-    ],
-    "zib_product.ingredient.amount": [
-      {
-        type: 0,
-        value: "Sterkte"
-      }
-    ],
-    "zib_product.ingredient.amount.denominator": [
-      {
-        type: 0,
-        value: "Product hoeveelheid"
-      }
-    ],
-    "zib_product.ingredient.amount.numerator": [
-      {
-        type: 0,
-        value: "Ingredient hoeveelheid"
-      }
-    ],
-    "zib_product.ingredient.item_codeable_concept": [
-      {
-        type: 0,
-        value: "Ingredient code"
-      }
-    ],
-    zib_pulse_rate,
-    "zib_pulse_rate.code": [
-      {
-        type: 0,
-        value: "Polsfrequentie"
-      }
-    ],
-    "zib_pulse_rate.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_pulse_rate.effective": [
-      {
-        type: 0,
-        value: "Polsfrequentie datum tijd"
-      }
-    ],
-    "zib_pulse_rate.pulse_regularity.code": [
-      {
-        type: 0,
-        value: "Component test"
-      }
-    ],
-    "zib_pulse_rate.pulse_regularity.value": [
-      {
-        type: 0,
-        value: "Pols regelmatigheid"
-      }
-    ],
-    "zib_pulse_rate.subject": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "zib_pulse_rate.value": [
-      {
-        type: 0,
-        value: "Polsfrequentie waarde"
-      }
-    ],
-    "zib_respiration.administered_oxygen": [
-      {
-        type: 0,
-        value: "Toegediende zuurstof"
-      }
-    ],
-    "zib_respiration.administered_oxygen.extra_oxygen_administration.value": [
-      {
-        type: 0,
-        value: "Extra zuurstof toediening"
-      }
-    ],
-    "zib_respiration.administered_oxygen.fi_o_2.value": [
-      {
-        type: 0,
-        value: "Fi o2"
-      }
-    ],
-    "zib_respiration.administered_oxygen.flow_rate.value": [
-      {
-        type: 0,
-        value: "Flow rate"
-      }
-    ],
-    "zib_respiration.breathing_frequency.value": [
-      {
-        type: 0,
-        value: "Ademfrequentie"
-      }
-    ],
-    "zib_respiration.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_respiration.depth.value": [
-      {
-        type: 0,
-        value: "Diepte"
-      }
-    ],
-    "zib_respiration.deviating_breathing_pattern.value": [
-      {
-        type: 0,
-        value: "Afwijkend ademhalingspatroon"
-      }
-    ],
-    "zib_respiration.effective_date_time": [
-      {
-        type: 0,
-        value: "Ademhaling datum tijd"
-      }
-    ],
-    "zib_respiration.rhythm.value": [
-      {
-        type: 0,
-        value: "Ritme"
-      }
-    ],
-    zib_respiration_administered_oxygen_administration_device,
-    zib_skin_disorder,
-    "zib_skin_disorder.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "zib_skin_disorder.body_site.laterality.value": [
-      {
-        type: 0,
-        value: "Lateraliteit"
-      }
-    ],
-    "zib_skin_disorder.code": [
-      {
-        type: 0,
-        value: "Soort aandoening"
-      }
-    ],
-    "zib_skin_disorder.due_to.value": [
-      {
-        type: 0,
-        value: "Oorzaak"
-      }
-    ],
-    "zib_skin_disorder.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    zib_sna_qrc_score,
-    "zib_sna_qrc_score.appetite_score.value": [
-      {
-        type: 0,
-        value: "Eetlust score"
-      }
-    ],
-    "zib_sna_qrc_score.assisted_eating.value": [
-      {
-        type: 0,
-        value: "Hulp bij eten"
-      }
-    ],
-    "zib_sna_qrc_score.bmi_score.value": [
-      {
-        type: 0,
-        value: "BMI score"
-      }
-    ],
-    "zib_sna_qrc_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_sna_qrc_score.effective_date_time": [
-      {
-        type: 0,
-        value: "SNA qrc score datum tijd"
-      }
-    ],
-    "zib_sna_qrc_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "zib_sna_qrc_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    zib_snaq_65_plus_score,
-    "zib_snaq_65_plus_score.appetite_score.value": [
-      {
-        type: 0,
-        value: "Eetlust score"
-      }
-    ],
-    "zib_snaq_65_plus_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_snaq_65_plus_score.effective_date_time": [
-      {
-        type: 0,
-        value: "SNAQ65+score datum tijd"
-      }
-    ],
-    "zib_snaq_65_plus_score.exercise_score.value": [
-      {
-        type: 0,
-        value: "Inspannings score"
-      }
-    ],
-    "zib_snaq_65_plus_score.upperarm_circumference.value": [
-      {
-        type: 0,
-        value: "Bovenarm omtrek score"
-      }
-    ],
-    "zib_snaq_65_plus_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "zib_snaq_65_plus_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    zib_snaq_score,
-    "zib_snaq_score.appetite_score.value": [
-      {
-        type: 0,
-        value: "Eetlust score"
-      }
-    ],
-    "zib_snaq_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_snaq_score.effective_date_time": [
-      {
-        type: 0,
-        value: "SNAQ score datum tijd"
-      }
-    ],
-    "zib_snaq_score.nutrition_score.value": [
-      {
-        type: 0,
-        value: "Voedings score"
-      }
-    ],
-    "zib_snaq_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "zib_snaq_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    zib_stoma,
-    "zib_stoma.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "zib_stoma.body_site.laterality": [
-      {
-        type: 0,
-        value: "Lateraliteit"
-      }
-    ],
-    "zib_stoma.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_stoma.effective_date_time": [
-      {
-        type: 0,
-        value: "Aanleg datum"
-      }
-    ],
-    "zib_stoma.value": [
-      {
-        type: 0,
-        value: "Stoma type"
-      }
-    ],
-    zib_strong_kids_score,
-    "zib_strong_kids_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_strong_kids_score.condition_score.value": [
-      {
-        type: 0,
-        value: "Ziekte beeld score"
-      }
-    ],
-    "zib_strong_kids_score.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "zib_strong_kids_score.nutrition_score.value": [
-      {
-        type: 0,
-        value: "Voedings score"
-      }
-    ],
-    "zib_strong_kids_score.nutrition_status_score.value": [
-      {
-        type: 0,
-        value: "Voedingstoestand score"
-      }
-    ],
-    "zib_strong_kids_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "zib_strong_kids_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    zib_text_result,
-    "zib_text_result.code": [
-      {
-        type: 0,
-        value: "Onderzoek"
-      }
-    ],
-    "zib_text_result.identifier": [
-      {
-        type: 0,
-        value: "Identificatie"
-      }
-    ],
-    "zib_text_result.performer.role.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "zib_text_result.status": [
-      {
-        type: 0,
-        value: "Tekst uitslag status"
-      }
-    ],
-    "zib_text_result.status.text_result_status": [
-      {
-        type: 0,
-        value: "Tekst uitslag status"
-      }
-    ],
-    zib_tobacco_use,
-    "zib_tobacco_use.amount.value": [
-      {
-        type: 0,
-        value: "Hoeveelheid"
-      }
-    ],
-    "zib_tobacco_use.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "zib_tobacco_use.effective_period.end": [
-      {
-        type: 0,
-        value: "Stop datum"
-      }
-    ],
-    "zib_tobacco_use.effective_period.start": [
-      {
-        type: 0,
-        value: "Start datum"
-      }
-    ],
-    "zib_tobacco_use.pack_years.value": [
-      {
-        type: 0,
-        value: "Pack years"
-      }
-    ],
-    "zib_tobacco_use.type_of_tobacco_used.value": [
-      {
-        type: 0,
-        value: "Soort tabak gebruik"
-      }
-    ],
-    "zib_tobacco_use.value": [
-      {
-        type: 0,
-        value: "Tabak gebruik status"
-      }
-    ],
-    zib_treatment_directive,
-    "zib_treatment_directive.except.restrictions": [
-      {
-        type: 0,
-        value: "Beperkingen"
-      }
-    ],
-    "zib_treatment_directive.period.end": [
-      {
-        type: 0,
-        value: "Eind datum"
-      }
-    ],
-    "zib_treatment_directive.period.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "zib_treatment_directive.source": [
+    "r3.zib_advance_directive": [
       {
         type: 0,
         value: "Wilsverklaring"
       }
     ],
-    "zib_treatment_directive.treatment": [
+    "r3.zib_advance_directive.consenting_party": [
       {
         type: 0,
-        value: "Behandeling"
+        value: "Vertegenwoordiger"
       }
     ],
-    "zib_treatment_directive.treatment_permitted": [
+    "r3.zib_advance_directive.date_time": [
       {
         type: 0,
-        value: "Behandeling toegestaan"
+        value: "Wilsverklaring datum"
       }
     ],
-    "zib_treatment_directive.verification.verification_date": [
+    "r3.zib_advance_directive.disorder": [
       {
         type: 0,
-        value: "Verificatie datum"
+        value: "Aandoening"
       }
     ],
-    "zib_treatment_directive.verification.verified": [
+    "r3.zib_advance_directive.source": [
       {
         type: 0,
-        value: "Geverifieerd"
+        value: "Wilsverklaring document"
       }
     ],
-    "zib_treatment_directive.verification.verified_with": [
+    "r3.zib_advance_directive.type_of_living_will": [
       {
         type: 0,
-        value: "Geverifieerd bij"
+        value: "Wilsverklaring type"
       }
     ],
-    "zib_treatment_directive_treatment.value": [
+    "r3.zib_alcohol_use": [
       {
         type: 0,
-        value: "Behandeling"
+        value: "Alcohol gebruik"
       }
     ],
-    "zib_treatment_directive_treatment_permitted.value": [
+    "r3.zib_alcohol_use.amount.value": [
       {
         type: 0,
-        value: "Behandeling toegestaan"
+        value: "Hoeveelheid"
       }
     ],
-    zib_treatment_directive_verification,
-    "zib_treatment_directive_verification.verification_date.value": [
-      {
-        type: 0,
-        value: "Verificatie datum"
-      }
-    ],
-    "zib_treatment_directive_verification.verified.value": [
-      {
-        type: 0,
-        value: "Geverifieerd"
-      }
-    ],
-    zib_treatment_objective,
-    "zib_treatment_objective.addresses": [
-      {
-        type: 0,
-        value: "Probleem"
-      }
-    ],
-    "zib_treatment_objective.description": [
-      {
-        type: 0,
-        value: "Gewenst zorgresultaat"
-      }
-    ],
-    "zib_treatment_objective.target.detail": [
-      {
-        type: 0,
-        value: "Streefwaarde / gewenste gezondheidstoestand"
-      }
-    ],
-    zib_vaccination,
-    "zib_vaccination.date": [
-      {
-        type: 0,
-        value: "Vaccinatie datum"
-      }
-    ],
-    "zib_vaccination.dose_quantity": [
-      {
-        type: 0,
-        value: "Dosis"
-      }
-    ],
-    "zib_vaccination.note.text": [
+    "r3.zib_alcohol_use.comment": [
       {
         type: 0,
         value: "Toelichting"
       }
     ],
-    "zib_vaccination.practitioner.actor": [
+    "r3.zib_alcohol_use.effective_period.end": [
       {
         type: 0,
-        value: "Toediener"
+        value: "Stop datum"
       }
     ],
-    "zib_vaccination.practitioner.role.health_professional_role": [
+    "r3.zib_alcohol_use.effective_period.start": [
       {
         type: 0,
-        value: "Zorgverlener rol"
+        value: "Start datum"
       }
     ],
-    "zib_vaccination.vaccine_code": [
+    "r3.zib_alcohol_use.value": [
       {
         type: 0,
-        value: "Product code"
+        value: "Alcohol gebruik status"
       }
     ],
-    "zib_vaccination_recommendation.order_status": [
+    "r3.zib_alert.category": [
       {
         type: 0,
-        value: "Order status"
+        value: "Alert type"
       }
     ],
-    "zib_vaccination_recommendation.recommendation.date": [
+    "r3.zib_alert.code": [
       {
         type: 0,
-        value: "Gewenste datum hervaccinatie"
+        value: "Alert naam"
       }
     ],
-    "zib_vaccination_recommendation.recommendation.date_criterion": [
+    "r3.zib_alert.concern_reference": [
       {
         type: 0,
-        value: "Start date"
+        value: "Conditie"
       }
     ],
-    "zib_vaccination_recommendation.recommendation.vaccine_code": [
+    "r3.zib_alert.period.start": [
       {
         type: 0,
-        value: "Product code"
+        value: "Begin datum tijd"
       }
     ],
-    zib_visual_function,
-    "zib_visual_function.comment": [
+    "r3.zib_allergy_intolerance": [
+      {
+        type: 0,
+        value: "Allergie intolerantie"
+      }
+    ],
+    "r3.zib_allergy_intolerance.category.allergie_categorie_codelijst": [
+      {
+        type: 0,
+        value: "Allergie categorie"
+      }
+    ],
+    "r3.zib_allergy_intolerance.clinical_status": [
+      {
+        type: 0,
+        value: "Allergie status"
+      }
+    ],
+    "r3.zib_allergy_intolerance.clinical_status.allergie_status_codelijst": [
+      {
+        type: 0,
+        value: "Allergie status"
+      }
+    ],
+    "r3.zib_allergy_intolerance.code": [
+      {
+        type: 0,
+        value: "Veroorzakende stof"
+      }
+    ],
+    "r3.zib_allergy_intolerance.criticality.critical_extent_codelist": [
+      {
+        type: 0,
+        value: "Mate van kritiek zijn"
+      }
+    ],
+    "r3.zib_allergy_intolerance.identifier": [
+      {
+        type: 0,
+        value: "Identificatie"
+      }
+    ],
+    "r3.zib_allergy_intolerance.last_occurrence": [
+      {
+        type: 0,
+        value: "Laatste reactie datum tijd"
+      }
+    ],
+    "r3.zib_allergy_intolerance.note.author": [
+      {
+        type: 0,
+        value: "Auteur"
+      }
+    ],
+    "r3.zib_allergy_intolerance.note.text": [
       {
         type: 0,
         value: "Toelichting"
       }
     ],
-    "zib_visual_function.value": [
+    "r3.zib_allergy_intolerance.onset_date_time": [
       {
         type: 0,
-        value: "Visuele functie"
+        value: "Begin datum tijd"
       }
     ],
-    zib_visual_function_visual_aid,
-    zib_wound,
-    "zib_wound.body_site": [
+    "r3.zib_allergy_intolerance.patient": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction": [
+      {
+        type: 0,
+        value: "Reactie"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.description": [
+      {
+        type: 0,
+        value: "Reactie beschrijving"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.exposure_route": [
+      {
+        type: 0,
+        value: "Wijze van blootstelling"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.manifestation": [
+      {
+        type: 0,
+        value: "Symptoom"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.onset": [
+      {
+        type: 0,
+        value: "Reactie tijdstip"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.severity": [
+      {
+        type: 0,
+        value: "Ernst"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.substance": [
+      {
+        type: 0,
+        value: "Specifieke stof"
+      }
+    ],
+    "r3.zib_allergy_intolerance.recorder": [
+      {
+        type: 0,
+        value: "Auteur"
+      }
+    ],
+    "r3.zib_allergy_intolerance.verification_status": [
+      {
+        type: 0,
+        value: "Allergie status"
+      }
+    ],
+    "r3.zib_apgar_score.10_minute_appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r3.zib_apgar_score.10_minute_grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r3.zib_apgar_score.10_minute_muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r3.zib_apgar_score.10_minute_pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r3.zib_apgar_score.10_minute_respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r3.zib_apgar_score.1_minute_appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r3.zib_apgar_score.1_minute_grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r3.zib_apgar_score.1_minute_muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r3.zib_apgar_score.1_minute_pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r3.zib_apgar_score.1_minute_respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r3.zib_apgar_score.5_minute_appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r3.zib_apgar_score.5_minute_grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r3.zib_apgar_score.5_minute_muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r3.zib_apgar_score.5_minute_pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r3.zib_apgar_score.5_minute_respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r3.zib_apgar_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_apgar_score.effective_date_time": [
+      {
+        type: 0,
+        value: "Apgar score datum tijd"
+      }
+    ],
+    "r3.zib_apgar_score.value": [
+      {
+        type: 0,
+        value: "Apgar score totaal"
+      }
+    ],
+    "r3.zib_bladder_function": [
+      {
+        type: 0,
+        value: "Blaasfunctie"
+      }
+    ],
+    "r3.zib_bladder_function.code": [
+      {
+        type: 0,
+        value: "Blaasfunctie"
+      }
+    ],
+    "r3.zib_bladder_function.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_bladder_function.value": [
+      {
+        type: 0,
+        value: "Urine continentie"
+      }
+    ],
+    "r3.zib_blood_pressure": [
+      {
+        type: 0,
+        value: "Bloeddruk"
+      }
+    ],
+    "r3.zib_blood_pressure.average_blood_pressure_loinc.value": [
+      {
+        type: 0,
+        value: "Gemiddelde bloeddruk"
+      }
+    ],
+    "r3.zib_blood_pressure.average_blood_pressure_snomed.value": [
+      {
+        type: 0,
+        value: "Gemiddelde bloeddruk"
+      }
+    ],
+    "r3.zib_blood_pressure.body_site": [
+      {
+        type: 0,
+        value: "Meet locatie"
+      }
+    ],
+    "r3.zib_blood_pressure.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_blood_pressure.cuff_type_loinc.value": [
+      {
+        type: 0,
+        value: "Manchet type"
+      }
+    ],
+    "r3.zib_blood_pressure.cuff_type_snomed.value": [
+      {
+        type: 0,
+        value: "Manchet type"
+      }
+    ],
+    "r3.zib_blood_pressure.diastolic_bp.code": [
+      {
+        type: 0,
+        value: "Diastolische bloeddruk"
+      }
+    ],
+    "r3.zib_blood_pressure.diastolic_endpoint.code": [
+      {
+        type: 0,
+        value: "Component test"
+      }
+    ],
+    "r3.zib_blood_pressure.diastolic_endpoint.value": [
+      {
+        type: 0,
+        value: "Diastolisch eindpunt"
+      }
+    ],
+    "r3.zib_blood_pressure.effective": [
+      {
+        type: 0,
+        value: "Bloeddruk datum tijd"
+      }
+    ],
+    "r3.zib_blood_pressure.method": [
+      {
+        type: 0,
+        value: "Meetmethode"
+      }
+    ],
+    "r3.zib_blood_pressure.position_loinc.value": [
+      {
+        type: 0,
+        value: "Houding"
+      }
+    ],
+    "r3.zib_blood_pressure.position_snomed.value": [
+      {
+        type: 0,
+        value: "Houding"
+      }
+    ],
+    "r3.zib_blood_pressure.systolic_bp.value": [
+      {
+        type: 0,
+        value: "Systolische bloeddruk"
+      }
+    ],
+    "r3.zib_body_height": [
+      {
+        type: 0,
+        value: "Lichaamslengte"
+      }
+    ],
+    "r3.zib_body_height.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_body_height.effective": [
+      {
+        type: 0,
+        value: "Lengte datum tijd"
+      }
+    ],
+    "r3.zib_body_height.subject": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.zib_body_height.value": [
+      {
+        type: 0,
+        value: "Lengte waarde"
+      }
+    ],
+    "r3.zib_body_temperature": [
+      {
+        type: 0,
+        value: "Lichaamstemperatuur"
+      }
+    ],
+    "r3.zib_body_temperature.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_body_temperature.effective": [
+      {
+        type: 0,
+        value: "Temperatuur datum tijd"
+      }
+    ],
+    "r3.zib_body_temperature.method": [
+      {
+        type: 0,
+        value: "Temperatuur type"
+      }
+    ],
+    "r3.zib_body_temperature.value": [
+      {
+        type: 0,
+        value: "Temperatuur waarde"
+      }
+    ],
+    "r3.zib_body_weight": [
+      {
+        type: 0,
+        value: "Lichaamsgewicht"
+      }
+    ],
+    "r3.zib_body_weight.clothing.value": [
+      {
+        type: 0,
+        value: "Kleding"
+      }
+    ],
+    "r3.zib_body_weight.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_body_weight.effective": [
+      {
+        type: 0,
+        value: "Gewicht datum tijd"
+      }
+    ],
+    "r3.zib_body_weight.value": [
+      {
+        type: 0,
+        value: "Gewicht waarde"
+      }
+    ],
+    "r3.zib_bowel_function": [
+      {
+        type: 0,
+        value: "Darmfunctie"
+      }
+    ],
+    "r3.zib_bowel_function.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_bowel_function.defecation_color.value": [
+      {
+        type: 0,
+        value: "Defecatie kleur"
+      }
+    ],
+    "r3.zib_bowel_function.defecation_consistency.value": [
+      {
+        type: 0,
+        value: "Defecatie consistentie"
+      }
+    ],
+    "r3.zib_bowel_function.fecal_continence.value": [
+      {
+        type: 0,
+        value: "Feces continentie"
+      }
+    ],
+    "r3.zib_bowel_function.frequency.value": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r3.zib_burn_wound": [
+      {
+        type: 0,
+        value: "Brandwond"
+      }
+    ],
+    "r3.zib_burn_wound.body_site": [
       {
         type: 0,
         value: "Anatomische locatie"
       }
     ],
-    "zib_wound.body_site.laterality.value": [
+    "r3.zib_burn_wound.body_site.laterality.value": [
       {
         type: 0,
         value: "Lateraliteit"
       }
     ],
-    "zib_wound.code": [
+    "r3.zib_burn_wound.code": [
       {
         type: 0,
-        value: "Wond soort"
+        value: "Brandwond"
       }
     ],
-    "zib_wound.note.text": [
+    "r3.zib_burn_wound.code.burn_type.value": [
+      {
+        type: 0,
+        value: "Brandwond soort"
+      }
+    ],
+    "r3.zib_burn_wound.date_of_last_dressing_change.value": [
+      {
+        type: 0,
+        value: "Datum laatste verbandwissel"
+      }
+    ],
+    "r3.zib_burn_wound.extent.value": [
+      {
+        type: 0,
+        value: "Uitgebreidheid"
+      }
+    ],
+    "r3.zib_burn_wound.note": [
       {
         type: 0,
         value: "Toelichting"
       }
     ],
-    "zib_wound.onset": [
+    "r3.zib_burn_wound.onset": [
+      {
+        type: 0,
+        value: "Ontstaans datum"
+      }
+    ],
+    "r3.zib_burn_wound.stage.summary": [
+      {
+        type: 0,
+        value: "Dieptegraad"
+      }
+    ],
+    "r3.zib_burn_wound_extent": [
+      {
+        type: 0,
+        value: "Uitgebreidheid"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour": [
+      {
+        type: 0,
+        value: "Checklist pijn gedrag"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.cry.value": [
+      {
+        type: 0,
+        value: "Huilen"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.eyes.value": [
+      {
+        type: 0,
+        value: "Ogen"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.face.value": [
+      {
+        type: 0,
+        value: "Gezicht"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.grimace.value": [
+      {
+        type: 0,
+        value: "Grimas"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.looking_sad.value": [
+      {
+        type: 0,
+        value: "Verdrietige blik"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.moaning.value": [
+      {
+        type: 0,
+        value: "Kreunen"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.mouth.value": [
+      {
+        type: 0,
+        value: "Mond"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.panic.value": [
+      {
+        type: 0,
+        value: "Paniek"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.sounds_of_restlessness.value": [
+      {
+        type: 0,
+        value: "Onrustige geluiden"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.tears.value": [
+      {
+        type: 0,
+        value: "Tranen"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_comfort_scale": [
+      {
+        type: 0,
+        value: "Comfort score"
+      }
+    ],
+    "r3.zib_comfort_scale.alertness.value": [
+      {
+        type: 0,
+        value: "Alertheid"
+      }
+    ],
+    "r3.zib_comfort_scale.body_movement.value": [
+      {
+        type: 0,
+        value: "Lichaamsbeweging"
+      }
+    ],
+    "r3.zib_comfort_scale.body_muscle_tone.value": [
+      {
+        type: 0,
+        value: "Spierspanning"
+      }
+    ],
+    "r3.zib_comfort_scale.calmness_agitation.value": [
+      {
+        type: 0,
+        value: "Kalmte_ agitatie"
+      }
+    ],
+    "r3.zib_comfort_scale.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_comfort_scale.crying.value": [
+      {
+        type: 0,
+        value: "Ademhalingsreactie"
+      }
+    ],
+    "r3.zib_comfort_scale.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r3.zib_comfort_scale.facial_tone.value": [
+      {
+        type: 0,
+        value: "Gezichtsspanning"
+      }
+    ],
+    "r3.zib_comfort_scale.respiratory_response.value": [
+      {
+        type: 0,
+        value: "Ademhalingsreactie"
+      }
+    ],
+    "r3.zib_comfort_scale.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_contact_information_telecom_type": [
+      {
+        type: 0,
+        value: "Definieert een specifieke gecodeerde waarde voor het concept telecom type gebruikt in de zib contactgegevens, zodat de in de zib gedefinieerde waardelijst kan worden gebruikt."
+      }
+    ],
+    "r3.zib_development_child": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind"
+      }
+    ],
+    "r3.zib_development_child.age_first_menstruation.value": [
+      {
+        type: 0,
+        value: "Leeftijd eerste menstruatie"
+      }
+    ],
+    "r3.zib_development_child.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_development_child.development_cognition.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling verstandelijk"
+      }
+    ],
+    "r3.zib_development_child.development_linguistics.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling taal"
+      }
+    ],
+    "r3.zib_development_child.development_locomotion.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling motoriek"
+      }
+    ],
+    "r3.zib_development_child.development_social.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling sociaal"
+      }
+    ],
+    "r3.zib_development_child.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r3.zib_development_child.toilet_trainedness_feces.value": [
+      {
+        type: 0,
+        value: "Zindelijkheid feces"
+      }
+    ],
+    "r3.zib_development_child.toilet_trainedness_urine.value": [
+      {
+        type: 0,
+        value: "Zindelijkheid urine"
+      }
+    ],
+    "r3.zib_dispense": [
+      {
+        type: 0,
+        value: "Verstrekking"
+      }
+    ],
+    "r3.zib_dispense.additional_information": [
+      {
+        type: 0,
+        value: "Verstrekking aanvullende informatie"
+      }
+    ],
+    "r3.zib_dispense.authorizing_prescription": [
+      {
+        type: 0,
+        value: "Verstrekkingsverzoek"
+      }
+    ],
+    "r3.zib_dispense.days_supply": [
+      {
+        type: 0,
+        value: "Verbruiks duur"
+      }
+    ],
+    "r3.zib_dispense.destination": [
+      {
+        type: 0,
+        value: "Afleverlocatie"
+      }
+    ],
+    "r3.zib_dispense.distribution_form": [
+      {
+        type: 0,
+        value: "Distributievorm"
+      }
+    ],
+    "r3.zib_dispense.medication_reference": [
+      {
+        type: 0,
+        value: "Verstrek geneesmiddel"
+      }
+    ],
+    "r3.zib_dispense.medication_treatment": [
+      {
+        type: 0,
+        value: "Medicamenteuze behandeling"
+      }
+    ],
+    "r3.zib_dispense.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_dispense.performer": [
+      {
+        type: 0,
+        value: "Verstrekker"
+      }
+    ],
+    "r3.zib_dispense.quantity": [
+      {
+        type: 0,
+        value: "Verstrekte hoeveelheid"
+      }
+    ],
+    "r3.zib_dispense.request_date": [
+      {
+        type: 0,
+        value: "Aanschrijfdatum"
+      }
+    ],
+    "r3.zib_dispense.when_handed_over": [
+      {
+        type: 0,
+        value: "Verstrekkings datum tijd"
+      }
+    ],
+    "r3.zib_dispense_request": [
+      {
+        type: 0,
+        value: "Verstrekkingsverzoek"
+      }
+    ],
+    "r3.zib_dispense_request.additional_wishes": [
+      {
+        type: 0,
+        value: "Aanvullende wensen"
+      }
+    ],
+    "r3.zib_dispense_request.authored_on": [
+      {
+        type: 0,
+        value: "Verstrekkingsverzoek datum"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request": [
+      {
+        type: 0,
+        value: "Verstrekkingsverzoek"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.dispense_location": [
+      {
+        type: 0,
+        value: "Afleverlocatie"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.expected_supply_duration": [
+      {
+        type: 0,
+        value: "Duur"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.number_of_repeats_allowed": [
+      {
+        type: 0,
+        value: "Aantal herhalingen"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.performer": [
+      {
+        type: 0,
+        value: "Beoogd verstrekker"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.quantity": [
+      {
+        type: 0,
+        value: "Te verstrekken hoeveelheid"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.validity_period": [
+      {
+        type: 0,
+        value: "Verbruiksperiode"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.validity_period.end": [
+      {
+        type: 0,
+        value: "Einddatum"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.validity_period.start": [
+      {
+        type: 0,
+        value: "Ingangsdatum"
+      }
+    ],
+    "r3.zib_dispense_request.medication_reference": [
+      {
+        type: 0,
+        value: "Geneesmiddel"
+      }
+    ],
+    "r3.zib_dispense_request.medication_treatment": [
+      {
+        type: 0,
+        value: "Medicamenteuze behandeling"
+      }
+    ],
+    "r3.zib_dispense_request.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_drug_use": [
+      {
+        type: 0,
+        value: "Drugs gebruik"
+      }
+    ],
+    "r3.zib_drug_use.amount.value": [
+      {
+        type: 0,
+        value: "Hoeveelheid"
+      }
+    ],
+    "r3.zib_drug_use.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_drug_use.drug_or_medication_type.value": [
+      {
+        type: 0,
+        value: "Drugs of geneesmiddel soort"
+      }
+    ],
+    "r3.zib_drug_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Stop datum"
+      }
+    ],
+    "r3.zib_drug_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Start datum"
+      }
+    ],
+    "r3.zib_drug_use.route_of_administration.value": [
+      {
+        type: 0,
+        value: "Toedieningsweg"
+      }
+    ],
+    "r3.zib_drug_use.value": [
+      {
+        type: 0,
+        value: "Drug gebruik status"
+      }
+    ],
+    "r3.zib_encounter": [
+      {
+        type: 0,
+        value: "Contact"
+      }
+    ],
+    "r3.zib_encounter.class": [
+      {
+        type: 0,
+        value: "Contact type"
+      }
+    ],
+    "r3.zib_encounter.diagnosis.condition": [
+      {
+        type: 0,
+        value: "Probleem"
+      }
+    ],
+    "r3.zib_encounter.hospitalization.admit_source": [
+      {
+        type: 0,
+        value: "Herkomst"
+      }
+    ],
+    "r3.zib_encounter.hospitalization.discharge_disposition": [
+      {
+        type: 0,
+        value: "Bestemming"
+      }
+    ],
+    "r3.zib_encounter.participant.individual": [
+      {
+        type: 0,
+        value: "Contact met"
+      }
+    ],
+    "r3.zib_encounter.participant.type.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_encounter.period.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r3.zib_encounter.period.start": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r3.zib_encounter.reason": [
+      {
+        type: 0,
+        value: "Afwijkende uitslag"
+      }
+    ],
+    "r3.zib_encounter.reason.text": [
+      {
+        type: 0,
+        value: "Afwijkende uitslag"
+      }
+    ],
+    "r3.zib_encounter.service_provider": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r3.zib_family_situation": [
+      {
+        type: 0,
+        value: "Gezinssituatie"
+      }
+    ],
+    "r3.zib_family_situation.care_responsibility.value": [
+      {
+        type: 0,
+        value: "Zorgtaak"
+      }
+    ],
+    "r3.zib_family_situation.child.value": [
+      {
+        type: 0,
+        value: "Geboortedatum"
+      }
+    ],
+    "r3.zib_family_situation.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_family_situation.family_composition.value": [
+      {
+        type: 0,
+        value: "Gezinssamenstelling"
+      }
+    ],
+    "r3.zib_family_situation.number_of_children.value": [
+      {
+        type: 0,
+        value: "Aantal kinderen"
+      }
+    ],
+    "r3.zib_family_situation.number_of_children_living_at_home.value": [
+      {
+        type: 0,
+        value: "Aantal kinderen inwonend"
+      }
+    ],
+    "r3.zib_family_situation_child": [
+      {
+        type: 0,
+        value: "Gezinssituatie kind"
+      }
+    ],
+    "r3.zib_family_situation_child.child": [
+      {
+        type: 0,
+        value: "Kind"
+      }
+    ],
+    "r3.zib_family_situation_child.child.contact_person": [
+      {
+        type: 0,
+        value: "Contact persoon"
+      }
+    ],
+    "r3.zib_family_situation_child.child.value": [
+      {
+        type: 0,
+        value: "Geboortedatum"
+      }
+    ],
+    "r3.zib_family_situation_child.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_family_situation_child.family_composition.value": [
+      {
+        type: 0,
+        value: "Gezinssamenstelling"
+      }
+    ],
+    "r3.zib_family_situation_child.number_of_siblings.value": [
+      {
+        type: 0,
+        value: "Aantal kinderen"
+      }
+    ],
+    "r3.zib_family_situation_child.parent_carer.parent_carer": [
+      {
+        type: 0,
+        value: "Ouder verzorger"
+      }
+    ],
+    "r3.zib_family_situation_child.sibling": [
+      {
+        type: 0,
+        value: "Broer of zus"
+      }
+    ],
+    "r3.zib_family_situation_child.sibling.contact_person": [
+      {
+        type: 0,
+        value: "Contactpersoon"
+      }
+    ],
+    "r3.zib_family_situation_child.sibling.value": [
+      {
+        type: 0,
+        value: "Geboortedatum zus broer"
+      }
+    ],
+    "r3.zib_family_situation_living_at_home_indicator": [
+      {
+        type: 0,
+        value: "Inwonend"
+      }
+    ],
+    "r3.zib_family_situation_living_at_home_indicator.value": [
+      {
+        type: 0,
+        value: "Inwonend"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant": [
+      {
+        type: 0,
+        value: "Voedingspatroon zuigeling"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.based_on": [
+      {
+        type: 0,
+        value: "Voedingsadvies"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.effective_date_time": [
+      {
+        type: 0,
+        value: "Voedingspatroon zuigeling datum tijd"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.feeding_frequency.value": [
+      {
+        type: 0,
+        value: "Voeding frequentie"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.feeding_supplement.value": [
+      {
+        type: 0,
+        value: "Voeding toevoeging"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.feeding_type.feeding_method.value": [
+      {
+        type: 0,
+        value: "Voeding methode"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.feeding_type.value": [
+      {
+        type: 0,
+        value: "Voeding soort"
+      }
+    ],
+    "r3.zib_feeding_tube_system": [
+      {
+        type: 0,
+        value: "Sonde systeem"
+      }
+    ],
+    "r3.zib_feeding_tube_system.medical_device": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r3.zib_feeding_tube_system_enteral_nutrition": [
+      {
+        type: 0,
+        value: "Sonde voeding"
+      }
+    ],
+    "r3.zib_feeding_tube_system_feeding_tube_length": [
+      {
+        type: 0,
+        value: "Sonde lengte"
+      }
+    ],
+    "r3.zib_flacc_pain_scale": [
+      {
+        type: 0,
+        value: "FLAC cpijn score"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.activity.value": [
+      {
+        type: 0,
+        value: "Activiteit"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.consolability.value": [
+      {
+        type: 0,
+        value: "Troostbaar"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.cry.value": [
+      {
+        type: 0,
+        value: "Huilen"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.face.value": [
+      {
+        type: 0,
+        value: "Gezicht"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.legs.value": [
+      {
+        type: 0,
+        value: "Benen"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_fluid_balance": [
+      {
+        type: 0,
+        value: "Vochtbalans"
+      }
+    ],
+    "r3.zib_fluid_balance.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_fluid_balance.effective_period.end": [
+      {
+        type: 0,
+        value: "Vochtbalans stoptijd"
+      }
+    ],
+    "r3.zib_fluid_balance.effective_period.start": [
+      {
+        type: 0,
+        value: "Vochtbalans starttijd"
+      }
+    ],
+    "r3.zib_fluid_balance.fluid_total_in.value": [
+      {
+        type: 0,
+        value: "Vocht totaal in"
+      }
+    ],
+    "r3.zib_fluid_balance.fluid_total_out.value": [
+      {
+        type: 0,
+        value: "Vocht totaal uit"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures": [
+      {
+        type: 0,
+        value: "Vrijheidsbeperkende maatregelen"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures.legal_status": [
+      {
+        type: 0,
+        value: "Juridische status"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures.legally_capable.legally_capable_comment": [
+      {
+        type: 0,
+        value: "Wilsbekwaam toelichting"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures.legally_capable.legally_capable_indicator": [
+      {
+        type: 0,
+        value: "Wilsbekwaam"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures.performed_period.end": [
+      {
+        type: 0,
+        value: "Einde episode"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures.performed_period.start": [
+      {
+        type: 0,
+        value: "Aanvang episode"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures_legally_capable.legally_capable_comment.value": [
+      {
+        type: 0,
+        value: "Wilsbekwaam toelichting"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures_legally_capable.legally_capable_indicator.value": [
+      {
+        type: 0,
+        value: "Wilsbekwaam"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures_permission": [
+      {
+        type: 0,
+        value: "Toestemming"
+      }
+    ],
+    "r3.zib_functional_or_mental_status": [
+      {
+        type: 0,
+        value: "Functionele of mentale status"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.code": [
+      {
+        type: 0,
+        value: "Status naam"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.effective_period.start": [
+      {
+        type: 0,
+        value: "Status datum"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.medical_device": [
+      {
+        type: 0,
+        value: "Hulpmiddel"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.subject": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.value": [
+      {
+        type: 0,
+        value: "Status waarde"
+      }
+    ],
+    "r3.zib_functional_or_mental_status_medical_device.value": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r3.zib_general_measurement": [
+      {
+        type: 0,
+        value: "Meet uitslag"
+      }
+    ],
+    "r3.zib_general_measurement.code": [
+      {
+        type: 0,
+        value: "Onderzoek"
+      }
+    ],
+    "r3.zib_general_measurement.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_general_measurement.effective": [
+      {
+        type: 0,
+        value: "Uitslag datum tijd"
+      }
+    ],
+    "r3.zib_general_measurement.method": [
+      {
+        type: 0,
+        value: "Meetmethode"
+      }
+    ],
+    "r3.zib_general_measurement.related": [
+      {
+        type: 0,
+        value: "Meet uitslag"
+      }
+    ],
+    "r3.zib_general_measurement.status.result_status_codelist": [
+      {
+        type: 0,
+        value: "Resultaat status"
+      }
+    ],
+    "r3.zib_general_measurement.value": [
+      {
+        type: 0,
+        value: "Uitslag waarde"
+      }
+    ],
+    "r3.zib_head_circumference": [
+      {
+        type: 0,
+        value: "Schedelomvang"
+      }
+    ],
+    "r3.zib_head_circumference.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_head_circumference.effective": [
+      {
+        type: 0,
+        value: "Schedelomvang datum tijd"
+      }
+    ],
+    "r3.zib_head_circumference.method": [
+      {
+        type: 0,
+        value: "Schedelomvang meetmethode"
+      }
+    ],
+    "r3.zib_head_circumference.value": [
+      {
+        type: 0,
+        value: "Schedelomvang waarde"
+      }
+    ],
+    "r3.zib_hearing_function": [
+      {
+        type: 0,
+        value: "Functie horen"
+      }
+    ],
+    "r3.zib_hearing_function.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_hearing_function.value": [
+      {
+        type: 0,
+        value: "Hoor functie"
+      }
+    ],
+    "r3.zib_hearing_function_hearing_aid": [
+      {
+        type: 0,
+        value: "Horen hulpmiddel"
+      }
+    ],
+    "r3.zib_hearing_function_hearing_aid.body_site": [
+      {
+        type: 0,
+        value: "Hulpmiddel anatomische locatie"
+      }
+    ],
+    "r3.zib_heart_rate": [
+      {
+        type: 0,
+        value: "Hartfrequentie"
+      }
+    ],
+    "r3.zib_heart_rate.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_heart_rate.effective": [
+      {
+        type: 0,
+        value: "Hartfrequentie datum tijd"
+      }
+    ],
+    "r3.zib_heart_rate.interpretation": [
+      {
+        type: 0,
+        value: "Hartslag regelmatigheid"
+      }
+    ],
+    "r3.zib_heart_rate.method": [
+      {
+        type: 0,
+        value: "Hartslag meet methode"
+      }
+    ],
+    "r3.zib_heart_rate.value": [
+      {
+        type: 0,
+        value: "Hartfrequentie waarde"
+      }
+    ],
+    "r3.zib_help_from_others.activity": [
+      {
+        type: 0,
+        value: "Hulp van anderen"
+      }
+    ],
+    "r3.zib_help_from_others.activity.detail.category": [
+      {
+        type: 0,
+        value: "Soort hulp"
+      }
+    ],
+    "r3.zib_help_from_others.activity.detail.code": [
+      {
+        type: 0,
+        value: "Aard"
+      }
+    ],
+    "r3.zib_help_from_others.activity.detail.description": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_help_from_others.activity.detail.performer": [
+      {
+        type: 0,
+        value: "Hulpverlener"
+      }
+    ],
+    "r3.zib_help_from_others.activity.detail.scheduled_string": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r3.zib_illness_perception": [
+      {
+        type: 0,
+        value: "Ziektebeleving"
+      }
+    ],
+    "r3.zib_illness_perception.coping_with_illness_by_family": [
+      {
+        type: 0,
+        value: "Omgaan met ziekteproces door naasten"
+      }
+    ],
+    "r3.zib_illness_perception.coping_with_illness_by_patient": [
+      {
+        type: 0,
+        value: "Omgaan met ziekteproces door patiënt"
+      }
+    ],
+    "r3.zib_illness_perception.patient_illness_insight": [
+      {
+        type: 0,
+        value: "Ziekte inzicht van patiënt"
+      }
+    ],
+    "r3.zib_infusion": [
+      {
+        type: 0,
+        value: "Infuus"
+      }
+    ],
+    "r3.zib_infusion_administering_system.device.peripheral": [
+      {
+        type: 0,
+        value: "Randapparaat"
+      }
+    ],
+    "r3.zib_infusion_administering_system.note.text": [
+      {
+        type: 0,
+        value: "Toedienings systeem toelichting"
+      }
+    ],
+    "r3.zib_infusion_lumen_or_line": [
+      {
+        type: 0,
+        value: "Lumen of lijn"
+      }
+    ],
+    "r3.zib_infusion_lumen_or_line.administering_system": [
+      {
+        type: 0,
+        value: "Toedienings systeem"
+      }
+    ],
+    "r3.zib_infusion_lumen_or_line.line_status": [
+      {
+        type: 0,
+        value: "Lijn status"
+      }
+    ],
+    "r3.zib_infusion_lumen_or_line.lock_fluid": [
+      {
+        type: 0,
+        value: "Slot vloeistof"
+      }
+    ],
+    "r3.zib_infusion_lumen_or_line.lumen_location": [
+      {
+        type: 0,
+        value: "Lumen locatie"
+      }
+    ],
+    "r3.zib_instructions_for_use": [
+      {
+        type: 0,
+        value: "Gebruiksinstructie"
+      }
+    ],
+    "r3.zib_instructions_for_use.additional_instruction": [
+      {
+        type: 0,
+        value: "Aanvullende instructie"
+      }
+    ],
+    "r3.zib_instructions_for_use.as_needed_codeable_concept": [
+      {
+        type: 0,
+        value: "Zo nodig"
+      }
+    ],
+    "r3.zib_instructions_for_use.dose": [
+      {
+        type: 0,
+        value: "Keerdosis"
+      }
+    ],
+    "r3.zib_instructions_for_use.max_dose_per_period": [
+      {
+        type: 0,
+        value: "Maximale dosering"
+      }
+    ],
+    "r3.zib_instructions_for_use.rate": [
+      {
+        type: 0,
+        value: "Toedieningssnelheid"
+      }
+    ],
+    "r3.zib_instructions_for_use.route": [
+      {
+        type: 0,
+        value: "Toedieningsweg"
+      }
+    ],
+    "r3.zib_instructions_for_use.sequence": [
+      {
+        type: 0,
+        value: "Volgnummer"
+      }
+    ],
+    "r3.zib_instructions_for_use.text": [
+      {
+        type: 0,
+        value: "Omschrijving"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report": [
+      {
+        type: 0,
+        value: "Laboratorium uitslag"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.based_on": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.category.result_type": [
+      {
+        type: 0,
+        value: "Resultaat type"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.code": [
+      {
+        type: 0,
+        value: "Onderzoek"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.conclusion": [
+      {
+        type: 0,
+        value: "Uitslag interpretatie en/of toelichting"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.identifier": [
+      {
+        type: 0,
+        value: "Identificatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.performer.role.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.specimen": [
+      {
+        type: 0,
+        value: "Monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.status": [
+      {
+        type: 0,
+        value: "Resultaat status"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.status.result_status": [
+      {
+        type: 0,
+        value: "Resultaat status"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation": [
+      {
+        type: 0,
+        value: "Laboratorium uitslag"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.based_on": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.code": [
+      {
+        type: 0,
+        value: "Test code"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.component": [
+      {
+        type: 0,
+        value: "Laboratorium test"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.component.code": [
+      {
+        type: 0,
+        value: "Test code"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.component.interpretation": [
+      {
+        type: 0,
+        value: "Interpretatie vlaggen"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.component.value": [
+      {
+        type: 0,
+        value: "Test uitslag"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.effective": [
+      {
+        type: 0,
+        value: "Test datum tijd"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.identifier": [
+      {
+        type: 0,
+        value: "Identificatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.interpretation.interpretatie_vlaggen_codelijst": [
+      {
+        type: 0,
+        value: "Interpretatie vlaggen"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.method": [
+      {
+        type: 0,
+        value: "Testmethode"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.reference_range": [
+      {
+        type: 0,
+        value: "Referentie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.reference_range.high": [
+      {
+        type: 0,
+        value: "Referentie bovengrens"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.reference_range.low": [
+      {
+        type: 0,
+        value: "Referentie ondergrens"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.related": [
+      {
+        type: 0,
+        value: "Gerelateerde uitslag"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.result_type": [
+      {
+        type: 0,
+        value: "Resultaat type"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.specimen": [
+      {
+        type: 0,
+        value: "Monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.status": [
+      {
+        type: 0,
+        value: "Test uitslag status"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.status.test_result_status": [
+      {
+        type: 0,
+        value: "Test uitslag status"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.subject": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.value": [
+      {
+        type: 0,
+        value: "Test uitslag"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen": [
+      {
+        type: 0,
+        value: "Monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.body_site.morphology": [
+      {
+        type: 0,
+        value: "Morfologie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.collected_date_time": [
+      {
+        type: 0,
+        value: "Afname datum tijd"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.collected_period": [
+      {
+        type: 0,
+        value: "Verzamelperiode"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.method": [
+      {
+        type: 0,
+        value: "Afnameprocedure"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.quantity": [
+      {
+        type: 0,
+        value: "Verzamelvolume"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.container": [
+      {
+        type: 0,
+        value: "Monstercontainer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.container.identifier": [
+      {
+        type: 0,
+        value: "Monstervolgnummer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.container.type": [
+      {
+        type: 0,
+        value: "Containertype"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.identifier": [
+      {
+        type: 0,
+        value: "Monsternummer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.received_time": [
+      {
+        type: 0,
+        value: "Aanname datum tijd"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.subject": [
+      {
+        type: 0,
+        value: "Bron monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.type": [
+      {
+        type: 0,
+        value: "Monstermateriaal"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate": [
+      {
+        type: 0,
+        value: "Monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.body_site.morphology": [
+      {
+        type: 0,
+        value: "Morfologie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.collected_date_time": [
+      {
+        type: 0,
+        value: "Afname datum tijd"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.collected_period": [
+      {
+        type: 0,
+        value: "Verzamelperiode"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.method": [
+      {
+        type: 0,
+        value: "Afnameprocedure"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.quantity": [
+      {
+        type: 0,
+        value: "Verzamelvolume"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.container": [
+      {
+        type: 0,
+        value: "Monstercontainer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.container.identifier": [
+      {
+        type: 0,
+        value: "Monstervolgnummer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.container.type": [
+      {
+        type: 0,
+        value: "Containertype"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.identifier": [
+      {
+        type: 0,
+        value: "Monsternummer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.received_time": [
+      {
+        type: 0,
+        value: "Aanname datum tijd"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.subject": [
+      {
+        type: 0,
+        value: "Bron monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.type": [
+      {
+        type: 0,
+        value: "Microorganisme"
+      }
+    ],
+    "r3.zib_laboratory_test_result_substance.code": [
+      {
+        type: 0,
+        value: "Microorganisme"
+      }
+    ],
+    "r3.zib_life_stance.value": [
+      {
+        type: 0,
+        value: "Levensovertuiging"
+      }
+    ],
+    "r3.zib_living_situation": [
+      {
+        type: 0,
+        value: "Woonsituatie"
+      }
+    ],
+    "r3.zib_living_situation.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_living_situation.value": [
+      {
+        type: 0,
+        value: "Woning type"
+      }
+    ],
+    "r3.zib_medical_device": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r3.zib_medical_device.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_medical_device.health_professional": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r3.zib_medical_device.healthcare_provider": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r3.zib_medical_device.indication.indication_problem": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r3.zib_medical_device.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_medical_device.when_used": [
+      {
+        type: 0,
+        value: "Tijdsduur gedefinieerd door start- en einddatum/tijd"
+      }
+    ],
+    "r3.zib_medical_device.when_used.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r3.zib_medical_device_organization.value": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r3.zib_medical_device_practitioner.value": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r3.zib_medical_device_problem.value": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r3.zib_medical_device_product": [
+      {
+        type: 0,
+        value: "Product"
+      }
+    ],
+    "r3.zib_medical_device_product.identifier": [
+      {
+        type: 0,
+        value: "Product ID"
+      }
+    ],
+    "r3.zib_medical_device_product.note.text": [
+      {
+        type: 0,
+        value: "Product omschrijving"
+      }
+    ],
+    "r3.zib_medical_device_product.type": [
+      {
+        type: 0,
+        value: "Product type"
+      }
+    ],
+    "r3.zib_medical_device_request.code_codeable_concept": [
+      {
+        type: 0,
+        value: "Product type"
+      }
+    ],
+    "r3.zib_medical_device_request.code_reference": [
+      {
+        type: 0,
+        value: "Product"
+      }
+    ],
+    "r3.zib_medical_device_request.occurrence_period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r3.zib_medical_device_request.occurrence_period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r3.zib_medical_device_request.performer_type.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_medical_device_request.status.order_status": [
+      {
+        type: 0,
+        value: "Order status"
+      }
+    ],
+    "r3.zib_medication_administration": [
+      {
+        type: 0,
+        value: "Medicatie toediening"
+      }
+    ],
+    "r3.zib_medication_administration.agreed_date_time": [
+      {
+        type: 0,
+        value: "Afgesproken datum tijd"
+      }
+    ],
+    "r3.zib_medication_administration.dosage.dose": [
+      {
+        type: 0,
+        value: "Toegediende hoeveelheid"
+      }
+    ],
+    "r3.zib_medication_administration.dosage.rate": [
+      {
+        type: 0,
+        value: "Toedieningssnelheid"
+      }
+    ],
+    "r3.zib_medication_administration.dosage.route": [
+      {
+        type: 0,
+        value: "Toedieningsweg"
+      }
+    ],
+    "r3.zib_medication_administration.double_check_performed": [
+      {
+        type: 0,
+        value: "Dubbele controle uitgevoerd"
+      }
+    ],
+    "r3.zib_medication_administration.effective": [
+      {
+        type: 0,
+        value: "Toedienings datum tijd"
+      }
+    ],
+    "r3.zib_medication_administration.medication_reference": [
+      {
+        type: 0,
+        value: "Product"
+      }
+    ],
+    "r3.zib_medication_administration.medication_treatment": [
+      {
+        type: 0,
+        value: "Medicamenteuze behandeling"
+      }
+    ],
+    "r3.zib_medication_administration.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_medication_administration.performer": [
+      {
+        type: 0,
+        value: "Toediener"
+      }
+    ],
+    "r3.zib_medication_administration.status": [
+      {
+        type: 0,
+        value: "Medicatie toediening status"
+      }
+    ],
+    "r3.zib_medication_administration.status.order_status": [
+      {
+        type: 0,
+        value: "Order status"
+      }
+    ],
+    "r3.zib_medication_administration.supporting_information": [
+      {
+        type: 0,
+        value: "Gerelateerde afspraak"
+      }
+    ],
+    "r3.zib_medication_administration_deviating_administration.deviation": [
+      {
+        type: 0,
+        value: "Afwijkende toediening"
+      }
+    ],
+    "r3.zib_medication_administration_deviating_administration.reason_for_deviation": [
+      {
+        type: 0,
+        value: "Medicatie toediening reden van afwijken"
+      }
+    ],
+    "r3.zib_medication_agreement": [
+      {
+        type: 0,
+        value: "Medicatieafspraak"
+      }
+    ],
+    "r3.zib_medication_agreement.additional_information": [
+      {
+        type: 0,
+        value: "Medicatieafspraak aanvullende informatie"
+      }
+    ],
+    "r3.zib_medication_agreement.authored_on": [
+      {
+        type: 0,
+        value: "Afspraakdatum"
+      }
+    ],
+    "r3.zib_medication_agreement.medication_reference": [
+      {
+        type: 0,
+        value: "Afgesprokengeneesmiddel"
+      }
+    ],
+    "r3.zib_medication_agreement.medication_treatment": [
+      {
+        type: 0,
+        value: "Medicamenteuze behandeling"
+      }
+    ],
+    "r3.zib_medication_agreement.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_medication_agreement.reason_code": [
+      {
+        type: 0,
+        value: "Reden medicatieafspraak"
+      }
+    ],
+    "r3.zib_medication_agreement.reason_reference": [
+      {
+        type: 0,
+        value: "Reden van voorschrijven"
+      }
+    ],
+    "r3.zib_medication_agreement.requester": [
+      {
+        type: 0,
+        value: "Voorschrijver"
+      }
+    ],
+    "r3.zib_medication_agreement.usage_duration": [
+      {
+        type: 0,
+        value: "Duur"
+      }
+    ],
+    "r3.zib_medication_period_of_use": [
+      {
+        type: 0,
+        value: "Gebruiksperiode"
+      }
+    ],
+    "r3.zib_medication_use": [
+      {
+        type: 0,
+        value: "Medicatiegebruik"
+      }
+    ],
+    "r3.zib_medication_use.as_agreed_indicator": [
+      {
+        type: 0,
+        value: "Volgens afspraak indicator"
+      }
+    ],
+    "r3.zib_medication_use.author": [
+      {
+        type: 0,
+        value: "Auteur"
+      }
+    ],
+    "r3.zib_medication_use.date_asserted": [
+      {
+        type: 0,
+        value: "Registratiedatum"
+      }
+    ],
+    "r3.zib_medication_use.effective_period": [
+      {
+        type: 0,
+        value: "Gebruiksperiode"
+      }
+    ],
+    "r3.zib_medication_use.effective_period.duration": [
+      {
+        type: 0,
+        value: "Tijds duur"
+      }
+    ],
+    "r3.zib_medication_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Einddatum"
+      }
+    ],
+    "r3.zib_medication_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Ingangsdatum"
+      }
+    ],
+    "r3.zib_medication_use.medication_reference": [
+      {
+        type: 0,
+        value: "Gebruiksproduct"
+      }
+    ],
+    "r3.zib_medication_use.medication_treatment": [
+      {
+        type: 0,
+        value: "Medicamenteuze behandeling"
+      }
+    ],
+    "r3.zib_medication_use.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_medication_use.prescriber": [
+      {
+        type: 0,
+        value: "Voorschrijver"
+      }
+    ],
+    "r3.zib_medication_use.reason_code.text": [
+      {
+        type: 0,
+        value: "Reden gebruik"
+      }
+    ],
+    "r3.zib_medication_use.reason_for_change_or_discontinuation_of_use": [
+      {
+        type: 0,
+        value: "Reden wijzigen of stoppen gebruik"
+      }
+    ],
+    "r3.zib_medication_use.status": [
+      {
+        type: 0,
+        value: "Medicatie gebruik stop type"
+      }
+    ],
+    "r3.zib_medication_use.taken": [
+      {
+        type: 0,
+        value: "Gebruik indicator"
+      }
+    ],
+    "r3.zib_medication_use_duration.value": [
+      {
+        type: 0,
+        value: "Gebruiksduur"
+      }
+    ],
+    "r3.zib_medication_use_reason_for_change_or_discontinuation_of_use.value": [
+      {
+        type: 0,
+        value: "Reden wijzigen of stoppen gebruik"
+      }
+    ],
+    "r3.zib_mobility": [
+      {
+        type: 0,
+        value: "Mobiliteit"
+      }
+    ],
+    "r3.zib_mobility.changing_position.value": [
+      {
+        type: 0,
+        value: "Houding veranderen"
+      }
+    ],
+    "r3.zib_mobility.climbing_stairs.value": [
+      {
+        type: 0,
+        value: "Traplopen"
+      }
+    ],
+    "r3.zib_mobility.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_mobility.maintaining_position.value": [
+      {
+        type: 0,
+        value: "Houding handhaven"
+      }
+    ],
+    "r3.zib_mobility.transfer.value": [
+      {
+        type: 0,
+        value: "Uitvoeren transfer"
+      }
+    ],
+    "r3.zib_mobility.walking.value": [
+      {
+        type: 0,
+        value: "Lopen"
+      }
+    ],
+    "r3.zib_must_score": [
+      {
+        type: 0,
+        value: "MUST score"
+      }
+    ],
+    "r3.zib_must_score.bmi_score.value": [
+      {
+        type: 0,
+        value: "BMI score"
+      }
+    ],
+    "r3.zib_must_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_must_score.effective_date_time": [
+      {
+        type: 0,
+        value: "MUST score datum tijd"
+      }
+    ],
+    "r3.zib_must_score.illness_score.value": [
+      {
+        type: 0,
+        value: "Ziekte score"
+      }
+    ],
+    "r3.zib_must_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_must_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r3.zib_nursing_intervention": [
+      {
+        type: 0,
+        value: "Verpleegkundige interventie"
+      }
+    ],
+    "r3.zib_nursing_intervention.code": [
+      {
+        type: 0,
+        value: "Interventie"
+      }
+    ],
+    "r3.zib_nursing_intervention.frequency": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r3.zib_nursing_intervention.instruction": [
+      {
+        type: 0,
+        value: "Instructie"
+      }
+    ],
+    "r3.zib_nursing_intervention.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_nursing_intervention.performed_period.end": [
+      {
+        type: 0,
+        value: "Actie eind datum tijd"
+      }
+    ],
+    "r3.zib_nursing_intervention.performed_period.start": [
+      {
+        type: 0,
+        value: "Actie start datum tijd"
+      }
+    ],
+    "r3.zib_nursing_intervention.performer": [
+      {
+        type: 0,
+        value: "Uitvoerder"
+      }
+    ],
+    "r3.zib_nursing_intervention.performer.role.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_nursing_intervention.reason_reference": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r3.zib_nursing_intervention.requester": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r3.zib_nursing_intervention.treatment_objective": [
+      {
+        type: 0,
+        value: "Behandeldoel"
+      }
+    ],
+    "r3.zib_nursing_intervention_interval": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r3.zib_nursing_intervention_requester.value": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r3.zib_nutrition_advice": [
+      {
+        type: 0,
+        value: "Voedingsadvies"
+      }
+    ],
+    "r3.zib_nutrition_advice.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_nutrition_advice.oral_diet.fluid_consistency_type.text": [
+      {
+        type: 0,
+        value: "Consistentie"
+      }
+    ],
+    "r3.zib_nutrition_advice.oral_diet.texture.food_type.text": [
+      {
+        type: 0,
+        value: "Consistentie"
+      }
+    ],
+    "r3.zib_nutrition_advice.oral_diet.texture.modifier.text": [
+      {
+        type: 0,
+        value: "Consistentie"
+      }
+    ],
+    "r3.zib_nutrition_advice.oral_diet.type.text": [
+      {
+        type: 0,
+        value: "Dieet type"
+      }
+    ],
+    "r3.zib_nutrition_advice_explanation.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_outcome_of_care": [
+      {
+        type: 0,
+        value: "Uitkomst van zorg"
+      }
+    ],
+    "r3.zib_outcome_of_care.conclusion": [
+      {
+        type: 0,
+        value: "Zorgresultaat"
+      }
+    ],
+    "r3.zib_outcome_of_care.health_condition": [
+      {
+        type: 0,
+        value: "Gezondheidstoestand"
+      }
+    ],
+    "r3.zib_outcome_of_care.intervention.value": [
+      {
+        type: 0,
+        value: "Interventie"
+      }
+    ],
+    "r3.zib_outcome_of_care.measurement_value": [
+      {
+        type: 0,
+        value: "Meetwaarde"
+      }
+    ],
+    "r3.zib_oxygen_saturation": [
+      {
+        type: 0,
+        value: "O2 saturatie"
+      }
+    ],
+    "r3.zib_oxygen_saturation.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_oxygen_saturation.effective": [
+      {
+        type: 0,
+        value: "O2 saturatie datum tijd"
+      }
+    ],
+    "r3.zib_oxygen_saturation.extra_oxygen_administration.value": [
+      {
+        type: 0,
+        value: "Extra zuurstof toediening"
+      }
+    ],
+    "r3.zib_oxygen_saturation.value": [
+      {
+        type: 0,
+        value: "Sp o2 waarde"
+      }
+    ],
+    "r3.zib_pain_score": [
+      {
+        type: 0,
+        value: "Pijnscore"
+      }
+    ],
+    "r3.zib_pain_score.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_pain_score.body_site.laterality": [
+      {
+        type: 0,
+        value: "Lateraliteit"
+      }
+    ],
+    "r3.zib_pain_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_pain_score.effective_date_time": [
+      {
+        type: 0,
+        value: "Pijnscore datum tijd"
+      }
+    ],
+    "r3.zib_pain_score.method": [
+      {
+        type: 0,
+        value: "Pijn meetmethode"
+      }
+    ],
+    "r3.zib_pain_score.value": [
+      {
+        type: 0,
+        value: "Pijnscore waarde"
+      }
+    ],
+    "r3.zib_participation_in_society": [
+      {
+        type: 0,
+        value: "Participatie in maatschappij"
+      }
+    ],
+    "r3.zib_participation_in_society.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_participation_in_society.hobby.value": [
+      {
+        type: 0,
+        value: "Vrijetijdsbesteding"
+      }
+    ],
+    "r3.zib_participation_in_society.social_network": [
+      {
+        type: 0,
+        value: "Social network"
+      }
+    ],
+    "r3.zib_participation_in_society.social_network.value": [
+      {
+        type: 0,
+        value: "Sociaal netwerk"
+      }
+    ],
+    "r3.zib_participation_in_society.work_situation.value": [
+      {
+        type: 0,
+        value: "Arbeidssituatie"
+      }
+    ],
+    "r3.zib_payer": [
+      {
+        type: 0,
+        value: "Verzekering"
+      }
+    ],
+    "r3.zib_payer.payor": [
+      {
+        type: 0,
+        value: "Verzekeraar"
+      }
+    ],
+    "r3.zib_payer.payor.bank_information.account_number": [
+      {
+        type: 0,
+        value: "Rekeningnummer"
+      }
+    ],
+    "r3.zib_payer.payor.bank_information.bank_name": [
+      {
+        type: 0,
+        value: "Bank naam"
+      }
+    ],
+    "r3.zib_payer.payor.bank_information.bankcode": [
+      {
+        type: 0,
+        value: "Bankcode"
+      }
+    ],
+    "r3.zib_payer.period.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r3.zib_payer.period.start": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r3.zib_payer.subscriber_id": [
+      {
+        type: 0,
+        value: "Verzekerde nummer"
+      }
+    ],
+    "r3.zib_payer.type": [
+      {
+        type: 0,
+        value: "Verzekerings soort"
+      }
+    ],
+    "r3.zib_payer_bank_information": [
+      {
+        type: 0,
+        value: "Bankgegevens"
+      }
+    ],
+    "r3.zib_payer_bank_information.account_number.value": [
+      {
+        type: 0,
+        value: "Rekeningnummer"
+      }
+    ],
+    "r3.zib_payer_bank_information.bank_name.value": [
+      {
+        type: 0,
+        value: "Bank naam"
+      }
+    ],
+    "r3.zib_payer_bank_information.bankcode.value": [
+      {
+        type: 0,
+        value: "Bankcode"
+      }
+    ],
+    "r3.zib_pregnancy": [
+      {
+        type: 0,
+        value: "Zwangerschap"
+      }
+    ],
+    "r3.zib_pregnancy_date_last_menstruation.value": [
+      {
+        type: 0,
+        value: "Datum laatste menstruatie"
+      }
+    ],
+    "r3.zib_pregnancy_gravidity.value": [
+      {
+        type: 0,
+        value: "Graviditeit"
+      }
+    ],
+    "r3.zib_pregnancy_parity.value": [
+      {
+        type: 0,
+        value: "Pariteit"
+      }
+    ],
+    "r3.zib_pregnancy_pregnancy_duration.value": [
+      {
+        type: 0,
+        value: "Zwangerschapsduur"
+      }
+    ],
+    "r3.zib_pregnancy_pregnancy_status.value": [
+      {
+        type: 0,
+        value: "Zwanger"
+      }
+    ],
+    "r3.zib_pregnancy_term_date.value": [
+      {
+        type: 0,
+        value: "A terme datum"
+      }
+    ],
+    "r3.zib_pressure_ulcer": [
+      {
+        type: 0,
+        value: "Decubitus wond"
+      }
+    ],
+    "r3.zib_pressure_ulcer.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_pressure_ulcer.body_site.laterality.value": [
+      {
+        type: 0,
+        value: "Lateraliteit"
+      }
+    ],
+    "r3.zib_pressure_ulcer.code": [
+      {
+        type: 0,
+        value: "Decubitus wond"
+      }
+    ],
+    "r3.zib_pressure_ulcer.date_of_last_dressing_change.value": [
+      {
+        type: 0,
+        value: "Datum laatste verband wissel"
+      }
+    ],
+    "r3.zib_pressure_ulcer.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_pressure_ulcer.onset": [
+      {
+        type: 0,
+        value: "Ontstaans datum"
+      }
+    ],
+    "r3.zib_pressure_ulcer.stage.summary": [
+      {
+        type: 0,
+        value: "Decubitus categorie"
+      }
+    ],
+    "r3.zib_problem": [
+      {
+        type: 0,
+        value: "Concern"
+      }
+    ],
+    "r3.zib_problem.abatement_date_time": [
+      {
+        type: 0,
+        value: "Probleem eind datum"
+      }
+    ],
+    "r3.zib_problem.body_site": [
+      {
+        type: 0,
+        value: "Probleem anatomische locatie"
+      }
+    ],
+    "r3.zib_problem.body_site.laterality": [
+      {
+        type: 0,
+        value: "Probleem lateraliteit"
+      }
+    ],
+    "r3.zib_problem.category": [
+      {
+        type: 0,
+        value: "Probleem type"
+      }
+    ],
+    "r3.zib_problem.clinical_status": [
+      {
+        type: 0,
+        value: "Probleem status"
+      }
+    ],
+    "r3.zib_problem.clinical_status.problem_status_codelist": [
+      {
+        type: 0,
+        value: "Probleemstatus"
+      }
+    ],
+    "r3.zib_problem.code": [
+      {
+        type: 0,
+        value: "Probleem naam"
+      }
+    ],
+    "r3.zib_problem.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_problem.onset_date_time": [
+      {
+        type: 0,
+        value: "Probleem begin datum"
+      }
+    ],
+    "r3.zib_problem.verification_status": [
+      {
+        type: 0,
+        value: "Verificatie status"
+      }
+    ],
+    "r3.zib_problem.verification_status.verificatie_status_codelijst": [
+      {
+        type: 0,
+        value: "Verificatie status codelijst"
+      }
+    ],
+    "r3.zib_procedure": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r3.zib_procedure.body_site": [
+      {
+        type: 0,
+        value: "Verrichting anatomische locatie"
+      }
+    ],
+    "r3.zib_procedure.code": [
+      {
+        type: 0,
+        value: "Verrichting type"
+      }
+    ],
+    "r3.zib_procedure.code.verrichting_type_codelijst": [
+      {
+        type: 0,
+        value: "Verrichting type"
+      }
+    ],
+    "r3.zib_procedure.focal_device.manipulated": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r3.zib_procedure.performed_period.end": [
+      {
+        type: 0,
+        value: "Verrichting eind datum"
+      }
+    ],
+    "r3.zib_procedure.performed_period.start": [
+      {
+        type: 0,
+        value: "Verrichting start datum"
+      }
+    ],
+    "r3.zib_procedure.performer": [
+      {
+        type: 0,
+        value: "Uitgevoerd door"
+      }
+    ],
+    "r3.zib_procedure.performer.role.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_procedure.procedure_method.value": [
+      {
+        type: 0,
+        value: "Verrichting methode"
+      }
+    ],
+    "r3.zib_procedure.reason_reference": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r3.zib_procedure_request": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r3.zib_procedure_request.body_site": [
+      {
+        type: 0,
+        value: "Verrichting anatomische locatie"
+      }
+    ],
+    "r3.zib_procedure_request.code": [
+      {
+        type: 0,
+        value: "Verrichting type"
+      }
+    ],
+    "r3.zib_procedure_request.code.verrichting_type_codelijst": [
+      {
+        type: 0,
+        value: "Verrichting type codelijst"
+      }
+    ],
+    "r3.zib_procedure_request.occurrence_period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r3.zib_procedure_request.occurrence_period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r3.zib_procedure_request.occurrence_timing.repeat.frequency": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r3.zib_procedure_request.occurrence_timing.repeat.period": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r3.zib_procedure_request.performer": [
+      {
+        type: 0,
+        value: "Uitgevoerd door"
+      }
+    ],
+    "r3.zib_procedure_request.performer_type.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_procedure_request.reason_reference": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r3.zib_procedure_request.requester.agent": [
+      {
+        type: 0,
+        value: "Aangevraagd door"
+      }
+    ],
+    "r3.zib_procedure_request.status.order_status": [
+      {
+        type: 0,
+        value: "Order status"
+      }
+    ],
+    "r3.zib_product": [
+      {
+        type: 0,
+        value: "Geneesmiddel"
+      }
+    ],
+    "r3.zib_product.code.coding": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r3.zib_product.code.text": [
+      {
+        type: 0,
+        value: "Product naam"
+      }
+    ],
+    "r3.zib_product.description": [
+      {
+        type: 0,
+        value: "Omschrijving"
+      }
+    ],
+    "r3.zib_product.form": [
+      {
+        type: 0,
+        value: "Farmaceutische vorm"
+      }
+    ],
+    "r3.zib_product.ingredient": [
+      {
+        type: 0,
+        value: "Ingredient"
+      }
+    ],
+    "r3.zib_product.ingredient.amount": [
+      {
+        type: 0,
+        value: "Sterkte"
+      }
+    ],
+    "r3.zib_product.ingredient.amount.denominator": [
+      {
+        type: 0,
+        value: "Product hoeveelheid"
+      }
+    ],
+    "r3.zib_product.ingredient.amount.numerator": [
+      {
+        type: 0,
+        value: "Ingredient hoeveelheid"
+      }
+    ],
+    "r3.zib_product.ingredient.item_codeable_concept": [
+      {
+        type: 0,
+        value: "Ingredient code"
+      }
+    ],
+    "r3.zib_pulse_rate": [
+      {
+        type: 0,
+        value: "Polsfrequentie"
+      }
+    ],
+    "r3.zib_pulse_rate.code": [
+      {
+        type: 0,
+        value: "Polsfrequentie"
+      }
+    ],
+    "r3.zib_pulse_rate.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_pulse_rate.effective": [
+      {
+        type: 0,
+        value: "Polsfrequentie datum tijd"
+      }
+    ],
+    "r3.zib_pulse_rate.pulse_regularity.code": [
+      {
+        type: 0,
+        value: "Component test"
+      }
+    ],
+    "r3.zib_pulse_rate.pulse_regularity.value": [
+      {
+        type: 0,
+        value: "Pols regelmatigheid"
+      }
+    ],
+    "r3.zib_pulse_rate.subject": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.zib_pulse_rate.value": [
+      {
+        type: 0,
+        value: "Polsfrequentie waarde"
+      }
+    ],
+    "r3.zib_respiration.administered_oxygen": [
+      {
+        type: 0,
+        value: "Toegediende zuurstof"
+      }
+    ],
+    "r3.zib_respiration.administered_oxygen.extra_oxygen_administration.value": [
+      {
+        type: 0,
+        value: "Extra zuurstof toediening"
+      }
+    ],
+    "r3.zib_respiration.administered_oxygen.fi_o_2.value": [
+      {
+        type: 0,
+        value: "Fi o2"
+      }
+    ],
+    "r3.zib_respiration.administered_oxygen.flow_rate.value": [
+      {
+        type: 0,
+        value: "Flow rate"
+      }
+    ],
+    "r3.zib_respiration.breathing_frequency.value": [
+      {
+        type: 0,
+        value: "Ademfrequentie"
+      }
+    ],
+    "r3.zib_respiration.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_respiration.depth.value": [
+      {
+        type: 0,
+        value: "Diepte"
+      }
+    ],
+    "r3.zib_respiration.deviating_breathing_pattern.value": [
+      {
+        type: 0,
+        value: "Afwijkend ademhalingspatroon"
+      }
+    ],
+    "r3.zib_respiration.effective_date_time": [
+      {
+        type: 0,
+        value: "Ademhaling datum tijd"
+      }
+    ],
+    "r3.zib_respiration.rhythm.value": [
+      {
+        type: 0,
+        value: "Ritme"
+      }
+    ],
+    "r3.zib_respiration_administered_oxygen_administration_device": [
+      {
+        type: 0,
+        value: "Toediening hulpmiddel"
+      }
+    ],
+    "r3.zib_skin_disorder": [
+      {
+        type: 0,
+        value: "Huidaandoening"
+      }
+    ],
+    "r3.zib_skin_disorder.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_skin_disorder.body_site.laterality.value": [
+      {
+        type: 0,
+        value: "Lateraliteit"
+      }
+    ],
+    "r3.zib_skin_disorder.code": [
+      {
+        type: 0,
+        value: "Soort aandoening"
+      }
+    ],
+    "r3.zib_skin_disorder.due_to.value": [
+      {
+        type: 0,
+        value: "Oorzaak"
+      }
+    ],
+    "r3.zib_skin_disorder.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_sna_qrc_score": [
+      {
+        type: 0,
+        value: "SNA qrc score"
+      }
+    ],
+    "r3.zib_sna_qrc_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r3.zib_sna_qrc_score.assisted_eating.value": [
+      {
+        type: 0,
+        value: "Hulp bij eten"
+      }
+    ],
+    "r3.zib_sna_qrc_score.bmi_score.value": [
+      {
+        type: 0,
+        value: "BMI score"
+      }
+    ],
+    "r3.zib_sna_qrc_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_sna_qrc_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNA qrc score datum tijd"
+      }
+    ],
+    "r3.zib_sna_qrc_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_sna_qrc_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score": [
+      {
+        type: 0,
+        value: "SNAQ65+score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNAQ65+score datum tijd"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.exercise_score.value": [
+      {
+        type: 0,
+        value: "Inspannings score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.upperarm_circumference.value": [
+      {
+        type: 0,
+        value: "Bovenarm omtrek score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r3.zib_snaq_score": [
+      {
+        type: 0,
+        value: "SNAQ score"
+      }
+    ],
+    "r3.zib_snaq_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r3.zib_snaq_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_snaq_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNAQ score datum tijd"
+      }
+    ],
+    "r3.zib_snaq_score.nutrition_score.value": [
+      {
+        type: 0,
+        value: "Voedings score"
+      }
+    ],
+    "r3.zib_snaq_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_snaq_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r3.zib_stoma": [
+      {
+        type: 0,
+        value: "Stoma"
+      }
+    ],
+    "r3.zib_stoma.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_stoma.body_site.laterality": [
+      {
+        type: 0,
+        value: "Lateraliteit"
+      }
+    ],
+    "r3.zib_stoma.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_stoma.effective_date_time": [
+      {
+        type: 0,
+        value: "Aanleg datum"
+      }
+    ],
+    "r3.zib_stoma.value": [
+      {
+        type: 0,
+        value: "Stoma type"
+      }
+    ],
+    "r3.zib_strong_kids_score": [
+      {
+        type: 0,
+        value: "Strong kids score"
+      }
+    ],
+    "r3.zib_strong_kids_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_strong_kids_score.condition_score.value": [
+      {
+        type: 0,
+        value: "Ziekte beeld score"
+      }
+    ],
+    "r3.zib_strong_kids_score.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r3.zib_strong_kids_score.nutrition_score.value": [
+      {
+        type: 0,
+        value: "Voedings score"
+      }
+    ],
+    "r3.zib_strong_kids_score.nutrition_status_score.value": [
+      {
+        type: 0,
+        value: "Voedingstoestand score"
+      }
+    ],
+    "r3.zib_strong_kids_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_strong_kids_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r3.zib_text_result": [
+      {
+        type: 0,
+        value: "Tekst uitslag"
+      }
+    ],
+    "r3.zib_text_result.code": [
+      {
+        type: 0,
+        value: "Onderzoek"
+      }
+    ],
+    "r3.zib_text_result.identifier": [
+      {
+        type: 0,
+        value: "Identificatie"
+      }
+    ],
+    "r3.zib_text_result.performer.role.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_text_result.status": [
+      {
+        type: 0,
+        value: "Tekst uitslag status"
+      }
+    ],
+    "r3.zib_text_result.status.text_result_status": [
+      {
+        type: 0,
+        value: "Tekst uitslag status"
+      }
+    ],
+    "r3.zib_tobacco_use": [
+      {
+        type: 0,
+        value: "Tabak gebruik"
+      }
+    ],
+    "r3.zib_tobacco_use.amount.value": [
+      {
+        type: 0,
+        value: "Hoeveelheid"
+      }
+    ],
+    "r3.zib_tobacco_use.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_tobacco_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Stop datum"
+      }
+    ],
+    "r3.zib_tobacco_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Start datum"
+      }
+    ],
+    "r3.zib_tobacco_use.pack_years.value": [
+      {
+        type: 0,
+        value: "Pack years"
+      }
+    ],
+    "r3.zib_tobacco_use.type_of_tobacco_used.value": [
+      {
+        type: 0,
+        value: "Soort tabak gebruik"
+      }
+    ],
+    "r3.zib_tobacco_use.value": [
+      {
+        type: 0,
+        value: "Tabak gebruik status"
+      }
+    ],
+    "r3.zib_treatment_directive": [
+      {
+        type: 0,
+        value: "Behandel aanwijzing"
+      }
+    ],
+    "r3.zib_treatment_directive.except.restrictions": [
+      {
+        type: 0,
+        value: "Beperkingen"
+      }
+    ],
+    "r3.zib_treatment_directive.period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r3.zib_treatment_directive.period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r3.zib_treatment_directive.source": [
+      {
+        type: 0,
+        value: "Wilsverklaring"
+      }
+    ],
+    "r3.zib_treatment_directive.treatment": [
+      {
+        type: 0,
+        value: "Behandeling"
+      }
+    ],
+    "r3.zib_treatment_directive.treatment_permitted": [
+      {
+        type: 0,
+        value: "Behandeling toegestaan"
+      }
+    ],
+    "r3.zib_treatment_directive.verification.verification_date": [
+      {
+        type: 0,
+        value: "Verificatie datum"
+      }
+    ],
+    "r3.zib_treatment_directive.verification.verified": [
+      {
+        type: 0,
+        value: "Geverifieerd"
+      }
+    ],
+    "r3.zib_treatment_directive.verification.verified_with": [
+      {
+        type: 0,
+        value: "Geverifieerd bij"
+      }
+    ],
+    "r3.zib_treatment_directive_treatment.value": [
+      {
+        type: 0,
+        value: "Behandeling"
+      }
+    ],
+    "r3.zib_treatment_directive_treatment_permitted.value": [
+      {
+        type: 0,
+        value: "Behandeling toegestaan"
+      }
+    ],
+    "r3.zib_treatment_directive_verification": [
+      {
+        type: 0,
+        value: "Verificatie"
+      }
+    ],
+    "r3.zib_treatment_directive_verification.verification_date.value": [
+      {
+        type: 0,
+        value: "Verificatie datum"
+      }
+    ],
+    "r3.zib_treatment_directive_verification.verified.value": [
+      {
+        type: 0,
+        value: "Geverifieerd"
+      }
+    ],
+    "r3.zib_treatment_objective": [
+      {
+        type: 0,
+        value: "Behandeldoel"
+      }
+    ],
+    "r3.zib_treatment_objective.addresses": [
+      {
+        type: 0,
+        value: "Probleem"
+      }
+    ],
+    "r3.zib_treatment_objective.description": [
+      {
+        type: 0,
+        value: "Gewenst zorgresultaat"
+      }
+    ],
+    "r3.zib_treatment_objective.target.detail": [
+      {
+        type: 0,
+        value: "Streefwaarde / gewenste gezondheidstoestand"
+      }
+    ],
+    "r3.zib_vaccination": [
+      {
+        type: 0,
+        value: "Vaccinatie"
+      }
+    ],
+    "r3.zib_vaccination.date": [
+      {
+        type: 0,
+        value: "Vaccinatie datum"
+      }
+    ],
+    "r3.zib_vaccination.dose_quantity": [
+      {
+        type: 0,
+        value: "Dosis"
+      }
+    ],
+    "r3.zib_vaccination.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_vaccination.practitioner.actor": [
+      {
+        type: 0,
+        value: "Toediener"
+      }
+    ],
+    "r3.zib_vaccination.practitioner.role.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_vaccination.vaccine_code": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r3.zib_vaccination_recommendation.order_status": [
+      {
+        type: 0,
+        value: "Order status"
+      }
+    ],
+    "r3.zib_vaccination_recommendation.recommendation.date": [
+      {
+        type: 0,
+        value: "Gewenste datum hervaccinatie"
+      }
+    ],
+    "r3.zib_vaccination_recommendation.recommendation.date_criterion": [
+      {
+        type: 0,
+        value: "Start date"
+      }
+    ],
+    "r3.zib_vaccination_recommendation.recommendation.vaccine_code": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r3.zib_visual_function": [
+      {
+        type: 0,
+        value: "Functie zien"
+      }
+    ],
+    "r3.zib_visual_function.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_visual_function.value": [
+      {
+        type: 0,
+        value: "Visuele functie"
+      }
+    ],
+    "r3.zib_visual_function_visual_aid": [
+      {
+        type: 0,
+        value: "Zien hulpmiddel"
+      }
+    ],
+    "r3.zib_wound": [
+      {
+        type: 0,
+        value: "Wond"
+      }
+    ],
+    "r3.zib_wound.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_wound.body_site.laterality.value": [
+      {
+        type: 0,
+        value: "Lateraliteit"
+      }
+    ],
+    "r3.zib_wound.code": [
+      {
+        type: 0,
+        value: "Wond soort"
+      }
+    ],
+    "r3.zib_wound.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_wound.onset": [
       {
         type: 0,
         value: "Wond ontstaans datum"
       }
     ]
   };
+  const r3ResourceLabelsCustom = {
+    "r3.ihe_mhd_minimal_document_reference.author": [
+      {
+        type: 0,
+        value: "Auteur"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.class": [
+      {
+        type: 0,
+        value: "Categorie"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content": [
+      {
+        type: 0,
+        value: "Inhoud"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content.attachment.content_type": [
+      {
+        type: 0,
+        value: "Inhoudstype"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content.attachment.creation": [
+      {
+        type: 0,
+        value: "Gecreëerd"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content.attachment.language": [
+      {
+        type: 0,
+        value: "Taal"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content.attachment.title": [
+      {
+        type: 0,
+        value: "Titel"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content.attachment.url": [
+      {
+        type: 0,
+        value: "Url"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.group_attachment": [
+      {
+        type: 0,
+        value: "Inhoud"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.group_author": [
+      {
+        type: 0,
+        value: "Opgesteld door"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.indexed": [
+      {
+        type: 0,
+        value: "Gecreëerd"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.master_identifier": [
+      {
+        type: 0,
+        value: "Identifier"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.security_label": [
+      {
+        type: 0,
+        value: "Beveiligingslabel"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.status": [
+      {
+        type: 0,
+        value: "Status"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.subject": [
+      {
+        type: 0,
+        value: "Onderwerp"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.type": [
+      {
+        type: 0,
+        value: "Type"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.general_test_information": [
+      {
+        type: 0,
+        value: "Algemene testinformatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.interpretation": [
+      {
+        type: 0,
+        value: "Interpretatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.lab_test": [
+      {
+        type: 0,
+        value: "Laboratoriumtest"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.performer": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.reference_range.type": [
+      {
+        type: 0,
+        value: "Referentie type"
+      }
+    ],
+    "r3.zib_medication_use.effective_period.duration": [
+      {
+        type: 0,
+        value: "Tijdsduur"
+      }
+    ],
+    "r3.zib_medication_use.repeat_period_cyclical_schedule": [
+      {
+        type: 0,
+        value: "Herhaalperiode cyclisch schema"
+      }
+    ]
+  };
   const r4ResourceLabels = {
+    "r4.nl_core_ability_to_dress_oneself": [
+      {
+        type: 0,
+        value: "Nl-core-ability to dress oneself"
+      }
+    ],
+    "r4.nl_core_ability_to_drink": [
+      {
+        type: 0,
+        value: "Nl-core-ability to drink"
+      }
+    ],
+    "r4.nl_core_ability_to_drink.drinking_limitations": [
+      {
+        type: 0,
+        value: "Nl-core-ability to drink.drinking limitations"
+      }
+    ],
+    "r4.nl_core_ability_to_eat": [
+      {
+        type: 0,
+        value: "Nl-core-ability to eat"
+      }
+    ],
+    "r4.nl_core_ability_to_eat.eating_limitations": [
+      {
+        type: 0,
+        value: "Nl-core-ability to eat.eating limitations"
+      }
+    ],
+    "r4.nl_core_ability_to_groom": [
+      {
+        type: 0,
+        value: "Nl-core-ability to groom"
+      }
+    ],
+    "r4.nl_core_ability_to_use_toilet": [
+      {
+        type: 0,
+        value: "Nl-core-ability to use toilet"
+      }
+    ],
+    "r4.nl_core_ability_to_use_toilet.menstrual_care": [
+      {
+        type: 0,
+        value: "Nl-core-ability to use toilet.menstrual care"
+      }
+    ],
+    "r4.nl_core_ability_to_use_toilet.toilet_use": [
+      {
+        type: 0,
+        value: "Nl-core-ability to use toilet.toilet use"
+      }
+    ],
+    "r4.nl_core_ability_to_wash_oneself": [
+      {
+        type: 0,
+        value: "Nl-core-ability to wash oneself"
+      }
+    ],
+    "r4.nl_core_address_information": [
+      {
+        type: 0,
+        value: "Nl-core-address information"
+      }
+    ],
+    "r4.nl_core_advance_directive": [
+      {
+        type: 0,
+        value: "Nl-core-advance directive"
+      }
+    ],
+    "r4.nl_core_alcohol_use": [
+      {
+        type: 0,
+        value: "Nl-core-alcohol use"
+      }
+    ],
+    "r4.nl_core_alert": [
+      {
+        type: 0,
+        value: "Nl-core-alert"
+      }
+    ],
+    "r4.nl_core_allergy_intolerance": [
+      {
+        type: 0,
+        value: "Nl-core-allergy intolerance"
+      }
+    ],
+    "r4.nl_core_anatomical_location": [
+      {
+        type: 0,
+        value: "Nl-core-anatomical location"
+      }
+    ],
+    "r4.nl_core_apgar_score_10_minute": [
+      {
+        type: 0,
+        value: "Nl-core-apgar score-10 minute"
+      }
+    ],
+    "r4.nl_core_apgar_score_1_minute": [
+      {
+        type: 0,
+        value: "Nl-core-apgar score-1 minute"
+      }
+    ],
+    "r4.nl_core_apgar_score_5_minute": [
+      {
+        type: 0,
+        value: "Nl-core-apgar score-5 minute"
+      }
+    ],
+    "r4.nl_core_barthel_adl_index": [
+      {
+        type: 0,
+        value: "Nl-core-barthel ADL index"
+      }
+    ],
+    "r4.nl_core_blood_pressure": [
+      {
+        type: 0,
+        value: "Nl-core-blood pressure"
+      }
+    ],
+    "r4.nl_core_body_height": [
+      {
+        type: 0,
+        value: "Nl-core-body height"
+      }
+    ],
+    "r4.nl_core_body_temperature": [
+      {
+        type: 0,
+        value: "Nl-core-body temperature"
+      }
+    ],
+    "r4.nl_core_body_weight": [
+      {
+        type: 0,
+        value: "Nl-core-body weight"
+      }
+    ],
+    "r4.nl_core_bowel_function": [
+      {
+        type: 0,
+        value: "Nl-core-bowel function"
+      }
+    ],
+    "r4.nl_core_bowel_function.defecation_color": [
+      {
+        type: 0,
+        value: "Nl-core-bowel function.defecation color"
+      }
+    ],
+    "r4.nl_core_bowel_function.defecation_consistency": [
+      {
+        type: 0,
+        value: "Nl-core-bowel function.defecation consistency"
+      }
+    ],
+    "r4.nl_core_bowel_function.fecal_continence": [
+      {
+        type: 0,
+        value: "Nl-core-bowel function.fecal continence"
+      }
+    ],
+    "r4.nl_core_bowel_function.frequency": [
+      {
+        type: 0,
+        value: "Nl-core-bowel function.frequency"
+      }
+    ],
+    "r4.nl_core_burnwound": [
+      {
+        type: 0,
+        value: "Nl-core-burnwound"
+      }
+    ],
+    "r4.nl_core_burnwound.extent": [
+      {
+        type: 0,
+        value: "Nl-core-burnwound.extent"
+      }
+    ],
+    "r4.nl_core_care_team": [
+      {
+        type: 0,
+        value: "Nl-core-care team"
+      }
+    ],
+    "r4.nl_core_checklist_pain_behavior": [
+      {
+        type: 0,
+        value: "Nl-core-checklist pain behavior"
+      }
+    ],
+    "r4.nl_core_comfort_scale": [
+      {
+        type: 0,
+        value: "Nl-core-comfort scale"
+      }
+    ],
+    "r4.nl_core_contact_information_email_addresses": [
+      {
+        type: 0,
+        value: "Nl-core-contact information-email addresses"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers": [
+      {
+        type: 0,
+        value: "Nl-core-contact information-telephone numbers"
+      }
+    ],
+    "r4.nl_core_contact_person": [
+      {
+        type: 0,
+        value: "Nl-core-contact person"
+      }
+    ],
+    "r4.nl_core_development_child": [
+      {
+        type: 0,
+        value: "Nl-core-development child"
+      }
+    ],
+    "r4.nl_core_development_child.age_first_menstruation": [
+      {
+        type: 0,
+        value: "Nl-core-development child.age first menstruation"
+      }
+    ],
+    "r4.nl_core_development_child.development_cognition": [
+      {
+        type: 0,
+        value: "Nl-core-development child.development cognition"
+      }
+    ],
+    "r4.nl_core_development_child.development_linguistics": [
+      {
+        type: 0,
+        value: "Nl-core-development child.development linguistics"
+      }
+    ],
+    "r4.nl_core_development_child.development_locomotion": [
+      {
+        type: 0,
+        value: "Nl-core-development child.development locomotion"
+      }
+    ],
+    "r4.nl_core_development_child.development_social": [
+      {
+        type: 0,
+        value: "Nl-core-development child.development social"
+      }
+    ],
+    "r4.nl_core_development_child.toilet_trainedness_feces": [
+      {
+        type: 0,
+        value: "Nl-core-development child.toilet trainedness feces"
+      }
+    ],
+    "r4.nl_core_development_child.toilet_trainedness_urine": [
+      {
+        type: 0,
+        value: "Nl-core-development child.toilet trainedness urine"
+      }
+    ],
+    "r4.nl_core_dos_score": [
+      {
+        type: 0,
+        value: "Nl-core-DOS score"
+      }
+    ],
+    "r4.nl_core_drug_use": [
+      {
+        type: 0,
+        value: "Nl-core-drug use"
+      }
+    ],
+    "r4.nl_core_education": [
+      {
+        type: 0,
+        value: "Nl-core-education"
+      }
+    ],
+    "r4.nl_core_encounter": [
+      {
+        type: 0,
+        value: "Nl-core-encounter"
+      }
+    ],
+    "r4.nl_core_episode_of_care": [
+      {
+        type: 0,
+        value: "Nl-core-episode of care"
+      }
+    ],
+    "r4.nl_core_feeding_pattern_infant": [
+      {
+        type: 0,
+        value: "Nl-core-feeding pattern infant"
+      }
+    ],
+    "r4.nl_core_flac_cpain_scale": [
+      {
+        type: 0,
+        value: "Nl-core-FLAC cpain scale"
+      }
+    ],
+    "r4.nl_core_fluid_balance": [
+      {
+        type: 0,
+        value: "Nl-core-fluid balance"
+      }
+    ],
+    "r4.nl_core_fluid_balance.fluid_total_in": [
+      {
+        type: 0,
+        value: "Nl-core-fluid balance.fluid total in"
+      }
+    ],
+    "r4.nl_core_fluid_balance.fluid_total_out": [
+      {
+        type: 0,
+        value: "Nl-core-fluid balance.fluid total out"
+      }
+    ],
+    "r4.nl_core_freedom_restricting_intervention": [
+      {
+        type: 0,
+        value: "Nl-core-freedom restricting intervention"
+      }
+    ],
+    "r4.nl_core_functional_or_mental_status": [
+      {
+        type: 0,
+        value: "Nl-core-functional or mental status"
+      }
+    ],
+    "r4.nl_core_glasgow_coma_scale": [
+      {
+        type: 0,
+        value: "Nl-core-glasgow coma scale"
+      }
+    ],
+    "r4.nl_core_head_circumference": [
+      {
+        type: 0,
+        value: "Nl-core-head circumference"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner": [
+      {
+        type: 0,
+        value: "Nl-core-health professional-practitioner"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role": [
+      {
+        type: 0,
+        value: "Nl-core-health professional-practitioner role"
+      }
+    ],
+    "r4.nl_core_healthcare_provider": [
+      {
+        type: 0,
+        value: "Nl-core-healthcare provider"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization": [
+      {
+        type: 0,
+        value: "Nl-core-healthcare provider-organization"
+      }
+    ],
+    "r4.nl_core_hearing_function": [
+      {
+        type: 0,
+        value: "Nl-core-hearing function"
+      }
+    ],
+    "r4.nl_core_hearing_function.hearing_aid": [
+      {
+        type: 0,
+        value: "Nl-core-hearing function.hearing aid"
+      }
+    ],
+    "r4.nl_core_hearing_function.hearing_aid.product": [
+      {
+        type: 0,
+        value: "Nl-core-hearing function.hearing aid.product"
+      }
+    ],
+    "r4.nl_core_heart_rate": [
+      {
+        type: 0,
+        value: "Nl-core-heart rate"
+      }
+    ],
+    "r4.nl_core_heart_rate.heartbeat_regularity": [
+      {
+        type: 0,
+        value: "Nl-core-heart rate.heartbeat regularity"
+      }
+    ],
+    "r4.nl_core_heart_rate.interpretation_heart_rate": [
+      {
+        type: 0,
+        value: "Nl-core-heart rate.interpretation heart rate"
+      }
+    ],
+    "r4.nl_core_help_from_others": [
+      {
+        type: 0,
+        value: "Nl-core-help from others"
+      }
+    ],
+    "r4.nl_core_illness_perception": [
+      {
+        type: 0,
+        value: "Nl-core-illness perception"
+      }
+    ],
+    "r4.nl_core_illness_perception.coping_with_illness_by_family": [
+      {
+        type: 0,
+        value: "Nl-core-illness perception.coping with illness by family"
+      }
+    ],
+    "r4.nl_core_illness_perception.coping_with_illness_by_patient": [
+      {
+        type: 0,
+        value: "Nl-core-illness perception.coping with illness by patient"
+      }
+    ],
+    "r4.nl_core_illness_perception.patient_illness_insight": [
+      {
+        type: 0,
+        value: "Nl-core-illness perception.patient illness insight"
+      }
+    ],
+    "r4.nl_core_laboratory_test_result": [
+      {
+        type: 0,
+        value: "Nl-core-laboratory test result"
+      }
+    ],
+    "r4.nl_core_laboratory_test_result.specimen": [
+      {
+        type: 0,
+        value: "Nl-core-laboratory test result.specimen"
+      }
+    ],
+    "r4.nl_core_laboratory_test_result.specimen_source": [
+      {
+        type: 0,
+        value: "Nl-core-laboratory test result.specimen source"
+      }
+    ],
+    "r4.nl_core_laboratory_test_result.specimen_source.patient": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r4.nl_core_legal_situation_legal_status": [
+      {
+        type: 0,
+        value: "Nl-core-legal situation-legal status"
+      }
+    ],
+    "r4.nl_core_legal_situation_representation": [
+      {
+        type: 0,
+        value: "Nl-core-legal situation-representation"
+      }
+    ],
+    "r4.nl_core_life_stance": [
+      {
+        type: 0,
+        value: "Nl-core-life stance"
+      }
+    ],
+    "r4.nl_core_living_situation": [
+      {
+        type: 0,
+        value: "Nl-core-living situation"
+      }
+    ],
+    "r4.nl_core_medical_device": [
+      {
+        type: 0,
+        value: "Nl-core-medical device"
+      }
+    ],
+    "r4.nl_core_medical_device.product": [
+      {
+        type: 0,
+        value: "Nl-core-medical device.product"
+      }
+    ],
+    "r4.nl_core_medication_contra_indication": [
+      {
+        type: 0,
+        value: "Nl-core-medication contra indication"
+      }
+    ],
+    "r4.nl_core_mobility": [
+      {
+        type: 0,
+        value: "Nl-core-mobility"
+      }
+    ],
+    "r4.nl_core_mobility.changing_position": [
+      {
+        type: 0,
+        value: "Nl-core-mobility.changing position"
+      }
+    ],
+    "r4.nl_core_mobility.climbing_stairs": [
+      {
+        type: 0,
+        value: "Nl-core-mobility.climbing stairs"
+      }
+    ],
+    "r4.nl_core_mobility.maintaining_position": [
+      {
+        type: 0,
+        value: "Nl-core-mobility.maintaining position"
+      }
+    ],
+    "r4.nl_core_mobility.transfer": [
+      {
+        type: 0,
+        value: "Nl-core-mobility.transfer"
+      }
+    ],
+    "r4.nl_core_mobility.walking": [
+      {
+        type: 0,
+        value: "Nl-core-mobility.walking"
+      }
+    ],
+    "r4.nl_core_must_score": [
+      {
+        type: 0,
+        value: "Nl-core-MUST score"
+      }
+    ],
+    "r4.nl_core_name_information": [
+      {
+        type: 0,
+        value: "Nl-core-name information"
+      }
+    ],
+    "r4.nl_core_name_information.given_name": [
+      {
+        type: 0,
+        value: "Nl-core-name information.given name"
+      }
+    ],
+    "r4.nl_core_nursing_intervention": [
+      {
+        type: 0,
+        value: "Nl-core-nursing intervention"
+      }
+    ],
+    "r4.nl_core_nutrition_advice": [
+      {
+        type: 0,
+        value: "Nl-core-nutrition advice"
+      }
+    ],
+    "r4.nl_core_o_2_saturation": [
+      {
+        type: 0,
+        value: "Nl-core-o2 saturation"
+      }
+    ],
+    "r4.nl_core_pain_score": [
+      {
+        type: 0,
+        value: "Nl-core-pain score"
+      }
+    ],
+    "r4.nl_core_participation_in_society": [
+      {
+        type: 0,
+        value: "Nl-core-participation in society"
+      }
+    ],
+    "r4.nl_core_participation_in_society.hobby": [
+      {
+        type: 0,
+        value: "Nl-core-participation in society.hobby"
+      }
+    ],
+    "r4.nl_core_participation_in_society.social_network": [
+      {
+        type: 0,
+        value: "Nl-core-participation in society.social network"
+      }
+    ],
+    "r4.nl_core_participation_in_society.work_situation": [
+      {
+        type: 0,
+        value: "Nl-core-participation in society.work situation"
+      }
+    ],
+    "r4.nl_core_patient": [
+      {
+        type: 0,
+        value: "Nl-core-patient"
+      }
+    ],
+    "r4.nl_core_payer.insurance_company": [
+      {
+        type: 0,
+        value: "Nl-core-payer.insurance company"
+      }
+    ],
+    "r4.nl_core_payer.payer_person": [
+      {
+        type: 0,
+        value: "Nl-core-payer.payer person"
+      }
+    ],
+    "r4.nl_core_payer_organization": [
+      {
+        type: 0,
+        value: "Nl-core-payer-organization"
+      }
+    ],
+    "r4.nl_core_pharmaceutical_product": [
+      {
+        type: 0,
+        value: "Nl-core-pharmaceutical product"
+      }
+    ],
+    "r4.nl_core_pregnancy": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy"
+      }
+    ],
+    "r4.nl_core_pregnancy.date_last_menstruation": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy.date last menstruation"
+      }
+    ],
+    "r4.nl_core_pregnancy.estimated_date_of_delivery": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy.estimated date of delivery"
+      }
+    ],
+    "r4.nl_core_pregnancy.gravidity": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy.gravidity"
+      }
+    ],
+    "r4.nl_core_pregnancy.parity": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy.parity"
+      }
+    ],
+    "r4.nl_core_pregnancy.pregnancy_duration": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy.pregnancy duration"
+      }
+    ],
+    "r4.nl_core_pressure_ulcer": [
+      {
+        type: 0,
+        value: "Nl-core-pressure ulcer"
+      }
+    ],
+    "r4.nl_core_problem": [
+      {
+        type: 0,
+        value: "Nl-core-problem"
+      }
+    ],
+    "r4.nl_core_procedure_event": [
+      {
+        type: 0,
+        value: "Nl-core-procedure-event"
+      }
+    ],
+    "r4.nl_core_procedure_request": [
+      {
+        type: 0,
+        value: "Nl-core-procedure-request"
+      }
+    ],
+    "r4.nl_core_pulse_rate": [
+      {
+        type: 0,
+        value: "Nl-core-pulse rate"
+      }
+    ],
+    "r4.nl_core_pulse_rate.pulse_regularity": [
+      {
+        type: 0,
+        value: "Nl-core-pulse rate.pulse regularity"
+      }
+    ],
+    "r4.nl_core_refraction": [
+      {
+        type: 0,
+        value: "Nl-core-refraction"
+      }
+    ],
+    "r4.nl_core_skin_disorder": [
+      {
+        type: 0,
+        value: "Nl-core-skin disorder"
+      }
+    ],
+    "r4.nl_core_sna_qrc_score": [
+      {
+        type: 0,
+        value: "Nl-core-SNA qrc score"
+      }
+    ],
+    "r4.nl_core_snaq_65_plus_score": [
+      {
+        type: 0,
+        value: "Nl-core-SNAQ65plus score"
+      }
+    ],
+    "r4.nl_core_snaq_score": [
+      {
+        type: 0,
+        value: "Nl-core-SNAQ score"
+      }
+    ],
+    "r4.nl_core_soap_report": [
+      {
+        type: 0,
+        value: "Nl-core-SOAP report"
+      }
+    ],
+    "r4.nl_core_soap_report.soap_line": [
+      {
+        type: 0,
+        value: "Nl-core-SOAP report.SOAP line"
+      }
+    ],
+    "r4.nl_core_stoma": [
+      {
+        type: 0,
+        value: "Nl-core-stoma"
+      }
+    ],
+    "r4.nl_core_strong_kids_score": [
+      {
+        type: 0,
+        value: "Nl-core-strong kids score"
+      }
+    ],
+    "r4.nl_core_text_result": [
+      {
+        type: 0,
+        value: "Nl-core-text result"
+      }
+    ],
+    "r4.nl_core_text_result.visual_result": [
+      {
+        type: 0,
+        value: "Nl-core-text result.visual result"
+      }
+    ],
+    "r4.nl_core_time_interval": [
+      {
+        type: 0,
+        value: "Nl-core-time interval"
+      }
+    ],
+    "r4.nl_core_tobacco_use": [
+      {
+        type: 0,
+        value: "Nl-core-tobacco use"
+      }
+    ],
+    "r4.nl_core_treatment_directive_2": [
+      {
+        type: 0,
+        value: "Nl-core-treatment directive2"
+      }
+    ],
+    "r4.nl_core_vaccination_event": [
+      {
+        type: 0,
+        value: "Nl-core-vaccination-event"
+      }
+    ],
+    "r4.nl_core_vaccination_event.patient": [
+      {
+        type: 0,
+        value: "Patient"
+      }
+    ],
+    "r4.nl_core_vaccination_event.protocol_applied.target_disease": [
+      {
+        type: 0,
+        value: "Vaccinatie pathogeen"
+      }
+    ],
+    "r4.nl_core_vaccination_event.vaccination_indication": [
+      {
+        type: 0,
+        value: "Vaccinatie indicatie"
+      }
+    ],
+    "r4.nl_core_vaccination_event.vaccination_motive": [
+      {
+        type: 0,
+        value: "Vaccinatie aanleiding"
+      }
+    ],
+    "r4.nl_core_vaccination_request": [
+      {
+        type: 0,
+        value: "Nl-core-vaccination-request"
+      }
+    ],
+    "r4.nl_core_visual_function": [
+      {
+        type: 0,
+        value: "Nl-core-visual function"
+      }
+    ],
+    "r4.nl_core_visual_function.visual_aid": [
+      {
+        type: 0,
+        value: "Nl-core-visual function.visual aid"
+      }
+    ],
+    "r4.nl_core_visual_function.visual_aid.product": [
+      {
+        type: 0,
+        value: "Nl-core-visual function.visual aid.product"
+      }
+    ],
+    "r4.nl_core_wound": [
+      {
+        type: 0,
+        value: "Nl-core-wound"
+      }
+    ],
+    "r4.nl_core_wound.drain": [
+      {
+        type: 0,
+        value: "Nl-core-wound.drain"
+      }
+    ],
+    "r4.nl_core_wound.drain.product": [
+      {
+        type: 0,
+        value: "Nl-core-wound.drain.product"
+      }
+    ],
+    "r4.nl_core_wound.wound_edge": [
+      {
+        type: 0,
+        value: "Nl-core-wound.wound edge"
+      }
+    ],
+    "r4.nl_core_wound.wound_infection": [
+      {
+        type: 0,
+        value: "Nl-core-wound.wound infection"
+      }
+    ],
+    "r4.nl_core_wound.wound_moisture": [
+      {
+        type: 0,
+        value: "Nl-core-wound.wound moisture"
+      }
+    ],
+    "r4.nl_core_wound.wound_tissue": [
+      {
+        type: 0,
+        value: "Nl-core-wound.wound tissue"
+      }
+    ],
+    "r4.nl_core_wounds.date_of_last_dressing_change": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.date of last dressing change"
+      }
+    ],
+    "r4.nl_core_wounds.wound_characteristics": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.wound characteristics"
+      }
+    ],
+    "r4.nl_core_wounds.wound_depth": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.wound depth"
+      }
+    ],
+    "r4.nl_core_wounds.wound_image": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.wound image"
+      }
+    ],
+    "r4.nl_core_wounds.wound_length": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.wound length"
+      }
+    ],
+    "r4.nl_core_wounds.wound_width": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.wound width"
+      }
+    ],
+    "r4.zib_ability_to_dress_oneself": [
+      {
+        type: 0,
+        value: "Vermogen tot zich kleden"
+      }
+    ],
+    "r4.zib_ability_to_dress_oneself.body_part_to_be_dressed.value": [
+      {
+        type: 0,
+        value: "Te kleden lichaamsdeel"
+      }
+    ],
+    "r4.zib_ability_to_dress_oneself.value": [
+      {
+        type: 0,
+        value: "Zich kleden"
+      }
+    ],
+    "r4.zib_ability_to_drink": [
+      {
+        type: 0,
+        value: "Vermogen tot drinken"
+      }
+    ],
+    "r4.zib_ability_to_drink.drinking_limitations.value": [
+      {
+        type: 0,
+        value: "Drink beperkingen"
+      }
+    ],
+    "r4.zib_ability_to_drink.value": [
+      {
+        type: 0,
+        value: "Drinken"
+      }
+    ],
+    "r4.zib_ability_to_eat": [
+      {
+        type: 0,
+        value: "Vermogen tot eten"
+      }
+    ],
+    "r4.zib_ability_to_eat.eating_limitations.value": [
+      {
+        type: 0,
+        value: "Eet beperkingen"
+      }
+    ],
+    "r4.zib_ability_to_eat.value": [
+      {
+        type: 0,
+        value: "Eten"
+      }
+    ],
+    "r4.zib_ability_to_groom": [
+      {
+        type: 0,
+        value: "Vermogen tot uiterlijke verzorging"
+      }
+    ],
+    "r4.zib_ability_to_groom.value": [
+      {
+        type: 0,
+        value: "Uiterlijke verzorging"
+      }
+    ],
+    "r4.zib_ability_to_use_toilet": [
+      {
+        type: 0,
+        value: "Vermogen tot toiletgang"
+      }
+    ],
+    "r4.zib_ability_to_use_toilet.menstrual_care.value": [
+      {
+        type: 0,
+        value: "Zorg bij menstruatie"
+      }
+    ],
+    "r4.zib_ability_to_use_toilet.toilet_use.value": [
+      {
+        type: 0,
+        value: "Toiletgebruik"
+      }
+    ],
+    "r4.zib_ability_to_wash_oneself": [
+      {
+        type: 0,
+        value: "Vermogen tot zich wassen"
+      }
+    ],
+    "r4.zib_ability_to_wash_oneself.body_part_to_be_bathed.value": [
+      {
+        type: 0,
+        value: "Te wassen lichaamsdeel"
+      }
+    ],
+    "r4.zib_ability_to_wash_oneself.value": [
+      {
+        type: 0,
+        value: "Zich wassen"
+      }
+    ],
+    "r4.zib_address_information": [
+      {
+        type: 0,
+        value: "Adresgegevens"
+      }
+    ],
+    "r4.zib_address_information.city": [
+      {
+        type: 0,
+        value: "Woonplaats"
+      }
+    ],
+    "r4.zib_address_information.country.country_code.value": [
+      {
+        type: 0,
+        value: "Land"
+      }
+    ],
+    "r4.zib_address_information.district": [
+      {
+        type: 0,
+        value: "Gemeente"
+      }
+    ],
+    "r4.zib_address_information.line.additional_information.value": [
+      {
+        type: 0,
+        value: "Additionele informatie"
+      }
+    ],
+    "r4.zib_address_information.line.house_number.value": [
+      {
+        type: 0,
+        value: "Huisnummer"
+      }
+    ],
+    "r4.zib_address_information.line.house_number_indication.value": [
+      {
+        type: 0,
+        value: "Aanduiding bij nummer"
+      }
+    ],
+    "r4.zib_address_information.line.house_number_letter_house_number_addition.value": [
+      {
+        type: 0,
+        value: "Huisnummerletter"
+      }
+    ],
+    "r4.zib_address_information.line.street_name.value": [
+      {
+        type: 0,
+        value: "Straat"
+      }
+    ],
+    "r4.zib_address_information.postal_code": [
+      {
+        type: 0,
+        value: "Postcode"
+      }
+    ],
+    "r4.zib_address_information.type": [
+      {
+        type: 0,
+        value: "Adres soort"
+      }
+    ],
+    "r4.zib_address_information.use": [
+      {
+        type: 0,
+        value: "Adres soort"
+      }
+    ],
+    "r4.zib_advance_directive": [
+      {
+        type: 0,
+        value: "Wilsverklaring"
+      }
+    ],
+    "r4.zib_advance_directive.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_advance_directive.date_time": [
+      {
+        type: 0,
+        value: "Wilsverklaring datum"
+      }
+    ],
+    "r4.zib_advance_directive.provision.code": [
+      {
+        type: 0,
+        value: "Wilsverklaring type"
+      }
+    ],
+    "r4.zib_advance_directive.provision.representative.reference": [
+      {
+        type: 0,
+        value: "Vertegenwoordiger"
+      }
+    ],
+    "r4.zib_advance_directive.source_attachment.data": [
+      {
+        type: 0,
+        value: "Wilsverklaring document"
+      }
+    ],
+    "r4.zib_alcohol_use": [
+      {
+        type: 0,
+        value: "Alcohol gebruik"
+      }
+    ],
+    "r4.zib_alcohol_use.amount.value": [
+      {
+        type: 0,
+        value: "Hoeveelheid"
+      }
+    ],
+    "r4.zib_alcohol_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Stop datum"
+      }
+    ],
+    "r4.zib_alcohol_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Start datum"
+      }
+    ],
+    "r4.zib_alcohol_use.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_alcohol_use.value": [
+      {
+        type: 0,
+        value: "Alcohol gebruik status"
+      }
+    ],
+    "r4.zib_alert.alert_type": [
+      {
+        type: 0,
+        value: "Alert type"
+      }
+    ],
+    "r4.zib_alert.code.alert_name": [
+      {
+        type: 0,
+        value: "Alert naam"
+      }
+    ],
+    "r4.zib_alert.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_alert.condition.value": [
+      {
+        type: 0,
+        value: "Conditie"
+      }
+    ],
+    "r4.zib_alert.period.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r4.zib_alert.period.start": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r4.zib_allergy_intolerance": [
+      {
+        type: 0,
+        value: "Allergie intolerantie"
+      }
+    ],
+    "r4.zib_allergy_intolerance.category": [
+      {
+        type: 0,
+        value: "Allergie categorie"
+      }
+    ],
+    "r4.zib_allergy_intolerance.category.allergy_category_codelist.value": [
+      {
+        type: 0,
+        value: "Allergie categorie"
+      }
+    ],
+    "r4.zib_allergy_intolerance.clinical_status": [
+      {
+        type: 0,
+        value: "Allergie status"
+      }
+    ],
+    "r4.zib_allergy_intolerance.code": [
+      {
+        type: 0,
+        value: "Veroorzakende stof"
+      }
+    ],
+    "r4.zib_allergy_intolerance.criticality": [
+      {
+        type: 0,
+        value: "Mate van kritiek zijn"
+      }
+    ],
+    "r4.zib_allergy_intolerance.criticality.critical_extent_codelist.value": [
+      {
+        type: 0,
+        value: "Mate van kritiek zijn"
+      }
+    ],
+    "r4.zib_allergy_intolerance.last_occurrence": [
+      {
+        type: 0,
+        value: "Laatste reactie datum tijd"
+      }
+    ],
+    "r4.zib_allergy_intolerance.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_allergy_intolerance.onset_date_time": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction": [
+      {
+        type: 0,
+        value: "Reactie"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.description": [
+      {
+        type: 0,
+        value: "Reactie beschrijving"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.exposure_route": [
+      {
+        type: 0,
+        value: "Wijze van blootstelling"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.manifestation": [
+      {
+        type: 0,
+        value: "Symptoom"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.onset": [
+      {
+        type: 0,
+        value: "Reactie tijdstip"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.severity": [
+      {
+        type: 0,
+        value: "Ernst"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.substance": [
+      {
+        type: 0,
+        value: "Specifieke stof"
+      }
+    ],
+    "r4.zib_allergy_intolerance.verification_status": [
+      {
+        type: 0,
+        value: "Allergie status"
+      }
+    ],
+    "r4.zib_anatomical_location": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute": [
+      {
+        type: 0,
+        value: "Apgar score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.effective_date_time": [
+      {
+        type: 0,
+        value: "Apgar score datum tijd"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.value": [
+      {
+        type: 0,
+        value: "Apgar score totaal"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute": [
+      {
+        type: 0,
+        value: "Apgar score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.effective_date_time": [
+      {
+        type: 0,
+        value: "Apgar score datum tijd"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.value": [
+      {
+        type: 0,
+        value: "Apgar score totaal"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute": [
+      {
+        type: 0,
+        value: "Apgar score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.effective_date_time": [
+      {
+        type: 0,
+        value: "Apgar score datum tijd"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.value": [
+      {
+        type: 0,
+        value: "Apgar score totaal"
+      }
+    ],
+    "r4.zib_barthel_adl_index": [
+      {
+        type: 0,
+        value: "Barthel index"
+      }
+    ],
+    "r4.zib_barthel_adl_index.bathing.value": [
+      {
+        type: 0,
+        value: "Baden douchen"
+      }
+    ],
+    "r4.zib_barthel_adl_index.bladder.value": [
+      {
+        type: 0,
+        value: "Blaas"
+      }
+    ],
+    "r4.zib_barthel_adl_index.bowels.value": [
+      {
+        type: 0,
+        value: "Darm"
+      }
+    ],
+    "r4.zib_barthel_adl_index.dressing.value": [
+      {
+        type: 0,
+        value: "Aan uitkleden"
+      }
+    ],
+    "r4.zib_barthel_adl_index.feeding.value": [
+      {
+        type: 0,
+        value: "Eten"
+      }
+    ],
+    "r4.zib_barthel_adl_index.grooming.value": [
+      {
+        type: 0,
+        value: "Uiterlijke verzorging"
+      }
+    ],
+    "r4.zib_barthel_adl_index.managing_stairs.value": [
+      {
+        type: 0,
+        value: "Trappen lopen"
+      }
+    ],
+    "r4.zib_barthel_adl_index.mobility.value": [
+      {
+        type: 0,
+        value: "Mobiliteit"
+      }
+    ],
+    "r4.zib_barthel_adl_index.toilet_use.value": [
+      {
+        type: 0,
+        value: "Toiletgebruik"
+      }
+    ],
+    "r4.zib_barthel_adl_index.transfers.value": [
+      {
+        type: 0,
+        value: "Transfers"
+      }
+    ],
+    "r4.zib_barthel_adl_index.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_blood_pressure": [
+      {
+        type: 0,
+        value: "Bloeddruk"
+      }
+    ],
+    "r4.zib_blood_pressure.average_blood_pressure.value": [
+      {
+        type: 0,
+        value: "Gemiddelde bloeddruk"
+      }
+    ],
+    "r4.zib_blood_pressure.body_site": [
+      {
+        type: 0,
+        value: "Meet locatie"
+      }
+    ],
+    "r4.zib_blood_pressure.cuff_type.value": [
+      {
+        type: 0,
+        value: "Manchet type"
+      }
+    ],
+    "r4.zib_blood_pressure.diastolic_bp.value": [
+      {
+        type: 0,
+        value: "Diastolische bloeddruk"
+      }
+    ],
+    "r4.zib_blood_pressure.diastolic_endpoint.value": [
+      {
+        type: 0,
+        value: "Diastolisch eindpunt"
+      }
+    ],
+    "r4.zib_blood_pressure.effective_date_time": [
+      {
+        type: 0,
+        value: "Bloeddruk datum tijd"
+      }
+    ],
+    "r4.zib_blood_pressure.method": [
+      {
+        type: 0,
+        value: "Meetmethode"
+      }
+    ],
+    "r4.zib_blood_pressure.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_blood_pressure.position.value": [
+      {
+        type: 0,
+        value: "Houding"
+      }
+    ],
+    "r4.zib_blood_pressure.systolic_bp.value": [
+      {
+        type: 0,
+        value: "Systolische bloeddruk"
+      }
+    ],
+    "r4.zib_body_height": [
+      {
+        type: 0,
+        value: "Lichaamslengte"
+      }
+    ],
+    "r4.zib_body_height.effective_date_time": [
+      {
+        type: 0,
+        value: "Lengte datum tijd"
+      }
+    ],
+    "r4.zib_body_height.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_body_height.position.value": [
+      {
+        type: 0,
+        value: "Positie"
+      }
+    ],
+    "r4.zib_body_height.value": [
+      {
+        type: 0,
+        value: "Lengte waarde"
+      }
+    ],
+    "r4.zib_body_temperature": [
+      {
+        type: 0,
+        value: "Lichaamstemperatuur"
+      }
+    ],
+    "r4.zib_body_temperature.code.temperature_type": [
+      {
+        type: 0,
+        value: "Temperatuur type"
+      }
+    ],
+    "r4.zib_body_temperature.effective_date_time": [
+      {
+        type: 0,
+        value: "Temperatuur datum tijd"
+      }
+    ],
+    "r4.zib_body_temperature.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_body_temperature.value": [
+      {
+        type: 0,
+        value: "Temperatuur waarde"
+      }
+    ],
+    "r4.zib_body_weight": [
+      {
+        type: 0,
+        value: "Lichaamsgewicht"
+      }
+    ],
+    "r4.zib_body_weight.clothing.value": [
+      {
+        type: 0,
+        value: "Kleding"
+      }
+    ],
+    "r4.zib_body_weight.effective_date_time": [
+      {
+        type: 0,
+        value: "Gewicht datum tijd"
+      }
+    ],
+    "r4.zib_body_weight.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_body_weight.value": [
+      {
+        type: 0,
+        value: "Gewicht waarde"
+      }
+    ],
+    "r4.zib_bowel_function": [
+      {
+        type: 0,
+        value: "Darmfunctie"
+      }
+    ],
+    "r4.zib_bowel_function.defecation_color.value": [
+      {
+        type: 0,
+        value: "Defecatie kleur"
+      }
+    ],
+    "r4.zib_bowel_function.defecation_consistency.value": [
+      {
+        type: 0,
+        value: "Defecatie consistentie"
+      }
+    ],
+    "r4.zib_bowel_function.fecal_continence.value": [
+      {
+        type: 0,
+        value: "Feces continentie"
+      }
+    ],
+    "r4.zib_bowel_function.frequency.value": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r4.zib_bowel_function.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_bowel_function.stoma.value": [
+      {
+        type: 0,
+        value: "Stoma"
+      }
+    ],
+    "r4.zib_burnwound": [
+      {
+        type: 0,
+        value: "Brandwond"
+      }
+    ],
+    "r4.zib_burnwound.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_burnwound.code": [
+      {
+        type: 0,
+        value: "Brandwond soort"
+      }
+    ],
+    "r4.zib_burnwound.extent.value": [
+      {
+        type: 0,
+        value: "Uitgebreidheid"
+      }
+    ],
+    "r4.zib_burnwound.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_burnwound.onset_date_time": [
+      {
+        type: 0,
+        value: "Ontstaans datum"
+      }
+    ],
+    "r4.zib_burnwound.stage.summary": [
+      {
+        type: 0,
+        value: "Dieptegraad"
+      }
+    ],
+    "r4.zib_care_team": [
+      {
+        type: 0,
+        value: "Zorg team"
+      }
+    ],
+    "r4.zib_care_team.contact_person.member": [
+      {
+        type: 0,
+        value: "Contactpersoon"
+      }
+    ],
+    "r4.zib_care_team.healthcare_professional.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r4.zib_care_team.healthcare_professional.member": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.zib_care_team.name": [
+      {
+        type: 0,
+        value: "Zorg team naam"
+      }
+    ],
+    "r4.zib_care_team.patient.member": [
+      {
+        type: 0,
+        value: "Patient"
+      }
+    ],
+    "r4.zib_care_team.reason_reference": [
+      {
+        type: 0,
+        value: "Probleem"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior": [
+      {
+        type: 0,
+        value: "Checklist pijn gedrag"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.cry.value": [
+      {
+        type: 0,
+        value: "Huilen"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.eyes.value": [
+      {
+        type: 0,
+        value: "Ogen"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.face.value": [
+      {
+        type: 0,
+        value: "Gezicht"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.grimace.value": [
+      {
+        type: 0,
+        value: "Grimas"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.looking_sad.value": [
+      {
+        type: 0,
+        value: "Verdrietige blik"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.moaning.value": [
+      {
+        type: 0,
+        value: "Kreunen"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.mouth.value": [
+      {
+        type: 0,
+        value: "Mond"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.panic.value": [
+      {
+        type: 0,
+        value: "Paniek"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.sounds_of_restlessness.value": [
+      {
+        type: 0,
+        value: "Onrustgeluiden"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.tears.value": [
+      {
+        type: 0,
+        value: "Tranen"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_comfort_scale": [
+      {
+        type: 0,
+        value: "Comfort score"
+      }
+    ],
+    "r4.zib_comfort_scale.alertness.value": [
+      {
+        type: 0,
+        value: "Alertheid"
+      }
+    ],
+    "r4.zib_comfort_scale.body_movement.value": [
+      {
+        type: 0,
+        value: "Lichaamsbeweging"
+      }
+    ],
+    "r4.zib_comfort_scale.body_muscle_tone.value": [
+      {
+        type: 0,
+        value: "Spierspanning"
+      }
+    ],
+    "r4.zib_comfort_scale.calmness_agitation.value": [
+      {
+        type: 0,
+        value: "Kalmte_ agitatie"
+      }
+    ],
+    "r4.zib_comfort_scale.crying.value": [
+      {
+        type: 0,
+        value: "Huilen"
+      }
+    ],
+    "r4.zib_comfort_scale.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r4.zib_comfort_scale.facial_tone.value": [
+      {
+        type: 0,
+        value: "Gezichtsspanning"
+      }
+    ],
+    "r4.zib_comfort_scale.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_comfort_scale.respiratory_response.value": [
+      {
+        type: 0,
+        value: "Ademhalingsreactie"
+      }
+    ],
+    "r4.zib_comfort_scale.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_contact_information_email_addresses": [
+      {
+        type: 0,
+        value: "Email adressen"
+      }
+    ],
+    "r4.zib_contact_information_email_addresses.use": [
+      {
+        type: 0,
+        value: "Email soort"
+      }
+    ],
+    "r4.zib_contact_information_email_addresses.value": [
+      {
+        type: 0,
+        value: "Email adres"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers": [
+      {
+        type: 0,
+        value: "Telefoonnummers"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers.system": [
+      {
+        type: 0,
+        value: "Telecom type"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers.system.telecom_type.value": [
+      {
+        type: 0,
+        value: "Telecom type"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers.use": [
+      {
+        type: 0,
+        value: "Nummer soort"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers.value": [
+      {
+        type: 0,
+        value: "Telefoonnummer"
+      }
+    ],
+    "r4.zib_contact_person": [
+      {
+        type: 0,
+        value: "Contactpersoon"
+      }
+    ],
+    "r4.zib_contact_person.name": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r4.zib_contact_person.relationship": [
+      {
+        type: 0,
+        value: "Relatie"
+      }
+    ],
+    "r4.zib_contact_person.role": [
+      {
+        type: 0,
+        value: "Rol"
+      }
+    ],
+    "r4.zib_contact_person.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_development_child": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind"
+      }
+    ],
+    "r4.zib_development_child.age_first_menstruation.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.age_first_menstruation.value": [
+      {
+        type: 0,
+        value: "Leeftijd eerste menstruatie"
+      }
+    ],
+    "r4.zib_development_child.development_cognition.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.development_cognition.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling verstandelijk"
+      }
+    ],
+    "r4.zib_development_child.development_linguistics.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.development_linguistics.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling taal"
+      }
+    ],
+    "r4.zib_development_child.development_locomotion.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.development_locomotion.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling motoriek"
+      }
+    ],
+    "r4.zib_development_child.development_social.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.development_social.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling sociaal"
+      }
+    ],
+    "r4.zib_development_child.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_development_child.toilet_trainedness_feces.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.toilet_trainedness_feces.value": [
+      {
+        type: 0,
+        value: "Zindelijkheid feces"
+      }
+    ],
+    "r4.zib_development_child.toilet_trainedness_urine.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.toilet_trainedness_urine.value": [
+      {
+        type: 0,
+        value: "Zindelijkheid urine"
+      }
+    ],
+    "r4.zib_dos_score": [
+      {
+        type: 0,
+        value: "DOS score"
+      }
+    ],
+    "r4.zib_dos_score.answers_no_fit.value": [
+      {
+        type: 0,
+        value: "Antwoorden niet passend"
+      }
+    ],
+    "r4.zib_dos_score.dozes_off.value": [
+      {
+        type: 0,
+        value: "Zakt weg"
+      }
+    ],
+    "r4.zib_dos_score.easily_distracted.value": [
+      {
+        type: 0,
+        value: "Snel afgeleid"
+      }
+    ],
+    "r4.zib_dos_score.easily_emotional.value": [
+      {
+        type: 0,
+        value: "Snel geemotioneerd"
+      }
+    ],
+    "r4.zib_dos_score.effective_date_time": [
+      {
+        type: 0,
+        value: "DOS score datum tijd"
+      }
+    ],
+    "r4.zib_dos_score.hallucinations.value": [
+      {
+        type: 0,
+        value: "Hallucinaties"
+      }
+    ],
+    "r4.zib_dos_score.knows_part_day.value": [
+      {
+        type: 0,
+        value: "Beseft dagdeel"
+      }
+    ],
+    "r4.zib_dos_score.maintains_attention.value": [
+      {
+        type: 0,
+        value: "Heeft aandacht"
+      }
+    ],
+    "r4.zib_dos_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_dos_score.pulls_wires.value": [
+      {
+        type: 0,
+        value: "Trekt draden"
+      }
+    ],
+    "r4.zib_dos_score.reacts_slowly.value": [
+      {
+        type: 0,
+        value: "Reageert traag"
+      }
+    ],
+    "r4.zib_dos_score.remembers_recent.value": [
+      {
+        type: 0,
+        value: "Herinnert recent"
+      }
+    ],
+    "r4.zib_dos_score.restless.value": [
+      {
+        type: 0,
+        value: "Rusteloos"
+      }
+    ],
+    "r4.zib_dos_score.thinks_somewhere_else.value": [
+      {
+        type: 0,
+        value: "Denkt ergens anders"
+      }
+    ],
+    "r4.zib_dos_score.unfinished_question_answer.value": [
+      {
+        type: 0,
+        value: "Vraag antwoord niet af"
+      }
+    ],
+    "r4.zib_dos_score.value": [
+      {
+        type: 0,
+        value: "DOS score totaal"
+      }
+    ],
+    "r4.zib_drug_use": [
+      {
+        type: 0,
+        value: "Drugs gebruik"
+      }
+    ],
+    "r4.zib_drug_use.amount.value": [
+      {
+        type: 0,
+        value: "Hoeveelheid"
+      }
+    ],
+    "r4.zib_drug_use.drug_or_medication_type.value": [
+      {
+        type: 0,
+        value: "Drugs of geneesmiddel soort"
+      }
+    ],
+    "r4.zib_drug_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Stop datum"
+      }
+    ],
+    "r4.zib_drug_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Start datum"
+      }
+    ],
+    "r4.zib_drug_use.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_drug_use.route_of_administration.value": [
+      {
+        type: 0,
+        value: "Toedieningsweg"
+      }
+    ],
+    "r4.zib_drug_use.value": [
+      {
+        type: 0,
+        value: "Drugs gebruik status"
+      }
+    ],
+    "r4.zib_education.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_education.value": [
+      {
+        type: 0,
+        value: "Schooltype"
+      }
+    ],
+    "r4.zib_encounter": [
+      {
+        type: 0,
+        value: "Contact"
+      }
+    ],
+    "r4.zib_encounter.class": [
+      {
+        type: 0,
+        value: "Contact type"
+      }
+    ],
+    "r4.zib_encounter.deviating_result.comment_contact_reason.value": [
+      {
+        type: 0,
+        value: "Toelichting reden contact"
+      }
+    ],
+    "r4.zib_encounter.deviating_result.text": [
+      {
+        type: 0,
+        value: "Afwijkende uitslag"
+      }
+    ],
+    "r4.zib_encounter.health_professional.individual": [
+      {
+        type: 0,
+        value: "Contact met"
+      }
+    ],
+    "r4.zib_encounter.health_professional.type": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r4.zib_encounter.hospitalization.admit_source": [
+      {
+        type: 0,
+        value: "Herkomst"
+      }
+    ],
+    "r4.zib_encounter.hospitalization.discharge_disposition": [
+      {
+        type: 0,
+        value: "Bestemming"
+      }
+    ],
+    "r4.zib_encounter.location.location": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r4.zib_encounter.period.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r4.zib_encounter.period.start": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r4.zib_encounter.problem": [
+      {
+        type: 0,
+        value: "Probleem"
+      }
+    ],
+    "r4.zib_encounter.procedure": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r4.zib_encounter.reason_reference.comment_contact_reason.value": [
+      {
+        type: 0,
+        value: "Toelichting reden contact"
+      }
+    ],
+    "r4.zib_episode_of_care": [
+      {
+        type: 0,
+        value: "Zorg episode"
+      }
+    ],
+    "r4.zib_episode_of_care.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_episode_of_care.diagnosis.condition": [
+      {
+        type: 0,
+        value: "Focus zorg episode"
+      }
+    ],
+    "r4.zib_episode_of_care.period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r4.zib_episode_of_care.period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant": [
+      {
+        type: 0,
+        value: "Voedingspatroon zuigeling"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.based_on": [
+      {
+        type: 0,
+        value: "Voedingsadvies"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.effective_date_time": [
+      {
+        type: 0,
+        value: "Voedingspatroon zuigeling datum tijd"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.feeding_frequency.value": [
+      {
+        type: 0,
+        value: "Voeding frequentie"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.feeding_supplement.value": [
+      {
+        type: 0,
+        value: "Voeding toevoeging"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.feeding_type.value": [
+      {
+        type: 0,
+        value: "Voeding soort"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_flac_cpain_scale": [
+      {
+        type: 0,
+        value: "FLAC cpijn score"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.activity.value": [
+      {
+        type: 0,
+        value: "Activiteit"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.consolability.value": [
+      {
+        type: 0,
+        value: "Troostbaar"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.cry.value": [
+      {
+        type: 0,
+        value: "Huilen"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.face.value": [
+      {
+        type: 0,
+        value: "Gezicht"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.legs.value": [
+      {
+        type: 0,
+        value: "Benen"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_fluid_balance": [
+      {
+        type: 0,
+        value: "Vochtbalans"
+      }
+    ],
+    "r4.zib_fluid_balance.effective_period.end": [
+      {
+        type: 0,
+        value: "Vochtbalans stoptijd"
+      }
+    ],
+    "r4.zib_fluid_balance.effective_period.start": [
+      {
+        type: 0,
+        value: "Vochtbalans starttijd"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_in.effective_period.end": [
+      {
+        type: 0,
+        value: "Vochtbalans stoptijd"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_in.effective_period.start": [
+      {
+        type: 0,
+        value: "Vochtbalans starttijd"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_in.value": [
+      {
+        type: 0,
+        value: "Vocht totaal in"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_out.effective_period.end": [
+      {
+        type: 0,
+        value: "Vochtbalans stoptijd"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_out.effective_period.start": [
+      {
+        type: 0,
+        value: "Vochtbalans starttijd"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_out.value": [
+      {
+        type: 0,
+        value: "Vocht totaal uit"
+      }
+    ],
+    "r4.zib_fluid_balance.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention": [
+      {
+        type: 0,
+        value: "Vrijheidsbeperkende interventie"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.code": [
+      {
+        type: 0,
+        value: "Soort interventie"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.legal_situation_legal_status": [
+      {
+        type: 0,
+        value: "Juridische situatie"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.legal_situation_representation": [
+      {
+        type: 0,
+        value: "Juridische situatie"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.performed_date_time": [
+      {
+        type: 0,
+        value: "Begin"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.performed_period.end": [
+      {
+        type: 0,
+        value: "Einde"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.performed_period.start": [
+      {
+        type: 0,
+        value: "Begin"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.reason_code": [
+      {
+        type: 0,
+        value: "Reden van toepassen"
+      }
+    ],
+    "r4.zib_functional_or_mental_status": [
+      {
+        type: 0,
+        value: "Functionele of mentale status"
+      }
+    ],
+    "r4.zib_functional_or_mental_status.code": [
+      {
+        type: 0,
+        value: "Status naam"
+      }
+    ],
+    "r4.zib_functional_or_mental_status.effective_date_time": [
+      {
+        type: 0,
+        value: "Status datum"
+      }
+    ],
+    "r4.zib_functional_or_mental_status.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_functional_or_mental_status.value": [
+      {
+        type: 0,
+        value: "Status waarde"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale": [
+      {
+        type: 0,
+        value: "Glasgow coma scale"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.conditions_during_measurement.value": [
+      {
+        type: 0,
+        value: "Condities tijdens meting"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.effective_date_time": [
+      {
+        type: 0,
+        value: "Glasgow coma scale datum tijd"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.gcs_eyes.value": [
+      {
+        type: 0,
+        value: "GCS_ eyes"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.gcs_motor.value": [
+      {
+        type: 0,
+        value: "GCS_ motor"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.gcs_verbal.value": [
+      {
+        type: 0,
+        value: "GCS_ verbal"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_head_circumference": [
+      {
+        type: 0,
+        value: "Schedelomvang"
+      }
+    ],
+    "r4.zib_head_circumference.effective_date_time": [
+      {
+        type: 0,
+        value: "Schedelomvang datum tijd"
+      }
+    ],
+    "r4.zib_head_circumference.method": [
+      {
+        type: 0,
+        value: "Schedelomvang meetmethode"
+      }
+    ],
+    "r4.zib_head_circumference.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_head_circumference.value": [
+      {
+        type: 0,
+        value: "Schedelomvang waarde"
+      }
+    ],
+    "r4.zib_health_professional_practitioner": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.zib_health_professional_practitioner.gender": [
+      {
+        type: 0,
+        value: "Geslacht"
+      }
+    ],
+    "r4.zib_health_professional_practitioner.identifier": [
+      {
+        type: 0,
+        value: "Zorgverlener identificatienummer"
+      }
+    ],
+    "r4.zib_health_professional_practitioner.name": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r4.zib_health_professional_practitioner.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_health_professional_practitioner_role": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.zib_health_professional_practitioner_role.organization": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r4.zib_health_professional_practitioner_role.specialty": [
+      {
+        type: 0,
+        value: "Specialisme"
+      }
+    ],
+    "r4.zib_health_professional_practitioner_role.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_healthcare_provider": [
+      {
+        type: 0,
+        value: "Organisatie locatie"
+      }
+    ],
+    "r4.zib_healthcare_provider.name": [
+      {
+        type: 0,
+        value: "Locatie naam"
+      }
+    ],
+    "r4.zib_healthcare_provider.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_healthcare_provider_organization": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r4.zib_healthcare_provider_organization.department_specialty": [
+      {
+        type: 0,
+        value: "Afdeling specialisme"
+      }
+    ],
+    "r4.zib_healthcare_provider_organization.identifier": [
+      {
+        type: 0,
+        value: "Zorgaanbieder identificatienummer"
+      }
+    ],
+    "r4.zib_healthcare_provider_organization.name": [
+      {
+        type: 0,
+        value: "Organisatie naam"
+      }
+    ],
+    "r4.zib_healthcare_provider_organization.organization_type": [
+      {
+        type: 0,
+        value: "Organisatie type"
+      }
+    ],
+    "r4.zib_hearing_function": [
+      {
+        type: 0,
+        value: "Functie horen"
+      }
+    ],
+    "r4.zib_hearing_function.hearing_aid.body_site": [
+      {
+        type: 0,
+        value: "Hulpmiddel anatomische locatie"
+      }
+    ],
+    "r4.zib_hearing_function.hearing_aid.hearing_function": [
+      {
+        type: 0,
+        value: "Functie horen"
+      }
+    ],
+    "r4.zib_hearing_function.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_hearing_function.value": [
+      {
+        type: 0,
+        value: "Hoor functie"
+      }
+    ],
+    "r4.zib_heart_rate": [
+      {
+        type: 0,
+        value: "Hartfrequentie"
+      }
+    ],
+    "r4.zib_heart_rate.effective_date_time": [
+      {
+        type: 0,
+        value: "Hartfrequentie datum tijd"
+      }
+    ],
+    "r4.zib_heart_rate.heartbeat_regularity.effective_date_time": [
+      {
+        type: 0,
+        value: "Hartfrequentie datum tijd"
+      }
+    ],
+    "r4.zib_heart_rate.heartbeat_regularity.method": [
+      {
+        type: 0,
+        value: "Hartslag meet methode"
+      }
+    ],
+    "r4.zib_heart_rate.heartbeat_regularity.value": [
+      {
+        type: 0,
+        value: "Hartslag regelmatigheid"
+      }
+    ],
+    "r4.zib_heart_rate.interpretation_heart_rate.effective_date_time": [
+      {
+        type: 0,
+        value: "Hartfrequentie datum tijd"
+      }
+    ],
+    "r4.zib_heart_rate.interpretation_heart_rate.method": [
+      {
+        type: 0,
+        value: "Hartslag meet methode"
+      }
+    ],
+    "r4.zib_heart_rate.interpretation_heart_rate.value": [
+      {
+        type: 0,
+        value: "Interpretatie frequentie"
+      }
+    ],
+    "r4.zib_heart_rate.method": [
+      {
+        type: 0,
+        value: "Hartslag meet methode"
+      }
+    ],
+    "r4.zib_heart_rate.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_heart_rate.value": [
+      {
+        type: 0,
+        value: "Hartfrequentie waarde"
+      }
+    ],
+    "r4.zib_help_from_others": [
+      {
+        type: 0,
+        value: "Hulp van anderen"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.caregiver": [
+      {
+        type: 0,
+        value: "Mantelzorger"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.code": [
+      {
+        type: 0,
+        value: "Soort hulp"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.description": [
+      {
+        type: 0,
+        value: "Aard"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.health_professional": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.healthcare_provider": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.performer": [
+      {
+        type: 0,
+        value: "Hulpverlener"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.scheduled_string": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r4.zib_help_from_others.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_illness_perception": [
+      {
+        type: 0,
+        value: "Ziektebeleving"
+      }
+    ],
+    "r4.zib_illness_perception.coping_with_illness_by_family.value": [
+      {
+        type: 0,
+        value: "Omgaan met ziekteproces door naasten"
+      }
+    ],
+    "r4.zib_illness_perception.coping_with_illness_by_patient.value": [
+      {
+        type: 0,
+        value: "Omgaan met ziekteproces door patiënt"
+      }
+    ],
+    "r4.zib_illness_perception.patient_illness_insight.value": [
+      {
+        type: 0,
+        value: "Ziekte inzicht van patiënt"
+      }
+    ],
+    "r4.zib_laboratory_test_result": [
+      {
+        type: 0,
+        value: "Laboratorium uitslag"
+      }
+    ],
+    "r4.zib_laboratory_test_result.code": [
+      {
+        type: 0,
+        value: "Onderzoek"
+      }
+    ],
+    "r4.zib_laboratory_test_result.effective_date_time": [
+      {
+        type: 0,
+        value: "Test datum tijd"
+      }
+    ],
+    "r4.zib_laboratory_test_result.laboratory_test": [
+      {
+        type: 0,
+        value: "Laboratorium test"
+      }
+    ],
+    "r4.zib_laboratory_test_result.method": [
+      {
+        type: 0,
+        value: "Testmethode"
+      }
+    ],
+    "r4.zib_laboratory_test_result.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_laboratory_test_result.performer": [
+      {
+        type: 0,
+        value: "Uitvoerder"
+      }
+    ],
+    "r4.zib_laboratory_test_result.reference_range.high": [
+      {
+        type: 0,
+        value: "Referentie bovengrens"
+      }
+    ],
+    "r4.zib_laboratory_test_result.reference_range.low": [
+      {
+        type: 0,
+        value: "Referentie ondergrens"
+      }
+    ],
+    "r4.zib_laboratory_test_result.result_flags": [
+      {
+        type: 0,
+        value: "Interpretatie vlaggen"
+      }
+    ],
+    "r4.zib_laboratory_test_result.result_interpretation.text": [
+      {
+        type: 0,
+        value: "Uitslag interpretatie"
+      }
+    ],
+    "r4.zib_laboratory_test_result.result_type": [
+      {
+        type: 0,
+        value: "Resultaat type"
+      }
+    ],
+    "r4.zib_laboratory_test_result.sequel_to.value": [
+      {
+        type: 0,
+        value: "Gerelateerde uitslag"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen": [
+      {
+        type: 0,
+        value: "Monster"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.collected_date_time": [
+      {
+        type: 0,
+        value: "Afname datum tijd"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.collected_period": [
+      {
+        type: 0,
+        value: "Verzamelperiode"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.duration": [
+      {
+        type: 0,
+        value: "Verzamelperiode"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.method": [
+      {
+        type: 0,
+        value: "Afnameprocedure"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.quantity": [
+      {
+        type: 0,
+        value: "Verzamelvolume"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.container.specimen_number_extension.value": [
+      {
+        type: 0,
+        value: "Monstervolgnummer"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.container.type": [
+      {
+        type: 0,
+        value: "Containertype"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.identifier": [
+      {
+        type: 0,
+        value: "Monsternummer"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.received_time": [
+      {
+        type: 0,
+        value: "Aanname datum tijd"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.subject": [
+      {
+        type: 0,
+        value: "Bron monster"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.type": [
+      {
+        type: 0,
+        value: "Monstermateriaal"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen_source.device_name.name": [
+      {
+        type: 0,
+        value: "Bron monster"
+      }
+    ],
+    "r4.zib_laboratory_test_result.status": [
+      {
+        type: 0,
+        value: "Test uitslag status"
+      }
+    ],
+    "r4.zib_laboratory_test_result.value": [
+      {
+        type: 0,
+        value: "Test uitslag"
+      }
+    ],
+    "r4.zib_legal_situation_legal_status": [
+      {
+        type: 0,
+        value: "Juridische situatie"
+      }
+    ],
+    "r4.zib_legal_situation_legal_status.abatement_date_time": [
+      {
+        type: 0,
+        value: "Datum einde"
+      }
+    ],
+    "r4.zib_legal_situation_legal_status.code": [
+      {
+        type: 0,
+        value: "Juridische status"
+      }
+    ],
+    "r4.zib_legal_situation_legal_status.onset_date_time": [
+      {
+        type: 0,
+        value: "Datum aanvang"
+      }
+    ],
+    "r4.zib_legal_situation_representation": [
+      {
+        type: 0,
+        value: "Juridische situatie"
+      }
+    ],
+    "r4.zib_legal_situation_representation.abatement_date_time": [
+      {
+        type: 0,
+        value: "Datum einde"
+      }
+    ],
+    "r4.zib_legal_situation_representation.code": [
+      {
+        type: 0,
+        value: "Vertegenwoordiging"
+      }
+    ],
+    "r4.zib_legal_situation_representation.onset_date_time": [
+      {
+        type: 0,
+        value: "Datum aanvang"
+      }
+    ],
+    "r4.zib_life_stance": [
+      {
+        type: 0,
+        value: "Levensovertuiging RC"
+      }
+    ],
+    "r4.zib_life_stance.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_life_stance.value": [
+      {
+        type: 0,
+        value: "Levensovertuiging"
+      }
+    ],
+    "r4.zib_living_situation": [
+      {
+        type: 0,
+        value: "Woonsituatie"
+      }
+    ],
+    "r4.zib_living_situation.home_adaption.value": [
+      {
+        type: 0,
+        value: "Woning aanpassing"
+      }
+    ],
+    "r4.zib_living_situation.living_condition.value": [
+      {
+        type: 0,
+        value: "Woon omstandigheid"
+      }
+    ],
+    "r4.zib_living_situation.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_living_situation.value": [
+      {
+        type: 0,
+        value: "Woning type"
+      }
+    ],
+    "r4.zib_medical_device": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r4.zib_medical_device.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_medical_device.bowel_function": [
+      {
+        type: 0,
+        value: "Darmfunctie"
+      }
+    ],
+    "r4.zib_medical_device.functional_or_mental_status": [
+      {
+        type: 0,
+        value: "Functionele of mentale status"
+      }
+    ],
+    "r4.zib_medical_device.indication": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r4.zib_medical_device.mobility": [
+      {
+        type: 0,
+        value: "Mobiliteit"
+      }
+    ],
+    "r4.zib_medical_device.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_medical_device.procedure_event": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r4.zib_medical_device.procedure_request": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r4.zib_medical_device.product": [
+      {
+        type: 0,
+        value: "Product"
+      }
+    ],
+    "r4.zib_medical_device.product.gs_1_product_id": [
+      {
+        type: 0,
+        value: "Product ID"
+      }
+    ],
+    "r4.zib_medical_device.product.gs_1_udi_carrier.carrier_hrf": [
+      {
+        type: 0,
+        value: "Product ID"
+      }
+    ],
+    "r4.zib_medical_device.product.hibc_product_id": [
+      {
+        type: 0,
+        value: "Product ID"
+      }
+    ],
+    "r4.zib_medical_device.product.hibc_udi_carrier.carrier_hrf": [
+      {
+        type: 0,
+        value: "Product ID"
+      }
+    ],
+    "r4.zib_medical_device.product.note.text": [
+      {
+        type: 0,
+        value: "Product omschrijving"
+      }
+    ],
+    "r4.zib_medical_device.product.type": [
+      {
+        type: 0,
+        value: "Product type"
+      }
+    ],
+    "r4.zib_medical_device.stoma": [
+      {
+        type: 0,
+        value: "Stoma"
+      }
+    ],
+    "r4.zib_medical_device.timing_period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r4.zib_medical_device.timing_period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r4.zib_medical_device.wound": [
+      {
+        type: 0,
+        value: "Wond"
+      }
+    ],
+    "r4.zib_medication_contra_indication": [
+      {
+        type: 0,
+        value: "Medicatie contra indicatie"
+      }
+    ],
+    "r4.zib_medication_contra_indication.author": [
+      {
+        type: 0,
+        value: "Melder"
+      }
+    ],
+    "r4.zib_medication_contra_indication.code": [
+      {
+        type: 0,
+        value: "Medicatie contra indicatie naam"
+      }
+    ],
+    "r4.zib_medication_contra_indication.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_medication_contra_indication.period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r4.zib_medication_contra_indication.period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r4.zib_mobility": [
+      {
+        type: 0,
+        value: "Mobiliteit"
+      }
+    ],
+    "r4.zib_mobility.changing_position.value": [
+      {
+        type: 0,
+        value: "Houding veranderen"
+      }
+    ],
+    "r4.zib_mobility.climbing_stairs.value": [
+      {
+        type: 0,
+        value: "Traplopen"
+      }
+    ],
+    "r4.zib_mobility.maintaining_position.value": [
+      {
+        type: 0,
+        value: "Houding handhaven"
+      }
+    ],
+    "r4.zib_mobility.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_mobility.transfer.value": [
+      {
+        type: 0,
+        value: "Uitvoeren transfer"
+      }
+    ],
+    "r4.zib_mobility.walking.value": [
+      {
+        type: 0,
+        value: "Lopen"
+      }
+    ],
+    "r4.zib_must_score": [
+      {
+        type: 0,
+        value: "MUST score"
+      }
+    ],
+    "r4.zib_must_score.bmi_score.value": [
+      {
+        type: 0,
+        value: "BMI score"
+      }
+    ],
+    "r4.zib_must_score.effective_date_time": [
+      {
+        type: 0,
+        value: "MUST score datum tijd"
+      }
+    ],
+    "r4.zib_must_score.illness_score.value": [
+      {
+        type: 0,
+        value: "Ziekte score"
+      }
+    ],
+    "r4.zib_must_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_must_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_must_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r4.zib_name_information": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r4.zib_name_information.family.last_name.value": [
+      {
+        type: 0,
+        value: "Achternaam"
+      }
+    ],
+    "r4.zib_name_information.family.partner_last_name.value": [
+      {
+        type: 0,
+        value: "Achternaam partner"
+      }
+    ],
+    "r4.zib_name_information.family.partner_prefix.value": [
+      {
+        type: 0,
+        value: "Voorvoegsels partner"
+      }
+    ],
+    "r4.zib_name_information.family.prefix.value": [
+      {
+        type: 0,
+        value: "Voorvoegsels"
+      }
+    ],
+    "r4.zib_name_information.given": [
+      {
+        type: 0,
+        value: "Voornaam"
+      }
+    ],
+    "r4.zib_name_information.given_name.given": [
+      {
+        type: 0,
+        value: "Roepnaam"
+      }
+    ],
+    "r4.zib_name_information.name_usage.value": [
+      {
+        type: 0,
+        value: "Naamgebruik"
+      }
+    ],
+    "r4.zib_name_information.prefix": [
+      {
+        type: 0,
+        value: "Titels"
+      }
+    ],
+    "r4.zib_name_information.suffix": [
+      {
+        type: 0,
+        value: "Titels"
+      }
+    ],
+    "r4.zib_nursing_intervention": [
+      {
+        type: 0,
+        value: "Verpleegkundige interventie"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.caregiver": [
+      {
+        type: 0,
+        value: "Verzorger"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.code": [
+      {
+        type: 0,
+        value: "Interventie"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.description": [
+      {
+        type: 0,
+        value: "Instructie"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.healthcare_provider": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.medical_device.value": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.patient": [
+      {
+        type: 0,
+        value: "Patient"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.bounds_period.end": [
+      {
+        type: 0,
+        value: "Actie eind datum tijd"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.bounds_period.start": [
+      {
+        type: 0,
+        value: "Actie start datum tijd"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.frequency": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.period": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.period_unit": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r4.zib_nursing_intervention.addresses": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r4.zib_nursing_intervention.goal": [
+      {
+        type: 0,
+        value: "Behandeldoel"
+      }
+    ],
+    "r4.zib_nursing_intervention.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_nursing_intervention.period.end": [
+      {
+        type: 0,
+        value: "Actie eind datum tijd"
+      }
+    ],
+    "r4.zib_nursing_intervention.period.start": [
+      {
+        type: 0,
+        value: "Actie start datum tijd"
+      }
+    ],
+    "r4.zib_nursing_intervention.requester": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r4.zib_nutrition_advice": [
+      {
+        type: 0,
+        value: "Voedingsadvies"
+      }
+    ],
+    "r4.zib_nutrition_advice.indication.value": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r4.zib_nutrition_advice.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_nutrition_advice.oral_diet.fluid_consistency_type.text": [
+      {
+        type: 0,
+        value: "Consistentie"
+      }
+    ],
+    "r4.zib_nutrition_advice.oral_diet.texture.modifier.text": [
+      {
+        type: 0,
+        value: "Consistentie"
+      }
+    ],
+    "r4.zib_nutrition_advice.oral_diet.type.text": [
+      {
+        type: 0,
+        value: "Dieet type"
+      }
+    ],
+    "r4.zib_o_2_saturation": [
+      {
+        type: 0,
+        value: "O2 saturatie"
+      }
+    ],
+    "r4.zib_o_2_saturation.effective_date_time": [
+      {
+        type: 0,
+        value: "O2 saturatie datum tijd"
+      }
+    ],
+    "r4.zib_o_2_saturation.extra_oxygen_administration.value": [
+      {
+        type: 0,
+        value: "Extra zuurstof toediening"
+      }
+    ],
+    "r4.zib_o_2_saturation.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_o_2_saturation.value": [
+      {
+        type: 0,
+        value: "Sp o2 waarde"
+      }
+    ],
+    "r4.zib_pain_score": [
+      {
+        type: 0,
+        value: "Pijn score"
+      }
+    ],
+    "r4.zib_pain_score.effective_date_time": [
+      {
+        type: 0,
+        value: "Pijnscore datum tijd"
+      }
+    ],
+    "r4.zib_pain_score.method": [
+      {
+        type: 0,
+        value: "Pijn meetmethode"
+      }
+    ],
+    "r4.zib_pain_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_pain_score.value": [
+      {
+        type: 0,
+        value: "Pijnscore waarde"
+      }
+    ],
+    "r4.zib_participation_in_society": [
+      {
+        type: 0,
+        value: "Participatie in maatschappij"
+      }
+    ],
+    "r4.zib_participation_in_society.hobby.value": [
+      {
+        type: 0,
+        value: "Vrijetijdsbesteding"
+      }
+    ],
+    "r4.zib_participation_in_society.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_participation_in_society.social_network.value": [
+      {
+        type: 0,
+        value: "Sociaal netwerk"
+      }
+    ],
+    "r4.zib_participation_in_society.work_situation.value": [
+      {
+        type: 0,
+        value: "Arbeidssituatie"
+      }
+    ],
+    "r4.zib_patient": [
+      {
+        type: 0,
+        value: "Patient"
+      }
+    ],
+    "r4.zib_patient.birth_date": [
+      {
+        type: 0,
+        value: "Geboortedatum"
+      }
+    ],
+    "r4.zib_patient.communication": [
+      {
+        type: 0,
+        value: "Taalvaardigheid"
+      }
+    ],
+    "r4.zib_patient.communication.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_patient.communication.language": [
+      {
+        type: 0,
+        value: "Communicatie taal"
+      }
+    ],
+    "r4.zib_patient.communication.language_control": [
+      {
+        type: 0,
+        value: "Taalvaardigheid begrijpen"
+      }
+    ],
+    "r4.zib_patient.contact": [
+      {
+        type: 0,
+        value: "Contactpersoon"
+      }
+    ],
+    "r4.zib_patient.contact.contact_person.value": [
+      {
+        type: 0,
+        value: "Contactpersoon"
+      }
+    ],
+    "r4.zib_patient.contact.relationship": [
+      {
+        type: 0,
+        value: "Relatie"
+      }
+    ],
+    "r4.zib_patient.contact.role": [
+      {
+        type: 0,
+        value: "Rol"
+      }
+    ],
+    "r4.zib_patient.contact.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_patient.deceased_boolean": [
+      {
+        type: 0,
+        value: "Overlijdens indicator"
+      }
+    ],
+    "r4.zib_patient.deceased_date_time": [
+      {
+        type: 0,
+        value: "Datum overlijden"
+      }
+    ],
+    "r4.zib_patient.gender": [
+      {
+        type: 0,
+        value: "Geslacht"
+      }
+    ],
+    "r4.zib_patient.gender.gender_codelist.value": [
+      {
+        type: 0,
+        value: "Geslacht"
+      }
+    ],
+    "r4.zib_patient.identifier": [
+      {
+        type: 0,
+        value: "Identificatienummer"
+      }
+    ],
+    "r4.zib_patient.marital_status": [
+      {
+        type: 0,
+        value: "Burgerlijke staat"
+      }
+    ],
+    "r4.zib_patient.multiple_birth_boolean": [
+      {
+        type: 0,
+        value: "Meerling indicator"
+      }
+    ],
+    "r4.zib_patient.name": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r4.zib_patient.nationality.code.value": [
+      {
+        type: 0,
+        value: "Nationaliteit"
+      }
+    ],
+    "r4.zib_patient.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_payer.insurance_company": [
+      {
+        type: 0,
+        value: "Betaler"
+      }
+    ],
+    "r4.zib_payer.insurance_company.payor": [
+      {
+        type: 0,
+        value: "Verzekeraar"
+      }
+    ],
+    "r4.zib_payer.insurance_company.period.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r4.zib_payer.insurance_company.period.start": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r4.zib_payer.insurance_company.subscriber_id": [
+      {
+        type: 0,
+        value: "Verzekerde nummer"
+      }
+    ],
+    "r4.zib_payer.insurance_company.type": [
+      {
+        type: 0,
+        value: "Verzekeringssoort"
+      }
+    ],
+    "r4.zib_payer.payer_person": [
+      {
+        type: 0,
+        value: "Betaler"
+      }
+    ],
+    "r4.zib_payer.payer_person.payor": [
+      {
+        type: 0,
+        value: "Betaler persoon"
+      }
+    ],
+    "r4.zib_payer_organization": [
+      {
+        type: 0,
+        value: "Verzekeraar"
+      }
+    ],
+    "r4.zib_payer_organization.name": [
+      {
+        type: 0,
+        value: "Organisatie naam"
+      }
+    ],
+    "r4.zib_payer_organization.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_payer_organization.uzovi": [
+      {
+        type: 0,
+        value: "Identificatie nummer"
+      }
+    ],
+    "r4.zib_pharmaceutical_product": [
+      {
+        type: 0,
+        value: "Farmaceutisch product"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.code": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.code.text": [
+      {
+        type: 0,
+        value: "Product naam"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.form": [
+      {
+        type: 0,
+        value: "Farmaceutische vorm"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient": [
+      {
+        type: 0,
+        value: "Ingredient"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient.item_codeable_concept": [
+      {
+        type: 0,
+        value: "Ingredient code"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient.strength": [
+      {
+        type: 0,
+        value: "Sterkte"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient.strength.denominator": [
+      {
+        type: 0,
+        value: "Product hoeveelheid"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient.strength.numerator": [
+      {
+        type: 0,
+        value: "Ingredient hoeveelheid"
+      }
+    ],
+    "r4.zib_pregnancy": [
+      {
+        type: 0,
+        value: "Zwangerschap"
+      }
+    ],
+    "r4.zib_pregnancy.date_last_menstruation.value": [
+      {
+        type: 0,
+        value: "Datum laatste menstruatie"
+      }
+    ],
+    "r4.zib_pregnancy.estimated_date_of_delivery.effective_date_time": [
+      {
+        type: 0,
+        value: "Datum bepaling"
+      }
+    ],
+    "r4.zib_pregnancy.estimated_date_of_delivery.method": [
+      {
+        type: 0,
+        value: "Bepalings methode"
+      }
+    ],
+    "r4.zib_pregnancy.estimated_date_of_delivery.value": [
+      {
+        type: 0,
+        value: "A terme datum"
+      }
+    ],
+    "r4.zib_pregnancy.gravidity.value": [
+      {
+        type: 0,
+        value: "Graviditeit"
+      }
+    ],
+    "r4.zib_pregnancy.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_pregnancy.parity.value": [
+      {
+        type: 0,
+        value: "Pariteit"
+      }
+    ],
+    "r4.zib_pregnancy.pregnancy_duration.value": [
+      {
+        type: 0,
+        value: "Zwangerschapsduur"
+      }
+    ],
+    "r4.zib_pressure_ulcer": [
+      {
+        type: 0,
+        value: "Decubitus wond"
+      }
+    ],
+    "r4.zib_pressure_ulcer.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_pressure_ulcer.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_pressure_ulcer.onset_date_time": [
+      {
+        type: 0,
+        value: "Ontstaans datum"
+      }
+    ],
+    "r4.zib_pressure_ulcer.stage.summary": [
+      {
+        type: 0,
+        value: "Decubitus categorie"
+      }
+    ],
+    "r4.zib_problem": [
+      {
+        type: 0,
+        value: "Probleem"
+      }
+    ],
+    "r4.zib_problem.abatement_date_time": [
+      {
+        type: 0,
+        value: "Probleem eind datum"
+      }
+    ],
+    "r4.zib_problem.body_site": [
+      {
+        type: 0,
+        value: "Probleem anatomische locatie"
+      }
+    ],
+    "r4.zib_problem.clinical_status": [
+      {
+        type: 0,
+        value: "Probleem status"
+      }
+    ],
+    "r4.zib_problem.code": [
+      {
+        type: 0,
+        value: "Probleem naam"
+      }
+    ],
+    "r4.zib_problem.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_problem.onset_date_time": [
+      {
+        type: 0,
+        value: "Probleem begin datum"
+      }
+    ],
+    "r4.zib_problem.problem_type": [
+      {
+        type: 0,
+        value: "Probleem type"
+      }
+    ],
+    "r4.zib_problem.verification_status": [
+      {
+        type: 0,
+        value: "Verificatie status"
+      }
+    ],
+    "r4.zib_procedure_event": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r4.zib_procedure_event.body_site": [
+      {
+        type: 0,
+        value: "Verrichting anatomische locatie"
+      }
+    ],
+    "r4.zib_procedure_event.code": [
+      {
+        type: 0,
+        value: "Verrichting type"
+      }
+    ],
+    "r4.zib_procedure_event.location": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r4.zib_procedure_event.performed_date_time": [
+      {
+        type: 0,
+        value: "Verrichting start datum"
+      }
+    ],
+    "r4.zib_procedure_event.performed_period.end": [
+      {
+        type: 0,
+        value: "Verrichting eind datum"
+      }
+    ],
+    "r4.zib_procedure_event.performed_period.start": [
+      {
+        type: 0,
+        value: "Verrichting start datum"
+      }
+    ],
+    "r4.zib_procedure_event.performer.actor": [
+      {
+        type: 0,
+        value: "Uitvoerder"
+      }
+    ],
+    "r4.zib_procedure_event.reason_reference": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r4.zib_procedure_event.text_result": [
+      {
+        type: 0,
+        value: "Tekst uitslag"
+      }
+    ],
+    "r4.zib_procedure_request": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r4.zib_procedure_request.body_site": [
+      {
+        type: 0,
+        value: "Verrichting anatomische locatie"
+      }
+    ],
+    "r4.zib_procedure_request.code": [
+      {
+        type: 0,
+        value: "Verrichting type"
+      }
+    ],
+    "r4.zib_procedure_request.location_reference": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r4.zib_procedure_request.occurrence_date_time": [
+      {
+        type: 0,
+        value: "Verrichting start datum"
+      }
+    ],
+    "r4.zib_procedure_request.occurrence_period.end": [
+      {
+        type: 0,
+        value: "Verrichting eind datum"
+      }
+    ],
+    "r4.zib_procedure_request.occurrence_period.start": [
+      {
+        type: 0,
+        value: "Verrichting start datum"
+      }
+    ],
+    "r4.zib_procedure_request.performer": [
+      {
+        type: 0,
+        value: "Uitvoerder"
+      }
+    ],
+    "r4.zib_procedure_request.procedure_method": [
+      {
+        type: 0,
+        value: "Verrichting methode"
+      }
+    ],
+    "r4.zib_procedure_request.reason_reference": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r4.zib_procedure_request.requester": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r4.zib_pulse_rate": [
+      {
+        type: 0,
+        value: "Polsfrequentie"
+      }
+    ],
+    "r4.zib_pulse_rate.effective_date_time": [
+      {
+        type: 0,
+        value: "Polsfrequentie datum tijd"
+      }
+    ],
+    "r4.zib_pulse_rate.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_pulse_rate.pulse_regularity.effective_date_time": [
+      {
+        type: 0,
+        value: "Polsfrequentie datum tijd"
+      }
+    ],
+    "r4.zib_pulse_rate.pulse_regularity.value": [
+      {
+        type: 0,
+        value: "Pols regelmatigheid"
+      }
+    ],
+    "r4.zib_pulse_rate.value": [
+      {
+        type: 0,
+        value: "Polsfrequentie waarde"
+      }
+    ],
+    "r4.zib_refraction": [
+      {
+        type: 0,
+        value: "Refractie"
+      }
+    ],
+    "r4.zib_refraction.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_refraction.cylindrical_refraction_axis.value": [
+      {
+        type: 0,
+        value: "Cilindrische refractie as"
+      }
+    ],
+    "r4.zib_refraction.cylindrical_refraction_value.value": [
+      {
+        type: 0,
+        value: "Cilindrische refractie waarde"
+      }
+    ],
+    "r4.zib_refraction.effective_date_time": [
+      {
+        type: 0,
+        value: "Refractie datum tijd"
+      }
+    ],
+    "r4.zib_refraction.method": [
+      {
+        type: 0,
+        value: "Refractie meet methode"
+      }
+    ],
+    "r4.zib_refraction.prism_base.value": [
+      {
+        type: 0,
+        value: "Prisma basis"
+      }
+    ],
+    "r4.zib_refraction.prism_value.value": [
+      {
+        type: 0,
+        value: "Prisma waarde"
+      }
+    ],
+    "r4.zib_refraction.read_addition.value": [
+      {
+        type: 0,
+        value: "Lees additie"
+      }
+    ],
+    "r4.zib_refraction.spherical_equivalent.value": [
+      {
+        type: 0,
+        value: "Sferisch equivalent"
+      }
+    ],
+    "r4.zib_refraction.spherical_refraction_value.value": [
+      {
+        type: 0,
+        value: "Sferische refractie waarde"
+      }
+    ],
+    "r4.zib_skin_disorder": [
+      {
+        type: 0,
+        value: "Huidaandoening"
+      }
+    ],
+    "r4.zib_skin_disorder.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_skin_disorder.cause.value": [
+      {
+        type: 0,
+        value: "Oorzaak"
+      }
+    ],
+    "r4.zib_skin_disorder.code": [
+      {
+        type: 0,
+        value: "Soort aandoening"
+      }
+    ],
+    "r4.zib_skin_disorder.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_skin_disorder.onset_date_time": [
+      {
+        type: 0,
+        value: "Ontstaans datum"
+      }
+    ],
+    "r4.zib_sna_qrc_score": [
+      {
+        type: 0,
+        value: "SNA qrc score"
+      }
+    ],
+    "r4.zib_sna_qrc_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r4.zib_sna_qrc_score.assisted_eating.value": [
+      {
+        type: 0,
+        value: "Hulp bij eten"
+      }
+    ],
+    "r4.zib_sna_qrc_score.bmi_score.value": [
+      {
+        type: 0,
+        value: "BMI score"
+      }
+    ],
+    "r4.zib_sna_qrc_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNA qrc score datum tijd"
+      }
+    ],
+    "r4.zib_sna_qrc_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_sna_qrc_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_sna_qrc_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score": [
+      {
+        type: 0,
+        value: "SNAQ65+score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNAQ65+score datum tijd"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.exercise_score.value": [
+      {
+        type: 0,
+        value: "Inspannings score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.upperarm_circumference.value": [
+      {
+        type: 0,
+        value: "Bovenarm omtrek score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r4.zib_snaq_score": [
+      {
+        type: 0,
+        value: "SNAQ score"
+      }
+    ],
+    "r4.zib_snaq_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r4.zib_snaq_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNAQ score datum tijd"
+      }
+    ],
+    "r4.zib_snaq_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_snaq_score.nutrition_score.value": [
+      {
+        type: 0,
+        value: "Voedings score"
+      }
+    ],
+    "r4.zib_snaq_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_snaq_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r4.zib_soap_report": [
+      {
+        type: 0,
+        value: "SOEP verslag"
+      }
+    ],
+    "r4.zib_soap_report.author": [
+      {
+        type: 0,
+        value: "Auteur"
+      }
+    ],
+    "r4.zib_soap_report.date": [
+      {
+        type: 0,
+        value: "SOEP verslag datum tijd"
+      }
+    ],
+    "r4.zib_soap_report.soap_line": [
+      {
+        type: 0,
+        value: "SOEP regel"
+      }
+    ],
+    "r4.zib_soap_report.soap_line.code": [
+      {
+        type: 0,
+        value: "SOEP regel naam"
+      }
+    ],
+    "r4.zib_soap_report.soap_line.value": [
+      {
+        type: 0,
+        value: "SOEP regel tekst"
+      }
+    ],
+    "r4.zib_stoma": [
+      {
+        type: 0,
+        value: "Stoma"
+      }
+    ],
+    "r4.zib_stoma.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_stoma.code": [
+      {
+        type: 0,
+        value: "Stoma type"
+      }
+    ],
+    "r4.zib_stoma.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_stoma.onset_date_time": [
+      {
+        type: 0,
+        value: "Aanleg datum"
+      }
+    ],
+    "r4.zib_strong_kids_score": [
+      {
+        type: 0,
+        value: "Strong kids score"
+      }
+    ],
+    "r4.zib_strong_kids_score.condition_score.value": [
+      {
+        type: 0,
+        value: "Ziekte beeld score"
+      }
+    ],
+    "r4.zib_strong_kids_score.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r4.zib_strong_kids_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_strong_kids_score.nutrition_score.value": [
+      {
+        type: 0,
+        value: "Voedings score"
+      }
+    ],
+    "r4.zib_strong_kids_score.nutrition_status_score.value": [
+      {
+        type: 0,
+        value: "Voedingstoestand score"
+      }
+    ],
+    "r4.zib_strong_kids_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_strong_kids_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r4.zib_text_result": [
+      {
+        type: 0,
+        value: "Tekst uitslag"
+      }
+    ],
+    "r4.zib_text_result.code": [
+      {
+        type: 0,
+        value: "Tekst uitslag type"
+      }
+    ],
+    "r4.zib_text_result.conclusion": [
+      {
+        type: 0,
+        value: "Tekst resultaat"
+      }
+    ],
+    "r4.zib_text_result.effective_date_time": [
+      {
+        type: 0,
+        value: "Tekst uitslag datum tijd"
+      }
+    ],
+    "r4.zib_text_result.status": [
+      {
+        type: 0,
+        value: "Tekst uitslag status"
+      }
+    ],
+    "r4.zib_text_result.status.text_result_status.value": [
+      {
+        type: 0,
+        value: "Tekst uitslag status"
+      }
+    ],
+    "r4.zib_text_result.visual_result.content": [
+      {
+        type: 0,
+        value: "Visueel resultaat"
+      }
+    ],
+    "r4.zib_time_interval": [
+      {
+        type: 0,
+        value: "Tijds interval"
+      }
+    ],
+    "r4.zib_time_interval.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r4.zib_time_interval.start": [
+      {
+        type: 0,
+        value: "Start datum tijd"
+      }
+    ],
+    "r4.zib_tobacco_use": [
+      {
+        type: 0,
+        value: "Tabak gebruik"
+      }
+    ],
+    "r4.zib_tobacco_use.amount.value": [
+      {
+        type: 0,
+        value: "Hoeveelheid"
+      }
+    ],
+    "r4.zib_tobacco_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Stop datum"
+      }
+    ],
+    "r4.zib_tobacco_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Start datum"
+      }
+    ],
+    "r4.zib_tobacco_use.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_tobacco_use.pack_years.value": [
+      {
+        type: 0,
+        value: "Pack years"
+      }
+    ],
+    "r4.zib_tobacco_use.type_of_tobacco_used.value": [
+      {
+        type: 0,
+        value: "Soort tabak gebruik"
+      }
+    ],
+    "r4.zib_tobacco_use.value": [
+      {
+        type: 0,
+        value: "Tabak gebruik status"
+      }
+    ],
+    "r4.zib_treatment_directive_2": [
+      {
+        type: 0,
+        value: "Behandel aanwijzing"
+      }
+    ],
+    "r4.zib_treatment_directive_2.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_treatment_directive_2.date_time": [
+      {
+        type: 0,
+        value: "Meest recente bespreekdatum"
+      }
+    ],
+    "r4.zib_treatment_directive_2.provision.agreement_party": [
+      {
+        type: 0,
+        value: "Afspraak partij"
+      }
+    ],
+    "r4.zib_treatment_directive_2.provision.agreement_party.reference": [
+      {
+        type: 0,
+        value: "Patient"
+      }
+    ],
+    "r4.zib_treatment_directive_2.provision.code": [
+      {
+        type: 0,
+        value: "Behandeling"
+      }
+    ],
+    "r4.zib_treatment_directive_2.provision.period.end": [
+      {
+        type: 0,
+        value: "Datum beeindigd"
+      }
+    ],
+    "r4.zib_treatment_directive_2.provision.type": [
+      {
+        type: 0,
+        value: "Behandel besluit"
+      }
+    ],
+    "r4.zib_treatment_directive_2.source_reference": [
+      {
+        type: 0,
+        value: "Wilsverklaring"
+      }
+    ],
+    "r4.zib_vaccination_event": [
+      {
+        type: 0,
+        value: "Vaccinatie"
+      }
+    ],
+    "r4.zib_vaccination_event.administrator.actor": [
+      {
+        type: 0,
+        value: "Toediener"
+      }
+    ],
+    "r4.zib_vaccination_event.dose_quantity": [
+      {
+        type: 0,
+        value: "Dosis"
+      }
+    ],
+    "r4.zib_vaccination_event.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_vaccination_event.occurrence_date_time": [
+      {
+        type: 0,
+        value: "Vaccinatie datum"
+      }
+    ],
+    "r4.zib_vaccination_event.vaccine_code": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r4.zib_vaccination_request": [
+      {
+        type: 0,
+        value: "Vaccinatie"
+      }
+    ],
+    "r4.zib_vaccination_request.recommendation.date_criterion.value": [
+      {
+        type: 0,
+        value: "Vaccinatie datum"
+      }
+    ],
+    "r4.zib_vaccination_request.recommendation.description": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_vaccination_request.recommendation.vaccine_code": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r4.zib_visual_function": [
+      {
+        type: 0,
+        value: "Functie zien"
+      }
+    ],
+    "r4.zib_visual_function.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_visual_function.value": [
+      {
+        type: 0,
+        value: "Visuele functie"
+      }
+    ],
+    "r4.zib_visual_function.visual_aid.visual_function": [
+      {
+        type: 0,
+        value: "Functie zien"
+      }
+    ],
+    "r4.zib_wound": [
+      {
+        type: 0,
+        value: "Wond"
+      }
+    ],
+    "r4.zib_wound.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_wound.code": [
+      {
+        type: 0,
+        value: "Wond soort"
+      }
+    ],
+    "r4.zib_wound.drain.drain": [
+      {
+        type: 0,
+        value: "Wond"
+      }
+    ],
+    "r4.zib_wound.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_wound.onset_date_time": [
+      {
+        type: 0,
+        value: "Wond ontstaansdatum"
+      }
+    ],
+    "r4.zib_wound.wound_edge.value": [
+      {
+        type: 0,
+        value: "Wond rand"
+      }
+    ],
+    "r4.zib_wound.wound_infection.value": [
+      {
+        type: 0,
+        value: "Wond infectie"
+      }
+    ],
+    "r4.zib_wound.wound_moisture.value": [
+      {
+        type: 0,
+        value: "Wond vochtigheid"
+      }
+    ],
+    "r4.zib_wound.wound_tissue.value": [
+      {
+        type: 0,
+        value: "Wond weefsel"
+      }
+    ],
+    "r4.zib_wounds.date_of_last_dressing_change.value": [
+      {
+        type: 0,
+        value: "Datum laatste verbandwissel"
+      }
+    ],
+    "r4.zib_wounds.wound_depth.value": [
+      {
+        type: 0,
+        value: "Wonddiepte"
+      }
+    ],
+    "r4.zib_wounds.wound_image.content.attachment": [
+      {
+        type: 0,
+        value: "Wond foto"
+      }
+    ],
+    "r4.zib_wounds.wound_length.value": [
+      {
+        type: 0,
+        value: "Wondlengte"
+      }
+    ],
+    "r4.zib_wounds.wound_width.value": [
+      {
+        type: 0,
+        value: "Wondbreedte"
+      }
+    ]
+  };
+  const r4ResourceLabelsCustom = {
+    "r4.nl_core_contact_information_email_addresses": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.nl_core_contact_information_email_addresses.use": [
+      {
+        type: 0,
+        value: "Email soort"
+      }
+    ],
+    "r4.nl_core_contact_information_email_addresses.value": [
+      {
+        type: 0,
+        value: "E-mailadres"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.comment": [
+      {
+        type: 0,
+        value: "Telecom toelichting"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.telecom_type": [
+      {
+        type: 0,
+        value: "Telecom type"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.use": [
+      {
+        type: 0,
+        value: "Telecom type / nummer soort"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.value": [
+      {
+        type: 0,
+        value: "Telefoonnummer"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role": [
+      {
+        type: 0,
+        value: "Zorgprofessional rol"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.location": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.organization": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.practitioner": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.speciality": [
+      {
+        type: 0,
+        value: "Specialiteit"
+      }
+    ],
     "r4.nl_core_vaccination_event.dose_quantity": [
       {
         type: 0,
@@ -60410,12 +65601,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         value: "Gegeven op"
       }
     ],
-    "r4.nl_core_vaccination_event.patient": [
-      {
-        type: 0,
-        value: "Naam patient"
-      }
-    ],
     "r4.nl_core_vaccination_event.performed_by": [
       {
         type: 0,
@@ -60446,22 +65631,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         value: "Autoriteit"
       }
     ],
-    "r4.nl_core_vaccination_event.protocol_applied.doseNumber": [
+    "r4.nl_core_vaccination_event.protocol_applied.dose_number": [
       {
         type: 0,
         value: "Dosis nummer"
       }
     ],
-    "r4.nl_core_vaccination_event.protocol_applied.seriesDoses": [
+    "r4.nl_core_vaccination_event.protocol_applied.series_doses": [
       {
         type: 0,
         value: "Serie dosis"
-      }
-    ],
-    "r4.nl_core_vaccination_event.protocol_applied.targetDisease": [
-      {
-        type: 0,
-        value: "Ziekte"
       }
     ],
     "r4.nl_core_vaccination_event.route": [
@@ -60482,18 +65661,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         value: "Status"
       }
     ],
-    "r4.nl_core_vaccination_event.vaccination_indication": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r4.nl_core_vaccination_event.vaccination_motive": [
-      {
-        type: 0,
-        value: "Aanleiding"
-      }
-    ],
     "r4.nl_core_vaccination_event.vaccine_code": [
       {
         type: 0,
@@ -60502,8 +65669,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     ]
   };
   const messagesNL = {
-    ...resourceLabels,
+    ...r3ResourceLabels,
+    ...r3ResourceLabelsCustom,
     ...r4ResourceLabels,
+    ...r4ResourceLabelsCustom,
     ...fhirMessages
   };
   var Locale = /* @__PURE__ */ ((Locale2) => {
