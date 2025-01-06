@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCorePharmaceuticalProductR4 = try NlCorePharmaceuticalProductR4(json)
+//   let r4NlCorePharmaceuticalProduct = try R4NlCorePharmaceuticalProduct(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - NlCorePharmaceuticalProductR4
-public struct NlCorePharmaceuticalProductR4: Codable, Hashable, Sendable {
+// MARK: - R4NlCorePharmaceuticalProduct
+public struct R4NlCorePharmaceuticalProduct: Codable, Hashable, Sendable {
     public let amount: MgoRatio?
     public let batch: Batch
     public let code: MgoCodeableConcept?
@@ -23,7 +23,7 @@ public struct NlCorePharmaceuticalProductR4: Codable, Hashable, Sendable {
     public let ingredient: [Ingredient]?
     public let manufacturer: MgoReference?
     public let name: String?
-    public let profile: NlCorePharmaceuticalProductR4Profile
+    public let profile: R4NlCorePharmaceuticalProductProfile
     public let referenceID: String
     public let resourceType, status: String?
 
@@ -33,7 +33,7 @@ public struct NlCorePharmaceuticalProductR4: Codable, Hashable, Sendable {
         case resourceType, status
     }
 
-    public init(amount: MgoRatio?, batch: Batch, code: MgoCodeableConcept?, description: String?, fhirVersion: FhirVersionR4, form: MgoCodeableConcept?, id: String?, identifier: [MgoIdentifier]?, ingredient: [Ingredient]?, manufacturer: MgoReference?, name: String?, profile: NlCorePharmaceuticalProductR4Profile, referenceID: String, resourceType: String?, status: String?) {
+    public init(amount: MgoRatio?, batch: Batch, code: MgoCodeableConcept?, description: String?, fhirVersion: FhirVersionR4, form: MgoCodeableConcept?, id: String?, identifier: [MgoIdentifier]?, ingredient: [Ingredient]?, manufacturer: MgoReference?, name: String?, profile: R4NlCorePharmaceuticalProductProfile, referenceID: String, resourceType: String?, status: String?) {
         self.amount = amount
         self.batch = batch
         self.code = code
@@ -52,11 +52,11 @@ public struct NlCorePharmaceuticalProductR4: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: NlCorePharmaceuticalProductR4 convenience initializers and mutators
+// MARK: R4NlCorePharmaceuticalProduct convenience initializers and mutators
 
-public extension NlCorePharmaceuticalProductR4 {
+public extension R4NlCorePharmaceuticalProduct {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCorePharmaceuticalProductR4.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCorePharmaceuticalProduct.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -82,12 +82,12 @@ public extension NlCorePharmaceuticalProductR4 {
         ingredient: [Ingredient]?? = nil,
         manufacturer: MgoReference?? = nil,
         name: String?? = nil,
-        profile: NlCorePharmaceuticalProductR4Profile? = nil,
+        profile: R4NlCorePharmaceuticalProductProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
         status: String?? = nil
-    ) -> NlCorePharmaceuticalProductR4 {
-        return NlCorePharmaceuticalProductR4(
+    ) -> R4NlCorePharmaceuticalProduct {
+        return R4NlCorePharmaceuticalProduct(
             amount: amount ?? self.amount,
             batch: batch ?? self.batch,
             code: code ?? self.code,

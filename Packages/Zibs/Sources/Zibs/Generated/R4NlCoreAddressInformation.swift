@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCoreHealthcareProviderOrganizationAddress = try NlCoreHealthcareProviderOrganizationAddress(json)
+//   let r4NlCoreAddressInformation = try R4NlCoreAddressInformation(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - NlCoreHealthcareProviderOrganizationAddress
-public struct NlCoreHealthcareProviderOrganizationAddress: Codable, Hashable, Sendable {
+// MARK: - R4NlCoreAddressInformation
+public struct R4NlCoreAddressInformation: Codable, Hashable, Sendable {
     public let additionalInformation: String?
     public let addressType: MgoCodeableConcept?
     public let city, country: String?
@@ -38,11 +38,11 @@ public struct NlCoreHealthcareProviderOrganizationAddress: Codable, Hashable, Se
     }
 }
 
-// MARK: NlCoreHealthcareProviderOrganizationAddress convenience initializers and mutators
+// MARK: R4NlCoreAddressInformation convenience initializers and mutators
 
-public extension NlCoreHealthcareProviderOrganizationAddress {
+public extension R4NlCoreAddressInformation {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCoreHealthcareProviderOrganizationAddress.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCoreAddressInformation.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -70,8 +70,8 @@ public extension NlCoreHealthcareProviderOrganizationAddress {
         period: MgoPeriod?? = nil,
         postalCode: String?? = nil,
         streetName: String?? = nil
-    ) -> NlCoreHealthcareProviderOrganizationAddress {
-        return NlCoreHealthcareProviderOrganizationAddress(
+    ) -> R4NlCoreAddressInformation {
+        return R4NlCoreAddressInformation(
             additionalInformation: additionalInformation ?? self.additionalInformation,
             addressType: addressType ?? self.addressType,
             city: city ?? self.city,

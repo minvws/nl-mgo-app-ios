@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCoreHealthProfessionalPractitionerRole = try NlCoreHealthProfessionalPractitionerRole(json)
+//   let r4NlCoreHealthProfessionalPractitionerRole = try R4NlCoreHealthProfessionalPractitionerRole(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,18 +10,18 @@
 
 import Foundation
 
-// MARK: - NlCoreHealthProfessionalPractitionerRole
-public struct NlCoreHealthProfessionalPractitionerRole: Codable, Hashable, Sendable {
-    public let emailAddresses: [NlCoreHealthProfessionalPractitionerRoleEmailAddress]?
-    public let fhirVersion: FhirVersionR3
+// MARK: - R4NlCoreHealthProfessionalPractitionerRole
+public struct R4NlCoreHealthProfessionalPractitionerRole: Codable, Hashable, Sendable {
+    public let emailAddresses: [R4NlCoreContactInformationEmailAddresses]?
+    public let fhirVersion: FhirVersionR4
     public let id: String?
     public let location: [MgoReference]?
     public let organization, practitioner: MgoReference?
-    public let profile: NlCoreHealthProfessionalPractitionerRoleProfile
+    public let profile: R4NlCoreHealthProfessionalPractitionerRoleProfile
     public let referenceID: String
     public let resourceType: String?
     public let speciality: [MgoCodeableConcept]?
-    public let telephoneNumbers: [NlCoreHealthProfessionalPractitionerRoleTelephoneNumber]?
+    public let telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?
 
     public enum CodingKeys: String, CodingKey {
         case emailAddresses, fhirVersion, id, location, organization, practitioner, profile
@@ -29,7 +29,7 @@ public struct NlCoreHealthProfessionalPractitionerRole: Codable, Hashable, Senda
         case resourceType, speciality, telephoneNumbers
     }
 
-    public init(emailAddresses: [NlCoreHealthProfessionalPractitionerRoleEmailAddress]?, fhirVersion: FhirVersionR3, id: String?, location: [MgoReference]?, organization: MgoReference?, practitioner: MgoReference?, profile: NlCoreHealthProfessionalPractitionerRoleProfile, referenceID: String, resourceType: String?, speciality: [MgoCodeableConcept]?, telephoneNumbers: [NlCoreHealthProfessionalPractitionerRoleTelephoneNumber]?) {
+    public init(emailAddresses: [R4NlCoreContactInformationEmailAddresses]?, fhirVersion: FhirVersionR4, id: String?, location: [MgoReference]?, organization: MgoReference?, practitioner: MgoReference?, profile: R4NlCoreHealthProfessionalPractitionerRoleProfile, referenceID: String, resourceType: String?, speciality: [MgoCodeableConcept]?, telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?) {
         self.emailAddresses = emailAddresses
         self.fhirVersion = fhirVersion
         self.id = id
@@ -44,11 +44,11 @@ public struct NlCoreHealthProfessionalPractitionerRole: Codable, Hashable, Senda
     }
 }
 
-// MARK: NlCoreHealthProfessionalPractitionerRole convenience initializers and mutators
+// MARK: R4NlCoreHealthProfessionalPractitionerRole convenience initializers and mutators
 
-public extension NlCoreHealthProfessionalPractitionerRole {
+public extension R4NlCoreHealthProfessionalPractitionerRole {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCoreHealthProfessionalPractitionerRole.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCoreHealthProfessionalPractitionerRole.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -63,19 +63,19 @@ public extension NlCoreHealthProfessionalPractitionerRole {
     }
 
     func with(
-        emailAddresses: [NlCoreHealthProfessionalPractitionerRoleEmailAddress]?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        emailAddresses: [R4NlCoreContactInformationEmailAddresses]?? = nil,
+        fhirVersion: FhirVersionR4? = nil,
         id: String?? = nil,
         location: [MgoReference]?? = nil,
         organization: MgoReference?? = nil,
         practitioner: MgoReference?? = nil,
-        profile: NlCoreHealthProfessionalPractitionerRoleProfile? = nil,
+        profile: R4NlCoreHealthProfessionalPractitionerRoleProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
         speciality: [MgoCodeableConcept]?? = nil,
-        telephoneNumbers: [NlCoreHealthProfessionalPractitionerRoleTelephoneNumber]?? = nil
-    ) -> NlCoreHealthProfessionalPractitionerRole {
-        return NlCoreHealthProfessionalPractitionerRole(
+        telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?? = nil
+    ) -> R4NlCoreHealthProfessionalPractitionerRole {
+        return R4NlCoreHealthProfessionalPractitionerRole(
             emailAddresses: emailAddresses ?? self.emailAddresses,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,

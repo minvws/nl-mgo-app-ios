@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCoreHealthcareProviderOrganization = try NlCoreHealthcareProviderOrganization(json)
+//   let r4NlCoreHealtcareProvider = try R4NlCoreHealtcareProvider(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,36 +10,34 @@
 
 import Foundation
 
-// MARK: - NlCoreHealthcareProviderOrganization
-public struct NlCoreHealthcareProviderOrganization: Codable, Hashable, Sendable {
-    public let address: [NlCoreHealthcareProviderOrganizationAddress]?
-    public let departmentSpecialty: [MgoCodeableConcept]?
-    public let emailAddresses: [NlCoreHealthcareProviderOrganizationEmailAddress]?
+// MARK: - R4NlCoreHealtcareProvider
+public struct R4NlCoreHealtcareProvider: Codable, Hashable, Sendable {
+    public let address: R4NlCoreAddressInformation
+    public let emailAddresses: [R4NlCoreContactInformationEmailAddresses]?
     public let fhirVersion: FhirVersionR4
     public let id: String?
     public let identifier: [MgoIdentifier]?
+    public let managingOrganization: MgoReference?
     public let name: String?
-    public let organizationType: [MgoCodeableConcept]?
-    public let profile: NlCoreHealthcareProviderOrganizationProfile
+    public let profile: R4NlCoreHealtcareProviderProfile
     public let referenceID: String
     public let resourceType: String?
-    public let telephoneNumbers: [NlCoreHealthcareProviderOrganizationTelephoneNumber]?
+    public let telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?
 
     public enum CodingKeys: String, CodingKey {
-        case address, departmentSpecialty, emailAddresses, fhirVersion, id, identifier, name, organizationType, profile
+        case address, emailAddresses, fhirVersion, id, identifier, managingOrganization, name, profile
         case referenceID = "referenceId"
         case resourceType, telephoneNumbers
     }
 
-    public init(address: [NlCoreHealthcareProviderOrganizationAddress]?, departmentSpecialty: [MgoCodeableConcept]?, emailAddresses: [NlCoreHealthcareProviderOrganizationEmailAddress]?, fhirVersion: FhirVersionR4, id: String?, identifier: [MgoIdentifier]?, name: String?, organizationType: [MgoCodeableConcept]?, profile: NlCoreHealthcareProviderOrganizationProfile, referenceID: String, resourceType: String?, telephoneNumbers: [NlCoreHealthcareProviderOrganizationTelephoneNumber]?) {
+    public init(address: R4NlCoreAddressInformation, emailAddresses: [R4NlCoreContactInformationEmailAddresses]?, fhirVersion: FhirVersionR4, id: String?, identifier: [MgoIdentifier]?, managingOrganization: MgoReference?, name: String?, profile: R4NlCoreHealtcareProviderProfile, referenceID: String, resourceType: String?, telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?) {
         self.address = address
-        self.departmentSpecialty = departmentSpecialty
         self.emailAddresses = emailAddresses
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
+        self.managingOrganization = managingOrganization
         self.name = name
-        self.organizationType = organizationType
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
@@ -47,11 +45,11 @@ public struct NlCoreHealthcareProviderOrganization: Codable, Hashable, Sendable 
     }
 }
 
-// MARK: NlCoreHealthcareProviderOrganization convenience initializers and mutators
+// MARK: R4NlCoreHealtcareProvider convenience initializers and mutators
 
-public extension NlCoreHealthcareProviderOrganization {
+public extension R4NlCoreHealtcareProvider {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCoreHealthcareProviderOrganization.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCoreHealtcareProvider.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -66,28 +64,26 @@ public extension NlCoreHealthcareProviderOrganization {
     }
 
     func with(
-        address: [NlCoreHealthcareProviderOrganizationAddress]?? = nil,
-        departmentSpecialty: [MgoCodeableConcept]?? = nil,
-        emailAddresses: [NlCoreHealthcareProviderOrganizationEmailAddress]?? = nil,
+        address: R4NlCoreAddressInformation? = nil,
+        emailAddresses: [R4NlCoreContactInformationEmailAddresses]?? = nil,
         fhirVersion: FhirVersionR4? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
+        managingOrganization: MgoReference?? = nil,
         name: String?? = nil,
-        organizationType: [MgoCodeableConcept]?? = nil,
-        profile: NlCoreHealthcareProviderOrganizationProfile? = nil,
+        profile: R4NlCoreHealtcareProviderProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        telephoneNumbers: [NlCoreHealthcareProviderOrganizationTelephoneNumber]?? = nil
-    ) -> NlCoreHealthcareProviderOrganization {
-        return NlCoreHealthcareProviderOrganization(
+        telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?? = nil
+    ) -> R4NlCoreHealtcareProvider {
+        return R4NlCoreHealtcareProvider(
             address: address ?? self.address,
-            departmentSpecialty: departmentSpecialty ?? self.departmentSpecialty,
             emailAddresses: emailAddresses ?? self.emailAddresses,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
+            managingOrganization: managingOrganization ?? self.managingOrganization,
             name: name ?? self.name,
-            organizationType: organizationType ?? self.organizationType,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,

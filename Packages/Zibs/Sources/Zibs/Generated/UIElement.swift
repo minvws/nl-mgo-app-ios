@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let uIEntryValueMULTIPLEVALUESString = try UIEntryValueMULTIPLEVALUESString(json)
+//   let uIElement = try UIElement(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,26 +10,29 @@
 
 import Foundation
 
-// MARK: - UIEntryValueMULTIPLEVALUESString
-public struct UIEntryValueMULTIPLEVALUESString: Codable, Hashable, Sendable {
-    public let display: [String]?
+// MARK: - UIElement
+public struct UIElement: Codable, Hashable, Sendable {
+    public let display: UIElementDisplay?
     public let label: String
     public let showEmpty: Bool?
-    public let type: MultipleValuesType
+    public let type: UIElementType
+    public let reference, url: String?
 
-    public init(display: [String]?, label: String, showEmpty: Bool?, type: MultipleValuesType) {
+    public init(display: UIElementDisplay?, label: String, showEmpty: Bool?, type: UIElementType, reference: String?, url: String?) {
         self.display = display
         self.label = label
         self.showEmpty = showEmpty
         self.type = type
+        self.reference = reference
+        self.url = url
     }
 }
 
-// MARK: UIEntryValueMULTIPLEVALUESString convenience initializers and mutators
+// MARK: UIElement convenience initializers and mutators
 
-public extension UIEntryValueMULTIPLEVALUESString {
+public extension UIElement {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(UIEntryValueMULTIPLEVALUESString.self, from: data)
+        self = try newJSONDecoder().decode(UIElement.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -44,16 +47,20 @@ public extension UIEntryValueMULTIPLEVALUESString {
     }
 
     func with(
-        display: [String]?? = nil,
+        display: UIElementDisplay?? = nil,
         label: String? = nil,
         showEmpty: Bool?? = nil,
-        type: MultipleValuesType? = nil
-    ) -> UIEntryValueMULTIPLEVALUESString {
-        return UIEntryValueMULTIPLEVALUESString(
+        type: UIElementType? = nil,
+        reference: String?? = nil,
+        url: String?? = nil
+    ) -> UIElement {
+        return UIElement(
             display: display ?? self.display,
             label: label ?? self.label,
             showEmpty: showEmpty ?? self.showEmpty,
-            type: type ?? self.type
+            type: type ?? self.type,
+            reference: reference ?? self.reference,
+            url: url ?? self.url
         )
     }
 

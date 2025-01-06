@@ -30,7 +30,7 @@ class HealthDataDownloadViewModel: ObservableObject {
 	private var healthcareOrganization: MgoOrganization
 	
 	/// Part of the UISchema we need to display for this download
-	private var entry: UIEntry
+	private var entry: UIElement
 	
 	/// Helper to open urls
 	private var urlOpener: URLOpenerProtocol
@@ -49,7 +49,7 @@ class HealthDataDownloadViewModel: ObservableObject {
 	///   - binaryRepository: the repository for binaries
 	init(
 		healthcareOrganization: MgoOrganization,
-		entry: UIEntry,
+		entry: UIElement,
 		urlOpener: URLOpenerProtocol = UIApplication.shared,
 		binaryRepository: BinaryRepositoryProtocol = BinaryRepository()) {
 		

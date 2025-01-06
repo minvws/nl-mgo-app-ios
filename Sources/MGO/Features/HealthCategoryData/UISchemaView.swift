@@ -62,7 +62,7 @@ struct UISchemaView: View {
 	@ViewBuilder func viewFor(_ schemaGroup: UISchemaGroup) -> some View {
 		
 		// A schema group has a section label
-		Text(NSLocalizedString(schemaGroup.label, comment: ""))
+		Text(NSLocalizedString(schemaGroup.label ?? "", comment: ""))
 			.rijksoverheidStyle(font: .bold, style: .body)
 			.foregroundStyle(theme.contentPrimary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -81,12 +81,12 @@ struct UISchemaView: View {
 		.padding(.bottom, ViewTraits.List.bottom)
 	}
 	
-	/// Show a row of key: value for a UIEntry
+	/// Show a row of key: value for a UIElement
 	/// - Parameters:
-	///   - entry: the UIEntry to display
+	///   - entry: the UIElement to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
-	/// - Returns: view for a UIEntry
-	@ViewBuilder func viewFor(_ entry: UIEntry, isLastElement: Bool) -> some View {
+	/// - Returns: view for a UIElement
+	@ViewBuilder func viewFor(_ entry: UIElement, isLastElement: Bool) -> some View {
 		
 		if entry.type == .downloadLink {
 			
@@ -115,13 +115,13 @@ struct UISchemaView: View {
 		}
 	}
 	
-	/// Get the row for a UIEntryDisplay
+	/// Get the row for a UIElementDisplay
 	/// - Parameters:
-	///   - display: the UIEntryDisplay to display
-	///   - entry: the parent UIEntry
+	///   - display: the UIElementDisplay to display
+	///   - entry: the parent UIElement
 	///   - isLastElement: True if this is the last element in the array of UIEntries
-	/// - Returns: row for a UIEntry display
-	@ViewBuilder func viewFor(_ display: UIEntryDisplay?, entry: UIEntry, isLastElement: Bool) -> some View {
+	/// - Returns: row for a UIElement display
+	@ViewBuilder func viewFor(_ display: UIElementDisplay?, entry: UIElement, isLastElement: Bool) -> some View {
 		
 		let heading = heading(entry)
 		
@@ -143,7 +143,7 @@ struct UISchemaView: View {
 	///   - childElement: The parent childElement for the heading
 	///   - isLastElement: True if this is the last element in the array of ChildElements
 	/// - Returns: view for the array of DisplayElements
-	@ViewBuilder func viewFor(_ displayElements: [DisplayElement], entry: UIEntry, isLastElement: Bool) -> some View {
+	@ViewBuilder func viewFor(_ displayElements: [DisplayElement], entry: UIElement, isLastElement: Bool) -> some View {
 
 		let singleValue = getSingleValuesValue(displayElements)
 		if singleValue.isNotEmpty {
@@ -204,9 +204,9 @@ struct UISchemaView: View {
 	
 	/// Get the heading for a row
 	/// - Parameters:
-	///   - entry: the UIEntry
+	///   - entry: the UIElement
 	/// - Returns: type text if heading is not in the language file. heading if it is.
-	private func heading(_ entry: UIEntry) -> String {
+	private func heading(_ entry: UIElement) -> String {
 		
 		return NSLocalizedString(
 			entry.label,
@@ -252,8 +252,8 @@ struct UISchemaView: View {
 					// Schema Group 1
 					UISchemaGroup(
 						children: [
-							UIEntry(
-								display: UIEntryDisplay.string("single value"),
+							UIElement(
+								display: UIElementDisplay.string("single value"),
 								label: "label single value",
 								showEmpty: true,
 								type: .singleValue,
@@ -261,15 +261,15 @@ struct UISchemaView: View {
 								url: nil
 							),
 							
-							UIEntry(
-								display: UIEntryDisplay.string("reference value"),
+							UIElement(
+								display: UIElementDisplay.string("reference value"),
 								label: "label reference",
 								showEmpty: true,
 								type: .referenceValue,
 								reference: "reference",
 								url: nil
 							),
-							UIEntry(
+							UIElement(
 								display: nil,
 								label: "label download link",
 								showEmpty: true,
@@ -284,7 +284,7 @@ struct UISchemaView: View {
 					UISchemaGroup(
 						children: [
 							// Unknown
-							UIEntry(
+							UIElement(
 								display: nil,
 								label: "label single value nil",
 								showEmpty: true,
@@ -292,8 +292,8 @@ struct UISchemaView: View {
 								reference: nil,
 								url: nil
 							),
-							UIEntry(
-								display: UIEntryDisplay.unionArray([
+							UIElement(
+								display: UIElementDisplay.unionArray([
 									DisplayElement.stringArray(["one", "two"]),
 									DisplayElement.stringArray(["three", "four"])
 								]),
@@ -303,16 +303,16 @@ struct UISchemaView: View {
 								reference: nil,
 								url: nil
 							),
-							UIEntry(
-								display: UIEntryDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
+							UIElement(
+								display: UIElementDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
 								label: "label multiple value",
 								showEmpty: true,
 								type: .multipleValues,
 								reference: nil,
 								url: nil
 							),
-							UIEntry(
-								display: UIEntryDisplay.unionArray([DisplayElement.string("one")]),
+							UIElement(
+								display: UIElementDisplay.unionArray([DisplayElement.string("one")]),
 								label: "label union value",
 								showEmpty: true,
 								type: .multipleValues,

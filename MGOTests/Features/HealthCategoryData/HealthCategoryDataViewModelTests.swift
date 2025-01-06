@@ -34,23 +34,23 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 			title: "HealthCategoryDataViewModelTests",
 			schema: UISchema(children: [UISchemaGroup(
 				children: [
-					UIEntry(
-						display: UIEntryDisplay.string("single value"),
+					UIElement(
+						display: UIElementDisplay.string("single value"),
 						label: "label single value",
 						showEmpty: true,
 						type: .singleValue,
 						reference: nil,
 						url: nil
 					),
-					UIEntry(
-						display: UIEntryDisplay.string("reference value"),
+					UIElement(
+						display: UIElementDisplay.string("reference value"),
 						label: "label reference",
 						showEmpty: true,
 						type: .referenceValue,
 						reference: "test_resolveReference",
 						url: "reference/link"
 					),
-					UIEntry(
+					UIElement(
 						display: nil,
 						label: "label download link",
 						showEmpty: true,

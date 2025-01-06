@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let gpEncounterParticipant = try GpEncounterParticipant(json)
+//   let participant = try Participant(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,20 +10,20 @@
 
 import Foundation
 
-// MARK: - GpEncounterParticipant
-public struct GpEncounterParticipant: Codable, Hashable, Sendable {
-    public let individual: MgoReference?
+// MARK: - Participant
+public struct Participant: Codable, Hashable, Sendable {
+    public let actor: MgoReference?
 
-    public init(individual: MgoReference?) {
-        self.individual = individual
+    public init(actor: MgoReference?) {
+        self.actor = actor
     }
 }
 
-// MARK: GpEncounterParticipant convenience initializers and mutators
+// MARK: Participant convenience initializers and mutators
 
-public extension GpEncounterParticipant {
+public extension Participant {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(GpEncounterParticipant.self, from: data)
+        self = try newJSONDecoder().decode(Participant.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -38,10 +38,10 @@ public extension GpEncounterParticipant {
     }
 
     func with(
-        individual: MgoReference?? = nil
-    ) -> GpEncounterParticipant {
-        return GpEncounterParticipant(
-            individual: individual ?? self.individual
+        actor: MgoReference?? = nil
+    ) -> Participant {
+        return Participant(
+            actor: actor ?? self.actor
         )
     }
 

@@ -144,7 +144,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 			children: [
 				UISchemaGroup(
 					children: [
-						UIEntry(
+						UIElement(
 							display: .string("value 1"),
 							label: "label",
 							showEmpty: true,

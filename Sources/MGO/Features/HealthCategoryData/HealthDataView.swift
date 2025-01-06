@@ -180,16 +180,15 @@ struct HealthDataView: View {
 								// Schema Group 1
 								UISchemaGroup(
 									children: [
-										UIEntry(
-											display: UIEntryDisplay.string("single value"),
+										UIElement(
+											display: UIElementDisplay.string("single value"),
 											label: "label single value",
 											showEmpty: true,
 											type: .singleValue,
 											reference: nil,
 											url: nil
 										),
-										
-										UIEntry(
+										UIElement(
 											display: nil,
 											label: "label reference",
 											showEmpty: true,
@@ -197,7 +196,7 @@ struct HealthDataView: View {
 											reference: "reference",
 											url: nil
 										),
-										UIEntry(
+										UIElement(
 											display: nil,
 											label: "label download link",
 											showEmpty: true,
@@ -212,7 +211,7 @@ struct HealthDataView: View {
 								UISchemaGroup(
 									children: [
 										// Unknown
-										UIEntry(
+										UIElement(
 											display: nil,
 											label: "label single value nil",
 											showEmpty: true,
@@ -220,8 +219,8 @@ struct HealthDataView: View {
 											reference: nil,
 											url: nil
 										),
-										UIEntry(
-											display: UIEntryDisplay.unionArray([
+										UIElement(
+											display: UIElementDisplay.unionArray([
 												DisplayElement.stringArray(["one", "two"]),
 												DisplayElement.stringArray(["three", "four"])
 											]),
@@ -231,16 +230,16 @@ struct HealthDataView: View {
 											reference: nil,
 											url: nil
 										),
-										UIEntry(
-											display: UIEntryDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
+										UIElement(
+											display: UIElementDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
 											label: "label multiple value",
 											showEmpty: true,
 											type: .multipleValues,
 											reference: nil,
 											url: nil
 										),
-										UIEntry(
-											display: UIEntryDisplay.unionArray([DisplayElement.string("one")]),
+										UIElement(
+											display: UIElementDisplay.unionArray([DisplayElement.string("one")]),
 											label: "label union value",
 											showEmpty: true,
 											type: .multipleValues,

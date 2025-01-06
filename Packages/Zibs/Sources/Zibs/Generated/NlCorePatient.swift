@@ -30,7 +30,7 @@ public struct NlCorePatient: Codable, Hashable, Sendable {
     public let multipleBirth: Bool?
     public let multipleBirthInteger: Double?
     public let name: [NlCoreHumanname]?
-    public let photo: [MgoAttachment]?
+    public let photo: [Attachment]?
     public let profile: NlCorePatientProfile
     public let referenceID: String
     public let resourceType: String?
@@ -42,7 +42,7 @@ public struct NlCorePatient: Codable, Hashable, Sendable {
         case resourceType, telecom
     }
 
-    public init(active: Bool?, address: [NlCoreAddress]?, birthDate: String?, communication: [Communication]?, contact: [Contact]?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR3, gender: String?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, link: [Link]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, multipleBirthInteger: Double?, name: [NlCoreHumanname]?, photo: [MgoAttachment]?, profile: NlCorePatientProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
+    public init(active: Bool?, address: [NlCoreAddress]?, birthDate: String?, communication: [Communication]?, contact: [Contact]?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR3, gender: String?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, link: [Link]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, multipleBirthInteger: Double?, name: [NlCoreHumanname]?, photo: [Attachment]?, profile: NlCorePatientProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
         self.active = active
         self.address = address
         self.birthDate = birthDate
@@ -106,7 +106,7 @@ public extension NlCorePatient {
         multipleBirth: Bool?? = nil,
         multipleBirthInteger: Double?? = nil,
         name: [NlCoreHumanname]?? = nil,
-        photo: [MgoAttachment]?? = nil,
+        photo: [Attachment]?? = nil,
         profile: NlCorePatientProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,

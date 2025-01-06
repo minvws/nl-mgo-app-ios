@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let zibEncounterParticipant = try ZibEncounterParticipant(json)
+//   let encounterParticipant = try EncounterParticipant(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - ZibEncounterParticipant
-public struct ZibEncounterParticipant: Codable, Hashable, Sendable {
+// MARK: - EncounterParticipant
+public struct EncounterParticipant: Codable, Hashable, Sendable {
     public let individual: MgoReference?
 
     public init(individual: MgoReference?) {
@@ -19,11 +19,11 @@ public struct ZibEncounterParticipant: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: ZibEncounterParticipant convenience initializers and mutators
+// MARK: EncounterParticipant convenience initializers and mutators
 
-public extension ZibEncounterParticipant {
+public extension EncounterParticipant {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(ZibEncounterParticipant.self, from: data)
+        self = try newJSONDecoder().decode(EncounterParticipant.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -39,8 +39,8 @@ public extension ZibEncounterParticipant {
 
     func with(
         individual: MgoReference?? = nil
-    ) -> ZibEncounterParticipant {
-        return ZibEncounterParticipant(
+    ) -> EncounterParticipant {
+        return EncounterParticipant(
             individual: individual ?? self.individual
         )
     }

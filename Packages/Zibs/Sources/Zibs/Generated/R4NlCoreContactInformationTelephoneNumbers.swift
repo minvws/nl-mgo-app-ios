@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let nlCoreHealtcareProviderTelephoneNumber = try NlCoreHealtcareProviderTelephoneNumber(json)
+//   let r4NlCoreContactInformationTelephoneNumbers = try R4NlCoreContactInformationTelephoneNumbers(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,14 +10,14 @@
 
 import Foundation
 
-// MARK: - NlCoreHealtcareProviderTelephoneNumber
-public struct NlCoreHealtcareProviderTelephoneNumber: Codable, Hashable, Sendable {
+// MARK: - R4NlCoreContactInformationTelephoneNumbers
+public struct R4NlCoreContactInformationTelephoneNumbers: Codable, Hashable, Sendable {
     public let comment: String?
-    public let system: TelephoneNumberSystem
+    public let system: R4NlCoreContactInformationTelephoneNumbersSystem
     public let telecomType: MgoCodeableConcept?
     public let use, value: String?
 
-    public init(comment: String?, system: TelephoneNumberSystem, telecomType: MgoCodeableConcept?, use: String?, value: String?) {
+    public init(comment: String?, system: R4NlCoreContactInformationTelephoneNumbersSystem, telecomType: MgoCodeableConcept?, use: String?, value: String?) {
         self.comment = comment
         self.system = system
         self.telecomType = telecomType
@@ -26,11 +26,11 @@ public struct NlCoreHealtcareProviderTelephoneNumber: Codable, Hashable, Sendabl
     }
 }
 
-// MARK: NlCoreHealtcareProviderTelephoneNumber convenience initializers and mutators
+// MARK: R4NlCoreContactInformationTelephoneNumbers convenience initializers and mutators
 
-public extension NlCoreHealtcareProviderTelephoneNumber {
+public extension R4NlCoreContactInformationTelephoneNumbers {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(NlCoreHealtcareProviderTelephoneNumber.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCoreContactInformationTelephoneNumbers.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -46,12 +46,12 @@ public extension NlCoreHealtcareProviderTelephoneNumber {
 
     func with(
         comment: String?? = nil,
-        system: TelephoneNumberSystem? = nil,
+        system: R4NlCoreContactInformationTelephoneNumbersSystem? = nil,
         telecomType: MgoCodeableConcept?? = nil,
         use: String?? = nil,
         value: String?? = nil
-    ) -> NlCoreHealtcareProviderTelephoneNumber {
-        return NlCoreHealtcareProviderTelephoneNumber(
+    ) -> R4NlCoreContactInformationTelephoneNumbers {
+        return R4NlCoreContactInformationTelephoneNumbers(
             comment: comment ?? self.comment,
             system: system ?? self.system,
             telecomType: telecomType ?? self.telecomType,

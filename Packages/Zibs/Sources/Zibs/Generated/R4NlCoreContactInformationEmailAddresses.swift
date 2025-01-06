@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let r4NlCoreHealthProfessionalPractitionerEmailAddress = try R4NlCoreHealthProfessionalPractitionerEmailAddress(json)
+//   let r4NlCoreContactInformationEmailAddresses = try R4NlCoreContactInformationEmailAddresses(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,23 +10,23 @@
 
 import Foundation
 
-// MARK: - R4NlCoreHealthProfessionalPractitionerEmailAddress
-public struct R4NlCoreHealthProfessionalPractitionerEmailAddress: Codable, Hashable, Sendable {
-    public let system: EmailAddressSystem
+// MARK: - R4NlCoreContactInformationEmailAddresses
+public struct R4NlCoreContactInformationEmailAddresses: Codable, Hashable, Sendable {
+    public let system: R4NlCoreContactInformationEmailAddressesSystem
     public let use, value: String?
 
-    public init(system: EmailAddressSystem, use: String?, value: String?) {
+    public init(system: R4NlCoreContactInformationEmailAddressesSystem, use: String?, value: String?) {
         self.system = system
         self.use = use
         self.value = value
     }
 }
 
-// MARK: R4NlCoreHealthProfessionalPractitionerEmailAddress convenience initializers and mutators
+// MARK: R4NlCoreContactInformationEmailAddresses convenience initializers and mutators
 
-public extension R4NlCoreHealthProfessionalPractitionerEmailAddress {
+public extension R4NlCoreContactInformationEmailAddresses {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(R4NlCoreHealthProfessionalPractitionerEmailAddress.self, from: data)
+        self = try newJSONDecoder().decode(R4NlCoreContactInformationEmailAddresses.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -41,11 +41,11 @@ public extension R4NlCoreHealthProfessionalPractitionerEmailAddress {
     }
 
     func with(
-        system: EmailAddressSystem? = nil,
+        system: R4NlCoreContactInformationEmailAddressesSystem? = nil,
         use: String?? = nil,
         value: String?? = nil
-    ) -> R4NlCoreHealthProfessionalPractitionerEmailAddress {
-        return R4NlCoreHealthProfessionalPractitionerEmailAddress(
+    ) -> R4NlCoreContactInformationEmailAddresses {
+        return R4NlCoreContactInformationEmailAddresses(
             system: system ?? self.system,
             use: use ?? self.use,
             value: value ?? self.value

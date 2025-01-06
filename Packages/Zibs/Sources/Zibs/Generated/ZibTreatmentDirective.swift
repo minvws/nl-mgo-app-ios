@@ -33,7 +33,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
     public let referenceID: String
     public let resourceType: String?
     public let securityLabel: [MgoCoding]?
-    public let sourceAttachment: MgoAttachment
+    public let sourceAttachment: Attachment
     public let sourceIdentifier: MgoIdentifier?
     public let sourceReference: MgoReference?
     public let status: String?
@@ -44,7 +44,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
         case resourceType, securityLabel, sourceAttachment, sourceIdentifier, sourceReference, status
     }
 
-    public init(action: [MgoCodeableConcept]?, actor: [ZibTreatmentDirectiveActor]?, category: [MgoCodeableConcept]?, consentingParty: [MgoReference]?, data: [ZibTreatmentDirectiveDatum]?, dataPeriod: MgoPeriod?, dateTime: String?, except: [Except]?, fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, organization: [MgoReference]?, patient: MgoReference?, period: MgoPeriod?, policy: [Policy]?, policyRule: String?, profile: ZibTreatmentDirectiveProfile, purpose: [MgoCoding]?, referenceID: String, resourceType: String?, securityLabel: [MgoCoding]?, sourceAttachment: MgoAttachment, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, status: String?) {
+    public init(action: [MgoCodeableConcept]?, actor: [ZibTreatmentDirectiveActor]?, category: [MgoCodeableConcept]?, consentingParty: [MgoReference]?, data: [ZibTreatmentDirectiveDatum]?, dataPeriod: MgoPeriod?, dateTime: String?, except: [Except]?, fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, organization: [MgoReference]?, patient: MgoReference?, period: MgoPeriod?, policy: [Policy]?, policyRule: String?, profile: ZibTreatmentDirectiveProfile, purpose: [MgoCoding]?, referenceID: String, resourceType: String?, securityLabel: [MgoCoding]?, sourceAttachment: Attachment, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, status: String?) {
         self.action = action
         self.actor = actor
         self.category = category
@@ -113,7 +113,7 @@ public extension ZibTreatmentDirective {
         referenceID: String? = nil,
         resourceType: String?? = nil,
         securityLabel: [MgoCoding]?? = nil,
-        sourceAttachment: MgoAttachment? = nil,
+        sourceAttachment: Attachment? = nil,
         sourceIdentifier: MgoIdentifier?? = nil,
         sourceReference: MgoReference?? = nil,
         status: String?? = nil

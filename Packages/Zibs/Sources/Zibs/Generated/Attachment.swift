@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let mgoAttachment = try MgoAttachment(json)
+//   let attachment = try Attachment(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - MgoAttachment
-public struct MgoAttachment: Codable, Hashable, Sendable {
+// MARK: - Attachment
+public struct Attachment: Codable, Hashable, Sendable {
     public let contentType, creation, data, hash: String?
     public let language: String?
     public let size: Double?
@@ -29,11 +29,11 @@ public struct MgoAttachment: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: MgoAttachment convenience initializers and mutators
+// MARK: Attachment convenience initializers and mutators
 
-public extension MgoAttachment {
+public extension Attachment {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(MgoAttachment.self, from: data)
+        self = try newJSONDecoder().decode(Attachment.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -56,8 +56,8 @@ public extension MgoAttachment {
         size: Double?? = nil,
         title: String?? = nil,
         url: String?? = nil
-    ) -> MgoAttachment {
-        return MgoAttachment(
+    ) -> Attachment {
+        return Attachment(
             contentType: contentType ?? self.contentType,
             creation: creation ?? self.creation,
             data: data ?? self.data,
