@@ -98,7 +98,7 @@ struct SettingsView: View {
 		.when(viewModel.showResetButton) { view in
 			view
 				.safeAreaInset(edge: VerticalEdge.bottom) {
-					CallToActionButton("settings.reset_app.button", style: .primaryNegative) {
+					CallToActionButton("settings.reset_app.button", style: .primaryCritical) {
 						viewModel.reduce(.showResetDialog)
 					}
 					.padding(ViewTraits.Button.insets)

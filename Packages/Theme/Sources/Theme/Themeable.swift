@@ -38,11 +38,11 @@ public protocol Themeable: ObservableObject {
 	var actionPrimaryDefaultBackgroundHover: Color { get }
 	var actionPrimaryDefaultText: Color { get }
 	
-	// MARK: - Action Primary Negative -
+	// MARK: - Action Primary Critical -
 	
-	var actionPrimaryNegativeBackground: Color { get }
-	var actionPrimaryNegativeBackgroundHover: Color { get }
-	var actionPrimaryNegativeText: Color { get }
+	var actionPrimaryCriticalBackground: Color { get }
+	var actionPrimaryCriticalBackgroundHover: Color { get }
+	var actionPrimaryCriticalText: Color { get }
 
 	// MARK: - Action Secondary Default -
 
@@ -50,21 +50,21 @@ public protocol Themeable: ObservableObject {
 	var actionSecondaryDefaultBackgroundHover: Color { get }
 	var actionSecondaryDefaultText: Color { get }
 	
-	// MARK: - Action Secondary Negative -
+	// MARK: - Action Secondary Critical -
 
-	var actionSecondaryNegativeBackground: Color { get }
-	var actionSecondaryNegativeBackgroundHover: Color { get }
-	var actionSecondaryNegativeText: Color { get }
+	var actionSecondaryCriticalBackground: Color { get }
+	var actionSecondaryCriticalBackgroundHover: Color { get }
+	var actionSecondaryCriticalText: Color { get }
 	
 	// MARK: - Action Tertiary Default -
 	
 	var actionTertiaryDefaultText: Color { get }
 	var actionTertiaryDefaultTextHover: Color { get }
 	
-	// MARK: - Action Tertiary Negative -
+	// MARK: - Action Tertiary Critical -
 	
-	var actionTertiaryNegativeText: Color { get }
-	var actionTertiaryNegativeTextHover: Color { get }
+	var actionTertiaryCriticalText: Color { get }
+	var actionTertiaryCriticalTextHover: Color { get }
 	
 	// MARK: - Notification -
 

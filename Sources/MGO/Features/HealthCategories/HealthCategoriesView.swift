@@ -434,7 +434,7 @@ struct HealthCategoriesView: View {
 					// at the bottom of the list, and without a rounded list background
 					CallToActionButton(
 						"organizations.remove_organization",
-						style: .tertiaryNegative) {
+						style: .tertiaryCritical) {
 							viewModel.reduce(.removeHealthcareOrganization)
 						}
 						.accessibilityIdentifier("organizations.remove_organization")

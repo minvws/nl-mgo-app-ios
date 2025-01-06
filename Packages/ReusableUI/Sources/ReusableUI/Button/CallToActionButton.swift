@@ -30,11 +30,11 @@ public struct CallToActionButton: View {
 	/// All possible styles
 	public enum Style {
 		case primary
-		case primaryNegative
+		case primaryCritical
 		case secondary
-		case secondaryNegative
+		case secondaryCritical
 		case tertiary
-		case tertiaryNegative
+		case tertiaryCritical
 		case tertiaryWithIcon
 	}
 	
@@ -77,14 +77,14 @@ public struct CallToActionButton: View {
 		.when(style == .primary, transform: { button in
 			button.buttonStyle(PrimaryDefaultButtonStyle())
 		})
-		.when(style == .primaryNegative, transform: { button in
-			button.buttonStyle(PrimaryNegativeButtonStyle())
+		.when(style == .primaryCritical, transform: { button in
+			button.buttonStyle(PrimaryCriticalButtonStyle())
 		})
 		.when(style == .secondary, transform: { button in
 			button.buttonStyle(SecondaryDefaultButtonStyle())
 		})
-		.when(style == .secondaryNegative, transform: { button in
-			button.buttonStyle(SecondaryNegativeButtonStyle())
+		.when(style == .secondaryCritical, transform: { button in
+			button.buttonStyle(SecondaryCriticalButtonStyle())
 		})
 		.when(style == .tertiary, transform: { button in
 			button.buttonStyle(TertiaryButtonStyle())
@@ -92,8 +92,8 @@ public struct CallToActionButton: View {
 		.when(style == .tertiaryWithIcon, transform: { button in
 			button.buttonStyle(TertiaryButtonWithIconStyle())
 		})
-		.when(style == .tertiaryNegative, transform: { button in
-			button.buttonStyle(TertiaryNegativeButtonStyle())
+		.when(style == .tertiaryCritical, transform: { button in
+			button.buttonStyle(TertiaryCriticalButtonStyle())
 		})
 	}
 	
@@ -114,19 +114,19 @@ public struct CallToActionButton: View {
 		HStack {
 			CallToActionButton(".primary", style: .primary)
 				.padding(16)
-			CallToActionButton(".primaryNegative", style: .primaryNegative)
+			CallToActionButton(".primaryCritical", style: .primaryCritical)
 				.padding(16)
 		}
 		HStack {
 			CallToActionButton(".secondary", style: .secondary)
 				.padding(16)
-			CallToActionButton(".secondaryNegative", style: .secondaryNegative)
+			CallToActionButton(".secondaryCritical", style: .secondaryCritical)
 				.padding(16)
 		}
 		HStack {
 			CallToActionButton(".tertiary", style: .tertiary)
 				.padding(16)
-			CallToActionButton(".tertiaryNegative", style: .tertiaryNegative)
+			CallToActionButton(".tertiaryCritical", style: .tertiaryCritical)
 				.padding(16)
 		}
 		HStack {

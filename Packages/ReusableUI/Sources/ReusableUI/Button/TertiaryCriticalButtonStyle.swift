@@ -9,7 +9,7 @@ import RijksoverheidFont
 import SwiftUI
 import Theme
 
-struct PrimaryNegativeButtonStyle: ButtonStyle {
+struct TertiaryCriticalButtonStyle: ButtonStyle {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -20,7 +20,6 @@ struct PrimaryNegativeButtonStyle: ButtonStyle {
 			static let insets = EdgeInsets( top: 16, leading: 24, bottom: 16, trailing: 24)
 		}
 		enum Button {
-			static let cornerRadius: CGFloat = 12
 			static let minimumHeight: CGFloat = 48
 		}
 	}
@@ -32,10 +31,9 @@ struct PrimaryNegativeButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(theme.actionPrimaryNegativeText)
+			.foregroundColor(configuration.isPressed ? theme.actionTertiaryCriticalTextHover : theme.actionTertiaryCriticalText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.actionPrimaryNegativeBackgroundHover : theme.actionPrimaryNegativeBackground)
-			.cornerRadius(ViewTraits.Button.cornerRadius)
+			.background(Color.clear)
 	}
 }
