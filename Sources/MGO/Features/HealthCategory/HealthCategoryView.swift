@@ -295,7 +295,7 @@ class HealthCategoryViewModel: ObservableObject {
 			guard resource.hasProfile(acceptedProfile) else { continue }
 			
 //			MemoryUsage.getMemory("before getUiSchemaJson")
-			if let uiSchema = parser.getUiSchemaJson(resource) {
+			if let uiSchema = parser.getDetails(resource) {
 //				MemoryUsage.getMemory("after \(uiSchema.label)")
 				// Add a OverviewBlock to the display list
 				items.append(

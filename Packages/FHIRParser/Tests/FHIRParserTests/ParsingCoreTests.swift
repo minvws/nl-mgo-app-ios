@@ -108,7 +108,7 @@ final class FHIRParserTests: XCTestCase {
 		let data = Data(resource.utf8)
 		
 		// When
-		let schema = sut.getUiSchemaJson(data)
+		let schema = sut.getDetails(data)
 		
 		// Then
 		expect(schema?.label) == "Zestril tablet 10mg"
@@ -119,7 +119,7 @@ final class FHIRParserTests: XCTestCase {
 		// Given
 		
 		// When
-		let schema = sut.getUiSchemaJson(Data("wrong".utf8))
+		let schema = sut.getDetails(Data("wrong".utf8))
 		
 		// Then
 		expect(schema) == nil

@@ -33,7 +33,7 @@ class ReferenceResolver: ReferenceResolverProtocol {
 				}
 				
 				for resource in resources {
-					if let uiSchema = FHIRParser().getUiSchemaJson(resource) {
+					if let uiSchema = FHIRParser().getDetails(resource) {
 						return (resource, uiSchema)
 					}
 				}

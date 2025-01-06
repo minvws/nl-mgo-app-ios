@@ -150,13 +150,30 @@ public class FHIRParser {
 		return nil
 	}
 	
-	/// getUiSchemaJson, i.e. transform a Zib object into a UISchema
+	/// get the details for a resource, i.e. transform a Zib object into a details UISchema
 	/// - Parameter resource: the zib / mgo resource
 	/// - Returns: Generated UISchema
-	public func getUiSchemaJson(_ resource: Data) -> UISchema? {
+	public func getDetails(_ resource: Data) -> UISchema? {
 		
 		do {
 			let resourcesJSValue = try callJSMethod("getUiSchemaJson", with: resource)
+			if let object = resourcesJSValue.toString() {
+				let schema = try UISchema(object)
+				return schema
+			}
+		} catch {
+			logError(error.localizedDescription)
+		}
+		return nil
+	}
+	
+	/// get the summary for a resource, i.e. transform a Zib object into a summary UISchema
+	/// - Parameter resource: the zib / mgo resource
+	/// - Returns: Generated UISchema
+	public func getSummary(_ resource: Data) -> UISchema? {
+		
+		do {
+			let resourcesJSValue = try callJSMethod("getSummaryUiSchemaJson", with: resource)
 			if let object = resourcesJSValue.toString() {
 				let schema = try UISchema(object)
 				return schema
