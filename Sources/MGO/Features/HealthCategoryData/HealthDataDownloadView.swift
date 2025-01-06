@@ -11,7 +11,7 @@ import Zibs
 import RestrictedBrowser
 
 /// The states of a download view
-enum HealthCategoryDownloadState: Equatable {
+enum HealthDataDownloadState: Equatable {
 	
 	case loading
 	case idle(label: String)
@@ -21,10 +21,10 @@ enum HealthCategoryDownloadState: Equatable {
 	case error
 }
 
-class HealthCategoryDownloadViewModel: ObservableObject {
+class HealthDataDownloadViewModel: ObservableObject {
 	
 	/// The state of the view
-	@Published var state: HealthCategoryDownloadState
+	@Published var state: HealthDataDownloadState
 	
 	/// The healthcare organization this download came from
 	private var healthcareOrganization: MgoOrganization
@@ -78,7 +78,7 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthCategoryDownloadViewModel.Action) {
+	func reduce(_ action: HealthDataDownloadViewModel.Action) {
 		
 		switch action {
 			case .download: download()
@@ -151,10 +151,10 @@ class HealthCategoryDownloadViewModel: ObservableObject {
 	}
 }
 
-struct HealthCategoryDownloadView: View {
+struct HealthDataDownloadView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: HealthCategoryDownloadViewModel
+	@StateObject var viewModel: HealthDataDownloadViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme

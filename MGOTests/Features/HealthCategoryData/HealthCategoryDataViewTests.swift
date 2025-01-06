@@ -15,8 +15,8 @@ final class HealthCategoryDataViewTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: HealthCategoryDataViewModel!
-	private var sut: HealthCategoryDataView!
+	private var viewModel: HealthDataViewModel!
+	private var sut: HealthDataView!
 	
 	override func setUpWithError() throws {
 		
@@ -26,8 +26,8 @@ final class HealthCategoryDataViewTests: XCTestCase {
 		let data = try getResource("multipleValuesMultipleEntries")
 		let schema = try UISchema(data: data)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = HealthCategoryDataViewModel(coordinator: coordinatorSpy, title: "test_HealthCategoryDataView", schema: schema, healthcareOrganization: healthcareOrganization)
-		sut = HealthCategoryDataView(viewModel: self.viewModel)
+		viewModel = HealthDataViewModel(coordinator: coordinatorSpy, title: "test_HealthCategoryDataView", schema: schema, healthcareOrganization: healthcareOrganization)
+		sut = HealthDataView(viewModel: self.viewModel)
 	}
 
 	func test_HealthCategoryDataView() throws {

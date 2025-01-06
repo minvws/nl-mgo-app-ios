@@ -41,11 +41,11 @@ public class Theme: Themeable {
 	@Published public var actionPrimaryDefaultBackgroundHover: Color = Color("actionPrimaryDefaultBackgroundHover", bundle: .module)
 	@Published public var actionPrimaryDefaultText: Color = Color("actionPrimaryDefaultText", bundle: .module)
 	
-	// MARK: - Action Primary Negative-
+	// MARK: - Action Primary Critical-
 	
-	@Published public var actionPrimaryNegativeBackground: Color = Color("actionPrimaryNegativeBackground", bundle: .module)
-	@Published public var actionPrimaryNegativeBackgroundHover: Color = Color("actionPrimaryNegativeBackgroundHover", bundle: .module)
-	@Published public var actionPrimaryNegativeText: Color = Color("actionPrimaryNegativeText", bundle: .module)
+	@Published public var actionPrimaryCriticalBackground: Color = Color("actionPrimaryCriticalBackground", bundle: .module)
+	@Published public var actionPrimaryCriticalBackgroundHover: Color = Color("actionPrimaryCriticalBackgroundHover", bundle: .module)
+	@Published public var actionPrimaryCriticalText: Color = Color("actionPrimaryCriticalText", bundle: .module)
 
 	// MARK: - Action Secondary Default -
 
@@ -53,21 +53,21 @@ public class Theme: Themeable {
 	@Published public var actionSecondaryDefaultBackgroundHover: Color = Color("actionSecondaryDefaultBackgroundHover", bundle: .module)
 	@Published public var actionSecondaryDefaultText: Color = Color("actionSecondaryDefaultText", bundle: .module)
 	
-	// MARK: - Action Secondary Negative -
+	// MARK: - Action Secondary Critical -
 
-	@Published public var actionSecondaryNegativeBackground: Color = Color("actionSecondaryNegativeBackground", bundle: .module)
-	@Published public var actionSecondaryNegativeBackgroundHover: Color = Color("actionSecondaryNegativeBackgroundHover", bundle: .module)
-	@Published public var actionSecondaryNegativeText: Color = Color("actionSecondaryNegativeText", bundle: .module)
+	@Published public var actionSecondaryCriticalBackground: Color = Color("actionSecondaryCriticalBackground", bundle: .module)
+	@Published public var actionSecondaryCriticalBackgroundHover: Color = Color("actionSecondaryCriticalBackgroundHover", bundle: .module)
+	@Published public var actionSecondaryCriticalText: Color = Color("actionSecondaryCriticalText", bundle: .module)
 
 	// MARK: - Action Tertiary Default -
 	
 	@Published public var actionTertiaryDefaultText: Color = Color("actionTertiaryDefaultText", bundle: .module)
 	@Published public var actionTertiaryDefaultTextHover: Color = Color("actionTertiaryDefaultTextHover", bundle: .module)
 	
-	// MARK: - Action Tertiary Negative -
+	// MARK: - Action Tertiary Critical -
 	
-	@Published public var actionTertiaryNegativeText: Color = Color("actionTertiaryNegativeText", bundle: .module)
-	@Published public var actionTertiaryNegativeTextHover: Color = Color("actionTertiaryNegativeTextHover", bundle: .module)
+	@Published public var actionTertiaryCriticalText: Color = Color("actionTertiaryCriticalText", bundle: .module)
+	@Published public var actionTertiaryCriticalTextHover: Color = Color("actionTertiaryCriticalTextHover", bundle: .module)
 	
 	// MARK: - Notification -
 	

@@ -14,7 +14,7 @@ import Zibs
 final class HealthCategoryDownloadViewModelTests: XCTestCase {
 	
 	private var servicesSpies: ServicesSpies!
-	private var sut: HealthCategoryDownloadViewModel!
+	private var sut: HealthDataDownloadViewModel!
 	private var urlOpenerSpy: URLOpenerSpy!
 	private var binaryRepositorySpy: BinaryRepositorySpy!
 	
@@ -31,7 +31,7 @@ final class HealthCategoryDownloadViewModelTests: XCTestCase {
 		
 		let entry = UIEntry(display: nil, label: "label", showEmpty: false, type: .downloadLink, reference: nil, url: url)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
-		sut = HealthCategoryDownloadViewModel(
+		sut = HealthDataDownloadViewModel(
 			healthcareOrganization: healthcareOrganization,
 			entry: entry,
 			urlOpener: urlOpenerSpy,

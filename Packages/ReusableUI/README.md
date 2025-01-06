@@ -43,19 +43,19 @@ struct ButtonView: View {
 		  HStack {
 			  CallToActionButton(".primary", style: .primary)
 				  .padding(16)
-			  CallToActionButton(".primaryNegative", style: .primaryNegative)
+			  CallToActionButton(".primaryCritical", style: .primaryCritical)
 				  .padding(16)
 		  }
 		  HStack {
 			  CallToActionButton(".secondary", style: .secondary)
 				  .padding(16)
-			  CallToActionButton(".secondaryNegative", style: .secondaryNegative)
+			  CallToActionButton(".secondaryCritical", style: .secondaryCritical)
 				  .padding(16)
 		  }
 		  HStack {
 			  CallToActionButton(".tertiary", style: .tertiary)
 				  .padding(16)
-			  CallToActionButton(".tertiaryNegative", style: .tertiaryNegative)
+			  CallToActionButton(".tertiaryCritical", style: .tertiaryCritical)
 				  .padding(16)
 		  }
 		}

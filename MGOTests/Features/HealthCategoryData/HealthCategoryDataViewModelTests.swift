@@ -15,7 +15,7 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: HealthCategoryDataViewModel!
+	private var sut: HealthDataViewModel!
 	private var referenceResolverSpy: ReferenceResolverSpy!
 	
 	override func setUp() {
@@ -29,7 +29,7 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 	
 	private func setupSut() {
 		
-		sut = HealthCategoryDataViewModel(
+		sut = HealthDataViewModel(
 			coordinator: coordinatorSpy,
 			title: "HealthCategoryDataViewModelTests",
 			schema: UISchema(children: [UISchemaGroup(

@@ -60,12 +60,12 @@ struct ColorSampleView: View {
 						colorSample(theme.actionPrimaryDefaultText, text: "Text")
 					}
 					
-					Text("Negative")
+					Text("Critical")
 					
 					HStack {
-						colorSample(theme.actionPrimaryNegativeBackground, text: "Background")
-						colorSample(theme.actionPrimaryNegativeBackgroundHover, text: "Background Hover")
-						colorSample(theme.actionPrimaryNegativeText, text: "Text")
+						colorSample(theme.actionPrimaryCriticalBackground, text: "Background")
+						colorSample(theme.actionPrimaryCriticalBackgroundHover, text: "Background Hover")
+						colorSample(theme.actionPrimaryCriticalText, text: "Text")
 					}
 					
 					Text("Action Secondary").bold()
@@ -77,11 +77,11 @@ struct ColorSampleView: View {
 						colorSample(theme.actionSecondaryDefaultText, text: "Text")
 					}
 					
-					Text("Negative")
+					Text("Critical")
 					HStack {
-						colorSample(theme.actionSecondaryNegativeBackground, text: "Background")
-						colorSample(theme.actionSecondaryNegativeBackgroundHover, text: "Background Hover")
-						colorSample(theme.actionSecondaryNegativeText, text: "Text")
+						colorSample(theme.actionSecondaryCriticalBackground, text: "Background")
+						colorSample(theme.actionSecondaryCriticalBackgroundHover, text: "Background Hover")
+						colorSample(theme.actionSecondaryCriticalText, text: "Text")
 					}
 					
 					Text("Action Tertiary").bold()
@@ -91,10 +91,10 @@ struct ColorSampleView: View {
 						colorSample(theme.actionTertiaryDefaultTextHover, text: "Hover")
 					}
 					
-					Text("Negative")
+					Text("Critical")
 					HStack {
-						colorSample(theme.actionTertiaryNegativeText, text: "Text")
-						colorSample(theme.actionTertiaryNegativeTextHover, text: "Hover")
+						colorSample(theme.actionTertiaryCriticalText, text: "Text")
+						colorSample(theme.actionTertiaryCriticalTextHover, text: "Hover")
 					}
 					
 					Text("Notification").bold()
