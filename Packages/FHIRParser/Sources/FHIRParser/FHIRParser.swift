@@ -96,7 +96,7 @@ public class FHIRParser {
 		guard let inputString = String(data: input, encoding: .utf8) else { throw FHIRParserError.invalidInput }
 		var arguments = [inputString]
 		if let fhirVersion {
-			arguments.append(fhirVersion)
+			arguments.append("{\"fhirVersion\": \"\(fhirVersion)\"}")
 		}
 		
 		// Step 4: call the desired method (getBundleResourcesJson etc) on the namespace with the input
