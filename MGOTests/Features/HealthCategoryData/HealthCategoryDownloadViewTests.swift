@@ -14,8 +14,8 @@ import Zibs
 final class HealthCategoryDownloadViewTests: XCTestCase {
 	
 	private var servicesSpies: ServicesSpies!
-	private var viewModel: HealthCategoryDownloadViewModel!
-	private var sut: HealthCategoryDownloadView!
+	private var viewModel: HealthDataDownloadViewModel!
+	private var sut: HealthDataDownloadView!
 	
 	override func setUpWithError() throws {
 
@@ -24,8 +24,8 @@ final class HealthCategoryDownloadViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		let entry = UIEntry(display: nil, label: "label", showEmpty: false, type: .downloadLink, reference: nil, url: "Binary/demo1")
 		let healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = HealthCategoryDownloadViewModel(healthcareOrganization: healthcareOrganization, entry: entry)
-		sut = HealthCategoryDownloadView(viewModel: self.viewModel)
+		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, entry: entry)
+		sut = HealthDataDownloadView(viewModel: self.viewModel)
 	}
 	
 	func test_HealthCategoryDownloadView_idle() {

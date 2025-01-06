@@ -345,8 +345,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
 				
 			case let .showHealthCategoryData(heading: heading, schema: schema, organization: healthcareOrganization):
-				HealthCategoryDataView(
-					viewModel: HealthCategoryDataViewModel(
+				HealthDataView(
+					viewModel: HealthDataViewModel(
 						coordinator: self,
 						title: heading,
 						schema: schema,

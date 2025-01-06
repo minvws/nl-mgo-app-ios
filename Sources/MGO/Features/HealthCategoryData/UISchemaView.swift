@@ -91,9 +91,9 @@ struct UISchemaView: View {
 		if entry.type == .downloadLink {
 			
 			// Document Download
-			HealthCategoryDownloadView(
+			HealthDataDownloadView(
 				viewModel:
-					HealthCategoryDownloadViewModel(
+					HealthDataDownloadViewModel(
 						healthcareOrganization: healthcareOrganization,
 						entry: entry
 					)

@@ -15,7 +15,7 @@ struct ZibDetailViewState {
 	var schema: UISchema
 }
 
-class HealthCategoryDataViewModel: ObservableObject {
+class HealthDataViewModel: ObservableObject {
 	
 	/// The state of the view
 	@Published var state: ZibDetailViewState
@@ -85,7 +85,7 @@ class HealthCategoryDataViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthCategoryDataViewModel.Action) {
+	func reduce(_ action: HealthDataViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
@@ -116,10 +116,10 @@ class HealthCategoryDataViewModel: ObservableObject {
 	}
 }
 
-struct HealthCategoryDataView: View {
+struct HealthDataView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: HealthCategoryDataViewModel
+	@StateObject var viewModel: HealthDataViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -169,9 +169,9 @@ struct HealthCategoryDataView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		HealthCategoryDataView(
+		HealthDataView(
 			viewModel:
-				HealthCategoryDataViewModel(
+				HealthDataViewModel(
 					coordinator: nil,
 					title: String(localized: "hc_medication.heading_detail"),
 					schema:
