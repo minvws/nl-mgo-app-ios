@@ -104,7 +104,7 @@ class HealthDataViewModel: ObservableObject {
 		if let (resource, refSchema) = resolved {
 			
 			self.coordinator?.handle(Coordination.Action(
-				identifier: Coordination.Action.showHealthCategoryData.identifier,
+				identifier: Coordination.Action.showHealthData.identifier,
 				params: [
 					"healthcareOrganization": healthcareOrganization,
 					"heading": refSchema.label ?? "",
@@ -205,8 +205,8 @@ struct HealthDataView: View {
 											url: "https://www.apple.com"
 										)
 									],
-									label: "Section Header first group"),
-								
+									label: "Section Header first group"
+								),
 								// Schema Group 2
 								UISchemaGroup(
 									children: [

@@ -69,8 +69,6 @@ public class FHIRParser {
 		}
 	}
 	
-
-	
 	/// getBundleResourcesJson, i.e. split the incoming FHIR Bundle into separate FHIR Resources.
 	/// - Parameter bundle: The bundle json from the DVA (as Data)
 	/// - Returns: Array of FHIR resources.

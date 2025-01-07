@@ -303,7 +303,7 @@ class HealthCategoryViewModel: ObservableObject {
 						heading: Sanitizer.strip(uiSchema.label),
 						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) {
 							self.coordinator?.handle(Coordination.Action(
-								identifier: Coordination.Action.showHealthCategoryData.identifier,
+								identifier: Coordination.Action.showHealthData.identifier,
 								params: [
 									"healthcareOrganization": self.getOrganization(record.organizationId),
 									"heading": String(localized: self.translations.detailsHeading),

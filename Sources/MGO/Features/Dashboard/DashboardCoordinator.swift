@@ -20,7 +20,7 @@ extension Coordination.Action {
 	static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
 	
 	static let showHealthCategory = Coordination.Action(identifier: "showHealthCategory")
-	static let showHealthCategoryData = Coordination.Action(identifier: "showHealthCategoryData")
+	static let showHealthData = Coordination.Action(identifier: "showHealthData")
 	
 	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
 	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
@@ -77,7 +77,7 @@ enum DashboardCoordination {
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
-		case showHealthCategoryData(heading: String, schema: UISchema, organization: MgoOrganization)
+		case showHealthData(heading: String, schema: UISchema, organization: MgoOrganization)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
 }
@@ -236,13 +236,13 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
 				}
 				
-			case Coordination.Action.showHealthCategoryData.identifier:
+			case Coordination.Action.showHealthData.identifier:
 				if action.params.count == 4,
 				   // let resource = action.params["resource"] as? MgoResouce,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let heading = action.params["heading"] as? String,
 				   let schema = action.params["uiSchema"] as? UISchema {
-					setState(DashboardCoordination.State.showHealthCategoryData(heading: heading, schema: schema, organization: healthcareOrganization))
+					setState(DashboardCoordination.State.showHealthData(heading: heading, schema: schema, organization: healthcareOrganization))
 					return true
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
@@ -344,7 +344,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
 				
-			case let .showHealthCategoryData(heading: heading, schema: schema, organization: healthcareOrganization):
+			case let .showHealthData(heading: heading, schema: schema, organization: healthcareOrganization):
 				HealthDataView(
 					viewModel: HealthDataViewModel(
 						coordinator: self,

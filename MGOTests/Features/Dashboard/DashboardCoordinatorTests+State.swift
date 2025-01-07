@@ -157,7 +157,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 			],
 			label: "zib details"
 		)
-		let state = DashboardCoordination.State.showHealthCategoryData(
+		let state = DashboardCoordination.State.showHealthData(
 			heading: "Heading",
 			schema: schema,
 			organization: healthcareOrganization

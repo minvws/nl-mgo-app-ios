@@ -105,7 +105,7 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.showHealthCategoryData.identifier
+		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == Data()
 		expect(params.params["heading"] as? String) == schema.label
 		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
@@ -140,7 +140,7 @@ final class HealthCategoryDataViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.showHealthCategoryData.identifier
+		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == Data()
 		expect(params.params["heading"] as? String) == ""
 		expect((params.params["uiSchema"] as? UISchema)?.label) == nil
