@@ -61,12 +61,14 @@ struct UISchemaView: View {
 	/// - Returns: block view
 	@ViewBuilder func viewFor(_ schemaGroup: UISchemaGroup) -> some View {
 		
-		// A schema group has a section label
-		Text(NSLocalizedString(schemaGroup.label ?? "", comment: ""))
-			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundStyle(theme.contentPrimary)
-			.frame(maxWidth: .infinity, alignment: .topLeading)
-			.accessibilityAddTraits(.isHeader)
+		if let schemaGroupLabel = schemaGroup.label {
+			// A schema group has a section label
+			Text(NSLocalizedString(schemaGroupLabel, comment: ""))
+				.rijksoverheidStyle(font: .bold, style: .body)
+				.foregroundStyle(theme.contentPrimary)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityAddTraits(.isHeader)
+		}
 		
 		// List of elements
 		VStack(alignment: .leading, spacing: 0) {

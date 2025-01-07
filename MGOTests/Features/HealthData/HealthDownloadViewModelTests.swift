@@ -11,7 +11,7 @@ import MGOUI
 @testable import MGO
 import Zibs
 
-final class HealthCategoryDownloadViewModelTests: XCTestCase {
+final class HealthDownloadViewModelTests: XCTestCase {
 	
 	private var servicesSpies: ServicesSpies!
 	private var sut: HealthDataDownloadViewModel!

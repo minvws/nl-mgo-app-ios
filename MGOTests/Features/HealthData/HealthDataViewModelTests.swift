@@ -11,7 +11,7 @@ import MGOUI
 @testable import MGO
 import Zibs
 
-final class HealthCategoryDataViewModelTests: XCTestCase {
+final class HealthDataViewModelTests: XCTestCase {
 	
 	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!

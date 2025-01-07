@@ -56,6 +56,18 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_UISchemaDetailsView_singleEntry_noSectionHeader() throws {
+		
+		// Given
+		try setupSut("singleEntryNoSectionHeader")
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	func test_UISchemaDetailsView_downloadLink() throws {
 		
 		// Given
