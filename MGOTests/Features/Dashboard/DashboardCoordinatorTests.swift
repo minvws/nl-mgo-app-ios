@@ -131,6 +131,21 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.sut.pathForSheet.isEmpty) == true
 		expect(self.sut.firstTabPath.isEmpty) == true
 	}
+	
+	func test_coordinatorHandle_backButtonPressed_pathForSheetEmpty_secondPath_shouldBeReduced() {
+
+		// Given
+		sut.secondTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
+		sut.pathForSheet = NavigationStackBackport.NavigationPath()
+		sut.selectedTab = DashboardTab.overview.rawValue
+		
+		// When
+		sut.handle(Coordination.Action.backButtonPressed)
+
+		// Then
+		expect(self.sut.pathForSheet.isEmpty) == true
+		expect(self.sut.secondTabPath.isEmpty) == true
+	}
 
 	func test_coordinatorHandle_resetApplication_shouldCallParentCoordinator() {
 
