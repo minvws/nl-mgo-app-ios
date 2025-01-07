@@ -101,7 +101,7 @@ final class FHIRParserTests: XCTestCase {
 		expect(zib) == Data("undefined".utf8)
 	}
 	
-	func test_getUiSchemaJson() throws {
+	func test_getDetails() throws {
 		
 		// Given
 		let resource = try getStringResource("zibMedicationUse")
@@ -114,12 +114,36 @@ final class FHIRParserTests: XCTestCase {
 		expect(schema?.label) == "Zestril tablet 10mg"
 	}
 	
-	func test_getUiSchemaJson_error() throws {
+	func test_getDetails_error() throws {
 		
 		// Given
 		
 		// When
 		let schema = sut.getDetails(Data("wrong".utf8))
+		
+		// Then
+		expect(schema) == nil
+	}
+	
+	func test_getSummary() throws {
+		
+		// Given
+		let resource = try getStringResource("zibMedicationUse")
+		let data = Data(resource.utf8)
+		
+		// When
+		let schema = sut.getSummary(data)
+		
+		// Then
+		expect(schema?.label) == nil // "Zestril tablet 10mg"
+	}
+	
+	func test_getSummary_error() throws {
+		
+		// Given
+		
+		// When
+		let schema = sut.getSummary(Data("wrong".utf8))
 		
 		// Then
 		expect(schema) == nil
