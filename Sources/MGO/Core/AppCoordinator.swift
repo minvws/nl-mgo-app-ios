@@ -97,11 +97,15 @@ enum AppCoordination {
 		// Automatic Localization
 		case automaticLocalization
 		
+		// Manual Localization
+		case manualLocalization
+		case healthcareOrganizationSearchResults(city: String, name: String)
+		
 		// Dashboard
 		case dashboard
 	}
 }
-
+// swiftlint:disable type_body_length
 final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The navigation path
@@ -136,6 +140,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The coordinator for all dashboard activities
 	private var dashboardCoordinator: DashboardCoordinator!
+	
+	private let localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(
+		serverUrl: Configuration().urlForLocalisation(),
+		username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+		password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+	)
 	
 	/// Create an AppCoordinator
 	/// - Parameter path: Navigation Path
@@ -206,7 +216,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				return URL(string: String(localized: "proposition.link.prod"))
 			case .acceptance:
 				return URL(string: String(localized: "proposition.link.acc"))
-			case .test, .development:
+			case .demo, .test, .development:
 				return URL(string: String(localized: "proposition.link.test"))
 		}
 	}
@@ -228,72 +238,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			return
 		}
 		
+		guard !handleOnboarding(action) else { return }
+		guard !handleLocalAuthentication(action) else { return }
+		guard !handleRemoteAuthentication(action) else { return }
+		guard !handleManualLocalization(action) else { return }
+		
 		switch action.identifier {
-			// Onboarding
-			
-			case Coordination.Action.finishedSplash.identifier:
-				handleStartup()
-			
-			case Coordination.Action.updateRequired.identifier:
-				updateRequired = true
-				resetNavigationStack(with: .updateRequired)
-			
-			case Coordination.Action.nextButtonPressedOnIntroduction.identifier:
-				path.append(AppCoordination.State.proposition)
-				
-			case Coordination.Action.nextButtonPressedOnProposition.identifier:
-				path.append(AppCoordination.State.pinCodeEntry(backButtonVisible: true))
-				
-			case Coordination.Action.showPrivacyStatement.identifier:
-				handleShowPrivacyStatement()
-				
-			// Local Authentication
-				
-			case Coordination.Action.pinCodeEntered.identifier:
-				path.append(AppCoordination.State.pinCodeConfirmation)
-				
-			case Coordination.Action.pinCodeConfirmed.identifier:
-				handlePinCodeConfirmed()
-				
-			case Coordination.Action.pinCodeValidated.identifier:
-				handlePinCodeValidated()
-			
-			case Coordination.Action.pinCodeValidatedAfterLockout.identifier:
-				handlePinCodeValidatedAfterLockout()
-				
-			case Coordination.Action.didFinishLocalAuthentication.identifier:
-				resetNavigationStack(with: AppCoordination.State.login)
-				
-			case Coordination.Action.forgotPinCode.identifier:
-				if showAuthenticationModal {
-					pathForSheet.append(AppCoordination.State.forgotPinCode)
-				} else {
-					rootStateForSheet = AppCoordination.State.forgotPinCode
-				}
-				
-			case Coordination.Action.recreateAccount.identifier:
-				handleRecreateAccount()
-			
-			case Coordination.Action.restart.identifier:
-				restart()
-				
-			// Remote Authentication
-				
-			case Coordination.Action.loggedInWithDigiD.identifier:
-				Current.secureUserSettings.userHasRemoteAuthentication = true
-			
-				resetNavigationStack(with: AppCoordination.State.loginInfo)
-			
-			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
-			
-				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
-					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
-				} else {
-					showChildCoordinator = true
-				}
-			
-			case Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
-				showChildCoordinator = true
 			
 			// General
 				
@@ -320,6 +270,139 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			default:
 				logWarning("AppCoordinator does not handle \(action)")
 		}
+	}
+	
+	/// Handle the onboarding flow action from any of the view models
+	/// - Parameter action: any Action
+	/// - Returns: True if the action is consumed
+	private func handleOnboarding(_ action: Coordination.Action) -> Bool {
+		
+		switch action.identifier {
+			// Onboarding
+			
+			case Coordination.Action.finishedSplash.identifier:
+				handleStartup()
+				return true
+				
+			case Coordination.Action.updateRequired.identifier:
+				updateRequired = true
+				resetNavigationStack(with: .updateRequired)
+				return true
+				
+			case Coordination.Action.nextButtonPressedOnIntroduction.identifier:
+				path.append(AppCoordination.State.proposition)
+				return true
+				
+			case Coordination.Action.nextButtonPressedOnProposition.identifier:
+				path.append(AppCoordination.State.pinCodeEntry(backButtonVisible: true))
+				return true
+				
+			case Coordination.Action.showPrivacyStatement.identifier:
+				handleShowPrivacyStatement()
+				return true
+				
+			default:
+				return false
+		}
+	}
+	
+	/// Handle the local authentication flow action from any of the view models
+	/// - Parameter action: any Action
+	/// - Returns: True if the action is consumed
+	private func handleLocalAuthentication(_ action: Coordination.Action) -> Bool {
+		
+		switch action.identifier {
+			// Local Authentication
+				
+			case Coordination.Action.pinCodeEntered.identifier:
+				path.append(AppCoordination.State.pinCodeConfirmation)
+				return true
+				
+			case Coordination.Action.pinCodeConfirmed.identifier:
+				handlePinCodeConfirmed()
+				return true
+				
+			case Coordination.Action.pinCodeValidated.identifier:
+				handlePinCodeValidated()
+				return true
+			
+			case Coordination.Action.pinCodeValidatedAfterLockout.identifier:
+				handlePinCodeValidatedAfterLockout()
+				return true
+			
+			case Coordination.Action.didFinishLocalAuthentication.identifier:
+				resetNavigationStack(with: AppCoordination.State.login)
+				return true
+			
+			case Coordination.Action.forgotPinCode.identifier:
+				if showAuthenticationModal {
+					pathForSheet.append(AppCoordination.State.forgotPinCode)
+				} else {
+					rootStateForSheet = AppCoordination.State.forgotPinCode
+				}
+				return true
+				
+			case Coordination.Action.recreateAccount.identifier:
+				handleRecreateAccount()
+				return true
+			
+			case Coordination.Action.restart.identifier:
+				restart()
+				return true
+				
+			default:
+				return false
+		}
+	}
+	
+	/// Handle the remote authentication flow action from any of the view models
+	/// - Parameter action: any Action
+	/// - Returns: True if the action is consumed
+	private func handleRemoteAuthentication(_ action: Coordination.Action) -> Bool {
+		
+		switch action.identifier {
+			// Remote Authentication
+				
+			case Coordination.Action.loggedInWithDigiD.identifier:
+				Current.secureUserSettings.userHasRemoteAuthentication = true
+			
+				resetNavigationStack(with: AppCoordination.State.loginInfo)
+				return true
+			
+			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
+			
+				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
+				} else {
+					resetNavigationStack(with: AppCoordination.State.manualLocalization)
+				}
+				return true
+			
+			case Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
+				showChildCoordinator = true
+				return true
+				
+			default:
+				return false
+		}
+	}
+	
+	/// Handle the manual localization flow action from any of the view models
+	/// - Parameter action: any Action
+	/// - Returns: True if the action is consumed
+	private func handleManualLocalization(_ action: Coordination.Action) -> Bool {
+		
+		if action.identifier == Coordination.Action.showHealthcareOrganizationSearchResults.identifier {
+			if action.params.count == 2,
+			   let city = action.params["city"] as? String,
+			   let name = action.params["name"] as? String {
+				path.append(AppCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
+			} else {
+				logError("Dashboard Coordinator, missing params for \(action)")
+			}
+			return true
+		}
+		return false
 	}
 	
 	/// Handle the complex startup logic
@@ -469,19 +552,25 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Automatic Localization
 			
 			case .automaticLocalization:
-				let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String
-				let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-				let client: LocalisationServiceClientProtocol? = LocalisationServiceClient(
-					serverUrl: Configuration().urlForLocalisation(),
-					username: username,
-					password: password
-				)
-				
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
-						localisationServiceClient: client,
+						localisationServiceClient: self.localisationServiceClient,
 						preselectAllOrganizations: true
+					)
+				)
+			
+			// Manual Localization
+			case .manualLocalization:
+				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self))
+			
+			case let .healthcareOrganizationSearchResults(city, name):
+				OrganizationListManualView(
+					viewModel: OrganizationListManualViewModel(
+						coordinator: self,
+						city: city,
+						name: name,
+						localisationServiceClient: self.localisationServiceClient
 					)
 				)
 			
@@ -497,3 +586,4 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 }
+// swiftlint: enable type_body_length

@@ -29,7 +29,7 @@ final class FeatureFlagManagerTests: XCTestCase {
 		let result = sut.isAutomaticLocalizationEnabled
 		
 		// Then
-		expect(result) == true
+		expect(result) == false
 	}
 	
 	func test_featureFlag_isAutomaticLocalizationEnabled_setValue() {
@@ -74,12 +74,12 @@ final class FeatureFlagManagerTests: XCTestCase {
 		
 		// Given
 		let sut = FeatureFlagManager()
-		sut.isAutomaticLocalizationEnabled = false
+		sut.isAutomaticLocalizationEnabled = true
 		
 		// When
 		sut.wipePersistedData()
 		
 		// Then
-		expect(sut.isAutomaticLocalizationEnabled) == true
+		expect(sut.isAutomaticLocalizationEnabled) == false
 	}
 }

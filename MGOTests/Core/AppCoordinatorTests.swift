@@ -175,7 +175,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
 	}
 	
-	func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldShowDashboard_whenAutomaticLocalizationEnabled() {
+	func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldShowManualLocalizaion_whenAutomaticLocalizationEnabled() {
 		
 		// Given
 		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
@@ -184,8 +184,9 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.nextButtonPressedOnLoginInfo)
 		
 		// Then
-		expect(self.sut.showChildCoordinator) == true
+		expect(self.sut.showChildCoordinator) == false
 		expect(self.sut.path.isEmpty) == true
+		expect(self.sut.rootState) == AppCoordination.State.manualLocalization
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == false
 	}
 	
@@ -200,6 +201,17 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showChildCoordinator) == false
 		expect(self.sut.rootState) == AppCoordination.State.automaticLocalization
 		expect(self.sut.path.isEmpty) == true
+	}
+	
+	func test_coordinatorHandle_search_shouldContainHealthcareOrganizationSearchResults() {
+
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action(identifier: "showHealthcareOrganizationSearchResults", params: ["city": "Roermond", "name": "Tandarts Tandje Erbij"]))
+
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")])
 	}
 	
 	func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_shouldShowDashboard() {

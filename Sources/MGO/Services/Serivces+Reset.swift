@@ -13,7 +13,9 @@ extension Services {
 	func wipePersistedData() {
 		
 		dataStore.wipePersistedData()
-		featureFlagManager.wipePersistedData()
+		if Configuration().getRelease() != .demo {
+			featureFlagManager.wipePersistedData()
+		}
 		healthcareOrganizationStore.wipePersistedData()
 		remoteConfigurationRepository.wipePersistedData()
 		secureUserSettings.wipePersistedData()

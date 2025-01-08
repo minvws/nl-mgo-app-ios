@@ -69,8 +69,8 @@ enum DashboardCoordination {
 		case overview
 		
 		// Search & Store Healthcare Organization flow
-		case addHealthcareOrganization
 		case automaticLocalization
+		case manualLocalization
 		case healthcareOrganizationSearchResults(city: String, name: String)
 		
 		// Details Flow
@@ -182,7 +182,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
 					rootStateForSheet = DashboardCoordination.State.automaticLocalization
 				} else {
-					rootStateForSheet = DashboardCoordination.State.addHealthcareOrganization
+					rootStateForSheet = DashboardCoordination.State.manualLocalization
 				}
 				return true
 				
@@ -297,7 +297,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				OrganizationsView(viewModel: OrganizationsViewModel(coordinator: self)).isPresentedAsSheet(false)
 				
 				// Healthcare Organization Flow
-			case .addHealthcareOrganization:
+			case .manualLocalization:
 				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
 				
 			case .automaticLocalization:

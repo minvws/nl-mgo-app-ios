@@ -76,6 +76,11 @@ let services: () -> Services = {
 		fatalError("During unit testing, real services should not be instantiated during Services setup.")
 	}
 
+	if Configuration().getRelease() == .demo {
+		featureFlagManager.isDemo = true
+		featureFlagManager.isAutomaticLocalizationEnabled = true
+	}
+	
 	return Services(
 		now: now,
 		dataStore: dataStore,
