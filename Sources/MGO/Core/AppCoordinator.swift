@@ -392,21 +392,17 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// - Returns: True if the action is consumed
 	private func handleManualLocalization(_ action: Coordination.Action) -> Bool {
 		
-		switch action.identifier {
-			// Manual Localization
-			case Coordination.Action.showHealthcareOrganizationSearchResults.identifier:
-				if action.params.count == 2,
-				   let city = action.params["city"] as? String,
-				   let name = action.params["name"] as? String {
-					path.append(AppCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
-				} else {
-					logError("Dashboard Coordinator, missing params for \(action)")
-				}
-				return true
-				
-			default:
-				return false
+		if action.identifier == Coordination.Action.showHealthcareOrganizationSearchResults.identifier {
+			if action.params.count == 2,
+			   let city = action.params["city"] as? String,
+			   let name = action.params["name"] as? String {
+				path.append(AppCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
+			} else {
+				logError("Dashboard Coordinator, missing params for \(action)")
+			}
+			return true
 		}
+		return false
 	}
 	
 	/// Handle the complex startup logic
