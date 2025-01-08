@@ -155,6 +155,21 @@ platform :ios do
     )
   end
   
+  desc "Build and deploy the app for Demo via Firebase from CI"
+  lane :deploy_demo_ci do
+    deploy(
+      provisioning_profile_path: "fastlane/profiles/MGO_Demo.mobileprovision",
+      xcodeproj: "MGO.xcodeproj",
+      targetname: "MGO",
+      schemename:  "MGO Demo",
+      configuration: "FirebaseDemo",
+      provisioningprofilename: "MGO Demo",
+      bundleid: "nl.rool.pifz.demo",
+      firebaseappid: "1:844514292239:ios:52e3ba5f9848e0803e297a",
+      firebasegroupscsv: "demo-omgeving"
+    )
+  end
+  
   desc "Build and deploy the app for Prod via Firebase from CI"
   lane :deploy_prod_ci do
     deploy(

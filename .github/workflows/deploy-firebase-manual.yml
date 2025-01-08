@@ -14,6 +14,11 @@ on:
         type: boolean
         default: true
         required: false
+      demo:
+        description: "Build MGO Demo"
+        type: boolean
+        default: true
+        required: false
       prod:
         description: "Build MGO Prod"
         type: boolean
@@ -43,6 +48,21 @@ jobs:
       fastlane_command: bundle exec fastlane ios deploy_acc_ci
       app_title: Acc MGO App
       app_filename: MGO ACC
+    secrets:
+      DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
+      DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SLACK_URL: ${{ secrets.SLACK_URL }}
+      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
+
+  firebase-deploy-demo:
+    if: ${{ github.event.inputs.demo == 'true' }}
+    uses: ./.github/workflows/template_firebase-deploy.yml
+    with:
+      fastlane_command: bundle exec fastlane ios deploy_demo_ci
+      app_title: MGO Demo
+      app_filename: MGO Demo
     secrets:
       DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
       DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
