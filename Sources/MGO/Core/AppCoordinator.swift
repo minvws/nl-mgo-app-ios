@@ -105,7 +105,7 @@ enum AppCoordination {
 		case dashboard
 	}
 }
-
+// swiftlint:disable type_body_length
 final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The navigation path
@@ -577,7 +577,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 						localisationServiceClient: self.localisationServiceClient
 					)
 				)
-//				.isPresentedAsSheet(true)
 			
 			// Dashboard
 				
@@ -591,3 +590,4 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 }
+// swiftlint: enable type_body_length
