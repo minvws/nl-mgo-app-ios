@@ -11,6 +11,7 @@ import MGOFoundation
 public enum Release: String {
 	case production
 	case acceptance = "acc"
+	case demo
 	case test
 	case development = "dev"
 }

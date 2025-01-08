@@ -57,7 +57,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forAddHealthcareOrganization() throws {
 		
 		// Given
-		let state = DashboardCoordination.State.addHealthcareOrganization
+		let state = DashboardCoordination.State.manualLocalization
 		
 		// When
 		let view = sut.viewState(for: state)

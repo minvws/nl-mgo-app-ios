@@ -228,4 +228,33 @@ final class AppCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
 	}
+	
+	func test_coordinatorView_forManualLocalization() throws {
+		
+		// Given
+		let state = AppCoordination.State.manualLocalization
+		
+		// When
+		let view = sut.view(for: state)
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
+	func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
+		
+		// Given
+		let state = AppCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")
+		stub(condition: isPath("/localization/organization/search")) { _ in
+			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
+		}
+		
+		// When
+		let view = sut.view(for: state)
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
 }

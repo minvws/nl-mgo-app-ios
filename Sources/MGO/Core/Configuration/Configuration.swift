@@ -30,7 +30,7 @@ extension Configuration {
 		do {
 			switch getRelease() {
 				case .acceptance, .production: return try LocalisationService.Servers.Server2.url()
-				case .development, .test: return try LocalisationService.Servers.Server1.url()
+				case .demo, .development, .test: return try LocalisationService.Servers.Server1.url()
 			}
 			
 		} catch {
@@ -48,7 +48,7 @@ extension Configuration {
 		do {
 			switch getRelease() {
 				case .acceptance, .production: return try RemoteConfiguration.Servers.Server2.url()
-				case .development, .test: return try RemoteConfiguration.Servers.Server1.url()
+				case .demo, .development, .test: return try RemoteConfiguration.Servers.Server1.url()
 			}
 			
 		} catch {
@@ -67,7 +67,7 @@ extension Configuration {
 		let urlString: String = {
 			switch getRelease() {
 				case .production, .acceptance: return "https://dva.acc.mgo.irealisatie.nl/fhir"
-				case .development, .test: return "https://dva.test.mgo.irealisatie.nl/fhir"
+				case .demo, .development, .test: return "https://dva.test.mgo.irealisatie.nl/fhir"
 			}
 		}()
 		
