@@ -97,6 +97,10 @@ enum AppCoordination {
 		// Automatic Localization
 		case automaticLocalization
 		
+		// Manual Localization
+		case manualLocalization
+		case healthcareOrganizationSearchResults(city: String, name: String)
+		
 		// Dashboard
 		case dashboard
 	}
@@ -136,6 +140,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The coordinator for all dashboard activities
 	private var dashboardCoordinator: DashboardCoordinator!
+	
+	private let localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(
+		serverUrl: Configuration().urlForLocalisation(),
+		username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+		password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+	)
 	
 	/// Create an AppCoordinator
 	/// - Parameter path: Navigation Path
@@ -289,11 +299,21 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
 					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
 				} else {
-					showChildCoordinator = true
+					resetNavigationStack(with: AppCoordination.State.manualLocalization)
 				}
 			
 			case Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
 				showChildCoordinator = true
+			
+			// Manual Localization
+			case Coordination.Action.showHealthcareOrganizationSearchResults.identifier:
+				if action.params.count == 2,
+				   let city = action.params["city"] as? String,
+				   let name = action.params["name"] as? String {
+					path.append(AppCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
+				} else {
+					logError("Dashboard Coordinator, missing params for \(action)")
+					}
 			
 			// General
 				
@@ -469,21 +489,28 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Automatic Localization
 			
 			case .automaticLocalization:
-				let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String
-				let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-				let client: LocalisationServiceClientProtocol? = LocalisationServiceClient(
-					serverUrl: Configuration().urlForLocalisation(),
-					username: username,
-					password: password
-				)
-				
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
-						localisationServiceClient: client,
+						localisationServiceClient: self.localisationServiceClient,
 						preselectAllOrganizations: true
 					)
 				)
+			
+			// Manual Localization
+			case .manualLocalization:
+				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self))
+			
+			case let .healthcareOrganizationSearchResults(city, name):
+				OrganizationListManualView(
+					viewModel: OrganizationListManualViewModel(
+						coordinator: self,
+						city: city,
+						name: name,
+						localisationServiceClient: self.localisationServiceClient
+					)
+				)
+//				.isPresentedAsSheet(true)
 			
 			// Dashboard
 				
