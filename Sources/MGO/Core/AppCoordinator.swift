@@ -206,7 +206,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				return URL(string: String(localized: "proposition.link.prod"))
 			case .acceptance:
 				return URL(string: String(localized: "proposition.link.acc"))
-			case .test, .development:
+			case .demo, .test, .development:
 				return URL(string: String(localized: "proposition.link.test"))
 		}
 	}

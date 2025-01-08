@@ -57,6 +57,7 @@ attributes:
 configs:
   Development: debug
   FirebaseAcceptance: release
+  FirebaseDemo: release
   FirebaseTest: release
   FirebaseProduction: release # should be identical to AppStore build.
   AppStore: release
@@ -116,6 +117,10 @@ targetTemplates:
           NETWORK_CONFIGURATION: ACC
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+        FirebaseDemo:
+          NETWORK_CONFIGURATION: DEMO
+          LOG_LEVEL: error
+          SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
         FirebaseTest:
           NETWORK_CONFIGURATION: TEST
           LOG_LEVEL: debug
@@ -139,6 +144,7 @@ targetTemplates:
         Development:
           CODE_SIGN_IDENTITY: iPhone Developer
         FirebaseAcceptance:
+        FirebaseDemo:
         FirebaseTest:
         FirebaseProduction:
         AppStore:
@@ -271,6 +277,12 @@ targets:
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.acc
           PROVISIONING_PROFILE_SPECIFIER: "MGO Acc"
           # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Acc.entitlements
+        FirebaseDemo:
+          DISPLAY_NAME: "MGO Demo"
+          PRODUCT_NAME: MGO Demo
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.demo
+          PROVISIONING_PROFILE_SPECIFIER: "MGO Demo"
+          # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Demo.entitlements
         FirebaseProduction:
           DISPLAY_NAME: "Mijn Gezondheidsoverzicht"
           PRODUCT_NAME: MGO PROD
@@ -442,6 +454,13 @@ schemes:
     templateAttributes:
       appTargetName: MGO
       configEnvironment: FirebaseAcceptance
+      
+  MGO Demo:
+    templates:
+      - ConfigScheme
+    templateAttributes:
+      appTargetName: MGO
+      configEnvironment: FirebaseDemo
   
   MGO Test:
     templates:
