@@ -33,7 +33,8 @@ public struct ZibBloodPressure: Codable, Hashable, Sendable {
     public let positionSNOMED: PositionSNOMED
     public let profile: ZibBloodPressureProfile
     public let referenceID: String
-    public let resourceType, status: String?
+    public let resourceType: String?
+    public let status: GpLaboratoryResultStatus?
     public let subject: MgoReference?
     public let systolicBP: SystolicBP
     public let valueQuantity: MgoDuration?
@@ -44,7 +45,7 @@ public struct ZibBloodPressure: Codable, Hashable, Sendable {
         case resourceType, status, subject, systolicBP, valueQuantity
     }
 
-    public init(averageBloodPressureLOINC: AverageBloodPressureLOINC, averageBloodPressureSNOMED: AverageBloodPressureSNOMED, bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, cuffTypeLOINC: CuffTypeLOINC, cuffTypeSNOMED: CuffTypeSNOMED, dataAbsentReason: MgoCodeableConcept?, diastolicBP: DiastolicBP, diastolicEndpoint: DiastolicEndpoint, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, positionLOINC: PositionLOINC, positionSNOMED: PositionSNOMED, profile: ZibBloodPressureProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, systolicBP: SystolicBP, valueQuantity: MgoDuration?) {
+    public init(averageBloodPressureLOINC: AverageBloodPressureLOINC, averageBloodPressureSNOMED: AverageBloodPressureSNOMED, bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, cuffTypeLOINC: CuffTypeLOINC, cuffTypeSNOMED: CuffTypeSNOMED, dataAbsentReason: MgoCodeableConcept?, diastolicBP: DiastolicBP, diastolicEndpoint: DiastolicEndpoint, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, positionLOINC: PositionLOINC, positionSNOMED: PositionSNOMED, profile: ZibBloodPressureProfile, referenceID: String, resourceType: String?, status: GpLaboratoryResultStatus?, subject: MgoReference?, systolicBP: SystolicBP, valueQuantity: MgoDuration?) {
         self.averageBloodPressureLOINC = averageBloodPressureLOINC
         self.averageBloodPressureSNOMED = averageBloodPressureSNOMED
         self.bodySite = bodySite
@@ -115,7 +116,7 @@ public extension ZibBloodPressure {
         profile: ZibBloodPressureProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        status: String?? = nil,
+        status: GpLaboratoryResultStatus?? = nil,
         subject: MgoReference?? = nil,
         systolicBP: SystolicBP? = nil,
         valueQuantity: MgoDuration?? = nil

@@ -131,6 +131,21 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.sut.pathForSheet.isEmpty) == true
 		expect(self.sut.firstTabPath.isEmpty) == true
 	}
+	
+	func test_coordinatorHandle_backButtonPressed_pathForSheetEmpty_secondPath_shouldBeReduced() {
+
+		// Given
+		sut.secondTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
+		sut.pathForSheet = NavigationStackBackport.NavigationPath()
+		sut.selectedTab = DashboardTab.overview.rawValue
+		
+		// When
+		sut.handle(Coordination.Action.backButtonPressed)
+
+		// Then
+		expect(self.sut.pathForSheet.isEmpty) == true
+		expect(self.sut.secondTabPath.isEmpty) == true
+	}
 
 	func test_coordinatorHandle_resetApplication_shouldCallParentCoordinator() {
 
@@ -271,24 +286,24 @@ final class DashboardCoordinatorTests: XCTestCase {
 	func test_coordinatorHandle_showHealthCategoryData() {
 		
 		// Given
-		let heading = "showHealthCategoryData"
+		let heading = "showHealthData"
 		let schema = UISchema(children: [], label: "test")
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showHealthCategoryData", params: ["resource": Data(), "heading": heading, "uiSchema": schema, "healthcareOrganization": Generator.healthcareOrganization("1")]))
+		sut.handle(Coordination.Action(identifier: "showHealthData", params: ["resource": Data(), "backButtonTitle": heading, "uiSchema": schema, "healthcareOrganization": Generator.healthcareOrganization("1")]))
 		
 		// Then
-		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthCategoryData(heading: heading, schema: schema, organization: Generator.healthcareOrganization("1"))])
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthData(backButtonTitle: heading, schema: schema, organization: Generator.healthcareOrganization("1"))])
 	}
 	
 	func test_coordinatorHandle_showHealthCategoryData_missingParam() {
 		
 		// Given
-		let heading = "showHealthCategoryData"
+		let heading = "showHealthData"
 		let schema = UISchema(children: [], label: "test")
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showHealthCategoryData", params: ["heading": heading, "uiSchema": schema]))
+		sut.handle(Coordination.Action(identifier: "showHealthData", params: ["backButtonTitle": heading, "uiSchema": schema]))
 		
 		// Then
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()

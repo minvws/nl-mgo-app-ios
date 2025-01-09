@@ -21,7 +21,8 @@ public struct ZibAlert: Codable, Hashable, Sendable {
     public let period: MgoPeriod?
     public let profile: ZibAlertProfile
     public let referenceID: String
-    public let resourceType, status: String?
+    public let resourceType: String?
+    public let status: R4NlCorePharmaceuticalProductStatus?
     public let subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
@@ -30,7 +31,7 @@ public struct ZibAlert: Codable, Hashable, Sendable {
         case resourceType, status, subject
     }
 
-    public init(author: MgoReference?, category: MgoCodeableConcept?, code: MgoCodeableConcept?, encounter: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, period: MgoPeriod?, profile: ZibAlertProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
+    public init(author: MgoReference?, category: MgoCodeableConcept?, code: MgoCodeableConcept?, encounter: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, period: MgoPeriod?, profile: ZibAlertProfile, referenceID: String, resourceType: String?, status: R4NlCorePharmaceuticalProductStatus?, subject: MgoReference?) {
         self.author = author
         self.category = category
         self.code = code
@@ -77,7 +78,7 @@ public extension ZibAlert {
         profile: ZibAlertProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        status: String?? = nil,
+        status: R4NlCorePharmaceuticalProductStatus?? = nil,
         subject: MgoReference?? = nil
     ) -> ZibAlert {
         return ZibAlert(

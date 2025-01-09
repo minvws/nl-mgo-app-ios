@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - IheMhdMinimalDocumentReferenceContent
 public struct IheMhdMinimalDocumentReferenceContent: Codable, Hashable, Sendable {
-    public let attachment: MgoAttachment?
+    public let attachment: Attachment?
 
-    public init(attachment: MgoAttachment?) {
+    public init(attachment: Attachment?) {
         self.attachment = attachment
     }
 }
@@ -38,7 +38,7 @@ public extension IheMhdMinimalDocumentReferenceContent {
     }
 
     func with(
-        attachment: MgoAttachment?? = nil
+        attachment: Attachment?? = nil
     ) -> IheMhdMinimalDocumentReferenceContent {
         return IheMhdMinimalDocumentReferenceContent(
             attachment: attachment ?? self.attachment

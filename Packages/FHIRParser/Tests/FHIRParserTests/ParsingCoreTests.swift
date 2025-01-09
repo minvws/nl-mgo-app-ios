@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -101,25 +101,49 @@ final class FHIRParserTests: XCTestCase {
 		expect(zib) == Data("undefined".utf8)
 	}
 	
-	func test_getUiSchemaJson() throws {
+	func test_getDetails() throws {
 		
 		// Given
 		let resource = try getStringResource("zibMedicationUse")
 		let data = Data(resource.utf8)
 		
 		// When
-		let schema = sut.getUiSchemaJson(data)
+		let schema = sut.getDetails(data)
 		
 		// Then
 		expect(schema?.label) == "Zestril tablet 10mg"
 	}
 	
-	func test_getUiSchemaJson_error() throws {
+	func test_getDetails_error() throws {
 		
 		// Given
 		
 		// When
-		let schema = sut.getUiSchemaJson(Data("wrong".utf8))
+		let schema = sut.getDetails(Data("wrong".utf8))
+		
+		// Then
+		expect(schema) == nil
+	}
+	
+	func test_getSummary() throws {
+		
+		// Given
+		let resource = try getStringResource("zibMedicationUse")
+		let data = Data(resource.utf8)
+		
+		// When
+		let schema = sut.getSummary(data)
+		
+		// Then
+		expect(schema?.label) == "Zestril tablet 10mg"
+	}
+	
+	func test_getSummary_error() throws {
+		
+		// Given
+		
+		// When
+		let schema = sut.getSummary(Data("wrong".utf8))
 		
 		// Then
 		expect(schema) == nil

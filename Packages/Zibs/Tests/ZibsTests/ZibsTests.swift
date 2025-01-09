@@ -119,9 +119,9 @@ final class ZibsTests: XCTestCase {
 		expect(object?.referenceID) == "MedicationStatement/zib-medicationuse-01"
 		expect(object?.repeatPeriodCyclicalSchedule) == nil
 		expect(object?.resourceType) == "MedicationStatement"
-		expect(object?.status) == "completed"
+		expect(object?.status?.rawValue) == "completed"
 		expect(object?.subject?.display) == "XXX_Helleman"
 		expect(object?.subject?.reference) == "Patient/nl-core-patient-01"
-		expect(object?.taken) == "y"
+		expect(object?.taken?.rawValue) == "y"
 	}
 }

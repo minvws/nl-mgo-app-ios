@@ -32,7 +32,7 @@ final class HealthCategoryViewTests: XCTestCase {
 				heading: "heading",
 				search: "search",
 				noSearchResults: "no_search_results",
-				detailsHeading: String.LocalizationValue(stringLiteral: "details_heading")
+				backButtonTitle: String.LocalizationValue(stringLiteral: "details_heading")
 			)
 		)
 		sut = HealthCategoryView(viewModel: self.viewModel)

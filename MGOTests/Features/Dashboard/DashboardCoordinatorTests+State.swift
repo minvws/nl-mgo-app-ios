@@ -144,10 +144,9 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 			children: [
 				UISchemaGroup(
 					children: [
-						UIEntry(
+						UIElement(
 							display: .string("value 1"),
 							label: "label",
-							showEmpty: true,
 							type: .singleValue,
 							reference: nil,
 							url: nil
@@ -157,8 +156,8 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 			],
 			label: "zib details"
 		)
-		let state = DashboardCoordination.State.showHealthCategoryData(
-			heading: "Heading",
+		let state = DashboardCoordination.State.showHealthData(
+			backButtonTitle: "Heading",
 			schema: schema,
 			organization: healthcareOrganization
 		)

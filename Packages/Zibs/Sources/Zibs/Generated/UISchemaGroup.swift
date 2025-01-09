@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - UISchemaGroup
 public struct UISchemaGroup: Codable, Hashable, Sendable {
-    public let children: [UIEntry]
-    public let label: String
+    public let children: [UIElement]
+    public let label: String?
 
-    public init(children: [UIEntry], label: String) {
+    public init(children: [UIElement], label: String?) {
         self.children = children
         self.label = label
     }
@@ -40,8 +40,8 @@ public extension UISchemaGroup {
     }
 
     func with(
-        children: [UIEntry]? = nil,
-        label: String? = nil
+        children: [UIElement]? = nil,
+        label: String?? = nil
     ) -> UISchemaGroup {
         return UISchemaGroup(
             children: children ?? self.children,

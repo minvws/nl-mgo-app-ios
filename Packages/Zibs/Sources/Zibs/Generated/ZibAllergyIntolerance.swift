@@ -13,16 +13,18 @@ import Foundation
 // MARK: - ZibAllergyIntolerance
 public struct ZibAllergyIntolerance: Codable, Hashable, Sendable {
     public let category: [String]?
-    public let clinicalStatus: String?
+    public let clinicalStatus: ZibAllergyIntoleranceClinicalStatus?
     public let code: MgoCodeableConcept?
-    public let criticality: String?
+    public let criticality: Criticality?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let patient: MgoReference?
     public let profile: ZibAllergyIntoleranceProfile
     public let referenceID: String
-    public let resourceType, type, verificationStatus: String?
+    public let resourceType: String?
+    public let type: ZibAllergyIntoleranceType?
+    public let verificationStatus: ZibAllergyIntoleranceVerificationStatus?
 
     public enum CodingKeys: String, CodingKey {
         case category, clinicalStatus, code, criticality, fhirVersion, id, identifier, patient, profile
@@ -30,7 +32,7 @@ public struct ZibAllergyIntolerance: Codable, Hashable, Sendable {
         case resourceType, type, verificationStatus
     }
 
-    public init(category: [String]?, clinicalStatus: String?, code: MgoCodeableConcept?, criticality: String?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, profile: ZibAllergyIntoleranceProfile, referenceID: String, resourceType: String?, type: String?, verificationStatus: String?) {
+    public init(category: [String]?, clinicalStatus: ZibAllergyIntoleranceClinicalStatus?, code: MgoCodeableConcept?, criticality: Criticality?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, profile: ZibAllergyIntoleranceProfile, referenceID: String, resourceType: String?, type: ZibAllergyIntoleranceType?, verificationStatus: ZibAllergyIntoleranceVerificationStatus?) {
         self.category = category
         self.clinicalStatus = clinicalStatus
         self.code = code
@@ -67,9 +69,9 @@ public extension ZibAllergyIntolerance {
 
     func with(
         category: [String]?? = nil,
-        clinicalStatus: String?? = nil,
+        clinicalStatus: ZibAllergyIntoleranceClinicalStatus?? = nil,
         code: MgoCodeableConcept?? = nil,
-        criticality: String?? = nil,
+        criticality: Criticality?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
@@ -77,8 +79,8 @@ public extension ZibAllergyIntolerance {
         profile: ZibAllergyIntoleranceProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        type: String?? = nil,
-        verificationStatus: String?? = nil
+        type: ZibAllergyIntoleranceType?? = nil,
+        verificationStatus: ZibAllergyIntoleranceVerificationStatus?? = nil
     ) -> ZibAllergyIntolerance {
         return ZibAllergyIntolerance(
             category: category ?? self.category,

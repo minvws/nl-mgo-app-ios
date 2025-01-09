@@ -15,7 +15,7 @@ public struct EAfspraakAppointment: Codable, Hashable, Sendable {
     public let description, end: String?
     public let fhirVersion: FhirVersionR3
     public let id: String?
-    public let participant: [EAfspraakAppointmentParticipant]?
+    public let participant: [Participant]?
     public let profile: EAfspraakAppointmentProfile
     public let referenceID: String
     public let resourceType: String?
@@ -28,7 +28,7 @@ public struct EAfspraakAppointment: Codable, Hashable, Sendable {
         case resourceType, specialty, start, status
     }
 
-    public init(description: String?, end: String?, fhirVersion: FhirVersionR3, id: String?, participant: [EAfspraakAppointmentParticipant]?, profile: EAfspraakAppointmentProfile, referenceID: String, resourceType: String?, specialty: [MgoCodeableConcept]?, start: String?, status: String?) {
+    public init(description: String?, end: String?, fhirVersion: FhirVersionR3, id: String?, participant: [Participant]?, profile: EAfspraakAppointmentProfile, referenceID: String, resourceType: String?, specialty: [MgoCodeableConcept]?, start: String?, status: String?) {
         self.description = description
         self.end = end
         self.fhirVersion = fhirVersion
@@ -66,7 +66,7 @@ public extension EAfspraakAppointment {
         end: String?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
-        participant: [EAfspraakAppointmentParticipant]?? = nil,
+        participant: [Participant]?? = nil,
         profile: EAfspraakAppointmentProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,

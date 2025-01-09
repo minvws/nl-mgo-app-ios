@@ -31,9 +31,10 @@ public struct ZibMedicationUse: Codable, Hashable, Sendable {
     public let reasonForChangeOrDiscontinuationOfUse: MgoCodeableConcept?
     public let referenceID: String
     public let repeatPeriodCyclicalSchedule: MgoDuration?
-    public let resourceType, status: String?
+    public let resourceType: String?
+    public let status: ZibMedicalDeviceStatus?
     public let subject: MgoReference?
-    public let taken: String?
+    public let taken: Taken?
 
     public enum CodingKeys: String, CodingKey {
         case asAgreedIndicator, author, category, dateAsserted, dosage, effectiveDuration, effectivePeriod, fhirVersion, id, identifier, informationSource, medicationReference, medicationTreatment, note, prescriber, profile, reasonCode, reasonForChangeOrDiscontinuationOfUse
@@ -41,7 +42,7 @@ public struct ZibMedicationUse: Codable, Hashable, Sendable {
         case repeatPeriodCyclicalSchedule, resourceType, status, subject, taken
     }
 
-    public init(asAgreedIndicator: Bool?, author: MgoReference?, category: MgoCodeableConcept?, dateAsserted: String?, dosage: [ZibInstructionsForUse]?, effectiveDuration: MgoDuration?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, prescriber: MgoReference?, profile: ZibMedicationUseProfile, reasonCode: [MgoCodeableConcept]?, reasonForChangeOrDiscontinuationOfUse: MgoCodeableConcept?, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: String?, subject: MgoReference?, taken: String?) {
+    public init(asAgreedIndicator: Bool?, author: MgoReference?, category: MgoCodeableConcept?, dateAsserted: String?, dosage: [ZibInstructionsForUse]?, effectiveDuration: MgoDuration?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, prescriber: MgoReference?, profile: ZibMedicationUseProfile, reasonCode: [MgoCodeableConcept]?, reasonForChangeOrDiscontinuationOfUse: MgoCodeableConcept?, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: ZibMedicalDeviceStatus?, subject: MgoReference?, taken: Taken?) {
         self.asAgreedIndicator = asAgreedIndicator
         self.author = author
         self.category = category
@@ -109,9 +110,9 @@ public extension ZibMedicationUse {
         referenceID: String? = nil,
         repeatPeriodCyclicalSchedule: MgoDuration?? = nil,
         resourceType: String?? = nil,
-        status: String?? = nil,
+        status: ZibMedicalDeviceStatus?? = nil,
         subject: MgoReference?? = nil,
-        taken: String?? = nil
+        taken: Taken?? = nil
     ) -> ZibMedicationUse {
         return ZibMedicationUse(
             asAgreedIndicator: asAgreedIndicator ?? self.asAgreedIndicator,

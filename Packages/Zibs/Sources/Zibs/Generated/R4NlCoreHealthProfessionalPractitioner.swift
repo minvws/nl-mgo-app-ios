@@ -12,19 +12,20 @@ import Foundation
 
 // MARK: - R4NlCoreHealthProfessionalPractitioner
 public struct R4NlCoreHealthProfessionalPractitioner: Codable, Hashable, Sendable {
-    public let address: [R4NlCoreHealthProfessionalPractitionerAddress]?
+    public let address: [R4NlCoreAddressInformation]?
     public let birthDate: String?
     public let communication: [MgoCodeableConcept]?
-    public let emailAddresses: [R4NlCoreHealthProfessionalPractitionerEmailAddress]?
+    public let emailAddresses: [R4NlCoreContactInformationEmailAddresses]?
     public let fhirVersion: FhirVersionR4
-    public let gender, id: String?
+    public let gender: Gender?
+    public let id: String?
     public let identifier: [MgoIdentifier]?
     public let name: [R4NlCoreHealthProfessionalPractitionerName]?
     public let profile: R4NlCoreHealthProfessionalPractitionerProfile
     public let qualification: [Qualification]?
     public let referenceID: String
     public let resourceType: String?
-    public let telephoneNumbers: [R4NlCoreHealthProfessionalPractitionerTelephoneNumber]?
+    public let telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?
 
     public enum CodingKeys: String, CodingKey {
         case address, birthDate, communication, emailAddresses, fhirVersion, gender, id, identifier, name, profile, qualification
@@ -32,7 +33,7 @@ public struct R4NlCoreHealthProfessionalPractitioner: Codable, Hashable, Sendabl
         case resourceType, telephoneNumbers
     }
 
-    public init(address: [R4NlCoreHealthProfessionalPractitionerAddress]?, birthDate: String?, communication: [MgoCodeableConcept]?, emailAddresses: [R4NlCoreHealthProfessionalPractitionerEmailAddress]?, fhirVersion: FhirVersionR4, gender: String?, id: String?, identifier: [MgoIdentifier]?, name: [R4NlCoreHealthProfessionalPractitionerName]?, profile: R4NlCoreHealthProfessionalPractitionerProfile, qualification: [Qualification]?, referenceID: String, resourceType: String?, telephoneNumbers: [R4NlCoreHealthProfessionalPractitionerTelephoneNumber]?) {
+    public init(address: [R4NlCoreAddressInformation]?, birthDate: String?, communication: [MgoCodeableConcept]?, emailAddresses: [R4NlCoreContactInformationEmailAddresses]?, fhirVersion: FhirVersionR4, gender: Gender?, id: String?, identifier: [MgoIdentifier]?, name: [R4NlCoreHealthProfessionalPractitionerName]?, profile: R4NlCoreHealthProfessionalPractitionerProfile, qualification: [Qualification]?, referenceID: String, resourceType: String?, telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?) {
         self.address = address
         self.birthDate = birthDate
         self.communication = communication
@@ -69,12 +70,12 @@ public extension R4NlCoreHealthProfessionalPractitioner {
     }
 
     func with(
-        address: [R4NlCoreHealthProfessionalPractitionerAddress]?? = nil,
+        address: [R4NlCoreAddressInformation]?? = nil,
         birthDate: String?? = nil,
         communication: [MgoCodeableConcept]?? = nil,
-        emailAddresses: [R4NlCoreHealthProfessionalPractitionerEmailAddress]?? = nil,
+        emailAddresses: [R4NlCoreContactInformationEmailAddresses]?? = nil,
         fhirVersion: FhirVersionR4? = nil,
-        gender: String?? = nil,
+        gender: Gender?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         name: [R4NlCoreHealthProfessionalPractitionerName]?? = nil,
@@ -82,7 +83,7 @@ public extension R4NlCoreHealthProfessionalPractitioner {
         qualification: [Qualification]?? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        telephoneNumbers: [R4NlCoreHealthProfessionalPractitionerTelephoneNumber]?? = nil
+        telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?? = nil
     ) -> R4NlCoreHealthProfessionalPractitioner {
         return R4NlCoreHealthProfessionalPractitioner(
             address: address ?? self.address,

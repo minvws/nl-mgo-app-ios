@@ -27,7 +27,8 @@ public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
     public let quantity: MgoDuration?
     public let referenceID: String
     public let repeatPeriodCyclicalSchedule: MgoDuration?
-    public let resourceType, status: String?
+    public let resourceType: String?
+    public let status: ZibAdministrationAgreementStatus?
     public let stopType: MgoCodeableConcept?
     public let usageDuration: MgoDuration?
 
@@ -37,7 +38,7 @@ public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
         case repeatPeriodCyclicalSchedule, resourceType, status, stopType, usageDuration
     }
 
-    public init(additionalInformation: MgoCodeableConcept?, agreementReason: String?, authoredOn: String?, category: MgoCodeableConcept?, daysSupply: MgoDuration?, dossageInstruction: [ZibInstructionsForUse]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, profile: ZibAdministrationAgreementProfile, quantity: MgoDuration?, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: String?, stopType: MgoCodeableConcept?, usageDuration: MgoDuration?) {
+    public init(additionalInformation: MgoCodeableConcept?, agreementReason: String?, authoredOn: String?, category: MgoCodeableConcept?, daysSupply: MgoDuration?, dossageInstruction: [ZibInstructionsForUse]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, profile: ZibAdministrationAgreementProfile, quantity: MgoDuration?, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: ZibAdministrationAgreementStatus?, stopType: MgoCodeableConcept?, usageDuration: MgoDuration?) {
         self.additionalInformation = additionalInformation
         self.agreementReason = agreementReason
         self.authoredOn = authoredOn
@@ -97,7 +98,7 @@ public extension ZibAdministrationAgreement {
         referenceID: String? = nil,
         repeatPeriodCyclicalSchedule: MgoDuration?? = nil,
         resourceType: String?? = nil,
-        status: String?? = nil,
+        status: ZibAdministrationAgreementStatus?? = nil,
         stopType: MgoCodeableConcept?? = nil,
         usageDuration: MgoDuration?? = nil
     ) -> ZibAdministrationAgreement {

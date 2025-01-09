@@ -18,7 +18,7 @@ public struct R4NlCoreHealthProfessionalPractitionerName: Codable, Hashable, Sen
     public let period: MgoPeriod?
     public let namePrefix, suffix: [String]?
     public let text: String?
-    public let use: Use
+    public let use: NameUse
 
     public enum CodingKeys: String, CodingKey {
         case family, given, givenInitials, givenNames, nameUsage, period
@@ -26,7 +26,7 @@ public struct R4NlCoreHealthProfessionalPractitionerName: Codable, Hashable, Sen
         case suffix, text, use
     }
 
-    public init(family: String?, given: [String]?, givenInitials: [String]?, givenNames: [String]?, nameUsage: String?, period: MgoPeriod?, namePrefix: [String]?, suffix: [String]?, text: String?, use: Use) {
+    public init(family: String?, given: [String]?, givenInitials: [String]?, givenNames: [String]?, nameUsage: String?, period: MgoPeriod?, namePrefix: [String]?, suffix: [String]?, text: String?, use: NameUse) {
         self.family = family
         self.given = given
         self.givenInitials = givenInitials
@@ -68,7 +68,7 @@ public extension R4NlCoreHealthProfessionalPractitionerName {
         namePrefix: [String]?? = nil,
         suffix: [String]?? = nil,
         text: String?? = nil,
-        use: Use? = nil
+        use: NameUse? = nil
     ) -> R4NlCoreHealthProfessionalPractitionerName {
         return R4NlCoreHealthProfessionalPractitionerName(
             family: family ?? self.family,

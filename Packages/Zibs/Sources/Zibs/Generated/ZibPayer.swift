@@ -27,7 +27,8 @@ public struct ZibPayer: Codable, Hashable, Sendable {
     public let profile: ZibPayerProfile
     public let referenceID: String
     public let relationship: MgoCodeableConcept?
-    public let resourceType, sequence, status: String?
+    public let resourceType, sequence: String?
+    public let status: ZibPayerStatus?
     public let subscriber: MgoReference?
     public let subscriberID: String?
     public let type: MgoCodeableConcept?
@@ -40,7 +41,7 @@ public struct ZibPayer: Codable, Hashable, Sendable {
         case type
     }
 
-    public init(beneficiary: MgoReference?, contract: [MgoReference]?, dependent: String?, fhirVersion: FhirVersionR3, grouping: Grouping, id: String?, identifier: [MgoIdentifier]?, network: String?, order: Double?, payor: [MgoReference]?, period: MgoPeriod?, policyHolder: MgoReference?, profile: ZibPayerProfile, referenceID: String, relationship: MgoCodeableConcept?, resourceType: String?, sequence: String?, status: String?, subscriber: MgoReference?, subscriberID: String?, type: MgoCodeableConcept?) {
+    public init(beneficiary: MgoReference?, contract: [MgoReference]?, dependent: String?, fhirVersion: FhirVersionR3, grouping: Grouping, id: String?, identifier: [MgoIdentifier]?, network: String?, order: Double?, payor: [MgoReference]?, period: MgoPeriod?, policyHolder: MgoReference?, profile: ZibPayerProfile, referenceID: String, relationship: MgoCodeableConcept?, resourceType: String?, sequence: String?, status: ZibPayerStatus?, subscriber: MgoReference?, subscriberID: String?, type: MgoCodeableConcept?) {
         self.beneficiary = beneficiary
         self.contract = contract
         self.dependent = dependent
@@ -101,7 +102,7 @@ public extension ZibPayer {
         relationship: MgoCodeableConcept?? = nil,
         resourceType: String?? = nil,
         sequence: String?? = nil,
-        status: String?? = nil,
+        status: ZibPayerStatus?? = nil,
         subscriber: MgoReference?? = nil,
         subscriberID: String?? = nil,
         type: MgoCodeableConcept?? = nil

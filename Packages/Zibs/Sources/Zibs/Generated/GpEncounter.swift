@@ -15,7 +15,7 @@ public struct GpEncounter: Codable, Hashable, Sendable {
     public let gpEncounterClass: MgoCoding?
     public let fhirVersion: FhirVersionR3
     public let id: String?
-    public let participant: [GpEncounterParticipant]?
+    public let participant: [EncounterParticipant]?
     public let period: MgoPeriod?
     public let profile: GpEncounterProfile
     public let reason: [MgoCodeableConcept]?
@@ -30,7 +30,7 @@ public struct GpEncounter: Codable, Hashable, Sendable {
         case resourceType, serviceProvider
     }
 
-    public init(gpEncounterClass: MgoCoding?, fhirVersion: FhirVersionR3, id: String?, participant: [GpEncounterParticipant]?, period: MgoPeriod?, profile: GpEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
+    public init(gpEncounterClass: MgoCoding?, fhirVersion: FhirVersionR3, id: String?, participant: [EncounterParticipant]?, period: MgoPeriod?, profile: GpEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
         self.gpEncounterClass = gpEncounterClass
         self.fhirVersion = fhirVersion
         self.id = id
@@ -66,7 +66,7 @@ public extension GpEncounter {
         gpEncounterClass: MgoCoding?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
-        participant: [GpEncounterParticipant]?? = nil,
+        participant: [EncounterParticipant]?? = nil,
         period: MgoPeriod?? = nil,
         profile: GpEncounterProfile? = nil,
         reason: [MgoCodeableConcept]?? = nil,

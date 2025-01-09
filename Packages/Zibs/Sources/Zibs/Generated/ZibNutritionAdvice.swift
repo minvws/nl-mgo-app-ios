@@ -20,7 +20,8 @@ public struct ZibNutritionAdvice: Codable, Hashable, Sendable {
     public let patient: MgoReference?
     public let profile: ZibNutritionAdviceProfile
     public let referenceID: String
-    public let resourceType, status: String?
+    public let resourceType: String?
+    public let status: ZibNutritionAdviceStatus?
 
     public enum CodingKeys: String, CodingKey {
         case comment, dateTime, fhirVersion, foodPreferenceModifier, id, identifier, patient, profile
@@ -28,7 +29,7 @@ public struct ZibNutritionAdvice: Codable, Hashable, Sendable {
         case resourceType, status
     }
 
-    public init(comment: String?, dateTime: String?, fhirVersion: FhirVersionR3, foodPreferenceModifier: [MgoCodeableConcept]?, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, profile: ZibNutritionAdviceProfile, referenceID: String, resourceType: String?, status: String?) {
+    public init(comment: String?, dateTime: String?, fhirVersion: FhirVersionR3, foodPreferenceModifier: [MgoCodeableConcept]?, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, profile: ZibNutritionAdviceProfile, referenceID: String, resourceType: String?, status: ZibNutritionAdviceStatus?) {
         self.comment = comment
         self.dateTime = dateTime
         self.fhirVersion = fhirVersion
@@ -72,7 +73,7 @@ public extension ZibNutritionAdvice {
         profile: ZibNutritionAdviceProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        status: String?? = nil
+        status: ZibNutritionAdviceStatus?? = nil
     ) -> ZibNutritionAdvice {
         return ZibNutritionAdvice(
             comment: comment ?? self.comment,

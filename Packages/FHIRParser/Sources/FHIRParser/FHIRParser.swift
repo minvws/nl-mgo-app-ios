@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -10,6 +10,7 @@ import JavaScriptCore
 import Logging
 import Zibs
 
+/// Parse FHIR data
 public class FHIRParser {
 	
 	/// The namespace used in the JavaScript context
@@ -68,54 +69,13 @@ public class FHIRParser {
 		}
 	}
 	
-	/// Call a javascript method with the input data
-	/// - Parameters:
-	///   - method: the method in javascript to be called
-	///   - input: the input for that method
-	///   - fhirVersion: the FHIR version of the expected resource,
-	/// - Returns: the result of invoking that method
-	private func callJSMethod(_ method: String, with input: Data, fhirVersion: String? = nil) throws -> JSValue {
-		
-		// Step 1: Confirm existing JS context
-		guard let jsContext else {
-			logError("FHIRParser: Could not create JS Context")
-			throw FHIRParserError.noJSContext
-		}
-		
-		if ProcessInfo.processInfo.arguments.contains("--unittesting") {
-			
-			try? loadSource(jsContext: jsContext)
-		}
-		
-		// Step 2: Search for the MgoFhirData namespace
-		guard let nameSpace = jsContext.objectForKeyedSubscript(FHIRParser.nameSpace) else {
-			throw FHIRParserError.invalidNameSpace
-		}
-		
-		// Step 3: Stringify the input (json)
-		guard let inputString = String(data: input, encoding: .utf8) else { throw FHIRParserError.invalidInput }
-		var arguments = [inputString]
-		if let fhirVersion {
-			arguments.append("{\"fhirVersion\": \"\(fhirVersion)\"}")
-		}
-		
-		// Step 4: call the desired method (getBundleResourcesJson etc) on the namespace with the input
-		guard let resourcesJSValue = nameSpace.invokeMethod(method, withArguments: arguments) else {
-			logError("Failed to invoke \(method) on the nameSpace")
-			throw FHIRParserError.noResult
-		}
-		
-		// Step 5: return the outcome of the call
-		return resourcesJSValue
-	}
-	
 	/// getBundleResourcesJson, i.e. split the incoming FHIR Bundle into separate FHIR Resources.
 	/// - Parameter bundle: The bundle json from the DVA (as Data)
 	/// - Returns: Array of FHIR resources.
 	public func splitBundleIntoResources(_ bundle: Data) -> [Data] {
 		
 		do {
-			let resourcesJSValue = try callJSMethod("getBundleResourcesJson", with: bundle)
+			let resourcesJSValue = try callJSMethod(.bundle, with: bundle)
 			
 			guard let resourceString = resourcesJSValue.toString(),
 				  resourceString.hasSuffix("]"),
@@ -141,7 +101,7 @@ public class FHIRParser {
 	public func transformFHIRResourceIntoMGOResource(_ fhirResource: Data, fhirVersion: String = "R3") -> Data? {
 		
 		do {
-			let resourcesJSValue = try callJSMethod("getMgoResourceJson", with: fhirResource, fhirVersion: fhirVersion)
+			let resourcesJSValue = try callJSMethod(.resource, with: fhirResource, fhirVersion: fhirVersion)
 			return Data(resourcesJSValue.toString().utf8)
 			
 		} catch {
@@ -150,13 +110,73 @@ public class FHIRParser {
 		return nil
 	}
 	
-	/// getUiSchemaJson, i.e. transform a Zib object into a UISchema
+	/// get the details for a resource, i.e. transform a Zib object into a details UISchema
 	/// - Parameter resource: the zib / mgo resource
 	/// - Returns: Generated UISchema
-	public func getUiSchemaJson(_ resource: Data) -> UISchema? {
+	public func getDetails(_ resource: Data) -> UISchema? {
+		
+		return getSchema(.details, resource: resource)
+	}
+	
+	/// get the summary for a resource, i.e. transform a Zib object into a summary UISchema
+	/// - Parameter resource: the zib / mgo resource
+	/// - Returns: Generated UISchema
+	public func getSummary(_ resource: Data) -> UISchema? {
+		
+		return getSchema(.summary, resource: resource)
+	}
+	
+	// MARK: Private helpers
+	
+	/// Call a javascript method with the input data
+	/// - Parameters:
+	///   - method: the method in javascript to be called
+	///   - input: the input for that method
+	///   - fhirVersion: the FHIR version of the expected resource,
+	/// - Returns: the result of invoking that method
+	private func callJSMethod(_ method: ParseMethod, with input: Data, fhirVersion: String? = nil) throws -> JSValue {
+		
+		// Step 1A: Confirm existing JS context
+		guard let jsContext else {
+			logError("FHIRParser: Could not create JS Context")
+			throw FHIRParserError.noJSContext
+		}
+		
+		// Step 1B: When testing, do load the source every time.
+		if ProcessInfo.processInfo.arguments.contains("--unittesting") {
+			try? loadSource(jsContext: jsContext)
+		}
+		
+		// Step 2: Search for the MgoFhirData namespace
+		guard let nameSpace = jsContext.objectForKeyedSubscript(FHIRParser.nameSpace) else {
+			throw FHIRParserError.invalidNameSpace
+		}
+		
+		// Step 3: Stringify the input (json)
+		guard let inputString = String(data: input, encoding: .utf8) else { throw FHIRParserError.invalidInput }
+		var arguments = [inputString]
+		if let fhirVersion {
+			arguments.append("{\"fhirVersion\": \"\(fhirVersion)\"}")
+		}
+		
+		// Step 4: call the desired method (getBundleResourcesJson etc) on the namespace with the input
+		guard let resourcesJSValue = nameSpace.invokeMethod(method.rawValue, withArguments: arguments) else {
+			logError("Failed to invoke \(method) on the nameSpace")
+			throw FHIRParserError.noResult
+		}
+		
+		// Step 5: return the outcome of the call
+		return resourcesJSValue
+	}
+	
+	/// get the schema for a resource, i.e. transform a Zib object into a UISchema
+	/// - Parameter method: the javascript method to be used for this call
+	/// - Parameter resource: the zib / mgo resource
+	/// - Returns: Generated UISchema
+	private func getSchema(_ method: ParseMethod, resource: Data) -> UISchema? {
 		
 		do {
-			let resourcesJSValue = try callJSMethod("getUiSchemaJson", with: resource)
+			let resourcesJSValue = try callJSMethod(method, with: resource)
 			if let object = resourcesJSValue.toString() {
 				let schema = try UISchema(object)
 				return schema
@@ -166,26 +186,4 @@ public class FHIRParser {
 		}
 		return nil
 	}
-}
-
-/// the FHIR parse errors
-public enum FHIRParserError: Error {
-	
-	// The input could not be converted
-	case invalidInput
-	
-	// This method is not available in the JS parser
-	case invalidMethod
-	
-	// This namespace is not available in the JS parser
-	case invalidNameSpace
-	
-	// Failed to initiate a JS Context
-	case noJSContext
-	
-	// There was no output
-	case noResult
-	
-	// The parser was not found at its location
-	case parserNotFound
 }

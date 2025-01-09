@@ -12,12 +12,12 @@ import Foundation
 
 // MARK: - R4NlCorePatient
 public struct R4NlCorePatient: Codable, Hashable, Sendable {
-    public let address: [R4NlCorePatientAddress]?
+    public let address: [R4NlCoreAddressInformation]?
     public let birthDate: String?
     public let deceased: Bool?
     public let deceasedDateTime: String?
     public let fhirVersion: FhirVersionR4
-    public let gender: String?
+    public let gender: Gender?
     public let generalPractitioner: [MgoReference]?
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -35,7 +35,7 @@ public struct R4NlCorePatient: Codable, Hashable, Sendable {
         case resourceType
     }
 
-    public init(address: [R4NlCorePatientAddress]?, birthDate: String?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR4, gender: String?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, name: [R4NlCorePatientName]?, profile: R4NlCorePatientProfile, referenceID: String, resourceType: String?) {
+    public init(address: [R4NlCoreAddressInformation]?, birthDate: String?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR4, gender: Gender?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, name: [R4NlCorePatientName]?, profile: R4NlCorePatientProfile, referenceID: String, resourceType: String?) {
         self.address = address
         self.birthDate = birthDate
         self.deceased = deceased
@@ -74,12 +74,12 @@ public extension R4NlCorePatient {
     }
 
     func with(
-        address: [R4NlCorePatientAddress]?? = nil,
+        address: [R4NlCoreAddressInformation]?? = nil,
         birthDate: String?? = nil,
         deceased: Bool?? = nil,
         deceasedDateTime: String?? = nil,
         fhirVersion: FhirVersionR4? = nil,
-        gender: String?? = nil,
+        gender: Gender?? = nil,
         generalPractitioner: [MgoReference]?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,

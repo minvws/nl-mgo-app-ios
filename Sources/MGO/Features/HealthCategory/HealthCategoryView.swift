@@ -109,7 +109,7 @@ struct HealthCategoryViewTranslations {
 	var noSearchResults: LocalizedStringKey
 	
 	/// The text key for the heading of the details
-	var detailsHeading: String.LocalizationValue
+	var backButtonTitle: String.LocalizationValue
 }
 
 class HealthCategoryViewModel: ObservableObject {
@@ -295,7 +295,7 @@ class HealthCategoryViewModel: ObservableObject {
 			guard resource.hasProfile(acceptedProfile) else { continue }
 			
 //			MemoryUsage.getMemory("before getUiSchemaJson")
-			if let uiSchema = parser.getUiSchemaJson(resource) {
+			if let uiSchema = parser.getSummary(resource) {
 //				MemoryUsage.getMemory("after \(uiSchema.label)")
 				// Add a OverviewBlock to the display list
 				items.append(
@@ -303,10 +303,10 @@ class HealthCategoryViewModel: ObservableObject {
 						heading: Sanitizer.strip(uiSchema.label),
 						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) {
 							self.coordinator?.handle(Coordination.Action(
-								identifier: Coordination.Action.showHealthCategoryData.identifier,
+								identifier: Coordination.Action.showHealthData.identifier,
 								params: [
 									"healthcareOrganization": self.getOrganization(record.organizationId),
-									"heading": String(localized: self.translations.detailsHeading),
+									"backButtonTitle": String(localized: self.translations.backButtonTitle),
 									"resource": resource,
 									"uiSchema": uiSchema
 								])
@@ -544,7 +544,7 @@ struct HealthCategoryView: View {
 					heading: "hc_medication.heading",
 					search: "hc_medication.search",
 					noSearchResults: "hc_medication.no_search_results",
-					detailsHeading: "hc_medication.heading_detail"
+					backButtonTitle: "hc_medication.heading_detail"
 				)
 			)
 		)
