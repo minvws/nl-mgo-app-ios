@@ -44998,16 +44998,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return setToString(wrapper, insertWrapDetails(source, updateWrapDetails(getWrapDetails(source), bitmask)));
         }
         function shortOut(func) {
-          var count = 0, lastCalled = 0;
+          var count2 = 0, lastCalled = 0;
           return function() {
             var stamp = nativeNow(), remaining = HOT_SPAN - (stamp - lastCalled);
             lastCalled = stamp;
             if (remaining > 0) {
-              if (++count >= HOT_COUNT) {
+              if (++count2 >= HOT_COUNT) {
                 return arguments[0];
               }
             } else {
-              count = 0;
+              count2 = 0;
             }
             return func.apply(undefined$1, arguments);
           };
@@ -47889,7 +47889,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$J = (resource, context) => {
     const i18n2 = "r3.zib_laboratory_test_result_observation";
-    const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
+    const { ui, formatMessage: formatMessage2 } = context;
     const hcimLaboratoryTestResult = {
       BasedOn: ui.reference(`${i18n2}.based_on`, resource.basedOn),
       Status: ui.code(`${i18n2}.status`, resource.status),
@@ -47914,7 +47914,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       Performer: ui.reference(`${i18n2}.performer`, resource.performer)
     };
     const label = resource.resultType?.at(0)?.coding.at(0)?.display ?? resource.laboratoryTestResultCode?.at(0)?.coding.at(0)?.display;
-    return setEmptyEntries2({
+    return {
       label: label ?? formatMessage2(i18n2),
       children: [
         {
@@ -47942,7 +47942,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           ]
         }
       ]
-    });
+    };
   };
   function parseRelated(value2) {
     return {
@@ -48236,61 +48236,67 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseZibAdministrationSchedule,
     uiSchemaGroup: uiSchemaGroup$t
   };
+  const i18n$2 = "r3.zib_instructions_for_use";
   const uiSchemaGroup$s = (resource, context) => {
-    const i18n2 = "r3.zib_instructions_for_use";
     const { ui, formatMessage: formatMessage2 } = context;
     const hcimInstructionsForUse = {
-      SequenceNumber: ui.integer(`${i18n2}.sequence`, resource.sequence),
-      Description: ui.string(`${i18n2}.text`, resource.text),
+      SequenceNumber: ui.integer(`${i18n$2}.sequence`, resource.sequence),
+      Description: ui.string(`${i18n$2}.text`, resource.text),
       AdditionalInstructions: ui.codeableConcept(
-        `${i18n2}.additional_instruction`,
+        `${i18n$2}.additional_instruction`,
         resource.additionalInstruction
       ),
       AdministeringSchedule: zibAdministrationSchedule.uiSchemaGroup(resource.timing, context),
-      AsNeeded: ui.codeableConcept(`${i18n2}.as_needed_codeable_concept`, resource.asNeeded),
-      RouteOfAdministration: ui.codeableConcept(`${i18n2}.route`, resource.route),
-      Dose: ui.oneOfValueX(`${i18n2}.dose`, resource, "dose"),
-      MaximumDose: ui.ratio(`${i18n2}.max_dose_per_period`, resource.maxDosePerPeriod),
-      AdministeringSpeed: ui.oneOfValueX(`${i18n2}.rate`, resource, "rate")
+      AsNeeded: ui.codeableConcept(`${i18n$2}.as_needed_codeable_concept`, resource.asNeeded),
+      RouteOfAdministration: ui.codeableConcept(`${i18n$2}.route`, resource.route),
+      Dose: ui.oneOfValueX(`${i18n$2}.dose`, resource, "dose"),
+      MaximumDose: ui.ratio(`${i18n$2}.max_dose_per_period`, resource.maxDosePerPeriod),
+      AdministeringSpeed: ui.oneOfValueX(`${i18n$2}.rate`, resource, "rate")
     };
     return [
       {
-        label: formatMessage2(i18n2),
+        label: formatMessage2(i18n$2),
         children: [
           hcimInstructionsForUse.Description,
           hcimInstructionsForUse.RouteOfAdministration,
           hcimInstructionsForUse.AdditionalInstructions,
           ...hcimInstructionsForUse.AdministeringSpeed,
-          hcimInstructionsForUse.SequenceNumber
+          hcimInstructionsForUse.SequenceNumber,
+          ...hcimInstructionsForUse.Dose,
+          ...hcimInstructionsForUse.MaximumDose,
+          hcimInstructionsForUse.AsNeeded
         ]
       },
       hcimInstructionsForUse.AdministeringSchedule
     ];
   };
+  const summary$2 = (resource, context) => {
+    const { ui, formatMessage: formatMessage2 } = context;
+    return {
+      label: formatMessage2(`summary.${i18n$2}`, { sequence: resource.sequence }),
+      children: [
+        ui.string(`summary.${i18n$2}.text`, resource.text),
+        ...ui.oneOfValueX(`summary.${i18n$2}.dose`, resource, "dose")
+      ]
+    };
+  };
   function parseZibInstructionsForUse(value2) {
     return {
       sequence: integer$1(value2?.sequence),
-      // NL-CM:9.12.22503
       text: string$1(value2?.text),
-      // NL-CM:9.12.9581
       additionalInstruction: map(value2?.additionalInstruction, codeableConcept$1),
-      // NL-CM:9.12.19944
       asNeeded: codeableConcept$1(value2?.asNeededCodeableConcept),
-      // NL-CM:9.12.22512 | NL-CM:9.12.19945
       route: codeableConcept$1(value2?.route),
-      // NL-CM:9.12.19941
       ...oneOfValueX$1(value2, ["range", "quantity"], "dose"),
-      // NL-CM:9.12.19940
       maxDosePerPeriod: ratio$1(value2?.maxDosePerPeriod),
-      // NL-CM:9.12.19946
       ...oneOfValueX$1(value2, ["ratio", "range", "quantity"], "rate"),
-      // NL-CM:9.12.19942
       timing: zibAdministrationSchedule.parse(value2?.timing)
     };
   }
   const zibInstructionsForUse = {
     parse: parseZibInstructionsForUse,
-    uiSchemaGroup: uiSchemaGroup$s
+    uiSchemaGroup: uiSchemaGroup$s,
+    summary: summary$2
   };
   const uiSchemaGroup$r = (resource, context) => {
     const i18n2 = "r3.zib_product_ingredient";
@@ -49656,27 +49662,30 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseZibMedicationAgreement,
     uiSchema: uiSchema$j
   };
+  const i18n$1 = "r3.zib_medication_use";
+  function getLabel(resource, { formatMessage: formatMessage2 }) {
+    return lodashExports.capitalize(resource.medicationReference?.display) || formatMessage2(i18n$1);
+  }
   const uiSchema$i = (resource, context) => {
-    const i18n2 = "r3.zib_medication_use";
-    const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
+    const { ui, formatMessage: formatMessage2 } = context;
     const hcimMedicationUse2 = {
-      AsAgreedIndicator: ui.boolean(`${i18n2}.as_agreed_indicator`, resource.asAgreedIndicator),
-      Prescriber: ui.reference(`${i18n2}.prescriber`, resource.prescriber),
+      AsAgreedIndicator: ui.boolean(`${i18n$1}.as_agreed_indicator`, resource.asAgreedIndicator),
+      Prescriber: ui.reference(`${i18n$1}.prescriber`, resource.prescriber),
       ReasonForChangeOrDiscontinuationOfUse: ui.codeableConcept(
-        `${i18n2}.reason_for_change_or_discontinuation_of_use`,
+        `${i18n$1}.reason_for_change_or_discontinuation_of_use`,
         resource.reasonForChangeOrDiscontinuationOfUse
       ),
-      MedicationUseStopType: ui.code(`${i18n2}.status`, resource.status),
-      ProductUsed: ui.reference(`${i18n2}.medication_reference`, resource.medicationReference),
-      PeriodOfUsePeriod: ui.period(`${i18n2}.effective_period`, resource.effectivePeriod),
+      MedicationUseStopType: ui.code(`${i18n$1}.status`, resource.status),
+      ProductUsed: ui.reference(`${i18n$1}.medication_reference`, resource.medicationReference),
+      PeriodOfUsePeriod: ui.period(`${i18n$1}.effective_period`, resource.effectivePeriod),
       PeriodOfUseDuration: ui.duration(
-        `${i18n2}.effective_period.duration`,
+        `${i18n$1}.effective_period.duration`,
         resource.effectiveDuration
       ),
-      MedicationUseDateTime: ui.dateTime(`${i18n2}.date_asserted`, resource.dateAsserted),
-      UseIndicator: ui.code(`${i18n2}.taken`, resource.taken),
-      ReasonForUse: ui.codeableConcept(`${i18n2}.reason_code.text`, resource.reasonCode),
-      Comment: ui.annotation(`${i18n2}.note`, resource.note)
+      MedicationUseDateTime: ui.dateTime(`${i18n$1}.date_asserted`, resource.dateAsserted),
+      UseIndicator: ui.code(`${i18n$1}.taken`, resource.taken),
+      ReasonForUse: ui.codeableConcept(`${i18n$1}.reason_code.text`, resource.reasonCode),
+      Comment: ui.annotation(`${i18n$1}.note`, resource.note)
     };
     const hcimInstructionsForUse = {
       InstructionsForUse: map(
@@ -49685,12 +49694,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         true
       ).flat(),
       RepeatPeriodCyclicalSchedule: ui.duration(
-        `${i18n2}.repeat_period_cyclical_schedule`,
+        `${i18n$1}.repeat_period_cyclical_schedule`,
         resource.repeatPeriodCyclicalSchedule
       )
     };
-    return setEmptyEntries2({
-      label: resource.medicationReference?.display,
+    return {
+      label: getLabel(resource, context),
       children: [
         {
           label: formatMessage2(`fhir.group_general_info`),
@@ -49706,13 +49715,58 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             hcimMedicationUse2.MedicationUseStopType,
             hcimMedicationUse2.ReasonForChangeOrDiscontinuationOfUse,
             hcimInstructionsForUse.RepeatPeriodCyclicalSchedule,
-            ui.identifier(`${i18n2}.medication_treatment`, resource.medicationTreatment),
+            ui.identifier(`${i18n$1}.medication_treatment`, resource.medicationTreatment),
             hcimMedicationUse2.Comment
           ]
         },
         ...hcimInstructionsForUse.InstructionsForUse.flat()
       ]
-    });
+    };
+  };
+  function summaryOptions({ formatMessage: formatMessage2 }, i18n2, resource) {
+    return {
+      label: formatMessage2(`summary.options`),
+      children: [
+        {
+          type: "REFERENCE_LINK",
+          label: formatMessage2(`summary.${i18n2}.show_details`),
+          reference: resource.referenceId
+        }
+      ]
+    };
+  }
+  const summary$1 = (resource, context) => {
+    const { ui, formatMessage: formatMessage2 } = context;
+    const instructions = map(
+      resource.dosage,
+      (x) => zibInstructionsForUse.summary(x, context),
+      true
+    );
+    const hasSingleInstruction = instructions.length === 1;
+    return {
+      label: getLabel(resource, context),
+      children: [
+        {
+          children: [
+            ...hasSingleInstruction ? instructions[0].children : [],
+            ui.code(`summary.${i18n$1}.status`, resource.status, {
+              i18nCode: "r3.zib_medication_use.status"
+            }),
+            ui.codeableConcept(`${i18n$1}.reason_code.text`, resource.reasonCode)
+          ]
+        },
+        ...hasSingleInstruction ? [] : instructions,
+        {
+          label: formatMessage2(`summary.${i18n$1}.group_period`),
+          children: [...ui.period(`${i18n$1}.effective_period`, resource.effectivePeriod)]
+        },
+        {
+          label: formatMessage2(`summary.${i18n$1}.group_prescriber`),
+          children: [ui.reference(`summary.${i18n$1}.prescriber`, resource.prescriber)]
+        },
+        summaryOptions(context, i18n$1, resource)
+      ]
+    };
   };
   const profile$i = "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse";
   function parseZibMedicationUse(resource) {
@@ -49751,6 +49805,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const zibMedicationUse = {
     profile: profile$i,
     parse: parseZibMedicationUse,
+    summary: summary$1,
     uiSchema: uiSchema$i
   };
   const uiSchema$h = (resource, context) => {
@@ -50531,18 +50586,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  function summaryOptions({ formatMessage: formatMessage2 }, i18n2, resource) {
-    return {
-      label: formatMessage2(`summary.options`),
-      children: [
-        {
-          type: "REFERENCE_LINK",
-          label: formatMessage2(`summary.${i18n2}.show_details`),
-          reference: resource.referenceId
-        }
-      ]
-    };
-  }
   const summary = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     return {
@@ -50848,7 +50891,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$6 = (resource, context) => {
     const profile2 = "r4.nl_core_healtcare_provider";
-    const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
+    const { ui, formatMessage: formatMessage2 } = context;
     const zibHealthcareProvider = {
       LocationName: ui.string(`${profile2}.name`, resource.name),
       AddressInformation: ui.helpers.getChildren(
@@ -50867,7 +50910,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         true
       ).flat()
     };
-    return setEmptyEntries2({
+    return {
       label: resource.managingOrganization?.display ?? formatMessage2(profile2),
       children: [
         {
@@ -50880,7 +50923,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         ...zibContactInformation.TelephoneNumbers,
         ...zibContactInformation.EmailAddresses
       ]
-    });
+    };
   };
   const profile$6 = "http://nictiz.nl/fhir/StructureDefinition/nl-core-HealthcareProvider";
   function parseNlCoreHealtcareProvider(resource) {
@@ -50996,7 +51039,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$4 = (resource, context) => {
     const profile2 = "r4.nl_core_health_professional_practitioner_role";
-    const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
+    const { ui, formatMessage: formatMessage2 } = context;
     const zibHealthProfessional = {
       Organization: ui.reference(`${profile2}.organization`, resource.organization),
       Speciality: ui.codeableConcept(`${profile2}.speciality`, resource.speciality)
@@ -51013,7 +51056,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         true
       ).flat()
     };
-    return setEmptyEntries2({
+    return {
       label: resource.speciality?.at(0)?.coding.at(0)?.display ?? formatMessage2(profile2),
       children: [
         {
@@ -51023,7 +51066,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         ...zibContactInformation.EmailAddresses,
         ...zibContactInformation.TelephoneNumbers
       ]
-    });
+    };
   };
   const profile$4 = "http://nictiz.nl/fhir/StructureDefinition/nl-core-HealthProfessional-PractitionerRole";
   function parseNlCoreHealthProfessionalPractitionerRole(resource) {
@@ -51044,7 +51087,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$3 = (resource, context) => {
     const profile2 = "r4.nl_core_healthcare_provider_organization";
-    const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
+    const { ui, formatMessage: formatMessage2 } = context;
     const zibHealthcareProvider = {
       HealthcareProviderIdentificationNumber: ui.identifier(
         `${profile2}.identifier`,
@@ -51060,7 +51103,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ),
       OrganizationName: ui.string(`${profile2}.name`, resource.name)
     };
-    return setEmptyEntries2({
+    return {
       label: resource.name ?? formatMessage2(profile2),
       children: [
         {
@@ -51073,7 +51116,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           ]
         }
       ]
-    });
+    };
   };
   const profile$3 = "http://nictiz.nl/fhir/StructureDefinition/nl-core-HealthcareProvider-Organization";
   function parseNlCoreHealthcareProviderOrganization(resource) {
@@ -51209,7 +51252,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$1 = (resource, context) => {
     const i18n2 = "r4.zib_pharmaceutical_product";
-    const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
+    const { ui, formatMessage: formatMessage2 } = context;
     const zibPharmaceuticalProduct = {
       MedicationCode: ui.codeableConcept(`${i18n2}.code`, resource.code),
       PharmaceuticalForm: ui.codeableConcept(`${i18n2}.form`, resource.form),
@@ -51220,7 +51263,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       Batch: batch.uiSchemaGroup(resource.batch, context),
       Description: ui.string(`${i18n2}.description`, resource.description)
     };
-    return setEmptyEntries2({
+    return {
       label: resource.name ?? formatMessage2(i18n2),
       children: [
         {
@@ -51235,7 +51278,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           ]
         }
       ]
-    });
+    };
   };
   const profile$1 = "http://nictiz.nl/fhir/StructureDefinition/nl-core-PharmaceuticalProduct";
   function parseNlCorePharmaceuticalProduct(resource) {
@@ -51273,7 +51316,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema = (resource, context) => {
     const profile2 = "r4.nl_core_vaccination_event";
-    const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
+    const { ui, formatMessage: formatMessage2 } = context;
     const artDecorDatasetVaccinationImmunization = {
       PharmaceuticalProduct: ui.reference(
         `${profile2}.pharmaceutical_product`,
@@ -51309,7 +51352,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       DoseQuantity: ui.quantity(`${profile2}.dose_quantity`, resource.doseQuantity),
       Note: ui.annotation(`${profile2}.note`, resource.note)
     };
-    return setEmptyEntries2({
+    return {
       label: resource.vaccineCode?.coding?.at(0)?.display,
       children: [
         {
@@ -51341,7 +51384,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           ]
         }
       ]
-    });
+    };
   };
   var VaccinationMotive = /* @__PURE__ */ ((VaccinationMotive2) => {
     VaccinationMotive2["VACCINATION_NEEDED_AS_PART_OF_IMMUNIZATION_PROGRAMME"] = "159741000146107";
@@ -51500,6 +51543,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         throw new Error(`Unknown UI entry type: ${uiField.type}`);
     }
   }
+  function isUiSchemaGroup(schema) {
+    return schema.children?.some((x) => typeof x.type === "string");
+  }
   function processGroup(group, { formatMessage: formatMessage2 }) {
     return {
       ...group,
@@ -51512,14 +51558,20 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       })
     };
   }
-  const setEmptyEntries = (context) => {
+  function setEmptyEntries(context) {
     return (schema) => {
+      if (Array.isArray(schema)) {
+        return schema.map((x) => processGroup(x, context));
+      }
+      if (isUiSchemaGroup(schema)) {
+        return processGroup(schema, context);
+      }
       return {
         ...schema,
         children: schema.children.map((x) => processGroup(x, context))
       };
     };
-  };
+  }
   const fhirMessages = {
     "fhir.boolean.false": [
       {
@@ -51531,37 +51583,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       {
         type: 0,
         value: "Ja"
-      }
-    ],
-    "fhir.duration_days": [
-      {
-        offset: 0,
-        options: {
-          one: {
-            value: [
-              {
-                type: 0,
-                value: "één dag"
-              }
-            ]
-          },
-          other: {
-            value: [
-              {
-                style: null,
-                type: 2,
-                value: "count"
-              },
-              {
-                type: 0,
-                value: " dagen"
-              }
-            ]
-          }
-        },
-        pluralType: "cardinal",
-        type: 6,
-        value: "count"
       }
     ],
     "fhir.group_general_info": [
@@ -51631,12 +51652,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         type: 0,
         value: "Niet bekend"
       }
-    ],
-    "system.urn:oid:2.16.840.1.113883.2.4.4.9": [
-      {
-        type: 0,
-        value: "G-Standaard Toedieningswegen (tabel 7)"
-      }
     ]
   };
   const summaryLabels = {
@@ -51664,14 +51679,72 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         value: "Bekijk alle documentgegevens"
       }
     ],
+    "summary.r3.zib_instructions_for_use": [
+      {
+        type: 0,
+        value: "Instructies "
+      },
+      {
+        type: 1,
+        value: "sequence"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.dose": [
+      {
+        type: 0,
+        value: "Hoeveelheid per keer"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.dose.high": [
+      {
+        type: 0,
+        value: "Maximaal"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.dose.low": [
+      {
+        type: 0,
+        value: "Minimaal"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.text": [
+      {
+        type: 0,
+        value: "Gebruiksaanwijzing"
+      }
+    ],
+    "summary.r3.zib_medication_use.group_period": [
+      {
+        type: 0,
+        value: "Periode van gebruik"
+      }
+    ],
+    "summary.r3.zib_medication_use.group_prescriber": [
+      {
+        type: 0,
+        value: "Voorgeschreven door"
+      }
+    ],
+    "summary.r3.zib_medication_use.prescriber": [
+      {
+        type: 0,
+        value: "Specialist"
+      }
+    ],
     "summary.r3.zib_medication_use.show_details": [
       {
         type: 0,
         value: "Bekijk alle medicijngegevens"
       }
+    ],
+    "summary.r3.zib_medication_use.status": [
+      {
+        type: 0,
+        value: "Status"
+      }
     ]
   };
-  const codeLabels$1 = {
+  const codeLabels = {
     "codes.r3.observation.status.amended": [
       {
         type: 0,
@@ -51718,6 +51791,117 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       {
         type: 0,
         value: "Onbekend"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.active": [
+      {
+        type: 0,
+        value: "Actief"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.completed": [
+      {
+        type: 0,
+        value: "Voldaan"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.entered-in-error": [
+      {
+        type: 0,
+        value: "Foutief ingevoerd"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.intended": [
+      {
+        type: 0,
+        value: "Bedoeld"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.on-hold": [
+      {
+        type: 0,
+        value: "Gepauzeerd"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.stopped": [
+      {
+        type: 0,
+        value: "Gestopt"
+      }
+    ]
+  };
+  const systemLabels = {
+    "system.count.http://unitsofmeasure.org|d": [
+      {
+        offset: 0,
+        options: {
+          one: {
+            value: [
+              {
+                type: 0,
+                value: "één dag"
+              }
+            ]
+          },
+          other: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "count"
+              },
+              {
+                type: 0,
+                value: " dagen"
+              }
+            ]
+          }
+        },
+        pluralType: "cardinal",
+        type: 6,
+        value: "count"
+      }
+    ],
+    "system.count.urn:oid:2.16.840.1.113883.2.4.4.1.900.2|245": [
+      {
+        offset: 0,
+        options: {
+          one: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "count"
+              },
+              {
+                type: 0,
+                value: " stuk"
+              }
+            ]
+          },
+          other: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "count"
+              },
+              {
+                type: 0,
+                value: " stuks"
+              }
+            ]
+          }
+        },
+        pluralType: "cardinal",
+        type: 6,
+        value: "count"
+      }
+    ],
+    "system.urn:oid:2.16.840.1.113883.2.4.4.9": [
+      {
+        type: 0,
+        value: "G-Standaard Toedieningswegen (tabel 7)"
       }
     ]
   };
@@ -62260,7 +62444,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     ...r4ResourceLabelsCustom,
     ...summaryLabels,
     ...detailLabels,
-    ...codeLabels$1,
+    ...codeLabels,
+    ...systemLabels,
     ...fhirMessages
   };
   function memoize(fn, options) {
@@ -66402,41 +66587,27 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       display: numberToString(value2)
     };
   };
-  function valueWithUnit$1(value2, unit) {
+  const count = ({ formatMessage: formatMessage2, hasMessage }) => (value2) => {
     if (isNullish(value2)) return;
-    const valueString = numberToString(value2);
-    if (isNullish(unit)) return valueString;
-    return `${valueString} ${unit}`;
-  }
-  function valueWithMaxValue(value2, maxValue) {
-    if (isNullish(value2)) return;
-    const valueString = numberToString(value2);
-    if (isNullish(maxValue)) return valueString;
-    return `${valueString} / ${numberToString(maxValue)}`;
-  }
-  const value = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-    __proto__: null,
-    valueWithMaxValue,
-    valueWithUnit: valueWithUnit$1
-  }, Symbol.toStringTag, { value: "Module" }));
-  const format = {
-    ...value,
-    ...date$2
+    const { system, code: code2, value: count2, unit } = value2;
+    const countI18nKey = `system.count.${system}|${code2}`;
+    if (hasMessage(countI18nKey)) {
+      return formatMessage2(countI18nKey, { count: count2 });
+    }
+    if (unit) {
+      return `${numberToString(count2)} ${unit}`;
+    }
+    return numberToString(count2);
   };
-  const codeLabels = {
-    "http://unitsofmeasure.org|d": "fhir.duration_days"
-    // NOSONAR
-  };
-  const duration = ({ formatMessage: formatMessage2 }) => (label, value2) => {
-    const { value: quantityValue, unit, system, code: code2 } = value2 ?? {};
-    const codeLabel = codeLabels[`${system}|${code2}`];
-    const display = codeLabel ? formatMessage2(codeLabel, { count: quantityValue }) : format.valueWithUnit(quantityValue, unit);
+  const quantity = (context) => (label, value2) => {
+    const { formatMessage: formatMessage2 } = context;
     return {
       label: formatMessage2(label),
       type: `SINGLE_VALUE`,
-      display
+      display: count(context)(value2)
     };
   };
+  const duration = quantity;
   const identifier = ({ intl }) => (label, value2) => {
     if (Array.isArray(value2)) {
       return {
@@ -66493,28 +66664,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       display: numberToString(value2)
     };
   };
-  const quantity = ({ formatMessage: formatMessage2 }) => (label, value2) => {
-    const { value: quantityValue, unit } = value2 ?? {};
-    return {
-      label: formatMessage2(label),
-      type: `SINGLE_VALUE`,
-      display: format.valueWithUnit(quantityValue, unit)
-    };
-  };
   const range = (context) => (label, value2) => {
     const { hasMessage, formatMessage: formatMessage2 } = context;
     const lowLabel = `${label}.low`;
     const highLabel = `${label}.high`;
+    const formatCount = count(context);
     return [
       {
         label: formatMessage2(hasMessage(lowLabel) ? lowLabel : `fhir.range.low`),
         type: `SINGLE_VALUE`,
-        display: format.valueWithUnit(value2?.low?.value, value2?.low?.unit)
+        display: formatCount(value2?.low)
       },
       {
         label: formatMessage2(hasMessage(highLabel) ? highLabel : `fhir.range.high`),
         type: `SINGLE_VALUE`,
-        display: format.valueWithUnit(value2?.high?.value, value2?.high?.unit)
+        display: formatCount(value2?.high)
       }
     ];
   };
@@ -66522,20 +66686,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const { hasMessage, formatMessage: formatMessage2 } = context;
     const numeratorLabel = `${label}.numerator`;
     const denominatorLabel = `${label}.denominator`;
+    const formatCount = count(context);
     return [
       {
         label: formatMessage2(
           hasMessage(numeratorLabel) ? numeratorLabel : `fhir.ratio.numerator`
         ),
         type: `SINGLE_VALUE`,
-        display: format.valueWithUnit(value2?.numerator?.value, value2?.numerator?.unit)
+        display: formatCount(value2?.numerator)
       },
       {
         label: formatMessage2(
           hasMessage(denominatorLabel) ? denominatorLabel : `fhir.ratio.denominator`
         ),
         type: `SINGLE_VALUE`,
-        display: format.valueWithUnit(value2?.denominator?.value, value2?.denominator?.unit)
+        display: formatCount(value2?.denominator)
       }
     ];
   };
@@ -66615,6 +66780,27 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return [];
   };
+  function valueWithUnit$1(value2, unit) {
+    if (isNullish(value2)) return;
+    const valueString = numberToString(value2);
+    if (isNullish(unit)) return valueString;
+    return `${valueString} ${unit}`;
+  }
+  function valueWithMaxValue(value2, maxValue) {
+    if (isNullish(value2)) return;
+    const valueString = numberToString(value2);
+    if (isNullish(maxValue)) return valueString;
+    return `${valueString} / ${numberToString(maxValue)}`;
+  }
+  const value = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+    __proto__: null,
+    valueWithMaxValue,
+    valueWithUnit: valueWithUnit$1
+  }, Symbol.toStringTag, { value: "Module" }));
+  const format = {
+    ...value,
+    ...date$2
+  };
   const valueWithMax = ({ intl }) => (label, value2, max2) => {
     return {
       label: intl.formatMessage({ id: label }),
@@ -66659,7 +66845,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return {
       ...uiHelperContext,
       ui: getUi(uiHelperContext),
-      setEmptyEntries: setEmptyEntries(uiHelperContext),
       resources: resources ?? []
     };
   }
@@ -66684,7 +66869,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ...options
     });
     const uiSchema2 = config2.uiSchema(resource, context);
-    return context.setEmptyEntries(uiSchema2);
+    return setEmptyEntries(context)(uiSchema2);
   }
   function getSummaryUiSchema(resource, options) {
     if (!isMgoResource(resource)) {
@@ -66721,7 +66906,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ...options
     });
     const summaryUiSchema = config2.summary(resource, context);
-    return context.setEmptyEntries(summaryUiSchema);
+    return setEmptyEntries(context)(summaryUiSchema);
   }
   const getBundleResourcesJson = createJsonApi(getBundleResources);
   const getMgoResourceJson = createJsonApi(getMgoResource);
