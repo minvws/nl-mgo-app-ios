@@ -55,7 +55,7 @@ class HealthDataViewModel: ObservableObject {
 		referenceResolver: ReferenceResolverProtocol = ReferenceResolver()
 	) {
 		self.coordinator = coordinator
-		self.state = ZibDetailViewState(title: title, schema: schema)
+		self.state = ZibDetailViewState(title: schema.label ?? title, schema: schema)
 		self.healthcareOrganization = healthcareOrganization
 		self.referenceResolver = referenceResolver
 		
@@ -66,7 +66,7 @@ class HealthDataViewModel: ObservableObject {
 	
 		let referenceStrings = Set<String>(state.schema.children
 			.flatMap { $0.children }
-			.filter { $0.type == .referenceValue }
+			.filter { $0.type == .referenceValue || $0.type == .referenceLink }
 			.compactMap { $0.reference }
 		)
 		referenceStrings.forEach { reference in
@@ -140,6 +140,10 @@ struct HealthDataView: View {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
+				Text(viewModel.state.title)
+					.rijksoverheidStyle(font: .bold, style: .title)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+				
 				UISchemaView(
 					schema: viewModel.state.schema,
 					healthcareOrganization: viewModel.healthcareOrganization,
@@ -161,8 +165,6 @@ struct HealthDataView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
-		.navigationTitle(viewModel.state.title)
-		.navigationBarTitleDisplayMode(.inline)
 		.layoutForIPad()
 	}
 }
