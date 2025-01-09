@@ -112,6 +112,7 @@ struct UISchemaView: View {
 			.accessibilityIdentifier(entry.label)
 		} else if entry.type == .referenceLink, let ref = entry.reference, resolvedReferences[ref] == true {
 			
+			// Reference Link to details page
 			Button {
 				self.referenceTapped?(entry.reference)
 			} label: {
@@ -119,7 +120,6 @@ struct UISchemaView: View {
 			}
 			.buttonStyle(HoverButtonStyle())
 			.accessibilityIdentifier(entry.label)
-			
 		} else {
 			
 			// Other

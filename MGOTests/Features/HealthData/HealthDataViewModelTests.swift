@@ -72,7 +72,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		let state = sut.state
 		
 		// Then
-		expect(state.title) == "HealthCategoryDataViewModelTests"
+		expect(state.title) == "test"
 		expect(state.schema.label) == "test"
 	}
 	

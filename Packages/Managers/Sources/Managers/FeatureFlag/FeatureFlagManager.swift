@@ -34,7 +34,7 @@ public class FeatureFlagManager: FeatureFlagManaging {
 	@UserDefault(key: UserDefaults.Keys.isAutomaticLocalizationEnabled.rawValue + (ProcessInfo.processInfo.arguments.contains("--unittesting") ? ".test" : ""), defaultValue: false)
 	public var isAutomaticLocalizationEnabled: Bool
 	
-	public var isDemo: Bool = false
+	public var isDemo: Bool = true // false
 	
 	/// Remove all the feature flags and reset to default
 	public func wipePersistedData() {

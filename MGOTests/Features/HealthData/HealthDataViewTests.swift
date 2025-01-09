@@ -33,7 +33,7 @@ final class HealthDataViewTests: XCTestCase {
 	func test_HealthCategoryDataView() throws {
 		
 		// Given
-
+		
 		// When
 		let content = NavigationView { sut }
 		

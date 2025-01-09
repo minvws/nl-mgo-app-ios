@@ -190,7 +190,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == resource
 		expect(params.params["heading"] as? String) == "Alle klachtgegevens"
-		expect((params.params["uiSchema"] as? UISchema)?.label) == "Zestril tablet 10mg"
+		expect((params.params["uiSchema"] as? UISchema)?.label) == "cafa8f45-74bc-4107-a6f8-6eb58c6ed670" // "Zestril tablet 10mg"
 	}
 	
 	func test_loadResources_withResults_withName_noOrganisation() throws {

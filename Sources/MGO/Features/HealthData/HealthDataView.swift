@@ -59,28 +59,43 @@ class HealthDataViewModel: ObservableObject {
 		self.healthcareOrganization = healthcareOrganization
 		self.referenceResolver = referenceResolver
 		
-		prepareReferences()
+		prepareReferenceValues()
+		prepareReferenceLink()
 	}
 	
-	private func prepareReferences() {
+	private func prepareReferenceValues() {
 	
-		let referenceStrings = Set<String>(state.schema.children
-			.flatMap { $0.children }
-			.filter { $0.type == .referenceValue || $0.type == .referenceLink }
-			.compactMap { $0.reference }
-		)
-		referenceStrings.forEach { reference in
+		filterReferences(.referenceValue).forEach { reference in
 			
 			if Current.featureFlagManager.isDemo {
-				
 				resolvedReferences[reference] = false
 			} else {
-				
-				let result = referenceResolver.resolve(reference: reference, healthcareOrganization: healthcareOrganization)
-				referenceStore[reference] = result
-				resolvedReferences[reference] = result != nil
+				storeReference(reference)
 			}
 		}
+	}
+	
+	private func prepareReferenceLink() {
+	
+		filterReferences(.referenceLink).forEach { reference in
+			storeReference(reference)
+		}
+	}
+	
+	private func filterReferences(_ type: UIElementType) -> Set<String> {
+		
+		return Set<String>(state.schema.children
+			.flatMap { $0.children }
+			.filter { $0.type == type }
+			.compactMap { $0.reference }
+		)
+	}
+	
+	private func storeReference(_ reference: String) {
+		
+		let result = referenceResolver.resolve(reference: reference, healthcareOrganization: healthcareOrganization)
+		referenceStore[reference] = result
+		resolvedReferences[reference] = result != nil
 	}
 	
 	/// Handle any action
