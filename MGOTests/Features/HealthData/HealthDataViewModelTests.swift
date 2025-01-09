@@ -50,6 +50,13 @@ final class HealthDataViewModelTests: XCTestCase {
 					),
 					UIElement(
 						display: nil,
+						label: "label reference link",
+						type: .referenceLink,
+						reference: "test_resolveReferenceLink",
+						url: "reference/link"
+					),
+					UIElement(
+						display: nil,
 						label: "label download link",
 						type: .downloadLink,
 						reference: nil,
@@ -88,7 +95,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_resolveReference_shouldCallCoordinator() throws {
+	func test_resolveReferenceValue_shouldCallCoordinator() throws {
 		
 		// Given
 		let schema = UISchema(children: [], label: "test")
@@ -108,7 +115,27 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
 	}
 	
-	func test_resolveReference_demoMode_shouldNotCallCoordinator() throws {
+	func test_resolveReferenceLink_shouldCallCoordinator() throws {
+		
+		// Given
+		let schema = UISchema(children: [], label: "test")
+		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
+		setupSut()
+		
+		// When
+		sut.reduce(.reference("test_resolveReferenceLink"))
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		
+		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
+		expect(params.identifier) == Coordination.Action.showHealthData.identifier
+		expect(params.params["resource"] as? MgoResource) == Data()
+		expect(params.params["heading"] as? String) == schema.label
+		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
+	}
+	
+	func test_resolveReferenceValue_demoMode_shouldNotCallCoordinator() throws {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
@@ -123,7 +150,28 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == false
 	}
 	
-	func test_resolveReference_labelIsEmpty_shouldCallCoordinator() throws {
+	func test_resolveReferenceLink_demoMode_shouldCallCoordinator() throws {
+		
+		// Given
+		servicesSpies.featureFlagSpy.stubbedIsDemo = true
+		let schema = UISchema(children: [], label: "test")
+		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
+		setupSut()
+		
+		// When
+		sut.reduce(.reference("test_resolveReferenceLink"))
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		
+		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
+		expect(params.identifier) == Coordination.Action.showHealthData.identifier
+		expect(params.params["resource"] as? MgoResource) == Data()
+		expect(params.params["heading"] as? String) == schema.label
+		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
+	}
+	
+	func test_resolveReferenceValue_labelIsEmpty_shouldCallCoordinator() throws {
 		
 		// Given
 		let schema = UISchema(children: [], label: nil)
