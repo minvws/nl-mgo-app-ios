@@ -66699,7 +66699,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       );
     }
     if (!config2.summary) {
-      return;
+      return {
+        label: resource.id,
+        children: [
+          {
+            label: "Opties",
+            children: [
+              {
+                type: "REFERENCE_LINK",
+                label: "Bekijk alle gegevens",
+                reference: resource.referenceId
+              }
+            ]
+          }
+        ]
+      };
     }
     const context = createUiSchemaContext({
       ignoreMissingTranslations: true,
