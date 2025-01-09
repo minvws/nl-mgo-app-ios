@@ -22,7 +22,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		try super.setUpWithError()
 
 		servicesSpies = setupServicesSpies()
-		let entry = UIElement(display: nil, label: "label", showEmpty: false, type: .downloadLink, reference: nil, url: "Binary/demo1")
+		let entry = UIElement(display: nil, label: "label", type: .downloadLink, reference: nil, url: "Binary/demo1")
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, entry: entry)
 		sut = HealthDataDownloadView(viewModel: self.viewModel)

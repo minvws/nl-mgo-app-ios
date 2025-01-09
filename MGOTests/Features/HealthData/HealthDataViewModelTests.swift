@@ -37,7 +37,6 @@ final class HealthDataViewModelTests: XCTestCase {
 					UIElement(
 						display: UIElementDisplay.string("single value"),
 						label: "label single value",
-						showEmpty: true,
 						type: .singleValue,
 						reference: nil,
 						url: nil
@@ -45,7 +44,6 @@ final class HealthDataViewModelTests: XCTestCase {
 					UIElement(
 						display: UIElementDisplay.string("reference value"),
 						label: "label reference",
-						showEmpty: true,
 						type: .referenceValue,
 						reference: "test_resolveReference",
 						url: "reference/link"
@@ -53,7 +51,6 @@ final class HealthDataViewModelTests: XCTestCase {
 					UIElement(
 						display: nil,
 						label: "label download link",
-						showEmpty: true,
 						type: .downloadLink,
 						reference: nil,
 						url: "https://www.apple.com"

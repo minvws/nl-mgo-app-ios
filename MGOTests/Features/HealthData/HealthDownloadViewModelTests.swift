@@ -29,7 +29,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 	
 	private func createSut(url: String?) {
 		
-		let entry = UIElement(display: nil, label: "label", showEmpty: false, type: .downloadLink, reference: nil, url: url)
+		let entry = UIElement(display: nil, label: "label", type: .downloadLink, reference: nil, url: url)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		sut = HealthDataDownloadViewModel(
 			healthcareOrganization: healthcareOrganization,

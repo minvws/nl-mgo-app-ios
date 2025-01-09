@@ -36,7 +36,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
     public let sourceAttachment: Attachment
     public let sourceIdentifier: MgoIdentifier?
     public let sourceReference: MgoReference?
-    public let status: String?
+    public let status: ZibTreatmentDirectiveStatus?
 
     public enum CodingKeys: String, CodingKey {
         case action, actor, category, consentingParty, data, dataPeriod, dateTime, except, fhirVersion, id, identifier, organization, patient, period, policy, policyRule, profile, purpose
@@ -44,7 +44,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
         case resourceType, securityLabel, sourceAttachment, sourceIdentifier, sourceReference, status
     }
 
-    public init(action: [MgoCodeableConcept]?, actor: [ZibTreatmentDirectiveActor]?, category: [MgoCodeableConcept]?, consentingParty: [MgoReference]?, data: [ZibTreatmentDirectiveDatum]?, dataPeriod: MgoPeriod?, dateTime: String?, except: [Except]?, fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, organization: [MgoReference]?, patient: MgoReference?, period: MgoPeriod?, policy: [Policy]?, policyRule: String?, profile: ZibTreatmentDirectiveProfile, purpose: [MgoCoding]?, referenceID: String, resourceType: String?, securityLabel: [MgoCoding]?, sourceAttachment: Attachment, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, status: String?) {
+    public init(action: [MgoCodeableConcept]?, actor: [ZibTreatmentDirectiveActor]?, category: [MgoCodeableConcept]?, consentingParty: [MgoReference]?, data: [ZibTreatmentDirectiveDatum]?, dataPeriod: MgoPeriod?, dateTime: String?, except: [Except]?, fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, organization: [MgoReference]?, patient: MgoReference?, period: MgoPeriod?, policy: [Policy]?, policyRule: String?, profile: ZibTreatmentDirectiveProfile, purpose: [MgoCoding]?, referenceID: String, resourceType: String?, securityLabel: [MgoCoding]?, sourceAttachment: Attachment, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, status: ZibTreatmentDirectiveStatus?) {
         self.action = action
         self.actor = actor
         self.category = category
@@ -116,7 +116,7 @@ public extension ZibTreatmentDirective {
         sourceAttachment: Attachment? = nil,
         sourceIdentifier: MgoIdentifier?? = nil,
         sourceReference: MgoReference?? = nil,
-        status: String?? = nil
+        status: ZibTreatmentDirectiveStatus?? = nil
     ) -> ZibTreatmentDirective {
         return ZibTreatmentDirective(
             action: action ?? self.action,

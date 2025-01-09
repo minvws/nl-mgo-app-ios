@@ -25,7 +25,8 @@ public struct R4NlCorePharmaceuticalProduct: Codable, Hashable, Sendable {
     public let name: String?
     public let profile: R4NlCorePharmaceuticalProductProfile
     public let referenceID: String
-    public let resourceType, status: String?
+    public let resourceType: String?
+    public let status: R4NlCorePharmaceuticalProductStatus?
 
     public enum CodingKeys: String, CodingKey {
         case amount, batch, code, description, fhirVersion, form, id, identifier, ingredient, manufacturer, name, profile
@@ -33,7 +34,7 @@ public struct R4NlCorePharmaceuticalProduct: Codable, Hashable, Sendable {
         case resourceType, status
     }
 
-    public init(amount: MgoRatio?, batch: Batch, code: MgoCodeableConcept?, description: String?, fhirVersion: FhirVersionR4, form: MgoCodeableConcept?, id: String?, identifier: [MgoIdentifier]?, ingredient: [Ingredient]?, manufacturer: MgoReference?, name: String?, profile: R4NlCorePharmaceuticalProductProfile, referenceID: String, resourceType: String?, status: String?) {
+    public init(amount: MgoRatio?, batch: Batch, code: MgoCodeableConcept?, description: String?, fhirVersion: FhirVersionR4, form: MgoCodeableConcept?, id: String?, identifier: [MgoIdentifier]?, ingredient: [Ingredient]?, manufacturer: MgoReference?, name: String?, profile: R4NlCorePharmaceuticalProductProfile, referenceID: String, resourceType: String?, status: R4NlCorePharmaceuticalProductStatus?) {
         self.amount = amount
         self.batch = batch
         self.code = code
@@ -85,7 +86,7 @@ public extension R4NlCorePharmaceuticalProduct {
         profile: R4NlCorePharmaceuticalProductProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        status: String?? = nil
+        status: R4NlCorePharmaceuticalProductStatus?? = nil
     ) -> R4NlCorePharmaceuticalProduct {
         return R4NlCorePharmaceuticalProduct(
             amount: amount ?? self.amount,

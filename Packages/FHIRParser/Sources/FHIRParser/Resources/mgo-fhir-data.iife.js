@@ -43930,7 +43930,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           if (isArray(value2)) {
             return value2;
           }
-          return isKey(value2, object) ? [value2] : stringToPath(toString2(value2));
+          return isKey(value2, object) ? [value2] : stringToPath(toString(value2));
         }
         var castRest = baseRest;
         function castSlice(array, start, end) {
@@ -44123,7 +44123,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         }
         function createCaseFirst(methodName) {
           return function(string2) {
-            string2 = toString2(string2);
+            string2 = toString(string2);
             var strSymbols = hasUnicode(string2) ? stringToArray(string2) : undefined$1;
             var chr = strSymbols ? strSymbols[0] : string2.charAt(0);
             var trailing = strSymbols ? castSlice(strSymbols, 1).join("") : string2.slice(1);
@@ -44410,8 +44410,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             number = toNumber2(number);
             precision = precision == null ? 0 : nativeMin(toInteger2(precision), 292);
             if (precision && nativeIsFinite(number)) {
-              var pair = (toString2(number) + "e").split("e"), value2 = func(pair[0] + "e" + (+pair[1] + precision));
-              pair = (toString2(value2) + "e").split("e");
+              var pair = (toString(number) + "e").split("e"), value2 = func(pair[0] + "e" + (+pair[1] + precision));
+              pair = (toString(value2) + "e").split("e");
               return +(pair[0] + "e" + (+pair[1] - precision));
             }
             return func(number);
@@ -46180,7 +46180,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         function toSafeInteger(value2) {
           return value2 ? baseClamp(toInteger2(value2), -MAX_SAFE_INTEGER2, MAX_SAFE_INTEGER2) : value2 === 0 ? value2 : 0;
         }
-        function toString2(value2) {
+        function toString(value2) {
           return value2 == null ? "" : baseToString(value2);
         }
         var assign = createAssigner(function(object, source) {
@@ -46480,14 +46480,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return result2 + (index ? capitalize(word) : word);
         });
         function capitalize(string2) {
-          return upperFirst(toString2(string2).toLowerCase());
+          return upperFirst(toString(string2).toLowerCase());
         }
         function deburr(string2) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           return string2 && string2.replace(reLatin, deburrLetter).replace(reComboMark, "");
         }
         function endsWith(string2, target, position) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           target = baseToString(target);
           var length = string2.length;
           position = position === undefined$1 ? length : baseClamp(toInteger2(position), 0, length);
@@ -46496,11 +46496,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return position >= 0 && string2.slice(position, end) == target;
         }
         function escape(string2) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           return string2 && reHasUnescapedHtml.test(string2) ? string2.replace(reUnescapedHtml, escapeHtmlChar) : string2;
         }
         function escapeRegExp(string2) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           return string2 && reHasRegExpChar.test(string2) ? string2.replace(reRegExpChar, "\\$&") : string2;
         }
         var kebabCase = createCompounder(function(result2, word, index) {
@@ -46511,7 +46511,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         });
         var lowerFirst = createCaseFirst("toLowerCase");
         function pad2(string2, length, chars) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           length = toInteger2(length);
           var strLength = length ? stringSize(string2) : 0;
           if (!length || strLength >= length) {
@@ -46521,13 +46521,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return createPadding(nativeFloor(mid), chars) + string2 + createPadding(nativeCeil(mid), chars);
         }
         function padEnd(string2, length, chars) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           length = toInteger2(length);
           var strLength = length ? stringSize(string2) : 0;
           return length && strLength < length ? string2 + createPadding(length - strLength, chars) : string2;
         }
         function padStart(string2, length, chars) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           length = toInteger2(length);
           var strLength = length ? stringSize(string2) : 0;
           return length && strLength < length ? createPadding(length - strLength, chars) + string2 : string2;
@@ -46538,7 +46538,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           } else if (radix) {
             radix = +radix;
           }
-          return nativeParseInt(toString2(string2).replace(reTrimStart, ""), radix || 0);
+          return nativeParseInt(toString(string2).replace(reTrimStart, ""), radix || 0);
         }
         function repeat2(string2, n, guard) {
           if (guard ? isIterateeCall(string2, n, guard) : n === undefined$1) {
@@ -46546,10 +46546,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           } else {
             n = toInteger2(n);
           }
-          return baseRepeat(toString2(string2), n);
+          return baseRepeat(toString(string2), n);
         }
         function replace() {
-          var args = arguments, string2 = toString2(args[0]);
+          var args = arguments, string2 = toString(args[0]);
           return args.length < 3 ? string2 : string2.replace(args[1], args[2]);
         }
         var snakeCase = createCompounder(function(result2, word, index) {
@@ -46563,7 +46563,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           if (!limit) {
             return [];
           }
-          string2 = toString2(string2);
+          string2 = toString(string2);
           if (string2 && (typeof separator == "string" || separator != null && !isRegExp(separator))) {
             separator = baseToString(separator);
             if (!separator && hasUnicode(string2)) {
@@ -46576,7 +46576,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return result2 + (index ? " " : "") + upperFirst(word);
         });
         function startsWith2(string2, target, position) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           position = position == null ? 0 : baseClamp(toInteger2(position), 0, string2.length);
           target = baseToString(target);
           return string2.slice(position, position + target.length) == target;
@@ -46586,7 +46586,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           if (guard && isIterateeCall(string2, options, guard)) {
             options = undefined$1;
           }
-          string2 = toString2(string2);
+          string2 = toString(string2);
           options = assignInWith({}, options, settings, customDefaultsAssignIn);
           var imports = assignInWith({}, options.imports, settings.imports, customDefaultsAssignIn), importsKeys = keys(imports), importsValues = baseValues(imports, importsKeys);
           var isEscaping, isEvaluating, index = 0, interpolate = options.interpolate || reNoMatch, source = "__p += '";
@@ -46631,13 +46631,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return result2;
         }
         function toLower(value2) {
-          return toString2(value2).toLowerCase();
+          return toString(value2).toLowerCase();
         }
         function toUpper(value2) {
-          return toString2(value2).toUpperCase();
+          return toString(value2).toUpperCase();
         }
         function trim(string2, chars, guard) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           if (string2 && (guard || chars === undefined$1)) {
             return baseTrim(string2);
           }
@@ -46648,7 +46648,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return castSlice(strSymbols, start, end).join("");
         }
         function trimEnd2(string2, chars, guard) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           if (string2 && (guard || chars === undefined$1)) {
             return string2.slice(0, trimmedEndIndex(string2) + 1);
           }
@@ -46659,7 +46659,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return castSlice(strSymbols, 0, end).join("");
         }
         function trimStart2(string2, chars, guard) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           if (string2 && (guard || chars === undefined$1)) {
             return string2.replace(reTrimStart, "");
           }
@@ -46676,7 +46676,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             length = "length" in options ? toInteger2(options.length) : length;
             omission = "omission" in options ? baseToString(options.omission) : omission;
           }
-          string2 = toString2(string2);
+          string2 = toString(string2);
           var strLength = string2.length;
           if (hasUnicode(string2)) {
             var strSymbols = stringToArray(string2);
@@ -46700,7 +46700,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             if (string2.slice(end).search(separator)) {
               var match2, substring = result2;
               if (!separator.global) {
-                separator = RegExp2(separator.source, toString2(reFlags.exec(separator)) + "g");
+                separator = RegExp2(separator.source, toString(reFlags.exec(separator)) + "g");
               }
               separator.lastIndex = 0;
               while (match2 = separator.exec(substring)) {
@@ -46717,7 +46717,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return result2 + omission;
         }
         function unescape(string2) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           return string2 && reHasEscapedHtml.test(string2) ? string2.replace(reEscapedHtml, unescapeHtmlChar) : string2;
         }
         var upperCase = createCompounder(function(result2, word, index) {
@@ -46725,7 +46725,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         });
         var upperFirst = createCaseFirst("toUpperCase");
         function words(string2, pattern, guard) {
-          string2 = toString2(string2);
+          string2 = toString(string2);
           pattern = guard ? undefined$1 : pattern;
           if (pattern === undefined$1) {
             return hasUnicodeWord(string2) ? unicodeWords(string2) : asciiWords(string2);
@@ -46886,11 +46886,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           if (isArray(value2)) {
             return arrayMap(value2, toKey);
           }
-          return isSymbol(value2) ? [value2] : copyArray(stringToPath(toString2(value2)));
+          return isSymbol(value2) ? [value2] : copyArray(stringToPath(toString(value2)));
         }
         function uniqueId(prefix) {
           var id = ++idCounter;
-          return toString2(prefix) + id;
+          return toString(prefix) + id;
         }
         var add2 = createMathOperation(function(augend, addend) {
           return augend + addend;
@@ -47224,7 +47224,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         lodash2.toLower = toLower;
         lodash2.toNumber = toNumber2;
         lodash2.toSafeInteger = toSafeInteger;
-        lodash2.toString = toString2;
+        lodash2.toString = toString;
         lodash2.toUpper = toUpper;
         lodash2.trim = trim;
         lodash2.trimEnd = trimEnd2;
@@ -47427,7 +47427,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return { value: valueQuantity, comparator, unit, system, code: code2 };
   }
   const quantity$1 = createTypeParser(quantityLike);
-  const dateTime$3 = createTypeParser((value2) => value2);
+  const dateTime$1 = createTypeParser((value2) => value2);
   const reference$1 = createTypeParser((value2) => {
     const { reference: reference2, display } = value2;
     return {
@@ -47438,13 +47438,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const annotation$1 = createTypeParser((value2) => {
     const { time, text, authorReference } = value2;
     return {
-      time: dateTime$3(time),
+      time: dateTime$1(time),
       text,
       author: reference$1(authorReference)
     };
   });
   const boolean$1 = createTypeParser((value2) => value2);
-  const code$1 = createTypeParser((value2) => value2);
+  function code$1(value2) {
+    if (isNullish(value2)) return;
+    return value2;
+  }
   const nictizIdValueXMap = {
     "BodySite-Qualifier": "codeableConcept",
     "BodySite-Morphology": "codeableConcept",
@@ -47555,7 +47558,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       coding: map(value2.coding, coding$1, true)
     };
   });
-  const date$4 = createTypeParser((value2) => value2);
+  const date$3 = createTypeParser((value2) => value2);
   const instant$1 = createTypeParser((value2) => value2);
   const duration$1 = createTypeParser(quantityLike);
   const identifier$1 = createTypeParser((value2) => {
@@ -47570,8 +47573,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const period$1 = createTypeParser((value2) => {
     const { start, end } = value2;
     return {
-      start: dateTime$3(start),
-      end: dateTime$3(end)
+      start: dateTime$1(start),
+      end: dateTime$1(end)
     };
   });
   const range$1 = createTypeParser((value2) => {
@@ -47600,8 +47603,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     code: code$1,
     codeableConcept: codeableConcept$1,
     coding: coding$1,
-    date: date$4,
-    dateTime: dateTime$3,
+    date: date$3,
+    dateTime: dateTime$1,
     decimal: decimal$1,
     duration: duration$1,
     identifier: identifier$1,
@@ -47678,7 +47681,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       identifier: map(resource.identifier, identifier$1),
       context: reference$1(resource.context),
       subject: reference$1(resource.subject),
-      effective: dateTime$3(resource.effectiveDateTime),
+      effective: dateTime$1(resource.effectiveDateTime),
       performer: map(resource.performer, reference$1),
       status: string$1(resource.status),
       code: codeableConcept$1(resource.code),
@@ -47803,7 +47806,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       status: string$1(resource.status),
       type: map(resource.type.coding, coding$1),
       encounter: reference$1(resource.encounter),
-      date: dateTime$3(resource.date),
+      date: dateTime$1(resource.date),
       author: map(resource.author, reference$1),
       title: string$1(resource.title),
       section: map(resource.section, parseSection)
@@ -47864,14 +47867,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchema: uiSchema$K
   };
   const uiSchemaGroup$z = (resource, context) => {
-    const i18n = "r3.zib_laboratory_test_result_observation.reference_range";
+    const i18n2 = "r3.zib_laboratory_test_result_observation.reference_range";
     const { ui, formatMessage: formatMessage2 } = context;
     return {
-      label: formatMessage2(i18n),
+      label: formatMessage2(i18n2),
       children: [
-        ui.quantity(`${i18n}.low`, resource.low),
-        ui.quantity(`${i18n}.high`, resource.high),
-        ui.codeableConcept(`${i18n}.type`, resource.type)
+        ui.quantity(`${i18n2}.low`, resource.low),
+        ui.quantity(`${i18n2}.high`, resource.high),
+        ui.codeableConcept(`${i18n2}.type`, resource.type)
       ]
     };
   };
@@ -47885,19 +47888,19 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   };
   const uiSchema$J = (resource, context) => {
-    const i18n = "r3.zib_laboratory_test_result_observation";
+    const i18n2 = "r3.zib_laboratory_test_result_observation";
     const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
     const hcimLaboratoryTestResult = {
-      BasedOn: ui.reference(`${i18n}.based_on`, resource.basedOn),
-      Status: ui.string(`${i18n}.status`, resource.status),
-      ResultType: ui.codeableConcept(`${i18n}.result_type`, resource.resultType),
-      Code: ui.codeableConcept(`${i18n}.code`, resource.code),
-      Effective: ui.oneOfValueX(`${i18n}.effective`, resource, "effective"),
-      Value: ui.oneOfValueX(`${i18n}.value`, resource),
-      Interpretation: ui.codeableConcept(`${i18n}.interpretation`, resource.interpretation),
-      Comment: ui.string(`${i18n}.comment`, resource.comment),
-      Method: ui.codeableConcept(`${i18n}.method`, resource.method),
-      Specimen: ui.reference(`${i18n}.specimen`, resource.specimen),
+      BasedOn: ui.reference(`${i18n2}.based_on`, resource.basedOn),
+      Status: ui.code(`${i18n2}.status`, resource.status),
+      ResultType: ui.codeableConcept(`${i18n2}.result_type`, resource.resultType),
+      Code: ui.codeableConcept(`${i18n2}.code`, resource.code),
+      Effective: ui.oneOfValueX(`${i18n2}.effective`, resource, "effective"),
+      Value: ui.oneOfValueX(`${i18n2}.value`, resource),
+      Interpretation: ui.codeableConcept(`${i18n2}.interpretation`, resource.interpretation),
+      Comment: ui.string(`${i18n2}.comment`, resource.comment),
+      Method: ui.codeableConcept(`${i18n2}.method`, resource.method),
+      Specimen: ui.reference(`${i18n2}.specimen`, resource.specimen),
       ReferenceRange: map(
         resource.referenceRange,
         (x) => uiSchemaGroup$z(x, context),
@@ -47906,16 +47909,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       Related: map(resource.related, (x) => uiSchemaGroup$y(x, context), true).flat()
     };
     const hcimBasicElements = {
-      Identifier: ui.identifier(`${i18n}.identifier`, resource.identifier),
-      Subject: ui.reference(`${i18n}.subject`, resource.subject),
-      Performer: ui.reference(`${i18n}.performer`, resource.performer)
+      Identifier: ui.identifier(`${i18n2}.identifier`, resource.identifier),
+      Subject: ui.reference(`${i18n2}.subject`, resource.subject),
+      Performer: ui.reference(`${i18n2}.performer`, resource.performer)
     };
     const label = resource.resultType?.at(0)?.coding.at(0)?.display ?? resource.laboratoryTestResultCode?.at(0)?.coding.at(0)?.display;
     return setEmptyEntries2({
-      label: label ?? formatMessage2(i18n),
+      label: label ?? formatMessage2(i18n2),
       children: [
         {
-          label: formatMessage2(i18n),
+          label: formatMessage2(i18n2),
           children: [
             hcimBasicElements.Identifier,
             hcimBasicElements.Subject,
@@ -47923,11 +47926,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           ]
         },
         {
-          label: formatMessage2(`${i18n}.general_test_information`),
+          label: formatMessage2(`${i18n2}.general_test_information`),
           children: [hcimLaboratoryTestResult.ResultType, hcimLaboratoryTestResult.Comment]
         },
         {
-          label: formatMessage2(`${i18n}.lab_test`),
+          label: formatMessage2(`${i18n2}.lab_test`),
           children: [
             hcimLaboratoryTestResult.Code,
             hcimLaboratoryTestResult.Method,
@@ -48011,7 +48014,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         "dateTime",
         "period"
       ]),
-      status: string$1(resource?.status),
+      status: code$1(resource?.status),
       referenceRange: map(resource?.referenceRange, referenceRange.parse),
       interpretation: codeableConcept$1(resource?.interpretation),
       specimen: reference$1(resource.specimen),
@@ -48051,53 +48054,53 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchema: uiSchema$I
   };
   const uiSchemaGroup$x = (resource, context) => {
-    const i18n = "r3.attachment";
+    const i18n2 = "r3.attachment";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.string(`${i18n}.contentType`, resource.contentType),
-        ui.string(`${i18n}.language`, resource.language),
-        ui.string(`${i18n}.data`, resource.data),
-        ui.string(`${i18n}.url`, resource.url),
-        ui.unsignedInt(`${i18n}.size`, resource.size),
-        ui.string(`${i18n}.hash`, resource.hash),
-        ui.string(`${i18n}.title`, resource.title),
-        ui.dateTime(`${i18n}.creation`, resource.creation)
+        ui.string(`${i18n2}.contentType`, resource.contentType),
+        ui.string(`${i18n2}.language`, resource.language),
+        ui.string(`${i18n2}.data`, resource.data),
+        ui.string(`${i18n2}.url`, resource.url),
+        ui.unsignedInt(`${i18n2}.size`, resource.size),
+        ui.string(`${i18n2}.hash`, resource.hash),
+        ui.string(`${i18n2}.title`, resource.title),
+        ui.dateTime(`${i18n2}.creation`, resource.creation)
       ]
     };
   };
   function parseAttachment(value2) {
     return {
-      contentType: code$1(value2?.contentType),
-      language: code$1(value2?.language),
+      contentType: string$1(value2?.contentType),
+      language: string$1(value2?.language),
       data: string$1(value2?.data),
       url: string$1(value2?.url),
       size: unsignedInt$1(value2?.size),
       hash: string$1(value2?.hash),
       title: string$1(value2?.title),
-      creation: dateTime$3(value2?.creation)
+      creation: dateTime$1(value2?.creation)
     };
   }
-  const attachment = {
+  const attachment$1 = {
     parse: parseAttachment,
     uiSchemaGroup: uiSchemaGroup$x
   };
   const uiSchemaGroup$w = (resource, context) => {
-    const i18n = "r3.nl_core_address";
+    const i18n2 = "r3.nl_core_address";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.string(`${i18n}.use`, resource?.use),
-        ui.string(`${i18n}.type`, resource?.type),
-        ui.string(`${i18n}.text`, resource?.text),
-        ui.string(`${i18n}.city`, resource?.city),
-        ui.string(`${i18n}.district`, resource?.district),
-        ui.string(`${i18n}.state`, resource?.state),
-        ui.string(`${i18n}.postalCode`, resource?.postalCode),
-        ui.string(`${i18n}.country`, resource?.country),
-        ...ui.period(`${i18n}.period`, resource?.period)
+        ui.code(`${i18n2}.use`, resource?.use),
+        ui.code(`${i18n2}.type`, resource?.type),
+        ui.string(`${i18n2}.text`, resource?.text),
+        ui.string(`${i18n2}.city`, resource?.city),
+        ui.string(`${i18n2}.district`, resource?.district),
+        ui.string(`${i18n2}.state`, resource?.state),
+        ui.string(`${i18n2}.postalCode`, resource?.postalCode),
+        ui.string(`${i18n2}.country`, resource?.country),
+        ...ui.period(`${i18n2}.period`, resource?.period)
       ]
     };
   };
@@ -48120,16 +48123,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$w
   };
   const uiSchemaGroup$v = (resource, context) => {
-    const i18n = "r3.nl_core_contact_point";
+    const i18n2 = "r3.nl_core_contact_point";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.string(`${i18n}.system`, resource?.system),
-        ui.string(`${i18n}.value`, resource?.value),
-        ui.string(`${i18n}.use`, resource?.use),
-        ui.positiveInt(`${i18n}.rank`, resource?.rank),
-        ...ui.period(`${i18n}.period`, resource.period)
+        ui.code(`${i18n2}.system`, resource?.system),
+        ui.string(`${i18n2}.value`, resource?.value),
+        ui.code(`${i18n2}.use`, resource?.use),
+        ui.positiveInt(`${i18n2}.rank`, resource?.rank),
+        ...ui.period(`${i18n2}.period`, resource.period)
       ]
     };
   };
@@ -48147,18 +48150,18 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$v
   };
   const uiSchemaGroup$u = (resource, context) => {
-    const i18n = "r3.nl_core_humanname";
+    const i18n2 = "r3.nl_core_humanname";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.string(`${i18n}.family`, resource?.family),
-        ui.string(`${i18n}.given`, resource?.given),
-        ...ui.period(`${i18n}.period`, resource?.period),
-        ui.string(`${i18n}.prefix`, resource?.prefix),
-        ui.string(`${i18n}.suffix`, resource?.suffix),
-        ui.string(`${i18n}.use`, resource?.use),
-        ui.string(`${i18n}.text`, resource?.text)
+        ui.string(`${i18n2}.family`, resource?.family),
+        ui.string(`${i18n2}.given`, resource?.given),
+        ...ui.period(`${i18n2}.period`, resource?.period),
+        ui.string(`${i18n2}.prefix`, resource?.prefix),
+        ui.string(`${i18n2}.suffix`, resource?.suffix),
+        ui.string(`${i18n2}.use`, resource?.use),
+        ui.string(`${i18n2}.text`, resource?.text)
       ]
     };
   };
@@ -48178,28 +48181,28 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$u
   };
   const uiSchemaGroup$t = (resource, { ui, formatMessage: formatMessage2 }) => {
-    const i18n = "r3.zib_administration_schedule";
+    const i18n2 = "r3.zib_administration_schedule";
     const { repeat: repeat2 } = resource;
     const hcimInstructionsForUse = {
-      DoseDuration: ui.oneOfValueX(`${i18n}.repeat.bounds`, repeat2, "bounds"),
+      DoseDuration: ui.oneOfValueX(`${i18n2}.repeat.bounds`, repeat2, "bounds"),
       DurationOfAdministration: ui.valueWithUnit(
-        `${i18n}.repeat.duration`,
+        `${i18n2}.repeat.duration`,
         repeat2?.duration,
         repeat2?.durationUnit
       ),
-      Frequency: ui.integer(`${i18n}.repeat.frequency`, repeat2?.frequency),
-      FrequencyMax: ui.integer(`${i18n}.repeat.frequency_max`, repeat2?.frequencyMax),
+      Frequency: ui.integer(`${i18n2}.repeat.frequency`, repeat2?.frequency),
+      FrequencyMax: ui.integer(`${i18n2}.repeat.frequency_max`, repeat2?.frequencyMax),
       FrequencyOrInterval: ui.valueWithUnit(
-        `${i18n}.repeat.period`,
+        `${i18n2}.repeat.period`,
         repeat2?.period,
         repeat2?.periodUnit
       ),
-      WeekDay: ui.string(`${i18n}.repeat.day_of_week`, repeat2?.dayOfWeek),
-      AdministrationTime: ui.dateTime(`${i18n}.repeat.time_of_day`, repeat2?.timeOfDay),
-      TimeOfDay: ui.string(`${i18n}.repeat.when`, repeat2?.when)
+      WeekDay: ui.code(`${i18n2}.repeat.day_of_week`, repeat2?.dayOfWeek),
+      AdministrationTime: ui.dateTime(`${i18n2}.repeat.time_of_day`, repeat2?.timeOfDay),
+      TimeOfDay: ui.code(`${i18n2}.repeat.when`, repeat2?.when)
     };
     return {
-      label: formatMessage2(i18n),
+      label: formatMessage2(i18n2),
       children: [
         ...hcimInstructionsForUse.DoseDuration,
         hcimInstructionsForUse.DurationOfAdministration,
@@ -48224,7 +48227,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         period: decimal$1(repeat2?.period),
         periodUnit: code$1(repeat2?.periodUnit),
         dayOfWeek: map(repeat2?.dayOfWeek, code$1),
-        timeOfDay: map(repeat2?.timeOfDay, dateTime$3),
+        timeOfDay: map(repeat2?.timeOfDay, dateTime$1),
         when: map(repeat2?.when, code$1)
       }
     };
@@ -48234,25 +48237,25 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$t
   };
   const uiSchemaGroup$s = (resource, context) => {
-    const i18n = "r3.zib_instructions_for_use";
+    const i18n2 = "r3.zib_instructions_for_use";
     const { ui, formatMessage: formatMessage2 } = context;
     const hcimInstructionsForUse = {
-      SequenceNumber: ui.integer(`${i18n}.sequence`, resource.sequence),
-      Description: ui.string(`${i18n}.text`, resource.text),
+      SequenceNumber: ui.integer(`${i18n2}.sequence`, resource.sequence),
+      Description: ui.string(`${i18n2}.text`, resource.text),
       AdditionalInstructions: ui.codeableConcept(
-        `${i18n}.additional_instruction`,
+        `${i18n2}.additional_instruction`,
         resource.additionalInstruction
       ),
       AdministeringSchedule: zibAdministrationSchedule.uiSchemaGroup(resource.timing, context),
-      AsNeeded: ui.codeableConcept(`${i18n}.as_needed_codeable_concept`, resource.asNeeded),
-      RouteOfAdministration: ui.codeableConcept(`${i18n}.route`, resource.route),
-      Dose: ui.oneOfValueX(`${i18n}.dose`, resource, "dose"),
-      MaximumDose: ui.ratio(`${i18n}.max_dose_per_period`, resource.maxDosePerPeriod),
-      AdministeringSpeed: ui.oneOfValueX(`${i18n}.rate`, resource, "rate")
+      AsNeeded: ui.codeableConcept(`${i18n2}.as_needed_codeable_concept`, resource.asNeeded),
+      RouteOfAdministration: ui.codeableConcept(`${i18n2}.route`, resource.route),
+      Dose: ui.oneOfValueX(`${i18n2}.dose`, resource, "dose"),
+      MaximumDose: ui.ratio(`${i18n2}.max_dose_per_period`, resource.maxDosePerPeriod),
+      AdministeringSpeed: ui.oneOfValueX(`${i18n2}.rate`, resource, "rate")
     };
     return [
       {
-        label: formatMessage2(i18n),
+        label: formatMessage2(i18n2),
         children: [
           hcimInstructionsForUse.Description,
           hcimInstructionsForUse.RouteOfAdministration,
@@ -48290,13 +48293,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$s
   };
   const uiSchemaGroup$r = (resource, context) => {
-    const i18n = "r3.zib_product_ingredient";
+    const i18n2 = "r3.zib_product_ingredient";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.codeableConcept(`${i18n}.item`, resource.item),
-        ...ui.ratio(`${i18n}.amount`, resource.amount)
+        ui.codeableConcept(`${i18n2}.item`, resource.item),
+        ...ui.ratio(`${i18n2}.amount`, resource.amount)
       ]
     };
   };
@@ -48311,20 +48314,20 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$r
   };
   const uiSchemaGroup$q = (resource, context) => {
-    const i18n = "r3.zib_product_package";
+    const i18n2 = "r3.zib_product_package";
     const ui = context.ui;
     const contents = map(
       resource.content,
       (content) => {
         return [
-          ui.codeableConcept(`${i18n}.content_item`, content.item),
-          ui.reference(`${i18n}.content_reference`, content.reference)
+          ui.codeableConcept(`${i18n2}.content_item`, content.item),
+          ui.reference(`${i18n2}.content_reference`, content.reference)
         ];
       },
       true
     );
     return {
-      label: i18n,
+      label: i18n2,
       children: [...contents.flat()]
     };
   };
@@ -48404,13 +48407,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchema: uiSchema$H
   };
   const uiSchemaGroup$p = (resource, context) => {
-    const i18n = "r3.nl_core_patient.communication";
+    const i18n2 = "r3.nl_core_patient.communication";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.codeableConcept(`${i18n}.language`, resource.language),
-        ui.boolean(`${i18n}.preferred`, resource.preferred)
+        ui.codeableConcept(`${i18n2}.language`, resource.language),
+        ui.boolean(`${i18n2}.preferred`, resource.preferred)
       ]
     };
   };
@@ -48425,7 +48428,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$p
   };
   const uiSchemaGroup$o = (resource, context) => {
-    const i18n = "r3.nl_core_patient.contact";
+    const i18n2 = "r3.nl_core_patient.contact";
     const ui = context.ui;
     const telecom = map(
       resource.telecom,
@@ -48433,14 +48436,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       true
     ).flat();
     return {
-      label: i18n,
+      label: i18n2,
       children: [
         ...nlCoreHumanname.uiSchemaGroup(resource.name, context).children,
         ...ui.helpers.getChildren(telecom),
         ...nlCoreAddress.uiSchemaGroup(resource.address, context).children,
-        ui.string(`${i18n}.gender`, resource.gender),
-        ui.reference(`${i18n}.organization`, resource.organization),
-        ...ui.period(`${i18n}.period`, resource.period)
+        ui.code(`${i18n2}.gender`, resource.gender),
+        ui.reference(`${i18n2}.organization`, resource.organization),
+        ...ui.period(`${i18n2}.period`, resource.period)
       ].filter(isNonNullish)
     };
   };
@@ -48460,13 +48463,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$o
   };
   const uiSchemaGroup$n = (resource, context) => {
-    const i18n = "r3.nl_core_patient.link";
+    const i18n2 = "r3.nl_core_patient.link";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.reference(`${i18n}.other`, resource.other),
-        ui.code(`${i18n}.type`, resource.type)
+        ui.reference(`${i18n2}.other`, resource.other),
+        ui.code(`${i18n2}.type`, resource.type)
       ]
     };
   };
@@ -48482,7 +48485,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$G = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.nl_core_patient";
+    const i18n2 = "r3.nl_core_patient";
     const address = map(resource.address, (x) => nlCoreAddress.uiSchemaGroup(x, context), true);
     const communication2 = map(
       resource.communication,
@@ -48502,19 +48505,19 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       label: resource.name?.at(0)?.text,
       children: [
         {
-          label: `${i18n}.group_details`,
+          label: `${i18n2}.group_details`,
           children: [
-            ui.boolean(`${i18n}.active`, resource.active),
-            ui.date(`${i18n}.birth_date`, resource.birthDate),
-            ui.boolean(`${i18n}.deceased`, resource.deceased),
-            ui.dateTime(`${i18n}.deceased_date_time`, resource.deceasedDateTime),
-            ui.code(`${i18n}.gender`, resource.gender),
-            ui.reference(`${i18n}.general_practitioner`, resource.generalPractitioner),
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.reference(`${i18n}.managing_organization`, resource.managingOrganization),
-            ui.codeableConcept(`${i18n}.marital_status`, resource.maritalStatus),
-            ui.boolean(`${i18n}.multiple_birth`, resource.multipleBirth),
-            ui.integer(`${i18n}.multiple_birth_integer`, resource.multipleBirthInteger)
+            ui.boolean(`${i18n2}.active`, resource.active),
+            ui.date(`${i18n2}.birth_date`, resource.birthDate),
+            ui.boolean(`${i18n2}.deceased`, resource.deceased),
+            ui.dateTime(`${i18n2}.deceased_date_time`, resource.deceasedDateTime),
+            ui.code(`${i18n2}.gender`, resource.gender),
+            ui.reference(`${i18n2}.general_practitioner`, resource.generalPractitioner),
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.reference(`${i18n2}.managing_organization`, resource.managingOrganization),
+            ui.codeableConcept(`${i18n2}.marital_status`, resource.maritalStatus),
+            ui.boolean(`${i18n2}.multiple_birth`, resource.multipleBirth),
+            ui.integer(`${i18n2}.multiple_birth_integer`, resource.multipleBirthInteger)
           ]
         },
         ...address,
@@ -48533,11 +48536,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ...resourceMeta(resource, profile$G, FhirVersion.R3),
       active: boolean$1(resource.active),
       address: map(resource.address, nlCoreAddress.parse),
-      birthDate: date$4(resource.birthDate),
+      birthDate: date$3(resource.birthDate),
       communication: map(resource.communication, communication.parse),
       contact: map(resource.contact, contact.parse),
       deceased: boolean$1(resource.deceasedBoolean),
-      deceasedDateTime: dateTime$3(resource.deceasedDateTime),
+      deceasedDateTime: dateTime$1(resource.deceasedDateTime),
       gender: code$1(resource.gender),
       generalPractitioner: map(resource.generalPractitioner, reference$1),
       identifier: map(resource.identifier, identifier$1),
@@ -48547,7 +48550,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       multipleBirth: boolean$1(resource.multipleBirthBoolean),
       multipleBirthInteger: integer$1(resource.multipleBirthInteger),
       name: map(resource.name, nlCoreHumanname.parse),
-      photo: map(resource.photo, attachment.parse),
+      photo: map(resource.photo, attachment$1.parse),
       telecom: map(resource.telecom, nlCoreContactpoint.parse)
     };
   }
@@ -48662,8 +48665,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       status: string$1(resource.status),
       specialty: map(resource.specialty, codeableConcept$1),
       description: string$1(resource.description),
-      start: dateTime$3(resource.start),
-      end: dateTime$3(resource.end),
+      start: dateTime$1(resource.start),
+      end: dateTime$1(resource.end),
       participant: map(resource.participant, (x) => ({ actor: reference$1(x.actor) }))
     };
   }
@@ -48674,26 +48677,26 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$C = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.nl_core_observation";
+    const i18n2 = "r3.nl_core_observation";
     return {
       label: resource.identifier?.[0]?.value,
       children: [
         {
-          label: `${i18n}.group_details`,
+          label: `${i18n2}.group_details`,
           children: [
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.code(`${i18n}.status`, resource.status),
-            ui.codeableConcept(`${i18n}.category`, resource.category),
-            ui.reference(`${i18n}.subject`, resource.subject),
-            ui.reference(`${i18n}.context`, resource.context),
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.code(`${i18n2}.status`, resource.status),
+            ui.codeableConcept(`${i18n2}.category`, resource.category),
+            ui.reference(`${i18n2}.subject`, resource.subject),
+            ui.reference(`${i18n2}.context`, resource.context),
             Object.prototype.hasOwnProperty.call(resource, "effectiveDateTime") ? ui.dateTime(
-              `${i18n}.effective_date_time`,
+              `${i18n2}.effective_date_time`,
               resource.effectiveDateTime
             ) : void 0,
-            ...ui.period(`${i18n}.effective_period`, resource.effectivePeriod),
-            ui.codeableConcept(`${i18n}.data_absent_reason`, resource.dataAbsentReason),
-            ui.string(`${i18n}.comment`, resource.comment),
-            ui.codeableConcept(`${i18n}.body_site`, resource.bodySite)
+            ...ui.period(`${i18n2}.effective_period`, resource.effectivePeriod),
+            ui.codeableConcept(`${i18n2}.data_absent_reason`, resource.dataAbsentReason),
+            ui.string(`${i18n2}.comment`, resource.comment),
+            ui.codeableConcept(`${i18n2}.body_site`, resource.bodySite)
           ].filter(isNonNullish)
         }
       ]
@@ -48712,7 +48715,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       dataAbsentReason: codeableConcept$1(resource.dataAbsentReason),
       method: codeableConcept$1(resource.method),
       bodySite: codeableConcept$1(resource.bodySite),
-      effectiveDateTime: dateTime$3(resource.effectiveDateTime),
+      effectiveDateTime: dateTime$1(resource.effectiveDateTime),
       comment: string$1(resource.comment)
     };
   }
@@ -48729,7 +48732,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$B = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_administration_agreement";
+    const i18n2 = "r3.zib_administration_agreement";
     const instructionsForUse = map(
       resource.dossageInstruction,
       (x) => uiSchemaGroup$s(x, context),
@@ -48739,27 +48742,27 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       label: resource.medicationReference?.display,
       children: [
         {
-          label: `${i18n}.group_general_information`,
+          label: `${i18n2}.group_general_information`,
           children: [
-            ui.dateTime(`${i18n}.authored_on`, resource.authoredOn),
-            ui.string(`${i18n}.agreement_reason`, resource.agreementReason),
-            ui.duration(`${i18n}.usage_duration`, resource.usageDuration),
+            ui.dateTime(`${i18n2}.authored_on`, resource.authoredOn),
+            ui.string(`${i18n2}.agreement_reason`, resource.agreementReason),
+            ui.duration(`${i18n2}.usage_duration`, resource.usageDuration),
             ui.codeableConcept(
-              `${i18n}.additional_information`,
+              `${i18n2}.additional_information`,
               resource.additionalInformation
             ),
-            ui.identifier(`${i18n}.medication_treatment`, resource.medicationTreatment),
-            ui.codeableConcept(`${i18n}.stop_type`, resource.stopType),
+            ui.identifier(`${i18n2}.medication_treatment`, resource.medicationTreatment),
+            ui.codeableConcept(`${i18n2}.stop_type`, resource.stopType),
             ui.duration(
-              `${i18n}.repeat_period_cyclical_schedule`,
+              `${i18n2}.repeat_period_cyclical_schedule`,
               resource.repeatPeriodCyclicalSchedule
             ),
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.code(`${i18n}.status`, resource.status),
-            ui.codeableConcept(`${i18n}.category`, resource.category),
-            ui.quantity(`${i18n}.quantity`, resource.quantity),
-            ui.quantity(`${i18n}.days_supply`, resource.daysSupply),
-            ui.annotation(`${i18n}.note`, resource.note)
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.code(`${i18n2}.status`, resource.status),
+            ui.codeableConcept(`${i18n2}.category`, resource.category),
+            ui.quantity(`${i18n2}.quantity`, resource.quantity),
+            ui.quantity(`${i18n2}.days_supply`, resource.daysSupply),
+            ui.annotation(`${i18n2}.note`, resource.note)
           ]
         },
         ...instructionsForUse
@@ -48827,11 +48830,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return {
       ...resourceMeta(resource, profile$A, FhirVersion.R3),
       category: map(resource.category, codeableConcept$1),
-      dateTime: dateTime$3(resource.dateTime),
+      dateTime: dateTime$1(resource.dateTime),
       disorder: extensionNictiz(resource, "zib-AdvanceDirective-Disorder"),
       consentingParty: map(resource.consentingParty, reference$1),
       source: {
-        attachment: attachment.parse(resource.sourceAttachment),
+        attachment: attachment$1.parse(resource.sourceAttachment),
         identifier: identifier$1(resource.sourceIdentifier),
         reference: reference$1(resource.sourceReference)
       },
@@ -48861,21 +48864,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$y = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_alert";
+    const i18n2 = "r3.zib_alert";
     return {
-      label: i18n,
+      label: i18n2,
       children: [
         {
-          label: `${i18n}.group_general_information`,
+          label: `${i18n2}.group_general_information`,
           children: [
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.code(`${i18n}.status`, resource.status),
-            ui.codeableConcept(`${i18n}.category`, resource.category),
-            ui.codeableConcept(`${i18n}.code`, resource.code),
-            ui.reference(`${i18n}.subject`, resource.subject),
-            ...ui.period(`${i18n}.period`, resource.period),
-            ui.reference(`${i18n}.encounter`, resource.encounter),
-            ui.reference(`${i18n}.author`, resource.author)
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.code(`${i18n2}.status`, resource.status),
+            ui.codeableConcept(`${i18n2}.category`, resource.category),
+            ui.codeableConcept(`${i18n2}.code`, resource.code),
+            ui.reference(`${i18n2}.subject`, resource.subject),
+            ...ui.period(`${i18n2}.period`, resource.period),
+            ui.reference(`${i18n2}.encounter`, resource.encounter),
+            ui.reference(`${i18n2}.author`, resource.author)
           ]
         }
       ]
@@ -48902,21 +48905,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$x = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_allergy_intolerance";
+    const i18n2 = "r3.zib_allergy_intolerance";
     return {
       label: resource.identifier?.at(0)?.value,
       children: [
         {
-          label: `${i18n}.group_details`,
+          label: `${i18n2}.group_details`,
           children: [
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.code(`${i18n}.clinical_status`, resource.clinicalStatus),
-            ui.code(`${i18n}.verification_status`, resource.verificationStatus),
-            ui.code(`${i18n}.type`, resource.type),
-            ui.code(`${i18n}.category`, resource.category),
-            ui.code(`${i18n}.criticality`, resource.criticality),
-            ui.codeableConcept(`${i18n}.code`, resource.code),
-            ui.reference(`${i18n}.patient`, resource.patient)
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.code(`${i18n2}.clinical_status`, resource.clinicalStatus),
+            ui.code(`${i18n2}.verification_status`, resource.verificationStatus),
+            ui.code(`${i18n2}.type`, resource.type),
+            ui.code(`${i18n2}.category`, resource.category),
+            ui.code(`${i18n2}.criticality`, resource.criticality),
+            ui.codeableConcept(`${i18n2}.code`, resource.code),
+            ui.reference(`${i18n2}.patient`, resource.patient)
           ]
         }
       ]
@@ -49225,12 +49228,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchemaGroup$k = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_laboratory_test_result_specimen.container";
+    const i18n2 = "r3.zib_laboratory_test_result_specimen.container";
     return {
-      label: `${i18n}`,
+      label: `${i18n2}`,
       children: [
-        ui.identifier(`${i18n}.identifier`, resource.identifier),
-        ui.codeableConcept(`${i18n}.type`, resource.type)
+        ui.identifier(`${i18n2}.identifier`, resource.identifier),
+        ui.codeableConcept(`${i18n2}.type`, resource.type)
       ]
     };
   };
@@ -49290,7 +49293,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       // NL-CM:13.1.20 & NL-CM:13.1.21
       type: codeableConcept$1(resource.type),
       // NL-CM:13.1.16
-      receivedTime: dateTime$3(resource.receivedTime),
+      receivedTime: dateTime$1(resource.receivedTime),
       // NL-CM:13.1.25
       collection: {
         quantity: quantity$1(collection?.quantity),
@@ -49319,12 +49322,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchemaGroup$j = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_laboratory_test_result_specimen_isolate.container";
+    const i18n2 = "r3.zib_laboratory_test_result_specimen_isolate.container";
     return {
-      label: `${i18n}`,
+      label: `${i18n2}`,
       children: [
-        ui.identifier(`${i18n}.identifier`, resource.identifier),
-        ui.codeableConcept(`${i18n}.type`, resource.type)
+        ui.identifier(`${i18n2}.identifier`, resource.identifier),
+        ui.codeableConcept(`${i18n2}.type`, resource.type)
       ]
     };
   };
@@ -49384,7 +49387,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       // NL-CM:13.1.20 & NL-CM:13.1.21
       type: codeableConcept$1(resource.type),
       // NL-CM:13.1.22
-      receivedTime: dateTime$3(resource.receivedTime),
+      receivedTime: dateTime$1(resource.receivedTime),
       // NL-CM:13.1.25
       collection: {
         quantity: quantity$1(collection?.quantity),
@@ -49413,13 +49416,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$o = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_laboratory_test_result_substance";
+    const i18n2 = "r3.zib_laboratory_test_result_substance";
     return {
-      label: `${i18n}`,
+      label: `${i18n2}`,
       children: [
         {
-          label: `${i18n}`,
-          children: [ui.codeableConcept(`${i18n}.code`, resource.code)]
+          label: `${i18n2}`,
+          children: [ui.codeableConcept(`${i18n2}.code`, resource.code)]
         }
       ]
     };
@@ -49458,36 +49461,36 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$m = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_medical_device";
+    const i18n2 = "r3.zib_medical_device";
     return {
       label: resource.device?.display,
       children: [
         {
-          label: `${i18n}.group_product`,
+          label: `${i18n2}.group_product`,
           children: [
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.code(`${i18n}.clinical_status`, resource.status),
-            ui.reference(`${i18n}.device`, resource.device),
-            ...ui.period(`${i18n}.whenUsed`, resource.whenUsed),
-            ui.dateTime(`${i18n}.recordedOn`, resource.recordedOn)
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.code(`${i18n2}.clinical_status`, resource.status),
+            ui.reference(`${i18n2}.device`, resource.device),
+            ...ui.period(`${i18n2}.whenUsed`, resource.whenUsed),
+            ui.dateTime(`${i18n2}.recordedOn`, resource.recordedOn)
           ]
         },
         {
-          label: `${i18n}.group_indication`,
+          label: `${i18n2}.group_indication`,
           children: [
-            ui.annotation(`${i18n}.note`, resource.note),
-            ui.codeableConcept(`${i18n}.bodySite`, resource.bodySite),
-            ui.codeableConcept(`${i18n}.laterality`, resource.laterality),
-            ui.reference(`${i18n}.reason`, resource.reason)
+            ui.annotation(`${i18n2}.note`, resource.note),
+            ui.codeableConcept(`${i18n2}.bodySite`, resource.bodySite),
+            ui.codeableConcept(`${i18n2}.laterality`, resource.laterality),
+            ui.reference(`${i18n2}.reason`, resource.reason)
           ]
         },
         {
-          label: `${i18n}.group_general`,
+          label: `${i18n2}.group_general`,
           children: [
-            ui.reference(`${i18n}.patient`, resource.patient),
-            ui.reference(`${i18n}.source`, resource.source),
-            ui.reference(`${i18n}.organization`, resource.organization),
-            ui.reference(`${i18n}.practitioner`, resource.practitioner)
+            ui.reference(`${i18n2}.patient`, resource.patient),
+            ui.reference(`${i18n2}.source`, resource.source),
+            ui.reference(`${i18n2}.organization`, resource.organization),
+            ui.reference(`${i18n2}.practitioner`, resource.practitioner)
           ]
         }
       ]
@@ -49505,7 +49508,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       patient: reference$1(resource.subject),
       whenUsed: period$1(resource.whenUsed),
       // timing
-      recordedOn: dateTime$3(resource.recordedOn),
+      recordedOn: dateTime$1(resource.recordedOn),
       source: reference$1(resource.source),
       device: reference$1(resource.device),
       // indication
@@ -49521,16 +49524,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$l = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_medical_device_product";
+    const i18n2 = "r3.zib_medical_device_product";
     return {
       label: resource.id,
       children: [
         {
-          label: `${i18n}.group_general_information`,
+          label: `${i18n2}.group_general_information`,
           children: [
-            ui.reference(`${i18n}.patient`, resource.patient),
-            ui.annotation(`${i18n}.note`, resource.note),
-            ui.dateTime(`${i18n}.expiration_date`, resource.expirationDate)
+            ui.reference(`${i18n2}.patient`, resource.patient),
+            ui.annotation(`${i18n2}.note`, resource.note),
+            ui.dateTime(`${i18n2}.expiration_date`, resource.expirationDate)
           ]
         }
       ]
@@ -49542,7 +49545,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ...resourceMeta(resource, profile$l, FhirVersion.R3),
       note: map(resource.note, annotation$1),
       patient: reference$1(resource.patient),
-      expirationDate: dateTime$3(resource.expirationDate)
+      expirationDate: dateTime$1(resource.expirationDate)
     };
   }
   const zibMedicalDeviceProduct = {
@@ -49587,7 +49590,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$j = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_medication_agreement";
+    const i18n2 = "r3.zib_medication_agreement";
     const instructionsForUse = map(
       resource.dossageInstruction,
       (x) => uiSchemaGroup$s(x, context),
@@ -49597,26 +49600,26 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       label: resource.medicationReference?.display,
       children: [
         {
-          label: `${i18n}.group_general_information`,
+          label: `${i18n2}.group_general_information`,
           children: [
-            ...ui.period(`${i18n}.period_of_use`, resource.periodOfUse),
-            ui.duration(`${i18n}.usage_duration`, resource.usageDuration),
-            ui.identifier(`${i18n}.medication_treatment`, resource.medicationTreatment),
-            ui.codeableConcept(`${i18n}.stop_type`, resource.stopType),
+            ...ui.period(`${i18n2}.period_of_use`, resource.periodOfUse),
+            ui.duration(`${i18n2}.usage_duration`, resource.usageDuration),
+            ui.identifier(`${i18n2}.medication_treatment`, resource.medicationTreatment),
+            ui.codeableConcept(`${i18n2}.stop_type`, resource.stopType),
             ui.duration(
-              `${i18n}.repeat_period_cyclical_schedule`,
+              `${i18n2}.repeat_period_cyclical_schedule`,
               resource.repeatPeriodCyclicalSchedule
             ),
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.reference(`${i18n}.definition`, resource.definition),
-            ui.reference(`${i18n}.basedOn`, resource.basedOn),
-            ui.identifier(`${i18n}.group_identifier`, resource.groupIdentifier),
-            ui.code(`${i18n}.status`, resource.status),
-            ui.code(`${i18n}.intent`, resource.intent),
-            ui.codeableConcept(`${i18n}.category`, resource.category),
-            ui.code(`${i18n}.priority`, resource.priority),
-            ui.reference(`${i18n}.medication_reference`, resource.medicationReference),
-            ui.annotation(`${i18n}.note`, resource.note)
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.reference(`${i18n2}.definition`, resource.definition),
+            ui.reference(`${i18n2}.basedOn`, resource.basedOn),
+            ui.identifier(`${i18n2}.group_identifier`, resource.groupIdentifier),
+            ui.code(`${i18n2}.status`, resource.status),
+            ui.code(`${i18n2}.intent`, resource.intent),
+            ui.codeableConcept(`${i18n2}.category`, resource.category),
+            ui.code(`${i18n2}.priority`, resource.priority),
+            ui.reference(`${i18n2}.medication_reference`, resource.medicationReference),
+            ui.annotation(`${i18n2}.note`, resource.note)
           ]
         },
         ...instructionsForUse
@@ -49654,26 +49657,26 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchema: uiSchema$j
   };
   const uiSchema$i = (resource, context) => {
-    const i18n = "r3.zib_medication_use";
+    const i18n2 = "r3.zib_medication_use";
     const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
     const hcimMedicationUse2 = {
-      AsAgreedIndicator: ui.boolean(`${i18n}.as_agreed_indicator`, resource.asAgreedIndicator),
-      Prescriber: ui.reference(`${i18n}.prescriber`, resource.prescriber),
+      AsAgreedIndicator: ui.boolean(`${i18n2}.as_agreed_indicator`, resource.asAgreedIndicator),
+      Prescriber: ui.reference(`${i18n2}.prescriber`, resource.prescriber),
       ReasonForChangeOrDiscontinuationOfUse: ui.codeableConcept(
-        `${i18n}.reason_for_change_or_discontinuation_of_use`,
+        `${i18n2}.reason_for_change_or_discontinuation_of_use`,
         resource.reasonForChangeOrDiscontinuationOfUse
       ),
-      MedicationUseStopType: ui.code(`${i18n}.status`, resource.status),
-      ProductUsed: ui.reference(`${i18n}.medication_reference`, resource.medicationReference),
-      PeriodOfUsePeriod: ui.period(`${i18n}.effective_period`, resource.effectivePeriod),
+      MedicationUseStopType: ui.code(`${i18n2}.status`, resource.status),
+      ProductUsed: ui.reference(`${i18n2}.medication_reference`, resource.medicationReference),
+      PeriodOfUsePeriod: ui.period(`${i18n2}.effective_period`, resource.effectivePeriod),
       PeriodOfUseDuration: ui.duration(
-        `${i18n}.effective_period.duration`,
+        `${i18n2}.effective_period.duration`,
         resource.effectiveDuration
       ),
-      MedicationUseDateTime: ui.dateTime(`${i18n}.date_asserted`, resource.dateAsserted),
-      UseIndicator: ui.code(`${i18n}.taken`, resource.taken),
-      ReasonForUse: ui.codeableConcept(`${i18n}.reason_code.text`, resource.reasonCode),
-      Comment: ui.annotation(`${i18n}.note`, resource.note)
+      MedicationUseDateTime: ui.dateTime(`${i18n2}.date_asserted`, resource.dateAsserted),
+      UseIndicator: ui.code(`${i18n2}.taken`, resource.taken),
+      ReasonForUse: ui.codeableConcept(`${i18n2}.reason_code.text`, resource.reasonCode),
+      Comment: ui.annotation(`${i18n2}.note`, resource.note)
     };
     const hcimInstructionsForUse = {
       InstructionsForUse: map(
@@ -49682,7 +49685,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         true
       ).flat(),
       RepeatPeriodCyclicalSchedule: ui.duration(
-        `${i18n}.repeat_period_cyclical_schedule`,
+        `${i18n2}.repeat_period_cyclical_schedule`,
         resource.repeatPeriodCyclicalSchedule
       )
     };
@@ -49703,7 +49706,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             hcimMedicationUse2.MedicationUseStopType,
             hcimMedicationUse2.ReasonForChangeOrDiscontinuationOfUse,
             hcimInstructionsForUse.RepeatPeriodCyclicalSchedule,
-            ui.identifier(`${i18n}.medication_treatment`, resource.medicationTreatment),
+            ui.identifier(`${i18n2}.medication_treatment`, resource.medicationTreatment),
             hcimMedicationUse2.Comment
           ]
         },
@@ -49736,7 +49739,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         resource.effectivePeriod,
         "zib-MedicationUse-Duration"
       ),
-      dateAsserted: dateTime$3(resource.dateAsserted),
+      dateAsserted: dateTime$1(resource.dateAsserted),
       informationSource: reference$1(resource.informationSource),
       subject: reference$1(resource.subject),
       taken: code$1(resource.taken),
@@ -49752,20 +49755,20 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$h = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_nutrition_advice";
+    const i18n2 = "r3.zib_nutrition_advice";
     return {
       label: resource.identifier?.at(0)?.value,
       children: [
         {
-          label: `${i18n}.group_details`,
+          label: `${i18n2}.group_details`,
           children: [
-            ui.string(`${i18n}.comment`, resource.comment),
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.code(`${i18n}.status`, resource.status),
-            ui.reference(`${i18n}.patient`, resource.patient),
-            ui.dateTime(`${i18n}.dateTime`, resource.dateTime),
+            ui.string(`${i18n2}.comment`, resource.comment),
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.code(`${i18n2}.status`, resource.status),
+            ui.reference(`${i18n2}.patient`, resource.patient),
+            ui.dateTime(`${i18n2}.dateTime`, resource.dateTime),
             ui.codeableConcept(
-              `${i18n}.food_preference_modifier`,
+              `${i18n2}.food_preference_modifier`,
               resource.foodPreferenceModifier
             )
           ]
@@ -49781,7 +49784,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       identifier: map(resource.identifier, identifier$1),
       status: code$1(resource.status),
       patient: reference$1(resource.patient),
-      dateTime: dateTime$3(resource.dateTime),
+      dateTime: dateTime$1(resource.dateTime),
       foodPreferenceModifier: map(resource.foodPreferenceModifier, codeableConcept$1)
     };
   }
@@ -49791,17 +49794,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchema: uiSchema$h
   };
   const uiSchemaGroup$i = (resource, context) => {
-    const i18n = "r3.zib_payer.grouping";
+    const i18n2 = "r3.zib_payer.grouping";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.string(`${i18n}.group`, resource.groupDisplay),
-        ui.string(`${i18n}.sub_group`, resource.subGroupDisplay),
-        ui.string(`${i18n}.plan`, resource.planDisplay),
-        ui.string(`${i18n}.sub_plan`, resource.subPlanDisplay),
-        ui.string(`${i18n}.class`, resource.classDisplay),
-        ui.string(`${i18n}.sub_class`, resource.subClassDisplay)
+        ui.string(`${i18n2}.group`, resource.groupDisplay),
+        ui.string(`${i18n2}.sub_group`, resource.subGroupDisplay),
+        ui.string(`${i18n2}.plan`, resource.planDisplay),
+        ui.string(`${i18n2}.sub_plan`, resource.subPlanDisplay),
+        ui.string(`${i18n2}.class`, resource.classDisplay),
+        ui.string(`${i18n2}.sub_class`, resource.subClassDisplay)
       ]
     };
   };
@@ -49827,28 +49830,28 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$g = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_payer";
+    const i18n2 = "r3.zib_payer";
     return {
       label: resource.identifier?.at(0)?.value,
       children: [
         {
-          label: `${i18n}.group_details`,
+          label: `${i18n2}.group_details`,
           children: [
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.code(`${i18n}.status`, resource.status),
-            ui.codeableConcept(`${i18n}.type`, resource.type),
-            ui.reference(`${i18n}.policy_holder`, resource.policyHolder),
-            ui.reference(`${i18n}.subscriber`, resource.subscriber),
-            ui.string(`${i18n}.subscriber_id`, resource.subscriberId),
-            ui.reference(`${i18n}.beneficiary`, resource.beneficiary),
-            ui.codeableConcept(`${i18n}.relationship`, resource.relationship),
-            ...ui.period(`${i18n}.period`, resource.period),
-            ui.reference(`${i18n}.payor`, resource.payor),
-            ui.string(`${i18n}.dependent`, resource.dependent),
-            ui.string(`${i18n}.sequence`, resource.sequence),
-            ui.positiveInt(`${i18n}.order`, resource.order),
-            ui.string(`${i18n}.network`, resource.network),
-            ui.reference(`${i18n}.contract`, resource.contract)
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.code(`${i18n2}.status`, resource.status),
+            ui.codeableConcept(`${i18n2}.type`, resource.type),
+            ui.reference(`${i18n2}.policy_holder`, resource.policyHolder),
+            ui.reference(`${i18n2}.subscriber`, resource.subscriber),
+            ui.string(`${i18n2}.subscriber_id`, resource.subscriberId),
+            ui.reference(`${i18n2}.beneficiary`, resource.beneficiary),
+            ui.codeableConcept(`${i18n2}.relationship`, resource.relationship),
+            ...ui.period(`${i18n2}.period`, resource.period),
+            ui.reference(`${i18n2}.payor`, resource.payor),
+            ui.string(`${i18n2}.dependent`, resource.dependent),
+            ui.string(`${i18n2}.sequence`, resource.sequence),
+            ui.positiveInt(`${i18n2}.order`, resource.order),
+            ui.string(`${i18n2}.network`, resource.network),
+            ui.reference(`${i18n2}.contract`, resource.contract)
           ]
         },
         uiSchemaGroup$i(resource.grouping, context)
@@ -49883,13 +49886,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchema: uiSchema$g
   };
   const uiSchemaGroup$h = (resource, context) => {
-    const i18n = "r3.evidence";
+    const i18n2 = "r3.evidence";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.codeableConcept(`${i18n}.code`, resource.code),
-        ui.reference(`${i18n}.detail`, resource.detail)
+        ui.codeableConcept(`${i18n2}.code`, resource.code),
+        ui.reference(`${i18n2}.detail`, resource.detail)
       ]
     };
   };
@@ -49904,13 +49907,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$h
   };
   const uiSchemaGroup$g = (resource, context) => {
-    const i18n = "r3.stage";
+    const i18n2 = "r3.stage";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.codeableConcept(`${i18n}.summary`, resource.summary),
-        ui.reference(`${i18n}.assessment`, resource.assessment)
+        ui.codeableConcept(`${i18n2}.summary`, resource.summary),
+        ui.reference(`${i18n2}.assessment`, resource.assessment)
       ]
     };
   };
@@ -49926,34 +49929,34 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$f = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_problem";
+    const i18n2 = "r3.zib_problem";
     const stage2 = uiSchemaGroup$g(resource.stage, context);
     const evidence2 = map(resource.evidence, (x) => uiSchemaGroup$h(x, context), true);
     return {
       label: resource.code?.coding?.at(0)?.display,
       children: [
         {
-          label: `${i18n}.group_general_information`,
+          label: `${i18n2}.group_general_information`,
           children: [
-            ui.code(`${i18n}.clinicalStatus`, resource.clinicalStatus),
-            ui.codeableConcept(`${i18n}.category`, resource.category),
-            ui.dateTime(`${i18n}.onsetDateTime`, resource.onsetDateTime),
-            ui.dateTime(`${i18n}.abatementDateTime`, resource.abatementDateTime),
-            ui.codeableConcept(`${i18n}.bodySite`, resource.bodySite),
-            ui.annotation(`${i18n}.note`, resource.note)
+            ui.code(`${i18n2}.clinicalStatus`, resource.clinicalStatus),
+            ui.codeableConcept(`${i18n2}.category`, resource.category),
+            ui.dateTime(`${i18n2}.onsetDateTime`, resource.onsetDateTime),
+            ui.dateTime(`${i18n2}.abatementDateTime`, resource.abatementDateTime),
+            ui.codeableConcept(`${i18n2}.bodySite`, resource.bodySite),
+            ui.annotation(`${i18n2}.note`, resource.note)
           ]
         },
         {
-          label: `${i18n}.group_others`,
+          label: `${i18n2}.group_others`,
           children: [
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.code(`${i18n}.verificationStatus`, resource.verificationStatus),
-            ui.codeableConcept(`${i18n}.severity`, resource.severity),
-            ui.codeableConcept(`${i18n}.code`, resource.code),
-            ui.reference(`${i18n}.subject`, resource.subject),
-            ui.reference(`${i18n}.context`, resource.context),
-            ui.dateTime(`${i18n}.assertedDate`, resource.assertedDate),
-            ui.reference(`${i18n}.asserter`, resource.asserter)
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.code(`${i18n2}.verificationStatus`, resource.verificationStatus),
+            ui.codeableConcept(`${i18n2}.severity`, resource.severity),
+            ui.codeableConcept(`${i18n2}.code`, resource.code),
+            ui.reference(`${i18n2}.subject`, resource.subject),
+            ui.reference(`${i18n2}.context`, resource.context),
+            ui.dateTime(`${i18n2}.assertedDate`, resource.assertedDate),
+            ui.reference(`${i18n2}.asserter`, resource.asserter)
           ]
         },
         stage2,
@@ -49974,9 +49977,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       bodySite: map(resource.bodySite, codeableConcept$1),
       subject: reference$1(resource.subject),
       context: reference$1(resource.context),
-      onsetDateTime: dateTime$3(resource.onsetDateTime),
-      abatementDateTime: dateTime$3(resource.abatementDateTime),
-      assertedDate: dateTime$3(resource.assertedDate),
+      onsetDateTime: dateTime$1(resource.onsetDateTime),
+      abatementDateTime: dateTime$1(resource.abatementDateTime),
+      assertedDate: dateTime$1(resource.assertedDate),
       asserter: reference$1(resource.asserter),
       stage: stage.parse(resource.stage),
       evidence: map(resource.evidence, evidence.parse),
@@ -50113,7 +50116,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$c = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_product";
+    const i18n2 = "r3.zib_product";
     const productPackage = zibProductPackage.uiSchemaGroup(resource.package, context);
     const ingredients = map(
       resource.ingredient,
@@ -50124,14 +50127,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       label: resource.description,
       children: [
         {
-          label: `${i18n}.group_general_information`,
+          label: `${i18n2}.group_general_information`,
           children: [
-            ui.codeableConcept(`${i18n}.code`, resource.code),
-            ui.codeableConcept(`${i18n}.form`, resource.form)
+            ui.codeableConcept(`${i18n2}.code`, resource.code),
+            ui.codeableConcept(`${i18n2}.form`, resource.form)
           ]
         },
         {
-          label: `${i18n}.group_ingredients`,
+          label: `${i18n2}.group_ingredients`,
           children: ui.helpers.getChildren(ingredients)
         },
         productPackage
@@ -50171,13 +50174,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchema: uiSchema$b
   };
   const uiSchemaGroup$d = (resource, context) => {
-    const i18n = "r3.zib_treatment_directive.actor";
+    const i18n2 = "r3.zib_treatment_directive.actor";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.codeableConcept(`${i18n}.role`, resource.role),
-        ui.reference(`${i18n}.reference`, resource.reference)
+        ui.codeableConcept(`${i18n2}.role`, resource.role),
+        ui.reference(`${i18n2}.reference`, resource.reference)
       ]
     };
   };
@@ -50192,13 +50195,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$d
   };
   const uiSchemaGroup$c = (resource, context) => {
-    const i18n = "r3.zib_treatment_directive.data";
+    const i18n2 = "r3.zib_treatment_directive.data";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.code(`${i18n}.meaning`, resource.meaning),
-        ui.reference(`${i18n}.reference`, resource.reference)
+        ui.code(`${i18n2}.meaning`, resource.meaning),
+        ui.reference(`${i18n2}.reference`, resource.reference)
       ]
     };
   };
@@ -50213,21 +50216,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$c
   };
   const uiSchemaGroup$b = (resource, context) => {
-    const i18n = "r3.zib_treatment_directive.except";
+    const i18n2 = "r3.zib_treatment_directive.except";
     const ui = context.ui;
     const actor2 = map(resource.actor, (x) => uiSchemaGroup$d(x, context));
     const data2 = map(resource.data, (x) => uiSchemaGroup$c(x, context));
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.code(`${i18n}.type`, resource.type),
-        ...ui.period(`${i18n}.period`, resource.period),
-        ui.codeableConcept(`${i18n}.action`, resource.action),
-        ui.coding(`${i18n}.security_label`, resource.securityLabel),
-        ui.coding(`${i18n}.purpose`, resource.purpose),
-        ui.coding(`${i18n}.class`, resource.class),
-        ui.coding(`${i18n}.code`, resource.code),
-        ...ui.period(`${i18n}.plan`, resource.dataPeriod),
+        ui.code(`${i18n2}.type`, resource.type),
+        ...ui.period(`${i18n2}.period`, resource.period),
+        ui.codeableConcept(`${i18n2}.action`, resource.action),
+        ui.coding(`${i18n2}.security_label`, resource.securityLabel),
+        ui.coding(`${i18n2}.purpose`, resource.purpose),
+        ui.coding(`${i18n2}.class`, resource.class),
+        ui.coding(`${i18n2}.code`, resource.code),
+        ...ui.period(`${i18n2}.plan`, resource.dataPeriod),
         ...ui.helpers.getChildren(actor2),
         ...ui.helpers.getChildren(data2)
       ]
@@ -50252,14 +50255,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$b
   };
   const uiSchemaGroup$a = (resource, context) => {
-    const i18n = "r3.zib_treatment_directive.policy";
+    const i18n2 = "r3.zib_treatment_directive.policy";
     const ui = context.ui;
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.string(`${i18n}.id`, resource.id),
-        ui.string(`${i18n}.authority`, resource.authority),
-        ui.string(`${i18n}.uri`, resource.uri)
+        ui.string(`${i18n2}.id`, resource.id),
+        ui.string(`${i18n2}.authority`, resource.authority),
+        ui.string(`${i18n2}.uri`, resource.uri)
       ]
     };
   };
@@ -50276,7 +50279,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   const uiSchema$a = (resource, context) => {
     const ui = context.ui;
-    const i18n = "r3.zib_treatment_directive";
+    const i18n2 = "r3.zib_treatment_directive";
     const actor2 = map(resource.actor, (x) => uiSchemaGroup$d(x, context), true);
     const data2 = map(resource.data, (x) => uiSchemaGroup$c(x, context), true);
     const except2 = map(resource.except, (x) => uiSchemaGroup$b(x, context), true);
@@ -50285,23 +50288,23 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       label: resource.identifier?.value,
       children: [
         {
-          label: `${i18n}.group_details`,
+          label: `${i18n2}.group_details`,
           children: [
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.code(`${i18n}.status`, resource.status),
-            ui.codeableConcept(`${i18n}.category`, resource.category),
-            ui.reference(`${i18n}.patient`, resource.patient),
-            ...ui.period(`${i18n}.period`, resource.period),
-            ui.dateTime(`${i18n}.date_time`, resource.dateTime),
-            ui.reference(`${i18n}.consenting_party`, resource.consentingParty),
-            ui.codeableConcept(`${i18n}.action`, resource.action),
-            ui.reference(`${i18n}.organization`, resource.organization),
-            ui.identifier(`${i18n}.source_identifier`, resource.sourceIdentifier),
-            ui.reference(`${i18n}.source_reference`, resource.sourceReference),
-            ui.string(`${i18n}.policy_rule`, resource.policyRule),
-            ui.coding(`${i18n}.security_label`, resource.securityLabel),
-            ui.coding(`${i18n}.purpose`, resource.purpose),
-            ...ui.period(`${i18n}.data_period`, resource.dataPeriod)
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.code(`${i18n2}.status`, resource.status),
+            ui.codeableConcept(`${i18n2}.category`, resource.category),
+            ui.reference(`${i18n2}.patient`, resource.patient),
+            ...ui.period(`${i18n2}.period`, resource.period),
+            ui.dateTime(`${i18n2}.date_time`, resource.dateTime),
+            ui.reference(`${i18n2}.consenting_party`, resource.consentingParty),
+            ui.codeableConcept(`${i18n2}.action`, resource.action),
+            ui.reference(`${i18n2}.organization`, resource.organization),
+            ui.identifier(`${i18n2}.source_identifier`, resource.sourceIdentifier),
+            ui.reference(`${i18n2}.source_reference`, resource.sourceReference),
+            ui.string(`${i18n2}.policy_rule`, resource.policyRule),
+            ui.coding(`${i18n2}.security_label`, resource.securityLabel),
+            ui.coding(`${i18n2}.purpose`, resource.purpose),
+            ...ui.period(`${i18n2}.data_period`, resource.dataPeriod)
           ]
         },
         uiSchemaGroup$x(resource.sourceAttachment, context),
@@ -50321,12 +50324,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       category: map(resource.category, codeableConcept$1),
       patient: reference$1(resource.patient),
       period: period$1(resource.period),
-      dateTime: dateTime$3(resource.dateTime),
+      dateTime: dateTime$1(resource.dateTime),
       consentingParty: map(resource.consentingParty, reference$1),
       actor: map(resource.actor, actor$1.parse),
       action: map(resource.action, codeableConcept$1),
       organization: map(resource.organization, reference$1),
-      sourceAttachment: attachment.parse(resource.sourceAttachment),
+      sourceAttachment: attachment$1.parse(resource.sourceAttachment),
       sourceIdentifier: identifier$1(resource.sourceIdentifier),
       sourceReference: reference$1(resource.sourceReference),
       policy: map(resource.policy, policy.parse),
@@ -50386,7 +50389,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       patient: reference$1(resource.patient),
       vaccineCode: codeableConcept$1(resource.vaccineCode),
       dose: quantity$1(resource.doseQuantity),
-      vaccinationDate: date$4(resource.date),
+      vaccinationDate: date$3(resource.date),
       practitioner: map(resource.practitioner, actor.parse),
       note: map(resource.note, annotation$1)
     };
@@ -50410,9 +50413,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseRecommendation(value2) {
     return {
-      date: dateTime$3(value2?.date),
+      date: dateTime$1(value2?.date),
       code: codeableConcept$1(value2?.vaccineCode),
-      dateCriterion: map(value2?.dateCriterion, (x) => dateTime$3(x.value))
+      dateCriterion: map(value2?.dateCriterion, (x) => dateTime$1(x.value))
     };
   }
   const recommendation = {
@@ -50455,12 +50458,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseContent(value2) {
     return {
-      attachment: value2?.attachment ? attachment.parse(value2.attachment) : void 0
+      attachment: value2?.attachment ? attachment$1.parse(value2.attachment) : void 0
     };
   }
+  const i18n = "r3.ihe_mhd_minimal_document_reference";
   const uiSchema$7 = (resource, context) => {
-    const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
-    const i18n = "r3.ihe_mhd_minimal_document_reference";
+    const { ui, formatMessage: formatMessage2 } = context;
     const generalInformation = {
       MasterIdentifier: ui.identifier(`${i18n}.master_identifier`, resource.masterIdentifier),
       Status: ui.code(`${i18n}.status`, resource.status),
@@ -50484,9 +50487,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         `${i18n}.content.attachment.language`,
         resource.content.attachment.language
       ),
-      Location: ui.downloadLink(resource.content.attachment)
+      Location: ui.attachment(resource.content.attachment)
     } : null;
-    return setEmptyEntries2({
+    return {
       label: content?.Title.display ?? formatMessage2("fhir.unknown"),
       children: [
         {
@@ -50501,7 +50504,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           ]
         },
         {
-          label: formatMessage2(`${i18n}.group_author`),
+          label: formatMessage2(`detail.${i18n}.group_author`),
           children: [generalInformation.Author]
         },
         ...content ? [
@@ -50510,7 +50513,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             children: [content.ContentType, content.Language]
           },
           {
-            label: formatMessage2(`${i18n}.group_attachment`),
+            label: formatMessage2(`detail.${i18n}.group_attachment`),
             children: [content.Location]
           }
         ] : [
@@ -50526,7 +50529,43 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           }
         ]
       ]
-    });
+    };
+  };
+  function summaryOptions({ formatMessage: formatMessage2 }, i18n2, resource) {
+    return {
+      label: formatMessage2(`summary.options`),
+      children: [
+        {
+          type: "REFERENCE_LINK",
+          label: formatMessage2(`summary.${i18n2}.show_details`),
+          reference: resource.referenceId
+        }
+      ]
+    };
+  }
+  const summary = (resource, context) => {
+    const { ui, formatMessage: formatMessage2 } = context;
+    return {
+      label: resource.content.attachment?.title ?? formatMessage2("fhir.unknown"),
+      children: [
+        {
+          children: [
+            ui.instant(`${i18n}.indexed`, resource.indexed),
+            ui.reference(`${i18n}.subject`, resource.subject),
+            ui.codeableConcept(`${i18n}.type`, resource.type)
+          ]
+        },
+        {
+          label: formatMessage2(`summary.${i18n}.group_attachment`),
+          children: [ui.attachment(resource.content.attachment)]
+        },
+        {
+          label: formatMessage2(`summary.${i18n}.group_author`),
+          children: [ui.reference(`${i18n}.author`, resource.author)]
+        },
+        summaryOptions(context, i18n, resource)
+      ]
+    };
   };
   const profile$7 = "http://nictiz.nl/fhir/StructureDefinition/IHE.MHD.Minimal.DocumentReference";
   function parseIheMhdMinimalDocumentReference(resource) {
@@ -50546,7 +50585,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const iheMhdMinimalDocumentReference = {
     profile: profile$7,
     parse: parseIheMhdMinimalDocumentReference,
-    uiSchema: uiSchema$7
+    uiSchema: uiSchema$7,
+    summary
   };
   const resourcesR3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     __proto__: null,
@@ -50595,27 +50635,27 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     zibVaccinationRecommendation
   }, Symbol.toStringTag, { value: "Module" }));
   const uiSchemaGroup$7 = (resource, context) => {
-    const i18n = "r4.zib_address_information";
+    const i18n2 = "r4.zib_address_information";
     const { ui, formatMessage: formatMessage2 } = context;
     return {
-      label: formatMessage2(i18n),
+      label: formatMessage2(i18n2),
       children: [
-        ui.string(`${i18n}.line.street_name.value`, resource?.streetName),
-        ui.string(`${i18n}.line.house_number.value`, resource?.houseNumber),
+        ui.string(`${i18n2}.line.street_name.value`, resource?.streetName),
+        ui.string(`${i18n2}.line.house_number.value`, resource?.houseNumber),
         ui.string(
-          `${i18n}.line.house_number_letter_house_number_addition.value`,
+          `${i18n2}.line.house_number_letter_house_number_addition.value`,
           resource?.houseNumberAddition
         ),
         ui.string(
-          `${i18n}.line.house_number_indication.value`,
+          `${i18n2}.line.house_number_indication.value`,
           resource?.houseNumberIndication
         ),
-        ui.string(`${i18n}.line.additional_information.value`, resource?.additionalInformation),
-        ui.string(`${i18n}.city`, resource?.city),
-        ui.string(`${i18n}.district`, resource?.district),
-        ui.string(`${i18n}.postal_code`, resource?.postalCode),
-        ui.string(`${i18n}.country.country_code.value`, resource?.country),
-        ui.codeableConcept(`${i18n}.type`, resource?.addressType)
+        ui.string(`${i18n2}.line.additional_information.value`, resource?.additionalInformation),
+        ui.string(`${i18n2}.city`, resource?.city),
+        ui.string(`${i18n2}.district`, resource?.district),
+        ui.string(`${i18n2}.postal_code`, resource?.postalCode),
+        ui.string(`${i18n2}.country.country_code.value`, resource?.country),
+        ui.codeableConcept(`${i18n2}.type`, resource?.addressType)
       ]
     };
   };
@@ -50684,13 +50724,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$7
   };
   const uiSchemaGroup$6 = (resource, context) => {
-    const i18n = "r4.nl_core_contact_information_email_addresses";
+    const i18n2 = "r4.nl_core_contact_information_email_addresses";
     const { ui, formatMessage: formatMessage2 } = context;
     return {
-      label: formatMessage2(i18n),
+      label: formatMessage2(i18n2),
       children: [
-        ui.string(`${i18n}.value`, resource?.value),
-        ui.string(`${i18n}.use`, resource?.use)
+        ui.string(`${i18n2}.value`, resource?.value),
+        ui.code(`${i18n2}.use`, resource?.use)
       ]
     };
   };
@@ -50707,15 +50747,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$6
   };
   const uiSchemaGroup$5 = (resource, context) => {
-    const i18n = "r4.nl_core_contact_information_telephone_numbers";
+    const i18n2 = "r4.nl_core_contact_information_telephone_numbers";
     const { ui, formatMessage: formatMessage2 } = context;
     return {
-      label: formatMessage2(i18n),
+      label: formatMessage2(i18n2),
       children: [
-        ui.string(`${i18n}.value`, resource?.value),
-        ui.string(`${i18n}.use`, resource?.use),
-        ui.string(`${i18n}.comment`, resource?.comment),
-        ui.codeableConcept(`${i18n}.telecom_type`, resource?.telecomType)
+        ui.string(`${i18n2}.value`, resource?.value),
+        ui.code(`${i18n2}.use`, resource?.use),
+        ui.string(`${i18n2}.comment`, resource?.comment),
+        ui.codeableConcept(`${i18n2}.telecom_type`, resource?.telecomType)
       ]
     };
   };
@@ -50746,22 +50786,22 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const uiSchemaGroup$4 = (resource, context) => {
     const ui = context.ui;
     if (resource?.use === "usual") {
-      const i18n2 = "nl_name_information_given_name";
+      const i18n22 = "nl_name_information_given_name";
       return {
-        label: i18n2,
-        children: [ui.string(`${i18n2}.given`, resource.given)]
+        label: i18n22,
+        children: [ui.string(`${i18n22}.given`, resource.given)]
       };
     }
-    const i18n = "nl_name_information";
+    const i18n2 = "nl_name_information";
     return {
-      label: i18n,
+      label: i18n2,
       children: [
-        ui.string(`${i18n}.text`, resource?.text),
-        ui.string(`${i18n}.family`, resource?.family),
-        ui.string(`${i18n}.given`, resource?.given),
-        ui.string(`${i18n}.name_usage`, resource?.nameUsage),
-        ui.string(`${i18n}.prefix`, resource?.prefix),
-        ui.string(`${i18n}.suffix`, resource?.suffix)
+        ui.string(`${i18n2}.text`, resource?.text),
+        ui.string(`${i18n2}.family`, resource?.family),
+        ui.string(`${i18n2}.given`, resource?.given),
+        ui.string(`${i18n2}.name_usage`, resource?.nameUsage),
+        ui.string(`${i18n2}.prefix`, resource?.prefix),
+        ui.string(`${i18n2}.suffix`, resource?.suffix)
       ]
     };
   };
@@ -50944,7 +50984,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       // NL-CM:17.1.7
       gender: code$1(resource.gender),
       // NL-CM:17.1.9
-      birthDate: date$4(resource.birthDate),
+      birthDate: date$3(resource.birthDate),
       qualification: map(resource.qualification, qualification.parse),
       communication: map(resource.communication, codeableConcept$1)
     };
@@ -51067,7 +51107,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchema: uiSchema$3
   };
   const uiSchema$2 = (resource, context) => {
-    const i18n = "r4.nl_core_patient";
+    const i18n2 = "r4.nl_core_patient";
     const ui = context.ui;
     const name = map(resource.name, (x) => nlCoreNameInformation.uiSchemaGroup(x, context), true);
     const addresses = map(
@@ -51080,17 +51120,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       children: [
         ...name,
         {
-          label: `${i18n}.group_details`,
+          label: `${i18n2}.group_details`,
           children: [
-            ui.identifier(`${i18n}.identifier`, resource.identifier),
-            ui.date(`${i18n}.birth_date`, resource.birthDate),
-            ui.boolean(`${i18n}.deceased`, resource.deceased),
-            ui.dateTime(`${i18n}.deceased_date_time`, resource.deceasedDateTime),
-            ui.code(`${i18n}.gender`, resource.gender),
-            ui.reference(`${i18n}.general_practitioner`, resource.generalPractitioner),
-            ui.reference(`${i18n}.managing_organization`, resource.managingOrganization),
-            ui.codeableConcept(`${i18n}.marital_status`, resource.maritalStatus),
-            ui.boolean(`${i18n}.multiple_birth`, resource.multipleBirth)
+            ui.identifier(`${i18n2}.identifier`, resource.identifier),
+            ui.date(`${i18n2}.birth_date`, resource.birthDate),
+            ui.boolean(`${i18n2}.deceased`, resource.deceased),
+            ui.dateTime(`${i18n2}.deceased_date_time`, resource.deceasedDateTime),
+            ui.code(`${i18n2}.gender`, resource.gender),
+            ui.reference(`${i18n2}.general_practitioner`, resource.generalPractitioner),
+            ui.reference(`${i18n2}.managing_organization`, resource.managingOrganization),
+            ui.codeableConcept(`${i18n2}.marital_status`, resource.maritalStatus),
+            ui.boolean(`${i18n2}.multiple_birth`, resource.multipleBirth)
           ]
         },
         ...addresses
@@ -51104,7 +51144,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       name: map(resource.name, nlCoreNameInformation.parse),
       identifier: map(resource.identifier, identifier$1),
       // NL-CM:0.1.7
-      birthDate: date$4(resource.birthDate),
+      birthDate: date$3(resource.birthDate),
       // NL-CM:0.1.10
       gender: code$1(resource.gender),
       // NL-CM:0.1.9
@@ -51112,7 +51152,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       // NL-CM:0.1.31
       deceased: boolean$1(resource.deceasedBoolean),
       // NL-CM:0.1.32
-      deceasedDateTime: dateTime$3(resource.deceasedDateTime),
+      deceasedDateTime: dateTime$1(resource.deceasedDateTime),
       // NL-CM:0.1.33
       address: map(resource?.address, nlCoreAddressInformation.parse),
       generalPractitioner: map(resource.generalPractitioner, reference$1),
@@ -51139,7 +51179,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseBatch(value2) {
     return {
       lotNumber: string$1(value2?.lotNumber),
-      expirationDate: dateTime$3(value2?.expirationDate)
+      expirationDate: dateTime$1(value2?.expirationDate)
     };
   }
   const batch = {
@@ -51168,23 +51208,23 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     uiSchemaGroup: uiSchemaGroup$1
   };
   const uiSchema$1 = (resource, context) => {
-    const i18n = "r4.zib_pharmaceutical_product";
+    const i18n2 = "r4.zib_pharmaceutical_product";
     const { ui, formatMessage: formatMessage2, setEmptyEntries: setEmptyEntries2 } = context;
     const zibPharmaceuticalProduct = {
-      MedicationCode: ui.codeableConcept(`${i18n}.code`, resource.code),
-      PharmaceuticalForm: ui.codeableConcept(`${i18n}.form`, resource.form),
+      MedicationCode: ui.codeableConcept(`${i18n2}.code`, resource.code),
+      PharmaceuticalForm: ui.codeableConcept(`${i18n2}.form`, resource.form),
       Ingredient: map(resource.ingredient, (x) => ingredient.uiSchemaGroup(x, context), true)
     };
     const artDECORDatasetVaccinationImmunization = {
-      SerialNumber: ui.identifier(`${i18n}.identifier`, resource.identifier),
+      SerialNumber: ui.identifier(`${i18n2}.identifier`, resource.identifier),
       Batch: batch.uiSchemaGroup(resource.batch, context),
-      Description: ui.string(`${i18n}.description`, resource.description)
+      Description: ui.string(`${i18n2}.description`, resource.description)
     };
     return setEmptyEntries2({
-      label: resource.name ?? formatMessage2(i18n),
+      label: resource.name ?? formatMessage2(i18n2),
       children: [
         {
-          label: formatMessage2(i18n),
+          label: formatMessage2(i18n2),
           children: [
             zibPharmaceuticalProduct.MedicationCode,
             zibPharmaceuticalProduct.PharmaceuticalForm,
@@ -51353,7 +51393,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       // NL-CM:9.7.19927
       patient: reference$1(resource.patient),
       // NL-CM:0.1.1
-      occurrenceDateTime: dateTime$3(resource.occurrenceDateTime),
+      occurrenceDateTime: dateTime$1(resource.occurrenceDateTime),
       // NL-CM:11.1.3
       location: reference$1(resource.location),
       // NL-CM:17.2.1 | NL-CM:17.2.9
@@ -51433,10 +51473,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     if (!resources?.length) return [];
     return resources;
   }
-  function toString(value2) {
-    if (isNullish(value2)) return;
-    return `${value2}`;
-  }
   function numberToString(value2) {
     if (isNullish(value2)) return;
     return value2.toString();
@@ -51451,6 +51487,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function isEmptyUiEntry(uiField) {
     switch (uiField.type) {
       case "REFERENCE_VALUE":
+      case "REFERENCE_LINK":
         return isNullish(uiField.reference);
       case "SINGLE_VALUE":
         return isNullish(uiField.display);
@@ -51467,7 +51504,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return {
       ...group,
       children: group.children.map((entry) => {
-        return isEmptyUiEntry(entry) ? {
+        return isEmptyUiEntry(entry) && entry.type !== "DOWNLOAD_LINK" ? {
           type: "SINGLE_VALUE",
           label: entry.label,
           display: formatMessage2("schema.empty_entry_display")
@@ -51599,6 +51636,108 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       {
         type: 0,
         value: "G-Standaard Toedieningswegen (tabel 7)"
+      }
+    ]
+  };
+  const summaryLabels = {
+    "summary.options": [
+      {
+        type: 0,
+        value: "Opties"
+      }
+    ],
+    "summary.r3.ihe_mhd_minimal_document_reference.group_attachment": [
+      {
+        type: 0,
+        value: "Bijlage"
+      }
+    ],
+    "summary.r3.ihe_mhd_minimal_document_reference.group_author": [
+      {
+        type: 0,
+        value: "Opgesteld door"
+      }
+    ],
+    "summary.r3.ihe_mhd_minimal_document_reference.show_details": [
+      {
+        type: 0,
+        value: "Bekijk alle documentgegevens"
+      }
+    ],
+    "summary.r3.zib_medication_use.show_details": [
+      {
+        type: 0,
+        value: "Bekijk alle medicijngegevens"
+      }
+    ]
+  };
+  const codeLabels$1 = {
+    "codes.r3.observation.status.amended": [
+      {
+        type: 0,
+        value: "Gewijzigd"
+      }
+    ],
+    "codes.r3.observation.status.cancelled": [
+      {
+        type: 0,
+        value: "Geannuleerd"
+      }
+    ],
+    "codes.r3.observation.status.corrected": [
+      {
+        type: 0,
+        value: "Gecorrigeerd"
+      }
+    ],
+    "codes.r3.observation.status.entered-in-error": [
+      {
+        type: 0,
+        value: "Foutief ingevoerd"
+      }
+    ],
+    "codes.r3.observation.status.final": [
+      {
+        type: 0,
+        value: "Definitief"
+      }
+    ],
+    "codes.r3.observation.status.preliminary": [
+      {
+        type: 0,
+        value: "Inleidend"
+      }
+    ],
+    "codes.r3.observation.status.registered": [
+      {
+        type: 0,
+        value: "Geregistreerd"
+      }
+    ],
+    "codes.r3.observation.status.unknown": [
+      {
+        type: 0,
+        value: "Onbekend"
+      }
+    ]
+  };
+  const detailLabels = {
+    "detail.options": [
+      {
+        type: 0,
+        value: "Opties"
+      }
+    ],
+    "detail.r3.ihe_mhd_minimal_document_reference.group_attachment": [
+      {
+        type: 0,
+        value: "Inhoud"
+      }
+    ],
+    "detail.r3.ihe_mhd_minimal_document_reference.group_author": [
+      {
+        type: 0,
+        value: "Opgesteld door"
       }
     ]
   };
@@ -56618,7 +56757,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     "r3.ihe_mhd_minimal_document_reference.author": [
       {
         type: 0,
-        value: "Auteur"
+        value: "Specialist"
       }
     ],
     "r3.ihe_mhd_minimal_document_reference.class": [
@@ -56663,22 +56802,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         value: "Url"
       }
     ],
-    "r3.ihe_mhd_minimal_document_reference.group_attachment": [
-      {
-        type: 0,
-        value: "Inhoud"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.group_author": [
-      {
-        type: 0,
-        value: "Opgesteld door"
-      }
-    ],
     "r3.ihe_mhd_minimal_document_reference.indexed": [
       {
         type: 0,
-        value: "Gecreëerd"
+        value: "Aangemaakt op"
       }
     ],
     "r3.ihe_mhd_minimal_document_reference.master_identifier": [
@@ -62131,6 +62258,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     ...r3ResourceLabelsCustom,
     ...r4ResourceLabels,
     ...r4ResourceLabelsCustom,
+    ...summaryLabels,
+    ...detailLabels,
+    ...codeLabels$1,
     ...fhirMessages
   };
   function memoize(fn, options) {
@@ -66081,73 +66211,71 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       hasMessage
     };
   }
-  const downloadLink = (_context) => (value2, options) => {
+  const attachment = ({ formatMessage: formatMessage2 }) => (value2) => {
     return {
       type: "DOWNLOAD_LINK",
-      label: value2?.title ?? "",
-      url: value2?.url ?? "",
-      ...options
-    };
-  };
-  const multipleValues = ({ intl }) => (label, value2, parse2, options) => {
-    let display = void 0;
-    if (isNonNullish(value2)) {
-      const entries = value2.map((x) => parse2(label, x));
-      display = entries.map((x) => x.display).filter(isNonNullish);
-    }
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: Array.isArray(display?.[0]) ? "MULTIPLE_GROUPED_VALUES" : "MULTIPLE_VALUES",
-      display,
-      ...options
+      label: value2?.title ?? formatMessage2("fhir.unknown"),
+      url: value2?.url
     };
   };
   const annotationDisplay = (value2) => {
     return value2?.text;
   };
-  const annotation = ({ intl }) => (label, value2, options) => {
+  const annotation = ({ intl }) => (label, value2) => {
     if (Array.isArray(value2)) {
       return {
         label: intl.formatMessage({ id: label }),
         type: "MULTIPLE_VALUES",
-        display: value2.map(annotationDisplay).filter(isNonNullish),
-        ...options
+        display: value2.map(annotationDisplay).filter(isNonNullish)
       };
     }
     return {
       label: intl.formatMessage({ id: label }),
       display: annotationDisplay(value2),
-      type: "SINGLE_VALUE",
-      ...options
+      type: "SINGLE_VALUE"
     };
   };
-  const boolean = ({ formatMessage: formatMessage2 }) => (label, value2, options) => {
+  const boolean = ({ formatMessage: formatMessage2 }) => (label, value2) => {
     const truthyString = value2 ? formatMessage2("fhir.boolean.true") : formatMessage2("fhir.boolean.false");
     return {
       label: formatMessage2(label),
       type: "SINGLE_VALUE",
-      display: isNonNullish(value2) ? truthyString : void 0,
-      ...options
+      display: isNonNullish(value2) ? truthyString : void 0
     };
   };
-  const code = ({ formatMessage: formatMessage2 }) => (label, value2, options) => {
-    if (Array.isArray(value2)) {
+  function code(context) {
+    const { hasMessage, formatMessage: formatMessage2 } = context;
+    return function(label, value2, options) {
+      const { i18nCode } = options ?? {};
+      function translateCode(code2) {
+        const i18nKey = `codes.${i18nCode}.${code2}`;
+        if (isNullish(code2)) {
+          return;
+        }
+        if (i18nCode && hasMessage(i18nKey)) {
+          return formatMessage2(i18nKey);
+        }
+        return code2;
+      }
+      if (Array.isArray(value2)) {
+        return {
+          label: formatMessage2(label),
+          type: "MULTIPLE_VALUES",
+          display: value2.map(translateCode).filter(isNonNullish)
+        };
+      }
       return {
         label: formatMessage2(label),
-        type: "MULTIPLE_VALUES",
-        display: value2.map(toString).filter(isNonNullish),
-        ...options
+        type: "SINGLE_VALUE",
+        display: translateCode(value2)
       };
-    }
-    return {
-      label: formatMessage2(label),
-      type: "SINGLE_VALUE",
-      display: toString(value2),
-      ...options
     };
-  };
-  const codingDisplay = ({ hasMessage, formatMessage: formatMessage2 }) => (value2) => {
+  }
+  const codingDisplay = ({ hasMessage, formatMessage: formatMessage2, isSummary }) => (value2) => {
     const { display, code: code2, system } = value2 ?? {};
+    if (isSummary && display) {
+      return display;
+    }
     let displayString = display ?? "";
     if (code2) {
       const systemI18n = `system.${system}`;
@@ -66160,22 +66288,20 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return displayString === "" ? void 0 : displayString;
   };
-  const coding = (context) => (label, value2, options) => {
+  const coding = (context) => (label, value2) => {
     const { formatMessage: formatMessage2 } = context;
     const display = codingDisplay(context);
     if (Array.isArray(value2)) {
       return {
         label: formatMessage2(label),
         type: "MULTIPLE_VALUES",
-        display: value2.map(display).filter(isNonNullish),
-        ...options
+        display: value2.map(display).filter(isNonNullish)
       };
     }
     return {
       label: formatMessage2(label),
       type: "SINGLE_VALUE",
-      display: display(value2),
-      ...options
+      display: display(value2)
     };
   };
   const codeableDisplay = (context) => (value2) => {
@@ -66185,22 +66311,95 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const coding2 = codingDisplay(context);
     return value2?.coding.map(coding2).filter(isNonNullish) ?? [];
   };
-  const codeableConcept = (context) => (label, value2, options) => {
+  const codeableConcept = (context) => (label, value2) => {
     const { formatMessage: formatMessage2 } = context;
     const display = codeableDisplay(context);
     if (Array.isArray(value2)) {
       return {
         label: formatMessage2(label),
         type: "MULTIPLE_GROUPED_VALUES",
-        display: value2.map(display),
-        ...options
+        display: value2.map(display)
       };
     }
     return {
       label: formatMessage2(label),
       type: "MULTIPLE_VALUES",
-      display: display(value2),
-      ...options
+      display: display(value2)
+    };
+  };
+  const milliseconds = /T\d\d:\d\d:\d\d\.\d+/i;
+  const seconds = /T\d\d:\d\d:\d\d/i;
+  const minutes = /T\d\d:\d\d/i;
+  const hours = /T\d\d/i;
+  const dateRegexp = /^\d\d\d\d-\d\d-\d\d/;
+  const month = /^\d\d\d\d-\d\d/;
+  const year = /^\d\d\d\d/;
+  const timezone = /(([+-][\d:]+)|Z)$/i;
+  function getDateFormatOptions(dateString, isSummary = false) {
+    const hasMilliseconds = milliseconds.test(dateString);
+    const hasSeconds = hasMilliseconds || seconds.test(dateString);
+    const hasMinutes = hasSeconds || minutes.test(dateString);
+    const hasHours = hasMinutes || hours.test(dateString);
+    const hasDate = dateRegexp.test(dateString);
+    const hasMonth = hasDate || month.test(dateString);
+    const hasYear = hasMonth || year.test(dateString);
+    const hasTimezone = hasHours && timezone.test(dateString);
+    return {
+      year: hasYear ? "numeric" : void 0,
+      month: hasMonth ? "long" : void 0,
+      day: hasDate ? "numeric" : void 0,
+      hour: hasHours ? "numeric" : void 0,
+      minute: hasMinutes ? "numeric" : void 0,
+      ...!isSummary && {
+        second: hasSeconds ? "numeric" : void 0,
+        fractionalSecondDigits: hasMilliseconds ? 3 : void 0,
+        timeZoneName: hasTimezone ? "shortOffset" : void 0
+      }
+    };
+  }
+  const date$1 = ({ intl: { locale }, isSummary }) => (value2) => {
+    if (isNullish(value2)) return;
+    const date2 = new Date(value2);
+    const dateTimeFormat = new Intl.DateTimeFormat(
+      locale,
+      getDateFormatOptions(value2, isSummary)
+    );
+    try {
+      return dateTimeFormat.format(date2);
+    } catch (_error) {
+      return `${value2}`;
+    }
+  };
+  const date$2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+    __proto__: null,
+    date: date$1
+  }, Symbol.toStringTag, { value: "Module" }));
+  const date = (i18nContext) => (label, value2) => {
+    return {
+      label: i18nContext.formatMessage(label),
+      type: "SINGLE_VALUE",
+      display: date$1(i18nContext)(value2)
+    };
+  };
+  const dateTime = (context) => (label, value2) => {
+    if (Array.isArray(value2)) {
+      return {
+        label: context.formatMessage(label),
+        type: "MULTIPLE_VALUES",
+        display: value2.map(date$1(context)).filter(isNonNullish)
+      };
+    }
+    return {
+      label: context.formatMessage(label),
+      type: "SINGLE_VALUE",
+      display: date$1(context)(value2)
+    };
+  };
+  const decimal = ({ intl }) => (label, value2) => {
+    return {
+      label: intl.formatMessage({ id: label }),
+      type: "SINGLE_VALUE",
+      display: numberToString(value2)
     };
   };
   function valueWithUnit$1(value2, unit) {
@@ -66220,183 +66419,89 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     valueWithMaxValue,
     valueWithUnit: valueWithUnit$1
   }, Symbol.toStringTag, { value: "Module" }));
-  const milliseconds = /T\d\d:\d\d:\d\d\.\d+/i;
-  const seconds = /T\d\d:\d\d:\d\d/i;
-  const minutes = /T\d\d:\d\d/i;
-  const hours = /T\d\d/i;
-  const date$3 = /^\d\d\d\d-\d\d-\d\d/;
-  const month = /^\d\d\d\d-\d\d/;
-  const year = /^\d\d\d\d/;
-  const timezone = /(([+-][\d:]+)|Z)$/i;
-  function getDateFormatOptions(dateString) {
-    const hasMilliseconds = milliseconds.test(dateString);
-    const hasSeconds = hasMilliseconds || seconds.test(dateString);
-    const hasMinutes = hasSeconds || minutes.test(dateString);
-    const hasHours = hasMinutes || hours.test(dateString);
-    const hasDate = date$3.test(dateString);
-    const hasMonth = hasDate || month.test(dateString);
-    const hasYear = hasMonth || year.test(dateString);
-    const hasTimezone = hasHours && timezone.test(dateString);
-    return {
-      year: hasYear ? "numeric" : void 0,
-      month: hasMonth ? "long" : void 0,
-      day: hasDate ? "numeric" : void 0,
-      hour: hasHours ? "numeric" : void 0,
-      minute: hasMinutes ? "numeric" : void 0,
-      second: hasSeconds ? "numeric" : void 0,
-      fractionalSecondDigits: hasMilliseconds ? 3 : void 0,
-      timeZoneName: hasTimezone ? "shortOffset" : void 0
-    };
-  }
-  function dateTime$1(value2) {
-    if (isNullish(value2)) return;
-    const date2 = new Date(value2);
-    const dateTimeFormat = new Intl.DateTimeFormat("nl-NL", getDateFormatOptions(value2));
-    try {
-      return dateTimeFormat.format(date2);
-    } catch (_error) {
-      return `${value2}`;
-    }
-  }
-  const dateTime$2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-    __proto__: null,
-    dateTime: dateTime$1
-  }, Symbol.toStringTag, { value: "Module" }));
-  function date$1(value2) {
-    return dateTime$1(value2);
-  }
-  const date$2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-    __proto__: null,
-    date: date$1
-  }, Symbol.toStringTag, { value: "Module" }));
   const format = {
     ...value,
-    ...date$2,
-    ...dateTime$2
-  };
-  const date = ({ intl }) => (label, value2, options) => {
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "SINGLE_VALUE",
-      display: format.date(value2),
-      ...options
-    };
-  };
-  const dateTime = ({ intl }) => (label, value2, options) => {
-    if (Array.isArray(value2)) {
-      return {
-        label: intl.formatMessage({ id: label }),
-        type: "MULTIPLE_VALUES",
-        display: value2.map(format.dateTime).filter(isNonNullish),
-        ...options
-      };
-    }
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "SINGLE_VALUE",
-      display: format.dateTime(value2),
-      ...options
-    };
-  };
-  const decimal = ({ intl }) => (label, value2, options) => {
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "SINGLE_VALUE",
-      display: numberToString(value2),
-      ...options
-    };
+    ...date$2
   };
   const codeLabels = {
     "http://unitsofmeasure.org|d": "fhir.duration_days"
     // NOSONAR
   };
-  const duration = ({ formatMessage: formatMessage2 }) => (label, value2, options) => {
+  const duration = ({ formatMessage: formatMessage2 }) => (label, value2) => {
     const { value: quantityValue, unit, system, code: code2 } = value2 ?? {};
     const codeLabel = codeLabels[`${system}|${code2}`];
     const display = codeLabel ? formatMessage2(codeLabel, { count: quantityValue }) : format.valueWithUnit(quantityValue, unit);
     return {
       label: formatMessage2(label),
       type: `SINGLE_VALUE`,
-      display,
-      ...options
+      display
     };
   };
-  const identifier = ({ intl }) => (label, value2, options) => {
+  const identifier = ({ intl }) => (label, value2) => {
     if (Array.isArray(value2)) {
       return {
         label: intl.formatMessage({ id: label }),
         type: "MULTIPLE_VALUES",
-        display: value2?.map((x) => x?.value).filter(isNonNullish),
-        ...options
+        display: value2?.map((x) => x?.value).filter(isNonNullish)
       };
     }
     return {
       label: intl.formatMessage({ id: label }),
       type: "SINGLE_VALUE",
-      display: value2?.value,
-      ...options
+      display: value2?.value
     };
   };
-  const instant = ({ intl }) => (label, value2, options) => {
+  const instant = (i18nContext) => (label, value2) => {
+    return dateTime(i18nContext)(label, value2);
+  };
+  const integer = ({ intl }) => (label, value2) => {
     return {
       label: intl.formatMessage({ id: label }),
       type: "SINGLE_VALUE",
-      display: format.dateTime(value2),
-      ...options
+      display: numberToString(value2)
     };
   };
-  const integer = ({ intl }) => (label, value2, options) => {
+  const integer64 = ({ intl }) => (label, value2) => {
     return {
       label: intl.formatMessage({ id: label }),
       type: "SINGLE_VALUE",
-      display: numberToString(value2),
-      ...options
+      display: numberToString(value2)
     };
   };
-  const integer64 = ({ intl }) => (label, value2, options) => {
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "SINGLE_VALUE",
-      display: numberToString(value2),
-      ...options
-    };
-  };
-  const period = ({ formatMessage: formatMessage2, hasMessage }) => (label, value2, options) => {
+  const period = (i18nContext) => (label, value2) => {
+    const { formatMessage: formatMessage2, hasMessage } = i18nContext;
     const startLabel = `${label}.start`;
     const endLabel = `${label}.end`;
+    const formatDate2 = date$1(i18nContext);
     return [
       {
         label: formatMessage2(hasMessage(startLabel) ? startLabel : `fhir.period.start`),
         type: `SINGLE_VALUE`,
-        display: format.dateTime(value2?.start),
-        ...options
+        display: formatDate2(value2?.start)
       },
       {
         label: formatMessage2(hasMessage(endLabel) ? endLabel : `fhir.period.end`),
         type: `SINGLE_VALUE`,
-        display: format.dateTime(value2?.end),
-        ...options
+        display: formatDate2(value2?.end)
       }
     ];
   };
-  const positiveInt = ({ intl }) => (label, value2, options) => {
+  const positiveInt = ({ intl }) => (label, value2) => {
     return {
       label: intl.formatMessage({ id: label }),
       type: "SINGLE_VALUE",
-      display: numberToString(value2),
-      ...options
+      display: numberToString(value2)
     };
   };
-  const quantity = ({ formatMessage: formatMessage2 }) => (label, value2, options) => {
+  const quantity = ({ formatMessage: formatMessage2 }) => (label, value2) => {
     const { value: quantityValue, unit } = value2 ?? {};
     return {
       label: formatMessage2(label),
       type: `SINGLE_VALUE`,
-      display: format.valueWithUnit(quantityValue, unit),
-      ...options
+      display: format.valueWithUnit(quantityValue, unit)
     };
   };
-  const range = (context) => (label, value2, options) => {
+  const range = (context) => (label, value2) => {
     const { hasMessage, formatMessage: formatMessage2 } = context;
     const lowLabel = `${label}.low`;
     const highLabel = `${label}.high`;
@@ -66404,18 +66509,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       {
         label: formatMessage2(hasMessage(lowLabel) ? lowLabel : `fhir.range.low`),
         type: `SINGLE_VALUE`,
-        display: format.valueWithUnit(value2?.low?.value, value2?.low?.unit),
-        ...options
+        display: format.valueWithUnit(value2?.low?.value, value2?.low?.unit)
       },
       {
         label: formatMessage2(hasMessage(highLabel) ? highLabel : `fhir.range.high`),
         type: `SINGLE_VALUE`,
-        display: format.valueWithUnit(value2?.high?.value, value2?.high?.unit),
-        ...options
+        display: format.valueWithUnit(value2?.high?.value, value2?.high?.unit)
       }
     ];
   };
-  const ratio = (context) => (label, value2, options) => {
+  const ratio = (context) => (label, value2) => {
     const { hasMessage, formatMessage: formatMessage2 } = context;
     const numeratorLabel = `${label}.numerator`;
     const denominatorLabel = `${label}.denominator`;
@@ -66425,58 +66528,51 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           hasMessage(numeratorLabel) ? numeratorLabel : `fhir.ratio.numerator`
         ),
         type: `SINGLE_VALUE`,
-        display: format.valueWithUnit(value2?.numerator?.value, value2?.numerator?.unit),
-        ...options
+        display: format.valueWithUnit(value2?.numerator?.value, value2?.numerator?.unit)
       },
       {
         label: formatMessage2(
           hasMessage(denominatorLabel) ? denominatorLabel : `fhir.ratio.denominator`
         ),
         type: `SINGLE_VALUE`,
-        display: format.valueWithUnit(value2?.denominator?.value, value2?.denominator?.unit),
-        ...options
+        display: format.valueWithUnit(value2?.denominator?.value, value2?.denominator?.unit)
       }
     ];
   };
-  const reference = ({ intl }) => (label, value2, options) => {
+  const reference = ({ intl }) => (label, value2) => {
     if (Array.isArray(value2)) {
       return {
         label: intl.formatMessage({ id: label }),
         type: "MULTIPLE_VALUES",
-        display: value2.map((x) => x.display).filter(isNonNullish),
-        ...options
+        display: value2.map((x) => x.display).filter(isNonNullish)
       };
     }
     return {
       label: intl.formatMessage({ id: label }),
       type: "REFERENCE_VALUE",
       display: value2?.display,
-      reference: value2?.reference,
-      ...options
+      reference: value2?.reference
     };
   };
-  const string = ({ intl }) => (label, value2, options) => {
+  const string = ({ intl }) => (label, value2) => {
     if (Array.isArray(value2)) {
       return {
         label: intl.formatMessage({ id: label }),
         type: "MULTIPLE_VALUES",
-        display: value2.map(toString).filter(isNonNullish),
-        ...options
+        display: value2.filter(isNonNullish)
       };
     }
     return {
       label: intl.formatMessage({ id: label }),
       type: "SINGLE_VALUE",
-      display: toString(value2),
-      ...options
+      display: value2
     };
   };
-  const unsignedInt = ({ intl }) => (label, value2, options) => {
+  const unsignedInt = ({ intl }) => (label, value2) => {
     return {
       label: intl.formatMessage({ id: label }),
       type: "SINGLE_VALUE",
-      display: numberToString(value2),
-      ...options
+      display: numberToString(value2)
     };
   };
   function getTypes(context) {
@@ -66504,7 +66600,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       positiveInt: positiveInt(context)
     };
   }
-  const oneOfValueX = (context) => (label, value2, prefix = "value", options) => {
+  const oneOfValueX = (context) => (label, value2, prefix = "value") => {
     if (isNullish(value2)) {
       return [];
     }
@@ -66513,35 +66609,32 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     for (type in typeUiFunctions) {
       const key = `${prefix}${capitalizeFirstLetter(type)}`;
       if (key in value2 && isNonNullish(value2[key])) {
-        const uiValue = typeUiFunctions[type](label, value2[key], options);
+        const uiValue = typeUiFunctions[type](label, value2[key]);
         return Array.isArray(uiValue) ? uiValue : [uiValue];
       }
     }
     return [];
   };
-  const valueWithMax = ({ intl }) => (label, value2, max2, options) => {
+  const valueWithMax = ({ intl }) => (label, value2, max2) => {
     return {
       label: intl.formatMessage({ id: label }),
       display: format.valueWithMaxValue(value2, max2),
-      type: "SINGLE_VALUE",
-      ...options
+      type: "SINGLE_VALUE"
     };
   };
-  const valueWithUnit = ({ intl }) => (label, value2, unit, options) => {
+  const valueWithUnit = ({ intl }) => (label, value2, unit) => {
     return {
       label: intl.formatMessage({ id: label }),
       display: format.valueWithUnit(value2, unit),
-      type: "SINGLE_VALUE",
-      ...options
+      type: "SINGLE_VALUE"
     };
   };
   function getSpecial(context) {
     return {
-      multipleValues: multipleValues(context),
       valueWithMax: valueWithMax(context),
       valueWithUnit: valueWithUnit(context),
       oneOfValueX: oneOfValueX(context),
-      downloadLink: downloadLink()
+      attachment: attachment(context)
     };
   }
   function getUi(context) {
@@ -66553,21 +66646,20 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }
     };
   }
-  function createUiSchemaContext({
-    locale,
-    ignoreMissingTranslations,
-    ignoreIntlCache,
-    resources
-  }) {
-    const i18nContext = createI18nContext({
-      locale: locale ?? Locale.NL_NL,
-      ignoreMissingTranslations,
-      ignoreIntlCache
-    });
+  function createUiSchemaContext(options) {
+    const { locale, ignoreMissingTranslations, ignoreIntlCache, resources, isSummary } = options;
+    const uiHelperContext = {
+      ...createI18nContext({
+        locale: locale ?? Locale.NL_NL,
+        ignoreMissingTranslations,
+        ignoreIntlCache
+      }),
+      isSummary
+    };
     return {
-      ...i18nContext,
-      ui: getUi(i18nContext),
-      setEmptyEntries: setEmptyEntries(i18nContext),
+      ...uiHelperContext,
+      ui: getUi(uiHelperContext),
+      setEmptyEntries: setEmptyEntries(uiHelperContext),
       resources: resources ?? []
     };
   }
@@ -66591,7 +66683,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ignoreMissingTranslations: true,
       ...options
     });
-    return config2.uiSchema(resource, context);
+    const uiSchema2 = config2.uiSchema(resource, context);
+    return context.setEmptyEntries(uiSchema2);
   }
   function getSummaryUiSchema(resource, options) {
     if (!isMgoResource(resource)) {
@@ -66610,9 +66703,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     const context = createUiSchemaContext({
       ignoreMissingTranslations: true,
+      isSummary: true,
       ...options
     });
-    return config2.summary(resource, context);
+    const summaryUiSchema = config2.summary(resource, context);
+    return context.setEmptyEntries(summaryUiSchema);
   }
   const getBundleResourcesJson = createJsonApi(getBundleResources);
   const getMgoResourceJson = createJsonApi(getMgoResource);

@@ -30,7 +30,7 @@ public struct GpLaboratoryResult: Codable, Hashable, Sendable {
     public let resourceType: String?
     public let resultType: [MgoCodeableConcept]?
     public let specimen: MgoReference?
-    public let status: String?
+    public let status: GpLaboratoryResultStatus?
     public let subject: MgoReference?
     public let valueBoolean: Bool?
     public let valueCodeableConcept: MgoCodeableConcept?
@@ -47,7 +47,7 @@ public struct GpLaboratoryResult: Codable, Hashable, Sendable {
         case referenceRange, related, resourceType, resultType, specimen, status, subject, valueBoolean, valueCodeableConcept, valueDateTime, valuePeriod, valueQuantity, valueRange, valueRatio, valueString
     }
 
-    public init(basedOn: [MgoReference]?, code: MgoCodeableConcept?, comment: String?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, interpretation: MgoCodeableConcept?, laboratoryTestResultCode: [MgoCodeableConcept]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: GpLaboratoryResultProfile, referenceID: String, referenceRange: [GpLaboratoryResultReferenceRange]?, related: [GpLaboratoryResultRelated]?, resourceType: String?, resultType: [MgoCodeableConcept]?, specimen: MgoReference?, status: String?, subject: MgoReference?, valueBoolean: Bool?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: String?, valuePeriod: MgoPeriod?, valueQuantity: MgoDuration?, valueRange: MgoRange?, valueRatio: MgoRatio?, valueString: String?) {
+    public init(basedOn: [MgoReference]?, code: MgoCodeableConcept?, comment: String?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, interpretation: MgoCodeableConcept?, laboratoryTestResultCode: [MgoCodeableConcept]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: GpLaboratoryResultProfile, referenceID: String, referenceRange: [GpLaboratoryResultReferenceRange]?, related: [GpLaboratoryResultRelated]?, resourceType: String?, resultType: [MgoCodeableConcept]?, specimen: MgoReference?, status: GpLaboratoryResultStatus?, subject: MgoReference?, valueBoolean: Bool?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: String?, valuePeriod: MgoPeriod?, valueQuantity: MgoDuration?, valueRange: MgoRange?, valueRatio: MgoRatio?, valueString: String?) {
         self.basedOn = basedOn
         self.code = code
         self.comment = comment
@@ -118,7 +118,7 @@ public extension GpLaboratoryResult {
         resourceType: String?? = nil,
         resultType: [MgoCodeableConcept]?? = nil,
         specimen: MgoReference?? = nil,
-        status: String?? = nil,
+        status: GpLaboratoryResultStatus?? = nil,
         subject: MgoReference?? = nil,
         valueBoolean: Bool?? = nil,
         valueCodeableConcept: MgoCodeableConcept?? = nil,

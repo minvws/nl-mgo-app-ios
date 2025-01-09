@@ -20,16 +20,17 @@ public struct ZibMedicationAgreement: Codable, Hashable, Sendable {
     public let groupIdentifier: MgoIdentifier?
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let intent: String?
+    public let intent: Intent?
     public let medicationReference: MgoReference?
     public let medicationTreatment: MgoIdentifier?
     public let note: [MgoAnnotation]?
     public let periodOfUse: MgoPeriod?
-    public let priority: String?
+    public let priority: Priority?
     public let profile: ZibMedicationAgreementProfile
     public let referenceID: String
     public let repeatPeriodCyclicalSchedule: MgoDuration?
-    public let resourceType, status: String?
+    public let resourceType: String?
+    public let status: ZibMedicationAgreementStatus?
     public let stopType: MgoCodeableConcept?
     public let usageDuration: MgoDuration?
 
@@ -39,7 +40,7 @@ public struct ZibMedicationAgreement: Codable, Hashable, Sendable {
         case repeatPeriodCyclicalSchedule, resourceType, status, stopType, usageDuration
     }
 
-    public init(basedOn: [MgoReference]?, category: MgoCodeableConcept?, definition: [MgoReference]?, dossageInstruction: [ZibInstructionsForUse]?, fhirVersion: FhirVersionR3, groupIdentifier: MgoIdentifier?, id: String?, identifier: [MgoIdentifier]?, intent: String?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, periodOfUse: MgoPeriod?, priority: String?, profile: ZibMedicationAgreementProfile, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: String?, stopType: MgoCodeableConcept?, usageDuration: MgoDuration?) {
+    public init(basedOn: [MgoReference]?, category: MgoCodeableConcept?, definition: [MgoReference]?, dossageInstruction: [ZibInstructionsForUse]?, fhirVersion: FhirVersionR3, groupIdentifier: MgoIdentifier?, id: String?, identifier: [MgoIdentifier]?, intent: Intent?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, periodOfUse: MgoPeriod?, priority: Priority?, profile: ZibMedicationAgreementProfile, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: ZibMedicationAgreementStatus?, stopType: MgoCodeableConcept?, usageDuration: MgoDuration?) {
         self.basedOn = basedOn
         self.category = category
         self.definition = definition
@@ -91,17 +92,17 @@ public extension ZibMedicationAgreement {
         groupIdentifier: MgoIdentifier?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        intent: String?? = nil,
+        intent: Intent?? = nil,
         medicationReference: MgoReference?? = nil,
         medicationTreatment: MgoIdentifier?? = nil,
         note: [MgoAnnotation]?? = nil,
         periodOfUse: MgoPeriod?? = nil,
-        priority: String?? = nil,
+        priority: Priority?? = nil,
         profile: ZibMedicationAgreementProfile? = nil,
         referenceID: String? = nil,
         repeatPeriodCyclicalSchedule: MgoDuration?? = nil,
         resourceType: String?? = nil,
-        status: String?? = nil,
+        status: ZibMedicationAgreementStatus?? = nil,
         stopType: MgoCodeableConcept?? = nil,
         usageDuration: MgoDuration?? = nil
     ) -> ZibMedicationAgreement {

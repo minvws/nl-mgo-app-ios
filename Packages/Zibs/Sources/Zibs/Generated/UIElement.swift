@@ -14,14 +14,12 @@ import Foundation
 public struct UIElement: Codable, Hashable, Sendable {
     public let display: UIElementDisplay?
     public let label: String
-    public let showEmpty: Bool?
     public let type: UIElementType
     public let reference, url: String?
 
-    public init(display: UIElementDisplay?, label: String, showEmpty: Bool?, type: UIElementType, reference: String?, url: String?) {
+    public init(display: UIElementDisplay?, label: String, type: UIElementType, reference: String?, url: String?) {
         self.display = display
         self.label = label
-        self.showEmpty = showEmpty
         self.type = type
         self.reference = reference
         self.url = url
@@ -49,7 +47,6 @@ public extension UIElement {
     func with(
         display: UIElementDisplay?? = nil,
         label: String? = nil,
-        showEmpty: Bool?? = nil,
         type: UIElementType? = nil,
         reference: String?? = nil,
         url: String?? = nil
@@ -57,7 +54,6 @@ public extension UIElement {
         return UIElement(
             display: display ?? self.display,
             label: label ?? self.label,
-            showEmpty: showEmpty ?? self.showEmpty,
             type: type ?? self.type,
             reference: reference ?? self.reference,
             url: url ?? self.url

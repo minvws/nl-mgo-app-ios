@@ -20,7 +20,7 @@ public struct NlCorePatient: Codable, Hashable, Sendable {
     public let deceased: Bool?
     public let deceasedDateTime: String?
     public let fhirVersion: FhirVersionR3
-    public let gender: String?
+    public let gender: Gender?
     public let generalPractitioner: [MgoReference]?
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -42,7 +42,7 @@ public struct NlCorePatient: Codable, Hashable, Sendable {
         case resourceType, telecom
     }
 
-    public init(active: Bool?, address: [NlCoreAddress]?, birthDate: String?, communication: [Communication]?, contact: [Contact]?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR3, gender: String?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, link: [Link]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, multipleBirthInteger: Double?, name: [NlCoreHumanname]?, photo: [Attachment]?, profile: NlCorePatientProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
+    public init(active: Bool?, address: [NlCoreAddress]?, birthDate: String?, communication: [Communication]?, contact: [Contact]?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR3, gender: Gender?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, link: [Link]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, multipleBirthInteger: Double?, name: [NlCoreHumanname]?, photo: [Attachment]?, profile: NlCorePatientProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
         self.active = active
         self.address = address
         self.birthDate = birthDate
@@ -96,7 +96,7 @@ public extension NlCorePatient {
         deceased: Bool?? = nil,
         deceasedDateTime: String?? = nil,
         fhirVersion: FhirVersionR3? = nil,
-        gender: String?? = nil,
+        gender: Gender?? = nil,
         generalPractitioner: [MgoReference]?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,

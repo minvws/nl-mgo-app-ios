@@ -147,7 +147,6 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 						UIElement(
 							display: .string("value 1"),
 							label: "label",
-							showEmpty: true,
 							type: .singleValue,
 							reference: nil,
 							url: nil

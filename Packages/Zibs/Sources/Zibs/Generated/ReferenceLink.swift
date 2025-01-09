@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let uIEntryOptions = try UIEntryOptions(json)
+//   let referenceLink = try ReferenceLink(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,20 +10,23 @@
 
 import Foundation
 
-// MARK: - UIEntryOptions
-public struct UIEntryOptions: Codable, Hashable, Sendable {
-    public let showEmpty: Bool?
+// MARK: - ReferenceLink
+public struct ReferenceLink: Codable, Hashable, Sendable {
+    public let label, reference: String
+    public let type: ReferenceLinkType
 
-    public init(showEmpty: Bool?) {
-        self.showEmpty = showEmpty
+    public init(label: String, reference: String, type: ReferenceLinkType) {
+        self.label = label
+        self.reference = reference
+        self.type = type
     }
 }
 
-// MARK: UIEntryOptions convenience initializers and mutators
+// MARK: ReferenceLink convenience initializers and mutators
 
-public extension UIEntryOptions {
+public extension ReferenceLink {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(UIEntryOptions.self, from: data)
+        self = try newJSONDecoder().decode(ReferenceLink.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -38,10 +41,14 @@ public extension UIEntryOptions {
     }
 
     func with(
-        showEmpty: Bool?? = nil
-    ) -> UIEntryOptions {
-        return UIEntryOptions(
-            showEmpty: showEmpty ?? self.showEmpty
+        label: String? = nil,
+        reference: String? = nil,
+        type: ReferenceLinkType? = nil
+    ) -> ReferenceLink {
+        return ReferenceLink(
+            label: label ?? self.label,
+            reference: reference ?? self.reference,
+            type: type ?? self.type
         )
     }
 

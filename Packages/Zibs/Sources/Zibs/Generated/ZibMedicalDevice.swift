@@ -26,7 +26,7 @@ public struct ZibMedicalDevice: Codable, Hashable, Sendable {
     public let referenceID: String
     public let resourceType: String?
     public let source: MgoReference?
-    public let status: String?
+    public let status: ZibMedicalDeviceStatus?
     public let whenUsed: MgoPeriod?
 
     public enum CodingKeys: String, CodingKey {
@@ -35,7 +35,7 @@ public struct ZibMedicalDevice: Codable, Hashable, Sendable {
         case resourceType, source, status, whenUsed
     }
 
-    public init(bodySite: MgoCodeableConcept?, device: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, laterality: MgoCodeableConcept?, note: [MgoAnnotation]?, organization: MgoReference?, patient: MgoReference?, practitioner: MgoReference?, profile: ZibMedicalDeviceProfile, reason: MgoReference?, recordedOn: String?, referenceID: String, resourceType: String?, source: MgoReference?, status: String?, whenUsed: MgoPeriod?) {
+    public init(bodySite: MgoCodeableConcept?, device: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, laterality: MgoCodeableConcept?, note: [MgoAnnotation]?, organization: MgoReference?, patient: MgoReference?, practitioner: MgoReference?, profile: ZibMedicalDeviceProfile, reason: MgoReference?, recordedOn: String?, referenceID: String, resourceType: String?, source: MgoReference?, status: ZibMedicalDeviceStatus?, whenUsed: MgoPeriod?) {
         self.bodySite = bodySite
         self.device = device
         self.fhirVersion = fhirVersion
@@ -92,7 +92,7 @@ public extension ZibMedicalDevice {
         referenceID: String? = nil,
         resourceType: String?? = nil,
         source: MgoReference?? = nil,
-        status: String?? = nil,
+        status: ZibMedicalDeviceStatus?? = nil,
         whenUsed: MgoPeriod?? = nil
     ) -> ZibMedicalDevice {
         return ZibMedicalDevice(

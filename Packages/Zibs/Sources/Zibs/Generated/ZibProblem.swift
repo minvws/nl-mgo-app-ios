@@ -15,7 +15,7 @@ public struct ZibProblem: Codable, Hashable, Sendable {
     public let abatementDateTime, assertedDate: String?
     public let asserter: MgoReference?
     public let bodySite, category: [MgoCodeableConcept]?
-    public let clinicalStatus: String?
+    public let clinicalStatus: ZibProblemClinicalStatus?
     public let code: MgoCodeableConcept?
     public let context: MgoReference?
     public let evidence: [Evidence]?
@@ -30,7 +30,7 @@ public struct ZibProblem: Codable, Hashable, Sendable {
     public let severity: MgoCodeableConcept?
     public let stage: Stage
     public let subject: MgoReference?
-    public let verificationStatus: String?
+    public let verificationStatus: ZibProblemVerificationStatus?
 
     public enum CodingKeys: String, CodingKey {
         case abatementDateTime, assertedDate, asserter, bodySite, category, clinicalStatus, code, context, evidence, fhirVersion, id, identifier, note, onsetDateTime, profile
@@ -38,7 +38,7 @@ public struct ZibProblem: Codable, Hashable, Sendable {
         case resourceType, severity, stage, subject, verificationStatus
     }
 
-    public init(abatementDateTime: String?, assertedDate: String?, asserter: MgoReference?, bodySite: [MgoCodeableConcept]?, category: [MgoCodeableConcept]?, clinicalStatus: String?, code: MgoCodeableConcept?, context: MgoReference?, evidence: [Evidence]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, onsetDateTime: String?, profile: ZibProblemProfile, referenceID: String, resourceType: String?, severity: MgoCodeableConcept?, stage: Stage, subject: MgoReference?, verificationStatus: String?) {
+    public init(abatementDateTime: String?, assertedDate: String?, asserter: MgoReference?, bodySite: [MgoCodeableConcept]?, category: [MgoCodeableConcept]?, clinicalStatus: ZibProblemClinicalStatus?, code: MgoCodeableConcept?, context: MgoReference?, evidence: [Evidence]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, onsetDateTime: String?, profile: ZibProblemProfile, referenceID: String, resourceType: String?, severity: MgoCodeableConcept?, stage: Stage, subject: MgoReference?, verificationStatus: ZibProblemVerificationStatus?) {
         self.abatementDateTime = abatementDateTime
         self.assertedDate = assertedDate
         self.asserter = asserter
@@ -87,7 +87,7 @@ public extension ZibProblem {
         asserter: MgoReference?? = nil,
         bodySite: [MgoCodeableConcept]?? = nil,
         category: [MgoCodeableConcept]?? = nil,
-        clinicalStatus: String?? = nil,
+        clinicalStatus: ZibProblemClinicalStatus?? = nil,
         code: MgoCodeableConcept?? = nil,
         context: MgoReference?? = nil,
         evidence: [Evidence]?? = nil,
@@ -102,7 +102,7 @@ public extension ZibProblem {
         severity: MgoCodeableConcept?? = nil,
         stage: Stage? = nil,
         subject: MgoReference?? = nil,
-        verificationStatus: String?? = nil
+        verificationStatus: ZibProblemVerificationStatus?? = nil
     ) -> ZibProblem {
         return ZibProblem(
             abatementDateTime: abatementDateTime ?? self.abatementDateTime,

@@ -24,7 +24,8 @@ public struct ZibDrugUse: Codable, Hashable, Sendable {
     public let method: MgoCodeableConcept?
     public let profile: ZibDrugUseProfile
     public let referenceID: String
-    public let resourceType, status: String?
+    public let resourceType: String?
+    public let status: GpLaboratoryResultStatus?
     public let subject: MgoReference?
     public let valueQuantity: MgoDuration?
 
@@ -34,7 +35,7 @@ public struct ZibDrugUse: Codable, Hashable, Sendable {
         case resourceType, status, subject, valueQuantity
     }
 
-    public init(bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, dataAbsentReason: MgoCodeableConcept?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, profile: ZibDrugUseProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueQuantity: MgoDuration?) {
+    public init(bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, dataAbsentReason: MgoCodeableConcept?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, profile: ZibDrugUseProfile, referenceID: String, resourceType: String?, status: GpLaboratoryResultStatus?, subject: MgoReference?, valueQuantity: MgoDuration?) {
         self.bodySite = bodySite
         self.category = category
         self.comment = comment
@@ -86,7 +87,7 @@ public extension ZibDrugUse {
         profile: ZibDrugUseProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        status: String?? = nil,
+        status: GpLaboratoryResultStatus?? = nil,
         subject: MgoReference?? = nil,
         valueQuantity: MgoDuration?? = nil
     ) -> ZibDrugUse {
