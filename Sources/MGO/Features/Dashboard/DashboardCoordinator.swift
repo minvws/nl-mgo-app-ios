@@ -77,7 +77,7 @@ enum DashboardCoordination {
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
-		case showHealthData(heading: String, schema: UISchema, organization: MgoOrganization)
+		case showHealthData(backButtonTitle: String, schema: UISchema, organization: MgoOrganization)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
 }
@@ -242,7 +242,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let backButtonTitle = action.params["backButtonTitle"] as? String,
 				   let schema = action.params["uiSchema"] as? UISchema {
-					setState(DashboardCoordination.State.showHealthData(heading: backButtonTitle, schema: schema, organization: healthcareOrganization))
+					setState(DashboardCoordination.State.showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization))
 					return true
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
@@ -344,12 +344,12 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
 				
-			case let .showHealthData(heading: heading, schema: schema, organization: healthcareOrganization):
+			case let .showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization):
 				HealthDataView(
 					viewModel: HealthDataViewModel(
 						coordinator: self,
 						schema: schema,
-						backButtonTitle: heading,
+						backButtonTitle: backButtonTitle,
 						healthcareOrganization: healthcareOrganization
 					)
 				)
