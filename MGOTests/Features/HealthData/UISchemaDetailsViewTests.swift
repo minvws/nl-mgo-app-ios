@@ -92,6 +92,18 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_UISchemaDetailsView_referenceLink() throws {
+		
+		// Given
+		try setupSut("referenceLink", resolvedReferences: ["reference/link": true])
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	func test_UISchemaDetailsView_reference_unresolved() throws {
 		
 		// Given
