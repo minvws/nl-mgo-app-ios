@@ -293,7 +293,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action(identifier: "showHealthData", params: ["resource": Data(), "backButtonTitle": heading, "uiSchema": schema, "healthcareOrganization": Generator.healthcareOrganization("1")]))
 		
 		// Then
-		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthData(heading: heading, schema: schema, organization: Generator.healthcareOrganization("1"))])
+		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthData(backButtonTitle: heading, schema: schema, organization: Generator.healthcareOrganization("1"))])
 	}
 	
 	func test_coordinatorHandle_showHealthCategoryData_missingParam() {
