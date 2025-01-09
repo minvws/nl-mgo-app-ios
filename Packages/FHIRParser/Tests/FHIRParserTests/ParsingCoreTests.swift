@@ -135,7 +135,7 @@ final class FHIRParserTests: XCTestCase {
 		let schema = sut.getSummary(data)
 		
 		// Then
-		expect(schema?.label) == "cafa8f45-74bc-4107-a6f8-6eb58c6ed670" // "Zestril tablet 10mg"
+		expect(schema?.label) == "Zestril tablet 10mg"
 	}
 	
 	func test_getSummary_error() throws {
