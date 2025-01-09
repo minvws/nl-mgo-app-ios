@@ -240,9 +240,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				if action.params.count == 4,
 				   // let resource = action.params["resource"] as? MgoResouce,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
-				   let heading = action.params["heading"] as? String,
+				   let backButtonTitle = action.params["backButtonTitle"] as? String,
 				   let schema = action.params["uiSchema"] as? UISchema {
-					setState(DashboardCoordination.State.showHealthData(heading: heading, schema: schema, organization: healthcareOrganization))
+					setState(DashboardCoordination.State.showHealthData(heading: backButtonTitle, schema: schema, organization: healthcareOrganization))
 					return true
 				} else {
 					logError("DashboardCoordinator Coordinator, missing params for \(action)")
@@ -348,8 +348,8 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				HealthDataView(
 					viewModel: HealthDataViewModel(
 						coordinator: self,
-						title: heading,
 						schema: schema,
+						backButtonTitle: heading,
 						healthcareOrganization: healthcareOrganization
 					)
 				)

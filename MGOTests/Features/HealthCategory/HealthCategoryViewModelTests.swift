@@ -37,7 +37,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 				heading: "hc_complaints.heading",
 				search: "health_category.complaints.search",
 				noSearchResults: "health_category.complaints.no_search_results",
-				detailsHeading: String.LocalizationValue(stringLiteral: "hc_complaints.heading_detail")
+				backButtonTitle: String.LocalizationValue(stringLiteral: "hc_complaints.heading")
 			)
 		)
 	}
@@ -189,7 +189,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
 		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == resource
-		expect(params.params["heading"] as? String) == "Alle klachtgegevens"
+		expect(params.params["backButtnTitle"] as? String) == "Klachten"
 		expect((params.params["uiSchema"] as? UISchema)?.label) == "cafa8f45-74bc-4107-a6f8-6eb58c6ed670" // "Zestril tablet 10mg"
 	}
 	

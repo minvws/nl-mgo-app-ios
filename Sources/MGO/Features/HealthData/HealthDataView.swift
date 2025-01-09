@@ -11,8 +11,8 @@ import Zibs
 
 struct ZibDetailViewState {
 	
-	var title: String
 	var schema: UISchema
+	var backButton: String
 }
 
 class HealthDataViewModel: ObservableObject {
@@ -43,19 +43,19 @@ class HealthDataViewModel: ObservableObject {
 	
 	/// Create a Healthcare Data View Model
 	/// - Parameter coordinator: the app coordinator
-	/// - Parameter title: the title for the page
 	/// - Parameter schema: the UISchema to display
+	/// - Parameter backButtonTitle: the title for the back button
 	/// - Parameter healthcareOrganization: the healthcare organization
 	/// - Parameter referenceResolver: the handler to resolve references
 	init(
 		coordinator: (any Coordinator)? = nil,
-		title: String,
 		schema: UISchema,
+		backButtonTitle: String,
 		healthcareOrganization: MgoOrganization,
 		referenceResolver: ReferenceResolverProtocol = ReferenceResolver()
 	) {
 		self.coordinator = coordinator
-		self.state = ZibDetailViewState(title: schema.label ?? title, schema: schema)
+		self.state = ZibDetailViewState(schema: schema, backButton: backButtonTitle)
 		self.healthcareOrganization = healthcareOrganization
 		self.referenceResolver = referenceResolver
 		
@@ -122,7 +122,7 @@ class HealthDataViewModel: ObservableObject {
 				identifier: Coordination.Action.showHealthData.identifier,
 				params: [
 					"healthcareOrganization": healthcareOrganization,
-					"heading": refSchema.label ?? "",
+					"backButtonTitle": "common.previous",
 					"resource": resource,
 					"uiSchema": refSchema
 				])
@@ -154,11 +154,11 @@ struct HealthDataView: View {
 		ScrollViewWithDivider {
 			
 			VStack(spacing: ViewTraits.General.padding) {
-				
-				Text(viewModel.state.title)
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-				
+				if let title = viewModel.state.schema.label {
+					Text(title)
+						.rijksoverheidStyle(font: .bold, style: .title)
+						.frame(maxWidth: .infinity, alignment: .topLeading)
+				}
 				UISchemaView(
 					schema: viewModel.state.schema,
 					healthcareOrganization: viewModel.healthcareOrganization,
@@ -176,7 +176,7 @@ struct HealthDataView: View {
 		.padding(.horizontal, ViewTraits.General.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.navigationBarBackButtonHidden()
-		.navigationBarItems(leading: BackButton {
+		.navigationBarItems(leading: BackButton(LocalizedStringKey(stringLiteral: viewModel.state.backButton)) {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
@@ -190,8 +190,8 @@ struct HealthDataView: View {
 			viewModel:
 				HealthDataViewModel(
 					coordinator: nil,
-					title: String(localized: "hc_medication.heading_detail"),
 					schema: PreviewContent.uiSchema,
+					backButtonTitle: String(localized: "hc_medication.heading"),
 					healthcareOrganization: PreviewContent.healthcareOrganization
 				)
 		)

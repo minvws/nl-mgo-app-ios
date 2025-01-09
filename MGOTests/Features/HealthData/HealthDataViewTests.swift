@@ -26,7 +26,12 @@ final class HealthDataViewTests: XCTestCase {
 		let data = try getResource("multipleValuesMultipleEntries")
 		let schema = try UISchema(data: data)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = HealthDataViewModel(coordinator: coordinatorSpy, title: "test_HealthCategoryDataView", schema: schema, healthcareOrganization: healthcareOrganization)
+		viewModel = HealthDataViewModel(
+			coordinator: coordinatorSpy,
+			schema: schema,
+			backButtonTitle: "common.previous",
+			healthcareOrganization: healthcareOrganization
+		)
 		sut = HealthDataView(viewModel: self.viewModel)
 	}
 

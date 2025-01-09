@@ -31,7 +31,6 @@ final class HealthDataViewModelTests: XCTestCase {
 		
 		sut = HealthDataViewModel(
 			coordinator: coordinatorSpy,
-			title: "HealthCategoryDataViewModelTests",
 			schema: UISchema(children: [UISchemaGroup(
 				children: [
 					UIElement(
@@ -66,6 +65,7 @@ final class HealthDataViewModelTests: XCTestCase {
 				label: "Section Header first group")
 			],
 			label: "test"),
+			backButtonTitle: "HealthCategoryDataViewModelTests",
 			healthcareOrganization: Generator.healthcareOrganization("1"),
 			referenceResolver: referenceResolverSpy
 		)
@@ -79,7 +79,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		let state = sut.state
 		
 		// Then
-		expect(state.title) == "test"
+		expect(state.backButton) == "HealthCategoryDataViewModelTests"
 		expect(state.schema.label) == "test"
 	}
 	
@@ -111,7 +111,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
 		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == Data()
-		expect(params.params["heading"] as? String) == schema.label
+		expect(params.params["backButtonTitle"] as? String) == "common.previous"
 		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
 	}
 	
@@ -131,7 +131,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
 		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == Data()
-		expect(params.params["heading"] as? String) == schema.label
+		expect(params.params["backButtonTitle"] as? String) == "common.previous"
 		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
 	}
 	
@@ -167,7 +167,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
 		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == Data()
-		expect(params.params["heading"] as? String) == schema.label
+		expect(params.params["backButtonTitle"] as? String) == "common.previous"
 		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
 	}
 	
@@ -187,7 +187,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
 		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == Data()
-		expect(params.params["heading"] as? String) == ""
+		expect(params.params["backButtonTitle"] as? String) == "common.previous"
 		expect((params.params["uiSchema"] as? UISchema)?.label) == nil
 	}
 }

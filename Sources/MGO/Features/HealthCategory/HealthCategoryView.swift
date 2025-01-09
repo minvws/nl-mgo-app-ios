@@ -109,7 +109,7 @@ struct HealthCategoryViewTranslations {
 	var noSearchResults: LocalizedStringKey
 	
 	/// The text key for the heading of the details
-	var detailsHeading: String.LocalizationValue
+	var backButtonTitle: String.LocalizationValue
 }
 
 class HealthCategoryViewModel: ObservableObject {
@@ -306,7 +306,7 @@ class HealthCategoryViewModel: ObservableObject {
 								identifier: Coordination.Action.showHealthData.identifier,
 								params: [
 									"healthcareOrganization": self.getOrganization(record.organizationId),
-									"heading": String(localized: self.translations.detailsHeading),
+									"backButtonTitle": String(localized: self.translations.backButtonTitle),
 									"resource": resource,
 									"uiSchema": uiSchema
 								])
@@ -544,7 +544,7 @@ struct HealthCategoryView: View {
 					heading: "hc_medication.heading",
 					search: "hc_medication.search",
 					noSearchResults: "hc_medication.no_search_results",
-					detailsHeading: "hc_medication.heading_detail"
+					backButtonTitle: "hc_medication.heading_detail"
 				)
 			)
 		)

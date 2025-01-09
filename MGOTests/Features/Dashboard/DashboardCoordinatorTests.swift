@@ -290,7 +290,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		let schema = UISchema(children: [], label: "test")
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showHealthData", params: ["resource": Data(), "heading": heading, "uiSchema": schema, "healthcareOrganization": Generator.healthcareOrganization("1")]))
+		sut.handle(Coordination.Action(identifier: "showHealthData", params: ["resource": Data(), "backButtonTitle": heading, "uiSchema": schema, "healthcareOrganization": Generator.healthcareOrganization("1")]))
 		
 		// Then
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath([DashboardCoordination.State.showHealthData(heading: heading, schema: schema, organization: Generator.healthcareOrganization("1"))])
@@ -303,7 +303,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		let schema = UISchema(children: [], label: "test")
 		
 		// When
-		sut.handle(Coordination.Action(identifier: "showHealthData", params: ["heading": heading, "uiSchema": schema]))
+		sut.handle(Coordination.Action(identifier: "showHealthData", params: ["backButtonTitle": heading, "uiSchema": schema]))
 		
 		// Then
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
