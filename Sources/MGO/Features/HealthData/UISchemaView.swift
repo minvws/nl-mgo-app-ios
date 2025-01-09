@@ -110,6 +110,16 @@ struct UISchemaView: View {
 			}
 			.buttonStyle(HoverButtonStyle())
 			.accessibilityIdentifier(entry.label)
+		} else if entry.type == .referenceLink, let ref = entry.reference, resolvedReferences[ref] == true {
+			
+			Button {
+				self.referenceTapped?(entry.reference)
+			} label: {
+				viewFor(entry.label, heading: nil, showDivider: !isLastElement, showChevron: true)
+			}
+			.buttonStyle(HoverButtonStyle())
+			.accessibilityIdentifier(entry.label)
+			
 		} else {
 			
 			// Other
@@ -164,15 +174,17 @@ struct UISchemaView: View {
 	///   - heading: the heading to display
 	///   - showDivider: True if we should show a divider at the bottom
 	/// - Returns: Row View
-	@ViewBuilder func viewFor(_ value: String, heading: String, showDivider: Bool = true, showChevron: Bool = false) -> some View {
+	@ViewBuilder func viewFor(_ value: String, heading: String?, showDivider: Bool = true, showChevron: Bool = false) -> some View {
 		
 		HStack(alignment: .center, spacing: 0) {
 			
 			VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 				
-				Text(heading)
-					.rijksoverheidStyle(font: .regular, style: .callout)
-					.foregroundStyle(theme.contentTertiary)
+				if let heading {
+					Text(heading)
+						.rijksoverheidStyle(font: .regular, style: .callout)
+						.foregroundStyle(theme.contentTertiary)
+				}
 				
 				Text(Sanitizer.strip(value) ?? "common.unknown")
 					.rijksoverheidStyle(font: .regular, style: .body)
