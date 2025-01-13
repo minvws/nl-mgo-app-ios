@@ -135,6 +135,9 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Token for the data store observatory
 	private var dataStoreToken: Observatory.ObserverToken?
 	
+	/// The FHIR Parser
+	private let parser = FHIRParser()
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -286,18 +289,12 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Returns: displayable items
 	private func parseRecord(_ record: MgoResourceRecord, acceptedProfile: String) -> [HealthCategoryBlock] {
 		
-		let parser = FHIRParser()
-		
 		var items = [HealthCategoryBlock]()
 		// For all the MgoResources
 		for resource in record.resources where resource.hasProfile(acceptedProfile) {
 			
-			guard resource.hasProfile(acceptedProfile) else { continue }
-			
-//			MemoryUsage.getMemory("before getUiSchemaJson")
 			if let uiSchema = parser.getSummary(resource) {
-//				MemoryUsage.getMemory("after \(uiSchema.label)")
-				// Add a OverviewBlock to the display list
+				// Add a HealthCategoryBlock to the display list
 				items.append(
 					HealthCategoryBlock(
 						heading: Sanitizer.strip(uiSchema.label),
@@ -501,7 +498,6 @@ struct HealthCategoryView: View {
 			}
 		}
 		.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
-//		.padding(.top, ViewTraits.List.top)
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.foregroundColor(theme.contentTertiary)
 	}
