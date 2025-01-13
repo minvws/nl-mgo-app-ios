@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/FHIRModels",
       "state" : {
-        "revision" : "8a1cb1bdc4a01a814825aca47ada4186dc8a6ee1",
-        "version" : "0.6.0"
+        "revision" : "ee8b55c245e92389e05b0a56ad2b84d37c1985e5",
+        "version" : "0.6.1"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Quick/Nimble",
       "state" : {
-        "revision" : "6416749c3c0488664fff6b42f8bf3ea8dc282ca1",
-        "version" : "13.6.0"
+        "revision" : "7795df4fff1a9cd231fe4867ae54f4dc5f5734f9",
+        "version" : "13.7.1"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
       "state" : {
-        "revision" : "7b0bbbae90c41f848f90ac7b4df6c4f50068256d",
-        "version" : "1.17.5"
+        "revision" : "42a086182681cf661f5c47c9b7dc3931de18c6d7",
+        "version" : "1.17.6"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nalexn/ViewInspector",
       "state" : {
-        "revision" : "5acfa0a3c095ac9ad050abe51c60d1831e8321da",
-        "version" : "0.10.0"
+        "revision" : "788e7879d38a839c4e348ab0762dcc0364e646a2",
+        "version" : "0.10.1"
       }
     }
   ],
