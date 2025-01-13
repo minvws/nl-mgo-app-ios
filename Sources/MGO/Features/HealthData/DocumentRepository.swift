@@ -10,7 +10,7 @@ import Zibs
 
 protocol BinaryRepositoryProtocol {
 	
-	func store(_ binary: Zibs.Binary, as filename: String) throws -> URL
+	func store(_ binary: Zibs.MgoBinary, as filename: String) throws -> URL
 
 	/// Clear all documents
 	func clear()
@@ -49,7 +49,7 @@ class BinaryRepository: BinaryRepositoryProtocol {
 			.appendingPathComponent("binary", isDirectory: true)
 	}
 	
-	func store(_ binary: Zibs.Binary, as filename: String) throws -> URL {
+	func store(_ binary: Zibs.MgoBinary, as filename: String) throws -> URL {
 		
 		guard let documentsURL else { throw BinaryRepositoryError.noUrl }
 		
