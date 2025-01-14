@@ -95,10 +95,22 @@ final class CallToActionButtonTests: XCTestCase {
 		assertSnapshot(of: view, as: .image)
 	}
 	
-	func test_tertairy_withIcon() throws {
+	func test_withIcon() throws {
 		
 		// Given
-		let sut = CallToActionButton("Tertiary With Icon", icon: Image(systemName: "stethoscope"), style: .tertiaryWithIcon)
+		let sut = CallToActionButton("With Icon", icon: Image(systemName: "stethoscope"), style: .withIcon)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
+	func test_withSpinner() throws {
+		
+		// Given
+		let sut = CallToActionButton("With Spinner", style: .withSpinner)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)

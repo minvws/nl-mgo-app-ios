@@ -13,7 +13,7 @@ import RestrictedBrowser
 /// The states of a download view
 enum HealthDataDownloadState: Equatable {
 	
-	case loading
+	case loading(label: String)
 	case idle(label: String)
 	case downloaded(label: String, documentUrl: URL)
 	case external(label: String, documentUrl: URL)
@@ -94,8 +94,8 @@ class HealthDataDownloadViewModel: ObservableObject {
 			return
 		}
 		
-		guard state != .loading else { return }
-		state = .loading
+		guard state != .loading(label: entry.label) else { return }
+		state = .loading(label: entry.label)
 		
 		logInfo("Tapped on", entry.url as Any)
 		
@@ -179,7 +179,7 @@ struct HealthDataDownloadView: View {
 				CallToActionButton(
 					title: label,
 					icon: Image(ImageResource.Schema.attachFile),
-					style: .tertiaryWithIcon) {
+					style: .withIcon) {
 						viewModel.reduce(.download)
 					}
 			
@@ -187,7 +187,7 @@ struct HealthDataDownloadView: View {
 				CallToActionButton(
 					title: label,
 					icon: Image(ImageResource.Schema.attachFile),
-					style: .tertiaryWithIcon) {
+					style: .withIcon) {
 						if failedToOpenPreview {
 							viewModel.reduce(.shareDocument(url: documentUrl))
 						} else {
@@ -205,12 +205,16 @@ struct HealthDataDownloadView: View {
 				CallToActionButton(
 					title: label,
 					icon: Image(ImageResource.Schema.attachFile),
-					style: .tertiaryWithIcon) {
+					style: .withIcon) {
 						viewModel.reduce(.shareUrl(url: documentUrl))
 					}
 			
-			case .loading:
-				loadingView()
+			case let .loading(label: label):
+				CallToActionButton(
+					title: label,
+					style: .withSpinner) {
+						// No action while loading
+					}
 			
 			case .noDocument:
 				feedbackView(
@@ -224,25 +228,6 @@ struct HealthDataDownloadView: View {
 					iconColor: theme.notificationError
 				)
 		}
-	}
-	
-	/// View for the loading state
-	/// - Returns: loading state view
-	@ViewBuilder private func loadingView() -> some View {
-		
-		HStack(spacing: 8) {
-			Spacer()
-			ProgressView()
-				.progressViewStyle(.circular)
-			Text("common.loading_data")
-			Spacer()
-		}
-		.rijksoverheidStyle(font: .regular, style: .body)
-		.foregroundStyle(theme.contentPrimary)
-		.tint(theme.contentPrimary)
-		.frame(maxWidth: .infinity, alignment: .center)
-		.padding(16)
-		.accessibilityElement(children: .combine)
 	}
 	
 	/// Create a feedback view

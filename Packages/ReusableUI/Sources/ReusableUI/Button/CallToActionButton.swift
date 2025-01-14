@@ -35,7 +35,8 @@ public struct CallToActionButton: View {
 		case secondaryCritical
 		case tertiary
 		case tertiaryCritical
-		case tertiaryWithIcon
+		case withIcon
+		case withSpinner
 	}
 	
 	/// Initializer
@@ -63,11 +64,18 @@ public struct CallToActionButton: View {
 				action?()
 			},
 			label: {
-				if style == .tertiaryWithIcon, let icon {
+				if style == .withIcon, let icon {
 					HStack {
 						titleLabel()
 						Spacer()
 						icon
+					}
+				} else if style == .withSpinner {
+					HStack {
+						titleLabel()
+						Spacer()
+						ProgressView()
+							.progressViewStyle(.circular)
 					}
 				} else {
 					titleLabel()
@@ -89,11 +97,14 @@ public struct CallToActionButton: View {
 		.when(style == .tertiary, transform: { button in
 			button.buttonStyle(TertiaryButtonStyle())
 		})
-		.when(style == .tertiaryWithIcon, transform: { button in
-			button.buttonStyle(TertiaryButtonWithIconStyle())
-		})
 		.when(style == .tertiaryCritical, transform: { button in
 			button.buttonStyle(TertiaryCriticalButtonStyle())
+		})
+		.when(style == .withIcon, transform: { button in
+			button.buttonStyle(ButtonWithIconStyle())
+		})
+		.when(style == .withSpinner, transform: { button in
+			button.buttonStyle(ButtonWithSpinnerStyle())
 		})
 	}
 	
@@ -111,27 +122,22 @@ public struct CallToActionButton: View {
 
 #Preview {
 	VStack {
-		HStack {
-			CallToActionButton(".primary", style: .primary)
-				.padding(16)
-			CallToActionButton(".primaryCritical", style: .primaryCritical)
-				.padding(16)
-		}
-		HStack {
-			CallToActionButton(".secondary", style: .secondary)
-				.padding(16)
-			CallToActionButton(".secondaryCritical", style: .secondaryCritical)
-				.padding(16)
-		}
-		HStack {
-			CallToActionButton(".tertiary", style: .tertiary)
-				.padding(16)
-			CallToActionButton(".tertiaryCritical", style: .tertiaryCritical)
-				.padding(16)
-		}
-		HStack {
-			CallToActionButton(".tertiaryWithIcon", icon: Image(systemName: "stethoscope"), style: .tertiaryWithIcon)
-				.padding(16)
-		}
+		CallToActionButton(".primary", style: .primary)
+			.padding(16)
+		CallToActionButton(".primaryCritical", style: .primaryCritical)
+			.padding(16)
+		CallToActionButton(".secondary", style: .secondary)
+			.padding(16)
+		CallToActionButton(".secondaryCritical", style: .secondaryCritical)
+			.padding(16)
+		CallToActionButton(".tertiary", style: .tertiary)
+			.padding(16)
+		CallToActionButton(".tertiaryCritical", style: .tertiaryCritical)
+			.padding(16)
+		CallToActionButton(".withIcon", icon: Image(systemName: "stethoscope"), style: .withIcon)
+			.padding(16)
+		CallToActionButton(".withSpinner", style: .withSpinner)
+			.padding(16)
+		Spacer()
 	}
 }

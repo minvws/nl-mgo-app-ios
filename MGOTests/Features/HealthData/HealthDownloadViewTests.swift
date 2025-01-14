@@ -28,7 +28,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		sut = HealthDataDownloadView(viewModel: self.viewModel)
 	}
 	
-	func test_HealthCategoryDownloadView_idle() {
+	func test_HealthDownloadView_idle() {
 		
 		// Given
 		viewModel.state = .idle(label: "Test download")
@@ -40,7 +40,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthCategoryDownloadView_downloaded() throws {
+	func test_HealthDownloadView_downloaded() throws {
 		
 		// Given
 		let url = try XCTUnwrap(URL(string: "https://apple.com"))
@@ -53,7 +53,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthCategoryDownloadView_external() throws {
+	func test_HealthDownloadView_external() throws {
 		
 		// Given
 		let url = try XCTUnwrap(URL(string: "https://apple.com"))
@@ -66,10 +66,10 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthCategoryDownloadView_loading() throws {
+	func test_HealthDownloadView_loading() throws {
 		
 		// Given
-		viewModel.state = .loading
+		viewModel.state = .loading(label: "label")
 		
 		// When
 		let content = NavigationView { sut }
@@ -78,7 +78,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_HealthCategoryDownloadView_error() throws {
+	func test_HealthDownloadView_error() throws {
 		
 		// Given
 		viewModel.state = .error
@@ -90,7 +90,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthCategoryDownloadView_noDocument() throws {
+	func test_HealthDownloadView_noDocument() throws {
 		
 		// Given
 		viewModel.state = .noDocument

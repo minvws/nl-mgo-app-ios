@@ -9,7 +9,7 @@ import RijksoverheidFont
 import SwiftUI
 import Theme
 
-struct TertiaryButtonWithIconStyle: ButtonStyle {
+struct ButtonWithIconStyle: ButtonStyle {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
