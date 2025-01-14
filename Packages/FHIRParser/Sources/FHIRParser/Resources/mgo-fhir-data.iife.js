@@ -47997,11 +47997,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   ];
   const summary$5 = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
-    const referenceRangeSchema = map(
+    const referenceRange2 = map(
       resource.referenceRange,
       (x) => ui.range(`summary.${i18n$6}.reference_range`, x),
       true
-    ).flat();
+    );
+    const hasSingleReferenceRange = referenceRange2.length === 1;
     const resultFlags = resource.interpretation?.coding.filter(
       (x) => x.system === SNOMED_SYSTEM && InterpretatieVlaggenCodelijst.includes(x.code)
     );
@@ -48021,10 +48022,22 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             ui.code(`summary.${i18n$6}.status`, resource.status, {
               i18nCode: "r3.observation.status"
             }),
-            ui.reference(`summary.${i18n$6}.specimen`, resource.specimen),
-            ...referenceRangeSchema
+            ui.reference(`summary.${i18n$6}.specimen`, resource.specimen)
           ]
         },
+        ...map(
+          referenceRange2,
+          (x, k) => {
+            return {
+              label: formatMessage2(
+                hasSingleReferenceRange ? `summary.${i18n$6}.group_reference_range` : `summary.${i18n$6}.group_reference_range_index`,
+                { index: k + 1 }
+              ),
+              children: x
+            };
+          },
+          true
+        ),
         {
           label: formatMessage2(`summary.${i18n$6}.group_performer`),
           children: [ui.reference(`summary.${i18n$6}.performer`, resource.performer)]
@@ -51833,6 +51846,22 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         value: "Test afgenomen door"
       }
     ],
+    "summary.r3.zib_laboratory_test_result_observation.group_reference_range": [
+      {
+        type: 0,
+        value: "Referentiewaarden"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.group_reference_range_index": [
+      {
+        type: 0,
+        value: "Referentiewaarden "
+      },
+      {
+        type: 1,
+        value: "index"
+      }
+    ],
     "summary.r3.zib_laboratory_test_result_observation.group_test_details": [
       {
         type: 0,
@@ -51849,12 +51878,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       {
         type: 0,
         value: "Specialist"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.reference_range": [
-      {
-        type: 0,
-        value: "Referentie"
       }
     ],
     "summary.r3.zib_laboratory_test_result_observation.reference_range.high": [

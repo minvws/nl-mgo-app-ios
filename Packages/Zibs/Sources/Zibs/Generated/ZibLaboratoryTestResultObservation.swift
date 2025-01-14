@@ -14,7 +14,9 @@ import Foundation
 public struct ZibLaboratoryTestResultObservation: Codable, Hashable, Sendable {
     public let basedOn: [MgoReference]?
     public let code: MgoCodeableConcept?
-    public let comment, effectiveDateTime: String?
+    public let comment: String?
+    public let context: MgoReference?
+    public let effectiveDateTime: String?
     public let effectivePeriod: MgoPeriod?
     public let fhirVersion: FhirVersionR3
     public let id: String?
@@ -42,15 +44,16 @@ public struct ZibLaboratoryTestResultObservation: Codable, Hashable, Sendable {
     public let valueString: String?
 
     public enum CodingKeys: String, CodingKey {
-        case basedOn, code, comment, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, interpretation, laboratoryTestResultCode, method, performer, profile
+        case basedOn, code, comment, context, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, interpretation, laboratoryTestResultCode, method, performer, profile
         case referenceID = "referenceId"
         case referenceRange, related, resourceType, resultType, specimen, status, subject, valueBoolean, valueCodeableConcept, valueDateTime, valuePeriod, valueQuantity, valueRange, valueRatio, valueString
     }
 
-    public init(basedOn: [MgoReference]?, code: MgoCodeableConcept?, comment: String?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, interpretation: MgoCodeableConcept?, laboratoryTestResultCode: [MgoCodeableConcept]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: ZibLaboratoryTestResultObservationProfile, referenceID: String, referenceRange: [ZibLaboratoryTestResultObservationReferenceRange]?, related: [ZibLaboratoryTestResultObservationRelated]?, resourceType: String?, resultType: [MgoCodeableConcept]?, specimen: MgoReference?, status: GpLaboratoryResultStatus?, subject: MgoReference?, valueBoolean: Bool?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: String?, valuePeriod: MgoPeriod?, valueQuantity: MgoDuration?, valueRange: MgoRange?, valueRatio: MgoRatio?, valueString: String?) {
+    public init(basedOn: [MgoReference]?, code: MgoCodeableConcept?, comment: String?, context: MgoReference?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, interpretation: MgoCodeableConcept?, laboratoryTestResultCode: [MgoCodeableConcept]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: ZibLaboratoryTestResultObservationProfile, referenceID: String, referenceRange: [ZibLaboratoryTestResultObservationReferenceRange]?, related: [ZibLaboratoryTestResultObservationRelated]?, resourceType: String?, resultType: [MgoCodeableConcept]?, specimen: MgoReference?, status: GpLaboratoryResultStatus?, subject: MgoReference?, valueBoolean: Bool?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: String?, valuePeriod: MgoPeriod?, valueQuantity: MgoDuration?, valueRange: MgoRange?, valueRatio: MgoRatio?, valueString: String?) {
         self.basedOn = basedOn
         self.code = code
         self.comment = comment
+        self.context = context
         self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
         self.fhirVersion = fhirVersion
@@ -102,6 +105,7 @@ public extension ZibLaboratoryTestResultObservation {
         basedOn: [MgoReference]?? = nil,
         code: MgoCodeableConcept?? = nil,
         comment: String?? = nil,
+        context: MgoReference?? = nil,
         effectiveDateTime: String?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
         fhirVersion: FhirVersionR3? = nil,
@@ -133,6 +137,7 @@ public extension ZibLaboratoryTestResultObservation {
             basedOn: basedOn ?? self.basedOn,
             code: code ?? self.code,
             comment: comment ?? self.comment,
+            context: context ?? self.context,
             effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             fhirVersion: fhirVersion ?? self.fhirVersion,
