@@ -290,18 +290,19 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		switch state {
 			
 			// Initial states
+		
 			case .settings:
 				SettingsView(viewModel: SettingsViewModel(coordinator: self))
-				
+			
 			case .overview:
 				OrganizationsView(viewModel: OrganizationsViewModel(coordinator: self)).isPresentedAsSheet(false)
-				
-				// Healthcare Organization Flow
+			
+			// Healthcare Organization Flow
+			
 			case .manualLocalization:
 				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
-				
+			
 			case .automaticLocalization:
-				
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
@@ -321,7 +322,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					)
 				)
 				.isPresentedAsSheet(true)
-				
+			
 			case let .showHealthcareOrganization(healthcareOrganization):
 				HealthCategoriesView(
 					viewModel:
@@ -330,9 +331,19 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 							mode: .single( healthcareOrganization)
 						)
 				)
+			
+			case let .removeHealthcareOrganization(healthcareOrganization):
+				RemoveHealthcareOrganizationView(
+					viewModel: RemoveHealthcareOrganizationViewModel(
+						coordinator: self,
+						healthcareOrganization: healthcareOrganization
+					)
+				)
+				.isPresentedAsSheet(true)
 				
+			// Health Categories and Data
+			
 			case .showHealthCategories:
-				
 				HealthCategoriesView(
 					viewModel:
 						HealthCategoriesViewModel(
@@ -340,10 +351,10 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 							mode: .all
 						)
 				)
-				
-			case let .removeHealthcareOrganization(healthcareOrganization):
-				RemoveHealthcareOrganizationView(viewModel: RemoveHealthcareOrganizationViewModel(coordinator: self, healthcareOrganization: healthcareOrganization)).isPresentedAsSheet(true)
-				
+			
+			case let .showHealthCategory(category: category, organization: organization):
+				viewState(for: category, organization: organization)
+			
 			case let .showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization):
 				HealthDataView(
 					viewModel: HealthDataViewModel(
@@ -354,16 +365,16 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 					)
 				)
 				
-			case let .showHealthCategory(category: category, organization: organization):
-				
-				viewState(for: category, organization: organization)
-				
 			default:
 				EmptyView()
 					.logError("DashboardCoordinator, no view for", state as Any)
 		}
 	}
 	
+	/// Get a View for a category
+	/// - Parameter category: the health category
+	/// - Parameter organization: optional healthcare organization
+	/// - Returns: A view for that state
 	@ViewBuilder private func viewState(for category: HealthCategories.Category, organization: MgoOrganization? = nil) -> some View {
 
 		switch category {

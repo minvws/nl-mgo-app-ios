@@ -14,12 +14,12 @@ class BinaryRepositorySpy: BinaryRepositoryProtocol {
 
 	var invokedStore = false
 	var invokedStoreCount = 0
-	var invokedStoreParameters: (binary: Zibs.Binary, filename: String)?
-	var invokedStoreParametersList = [(binary: Zibs.Binary, filename: String)]()
+	var invokedStoreParameters: (binary: Zibs.MgoBinary, filename: String)?
+	var invokedStoreParametersList = [(binary: Zibs.MgoBinary, filename: String)]()
 	var stubbedStoreError: Error?
 	var stubbedStoreResult: URL!
 
-	func store(_ binary: Zibs.Binary, as filename: String) throws -> URL {
+	func store(_ binary: Zibs.MgoBinary, as filename: String) throws -> URL {
 		invokedStore = true
 		invokedStoreCount += 1
 		invokedStoreParameters = (binary, filename)

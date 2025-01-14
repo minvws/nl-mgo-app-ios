@@ -66,13 +66,13 @@ public class MGORepository {
 		return "Basic \(base64LoginString)"
 	}
 	
+	// The FHIR parser
+	let parser = FHIRParser()
+
 	/// process the bundle FHIR data into mgoResources
 	/// - Parameter data: FHIR bundle
 	/// - Returns: array of mgoResources (as Data)
 	public func process(_ bundle: Data, fhirVersion: String) throws -> [MgoResource] {
-		
-		// The parser
-		let parser = FHIRParser()
 		
 		// Split the bundle into FHIR resources
 		let fhirResources = parser.splitBundleIntoResources(bundle)

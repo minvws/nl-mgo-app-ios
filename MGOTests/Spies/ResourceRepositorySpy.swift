@@ -60,12 +60,12 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 	var invokedLoadBinaryCount = 0
 	var invokedLoadBinaryParameters: (healthcareOrganization: MgoOrganization, serviceId: String, url: String)?
 	var invokedLoadBinaryParametersList = [(healthcareOrganization: MgoOrganization, serviceId: String, url: String)]()
-	var stubbedLoadBinary: Zibs.Binary?
+	var stubbedLoadBinary: Zibs.MgoBinary?
 	var stubbedLoadBinaryError: Error?
 
 	private let queue = DispatchQueue(label: "com.ResourceRepositorySpy.serialqueue.\(UUID().uuidString)")
 
-	func loadBinary(_ healthcareOrganization: MgoOrganization, serviceId: String, url: String) async throws -> Zibs.Binary? {
+	func loadBinary(_ healthcareOrganization: MgoOrganization, serviceId: String, url: String) async throws -> Zibs.MgoBinary? {
 			
 		queue.sync {
 			invokedLoadBinary = true

@@ -9,7 +9,7 @@ import Foundation
 import Logging
 
 // MARK: - Binary
-public struct Binary: Codable, Hashable, Sendable {
+public struct MgoBinary: Codable, Hashable, Sendable {
 	public let contentType: String
 	public let content: String
 	
@@ -25,11 +25,11 @@ public struct Binary: Codable, Hashable, Sendable {
 
 // MARK: Evidence convenience initializers and mutators
 
-public extension Binary {
+public extension MgoBinary {
 	
 	/// Create a binary from data
 	/// - Parameter data: the data
 	init(data: Data) throws {
-		self = try newJSONDecoder().decode(Binary.self, from: data)
+		self = try newJSONDecoder().decode(MgoBinary.self, from: data)
 	}
 }

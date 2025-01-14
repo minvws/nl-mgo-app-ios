@@ -27,10 +27,16 @@ protocol ResourceRepositoryProtocol {
 	///   - category: the category to load the resources for.
 	func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async
 	
+	/// Load a binary object
+	/// - Parameters:
+	///   - healthcareOrganization: the healthcare organization
+	///   - serviceId: the service id
+	///   - url: the url of the binary
+	/// - Returns: Optional Binary
 	func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		url: String) async throws -> Zibs.Binary?
+		url: String) async throws -> Zibs.MgoBinary?
 }
 
 /// Load the resources from the server
@@ -48,14 +54,14 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// Local version of the feature flag manager
 	private var featureFlagManager: FeatureFlagManaging?
 	
-	/// The url of the resource server
-	private var serverUrl: Foundation.URL
-	
 	/// the authentication username
 	private var username: String?
 	
 	/// The authentication password
 	private var password: String?
+	
+	/// The MGO repository to fetch FHIR objects
+	private var repository: MGORepository
 	
 	/// Create the Resource Repository
 	/// - Parameters:
@@ -75,7 +81,8 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		self.healthcareOrganizationRepository = healthcareOrganizationRepository
 		self.dataRepository = dataRepository
 		self.featureFlagManager = featureFlagManager
-		self.serverUrl = serverUrl
+		self.repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
+//		self.repository = MGORepository(client: FHIRClient(baseURL: URL(string: "http://localhost:8001/fhir/")!))
 		self.username = username
 		self.password = password
 		registerObservers()
@@ -143,9 +150,6 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	///   - category: the category to load the resources for.
 	func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async {
 		
-		let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
-//		let repository = MGORepository(client: FHIRClient(baseURL: URL(string: "http://localhost:8001/fhir/")!))
-		
 		for service in category.services {
 			
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: service.serviceId) else {
@@ -188,10 +192,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		url: String) async throws -> Zibs.Binary? {
-		
-			let repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
-//			let repository = MGORepository(client: FHIRClient(baseURL: URL(string: "http://localhost:8001/fhir/")!))
+		url: String) async throws -> Zibs.MgoBinary? {
 			
 			// The binary call also needs the DVA Target header
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId) else {
@@ -209,7 +210,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 					password: password
 				)
 				
-				let binary = try Binary(data: data)
+				let binary = try MgoBinary(data: data)
 				return binary
 			} catch {
 				// Should be error
