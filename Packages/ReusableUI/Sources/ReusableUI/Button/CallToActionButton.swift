@@ -70,6 +70,7 @@ public struct CallToActionButton: View {
 						Spacer()
 						icon
 					}
+					.contentShape(Rectangle())
 				} else if style == .withSpinner {
 					HStack {
 						titleLabel()
