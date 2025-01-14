@@ -47866,15 +47866,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseGpJournalEntry,
     uiSchema: uiSchema$K
   };
+  const i18n$7 = "r3.zib_laboratory_test_result_observation.reference_range";
   const uiSchemaGroup$z = (resource, context) => {
-    const i18n2 = "r3.zib_laboratory_test_result_observation.reference_range";
     const { ui, formatMessage: formatMessage2 } = context;
     return {
-      label: formatMessage2(i18n2),
+      label: formatMessage2(i18n$7),
       children: [
-        ui.quantity(`${i18n2}.low`, resource.low),
-        ui.quantity(`${i18n2}.high`, resource.high),
-        ui.codeableConcept(`${i18n2}.type`, resource.type)
+        ui.quantity(`${i18n$7}.low`, resource.low),
+        ui.quantity(`${i18n$7}.high`, resource.high),
+        ui.codeableConcept(`${i18n$7}.type`, resource.type)
       ]
     };
   };
@@ -47887,20 +47887,23 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
+  const i18n$6 = "r3.zib_laboratory_test_result_observation";
+  function getLabel$3(resource, { formatMessage: formatMessage2 }) {
+    return lodashExports.capitalize(resource.code?.coding.at(0)?.display) || formatMessage2(i18n$6);
+  }
   const uiSchema$J = (resource, context) => {
-    const i18n2 = "r3.zib_laboratory_test_result_observation";
     const { ui, formatMessage: formatMessage2 } = context;
     const hcimLaboratoryTestResult = {
-      BasedOn: ui.reference(`${i18n2}.based_on`, resource.basedOn),
-      Status: ui.code(`${i18n2}.status`, resource.status),
-      ResultType: ui.codeableConcept(`${i18n2}.result_type`, resource.resultType),
-      Code: ui.codeableConcept(`${i18n2}.code`, resource.code),
-      Effective: ui.oneOfValueX(`${i18n2}.effective`, resource, "effective"),
-      Value: ui.oneOfValueX(`${i18n2}.value`, resource),
-      Interpretation: ui.codeableConcept(`${i18n2}.interpretation`, resource.interpretation),
-      Comment: ui.string(`${i18n2}.comment`, resource.comment),
-      Method: ui.codeableConcept(`${i18n2}.method`, resource.method),
-      Specimen: ui.reference(`${i18n2}.specimen`, resource.specimen),
+      BasedOn: ui.reference(`${i18n$6}.based_on`, resource.basedOn),
+      Status: ui.code(`${i18n$6}.status`, resource.status),
+      ResultType: ui.codeableConcept(`${i18n$6}.result_type`, resource.resultType),
+      Code: ui.codeableConcept(`${i18n$6}.code`, resource.code),
+      Effective: ui.oneOfValueX(`${i18n$6}.effective`, resource, "effective"),
+      Value: ui.oneOfValueX(`${i18n$6}.value`, resource),
+      Interpretation: ui.codeableConcept(`${i18n$6}.interpretation`, resource.interpretation),
+      Comment: ui.string(`${i18n$6}.comment`, resource.comment),
+      Method: ui.codeableConcept(`${i18n$6}.method`, resource.method),
+      Specimen: ui.reference(`${i18n$6}.specimen`, resource.specimen),
       ReferenceRange: map(
         resource.referenceRange,
         (x) => uiSchemaGroup$z(x, context),
@@ -47909,28 +47912,29 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       Related: map(resource.related, (x) => uiSchemaGroup$y(x, context), true).flat()
     };
     const hcimBasicElements = {
-      Identifier: ui.identifier(`${i18n2}.identifier`, resource.identifier),
-      Subject: ui.reference(`${i18n2}.subject`, resource.subject),
-      Performer: ui.reference(`${i18n2}.performer`, resource.performer)
+      Identifier: ui.identifier(`${i18n$6}.identifier`, resource.identifier),
+      Subject: ui.reference(`${i18n$6}.subject`, resource.subject),
+      Context: ui.reference(`${i18n$6}.context`, resource.context),
+      Performer: ui.reference(`${i18n$6}.performer`, resource.performer)
     };
-    const label = resource.resultType?.at(0)?.coding.at(0)?.display ?? resource.laboratoryTestResultCode?.at(0)?.coding.at(0)?.display;
     return {
-      label: label ?? formatMessage2(i18n2),
+      label: getLabel$3(resource, context),
       children: [
         {
-          label: formatMessage2(i18n2),
+          label: formatMessage2(i18n$6),
           children: [
             hcimBasicElements.Identifier,
             hcimBasicElements.Subject,
+            hcimBasicElements.Context,
             ...hcimLaboratoryTestResult.Effective
           ]
         },
         {
-          label: formatMessage2(`${i18n2}.general_test_information`),
+          label: formatMessage2(`${i18n$6}.general_test_information`),
           children: [hcimLaboratoryTestResult.ResultType, hcimLaboratoryTestResult.Comment]
         },
         {
-          label: formatMessage2(`${i18n2}.lab_test`),
+          label: formatMessage2(`${i18n$6}.lab_test`),
           children: [
             hcimLaboratoryTestResult.Code,
             hcimLaboratoryTestResult.Method,
@@ -47941,6 +47945,91 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             hcimLaboratoryTestResult.Interpretation
           ]
         }
+      ]
+    };
+  };
+  function summaryOptions({ formatMessage: formatMessage2 }, i18n2, resource) {
+    return {
+      label: formatMessage2(`summary.options`),
+      children: [
+        {
+          type: "REFERENCE_LINK",
+          label: formatMessage2(`summary.${i18n2}.show_details`),
+          reference: resource.referenceId
+        }
+      ]
+    };
+  }
+  const SNOMED_SYSTEM = "http://snomed.info/sct";
+  var Snomed = /* @__PURE__ */ ((Snomed2) => {
+    Snomed2["LABORATORY_TEST_FINDING"] = "49581000146104";
+    Snomed2["HEMATOLOGY"] = "252275004";
+    Snomed2["CHEMISTRY"] = "275711006";
+    Snomed2["SEROLOGY"] = "68793005";
+    Snomed2["VIROLOGY"] = "395124008";
+    Snomed2["TOXICOLOGY"] = "314076009";
+    Snomed2["MICROBIOLOGY"] = "19851009";
+    Snomed2["MOLECULAR_GENETICS"] = "405825005";
+    Snomed2["ABOVE_REFERENCE_RANGE"] = "281302008";
+    Snomed2["BELOW_REFERENCE_RANGE"] = "281300000";
+    Snomed2["INTERMEDIATE"] = "11896004";
+    Snomed2["RESISTANT"] = "30714006";
+    Snomed2["SUSCEPTIBLE"] = "131196009";
+    return Snomed2;
+  })(Snomed || {});
+  const SnomedResultTypes = [
+    "252275004",
+    "275711006",
+    "68793005",
+    "395124008",
+    "314076009",
+    "19851009",
+    "405825005"
+    /* MOLECULAR_GENETICS */
+  ];
+  const InterpretatieVlaggenCodelijst = [
+    "281302008",
+    "281300000",
+    "11896004",
+    "30714006",
+    "131196009"
+    /* SUSCEPTIBLE */
+  ];
+  const summary$5 = (resource, context) => {
+    const { ui, formatMessage: formatMessage2 } = context;
+    const referenceRangeSchema = map(
+      resource.referenceRange,
+      (x) => ui.range(`summary.${i18n$6}.reference_range`, x),
+      true
+    ).flat();
+    const resultFlags = resource.interpretation?.coding.filter(
+      (x) => x.system === SNOMED_SYSTEM && InterpretatieVlaggenCodelijst.includes(x.code)
+    );
+    return {
+      label: getLabel$3(resource, context),
+      children: [
+        {
+          children: [
+            ...ui.oneOfValueX(`summary.${i18n$6}.effective`, resource, "effective"),
+            ...ui.oneOfValueX(`summary.${i18n$6}.value`, resource),
+            ui.coding(`summary.${i18n$6}.interpretation`, resultFlags)
+          ]
+        },
+        {
+          label: formatMessage2(`summary.${i18n$6}.group_test_details`),
+          children: [
+            ui.code(`summary.${i18n$6}.status`, resource.status, {
+              i18nCode: "r3.observation.status"
+            }),
+            ui.reference(`summary.${i18n$6}.specimen`, resource.specimen),
+            ...referenceRangeSchema
+          ]
+        },
+        {
+          label: formatMessage2(`summary.${i18n$6}.group_performer`),
+          children: [ui.reference(`summary.${i18n$6}.performer`, resource.performer)]
+        },
+        summaryOptions(context, i18n$6, resource)
       ]
     };
   };
@@ -47966,28 +48055,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     parse: parseReferenceRange,
     uiSchemaGroup: uiSchemaGroup$z
   };
-  const SNOMED_SYSTEM = "http://snomed.info/sct";
-  var Snomed = /* @__PURE__ */ ((Snomed2) => {
-    Snomed2["LABORATORY_TEST_FINDING"] = "49581000146104";
-    Snomed2["HEMATOLOGY"] = "252275004";
-    Snomed2["CHEMISTRY"] = "275711006";
-    Snomed2["SEROLOGY"] = "68793005";
-    Snomed2["VIROLOGY"] = "395124008";
-    Snomed2["TOXICOLOGY"] = "314076009";
-    Snomed2["MICROBIOLOGY"] = "19851009";
-    Snomed2["MOLECULAR_GENETICS"] = "405825005";
-    return Snomed2;
-  })(Snomed || {});
-  const SnomedResultTypes = [
-    "252275004",
-    "275711006",
-    "68793005",
-    "395124008",
-    "314076009",
-    "19851009",
-    "405825005"
-    /* MOLECULAR_GENETICS */
-  ];
   const profile$J = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
   function parseZibLaboratoryTestResultObservationBase(resource) {
     const laboratoryTestResultCode = filterCodeableConceptByCoding(
@@ -48001,6 +48068,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return {
       identifier: map(resource.identifier, identifier$1),
       subject: reference$1(resource.subject),
+      context: reference$1(resource.context),
       code: codeableConcept$1(resource?.code),
       method: codeableConcept$1(resource?.method),
       ...oneOfValueX$1(resource, ["dateTime", "period"], "effective"),
@@ -48035,10 +48103,24 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const zibLaboratoryTestResultObservation = {
     profile: profile$J,
     parse: parseZibLaboratoryTestResultObservation,
-    uiSchema: uiSchema$J
+    uiSchema: uiSchema$J,
+    summary: summary$5
   };
+  const i18n$5 = "r3.gp_laboratory_result";
+  function getLabel$2(resource, { formatMessage: formatMessage2 }) {
+    return lodashExports.capitalize(resource.context?.display) || formatMessage2(i18n$5);
+  }
   const uiSchema$I = (resource, context) => {
-    return zibLaboratoryTestResultObservation.uiSchema(resource, context);
+    return {
+      ...zibLaboratoryTestResultObservation.uiSchema(resource, context),
+      label: getLabel$2(resource, context)
+    };
+  };
+  const summary$4 = (resource, context) => {
+    return {
+      ...zibLaboratoryTestResultObservation.summary(resource, context),
+      label: getLabel$2(resource, context)
+    };
   };
   const profile$I = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
   function parseGpLaboratoryResult(resource) {
@@ -48051,7 +48133,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const gpLaboratoryResult = {
     profile: profile$I,
     parse: parseGpLaboratoryResult,
-    uiSchema: uiSchema$I
+    uiSchema: uiSchema$I,
+    summary: summary$4
   };
   const uiSchemaGroup$x = (resource, context) => {
     const i18n2 = "r3.attachment";
@@ -49723,18 +49806,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  function summaryOptions({ formatMessage: formatMessage2 }, i18n2, resource) {
-    return {
-      label: formatMessage2(`summary.options`),
-      children: [
-        {
-          type: "REFERENCE_LINK",
-          label: formatMessage2(`summary.${i18n2}.show_details`),
-          reference: resource.referenceId
-        }
-      ]
-    };
-  }
   const summary$2 = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     const instructions = map(
@@ -51738,6 +51809,90 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         value: "Gebruiksaanwijzing"
       }
     ],
+    "summary.r3.zib_laboratory_test_result_observation.effective": [
+      {
+        type: 0,
+        value: "Datum van de uitslag"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.effective.end": [
+      {
+        type: 0,
+        value: "Eind datum van de uitslag"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.effective.start": [
+      {
+        type: 0,
+        value: "Begin datum van de uitslag"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.group_performer": [
+      {
+        type: 0,
+        value: "Test afgenomen door"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.group_test_details": [
+      {
+        type: 0,
+        value: "Details van de test"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.interpretation": [
+      {
+        type: 0,
+        value: "Beoordeling"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.performer": [
+      {
+        type: 0,
+        value: "Specialist"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.reference_range": [
+      {
+        type: 0,
+        value: "Referentie"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.reference_range.high": [
+      {
+        type: 0,
+        value: "Maximale waarde"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.reference_range.low": [
+      {
+        type: 0,
+        value: "Minimale waarde"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.show_details": [
+      {
+        type: 0,
+        value: "Bekijk alle uitslaggegevens"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.specimen": [
+      {
+        type: 0,
+        value: "Materiaal"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.status": [
+      {
+        type: 0,
+        value: "Status"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.value": [
+      {
+        type: 0,
+        value: "Resultaat"
+      }
+    ],
     "summary.r3.zib_medication_use.group_period": [
       {
         type: 0,
@@ -51890,6 +52045,42 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               {
                 type: 0,
                 value: " dagen"
+              }
+            ]
+          }
+        },
+        pluralType: "cardinal",
+        type: 6,
+        value: "count"
+      }
+    ],
+    "system.count.http://unitsofmeasure.org|mmol/L": [
+      {
+        offset: 0,
+        options: {
+          one: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "count"
+              },
+              {
+                type: 0,
+                value: " millimol per liter"
+              }
+            ]
+          },
+          other: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "count"
+              },
+              {
+                type: 0,
+                value: " millimol per liter"
               }
             ]
           }
@@ -56975,6 +57166,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     ]
   };
   const r3ResourceLabelsCustom = {
+    "r3.gp_laboratory_result": [
+      {
+        type: 0,
+        value: "Laboratorium uitslag"
+      }
+    ],
     "r3.ihe_mhd_minimal_document_reference.author": [
       {
         type: 0,
@@ -57057,6 +57254,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       {
         type: 0,
         value: "Type"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.context": [
+      {
+        type: 0,
+        value: "Verband"
       }
     ],
     "r3.zib_laboratory_test_result_observation.general_test_information": [
