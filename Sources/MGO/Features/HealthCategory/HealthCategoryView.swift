@@ -497,7 +497,10 @@ struct HealthCategoryView: View {
 				.padding(.top, ViewTraits.Navigation.padding)
 			}
 		}
-		.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
+		.when(Configuration().getRelease() != .demo) { view in
+			view
+				.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
+		}
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.foregroundColor(theme.contentTertiary)
 	}
