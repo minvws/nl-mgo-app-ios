@@ -12038,14 +12038,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   getSupportedNumberingSystems$1.getSupportedNumberingSystems = getSupportedNumberingSystems;
   var ecma402_abstract_1$k = require$$1;
   var numbering_systems_generated_1$1 = numberingSystems_generated$2;
-  function isSupportedNumberingSystem(system, locale) {
+  function isSupportedNumberingSystem(system2, locale) {
     if (locale === void 0) {
       locale = "en";
     }
     try {
-      var numberFormat = (0, ecma402_abstract_1$k.createMemoizedNumberFormat)("".concat(locale, "-u-nu-").concat(system));
+      var numberFormat = (0, ecma402_abstract_1$k.createMemoizedNumberFormat)("".concat(locale, "-u-nu-").concat(system2));
       var options = numberFormat.resolvedOptions().numberingSystem;
-      if (options === system && system === "latn" || numberFormat.format(123) !== "123") {
+      if (options === system2 && system2 === "latn" || numberFormat.format(123) !== "123") {
         return true;
       }
     } catch (_err) {
@@ -44998,16 +44998,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return setToString(wrapper, insertWrapDetails(source, updateWrapDetails(getWrapDetails(source), bitmask)));
         }
         function shortOut(func) {
-          var count2 = 0, lastCalled = 0;
+          var count = 0, lastCalled = 0;
           return function() {
             var stamp = nativeNow(), remaining = HOT_SPAN - (stamp - lastCalled);
             lastCalled = stamp;
             if (remaining > 0) {
-              if (++count2 >= HOT_COUNT) {
+              if (++count >= HOT_COUNT) {
                 return arguments[0];
               }
             } else {
-              count2 = 0;
+              count = 0;
             }
             return func.apply(undefined$1, arguments);
           };
@@ -47423,8 +47423,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   function quantityLike(value2) {
-    const { value: valueQuantity, comparator, unit, system, code: code2 } = value2;
-    return { value: valueQuantity, comparator, unit, system, code: code2 };
+    const { value: valueQuantity, comparator, unit, system: system2, code: code2 } = value2;
+    return { value: valueQuantity, comparator, unit, system: system2, code: code2 };
   }
   const quantity$1 = createTypeParser(quantityLike);
   const dateTime$1 = createTypeParser((value2) => value2);
@@ -47539,11 +47539,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     });
   }
   const coding$1 = createTypeParser((value2) => {
-    const { code: code2, display, system } = value2;
+    const { code: code2, display, system: system2 } = value2;
     return {
       code: code2,
       display,
-      system
+      system: system2
     };
   });
   const codeableConcept$1 = createTypeParser((value2) => {
@@ -47562,10 +47562,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const instant$1 = createTypeParser((value2) => value2);
   const duration$1 = createTypeParser(quantityLike);
   const identifier$1 = createTypeParser((value2) => {
-    const { use, system, value: identifierValue, type } = value2;
+    const { use, system: system2, value: identifierValue, type } = value2;
     return {
       use,
-      system,
+      system: system2,
       value: identifierValue,
       type: codeableConcept$1(type)
     };
@@ -47995,14 +47995,52 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     "131196009"
     /* SUSCEPTIBLE */
   ];
+  const systemCode = ({ formatMessage: formatMessage2, hasMessage }) => (value2) => {
+    const { display, code: code2, system: system2 } = value2 ?? {};
+    const systemCodeI18n = `system.code.${system2}|${code2}`;
+    const systemCodeString = hasMessage(systemCodeI18n) ? formatMessage2(systemCodeI18n) : display;
+    return systemCodeString ?? code2;
+  };
+  const summary$6 = (resource, context) => {
+    const { ui, formatMessage: formatMessage2 } = context;
+    const formatSystemCode = systemCode(context);
+    let typeCoding = {
+      system: "http://hl7.org/fhir/referencerange-meaning",
+      // NOSONAR,
+      code: "normal"
+    };
+    if (resource.type) {
+      typeCoding = resource.type?.coding.find(
+        (x) => x.system === "http://hl7.org/fhir/referencerange-meaning"
+        // NOSONAR,
+      ) ?? resource.type?.coding[0];
+    }
+    return {
+      label: formatSystemCode(typeCoding) ?? formatMessage2("summary.r3.zib_laboratory_test_result_observation.reference_range"),
+      children: [...ui.range(`summary.${i18n$7}`, resource)]
+    };
+  };
+  function parseReferenceRange(value2) {
+    return {
+      low: quantity$1(value2?.low),
+      high: quantity$1(value2?.high),
+      type: codeableConcept$1(value2?.type),
+      appliesTo: map(value2?.appliesTo, codeableConcept$1),
+      age: range$1(value2?.age)
+    };
+  }
+  const referenceRange = {
+    parse: parseReferenceRange,
+    uiSchemaGroup: uiSchemaGroup$z,
+    summary: summary$6
+  };
   const summary$5 = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
-    const referenceRange2 = map(
+    const referenceRangeSummary = map(
       resource.referenceRange,
-      (x) => ui.range(`summary.${i18n$6}.reference_range`, x),
+      (x) => referenceRange.summary(x, context),
       true
     );
-    const hasSingleReferenceRange = referenceRange2.length === 1;
     const resultFlags = resource.interpretation?.coding.filter(
       (x) => x.system === SNOMED_SYSTEM && InterpretatieVlaggenCodelijst.includes(x.code)
     );
@@ -48025,19 +48063,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             ui.reference(`summary.${i18n$6}.specimen`, resource.specimen)
           ]
         },
-        ...map(
-          referenceRange2,
-          (x, k) => {
-            return {
-              label: formatMessage2(
-                hasSingleReferenceRange ? `summary.${i18n$6}.group_reference_range` : `summary.${i18n$6}.group_reference_range_index`,
-                { index: k + 1 }
-              ),
-              children: x
-            };
-          },
-          true
-        ),
+        ...referenceRangeSummary,
         {
           label: formatMessage2(`summary.${i18n$6}.group_performer`),
           children: [ui.reference(`summary.${i18n$6}.performer`, resource.performer)]
@@ -48054,19 +48080,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const related = {
     parse: parseRelated,
     uiSchemaGroup: uiSchemaGroup$y
-  };
-  function parseReferenceRange(value2) {
-    return {
-      low: quantity$1(value2?.low),
-      high: quantity$1(value2?.high),
-      type: codeableConcept$1(value2?.type),
-      appliesTo: map(value2?.appliesTo, codeableConcept$1),
-      age: range$1(value2?.age)
-    };
-  }
-  const referenceRange = {
-    parse: parseReferenceRange,
-    uiSchemaGroup: uiSchemaGroup$z
   };
   const profile$J = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
   function parseZibLaboratoryTestResultObservationBase(resource) {
@@ -51846,22 +51859,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         value: "Test afgenomen door"
       }
     ],
-    "summary.r3.zib_laboratory_test_result_observation.group_reference_range": [
-      {
-        type: 0,
-        value: "Referentiewaarden"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.group_reference_range_index": [
-      {
-        type: 0,
-        value: "Referentiewaarden "
-      },
-      {
-        type: 1,
-        value: "index"
-      }
-    ],
     "summary.r3.zib_laboratory_test_result_observation.group_test_details": [
       {
         type: 0,
@@ -51878,6 +51875,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       {
         type: 0,
         value: "Specialist"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.reference_range": [
+      {
+        type: 0,
+        value: "Referentiewaarden"
       }
     ],
     "summary.r3.zib_laboratory_test_result_observation.reference_range.high": [
@@ -52046,7 +52049,79 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     ]
   };
   const systemLabels = {
-    "system.count.http://unitsofmeasure.org|d": [
+    "system.code.http://hl7.org/fhir/referencerange-meaning|follicular": [
+      {
+        type: 0,
+        value: "Folliculair stadium referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|luteal": [
+      {
+        type: 0,
+        value: "Luteaal referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|midcycle": [
+      {
+        type: 0,
+        value: "Middencyclus referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|normal": [
+      {
+        type: 0,
+        value: "Normale referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|post": [
+      {
+        type: 0,
+        value: "Posttherapeutische referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|postmeopausal": [
+      {
+        type: 0,
+        value: "Post-menopauze referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|pre": [
+      {
+        type: 0,
+        value: "Pre-therapeutische referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|pre-puberty": [
+      {
+        type: 0,
+        value: "Pre-puberteit referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|recommended": [
+      {
+        type: 0,
+        value: "Aanbevolen referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|therapeutic": [
+      {
+        type: 0,
+        value: "Therapeutische referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|treatment": [
+      {
+        type: 0,
+        value: "Behandelings referentiewaarden"
+      }
+    ],
+    "system.urn:oid:2.16.840.1.113883.2.4.4.9": [
+      {
+        type: 0,
+        value: "G-Standaard Toedieningswegen (tabel 7)"
+      }
+    ],
+    "system.value.http://unitsofmeasure.org|d": [
       {
         offset: 0,
         options: {
@@ -52063,7 +52138,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               {
                 style: null,
                 type: 2,
-                value: "count"
+                value: "value"
               },
               {
                 type: 0,
@@ -52074,10 +52149,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         },
         pluralType: "cardinal",
         type: 6,
-        value: "count"
+        value: "value"
       }
     ],
-    "system.count.http://unitsofmeasure.org|mmol/L": [
+    "system.value.http://unitsofmeasure.org|mmol/L": [
       {
         offset: 0,
         options: {
@@ -52086,7 +52161,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               {
                 style: null,
                 type: 2,
-                value: "count"
+                value: "value"
               },
               {
                 type: 0,
@@ -52099,7 +52174,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               {
                 style: null,
                 type: 2,
-                value: "count"
+                value: "value"
               },
               {
                 type: 0,
@@ -52110,10 +52185,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         },
         pluralType: "cardinal",
         type: 6,
-        value: "count"
+        value: "value"
       }
     ],
-    "system.count.urn:oid:2.16.840.1.113883.2.4.4.1.900.2|245": [
+    "system.value.urn:oid:2.16.840.1.113883.2.4.4.1.900.2|245": [
       {
         offset: 0,
         options: {
@@ -52122,7 +52197,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               {
                 style: null,
                 type: 2,
-                value: "count"
+                value: "value"
               },
               {
                 type: 0,
@@ -52135,7 +52210,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               {
                 style: null,
                 type: 2,
-                value: "count"
+                value: "value"
               },
               {
                 type: 0,
@@ -52146,13 +52221,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         },
         pluralType: "cardinal",
         type: 6,
-        value: "count"
-      }
-    ],
-    "system.urn:oid:2.16.840.1.113883.2.4.4.9": [
-      {
-        type: 0,
-        value: "G-Standaard Toedieningswegen (tabel 7)"
+        value: "value"
       }
     ]
   };
@@ -66719,45 +66788,31 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       };
     };
   }
-  const codingDisplay = ({ hasMessage, formatMessage: formatMessage2, isSummary }) => (value2) => {
-    const { display, code: code2, system } = value2 ?? {};
-    if (isSummary && display) {
-      return display;
+  const system = (context) => (value2) => {
+    const { isSummary, formatMessage: formatMessage2 } = context;
+    const { display, code: code2, system: system2 } = value2 ?? {};
+    const systemCodeTranslation = systemCode(context)(value2);
+    if (isSummary) {
+      return systemCodeTranslation;
     }
-    let displayString = display ?? "";
-    if (code2) {
-      const systemI18n = `system.${system}`;
-      const systemString = hasMessage(systemI18n) ? formatMessage2(systemI18n) : system;
-      const codeInSystemString = formatMessage2("format.code_in_system", {
+    let codeInSystemString;
+    if (code2 && system2) {
+      codeInSystemString = formatMessage2("format.code_in_system", {
         code: code2,
-        system: systemString
+        system: system2
       });
-      displayString = `${displayString} (${system ? codeInSystemString : code2})`.trim();
+    } else {
+      codeInSystemString = system2 ?? code2;
     }
-    return displayString === "" ? void 0 : displayString;
-  };
-  const coding = (context) => (label, value2) => {
-    const { formatMessage: formatMessage2 } = context;
-    const display = codingDisplay(context);
-    if (Array.isArray(value2)) {
-      return {
-        label: formatMessage2(label),
-        type: "MULTIPLE_VALUES",
-        display: value2.map(display).filter(isNonNullish)
-      };
-    }
-    return {
-      label: formatMessage2(label),
-      type: "SINGLE_VALUE",
-      display: display(value2)
-    };
+    const systemString = `${display ?? ""} ${codeInSystemString ? "(" + codeInSystemString + ")" : ""}`.trim();
+    return systemString === "" ? void 0 : systemString;
   };
   const codeableDisplay = (context) => (value2) => {
     if (value2?.text?.length) {
       return [value2.text];
     }
-    const coding2 = codingDisplay(context);
-    return value2?.coding.map(coding2).filter(isNonNullish) ?? [];
+    const formatSystem = system(context);
+    return value2?.coding.map(formatSystem).filter(isNonNullish) ?? [];
   };
   const codeableConcept = (context) => (label, value2) => {
     const { formatMessage: formatMessage2 } = context;
@@ -66772,6 +66827,22 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return {
       label: formatMessage2(label),
       type: "MULTIPLE_VALUES",
+      display: display(value2)
+    };
+  };
+  const coding = (context) => (label, value2) => {
+    const { formatMessage: formatMessage2 } = context;
+    const display = system(context);
+    if (Array.isArray(value2)) {
+      return {
+        label: formatMessage2(label),
+        type: "MULTIPLE_VALUES",
+        display: value2.map(display).filter(isNonNullish)
+      };
+    }
+    return {
+      label: formatMessage2(label),
+      type: "SINGLE_VALUE",
       display: display(value2)
     };
   };
@@ -66850,24 +66921,24 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       display: numberToString(value2)
     };
   };
-  const count = ({ formatMessage: formatMessage2, hasMessage }) => (value2) => {
+  const systemValue = ({ formatMessage: formatMessage2, hasMessage }) => (value2) => {
     if (isNullish(value2)) return;
-    const { system, code: code2, value: count2, unit } = value2;
-    const countI18nKey = `system.count.${system}|${code2}`;
+    const { system: system2, code: code2, value: quantityValue, unit } = value2;
+    const countI18nKey = `system.value.${system2}|${code2}`;
     if (hasMessage(countI18nKey)) {
-      return formatMessage2(countI18nKey, { count: count2 });
+      return formatMessage2(countI18nKey, { value: quantityValue });
     }
     if (unit) {
-      return `${numberToString(count2)} ${unit}`;
+      return `${numberToString(quantityValue)} ${unit}`;
     }
-    return numberToString(count2);
+    return numberToString(quantityValue);
   };
   const quantity = (context) => (label, value2) => {
     const { formatMessage: formatMessage2 } = context;
     return {
       label: formatMessage2(label),
       type: `SINGLE_VALUE`,
-      display: count(context)(value2)
+      display: systemValue(context)(value2)
     };
   };
   const duration = quantity;
@@ -66931,17 +67002,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const { hasMessage, formatMessage: formatMessage2 } = context;
     const lowLabel = `${label}.low`;
     const highLabel = `${label}.high`;
-    const formatCount = count(context);
+    const formatSystemValue = systemValue(context);
     return [
       {
         label: formatMessage2(hasMessage(lowLabel) ? lowLabel : `fhir.range.low`),
         type: `SINGLE_VALUE`,
-        display: formatCount(value2?.low)
+        display: formatSystemValue(value2?.low)
       },
       {
         label: formatMessage2(hasMessage(highLabel) ? highLabel : `fhir.range.high`),
         type: `SINGLE_VALUE`,
-        display: formatCount(value2?.high)
+        display: formatSystemValue(value2?.high)
       }
     ];
   };
@@ -66949,21 +67020,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const { hasMessage, formatMessage: formatMessage2 } = context;
     const numeratorLabel = `${label}.numerator`;
     const denominatorLabel = `${label}.denominator`;
-    const formatCount = count(context);
+    const formatSystemValue = systemValue(context);
     return [
       {
         label: formatMessage2(
           hasMessage(numeratorLabel) ? numeratorLabel : `fhir.ratio.numerator`
         ),
         type: `SINGLE_VALUE`,
-        display: formatCount(value2?.numerator)
+        display: formatSystemValue(value2?.numerator)
       },
       {
         label: formatMessage2(
           hasMessage(denominatorLabel) ? denominatorLabel : `fhir.ratio.denominator`
         ),
         type: `SINGLE_VALUE`,
-        display: formatCount(value2?.denominator)
+        display: formatSystemValue(value2?.denominator)
       }
     ];
   };
