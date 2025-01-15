@@ -51,6 +51,10 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 								appCoordinator.view(for: state)
 							}
 						}
+						.when(isiPhoneSE) { view in
+							view
+								.navigationBarTitleDisplayMode(.inline)
+						}
 				}
 			}
 			.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
