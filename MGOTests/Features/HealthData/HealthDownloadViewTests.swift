@@ -16,15 +16,17 @@ final class HealthDownloadViewTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: HealthDataDownloadViewModel!
 	private var sut: HealthDataDownloadView!
+	private var binaryRepositorySpy: BinaryRepositorySpy!
 	
 	override func setUpWithError() throws {
 
 		try super.setUpWithError()
 
 		servicesSpies = setupServicesSpies()
+		binaryRepositorySpy = BinaryRepositorySpy()
 		let entry = UIElement(display: nil, label: "label", type: .downloadLink, reference: nil, url: "Binary/demo1")
 		let healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, entry: entry)
+		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, entry: entry, binaryRepository: binaryRepositorySpy)
 		sut = HealthDataDownloadView(viewModel: self.viewModel)
 	}
 	
@@ -88,6 +90,23 @@ final class HealthDownloadViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content)
+	}
+
+	func test_HealthDownloadView_error_tryAgain() throws {
+		
+		// Given
+		let url = try XCTUnwrap(URL(string: "https://example.com"))
+		let binary = Zibs.MgoBinary(contentType: "application/pdf", content: "Um9vbA==")
+		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
+		binaryRepositorySpy.stubbedStoreResult = url
+		viewModel.state = .error
+		let content = NavigationView { sut }
+		
+		// When
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "feedbackAction").button().tap()
+		
+		// Then
+		expect(self.viewModel.state).toEventually(equal(.downloaded(label: "label", documentUrl: url)))
 	}
 	
 	func test_HealthDownloadView_noDocument() throws {

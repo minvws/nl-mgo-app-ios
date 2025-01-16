@@ -14,8 +14,14 @@ public struct LinkButtonStyle: ButtonStyle {
 	/// The Theme
 	@Environment(\.theme) private var theme
 	
+	/// The Alignment
+	private var alignment: Alignment
+	
 	/// Initlializer
-	public init() { /* Public initializer needed for public access */ }
+	public init(_ alignment: Alignment = .topLeading) {
+		
+		self.alignment = alignment
+	}
 	
 	/// Style the button to a primary button
 	/// - Parameter configuration: the button configuration
@@ -23,7 +29,7 @@ public struct LinkButtonStyle: ButtonStyle {
 	public func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.frame(maxWidth: .infinity, alignment: .topLeading)
+			.frame(maxWidth: .infinity, alignment: alignment)
 			.rijksoverheidStyle(font: .bold, style: .body)
 			.foregroundColor(configuration.isPressed ? theme.actionTertiaryDefaultTextHover : theme.actionTertiaryDefaultText)
 	}

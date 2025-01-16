@@ -39,8 +39,11 @@ public struct CallToActionButton: View {
 		case withSpinner
 	}
 	
-	/// Initializer
+	/// Create a Call To Action Button
 	/// - Parameter title: The key of the localized text to be displayed as title
+	/// - Parameter icon: the optional icon to display
+	/// - Parameter style: the style to display in
+	/// - Parameter action: the optional action to perform
 	public init(_ key: LocalizedStringKey, icon: Image? = nil, style: Style = .primary, action: ( () -> Void)? = nil) {
 		self.key = key
 		self.style = style
@@ -48,8 +51,11 @@ public struct CallToActionButton: View {
 		self.icon = icon
 	}
 
-	/// Initializer
-	/// - Parameter title: The key of the localized text to be displayed as title
+	/// Create a Call To Action Button
+	/// - Parameter title: The text to be displayed as title
+	/// - Parameter icon: the optional icon to display
+	/// - Parameter style: the style to display in
+	/// - Parameter action: the optional action to perform
 	public init(title: String, icon: Image? = nil, style: Style = .primary, action: ( () -> Void)? = nil) {
 		self.title = title
 		self.style = style
