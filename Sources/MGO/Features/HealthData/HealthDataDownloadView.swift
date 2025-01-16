@@ -225,8 +225,10 @@ struct HealthDataDownloadView: View {
 			case .error:
 				feedbackView(
 					"hc_documents.error",
-					iconColor: theme.notificationError
-				)
+					iconColor: theme.notificationError,
+					actionTitle: "common.try_again") {
+						viewModel.reduce(.download)
+					}
 		}
 	}
 	
@@ -234,8 +236,14 @@ struct HealthDataDownloadView: View {
 	/// - Parameters:
 	///   - text: the text to display
 	///   - iconColor: the color of the icon
+	///   - actionTitle: the optional title for an action
+	///   - action: the action to perform when the user taps on the action title
 	/// - Returns: feedback view
-	@ViewBuilder private func feedbackView(_ text: LocalizedStringKey, iconColor: Color) -> some View {
+	@ViewBuilder private func feedbackView(
+		_ text: LocalizedStringKey,
+		iconColor: Color,
+		actionTitle: LocalizedStringKey? = nil,
+		action: (() -> Void)? = nil) -> some View {
 		
 		VStack(alignment: .center, spacing: ViewTraits.Feedback.spacing) {
 			Image(ImageResource.Schema.error)
@@ -245,6 +253,16 @@ struct HealthDataDownloadView: View {
 				.multilineTextAlignment(.center)
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.contentPrimary)
+			
+			if let actionTitle {
+				Button {
+					action?()
+				} label: {
+					Text(actionTitle)
+				}
+				.buttonStyle(LinkButtonStyle(.center))
+				.accessibilityIdentifier("feedbackAction")
+			}
 		}
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.horizontal, ViewTraits.Feedback.horizontal)

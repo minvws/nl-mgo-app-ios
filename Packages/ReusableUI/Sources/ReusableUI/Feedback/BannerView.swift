@@ -47,7 +47,7 @@ public struct BannerView: View {
 		}
 	}
 	
-    public var body: some View {
+	public var body: some View {
 		
 		HStack(alignment: .top, spacing: ViewTraits.Banner.spacing) {
 			Group {

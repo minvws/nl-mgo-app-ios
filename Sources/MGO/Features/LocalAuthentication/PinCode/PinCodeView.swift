@@ -530,9 +530,8 @@ struct PinCodeView: View {
 					viewModel.reduce(.forgotPinCode)
 				}, label: {
 					Text("pincode.forgot")
-						.frame(maxWidth: .infinity, alignment: .center)
 				})
-				.buttonStyle(LinkButtonStyle())
+				.buttonStyle(LinkButtonStyle(.center))
 				.padding(ViewTraits.ForgotButton.insets)
 				.accessibilityIdentifier("pincode.forgot")
 			}

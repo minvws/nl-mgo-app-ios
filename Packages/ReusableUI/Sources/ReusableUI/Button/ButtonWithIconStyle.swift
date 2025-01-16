@@ -31,10 +31,10 @@ struct ButtonWithIconStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundColor(theme.actionTertiaryDefaultText)
-			.tint(theme.actionTertiaryDefaultText)
+			.foregroundColor(configuration.isPressed ? theme.actionTertiaryDefaultText.opacity(0.50) : theme.actionTertiaryDefaultText)
+			.tint(configuration.isPressed ? theme.actionTertiaryDefaultText.opacity(0.50) : theme.actionTertiaryDefaultText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.backgroundTertiary : Color.clear)
+			.background(Color.clear)
 	}
 }

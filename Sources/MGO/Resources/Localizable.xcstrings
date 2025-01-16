@@ -934,7 +934,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sorry, we kunnen de bijlage nu niet ophalen. Probeer het later opnieuw."
+            "value" : "Sorry, we kunnen de bijlage nu niet ophalen."
           }
         }
       }
