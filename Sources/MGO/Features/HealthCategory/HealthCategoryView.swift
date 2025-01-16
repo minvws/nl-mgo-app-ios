@@ -398,13 +398,12 @@ struct HealthCategoryView: View {
 								showBanner = false
 							}
 						}
+						.padding(.horizontal, ViewTraits.General.padding)
 					}
 					listOverview(list: items)
 			}
-			
 			Spacer()
 		}
-		.padding(.horizontal, ViewTraits.General.padding)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("overview.heading") {
 			viewModel.reduce(.backButtonPressed)
@@ -422,11 +421,14 @@ struct HealthCategoryView: View {
 	/// - Returns: View when the user has some stored healthcare organizations
 	@ViewBuilder func listOverview(list: [HealthSubCategory]) -> some View {
 	
-		if list.isNotEmpty {
-			listOverviewBlocks(list: list)
-		} else {
-			noItems()
+		Group {
+			if list.isNotEmpty {
+				listOverviewBlocks(list: list)
+			} else {
+				noItems()
+			}
 		}
+		.padding(.horizontal, ViewTraits.General.padding)
 	}
 	
 	/// Create the list state view
