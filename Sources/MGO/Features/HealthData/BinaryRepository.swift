@@ -10,8 +10,13 @@ import Zibs
 
 protocol BinaryRepositoryProtocol {
 	
+	/// Store an Zibs MgoBinary
+	/// - Parameters:
+	///   - binary: the binary to store
+	///   - filename: the filename to store it with
+	/// - Returns: the path to the stored file
 	func store(_ binary: Zibs.MgoBinary, as filename: String) throws -> URL
-
+	
 	/// Clear all documents
 	func clear()
 }
@@ -26,15 +31,18 @@ class BinaryRepository: BinaryRepositoryProtocol {
 	
 	private let fileManager = FileManager.default
 	
+	/// Create a Binary Repository
 	init() {
 		
 		createDirectoryIfNeeded(at: documentsURL)
 	}
 	
+	/// Check if we need to crate the binary directory
+	/// - Parameter url: the url to create
 	private func createDirectoryIfNeeded(at url: URL?) {
 		
 		guard let url else { return }
-				
+		
 		if !fileManager.fileExists(atPath: url.path) {
 			try? fileManager.createDirectory(at: url, withIntermediateDirectories: true)
 		}
@@ -49,6 +57,11 @@ class BinaryRepository: BinaryRepositoryProtocol {
 			.appendingPathComponent("binary", isDirectory: true)
 	}
 	
+	/// Store an Zibs MgoBinary
+	/// - Parameters:
+	///   - binary: the binary to store
+	///   - filename: the filename to store it with
+	/// - Returns: the path to the stored file
 	func store(_ binary: Zibs.MgoBinary, as filename: String) throws -> URL {
 		
 		guard let documentsURL else { throw BinaryRepositoryError.noUrl }
@@ -59,9 +72,11 @@ class BinaryRepository: BinaryRepositoryProtocol {
 		   fileManager.createFile(atPath: fileUrl.path, contents: content) {
 			return fileUrl
 		}
+		
 		throw BinaryRepositoryError.couldNotSaveBinary
 	}
 	
+	/// Clear all documents
 	func clear() {
 		
 		guard let url = documentsURL else { return }

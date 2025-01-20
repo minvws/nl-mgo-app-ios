@@ -68,6 +68,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 	}
 	
+	// MARK: End of life
+	
+	func applicationWillTerminate(_ application: UIApplication) {
+		// Cleanup any downloaded binaries.
+		BinaryRepository().clear()
+	}
+	
 	// MARK: Orientation
 	
 	func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {

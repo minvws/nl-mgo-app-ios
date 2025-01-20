@@ -30,7 +30,7 @@ class HealthDataViewModel: ObservableObject {
 	var healthcareOrganization: MgoOrganization
 
 	/// The reference resolver
-	var referenceResolver: ReferenceResolverProtocol
+	weak private var referenceResolver: ReferenceResolverProtocol?
 	
 	/// The store for references
 	var referenceStore = [String: (MgoResource, UISchema)?]()
@@ -93,7 +93,7 @@ class HealthDataViewModel: ObservableObject {
 	
 	private func storeReference(_ reference: String) {
 		
-		let result = referenceResolver.resolve(reference: reference, healthcareOrganization: healthcareOrganization)
+		let result = referenceResolver?.resolve(reference: reference, healthcareOrganization: healthcareOrganization)
 		referenceStore[reference] = result
 		resolvedReferences[reference] = result != nil
 	}
