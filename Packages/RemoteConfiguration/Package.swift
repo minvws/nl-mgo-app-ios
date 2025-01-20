@@ -18,8 +18,8 @@ let package = Package(
 		.package(name: "Observatory", path: "../Observatory"),
 		
 		// External
-		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.6.0"),
-		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.7.0"),
+		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.7.0"),
+		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.0"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.0.2"),
 
 		// VWS
