@@ -27,19 +27,6 @@ final class LoginViewTests: XCTestCase {
 	func test_loginView() {
 		
 		// Given
-		viewModel.isEIDASenabled = false
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	func test_loginView_eIDASenabled() {
-		
-		// Given
-		viewModel.isEIDASenabled = true
 		
 		// When
 		let content = NavigationView { sut }
@@ -54,21 +41,7 @@ final class LoginViewTests: XCTestCase {
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.digid")
-		try view.view(DisclosureWithImageButton.self).find(button: "login.digid").tap()
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
-	}
-	
-	func test_loginWithEIDAS_shouldCallCoordinator() throws {
-		
-		// Given
-		viewModel.isEIDASenabled = true
-		
-		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.european")
-		try view.view(DisclosureWithImageButton.self).find(button: "login.european").tap()
+		try view.view(CallToActionButton.self).find(button: "login.digid").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

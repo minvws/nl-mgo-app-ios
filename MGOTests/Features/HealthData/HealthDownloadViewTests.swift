@@ -100,10 +100,9 @@ final class HealthDownloadViewTests: XCTestCase {
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
 		binaryRepositorySpy.stubbedStoreResult = url
 		viewModel.state = .error
-		let content = NavigationView { sut }
 		
 		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "feedbackAction").button().tap()
+		try sut.inspect().find(viewWithAccessibilityIdentifier: "feedbackAction").button().tap()
 		
 		// Then
 		expect(self.viewModel.state).toEventually(equal(.downloaded(label: "label", documentUrl: url)))
