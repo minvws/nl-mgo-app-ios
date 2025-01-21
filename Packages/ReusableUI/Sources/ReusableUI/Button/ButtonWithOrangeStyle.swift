@@ -31,7 +31,7 @@ struct ButtonWithOrangeStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.rijksoverheidStyle(font: .regular, style: .body)
+			.rijksoverheidStyle(font: .bold, style: .body)
 			.foregroundColor(.white)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
