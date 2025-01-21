@@ -83,14 +83,16 @@ final class BinaryRepositoryTests: XCTestCase {
 		// Given
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		fileManagerSpy.stubbedUrlsResult = [url]
+		fileManagerSpy.stubbedCreateFileResult = true
 		sut = BinaryRepository(fileManager: fileManagerSpy)
 		let binary = Zibs.MgoBinary(contentType: "application/pdf", content: "Um9vbA==")
 		
 		// When
-		expect { try self.sut.store(binary, as: "test.pdf") }.toNot(throwError(BinaryRepositoryError.noUrl))
+		let result = try self.sut.store(binary, as: "test.pdf")
 		
 		// Then
 		expect(self.fileManagerSpy.invokedCreateFile) == true
+		expect(result.absoluteString) == "https://example.com/binary/test.pdf"
 	}
 	
 	func test_store_couldNotSaveBinary() throws {
