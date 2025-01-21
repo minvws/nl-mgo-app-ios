@@ -39,11 +39,11 @@ public protocol FileStorageProtocol: AnyObject {
 final public class FileStorage: FileStorageProtocol {
 	
 	/// The underlying file manager
-	private let fileManager: FileManager
+	private let fileManager: FileManagerProtocol
 	
 	/// Initializer
 	/// - Parameter fileManager: the File Manager
-	public init(fileManager: FileManager = FileManager.default) {
+	public init(fileManager: FileManagerProtocol = FileManager.default) {
 		
 		self.fileManager = fileManager
 	}
