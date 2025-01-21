@@ -65,10 +65,6 @@ class HealthDataDownloadViewModel: ObservableObject {
 		}
 	}
 	
-	deinit {
-		binaryRepository.clear()
-	}
-	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case download
@@ -130,17 +126,18 @@ class HealthDataDownloadViewModel: ObservableObject {
 	}
 	
 	@MainActor
-	func loadBinary(_ url: String) async {
+	func loadBinary(_ externalUrl: String) async {
+		
 		do {
-			if let binary = try await Current.resourceRepository.loadBinary(healthcareOrganization, serviceId: "51", url: url) {
+			if let binary = try await Current.resourceRepository.loadBinary(healthcareOrganization, serviceId: "51", url: externalUrl) {
 				logInfo("binary", binary.contentType)
 				
 				var name = entry.label
 				if binary.contentType == "application/pdf" {
 					name += ".pdf"
 				}
-				let url = try binaryRepository.store(binary, as: name)
-				self.state = .downloaded(label: entry.label, documentUrl: url)
+				let storeUrl = try binaryRepository.store(binary, as: name)
+				self.state = .downloaded(label: entry.label, documentUrl: storeUrl)
 				showPreview = true
 			} else {
 				state = .error

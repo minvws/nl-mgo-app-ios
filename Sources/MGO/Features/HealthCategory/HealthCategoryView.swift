@@ -183,6 +183,7 @@ class HealthCategoryViewModel: ObservableObject {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 			case .onAppear:
+				BinaryRepository().clear()
 				_Concurrency.Task {
 					 await loadResources()
 				}

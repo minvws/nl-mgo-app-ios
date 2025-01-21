@@ -8,7 +8,7 @@
 import MGOFoundation
 import Zibs
 
-protocol ReferenceResolverProtocol {
+protocol ReferenceResolverProtocol: AnyObject {
 	
 	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, Zibs.UISchema)?
 }

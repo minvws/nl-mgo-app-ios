@@ -10,6 +10,7 @@
 
 // Internal
 @_exported import FHIRClient
+@_exported import FileStorage
 @_exported import JailBreakDetector
 @_exported import LocalisationService
 @_exported import Managers

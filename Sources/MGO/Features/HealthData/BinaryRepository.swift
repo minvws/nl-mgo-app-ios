@@ -10,8 +10,13 @@ import Zibs
 
 protocol BinaryRepositoryProtocol {
 	
+	/// Store an Zibs MgoBinary
+	/// - Parameters:
+	///   - binary: the binary to store
+	///   - filename: the filename to store it with
+	/// - Returns: the path to the stored file
 	func store(_ binary: Zibs.MgoBinary, as filename: String) throws -> URL
-
+	
 	/// Clear all documents
 	func clear()
 }
@@ -24,19 +29,23 @@ public enum  BinaryRepositoryError: Error {
 
 class BinaryRepository: BinaryRepositoryProtocol {
 	
-	private let fileManager = FileManager.default
+	private let fileManager: FileManagerProtocol
 	
-	init() {
+	/// Create a Binary Repository
+	init(fileManager: FileManagerProtocol = FileManager.default) {
 		
+		self.fileManager = fileManager
 		createDirectoryIfNeeded(at: documentsURL)
 	}
 	
+	/// Check if we need to crate the binary directory
+	/// - Parameter url: the url to create
 	private func createDirectoryIfNeeded(at url: URL?) {
 		
 		guard let url else { return }
-				
+		
 		if !fileManager.fileExists(atPath: url.path) {
-			try? fileManager.createDirectory(at: url, withIntermediateDirectories: true)
+			try? fileManager.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
 		}
 	}
 	
@@ -49,6 +58,11 @@ class BinaryRepository: BinaryRepositoryProtocol {
 			.appendingPathComponent("binary", isDirectory: true)
 	}
 	
+	/// Store an Zibs MgoBinary
+	/// - Parameters:
+	///   - binary: the binary to store
+	///   - filename: the filename to store it with
+	/// - Returns: the path to the stored file
 	func store(_ binary: Zibs.MgoBinary, as filename: String) throws -> URL {
 		
 		guard let documentsURL else { throw BinaryRepositoryError.noUrl }
@@ -56,12 +70,14 @@ class BinaryRepository: BinaryRepositoryProtocol {
 		let fileUrl = documentsURL.appendingPathComponent(filename)
 		
 		if let content = Data(base64Encoded: binary.content),
-		   fileManager.createFile(atPath: fileUrl.path, contents: content) {
+		   fileManager.createFile(atPath: fileUrl.path, contents: content, attributes: nil) {
 			return fileUrl
 		}
+		
 		throw BinaryRepositoryError.couldNotSaveBinary
 	}
 	
+	/// Clear all documents
 	func clear() {
 		
 		guard let url = documentsURL else { return }
