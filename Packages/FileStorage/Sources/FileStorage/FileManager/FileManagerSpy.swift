@@ -8,6 +8,8 @@
 import Foundation
 
 public class FileManagerSpy: FileManagerProtocol {
+	
+	public init() { /* public initializer for public access */ }
 
 	public var invokedCreateDirectoryAt = false
 	public var invokedCreateDirectoryAtCount = 0

@@ -29,11 +29,12 @@ public enum  BinaryRepositoryError: Error {
 
 class BinaryRepository: BinaryRepositoryProtocol {
 	
-	private let fileManager = FileManager.default
+	private let fileManager: FileManagerProtocol
 	
 	/// Create a Binary Repository
-	init() {
+	init(fileManager: FileManagerProtocol = FileManager.default) {
 		
+		self.fileManager = fileManager
 		createDirectoryIfNeeded(at: documentsURL)
 	}
 	
@@ -44,7 +45,7 @@ class BinaryRepository: BinaryRepositoryProtocol {
 		guard let url else { return }
 		
 		if !fileManager.fileExists(atPath: url.path) {
-			try? fileManager.createDirectory(at: url, withIntermediateDirectories: true)
+			try? fileManager.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
 		}
 	}
 	
@@ -69,7 +70,7 @@ class BinaryRepository: BinaryRepositoryProtocol {
 		let fileUrl = documentsURL.appendingPathComponent(filename)
 		
 		if let content = Data(base64Encoded: binary.content),
-		   fileManager.createFile(atPath: fileUrl.path, contents: content) {
+		   fileManager.createFile(atPath: fileUrl.path, contents: content, attributes: nil) {
 			return fileUrl
 		}
 		
