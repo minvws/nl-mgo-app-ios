@@ -15,7 +15,6 @@ class LoginViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case loginWithDigiD
-		case loginWithEIDAS
 	}
 	
 	/// The flow coordinator for routing
@@ -23,11 +22,9 @@ class LoginViewModel: ObservableObject {
 	
 	/// Initializer
 	/// - Parameter coordinator: The coordinator
-	/// - Parameter isEIDASenabled: Boolean indicating the eIDAS state
-	init(coordinator: (any Coordinator)?, isEIDASenabled: Bool = false) {
+	init(coordinator: (any Coordinator)?) {
 		
 		self.coordinator = coordinator
-		self.isEIDASenabled = isEIDASenabled
 	}
 	
 	/// Handle any action
@@ -35,7 +32,7 @@ class LoginViewModel: ObservableObject {
 	public func reduce(_ action: Action) {
 		
 		switch action {
-			case .loginWithDigiD, .loginWithEIDAS:
+			case .loginWithDigiD:
 				coordinator?.handle(Coordination.Action.loggedInWithDigiD)
 		}
 	}
@@ -54,57 +51,41 @@ struct LoginView: View {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
-		enum Navigation {
-			static let padding: CGFloat = 8
+		
+		enum Button {
+			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 		}
 		enum General {
-			static let padding: CGFloat = 16
-		}
-		enum Button {
-			static let top: CGFloat = 8
 			static let spacing: CGFloat = 16
 		}
 	}
 	
 	var body: some View {
 		
-		ScrollViewWithDivider {
+		ScrollViewWithFixedBottom {
+			ImageContentView(
+				icon: Image(ImageResource.Woman.womanWithPhone),
+				heading: "login.heading",
+				subHeading: "login.subheading",
+				textAlignment: .leading,
+				textSpacing: ViewTraits.General.spacing,
+				titleStyle: .largeTitle,
+				subHeadingForegroundColor: theme.contentPrimary
+			)
 			
-			VStack(spacing: ViewTraits.General.padding) {
-				
-				Text("login.subheading")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.accessibilityIdentifier("login.subheading")
-					.foregroundStyle(theme.contentPrimary)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-				
-				VStack(spacing: ViewTraits.Button.spacing, content: {
-					
-					DisclosureWithImageButton(
-						title: "login.digid",
-						image: ImageResource.RemoteAuthentication.digid,
-						showImageBorder: colorScheme == .dark) {
-							viewModel.reduce(.loginWithDigiD)
-						}
-						.accessibilityIdentifier("login.digid")
-					
-					if viewModel.isEIDASenabled {
-						
-						DisclosureWithImageButton(
-							title: "login.european",
-							image: ImageResource.RemoteAuthentication.eidas) {
-								viewModel.reduce(.loginWithEIDAS)
-							}
-							.accessibilityIdentifier("login.european")
-					}
-				})
-				.padding(.top, ViewTraits.Button.top)
+		} bottomView: {
+			CallToActionButton(
+				"login.digid",
+				icon: Image(ImageResource.RemoteAuthentication.digid),
+				style: .loginWithDigiD
+			) {
+				viewModel.reduce(.loginWithDigiD)
 			}
-			.padding(.horizontal, ViewTraits.General.padding)
+			.accessibilityIdentifier("login.digid")
+			.padding(ViewTraits.Button.insets)
 		}
-		.navigationBarBackButtonHidden(true)
 		.navigationBarHidden(false)
-		.navigationTitle("login.heading")
+		.navigationBarBackButtonHidden()
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 	}

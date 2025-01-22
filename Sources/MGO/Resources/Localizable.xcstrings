@@ -1297,7 +1297,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met DigiD"
+            "value" : "Log in met DigiD"
           }
         }
       }
@@ -1341,7 +1341,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kies de manier waarop je wilt inloggen. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
+            "value" : "Log in met DigiD. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
           }
         }
       }

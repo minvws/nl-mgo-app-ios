@@ -11,6 +11,18 @@ import MGOTest
 
 final class CallToActionButtonTests: XCTestCase {
 
+	func test_digid() throws {
+		
+		// Given
+		let sut = CallToActionButton("DigiD", icon: Image(systemName: "stethoscope"), style: .loginWithDigiD)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
 	func test_primary() throws {
 		
 		// Given

@@ -31,16 +31,4 @@ final class LoginViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
 	}
-	
-	func test_loginWithEIDAS_shouldCallCoordinator() {
-		
-		// Given
-		
-		// When
-		sut.reduce(.loginWithEIDAS)
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
-	}
 }

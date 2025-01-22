@@ -29,6 +29,7 @@ public struct CallToActionButton: View {
 	
 	/// All possible styles
 	public enum Style {
+		case loginWithDigiD
 		case primary
 		case primaryCritical
 		case secondary
@@ -77,6 +78,14 @@ public struct CallToActionButton: View {
 						icon
 					}
 					.contentShape(Rectangle())
+				} else if style == .loginWithDigiD, let icon {
+					HStack {
+						Spacer()
+						icon
+						titleLabel()
+						Spacer()
+					}
+					.contentShape(Rectangle())
 				} else if style == .withSpinner {
 					HStack {
 						titleLabel()
@@ -89,6 +98,9 @@ public struct CallToActionButton: View {
 				}
 			}
 		)
+		.when(style == .loginWithDigiD, transform: { button in
+			button.buttonStyle(ButtonWithOrangeStyle())
+		})
 		.when(style == .primary, transform: { button in
 			button.buttonStyle(PrimaryDefaultButtonStyle())
 		})
@@ -129,6 +141,8 @@ public struct CallToActionButton: View {
 
 #Preview {
 	VStack {
+		CallToActionButton(".digiD", icon: Image(systemName: "stethoscope"), style: .loginWithDigiD)
+			.padding(16)
 		CallToActionButton(".primary", style: .primary)
 			.padding(16)
 		CallToActionButton(".primaryCritical", style: .primaryCritical)
