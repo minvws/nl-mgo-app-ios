@@ -28,7 +28,7 @@ let json = """
 """
 let data = Data(json.utf8)
 let parser = FHIRParser()
-let resources: [Any] = parser.getBundleResourcesJson(data)
+let resources: [Data] = parser.splitBundleIntoResources(data)
 ```
 
 
@@ -41,9 +41,8 @@ import FHIRParser
 import Zibs
 
 for element in resources {
-			let resource = try JSONSerialization.data(withJSONObject: element)
-			if let zib = parser.parseResourceJson(resource) {
- 				// the zib (as Data)       
+			if let zib = parser.transformFHIRResourceIntoMGOResource(element, fhirVersion: "R3") {
+ 				// the Mgo Resource (as Data)       
       }
  }
 ```
@@ -62,11 +61,15 @@ The zib definitions are generated from a shared json schema, to be easily shared
 Transforming that zib into a fixed UISchema is simple:
 ```swift
 import FHIRParser
+import Zibs
 
-let schema = parser.getUiSchemaJson(zib)
+let summary = parser.getSummary(zib)
+let details = parser.getDetails(zib)
 ```
 
-The schema can be used to display the all the fields of a zib in a generic way, reducing the all the conditional and switching logic for the UI part. 
+The schema comes in two flavours: summary and details. The summary schema contains the most important fields and values, while the details contain all the fields and values of a zib.
+
+The schema can be used to display the fields of a zib in a generic way, reducing the all the conditional and switching logic for the UI part. 
 
 ## Contribution process
 
@@ -78,4 +81,4 @@ Note that all commits should be signed using a [gpg key](https://docs.github.com
 
 ## License
 
-License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/LICENSE.txt) for details.
+License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/Packages/FHIRParser/LICENSE.txt) for details.
