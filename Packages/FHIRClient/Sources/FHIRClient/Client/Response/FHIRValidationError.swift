@@ -44,7 +44,14 @@ public struct FHIRValidationError: Error, CustomStringConvertible {
 	
 	/// The full path to the property.
 	public var fullPath: String {
-		return (nil == path || path!.isEmpty) ? key : (key.isEmpty ? path! : "\(path!).\(key)")
+		
+		guard let path else { return key }
+		
+		if path.isEmpty {
+			return key
+		} else {
+			return (key.isEmpty ? path : "\(path).\(key)")
+		}
 	}
 	
 	/// The type expected for values of this key.

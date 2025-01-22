@@ -29,7 +29,7 @@ public struct RequestParameters {
 		if let url = request.url, var comps = URLComponents(url: url, resolvingAgainstBaseURL: false) {
 			var query = comps.queryItems ?? []
 			for (param, value) in parameters {
-//				query = query.filter { param.rawValue != $0.name } // Allow duplicate keys.
+				// Allow duplicate keys.
 				query.append(URLQueryItem(name: param.rawValue, value: value))
 			}
 			comps.queryItems = query
