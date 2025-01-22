@@ -13,12 +13,25 @@ import FHIRClient
 let url = URL(string: "https://hapi.fhir.org/baseDstu3")
 let client = FHIRClient(baseURL: url)
 
+// BGZ Parameters for MedicationStatement
+// See https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017
+let parameters = RequestParameters(
+	[
+		(RequestParameterField.category, "urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3|6"),
+		(RequestParameterField.include, "MedicationStatement:medication")
+	]
+)
+
 do {
-	let patient = try await Patient.read("123", client: client, options: .lenient)
+		let data = try await client.readDataFrom(
+			"/MedicationStatement",
+			parameters: parameters,
+			headers: RequestHeaders([RequestHeaderField.accept: "application/fhir+json"])
+		)
 	...
 	
 } catch {
-	logError("Client read error: \(String(describing: error))")
+	logError("Client error: \(String(describing: error))")
 }
 
 ```

@@ -47,12 +47,11 @@ public class FHIRClient {
 	Request handlers are responsible for constructing an URLRequest that correctly performs the desired REST interaction.
 	
 	- parameter method:   The request method (GET, PUT, POST or DELETE)
-	- parameter resource: The resource to be involved in the request, if any
 	
 	- returns:            An appropriate `RequestHandler`, for example a _FHIRJSONRequestHandler_ if sending and receiving JSON
 	*/
-	open func handlerForRequest(withMethod method: RequestMethod, resource: Resource?) -> RequestHandler {
-		return JSONRequestHandler(method, resource: resource)
+	open func handlerForRequest(withMethod method: RequestMethod) -> RequestHandler {
+		return JSONRequestHandler(method)
 	}
 	
 	/**

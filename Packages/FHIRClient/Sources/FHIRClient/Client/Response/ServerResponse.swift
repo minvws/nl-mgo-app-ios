@@ -22,32 +22,6 @@ public protocol ServerResponse {
 	/// The response body data.
 	var body: Data? { get }
 	
-	/// The request's operation outcome, if any.
-	var outcome: OperationOutcome? { get }
-	
 	/// The error encountered, if any.
 	var error: FHIRError? { get }
-	
-	// MARK: - Responses
-	
-	/**
-	Extract the resource of the given type from the response, if possible.
-	
-	- parameter ofType: The type of resource to extract
-	- returns:          The resource that was found in the response if it is of the desired type
-	- throws:           Errors if there was no response, if it was of a different type or if there were errors in the data
-	*/
-	func responseResource<T: Resource>(ofType: T.Type) throws -> T
-	
-	/**
-	The response should inspect response headers and update resource data like `id` and `meta` accordingly.
-	
-	This method must not be called if the response has a non-nil error.
-	
-	- throws:       The method should only throw on severe cases, like if Location headers were returned that don't match the resource type
-	- parameter to: The resource to apply response data to
-	- parameter url:The base url
-
-	*/
-	func applyHeaders(to: Resource, baseURL: URL) throws
 }

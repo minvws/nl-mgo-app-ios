@@ -12,19 +12,13 @@ let package = Package(
 			targets: ["FHIRClient"]),
 	],
 	dependencies: [
-
-		// External
-		.package(url: "https://github.com/apple/FHIRModels", exact: "0.6.1"),
 		
 		// Testing
 		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		.target(
-			name: "FHIRClient",
-			dependencies: [
-				.product(name: "ModelsSTU3", package: "FHIRModels")
-			]
+			name: "FHIRClient"
 		),
 		.testTarget(
 			name: "FHIRClientTests",

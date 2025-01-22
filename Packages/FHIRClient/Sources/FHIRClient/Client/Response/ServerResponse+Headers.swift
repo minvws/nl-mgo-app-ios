@@ -8,34 +8,6 @@ import Foundation
 
 extension ServerResponse {
 	
-	/**
-	The base implementation inspects response headers ( "ETag") and updates the resource's `id` and `meta`
-	accordingly.
-	
-	This method must not be called if the response has a non-nil error.
-	
-	- parameter resource: The resource to apply response data to
-	*/
-	public func applyHeaders(to resource: Resource, baseURL: URL) throws {
-		
-		// inspect ETag header
-		if var etag = headers["ETag"] {
-			resource.meta = resource.meta ?? Meta()
-			if resource.meta?.versionId == nil {
-				if etag.hasPrefix("W/") {
-					etag = String(etag[etag.index(etag.startIndex, offsetBy: 2)..<etag.endIndex])
-				}
-				if etag.hasPrefix("\"") {
-					etag = String(etag[etag.index(etag.startIndex, offsetBy: 1)..<etag.endIndex])
-				}
-				if etag.hasSuffix("\"") {
-					etag = String(etag[etag.startIndex..<etag.index(etag.endIndex, offsetBy: -1)])
-				}
-				resource.meta?.versionId = etag.asFHIRStringPrimitive()
-			}
-		}
-	}
-	
 	/// Nicely format status code, response headers and response body (if any).
 	public var debugDescription: String {
 		var msg = "HTTP 1.1 \(status)"

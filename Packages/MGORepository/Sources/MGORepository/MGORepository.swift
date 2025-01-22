@@ -44,7 +44,6 @@ public class MGORepository {
 		let data = try await client.readDataFrom(
 			path,
 			parameters: parameters,
-			options: [],
 			headers: RequestHeaders(headers)
 		)
 		

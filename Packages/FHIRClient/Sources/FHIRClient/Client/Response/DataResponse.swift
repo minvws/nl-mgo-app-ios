@@ -25,9 +25,6 @@ open class DataResponse: ServerResponse {
 	/// The response body data.
 	open var body: Data?
 	
-	/// The request's operation outcome, if any.
-	public internal(set) var outcome: OperationOutcome?
-	
 	/// The error encountered, if any.
 	open var error: FHIRError?
 	
@@ -78,17 +75,5 @@ open class DataResponse: ServerResponse {
 		} else {
 			self.error = FHIRError.error("\(error)")
 		}
-	}
-	
-	// MARK: - Responses
-	
-	/**
-	The base method does not know how to extract a response resource, so this will throw `FHIRError.responseNoResourceReceived`.
-	
-	- parameter type: The response resource's type
-	- returns: An instance of the expected type
-	*/
-	open func responseResource<T: Resource>(ofType: T.Type) throws -> T {
-		throw FHIRError.responseNoResourceReceived
 	}
 }
