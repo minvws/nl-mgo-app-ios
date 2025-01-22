@@ -21,22 +21,14 @@ open class RequestHandlerImpl: RequestHandler {
 	/// Request parameters to pass along.
 	open var parameters = RequestParameters()
 	
-	/// Which options to apply.
-	open var options: RequestOption
-	
 	/// The data to be used in the request body.
 	open var data: Data?
-	
-	/// The receiver may hold on to a resource that supplies the request's body data.
-	open var resource: Resource?
 	
 	/**
 	Designated initializer.
 	*/
-	public required init(_ method: RequestMethod, resource: Resource? = nil) {
+	public required init(_ method: RequestMethod) {
 		self.method = method
-		self.options = []
-		self.resource = resource
 	}
 	
 	// MARK: - Preparation

@@ -25,9 +25,6 @@ open class DataResponse: ServerResponse {
 	/// The response body data.
 	open var body: Data?
 	
-	/// The request's operation outcome, if any.
-	public internal(set) var outcome: OperationOutcome?
-	
 	/// The error encountered, if any.
 	open var error: FHIRError?
 	
@@ -35,39 +32,39 @@ open class DataResponse: ServerResponse {
 	Instantiate a FHIRServerResponse from a (HTTP)URLResponse, Data and an optional Error.
 	*/
 	public required init(handler: RequestHandler, response: URLResponse, data: Data?, error: Error?) {
-		var status = 0
-		var headers = [String: String]()
+		
+		self.handler = handler
+		self.body = data
+		
+		var localStatus = 0
+		var localHeaders = [String: String]()
 		
 		// parse status and headers from the URL response
-		if let http = response as? HTTPURLResponse {
-			status = http.statusCode
-			for (key, val) in http.allHeaderFields {
-				if let keystr = key as? String {
-					if let valstr = val as? String {
-						headers[("Etag" == keystr) ? "ETag" : keystr] = valstr		// NSHTTPURLResponse returns "Etag"
-					} else {
-						print("Not a string in headers: \(val) (for \(keystr))") // swiftlint:disable:this disable_print
-					}
+		(response as? HTTPURLResponse).map { response in
+			localStatus = response.statusCode
+			response.allHeaderFields.forEach { (key: AnyHashable, value: Any) in
+				if var keyStr = key as? String, let valStr = value as? String {
+					keyStr = keyStr.replacingOccurrences(of: "Etag", with: "ETag")
+					localHeaders[keyStr] = valStr
 				}
 			}
 		}
 		
 		// was there an error?
 		if let error = error, NSURLErrorDomain == error._domain {
-			self.error = FHIRError.requestError(status, error.humanized)
+			self.error = FHIRError.requestError(localStatus, error.humanized)
 		} else if let error = error as? FHIRError {
 			self.error = error
 		} else if let error = error {
 			self.error = FHIRError.error(error.localizedDescription)
 		}
 		
-		self.handler = handler
-		self.status = status
-		self.headers = headers
-		self.body = data
+		self.status = localStatus
+		self.headers = localHeaders
 	}
 	
 	public required init(error: Error, handler: RequestHandler? = nil) {
+		
 		self.handler = handler
 		self.status = 0
 		self.headers = [String: String]()
@@ -78,17 +75,5 @@ open class DataResponse: ServerResponse {
 		} else {
 			self.error = FHIRError.error("\(error)")
 		}
-	}
-	
-	// MARK: - Responses
-	
-	/**
-	The base method does not know how to extract a response resource, so this will throw `FHIRError.responseNoResourceReceived`.
-	
-	- parameter type: The response resource's type
-	- returns: An instance of the expected type
-	*/
-	open func responseResource<T: Resource>(ofType: T.Type) throws -> T {
-		throw FHIRError.responseNoResourceReceived
 	}
 }
