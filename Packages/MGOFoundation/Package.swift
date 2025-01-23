@@ -21,6 +21,7 @@ let package = Package(
 		.package(name: "MGORepository", path: "../MGORepository"),
 		.package(name: "Observatory", path: "../Observatory"),
 		.package(name: "SecureUserSettings", path: "../SecureUserSettings"),
+		.package(name: "RemoteAuthentication", path: "../RemoteAuthentication"),
 		.package(name: "RemoteConfiguration", path: "../RemoteConfiguration"),
 		
 		// VWS
@@ -41,7 +42,8 @@ let package = Package(
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
 				.product(name: "SecureUserSettings", package: "SecureUserSettings"),
-				.product(name: "RemoteConfiguration", package: "RemoteConfiguration")
+				.product(name: "RemoteConfiguration", package: "RemoteConfiguration"),
+				.product(name: "RemoteAuthentication", package: "RemoteAuthentication")
 			]
 		)
 	]

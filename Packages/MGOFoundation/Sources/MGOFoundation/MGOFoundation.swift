@@ -18,6 +18,7 @@
 @_exported import Observatory
 @_exported import FHIRParser
 @_exported import SecureUserSettings
+@_exported import RemoteAuthentication
 @_exported import RemoteConfiguration
 
 // VWS

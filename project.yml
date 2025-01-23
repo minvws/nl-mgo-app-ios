@@ -6,6 +6,8 @@ name: MGO
 # - Packages:
 
 packages:
+  AuthorizationMiddleware:
+    path: ./Packages/AuthorizationMiddleware
   CopyImport:
     path: ./Packages/CopyImport
   FHIRClient:
@@ -32,6 +34,8 @@ packages:
     path: ./Packages/MGOUI
   Observatory:
     path: ./Packages/Observatory
+  RemoteAuthentication:
+    path: ./Packages/RemoteAuthentication
   RemoteConfiguration:
     path: ./Packages/RemoteConfiguration
   RestrictedBrowser:
@@ -399,6 +403,9 @@ schemes:
     test:
       gatherCoverageData: true
       targets:
+        - package: AuthorizationMiddleware/AuthorizationMiddlewareTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: FHIRClient/FHIRClientTests
           randomExecutionOrder: true
           parallelizable: false
@@ -424,6 +431,9 @@ schemes:
           parallelizable: false
           randomExecutionOrder: true
         - package: Observatory/ObservatoryTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: RemoteAuthentication/RemoteAuthenticationTests
           randomExecutionOrder: true
           parallelizable: false
         - package: RemoteConfiguration/RemoteConfigurationTests
