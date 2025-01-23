@@ -214,9 +214,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		switch Configuration().getRelease() {
 			case .production:
 				return URL(string: String(localized: "proposition.link.prod"))
-			case .acceptance:
+			case .demo, .acceptance:
 				return URL(string: String(localized: "proposition.link.acc"))
-			case .demo, .test, .development:
+			case .test, .development:
 				return URL(string: String(localized: "proposition.link.test"))
 		}
 	}
