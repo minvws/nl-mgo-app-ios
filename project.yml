@@ -274,19 +274,19 @@ targets:
           PRODUCT_NAME: MGO Test
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.test
           PROVISIONING_PROFILE_SPECIFIER: "MGO Test"
-          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO--Test.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Test.entitlements
         FirebaseAcceptance:
           DISPLAY_NAME: "💡 Acc MGO"
           PRODUCT_NAME: MGO ACC
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.acc
           PROVISIONING_PROFILE_SPECIFIER: "MGO Acc"
-          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO--Acc.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Acc.entitlements
         FirebaseDemo:
           DISPLAY_NAME: "MGO Demo"
           PRODUCT_NAME: MGO Demo
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.demo
           PROVISIONING_PROFILE_SPECIFIER: "MGO Demo"
-          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO--Demo.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Demo.entitlements
         FirebaseProduction:
           DISPLAY_NAME: "Mijn Gezondheidsoverzicht"
           PRODUCT_NAME: MGO PROD
