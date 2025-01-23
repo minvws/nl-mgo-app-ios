@@ -268,59 +268,63 @@ targets:
           PRODUCT_NAME: MGO
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.dev
           PROVISIONING_PROFILE_SPECIFIER: "MGO Dev"
-          # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Dev.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Dev.entitlements
         FirebaseTest:
           DISPLAY_NAME: "🧪 Test MGO"
           PRODUCT_NAME: MGO Test
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.test
           PROVISIONING_PROFILE_SPECIFIER: "MGO Test"
-          # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Test.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO--Test.entitlements
         FirebaseAcceptance:
           DISPLAY_NAME: "💡 Acc MGO"
           PRODUCT_NAME: MGO ACC
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.acc
           PROVISIONING_PROFILE_SPECIFIER: "MGO Acc"
-          # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Acc.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO--Acc.entitlements
         FirebaseDemo:
           DISPLAY_NAME: "MGO Demo"
           PRODUCT_NAME: MGO Demo
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.demo
           PROVISIONING_PROFILE_SPECIFIER: "MGO Demo"
-          # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Demo.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO--Demo.entitlements
         FirebaseProduction:
           DISPLAY_NAME: "Mijn Gezondheidsoverzicht"
           PRODUCT_NAME: MGO PROD
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz
           PROVISIONING_PROFILE_SPECIFIER: "MGO Prod"
-#           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Prod.entitlements
         AppStore:
           DISPLAY_NAME: "Mijn Gezondheidsoverzicht"
           PRODUCT_NAME: MGO
           PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz
           PROVISIONING_PROFILE_SPECIFIER: "nl.rijksoverheid.pifz: AppStore"
-#           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
     info:
       path: Sources/MGO/Info.plist
       properties:
         MGO_BASIC_AUTH_PASSWORD: ${MGO_BASIC_AUTH_PASSWORD}
         MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
-#        CFBundleURLTypes:
-#            - CFBundleTypeRole: Editor
-#              CFBundleURLName: nl.rijksoverheid.mgo
-#              CFBundleURLSchemes:
-#                - coronacheck
-#            - CFBundleTypeRole: Editor
-#              CFBundleURLName: nl.rijksoverheid.mgo.dev
-#              CFBundleURLSchemes:
-#                - coronacheck-dev
-#            - CFBundleTypeRole: Editor
-#              CFBundleURLName: nl.rijksoverheid.mgo.test
-#              CFBundleURLSchemes:
-#                - coronacheck-test
-#            - CFBundleTypeRole: Editor
-#              CFBundleURLName: nl.rijksoverheid.mgo.acc
-#              CFBundleURLSchemes:
-#                - coronacheck-acc
+        CFBundleURLTypes:
+            - CFBundleTypeRole: Editor
+              CFBundleURLName: nl.rool.pifz
+              CFBundleURLSchemes:
+                - mgo
+            - CFBundleTypeRole: Editor
+              CFBundleURLName: nl.rool.pifz.dev
+              CFBundleURLSchemes:
+                - mgo-dev
+            - CFBundleTypeRole: Editor
+              CFBundleURLName: nl.rool.pifz.demo
+              CFBundleURLSchemes:
+                - mgo-demo
+            - CFBundleTypeRole: Editor
+              CFBundleURLName: nl.rool.pifz.test
+              CFBundleURLSchemes:
+                - mgo-test
+            - CFBundleTypeRole: Editor
+              CFBundleURLName: nl.rool.pifz.acc
+              CFBundleURLSchemes:
+                - mgo-acc
         # UILaunchStoryboardName: LaunchScreenHolder
 
   MGOTests:
