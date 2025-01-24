@@ -11,7 +11,7 @@
 		  "OIDC"
 		],
 		"summary": "Oidc Start",
-		"operationId": "oidc_start_oidc_start_post",
+		"operationId": "oidc_start_post",
 		"requestBody": {
 		  "content": {
 			"application/json": {

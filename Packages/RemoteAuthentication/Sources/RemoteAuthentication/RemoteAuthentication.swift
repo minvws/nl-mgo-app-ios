@@ -59,8 +59,8 @@ public class RemoteAuthenticationClient: RemoteAuthenticationClientProtocol {
 	public func getAuthenticationUrl(callbackUrl: String) async throws -> URL {
 		
 		let request = Components.Schemas.StartRequest(client_callback_url: callbackUrl)
-		let input = Operations.oidc_start_oidc_start_post.Input(body: .json(request))
-		let response = try await client.oidc_start_oidc_start_post(input)
+		let input = Operations.oidc_start_post.Input(body: .json(request))
+		let response = try await client.oidc_start_post(input)
 		
 		let dictionary = try response.ok.body.json.value as? [String: String]
 		if let authorizationUrlString = dictionary?.first?.value,
