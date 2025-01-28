@@ -117,26 +117,32 @@ targetTemplates:
           NETWORK_CONFIGURATION: DEV
           VALIDATE_PRODUCT: NO
           LOG_LEVEL: debug
+          DEEPLINK_SCHEMA: mgo-dev
         FirebaseAcceptance:
           NETWORK_CONFIGURATION: ACC
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEEPLINK_SCHEMA: mgo-acc
         FirebaseDemo:
           NETWORK_CONFIGURATION: DEMO
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEEPLINK_SCHEMA: mgo-demo
         FirebaseTest:
           NETWORK_CONFIGURATION: TEST
           LOG_LEVEL: debug
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEEPLINK_SCHEMA: mgo-test
         FirebaseProduction:
           NETWORK_CONFIGURATION: Production
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEEPLINK_SCHEMA: mgo
         AppStore:
           NETWORK_CONFIGURATION: Production
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEEPLINK_SCHEMA: mgo
 
   Standard_Signing:
     settings:
@@ -158,7 +164,6 @@ targetTemplates:
     platform: iOS
     type: application
     dependencies:
-#       SPM:
       - package: MGOFoundation
       - package: MGOUI
       - package: MGODebug
@@ -187,7 +192,7 @@ targetTemplates:
           - 'sileo'
           - 'undecimus'
           - 'zbra'
-          - 'https'
+          - 'https' # used when safari is not the default browser
           - 'googlechromes'
           - 'opera-https'
           - 'firefox'
@@ -298,34 +303,17 @@ targets:
           PRODUCT_NAME: MGO
           PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz
           PROVISIONING_PROFILE_SPECIFIER: "nl.rijksoverheid.pifz: AppStore"
-          CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Prod.entitlements
     info:
       path: Sources/MGO/Info.plist
       properties:
         MGO_BASIC_AUTH_PASSWORD: ${MGO_BASIC_AUTH_PASSWORD}
         MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
         CFBundleURLTypes:
-            - CFBundleTypeRole: Editor
-              CFBundleURLName: nl.rool.pifz
-              CFBundleURLSchemes:
-                - mgo
-            - CFBundleTypeRole: Editor
-              CFBundleURLName: nl.rool.pifz.dev
-              CFBundleURLSchemes:
-                - mgo-dev
-            - CFBundleTypeRole: Editor
-              CFBundleURLName: nl.rool.pifz.demo
-              CFBundleURLSchemes:
-                - mgo-demo
-            - CFBundleTypeRole: Editor
-              CFBundleURLName: nl.rool.pifz.test
-              CFBundleURLSchemes:
-                - mgo-test
-            - CFBundleTypeRole: Editor
-              CFBundleURLName: nl.rool.pifz.acc
-              CFBundleURLSchemes:
-                - mgo-acc
-        # UILaunchStoryboardName: LaunchScreenHolder
+          - CFBundleTypeRole: Viewer
+            CFBundleURLName: ${PRODUCT_BUNDLE_IDENTIFIER}
+            CFBundleURLSchemes:
+              - ${DEEPLINK_SCHEMA}
 
   MGOTests:
     templates:
