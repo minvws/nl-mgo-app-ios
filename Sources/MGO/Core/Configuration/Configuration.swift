@@ -22,6 +22,8 @@ public class Configuration {
 	}
 }
 
+#warning("The production endpoints still point to acceptance. This needs to be changed to production")
+
 extension Configuration {
 	
 	/// Get the url for the localisation server
@@ -76,5 +78,39 @@ extension Configuration {
 		}
 		
 		return url
+	}
+}
+
+extension Configuration {
+	
+	/// Get the url for the oidc server
+	/// - Returns: url of the oidc server
+	func urlForOIDC() -> URL {
+		
+		let urlString: String = {
+			switch getRelease() {
+				case .demo, .production, .acceptance: return "https://dva.acc.mgo.irealisatie.nl"
+				case .test: return "https://dva.test.mgo.irealisatie.nl"
+				case .development: return "http://localhost:8801"
+			}
+		}()
+		
+		guard let url = Foundation.URL(string: urlString) else {
+			fatalError("Configuration: No url for the oidc server")
+		}
+		
+		return url
+	}
+	
+	/// Get the callback url for oidc
+	/// - Returns: the callback url
+	func getOIDCCallback() -> String {
+		switch getRelease() {
+			case .production: return "mgo://app/login"
+			case .acceptance: return "mgo-acc://app/login"
+			case .demo: return "mgo-demo://app/login"
+			case .test: return "mgo-test://app/login"
+			case .development: return "mgo-dev://app/login"
+		}
 	}
 }
