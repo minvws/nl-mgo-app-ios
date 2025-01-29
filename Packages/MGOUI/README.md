@@ -2,7 +2,7 @@
 
 ## Overview
 
-This package is a convenience package. It will expose the Reusable UI, Theme, RijksoverheidFont and the NavigationStack Backport packages for easy import.
+This package is a convenience package. It will expose the Reusable UI, Theme, RijksoverheidFont, SwiftIntrospect and the NavigationStack Backport packages for easy import.
 
 ## Usage
 
@@ -18,4 +18,4 @@ Note that all commits should be signed using a [gpg key](https://docs.github.com
 
 ## License
 
-License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/LICENSE.txt) for details.
+License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/Packages/MGOUI/LICENSE.txt) for details.
