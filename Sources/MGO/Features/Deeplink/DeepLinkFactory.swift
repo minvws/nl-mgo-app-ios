@@ -16,10 +16,8 @@ public final class DeepLinkFactory {
 		
 		guard url.scheme == Configuration().getCallbackScheme() else { return nil }
 		
-		if url.host == "app", url.path == "/login" {
-			if let userinfo = url["userinfo"] {
-				return DeepLink.digidCallback(userinfo: userinfo)
-			}
+		if url.host == "app", url.path == "/login", let userinfo = url["userinfo"] {
+			return DeepLink.digidCallback(userinfo: userinfo)
 		}
 		return nil
 	}
