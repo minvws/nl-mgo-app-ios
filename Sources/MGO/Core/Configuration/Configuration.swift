@@ -105,12 +105,19 @@ extension Configuration {
 	/// Get the callback url for oidc
 	/// - Returns: the callback url
 	func getOIDCCallback() -> String {
+		return "\(getCallbackScheme())://app/login"
+	}
+	
+	/// Get the callback scheme
+	/// - Returns: the callback scheme
+	func getCallbackScheme() -> String {
+		
 		switch getRelease() {
-			case .production: return "mgo://app/login"
-			case .acceptance: return "mgo-acc://app/login"
-			case .demo: return "mgo-demo://app/login"
-			case .test: return "mgo-test://app/login"
-			case .development: return "mgo-dev://app/login"
+			case .production: return "mgo"
+			case .acceptance: return "mgo-acc"
+			case .demo: return "mgo-demo"
+			case .test: return "mgo-test"
+			case .development: return "mgo-dev"
 		}
 	}
 }

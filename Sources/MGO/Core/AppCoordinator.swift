@@ -538,9 +538,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	public func consume(_ deeplink: DeepLink) {
 		
 		switch deeplink {
-			case .maxCallback(let userinfo):
-				logInfo("Consume maxCallback with userinfo", userinfo)
-//				handle(.loggedInWithDigiD)
+			case .digidCallback(let userinfo):
+				logInfo("Consume digidCallback with userinfo", userinfo)
+				Current.secureUserSettings.userHasRemoteAuthentication = true
+				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
+				} else {
+					resetNavigationStack(with: AppCoordination.State.manualLocalization)
+				}
 		}
 	}
 	
