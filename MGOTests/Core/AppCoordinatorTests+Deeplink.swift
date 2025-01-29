@@ -34,6 +34,22 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 		)
 	}
 	
+	func test_handle_deepLink() throws {
+		
+		// Given
+		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
+		let url = try XCTUnwrap(URL(string: "mgo-dev://app/login?userinfo=TEST"))
+		
+		// When		
+		sut.handle(Coordination.Action(identifier: "deeplink", params: ["deeplink": url]))
+		
+		// Then
+		expect(self.sut.showChildCoordinator) == false
+		expect(self.sut.path.isEmpty) == true
+		expect(self.sut.rootState) == AppCoordination.State.manualLocalization
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
+	}
+	
 	func test_digidDeeplink() throws {
 		
 		// Given
