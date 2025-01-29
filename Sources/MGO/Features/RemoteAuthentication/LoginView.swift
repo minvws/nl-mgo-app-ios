@@ -49,7 +49,7 @@ class LoginViewModel: ObservableObject {
 	
 	private func authenticate() {
 		
-		Task { [remoteAuthenticationClient] in
+		Task { @MainActor [remoteAuthenticationClient] in
 			do {
 				guard let remoteAuthenticationClient else { return }
 				
@@ -57,12 +57,10 @@ class LoginViewModel: ObservableObject {
 				guard let authenticationUrl = URL(string: authUrl.absoluteString.replacingOccurrences(of: "max:8006", with: "localhost:8006")) else {
 					return
 				}
-				logInfo("authenticationUrl", authenticationUrl)
-				DispatchQueue.main.async {
-					self.urlOpener.openUrlIfPossible(authenticationUrl)
-				}
+				logDebug("authenticationUrl", authenticationUrl)
+				self.urlOpener.openUrlIfPossible(authenticationUrl)
 			} catch {
-				logDebug("Error fetching oidc start \(error)")
+				logError("Error fetching oidc start \(error)")
 			}
 		}
 	}
