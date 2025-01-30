@@ -162,13 +162,13 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			
 			do {
 				logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", service)
-				let data = try await repository.getBundleData(
+				let fhirBundle = try await repository.getBundleData(
 					endpoint: service,
 					dvaTarget: dvaTarget,
 					username: username,
 					password: password
 				)
-				mgoResources = try repository.process(data, fhirVersion: service.fhirVersion.rawValue)
+				mgoResources = try repository.process(fhirBundle, fhirVersion: service.fhirVersion.rawValue)
 			} catch {
 				resourceError = true
 			}
