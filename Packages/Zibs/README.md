@@ -8,7 +8,7 @@ These are the generated Zorg Informatie Bouwstenen, the building blocks for medi
 
 | GP (R3) | Definition |
 | -- | -- |
-| [Gp Diagnostic Result](Sources/Zibs/Generated/GpDiagnosticResult) | - |
+| [Gp Diagnostic Result](Sources/Zibs/Generated/GpDiagnosticResult) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/1.3.4/files/113377 |
 | [Gp Encounter](Sources/Zibs/Generated/GpEncounter) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316991 |
 | [Gp Encounter Report](Sources/Zibs/Generated/GpEncounterReport) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316993 |
 | [Gp Journal Entry](Sources/Zibs/Generated/GpJournalEntry) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2316995 |
