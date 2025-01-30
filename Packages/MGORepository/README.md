@@ -55,7 +55,7 @@ do {
 
 ```
 
---
+---
 
 ## Contribution process
 
@@ -65,7 +65,7 @@ If you plan to make non-trivial changes, we recommend to open an issue beforehan
 
 Note that all commits should be signed using a [gpg key](https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account).
 
---
+---
 
 ## License
 

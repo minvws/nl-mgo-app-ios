@@ -8,6 +8,8 @@ This package is a convenience package. It will expose the HTTP Stubs, Swift Snap
 
 In the app, just use `import MGOTest` instead of the sub packages. 
 
+---
+
 ## Contribution process
 
 The development team works on the repository in a private fork (for reasons of compliance with existing processes) and shares its work as often as possible.
@@ -16,7 +18,7 @@ If you plan to make non-trivial changes, we recommend to open an issue beforehan
 
 Note that all commits should be signed using a [gpg key](https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account).
 
-## License
+---
 
 ## License
 

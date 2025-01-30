@@ -31,8 +31,9 @@ The package also includes a protocol for opening urls (that can be mocked for un
 let urlOpener: URLOpenerProtocol = UIApplication.shared
 let url = URL(string: "https://apple.com")
 urlOpener.openUrlIfPossible(url)
+```
 
---
+---
 
 ## Contribution process
 
@@ -42,7 +43,7 @@ If you plan to make non-trivial changes, we recommend to open an issue beforehan
 
 Note that all commits should be signed using a [gpg key](https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account).
 
---
+---
 
 ## License
 

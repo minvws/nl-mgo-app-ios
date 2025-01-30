@@ -203,7 +203,7 @@ VStack {
 
 <img style="float: left;" src="illustrations/SplittedText.png" />
 
-
+---
 
 ## Contribution process
 
@@ -212,6 +212,8 @@ The development team works on the repository in a private fork (for reasons of c
 If you plan to make non-trivial changes, we recommend to open an issue beforehand where we can discuss your planned changes. This increases the chance that we might be able to use your contribution (or it avoids doing work if there are reasons why we wouldn't be able to use it).
 
 Note that all commits should be signed using a [gpg key](https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account).
+
+---
 
 ## License
 

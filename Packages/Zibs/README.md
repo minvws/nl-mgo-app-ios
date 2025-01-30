@@ -73,7 +73,7 @@ These are the generated Zorg Informatie Bouwstenen, the building blocks for medi
 | [Zib Vaccination Recommendation](Sources/Zibs/Generated/ZibVaccinationRecommendation) | https://simplifier.net/packages/nictiz.fhir.nl.stu3.zib2017/2.2.18/files/2317390 |
 
 
---
+---
 
 ## Contribution process
 
@@ -83,7 +83,7 @@ If you plan to make non-trivial changes, we recommend to open an issue beforehan
 
 Note that all commits should be signed using a [gpg key](https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account).
 
---
+---
 
 ## License
 
