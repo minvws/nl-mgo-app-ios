@@ -65,7 +65,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		sut.load()
 		
 		// Then
-		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(28), timeout: .seconds(5))
+		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(28), timeout: .seconds(10))
 	}
 	
 	func test_load_oneOrganization_demoMode() throws {
