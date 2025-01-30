@@ -36,7 +36,7 @@ protocol ResourceRepositoryProtocol {
 	func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		url: String) async throws -> Zibs.MgoBinary?
+		url: String) async throws -> Zibs.FHIRBinary?
 }
 
 /// Load the resources from the server
@@ -192,7 +192,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		url: String) async throws -> Zibs.MgoBinary? {
+		url: String) async throws -> Zibs.FHIRBinary? {
 			
 			// The binary call also needs the DVA Target header
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId) else {
@@ -210,7 +210,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 					password: password
 				)
 				
-				let binary = try MgoBinary(data: data)
+				let binary = try FHIRBinary(data: data)
 				return binary
 			} catch {
 				// Should be error

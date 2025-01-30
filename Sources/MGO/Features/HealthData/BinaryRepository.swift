@@ -10,12 +10,12 @@ import Zibs
 
 protocol BinaryRepositoryProtocol {
 	
-	/// Store an Zibs MgoBinary
+	/// Store an Zibs FHIRBinary
 	/// - Parameters:
 	///   - binary: the binary to store
 	///   - filename: the filename to store it with
 	/// - Returns: the path to the stored file
-	func store(_ binary: Zibs.MgoBinary, as filename: String) throws -> URL
+	func store(_ binary: Zibs.FHIRBinary, as filename: String) throws -> URL
 	
 	/// Clear all documents
 	func clear()
@@ -58,12 +58,12 @@ class BinaryRepository: BinaryRepositoryProtocol {
 			.appendingPathComponent("binary", isDirectory: true)
 	}
 	
-	/// Store an Zibs MgoBinary
+	/// Store an Zibs FHIRBinary
 	/// - Parameters:
 	///   - binary: the binary to store
 	///   - filename: the filename to store it with
 	/// - Returns: the path to the stored file
-	func store(_ binary: Zibs.MgoBinary, as filename: String) throws -> URL {
+	func store(_ binary: Zibs.FHIRBinary, as filename: String) throws -> URL {
 		
 		guard let documentsURL else { throw BinaryRepositoryError.noUrl }
 		
