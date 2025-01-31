@@ -34,6 +34,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	}
 	
 	var body: some View {
+		
 		if appCoordinator.showChildCoordinator {
 			appCoordinator.view(for: .dashboard)
 				.fullScreenCover(isPresented: $appCoordinator.rootStateForSheet.presence(), content: {
@@ -71,6 +72,14 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 			.onAppear {
 				// Make ourself available for inspection
 				self.didAppear?(self)
+			}
+			.onOpenURL { deeplink in
+				appCoordinator.handle(
+					Coordination.Action(
+						identifier: Coordination.Action.deeplink.identifier,
+						params: ["deeplink": deeplink]
+					)
+				)
 			}
 		}
 	}

@@ -22,6 +22,7 @@ let package = Package(
 		.package(name: "Observatory", path: "../Observatory"),
 		.package(name: "Sanitizer", path: "../Sanitizer"),
 		.package(name: "SecureUserSettings", path: "../SecureUserSettings"),
+		.package(name: "RemoteAuthentication", path: "../RemoteAuthentication"),
 		.package(name: "RemoteConfiguration", path: "../RemoteConfiguration"),
 		
 		// VWS
@@ -43,7 +44,8 @@ let package = Package(
 				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
 				.product(name: "Sanitizer", package: "Sanitizer"),
 				.product(name: "SecureUserSettings", package: "SecureUserSettings"),
-				.product(name: "RemoteConfiguration", package: "RemoteConfiguration")
+				.product(name: "RemoteConfiguration", package: "RemoteConfiguration"),
+				.product(name: "RemoteAuthentication", package: "RemoteAuthentication")
 			]
 		)
 	]

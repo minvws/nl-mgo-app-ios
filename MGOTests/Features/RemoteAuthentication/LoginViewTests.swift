@@ -12,13 +12,18 @@ import MGOUI
 final class LoginViewTests: XCTestCase {
 	
 	private var coordinatorSpy: AppCoordinatorSpy!
+	private var remoteAuthenticationClientSpy: RemoteAuthenticationClientSpy!
 	private var viewModel: LoginViewModel!
+	private var servicesSpies: ServicesSpies!
 	private var sut: LoginView!
 	
-	override func setUp() {
+	override func setUpWithError() throws {
 		
 		coordinatorSpy = AppCoordinatorSpy()
-		viewModel = LoginViewModel(coordinator: coordinatorSpy)
+		servicesSpies = setupServicesSpies()
+		let url = try XCTUnwrap(URL(string: "https://example.com"))
+		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url, username: nil, password: nil)
+		viewModel = LoginViewModel(coordinator: coordinatorSpy, remoteAuthenticationClient: remoteAuthenticationClientSpy)
 		sut = LoginView(viewModel: self.viewModel)
 		
 		super.setUp()
@@ -35,10 +40,11 @@ final class LoginViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_loginWithDigiD_shouldCallCoordinator() throws {
+	func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() throws {
 		
 		// Given
-		
+		servicesSpies.featureFlagSpy.stubbedIsDemo = true
+
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.digid")
 		try view.view(CallToActionButton.self).find(button: "login.digid").tap()

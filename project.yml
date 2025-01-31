@@ -6,6 +6,8 @@ name: MGO
 # - Packages:
 
 packages:
+  AuthorizationMiddleware:
+    path: ./Packages/AuthorizationMiddleware
   CopyImport:
     path: ./Packages/CopyImport
   FHIRClient:
@@ -32,6 +34,8 @@ packages:
     path: ./Packages/MGOUI
   Observatory:
     path: ./Packages/Observatory
+  RemoteAuthentication:
+    path: ./Packages/RemoteAuthentication
   RemoteConfiguration:
     path: ./Packages/RemoteConfiguration
   RestrictedBrowser:
@@ -115,26 +119,32 @@ targetTemplates:
           NETWORK_CONFIGURATION: DEV
           VALIDATE_PRODUCT: NO
           LOG_LEVEL: debug
+          DEEPLINK_SCHEMA: mgo-dev
         FirebaseAcceptance:
           NETWORK_CONFIGURATION: ACC
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEEPLINK_SCHEMA: mgo-acc
         FirebaseDemo:
           NETWORK_CONFIGURATION: DEMO
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEEPLINK_SCHEMA: mgo-demo
         FirebaseTest:
           NETWORK_CONFIGURATION: TEST
           LOG_LEVEL: debug
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEEPLINK_SCHEMA: mgo-test
         FirebaseProduction:
           NETWORK_CONFIGURATION: Production
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEEPLINK_SCHEMA: mgo
         AppStore:
           NETWORK_CONFIGURATION: Production
           LOG_LEVEL: error
           SWIFT_OPTIMIZE_OBJECT_LIFETIME: true
+          DEEPLINK_SCHEMA: mgo
 
   Standard_Signing:
     settings:
@@ -156,7 +166,6 @@ targetTemplates:
     platform: iOS
     type: application
     dependencies:
-#       SPM:
       - package: MGOFoundation
       - package: MGOUI
       - package: MGODebug
@@ -185,7 +194,7 @@ targetTemplates:
           - 'sileo'
           - 'undecimus'
           - 'zbra'
-          - 'https'
+          - 'https' # used when safari is not the default browser
           - 'googlechromes'
           - 'opera-https'
           - 'firefox'
@@ -266,60 +275,47 @@ targets:
           PRODUCT_NAME: MGO
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.dev
           PROVISIONING_PROFILE_SPECIFIER: "MGO Dev"
-          # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Dev.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Dev.entitlements
         FirebaseTest:
           DISPLAY_NAME: "🧪 Test MGO"
           PRODUCT_NAME: MGO Test
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.test
           PROVISIONING_PROFILE_SPECIFIER: "MGO Test"
-          # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Test.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Test.entitlements
         FirebaseAcceptance:
           DISPLAY_NAME: "💡 Acc MGO"
           PRODUCT_NAME: MGO ACC
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.acc
           PROVISIONING_PROFILE_SPECIFIER: "MGO Acc"
-          # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Acc.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Acc.entitlements
         FirebaseDemo:
           DISPLAY_NAME: "MGO Demo"
           PRODUCT_NAME: MGO Demo
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz.demo
           PROVISIONING_PROFILE_SPECIFIER: "MGO Demo"
-          # CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Demo.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Demo.entitlements
         FirebaseProduction:
           DISPLAY_NAME: "Mijn Gezondheidsoverzicht"
           PRODUCT_NAME: MGO PROD
           PRODUCT_BUNDLE_IDENTIFIER: nl.rool.pifz
           PROVISIONING_PROFILE_SPECIFIER: "MGO Prod"
-#           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Prod.entitlements
         AppStore:
           DISPLAY_NAME: "Mijn Gezondheidsoverzicht"
           PRODUCT_NAME: MGO
           PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.pifz
           PROVISIONING_PROFILE_SPECIFIER: "nl.rijksoverheid.pifz: AppStore"
-#           CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
+          CODE_SIGN_ENTITLEMENTS: Sources/MGO/Core/Entitlement/MGO-Prod.entitlements
     info:
       path: Sources/MGO/Info.plist
       properties:
         MGO_BASIC_AUTH_PASSWORD: ${MGO_BASIC_AUTH_PASSWORD}
         MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
-#        CFBundleURLTypes:
-#            - CFBundleTypeRole: Editor
-#              CFBundleURLName: nl.rijksoverheid.mgo
-#              CFBundleURLSchemes:
-#                - coronacheck
-#            - CFBundleTypeRole: Editor
-#              CFBundleURLName: nl.rijksoverheid.mgo.dev
-#              CFBundleURLSchemes:
-#                - coronacheck-dev
-#            - CFBundleTypeRole: Editor
-#              CFBundleURLName: nl.rijksoverheid.mgo.test
-#              CFBundleURLSchemes:
-#                - coronacheck-test
-#            - CFBundleTypeRole: Editor
-#              CFBundleURLName: nl.rijksoverheid.mgo.acc
-#              CFBundleURLSchemes:
-#                - coronacheck-acc
-        # UILaunchStoryboardName: LaunchScreenHolder
+        CFBundleURLTypes:
+          - CFBundleTypeRole: Viewer
+            CFBundleURLName: ${PRODUCT_BUNDLE_IDENTIFIER}
+            CFBundleURLSchemes:
+              - ${DEEPLINK_SCHEMA}
 
   MGOTests:
     templates:
@@ -401,6 +397,9 @@ schemes:
     test:
       gatherCoverageData: true
       targets:
+        - package: AuthorizationMiddleware/AuthorizationMiddlewareTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: FHIRClient/FHIRClientTests
           randomExecutionOrder: true
           parallelizable: false
@@ -426,6 +425,9 @@ schemes:
           parallelizable: false
           randomExecutionOrder: true
         - package: Observatory/ObservatoryTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: RemoteAuthentication/RemoteAuthenticationTests
           randomExecutionOrder: true
           parallelizable: false
         - package: RemoteConfiguration/RemoteConfigurationTests
