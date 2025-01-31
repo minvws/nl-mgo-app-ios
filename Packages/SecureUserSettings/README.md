@@ -6,7 +6,35 @@ Use this packaga to safely and securely store user settings
 
 ## Usage
 
-Todo
+You can safely store settings in the secure user settings:
+
+```swift
+	SecureUserSettings().userHasRemoteAuthentication = true
+```
+
+The values we are storing:
+
+```swift
+
+	/// Timestamp the app went to the background
+	var enteredBackground: Date? // Defaults to nil
+	
+	/// the first entry of the access code
+	var tempPinCode: String? // Defaults to nil
+	
+	/// the access code
+	var pinCode: String? // Defaults to nil
+	
+	/// Do we have setup the biometric authentication
+	var bioMetricAuthenticationEnabled: Bool // Defaults to false
+	
+	/// Have we seen the jail break warning?
+	var userHasSeenJailBreakWarning: Bool // Defaults to false
+	
+	/// Did the user complete the DigiD flow?
+	var userHasRemoteAuthentication: Bool // Defaults to false
+
+```
 
 ---
 
