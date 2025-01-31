@@ -29,7 +29,7 @@ let package = Package(
 		.testTarget(
 			name: "SanitizerTests",
 			dependencies: [
-				"Managers",
+				"Sanitizer",
 					.product(name: "MGOTest", package: "MGOTest")
 				]
 			)

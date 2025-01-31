@@ -2,11 +2,18 @@
 
 ## Overview
 
-Todo
+The Sanitizer class can be used to strip incoming content or user input from html to prevent malicious attacks.
+A secondary use is to strip HTML from text to be read by Voice Over. 
 
 ## Usage
 
-Todo
+```swift
+
+let input = "Hello <b>World</b>"
+let sanitizedInput = Sanitizer.sanitize(input)
+print(sanitizedInput) -> Hello World
+
+```
 
 ---
 
