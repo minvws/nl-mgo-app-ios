@@ -1,12 +1,24 @@
-# MGO Foundation
+# MGO Debug
 
 ## Overview
 
-This package is a convenience package. It will expose the FHIRClient, FHIRParser, FileStorage, JailbreakDetector, LocalisationService, Managers, MGORepository, Observatory, RemoteConfiguration, SecureUserSettings and Logging packages for easy import in the application.
+This package is a debug package to help identify memory leaks
 
 ## Usage
 
-In the app, just use `import MGOFoundation` instead of the sub packages or `import Foundation`. 
+```swift
+
+import MGODebug
+
+do {
+	printMemoryUsage("before heavy task")
+
+	some heavy task
+	
+	printMemoryUsage("after heavy task")
+}
+
+```
 
 --- 
 
@@ -22,5 +34,5 @@ Note that all commits should be signed using a [gpg key](https://docs.github.com
 
 ## License
 
-License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/Packages/MGOFoundation/LICENSE.txt) for details.
+License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/Packages/MGODebug/LICENSE.txt) for details.
 

@@ -69,7 +69,7 @@ final class BinaryRepositoryTests: XCTestCase {
 		// Given
 		fileManagerSpy.stubbedUrlsResult = []
 		sut = BinaryRepository(fileManager: fileManagerSpy)
-		let binary = Zibs.MgoBinary(contentType: "application/pdf", content: "Um9vbA==")
+		let binary = Zibs.FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		
 		// When
 		expect { try self.sut.store(binary, as: "test.pdf") }.to(throwError(BinaryRepositoryError.noUrl))
@@ -85,7 +85,7 @@ final class BinaryRepositoryTests: XCTestCase {
 		fileManagerSpy.stubbedUrlsResult = [url]
 		fileManagerSpy.stubbedCreateFileResult = true
 		sut = BinaryRepository(fileManager: fileManagerSpy)
-		let binary = Zibs.MgoBinary(contentType: "application/pdf", content: "Um9vbA==")
+		let binary = Zibs.FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		
 		// When
 		let result = try self.sut.store(binary, as: "test.pdf")
@@ -102,7 +102,7 @@ final class BinaryRepositoryTests: XCTestCase {
 		fileManagerSpy.stubbedUrlsResult = [url]
 		fileManagerSpy.stubbedCreateFileResult = false
 		sut = BinaryRepository(fileManager: fileManagerSpy)
-		let binary = Zibs.MgoBinary(contentType: "application/pdf", content: "Um9vbA==")
+		let binary = Zibs.FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		
 		// When
 		expect { try self.sut.store(binary, as: "test.pdf") }.to(throwError(BinaryRepositoryError.couldNotSaveBinary))
