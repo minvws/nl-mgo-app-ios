@@ -16,7 +16,7 @@ final class BinaryTests: XCTestCase {
 		let data = try getResource("binary")
 
 		// When
-		let binary = try MgoBinary(data: data)
+		let binary = try FHIRBinary(data: data)
 		
 		// Then
 		expect(binary.content.count) == 8
@@ -26,10 +26,10 @@ final class BinaryTests: XCTestCase {
 		
 		// Given
 		let data = try getResource("binary")
-		let fromDisc = try MgoBinary(data: data)
+		let fromDisc = try FHIRBinary(data: data)
 
 		// When
-		let binary = MgoBinary(contentType: "application/pdf", content: "Um9vbA==")
+		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		
 		// Then
 		expect(binary) == fromDisc

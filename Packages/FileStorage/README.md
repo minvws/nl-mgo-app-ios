@@ -6,7 +6,42 @@ This package provides fileStorage, a helper class to read and store files to dis
 
 ## Usage
 
-Todo
+The FileStorage class contains four methods for creating, reading and deleting files. 
+
+### CRUD operations
+
+To store a file
+```swift
+
+import FileStorage
+
+let storage = FileStorage()
+let element: Codable = ...
+let fileName = "filename.json"
+let encoded = try JSONEncoder().encode(element)
+try storage.store(encoded, as: fileName)
+
+```
+
+To read a file
+```swift
+
+if let jsonData = storage.read(fileName: fileName), 
+	if let data = try JSONDecoder().decode([Object].self, from: jsonData) {
+	...
+}
+```
+
+To check for the existence of a file
+```swift
+let exists = storage.fileExists(fileName) // True if the file exists, false otherwise
+
+```
+
+And to remove a file
+```swift
+	storage.remove(fileName)
+```
 
 ---
 
@@ -22,4 +57,4 @@ Note that all commits should be signed using a [gpg key](https://docs.github.com
 
 ## License
 
-License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/LICENSE.txt) for details.
+License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/Packages/FileStorage/LICENSE.txt) for details.

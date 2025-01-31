@@ -157,4 +157,5 @@ public struct ToastView: View {
 		ToastView(Feedback(title: "Title", subtitle: "Text", type: .error))
 		ToastView(Feedback(title: "Title", subtitle: "Text", type: .success))
 	}
+	.padding(16)
 }

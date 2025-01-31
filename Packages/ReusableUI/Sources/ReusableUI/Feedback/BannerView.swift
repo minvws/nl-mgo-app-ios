@@ -117,9 +117,13 @@ public struct BannerView: View {
 #Preview {
 	VStack {
 		BannerView(Feedback(title: "Title", subtitle: "Text", type: .info))
+			.cardify(lineColor: .black)
 		BannerView(Feedback(title: "Title", subtitle: "Text", type: .warning))
+			.cardify(lineColor: .black)
 		BannerView(Feedback(title: "Title", subtitle: "Text", type: .error))
+			.cardify(lineColor: .black)
 		BannerView(Feedback(title: "Title", subtitle: "Text", actionTitle: "Click me!", type: .success))
+			.cardify(lineColor: .black)
 	}
 	.padding(.vertical, 20)
 	.padding(.horizontal, 16)
