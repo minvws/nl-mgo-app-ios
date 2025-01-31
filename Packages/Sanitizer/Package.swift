@@ -1,27 +1,33 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
-	name: "Managers",
+	name: "Sanitizer",
 	platforms: [.iOS(.v15)],
 	products: [
 		.library(
-			name: "Managers",
-			targets: ["Managers"]),
+			name: "Sanitizer",
+			targets: ["Sanitizer"]),
 	],
 	dependencies: [
+		
+		// External
+		.package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.7.7"),
 		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		.target(
-			name: "Managers"
+			name: "Sanitizer",
+			dependencies: [
+				"SwiftSoup"
+			]
 		),
 		.testTarget(
-			name: "ManagersTests",
+			name: "SanitizerTests",
 			dependencies: [
 				"Managers",
 					.product(name: "MGOTest", package: "MGOTest")

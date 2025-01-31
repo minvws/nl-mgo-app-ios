@@ -40,10 +40,12 @@ packages:
     path: ./Packages/ReusableUI
   RijksoverheidFont:
     path: ./Packages/RijksoverheidFont
-  Theme:
-    path: ./Packages/Theme
+  Sanitizer:
+    path: ./Packages/Sanitizer
   SecureUserSettings:
     path: ./Packages/SecureUserSettings
+  Theme:
+    path: ./Packages/Theme
   Zibs:
     path: ./Packages/Zibs
 
@@ -439,6 +441,9 @@ schemes:
           randomExecutionOrder: true
           parallelizable: false
         - package: Theme/ThemeTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: Sanitizer/SanitizerTests
           randomExecutionOrder: true
           parallelizable: false
         - package: SecureUserSettings/SecureUserSettingsTests

@@ -20,6 +20,7 @@ let package = Package(
 		.package(name: "Managers", path: "../Managers"),
 		.package(name: "MGORepository", path: "../MGORepository"),
 		.package(name: "Observatory", path: "../Observatory"),
+		.package(name: "Sanitizer", path: "../Sanitizer"),
 		.package(name: "SecureUserSettings", path: "../SecureUserSettings"),
 		.package(name: "RemoteConfiguration", path: "../RemoteConfiguration"),
 		
@@ -40,6 +41,7 @@ let package = Package(
 				.product(name: "MGORepository", package: "MGORepository"),
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
+				.product(name: "Sanitizer", package: "Sanitizer"),
 				.product(name: "SecureUserSettings", package: "SecureUserSettings"),
 				.product(name: "RemoteConfiguration", package: "RemoteConfiguration")
 			]
