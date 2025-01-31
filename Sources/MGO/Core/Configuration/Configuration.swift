@@ -90,8 +90,8 @@ extension Configuration {
 		let urlString: String = {
 			switch getRelease() {
 				case .demo, .production, .acceptance: return "https://dva.acc.mgo.irealisatie.nl"
-				case .test: return "https://dva.test.mgo.irealisatie.nl"
-				case .development: return "http://localhost:8801"
+				case .development, .test: return "https://dva.test.mgo.irealisatie.nl"
+//				case .development: return "http://localhost:8801"
 			}
 		}()
 		
