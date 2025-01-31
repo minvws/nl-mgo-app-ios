@@ -6,11 +6,10 @@
  */
 
 import OpenAPIRuntime
-import OpenAPIURLSession
 import Foundation
 import HTTPTypes
 
-public struct AuthenticationMiddleware: ClientMiddleware {
+public struct AuthorizationMiddleware: ClientMiddleware {
 	
 	/// The basic auth username
 	private var username: String
@@ -18,7 +17,7 @@ public struct AuthenticationMiddleware: ClientMiddleware {
 	/// The basic auth password
 	private var password: String
 	
-	/// Create an Authentication Middleware
+	/// Create an Authorization Middleware
 	/// - Parameters:
 	///   - username: the basic auth username
 	///   - password: the basic auth password.

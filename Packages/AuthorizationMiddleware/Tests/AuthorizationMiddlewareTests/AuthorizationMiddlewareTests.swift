@@ -5,18 +5,18 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@testable import LocalisationService
+@testable import AuthorizationMiddleware
 import MGOTest
 import HTTPTypes
 
-final class AuthenticationMiddlewareTests: XCTestCase {
+final class AuthorizationMiddlewareTests: XCTestCase {
 
 	var actualAuth: String? = ""
 
 	func test_authentication() async throws {
 		
 		// Given
-		let middleware = AuthenticationMiddleware(username: "test", password: "test")
+		let middleware = AuthorizationMiddleware(username: "test", password: "test")
 		let url = try XCTUnwrap( URL(string: "https://example.com") )
 		let request = HTTPRequest(method: HTTPRequest.Method.get, scheme: nil, authority: nil, path: nil)
 		

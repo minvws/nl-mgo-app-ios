@@ -7,10 +7,9 @@
 
 import MGOFoundation
 import MGOUI
+import RestrictedBrowser
 
 class LoginViewModel: ObservableObject {
-	
-	@Published var isEIDASenabled: Bool = false
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -20,20 +19,49 @@ class LoginViewModel: ObservableObject {
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
 	
-	/// Initializer
+	private var remoteAuthenticationClient: RemoteAuthenticationClientProtocol?
+	
+	/// Helper to open urls
+	private var urlOpener: URLOpenerProtocol
+	
+	/// Create a Login ViewModel
 	/// - Parameter coordinator: The coordinator
-	init(coordinator: (any Coordinator)?) {
+	/// - Parameter urlOpener: The helper to open hyperlinks
+	init(coordinator: (any Coordinator)?, remoteAuthenticationClient: RemoteAuthenticationClientProtocol?, urlOpener: URLOpenerProtocol = UIApplication.shared) {
 		
 		self.coordinator = coordinator
+		self.remoteAuthenticationClient = remoteAuthenticationClient
+		self.urlOpener = urlOpener
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	public func reduce(_ action: Action) {
 		
-		switch action {
-			case .loginWithDigiD:
+		if action == .loginWithDigiD {
+			guard !Current.featureFlagManager.isDemo else {
 				coordinator?.handle(Coordination.Action.loggedInWithDigiD)
+				return
+			}
+			authenticate()
+		}
+	}
+	
+	private func authenticate() {
+		
+		Task { @MainActor [remoteAuthenticationClient] in
+			do {
+				guard let remoteAuthenticationClient else { return }
+				
+				let authUrl = try await remoteAuthenticationClient.getAuthenticationUrl(callbackUrl: Configuration().getOIDCCallback())
+				guard let authenticationUrl = URL(string: authUrl.absoluteString.replacingOccurrences(of: "max:8006", with: "localhost:8006")) else {
+					return
+				}
+				logDebug("authenticationUrl", authenticationUrl)
+				self.urlOpener.openUrlIfPossible(authenticationUrl)
+			} catch {
+				logError("Error fetching oidc start \(error)")
+			}
 		}
 	}
 }
@@ -45,9 +73,6 @@ struct LoginView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
-	
-	/// Color scheme (light, dark)
-	@Environment(\.colorScheme) var colorScheme
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -83,6 +108,11 @@ struct LoginView: View {
 			}
 			.accessibilityIdentifier("login.digid")
 			.padding(ViewTraits.Button.insets)
+			
+//			CallToActionButton(title: "Send deeplink") {
+//				UIApplication.shared.open(URL(string: "mgo-dev://app/login?userinfo=TestContent")!)
+//			}
+//			.padding(ViewTraits.Button.insets)
 		}
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
@@ -93,7 +123,7 @@ struct LoginView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-			LoginView(viewModel: LoginViewModel(coordinator: nil)
+		LoginView(viewModel: LoginViewModel(coordinator: nil, remoteAuthenticationClient: nil)
 		)
 	}
 }

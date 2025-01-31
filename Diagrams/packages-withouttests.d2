@@ -87,6 +87,10 @@ MGOapp <- UIKit
 
 # - Packages -
 
+AuthorizationMiddleware { style.fill: "#ffcc00" }
+AuthorizationMiddleware <- Foundation
+AuthorizationMiddleware <- swift-http-types
+
 FHIRClient { style.fill: "#ffcc00" }
 FHIRClient <- Foundation
 
@@ -105,11 +109,11 @@ JailBreakDetector <- Foundation
 JailBreakDetector <- iOSSecuritySuite
 
 LocalisationService { style.fill: "#ffcc00" }
+LocalisationService <- AuthorizationMiddleware
 LocalisationService <- Foundation
 LocalisationService <- FileStorage
 LocalisationService <- Logging
 LocalisationService <- Observatory
-LocalisationService <- swift-http-types
 LocalisationService <- swift-openapi-generator
 LocalisationService <- swift-openapi-runtime
 LocalisationService <- swift-openapi-urlsession

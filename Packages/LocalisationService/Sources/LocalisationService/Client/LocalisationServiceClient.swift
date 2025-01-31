@@ -5,9 +5,10 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import AuthorizationMiddleware
+import Foundation
 import OpenAPIRuntime
 import OpenAPIURLSession
-import Foundation
 
 public protocol LocalisationServiceClientProtocol {
 	
@@ -42,7 +43,7 @@ public class LocalisationServiceClient: LocalisationServiceClientProtocol {
 	required public init(serverUrl: Foundation.URL, username: String?, password: String?) {
 		
 		if let username, let password {
-			let authenticationMiddleWare = AuthenticationMiddleware(
+			let authenticationMiddleWare = AuthorizationMiddleware(
 				username: username,
 				password: password
 			)

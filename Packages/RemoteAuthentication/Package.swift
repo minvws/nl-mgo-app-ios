@@ -1,28 +1,27 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
-	name: "LocalisationService",
+	name: "RemoteAuthentication",
 	platforms: [.iOS(.v15)],
 	products: [
+		// Products define the executables and libraries a package produces, making them visible to other packages.
 		.library(
-			name: "LocalisationService",
-			targets: ["LocalisationService"]
-		)
+			name: "RemoteAuthentication",
+			targets: ["RemoteAuthentication"]),
 	],
 	dependencies: [
+		
 		// Internal
 		.package(name: "AuthorizationMiddleware", path: "../AuthorizationMiddleware"),
-		.package(name: "FileStorage", path: "../FileStorage"),
-		.package(name: "Observatory", path: "../Observatory"),
 		
 		// External
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.7.0"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.0"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.0.2"),
-
+		
 		// VWS
 		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
 		
@@ -30,13 +29,13 @@ let package = Package(
 		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
+		// Targets are the basic building blocks of a package, defining a module or a test suite.
+		// Targets can depend on other targets in this package and products from dependencies.
 		.target(
-			name: "LocalisationService",
+			name: "RemoteAuthentication",
 			dependencies: [
 				.product(name: "AuthorizationMiddleware", package: "AuthorizationMiddleware"),
-				.product(name: "FileStorage", package: "FileStorage"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
-				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")
 			],
@@ -45,11 +44,11 @@ let package = Package(
 			]
 		),
 		.testTarget(
-			name: "LocalisationServiceTests",
+			name: "RemoteAuthenticationTests",
 			dependencies: [
-				"LocalisationService",
+				"RemoteAuthentication",
 				.product(name: "MGOTest", package: "MGOTest")
 			]
-		)
+		),
 	]
 )
