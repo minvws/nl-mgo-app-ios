@@ -33,31 +33,31 @@ struct DetailView: View {
 
 ### Button
 
-The main call to action button is available in six flavors:
+The main call to action button is available in nine flavors:
 
 ```swift
 import ReusebleUI 
 struct ButtonView: View {	
 	var body: some View {
 		VStack {
-		  HStack {
-			  CallToActionButton(".primary", style: .primary)
-				  .padding(16)
-			  CallToActionButton(".primaryCritical", style: .primaryCritical)
-				  .padding(16)
-		  }
-		  HStack {
-			  CallToActionButton(".secondary", style: .secondary)
-				  .padding(16)
-			  CallToActionButton(".secondaryCritical", style: .secondaryCritical)
-				  .padding(16)
-		  }
-		  HStack {
-			  CallToActionButton(".tertiary", style: .tertiary)
-				  .padding(16)
-			  CallToActionButton(".tertiaryCritical", style: .tertiaryCritical)
-				  .padding(16)
-		  }
+			CallToActionButton(".digiD", icon: Image(systemName: "stethoscope"), style: .loginWithDigiD)
+				.padding(16)
+			CallToActionButton(".primary", style: .primary)
+				.padding(16)
+			CallToActionButton(".primaryCritical", style: .primaryCritical)
+				.padding(16)
+			CallToActionButton(".secondary", style: .secondary)
+				.padding(16)
+			CallToActionButton(".secondaryCritical", style: .secondaryCritical)
+				.padding(16)
+			CallToActionButton(".tertiary", style: .tertiary)
+				.padding(16)
+			CallToActionButton(".tertiaryCritical", style: .tertiaryCritical)
+				.padding(16)
+			CallToActionButton(".withIcon", icon: Image(systemName: "stethoscope"), style: .withIcon)
+				.padding(16)
+			CallToActionButton(".withSpinner", style: .withSpinner)
+				.padding(16)
 		}
 	}
 }
@@ -100,7 +100,7 @@ Whenever you want to give some haptic feedback to the user, you can use `Haptic.
 
 There is a viewModifier variant, `Text("Press me").hapticFeedback(HapticFeedback.medium)`
 
-### Banner
+### Feedback Banner
 
 A simple view to diplay feedback to the user. 
 
@@ -163,6 +163,25 @@ There are four different types of Banner: **.info**, **.warning**, **.error** an
 
 <img style="float: left;" src="illustrations/Banner.png" />
 
+### Feedback Toast
+
+Another way to display feedback to the user is through a toast. 
+
+```swift
+
+VStack {
+	ToastView(Feedback(title: "Title", subtitle: "Text", type: .info))
+	ToastView(Feedback(title: "Title", subtitle: "Text", type: .warning))
+	ToastView(Feedback(title: "Title", subtitle: "Text", type: .error))
+	ToastView(Feedback(title: "Title", subtitle: "Text", type: .success)) {
+		// Action when underlined Text is clicked
+	}
+}
+```
+
+There are four different types of Toast: **.info**, **.warning**, **.error** and **.success**
+
+<img style="float: left;" src="illustrations/Toast.png" />
 
 ### ConditionalViewModifier
 
@@ -203,6 +222,25 @@ VStack {
 
 <img style="float: left;" src="illustrations/SplittedText.png" />
 
+### ImageContentView
+
+A reoccurring view in our project is a large image with content underneath.
+
+```swift
+	ImageContentView(
+		icon: Image(systemName: "42.circle"),
+		heading: "Heading",
+		subHeading: "SubHeading",
+		textAlignment: .center,
+		textSpacing: 8,
+		titleStyle: .largeTitle,
+		subHeadingForegroundColor: Color.pink
+	)
+
+``` 
+
+<img style="float: left;" src="illustrations/ImageContent.png" />
+
 ---
 
 ## Contribution process
@@ -217,4 +255,4 @@ Note that all commits should be signed using a [gpg key](https://docs.github.com
 
 ## License
 
-License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/LICENSE.txt) for details.
+License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/Packages/ReusableUI/LICENSE.txt) for details.
