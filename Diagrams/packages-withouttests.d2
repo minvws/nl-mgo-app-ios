@@ -131,6 +131,7 @@ MGOFoundation <- Managers
 MGOFoundation <- MGORepository
 MGOFoundation <- Observatory
 MGOFoundation <- OHHTTPStubs
+MGOFoundation <- Sanitizer
 MGOFoundation <- SecureUserSettings
 MGOFoundation <- RemoteConfiguration
 
@@ -142,7 +143,6 @@ MGOUI <- SwiftUI
 
 Managers { style.fill: "#ffcc00" }
 Managers <- Foundation
-Managers <- SwiftSoup
 Managers <- UIKit
 
 MGORepository  { style.fill: "#ffcc00" }
@@ -178,6 +178,10 @@ RijksoverheidFont <- CoreGraphics
 RijksoverheidFont <- CoreText
 RijksoverheidFont <- DeviceKit
 RijksoverheidFont <- SwiftUI
+
+Sanitizer { style.fill: "#ffcc00" }
+Sanitizer <- Foundation
+Sanitizer <- SwiftSoup
 
 SecureUserSettings { style.fill: "#ffcc00" }
 SecureUserSettings <- CommonCrypto
