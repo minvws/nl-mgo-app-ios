@@ -6,7 +6,7 @@
  */
 
 import MGOTest
-@testable import Managers
+@testable import FeatureFlag
 
 final class FeatureFlagManagerTests: XCTestCase {
 
