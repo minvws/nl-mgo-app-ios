@@ -11,21 +11,9 @@ let package = Package(
 			name: "Managers",
 			targets: ["Managers"]),
 	],
-	dependencies: [
-		
-		// Testing:
-		.package(name: "MGOTest", path: "../MGOTest")
-	],
 	targets: [
 		.target(
 			name: "Managers"
-		),
-		.testTarget(
-			name: "ManagersTests",
-			dependencies: [
-				"Managers",
-					.product(name: "MGOTest", package: "MGOTest")
-				]
-			)
+		)
 	]
 )
