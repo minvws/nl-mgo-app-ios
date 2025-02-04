@@ -9,6 +9,7 @@
 @_exported import Foundation
 
 // Internal
+@_exported import FeatureFlag
 @_exported import FHIRClient
 @_exported import FileStorage
 @_exported import JailBreakDetector

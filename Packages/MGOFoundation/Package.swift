@@ -15,6 +15,7 @@ let package = Package(
 	dependencies: [
 		
 		// Internal
+		.package(name: "FeatureFlag", path: "../FeatureFlag"),
 		.package(name: "JailBreakDetector", path: "../JailBreakDetector"),
 		.package(name: "LocalisationService", path: "../LocalisationService"),
 		.package(name: "Managers", path: "../Managers"),
@@ -35,6 +36,7 @@ let package = Package(
 		.target(
 			name: "MGOFoundation",
 			dependencies: [
+				.product(name: "FeatureFlag", package: "FeatureFlag"),
 				.product(name: "JailBreakDetector", package: "JailBreakDetector"),
 				.product(name: "LocalisationService", package: "LocalisationService"),
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
