@@ -299,7 +299,10 @@ class HealthCategoryViewModel: ObservableObject {
 				items.append(
 					HealthCategoryBlock(
 						heading: Sanitizer.strip(uiSchema.label),
-						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) {
+						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) { [weak self] in
+							
+							guard let self else { return }
+							
 							self.coordinator?.handle(Coordination.Action(
 								identifier: Coordination.Action.showHealthData.identifier,
 								params: [
