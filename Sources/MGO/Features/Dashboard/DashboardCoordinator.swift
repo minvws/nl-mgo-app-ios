@@ -378,7 +378,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case HealthCategories.Category.measurements:
 				HealthCategoryView(viewModel: MeasurementsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
-			case HealthCategories.Category.labresults:
+			case HealthCategories.Category.labResults:
 				HealthCategoryView(viewModel: LabResultsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.allergies:

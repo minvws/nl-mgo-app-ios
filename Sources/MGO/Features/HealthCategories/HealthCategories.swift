@@ -14,7 +14,7 @@ struct HealthCategories {
 	enum Category: Int, CaseIterable, Codable {
 		case medication = 1
 		case measurements = 2
-		case labresults = 3
+		case labResults = 3
 		case allergies = 4
 		case treatments = 5
 		case appointments = 6
@@ -46,7 +46,7 @@ struct HealthCategories {
 					GpDiagnosticResultProfile.httpNictizNlFhirStructureDefinitionGpDiagnosticResult.rawValue
 				]
 				
-				case .labresults: [
+				case .labResults: [
 					ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue,
 					GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue
 				]
@@ -250,7 +250,7 @@ struct HealthCategories {
 					DVP.GeneralPractitioner.diagnosticAndLabResults
 				]
 				
-				case .labresults: [
+				case .labResults: [
 					DVP.CommonClinicalDataset.laboratoryTestResult,
 					DVP.GeneralPractitioner.diagnosticAndLabResults
 				]
@@ -331,7 +331,7 @@ struct HealthCategories {
 					DVP.CommonClinicalDataset.medicationUse
 				]
 					
-				case .labresults: return [
+				case .labResults: return [
 					DVP.CommonClinicalDataset.laboratoryTestResult,
 					DVP.GeneralPractitioner.diagnosticAndLabResults
 				]
