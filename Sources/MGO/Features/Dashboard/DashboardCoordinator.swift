@@ -118,12 +118,6 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		}
 	}
 	
-	private let localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(
-		serverUrl: Configuration().urlForLocalisation(),
-		username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-		password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-	)
-	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	init(parentCoordinator: (any AppCoordinatorProtocol)?) {
@@ -306,7 +300,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
-						localisationServiceClient: self.localisationServiceClient,
+						localisationServiceClient: Current.localisationServiceClient,
 						preselectAllOrganizations: false
 					)
 				)
@@ -318,7 +312,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 						coordinator: self,
 						city: city,
 						name: name,
-						localisationServiceClient: self.localisationServiceClient
+						localisationServiceClient: Current.localisationServiceClient
 					)
 				)
 				.isPresentedAsSheet(true)

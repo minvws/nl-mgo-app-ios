@@ -142,13 +142,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// The coordinator for all dashboard activities
 	private var dashboardCoordinator: DashboardCoordinator!
 	
-	/// Client for localization
-	private let localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(
-		serverUrl: Configuration().urlForLocalisation(),
-		username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-		password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-	)
-	
 	/// Client for remote authentication
 	private let remoteAuthenticationClient: RemoteAuthenticationClientProtocol? = RemoteAuthenticationClient(
 		serverUrl: Configuration().urlForOIDC(),
@@ -610,7 +603,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
-						localisationServiceClient: self.localisationServiceClient,
+						localisationServiceClient: Current.localisationServiceClient,
 						preselectAllOrganizations: true
 					)
 				)
@@ -625,7 +618,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 						coordinator: self,
 						city: city,
 						name: name,
-						localisationServiceClient: self.localisationServiceClient
+						localisationServiceClient: Current.localisationServiceClient
 					)
 				)
 			

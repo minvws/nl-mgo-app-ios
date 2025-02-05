@@ -17,6 +17,7 @@ struct Services {
 	var healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol
 	var jailBreakDetector: JailBreakProtocol
 	var localAuthenticationProvider: LocalAuthenticationProviderProtocol
+	var localisationServiceClient: LocalisationServiceClientProtocol
 	var notificationCenter: NotificationCenterProtocol
 	var remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol
 	var resourceRepository: ResourceRepositoryProtocol
@@ -29,6 +30,7 @@ struct Services {
 		healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol,
 		jailBreakDetector: JailBreakProtocol,
 		localAuthenticationProvider: LocalAuthenticationProviderProtocol,
+		localisationServiceClient: LocalisationServiceClientProtocol,
 		notificationCenter: NotificationCenterProtocol,
 		remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol,
 		resourceRepository: ResourceRepositoryProtocol,
@@ -40,6 +42,7 @@ struct Services {
 		self.healthcareOrganizationStore = healthcareOrganizationStore
 		self.jailBreakDetector = jailBreakDetector
 		self.localAuthenticationProvider = localAuthenticationProvider
+		self.localisationServiceClient = localisationServiceClient
 		self.notificationCenter = notificationCenter
 		self.remoteConfigurationRepository = remoteConfigurationRepository
 		self.resourceRepository = resourceRepository
@@ -54,6 +57,12 @@ private let featureFlagManager = FeatureFlagManager()
 private let healthcareOrganizationStore = HealthcareOrganizationRepository()
 private let jailBreakDetector = JailBreakDetector()
 private let localAuthenticationProvider = LocalAuthenticationProvider()
+private let localisationServiceClient = LocalisationServiceClient(
+	serverUrl: Configuration().urlForLocalisation(),
+	username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+	password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+)
+
 private let now: () -> Date = Date.init
 private let notificationCenter = NotificationCenter.default
 private let secureUserSettings = SecureUserSettings()
@@ -88,6 +97,7 @@ let services: () -> Services = {
 		healthcareOrganizationStore: healthcareOrganizationStore,
 		jailBreakDetector: jailBreakDetector,
 		localAuthenticationProvider: localAuthenticationProvider,
+		localisationServiceClient: localisationServiceClient,
 		notificationCenter: notificationCenter,
 		remoteConfigurationRepository: remoteConfigurationRepository,
 		resourceRepository: resourceRepository,

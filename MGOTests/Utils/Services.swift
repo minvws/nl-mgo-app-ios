@@ -60,6 +60,12 @@ final class ServicesSpies {
 		return spy
 	}()
 	
+	var localisationServiceClientSpy: LocalisationServiceClientSpy = {
+		let url = URL(string: "https://example.com")!
+		let spy = LocalisationServiceClientSpy(serverUrl: url, username: nil, password: nil)
+		return spy
+	}()
+	
 	var remoteConfigurationRepositorySpy: RemoteConfigurationRepositorySpy = {
 		let spy = RemoteConfigurationRepositorySpy()
 		spy.stubbedStoredConfiguration = RemoteConfig.fallback
@@ -85,6 +91,7 @@ func setupServicesSpies() -> ServicesSpies {
 		healthcareOrganizationStore: spies.healthcareOrganizationStoreSpy,
 		jailBreakDetector: spies.jailBreakSpy,
 		localAuthenticationProvider: spies.localAuthenticationProviderSpy,
+		localisationServiceClient: spies.localisationServiceClientSpy,
 		notificationCenter: spies.notificationCenterSpy,
 		remoteConfigurationRepository: spies.remoteConfigurationRepositorySpy,
 		resourceRepository: spies.resourceRepositorySpy,
