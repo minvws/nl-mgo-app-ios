@@ -1,12 +1,8 @@
-# Managers
+# Notification Center
 
 ## Overview
 
-Todo
-
-## Usage
-
-Todo
+This package provides a protocol for the Notification Center, so it can be mocked for unit tests.
 
 ---
 
@@ -22,4 +18,4 @@ Note that all commits should be signed using a [gpg key](https://docs.github.com
 
 ## License
 
-License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/LICENSE.txt) for details.
+License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/Packages/NotificationCenter/LICENSE.txt) for details.

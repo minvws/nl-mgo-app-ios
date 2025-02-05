@@ -2,7 +2,7 @@
 
 ## Overview
 
-This package is a convenience package. It will expose the FHIRClient, FHIRParser, FileStorage, JailbreakDetector, LocalisationService, Managers, MGORepository, Observatory, RemoteConfiguration, SecureUserSettings and Logging packages for easy import in the application.
+This package is a convenience package. It will expose the FHIRClient, FHIRParser, FileStorage, JailbreakDetector, LocalisationService, LocalAuthentication, MGORepository, NotificationCenter, Observatory, RemoteConfiguration, SecureUserSettings and Logging packages for easy import in the application.
 
 ## Usage
 
