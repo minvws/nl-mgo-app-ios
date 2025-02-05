@@ -4,16 +4,16 @@
 import PackageDescription
 
 let package = Package(
-	name: "Managers",
+	name: "LocalAuthenticationProvider",
 	platforms: [.iOS(.v15)],
 	products: [
 		.library(
-			name: "Managers",
-			targets: ["Managers"]),
+			name: "LocalAuthenticationProvider",
+			targets: ["LocalAuthenticationProvider"]),
 	],
 	targets: [
 		.target(
-			name: "Managers"
+			name: "LocalAuthenticationProvider"
 		)
 	]
 )
