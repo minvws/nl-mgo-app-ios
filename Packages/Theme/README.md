@@ -2,7 +2,7 @@
 
 ## Overview
 
-This theme covers all the colors available for the MijnGezondheidOverzicht app.  A picture is worth a thousand words.
+This theme covers all the colors available for the MijnGezondheidOverzicht app. A picture is worth a thousand words.
 Light Mode | Dark Mode
 --|--
 ![test_colorSample_lightMode.1](Tests/ThemeTests/__Snapshots__/ColorSampleTests/test_colorSample_lightMode.1.png) | ![test_colorSample_lightMode.1](Tests/ThemeTests/__Snapshots__/ColorSampleTests/test_colorSample_darkMode.1.png)

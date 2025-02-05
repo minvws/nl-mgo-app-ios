@@ -111,6 +111,9 @@ JailBreakDetector { style.fill: "#ffcc00" }
 JailBreakDetector <- Foundation
 JailBreakDetector <- iOSSecuritySuite
 
+LocalAuthenticationProvider { style.fill: "#ffcc00" }
+LocalAuthenticationProvider <- Foundation
+
 LocalisationService { style.fill: "#ffcc00" }
 LocalisationService <- AuthorizationMiddleware
 LocalisationService <- Foundation
@@ -129,10 +132,11 @@ MGOFoundation { style.fill: "#ffcc00" }
 MGOFoundation <- FeatureFlag
 MGOFoundation <- Foundation
 MGOFoundation <- JailBreakDetector
+MGOFoundation <- LocalAuthenticationProvider
 MGOFoundation <- LocalisationService
 MGOFoundation <- Logging
-MGOFoundation <- Managers
 MGOFoundation <- MGORepository
+MGOFoundation <- NotificationCenter
 MGOFoundation <- Observatory
 MGOFoundation <- OHHTTPStubs
 MGOFoundation <- Sanitizer
@@ -145,15 +149,15 @@ MGOUI <- SwiftUIIntrospect
 MGOUI <- ReusableUI
 MGOUI <- SwiftUI
 
-Managers { style.fill: "#ffcc00" }
-Managers <- Foundation
-Managers <- UIKit
-
 MGORepository  { style.fill: "#ffcc00" }
 MGORepository <- FHIRClient
 MGORepository <- Foundation
 MGORepository <- FHIRParser
 MGORepository <- Observatory
+
+NotificationCenter { style.fill: "#ffcc00" }
+NotificationCenter <- Foundation
+NotificationCenter <- UIKit
 
 Observatory { style.fill: "#ffcc00" }
 Observatory <- Foundation

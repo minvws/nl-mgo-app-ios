@@ -13,9 +13,10 @@
 @_exported import FHIRClient
 @_exported import FileStorage
 @_exported import JailBreakDetector
+@_exported import LocalAuthenticationProvider
 @_exported import LocalisationService
-@_exported import Managers
 @_exported import MGORepository
+@_exported import NotificationCenter
 @_exported import Observatory
 @_exported import FHIRParser
 @_exported import Sanitizer

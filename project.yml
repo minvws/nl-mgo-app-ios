@@ -20,10 +20,10 @@ packages:
     path: ./Packages/FileStorage
   JailBreakDetector:
     path: ./Packages/JailBreakDetector
+  LocalAuthenticationProvider:
+    path: ./Packages/LocalAuthenticationProvider
   LocalisationService:
     path: ./Packages/LocalisationService
-  Managers:
-    path: ./Packages/Managers
   MGODebug:
     path: ./Packages/MGODebug
   MGOFoundation:
@@ -34,6 +34,8 @@ packages:
     path: ./Packages/MGOTest
   MGOUI:
     path: ./Packages/MGOUI
+  NotificationCenter:
+    path: ./Packages/NotificationCenter
   Observatory:
     path: ./Packages/Observatory
   RemoteAuthentication:
@@ -418,9 +420,6 @@ schemes:
           randomExecutionOrder: true
           parallelizable: false
         - package: LocalisationService/LocalisationServiceTests
-          randomExecutionOrder: true
-          parallelizable: false
-        - package: Managers/ManagersTests
           randomExecutionOrder: true
           parallelizable: false
         - package: MGORepository/MGORepositoryTests
