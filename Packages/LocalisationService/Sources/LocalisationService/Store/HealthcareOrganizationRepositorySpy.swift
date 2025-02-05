@@ -63,6 +63,22 @@ public class HealthcareOrganizationRepositorySpy: HealthcareOrganizationReposito
 			throw error
 		}
 	}
+	
+	public var invokedSet = false
+	public var invokedSetCount = 0
+	public var invokedSetParameters: (newListOfOrganizations: [MgoOrganization], Void)?
+	public var invokedSetParametersList = [(newListOfOrganizations: [MgoOrganization], Void)]()
+	public var stubbedSetError: Error?
+
+	public func set(_ newListOfOrganizations: [MgoOrganization]) throws {
+		invokedSet = true
+		invokedSetCount += 1
+		invokedSetParameters = (newListOfOrganizations, ())
+		invokedSetParametersList.append((newListOfOrganizations, ()))
+		if let error = stubbedSetError {
+			throw error
+		}
+	}
 
 	public var invokedWipePersistedData = false
 	public var invokedWipePersistedDataCount = 0

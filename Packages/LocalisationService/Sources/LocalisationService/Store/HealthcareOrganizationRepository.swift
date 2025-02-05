@@ -31,6 +31,10 @@ public protocol HealthcareOrganizationRepositoryProtocol {
 	/// - Parameter organization: the healthcare organization to be removed
 	func remove(_ organization: MgoOrganization) throws
 	
+	/// set the list of organizations
+	/// - Parameter newListOfOrganizations: the healthcare organizations to be stored
+	func set(_ newListOfOrganizations: [MgoOrganization]) throws
+	
 	/// Remove all the healthcare organizations
 	func wipePersistedData()
 }
@@ -110,6 +114,14 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 		logInfo("About to delete \(organization.display_name)")
 		organizations = organizations.filter { $0 != organization }
 		observers((organization, .removed))
+		try persistToStorage()
+	}
+	
+	/// set the list of organizations
+	/// - Parameter newListOfOrganizations: the healthcare organizations to be stored
+	public func set(_ newListOfOrganizations: [MgoOrganization]) throws {
+		
+		organizations = newListOfOrganizations
 		try persistToStorage()
 	}
 	
