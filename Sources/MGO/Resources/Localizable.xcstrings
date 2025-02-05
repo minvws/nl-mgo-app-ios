@@ -2050,18 +2050,18 @@
         }
       }
     },
-    "toast.organization_removed.heading" : {
+    "toast.organizations_changed.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zorgaanbieder verwijderd"
+            "value" : "Zorgaanbieders aangepast"
           }
         }
       }
     },
-    "toast.organization_removed.subheading" : {
+    "toast.organizations_changed.subheading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {

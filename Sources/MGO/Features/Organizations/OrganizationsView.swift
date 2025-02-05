@@ -28,12 +28,17 @@ class OrganizationsViewModel: ObservableObject {
 	/// Token for the observatory (needed for unregister)
 	private var observerToken: Observatory.ObserverToken?
 	
+	/// A list of the organizations when the page was loaded
+	private var originalOrganizations: [MgoOrganization] = []
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case onAppear
 		case search
 		case details(MgoOrganization)
 		case closeToast
+		case showToast
+		case undo
 	}
 	
 	/// Intitializer
@@ -42,35 +47,17 @@ class OrganizationsViewModel: ObservableObject {
 		
 		self.coordinator = coordinator
 		self.state = .empty
-		
+		self.originalOrganizations = Current.healthcareOrganizationStore.organizations
 		registerObservers()
 	}
 	
 	// Listen to changes in the stored organizations list
 	private func registerObservers() {
 		
-		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] organization, reason in
-			switch reason {
-				case .added:
-					self?.loadHealthcareOrganizations()
-				
-				case .removed:
-					self?.loadHealthcareOrganizations()
-					self?.toast = Feedback(
-						title: String(localized: "toast.organization_removed.heading"),
-						subtitle: String(localized: "toast.organization_removed.subheading"),
-						type: .success,
-						perform: { [weak self] in
-							// Undo deletion
-							try? Current.healthcareOrganizationStore.store(organization)
-							withAnimation {
-								Haptic.heavy()
-								self?.toast = nil
-							}
-						}
-					)
-					Haptic.light()
-			}
+		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _ in
+			
+			self?.loadHealthcareOrganizations()
+			self?.reduce(.showToast)
 		}
 	}
 	
@@ -90,10 +77,12 @@ class OrganizationsViewModel: ObservableObject {
 			
 			case .search:
 				toast = nil
+				updateOriginalOrganizations()
 				coordinator?.handle(Coordination.Action.addHealthcareOrganization)
 			
 			case .details(let healthcareOrganization):
 				toast = nil
+				updateOriginalOrganizations()
 				coordinator?.handle(Coordination.Action(
 					identifier: Coordination.Action.showHealthcareOrganization.identifier,
 					params: ["healthcareOrganization": healthcareOrganization])
@@ -101,7 +90,31 @@ class OrganizationsViewModel: ObservableObject {
 			
 			case .closeToast:
 				toast = nil
+				updateOriginalOrganizations()
+			
+			case .showToast:
+				toast = Feedback(
+					title: String(localized: "toast.organizations_changed.heading"),
+					subtitle: String(localized: "toast.organizations_changed.subheading"),
+					type: .success,
+					perform: { [weak self] in
+						self?.reduce(.undo)
+					}
+				)
+			
+			case .undo:
+				try? Current.healthcareOrganizationStore.set(originalOrganizations)
+				loadHealthcareOrganizations()
+				withAnimation {
+					Haptic.heavy()
+					self.toast = nil
+				}
 		}
+	}
+	
+	private func updateOriginalOrganizations() {
+		// Ignore the changes. This is the new default.
+		originalOrganizations = Current.healthcareOrganizationStore.organizations
 	}
 	
 	/// fetch the healthcare organizations
