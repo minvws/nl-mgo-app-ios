@@ -43,7 +43,7 @@ generate_project:
 	mint run xcodegen --spec project.yml
 
 open_project: 
-	open MDRF.xcodeproj
+	open MGO.xcodeproj
 
 # -- Linting -- 
 
