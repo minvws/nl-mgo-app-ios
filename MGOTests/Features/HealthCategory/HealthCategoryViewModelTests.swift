@@ -189,7 +189,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
 		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == resource
-		expect(params.params["backButtonTitle"] as? String) == "Klachten"
+		expect(params.params["backButtonTitle"] as? String) == "Medische klachten"
 		expect((params.params["uiSchema"] as? UISchema)?.label) == "Zestril tablet 10mg"
 	}
 	
