@@ -46,7 +46,7 @@ updates:
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
-      
+
   - package-ecosystem: "swift"
     directory: "/Packages/FHIRParser"
     schedule:
@@ -82,7 +82,7 @@ updates:
       timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
-    directory: "/Packages/Debug"
+    directory: "/Packages/MGODebug"
     schedule:
       interval: weekly
       day: monday
@@ -128,7 +128,7 @@ updates:
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
-      
+
   - package-ecosystem: "swift"
     directory: "/Packages/RemoteAuthentication"
     schedule:
@@ -144,7 +144,7 @@ updates:
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
-      
+
   - package-ecosystem: "swift"
     directory: "/Packages/RestrictedBrowser"
     schedule:
@@ -192,7 +192,7 @@ updates:
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
-      
+
   - package-ecosystem: "swift"
     directory: "/Packages/Zibs"
     schedule:
