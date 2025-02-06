@@ -16,7 +16,23 @@ updates:
 
 # Swift Packages
   - package-ecosystem: "swift"
+    directory: "/Packages/AuthorizationMiddleware"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
     directory: "/Packages/CopyImport"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
+    directory: "/Packages/FeatureFlag"
     schedule:
       interval: weekly
       day: monday
@@ -47,6 +63,8 @@ updates:
       time: "08:30"
       timezone: Europe/Amsterdam
 
+# No dependency check for JailBreakDetector due to licensing issue
+
   - package-ecosystem: "swift"
     directory: "/Packages/LocalisationService"
     schedule:
@@ -56,7 +74,15 @@ updates:
       timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
-    directory: "/Packages/Managers"
+    directory: "/Packages/LocalAuthenticationProvider"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
+    directory: "/Packages/Debug"
     schedule:
       interval: weekly
       day: monday
@@ -104,6 +130,14 @@ updates:
       timezone: Europe/Amsterdam
       
   - package-ecosystem: "swift"
+    directory: "/Packages/RemoteAuthentication"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
     directory: "/Packages/RemoteConfiguration"
     schedule:
       interval: weekly
@@ -129,6 +163,22 @@ updates:
 
   - package-ecosystem: "swift"
     directory: "/Packages/RijksoverheidFont"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
+    directory: "/Packages/Sanitizer"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
+    directory: "/Packages/SecureUserSettings"
     schedule:
       interval: weekly
       day: monday
