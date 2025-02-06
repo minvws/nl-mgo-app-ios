@@ -113,7 +113,7 @@ class HealthCategoriesViewModel: ObservableObject {
 			healthCategories: [
 				CategoryButton(category: .medication, title: "hc_medication.heading", box: 1),
 				CategoryButton(category: .measurements, title: "hc_measurements.heading", box: disabledForDemoBox),
-				CategoryButton(category: .labresults, title: "hc_lab_results.heading", box: 1),
+				CategoryButton(category: .labResults, title: "hc_lab_results.heading", box: 1),
 				CategoryButton(category: .allergies, title: "hc_allergies.heading", box: disabledForDemoBox),
 				CategoryButton(category: .treatments, title: "hc_treatments.heading", box: disabledForDemoBox),
 				CategoryButton(category: .appointments, title: "hc_appointments.heading", box: disabledForDemoBox),

@@ -57,7 +57,7 @@ struct CategoryButton: Identifiable {
 					.resizable()
 					.foregroundStyle(theme.apotheek)
 			
-			case HealthCategories.Category.labresults.rawValue:
+			case HealthCategories.Category.labResults.rawValue:
 				// Lab results
 				Image(ImageResource.HealthCategory.tube)
 					.resizable()
