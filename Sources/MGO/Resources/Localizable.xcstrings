@@ -49,7 +49,7 @@
       }
     },
     "add_organization_list.heading" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
@@ -1071,7 +1071,7 @@
         }
       }
     },
-    "hc_mental.heading_details" : {
+    "hc_mental.heading_detail" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1319,7 +1319,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met eIDAS"
+            "value" : "Log in met eIDAS"
           }
         }
       }
@@ -1346,17 +1346,6 @@
         }
       }
     },
-    "medication_details.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle medicijngegevens"
-          }
-        }
-      }
-    },
     "medication_use.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1375,6 +1364,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door je zorgaanbieder."
+          }
+        }
+      }
+    },
+    "organisation_list_automatic.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welke wil je tonen in je overzicht? Je kunt dit later altijd veranderen."
           }
         }
       }
@@ -1616,7 +1616,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voer je 5-cijferige code nog een keer in."
+            "value" : "Vul je toegangscode in om door te gaan"
           }
         }
       }
@@ -2046,6 +2046,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Daarmee verwijder je je account. Je kunt later wel weer een nieuw account aanmaken als je dat wilt."
+          }
+        }
+      }
+    },
+    "toast.organization_removed.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieder verwijderd"
+          }
+        }
+      }
+    },
+    "toast.organization_removed.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herstel"
           }
         }
       }
