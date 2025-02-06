@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let uISchema = try UISchema(json)
+//   let downloadBinary = try DownloadBinary(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,24 @@
 
 import Foundation
 
-// MARK: - UISchema
-public struct UISchema: Codable, Hashable, Sendable {
-    public let children: [UISchemaGroup]
+// MARK: - DownloadBinary
+public struct DownloadBinary: Codable, Hashable, Sendable {
     public let label: String
+    public let reference: String?
+    public let type: DownloadBinaryType
 
-    public init(children: [UISchemaGroup], label: String) {
-        self.children = children
+    public init(label: String, reference: String?, type: DownloadBinaryType) {
         self.label = label
+        self.reference = reference
+        self.type = type
     }
 }
 
-// MARK: UISchema convenience initializers and mutators
+// MARK: DownloadBinary convenience initializers and mutators
 
-public extension UISchema {
+public extension DownloadBinary {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(UISchema.self, from: data)
+        self = try newJSONDecoder().decode(DownloadBinary.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,12 +42,14 @@ public extension UISchema {
     }
 
     func with(
-        children: [UISchemaGroup]? = nil,
-        label: String? = nil
-    ) -> UISchema {
-        return UISchema(
-            children: children ?? self.children,
-            label: label ?? self.label
+        label: String? = nil,
+        reference: String?? = nil,
+        type: DownloadBinaryType? = nil
+    ) -> DownloadBinary {
+        return DownloadBinary(
+            label: label ?? self.label,
+            reference: reference ?? self.reference,
+            type: type ?? self.type
         )
     }
 

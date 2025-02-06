@@ -154,11 +154,11 @@ struct HealthDataView: View {
 		ScrollViewWithDivider {
 			
 			VStack(spacing: ViewTraits.General.padding) {
-				if let title = viewModel.state.schema.label {
-					Text(title)
-						.rijksoverheidStyle(font: .bold, style: .title)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
-				}
+				
+				Text(viewModel.state.schema.label)
+					.rijksoverheidStyle(font: .bold, style: .title)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+				
 				UISchemaView(
 					schema: viewModel.state.schema,
 					healthcareOrganization: viewModel.healthcareOrganization,

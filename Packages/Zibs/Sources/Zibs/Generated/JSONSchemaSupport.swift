@@ -3,10 +3,13 @@ import Foundation
 public typealias MgoString = String
 public typealias MgoUnsignedInt = Double
 public typealias MgoDateTime = String
+public typealias DateTimeString = String
 public typealias MgoBoolean = Bool
 public typealias MgoDate = String
+public typealias DateString = String
 public typealias MgoDecimal = Double
 public typealias MgoInstant = String
+public typealias InstantDateTimeString = String
 public typealias MgoInteger = Double
 public typealias MgoInteger64 = Double
 public typealias MgoPositiveInt = Double

@@ -14,9 +14,9 @@ import Foundation
 public struct DownloadLink: Codable, Hashable, Sendable {
     public let label: String
     public let type: DownloadLinkType
-    public let url: String
+    public let url: String?
 
-    public init(label: String, type: DownloadLinkType, url: String) {
+    public init(label: String, type: DownloadLinkType, url: String?) {
         self.label = label
         self.type = type
         self.url = url
@@ -44,7 +44,7 @@ public extension DownloadLink {
     func with(
         label: String? = nil,
         type: DownloadLinkType? = nil,
-        url: String? = nil
+        url: String?? = nil
     ) -> DownloadLink {
         return DownloadLink(
             label: label ?? self.label,
