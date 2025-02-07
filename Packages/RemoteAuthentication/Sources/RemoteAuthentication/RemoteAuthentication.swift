@@ -36,7 +36,7 @@ public class RemoteAuthenticationClient: RemoteAuthenticationClientProtocol {
 	required public init(serverUrl: Foundation.URL, username: String?, password: String?) {
 		
 		if let username, let password {
-			let authenticationMiddleWare = AuthorizationMiddleware(
+			let authenticationMiddleWare = BasicAuthorizationMiddleware(
 				username: username,
 				password: password
 			)

@@ -9,14 +9,14 @@
 import MGOTest
 import HTTPTypes
 
-final class AuthorizationMiddlewareTests: XCTestCase {
+final class BearerAuthorizationMiddlewareTests: XCTestCase {
 
 	var actualAuth: String? = ""
 
-	func test_authentication() async throws {
+	func test_bearerAuthentication() async throws {
 		
 		// Given
-		let middleware = AuthorizationMiddleware(username: "test", password: "test")
+		let middleware = BearerAuthorizationMiddleware(token: "test")
 		let url = try XCTUnwrap( URL(string: "https://example.com") )
 		let request = HTTPRequest(method: HTTPRequest.Method.get, scheme: nil, authority: nil, path: nil)
 		
@@ -27,6 +27,6 @@ final class AuthorizationMiddlewareTests: XCTestCase {
 		}
 		
 		// Then
-		await expect(self.actualAuth).toEventually(equal("Basic dGVzdDp0ZXN0"))
+		await expect(self.actualAuth).toEventually(equal("Bearer test"))
 	}
 }

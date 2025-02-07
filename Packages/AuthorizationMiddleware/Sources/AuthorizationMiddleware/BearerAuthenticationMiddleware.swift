@@ -9,21 +9,16 @@ import OpenAPIRuntime
 import Foundation
 import HTTPTypes
 
-public struct AuthorizationMiddleware: ClientMiddleware {
+public struct BearerAuthorizationMiddleware: ClientMiddleware {
 	
-	/// The basic auth username
-	private var username: String
+	/// The bearer token
+	private var token: String
 	
-	/// The basic auth password
-	private var password: String
-	
-	/// Create an Authorization Middleware
+	/// Create a Bearer Authorization Middleware
 	/// - Parameters:
-	///   - username: the basic auth username
-	///   - password: the basic auth password.
-	public init(username: String, password: String) {
-		self.username = username
-		self.password = password
+	///   - token: the bearer token
+	public init(token: String) {
+		self.token = token
 	}
 	
 	/// Intercepts an outgoing HTTP request and an incoming HTTP response.
@@ -44,11 +39,7 @@ public struct AuthorizationMiddleware: ClientMiddleware {
 	) async throws -> (HTTPResponse, HTTPBody?) {
 		
 		var request = request
-		let loginString = String(format: "%@:%@", username, password)
-		if let loginData = loginString.data(using: String.Encoding.utf8) {
-			let base64LoginString = loginData.base64EncodedString()
-			request.headerFields[.authorization] = "Basic \(base64LoginString)"
-		}
+		request.headerFields[.authorization] = "Bearer \(token)"
 		return try await next(request, body, baseURL)
 	}
 }

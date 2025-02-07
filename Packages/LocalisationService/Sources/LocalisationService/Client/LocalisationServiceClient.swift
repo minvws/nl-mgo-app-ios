@@ -43,7 +43,7 @@ public class LocalisationServiceClient: LocalisationServiceClientProtocol {
 	required public init(serverUrl: Foundation.URL, username: String?, password: String?) {
 		
 		if let username, let password {
-			let authenticationMiddleWare = AuthorizationMiddleware(
+			let authenticationMiddleWare = BasicAuthorizationMiddleware(
 				username: username,
 				password: password
 			)
