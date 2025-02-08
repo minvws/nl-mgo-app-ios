@@ -29,7 +29,7 @@ extension URLOpenerProtocol {
 	public func openUrlIfPossible(_ url: URL) {
 		
 		if canOpenURL(url) {
-			_Concurrency.Task {
+			_Concurrency.Task { @MainActor in
 				_ = await open(url, options: [:])
 			}
 		}

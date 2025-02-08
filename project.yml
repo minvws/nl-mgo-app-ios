@@ -18,6 +18,8 @@ packages:
     path: ./Packages/FeatureFlag
   FileStorage:
     path: ./Packages/FileStorage
+  GitHubArtifactDownload:
+    path: ./Packages/GitHubArtifactDownload
   JailBreakDetector:
     path: ./Packages/JailBreakDetector
   LocalAuthenticationProvider:
@@ -56,7 +58,6 @@ packages:
     path: ./Packages/Theme
   Zibs:
     path: ./Packages/Zibs
-
 # - Attributes:
 
 attributes:
