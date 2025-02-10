@@ -9,7 +9,6 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
-import Zibs
 
 final class HealthDownloadViewTests: XCTestCase {
 	
@@ -95,8 +94,13 @@ final class HealthDownloadViewTests: XCTestCase {
 	func test_HealthDownloadView_error_tryAgain() throws {
 		
 		// Given
+		let entry = UIElement(display: nil, label: "label", type: .downloadBinary, reference: "Binary/demo1", url: nil)
+		let healthcareOrganization = Generator.healthcareOrganization("1")
+		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, entry: entry, binaryRepository: binaryRepositorySpy)
+		sut = HealthDataDownloadView(viewModel: self.viewModel)
+		
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
-		let binary = Zibs.FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
+		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
 		binaryRepositorySpy.stubbedStoreResult = url
 		viewModel.state = .error

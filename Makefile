@@ -76,3 +76,20 @@ download_translations:
 	@rm -f ./Sources/MGO/Resources/Localizable.xcstrings
 	@cp ./tmp/localization_downloads/Localizable.xcstrings ./Sources/MGO/Resources/Localizable.xcstrings
 	@rm -rf "tmp/localization_downloads"
+	
+import_sharedcore:
+	@mkdir -p tmp/sharedcore
+	
+	# Download
+	@cd Packages/GithubArtifactDownload/ && swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --workflow-id "114414377" --output ../../tmp/sharedcore/artifact.zip
+	
+	# Unpack
+	@cd tmp/sharedcore && unzip artifact.zip && mv *.tar.gz artifact.tar.gz && tar -xzvf artifact.tar.gz
+	
+	# Move Files
+	@rm -f packages/SharedCore/Sources/SharedCore/Resources/version.json && cp tmp/sharedcore/version.json packages/SharedCore/Sources/SharedCore/Resources/version.json
+	@rm -f packages/SharedCore/Sources/SharedCore/Resources/*.js && cp tmp/sharedcore/js/* packages/SharedCore/Sources/SharedCore/Resources/
+	@rm -f packages/SharedCore/Sources/SharedCore/Zibs/Generated/* && cp tmp/sharedcore/schema/swift/* packages/SharedCore/Sources/SharedCore/Zibs/Generated/
+
+	# Cleanup
+	@rm -rf "tmp/sharedcore"

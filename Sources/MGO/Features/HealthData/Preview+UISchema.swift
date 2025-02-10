@@ -6,7 +6,6 @@
  */
 
 import MGOFoundation
-import Zibs
 
 extension PreviewContent {
 

@@ -6,16 +6,15 @@
  */
 
 import MGOFoundation
-import Zibs
 
 protocol ReferenceResolverProtocol: AnyObject {
 	
-	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, Zibs.UISchema)?
+	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, UISchema)?
 }
 
 class ReferenceResolver: ReferenceResolverProtocol {
 	
-	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, Zibs.UISchema)? {
+	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, UISchema)? {
 
 		logVerbose("Trying to resolve reference: \(reference)")
 			

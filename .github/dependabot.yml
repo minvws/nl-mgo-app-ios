@@ -48,7 +48,7 @@ updates:
       timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
-    directory: "/Packages/FHIRParser"
+    directory: "/Packages/FileStorage"
     schedule:
       interval: weekly
       day: monday
@@ -56,7 +56,7 @@ updates:
       timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
-    directory: "/Packages/FileStorage"
+    directory: "/Packages/GitHubArtifactDownload"
     schedule:
       interval: weekly
       day: monday
@@ -186,7 +186,7 @@ updates:
       timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
-    directory: "/Packages/Theme"
+    directory: "/Packages/SharedCore"
     schedule:
       interval: weekly
       day: monday
@@ -194,9 +194,10 @@ updates:
       timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
-    directory: "/Packages/Zibs"
+    directory: "/Packages/Theme"
     schedule:
       interval: weekly
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
+

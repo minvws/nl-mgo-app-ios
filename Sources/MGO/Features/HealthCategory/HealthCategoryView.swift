@@ -8,7 +8,6 @@
 import MGOFoundation
 import MGOUI
 import JavaScriptCore
-import Zibs
 
 /// A small struct for each category result
 struct HealthCategoryBlock: Equatable, Identifiable {

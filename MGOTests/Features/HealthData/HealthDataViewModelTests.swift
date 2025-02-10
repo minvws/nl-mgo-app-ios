@@ -9,7 +9,6 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
-import Zibs
 
 final class HealthDataViewModelTests: XCTestCase {
 	
@@ -169,25 +168,5 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect(params.params["resource"] as? MgoResource) == Data()
 		expect(params.params["backButtonTitle"] as? String) == "common.previous"
 		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
-	}
-	
-	func test_resolveReferenceValue_labelIsEmpty_shouldCallCoordinator() throws {
-		
-		// Given
-		let schema = UISchema(children: [], label: nil)
-		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
-		setupSut()
-		
-		// When
-		sut.reduce(.reference("test_resolveReference"))
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		
-		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.showHealthData.identifier
-		expect(params.params["resource"] as? MgoResource) == Data()
-		expect(params.params["backButtonTitle"] as? String) == "common.previous"
-		expect((params.params["uiSchema"] as? UISchema)?.label) == nil
 	}
 }

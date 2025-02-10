@@ -7,7 +7,7 @@
 
 import Foundation
 import FHIRClient
-import FHIRParser
+import SharedCore
 
 public class MGORepository {
 	

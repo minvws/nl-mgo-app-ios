@@ -8,7 +8,6 @@
 import MGOTest
 import MGOFoundation
 import MGOUI
-import Zibs
 @testable import MGO
 
 final class DashboardCoordinatorTests: XCTestCase {
