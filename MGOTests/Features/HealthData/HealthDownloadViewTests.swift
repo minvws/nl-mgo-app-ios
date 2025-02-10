@@ -9,7 +9,6 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
-import Zibs
 
 final class HealthDownloadViewTests: XCTestCase {
 	
@@ -96,7 +95,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		
 		// Given
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
-		let binary = Zibs.FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
+		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
 		binaryRepositorySpy.stubbedStoreResult = url
 		viewModel.state = .error

@@ -4,14 +4,17 @@
 import PackageDescription
 
 let package = Package(
-	name: "Zibs",
+	name: "SharedCore",
 	platforms: [.iOS(.v15)],
 	products: [
 		.library(
-			name: "Zibs",
-			targets: ["Zibs"]),
+			name: "SharedCore",
+			targets: ["SharedCore"]),
 	],
 	dependencies: [
+
+		// Internal
+		.package(name: "MGODebug", path: "../MGODebug"),
 		
 		// VWS
 		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
@@ -20,16 +23,20 @@ let package = Package(
 		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
+		// Targets are the basic building blocks of a package, defining a module or a test suite.
+		// Targets can depend on other targets in this package and products from dependencies.
 		.target(
-			name: "Zibs",
+			name: "SharedCore",
 			dependencies: [
-				.product(name: "Logging", package: "nl-rdo-app-ios-modules")
-			]
+				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
+				.product(name: "MGODebug", package: "MGODebug")
+			],
+			resources: [.process("Resources")]
 		),
 		.testTarget(
-			name: "ZibsTests",
+			name: "SharedCoreTests",
 			dependencies: [
-				"Zibs",
+				"SharedCore",
 					.product(name: "MGOTest", package: "MGOTest")
 			],
 			resources: [.process("Resources")]

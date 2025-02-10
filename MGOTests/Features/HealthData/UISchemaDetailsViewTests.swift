@@ -9,8 +9,6 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
-import Zibs
-
 final class UISchemaDetailsViewTests: XCTestCase {
 	
 	private var healthcareOrganization: MgoOrganization!

@@ -12,8 +12,6 @@ packages:
     path: ./Packages/CopyImport
   FHIRClient:
     path: ./Packages/FHIRClient
-  FHIRParser:
-    path: ./Packages/FHIRParser
   FeatureFlag:
     path: ./Packages/FeatureFlag
   FileStorage:
@@ -54,10 +52,10 @@ packages:
     path: ./Packages/Sanitizer
   SecureUserSettings:
     path: ./Packages/SecureUserSettings
+  SharedCore:
+    path: ./Packages/SharedCore
   Theme:
     path: ./Packages/Theme
-  Zibs:
-    path: ./Packages/Zibs
 # - Attributes:
 
 attributes:
@@ -408,9 +406,6 @@ schemes:
         - package: FHIRClient/FHIRClientTests
           randomExecutionOrder: true
           parallelizable: false
-        - package: FHIRParser/FHIRParserTests
-          randomExecutionOrder: true
-          parallelizable: false
         - package: FeatureFlag/FeatureFlagTests
           randomExecutionOrder: true
           parallelizable: false
@@ -456,10 +451,10 @@ schemes:
         - package: SecureUserSettings/SecureUserSettingsTests
           randomExecutionOrder: true
           parallelizable: false
-        - package: Zibs/ZibsTests
+        - package: SharedCore/SharedCoreTests
           randomExecutionOrder: true
           parallelizable: false
-          
+
   MGO Acceptance:
     templates:
       - ConfigScheme

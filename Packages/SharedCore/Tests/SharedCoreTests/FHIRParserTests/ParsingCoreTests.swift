@@ -6,8 +6,7 @@
  */
 
 import MGOTest
-@testable import FHIRParser
-import Zibs
+@testable import SharedCore
 
 final class FHIRParserTests: XCTestCase {
 	
@@ -111,7 +110,7 @@ final class FHIRParserTests: XCTestCase {
 		let schema = sut.getDetails(data)
 		
 		// Then
-		expect(schema?.label) == "Zestril tablet 10mg"
+		expect(schema?.label) == "Paracetamol tablet 500mg"
 	}
 	
 	func test_getDetails_error() throws {
@@ -135,7 +134,7 @@ final class FHIRParserTests: XCTestCase {
 		let schema = sut.getSummary(data)
 		
 		// Then
-		expect(schema?.label) == "Zestril tablet 10mg"
+		expect(schema?.label) == "Paracetamol tablet 500mg"
 	}
 	
 	func test_getSummary_error() throws {

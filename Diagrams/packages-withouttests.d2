@@ -94,13 +94,6 @@ AuthorizationMiddleware <- swift-http-types
 FHIRClient { style.fill: "#ffcc00" }
 FHIRClient <- Foundation
 
-FHIRParser { style.fill: "#ffcc00" }
-FHIRParser <- Foundation
-FHIRParser <- JavaScriptCore
-FHIRParser <- Logging
-FHIRParser <- MGODebug
-FHIRParser <- Zibs
-
 FeatureFlag { style.fill: "#ffcc00" }
 FeatureFlag <- Foundation
 
@@ -152,8 +145,8 @@ MGOUI <- SwiftUI
 MGORepository  { style.fill: "#ffcc00" }
 MGORepository <- FHIRClient
 MGORepository <- Foundation
-MGORepository <- FHIRParser
 MGORepository <- Observatory
+MGORepository <- SharedCore
 
 NotificationCenter { style.fill: "#ffcc00" }
 NotificationCenter <- Foundation
@@ -195,9 +188,11 @@ SecureUserSettings { style.fill: "#ffcc00" }
 SecureUserSettings <- CommonCrypto
 SecureUserSettings <- Foundation
 
+SharedCore { style.fill: "#ffcc00" }
+SharedCore <- Foundation
+SharedCore <- JavaScriptCore
+SharedCore <- Logging
+SharedCore <- MGODebug
+
 Theme { style.fill: "#ffcc00" }
 Theme <- SwiftUI
-
-Zibs { style.fill: "#ffcc00" }
-Zibs <- Logging
-Zibs <- Foundation

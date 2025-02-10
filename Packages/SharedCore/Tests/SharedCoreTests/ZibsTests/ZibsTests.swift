@@ -5,7 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@testable import Zibs
+@testable import SharedCore
 import MGOTest
 
 final class ZibsTests: XCTestCase {
@@ -94,7 +94,7 @@ final class ZibsTests: XCTestCase {
 		expect(object?.effectiveDuration?.value) == 30.0
 		expect(object?.effectivePeriod?.start) == "2020-07-21"
 		expect(object?.effectivePeriod?.end) == nil
-		expect(object?.fhirVersion) == Zibs.FhirVersionR3.r3
+		expect(object?.fhirVersion) == FhirVersionR3.r3
 		expect(object?.id) == "zib-medicationuse-01"
 		expect(object?.identifier?.first?.system) == "urn:oid:2.16.840.1.113883.2.4.3.11.999.77.6.1"
 		expect(object?.identifier?.first?.type) == nil

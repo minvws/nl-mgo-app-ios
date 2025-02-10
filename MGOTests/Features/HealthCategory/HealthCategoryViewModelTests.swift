@@ -9,7 +9,6 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
-import Zibs
 
 final class HealthCategoryViewModelTests: XCTestCase {
 	

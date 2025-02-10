@@ -8,18 +8,17 @@
 import MGOTest
 import MGOFoundation
 @testable import MGO
-import Zibs
 
 class BinaryRepositorySpy: BinaryRepositoryProtocol {
 
 	var invokedStore = false
 	var invokedStoreCount = 0
-	var invokedStoreParameters: (binary: Zibs.FHIRBinary, filename: String)?
-	var invokedStoreParametersList = [(binary: Zibs.FHIRBinary, filename: String)]()
+	var invokedStoreParameters: (binary: FHIRBinary, filename: String)?
+	var invokedStoreParametersList = [(binary: FHIRBinary, filename: String)]()
 	var stubbedStoreError: Error?
 	var stubbedStoreResult: URL!
 
-	func store(_ binary: Zibs.FHIRBinary, as filename: String) throws -> URL {
+	func store(_ binary: FHIRBinary, as filename: String) throws -> URL {
 		invokedStore = true
 		invokedStoreCount += 1
 		invokedStoreParameters = (binary, filename)

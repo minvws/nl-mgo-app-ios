@@ -5,7 +5,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@testable import Zibs
+@testable import SharedCore
 import MGOTest
 
 final class BinaryTests: XCTestCase {

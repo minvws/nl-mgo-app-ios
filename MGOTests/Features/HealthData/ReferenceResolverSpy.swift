@@ -7,7 +7,6 @@
 
 import MGOFoundation
 @testable import MGO
-import Zibs
 
 class ReferenceResolverSpy: ReferenceResolverProtocol {
 
@@ -15,9 +14,9 @@ class ReferenceResolverSpy: ReferenceResolverProtocol {
 	var invokedResolveCount = 0
 	var invokedResolveParameters: (reference: String, healthcareOrganization: MgoOrganization)?
 	var invokedResolveParametersList = [(reference: String, healthcareOrganization: MgoOrganization)]()
-	var stubbedResolveResult: (Data, Zibs.UISchema)!
+	var stubbedResolveResult: (Data, UISchema)!
 
-	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, Zibs.UISchema)? {
+	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, UISchema)? {
 		invokedResolve = true
 		invokedResolveCount += 1
 		invokedResolveParameters = (reference, healthcareOrganization)

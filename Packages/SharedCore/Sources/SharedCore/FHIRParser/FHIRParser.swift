@@ -8,7 +8,6 @@
 import Foundation
 import JavaScriptCore
 import Logging
-import Zibs
 
 /// Parse FHIR data
 public class FHIRParser {
