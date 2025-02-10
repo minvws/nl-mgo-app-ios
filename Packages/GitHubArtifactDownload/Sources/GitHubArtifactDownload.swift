@@ -41,7 +41,7 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 		Figlet.say("GitHub Artifact Download")
 		
 		// Create GitHub API Client
-		let middleware = BearerAuthorizationMiddleware(token: token)
+		let middleware = AuthorizationMiddleware(token: token)
 		let client = Client(serverURL: try Servers.server1(), transport: URLSessionTransport(), middlewares: [middleware])
 		
 		// Step 1: Fetch run id from the latest merge into main
