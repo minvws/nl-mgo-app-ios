@@ -52,10 +52,10 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 		let artifactID = try await getArtifactID(client, runID: runID)
 		print("getArtifactID: \(artifactID)") // swiftlint:disable:this disable_print
 		
-		// Step 3: Fetch artifact
-		try await getArtifact(client, artifactID: artifactID)
+		// Step 3: Download the artifact and save to the output
+		try await downloadAndSaveArtifact(client, artifactID: artifactID)
 		
-		print("done") // swiftlint:disable:this disable_print
+		print("Artifact downloaded successfully to \(output)") // swiftlint:disable:this disable_print
 	}
 	
 	// MARK: Helper methods
@@ -105,7 +105,11 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 		fatalError("No artifact id found")
 	}
 	
-	func getArtifact(_ client: Client, artifactID: Int) async throws {
+	/// Download and save the artifact
+	/// - Parameters:
+	///   - client: theapi client
+	///   - artifactID: the id of the artifact to download
+	func downloadAndSaveArtifact(_ client: Client, artifactID: Int) async throws {
 		
 		let input = Operations.actions_sol_download_hyphen_artifact.Input(
 			path: Operations.actions_sol_download_hyphen_artifact.Input.Path(
@@ -118,18 +122,18 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 		let result = try await client.actions_sol_download_hyphen_artifact(input)
 		switch result {
 			case .found(let found):
-				print("found: \(found)")
+				fatalError("No artifact: \(found)")
+		
 			case .gone(let gone):
-				print("gone: \(gone)")
-			case .undocumented(let statusCode, let undocumentedPayload):
-				print("undocumented: \(statusCode)")
-			print("undocumentedPayload: \(undocumentedPayload.body)")
-//			let buffer = try await ArraySlice(collecting: undocumentedPayload.body, upTo: 2 * 1024 * 1024)
-//			let ddd = undocumentedPayload.body
+				fatalError("No artifact: \(gone)")
 			
-			// Todo: Store the body into the output file
-			// Todo: Fix documents after previous zib import
+			case .undocumented(let statusCode, let undocumentedPayload):
+				guard statusCode == 200, let body = undocumentedPayload.body else {
+					fatalError("No artifact: no http body on payload")
+				}
+				let buffer = try await ArraySlice(collecting: body, upTo: 2 * 1024 * 1024)
+				let data = Data(buffer)
+				try (data as NSData).write(toFile: output, options: .atomic)
 		}
-
 	}
 }
