@@ -18,8 +18,8 @@ packages:
     path: ./Packages/FeatureFlag
   FileStorage:
     path: ./Packages/FileStorage
-  GitHubArtifactDownload:
-    path: ./Packages/GitHubArtifactDownload
+  GitHubArtefactDownload:
+    path: ./Packages/GitHubArtefactDownload
   JailBreakDetector:
     path: ./Packages/JailBreakDetector
   LocalAuthenticationProvider:

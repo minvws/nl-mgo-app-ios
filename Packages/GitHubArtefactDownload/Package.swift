@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-	name: "GithubArtifactDownload",
+	name: "GithubArtefactDownload",
 	platforms: [
 		.macOS(.v10_15), .iOS(.v15)
 	],
@@ -20,7 +20,7 @@ let package = Package(
 	],
 	targets: [
 		.executableTarget(
-			name: "GithubArtifactDownload",
+			name: "GithubArtefactDownload",
 			dependencies: [
 				.product(name: "AuthorizationMiddleware", package: "AuthorizationMiddleware"),
 				.product(name: "Figlet", package: "example-package-figlet"),
