@@ -1,20 +1,21 @@
-# Copy Import
+# GitHub Artifact Download
 
 ## Overview
 
-This package will transform a strings file into a xcstrings file
+This package will download an artifact from a GitHub repository
 
 ## Usage
 
-Point the `--source-path` to the [strings](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/LoadingResources/Strings/Strings.html) file, and the `--target-path` to the desired [xcstrings](https://developer.apple.com/documentation/xcode/localizing-and-varying-text-with-a-string-catalog) file
+The `GithubArtifactDownload` command take the following parameters:
+* token: the GitHub API Token (see [github.com](https://github.com/settings/tokens) for your tokens)
+* owner: the owner of the repository (github.com/*owner*/repository)
+* repository: the repository (github.com/owner/*repository*)
+* workflow-id: the identifer of the workflow (see [github.com](https://docs.github.com/en/rest/actions/workflows?apiVersion=2022-11-28#list-repository-workflows) for details how to get the id)
+* output: the output file for the artifact
 
 ```swift
 
-	swift run CopyImport --source-path ../../tmp/localization_downloads/nl.lproj/Localizable.strings --target-path ../../tmp/localization_downloads/Localizable.xcstrings
-	
-	rm -f ./Sources/MGO/Resources/Localizable.xcstrings
-	cp ./tmp/localization_downloads/Localizable.xcstrings ./Sources/MGO/Resources/Localizable.xcstrings
-
+	swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --workflow-id "114414377" --output tmp/artifact.zip
 ```
 
 ---
