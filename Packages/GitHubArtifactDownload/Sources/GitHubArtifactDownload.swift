@@ -14,7 +14,7 @@ import Foundation
 import AuthorizationMiddleware
 
 @main
-struct GitHubArtefactDownload: AsyncParsableCommand {
+struct GitHubArtifactDownload: AsyncParsableCommand {
 	
 	// MARK: Input Variables
 	
@@ -24,13 +24,13 @@ struct GitHubArtefactDownload: AsyncParsableCommand {
 	@Option(help: "The owner of the repository")
 	public var owner: String
 	
-	@Option(help: "The repository to fetch the latest artefact from")
+	@Option(help: "The repository to fetch the latest artifact from")
 	public var repository: String
 	
 	@Option(help: "The WorkFlow ID")
 	public var workflowID: String
 	
-	@Option(help: "The file to write the artefact to")
+	@Option(help: "The file to write the artifact to")
 	public var output: String
 	
 	// MARK: Script
@@ -38,7 +38,7 @@ struct GitHubArtefactDownload: AsyncParsableCommand {
 	/// Run this script
 	public func run() async throws {
 		
-		Figlet.say("GitHub Artefact Download")
+		Figlet.say("GitHub Artifact Download")
 		
 		// Create GitHub API Client
 		let middleware = BearerAuthorizationMiddleware(token: token)
@@ -48,12 +48,12 @@ struct GitHubArtefactDownload: AsyncParsableCommand {
 		let runID = try await getRunID(client)
 		print("getRunID: \(runID)") // swiftlint:disable:this disable_print
 		
-		// Step 2: Fetch the artefact id for that run
-		let artefactID = try await getArtefactID(client, runID: runID)
-		print("getArtefactID: \(artefactID)") // swiftlint:disable:this disable_print
+		// Step 2: Fetch the artifact id for that run
+		let artifactID = try await getArtifactID(client, runID: runID)
+		print("getArtifactID: \(artifactID)") // swiftlint:disable:this disable_print
 		
-		// Step 3: Fetch artefact
-		try await getArtefact(client, artefactID: artefactID)
+		// Step 3: Fetch artifact
+		try await getArtifact(client, artifactID: artifactID)
 		
 		print("done") // swiftlint:disable:this disable_print
 	}
@@ -84,12 +84,12 @@ struct GitHubArtefactDownload: AsyncParsableCommand {
 		fatalError("No workflow id found")
 	}
 	
-	/// Get the id of the artefact for a run
+	/// Get the id of the artifact for a run
 	/// - Parameters:
 	///   - client: the api client
 	///   - runID: the id of the run
-	/// - Returns: the id of the artefact
-	private func getArtefactID(_ client: Client, runID: Int) async throws -> Int {
+	/// - Returns: the id of the artifact
+	private func getArtifactID(_ client: Client, runID: Int) async throws -> Int {
 		
 		let input = Operations.actions_sol_list_hyphen_workflow_hyphen_run_hyphen_artifacts.Input(
 			path: Operations.actions_sol_list_hyphen_workflow_hyphen_run_hyphen_artifacts.Input.Path(
@@ -99,19 +99,19 @@ struct GitHubArtefactDownload: AsyncParsableCommand {
 			)
 		)
 		let result = try await client.actions_sol_list_hyphen_workflow_hyphen_run_hyphen_artifacts(input)
-		if let artefactID = try result.ok.body.json.artifacts.first?.id {
-			return artefactID
+		if let artifactID = try result.ok.body.json.artifacts.first?.id {
+			return artifactID
 		}
-		fatalError("No artefact id found")
+		fatalError("No artifact id found")
 	}
 	
-	func getArtefact(_ client: Client, artefactID: Int) async throws {
+	func getArtifact(_ client: Client, artifactID: Int) async throws {
 		
 		let input = Operations.actions_sol_download_hyphen_artifact.Input(
 			path: Operations.actions_sol_download_hyphen_artifact.Input.Path(
 				owner: owner,
 				repo: repository,
-				artifact_id: artefactID,
+				artifact_id: artifactID,
 				archive_format: "zip"
 			)
 		)
