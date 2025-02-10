@@ -89,7 +89,7 @@ struct UISchemaView: View {
 	/// - Returns: view for a UIElement
 	@ViewBuilder func viewFor(_ entry: UIElement, isLastElement: Bool) -> some View {
 		
-		if entry.type == .downloadLink {
+		if entry.type == .downloadLink || entry.type == .downloadBinary {
 			
 			// Document Download
 			HealthDataDownloadView(
