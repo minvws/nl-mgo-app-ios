@@ -7,7 +7,7 @@
 
 import Foundation
 import JavaScriptCore
-import Logging
+import MGODebug
 
 /// Parse FHIR data
 public class FHIRParser {

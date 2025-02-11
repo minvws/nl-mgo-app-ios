@@ -13,8 +13,8 @@ let package = Package(
 		)
 	],
 	dependencies: [
-		// VWS
-		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
+		// Internal
+		.package(name: "MGODebug", path: "../MGODebug"),
 		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
@@ -23,7 +23,7 @@ let package = Package(
 		.target(
 			name: "FileStorage",
 			dependencies: [
-				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
+				.product(name: "MGODebug", package: "MGODebug"),
 			]
 		),
 		.testTarget(

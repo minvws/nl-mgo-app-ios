@@ -12,12 +12,8 @@ let package = Package(
 			targets: ["SharedCore"]),
 	],
 	dependencies: [
-
 		// Internal
 		.package(name: "MGODebug", path: "../MGODebug"),
-		
-		// VWS
-		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
 		
 		// Testing
 		.package(name: "MGOTest", path: "../MGOTest")
@@ -28,7 +24,6 @@ let package = Package(
 		.target(
 			name: "SharedCore",
 			dependencies: [
-				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
 				.product(name: "MGODebug", package: "MGODebug")
 			],
 			resources: [.process("Resources")]

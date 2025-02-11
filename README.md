@@ -18,6 +18,7 @@ See minvws/**[nl-rdo-mgo-coordination-private](https://github.com/minvws/nl-rdo-
 There are a number of Swift Packages in `Packages/`, which the app target depends on. Here is the dependency graph: 
 
 <img src="Diagrams/packages-withouttests.png" />
+<img src="Diagrams/scripts.png" />
 <img src="Diagrams/legenda.png" />
 
 The majority of our (third-party) dependencies are included as Swift Packages. Here is an overview of what dependencies are used and why.
@@ -28,6 +29,7 @@ The majority of our (third-party) dependencies are included as Swift Packages. H
 * [FHIRClient](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/FHIRClient/README.md): the client for all API calls to fetch the FHIR data. 
 * [FileStorage](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/FHIRParser/README.md): helper to store and read files from local disk.
 * [JailBreakDetector](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/JailBreakDetector/README.md): helper to detect jail broken devices.
+* [GitHubArtifactDownload](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/GitHubArtifactDownload/README.md): script to assist with downloading the latest artifact for the Shared Core
 * [LocalAuthenticationProvider](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/LocalAuthenticationProvider/README.md): class to authenticate with face id or touch id.
 * [LocalisationService](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/LocalisationService/README.md): open-api generated class to search for healthcare providers.
 * [Logging](https://github.com/minvws/nl-rdo-app-ios-modules): a tool for Logging, reused from CoronaCheck.

@@ -19,6 +19,7 @@ let package = Package(
 		.package(name: "JailBreakDetector", path: "../JailBreakDetector"),
 		.package(name: "LocalAuthenticationProvider", path: "../LocalAuthenticationProvider"),
 		.package(name: "LocalisationService", path: "../LocalisationService"),
+		.package(name: "MGODebug", path: "../MGODebug"),
 		.package(name: "MGORepository", path: "../MGORepository"),
 		.package(name: "NotificationCenter", path: "../NotificationCenter"),
 		.package(name: "Observatory", path: "../Observatory"),
@@ -26,9 +27,6 @@ let package = Package(
 		.package(name: "SecureUserSettings", path: "../SecureUserSettings"),
 		.package(name: "RemoteAuthentication", path: "../RemoteAuthentication"),
 		.package(name: "RemoteConfiguration", path: "../RemoteConfiguration"),
-		
-		// VWS
-		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
 		
 		// External
 		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", exact: "9.1.0"),
@@ -41,7 +39,7 @@ let package = Package(
 				.product(name: "JailBreakDetector", package: "JailBreakDetector"),
 				.product(name: "LocalAuthenticationProvider", package: "LocalAuthenticationProvider"),
 				.product(name: "LocalisationService", package: "LocalisationService"),
-				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
+				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "MGORepository", package: "MGORepository"),
 				.product(name: "NotificationCenter", package: "NotificationCenter"),
 				.product(name: "Observatory", package: "Observatory"),

@@ -6,7 +6,6 @@
  */
 
 import Foundation
-import Logging
 
 // MARK: - Binary
 public struct FHIRBinary: Codable, Hashable, Sendable {
