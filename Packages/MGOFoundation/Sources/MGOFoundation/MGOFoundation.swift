@@ -15,6 +15,7 @@
 @_exported import JailBreakDetector
 @_exported import LocalAuthenticationProvider
 @_exported import LocalisationService
+@_exported import MGODebug
 @_exported import MGORepository
 @_exported import NotificationCenter
 @_exported import Observatory
@@ -23,9 +24,6 @@
 @_exported import SharedCore
 @_exported import RemoteAuthentication
 @_exported import RemoteConfiguration
-
-// VWS
-@_exported import Logging
 
 // External
 @_exported import OHHTTPStubs

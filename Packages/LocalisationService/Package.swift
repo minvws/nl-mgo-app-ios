@@ -17,14 +17,12 @@ let package = Package(
 		.package(name: "AuthorizationMiddleware", path: "../AuthorizationMiddleware"),
 		.package(name: "FileStorage", path: "../FileStorage"),
 		.package(name: "Observatory", path: "../Observatory"),
+		.package(name: "MGODebug", path: "../MGODebug"),
 		
 		// External
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.7.0"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.0"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.0.2"),
-
-		// VWS
-		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
 		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
@@ -35,7 +33,7 @@ let package = Package(
 			dependencies: [
 				.product(name: "AuthorizationMiddleware", package: "AuthorizationMiddleware"),
 				.product(name: "FileStorage", package: "FileStorage"),
-				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
+				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")

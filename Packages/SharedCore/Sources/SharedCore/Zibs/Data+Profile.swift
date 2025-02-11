@@ -6,7 +6,7 @@
  */
 
 import Foundation
-import Logging
+import MGODebug
 
 public extension Data {
 	

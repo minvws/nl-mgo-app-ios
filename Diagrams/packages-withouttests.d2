@@ -88,37 +88,32 @@ MGOapp <- UIKit
 # - Packages -
 
 AuthorizationMiddleware { style.fill: "#ffcc00" }
-AuthorizationMiddleware <- Foundation
+AuthorizationMiddleware <- swift-openapi-runtime
 AuthorizationMiddleware <- swift-http-types
 
 FHIRClient { style.fill: "#ffcc00" }
-FHIRClient <- Foundation
 
 FeatureFlag { style.fill: "#ffcc00" }
-FeatureFlag <- Foundation
 
 FileStorage { style.fill: "#ffcc00" }
-FileStorage <- Foundation
+FileStorage <- MGODebug
 
 JailBreakDetector { style.fill: "#ffcc00" }
-JailBreakDetector <- Foundation
 JailBreakDetector <- iOSSecuritySuite
 
 LocalAuthenticationProvider { style.fill: "#ffcc00" }
-LocalAuthenticationProvider <- Foundation
+#LocalAuthenticationProvider <- Foundation
 
 LocalisationService { style.fill: "#ffcc00" }
 LocalisationService <- AuthorizationMiddleware
-LocalisationService <- Foundation
 LocalisationService <- FileStorage
-LocalisationService <- Logging
+LocalisationService <- MGODebug
 LocalisationService <- Observatory
 LocalisationService <- swift-openapi-generator
 LocalisationService <- swift-openapi-runtime
 LocalisationService <- swift-openapi-urlsession
 
 MGODebug { style.fill: "#ffcc00" }
-MGODebug <- Foundation
 MGODebug <- Logging
 
 MGOFoundation { style.fill: "#ffcc00" }
@@ -127,13 +122,14 @@ MGOFoundation <- Foundation
 MGOFoundation <- JailBreakDetector
 MGOFoundation <- LocalAuthenticationProvider
 MGOFoundation <- LocalisationService
-MGOFoundation <- Logging
+MGOFoundation <- MGODebug
 MGOFoundation <- MGORepository
 MGOFoundation <- NotificationCenter
 MGOFoundation <- Observatory
 MGOFoundation <- OHHTTPStubs
 MGOFoundation <- Sanitizer
 MGOFoundation <- SecureUserSettings
+MGOFoundation <- RemoteAuthentication
 MGOFoundation <- RemoteConfiguration
 
 MGOUI { style.fill: "#ffcc00" }
@@ -144,21 +140,23 @@ MGOUI <- SwiftUI
 
 MGORepository  { style.fill: "#ffcc00" }
 MGORepository <- FHIRClient
-MGORepository <- Foundation
 MGORepository <- Observatory
 MGORepository <- SharedCore
 
 NotificationCenter { style.fill: "#ffcc00" }
-NotificationCenter <- Foundation
 NotificationCenter <- UIKit
 
 Observatory { style.fill: "#ffcc00" }
-Observatory <- Foundation
+
+RemoteAuthentication { style.fill: "#ffcc00" }
+RemoteAuthentication <- AuthorizationMiddleware
+RemoteAuthentication <- swift-openapi-generator
+RemoteAuthentication <- swift-openapi-runtime
+RemoteAuthentication <- swift-openapi-urlsession
 
 RemoteConfiguration { style.fill: "#ffcc00" }
-RemoteConfiguration <- Foundation
 RemoteConfiguration <- FileStorage
-RemoteConfiguration <- Logging
+RemoteConfiguration <- MGODebug
 RemoteConfiguration <- Observatory
 RemoteConfiguration <- swift-openapi-generator
 RemoteConfiguration <- swift-openapi-runtime
@@ -181,17 +179,13 @@ RijksoverheidFont <- DeviceKit
 RijksoverheidFont <- SwiftUI
 
 Sanitizer { style.fill: "#ffcc00" }
-Sanitizer <- Foundation
 Sanitizer <- SwiftSoup
 
 SecureUserSettings { style.fill: "#ffcc00" }
 SecureUserSettings <- CommonCrypto
-SecureUserSettings <- Foundation
 
 SharedCore { style.fill: "#ffcc00" }
-SharedCore <- Foundation
 SharedCore <- JavaScriptCore
-SharedCore <- Logging
 SharedCore <- MGODebug
 
 Theme { style.fill: "#ffcc00" }
