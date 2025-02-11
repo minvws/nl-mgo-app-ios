@@ -18,10 +18,7 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "Observatory",
-			dependencies: [
-				.product(name: "MGODebug", package: "MGODebug"),
-			]
+			name: "Observatory"
 		),
 		.testTarget(
 			name: "ObservatoryTests",
