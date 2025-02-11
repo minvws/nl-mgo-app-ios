@@ -8,7 +8,6 @@
 import MGOTest
 import MGOFoundation
 import MGOUI
-import Zibs
 @testable import MGO
 
 final class DashboardCoordinatorStateTests: XCTestCase {
@@ -255,7 +254,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_showHealthCategory_labresults() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .labresults, organization: nil))
+		let view = sut.viewState(for: .showHealthCategory(category: .labResults, organization: nil))
 		
 		// When
 		let content = NavigationView { view }

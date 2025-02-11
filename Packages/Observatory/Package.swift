@@ -13,18 +13,12 @@ let package = Package(
 		)
 	],
 	dependencies: [
-		// VWS
-		.package(url: "https://github.com/minvws/nl-rdo-app-ios-modules", branch: "main"),
-		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		.target(
-			name: "Observatory",
-			dependencies: [
-				.product(name: "Logging", package: "nl-rdo-app-ios-modules"),
-			]
+			name: "Observatory"
 		),
 		.testTarget(
 			name: "ObservatoryTests",

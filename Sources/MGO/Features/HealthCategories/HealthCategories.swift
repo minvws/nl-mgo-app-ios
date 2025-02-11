@@ -7,14 +7,13 @@
 
 import MGOFoundation
 import MGOUI
-import Zibs
 
 struct HealthCategories {
 	
 	enum Category: Int, CaseIterable, Codable {
 		case medication = 1
 		case measurements = 2
-		case labresults = 3
+		case labResults = 3
 		case allergies = 4
 		case treatments = 5
 		case appointments = 6
@@ -46,8 +45,9 @@ struct HealthCategories {
 					GpDiagnosticResultProfile.httpNictizNlFhirStructureDefinitionGpDiagnosticResult.rawValue
 				]
 				
-				case .labresults: [
+				case .labResults: [
 					ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue,
+					ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue,
 					GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue
 				]
 				
@@ -64,8 +64,7 @@ struct HealthCategories {
 					ZibEncounterProfile.httpNictizNlFhirStructureDefinitionZibEncounter.rawValue,
 					EAfspraakAppointmentProfile.httpNictizNlFhirStructureDefinitionEAfspraakAppointment.rawValue,
 					GpEncounterProfile.httpNictizNlFhirStructureDefinitionGpEncounter.rawValue,
-					GpEncounterReportProfile.httpNictizNlFhirStructureDefinitionGpEncounterReport.rawValue,
-					GpJournalEntryProfile.httpNictizNlFhirStructureDefinitionGpJournalEntry.rawValue
+					GpEncounterReportProfile.httpNictizNlFhirStructureDefinitionGpEncounterReport.rawValue
 				]
 				
 				case .vaccinations: [
@@ -132,19 +131,23 @@ struct HealthCategories {
 				case ZibBloodPressureProfile.httpNictizNlFhirStructureDefinitionZibBloodPressure.rawValue:
 					"zib_blood_pressure.heading"
 				case ZibBodyWeightProfile.httpNictizNlFhirStructureDefinitionZibBodyWeight.rawValue:
-					"zip_body_weight.heading"
+					"zib_body_weight.heading"
 				case ZibBodyHeightProfile.httpNictizNlFhirStructureDefinitionZibBodyHeight.rawValue:
-					"zip_body_height.heading"
+					"zib_body_height.heading"
 				case GpDiagnosticResultProfile.httpNictizNlFhirStructureDefinitionGpDiagnosticResult.rawValue:
 					"gp_diagnostic_result.heading"
 				
 				// Labresults
-				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue, GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue:
-					"zip_laboratory_test_result_observation.heading"
+				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue:
+					"zib_laboratory_test_result_observation.heading"
+				case ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue:
+					"zib_laboratory_test_result_specimen.heading"
+				case GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue:
+					"gp_laboratory_result.heading"
 				
 				// Allergies
 				case ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue:
-					"zip_allergy_intolerance.heading"
+					"zib_allergy_intolerance.heading"
 				
 				// Treatments
 				case ZibProcedureProfile.httpNictizNlFhirStructureDefinitionZibProcedure.rawValue:
@@ -153,23 +156,18 @@ struct HealthCategories {
 					"zib_procedure_request.heading"
 				
 				// Appointments
-				case ZibEncounterProfile.httpNictizNlFhirStructureDefinitionZibEncounter.rawValue:
-					"zip_encounter.heading"
 				case EAfspraakAppointmentProfile.httpNictizNlFhirStructureDefinitionEAfspraakAppointment.rawValue:
 					"eAfspraak_appointment.heading"
-				case GpEncounterProfile.httpNictizNlFhirStructureDefinitionGpEncounter.rawValue:
-					"gp_encounter.heading"
-				case GpEncounterReportProfile.httpNictizNlFhirStructureDefinitionGpEncounterReport.rawValue:
-					"gp_encounter_report.heading"
-				case GpJournalEntryProfile.httpNictizNlFhirStructureDefinitionGpJournalEntry.rawValue:
-					"gp_journal_entry.heading"
+				case ZibEncounterProfile.httpNictizNlFhirStructureDefinitionZibEncounter.rawValue, GpEncounterProfile.httpNictizNlFhirStructureDefinitionGpEncounter.rawValue,
+					GpEncounterReportProfile.httpNictizNlFhirStructureDefinitionGpEncounterReport.rawValue:
+					"zib_encounter.heading"
 				
 				// Vaccinations
 				case ZibVaccinationProfile.httpNictizNlFhirStructureDefinitionZibVaccination.rawValue,
 					R4NlCoreVaccinationEventProfile.httpNictizNlFhirStructureDefinitionNlCoreVaccinationEvent.rawValue:
-					"zip_vaccination.heading"
+					"zib_vaccination.heading"
 				case ZibVaccinationRecommendationProfile.httpNictizNlFhirStructureDefinitionZibVaccinationRecommendation.rawValue:
-					"zip_vaccination_recommendation.heading"
+					"zib_vaccination_recommendation.heading"
 				
 				// Documents
 				case IheMhdMinimalDocumentReferenceProfile.httpNictizNlFhirStructureDefinitionIHEMHDMinimalDocumentReference.rawValue:
@@ -180,34 +178,16 @@ struct HealthCategories {
 					"zib_problem.heading"
 				
 				// Patient
-				case NlCorePatientProfile.httpFhirNlFhirStructureDefinitionNlCorePatient.rawValue:
+				case NlCorePatientProfile.httpFhirNlFhirStructureDefinitionNlCorePatient.rawValue, R4NlCorePatientProfile.httpNictizNlFhirStructureDefinitionNlCorePatient.rawValue:
 					"zib_patient.heading"
-				
-				// Alerts
-				case ZibAlertProfile.httpNictizNlFhirStructureDefinitionZibAlert.rawValue:
-					"zib_alert.heading"
-				
-				// Payment
-				case ZibPayerProfile.httpNictizNlFhirStructureDefinitionZibPayer.rawValue:
-					"zib_payer.heading"
-				
-				// Plans
-				case ZibTreatmentDirectiveProfile.httpNictizNlFhirStructureDefinitionZibTreatmentDirective.rawValue:
-					"zib_treatment_directive.heading"
-				case ZibAdvanceDirectiveProfile.httpNictizNlFhirStructureDefinitionZibAdvanceDirective.rawValue:
-					"zib_advance_directive.heading"
-				
-				// Devices
-				case ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue:
-					"zib_medical_device.heading"
-				case ZibMedicalDeviceProductProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceProduct.rawValue:
-					"zib_medical_device_product.heading"
-				case ZibMedicalDeviceRequestProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceRequest.rawValue:
-					"zib_medical_device_request.heading"
 				
 				// FunctionalOrMentalStatus
 				case ZibFunctionalOrMentalStatusProfile.httpNictizNlFhirStructureDefinitionZibFunctionalOrMentalStatus.rawValue:
 					"zib_functional_or_mental_status.heading"
+				
+				// Alerts
+				case ZibAlertProfile.httpNictizNlFhirStructureDefinitionZibAlert.rawValue:
+					"zib_alert.heading"
 				
 				// Lifestyle
 				case ZibLivingSituationProfile.httpNictizNlFhirStructureDefinitionZibLivingSituation.rawValue:
@@ -220,6 +200,20 @@ struct HealthCategories {
 					"zib_tobacco_use.heading"
 				case ZibNutritionAdviceProfile.httpNictizNlFhirStructureDefinitionZibNutritionAdvice.rawValue:
 					"zib_nutrition_advice.heading"
+				
+				// Devices
+				case ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue, ZibMedicalDeviceProductProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceProduct.rawValue, ZibMedicalDeviceRequestProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceRequest.rawValue:
+					"zib_medical_device.heading"
+				
+				// Plans
+				case ZibTreatmentDirectiveProfile.httpNictizNlFhirStructureDefinitionZibTreatmentDirective.rawValue:
+					"zib_treatment_directive.heading"
+				case ZibAdvanceDirectiveProfile.httpNictizNlFhirStructureDefinitionZibAdvanceDirective.rawValue:
+					"zib_advance_directive.heading"
+				
+				// Payment
+				case ZibPayerProfile.httpNictizNlFhirStructureDefinitionZibPayer.rawValue:
+					"zib_payer.heading"
 				
 				default:
 					nil
@@ -250,7 +244,7 @@ struct HealthCategories {
 					DVP.GeneralPractitioner.diagnosticAndLabResults
 				]
 				
-				case .labresults: [
+				case .labResults: [
 					DVP.CommonClinicalDataset.laboratoryTestResult,
 					DVP.GeneralPractitioner.diagnosticAndLabResults
 				]
@@ -331,7 +325,7 @@ struct HealthCategories {
 					DVP.CommonClinicalDataset.medicationUse
 				]
 					
-				case .labresults: return [
+				case .labResults: return [
 					DVP.CommonClinicalDataset.laboratoryTestResult,
 					DVP.GeneralPractitioner.diagnosticAndLabResults
 				]

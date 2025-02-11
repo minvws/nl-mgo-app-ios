@@ -549,8 +549,4 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
-	
-	func test_x() {
-		
-	}
 }

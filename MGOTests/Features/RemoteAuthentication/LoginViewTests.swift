@@ -12,13 +12,18 @@ import MGOUI
 final class LoginViewTests: XCTestCase {
 	
 	private var coordinatorSpy: AppCoordinatorSpy!
+	private var remoteAuthenticationClientSpy: RemoteAuthenticationClientSpy!
 	private var viewModel: LoginViewModel!
+	private var servicesSpies: ServicesSpies!
 	private var sut: LoginView!
 	
-	override func setUp() {
+	override func setUpWithError() throws {
 		
 		coordinatorSpy = AppCoordinatorSpy()
-		viewModel = LoginViewModel(coordinator: coordinatorSpy)
+		servicesSpies = setupServicesSpies()
+		let url = try XCTUnwrap(URL(string: "https://example.com"))
+		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url, username: nil, password: nil)
+		viewModel = LoginViewModel(coordinator: coordinatorSpy, remoteAuthenticationClient: remoteAuthenticationClientSpy)
 		sut = LoginView(viewModel: self.viewModel)
 		
 		super.setUp()
@@ -27,7 +32,6 @@ final class LoginViewTests: XCTestCase {
 	func test_loginView() {
 		
 		// Given
-		viewModel.isEIDASenabled = false
 		
 		// When
 		let content = NavigationView { sut }
@@ -36,39 +40,14 @@ final class LoginViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_loginView_eIDASenabled() {
+	func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() throws {
 		
 		// Given
-		viewModel.isEIDASenabled = true
-		
-		// When
-		let content = NavigationView { sut }
-		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	func test_loginWithDigiD_shouldCallCoordinator() throws {
-		
-		// Given
-		
+		servicesSpies.featureFlagSpy.stubbedIsDemo = true
+
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.digid")
-		try view.view(DisclosureWithImageButton.self).find(button: "login.digid").tap()
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
-	}
-	
-	func test_loginWithEIDAS_shouldCallCoordinator() throws {
-		
-		// Given
-		viewModel.isEIDASenabled = true
-		
-		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.european")
-		try view.view(DisclosureWithImageButton.self).find(button: "login.european").tap()
+		try view.view(CallToActionButton.self).find(button: "login.digid").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true

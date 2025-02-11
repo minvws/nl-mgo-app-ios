@@ -47,7 +47,7 @@ public struct BannerView: View {
 		}
 	}
 	
-    public var body: some View {
+	public var body: some View {
 		
 		HStack(alignment: .top, spacing: ViewTraits.Banner.spacing) {
 			Group {
@@ -117,9 +117,13 @@ public struct BannerView: View {
 #Preview {
 	VStack {
 		BannerView(Feedback(title: "Title", subtitle: "Text", type: .info))
+			.cardify(lineColor: .black)
 		BannerView(Feedback(title: "Title", subtitle: "Text", type: .warning))
+			.cardify(lineColor: .black)
 		BannerView(Feedback(title: "Title", subtitle: "Text", type: .error))
+			.cardify(lineColor: .black)
 		BannerView(Feedback(title: "Title", subtitle: "Text", actionTitle: "Click me!", type: .success))
+			.cardify(lineColor: .black)
 	}
 	.padding(.vertical, 20)
 	.padding(.horizontal, 16)

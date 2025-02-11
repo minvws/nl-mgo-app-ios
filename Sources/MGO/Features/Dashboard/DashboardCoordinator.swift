@@ -7,7 +7,6 @@
 
 import MGOUI
 import MGOFoundation
-import Zibs
 
 extension Coordination.Action {
 	
@@ -117,12 +116,6 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			}
 		}
 	}
-	
-	private let localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(
-		serverUrl: Configuration().urlForLocalisation(),
-		username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-		password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-	)
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
@@ -306,7 +299,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
-						localisationServiceClient: self.localisationServiceClient,
+						localisationServiceClient: Current.localisationServiceClient,
 						preselectAllOrganizations: false
 					)
 				)
@@ -318,7 +311,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 						coordinator: self,
 						city: city,
 						name: name,
-						localisationServiceClient: self.localisationServiceClient
+						localisationServiceClient: Current.localisationServiceClient
 					)
 				)
 				.isPresentedAsSheet(true)
@@ -384,7 +377,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case HealthCategories.Category.measurements:
 				HealthCategoryView(viewModel: MeasurementsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
-			case HealthCategories.Category.labresults:
+			case HealthCategories.Category.labResults:
 				HealthCategoryView(viewModel: LabResultsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.allergies:

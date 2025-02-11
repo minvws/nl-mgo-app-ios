@@ -49,7 +49,7 @@
       }
     },
     "add_organization_list.heading" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
@@ -763,6 +763,17 @@
         }
       }
     },
+    "eAfspraak_appointment.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afspraken met zorgaanbieders"
+          }
+        }
+      }
+    },
     "forgot_pincode.button" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -814,6 +825,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Je kunt wel een nieuwe toegangscode instellen als je een nieuw account aanmaakt."
+          }
+        }
+      }
+    },
+    "gp_diagnostic_result.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitslag van onderzoek"
+          }
+        }
+      }
+    },
+    "gp_laboratory_result.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitslag van test laboratorium"
           }
         }
       }
@@ -890,7 +923,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Klachten"
+            "value" : "Medische klachten"
           }
         }
       }
@@ -934,7 +967,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sorry, we kunnen de bijlage nu niet ophalen. Probeer het later opnieuw."
+            "value" : "Sorry, we kunnen de bijlage nu niet ophalen."
           }
         }
       }
@@ -1071,7 +1104,7 @@
         }
       }
     },
-    "hc_mental.heading_details" : {
+    "hc_mental.heading_detail" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1214,6 +1247,17 @@
         }
       }
     },
+    "ihe_mhd_minimal_document_reference.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Documenten"
+          }
+        }
+      }
+    },
     "introduction.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1297,7 +1341,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met DigiD"
+            "value" : "Log in met DigiD"
           }
         }
       }
@@ -1319,7 +1363,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met eIDAS"
+            "value" : "Log in met eIDAS"
           }
         }
       }
@@ -1341,18 +1385,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kies de manier waarop je wilt inloggen. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
-          }
-        }
-      }
-    },
-    "medication_details.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle medicijngegevens"
+            "value" : "Log in met DigiD. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
           }
         }
       }
@@ -1375,6 +1408,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door je zorgaanbieder."
+          }
+        }
+      }
+    },
+    "organisation_list_automatic.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welke wil je tonen in je overzicht? Je kunt dit later altijd veranderen."
           }
         }
       }
@@ -1616,7 +1660,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voer je 5-cijferige code nog een keer in."
+            "value" : "Vul je toegangscode in om door te gaan"
           }
         }
       }
@@ -2072,6 +2116,28 @@
         }
       }
     },
+    "toast.organizations_changed.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgaanbieders aangepast"
+          }
+        }
+      }
+    },
+    "toast.organizations_changed.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herstel"
+          }
+        }
+      }
+    },
     "update_required.download" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2101,6 +2167,303 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Je hebt de nieuwste versie van de app nodig om verder te gaan."
+          }
+        }
+      }
+    },
+    "zib_administration_agreement.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoe je je medicijnen krijgt"
+          }
+        }
+      }
+    },
+    "zib_advance_directive.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wilsverklaring"
+          }
+        }
+      }
+    },
+    "zib_alcohol_use.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alcoholgebruik"
+          }
+        }
+      }
+    },
+    "zib_alert.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waarschuwingen"
+          }
+        }
+      }
+    },
+    "zib_allergy_intolerance.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allergieën"
+          }
+        }
+      }
+    },
+    "zib_blood_pressure.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloeddruk"
+          }
+        }
+      }
+    },
+    "zib_body_height.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lengte"
+          }
+        }
+      }
+    },
+    "zib_body_weight.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewicht"
+          }
+        }
+      }
+    },
+    "zib_drug_use.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drugsgebruik"
+          }
+        }
+      }
+    },
+    "zib_encounter.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contacten met zorgaanbieders"
+          }
+        }
+      }
+    },
+    "zib_functional_or_mental_status.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mentaal welzijn"
+          }
+        }
+      }
+    },
+    "zib_laboratory_test_result_observation.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitslag van onderzoek laboratorium"
+          }
+        }
+      }
+    },
+    "zib_laboratory_test_result_specimen.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onderzoeksmateriaal"
+          }
+        }
+      }
+    },
+    "zib_living_situation.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leefomstandigheden"
+          }
+        }
+      }
+    },
+    "zib_medical_device.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medische hulpmiddelen"
+          }
+        }
+      }
+    },
+    "zib_medication_agreement.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afspraken over je medicijnen"
+          }
+        }
+      }
+    },
+    "zib_medication_use.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medicijnen die je gebruikt"
+          }
+        }
+      }
+    },
+    "zib_nutrition_advice.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voedingsadvies"
+          }
+        }
+      }
+    },
+    "zib_patient.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persoonsgegevens, Burgerlijke staat & contactpersonen"
+          }
+        }
+      }
+    },
+    "zib_payer.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Betaalgegevens"
+          }
+        }
+      }
+    },
+    "zib_problem.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medische klachten"
+          }
+        }
+      }
+    },
+    "zib_procedure_request.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geplande zorgafspraken"
+          }
+        }
+      }
+    },
+    "zib_procedure.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelingen en overdracht"
+          }
+        }
+      }
+    },
+    "zib_tobacco_use.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rookgedrag"
+          }
+        }
+      }
+    },
+    "zib_treatment_directive.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelwensen"
+          }
+        }
+      }
+    },
+    "zib_vaccination_recommendation.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaccinatie adviezen"
+          }
+        }
+      }
+    },
+    "zib_vaccination.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaccinaties"
           }
         }
       }

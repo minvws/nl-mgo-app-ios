@@ -62,6 +62,7 @@ extension Coordination.Action {
 	
 	// Remote Authentication
 	static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
+	static let deeplink = Coordination.Action(identifier: "deeplink")
 	static let nextButtonPressedOnLoginInfo = Coordination.Action(identifier: "nextButtonPressedOnLoginInfo")
 	
 	// Other
@@ -141,8 +142,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// The coordinator for all dashboard activities
 	private var dashboardCoordinator: DashboardCoordinator!
 	
-	private let localisationServiceClient: LocalisationServiceClientProtocol? = LocalisationServiceClient(
-		serverUrl: Configuration().urlForLocalisation(),
+	/// Client for remote authentication
+	private let remoteAuthenticationClient: RemoteAuthenticationClientProtocol? = RemoteAuthenticationClient(
+		serverUrl: Configuration().urlForOIDC(),
 		username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
 		password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
 	)
@@ -214,9 +216,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		switch Configuration().getRelease() {
 			case .production:
 				return URL(string: String(localized: "proposition.link.prod"))
-			case .acceptance:
+			case .demo, .acceptance:
 				return URL(string: String(localized: "proposition.link.acc"))
-			case .demo, .test, .development:
+			case .test, .development:
 				return URL(string: String(localized: "proposition.link.test"))
 		}
 	}
@@ -238,10 +240,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			return
 		}
 		
+		guard !handleDeeplink(action) else { return }
 		guard !handleOnboarding(action) else { return }
 		guard !handleLocalAuthentication(action) else { return }
 		guard !handleRemoteAuthentication(action) else { return }
 		guard !handleManualLocalization(action) else { return }
+		guard !handleAutomaticLocalization(action) else { return }
 		
 		switch action.identifier {
 			
@@ -378,13 +382,40 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				}
 				return true
 			
-			case Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
-				showChildCoordinator = true
-				return true
-				
 			default:
 				return false
 		}
+	}
+
+	/// Handle the deeplink flow action from any of the view models
+	/// - Parameter action: any Action
+	/// - Returns: True if the action is consumed
+	private func handleDeeplink(_ action: Coordination.Action) -> Bool {
+		
+		if action.identifier == Coordination.Action.deeplink.identifier {
+			if action.params.count == 1,
+			   let deeplinkUrl = action.params["deeplink"] as? URL {
+				if let deepLink = DeepLinkFactory().create(deeplinkUrl) {
+					consume(deepLink)
+				}
+			} else {
+				logError("App Coordinator, missing params for \(action)")
+			}
+			return true
+		}
+		return false
+	}
+	
+	/// Handle the automatic localization flow action from any of the view models
+	/// - Parameter action: any Action
+	/// - Returns: True if the action is consumed
+	private func handleAutomaticLocalization(_ action: Coordination.Action) -> Bool {
+		
+		if action.identifier == Coordination.Action.finishedSearchingHealthcareOrganizations.identifier {
+			showChildCoordinator = true
+			return true
+		}
+		return false
 	}
 	
 	/// Handle the manual localization flow action from any of the view models
@@ -494,6 +525,23 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
+	/// Consume a deeplink
+	/// - Parameter deeplink: the deeplink
+	/// - Returns: true if the coordinator has consumed the deeplink
+	public func consume(_ deeplink: DeepLink) {
+		
+		switch deeplink {
+			case .digidCallback(let userinfo):
+				logInfo("Consume digidCallback with userinfo", userinfo)
+				Current.secureUserSettings.userHasRemoteAuthentication = true
+				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
+				} else {
+					resetNavigationStack(with: AppCoordination.State.manualLocalization)
+				}
+		}
+	}
+	
 	/// Get a View for the State
 	/// - Parameter state: the AppCoordination State
 	/// - Returns: A view for that state
@@ -544,7 +592,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Remote Authentication
 				
 			case .login:
-				LoginView(viewModel: LoginViewModel(coordinator: self))
+				LoginView(viewModel: LoginViewModel(coordinator: self, remoteAuthenticationClient: self.remoteAuthenticationClient))
 			
 			case .loginInfo:
 				LoginInfoView(viewModel: LoginInfoViewModel(coordinator: self))
@@ -555,7 +603,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
-						localisationServiceClient: self.localisationServiceClient,
+						localisationServiceClient: Current.localisationServiceClient,
 						preselectAllOrganizations: true
 					)
 				)
@@ -570,7 +618,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 						coordinator: self,
 						city: city,
 						name: name,
-						localisationServiceClient: self.localisationServiceClient
+						localisationServiceClient: Current.localisationServiceClient
 					)
 				)
 			

@@ -21,16 +21,10 @@ public protocol RequestHandler {
 	/// Request parameters to pass along.
 	var parameters: RequestParameters { get set }
 	
-	/// Request options to pass along.
-	var options: RequestOption { get set }
-	
-	/// The receiver may hold on to a resource that supplies the request's body data.
-	var resource: Resource? { get set }
-	
 	/**
 	Designated initializer.
 	*/
-	init(_ method: RequestMethod, resource: Resource?)
+	init(_ method: RequestMethod)
 	
 	// MARK: - Preparation
 	

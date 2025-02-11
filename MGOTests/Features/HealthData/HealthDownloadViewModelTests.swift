@@ -9,7 +9,6 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
-import Zibs
 
 final class HealthDownloadViewModelTests: XCTestCase {
 	
@@ -30,6 +29,18 @@ final class HealthDownloadViewModelTests: XCTestCase {
 	private func createSut(url: String?) {
 		
 		let entry = UIElement(display: nil, label: "label", type: .downloadLink, reference: nil, url: url)
+		let healthcareOrganization = Generator.healthcareOrganization("1")
+		sut = HealthDataDownloadViewModel(
+			healthcareOrganization: healthcareOrganization,
+			entry: entry,
+			urlOpener: urlOpenerSpy,
+			binaryRepository: binaryRepositorySpy
+		)
+	}
+	
+	private func createSut(reference: String) {
+		
+		let entry = UIElement(display: nil, label: "label", type: .downloadBinary, reference: reference, url: nil)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		sut = HealthDataDownloadViewModel(
 			healthcareOrganization: healthcareOrganization,
@@ -103,6 +114,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 	func test_reduce_download_binary_noContent() throws {
 		
 		// Given
+		createSut(reference: "test_reduce_download_binary_noContent")
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = nil
 		
 		// When
@@ -116,6 +128,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 	func test_reduce_download_binary_error() throws {
 		
 		// Given
+		createSut(reference: "test_reduce_download_binary_error")
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinaryError = NSError(domain: "test_reduce_download_binary_error", code: 404)
 		
 		// When
@@ -125,13 +138,30 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedCanOpenURL) == false
 		expect(self.sut.state).toEventually(equal(.error))
 	}
+
+	func test_reduce_download_noReference() throws {
+		
+		// Given
+		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
+		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
+		let url = try XCTUnwrap(URL(string: "https://example.com"))
+		binaryRepositorySpy.stubbedStoreResult = url
+		
+		// When
+		sut.reduce(.download)
+		
+		// Then
+		expect(self.urlOpenerSpy.invokedCanOpenURL) == false
+		expect(self.sut.state).toEventually(equal(.noDocument))
+	}
 	
 	func test_reduce_download_binary() throws {
 		
 		// Given
-		let url = try XCTUnwrap(URL(string: "https://example.com"))
-		let binary = Zibs.MgoBinary(contentType: "application/pdf", content: "Um9vbA==")
+		createSut(reference: "test_reduce_download_binary")
+		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
+		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		binaryRepositorySpy.stubbedStoreResult = url
 		
 		// When

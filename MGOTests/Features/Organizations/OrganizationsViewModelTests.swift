@@ -91,4 +91,31 @@ final class OrganizationsViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.toast) == nil
 	}
+	
+	func test_showToast() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.showToast)
+		
+		// Then
+		expect(self.sut.toast) != nil
+	}
+	
+	func test_undo() {
+		
+		// Given
+		let healthcareOrganization = Generator.healthcareOrganization("1")
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
+		sut = OrganizationsViewModel(coordinator: coordinatorSpy)
+		sut.reduce(.showToast)
+		
+		// When
+		sut.toast?.action?()
+		
+		// Then
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedSet) == true
+		expect(self.sut.toast) == nil
+	}
 }

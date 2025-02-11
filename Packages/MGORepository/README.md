@@ -2,52 +2,60 @@
 
 ## Overview
 
-The repositories for the BGZ Concern, LaboratoryTestResult and MedicationUse. Each of the repositories uses the FHIR Client and the FHIR Extensions to map the servers FHIR response on to readable classes. 
+The MGO Repository is used to fetch the various Zibs from a DVA.  
 
 ## Usage
 
-To fetch a list of concerns ([Condition](https://github.com/apple/FHIRModels/blob/main/Sources/ModelsSTU3/Condition.swift)) from the server:
+To fetch a list of ([Medication Use](https://zibs.nl/wiki/MedicationUse2-v1.1.1(2020EN))) from the server:
 
 ```swift
 
 import MGORepository
 
-let concernRepository: ConcernRepository? = FHIRClient()
+// The FHIR Client (for the dva proxy)
+let url = URL(string: "https://dva.mgo.irealisatie.nl/fhir")
+let client = FHIRClient(baseURL: url)
+
+// The repository
+let repository = MGORepository(client: client)
+
+// Array to hold the resources
+var mgoResources = [MgoResource]()
+
+// Resource endpoint
+let endpoint = DVP.Endpoint(
+	path: "MedicationStatement",
+	parameters: RequestParameters(
+		[
+			(RequestParameterField.category, "urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3|6"),
+			(RequestParameterField.include, "MedicationStatement:medication")
+		]
+	),
+	serviceId: "48" // BGZ has serviceId 48
+)
+
+// The DVA to fetch the data from
+let dva = "https://dva-mock.mgo.irealisatie.nl/48"
 
 do {
-	let concerns: [MgoConcern] = try await concernRepository.fetchConcerns()
-	....
+	// A FHIR Bundle 
+	let fhirBundle = try await repository.getBundleData(
+		endpoint: endpoint,
+		dvaTarget: dvaTarget,
+		username: "Basic Auth username",
+		password: "Basic Auth password"
+	)
+	// The Zibs
+	mgoResources = try repository.process(fhirBundle, fhirVersion: "R3")
+	...
+	
 } catch {
-	logError("Client read error: \(String(describing: error))")
-}
-```
-
-To fetch a list of laboratoryTestResuls ([Observation](https://github.com/apple/FHIRModels/blob/main/Sources/ModelsSTU3/Observation.swift)) from the server:
-
-```swift
-let resultRepository: LaboratoryTestResultRepository? = FHIRClient()
-
-do {
-	let results: [MgoLaboratoryTestResult] = try await resultRepository.fetchResults()
-	....
-} catch {
-	logError("Client read error: \(String(describing: error))")
-}
-```
-
-To fetch a list of medicationUse ([MedicationStatement](https://github.com/apple/FHIRModels/blob/main/Sources/ModelsSTU3/MedicationStatement.swift)) from the server:
-
-```swift
-let medicationRepository: MedicationUseRepository? = FHIRClient()
-
-do {
-	let tuples: [(Zib, UISchema)] = try await medicationRepository.fetchMedicationUse()
-	....
-} catch {
-	logError("Client read error: \(String(describing: error))")
+	logError("error fetching resources", error)
 }
 
 ```
+
+---
 
 ## Contribution process
 
@@ -57,6 +65,8 @@ If you plan to make non-trivial changes, we recommend to open an issue beforehan
 
 Note that all commits should be signed using a [gpg key](https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account).
 
+---
+
 ## License
 
-License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/LICENSE.txt) for details.
+License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/Packages/MGORepository/LICENSE.txt) for details.

@@ -66,6 +66,21 @@ final class HealthcareOrganiationRepositoryTests: XCTestCase {
 		expect(sut.organizations).to(beEmpty())
 	}
 	
+	func test_set() throws {
+		
+		// Given
+		let sut = HealthcareOrganizationRepository()
+		let organization = healthcareOrganization("1")
+		
+		// When
+		try sut.set([organization])
+		
+		// Then
+		let list = try sut.read()
+		expect(list).to(haveCount(1))
+		expect(list.first) == organization
+	}
+	
 	func test_wipePersistentData() throws {
 		
 		// Given

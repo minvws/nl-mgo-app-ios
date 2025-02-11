@@ -31,8 +31,7 @@ final class AppCoordinatorViewTests: XCTestCase {
 		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
 		
 		// Then
-		let value = try sut.inspect().find(viewWithAccessibilityLabel: "common.app_name")
-		expect(value) != nil
+		takeSnapShots(content: sut)
 	}
 	
 	func test_childCoordinator() throws {

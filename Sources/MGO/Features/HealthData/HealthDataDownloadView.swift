@@ -7,7 +7,6 @@
 
 import MGOFoundation
 import MGOUI
-import Zibs
 import RestrictedBrowser
 
 /// The states of a download view
@@ -58,15 +57,18 @@ class HealthDataDownloadViewModel: ObservableObject {
 		self.urlOpener = urlOpener
 		self.binaryRepository = binaryRepository
 		
-		if entry.url == nil {
-			state = .noDocument
-		} else {
-			state = .idle(label: entry.label)
+		switch entry.type {
+			case .downloadBinary:
+				state = .idle(label: entry.label)
+			case .downloadLink:
+				if entry.url == nil {
+					state = .noDocument
+				} else {
+					state = .idle(label: entry.label)
+				}
+			default:
+				state = .noDocument
 		}
-	}
-	
-	deinit {
-		binaryRepository.clear()
 	}
 	
 	/// A list of all the actions this viewModel can handle
@@ -87,7 +89,41 @@ class HealthDataDownloadViewModel: ObservableObject {
 		}
 	}
 	
+	/// Handle the click on the download button
 	private func download() {
+		
+		if entry.type == .downloadBinary {
+			downloadBinary()
+		} else if entry.type == .downloadLink {
+			downloadLink()
+		}
+	}
+	
+	/// The user tapped the download button for a download binary type
+	private func downloadBinary() {
+		logInfo("Tapped on", entry.reference as Any)
+
+		// Only Binaries
+		guard entry.type == .downloadBinary else { return }
+	
+		// Download once
+		guard state != .loading(label: entry.label) else { return }
+		
+		// We must have a reference link
+		guard let reference = entry.reference else {
+			state = .noDocument
+			return
+		}
+		
+		state = .loading(label: entry.label)
+		
+		_Concurrency.Task {
+			await loadBinary(reference)
+		}
+	}
+	
+	/// The user tapped the download button for a download link type
+	private func downloadLink() {
 		
 		guard let urlString = entry.url else {
 			state = .noDocument
@@ -107,12 +143,6 @@ class HealthDataDownloadViewModel: ObservableObject {
 			}
 			state = .external(label: entry.label, documentUrl: externalUrl)
 			urlOpener.openUrlIfPossible(externalUrl)
-		
-		} else if urlString.starts(with: "Binary/") {
-			
-			_Concurrency.Task {
-				await loadBinary(urlString)
-			}
 		} else {
 			state = .noDocument
 		}
@@ -130,17 +160,18 @@ class HealthDataDownloadViewModel: ObservableObject {
 	}
 	
 	@MainActor
-	func loadBinary(_ url: String) async {
+	func loadBinary(_ externalUrl: String) async {
+		
 		do {
-			if let binary = try await Current.resourceRepository.loadBinary(healthcareOrganization, serviceId: "51", url: url) {
+			if let binary = try await Current.resourceRepository.loadBinary(healthcareOrganization, serviceId: "51", url: externalUrl) {
 				logInfo("binary", binary.contentType)
 				
 				var name = entry.label
 				if binary.contentType == "application/pdf" {
 					name += ".pdf"
 				}
-				let url = try binaryRepository.store(binary, as: name)
-				self.state = .downloaded(label: entry.label, documentUrl: url)
+				let storeUrl = try binaryRepository.store(binary, as: name)
+				self.state = .downloaded(label: entry.label, documentUrl: storeUrl)
 				showPreview = true
 			} else {
 				state = .error
@@ -225,8 +256,10 @@ struct HealthDataDownloadView: View {
 			case .error:
 				feedbackView(
 					"hc_documents.error",
-					iconColor: theme.notificationError
-				)
+					iconColor: theme.notificationError,
+					actionTitle: "common.try_again") {
+						viewModel.reduce(.download)
+					}
 		}
 	}
 	
@@ -234,8 +267,14 @@ struct HealthDataDownloadView: View {
 	/// - Parameters:
 	///   - text: the text to display
 	///   - iconColor: the color of the icon
+	///   - actionTitle: the optional title for an action
+	///   - action: the action to perform when the user taps on the action title
 	/// - Returns: feedback view
-	@ViewBuilder private func feedbackView(_ text: LocalizedStringKey, iconColor: Color) -> some View {
+	@ViewBuilder private func feedbackView(
+		_ text: LocalizedStringKey,
+		iconColor: Color,
+		actionTitle: LocalizedStringKey? = nil,
+		action: (() -> Void)? = nil) -> some View {
 		
 		VStack(alignment: .center, spacing: ViewTraits.Feedback.spacing) {
 			Image(ImageResource.Schema.error)
@@ -245,6 +284,16 @@ struct HealthDataDownloadView: View {
 				.multilineTextAlignment(.center)
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.contentPrimary)
+			
+			if let actionTitle {
+				Button {
+					action?()
+				} label: {
+					Text(actionTitle)
+				}
+				.buttonStyle(LinkButtonStyle(.center))
+				.accessibilityIdentifier("feedbackAction")
+			}
 		}
 		.frame(maxWidth: .infinity, alignment: .center)
 		.padding(.horizontal, ViewTraits.Feedback.horizontal)

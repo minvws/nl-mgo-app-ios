@@ -6,7 +6,7 @@
  */
 
 import MGOTest
-@testable import Managers
+@testable import SecureUserSettings
 
 final class Sha256Tests: XCTestCase {
 

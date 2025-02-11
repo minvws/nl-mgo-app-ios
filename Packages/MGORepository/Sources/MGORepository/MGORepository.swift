@@ -7,7 +7,7 @@
 
 import Foundation
 import FHIRClient
-import FHIRParser
+import SharedCore
 
 public class MGORepository {
 	
@@ -44,7 +44,6 @@ public class MGORepository {
 		let data = try await client.readDataFrom(
 			path,
 			parameters: parameters,
-			options: [],
 			headers: RequestHeaders(headers)
 		)
 		

@@ -7,7 +7,6 @@
 
 import MGOFoundation
 import MGOUI
-import Zibs
 
 struct ZibDetailViewState {
 	
@@ -30,7 +29,7 @@ class HealthDataViewModel: ObservableObject {
 	var healthcareOrganization: MgoOrganization
 
 	/// The reference resolver
-	var referenceResolver: ReferenceResolverProtocol
+	weak private var referenceResolver: ReferenceResolverProtocol?
 	
 	/// The store for references
 	var referenceStore = [String: (MgoResource, UISchema)?]()
@@ -93,7 +92,7 @@ class HealthDataViewModel: ObservableObject {
 	
 	private func storeReference(_ reference: String) {
 		
-		let result = referenceResolver.resolve(reference: reference, healthcareOrganization: healthcareOrganization)
+		let result = referenceResolver?.resolve(reference: reference, healthcareOrganization: healthcareOrganization)
 		referenceStore[reference] = result
 		resolvedReferences[reference] = result != nil
 	}
@@ -154,11 +153,11 @@ struct HealthDataView: View {
 		ScrollViewWithDivider {
 			
 			VStack(spacing: ViewTraits.General.padding) {
-				if let title = viewModel.state.schema.label {
-					Text(title)
-						.rijksoverheidStyle(font: .bold, style: .title)
-						.frame(maxWidth: .infinity, alignment: .topLeading)
-				}
+				
+				Text(viewModel.state.schema.label)
+					.rijksoverheidStyle(font: .bold, style: .title)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+				
 				UISchemaView(
 					schema: viewModel.state.schema,
 					healthcareOrganization: viewModel.healthcareOrganization,
@@ -172,8 +171,8 @@ struct HealthDataView: View {
 				Spacer()
 			}
 			.padding(.top, ViewTraits.Navigation.padding)
+			.padding(.horizontal, ViewTraits.General.padding)
 		}
-		.padding(.horizontal, ViewTraits.General.padding)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton(LocalizedStringKey(stringLiteral: viewModel.state.backButton)) {

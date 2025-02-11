@@ -7,36 +7,61 @@
 
 import MGOFoundation
 import MGOUI
+import RestrictedBrowser
 
 class LoginViewModel: ObservableObject {
-	
-	@Published var isEIDASenabled: Bool = false
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case loginWithDigiD
-		case loginWithEIDAS
 	}
 	
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
 	
-	/// Initializer
+	private var remoteAuthenticationClient: RemoteAuthenticationClientProtocol?
+	
+	/// Helper to open urls
+	private var urlOpener: URLOpenerProtocol
+	
+	/// Create a Login ViewModel
 	/// - Parameter coordinator: The coordinator
-	/// - Parameter isEIDASenabled: Boolean indicating the eIDAS state
-	init(coordinator: (any Coordinator)?, isEIDASenabled: Bool = false) {
+	/// - Parameter urlOpener: The helper to open hyperlinks
+	init(coordinator: (any Coordinator)?, remoteAuthenticationClient: RemoteAuthenticationClientProtocol?, urlOpener: URLOpenerProtocol = UIApplication.shared) {
 		
 		self.coordinator = coordinator
-		self.isEIDASenabled = isEIDASenabled
+		self.remoteAuthenticationClient = remoteAuthenticationClient
+		self.urlOpener = urlOpener
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	public func reduce(_ action: Action) {
 		
-		switch action {
-			case .loginWithDigiD, .loginWithEIDAS:
+		if action == .loginWithDigiD {
+			guard !Current.featureFlagManager.isDemo else {
 				coordinator?.handle(Coordination.Action.loggedInWithDigiD)
+				return
+			}
+			authenticate()
+		}
+	}
+	
+	private func authenticate() {
+		
+		Task { @MainActor [remoteAuthenticationClient] in
+			do {
+				guard let remoteAuthenticationClient else { return }
+				
+				let authUrl = try await remoteAuthenticationClient.getAuthenticationUrl(callbackUrl: Configuration().getOIDCCallback())
+				guard let authenticationUrl = URL(string: authUrl.absoluteString.replacingOccurrences(of: "max:8006", with: "localhost:8006")) else {
+					return
+				}
+				logDebug("authenticationUrl", authenticationUrl)
+				self.urlOpener.openUrlIfPossible(authenticationUrl)
+			} catch {
+				logError("Error fetching oidc start \(error)")
+			}
 		}
 	}
 }
@@ -49,62 +74,48 @@ struct LoginView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
-	/// Color scheme (light, dark)
-	@Environment(\.colorScheme) var colorScheme
-	
 	/// Magic Numbers
 	private struct ViewTraits {
-		enum Navigation {
-			static let padding: CGFloat = 8
+		
+		enum Button {
+			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 		}
 		enum General {
-			static let padding: CGFloat = 16
-		}
-		enum Button {
-			static let top: CGFloat = 8
 			static let spacing: CGFloat = 16
 		}
 	}
 	
 	var body: some View {
 		
-		ScrollViewWithDivider {
+		ScrollViewWithFixedBottom {
+			ImageContentView(
+				icon: Image(ImageResource.Woman.womanWithPhone),
+				heading: "login.heading",
+				subHeading: "login.subheading",
+				textAlignment: .leading,
+				textSpacing: ViewTraits.General.spacing,
+				titleStyle: .largeTitle,
+				subHeadingForegroundColor: theme.contentPrimary
+			)
 			
-			VStack(spacing: ViewTraits.General.padding) {
-				
-				Text("login.subheading")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.accessibilityIdentifier("login.subheading")
-					.foregroundStyle(theme.contentPrimary)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-				
-				VStack(spacing: ViewTraits.Button.spacing, content: {
-					
-					DisclosureWithImageButton(
-						title: "login.digid",
-						image: ImageResource.RemoteAuthentication.digid,
-						showImageBorder: colorScheme == .dark) {
-							viewModel.reduce(.loginWithDigiD)
-						}
-						.accessibilityIdentifier("login.digid")
-					
-					if viewModel.isEIDASenabled {
-						
-						DisclosureWithImageButton(
-							title: "login.european",
-							image: ImageResource.RemoteAuthentication.eidas) {
-								viewModel.reduce(.loginWithEIDAS)
-							}
-							.accessibilityIdentifier("login.european")
-					}
-				})
-				.padding(.top, ViewTraits.Button.top)
+		} bottomView: {
+			CallToActionButton(
+				"login.digid",
+				icon: Image(ImageResource.RemoteAuthentication.digid),
+				style: .loginWithDigiD
+			) {
+				viewModel.reduce(.loginWithDigiD)
 			}
-			.padding(.horizontal, ViewTraits.General.padding)
+			.accessibilityIdentifier("login.digid")
+			.padding(ViewTraits.Button.insets)
+			
+//			CallToActionButton(title: "Send deeplink") {
+//				UIApplication.shared.open(URL(string: "mgo-dev://app/login?userinfo=TestContent")!)
+//			}
+//			.padding(ViewTraits.Button.insets)
 		}
-		.navigationBarBackButtonHidden(true)
 		.navigationBarHidden(false)
-		.navigationTitle("login.heading")
+		.navigationBarBackButtonHidden()
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 	}
@@ -112,7 +123,7 @@ struct LoginView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-			LoginView(viewModel: LoginViewModel(coordinator: nil)
+		LoginView(viewModel: LoginViewModel(coordinator: nil, remoteAuthenticationClient: nil)
 		)
 	}
 }

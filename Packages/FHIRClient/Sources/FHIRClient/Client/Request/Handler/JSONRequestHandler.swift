@@ -28,17 +28,4 @@ open class JSONRequestHandler: RequestHandlerImpl {
 		}
 		try super.prepare(request: &request)
 	}
-	
-	/**
-	Instantiate a FHIRServerResponse based on the response and data that we get.
-	*/
-	override open func response(response: URLResponse?, data inData: Data? = nil, error: Error? = nil) -> ServerResponse {
-		if let res = response {
-			return JSONResponse(handler: self, response: res, data: inData, error: error)
-		}
-		if let error = error {
-			return JSONResponse(error: error, handler: self)
-		}
-		return JSONResponse(error: FHIRError.noResponseReceived, handler: self)
-	}
 }

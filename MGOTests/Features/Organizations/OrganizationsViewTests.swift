@@ -105,8 +105,8 @@ final class OrganizationsViewTests: XCTestCase {
 		createSut()
 		
 		viewModel.toast = Feedback(
-			title: String(localized: "toast.organization_removed.heading"),
-			subtitle: String(localized: "toast.organization_removed.subheading"),
+			title: String(localized: "toast.organizations_changed.heading"),
+			subtitle: String(localized: "toast.organizations_changed.subheading"),
 			type: .success
 		)
 		

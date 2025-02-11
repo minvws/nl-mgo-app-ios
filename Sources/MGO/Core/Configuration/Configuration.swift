@@ -22,6 +22,8 @@ public class Configuration {
 	}
 }
 
+#warning("The production endpoints still point to acceptance. This needs to be changed to production")
+
 extension Configuration {
 	
 	/// Get the url for the localisation server
@@ -29,8 +31,8 @@ extension Configuration {
 	func urlForLocalisation() -> URL {
 		do {
 			switch getRelease() {
-				case .acceptance, .production: return try LocalisationService.Servers.Server2.url()
-				case .demo, .development, .test: return try LocalisationService.Servers.Server1.url()
+				case .demo, .acceptance, .production: return try LocalisationService.Servers.Server2.url()
+				case .development, .test: return try LocalisationService.Servers.Server1.url()
 			}
 			
 		} catch {
@@ -66,8 +68,8 @@ extension Configuration {
 		
 		let urlString: String = {
 			switch getRelease() {
-				case .production, .acceptance: return "https://dva.acc.mgo.irealisatie.nl/fhir"
-				case .demo, .development, .test: return "https://dva.test.mgo.irealisatie.nl/fhir"
+				case .demo, .production, .acceptance: return "https://dva.acc.mgo.irealisatie.nl/fhir"
+				case .development, .test: return "https://dva.test.mgo.irealisatie.nl/fhir"
 			}
 		}()
 		
@@ -76,5 +78,46 @@ extension Configuration {
 		}
 		
 		return url
+	}
+}
+
+extension Configuration {
+	
+	/// Get the url for the oidc server
+	/// - Returns: url of the oidc server
+	func urlForOIDC() -> URL {
+		
+		let urlString: String = {
+			switch getRelease() {
+				case .demo, .production, .acceptance: return "https://dva.acc.mgo.irealisatie.nl"
+				case .development, .test: return "https://dva.test.mgo.irealisatie.nl"
+//				case .development: return "http://localhost:8801"
+			}
+		}()
+		
+		guard let url = Foundation.URL(string: urlString) else {
+			fatalError("Configuration: No url for the oidc server")
+		}
+		
+		return url
+	}
+	
+	/// Get the callback url for oidc
+	/// - Returns: the callback url
+	func getOIDCCallback() -> String {
+		return "\(getCallbackScheme())://app/login"
+	}
+	
+	/// Get the callback scheme
+	/// - Returns: the callback scheme
+	func getCallbackScheme() -> String {
+		
+		switch getRelease() {
+			case .production: return "mgo"
+			case .acceptance: return "mgo-acc"
+			case .demo: return "mgo-demo"
+			case .test: return "mgo-test"
+			case .development: return "mgo-dev"
+		}
 	}
 }

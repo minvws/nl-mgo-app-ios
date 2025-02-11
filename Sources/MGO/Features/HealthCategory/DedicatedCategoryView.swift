@@ -115,7 +115,7 @@ class LabResultsHealthCategoryViewModel: HealthCategoryViewModel {
 	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.labresults,
+			category: HealthCategories.Category.labResults,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_lab_results.heading",

@@ -8,7 +8,6 @@
 import MGOFoundation
 import MGOUI
 import JavaScriptCore
-import Zibs
 
 /// A small struct for each category result
 struct HealthCategoryBlock: Equatable, Identifiable {
@@ -183,6 +182,7 @@ class HealthCategoryViewModel: ObservableObject {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 			case .onAppear:
+				BinaryRepository().clear()
 				_Concurrency.Task {
 					 await loadResources()
 				}
@@ -298,7 +298,10 @@ class HealthCategoryViewModel: ObservableObject {
 				items.append(
 					HealthCategoryBlock(
 						heading: Sanitizer.strip(uiSchema.label),
-						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) {
+						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) { [weak self] in
+							
+							guard let self else { return }
+							
 							self.coordinator?.handle(Coordination.Action(
 								identifier: Coordination.Action.showHealthData.identifier,
 								params: [
@@ -398,13 +401,12 @@ struct HealthCategoryView: View {
 								showBanner = false
 							}
 						}
+						.padding(.horizontal, ViewTraits.General.padding)
 					}
 					listOverview(list: items)
 			}
-			
 			Spacer()
 		}
-		.padding(.horizontal, ViewTraits.General.padding)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("overview.heading") {
 			viewModel.reduce(.backButtonPressed)
@@ -422,11 +424,14 @@ struct HealthCategoryView: View {
 	/// - Returns: View when the user has some stored healthcare organizations
 	@ViewBuilder func listOverview(list: [HealthSubCategory]) -> some View {
 	
-		if list.isNotEmpty {
-			listOverviewBlocks(list: list)
-		} else {
-			noItems()
+		Group {
+			if list.isNotEmpty {
+				listOverviewBlocks(list: list)
+			} else {
+				noItems()
+			}
 		}
+		.padding(.horizontal, ViewTraits.General.padding)
 	}
 	
 	/// Create the list state view
