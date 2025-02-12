@@ -1,0 +1,17 @@
+{
+	"label": "Download Binary",
+	"children": [
+		{
+			"label": "Section for a download binary",
+			"children": [
+				{
+					"label": "The label",
+					"display": "Download Binary",
+					"type": "DOWNLOAD_BINARY",
+					"reference": "reference",
+					"url": null
+				}
+			]
+		}
+	]
+}

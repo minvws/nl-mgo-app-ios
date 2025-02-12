@@ -23,9 +23,9 @@ final class HealthDownloadViewTests: XCTestCase {
 
 		servicesSpies = setupServicesSpies()
 		binaryRepositorySpy = BinaryRepositorySpy()
-		let entry = UIElement(display: nil, label: "label", type: .downloadLink, reference: nil, url: "Binary/demo1")
+		let entry = DownloadLink(label: "label", type: DownloadLinkType.downloadLink, url: "Binary/demo1")
 		let healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, entry: entry, binaryRepository: binaryRepositorySpy)
+		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, downloadLink: entry)
 		sut = HealthDataDownloadView(viewModel: self.viewModel)
 	}
 	
@@ -94,9 +94,9 @@ final class HealthDownloadViewTests: XCTestCase {
 	func test_HealthDownloadView_error_tryAgain() throws {
 		
 		// Given
-		let entry = UIElement(display: nil, label: "label", type: .downloadBinary, reference: "Binary/demo1", url: nil)
+		let entry = DownloadBinary(label: "label", reference: "Binary/demo1", type: DownloadBinaryType.downloadBinary)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, entry: entry, binaryRepository: binaryRepositorySpy)
+		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, downloadBinary: entry, binaryRepository: binaryRepositorySpy)
 		sut = HealthDataDownloadView(viewModel: self.viewModel)
 		
 		let url = try XCTUnwrap(URL(string: "https://example.com"))

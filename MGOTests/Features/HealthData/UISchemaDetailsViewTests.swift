@@ -78,6 +78,18 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_UISchemaDetailsView_downloadBinary() throws {
+		
+		// Given
+		try setupSut("downloadBinary", resolvedReferences: ["reference": true])
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	func test_UISchemaDetailsView_reference() throws {
 		
 		// Given
@@ -106,6 +118,18 @@ final class UISchemaDetailsViewTests: XCTestCase {
 		
 		// Given
 		try setupSut("reference")
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	func test_UISchemaDetailsView_referenceLink_unresolved() throws {
+		
+		// Given
+		try setupSut("referenceLink")
 		
 		// When
 		let content = NavigationView { sut }
