@@ -8,7 +8,6 @@
 					"label": "The label",
 					"display": [["Single Entry in an array", "Second Entry in an array"], ["Single Entry in another array", "Second Entry in another array"]],
 					"type": "MULTIPLE_GROUPED_VALUES",
-					"summary": false,
 					"reference": null,
 					"url": null
 				}

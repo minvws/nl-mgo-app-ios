@@ -26,26 +26,28 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		createSut(url: "Binary/demo1")
 	}
 	
+	/// Create a HealthDataDownloadViewModel with a download link
+	/// - Parameter url: the link for the download link
 	private func createSut(url: String?) {
 		
-		let entry = UIElement(display: nil, label: "label", type: .downloadLink, reference: nil, url: url)
+		let entry = DownloadLink(label: "label", type: DownloadLinkType.downloadLink, url: url)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		sut = HealthDataDownloadViewModel(
 			healthcareOrganization: healthcareOrganization,
-			entry: entry,
-			urlOpener: urlOpenerSpy,
-			binaryRepository: binaryRepositorySpy
+			downloadLink: entry,
+			urlOpener: urlOpenerSpy
 		)
 	}
 	
+	/// Create a HealthDataDownloadViewModel with a download binary
+	/// - Parameter reference: the reference for the download binary
 	private func createSut(reference: String) {
 		
-		let entry = UIElement(display: nil, label: "label", type: .downloadBinary, reference: reference, url: nil)
+		let entry = DownloadBinary(label: "label", reference: reference, type: DownloadBinaryType.downloadBinary)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		sut = HealthDataDownloadViewModel(
 			healthcareOrganization: healthcareOrganization,
-			entry: entry,
-			urlOpener: urlOpenerSpy,
+			downloadBinary: entry,
 			binaryRepository: binaryRepositorySpy
 		)
 	}
@@ -121,7 +123,6 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		sut.reduce(.download)
 		
 		// Then
-		expect(self.urlOpenerSpy.invokedCanOpenURL) == false
 		expect(self.sut.state).toEventually(equal(.error))
 	}
 	
@@ -135,7 +136,6 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		sut.reduce(.download)
 		
 		// Then
-		expect(self.urlOpenerSpy.invokedCanOpenURL) == false
 		expect(self.sut.state).toEventually(equal(.error))
 	}
 
@@ -151,7 +151,6 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		sut.reduce(.download)
 		
 		// Then
-		expect(self.urlOpenerSpy.invokedCanOpenURL) == false
 		expect(self.sut.state).toEventually(equal(.noDocument))
 	}
 	
@@ -168,7 +167,6 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		sut.reduce(.download)
 		
 		// Then
-		expect(self.urlOpenerSpy.invokedCanOpenURL) == false
 		expect(self.sut.state).toEventually(equal(.downloaded(label: "label", documentUrl: url)))
 	}
 }

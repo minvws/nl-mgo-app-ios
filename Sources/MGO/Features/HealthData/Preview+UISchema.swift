@@ -26,7 +26,14 @@ extension PreviewContent {
 						label: "label reference value",
 						type: .referenceValue,
 						reference: "reference",
-						url: "Ref/123"
+						url: nil
+					),
+					UIElement(
+						display: UIElementDisplay.string("single value"),
+						label: "label reference value display",
+						type: .referenceValue,
+						reference: "reference",
+						url: nil
 					),
 					UIElement(
 						display: nil,
@@ -41,6 +48,13 @@ extension PreviewContent {
 						type: .downloadLink,
 						reference: nil,
 						url: "https://www.apple.com"
+					),
+					UIElement(
+						display: nil,
+						label: "label download reference",
+						type: .downloadBinary,
+						reference: "reference",
+						url: nil
 					)
 				],
 				label: "Section Header first group"
@@ -58,8 +72,7 @@ extension PreviewContent {
 					),
 					UIElement(
 						display: UIElementDisplay.unionArray([
-							DisplayElement.stringArray(["one", "two"]),
-							DisplayElement.stringArray(["three", "four"])
+							DisplayElement.stringArray(["five", "six"])
 						]),
 						label: "label multiple group value",
 						type: .multipleGroupedValues,
@@ -67,7 +80,10 @@ extension PreviewContent {
 						url: nil
 					),
 					UIElement(
-						display: UIElementDisplay.unionArray([DisplayElement.stringArray(["one", "two"])]),
+						display: UIElementDisplay.unionArray([
+							DisplayElement.string("one"),
+							DisplayElement.string("two")
+						]),
 						label: "label multiple value",
 						type: .multipleValues,
 						reference: nil,
@@ -77,6 +93,16 @@ extension PreviewContent {
 						display: UIElementDisplay.unionArray([DisplayElement.string("one")]),
 						label: "label union value",
 						type: .multipleValues,
+						reference: nil,
+						url: nil
+					),
+					UIElement(
+						display: UIElementDisplay.unionArray([
+							DisplayElement.stringArray(["one", "two"]),
+							DisplayElement.stringArray(["three", "four"])
+						]),
+						label: "label multiple group value",
+						type: .multipleGroupedValues,
 						reference: nil,
 						url: nil
 					)

@@ -1,5 +1,5 @@
 {
-	"label": "Single Entry",
+	"label": "Reference Link",
 	"children": [
 		{
 			"label": "Section for a reference",
@@ -8,7 +8,6 @@
 					"label": "The label",
 					"display": "Reference",
 					"type": "REFERENCE_LINK",
-					"summary": false,
 					"reference": "reference/link",
 					"url": null
 				}

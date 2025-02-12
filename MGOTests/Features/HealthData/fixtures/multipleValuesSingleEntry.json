@@ -8,7 +8,6 @@
 					"label": "The label",
 					"display": ["Single Entry in an array"],
 					"type": "MULTIPLE_VALUES",
-					"summary": false,
 					"reference": null,
 					"url": null
 				}
