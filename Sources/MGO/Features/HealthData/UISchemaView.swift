@@ -92,21 +92,22 @@ struct UISchemaView: View {
 		
 		switch entry {
 			case is SingleValue:
-				viewFor(entry as! SingleValue, isLastElement: isLastElement)
+				viewFor(entry as! SingleValue, isLastElement: isLastElement) // swiftlint:disable:this force_cast
 			case is MultipleValues:
-				viewFor(entry as! MultipleValues, isLastElement: isLastElement)
+				viewFor(entry as! MultipleValues, isLastElement: isLastElement) // swiftlint:disable:this force_cast
 			case is MultipleGroupedValues:
-				viewFor(entry as! MultipleGroupedValues, isLastElement: isLastElement)
+				viewFor(entry as! MultipleGroupedValues, isLastElement: isLastElement) // swiftlint:disable:this force_cast
 			case is ReferenceLink:
-				viewFor(entry as! ReferenceLink, isLastElement: isLastElement)
+				viewFor(entry as! ReferenceLink, isLastElement: isLastElement) // swiftlint:disable:this force_cast
 			case is ReferenceValue:
-				viewFor(entry as! ReferenceValue, isLastElement: isLastElement)
+				viewFor(entry as! ReferenceValue, isLastElement: isLastElement) // swiftlint:disable:this force_cast
 			case is DownloadBinary:
-				viewFor(entry as! DownloadBinary, isLastElement: isLastElement)
+				viewFor(entry as! DownloadBinary, isLastElement: isLastElement) // swiftlint:disable:this force_cast
 			case is DownloadLink:
-				viewFor(entry as! DownloadLink, isLastElement: isLastElement)
+				viewFor(entry as! DownloadLink, isLastElement: isLastElement) // swiftlint:disable:this force_cast
 			default:
-				Text(entry.elementType)
+//				Text(entry.elementType)
+				EmptyView()
 		}
 	}
 
