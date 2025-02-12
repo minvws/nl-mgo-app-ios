@@ -28,46 +28,56 @@ class HealthDataDownloadViewModel: ObservableObject {
 	/// The healthcare organization this download came from
 	private var healthcareOrganization: MgoOrganization
 	
-	/// Part of the UISchema we need to display for this download
-	private var entry: UIElement
+	/// The download link to display
+	private var downloadLink: DownloadLink?
+	
+	/// The download binary to display
+	private var downloadBinary: DownloadBinary?
 	
 	/// Helper to open urls
-	private var urlOpener: URLOpenerProtocol
+	private var urlOpener: URLOpenerProtocol?
 	
 	/// show the preview when downloaded
 	@Published var showPreview: Bool = false
 	
 	/// The repository for binaries
-	private let binaryRepository: BinaryRepositoryProtocol
+	private var binaryRepository: BinaryRepositoryProtocol?
 	
-	/// Create a Download View
+	/// Create a Download View for a Download Binary
 	/// - Parameters:
 	///   - healthcareOrganization: the healthcare organization
-	///   - entry: the UI Entry with download link
+	///   - downloadBinary: the UI Download Binary
+	///   - binaryRepository: the repository for binaries
+	init(
+		healthcareOrganization: MgoOrganization,
+		downloadBinary: DownloadBinary,
+		binaryRepository: BinaryRepositoryProtocol = BinaryRepository()) {
+		
+		self.healthcareOrganization = healthcareOrganization
+		self.downloadBinary = downloadBinary
+		self.binaryRepository = binaryRepository
+		state = .idle(label: downloadBinary.label)
+	}
+	
+	/// Create a Download View for a Download Link
+	/// - Parameters:
+	///   - healthcareOrganization: the healthcare organization
+	///   - downloadLink: the download Link to display
 	///   - urlOpener: the helper to open urls.
 	///   - binaryRepository: the repository for binaries
 	init(
 		healthcareOrganization: MgoOrganization,
-		entry: UIElement,
-		urlOpener: URLOpenerProtocol = UIApplication.shared,
-		binaryRepository: BinaryRepositoryProtocol = BinaryRepository()) {
+		downloadLink: DownloadLink,
+		urlOpener: URLOpenerProtocol = UIApplication.shared) {
 		
 		self.healthcareOrganization = healthcareOrganization
-		self.entry = entry
+		self.downloadLink = downloadLink
 		self.urlOpener = urlOpener
-		self.binaryRepository = binaryRepository
 		
-		switch entry.type {
-			case .downloadBinary:
-				state = .idle(label: entry.label)
-			case .downloadLink:
-				if entry.url == nil {
-					state = .noDocument
-				} else {
-					state = .idle(label: entry.label)
-				}
-			default:
-				state = .noDocument
+		if downloadLink.url == nil {
+			state = .noDocument
+		} else {
+			state = .idle(label: downloadLink.label)
 		}
 	}
 	
@@ -85,55 +95,59 @@ class HealthDataDownloadViewModel: ObservableObject {
 		switch action {
 			case .download: download()
 			case let .shareDocument(url): shareDocument(url)
-			case let .shareUrl(url): urlOpener.openUrlIfPossible(url)
+			case let .shareUrl(url): urlOpener?.openUrlIfPossible(url)
 		}
 	}
 	
 	/// Handle the click on the download button
 	private func download() {
 		
-		if entry.type == .downloadBinary {
-			downloadBinary()
-		} else if entry.type == .downloadLink {
-			downloadLink()
+		if downloadLink != nil {
+			doDownloadLink()
+		} else if downloadBinary != nil {
+			doDownloadBinary()
 		}
 	}
 	
 	/// The user tapped the download button for a download binary type
-	private func downloadBinary() {
-		logInfo("Tapped on", entry.reference as Any)
+	private func doDownloadBinary() {
 
 		// Only Binaries
-		guard entry.type == .downloadBinary else { return }
+		guard let downloadBinary else { return }
 	
+		logInfo("Tapped on", downloadBinary.reference as Any)
+
 		// Download once
-		guard state != .loading(label: entry.label) else { return }
+		guard state != .loading(label: downloadBinary.label) else { return }
 		
 		// We must have a reference link
-		guard let reference = entry.reference else {
+		guard let reference = downloadBinary.reference else {
 			state = .noDocument
 			return
 		}
 		
-		state = .loading(label: entry.label)
+		state = .loading(label: downloadBinary.label)
 		
 		_Concurrency.Task {
-			await loadBinary(reference)
+			await loadBinary(reference, label: downloadBinary.label)
 		}
 	}
 	
 	/// The user tapped the download button for a download link type
-	private func downloadLink() {
+	private func doDownloadLink() {
 		
-		guard let urlString = entry.url else {
+		// Only Links
+		guard let downloadLink else { return }
+		
+		guard let urlString = downloadLink.url else {
 			state = .noDocument
 			return
 		}
 		
-		guard state != .loading(label: entry.label) else { return }
-		state = .loading(label: entry.label)
+		guard state != .loading(label: downloadLink.label) else { return }
+		state = .loading(label: downloadLink.label)
 		
-		logInfo("Tapped on", entry.url as Any)
+		logInfo("Tapped on", downloadLink.url as Any)
 		
 		if urlString.starts(with: "https") {
 			
@@ -141,8 +155,8 @@ class HealthDataDownloadViewModel: ObservableObject {
 				state = .noDocument
 				return
 			}
-			state = .external(label: entry.label, documentUrl: externalUrl)
-			urlOpener.openUrlIfPossible(externalUrl)
+			state = .external(label: downloadLink.label, documentUrl: externalUrl)
+			urlOpener?.openUrlIfPossible(externalUrl)
 		} else {
 			state = .noDocument
 		}
@@ -160,18 +174,27 @@ class HealthDataDownloadViewModel: ObservableObject {
 	}
 	
 	@MainActor
-	func loadBinary(_ externalUrl: String) async {
+	func loadBinary(_ externalUrl: String, label: String) async {
+		
+		guard let binaryRepository else {
+			state = .error
+			return
+		}
 		
 		do {
-			if let binary = try await Current.resourceRepository.loadBinary(healthcareOrganization, serviceId: "51", url: externalUrl) {
+			if let binary = try await Current.resourceRepository.loadBinary(
+				healthcareOrganization,
+				serviceId: DVP.Documents.serviceID,
+				url: externalUrl
+			) {
 				logInfo("binary", binary.contentType)
 				
-				var name = entry.label
+				var name = label
 				if binary.contentType == "application/pdf" {
 					name += ".pdf"
 				}
 				let storeUrl = try binaryRepository.store(binary, as: name)
-				self.state = .downloaded(label: entry.label, documentUrl: storeUrl)
+				self.state = .downloaded(label: label, documentUrl: storeUrl)
 				showPreview = true
 			} else {
 				state = .error

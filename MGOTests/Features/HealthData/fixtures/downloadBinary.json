@@ -1,15 +1,15 @@
 {
-	"label": "Download Link",
+	"label": "Download Binary",
 	"children": [
 		{
-			"label": "Section for a download link",
+			"label": "Section for a download binary",
 			"children": [
 				{
 					"label": "The label",
-					"display": "Download link",
-					"type": "DOWNLOAD_LINK",
-					"reference": null,
-					"url": "https://apple.com"
+					"display": "Download Binary",
+					"type": "DOWNLOAD_BINARY",
+					"reference": "reference",
+					"url": null
 				},
 				{
 					"label": "The label",
