@@ -105,7 +105,7 @@ extension PreviewContent {
 						type: .multipleGroupedValues,
 						reference: nil,
 						url: nil
-					),
+					)
 				],
 				label: "Section Header second group")
 		],

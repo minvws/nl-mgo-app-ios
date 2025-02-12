@@ -10,6 +10,13 @@
 					"type": "DOWNLOAD_BINARY",
 					"reference": "reference",
 					"url": null
+				},
+				{
+					"label": "The label",
+					"display": "Single Entry",
+					"type": "SINGLE_VALUE",
+					"reference": null,
+					"url": null
 				}
 			]
 		}

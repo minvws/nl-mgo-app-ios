@@ -10,6 +10,13 @@
 					"type": "DOWNLOAD_LINK",
 					"reference": null,
 					"url": "https://apple.com"
+				},
+				{
+					"label": "The label",
+					"display": "Single Entry",
+					"type": "SINGLE_VALUE",
+					"reference": null,
+					"url": null
 				}
 			]
 		}
