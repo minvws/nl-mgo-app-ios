@@ -179,6 +179,7 @@ struct HealthDataView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
+		.navigationBarTitleDisplayMode(.inline)
 		.layoutForIPad()
 	}
 }
