@@ -56,9 +56,9 @@ let zibMedicationUse = ZibFactory.createZibMedicationUse(zib)
 
 The zib definitions are generated from a shared json schema, to be easily shared between the different platforms (web, iOS/swift, Android/Kotlin). That will prevent differences and errors between the platforms. 
 
-### Transform a Zib object into a UISchema
+### Transform a Zib object into a HealthUISchema
 
-Transforming that zib into a fixed UISchema is simple:
+Transforming that zib into a fixed HealthUISchema is simple:
 ```swift
 import FHIRParser
 import Zibs

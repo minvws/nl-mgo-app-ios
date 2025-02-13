@@ -10,7 +10,7 @@ import MGOUI
 
 struct ZibDetailViewState {
 	
-	var schema: UISchema
+	var schema: HealthUISchema
 	var backButton: String
 }
 
@@ -32,7 +32,7 @@ class HealthDataViewModel: ObservableObject {
 	weak private var referenceResolver: ReferenceResolverProtocol?
 	
 	/// The store for references
-	var referenceStore = [String: (MgoResource, UISchema)?]()
+	var referenceStore = [String: (MgoResource, HealthUISchema)?]()
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -42,13 +42,13 @@ class HealthDataViewModel: ObservableObject {
 	
 	/// Create a Healthcare Data View Model
 	/// - Parameter coordinator: the app coordinator
-	/// - Parameter schema: the UISchema to display
+	/// - Parameter schema: the HealthUISchema to display
 	/// - Parameter backButtonTitle: the title for the back button
 	/// - Parameter healthcareOrganization: the healthcare organization
 	/// - Parameter referenceResolver: the handler to resolve references
 	init(
 		coordinator: (any Coordinator)? = nil,
-		schema: UISchema,
+		schema: HealthUISchema,
 		backButtonTitle: String,
 		healthcareOrganization: MgoOrganization,
 		referenceResolver: ReferenceResolverProtocol = ReferenceResolver()
@@ -158,7 +158,7 @@ struct HealthDataView: View {
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 				
-				UISchemaView(
+				HealthUISchemaView(
 					schema: viewModel.state.schema,
 					healthcareOrganization: viewModel.healthcareOrganization,
 					referenceTapped: { reference in

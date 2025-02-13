@@ -9,12 +9,12 @@ import MGOFoundation
 
 protocol ReferenceResolverProtocol: AnyObject {
 	
-	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, UISchema)?
+	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, HealthUISchema)?
 }
 
 class ReferenceResolver: ReferenceResolverProtocol {
 	
-	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, UISchema)? {
+	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, HealthUISchema)? {
 
 		logVerbose("Trying to resolve reference: \(reference)")
 			

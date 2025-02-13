@@ -41906,11 +41906,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       return losslessStringify(result);
     };
   }
-  var FhirVersion = /* @__PURE__ */ ((FhirVersion2) => {
-    FhirVersion2["R3"] = "R3";
-    FhirVersion2["R4"] = "R4";
-    return FhirVersion2;
-  })(FhirVersion || {});
   function isFhirResource(value2, type) {
     const resource = value2;
     if (!type) {
@@ -41934,6 +41929,15653 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     if (!str) return str;
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+  function getBundleResources(bundle) {
+    if (!isFhirResource(bundle, "Bundle")) {
+      throw new Error(
+        `input does not seem to be a Fhir Bundle. Received resourceType: "${bundle?.resourceType}"`
+      );
+    }
+    const resources = bundle.entry?.map((entry) => entry.resource).filter(isNonNullish);
+    if (!resources?.length) return [];
+    return resources;
+  }
+  const codeLabels = {
+    "codes.r3.observation.status.amended": [
+      {
+        type: 0,
+        value: "Gewijzigd"
+      }
+    ],
+    "codes.r3.observation.status.cancelled": [
+      {
+        type: 0,
+        value: "Geannuleerd"
+      }
+    ],
+    "codes.r3.observation.status.corrected": [
+      {
+        type: 0,
+        value: "Gecorrigeerd"
+      }
+    ],
+    "codes.r3.observation.status.entered-in-error": [
+      {
+        type: 0,
+        value: "Foutief ingevoerd"
+      }
+    ],
+    "codes.r3.observation.status.final": [
+      {
+        type: 0,
+        value: "Definitief"
+      }
+    ],
+    "codes.r3.observation.status.preliminary": [
+      {
+        type: 0,
+        value: "Inleidend"
+      }
+    ],
+    "codes.r3.observation.status.registered": [
+      {
+        type: 0,
+        value: "Geregistreerd"
+      }
+    ],
+    "codes.r3.observation.status.unknown": [
+      {
+        type: 0,
+        value: "Onbekend"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.active": [
+      {
+        type: 0,
+        value: "Actief"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.completed": [
+      {
+        type: 0,
+        value: "Voldaan"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.entered-in-error": [
+      {
+        type: 0,
+        value: "Foutief ingevoerd"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.intended": [
+      {
+        type: 0,
+        value: "Bedoeld"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.on-hold": [
+      {
+        type: 0,
+        value: "Gepauzeerd"
+      }
+    ],
+    "codes.r3.zib_medication_use.status.stopped": [
+      {
+        type: 0,
+        value: "Gestopt"
+      }
+    ]
+  };
+  const detailLabels = {
+    "detail.options": [
+      {
+        type: 0,
+        value: "Opties"
+      }
+    ],
+    "detail.r3.ihe_mhd_minimal_document_reference.group_attachment": [
+      {
+        type: 0,
+        value: "Inhoud"
+      }
+    ],
+    "detail.r3.ihe_mhd_minimal_document_reference.group_author": [
+      {
+        type: 0,
+        value: "Opgesteld door"
+      }
+    ]
+  };
+  const fhirMessages = {
+    "fhir.boolean.false": [
+      {
+        type: 0,
+        value: "Nee"
+      }
+    ],
+    "fhir.boolean.true": [
+      {
+        type: 0,
+        value: "Ja"
+      }
+    ],
+    "fhir.group_general_info": [
+      {
+        type: 0,
+        value: "Algemeen"
+      }
+    ],
+    "fhir.period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "fhir.period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "fhir.range.high": [
+      {
+        type: 0,
+        value: "Bovengrens"
+      }
+    ],
+    "fhir.range.low": [
+      {
+        type: 0,
+        value: "Ondergrens"
+      }
+    ],
+    "fhir.ratio.denominator": [
+      {
+        type: 0,
+        value: "Noemer"
+      }
+    ],
+    "fhir.ratio.numerator": [
+      {
+        type: 0,
+        value: "Teller"
+      }
+    ],
+    "fhir.unknown": [
+      {
+        type: 0,
+        value: "Onbekend"
+      }
+    ],
+    "format.code_in_system": [
+      {
+        type: 1,
+        value: "code"
+      },
+      {
+        type: 0,
+        value: " in code systeem "
+      },
+      {
+        type: 1,
+        value: "system"
+      }
+    ],
+    "schema.empty_entry_display": [
+      {
+        type: 0,
+        value: "Niet bekend"
+      }
+    ]
+  };
+  const r3ResourceLabelsCustom = {
+    "r3.e_afspraak_appointment": [
+      {
+        type: 0,
+        value: "Afspraak"
+      }
+    ],
+    "r3.gp_diagnostic_result": [
+      {
+        type: 0,
+        value: "Laboratorium uitslag"
+      }
+    ],
+    "r3.gp_encounter": [
+      {
+        type: 0,
+        value: "Contact"
+      }
+    ],
+    "r3.gp_journal_entry": [
+      {
+        type: 0,
+        value: "Journaalregel"
+      }
+    ],
+    "r3.gp_laboratory_result": [
+      {
+        type: 0,
+        value: "Laboratorium uitslag"
+      }
+    ],
+    "r3.ihe_mhd_document_manifest": [
+      {
+        type: 0,
+        value: "Document manifest"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.author": [
+      {
+        type: 0,
+        value: "Specialist"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.class": [
+      {
+        type: 0,
+        value: "Categorie"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content": [
+      {
+        type: 0,
+        value: "Inhoud"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content.attachment.content_type": [
+      {
+        type: 0,
+        value: "Inhoudstype"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content.attachment.creation": [
+      {
+        type: 0,
+        value: "Gecreëerd"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content.attachment.language": [
+      {
+        type: 0,
+        value: "Taal"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content.attachment.title": [
+      {
+        type: 0,
+        value: "Titel"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.content.attachment.url": [
+      {
+        type: 0,
+        value: "Url"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.indexed": [
+      {
+        type: 0,
+        value: "Aangemaakt op"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.master_identifier": [
+      {
+        type: 0,
+        value: "Identifier"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.security_label": [
+      {
+        type: 0,
+        value: "Beveiligingslabel"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.status": [
+      {
+        type: 0,
+        value: "Status"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.subject": [
+      {
+        type: 0,
+        value: "Onderwerp"
+      }
+    ],
+    "r3.ihe_mhd_minimal_document_reference.type": [
+      {
+        type: 0,
+        value: "Type"
+      }
+    ],
+    "r3.nl_core_observation": [
+      {
+        type: 0,
+        value: "Observatie"
+      }
+    ],
+    "r3.nl_core_practitionerrole": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_alert": [
+      {
+        type: 0,
+        value: "Alert"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.context": [
+      {
+        type: 0,
+        value: "Verband"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.general_test_information": [
+      {
+        type: 0,
+        value: "Algemene testinformatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.interpretation": [
+      {
+        type: 0,
+        value: "Interpretatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.lab_test": [
+      {
+        type: 0,
+        value: "Laboratoriumtest"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.performer": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.reference_range.type": [
+      {
+        type: 0,
+        value: "Referentie type"
+      }
+    ],
+    "r3.zib_laboratory_test_result_substance": [
+      {
+        type: 0,
+        value: "Monstermateriaal"
+      }
+    ],
+    "r3.zib_medical_device_request": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel aanvraag"
+      }
+    ],
+    "r3.zib_medication_use.effective_period.duration": [
+      {
+        type: 0,
+        value: "Tijdsduur"
+      }
+    ],
+    "r3.zib_medication_use.repeat_period_cyclical_schedule": [
+      {
+        type: 0,
+        value: "Herhaalperiode cyclisch schema"
+      }
+    ],
+    "r3.zib_vaccination_recommendation": [
+      {
+        type: 0,
+        value: "Vaccinatieadvies"
+      }
+    ]
+  };
+  const r3ResourceLabels = {
+    "r3.gp_encounter_report": [
+      {
+        type: 0,
+        value: "Deelcontactverslag"
+      }
+    ],
+    "r3.gp_journal_entry.value": [
+      {
+        type: 0,
+        value: "Journaalregel tekst"
+      }
+    ],
+    "r3.nl_core_address": [
+      {
+        type: 0,
+        value: "Adres informatie"
+      }
+    ],
+    "r3.nl_core_address.address_type.value": [
+      {
+        type: 0,
+        value: "Adres soort"
+      }
+    ],
+    "r3.nl_core_address.city": [
+      {
+        type: 0,
+        value: "Municipality"
+      }
+    ],
+    "r3.nl_core_address.country": [
+      {
+        type: 0,
+        value: "Land"
+      }
+    ],
+    "r3.nl_core_address.country.country_code.value": [
+      {
+        type: 0,
+        value: "Land GBA codelijst"
+      }
+    ],
+    "r3.nl_core_address.district": [
+      {
+        type: 0,
+        value: "Gemeente"
+      }
+    ],
+    "r3.nl_core_address.official": [
+      {
+        type: 0,
+        value: "Markeer een adres als een 'officieel geregistreerd adres."
+      }
+    ],
+    "r3.nl_core_address.postal_code": [
+      {
+        type: 0,
+        value: "Postcode"
+      }
+    ],
+    "r3.nl_core_address.state": [
+      {
+        type: 0,
+        value: "Provincie"
+      }
+    ],
+    "r3.nl_core_address_official.value": [
+      {
+        type: 0,
+        value: "True als deze deel is van een officieel register. false indien dat niet het geval is"
+      }
+    ],
+    "r3.nl_core_careplan.nursing_intervention.detail.code": [
+      {
+        type: 0,
+        value: "Interventie"
+      }
+    ],
+    "r3.nl_core_careplan.nursing_intervention.detail.goal": [
+      {
+        type: 0,
+        value: "Behandeldoel"
+      }
+    ],
+    "r3.nl_core_careplan.nursing_intervention.detail.medical_device": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r3.nl_core_careplan.nursing_intervention.detail.performer": [
+      {
+        type: 0,
+        value: "Uitvoerder"
+      }
+    ],
+    "r3.nl_core_careplan.nursing_intervention.detail.reason_reference": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.bounds_period.end": [
+      {
+        type: 0,
+        value: "Actie eind datum tijd"
+      }
+    ],
+    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.bounds_period.start": [
+      {
+        type: 0,
+        value: "Actie start datum tijd"
+      }
+    ],
+    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.frequency": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.period": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r3.nl_core_careplan.nursing_intervention.outcome_codeable_concept.text": [
+      {
+        type: 0,
+        value: "Zorgresultaat"
+      }
+    ],
+    "r3.nl_core_careplan.nursing_intervention.outcome_reference": [
+      {
+        type: 0,
+        value: "Meetwaarde"
+      }
+    ],
+    "r3.nl_core_careteam.participant.role.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.nl_core_contactpoint": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r3.nl_core_contactpoint.system": [
+      {
+        type: 0,
+        value: "Telecom type / email soort"
+      }
+    ],
+    "r3.nl_core_contactpoint.telecom_type": [
+      {
+        type: 0,
+        value: "Telecom type"
+      }
+    ],
+    "r3.nl_core_contactpoint.use": [
+      {
+        type: 0,
+        value: "Telecom type / nummer soort / email soort"
+      }
+    ],
+    "r3.nl_core_contactpoint.value": [
+      {
+        type: 0,
+        value: "Telefoonnummer / e-mailadres"
+      }
+    ],
+    "r3.nl_core_episodeofcare.type.text": [
+      {
+        type: 0,
+        value: "Concern label"
+      }
+    ],
+    "r3.nl_core_healthcareservice.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r3.nl_core_humanname.family": [
+      {
+        type: 0,
+        value: "Achternaam"
+      }
+    ],
+    "r3.nl_core_humanname.family.humanname_own_name": [
+      {
+        type: 0,
+        value: "Geslachtsnaam"
+      }
+    ],
+    "r3.nl_core_humanname.family.humanname_own_prefix": [
+      {
+        type: 0,
+        value: "Voorvoegsel geslachtsnaam"
+      }
+    ],
+    "r3.nl_core_humanname.family.humanname_partner_name": [
+      {
+        type: 0,
+        value: "Geslachtsnaam partner"
+      }
+    ],
+    "r3.nl_core_humanname.family.humanname_partner_prefix": [
+      {
+        type: 0,
+        value: "Voorvoegsel geslachtsnaam partner"
+      }
+    ],
+    "r3.nl_core_humanname.given": [
+      {
+        type: 0,
+        value: "Voornamen"
+      }
+    ],
+    "r3.nl_core_humanname.humanname_assembly_order": [
+      {
+        type: 0,
+        value: "Voorkeursvolgorde van de naamdelen."
+      }
+    ],
+    "r3.nl_core_location.address": [
+      {
+        type: 0,
+        value: "Adresgegevens"
+      }
+    ],
+    "r3.nl_core_location.name": [
+      {
+        type: 0,
+        value: "Organization location"
+      }
+    ],
+    "r3.nl_core_location.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r3.nl_core_organization": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r3.nl_core_organization.address": [
+      {
+        type: 0,
+        value: "Adresgegevens"
+      }
+    ],
+    "r3.nl_core_organization.agb": [
+      {
+        type: 0,
+        value: "AGB"
+      }
+    ],
+    "r3.nl_core_organization.agb.value": [
+      {
+        type: 0,
+        value: "AGB-z (vektis AGB-z zorgverlenertabel)"
+      }
+    ],
+    "r3.nl_core_organization.alias": [
+      {
+        type: 0,
+        value: "Organisatie alias"
+      }
+    ],
+    "r3.nl_core_organization.department_specialty": [
+      {
+        type: 0,
+        value: "Afdeling specialisme"
+      }
+    ],
+    "r3.nl_core_organization.name": [
+      {
+        type: 0,
+        value: "Organisatie naam of afdeling naam"
+      }
+    ],
+    "r3.nl_core_organization.organization_type": [
+      {
+        type: 0,
+        value: "Organisatie type"
+      }
+    ],
+    "r3.nl_core_organization.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r3.nl_core_organization.ura": [
+      {
+        type: 0,
+        value: "URA"
+      }
+    ],
+    "r3.nl_core_organization.ura.value": [
+      {
+        type: 0,
+        value: "URA (UZI-register abonneenummer)"
+      }
+    ],
+    "r3.nl_core_organization.uzovi": [
+      {
+        type: 0,
+        value: "UZOVI"
+      }
+    ],
+    "r3.nl_core_organization.uzovi.value": [
+      {
+        type: 0,
+        value: "Unieke zorgverekeraar identificatie (het UZOVI-nummer)"
+      }
+    ],
+    "r3.nl_core_patient": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.nl_core_patient.address": [
+      {
+        type: 0,
+        value: "Adresgegevens"
+      }
+    ],
+    "r3.nl_core_patient.birth_date": [
+      {
+        type: 0,
+        value: "Geboortedatum"
+      }
+    ],
+    "r3.nl_core_patient.bsn": [
+      {
+        type: 0,
+        value: "BSN"
+      }
+    ],
+    "r3.nl_core_patient.bsn.value": [
+      {
+        type: 0,
+        value: "BSN"
+      }
+    ],
+    "r3.nl_core_patient.communication": [
+      {
+        type: 0,
+        value: "Taalvaardigheid"
+      }
+    ],
+    "r3.nl_core_patient.communication.language": [
+      {
+        type: 0,
+        value: "Communicatie taal"
+      }
+    ],
+    "r3.nl_core_patient.contact": [
+      {
+        type: 0,
+        value: "Contactpersoon"
+      }
+    ],
+    "r3.nl_core_patient.contact.address": [
+      {
+        type: 0,
+        value: "Adresgegevens"
+      }
+    ],
+    "r3.nl_core_patient.contact.name": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r3.nl_core_patient.contact.relationship": [
+      {
+        type: 0,
+        value: "Relatie"
+      }
+    ],
+    "r3.nl_core_patient.contact.role": [
+      {
+        type: 0,
+        value: "Rol"
+      }
+    ],
+    "r3.nl_core_patient.deceased": [
+      {
+        type: 0,
+        value: "Overlijdensindicator/datum overlijden"
+      }
+    ],
+    "r3.nl_core_patient.gender": [
+      {
+        type: 0,
+        value: "Geslacht"
+      }
+    ],
+    "r3.nl_core_patient.gender.geslacht_codelijst": [
+      {
+        type: 0,
+        value: "Geslacht"
+      }
+    ],
+    "r3.nl_core_patient.general_practitioner": [
+      {
+        type: 0,
+        value: "Huisarts"
+      }
+    ],
+    "r3.nl_core_patient.identifier": [
+      {
+        type: 0,
+        value: "Identificatienummer"
+      }
+    ],
+    "r3.nl_core_patient.marital_status": [
+      {
+        type: 0,
+        value: "Burgerlijke staat"
+      }
+    ],
+    "r3.nl_core_patient.multiple_birth": [
+      {
+        type: 0,
+        value: "Meerlingindicator"
+      }
+    ],
+    "r3.nl_core_patient.name": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r3.nl_core_patient.nationality": [
+      {
+        type: 0,
+        value: "Nationaliteit"
+      }
+    ],
+    "r3.nl_core_patient.preferred_pharmacy": [
+      {
+        type: 0,
+        value: "Verwijst naar de voorkeursapotheek van de patiënt"
+      }
+    ],
+    "r3.nl_core_person.address": [
+      {
+        type: 0,
+        value: "Adresgegevens"
+      }
+    ],
+    "r3.nl_core_person.birth_date": [
+      {
+        type: 0,
+        value: "Geboortedatum"
+      }
+    ],
+    "r3.nl_core_person.bsn": [
+      {
+        type: 0,
+        value: "BSN"
+      }
+    ],
+    "r3.nl_core_person.bsn.value": [
+      {
+        type: 0,
+        value: "BSN"
+      }
+    ],
+    "r3.nl_core_person.gender": [
+      {
+        type: 0,
+        value: "Geslacht"
+      }
+    ],
+    "r3.nl_core_person.identifier": [
+      {
+        type: 0,
+        value: "Identificatienummer"
+      }
+    ],
+    "r3.nl_core_person.name": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r3.nl_core_person.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r3.nl_core_practitioner": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r3.nl_core_practitioner.address": [
+      {
+        type: 0,
+        value: "Adresgegevens"
+      }
+    ],
+    "r3.nl_core_practitioner.agb": [
+      {
+        type: 0,
+        value: "AGB"
+      }
+    ],
+    "r3.nl_core_practitioner.big": [
+      {
+        type: 0,
+        value: "BIG"
+      }
+    ],
+    "r3.nl_core_practitioner.identifier": [
+      {
+        type: 0,
+        value: "Zorgverlener identificatie nummer"
+      }
+    ],
+    "r3.nl_core_practitioner.name": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r3.nl_core_practitioner.uzi": [
+      {
+        type: 0,
+        value: "UZI"
+      }
+    ],
+    "r3.nl_core_practitionerrole.organization": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r3.nl_core_practitionerrole.specialty": [
+      {
+        type: 0,
+        value: "Specialisme"
+      }
+    ],
+    "r3.nl_core_practitionerrole.specialty.specialty_agb": [
+      {
+        type: 0,
+        value: "Specialisme AGB"
+      }
+    ],
+    "r3.nl_core_practitionerrole.specialty.specialty_uzi": [
+      {
+        type: 0,
+        value: "Specialisme UZI"
+      }
+    ],
+    "r3.nl_core_relatedperson.address": [
+      {
+        type: 0,
+        value: "Adresgegevens"
+      }
+    ],
+    "r3.nl_core_relatedperson.name": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r3.nl_core_relatedperson.relationship": [
+      {
+        type: 0,
+        value: "Relatie"
+      }
+    ],
+    "r3.nl_core_relatedperson.role": [
+      {
+        type: 0,
+        value: "Rol"
+      }
+    ],
+    "r3.nl_core_relatedperson_role.value": [
+      {
+        type: 0,
+        value: "Rol"
+      }
+    ],
+    "r3.zib_ability_to_dress_oneself": [
+      {
+        type: 0,
+        value: "Vermogen tot zich kleden"
+      }
+    ],
+    "r3.zib_ability_to_dress_oneself.body_part_to_be_dressed.value": [
+      {
+        type: 0,
+        value: "Te kleden lichaamsdeel"
+      }
+    ],
+    "r3.zib_ability_to_dress_oneself.value": [
+      {
+        type: 0,
+        value: "Zich kleden"
+      }
+    ],
+    "r3.zib_ability_to_drink": [
+      {
+        type: 0,
+        value: "Vermogen tot drinken"
+      }
+    ],
+    "r3.zib_ability_to_drink.drinking_limitations.value": [
+      {
+        type: 0,
+        value: "Drink beperkingen"
+      }
+    ],
+    "r3.zib_ability_to_drink.value": [
+      {
+        type: 0,
+        value: "Drinken"
+      }
+    ],
+    "r3.zib_ability_to_eat": [
+      {
+        type: 0,
+        value: "Vermogen tot eten"
+      }
+    ],
+    "r3.zib_ability_to_eat.eating_limitations.value": [
+      {
+        type: 0,
+        value: "Eet beperkingen"
+      }
+    ],
+    "r3.zib_ability_to_eat.value": [
+      {
+        type: 0,
+        value: "Eten"
+      }
+    ],
+    "r3.zib_ability_to_groome": [
+      {
+        type: 0,
+        value: "Vermogen tot uiterlijke verzorging"
+      }
+    ],
+    "r3.zib_ability_to_groome.value": [
+      {
+        type: 0,
+        value: "Uiterlijke verzorging"
+      }
+    ],
+    "r3.zib_ability_to_manage_medication": [
+      {
+        type: 0,
+        value: "Ability to manage medication"
+      }
+    ],
+    "r3.zib_ability_to_manage_medication.required_assistance.value": [
+      {
+        type: 0,
+        value: "Hulp bij toediening"
+      }
+    ],
+    "r3.zib_ability_to_manage_medication.value": [
+      {
+        type: 0,
+        value: "Zelfstandig medicatiegebruik"
+      }
+    ],
+    "r3.zib_ability_to_perform_mouthcare_activities": [
+      {
+        type: 0,
+        value: "Vermogen tot mondverzorging"
+      }
+    ],
+    "r3.zib_ability_to_perform_mouthcare_activities.value": [
+      {
+        type: 0,
+        value: "Verzorgen tanden"
+      }
+    ],
+    "r3.zib_ability_to_perform_mouthcare_activities_medical_device": [
+      {
+        type: 0,
+        value: "Prothese"
+      }
+    ],
+    "r3.zib_ability_to_perform_nursing_activities": [
+      {
+        type: 0,
+        value: "Vermogen tot verpleegtechnische handelingen"
+      }
+    ],
+    "r3.zib_ability_to_perform_nursing_activities.focus.value": [
+      {
+        type: 0,
+        value: "Betrokkene"
+      }
+    ],
+    "r3.zib_ability_to_perform_nursing_activities.nursing_intervention.value": [
+      {
+        type: 0,
+        value: "Verpleegkundige interventie"
+      }
+    ],
+    "r3.zib_ability_to_perform_nursing_activities.value": [
+      {
+        type: 0,
+        value: "Verrichten VPK handeling"
+      }
+    ],
+    "r3.zib_ability_to_use_toilet": [
+      {
+        type: 0,
+        value: "Vermogen tot toiletgang"
+      }
+    ],
+    "r3.zib_ability_to_use_toilet.menstrual_care.value": [
+      {
+        type: 0,
+        value: "Zorg bij menstruatie"
+      }
+    ],
+    "r3.zib_ability_to_use_toilet.toilet_use.value": [
+      {
+        type: 0,
+        value: "Toiletgebruik"
+      }
+    ],
+    "r3.zib_ability_to_wash_one_self": [
+      {
+        type: 0,
+        value: "Vermogen tot zich wassen"
+      }
+    ],
+    "r3.zib_ability_to_wash_one_self.body_part_to_be_bathed.value": [
+      {
+        type: 0,
+        value: "Te wassen lichaamsdeel"
+      }
+    ],
+    "r3.zib_ability_to_wash_one_self.value": [
+      {
+        type: 0,
+        value: "Zich wassen"
+      }
+    ],
+    "r3.zib_administration_agreement": [
+      {
+        type: 0,
+        value: "Toedieningsafspraak"
+      }
+    ],
+    "r3.zib_administration_agreement.additional_information": [
+      {
+        type: 0,
+        value: "Toedieningsafspraak aanvullende informatie"
+      }
+    ],
+    "r3.zib_administration_agreement.agreement_reason": [
+      {
+        type: 0,
+        value: "Reden afspraak"
+      }
+    ],
+    "r3.zib_administration_agreement.authored_on": [
+      {
+        type: 0,
+        value: "Toedieningsafspraak datum tijd"
+      }
+    ],
+    "r3.zib_administration_agreement.authorizing_prescription": [
+      {
+        type: 0,
+        value: "Medicatieafspraak"
+      }
+    ],
+    "r3.zib_administration_agreement.medication_reference": [
+      {
+        type: 0,
+        value: "Geneesmiddel bij toedienings afspraak"
+      }
+    ],
+    "r3.zib_administration_agreement.medication_treatment": [
+      {
+        type: 0,
+        value: "Medicamenteuze behandeling"
+      }
+    ],
+    "r3.zib_administration_agreement.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_administration_agreement.performer": [
+      {
+        type: 0,
+        value: "Verstrekker"
+      }
+    ],
+    "r3.zib_administration_agreement.status": [
+      {
+        type: 0,
+        value: "Geannuleerd indicator"
+      }
+    ],
+    "r3.zib_administration_agreement.usage_duration": [
+      {
+        type: 0,
+        value: "Gebruiksduur"
+      }
+    ],
+    "r3.zib_administration_schedule": [
+      {
+        type: 0,
+        value: "Toedieningsschema"
+      }
+    ],
+    "r3.zib_administration_schedule.repeat.bounds": [
+      {
+        type: 0,
+        value: "Doseerduur"
+      }
+    ],
+    "r3.zib_administration_schedule.repeat.day_of_week": [
+      {
+        type: 0,
+        value: "Weekdagen"
+      }
+    ],
+    "r3.zib_administration_schedule.repeat.duration": [
+      {
+        type: 0,
+        value: "Toedieninsgduur"
+      }
+    ],
+    "r3.zib_administration_schedule.repeat.duration_unit": [
+      {
+        type: 0,
+        value: "Toedieninsgduur"
+      }
+    ],
+    "r3.zib_administration_schedule.repeat.frequency": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r3.zib_administration_schedule.repeat.frequency_max": [
+      {
+        type: 0,
+        value: "Maximum waarde"
+      }
+    ],
+    "r3.zib_administration_schedule.repeat.period": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r3.zib_administration_schedule.repeat.period_unit": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r3.zib_administration_schedule.repeat.time_of_day": [
+      {
+        type: 0,
+        value: "Toedientijd"
+      }
+    ],
+    "r3.zib_administration_schedule.repeat.when": [
+      {
+        type: 0,
+        value: "Dagdeel"
+      }
+    ],
+    "r3.zib_advance_directive": [
+      {
+        type: 0,
+        value: "Wilsverklaring"
+      }
+    ],
+    "r3.zib_advance_directive.consenting_party": [
+      {
+        type: 0,
+        value: "Vertegenwoordiger"
+      }
+    ],
+    "r3.zib_advance_directive.date_time": [
+      {
+        type: 0,
+        value: "Wilsverklaring datum"
+      }
+    ],
+    "r3.zib_advance_directive.disorder": [
+      {
+        type: 0,
+        value: "Aandoening"
+      }
+    ],
+    "r3.zib_advance_directive.source": [
+      {
+        type: 0,
+        value: "Wilsverklaring document"
+      }
+    ],
+    "r3.zib_advance_directive.type_of_living_will": [
+      {
+        type: 0,
+        value: "Wilsverklaring type"
+      }
+    ],
+    "r3.zib_alcohol_use": [
+      {
+        type: 0,
+        value: "Alcohol gebruik"
+      }
+    ],
+    "r3.zib_alcohol_use.amount.value": [
+      {
+        type: 0,
+        value: "Hoeveelheid"
+      }
+    ],
+    "r3.zib_alcohol_use.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_alcohol_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Stop datum"
+      }
+    ],
+    "r3.zib_alcohol_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Start datum"
+      }
+    ],
+    "r3.zib_alcohol_use.value": [
+      {
+        type: 0,
+        value: "Alcohol gebruik status"
+      }
+    ],
+    "r3.zib_alert.category": [
+      {
+        type: 0,
+        value: "Alert type"
+      }
+    ],
+    "r3.zib_alert.code": [
+      {
+        type: 0,
+        value: "Alert naam"
+      }
+    ],
+    "r3.zib_alert.concern_reference": [
+      {
+        type: 0,
+        value: "Conditie"
+      }
+    ],
+    "r3.zib_alert.period.start": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r3.zib_allergy_intolerance": [
+      {
+        type: 0,
+        value: "Allergie intolerantie"
+      }
+    ],
+    "r3.zib_allergy_intolerance.category.allergie_categorie_codelijst": [
+      {
+        type: 0,
+        value: "Allergie categorie"
+      }
+    ],
+    "r3.zib_allergy_intolerance.clinical_status": [
+      {
+        type: 0,
+        value: "Allergie status"
+      }
+    ],
+    "r3.zib_allergy_intolerance.clinical_status.allergie_status_codelijst": [
+      {
+        type: 0,
+        value: "Allergie status"
+      }
+    ],
+    "r3.zib_allergy_intolerance.code": [
+      {
+        type: 0,
+        value: "Veroorzakende stof"
+      }
+    ],
+    "r3.zib_allergy_intolerance.criticality.critical_extent_codelist": [
+      {
+        type: 0,
+        value: "Mate van kritiek zijn"
+      }
+    ],
+    "r3.zib_allergy_intolerance.identifier": [
+      {
+        type: 0,
+        value: "Identificatie"
+      }
+    ],
+    "r3.zib_allergy_intolerance.last_occurrence": [
+      {
+        type: 0,
+        value: "Laatste reactie datum tijd"
+      }
+    ],
+    "r3.zib_allergy_intolerance.note.author": [
+      {
+        type: 0,
+        value: "Auteur"
+      }
+    ],
+    "r3.zib_allergy_intolerance.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_allergy_intolerance.onset_date_time": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r3.zib_allergy_intolerance.patient": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction": [
+      {
+        type: 0,
+        value: "Reactie"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.description": [
+      {
+        type: 0,
+        value: "Reactie beschrijving"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.exposure_route": [
+      {
+        type: 0,
+        value: "Wijze van blootstelling"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.manifestation": [
+      {
+        type: 0,
+        value: "Symptoom"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.onset": [
+      {
+        type: 0,
+        value: "Reactie tijdstip"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.severity": [
+      {
+        type: 0,
+        value: "Ernst"
+      }
+    ],
+    "r3.zib_allergy_intolerance.reaction.substance": [
+      {
+        type: 0,
+        value: "Specifieke stof"
+      }
+    ],
+    "r3.zib_allergy_intolerance.recorder": [
+      {
+        type: 0,
+        value: "Auteur"
+      }
+    ],
+    "r3.zib_allergy_intolerance.verification_status": [
+      {
+        type: 0,
+        value: "Allergie status"
+      }
+    ],
+    "r3.zib_apgar_score.10_minute_appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r3.zib_apgar_score.10_minute_grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r3.zib_apgar_score.10_minute_muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r3.zib_apgar_score.10_minute_pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r3.zib_apgar_score.10_minute_respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r3.zib_apgar_score.1_minute_appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r3.zib_apgar_score.1_minute_grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r3.zib_apgar_score.1_minute_muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r3.zib_apgar_score.1_minute_pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r3.zib_apgar_score.1_minute_respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r3.zib_apgar_score.5_minute_appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r3.zib_apgar_score.5_minute_grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r3.zib_apgar_score.5_minute_muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r3.zib_apgar_score.5_minute_pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r3.zib_apgar_score.5_minute_respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r3.zib_apgar_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_apgar_score.effective_date_time": [
+      {
+        type: 0,
+        value: "Apgar score datum tijd"
+      }
+    ],
+    "r3.zib_apgar_score.value": [
+      {
+        type: 0,
+        value: "Apgar score totaal"
+      }
+    ],
+    "r3.zib_bladder_function": [
+      {
+        type: 0,
+        value: "Blaasfunctie"
+      }
+    ],
+    "r3.zib_bladder_function.code": [
+      {
+        type: 0,
+        value: "Blaasfunctie"
+      }
+    ],
+    "r3.zib_bladder_function.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_bladder_function.value": [
+      {
+        type: 0,
+        value: "Urine continentie"
+      }
+    ],
+    "r3.zib_blood_pressure": [
+      {
+        type: 0,
+        value: "Bloeddruk"
+      }
+    ],
+    "r3.zib_blood_pressure.average_blood_pressure_loinc.value": [
+      {
+        type: 0,
+        value: "Gemiddelde bloeddruk"
+      }
+    ],
+    "r3.zib_blood_pressure.average_blood_pressure_snomed.value": [
+      {
+        type: 0,
+        value: "Gemiddelde bloeddruk"
+      }
+    ],
+    "r3.zib_blood_pressure.body_site": [
+      {
+        type: 0,
+        value: "Meet locatie"
+      }
+    ],
+    "r3.zib_blood_pressure.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_blood_pressure.cuff_type_loinc.value": [
+      {
+        type: 0,
+        value: "Manchet type"
+      }
+    ],
+    "r3.zib_blood_pressure.cuff_type_snomed.value": [
+      {
+        type: 0,
+        value: "Manchet type"
+      }
+    ],
+    "r3.zib_blood_pressure.diastolic_bp.code": [
+      {
+        type: 0,
+        value: "Diastolische bloeddruk"
+      }
+    ],
+    "r3.zib_blood_pressure.diastolic_endpoint.code": [
+      {
+        type: 0,
+        value: "Component test"
+      }
+    ],
+    "r3.zib_blood_pressure.diastolic_endpoint.value": [
+      {
+        type: 0,
+        value: "Diastolisch eindpunt"
+      }
+    ],
+    "r3.zib_blood_pressure.effective": [
+      {
+        type: 0,
+        value: "Bloeddruk datum tijd"
+      }
+    ],
+    "r3.zib_blood_pressure.method": [
+      {
+        type: 0,
+        value: "Meetmethode"
+      }
+    ],
+    "r3.zib_blood_pressure.position_loinc.value": [
+      {
+        type: 0,
+        value: "Houding"
+      }
+    ],
+    "r3.zib_blood_pressure.position_snomed.value": [
+      {
+        type: 0,
+        value: "Houding"
+      }
+    ],
+    "r3.zib_blood_pressure.systolic_bp.value": [
+      {
+        type: 0,
+        value: "Systolische bloeddruk"
+      }
+    ],
+    "r3.zib_body_height": [
+      {
+        type: 0,
+        value: "Lichaamslengte"
+      }
+    ],
+    "r3.zib_body_height.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_body_height.effective": [
+      {
+        type: 0,
+        value: "Lengte datum tijd"
+      }
+    ],
+    "r3.zib_body_height.subject": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.zib_body_height.value": [
+      {
+        type: 0,
+        value: "Lengte waarde"
+      }
+    ],
+    "r3.zib_body_temperature": [
+      {
+        type: 0,
+        value: "Lichaamstemperatuur"
+      }
+    ],
+    "r3.zib_body_temperature.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_body_temperature.effective": [
+      {
+        type: 0,
+        value: "Temperatuur datum tijd"
+      }
+    ],
+    "r3.zib_body_temperature.method": [
+      {
+        type: 0,
+        value: "Temperatuur type"
+      }
+    ],
+    "r3.zib_body_temperature.value": [
+      {
+        type: 0,
+        value: "Temperatuur waarde"
+      }
+    ],
+    "r3.zib_body_weight": [
+      {
+        type: 0,
+        value: "Lichaamsgewicht"
+      }
+    ],
+    "r3.zib_body_weight.clothing.value": [
+      {
+        type: 0,
+        value: "Kleding"
+      }
+    ],
+    "r3.zib_body_weight.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_body_weight.effective": [
+      {
+        type: 0,
+        value: "Gewicht datum tijd"
+      }
+    ],
+    "r3.zib_body_weight.value": [
+      {
+        type: 0,
+        value: "Gewicht waarde"
+      }
+    ],
+    "r3.zib_bowel_function": [
+      {
+        type: 0,
+        value: "Darmfunctie"
+      }
+    ],
+    "r3.zib_bowel_function.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_bowel_function.defecation_color.value": [
+      {
+        type: 0,
+        value: "Defecatie kleur"
+      }
+    ],
+    "r3.zib_bowel_function.defecation_consistency.value": [
+      {
+        type: 0,
+        value: "Defecatie consistentie"
+      }
+    ],
+    "r3.zib_bowel_function.fecal_continence.value": [
+      {
+        type: 0,
+        value: "Feces continentie"
+      }
+    ],
+    "r3.zib_bowel_function.frequency.value": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r3.zib_burn_wound": [
+      {
+        type: 0,
+        value: "Brandwond"
+      }
+    ],
+    "r3.zib_burn_wound.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_burn_wound.body_site.laterality.value": [
+      {
+        type: 0,
+        value: "Lateraliteit"
+      }
+    ],
+    "r3.zib_burn_wound.code": [
+      {
+        type: 0,
+        value: "Brandwond"
+      }
+    ],
+    "r3.zib_burn_wound.code.burn_type.value": [
+      {
+        type: 0,
+        value: "Brandwond soort"
+      }
+    ],
+    "r3.zib_burn_wound.date_of_last_dressing_change.value": [
+      {
+        type: 0,
+        value: "Datum laatste verbandwissel"
+      }
+    ],
+    "r3.zib_burn_wound.extent.value": [
+      {
+        type: 0,
+        value: "Uitgebreidheid"
+      }
+    ],
+    "r3.zib_burn_wound.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_burn_wound.onset": [
+      {
+        type: 0,
+        value: "Ontstaans datum"
+      }
+    ],
+    "r3.zib_burn_wound.stage.summary": [
+      {
+        type: 0,
+        value: "Dieptegraad"
+      }
+    ],
+    "r3.zib_burn_wound_extent": [
+      {
+        type: 0,
+        value: "Uitgebreidheid"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour": [
+      {
+        type: 0,
+        value: "Checklist pijn gedrag"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.cry.value": [
+      {
+        type: 0,
+        value: "Huilen"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.eyes.value": [
+      {
+        type: 0,
+        value: "Ogen"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.face.value": [
+      {
+        type: 0,
+        value: "Gezicht"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.grimace.value": [
+      {
+        type: 0,
+        value: "Grimas"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.looking_sad.value": [
+      {
+        type: 0,
+        value: "Verdrietige blik"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.moaning.value": [
+      {
+        type: 0,
+        value: "Kreunen"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.mouth.value": [
+      {
+        type: 0,
+        value: "Mond"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.panic.value": [
+      {
+        type: 0,
+        value: "Paniek"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.sounds_of_restlessness.value": [
+      {
+        type: 0,
+        value: "Onrustige geluiden"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.tears.value": [
+      {
+        type: 0,
+        value: "Tranen"
+      }
+    ],
+    "r3.zib_checklist_pain_behaviour.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_comfort_scale": [
+      {
+        type: 0,
+        value: "Comfort score"
+      }
+    ],
+    "r3.zib_comfort_scale.alertness.value": [
+      {
+        type: 0,
+        value: "Alertheid"
+      }
+    ],
+    "r3.zib_comfort_scale.body_movement.value": [
+      {
+        type: 0,
+        value: "Lichaamsbeweging"
+      }
+    ],
+    "r3.zib_comfort_scale.body_muscle_tone.value": [
+      {
+        type: 0,
+        value: "Spierspanning"
+      }
+    ],
+    "r3.zib_comfort_scale.calmness_agitation.value": [
+      {
+        type: 0,
+        value: "Kalmte_ agitatie"
+      }
+    ],
+    "r3.zib_comfort_scale.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_comfort_scale.crying.value": [
+      {
+        type: 0,
+        value: "Ademhalingsreactie"
+      }
+    ],
+    "r3.zib_comfort_scale.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r3.zib_comfort_scale.facial_tone.value": [
+      {
+        type: 0,
+        value: "Gezichtsspanning"
+      }
+    ],
+    "r3.zib_comfort_scale.respiratory_response.value": [
+      {
+        type: 0,
+        value: "Ademhalingsreactie"
+      }
+    ],
+    "r3.zib_comfort_scale.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_contact_information_telecom_type": [
+      {
+        type: 0,
+        value: "Definieert een specifieke gecodeerde waarde voor het concept telecom type gebruikt in de zib contactgegevens, zodat de in de zib gedefinieerde waardelijst kan worden gebruikt."
+      }
+    ],
+    "r3.zib_development_child": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind"
+      }
+    ],
+    "r3.zib_development_child.age_first_menstruation.value": [
+      {
+        type: 0,
+        value: "Leeftijd eerste menstruatie"
+      }
+    ],
+    "r3.zib_development_child.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_development_child.development_cognition.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling verstandelijk"
+      }
+    ],
+    "r3.zib_development_child.development_linguistics.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling taal"
+      }
+    ],
+    "r3.zib_development_child.development_locomotion.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling motoriek"
+      }
+    ],
+    "r3.zib_development_child.development_social.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling sociaal"
+      }
+    ],
+    "r3.zib_development_child.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r3.zib_development_child.toilet_trainedness_feces.value": [
+      {
+        type: 0,
+        value: "Zindelijkheid feces"
+      }
+    ],
+    "r3.zib_development_child.toilet_trainedness_urine.value": [
+      {
+        type: 0,
+        value: "Zindelijkheid urine"
+      }
+    ],
+    "r3.zib_dispense": [
+      {
+        type: 0,
+        value: "Verstrekking"
+      }
+    ],
+    "r3.zib_dispense.additional_information": [
+      {
+        type: 0,
+        value: "Verstrekking aanvullende informatie"
+      }
+    ],
+    "r3.zib_dispense.authorizing_prescription": [
+      {
+        type: 0,
+        value: "Verstrekkingsverzoek"
+      }
+    ],
+    "r3.zib_dispense.days_supply": [
+      {
+        type: 0,
+        value: "Verbruiks duur"
+      }
+    ],
+    "r3.zib_dispense.destination": [
+      {
+        type: 0,
+        value: "Afleverlocatie"
+      }
+    ],
+    "r3.zib_dispense.distribution_form": [
+      {
+        type: 0,
+        value: "Distributievorm"
+      }
+    ],
+    "r3.zib_dispense.medication_reference": [
+      {
+        type: 0,
+        value: "Verstrek geneesmiddel"
+      }
+    ],
+    "r3.zib_dispense.medication_treatment": [
+      {
+        type: 0,
+        value: "Medicamenteuze behandeling"
+      }
+    ],
+    "r3.zib_dispense.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_dispense.performer": [
+      {
+        type: 0,
+        value: "Verstrekker"
+      }
+    ],
+    "r3.zib_dispense.quantity": [
+      {
+        type: 0,
+        value: "Verstrekte hoeveelheid"
+      }
+    ],
+    "r3.zib_dispense.request_date": [
+      {
+        type: 0,
+        value: "Aanschrijfdatum"
+      }
+    ],
+    "r3.zib_dispense.when_handed_over": [
+      {
+        type: 0,
+        value: "Verstrekkings datum tijd"
+      }
+    ],
+    "r3.zib_dispense_request": [
+      {
+        type: 0,
+        value: "Verstrekkingsverzoek"
+      }
+    ],
+    "r3.zib_dispense_request.additional_wishes": [
+      {
+        type: 0,
+        value: "Aanvullende wensen"
+      }
+    ],
+    "r3.zib_dispense_request.authored_on": [
+      {
+        type: 0,
+        value: "Verstrekkingsverzoek datum"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request": [
+      {
+        type: 0,
+        value: "Verstrekkingsverzoek"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.dispense_location": [
+      {
+        type: 0,
+        value: "Afleverlocatie"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.expected_supply_duration": [
+      {
+        type: 0,
+        value: "Duur"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.number_of_repeats_allowed": [
+      {
+        type: 0,
+        value: "Aantal herhalingen"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.performer": [
+      {
+        type: 0,
+        value: "Beoogd verstrekker"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.quantity": [
+      {
+        type: 0,
+        value: "Te verstrekken hoeveelheid"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.validity_period": [
+      {
+        type: 0,
+        value: "Verbruiksperiode"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.validity_period.end": [
+      {
+        type: 0,
+        value: "Einddatum"
+      }
+    ],
+    "r3.zib_dispense_request.dispense_request.validity_period.start": [
+      {
+        type: 0,
+        value: "Ingangsdatum"
+      }
+    ],
+    "r3.zib_dispense_request.medication_reference": [
+      {
+        type: 0,
+        value: "Geneesmiddel"
+      }
+    ],
+    "r3.zib_dispense_request.medication_treatment": [
+      {
+        type: 0,
+        value: "Medicamenteuze behandeling"
+      }
+    ],
+    "r3.zib_dispense_request.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_drug_use": [
+      {
+        type: 0,
+        value: "Drugs gebruik"
+      }
+    ],
+    "r3.zib_drug_use.amount.value": [
+      {
+        type: 0,
+        value: "Hoeveelheid"
+      }
+    ],
+    "r3.zib_drug_use.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_drug_use.drug_or_medication_type.value": [
+      {
+        type: 0,
+        value: "Drugs of geneesmiddel soort"
+      }
+    ],
+    "r3.zib_drug_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Stop datum"
+      }
+    ],
+    "r3.zib_drug_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Start datum"
+      }
+    ],
+    "r3.zib_drug_use.route_of_administration.value": [
+      {
+        type: 0,
+        value: "Toedieningsweg"
+      }
+    ],
+    "r3.zib_drug_use.value": [
+      {
+        type: 0,
+        value: "Drug gebruik status"
+      }
+    ],
+    "r3.zib_encounter": [
+      {
+        type: 0,
+        value: "Contact"
+      }
+    ],
+    "r3.zib_encounter.class": [
+      {
+        type: 0,
+        value: "Contact type"
+      }
+    ],
+    "r3.zib_encounter.diagnosis.condition": [
+      {
+        type: 0,
+        value: "Probleem"
+      }
+    ],
+    "r3.zib_encounter.hospitalization.admit_source": [
+      {
+        type: 0,
+        value: "Herkomst"
+      }
+    ],
+    "r3.zib_encounter.hospitalization.discharge_disposition": [
+      {
+        type: 0,
+        value: "Bestemming"
+      }
+    ],
+    "r3.zib_encounter.participant.individual": [
+      {
+        type: 0,
+        value: "Contact met"
+      }
+    ],
+    "r3.zib_encounter.participant.type.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_encounter.period.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r3.zib_encounter.period.start": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r3.zib_encounter.reason": [
+      {
+        type: 0,
+        value: "Afwijkende uitslag"
+      }
+    ],
+    "r3.zib_encounter.reason.text": [
+      {
+        type: 0,
+        value: "Afwijkende uitslag"
+      }
+    ],
+    "r3.zib_encounter.service_provider": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r3.zib_family_situation": [
+      {
+        type: 0,
+        value: "Gezinssituatie"
+      }
+    ],
+    "r3.zib_family_situation.care_responsibility.value": [
+      {
+        type: 0,
+        value: "Zorgtaak"
+      }
+    ],
+    "r3.zib_family_situation.child.value": [
+      {
+        type: 0,
+        value: "Geboortedatum"
+      }
+    ],
+    "r3.zib_family_situation.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_family_situation.family_composition.value": [
+      {
+        type: 0,
+        value: "Gezinssamenstelling"
+      }
+    ],
+    "r3.zib_family_situation.number_of_children.value": [
+      {
+        type: 0,
+        value: "Aantal kinderen"
+      }
+    ],
+    "r3.zib_family_situation.number_of_children_living_at_home.value": [
+      {
+        type: 0,
+        value: "Aantal kinderen inwonend"
+      }
+    ],
+    "r3.zib_family_situation_child": [
+      {
+        type: 0,
+        value: "Gezinssituatie kind"
+      }
+    ],
+    "r3.zib_family_situation_child.child": [
+      {
+        type: 0,
+        value: "Kind"
+      }
+    ],
+    "r3.zib_family_situation_child.child.contact_person": [
+      {
+        type: 0,
+        value: "Contact persoon"
+      }
+    ],
+    "r3.zib_family_situation_child.child.value": [
+      {
+        type: 0,
+        value: "Geboortedatum"
+      }
+    ],
+    "r3.zib_family_situation_child.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_family_situation_child.family_composition.value": [
+      {
+        type: 0,
+        value: "Gezinssamenstelling"
+      }
+    ],
+    "r3.zib_family_situation_child.number_of_siblings.value": [
+      {
+        type: 0,
+        value: "Aantal kinderen"
+      }
+    ],
+    "r3.zib_family_situation_child.parent_carer.parent_carer": [
+      {
+        type: 0,
+        value: "Ouder verzorger"
+      }
+    ],
+    "r3.zib_family_situation_child.sibling": [
+      {
+        type: 0,
+        value: "Broer of zus"
+      }
+    ],
+    "r3.zib_family_situation_child.sibling.contact_person": [
+      {
+        type: 0,
+        value: "Contactpersoon"
+      }
+    ],
+    "r3.zib_family_situation_child.sibling.value": [
+      {
+        type: 0,
+        value: "Geboortedatum zus broer"
+      }
+    ],
+    "r3.zib_family_situation_living_at_home_indicator": [
+      {
+        type: 0,
+        value: "Inwonend"
+      }
+    ],
+    "r3.zib_family_situation_living_at_home_indicator.value": [
+      {
+        type: 0,
+        value: "Inwonend"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant": [
+      {
+        type: 0,
+        value: "Voedingspatroon zuigeling"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.based_on": [
+      {
+        type: 0,
+        value: "Voedingsadvies"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.effective_date_time": [
+      {
+        type: 0,
+        value: "Voedingspatroon zuigeling datum tijd"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.feeding_frequency.value": [
+      {
+        type: 0,
+        value: "Voeding frequentie"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.feeding_supplement.value": [
+      {
+        type: 0,
+        value: "Voeding toevoeging"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.feeding_type.feeding_method.value": [
+      {
+        type: 0,
+        value: "Voeding methode"
+      }
+    ],
+    "r3.zib_feeding_pattern_infant.feeding_type.value": [
+      {
+        type: 0,
+        value: "Voeding soort"
+      }
+    ],
+    "r3.zib_feeding_tube_system": [
+      {
+        type: 0,
+        value: "Sonde systeem"
+      }
+    ],
+    "r3.zib_feeding_tube_system.medical_device": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r3.zib_feeding_tube_system_enteral_nutrition": [
+      {
+        type: 0,
+        value: "Sonde voeding"
+      }
+    ],
+    "r3.zib_feeding_tube_system_feeding_tube_length": [
+      {
+        type: 0,
+        value: "Sonde lengte"
+      }
+    ],
+    "r3.zib_flacc_pain_scale": [
+      {
+        type: 0,
+        value: "FLAC cpijn score"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.activity.value": [
+      {
+        type: 0,
+        value: "Activiteit"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.consolability.value": [
+      {
+        type: 0,
+        value: "Troostbaar"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.cry.value": [
+      {
+        type: 0,
+        value: "Huilen"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.face.value": [
+      {
+        type: 0,
+        value: "Gezicht"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.legs.value": [
+      {
+        type: 0,
+        value: "Benen"
+      }
+    ],
+    "r3.zib_flacc_pain_scale.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_fluid_balance": [
+      {
+        type: 0,
+        value: "Vochtbalans"
+      }
+    ],
+    "r3.zib_fluid_balance.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_fluid_balance.effective_period.end": [
+      {
+        type: 0,
+        value: "Vochtbalans stoptijd"
+      }
+    ],
+    "r3.zib_fluid_balance.effective_period.start": [
+      {
+        type: 0,
+        value: "Vochtbalans starttijd"
+      }
+    ],
+    "r3.zib_fluid_balance.fluid_total_in.value": [
+      {
+        type: 0,
+        value: "Vocht totaal in"
+      }
+    ],
+    "r3.zib_fluid_balance.fluid_total_out.value": [
+      {
+        type: 0,
+        value: "Vocht totaal uit"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures": [
+      {
+        type: 0,
+        value: "Vrijheidsbeperkende maatregelen"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures.legal_status": [
+      {
+        type: 0,
+        value: "Juridische status"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures.legally_capable.legally_capable_comment": [
+      {
+        type: 0,
+        value: "Wilsbekwaam toelichting"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures.legally_capable.legally_capable_indicator": [
+      {
+        type: 0,
+        value: "Wilsbekwaam"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures.performed_period.end": [
+      {
+        type: 0,
+        value: "Einde episode"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures.performed_period.start": [
+      {
+        type: 0,
+        value: "Aanvang episode"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures_legally_capable.legally_capable_comment.value": [
+      {
+        type: 0,
+        value: "Wilsbekwaam toelichting"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures_legally_capable.legally_capable_indicator.value": [
+      {
+        type: 0,
+        value: "Wilsbekwaam"
+      }
+    ],
+    "r3.zib_freedom_restricting_measures_permission": [
+      {
+        type: 0,
+        value: "Toestemming"
+      }
+    ],
+    "r3.zib_functional_or_mental_status": [
+      {
+        type: 0,
+        value: "Functionele of mentale status"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.code": [
+      {
+        type: 0,
+        value: "Status naam"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.effective_period.start": [
+      {
+        type: 0,
+        value: "Status datum"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.medical_device": [
+      {
+        type: 0,
+        value: "Hulpmiddel"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.subject": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.zib_functional_or_mental_status.value": [
+      {
+        type: 0,
+        value: "Status waarde"
+      }
+    ],
+    "r3.zib_functional_or_mental_status_medical_device.value": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r3.zib_general_measurement": [
+      {
+        type: 0,
+        value: "Meet uitslag"
+      }
+    ],
+    "r3.zib_general_measurement.code": [
+      {
+        type: 0,
+        value: "Onderzoek"
+      }
+    ],
+    "r3.zib_general_measurement.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_general_measurement.effective": [
+      {
+        type: 0,
+        value: "Uitslag datum tijd"
+      }
+    ],
+    "r3.zib_general_measurement.method": [
+      {
+        type: 0,
+        value: "Meetmethode"
+      }
+    ],
+    "r3.zib_general_measurement.related": [
+      {
+        type: 0,
+        value: "Meet uitslag"
+      }
+    ],
+    "r3.zib_general_measurement.status.result_status_codelist": [
+      {
+        type: 0,
+        value: "Resultaat status"
+      }
+    ],
+    "r3.zib_general_measurement.value": [
+      {
+        type: 0,
+        value: "Uitslag waarde"
+      }
+    ],
+    "r3.zib_head_circumference": [
+      {
+        type: 0,
+        value: "Schedelomvang"
+      }
+    ],
+    "r3.zib_head_circumference.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_head_circumference.effective": [
+      {
+        type: 0,
+        value: "Schedelomvang datum tijd"
+      }
+    ],
+    "r3.zib_head_circumference.method": [
+      {
+        type: 0,
+        value: "Schedelomvang meetmethode"
+      }
+    ],
+    "r3.zib_head_circumference.value": [
+      {
+        type: 0,
+        value: "Schedelomvang waarde"
+      }
+    ],
+    "r3.zib_hearing_function": [
+      {
+        type: 0,
+        value: "Functie horen"
+      }
+    ],
+    "r3.zib_hearing_function.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_hearing_function.value": [
+      {
+        type: 0,
+        value: "Hoor functie"
+      }
+    ],
+    "r3.zib_hearing_function_hearing_aid": [
+      {
+        type: 0,
+        value: "Horen hulpmiddel"
+      }
+    ],
+    "r3.zib_hearing_function_hearing_aid.body_site": [
+      {
+        type: 0,
+        value: "Hulpmiddel anatomische locatie"
+      }
+    ],
+    "r3.zib_heart_rate": [
+      {
+        type: 0,
+        value: "Hartfrequentie"
+      }
+    ],
+    "r3.zib_heart_rate.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_heart_rate.effective": [
+      {
+        type: 0,
+        value: "Hartfrequentie datum tijd"
+      }
+    ],
+    "r3.zib_heart_rate.interpretation": [
+      {
+        type: 0,
+        value: "Hartslag regelmatigheid"
+      }
+    ],
+    "r3.zib_heart_rate.method": [
+      {
+        type: 0,
+        value: "Hartslag meet methode"
+      }
+    ],
+    "r3.zib_heart_rate.value": [
+      {
+        type: 0,
+        value: "Hartfrequentie waarde"
+      }
+    ],
+    "r3.zib_help_from_others.activity": [
+      {
+        type: 0,
+        value: "Hulp van anderen"
+      }
+    ],
+    "r3.zib_help_from_others.activity.detail.category": [
+      {
+        type: 0,
+        value: "Soort hulp"
+      }
+    ],
+    "r3.zib_help_from_others.activity.detail.code": [
+      {
+        type: 0,
+        value: "Aard"
+      }
+    ],
+    "r3.zib_help_from_others.activity.detail.description": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_help_from_others.activity.detail.performer": [
+      {
+        type: 0,
+        value: "Hulpverlener"
+      }
+    ],
+    "r3.zib_help_from_others.activity.detail.scheduled_string": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r3.zib_illness_perception": [
+      {
+        type: 0,
+        value: "Ziektebeleving"
+      }
+    ],
+    "r3.zib_illness_perception.coping_with_illness_by_family": [
+      {
+        type: 0,
+        value: "Omgaan met ziekteproces door naasten"
+      }
+    ],
+    "r3.zib_illness_perception.coping_with_illness_by_patient": [
+      {
+        type: 0,
+        value: "Omgaan met ziekteproces door patiënt"
+      }
+    ],
+    "r3.zib_illness_perception.patient_illness_insight": [
+      {
+        type: 0,
+        value: "Ziekte inzicht van patiënt"
+      }
+    ],
+    "r3.zib_infusion": [
+      {
+        type: 0,
+        value: "Infuus"
+      }
+    ],
+    "r3.zib_infusion_administering_system.device.peripheral": [
+      {
+        type: 0,
+        value: "Randapparaat"
+      }
+    ],
+    "r3.zib_infusion_administering_system.note.text": [
+      {
+        type: 0,
+        value: "Toedienings systeem toelichting"
+      }
+    ],
+    "r3.zib_infusion_lumen_or_line": [
+      {
+        type: 0,
+        value: "Lumen of lijn"
+      }
+    ],
+    "r3.zib_infusion_lumen_or_line.administering_system": [
+      {
+        type: 0,
+        value: "Toedienings systeem"
+      }
+    ],
+    "r3.zib_infusion_lumen_or_line.line_status": [
+      {
+        type: 0,
+        value: "Lijn status"
+      }
+    ],
+    "r3.zib_infusion_lumen_or_line.lock_fluid": [
+      {
+        type: 0,
+        value: "Slot vloeistof"
+      }
+    ],
+    "r3.zib_infusion_lumen_or_line.lumen_location": [
+      {
+        type: 0,
+        value: "Lumen locatie"
+      }
+    ],
+    "r3.zib_instructions_for_use": [
+      {
+        type: 0,
+        value: "Gebruiksinstructie"
+      }
+    ],
+    "r3.zib_instructions_for_use.additional_instruction": [
+      {
+        type: 0,
+        value: "Aanvullende instructie"
+      }
+    ],
+    "r3.zib_instructions_for_use.as_needed_codeable_concept": [
+      {
+        type: 0,
+        value: "Zo nodig"
+      }
+    ],
+    "r3.zib_instructions_for_use.dose": [
+      {
+        type: 0,
+        value: "Keerdosis"
+      }
+    ],
+    "r3.zib_instructions_for_use.max_dose_per_period": [
+      {
+        type: 0,
+        value: "Maximale dosering"
+      }
+    ],
+    "r3.zib_instructions_for_use.rate": [
+      {
+        type: 0,
+        value: "Toedieningssnelheid"
+      }
+    ],
+    "r3.zib_instructions_for_use.route": [
+      {
+        type: 0,
+        value: "Toedieningsweg"
+      }
+    ],
+    "r3.zib_instructions_for_use.sequence": [
+      {
+        type: 0,
+        value: "Volgnummer"
+      }
+    ],
+    "r3.zib_instructions_for_use.text": [
+      {
+        type: 0,
+        value: "Omschrijving"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report": [
+      {
+        type: 0,
+        value: "Laboratorium uitslag"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.based_on": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.category.result_type": [
+      {
+        type: 0,
+        value: "Resultaat type"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.code": [
+      {
+        type: 0,
+        value: "Onderzoek"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.conclusion": [
+      {
+        type: 0,
+        value: "Uitslag interpretatie en/of toelichting"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.identifier": [
+      {
+        type: 0,
+        value: "Identificatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.performer.role.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.specimen": [
+      {
+        type: 0,
+        value: "Monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.status": [
+      {
+        type: 0,
+        value: "Resultaat status"
+      }
+    ],
+    "r3.zib_laboratory_test_result_diagnostic_report.status.result_status": [
+      {
+        type: 0,
+        value: "Resultaat status"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation": [
+      {
+        type: 0,
+        value: "Laboratorium uitslag"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.based_on": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.code": [
+      {
+        type: 0,
+        value: "Test code"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.component": [
+      {
+        type: 0,
+        value: "Laboratorium test"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.component.code": [
+      {
+        type: 0,
+        value: "Test code"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.component.interpretation": [
+      {
+        type: 0,
+        value: "Interpretatie vlaggen"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.component.value": [
+      {
+        type: 0,
+        value: "Test uitslag"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.effective": [
+      {
+        type: 0,
+        value: "Test datum tijd"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.identifier": [
+      {
+        type: 0,
+        value: "Identificatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.interpretation.interpretatie_vlaggen_codelijst": [
+      {
+        type: 0,
+        value: "Interpretatie vlaggen"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.method": [
+      {
+        type: 0,
+        value: "Testmethode"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.reference_range": [
+      {
+        type: 0,
+        value: "Referentie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.reference_range.high": [
+      {
+        type: 0,
+        value: "Referentie bovengrens"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.reference_range.low": [
+      {
+        type: 0,
+        value: "Referentie ondergrens"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.related": [
+      {
+        type: 0,
+        value: "Gerelateerde uitslag"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.result_type": [
+      {
+        type: 0,
+        value: "Resultaat type"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.specimen": [
+      {
+        type: 0,
+        value: "Monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.status": [
+      {
+        type: 0,
+        value: "Test uitslag status"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.status.test_result_status": [
+      {
+        type: 0,
+        value: "Test uitslag status"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.subject": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.zib_laboratory_test_result_observation.value": [
+      {
+        type: 0,
+        value: "Test uitslag"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen": [
+      {
+        type: 0,
+        value: "Monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.body_site.morphology": [
+      {
+        type: 0,
+        value: "Morfologie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.collected_date_time": [
+      {
+        type: 0,
+        value: "Afname datum tijd"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.collected_period": [
+      {
+        type: 0,
+        value: "Verzamelperiode"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.method": [
+      {
+        type: 0,
+        value: "Afnameprocedure"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.collection.quantity": [
+      {
+        type: 0,
+        value: "Verzamelvolume"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.container": [
+      {
+        type: 0,
+        value: "Monstercontainer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.container.identifier": [
+      {
+        type: 0,
+        value: "Monstervolgnummer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.container.type": [
+      {
+        type: 0,
+        value: "Containertype"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.identifier": [
+      {
+        type: 0,
+        value: "Monsternummer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.received_time": [
+      {
+        type: 0,
+        value: "Aanname datum tijd"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.subject": [
+      {
+        type: 0,
+        value: "Bron monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen.type": [
+      {
+        type: 0,
+        value: "Monstermateriaal"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate": [
+      {
+        type: 0,
+        value: "Monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.body_site.morphology": [
+      {
+        type: 0,
+        value: "Morfologie"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.collected_date_time": [
+      {
+        type: 0,
+        value: "Afname datum tijd"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.collected_period": [
+      {
+        type: 0,
+        value: "Verzamelperiode"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.method": [
+      {
+        type: 0,
+        value: "Afnameprocedure"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.collection.quantity": [
+      {
+        type: 0,
+        value: "Verzamelvolume"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.container": [
+      {
+        type: 0,
+        value: "Monstercontainer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.container.identifier": [
+      {
+        type: 0,
+        value: "Monstervolgnummer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.container.type": [
+      {
+        type: 0,
+        value: "Containertype"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.identifier": [
+      {
+        type: 0,
+        value: "Monsternummer"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.received_time": [
+      {
+        type: 0,
+        value: "Aanname datum tijd"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.subject": [
+      {
+        type: 0,
+        value: "Bron monster"
+      }
+    ],
+    "r3.zib_laboratory_test_result_specimen_isolate.type": [
+      {
+        type: 0,
+        value: "Microorganisme"
+      }
+    ],
+    "r3.zib_laboratory_test_result_substance.code": [
+      {
+        type: 0,
+        value: "Microorganisme"
+      }
+    ],
+    "r3.zib_life_stance.value": [
+      {
+        type: 0,
+        value: "Levensovertuiging"
+      }
+    ],
+    "r3.zib_living_situation": [
+      {
+        type: 0,
+        value: "Woonsituatie"
+      }
+    ],
+    "r3.zib_living_situation.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_living_situation.value": [
+      {
+        type: 0,
+        value: "Woning type"
+      }
+    ],
+    "r3.zib_medical_device": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r3.zib_medical_device.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_medical_device.health_professional": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r3.zib_medical_device.healthcare_provider": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r3.zib_medical_device.indication.indication_problem": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r3.zib_medical_device.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_medical_device.when_used": [
+      {
+        type: 0,
+        value: "Tijdsduur gedefinieerd door start- en einddatum/tijd"
+      }
+    ],
+    "r3.zib_medical_device.when_used.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r3.zib_medical_device_organization.value": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r3.zib_medical_device_practitioner.value": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r3.zib_medical_device_problem.value": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r3.zib_medical_device_product": [
+      {
+        type: 0,
+        value: "Product"
+      }
+    ],
+    "r3.zib_medical_device_product.identifier": [
+      {
+        type: 0,
+        value: "Product ID"
+      }
+    ],
+    "r3.zib_medical_device_product.note.text": [
+      {
+        type: 0,
+        value: "Product omschrijving"
+      }
+    ],
+    "r3.zib_medical_device_product.type": [
+      {
+        type: 0,
+        value: "Product type"
+      }
+    ],
+    "r3.zib_medical_device_request.code_codeable_concept": [
+      {
+        type: 0,
+        value: "Product type"
+      }
+    ],
+    "r3.zib_medical_device_request.code_reference": [
+      {
+        type: 0,
+        value: "Product"
+      }
+    ],
+    "r3.zib_medical_device_request.occurrence_period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r3.zib_medical_device_request.occurrence_period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r3.zib_medical_device_request.performer_type.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_medical_device_request.status.order_status": [
+      {
+        type: 0,
+        value: "Order status"
+      }
+    ],
+    "r3.zib_medication_administration": [
+      {
+        type: 0,
+        value: "Medicatie toediening"
+      }
+    ],
+    "r3.zib_medication_administration.agreed_date_time": [
+      {
+        type: 0,
+        value: "Afgesproken datum tijd"
+      }
+    ],
+    "r3.zib_medication_administration.dosage.dose": [
+      {
+        type: 0,
+        value: "Toegediende hoeveelheid"
+      }
+    ],
+    "r3.zib_medication_administration.dosage.rate": [
+      {
+        type: 0,
+        value: "Toedieningssnelheid"
+      }
+    ],
+    "r3.zib_medication_administration.dosage.route": [
+      {
+        type: 0,
+        value: "Toedieningsweg"
+      }
+    ],
+    "r3.zib_medication_administration.double_check_performed": [
+      {
+        type: 0,
+        value: "Dubbele controle uitgevoerd"
+      }
+    ],
+    "r3.zib_medication_administration.effective": [
+      {
+        type: 0,
+        value: "Toedienings datum tijd"
+      }
+    ],
+    "r3.zib_medication_administration.medication_reference": [
+      {
+        type: 0,
+        value: "Product"
+      }
+    ],
+    "r3.zib_medication_administration.medication_treatment": [
+      {
+        type: 0,
+        value: "Medicamenteuze behandeling"
+      }
+    ],
+    "r3.zib_medication_administration.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_medication_administration.performer": [
+      {
+        type: 0,
+        value: "Toediener"
+      }
+    ],
+    "r3.zib_medication_administration.status": [
+      {
+        type: 0,
+        value: "Medicatie toediening status"
+      }
+    ],
+    "r3.zib_medication_administration.status.order_status": [
+      {
+        type: 0,
+        value: "Order status"
+      }
+    ],
+    "r3.zib_medication_administration.supporting_information": [
+      {
+        type: 0,
+        value: "Gerelateerde afspraak"
+      }
+    ],
+    "r3.zib_medication_administration_deviating_administration.deviation": [
+      {
+        type: 0,
+        value: "Afwijkende toediening"
+      }
+    ],
+    "r3.zib_medication_administration_deviating_administration.reason_for_deviation": [
+      {
+        type: 0,
+        value: "Medicatie toediening reden van afwijken"
+      }
+    ],
+    "r3.zib_medication_agreement": [
+      {
+        type: 0,
+        value: "Medicatieafspraak"
+      }
+    ],
+    "r3.zib_medication_agreement.additional_information": [
+      {
+        type: 0,
+        value: "Medicatieafspraak aanvullende informatie"
+      }
+    ],
+    "r3.zib_medication_agreement.authored_on": [
+      {
+        type: 0,
+        value: "Afspraakdatum"
+      }
+    ],
+    "r3.zib_medication_agreement.medication_reference": [
+      {
+        type: 0,
+        value: "Afgesprokengeneesmiddel"
+      }
+    ],
+    "r3.zib_medication_agreement.medication_treatment": [
+      {
+        type: 0,
+        value: "Medicamenteuze behandeling"
+      }
+    ],
+    "r3.zib_medication_agreement.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_medication_agreement.reason_code": [
+      {
+        type: 0,
+        value: "Reden medicatieafspraak"
+      }
+    ],
+    "r3.zib_medication_agreement.reason_reference": [
+      {
+        type: 0,
+        value: "Reden van voorschrijven"
+      }
+    ],
+    "r3.zib_medication_agreement.requester": [
+      {
+        type: 0,
+        value: "Voorschrijver"
+      }
+    ],
+    "r3.zib_medication_agreement.usage_duration": [
+      {
+        type: 0,
+        value: "Duur"
+      }
+    ],
+    "r3.zib_medication_period_of_use": [
+      {
+        type: 0,
+        value: "Gebruiksperiode"
+      }
+    ],
+    "r3.zib_medication_use": [
+      {
+        type: 0,
+        value: "Medicatiegebruik"
+      }
+    ],
+    "r3.zib_medication_use.as_agreed_indicator": [
+      {
+        type: 0,
+        value: "Volgens afspraak indicator"
+      }
+    ],
+    "r3.zib_medication_use.author": [
+      {
+        type: 0,
+        value: "Auteur"
+      }
+    ],
+    "r3.zib_medication_use.date_asserted": [
+      {
+        type: 0,
+        value: "Registratiedatum"
+      }
+    ],
+    "r3.zib_medication_use.effective_period": [
+      {
+        type: 0,
+        value: "Gebruiksperiode"
+      }
+    ],
+    "r3.zib_medication_use.effective_period.duration": [
+      {
+        type: 0,
+        value: "Tijds duur"
+      }
+    ],
+    "r3.zib_medication_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Einddatum"
+      }
+    ],
+    "r3.zib_medication_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Ingangsdatum"
+      }
+    ],
+    "r3.zib_medication_use.medication_reference": [
+      {
+        type: 0,
+        value: "Gebruiksproduct"
+      }
+    ],
+    "r3.zib_medication_use.medication_treatment": [
+      {
+        type: 0,
+        value: "Medicamenteuze behandeling"
+      }
+    ],
+    "r3.zib_medication_use.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_medication_use.prescriber": [
+      {
+        type: 0,
+        value: "Voorschrijver"
+      }
+    ],
+    "r3.zib_medication_use.reason_code.text": [
+      {
+        type: 0,
+        value: "Reden gebruik"
+      }
+    ],
+    "r3.zib_medication_use.reason_for_change_or_discontinuation_of_use": [
+      {
+        type: 0,
+        value: "Reden wijzigen of stoppen gebruik"
+      }
+    ],
+    "r3.zib_medication_use.status": [
+      {
+        type: 0,
+        value: "Medicatie gebruik stop type"
+      }
+    ],
+    "r3.zib_medication_use.taken": [
+      {
+        type: 0,
+        value: "Gebruik indicator"
+      }
+    ],
+    "r3.zib_medication_use_duration.value": [
+      {
+        type: 0,
+        value: "Gebruiksduur"
+      }
+    ],
+    "r3.zib_medication_use_reason_for_change_or_discontinuation_of_use.value": [
+      {
+        type: 0,
+        value: "Reden wijzigen of stoppen gebruik"
+      }
+    ],
+    "r3.zib_mobility": [
+      {
+        type: 0,
+        value: "Mobiliteit"
+      }
+    ],
+    "r3.zib_mobility.changing_position.value": [
+      {
+        type: 0,
+        value: "Houding veranderen"
+      }
+    ],
+    "r3.zib_mobility.climbing_stairs.value": [
+      {
+        type: 0,
+        value: "Traplopen"
+      }
+    ],
+    "r3.zib_mobility.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_mobility.maintaining_position.value": [
+      {
+        type: 0,
+        value: "Houding handhaven"
+      }
+    ],
+    "r3.zib_mobility.transfer.value": [
+      {
+        type: 0,
+        value: "Uitvoeren transfer"
+      }
+    ],
+    "r3.zib_mobility.walking.value": [
+      {
+        type: 0,
+        value: "Lopen"
+      }
+    ],
+    "r3.zib_must_score": [
+      {
+        type: 0,
+        value: "MUST score"
+      }
+    ],
+    "r3.zib_must_score.bmi_score.value": [
+      {
+        type: 0,
+        value: "BMI score"
+      }
+    ],
+    "r3.zib_must_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_must_score.effective_date_time": [
+      {
+        type: 0,
+        value: "MUST score datum tijd"
+      }
+    ],
+    "r3.zib_must_score.illness_score.value": [
+      {
+        type: 0,
+        value: "Ziekte score"
+      }
+    ],
+    "r3.zib_must_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_must_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r3.zib_nursing_intervention": [
+      {
+        type: 0,
+        value: "Verpleegkundige interventie"
+      }
+    ],
+    "r3.zib_nursing_intervention.code": [
+      {
+        type: 0,
+        value: "Interventie"
+      }
+    ],
+    "r3.zib_nursing_intervention.frequency": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r3.zib_nursing_intervention.instruction": [
+      {
+        type: 0,
+        value: "Instructie"
+      }
+    ],
+    "r3.zib_nursing_intervention.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_nursing_intervention.performed_period.end": [
+      {
+        type: 0,
+        value: "Actie eind datum tijd"
+      }
+    ],
+    "r3.zib_nursing_intervention.performed_period.start": [
+      {
+        type: 0,
+        value: "Actie start datum tijd"
+      }
+    ],
+    "r3.zib_nursing_intervention.performer": [
+      {
+        type: 0,
+        value: "Uitvoerder"
+      }
+    ],
+    "r3.zib_nursing_intervention.performer.role.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_nursing_intervention.reason_reference": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r3.zib_nursing_intervention.requester": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r3.zib_nursing_intervention.treatment_objective": [
+      {
+        type: 0,
+        value: "Behandeldoel"
+      }
+    ],
+    "r3.zib_nursing_intervention_interval": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r3.zib_nursing_intervention_requester.value": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r3.zib_nutrition_advice": [
+      {
+        type: 0,
+        value: "Voedingsadvies"
+      }
+    ],
+    "r3.zib_nutrition_advice.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_nutrition_advice.oral_diet.fluid_consistency_type.text": [
+      {
+        type: 0,
+        value: "Consistentie"
+      }
+    ],
+    "r3.zib_nutrition_advice.oral_diet.texture.food_type.text": [
+      {
+        type: 0,
+        value: "Consistentie"
+      }
+    ],
+    "r3.zib_nutrition_advice.oral_diet.texture.modifier.text": [
+      {
+        type: 0,
+        value: "Consistentie"
+      }
+    ],
+    "r3.zib_nutrition_advice.oral_diet.type.text": [
+      {
+        type: 0,
+        value: "Dieet type"
+      }
+    ],
+    "r3.zib_nutrition_advice_explanation.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_outcome_of_care": [
+      {
+        type: 0,
+        value: "Uitkomst van zorg"
+      }
+    ],
+    "r3.zib_outcome_of_care.conclusion": [
+      {
+        type: 0,
+        value: "Zorgresultaat"
+      }
+    ],
+    "r3.zib_outcome_of_care.health_condition": [
+      {
+        type: 0,
+        value: "Gezondheidstoestand"
+      }
+    ],
+    "r3.zib_outcome_of_care.intervention.value": [
+      {
+        type: 0,
+        value: "Interventie"
+      }
+    ],
+    "r3.zib_outcome_of_care.measurement_value": [
+      {
+        type: 0,
+        value: "Meetwaarde"
+      }
+    ],
+    "r3.zib_oxygen_saturation": [
+      {
+        type: 0,
+        value: "O2 saturatie"
+      }
+    ],
+    "r3.zib_oxygen_saturation.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_oxygen_saturation.effective": [
+      {
+        type: 0,
+        value: "O2 saturatie datum tijd"
+      }
+    ],
+    "r3.zib_oxygen_saturation.extra_oxygen_administration.value": [
+      {
+        type: 0,
+        value: "Extra zuurstof toediening"
+      }
+    ],
+    "r3.zib_oxygen_saturation.value": [
+      {
+        type: 0,
+        value: "Sp o2 waarde"
+      }
+    ],
+    "r3.zib_pain_score": [
+      {
+        type: 0,
+        value: "Pijnscore"
+      }
+    ],
+    "r3.zib_pain_score.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_pain_score.body_site.laterality": [
+      {
+        type: 0,
+        value: "Lateraliteit"
+      }
+    ],
+    "r3.zib_pain_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_pain_score.effective_date_time": [
+      {
+        type: 0,
+        value: "Pijnscore datum tijd"
+      }
+    ],
+    "r3.zib_pain_score.method": [
+      {
+        type: 0,
+        value: "Pijn meetmethode"
+      }
+    ],
+    "r3.zib_pain_score.value": [
+      {
+        type: 0,
+        value: "Pijnscore waarde"
+      }
+    ],
+    "r3.zib_participation_in_society": [
+      {
+        type: 0,
+        value: "Participatie in maatschappij"
+      }
+    ],
+    "r3.zib_participation_in_society.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_participation_in_society.hobby.value": [
+      {
+        type: 0,
+        value: "Vrijetijdsbesteding"
+      }
+    ],
+    "r3.zib_participation_in_society.social_network": [
+      {
+        type: 0,
+        value: "Social network"
+      }
+    ],
+    "r3.zib_participation_in_society.social_network.value": [
+      {
+        type: 0,
+        value: "Sociaal netwerk"
+      }
+    ],
+    "r3.zib_participation_in_society.work_situation.value": [
+      {
+        type: 0,
+        value: "Arbeidssituatie"
+      }
+    ],
+    "r3.zib_payer": [
+      {
+        type: 0,
+        value: "Verzekering"
+      }
+    ],
+    "r3.zib_payer.payor": [
+      {
+        type: 0,
+        value: "Verzekeraar"
+      }
+    ],
+    "r3.zib_payer.payor.bank_information.account_number": [
+      {
+        type: 0,
+        value: "Rekeningnummer"
+      }
+    ],
+    "r3.zib_payer.payor.bank_information.bank_name": [
+      {
+        type: 0,
+        value: "Bank naam"
+      }
+    ],
+    "r3.zib_payer.payor.bank_information.bankcode": [
+      {
+        type: 0,
+        value: "Bankcode"
+      }
+    ],
+    "r3.zib_payer.period.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r3.zib_payer.period.start": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r3.zib_payer.subscriber_id": [
+      {
+        type: 0,
+        value: "Verzekerde nummer"
+      }
+    ],
+    "r3.zib_payer.type": [
+      {
+        type: 0,
+        value: "Verzekerings soort"
+      }
+    ],
+    "r3.zib_payer_bank_information": [
+      {
+        type: 0,
+        value: "Bankgegevens"
+      }
+    ],
+    "r3.zib_payer_bank_information.account_number.value": [
+      {
+        type: 0,
+        value: "Rekeningnummer"
+      }
+    ],
+    "r3.zib_payer_bank_information.bank_name.value": [
+      {
+        type: 0,
+        value: "Bank naam"
+      }
+    ],
+    "r3.zib_payer_bank_information.bankcode.value": [
+      {
+        type: 0,
+        value: "Bankcode"
+      }
+    ],
+    "r3.zib_pregnancy": [
+      {
+        type: 0,
+        value: "Zwangerschap"
+      }
+    ],
+    "r3.zib_pregnancy_date_last_menstruation.value": [
+      {
+        type: 0,
+        value: "Datum laatste menstruatie"
+      }
+    ],
+    "r3.zib_pregnancy_gravidity.value": [
+      {
+        type: 0,
+        value: "Graviditeit"
+      }
+    ],
+    "r3.zib_pregnancy_parity.value": [
+      {
+        type: 0,
+        value: "Pariteit"
+      }
+    ],
+    "r3.zib_pregnancy_pregnancy_duration.value": [
+      {
+        type: 0,
+        value: "Zwangerschapsduur"
+      }
+    ],
+    "r3.zib_pregnancy_pregnancy_status.value": [
+      {
+        type: 0,
+        value: "Zwanger"
+      }
+    ],
+    "r3.zib_pregnancy_term_date.value": [
+      {
+        type: 0,
+        value: "A terme datum"
+      }
+    ],
+    "r3.zib_pressure_ulcer": [
+      {
+        type: 0,
+        value: "Decubitus wond"
+      }
+    ],
+    "r3.zib_pressure_ulcer.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_pressure_ulcer.body_site.laterality.value": [
+      {
+        type: 0,
+        value: "Lateraliteit"
+      }
+    ],
+    "r3.zib_pressure_ulcer.code": [
+      {
+        type: 0,
+        value: "Decubitus wond"
+      }
+    ],
+    "r3.zib_pressure_ulcer.date_of_last_dressing_change.value": [
+      {
+        type: 0,
+        value: "Datum laatste verband wissel"
+      }
+    ],
+    "r3.zib_pressure_ulcer.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_pressure_ulcer.onset": [
+      {
+        type: 0,
+        value: "Ontstaans datum"
+      }
+    ],
+    "r3.zib_pressure_ulcer.stage.summary": [
+      {
+        type: 0,
+        value: "Decubitus categorie"
+      }
+    ],
+    "r3.zib_problem": [
+      {
+        type: 0,
+        value: "Concern"
+      }
+    ],
+    "r3.zib_problem.abatement_date_time": [
+      {
+        type: 0,
+        value: "Probleem eind datum"
+      }
+    ],
+    "r3.zib_problem.body_site": [
+      {
+        type: 0,
+        value: "Probleem anatomische locatie"
+      }
+    ],
+    "r3.zib_problem.body_site.laterality": [
+      {
+        type: 0,
+        value: "Probleem lateraliteit"
+      }
+    ],
+    "r3.zib_problem.category": [
+      {
+        type: 0,
+        value: "Probleem type"
+      }
+    ],
+    "r3.zib_problem.clinical_status": [
+      {
+        type: 0,
+        value: "Probleem status"
+      }
+    ],
+    "r3.zib_problem.clinical_status.problem_status_codelist": [
+      {
+        type: 0,
+        value: "Probleemstatus"
+      }
+    ],
+    "r3.zib_problem.code": [
+      {
+        type: 0,
+        value: "Probleem naam"
+      }
+    ],
+    "r3.zib_problem.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_problem.onset_date_time": [
+      {
+        type: 0,
+        value: "Probleem begin datum"
+      }
+    ],
+    "r3.zib_problem.verification_status": [
+      {
+        type: 0,
+        value: "Verificatie status"
+      }
+    ],
+    "r3.zib_problem.verification_status.verificatie_status_codelijst": [
+      {
+        type: 0,
+        value: "Verificatie status codelijst"
+      }
+    ],
+    "r3.zib_procedure": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r3.zib_procedure.body_site": [
+      {
+        type: 0,
+        value: "Verrichting anatomische locatie"
+      }
+    ],
+    "r3.zib_procedure.code": [
+      {
+        type: 0,
+        value: "Verrichting type"
+      }
+    ],
+    "r3.zib_procedure.code.verrichting_type_codelijst": [
+      {
+        type: 0,
+        value: "Verrichting type"
+      }
+    ],
+    "r3.zib_procedure.focal_device.manipulated": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r3.zib_procedure.performed_period.end": [
+      {
+        type: 0,
+        value: "Verrichting eind datum"
+      }
+    ],
+    "r3.zib_procedure.performed_period.start": [
+      {
+        type: 0,
+        value: "Verrichting start datum"
+      }
+    ],
+    "r3.zib_procedure.performer": [
+      {
+        type: 0,
+        value: "Uitgevoerd door"
+      }
+    ],
+    "r3.zib_procedure.performer.role.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_procedure.procedure_method.value": [
+      {
+        type: 0,
+        value: "Verrichting methode"
+      }
+    ],
+    "r3.zib_procedure.reason_reference": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r3.zib_procedure_request": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r3.zib_procedure_request.body_site": [
+      {
+        type: 0,
+        value: "Verrichting anatomische locatie"
+      }
+    ],
+    "r3.zib_procedure_request.code": [
+      {
+        type: 0,
+        value: "Verrichting type"
+      }
+    ],
+    "r3.zib_procedure_request.code.verrichting_type_codelijst": [
+      {
+        type: 0,
+        value: "Verrichting type codelijst"
+      }
+    ],
+    "r3.zib_procedure_request.occurrence_period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r3.zib_procedure_request.occurrence_period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r3.zib_procedure_request.occurrence_timing.repeat.frequency": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r3.zib_procedure_request.occurrence_timing.repeat.period": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r3.zib_procedure_request.performer": [
+      {
+        type: 0,
+        value: "Uitgevoerd door"
+      }
+    ],
+    "r3.zib_procedure_request.performer_type.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_procedure_request.reason_reference": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r3.zib_procedure_request.requester.agent": [
+      {
+        type: 0,
+        value: "Aangevraagd door"
+      }
+    ],
+    "r3.zib_procedure_request.status.order_status": [
+      {
+        type: 0,
+        value: "Order status"
+      }
+    ],
+    "r3.zib_product": [
+      {
+        type: 0,
+        value: "Geneesmiddel"
+      }
+    ],
+    "r3.zib_product.code.coding": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r3.zib_product.code.text": [
+      {
+        type: 0,
+        value: "Product naam"
+      }
+    ],
+    "r3.zib_product.description": [
+      {
+        type: 0,
+        value: "Omschrijving"
+      }
+    ],
+    "r3.zib_product.form": [
+      {
+        type: 0,
+        value: "Farmaceutische vorm"
+      }
+    ],
+    "r3.zib_product.ingredient": [
+      {
+        type: 0,
+        value: "Ingredient"
+      }
+    ],
+    "r3.zib_product.ingredient.amount": [
+      {
+        type: 0,
+        value: "Sterkte"
+      }
+    ],
+    "r3.zib_product.ingredient.amount.denominator": [
+      {
+        type: 0,
+        value: "Product hoeveelheid"
+      }
+    ],
+    "r3.zib_product.ingredient.amount.numerator": [
+      {
+        type: 0,
+        value: "Ingredient hoeveelheid"
+      }
+    ],
+    "r3.zib_product.ingredient.item_codeable_concept": [
+      {
+        type: 0,
+        value: "Ingredient code"
+      }
+    ],
+    "r3.zib_pulse_rate": [
+      {
+        type: 0,
+        value: "Polsfrequentie"
+      }
+    ],
+    "r3.zib_pulse_rate.code": [
+      {
+        type: 0,
+        value: "Polsfrequentie"
+      }
+    ],
+    "r3.zib_pulse_rate.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_pulse_rate.effective": [
+      {
+        type: 0,
+        value: "Polsfrequentie datum tijd"
+      }
+    ],
+    "r3.zib_pulse_rate.pulse_regularity.code": [
+      {
+        type: 0,
+        value: "Component test"
+      }
+    ],
+    "r3.zib_pulse_rate.pulse_regularity.value": [
+      {
+        type: 0,
+        value: "Pols regelmatigheid"
+      }
+    ],
+    "r3.zib_pulse_rate.subject": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r3.zib_pulse_rate.value": [
+      {
+        type: 0,
+        value: "Polsfrequentie waarde"
+      }
+    ],
+    "r3.zib_respiration.administered_oxygen": [
+      {
+        type: 0,
+        value: "Toegediende zuurstof"
+      }
+    ],
+    "r3.zib_respiration.administered_oxygen.extra_oxygen_administration.value": [
+      {
+        type: 0,
+        value: "Extra zuurstof toediening"
+      }
+    ],
+    "r3.zib_respiration.administered_oxygen.fi_o_2.value": [
+      {
+        type: 0,
+        value: "Fi o2"
+      }
+    ],
+    "r3.zib_respiration.administered_oxygen.flow_rate.value": [
+      {
+        type: 0,
+        value: "Flow rate"
+      }
+    ],
+    "r3.zib_respiration.breathing_frequency.value": [
+      {
+        type: 0,
+        value: "Ademfrequentie"
+      }
+    ],
+    "r3.zib_respiration.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_respiration.depth.value": [
+      {
+        type: 0,
+        value: "Diepte"
+      }
+    ],
+    "r3.zib_respiration.deviating_breathing_pattern.value": [
+      {
+        type: 0,
+        value: "Afwijkend ademhalingspatroon"
+      }
+    ],
+    "r3.zib_respiration.effective_date_time": [
+      {
+        type: 0,
+        value: "Ademhaling datum tijd"
+      }
+    ],
+    "r3.zib_respiration.rhythm.value": [
+      {
+        type: 0,
+        value: "Ritme"
+      }
+    ],
+    "r3.zib_respiration_administered_oxygen_administration_device": [
+      {
+        type: 0,
+        value: "Toediening hulpmiddel"
+      }
+    ],
+    "r3.zib_skin_disorder": [
+      {
+        type: 0,
+        value: "Huidaandoening"
+      }
+    ],
+    "r3.zib_skin_disorder.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_skin_disorder.body_site.laterality.value": [
+      {
+        type: 0,
+        value: "Lateraliteit"
+      }
+    ],
+    "r3.zib_skin_disorder.code": [
+      {
+        type: 0,
+        value: "Soort aandoening"
+      }
+    ],
+    "r3.zib_skin_disorder.due_to.value": [
+      {
+        type: 0,
+        value: "Oorzaak"
+      }
+    ],
+    "r3.zib_skin_disorder.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_sna_qrc_score": [
+      {
+        type: 0,
+        value: "SNA qrc score"
+      }
+    ],
+    "r3.zib_sna_qrc_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r3.zib_sna_qrc_score.assisted_eating.value": [
+      {
+        type: 0,
+        value: "Hulp bij eten"
+      }
+    ],
+    "r3.zib_sna_qrc_score.bmi_score.value": [
+      {
+        type: 0,
+        value: "BMI score"
+      }
+    ],
+    "r3.zib_sna_qrc_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_sna_qrc_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNA qrc score datum tijd"
+      }
+    ],
+    "r3.zib_sna_qrc_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_sna_qrc_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score": [
+      {
+        type: 0,
+        value: "SNAQ65+score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNAQ65+score datum tijd"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.exercise_score.value": [
+      {
+        type: 0,
+        value: "Inspannings score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.upperarm_circumference.value": [
+      {
+        type: 0,
+        value: "Bovenarm omtrek score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_snaq_65_plus_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r3.zib_snaq_score": [
+      {
+        type: 0,
+        value: "SNAQ score"
+      }
+    ],
+    "r3.zib_snaq_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r3.zib_snaq_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_snaq_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNAQ score datum tijd"
+      }
+    ],
+    "r3.zib_snaq_score.nutrition_score.value": [
+      {
+        type: 0,
+        value: "Voedings score"
+      }
+    ],
+    "r3.zib_snaq_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_snaq_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r3.zib_stoma": [
+      {
+        type: 0,
+        value: "Stoma"
+      }
+    ],
+    "r3.zib_stoma.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_stoma.body_site.laterality": [
+      {
+        type: 0,
+        value: "Lateraliteit"
+      }
+    ],
+    "r3.zib_stoma.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_stoma.effective_date_time": [
+      {
+        type: 0,
+        value: "Aanleg datum"
+      }
+    ],
+    "r3.zib_stoma.value": [
+      {
+        type: 0,
+        value: "Stoma type"
+      }
+    ],
+    "r3.zib_strong_kids_score": [
+      {
+        type: 0,
+        value: "Strong kids score"
+      }
+    ],
+    "r3.zib_strong_kids_score.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_strong_kids_score.condition_score.value": [
+      {
+        type: 0,
+        value: "Ziekte beeld score"
+      }
+    ],
+    "r3.zib_strong_kids_score.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r3.zib_strong_kids_score.nutrition_score.value": [
+      {
+        type: 0,
+        value: "Voedings score"
+      }
+    ],
+    "r3.zib_strong_kids_score.nutrition_status_score.value": [
+      {
+        type: 0,
+        value: "Voedingstoestand score"
+      }
+    ],
+    "r3.zib_strong_kids_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r3.zib_strong_kids_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r3.zib_text_result": [
+      {
+        type: 0,
+        value: "Tekst uitslag"
+      }
+    ],
+    "r3.zib_text_result.code": [
+      {
+        type: 0,
+        value: "Onderzoek"
+      }
+    ],
+    "r3.zib_text_result.identifier": [
+      {
+        type: 0,
+        value: "Identificatie"
+      }
+    ],
+    "r3.zib_text_result.performer.role.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_text_result.status": [
+      {
+        type: 0,
+        value: "Tekst uitslag status"
+      }
+    ],
+    "r3.zib_text_result.status.text_result_status": [
+      {
+        type: 0,
+        value: "Tekst uitslag status"
+      }
+    ],
+    "r3.zib_tobacco_use": [
+      {
+        type: 0,
+        value: "Tabak gebruik"
+      }
+    ],
+    "r3.zib_tobacco_use.amount.value": [
+      {
+        type: 0,
+        value: "Hoeveelheid"
+      }
+    ],
+    "r3.zib_tobacco_use.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_tobacco_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Stop datum"
+      }
+    ],
+    "r3.zib_tobacco_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Start datum"
+      }
+    ],
+    "r3.zib_tobacco_use.pack_years.value": [
+      {
+        type: 0,
+        value: "Pack years"
+      }
+    ],
+    "r3.zib_tobacco_use.type_of_tobacco_used.value": [
+      {
+        type: 0,
+        value: "Soort tabak gebruik"
+      }
+    ],
+    "r3.zib_tobacco_use.value": [
+      {
+        type: 0,
+        value: "Tabak gebruik status"
+      }
+    ],
+    "r3.zib_treatment_directive": [
+      {
+        type: 0,
+        value: "Behandel aanwijzing"
+      }
+    ],
+    "r3.zib_treatment_directive.except.restrictions": [
+      {
+        type: 0,
+        value: "Beperkingen"
+      }
+    ],
+    "r3.zib_treatment_directive.period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r3.zib_treatment_directive.period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r3.zib_treatment_directive.source": [
+      {
+        type: 0,
+        value: "Wilsverklaring"
+      }
+    ],
+    "r3.zib_treatment_directive.treatment": [
+      {
+        type: 0,
+        value: "Behandeling"
+      }
+    ],
+    "r3.zib_treatment_directive.treatment_permitted": [
+      {
+        type: 0,
+        value: "Behandeling toegestaan"
+      }
+    ],
+    "r3.zib_treatment_directive.verification.verification_date": [
+      {
+        type: 0,
+        value: "Verificatie datum"
+      }
+    ],
+    "r3.zib_treatment_directive.verification.verified": [
+      {
+        type: 0,
+        value: "Geverifieerd"
+      }
+    ],
+    "r3.zib_treatment_directive.verification.verified_with": [
+      {
+        type: 0,
+        value: "Geverifieerd bij"
+      }
+    ],
+    "r3.zib_treatment_directive_treatment.value": [
+      {
+        type: 0,
+        value: "Behandeling"
+      }
+    ],
+    "r3.zib_treatment_directive_treatment_permitted.value": [
+      {
+        type: 0,
+        value: "Behandeling toegestaan"
+      }
+    ],
+    "r3.zib_treatment_directive_verification": [
+      {
+        type: 0,
+        value: "Verificatie"
+      }
+    ],
+    "r3.zib_treatment_directive_verification.verification_date.value": [
+      {
+        type: 0,
+        value: "Verificatie datum"
+      }
+    ],
+    "r3.zib_treatment_directive_verification.verified.value": [
+      {
+        type: 0,
+        value: "Geverifieerd"
+      }
+    ],
+    "r3.zib_treatment_objective": [
+      {
+        type: 0,
+        value: "Behandeldoel"
+      }
+    ],
+    "r3.zib_treatment_objective.addresses": [
+      {
+        type: 0,
+        value: "Probleem"
+      }
+    ],
+    "r3.zib_treatment_objective.description": [
+      {
+        type: 0,
+        value: "Gewenst zorgresultaat"
+      }
+    ],
+    "r3.zib_treatment_objective.target.detail": [
+      {
+        type: 0,
+        value: "Streefwaarde / gewenste gezondheidstoestand"
+      }
+    ],
+    "r3.zib_vaccination": [
+      {
+        type: 0,
+        value: "Vaccinatie"
+      }
+    ],
+    "r3.zib_vaccination.date": [
+      {
+        type: 0,
+        value: "Vaccinatie datum"
+      }
+    ],
+    "r3.zib_vaccination.dose_quantity": [
+      {
+        type: 0,
+        value: "Dosis"
+      }
+    ],
+    "r3.zib_vaccination.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_vaccination.practitioner.actor": [
+      {
+        type: 0,
+        value: "Toediener"
+      }
+    ],
+    "r3.zib_vaccination.practitioner.role.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r3.zib_vaccination.vaccine_code": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r3.zib_vaccination_recommendation.order_status": [
+      {
+        type: 0,
+        value: "Order status"
+      }
+    ],
+    "r3.zib_vaccination_recommendation.recommendation.date": [
+      {
+        type: 0,
+        value: "Gewenste datum hervaccinatie"
+      }
+    ],
+    "r3.zib_vaccination_recommendation.recommendation.date_criterion": [
+      {
+        type: 0,
+        value: "Start date"
+      }
+    ],
+    "r3.zib_vaccination_recommendation.recommendation.vaccine_code": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r3.zib_visual_function": [
+      {
+        type: 0,
+        value: "Functie zien"
+      }
+    ],
+    "r3.zib_visual_function.comment": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_visual_function.value": [
+      {
+        type: 0,
+        value: "Visuele functie"
+      }
+    ],
+    "r3.zib_visual_function_visual_aid": [
+      {
+        type: 0,
+        value: "Zien hulpmiddel"
+      }
+    ],
+    "r3.zib_wound": [
+      {
+        type: 0,
+        value: "Wond"
+      }
+    ],
+    "r3.zib_wound.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r3.zib_wound.body_site.laterality.value": [
+      {
+        type: 0,
+        value: "Lateraliteit"
+      }
+    ],
+    "r3.zib_wound.code": [
+      {
+        type: 0,
+        value: "Wond soort"
+      }
+    ],
+    "r3.zib_wound.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r3.zib_wound.onset": [
+      {
+        type: 0,
+        value: "Wond ontstaans datum"
+      }
+    ]
+  };
+  const r4ResourceLabelsCustom = {
+    "r4.nl_core_contact_information_email_addresses": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.nl_core_contact_information_email_addresses.use": [
+      {
+        type: 0,
+        value: "Email soort"
+      }
+    ],
+    "r4.nl_core_contact_information_email_addresses.value": [
+      {
+        type: 0,
+        value: "E-mailadres"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.comment": [
+      {
+        type: 0,
+        value: "Telecom toelichting"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.telecom_type": [
+      {
+        type: 0,
+        value: "Telecom type"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.use": [
+      {
+        type: 0,
+        value: "Telecom type / nummer soort"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.value": [
+      {
+        type: 0,
+        value: "Telefoonnummer"
+      }
+    ],
+    "r4.nl_core_healtcare_provider": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.nl_core_healtcare_provider.identifier": [
+      {
+        type: 0,
+        value: "Identifier"
+      }
+    ],
+    "r4.nl_core_healtcare_provider.managing_organization": [
+      {
+        type: 0,
+        value: "Beherende organisatie"
+      }
+    ],
+    "r4.nl_core_healtcare_provider.name": [
+      {
+        type: 0,
+        value: "Zorgverlener naam"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role": [
+      {
+        type: 0,
+        value: "Zorgprofessional rol"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.location": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.organization": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.practitioner": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.speciality": [
+      {
+        type: 0,
+        value: "Specialiteit"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization": [
+      {
+        type: 0,
+        value: "Zorgverlener organisatie"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization.department_speciality": [
+      {
+        type: 0,
+        value: "Zorgverlener organisatie afdelings specialiteit"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization.identifier": [
+      {
+        type: 0,
+        value: "Zorgverlener organisatie identifier"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization.name": [
+      {
+        type: 0,
+        value: "Zorgverlener organisatie naam"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization.organization_type": [
+      {
+        type: 0,
+        value: "Zorgverlener organisatie type"
+      }
+    ],
+    "r4.nl_core_vaccination_event.dose_quantity": [
+      {
+        type: 0,
+        value: "Dosis"
+      }
+    ],
+    "r4.nl_core_vaccination_event.extra": [
+      {
+        type: 0,
+        value: "Extra informatie"
+      }
+    ],
+    "r4.nl_core_vaccination_event.identifier": [
+      {
+        type: 0,
+        value: "Identificatienummer"
+      }
+    ],
+    "r4.nl_core_vaccination_event.location": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r4.nl_core_vaccination_event.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.nl_core_vaccination_event.occurrence_date_time": [
+      {
+        type: 0,
+        value: "Gegeven op"
+      }
+    ],
+    "r4.nl_core_vaccination_event.performed_by": [
+      {
+        type: 0,
+        value: "Gegeven door"
+      }
+    ],
+    "r4.nl_core_vaccination_event.performer": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.nl_core_vaccination_event.pharmaceutical_product": [
+      {
+        type: 0,
+        value: "Inenting"
+      }
+    ],
+    "r4.nl_core_vaccination_event.protocol_applied": [
+      {
+        type: 0,
+        value: "Protocol toegepast"
+      }
+    ],
+    "r4.nl_core_vaccination_event.protocol_applied.authority": [
+      {
+        type: 0,
+        value: "Autoriteit"
+      }
+    ],
+    "r4.nl_core_vaccination_event.protocol_applied.dose_number": [
+      {
+        type: 0,
+        value: "Dosis nummer"
+      }
+    ],
+    "r4.nl_core_vaccination_event.protocol_applied.series_doses": [
+      {
+        type: 0,
+        value: "Serie dosis"
+      }
+    ],
+    "r4.nl_core_vaccination_event.route": [
+      {
+        type: 0,
+        value: "Toedieningsweg"
+      }
+    ],
+    "r4.nl_core_vaccination_event.site": [
+      {
+        type: 0,
+        value: "Lichaamsplek"
+      }
+    ],
+    "r4.nl_core_vaccination_event.status": [
+      {
+        type: 0,
+        value: "Status"
+      }
+    ],
+    "r4.nl_core_vaccination_event.vaccine_code": [
+      {
+        type: 0,
+        value: "Uniek nummer"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.batch": [
+      {
+        type: 0,
+        value: "Batch"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.batch.expiration_date": [
+      {
+        type: 0,
+        value: "Batch vervaldatum"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.batch.lot_number": [
+      {
+        type: 0,
+        value: "Batch lotnummer"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.description": [
+      {
+        type: 0,
+        value: "Omschrijving"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.identifier": [
+      {
+        type: 0,
+        value: "Serienummer"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient.item": [
+      {
+        type: 0,
+        value: "Medicatie ingredient item"
+      }
+    ]
+  };
+  const r4ResourceLabels = {
+    "r4.nl_core_ability_to_dress_oneself": [
+      {
+        type: 0,
+        value: "Nl-core-ability to dress oneself"
+      }
+    ],
+    "r4.nl_core_ability_to_drink": [
+      {
+        type: 0,
+        value: "Nl-core-ability to drink"
+      }
+    ],
+    "r4.nl_core_ability_to_drink.drinking_limitations": [
+      {
+        type: 0,
+        value: "Nl-core-ability to drink.drinking limitations"
+      }
+    ],
+    "r4.nl_core_ability_to_eat": [
+      {
+        type: 0,
+        value: "Nl-core-ability to eat"
+      }
+    ],
+    "r4.nl_core_ability_to_eat.eating_limitations": [
+      {
+        type: 0,
+        value: "Nl-core-ability to eat.eating limitations"
+      }
+    ],
+    "r4.nl_core_ability_to_groom": [
+      {
+        type: 0,
+        value: "Nl-core-ability to groom"
+      }
+    ],
+    "r4.nl_core_ability_to_use_toilet": [
+      {
+        type: 0,
+        value: "Nl-core-ability to use toilet"
+      }
+    ],
+    "r4.nl_core_ability_to_use_toilet.menstrual_care": [
+      {
+        type: 0,
+        value: "Nl-core-ability to use toilet.menstrual care"
+      }
+    ],
+    "r4.nl_core_ability_to_use_toilet.toilet_use": [
+      {
+        type: 0,
+        value: "Nl-core-ability to use toilet.toilet use"
+      }
+    ],
+    "r4.nl_core_ability_to_wash_oneself": [
+      {
+        type: 0,
+        value: "Nl-core-ability to wash oneself"
+      }
+    ],
+    "r4.nl_core_address_information": [
+      {
+        type: 0,
+        value: "Nl-core-address information"
+      }
+    ],
+    "r4.nl_core_advance_directive": [
+      {
+        type: 0,
+        value: "Nl-core-advance directive"
+      }
+    ],
+    "r4.nl_core_alcohol_use": [
+      {
+        type: 0,
+        value: "Nl-core-alcohol use"
+      }
+    ],
+    "r4.nl_core_alert": [
+      {
+        type: 0,
+        value: "Nl-core-alert"
+      }
+    ],
+    "r4.nl_core_allergy_intolerance": [
+      {
+        type: 0,
+        value: "Nl-core-allergy intolerance"
+      }
+    ],
+    "r4.nl_core_anatomical_location": [
+      {
+        type: 0,
+        value: "Nl-core-anatomical location"
+      }
+    ],
+    "r4.nl_core_apgar_score_10_minute": [
+      {
+        type: 0,
+        value: "Nl-core-apgar score-10 minute"
+      }
+    ],
+    "r4.nl_core_apgar_score_1_minute": [
+      {
+        type: 0,
+        value: "Nl-core-apgar score-1 minute"
+      }
+    ],
+    "r4.nl_core_apgar_score_5_minute": [
+      {
+        type: 0,
+        value: "Nl-core-apgar score-5 minute"
+      }
+    ],
+    "r4.nl_core_barthel_adl_index": [
+      {
+        type: 0,
+        value: "Nl-core-barthel ADL index"
+      }
+    ],
+    "r4.nl_core_blood_pressure": [
+      {
+        type: 0,
+        value: "Nl-core-blood pressure"
+      }
+    ],
+    "r4.nl_core_body_height": [
+      {
+        type: 0,
+        value: "Nl-core-body height"
+      }
+    ],
+    "r4.nl_core_body_temperature": [
+      {
+        type: 0,
+        value: "Nl-core-body temperature"
+      }
+    ],
+    "r4.nl_core_body_weight": [
+      {
+        type: 0,
+        value: "Nl-core-body weight"
+      }
+    ],
+    "r4.nl_core_bowel_function": [
+      {
+        type: 0,
+        value: "Nl-core-bowel function"
+      }
+    ],
+    "r4.nl_core_bowel_function.defecation_color": [
+      {
+        type: 0,
+        value: "Nl-core-bowel function.defecation color"
+      }
+    ],
+    "r4.nl_core_bowel_function.defecation_consistency": [
+      {
+        type: 0,
+        value: "Nl-core-bowel function.defecation consistency"
+      }
+    ],
+    "r4.nl_core_bowel_function.fecal_continence": [
+      {
+        type: 0,
+        value: "Nl-core-bowel function.fecal continence"
+      }
+    ],
+    "r4.nl_core_bowel_function.frequency": [
+      {
+        type: 0,
+        value: "Nl-core-bowel function.frequency"
+      }
+    ],
+    "r4.nl_core_burnwound": [
+      {
+        type: 0,
+        value: "Nl-core-burnwound"
+      }
+    ],
+    "r4.nl_core_burnwound.extent": [
+      {
+        type: 0,
+        value: "Nl-core-burnwound.extent"
+      }
+    ],
+    "r4.nl_core_care_team": [
+      {
+        type: 0,
+        value: "Nl-core-care team"
+      }
+    ],
+    "r4.nl_core_checklist_pain_behavior": [
+      {
+        type: 0,
+        value: "Nl-core-checklist pain behavior"
+      }
+    ],
+    "r4.nl_core_comfort_scale": [
+      {
+        type: 0,
+        value: "Nl-core-comfort scale"
+      }
+    ],
+    "r4.nl_core_contact_information_email_addresses": [
+      {
+        type: 0,
+        value: "Nl-core-contact information-email addresses"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers": [
+      {
+        type: 0,
+        value: "Nl-core-contact information-telephone numbers"
+      }
+    ],
+    "r4.nl_core_contact_person": [
+      {
+        type: 0,
+        value: "Nl-core-contact person"
+      }
+    ],
+    "r4.nl_core_development_child": [
+      {
+        type: 0,
+        value: "Nl-core-development child"
+      }
+    ],
+    "r4.nl_core_development_child.age_first_menstruation": [
+      {
+        type: 0,
+        value: "Nl-core-development child.age first menstruation"
+      }
+    ],
+    "r4.nl_core_development_child.development_cognition": [
+      {
+        type: 0,
+        value: "Nl-core-development child.development cognition"
+      }
+    ],
+    "r4.nl_core_development_child.development_linguistics": [
+      {
+        type: 0,
+        value: "Nl-core-development child.development linguistics"
+      }
+    ],
+    "r4.nl_core_development_child.development_locomotion": [
+      {
+        type: 0,
+        value: "Nl-core-development child.development locomotion"
+      }
+    ],
+    "r4.nl_core_development_child.development_social": [
+      {
+        type: 0,
+        value: "Nl-core-development child.development social"
+      }
+    ],
+    "r4.nl_core_development_child.toilet_trainedness_feces": [
+      {
+        type: 0,
+        value: "Nl-core-development child.toilet trainedness feces"
+      }
+    ],
+    "r4.nl_core_development_child.toilet_trainedness_urine": [
+      {
+        type: 0,
+        value: "Nl-core-development child.toilet trainedness urine"
+      }
+    ],
+    "r4.nl_core_dos_score": [
+      {
+        type: 0,
+        value: "Nl-core-DOS score"
+      }
+    ],
+    "r4.nl_core_drug_use": [
+      {
+        type: 0,
+        value: "Nl-core-drug use"
+      }
+    ],
+    "r4.nl_core_education": [
+      {
+        type: 0,
+        value: "Nl-core-education"
+      }
+    ],
+    "r4.nl_core_encounter": [
+      {
+        type: 0,
+        value: "Nl-core-encounter"
+      }
+    ],
+    "r4.nl_core_episode_of_care": [
+      {
+        type: 0,
+        value: "Nl-core-episode of care"
+      }
+    ],
+    "r4.nl_core_feeding_pattern_infant": [
+      {
+        type: 0,
+        value: "Nl-core-feeding pattern infant"
+      }
+    ],
+    "r4.nl_core_flac_cpain_scale": [
+      {
+        type: 0,
+        value: "Nl-core-FLAC cpain scale"
+      }
+    ],
+    "r4.nl_core_fluid_balance": [
+      {
+        type: 0,
+        value: "Nl-core-fluid balance"
+      }
+    ],
+    "r4.nl_core_fluid_balance.fluid_total_in": [
+      {
+        type: 0,
+        value: "Nl-core-fluid balance.fluid total in"
+      }
+    ],
+    "r4.nl_core_fluid_balance.fluid_total_out": [
+      {
+        type: 0,
+        value: "Nl-core-fluid balance.fluid total out"
+      }
+    ],
+    "r4.nl_core_freedom_restricting_intervention": [
+      {
+        type: 0,
+        value: "Nl-core-freedom restricting intervention"
+      }
+    ],
+    "r4.nl_core_functional_or_mental_status": [
+      {
+        type: 0,
+        value: "Nl-core-functional or mental status"
+      }
+    ],
+    "r4.nl_core_glasgow_coma_scale": [
+      {
+        type: 0,
+        value: "Nl-core-glasgow coma scale"
+      }
+    ],
+    "r4.nl_core_head_circumference": [
+      {
+        type: 0,
+        value: "Nl-core-head circumference"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner": [
+      {
+        type: 0,
+        value: "Nl-core-health professional-practitioner"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role": [
+      {
+        type: 0,
+        value: "Nl-core-health professional-practitioner role"
+      }
+    ],
+    "r4.nl_core_healthcare_provider": [
+      {
+        type: 0,
+        value: "Nl-core-healthcare provider"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization": [
+      {
+        type: 0,
+        value: "Nl-core-healthcare provider-organization"
+      }
+    ],
+    "r4.nl_core_hearing_function": [
+      {
+        type: 0,
+        value: "Nl-core-hearing function"
+      }
+    ],
+    "r4.nl_core_hearing_function.hearing_aid": [
+      {
+        type: 0,
+        value: "Nl-core-hearing function.hearing aid"
+      }
+    ],
+    "r4.nl_core_hearing_function.hearing_aid.product": [
+      {
+        type: 0,
+        value: "Nl-core-hearing function.hearing aid.product"
+      }
+    ],
+    "r4.nl_core_heart_rate": [
+      {
+        type: 0,
+        value: "Nl-core-heart rate"
+      }
+    ],
+    "r4.nl_core_heart_rate.heartbeat_regularity": [
+      {
+        type: 0,
+        value: "Nl-core-heart rate.heartbeat regularity"
+      }
+    ],
+    "r4.nl_core_heart_rate.interpretation_heart_rate": [
+      {
+        type: 0,
+        value: "Nl-core-heart rate.interpretation heart rate"
+      }
+    ],
+    "r4.nl_core_help_from_others": [
+      {
+        type: 0,
+        value: "Nl-core-help from others"
+      }
+    ],
+    "r4.nl_core_illness_perception": [
+      {
+        type: 0,
+        value: "Nl-core-illness perception"
+      }
+    ],
+    "r4.nl_core_illness_perception.coping_with_illness_by_family": [
+      {
+        type: 0,
+        value: "Nl-core-illness perception.coping with illness by family"
+      }
+    ],
+    "r4.nl_core_illness_perception.coping_with_illness_by_patient": [
+      {
+        type: 0,
+        value: "Nl-core-illness perception.coping with illness by patient"
+      }
+    ],
+    "r4.nl_core_illness_perception.patient_illness_insight": [
+      {
+        type: 0,
+        value: "Nl-core-illness perception.patient illness insight"
+      }
+    ],
+    "r4.nl_core_laboratory_test_result": [
+      {
+        type: 0,
+        value: "Nl-core-laboratory test result"
+      }
+    ],
+    "r4.nl_core_laboratory_test_result.specimen": [
+      {
+        type: 0,
+        value: "Nl-core-laboratory test result.specimen"
+      }
+    ],
+    "r4.nl_core_laboratory_test_result.specimen_source": [
+      {
+        type: 0,
+        value: "Nl-core-laboratory test result.specimen source"
+      }
+    ],
+    "r4.nl_core_laboratory_test_result.specimen_source.patient": [
+      {
+        type: 0,
+        value: "Patiënt"
+      }
+    ],
+    "r4.nl_core_legal_situation_legal_status": [
+      {
+        type: 0,
+        value: "Nl-core-legal situation-legal status"
+      }
+    ],
+    "r4.nl_core_legal_situation_representation": [
+      {
+        type: 0,
+        value: "Nl-core-legal situation-representation"
+      }
+    ],
+    "r4.nl_core_life_stance": [
+      {
+        type: 0,
+        value: "Nl-core-life stance"
+      }
+    ],
+    "r4.nl_core_living_situation": [
+      {
+        type: 0,
+        value: "Nl-core-living situation"
+      }
+    ],
+    "r4.nl_core_medical_device": [
+      {
+        type: 0,
+        value: "Nl-core-medical device"
+      }
+    ],
+    "r4.nl_core_medical_device.product": [
+      {
+        type: 0,
+        value: "Nl-core-medical device.product"
+      }
+    ],
+    "r4.nl_core_medication_contra_indication": [
+      {
+        type: 0,
+        value: "Nl-core-medication contra indication"
+      }
+    ],
+    "r4.nl_core_mobility": [
+      {
+        type: 0,
+        value: "Nl-core-mobility"
+      }
+    ],
+    "r4.nl_core_mobility.changing_position": [
+      {
+        type: 0,
+        value: "Nl-core-mobility.changing position"
+      }
+    ],
+    "r4.nl_core_mobility.climbing_stairs": [
+      {
+        type: 0,
+        value: "Nl-core-mobility.climbing stairs"
+      }
+    ],
+    "r4.nl_core_mobility.maintaining_position": [
+      {
+        type: 0,
+        value: "Nl-core-mobility.maintaining position"
+      }
+    ],
+    "r4.nl_core_mobility.transfer": [
+      {
+        type: 0,
+        value: "Nl-core-mobility.transfer"
+      }
+    ],
+    "r4.nl_core_mobility.walking": [
+      {
+        type: 0,
+        value: "Nl-core-mobility.walking"
+      }
+    ],
+    "r4.nl_core_must_score": [
+      {
+        type: 0,
+        value: "Nl-core-MUST score"
+      }
+    ],
+    "r4.nl_core_name_information": [
+      {
+        type: 0,
+        value: "Nl-core-name information"
+      }
+    ],
+    "r4.nl_core_name_information.given_name": [
+      {
+        type: 0,
+        value: "Nl-core-name information.given name"
+      }
+    ],
+    "r4.nl_core_nursing_intervention": [
+      {
+        type: 0,
+        value: "Nl-core-nursing intervention"
+      }
+    ],
+    "r4.nl_core_nutrition_advice": [
+      {
+        type: 0,
+        value: "Nl-core-nutrition advice"
+      }
+    ],
+    "r4.nl_core_o_2_saturation": [
+      {
+        type: 0,
+        value: "Nl-core-o2 saturation"
+      }
+    ],
+    "r4.nl_core_pain_score": [
+      {
+        type: 0,
+        value: "Nl-core-pain score"
+      }
+    ],
+    "r4.nl_core_participation_in_society": [
+      {
+        type: 0,
+        value: "Nl-core-participation in society"
+      }
+    ],
+    "r4.nl_core_participation_in_society.hobby": [
+      {
+        type: 0,
+        value: "Nl-core-participation in society.hobby"
+      }
+    ],
+    "r4.nl_core_participation_in_society.social_network": [
+      {
+        type: 0,
+        value: "Nl-core-participation in society.social network"
+      }
+    ],
+    "r4.nl_core_participation_in_society.work_situation": [
+      {
+        type: 0,
+        value: "Nl-core-participation in society.work situation"
+      }
+    ],
+    "r4.nl_core_patient": [
+      {
+        type: 0,
+        value: "Nl-core-patient"
+      }
+    ],
+    "r4.nl_core_payer.insurance_company": [
+      {
+        type: 0,
+        value: "Nl-core-payer.insurance company"
+      }
+    ],
+    "r4.nl_core_payer.payer_person": [
+      {
+        type: 0,
+        value: "Nl-core-payer.payer person"
+      }
+    ],
+    "r4.nl_core_payer_organization": [
+      {
+        type: 0,
+        value: "Nl-core-payer-organization"
+      }
+    ],
+    "r4.nl_core_pharmaceutical_product": [
+      {
+        type: 0,
+        value: "Nl-core-pharmaceutical product"
+      }
+    ],
+    "r4.nl_core_pregnancy": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy"
+      }
+    ],
+    "r4.nl_core_pregnancy.date_last_menstruation": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy.date last menstruation"
+      }
+    ],
+    "r4.nl_core_pregnancy.estimated_date_of_delivery": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy.estimated date of delivery"
+      }
+    ],
+    "r4.nl_core_pregnancy.gravidity": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy.gravidity"
+      }
+    ],
+    "r4.nl_core_pregnancy.parity": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy.parity"
+      }
+    ],
+    "r4.nl_core_pregnancy.pregnancy_duration": [
+      {
+        type: 0,
+        value: "Nl-core-pregnancy.pregnancy duration"
+      }
+    ],
+    "r4.nl_core_pressure_ulcer": [
+      {
+        type: 0,
+        value: "Nl-core-pressure ulcer"
+      }
+    ],
+    "r4.nl_core_problem": [
+      {
+        type: 0,
+        value: "Nl-core-problem"
+      }
+    ],
+    "r4.nl_core_procedure_event": [
+      {
+        type: 0,
+        value: "Nl-core-procedure-event"
+      }
+    ],
+    "r4.nl_core_procedure_request": [
+      {
+        type: 0,
+        value: "Nl-core-procedure-request"
+      }
+    ],
+    "r4.nl_core_pulse_rate": [
+      {
+        type: 0,
+        value: "Nl-core-pulse rate"
+      }
+    ],
+    "r4.nl_core_pulse_rate.pulse_regularity": [
+      {
+        type: 0,
+        value: "Nl-core-pulse rate.pulse regularity"
+      }
+    ],
+    "r4.nl_core_refraction": [
+      {
+        type: 0,
+        value: "Nl-core-refraction"
+      }
+    ],
+    "r4.nl_core_skin_disorder": [
+      {
+        type: 0,
+        value: "Nl-core-skin disorder"
+      }
+    ],
+    "r4.nl_core_sna_qrc_score": [
+      {
+        type: 0,
+        value: "Nl-core-SNA qrc score"
+      }
+    ],
+    "r4.nl_core_snaq_65_plus_score": [
+      {
+        type: 0,
+        value: "Nl-core-SNAQ65plus score"
+      }
+    ],
+    "r4.nl_core_snaq_score": [
+      {
+        type: 0,
+        value: "Nl-core-SNAQ score"
+      }
+    ],
+    "r4.nl_core_soap_report": [
+      {
+        type: 0,
+        value: "Nl-core-SOAP report"
+      }
+    ],
+    "r4.nl_core_soap_report.soap_line": [
+      {
+        type: 0,
+        value: "Nl-core-SOAP report.SOAP line"
+      }
+    ],
+    "r4.nl_core_stoma": [
+      {
+        type: 0,
+        value: "Nl-core-stoma"
+      }
+    ],
+    "r4.nl_core_strong_kids_score": [
+      {
+        type: 0,
+        value: "Nl-core-strong kids score"
+      }
+    ],
+    "r4.nl_core_text_result": [
+      {
+        type: 0,
+        value: "Nl-core-text result"
+      }
+    ],
+    "r4.nl_core_text_result.visual_result": [
+      {
+        type: 0,
+        value: "Nl-core-text result.visual result"
+      }
+    ],
+    "r4.nl_core_time_interval": [
+      {
+        type: 0,
+        value: "Nl-core-time interval"
+      }
+    ],
+    "r4.nl_core_tobacco_use": [
+      {
+        type: 0,
+        value: "Nl-core-tobacco use"
+      }
+    ],
+    "r4.nl_core_treatment_directive_2": [
+      {
+        type: 0,
+        value: "Nl-core-treatment directive2"
+      }
+    ],
+    "r4.nl_core_vaccination_event": [
+      {
+        type: 0,
+        value: "Nl-core-vaccination-event"
+      }
+    ],
+    "r4.nl_core_vaccination_event.patient": [
+      {
+        type: 0,
+        value: "Patient"
+      }
+    ],
+    "r4.nl_core_vaccination_event.protocol_applied.target_disease": [
+      {
+        type: 0,
+        value: "Vaccinatie pathogeen"
+      }
+    ],
+    "r4.nl_core_vaccination_event.vaccination_indication": [
+      {
+        type: 0,
+        value: "Vaccinatie indicatie"
+      }
+    ],
+    "r4.nl_core_vaccination_event.vaccination_motive": [
+      {
+        type: 0,
+        value: "Vaccinatie aanleiding"
+      }
+    ],
+    "r4.nl_core_vaccination_request": [
+      {
+        type: 0,
+        value: "Nl-core-vaccination-request"
+      }
+    ],
+    "r4.nl_core_visual_function": [
+      {
+        type: 0,
+        value: "Nl-core-visual function"
+      }
+    ],
+    "r4.nl_core_visual_function.visual_aid": [
+      {
+        type: 0,
+        value: "Nl-core-visual function.visual aid"
+      }
+    ],
+    "r4.nl_core_visual_function.visual_aid.product": [
+      {
+        type: 0,
+        value: "Nl-core-visual function.visual aid.product"
+      }
+    ],
+    "r4.nl_core_wound": [
+      {
+        type: 0,
+        value: "Nl-core-wound"
+      }
+    ],
+    "r4.nl_core_wound.drain": [
+      {
+        type: 0,
+        value: "Nl-core-wound.drain"
+      }
+    ],
+    "r4.nl_core_wound.drain.product": [
+      {
+        type: 0,
+        value: "Nl-core-wound.drain.product"
+      }
+    ],
+    "r4.nl_core_wound.wound_edge": [
+      {
+        type: 0,
+        value: "Nl-core-wound.wound edge"
+      }
+    ],
+    "r4.nl_core_wound.wound_infection": [
+      {
+        type: 0,
+        value: "Nl-core-wound.wound infection"
+      }
+    ],
+    "r4.nl_core_wound.wound_moisture": [
+      {
+        type: 0,
+        value: "Nl-core-wound.wound moisture"
+      }
+    ],
+    "r4.nl_core_wound.wound_tissue": [
+      {
+        type: 0,
+        value: "Nl-core-wound.wound tissue"
+      }
+    ],
+    "r4.nl_core_wounds.date_of_last_dressing_change": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.date of last dressing change"
+      }
+    ],
+    "r4.nl_core_wounds.wound_characteristics": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.wound characteristics"
+      }
+    ],
+    "r4.nl_core_wounds.wound_depth": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.wound depth"
+      }
+    ],
+    "r4.nl_core_wounds.wound_image": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.wound image"
+      }
+    ],
+    "r4.nl_core_wounds.wound_length": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.wound length"
+      }
+    ],
+    "r4.nl_core_wounds.wound_width": [
+      {
+        type: 0,
+        value: "Nl-core-wounds.wound width"
+      }
+    ],
+    "r4.zib_ability_to_dress_oneself": [
+      {
+        type: 0,
+        value: "Vermogen tot zich kleden"
+      }
+    ],
+    "r4.zib_ability_to_dress_oneself.body_part_to_be_dressed.value": [
+      {
+        type: 0,
+        value: "Te kleden lichaamsdeel"
+      }
+    ],
+    "r4.zib_ability_to_dress_oneself.value": [
+      {
+        type: 0,
+        value: "Zich kleden"
+      }
+    ],
+    "r4.zib_ability_to_drink": [
+      {
+        type: 0,
+        value: "Vermogen tot drinken"
+      }
+    ],
+    "r4.zib_ability_to_drink.drinking_limitations.value": [
+      {
+        type: 0,
+        value: "Drink beperkingen"
+      }
+    ],
+    "r4.zib_ability_to_drink.value": [
+      {
+        type: 0,
+        value: "Drinken"
+      }
+    ],
+    "r4.zib_ability_to_eat": [
+      {
+        type: 0,
+        value: "Vermogen tot eten"
+      }
+    ],
+    "r4.zib_ability_to_eat.eating_limitations.value": [
+      {
+        type: 0,
+        value: "Eet beperkingen"
+      }
+    ],
+    "r4.zib_ability_to_eat.value": [
+      {
+        type: 0,
+        value: "Eten"
+      }
+    ],
+    "r4.zib_ability_to_groom": [
+      {
+        type: 0,
+        value: "Vermogen tot uiterlijke verzorging"
+      }
+    ],
+    "r4.zib_ability_to_groom.value": [
+      {
+        type: 0,
+        value: "Uiterlijke verzorging"
+      }
+    ],
+    "r4.zib_ability_to_use_toilet": [
+      {
+        type: 0,
+        value: "Vermogen tot toiletgang"
+      }
+    ],
+    "r4.zib_ability_to_use_toilet.menstrual_care.value": [
+      {
+        type: 0,
+        value: "Zorg bij menstruatie"
+      }
+    ],
+    "r4.zib_ability_to_use_toilet.toilet_use.value": [
+      {
+        type: 0,
+        value: "Toiletgebruik"
+      }
+    ],
+    "r4.zib_ability_to_wash_oneself": [
+      {
+        type: 0,
+        value: "Vermogen tot zich wassen"
+      }
+    ],
+    "r4.zib_ability_to_wash_oneself.body_part_to_be_bathed.value": [
+      {
+        type: 0,
+        value: "Te wassen lichaamsdeel"
+      }
+    ],
+    "r4.zib_ability_to_wash_oneself.value": [
+      {
+        type: 0,
+        value: "Zich wassen"
+      }
+    ],
+    "r4.zib_address_information": [
+      {
+        type: 0,
+        value: "Adresgegevens"
+      }
+    ],
+    "r4.zib_address_information.city": [
+      {
+        type: 0,
+        value: "Woonplaats"
+      }
+    ],
+    "r4.zib_address_information.country.country_code.value": [
+      {
+        type: 0,
+        value: "Land"
+      }
+    ],
+    "r4.zib_address_information.district": [
+      {
+        type: 0,
+        value: "Gemeente"
+      }
+    ],
+    "r4.zib_address_information.line.additional_information.value": [
+      {
+        type: 0,
+        value: "Additionele informatie"
+      }
+    ],
+    "r4.zib_address_information.line.house_number.value": [
+      {
+        type: 0,
+        value: "Huisnummer"
+      }
+    ],
+    "r4.zib_address_information.line.house_number_indication.value": [
+      {
+        type: 0,
+        value: "Aanduiding bij nummer"
+      }
+    ],
+    "r4.zib_address_information.line.house_number_letter_house_number_addition.value": [
+      {
+        type: 0,
+        value: "Huisnummerletter"
+      }
+    ],
+    "r4.zib_address_information.line.street_name.value": [
+      {
+        type: 0,
+        value: "Straat"
+      }
+    ],
+    "r4.zib_address_information.postal_code": [
+      {
+        type: 0,
+        value: "Postcode"
+      }
+    ],
+    "r4.zib_address_information.type": [
+      {
+        type: 0,
+        value: "Adres soort"
+      }
+    ],
+    "r4.zib_address_information.use": [
+      {
+        type: 0,
+        value: "Adres soort"
+      }
+    ],
+    "r4.zib_advance_directive": [
+      {
+        type: 0,
+        value: "Wilsverklaring"
+      }
+    ],
+    "r4.zib_advance_directive.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_advance_directive.date_time": [
+      {
+        type: 0,
+        value: "Wilsverklaring datum"
+      }
+    ],
+    "r4.zib_advance_directive.provision.code": [
+      {
+        type: 0,
+        value: "Wilsverklaring type"
+      }
+    ],
+    "r4.zib_advance_directive.provision.representative.reference": [
+      {
+        type: 0,
+        value: "Vertegenwoordiger"
+      }
+    ],
+    "r4.zib_advance_directive.source_attachment.data": [
+      {
+        type: 0,
+        value: "Wilsverklaring document"
+      }
+    ],
+    "r4.zib_alcohol_use": [
+      {
+        type: 0,
+        value: "Alcohol gebruik"
+      }
+    ],
+    "r4.zib_alcohol_use.amount.value": [
+      {
+        type: 0,
+        value: "Hoeveelheid"
+      }
+    ],
+    "r4.zib_alcohol_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Stop datum"
+      }
+    ],
+    "r4.zib_alcohol_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Start datum"
+      }
+    ],
+    "r4.zib_alcohol_use.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_alcohol_use.value": [
+      {
+        type: 0,
+        value: "Alcohol gebruik status"
+      }
+    ],
+    "r4.zib_alert.alert_type": [
+      {
+        type: 0,
+        value: "Alert type"
+      }
+    ],
+    "r4.zib_alert.code.alert_name": [
+      {
+        type: 0,
+        value: "Alert naam"
+      }
+    ],
+    "r4.zib_alert.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_alert.condition.value": [
+      {
+        type: 0,
+        value: "Conditie"
+      }
+    ],
+    "r4.zib_alert.period.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r4.zib_alert.period.start": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r4.zib_allergy_intolerance": [
+      {
+        type: 0,
+        value: "Allergie intolerantie"
+      }
+    ],
+    "r4.zib_allergy_intolerance.category": [
+      {
+        type: 0,
+        value: "Allergie categorie"
+      }
+    ],
+    "r4.zib_allergy_intolerance.category.allergy_category_codelist.value": [
+      {
+        type: 0,
+        value: "Allergie categorie"
+      }
+    ],
+    "r4.zib_allergy_intolerance.clinical_status": [
+      {
+        type: 0,
+        value: "Allergie status"
+      }
+    ],
+    "r4.zib_allergy_intolerance.code": [
+      {
+        type: 0,
+        value: "Veroorzakende stof"
+      }
+    ],
+    "r4.zib_allergy_intolerance.criticality": [
+      {
+        type: 0,
+        value: "Mate van kritiek zijn"
+      }
+    ],
+    "r4.zib_allergy_intolerance.criticality.critical_extent_codelist.value": [
+      {
+        type: 0,
+        value: "Mate van kritiek zijn"
+      }
+    ],
+    "r4.zib_allergy_intolerance.last_occurrence": [
+      {
+        type: 0,
+        value: "Laatste reactie datum tijd"
+      }
+    ],
+    "r4.zib_allergy_intolerance.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_allergy_intolerance.onset_date_time": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction": [
+      {
+        type: 0,
+        value: "Reactie"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.description": [
+      {
+        type: 0,
+        value: "Reactie beschrijving"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.exposure_route": [
+      {
+        type: 0,
+        value: "Wijze van blootstelling"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.manifestation": [
+      {
+        type: 0,
+        value: "Symptoom"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.onset": [
+      {
+        type: 0,
+        value: "Reactie tijdstip"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.severity": [
+      {
+        type: 0,
+        value: "Ernst"
+      }
+    ],
+    "r4.zib_allergy_intolerance.reaction.substance": [
+      {
+        type: 0,
+        value: "Specifieke stof"
+      }
+    ],
+    "r4.zib_allergy_intolerance.verification_status": [
+      {
+        type: 0,
+        value: "Allergie status"
+      }
+    ],
+    "r4.zib_anatomical_location": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute": [
+      {
+        type: 0,
+        value: "Apgar score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.effective_date_time": [
+      {
+        type: 0,
+        value: "Apgar score datum tijd"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r4.zib_apgar_score_10_minute.value": [
+      {
+        type: 0,
+        value: "Apgar score totaal"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute": [
+      {
+        type: 0,
+        value: "Apgar score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.effective_date_time": [
+      {
+        type: 0,
+        value: "Apgar score datum tijd"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r4.zib_apgar_score_1_minute.value": [
+      {
+        type: 0,
+        value: "Apgar score totaal"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute": [
+      {
+        type: 0,
+        value: "Apgar score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.appearance_score.value": [
+      {
+        type: 0,
+        value: "Huidskleur score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.effective_date_time": [
+      {
+        type: 0,
+        value: "Apgar score datum tijd"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.grimace_score.value": [
+      {
+        type: 0,
+        value: "Reflexen score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.muscle_tone_score.value": [
+      {
+        type: 0,
+        value: "Spierspanning score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.pulse_score.value": [
+      {
+        type: 0,
+        value: "Hartslag score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.respiratory_score.value": [
+      {
+        type: 0,
+        value: "Ademhaling score"
+      }
+    ],
+    "r4.zib_apgar_score_5_minute.value": [
+      {
+        type: 0,
+        value: "Apgar score totaal"
+      }
+    ],
+    "r4.zib_barthel_adl_index": [
+      {
+        type: 0,
+        value: "Barthel index"
+      }
+    ],
+    "r4.zib_barthel_adl_index.bathing.value": [
+      {
+        type: 0,
+        value: "Baden douchen"
+      }
+    ],
+    "r4.zib_barthel_adl_index.bladder.value": [
+      {
+        type: 0,
+        value: "Blaas"
+      }
+    ],
+    "r4.zib_barthel_adl_index.bowels.value": [
+      {
+        type: 0,
+        value: "Darm"
+      }
+    ],
+    "r4.zib_barthel_adl_index.dressing.value": [
+      {
+        type: 0,
+        value: "Aan uitkleden"
+      }
+    ],
+    "r4.zib_barthel_adl_index.feeding.value": [
+      {
+        type: 0,
+        value: "Eten"
+      }
+    ],
+    "r4.zib_barthel_adl_index.grooming.value": [
+      {
+        type: 0,
+        value: "Uiterlijke verzorging"
+      }
+    ],
+    "r4.zib_barthel_adl_index.managing_stairs.value": [
+      {
+        type: 0,
+        value: "Trappen lopen"
+      }
+    ],
+    "r4.zib_barthel_adl_index.mobility.value": [
+      {
+        type: 0,
+        value: "Mobiliteit"
+      }
+    ],
+    "r4.zib_barthel_adl_index.toilet_use.value": [
+      {
+        type: 0,
+        value: "Toiletgebruik"
+      }
+    ],
+    "r4.zib_barthel_adl_index.transfers.value": [
+      {
+        type: 0,
+        value: "Transfers"
+      }
+    ],
+    "r4.zib_barthel_adl_index.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_blood_pressure": [
+      {
+        type: 0,
+        value: "Bloeddruk"
+      }
+    ],
+    "r4.zib_blood_pressure.average_blood_pressure.value": [
+      {
+        type: 0,
+        value: "Gemiddelde bloeddruk"
+      }
+    ],
+    "r4.zib_blood_pressure.body_site": [
+      {
+        type: 0,
+        value: "Meet locatie"
+      }
+    ],
+    "r4.zib_blood_pressure.cuff_type.value": [
+      {
+        type: 0,
+        value: "Manchet type"
+      }
+    ],
+    "r4.zib_blood_pressure.diastolic_bp.value": [
+      {
+        type: 0,
+        value: "Diastolische bloeddruk"
+      }
+    ],
+    "r4.zib_blood_pressure.diastolic_endpoint.value": [
+      {
+        type: 0,
+        value: "Diastolisch eindpunt"
+      }
+    ],
+    "r4.zib_blood_pressure.effective_date_time": [
+      {
+        type: 0,
+        value: "Bloeddruk datum tijd"
+      }
+    ],
+    "r4.zib_blood_pressure.method": [
+      {
+        type: 0,
+        value: "Meetmethode"
+      }
+    ],
+    "r4.zib_blood_pressure.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_blood_pressure.position.value": [
+      {
+        type: 0,
+        value: "Houding"
+      }
+    ],
+    "r4.zib_blood_pressure.systolic_bp.value": [
+      {
+        type: 0,
+        value: "Systolische bloeddruk"
+      }
+    ],
+    "r4.zib_body_height": [
+      {
+        type: 0,
+        value: "Lichaamslengte"
+      }
+    ],
+    "r4.zib_body_height.effective_date_time": [
+      {
+        type: 0,
+        value: "Lengte datum tijd"
+      }
+    ],
+    "r4.zib_body_height.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_body_height.position.value": [
+      {
+        type: 0,
+        value: "Positie"
+      }
+    ],
+    "r4.zib_body_height.value": [
+      {
+        type: 0,
+        value: "Lengte waarde"
+      }
+    ],
+    "r4.zib_body_temperature": [
+      {
+        type: 0,
+        value: "Lichaamstemperatuur"
+      }
+    ],
+    "r4.zib_body_temperature.code.temperature_type": [
+      {
+        type: 0,
+        value: "Temperatuur type"
+      }
+    ],
+    "r4.zib_body_temperature.effective_date_time": [
+      {
+        type: 0,
+        value: "Temperatuur datum tijd"
+      }
+    ],
+    "r4.zib_body_temperature.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_body_temperature.value": [
+      {
+        type: 0,
+        value: "Temperatuur waarde"
+      }
+    ],
+    "r4.zib_body_weight": [
+      {
+        type: 0,
+        value: "Lichaamsgewicht"
+      }
+    ],
+    "r4.zib_body_weight.clothing.value": [
+      {
+        type: 0,
+        value: "Kleding"
+      }
+    ],
+    "r4.zib_body_weight.effective_date_time": [
+      {
+        type: 0,
+        value: "Gewicht datum tijd"
+      }
+    ],
+    "r4.zib_body_weight.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_body_weight.value": [
+      {
+        type: 0,
+        value: "Gewicht waarde"
+      }
+    ],
+    "r4.zib_bowel_function": [
+      {
+        type: 0,
+        value: "Darmfunctie"
+      }
+    ],
+    "r4.zib_bowel_function.defecation_color.value": [
+      {
+        type: 0,
+        value: "Defecatie kleur"
+      }
+    ],
+    "r4.zib_bowel_function.defecation_consistency.value": [
+      {
+        type: 0,
+        value: "Defecatie consistentie"
+      }
+    ],
+    "r4.zib_bowel_function.fecal_continence.value": [
+      {
+        type: 0,
+        value: "Feces continentie"
+      }
+    ],
+    "r4.zib_bowel_function.frequency.value": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r4.zib_bowel_function.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_bowel_function.stoma.value": [
+      {
+        type: 0,
+        value: "Stoma"
+      }
+    ],
+    "r4.zib_burnwound": [
+      {
+        type: 0,
+        value: "Brandwond"
+      }
+    ],
+    "r4.zib_burnwound.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_burnwound.code": [
+      {
+        type: 0,
+        value: "Brandwond soort"
+      }
+    ],
+    "r4.zib_burnwound.extent.value": [
+      {
+        type: 0,
+        value: "Uitgebreidheid"
+      }
+    ],
+    "r4.zib_burnwound.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_burnwound.onset_date_time": [
+      {
+        type: 0,
+        value: "Ontstaans datum"
+      }
+    ],
+    "r4.zib_burnwound.stage.summary": [
+      {
+        type: 0,
+        value: "Dieptegraad"
+      }
+    ],
+    "r4.zib_care_team": [
+      {
+        type: 0,
+        value: "Zorg team"
+      }
+    ],
+    "r4.zib_care_team.contact_person.member": [
+      {
+        type: 0,
+        value: "Contactpersoon"
+      }
+    ],
+    "r4.zib_care_team.healthcare_professional.health_professional_role": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r4.zib_care_team.healthcare_professional.member": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.zib_care_team.name": [
+      {
+        type: 0,
+        value: "Zorg team naam"
+      }
+    ],
+    "r4.zib_care_team.patient.member": [
+      {
+        type: 0,
+        value: "Patient"
+      }
+    ],
+    "r4.zib_care_team.reason_reference": [
+      {
+        type: 0,
+        value: "Probleem"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior": [
+      {
+        type: 0,
+        value: "Checklist pijn gedrag"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.cry.value": [
+      {
+        type: 0,
+        value: "Huilen"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.eyes.value": [
+      {
+        type: 0,
+        value: "Ogen"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.face.value": [
+      {
+        type: 0,
+        value: "Gezicht"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.grimace.value": [
+      {
+        type: 0,
+        value: "Grimas"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.looking_sad.value": [
+      {
+        type: 0,
+        value: "Verdrietige blik"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.moaning.value": [
+      {
+        type: 0,
+        value: "Kreunen"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.mouth.value": [
+      {
+        type: 0,
+        value: "Mond"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.panic.value": [
+      {
+        type: 0,
+        value: "Paniek"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.sounds_of_restlessness.value": [
+      {
+        type: 0,
+        value: "Onrustgeluiden"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.tears.value": [
+      {
+        type: 0,
+        value: "Tranen"
+      }
+    ],
+    "r4.zib_checklist_pain_behavior.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_comfort_scale": [
+      {
+        type: 0,
+        value: "Comfort score"
+      }
+    ],
+    "r4.zib_comfort_scale.alertness.value": [
+      {
+        type: 0,
+        value: "Alertheid"
+      }
+    ],
+    "r4.zib_comfort_scale.body_movement.value": [
+      {
+        type: 0,
+        value: "Lichaamsbeweging"
+      }
+    ],
+    "r4.zib_comfort_scale.body_muscle_tone.value": [
+      {
+        type: 0,
+        value: "Spierspanning"
+      }
+    ],
+    "r4.zib_comfort_scale.calmness_agitation.value": [
+      {
+        type: 0,
+        value: "Kalmte_ agitatie"
+      }
+    ],
+    "r4.zib_comfort_scale.crying.value": [
+      {
+        type: 0,
+        value: "Huilen"
+      }
+    ],
+    "r4.zib_comfort_scale.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r4.zib_comfort_scale.facial_tone.value": [
+      {
+        type: 0,
+        value: "Gezichtsspanning"
+      }
+    ],
+    "r4.zib_comfort_scale.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_comfort_scale.respiratory_response.value": [
+      {
+        type: 0,
+        value: "Ademhalingsreactie"
+      }
+    ],
+    "r4.zib_comfort_scale.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_contact_information_email_addresses": [
+      {
+        type: 0,
+        value: "Email adressen"
+      }
+    ],
+    "r4.zib_contact_information_email_addresses.use": [
+      {
+        type: 0,
+        value: "Email soort"
+      }
+    ],
+    "r4.zib_contact_information_email_addresses.value": [
+      {
+        type: 0,
+        value: "Email adres"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers": [
+      {
+        type: 0,
+        value: "Telefoonnummers"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers.system": [
+      {
+        type: 0,
+        value: "Telecom type"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers.system.telecom_type.value": [
+      {
+        type: 0,
+        value: "Telecom type"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers.use": [
+      {
+        type: 0,
+        value: "Nummer soort"
+      }
+    ],
+    "r4.zib_contact_information_telephone_numbers.value": [
+      {
+        type: 0,
+        value: "Telefoonnummer"
+      }
+    ],
+    "r4.zib_contact_person": [
+      {
+        type: 0,
+        value: "Contactpersoon"
+      }
+    ],
+    "r4.zib_contact_person.name": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r4.zib_contact_person.relationship": [
+      {
+        type: 0,
+        value: "Relatie"
+      }
+    ],
+    "r4.zib_contact_person.role": [
+      {
+        type: 0,
+        value: "Rol"
+      }
+    ],
+    "r4.zib_contact_person.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_development_child": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind"
+      }
+    ],
+    "r4.zib_development_child.age_first_menstruation.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.age_first_menstruation.value": [
+      {
+        type: 0,
+        value: "Leeftijd eerste menstruatie"
+      }
+    ],
+    "r4.zib_development_child.development_cognition.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.development_cognition.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling verstandelijk"
+      }
+    ],
+    "r4.zib_development_child.development_linguistics.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.development_linguistics.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling taal"
+      }
+    ],
+    "r4.zib_development_child.development_locomotion.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.development_locomotion.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling motoriek"
+      }
+    ],
+    "r4.zib_development_child.development_social.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.development_social.value": [
+      {
+        type: 0,
+        value: "Ontwikkeling sociaal"
+      }
+    ],
+    "r4.zib_development_child.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_development_child.toilet_trainedness_feces.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.toilet_trainedness_feces.value": [
+      {
+        type: 0,
+        value: "Zindelijkheid feces"
+      }
+    ],
+    "r4.zib_development_child.toilet_trainedness_urine.effective_date_time": [
+      {
+        type: 0,
+        value: "Ontwikkeling kind datum tijd"
+      }
+    ],
+    "r4.zib_development_child.toilet_trainedness_urine.value": [
+      {
+        type: 0,
+        value: "Zindelijkheid urine"
+      }
+    ],
+    "r4.zib_dos_score": [
+      {
+        type: 0,
+        value: "DOS score"
+      }
+    ],
+    "r4.zib_dos_score.answers_no_fit.value": [
+      {
+        type: 0,
+        value: "Antwoorden niet passend"
+      }
+    ],
+    "r4.zib_dos_score.dozes_off.value": [
+      {
+        type: 0,
+        value: "Zakt weg"
+      }
+    ],
+    "r4.zib_dos_score.easily_distracted.value": [
+      {
+        type: 0,
+        value: "Snel afgeleid"
+      }
+    ],
+    "r4.zib_dos_score.easily_emotional.value": [
+      {
+        type: 0,
+        value: "Snel geemotioneerd"
+      }
+    ],
+    "r4.zib_dos_score.effective_date_time": [
+      {
+        type: 0,
+        value: "DOS score datum tijd"
+      }
+    ],
+    "r4.zib_dos_score.hallucinations.value": [
+      {
+        type: 0,
+        value: "Hallucinaties"
+      }
+    ],
+    "r4.zib_dos_score.knows_part_day.value": [
+      {
+        type: 0,
+        value: "Beseft dagdeel"
+      }
+    ],
+    "r4.zib_dos_score.maintains_attention.value": [
+      {
+        type: 0,
+        value: "Heeft aandacht"
+      }
+    ],
+    "r4.zib_dos_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_dos_score.pulls_wires.value": [
+      {
+        type: 0,
+        value: "Trekt draden"
+      }
+    ],
+    "r4.zib_dos_score.reacts_slowly.value": [
+      {
+        type: 0,
+        value: "Reageert traag"
+      }
+    ],
+    "r4.zib_dos_score.remembers_recent.value": [
+      {
+        type: 0,
+        value: "Herinnert recent"
+      }
+    ],
+    "r4.zib_dos_score.restless.value": [
+      {
+        type: 0,
+        value: "Rusteloos"
+      }
+    ],
+    "r4.zib_dos_score.thinks_somewhere_else.value": [
+      {
+        type: 0,
+        value: "Denkt ergens anders"
+      }
+    ],
+    "r4.zib_dos_score.unfinished_question_answer.value": [
+      {
+        type: 0,
+        value: "Vraag antwoord niet af"
+      }
+    ],
+    "r4.zib_dos_score.value": [
+      {
+        type: 0,
+        value: "DOS score totaal"
+      }
+    ],
+    "r4.zib_drug_use": [
+      {
+        type: 0,
+        value: "Drugs gebruik"
+      }
+    ],
+    "r4.zib_drug_use.amount.value": [
+      {
+        type: 0,
+        value: "Hoeveelheid"
+      }
+    ],
+    "r4.zib_drug_use.drug_or_medication_type.value": [
+      {
+        type: 0,
+        value: "Drugs of geneesmiddel soort"
+      }
+    ],
+    "r4.zib_drug_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Stop datum"
+      }
+    ],
+    "r4.zib_drug_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Start datum"
+      }
+    ],
+    "r4.zib_drug_use.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_drug_use.route_of_administration.value": [
+      {
+        type: 0,
+        value: "Toedieningsweg"
+      }
+    ],
+    "r4.zib_drug_use.value": [
+      {
+        type: 0,
+        value: "Drugs gebruik status"
+      }
+    ],
+    "r4.zib_education.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_education.value": [
+      {
+        type: 0,
+        value: "Schooltype"
+      }
+    ],
+    "r4.zib_encounter": [
+      {
+        type: 0,
+        value: "Contact"
+      }
+    ],
+    "r4.zib_encounter.class": [
+      {
+        type: 0,
+        value: "Contact type"
+      }
+    ],
+    "r4.zib_encounter.deviating_result.comment_contact_reason.value": [
+      {
+        type: 0,
+        value: "Toelichting reden contact"
+      }
+    ],
+    "r4.zib_encounter.deviating_result.text": [
+      {
+        type: 0,
+        value: "Afwijkende uitslag"
+      }
+    ],
+    "r4.zib_encounter.health_professional.individual": [
+      {
+        type: 0,
+        value: "Contact met"
+      }
+    ],
+    "r4.zib_encounter.health_professional.type": [
+      {
+        type: 0,
+        value: "Zorgverlener rol"
+      }
+    ],
+    "r4.zib_encounter.hospitalization.admit_source": [
+      {
+        type: 0,
+        value: "Herkomst"
+      }
+    ],
+    "r4.zib_encounter.hospitalization.discharge_disposition": [
+      {
+        type: 0,
+        value: "Bestemming"
+      }
+    ],
+    "r4.zib_encounter.location.location": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r4.zib_encounter.period.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r4.zib_encounter.period.start": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r4.zib_encounter.problem": [
+      {
+        type: 0,
+        value: "Probleem"
+      }
+    ],
+    "r4.zib_encounter.procedure": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r4.zib_encounter.reason_reference.comment_contact_reason.value": [
+      {
+        type: 0,
+        value: "Toelichting reden contact"
+      }
+    ],
+    "r4.zib_episode_of_care": [
+      {
+        type: 0,
+        value: "Zorg episode"
+      }
+    ],
+    "r4.zib_episode_of_care.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_episode_of_care.diagnosis.condition": [
+      {
+        type: 0,
+        value: "Focus zorg episode"
+      }
+    ],
+    "r4.zib_episode_of_care.period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r4.zib_episode_of_care.period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant": [
+      {
+        type: 0,
+        value: "Voedingspatroon zuigeling"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.based_on": [
+      {
+        type: 0,
+        value: "Voedingsadvies"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.effective_date_time": [
+      {
+        type: 0,
+        value: "Voedingspatroon zuigeling datum tijd"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.feeding_frequency.value": [
+      {
+        type: 0,
+        value: "Voeding frequentie"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.feeding_supplement.value": [
+      {
+        type: 0,
+        value: "Voeding toevoeging"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.feeding_type.value": [
+      {
+        type: 0,
+        value: "Voeding soort"
+      }
+    ],
+    "r4.zib_feeding_pattern_infant.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_flac_cpain_scale": [
+      {
+        type: 0,
+        value: "FLAC cpijn score"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.activity.value": [
+      {
+        type: 0,
+        value: "Activiteit"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.consolability.value": [
+      {
+        type: 0,
+        value: "Troostbaar"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.cry.value": [
+      {
+        type: 0,
+        value: "Huilen"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.face.value": [
+      {
+        type: 0,
+        value: "Gezicht"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.legs.value": [
+      {
+        type: 0,
+        value: "Benen"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_flac_cpain_scale.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_fluid_balance": [
+      {
+        type: 0,
+        value: "Vochtbalans"
+      }
+    ],
+    "r4.zib_fluid_balance.effective_period.end": [
+      {
+        type: 0,
+        value: "Vochtbalans stoptijd"
+      }
+    ],
+    "r4.zib_fluid_balance.effective_period.start": [
+      {
+        type: 0,
+        value: "Vochtbalans starttijd"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_in.effective_period.end": [
+      {
+        type: 0,
+        value: "Vochtbalans stoptijd"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_in.effective_period.start": [
+      {
+        type: 0,
+        value: "Vochtbalans starttijd"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_in.value": [
+      {
+        type: 0,
+        value: "Vocht totaal in"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_out.effective_period.end": [
+      {
+        type: 0,
+        value: "Vochtbalans stoptijd"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_out.effective_period.start": [
+      {
+        type: 0,
+        value: "Vochtbalans starttijd"
+      }
+    ],
+    "r4.zib_fluid_balance.fluid_total_out.value": [
+      {
+        type: 0,
+        value: "Vocht totaal uit"
+      }
+    ],
+    "r4.zib_fluid_balance.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention": [
+      {
+        type: 0,
+        value: "Vrijheidsbeperkende interventie"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.code": [
+      {
+        type: 0,
+        value: "Soort interventie"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.legal_situation_legal_status": [
+      {
+        type: 0,
+        value: "Juridische situatie"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.legal_situation_representation": [
+      {
+        type: 0,
+        value: "Juridische situatie"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.performed_date_time": [
+      {
+        type: 0,
+        value: "Begin"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.performed_period.end": [
+      {
+        type: 0,
+        value: "Einde"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.performed_period.start": [
+      {
+        type: 0,
+        value: "Begin"
+      }
+    ],
+    "r4.zib_freedom_restricting_intervention.reason_code": [
+      {
+        type: 0,
+        value: "Reden van toepassen"
+      }
+    ],
+    "r4.zib_functional_or_mental_status": [
+      {
+        type: 0,
+        value: "Functionele of mentale status"
+      }
+    ],
+    "r4.zib_functional_or_mental_status.code": [
+      {
+        type: 0,
+        value: "Status naam"
+      }
+    ],
+    "r4.zib_functional_or_mental_status.effective_date_time": [
+      {
+        type: 0,
+        value: "Status datum"
+      }
+    ],
+    "r4.zib_functional_or_mental_status.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_functional_or_mental_status.value": [
+      {
+        type: 0,
+        value: "Status waarde"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale": [
+      {
+        type: 0,
+        value: "Glasgow coma scale"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.conditions_during_measurement.value": [
+      {
+        type: 0,
+        value: "Condities tijdens meting"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.effective_date_time": [
+      {
+        type: 0,
+        value: "Glasgow coma scale datum tijd"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.gcs_eyes.value": [
+      {
+        type: 0,
+        value: "GCS_ eyes"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.gcs_motor.value": [
+      {
+        type: 0,
+        value: "GCS_ motor"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.gcs_verbal.value": [
+      {
+        type: 0,
+        value: "GCS_ verbal"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_glasgow_coma_scale.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_head_circumference": [
+      {
+        type: 0,
+        value: "Schedelomvang"
+      }
+    ],
+    "r4.zib_head_circumference.effective_date_time": [
+      {
+        type: 0,
+        value: "Schedelomvang datum tijd"
+      }
+    ],
+    "r4.zib_head_circumference.method": [
+      {
+        type: 0,
+        value: "Schedelomvang meetmethode"
+      }
+    ],
+    "r4.zib_head_circumference.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_head_circumference.value": [
+      {
+        type: 0,
+        value: "Schedelomvang waarde"
+      }
+    ],
+    "r4.zib_health_professional_practitioner": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.zib_health_professional_practitioner.gender": [
+      {
+        type: 0,
+        value: "Geslacht"
+      }
+    ],
+    "r4.zib_health_professional_practitioner.identifier": [
+      {
+        type: 0,
+        value: "Zorgverlener identificatienummer"
+      }
+    ],
+    "r4.zib_health_professional_practitioner.name": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r4.zib_health_professional_practitioner.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_health_professional_practitioner_role": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.zib_health_professional_practitioner_role.organization": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r4.zib_health_professional_practitioner_role.specialty": [
+      {
+        type: 0,
+        value: "Specialisme"
+      }
+    ],
+    "r4.zib_health_professional_practitioner_role.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_healthcare_provider": [
+      {
+        type: 0,
+        value: "Organisatie locatie"
+      }
+    ],
+    "r4.zib_healthcare_provider.name": [
+      {
+        type: 0,
+        value: "Locatie naam"
+      }
+    ],
+    "r4.zib_healthcare_provider.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_healthcare_provider_organization": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r4.zib_healthcare_provider_organization.department_specialty": [
+      {
+        type: 0,
+        value: "Afdeling specialisme"
+      }
+    ],
+    "r4.zib_healthcare_provider_organization.identifier": [
+      {
+        type: 0,
+        value: "Zorgaanbieder identificatienummer"
+      }
+    ],
+    "r4.zib_healthcare_provider_organization.name": [
+      {
+        type: 0,
+        value: "Organisatie naam"
+      }
+    ],
+    "r4.zib_healthcare_provider_organization.organization_type": [
+      {
+        type: 0,
+        value: "Organisatie type"
+      }
+    ],
+    "r4.zib_hearing_function": [
+      {
+        type: 0,
+        value: "Functie horen"
+      }
+    ],
+    "r4.zib_hearing_function.hearing_aid.body_site": [
+      {
+        type: 0,
+        value: "Hulpmiddel anatomische locatie"
+      }
+    ],
+    "r4.zib_hearing_function.hearing_aid.hearing_function": [
+      {
+        type: 0,
+        value: "Functie horen"
+      }
+    ],
+    "r4.zib_hearing_function.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_hearing_function.value": [
+      {
+        type: 0,
+        value: "Hoor functie"
+      }
+    ],
+    "r4.zib_heart_rate": [
+      {
+        type: 0,
+        value: "Hartfrequentie"
+      }
+    ],
+    "r4.zib_heart_rate.effective_date_time": [
+      {
+        type: 0,
+        value: "Hartfrequentie datum tijd"
+      }
+    ],
+    "r4.zib_heart_rate.heartbeat_regularity.effective_date_time": [
+      {
+        type: 0,
+        value: "Hartfrequentie datum tijd"
+      }
+    ],
+    "r4.zib_heart_rate.heartbeat_regularity.method": [
+      {
+        type: 0,
+        value: "Hartslag meet methode"
+      }
+    ],
+    "r4.zib_heart_rate.heartbeat_regularity.value": [
+      {
+        type: 0,
+        value: "Hartslag regelmatigheid"
+      }
+    ],
+    "r4.zib_heart_rate.interpretation_heart_rate.effective_date_time": [
+      {
+        type: 0,
+        value: "Hartfrequentie datum tijd"
+      }
+    ],
+    "r4.zib_heart_rate.interpretation_heart_rate.method": [
+      {
+        type: 0,
+        value: "Hartslag meet methode"
+      }
+    ],
+    "r4.zib_heart_rate.interpretation_heart_rate.value": [
+      {
+        type: 0,
+        value: "Interpretatie frequentie"
+      }
+    ],
+    "r4.zib_heart_rate.method": [
+      {
+        type: 0,
+        value: "Hartslag meet methode"
+      }
+    ],
+    "r4.zib_heart_rate.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_heart_rate.value": [
+      {
+        type: 0,
+        value: "Hartfrequentie waarde"
+      }
+    ],
+    "r4.zib_help_from_others": [
+      {
+        type: 0,
+        value: "Hulp van anderen"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.caregiver": [
+      {
+        type: 0,
+        value: "Mantelzorger"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.code": [
+      {
+        type: 0,
+        value: "Soort hulp"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.description": [
+      {
+        type: 0,
+        value: "Aard"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.health_professional": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.healthcare_provider": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.performer": [
+      {
+        type: 0,
+        value: "Hulpverlener"
+      }
+    ],
+    "r4.zib_help_from_others.activity.detail.scheduled_string": [
+      {
+        type: 0,
+        value: "Frequentie"
+      }
+    ],
+    "r4.zib_help_from_others.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_illness_perception": [
+      {
+        type: 0,
+        value: "Ziektebeleving"
+      }
+    ],
+    "r4.zib_illness_perception.coping_with_illness_by_family.value": [
+      {
+        type: 0,
+        value: "Omgaan met ziekteproces door naasten"
+      }
+    ],
+    "r4.zib_illness_perception.coping_with_illness_by_patient.value": [
+      {
+        type: 0,
+        value: "Omgaan met ziekteproces door patiënt"
+      }
+    ],
+    "r4.zib_illness_perception.patient_illness_insight.value": [
+      {
+        type: 0,
+        value: "Ziekte inzicht van patiënt"
+      }
+    ],
+    "r4.zib_laboratory_test_result": [
+      {
+        type: 0,
+        value: "Laboratorium uitslag"
+      }
+    ],
+    "r4.zib_laboratory_test_result.code": [
+      {
+        type: 0,
+        value: "Onderzoek"
+      }
+    ],
+    "r4.zib_laboratory_test_result.effective_date_time": [
+      {
+        type: 0,
+        value: "Test datum tijd"
+      }
+    ],
+    "r4.zib_laboratory_test_result.laboratory_test": [
+      {
+        type: 0,
+        value: "Laboratorium test"
+      }
+    ],
+    "r4.zib_laboratory_test_result.method": [
+      {
+        type: 0,
+        value: "Testmethode"
+      }
+    ],
+    "r4.zib_laboratory_test_result.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_laboratory_test_result.performer": [
+      {
+        type: 0,
+        value: "Uitvoerder"
+      }
+    ],
+    "r4.zib_laboratory_test_result.reference_range.high": [
+      {
+        type: 0,
+        value: "Referentie bovengrens"
+      }
+    ],
+    "r4.zib_laboratory_test_result.reference_range.low": [
+      {
+        type: 0,
+        value: "Referentie ondergrens"
+      }
+    ],
+    "r4.zib_laboratory_test_result.result_flags": [
+      {
+        type: 0,
+        value: "Interpretatie vlaggen"
+      }
+    ],
+    "r4.zib_laboratory_test_result.result_interpretation.text": [
+      {
+        type: 0,
+        value: "Uitslag interpretatie"
+      }
+    ],
+    "r4.zib_laboratory_test_result.result_type": [
+      {
+        type: 0,
+        value: "Resultaat type"
+      }
+    ],
+    "r4.zib_laboratory_test_result.sequel_to.value": [
+      {
+        type: 0,
+        value: "Gerelateerde uitslag"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen": [
+      {
+        type: 0,
+        value: "Monster"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.collected_date_time": [
+      {
+        type: 0,
+        value: "Afname datum tijd"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.collected_period": [
+      {
+        type: 0,
+        value: "Verzamelperiode"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.duration": [
+      {
+        type: 0,
+        value: "Verzamelperiode"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.method": [
+      {
+        type: 0,
+        value: "Afnameprocedure"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.collection.quantity": [
+      {
+        type: 0,
+        value: "Verzamelvolume"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.container.specimen_number_extension.value": [
+      {
+        type: 0,
+        value: "Monstervolgnummer"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.container.type": [
+      {
+        type: 0,
+        value: "Containertype"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.identifier": [
+      {
+        type: 0,
+        value: "Monsternummer"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.received_time": [
+      {
+        type: 0,
+        value: "Aanname datum tijd"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.subject": [
+      {
+        type: 0,
+        value: "Bron monster"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen.type": [
+      {
+        type: 0,
+        value: "Monstermateriaal"
+      }
+    ],
+    "r4.zib_laboratory_test_result.specimen_source.device_name.name": [
+      {
+        type: 0,
+        value: "Bron monster"
+      }
+    ],
+    "r4.zib_laboratory_test_result.status": [
+      {
+        type: 0,
+        value: "Test uitslag status"
+      }
+    ],
+    "r4.zib_laboratory_test_result.value": [
+      {
+        type: 0,
+        value: "Test uitslag"
+      }
+    ],
+    "r4.zib_legal_situation_legal_status": [
+      {
+        type: 0,
+        value: "Juridische situatie"
+      }
+    ],
+    "r4.zib_legal_situation_legal_status.abatement_date_time": [
+      {
+        type: 0,
+        value: "Datum einde"
+      }
+    ],
+    "r4.zib_legal_situation_legal_status.code": [
+      {
+        type: 0,
+        value: "Juridische status"
+      }
+    ],
+    "r4.zib_legal_situation_legal_status.onset_date_time": [
+      {
+        type: 0,
+        value: "Datum aanvang"
+      }
+    ],
+    "r4.zib_legal_situation_representation": [
+      {
+        type: 0,
+        value: "Juridische situatie"
+      }
+    ],
+    "r4.zib_legal_situation_representation.abatement_date_time": [
+      {
+        type: 0,
+        value: "Datum einde"
+      }
+    ],
+    "r4.zib_legal_situation_representation.code": [
+      {
+        type: 0,
+        value: "Vertegenwoordiging"
+      }
+    ],
+    "r4.zib_legal_situation_representation.onset_date_time": [
+      {
+        type: 0,
+        value: "Datum aanvang"
+      }
+    ],
+    "r4.zib_life_stance": [
+      {
+        type: 0,
+        value: "Levensovertuiging RC"
+      }
+    ],
+    "r4.zib_life_stance.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_life_stance.value": [
+      {
+        type: 0,
+        value: "Levensovertuiging"
+      }
+    ],
+    "r4.zib_living_situation": [
+      {
+        type: 0,
+        value: "Woonsituatie"
+      }
+    ],
+    "r4.zib_living_situation.home_adaption.value": [
+      {
+        type: 0,
+        value: "Woning aanpassing"
+      }
+    ],
+    "r4.zib_living_situation.living_condition.value": [
+      {
+        type: 0,
+        value: "Woon omstandigheid"
+      }
+    ],
+    "r4.zib_living_situation.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_living_situation.value": [
+      {
+        type: 0,
+        value: "Woning type"
+      }
+    ],
+    "r4.zib_medical_device": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r4.zib_medical_device.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_medical_device.bowel_function": [
+      {
+        type: 0,
+        value: "Darmfunctie"
+      }
+    ],
+    "r4.zib_medical_device.functional_or_mental_status": [
+      {
+        type: 0,
+        value: "Functionele of mentale status"
+      }
+    ],
+    "r4.zib_medical_device.indication": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r4.zib_medical_device.mobility": [
+      {
+        type: 0,
+        value: "Mobiliteit"
+      }
+    ],
+    "r4.zib_medical_device.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_medical_device.procedure_event": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r4.zib_medical_device.procedure_request": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r4.zib_medical_device.product": [
+      {
+        type: 0,
+        value: "Product"
+      }
+    ],
+    "r4.zib_medical_device.product.gs_1_product_id": [
+      {
+        type: 0,
+        value: "Product ID"
+      }
+    ],
+    "r4.zib_medical_device.product.gs_1_udi_carrier.carrier_hrf": [
+      {
+        type: 0,
+        value: "Product ID"
+      }
+    ],
+    "r4.zib_medical_device.product.hibc_product_id": [
+      {
+        type: 0,
+        value: "Product ID"
+      }
+    ],
+    "r4.zib_medical_device.product.hibc_udi_carrier.carrier_hrf": [
+      {
+        type: 0,
+        value: "Product ID"
+      }
+    ],
+    "r4.zib_medical_device.product.note.text": [
+      {
+        type: 0,
+        value: "Product omschrijving"
+      }
+    ],
+    "r4.zib_medical_device.product.type": [
+      {
+        type: 0,
+        value: "Product type"
+      }
+    ],
+    "r4.zib_medical_device.stoma": [
+      {
+        type: 0,
+        value: "Stoma"
+      }
+    ],
+    "r4.zib_medical_device.timing_period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r4.zib_medical_device.timing_period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r4.zib_medical_device.wound": [
+      {
+        type: 0,
+        value: "Wond"
+      }
+    ],
+    "r4.zib_medication_contra_indication": [
+      {
+        type: 0,
+        value: "Medicatie contra indicatie"
+      }
+    ],
+    "r4.zib_medication_contra_indication.author": [
+      {
+        type: 0,
+        value: "Melder"
+      }
+    ],
+    "r4.zib_medication_contra_indication.code": [
+      {
+        type: 0,
+        value: "Medicatie contra indicatie naam"
+      }
+    ],
+    "r4.zib_medication_contra_indication.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_medication_contra_indication.period.end": [
+      {
+        type: 0,
+        value: "Eind datum"
+      }
+    ],
+    "r4.zib_medication_contra_indication.period.start": [
+      {
+        type: 0,
+        value: "Begin datum"
+      }
+    ],
+    "r4.zib_mobility": [
+      {
+        type: 0,
+        value: "Mobiliteit"
+      }
+    ],
+    "r4.zib_mobility.changing_position.value": [
+      {
+        type: 0,
+        value: "Houding veranderen"
+      }
+    ],
+    "r4.zib_mobility.climbing_stairs.value": [
+      {
+        type: 0,
+        value: "Traplopen"
+      }
+    ],
+    "r4.zib_mobility.maintaining_position.value": [
+      {
+        type: 0,
+        value: "Houding handhaven"
+      }
+    ],
+    "r4.zib_mobility.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_mobility.transfer.value": [
+      {
+        type: 0,
+        value: "Uitvoeren transfer"
+      }
+    ],
+    "r4.zib_mobility.walking.value": [
+      {
+        type: 0,
+        value: "Lopen"
+      }
+    ],
+    "r4.zib_must_score": [
+      {
+        type: 0,
+        value: "MUST score"
+      }
+    ],
+    "r4.zib_must_score.bmi_score.value": [
+      {
+        type: 0,
+        value: "BMI score"
+      }
+    ],
+    "r4.zib_must_score.effective_date_time": [
+      {
+        type: 0,
+        value: "MUST score datum tijd"
+      }
+    ],
+    "r4.zib_must_score.illness_score.value": [
+      {
+        type: 0,
+        value: "Ziekte score"
+      }
+    ],
+    "r4.zib_must_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_must_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_must_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r4.zib_name_information": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r4.zib_name_information.family.last_name.value": [
+      {
+        type: 0,
+        value: "Achternaam"
+      }
+    ],
+    "r4.zib_name_information.family.partner_last_name.value": [
+      {
+        type: 0,
+        value: "Achternaam partner"
+      }
+    ],
+    "r4.zib_name_information.family.partner_prefix.value": [
+      {
+        type: 0,
+        value: "Voorvoegsels partner"
+      }
+    ],
+    "r4.zib_name_information.family.prefix.value": [
+      {
+        type: 0,
+        value: "Voorvoegsels"
+      }
+    ],
+    "r4.zib_name_information.given": [
+      {
+        type: 0,
+        value: "Voornaam"
+      }
+    ],
+    "r4.zib_name_information.given_name.given": [
+      {
+        type: 0,
+        value: "Roepnaam"
+      }
+    ],
+    "r4.zib_name_information.name_usage.value": [
+      {
+        type: 0,
+        value: "Naamgebruik"
+      }
+    ],
+    "r4.zib_name_information.prefix": [
+      {
+        type: 0,
+        value: "Titels"
+      }
+    ],
+    "r4.zib_name_information.suffix": [
+      {
+        type: 0,
+        value: "Titels"
+      }
+    ],
+    "r4.zib_nursing_intervention": [
+      {
+        type: 0,
+        value: "Verpleegkundige interventie"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.caregiver": [
+      {
+        type: 0,
+        value: "Verzorger"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.code": [
+      {
+        type: 0,
+        value: "Interventie"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.description": [
+      {
+        type: 0,
+        value: "Instructie"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.healthcare_provider": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.medical_device.value": [
+      {
+        type: 0,
+        value: "Medisch hulpmiddel"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.patient": [
+      {
+        type: 0,
+        value: "Patient"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.bounds_period.end": [
+      {
+        type: 0,
+        value: "Actie eind datum tijd"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.bounds_period.start": [
+      {
+        type: 0,
+        value: "Actie start datum tijd"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.frequency": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.period": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.period_unit": [
+      {
+        type: 0,
+        value: "Interval"
+      }
+    ],
+    "r4.zib_nursing_intervention.addresses": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r4.zib_nursing_intervention.goal": [
+      {
+        type: 0,
+        value: "Behandeldoel"
+      }
+    ],
+    "r4.zib_nursing_intervention.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_nursing_intervention.period.end": [
+      {
+        type: 0,
+        value: "Actie eind datum tijd"
+      }
+    ],
+    "r4.zib_nursing_intervention.period.start": [
+      {
+        type: 0,
+        value: "Actie start datum tijd"
+      }
+    ],
+    "r4.zib_nursing_intervention.requester": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r4.zib_nutrition_advice": [
+      {
+        type: 0,
+        value: "Voedingsadvies"
+      }
+    ],
+    "r4.zib_nutrition_advice.indication.value": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r4.zib_nutrition_advice.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_nutrition_advice.oral_diet.fluid_consistency_type.text": [
+      {
+        type: 0,
+        value: "Consistentie"
+      }
+    ],
+    "r4.zib_nutrition_advice.oral_diet.texture.modifier.text": [
+      {
+        type: 0,
+        value: "Consistentie"
+      }
+    ],
+    "r4.zib_nutrition_advice.oral_diet.type.text": [
+      {
+        type: 0,
+        value: "Dieet type"
+      }
+    ],
+    "r4.zib_o_2_saturation": [
+      {
+        type: 0,
+        value: "O2 saturatie"
+      }
+    ],
+    "r4.zib_o_2_saturation.effective_date_time": [
+      {
+        type: 0,
+        value: "O2 saturatie datum tijd"
+      }
+    ],
+    "r4.zib_o_2_saturation.extra_oxygen_administration.value": [
+      {
+        type: 0,
+        value: "Extra zuurstof toediening"
+      }
+    ],
+    "r4.zib_o_2_saturation.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_o_2_saturation.value": [
+      {
+        type: 0,
+        value: "Sp o2 waarde"
+      }
+    ],
+    "r4.zib_pain_score": [
+      {
+        type: 0,
+        value: "Pijn score"
+      }
+    ],
+    "r4.zib_pain_score.effective_date_time": [
+      {
+        type: 0,
+        value: "Pijnscore datum tijd"
+      }
+    ],
+    "r4.zib_pain_score.method": [
+      {
+        type: 0,
+        value: "Pijn meetmethode"
+      }
+    ],
+    "r4.zib_pain_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_pain_score.value": [
+      {
+        type: 0,
+        value: "Pijnscore waarde"
+      }
+    ],
+    "r4.zib_participation_in_society": [
+      {
+        type: 0,
+        value: "Participatie in maatschappij"
+      }
+    ],
+    "r4.zib_participation_in_society.hobby.value": [
+      {
+        type: 0,
+        value: "Vrijetijdsbesteding"
+      }
+    ],
+    "r4.zib_participation_in_society.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_participation_in_society.social_network.value": [
+      {
+        type: 0,
+        value: "Sociaal netwerk"
+      }
+    ],
+    "r4.zib_participation_in_society.work_situation.value": [
+      {
+        type: 0,
+        value: "Arbeidssituatie"
+      }
+    ],
+    "r4.zib_patient": [
+      {
+        type: 0,
+        value: "Patient"
+      }
+    ],
+    "r4.zib_patient.birth_date": [
+      {
+        type: 0,
+        value: "Geboortedatum"
+      }
+    ],
+    "r4.zib_patient.communication": [
+      {
+        type: 0,
+        value: "Taalvaardigheid"
+      }
+    ],
+    "r4.zib_patient.communication.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_patient.communication.language": [
+      {
+        type: 0,
+        value: "Communicatie taal"
+      }
+    ],
+    "r4.zib_patient.communication.language_control": [
+      {
+        type: 0,
+        value: "Taalvaardigheid begrijpen"
+      }
+    ],
+    "r4.zib_patient.contact": [
+      {
+        type: 0,
+        value: "Contactpersoon"
+      }
+    ],
+    "r4.zib_patient.contact.contact_person.value": [
+      {
+        type: 0,
+        value: "Contactpersoon"
+      }
+    ],
+    "r4.zib_patient.contact.relationship": [
+      {
+        type: 0,
+        value: "Relatie"
+      }
+    ],
+    "r4.zib_patient.contact.role": [
+      {
+        type: 0,
+        value: "Rol"
+      }
+    ],
+    "r4.zib_patient.contact.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_patient.deceased_boolean": [
+      {
+        type: 0,
+        value: "Overlijdens indicator"
+      }
+    ],
+    "r4.zib_patient.deceased_date_time": [
+      {
+        type: 0,
+        value: "Datum overlijden"
+      }
+    ],
+    "r4.zib_patient.gender": [
+      {
+        type: 0,
+        value: "Geslacht"
+      }
+    ],
+    "r4.zib_patient.gender.gender_codelist.value": [
+      {
+        type: 0,
+        value: "Geslacht"
+      }
+    ],
+    "r4.zib_patient.identifier": [
+      {
+        type: 0,
+        value: "Identificatienummer"
+      }
+    ],
+    "r4.zib_patient.marital_status": [
+      {
+        type: 0,
+        value: "Burgerlijke staat"
+      }
+    ],
+    "r4.zib_patient.multiple_birth_boolean": [
+      {
+        type: 0,
+        value: "Meerling indicator"
+      }
+    ],
+    "r4.zib_patient.name": [
+      {
+        type: 0,
+        value: "Naamgegevens"
+      }
+    ],
+    "r4.zib_patient.nationality.code.value": [
+      {
+        type: 0,
+        value: "Nationaliteit"
+      }
+    ],
+    "r4.zib_patient.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_payer.insurance_company": [
+      {
+        type: 0,
+        value: "Betaler"
+      }
+    ],
+    "r4.zib_payer.insurance_company.payor": [
+      {
+        type: 0,
+        value: "Verzekeraar"
+      }
+    ],
+    "r4.zib_payer.insurance_company.period.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r4.zib_payer.insurance_company.period.start": [
+      {
+        type: 0,
+        value: "Begin datum tijd"
+      }
+    ],
+    "r4.zib_payer.insurance_company.subscriber_id": [
+      {
+        type: 0,
+        value: "Verzekerde nummer"
+      }
+    ],
+    "r4.zib_payer.insurance_company.type": [
+      {
+        type: 0,
+        value: "Verzekeringssoort"
+      }
+    ],
+    "r4.zib_payer.payer_person": [
+      {
+        type: 0,
+        value: "Betaler"
+      }
+    ],
+    "r4.zib_payer.payer_person.payor": [
+      {
+        type: 0,
+        value: "Betaler persoon"
+      }
+    ],
+    "r4.zib_payer_organization": [
+      {
+        type: 0,
+        value: "Verzekeraar"
+      }
+    ],
+    "r4.zib_payer_organization.name": [
+      {
+        type: 0,
+        value: "Organisatie naam"
+      }
+    ],
+    "r4.zib_payer_organization.telecom": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.zib_payer_organization.uzovi": [
+      {
+        type: 0,
+        value: "Identificatie nummer"
+      }
+    ],
+    "r4.zib_pharmaceutical_product": [
+      {
+        type: 0,
+        value: "Farmaceutisch product"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.code": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.code.text": [
+      {
+        type: 0,
+        value: "Product naam"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.form": [
+      {
+        type: 0,
+        value: "Farmaceutische vorm"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient": [
+      {
+        type: 0,
+        value: "Ingredient"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient.item_codeable_concept": [
+      {
+        type: 0,
+        value: "Ingredient code"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient.strength": [
+      {
+        type: 0,
+        value: "Sterkte"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient.strength.denominator": [
+      {
+        type: 0,
+        value: "Product hoeveelheid"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient.strength.numerator": [
+      {
+        type: 0,
+        value: "Ingredient hoeveelheid"
+      }
+    ],
+    "r4.zib_pregnancy": [
+      {
+        type: 0,
+        value: "Zwangerschap"
+      }
+    ],
+    "r4.zib_pregnancy.date_last_menstruation.value": [
+      {
+        type: 0,
+        value: "Datum laatste menstruatie"
+      }
+    ],
+    "r4.zib_pregnancy.estimated_date_of_delivery.effective_date_time": [
+      {
+        type: 0,
+        value: "Datum bepaling"
+      }
+    ],
+    "r4.zib_pregnancy.estimated_date_of_delivery.method": [
+      {
+        type: 0,
+        value: "Bepalings methode"
+      }
+    ],
+    "r4.zib_pregnancy.estimated_date_of_delivery.value": [
+      {
+        type: 0,
+        value: "A terme datum"
+      }
+    ],
+    "r4.zib_pregnancy.gravidity.value": [
+      {
+        type: 0,
+        value: "Graviditeit"
+      }
+    ],
+    "r4.zib_pregnancy.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_pregnancy.parity.value": [
+      {
+        type: 0,
+        value: "Pariteit"
+      }
+    ],
+    "r4.zib_pregnancy.pregnancy_duration.value": [
+      {
+        type: 0,
+        value: "Zwangerschapsduur"
+      }
+    ],
+    "r4.zib_pressure_ulcer": [
+      {
+        type: 0,
+        value: "Decubitus wond"
+      }
+    ],
+    "r4.zib_pressure_ulcer.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_pressure_ulcer.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_pressure_ulcer.onset_date_time": [
+      {
+        type: 0,
+        value: "Ontstaans datum"
+      }
+    ],
+    "r4.zib_pressure_ulcer.stage.summary": [
+      {
+        type: 0,
+        value: "Decubitus categorie"
+      }
+    ],
+    "r4.zib_problem": [
+      {
+        type: 0,
+        value: "Probleem"
+      }
+    ],
+    "r4.zib_problem.abatement_date_time": [
+      {
+        type: 0,
+        value: "Probleem eind datum"
+      }
+    ],
+    "r4.zib_problem.body_site": [
+      {
+        type: 0,
+        value: "Probleem anatomische locatie"
+      }
+    ],
+    "r4.zib_problem.clinical_status": [
+      {
+        type: 0,
+        value: "Probleem status"
+      }
+    ],
+    "r4.zib_problem.code": [
+      {
+        type: 0,
+        value: "Probleem naam"
+      }
+    ],
+    "r4.zib_problem.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_problem.onset_date_time": [
+      {
+        type: 0,
+        value: "Probleem begin datum"
+      }
+    ],
+    "r4.zib_problem.problem_type": [
+      {
+        type: 0,
+        value: "Probleem type"
+      }
+    ],
+    "r4.zib_problem.verification_status": [
+      {
+        type: 0,
+        value: "Verificatie status"
+      }
+    ],
+    "r4.zib_procedure_event": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r4.zib_procedure_event.body_site": [
+      {
+        type: 0,
+        value: "Verrichting anatomische locatie"
+      }
+    ],
+    "r4.zib_procedure_event.code": [
+      {
+        type: 0,
+        value: "Verrichting type"
+      }
+    ],
+    "r4.zib_procedure_event.location": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r4.zib_procedure_event.performed_date_time": [
+      {
+        type: 0,
+        value: "Verrichting start datum"
+      }
+    ],
+    "r4.zib_procedure_event.performed_period.end": [
+      {
+        type: 0,
+        value: "Verrichting eind datum"
+      }
+    ],
+    "r4.zib_procedure_event.performed_period.start": [
+      {
+        type: 0,
+        value: "Verrichting start datum"
+      }
+    ],
+    "r4.zib_procedure_event.performer.actor": [
+      {
+        type: 0,
+        value: "Uitvoerder"
+      }
+    ],
+    "r4.zib_procedure_event.reason_reference": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r4.zib_procedure_event.text_result": [
+      {
+        type: 0,
+        value: "Tekst uitslag"
+      }
+    ],
+    "r4.zib_procedure_request": [
+      {
+        type: 0,
+        value: "Verrichting"
+      }
+    ],
+    "r4.zib_procedure_request.body_site": [
+      {
+        type: 0,
+        value: "Verrichting anatomische locatie"
+      }
+    ],
+    "r4.zib_procedure_request.code": [
+      {
+        type: 0,
+        value: "Verrichting type"
+      }
+    ],
+    "r4.zib_procedure_request.location_reference": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r4.zib_procedure_request.occurrence_date_time": [
+      {
+        type: 0,
+        value: "Verrichting start datum"
+      }
+    ],
+    "r4.zib_procedure_request.occurrence_period.end": [
+      {
+        type: 0,
+        value: "Verrichting eind datum"
+      }
+    ],
+    "r4.zib_procedure_request.occurrence_period.start": [
+      {
+        type: 0,
+        value: "Verrichting start datum"
+      }
+    ],
+    "r4.zib_procedure_request.performer": [
+      {
+        type: 0,
+        value: "Uitvoerder"
+      }
+    ],
+    "r4.zib_procedure_request.procedure_method": [
+      {
+        type: 0,
+        value: "Verrichting methode"
+      }
+    ],
+    "r4.zib_procedure_request.reason_reference": [
+      {
+        type: 0,
+        value: "Indicatie"
+      }
+    ],
+    "r4.zib_procedure_request.requester": [
+      {
+        type: 0,
+        value: "Aanvrager"
+      }
+    ],
+    "r4.zib_pulse_rate": [
+      {
+        type: 0,
+        value: "Polsfrequentie"
+      }
+    ],
+    "r4.zib_pulse_rate.effective_date_time": [
+      {
+        type: 0,
+        value: "Polsfrequentie datum tijd"
+      }
+    ],
+    "r4.zib_pulse_rate.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_pulse_rate.pulse_regularity.effective_date_time": [
+      {
+        type: 0,
+        value: "Polsfrequentie datum tijd"
+      }
+    ],
+    "r4.zib_pulse_rate.pulse_regularity.value": [
+      {
+        type: 0,
+        value: "Pols regelmatigheid"
+      }
+    ],
+    "r4.zib_pulse_rate.value": [
+      {
+        type: 0,
+        value: "Polsfrequentie waarde"
+      }
+    ],
+    "r4.zib_refraction": [
+      {
+        type: 0,
+        value: "Refractie"
+      }
+    ],
+    "r4.zib_refraction.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_refraction.cylindrical_refraction_axis.value": [
+      {
+        type: 0,
+        value: "Cilindrische refractie as"
+      }
+    ],
+    "r4.zib_refraction.cylindrical_refraction_value.value": [
+      {
+        type: 0,
+        value: "Cilindrische refractie waarde"
+      }
+    ],
+    "r4.zib_refraction.effective_date_time": [
+      {
+        type: 0,
+        value: "Refractie datum tijd"
+      }
+    ],
+    "r4.zib_refraction.method": [
+      {
+        type: 0,
+        value: "Refractie meet methode"
+      }
+    ],
+    "r4.zib_refraction.prism_base.value": [
+      {
+        type: 0,
+        value: "Prisma basis"
+      }
+    ],
+    "r4.zib_refraction.prism_value.value": [
+      {
+        type: 0,
+        value: "Prisma waarde"
+      }
+    ],
+    "r4.zib_refraction.read_addition.value": [
+      {
+        type: 0,
+        value: "Lees additie"
+      }
+    ],
+    "r4.zib_refraction.spherical_equivalent.value": [
+      {
+        type: 0,
+        value: "Sferisch equivalent"
+      }
+    ],
+    "r4.zib_refraction.spherical_refraction_value.value": [
+      {
+        type: 0,
+        value: "Sferische refractie waarde"
+      }
+    ],
+    "r4.zib_skin_disorder": [
+      {
+        type: 0,
+        value: "Huidaandoening"
+      }
+    ],
+    "r4.zib_skin_disorder.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_skin_disorder.cause.value": [
+      {
+        type: 0,
+        value: "Oorzaak"
+      }
+    ],
+    "r4.zib_skin_disorder.code": [
+      {
+        type: 0,
+        value: "Soort aandoening"
+      }
+    ],
+    "r4.zib_skin_disorder.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_skin_disorder.onset_date_time": [
+      {
+        type: 0,
+        value: "Ontstaans datum"
+      }
+    ],
+    "r4.zib_sna_qrc_score": [
+      {
+        type: 0,
+        value: "SNA qrc score"
+      }
+    ],
+    "r4.zib_sna_qrc_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r4.zib_sna_qrc_score.assisted_eating.value": [
+      {
+        type: 0,
+        value: "Hulp bij eten"
+      }
+    ],
+    "r4.zib_sna_qrc_score.bmi_score.value": [
+      {
+        type: 0,
+        value: "BMI score"
+      }
+    ],
+    "r4.zib_sna_qrc_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNA qrc score datum tijd"
+      }
+    ],
+    "r4.zib_sna_qrc_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_sna_qrc_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_sna_qrc_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score": [
+      {
+        type: 0,
+        value: "SNAQ65+score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNAQ65+score datum tijd"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.exercise_score.value": [
+      {
+        type: 0,
+        value: "Inspannings score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.upperarm_circumference.value": [
+      {
+        type: 0,
+        value: "Bovenarm omtrek score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_snaq_65_plus_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r4.zib_snaq_score": [
+      {
+        type: 0,
+        value: "SNAQ score"
+      }
+    ],
+    "r4.zib_snaq_score.appetite_score.value": [
+      {
+        type: 0,
+        value: "Eetlust score"
+      }
+    ],
+    "r4.zib_snaq_score.effective_date_time": [
+      {
+        type: 0,
+        value: "SNAQ score datum tijd"
+      }
+    ],
+    "r4.zib_snaq_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_snaq_score.nutrition_score.value": [
+      {
+        type: 0,
+        value: "Voedings score"
+      }
+    ],
+    "r4.zib_snaq_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_snaq_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r4.zib_soap_report": [
+      {
+        type: 0,
+        value: "SOEP verslag"
+      }
+    ],
+    "r4.zib_soap_report.author": [
+      {
+        type: 0,
+        value: "Auteur"
+      }
+    ],
+    "r4.zib_soap_report.date": [
+      {
+        type: 0,
+        value: "SOEP verslag datum tijd"
+      }
+    ],
+    "r4.zib_soap_report.soap_line": [
+      {
+        type: 0,
+        value: "SOEP regel"
+      }
+    ],
+    "r4.zib_soap_report.soap_line.code": [
+      {
+        type: 0,
+        value: "SOEP regel naam"
+      }
+    ],
+    "r4.zib_soap_report.soap_line.value": [
+      {
+        type: 0,
+        value: "SOEP regel tekst"
+      }
+    ],
+    "r4.zib_stoma": [
+      {
+        type: 0,
+        value: "Stoma"
+      }
+    ],
+    "r4.zib_stoma.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_stoma.code": [
+      {
+        type: 0,
+        value: "Stoma type"
+      }
+    ],
+    "r4.zib_stoma.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_stoma.onset_date_time": [
+      {
+        type: 0,
+        value: "Aanleg datum"
+      }
+    ],
+    "r4.zib_strong_kids_score": [
+      {
+        type: 0,
+        value: "Strong kids score"
+      }
+    ],
+    "r4.zib_strong_kids_score.condition_score.value": [
+      {
+        type: 0,
+        value: "Ziekte beeld score"
+      }
+    ],
+    "r4.zib_strong_kids_score.effective_date_time": [
+      {
+        type: 0,
+        value: "Score datum tijd"
+      }
+    ],
+    "r4.zib_strong_kids_score.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_strong_kids_score.nutrition_score.value": [
+      {
+        type: 0,
+        value: "Voedings score"
+      }
+    ],
+    "r4.zib_strong_kids_score.nutrition_status_score.value": [
+      {
+        type: 0,
+        value: "Voedingstoestand score"
+      }
+    ],
+    "r4.zib_strong_kids_score.value": [
+      {
+        type: 0,
+        value: "Totaal score"
+      }
+    ],
+    "r4.zib_strong_kids_score.weight_loss_score.value": [
+      {
+        type: 0,
+        value: "Gewichtsverlies score"
+      }
+    ],
+    "r4.zib_text_result": [
+      {
+        type: 0,
+        value: "Tekst uitslag"
+      }
+    ],
+    "r4.zib_text_result.code": [
+      {
+        type: 0,
+        value: "Tekst uitslag type"
+      }
+    ],
+    "r4.zib_text_result.conclusion": [
+      {
+        type: 0,
+        value: "Tekst resultaat"
+      }
+    ],
+    "r4.zib_text_result.effective_date_time": [
+      {
+        type: 0,
+        value: "Tekst uitslag datum tijd"
+      }
+    ],
+    "r4.zib_text_result.status": [
+      {
+        type: 0,
+        value: "Tekst uitslag status"
+      }
+    ],
+    "r4.zib_text_result.status.text_result_status.value": [
+      {
+        type: 0,
+        value: "Tekst uitslag status"
+      }
+    ],
+    "r4.zib_text_result.visual_result.content": [
+      {
+        type: 0,
+        value: "Visueel resultaat"
+      }
+    ],
+    "r4.zib_time_interval": [
+      {
+        type: 0,
+        value: "Tijds interval"
+      }
+    ],
+    "r4.zib_time_interval.end": [
+      {
+        type: 0,
+        value: "Eind datum tijd"
+      }
+    ],
+    "r4.zib_time_interval.start": [
+      {
+        type: 0,
+        value: "Start datum tijd"
+      }
+    ],
+    "r4.zib_tobacco_use": [
+      {
+        type: 0,
+        value: "Tabak gebruik"
+      }
+    ],
+    "r4.zib_tobacco_use.amount.value": [
+      {
+        type: 0,
+        value: "Hoeveelheid"
+      }
+    ],
+    "r4.zib_tobacco_use.effective_period.end": [
+      {
+        type: 0,
+        value: "Stop datum"
+      }
+    ],
+    "r4.zib_tobacco_use.effective_period.start": [
+      {
+        type: 0,
+        value: "Start datum"
+      }
+    ],
+    "r4.zib_tobacco_use.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_tobacco_use.pack_years.value": [
+      {
+        type: 0,
+        value: "Pack years"
+      }
+    ],
+    "r4.zib_tobacco_use.type_of_tobacco_used.value": [
+      {
+        type: 0,
+        value: "Soort tabak gebruik"
+      }
+    ],
+    "r4.zib_tobacco_use.value": [
+      {
+        type: 0,
+        value: "Tabak gebruik status"
+      }
+    ],
+    "r4.zib_treatment_directive_2": [
+      {
+        type: 0,
+        value: "Behandel aanwijzing"
+      }
+    ],
+    "r4.zib_treatment_directive_2.comment.value": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_treatment_directive_2.date_time": [
+      {
+        type: 0,
+        value: "Meest recente bespreekdatum"
+      }
+    ],
+    "r4.zib_treatment_directive_2.provision.agreement_party": [
+      {
+        type: 0,
+        value: "Afspraak partij"
+      }
+    ],
+    "r4.zib_treatment_directive_2.provision.agreement_party.reference": [
+      {
+        type: 0,
+        value: "Patient"
+      }
+    ],
+    "r4.zib_treatment_directive_2.provision.code": [
+      {
+        type: 0,
+        value: "Behandeling"
+      }
+    ],
+    "r4.zib_treatment_directive_2.provision.period.end": [
+      {
+        type: 0,
+        value: "Datum beeindigd"
+      }
+    ],
+    "r4.zib_treatment_directive_2.provision.type": [
+      {
+        type: 0,
+        value: "Behandel besluit"
+      }
+    ],
+    "r4.zib_treatment_directive_2.source_reference": [
+      {
+        type: 0,
+        value: "Wilsverklaring"
+      }
+    ],
+    "r4.zib_vaccination_event": [
+      {
+        type: 0,
+        value: "Vaccinatie"
+      }
+    ],
+    "r4.zib_vaccination_event.administrator.actor": [
+      {
+        type: 0,
+        value: "Toediener"
+      }
+    ],
+    "r4.zib_vaccination_event.dose_quantity": [
+      {
+        type: 0,
+        value: "Dosis"
+      }
+    ],
+    "r4.zib_vaccination_event.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_vaccination_event.occurrence_date_time": [
+      {
+        type: 0,
+        value: "Vaccinatie datum"
+      }
+    ],
+    "r4.zib_vaccination_event.vaccine_code": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r4.zib_vaccination_request": [
+      {
+        type: 0,
+        value: "Vaccinatie"
+      }
+    ],
+    "r4.zib_vaccination_request.recommendation.date_criterion.value": [
+      {
+        type: 0,
+        value: "Vaccinatie datum"
+      }
+    ],
+    "r4.zib_vaccination_request.recommendation.description": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_vaccination_request.recommendation.vaccine_code": [
+      {
+        type: 0,
+        value: "Product code"
+      }
+    ],
+    "r4.zib_visual_function": [
+      {
+        type: 0,
+        value: "Functie zien"
+      }
+    ],
+    "r4.zib_visual_function.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_visual_function.value": [
+      {
+        type: 0,
+        value: "Visuele functie"
+      }
+    ],
+    "r4.zib_visual_function.visual_aid.visual_function": [
+      {
+        type: 0,
+        value: "Functie zien"
+      }
+    ],
+    "r4.zib_wound": [
+      {
+        type: 0,
+        value: "Wond"
+      }
+    ],
+    "r4.zib_wound.body_site": [
+      {
+        type: 0,
+        value: "Anatomische locatie"
+      }
+    ],
+    "r4.zib_wound.code": [
+      {
+        type: 0,
+        value: "Wond soort"
+      }
+    ],
+    "r4.zib_wound.drain.drain": [
+      {
+        type: 0,
+        value: "Wond"
+      }
+    ],
+    "r4.zib_wound.note.text": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.zib_wound.onset_date_time": [
+      {
+        type: 0,
+        value: "Wond ontstaansdatum"
+      }
+    ],
+    "r4.zib_wound.wound_edge.value": [
+      {
+        type: 0,
+        value: "Wond rand"
+      }
+    ],
+    "r4.zib_wound.wound_infection.value": [
+      {
+        type: 0,
+        value: "Wond infectie"
+      }
+    ],
+    "r4.zib_wound.wound_moisture.value": [
+      {
+        type: 0,
+        value: "Wond vochtigheid"
+      }
+    ],
+    "r4.zib_wound.wound_tissue.value": [
+      {
+        type: 0,
+        value: "Wond weefsel"
+      }
+    ],
+    "r4.zib_wounds.date_of_last_dressing_change.value": [
+      {
+        type: 0,
+        value: "Datum laatste verbandwissel"
+      }
+    ],
+    "r4.zib_wounds.wound_depth.value": [
+      {
+        type: 0,
+        value: "Wonddiepte"
+      }
+    ],
+    "r4.zib_wounds.wound_image.content.attachment": [
+      {
+        type: 0,
+        value: "Wond foto"
+      }
+    ],
+    "r4.zib_wounds.wound_length.value": [
+      {
+        type: 0,
+        value: "Wondlengte"
+      }
+    ],
+    "r4.zib_wounds.wound_width.value": [
+      {
+        type: 0,
+        value: "Wondbreedte"
+      }
+    ]
+  };
+  const summaryLabels = {
+    "summary.options": [
+      {
+        type: 0,
+        value: "Opties"
+      }
+    ],
+    "summary.r3.ihe_mhd_minimal_document_reference.group_attachment": [
+      {
+        type: 0,
+        value: "Bijlage"
+      }
+    ],
+    "summary.r3.ihe_mhd_minimal_document_reference.group_author": [
+      {
+        type: 0,
+        value: "Opgesteld door"
+      }
+    ],
+    "summary.r3.ihe_mhd_minimal_document_reference.show_details": [
+      {
+        type: 0,
+        value: "Bekijk alle documentgegevens"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use": [
+      {
+        type: 0,
+        value: "Instructies "
+      },
+      {
+        type: 1,
+        value: "sequence"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.dose": [
+      {
+        type: 0,
+        value: "Hoeveelheid per keer"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.dose.high": [
+      {
+        type: 0,
+        value: "Maximaal"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.dose.low": [
+      {
+        type: 0,
+        value: "Minimaal"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.text": [
+      {
+        type: 0,
+        value: "Gebruiksaanwijzing"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.effective": [
+      {
+        type: 0,
+        value: "Datum van de uitslag"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.effective.end": [
+      {
+        type: 0,
+        value: "Eind datum van de uitslag"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.effective.start": [
+      {
+        type: 0,
+        value: "Begin datum van de uitslag"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.group_performer": [
+      {
+        type: 0,
+        value: "Test afgenomen door"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.group_test_details": [
+      {
+        type: 0,
+        value: "Details van de test"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.interpretation": [
+      {
+        type: 0,
+        value: "Beoordeling"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.performer": [
+      {
+        type: 0,
+        value: "Specialist"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.reference_range": [
+      {
+        type: 0,
+        value: "Referentiewaarden"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.reference_range.high": [
+      {
+        type: 0,
+        value: "Maximale waarde"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.reference_range.low": [
+      {
+        type: 0,
+        value: "Minimale waarde"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.show_details": [
+      {
+        type: 0,
+        value: "Bekijk alle uitslaggegevens"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.specimen": [
+      {
+        type: 0,
+        value: "Materiaal"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.status": [
+      {
+        type: 0,
+        value: "Status"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.value": [
+      {
+        type: 0,
+        value: "Resultaat"
+      }
+    ],
+    "summary.r3.zib_medication_use.group_period": [
+      {
+        type: 0,
+        value: "Periode van gebruik"
+      }
+    ],
+    "summary.r3.zib_medication_use.group_prescriber": [
+      {
+        type: 0,
+        value: "Voorgeschreven door"
+      }
+    ],
+    "summary.r3.zib_medication_use.prescriber": [
+      {
+        type: 0,
+        value: "Specialist"
+      }
+    ],
+    "summary.r3.zib_medication_use.show_details": [
+      {
+        type: 0,
+        value: "Bekijk alle medicijngegevens"
+      }
+    ],
+    "summary.r3.zib_medication_use.status": [
+      {
+        type: 0,
+        value: "Status"
+      }
+    ],
+    "summary.r4.nl_core_vaccination_event.group_performer": [
+      {
+        type: 0,
+        value: "Gegeven door"
+      }
+    ],
+    "summary.r4.nl_core_vaccination_event.show_details": [
+      {
+        type: 0,
+        value: "Bekijk alle vaccinatiegegevens"
+      }
+    ]
+  };
+  const systemLabels = {
+    "system.code.http://hl7.org/fhir/referencerange-meaning|follicular": [
+      {
+        type: 0,
+        value: "Folliculair stadium referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|luteal": [
+      {
+        type: 0,
+        value: "Luteaal referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|midcycle": [
+      {
+        type: 0,
+        value: "Middencyclus referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|normal": [
+      {
+        type: 0,
+        value: "Normale referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|post": [
+      {
+        type: 0,
+        value: "Posttherapeutische referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|postmeopausal": [
+      {
+        type: 0,
+        value: "Post-menopauze referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|pre": [
+      {
+        type: 0,
+        value: "Pre-therapeutische referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|pre-puberty": [
+      {
+        type: 0,
+        value: "Pre-puberteit referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|recommended": [
+      {
+        type: 0,
+        value: "Aanbevolen referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|therapeutic": [
+      {
+        type: 0,
+        value: "Therapeutische referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|treatment": [
+      {
+        type: 0,
+        value: "Behandelings referentiewaarden"
+      }
+    ],
+    "system.urn:oid:2.16.840.1.113883.2.4.4.9": [
+      {
+        type: 0,
+        value: "G-Standaard Toedieningswegen (tabel 7)"
+      }
+    ],
+    "system.value.http://unitsofmeasure.org|d": [
+      {
+        offset: 0,
+        options: {
+          one: {
+            value: [
+              {
+                type: 0,
+                value: "één dag"
+              }
+            ]
+          },
+          other: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "value"
+              },
+              {
+                type: 0,
+                value: " dagen"
+              }
+            ]
+          }
+        },
+        pluralType: "cardinal",
+        type: 6,
+        value: "value"
+      }
+    ],
+    "system.value.http://unitsofmeasure.org|mmol/L": [
+      {
+        offset: 0,
+        options: {
+          one: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "value"
+              },
+              {
+                type: 0,
+                value: " millimol per liter"
+              }
+            ]
+          },
+          other: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "value"
+              },
+              {
+                type: 0,
+                value: " millimol per liter"
+              }
+            ]
+          }
+        },
+        pluralType: "cardinal",
+        type: 6,
+        value: "value"
+      }
+    ],
+    "system.value.urn:oid:2.16.840.1.113883.2.4.4.1.900.2|245": [
+      {
+        offset: 0,
+        options: {
+          one: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "value"
+              },
+              {
+                type: 0,
+                value: " stuk"
+              }
+            ]
+          },
+          other: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "value"
+              },
+              {
+                type: 0,
+                value: " stuks"
+              }
+            ]
+          }
+        },
+        pluralType: "cardinal",
+        type: 6,
+        value: "value"
+      }
+    ]
+  };
+  var Locale = /* @__PURE__ */ ((Locale2) => {
+    Locale2["NL_NL"] = "nl-NL";
+    return Locale2;
+  })(Locale || {});
+  const messagesNL = {
+    ...r3ResourceLabels,
+    ...r3ResourceLabelsCustom,
+    ...r4ResourceLabels,
+    ...r4ResourceLabelsCustom,
+    ...summaryLabels,
+    ...detailLabels,
+    ...codeLabels,
+    ...systemLabels,
+    ...fhirMessages
+  };
+  function memoize(fn, options) {
+    var cache = options && options.cache ? options.cache : cacheDefault;
+    var serializer = options && options.serializer ? options.serializer : serializerDefault;
+    var strategy = options && options.strategy ? options.strategy : strategyDefault;
+    return strategy(fn, {
+      cache,
+      serializer
+    });
+  }
+  function isPrimitive(value2) {
+    return value2 == null || typeof value2 === "number" || typeof value2 === "boolean";
+  }
+  function monadic(fn, cache, serializer, arg) {
+    var cacheKey = isPrimitive(arg) ? arg : serializer(arg);
+    var computedValue = cache.get(cacheKey);
+    if (typeof computedValue === "undefined") {
+      computedValue = fn.call(this, arg);
+      cache.set(cacheKey, computedValue);
+    }
+    return computedValue;
+  }
+  function variadic(fn, cache, serializer) {
+    var args = Array.prototype.slice.call(arguments, 3);
+    var cacheKey = serializer(args);
+    var computedValue = cache.get(cacheKey);
+    if (typeof computedValue === "undefined") {
+      computedValue = fn.apply(this, args);
+      cache.set(cacheKey, computedValue);
+    }
+    return computedValue;
+  }
+  function assemble(fn, context, strategy, cache, serialize) {
+    return strategy.bind(context, fn, cache, serialize);
+  }
+  function strategyDefault(fn, options) {
+    var strategy = fn.length === 1 ? monadic : variadic;
+    return assemble(fn, this, strategy, options.cache.create(), options.serializer);
+  }
+  function strategyVariadic(fn, options) {
+    return assemble(fn, this, variadic, options.cache.create(), options.serializer);
+  }
+  function strategyMonadic(fn, options) {
+    return assemble(fn, this, monadic, options.cache.create(), options.serializer);
+  }
+  var serializerDefault = function() {
+    return JSON.stringify(arguments);
+  };
+  function ObjectWithoutPrototypeCache() {
+    this.cache = /* @__PURE__ */ Object.create(null);
+  }
+  ObjectWithoutPrototypeCache.prototype.get = function(key) {
+    return this.cache[key];
+  };
+  ObjectWithoutPrototypeCache.prototype.set = function(key, value2) {
+    this.cache[key] = value2;
+  };
+  var cacheDefault = {
+    create: function create() {
+      return new ObjectWithoutPrototypeCache();
+    }
+  };
+  var strategies = {
+    variadic: strategyVariadic,
+    monadic: strategyMonadic
+  };
+  var ErrorKind;
+  (function(ErrorKind2) {
+    ErrorKind2[ErrorKind2["EXPECT_ARGUMENT_CLOSING_BRACE"] = 1] = "EXPECT_ARGUMENT_CLOSING_BRACE";
+    ErrorKind2[ErrorKind2["EMPTY_ARGUMENT"] = 2] = "EMPTY_ARGUMENT";
+    ErrorKind2[ErrorKind2["MALFORMED_ARGUMENT"] = 3] = "MALFORMED_ARGUMENT";
+    ErrorKind2[ErrorKind2["EXPECT_ARGUMENT_TYPE"] = 4] = "EXPECT_ARGUMENT_TYPE";
+    ErrorKind2[ErrorKind2["INVALID_ARGUMENT_TYPE"] = 5] = "INVALID_ARGUMENT_TYPE";
+    ErrorKind2[ErrorKind2["EXPECT_ARGUMENT_STYLE"] = 6] = "EXPECT_ARGUMENT_STYLE";
+    ErrorKind2[ErrorKind2["INVALID_NUMBER_SKELETON"] = 7] = "INVALID_NUMBER_SKELETON";
+    ErrorKind2[ErrorKind2["INVALID_DATE_TIME_SKELETON"] = 8] = "INVALID_DATE_TIME_SKELETON";
+    ErrorKind2[ErrorKind2["EXPECT_NUMBER_SKELETON"] = 9] = "EXPECT_NUMBER_SKELETON";
+    ErrorKind2[ErrorKind2["EXPECT_DATE_TIME_SKELETON"] = 10] = "EXPECT_DATE_TIME_SKELETON";
+    ErrorKind2[ErrorKind2["UNCLOSED_QUOTE_IN_ARGUMENT_STYLE"] = 11] = "UNCLOSED_QUOTE_IN_ARGUMENT_STYLE";
+    ErrorKind2[ErrorKind2["EXPECT_SELECT_ARGUMENT_OPTIONS"] = 12] = "EXPECT_SELECT_ARGUMENT_OPTIONS";
+    ErrorKind2[ErrorKind2["EXPECT_PLURAL_ARGUMENT_OFFSET_VALUE"] = 13] = "EXPECT_PLURAL_ARGUMENT_OFFSET_VALUE";
+    ErrorKind2[ErrorKind2["INVALID_PLURAL_ARGUMENT_OFFSET_VALUE"] = 14] = "INVALID_PLURAL_ARGUMENT_OFFSET_VALUE";
+    ErrorKind2[ErrorKind2["EXPECT_SELECT_ARGUMENT_SELECTOR"] = 15] = "EXPECT_SELECT_ARGUMENT_SELECTOR";
+    ErrorKind2[ErrorKind2["EXPECT_PLURAL_ARGUMENT_SELECTOR"] = 16] = "EXPECT_PLURAL_ARGUMENT_SELECTOR";
+    ErrorKind2[ErrorKind2["EXPECT_SELECT_ARGUMENT_SELECTOR_FRAGMENT"] = 17] = "EXPECT_SELECT_ARGUMENT_SELECTOR_FRAGMENT";
+    ErrorKind2[ErrorKind2["EXPECT_PLURAL_ARGUMENT_SELECTOR_FRAGMENT"] = 18] = "EXPECT_PLURAL_ARGUMENT_SELECTOR_FRAGMENT";
+    ErrorKind2[ErrorKind2["INVALID_PLURAL_ARGUMENT_SELECTOR"] = 19] = "INVALID_PLURAL_ARGUMENT_SELECTOR";
+    ErrorKind2[ErrorKind2["DUPLICATE_PLURAL_ARGUMENT_SELECTOR"] = 20] = "DUPLICATE_PLURAL_ARGUMENT_SELECTOR";
+    ErrorKind2[ErrorKind2["DUPLICATE_SELECT_ARGUMENT_SELECTOR"] = 21] = "DUPLICATE_SELECT_ARGUMENT_SELECTOR";
+    ErrorKind2[ErrorKind2["MISSING_OTHER_CLAUSE"] = 22] = "MISSING_OTHER_CLAUSE";
+    ErrorKind2[ErrorKind2["INVALID_TAG"] = 23] = "INVALID_TAG";
+    ErrorKind2[ErrorKind2["INVALID_TAG_NAME"] = 25] = "INVALID_TAG_NAME";
+    ErrorKind2[ErrorKind2["UNMATCHED_CLOSING_TAG"] = 26] = "UNMATCHED_CLOSING_TAG";
+    ErrorKind2[ErrorKind2["UNCLOSED_TAG"] = 27] = "UNCLOSED_TAG";
+  })(ErrorKind || (ErrorKind = {}));
+  var TYPE;
+  (function(TYPE2) {
+    TYPE2[TYPE2["literal"] = 0] = "literal";
+    TYPE2[TYPE2["argument"] = 1] = "argument";
+    TYPE2[TYPE2["number"] = 2] = "number";
+    TYPE2[TYPE2["date"] = 3] = "date";
+    TYPE2[TYPE2["time"] = 4] = "time";
+    TYPE2[TYPE2["select"] = 5] = "select";
+    TYPE2[TYPE2["plural"] = 6] = "plural";
+    TYPE2[TYPE2["pound"] = 7] = "pound";
+    TYPE2[TYPE2["tag"] = 8] = "tag";
+  })(TYPE || (TYPE = {}));
+  var SKELETON_TYPE;
+  (function(SKELETON_TYPE2) {
+    SKELETON_TYPE2[SKELETON_TYPE2["number"] = 0] = "number";
+    SKELETON_TYPE2[SKELETON_TYPE2["dateTime"] = 1] = "dateTime";
+  })(SKELETON_TYPE || (SKELETON_TYPE = {}));
+  function isLiteralElement(el) {
+    return el.type === TYPE.literal;
+  }
+  function isArgumentElement(el) {
+    return el.type === TYPE.argument;
+  }
+  function isNumberElement(el) {
+    return el.type === TYPE.number;
+  }
+  function isDateElement(el) {
+    return el.type === TYPE.date;
+  }
+  function isTimeElement(el) {
+    return el.type === TYPE.time;
+  }
+  function isSelectElement(el) {
+    return el.type === TYPE.select;
+  }
+  function isPluralElement(el) {
+    return el.type === TYPE.plural;
+  }
+  function isPoundElement(el) {
+    return el.type === TYPE.pound;
+  }
+  function isTagElement(el) {
+    return el.type === TYPE.tag;
+  }
+  function isNumberSkeleton(el) {
+    return !!(el && typeof el === "object" && el.type === SKELETON_TYPE.number);
+  }
+  function isDateTimeSkeleton(el) {
+    return !!(el && typeof el === "object" && el.type === SKELETON_TYPE.dateTime);
+  }
+  var SPACE_SEPARATOR_REGEX = /[ \xA0\u1680\u2000-\u200A\u202F\u205F\u3000]/;
+  var DATE_TIME_REGEX = /(?:[Eec]{1,6}|G{1,5}|[Qq]{1,5}|(?:[yYur]+|U{1,5})|[ML]{1,5}|d{1,2}|D{1,3}|F{1}|[abB]{1,5}|[hkHK]{1,2}|w{1,2}|W{1}|m{1,2}|s{1,2}|[zZOvVxX]{1,4})(?=([^']*'[^']*')*[^']*$)/g;
+  function parseDateTimeSkeleton(skeleton2) {
+    var result = {};
+    skeleton2.replace(DATE_TIME_REGEX, function(match2) {
+      var len = match2.length;
+      switch (match2[0]) {
+        case "G":
+          result.era = len === 4 ? "long" : len === 5 ? "narrow" : "short";
+          break;
+        case "y":
+          result.year = len === 2 ? "2-digit" : "numeric";
+          break;
+        case "Y":
+        case "u":
+        case "U":
+        case "r":
+          throw new RangeError("`Y/u/U/r` (year) patterns are not supported, use `y` instead");
+        case "q":
+        case "Q":
+          throw new RangeError("`q/Q` (quarter) patterns are not supported");
+        case "M":
+        case "L":
+          result.month = ["numeric", "2-digit", "short", "long", "narrow"][len - 1];
+          break;
+        case "w":
+        case "W":
+          throw new RangeError("`w/W` (week) patterns are not supported");
+        case "d":
+          result.day = ["numeric", "2-digit"][len - 1];
+          break;
+        case "D":
+        case "F":
+        case "g":
+          throw new RangeError("`D/F/g` (day) patterns are not supported, use `d` instead");
+        case "E":
+          result.weekday = len === 4 ? "long" : len === 5 ? "narrow" : "short";
+          break;
+        case "e":
+          if (len < 4) {
+            throw new RangeError("`e..eee` (weekday) patterns are not supported");
+          }
+          result.weekday = ["short", "long", "narrow", "short"][len - 4];
+          break;
+        case "c":
+          if (len < 4) {
+            throw new RangeError("`c..ccc` (weekday) patterns are not supported");
+          }
+          result.weekday = ["short", "long", "narrow", "short"][len - 4];
+          break;
+        case "a":
+          result.hour12 = true;
+          break;
+        case "b":
+        case "B":
+          throw new RangeError("`b/B` (period) patterns are not supported, use `a` instead");
+        case "h":
+          result.hourCycle = "h12";
+          result.hour = ["numeric", "2-digit"][len - 1];
+          break;
+        case "H":
+          result.hourCycle = "h23";
+          result.hour = ["numeric", "2-digit"][len - 1];
+          break;
+        case "K":
+          result.hourCycle = "h11";
+          result.hour = ["numeric", "2-digit"][len - 1];
+          break;
+        case "k":
+          result.hourCycle = "h24";
+          result.hour = ["numeric", "2-digit"][len - 1];
+          break;
+        case "j":
+        case "J":
+        case "C":
+          throw new RangeError("`j/J/C` (hour) patterns are not supported, use `h/H/K/k` instead");
+        case "m":
+          result.minute = ["numeric", "2-digit"][len - 1];
+          break;
+        case "s":
+          result.second = ["numeric", "2-digit"][len - 1];
+          break;
+        case "S":
+        case "A":
+          throw new RangeError("`S/A` (second) patterns are not supported, use `s` instead");
+        case "z":
+          result.timeZoneName = len < 4 ? "short" : "long";
+          break;
+        case "Z":
+        case "O":
+        case "v":
+        case "V":
+        case "X":
+        case "x":
+          throw new RangeError("`Z/O/v/V/X/x` (timeZone) patterns are not supported, use `z` instead");
+      }
+      return "";
+    });
+    return result;
+  }
+  var WHITE_SPACE_REGEX = /[\t-\r \x85\u200E\u200F\u2028\u2029]/i;
+  function parseNumberSkeletonFromString(skeleton2) {
+    if (skeleton2.length === 0) {
+      throw new Error("Number skeleton cannot be empty");
+    }
+    var stringTokens = skeleton2.split(WHITE_SPACE_REGEX).filter(function(x) {
+      return x.length > 0;
+    });
+    var tokens = [];
+    for (var _i = 0, stringTokens_1 = stringTokens; _i < stringTokens_1.length; _i++) {
+      var stringToken = stringTokens_1[_i];
+      var stemAndOptions = stringToken.split("/");
+      if (stemAndOptions.length === 0) {
+        throw new Error("Invalid number skeleton");
+      }
+      var stem = stemAndOptions[0], options = stemAndOptions.slice(1);
+      for (var _a2 = 0, options_1 = options; _a2 < options_1.length; _a2++) {
+        var option = options_1[_a2];
+        if (option.length === 0) {
+          throw new Error("Invalid number skeleton");
+        }
+      }
+      tokens.push({ stem, options });
+    }
+    return tokens;
+  }
+  function icuUnitToEcma(unit) {
+    return unit.replace(/^(.*?)-/, "");
+  }
+  var FRACTION_PRECISION_REGEX = /^\.(?:(0+)(\*)?|(#+)|(0+)(#+))$/g;
+  var SIGNIFICANT_PRECISION_REGEX = /^(@+)?(\+|#+)?[rs]?$/g;
+  var INTEGER_WIDTH_REGEX = /(\*)(0+)|(#+)(0+)|(0+)/g;
+  var CONCISE_INTEGER_WIDTH_REGEX = /^(0+)$/;
+  function parseSignificantPrecision(str) {
+    var result = {};
+    if (str[str.length - 1] === "r") {
+      result.roundingPriority = "morePrecision";
+    } else if (str[str.length - 1] === "s") {
+      result.roundingPriority = "lessPrecision";
+    }
+    str.replace(SIGNIFICANT_PRECISION_REGEX, function(_, g1, g2) {
+      if (typeof g2 !== "string") {
+        result.minimumSignificantDigits = g1.length;
+        result.maximumSignificantDigits = g1.length;
+      } else if (g2 === "+") {
+        result.minimumSignificantDigits = g1.length;
+      } else if (g1[0] === "#") {
+        result.maximumSignificantDigits = g1.length;
+      } else {
+        result.minimumSignificantDigits = g1.length;
+        result.maximumSignificantDigits = g1.length + (typeof g2 === "string" ? g2.length : 0);
+      }
+      return "";
+    });
+    return result;
+  }
+  function parseSign(str) {
+    switch (str) {
+      case "sign-auto":
+        return {
+          signDisplay: "auto"
+        };
+      case "sign-accounting":
+      case "()":
+        return {
+          currencySign: "accounting"
+        };
+      case "sign-always":
+      case "+!":
+        return {
+          signDisplay: "always"
+        };
+      case "sign-accounting-always":
+      case "()!":
+        return {
+          signDisplay: "always",
+          currencySign: "accounting"
+        };
+      case "sign-except-zero":
+      case "+?":
+        return {
+          signDisplay: "exceptZero"
+        };
+      case "sign-accounting-except-zero":
+      case "()?":
+        return {
+          signDisplay: "exceptZero",
+          currencySign: "accounting"
+        };
+      case "sign-never":
+      case "+_":
+        return {
+          signDisplay: "never"
+        };
+    }
+  }
+  function parseConciseScientificAndEngineeringStem(stem) {
+    var result;
+    if (stem[0] === "E" && stem[1] === "E") {
+      result = {
+        notation: "engineering"
+      };
+      stem = stem.slice(2);
+    } else if (stem[0] === "E") {
+      result = {
+        notation: "scientific"
+      };
+      stem = stem.slice(1);
+    }
+    if (result) {
+      var signDisplay = stem.slice(0, 2);
+      if (signDisplay === "+!") {
+        result.signDisplay = "always";
+        stem = stem.slice(2);
+      } else if (signDisplay === "+?") {
+        result.signDisplay = "exceptZero";
+        stem = stem.slice(2);
+      }
+      if (!CONCISE_INTEGER_WIDTH_REGEX.test(stem)) {
+        throw new Error("Malformed concise eng/scientific notation");
+      }
+      result.minimumIntegerDigits = stem.length;
+    }
+    return result;
+  }
+  function parseNotationOptions(opt) {
+    var result = {};
+    var signOpts = parseSign(opt);
+    if (signOpts) {
+      return signOpts;
+    }
+    return result;
+  }
+  function parseNumberSkeleton(tokens) {
+    var result = {};
+    for (var _i = 0, tokens_1 = tokens; _i < tokens_1.length; _i++) {
+      var token = tokens_1[_i];
+      switch (token.stem) {
+        case "percent":
+        case "%":
+          result.style = "percent";
+          continue;
+        case "%x100":
+          result.style = "percent";
+          result.scale = 100;
+          continue;
+        case "currency":
+          result.style = "currency";
+          result.currency = token.options[0];
+          continue;
+        case "group-off":
+        case ",_":
+          result.useGrouping = false;
+          continue;
+        case "precision-integer":
+        case ".":
+          result.maximumFractionDigits = 0;
+          continue;
+        case "measure-unit":
+        case "unit":
+          result.style = "unit";
+          result.unit = icuUnitToEcma(token.options[0]);
+          continue;
+        case "compact-short":
+        case "K":
+          result.notation = "compact";
+          result.compactDisplay = "short";
+          continue;
+        case "compact-long":
+        case "KK":
+          result.notation = "compact";
+          result.compactDisplay = "long";
+          continue;
+        case "scientific":
+          result = __assign(__assign(__assign({}, result), { notation: "scientific" }), token.options.reduce(function(all, opt2) {
+            return __assign(__assign({}, all), parseNotationOptions(opt2));
+          }, {}));
+          continue;
+        case "engineering":
+          result = __assign(__assign(__assign({}, result), { notation: "engineering" }), token.options.reduce(function(all, opt2) {
+            return __assign(__assign({}, all), parseNotationOptions(opt2));
+          }, {}));
+          continue;
+        case "notation-simple":
+          result.notation = "standard";
+          continue;
+        case "unit-width-narrow":
+          result.currencyDisplay = "narrowSymbol";
+          result.unitDisplay = "narrow";
+          continue;
+        case "unit-width-short":
+          result.currencyDisplay = "code";
+          result.unitDisplay = "short";
+          continue;
+        case "unit-width-full-name":
+          result.currencyDisplay = "name";
+          result.unitDisplay = "long";
+          continue;
+        case "unit-width-iso-code":
+          result.currencyDisplay = "symbol";
+          continue;
+        case "scale":
+          result.scale = parseFloat(token.options[0]);
+          continue;
+        case "rounding-mode-floor":
+          result.roundingMode = "floor";
+          continue;
+        case "rounding-mode-ceiling":
+          result.roundingMode = "ceil";
+          continue;
+        case "rounding-mode-down":
+          result.roundingMode = "trunc";
+          continue;
+        case "rounding-mode-up":
+          result.roundingMode = "expand";
+          continue;
+        case "rounding-mode-half-even":
+          result.roundingMode = "halfEven";
+          continue;
+        case "rounding-mode-half-down":
+          result.roundingMode = "halfTrunc";
+          continue;
+        case "rounding-mode-half-up":
+          result.roundingMode = "halfExpand";
+          continue;
+        case "integer-width":
+          if (token.options.length > 1) {
+            throw new RangeError("integer-width stems only accept a single optional option");
+          }
+          token.options[0].replace(INTEGER_WIDTH_REGEX, function(_, g1, g2, g3, g4, g5) {
+            if (g1) {
+              result.minimumIntegerDigits = g2.length;
+            } else if (g3 && g4) {
+              throw new Error("We currently do not support maximum integer digits");
+            } else if (g5) {
+              throw new Error("We currently do not support exact integer digits");
+            }
+            return "";
+          });
+          continue;
+      }
+      if (CONCISE_INTEGER_WIDTH_REGEX.test(token.stem)) {
+        result.minimumIntegerDigits = token.stem.length;
+        continue;
+      }
+      if (FRACTION_PRECISION_REGEX.test(token.stem)) {
+        if (token.options.length > 1) {
+          throw new RangeError("Fraction-precision stems only accept a single optional option");
+        }
+        token.stem.replace(FRACTION_PRECISION_REGEX, function(_, g1, g2, g3, g4, g5) {
+          if (g2 === "*") {
+            result.minimumFractionDigits = g1.length;
+          } else if (g3 && g3[0] === "#") {
+            result.maximumFractionDigits = g3.length;
+          } else if (g4 && g5) {
+            result.minimumFractionDigits = g4.length;
+            result.maximumFractionDigits = g4.length + g5.length;
+          } else {
+            result.minimumFractionDigits = g1.length;
+            result.maximumFractionDigits = g1.length;
+          }
+          return "";
+        });
+        var opt = token.options[0];
+        if (opt === "w") {
+          result = __assign(__assign({}, result), { trailingZeroDisplay: "stripIfInteger" });
+        } else if (opt) {
+          result = __assign(__assign({}, result), parseSignificantPrecision(opt));
+        }
+        continue;
+      }
+      if (SIGNIFICANT_PRECISION_REGEX.test(token.stem)) {
+        result = __assign(__assign({}, result), parseSignificantPrecision(token.stem));
+        continue;
+      }
+      var signOpts = parseSign(token.stem);
+      if (signOpts) {
+        result = __assign(__assign({}, result), signOpts);
+      }
+      var conciseScientificAndEngineeringOpts = parseConciseScientificAndEngineeringStem(token.stem);
+      if (conciseScientificAndEngineeringOpts) {
+        result = __assign(__assign({}, result), conciseScientificAndEngineeringOpts);
+      }
+    }
+    return result;
+  }
+  var timeData = {
+    "001": [
+      "H",
+      "h"
+    ],
+    "419": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "AC": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "AD": [
+      "H",
+      "hB"
+    ],
+    "AE": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "AF": [
+      "H",
+      "hb",
+      "hB",
+      "h"
+    ],
+    "AG": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "AI": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "AL": [
+      "h",
+      "H",
+      "hB"
+    ],
+    "AM": [
+      "H",
+      "hB"
+    ],
+    "AO": [
+      "H",
+      "hB"
+    ],
+    "AR": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "AS": [
+      "h",
+      "H"
+    ],
+    "AT": [
+      "H",
+      "hB"
+    ],
+    "AU": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "AW": [
+      "H",
+      "hB"
+    ],
+    "AX": [
+      "H"
+    ],
+    "AZ": [
+      "H",
+      "hB",
+      "h"
+    ],
+    "BA": [
+      "H",
+      "hB",
+      "h"
+    ],
+    "BB": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "BD": [
+      "h",
+      "hB",
+      "H"
+    ],
+    "BE": [
+      "H",
+      "hB"
+    ],
+    "BF": [
+      "H",
+      "hB"
+    ],
+    "BG": [
+      "H",
+      "hB",
+      "h"
+    ],
+    "BH": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "BI": [
+      "H",
+      "h"
+    ],
+    "BJ": [
+      "H",
+      "hB"
+    ],
+    "BL": [
+      "H",
+      "hB"
+    ],
+    "BM": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "BN": [
+      "hb",
+      "hB",
+      "h",
+      "H"
+    ],
+    "BO": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "BQ": [
+      "H"
+    ],
+    "BR": [
+      "H",
+      "hB"
+    ],
+    "BS": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "BT": [
+      "h",
+      "H"
+    ],
+    "BW": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "BY": [
+      "H",
+      "h"
+    ],
+    "BZ": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "CA": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "CC": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "CD": [
+      "hB",
+      "H"
+    ],
+    "CF": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "CG": [
+      "H",
+      "hB"
+    ],
+    "CH": [
+      "H",
+      "hB",
+      "h"
+    ],
+    "CI": [
+      "H",
+      "hB"
+    ],
+    "CK": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "CL": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "CM": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "CN": [
+      "H",
+      "hB",
+      "hb",
+      "h"
+    ],
+    "CO": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "CP": [
+      "H"
+    ],
+    "CR": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "CU": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "CV": [
+      "H",
+      "hB"
+    ],
+    "CW": [
+      "H",
+      "hB"
+    ],
+    "CX": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "CY": [
+      "h",
+      "H",
+      "hb",
+      "hB"
+    ],
+    "CZ": [
+      "H"
+    ],
+    "DE": [
+      "H",
+      "hB"
+    ],
+    "DG": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "DJ": [
+      "h",
+      "H"
+    ],
+    "DK": [
+      "H"
+    ],
+    "DM": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "DO": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "DZ": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "EA": [
+      "H",
+      "h",
+      "hB",
+      "hb"
+    ],
+    "EC": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "EE": [
+      "H",
+      "hB"
+    ],
+    "EG": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "EH": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "ER": [
+      "h",
+      "H"
+    ],
+    "ES": [
+      "H",
+      "hB",
+      "h",
+      "hb"
+    ],
+    "ET": [
+      "hB",
+      "hb",
+      "h",
+      "H"
+    ],
+    "FI": [
+      "H"
+    ],
+    "FJ": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "FK": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "FM": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "FO": [
+      "H",
+      "h"
+    ],
+    "FR": [
+      "H",
+      "hB"
+    ],
+    "GA": [
+      "H",
+      "hB"
+    ],
+    "GB": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "GD": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "GE": [
+      "H",
+      "hB",
+      "h"
+    ],
+    "GF": [
+      "H",
+      "hB"
+    ],
+    "GG": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "GH": [
+      "h",
+      "H"
+    ],
+    "GI": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "GL": [
+      "H",
+      "h"
+    ],
+    "GM": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "GN": [
+      "H",
+      "hB"
+    ],
+    "GP": [
+      "H",
+      "hB"
+    ],
+    "GQ": [
+      "H",
+      "hB",
+      "h",
+      "hb"
+    ],
+    "GR": [
+      "h",
+      "H",
+      "hb",
+      "hB"
+    ],
+    "GT": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "GU": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "GW": [
+      "H",
+      "hB"
+    ],
+    "GY": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "HK": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "HN": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "HR": [
+      "H",
+      "hB"
+    ],
+    "HU": [
+      "H",
+      "h"
+    ],
+    "IC": [
+      "H",
+      "h",
+      "hB",
+      "hb"
+    ],
+    "ID": [
+      "H"
+    ],
+    "IE": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "IL": [
+      "H",
+      "hB"
+    ],
+    "IM": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "IN": [
+      "h",
+      "H"
+    ],
+    "IO": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "IQ": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "IR": [
+      "hB",
+      "H"
+    ],
+    "IS": [
+      "H"
+    ],
+    "IT": [
+      "H",
+      "hB"
+    ],
+    "JE": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "JM": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "JO": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "JP": [
+      "H",
+      "K",
+      "h"
+    ],
+    "KE": [
+      "hB",
+      "hb",
+      "H",
+      "h"
+    ],
+    "KG": [
+      "H",
+      "h",
+      "hB",
+      "hb"
+    ],
+    "KH": [
+      "hB",
+      "h",
+      "H",
+      "hb"
+    ],
+    "KI": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "KM": [
+      "H",
+      "h",
+      "hB",
+      "hb"
+    ],
+    "KN": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "KP": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "KR": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "KW": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "KY": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "KZ": [
+      "H",
+      "hB"
+    ],
+    "LA": [
+      "H",
+      "hb",
+      "hB",
+      "h"
+    ],
+    "LB": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "LC": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "LI": [
+      "H",
+      "hB",
+      "h"
+    ],
+    "LK": [
+      "H",
+      "h",
+      "hB",
+      "hb"
+    ],
+    "LR": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "LS": [
+      "h",
+      "H"
+    ],
+    "LT": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "LU": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "LV": [
+      "H",
+      "hB",
+      "hb",
+      "h"
+    ],
+    "LY": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "MA": [
+      "H",
+      "h",
+      "hB",
+      "hb"
+    ],
+    "MC": [
+      "H",
+      "hB"
+    ],
+    "MD": [
+      "H",
+      "hB"
+    ],
+    "ME": [
+      "H",
+      "hB",
+      "h"
+    ],
+    "MF": [
+      "H",
+      "hB"
+    ],
+    "MG": [
+      "H",
+      "h"
+    ],
+    "MH": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "MK": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "ML": [
+      "H"
+    ],
+    "MM": [
+      "hB",
+      "hb",
+      "H",
+      "h"
+    ],
+    "MN": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "MO": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "MP": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "MQ": [
+      "H",
+      "hB"
+    ],
+    "MR": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "MS": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "MT": [
+      "H",
+      "h"
+    ],
+    "MU": [
+      "H",
+      "h"
+    ],
+    "MV": [
+      "H",
+      "h"
+    ],
+    "MW": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "MX": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "MY": [
+      "hb",
+      "hB",
+      "h",
+      "H"
+    ],
+    "MZ": [
+      "H",
+      "hB"
+    ],
+    "NA": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "NC": [
+      "H",
+      "hB"
+    ],
+    "NE": [
+      "H"
+    ],
+    "NF": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "NG": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "NI": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "NL": [
+      "H",
+      "hB"
+    ],
+    "NO": [
+      "H",
+      "h"
+    ],
+    "NP": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "NR": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "NU": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "NZ": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "OM": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "PA": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "PE": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "PF": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "PG": [
+      "h",
+      "H"
+    ],
+    "PH": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "PK": [
+      "h",
+      "hB",
+      "H"
+    ],
+    "PL": [
+      "H",
+      "h"
+    ],
+    "PM": [
+      "H",
+      "hB"
+    ],
+    "PN": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "PR": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "PS": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "PT": [
+      "H",
+      "hB"
+    ],
+    "PW": [
+      "h",
+      "H"
+    ],
+    "PY": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "QA": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "RE": [
+      "H",
+      "hB"
+    ],
+    "RO": [
+      "H",
+      "hB"
+    ],
+    "RS": [
+      "H",
+      "hB",
+      "h"
+    ],
+    "RU": [
+      "H"
+    ],
+    "RW": [
+      "H",
+      "h"
+    ],
+    "SA": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "SB": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "SC": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "SD": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "SE": [
+      "H"
+    ],
+    "SG": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "SH": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "SI": [
+      "H",
+      "hB"
+    ],
+    "SJ": [
+      "H"
+    ],
+    "SK": [
+      "H"
+    ],
+    "SL": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "SM": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "SN": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "SO": [
+      "h",
+      "H"
+    ],
+    "SR": [
+      "H",
+      "hB"
+    ],
+    "SS": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "ST": [
+      "H",
+      "hB"
+    ],
+    "SV": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "SX": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "SY": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "SZ": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "TA": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "TC": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "TD": [
+      "h",
+      "H",
+      "hB"
+    ],
+    "TF": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "TG": [
+      "H",
+      "hB"
+    ],
+    "TH": [
+      "H",
+      "h"
+    ],
+    "TJ": [
+      "H",
+      "h"
+    ],
+    "TL": [
+      "H",
+      "hB",
+      "hb",
+      "h"
+    ],
+    "TM": [
+      "H",
+      "h"
+    ],
+    "TN": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "TO": [
+      "h",
+      "H"
+    ],
+    "TR": [
+      "H",
+      "hB"
+    ],
+    "TT": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "TW": [
+      "hB",
+      "hb",
+      "h",
+      "H"
+    ],
+    "TZ": [
+      "hB",
+      "hb",
+      "H",
+      "h"
+    ],
+    "UA": [
+      "H",
+      "hB",
+      "h"
+    ],
+    "UG": [
+      "hB",
+      "hb",
+      "H",
+      "h"
+    ],
+    "UM": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "US": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "UY": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "UZ": [
+      "H",
+      "hB",
+      "h"
+    ],
+    "VA": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "VC": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "VE": [
+      "h",
+      "H",
+      "hB",
+      "hb"
+    ],
+    "VG": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "VI": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "VN": [
+      "H",
+      "h"
+    ],
+    "VU": [
+      "h",
+      "H"
+    ],
+    "WF": [
+      "H",
+      "hB"
+    ],
+    "WS": [
+      "h",
+      "H"
+    ],
+    "XK": [
+      "H",
+      "hB",
+      "h"
+    ],
+    "YE": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "YT": [
+      "H",
+      "hB"
+    ],
+    "ZA": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "ZM": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "ZW": [
+      "H",
+      "h"
+    ],
+    "af-ZA": [
+      "H",
+      "h",
+      "hB",
+      "hb"
+    ],
+    "ar-001": [
+      "h",
+      "hB",
+      "hb",
+      "H"
+    ],
+    "ca-ES": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "en-001": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "en-HK": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "en-IL": [
+      "H",
+      "h",
+      "hb",
+      "hB"
+    ],
+    "en-MY": [
+      "h",
+      "hb",
+      "H",
+      "hB"
+    ],
+    "es-BR": [
+      "H",
+      "h",
+      "hB",
+      "hb"
+    ],
+    "es-ES": [
+      "H",
+      "h",
+      "hB",
+      "hb"
+    ],
+    "es-GQ": [
+      "H",
+      "h",
+      "hB",
+      "hb"
+    ],
+    "fr-CA": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "gl-ES": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "gu-IN": [
+      "hB",
+      "hb",
+      "h",
+      "H"
+    ],
+    "hi-IN": [
+      "hB",
+      "h",
+      "H"
+    ],
+    "it-CH": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "it-IT": [
+      "H",
+      "h",
+      "hB"
+    ],
+    "kn-IN": [
+      "hB",
+      "h",
+      "H"
+    ],
+    "ml-IN": [
+      "hB",
+      "h",
+      "H"
+    ],
+    "mr-IN": [
+      "hB",
+      "hb",
+      "h",
+      "H"
+    ],
+    "pa-IN": [
+      "hB",
+      "hb",
+      "h",
+      "H"
+    ],
+    "ta-IN": [
+      "hB",
+      "h",
+      "hb",
+      "H"
+    ],
+    "te-IN": [
+      "hB",
+      "h",
+      "H"
+    ],
+    "zu-ZA": [
+      "H",
+      "hB",
+      "hb",
+      "h"
+    ]
+  };
+  function getBestPattern(skeleton2, locale) {
+    var skeletonCopy = "";
+    for (var patternPos = 0; patternPos < skeleton2.length; patternPos++) {
+      var patternChar = skeleton2.charAt(patternPos);
+      if (patternChar === "j") {
+        var extraLength = 0;
+        while (patternPos + 1 < skeleton2.length && skeleton2.charAt(patternPos + 1) === patternChar) {
+          extraLength++;
+          patternPos++;
+        }
+        var hourLen = 1 + (extraLength & 1);
+        var dayPeriodLen = extraLength < 2 ? 1 : 3 + (extraLength >> 1);
+        var dayPeriodChar = "a";
+        var hourChar = getDefaultHourSymbolFromLocale(locale);
+        if (hourChar == "H" || hourChar == "k") {
+          dayPeriodLen = 0;
+        }
+        while (dayPeriodLen-- > 0) {
+          skeletonCopy += dayPeriodChar;
+        }
+        while (hourLen-- > 0) {
+          skeletonCopy = hourChar + skeletonCopy;
+        }
+      } else if (patternChar === "J") {
+        skeletonCopy += "H";
+      } else {
+        skeletonCopy += patternChar;
+      }
+    }
+    return skeletonCopy;
+  }
+  function getDefaultHourSymbolFromLocale(locale) {
+    var hourCycle = locale.hourCycle;
+    if (hourCycle === void 0 && // @ts-ignore hourCycle(s) is not identified yet
+    locale.hourCycles && // @ts-ignore
+    locale.hourCycles.length) {
+      hourCycle = locale.hourCycles[0];
+    }
+    if (hourCycle) {
+      switch (hourCycle) {
+        case "h24":
+          return "k";
+        case "h23":
+          return "H";
+        case "h12":
+          return "h";
+        case "h11":
+          return "K";
+        default:
+          throw new Error("Invalid hourCycle");
+      }
+    }
+    var languageTag = locale.language;
+    var regionTag;
+    if (languageTag !== "root") {
+      regionTag = locale.maximize().region;
+    }
+    var hourCycles = timeData[regionTag || ""] || timeData[languageTag || ""] || timeData["".concat(languageTag, "-001")] || timeData["001"];
+    return hourCycles[0];
+  }
+  var _a;
+  var SPACE_SEPARATOR_START_REGEX = new RegExp("^".concat(SPACE_SEPARATOR_REGEX.source, "*"));
+  var SPACE_SEPARATOR_END_REGEX = new RegExp("".concat(SPACE_SEPARATOR_REGEX.source, "*$"));
+  function createLocation(start, end) {
+    return { start, end };
+  }
+  var hasNativeStartsWith = !!String.prototype.startsWith && "_a".startsWith("a", 1);
+  var hasNativeFromCodePoint = !!String.fromCodePoint;
+  var hasNativeFromEntries = !!Object.fromEntries;
+  var hasNativeCodePointAt = !!String.prototype.codePointAt;
+  var hasTrimStart = !!String.prototype.trimStart;
+  var hasTrimEnd = !!String.prototype.trimEnd;
+  var hasNativeIsSafeInteger = !!Number.isSafeInteger;
+  var isSafeInteger = hasNativeIsSafeInteger ? Number.isSafeInteger : function(n) {
+    return typeof n === "number" && isFinite(n) && Math.floor(n) === n && Math.abs(n) <= 9007199254740991;
+  };
+  var REGEX_SUPPORTS_U_AND_Y = true;
+  try {
+    var re = RE("([^\\p{White_Space}\\p{Pattern_Syntax}]*)", "yu");
+    REGEX_SUPPORTS_U_AND_Y = ((_a = re.exec("a")) === null || _a === void 0 ? void 0 : _a[0]) === "a";
+  } catch (_) {
+    REGEX_SUPPORTS_U_AND_Y = false;
+  }
+  var startsWith = hasNativeStartsWith ? (
+    // Native
+    function startsWith2(s, search, position) {
+      return s.startsWith(search, position);
+    }
+  ) : (
+    // For IE11
+    function startsWith2(s, search, position) {
+      return s.slice(position, position + search.length) === search;
+    }
+  );
+  var fromCodePoint = hasNativeFromCodePoint ? String.fromCodePoint : (
+    // IE11
+    function fromCodePoint2() {
+      var codePoints = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        codePoints[_i] = arguments[_i];
+      }
+      var elements = "";
+      var length = codePoints.length;
+      var i = 0;
+      var code2;
+      while (length > i) {
+        code2 = codePoints[i++];
+        if (code2 > 1114111)
+          throw RangeError(code2 + " is not a valid code point");
+        elements += code2 < 65536 ? String.fromCharCode(code2) : String.fromCharCode(((code2 -= 65536) >> 10) + 55296, code2 % 1024 + 56320);
+      }
+      return elements;
+    }
+  );
+  var fromEntries = (
+    // native
+    hasNativeFromEntries ? Object.fromEntries : (
+      // Ponyfill
+      function fromEntries2(entries) {
+        var obj = {};
+        for (var _i = 0, entries_1 = entries; _i < entries_1.length; _i++) {
+          var _a2 = entries_1[_i], k = _a2[0], v = _a2[1];
+          obj[k] = v;
+        }
+        return obj;
+      }
+    )
+  );
+  var codePointAt = hasNativeCodePointAt ? (
+    // Native
+    function codePointAt2(s, index) {
+      return s.codePointAt(index);
+    }
+  ) : (
+    // IE 11
+    function codePointAt2(s, index) {
+      var size = s.length;
+      if (index < 0 || index >= size) {
+        return void 0;
+      }
+      var first = s.charCodeAt(index);
+      var second;
+      return first < 55296 || first > 56319 || index + 1 === size || (second = s.charCodeAt(index + 1)) < 56320 || second > 57343 ? first : (first - 55296 << 10) + (second - 56320) + 65536;
+    }
+  );
+  var trimStart = hasTrimStart ? (
+    // Native
+    function trimStart2(s) {
+      return s.trimStart();
+    }
+  ) : (
+    // Ponyfill
+    function trimStart2(s) {
+      return s.replace(SPACE_SEPARATOR_START_REGEX, "");
+    }
+  );
+  var trimEnd = hasTrimEnd ? (
+    // Native
+    function trimEnd2(s) {
+      return s.trimEnd();
+    }
+  ) : (
+    // Ponyfill
+    function trimEnd2(s) {
+      return s.replace(SPACE_SEPARATOR_END_REGEX, "");
+    }
+  );
+  function RE(s, flag) {
+    return new RegExp(s, flag);
+  }
+  var matchIdentifierAtIndex;
+  if (REGEX_SUPPORTS_U_AND_Y) {
+    var IDENTIFIER_PREFIX_RE_1 = RE("([^\\p{White_Space}\\p{Pattern_Syntax}]*)", "yu");
+    matchIdentifierAtIndex = function matchIdentifierAtIndex2(s, index) {
+      var _a2;
+      IDENTIFIER_PREFIX_RE_1.lastIndex = index;
+      var match2 = IDENTIFIER_PREFIX_RE_1.exec(s);
+      return (_a2 = match2[1]) !== null && _a2 !== void 0 ? _a2 : "";
+    };
+  } else {
+    matchIdentifierAtIndex = function matchIdentifierAtIndex2(s, index) {
+      var match2 = [];
+      while (true) {
+        var c = codePointAt(s, index);
+        if (c === void 0 || _isWhiteSpace(c) || _isPatternSyntax(c)) {
+          break;
+        }
+        match2.push(c);
+        index += c >= 65536 ? 2 : 1;
+      }
+      return fromCodePoint.apply(void 0, match2);
+    };
+  }
+  var Parser = (
+    /** @class */
+    function() {
+      function Parser2(message, options) {
+        if (options === void 0) {
+          options = {};
+        }
+        this.message = message;
+        this.position = { offset: 0, line: 1, column: 1 };
+        this.ignoreTag = !!options.ignoreTag;
+        this.locale = options.locale;
+        this.requiresOtherClause = !!options.requiresOtherClause;
+        this.shouldParseSkeletons = !!options.shouldParseSkeletons;
+      }
+      Parser2.prototype.parse = function() {
+        if (this.offset() !== 0) {
+          throw Error("parser can only be used once");
+        }
+        return this.parseMessage(0, "", false);
+      };
+      Parser2.prototype.parseMessage = function(nestingLevel, parentArgType, expectingCloseTag) {
+        var elements = [];
+        while (!this.isEOF()) {
+          var char = this.char();
+          if (char === 123) {
+            var result = this.parseArgument(nestingLevel, expectingCloseTag);
+            if (result.err) {
+              return result;
+            }
+            elements.push(result.val);
+          } else if (char === 125 && nestingLevel > 0) {
+            break;
+          } else if (char === 35 && (parentArgType === "plural" || parentArgType === "selectordinal")) {
+            var position = this.clonePosition();
+            this.bump();
+            elements.push({
+              type: TYPE.pound,
+              location: createLocation(position, this.clonePosition())
+            });
+          } else if (char === 60 && !this.ignoreTag && this.peek() === 47) {
+            if (expectingCloseTag) {
+              break;
+            } else {
+              return this.error(ErrorKind.UNMATCHED_CLOSING_TAG, createLocation(this.clonePosition(), this.clonePosition()));
+            }
+          } else if (char === 60 && !this.ignoreTag && _isAlpha(this.peek() || 0)) {
+            var result = this.parseTag(nestingLevel, parentArgType);
+            if (result.err) {
+              return result;
+            }
+            elements.push(result.val);
+          } else {
+            var result = this.parseLiteral(nestingLevel, parentArgType);
+            if (result.err) {
+              return result;
+            }
+            elements.push(result.val);
+          }
+        }
+        return { val: elements, err: null };
+      };
+      Parser2.prototype.parseTag = function(nestingLevel, parentArgType) {
+        var startPosition = this.clonePosition();
+        this.bump();
+        var tagName = this.parseTagName();
+        this.bumpSpace();
+        if (this.bumpIf("/>")) {
+          return {
+            val: {
+              type: TYPE.literal,
+              value: "<".concat(tagName, "/>"),
+              location: createLocation(startPosition, this.clonePosition())
+            },
+            err: null
+          };
+        } else if (this.bumpIf(">")) {
+          var childrenResult = this.parseMessage(nestingLevel + 1, parentArgType, true);
+          if (childrenResult.err) {
+            return childrenResult;
+          }
+          var children = childrenResult.val;
+          var endTagStartPosition = this.clonePosition();
+          if (this.bumpIf("</")) {
+            if (this.isEOF() || !_isAlpha(this.char())) {
+              return this.error(ErrorKind.INVALID_TAG, createLocation(endTagStartPosition, this.clonePosition()));
+            }
+            var closingTagNameStartPosition = this.clonePosition();
+            var closingTagName = this.parseTagName();
+            if (tagName !== closingTagName) {
+              return this.error(ErrorKind.UNMATCHED_CLOSING_TAG, createLocation(closingTagNameStartPosition, this.clonePosition()));
+            }
+            this.bumpSpace();
+            if (!this.bumpIf(">")) {
+              return this.error(ErrorKind.INVALID_TAG, createLocation(endTagStartPosition, this.clonePosition()));
+            }
+            return {
+              val: {
+                type: TYPE.tag,
+                value: tagName,
+                children,
+                location: createLocation(startPosition, this.clonePosition())
+              },
+              err: null
+            };
+          } else {
+            return this.error(ErrorKind.UNCLOSED_TAG, createLocation(startPosition, this.clonePosition()));
+          }
+        } else {
+          return this.error(ErrorKind.INVALID_TAG, createLocation(startPosition, this.clonePosition()));
+        }
+      };
+      Parser2.prototype.parseTagName = function() {
+        var startOffset = this.offset();
+        this.bump();
+        while (!this.isEOF() && _isPotentialElementNameChar(this.char())) {
+          this.bump();
+        }
+        return this.message.slice(startOffset, this.offset());
+      };
+      Parser2.prototype.parseLiteral = function(nestingLevel, parentArgType) {
+        var start = this.clonePosition();
+        var value2 = "";
+        while (true) {
+          var parseQuoteResult = this.tryParseQuote(parentArgType);
+          if (parseQuoteResult) {
+            value2 += parseQuoteResult;
+            continue;
+          }
+          var parseUnquotedResult = this.tryParseUnquoted(nestingLevel, parentArgType);
+          if (parseUnquotedResult) {
+            value2 += parseUnquotedResult;
+            continue;
+          }
+          var parseLeftAngleResult = this.tryParseLeftAngleBracket();
+          if (parseLeftAngleResult) {
+            value2 += parseLeftAngleResult;
+            continue;
+          }
+          break;
+        }
+        var location = createLocation(start, this.clonePosition());
+        return {
+          val: { type: TYPE.literal, value: value2, location },
+          err: null
+        };
+      };
+      Parser2.prototype.tryParseLeftAngleBracket = function() {
+        if (!this.isEOF() && this.char() === 60 && (this.ignoreTag || // If at the opening tag or closing tag position, bail.
+        !_isAlphaOrSlash(this.peek() || 0))) {
+          this.bump();
+          return "<";
+        }
+        return null;
+      };
+      Parser2.prototype.tryParseQuote = function(parentArgType) {
+        if (this.isEOF() || this.char() !== 39) {
+          return null;
+        }
+        switch (this.peek()) {
+          case 39:
+            this.bump();
+            this.bump();
+            return "'";
+          case 123:
+          case 60:
+          case 62:
+          case 125:
+            break;
+          case 35:
+            if (parentArgType === "plural" || parentArgType === "selectordinal") {
+              break;
+            }
+            return null;
+          default:
+            return null;
+        }
+        this.bump();
+        var codePoints = [this.char()];
+        this.bump();
+        while (!this.isEOF()) {
+          var ch = this.char();
+          if (ch === 39) {
+            if (this.peek() === 39) {
+              codePoints.push(39);
+              this.bump();
+            } else {
+              this.bump();
+              break;
+            }
+          } else {
+            codePoints.push(ch);
+          }
+          this.bump();
+        }
+        return fromCodePoint.apply(void 0, codePoints);
+      };
+      Parser2.prototype.tryParseUnquoted = function(nestingLevel, parentArgType) {
+        if (this.isEOF()) {
+          return null;
+        }
+        var ch = this.char();
+        if (ch === 60 || ch === 123 || ch === 35 && (parentArgType === "plural" || parentArgType === "selectordinal") || ch === 125 && nestingLevel > 0) {
+          return null;
+        } else {
+          this.bump();
+          return fromCodePoint(ch);
+        }
+      };
+      Parser2.prototype.parseArgument = function(nestingLevel, expectingCloseTag) {
+        var openingBracePosition = this.clonePosition();
+        this.bump();
+        this.bumpSpace();
+        if (this.isEOF()) {
+          return this.error(ErrorKind.EXPECT_ARGUMENT_CLOSING_BRACE, createLocation(openingBracePosition, this.clonePosition()));
+        }
+        if (this.char() === 125) {
+          this.bump();
+          return this.error(ErrorKind.EMPTY_ARGUMENT, createLocation(openingBracePosition, this.clonePosition()));
+        }
+        var value2 = this.parseIdentifierIfPossible().value;
+        if (!value2) {
+          return this.error(ErrorKind.MALFORMED_ARGUMENT, createLocation(openingBracePosition, this.clonePosition()));
+        }
+        this.bumpSpace();
+        if (this.isEOF()) {
+          return this.error(ErrorKind.EXPECT_ARGUMENT_CLOSING_BRACE, createLocation(openingBracePosition, this.clonePosition()));
+        }
+        switch (this.char()) {
+          case 125: {
+            this.bump();
+            return {
+              val: {
+                type: TYPE.argument,
+                // value does not include the opening and closing braces.
+                value: value2,
+                location: createLocation(openingBracePosition, this.clonePosition())
+              },
+              err: null
+            };
+          }
+          case 44: {
+            this.bump();
+            this.bumpSpace();
+            if (this.isEOF()) {
+              return this.error(ErrorKind.EXPECT_ARGUMENT_CLOSING_BRACE, createLocation(openingBracePosition, this.clonePosition()));
+            }
+            return this.parseArgumentOptions(nestingLevel, expectingCloseTag, value2, openingBracePosition);
+          }
+          default:
+            return this.error(ErrorKind.MALFORMED_ARGUMENT, createLocation(openingBracePosition, this.clonePosition()));
+        }
+      };
+      Parser2.prototype.parseIdentifierIfPossible = function() {
+        var startingPosition = this.clonePosition();
+        var startOffset = this.offset();
+        var value2 = matchIdentifierAtIndex(this.message, startOffset);
+        var endOffset = startOffset + value2.length;
+        this.bumpTo(endOffset);
+        var endPosition = this.clonePosition();
+        var location = createLocation(startingPosition, endPosition);
+        return { value: value2, location };
+      };
+      Parser2.prototype.parseArgumentOptions = function(nestingLevel, expectingCloseTag, value2, openingBracePosition) {
+        var _a2;
+        var typeStartPosition = this.clonePosition();
+        var argType = this.parseIdentifierIfPossible().value;
+        var typeEndPosition = this.clonePosition();
+        switch (argType) {
+          case "":
+            return this.error(ErrorKind.EXPECT_ARGUMENT_TYPE, createLocation(typeStartPosition, typeEndPosition));
+          case "number":
+          case "date":
+          case "time": {
+            this.bumpSpace();
+            var styleAndLocation = null;
+            if (this.bumpIf(",")) {
+              this.bumpSpace();
+              var styleStartPosition = this.clonePosition();
+              var result = this.parseSimpleArgStyleIfPossible();
+              if (result.err) {
+                return result;
+              }
+              var style = trimEnd(result.val);
+              if (style.length === 0) {
+                return this.error(ErrorKind.EXPECT_ARGUMENT_STYLE, createLocation(this.clonePosition(), this.clonePosition()));
+              }
+              var styleLocation = createLocation(styleStartPosition, this.clonePosition());
+              styleAndLocation = { style, styleLocation };
+            }
+            var argCloseResult = this.tryParseArgumentClose(openingBracePosition);
+            if (argCloseResult.err) {
+              return argCloseResult;
+            }
+            var location_1 = createLocation(openingBracePosition, this.clonePosition());
+            if (styleAndLocation && startsWith(styleAndLocation === null || styleAndLocation === void 0 ? void 0 : styleAndLocation.style, "::", 0)) {
+              var skeleton2 = trimStart(styleAndLocation.style.slice(2));
+              if (argType === "number") {
+                var result = this.parseNumberSkeletonFromString(skeleton2, styleAndLocation.styleLocation);
+                if (result.err) {
+                  return result;
+                }
+                return {
+                  val: { type: TYPE.number, value: value2, location: location_1, style: result.val },
+                  err: null
+                };
+              } else {
+                if (skeleton2.length === 0) {
+                  return this.error(ErrorKind.EXPECT_DATE_TIME_SKELETON, location_1);
+                }
+                var dateTimePattern = skeleton2;
+                if (this.locale) {
+                  dateTimePattern = getBestPattern(skeleton2, this.locale);
+                }
+                var style = {
+                  type: SKELETON_TYPE.dateTime,
+                  pattern: dateTimePattern,
+                  location: styleAndLocation.styleLocation,
+                  parsedOptions: this.shouldParseSkeletons ? parseDateTimeSkeleton(dateTimePattern) : {}
+                };
+                var type = argType === "date" ? TYPE.date : TYPE.time;
+                return {
+                  val: { type, value: value2, location: location_1, style },
+                  err: null
+                };
+              }
+            }
+            return {
+              val: {
+                type: argType === "number" ? TYPE.number : argType === "date" ? TYPE.date : TYPE.time,
+                value: value2,
+                location: location_1,
+                style: (_a2 = styleAndLocation === null || styleAndLocation === void 0 ? void 0 : styleAndLocation.style) !== null && _a2 !== void 0 ? _a2 : null
+              },
+              err: null
+            };
+          }
+          case "plural":
+          case "selectordinal":
+          case "select": {
+            var typeEndPosition_1 = this.clonePosition();
+            this.bumpSpace();
+            if (!this.bumpIf(",")) {
+              return this.error(ErrorKind.EXPECT_SELECT_ARGUMENT_OPTIONS, createLocation(typeEndPosition_1, __assign({}, typeEndPosition_1)));
+            }
+            this.bumpSpace();
+            var identifierAndLocation = this.parseIdentifierIfPossible();
+            var pluralOffset = 0;
+            if (argType !== "select" && identifierAndLocation.value === "offset") {
+              if (!this.bumpIf(":")) {
+                return this.error(ErrorKind.EXPECT_PLURAL_ARGUMENT_OFFSET_VALUE, createLocation(this.clonePosition(), this.clonePosition()));
+              }
+              this.bumpSpace();
+              var result = this.tryParseDecimalInteger(ErrorKind.EXPECT_PLURAL_ARGUMENT_OFFSET_VALUE, ErrorKind.INVALID_PLURAL_ARGUMENT_OFFSET_VALUE);
+              if (result.err) {
+                return result;
+              }
+              this.bumpSpace();
+              identifierAndLocation = this.parseIdentifierIfPossible();
+              pluralOffset = result.val;
+            }
+            var optionsResult = this.tryParsePluralOrSelectOptions(nestingLevel, argType, expectingCloseTag, identifierAndLocation);
+            if (optionsResult.err) {
+              return optionsResult;
+            }
+            var argCloseResult = this.tryParseArgumentClose(openingBracePosition);
+            if (argCloseResult.err) {
+              return argCloseResult;
+            }
+            var location_2 = createLocation(openingBracePosition, this.clonePosition());
+            if (argType === "select") {
+              return {
+                val: {
+                  type: TYPE.select,
+                  value: value2,
+                  options: fromEntries(optionsResult.val),
+                  location: location_2
+                },
+                err: null
+              };
+            } else {
+              return {
+                val: {
+                  type: TYPE.plural,
+                  value: value2,
+                  options: fromEntries(optionsResult.val),
+                  offset: pluralOffset,
+                  pluralType: argType === "plural" ? "cardinal" : "ordinal",
+                  location: location_2
+                },
+                err: null
+              };
+            }
+          }
+          default:
+            return this.error(ErrorKind.INVALID_ARGUMENT_TYPE, createLocation(typeStartPosition, typeEndPosition));
+        }
+      };
+      Parser2.prototype.tryParseArgumentClose = function(openingBracePosition) {
+        if (this.isEOF() || this.char() !== 125) {
+          return this.error(ErrorKind.EXPECT_ARGUMENT_CLOSING_BRACE, createLocation(openingBracePosition, this.clonePosition()));
+        }
+        this.bump();
+        return { val: true, err: null };
+      };
+      Parser2.prototype.parseSimpleArgStyleIfPossible = function() {
+        var nestedBraces = 0;
+        var startPosition = this.clonePosition();
+        while (!this.isEOF()) {
+          var ch = this.char();
+          switch (ch) {
+            case 39: {
+              this.bump();
+              var apostrophePosition = this.clonePosition();
+              if (!this.bumpUntil("'")) {
+                return this.error(ErrorKind.UNCLOSED_QUOTE_IN_ARGUMENT_STYLE, createLocation(apostrophePosition, this.clonePosition()));
+              }
+              this.bump();
+              break;
+            }
+            case 123: {
+              nestedBraces += 1;
+              this.bump();
+              break;
+            }
+            case 125: {
+              if (nestedBraces > 0) {
+                nestedBraces -= 1;
+              } else {
+                return {
+                  val: this.message.slice(startPosition.offset, this.offset()),
+                  err: null
+                };
+              }
+              break;
+            }
+            default:
+              this.bump();
+              break;
+          }
+        }
+        return {
+          val: this.message.slice(startPosition.offset, this.offset()),
+          err: null
+        };
+      };
+      Parser2.prototype.parseNumberSkeletonFromString = function(skeleton2, location) {
+        var tokens = [];
+        try {
+          tokens = parseNumberSkeletonFromString(skeleton2);
+        } catch (e) {
+          return this.error(ErrorKind.INVALID_NUMBER_SKELETON, location);
+        }
+        return {
+          val: {
+            type: SKELETON_TYPE.number,
+            tokens,
+            location,
+            parsedOptions: this.shouldParseSkeletons ? parseNumberSkeleton(tokens) : {}
+          },
+          err: null
+        };
+      };
+      Parser2.prototype.tryParsePluralOrSelectOptions = function(nestingLevel, parentArgType, expectCloseTag, parsedFirstIdentifier) {
+        var _a2;
+        var hasOtherClause = false;
+        var options = [];
+        var parsedSelectors = /* @__PURE__ */ new Set();
+        var selector = parsedFirstIdentifier.value, selectorLocation = parsedFirstIdentifier.location;
+        while (true) {
+          if (selector.length === 0) {
+            var startPosition = this.clonePosition();
+            if (parentArgType !== "select" && this.bumpIf("=")) {
+              var result = this.tryParseDecimalInteger(ErrorKind.EXPECT_PLURAL_ARGUMENT_SELECTOR, ErrorKind.INVALID_PLURAL_ARGUMENT_SELECTOR);
+              if (result.err) {
+                return result;
+              }
+              selectorLocation = createLocation(startPosition, this.clonePosition());
+              selector = this.message.slice(startPosition.offset, this.offset());
+            } else {
+              break;
+            }
+          }
+          if (parsedSelectors.has(selector)) {
+            return this.error(parentArgType === "select" ? ErrorKind.DUPLICATE_SELECT_ARGUMENT_SELECTOR : ErrorKind.DUPLICATE_PLURAL_ARGUMENT_SELECTOR, selectorLocation);
+          }
+          if (selector === "other") {
+            hasOtherClause = true;
+          }
+          this.bumpSpace();
+          var openingBracePosition = this.clonePosition();
+          if (!this.bumpIf("{")) {
+            return this.error(parentArgType === "select" ? ErrorKind.EXPECT_SELECT_ARGUMENT_SELECTOR_FRAGMENT : ErrorKind.EXPECT_PLURAL_ARGUMENT_SELECTOR_FRAGMENT, createLocation(this.clonePosition(), this.clonePosition()));
+          }
+          var fragmentResult = this.parseMessage(nestingLevel + 1, parentArgType, expectCloseTag);
+          if (fragmentResult.err) {
+            return fragmentResult;
+          }
+          var argCloseResult = this.tryParseArgumentClose(openingBracePosition);
+          if (argCloseResult.err) {
+            return argCloseResult;
+          }
+          options.push([
+            selector,
+            {
+              value: fragmentResult.val,
+              location: createLocation(openingBracePosition, this.clonePosition())
+            }
+          ]);
+          parsedSelectors.add(selector);
+          this.bumpSpace();
+          _a2 = this.parseIdentifierIfPossible(), selector = _a2.value, selectorLocation = _a2.location;
+        }
+        if (options.length === 0) {
+          return this.error(parentArgType === "select" ? ErrorKind.EXPECT_SELECT_ARGUMENT_SELECTOR : ErrorKind.EXPECT_PLURAL_ARGUMENT_SELECTOR, createLocation(this.clonePosition(), this.clonePosition()));
+        }
+        if (this.requiresOtherClause && !hasOtherClause) {
+          return this.error(ErrorKind.MISSING_OTHER_CLAUSE, createLocation(this.clonePosition(), this.clonePosition()));
+        }
+        return { val: options, err: null };
+      };
+      Parser2.prototype.tryParseDecimalInteger = function(expectNumberError, invalidNumberError) {
+        var sign2 = 1;
+        var startingPosition = this.clonePosition();
+        if (this.bumpIf("+")) ;
+        else if (this.bumpIf("-")) {
+          sign2 = -1;
+        }
+        var hasDigits = false;
+        var decimal2 = 0;
+        while (!this.isEOF()) {
+          var ch = this.char();
+          if (ch >= 48 && ch <= 57) {
+            hasDigits = true;
+            decimal2 = decimal2 * 10 + (ch - 48);
+            this.bump();
+          } else {
+            break;
+          }
+        }
+        var location = createLocation(startingPosition, this.clonePosition());
+        if (!hasDigits) {
+          return this.error(expectNumberError, location);
+        }
+        decimal2 *= sign2;
+        if (!isSafeInteger(decimal2)) {
+          return this.error(invalidNumberError, location);
+        }
+        return { val: decimal2, err: null };
+      };
+      Parser2.prototype.offset = function() {
+        return this.position.offset;
+      };
+      Parser2.prototype.isEOF = function() {
+        return this.offset() === this.message.length;
+      };
+      Parser2.prototype.clonePosition = function() {
+        return {
+          offset: this.position.offset,
+          line: this.position.line,
+          column: this.position.column
+        };
+      };
+      Parser2.prototype.char = function() {
+        var offset = this.position.offset;
+        if (offset >= this.message.length) {
+          throw Error("out of bound");
+        }
+        var code2 = codePointAt(this.message, offset);
+        if (code2 === void 0) {
+          throw Error("Offset ".concat(offset, " is at invalid UTF-16 code unit boundary"));
+        }
+        return code2;
+      };
+      Parser2.prototype.error = function(kind, location) {
+        return {
+          val: null,
+          err: {
+            kind,
+            message: this.message,
+            location
+          }
+        };
+      };
+      Parser2.prototype.bump = function() {
+        if (this.isEOF()) {
+          return;
+        }
+        var code2 = this.char();
+        if (code2 === 10) {
+          this.position.line += 1;
+          this.position.column = 1;
+          this.position.offset += 1;
+        } else {
+          this.position.column += 1;
+          this.position.offset += code2 < 65536 ? 1 : 2;
+        }
+      };
+      Parser2.prototype.bumpIf = function(prefix) {
+        if (startsWith(this.message, prefix, this.offset())) {
+          for (var i = 0; i < prefix.length; i++) {
+            this.bump();
+          }
+          return true;
+        }
+        return false;
+      };
+      Parser2.prototype.bumpUntil = function(pattern) {
+        var currentOffset = this.offset();
+        var index = this.message.indexOf(pattern, currentOffset);
+        if (index >= 0) {
+          this.bumpTo(index);
+          return true;
+        } else {
+          this.bumpTo(this.message.length);
+          return false;
+        }
+      };
+      Parser2.prototype.bumpTo = function(targetOffset) {
+        if (this.offset() > targetOffset) {
+          throw Error("targetOffset ".concat(targetOffset, " must be greater than or equal to the current offset ").concat(this.offset()));
+        }
+        targetOffset = Math.min(targetOffset, this.message.length);
+        while (true) {
+          var offset = this.offset();
+          if (offset === targetOffset) {
+            break;
+          }
+          if (offset > targetOffset) {
+            throw Error("targetOffset ".concat(targetOffset, " is at invalid UTF-16 code unit boundary"));
+          }
+          this.bump();
+          if (this.isEOF()) {
+            break;
+          }
+        }
+      };
+      Parser2.prototype.bumpSpace = function() {
+        while (!this.isEOF() && _isWhiteSpace(this.char())) {
+          this.bump();
+        }
+      };
+      Parser2.prototype.peek = function() {
+        if (this.isEOF()) {
+          return null;
+        }
+        var code2 = this.char();
+        var offset = this.offset();
+        var nextCode = this.message.charCodeAt(offset + (code2 >= 65536 ? 2 : 1));
+        return nextCode !== null && nextCode !== void 0 ? nextCode : null;
+      };
+      return Parser2;
+    }()
+  );
+  function _isAlpha(codepoint) {
+    return codepoint >= 97 && codepoint <= 122 || codepoint >= 65 && codepoint <= 90;
+  }
+  function _isAlphaOrSlash(codepoint) {
+    return _isAlpha(codepoint) || codepoint === 47;
+  }
+  function _isPotentialElementNameChar(c) {
+    return c === 45 || c === 46 || c >= 48 && c <= 57 || c === 95 || c >= 97 && c <= 122 || c >= 65 && c <= 90 || c == 183 || c >= 192 && c <= 214 || c >= 216 && c <= 246 || c >= 248 && c <= 893 || c >= 895 && c <= 8191 || c >= 8204 && c <= 8205 || c >= 8255 && c <= 8256 || c >= 8304 && c <= 8591 || c >= 11264 && c <= 12271 || c >= 12289 && c <= 55295 || c >= 63744 && c <= 64975 || c >= 65008 && c <= 65533 || c >= 65536 && c <= 983039;
+  }
+  function _isWhiteSpace(c) {
+    return c >= 9 && c <= 13 || c === 32 || c === 133 || c >= 8206 && c <= 8207 || c === 8232 || c === 8233;
+  }
+  function _isPatternSyntax(c) {
+    return c >= 33 && c <= 35 || c === 36 || c >= 37 && c <= 39 || c === 40 || c === 41 || c === 42 || c === 43 || c === 44 || c === 45 || c >= 46 && c <= 47 || c >= 58 && c <= 59 || c >= 60 && c <= 62 || c >= 63 && c <= 64 || c === 91 || c === 92 || c === 93 || c === 94 || c === 96 || c === 123 || c === 124 || c === 125 || c === 126 || c === 161 || c >= 162 && c <= 165 || c === 166 || c === 167 || c === 169 || c === 171 || c === 172 || c === 174 || c === 176 || c === 177 || c === 182 || c === 187 || c === 191 || c === 215 || c === 247 || c >= 8208 && c <= 8213 || c >= 8214 && c <= 8215 || c === 8216 || c === 8217 || c === 8218 || c >= 8219 && c <= 8220 || c === 8221 || c === 8222 || c === 8223 || c >= 8224 && c <= 8231 || c >= 8240 && c <= 8248 || c === 8249 || c === 8250 || c >= 8251 && c <= 8254 || c >= 8257 && c <= 8259 || c === 8260 || c === 8261 || c === 8262 || c >= 8263 && c <= 8273 || c === 8274 || c === 8275 || c >= 8277 && c <= 8286 || c >= 8592 && c <= 8596 || c >= 8597 && c <= 8601 || c >= 8602 && c <= 8603 || c >= 8604 && c <= 8607 || c === 8608 || c >= 8609 && c <= 8610 || c === 8611 || c >= 8612 && c <= 8613 || c === 8614 || c >= 8615 && c <= 8621 || c === 8622 || c >= 8623 && c <= 8653 || c >= 8654 && c <= 8655 || c >= 8656 && c <= 8657 || c === 8658 || c === 8659 || c === 8660 || c >= 8661 && c <= 8691 || c >= 8692 && c <= 8959 || c >= 8960 && c <= 8967 || c === 8968 || c === 8969 || c === 8970 || c === 8971 || c >= 8972 && c <= 8991 || c >= 8992 && c <= 8993 || c >= 8994 && c <= 9e3 || c === 9001 || c === 9002 || c >= 9003 && c <= 9083 || c === 9084 || c >= 9085 && c <= 9114 || c >= 9115 && c <= 9139 || c >= 9140 && c <= 9179 || c >= 9180 && c <= 9185 || c >= 9186 && c <= 9254 || c >= 9255 && c <= 9279 || c >= 9280 && c <= 9290 || c >= 9291 && c <= 9311 || c >= 9472 && c <= 9654 || c === 9655 || c >= 9656 && c <= 9664 || c === 9665 || c >= 9666 && c <= 9719 || c >= 9720 && c <= 9727 || c >= 9728 && c <= 9838 || c === 9839 || c >= 9840 && c <= 10087 || c === 10088 || c === 10089 || c === 10090 || c === 10091 || c === 10092 || c === 10093 || c === 10094 || c === 10095 || c === 10096 || c === 10097 || c === 10098 || c === 10099 || c === 10100 || c === 10101 || c >= 10132 && c <= 10175 || c >= 10176 && c <= 10180 || c === 10181 || c === 10182 || c >= 10183 && c <= 10213 || c === 10214 || c === 10215 || c === 10216 || c === 10217 || c === 10218 || c === 10219 || c === 10220 || c === 10221 || c === 10222 || c === 10223 || c >= 10224 && c <= 10239 || c >= 10240 && c <= 10495 || c >= 10496 && c <= 10626 || c === 10627 || c === 10628 || c === 10629 || c === 10630 || c === 10631 || c === 10632 || c === 10633 || c === 10634 || c === 10635 || c === 10636 || c === 10637 || c === 10638 || c === 10639 || c === 10640 || c === 10641 || c === 10642 || c === 10643 || c === 10644 || c === 10645 || c === 10646 || c === 10647 || c === 10648 || c >= 10649 && c <= 10711 || c === 10712 || c === 10713 || c === 10714 || c === 10715 || c >= 10716 && c <= 10747 || c === 10748 || c === 10749 || c >= 10750 && c <= 11007 || c >= 11008 && c <= 11055 || c >= 11056 && c <= 11076 || c >= 11077 && c <= 11078 || c >= 11079 && c <= 11084 || c >= 11085 && c <= 11123 || c >= 11124 && c <= 11125 || c >= 11126 && c <= 11157 || c === 11158 || c >= 11159 && c <= 11263 || c >= 11776 && c <= 11777 || c === 11778 || c === 11779 || c === 11780 || c === 11781 || c >= 11782 && c <= 11784 || c === 11785 || c === 11786 || c === 11787 || c === 11788 || c === 11789 || c >= 11790 && c <= 11798 || c === 11799 || c >= 11800 && c <= 11801 || c === 11802 || c === 11803 || c === 11804 || c === 11805 || c >= 11806 && c <= 11807 || c === 11808 || c === 11809 || c === 11810 || c === 11811 || c === 11812 || c === 11813 || c === 11814 || c === 11815 || c === 11816 || c === 11817 || c >= 11818 && c <= 11822 || c === 11823 || c >= 11824 && c <= 11833 || c >= 11834 && c <= 11835 || c >= 11836 && c <= 11839 || c === 11840 || c === 11841 || c === 11842 || c >= 11843 && c <= 11855 || c >= 11856 && c <= 11857 || c === 11858 || c >= 11859 && c <= 11903 || c >= 12289 && c <= 12291 || c === 12296 || c === 12297 || c === 12298 || c === 12299 || c === 12300 || c === 12301 || c === 12302 || c === 12303 || c === 12304 || c === 12305 || c >= 12306 && c <= 12307 || c === 12308 || c === 12309 || c === 12310 || c === 12311 || c === 12312 || c === 12313 || c === 12314 || c === 12315 || c === 12316 || c === 12317 || c >= 12318 && c <= 12319 || c === 12320 || c === 12336 || c === 64830 || c === 64831 || c >= 65093 && c <= 65094;
+  }
+  function pruneLocation(els) {
+    els.forEach(function(el) {
+      delete el.location;
+      if (isSelectElement(el) || isPluralElement(el)) {
+        for (var k in el.options) {
+          delete el.options[k].location;
+          pruneLocation(el.options[k].value);
+        }
+      } else if (isNumberElement(el) && isNumberSkeleton(el.style)) {
+        delete el.style.location;
+      } else if ((isDateElement(el) || isTimeElement(el)) && isDateTimeSkeleton(el.style)) {
+        delete el.style.location;
+      } else if (isTagElement(el)) {
+        pruneLocation(el.children);
+      }
+    });
+  }
+  function parse$1(message, opts) {
+    if (opts === void 0) {
+      opts = {};
+    }
+    opts = __assign({ shouldParseSkeletons: true, requiresOtherClause: true }, opts);
+    var result = new Parser(message, opts).parse();
+    if (result.err) {
+      var error = SyntaxError(ErrorKind[result.err.kind]);
+      error.location = result.err.location;
+      error.originalMessage = result.err.message;
+      throw error;
+    }
+    if (!(opts === null || opts === void 0 ? void 0 : opts.captureLocation)) {
+      pruneLocation(result.val);
+    }
+    return result.val;
+  }
+  var ErrorCode;
+  (function(ErrorCode2) {
+    ErrorCode2["MISSING_VALUE"] = "MISSING_VALUE";
+    ErrorCode2["INVALID_VALUE"] = "INVALID_VALUE";
+    ErrorCode2["MISSING_INTL_API"] = "MISSING_INTL_API";
+  })(ErrorCode || (ErrorCode = {}));
+  var FormatError = (
+    /** @class */
+    function(_super) {
+      __extends(FormatError2, _super);
+      function FormatError2(msg, code2, originalMessage) {
+        var _this = _super.call(this, msg) || this;
+        _this.code = code2;
+        _this.originalMessage = originalMessage;
+        return _this;
+      }
+      FormatError2.prototype.toString = function() {
+        return "[formatjs Error: ".concat(this.code, "] ").concat(this.message);
+      };
+      return FormatError2;
+    }(Error)
+  );
+  var InvalidValueError = (
+    /** @class */
+    function(_super) {
+      __extends(InvalidValueError2, _super);
+      function InvalidValueError2(variableId, value2, options, originalMessage) {
+        return _super.call(this, 'Invalid values for "'.concat(variableId, '": "').concat(value2, '". Options are "').concat(Object.keys(options).join('", "'), '"'), ErrorCode.INVALID_VALUE, originalMessage) || this;
+      }
+      return InvalidValueError2;
+    }(FormatError)
+  );
+  var InvalidValueTypeError = (
+    /** @class */
+    function(_super) {
+      __extends(InvalidValueTypeError2, _super);
+      function InvalidValueTypeError2(value2, type, originalMessage) {
+        return _super.call(this, 'Value for "'.concat(value2, '" must be of type ').concat(type), ErrorCode.INVALID_VALUE, originalMessage) || this;
+      }
+      return InvalidValueTypeError2;
+    }(FormatError)
+  );
+  var MissingValueError = (
+    /** @class */
+    function(_super) {
+      __extends(MissingValueError2, _super);
+      function MissingValueError2(variableId, originalMessage) {
+        return _super.call(this, 'The intl string context variable "'.concat(variableId, '" was not provided to the string "').concat(originalMessage, '"'), ErrorCode.MISSING_VALUE, originalMessage) || this;
+      }
+      return MissingValueError2;
+    }(FormatError)
+  );
+  var PART_TYPE;
+  (function(PART_TYPE2) {
+    PART_TYPE2[PART_TYPE2["literal"] = 0] = "literal";
+    PART_TYPE2[PART_TYPE2["object"] = 1] = "object";
+  })(PART_TYPE || (PART_TYPE = {}));
+  function mergeLiteral(parts) {
+    if (parts.length < 2) {
+      return parts;
+    }
+    return parts.reduce(function(all, part) {
+      var lastPart = all[all.length - 1];
+      if (!lastPart || lastPart.type !== PART_TYPE.literal || part.type !== PART_TYPE.literal) {
+        all.push(part);
+      } else {
+        lastPart.value += part.value;
+      }
+      return all;
+    }, []);
+  }
+  function isFormatXMLElementFn(el) {
+    return typeof el === "function";
+  }
+  function formatToParts(els, locales, formatters, formats, values, currentPluralValue, originalMessage) {
+    if (els.length === 1 && isLiteralElement(els[0])) {
+      return [
+        {
+          type: PART_TYPE.literal,
+          value: els[0].value
+        }
+      ];
+    }
+    var result = [];
+    for (var _i = 0, els_1 = els; _i < els_1.length; _i++) {
+      var el = els_1[_i];
+      if (isLiteralElement(el)) {
+        result.push({
+          type: PART_TYPE.literal,
+          value: el.value
+        });
+        continue;
+      }
+      if (isPoundElement(el)) {
+        if (typeof currentPluralValue === "number") {
+          result.push({
+            type: PART_TYPE.literal,
+            value: formatters.getNumberFormat(locales).format(currentPluralValue)
+          });
+        }
+        continue;
+      }
+      var varName = el.value;
+      if (!(values && varName in values)) {
+        throw new MissingValueError(varName, originalMessage);
+      }
+      var value2 = values[varName];
+      if (isArgumentElement(el)) {
+        if (!value2 || typeof value2 === "string" || typeof value2 === "number") {
+          value2 = typeof value2 === "string" || typeof value2 === "number" ? String(value2) : "";
+        }
+        result.push({
+          type: typeof value2 === "string" ? PART_TYPE.literal : PART_TYPE.object,
+          value: value2
+        });
+        continue;
+      }
+      if (isDateElement(el)) {
+        var style = typeof el.style === "string" ? formats.date[el.style] : isDateTimeSkeleton(el.style) ? el.style.parsedOptions : void 0;
+        result.push({
+          type: PART_TYPE.literal,
+          value: formatters.getDateTimeFormat(locales, style).format(value2)
+        });
+        continue;
+      }
+      if (isTimeElement(el)) {
+        var style = typeof el.style === "string" ? formats.time[el.style] : isDateTimeSkeleton(el.style) ? el.style.parsedOptions : formats.time.medium;
+        result.push({
+          type: PART_TYPE.literal,
+          value: formatters.getDateTimeFormat(locales, style).format(value2)
+        });
+        continue;
+      }
+      if (isNumberElement(el)) {
+        var style = typeof el.style === "string" ? formats.number[el.style] : isNumberSkeleton(el.style) ? el.style.parsedOptions : void 0;
+        if (style && style.scale) {
+          value2 = value2 * (style.scale || 1);
+        }
+        result.push({
+          type: PART_TYPE.literal,
+          value: formatters.getNumberFormat(locales, style).format(value2)
+        });
+        continue;
+      }
+      if (isTagElement(el)) {
+        var children = el.children, value_1 = el.value;
+        var formatFn = values[value_1];
+        if (!isFormatXMLElementFn(formatFn)) {
+          throw new InvalidValueTypeError(value_1, "function", originalMessage);
+        }
+        var parts = formatToParts(children, locales, formatters, formats, values, currentPluralValue);
+        var chunks = formatFn(parts.map(function(p) {
+          return p.value;
+        }));
+        if (!Array.isArray(chunks)) {
+          chunks = [chunks];
+        }
+        result.push.apply(result, chunks.map(function(c) {
+          return {
+            type: typeof c === "string" ? PART_TYPE.literal : PART_TYPE.object,
+            value: c
+          };
+        }));
+      }
+      if (isSelectElement(el)) {
+        var opt = el.options[value2] || el.options.other;
+        if (!opt) {
+          throw new InvalidValueError(el.value, value2, Object.keys(el.options), originalMessage);
+        }
+        result.push.apply(result, formatToParts(opt.value, locales, formatters, formats, values));
+        continue;
+      }
+      if (isPluralElement(el)) {
+        var opt = el.options["=".concat(value2)];
+        if (!opt) {
+          if (!Intl.PluralRules) {
+            throw new FormatError('Intl.PluralRules is not available in this environment.\nTry polyfilling it using "@formatjs/intl-pluralrules"\n', ErrorCode.MISSING_INTL_API, originalMessage);
+          }
+          var rule = formatters.getPluralRules(locales, { type: el.pluralType }).select(value2 - (el.offset || 0));
+          opt = el.options[rule] || el.options.other;
+        }
+        if (!opt) {
+          throw new InvalidValueError(el.value, value2, Object.keys(el.options), originalMessage);
+        }
+        result.push.apply(result, formatToParts(opt.value, locales, formatters, formats, values, value2 - (el.offset || 0)));
+        continue;
+      }
+    }
+    return mergeLiteral(result);
+  }
+  function mergeConfig(c1, c2) {
+    if (!c2) {
+      return c1;
+    }
+    return __assign(__assign(__assign({}, c1 || {}), c2 || {}), Object.keys(c1).reduce(function(all, k) {
+      all[k] = __assign(__assign({}, c1[k]), c2[k] || {});
+      return all;
+    }, {}));
+  }
+  function mergeConfigs(defaultConfig, configs) {
+    if (!configs) {
+      return defaultConfig;
+    }
+    return Object.keys(defaultConfig).reduce(function(all, k) {
+      all[k] = mergeConfig(defaultConfig[k], configs[k]);
+      return all;
+    }, __assign({}, defaultConfig));
+  }
+  function createFastMemoizeCache$1(store) {
+    return {
+      create: function() {
+        return {
+          get: function(key) {
+            return store[key];
+          },
+          set: function(key, value2) {
+            store[key] = value2;
+          }
+        };
+      }
+    };
+  }
+  function createDefaultFormatters(cache) {
+    if (cache === void 0) {
+      cache = {
+        number: {},
+        dateTime: {},
+        pluralRules: {}
+      };
+    }
+    return {
+      getNumberFormat: memoize(function() {
+        var _a2;
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          args[_i] = arguments[_i];
+        }
+        return new ((_a2 = Intl.NumberFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
+      }, {
+        cache: createFastMemoizeCache$1(cache.number),
+        strategy: strategies.variadic
+      }),
+      getDateTimeFormat: memoize(function() {
+        var _a2;
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          args[_i] = arguments[_i];
+        }
+        return new ((_a2 = Intl.DateTimeFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
+      }, {
+        cache: createFastMemoizeCache$1(cache.dateTime),
+        strategy: strategies.variadic
+      }),
+      getPluralRules: memoize(function() {
+        var _a2;
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          args[_i] = arguments[_i];
+        }
+        return new ((_a2 = Intl.PluralRules).bind.apply(_a2, __spreadArray([void 0], args, false)))();
+      }, {
+        cache: createFastMemoizeCache$1(cache.pluralRules),
+        strategy: strategies.variadic
+      })
+    };
+  }
+  var IntlMessageFormat = (
+    /** @class */
+    function() {
+      function IntlMessageFormat2(message, locales, overrideFormats, opts) {
+        if (locales === void 0) {
+          locales = IntlMessageFormat2.defaultLocale;
+        }
+        var _this = this;
+        this.formatterCache = {
+          number: {},
+          dateTime: {},
+          pluralRules: {}
+        };
+        this.format = function(values) {
+          var parts = _this.formatToParts(values);
+          if (parts.length === 1) {
+            return parts[0].value;
+          }
+          var result = parts.reduce(function(all, part) {
+            if (!all.length || part.type !== PART_TYPE.literal || typeof all[all.length - 1] !== "string") {
+              all.push(part.value);
+            } else {
+              all[all.length - 1] += part.value;
+            }
+            return all;
+          }, []);
+          if (result.length <= 1) {
+            return result[0] || "";
+          }
+          return result;
+        };
+        this.formatToParts = function(values) {
+          return formatToParts(_this.ast, _this.locales, _this.formatters, _this.formats, values, void 0, _this.message);
+        };
+        this.resolvedOptions = function() {
+          var _a3;
+          return {
+            locale: ((_a3 = _this.resolvedLocale) === null || _a3 === void 0 ? void 0 : _a3.toString()) || Intl.NumberFormat.supportedLocalesOf(_this.locales)[0]
+          };
+        };
+        this.getAst = function() {
+          return _this.ast;
+        };
+        this.locales = locales;
+        this.resolvedLocale = IntlMessageFormat2.resolveLocale(locales);
+        if (typeof message === "string") {
+          this.message = message;
+          if (!IntlMessageFormat2.__parse) {
+            throw new TypeError("IntlMessageFormat.__parse must be set to process `message` of type `string`");
+          }
+          var _a2 = opts || {};
+          _a2.formatters;
+          var parseOpts = __rest(_a2, ["formatters"]);
+          this.ast = IntlMessageFormat2.__parse(message, __assign(__assign({}, parseOpts), { locale: this.resolvedLocale }));
+        } else {
+          this.ast = message;
+        }
+        if (!Array.isArray(this.ast)) {
+          throw new TypeError("A message must be provided as a String or AST.");
+        }
+        this.formats = mergeConfigs(IntlMessageFormat2.formats, overrideFormats);
+        this.formatters = opts && opts.formatters || createDefaultFormatters(this.formatterCache);
+      }
+      Object.defineProperty(IntlMessageFormat2, "defaultLocale", {
+        get: function() {
+          if (!IntlMessageFormat2.memoizedDefaultLocale) {
+            IntlMessageFormat2.memoizedDefaultLocale = new Intl.NumberFormat().resolvedOptions().locale;
+          }
+          return IntlMessageFormat2.memoizedDefaultLocale;
+        },
+        enumerable: false,
+        configurable: true
+      });
+      IntlMessageFormat2.memoizedDefaultLocale = null;
+      IntlMessageFormat2.resolveLocale = function(locales) {
+        if (typeof Intl.Locale === "undefined") {
+          return;
+        }
+        var supportedLocales = Intl.NumberFormat.supportedLocalesOf(locales);
+        if (supportedLocales.length > 0) {
+          return new Intl.Locale(supportedLocales[0]);
+        }
+        return new Intl.Locale(typeof locales === "string" ? locales : locales[0]);
+      };
+      IntlMessageFormat2.__parse = parse$1;
+      IntlMessageFormat2.formats = {
+        number: {
+          integer: {
+            maximumFractionDigits: 0
+          },
+          currency: {
+            style: "currency"
+          },
+          percent: {
+            style: "percent"
+          }
+        },
+        date: {
+          short: {
+            month: "numeric",
+            day: "numeric",
+            year: "2-digit"
+          },
+          medium: {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+          },
+          long: {
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+          },
+          full: {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+          }
+        },
+        time: {
+          short: {
+            hour: "numeric",
+            minute: "numeric"
+          },
+          medium: {
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric"
+          },
+          long: {
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+            timeZoneName: "short"
+          },
+          full: {
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+            timeZoneName: "short"
+          }
+        }
+      };
+      return IntlMessageFormat2;
+    }()
+  );
+  var IntlErrorCode;
+  (function(IntlErrorCode2) {
+    IntlErrorCode2["FORMAT_ERROR"] = "FORMAT_ERROR";
+    IntlErrorCode2["UNSUPPORTED_FORMATTER"] = "UNSUPPORTED_FORMATTER";
+    IntlErrorCode2["INVALID_CONFIG"] = "INVALID_CONFIG";
+    IntlErrorCode2["MISSING_DATA"] = "MISSING_DATA";
+    IntlErrorCode2["MISSING_TRANSLATION"] = "MISSING_TRANSLATION";
+  })(IntlErrorCode || (IntlErrorCode = {}));
+  var IntlError = (
+    /** @class */
+    function(_super) {
+      __extends(IntlError2, _super);
+      function IntlError2(code2, message, exception) {
+        var _this = this;
+        var err = exception ? exception instanceof Error ? exception : new Error(String(exception)) : void 0;
+        _this = _super.call(this, "[@formatjs/intl Error ".concat(code2, "] ").concat(message, "\n").concat(err ? "\n".concat(err.message, "\n").concat(err.stack) : "")) || this;
+        _this.code = code2;
+        if (typeof Error.captureStackTrace === "function") {
+          Error.captureStackTrace(_this, IntlError2);
+        }
+        return _this;
+      }
+      return IntlError2;
+    }(Error)
+  );
+  var UnsupportedFormatterError = (
+    /** @class */
+    function(_super) {
+      __extends(UnsupportedFormatterError2, _super);
+      function UnsupportedFormatterError2(message, exception) {
+        return _super.call(this, IntlErrorCode.UNSUPPORTED_FORMATTER, message, exception) || this;
+      }
+      return UnsupportedFormatterError2;
+    }(IntlError)
+  );
+  var InvalidConfigError = (
+    /** @class */
+    function(_super) {
+      __extends(InvalidConfigError2, _super);
+      function InvalidConfigError2(message, exception) {
+        return _super.call(this, IntlErrorCode.INVALID_CONFIG, message, exception) || this;
+      }
+      return InvalidConfigError2;
+    }(IntlError)
+  );
+  var MissingDataError = (
+    /** @class */
+    function(_super) {
+      __extends(MissingDataError2, _super);
+      function MissingDataError2(message, exception) {
+        return _super.call(this, IntlErrorCode.MISSING_DATA, message, exception) || this;
+      }
+      return MissingDataError2;
+    }(IntlError)
+  );
+  var IntlFormatError = (
+    /** @class */
+    function(_super) {
+      __extends(IntlFormatError2, _super);
+      function IntlFormatError2(message, locale, exception) {
+        var _this = _super.call(this, IntlErrorCode.FORMAT_ERROR, "".concat(message, "\nLocale: ").concat(locale, "\n"), exception) || this;
+        _this.locale = locale;
+        return _this;
+      }
+      return IntlFormatError2;
+    }(IntlError)
+  );
+  var MessageFormatError = (
+    /** @class */
+    function(_super) {
+      __extends(MessageFormatError2, _super);
+      function MessageFormatError2(message, locale, descriptor, exception) {
+        var _this = _super.call(this, "".concat(message, "\nMessageID: ").concat(descriptor === null || descriptor === void 0 ? void 0 : descriptor.id, "\nDefault Message: ").concat(descriptor === null || descriptor === void 0 ? void 0 : descriptor.defaultMessage, "\nDescription: ").concat(descriptor === null || descriptor === void 0 ? void 0 : descriptor.description, "\n"), locale, exception) || this;
+        _this.descriptor = descriptor;
+        _this.locale = locale;
+        return _this;
+      }
+      return MessageFormatError2;
+    }(IntlFormatError)
+  );
+  var MissingTranslationError = (
+    /** @class */
+    function(_super) {
+      __extends(MissingTranslationError2, _super);
+      function MissingTranslationError2(descriptor, locale) {
+        var _this = _super.call(this, IntlErrorCode.MISSING_TRANSLATION, 'Missing message: "'.concat(descriptor.id, '" for locale "').concat(locale, '", using ').concat(descriptor.defaultMessage ? "default message (".concat(typeof descriptor.defaultMessage === "string" ? descriptor.defaultMessage : descriptor.defaultMessage.map(function(e) {
+          var _a2;
+          return (_a2 = e.value) !== null && _a2 !== void 0 ? _a2 : JSON.stringify(e);
+        }).join(), ")") : "id", " as fallback.")) || this;
+        _this.descriptor = descriptor;
+        return _this;
+      }
+      return MissingTranslationError2;
+    }(IntlError)
+  );
+  function invariant(condition, message, Err) {
+    if (Err === void 0) {
+      Err = Error;
+    }
+    if (!condition) {
+      throw new Err(message);
+    }
+  }
+  function filterProps(props, allowlist, defaults2) {
+    if (defaults2 === void 0) {
+      defaults2 = {};
+    }
+    return allowlist.reduce(function(filtered, name) {
+      if (name in props) {
+        filtered[name] = props[name];
+      } else if (name in defaults2) {
+        filtered[name] = defaults2[name];
+      }
+      return filtered;
+    }, {});
+  }
+  var defaultErrorHandler = function(error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error(error);
+    }
+  };
+  var defaultWarnHandler = function(warning) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(warning);
+    }
+  };
+  var DEFAULT_INTL_CONFIG = {
+    formats: {},
+    messages: {},
+    timeZone: void 0,
+    defaultLocale: "en",
+    defaultFormats: {},
+    fallbackOnEmptyString: true,
+    onError: defaultErrorHandler,
+    onWarn: defaultWarnHandler
+  };
+  function createIntlCache() {
+    return {
+      dateTime: {},
+      number: {},
+      message: {},
+      relativeTime: {},
+      pluralRules: {},
+      list: {},
+      displayNames: {}
+    };
+  }
+  function createFastMemoizeCache(store) {
+    return {
+      create: function() {
+        return {
+          get: function(key) {
+            return store[key];
+          },
+          set: function(key, value2) {
+            store[key] = value2;
+          }
+        };
+      }
+    };
+  }
+  function createFormatters(cache) {
+    if (cache === void 0) {
+      cache = createIntlCache();
+    }
+    var RelativeTimeFormat = Intl.RelativeTimeFormat;
+    var ListFormat = Intl.ListFormat;
+    var DisplayNames = Intl.DisplayNames;
+    var getDateTimeFormat = memoize(function() {
+      var _a2;
+      var args = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+      }
+      return new ((_a2 = Intl.DateTimeFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
+    }, {
+      cache: createFastMemoizeCache(cache.dateTime),
+      strategy: strategies.variadic
+    });
+    var getNumberFormat = memoize(function() {
+      var _a2;
+      var args = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+      }
+      return new ((_a2 = Intl.NumberFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
+    }, {
+      cache: createFastMemoizeCache(cache.number),
+      strategy: strategies.variadic
+    });
+    var getPluralRules = memoize(function() {
+      var _a2;
+      var args = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+      }
+      return new ((_a2 = Intl.PluralRules).bind.apply(_a2, __spreadArray([void 0], args, false)))();
+    }, {
+      cache: createFastMemoizeCache(cache.pluralRules),
+      strategy: strategies.variadic
+    });
+    return {
+      getDateTimeFormat,
+      getNumberFormat,
+      getMessageFormat: memoize(function(message, locales, overrideFormats, opts) {
+        return new IntlMessageFormat(message, locales, overrideFormats, __assign({ formatters: {
+          getNumberFormat,
+          getDateTimeFormat,
+          getPluralRules
+        } }, opts || {}));
+      }, {
+        cache: createFastMemoizeCache(cache.message),
+        strategy: strategies.variadic
+      }),
+      getRelativeTimeFormat: memoize(function() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          args[_i] = arguments[_i];
+        }
+        return new (RelativeTimeFormat.bind.apply(RelativeTimeFormat, __spreadArray([void 0], args, false)))();
+      }, {
+        cache: createFastMemoizeCache(cache.relativeTime),
+        strategy: strategies.variadic
+      }),
+      getPluralRules,
+      getListFormat: memoize(function() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          args[_i] = arguments[_i];
+        }
+        return new (ListFormat.bind.apply(ListFormat, __spreadArray([void 0], args, false)))();
+      }, {
+        cache: createFastMemoizeCache(cache.list),
+        strategy: strategies.variadic
+      }),
+      getDisplayNames: memoize(function() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          args[_i] = arguments[_i];
+        }
+        return new (DisplayNames.bind.apply(DisplayNames, __spreadArray([void 0], args, false)))();
+      }, {
+        cache: createFastMemoizeCache(cache.displayNames),
+        strategy: strategies.variadic
+      })
+    };
+  }
+  function getNamedFormat(formats, type, name, onError) {
+    var formatType = formats && formats[type];
+    var format2;
+    if (formatType) {
+      format2 = formatType[name];
+    }
+    if (format2) {
+      return format2;
+    }
+    onError(new UnsupportedFormatterError("No ".concat(type, " format named: ").concat(name)));
+  }
+  function setTimeZoneInOptions(opts, timeZone) {
+    return Object.keys(opts).reduce(function(all, k) {
+      all[k] = __assign({ timeZone }, opts[k]);
+      return all;
+    }, {});
+  }
+  function deepMergeOptions(opts1, opts2) {
+    var keys = Object.keys(__assign(__assign({}, opts1), opts2));
+    return keys.reduce(function(all, k) {
+      all[k] = __assign(__assign({}, opts1[k] || {}), opts2[k] || {});
+      return all;
+    }, {});
+  }
+  function deepMergeFormatsAndSetTimeZone(f1, timeZone) {
+    if (!timeZone) {
+      return f1;
+    }
+    var mfFormats = IntlMessageFormat.formats;
+    return __assign(__assign(__assign({}, mfFormats), f1), { date: deepMergeOptions(setTimeZoneInOptions(mfFormats.date, timeZone), setTimeZoneInOptions(f1.date || {}, timeZone)), time: deepMergeOptions(setTimeZoneInOptions(mfFormats.time, timeZone), setTimeZoneInOptions(f1.time || {}, timeZone)) });
+  }
+  var formatMessage = function(_a2, state, messageDescriptor, values, opts) {
+    var locale = _a2.locale, formats = _a2.formats, messages = _a2.messages, defaultLocale2 = _a2.defaultLocale, defaultFormats = _a2.defaultFormats, fallbackOnEmptyString = _a2.fallbackOnEmptyString, onError = _a2.onError, timeZone = _a2.timeZone, defaultRichTextElements = _a2.defaultRichTextElements;
+    if (messageDescriptor === void 0) {
+      messageDescriptor = { id: "" };
+    }
+    var msgId = messageDescriptor.id, defaultMessage = messageDescriptor.defaultMessage;
+    invariant(!!msgId, "[@formatjs/intl] An `id` must be provided to format a message. You can either:\n1. Configure your build toolchain with [babel-plugin-formatjs](https://formatjs.github.io/docs/tooling/babel-plugin)\nor [@formatjs/ts-transformer](https://formatjs.github.io/docs/tooling/ts-transformer) OR\n2. Configure your `eslint` config to include [eslint-plugin-formatjs](https://formatjs.github.io/docs/tooling/linter#enforce-id)\nto autofix this issue");
+    var id = String(msgId);
+    var message = (
+      // In case messages is Object.create(null)
+      // e.g import('foo.json') from webpack)
+      // See https://github.com/formatjs/formatjs/issues/1914
+      messages && Object.prototype.hasOwnProperty.call(messages, id) && messages[id]
+    );
+    if (Array.isArray(message) && message.length === 1 && message[0].type === TYPE.literal) {
+      return message[0].value;
+    }
+    if (!values && message && typeof message === "string" && !defaultRichTextElements) {
+      return message.replace(/'\{(.*?)\}'/gi, "{$1}");
+    }
+    values = __assign(__assign({}, defaultRichTextElements), values || {});
+    formats = deepMergeFormatsAndSetTimeZone(formats, timeZone);
+    defaultFormats = deepMergeFormatsAndSetTimeZone(defaultFormats, timeZone);
+    if (!message) {
+      if (fallbackOnEmptyString === false && message === "") {
+        return message;
+      }
+      if (!defaultMessage || locale && locale.toLowerCase() !== defaultLocale2.toLowerCase()) {
+        onError(new MissingTranslationError(messageDescriptor, locale));
+      }
+      if (defaultMessage) {
+        try {
+          var formatter = state.getMessageFormat(defaultMessage, defaultLocale2, defaultFormats, opts);
+          return formatter.format(values);
+        } catch (e) {
+          onError(new MessageFormatError('Error formatting default message for: "'.concat(id, '", rendering default message verbatim'), locale, messageDescriptor, e));
+          return typeof defaultMessage === "string" ? defaultMessage : id;
+        }
+      }
+      return id;
+    }
+    try {
+      var formatter = state.getMessageFormat(message, locale, formats, __assign({ formatters: state }, opts || {}));
+      return formatter.format(values);
+    } catch (e) {
+      onError(new MessageFormatError('Error formatting message: "'.concat(id, '", using ').concat(defaultMessage ? "default message" : "id", " as fallback."), locale, messageDescriptor, e));
+    }
+    if (defaultMessage) {
+      try {
+        var formatter = state.getMessageFormat(defaultMessage, defaultLocale2, defaultFormats, opts);
+        return formatter.format(values);
+      } catch (e) {
+        onError(new MessageFormatError('Error formatting the default message for: "'.concat(id, '", rendering message verbatim'), locale, messageDescriptor, e));
+      }
+    }
+    if (typeof message === "string") {
+      return message;
+    }
+    if (typeof defaultMessage === "string") {
+      return defaultMessage;
+    }
+    return id;
+  };
+  var DATE_TIME_FORMAT_OPTIONS = [
+    "formatMatcher",
+    "timeZone",
+    "hour12",
+    "weekday",
+    "era",
+    "year",
+    "month",
+    "day",
+    "hour",
+    "minute",
+    "second",
+    "timeZoneName",
+    "hourCycle",
+    "dateStyle",
+    "timeStyle",
+    "calendar",
+    // 'dayPeriod',
+    "numberingSystem",
+    "fractionalSecondDigits"
+  ];
+  function getFormatter$2(_a2, type, getDateTimeFormat, options) {
+    var locale = _a2.locale, formats = _a2.formats, onError = _a2.onError, timeZone = _a2.timeZone;
+    if (options === void 0) {
+      options = {};
+    }
+    var format2 = options.format;
+    var defaults2 = __assign(__assign({}, timeZone && { timeZone }), format2 && getNamedFormat(formats, type, format2, onError));
+    var filteredOptions = filterProps(options, DATE_TIME_FORMAT_OPTIONS, defaults2);
+    if (type === "time" && !filteredOptions.hour && !filteredOptions.minute && !filteredOptions.second && !filteredOptions.timeStyle && !filteredOptions.dateStyle) {
+      filteredOptions = __assign(__assign({}, filteredOptions), { hour: "numeric", minute: "numeric" });
+    }
+    return getDateTimeFormat(locale, filteredOptions);
+  }
+  function formatDate(config2, getDateTimeFormat) {
+    var _a2 = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+      _a2[_i - 2] = arguments[_i];
+    }
+    var value2 = _a2[0], _b = _a2[1], options = _b === void 0 ? {} : _b;
+    var date2 = typeof value2 === "string" ? new Date(value2 || 0) : value2;
+    try {
+      return getFormatter$2(config2, "date", getDateTimeFormat, options).format(date2);
+    } catch (e) {
+      config2.onError(new IntlFormatError("Error formatting date.", config2.locale, e));
+    }
+    return String(date2);
+  }
+  function formatTime(config2, getDateTimeFormat) {
+    var _a2 = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+      _a2[_i - 2] = arguments[_i];
+    }
+    var value2 = _a2[0], _b = _a2[1], options = _b === void 0 ? {} : _b;
+    var date2 = typeof value2 === "string" ? new Date(value2 || 0) : value2;
+    try {
+      return getFormatter$2(config2, "time", getDateTimeFormat, options).format(date2);
+    } catch (e) {
+      config2.onError(new IntlFormatError("Error formatting time.", config2.locale, e));
+    }
+    return String(date2);
+  }
+  function formatDateTimeRange(config2, getDateTimeFormat) {
+    var _a2 = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+      _a2[_i - 2] = arguments[_i];
+    }
+    var from = _a2[0], to = _a2[1], _b = _a2[2], options = _b === void 0 ? {} : _b;
+    var timeZone = config2.timeZone, locale = config2.locale, onError = config2.onError;
+    var filteredOptions = filterProps(options, DATE_TIME_FORMAT_OPTIONS, timeZone ? { timeZone } : {});
+    try {
+      return getDateTimeFormat(locale, filteredOptions).formatRange(from, to);
+    } catch (e) {
+      onError(new IntlFormatError("Error formatting date time range.", config2.locale, e));
+    }
+    return String(from);
+  }
+  function formatDateToParts(config2, getDateTimeFormat) {
+    var _a2 = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+      _a2[_i - 2] = arguments[_i];
+    }
+    var value2 = _a2[0], _b = _a2[1], options = _b === void 0 ? {} : _b;
+    var date2 = typeof value2 === "string" ? new Date(value2 || 0) : value2;
+    try {
+      return getFormatter$2(config2, "date", getDateTimeFormat, options).formatToParts(date2);
+    } catch (e) {
+      config2.onError(new IntlFormatError("Error formatting date.", config2.locale, e));
+    }
+    return [];
+  }
+  function formatTimeToParts(config2, getDateTimeFormat) {
+    var _a2 = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+      _a2[_i - 2] = arguments[_i];
+    }
+    var value2 = _a2[0], _b = _a2[1], options = _b === void 0 ? {} : _b;
+    var date2 = typeof value2 === "string" ? new Date(value2 || 0) : value2;
+    try {
+      return getFormatter$2(config2, "time", getDateTimeFormat, options).formatToParts(date2);
+    } catch (e) {
+      config2.onError(new IntlFormatError("Error formatting time.", config2.locale, e));
+    }
+    return [];
+  }
+  var DISPLAY_NAMES_OPTONS = [
+    "style",
+    "type",
+    "fallback",
+    "languageDisplay"
+  ];
+  function formatDisplayName(_a2, getDisplayNames, value2, options) {
+    var locale = _a2.locale, onError = _a2.onError;
+    var DisplayNames = Intl.DisplayNames;
+    if (!DisplayNames) {
+      onError(new FormatError('Intl.DisplayNames is not available in this environment.\nTry polyfilling it using "@formatjs/intl-displaynames"\n', ErrorCode.MISSING_INTL_API));
+    }
+    var filteredOptions = filterProps(options, DISPLAY_NAMES_OPTONS);
+    try {
+      return getDisplayNames(locale, filteredOptions).of(value2);
+    } catch (e) {
+      onError(new IntlFormatError("Error formatting display name.", locale, e));
+    }
+  }
+  var LIST_FORMAT_OPTIONS = [
+    "type",
+    "style"
+  ];
+  var now = Date.now();
+  function generateToken(i) {
+    return "".concat(now, "_").concat(i, "_").concat(now);
+  }
+  function formatList(opts, getListFormat, values, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    var results = formatListToParts(opts, getListFormat, values, options).reduce(function(all, el) {
+      var val = el.value;
+      if (typeof val !== "string") {
+        all.push(val);
+      } else if (typeof all[all.length - 1] === "string") {
+        all[all.length - 1] += val;
+      } else {
+        all.push(val);
+      }
+      return all;
+    }, []);
+    return results.length === 1 ? results[0] : results.length === 0 ? "" : results;
+  }
+  function formatListToParts(_a2, getListFormat, values, options) {
+    var locale = _a2.locale, onError = _a2.onError;
+    if (options === void 0) {
+      options = {};
+    }
+    var ListFormat = Intl.ListFormat;
+    if (!ListFormat) {
+      onError(new FormatError('Intl.ListFormat is not available in this environment.\nTry polyfilling it using "@formatjs/intl-listformat"\n', ErrorCode.MISSING_INTL_API));
+    }
+    var filteredOptions = filterProps(options, LIST_FORMAT_OPTIONS);
+    try {
+      var richValues_1 = {};
+      var serializedValues = values.map(function(v, i) {
+        if (typeof v === "object") {
+          var id = generateToken(i);
+          richValues_1[id] = v;
+          return id;
+        }
+        return String(v);
+      });
+      return getListFormat(locale, filteredOptions).formatToParts(serializedValues).map(function(part) {
+        return part.type === "literal" ? part : __assign(__assign({}, part), { value: richValues_1[part.value] || part.value });
+      });
+    } catch (e) {
+      onError(new IntlFormatError("Error formatting list.", locale, e));
+    }
+    return values;
+  }
+  var PLURAL_FORMAT_OPTIONS = ["type"];
+  function formatPlural(_a2, getPluralRules, value2, options) {
+    var locale = _a2.locale, onError = _a2.onError;
+    if (options === void 0) {
+      options = {};
+    }
+    if (!Intl.PluralRules) {
+      onError(new FormatError('Intl.PluralRules is not available in this environment.\nTry polyfilling it using "@formatjs/intl-pluralrules"\n', ErrorCode.MISSING_INTL_API));
+    }
+    var filteredOptions = filterProps(options, PLURAL_FORMAT_OPTIONS);
+    try {
+      return getPluralRules(locale, filteredOptions).select(value2);
+    } catch (e) {
+      onError(new IntlFormatError("Error formatting plural.", locale, e));
+    }
+    return "other";
+  }
+  var RELATIVE_TIME_FORMAT_OPTIONS = ["numeric", "style"];
+  function getFormatter$1(_a2, getRelativeTimeFormat, options) {
+    var locale = _a2.locale, formats = _a2.formats, onError = _a2.onError;
+    if (options === void 0) {
+      options = {};
+    }
+    var format2 = options.format;
+    var defaults2 = !!format2 && getNamedFormat(formats, "relative", format2, onError) || {};
+    var filteredOptions = filterProps(options, RELATIVE_TIME_FORMAT_OPTIONS, defaults2);
+    return getRelativeTimeFormat(locale, filteredOptions);
+  }
+  function formatRelativeTime(config2, getRelativeTimeFormat, value2, unit, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    if (!unit) {
+      unit = "second";
+    }
+    var RelativeTimeFormat = Intl.RelativeTimeFormat;
+    if (!RelativeTimeFormat) {
+      config2.onError(new FormatError('Intl.RelativeTimeFormat is not available in this environment.\nTry polyfilling it using "@formatjs/intl-relativetimeformat"\n', ErrorCode.MISSING_INTL_API));
+    }
+    try {
+      return getFormatter$1(config2, getRelativeTimeFormat, options).format(value2, unit);
+    } catch (e) {
+      config2.onError(new IntlFormatError("Error formatting relative time.", config2.locale, e));
+    }
+    return String(value2);
+  }
+  var NUMBER_FORMAT_OPTIONS = [
+    "style",
+    "currency",
+    "unit",
+    "unitDisplay",
+    "useGrouping",
+    "minimumIntegerDigits",
+    "minimumFractionDigits",
+    "maximumFractionDigits",
+    "minimumSignificantDigits",
+    "maximumSignificantDigits",
+    // ES2020 NumberFormat
+    "compactDisplay",
+    "currencyDisplay",
+    "currencySign",
+    "notation",
+    "signDisplay",
+    "unit",
+    "unitDisplay",
+    "numberingSystem",
+    // ES2023 NumberFormat
+    // @ts-expect-error: TypeScript doesn't know about this yet
+    "trailingZeroDisplay",
+    // @ts-expect-error: TypeScript doesn't know about this yet
+    "roundingPriority",
+    // @ts-expect-error: TypeScript doesn't know about this yet
+    "roundingIncrement",
+    // @ts-expect-error: TypeScript doesn't know about this yet
+    "roundingMode"
+  ];
+  function getFormatter(_a2, getNumberFormat, options) {
+    var locale = _a2.locale, formats = _a2.formats, onError = _a2.onError;
+    if (options === void 0) {
+      options = {};
+    }
+    var format2 = options.format;
+    var defaults2 = format2 && getNamedFormat(formats, "number", format2, onError) || {};
+    var filteredOptions = filterProps(options, NUMBER_FORMAT_OPTIONS, defaults2);
+    return getNumberFormat(locale, filteredOptions);
+  }
+  function formatNumber(config2, getNumberFormat, value2, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    try {
+      return getFormatter(config2, getNumberFormat, options).format(value2);
+    } catch (e) {
+      config2.onError(new IntlFormatError("Error formatting number.", config2.locale, e));
+    }
+    return String(value2);
+  }
+  function formatNumberToParts(config2, getNumberFormat, value2, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    try {
+      return getFormatter(config2, getNumberFormat, options).formatToParts(value2);
+    } catch (e) {
+      config2.onError(new IntlFormatError("Error formatting number.", config2.locale, e));
+    }
+    return [];
+  }
+  function messagesContainString(messages) {
+    var firstMessage = messages ? messages[Object.keys(messages)[0]] : void 0;
+    return typeof firstMessage === "string";
+  }
+  function verifyConfigMessages(config2) {
+    if (config2.onWarn && config2.defaultRichTextElements && messagesContainString(config2.messages || {})) {
+      config2.onWarn('[@formatjs/intl] "defaultRichTextElements" was specified but "message" was not pre-compiled. \nPlease consider using "@formatjs/cli" to pre-compile your messages for performance.\nFor more details see https://formatjs.github.io/docs/getting-started/message-distribution');
+    }
+  }
+  function createIntl$1(config2, cache) {
+    var formatters = createFormatters(cache);
+    var resolvedConfig = __assign(__assign({}, DEFAULT_INTL_CONFIG), config2);
+    var locale = resolvedConfig.locale, defaultLocale2 = resolvedConfig.defaultLocale, onError = resolvedConfig.onError;
+    if (!locale) {
+      if (onError) {
+        onError(new InvalidConfigError('"locale" was not configured, using "'.concat(defaultLocale2, '" as fallback. See https://formatjs.github.io/docs/react-intl/api#intlshape for more details')));
+      }
+      resolvedConfig.locale = resolvedConfig.defaultLocale || "en";
+    } else if (!Intl.NumberFormat.supportedLocalesOf(locale).length && onError) {
+      onError(new MissingDataError('Missing locale data for locale: "'.concat(locale, '" in Intl.NumberFormat. Using default locale: "').concat(defaultLocale2, '" as fallback. See https://formatjs.github.io/docs/react-intl#runtime-requirements for more details')));
+    } else if (!Intl.DateTimeFormat.supportedLocalesOf(locale).length && onError) {
+      onError(new MissingDataError('Missing locale data for locale: "'.concat(locale, '" in Intl.DateTimeFormat. Using default locale: "').concat(defaultLocale2, '" as fallback. See https://formatjs.github.io/docs/react-intl#runtime-requirements for more details')));
+    }
+    verifyConfigMessages(resolvedConfig);
+    return __assign(__assign({}, resolvedConfig), { formatters, formatNumber: formatNumber.bind(null, resolvedConfig, formatters.getNumberFormat), formatNumberToParts: formatNumberToParts.bind(null, resolvedConfig, formatters.getNumberFormat), formatRelativeTime: formatRelativeTime.bind(null, resolvedConfig, formatters.getRelativeTimeFormat), formatDate: formatDate.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatDateToParts: formatDateToParts.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatTime: formatTime.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatDateTimeRange: formatDateTimeRange.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatTimeToParts: formatTimeToParts.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatPlural: formatPlural.bind(null, resolvedConfig, formatters.getPluralRules), formatMessage: formatMessage.bind(null, resolvedConfig, formatters), $t: formatMessage.bind(null, resolvedConfig, formatters), formatList: formatList.bind(null, resolvedConfig, formatters.getListFormat), formatListToParts: formatListToParts.bind(null, resolvedConfig, formatters.getListFormat), formatDisplayName: formatDisplayName.bind(null, resolvedConfig, formatters.getDisplayNames) });
+  }
+  const intlCache = {};
+  function createIntl(options) {
+    const { locale, ignoreMissingTranslations, ignoreIntlCache } = options;
+    let intl = ignoreIntlCache ? void 0 : intlCache[locale];
+    const onError = (error) => {
+      const environment = typeof process !== "undefined" ? process.env.NODE_ENV : "production";
+      if (environment !== "test" && environment !== "development") {
+        return;
+      }
+      if (ignoreMissingTranslations && typeof error.message === "string" && error.message.includes("[@formatjs/intl Error MISSING_TRANSLATION]")) {
+        return;
+      }
+      throw error;
+    };
+    if (!intl) {
+      const cache = createIntlCache();
+      intl = createIntl$1(
+        {
+          locale,
+          /**
+           * Currently only Dutch is supported
+           * We need to figure out how we want to deal with possibly async loading of other languages
+           * Especially in the context of the mobile applications
+           */
+          messages: messagesNL,
+          onError
+        },
+        cache
+      );
+      intlCache[locale] = intl;
+    }
+    return intl;
+  }
+  function createI18nContext(options) {
+    const intl = createIntl(options);
+    const formatMessage2 = (id, values) => intl.formatMessage({ id }, values);
+    const hasMessage = (id) => isNonNullish(intl.messages[id]);
+    return {
+      intl,
+      formatMessage: formatMessage2,
+      hasMessage
+    };
+  }
+  function numberToString(value2) {
+    if (isNullish(value2)) return;
+    return value2.toString();
+  }
+  function getChildren(value2) {
+    if (isNullish(value2)) return [];
+    if (Array.isArray(value2)) {
+      return value2.map((x) => x.children).flat();
+    }
+    return value2.children;
+  }
+  function isEmptyUiEntry(uiField) {
+    switch (uiField.type) {
+      case "REFERENCE_VALUE":
+      case "REFERENCE_LINK":
+      case "DOWNLOAD_BINARY":
+        return isNullish(uiField.reference);
+      case "SINGLE_VALUE":
+        return isNullish(uiField.display);
+      case "MULTIPLE_VALUES":
+      case "MULTIPLE_GROUPED_VALUES":
+        return isNullish(uiField.display) || !uiField.display.flat().length;
+      case "DOWNLOAD_LINK":
+        return isNullish(uiField.url);
+      default:
+        throw new Error(`Unknown UI entry type: ${uiField.type}`);
+    }
+  }
+  function isUiSchemaGroup(schema) {
+    return schema.children?.some((x) => typeof x.type === "string");
+  }
+  function processGroup(group, { formatMessage: formatMessage2 }) {
+    return {
+      ...group,
+      children: group.children.map((entry) => {
+        return isEmptyUiEntry(entry) && !["DOWNLOAD_LINK", "DOWNLOAD_BINARY"].includes(entry.type) ? {
+          type: "SINGLE_VALUE",
+          label: entry.label,
+          display: formatMessage2("schema.empty_entry_display")
+        } : entry;
+      })
+    };
+  }
+  function setEmptyEntries(context) {
+    return (schema) => {
+      if (Array.isArray(schema)) {
+        return schema.map((x) => processGroup(x, context));
+      }
+      if (isUiSchemaGroup(schema)) {
+        return processGroup(schema, context);
+      }
+      return {
+        ...schema,
+        children: schema.children.map((x) => processGroup(x, context))
+      };
+    };
+  }
+  const attachment$1 = ({ formatMessage: formatMessage2 }) => (value2) => {
+    const label = value2?.title ?? formatMessage2("fhir.unknown");
+    if (isBinaryReference(value2?.url)) {
+      return {
+        type: "DOWNLOAD_BINARY",
+        label,
+        reference: value2?.url
+      };
+    }
+    return {
+      type: "DOWNLOAD_LINK",
+      label,
+      url: value2?.url
+    };
+  };
+  function isBinaryReference(value2) {
+    return value2?.startsWith("Binary/");
+  }
+  const annotationDisplay = (value2) => {
+    return value2?.text;
+  };
+  const annotation$1 = ({ intl }) => (label, value2) => {
+    if (Array.isArray(value2)) {
+      return {
+        label: intl.formatMessage({ id: label }),
+        type: "MULTIPLE_VALUES",
+        display: value2.map(annotationDisplay).filter(isNonNullish)
+      };
+    }
+    return {
+      label: intl.formatMessage({ id: label }),
+      display: annotationDisplay(value2),
+      type: "SINGLE_VALUE"
+    };
+  };
+  const boolean$1 = ({ formatMessage: formatMessage2 }) => (label, value2) => {
+    const truthyString = value2 ? formatMessage2("fhir.boolean.true") : formatMessage2("fhir.boolean.false");
+    return {
+      label: formatMessage2(label),
+      type: "SINGLE_VALUE",
+      display: isNonNullish(value2) ? truthyString : void 0
+    };
+  };
+  function code$1(context) {
+    const { hasMessage, formatMessage: formatMessage2 } = context;
+    return function(label, value2, options) {
+      const { i18nCode } = options ?? {};
+      function translateCode(code2) {
+        const i18nKey = `codes.${i18nCode}.${code2}`;
+        if (isNullish(code2)) {
+          return;
+        }
+        if (i18nCode && hasMessage(i18nKey)) {
+          return formatMessage2(i18nKey);
+        }
+        return code2;
+      }
+      if (Array.isArray(value2)) {
+        return {
+          label: formatMessage2(label),
+          type: "MULTIPLE_VALUES",
+          display: value2.map(translateCode).filter(isNonNullish)
+        };
+      }
+      return {
+        label: formatMessage2(label),
+        type: "SINGLE_VALUE",
+        display: translateCode(value2)
+      };
+    };
+  }
+  const systemCode = ({ formatMessage: formatMessage2, hasMessage }) => (value2) => {
+    const { display, code: code2, system: system2 } = value2 ?? {};
+    const systemCodeI18n = `system.code.${system2}|${code2}`;
+    const systemCodeString = hasMessage(systemCodeI18n) ? formatMessage2(systemCodeI18n) : display;
+    return systemCodeString ?? code2;
+  };
+  const system = (context) => (value2) => {
+    const { isSummary, formatMessage: formatMessage2 } = context;
+    const { display, code: code2, system: system2 } = value2 ?? {};
+    const systemCodeTranslation = systemCode(context)(value2);
+    if (isSummary) {
+      return systemCodeTranslation;
+    }
+    let codeInSystemString;
+    if (code2 && system2) {
+      codeInSystemString = formatMessage2("format.code_in_system", {
+        code: code2,
+        system: system2
+      });
+    } else {
+      codeInSystemString = system2 ?? code2;
+    }
+    const systemString = `${display ?? ""} ${codeInSystemString ? "(" + codeInSystemString + ")" : ""}`.trim();
+    return systemString === "" ? void 0 : systemString;
+  };
+  const codeableDisplay = (context) => (value2) => {
+    if (value2?.text?.length) {
+      return [value2.text];
+    }
+    const formatSystem = system(context);
+    return value2?.coding.map(formatSystem).filter(isNonNullish) ?? [];
+  };
+  const codeableConcept$1 = (context) => (label, value2) => {
+    const { formatMessage: formatMessage2 } = context;
+    const display = codeableDisplay(context);
+    if (Array.isArray(value2)) {
+      return {
+        label: formatMessage2(label),
+        type: "MULTIPLE_GROUPED_VALUES",
+        display: value2.map(display)
+      };
+    }
+    return {
+      label: formatMessage2(label),
+      type: "MULTIPLE_VALUES",
+      display: display(value2)
+    };
+  };
+  const coding$1 = (context) => (label, value2) => {
+    const { formatMessage: formatMessage2 } = context;
+    const display = system(context);
+    if (Array.isArray(value2)) {
+      return {
+        label: formatMessage2(label),
+        type: "MULTIPLE_VALUES",
+        display: value2.map(display).filter(isNonNullish)
+      };
+    }
+    return {
+      label: formatMessage2(label),
+      type: "SINGLE_VALUE",
+      display: display(value2)
+    };
+  };
+  const milliseconds = /T\d\d:\d\d:\d\d\.\d+/i;
+  const seconds = /T\d\d:\d\d:\d\d/i;
+  const minutes = /T\d\d:\d\d/i;
+  const hours = /T\d\d/i;
+  const dateRegexp = /^\d\d\d\d-\d\d-\d\d/;
+  const month = /^\d\d\d\d-\d\d/;
+  const year = /^\d\d\d\d/;
+  const timezone = /(([+-][\d:]+)|Z)$/i;
+  function getDateFormatOptions(dateString, isSummary = false) {
+    const hasMilliseconds = milliseconds.test(dateString);
+    const hasSeconds = hasMilliseconds || seconds.test(dateString);
+    const hasMinutes = hasSeconds || minutes.test(dateString);
+    const hasHours = hasMinutes || hours.test(dateString);
+    const hasDate = dateRegexp.test(dateString);
+    const hasMonth = hasDate || month.test(dateString);
+    const hasYear = hasMonth || year.test(dateString);
+    const hasTimezone = hasHours && timezone.test(dateString);
+    return {
+      year: hasYear ? "numeric" : void 0,
+      month: hasMonth ? "long" : void 0,
+      day: hasDate ? "numeric" : void 0,
+      hour: hasHours ? "numeric" : void 0,
+      minute: hasMinutes ? "numeric" : void 0,
+      ...!isSummary && {
+        second: hasSeconds ? "numeric" : void 0,
+        fractionalSecondDigits: hasMilliseconds ? 3 : void 0,
+        timeZoneName: hasTimezone ? "shortOffset" : void 0
+      }
+    };
+  }
+  const date$2 = ({ intl: { locale }, isSummary }) => (value2) => {
+    if (isNullish(value2)) return;
+    const date2 = new Date(value2);
+    const dateTimeFormat = new Intl.DateTimeFormat(
+      locale,
+      getDateFormatOptions(value2, isSummary)
+    );
+    try {
+      return dateTimeFormat.format(date2);
+    } catch (_error) {
+      return `${value2}`;
+    }
+  };
+  const date$3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+    __proto__: null,
+    date: date$2
+  }, Symbol.toStringTag, { value: "Module" }));
+  const date$1 = (i18nContext) => (label, value2) => {
+    return {
+      label: i18nContext.formatMessage(label),
+      type: "SINGLE_VALUE",
+      display: date$2(i18nContext)(value2)
+    };
+  };
+  const dateTime$1 = (context) => (label, value2) => {
+    if (Array.isArray(value2)) {
+      return {
+        label: context.formatMessage(label),
+        type: "MULTIPLE_VALUES",
+        display: value2.map(date$2(context)).filter(isNonNullish)
+      };
+    }
+    return {
+      label: context.formatMessage(label),
+      type: "SINGLE_VALUE",
+      display: date$2(context)(value2)
+    };
+  };
+  const decimal$1 = ({ intl }) => (label, value2) => {
+    return {
+      label: intl.formatMessage({ id: label }),
+      type: "SINGLE_VALUE",
+      display: numberToString(value2)
+    };
+  };
+  const systemValue = ({ formatMessage: formatMessage2, hasMessage }) => (value2) => {
+    if (isNullish(value2)) return;
+    const { system: system2, code: code2, value: quantityValue, unit } = value2;
+    const countI18nKey = `system.value.${system2}|${code2}`;
+    if (hasMessage(countI18nKey)) {
+      return formatMessage2(countI18nKey, { value: quantityValue });
+    }
+    if (unit) {
+      return `${numberToString(quantityValue)} ${unit}`;
+    }
+    return numberToString(quantityValue);
+  };
+  const quantity$1 = (context) => (label, value2) => {
+    const { formatMessage: formatMessage2 } = context;
+    return {
+      label: formatMessage2(label),
+      type: `SINGLE_VALUE`,
+      display: systemValue(context)(value2)
+    };
+  };
+  const duration$1 = quantity$1;
+  const identifier$1 = ({ intl }) => (label, value2) => {
+    if (Array.isArray(value2)) {
+      return {
+        label: intl.formatMessage({ id: label }),
+        type: "MULTIPLE_VALUES",
+        display: value2?.map((x) => x?.value).filter(isNonNullish)
+      };
+    }
+    return {
+      label: intl.formatMessage({ id: label }),
+      type: "SINGLE_VALUE",
+      display: value2?.value
+    };
+  };
+  const instant$1 = (i18nContext) => (label, value2) => {
+    return dateTime$1(i18nContext)(label, value2);
+  };
+  const integer$1 = ({ intl }) => (label, value2) => {
+    return {
+      label: intl.formatMessage({ id: label }),
+      type: "SINGLE_VALUE",
+      display: numberToString(value2)
+    };
+  };
+  const integer64$1 = ({ intl }) => (label, value2) => {
+    return {
+      label: intl.formatMessage({ id: label }),
+      type: "SINGLE_VALUE",
+      display: numberToString(value2)
+    };
+  };
+  const period$1 = (i18nContext) => (label, value2) => {
+    const { formatMessage: formatMessage2, hasMessage } = i18nContext;
+    const startLabel = `${label}.start`;
+    const endLabel = `${label}.end`;
+    const formatDate2 = date$2(i18nContext);
+    return [
+      {
+        label: formatMessage2(hasMessage(startLabel) ? startLabel : `fhir.period.start`),
+        type: `SINGLE_VALUE`,
+        display: formatDate2(value2?.start)
+      },
+      {
+        label: formatMessage2(hasMessage(endLabel) ? endLabel : `fhir.period.end`),
+        type: `SINGLE_VALUE`,
+        display: formatDate2(value2?.end)
+      }
+    ];
+  };
+  const positiveInt$1 = ({ intl }) => (label, value2) => {
+    return {
+      label: intl.formatMessage({ id: label }),
+      type: "SINGLE_VALUE",
+      display: numberToString(value2)
+    };
+  };
+  const range$1 = (context) => (label, value2) => {
+    const { hasMessage, formatMessage: formatMessage2 } = context;
+    const lowLabel = `${label}.low`;
+    const highLabel = `${label}.high`;
+    const formatSystemValue = systemValue(context);
+    return [
+      {
+        label: formatMessage2(hasMessage(lowLabel) ? lowLabel : `fhir.range.low`),
+        type: `SINGLE_VALUE`,
+        display: formatSystemValue(value2?.low)
+      },
+      {
+        label: formatMessage2(hasMessage(highLabel) ? highLabel : `fhir.range.high`),
+        type: `SINGLE_VALUE`,
+        display: formatSystemValue(value2?.high)
+      }
+    ];
+  };
+  const ratio$1 = (context) => (label, value2) => {
+    const { hasMessage, formatMessage: formatMessage2 } = context;
+    const numeratorLabel = `${label}.numerator`;
+    const denominatorLabel = `${label}.denominator`;
+    const formatSystemValue = systemValue(context);
+    return [
+      {
+        label: formatMessage2(
+          hasMessage(numeratorLabel) ? numeratorLabel : `fhir.ratio.numerator`
+        ),
+        type: `SINGLE_VALUE`,
+        display: formatSystemValue(value2?.numerator)
+      },
+      {
+        label: formatMessage2(
+          hasMessage(denominatorLabel) ? denominatorLabel : `fhir.ratio.denominator`
+        ),
+        type: `SINGLE_VALUE`,
+        display: formatSystemValue(value2?.denominator)
+      }
+    ];
+  };
+  const reference$1 = ({ intl }) => (label, value2) => {
+    if (Array.isArray(value2)) {
+      return {
+        label: intl.formatMessage({ id: label }),
+        type: "MULTIPLE_VALUES",
+        display: value2.map((x) => x.display).filter(isNonNullish)
+      };
+    }
+    return {
+      label: intl.formatMessage({ id: label }),
+      type: "REFERENCE_VALUE",
+      display: value2?.display,
+      reference: value2?.reference
+    };
+  };
+  const string$1 = ({ intl }) => (label, value2) => {
+    if (Array.isArray(value2)) {
+      return {
+        label: intl.formatMessage({ id: label }),
+        type: "MULTIPLE_VALUES",
+        display: value2.filter(isNonNullish)
+      };
+    }
+    return {
+      label: intl.formatMessage({ id: label }),
+      type: "SINGLE_VALUE",
+      display: value2
+    };
+  };
+  const unsignedInt$1 = ({ intl }) => (label, value2) => {
+    return {
+      label: intl.formatMessage({ id: label }),
+      type: "SINGLE_VALUE",
+      display: numberToString(value2)
+    };
+  };
+  function getTypes(context) {
+    return {
+      annotation: annotation$1(context),
+      boolean: boolean$1(context),
+      code: code$1(context),
+      codeableConcept: codeableConcept$1(context),
+      coding: coding$1(context),
+      date: date$1(context),
+      dateTime: dateTime$1(context),
+      instant: instant$1(context),
+      duration: duration$1(context),
+      identifier: identifier$1(context),
+      period: period$1(context),
+      quantity: quantity$1(context),
+      range: range$1(context),
+      ratio: ratio$1(context),
+      reference: reference$1(context),
+      string: string$1(context),
+      decimal: decimal$1(context),
+      integer: integer$1(context),
+      integer64: integer64$1(context),
+      unsignedInt: unsignedInt$1(context),
+      positiveInt: positiveInt$1(context)
+    };
+  }
+  const oneOfValueX$1 = (context) => (label, value2, prefix = "value") => {
+    if (isNullish(value2)) {
+      return [];
+    }
+    const typeUiFunctions = getTypes(context);
+    let type;
+    for (type in typeUiFunctions) {
+      const key = `${prefix}${capitalizeFirstLetter(type)}`;
+      if (key in value2 && isNonNullish(value2[key])) {
+        const uiValue = typeUiFunctions[type](label, value2[key]);
+        return Array.isArray(uiValue) ? uiValue : [uiValue];
+      }
+    }
+    return [];
+  };
+  function valueWithUnit$1(value2, unit) {
+    if (isNullish(value2)) return;
+    const valueString = numberToString(value2);
+    if (isNullish(unit)) return valueString;
+    return `${valueString} ${unit}`;
+  }
+  function valueWithMaxValue(value2, maxValue) {
+    if (isNullish(value2)) return;
+    const valueString = numberToString(value2);
+    if (isNullish(maxValue)) return valueString;
+    return `${valueString} / ${numberToString(maxValue)}`;
+  }
+  const value = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+    __proto__: null,
+    valueWithMaxValue,
+    valueWithUnit: valueWithUnit$1
+  }, Symbol.toStringTag, { value: "Module" }));
+  const format = {
+    ...value,
+    ...date$3
+  };
+  const valueWithMax = ({ intl }) => (label, value2, max2) => {
+    return {
+      label: intl.formatMessage({ id: label }),
+      display: format.valueWithMaxValue(value2, max2),
+      type: "SINGLE_VALUE"
+    };
+  };
+  const valueWithUnit = ({ intl }) => (label, value2, unit) => {
+    return {
+      label: intl.formatMessage({ id: label }),
+      display: format.valueWithUnit(value2, unit),
+      type: "SINGLE_VALUE"
+    };
+  };
+  function getSpecial(context) {
+    return {
+      valueWithMax: valueWithMax(context),
+      valueWithUnit: valueWithUnit(context),
+      oneOfValueX: oneOfValueX$1(context),
+      attachment: attachment$1(context)
+    };
+  }
+  function getUi(context) {
+    return {
+      ...getTypes(context),
+      ...getSpecial(context),
+      helpers: {
+        getChildren
+      }
+    };
+  }
+  function createSchemaContext(options) {
+    const { locale, ignoreMissingTranslations, ignoreIntlCache, resources, isSummary } = options;
+    const uiHelperContext = {
+      ...createI18nContext({
+        locale,
+        ignoreMissingTranslations,
+        ignoreIntlCache
+      }),
+      isSummary
+    };
+    return {
+      ...uiHelperContext,
+      ui: getUi(uiHelperContext),
+      resources: resources ?? []
+    };
+  }
+  function isMgoResource(value2) {
+    const resourceTyped = value2;
+    return !!resourceTyped?.resourceType && !!resourceTyped?.profile;
+  }
+  var FhirVersion = /* @__PURE__ */ ((FhirVersion2) => {
+    FhirVersion2["R3"] = "R3";
+    FhirVersion2["R4"] = "R4";
+    return FhirVersion2;
+  })(FhirVersion || {});
   var lodash = { exports: {} };
   /**
    * @license
@@ -47426,25 +63068,25 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const { value: valueQuantity, comparator, unit, system: system2, code: code2 } = value2;
     return { value: valueQuantity, comparator, unit, system: system2, code: code2 };
   }
-  const quantity$1 = createTypeParser(quantityLike);
-  const dateTime$1 = createTypeParser((value2) => value2);
-  const reference$1 = createTypeParser((value2) => {
+  const quantity = createTypeParser(quantityLike);
+  const dateTime = createTypeParser((value2) => value2);
+  const reference = createTypeParser((value2) => {
     const { reference: reference2, display } = value2;
     return {
       reference: reference2,
       display
     };
   });
-  const annotation$1 = createTypeParser((value2) => {
+  const annotation = createTypeParser((value2) => {
     const { time, text, authorReference } = value2;
     return {
-      time: dateTime$1(time),
+      time: dateTime(time),
       text,
-      author: reference$1(authorReference)
+      author: reference(authorReference)
     };
   });
-  const boolean$1 = createTypeParser((value2) => value2);
-  function code$1(value2) {
+  const boolean = createTypeParser((value2) => value2);
+  function code(value2) {
     if (isNullish(value2)) return;
     return value2;
   }
@@ -47487,7 +63129,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function findComponentByCode(components, code2) {
     return components?.find((component) => component.code.coding?.find((x) => x.code === code2));
   }
-  function oneOfValueX$1(value2, valueArray, valuePrefix = "value") {
+  function oneOfValueX(value2, valueArray, valuePrefix = "value") {
     if (isNullish(value2)) return {};
     for (const valueKey of valueArray) {
       const parsedValue = valueX(
@@ -47538,7 +63180,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       });
     });
   }
-  const coding$1 = createTypeParser((value2) => {
+  const coding = createTypeParser((value2) => {
     const { code: code2, display, system: system2 } = value2;
     return {
       code: code2,
@@ -47546,7 +63188,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       system: system2
     };
   });
-  const codeableConcept$1 = createTypeParser((value2) => {
+  const codeableConcept = createTypeParser((value2) => {
     if (!value2.coding?.length) {
       return {
         text: value2.text,
@@ -47555,74 +63197,74 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return {
       text: value2.text,
-      coding: map(value2.coding, coding$1, true)
+      coding: map(value2.coding, coding, true)
     };
   });
-  const date$3 = createTypeParser((value2) => value2);
-  const instant$1 = createTypeParser((value2) => value2);
-  const duration$1 = createTypeParser(quantityLike);
-  const identifier$1 = createTypeParser((value2) => {
+  const date = createTypeParser((value2) => value2);
+  const instant = createTypeParser((value2) => value2);
+  const duration = createTypeParser(quantityLike);
+  const identifier = createTypeParser((value2) => {
     const { use, system: system2, value: identifierValue, type } = value2;
     return {
       use,
       system: system2,
       value: identifierValue,
-      type: codeableConcept$1(type)
+      type: codeableConcept(type)
     };
   });
-  const period$1 = createTypeParser((value2) => {
+  const period = createTypeParser((value2) => {
     const { start, end } = value2;
     return {
-      start: dateTime$1(start),
-      end: dateTime$1(end)
+      start: dateTime(start),
+      end: dateTime(end)
     };
   });
-  const range$1 = createTypeParser((value2) => {
+  const range = createTypeParser((value2) => {
     return {
-      low: quantity$1(value2.low),
-      high: quantity$1(value2.high)
+      low: quantity(value2.low),
+      high: quantity(value2.high)
     };
   });
-  const ratio$1 = createTypeParser((value2) => {
+  const ratio = createTypeParser((value2) => {
     const { numerator, denominator } = value2;
     return {
-      numerator: quantity$1(numerator),
-      denominator: quantity$1(denominator)
+      numerator: quantity(numerator),
+      denominator: quantity(denominator)
     };
   });
-  const string$1 = createTypeParser((value2) => value2);
-  const decimal$1 = createTypeParser(passThrough);
-  const unsignedInt$1 = createTypeParser(passThrough);
-  const integer$1 = createTypeParser(passThrough);
-  const integer64$1 = createTypeParser(passThrough);
-  const positiveInt$1 = createTypeParser(passThrough);
-  const parse$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  const string = createTypeParser((value2) => value2);
+  const decimal = createTypeParser(passThrough);
+  const unsignedInt = createTypeParser(passThrough);
+  const integer = createTypeParser(passThrough);
+  const integer64 = createTypeParser(passThrough);
+  const positiveInt = createTypeParser(passThrough);
+  const parse = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     __proto__: null,
-    annotation: annotation$1,
-    boolean: boolean$1,
-    code: code$1,
-    codeableConcept: codeableConcept$1,
-    coding: coding$1,
-    date: date$3,
-    dateTime: dateTime$1,
-    decimal: decimal$1,
-    duration: duration$1,
-    identifier: identifier$1,
-    instant: instant$1,
-    integer: integer$1,
-    integer64: integer64$1,
-    period: period$1,
-    positiveInt: positiveInt$1,
-    quantity: quantity$1,
-    range: range$1,
-    ratio: ratio$1,
-    reference: reference$1,
-    string: string$1,
-    unsignedInt: unsignedInt$1
+    annotation,
+    boolean,
+    code,
+    codeableConcept,
+    coding,
+    date,
+    dateTime,
+    decimal,
+    duration,
+    identifier,
+    instant,
+    integer,
+    integer64,
+    period,
+    positiveInt,
+    quantity,
+    range,
+    ratio,
+    reference,
+    string,
+    unsignedInt
   }, Symbol.toStringTag, { value: "Module" }));
   function valueX(value2, valueXType, valuePrefix = "value") {
     if (isNullish(value2)) return;
-    const parser2 = parse$1[valueXType];
+    const parser2 = parse[valueXType];
     const valueX2 = value2[`${valuePrefix}${lodashExports.upperFirst(valueXType)}`];
     return parser2(valueX2);
   }
@@ -47640,8 +63282,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         `Resource does not have the expected profile: "${profile2}". Got: ${meta?.profile}`
       );
     }
-    const resourceId = string$1(id);
-    const resourceType = string$1(fhirResourceType);
+    const resourceId = string(id);
+    const resourceType = string(fhirResourceType);
     return {
       id: resourceId,
       referenceId: `${resourceType}/${resourceId}`,
@@ -47678,14 +63320,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseGpDiagnosticResult(resource) {
     return {
       ...resourceMeta(resource, profile$N, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
-      context: reference$1(resource.context),
-      subject: reference$1(resource.subject),
-      effective: dateTime$1(resource.effectiveDateTime),
-      performer: map(resource.performer, reference$1),
-      status: string$1(resource.status),
-      code: codeableConcept$1(resource.code),
-      ...oneOfValueX$1(resource, [
+      identifier: map(resource.identifier, identifier),
+      context: reference(resource.context),
+      subject: reference(resource.subject),
+      effective: dateTime(resource.effectiveDateTime),
+      performer: map(resource.performer, reference),
+      status: string(resource.status),
+      code: codeableConcept(resource.code),
+      ...oneOfValueX(resource, [
         "quantity",
         "codeableConcept",
         "string",
@@ -47694,8 +63336,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         "dateTime",
         "period"
       ]),
-      comment: string$1(resource.comment),
-      method: codeableConcept$1(resource.method)
+      comment: string(resource.comment),
+      method: codeableConcept(resource.method)
     };
   }
   const gpDiagnosticResult = {
@@ -47712,7 +63354,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseEncounterParticipant(value2) {
     return {
-      individual: reference$1(value2?.individual)
+      individual: reference(value2?.individual)
     };
   }
   const encounterParticipant = {
@@ -47747,11 +63389,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseGpEncounter(resource) {
     return {
       ...resourceMeta(resource, profile$M, FhirVersion.R3),
-      class: coding$1(resource.class),
+      class: coding(resource.class),
       participant: map(resource.participant, encounterParticipant.parse),
-      serviceProvider: reference$1(resource.serviceProvider),
-      period: period$1(resource.period),
-      reason: map(resource.reason, codeableConcept$1)
+      serviceProvider: reference(resource.serviceProvider),
+      period: period(resource.period),
+      reason: map(resource.reason, codeableConcept)
     };
   }
   const gpEncounter = {
@@ -47761,8 +63403,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseSection(value2) {
     return {
-      code: codeableConcept$1(value2?.code),
-      entry: map(value2?.entry, reference$1)
+      code: codeableConcept(value2?.code),
+      entry: map(value2?.entry, reference)
     };
   }
   const uiSchemaGroup$A = (resource, context) => {
@@ -47802,13 +63444,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseGpEncounterReport(resource) {
     return {
       ...resourceMeta(resource, profile$L, FhirVersion.R3),
-      identifier: identifier$1(resource.identifier),
-      status: string$1(resource.status),
-      type: map(resource.type.coding, coding$1),
-      encounter: reference$1(resource.encounter),
-      date: dateTime$1(resource.date),
-      author: map(resource.author, reference$1),
-      title: string$1(resource.title),
+      identifier: identifier(resource.identifier),
+      status: string(resource.status),
+      type: map(resource.type.coding, coding),
+      encounter: reference(resource.encounter),
+      date: dateTime(resource.date),
+      author: map(resource.author, reference),
+      title: string(resource.title),
       section: map(resource.section, parseSection)
     };
   }
@@ -47846,18 +63488,18 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const ICPC_E = findComponentByCode(resource.component, "DISDX");
     return {
       ...resourceMeta(resource, profile$K, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
-      status: string$1(resource.status),
-      code: codeableConcept$1(resource.code),
-      context: reference$1(resource.context),
-      ...oneOfValueX$1(resource, ["dateTime", "period"], "effective"),
-      performer: map(resource.performer, reference$1),
-      valueString: string$1(resource.valueString),
+      identifier: map(resource.identifier, identifier),
+      status: string(resource.status),
+      code: codeableConcept(resource.code),
+      context: reference(resource.context),
+      ...oneOfValueX(resource, ["dateTime", "period"], "effective"),
+      performer: map(resource.performer, reference),
+      valueString: string(resource.valueString),
       ICPC_S: {
-        valueCodeableConcept: codeableConcept$1(ICPC_S?.valueCodeableConcept)
+        valueCodeableConcept: codeableConcept(ICPC_S?.valueCodeableConcept)
       },
       ICPC_E: {
-        valueCodeableConcept: codeableConcept$1(ICPC_E?.valueCodeableConcept)
+        valueCodeableConcept: codeableConcept(ICPC_E?.valueCodeableConcept)
       }
     };
   }
@@ -47913,12 +63555,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const systemCode = ({ formatMessage: formatMessage2, hasMessage }) => (value2) => {
-    const { display, code: code2, system: system2 } = value2 ?? {};
-    const systemCodeI18n = `system.code.${system2}|${code2}`;
-    const systemCodeString = hasMessage(systemCodeI18n) ? formatMessage2(systemCodeI18n) : display;
-    return systemCodeString ?? code2;
-  };
   const summary$6 = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     const formatSystemCode = systemCode(context);
@@ -47940,11 +63576,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseReferenceRange(value2) {
     return {
-      low: quantity$1(value2?.low),
-      high: quantity$1(value2?.high),
-      type: codeableConcept$1(value2?.type),
-      appliesTo: map(value2?.appliesTo, codeableConcept$1),
-      age: range$1(value2?.age)
+      low: quantity(value2?.low),
+      high: quantity(value2?.high),
+      type: codeableConcept(value2?.type),
+      appliesTo: map(value2?.appliesTo, codeableConcept),
+      age: range(value2?.age)
     };
   }
   const referenceRange = {
@@ -47963,7 +63599,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseRelated(value2) {
     return {
-      target: reference$1(value2?.target)
+      target: reference(value2?.target)
     };
   }
   const related = {
@@ -48092,13 +63728,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       (x) => x.system === SNOMED_SYSTEM && SnomedResultTypes.includes(x.code)
     );
     return {
-      identifier: map(resource.identifier, identifier$1),
-      subject: reference$1(resource.subject),
-      context: reference$1(resource.context),
-      code: codeableConcept$1(resource?.code),
-      method: codeableConcept$1(resource?.method),
-      ...oneOfValueX$1(resource, ["dateTime", "period"], "effective"),
-      ...oneOfValueX$1(resource, [
+      identifier: map(resource.identifier, identifier),
+      subject: reference(resource.subject),
+      context: reference(resource.context),
+      code: codeableConcept(resource?.code),
+      method: codeableConcept(resource?.method),
+      ...oneOfValueX(resource, ["dateTime", "period"], "effective"),
+      ...oneOfValueX(resource, [
         "quantity",
         "codeableConcept",
         "string",
@@ -48108,16 +63744,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         "dateTime",
         "period"
       ]),
-      status: code$1(resource?.status),
+      status: code(resource?.status),
       referenceRange: map(resource?.referenceRange, referenceRange.parse),
-      interpretation: codeableConcept$1(resource?.interpretation),
-      specimen: reference$1(resource.specimen),
-      comment: string$1(resource.comment),
-      laboratoryTestResultCode: map(laboratoryTestResultCode, codeableConcept$1),
-      resultType: map(resultType, codeableConcept$1),
+      interpretation: codeableConcept(resource?.interpretation),
+      specimen: reference(resource.specimen),
+      comment: string(resource.comment),
+      laboratoryTestResultCode: map(laboratoryTestResultCode, codeableConcept),
+      resultType: map(resultType, codeableConcept),
       related: map(resource.related, related.parse),
-      basedOn: map(resource.basedOn, reference$1),
-      performer: map(resource.performer, reference$1)
+      basedOn: map(resource.basedOn, reference),
+      performer: map(resource.performer, reference)
     };
   }
   function parseZibLaboratoryTestResultObservation(resource) {
@@ -48181,17 +63817,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseAttachment(value2) {
     return {
-      contentType: string$1(value2?.contentType),
-      language: string$1(value2?.language),
-      data: string$1(value2?.data),
-      url: string$1(value2?.url),
-      size: unsignedInt$1(value2?.size),
-      hash: string$1(value2?.hash),
-      title: string$1(value2?.title),
-      creation: dateTime$1(value2?.creation)
+      contentType: string(value2?.contentType),
+      language: string(value2?.language),
+      data: string(value2?.data),
+      url: string(value2?.url),
+      size: unsignedInt(value2?.size),
+      hash: string(value2?.hash),
+      title: string(value2?.title),
+      creation: dateTime(value2?.creation)
     };
   }
-  const attachment$1 = {
+  const attachment = {
     parse: parseAttachment,
     uiSchemaGroup: uiSchemaGroup$x
   };
@@ -48215,16 +63851,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseNlCoreAddress(value2) {
     return {
-      use: code$1(value2?.use),
-      type: code$1(value2?.type),
-      text: string$1(value2?.text),
-      line: map(value2?.line, string$1),
-      city: string$1(value2?.city),
-      district: string$1(value2?.district),
-      state: string$1(value2?.state),
-      postalCode: string$1(value2?.postalCode),
-      country: string$1(value2?.country),
-      period: period$1(value2?.period)
+      use: code(value2?.use),
+      type: code(value2?.type),
+      text: string(value2?.text),
+      line: map(value2?.line, string),
+      city: string(value2?.city),
+      district: string(value2?.district),
+      state: string(value2?.state),
+      postalCode: string(value2?.postalCode),
+      country: string(value2?.country),
+      period: period(value2?.period)
     };
   }
   const nlCoreAddress = {
@@ -48247,11 +63883,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseNlCoreContactpoint(value2) {
     return {
-      system: code$1(value2?.system),
-      value: string$1(value2?.value),
-      use: code$1(value2?.use),
-      rank: positiveInt$1(value2?.rank),
-      period: period$1(value2?.period)
+      system: code(value2?.system),
+      value: string(value2?.value),
+      use: code(value2?.use),
+      rank: positiveInt(value2?.rank),
+      period: period(value2?.period)
     };
   }
   const nlCoreContactpoint = {
@@ -48276,13 +63912,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseNlCoreHumanname(value2) {
     return {
-      family: string$1(value2?.family),
-      given: map(value2?.given, string$1),
-      period: period$1(value2?.period),
-      prefix: map(value2?.prefix, string$1),
-      suffix: map(value2?.suffix, string$1),
-      text: string$1(value2?.text),
-      use: string$1(value2?.use)
+      family: string(value2?.family),
+      given: map(value2?.given, string),
+      period: period(value2?.period),
+      prefix: map(value2?.prefix, string),
+      suffix: map(value2?.suffix, string),
+      text: string(value2?.text),
+      use: string(value2?.use)
     };
   }
   const nlCoreHumanname = {
@@ -48328,16 +63964,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const { repeat: repeat2 } = value2 ?? {};
     return {
       repeat: {
-        ...oneOfValueX$1(repeat2, ["duration", "range", "period"], "bounds"),
-        duration: decimal$1(repeat2?.duration),
-        durationUnit: code$1(repeat2?.durationUnit),
-        frequency: integer$1(repeat2?.frequency),
-        frequencyMax: integer$1(repeat2?.frequencyMax),
-        period: decimal$1(repeat2?.period),
-        periodUnit: code$1(repeat2?.periodUnit),
-        dayOfWeek: map(repeat2?.dayOfWeek, code$1),
-        timeOfDay: map(repeat2?.timeOfDay, dateTime$1),
-        when: map(repeat2?.when, code$1)
+        ...oneOfValueX(repeat2, ["duration", "range", "period"], "bounds"),
+        duration: decimal(repeat2?.duration),
+        durationUnit: code(repeat2?.durationUnit),
+        frequency: integer(repeat2?.frequency),
+        frequencyMax: integer(repeat2?.frequencyMax),
+        period: decimal(repeat2?.period),
+        periodUnit: code(repeat2?.periodUnit),
+        dayOfWeek: map(repeat2?.dayOfWeek, code),
+        timeOfDay: map(repeat2?.timeOfDay, dateTime),
+        when: map(repeat2?.when, code)
       }
     };
   }
@@ -48391,14 +64027,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseZibInstructionsForUse(value2) {
     return {
-      sequence: integer$1(value2?.sequence),
-      text: string$1(value2?.text),
-      additionalInstruction: map(value2?.additionalInstruction, codeableConcept$1),
-      asNeeded: codeableConcept$1(value2?.asNeededCodeableConcept),
-      route: codeableConcept$1(value2?.route),
-      ...oneOfValueX$1(value2, ["range", "quantity"], "dose"),
-      maxDosePerPeriod: ratio$1(value2?.maxDosePerPeriod),
-      ...oneOfValueX$1(value2, ["ratio", "range", "quantity"], "rate"),
+      sequence: integer(value2?.sequence),
+      text: string(value2?.text),
+      additionalInstruction: map(value2?.additionalInstruction, codeableConcept),
+      asNeeded: codeableConcept(value2?.asNeededCodeableConcept),
+      route: codeableConcept(value2?.route),
+      ...oneOfValueX(value2, ["range", "quantity"], "dose"),
+      maxDosePerPeriod: ratio(value2?.maxDosePerPeriod),
+      ...oneOfValueX(value2, ["ratio", "range", "quantity"], "rate"),
       timing: zibAdministrationSchedule.parse(value2?.timing)
     };
   }
@@ -48420,8 +64056,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseZibProductIngredient(value2) {
     return {
-      item: codeableConcept$1(value2?.itemCodeableConcept),
-      amount: ratio$1(value2?.amount)
+      item: codeableConcept(value2?.itemCodeableConcept),
+      amount: ratio(value2?.amount)
     };
   }
   const zibProductIngredient = {
@@ -48449,8 +64085,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibProductPackage(value2) {
     return {
       content: map(value2?.content, ({ itemCodeableConcept, itemReference }) => ({
-        item: codeableConcept$1(itemCodeableConcept),
-        reference: reference$1(itemReference)
+        item: codeableConcept(itemCodeableConcept),
+        reference: reference(itemReference)
       }))
     };
   }
@@ -48495,14 +64131,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseNlCoreOrganization(resource) {
     return {
       ...resourceMeta(resource, profile$H, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
-      name: string$1(resource.name),
+      identifier: map(resource.identifier, identifier),
+      name: string(resource.name),
       departmentSpecialty: map(
         filterCodeableConceptByCoding(
           resource.type,
           (x) => x.system === "urn:oid:2.16.840.1.113883.2.4.6.7"
         ),
-        codeableConcept$1
+        codeableConcept
       ),
       telecom: map(resource.telecom, nlCoreContactpoint.parse),
       address: map(resource.address, nlCoreAddress.parse),
@@ -48512,7 +64148,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           (x) => x.system === "http://nictiz.nl/fhir/NamingSystem/organization-type"
           // NOSONAR
         ),
-        codeableConcept$1
+        codeableConcept
       )
     };
   }
@@ -48534,8 +64170,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseCommunication(value2) {
     return {
-      language: codeableConcept$1(value2?.language),
-      preferred: boolean$1(value2?.preferred)
+      language: codeableConcept(value2?.language),
+      preferred: boolean(value2?.preferred)
     };
   }
   const communication = {
@@ -48564,13 +64200,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseContact(value2) {
     return {
-      relationship: map(value2?.relationship, codeableConcept$1, true),
+      relationship: map(value2?.relationship, codeableConcept, true),
       name: nlCoreHumanname.parse(value2?.name),
       telecom: map(value2?.telecom, nlCoreContactpoint.parse, true),
       address: nlCoreAddress.parse(value2?.address),
-      gender: code$1(value2?.gender),
-      organization: reference$1(value2?.organization),
-      period: period$1(value2?.period)
+      gender: code(value2?.gender),
+      organization: reference(value2?.organization),
+      period: period(value2?.period)
     };
   }
   const contact = {
@@ -48590,8 +64226,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseLink(value2) {
     return {
-      other: reference$1(value2?.other),
-      type: code$1(value2?.type)
+      other: reference(value2?.other),
+      type: code(value2?.type)
     };
   }
   const link = {
@@ -48649,23 +64285,23 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseNlCorePatient$1(resource) {
     return {
       ...resourceMeta(resource, profile$G, FhirVersion.R3),
-      active: boolean$1(resource.active),
+      active: boolean(resource.active),
       address: map(resource.address, nlCoreAddress.parse),
-      birthDate: date$3(resource.birthDate),
+      birthDate: date(resource.birthDate),
       communication: map(resource.communication, communication.parse),
       contact: map(resource.contact, contact.parse),
-      deceased: boolean$1(resource.deceasedBoolean),
-      deceasedDateTime: dateTime$1(resource.deceasedDateTime),
-      gender: code$1(resource.gender),
-      generalPractitioner: map(resource.generalPractitioner, reference$1),
-      identifier: map(resource.identifier, identifier$1),
+      deceased: boolean(resource.deceasedBoolean),
+      deceasedDateTime: dateTime(resource.deceasedDateTime),
+      gender: code(resource.gender),
+      generalPractitioner: map(resource.generalPractitioner, reference),
+      identifier: map(resource.identifier, identifier),
       link: map(resource.link, link.parse),
-      managingOrganization: reference$1(resource.managingOrganization),
-      maritalStatus: codeableConcept$1(resource.maritalStatus),
-      multipleBirth: boolean$1(resource.multipleBirthBoolean),
-      multipleBirthInteger: integer$1(resource.multipleBirthInteger),
+      managingOrganization: reference(resource.managingOrganization),
+      maritalStatus: codeableConcept(resource.maritalStatus),
+      multipleBirth: boolean(resource.multipleBirthBoolean),
+      multipleBirthInteger: integer(resource.multipleBirthInteger),
       name: map(resource.name, nlCoreHumanname.parse),
-      photo: map(resource.photo, attachment$1.parse),
+      photo: map(resource.photo, attachment.parse),
       telecom: map(resource.telecom, nlCoreContactpoint.parse)
     };
   }
@@ -48701,7 +64337,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseNlCorePractitioner(resource) {
     return {
       ...resourceMeta(resource, profile$F, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
+      identifier: map(resource.identifier, identifier),
       name: map(resource.name, nlCoreHumanname.parse),
       address: map(resource.address, nlCoreAddress.parse),
       telecom: map(resource.telecom, nlCoreContactpoint.parse)
@@ -48739,9 +64375,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseNlCorePractitionerRole(resource) {
     return {
       ...resourceMeta(resource, profile$E, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
-      organization: reference$1(resource.organization),
-      specialty: map(resource.specialty, codeableConcept$1),
+      identifier: map(resource.identifier, identifier),
+      organization: reference(resource.organization),
+      specialty: map(resource.specialty, codeableConcept),
       telecom: map(resource.telecom, nlCoreContactpoint.parse)
     };
   }
@@ -48777,12 +64413,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseEAfspraakAppointment(resource) {
     return {
       ...resourceMeta(resource, profile$D, FhirVersion.R3),
-      status: string$1(resource.status),
-      specialty: map(resource.specialty, codeableConcept$1),
-      description: string$1(resource.description),
-      start: dateTime$1(resource.start),
-      end: dateTime$1(resource.end),
-      participant: map(resource.participant, (x) => ({ actor: reference$1(x.actor) }))
+      status: string(resource.status),
+      specialty: map(resource.specialty, codeableConcept),
+      description: string(resource.description),
+      start: dateTime(resource.start),
+      end: dateTime(resource.end),
+      participant: map(resource.participant, (x) => ({ actor: reference(x.actor) }))
     };
   }
   const eAfspraakAppointment = {
@@ -48820,18 +64456,18 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const profile$C = "http://fhir.nl/fhir/StructureDefinition/nl-core-observation";
   function parseNlCoreObservationBase(resource) {
     return {
-      identifier: map(resource.identifier, identifier$1),
-      status: code$1(resource.status),
-      category: map(resource.category, codeableConcept$1),
-      subject: reference$1(resource.subject),
-      context: reference$1(resource.context),
-      valueQuantity: quantity$1(resource.valueQuantity),
-      effectivePeriod: period$1(resource.effectivePeriod),
-      dataAbsentReason: codeableConcept$1(resource.dataAbsentReason),
-      method: codeableConcept$1(resource.method),
-      bodySite: codeableConcept$1(resource.bodySite),
-      effectiveDateTime: dateTime$1(resource.effectiveDateTime),
-      comment: string$1(resource.comment)
+      identifier: map(resource.identifier, identifier),
+      status: code(resource.status),
+      category: map(resource.category, codeableConcept),
+      subject: reference(resource.subject),
+      context: reference(resource.context),
+      valueQuantity: quantity(resource.valueQuantity),
+      effectivePeriod: period(resource.effectivePeriod),
+      dataAbsentReason: codeableConcept(resource.dataAbsentReason),
+      method: codeableConcept(resource.method),
+      bodySite: codeableConcept(resource.bodySite),
+      effectiveDateTime: dateTime(resource.effectiveDateTime),
+      comment: string(resource.comment)
     };
   }
   function parseNlCoreObservation(resource) {
@@ -48904,13 +64540,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         resource,
         "zib-Medication-RepeatPeriodCyclicalSchedule"
       ),
-      identifier: map(resource.identifier, identifier$1),
-      status: code$1(resource.status),
-      category: codeableConcept$1(resource.category),
-      medicationReference: reference$1(resource.medicationReference),
-      quantity: quantity$1(resource.quantity),
-      daysSupply: quantity$1(resource.daysSupply),
-      note: map(resource.note, annotation$1),
+      identifier: map(resource.identifier, identifier),
+      status: code(resource.status),
+      category: codeableConcept(resource.category),
+      medicationReference: reference(resource.medicationReference),
+      quantity: quantity(resource.quantity),
+      daysSupply: quantity(resource.daysSupply),
+      note: map(resource.note, annotation),
       dossageInstruction: map(resource.dosageInstruction, zibInstructionsForUse.parse)
     };
   }
@@ -48944,14 +64580,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibAdvanceDirective(resource) {
     return {
       ...resourceMeta(resource, profile$A, FhirVersion.R3),
-      category: map(resource.category, codeableConcept$1),
-      dateTime: dateTime$1(resource.dateTime),
+      category: map(resource.category, codeableConcept),
+      dateTime: dateTime(resource.dateTime),
       disorder: extensionNictiz(resource, "zib-AdvanceDirective-Disorder"),
-      consentingParty: map(resource.consentingParty, reference$1),
+      consentingParty: map(resource.consentingParty, reference),
       source: {
-        attachment: attachment$1.parse(resource.sourceAttachment),
-        identifier: identifier$1(resource.sourceIdentifier),
-        reference: reference$1(resource.sourceReference)
+        attachment: attachment.parse(resource.sourceAttachment),
+        identifier: identifier(resource.sourceIdentifier),
+        reference: reference(resource.sourceReference)
       },
       comment: extensionNictiz(resource, "Comment")
     };
@@ -49003,14 +64639,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibAlert(resource) {
     return {
       ...resourceMeta(resource, profile$y, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
-      status: code$1(resource.status),
-      category: codeableConcept$1(resource.category),
-      code: codeableConcept$1(resource.code),
-      subject: reference$1(resource.subject),
-      period: period$1(resource.period),
-      encounter: reference$1(resource.encounter),
-      author: reference$1(resource.author)
+      identifier: map(resource.identifier, identifier),
+      status: code(resource.status),
+      category: codeableConcept(resource.category),
+      code: codeableConcept(resource.code),
+      subject: reference(resource.subject),
+      period: period(resource.period),
+      encounter: reference(resource.encounter),
+      author: reference(resource.author)
     };
   }
   const zibAlert = {
@@ -49044,14 +64680,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibAllergyIntolerance(resource) {
     return {
       ...resourceMeta(resource, profile$x, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
-      clinicalStatus: code$1(resource.clinicalStatus),
-      verificationStatus: code$1(resource.verificationStatus),
-      type: code$1(resource.type),
-      category: map(resource.category, code$1),
-      criticality: code$1(resource.criticality),
-      code: codeableConcept$1(resource.code),
-      patient: reference$1(resource.patient)
+      identifier: map(resource.identifier, identifier),
+      clinicalStatus: code(resource.clinicalStatus),
+      verificationStatus: code(resource.verificationStatus),
+      type: code(resource.type),
+      category: map(resource.category, code),
+      criticality: code(resource.criticality),
+      code: codeableConcept(resource.code),
+      patient: reference(resource.patient)
     };
   }
   const zibAllergyIntolerance = {
@@ -49122,31 +64758,31 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ...parseNlCoreObservationBase(resource),
       ...resourceMeta(resource, profile$w, FhirVersion.R3),
       cuffTypeLOINC: {
-        valueCodeableConcept: codeableConcept$1(cuffTypeLOINC?.valueCodeableConcept)
+        valueCodeableConcept: codeableConcept(cuffTypeLOINC?.valueCodeableConcept)
       },
       cuffTypeSNOMED: {
-        valueCodeableConcept: codeableConcept$1(cuffTypeSNOMED?.valueCodeableConcept)
+        valueCodeableConcept: codeableConcept(cuffTypeSNOMED?.valueCodeableConcept)
       },
       diastolicEndpoint: {
-        valueCodeableConcept: codeableConcept$1(diastolicEndpoint?.valueCodeableConcept)
+        valueCodeableConcept: codeableConcept(diastolicEndpoint?.valueCodeableConcept)
       },
       systolicBP: {
-        valueQuantity: quantity$1(systolicBP?.valueQuantity)
+        valueQuantity: quantity(systolicBP?.valueQuantity)
       },
       diastolicBP: {
-        valueQuantity: quantity$1(diastolicBP?.valueQuantity)
+        valueQuantity: quantity(diastolicBP?.valueQuantity)
       },
       averageBloodPressureLOINC: {
-        valueQuantity: quantity$1(averageBloodPressureLOINC?.valueQuantity)
+        valueQuantity: quantity(averageBloodPressureLOINC?.valueQuantity)
       },
       averageBloodPressureSNOMED: {
-        valueQuantity: quantity$1(averageBloodPressureSNOMED?.valueQuantity)
+        valueQuantity: quantity(averageBloodPressureSNOMED?.valueQuantity)
       },
       positionSNOMED: {
-        valueCodeableConcept: codeableConcept$1(positionSNOMED?.valueCodeableConcept)
+        valueCodeableConcept: codeableConcept(positionSNOMED?.valueCodeableConcept)
       },
       positionLOINC: {
-        valueCodeableConcept: codeableConcept$1(positionLOINC?.valueCodeableConcept)
+        valueCodeableConcept: codeableConcept(positionLOINC?.valueCodeableConcept)
       }
     };
   }
@@ -49209,7 +64845,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ...parseNlCoreObservationBase(resource),
       ...resourceMeta(resource, profile$u, FhirVersion.R3),
       clothing: {
-        valueCodeableConcept: codeableConcept$1(clothing?.valueCodeableConcept)
+        valueCodeableConcept: codeableConcept(clothing?.valueCodeableConcept)
       }
     };
   }
@@ -49243,9 +64879,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseDiagnosis(value2) {
     return {
-      condition: reference$1(value2?.condition),
-      role: codeableConcept$1(value2?.role),
-      rank: positiveInt$1(value2?.rank)
+      condition: reference(value2?.condition),
+      role: codeableConcept(value2?.role),
+      rank: positiveInt(value2?.rank)
     };
   }
   const diagnosis = {
@@ -49267,8 +64903,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseHospitalization(value2) {
     return {
-      admitSource: codeableConcept$1(value2?.admitSource),
-      dischargeDisposition: codeableConcept$1(value2?.dischargeDisposition)
+      admitSource: codeableConcept(value2?.admitSource),
+      dischargeDisposition: codeableConcept(value2?.dischargeDisposition)
     };
   }
   const hospitalization = {
@@ -49308,12 +64944,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibEncounter(resource) {
     return {
       ...resourceMeta(resource, profile$s, FhirVersion.R3),
-      class: coding$1(resource.class),
+      class: coding(resource.class),
       participant: map(resource.participant, encounterParticipant.parse),
-      serviceProvider: reference$1(resource.serviceProvider),
-      period: period$1(resource.period),
+      serviceProvider: reference(resource.serviceProvider),
+      period: period(resource.period),
       diagnosis: map(resource.diagnosis, diagnosis.parse),
-      reason: map(resource.reason, codeableConcept$1),
+      reason: map(resource.reason, codeableConcept),
       hospitalization: hospitalization.parse(resource.hospitalization)
     };
   }
@@ -49351,8 +64987,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseContainer$1(value2) {
     return {
-      identifier: map(value2?.identifier, identifier$1),
-      type: codeableConcept$1(value2?.type)
+      identifier: map(value2?.identifier, identifier),
+      type: codeableConcept(value2?.type)
     };
   }
   const container$1 = {
@@ -49397,25 +65033,25 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const collection = resource.collection;
     return {
       ...resourceMeta(resource, profile$q, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
+      identifier: map(resource.identifier, identifier),
       // NL-CM:13.1.15
-      subject: reference$1(resource.subject),
+      subject: reference(resource.subject),
       // NL-CM:13.1.29
       container: map(resource.container, container$1.parse),
       // NL-CM:13.1.20 & NL-CM:13.1.21
-      type: codeableConcept$1(resource.type),
+      type: codeableConcept(resource.type),
       // NL-CM:13.1.16
-      receivedTime: dateTime$1(resource.receivedTime),
+      receivedTime: dateTime(resource.receivedTime),
       // NL-CM:13.1.25
       collection: {
-        quantity: quantity$1(collection?.quantity),
+        quantity: quantity(collection?.quantity),
         // NL-CM:13.1.23
-        ...oneOfValueX$1(collection, ["dateTime", "period"], "collected"),
+        ...oneOfValueX(collection, ["dateTime", "period"], "collected"),
         // dateTime NL-CM:13.1.17, period NL-CM:13.1.24
-        method: codeableConcept$1(collection?.method),
+        method: codeableConcept(collection?.method),
         // NL-CM:13.1.18
         bodySite: {
-          value: codeableConcept$1(collection?.bodySite),
+          value: codeableConcept(collection?.bodySite),
           // NL-CM:13.1.26
           laterality: extensionNictiz(collection?.bodySite, "BodySite-Qualifier"),
           // NL-CM:13.1.27
@@ -49423,7 +65059,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           // NL-CM:13.1.28
         }
       },
-      note: map(resource.note, annotation$1)
+      note: map(resource.note, annotation)
       // NL-CM:13.1.19
     };
   }
@@ -49445,8 +65081,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseContainer(value2) {
     return {
-      identifier: map(value2?.identifier, identifier$1),
-      type: codeableConcept$1(value2?.type)
+      identifier: map(value2?.identifier, identifier),
+      type: codeableConcept(value2?.type)
     };
   }
   const container = {
@@ -49491,25 +65127,25 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const collection = resource.collection;
     return {
       ...resourceMeta(resource, profile$p, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
+      identifier: map(resource.identifier, identifier),
       // NL-CM:13.1.15
-      subject: reference$1(resource.subject),
+      subject: reference(resource.subject),
       // NL-CM:13.1.29
       container: map(resource.container, container.parse),
       // NL-CM:13.1.20 & NL-CM:13.1.21
-      type: codeableConcept$1(resource.type),
+      type: codeableConcept(resource.type),
       // NL-CM:13.1.22
-      receivedTime: dateTime$1(resource.receivedTime),
+      receivedTime: dateTime(resource.receivedTime),
       // NL-CM:13.1.25
       collection: {
-        quantity: quantity$1(collection?.quantity),
+        quantity: quantity(collection?.quantity),
         // NL-CM:13.1.23
-        ...oneOfValueX$1(collection, ["dateTime", "period"], "collected"),
+        ...oneOfValueX(collection, ["dateTime", "period"], "collected"),
         // dateTime NL-CM:13.1.17, period NL-CM:13.1.24
-        method: codeableConcept$1(collection?.method),
+        method: codeableConcept(collection?.method),
         // NL-CM:13.1.18
         bodySite: {
-          value: codeableConcept$1(collection?.bodySite),
+          value: codeableConcept(collection?.bodySite),
           // NL-CM:13.1.26
           laterality: extensionNictiz(collection?.bodySite, "BodySite-Qualifier"),
           // NL-CM:13.1.27
@@ -49517,7 +65153,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           // NL-CM:13.1.28
         }
       },
-      note: map(resource.note, annotation$1)
+      note: map(resource.note, annotation)
       // NL-CM:13.1.19
     };
   }
@@ -49543,12 +65179,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibLaboratoryTestResultSubstance(resource) {
     return {
       ...resourceMeta(resource, profile$o, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
-      status: string$1(resource?.status),
-      category: map(resource.category, codeableConcept$1),
-      code: codeableConcept$1(resource.code),
+      identifier: map(resource.identifier, identifier),
+      status: string(resource?.status),
+      category: map(resource.category, codeableConcept),
+      code: codeableConcept(resource.code),
       // NL-CM:13.1.22
-      description: string$1(resource.description)
+      description: string(resource.description)
     };
   }
   const zibLaboratoryTestResultSubstance = {
@@ -49612,21 +65248,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibMedicalDevice(resource) {
     return {
       ...resourceMeta(resource, profile$m, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
+      identifier: map(resource.identifier, identifier),
       organization: extensionNictiz(resource, "zib-MedicalDevice-Organization"),
       practitioner: extensionNictiz(resource, "zib-MedicalDevice-Practitioner"),
       reason: extensionNictiz(resource, "deviceUseStatement-reasonReferenceSTU3"),
-      status: code$1(resource.status),
-      patient: reference$1(resource.subject),
-      whenUsed: period$1(resource.whenUsed),
+      status: code(resource.status),
+      patient: reference(resource.subject),
+      whenUsed: period(resource.whenUsed),
       // timing
-      recordedOn: dateTime$1(resource.recordedOn),
-      source: reference$1(resource.source),
-      device: reference$1(resource.device),
+      recordedOn: dateTime(resource.recordedOn),
+      source: reference(resource.source),
+      device: reference(resource.device),
       // indication
-      bodySite: codeableConcept$1(resource.bodySite),
+      bodySite: codeableConcept(resource.bodySite),
       laterality: extensionNictiz(resource.bodySite, "BodySite-Qualifier"),
-      note: map(resource.note, annotation$1)
+      note: map(resource.note, annotation)
     };
   }
   const zibMedicalDevice = {
@@ -49655,9 +65291,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibMedicalDeviceProduct(resource) {
     return {
       ...resourceMeta(resource, profile$l, FhirVersion.R3),
-      note: map(resource.note, annotation$1),
-      patient: reference$1(resource.patient),
-      expirationDate: dateTime$1(resource.expirationDate)
+      note: map(resource.note, annotation),
+      patient: reference(resource.patient),
+      expirationDate: dateTime(resource.expirationDate)
     };
   }
   const zibMedicalDeviceProduct = {
@@ -49687,12 +65323,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibMedicalDeviceRequest(resource) {
     return {
       ...resourceMeta(resource, profile$k, FhirVersion.R3),
-      status: string$1(resource.status),
-      occurrence: period$1(resource.occurrencePeriod),
-      ...oneOfValueX$1(resource, ["reference", "codeableConcept"], "code"),
-      intent: codeableConcept$1(resource.intent),
-      subject: reference$1(resource.subject),
-      perfomer: reference$1(resource.performer)
+      status: string(resource.status),
+      occurrence: period(resource.occurrencePeriod),
+      ...oneOfValueX(resource, ["reference", "codeableConcept"], "code"),
+      intent: codeableConcept(resource.intent),
+      subject: reference(resource.subject),
+      perfomer: reference(resource.performer)
     };
   }
   const zibMedicalDeviceRequest = {
@@ -49750,16 +65386,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         resource,
         "zib-Medication-RepeatPeriodCyclicalSchedule"
       ),
-      identifier: map(resource.identifier, identifier$1),
-      definition: map(resource.definition, reference$1),
-      basedOn: map(resource.basedOn, reference$1),
-      groupIdentifier: identifier$1(resource.groupIdentifier),
-      status: code$1(resource.status),
-      intent: code$1(resource.intent),
-      category: codeableConcept$1(resource.category),
-      priority: code$1(resource.priority),
-      medicationReference: reference$1(resource.medicationReference),
-      note: map(resource.note, annotation$1),
+      identifier: map(resource.identifier, identifier),
+      definition: map(resource.definition, reference),
+      basedOn: map(resource.basedOn, reference),
+      groupIdentifier: identifier(resource.groupIdentifier),
+      status: code(resource.status),
+      intent: code(resource.intent),
+      category: codeableConcept(resource.category),
+      priority: code(resource.priority),
+      medicationReference: reference(resource.medicationReference),
+      note: map(resource.note, annotation),
       dossageInstruction: map(resource.dosageInstruction, zibInstructionsForUse.parse)
     };
   }
@@ -49878,21 +65514,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         resource,
         "zib-Medication-RepeatPeriodCyclicalSchedule"
       ),
-      identifier: map(resource.identifier, identifier$1),
-      status: code$1(resource.status),
-      category: codeableConcept$1(resource.category),
-      medicationReference: reference$1(resource.medicationReference),
-      effectivePeriod: period$1(resource.effectivePeriod),
+      identifier: map(resource.identifier, identifier),
+      status: code(resource.status),
+      category: codeableConcept(resource.category),
+      medicationReference: reference(resource.medicationReference),
+      effectivePeriod: period(resource.effectivePeriod),
       effectiveDuration: extensionNictiz(
         resource.effectivePeriod,
         "zib-MedicationUse-Duration"
       ),
-      dateAsserted: dateTime$1(resource.dateAsserted),
-      informationSource: reference$1(resource.informationSource),
-      subject: reference$1(resource.subject),
-      taken: code$1(resource.taken),
-      reasonCode: map(resource.reasonCode, codeableConcept$1),
-      note: map(resource.note, annotation$1),
+      dateAsserted: dateTime(resource.dateAsserted),
+      informationSource: reference(resource.informationSource),
+      subject: reference(resource.subject),
+      taken: code(resource.taken),
+      reasonCode: map(resource.reasonCode, codeableConcept),
+      note: map(resource.note, annotation),
       dosage: map(resource.dosage, zibInstructionsForUse.parse)
     };
   }
@@ -49930,11 +65566,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return {
       ...resourceMeta(resource, profile$h, FhirVersion.R3),
       comment: extensionNictiz(resource, "zib-NutritionAdvice-Explanation"),
-      identifier: map(resource.identifier, identifier$1),
-      status: code$1(resource.status),
-      patient: reference$1(resource.patient),
-      dateTime: dateTime$1(resource.dateTime),
-      foodPreferenceModifier: map(resource.foodPreferenceModifier, codeableConcept$1)
+      identifier: map(resource.identifier, identifier),
+      status: code(resource.status),
+      patient: reference(resource.patient),
+      dateTime: dateTime(resource.dateTime),
+      foodPreferenceModifier: map(resource.foodPreferenceModifier, codeableConcept)
     };
   }
   const zibNutritionAdvice = {
@@ -49959,18 +65595,18 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseGrouping(value2) {
     return {
-      group: string$1(value2?.group),
-      groupDisplay: string$1(value2?.groupDisplay),
-      subGroup: string$1(value2?.subGroup),
-      subGroupDisplay: string$1(value2?.subGroupDisplay),
-      plan: string$1(value2?.plan),
-      planDisplay: string$1(value2?.planDisplay),
-      subPlan: string$1(value2?.subPlan),
-      subPlanDisplay: string$1(value2?.subPlanDisplay),
-      class: string$1(value2?.class),
-      classDisplay: string$1(value2?.classDisplay),
-      subClass: string$1(value2?.subClass),
-      subClassDisplay: string$1(value2?.subClassDisplay)
+      group: string(value2?.group),
+      groupDisplay: string(value2?.groupDisplay),
+      subGroup: string(value2?.subGroup),
+      subGroupDisplay: string(value2?.subGroupDisplay),
+      plan: string(value2?.plan),
+      planDisplay: string(value2?.planDisplay),
+      subPlan: string(value2?.subPlan),
+      subPlanDisplay: string(value2?.subPlanDisplay),
+      class: string(value2?.class),
+      classDisplay: string(value2?.classDisplay),
+      subClass: string(value2?.subClass),
+      subClassDisplay: string(value2?.subClassDisplay)
     };
   }
   const grouping = {
@@ -50011,22 +65647,22 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibPayer(resource) {
     return {
       ...resourceMeta(resource, profile$g, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
-      status: code$1(resource.status),
-      type: codeableConcept$1(resource.type),
-      policyHolder: reference$1(resource.policyHolder),
-      subscriber: reference$1(resource.subscriber),
-      subscriberId: string$1(resource.subscriberId),
-      beneficiary: reference$1(resource.beneficiary),
-      relationship: codeableConcept$1(resource.relationship),
-      period: period$1(resource.period),
-      payor: map(resource.payor, reference$1),
+      identifier: map(resource.identifier, identifier),
+      status: code(resource.status),
+      type: codeableConcept(resource.type),
+      policyHolder: reference(resource.policyHolder),
+      subscriber: reference(resource.subscriber),
+      subscriberId: string(resource.subscriberId),
+      beneficiary: reference(resource.beneficiary),
+      relationship: codeableConcept(resource.relationship),
+      period: period(resource.period),
+      payor: map(resource.payor, reference),
       grouping: grouping.parse(resource.grouping),
-      dependent: string$1(resource.dependent),
-      sequence: string$1(resource.sequence),
-      order: positiveInt$1(resource.order),
-      network: string$1(resource.network),
-      contract: map(resource.contract, reference$1)
+      dependent: string(resource.dependent),
+      sequence: string(resource.sequence),
+      order: positiveInt(resource.order),
+      network: string(resource.network),
+      contract: map(resource.contract, reference)
     };
   }
   const zibPayer = {
@@ -50047,8 +65683,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseEvidence(value2) {
     return {
-      code: map(value2?.code, codeableConcept$1),
-      detail: map(value2?.detail, reference$1)
+      code: map(value2?.code, codeableConcept),
+      detail: map(value2?.detail, reference)
     };
   }
   const evidence = {
@@ -50068,8 +65704,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseStage(value2) {
     return {
-      summary: codeableConcept$1(value2?.summary),
-      assessment: map(value2?.assessment, reference$1)
+      summary: codeableConcept(value2?.summary),
+      assessment: map(value2?.assessment, reference)
     };
   }
   const stage = {
@@ -50117,22 +65753,22 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibProblem(resource) {
     return {
       ...resourceMeta(resource, profile$f, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
-      clinicalStatus: code$1(resource.clinicalStatus),
-      verificationStatus: code$1(resource.verificationStatus),
-      category: map(resource.category, codeableConcept$1),
-      severity: codeableConcept$1(resource.severity),
-      code: codeableConcept$1(resource.code),
-      bodySite: map(resource.bodySite, codeableConcept$1),
-      subject: reference$1(resource.subject),
-      context: reference$1(resource.context),
-      onsetDateTime: dateTime$1(resource.onsetDateTime),
-      abatementDateTime: dateTime$1(resource.abatementDateTime),
-      assertedDate: dateTime$1(resource.assertedDate),
-      asserter: reference$1(resource.asserter),
+      identifier: map(resource.identifier, identifier),
+      clinicalStatus: code(resource.clinicalStatus),
+      verificationStatus: code(resource.verificationStatus),
+      category: map(resource.category, codeableConcept),
+      severity: codeableConcept(resource.severity),
+      code: codeableConcept(resource.code),
+      bodySite: map(resource.bodySite, codeableConcept),
+      subject: reference(resource.subject),
+      context: reference(resource.context),
+      onsetDateTime: dateTime(resource.onsetDateTime),
+      abatementDateTime: dateTime(resource.abatementDateTime),
+      assertedDate: dateTime(resource.assertedDate),
+      asserter: reference(resource.asserter),
       stage: stage.parse(resource.stage),
       evidence: map(resource.evidence, evidence.parse),
-      note: map(resource.note, annotation$1)
+      note: map(resource.note, annotation)
     };
   }
   const zibProblem = {
@@ -50149,7 +65785,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseFocalDevice(value2) {
     return {
-      manipulated: reference$1(value2?.manipulated)
+      manipulated: reference(value2?.manipulated)
     };
   }
   const focalDevice = {
@@ -50165,7 +65801,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parsePerformer(value2) {
     return {
-      actor: reference$1(value2?.actor)
+      actor: reference(value2?.actor)
     };
   }
   const performer = {
@@ -50205,11 +65841,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibProcedure(resource) {
     return {
       ...resourceMeta(resource, profile$e, FhirVersion.R3),
-      performedPeriod: period$1(resource.performedPeriod),
-      bodySite: map(resource.bodySite, codeableConcept$1),
+      performedPeriod: period(resource.performedPeriod),
+      bodySite: map(resource.bodySite, codeableConcept),
       bodySiteQualifier: resource.bodySite?.map((x) => extensionNictiz(x, "BodySite-Qualifier")).filter(isNonNullish),
-      reasonReference: map(resource.reasonReference, reference$1),
-      code: codeableConcept$1(resource.code),
+      reasonReference: map(resource.reasonReference, reference),
+      code: codeableConcept(resource.code),
       procedureMethod: extension(
         resource,
         "http://hl7.org/fhir/StructureDefinition/procedure-method",
@@ -50217,9 +65853,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         "codeableConcept"
       ),
       focalDevice: map(resource.focalDevice, focalDevice.parse),
-      location: reference$1(resource.location),
+      location: reference(resource.location),
       performer: map(resource.performer, performer.parse),
-      subject: reference$1(resource.subject)
+      subject: reference(resource.subject)
     };
   }
   const zibProcedure = {
@@ -50249,13 +65885,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibProcedureRequest(resource) {
     return {
       ...resourceMeta(resource, profile$d, FhirVersion.R3),
-      status: string$1(resource.status),
-      occurrence: period$1(resource.occurrencePeriod),
-      code: codeableConcept$1(resource.code),
-      intent: string$1(resource.intent),
-      subject: reference$1(resource.subject),
-      perfomer: reference$1(resource.performer),
-      reason: map(resource.reasonReference, reference$1)
+      status: string(resource.status),
+      occurrence: period(resource.occurrencePeriod),
+      code: codeableConcept(resource.code),
+      intent: string(resource.intent),
+      subject: reference(resource.subject),
+      perfomer: reference(resource.performer),
+      reason: map(resource.reasonReference, reference)
     };
   }
   const zibProcedureRequest = {
@@ -50295,8 +65931,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return {
       ...resourceMeta(resource, profile$c, FhirVersion.R3),
       description: extensionNictiz(resource, "zib-Product-Description"),
-      code: codeableConcept$1(resource.code),
-      form: codeableConcept$1(resource.form),
+      code: codeableConcept(resource.code),
+      form: codeableConcept(resource.form),
       ingredient: map(resource.ingredient, zibProductIngredient.parse),
       package: zibProductPackage.parse(resource.package)
     };
@@ -50335,8 +65971,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseActor$1(value2) {
     return {
-      role: codeableConcept$1(value2?.role),
-      reference: reference$1(value2?.reference)
+      role: codeableConcept(value2?.role),
+      reference: reference(value2?.reference)
     };
   }
   const actor$1 = {
@@ -50356,8 +65992,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseData(value2) {
     return {
-      meaning: code$1(value2?.meaning),
-      reference: reference$1(value2?.reference)
+      meaning: code(value2?.meaning),
+      reference: reference(value2?.reference)
     };
   }
   const data = {
@@ -50387,15 +66023,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseExcept(value2) {
     return {
-      type: code$1(value2?.type),
-      period: period$1(value2?.period),
+      type: code(value2?.type),
+      period: period(value2?.period),
       actor: map(value2?.actor, actor$1.parse),
-      action: map(value2?.action, codeableConcept$1),
-      securityLabel: map(value2?.securityLabel, coding$1),
-      purpose: map(value2?.purpose, coding$1),
-      class: map(value2?.class, coding$1),
-      code: map(value2?.code, coding$1),
-      dataPeriod: period$1(value2?.dataPeriod),
+      action: map(value2?.action, codeableConcept),
+      securityLabel: map(value2?.securityLabel, coding),
+      purpose: map(value2?.purpose, coding),
+      class: map(value2?.class, coding),
+      code: map(value2?.code, coding),
+      dataPeriod: period(value2?.dataPeriod),
       data: map(value2?.data, data.parse)
     };
   }
@@ -50417,9 +66053,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parsePolicy(value2) {
     return {
-      id: string$1(value2?.id),
-      authority: string$1(value2?.authority),
-      uri: string$1(value2?.uri)
+      id: string(value2?.id),
+      authority: string(value2?.authority),
+      uri: string(value2?.uri)
     };
   }
   const policy = {
@@ -50468,24 +66104,24 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibTreatmentDirective(resource) {
     return {
       ...resourceMeta(resource, profile$a, FhirVersion.R3),
-      identifier: identifier$1(resource.identifier),
-      status: code$1(resource.status),
-      category: map(resource.category, codeableConcept$1),
-      patient: reference$1(resource.patient),
-      period: period$1(resource.period),
-      dateTime: dateTime$1(resource.dateTime),
-      consentingParty: map(resource.consentingParty, reference$1),
+      identifier: identifier(resource.identifier),
+      status: code(resource.status),
+      category: map(resource.category, codeableConcept),
+      patient: reference(resource.patient),
+      period: period(resource.period),
+      dateTime: dateTime(resource.dateTime),
+      consentingParty: map(resource.consentingParty, reference),
       actor: map(resource.actor, actor$1.parse),
-      action: map(resource.action, codeableConcept$1),
-      organization: map(resource.organization, reference$1),
-      sourceAttachment: attachment$1.parse(resource.sourceAttachment),
-      sourceIdentifier: identifier$1(resource.sourceIdentifier),
-      sourceReference: reference$1(resource.sourceReference),
+      action: map(resource.action, codeableConcept),
+      organization: map(resource.organization, reference),
+      sourceAttachment: attachment.parse(resource.sourceAttachment),
+      sourceIdentifier: identifier(resource.sourceIdentifier),
+      sourceReference: reference(resource.sourceReference),
       policy: map(resource.policy, policy.parse),
-      policyRule: string$1(resource.policyRule),
-      securityLabel: map(resource.securityLabel, coding$1),
-      purpose: map(resource.purpose, coding$1),
-      dataPeriod: period$1(resource.dataPeriod),
+      policyRule: string(resource.policyRule),
+      securityLabel: map(resource.securityLabel, coding),
+      purpose: map(resource.purpose, coding),
+      dataPeriod: period(resource.dataPeriod),
       data: map(resource.data, data.parse),
       except: map(resource.except, except.parse)
     };
@@ -50504,7 +66140,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseActor(value2) {
     return {
-      actor: reference$1(value2?.actor)
+      actor: reference(value2?.actor)
     };
   }
   const actor = {
@@ -50535,13 +66171,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseZibVaccination(resource) {
     return {
       ...resourceMeta(resource, profile$9, FhirVersion.R3),
-      identifier: map(resource.identifier, identifier$1),
-      patient: reference$1(resource.patient),
-      vaccineCode: codeableConcept$1(resource.vaccineCode),
-      dose: quantity$1(resource.doseQuantity),
-      vaccinationDate: date$3(resource.date),
+      identifier: map(resource.identifier, identifier),
+      patient: reference(resource.patient),
+      vaccineCode: codeableConcept(resource.vaccineCode),
+      dose: quantity(resource.doseQuantity),
+      vaccinationDate: date(resource.date),
       practitioner: map(resource.practitioner, actor.parse),
-      note: map(resource.note, annotation$1)
+      note: map(resource.note, annotation)
     };
   }
   const zibVaccination = {
@@ -50563,9 +66199,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseRecommendation(value2) {
     return {
-      date: dateTime$1(value2?.date),
-      code: codeableConcept$1(value2?.vaccineCode),
-      dateCriterion: map(value2?.dateCriterion, (x) => dateTime$1(x.value))
+      date: dateTime(value2?.date),
+      code: codeableConcept(value2?.vaccineCode),
+      dateCriterion: map(value2?.dateCriterion, (x) => dateTime(x.value))
     };
   }
   const recommendation = {
@@ -50608,7 +66244,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseContent(value2) {
     return {
-      attachment: value2?.attachment ? attachment$1.parse(value2.attachment) : void 0
+      attachment: value2?.attachment ? attachment.parse(value2.attachment) : void 0
     };
   }
   const i18n$8 = "r3.ihe_mhd_minimal_document_reference";
@@ -50709,15 +66345,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseIheMhdMinimalDocumentReference(resource) {
     return {
       ...resourceMeta(resource, profile$7, FhirVersion.R3),
-      masterIdentifier: identifier$1(resource.masterIdentifier),
-      status: code$1(resource.status),
-      type: codeableConcept$1(resource.type),
-      class: codeableConcept$1(resource.class),
-      subject: reference$1(resource.subject),
-      indexed: instant$1(resource.indexed),
-      author: map(resource.author, reference$1),
+      masterIdentifier: identifier(resource.masterIdentifier),
+      status: code(resource.status),
+      type: codeableConcept(resource.type),
+      class: codeableConcept(resource.class),
+      subject: reference(resource.subject),
+      indexed: instant(resource.indexed),
+      author: map(resource.author, reference),
       content: parseContent(resource.content[0]),
-      securityLabel: map(resource.securityLabel, codeableConcept$1)
+      securityLabel: map(resource.securityLabel, codeableConcept)
     };
   }
   const iheMhdMinimalDocumentReference = {
@@ -50842,19 +66478,19 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       "codeableConcept"
     );
     return {
-      line: string$1(value2?.line?.[0]),
+      line: string(value2?.line?.[0]),
       streetName,
       houseNumber,
       houseNumberAddition,
       houseNumberIndication,
       additionalInformation,
-      city: string$1(value2?.city),
-      district: string$1(value2?.district),
-      postalCode: string$1(value2?.postalCode),
-      country: string$1(value2?.country),
+      city: string(value2?.city),
+      district: string(value2?.district),
+      postalCode: string(value2?.postalCode),
+      country: string(value2?.country),
       countryCode,
       addressType,
-      period: period$1(value2?.period)
+      period: period(value2?.period)
     };
   }
   const nlCoreAddressInformation = {
@@ -50876,8 +66512,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     if (value2?.system !== "email") return;
     return {
       system: value2.system,
-      value: string$1(value2?.value),
-      use: code$1(value2?.use)
+      value: string(value2?.value),
+      use: code(value2?.use)
     };
   }
   const nlCoreContactInformationEmailAddresses = {
@@ -50907,8 +66543,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         // NOSONAR
         "codeableConcept"
       ),
-      value: string$1(value2?.value),
-      use: code$1(value2?.use),
+      value: string(value2?.value),
+      use: code(value2?.use),
       comment: extension(
         value2,
         "http://nictiz.nl/fhir/StructureDefinition/ext-Comment",
@@ -50947,9 +66583,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     if (value2?.use === "usual") {
       return {
         use: value2.use,
-        given: map(value2?.given, string$1),
-        period: period$1(value2?.period),
-        text: string$1(value2?.text)
+        given: map(value2?.given, string),
+        period: period(value2?.period),
+        text: string(value2?.text)
       };
     }
     const nameValues = filterPrimitiveByExtension(value2, "given", {
@@ -50969,15 +66605,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         // NOSONAR
         "code"
       ),
-      family: string$1(value2?.family),
-      given: map(value2?.given, string$1),
-      givenNames: map(nameValues, string$1),
-      givenInitials: map(initialValues, string$1),
-      period: period$1(value2?.period),
-      prefix: map(value2?.prefix, string$1),
-      suffix: map(value2?.suffix, string$1),
-      text: string$1(value2?.text),
-      use: string$1(value2?.use)
+      family: string(value2?.family),
+      given: map(value2?.given, string),
+      givenNames: map(nameValues, string),
+      givenInitials: map(initialValues, string),
+      period: period(value2?.period),
+      prefix: map(value2?.prefix, string),
+      suffix: map(value2?.suffix, string),
+      text: string(value2?.text),
+      use: string(value2?.use)
     };
   }
   const nlCoreNameInformation = {
@@ -51024,12 +66660,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseNlCoreHealtcareProvider(resource) {
     return {
       ...resourceMeta(resource, profile$6, FhirVersion.R4),
-      identifier: map(resource.identifier, identifier$1),
-      name: string$1(resource.name),
+      identifier: map(resource.identifier, identifier),
+      name: string(resource.name),
       telephoneNumbers: map(resource.telecom, nlCoreContactInformationTelephoneNumbers.parse),
       emailAddresses: map(resource.telecom, nlCoreContactInformationEmailAddresses.parse),
       address: nlCoreAddressInformation.parse(resource.address),
-      managingOrganization: reference$1(resource.managingOrganization)
+      managingOrganization: reference(resource.managingOrganization)
     };
   }
   const nlCoreHealtcareProvider = {
@@ -51052,10 +66688,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseQualification(value2) {
     return {
-      identifier: map(value2?.identifier, identifier$1),
-      code: codeableConcept$1(value2?.code),
-      period: period$1(value2?.period),
-      issuer: reference$1(value2?.issuer)
+      identifier: map(value2?.identifier, identifier),
+      code: codeableConcept(value2?.code),
+      period: period(value2?.period),
+      issuer: reference(value2?.issuer)
     };
   }
   const qualification = {
@@ -51110,7 +66746,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseNlCoreHealthProfessionalPractitioner(resource) {
     return {
       ...resourceMeta(resource, profile$5, FhirVersion.R4),
-      identifier: map(resource.identifier, identifier$1),
+      identifier: map(resource.identifier, identifier),
       // NL-CM:17.1.2
       name: map(resource.name, nlCoreNameInformation.parse),
       // NL-CM:17.1.3
@@ -51120,11 +66756,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       // NL-CM-20.6.3
       address: map(resource.address, nlCoreAddressInformation.parse),
       // NL-CM:17.1.7
-      gender: code$1(resource.gender),
+      gender: code(resource.gender),
       // NL-CM:17.1.9
-      birthDate: date$3(resource.birthDate),
+      birthDate: date(resource.birthDate),
       qualification: map(resource.qualification, qualification.parse),
-      communication: map(resource.communication, codeableConcept$1)
+      communication: map(resource.communication, codeableConcept)
     };
   }
   const r4NlCoreHealthProfessionalPractitioner = {
@@ -51167,10 +66803,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseNlCoreHealthProfessionalPractitionerRole(resource) {
     return {
       ...resourceMeta(resource, profile$4, FhirVersion.R4),
-      practitioner: reference$1(resource.practitioner),
-      organization: reference$1(resource.organization),
-      location: map(resource.location, reference$1),
-      speciality: map(resource.specialty, codeableConcept$1),
+      practitioner: reference(resource.practitioner),
+      organization: reference(resource.organization),
+      location: map(resource.location, reference),
+      speciality: map(resource.specialty, codeableConcept),
       telephoneNumbers: map(resource.telecom, nlCoreContactInformationTelephoneNumbers.parse),
       emailAddresses: map(resource.telecom, nlCoreContactInformationEmailAddresses.parse)
     };
@@ -51217,13 +66853,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function parseNlCoreHealthcareProviderOrganization(resource) {
     return {
       ...resourceMeta(resource, profile$3, FhirVersion.R4),
-      identifier: map(resource.identifier, identifier$1),
+      identifier: map(resource.identifier, identifier),
       departmentSpecialty: map(
         filterCodeableConceptByCoding(
           resource.type,
           (x) => x.system === "urn:oid:2.16.840.1.113883.2.4.6.7"
         ),
-        codeableConcept$1
+        codeableConcept
       ),
       organizationType: map(
         filterCodeableConceptByCoding(
@@ -51231,9 +66867,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           (x) => x.system === "http://nictiz.nl/fhir/NamingSystem/organization-type"
           // NOSONAR
         ),
-        codeableConcept$1
+        codeableConcept
       ),
-      name: string$1(resource.name),
+      name: string(resource.name),
       telephoneNumbers: map(resource.telecom, nlCoreContactInformationTelephoneNumbers.parse),
       emailAddresses: map(resource.telecom, nlCoreContactInformationEmailAddresses.parse),
       address: map(resource.address, nlCoreAddressInformation.parse)
@@ -51280,22 +66916,22 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return {
       ...resourceMeta(resource, profile$2, FhirVersion.R4),
       name: map(resource.name, nlCoreNameInformation.parse),
-      identifier: map(resource.identifier, identifier$1),
+      identifier: map(resource.identifier, identifier),
       // NL-CM:0.1.7
-      birthDate: date$3(resource.birthDate),
+      birthDate: date(resource.birthDate),
       // NL-CM:0.1.10
-      gender: code$1(resource.gender),
+      gender: code(resource.gender),
       // NL-CM:0.1.9
-      multipleBirth: boolean$1(resource.multipleBirthBoolean),
+      multipleBirth: boolean(resource.multipleBirthBoolean),
       // NL-CM:0.1.31
-      deceased: boolean$1(resource.deceasedBoolean),
+      deceased: boolean(resource.deceasedBoolean),
       // NL-CM:0.1.32
-      deceasedDateTime: dateTime$1(resource.deceasedDateTime),
+      deceasedDateTime: dateTime(resource.deceasedDateTime),
       // NL-CM:0.1.33
       address: map(resource?.address, nlCoreAddressInformation.parse),
-      generalPractitioner: map(resource.generalPractitioner, reference$1),
-      managingOrganization: reference$1(resource.managingOrganization),
-      maritalStatus: codeableConcept$1(resource.maritalStatus)
+      generalPractitioner: map(resource.generalPractitioner, reference),
+      managingOrganization: reference(resource.managingOrganization),
+      maritalStatus: codeableConcept(resource.maritalStatus)
     };
   }
   const r4NlCorePatient = {
@@ -51316,8 +66952,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseBatch(value2) {
     return {
-      lotNumber: string$1(value2?.lotNumber),
-      expirationDate: dateTime$1(value2?.expirationDate)
+      lotNumber: string(value2?.lotNumber),
+      expirationDate: dateTime(value2?.expirationDate)
     };
   }
   const batch = {
@@ -51337,8 +66973,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   };
   function parseIngredient(value2) {
     return {
-      ...oneOfValueX$1(value2, ["codeableConcept", "reference"], "item"),
-      strength: ratio$1(value2?.strength)
+      ...oneOfValueX(value2, ["codeableConcept", "reference"], "item"),
+      strength: ratio(value2?.strength)
     };
   }
   const ingredient = {
@@ -51380,15 +67016,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return {
       ...resourceMeta(resource, profile$1, FhirVersion.R4),
       description: extensionNictiz(resource, "ext-PharmaceuticalProduct.Description"),
-      code: codeableConcept$1(resource.code),
-      status: code$1(resource.status),
-      manufacturer: reference$1(resource.manufacturer),
-      form: codeableConcept$1(resource.form),
-      amount: ratio$1(resource.amount),
+      code: codeableConcept(resource.code),
+      status: code(resource.status),
+      manufacturer: reference(resource.manufacturer),
+      form: codeableConcept(resource.form),
+      amount: ratio(resource.amount),
       ingredient: map(resource.ingredient, ingredient.parse),
       batch: batch.parse(resource.batch),
-      identifier: map(resource.identifier, identifier$1),
-      name: string$1(resource.code?.text)
+      identifier: map(resource.identifier, identifier),
+      name: string(resource.code?.text)
     };
   }
   const nlCorePharmaceuticalProductR4 = {
@@ -51416,10 +67052,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   })(VaccinationMotive || {});
   function parseProtocolApplied(value2) {
     return {
-      authority: reference$1(value2?.authority),
-      targetDisease: map(value2?.targetDisease, codeableConcept$1),
-      ...oneOfValueX$1(value2, ["string", "positiveInt"], "doseNumber"),
-      ...oneOfValueX$1(value2, ["string", "positiveInt"], "seriesDoses")
+      authority: reference(value2?.authority),
+      targetDisease: map(value2?.targetDisease, codeableConcept),
+      ...oneOfValueX(value2, ["string", "positiveInt"], "doseNumber"),
+      ...oneOfValueX(value2, ["string", "positiveInt"], "seriesDoses")
     };
   }
   const i18n$1 = "r4.nl_core_vaccination_event.protocol_applied";
@@ -51548,30 +67184,30 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         "ext-Vaccination.PharmaceuticalProduct"
       ),
       // NL-CM:9.7.19926
-      identifier: map(resource.identifier, identifier$1),
-      status: string$1(resource.status),
+      identifier: map(resource.identifier, identifier),
+      status: string(resource.status),
       // imm-dataelement-144
-      vaccineCode: codeableConcept$1(resource.vaccineCode),
+      vaccineCode: codeableConcept(resource.vaccineCode),
       // NL-CM:9.7.19927
-      patient: reference$1(resource.patient),
+      patient: reference(resource.patient),
       // NL-CM:0.1.1
-      occurrenceDateTime: dateTime$1(resource.occurrenceDateTime),
+      occurrenceDateTime: dateTime(resource.occurrenceDateTime),
       // NL-CM:11.1.3
-      location: reference$1(resource.location),
+      location: reference(resource.location),
       // NL-CM:17.2.1 | NL-CM:17.2.9
-      site: codeableConcept$1(resource.site),
+      site: codeableConcept(resource.site),
       // NL-CM:20.7.4
-      route: codeableConcept$1(resource.route),
+      route: codeableConcept(resource.route),
       // NL-CM:9.13.21195
-      doseQuantity: quantity$1(resource.doseQuantity),
+      doseQuantity: quantity(resource.doseQuantity),
       // NL-CM:11.1.4
-      performer: map(resource.performer, (p) => reference$1(p.actor)),
+      performer: map(resource.performer, (p) => reference(p.actor)),
       // NL-CM:17.1.1
-      note: map(resource.note, annotation$1),
+      note: map(resource.note, annotation),
       // NL-CM:11.1.7
-      vaccinationIndication: map(vaccinationIndication, codeableConcept$1),
+      vaccinationIndication: map(vaccinationIndication, codeableConcept),
       // imm-dataelement-160
-      vaccinationMotive: map(vaccinationMotive, codeableConcept$1),
+      vaccinationMotive: map(vaccinationMotive, codeableConcept),
       // imm-dataelement-158
       protocolApplied: map(resource.protocolApplied, parseProtocolApplied)
     };
@@ -51607,6 +67243,26 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       return resourcesMap[profile2];
     }
   }
+  function getDetails(resource, options) {
+    if (!isMgoResource(resource)) {
+      throw new Error(
+        `input does not seem to be a valid MGO Resource. Received MGO resource profile: "${resource?.profile}"`
+      );
+    }
+    const config2 = getResourceConfig(resource.profile, resource.fhirVersion);
+    if (!config2) {
+      throw new Error(
+        `No config found for MGO Resource with profile: "${resource.profile}" and fhir version: "${resource.fhirVersion}"`
+      );
+    }
+    const context = createSchemaContext({
+      locale: options?.locale ?? Locale.NL_NL,
+      ignoreMissingTranslations: true,
+      ...options
+    });
+    const uiSchema2 = config2.uiSchema(resource, context);
+    return setEmptyEntries(context)(uiSchema2);
+  }
   const defaultOptions = {
     fhirVersion: FhirVersion.R3
   };
@@ -51626,15662 +67282,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return config2.parse(resource);
   }
-  function getBundleResources(bundle) {
-    if (!isFhirResource(bundle, "Bundle")) {
-      throw new Error(
-        `input does not seem to be a Fhir Bundle. Received resourceType: "${bundle?.resourceType}"`
-      );
-    }
-    const resources = bundle.entry?.map((entry) => entry.resource).filter(isNonNullish);
-    if (!resources?.length) return [];
-    return resources;
-  }
-  function numberToString(value2) {
-    if (isNullish(value2)) return;
-    return value2.toString();
-  }
-  function getChildren(value2) {
-    if (isNullish(value2)) return [];
-    if (Array.isArray(value2)) {
-      return value2.map((x) => x.children).flat();
-    }
-    return value2.children;
-  }
-  function isEmptyUiEntry(uiField) {
-    switch (uiField.type) {
-      case "REFERENCE_VALUE":
-      case "REFERENCE_LINK":
-      case "DOWNLOAD_BINARY":
-        return isNullish(uiField.reference);
-      case "SINGLE_VALUE":
-        return isNullish(uiField.display);
-      case "MULTIPLE_VALUES":
-      case "MULTIPLE_GROUPED_VALUES":
-        return isNullish(uiField.display) || !uiField.display.flat().length;
-      case "DOWNLOAD_LINK":
-        return isNullish(uiField.url);
-      default:
-        throw new Error(`Unknown UI entry type: ${uiField.type}`);
-    }
-  }
-  function isUiSchemaGroup(schema) {
-    return schema.children?.some((x) => typeof x.type === "string");
-  }
-  function processGroup(group, { formatMessage: formatMessage2 }) {
-    return {
-      ...group,
-      children: group.children.map((entry) => {
-        return isEmptyUiEntry(entry) && !["DOWNLOAD_LINK", "DOWNLOAD_BINARY"].includes(entry.type) ? {
-          type: "SINGLE_VALUE",
-          label: entry.label,
-          display: formatMessage2("schema.empty_entry_display")
-        } : entry;
-      })
-    };
-  }
-  function setEmptyEntries(context) {
-    return (schema) => {
-      if (Array.isArray(schema)) {
-        return schema.map((x) => processGroup(x, context));
-      }
-      if (isUiSchemaGroup(schema)) {
-        return processGroup(schema, context);
-      }
-      return {
-        ...schema,
-        children: schema.children.map((x) => processGroup(x, context))
-      };
-    };
-  }
-  const fhirMessages = {
-    "fhir.boolean.false": [
-      {
-        type: 0,
-        value: "Nee"
-      }
-    ],
-    "fhir.boolean.true": [
-      {
-        type: 0,
-        value: "Ja"
-      }
-    ],
-    "fhir.group_general_info": [
-      {
-        type: 0,
-        value: "Algemeen"
-      }
-    ],
-    "fhir.period.end": [
-      {
-        type: 0,
-        value: "Eind datum"
-      }
-    ],
-    "fhir.period.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "fhir.range.high": [
-      {
-        type: 0,
-        value: "Bovengrens"
-      }
-    ],
-    "fhir.range.low": [
-      {
-        type: 0,
-        value: "Ondergrens"
-      }
-    ],
-    "fhir.ratio.denominator": [
-      {
-        type: 0,
-        value: "Noemer"
-      }
-    ],
-    "fhir.ratio.numerator": [
-      {
-        type: 0,
-        value: "Teller"
-      }
-    ],
-    "fhir.unknown": [
-      {
-        type: 0,
-        value: "Onbekend"
-      }
-    ],
-    "format.code_in_system": [
-      {
-        type: 1,
-        value: "code"
-      },
-      {
-        type: 0,
-        value: " in code systeem "
-      },
-      {
-        type: 1,
-        value: "system"
-      }
-    ],
-    "schema.empty_entry_display": [
-      {
-        type: 0,
-        value: "Niet bekend"
-      }
-    ]
-  };
-  const summaryLabels = {
-    "summary.options": [
-      {
-        type: 0,
-        value: "Opties"
-      }
-    ],
-    "summary.r3.ihe_mhd_minimal_document_reference.group_attachment": [
-      {
-        type: 0,
-        value: "Bijlage"
-      }
-    ],
-    "summary.r3.ihe_mhd_minimal_document_reference.group_author": [
-      {
-        type: 0,
-        value: "Opgesteld door"
-      }
-    ],
-    "summary.r3.ihe_mhd_minimal_document_reference.show_details": [
-      {
-        type: 0,
-        value: "Bekijk alle documentgegevens"
-      }
-    ],
-    "summary.r3.zib_instructions_for_use": [
-      {
-        type: 0,
-        value: "Instructies "
-      },
-      {
-        type: 1,
-        value: "sequence"
-      }
-    ],
-    "summary.r3.zib_instructions_for_use.dose": [
-      {
-        type: 0,
-        value: "Hoeveelheid per keer"
-      }
-    ],
-    "summary.r3.zib_instructions_for_use.dose.high": [
-      {
-        type: 0,
-        value: "Maximaal"
-      }
-    ],
-    "summary.r3.zib_instructions_for_use.dose.low": [
-      {
-        type: 0,
-        value: "Minimaal"
-      }
-    ],
-    "summary.r3.zib_instructions_for_use.text": [
-      {
-        type: 0,
-        value: "Gebruiksaanwijzing"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.effective": [
-      {
-        type: 0,
-        value: "Datum van de uitslag"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.effective.end": [
-      {
-        type: 0,
-        value: "Eind datum van de uitslag"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.effective.start": [
-      {
-        type: 0,
-        value: "Begin datum van de uitslag"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.group_performer": [
-      {
-        type: 0,
-        value: "Test afgenomen door"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.group_test_details": [
-      {
-        type: 0,
-        value: "Details van de test"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.interpretation": [
-      {
-        type: 0,
-        value: "Beoordeling"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.performer": [
-      {
-        type: 0,
-        value: "Specialist"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.reference_range": [
-      {
-        type: 0,
-        value: "Referentiewaarden"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.reference_range.high": [
-      {
-        type: 0,
-        value: "Maximale waarde"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.reference_range.low": [
-      {
-        type: 0,
-        value: "Minimale waarde"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.show_details": [
-      {
-        type: 0,
-        value: "Bekijk alle uitslaggegevens"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.specimen": [
-      {
-        type: 0,
-        value: "Materiaal"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.status": [
-      {
-        type: 0,
-        value: "Status"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.value": [
-      {
-        type: 0,
-        value: "Resultaat"
-      }
-    ],
-    "summary.r3.zib_medication_use.group_period": [
-      {
-        type: 0,
-        value: "Periode van gebruik"
-      }
-    ],
-    "summary.r3.zib_medication_use.group_prescriber": [
-      {
-        type: 0,
-        value: "Voorgeschreven door"
-      }
-    ],
-    "summary.r3.zib_medication_use.prescriber": [
-      {
-        type: 0,
-        value: "Specialist"
-      }
-    ],
-    "summary.r3.zib_medication_use.show_details": [
-      {
-        type: 0,
-        value: "Bekijk alle medicijngegevens"
-      }
-    ],
-    "summary.r3.zib_medication_use.status": [
-      {
-        type: 0,
-        value: "Status"
-      }
-    ],
-    "summary.r4.nl_core_vaccination_event.group_performer": [
-      {
-        type: 0,
-        value: "Gegeven door"
-      }
-    ],
-    "summary.r4.nl_core_vaccination_event.show_details": [
-      {
-        type: 0,
-        value: "Bekijk alle vaccinatiegegevens"
-      }
-    ]
-  };
-  const codeLabels = {
-    "codes.r3.observation.status.amended": [
-      {
-        type: 0,
-        value: "Gewijzigd"
-      }
-    ],
-    "codes.r3.observation.status.cancelled": [
-      {
-        type: 0,
-        value: "Geannuleerd"
-      }
-    ],
-    "codes.r3.observation.status.corrected": [
-      {
-        type: 0,
-        value: "Gecorrigeerd"
-      }
-    ],
-    "codes.r3.observation.status.entered-in-error": [
-      {
-        type: 0,
-        value: "Foutief ingevoerd"
-      }
-    ],
-    "codes.r3.observation.status.final": [
-      {
-        type: 0,
-        value: "Definitief"
-      }
-    ],
-    "codes.r3.observation.status.preliminary": [
-      {
-        type: 0,
-        value: "Inleidend"
-      }
-    ],
-    "codes.r3.observation.status.registered": [
-      {
-        type: 0,
-        value: "Geregistreerd"
-      }
-    ],
-    "codes.r3.observation.status.unknown": [
-      {
-        type: 0,
-        value: "Onbekend"
-      }
-    ],
-    "codes.r3.zib_medication_use.status.active": [
-      {
-        type: 0,
-        value: "Actief"
-      }
-    ],
-    "codes.r3.zib_medication_use.status.completed": [
-      {
-        type: 0,
-        value: "Voldaan"
-      }
-    ],
-    "codes.r3.zib_medication_use.status.entered-in-error": [
-      {
-        type: 0,
-        value: "Foutief ingevoerd"
-      }
-    ],
-    "codes.r3.zib_medication_use.status.intended": [
-      {
-        type: 0,
-        value: "Bedoeld"
-      }
-    ],
-    "codes.r3.zib_medication_use.status.on-hold": [
-      {
-        type: 0,
-        value: "Gepauzeerd"
-      }
-    ],
-    "codes.r3.zib_medication_use.status.stopped": [
-      {
-        type: 0,
-        value: "Gestopt"
-      }
-    ]
-  };
-  const systemLabels = {
-    "system.code.http://hl7.org/fhir/referencerange-meaning|follicular": [
-      {
-        type: 0,
-        value: "Folliculair stadium referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|luteal": [
-      {
-        type: 0,
-        value: "Luteaal referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|midcycle": [
-      {
-        type: 0,
-        value: "Middencyclus referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|normal": [
-      {
-        type: 0,
-        value: "Normale referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|post": [
-      {
-        type: 0,
-        value: "Posttherapeutische referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|postmeopausal": [
-      {
-        type: 0,
-        value: "Post-menopauze referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|pre": [
-      {
-        type: 0,
-        value: "Pre-therapeutische referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|pre-puberty": [
-      {
-        type: 0,
-        value: "Pre-puberteit referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|recommended": [
-      {
-        type: 0,
-        value: "Aanbevolen referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|therapeutic": [
-      {
-        type: 0,
-        value: "Therapeutische referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|treatment": [
-      {
-        type: 0,
-        value: "Behandelings referentiewaarden"
-      }
-    ],
-    "system.urn:oid:2.16.840.1.113883.2.4.4.9": [
-      {
-        type: 0,
-        value: "G-Standaard Toedieningswegen (tabel 7)"
-      }
-    ],
-    "system.value.http://unitsofmeasure.org|d": [
-      {
-        offset: 0,
-        options: {
-          one: {
-            value: [
-              {
-                type: 0,
-                value: "één dag"
-              }
-            ]
-          },
-          other: {
-            value: [
-              {
-                style: null,
-                type: 2,
-                value: "value"
-              },
-              {
-                type: 0,
-                value: " dagen"
-              }
-            ]
-          }
-        },
-        pluralType: "cardinal",
-        type: 6,
-        value: "value"
-      }
-    ],
-    "system.value.http://unitsofmeasure.org|mmol/L": [
-      {
-        offset: 0,
-        options: {
-          one: {
-            value: [
-              {
-                style: null,
-                type: 2,
-                value: "value"
-              },
-              {
-                type: 0,
-                value: " millimol per liter"
-              }
-            ]
-          },
-          other: {
-            value: [
-              {
-                style: null,
-                type: 2,
-                value: "value"
-              },
-              {
-                type: 0,
-                value: " millimol per liter"
-              }
-            ]
-          }
-        },
-        pluralType: "cardinal",
-        type: 6,
-        value: "value"
-      }
-    ],
-    "system.value.urn:oid:2.16.840.1.113883.2.4.4.1.900.2|245": [
-      {
-        offset: 0,
-        options: {
-          one: {
-            value: [
-              {
-                style: null,
-                type: 2,
-                value: "value"
-              },
-              {
-                type: 0,
-                value: " stuk"
-              }
-            ]
-          },
-          other: {
-            value: [
-              {
-                style: null,
-                type: 2,
-                value: "value"
-              },
-              {
-                type: 0,
-                value: " stuks"
-              }
-            ]
-          }
-        },
-        pluralType: "cardinal",
-        type: 6,
-        value: "value"
-      }
-    ]
-  };
-  const detailLabels = {
-    "detail.options": [
-      {
-        type: 0,
-        value: "Opties"
-      }
-    ],
-    "detail.r3.ihe_mhd_minimal_document_reference.group_attachment": [
-      {
-        type: 0,
-        value: "Inhoud"
-      }
-    ],
-    "detail.r3.ihe_mhd_minimal_document_reference.group_author": [
-      {
-        type: 0,
-        value: "Opgesteld door"
-      }
-    ]
-  };
-  const r3ResourceLabels = {
-    "r3.gp_encounter_report": [
-      {
-        type: 0,
-        value: "Deelcontactverslag"
-      }
-    ],
-    "r3.gp_journal_entry.value": [
-      {
-        type: 0,
-        value: "Journaalregel tekst"
-      }
-    ],
-    "r3.nl_core_address": [
-      {
-        type: 0,
-        value: "Adres informatie"
-      }
-    ],
-    "r3.nl_core_address.address_type.value": [
-      {
-        type: 0,
-        value: "Adres soort"
-      }
-    ],
-    "r3.nl_core_address.city": [
-      {
-        type: 0,
-        value: "Municipality"
-      }
-    ],
-    "r3.nl_core_address.country": [
-      {
-        type: 0,
-        value: "Land"
-      }
-    ],
-    "r3.nl_core_address.country.country_code.value": [
-      {
-        type: 0,
-        value: "Land GBA codelijst"
-      }
-    ],
-    "r3.nl_core_address.district": [
-      {
-        type: 0,
-        value: "Gemeente"
-      }
-    ],
-    "r3.nl_core_address.official": [
-      {
-        type: 0,
-        value: "Markeer een adres als een 'officieel geregistreerd adres."
-      }
-    ],
-    "r3.nl_core_address.postal_code": [
-      {
-        type: 0,
-        value: "Postcode"
-      }
-    ],
-    "r3.nl_core_address.state": [
-      {
-        type: 0,
-        value: "Provincie"
-      }
-    ],
-    "r3.nl_core_address_official.value": [
-      {
-        type: 0,
-        value: "True als deze deel is van een officieel register. false indien dat niet het geval is"
-      }
-    ],
-    "r3.nl_core_careplan.nursing_intervention.detail.code": [
-      {
-        type: 0,
-        value: "Interventie"
-      }
-    ],
-    "r3.nl_core_careplan.nursing_intervention.detail.goal": [
-      {
-        type: 0,
-        value: "Behandeldoel"
-      }
-    ],
-    "r3.nl_core_careplan.nursing_intervention.detail.medical_device": [
-      {
-        type: 0,
-        value: "Medisch hulpmiddel"
-      }
-    ],
-    "r3.nl_core_careplan.nursing_intervention.detail.performer": [
-      {
-        type: 0,
-        value: "Uitvoerder"
-      }
-    ],
-    "r3.nl_core_careplan.nursing_intervention.detail.reason_reference": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.bounds_period.end": [
-      {
-        type: 0,
-        value: "Actie eind datum tijd"
-      }
-    ],
-    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.bounds_period.start": [
-      {
-        type: 0,
-        value: "Actie start datum tijd"
-      }
-    ],
-    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.frequency": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    "r3.nl_core_careplan.nursing_intervention.detail.scheduled_timing.repeat.period": [
-      {
-        type: 0,
-        value: "Interval"
-      }
-    ],
-    "r3.nl_core_careplan.nursing_intervention.outcome_codeable_concept.text": [
-      {
-        type: 0,
-        value: "Zorgresultaat"
-      }
-    ],
-    "r3.nl_core_careplan.nursing_intervention.outcome_reference": [
-      {
-        type: 0,
-        value: "Meetwaarde"
-      }
-    ],
-    "r3.nl_core_careteam.participant.role.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r3.nl_core_contactpoint": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r3.nl_core_contactpoint.system": [
-      {
-        type: 0,
-        value: "Telecom type / email soort"
-      }
-    ],
-    "r3.nl_core_contactpoint.telecom_type": [
-      {
-        type: 0,
-        value: "Telecom type"
-      }
-    ],
-    "r3.nl_core_contactpoint.use": [
-      {
-        type: 0,
-        value: "Telecom type / nummer soort / email soort"
-      }
-    ],
-    "r3.nl_core_contactpoint.value": [
-      {
-        type: 0,
-        value: "Telefoonnummer / e-mailadres"
-      }
-    ],
-    "r3.nl_core_episodeofcare.type.text": [
-      {
-        type: 0,
-        value: "Concern label"
-      }
-    ],
-    "r3.nl_core_healthcareservice.telecom": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r3.nl_core_humanname.family": [
-      {
-        type: 0,
-        value: "Achternaam"
-      }
-    ],
-    "r3.nl_core_humanname.family.humanname_own_name": [
-      {
-        type: 0,
-        value: "Geslachtsnaam"
-      }
-    ],
-    "r3.nl_core_humanname.family.humanname_own_prefix": [
-      {
-        type: 0,
-        value: "Voorvoegsel geslachtsnaam"
-      }
-    ],
-    "r3.nl_core_humanname.family.humanname_partner_name": [
-      {
-        type: 0,
-        value: "Geslachtsnaam partner"
-      }
-    ],
-    "r3.nl_core_humanname.family.humanname_partner_prefix": [
-      {
-        type: 0,
-        value: "Voorvoegsel geslachtsnaam partner"
-      }
-    ],
-    "r3.nl_core_humanname.given": [
-      {
-        type: 0,
-        value: "Voornamen"
-      }
-    ],
-    "r3.nl_core_humanname.humanname_assembly_order": [
-      {
-        type: 0,
-        value: "Voorkeursvolgorde van de naamdelen."
-      }
-    ],
-    "r3.nl_core_location.address": [
-      {
-        type: 0,
-        value: "Adresgegevens"
-      }
-    ],
-    "r3.nl_core_location.name": [
-      {
-        type: 0,
-        value: "Organization location"
-      }
-    ],
-    "r3.nl_core_location.telecom": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r3.nl_core_organization": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "r3.nl_core_organization.address": [
-      {
-        type: 0,
-        value: "Adresgegevens"
-      }
-    ],
-    "r3.nl_core_organization.agb": [
-      {
-        type: 0,
-        value: "AGB"
-      }
-    ],
-    "r3.nl_core_organization.agb.value": [
-      {
-        type: 0,
-        value: "AGB-z (vektis AGB-z zorgverlenertabel)"
-      }
-    ],
-    "r3.nl_core_organization.alias": [
-      {
-        type: 0,
-        value: "Organisatie alias"
-      }
-    ],
-    "r3.nl_core_organization.department_specialty": [
-      {
-        type: 0,
-        value: "Afdeling specialisme"
-      }
-    ],
-    "r3.nl_core_organization.name": [
-      {
-        type: 0,
-        value: "Organisatie naam of afdeling naam"
-      }
-    ],
-    "r3.nl_core_organization.organization_type": [
-      {
-        type: 0,
-        value: "Organisatie type"
-      }
-    ],
-    "r3.nl_core_organization.telecom": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r3.nl_core_organization.ura": [
-      {
-        type: 0,
-        value: "URA"
-      }
-    ],
-    "r3.nl_core_organization.ura.value": [
-      {
-        type: 0,
-        value: "URA (UZI-register abonneenummer)"
-      }
-    ],
-    "r3.nl_core_organization.uzovi": [
-      {
-        type: 0,
-        value: "UZOVI"
-      }
-    ],
-    "r3.nl_core_organization.uzovi.value": [
-      {
-        type: 0,
-        value: "Unieke zorgverekeraar identificatie (het UZOVI-nummer)"
-      }
-    ],
-    "r3.nl_core_patient": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "r3.nl_core_patient.address": [
-      {
-        type: 0,
-        value: "Adresgegevens"
-      }
-    ],
-    "r3.nl_core_patient.birth_date": [
-      {
-        type: 0,
-        value: "Geboortedatum"
-      }
-    ],
-    "r3.nl_core_patient.bsn": [
-      {
-        type: 0,
-        value: "BSN"
-      }
-    ],
-    "r3.nl_core_patient.bsn.value": [
-      {
-        type: 0,
-        value: "BSN"
-      }
-    ],
-    "r3.nl_core_patient.communication": [
-      {
-        type: 0,
-        value: "Taalvaardigheid"
-      }
-    ],
-    "r3.nl_core_patient.communication.language": [
-      {
-        type: 0,
-        value: "Communicatie taal"
-      }
-    ],
-    "r3.nl_core_patient.contact": [
-      {
-        type: 0,
-        value: "Contactpersoon"
-      }
-    ],
-    "r3.nl_core_patient.contact.address": [
-      {
-        type: 0,
-        value: "Adresgegevens"
-      }
-    ],
-    "r3.nl_core_patient.contact.name": [
-      {
-        type: 0,
-        value: "Naamgegevens"
-      }
-    ],
-    "r3.nl_core_patient.contact.relationship": [
-      {
-        type: 0,
-        value: "Relatie"
-      }
-    ],
-    "r3.nl_core_patient.contact.role": [
-      {
-        type: 0,
-        value: "Rol"
-      }
-    ],
-    "r3.nl_core_patient.deceased": [
-      {
-        type: 0,
-        value: "Overlijdensindicator/datum overlijden"
-      }
-    ],
-    "r3.nl_core_patient.gender": [
-      {
-        type: 0,
-        value: "Geslacht"
-      }
-    ],
-    "r3.nl_core_patient.gender.geslacht_codelijst": [
-      {
-        type: 0,
-        value: "Geslacht"
-      }
-    ],
-    "r3.nl_core_patient.general_practitioner": [
-      {
-        type: 0,
-        value: "Huisarts"
-      }
-    ],
-    "r3.nl_core_patient.identifier": [
-      {
-        type: 0,
-        value: "Identificatienummer"
-      }
-    ],
-    "r3.nl_core_patient.marital_status": [
-      {
-        type: 0,
-        value: "Burgerlijke staat"
-      }
-    ],
-    "r3.nl_core_patient.multiple_birth": [
-      {
-        type: 0,
-        value: "Meerlingindicator"
-      }
-    ],
-    "r3.nl_core_patient.name": [
-      {
-        type: 0,
-        value: "Naamgegevens"
-      }
-    ],
-    "r3.nl_core_patient.nationality": [
-      {
-        type: 0,
-        value: "Nationaliteit"
-      }
-    ],
-    "r3.nl_core_patient.preferred_pharmacy": [
-      {
-        type: 0,
-        value: "Verwijst naar de voorkeursapotheek van de patiënt"
-      }
-    ],
-    "r3.nl_core_person.address": [
-      {
-        type: 0,
-        value: "Adresgegevens"
-      }
-    ],
-    "r3.nl_core_person.birth_date": [
-      {
-        type: 0,
-        value: "Geboortedatum"
-      }
-    ],
-    "r3.nl_core_person.bsn": [
-      {
-        type: 0,
-        value: "BSN"
-      }
-    ],
-    "r3.nl_core_person.bsn.value": [
-      {
-        type: 0,
-        value: "BSN"
-      }
-    ],
-    "r3.nl_core_person.gender": [
-      {
-        type: 0,
-        value: "Geslacht"
-      }
-    ],
-    "r3.nl_core_person.identifier": [
-      {
-        type: 0,
-        value: "Identificatienummer"
-      }
-    ],
-    "r3.nl_core_person.name": [
-      {
-        type: 0,
-        value: "Naamgegevens"
-      }
-    ],
-    "r3.nl_core_person.telecom": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r3.nl_core_practitioner": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r3.nl_core_practitioner.address": [
-      {
-        type: 0,
-        value: "Adresgegevens"
-      }
-    ],
-    "r3.nl_core_practitioner.agb": [
-      {
-        type: 0,
-        value: "AGB"
-      }
-    ],
-    "r3.nl_core_practitioner.big": [
-      {
-        type: 0,
-        value: "BIG"
-      }
-    ],
-    "r3.nl_core_practitioner.identifier": [
-      {
-        type: 0,
-        value: "Zorgverlener identificatie nummer"
-      }
-    ],
-    "r3.nl_core_practitioner.name": [
-      {
-        type: 0,
-        value: "Naamgegevens"
-      }
-    ],
-    "r3.nl_core_practitioner.uzi": [
-      {
-        type: 0,
-        value: "UZI"
-      }
-    ],
-    "r3.nl_core_practitionerrole.organization": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "r3.nl_core_practitionerrole.specialty": [
-      {
-        type: 0,
-        value: "Specialisme"
-      }
-    ],
-    "r3.nl_core_practitionerrole.specialty.specialty_agb": [
-      {
-        type: 0,
-        value: "Specialisme AGB"
-      }
-    ],
-    "r3.nl_core_practitionerrole.specialty.specialty_uzi": [
-      {
-        type: 0,
-        value: "Specialisme UZI"
-      }
-    ],
-    "r3.nl_core_relatedperson.address": [
-      {
-        type: 0,
-        value: "Adresgegevens"
-      }
-    ],
-    "r3.nl_core_relatedperson.name": [
-      {
-        type: 0,
-        value: "Naamgegevens"
-      }
-    ],
-    "r3.nl_core_relatedperson.relationship": [
-      {
-        type: 0,
-        value: "Relatie"
-      }
-    ],
-    "r3.nl_core_relatedperson.role": [
-      {
-        type: 0,
-        value: "Rol"
-      }
-    ],
-    "r3.nl_core_relatedperson_role.value": [
-      {
-        type: 0,
-        value: "Rol"
-      }
-    ],
-    "r3.zib_ability_to_dress_oneself": [
-      {
-        type: 0,
-        value: "Vermogen tot zich kleden"
-      }
-    ],
-    "r3.zib_ability_to_dress_oneself.body_part_to_be_dressed.value": [
-      {
-        type: 0,
-        value: "Te kleden lichaamsdeel"
-      }
-    ],
-    "r3.zib_ability_to_dress_oneself.value": [
-      {
-        type: 0,
-        value: "Zich kleden"
-      }
-    ],
-    "r3.zib_ability_to_drink": [
-      {
-        type: 0,
-        value: "Vermogen tot drinken"
-      }
-    ],
-    "r3.zib_ability_to_drink.drinking_limitations.value": [
-      {
-        type: 0,
-        value: "Drink beperkingen"
-      }
-    ],
-    "r3.zib_ability_to_drink.value": [
-      {
-        type: 0,
-        value: "Drinken"
-      }
-    ],
-    "r3.zib_ability_to_eat": [
-      {
-        type: 0,
-        value: "Vermogen tot eten"
-      }
-    ],
-    "r3.zib_ability_to_eat.eating_limitations.value": [
-      {
-        type: 0,
-        value: "Eet beperkingen"
-      }
-    ],
-    "r3.zib_ability_to_eat.value": [
-      {
-        type: 0,
-        value: "Eten"
-      }
-    ],
-    "r3.zib_ability_to_groome": [
-      {
-        type: 0,
-        value: "Vermogen tot uiterlijke verzorging"
-      }
-    ],
-    "r3.zib_ability_to_groome.value": [
-      {
-        type: 0,
-        value: "Uiterlijke verzorging"
-      }
-    ],
-    "r3.zib_ability_to_manage_medication": [
-      {
-        type: 0,
-        value: "Ability to manage medication"
-      }
-    ],
-    "r3.zib_ability_to_manage_medication.required_assistance.value": [
-      {
-        type: 0,
-        value: "Hulp bij toediening"
-      }
-    ],
-    "r3.zib_ability_to_manage_medication.value": [
-      {
-        type: 0,
-        value: "Zelfstandig medicatiegebruik"
-      }
-    ],
-    "r3.zib_ability_to_perform_mouthcare_activities": [
-      {
-        type: 0,
-        value: "Vermogen tot mondverzorging"
-      }
-    ],
-    "r3.zib_ability_to_perform_mouthcare_activities.value": [
-      {
-        type: 0,
-        value: "Verzorgen tanden"
-      }
-    ],
-    "r3.zib_ability_to_perform_mouthcare_activities_medical_device": [
-      {
-        type: 0,
-        value: "Prothese"
-      }
-    ],
-    "r3.zib_ability_to_perform_nursing_activities": [
-      {
-        type: 0,
-        value: "Vermogen tot verpleegtechnische handelingen"
-      }
-    ],
-    "r3.zib_ability_to_perform_nursing_activities.focus.value": [
-      {
-        type: 0,
-        value: "Betrokkene"
-      }
-    ],
-    "r3.zib_ability_to_perform_nursing_activities.nursing_intervention.value": [
-      {
-        type: 0,
-        value: "Verpleegkundige interventie"
-      }
-    ],
-    "r3.zib_ability_to_perform_nursing_activities.value": [
-      {
-        type: 0,
-        value: "Verrichten VPK handeling"
-      }
-    ],
-    "r3.zib_ability_to_use_toilet": [
-      {
-        type: 0,
-        value: "Vermogen tot toiletgang"
-      }
-    ],
-    "r3.zib_ability_to_use_toilet.menstrual_care.value": [
-      {
-        type: 0,
-        value: "Zorg bij menstruatie"
-      }
-    ],
-    "r3.zib_ability_to_use_toilet.toilet_use.value": [
-      {
-        type: 0,
-        value: "Toiletgebruik"
-      }
-    ],
-    "r3.zib_ability_to_wash_one_self": [
-      {
-        type: 0,
-        value: "Vermogen tot zich wassen"
-      }
-    ],
-    "r3.zib_ability_to_wash_one_self.body_part_to_be_bathed.value": [
-      {
-        type: 0,
-        value: "Te wassen lichaamsdeel"
-      }
-    ],
-    "r3.zib_ability_to_wash_one_self.value": [
-      {
-        type: 0,
-        value: "Zich wassen"
-      }
-    ],
-    "r3.zib_administration_agreement": [
-      {
-        type: 0,
-        value: "Toedieningsafspraak"
-      }
-    ],
-    "r3.zib_administration_agreement.additional_information": [
-      {
-        type: 0,
-        value: "Toedieningsafspraak aanvullende informatie"
-      }
-    ],
-    "r3.zib_administration_agreement.agreement_reason": [
-      {
-        type: 0,
-        value: "Reden afspraak"
-      }
-    ],
-    "r3.zib_administration_agreement.authored_on": [
-      {
-        type: 0,
-        value: "Toedieningsafspraak datum tijd"
-      }
-    ],
-    "r3.zib_administration_agreement.authorizing_prescription": [
-      {
-        type: 0,
-        value: "Medicatieafspraak"
-      }
-    ],
-    "r3.zib_administration_agreement.medication_reference": [
-      {
-        type: 0,
-        value: "Geneesmiddel bij toedienings afspraak"
-      }
-    ],
-    "r3.zib_administration_agreement.medication_treatment": [
-      {
-        type: 0,
-        value: "Medicamenteuze behandeling"
-      }
-    ],
-    "r3.zib_administration_agreement.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_administration_agreement.performer": [
-      {
-        type: 0,
-        value: "Verstrekker"
-      }
-    ],
-    "r3.zib_administration_agreement.status": [
-      {
-        type: 0,
-        value: "Geannuleerd indicator"
-      }
-    ],
-    "r3.zib_administration_agreement.usage_duration": [
-      {
-        type: 0,
-        value: "Gebruiksduur"
-      }
-    ],
-    "r3.zib_administration_schedule": [
-      {
-        type: 0,
-        value: "Toedieningsschema"
-      }
-    ],
-    "r3.zib_administration_schedule.repeat.bounds": [
-      {
-        type: 0,
-        value: "Doseerduur"
-      }
-    ],
-    "r3.zib_administration_schedule.repeat.day_of_week": [
-      {
-        type: 0,
-        value: "Weekdagen"
-      }
-    ],
-    "r3.zib_administration_schedule.repeat.duration": [
-      {
-        type: 0,
-        value: "Toedieninsgduur"
-      }
-    ],
-    "r3.zib_administration_schedule.repeat.duration_unit": [
-      {
-        type: 0,
-        value: "Toedieninsgduur"
-      }
-    ],
-    "r3.zib_administration_schedule.repeat.frequency": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    "r3.zib_administration_schedule.repeat.frequency_max": [
-      {
-        type: 0,
-        value: "Maximum waarde"
-      }
-    ],
-    "r3.zib_administration_schedule.repeat.period": [
-      {
-        type: 0,
-        value: "Interval"
-      }
-    ],
-    "r3.zib_administration_schedule.repeat.period_unit": [
-      {
-        type: 0,
-        value: "Interval"
-      }
-    ],
-    "r3.zib_administration_schedule.repeat.time_of_day": [
-      {
-        type: 0,
-        value: "Toedientijd"
-      }
-    ],
-    "r3.zib_administration_schedule.repeat.when": [
-      {
-        type: 0,
-        value: "Dagdeel"
-      }
-    ],
-    "r3.zib_advance_directive": [
-      {
-        type: 0,
-        value: "Wilsverklaring"
-      }
-    ],
-    "r3.zib_advance_directive.consenting_party": [
-      {
-        type: 0,
-        value: "Vertegenwoordiger"
-      }
-    ],
-    "r3.zib_advance_directive.date_time": [
-      {
-        type: 0,
-        value: "Wilsverklaring datum"
-      }
-    ],
-    "r3.zib_advance_directive.disorder": [
-      {
-        type: 0,
-        value: "Aandoening"
-      }
-    ],
-    "r3.zib_advance_directive.source": [
-      {
-        type: 0,
-        value: "Wilsverklaring document"
-      }
-    ],
-    "r3.zib_advance_directive.type_of_living_will": [
-      {
-        type: 0,
-        value: "Wilsverklaring type"
-      }
-    ],
-    "r3.zib_alcohol_use": [
-      {
-        type: 0,
-        value: "Alcohol gebruik"
-      }
-    ],
-    "r3.zib_alcohol_use.amount.value": [
-      {
-        type: 0,
-        value: "Hoeveelheid"
-      }
-    ],
-    "r3.zib_alcohol_use.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_alcohol_use.effective_period.end": [
-      {
-        type: 0,
-        value: "Stop datum"
-      }
-    ],
-    "r3.zib_alcohol_use.effective_period.start": [
-      {
-        type: 0,
-        value: "Start datum"
-      }
-    ],
-    "r3.zib_alcohol_use.value": [
-      {
-        type: 0,
-        value: "Alcohol gebruik status"
-      }
-    ],
-    "r3.zib_alert.category": [
-      {
-        type: 0,
-        value: "Alert type"
-      }
-    ],
-    "r3.zib_alert.code": [
-      {
-        type: 0,
-        value: "Alert naam"
-      }
-    ],
-    "r3.zib_alert.concern_reference": [
-      {
-        type: 0,
-        value: "Conditie"
-      }
-    ],
-    "r3.zib_alert.period.start": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    "r3.zib_allergy_intolerance": [
-      {
-        type: 0,
-        value: "Allergie intolerantie"
-      }
-    ],
-    "r3.zib_allergy_intolerance.category.allergie_categorie_codelijst": [
-      {
-        type: 0,
-        value: "Allergie categorie"
-      }
-    ],
-    "r3.zib_allergy_intolerance.clinical_status": [
-      {
-        type: 0,
-        value: "Allergie status"
-      }
-    ],
-    "r3.zib_allergy_intolerance.clinical_status.allergie_status_codelijst": [
-      {
-        type: 0,
-        value: "Allergie status"
-      }
-    ],
-    "r3.zib_allergy_intolerance.code": [
-      {
-        type: 0,
-        value: "Veroorzakende stof"
-      }
-    ],
-    "r3.zib_allergy_intolerance.criticality.critical_extent_codelist": [
-      {
-        type: 0,
-        value: "Mate van kritiek zijn"
-      }
-    ],
-    "r3.zib_allergy_intolerance.identifier": [
-      {
-        type: 0,
-        value: "Identificatie"
-      }
-    ],
-    "r3.zib_allergy_intolerance.last_occurrence": [
-      {
-        type: 0,
-        value: "Laatste reactie datum tijd"
-      }
-    ],
-    "r3.zib_allergy_intolerance.note.author": [
-      {
-        type: 0,
-        value: "Auteur"
-      }
-    ],
-    "r3.zib_allergy_intolerance.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_allergy_intolerance.onset_date_time": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    "r3.zib_allergy_intolerance.patient": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "r3.zib_allergy_intolerance.reaction": [
-      {
-        type: 0,
-        value: "Reactie"
-      }
-    ],
-    "r3.zib_allergy_intolerance.reaction.description": [
-      {
-        type: 0,
-        value: "Reactie beschrijving"
-      }
-    ],
-    "r3.zib_allergy_intolerance.reaction.exposure_route": [
-      {
-        type: 0,
-        value: "Wijze van blootstelling"
-      }
-    ],
-    "r3.zib_allergy_intolerance.reaction.manifestation": [
-      {
-        type: 0,
-        value: "Symptoom"
-      }
-    ],
-    "r3.zib_allergy_intolerance.reaction.onset": [
-      {
-        type: 0,
-        value: "Reactie tijdstip"
-      }
-    ],
-    "r3.zib_allergy_intolerance.reaction.severity": [
-      {
-        type: 0,
-        value: "Ernst"
-      }
-    ],
-    "r3.zib_allergy_intolerance.reaction.substance": [
-      {
-        type: 0,
-        value: "Specifieke stof"
-      }
-    ],
-    "r3.zib_allergy_intolerance.recorder": [
-      {
-        type: 0,
-        value: "Auteur"
-      }
-    ],
-    "r3.zib_allergy_intolerance.verification_status": [
-      {
-        type: 0,
-        value: "Allergie status"
-      }
-    ],
-    "r3.zib_apgar_score.10_minute_appearance_score.value": [
-      {
-        type: 0,
-        value: "Huidskleur score"
-      }
-    ],
-    "r3.zib_apgar_score.10_minute_grimace_score.value": [
-      {
-        type: 0,
-        value: "Reflexen score"
-      }
-    ],
-    "r3.zib_apgar_score.10_minute_muscle_tone_score.value": [
-      {
-        type: 0,
-        value: "Spierspanning score"
-      }
-    ],
-    "r3.zib_apgar_score.10_minute_pulse_score.value": [
-      {
-        type: 0,
-        value: "Hartslag score"
-      }
-    ],
-    "r3.zib_apgar_score.10_minute_respiratory_score.value": [
-      {
-        type: 0,
-        value: "Ademhaling score"
-      }
-    ],
-    "r3.zib_apgar_score.1_minute_appearance_score.value": [
-      {
-        type: 0,
-        value: "Huidskleur score"
-      }
-    ],
-    "r3.zib_apgar_score.1_minute_grimace_score.value": [
-      {
-        type: 0,
-        value: "Reflexen score"
-      }
-    ],
-    "r3.zib_apgar_score.1_minute_muscle_tone_score.value": [
-      {
-        type: 0,
-        value: "Spierspanning score"
-      }
-    ],
-    "r3.zib_apgar_score.1_minute_pulse_score.value": [
-      {
-        type: 0,
-        value: "Hartslag score"
-      }
-    ],
-    "r3.zib_apgar_score.1_minute_respiratory_score.value": [
-      {
-        type: 0,
-        value: "Ademhaling score"
-      }
-    ],
-    "r3.zib_apgar_score.5_minute_appearance_score.value": [
-      {
-        type: 0,
-        value: "Huidskleur score"
-      }
-    ],
-    "r3.zib_apgar_score.5_minute_grimace_score.value": [
-      {
-        type: 0,
-        value: "Reflexen score"
-      }
-    ],
-    "r3.zib_apgar_score.5_minute_muscle_tone_score.value": [
-      {
-        type: 0,
-        value: "Spierspanning score"
-      }
-    ],
-    "r3.zib_apgar_score.5_minute_pulse_score.value": [
-      {
-        type: 0,
-        value: "Hartslag score"
-      }
-    ],
-    "r3.zib_apgar_score.5_minute_respiratory_score.value": [
-      {
-        type: 0,
-        value: "Ademhaling score"
-      }
-    ],
-    "r3.zib_apgar_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_apgar_score.effective_date_time": [
-      {
-        type: 0,
-        value: "Apgar score datum tijd"
-      }
-    ],
-    "r3.zib_apgar_score.value": [
-      {
-        type: 0,
-        value: "Apgar score totaal"
-      }
-    ],
-    "r3.zib_bladder_function": [
-      {
-        type: 0,
-        value: "Blaasfunctie"
-      }
-    ],
-    "r3.zib_bladder_function.code": [
-      {
-        type: 0,
-        value: "Blaasfunctie"
-      }
-    ],
-    "r3.zib_bladder_function.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_bladder_function.value": [
-      {
-        type: 0,
-        value: "Urine continentie"
-      }
-    ],
-    "r3.zib_blood_pressure": [
-      {
-        type: 0,
-        value: "Bloeddruk"
-      }
-    ],
-    "r3.zib_blood_pressure.average_blood_pressure_loinc.value": [
-      {
-        type: 0,
-        value: "Gemiddelde bloeddruk"
-      }
-    ],
-    "r3.zib_blood_pressure.average_blood_pressure_snomed.value": [
-      {
-        type: 0,
-        value: "Gemiddelde bloeddruk"
-      }
-    ],
-    "r3.zib_blood_pressure.body_site": [
-      {
-        type: 0,
-        value: "Meet locatie"
-      }
-    ],
-    "r3.zib_blood_pressure.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_blood_pressure.cuff_type_loinc.value": [
-      {
-        type: 0,
-        value: "Manchet type"
-      }
-    ],
-    "r3.zib_blood_pressure.cuff_type_snomed.value": [
-      {
-        type: 0,
-        value: "Manchet type"
-      }
-    ],
-    "r3.zib_blood_pressure.diastolic_bp.code": [
-      {
-        type: 0,
-        value: "Diastolische bloeddruk"
-      }
-    ],
-    "r3.zib_blood_pressure.diastolic_endpoint.code": [
-      {
-        type: 0,
-        value: "Component test"
-      }
-    ],
-    "r3.zib_blood_pressure.diastolic_endpoint.value": [
-      {
-        type: 0,
-        value: "Diastolisch eindpunt"
-      }
-    ],
-    "r3.zib_blood_pressure.effective": [
-      {
-        type: 0,
-        value: "Bloeddruk datum tijd"
-      }
-    ],
-    "r3.zib_blood_pressure.method": [
-      {
-        type: 0,
-        value: "Meetmethode"
-      }
-    ],
-    "r3.zib_blood_pressure.position_loinc.value": [
-      {
-        type: 0,
-        value: "Houding"
-      }
-    ],
-    "r3.zib_blood_pressure.position_snomed.value": [
-      {
-        type: 0,
-        value: "Houding"
-      }
-    ],
-    "r3.zib_blood_pressure.systolic_bp.value": [
-      {
-        type: 0,
-        value: "Systolische bloeddruk"
-      }
-    ],
-    "r3.zib_body_height": [
-      {
-        type: 0,
-        value: "Lichaamslengte"
-      }
-    ],
-    "r3.zib_body_height.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_body_height.effective": [
-      {
-        type: 0,
-        value: "Lengte datum tijd"
-      }
-    ],
-    "r3.zib_body_height.subject": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "r3.zib_body_height.value": [
-      {
-        type: 0,
-        value: "Lengte waarde"
-      }
-    ],
-    "r3.zib_body_temperature": [
-      {
-        type: 0,
-        value: "Lichaamstemperatuur"
-      }
-    ],
-    "r3.zib_body_temperature.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_body_temperature.effective": [
-      {
-        type: 0,
-        value: "Temperatuur datum tijd"
-      }
-    ],
-    "r3.zib_body_temperature.method": [
-      {
-        type: 0,
-        value: "Temperatuur type"
-      }
-    ],
-    "r3.zib_body_temperature.value": [
-      {
-        type: 0,
-        value: "Temperatuur waarde"
-      }
-    ],
-    "r3.zib_body_weight": [
-      {
-        type: 0,
-        value: "Lichaamsgewicht"
-      }
-    ],
-    "r3.zib_body_weight.clothing.value": [
-      {
-        type: 0,
-        value: "Kleding"
-      }
-    ],
-    "r3.zib_body_weight.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_body_weight.effective": [
-      {
-        type: 0,
-        value: "Gewicht datum tijd"
-      }
-    ],
-    "r3.zib_body_weight.value": [
-      {
-        type: 0,
-        value: "Gewicht waarde"
-      }
-    ],
-    "r3.zib_bowel_function": [
-      {
-        type: 0,
-        value: "Darmfunctie"
-      }
-    ],
-    "r3.zib_bowel_function.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_bowel_function.defecation_color.value": [
-      {
-        type: 0,
-        value: "Defecatie kleur"
-      }
-    ],
-    "r3.zib_bowel_function.defecation_consistency.value": [
-      {
-        type: 0,
-        value: "Defecatie consistentie"
-      }
-    ],
-    "r3.zib_bowel_function.fecal_continence.value": [
-      {
-        type: 0,
-        value: "Feces continentie"
-      }
-    ],
-    "r3.zib_bowel_function.frequency.value": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    "r3.zib_burn_wound": [
-      {
-        type: 0,
-        value: "Brandwond"
-      }
-    ],
-    "r3.zib_burn_wound.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r3.zib_burn_wound.body_site.laterality.value": [
-      {
-        type: 0,
-        value: "Lateraliteit"
-      }
-    ],
-    "r3.zib_burn_wound.code": [
-      {
-        type: 0,
-        value: "Brandwond"
-      }
-    ],
-    "r3.zib_burn_wound.code.burn_type.value": [
-      {
-        type: 0,
-        value: "Brandwond soort"
-      }
-    ],
-    "r3.zib_burn_wound.date_of_last_dressing_change.value": [
-      {
-        type: 0,
-        value: "Datum laatste verbandwissel"
-      }
-    ],
-    "r3.zib_burn_wound.extent.value": [
-      {
-        type: 0,
-        value: "Uitgebreidheid"
-      }
-    ],
-    "r3.zib_burn_wound.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_burn_wound.onset": [
-      {
-        type: 0,
-        value: "Ontstaans datum"
-      }
-    ],
-    "r3.zib_burn_wound.stage.summary": [
-      {
-        type: 0,
-        value: "Dieptegraad"
-      }
-    ],
-    "r3.zib_burn_wound_extent": [
-      {
-        type: 0,
-        value: "Uitgebreidheid"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour": [
-      {
-        type: 0,
-        value: "Checklist pijn gedrag"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.cry.value": [
-      {
-        type: 0,
-        value: "Huilen"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.eyes.value": [
-      {
-        type: 0,
-        value: "Ogen"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.face.value": [
-      {
-        type: 0,
-        value: "Gezicht"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.grimace.value": [
-      {
-        type: 0,
-        value: "Grimas"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.looking_sad.value": [
-      {
-        type: 0,
-        value: "Verdrietige blik"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.moaning.value": [
-      {
-        type: 0,
-        value: "Kreunen"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.mouth.value": [
-      {
-        type: 0,
-        value: "Mond"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.panic.value": [
-      {
-        type: 0,
-        value: "Paniek"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.sounds_of_restlessness.value": [
-      {
-        type: 0,
-        value: "Onrustige geluiden"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.tears.value": [
-      {
-        type: 0,
-        value: "Tranen"
-      }
-    ],
-    "r3.zib_checklist_pain_behaviour.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r3.zib_comfort_scale": [
-      {
-        type: 0,
-        value: "Comfort score"
-      }
-    ],
-    "r3.zib_comfort_scale.alertness.value": [
-      {
-        type: 0,
-        value: "Alertheid"
-      }
-    ],
-    "r3.zib_comfort_scale.body_movement.value": [
-      {
-        type: 0,
-        value: "Lichaamsbeweging"
-      }
-    ],
-    "r3.zib_comfort_scale.body_muscle_tone.value": [
-      {
-        type: 0,
-        value: "Spierspanning"
-      }
-    ],
-    "r3.zib_comfort_scale.calmness_agitation.value": [
-      {
-        type: 0,
-        value: "Kalmte_ agitatie"
-      }
-    ],
-    "r3.zib_comfort_scale.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_comfort_scale.crying.value": [
-      {
-        type: 0,
-        value: "Ademhalingsreactie"
-      }
-    ],
-    "r3.zib_comfort_scale.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "r3.zib_comfort_scale.facial_tone.value": [
-      {
-        type: 0,
-        value: "Gezichtsspanning"
-      }
-    ],
-    "r3.zib_comfort_scale.respiratory_response.value": [
-      {
-        type: 0,
-        value: "Ademhalingsreactie"
-      }
-    ],
-    "r3.zib_comfort_scale.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r3.zib_contact_information_telecom_type": [
-      {
-        type: 0,
-        value: "Definieert een specifieke gecodeerde waarde voor het concept telecom type gebruikt in de zib contactgegevens, zodat de in de zib gedefinieerde waardelijst kan worden gebruikt."
-      }
-    ],
-    "r3.zib_development_child": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind"
-      }
-    ],
-    "r3.zib_development_child.age_first_menstruation.value": [
-      {
-        type: 0,
-        value: "Leeftijd eerste menstruatie"
-      }
-    ],
-    "r3.zib_development_child.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_development_child.development_cognition.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling verstandelijk"
-      }
-    ],
-    "r3.zib_development_child.development_linguistics.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling taal"
-      }
-    ],
-    "r3.zib_development_child.development_locomotion.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling motoriek"
-      }
-    ],
-    "r3.zib_development_child.development_social.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling sociaal"
-      }
-    ],
-    "r3.zib_development_child.effective_date_time": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind datum tijd"
-      }
-    ],
-    "r3.zib_development_child.toilet_trainedness_feces.value": [
-      {
-        type: 0,
-        value: "Zindelijkheid feces"
-      }
-    ],
-    "r3.zib_development_child.toilet_trainedness_urine.value": [
-      {
-        type: 0,
-        value: "Zindelijkheid urine"
-      }
-    ],
-    "r3.zib_dispense": [
-      {
-        type: 0,
-        value: "Verstrekking"
-      }
-    ],
-    "r3.zib_dispense.additional_information": [
-      {
-        type: 0,
-        value: "Verstrekking aanvullende informatie"
-      }
-    ],
-    "r3.zib_dispense.authorizing_prescription": [
-      {
-        type: 0,
-        value: "Verstrekkingsverzoek"
-      }
-    ],
-    "r3.zib_dispense.days_supply": [
-      {
-        type: 0,
-        value: "Verbruiks duur"
-      }
-    ],
-    "r3.zib_dispense.destination": [
-      {
-        type: 0,
-        value: "Afleverlocatie"
-      }
-    ],
-    "r3.zib_dispense.distribution_form": [
-      {
-        type: 0,
-        value: "Distributievorm"
-      }
-    ],
-    "r3.zib_dispense.medication_reference": [
-      {
-        type: 0,
-        value: "Verstrek geneesmiddel"
-      }
-    ],
-    "r3.zib_dispense.medication_treatment": [
-      {
-        type: 0,
-        value: "Medicamenteuze behandeling"
-      }
-    ],
-    "r3.zib_dispense.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_dispense.performer": [
-      {
-        type: 0,
-        value: "Verstrekker"
-      }
-    ],
-    "r3.zib_dispense.quantity": [
-      {
-        type: 0,
-        value: "Verstrekte hoeveelheid"
-      }
-    ],
-    "r3.zib_dispense.request_date": [
-      {
-        type: 0,
-        value: "Aanschrijfdatum"
-      }
-    ],
-    "r3.zib_dispense.when_handed_over": [
-      {
-        type: 0,
-        value: "Verstrekkings datum tijd"
-      }
-    ],
-    "r3.zib_dispense_request": [
-      {
-        type: 0,
-        value: "Verstrekkingsverzoek"
-      }
-    ],
-    "r3.zib_dispense_request.additional_wishes": [
-      {
-        type: 0,
-        value: "Aanvullende wensen"
-      }
-    ],
-    "r3.zib_dispense_request.authored_on": [
-      {
-        type: 0,
-        value: "Verstrekkingsverzoek datum"
-      }
-    ],
-    "r3.zib_dispense_request.dispense_request": [
-      {
-        type: 0,
-        value: "Verstrekkingsverzoek"
-      }
-    ],
-    "r3.zib_dispense_request.dispense_request.dispense_location": [
-      {
-        type: 0,
-        value: "Afleverlocatie"
-      }
-    ],
-    "r3.zib_dispense_request.dispense_request.expected_supply_duration": [
-      {
-        type: 0,
-        value: "Duur"
-      }
-    ],
-    "r3.zib_dispense_request.dispense_request.number_of_repeats_allowed": [
-      {
-        type: 0,
-        value: "Aantal herhalingen"
-      }
-    ],
-    "r3.zib_dispense_request.dispense_request.performer": [
-      {
-        type: 0,
-        value: "Beoogd verstrekker"
-      }
-    ],
-    "r3.zib_dispense_request.dispense_request.quantity": [
-      {
-        type: 0,
-        value: "Te verstrekken hoeveelheid"
-      }
-    ],
-    "r3.zib_dispense_request.dispense_request.validity_period": [
-      {
-        type: 0,
-        value: "Verbruiksperiode"
-      }
-    ],
-    "r3.zib_dispense_request.dispense_request.validity_period.end": [
-      {
-        type: 0,
-        value: "Einddatum"
-      }
-    ],
-    "r3.zib_dispense_request.dispense_request.validity_period.start": [
-      {
-        type: 0,
-        value: "Ingangsdatum"
-      }
-    ],
-    "r3.zib_dispense_request.medication_reference": [
-      {
-        type: 0,
-        value: "Geneesmiddel"
-      }
-    ],
-    "r3.zib_dispense_request.medication_treatment": [
-      {
-        type: 0,
-        value: "Medicamenteuze behandeling"
-      }
-    ],
-    "r3.zib_dispense_request.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_drug_use": [
-      {
-        type: 0,
-        value: "Drugs gebruik"
-      }
-    ],
-    "r3.zib_drug_use.amount.value": [
-      {
-        type: 0,
-        value: "Hoeveelheid"
-      }
-    ],
-    "r3.zib_drug_use.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_drug_use.drug_or_medication_type.value": [
-      {
-        type: 0,
-        value: "Drugs of geneesmiddel soort"
-      }
-    ],
-    "r3.zib_drug_use.effective_period.end": [
-      {
-        type: 0,
-        value: "Stop datum"
-      }
-    ],
-    "r3.zib_drug_use.effective_period.start": [
-      {
-        type: 0,
-        value: "Start datum"
-      }
-    ],
-    "r3.zib_drug_use.route_of_administration.value": [
-      {
-        type: 0,
-        value: "Toedieningsweg"
-      }
-    ],
-    "r3.zib_drug_use.value": [
-      {
-        type: 0,
-        value: "Drug gebruik status"
-      }
-    ],
-    "r3.zib_encounter": [
-      {
-        type: 0,
-        value: "Contact"
-      }
-    ],
-    "r3.zib_encounter.class": [
-      {
-        type: 0,
-        value: "Contact type"
-      }
-    ],
-    "r3.zib_encounter.diagnosis.condition": [
-      {
-        type: 0,
-        value: "Probleem"
-      }
-    ],
-    "r3.zib_encounter.hospitalization.admit_source": [
-      {
-        type: 0,
-        value: "Herkomst"
-      }
-    ],
-    "r3.zib_encounter.hospitalization.discharge_disposition": [
-      {
-        type: 0,
-        value: "Bestemming"
-      }
-    ],
-    "r3.zib_encounter.participant.individual": [
-      {
-        type: 0,
-        value: "Contact met"
-      }
-    ],
-    "r3.zib_encounter.participant.type.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r3.zib_encounter.period.end": [
-      {
-        type: 0,
-        value: "Eind datum tijd"
-      }
-    ],
-    "r3.zib_encounter.period.start": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    "r3.zib_encounter.reason": [
-      {
-        type: 0,
-        value: "Afwijkende uitslag"
-      }
-    ],
-    "r3.zib_encounter.reason.text": [
-      {
-        type: 0,
-        value: "Afwijkende uitslag"
-      }
-    ],
-    "r3.zib_encounter.service_provider": [
-      {
-        type: 0,
-        value: "Locatie"
-      }
-    ],
-    "r3.zib_family_situation": [
-      {
-        type: 0,
-        value: "Gezinssituatie"
-      }
-    ],
-    "r3.zib_family_situation.care_responsibility.value": [
-      {
-        type: 0,
-        value: "Zorgtaak"
-      }
-    ],
-    "r3.zib_family_situation.child.value": [
-      {
-        type: 0,
-        value: "Geboortedatum"
-      }
-    ],
-    "r3.zib_family_situation.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_family_situation.family_composition.value": [
-      {
-        type: 0,
-        value: "Gezinssamenstelling"
-      }
-    ],
-    "r3.zib_family_situation.number_of_children.value": [
-      {
-        type: 0,
-        value: "Aantal kinderen"
-      }
-    ],
-    "r3.zib_family_situation.number_of_children_living_at_home.value": [
-      {
-        type: 0,
-        value: "Aantal kinderen inwonend"
-      }
-    ],
-    "r3.zib_family_situation_child": [
-      {
-        type: 0,
-        value: "Gezinssituatie kind"
-      }
-    ],
-    "r3.zib_family_situation_child.child": [
-      {
-        type: 0,
-        value: "Kind"
-      }
-    ],
-    "r3.zib_family_situation_child.child.contact_person": [
-      {
-        type: 0,
-        value: "Contact persoon"
-      }
-    ],
-    "r3.zib_family_situation_child.child.value": [
-      {
-        type: 0,
-        value: "Geboortedatum"
-      }
-    ],
-    "r3.zib_family_situation_child.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_family_situation_child.family_composition.value": [
-      {
-        type: 0,
-        value: "Gezinssamenstelling"
-      }
-    ],
-    "r3.zib_family_situation_child.number_of_siblings.value": [
-      {
-        type: 0,
-        value: "Aantal kinderen"
-      }
-    ],
-    "r3.zib_family_situation_child.parent_carer.parent_carer": [
-      {
-        type: 0,
-        value: "Ouder verzorger"
-      }
-    ],
-    "r3.zib_family_situation_child.sibling": [
-      {
-        type: 0,
-        value: "Broer of zus"
-      }
-    ],
-    "r3.zib_family_situation_child.sibling.contact_person": [
-      {
-        type: 0,
-        value: "Contactpersoon"
-      }
-    ],
-    "r3.zib_family_situation_child.sibling.value": [
-      {
-        type: 0,
-        value: "Geboortedatum zus broer"
-      }
-    ],
-    "r3.zib_family_situation_living_at_home_indicator": [
-      {
-        type: 0,
-        value: "Inwonend"
-      }
-    ],
-    "r3.zib_family_situation_living_at_home_indicator.value": [
-      {
-        type: 0,
-        value: "Inwonend"
-      }
-    ],
-    "r3.zib_feeding_pattern_infant": [
-      {
-        type: 0,
-        value: "Voedingspatroon zuigeling"
-      }
-    ],
-    "r3.zib_feeding_pattern_infant.based_on": [
-      {
-        type: 0,
-        value: "Voedingsadvies"
-      }
-    ],
-    "r3.zib_feeding_pattern_infant.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_feeding_pattern_infant.effective_date_time": [
-      {
-        type: 0,
-        value: "Voedingspatroon zuigeling datum tijd"
-      }
-    ],
-    "r3.zib_feeding_pattern_infant.feeding_frequency.value": [
-      {
-        type: 0,
-        value: "Voeding frequentie"
-      }
-    ],
-    "r3.zib_feeding_pattern_infant.feeding_supplement.value": [
-      {
-        type: 0,
-        value: "Voeding toevoeging"
-      }
-    ],
-    "r3.zib_feeding_pattern_infant.feeding_type.feeding_method.value": [
-      {
-        type: 0,
-        value: "Voeding methode"
-      }
-    ],
-    "r3.zib_feeding_pattern_infant.feeding_type.value": [
-      {
-        type: 0,
-        value: "Voeding soort"
-      }
-    ],
-    "r3.zib_feeding_tube_system": [
-      {
-        type: 0,
-        value: "Sonde systeem"
-      }
-    ],
-    "r3.zib_feeding_tube_system.medical_device": [
-      {
-        type: 0,
-        value: "Medisch hulpmiddel"
-      }
-    ],
-    "r3.zib_feeding_tube_system_enteral_nutrition": [
-      {
-        type: 0,
-        value: "Sonde voeding"
-      }
-    ],
-    "r3.zib_feeding_tube_system_feeding_tube_length": [
-      {
-        type: 0,
-        value: "Sonde lengte"
-      }
-    ],
-    "r3.zib_flacc_pain_scale": [
-      {
-        type: 0,
-        value: "FLAC cpijn score"
-      }
-    ],
-    "r3.zib_flacc_pain_scale.activity.value": [
-      {
-        type: 0,
-        value: "Activiteit"
-      }
-    ],
-    "r3.zib_flacc_pain_scale.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_flacc_pain_scale.consolability.value": [
-      {
-        type: 0,
-        value: "Troostbaar"
-      }
-    ],
-    "r3.zib_flacc_pain_scale.cry.value": [
-      {
-        type: 0,
-        value: "Huilen"
-      }
-    ],
-    "r3.zib_flacc_pain_scale.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "r3.zib_flacc_pain_scale.face.value": [
-      {
-        type: 0,
-        value: "Gezicht"
-      }
-    ],
-    "r3.zib_flacc_pain_scale.legs.value": [
-      {
-        type: 0,
-        value: "Benen"
-      }
-    ],
-    "r3.zib_flacc_pain_scale.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r3.zib_fluid_balance": [
-      {
-        type: 0,
-        value: "Vochtbalans"
-      }
-    ],
-    "r3.zib_fluid_balance.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_fluid_balance.effective_period.end": [
-      {
-        type: 0,
-        value: "Vochtbalans stoptijd"
-      }
-    ],
-    "r3.zib_fluid_balance.effective_period.start": [
-      {
-        type: 0,
-        value: "Vochtbalans starttijd"
-      }
-    ],
-    "r3.zib_fluid_balance.fluid_total_in.value": [
-      {
-        type: 0,
-        value: "Vocht totaal in"
-      }
-    ],
-    "r3.zib_fluid_balance.fluid_total_out.value": [
-      {
-        type: 0,
-        value: "Vocht totaal uit"
-      }
-    ],
-    "r3.zib_freedom_restricting_measures": [
-      {
-        type: 0,
-        value: "Vrijheidsbeperkende maatregelen"
-      }
-    ],
-    "r3.zib_freedom_restricting_measures.legal_status": [
-      {
-        type: 0,
-        value: "Juridische status"
-      }
-    ],
-    "r3.zib_freedom_restricting_measures.legally_capable.legally_capable_comment": [
-      {
-        type: 0,
-        value: "Wilsbekwaam toelichting"
-      }
-    ],
-    "r3.zib_freedom_restricting_measures.legally_capable.legally_capable_indicator": [
-      {
-        type: 0,
-        value: "Wilsbekwaam"
-      }
-    ],
-    "r3.zib_freedom_restricting_measures.performed_period.end": [
-      {
-        type: 0,
-        value: "Einde episode"
-      }
-    ],
-    "r3.zib_freedom_restricting_measures.performed_period.start": [
-      {
-        type: 0,
-        value: "Aanvang episode"
-      }
-    ],
-    "r3.zib_freedom_restricting_measures_legally_capable.legally_capable_comment.value": [
-      {
-        type: 0,
-        value: "Wilsbekwaam toelichting"
-      }
-    ],
-    "r3.zib_freedom_restricting_measures_legally_capable.legally_capable_indicator.value": [
-      {
-        type: 0,
-        value: "Wilsbekwaam"
-      }
-    ],
-    "r3.zib_freedom_restricting_measures_permission": [
-      {
-        type: 0,
-        value: "Toestemming"
-      }
-    ],
-    "r3.zib_functional_or_mental_status": [
-      {
-        type: 0,
-        value: "Functionele of mentale status"
-      }
-    ],
-    "r3.zib_functional_or_mental_status.code": [
-      {
-        type: 0,
-        value: "Status naam"
-      }
-    ],
-    "r3.zib_functional_or_mental_status.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_functional_or_mental_status.effective_period.start": [
-      {
-        type: 0,
-        value: "Status datum"
-      }
-    ],
-    "r3.zib_functional_or_mental_status.medical_device": [
-      {
-        type: 0,
-        value: "Hulpmiddel"
-      }
-    ],
-    "r3.zib_functional_or_mental_status.subject": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "r3.zib_functional_or_mental_status.value": [
-      {
-        type: 0,
-        value: "Status waarde"
-      }
-    ],
-    "r3.zib_functional_or_mental_status_medical_device.value": [
-      {
-        type: 0,
-        value: "Medisch hulpmiddel"
-      }
-    ],
-    "r3.zib_general_measurement": [
-      {
-        type: 0,
-        value: "Meet uitslag"
-      }
-    ],
-    "r3.zib_general_measurement.code": [
-      {
-        type: 0,
-        value: "Onderzoek"
-      }
-    ],
-    "r3.zib_general_measurement.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_general_measurement.effective": [
-      {
-        type: 0,
-        value: "Uitslag datum tijd"
-      }
-    ],
-    "r3.zib_general_measurement.method": [
-      {
-        type: 0,
-        value: "Meetmethode"
-      }
-    ],
-    "r3.zib_general_measurement.related": [
-      {
-        type: 0,
-        value: "Meet uitslag"
-      }
-    ],
-    "r3.zib_general_measurement.status.result_status_codelist": [
-      {
-        type: 0,
-        value: "Resultaat status"
-      }
-    ],
-    "r3.zib_general_measurement.value": [
-      {
-        type: 0,
-        value: "Uitslag waarde"
-      }
-    ],
-    "r3.zib_head_circumference": [
-      {
-        type: 0,
-        value: "Schedelomvang"
-      }
-    ],
-    "r3.zib_head_circumference.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_head_circumference.effective": [
-      {
-        type: 0,
-        value: "Schedelomvang datum tijd"
-      }
-    ],
-    "r3.zib_head_circumference.method": [
-      {
-        type: 0,
-        value: "Schedelomvang meetmethode"
-      }
-    ],
-    "r3.zib_head_circumference.value": [
-      {
-        type: 0,
-        value: "Schedelomvang waarde"
-      }
-    ],
-    "r3.zib_hearing_function": [
-      {
-        type: 0,
-        value: "Functie horen"
-      }
-    ],
-    "r3.zib_hearing_function.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_hearing_function.value": [
-      {
-        type: 0,
-        value: "Hoor functie"
-      }
-    ],
-    "r3.zib_hearing_function_hearing_aid": [
-      {
-        type: 0,
-        value: "Horen hulpmiddel"
-      }
-    ],
-    "r3.zib_hearing_function_hearing_aid.body_site": [
-      {
-        type: 0,
-        value: "Hulpmiddel anatomische locatie"
-      }
-    ],
-    "r3.zib_heart_rate": [
-      {
-        type: 0,
-        value: "Hartfrequentie"
-      }
-    ],
-    "r3.zib_heart_rate.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_heart_rate.effective": [
-      {
-        type: 0,
-        value: "Hartfrequentie datum tijd"
-      }
-    ],
-    "r3.zib_heart_rate.interpretation": [
-      {
-        type: 0,
-        value: "Hartslag regelmatigheid"
-      }
-    ],
-    "r3.zib_heart_rate.method": [
-      {
-        type: 0,
-        value: "Hartslag meet methode"
-      }
-    ],
-    "r3.zib_heart_rate.value": [
-      {
-        type: 0,
-        value: "Hartfrequentie waarde"
-      }
-    ],
-    "r3.zib_help_from_others.activity": [
-      {
-        type: 0,
-        value: "Hulp van anderen"
-      }
-    ],
-    "r3.zib_help_from_others.activity.detail.category": [
-      {
-        type: 0,
-        value: "Soort hulp"
-      }
-    ],
-    "r3.zib_help_from_others.activity.detail.code": [
-      {
-        type: 0,
-        value: "Aard"
-      }
-    ],
-    "r3.zib_help_from_others.activity.detail.description": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_help_from_others.activity.detail.performer": [
-      {
-        type: 0,
-        value: "Hulpverlener"
-      }
-    ],
-    "r3.zib_help_from_others.activity.detail.scheduled_string": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    "r3.zib_illness_perception": [
-      {
-        type: 0,
-        value: "Ziektebeleving"
-      }
-    ],
-    "r3.zib_illness_perception.coping_with_illness_by_family": [
-      {
-        type: 0,
-        value: "Omgaan met ziekteproces door naasten"
-      }
-    ],
-    "r3.zib_illness_perception.coping_with_illness_by_patient": [
-      {
-        type: 0,
-        value: "Omgaan met ziekteproces door patiënt"
-      }
-    ],
-    "r3.zib_illness_perception.patient_illness_insight": [
-      {
-        type: 0,
-        value: "Ziekte inzicht van patiënt"
-      }
-    ],
-    "r3.zib_infusion": [
-      {
-        type: 0,
-        value: "Infuus"
-      }
-    ],
-    "r3.zib_infusion_administering_system.device.peripheral": [
-      {
-        type: 0,
-        value: "Randapparaat"
-      }
-    ],
-    "r3.zib_infusion_administering_system.note.text": [
-      {
-        type: 0,
-        value: "Toedienings systeem toelichting"
-      }
-    ],
-    "r3.zib_infusion_lumen_or_line": [
-      {
-        type: 0,
-        value: "Lumen of lijn"
-      }
-    ],
-    "r3.zib_infusion_lumen_or_line.administering_system": [
-      {
-        type: 0,
-        value: "Toedienings systeem"
-      }
-    ],
-    "r3.zib_infusion_lumen_or_line.line_status": [
-      {
-        type: 0,
-        value: "Lijn status"
-      }
-    ],
-    "r3.zib_infusion_lumen_or_line.lock_fluid": [
-      {
-        type: 0,
-        value: "Slot vloeistof"
-      }
-    ],
-    "r3.zib_infusion_lumen_or_line.lumen_location": [
-      {
-        type: 0,
-        value: "Lumen locatie"
-      }
-    ],
-    "r3.zib_instructions_for_use": [
-      {
-        type: 0,
-        value: "Gebruiksinstructie"
-      }
-    ],
-    "r3.zib_instructions_for_use.additional_instruction": [
-      {
-        type: 0,
-        value: "Aanvullende instructie"
-      }
-    ],
-    "r3.zib_instructions_for_use.as_needed_codeable_concept": [
-      {
-        type: 0,
-        value: "Zo nodig"
-      }
-    ],
-    "r3.zib_instructions_for_use.dose": [
-      {
-        type: 0,
-        value: "Keerdosis"
-      }
-    ],
-    "r3.zib_instructions_for_use.max_dose_per_period": [
-      {
-        type: 0,
-        value: "Maximale dosering"
-      }
-    ],
-    "r3.zib_instructions_for_use.rate": [
-      {
-        type: 0,
-        value: "Toedieningssnelheid"
-      }
-    ],
-    "r3.zib_instructions_for_use.route": [
-      {
-        type: 0,
-        value: "Toedieningsweg"
-      }
-    ],
-    "r3.zib_instructions_for_use.sequence": [
-      {
-        type: 0,
-        value: "Volgnummer"
-      }
-    ],
-    "r3.zib_instructions_for_use.text": [
-      {
-        type: 0,
-        value: "Omschrijving"
-      }
-    ],
-    "r3.zib_laboratory_test_result_diagnostic_report": [
-      {
-        type: 0,
-        value: "Laboratorium uitslag"
-      }
-    ],
-    "r3.zib_laboratory_test_result_diagnostic_report.based_on": [
-      {
-        type: 0,
-        value: "Aanvrager"
-      }
-    ],
-    "r3.zib_laboratory_test_result_diagnostic_report.category.result_type": [
-      {
-        type: 0,
-        value: "Resultaat type"
-      }
-    ],
-    "r3.zib_laboratory_test_result_diagnostic_report.code": [
-      {
-        type: 0,
-        value: "Onderzoek"
-      }
-    ],
-    "r3.zib_laboratory_test_result_diagnostic_report.conclusion": [
-      {
-        type: 0,
-        value: "Uitslag interpretatie en/of toelichting"
-      }
-    ],
-    "r3.zib_laboratory_test_result_diagnostic_report.identifier": [
-      {
-        type: 0,
-        value: "Identificatie"
-      }
-    ],
-    "r3.zib_laboratory_test_result_diagnostic_report.performer.role.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r3.zib_laboratory_test_result_diagnostic_report.specimen": [
-      {
-        type: 0,
-        value: "Monster"
-      }
-    ],
-    "r3.zib_laboratory_test_result_diagnostic_report.status": [
-      {
-        type: 0,
-        value: "Resultaat status"
-      }
-    ],
-    "r3.zib_laboratory_test_result_diagnostic_report.status.result_status": [
-      {
-        type: 0,
-        value: "Resultaat status"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation": [
-      {
-        type: 0,
-        value: "Laboratorium uitslag"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.based_on": [
-      {
-        type: 0,
-        value: "Aanvrager"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.code": [
-      {
-        type: 0,
-        value: "Test code"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.component": [
-      {
-        type: 0,
-        value: "Laboratorium test"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.component.code": [
-      {
-        type: 0,
-        value: "Test code"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.component.interpretation": [
-      {
-        type: 0,
-        value: "Interpretatie vlaggen"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.component.value": [
-      {
-        type: 0,
-        value: "Test uitslag"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.effective": [
-      {
-        type: 0,
-        value: "Test datum tijd"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.identifier": [
-      {
-        type: 0,
-        value: "Identificatie"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.interpretation.interpretatie_vlaggen_codelijst": [
-      {
-        type: 0,
-        value: "Interpretatie vlaggen"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.method": [
-      {
-        type: 0,
-        value: "Testmethode"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.reference_range": [
-      {
-        type: 0,
-        value: "Referentie"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.reference_range.high": [
-      {
-        type: 0,
-        value: "Referentie bovengrens"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.reference_range.low": [
-      {
-        type: 0,
-        value: "Referentie ondergrens"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.related": [
-      {
-        type: 0,
-        value: "Gerelateerde uitslag"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.result_type": [
-      {
-        type: 0,
-        value: "Resultaat type"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.specimen": [
-      {
-        type: 0,
-        value: "Monster"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.status": [
-      {
-        type: 0,
-        value: "Test uitslag status"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.status.test_result_status": [
-      {
-        type: 0,
-        value: "Test uitslag status"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.subject": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.value": [
-      {
-        type: 0,
-        value: "Test uitslag"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen": [
-      {
-        type: 0,
-        value: "Monster"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.collection.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.collection.body_site.morphology": [
-      {
-        type: 0,
-        value: "Morfologie"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.collection.collected_date_time": [
-      {
-        type: 0,
-        value: "Afname datum tijd"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.collection.collected_period": [
-      {
-        type: 0,
-        value: "Verzamelperiode"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.collection.method": [
-      {
-        type: 0,
-        value: "Afnameprocedure"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.collection.quantity": [
-      {
-        type: 0,
-        value: "Verzamelvolume"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.container": [
-      {
-        type: 0,
-        value: "Monstercontainer"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.container.identifier": [
-      {
-        type: 0,
-        value: "Monstervolgnummer"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.container.type": [
-      {
-        type: 0,
-        value: "Containertype"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.identifier": [
-      {
-        type: 0,
-        value: "Monsternummer"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.received_time": [
-      {
-        type: 0,
-        value: "Aanname datum tijd"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.subject": [
-      {
-        type: 0,
-        value: "Bron monster"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen.type": [
-      {
-        type: 0,
-        value: "Monstermateriaal"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate": [
-      {
-        type: 0,
-        value: "Monster"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.collection.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.collection.body_site.morphology": [
-      {
-        type: 0,
-        value: "Morfologie"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.collection.collected_date_time": [
-      {
-        type: 0,
-        value: "Afname datum tijd"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.collection.collected_period": [
-      {
-        type: 0,
-        value: "Verzamelperiode"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.collection.method": [
-      {
-        type: 0,
-        value: "Afnameprocedure"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.collection.quantity": [
-      {
-        type: 0,
-        value: "Verzamelvolume"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.container": [
-      {
-        type: 0,
-        value: "Monstercontainer"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.container.identifier": [
-      {
-        type: 0,
-        value: "Monstervolgnummer"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.container.type": [
-      {
-        type: 0,
-        value: "Containertype"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.identifier": [
-      {
-        type: 0,
-        value: "Monsternummer"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.received_time": [
-      {
-        type: 0,
-        value: "Aanname datum tijd"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.subject": [
-      {
-        type: 0,
-        value: "Bron monster"
-      }
-    ],
-    "r3.zib_laboratory_test_result_specimen_isolate.type": [
-      {
-        type: 0,
-        value: "Microorganisme"
-      }
-    ],
-    "r3.zib_laboratory_test_result_substance.code": [
-      {
-        type: 0,
-        value: "Microorganisme"
-      }
-    ],
-    "r3.zib_life_stance.value": [
-      {
-        type: 0,
-        value: "Levensovertuiging"
-      }
-    ],
-    "r3.zib_living_situation": [
-      {
-        type: 0,
-        value: "Woonsituatie"
-      }
-    ],
-    "r3.zib_living_situation.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_living_situation.value": [
-      {
-        type: 0,
-        value: "Woning type"
-      }
-    ],
-    "r3.zib_medical_device": [
-      {
-        type: 0,
-        value: "Medisch hulpmiddel"
-      }
-    ],
-    "r3.zib_medical_device.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r3.zib_medical_device.health_professional": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r3.zib_medical_device.healthcare_provider": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "r3.zib_medical_device.indication.indication_problem": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r3.zib_medical_device.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_medical_device.when_used": [
-      {
-        type: 0,
-        value: "Tijdsduur gedefinieerd door start- en einddatum/tijd"
-      }
-    ],
-    "r3.zib_medical_device.when_used.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "r3.zib_medical_device_organization.value": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "r3.zib_medical_device_practitioner.value": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r3.zib_medical_device_problem.value": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r3.zib_medical_device_product": [
-      {
-        type: 0,
-        value: "Product"
-      }
-    ],
-    "r3.zib_medical_device_product.identifier": [
-      {
-        type: 0,
-        value: "Product ID"
-      }
-    ],
-    "r3.zib_medical_device_product.note.text": [
-      {
-        type: 0,
-        value: "Product omschrijving"
-      }
-    ],
-    "r3.zib_medical_device_product.type": [
-      {
-        type: 0,
-        value: "Product type"
-      }
-    ],
-    "r3.zib_medical_device_request.code_codeable_concept": [
-      {
-        type: 0,
-        value: "Product type"
-      }
-    ],
-    "r3.zib_medical_device_request.code_reference": [
-      {
-        type: 0,
-        value: "Product"
-      }
-    ],
-    "r3.zib_medical_device_request.occurrence_period.end": [
-      {
-        type: 0,
-        value: "Eind datum"
-      }
-    ],
-    "r3.zib_medical_device_request.occurrence_period.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "r3.zib_medical_device_request.performer_type.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r3.zib_medical_device_request.status.order_status": [
-      {
-        type: 0,
-        value: "Order status"
-      }
-    ],
-    "r3.zib_medication_administration": [
-      {
-        type: 0,
-        value: "Medicatie toediening"
-      }
-    ],
-    "r3.zib_medication_administration.agreed_date_time": [
-      {
-        type: 0,
-        value: "Afgesproken datum tijd"
-      }
-    ],
-    "r3.zib_medication_administration.dosage.dose": [
-      {
-        type: 0,
-        value: "Toegediende hoeveelheid"
-      }
-    ],
-    "r3.zib_medication_administration.dosage.rate": [
-      {
-        type: 0,
-        value: "Toedieningssnelheid"
-      }
-    ],
-    "r3.zib_medication_administration.dosage.route": [
-      {
-        type: 0,
-        value: "Toedieningsweg"
-      }
-    ],
-    "r3.zib_medication_administration.double_check_performed": [
-      {
-        type: 0,
-        value: "Dubbele controle uitgevoerd"
-      }
-    ],
-    "r3.zib_medication_administration.effective": [
-      {
-        type: 0,
-        value: "Toedienings datum tijd"
-      }
-    ],
-    "r3.zib_medication_administration.medication_reference": [
-      {
-        type: 0,
-        value: "Product"
-      }
-    ],
-    "r3.zib_medication_administration.medication_treatment": [
-      {
-        type: 0,
-        value: "Medicamenteuze behandeling"
-      }
-    ],
-    "r3.zib_medication_administration.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_medication_administration.performer": [
-      {
-        type: 0,
-        value: "Toediener"
-      }
-    ],
-    "r3.zib_medication_administration.status": [
-      {
-        type: 0,
-        value: "Medicatie toediening status"
-      }
-    ],
-    "r3.zib_medication_administration.status.order_status": [
-      {
-        type: 0,
-        value: "Order status"
-      }
-    ],
-    "r3.zib_medication_administration.supporting_information": [
-      {
-        type: 0,
-        value: "Gerelateerde afspraak"
-      }
-    ],
-    "r3.zib_medication_administration_deviating_administration.deviation": [
-      {
-        type: 0,
-        value: "Afwijkende toediening"
-      }
-    ],
-    "r3.zib_medication_administration_deviating_administration.reason_for_deviation": [
-      {
-        type: 0,
-        value: "Medicatie toediening reden van afwijken"
-      }
-    ],
-    "r3.zib_medication_agreement": [
-      {
-        type: 0,
-        value: "Medicatieafspraak"
-      }
-    ],
-    "r3.zib_medication_agreement.additional_information": [
-      {
-        type: 0,
-        value: "Medicatieafspraak aanvullende informatie"
-      }
-    ],
-    "r3.zib_medication_agreement.authored_on": [
-      {
-        type: 0,
-        value: "Afspraakdatum"
-      }
-    ],
-    "r3.zib_medication_agreement.medication_reference": [
-      {
-        type: 0,
-        value: "Afgesprokengeneesmiddel"
-      }
-    ],
-    "r3.zib_medication_agreement.medication_treatment": [
-      {
-        type: 0,
-        value: "Medicamenteuze behandeling"
-      }
-    ],
-    "r3.zib_medication_agreement.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_medication_agreement.reason_code": [
-      {
-        type: 0,
-        value: "Reden medicatieafspraak"
-      }
-    ],
-    "r3.zib_medication_agreement.reason_reference": [
-      {
-        type: 0,
-        value: "Reden van voorschrijven"
-      }
-    ],
-    "r3.zib_medication_agreement.requester": [
-      {
-        type: 0,
-        value: "Voorschrijver"
-      }
-    ],
-    "r3.zib_medication_agreement.usage_duration": [
-      {
-        type: 0,
-        value: "Duur"
-      }
-    ],
-    "r3.zib_medication_period_of_use": [
-      {
-        type: 0,
-        value: "Gebruiksperiode"
-      }
-    ],
-    "r3.zib_medication_use": [
-      {
-        type: 0,
-        value: "Medicatiegebruik"
-      }
-    ],
-    "r3.zib_medication_use.as_agreed_indicator": [
-      {
-        type: 0,
-        value: "Volgens afspraak indicator"
-      }
-    ],
-    "r3.zib_medication_use.author": [
-      {
-        type: 0,
-        value: "Auteur"
-      }
-    ],
-    "r3.zib_medication_use.date_asserted": [
-      {
-        type: 0,
-        value: "Registratiedatum"
-      }
-    ],
-    "r3.zib_medication_use.effective_period": [
-      {
-        type: 0,
-        value: "Gebruiksperiode"
-      }
-    ],
-    "r3.zib_medication_use.effective_period.duration": [
-      {
-        type: 0,
-        value: "Tijds duur"
-      }
-    ],
-    "r3.zib_medication_use.effective_period.end": [
-      {
-        type: 0,
-        value: "Einddatum"
-      }
-    ],
-    "r3.zib_medication_use.effective_period.start": [
-      {
-        type: 0,
-        value: "Ingangsdatum"
-      }
-    ],
-    "r3.zib_medication_use.medication_reference": [
-      {
-        type: 0,
-        value: "Gebruiksproduct"
-      }
-    ],
-    "r3.zib_medication_use.medication_treatment": [
-      {
-        type: 0,
-        value: "Medicamenteuze behandeling"
-      }
-    ],
-    "r3.zib_medication_use.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_medication_use.prescriber": [
-      {
-        type: 0,
-        value: "Voorschrijver"
-      }
-    ],
-    "r3.zib_medication_use.reason_code.text": [
-      {
-        type: 0,
-        value: "Reden gebruik"
-      }
-    ],
-    "r3.zib_medication_use.reason_for_change_or_discontinuation_of_use": [
-      {
-        type: 0,
-        value: "Reden wijzigen of stoppen gebruik"
-      }
-    ],
-    "r3.zib_medication_use.status": [
-      {
-        type: 0,
-        value: "Medicatie gebruik stop type"
-      }
-    ],
-    "r3.zib_medication_use.taken": [
-      {
-        type: 0,
-        value: "Gebruik indicator"
-      }
-    ],
-    "r3.zib_medication_use_duration.value": [
-      {
-        type: 0,
-        value: "Gebruiksduur"
-      }
-    ],
-    "r3.zib_medication_use_reason_for_change_or_discontinuation_of_use.value": [
-      {
-        type: 0,
-        value: "Reden wijzigen of stoppen gebruik"
-      }
-    ],
-    "r3.zib_mobility": [
-      {
-        type: 0,
-        value: "Mobiliteit"
-      }
-    ],
-    "r3.zib_mobility.changing_position.value": [
-      {
-        type: 0,
-        value: "Houding veranderen"
-      }
-    ],
-    "r3.zib_mobility.climbing_stairs.value": [
-      {
-        type: 0,
-        value: "Traplopen"
-      }
-    ],
-    "r3.zib_mobility.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_mobility.maintaining_position.value": [
-      {
-        type: 0,
-        value: "Houding handhaven"
-      }
-    ],
-    "r3.zib_mobility.transfer.value": [
-      {
-        type: 0,
-        value: "Uitvoeren transfer"
-      }
-    ],
-    "r3.zib_mobility.walking.value": [
-      {
-        type: 0,
-        value: "Lopen"
-      }
-    ],
-    "r3.zib_must_score": [
-      {
-        type: 0,
-        value: "MUST score"
-      }
-    ],
-    "r3.zib_must_score.bmi_score.value": [
-      {
-        type: 0,
-        value: "BMI score"
-      }
-    ],
-    "r3.zib_must_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_must_score.effective_date_time": [
-      {
-        type: 0,
-        value: "MUST score datum tijd"
-      }
-    ],
-    "r3.zib_must_score.illness_score.value": [
-      {
-        type: 0,
-        value: "Ziekte score"
-      }
-    ],
-    "r3.zib_must_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r3.zib_must_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    "r3.zib_nursing_intervention": [
-      {
-        type: 0,
-        value: "Verpleegkundige interventie"
-      }
-    ],
-    "r3.zib_nursing_intervention.code": [
-      {
-        type: 0,
-        value: "Interventie"
-      }
-    ],
-    "r3.zib_nursing_intervention.frequency": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    "r3.zib_nursing_intervention.instruction": [
-      {
-        type: 0,
-        value: "Instructie"
-      }
-    ],
-    "r3.zib_nursing_intervention.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_nursing_intervention.performed_period.end": [
-      {
-        type: 0,
-        value: "Actie eind datum tijd"
-      }
-    ],
-    "r3.zib_nursing_intervention.performed_period.start": [
-      {
-        type: 0,
-        value: "Actie start datum tijd"
-      }
-    ],
-    "r3.zib_nursing_intervention.performer": [
-      {
-        type: 0,
-        value: "Uitvoerder"
-      }
-    ],
-    "r3.zib_nursing_intervention.performer.role.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r3.zib_nursing_intervention.reason_reference": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r3.zib_nursing_intervention.requester": [
-      {
-        type: 0,
-        value: "Aanvrager"
-      }
-    ],
-    "r3.zib_nursing_intervention.treatment_objective": [
-      {
-        type: 0,
-        value: "Behandeldoel"
-      }
-    ],
-    "r3.zib_nursing_intervention_interval": [
-      {
-        type: 0,
-        value: "Interval"
-      }
-    ],
-    "r3.zib_nursing_intervention_requester.value": [
-      {
-        type: 0,
-        value: "Aanvrager"
-      }
-    ],
-    "r3.zib_nutrition_advice": [
-      {
-        type: 0,
-        value: "Voedingsadvies"
-      }
-    ],
-    "r3.zib_nutrition_advice.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_nutrition_advice.oral_diet.fluid_consistency_type.text": [
-      {
-        type: 0,
-        value: "Consistentie"
-      }
-    ],
-    "r3.zib_nutrition_advice.oral_diet.texture.food_type.text": [
-      {
-        type: 0,
-        value: "Consistentie"
-      }
-    ],
-    "r3.zib_nutrition_advice.oral_diet.texture.modifier.text": [
-      {
-        type: 0,
-        value: "Consistentie"
-      }
-    ],
-    "r3.zib_nutrition_advice.oral_diet.type.text": [
-      {
-        type: 0,
-        value: "Dieet type"
-      }
-    ],
-    "r3.zib_nutrition_advice_explanation.value": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_outcome_of_care": [
-      {
-        type: 0,
-        value: "Uitkomst van zorg"
-      }
-    ],
-    "r3.zib_outcome_of_care.conclusion": [
-      {
-        type: 0,
-        value: "Zorgresultaat"
-      }
-    ],
-    "r3.zib_outcome_of_care.health_condition": [
-      {
-        type: 0,
-        value: "Gezondheidstoestand"
-      }
-    ],
-    "r3.zib_outcome_of_care.intervention.value": [
-      {
-        type: 0,
-        value: "Interventie"
-      }
-    ],
-    "r3.zib_outcome_of_care.measurement_value": [
-      {
-        type: 0,
-        value: "Meetwaarde"
-      }
-    ],
-    "r3.zib_oxygen_saturation": [
-      {
-        type: 0,
-        value: "O2 saturatie"
-      }
-    ],
-    "r3.zib_oxygen_saturation.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_oxygen_saturation.effective": [
-      {
-        type: 0,
-        value: "O2 saturatie datum tijd"
-      }
-    ],
-    "r3.zib_oxygen_saturation.extra_oxygen_administration.value": [
-      {
-        type: 0,
-        value: "Extra zuurstof toediening"
-      }
-    ],
-    "r3.zib_oxygen_saturation.value": [
-      {
-        type: 0,
-        value: "Sp o2 waarde"
-      }
-    ],
-    "r3.zib_pain_score": [
-      {
-        type: 0,
-        value: "Pijnscore"
-      }
-    ],
-    "r3.zib_pain_score.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r3.zib_pain_score.body_site.laterality": [
-      {
-        type: 0,
-        value: "Lateraliteit"
-      }
-    ],
-    "r3.zib_pain_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_pain_score.effective_date_time": [
-      {
-        type: 0,
-        value: "Pijnscore datum tijd"
-      }
-    ],
-    "r3.zib_pain_score.method": [
-      {
-        type: 0,
-        value: "Pijn meetmethode"
-      }
-    ],
-    "r3.zib_pain_score.value": [
-      {
-        type: 0,
-        value: "Pijnscore waarde"
-      }
-    ],
-    "r3.zib_participation_in_society": [
-      {
-        type: 0,
-        value: "Participatie in maatschappij"
-      }
-    ],
-    "r3.zib_participation_in_society.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_participation_in_society.hobby.value": [
-      {
-        type: 0,
-        value: "Vrijetijdsbesteding"
-      }
-    ],
-    "r3.zib_participation_in_society.social_network": [
-      {
-        type: 0,
-        value: "Social network"
-      }
-    ],
-    "r3.zib_participation_in_society.social_network.value": [
-      {
-        type: 0,
-        value: "Sociaal netwerk"
-      }
-    ],
-    "r3.zib_participation_in_society.work_situation.value": [
-      {
-        type: 0,
-        value: "Arbeidssituatie"
-      }
-    ],
-    "r3.zib_payer": [
-      {
-        type: 0,
-        value: "Verzekering"
-      }
-    ],
-    "r3.zib_payer.payor": [
-      {
-        type: 0,
-        value: "Verzekeraar"
-      }
-    ],
-    "r3.zib_payer.payor.bank_information.account_number": [
-      {
-        type: 0,
-        value: "Rekeningnummer"
-      }
-    ],
-    "r3.zib_payer.payor.bank_information.bank_name": [
-      {
-        type: 0,
-        value: "Bank naam"
-      }
-    ],
-    "r3.zib_payer.payor.bank_information.bankcode": [
-      {
-        type: 0,
-        value: "Bankcode"
-      }
-    ],
-    "r3.zib_payer.period.end": [
-      {
-        type: 0,
-        value: "Eind datum tijd"
-      }
-    ],
-    "r3.zib_payer.period.start": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    "r3.zib_payer.subscriber_id": [
-      {
-        type: 0,
-        value: "Verzekerde nummer"
-      }
-    ],
-    "r3.zib_payer.type": [
-      {
-        type: 0,
-        value: "Verzekerings soort"
-      }
-    ],
-    "r3.zib_payer_bank_information": [
-      {
-        type: 0,
-        value: "Bankgegevens"
-      }
-    ],
-    "r3.zib_payer_bank_information.account_number.value": [
-      {
-        type: 0,
-        value: "Rekeningnummer"
-      }
-    ],
-    "r3.zib_payer_bank_information.bank_name.value": [
-      {
-        type: 0,
-        value: "Bank naam"
-      }
-    ],
-    "r3.zib_payer_bank_information.bankcode.value": [
-      {
-        type: 0,
-        value: "Bankcode"
-      }
-    ],
-    "r3.zib_pregnancy": [
-      {
-        type: 0,
-        value: "Zwangerschap"
-      }
-    ],
-    "r3.zib_pregnancy_date_last_menstruation.value": [
-      {
-        type: 0,
-        value: "Datum laatste menstruatie"
-      }
-    ],
-    "r3.zib_pregnancy_gravidity.value": [
-      {
-        type: 0,
-        value: "Graviditeit"
-      }
-    ],
-    "r3.zib_pregnancy_parity.value": [
-      {
-        type: 0,
-        value: "Pariteit"
-      }
-    ],
-    "r3.zib_pregnancy_pregnancy_duration.value": [
-      {
-        type: 0,
-        value: "Zwangerschapsduur"
-      }
-    ],
-    "r3.zib_pregnancy_pregnancy_status.value": [
-      {
-        type: 0,
-        value: "Zwanger"
-      }
-    ],
-    "r3.zib_pregnancy_term_date.value": [
-      {
-        type: 0,
-        value: "A terme datum"
-      }
-    ],
-    "r3.zib_pressure_ulcer": [
-      {
-        type: 0,
-        value: "Decubitus wond"
-      }
-    ],
-    "r3.zib_pressure_ulcer.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r3.zib_pressure_ulcer.body_site.laterality.value": [
-      {
-        type: 0,
-        value: "Lateraliteit"
-      }
-    ],
-    "r3.zib_pressure_ulcer.code": [
-      {
-        type: 0,
-        value: "Decubitus wond"
-      }
-    ],
-    "r3.zib_pressure_ulcer.date_of_last_dressing_change.value": [
-      {
-        type: 0,
-        value: "Datum laatste verband wissel"
-      }
-    ],
-    "r3.zib_pressure_ulcer.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_pressure_ulcer.onset": [
-      {
-        type: 0,
-        value: "Ontstaans datum"
-      }
-    ],
-    "r3.zib_pressure_ulcer.stage.summary": [
-      {
-        type: 0,
-        value: "Decubitus categorie"
-      }
-    ],
-    "r3.zib_problem": [
-      {
-        type: 0,
-        value: "Concern"
-      }
-    ],
-    "r3.zib_problem.abatement_date_time": [
-      {
-        type: 0,
-        value: "Probleem eind datum"
-      }
-    ],
-    "r3.zib_problem.body_site": [
-      {
-        type: 0,
-        value: "Probleem anatomische locatie"
-      }
-    ],
-    "r3.zib_problem.body_site.laterality": [
-      {
-        type: 0,
-        value: "Probleem lateraliteit"
-      }
-    ],
-    "r3.zib_problem.category": [
-      {
-        type: 0,
-        value: "Probleem type"
-      }
-    ],
-    "r3.zib_problem.clinical_status": [
-      {
-        type: 0,
-        value: "Probleem status"
-      }
-    ],
-    "r3.zib_problem.clinical_status.problem_status_codelist": [
-      {
-        type: 0,
-        value: "Probleemstatus"
-      }
-    ],
-    "r3.zib_problem.code": [
-      {
-        type: 0,
-        value: "Probleem naam"
-      }
-    ],
-    "r3.zib_problem.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_problem.onset_date_time": [
-      {
-        type: 0,
-        value: "Probleem begin datum"
-      }
-    ],
-    "r3.zib_problem.verification_status": [
-      {
-        type: 0,
-        value: "Verificatie status"
-      }
-    ],
-    "r3.zib_problem.verification_status.verificatie_status_codelijst": [
-      {
-        type: 0,
-        value: "Verificatie status codelijst"
-      }
-    ],
-    "r3.zib_procedure": [
-      {
-        type: 0,
-        value: "Verrichting"
-      }
-    ],
-    "r3.zib_procedure.body_site": [
-      {
-        type: 0,
-        value: "Verrichting anatomische locatie"
-      }
-    ],
-    "r3.zib_procedure.code": [
-      {
-        type: 0,
-        value: "Verrichting type"
-      }
-    ],
-    "r3.zib_procedure.code.verrichting_type_codelijst": [
-      {
-        type: 0,
-        value: "Verrichting type"
-      }
-    ],
-    "r3.zib_procedure.focal_device.manipulated": [
-      {
-        type: 0,
-        value: "Medisch hulpmiddel"
-      }
-    ],
-    "r3.zib_procedure.performed_period.end": [
-      {
-        type: 0,
-        value: "Verrichting eind datum"
-      }
-    ],
-    "r3.zib_procedure.performed_period.start": [
-      {
-        type: 0,
-        value: "Verrichting start datum"
-      }
-    ],
-    "r3.zib_procedure.performer": [
-      {
-        type: 0,
-        value: "Uitgevoerd door"
-      }
-    ],
-    "r3.zib_procedure.performer.role.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r3.zib_procedure.procedure_method.value": [
-      {
-        type: 0,
-        value: "Verrichting methode"
-      }
-    ],
-    "r3.zib_procedure.reason_reference": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r3.zib_procedure_request": [
-      {
-        type: 0,
-        value: "Verrichting"
-      }
-    ],
-    "r3.zib_procedure_request.body_site": [
-      {
-        type: 0,
-        value: "Verrichting anatomische locatie"
-      }
-    ],
-    "r3.zib_procedure_request.code": [
-      {
-        type: 0,
-        value: "Verrichting type"
-      }
-    ],
-    "r3.zib_procedure_request.code.verrichting_type_codelijst": [
-      {
-        type: 0,
-        value: "Verrichting type codelijst"
-      }
-    ],
-    "r3.zib_procedure_request.occurrence_period.end": [
-      {
-        type: 0,
-        value: "Eind datum"
-      }
-    ],
-    "r3.zib_procedure_request.occurrence_period.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "r3.zib_procedure_request.occurrence_timing.repeat.frequency": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    "r3.zib_procedure_request.occurrence_timing.repeat.period": [
-      {
-        type: 0,
-        value: "Interval"
-      }
-    ],
-    "r3.zib_procedure_request.performer": [
-      {
-        type: 0,
-        value: "Uitgevoerd door"
-      }
-    ],
-    "r3.zib_procedure_request.performer_type.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r3.zib_procedure_request.reason_reference": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r3.zib_procedure_request.requester.agent": [
-      {
-        type: 0,
-        value: "Aangevraagd door"
-      }
-    ],
-    "r3.zib_procedure_request.status.order_status": [
-      {
-        type: 0,
-        value: "Order status"
-      }
-    ],
-    "r3.zib_product": [
-      {
-        type: 0,
-        value: "Geneesmiddel"
-      }
-    ],
-    "r3.zib_product.code.coding": [
-      {
-        type: 0,
-        value: "Product code"
-      }
-    ],
-    "r3.zib_product.code.text": [
-      {
-        type: 0,
-        value: "Product naam"
-      }
-    ],
-    "r3.zib_product.description": [
-      {
-        type: 0,
-        value: "Omschrijving"
-      }
-    ],
-    "r3.zib_product.form": [
-      {
-        type: 0,
-        value: "Farmaceutische vorm"
-      }
-    ],
-    "r3.zib_product.ingredient": [
-      {
-        type: 0,
-        value: "Ingredient"
-      }
-    ],
-    "r3.zib_product.ingredient.amount": [
-      {
-        type: 0,
-        value: "Sterkte"
-      }
-    ],
-    "r3.zib_product.ingredient.amount.denominator": [
-      {
-        type: 0,
-        value: "Product hoeveelheid"
-      }
-    ],
-    "r3.zib_product.ingredient.amount.numerator": [
-      {
-        type: 0,
-        value: "Ingredient hoeveelheid"
-      }
-    ],
-    "r3.zib_product.ingredient.item_codeable_concept": [
-      {
-        type: 0,
-        value: "Ingredient code"
-      }
-    ],
-    "r3.zib_pulse_rate": [
-      {
-        type: 0,
-        value: "Polsfrequentie"
-      }
-    ],
-    "r3.zib_pulse_rate.code": [
-      {
-        type: 0,
-        value: "Polsfrequentie"
-      }
-    ],
-    "r3.zib_pulse_rate.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_pulse_rate.effective": [
-      {
-        type: 0,
-        value: "Polsfrequentie datum tijd"
-      }
-    ],
-    "r3.zib_pulse_rate.pulse_regularity.code": [
-      {
-        type: 0,
-        value: "Component test"
-      }
-    ],
-    "r3.zib_pulse_rate.pulse_regularity.value": [
-      {
-        type: 0,
-        value: "Pols regelmatigheid"
-      }
-    ],
-    "r3.zib_pulse_rate.subject": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "r3.zib_pulse_rate.value": [
-      {
-        type: 0,
-        value: "Polsfrequentie waarde"
-      }
-    ],
-    "r3.zib_respiration.administered_oxygen": [
-      {
-        type: 0,
-        value: "Toegediende zuurstof"
-      }
-    ],
-    "r3.zib_respiration.administered_oxygen.extra_oxygen_administration.value": [
-      {
-        type: 0,
-        value: "Extra zuurstof toediening"
-      }
-    ],
-    "r3.zib_respiration.administered_oxygen.fi_o_2.value": [
-      {
-        type: 0,
-        value: "Fi o2"
-      }
-    ],
-    "r3.zib_respiration.administered_oxygen.flow_rate.value": [
-      {
-        type: 0,
-        value: "Flow rate"
-      }
-    ],
-    "r3.zib_respiration.breathing_frequency.value": [
-      {
-        type: 0,
-        value: "Ademfrequentie"
-      }
-    ],
-    "r3.zib_respiration.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_respiration.depth.value": [
-      {
-        type: 0,
-        value: "Diepte"
-      }
-    ],
-    "r3.zib_respiration.deviating_breathing_pattern.value": [
-      {
-        type: 0,
-        value: "Afwijkend ademhalingspatroon"
-      }
-    ],
-    "r3.zib_respiration.effective_date_time": [
-      {
-        type: 0,
-        value: "Ademhaling datum tijd"
-      }
-    ],
-    "r3.zib_respiration.rhythm.value": [
-      {
-        type: 0,
-        value: "Ritme"
-      }
-    ],
-    "r3.zib_respiration_administered_oxygen_administration_device": [
-      {
-        type: 0,
-        value: "Toediening hulpmiddel"
-      }
-    ],
-    "r3.zib_skin_disorder": [
-      {
-        type: 0,
-        value: "Huidaandoening"
-      }
-    ],
-    "r3.zib_skin_disorder.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r3.zib_skin_disorder.body_site.laterality.value": [
-      {
-        type: 0,
-        value: "Lateraliteit"
-      }
-    ],
-    "r3.zib_skin_disorder.code": [
-      {
-        type: 0,
-        value: "Soort aandoening"
-      }
-    ],
-    "r3.zib_skin_disorder.due_to.value": [
-      {
-        type: 0,
-        value: "Oorzaak"
-      }
-    ],
-    "r3.zib_skin_disorder.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_sna_qrc_score": [
-      {
-        type: 0,
-        value: "SNA qrc score"
-      }
-    ],
-    "r3.zib_sna_qrc_score.appetite_score.value": [
-      {
-        type: 0,
-        value: "Eetlust score"
-      }
-    ],
-    "r3.zib_sna_qrc_score.assisted_eating.value": [
-      {
-        type: 0,
-        value: "Hulp bij eten"
-      }
-    ],
-    "r3.zib_sna_qrc_score.bmi_score.value": [
-      {
-        type: 0,
-        value: "BMI score"
-      }
-    ],
-    "r3.zib_sna_qrc_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_sna_qrc_score.effective_date_time": [
-      {
-        type: 0,
-        value: "SNA qrc score datum tijd"
-      }
-    ],
-    "r3.zib_sna_qrc_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r3.zib_sna_qrc_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    "r3.zib_snaq_65_plus_score": [
-      {
-        type: 0,
-        value: "SNAQ65+score"
-      }
-    ],
-    "r3.zib_snaq_65_plus_score.appetite_score.value": [
-      {
-        type: 0,
-        value: "Eetlust score"
-      }
-    ],
-    "r3.zib_snaq_65_plus_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_snaq_65_plus_score.effective_date_time": [
-      {
-        type: 0,
-        value: "SNAQ65+score datum tijd"
-      }
-    ],
-    "r3.zib_snaq_65_plus_score.exercise_score.value": [
-      {
-        type: 0,
-        value: "Inspannings score"
-      }
-    ],
-    "r3.zib_snaq_65_plus_score.upperarm_circumference.value": [
-      {
-        type: 0,
-        value: "Bovenarm omtrek score"
-      }
-    ],
-    "r3.zib_snaq_65_plus_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r3.zib_snaq_65_plus_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    "r3.zib_snaq_score": [
-      {
-        type: 0,
-        value: "SNAQ score"
-      }
-    ],
-    "r3.zib_snaq_score.appetite_score.value": [
-      {
-        type: 0,
-        value: "Eetlust score"
-      }
-    ],
-    "r3.zib_snaq_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_snaq_score.effective_date_time": [
-      {
-        type: 0,
-        value: "SNAQ score datum tijd"
-      }
-    ],
-    "r3.zib_snaq_score.nutrition_score.value": [
-      {
-        type: 0,
-        value: "Voedings score"
-      }
-    ],
-    "r3.zib_snaq_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r3.zib_snaq_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    "r3.zib_stoma": [
-      {
-        type: 0,
-        value: "Stoma"
-      }
-    ],
-    "r3.zib_stoma.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r3.zib_stoma.body_site.laterality": [
-      {
-        type: 0,
-        value: "Lateraliteit"
-      }
-    ],
-    "r3.zib_stoma.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_stoma.effective_date_time": [
-      {
-        type: 0,
-        value: "Aanleg datum"
-      }
-    ],
-    "r3.zib_stoma.value": [
-      {
-        type: 0,
-        value: "Stoma type"
-      }
-    ],
-    "r3.zib_strong_kids_score": [
-      {
-        type: 0,
-        value: "Strong kids score"
-      }
-    ],
-    "r3.zib_strong_kids_score.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_strong_kids_score.condition_score.value": [
-      {
-        type: 0,
-        value: "Ziekte beeld score"
-      }
-    ],
-    "r3.zib_strong_kids_score.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "r3.zib_strong_kids_score.nutrition_score.value": [
-      {
-        type: 0,
-        value: "Voedings score"
-      }
-    ],
-    "r3.zib_strong_kids_score.nutrition_status_score.value": [
-      {
-        type: 0,
-        value: "Voedingstoestand score"
-      }
-    ],
-    "r3.zib_strong_kids_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r3.zib_strong_kids_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    "r3.zib_text_result": [
-      {
-        type: 0,
-        value: "Tekst uitslag"
-      }
-    ],
-    "r3.zib_text_result.code": [
-      {
-        type: 0,
-        value: "Onderzoek"
-      }
-    ],
-    "r3.zib_text_result.identifier": [
-      {
-        type: 0,
-        value: "Identificatie"
-      }
-    ],
-    "r3.zib_text_result.performer.role.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r3.zib_text_result.status": [
-      {
-        type: 0,
-        value: "Tekst uitslag status"
-      }
-    ],
-    "r3.zib_text_result.status.text_result_status": [
-      {
-        type: 0,
-        value: "Tekst uitslag status"
-      }
-    ],
-    "r3.zib_tobacco_use": [
-      {
-        type: 0,
-        value: "Tabak gebruik"
-      }
-    ],
-    "r3.zib_tobacco_use.amount.value": [
-      {
-        type: 0,
-        value: "Hoeveelheid"
-      }
-    ],
-    "r3.zib_tobacco_use.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_tobacco_use.effective_period.end": [
-      {
-        type: 0,
-        value: "Stop datum"
-      }
-    ],
-    "r3.zib_tobacco_use.effective_period.start": [
-      {
-        type: 0,
-        value: "Start datum"
-      }
-    ],
-    "r3.zib_tobacco_use.pack_years.value": [
-      {
-        type: 0,
-        value: "Pack years"
-      }
-    ],
-    "r3.zib_tobacco_use.type_of_tobacco_used.value": [
-      {
-        type: 0,
-        value: "Soort tabak gebruik"
-      }
-    ],
-    "r3.zib_tobacco_use.value": [
-      {
-        type: 0,
-        value: "Tabak gebruik status"
-      }
-    ],
-    "r3.zib_treatment_directive": [
-      {
-        type: 0,
-        value: "Behandel aanwijzing"
-      }
-    ],
-    "r3.zib_treatment_directive.except.restrictions": [
-      {
-        type: 0,
-        value: "Beperkingen"
-      }
-    ],
-    "r3.zib_treatment_directive.period.end": [
-      {
-        type: 0,
-        value: "Eind datum"
-      }
-    ],
-    "r3.zib_treatment_directive.period.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "r3.zib_treatment_directive.source": [
-      {
-        type: 0,
-        value: "Wilsverklaring"
-      }
-    ],
-    "r3.zib_treatment_directive.treatment": [
-      {
-        type: 0,
-        value: "Behandeling"
-      }
-    ],
-    "r3.zib_treatment_directive.treatment_permitted": [
-      {
-        type: 0,
-        value: "Behandeling toegestaan"
-      }
-    ],
-    "r3.zib_treatment_directive.verification.verification_date": [
-      {
-        type: 0,
-        value: "Verificatie datum"
-      }
-    ],
-    "r3.zib_treatment_directive.verification.verified": [
-      {
-        type: 0,
-        value: "Geverifieerd"
-      }
-    ],
-    "r3.zib_treatment_directive.verification.verified_with": [
-      {
-        type: 0,
-        value: "Geverifieerd bij"
-      }
-    ],
-    "r3.zib_treatment_directive_treatment.value": [
-      {
-        type: 0,
-        value: "Behandeling"
-      }
-    ],
-    "r3.zib_treatment_directive_treatment_permitted.value": [
-      {
-        type: 0,
-        value: "Behandeling toegestaan"
-      }
-    ],
-    "r3.zib_treatment_directive_verification": [
-      {
-        type: 0,
-        value: "Verificatie"
-      }
-    ],
-    "r3.zib_treatment_directive_verification.verification_date.value": [
-      {
-        type: 0,
-        value: "Verificatie datum"
-      }
-    ],
-    "r3.zib_treatment_directive_verification.verified.value": [
-      {
-        type: 0,
-        value: "Geverifieerd"
-      }
-    ],
-    "r3.zib_treatment_objective": [
-      {
-        type: 0,
-        value: "Behandeldoel"
-      }
-    ],
-    "r3.zib_treatment_objective.addresses": [
-      {
-        type: 0,
-        value: "Probleem"
-      }
-    ],
-    "r3.zib_treatment_objective.description": [
-      {
-        type: 0,
-        value: "Gewenst zorgresultaat"
-      }
-    ],
-    "r3.zib_treatment_objective.target.detail": [
-      {
-        type: 0,
-        value: "Streefwaarde / gewenste gezondheidstoestand"
-      }
-    ],
-    "r3.zib_vaccination": [
-      {
-        type: 0,
-        value: "Vaccinatie"
-      }
-    ],
-    "r3.zib_vaccination.date": [
-      {
-        type: 0,
-        value: "Vaccinatie datum"
-      }
-    ],
-    "r3.zib_vaccination.dose_quantity": [
-      {
-        type: 0,
-        value: "Dosis"
-      }
-    ],
-    "r3.zib_vaccination.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_vaccination.practitioner.actor": [
-      {
-        type: 0,
-        value: "Toediener"
-      }
-    ],
-    "r3.zib_vaccination.practitioner.role.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r3.zib_vaccination.vaccine_code": [
-      {
-        type: 0,
-        value: "Product code"
-      }
-    ],
-    "r3.zib_vaccination_recommendation.order_status": [
-      {
-        type: 0,
-        value: "Order status"
-      }
-    ],
-    "r3.zib_vaccination_recommendation.recommendation.date": [
-      {
-        type: 0,
-        value: "Gewenste datum hervaccinatie"
-      }
-    ],
-    "r3.zib_vaccination_recommendation.recommendation.date_criterion": [
-      {
-        type: 0,
-        value: "Start date"
-      }
-    ],
-    "r3.zib_vaccination_recommendation.recommendation.vaccine_code": [
-      {
-        type: 0,
-        value: "Product code"
-      }
-    ],
-    "r3.zib_visual_function": [
-      {
-        type: 0,
-        value: "Functie zien"
-      }
-    ],
-    "r3.zib_visual_function.comment": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_visual_function.value": [
-      {
-        type: 0,
-        value: "Visuele functie"
-      }
-    ],
-    "r3.zib_visual_function_visual_aid": [
-      {
-        type: 0,
-        value: "Zien hulpmiddel"
-      }
-    ],
-    "r3.zib_wound": [
-      {
-        type: 0,
-        value: "Wond"
-      }
-    ],
-    "r3.zib_wound.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r3.zib_wound.body_site.laterality.value": [
-      {
-        type: 0,
-        value: "Lateraliteit"
-      }
-    ],
-    "r3.zib_wound.code": [
-      {
-        type: 0,
-        value: "Wond soort"
-      }
-    ],
-    "r3.zib_wound.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r3.zib_wound.onset": [
-      {
-        type: 0,
-        value: "Wond ontstaans datum"
-      }
-    ]
-  };
-  const r3ResourceLabelsCustom = {
-    "r3.e_afspraak_appointment": [
-      {
-        type: 0,
-        value: "Afspraak"
-      }
-    ],
-    "r3.gp_diagnostic_result": [
-      {
-        type: 0,
-        value: "Laboratorium uitslag"
-      }
-    ],
-    "r3.gp_encounter": [
-      {
-        type: 0,
-        value: "Contact"
-      }
-    ],
-    "r3.gp_journal_entry": [
-      {
-        type: 0,
-        value: "Journaalregel"
-      }
-    ],
-    "r3.gp_laboratory_result": [
-      {
-        type: 0,
-        value: "Laboratorium uitslag"
-      }
-    ],
-    "r3.ihe_mhd_document_manifest": [
-      {
-        type: 0,
-        value: "Document manifest"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.author": [
-      {
-        type: 0,
-        value: "Specialist"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.class": [
-      {
-        type: 0,
-        value: "Categorie"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.content": [
-      {
-        type: 0,
-        value: "Inhoud"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.content.attachment.content_type": [
-      {
-        type: 0,
-        value: "Inhoudstype"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.content.attachment.creation": [
-      {
-        type: 0,
-        value: "Gecreëerd"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.content.attachment.language": [
-      {
-        type: 0,
-        value: "Taal"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.content.attachment.title": [
-      {
-        type: 0,
-        value: "Titel"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.content.attachment.url": [
-      {
-        type: 0,
-        value: "Url"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.indexed": [
-      {
-        type: 0,
-        value: "Aangemaakt op"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.master_identifier": [
-      {
-        type: 0,
-        value: "Identifier"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.security_label": [
-      {
-        type: 0,
-        value: "Beveiligingslabel"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.status": [
-      {
-        type: 0,
-        value: "Status"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.subject": [
-      {
-        type: 0,
-        value: "Onderwerp"
-      }
-    ],
-    "r3.ihe_mhd_minimal_document_reference.type": [
-      {
-        type: 0,
-        value: "Type"
-      }
-    ],
-    "r3.nl_core_observation": [
-      {
-        type: 0,
-        value: "Observatie"
-      }
-    ],
-    "r3.nl_core_practitionerrole": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r3.zib_alert": [
-      {
-        type: 0,
-        value: "Alert"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.context": [
-      {
-        type: 0,
-        value: "Verband"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.general_test_information": [
-      {
-        type: 0,
-        value: "Algemene testinformatie"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.interpretation": [
-      {
-        type: 0,
-        value: "Interpretatie"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.lab_test": [
-      {
-        type: 0,
-        value: "Laboratoriumtest"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.performer": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r3.zib_laboratory_test_result_observation.reference_range.type": [
-      {
-        type: 0,
-        value: "Referentie type"
-      }
-    ],
-    "r3.zib_laboratory_test_result_substance": [
-      {
-        type: 0,
-        value: "Monstermateriaal"
-      }
-    ],
-    "r3.zib_medical_device_request": [
-      {
-        type: 0,
-        value: "Medisch hulpmiddel aanvraag"
-      }
-    ],
-    "r3.zib_medication_use.effective_period.duration": [
-      {
-        type: 0,
-        value: "Tijdsduur"
-      }
-    ],
-    "r3.zib_medication_use.repeat_period_cyclical_schedule": [
-      {
-        type: 0,
-        value: "Herhaalperiode cyclisch schema"
-      }
-    ],
-    "r3.zib_vaccination_recommendation": [
-      {
-        type: 0,
-        value: "Vaccinatieadvies"
-      }
-    ]
-  };
-  const r4ResourceLabels = {
-    "r4.nl_core_ability_to_dress_oneself": [
-      {
-        type: 0,
-        value: "Nl-core-ability to dress oneself"
-      }
-    ],
-    "r4.nl_core_ability_to_drink": [
-      {
-        type: 0,
-        value: "Nl-core-ability to drink"
-      }
-    ],
-    "r4.nl_core_ability_to_drink.drinking_limitations": [
-      {
-        type: 0,
-        value: "Nl-core-ability to drink.drinking limitations"
-      }
-    ],
-    "r4.nl_core_ability_to_eat": [
-      {
-        type: 0,
-        value: "Nl-core-ability to eat"
-      }
-    ],
-    "r4.nl_core_ability_to_eat.eating_limitations": [
-      {
-        type: 0,
-        value: "Nl-core-ability to eat.eating limitations"
-      }
-    ],
-    "r4.nl_core_ability_to_groom": [
-      {
-        type: 0,
-        value: "Nl-core-ability to groom"
-      }
-    ],
-    "r4.nl_core_ability_to_use_toilet": [
-      {
-        type: 0,
-        value: "Nl-core-ability to use toilet"
-      }
-    ],
-    "r4.nl_core_ability_to_use_toilet.menstrual_care": [
-      {
-        type: 0,
-        value: "Nl-core-ability to use toilet.menstrual care"
-      }
-    ],
-    "r4.nl_core_ability_to_use_toilet.toilet_use": [
-      {
-        type: 0,
-        value: "Nl-core-ability to use toilet.toilet use"
-      }
-    ],
-    "r4.nl_core_ability_to_wash_oneself": [
-      {
-        type: 0,
-        value: "Nl-core-ability to wash oneself"
-      }
-    ],
-    "r4.nl_core_address_information": [
-      {
-        type: 0,
-        value: "Nl-core-address information"
-      }
-    ],
-    "r4.nl_core_advance_directive": [
-      {
-        type: 0,
-        value: "Nl-core-advance directive"
-      }
-    ],
-    "r4.nl_core_alcohol_use": [
-      {
-        type: 0,
-        value: "Nl-core-alcohol use"
-      }
-    ],
-    "r4.nl_core_alert": [
-      {
-        type: 0,
-        value: "Nl-core-alert"
-      }
-    ],
-    "r4.nl_core_allergy_intolerance": [
-      {
-        type: 0,
-        value: "Nl-core-allergy intolerance"
-      }
-    ],
-    "r4.nl_core_anatomical_location": [
-      {
-        type: 0,
-        value: "Nl-core-anatomical location"
-      }
-    ],
-    "r4.nl_core_apgar_score_10_minute": [
-      {
-        type: 0,
-        value: "Nl-core-apgar score-10 minute"
-      }
-    ],
-    "r4.nl_core_apgar_score_1_minute": [
-      {
-        type: 0,
-        value: "Nl-core-apgar score-1 minute"
-      }
-    ],
-    "r4.nl_core_apgar_score_5_minute": [
-      {
-        type: 0,
-        value: "Nl-core-apgar score-5 minute"
-      }
-    ],
-    "r4.nl_core_barthel_adl_index": [
-      {
-        type: 0,
-        value: "Nl-core-barthel ADL index"
-      }
-    ],
-    "r4.nl_core_blood_pressure": [
-      {
-        type: 0,
-        value: "Nl-core-blood pressure"
-      }
-    ],
-    "r4.nl_core_body_height": [
-      {
-        type: 0,
-        value: "Nl-core-body height"
-      }
-    ],
-    "r4.nl_core_body_temperature": [
-      {
-        type: 0,
-        value: "Nl-core-body temperature"
-      }
-    ],
-    "r4.nl_core_body_weight": [
-      {
-        type: 0,
-        value: "Nl-core-body weight"
-      }
-    ],
-    "r4.nl_core_bowel_function": [
-      {
-        type: 0,
-        value: "Nl-core-bowel function"
-      }
-    ],
-    "r4.nl_core_bowel_function.defecation_color": [
-      {
-        type: 0,
-        value: "Nl-core-bowel function.defecation color"
-      }
-    ],
-    "r4.nl_core_bowel_function.defecation_consistency": [
-      {
-        type: 0,
-        value: "Nl-core-bowel function.defecation consistency"
-      }
-    ],
-    "r4.nl_core_bowel_function.fecal_continence": [
-      {
-        type: 0,
-        value: "Nl-core-bowel function.fecal continence"
-      }
-    ],
-    "r4.nl_core_bowel_function.frequency": [
-      {
-        type: 0,
-        value: "Nl-core-bowel function.frequency"
-      }
-    ],
-    "r4.nl_core_burnwound": [
-      {
-        type: 0,
-        value: "Nl-core-burnwound"
-      }
-    ],
-    "r4.nl_core_burnwound.extent": [
-      {
-        type: 0,
-        value: "Nl-core-burnwound.extent"
-      }
-    ],
-    "r4.nl_core_care_team": [
-      {
-        type: 0,
-        value: "Nl-core-care team"
-      }
-    ],
-    "r4.nl_core_checklist_pain_behavior": [
-      {
-        type: 0,
-        value: "Nl-core-checklist pain behavior"
-      }
-    ],
-    "r4.nl_core_comfort_scale": [
-      {
-        type: 0,
-        value: "Nl-core-comfort scale"
-      }
-    ],
-    "r4.nl_core_contact_information_email_addresses": [
-      {
-        type: 0,
-        value: "Nl-core-contact information-email addresses"
-      }
-    ],
-    "r4.nl_core_contact_information_telephone_numbers": [
-      {
-        type: 0,
-        value: "Nl-core-contact information-telephone numbers"
-      }
-    ],
-    "r4.nl_core_contact_person": [
-      {
-        type: 0,
-        value: "Nl-core-contact person"
-      }
-    ],
-    "r4.nl_core_development_child": [
-      {
-        type: 0,
-        value: "Nl-core-development child"
-      }
-    ],
-    "r4.nl_core_development_child.age_first_menstruation": [
-      {
-        type: 0,
-        value: "Nl-core-development child.age first menstruation"
-      }
-    ],
-    "r4.nl_core_development_child.development_cognition": [
-      {
-        type: 0,
-        value: "Nl-core-development child.development cognition"
-      }
-    ],
-    "r4.nl_core_development_child.development_linguistics": [
-      {
-        type: 0,
-        value: "Nl-core-development child.development linguistics"
-      }
-    ],
-    "r4.nl_core_development_child.development_locomotion": [
-      {
-        type: 0,
-        value: "Nl-core-development child.development locomotion"
-      }
-    ],
-    "r4.nl_core_development_child.development_social": [
-      {
-        type: 0,
-        value: "Nl-core-development child.development social"
-      }
-    ],
-    "r4.nl_core_development_child.toilet_trainedness_feces": [
-      {
-        type: 0,
-        value: "Nl-core-development child.toilet trainedness feces"
-      }
-    ],
-    "r4.nl_core_development_child.toilet_trainedness_urine": [
-      {
-        type: 0,
-        value: "Nl-core-development child.toilet trainedness urine"
-      }
-    ],
-    "r4.nl_core_dos_score": [
-      {
-        type: 0,
-        value: "Nl-core-DOS score"
-      }
-    ],
-    "r4.nl_core_drug_use": [
-      {
-        type: 0,
-        value: "Nl-core-drug use"
-      }
-    ],
-    "r4.nl_core_education": [
-      {
-        type: 0,
-        value: "Nl-core-education"
-      }
-    ],
-    "r4.nl_core_encounter": [
-      {
-        type: 0,
-        value: "Nl-core-encounter"
-      }
-    ],
-    "r4.nl_core_episode_of_care": [
-      {
-        type: 0,
-        value: "Nl-core-episode of care"
-      }
-    ],
-    "r4.nl_core_feeding_pattern_infant": [
-      {
-        type: 0,
-        value: "Nl-core-feeding pattern infant"
-      }
-    ],
-    "r4.nl_core_flac_cpain_scale": [
-      {
-        type: 0,
-        value: "Nl-core-FLAC cpain scale"
-      }
-    ],
-    "r4.nl_core_fluid_balance": [
-      {
-        type: 0,
-        value: "Nl-core-fluid balance"
-      }
-    ],
-    "r4.nl_core_fluid_balance.fluid_total_in": [
-      {
-        type: 0,
-        value: "Nl-core-fluid balance.fluid total in"
-      }
-    ],
-    "r4.nl_core_fluid_balance.fluid_total_out": [
-      {
-        type: 0,
-        value: "Nl-core-fluid balance.fluid total out"
-      }
-    ],
-    "r4.nl_core_freedom_restricting_intervention": [
-      {
-        type: 0,
-        value: "Nl-core-freedom restricting intervention"
-      }
-    ],
-    "r4.nl_core_functional_or_mental_status": [
-      {
-        type: 0,
-        value: "Nl-core-functional or mental status"
-      }
-    ],
-    "r4.nl_core_glasgow_coma_scale": [
-      {
-        type: 0,
-        value: "Nl-core-glasgow coma scale"
-      }
-    ],
-    "r4.nl_core_head_circumference": [
-      {
-        type: 0,
-        value: "Nl-core-head circumference"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner": [
-      {
-        type: 0,
-        value: "Nl-core-health professional-practitioner"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner_role": [
-      {
-        type: 0,
-        value: "Nl-core-health professional-practitioner role"
-      }
-    ],
-    "r4.nl_core_healthcare_provider": [
-      {
-        type: 0,
-        value: "Nl-core-healthcare provider"
-      }
-    ],
-    "r4.nl_core_healthcare_provider_organization": [
-      {
-        type: 0,
-        value: "Nl-core-healthcare provider-organization"
-      }
-    ],
-    "r4.nl_core_hearing_function": [
-      {
-        type: 0,
-        value: "Nl-core-hearing function"
-      }
-    ],
-    "r4.nl_core_hearing_function.hearing_aid": [
-      {
-        type: 0,
-        value: "Nl-core-hearing function.hearing aid"
-      }
-    ],
-    "r4.nl_core_hearing_function.hearing_aid.product": [
-      {
-        type: 0,
-        value: "Nl-core-hearing function.hearing aid.product"
-      }
-    ],
-    "r4.nl_core_heart_rate": [
-      {
-        type: 0,
-        value: "Nl-core-heart rate"
-      }
-    ],
-    "r4.nl_core_heart_rate.heartbeat_regularity": [
-      {
-        type: 0,
-        value: "Nl-core-heart rate.heartbeat regularity"
-      }
-    ],
-    "r4.nl_core_heart_rate.interpretation_heart_rate": [
-      {
-        type: 0,
-        value: "Nl-core-heart rate.interpretation heart rate"
-      }
-    ],
-    "r4.nl_core_help_from_others": [
-      {
-        type: 0,
-        value: "Nl-core-help from others"
-      }
-    ],
-    "r4.nl_core_illness_perception": [
-      {
-        type: 0,
-        value: "Nl-core-illness perception"
-      }
-    ],
-    "r4.nl_core_illness_perception.coping_with_illness_by_family": [
-      {
-        type: 0,
-        value: "Nl-core-illness perception.coping with illness by family"
-      }
-    ],
-    "r4.nl_core_illness_perception.coping_with_illness_by_patient": [
-      {
-        type: 0,
-        value: "Nl-core-illness perception.coping with illness by patient"
-      }
-    ],
-    "r4.nl_core_illness_perception.patient_illness_insight": [
-      {
-        type: 0,
-        value: "Nl-core-illness perception.patient illness insight"
-      }
-    ],
-    "r4.nl_core_laboratory_test_result": [
-      {
-        type: 0,
-        value: "Nl-core-laboratory test result"
-      }
-    ],
-    "r4.nl_core_laboratory_test_result.specimen": [
-      {
-        type: 0,
-        value: "Nl-core-laboratory test result.specimen"
-      }
-    ],
-    "r4.nl_core_laboratory_test_result.specimen_source": [
-      {
-        type: 0,
-        value: "Nl-core-laboratory test result.specimen source"
-      }
-    ],
-    "r4.nl_core_laboratory_test_result.specimen_source.patient": [
-      {
-        type: 0,
-        value: "Patiënt"
-      }
-    ],
-    "r4.nl_core_legal_situation_legal_status": [
-      {
-        type: 0,
-        value: "Nl-core-legal situation-legal status"
-      }
-    ],
-    "r4.nl_core_legal_situation_representation": [
-      {
-        type: 0,
-        value: "Nl-core-legal situation-representation"
-      }
-    ],
-    "r4.nl_core_life_stance": [
-      {
-        type: 0,
-        value: "Nl-core-life stance"
-      }
-    ],
-    "r4.nl_core_living_situation": [
-      {
-        type: 0,
-        value: "Nl-core-living situation"
-      }
-    ],
-    "r4.nl_core_medical_device": [
-      {
-        type: 0,
-        value: "Nl-core-medical device"
-      }
-    ],
-    "r4.nl_core_medical_device.product": [
-      {
-        type: 0,
-        value: "Nl-core-medical device.product"
-      }
-    ],
-    "r4.nl_core_medication_contra_indication": [
-      {
-        type: 0,
-        value: "Nl-core-medication contra indication"
-      }
-    ],
-    "r4.nl_core_mobility": [
-      {
-        type: 0,
-        value: "Nl-core-mobility"
-      }
-    ],
-    "r4.nl_core_mobility.changing_position": [
-      {
-        type: 0,
-        value: "Nl-core-mobility.changing position"
-      }
-    ],
-    "r4.nl_core_mobility.climbing_stairs": [
-      {
-        type: 0,
-        value: "Nl-core-mobility.climbing stairs"
-      }
-    ],
-    "r4.nl_core_mobility.maintaining_position": [
-      {
-        type: 0,
-        value: "Nl-core-mobility.maintaining position"
-      }
-    ],
-    "r4.nl_core_mobility.transfer": [
-      {
-        type: 0,
-        value: "Nl-core-mobility.transfer"
-      }
-    ],
-    "r4.nl_core_mobility.walking": [
-      {
-        type: 0,
-        value: "Nl-core-mobility.walking"
-      }
-    ],
-    "r4.nl_core_must_score": [
-      {
-        type: 0,
-        value: "Nl-core-MUST score"
-      }
-    ],
-    "r4.nl_core_name_information": [
-      {
-        type: 0,
-        value: "Nl-core-name information"
-      }
-    ],
-    "r4.nl_core_name_information.given_name": [
-      {
-        type: 0,
-        value: "Nl-core-name information.given name"
-      }
-    ],
-    "r4.nl_core_nursing_intervention": [
-      {
-        type: 0,
-        value: "Nl-core-nursing intervention"
-      }
-    ],
-    "r4.nl_core_nutrition_advice": [
-      {
-        type: 0,
-        value: "Nl-core-nutrition advice"
-      }
-    ],
-    "r4.nl_core_o_2_saturation": [
-      {
-        type: 0,
-        value: "Nl-core-o2 saturation"
-      }
-    ],
-    "r4.nl_core_pain_score": [
-      {
-        type: 0,
-        value: "Nl-core-pain score"
-      }
-    ],
-    "r4.nl_core_participation_in_society": [
-      {
-        type: 0,
-        value: "Nl-core-participation in society"
-      }
-    ],
-    "r4.nl_core_participation_in_society.hobby": [
-      {
-        type: 0,
-        value: "Nl-core-participation in society.hobby"
-      }
-    ],
-    "r4.nl_core_participation_in_society.social_network": [
-      {
-        type: 0,
-        value: "Nl-core-participation in society.social network"
-      }
-    ],
-    "r4.nl_core_participation_in_society.work_situation": [
-      {
-        type: 0,
-        value: "Nl-core-participation in society.work situation"
-      }
-    ],
-    "r4.nl_core_patient": [
-      {
-        type: 0,
-        value: "Nl-core-patient"
-      }
-    ],
-    "r4.nl_core_payer.insurance_company": [
-      {
-        type: 0,
-        value: "Nl-core-payer.insurance company"
-      }
-    ],
-    "r4.nl_core_payer.payer_person": [
-      {
-        type: 0,
-        value: "Nl-core-payer.payer person"
-      }
-    ],
-    "r4.nl_core_payer_organization": [
-      {
-        type: 0,
-        value: "Nl-core-payer-organization"
-      }
-    ],
-    "r4.nl_core_pharmaceutical_product": [
-      {
-        type: 0,
-        value: "Nl-core-pharmaceutical product"
-      }
-    ],
-    "r4.nl_core_pregnancy": [
-      {
-        type: 0,
-        value: "Nl-core-pregnancy"
-      }
-    ],
-    "r4.nl_core_pregnancy.date_last_menstruation": [
-      {
-        type: 0,
-        value: "Nl-core-pregnancy.date last menstruation"
-      }
-    ],
-    "r4.nl_core_pregnancy.estimated_date_of_delivery": [
-      {
-        type: 0,
-        value: "Nl-core-pregnancy.estimated date of delivery"
-      }
-    ],
-    "r4.nl_core_pregnancy.gravidity": [
-      {
-        type: 0,
-        value: "Nl-core-pregnancy.gravidity"
-      }
-    ],
-    "r4.nl_core_pregnancy.parity": [
-      {
-        type: 0,
-        value: "Nl-core-pregnancy.parity"
-      }
-    ],
-    "r4.nl_core_pregnancy.pregnancy_duration": [
-      {
-        type: 0,
-        value: "Nl-core-pregnancy.pregnancy duration"
-      }
-    ],
-    "r4.nl_core_pressure_ulcer": [
-      {
-        type: 0,
-        value: "Nl-core-pressure ulcer"
-      }
-    ],
-    "r4.nl_core_problem": [
-      {
-        type: 0,
-        value: "Nl-core-problem"
-      }
-    ],
-    "r4.nl_core_procedure_event": [
-      {
-        type: 0,
-        value: "Nl-core-procedure-event"
-      }
-    ],
-    "r4.nl_core_procedure_request": [
-      {
-        type: 0,
-        value: "Nl-core-procedure-request"
-      }
-    ],
-    "r4.nl_core_pulse_rate": [
-      {
-        type: 0,
-        value: "Nl-core-pulse rate"
-      }
-    ],
-    "r4.nl_core_pulse_rate.pulse_regularity": [
-      {
-        type: 0,
-        value: "Nl-core-pulse rate.pulse regularity"
-      }
-    ],
-    "r4.nl_core_refraction": [
-      {
-        type: 0,
-        value: "Nl-core-refraction"
-      }
-    ],
-    "r4.nl_core_skin_disorder": [
-      {
-        type: 0,
-        value: "Nl-core-skin disorder"
-      }
-    ],
-    "r4.nl_core_sna_qrc_score": [
-      {
-        type: 0,
-        value: "Nl-core-SNA qrc score"
-      }
-    ],
-    "r4.nl_core_snaq_65_plus_score": [
-      {
-        type: 0,
-        value: "Nl-core-SNAQ65plus score"
-      }
-    ],
-    "r4.nl_core_snaq_score": [
-      {
-        type: 0,
-        value: "Nl-core-SNAQ score"
-      }
-    ],
-    "r4.nl_core_soap_report": [
-      {
-        type: 0,
-        value: "Nl-core-SOAP report"
-      }
-    ],
-    "r4.nl_core_soap_report.soap_line": [
-      {
-        type: 0,
-        value: "Nl-core-SOAP report.SOAP line"
-      }
-    ],
-    "r4.nl_core_stoma": [
-      {
-        type: 0,
-        value: "Nl-core-stoma"
-      }
-    ],
-    "r4.nl_core_strong_kids_score": [
-      {
-        type: 0,
-        value: "Nl-core-strong kids score"
-      }
-    ],
-    "r4.nl_core_text_result": [
-      {
-        type: 0,
-        value: "Nl-core-text result"
-      }
-    ],
-    "r4.nl_core_text_result.visual_result": [
-      {
-        type: 0,
-        value: "Nl-core-text result.visual result"
-      }
-    ],
-    "r4.nl_core_time_interval": [
-      {
-        type: 0,
-        value: "Nl-core-time interval"
-      }
-    ],
-    "r4.nl_core_tobacco_use": [
-      {
-        type: 0,
-        value: "Nl-core-tobacco use"
-      }
-    ],
-    "r4.nl_core_treatment_directive_2": [
-      {
-        type: 0,
-        value: "Nl-core-treatment directive2"
-      }
-    ],
-    "r4.nl_core_vaccination_event": [
-      {
-        type: 0,
-        value: "Nl-core-vaccination-event"
-      }
-    ],
-    "r4.nl_core_vaccination_event.patient": [
-      {
-        type: 0,
-        value: "Patient"
-      }
-    ],
-    "r4.nl_core_vaccination_event.protocol_applied.target_disease": [
-      {
-        type: 0,
-        value: "Vaccinatie pathogeen"
-      }
-    ],
-    "r4.nl_core_vaccination_event.vaccination_indication": [
-      {
-        type: 0,
-        value: "Vaccinatie indicatie"
-      }
-    ],
-    "r4.nl_core_vaccination_event.vaccination_motive": [
-      {
-        type: 0,
-        value: "Vaccinatie aanleiding"
-      }
-    ],
-    "r4.nl_core_vaccination_request": [
-      {
-        type: 0,
-        value: "Nl-core-vaccination-request"
-      }
-    ],
-    "r4.nl_core_visual_function": [
-      {
-        type: 0,
-        value: "Nl-core-visual function"
-      }
-    ],
-    "r4.nl_core_visual_function.visual_aid": [
-      {
-        type: 0,
-        value: "Nl-core-visual function.visual aid"
-      }
-    ],
-    "r4.nl_core_visual_function.visual_aid.product": [
-      {
-        type: 0,
-        value: "Nl-core-visual function.visual aid.product"
-      }
-    ],
-    "r4.nl_core_wound": [
-      {
-        type: 0,
-        value: "Nl-core-wound"
-      }
-    ],
-    "r4.nl_core_wound.drain": [
-      {
-        type: 0,
-        value: "Nl-core-wound.drain"
-      }
-    ],
-    "r4.nl_core_wound.drain.product": [
-      {
-        type: 0,
-        value: "Nl-core-wound.drain.product"
-      }
-    ],
-    "r4.nl_core_wound.wound_edge": [
-      {
-        type: 0,
-        value: "Nl-core-wound.wound edge"
-      }
-    ],
-    "r4.nl_core_wound.wound_infection": [
-      {
-        type: 0,
-        value: "Nl-core-wound.wound infection"
-      }
-    ],
-    "r4.nl_core_wound.wound_moisture": [
-      {
-        type: 0,
-        value: "Nl-core-wound.wound moisture"
-      }
-    ],
-    "r4.nl_core_wound.wound_tissue": [
-      {
-        type: 0,
-        value: "Nl-core-wound.wound tissue"
-      }
-    ],
-    "r4.nl_core_wounds.date_of_last_dressing_change": [
-      {
-        type: 0,
-        value: "Nl-core-wounds.date of last dressing change"
-      }
-    ],
-    "r4.nl_core_wounds.wound_characteristics": [
-      {
-        type: 0,
-        value: "Nl-core-wounds.wound characteristics"
-      }
-    ],
-    "r4.nl_core_wounds.wound_depth": [
-      {
-        type: 0,
-        value: "Nl-core-wounds.wound depth"
-      }
-    ],
-    "r4.nl_core_wounds.wound_image": [
-      {
-        type: 0,
-        value: "Nl-core-wounds.wound image"
-      }
-    ],
-    "r4.nl_core_wounds.wound_length": [
-      {
-        type: 0,
-        value: "Nl-core-wounds.wound length"
-      }
-    ],
-    "r4.nl_core_wounds.wound_width": [
-      {
-        type: 0,
-        value: "Nl-core-wounds.wound width"
-      }
-    ],
-    "r4.zib_ability_to_dress_oneself": [
-      {
-        type: 0,
-        value: "Vermogen tot zich kleden"
-      }
-    ],
-    "r4.zib_ability_to_dress_oneself.body_part_to_be_dressed.value": [
-      {
-        type: 0,
-        value: "Te kleden lichaamsdeel"
-      }
-    ],
-    "r4.zib_ability_to_dress_oneself.value": [
-      {
-        type: 0,
-        value: "Zich kleden"
-      }
-    ],
-    "r4.zib_ability_to_drink": [
-      {
-        type: 0,
-        value: "Vermogen tot drinken"
-      }
-    ],
-    "r4.zib_ability_to_drink.drinking_limitations.value": [
-      {
-        type: 0,
-        value: "Drink beperkingen"
-      }
-    ],
-    "r4.zib_ability_to_drink.value": [
-      {
-        type: 0,
-        value: "Drinken"
-      }
-    ],
-    "r4.zib_ability_to_eat": [
-      {
-        type: 0,
-        value: "Vermogen tot eten"
-      }
-    ],
-    "r4.zib_ability_to_eat.eating_limitations.value": [
-      {
-        type: 0,
-        value: "Eet beperkingen"
-      }
-    ],
-    "r4.zib_ability_to_eat.value": [
-      {
-        type: 0,
-        value: "Eten"
-      }
-    ],
-    "r4.zib_ability_to_groom": [
-      {
-        type: 0,
-        value: "Vermogen tot uiterlijke verzorging"
-      }
-    ],
-    "r4.zib_ability_to_groom.value": [
-      {
-        type: 0,
-        value: "Uiterlijke verzorging"
-      }
-    ],
-    "r4.zib_ability_to_use_toilet": [
-      {
-        type: 0,
-        value: "Vermogen tot toiletgang"
-      }
-    ],
-    "r4.zib_ability_to_use_toilet.menstrual_care.value": [
-      {
-        type: 0,
-        value: "Zorg bij menstruatie"
-      }
-    ],
-    "r4.zib_ability_to_use_toilet.toilet_use.value": [
-      {
-        type: 0,
-        value: "Toiletgebruik"
-      }
-    ],
-    "r4.zib_ability_to_wash_oneself": [
-      {
-        type: 0,
-        value: "Vermogen tot zich wassen"
-      }
-    ],
-    "r4.zib_ability_to_wash_oneself.body_part_to_be_bathed.value": [
-      {
-        type: 0,
-        value: "Te wassen lichaamsdeel"
-      }
-    ],
-    "r4.zib_ability_to_wash_oneself.value": [
-      {
-        type: 0,
-        value: "Zich wassen"
-      }
-    ],
-    "r4.zib_address_information": [
-      {
-        type: 0,
-        value: "Adresgegevens"
-      }
-    ],
-    "r4.zib_address_information.city": [
-      {
-        type: 0,
-        value: "Woonplaats"
-      }
-    ],
-    "r4.zib_address_information.country.country_code.value": [
-      {
-        type: 0,
-        value: "Land"
-      }
-    ],
-    "r4.zib_address_information.district": [
-      {
-        type: 0,
-        value: "Gemeente"
-      }
-    ],
-    "r4.zib_address_information.line.additional_information.value": [
-      {
-        type: 0,
-        value: "Additionele informatie"
-      }
-    ],
-    "r4.zib_address_information.line.house_number.value": [
-      {
-        type: 0,
-        value: "Huisnummer"
-      }
-    ],
-    "r4.zib_address_information.line.house_number_indication.value": [
-      {
-        type: 0,
-        value: "Aanduiding bij nummer"
-      }
-    ],
-    "r4.zib_address_information.line.house_number_letter_house_number_addition.value": [
-      {
-        type: 0,
-        value: "Huisnummerletter"
-      }
-    ],
-    "r4.zib_address_information.line.street_name.value": [
-      {
-        type: 0,
-        value: "Straat"
-      }
-    ],
-    "r4.zib_address_information.postal_code": [
-      {
-        type: 0,
-        value: "Postcode"
-      }
-    ],
-    "r4.zib_address_information.type": [
-      {
-        type: 0,
-        value: "Adres soort"
-      }
-    ],
-    "r4.zib_address_information.use": [
-      {
-        type: 0,
-        value: "Adres soort"
-      }
-    ],
-    "r4.zib_advance_directive": [
-      {
-        type: 0,
-        value: "Wilsverklaring"
-      }
-    ],
-    "r4.zib_advance_directive.comment.value": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_advance_directive.date_time": [
-      {
-        type: 0,
-        value: "Wilsverklaring datum"
-      }
-    ],
-    "r4.zib_advance_directive.provision.code": [
-      {
-        type: 0,
-        value: "Wilsverklaring type"
-      }
-    ],
-    "r4.zib_advance_directive.provision.representative.reference": [
-      {
-        type: 0,
-        value: "Vertegenwoordiger"
-      }
-    ],
-    "r4.zib_advance_directive.source_attachment.data": [
-      {
-        type: 0,
-        value: "Wilsverklaring document"
-      }
-    ],
-    "r4.zib_alcohol_use": [
-      {
-        type: 0,
-        value: "Alcohol gebruik"
-      }
-    ],
-    "r4.zib_alcohol_use.amount.value": [
-      {
-        type: 0,
-        value: "Hoeveelheid"
-      }
-    ],
-    "r4.zib_alcohol_use.effective_period.end": [
-      {
-        type: 0,
-        value: "Stop datum"
-      }
-    ],
-    "r4.zib_alcohol_use.effective_period.start": [
-      {
-        type: 0,
-        value: "Start datum"
-      }
-    ],
-    "r4.zib_alcohol_use.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_alcohol_use.value": [
-      {
-        type: 0,
-        value: "Alcohol gebruik status"
-      }
-    ],
-    "r4.zib_alert.alert_type": [
-      {
-        type: 0,
-        value: "Alert type"
-      }
-    ],
-    "r4.zib_alert.code.alert_name": [
-      {
-        type: 0,
-        value: "Alert naam"
-      }
-    ],
-    "r4.zib_alert.comment.value": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_alert.condition.value": [
-      {
-        type: 0,
-        value: "Conditie"
-      }
-    ],
-    "r4.zib_alert.period.end": [
-      {
-        type: 0,
-        value: "Eind datum tijd"
-      }
-    ],
-    "r4.zib_alert.period.start": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    "r4.zib_allergy_intolerance": [
-      {
-        type: 0,
-        value: "Allergie intolerantie"
-      }
-    ],
-    "r4.zib_allergy_intolerance.category": [
-      {
-        type: 0,
-        value: "Allergie categorie"
-      }
-    ],
-    "r4.zib_allergy_intolerance.category.allergy_category_codelist.value": [
-      {
-        type: 0,
-        value: "Allergie categorie"
-      }
-    ],
-    "r4.zib_allergy_intolerance.clinical_status": [
-      {
-        type: 0,
-        value: "Allergie status"
-      }
-    ],
-    "r4.zib_allergy_intolerance.code": [
-      {
-        type: 0,
-        value: "Veroorzakende stof"
-      }
-    ],
-    "r4.zib_allergy_intolerance.criticality": [
-      {
-        type: 0,
-        value: "Mate van kritiek zijn"
-      }
-    ],
-    "r4.zib_allergy_intolerance.criticality.critical_extent_codelist.value": [
-      {
-        type: 0,
-        value: "Mate van kritiek zijn"
-      }
-    ],
-    "r4.zib_allergy_intolerance.last_occurrence": [
-      {
-        type: 0,
-        value: "Laatste reactie datum tijd"
-      }
-    ],
-    "r4.zib_allergy_intolerance.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_allergy_intolerance.onset_date_time": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    "r4.zib_allergy_intolerance.reaction": [
-      {
-        type: 0,
-        value: "Reactie"
-      }
-    ],
-    "r4.zib_allergy_intolerance.reaction.description": [
-      {
-        type: 0,
-        value: "Reactie beschrijving"
-      }
-    ],
-    "r4.zib_allergy_intolerance.reaction.exposure_route": [
-      {
-        type: 0,
-        value: "Wijze van blootstelling"
-      }
-    ],
-    "r4.zib_allergy_intolerance.reaction.manifestation": [
-      {
-        type: 0,
-        value: "Symptoom"
-      }
-    ],
-    "r4.zib_allergy_intolerance.reaction.onset": [
-      {
-        type: 0,
-        value: "Reactie tijdstip"
-      }
-    ],
-    "r4.zib_allergy_intolerance.reaction.severity": [
-      {
-        type: 0,
-        value: "Ernst"
-      }
-    ],
-    "r4.zib_allergy_intolerance.reaction.substance": [
-      {
-        type: 0,
-        value: "Specifieke stof"
-      }
-    ],
-    "r4.zib_allergy_intolerance.verification_status": [
-      {
-        type: 0,
-        value: "Allergie status"
-      }
-    ],
-    "r4.zib_anatomical_location": [
-      {
-        type: 0,
-        value: "Locatie"
-      }
-    ],
-    "r4.zib_apgar_score_10_minute": [
-      {
-        type: 0,
-        value: "Apgar score"
-      }
-    ],
-    "r4.zib_apgar_score_10_minute.appearance_score.value": [
-      {
-        type: 0,
-        value: "Huidskleur score"
-      }
-    ],
-    "r4.zib_apgar_score_10_minute.effective_date_time": [
-      {
-        type: 0,
-        value: "Apgar score datum tijd"
-      }
-    ],
-    "r4.zib_apgar_score_10_minute.grimace_score.value": [
-      {
-        type: 0,
-        value: "Reflexen score"
-      }
-    ],
-    "r4.zib_apgar_score_10_minute.muscle_tone_score.value": [
-      {
-        type: 0,
-        value: "Spierspanning score"
-      }
-    ],
-    "r4.zib_apgar_score_10_minute.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_apgar_score_10_minute.pulse_score.value": [
-      {
-        type: 0,
-        value: "Hartslag score"
-      }
-    ],
-    "r4.zib_apgar_score_10_minute.respiratory_score.value": [
-      {
-        type: 0,
-        value: "Ademhaling score"
-      }
-    ],
-    "r4.zib_apgar_score_10_minute.value": [
-      {
-        type: 0,
-        value: "Apgar score totaal"
-      }
-    ],
-    "r4.zib_apgar_score_1_minute": [
-      {
-        type: 0,
-        value: "Apgar score"
-      }
-    ],
-    "r4.zib_apgar_score_1_minute.appearance_score.value": [
-      {
-        type: 0,
-        value: "Huidskleur score"
-      }
-    ],
-    "r4.zib_apgar_score_1_minute.effective_date_time": [
-      {
-        type: 0,
-        value: "Apgar score datum tijd"
-      }
-    ],
-    "r4.zib_apgar_score_1_minute.grimace_score.value": [
-      {
-        type: 0,
-        value: "Reflexen score"
-      }
-    ],
-    "r4.zib_apgar_score_1_minute.muscle_tone_score.value": [
-      {
-        type: 0,
-        value: "Spierspanning score"
-      }
-    ],
-    "r4.zib_apgar_score_1_minute.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_apgar_score_1_minute.pulse_score.value": [
-      {
-        type: 0,
-        value: "Hartslag score"
-      }
-    ],
-    "r4.zib_apgar_score_1_minute.respiratory_score.value": [
-      {
-        type: 0,
-        value: "Ademhaling score"
-      }
-    ],
-    "r4.zib_apgar_score_1_minute.value": [
-      {
-        type: 0,
-        value: "Apgar score totaal"
-      }
-    ],
-    "r4.zib_apgar_score_5_minute": [
-      {
-        type: 0,
-        value: "Apgar score"
-      }
-    ],
-    "r4.zib_apgar_score_5_minute.appearance_score.value": [
-      {
-        type: 0,
-        value: "Huidskleur score"
-      }
-    ],
-    "r4.zib_apgar_score_5_minute.effective_date_time": [
-      {
-        type: 0,
-        value: "Apgar score datum tijd"
-      }
-    ],
-    "r4.zib_apgar_score_5_minute.grimace_score.value": [
-      {
-        type: 0,
-        value: "Reflexen score"
-      }
-    ],
-    "r4.zib_apgar_score_5_minute.muscle_tone_score.value": [
-      {
-        type: 0,
-        value: "Spierspanning score"
-      }
-    ],
-    "r4.zib_apgar_score_5_minute.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_apgar_score_5_minute.pulse_score.value": [
-      {
-        type: 0,
-        value: "Hartslag score"
-      }
-    ],
-    "r4.zib_apgar_score_5_minute.respiratory_score.value": [
-      {
-        type: 0,
-        value: "Ademhaling score"
-      }
-    ],
-    "r4.zib_apgar_score_5_minute.value": [
-      {
-        type: 0,
-        value: "Apgar score totaal"
-      }
-    ],
-    "r4.zib_barthel_adl_index": [
-      {
-        type: 0,
-        value: "Barthel index"
-      }
-    ],
-    "r4.zib_barthel_adl_index.bathing.value": [
-      {
-        type: 0,
-        value: "Baden douchen"
-      }
-    ],
-    "r4.zib_barthel_adl_index.bladder.value": [
-      {
-        type: 0,
-        value: "Blaas"
-      }
-    ],
-    "r4.zib_barthel_adl_index.bowels.value": [
-      {
-        type: 0,
-        value: "Darm"
-      }
-    ],
-    "r4.zib_barthel_adl_index.dressing.value": [
-      {
-        type: 0,
-        value: "Aan uitkleden"
-      }
-    ],
-    "r4.zib_barthel_adl_index.feeding.value": [
-      {
-        type: 0,
-        value: "Eten"
-      }
-    ],
-    "r4.zib_barthel_adl_index.grooming.value": [
-      {
-        type: 0,
-        value: "Uiterlijke verzorging"
-      }
-    ],
-    "r4.zib_barthel_adl_index.managing_stairs.value": [
-      {
-        type: 0,
-        value: "Trappen lopen"
-      }
-    ],
-    "r4.zib_barthel_adl_index.mobility.value": [
-      {
-        type: 0,
-        value: "Mobiliteit"
-      }
-    ],
-    "r4.zib_barthel_adl_index.toilet_use.value": [
-      {
-        type: 0,
-        value: "Toiletgebruik"
-      }
-    ],
-    "r4.zib_barthel_adl_index.transfers.value": [
-      {
-        type: 0,
-        value: "Transfers"
-      }
-    ],
-    "r4.zib_barthel_adl_index.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r4.zib_blood_pressure": [
-      {
-        type: 0,
-        value: "Bloeddruk"
-      }
-    ],
-    "r4.zib_blood_pressure.average_blood_pressure.value": [
-      {
-        type: 0,
-        value: "Gemiddelde bloeddruk"
-      }
-    ],
-    "r4.zib_blood_pressure.body_site": [
-      {
-        type: 0,
-        value: "Meet locatie"
-      }
-    ],
-    "r4.zib_blood_pressure.cuff_type.value": [
-      {
-        type: 0,
-        value: "Manchet type"
-      }
-    ],
-    "r4.zib_blood_pressure.diastolic_bp.value": [
-      {
-        type: 0,
-        value: "Diastolische bloeddruk"
-      }
-    ],
-    "r4.zib_blood_pressure.diastolic_endpoint.value": [
-      {
-        type: 0,
-        value: "Diastolisch eindpunt"
-      }
-    ],
-    "r4.zib_blood_pressure.effective_date_time": [
-      {
-        type: 0,
-        value: "Bloeddruk datum tijd"
-      }
-    ],
-    "r4.zib_blood_pressure.method": [
-      {
-        type: 0,
-        value: "Meetmethode"
-      }
-    ],
-    "r4.zib_blood_pressure.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_blood_pressure.position.value": [
-      {
-        type: 0,
-        value: "Houding"
-      }
-    ],
-    "r4.zib_blood_pressure.systolic_bp.value": [
-      {
-        type: 0,
-        value: "Systolische bloeddruk"
-      }
-    ],
-    "r4.zib_body_height": [
-      {
-        type: 0,
-        value: "Lichaamslengte"
-      }
-    ],
-    "r4.zib_body_height.effective_date_time": [
-      {
-        type: 0,
-        value: "Lengte datum tijd"
-      }
-    ],
-    "r4.zib_body_height.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_body_height.position.value": [
-      {
-        type: 0,
-        value: "Positie"
-      }
-    ],
-    "r4.zib_body_height.value": [
-      {
-        type: 0,
-        value: "Lengte waarde"
-      }
-    ],
-    "r4.zib_body_temperature": [
-      {
-        type: 0,
-        value: "Lichaamstemperatuur"
-      }
-    ],
-    "r4.zib_body_temperature.code.temperature_type": [
-      {
-        type: 0,
-        value: "Temperatuur type"
-      }
-    ],
-    "r4.zib_body_temperature.effective_date_time": [
-      {
-        type: 0,
-        value: "Temperatuur datum tijd"
-      }
-    ],
-    "r4.zib_body_temperature.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_body_temperature.value": [
-      {
-        type: 0,
-        value: "Temperatuur waarde"
-      }
-    ],
-    "r4.zib_body_weight": [
-      {
-        type: 0,
-        value: "Lichaamsgewicht"
-      }
-    ],
-    "r4.zib_body_weight.clothing.value": [
-      {
-        type: 0,
-        value: "Kleding"
-      }
-    ],
-    "r4.zib_body_weight.effective_date_time": [
-      {
-        type: 0,
-        value: "Gewicht datum tijd"
-      }
-    ],
-    "r4.zib_body_weight.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_body_weight.value": [
-      {
-        type: 0,
-        value: "Gewicht waarde"
-      }
-    ],
-    "r4.zib_bowel_function": [
-      {
-        type: 0,
-        value: "Darmfunctie"
-      }
-    ],
-    "r4.zib_bowel_function.defecation_color.value": [
-      {
-        type: 0,
-        value: "Defecatie kleur"
-      }
-    ],
-    "r4.zib_bowel_function.defecation_consistency.value": [
-      {
-        type: 0,
-        value: "Defecatie consistentie"
-      }
-    ],
-    "r4.zib_bowel_function.fecal_continence.value": [
-      {
-        type: 0,
-        value: "Feces continentie"
-      }
-    ],
-    "r4.zib_bowel_function.frequency.value": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    "r4.zib_bowel_function.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_bowel_function.stoma.value": [
-      {
-        type: 0,
-        value: "Stoma"
-      }
-    ],
-    "r4.zib_burnwound": [
-      {
-        type: 0,
-        value: "Brandwond"
-      }
-    ],
-    "r4.zib_burnwound.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r4.zib_burnwound.code": [
-      {
-        type: 0,
-        value: "Brandwond soort"
-      }
-    ],
-    "r4.zib_burnwound.extent.value": [
-      {
-        type: 0,
-        value: "Uitgebreidheid"
-      }
-    ],
-    "r4.zib_burnwound.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_burnwound.onset_date_time": [
-      {
-        type: 0,
-        value: "Ontstaans datum"
-      }
-    ],
-    "r4.zib_burnwound.stage.summary": [
-      {
-        type: 0,
-        value: "Dieptegraad"
-      }
-    ],
-    "r4.zib_care_team": [
-      {
-        type: 0,
-        value: "Zorg team"
-      }
-    ],
-    "r4.zib_care_team.contact_person.member": [
-      {
-        type: 0,
-        value: "Contactpersoon"
-      }
-    ],
-    "r4.zib_care_team.healthcare_professional.health_professional_role": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r4.zib_care_team.healthcare_professional.member": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r4.zib_care_team.name": [
-      {
-        type: 0,
-        value: "Zorg team naam"
-      }
-    ],
-    "r4.zib_care_team.patient.member": [
-      {
-        type: 0,
-        value: "Patient"
-      }
-    ],
-    "r4.zib_care_team.reason_reference": [
-      {
-        type: 0,
-        value: "Probleem"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior": [
-      {
-        type: 0,
-        value: "Checklist pijn gedrag"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.cry.value": [
-      {
-        type: 0,
-        value: "Huilen"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.eyes.value": [
-      {
-        type: 0,
-        value: "Ogen"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.face.value": [
-      {
-        type: 0,
-        value: "Gezicht"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.grimace.value": [
-      {
-        type: 0,
-        value: "Grimas"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.looking_sad.value": [
-      {
-        type: 0,
-        value: "Verdrietige blik"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.moaning.value": [
-      {
-        type: 0,
-        value: "Kreunen"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.mouth.value": [
-      {
-        type: 0,
-        value: "Mond"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.panic.value": [
-      {
-        type: 0,
-        value: "Paniek"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.sounds_of_restlessness.value": [
-      {
-        type: 0,
-        value: "Onrustgeluiden"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.tears.value": [
-      {
-        type: 0,
-        value: "Tranen"
-      }
-    ],
-    "r4.zib_checklist_pain_behavior.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r4.zib_comfort_scale": [
-      {
-        type: 0,
-        value: "Comfort score"
-      }
-    ],
-    "r4.zib_comfort_scale.alertness.value": [
-      {
-        type: 0,
-        value: "Alertheid"
-      }
-    ],
-    "r4.zib_comfort_scale.body_movement.value": [
-      {
-        type: 0,
-        value: "Lichaamsbeweging"
-      }
-    ],
-    "r4.zib_comfort_scale.body_muscle_tone.value": [
-      {
-        type: 0,
-        value: "Spierspanning"
-      }
-    ],
-    "r4.zib_comfort_scale.calmness_agitation.value": [
-      {
-        type: 0,
-        value: "Kalmte_ agitatie"
-      }
-    ],
-    "r4.zib_comfort_scale.crying.value": [
-      {
-        type: 0,
-        value: "Huilen"
-      }
-    ],
-    "r4.zib_comfort_scale.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "r4.zib_comfort_scale.facial_tone.value": [
-      {
-        type: 0,
-        value: "Gezichtsspanning"
-      }
-    ],
-    "r4.zib_comfort_scale.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_comfort_scale.respiratory_response.value": [
-      {
-        type: 0,
-        value: "Ademhalingsreactie"
-      }
-    ],
-    "r4.zib_comfort_scale.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r4.zib_contact_information_email_addresses": [
-      {
-        type: 0,
-        value: "Email adressen"
-      }
-    ],
-    "r4.zib_contact_information_email_addresses.use": [
-      {
-        type: 0,
-        value: "Email soort"
-      }
-    ],
-    "r4.zib_contact_information_email_addresses.value": [
-      {
-        type: 0,
-        value: "Email adres"
-      }
-    ],
-    "r4.zib_contact_information_telephone_numbers": [
-      {
-        type: 0,
-        value: "Telefoonnummers"
-      }
-    ],
-    "r4.zib_contact_information_telephone_numbers.comment.value": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_contact_information_telephone_numbers.system": [
-      {
-        type: 0,
-        value: "Telecom type"
-      }
-    ],
-    "r4.zib_contact_information_telephone_numbers.system.telecom_type.value": [
-      {
-        type: 0,
-        value: "Telecom type"
-      }
-    ],
-    "r4.zib_contact_information_telephone_numbers.use": [
-      {
-        type: 0,
-        value: "Nummer soort"
-      }
-    ],
-    "r4.zib_contact_information_telephone_numbers.value": [
-      {
-        type: 0,
-        value: "Telefoonnummer"
-      }
-    ],
-    "r4.zib_contact_person": [
-      {
-        type: 0,
-        value: "Contactpersoon"
-      }
-    ],
-    "r4.zib_contact_person.name": [
-      {
-        type: 0,
-        value: "Naamgegevens"
-      }
-    ],
-    "r4.zib_contact_person.relationship": [
-      {
-        type: 0,
-        value: "Relatie"
-      }
-    ],
-    "r4.zib_contact_person.role": [
-      {
-        type: 0,
-        value: "Rol"
-      }
-    ],
-    "r4.zib_contact_person.telecom": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r4.zib_development_child": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind"
-      }
-    ],
-    "r4.zib_development_child.age_first_menstruation.effective_date_time": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind datum tijd"
-      }
-    ],
-    "r4.zib_development_child.age_first_menstruation.value": [
-      {
-        type: 0,
-        value: "Leeftijd eerste menstruatie"
-      }
-    ],
-    "r4.zib_development_child.development_cognition.effective_date_time": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind datum tijd"
-      }
-    ],
-    "r4.zib_development_child.development_cognition.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling verstandelijk"
-      }
-    ],
-    "r4.zib_development_child.development_linguistics.effective_date_time": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind datum tijd"
-      }
-    ],
-    "r4.zib_development_child.development_linguistics.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling taal"
-      }
-    ],
-    "r4.zib_development_child.development_locomotion.effective_date_time": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind datum tijd"
-      }
-    ],
-    "r4.zib_development_child.development_locomotion.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling motoriek"
-      }
-    ],
-    "r4.zib_development_child.development_social.effective_date_time": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind datum tijd"
-      }
-    ],
-    "r4.zib_development_child.development_social.value": [
-      {
-        type: 0,
-        value: "Ontwikkeling sociaal"
-      }
-    ],
-    "r4.zib_development_child.effective_date_time": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind datum tijd"
-      }
-    ],
-    "r4.zib_development_child.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_development_child.toilet_trainedness_feces.effective_date_time": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind datum tijd"
-      }
-    ],
-    "r4.zib_development_child.toilet_trainedness_feces.value": [
-      {
-        type: 0,
-        value: "Zindelijkheid feces"
-      }
-    ],
-    "r4.zib_development_child.toilet_trainedness_urine.effective_date_time": [
-      {
-        type: 0,
-        value: "Ontwikkeling kind datum tijd"
-      }
-    ],
-    "r4.zib_development_child.toilet_trainedness_urine.value": [
-      {
-        type: 0,
-        value: "Zindelijkheid urine"
-      }
-    ],
-    "r4.zib_dos_score": [
-      {
-        type: 0,
-        value: "DOS score"
-      }
-    ],
-    "r4.zib_dos_score.answers_no_fit.value": [
-      {
-        type: 0,
-        value: "Antwoorden niet passend"
-      }
-    ],
-    "r4.zib_dos_score.dozes_off.value": [
-      {
-        type: 0,
-        value: "Zakt weg"
-      }
-    ],
-    "r4.zib_dos_score.easily_distracted.value": [
-      {
-        type: 0,
-        value: "Snel afgeleid"
-      }
-    ],
-    "r4.zib_dos_score.easily_emotional.value": [
-      {
-        type: 0,
-        value: "Snel geemotioneerd"
-      }
-    ],
-    "r4.zib_dos_score.effective_date_time": [
-      {
-        type: 0,
-        value: "DOS score datum tijd"
-      }
-    ],
-    "r4.zib_dos_score.hallucinations.value": [
-      {
-        type: 0,
-        value: "Hallucinaties"
-      }
-    ],
-    "r4.zib_dos_score.knows_part_day.value": [
-      {
-        type: 0,
-        value: "Beseft dagdeel"
-      }
-    ],
-    "r4.zib_dos_score.maintains_attention.value": [
-      {
-        type: 0,
-        value: "Heeft aandacht"
-      }
-    ],
-    "r4.zib_dos_score.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_dos_score.pulls_wires.value": [
-      {
-        type: 0,
-        value: "Trekt draden"
-      }
-    ],
-    "r4.zib_dos_score.reacts_slowly.value": [
-      {
-        type: 0,
-        value: "Reageert traag"
-      }
-    ],
-    "r4.zib_dos_score.remembers_recent.value": [
-      {
-        type: 0,
-        value: "Herinnert recent"
-      }
-    ],
-    "r4.zib_dos_score.restless.value": [
-      {
-        type: 0,
-        value: "Rusteloos"
-      }
-    ],
-    "r4.zib_dos_score.thinks_somewhere_else.value": [
-      {
-        type: 0,
-        value: "Denkt ergens anders"
-      }
-    ],
-    "r4.zib_dos_score.unfinished_question_answer.value": [
-      {
-        type: 0,
-        value: "Vraag antwoord niet af"
-      }
-    ],
-    "r4.zib_dos_score.value": [
-      {
-        type: 0,
-        value: "DOS score totaal"
-      }
-    ],
-    "r4.zib_drug_use": [
-      {
-        type: 0,
-        value: "Drugs gebruik"
-      }
-    ],
-    "r4.zib_drug_use.amount.value": [
-      {
-        type: 0,
-        value: "Hoeveelheid"
-      }
-    ],
-    "r4.zib_drug_use.drug_or_medication_type.value": [
-      {
-        type: 0,
-        value: "Drugs of geneesmiddel soort"
-      }
-    ],
-    "r4.zib_drug_use.effective_period.end": [
-      {
-        type: 0,
-        value: "Stop datum"
-      }
-    ],
-    "r4.zib_drug_use.effective_period.start": [
-      {
-        type: 0,
-        value: "Start datum"
-      }
-    ],
-    "r4.zib_drug_use.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_drug_use.route_of_administration.value": [
-      {
-        type: 0,
-        value: "Toedieningsweg"
-      }
-    ],
-    "r4.zib_drug_use.value": [
-      {
-        type: 0,
-        value: "Drugs gebruik status"
-      }
-    ],
-    "r4.zib_education.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_education.value": [
-      {
-        type: 0,
-        value: "Schooltype"
-      }
-    ],
-    "r4.zib_encounter": [
-      {
-        type: 0,
-        value: "Contact"
-      }
-    ],
-    "r4.zib_encounter.class": [
-      {
-        type: 0,
-        value: "Contact type"
-      }
-    ],
-    "r4.zib_encounter.deviating_result.comment_contact_reason.value": [
-      {
-        type: 0,
-        value: "Toelichting reden contact"
-      }
-    ],
-    "r4.zib_encounter.deviating_result.text": [
-      {
-        type: 0,
-        value: "Afwijkende uitslag"
-      }
-    ],
-    "r4.zib_encounter.health_professional.individual": [
-      {
-        type: 0,
-        value: "Contact met"
-      }
-    ],
-    "r4.zib_encounter.health_professional.type": [
-      {
-        type: 0,
-        value: "Zorgverlener rol"
-      }
-    ],
-    "r4.zib_encounter.hospitalization.admit_source": [
-      {
-        type: 0,
-        value: "Herkomst"
-      }
-    ],
-    "r4.zib_encounter.hospitalization.discharge_disposition": [
-      {
-        type: 0,
-        value: "Bestemming"
-      }
-    ],
-    "r4.zib_encounter.location.location": [
-      {
-        type: 0,
-        value: "Locatie"
-      }
-    ],
-    "r4.zib_encounter.period.end": [
-      {
-        type: 0,
-        value: "Eind datum tijd"
-      }
-    ],
-    "r4.zib_encounter.period.start": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    "r4.zib_encounter.problem": [
-      {
-        type: 0,
-        value: "Probleem"
-      }
-    ],
-    "r4.zib_encounter.procedure": [
-      {
-        type: 0,
-        value: "Verrichting"
-      }
-    ],
-    "r4.zib_encounter.reason_reference.comment_contact_reason.value": [
-      {
-        type: 0,
-        value: "Toelichting reden contact"
-      }
-    ],
-    "r4.zib_episode_of_care": [
-      {
-        type: 0,
-        value: "Zorg episode"
-      }
-    ],
-    "r4.zib_episode_of_care.comment.value": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_episode_of_care.diagnosis.condition": [
-      {
-        type: 0,
-        value: "Focus zorg episode"
-      }
-    ],
-    "r4.zib_episode_of_care.period.end": [
-      {
-        type: 0,
-        value: "Eind datum"
-      }
-    ],
-    "r4.zib_episode_of_care.period.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "r4.zib_feeding_pattern_infant": [
-      {
-        type: 0,
-        value: "Voedingspatroon zuigeling"
-      }
-    ],
-    "r4.zib_feeding_pattern_infant.based_on": [
-      {
-        type: 0,
-        value: "Voedingsadvies"
-      }
-    ],
-    "r4.zib_feeding_pattern_infant.effective_date_time": [
-      {
-        type: 0,
-        value: "Voedingspatroon zuigeling datum tijd"
-      }
-    ],
-    "r4.zib_feeding_pattern_infant.feeding_frequency.value": [
-      {
-        type: 0,
-        value: "Voeding frequentie"
-      }
-    ],
-    "r4.zib_feeding_pattern_infant.feeding_supplement.value": [
-      {
-        type: 0,
-        value: "Voeding toevoeging"
-      }
-    ],
-    "r4.zib_feeding_pattern_infant.feeding_type.value": [
-      {
-        type: 0,
-        value: "Voeding soort"
-      }
-    ],
-    "r4.zib_feeding_pattern_infant.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_flac_cpain_scale": [
-      {
-        type: 0,
-        value: "FLAC cpijn score"
-      }
-    ],
-    "r4.zib_flac_cpain_scale.activity.value": [
-      {
-        type: 0,
-        value: "Activiteit"
-      }
-    ],
-    "r4.zib_flac_cpain_scale.consolability.value": [
-      {
-        type: 0,
-        value: "Troostbaar"
-      }
-    ],
-    "r4.zib_flac_cpain_scale.cry.value": [
-      {
-        type: 0,
-        value: "Huilen"
-      }
-    ],
-    "r4.zib_flac_cpain_scale.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "r4.zib_flac_cpain_scale.face.value": [
-      {
-        type: 0,
-        value: "Gezicht"
-      }
-    ],
-    "r4.zib_flac_cpain_scale.legs.value": [
-      {
-        type: 0,
-        value: "Benen"
-      }
-    ],
-    "r4.zib_flac_cpain_scale.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_flac_cpain_scale.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r4.zib_fluid_balance": [
-      {
-        type: 0,
-        value: "Vochtbalans"
-      }
-    ],
-    "r4.zib_fluid_balance.effective_period.end": [
-      {
-        type: 0,
-        value: "Vochtbalans stoptijd"
-      }
-    ],
-    "r4.zib_fluid_balance.effective_period.start": [
-      {
-        type: 0,
-        value: "Vochtbalans starttijd"
-      }
-    ],
-    "r4.zib_fluid_balance.fluid_total_in.effective_period.end": [
-      {
-        type: 0,
-        value: "Vochtbalans stoptijd"
-      }
-    ],
-    "r4.zib_fluid_balance.fluid_total_in.effective_period.start": [
-      {
-        type: 0,
-        value: "Vochtbalans starttijd"
-      }
-    ],
-    "r4.zib_fluid_balance.fluid_total_in.value": [
-      {
-        type: 0,
-        value: "Vocht totaal in"
-      }
-    ],
-    "r4.zib_fluid_balance.fluid_total_out.effective_period.end": [
-      {
-        type: 0,
-        value: "Vochtbalans stoptijd"
-      }
-    ],
-    "r4.zib_fluid_balance.fluid_total_out.effective_period.start": [
-      {
-        type: 0,
-        value: "Vochtbalans starttijd"
-      }
-    ],
-    "r4.zib_fluid_balance.fluid_total_out.value": [
-      {
-        type: 0,
-        value: "Vocht totaal uit"
-      }
-    ],
-    "r4.zib_fluid_balance.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_freedom_restricting_intervention": [
-      {
-        type: 0,
-        value: "Vrijheidsbeperkende interventie"
-      }
-    ],
-    "r4.zib_freedom_restricting_intervention.code": [
-      {
-        type: 0,
-        value: "Soort interventie"
-      }
-    ],
-    "r4.zib_freedom_restricting_intervention.legal_situation_legal_status": [
-      {
-        type: 0,
-        value: "Juridische situatie"
-      }
-    ],
-    "r4.zib_freedom_restricting_intervention.legal_situation_representation": [
-      {
-        type: 0,
-        value: "Juridische situatie"
-      }
-    ],
-    "r4.zib_freedom_restricting_intervention.performed_date_time": [
-      {
-        type: 0,
-        value: "Begin"
-      }
-    ],
-    "r4.zib_freedom_restricting_intervention.performed_period.end": [
-      {
-        type: 0,
-        value: "Einde"
-      }
-    ],
-    "r4.zib_freedom_restricting_intervention.performed_period.start": [
-      {
-        type: 0,
-        value: "Begin"
-      }
-    ],
-    "r4.zib_freedom_restricting_intervention.reason_code": [
-      {
-        type: 0,
-        value: "Reden van toepassen"
-      }
-    ],
-    "r4.zib_functional_or_mental_status": [
-      {
-        type: 0,
-        value: "Functionele of mentale status"
-      }
-    ],
-    "r4.zib_functional_or_mental_status.code": [
-      {
-        type: 0,
-        value: "Status naam"
-      }
-    ],
-    "r4.zib_functional_or_mental_status.effective_date_time": [
-      {
-        type: 0,
-        value: "Status datum"
-      }
-    ],
-    "r4.zib_functional_or_mental_status.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_functional_or_mental_status.value": [
-      {
-        type: 0,
-        value: "Status waarde"
-      }
-    ],
-    "r4.zib_glasgow_coma_scale": [
-      {
-        type: 0,
-        value: "Glasgow coma scale"
-      }
-    ],
-    "r4.zib_glasgow_coma_scale.conditions_during_measurement.value": [
-      {
-        type: 0,
-        value: "Condities tijdens meting"
-      }
-    ],
-    "r4.zib_glasgow_coma_scale.effective_date_time": [
-      {
-        type: 0,
-        value: "Glasgow coma scale datum tijd"
-      }
-    ],
-    "r4.zib_glasgow_coma_scale.gcs_eyes.value": [
-      {
-        type: 0,
-        value: "GCS_ eyes"
-      }
-    ],
-    "r4.zib_glasgow_coma_scale.gcs_motor.value": [
-      {
-        type: 0,
-        value: "GCS_ motor"
-      }
-    ],
-    "r4.zib_glasgow_coma_scale.gcs_verbal.value": [
-      {
-        type: 0,
-        value: "GCS_ verbal"
-      }
-    ],
-    "r4.zib_glasgow_coma_scale.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_glasgow_coma_scale.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r4.zib_head_circumference": [
-      {
-        type: 0,
-        value: "Schedelomvang"
-      }
-    ],
-    "r4.zib_head_circumference.effective_date_time": [
-      {
-        type: 0,
-        value: "Schedelomvang datum tijd"
-      }
-    ],
-    "r4.zib_head_circumference.method": [
-      {
-        type: 0,
-        value: "Schedelomvang meetmethode"
-      }
-    ],
-    "r4.zib_head_circumference.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_head_circumference.value": [
-      {
-        type: 0,
-        value: "Schedelomvang waarde"
-      }
-    ],
-    "r4.zib_health_professional_practitioner": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r4.zib_health_professional_practitioner.gender": [
-      {
-        type: 0,
-        value: "Geslacht"
-      }
-    ],
-    "r4.zib_health_professional_practitioner.identifier": [
-      {
-        type: 0,
-        value: "Zorgverlener identificatienummer"
-      }
-    ],
-    "r4.zib_health_professional_practitioner.name": [
-      {
-        type: 0,
-        value: "Naamgegevens"
-      }
-    ],
-    "r4.zib_health_professional_practitioner.telecom": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r4.zib_health_professional_practitioner_role": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r4.zib_health_professional_practitioner_role.organization": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "r4.zib_health_professional_practitioner_role.specialty": [
-      {
-        type: 0,
-        value: "Specialisme"
-      }
-    ],
-    "r4.zib_health_professional_practitioner_role.telecom": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r4.zib_healthcare_provider": [
-      {
-        type: 0,
-        value: "Organisatie locatie"
-      }
-    ],
-    "r4.zib_healthcare_provider.name": [
-      {
-        type: 0,
-        value: "Locatie naam"
-      }
-    ],
-    "r4.zib_healthcare_provider.telecom": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r4.zib_healthcare_provider_organization": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "r4.zib_healthcare_provider_organization.department_specialty": [
-      {
-        type: 0,
-        value: "Afdeling specialisme"
-      }
-    ],
-    "r4.zib_healthcare_provider_organization.identifier": [
-      {
-        type: 0,
-        value: "Zorgaanbieder identificatienummer"
-      }
-    ],
-    "r4.zib_healthcare_provider_organization.name": [
-      {
-        type: 0,
-        value: "Organisatie naam"
-      }
-    ],
-    "r4.zib_healthcare_provider_organization.organization_type": [
-      {
-        type: 0,
-        value: "Organisatie type"
-      }
-    ],
-    "r4.zib_hearing_function": [
-      {
-        type: 0,
-        value: "Functie horen"
-      }
-    ],
-    "r4.zib_hearing_function.hearing_aid.body_site": [
-      {
-        type: 0,
-        value: "Hulpmiddel anatomische locatie"
-      }
-    ],
-    "r4.zib_hearing_function.hearing_aid.hearing_function": [
-      {
-        type: 0,
-        value: "Functie horen"
-      }
-    ],
-    "r4.zib_hearing_function.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_hearing_function.value": [
-      {
-        type: 0,
-        value: "Hoor functie"
-      }
-    ],
-    "r4.zib_heart_rate": [
-      {
-        type: 0,
-        value: "Hartfrequentie"
-      }
-    ],
-    "r4.zib_heart_rate.effective_date_time": [
-      {
-        type: 0,
-        value: "Hartfrequentie datum tijd"
-      }
-    ],
-    "r4.zib_heart_rate.heartbeat_regularity.effective_date_time": [
-      {
-        type: 0,
-        value: "Hartfrequentie datum tijd"
-      }
-    ],
-    "r4.zib_heart_rate.heartbeat_regularity.method": [
-      {
-        type: 0,
-        value: "Hartslag meet methode"
-      }
-    ],
-    "r4.zib_heart_rate.heartbeat_regularity.value": [
-      {
-        type: 0,
-        value: "Hartslag regelmatigheid"
-      }
-    ],
-    "r4.zib_heart_rate.interpretation_heart_rate.effective_date_time": [
-      {
-        type: 0,
-        value: "Hartfrequentie datum tijd"
-      }
-    ],
-    "r4.zib_heart_rate.interpretation_heart_rate.method": [
-      {
-        type: 0,
-        value: "Hartslag meet methode"
-      }
-    ],
-    "r4.zib_heart_rate.interpretation_heart_rate.value": [
-      {
-        type: 0,
-        value: "Interpretatie frequentie"
-      }
-    ],
-    "r4.zib_heart_rate.method": [
-      {
-        type: 0,
-        value: "Hartslag meet methode"
-      }
-    ],
-    "r4.zib_heart_rate.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_heart_rate.value": [
-      {
-        type: 0,
-        value: "Hartfrequentie waarde"
-      }
-    ],
-    "r4.zib_help_from_others": [
-      {
-        type: 0,
-        value: "Hulp van anderen"
-      }
-    ],
-    "r4.zib_help_from_others.activity.detail.caregiver": [
-      {
-        type: 0,
-        value: "Mantelzorger"
-      }
-    ],
-    "r4.zib_help_from_others.activity.detail.code": [
-      {
-        type: 0,
-        value: "Soort hulp"
-      }
-    ],
-    "r4.zib_help_from_others.activity.detail.description": [
-      {
-        type: 0,
-        value: "Aard"
-      }
-    ],
-    "r4.zib_help_from_others.activity.detail.health_professional": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r4.zib_help_from_others.activity.detail.healthcare_provider": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "r4.zib_help_from_others.activity.detail.performer": [
-      {
-        type: 0,
-        value: "Hulpverlener"
-      }
-    ],
-    "r4.zib_help_from_others.activity.detail.scheduled_string": [
-      {
-        type: 0,
-        value: "Frequentie"
-      }
-    ],
-    "r4.zib_help_from_others.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_illness_perception": [
-      {
-        type: 0,
-        value: "Ziektebeleving"
-      }
-    ],
-    "r4.zib_illness_perception.coping_with_illness_by_family.value": [
-      {
-        type: 0,
-        value: "Omgaan met ziekteproces door naasten"
-      }
-    ],
-    "r4.zib_illness_perception.coping_with_illness_by_patient.value": [
-      {
-        type: 0,
-        value: "Omgaan met ziekteproces door patiënt"
-      }
-    ],
-    "r4.zib_illness_perception.patient_illness_insight.value": [
-      {
-        type: 0,
-        value: "Ziekte inzicht van patiënt"
-      }
-    ],
-    "r4.zib_laboratory_test_result": [
-      {
-        type: 0,
-        value: "Laboratorium uitslag"
-      }
-    ],
-    "r4.zib_laboratory_test_result.code": [
-      {
-        type: 0,
-        value: "Onderzoek"
-      }
-    ],
-    "r4.zib_laboratory_test_result.effective_date_time": [
-      {
-        type: 0,
-        value: "Test datum tijd"
-      }
-    ],
-    "r4.zib_laboratory_test_result.laboratory_test": [
-      {
-        type: 0,
-        value: "Laboratorium test"
-      }
-    ],
-    "r4.zib_laboratory_test_result.method": [
-      {
-        type: 0,
-        value: "Testmethode"
-      }
-    ],
-    "r4.zib_laboratory_test_result.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_laboratory_test_result.performer": [
-      {
-        type: 0,
-        value: "Uitvoerder"
-      }
-    ],
-    "r4.zib_laboratory_test_result.reference_range.high": [
-      {
-        type: 0,
-        value: "Referentie bovengrens"
-      }
-    ],
-    "r4.zib_laboratory_test_result.reference_range.low": [
-      {
-        type: 0,
-        value: "Referentie ondergrens"
-      }
-    ],
-    "r4.zib_laboratory_test_result.result_flags": [
-      {
-        type: 0,
-        value: "Interpretatie vlaggen"
-      }
-    ],
-    "r4.zib_laboratory_test_result.result_interpretation.text": [
-      {
-        type: 0,
-        value: "Uitslag interpretatie"
-      }
-    ],
-    "r4.zib_laboratory_test_result.result_type": [
-      {
-        type: 0,
-        value: "Resultaat type"
-      }
-    ],
-    "r4.zib_laboratory_test_result.sequel_to.value": [
-      {
-        type: 0,
-        value: "Gerelateerde uitslag"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen": [
-      {
-        type: 0,
-        value: "Monster"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.collection.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.collection.collected_date_time": [
-      {
-        type: 0,
-        value: "Afname datum tijd"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.collection.collected_period": [
-      {
-        type: 0,
-        value: "Verzamelperiode"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.collection.duration": [
-      {
-        type: 0,
-        value: "Verzamelperiode"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.collection.method": [
-      {
-        type: 0,
-        value: "Afnameprocedure"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.collection.quantity": [
-      {
-        type: 0,
-        value: "Verzamelvolume"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.container.specimen_number_extension.value": [
-      {
-        type: 0,
-        value: "Monstervolgnummer"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.container.type": [
-      {
-        type: 0,
-        value: "Containertype"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.identifier": [
-      {
-        type: 0,
-        value: "Monsternummer"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.received_time": [
-      {
-        type: 0,
-        value: "Aanname datum tijd"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.subject": [
-      {
-        type: 0,
-        value: "Bron monster"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen.type": [
-      {
-        type: 0,
-        value: "Monstermateriaal"
-      }
-    ],
-    "r4.zib_laboratory_test_result.specimen_source.device_name.name": [
-      {
-        type: 0,
-        value: "Bron monster"
-      }
-    ],
-    "r4.zib_laboratory_test_result.status": [
-      {
-        type: 0,
-        value: "Test uitslag status"
-      }
-    ],
-    "r4.zib_laboratory_test_result.value": [
-      {
-        type: 0,
-        value: "Test uitslag"
-      }
-    ],
-    "r4.zib_legal_situation_legal_status": [
-      {
-        type: 0,
-        value: "Juridische situatie"
-      }
-    ],
-    "r4.zib_legal_situation_legal_status.abatement_date_time": [
-      {
-        type: 0,
-        value: "Datum einde"
-      }
-    ],
-    "r4.zib_legal_situation_legal_status.code": [
-      {
-        type: 0,
-        value: "Juridische status"
-      }
-    ],
-    "r4.zib_legal_situation_legal_status.onset_date_time": [
-      {
-        type: 0,
-        value: "Datum aanvang"
-      }
-    ],
-    "r4.zib_legal_situation_representation": [
-      {
-        type: 0,
-        value: "Juridische situatie"
-      }
-    ],
-    "r4.zib_legal_situation_representation.abatement_date_time": [
-      {
-        type: 0,
-        value: "Datum einde"
-      }
-    ],
-    "r4.zib_legal_situation_representation.code": [
-      {
-        type: 0,
-        value: "Vertegenwoordiging"
-      }
-    ],
-    "r4.zib_legal_situation_representation.onset_date_time": [
-      {
-        type: 0,
-        value: "Datum aanvang"
-      }
-    ],
-    "r4.zib_life_stance": [
-      {
-        type: 0,
-        value: "Levensovertuiging RC"
-      }
-    ],
-    "r4.zib_life_stance.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_life_stance.value": [
-      {
-        type: 0,
-        value: "Levensovertuiging"
-      }
-    ],
-    "r4.zib_living_situation": [
-      {
-        type: 0,
-        value: "Woonsituatie"
-      }
-    ],
-    "r4.zib_living_situation.home_adaption.value": [
-      {
-        type: 0,
-        value: "Woning aanpassing"
-      }
-    ],
-    "r4.zib_living_situation.living_condition.value": [
-      {
-        type: 0,
-        value: "Woon omstandigheid"
-      }
-    ],
-    "r4.zib_living_situation.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_living_situation.value": [
-      {
-        type: 0,
-        value: "Woning type"
-      }
-    ],
-    "r4.zib_medical_device": [
-      {
-        type: 0,
-        value: "Medisch hulpmiddel"
-      }
-    ],
-    "r4.zib_medical_device.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r4.zib_medical_device.bowel_function": [
-      {
-        type: 0,
-        value: "Darmfunctie"
-      }
-    ],
-    "r4.zib_medical_device.functional_or_mental_status": [
-      {
-        type: 0,
-        value: "Functionele of mentale status"
-      }
-    ],
-    "r4.zib_medical_device.indication": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r4.zib_medical_device.mobility": [
-      {
-        type: 0,
-        value: "Mobiliteit"
-      }
-    ],
-    "r4.zib_medical_device.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_medical_device.procedure_event": [
-      {
-        type: 0,
-        value: "Verrichting"
-      }
-    ],
-    "r4.zib_medical_device.procedure_request": [
-      {
-        type: 0,
-        value: "Verrichting"
-      }
-    ],
-    "r4.zib_medical_device.product": [
-      {
-        type: 0,
-        value: "Product"
-      }
-    ],
-    "r4.zib_medical_device.product.gs_1_product_id": [
-      {
-        type: 0,
-        value: "Product ID"
-      }
-    ],
-    "r4.zib_medical_device.product.gs_1_udi_carrier.carrier_hrf": [
-      {
-        type: 0,
-        value: "Product ID"
-      }
-    ],
-    "r4.zib_medical_device.product.hibc_product_id": [
-      {
-        type: 0,
-        value: "Product ID"
-      }
-    ],
-    "r4.zib_medical_device.product.hibc_udi_carrier.carrier_hrf": [
-      {
-        type: 0,
-        value: "Product ID"
-      }
-    ],
-    "r4.zib_medical_device.product.note.text": [
-      {
-        type: 0,
-        value: "Product omschrijving"
-      }
-    ],
-    "r4.zib_medical_device.product.type": [
-      {
-        type: 0,
-        value: "Product type"
-      }
-    ],
-    "r4.zib_medical_device.stoma": [
-      {
-        type: 0,
-        value: "Stoma"
-      }
-    ],
-    "r4.zib_medical_device.timing_period.end": [
-      {
-        type: 0,
-        value: "Eind datum"
-      }
-    ],
-    "r4.zib_medical_device.timing_period.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "r4.zib_medical_device.wound": [
-      {
-        type: 0,
-        value: "Wond"
-      }
-    ],
-    "r4.zib_medication_contra_indication": [
-      {
-        type: 0,
-        value: "Medicatie contra indicatie"
-      }
-    ],
-    "r4.zib_medication_contra_indication.author": [
-      {
-        type: 0,
-        value: "Melder"
-      }
-    ],
-    "r4.zib_medication_contra_indication.code": [
-      {
-        type: 0,
-        value: "Medicatie contra indicatie naam"
-      }
-    ],
-    "r4.zib_medication_contra_indication.comment.value": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_medication_contra_indication.period.end": [
-      {
-        type: 0,
-        value: "Eind datum"
-      }
-    ],
-    "r4.zib_medication_contra_indication.period.start": [
-      {
-        type: 0,
-        value: "Begin datum"
-      }
-    ],
-    "r4.zib_mobility": [
-      {
-        type: 0,
-        value: "Mobiliteit"
-      }
-    ],
-    "r4.zib_mobility.changing_position.value": [
-      {
-        type: 0,
-        value: "Houding veranderen"
-      }
-    ],
-    "r4.zib_mobility.climbing_stairs.value": [
-      {
-        type: 0,
-        value: "Traplopen"
-      }
-    ],
-    "r4.zib_mobility.maintaining_position.value": [
-      {
-        type: 0,
-        value: "Houding handhaven"
-      }
-    ],
-    "r4.zib_mobility.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_mobility.transfer.value": [
-      {
-        type: 0,
-        value: "Uitvoeren transfer"
-      }
-    ],
-    "r4.zib_mobility.walking.value": [
-      {
-        type: 0,
-        value: "Lopen"
-      }
-    ],
-    "r4.zib_must_score": [
-      {
-        type: 0,
-        value: "MUST score"
-      }
-    ],
-    "r4.zib_must_score.bmi_score.value": [
-      {
-        type: 0,
-        value: "BMI score"
-      }
-    ],
-    "r4.zib_must_score.effective_date_time": [
-      {
-        type: 0,
-        value: "MUST score datum tijd"
-      }
-    ],
-    "r4.zib_must_score.illness_score.value": [
-      {
-        type: 0,
-        value: "Ziekte score"
-      }
-    ],
-    "r4.zib_must_score.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_must_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r4.zib_must_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    "r4.zib_name_information": [
-      {
-        type: 0,
-        value: "Naamgegevens"
-      }
-    ],
-    "r4.zib_name_information.family.last_name.value": [
-      {
-        type: 0,
-        value: "Achternaam"
-      }
-    ],
-    "r4.zib_name_information.family.partner_last_name.value": [
-      {
-        type: 0,
-        value: "Achternaam partner"
-      }
-    ],
-    "r4.zib_name_information.family.partner_prefix.value": [
-      {
-        type: 0,
-        value: "Voorvoegsels partner"
-      }
-    ],
-    "r4.zib_name_information.family.prefix.value": [
-      {
-        type: 0,
-        value: "Voorvoegsels"
-      }
-    ],
-    "r4.zib_name_information.given": [
-      {
-        type: 0,
-        value: "Voornaam"
-      }
-    ],
-    "r4.zib_name_information.given_name.given": [
-      {
-        type: 0,
-        value: "Roepnaam"
-      }
-    ],
-    "r4.zib_name_information.name_usage.value": [
-      {
-        type: 0,
-        value: "Naamgebruik"
-      }
-    ],
-    "r4.zib_name_information.prefix": [
-      {
-        type: 0,
-        value: "Titels"
-      }
-    ],
-    "r4.zib_name_information.suffix": [
-      {
-        type: 0,
-        value: "Titels"
-      }
-    ],
-    "r4.zib_nursing_intervention": [
-      {
-        type: 0,
-        value: "Verpleegkundige interventie"
-      }
-    ],
-    "r4.zib_nursing_intervention.activity.detail.caregiver": [
-      {
-        type: 0,
-        value: "Verzorger"
-      }
-    ],
-    "r4.zib_nursing_intervention.activity.detail.code": [
-      {
-        type: 0,
-        value: "Interventie"
-      }
-    ],
-    "r4.zib_nursing_intervention.activity.detail.description": [
-      {
-        type: 0,
-        value: "Instructie"
-      }
-    ],
-    "r4.zib_nursing_intervention.activity.detail.healthcare_provider": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r4.zib_nursing_intervention.activity.detail.medical_device.value": [
-      {
-        type: 0,
-        value: "Medisch hulpmiddel"
-      }
-    ],
-    "r4.zib_nursing_intervention.activity.detail.patient": [
-      {
-        type: 0,
-        value: "Patient"
-      }
-    ],
-    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.bounds_period.end": [
-      {
-        type: 0,
-        value: "Actie eind datum tijd"
-      }
-    ],
-    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.bounds_period.start": [
-      {
-        type: 0,
-        value: "Actie start datum tijd"
-      }
-    ],
-    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.frequency": [
-      {
-        type: 0,
-        value: "Interval"
-      }
-    ],
-    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.period": [
-      {
-        type: 0,
-        value: "Interval"
-      }
-    ],
-    "r4.zib_nursing_intervention.activity.detail.scheduled_timing.repeat.period_unit": [
-      {
-        type: 0,
-        value: "Interval"
-      }
-    ],
-    "r4.zib_nursing_intervention.addresses": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r4.zib_nursing_intervention.goal": [
-      {
-        type: 0,
-        value: "Behandeldoel"
-      }
-    ],
-    "r4.zib_nursing_intervention.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_nursing_intervention.period.end": [
-      {
-        type: 0,
-        value: "Actie eind datum tijd"
-      }
-    ],
-    "r4.zib_nursing_intervention.period.start": [
-      {
-        type: 0,
-        value: "Actie start datum tijd"
-      }
-    ],
-    "r4.zib_nursing_intervention.requester": [
-      {
-        type: 0,
-        value: "Aanvrager"
-      }
-    ],
-    "r4.zib_nutrition_advice": [
-      {
-        type: 0,
-        value: "Voedingsadvies"
-      }
-    ],
-    "r4.zib_nutrition_advice.indication.value": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r4.zib_nutrition_advice.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_nutrition_advice.oral_diet.fluid_consistency_type.text": [
-      {
-        type: 0,
-        value: "Consistentie"
-      }
-    ],
-    "r4.zib_nutrition_advice.oral_diet.texture.modifier.text": [
-      {
-        type: 0,
-        value: "Consistentie"
-      }
-    ],
-    "r4.zib_nutrition_advice.oral_diet.type.text": [
-      {
-        type: 0,
-        value: "Dieet type"
-      }
-    ],
-    "r4.zib_o_2_saturation": [
-      {
-        type: 0,
-        value: "O2 saturatie"
-      }
-    ],
-    "r4.zib_o_2_saturation.effective_date_time": [
-      {
-        type: 0,
-        value: "O2 saturatie datum tijd"
-      }
-    ],
-    "r4.zib_o_2_saturation.extra_oxygen_administration.value": [
-      {
-        type: 0,
-        value: "Extra zuurstof toediening"
-      }
-    ],
-    "r4.zib_o_2_saturation.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_o_2_saturation.value": [
-      {
-        type: 0,
-        value: "Sp o2 waarde"
-      }
-    ],
-    "r4.zib_pain_score": [
-      {
-        type: 0,
-        value: "Pijn score"
-      }
-    ],
-    "r4.zib_pain_score.effective_date_time": [
-      {
-        type: 0,
-        value: "Pijnscore datum tijd"
-      }
-    ],
-    "r4.zib_pain_score.method": [
-      {
-        type: 0,
-        value: "Pijn meetmethode"
-      }
-    ],
-    "r4.zib_pain_score.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_pain_score.value": [
-      {
-        type: 0,
-        value: "Pijnscore waarde"
-      }
-    ],
-    "r4.zib_participation_in_society": [
-      {
-        type: 0,
-        value: "Participatie in maatschappij"
-      }
-    ],
-    "r4.zib_participation_in_society.hobby.value": [
-      {
-        type: 0,
-        value: "Vrijetijdsbesteding"
-      }
-    ],
-    "r4.zib_participation_in_society.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_participation_in_society.social_network.value": [
-      {
-        type: 0,
-        value: "Sociaal netwerk"
-      }
-    ],
-    "r4.zib_participation_in_society.work_situation.value": [
-      {
-        type: 0,
-        value: "Arbeidssituatie"
-      }
-    ],
-    "r4.zib_patient": [
-      {
-        type: 0,
-        value: "Patient"
-      }
-    ],
-    "r4.zib_patient.birth_date": [
-      {
-        type: 0,
-        value: "Geboortedatum"
-      }
-    ],
-    "r4.zib_patient.communication": [
-      {
-        type: 0,
-        value: "Taalvaardigheid"
-      }
-    ],
-    "r4.zib_patient.communication.comment.value": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_patient.communication.language": [
-      {
-        type: 0,
-        value: "Communicatie taal"
-      }
-    ],
-    "r4.zib_patient.communication.language_control": [
-      {
-        type: 0,
-        value: "Taalvaardigheid begrijpen"
-      }
-    ],
-    "r4.zib_patient.contact": [
-      {
-        type: 0,
-        value: "Contactpersoon"
-      }
-    ],
-    "r4.zib_patient.contact.contact_person.value": [
-      {
-        type: 0,
-        value: "Contactpersoon"
-      }
-    ],
-    "r4.zib_patient.contact.relationship": [
-      {
-        type: 0,
-        value: "Relatie"
-      }
-    ],
-    "r4.zib_patient.contact.role": [
-      {
-        type: 0,
-        value: "Rol"
-      }
-    ],
-    "r4.zib_patient.contact.telecom": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r4.zib_patient.deceased_boolean": [
-      {
-        type: 0,
-        value: "Overlijdens indicator"
-      }
-    ],
-    "r4.zib_patient.deceased_date_time": [
-      {
-        type: 0,
-        value: "Datum overlijden"
-      }
-    ],
-    "r4.zib_patient.gender": [
-      {
-        type: 0,
-        value: "Geslacht"
-      }
-    ],
-    "r4.zib_patient.gender.gender_codelist.value": [
-      {
-        type: 0,
-        value: "Geslacht"
-      }
-    ],
-    "r4.zib_patient.identifier": [
-      {
-        type: 0,
-        value: "Identificatienummer"
-      }
-    ],
-    "r4.zib_patient.marital_status": [
-      {
-        type: 0,
-        value: "Burgerlijke staat"
-      }
-    ],
-    "r4.zib_patient.multiple_birth_boolean": [
-      {
-        type: 0,
-        value: "Meerling indicator"
-      }
-    ],
-    "r4.zib_patient.name": [
-      {
-        type: 0,
-        value: "Naamgegevens"
-      }
-    ],
-    "r4.zib_patient.nationality.code.value": [
-      {
-        type: 0,
-        value: "Nationaliteit"
-      }
-    ],
-    "r4.zib_patient.telecom": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r4.zib_payer.insurance_company": [
-      {
-        type: 0,
-        value: "Betaler"
-      }
-    ],
-    "r4.zib_payer.insurance_company.payor": [
-      {
-        type: 0,
-        value: "Verzekeraar"
-      }
-    ],
-    "r4.zib_payer.insurance_company.period.end": [
-      {
-        type: 0,
-        value: "Eind datum tijd"
-      }
-    ],
-    "r4.zib_payer.insurance_company.period.start": [
-      {
-        type: 0,
-        value: "Begin datum tijd"
-      }
-    ],
-    "r4.zib_payer.insurance_company.subscriber_id": [
-      {
-        type: 0,
-        value: "Verzekerde nummer"
-      }
-    ],
-    "r4.zib_payer.insurance_company.type": [
-      {
-        type: 0,
-        value: "Verzekeringssoort"
-      }
-    ],
-    "r4.zib_payer.payer_person": [
-      {
-        type: 0,
-        value: "Betaler"
-      }
-    ],
-    "r4.zib_payer.payer_person.payor": [
-      {
-        type: 0,
-        value: "Betaler persoon"
-      }
-    ],
-    "r4.zib_payer_organization": [
-      {
-        type: 0,
-        value: "Verzekeraar"
-      }
-    ],
-    "r4.zib_payer_organization.name": [
-      {
-        type: 0,
-        value: "Organisatie naam"
-      }
-    ],
-    "r4.zib_payer_organization.telecom": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r4.zib_payer_organization.uzovi": [
-      {
-        type: 0,
-        value: "Identificatie nummer"
-      }
-    ],
-    "r4.zib_pharmaceutical_product": [
-      {
-        type: 0,
-        value: "Farmaceutisch product"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.code": [
-      {
-        type: 0,
-        value: "Product code"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.code.text": [
-      {
-        type: 0,
-        value: "Product naam"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.form": [
-      {
-        type: 0,
-        value: "Farmaceutische vorm"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.ingredient": [
-      {
-        type: 0,
-        value: "Ingredient"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.ingredient.item_codeable_concept": [
-      {
-        type: 0,
-        value: "Ingredient code"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.ingredient.strength": [
-      {
-        type: 0,
-        value: "Sterkte"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.ingredient.strength.denominator": [
-      {
-        type: 0,
-        value: "Product hoeveelheid"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.ingredient.strength.numerator": [
-      {
-        type: 0,
-        value: "Ingredient hoeveelheid"
-      }
-    ],
-    "r4.zib_pregnancy": [
-      {
-        type: 0,
-        value: "Zwangerschap"
-      }
-    ],
-    "r4.zib_pregnancy.date_last_menstruation.value": [
-      {
-        type: 0,
-        value: "Datum laatste menstruatie"
-      }
-    ],
-    "r4.zib_pregnancy.estimated_date_of_delivery.effective_date_time": [
-      {
-        type: 0,
-        value: "Datum bepaling"
-      }
-    ],
-    "r4.zib_pregnancy.estimated_date_of_delivery.method": [
-      {
-        type: 0,
-        value: "Bepalings methode"
-      }
-    ],
-    "r4.zib_pregnancy.estimated_date_of_delivery.value": [
-      {
-        type: 0,
-        value: "A terme datum"
-      }
-    ],
-    "r4.zib_pregnancy.gravidity.value": [
-      {
-        type: 0,
-        value: "Graviditeit"
-      }
-    ],
-    "r4.zib_pregnancy.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_pregnancy.parity.value": [
-      {
-        type: 0,
-        value: "Pariteit"
-      }
-    ],
-    "r4.zib_pregnancy.pregnancy_duration.value": [
-      {
-        type: 0,
-        value: "Zwangerschapsduur"
-      }
-    ],
-    "r4.zib_pressure_ulcer": [
-      {
-        type: 0,
-        value: "Decubitus wond"
-      }
-    ],
-    "r4.zib_pressure_ulcer.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r4.zib_pressure_ulcer.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_pressure_ulcer.onset_date_time": [
-      {
-        type: 0,
-        value: "Ontstaans datum"
-      }
-    ],
-    "r4.zib_pressure_ulcer.stage.summary": [
-      {
-        type: 0,
-        value: "Decubitus categorie"
-      }
-    ],
-    "r4.zib_problem": [
-      {
-        type: 0,
-        value: "Probleem"
-      }
-    ],
-    "r4.zib_problem.abatement_date_time": [
-      {
-        type: 0,
-        value: "Probleem eind datum"
-      }
-    ],
-    "r4.zib_problem.body_site": [
-      {
-        type: 0,
-        value: "Probleem anatomische locatie"
-      }
-    ],
-    "r4.zib_problem.clinical_status": [
-      {
-        type: 0,
-        value: "Probleem status"
-      }
-    ],
-    "r4.zib_problem.code": [
-      {
-        type: 0,
-        value: "Probleem naam"
-      }
-    ],
-    "r4.zib_problem.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_problem.onset_date_time": [
-      {
-        type: 0,
-        value: "Probleem begin datum"
-      }
-    ],
-    "r4.zib_problem.problem_type": [
-      {
-        type: 0,
-        value: "Probleem type"
-      }
-    ],
-    "r4.zib_problem.verification_status": [
-      {
-        type: 0,
-        value: "Verificatie status"
-      }
-    ],
-    "r4.zib_procedure_event": [
-      {
-        type: 0,
-        value: "Verrichting"
-      }
-    ],
-    "r4.zib_procedure_event.body_site": [
-      {
-        type: 0,
-        value: "Verrichting anatomische locatie"
-      }
-    ],
-    "r4.zib_procedure_event.code": [
-      {
-        type: 0,
-        value: "Verrichting type"
-      }
-    ],
-    "r4.zib_procedure_event.location": [
-      {
-        type: 0,
-        value: "Locatie"
-      }
-    ],
-    "r4.zib_procedure_event.performed_date_time": [
-      {
-        type: 0,
-        value: "Verrichting start datum"
-      }
-    ],
-    "r4.zib_procedure_event.performed_period.end": [
-      {
-        type: 0,
-        value: "Verrichting eind datum"
-      }
-    ],
-    "r4.zib_procedure_event.performed_period.start": [
-      {
-        type: 0,
-        value: "Verrichting start datum"
-      }
-    ],
-    "r4.zib_procedure_event.performer.actor": [
-      {
-        type: 0,
-        value: "Uitvoerder"
-      }
-    ],
-    "r4.zib_procedure_event.reason_reference": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r4.zib_procedure_event.text_result": [
-      {
-        type: 0,
-        value: "Tekst uitslag"
-      }
-    ],
-    "r4.zib_procedure_request": [
-      {
-        type: 0,
-        value: "Verrichting"
-      }
-    ],
-    "r4.zib_procedure_request.body_site": [
-      {
-        type: 0,
-        value: "Verrichting anatomische locatie"
-      }
-    ],
-    "r4.zib_procedure_request.code": [
-      {
-        type: 0,
-        value: "Verrichting type"
-      }
-    ],
-    "r4.zib_procedure_request.location_reference": [
-      {
-        type: 0,
-        value: "Locatie"
-      }
-    ],
-    "r4.zib_procedure_request.occurrence_date_time": [
-      {
-        type: 0,
-        value: "Verrichting start datum"
-      }
-    ],
-    "r4.zib_procedure_request.occurrence_period.end": [
-      {
-        type: 0,
-        value: "Verrichting eind datum"
-      }
-    ],
-    "r4.zib_procedure_request.occurrence_period.start": [
-      {
-        type: 0,
-        value: "Verrichting start datum"
-      }
-    ],
-    "r4.zib_procedure_request.performer": [
-      {
-        type: 0,
-        value: "Uitvoerder"
-      }
-    ],
-    "r4.zib_procedure_request.procedure_method": [
-      {
-        type: 0,
-        value: "Verrichting methode"
-      }
-    ],
-    "r4.zib_procedure_request.reason_reference": [
-      {
-        type: 0,
-        value: "Indicatie"
-      }
-    ],
-    "r4.zib_procedure_request.requester": [
-      {
-        type: 0,
-        value: "Aanvrager"
-      }
-    ],
-    "r4.zib_pulse_rate": [
-      {
-        type: 0,
-        value: "Polsfrequentie"
-      }
-    ],
-    "r4.zib_pulse_rate.effective_date_time": [
-      {
-        type: 0,
-        value: "Polsfrequentie datum tijd"
-      }
-    ],
-    "r4.zib_pulse_rate.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_pulse_rate.pulse_regularity.effective_date_time": [
-      {
-        type: 0,
-        value: "Polsfrequentie datum tijd"
-      }
-    ],
-    "r4.zib_pulse_rate.pulse_regularity.value": [
-      {
-        type: 0,
-        value: "Pols regelmatigheid"
-      }
-    ],
-    "r4.zib_pulse_rate.value": [
-      {
-        type: 0,
-        value: "Polsfrequentie waarde"
-      }
-    ],
-    "r4.zib_refraction": [
-      {
-        type: 0,
-        value: "Refractie"
-      }
-    ],
-    "r4.zib_refraction.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r4.zib_refraction.cylindrical_refraction_axis.value": [
-      {
-        type: 0,
-        value: "Cilindrische refractie as"
-      }
-    ],
-    "r4.zib_refraction.cylindrical_refraction_value.value": [
-      {
-        type: 0,
-        value: "Cilindrische refractie waarde"
-      }
-    ],
-    "r4.zib_refraction.effective_date_time": [
-      {
-        type: 0,
-        value: "Refractie datum tijd"
-      }
-    ],
-    "r4.zib_refraction.method": [
-      {
-        type: 0,
-        value: "Refractie meet methode"
-      }
-    ],
-    "r4.zib_refraction.prism_base.value": [
-      {
-        type: 0,
-        value: "Prisma basis"
-      }
-    ],
-    "r4.zib_refraction.prism_value.value": [
-      {
-        type: 0,
-        value: "Prisma waarde"
-      }
-    ],
-    "r4.zib_refraction.read_addition.value": [
-      {
-        type: 0,
-        value: "Lees additie"
-      }
-    ],
-    "r4.zib_refraction.spherical_equivalent.value": [
-      {
-        type: 0,
-        value: "Sferisch equivalent"
-      }
-    ],
-    "r4.zib_refraction.spherical_refraction_value.value": [
-      {
-        type: 0,
-        value: "Sferische refractie waarde"
-      }
-    ],
-    "r4.zib_skin_disorder": [
-      {
-        type: 0,
-        value: "Huidaandoening"
-      }
-    ],
-    "r4.zib_skin_disorder.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r4.zib_skin_disorder.cause.value": [
-      {
-        type: 0,
-        value: "Oorzaak"
-      }
-    ],
-    "r4.zib_skin_disorder.code": [
-      {
-        type: 0,
-        value: "Soort aandoening"
-      }
-    ],
-    "r4.zib_skin_disorder.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_skin_disorder.onset_date_time": [
-      {
-        type: 0,
-        value: "Ontstaans datum"
-      }
-    ],
-    "r4.zib_sna_qrc_score": [
-      {
-        type: 0,
-        value: "SNA qrc score"
-      }
-    ],
-    "r4.zib_sna_qrc_score.appetite_score.value": [
-      {
-        type: 0,
-        value: "Eetlust score"
-      }
-    ],
-    "r4.zib_sna_qrc_score.assisted_eating.value": [
-      {
-        type: 0,
-        value: "Hulp bij eten"
-      }
-    ],
-    "r4.zib_sna_qrc_score.bmi_score.value": [
-      {
-        type: 0,
-        value: "BMI score"
-      }
-    ],
-    "r4.zib_sna_qrc_score.effective_date_time": [
-      {
-        type: 0,
-        value: "SNA qrc score datum tijd"
-      }
-    ],
-    "r4.zib_sna_qrc_score.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_sna_qrc_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r4.zib_sna_qrc_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    "r4.zib_snaq_65_plus_score": [
-      {
-        type: 0,
-        value: "SNAQ65+score"
-      }
-    ],
-    "r4.zib_snaq_65_plus_score.appetite_score.value": [
-      {
-        type: 0,
-        value: "Eetlust score"
-      }
-    ],
-    "r4.zib_snaq_65_plus_score.effective_date_time": [
-      {
-        type: 0,
-        value: "SNAQ65+score datum tijd"
-      }
-    ],
-    "r4.zib_snaq_65_plus_score.exercise_score.value": [
-      {
-        type: 0,
-        value: "Inspannings score"
-      }
-    ],
-    "r4.zib_snaq_65_plus_score.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_snaq_65_plus_score.upperarm_circumference.value": [
-      {
-        type: 0,
-        value: "Bovenarm omtrek score"
-      }
-    ],
-    "r4.zib_snaq_65_plus_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r4.zib_snaq_65_plus_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    "r4.zib_snaq_score": [
-      {
-        type: 0,
-        value: "SNAQ score"
-      }
-    ],
-    "r4.zib_snaq_score.appetite_score.value": [
-      {
-        type: 0,
-        value: "Eetlust score"
-      }
-    ],
-    "r4.zib_snaq_score.effective_date_time": [
-      {
-        type: 0,
-        value: "SNAQ score datum tijd"
-      }
-    ],
-    "r4.zib_snaq_score.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_snaq_score.nutrition_score.value": [
-      {
-        type: 0,
-        value: "Voedings score"
-      }
-    ],
-    "r4.zib_snaq_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r4.zib_snaq_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    "r4.zib_soap_report": [
-      {
-        type: 0,
-        value: "SOEP verslag"
-      }
-    ],
-    "r4.zib_soap_report.author": [
-      {
-        type: 0,
-        value: "Auteur"
-      }
-    ],
-    "r4.zib_soap_report.date": [
-      {
-        type: 0,
-        value: "SOEP verslag datum tijd"
-      }
-    ],
-    "r4.zib_soap_report.soap_line": [
-      {
-        type: 0,
-        value: "SOEP regel"
-      }
-    ],
-    "r4.zib_soap_report.soap_line.code": [
-      {
-        type: 0,
-        value: "SOEP regel naam"
-      }
-    ],
-    "r4.zib_soap_report.soap_line.value": [
-      {
-        type: 0,
-        value: "SOEP regel tekst"
-      }
-    ],
-    "r4.zib_stoma": [
-      {
-        type: 0,
-        value: "Stoma"
-      }
-    ],
-    "r4.zib_stoma.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r4.zib_stoma.code": [
-      {
-        type: 0,
-        value: "Stoma type"
-      }
-    ],
-    "r4.zib_stoma.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_stoma.onset_date_time": [
-      {
-        type: 0,
-        value: "Aanleg datum"
-      }
-    ],
-    "r4.zib_strong_kids_score": [
-      {
-        type: 0,
-        value: "Strong kids score"
-      }
-    ],
-    "r4.zib_strong_kids_score.condition_score.value": [
-      {
-        type: 0,
-        value: "Ziekte beeld score"
-      }
-    ],
-    "r4.zib_strong_kids_score.effective_date_time": [
-      {
-        type: 0,
-        value: "Score datum tijd"
-      }
-    ],
-    "r4.zib_strong_kids_score.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_strong_kids_score.nutrition_score.value": [
-      {
-        type: 0,
-        value: "Voedings score"
-      }
-    ],
-    "r4.zib_strong_kids_score.nutrition_status_score.value": [
-      {
-        type: 0,
-        value: "Voedingstoestand score"
-      }
-    ],
-    "r4.zib_strong_kids_score.value": [
-      {
-        type: 0,
-        value: "Totaal score"
-      }
-    ],
-    "r4.zib_strong_kids_score.weight_loss_score.value": [
-      {
-        type: 0,
-        value: "Gewichtsverlies score"
-      }
-    ],
-    "r4.zib_text_result": [
-      {
-        type: 0,
-        value: "Tekst uitslag"
-      }
-    ],
-    "r4.zib_text_result.code": [
-      {
-        type: 0,
-        value: "Tekst uitslag type"
-      }
-    ],
-    "r4.zib_text_result.conclusion": [
-      {
-        type: 0,
-        value: "Tekst resultaat"
-      }
-    ],
-    "r4.zib_text_result.effective_date_time": [
-      {
-        type: 0,
-        value: "Tekst uitslag datum tijd"
-      }
-    ],
-    "r4.zib_text_result.status": [
-      {
-        type: 0,
-        value: "Tekst uitslag status"
-      }
-    ],
-    "r4.zib_text_result.status.text_result_status.value": [
-      {
-        type: 0,
-        value: "Tekst uitslag status"
-      }
-    ],
-    "r4.zib_text_result.visual_result.content": [
-      {
-        type: 0,
-        value: "Visueel resultaat"
-      }
-    ],
-    "r4.zib_time_interval": [
-      {
-        type: 0,
-        value: "Tijds interval"
-      }
-    ],
-    "r4.zib_time_interval.end": [
-      {
-        type: 0,
-        value: "Eind datum tijd"
-      }
-    ],
-    "r4.zib_time_interval.start": [
-      {
-        type: 0,
-        value: "Start datum tijd"
-      }
-    ],
-    "r4.zib_tobacco_use": [
-      {
-        type: 0,
-        value: "Tabak gebruik"
-      }
-    ],
-    "r4.zib_tobacco_use.amount.value": [
-      {
-        type: 0,
-        value: "Hoeveelheid"
-      }
-    ],
-    "r4.zib_tobacco_use.effective_period.end": [
-      {
-        type: 0,
-        value: "Stop datum"
-      }
-    ],
-    "r4.zib_tobacco_use.effective_period.start": [
-      {
-        type: 0,
-        value: "Start datum"
-      }
-    ],
-    "r4.zib_tobacco_use.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_tobacco_use.pack_years.value": [
-      {
-        type: 0,
-        value: "Pack years"
-      }
-    ],
-    "r4.zib_tobacco_use.type_of_tobacco_used.value": [
-      {
-        type: 0,
-        value: "Soort tabak gebruik"
-      }
-    ],
-    "r4.zib_tobacco_use.value": [
-      {
-        type: 0,
-        value: "Tabak gebruik status"
-      }
-    ],
-    "r4.zib_treatment_directive_2": [
-      {
-        type: 0,
-        value: "Behandel aanwijzing"
-      }
-    ],
-    "r4.zib_treatment_directive_2.comment.value": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_treatment_directive_2.date_time": [
-      {
-        type: 0,
-        value: "Meest recente bespreekdatum"
-      }
-    ],
-    "r4.zib_treatment_directive_2.provision.agreement_party": [
-      {
-        type: 0,
-        value: "Afspraak partij"
-      }
-    ],
-    "r4.zib_treatment_directive_2.provision.agreement_party.reference": [
-      {
-        type: 0,
-        value: "Patient"
-      }
-    ],
-    "r4.zib_treatment_directive_2.provision.code": [
-      {
-        type: 0,
-        value: "Behandeling"
-      }
-    ],
-    "r4.zib_treatment_directive_2.provision.period.end": [
-      {
-        type: 0,
-        value: "Datum beeindigd"
-      }
-    ],
-    "r4.zib_treatment_directive_2.provision.type": [
-      {
-        type: 0,
-        value: "Behandel besluit"
-      }
-    ],
-    "r4.zib_treatment_directive_2.source_reference": [
-      {
-        type: 0,
-        value: "Wilsverklaring"
-      }
-    ],
-    "r4.zib_vaccination_event": [
-      {
-        type: 0,
-        value: "Vaccinatie"
-      }
-    ],
-    "r4.zib_vaccination_event.administrator.actor": [
-      {
-        type: 0,
-        value: "Toediener"
-      }
-    ],
-    "r4.zib_vaccination_event.dose_quantity": [
-      {
-        type: 0,
-        value: "Dosis"
-      }
-    ],
-    "r4.zib_vaccination_event.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_vaccination_event.occurrence_date_time": [
-      {
-        type: 0,
-        value: "Vaccinatie datum"
-      }
-    ],
-    "r4.zib_vaccination_event.vaccine_code": [
-      {
-        type: 0,
-        value: "Product code"
-      }
-    ],
-    "r4.zib_vaccination_request": [
-      {
-        type: 0,
-        value: "Vaccinatie"
-      }
-    ],
-    "r4.zib_vaccination_request.recommendation.date_criterion.value": [
-      {
-        type: 0,
-        value: "Vaccinatie datum"
-      }
-    ],
-    "r4.zib_vaccination_request.recommendation.description": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_vaccination_request.recommendation.vaccine_code": [
-      {
-        type: 0,
-        value: "Product code"
-      }
-    ],
-    "r4.zib_visual_function": [
-      {
-        type: 0,
-        value: "Functie zien"
-      }
-    ],
-    "r4.zib_visual_function.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_visual_function.value": [
-      {
-        type: 0,
-        value: "Visuele functie"
-      }
-    ],
-    "r4.zib_visual_function.visual_aid.visual_function": [
-      {
-        type: 0,
-        value: "Functie zien"
-      }
-    ],
-    "r4.zib_wound": [
-      {
-        type: 0,
-        value: "Wond"
-      }
-    ],
-    "r4.zib_wound.body_site": [
-      {
-        type: 0,
-        value: "Anatomische locatie"
-      }
-    ],
-    "r4.zib_wound.code": [
-      {
-        type: 0,
-        value: "Wond soort"
-      }
-    ],
-    "r4.zib_wound.drain.drain": [
-      {
-        type: 0,
-        value: "Wond"
-      }
-    ],
-    "r4.zib_wound.note.text": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.zib_wound.onset_date_time": [
-      {
-        type: 0,
-        value: "Wond ontstaansdatum"
-      }
-    ],
-    "r4.zib_wound.wound_edge.value": [
-      {
-        type: 0,
-        value: "Wond rand"
-      }
-    ],
-    "r4.zib_wound.wound_infection.value": [
-      {
-        type: 0,
-        value: "Wond infectie"
-      }
-    ],
-    "r4.zib_wound.wound_moisture.value": [
-      {
-        type: 0,
-        value: "Wond vochtigheid"
-      }
-    ],
-    "r4.zib_wound.wound_tissue.value": [
-      {
-        type: 0,
-        value: "Wond weefsel"
-      }
-    ],
-    "r4.zib_wounds.date_of_last_dressing_change.value": [
-      {
-        type: 0,
-        value: "Datum laatste verbandwissel"
-      }
-    ],
-    "r4.zib_wounds.wound_depth.value": [
-      {
-        type: 0,
-        value: "Wonddiepte"
-      }
-    ],
-    "r4.zib_wounds.wound_image.content.attachment": [
-      {
-        type: 0,
-        value: "Wond foto"
-      }
-    ],
-    "r4.zib_wounds.wound_length.value": [
-      {
-        type: 0,
-        value: "Wondlengte"
-      }
-    ],
-    "r4.zib_wounds.wound_width.value": [
-      {
-        type: 0,
-        value: "Wondbreedte"
-      }
-    ]
-  };
-  const r4ResourceLabelsCustom = {
-    "r4.nl_core_contact_information_email_addresses": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r4.nl_core_contact_information_email_addresses.use": [
-      {
-        type: 0,
-        value: "Email soort"
-      }
-    ],
-    "r4.nl_core_contact_information_email_addresses.value": [
-      {
-        type: 0,
-        value: "E-mailadres"
-      }
-    ],
-    "r4.nl_core_contact_information_telephone_numbers": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r4.nl_core_contact_information_telephone_numbers.comment": [
-      {
-        type: 0,
-        value: "Telecom toelichting"
-      }
-    ],
-    "r4.nl_core_contact_information_telephone_numbers.telecom_type": [
-      {
-        type: 0,
-        value: "Telecom type"
-      }
-    ],
-    "r4.nl_core_contact_information_telephone_numbers.use": [
-      {
-        type: 0,
-        value: "Telecom type / nummer soort"
-      }
-    ],
-    "r4.nl_core_contact_information_telephone_numbers.value": [
-      {
-        type: 0,
-        value: "Telefoonnummer"
-      }
-    ],
-    "r4.nl_core_healtcare_provider": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r4.nl_core_healtcare_provider.identifier": [
-      {
-        type: 0,
-        value: "Identifier"
-      }
-    ],
-    "r4.nl_core_healtcare_provider.managing_organization": [
-      {
-        type: 0,
-        value: "Beherende organisatie"
-      }
-    ],
-    "r4.nl_core_healtcare_provider.name": [
-      {
-        type: 0,
-        value: "Zorgverlener naam"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner_role": [
-      {
-        type: 0,
-        value: "Zorgprofessional rol"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner_role.location": [
-      {
-        type: 0,
-        value: "Locatie"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner_role.organization": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner_role.practitioner": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner_role.speciality": [
-      {
-        type: 0,
-        value: "Specialiteit"
-      }
-    ],
-    "r4.nl_core_healthcare_provider_organization": [
-      {
-        type: 0,
-        value: "Zorgverlener organisatie"
-      }
-    ],
-    "r4.nl_core_healthcare_provider_organization.department_speciality": [
-      {
-        type: 0,
-        value: "Zorgverlener organisatie afdelings specialiteit"
-      }
-    ],
-    "r4.nl_core_healthcare_provider_organization.identifier": [
-      {
-        type: 0,
-        value: "Zorgverlener organisatie identifier"
-      }
-    ],
-    "r4.nl_core_healthcare_provider_organization.name": [
-      {
-        type: 0,
-        value: "Zorgverlener organisatie naam"
-      }
-    ],
-    "r4.nl_core_healthcare_provider_organization.organization_type": [
-      {
-        type: 0,
-        value: "Zorgverlener organisatie type"
-      }
-    ],
-    "r4.nl_core_vaccination_event.dose_quantity": [
-      {
-        type: 0,
-        value: "Dosis"
-      }
-    ],
-    "r4.nl_core_vaccination_event.extra": [
-      {
-        type: 0,
-        value: "Extra informatie"
-      }
-    ],
-    "r4.nl_core_vaccination_event.identifier": [
-      {
-        type: 0,
-        value: "Identificatienummer"
-      }
-    ],
-    "r4.nl_core_vaccination_event.location": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "r4.nl_core_vaccination_event.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.nl_core_vaccination_event.occurrence_date_time": [
-      {
-        type: 0,
-        value: "Gegeven op"
-      }
-    ],
-    "r4.nl_core_vaccination_event.performed_by": [
-      {
-        type: 0,
-        value: "Gegeven door"
-      }
-    ],
-    "r4.nl_core_vaccination_event.performer": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r4.nl_core_vaccination_event.pharmaceutical_product": [
-      {
-        type: 0,
-        value: "Inenting"
-      }
-    ],
-    "r4.nl_core_vaccination_event.protocol_applied": [
-      {
-        type: 0,
-        value: "Protocol toegepast"
-      }
-    ],
-    "r4.nl_core_vaccination_event.protocol_applied.authority": [
-      {
-        type: 0,
-        value: "Autoriteit"
-      }
-    ],
-    "r4.nl_core_vaccination_event.protocol_applied.dose_number": [
-      {
-        type: 0,
-        value: "Dosis nummer"
-      }
-    ],
-    "r4.nl_core_vaccination_event.protocol_applied.series_doses": [
-      {
-        type: 0,
-        value: "Serie dosis"
-      }
-    ],
-    "r4.nl_core_vaccination_event.route": [
-      {
-        type: 0,
-        value: "Toedieningsweg"
-      }
-    ],
-    "r4.nl_core_vaccination_event.site": [
-      {
-        type: 0,
-        value: "Lichaamsplek"
-      }
-    ],
-    "r4.nl_core_vaccination_event.status": [
-      {
-        type: 0,
-        value: "Status"
-      }
-    ],
-    "r4.nl_core_vaccination_event.vaccine_code": [
-      {
-        type: 0,
-        value: "Uniek nummer"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.batch": [
-      {
-        type: 0,
-        value: "Batch"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.batch.expiration_date": [
-      {
-        type: 0,
-        value: "Batch vervaldatum"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.batch.lot_number": [
-      {
-        type: 0,
-        value: "Batch lotnummer"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.description": [
-      {
-        type: 0,
-        value: "Omschrijving"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.identifier": [
-      {
-        type: 0,
-        value: "Serienummer"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.ingredient.item": [
-      {
-        type: 0,
-        value: "Medicatie ingredient item"
-      }
-    ]
-  };
-  var Locale = /* @__PURE__ */ ((Locale2) => {
-    Locale2["NL_NL"] = "nl-NL";
-    return Locale2;
-  })(Locale || {});
-  const messagesNL = {
-    ...r3ResourceLabels,
-    ...r3ResourceLabelsCustom,
-    ...r4ResourceLabels,
-    ...r4ResourceLabelsCustom,
-    ...summaryLabels,
-    ...detailLabels,
-    ...codeLabels,
-    ...systemLabels,
-    ...fhirMessages
-  };
-  function memoize(fn, options) {
-    var cache = options && options.cache ? options.cache : cacheDefault;
-    var serializer = options && options.serializer ? options.serializer : serializerDefault;
-    var strategy = options && options.strategy ? options.strategy : strategyDefault;
-    return strategy(fn, {
-      cache,
-      serializer
-    });
-  }
-  function isPrimitive(value2) {
-    return value2 == null || typeof value2 === "number" || typeof value2 === "boolean";
-  }
-  function monadic(fn, cache, serializer, arg) {
-    var cacheKey = isPrimitive(arg) ? arg : serializer(arg);
-    var computedValue = cache.get(cacheKey);
-    if (typeof computedValue === "undefined") {
-      computedValue = fn.call(this, arg);
-      cache.set(cacheKey, computedValue);
-    }
-    return computedValue;
-  }
-  function variadic(fn, cache, serializer) {
-    var args = Array.prototype.slice.call(arguments, 3);
-    var cacheKey = serializer(args);
-    var computedValue = cache.get(cacheKey);
-    if (typeof computedValue === "undefined") {
-      computedValue = fn.apply(this, args);
-      cache.set(cacheKey, computedValue);
-    }
-    return computedValue;
-  }
-  function assemble(fn, context, strategy, cache, serialize) {
-    return strategy.bind(context, fn, cache, serialize);
-  }
-  function strategyDefault(fn, options) {
-    var strategy = fn.length === 1 ? monadic : variadic;
-    return assemble(fn, this, strategy, options.cache.create(), options.serializer);
-  }
-  function strategyVariadic(fn, options) {
-    return assemble(fn, this, variadic, options.cache.create(), options.serializer);
-  }
-  function strategyMonadic(fn, options) {
-    return assemble(fn, this, monadic, options.cache.create(), options.serializer);
-  }
-  var serializerDefault = function() {
-    return JSON.stringify(arguments);
-  };
-  function ObjectWithoutPrototypeCache() {
-    this.cache = /* @__PURE__ */ Object.create(null);
-  }
-  ObjectWithoutPrototypeCache.prototype.get = function(key) {
-    return this.cache[key];
-  };
-  ObjectWithoutPrototypeCache.prototype.set = function(key, value2) {
-    this.cache[key] = value2;
-  };
-  var cacheDefault = {
-    create: function create() {
-      return new ObjectWithoutPrototypeCache();
-    }
-  };
-  var strategies = {
-    variadic: strategyVariadic,
-    monadic: strategyMonadic
-  };
-  var ErrorKind;
-  (function(ErrorKind2) {
-    ErrorKind2[ErrorKind2["EXPECT_ARGUMENT_CLOSING_BRACE"] = 1] = "EXPECT_ARGUMENT_CLOSING_BRACE";
-    ErrorKind2[ErrorKind2["EMPTY_ARGUMENT"] = 2] = "EMPTY_ARGUMENT";
-    ErrorKind2[ErrorKind2["MALFORMED_ARGUMENT"] = 3] = "MALFORMED_ARGUMENT";
-    ErrorKind2[ErrorKind2["EXPECT_ARGUMENT_TYPE"] = 4] = "EXPECT_ARGUMENT_TYPE";
-    ErrorKind2[ErrorKind2["INVALID_ARGUMENT_TYPE"] = 5] = "INVALID_ARGUMENT_TYPE";
-    ErrorKind2[ErrorKind2["EXPECT_ARGUMENT_STYLE"] = 6] = "EXPECT_ARGUMENT_STYLE";
-    ErrorKind2[ErrorKind2["INVALID_NUMBER_SKELETON"] = 7] = "INVALID_NUMBER_SKELETON";
-    ErrorKind2[ErrorKind2["INVALID_DATE_TIME_SKELETON"] = 8] = "INVALID_DATE_TIME_SKELETON";
-    ErrorKind2[ErrorKind2["EXPECT_NUMBER_SKELETON"] = 9] = "EXPECT_NUMBER_SKELETON";
-    ErrorKind2[ErrorKind2["EXPECT_DATE_TIME_SKELETON"] = 10] = "EXPECT_DATE_TIME_SKELETON";
-    ErrorKind2[ErrorKind2["UNCLOSED_QUOTE_IN_ARGUMENT_STYLE"] = 11] = "UNCLOSED_QUOTE_IN_ARGUMENT_STYLE";
-    ErrorKind2[ErrorKind2["EXPECT_SELECT_ARGUMENT_OPTIONS"] = 12] = "EXPECT_SELECT_ARGUMENT_OPTIONS";
-    ErrorKind2[ErrorKind2["EXPECT_PLURAL_ARGUMENT_OFFSET_VALUE"] = 13] = "EXPECT_PLURAL_ARGUMENT_OFFSET_VALUE";
-    ErrorKind2[ErrorKind2["INVALID_PLURAL_ARGUMENT_OFFSET_VALUE"] = 14] = "INVALID_PLURAL_ARGUMENT_OFFSET_VALUE";
-    ErrorKind2[ErrorKind2["EXPECT_SELECT_ARGUMENT_SELECTOR"] = 15] = "EXPECT_SELECT_ARGUMENT_SELECTOR";
-    ErrorKind2[ErrorKind2["EXPECT_PLURAL_ARGUMENT_SELECTOR"] = 16] = "EXPECT_PLURAL_ARGUMENT_SELECTOR";
-    ErrorKind2[ErrorKind2["EXPECT_SELECT_ARGUMENT_SELECTOR_FRAGMENT"] = 17] = "EXPECT_SELECT_ARGUMENT_SELECTOR_FRAGMENT";
-    ErrorKind2[ErrorKind2["EXPECT_PLURAL_ARGUMENT_SELECTOR_FRAGMENT"] = 18] = "EXPECT_PLURAL_ARGUMENT_SELECTOR_FRAGMENT";
-    ErrorKind2[ErrorKind2["INVALID_PLURAL_ARGUMENT_SELECTOR"] = 19] = "INVALID_PLURAL_ARGUMENT_SELECTOR";
-    ErrorKind2[ErrorKind2["DUPLICATE_PLURAL_ARGUMENT_SELECTOR"] = 20] = "DUPLICATE_PLURAL_ARGUMENT_SELECTOR";
-    ErrorKind2[ErrorKind2["DUPLICATE_SELECT_ARGUMENT_SELECTOR"] = 21] = "DUPLICATE_SELECT_ARGUMENT_SELECTOR";
-    ErrorKind2[ErrorKind2["MISSING_OTHER_CLAUSE"] = 22] = "MISSING_OTHER_CLAUSE";
-    ErrorKind2[ErrorKind2["INVALID_TAG"] = 23] = "INVALID_TAG";
-    ErrorKind2[ErrorKind2["INVALID_TAG_NAME"] = 25] = "INVALID_TAG_NAME";
-    ErrorKind2[ErrorKind2["UNMATCHED_CLOSING_TAG"] = 26] = "UNMATCHED_CLOSING_TAG";
-    ErrorKind2[ErrorKind2["UNCLOSED_TAG"] = 27] = "UNCLOSED_TAG";
-  })(ErrorKind || (ErrorKind = {}));
-  var TYPE;
-  (function(TYPE2) {
-    TYPE2[TYPE2["literal"] = 0] = "literal";
-    TYPE2[TYPE2["argument"] = 1] = "argument";
-    TYPE2[TYPE2["number"] = 2] = "number";
-    TYPE2[TYPE2["date"] = 3] = "date";
-    TYPE2[TYPE2["time"] = 4] = "time";
-    TYPE2[TYPE2["select"] = 5] = "select";
-    TYPE2[TYPE2["plural"] = 6] = "plural";
-    TYPE2[TYPE2["pound"] = 7] = "pound";
-    TYPE2[TYPE2["tag"] = 8] = "tag";
-  })(TYPE || (TYPE = {}));
-  var SKELETON_TYPE;
-  (function(SKELETON_TYPE2) {
-    SKELETON_TYPE2[SKELETON_TYPE2["number"] = 0] = "number";
-    SKELETON_TYPE2[SKELETON_TYPE2["dateTime"] = 1] = "dateTime";
-  })(SKELETON_TYPE || (SKELETON_TYPE = {}));
-  function isLiteralElement(el) {
-    return el.type === TYPE.literal;
-  }
-  function isArgumentElement(el) {
-    return el.type === TYPE.argument;
-  }
-  function isNumberElement(el) {
-    return el.type === TYPE.number;
-  }
-  function isDateElement(el) {
-    return el.type === TYPE.date;
-  }
-  function isTimeElement(el) {
-    return el.type === TYPE.time;
-  }
-  function isSelectElement(el) {
-    return el.type === TYPE.select;
-  }
-  function isPluralElement(el) {
-    return el.type === TYPE.plural;
-  }
-  function isPoundElement(el) {
-    return el.type === TYPE.pound;
-  }
-  function isTagElement(el) {
-    return el.type === TYPE.tag;
-  }
-  function isNumberSkeleton(el) {
-    return !!(el && typeof el === "object" && el.type === SKELETON_TYPE.number);
-  }
-  function isDateTimeSkeleton(el) {
-    return !!(el && typeof el === "object" && el.type === SKELETON_TYPE.dateTime);
-  }
-  var SPACE_SEPARATOR_REGEX = /[ \xA0\u1680\u2000-\u200A\u202F\u205F\u3000]/;
-  var DATE_TIME_REGEX = /(?:[Eec]{1,6}|G{1,5}|[Qq]{1,5}|(?:[yYur]+|U{1,5})|[ML]{1,5}|d{1,2}|D{1,3}|F{1}|[abB]{1,5}|[hkHK]{1,2}|w{1,2}|W{1}|m{1,2}|s{1,2}|[zZOvVxX]{1,4})(?=([^']*'[^']*')*[^']*$)/g;
-  function parseDateTimeSkeleton(skeleton2) {
-    var result = {};
-    skeleton2.replace(DATE_TIME_REGEX, function(match2) {
-      var len = match2.length;
-      switch (match2[0]) {
-        case "G":
-          result.era = len === 4 ? "long" : len === 5 ? "narrow" : "short";
-          break;
-        case "y":
-          result.year = len === 2 ? "2-digit" : "numeric";
-          break;
-        case "Y":
-        case "u":
-        case "U":
-        case "r":
-          throw new RangeError("`Y/u/U/r` (year) patterns are not supported, use `y` instead");
-        case "q":
-        case "Q":
-          throw new RangeError("`q/Q` (quarter) patterns are not supported");
-        case "M":
-        case "L":
-          result.month = ["numeric", "2-digit", "short", "long", "narrow"][len - 1];
-          break;
-        case "w":
-        case "W":
-          throw new RangeError("`w/W` (week) patterns are not supported");
-        case "d":
-          result.day = ["numeric", "2-digit"][len - 1];
-          break;
-        case "D":
-        case "F":
-        case "g":
-          throw new RangeError("`D/F/g` (day) patterns are not supported, use `d` instead");
-        case "E":
-          result.weekday = len === 4 ? "long" : len === 5 ? "narrow" : "short";
-          break;
-        case "e":
-          if (len < 4) {
-            throw new RangeError("`e..eee` (weekday) patterns are not supported");
-          }
-          result.weekday = ["short", "long", "narrow", "short"][len - 4];
-          break;
-        case "c":
-          if (len < 4) {
-            throw new RangeError("`c..ccc` (weekday) patterns are not supported");
-          }
-          result.weekday = ["short", "long", "narrow", "short"][len - 4];
-          break;
-        case "a":
-          result.hour12 = true;
-          break;
-        case "b":
-        case "B":
-          throw new RangeError("`b/B` (period) patterns are not supported, use `a` instead");
-        case "h":
-          result.hourCycle = "h12";
-          result.hour = ["numeric", "2-digit"][len - 1];
-          break;
-        case "H":
-          result.hourCycle = "h23";
-          result.hour = ["numeric", "2-digit"][len - 1];
-          break;
-        case "K":
-          result.hourCycle = "h11";
-          result.hour = ["numeric", "2-digit"][len - 1];
-          break;
-        case "k":
-          result.hourCycle = "h24";
-          result.hour = ["numeric", "2-digit"][len - 1];
-          break;
-        case "j":
-        case "J":
-        case "C":
-          throw new RangeError("`j/J/C` (hour) patterns are not supported, use `h/H/K/k` instead");
-        case "m":
-          result.minute = ["numeric", "2-digit"][len - 1];
-          break;
-        case "s":
-          result.second = ["numeric", "2-digit"][len - 1];
-          break;
-        case "S":
-        case "A":
-          throw new RangeError("`S/A` (second) patterns are not supported, use `s` instead");
-        case "z":
-          result.timeZoneName = len < 4 ? "short" : "long";
-          break;
-        case "Z":
-        case "O":
-        case "v":
-        case "V":
-        case "X":
-        case "x":
-          throw new RangeError("`Z/O/v/V/X/x` (timeZone) patterns are not supported, use `z` instead");
-      }
-      return "";
-    });
-    return result;
-  }
-  var WHITE_SPACE_REGEX = /[\t-\r \x85\u200E\u200F\u2028\u2029]/i;
-  function parseNumberSkeletonFromString(skeleton2) {
-    if (skeleton2.length === 0) {
-      throw new Error("Number skeleton cannot be empty");
-    }
-    var stringTokens = skeleton2.split(WHITE_SPACE_REGEX).filter(function(x) {
-      return x.length > 0;
-    });
-    var tokens = [];
-    for (var _i = 0, stringTokens_1 = stringTokens; _i < stringTokens_1.length; _i++) {
-      var stringToken = stringTokens_1[_i];
-      var stemAndOptions = stringToken.split("/");
-      if (stemAndOptions.length === 0) {
-        throw new Error("Invalid number skeleton");
-      }
-      var stem = stemAndOptions[0], options = stemAndOptions.slice(1);
-      for (var _a2 = 0, options_1 = options; _a2 < options_1.length; _a2++) {
-        var option = options_1[_a2];
-        if (option.length === 0) {
-          throw new Error("Invalid number skeleton");
-        }
-      }
-      tokens.push({ stem, options });
-    }
-    return tokens;
-  }
-  function icuUnitToEcma(unit) {
-    return unit.replace(/^(.*?)-/, "");
-  }
-  var FRACTION_PRECISION_REGEX = /^\.(?:(0+)(\*)?|(#+)|(0+)(#+))$/g;
-  var SIGNIFICANT_PRECISION_REGEX = /^(@+)?(\+|#+)?[rs]?$/g;
-  var INTEGER_WIDTH_REGEX = /(\*)(0+)|(#+)(0+)|(0+)/g;
-  var CONCISE_INTEGER_WIDTH_REGEX = /^(0+)$/;
-  function parseSignificantPrecision(str) {
-    var result = {};
-    if (str[str.length - 1] === "r") {
-      result.roundingPriority = "morePrecision";
-    } else if (str[str.length - 1] === "s") {
-      result.roundingPriority = "lessPrecision";
-    }
-    str.replace(SIGNIFICANT_PRECISION_REGEX, function(_, g1, g2) {
-      if (typeof g2 !== "string") {
-        result.minimumSignificantDigits = g1.length;
-        result.maximumSignificantDigits = g1.length;
-      } else if (g2 === "+") {
-        result.minimumSignificantDigits = g1.length;
-      } else if (g1[0] === "#") {
-        result.maximumSignificantDigits = g1.length;
-      } else {
-        result.minimumSignificantDigits = g1.length;
-        result.maximumSignificantDigits = g1.length + (typeof g2 === "string" ? g2.length : 0);
-      }
-      return "";
-    });
-    return result;
-  }
-  function parseSign(str) {
-    switch (str) {
-      case "sign-auto":
-        return {
-          signDisplay: "auto"
-        };
-      case "sign-accounting":
-      case "()":
-        return {
-          currencySign: "accounting"
-        };
-      case "sign-always":
-      case "+!":
-        return {
-          signDisplay: "always"
-        };
-      case "sign-accounting-always":
-      case "()!":
-        return {
-          signDisplay: "always",
-          currencySign: "accounting"
-        };
-      case "sign-except-zero":
-      case "+?":
-        return {
-          signDisplay: "exceptZero"
-        };
-      case "sign-accounting-except-zero":
-      case "()?":
-        return {
-          signDisplay: "exceptZero",
-          currencySign: "accounting"
-        };
-      case "sign-never":
-      case "+_":
-        return {
-          signDisplay: "never"
-        };
-    }
-  }
-  function parseConciseScientificAndEngineeringStem(stem) {
-    var result;
-    if (stem[0] === "E" && stem[1] === "E") {
-      result = {
-        notation: "engineering"
-      };
-      stem = stem.slice(2);
-    } else if (stem[0] === "E") {
-      result = {
-        notation: "scientific"
-      };
-      stem = stem.slice(1);
-    }
-    if (result) {
-      var signDisplay = stem.slice(0, 2);
-      if (signDisplay === "+!") {
-        result.signDisplay = "always";
-        stem = stem.slice(2);
-      } else if (signDisplay === "+?") {
-        result.signDisplay = "exceptZero";
-        stem = stem.slice(2);
-      }
-      if (!CONCISE_INTEGER_WIDTH_REGEX.test(stem)) {
-        throw new Error("Malformed concise eng/scientific notation");
-      }
-      result.minimumIntegerDigits = stem.length;
-    }
-    return result;
-  }
-  function parseNotationOptions(opt) {
-    var result = {};
-    var signOpts = parseSign(opt);
-    if (signOpts) {
-      return signOpts;
-    }
-    return result;
-  }
-  function parseNumberSkeleton(tokens) {
-    var result = {};
-    for (var _i = 0, tokens_1 = tokens; _i < tokens_1.length; _i++) {
-      var token = tokens_1[_i];
-      switch (token.stem) {
-        case "percent":
-        case "%":
-          result.style = "percent";
-          continue;
-        case "%x100":
-          result.style = "percent";
-          result.scale = 100;
-          continue;
-        case "currency":
-          result.style = "currency";
-          result.currency = token.options[0];
-          continue;
-        case "group-off":
-        case ",_":
-          result.useGrouping = false;
-          continue;
-        case "precision-integer":
-        case ".":
-          result.maximumFractionDigits = 0;
-          continue;
-        case "measure-unit":
-        case "unit":
-          result.style = "unit";
-          result.unit = icuUnitToEcma(token.options[0]);
-          continue;
-        case "compact-short":
-        case "K":
-          result.notation = "compact";
-          result.compactDisplay = "short";
-          continue;
-        case "compact-long":
-        case "KK":
-          result.notation = "compact";
-          result.compactDisplay = "long";
-          continue;
-        case "scientific":
-          result = __assign(__assign(__assign({}, result), { notation: "scientific" }), token.options.reduce(function(all, opt2) {
-            return __assign(__assign({}, all), parseNotationOptions(opt2));
-          }, {}));
-          continue;
-        case "engineering":
-          result = __assign(__assign(__assign({}, result), { notation: "engineering" }), token.options.reduce(function(all, opt2) {
-            return __assign(__assign({}, all), parseNotationOptions(opt2));
-          }, {}));
-          continue;
-        case "notation-simple":
-          result.notation = "standard";
-          continue;
-        case "unit-width-narrow":
-          result.currencyDisplay = "narrowSymbol";
-          result.unitDisplay = "narrow";
-          continue;
-        case "unit-width-short":
-          result.currencyDisplay = "code";
-          result.unitDisplay = "short";
-          continue;
-        case "unit-width-full-name":
-          result.currencyDisplay = "name";
-          result.unitDisplay = "long";
-          continue;
-        case "unit-width-iso-code":
-          result.currencyDisplay = "symbol";
-          continue;
-        case "scale":
-          result.scale = parseFloat(token.options[0]);
-          continue;
-        case "rounding-mode-floor":
-          result.roundingMode = "floor";
-          continue;
-        case "rounding-mode-ceiling":
-          result.roundingMode = "ceil";
-          continue;
-        case "rounding-mode-down":
-          result.roundingMode = "trunc";
-          continue;
-        case "rounding-mode-up":
-          result.roundingMode = "expand";
-          continue;
-        case "rounding-mode-half-even":
-          result.roundingMode = "halfEven";
-          continue;
-        case "rounding-mode-half-down":
-          result.roundingMode = "halfTrunc";
-          continue;
-        case "rounding-mode-half-up":
-          result.roundingMode = "halfExpand";
-          continue;
-        case "integer-width":
-          if (token.options.length > 1) {
-            throw new RangeError("integer-width stems only accept a single optional option");
-          }
-          token.options[0].replace(INTEGER_WIDTH_REGEX, function(_, g1, g2, g3, g4, g5) {
-            if (g1) {
-              result.minimumIntegerDigits = g2.length;
-            } else if (g3 && g4) {
-              throw new Error("We currently do not support maximum integer digits");
-            } else if (g5) {
-              throw new Error("We currently do not support exact integer digits");
-            }
-            return "";
-          });
-          continue;
-      }
-      if (CONCISE_INTEGER_WIDTH_REGEX.test(token.stem)) {
-        result.minimumIntegerDigits = token.stem.length;
-        continue;
-      }
-      if (FRACTION_PRECISION_REGEX.test(token.stem)) {
-        if (token.options.length > 1) {
-          throw new RangeError("Fraction-precision stems only accept a single optional option");
-        }
-        token.stem.replace(FRACTION_PRECISION_REGEX, function(_, g1, g2, g3, g4, g5) {
-          if (g2 === "*") {
-            result.minimumFractionDigits = g1.length;
-          } else if (g3 && g3[0] === "#") {
-            result.maximumFractionDigits = g3.length;
-          } else if (g4 && g5) {
-            result.minimumFractionDigits = g4.length;
-            result.maximumFractionDigits = g4.length + g5.length;
-          } else {
-            result.minimumFractionDigits = g1.length;
-            result.maximumFractionDigits = g1.length;
-          }
-          return "";
-        });
-        var opt = token.options[0];
-        if (opt === "w") {
-          result = __assign(__assign({}, result), { trailingZeroDisplay: "stripIfInteger" });
-        } else if (opt) {
-          result = __assign(__assign({}, result), parseSignificantPrecision(opt));
-        }
-        continue;
-      }
-      if (SIGNIFICANT_PRECISION_REGEX.test(token.stem)) {
-        result = __assign(__assign({}, result), parseSignificantPrecision(token.stem));
-        continue;
-      }
-      var signOpts = parseSign(token.stem);
-      if (signOpts) {
-        result = __assign(__assign({}, result), signOpts);
-      }
-      var conciseScientificAndEngineeringOpts = parseConciseScientificAndEngineeringStem(token.stem);
-      if (conciseScientificAndEngineeringOpts) {
-        result = __assign(__assign({}, result), conciseScientificAndEngineeringOpts);
-      }
-    }
-    return result;
-  }
-  var timeData = {
-    "001": [
-      "H",
-      "h"
-    ],
-    "419": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "AC": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "AD": [
-      "H",
-      "hB"
-    ],
-    "AE": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "AF": [
-      "H",
-      "hb",
-      "hB",
-      "h"
-    ],
-    "AG": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "AI": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "AL": [
-      "h",
-      "H",
-      "hB"
-    ],
-    "AM": [
-      "H",
-      "hB"
-    ],
-    "AO": [
-      "H",
-      "hB"
-    ],
-    "AR": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "AS": [
-      "h",
-      "H"
-    ],
-    "AT": [
-      "H",
-      "hB"
-    ],
-    "AU": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "AW": [
-      "H",
-      "hB"
-    ],
-    "AX": [
-      "H"
-    ],
-    "AZ": [
-      "H",
-      "hB",
-      "h"
-    ],
-    "BA": [
-      "H",
-      "hB",
-      "h"
-    ],
-    "BB": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "BD": [
-      "h",
-      "hB",
-      "H"
-    ],
-    "BE": [
-      "H",
-      "hB"
-    ],
-    "BF": [
-      "H",
-      "hB"
-    ],
-    "BG": [
-      "H",
-      "hB",
-      "h"
-    ],
-    "BH": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "BI": [
-      "H",
-      "h"
-    ],
-    "BJ": [
-      "H",
-      "hB"
-    ],
-    "BL": [
-      "H",
-      "hB"
-    ],
-    "BM": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "BN": [
-      "hb",
-      "hB",
-      "h",
-      "H"
-    ],
-    "BO": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "BQ": [
-      "H"
-    ],
-    "BR": [
-      "H",
-      "hB"
-    ],
-    "BS": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "BT": [
-      "h",
-      "H"
-    ],
-    "BW": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "BY": [
-      "H",
-      "h"
-    ],
-    "BZ": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "CA": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "CC": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "CD": [
-      "hB",
-      "H"
-    ],
-    "CF": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "CG": [
-      "H",
-      "hB"
-    ],
-    "CH": [
-      "H",
-      "hB",
-      "h"
-    ],
-    "CI": [
-      "H",
-      "hB"
-    ],
-    "CK": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "CL": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "CM": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "CN": [
-      "H",
-      "hB",
-      "hb",
-      "h"
-    ],
-    "CO": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "CP": [
-      "H"
-    ],
-    "CR": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "CU": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "CV": [
-      "H",
-      "hB"
-    ],
-    "CW": [
-      "H",
-      "hB"
-    ],
-    "CX": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "CY": [
-      "h",
-      "H",
-      "hb",
-      "hB"
-    ],
-    "CZ": [
-      "H"
-    ],
-    "DE": [
-      "H",
-      "hB"
-    ],
-    "DG": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "DJ": [
-      "h",
-      "H"
-    ],
-    "DK": [
-      "H"
-    ],
-    "DM": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "DO": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "DZ": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "EA": [
-      "H",
-      "h",
-      "hB",
-      "hb"
-    ],
-    "EC": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "EE": [
-      "H",
-      "hB"
-    ],
-    "EG": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "EH": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "ER": [
-      "h",
-      "H"
-    ],
-    "ES": [
-      "H",
-      "hB",
-      "h",
-      "hb"
-    ],
-    "ET": [
-      "hB",
-      "hb",
-      "h",
-      "H"
-    ],
-    "FI": [
-      "H"
-    ],
-    "FJ": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "FK": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "FM": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "FO": [
-      "H",
-      "h"
-    ],
-    "FR": [
-      "H",
-      "hB"
-    ],
-    "GA": [
-      "H",
-      "hB"
-    ],
-    "GB": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "GD": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "GE": [
-      "H",
-      "hB",
-      "h"
-    ],
-    "GF": [
-      "H",
-      "hB"
-    ],
-    "GG": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "GH": [
-      "h",
-      "H"
-    ],
-    "GI": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "GL": [
-      "H",
-      "h"
-    ],
-    "GM": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "GN": [
-      "H",
-      "hB"
-    ],
-    "GP": [
-      "H",
-      "hB"
-    ],
-    "GQ": [
-      "H",
-      "hB",
-      "h",
-      "hb"
-    ],
-    "GR": [
-      "h",
-      "H",
-      "hb",
-      "hB"
-    ],
-    "GT": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "GU": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "GW": [
-      "H",
-      "hB"
-    ],
-    "GY": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "HK": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "HN": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "HR": [
-      "H",
-      "hB"
-    ],
-    "HU": [
-      "H",
-      "h"
-    ],
-    "IC": [
-      "H",
-      "h",
-      "hB",
-      "hb"
-    ],
-    "ID": [
-      "H"
-    ],
-    "IE": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "IL": [
-      "H",
-      "hB"
-    ],
-    "IM": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "IN": [
-      "h",
-      "H"
-    ],
-    "IO": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "IQ": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "IR": [
-      "hB",
-      "H"
-    ],
-    "IS": [
-      "H"
-    ],
-    "IT": [
-      "H",
-      "hB"
-    ],
-    "JE": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "JM": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "JO": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "JP": [
-      "H",
-      "K",
-      "h"
-    ],
-    "KE": [
-      "hB",
-      "hb",
-      "H",
-      "h"
-    ],
-    "KG": [
-      "H",
-      "h",
-      "hB",
-      "hb"
-    ],
-    "KH": [
-      "hB",
-      "h",
-      "H",
-      "hb"
-    ],
-    "KI": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "KM": [
-      "H",
-      "h",
-      "hB",
-      "hb"
-    ],
-    "KN": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "KP": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "KR": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "KW": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "KY": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "KZ": [
-      "H",
-      "hB"
-    ],
-    "LA": [
-      "H",
-      "hb",
-      "hB",
-      "h"
-    ],
-    "LB": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "LC": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "LI": [
-      "H",
-      "hB",
-      "h"
-    ],
-    "LK": [
-      "H",
-      "h",
-      "hB",
-      "hb"
-    ],
-    "LR": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "LS": [
-      "h",
-      "H"
-    ],
-    "LT": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "LU": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "LV": [
-      "H",
-      "hB",
-      "hb",
-      "h"
-    ],
-    "LY": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "MA": [
-      "H",
-      "h",
-      "hB",
-      "hb"
-    ],
-    "MC": [
-      "H",
-      "hB"
-    ],
-    "MD": [
-      "H",
-      "hB"
-    ],
-    "ME": [
-      "H",
-      "hB",
-      "h"
-    ],
-    "MF": [
-      "H",
-      "hB"
-    ],
-    "MG": [
-      "H",
-      "h"
-    ],
-    "MH": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "MK": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "ML": [
-      "H"
-    ],
-    "MM": [
-      "hB",
-      "hb",
-      "H",
-      "h"
-    ],
-    "MN": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "MO": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "MP": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "MQ": [
-      "H",
-      "hB"
-    ],
-    "MR": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "MS": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "MT": [
-      "H",
-      "h"
-    ],
-    "MU": [
-      "H",
-      "h"
-    ],
-    "MV": [
-      "H",
-      "h"
-    ],
-    "MW": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "MX": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "MY": [
-      "hb",
-      "hB",
-      "h",
-      "H"
-    ],
-    "MZ": [
-      "H",
-      "hB"
-    ],
-    "NA": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "NC": [
-      "H",
-      "hB"
-    ],
-    "NE": [
-      "H"
-    ],
-    "NF": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "NG": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "NI": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "NL": [
-      "H",
-      "hB"
-    ],
-    "NO": [
-      "H",
-      "h"
-    ],
-    "NP": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "NR": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "NU": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "NZ": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "OM": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "PA": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "PE": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "PF": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "PG": [
-      "h",
-      "H"
-    ],
-    "PH": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "PK": [
-      "h",
-      "hB",
-      "H"
-    ],
-    "PL": [
-      "H",
-      "h"
-    ],
-    "PM": [
-      "H",
-      "hB"
-    ],
-    "PN": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "PR": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "PS": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "PT": [
-      "H",
-      "hB"
-    ],
-    "PW": [
-      "h",
-      "H"
-    ],
-    "PY": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "QA": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "RE": [
-      "H",
-      "hB"
-    ],
-    "RO": [
-      "H",
-      "hB"
-    ],
-    "RS": [
-      "H",
-      "hB",
-      "h"
-    ],
-    "RU": [
-      "H"
-    ],
-    "RW": [
-      "H",
-      "h"
-    ],
-    "SA": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "SB": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "SC": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "SD": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "SE": [
-      "H"
-    ],
-    "SG": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "SH": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "SI": [
-      "H",
-      "hB"
-    ],
-    "SJ": [
-      "H"
-    ],
-    "SK": [
-      "H"
-    ],
-    "SL": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "SM": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "SN": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "SO": [
-      "h",
-      "H"
-    ],
-    "SR": [
-      "H",
-      "hB"
-    ],
-    "SS": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "ST": [
-      "H",
-      "hB"
-    ],
-    "SV": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "SX": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "SY": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "SZ": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "TA": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "TC": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "TD": [
-      "h",
-      "H",
-      "hB"
-    ],
-    "TF": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "TG": [
-      "H",
-      "hB"
-    ],
-    "TH": [
-      "H",
-      "h"
-    ],
-    "TJ": [
-      "H",
-      "h"
-    ],
-    "TL": [
-      "H",
-      "hB",
-      "hb",
-      "h"
-    ],
-    "TM": [
-      "H",
-      "h"
-    ],
-    "TN": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "TO": [
-      "h",
-      "H"
-    ],
-    "TR": [
-      "H",
-      "hB"
-    ],
-    "TT": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "TW": [
-      "hB",
-      "hb",
-      "h",
-      "H"
-    ],
-    "TZ": [
-      "hB",
-      "hb",
-      "H",
-      "h"
-    ],
-    "UA": [
-      "H",
-      "hB",
-      "h"
-    ],
-    "UG": [
-      "hB",
-      "hb",
-      "H",
-      "h"
-    ],
-    "UM": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "US": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "UY": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "UZ": [
-      "H",
-      "hB",
-      "h"
-    ],
-    "VA": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "VC": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "VE": [
-      "h",
-      "H",
-      "hB",
-      "hb"
-    ],
-    "VG": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "VI": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "VN": [
-      "H",
-      "h"
-    ],
-    "VU": [
-      "h",
-      "H"
-    ],
-    "WF": [
-      "H",
-      "hB"
-    ],
-    "WS": [
-      "h",
-      "H"
-    ],
-    "XK": [
-      "H",
-      "hB",
-      "h"
-    ],
-    "YE": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "YT": [
-      "H",
-      "hB"
-    ],
-    "ZA": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "ZM": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "ZW": [
-      "H",
-      "h"
-    ],
-    "af-ZA": [
-      "H",
-      "h",
-      "hB",
-      "hb"
-    ],
-    "ar-001": [
-      "h",
-      "hB",
-      "hb",
-      "H"
-    ],
-    "ca-ES": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "en-001": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "en-HK": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "en-IL": [
-      "H",
-      "h",
-      "hb",
-      "hB"
-    ],
-    "en-MY": [
-      "h",
-      "hb",
-      "H",
-      "hB"
-    ],
-    "es-BR": [
-      "H",
-      "h",
-      "hB",
-      "hb"
-    ],
-    "es-ES": [
-      "H",
-      "h",
-      "hB",
-      "hb"
-    ],
-    "es-GQ": [
-      "H",
-      "h",
-      "hB",
-      "hb"
-    ],
-    "fr-CA": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "gl-ES": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "gu-IN": [
-      "hB",
-      "hb",
-      "h",
-      "H"
-    ],
-    "hi-IN": [
-      "hB",
-      "h",
-      "H"
-    ],
-    "it-CH": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "it-IT": [
-      "H",
-      "h",
-      "hB"
-    ],
-    "kn-IN": [
-      "hB",
-      "h",
-      "H"
-    ],
-    "ml-IN": [
-      "hB",
-      "h",
-      "H"
-    ],
-    "mr-IN": [
-      "hB",
-      "hb",
-      "h",
-      "H"
-    ],
-    "pa-IN": [
-      "hB",
-      "hb",
-      "h",
-      "H"
-    ],
-    "ta-IN": [
-      "hB",
-      "h",
-      "hb",
-      "H"
-    ],
-    "te-IN": [
-      "hB",
-      "h",
-      "H"
-    ],
-    "zu-ZA": [
-      "H",
-      "hB",
-      "hb",
-      "h"
-    ]
-  };
-  function getBestPattern(skeleton2, locale) {
-    var skeletonCopy = "";
-    for (var patternPos = 0; patternPos < skeleton2.length; patternPos++) {
-      var patternChar = skeleton2.charAt(patternPos);
-      if (patternChar === "j") {
-        var extraLength = 0;
-        while (patternPos + 1 < skeleton2.length && skeleton2.charAt(patternPos + 1) === patternChar) {
-          extraLength++;
-          patternPos++;
-        }
-        var hourLen = 1 + (extraLength & 1);
-        var dayPeriodLen = extraLength < 2 ? 1 : 3 + (extraLength >> 1);
-        var dayPeriodChar = "a";
-        var hourChar = getDefaultHourSymbolFromLocale(locale);
-        if (hourChar == "H" || hourChar == "k") {
-          dayPeriodLen = 0;
-        }
-        while (dayPeriodLen-- > 0) {
-          skeletonCopy += dayPeriodChar;
-        }
-        while (hourLen-- > 0) {
-          skeletonCopy = hourChar + skeletonCopy;
-        }
-      } else if (patternChar === "J") {
-        skeletonCopy += "H";
-      } else {
-        skeletonCopy += patternChar;
-      }
-    }
-    return skeletonCopy;
-  }
-  function getDefaultHourSymbolFromLocale(locale) {
-    var hourCycle = locale.hourCycle;
-    if (hourCycle === void 0 && // @ts-ignore hourCycle(s) is not identified yet
-    locale.hourCycles && // @ts-ignore
-    locale.hourCycles.length) {
-      hourCycle = locale.hourCycles[0];
-    }
-    if (hourCycle) {
-      switch (hourCycle) {
-        case "h24":
-          return "k";
-        case "h23":
-          return "H";
-        case "h12":
-          return "h";
-        case "h11":
-          return "K";
-        default:
-          throw new Error("Invalid hourCycle");
-      }
-    }
-    var languageTag = locale.language;
-    var regionTag;
-    if (languageTag !== "root") {
-      regionTag = locale.maximize().region;
-    }
-    var hourCycles = timeData[regionTag || ""] || timeData[languageTag || ""] || timeData["".concat(languageTag, "-001")] || timeData["001"];
-    return hourCycles[0];
-  }
-  var _a;
-  var SPACE_SEPARATOR_START_REGEX = new RegExp("^".concat(SPACE_SEPARATOR_REGEX.source, "*"));
-  var SPACE_SEPARATOR_END_REGEX = new RegExp("".concat(SPACE_SEPARATOR_REGEX.source, "*$"));
-  function createLocation(start, end) {
-    return { start, end };
-  }
-  var hasNativeStartsWith = !!String.prototype.startsWith && "_a".startsWith("a", 1);
-  var hasNativeFromCodePoint = !!String.fromCodePoint;
-  var hasNativeFromEntries = !!Object.fromEntries;
-  var hasNativeCodePointAt = !!String.prototype.codePointAt;
-  var hasTrimStart = !!String.prototype.trimStart;
-  var hasTrimEnd = !!String.prototype.trimEnd;
-  var hasNativeIsSafeInteger = !!Number.isSafeInteger;
-  var isSafeInteger = hasNativeIsSafeInteger ? Number.isSafeInteger : function(n) {
-    return typeof n === "number" && isFinite(n) && Math.floor(n) === n && Math.abs(n) <= 9007199254740991;
-  };
-  var REGEX_SUPPORTS_U_AND_Y = true;
-  try {
-    var re = RE("([^\\p{White_Space}\\p{Pattern_Syntax}]*)", "yu");
-    REGEX_SUPPORTS_U_AND_Y = ((_a = re.exec("a")) === null || _a === void 0 ? void 0 : _a[0]) === "a";
-  } catch (_) {
-    REGEX_SUPPORTS_U_AND_Y = false;
-  }
-  var startsWith = hasNativeStartsWith ? (
-    // Native
-    function startsWith2(s, search, position) {
-      return s.startsWith(search, position);
-    }
-  ) : (
-    // For IE11
-    function startsWith2(s, search, position) {
-      return s.slice(position, position + search.length) === search;
-    }
-  );
-  var fromCodePoint = hasNativeFromCodePoint ? String.fromCodePoint : (
-    // IE11
-    function fromCodePoint2() {
-      var codePoints = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        codePoints[_i] = arguments[_i];
-      }
-      var elements = "";
-      var length = codePoints.length;
-      var i = 0;
-      var code2;
-      while (length > i) {
-        code2 = codePoints[i++];
-        if (code2 > 1114111)
-          throw RangeError(code2 + " is not a valid code point");
-        elements += code2 < 65536 ? String.fromCharCode(code2) : String.fromCharCode(((code2 -= 65536) >> 10) + 55296, code2 % 1024 + 56320);
-      }
-      return elements;
-    }
-  );
-  var fromEntries = (
-    // native
-    hasNativeFromEntries ? Object.fromEntries : (
-      // Ponyfill
-      function fromEntries2(entries) {
-        var obj = {};
-        for (var _i = 0, entries_1 = entries; _i < entries_1.length; _i++) {
-          var _a2 = entries_1[_i], k = _a2[0], v = _a2[1];
-          obj[k] = v;
-        }
-        return obj;
-      }
-    )
-  );
-  var codePointAt = hasNativeCodePointAt ? (
-    // Native
-    function codePointAt2(s, index) {
-      return s.codePointAt(index);
-    }
-  ) : (
-    // IE 11
-    function codePointAt2(s, index) {
-      var size = s.length;
-      if (index < 0 || index >= size) {
-        return void 0;
-      }
-      var first = s.charCodeAt(index);
-      var second;
-      return first < 55296 || first > 56319 || index + 1 === size || (second = s.charCodeAt(index + 1)) < 56320 || second > 57343 ? first : (first - 55296 << 10) + (second - 56320) + 65536;
-    }
-  );
-  var trimStart = hasTrimStart ? (
-    // Native
-    function trimStart2(s) {
-      return s.trimStart();
-    }
-  ) : (
-    // Ponyfill
-    function trimStart2(s) {
-      return s.replace(SPACE_SEPARATOR_START_REGEX, "");
-    }
-  );
-  var trimEnd = hasTrimEnd ? (
-    // Native
-    function trimEnd2(s) {
-      return s.trimEnd();
-    }
-  ) : (
-    // Ponyfill
-    function trimEnd2(s) {
-      return s.replace(SPACE_SEPARATOR_END_REGEX, "");
-    }
-  );
-  function RE(s, flag) {
-    return new RegExp(s, flag);
-  }
-  var matchIdentifierAtIndex;
-  if (REGEX_SUPPORTS_U_AND_Y) {
-    var IDENTIFIER_PREFIX_RE_1 = RE("([^\\p{White_Space}\\p{Pattern_Syntax}]*)", "yu");
-    matchIdentifierAtIndex = function matchIdentifierAtIndex2(s, index) {
-      var _a2;
-      IDENTIFIER_PREFIX_RE_1.lastIndex = index;
-      var match2 = IDENTIFIER_PREFIX_RE_1.exec(s);
-      return (_a2 = match2[1]) !== null && _a2 !== void 0 ? _a2 : "";
-    };
-  } else {
-    matchIdentifierAtIndex = function matchIdentifierAtIndex2(s, index) {
-      var match2 = [];
-      while (true) {
-        var c = codePointAt(s, index);
-        if (c === void 0 || _isWhiteSpace(c) || _isPatternSyntax(c)) {
-          break;
-        }
-        match2.push(c);
-        index += c >= 65536 ? 2 : 1;
-      }
-      return fromCodePoint.apply(void 0, match2);
-    };
-  }
-  var Parser = (
-    /** @class */
-    function() {
-      function Parser2(message, options) {
-        if (options === void 0) {
-          options = {};
-        }
-        this.message = message;
-        this.position = { offset: 0, line: 1, column: 1 };
-        this.ignoreTag = !!options.ignoreTag;
-        this.locale = options.locale;
-        this.requiresOtherClause = !!options.requiresOtherClause;
-        this.shouldParseSkeletons = !!options.shouldParseSkeletons;
-      }
-      Parser2.prototype.parse = function() {
-        if (this.offset() !== 0) {
-          throw Error("parser can only be used once");
-        }
-        return this.parseMessage(0, "", false);
-      };
-      Parser2.prototype.parseMessage = function(nestingLevel, parentArgType, expectingCloseTag) {
-        var elements = [];
-        while (!this.isEOF()) {
-          var char = this.char();
-          if (char === 123) {
-            var result = this.parseArgument(nestingLevel, expectingCloseTag);
-            if (result.err) {
-              return result;
-            }
-            elements.push(result.val);
-          } else if (char === 125 && nestingLevel > 0) {
-            break;
-          } else if (char === 35 && (parentArgType === "plural" || parentArgType === "selectordinal")) {
-            var position = this.clonePosition();
-            this.bump();
-            elements.push({
-              type: TYPE.pound,
-              location: createLocation(position, this.clonePosition())
-            });
-          } else if (char === 60 && !this.ignoreTag && this.peek() === 47) {
-            if (expectingCloseTag) {
-              break;
-            } else {
-              return this.error(ErrorKind.UNMATCHED_CLOSING_TAG, createLocation(this.clonePosition(), this.clonePosition()));
-            }
-          } else if (char === 60 && !this.ignoreTag && _isAlpha(this.peek() || 0)) {
-            var result = this.parseTag(nestingLevel, parentArgType);
-            if (result.err) {
-              return result;
-            }
-            elements.push(result.val);
-          } else {
-            var result = this.parseLiteral(nestingLevel, parentArgType);
-            if (result.err) {
-              return result;
-            }
-            elements.push(result.val);
-          }
-        }
-        return { val: elements, err: null };
-      };
-      Parser2.prototype.parseTag = function(nestingLevel, parentArgType) {
-        var startPosition = this.clonePosition();
-        this.bump();
-        var tagName = this.parseTagName();
-        this.bumpSpace();
-        if (this.bumpIf("/>")) {
-          return {
-            val: {
-              type: TYPE.literal,
-              value: "<".concat(tagName, "/>"),
-              location: createLocation(startPosition, this.clonePosition())
-            },
-            err: null
-          };
-        } else if (this.bumpIf(">")) {
-          var childrenResult = this.parseMessage(nestingLevel + 1, parentArgType, true);
-          if (childrenResult.err) {
-            return childrenResult;
-          }
-          var children = childrenResult.val;
-          var endTagStartPosition = this.clonePosition();
-          if (this.bumpIf("</")) {
-            if (this.isEOF() || !_isAlpha(this.char())) {
-              return this.error(ErrorKind.INVALID_TAG, createLocation(endTagStartPosition, this.clonePosition()));
-            }
-            var closingTagNameStartPosition = this.clonePosition();
-            var closingTagName = this.parseTagName();
-            if (tagName !== closingTagName) {
-              return this.error(ErrorKind.UNMATCHED_CLOSING_TAG, createLocation(closingTagNameStartPosition, this.clonePosition()));
-            }
-            this.bumpSpace();
-            if (!this.bumpIf(">")) {
-              return this.error(ErrorKind.INVALID_TAG, createLocation(endTagStartPosition, this.clonePosition()));
-            }
-            return {
-              val: {
-                type: TYPE.tag,
-                value: tagName,
-                children,
-                location: createLocation(startPosition, this.clonePosition())
-              },
-              err: null
-            };
-          } else {
-            return this.error(ErrorKind.UNCLOSED_TAG, createLocation(startPosition, this.clonePosition()));
-          }
-        } else {
-          return this.error(ErrorKind.INVALID_TAG, createLocation(startPosition, this.clonePosition()));
-        }
-      };
-      Parser2.prototype.parseTagName = function() {
-        var startOffset = this.offset();
-        this.bump();
-        while (!this.isEOF() && _isPotentialElementNameChar(this.char())) {
-          this.bump();
-        }
-        return this.message.slice(startOffset, this.offset());
-      };
-      Parser2.prototype.parseLiteral = function(nestingLevel, parentArgType) {
-        var start = this.clonePosition();
-        var value2 = "";
-        while (true) {
-          var parseQuoteResult = this.tryParseQuote(parentArgType);
-          if (parseQuoteResult) {
-            value2 += parseQuoteResult;
-            continue;
-          }
-          var parseUnquotedResult = this.tryParseUnquoted(nestingLevel, parentArgType);
-          if (parseUnquotedResult) {
-            value2 += parseUnquotedResult;
-            continue;
-          }
-          var parseLeftAngleResult = this.tryParseLeftAngleBracket();
-          if (parseLeftAngleResult) {
-            value2 += parseLeftAngleResult;
-            continue;
-          }
-          break;
-        }
-        var location = createLocation(start, this.clonePosition());
-        return {
-          val: { type: TYPE.literal, value: value2, location },
-          err: null
-        };
-      };
-      Parser2.prototype.tryParseLeftAngleBracket = function() {
-        if (!this.isEOF() && this.char() === 60 && (this.ignoreTag || // If at the opening tag or closing tag position, bail.
-        !_isAlphaOrSlash(this.peek() || 0))) {
-          this.bump();
-          return "<";
-        }
-        return null;
-      };
-      Parser2.prototype.tryParseQuote = function(parentArgType) {
-        if (this.isEOF() || this.char() !== 39) {
-          return null;
-        }
-        switch (this.peek()) {
-          case 39:
-            this.bump();
-            this.bump();
-            return "'";
-          case 123:
-          case 60:
-          case 62:
-          case 125:
-            break;
-          case 35:
-            if (parentArgType === "plural" || parentArgType === "selectordinal") {
-              break;
-            }
-            return null;
-          default:
-            return null;
-        }
-        this.bump();
-        var codePoints = [this.char()];
-        this.bump();
-        while (!this.isEOF()) {
-          var ch = this.char();
-          if (ch === 39) {
-            if (this.peek() === 39) {
-              codePoints.push(39);
-              this.bump();
-            } else {
-              this.bump();
-              break;
-            }
-          } else {
-            codePoints.push(ch);
-          }
-          this.bump();
-        }
-        return fromCodePoint.apply(void 0, codePoints);
-      };
-      Parser2.prototype.tryParseUnquoted = function(nestingLevel, parentArgType) {
-        if (this.isEOF()) {
-          return null;
-        }
-        var ch = this.char();
-        if (ch === 60 || ch === 123 || ch === 35 && (parentArgType === "plural" || parentArgType === "selectordinal") || ch === 125 && nestingLevel > 0) {
-          return null;
-        } else {
-          this.bump();
-          return fromCodePoint(ch);
-        }
-      };
-      Parser2.prototype.parseArgument = function(nestingLevel, expectingCloseTag) {
-        var openingBracePosition = this.clonePosition();
-        this.bump();
-        this.bumpSpace();
-        if (this.isEOF()) {
-          return this.error(ErrorKind.EXPECT_ARGUMENT_CLOSING_BRACE, createLocation(openingBracePosition, this.clonePosition()));
-        }
-        if (this.char() === 125) {
-          this.bump();
-          return this.error(ErrorKind.EMPTY_ARGUMENT, createLocation(openingBracePosition, this.clonePosition()));
-        }
-        var value2 = this.parseIdentifierIfPossible().value;
-        if (!value2) {
-          return this.error(ErrorKind.MALFORMED_ARGUMENT, createLocation(openingBracePosition, this.clonePosition()));
-        }
-        this.bumpSpace();
-        if (this.isEOF()) {
-          return this.error(ErrorKind.EXPECT_ARGUMENT_CLOSING_BRACE, createLocation(openingBracePosition, this.clonePosition()));
-        }
-        switch (this.char()) {
-          case 125: {
-            this.bump();
-            return {
-              val: {
-                type: TYPE.argument,
-                // value does not include the opening and closing braces.
-                value: value2,
-                location: createLocation(openingBracePosition, this.clonePosition())
-              },
-              err: null
-            };
-          }
-          case 44: {
-            this.bump();
-            this.bumpSpace();
-            if (this.isEOF()) {
-              return this.error(ErrorKind.EXPECT_ARGUMENT_CLOSING_BRACE, createLocation(openingBracePosition, this.clonePosition()));
-            }
-            return this.parseArgumentOptions(nestingLevel, expectingCloseTag, value2, openingBracePosition);
-          }
-          default:
-            return this.error(ErrorKind.MALFORMED_ARGUMENT, createLocation(openingBracePosition, this.clonePosition()));
-        }
-      };
-      Parser2.prototype.parseIdentifierIfPossible = function() {
-        var startingPosition = this.clonePosition();
-        var startOffset = this.offset();
-        var value2 = matchIdentifierAtIndex(this.message, startOffset);
-        var endOffset = startOffset + value2.length;
-        this.bumpTo(endOffset);
-        var endPosition = this.clonePosition();
-        var location = createLocation(startingPosition, endPosition);
-        return { value: value2, location };
-      };
-      Parser2.prototype.parseArgumentOptions = function(nestingLevel, expectingCloseTag, value2, openingBracePosition) {
-        var _a2;
-        var typeStartPosition = this.clonePosition();
-        var argType = this.parseIdentifierIfPossible().value;
-        var typeEndPosition = this.clonePosition();
-        switch (argType) {
-          case "":
-            return this.error(ErrorKind.EXPECT_ARGUMENT_TYPE, createLocation(typeStartPosition, typeEndPosition));
-          case "number":
-          case "date":
-          case "time": {
-            this.bumpSpace();
-            var styleAndLocation = null;
-            if (this.bumpIf(",")) {
-              this.bumpSpace();
-              var styleStartPosition = this.clonePosition();
-              var result = this.parseSimpleArgStyleIfPossible();
-              if (result.err) {
-                return result;
-              }
-              var style = trimEnd(result.val);
-              if (style.length === 0) {
-                return this.error(ErrorKind.EXPECT_ARGUMENT_STYLE, createLocation(this.clonePosition(), this.clonePosition()));
-              }
-              var styleLocation = createLocation(styleStartPosition, this.clonePosition());
-              styleAndLocation = { style, styleLocation };
-            }
-            var argCloseResult = this.tryParseArgumentClose(openingBracePosition);
-            if (argCloseResult.err) {
-              return argCloseResult;
-            }
-            var location_1 = createLocation(openingBracePosition, this.clonePosition());
-            if (styleAndLocation && startsWith(styleAndLocation === null || styleAndLocation === void 0 ? void 0 : styleAndLocation.style, "::", 0)) {
-              var skeleton2 = trimStart(styleAndLocation.style.slice(2));
-              if (argType === "number") {
-                var result = this.parseNumberSkeletonFromString(skeleton2, styleAndLocation.styleLocation);
-                if (result.err) {
-                  return result;
-                }
-                return {
-                  val: { type: TYPE.number, value: value2, location: location_1, style: result.val },
-                  err: null
-                };
-              } else {
-                if (skeleton2.length === 0) {
-                  return this.error(ErrorKind.EXPECT_DATE_TIME_SKELETON, location_1);
-                }
-                var dateTimePattern = skeleton2;
-                if (this.locale) {
-                  dateTimePattern = getBestPattern(skeleton2, this.locale);
-                }
-                var style = {
-                  type: SKELETON_TYPE.dateTime,
-                  pattern: dateTimePattern,
-                  location: styleAndLocation.styleLocation,
-                  parsedOptions: this.shouldParseSkeletons ? parseDateTimeSkeleton(dateTimePattern) : {}
-                };
-                var type = argType === "date" ? TYPE.date : TYPE.time;
-                return {
-                  val: { type, value: value2, location: location_1, style },
-                  err: null
-                };
-              }
-            }
-            return {
-              val: {
-                type: argType === "number" ? TYPE.number : argType === "date" ? TYPE.date : TYPE.time,
-                value: value2,
-                location: location_1,
-                style: (_a2 = styleAndLocation === null || styleAndLocation === void 0 ? void 0 : styleAndLocation.style) !== null && _a2 !== void 0 ? _a2 : null
-              },
-              err: null
-            };
-          }
-          case "plural":
-          case "selectordinal":
-          case "select": {
-            var typeEndPosition_1 = this.clonePosition();
-            this.bumpSpace();
-            if (!this.bumpIf(",")) {
-              return this.error(ErrorKind.EXPECT_SELECT_ARGUMENT_OPTIONS, createLocation(typeEndPosition_1, __assign({}, typeEndPosition_1)));
-            }
-            this.bumpSpace();
-            var identifierAndLocation = this.parseIdentifierIfPossible();
-            var pluralOffset = 0;
-            if (argType !== "select" && identifierAndLocation.value === "offset") {
-              if (!this.bumpIf(":")) {
-                return this.error(ErrorKind.EXPECT_PLURAL_ARGUMENT_OFFSET_VALUE, createLocation(this.clonePosition(), this.clonePosition()));
-              }
-              this.bumpSpace();
-              var result = this.tryParseDecimalInteger(ErrorKind.EXPECT_PLURAL_ARGUMENT_OFFSET_VALUE, ErrorKind.INVALID_PLURAL_ARGUMENT_OFFSET_VALUE);
-              if (result.err) {
-                return result;
-              }
-              this.bumpSpace();
-              identifierAndLocation = this.parseIdentifierIfPossible();
-              pluralOffset = result.val;
-            }
-            var optionsResult = this.tryParsePluralOrSelectOptions(nestingLevel, argType, expectingCloseTag, identifierAndLocation);
-            if (optionsResult.err) {
-              return optionsResult;
-            }
-            var argCloseResult = this.tryParseArgumentClose(openingBracePosition);
-            if (argCloseResult.err) {
-              return argCloseResult;
-            }
-            var location_2 = createLocation(openingBracePosition, this.clonePosition());
-            if (argType === "select") {
-              return {
-                val: {
-                  type: TYPE.select,
-                  value: value2,
-                  options: fromEntries(optionsResult.val),
-                  location: location_2
-                },
-                err: null
-              };
-            } else {
-              return {
-                val: {
-                  type: TYPE.plural,
-                  value: value2,
-                  options: fromEntries(optionsResult.val),
-                  offset: pluralOffset,
-                  pluralType: argType === "plural" ? "cardinal" : "ordinal",
-                  location: location_2
-                },
-                err: null
-              };
-            }
-          }
-          default:
-            return this.error(ErrorKind.INVALID_ARGUMENT_TYPE, createLocation(typeStartPosition, typeEndPosition));
-        }
-      };
-      Parser2.prototype.tryParseArgumentClose = function(openingBracePosition) {
-        if (this.isEOF() || this.char() !== 125) {
-          return this.error(ErrorKind.EXPECT_ARGUMENT_CLOSING_BRACE, createLocation(openingBracePosition, this.clonePosition()));
-        }
-        this.bump();
-        return { val: true, err: null };
-      };
-      Parser2.prototype.parseSimpleArgStyleIfPossible = function() {
-        var nestedBraces = 0;
-        var startPosition = this.clonePosition();
-        while (!this.isEOF()) {
-          var ch = this.char();
-          switch (ch) {
-            case 39: {
-              this.bump();
-              var apostrophePosition = this.clonePosition();
-              if (!this.bumpUntil("'")) {
-                return this.error(ErrorKind.UNCLOSED_QUOTE_IN_ARGUMENT_STYLE, createLocation(apostrophePosition, this.clonePosition()));
-              }
-              this.bump();
-              break;
-            }
-            case 123: {
-              nestedBraces += 1;
-              this.bump();
-              break;
-            }
-            case 125: {
-              if (nestedBraces > 0) {
-                nestedBraces -= 1;
-              } else {
-                return {
-                  val: this.message.slice(startPosition.offset, this.offset()),
-                  err: null
-                };
-              }
-              break;
-            }
-            default:
-              this.bump();
-              break;
-          }
-        }
-        return {
-          val: this.message.slice(startPosition.offset, this.offset()),
-          err: null
-        };
-      };
-      Parser2.prototype.parseNumberSkeletonFromString = function(skeleton2, location) {
-        var tokens = [];
-        try {
-          tokens = parseNumberSkeletonFromString(skeleton2);
-        } catch (e) {
-          return this.error(ErrorKind.INVALID_NUMBER_SKELETON, location);
-        }
-        return {
-          val: {
-            type: SKELETON_TYPE.number,
-            tokens,
-            location,
-            parsedOptions: this.shouldParseSkeletons ? parseNumberSkeleton(tokens) : {}
-          },
-          err: null
-        };
-      };
-      Parser2.prototype.tryParsePluralOrSelectOptions = function(nestingLevel, parentArgType, expectCloseTag, parsedFirstIdentifier) {
-        var _a2;
-        var hasOtherClause = false;
-        var options = [];
-        var parsedSelectors = /* @__PURE__ */ new Set();
-        var selector = parsedFirstIdentifier.value, selectorLocation = parsedFirstIdentifier.location;
-        while (true) {
-          if (selector.length === 0) {
-            var startPosition = this.clonePosition();
-            if (parentArgType !== "select" && this.bumpIf("=")) {
-              var result = this.tryParseDecimalInteger(ErrorKind.EXPECT_PLURAL_ARGUMENT_SELECTOR, ErrorKind.INVALID_PLURAL_ARGUMENT_SELECTOR);
-              if (result.err) {
-                return result;
-              }
-              selectorLocation = createLocation(startPosition, this.clonePosition());
-              selector = this.message.slice(startPosition.offset, this.offset());
-            } else {
-              break;
-            }
-          }
-          if (parsedSelectors.has(selector)) {
-            return this.error(parentArgType === "select" ? ErrorKind.DUPLICATE_SELECT_ARGUMENT_SELECTOR : ErrorKind.DUPLICATE_PLURAL_ARGUMENT_SELECTOR, selectorLocation);
-          }
-          if (selector === "other") {
-            hasOtherClause = true;
-          }
-          this.bumpSpace();
-          var openingBracePosition = this.clonePosition();
-          if (!this.bumpIf("{")) {
-            return this.error(parentArgType === "select" ? ErrorKind.EXPECT_SELECT_ARGUMENT_SELECTOR_FRAGMENT : ErrorKind.EXPECT_PLURAL_ARGUMENT_SELECTOR_FRAGMENT, createLocation(this.clonePosition(), this.clonePosition()));
-          }
-          var fragmentResult = this.parseMessage(nestingLevel + 1, parentArgType, expectCloseTag);
-          if (fragmentResult.err) {
-            return fragmentResult;
-          }
-          var argCloseResult = this.tryParseArgumentClose(openingBracePosition);
-          if (argCloseResult.err) {
-            return argCloseResult;
-          }
-          options.push([
-            selector,
-            {
-              value: fragmentResult.val,
-              location: createLocation(openingBracePosition, this.clonePosition())
-            }
-          ]);
-          parsedSelectors.add(selector);
-          this.bumpSpace();
-          _a2 = this.parseIdentifierIfPossible(), selector = _a2.value, selectorLocation = _a2.location;
-        }
-        if (options.length === 0) {
-          return this.error(parentArgType === "select" ? ErrorKind.EXPECT_SELECT_ARGUMENT_SELECTOR : ErrorKind.EXPECT_PLURAL_ARGUMENT_SELECTOR, createLocation(this.clonePosition(), this.clonePosition()));
-        }
-        if (this.requiresOtherClause && !hasOtherClause) {
-          return this.error(ErrorKind.MISSING_OTHER_CLAUSE, createLocation(this.clonePosition(), this.clonePosition()));
-        }
-        return { val: options, err: null };
-      };
-      Parser2.prototype.tryParseDecimalInteger = function(expectNumberError, invalidNumberError) {
-        var sign2 = 1;
-        var startingPosition = this.clonePosition();
-        if (this.bumpIf("+")) ;
-        else if (this.bumpIf("-")) {
-          sign2 = -1;
-        }
-        var hasDigits = false;
-        var decimal2 = 0;
-        while (!this.isEOF()) {
-          var ch = this.char();
-          if (ch >= 48 && ch <= 57) {
-            hasDigits = true;
-            decimal2 = decimal2 * 10 + (ch - 48);
-            this.bump();
-          } else {
-            break;
-          }
-        }
-        var location = createLocation(startingPosition, this.clonePosition());
-        if (!hasDigits) {
-          return this.error(expectNumberError, location);
-        }
-        decimal2 *= sign2;
-        if (!isSafeInteger(decimal2)) {
-          return this.error(invalidNumberError, location);
-        }
-        return { val: decimal2, err: null };
-      };
-      Parser2.prototype.offset = function() {
-        return this.position.offset;
-      };
-      Parser2.prototype.isEOF = function() {
-        return this.offset() === this.message.length;
-      };
-      Parser2.prototype.clonePosition = function() {
-        return {
-          offset: this.position.offset,
-          line: this.position.line,
-          column: this.position.column
-        };
-      };
-      Parser2.prototype.char = function() {
-        var offset = this.position.offset;
-        if (offset >= this.message.length) {
-          throw Error("out of bound");
-        }
-        var code2 = codePointAt(this.message, offset);
-        if (code2 === void 0) {
-          throw Error("Offset ".concat(offset, " is at invalid UTF-16 code unit boundary"));
-        }
-        return code2;
-      };
-      Parser2.prototype.error = function(kind, location) {
-        return {
-          val: null,
-          err: {
-            kind,
-            message: this.message,
-            location
-          }
-        };
-      };
-      Parser2.prototype.bump = function() {
-        if (this.isEOF()) {
-          return;
-        }
-        var code2 = this.char();
-        if (code2 === 10) {
-          this.position.line += 1;
-          this.position.column = 1;
-          this.position.offset += 1;
-        } else {
-          this.position.column += 1;
-          this.position.offset += code2 < 65536 ? 1 : 2;
-        }
-      };
-      Parser2.prototype.bumpIf = function(prefix) {
-        if (startsWith(this.message, prefix, this.offset())) {
-          for (var i = 0; i < prefix.length; i++) {
-            this.bump();
-          }
-          return true;
-        }
-        return false;
-      };
-      Parser2.prototype.bumpUntil = function(pattern) {
-        var currentOffset = this.offset();
-        var index = this.message.indexOf(pattern, currentOffset);
-        if (index >= 0) {
-          this.bumpTo(index);
-          return true;
-        } else {
-          this.bumpTo(this.message.length);
-          return false;
-        }
-      };
-      Parser2.prototype.bumpTo = function(targetOffset) {
-        if (this.offset() > targetOffset) {
-          throw Error("targetOffset ".concat(targetOffset, " must be greater than or equal to the current offset ").concat(this.offset()));
-        }
-        targetOffset = Math.min(targetOffset, this.message.length);
-        while (true) {
-          var offset = this.offset();
-          if (offset === targetOffset) {
-            break;
-          }
-          if (offset > targetOffset) {
-            throw Error("targetOffset ".concat(targetOffset, " is at invalid UTF-16 code unit boundary"));
-          }
-          this.bump();
-          if (this.isEOF()) {
-            break;
-          }
-        }
-      };
-      Parser2.prototype.bumpSpace = function() {
-        while (!this.isEOF() && _isWhiteSpace(this.char())) {
-          this.bump();
-        }
-      };
-      Parser2.prototype.peek = function() {
-        if (this.isEOF()) {
-          return null;
-        }
-        var code2 = this.char();
-        var offset = this.offset();
-        var nextCode = this.message.charCodeAt(offset + (code2 >= 65536 ? 2 : 1));
-        return nextCode !== null && nextCode !== void 0 ? nextCode : null;
-      };
-      return Parser2;
-    }()
-  );
-  function _isAlpha(codepoint) {
-    return codepoint >= 97 && codepoint <= 122 || codepoint >= 65 && codepoint <= 90;
-  }
-  function _isAlphaOrSlash(codepoint) {
-    return _isAlpha(codepoint) || codepoint === 47;
-  }
-  function _isPotentialElementNameChar(c) {
-    return c === 45 || c === 46 || c >= 48 && c <= 57 || c === 95 || c >= 97 && c <= 122 || c >= 65 && c <= 90 || c == 183 || c >= 192 && c <= 214 || c >= 216 && c <= 246 || c >= 248 && c <= 893 || c >= 895 && c <= 8191 || c >= 8204 && c <= 8205 || c >= 8255 && c <= 8256 || c >= 8304 && c <= 8591 || c >= 11264 && c <= 12271 || c >= 12289 && c <= 55295 || c >= 63744 && c <= 64975 || c >= 65008 && c <= 65533 || c >= 65536 && c <= 983039;
-  }
-  function _isWhiteSpace(c) {
-    return c >= 9 && c <= 13 || c === 32 || c === 133 || c >= 8206 && c <= 8207 || c === 8232 || c === 8233;
-  }
-  function _isPatternSyntax(c) {
-    return c >= 33 && c <= 35 || c === 36 || c >= 37 && c <= 39 || c === 40 || c === 41 || c === 42 || c === 43 || c === 44 || c === 45 || c >= 46 && c <= 47 || c >= 58 && c <= 59 || c >= 60 && c <= 62 || c >= 63 && c <= 64 || c === 91 || c === 92 || c === 93 || c === 94 || c === 96 || c === 123 || c === 124 || c === 125 || c === 126 || c === 161 || c >= 162 && c <= 165 || c === 166 || c === 167 || c === 169 || c === 171 || c === 172 || c === 174 || c === 176 || c === 177 || c === 182 || c === 187 || c === 191 || c === 215 || c === 247 || c >= 8208 && c <= 8213 || c >= 8214 && c <= 8215 || c === 8216 || c === 8217 || c === 8218 || c >= 8219 && c <= 8220 || c === 8221 || c === 8222 || c === 8223 || c >= 8224 && c <= 8231 || c >= 8240 && c <= 8248 || c === 8249 || c === 8250 || c >= 8251 && c <= 8254 || c >= 8257 && c <= 8259 || c === 8260 || c === 8261 || c === 8262 || c >= 8263 && c <= 8273 || c === 8274 || c === 8275 || c >= 8277 && c <= 8286 || c >= 8592 && c <= 8596 || c >= 8597 && c <= 8601 || c >= 8602 && c <= 8603 || c >= 8604 && c <= 8607 || c === 8608 || c >= 8609 && c <= 8610 || c === 8611 || c >= 8612 && c <= 8613 || c === 8614 || c >= 8615 && c <= 8621 || c === 8622 || c >= 8623 && c <= 8653 || c >= 8654 && c <= 8655 || c >= 8656 && c <= 8657 || c === 8658 || c === 8659 || c === 8660 || c >= 8661 && c <= 8691 || c >= 8692 && c <= 8959 || c >= 8960 && c <= 8967 || c === 8968 || c === 8969 || c === 8970 || c === 8971 || c >= 8972 && c <= 8991 || c >= 8992 && c <= 8993 || c >= 8994 && c <= 9e3 || c === 9001 || c === 9002 || c >= 9003 && c <= 9083 || c === 9084 || c >= 9085 && c <= 9114 || c >= 9115 && c <= 9139 || c >= 9140 && c <= 9179 || c >= 9180 && c <= 9185 || c >= 9186 && c <= 9254 || c >= 9255 && c <= 9279 || c >= 9280 && c <= 9290 || c >= 9291 && c <= 9311 || c >= 9472 && c <= 9654 || c === 9655 || c >= 9656 && c <= 9664 || c === 9665 || c >= 9666 && c <= 9719 || c >= 9720 && c <= 9727 || c >= 9728 && c <= 9838 || c === 9839 || c >= 9840 && c <= 10087 || c === 10088 || c === 10089 || c === 10090 || c === 10091 || c === 10092 || c === 10093 || c === 10094 || c === 10095 || c === 10096 || c === 10097 || c === 10098 || c === 10099 || c === 10100 || c === 10101 || c >= 10132 && c <= 10175 || c >= 10176 && c <= 10180 || c === 10181 || c === 10182 || c >= 10183 && c <= 10213 || c === 10214 || c === 10215 || c === 10216 || c === 10217 || c === 10218 || c === 10219 || c === 10220 || c === 10221 || c === 10222 || c === 10223 || c >= 10224 && c <= 10239 || c >= 10240 && c <= 10495 || c >= 10496 && c <= 10626 || c === 10627 || c === 10628 || c === 10629 || c === 10630 || c === 10631 || c === 10632 || c === 10633 || c === 10634 || c === 10635 || c === 10636 || c === 10637 || c === 10638 || c === 10639 || c === 10640 || c === 10641 || c === 10642 || c === 10643 || c === 10644 || c === 10645 || c === 10646 || c === 10647 || c === 10648 || c >= 10649 && c <= 10711 || c === 10712 || c === 10713 || c === 10714 || c === 10715 || c >= 10716 && c <= 10747 || c === 10748 || c === 10749 || c >= 10750 && c <= 11007 || c >= 11008 && c <= 11055 || c >= 11056 && c <= 11076 || c >= 11077 && c <= 11078 || c >= 11079 && c <= 11084 || c >= 11085 && c <= 11123 || c >= 11124 && c <= 11125 || c >= 11126 && c <= 11157 || c === 11158 || c >= 11159 && c <= 11263 || c >= 11776 && c <= 11777 || c === 11778 || c === 11779 || c === 11780 || c === 11781 || c >= 11782 && c <= 11784 || c === 11785 || c === 11786 || c === 11787 || c === 11788 || c === 11789 || c >= 11790 && c <= 11798 || c === 11799 || c >= 11800 && c <= 11801 || c === 11802 || c === 11803 || c === 11804 || c === 11805 || c >= 11806 && c <= 11807 || c === 11808 || c === 11809 || c === 11810 || c === 11811 || c === 11812 || c === 11813 || c === 11814 || c === 11815 || c === 11816 || c === 11817 || c >= 11818 && c <= 11822 || c === 11823 || c >= 11824 && c <= 11833 || c >= 11834 && c <= 11835 || c >= 11836 && c <= 11839 || c === 11840 || c === 11841 || c === 11842 || c >= 11843 && c <= 11855 || c >= 11856 && c <= 11857 || c === 11858 || c >= 11859 && c <= 11903 || c >= 12289 && c <= 12291 || c === 12296 || c === 12297 || c === 12298 || c === 12299 || c === 12300 || c === 12301 || c === 12302 || c === 12303 || c === 12304 || c === 12305 || c >= 12306 && c <= 12307 || c === 12308 || c === 12309 || c === 12310 || c === 12311 || c === 12312 || c === 12313 || c === 12314 || c === 12315 || c === 12316 || c === 12317 || c >= 12318 && c <= 12319 || c === 12320 || c === 12336 || c === 64830 || c === 64831 || c >= 65093 && c <= 65094;
-  }
-  function pruneLocation(els) {
-    els.forEach(function(el) {
-      delete el.location;
-      if (isSelectElement(el) || isPluralElement(el)) {
-        for (var k in el.options) {
-          delete el.options[k].location;
-          pruneLocation(el.options[k].value);
-        }
-      } else if (isNumberElement(el) && isNumberSkeleton(el.style)) {
-        delete el.style.location;
-      } else if ((isDateElement(el) || isTimeElement(el)) && isDateTimeSkeleton(el.style)) {
-        delete el.style.location;
-      } else if (isTagElement(el)) {
-        pruneLocation(el.children);
-      }
-    });
-  }
-  function parse(message, opts) {
-    if (opts === void 0) {
-      opts = {};
-    }
-    opts = __assign({ shouldParseSkeletons: true, requiresOtherClause: true }, opts);
-    var result = new Parser(message, opts).parse();
-    if (result.err) {
-      var error = SyntaxError(ErrorKind[result.err.kind]);
-      error.location = result.err.location;
-      error.originalMessage = result.err.message;
-      throw error;
-    }
-    if (!(opts === null || opts === void 0 ? void 0 : opts.captureLocation)) {
-      pruneLocation(result.val);
-    }
-    return result.val;
-  }
-  var ErrorCode;
-  (function(ErrorCode2) {
-    ErrorCode2["MISSING_VALUE"] = "MISSING_VALUE";
-    ErrorCode2["INVALID_VALUE"] = "INVALID_VALUE";
-    ErrorCode2["MISSING_INTL_API"] = "MISSING_INTL_API";
-  })(ErrorCode || (ErrorCode = {}));
-  var FormatError = (
-    /** @class */
-    function(_super) {
-      __extends(FormatError2, _super);
-      function FormatError2(msg, code2, originalMessage) {
-        var _this = _super.call(this, msg) || this;
-        _this.code = code2;
-        _this.originalMessage = originalMessage;
-        return _this;
-      }
-      FormatError2.prototype.toString = function() {
-        return "[formatjs Error: ".concat(this.code, "] ").concat(this.message);
-      };
-      return FormatError2;
-    }(Error)
-  );
-  var InvalidValueError = (
-    /** @class */
-    function(_super) {
-      __extends(InvalidValueError2, _super);
-      function InvalidValueError2(variableId, value2, options, originalMessage) {
-        return _super.call(this, 'Invalid values for "'.concat(variableId, '": "').concat(value2, '". Options are "').concat(Object.keys(options).join('", "'), '"'), ErrorCode.INVALID_VALUE, originalMessage) || this;
-      }
-      return InvalidValueError2;
-    }(FormatError)
-  );
-  var InvalidValueTypeError = (
-    /** @class */
-    function(_super) {
-      __extends(InvalidValueTypeError2, _super);
-      function InvalidValueTypeError2(value2, type, originalMessage) {
-        return _super.call(this, 'Value for "'.concat(value2, '" must be of type ').concat(type), ErrorCode.INVALID_VALUE, originalMessage) || this;
-      }
-      return InvalidValueTypeError2;
-    }(FormatError)
-  );
-  var MissingValueError = (
-    /** @class */
-    function(_super) {
-      __extends(MissingValueError2, _super);
-      function MissingValueError2(variableId, originalMessage) {
-        return _super.call(this, 'The intl string context variable "'.concat(variableId, '" was not provided to the string "').concat(originalMessage, '"'), ErrorCode.MISSING_VALUE, originalMessage) || this;
-      }
-      return MissingValueError2;
-    }(FormatError)
-  );
-  var PART_TYPE;
-  (function(PART_TYPE2) {
-    PART_TYPE2[PART_TYPE2["literal"] = 0] = "literal";
-    PART_TYPE2[PART_TYPE2["object"] = 1] = "object";
-  })(PART_TYPE || (PART_TYPE = {}));
-  function mergeLiteral(parts) {
-    if (parts.length < 2) {
-      return parts;
-    }
-    return parts.reduce(function(all, part) {
-      var lastPart = all[all.length - 1];
-      if (!lastPart || lastPart.type !== PART_TYPE.literal || part.type !== PART_TYPE.literal) {
-        all.push(part);
-      } else {
-        lastPart.value += part.value;
-      }
-      return all;
-    }, []);
-  }
-  function isFormatXMLElementFn(el) {
-    return typeof el === "function";
-  }
-  function formatToParts(els, locales, formatters, formats, values, currentPluralValue, originalMessage) {
-    if (els.length === 1 && isLiteralElement(els[0])) {
-      return [
-        {
-          type: PART_TYPE.literal,
-          value: els[0].value
-        }
-      ];
-    }
-    var result = [];
-    for (var _i = 0, els_1 = els; _i < els_1.length; _i++) {
-      var el = els_1[_i];
-      if (isLiteralElement(el)) {
-        result.push({
-          type: PART_TYPE.literal,
-          value: el.value
-        });
-        continue;
-      }
-      if (isPoundElement(el)) {
-        if (typeof currentPluralValue === "number") {
-          result.push({
-            type: PART_TYPE.literal,
-            value: formatters.getNumberFormat(locales).format(currentPluralValue)
-          });
-        }
-        continue;
-      }
-      var varName = el.value;
-      if (!(values && varName in values)) {
-        throw new MissingValueError(varName, originalMessage);
-      }
-      var value2 = values[varName];
-      if (isArgumentElement(el)) {
-        if (!value2 || typeof value2 === "string" || typeof value2 === "number") {
-          value2 = typeof value2 === "string" || typeof value2 === "number" ? String(value2) : "";
-        }
-        result.push({
-          type: typeof value2 === "string" ? PART_TYPE.literal : PART_TYPE.object,
-          value: value2
-        });
-        continue;
-      }
-      if (isDateElement(el)) {
-        var style = typeof el.style === "string" ? formats.date[el.style] : isDateTimeSkeleton(el.style) ? el.style.parsedOptions : void 0;
-        result.push({
-          type: PART_TYPE.literal,
-          value: formatters.getDateTimeFormat(locales, style).format(value2)
-        });
-        continue;
-      }
-      if (isTimeElement(el)) {
-        var style = typeof el.style === "string" ? formats.time[el.style] : isDateTimeSkeleton(el.style) ? el.style.parsedOptions : formats.time.medium;
-        result.push({
-          type: PART_TYPE.literal,
-          value: formatters.getDateTimeFormat(locales, style).format(value2)
-        });
-        continue;
-      }
-      if (isNumberElement(el)) {
-        var style = typeof el.style === "string" ? formats.number[el.style] : isNumberSkeleton(el.style) ? el.style.parsedOptions : void 0;
-        if (style && style.scale) {
-          value2 = value2 * (style.scale || 1);
-        }
-        result.push({
-          type: PART_TYPE.literal,
-          value: formatters.getNumberFormat(locales, style).format(value2)
-        });
-        continue;
-      }
-      if (isTagElement(el)) {
-        var children = el.children, value_1 = el.value;
-        var formatFn = values[value_1];
-        if (!isFormatXMLElementFn(formatFn)) {
-          throw new InvalidValueTypeError(value_1, "function", originalMessage);
-        }
-        var parts = formatToParts(children, locales, formatters, formats, values, currentPluralValue);
-        var chunks = formatFn(parts.map(function(p) {
-          return p.value;
-        }));
-        if (!Array.isArray(chunks)) {
-          chunks = [chunks];
-        }
-        result.push.apply(result, chunks.map(function(c) {
-          return {
-            type: typeof c === "string" ? PART_TYPE.literal : PART_TYPE.object,
-            value: c
-          };
-        }));
-      }
-      if (isSelectElement(el)) {
-        var opt = el.options[value2] || el.options.other;
-        if (!opt) {
-          throw new InvalidValueError(el.value, value2, Object.keys(el.options), originalMessage);
-        }
-        result.push.apply(result, formatToParts(opt.value, locales, formatters, formats, values));
-        continue;
-      }
-      if (isPluralElement(el)) {
-        var opt = el.options["=".concat(value2)];
-        if (!opt) {
-          if (!Intl.PluralRules) {
-            throw new FormatError('Intl.PluralRules is not available in this environment.\nTry polyfilling it using "@formatjs/intl-pluralrules"\n', ErrorCode.MISSING_INTL_API, originalMessage);
-          }
-          var rule = formatters.getPluralRules(locales, { type: el.pluralType }).select(value2 - (el.offset || 0));
-          opt = el.options[rule] || el.options.other;
-        }
-        if (!opt) {
-          throw new InvalidValueError(el.value, value2, Object.keys(el.options), originalMessage);
-        }
-        result.push.apply(result, formatToParts(opt.value, locales, formatters, formats, values, value2 - (el.offset || 0)));
-        continue;
-      }
-    }
-    return mergeLiteral(result);
-  }
-  function mergeConfig(c1, c2) {
-    if (!c2) {
-      return c1;
-    }
-    return __assign(__assign(__assign({}, c1 || {}), c2 || {}), Object.keys(c1).reduce(function(all, k) {
-      all[k] = __assign(__assign({}, c1[k]), c2[k] || {});
-      return all;
-    }, {}));
-  }
-  function mergeConfigs(defaultConfig, configs) {
-    if (!configs) {
-      return defaultConfig;
-    }
-    return Object.keys(defaultConfig).reduce(function(all, k) {
-      all[k] = mergeConfig(defaultConfig[k], configs[k]);
-      return all;
-    }, __assign({}, defaultConfig));
-  }
-  function createFastMemoizeCache$1(store) {
-    return {
-      create: function() {
-        return {
-          get: function(key) {
-            return store[key];
-          },
-          set: function(key, value2) {
-            store[key] = value2;
-          }
-        };
-      }
-    };
-  }
-  function createDefaultFormatters(cache) {
-    if (cache === void 0) {
-      cache = {
-        number: {},
-        dateTime: {},
-        pluralRules: {}
-      };
-    }
-    return {
-      getNumberFormat: memoize(function() {
-        var _a2;
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-          args[_i] = arguments[_i];
-        }
-        return new ((_a2 = Intl.NumberFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
-      }, {
-        cache: createFastMemoizeCache$1(cache.number),
-        strategy: strategies.variadic
-      }),
-      getDateTimeFormat: memoize(function() {
-        var _a2;
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-          args[_i] = arguments[_i];
-        }
-        return new ((_a2 = Intl.DateTimeFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
-      }, {
-        cache: createFastMemoizeCache$1(cache.dateTime),
-        strategy: strategies.variadic
-      }),
-      getPluralRules: memoize(function() {
-        var _a2;
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-          args[_i] = arguments[_i];
-        }
-        return new ((_a2 = Intl.PluralRules).bind.apply(_a2, __spreadArray([void 0], args, false)))();
-      }, {
-        cache: createFastMemoizeCache$1(cache.pluralRules),
-        strategy: strategies.variadic
-      })
-    };
-  }
-  var IntlMessageFormat = (
-    /** @class */
-    function() {
-      function IntlMessageFormat2(message, locales, overrideFormats, opts) {
-        if (locales === void 0) {
-          locales = IntlMessageFormat2.defaultLocale;
-        }
-        var _this = this;
-        this.formatterCache = {
-          number: {},
-          dateTime: {},
-          pluralRules: {}
-        };
-        this.format = function(values) {
-          var parts = _this.formatToParts(values);
-          if (parts.length === 1) {
-            return parts[0].value;
-          }
-          var result = parts.reduce(function(all, part) {
-            if (!all.length || part.type !== PART_TYPE.literal || typeof all[all.length - 1] !== "string") {
-              all.push(part.value);
-            } else {
-              all[all.length - 1] += part.value;
-            }
-            return all;
-          }, []);
-          if (result.length <= 1) {
-            return result[0] || "";
-          }
-          return result;
-        };
-        this.formatToParts = function(values) {
-          return formatToParts(_this.ast, _this.locales, _this.formatters, _this.formats, values, void 0, _this.message);
-        };
-        this.resolvedOptions = function() {
-          var _a3;
-          return {
-            locale: ((_a3 = _this.resolvedLocale) === null || _a3 === void 0 ? void 0 : _a3.toString()) || Intl.NumberFormat.supportedLocalesOf(_this.locales)[0]
-          };
-        };
-        this.getAst = function() {
-          return _this.ast;
-        };
-        this.locales = locales;
-        this.resolvedLocale = IntlMessageFormat2.resolveLocale(locales);
-        if (typeof message === "string") {
-          this.message = message;
-          if (!IntlMessageFormat2.__parse) {
-            throw new TypeError("IntlMessageFormat.__parse must be set to process `message` of type `string`");
-          }
-          var _a2 = opts || {};
-          _a2.formatters;
-          var parseOpts = __rest(_a2, ["formatters"]);
-          this.ast = IntlMessageFormat2.__parse(message, __assign(__assign({}, parseOpts), { locale: this.resolvedLocale }));
-        } else {
-          this.ast = message;
-        }
-        if (!Array.isArray(this.ast)) {
-          throw new TypeError("A message must be provided as a String or AST.");
-        }
-        this.formats = mergeConfigs(IntlMessageFormat2.formats, overrideFormats);
-        this.formatters = opts && opts.formatters || createDefaultFormatters(this.formatterCache);
-      }
-      Object.defineProperty(IntlMessageFormat2, "defaultLocale", {
-        get: function() {
-          if (!IntlMessageFormat2.memoizedDefaultLocale) {
-            IntlMessageFormat2.memoizedDefaultLocale = new Intl.NumberFormat().resolvedOptions().locale;
-          }
-          return IntlMessageFormat2.memoizedDefaultLocale;
-        },
-        enumerable: false,
-        configurable: true
-      });
-      IntlMessageFormat2.memoizedDefaultLocale = null;
-      IntlMessageFormat2.resolveLocale = function(locales) {
-        if (typeof Intl.Locale === "undefined") {
-          return;
-        }
-        var supportedLocales = Intl.NumberFormat.supportedLocalesOf(locales);
-        if (supportedLocales.length > 0) {
-          return new Intl.Locale(supportedLocales[0]);
-        }
-        return new Intl.Locale(typeof locales === "string" ? locales : locales[0]);
-      };
-      IntlMessageFormat2.__parse = parse;
-      IntlMessageFormat2.formats = {
-        number: {
-          integer: {
-            maximumFractionDigits: 0
-          },
-          currency: {
-            style: "currency"
-          },
-          percent: {
-            style: "percent"
-          }
-        },
-        date: {
-          short: {
-            month: "numeric",
-            day: "numeric",
-            year: "2-digit"
-          },
-          medium: {
-            month: "short",
-            day: "numeric",
-            year: "numeric"
-          },
-          long: {
-            month: "long",
-            day: "numeric",
-            year: "numeric"
-          },
-          full: {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-            year: "numeric"
-          }
-        },
-        time: {
-          short: {
-            hour: "numeric",
-            minute: "numeric"
-          },
-          medium: {
-            hour: "numeric",
-            minute: "numeric",
-            second: "numeric"
-          },
-          long: {
-            hour: "numeric",
-            minute: "numeric",
-            second: "numeric",
-            timeZoneName: "short"
-          },
-          full: {
-            hour: "numeric",
-            minute: "numeric",
-            second: "numeric",
-            timeZoneName: "short"
-          }
-        }
-      };
-      return IntlMessageFormat2;
-    }()
-  );
-  var IntlErrorCode;
-  (function(IntlErrorCode2) {
-    IntlErrorCode2["FORMAT_ERROR"] = "FORMAT_ERROR";
-    IntlErrorCode2["UNSUPPORTED_FORMATTER"] = "UNSUPPORTED_FORMATTER";
-    IntlErrorCode2["INVALID_CONFIG"] = "INVALID_CONFIG";
-    IntlErrorCode2["MISSING_DATA"] = "MISSING_DATA";
-    IntlErrorCode2["MISSING_TRANSLATION"] = "MISSING_TRANSLATION";
-  })(IntlErrorCode || (IntlErrorCode = {}));
-  var IntlError = (
-    /** @class */
-    function(_super) {
-      __extends(IntlError2, _super);
-      function IntlError2(code2, message, exception) {
-        var _this = this;
-        var err = exception ? exception instanceof Error ? exception : new Error(String(exception)) : void 0;
-        _this = _super.call(this, "[@formatjs/intl Error ".concat(code2, "] ").concat(message, "\n").concat(err ? "\n".concat(err.message, "\n").concat(err.stack) : "")) || this;
-        _this.code = code2;
-        if (typeof Error.captureStackTrace === "function") {
-          Error.captureStackTrace(_this, IntlError2);
-        }
-        return _this;
-      }
-      return IntlError2;
-    }(Error)
-  );
-  var UnsupportedFormatterError = (
-    /** @class */
-    function(_super) {
-      __extends(UnsupportedFormatterError2, _super);
-      function UnsupportedFormatterError2(message, exception) {
-        return _super.call(this, IntlErrorCode.UNSUPPORTED_FORMATTER, message, exception) || this;
-      }
-      return UnsupportedFormatterError2;
-    }(IntlError)
-  );
-  var InvalidConfigError = (
-    /** @class */
-    function(_super) {
-      __extends(InvalidConfigError2, _super);
-      function InvalidConfigError2(message, exception) {
-        return _super.call(this, IntlErrorCode.INVALID_CONFIG, message, exception) || this;
-      }
-      return InvalidConfigError2;
-    }(IntlError)
-  );
-  var MissingDataError = (
-    /** @class */
-    function(_super) {
-      __extends(MissingDataError2, _super);
-      function MissingDataError2(message, exception) {
-        return _super.call(this, IntlErrorCode.MISSING_DATA, message, exception) || this;
-      }
-      return MissingDataError2;
-    }(IntlError)
-  );
-  var IntlFormatError = (
-    /** @class */
-    function(_super) {
-      __extends(IntlFormatError2, _super);
-      function IntlFormatError2(message, locale, exception) {
-        var _this = _super.call(this, IntlErrorCode.FORMAT_ERROR, "".concat(message, "\nLocale: ").concat(locale, "\n"), exception) || this;
-        _this.locale = locale;
-        return _this;
-      }
-      return IntlFormatError2;
-    }(IntlError)
-  );
-  var MessageFormatError = (
-    /** @class */
-    function(_super) {
-      __extends(MessageFormatError2, _super);
-      function MessageFormatError2(message, locale, descriptor, exception) {
-        var _this = _super.call(this, "".concat(message, "\nMessageID: ").concat(descriptor === null || descriptor === void 0 ? void 0 : descriptor.id, "\nDefault Message: ").concat(descriptor === null || descriptor === void 0 ? void 0 : descriptor.defaultMessage, "\nDescription: ").concat(descriptor === null || descriptor === void 0 ? void 0 : descriptor.description, "\n"), locale, exception) || this;
-        _this.descriptor = descriptor;
-        _this.locale = locale;
-        return _this;
-      }
-      return MessageFormatError2;
-    }(IntlFormatError)
-  );
-  var MissingTranslationError = (
-    /** @class */
-    function(_super) {
-      __extends(MissingTranslationError2, _super);
-      function MissingTranslationError2(descriptor, locale) {
-        var _this = _super.call(this, IntlErrorCode.MISSING_TRANSLATION, 'Missing message: "'.concat(descriptor.id, '" for locale "').concat(locale, '", using ').concat(descriptor.defaultMessage ? "default message (".concat(typeof descriptor.defaultMessage === "string" ? descriptor.defaultMessage : descriptor.defaultMessage.map(function(e) {
-          var _a2;
-          return (_a2 = e.value) !== null && _a2 !== void 0 ? _a2 : JSON.stringify(e);
-        }).join(), ")") : "id", " as fallback.")) || this;
-        _this.descriptor = descriptor;
-        return _this;
-      }
-      return MissingTranslationError2;
-    }(IntlError)
-  );
-  function invariant(condition, message, Err) {
-    if (Err === void 0) {
-      Err = Error;
-    }
-    if (!condition) {
-      throw new Err(message);
-    }
-  }
-  function filterProps(props, allowlist, defaults2) {
-    if (defaults2 === void 0) {
-      defaults2 = {};
-    }
-    return allowlist.reduce(function(filtered, name) {
-      if (name in props) {
-        filtered[name] = props[name];
-      } else if (name in defaults2) {
-        filtered[name] = defaults2[name];
-      }
-      return filtered;
-    }, {});
-  }
-  var defaultErrorHandler = function(error) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error(error);
-    }
-  };
-  var defaultWarnHandler = function(warning) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn(warning);
-    }
-  };
-  var DEFAULT_INTL_CONFIG = {
-    formats: {},
-    messages: {},
-    timeZone: void 0,
-    defaultLocale: "en",
-    defaultFormats: {},
-    fallbackOnEmptyString: true,
-    onError: defaultErrorHandler,
-    onWarn: defaultWarnHandler
-  };
-  function createIntlCache() {
-    return {
-      dateTime: {},
-      number: {},
-      message: {},
-      relativeTime: {},
-      pluralRules: {},
-      list: {},
-      displayNames: {}
-    };
-  }
-  function createFastMemoizeCache(store) {
-    return {
-      create: function() {
-        return {
-          get: function(key) {
-            return store[key];
-          },
-          set: function(key, value2) {
-            store[key] = value2;
-          }
-        };
-      }
-    };
-  }
-  function createFormatters(cache) {
-    if (cache === void 0) {
-      cache = createIntlCache();
-    }
-    var RelativeTimeFormat = Intl.RelativeTimeFormat;
-    var ListFormat = Intl.ListFormat;
-    var DisplayNames = Intl.DisplayNames;
-    var getDateTimeFormat = memoize(function() {
-      var _a2;
-      var args = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-      }
-      return new ((_a2 = Intl.DateTimeFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
-    }, {
-      cache: createFastMemoizeCache(cache.dateTime),
-      strategy: strategies.variadic
-    });
-    var getNumberFormat = memoize(function() {
-      var _a2;
-      var args = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-      }
-      return new ((_a2 = Intl.NumberFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
-    }, {
-      cache: createFastMemoizeCache(cache.number),
-      strategy: strategies.variadic
-    });
-    var getPluralRules = memoize(function() {
-      var _a2;
-      var args = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-      }
-      return new ((_a2 = Intl.PluralRules).bind.apply(_a2, __spreadArray([void 0], args, false)))();
-    }, {
-      cache: createFastMemoizeCache(cache.pluralRules),
-      strategy: strategies.variadic
-    });
-    return {
-      getDateTimeFormat,
-      getNumberFormat,
-      getMessageFormat: memoize(function(message, locales, overrideFormats, opts) {
-        return new IntlMessageFormat(message, locales, overrideFormats, __assign({ formatters: {
-          getNumberFormat,
-          getDateTimeFormat,
-          getPluralRules
-        } }, opts || {}));
-      }, {
-        cache: createFastMemoizeCache(cache.message),
-        strategy: strategies.variadic
-      }),
-      getRelativeTimeFormat: memoize(function() {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-          args[_i] = arguments[_i];
-        }
-        return new (RelativeTimeFormat.bind.apply(RelativeTimeFormat, __spreadArray([void 0], args, false)))();
-      }, {
-        cache: createFastMemoizeCache(cache.relativeTime),
-        strategy: strategies.variadic
-      }),
-      getPluralRules,
-      getListFormat: memoize(function() {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-          args[_i] = arguments[_i];
-        }
-        return new (ListFormat.bind.apply(ListFormat, __spreadArray([void 0], args, false)))();
-      }, {
-        cache: createFastMemoizeCache(cache.list),
-        strategy: strategies.variadic
-      }),
-      getDisplayNames: memoize(function() {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-          args[_i] = arguments[_i];
-        }
-        return new (DisplayNames.bind.apply(DisplayNames, __spreadArray([void 0], args, false)))();
-      }, {
-        cache: createFastMemoizeCache(cache.displayNames),
-        strategy: strategies.variadic
-      })
-    };
-  }
-  function getNamedFormat(formats, type, name, onError) {
-    var formatType = formats && formats[type];
-    var format2;
-    if (formatType) {
-      format2 = formatType[name];
-    }
-    if (format2) {
-      return format2;
-    }
-    onError(new UnsupportedFormatterError("No ".concat(type, " format named: ").concat(name)));
-  }
-  function setTimeZoneInOptions(opts, timeZone) {
-    return Object.keys(opts).reduce(function(all, k) {
-      all[k] = __assign({ timeZone }, opts[k]);
-      return all;
-    }, {});
-  }
-  function deepMergeOptions(opts1, opts2) {
-    var keys = Object.keys(__assign(__assign({}, opts1), opts2));
-    return keys.reduce(function(all, k) {
-      all[k] = __assign(__assign({}, opts1[k] || {}), opts2[k] || {});
-      return all;
-    }, {});
-  }
-  function deepMergeFormatsAndSetTimeZone(f1, timeZone) {
-    if (!timeZone) {
-      return f1;
-    }
-    var mfFormats = IntlMessageFormat.formats;
-    return __assign(__assign(__assign({}, mfFormats), f1), { date: deepMergeOptions(setTimeZoneInOptions(mfFormats.date, timeZone), setTimeZoneInOptions(f1.date || {}, timeZone)), time: deepMergeOptions(setTimeZoneInOptions(mfFormats.time, timeZone), setTimeZoneInOptions(f1.time || {}, timeZone)) });
-  }
-  var formatMessage = function(_a2, state, messageDescriptor, values, opts) {
-    var locale = _a2.locale, formats = _a2.formats, messages = _a2.messages, defaultLocale2 = _a2.defaultLocale, defaultFormats = _a2.defaultFormats, fallbackOnEmptyString = _a2.fallbackOnEmptyString, onError = _a2.onError, timeZone = _a2.timeZone, defaultRichTextElements = _a2.defaultRichTextElements;
-    if (messageDescriptor === void 0) {
-      messageDescriptor = { id: "" };
-    }
-    var msgId = messageDescriptor.id, defaultMessage = messageDescriptor.defaultMessage;
-    invariant(!!msgId, "[@formatjs/intl] An `id` must be provided to format a message. You can either:\n1. Configure your build toolchain with [babel-plugin-formatjs](https://formatjs.github.io/docs/tooling/babel-plugin)\nor [@formatjs/ts-transformer](https://formatjs.github.io/docs/tooling/ts-transformer) OR\n2. Configure your `eslint` config to include [eslint-plugin-formatjs](https://formatjs.github.io/docs/tooling/linter#enforce-id)\nto autofix this issue");
-    var id = String(msgId);
-    var message = (
-      // In case messages is Object.create(null)
-      // e.g import('foo.json') from webpack)
-      // See https://github.com/formatjs/formatjs/issues/1914
-      messages && Object.prototype.hasOwnProperty.call(messages, id) && messages[id]
-    );
-    if (Array.isArray(message) && message.length === 1 && message[0].type === TYPE.literal) {
-      return message[0].value;
-    }
-    if (!values && message && typeof message === "string" && !defaultRichTextElements) {
-      return message.replace(/'\{(.*?)\}'/gi, "{$1}");
-    }
-    values = __assign(__assign({}, defaultRichTextElements), values || {});
-    formats = deepMergeFormatsAndSetTimeZone(formats, timeZone);
-    defaultFormats = deepMergeFormatsAndSetTimeZone(defaultFormats, timeZone);
-    if (!message) {
-      if (fallbackOnEmptyString === false && message === "") {
-        return message;
-      }
-      if (!defaultMessage || locale && locale.toLowerCase() !== defaultLocale2.toLowerCase()) {
-        onError(new MissingTranslationError(messageDescriptor, locale));
-      }
-      if (defaultMessage) {
-        try {
-          var formatter = state.getMessageFormat(defaultMessage, defaultLocale2, defaultFormats, opts);
-          return formatter.format(values);
-        } catch (e) {
-          onError(new MessageFormatError('Error formatting default message for: "'.concat(id, '", rendering default message verbatim'), locale, messageDescriptor, e));
-          return typeof defaultMessage === "string" ? defaultMessage : id;
-        }
-      }
-      return id;
-    }
-    try {
-      var formatter = state.getMessageFormat(message, locale, formats, __assign({ formatters: state }, opts || {}));
-      return formatter.format(values);
-    } catch (e) {
-      onError(new MessageFormatError('Error formatting message: "'.concat(id, '", using ').concat(defaultMessage ? "default message" : "id", " as fallback."), locale, messageDescriptor, e));
-    }
-    if (defaultMessage) {
-      try {
-        var formatter = state.getMessageFormat(defaultMessage, defaultLocale2, defaultFormats, opts);
-        return formatter.format(values);
-      } catch (e) {
-        onError(new MessageFormatError('Error formatting the default message for: "'.concat(id, '", rendering message verbatim'), locale, messageDescriptor, e));
-      }
-    }
-    if (typeof message === "string") {
-      return message;
-    }
-    if (typeof defaultMessage === "string") {
-      return defaultMessage;
-    }
-    return id;
-  };
-  var DATE_TIME_FORMAT_OPTIONS = [
-    "formatMatcher",
-    "timeZone",
-    "hour12",
-    "weekday",
-    "era",
-    "year",
-    "month",
-    "day",
-    "hour",
-    "minute",
-    "second",
-    "timeZoneName",
-    "hourCycle",
-    "dateStyle",
-    "timeStyle",
-    "calendar",
-    // 'dayPeriod',
-    "numberingSystem",
-    "fractionalSecondDigits"
-  ];
-  function getFormatter$2(_a2, type, getDateTimeFormat, options) {
-    var locale = _a2.locale, formats = _a2.formats, onError = _a2.onError, timeZone = _a2.timeZone;
-    if (options === void 0) {
-      options = {};
-    }
-    var format2 = options.format;
-    var defaults2 = __assign(__assign({}, timeZone && { timeZone }), format2 && getNamedFormat(formats, type, format2, onError));
-    var filteredOptions = filterProps(options, DATE_TIME_FORMAT_OPTIONS, defaults2);
-    if (type === "time" && !filteredOptions.hour && !filteredOptions.minute && !filteredOptions.second && !filteredOptions.timeStyle && !filteredOptions.dateStyle) {
-      filteredOptions = __assign(__assign({}, filteredOptions), { hour: "numeric", minute: "numeric" });
-    }
-    return getDateTimeFormat(locale, filteredOptions);
-  }
-  function formatDate(config2, getDateTimeFormat) {
-    var _a2 = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-      _a2[_i - 2] = arguments[_i];
-    }
-    var value2 = _a2[0], _b = _a2[1], options = _b === void 0 ? {} : _b;
-    var date2 = typeof value2 === "string" ? new Date(value2 || 0) : value2;
-    try {
-      return getFormatter$2(config2, "date", getDateTimeFormat, options).format(date2);
-    } catch (e) {
-      config2.onError(new IntlFormatError("Error formatting date.", config2.locale, e));
-    }
-    return String(date2);
-  }
-  function formatTime(config2, getDateTimeFormat) {
-    var _a2 = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-      _a2[_i - 2] = arguments[_i];
-    }
-    var value2 = _a2[0], _b = _a2[1], options = _b === void 0 ? {} : _b;
-    var date2 = typeof value2 === "string" ? new Date(value2 || 0) : value2;
-    try {
-      return getFormatter$2(config2, "time", getDateTimeFormat, options).format(date2);
-    } catch (e) {
-      config2.onError(new IntlFormatError("Error formatting time.", config2.locale, e));
-    }
-    return String(date2);
-  }
-  function formatDateTimeRange(config2, getDateTimeFormat) {
-    var _a2 = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-      _a2[_i - 2] = arguments[_i];
-    }
-    var from = _a2[0], to = _a2[1], _b = _a2[2], options = _b === void 0 ? {} : _b;
-    var timeZone = config2.timeZone, locale = config2.locale, onError = config2.onError;
-    var filteredOptions = filterProps(options, DATE_TIME_FORMAT_OPTIONS, timeZone ? { timeZone } : {});
-    try {
-      return getDateTimeFormat(locale, filteredOptions).formatRange(from, to);
-    } catch (e) {
-      onError(new IntlFormatError("Error formatting date time range.", config2.locale, e));
-    }
-    return String(from);
-  }
-  function formatDateToParts(config2, getDateTimeFormat) {
-    var _a2 = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-      _a2[_i - 2] = arguments[_i];
-    }
-    var value2 = _a2[0], _b = _a2[1], options = _b === void 0 ? {} : _b;
-    var date2 = typeof value2 === "string" ? new Date(value2 || 0) : value2;
-    try {
-      return getFormatter$2(config2, "date", getDateTimeFormat, options).formatToParts(date2);
-    } catch (e) {
-      config2.onError(new IntlFormatError("Error formatting date.", config2.locale, e));
-    }
-    return [];
-  }
-  function formatTimeToParts(config2, getDateTimeFormat) {
-    var _a2 = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-      _a2[_i - 2] = arguments[_i];
-    }
-    var value2 = _a2[0], _b = _a2[1], options = _b === void 0 ? {} : _b;
-    var date2 = typeof value2 === "string" ? new Date(value2 || 0) : value2;
-    try {
-      return getFormatter$2(config2, "time", getDateTimeFormat, options).formatToParts(date2);
-    } catch (e) {
-      config2.onError(new IntlFormatError("Error formatting time.", config2.locale, e));
-    }
-    return [];
-  }
-  var DISPLAY_NAMES_OPTONS = [
-    "style",
-    "type",
-    "fallback",
-    "languageDisplay"
-  ];
-  function formatDisplayName(_a2, getDisplayNames, value2, options) {
-    var locale = _a2.locale, onError = _a2.onError;
-    var DisplayNames = Intl.DisplayNames;
-    if (!DisplayNames) {
-      onError(new FormatError('Intl.DisplayNames is not available in this environment.\nTry polyfilling it using "@formatjs/intl-displaynames"\n', ErrorCode.MISSING_INTL_API));
-    }
-    var filteredOptions = filterProps(options, DISPLAY_NAMES_OPTONS);
-    try {
-      return getDisplayNames(locale, filteredOptions).of(value2);
-    } catch (e) {
-      onError(new IntlFormatError("Error formatting display name.", locale, e));
-    }
-  }
-  var LIST_FORMAT_OPTIONS = [
-    "type",
-    "style"
-  ];
-  var now = Date.now();
-  function generateToken(i) {
-    return "".concat(now, "_").concat(i, "_").concat(now);
-  }
-  function formatList(opts, getListFormat, values, options) {
-    if (options === void 0) {
-      options = {};
-    }
-    var results = formatListToParts(opts, getListFormat, values, options).reduce(function(all, el) {
-      var val = el.value;
-      if (typeof val !== "string") {
-        all.push(val);
-      } else if (typeof all[all.length - 1] === "string") {
-        all[all.length - 1] += val;
-      } else {
-        all.push(val);
-      }
-      return all;
-    }, []);
-    return results.length === 1 ? results[0] : results.length === 0 ? "" : results;
-  }
-  function formatListToParts(_a2, getListFormat, values, options) {
-    var locale = _a2.locale, onError = _a2.onError;
-    if (options === void 0) {
-      options = {};
-    }
-    var ListFormat = Intl.ListFormat;
-    if (!ListFormat) {
-      onError(new FormatError('Intl.ListFormat is not available in this environment.\nTry polyfilling it using "@formatjs/intl-listformat"\n', ErrorCode.MISSING_INTL_API));
-    }
-    var filteredOptions = filterProps(options, LIST_FORMAT_OPTIONS);
-    try {
-      var richValues_1 = {};
-      var serializedValues = values.map(function(v, i) {
-        if (typeof v === "object") {
-          var id = generateToken(i);
-          richValues_1[id] = v;
-          return id;
-        }
-        return String(v);
-      });
-      return getListFormat(locale, filteredOptions).formatToParts(serializedValues).map(function(part) {
-        return part.type === "literal" ? part : __assign(__assign({}, part), { value: richValues_1[part.value] || part.value });
-      });
-    } catch (e) {
-      onError(new IntlFormatError("Error formatting list.", locale, e));
-    }
-    return values;
-  }
-  var PLURAL_FORMAT_OPTIONS = ["type"];
-  function formatPlural(_a2, getPluralRules, value2, options) {
-    var locale = _a2.locale, onError = _a2.onError;
-    if (options === void 0) {
-      options = {};
-    }
-    if (!Intl.PluralRules) {
-      onError(new FormatError('Intl.PluralRules is not available in this environment.\nTry polyfilling it using "@formatjs/intl-pluralrules"\n', ErrorCode.MISSING_INTL_API));
-    }
-    var filteredOptions = filterProps(options, PLURAL_FORMAT_OPTIONS);
-    try {
-      return getPluralRules(locale, filteredOptions).select(value2);
-    } catch (e) {
-      onError(new IntlFormatError("Error formatting plural.", locale, e));
-    }
-    return "other";
-  }
-  var RELATIVE_TIME_FORMAT_OPTIONS = ["numeric", "style"];
-  function getFormatter$1(_a2, getRelativeTimeFormat, options) {
-    var locale = _a2.locale, formats = _a2.formats, onError = _a2.onError;
-    if (options === void 0) {
-      options = {};
-    }
-    var format2 = options.format;
-    var defaults2 = !!format2 && getNamedFormat(formats, "relative", format2, onError) || {};
-    var filteredOptions = filterProps(options, RELATIVE_TIME_FORMAT_OPTIONS, defaults2);
-    return getRelativeTimeFormat(locale, filteredOptions);
-  }
-  function formatRelativeTime(config2, getRelativeTimeFormat, value2, unit, options) {
-    if (options === void 0) {
-      options = {};
-    }
-    if (!unit) {
-      unit = "second";
-    }
-    var RelativeTimeFormat = Intl.RelativeTimeFormat;
-    if (!RelativeTimeFormat) {
-      config2.onError(new FormatError('Intl.RelativeTimeFormat is not available in this environment.\nTry polyfilling it using "@formatjs/intl-relativetimeformat"\n', ErrorCode.MISSING_INTL_API));
-    }
-    try {
-      return getFormatter$1(config2, getRelativeTimeFormat, options).format(value2, unit);
-    } catch (e) {
-      config2.onError(new IntlFormatError("Error formatting relative time.", config2.locale, e));
-    }
-    return String(value2);
-  }
-  var NUMBER_FORMAT_OPTIONS = [
-    "style",
-    "currency",
-    "unit",
-    "unitDisplay",
-    "useGrouping",
-    "minimumIntegerDigits",
-    "minimumFractionDigits",
-    "maximumFractionDigits",
-    "minimumSignificantDigits",
-    "maximumSignificantDigits",
-    // ES2020 NumberFormat
-    "compactDisplay",
-    "currencyDisplay",
-    "currencySign",
-    "notation",
-    "signDisplay",
-    "unit",
-    "unitDisplay",
-    "numberingSystem",
-    // ES2023 NumberFormat
-    // @ts-expect-error: TypeScript doesn't know about this yet
-    "trailingZeroDisplay",
-    // @ts-expect-error: TypeScript doesn't know about this yet
-    "roundingPriority",
-    // @ts-expect-error: TypeScript doesn't know about this yet
-    "roundingIncrement",
-    // @ts-expect-error: TypeScript doesn't know about this yet
-    "roundingMode"
-  ];
-  function getFormatter(_a2, getNumberFormat, options) {
-    var locale = _a2.locale, formats = _a2.formats, onError = _a2.onError;
-    if (options === void 0) {
-      options = {};
-    }
-    var format2 = options.format;
-    var defaults2 = format2 && getNamedFormat(formats, "number", format2, onError) || {};
-    var filteredOptions = filterProps(options, NUMBER_FORMAT_OPTIONS, defaults2);
-    return getNumberFormat(locale, filteredOptions);
-  }
-  function formatNumber(config2, getNumberFormat, value2, options) {
-    if (options === void 0) {
-      options = {};
-    }
-    try {
-      return getFormatter(config2, getNumberFormat, options).format(value2);
-    } catch (e) {
-      config2.onError(new IntlFormatError("Error formatting number.", config2.locale, e));
-    }
-    return String(value2);
-  }
-  function formatNumberToParts(config2, getNumberFormat, value2, options) {
-    if (options === void 0) {
-      options = {};
-    }
-    try {
-      return getFormatter(config2, getNumberFormat, options).formatToParts(value2);
-    } catch (e) {
-      config2.onError(new IntlFormatError("Error formatting number.", config2.locale, e));
-    }
-    return [];
-  }
-  function messagesContainString(messages) {
-    var firstMessage = messages ? messages[Object.keys(messages)[0]] : void 0;
-    return typeof firstMessage === "string";
-  }
-  function verifyConfigMessages(config2) {
-    if (config2.onWarn && config2.defaultRichTextElements && messagesContainString(config2.messages || {})) {
-      config2.onWarn('[@formatjs/intl] "defaultRichTextElements" was specified but "message" was not pre-compiled. \nPlease consider using "@formatjs/cli" to pre-compile your messages for performance.\nFor more details see https://formatjs.github.io/docs/getting-started/message-distribution');
-    }
-  }
-  function createIntl$1(config2, cache) {
-    var formatters = createFormatters(cache);
-    var resolvedConfig = __assign(__assign({}, DEFAULT_INTL_CONFIG), config2);
-    var locale = resolvedConfig.locale, defaultLocale2 = resolvedConfig.defaultLocale, onError = resolvedConfig.onError;
-    if (!locale) {
-      if (onError) {
-        onError(new InvalidConfigError('"locale" was not configured, using "'.concat(defaultLocale2, '" as fallback. See https://formatjs.github.io/docs/react-intl/api#intlshape for more details')));
-      }
-      resolvedConfig.locale = resolvedConfig.defaultLocale || "en";
-    } else if (!Intl.NumberFormat.supportedLocalesOf(locale).length && onError) {
-      onError(new MissingDataError('Missing locale data for locale: "'.concat(locale, '" in Intl.NumberFormat. Using default locale: "').concat(defaultLocale2, '" as fallback. See https://formatjs.github.io/docs/react-intl#runtime-requirements for more details')));
-    } else if (!Intl.DateTimeFormat.supportedLocalesOf(locale).length && onError) {
-      onError(new MissingDataError('Missing locale data for locale: "'.concat(locale, '" in Intl.DateTimeFormat. Using default locale: "').concat(defaultLocale2, '" as fallback. See https://formatjs.github.io/docs/react-intl#runtime-requirements for more details')));
-    }
-    verifyConfigMessages(resolvedConfig);
-    return __assign(__assign({}, resolvedConfig), { formatters, formatNumber: formatNumber.bind(null, resolvedConfig, formatters.getNumberFormat), formatNumberToParts: formatNumberToParts.bind(null, resolvedConfig, formatters.getNumberFormat), formatRelativeTime: formatRelativeTime.bind(null, resolvedConfig, formatters.getRelativeTimeFormat), formatDate: formatDate.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatDateToParts: formatDateToParts.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatTime: formatTime.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatDateTimeRange: formatDateTimeRange.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatTimeToParts: formatTimeToParts.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatPlural: formatPlural.bind(null, resolvedConfig, formatters.getPluralRules), formatMessage: formatMessage.bind(null, resolvedConfig, formatters), $t: formatMessage.bind(null, resolvedConfig, formatters), formatList: formatList.bind(null, resolvedConfig, formatters.getListFormat), formatListToParts: formatListToParts.bind(null, resolvedConfig, formatters.getListFormat), formatDisplayName: formatDisplayName.bind(null, resolvedConfig, formatters.getDisplayNames) });
-  }
-  const intlCache = {};
-  function createIntl(options) {
-    const { locale, ignoreMissingTranslations, ignoreIntlCache } = options;
-    let intl = ignoreIntlCache ? void 0 : intlCache[locale];
-    const onError = (error) => {
-      const environment = typeof process !== "undefined" ? process.env.NODE_ENV : "production";
-      if (environment !== "test" && environment !== "development") {
-        return;
-      }
-      if (ignoreMissingTranslations && typeof error.message === "string" && error.message.includes("[@formatjs/intl Error MISSING_TRANSLATION]")) {
-        return;
-      }
-      throw error;
-    };
-    if (!intl) {
-      const cache = createIntlCache();
-      intl = createIntl$1(
-        {
-          locale,
-          /**
-           * Currently only Dutch is supported
-           * We need to figure out how we want to deal with possibly async loading of other languages
-           * Especially in the context of the mobile applications
-           */
-          messages: messagesNL,
-          onError
-        },
-        cache
-      );
-      intlCache[locale] = intl;
-    }
-    return intl;
-  }
-  function createI18nContext(options) {
-    const intl = createIntl(options);
-    const formatMessage2 = (id, values) => intl.formatMessage({ id }, values);
-    const hasMessage = (id) => isNonNullish(intl.messages[id]);
-    return {
-      intl,
-      formatMessage: formatMessage2,
-      hasMessage
-    };
-  }
-  const attachment = ({ formatMessage: formatMessage2 }) => (value2) => {
-    const label = value2?.title ?? formatMessage2("fhir.unknown");
-    if (isBinaryReference(value2?.url)) {
-      return {
-        type: "DOWNLOAD_BINARY",
-        label,
-        reference: value2?.url
-      };
-    }
-    return {
-      type: "DOWNLOAD_LINK",
-      label,
-      url: value2?.url
-    };
-  };
-  function isBinaryReference(value2) {
-    return value2?.startsWith("Binary/");
-  }
-  const annotationDisplay = (value2) => {
-    return value2?.text;
-  };
-  const annotation = ({ intl }) => (label, value2) => {
-    if (Array.isArray(value2)) {
-      return {
-        label: intl.formatMessage({ id: label }),
-        type: "MULTIPLE_VALUES",
-        display: value2.map(annotationDisplay).filter(isNonNullish)
-      };
-    }
-    return {
-      label: intl.formatMessage({ id: label }),
-      display: annotationDisplay(value2),
-      type: "SINGLE_VALUE"
-    };
-  };
-  const boolean = ({ formatMessage: formatMessage2 }) => (label, value2) => {
-    const truthyString = value2 ? formatMessage2("fhir.boolean.true") : formatMessage2("fhir.boolean.false");
-    return {
-      label: formatMessage2(label),
-      type: "SINGLE_VALUE",
-      display: isNonNullish(value2) ? truthyString : void 0
-    };
-  };
-  function code(context) {
-    const { hasMessage, formatMessage: formatMessage2 } = context;
-    return function(label, value2, options) {
-      const { i18nCode } = options ?? {};
-      function translateCode(code2) {
-        const i18nKey = `codes.${i18nCode}.${code2}`;
-        if (isNullish(code2)) {
-          return;
-        }
-        if (i18nCode && hasMessage(i18nKey)) {
-          return formatMessage2(i18nKey);
-        }
-        return code2;
-      }
-      if (Array.isArray(value2)) {
-        return {
-          label: formatMessage2(label),
-          type: "MULTIPLE_VALUES",
-          display: value2.map(translateCode).filter(isNonNullish)
-        };
-      }
-      return {
-        label: formatMessage2(label),
-        type: "SINGLE_VALUE",
-        display: translateCode(value2)
-      };
-    };
-  }
-  const system = (context) => (value2) => {
-    const { isSummary, formatMessage: formatMessage2 } = context;
-    const { display, code: code2, system: system2 } = value2 ?? {};
-    const systemCodeTranslation = systemCode(context)(value2);
-    if (isSummary) {
-      return systemCodeTranslation;
-    }
-    let codeInSystemString;
-    if (code2 && system2) {
-      codeInSystemString = formatMessage2("format.code_in_system", {
-        code: code2,
-        system: system2
-      });
-    } else {
-      codeInSystemString = system2 ?? code2;
-    }
-    const systemString = `${display ?? ""} ${codeInSystemString ? "(" + codeInSystemString + ")" : ""}`.trim();
-    return systemString === "" ? void 0 : systemString;
-  };
-  const codeableDisplay = (context) => (value2) => {
-    if (value2?.text?.length) {
-      return [value2.text];
-    }
-    const formatSystem = system(context);
-    return value2?.coding.map(formatSystem).filter(isNonNullish) ?? [];
-  };
-  const codeableConcept = (context) => (label, value2) => {
-    const { formatMessage: formatMessage2 } = context;
-    const display = codeableDisplay(context);
-    if (Array.isArray(value2)) {
-      return {
-        label: formatMessage2(label),
-        type: "MULTIPLE_GROUPED_VALUES",
-        display: value2.map(display)
-      };
-    }
-    return {
-      label: formatMessage2(label),
-      type: "MULTIPLE_VALUES",
-      display: display(value2)
-    };
-  };
-  const coding = (context) => (label, value2) => {
-    const { formatMessage: formatMessage2 } = context;
-    const display = system(context);
-    if (Array.isArray(value2)) {
-      return {
-        label: formatMessage2(label),
-        type: "MULTIPLE_VALUES",
-        display: value2.map(display).filter(isNonNullish)
-      };
-    }
-    return {
-      label: formatMessage2(label),
-      type: "SINGLE_VALUE",
-      display: display(value2)
-    };
-  };
-  const milliseconds = /T\d\d:\d\d:\d\d\.\d+/i;
-  const seconds = /T\d\d:\d\d:\d\d/i;
-  const minutes = /T\d\d:\d\d/i;
-  const hours = /T\d\d/i;
-  const dateRegexp = /^\d\d\d\d-\d\d-\d\d/;
-  const month = /^\d\d\d\d-\d\d/;
-  const year = /^\d\d\d\d/;
-  const timezone = /(([+-][\d:]+)|Z)$/i;
-  function getDateFormatOptions(dateString, isSummary = false) {
-    const hasMilliseconds = milliseconds.test(dateString);
-    const hasSeconds = hasMilliseconds || seconds.test(dateString);
-    const hasMinutes = hasSeconds || minutes.test(dateString);
-    const hasHours = hasMinutes || hours.test(dateString);
-    const hasDate = dateRegexp.test(dateString);
-    const hasMonth = hasDate || month.test(dateString);
-    const hasYear = hasMonth || year.test(dateString);
-    const hasTimezone = hasHours && timezone.test(dateString);
-    return {
-      year: hasYear ? "numeric" : void 0,
-      month: hasMonth ? "long" : void 0,
-      day: hasDate ? "numeric" : void 0,
-      hour: hasHours ? "numeric" : void 0,
-      minute: hasMinutes ? "numeric" : void 0,
-      ...!isSummary && {
-        second: hasSeconds ? "numeric" : void 0,
-        fractionalSecondDigits: hasMilliseconds ? 3 : void 0,
-        timeZoneName: hasTimezone ? "shortOffset" : void 0
-      }
-    };
-  }
-  const date$1 = ({ intl: { locale }, isSummary }) => (value2) => {
-    if (isNullish(value2)) return;
-    const date2 = new Date(value2);
-    const dateTimeFormat = new Intl.DateTimeFormat(
-      locale,
-      getDateFormatOptions(value2, isSummary)
-    );
-    try {
-      return dateTimeFormat.format(date2);
-    } catch (_error) {
-      return `${value2}`;
-    }
-  };
-  const date$2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-    __proto__: null,
-    date: date$1
-  }, Symbol.toStringTag, { value: "Module" }));
-  const date = (i18nContext) => (label, value2) => {
-    return {
-      label: i18nContext.formatMessage(label),
-      type: "SINGLE_VALUE",
-      display: date$1(i18nContext)(value2)
-    };
-  };
-  const dateTime = (context) => (label, value2) => {
-    if (Array.isArray(value2)) {
-      return {
-        label: context.formatMessage(label),
-        type: "MULTIPLE_VALUES",
-        display: value2.map(date$1(context)).filter(isNonNullish)
-      };
-    }
-    return {
-      label: context.formatMessage(label),
-      type: "SINGLE_VALUE",
-      display: date$1(context)(value2)
-    };
-  };
-  const decimal = ({ intl }) => (label, value2) => {
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "SINGLE_VALUE",
-      display: numberToString(value2)
-    };
-  };
-  const systemValue = ({ formatMessage: formatMessage2, hasMessage }) => (value2) => {
-    if (isNullish(value2)) return;
-    const { system: system2, code: code2, value: quantityValue, unit } = value2;
-    const countI18nKey = `system.value.${system2}|${code2}`;
-    if (hasMessage(countI18nKey)) {
-      return formatMessage2(countI18nKey, { value: quantityValue });
-    }
-    if (unit) {
-      return `${numberToString(quantityValue)} ${unit}`;
-    }
-    return numberToString(quantityValue);
-  };
-  const quantity = (context) => (label, value2) => {
-    const { formatMessage: formatMessage2 } = context;
-    return {
-      label: formatMessage2(label),
-      type: `SINGLE_VALUE`,
-      display: systemValue(context)(value2)
-    };
-  };
-  const duration = quantity;
-  const identifier = ({ intl }) => (label, value2) => {
-    if (Array.isArray(value2)) {
-      return {
-        label: intl.formatMessage({ id: label }),
-        type: "MULTIPLE_VALUES",
-        display: value2?.map((x) => x?.value).filter(isNonNullish)
-      };
-    }
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "SINGLE_VALUE",
-      display: value2?.value
-    };
-  };
-  const instant = (i18nContext) => (label, value2) => {
-    return dateTime(i18nContext)(label, value2);
-  };
-  const integer = ({ intl }) => (label, value2) => {
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "SINGLE_VALUE",
-      display: numberToString(value2)
-    };
-  };
-  const integer64 = ({ intl }) => (label, value2) => {
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "SINGLE_VALUE",
-      display: numberToString(value2)
-    };
-  };
-  const period = (i18nContext) => (label, value2) => {
-    const { formatMessage: formatMessage2, hasMessage } = i18nContext;
-    const startLabel = `${label}.start`;
-    const endLabel = `${label}.end`;
-    const formatDate2 = date$1(i18nContext);
-    return [
-      {
-        label: formatMessage2(hasMessage(startLabel) ? startLabel : `fhir.period.start`),
-        type: `SINGLE_VALUE`,
-        display: formatDate2(value2?.start)
-      },
-      {
-        label: formatMessage2(hasMessage(endLabel) ? endLabel : `fhir.period.end`),
-        type: `SINGLE_VALUE`,
-        display: formatDate2(value2?.end)
-      }
-    ];
-  };
-  const positiveInt = ({ intl }) => (label, value2) => {
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "SINGLE_VALUE",
-      display: numberToString(value2)
-    };
-  };
-  const range = (context) => (label, value2) => {
-    const { hasMessage, formatMessage: formatMessage2 } = context;
-    const lowLabel = `${label}.low`;
-    const highLabel = `${label}.high`;
-    const formatSystemValue = systemValue(context);
-    return [
-      {
-        label: formatMessage2(hasMessage(lowLabel) ? lowLabel : `fhir.range.low`),
-        type: `SINGLE_VALUE`,
-        display: formatSystemValue(value2?.low)
-      },
-      {
-        label: formatMessage2(hasMessage(highLabel) ? highLabel : `fhir.range.high`),
-        type: `SINGLE_VALUE`,
-        display: formatSystemValue(value2?.high)
-      }
-    ];
-  };
-  const ratio = (context) => (label, value2) => {
-    const { hasMessage, formatMessage: formatMessage2 } = context;
-    const numeratorLabel = `${label}.numerator`;
-    const denominatorLabel = `${label}.denominator`;
-    const formatSystemValue = systemValue(context);
-    return [
-      {
-        label: formatMessage2(
-          hasMessage(numeratorLabel) ? numeratorLabel : `fhir.ratio.numerator`
-        ),
-        type: `SINGLE_VALUE`,
-        display: formatSystemValue(value2?.numerator)
-      },
-      {
-        label: formatMessage2(
-          hasMessage(denominatorLabel) ? denominatorLabel : `fhir.ratio.denominator`
-        ),
-        type: `SINGLE_VALUE`,
-        display: formatSystemValue(value2?.denominator)
-      }
-    ];
-  };
-  const reference = ({ intl }) => (label, value2) => {
-    if (Array.isArray(value2)) {
-      return {
-        label: intl.formatMessage({ id: label }),
-        type: "MULTIPLE_VALUES",
-        display: value2.map((x) => x.display).filter(isNonNullish)
-      };
-    }
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "REFERENCE_VALUE",
-      display: value2?.display,
-      reference: value2?.reference
-    };
-  };
-  const string = ({ intl }) => (label, value2) => {
-    if (Array.isArray(value2)) {
-      return {
-        label: intl.formatMessage({ id: label }),
-        type: "MULTIPLE_VALUES",
-        display: value2.filter(isNonNullish)
-      };
-    }
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "SINGLE_VALUE",
-      display: value2
-    };
-  };
-  const unsignedInt = ({ intl }) => (label, value2) => {
-    return {
-      label: intl.formatMessage({ id: label }),
-      type: "SINGLE_VALUE",
-      display: numberToString(value2)
-    };
-  };
-  function getTypes(context) {
-    return {
-      annotation: annotation(context),
-      boolean: boolean(context),
-      code: code(context),
-      codeableConcept: codeableConcept(context),
-      coding: coding(context),
-      date: date(context),
-      dateTime: dateTime(context),
-      instant: instant(context),
-      duration: duration(context),
-      identifier: identifier(context),
-      period: period(context),
-      quantity: quantity(context),
-      range: range(context),
-      ratio: ratio(context),
-      reference: reference(context),
-      string: string(context),
-      decimal: decimal(context),
-      integer: integer(context),
-      integer64: integer64(context),
-      unsignedInt: unsignedInt(context),
-      positiveInt: positiveInt(context)
-    };
-  }
-  const oneOfValueX = (context) => (label, value2, prefix = "value") => {
-    if (isNullish(value2)) {
-      return [];
-    }
-    const typeUiFunctions = getTypes(context);
-    let type;
-    for (type in typeUiFunctions) {
-      const key = `${prefix}${capitalizeFirstLetter(type)}`;
-      if (key in value2 && isNonNullish(value2[key])) {
-        const uiValue = typeUiFunctions[type](label, value2[key]);
-        return Array.isArray(uiValue) ? uiValue : [uiValue];
-      }
-    }
-    return [];
-  };
-  function valueWithUnit$1(value2, unit) {
-    if (isNullish(value2)) return;
-    const valueString = numberToString(value2);
-    if (isNullish(unit)) return valueString;
-    return `${valueString} ${unit}`;
-  }
-  function valueWithMaxValue(value2, maxValue) {
-    if (isNullish(value2)) return;
-    const valueString = numberToString(value2);
-    if (isNullish(maxValue)) return valueString;
-    return `${valueString} / ${numberToString(maxValue)}`;
-  }
-  const value = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-    __proto__: null,
-    valueWithMaxValue,
-    valueWithUnit: valueWithUnit$1
-  }, Symbol.toStringTag, { value: "Module" }));
-  const format = {
-    ...value,
-    ...date$2
-  };
-  const valueWithMax = ({ intl }) => (label, value2, max2) => {
-    return {
-      label: intl.formatMessage({ id: label }),
-      display: format.valueWithMaxValue(value2, max2),
-      type: "SINGLE_VALUE"
-    };
-  };
-  const valueWithUnit = ({ intl }) => (label, value2, unit) => {
-    return {
-      label: intl.formatMessage({ id: label }),
-      display: format.valueWithUnit(value2, unit),
-      type: "SINGLE_VALUE"
-    };
-  };
-  function getSpecial(context) {
-    return {
-      valueWithMax: valueWithMax(context),
-      valueWithUnit: valueWithUnit(context),
-      oneOfValueX: oneOfValueX(context),
-      attachment: attachment(context)
-    };
-  }
-  function getUi(context) {
-    return {
-      ...getTypes(context),
-      ...getSpecial(context),
-      helpers: {
-        getChildren
-      }
-    };
-  }
-  function createUiSchemaContext(options) {
-    const { locale, ignoreMissingTranslations, ignoreIntlCache, resources, isSummary } = options;
-    const uiHelperContext = {
-      ...createI18nContext({
-        locale: locale ?? Locale.NL_NL,
-        ignoreMissingTranslations,
-        ignoreIntlCache
-      }),
-      isSummary
-    };
-    return {
-      ...uiHelperContext,
-      ui: getUi(uiHelperContext),
-      resources: resources ?? []
-    };
-  }
-  function isMgoResource(value2) {
-    const resourceTyped = value2;
-    return !!resourceTyped?.resourceType && !!resourceTyped?.profile;
-  }
-  function getUiSchema(resource, options) {
-    if (!isMgoResource(resource)) {
-      throw new Error(
-        `input does not seem to be a valid MGO Resource. Received MGO resource profile: "${resource?.profile}"`
-      );
-    }
-    const config2 = getResourceConfig(resource.profile, resource.fhirVersion);
-    if (!config2) {
-      throw new Error(
-        `No config found for MGO Resource with profile: "${resource.profile}" and fhir version: "${resource.fhirVersion}"`
-      );
-    }
-    const context = createUiSchemaContext({
-      ignoreMissingTranslations: true,
-      ...options
-    });
-    const uiSchema2 = config2.uiSchema(resource, context);
-    return setEmptyEntries(context)(uiSchema2);
-  }
-  function getSummaryUiSchema(resource, options) {
+  function getSummary(resource, options) {
     if (!isMgoResource(resource)) {
       throw new Error(
         `input does not seem to be a valid MGO Resource. Received MGO resource profile: "${resource?.profile}"`
@@ -67310,7 +67311,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         ]
       };
     }
-    const context = createUiSchemaContext({
+    const context = createSchemaContext({
+      locale: options?.locale ?? Locale.NL_NL,
       ignoreMissingTranslations: true,
       isSummary: true,
       ...options
@@ -67320,12 +67322,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const getBundleResourcesJson = createJsonApi(getBundleResources);
   const getMgoResourceJson = createJsonApi(getMgoResource);
-  const getUiSchemaJson = createJsonApi(getUiSchema);
-  const getSummaryUiSchemaJson = createJsonApi(getSummaryUiSchema);
+  const getSummaryJson = createJsonApi(getSummary);
+  const getDetailsJson = createJsonApi(getDetails);
   exports.getBundleResourcesJson = getBundleResourcesJson;
+  exports.getDetailsJson = getDetailsJson;
   exports.getMgoResourceJson = getMgoResourceJson;
-  exports.getSummaryUiSchemaJson = getSummaryUiSchemaJson;
-  exports.getUiSchemaJson = getUiSchemaJson;
+  exports.getSummaryJson = getSummaryJson;
   Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
   return exports;
 }({});
