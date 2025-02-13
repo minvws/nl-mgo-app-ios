@@ -22,7 +22,7 @@ final class UISchemaDetailsViewTests: XCTestCase {
 	func setupSut(_ resource: String, resolvedReferences: [String: Bool] = [:]) throws {
 		
 		let data = try getResource(resource)
-		let schema = try UISchema(data: data)
+		let schema = try HealthUISchema(data: data)
 		sut = UISchemaView(
 			schema: schema,
 			healthcareOrganization: healthcareOrganization,

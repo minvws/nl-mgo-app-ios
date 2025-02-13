@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let uISchema = try UISchema(json)
+//   let healthUISchema = try HealthUISchema(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,22 +10,22 @@
 
 import Foundation
 
-// MARK: - UISchema
-public struct UISchema: Codable, Hashable, Sendable {
-    public let children: [UISchemaGroup]
+// MARK: - HealthUISchema
+public struct HealthUISchema: Codable, Hashable, Sendable {
+    public let children: [HealthUIGroup]
     public let label: String
 
-    public init(children: [UISchemaGroup], label: String) {
+    public init(children: [HealthUIGroup], label: String) {
         self.children = children
         self.label = label
     }
 }
 
-// MARK: UISchema convenience initializers and mutators
+// MARK: HealthUISchema convenience initializers and mutators
 
-public extension UISchema {
+public extension HealthUISchema {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(UISchema.self, from: data)
+        self = try newJSONDecoder().decode(HealthUISchema.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,10 +40,10 @@ public extension UISchema {
     }
 
     func with(
-        children: [UISchemaGroup]? = nil,
+        children: [HealthUIGroup]? = nil,
         label: String? = nil
-    ) -> UISchema {
-        return UISchema(
+    ) -> HealthUISchema {
+        return HealthUISchema(
             children: children ?? self.children,
             label: label ?? self.label
         )

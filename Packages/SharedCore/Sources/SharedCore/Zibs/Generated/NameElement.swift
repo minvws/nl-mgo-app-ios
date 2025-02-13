@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let r4NlCoreHealthProfessionalPractitionerName = try R4NlCoreHealthProfessionalPractitionerName(json)
+//   let nameElement = try NameElement(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,41 +10,41 @@
 
 import Foundation
 
-// MARK: - R4NlCoreHealthProfessionalPractitionerName
-public struct R4NlCoreHealthProfessionalPractitionerName: Codable, Hashable, Sendable {
+// MARK: - NameElement
+public struct NameElement: Codable, Hashable, Sendable {
     public let family: String?
     public let given, givenInitials, givenNames: [String]?
     public let nameUsage: String?
     public let period: MgoPeriod?
-    public let namePrefix, suffix: [String]?
+    public let r4NlCoreNameInformationPrefix, suffix: [String]?
     public let text: String?
     public let use: NameUse
 
     public enum CodingKeys: String, CodingKey {
         case family, given, givenInitials, givenNames, nameUsage, period
-        case namePrefix = "prefix"
+        case r4NlCoreNameInformationPrefix = "prefix"
         case suffix, text, use
     }
 
-    public init(family: String?, given: [String]?, givenInitials: [String]?, givenNames: [String]?, nameUsage: String?, period: MgoPeriod?, namePrefix: [String]?, suffix: [String]?, text: String?, use: NameUse) {
+    public init(family: String?, given: [String]?, givenInitials: [String]?, givenNames: [String]?, nameUsage: String?, period: MgoPeriod?, r4NlCoreNameInformationPrefix: [String]?, suffix: [String]?, text: String?, use: NameUse) {
         self.family = family
         self.given = given
         self.givenInitials = givenInitials
         self.givenNames = givenNames
         self.nameUsage = nameUsage
         self.period = period
-        self.namePrefix = namePrefix
+        self.r4NlCoreNameInformationPrefix = r4NlCoreNameInformationPrefix
         self.suffix = suffix
         self.text = text
         self.use = use
     }
 }
 
-// MARK: R4NlCoreHealthProfessionalPractitionerName convenience initializers and mutators
+// MARK: NameElement convenience initializers and mutators
 
-public extension R4NlCoreHealthProfessionalPractitionerName {
+public extension NameElement {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(R4NlCoreHealthProfessionalPractitionerName.self, from: data)
+        self = try newJSONDecoder().decode(NameElement.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -65,19 +65,19 @@ public extension R4NlCoreHealthProfessionalPractitionerName {
         givenNames: [String]?? = nil,
         nameUsage: String?? = nil,
         period: MgoPeriod?? = nil,
-        namePrefix: [String]?? = nil,
+        r4NlCoreNameInformationPrefix: [String]?? = nil,
         suffix: [String]?? = nil,
         text: String?? = nil,
         use: NameUse? = nil
-    ) -> R4NlCoreHealthProfessionalPractitionerName {
-        return R4NlCoreHealthProfessionalPractitionerName(
+    ) -> NameElement {
+        return NameElement(
             family: family ?? self.family,
             given: given ?? self.given,
             givenInitials: givenInitials ?? self.givenInitials,
             givenNames: givenNames ?? self.givenNames,
             nameUsage: nameUsage ?? self.nameUsage,
             period: period ?? self.period,
-            namePrefix: namePrefix ?? self.namePrefix,
+            r4NlCoreNameInformationPrefix: r4NlCoreNameInformationPrefix ?? self.r4NlCoreNameInformationPrefix,
             suffix: suffix ?? self.suffix,
             text: text ?? self.text,
             use: use ?? self.use

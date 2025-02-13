@@ -286,7 +286,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		
 		// Given
 		let heading = "showHealthData"
-		let schema = UISchema(children: [], label: "test")
+		let schema = HealthUISchema(children: [], label: "test")
 		
 		// When
 		sut.handle(Coordination.Action(identifier: "showHealthData", params: ["resource": Data(), "backButtonTitle": heading, "uiSchema": schema, "healthcareOrganization": Generator.healthcareOrganization("1")]))
@@ -299,7 +299,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		
 		// Given
 		let heading = "showHealthData"
-		let schema = UISchema(children: [], label: "test")
+		let schema = HealthUISchema(children: [], label: "test")
 		
 		// When
 		sut.handle(Coordination.Action(identifier: "showHealthData", params: ["backButtonTitle": heading, "uiSchema": schema]))

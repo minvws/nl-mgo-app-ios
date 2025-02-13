@@ -73,7 +73,7 @@ extension SingleValue: UIElementProtocol {
 	}
 }
 
-public extension UISchemaGroup {
+public extension HealthUIGroup {
 	
 	/// An array of casted UIElements unto the protocol
 	var uiElements: [UIElementProtocol] {

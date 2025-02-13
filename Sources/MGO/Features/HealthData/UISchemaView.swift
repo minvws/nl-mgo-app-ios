@@ -11,7 +11,7 @@ import MGOUI
 struct UISchemaView: View {
 	
 	/// The schema
-	var schema: UISchema
+	var schema: HealthUISchema
 	
 	/// The healthcare organization
 	var healthcareOrganization: MgoOrganization
@@ -46,7 +46,7 @@ struct UISchemaView: View {
 	
 	var body: some View {
 		VStack(spacing: ViewTraits.List.padding) {
-			// A UISchema consists of an array of schema groups (blocks of correlated data)
+			// A HealthUISchema consists of an array of schema groups (blocks of correlated data)
 			ForEach(schema.children, id: \.self) { schemaGroup in
 				viewFor(schemaGroup)
 			}
@@ -58,7 +58,7 @@ struct UISchemaView: View {
 	/// Get the view for a schema group
 	/// - Parameter schemaGroup: the schema group to display
 	/// - Returns: block view
-	@ViewBuilder private func viewFor(_ schemaGroup: UISchemaGroup) -> some View {
+	@ViewBuilder private func viewFor(_ schemaGroup: HealthUIGroup) -> some View {
 		
 		if let schemaGroupLabel = schemaGroup.label {
 			// A schema group has a section label

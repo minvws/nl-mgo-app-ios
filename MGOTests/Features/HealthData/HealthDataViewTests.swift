@@ -23,7 +23,7 @@ final class HealthDataViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		let data = try getResource("multipleValuesMultipleEntries")
-		let schema = try UISchema(data: data)
+		let schema = try HealthUISchema(data: data)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		viewModel = HealthDataViewModel(
 			coordinator: coordinatorSpy,
