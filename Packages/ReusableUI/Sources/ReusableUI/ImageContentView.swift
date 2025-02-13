@@ -81,7 +81,7 @@ public struct ImageContentView: View {
 		
 		HStack(spacing: ViewTraits.Empty.spacing) {
 			
-			Spacer()
+			Spacer(minLength: ViewTraits.Empty.padding)
 			
 			VStack(alignment: .center) {
 				
@@ -114,7 +114,7 @@ public struct ImageContentView: View {
 					Spacer()
 				}
 			}
-			Spacer()
+			Spacer(minLength: ViewTraits.Empty.padding)
 		}
 		.readSize($contentSize)
 		.accessibilityElement(children: .combine)
