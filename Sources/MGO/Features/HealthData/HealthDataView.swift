@@ -158,7 +158,7 @@ struct HealthDataView: View {
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 				
-				UISchemaView(
+				HealthUISchemaView(
 					schema: viewModel.state.schema,
 					healthcareOrganization: viewModel.healthcareOrganization,
 					referenceTapped: { reference in

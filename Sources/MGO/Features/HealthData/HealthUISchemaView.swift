@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-struct UISchemaView: View {
+struct HealthUISchemaView: View {
 	
 	/// The schema
 	var schema: HealthUISchema
@@ -311,7 +311,7 @@ struct UISchemaView: View {
 
 #Preview {
 	ScrollView {
-		UISchemaView(
+		HealthUISchemaView(
 			schema: PreviewContent.uiSchema,
 			healthcareOrganization: PreviewContent.healthcareOrganization,
 			resolvedReferences: ["reference": true]
