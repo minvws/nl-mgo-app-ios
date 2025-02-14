@@ -30,7 +30,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		
 		sut = HealthDataViewModel(
 			coordinator: coordinatorSpy,
-			schema: UISchema(children: [UISchemaGroup(
+			schema: HealthUISchema(children: [HealthUIGroup(
 				children: [
 					UIElement(
 						display: UIElementDisplay.string("single value"),
@@ -97,7 +97,7 @@ final class HealthDataViewModelTests: XCTestCase {
 	func test_resolveReferenceValue_shouldCallCoordinator() throws {
 		
 		// Given
-		let schema = UISchema(children: [], label: "test")
+		let schema = HealthUISchema(children: [], label: "test")
 		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
 		setupSut()
 		
@@ -111,13 +111,13 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == Data()
 		expect(params.params["backButtonTitle"] as? String) == "common.previous"
-		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
+		expect((params.params["uiSchema"] as? HealthUISchema)?.label) == schema.label
 	}
 	
 	func test_resolveReferenceLink_shouldCallCoordinator() throws {
 		
 		// Given
-		let schema = UISchema(children: [], label: "test")
+		let schema = HealthUISchema(children: [], label: "test")
 		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
 		setupSut()
 		
@@ -131,14 +131,14 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == Data()
 		expect(params.params["backButtonTitle"] as? String) == "common.previous"
-		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
+		expect((params.params["uiSchema"] as? HealthUISchema)?.label) == schema.label
 	}
 	
 	func test_resolveReferenceValue_demoMode_shouldNotCallCoordinator() throws {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
-		let schema = UISchema(children: [], label: "test")
+		let schema = HealthUISchema(children: [], label: "test")
 		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
 		setupSut()
 		
@@ -153,7 +153,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
-		let schema = UISchema(children: [], label: "test")
+		let schema = HealthUISchema(children: [], label: "test")
 		self.referenceResolverSpy.stubbedResolveResult = (Data(), schema)
 		setupSut()
 		
@@ -167,6 +167,6 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect(params.identifier) == Coordination.Action.showHealthData.identifier
 		expect(params.params["resource"] as? MgoResource) == Data()
 		expect(params.params["backButtonTitle"] as? String) == "common.previous"
-		expect((params.params["uiSchema"] as? UISchema)?.label) == schema.label
+		expect((params.params["uiSchema"] as? HealthUISchema)?.label) == schema.label
 	}
 }

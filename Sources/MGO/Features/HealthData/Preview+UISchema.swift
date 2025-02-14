@@ -9,10 +9,10 @@ import MGOFoundation
 
 extension PreviewContent {
 
-	static let uiSchema = UISchema(
+	static let uiSchema = HealthUISchema(
 		children: [
 			// Schema Group 1
-			UISchemaGroup(
+			HealthUIGroup(
 				children: [
 					UIElement(
 						display: UIElementDisplay.string("single value"),
@@ -60,7 +60,7 @@ extension PreviewContent {
 				label: "Section Header first group"
 			),
 			// Schema Group 2
-			UISchemaGroup(
+			HealthUIGroup(
 				children: [
 					// Unknown
 					UIElement(

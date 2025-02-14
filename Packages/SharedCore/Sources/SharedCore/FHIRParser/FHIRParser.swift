@@ -109,18 +109,18 @@ public class FHIRParser {
 		return nil
 	}
 	
-	/// get the details for a resource, i.e. transform a Zib object into a details UISchema
+	/// get the details for a resource, i.e. transform a Zib object into a details HealthUISchema
 	/// - Parameter resource: the zib / mgo resource
-	/// - Returns: Generated UISchema
-	public func getDetails(_ resource: Data) -> UISchema? {
+	/// - Returns: Generated HealthUISchema
+	public func getDetails(_ resource: Data) -> HealthUISchema? {
 		
 		return getSchema(.details, resource: resource)
 	}
 	
-	/// get the summary for a resource, i.e. transform a Zib object into a summary UISchema
+	/// get the summary for a resource, i.e. transform a Zib object into a summary HealthUISchema
 	/// - Parameter resource: the zib / mgo resource
-	/// - Returns: Generated UISchema
-	public func getSummary(_ resource: Data) -> UISchema? {
+	/// - Returns: Generated HealthUISchema
+	public func getSummary(_ resource: Data) -> HealthUISchema? {
 		
 		return getSchema(.summary, resource: resource)
 	}
@@ -172,12 +172,12 @@ public class FHIRParser {
 	/// - Parameter method: the javascript method to be used for this call
 	/// - Parameter resource: the zib / mgo resource
 	/// - Returns: Generated UISchema
-	private func getSchema(_ method: ParseMethod, resource: Data) -> UISchema? {
+	private func getSchema(_ method: ParseMethod, resource: Data) -> HealthUISchema? {
 		
 		do {
 			let resourcesJSValue = try callJSMethod(method, with: resource)
 			if let object = resourcesJSValue.toString() {
-				let schema = try UISchema(object)
+				let schema = try HealthUISchema(object)
 				return schema
 			}
 		} catch {

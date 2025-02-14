@@ -72,7 +72,7 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 				workflow_id: Components.Parameters.workflow_hyphen_id.case2(workflowID)
 			),
 			query: Operations.actions_sol_list_hyphen_workflow_hyphen_runs.Input.Query(
-				branch: "main",
+				branch: "develop",
 				status: Components.Parameters.workflow_hyphen_run_hyphen_status.completed
 			)
 		)

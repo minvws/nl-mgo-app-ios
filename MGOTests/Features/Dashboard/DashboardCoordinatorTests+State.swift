@@ -139,9 +139,9 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		
 		// Given
 		let healthcareOrganization = Generator.healthcareOrganization("1")
-		let schema = UISchema(
+		let schema = HealthUISchema(
 			children: [
-				UISchemaGroup(
+				HealthUIGroup(
 					children: [
 						UIElement(
 							display: .string("value 1"),

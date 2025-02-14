@@ -76,7 +76,7 @@ enum DashboardCoordination {
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
-		case showHealthData(backButtonTitle: String, schema: UISchema, organization: MgoOrganization)
+		case showHealthData(backButtonTitle: String, schema: HealthUISchema, organization: MgoOrganization)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
 }
@@ -234,7 +234,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 				   // let resource = action.params["resource"] as? MgoResouce,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let backButtonTitle = action.params["backButtonTitle"] as? String,
-				   let schema = action.params["uiSchema"] as? UISchema {
+				   let schema = action.params["uiSchema"] as? HealthUISchema {
 					setState(DashboardCoordination.State.showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization))
 					return true
 				} else {

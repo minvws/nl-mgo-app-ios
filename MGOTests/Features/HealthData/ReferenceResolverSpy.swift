@@ -14,9 +14,9 @@ class ReferenceResolverSpy: ReferenceResolverProtocol {
 	var invokedResolveCount = 0
 	var invokedResolveParameters: (reference: String, healthcareOrganization: MgoOrganization)?
 	var invokedResolveParametersList = [(reference: String, healthcareOrganization: MgoOrganization)]()
-	var stubbedResolveResult: (Data, UISchema)!
+	var stubbedResolveResult: (Data, HealthUISchema)!
 
-	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, UISchema)? {
+	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, HealthUISchema)? {
 		invokedResolve = true
 		invokedResolveCount += 1
 		invokedResolveParameters = (reference, healthcareOrganization)

@@ -24,7 +24,7 @@ public struct R4NlCorePatient: Codable, Hashable, Sendable {
     public let managingOrganization: MgoReference?
     public let maritalStatus: MgoCodeableConcept?
     public let multipleBirth: Bool?
-    public let name: [R4NlCorePatientName]?
+    public let name: [NameElement]?
     public let profile: R4NlCorePatientProfile
     public let referenceID: String
     public let resourceType: String?
@@ -35,7 +35,7 @@ public struct R4NlCorePatient: Codable, Hashable, Sendable {
         case resourceType
     }
 
-    public init(address: [R4NlCoreAddressInformation]?, birthDate: String?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR4, gender: Gender?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, name: [R4NlCorePatientName]?, profile: R4NlCorePatientProfile, referenceID: String, resourceType: String?) {
+    public init(address: [R4NlCoreAddressInformation]?, birthDate: String?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR4, gender: Gender?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, name: [NameElement]?, profile: R4NlCorePatientProfile, referenceID: String, resourceType: String?) {
         self.address = address
         self.birthDate = birthDate
         self.deceased = deceased
@@ -86,7 +86,7 @@ public extension R4NlCorePatient {
         managingOrganization: MgoReference?? = nil,
         maritalStatus: MgoCodeableConcept?? = nil,
         multipleBirth: Bool?? = nil,
-        name: [R4NlCorePatientName]?? = nil,
+        name: [NameElement]?? = nil,
         profile: R4NlCorePatientProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil

@@ -12,6 +12,6 @@ public enum ParseMethod: String {
 	
 	case bundle = "getBundleResourcesJson"
 	case resource = "getMgoResourceJson"
-	case details = "getUiSchemaJson"
-	case summary = "getSummaryUiSchemaJson"
+	case details = "getDetailsJson"
+	case summary = "getSummaryJson"
 }
