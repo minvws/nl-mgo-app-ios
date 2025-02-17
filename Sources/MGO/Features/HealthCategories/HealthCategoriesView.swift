@@ -319,8 +319,6 @@ struct HealthCategoriesView: View {
 	
 	var body: some View {
 		
-		// Bottom margin needs to be fixed
-		
 		VStack(spacing: 0) {
 			
 			if !viewModel.state.canTitleCollapse {
