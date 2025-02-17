@@ -304,7 +304,7 @@ struct BioMetricSetupView: View {
 				}
 			}
 			.alert("pincode.lockout", isPresented: $viewModel.state.showLockoutPopup) {
-				Button("common.ok") { }
+				Button("common.ok") { /* no action for lockout available */ }
 			} message: {
 				switch viewModel.state.bioMetricType {
 					case .none, .unknown:

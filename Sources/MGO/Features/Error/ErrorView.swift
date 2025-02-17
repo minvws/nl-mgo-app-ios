@@ -151,6 +151,10 @@ struct ErrorView<ViewModel>: View where ViewModel: ErrorViewModelProtocol {
 
 #Preview {
 	NavigationView {
-		ErrorView(viewModel: ErrorViewModel(action: { }))
+		ErrorView(viewModel:
+			ErrorViewModel(action:
+				{ /* No Action for preview */ }
+			)
+		)
 	}
 }
