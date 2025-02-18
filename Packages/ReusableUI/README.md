@@ -31,6 +31,18 @@ struct DetailView: View {
 
 <img style="float: left;" src="illustrations/Accordion.png" />
 
+### BlurView
+
+A helper for using the UIKit UIBlurEffect in SwiftUI
+
+```swift
+import ReusebleUI 
+
+Text("BlurEffect")
+	.background(BlurView(style: .systemUltraThinMaterial))
+
+```
+
 ### Button
 
 The main call to action button is available in nine flavors:
