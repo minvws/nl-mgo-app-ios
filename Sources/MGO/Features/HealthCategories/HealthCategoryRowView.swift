@@ -61,7 +61,7 @@ struct HealthCategoryRowView: View {
 						}
 				}
 			}
-			.foregroundStyle(theme.contentInvert)
+			.foregroundStyle(theme.contentSecondary)
 		}
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.padding(ViewTraits.Block.spacing)

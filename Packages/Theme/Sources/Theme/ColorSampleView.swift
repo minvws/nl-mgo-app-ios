@@ -189,11 +189,3 @@ struct ColorSampleView: View {
 #Preview {
 	ColorSampleView()
 }
-
-/*
- to fix:
- 
- headers uiSchema
- 
- 
- */

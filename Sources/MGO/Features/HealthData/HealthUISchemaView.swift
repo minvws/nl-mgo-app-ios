@@ -277,7 +277,7 @@ struct HealthUISchemaView: View {
 				if let heading {
 					Text(heading)
 						.rijksoverheidStyle(font: .regular, style: .callout)
-						.foregroundStyle(theme.contentInvert)
+						.foregroundStyle(theme.contentSecondary)
 				}
 				
 				Text(Sanitizer.strip(value) ?? String(localized: "common.unknown"))
