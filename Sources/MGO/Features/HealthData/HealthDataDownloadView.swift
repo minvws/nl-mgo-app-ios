@@ -273,13 +273,13 @@ struct HealthDataDownloadView: View {
 			case .noDocument:
 				feedbackView(
 					"hc_documents.no_document",
-					iconColor: theme.notificationInformation
+					iconColor: theme.sentimentInformation
 				)
 			
 			case .error:
 				feedbackView(
 					"hc_documents.error",
-					iconColor: theme.notificationError,
+					iconColor: theme.sentimentCritical,
 					actionTitle: "common.try_again") {
 						viewModel.reduce(.download)
 					}

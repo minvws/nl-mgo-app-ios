@@ -37,7 +37,7 @@ public struct CircularProgressView: View {
 			Circle()
 				.trim(from: 0, to: progress)
 				.stroke(
-					theme.actionPrimaryDefaultBackground,
+					theme.interactivePrimaryDefaultBackground,
 					style: StrokeStyle(
 						lineWidth: lineWidth,
 						lineCap: .round

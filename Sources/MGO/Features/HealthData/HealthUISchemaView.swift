@@ -230,7 +230,7 @@ struct HealthUISchemaView: View {
 				view
 				Divider()
 					.frame(height: ViewTraits.Divider.height)
-					.overlay(theme.strokesPrimary)
+					.overlay(theme.borderPrimary)
 					.padding(.leading, ViewTraits.Row.padding)
 			}
 		}
@@ -256,7 +256,7 @@ struct HealthUISchemaView: View {
 				view
 				Divider()
 					.frame(height: ViewTraits.Divider.height)
-					.overlay(theme.strokesPrimary)
+					.overlay(theme.borderPrimary)
 					.padding(.leading, ViewTraits.Row.padding)
 			}
 		}
@@ -277,7 +277,7 @@ struct HealthUISchemaView: View {
 				if let heading {
 					Text(heading)
 						.rijksoverheidStyle(font: .regular, style: .callout)
-						.foregroundStyle(theme.contentTertiary)
+						.foregroundStyle(theme.contentInvert)
 				}
 				
 				Text(Sanitizer.strip(value) ?? String(localized: "common.unknown"))
@@ -290,7 +290,7 @@ struct HealthUISchemaView: View {
 				Spacer()
 				
 				Image(ImageResource.Overview.chevronRight)
-					.foregroundStyle(theme.iconsPrimary)
+					.foregroundStyle(theme.symbolPrimary)
 					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
 					.accessibilityHidden(true)
 			}
@@ -303,7 +303,7 @@ struct HealthUISchemaView: View {
 		if showDivider {
 			Divider()
 				.frame(height: ViewTraits.Divider.height)
-				.overlay(theme.strokesPrimary)
+				.overlay(theme.borderPrimary)
 				.padding(.leading, ViewTraits.Row.padding)
 		}
 	}

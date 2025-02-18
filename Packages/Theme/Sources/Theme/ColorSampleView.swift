@@ -10,6 +10,27 @@ import SwiftUI
 struct ColorSampleView: View {
 
 	let theme = Theme()
+	
+	private struct Texts {
+		static let background = "Background"
+		static let backgroundHover = "Background Hover"
+		static let border = "Border"
+		static let content = "Content"
+		static let critical = "Critical"
+		static let `default` = "Default"
+		static let hover = "Hover"
+		static let invert = "Invert"
+		static let interactionPrimary = "Interaction Primary"
+		static let interactionSecondary = "Interaction Secondary"
+		static let interactionTertiary = "Interaction Tertiary"
+		static let primary = "Primary"
+		static let secondary = "Secondary"
+		static let sentiment = "Sentiment"
+		static let support = "Support"
+		static let symbol = "Symbol"
+		static let text = "Text"
+		static let tertiary = "Tertiary"
+	}
 
 	var body: some View {
 		ZStack {
@@ -20,120 +41,125 @@ struct ColorSampleView: View {
 				
 				VStack(alignment: .leading) {
 					
-					Text("Background").bold()
+					Text(Texts.background).bold()
 					
 					HStack {
-						colorSample(theme.backgroundPrimary, text: "Primary")
-						colorSample(theme.backgroundSecondary, text: "Secondary")
-						colorSample(theme.backgroundTertiary, text: "Tertiary")
+						colorSample(theme.backgroundPrimary, text: Texts.primary)
+						colorSample(theme.backgroundSecondary, text: Texts.secondary)
+						colorSample(theme.backgroundTertiary, text: Texts.tertiary)
 					}
 					
-					Text("Content").bold()
+					Text(Texts.content).bold()
 					
 					HStack {
-						colorSample(theme.contentPrimary, text: "Primary")
-						colorSample(theme.contentSecondary, text: "Secondary")
-						colorSample(theme.contentTertiary, text: "Tertiary")
+						colorSample(theme.contentPrimary, text: Texts.primary)
+						colorSample(theme.contentSecondary, text: Texts.secondary)
+						colorSample(theme.contentInvert, text: Texts.invert)
 					}
 					
-					Text("Icons").bold()
+					Text(Texts.border).bold()
 					
 					HStack {
-						colorSample(theme.iconsPrimary, text: "Primary")
-						colorSample(theme.iconsSecondary, text: "Secondary")
+						colorSample(theme.borderPrimary, text: Texts.primary)
+						colorSample(theme.borderSecondary, text: Texts.secondary)
+						colorSample(theme.borderTertiary, text: Texts.tertiary)
 					}
 					
-					Text("Strokes").bold()
+					Text(Texts.symbol).bold()
 					
 					HStack {
-						colorSample(theme.strokesPrimary, text: "Primary")
-						colorSample(theme.strokesSecondary, text: "Secondary")
-						colorSample(theme.strokesTertiary, text: "Tertiary")
+						colorSample(theme.symbolPrimary, text: Texts.primary)
+						colorSample(theme.symbolSecondary, text: Texts.secondary)
+						colorSample(theme.symbolTertiary, text: Texts.tertiary)
 					}
 					
-					Text("Action Primary").bold()
-					Text("Default")
-					
-					HStack {
-						colorSample(theme.actionPrimaryDefaultBackground, text: "Background")
-						colorSample(theme.actionPrimaryDefaultBackgroundHover, text: "Background Hover")
-						colorSample(theme.actionPrimaryDefaultText, text: "Text")
-					}
-					
-					Text("Critical")
-					
-					HStack {
-						colorSample(theme.actionPrimaryCriticalBackground, text: "Background")
-						colorSample(theme.actionPrimaryCriticalBackgroundHover, text: "Background Hover")
-						colorSample(theme.actionPrimaryCriticalText, text: "Text")
-					}
-					
-					Text("Action Secondary").bold()
-					Text("Default")
-					
-					HStack {
-						colorSample(theme.actionSecondaryDefaultBackground, text: "Background")
-						colorSample(theme.actionSecondaryDefaultBackgroundHover, text: "Background Hover")
-						colorSample(theme.actionSecondaryDefaultText, text: "Text")
-					}
-					
-					Text("Critical")
-					HStack {
-						colorSample(theme.actionSecondaryCriticalBackground, text: "Background")
-						colorSample(theme.actionSecondaryCriticalBackgroundHover, text: "Background Hover")
-						colorSample(theme.actionSecondaryCriticalText, text: "Text")
-					}
-					
-					Text("Action Tertiary").bold()
-					Text("Default")
-					HStack {
-						colorSample(theme.actionTertiaryDefaultText, text: "Text")
-						colorSample(theme.actionTertiaryDefaultTextHover, text: "Hover")
-					}
-					
-					Text("Critical")
-					HStack {
-						colorSample(theme.actionTertiaryCriticalText, text: "Text")
-						colorSample(theme.actionTertiaryCriticalTextHover, text: "Hover")
-					}
-					
-					Text("Notification").bold()
+					Text(Texts.sentiment).bold()
 
 					HStack {
-						colorSample(theme.notificationInformation, text: "Information")
-						colorSample(theme.notificationSuccess, text: "Success")
-						colorSample(theme.notificationWarning, text: "Warning")
-						colorSample(theme.notificationError, text: "Error")
+						colorSample(theme.sentimentInformation, text: "Information")
+						colorSample(theme.sentimentPositive, text: "Positive")
+						colorSample(theme.sentimentWarning, text: "Warning")
+						colorSample(theme.sentimentCritical, text: "Critical")
 					}
 					
-					Text("Support").bold()
+					Text(Texts.interactionPrimary).bold()
+					Text(Texts.default)
 					
 					HStack {
-						colorSample(theme.apotheek, text: "Apotheek")
-						colorSample(theme.ziekenhuis, text: "Ziekenhuis")
-						colorSample(theme.huisarts, text: "Huisarts")
-						colorSample(theme.tandarts, text: "Tandarts")
+						colorSample(theme.interactivePrimaryDefaultBackground, text: Texts.background)
+						colorSample(theme.interactivePrimaryDefaultBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactivePrimaryDefaultText, text: Texts.text)
+					}
+					
+					Text(Texts.critical)
+					
+					HStack {
+						colorSample(theme.interactivePrimaryCriticalBackground, text: Texts.background)
+						colorSample(theme.interactivePrimaryCriticalBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactivePrimaryCriticalText, text: Texts.text)
+					}
+					
+					Text(Texts.interactionSecondary).bold()
+					Text(Texts.default)
+					
+					HStack {
+						colorSample(theme.interactiveSecondaryDefaultBackground, text: Texts.background)
+						colorSample(theme.interactiveSecondaryDefaultBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactiveSecondaryDefaultText, text: Texts.text)
+					}
+					
+					Text(Texts.critical)
+					HStack {
+						colorSample(theme.interactiveSecondaryCriticalBackground, text: Texts.background)
+						colorSample(theme.interactiveSecondaryCriticalBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactiveSecondaryCriticalText, text: Texts.text)
+					}
+					
+					Text(Texts.interactionTertiary).bold()
+					Text(Texts.default)
+					HStack {
+						colorSample(theme.interactiveTertiaryDefaultText, text: Texts.text)
+						colorSample(theme.interactiveTertiaryDefaultTextHover, text: Texts.hover)
+					}
+					
+					Text(Texts.critical)
+					HStack {
+						colorSample(theme.interactiveTertiaryCriticalText, text: Texts.text)
+						colorSample(theme.interactiveTertiaryCriticalTextHover, text: Texts.hover)
+					}
+					
+					Text(Texts.support).bold()
+					
+					HStack {
+						colorSample(theme.medication, text: "Medication")
+						colorSample(theme.treatment, text: "Treatment")
+						colorSample(theme.contacts, text: "Contacts")
+						colorSample(theme.laboratory, text: "Laboratory")
 					}
 					
 					HStack {
-						colorSample(theme.ggz, text: "GGZ")
-						colorSample(theme.fysiotherapeut, text: "Fysiotherapeut")
-						colorSample(theme.verpleeghuis, text: "Verpleeghuis")
-						colorSample(theme.thuiszorg, text: "Thuiszorg")
+						colorSample(theme.functional, text: "Functional")
+						colorSample(theme.device, text: "Device")
+						colorSample(theme.vitals, text: "Vitals")
+						colorSample(theme.documents, text: "Thuiszorg")
 					}
 					
 					HStack {
-						colorSample(theme.kliniek, text: "Kliniek")
-						colorSample(theme.verloskundige, text: "Verloskundig")
-						colorSample(theme.overige, text: "Overige")
+						colorSample(theme.allergies, text: "Allergies")
+						colorSample(theme.problems, text: "Problems")
+						colorSample(theme.personal, text: "Personal")
 						colorSample(theme.rijksLint, text: "Rijkslint")
 					}
 					
 					HStack {
-						colorSample(theme.rivm, text: "RIVM")
-						colorSample(theme.ggd, text: "GGD")
-						colorSample(theme.revalidatie, text: "Revalidatie")
-						colorSample(theme.gegevens, text: "Gegevens")
+						colorSample(theme.warning, text: "Warning")
+						colorSample(theme.payer, text: "Payer")
+						colorSample(theme.vaccinations, text: "Vaccinations")
+						colorSample(theme.procedures, text: "Procedures")
+					}
+					
+					HStack {
+						colorSample(theme.lifestyle, text: "Lifestyle")
 					}
 				}
 			}

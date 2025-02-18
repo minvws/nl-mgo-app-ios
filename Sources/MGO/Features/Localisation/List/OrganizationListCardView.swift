@@ -102,7 +102,7 @@ struct OrganizationListCardView: View {
 			
 			if state == .regular {
 				Image(ImageResource.Localisation.Icon.add)
-					.foregroundStyle(colorScheme == .dark ? theme.actionTertiaryDefaultText : theme.actionPrimaryDefaultBackground)
+					.foregroundStyle(colorScheme == .dark ? theme.interactiveTertiaryDefaultText : theme.interactivePrimaryDefaultBackground)
 					.font(Font.title2.bold())
 			}
 			if case let .automatic(isSelected) = state {
@@ -110,7 +110,7 @@ struct OrganizationListCardView: View {
 					Image(ImageResource.Localisation.Icon.checked)
 				} else {
 					Image(ImageResource.Localisation.Icon.circle)
-						.foregroundStyle(theme.iconsPrimary)
+						.foregroundStyle(theme.symbolPrimary)
 				}
 			}
 		}
@@ -145,14 +145,14 @@ struct OrganizationListCardView: View {
 						
 						Image(ImageResource.Localisation.Icon.info)
 						Text("add_organization.not_participating")
-							.foregroundStyle(theme.notificationInformation)
+							.foregroundStyle(theme.sentimentInformation)
 					}
 					if case .selected
 						= state {
 							
 						Image(ImageResource.Localisation.Icon.checkCircle)
 						Text("add_organization.already_added")
-							.foregroundStyle(theme.notificationSuccess)
+							.foregroundStyle(theme.sentimentPositive)
 					}
 				}
 				.rijksoverheidStyle(font: .bold, style: .body)

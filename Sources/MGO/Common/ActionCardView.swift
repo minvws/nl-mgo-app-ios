@@ -57,7 +57,7 @@ struct ActionCardView: View {
 				}
 				
 				Image(ImageResource.Overview.chevronRight)
-					.foregroundStyle(theme.iconsPrimary)
+					.foregroundStyle(theme.symbolPrimary)
 					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
 					.accessibilityHidden(true)
 				

@@ -271,7 +271,7 @@ struct OrganizationsView: View {
 				Spacer()
 				
 				Image(imageResource)
-					.foregroundColor(theme.iconsSecondary)
+					.foregroundColor(theme.symbolSecondary)
 			}
 			.padding(ViewTraits.List.padding)
 		}

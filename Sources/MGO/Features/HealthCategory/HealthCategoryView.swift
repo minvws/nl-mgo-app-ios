@@ -507,7 +507,7 @@ struct HealthCategoryView: View {
 				.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
 		}
 		.rijksoverheidStyle(font: .regular, style: .body)
-		.foregroundColor(theme.contentTertiary)
+		.foregroundColor(theme.contentInvert)
 	}
 	
 	/// The view for no search items

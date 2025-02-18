@@ -17,7 +17,7 @@ final class ColorSampleTests: XCTestCase {
 		let sut = ColorSampleView()
 		
 		// When
-		let content = sut.frame(width: 520, height: 1950)
+		let content = sut.frame(width: 520, height: 2000)
 		
 		// Then
 		assertSnapshot(of: UIHostingController(rootView: content.colorScheme(.light)), as: .image(precision: 0.95))
@@ -29,7 +29,7 @@ final class ColorSampleTests: XCTestCase {
 		let sut = ColorSampleView()
 		
 		// When
-		let content = sut.frame(width: 520, height: 1950)
+		let content = sut.frame(width: 520, height: 2000)
 		
 		// Then
 		assertSnapshot(of: UIHostingController(rootView: content.colorScheme(.dark)), as: .image(precision: 0.95))

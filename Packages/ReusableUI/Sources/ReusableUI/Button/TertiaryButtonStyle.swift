@@ -31,7 +31,7 @@ struct TertiaryButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(configuration.isPressed ? theme.actionTertiaryDefaultTextHover : theme.actionTertiaryDefaultText)
+			.foregroundColor(configuration.isPressed ? theme.interactiveTertiaryDefaultTextHover : theme.interactiveTertiaryDefaultText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(Color.clear)

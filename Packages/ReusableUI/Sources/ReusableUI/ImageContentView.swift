@@ -107,7 +107,7 @@ public struct ImageContentView: View {
 					
 					Text(subHeading)
 						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundColor(subHeadingForegroundColor ?? theme.contentTertiary)
+						.foregroundColor(subHeadingForegroundColor ?? theme.contentInvert)
 						.multilineTextAlignment(textAlignment == .center ? .center : .leading)
 						.fixedSize(horizontal: false, vertical: true)
 					

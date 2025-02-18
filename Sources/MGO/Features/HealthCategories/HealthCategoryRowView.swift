@@ -49,7 +49,7 @@ struct HealthCategoryRowView: View {
 					case .loaded:
 						Image(systemName: "chevron.right")
 							.font(.body)
-							.foregroundStyle(theme.iconsSecondary)
+							.foregroundStyle(theme.symbolSecondary)
 					case .loading:
 						HStack {
 							Text("common.loading_data")
@@ -57,11 +57,11 @@ struct HealthCategoryRowView: View {
 							ProgressView()
 								.progressViewStyle(.circular)
 								.frame(width: ViewTraits.Spinner.size, height: ViewTraits.Spinner.size)
-								.tint(theme.iconsSecondary)
+								.tint(theme.symbolSecondary)
 						}
 				}
 			}
-			.foregroundStyle(theme.contentTertiary)
+			.foregroundStyle(theme.contentInvert)
 		}
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.padding(ViewTraits.Block.spacing)

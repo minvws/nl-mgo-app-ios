@@ -95,7 +95,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					.tag(DashboardTab.settings.rawValue)
 					.accessibilityIdentifier("bottombar.settings")
 				}
-				.tint(theme.actionTertiaryDefaultText)
+				.tint(theme.interactiveTertiaryDefaultText)
 				.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
 					isScrolling = newValue.last ?? false
 				})
@@ -103,24 +103,24 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 			.onAppear(perform: {
 				// Brute force styling
 				let tabBarAppearance = UITabBarAppearance()
-				tabBarAppearance.shadowColor = UIColor(theme.strokesTertiary)
+				tabBarAppearance.shadowColor = UIColor(theme.borderTertiary)
 				tabBarAppearance.backgroundColor = UIColor(theme.backgroundSecondary)
 				
 				for appearance in [tabBarAppearance.stackedLayoutAppearance,
 								   tabBarAppearance.inlineLayoutAppearance,
 								   tabBarAppearance.compactInlineLayoutAppearance] {
 					
-					appearance.selected.iconColor = UIColor(theme.actionTertiaryDefaultText)
+					appearance.selected.iconColor = UIColor(theme.interactiveTertiaryDefaultText)
 					appearance.selected.titleTextAttributes =
 					[
-						.foregroundColor: UIColor(theme.actionTertiaryDefaultText),
+						.foregroundColor: UIColor(theme.interactiveTertiaryDefaultText),
 						.paragraphStyle: NSParagraphStyle.default
 					]
 					appearance.normal.titleTextAttributes = [
-						.foregroundColor: UIColor(theme.iconsPrimary),
+						.foregroundColor: UIColor(theme.symbolPrimary),
 						.paragraphStyle: NSParagraphStyle.default
 					]
-					appearance.normal.iconColor = UIColor(theme.iconsPrimary)
+					appearance.normal.iconColor = UIColor(theme.symbolPrimary)
 				}
 				
 				// Apply
