@@ -8,15 +8,27 @@
 import SwiftUI
 
 // Helper for blur effect
-struct BlurView: UIViewRepresentable {
+public struct BlurView: UIViewRepresentable {
 	
 	/// The blur style (see https://developer.apple.com/documentation/uikit/uiblureffect/style)
 	var style: UIBlurEffect.Style
 	
-	func makeUIView(context: Context) -> UIVisualEffectView {
+	/// Create a BlurView
+	/// - Parameter style: the blur style
+	public init(style: UIBlurEffect.Style) {
+
+		self.style = style
+	}
+	
+	// MARK: - UIViewRepresentable -
+	
+	public func makeUIView(context: Context) -> UIVisualEffectView {
+		
 		let view = UIVisualEffectView(effect: UIBlurEffect(style: style))
 		return view
 	}
 	
-	func updateUIView(_ uiView: UIVisualEffectView, context: Context) { /* No action required */ }
+	public func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+		/* No action required */
+	}
 }
