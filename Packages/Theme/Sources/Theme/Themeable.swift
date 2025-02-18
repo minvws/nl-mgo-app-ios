@@ -30,7 +30,6 @@ public protocol Themeable: ObservableObject {
 	
 	var borderPrimary: Color { get }
 	var borderSecondary: Color { get }
-	var borderTertiary: Color { get }
 	
 	// MARK: - Action Primary Default -
 	

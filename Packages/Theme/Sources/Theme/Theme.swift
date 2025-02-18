@@ -28,7 +28,6 @@ public class Theme: Themeable {
 	
 	@Published public var borderPrimary: Color = Color("borderPrimary", bundle: .module)
 	@Published public var borderSecondary: Color = Color("borderSecondary", bundle: .module)
-	@Published public var borderTertiary: Color = Color("borderTertiary", bundle: .module)
 
 	// MARK: - Symbols -
 	

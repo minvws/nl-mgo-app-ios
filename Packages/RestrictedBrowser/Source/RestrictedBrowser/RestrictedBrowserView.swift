@@ -27,7 +27,7 @@ public struct RestrictedBrowserView: View {
 		VStack(spacing: 0) {
 			
 			Divider()
-				.overlay(theme.borderTertiary)
+				.overlay(theme.borderSecondary)
 			
 			WebView(viewModel: viewModel, url: viewModel.url)
 				.background(theme.backgroundPrimary)

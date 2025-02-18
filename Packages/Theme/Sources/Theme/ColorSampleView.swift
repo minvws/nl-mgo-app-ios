@@ -62,7 +62,6 @@ struct ColorSampleView: View {
 					HStack {
 						colorSample(theme.borderPrimary, text: Texts.primary)
 						colorSample(theme.borderSecondary, text: Texts.secondary)
-						colorSample(theme.borderTertiary, text: Texts.tertiary)
 					}
 					
 					Text(Texts.symbol).bold()
@@ -190,3 +189,11 @@ struct ColorSampleView: View {
 #Preview {
 	ColorSampleView()
 }
+
+/*
+ to fix:
+ 
+ headers uiSchema
+ 
+ 
+ */
