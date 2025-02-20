@@ -80,7 +80,7 @@ public struct BannerView: View {
 				
 				Text(feedback.subheading)
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundColor(theme.contentTertiary)
+					.foregroundColor(theme.contentSecondary)
 					.accessibilitySortPriority(980)
 					.accessibilityIdentifier("banner.subheading")
 				
@@ -102,7 +102,7 @@ public struct BannerView: View {
 				} perform: {
 					perform?()
 				}
-				.foregroundColor(onHover ? theme.iconsPrimary : theme.iconsSecondary)
+				.foregroundColor(onHover ? theme.symbolPrimary : theme.symbolSecondary)
 				.accessibilitySortPriority(970)
 				.accessibilityRemoveTraits(.isImage)
 				.accessibilityAddTraits(.isButton)
@@ -110,7 +110,7 @@ public struct BannerView: View {
 				.accessibilityIdentifier("banner.close")
 			
 		}
-		.cardify(padding: ViewTraits.Banner.padding, lineColor: theme.strokesSecondary)
+		.cardify(padding: ViewTraits.Banner.padding, lineColor: theme.borderSecondary)
 	}
 }
 

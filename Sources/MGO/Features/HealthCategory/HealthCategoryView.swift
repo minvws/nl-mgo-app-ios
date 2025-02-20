@@ -507,7 +507,7 @@ struct HealthCategoryView: View {
 				.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
 		}
 		.rijksoverheidStyle(font: .regular, style: .body)
-		.foregroundColor(theme.contentTertiary)
+		.foregroundColor(theme.contentSecondary)
 	}
 	
 	/// The view for no search items
@@ -517,7 +517,8 @@ struct HealthCategoryView: View {
 		ImageContentView(
 			icon: Image(ImageResource.Woman.womanWithPhoneExclamation),
 			heading: viewModel.translations.noSearchResults,
-			subHeading: "health_category.search_again"
+			subHeading: "health_category.search_again",
+			subHeadingForegroundColor: theme.contentPrimary
 		)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
@@ -530,7 +531,8 @@ struct HealthCategoryView: View {
 		ImageContentView(
 			icon: Image(ImageResource.Woman.womanWithPhone),
 			heading: "health_category.empty.heading",
-			subHeading: "health_category.empty.subheading"
+			subHeading: "health_category.empty.subheading",
+			subHeadingForegroundColor: theme.contentPrimary
 		)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)

@@ -76,7 +76,7 @@ struct InputField: View {
 					RoundedRectangle(cornerRadius: ViewTraits.Input.cornerRadius)
 						.inset(by: ViewTraits.Input.inset)
 						.stroke(
-							showError ? theme.notificationError : isFieldFocused ? theme.contentPrimary : theme.strokesPrimary,
+							showError ? theme.sentimentCritical : isFieldFocused ? theme.contentPrimary : theme.borderPrimary,
 							lineWidth: isFieldFocused ? 2 : showError ? 2 : 1)
 				)
 				.overlay(alignment: .trailing) {
@@ -104,7 +104,7 @@ struct InputField: View {
 					Text(errorMessage)
 						.rijksoverheidStyle(font: .bold, style: .body)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
-						.foregroundStyle(theme.notificationError)
+						.foregroundStyle(theme.sentimentCritical)
 				}
 				.onTapGesture {
 					isFieldFocused.toggle()

@@ -27,7 +27,7 @@ public struct RestrictedBrowserView: View {
 		VStack(spacing: 0) {
 			
 			Divider()
-				.overlay(theme.strokesTertiary)
+				.overlay(theme.borderSecondary)
 			
 			WebView(viewModel: viewModel, url: viewModel.url)
 				.background(theme.backgroundPrimary)
@@ -63,6 +63,6 @@ struct NavigationBarButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.foregroundStyle(configuration.isPressed ? theme.actionTertiaryDefaultTextHover : theme.actionTertiaryDefaultText)
+			.foregroundStyle(configuration.isPressed ? theme.interactiveTertiaryDefaultTextHover : theme.interactiveTertiaryDefaultText)
 	}
 }

@@ -33,7 +33,7 @@ public struct ImageContentView: View {
 		textAlignment: ImageContentView.Alignment = .center,
 		textSpacing: CGFloat = 8,
 		titleStyle: Font.TextStyle = .title3,
-		subHeadingForegroundColor: Color? = nil
+		subHeadingForegroundColor: Color
 	) {
 		self.icon = icon
 		self.heading = heading
@@ -107,7 +107,7 @@ public struct ImageContentView: View {
 					
 					Text(subHeading)
 						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundColor(subHeadingForegroundColor ?? theme.contentTertiary)
+						.foregroundColor(subHeadingForegroundColor)
 						.multilineTextAlignment(textAlignment == .center ? .center : .leading)
 						.fixedSize(horizontal: false, vertical: true)
 					

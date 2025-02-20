@@ -22,76 +22,77 @@ public class Theme: Themeable {
 	
 	@Published public var contentPrimary: Color = Color("contentPrimary", bundle: .module)
 	@Published public var contentSecondary: Color = Color("contentSecondary", bundle: .module)
-	@Published public var contentTertiary: Color = Color("contentTertiary", bundle: .module)
+	@Published public var contentInvert: Color = Color("contentInvert", bundle: .module)
 	
-	// MARK: - Icons -
+	// MARK: - Border -
 	
-	@Published public var iconsPrimary: Color = Color("iconsPrimary", bundle: .module)
-	@Published public var iconsSecondary: Color = Color("iconsSecondary", bundle: .module)
-	
-	// MARK: - Strokes -
-	
-	@Published public var strokesPrimary: Color = Color("strokesPrimary", bundle: .module)
-	@Published public var strokesSecondary: Color = Color("strokesSecondary", bundle: .module)
-	@Published public var strokesTertiary: Color = Color("strokesTertiary", bundle: .module)
-	
-	// MARK: - Action Primary Default -
-	
-	@Published public var actionPrimaryDefaultBackground: Color = Color("actionPrimaryDefaultBackground", bundle: .module)
-	@Published public var actionPrimaryDefaultBackgroundHover: Color = Color("actionPrimaryDefaultBackgroundHover", bundle: .module)
-	@Published public var actionPrimaryDefaultText: Color = Color("actionPrimaryDefaultText", bundle: .module)
-	
-	// MARK: - Action Primary Critical-
-	
-	@Published public var actionPrimaryCriticalBackground: Color = Color("actionPrimaryCriticalBackground", bundle: .module)
-	@Published public var actionPrimaryCriticalBackgroundHover: Color = Color("actionPrimaryCriticalBackgroundHover", bundle: .module)
-	@Published public var actionPrimaryCriticalText: Color = Color("actionPrimaryCriticalText", bundle: .module)
+	@Published public var borderPrimary: Color = Color("borderPrimary", bundle: .module)
+	@Published public var borderSecondary: Color = Color("borderSecondary", bundle: .module)
 
-	// MARK: - Action Secondary Default -
+	// MARK: - Symbols -
+	
+	@Published public var symbolPrimary: Color = Color("symbolPrimary", bundle: .module)
+	@Published public var symbolSecondary: Color = Color("symbolSecondary", bundle: .module)
+	@Published public var symbolTertiary: Color = Color("symbolTertiary", bundle: .module)
+	
+	// MARK: - Sentiment -
+	
+	@Published public var sentimentInformation: Color = Color("sentimentInformation", bundle: .module)
+	@Published public var sentimentPositive: Color = Color("sentimentPositive", bundle: .module)
+	@Published public var sentimentWarning: Color = Color("sentimentWarning", bundle: .module)
+	@Published public var sentimentCritical: Color = Color("sentimentCritical", bundle: .module)
+	
+	// MARK: - Interactive Primary Default -
+	
+	@Published public var interactivePrimaryDefaultBackground: Color = Color("interactivePrimaryDefaultBackground", bundle: .module)
+	@Published public var interactivePrimaryDefaultBackgroundHover: Color = Color("interactivePrimaryDefaultBackgroundHover", bundle: .module)
+	@Published public var interactivePrimaryDefaultText: Color = Color("interactivePrimaryDefaultText", bundle: .module)
+	
+	// MARK: - Interactive Primary Critical-
+	
+	@Published public var interactivePrimaryCriticalBackground: Color = Color("interactivePrimaryCriticalBackground", bundle: .module)
+	@Published public var interactivePrimaryCriticalBackgroundHover: Color = Color("interactivePrimaryCriticalBackgroundHover", bundle: .module)
+	@Published public var interactivePrimaryCriticalText: Color = Color("interactivePrimaryCriticalText", bundle: .module)
 
-	@Published public var actionSecondaryDefaultBackground: Color = Color("actionSecondaryDefaultBackground", bundle: .module)
-	@Published public var actionSecondaryDefaultBackgroundHover: Color = Color("actionSecondaryDefaultBackgroundHover", bundle: .module)
-	@Published public var actionSecondaryDefaultText: Color = Color("actionSecondaryDefaultText", bundle: .module)
-	
-	// MARK: - Action Secondary Critical -
+	// MARK: - Interactive Secondary Default -
 
-	@Published public var actionSecondaryCriticalBackground: Color = Color("actionSecondaryCriticalBackground", bundle: .module)
-	@Published public var actionSecondaryCriticalBackgroundHover: Color = Color("actionSecondaryCriticalBackgroundHover", bundle: .module)
-	@Published public var actionSecondaryCriticalText: Color = Color("actionSecondaryCriticalText", bundle: .module)
+	@Published public var interactiveSecondaryDefaultBackground: Color = Color("interactiveSecondaryDefaultBackground", bundle: .module)
+	@Published public var interactiveSecondaryDefaultBackgroundHover: Color = Color("interactiveSecondaryDefaultBackgroundHover", bundle: .module)
+	@Published public var interactiveSecondaryDefaultText: Color = Color("interactiveSecondaryDefaultText", bundle: .module)
+	
+	// MARK: - Interactive Secondary Critical -
 
-	// MARK: - Action Tertiary Default -
+	@Published public var interactiveSecondaryCriticalBackground: Color = Color("interactiveSecondaryCriticalBackground", bundle: .module)
+	@Published public var interactiveSecondaryCriticalBackgroundHover: Color = Color("interactiveSecondaryCriticalBackgroundHover", bundle: .module)
+	@Published public var interactiveSecondaryCriticalText: Color = Color("interactiveSecondaryCriticalText", bundle: .module)
+
+	// MARK: - Interactive Tertiary Default -
 	
-	@Published public var actionTertiaryDefaultText: Color = Color("actionTertiaryDefaultText", bundle: .module)
-	@Published public var actionTertiaryDefaultTextHover: Color = Color("actionTertiaryDefaultTextHover", bundle: .module)
+	@Published public var interactiveTertiaryDefaultText: Color = Color("interactiveTertiaryDefaultText", bundle: .module)
+	@Published public var interactiveTertiaryDefaultTextHover: Color = Color("interactiveTertiaryDefaultTextHover", bundle: .module)
 	
-	// MARK: - Action Tertiary Critical -
+	// MARK: - Interactive Tertiary Critical -
 	
-	@Published public var actionTertiaryCriticalText: Color = Color("actionTertiaryCriticalText", bundle: .module)
-	@Published public var actionTertiaryCriticalTextHover: Color = Color("actionTertiaryCriticalTextHover", bundle: .module)
-	
-	// MARK: - Notification -
-	
-	@Published public var notificationInformation: Color = Color("notificationInformation", bundle: .module)
-	@Published public var notificationSuccess: Color = Color("notificationSuccess", bundle: .module)
-	@Published public var notificationWarning: Color = Color("notificationWarning", bundle: .module)
-	@Published public var notificationError: Color = Color("notificationError", bundle: .module)
+	@Published public var interactiveTertiaryCriticalText: Color = Color("interactiveTertiaryCriticalText", bundle: .module)
+	@Published public var interactiveTertiaryCriticalTextHover: Color = Color("interactiveTertiaryCriticalTextHover", bundle: .module)
 	
 	// MARK: - Support -
 	
-	@Published public var apotheek: Color = Color("apotheek", bundle: .module)
-	@Published public var ziekenhuis: Color = Color("ziekenhuis", bundle: .module)
-	@Published public var huisarts: Color = Color("huisarts", bundle: .module)
-	@Published public var tandarts: Color = Color("tandarts", bundle: .module)
-	@Published public var ggz: Color = Color("ggz", bundle: .module)
-	@Published public var fysiotherapeut: Color = Color("fysiotherapeut", bundle: .module)
-	@Published public var verpleeghuis: Color = Color("verpleeghuis", bundle: .module)
-	@Published public var thuiszorg: Color = Color("thuiszorg", bundle: .module)
-	@Published public var kliniek: Color = Color("kliniek", bundle: .module)
-	@Published public var verloskundige: Color = Color("verloskundige", bundle: .module)
-	@Published public var overige: Color = Color("overige", bundle: .module)
+	@Published public var medication: Color = Color("medication", bundle: .module)
+	@Published public var treatment: Color = Color("treatment", bundle: .module)
+	@Published public var contacts: Color = Color("contacts", bundle: .module)
+	@Published public var laboratory: Color = Color("laboratory", bundle: .module)
+	@Published public var functional: Color = Color("functional", bundle: .module)
+	@Published public var device: Color = Color("device", bundle: .module)
+	@Published public var vitals: Color = Color("vitals", bundle: .module)
+	@Published public var documents: Color = Color("documents", bundle: .module)
+	@Published public var allergies: Color = Color("allergies", bundle: .module)
+	@Published public var problems: Color = Color("problems", bundle: .module)
+	@Published public var personal: Color = Color("personal", bundle: .module)
 	@Published public var rijksLint: Color = Color("rijkslint", bundle: .module)
-	@Published public var rivm: Color = Color("rivm", bundle: .module)
-	@Published public var ggd: Color = Color("ggd", bundle: .module)
-	@Published public var revalidatie: Color = Color("revalidatie", bundle: .module)
-	@Published public var gegevens: Color = Color("gegevens", bundle: .module)
+	@Published public var warning: Color = Color("warning", bundle: .module)
+	@Published public var payer: Color = Color("payer", bundle: .module)
+	@Published public var vaccinations: Color = Color("vaccinations", bundle: .module)
+	@Published public var procedures: Color = Color("procedures", bundle: .module)
+	@Published public var lifestyle: Color = Color("lifestyle", bundle: .module)
 }

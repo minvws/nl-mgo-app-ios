@@ -49,79 +49,79 @@ struct CategoryButton: Identifiable {
 				// Medication
 			Image(ImageResource.HealthCategory.pill)
 					.resizable()
-					.foregroundStyle(theme.huisarts)
+					.foregroundStyle(theme.contacts)
 				
 			case HealthCategories.Category.measurements.rawValue:
 				// Measurements
 				Image(ImageResource.HealthCategory.vitalSigns)
 					.resizable()
-					.foregroundStyle(theme.apotheek)
+					.foregroundStyle(theme.medication)
 			
 			case HealthCategories.Category.labResults.rawValue:
 				// Lab results
 				Image(ImageResource.HealthCategory.tube)
 					.resizable()
-					.foregroundStyle(theme.ziekenhuis)
+					.foregroundStyle(theme.treatment)
 			
 			case HealthCategories.Category.allergies.rawValue:
 				// Allergies
 				Image(ImageResource.HealthCategory.allergies)
 						.resizable()
-						.foregroundStyle(theme.kliniek)
+						.foregroundStyle(theme.allergies)
 					
 			case HealthCategories.Category.treatments.rawValue:
 				// Treatments
 				Image(ImageResource.HealthCategory.case)
 					.resizable()
-					.foregroundStyle(theme.ggz)
+					.foregroundStyle(theme.functional)
 			
 			case HealthCategories.Category.appointments.rawValue:
 				// Appointments
 				Image(ImageResource.HealthCategory.appointment)
 					.resizable()
-					.foregroundStyle(theme.ggd)
+					.foregroundStyle(theme.payer)
 
 			case HealthCategories.Category.vaccinations.rawValue:
 				// Vaccinations
 				Image(ImageResource.HealthCategory.syringe)
 					.resizable()
-					.foregroundStyle(theme.tandarts)
+					.foregroundStyle(theme.laboratory)
 				
 			case HealthCategories.Category.documents.rawValue:
 				// Documents
 				Image(ImageResource.HealthCategory.folder)
 					.resizable()
-					.foregroundStyle(theme.thuiszorg)
+					.foregroundStyle(theme.documents)
 			
 			case HealthCategories.Category.complaints.rawValue:
 				// Complaints
 				Image(ImageResource.HealthCategory.complaint)
 					.resizable()
-					.foregroundStyle(theme.verpleeghuis)
+					.foregroundStyle(theme.vitals)
 			
 			case HealthCategories.Category.patient.rawValue:
 				// Patient
 				Image(ImageResource.HealthCategory.patient)
 					.resizable()
-					.foregroundStyle(theme.overige)
+					.foregroundStyle(theme.personal)
 
 			case HealthCategories.Category.alerts.rawValue:
 				// Alert
 				Image(ImageResource.HealthCategory.alert)
 					.resizable()
-					.foregroundStyle(theme.rivm)
+					.foregroundStyle(theme.warning)
 			
 			case HealthCategories.Category.payment.rawValue:
 				// Payment
 				Image(ImageResource.HealthCategory.payment)
 					.resizable()
-					.foregroundStyle(theme.verloskundige)
+					.foregroundStyle(theme.problems)
 			
 			case HealthCategories.Category.plans.rawValue:
 				// Plans
 				Image(ImageResource.HealthCategory.plans)
 					.resizable()
-					.foregroundStyle(theme.revalidatie)
+					.foregroundStyle(theme.vaccinations)
 			
 			case HealthCategories.Category.devices.rawValue:
 				// Device
@@ -133,13 +133,13 @@ struct CategoryButton: Identifiable {
 				// Mental wellbeing
 				Image(ImageResource.HealthCategory.smile)
 					.resizable()
-					.foregroundStyle(theme.notificationInformation)
+					.foregroundStyle(theme.sentimentInformation)
 		
 			case HealthCategories.Category.lifestyle.rawValue:
 				// Lifestyle
 				Image(ImageResource.HealthCategory.lifestyle)
 					.resizable()
-					.foregroundStyle(theme.gegevens)
+					.foregroundStyle(theme.lifestyle)
 			
 			default:
 				EmptyView()

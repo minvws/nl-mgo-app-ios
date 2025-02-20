@@ -33,9 +33,9 @@ struct KeyboardButtonStyle: ButtonStyle {
 		configuration.label
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.rijksoverheidStyle(font: .regular, style: .title2)
-			.foregroundStyle(isEnabled ? theme.contentPrimary : theme.iconsSecondary)
+			.foregroundStyle(isEnabled ? theme.contentPrimary : theme.symbolSecondary)
 			.background(configuration.isPressed ? theme.backgroundTertiary : theme.backgroundSecondary)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
-			.shadow(color: theme.strokesPrimary, radius: 0, x: 0, y: 0.5)
+			.shadow(color: theme.borderPrimary, radius: 0, x: 0, y: 0.5)
 	}
 }

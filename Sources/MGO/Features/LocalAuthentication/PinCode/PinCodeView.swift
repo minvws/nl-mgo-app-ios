@@ -595,7 +595,7 @@ struct PinCodeView: View {
 				Spacer()
 			}
 		}
-		.foregroundStyle(theme.notificationError)
+		.foregroundStyle(theme.sentimentCritical)
 		.frame(minHeight: ViewTraits.Feedback.minHeight, alignment: .top)
 	}
 	

@@ -34,7 +34,7 @@ public struct DetailRow: View {
 			Text(title)
 				.textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
 				.rijksoverheidStyle(font: .regular, style: .callout)
-				.foregroundColor(theme.contentTertiary)
+				.foregroundColor(theme.contentSecondary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 			
 			Text(content ?? "")

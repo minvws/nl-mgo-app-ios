@@ -194,7 +194,8 @@ struct OrganizationsView: View {
 			ImageContentView(
 				icon: Image(ImageResource.Woman.womanWithPhone),
 				heading: "common.no_organizations_heading",
-				subHeading: "common.no_organizations_subheading"
+				subHeading: "common.no_organizations_subheading",
+				subHeadingForegroundColor: theme.contentPrimary
 			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
@@ -271,7 +272,7 @@ struct OrganizationsView: View {
 				Spacer()
 				
 				Image(imageResource)
-					.foregroundColor(theme.iconsSecondary)
+					.foregroundColor(theme.symbolSecondary)
 			}
 			.padding(ViewTraits.List.padding)
 		}
