@@ -24,7 +24,7 @@ final class RestrictedBrowserViewTests: XCTestCase {
 		sut = RestrictedBrowserView(viewModel: viewModel)
 	}
 	
-	func test_restrictedBrowserView() throws {
+	func test_restrictedBrowserView_dark() throws {
 	
 		// Given
 		try setupSut()
@@ -38,6 +38,17 @@ final class RestrictedBrowserViewTests: XCTestCase {
 			as: .image,
 			named: "_darkPortrait"
 		)
+	}
+	
+	func test_restrictedBrowserView_light() throws {
+	
+		// Given
+		try setupSut()
+		
+		// When
+		let content = NavigationView { sut }.frame(width: 300, height: 800)
+		
+		// Then
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.light)),
 			as: .image,

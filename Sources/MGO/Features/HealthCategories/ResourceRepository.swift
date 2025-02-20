@@ -93,14 +93,23 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		self.observerToken = healthcareOrganizationRepository?.observatory.append { [weak self] organization, reason in
 			switch reason {
 				case .added:
-					// New organization, load the data
-					logVerbose("ResourceRepository observatory .added triggered for  \(organization.display_name)")
-					self?.loadFor(organization)
-					
+					if let organization {
+						// New organization, load the data
+						logVerbose("ResourceRepository observatory .added triggered for  \(organization.display_name)")
+						self?.loadFor(organization)
+					}
+				
 				case .removed:
-					// Remove stored data for the removed organization
-					logVerbose("ResourceRepository observatory .removed for \(organization.display_name)")
-					self?.dataRepository?.removeRecords(for: organization.identifier)
+					if let organization {
+						// Remove stored data for the removed organization
+						logVerbose("ResourceRepository observatory .removed for \(organization.display_name)")
+						self?.dataRepository?.removeRecords(for: organization.identifier)
+					}
+				
+				case .changed:
+					logInfo("ResourceRepository observatory .changed")
+					self?.dataRepository?.removeAllRecords()
+					self?.load()
 			}
 		}
 	}
