@@ -140,7 +140,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		// When
 		sut.loadFor(organization)
 		
-		// The4
+		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(28), timeout: .seconds(10))
 	}
 	
@@ -228,5 +228,53 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(zib) == nil
+	}
+	
+	func test_handleOrganizationChanges_added() throws {
+		
+		// Given
+		let organization = Generator.healthcareOrganization("1")
+		let json = try getResource("bundle")
+
+		stub(condition: isHost("example.com")) { _ in
+			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
+		}
+		
+		// When
+		sut.handleOrganizationChanges(organization, reason: .added)
+		
+		// Then
+		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(28), timeout: .seconds(10))
+	}
+	
+	func test_handleOrganizationChanges_removed() {
+		
+		// Given
+		let organization = Generator.healthcareOrganization("1")
+		
+		// When
+		sut.handleOrganizationChanges(organization, reason: .removed)
+		
+		// Then
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == true
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
+	}
+	
+	func test_handleOrganizationChanges_changed() throws {
+		
+		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
+		let json = try getResource("bundle")
+		stub(condition: isHost("example.com")) { _ in
+			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
+		}
+		
+		// When
+		sut.handleOrganizationChanges(nil, reason: .changed)
+		
+		// Then
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecords) == false
+		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == true
+		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(0))
 	}
 }

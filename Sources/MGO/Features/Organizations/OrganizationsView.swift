@@ -51,7 +51,7 @@ class OrganizationsViewModel: ObservableObject {
 		registerObservers()
 	}
 	
-	// Listen to changes in the stored organizations list
+	/// Listen to changes in the stored organizations list
 	private func registerObservers() {
 		
 		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _, reason in
@@ -61,6 +61,9 @@ class OrganizationsViewModel: ObservableObject {
 		}
 	}
 	
+	/// Handle changes in the organizations list
+	/// - Parameters:
+	///   - reason: the reason the list has changed
 	func handleOrganizationChanges(_ reason: HealthcareOrganizationReason) {
 		
 		logInfo("OrganizationsViewModel Reason: \(reason)")
