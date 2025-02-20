@@ -37,7 +37,7 @@ class OrganizationsViewModel: ObservableObject {
 		case search
 		case details(MgoOrganization)
 		case closeToast
-		case showToast
+		case showToast(title: String, subtitle: String)
 		case undo
 	}
 	
@@ -54,10 +54,34 @@ class OrganizationsViewModel: ObservableObject {
 	// Listen to changes in the stored organizations list
 	private func registerObservers() {
 		
-		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _ in
+		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _, reason in
 			
 			self?.loadHealthcareOrganizations()
-			self?.reduce(.showToast)
+			self?.handleOrganizationChanges(reason)
+		}
+	}
+	
+	func handleOrganizationChanges(_ reason: HealthcareOrganizationReason) {
+		
+		logInfo("OrganizationsViewModel Reason: \(reason)")
+		switch reason {
+			case .added:
+				// Nothing to do
+				break
+			case .removed:
+				reduce(
+					.showToast(
+						title: String(localized: "toast.organization_removed.heading"),
+						subtitle: String(localized: "toast.organization_removed.subheading")
+					)
+				)
+			case .changed:
+				reduce(
+					.showToast(
+						title: String(localized: "toast.organizations_changed.heading"),
+						subtitle: String(localized: "toast.organizations_changed.subheading")
+					)
+				)
 		}
 	}
 	
@@ -92,10 +116,10 @@ class OrganizationsViewModel: ObservableObject {
 				toast = nil
 				updateOriginalOrganizations()
 			
-			case .showToast:
+			case let .showToast(title, subtitle):
 				toast = Feedback(
-					title: String(localized: "toast.organizations_changed.heading"),
-					subtitle: String(localized: "toast.organizations_changed.subheading"),
+					title: title,
+					subtitle: subtitle,
 					type: .success,
 					perform: { [weak self] in
 						self?.reduce(.undo)
