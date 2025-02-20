@@ -97,7 +97,7 @@ final class OrganizationsViewModelTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.reduce(.showToast)
+		sut.reduce(.showToast(title: "title", subtitle: "subtitle"))
 		
 		// Then
 		expect(self.sut.toast) != nil
@@ -109,7 +109,7 @@ final class OrganizationsViewModelTests: XCTestCase {
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		sut = OrganizationsViewModel(coordinator: coordinatorSpy)
-		sut.reduce(.showToast)
+		sut.reduce(.showToast(title: "title", subtitle: "subtitle"))
 		
 		// When
 		sut.toast?.action?()
@@ -117,5 +117,40 @@ final class OrganizationsViewModelTests: XCTestCase {
 		// Then
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedSet) == true
 		expect(self.sut.toast) == nil
+	}
+	
+	func test_handleOrganizationChanges_added() {
+		
+		// Given
+		
+		// When
+		sut.handleOrganizationChanges(.added)
+		
+		// Then
+		expect(self.sut.toast) == nil
+	}
+	
+	func test_handleOrganizationChanges_removed() {
+		
+		// Given
+		
+		// When
+		sut.handleOrganizationChanges(.removed)
+		
+		// Then
+		expect(self.sut.toast?.heading) == "Zorgaanbieder verwijderd"
+		expect(self.sut.toast?.subheading) == "Herstel"
+	}
+	
+	func test_handleOrganizationChanges_changed() {
+		
+		// Given
+		
+		// When
+		sut.handleOrganizationChanges(.changed)
+		
+		// Then
+		expect(self.sut.toast?.heading) == "Zorgaanbieders aangepast"
+		expect(self.sut.toast?.subheading) == "Herstel"
 	}
 }

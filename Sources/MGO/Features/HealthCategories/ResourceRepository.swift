@@ -87,21 +87,38 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		registerObservers()
 	}
 	
-	// Listen to changes in the stored organizations list
+	/// Listen to changes in the stored organizations list
 	private func registerObservers() {
 		
 		self.observerToken = healthcareOrganizationRepository?.observatory.append { [weak self] organization, reason in
-			switch reason {
-				case .added:
+			self?.handleOrganizationChanges(organization, reason: reason)
+		}
+	}
+	
+	/// Handle changes in the organizations list
+	/// - Parameters:
+	///   - organization: optional organization added or removed
+	///   - reason: the reason the list has changed
+	func handleOrganizationChanges(_ organization: MgoOrganization?, reason: HealthcareOrganizationReason) {
+		switch reason {
+			case .added:
+				if let organization {
 					// New organization, load the data
 					logVerbose("ResourceRepository observatory .added triggered for  \(organization.display_name)")
-					self?.loadFor(organization)
-					
-				case .removed:
+					loadFor(organization)
+				}
+			
+			case .removed:
+				if let organization {
 					// Remove stored data for the removed organization
 					logVerbose("ResourceRepository observatory .removed for \(organization.display_name)")
-					self?.dataRepository?.removeRecords(for: organization.identifier)
-			}
+					dataRepository?.removeRecords(for: organization.identifier)
+				}
+			
+			case .changed:
+				logVerbose("ResourceRepository observatory .changed")
+				dataRepository?.removeAllRecords()
+				load()
 		}
 	}
 	

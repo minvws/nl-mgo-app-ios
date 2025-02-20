@@ -13,6 +13,7 @@ import FileStorage
 public enum HealthcareOrganizationReason {
 	case added
 	case removed
+	case changed
 }
 
 public protocol HealthcareOrganizationRepositoryProtocol {
@@ -21,7 +22,7 @@ public protocol HealthcareOrganizationRepositoryProtocol {
 	var organizations: [MgoOrganization] { get }
 	
 	/// Observatory for changes
-	var observatory: Observatory<(MgoOrganization, HealthcareOrganizationReason)> { get }
+	var observatory: Observatory<(MgoOrganization?, HealthcareOrganizationReason)> { get }
 	
 	/// Add a healthcare organization to the storage
 	/// - Parameter organization: the healthcare organization to store
@@ -58,10 +59,10 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	private let queue = DispatchQueue(label: "com.HealthcareOrganizationRepository.serialqueue.\(UUID().uuidString)")
 	
 	/// Observatory for changes
-	public let observatory: Observatory<(MgoOrganization, HealthcareOrganizationReason)>
+	public let observatory: Observatory<(MgoOrganization?, HealthcareOrganizationReason)>
 	
 	/// Observers for changes
-	private let observers: ((MgoOrganization, HealthcareOrganizationReason)) -> Void
+	private let observers: ((MgoOrganization?, HealthcareOrganizationReason)) -> Void
 	
 	/// The list of stored healthcare organization
 	public var organizations: [MgoOrganization]
@@ -71,7 +72,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	public init(storage: FileStorageProtocol = FileStorage()) {
 		
 		self.storage = storage
-		(self.observatory, self.observers) = Observatory<(MgoOrganization, HealthcareOrganizationReason)>.create()
+		(self.observatory, self.observers) = Observatory<(MgoOrganization?, HealthcareOrganizationReason)>.create()
 		
 		self.organizations = []
 		do {
@@ -122,6 +123,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	public func set(_ newListOfOrganizations: [MgoOrganization]) throws {
 		
 		organizations = newListOfOrganizations
+		observers((nil, .changed))
 		try persistToStorage()
 	}
 	
