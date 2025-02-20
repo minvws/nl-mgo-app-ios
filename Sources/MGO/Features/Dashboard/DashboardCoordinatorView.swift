@@ -103,7 +103,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 			.onAppear(perform: {
 				// Brute force styling
 				let tabBarAppearance = UITabBarAppearance()
-				tabBarAppearance.shadowColor = UIColor(theme.borderSecondary)
+				tabBarAppearance.shadowColor = UIColor(theme.symbolPrimary)
 				tabBarAppearance.backgroundColor = UIColor(theme.backgroundSecondary)
 				
 				for appearance in [tabBarAppearance.stackedLayoutAppearance,
