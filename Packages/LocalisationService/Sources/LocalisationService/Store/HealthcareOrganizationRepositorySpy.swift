@@ -24,9 +24,9 @@ public class HealthcareOrganizationRepositorySpy: HealthcareOrganizationReposito
 
 	public var invokedObservatoryGetter = false
 	public var invokedObservatoryGetterCount = 0
-	public var stubbedObservatory: Observatory<(MgoOrganization, HealthcareOrganizationReason)>!
+	public var stubbedObservatory: Observatory<(MgoOrganization?, HealthcareOrganizationReason)>!
 
-	public var observatory: Observatory<(MgoOrganization, HealthcareOrganizationReason)> {
+	public var observatory: Observatory<(MgoOrganization?, HealthcareOrganizationReason)> {
 		invokedObservatoryGetter = true
 		invokedObservatoryGetterCount += 1
 		return stubbedObservatory

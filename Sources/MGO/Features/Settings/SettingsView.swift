@@ -85,7 +85,7 @@ struct SettingsView: View {
 						Toggle(isOn: $automaticLocalization) {
 							Text("settings.featureflag.localization")
 						}.toggleStyle(.switch)
-							.tint(theme.actionPrimaryDefaultBackground)
+							.tint(theme.interactivePrimaryDefaultBackground)
 					}
 				}
 				.onChange(of: automaticLocalization) { newValue in

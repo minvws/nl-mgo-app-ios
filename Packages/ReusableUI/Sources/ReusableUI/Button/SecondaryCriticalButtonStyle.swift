@@ -32,10 +32,10 @@ struct SecondaryCriticalButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(theme.actionSecondaryCriticalText)
+			.foregroundColor(theme.interactiveSecondaryCriticalText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.actionSecondaryCriticalBackgroundHover : theme.actionSecondaryCriticalBackground)
+			.background(configuration.isPressed ? theme.interactiveSecondaryCriticalBackgroundHover : theme.interactiveSecondaryCriticalBackground)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

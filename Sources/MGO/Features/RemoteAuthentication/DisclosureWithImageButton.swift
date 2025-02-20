@@ -53,7 +53,7 @@ struct DisclosureWithImageButton: View {
 							.overlay {
 								Rectangle()
 									.inset(by: 1)
-									.stroke(theme.strokesPrimary, lineWidth: 1)
+									.stroke(theme.borderPrimary, lineWidth: 1)
 									.clipShape(RoundedRectangle(cornerRadius: 3))
 							}
 					})
@@ -74,7 +74,7 @@ struct DisclosureWithImageButton: View {
 					.padding(.leading, ViewTraits.General.padding)
 				
 				Image(ImageResource.Localisation.arrowForward)
-					.foregroundStyle(theme.iconsPrimary)
+					.foregroundStyle(theme.symbolPrimary)
 					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
 				
 			}

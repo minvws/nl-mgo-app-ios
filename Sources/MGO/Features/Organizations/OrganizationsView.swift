@@ -37,7 +37,7 @@ class OrganizationsViewModel: ObservableObject {
 		case search
 		case details(MgoOrganization)
 		case closeToast
-		case showToast
+		case showToast(title: String, subtitle: String)
 		case undo
 	}
 	
@@ -51,13 +51,40 @@ class OrganizationsViewModel: ObservableObject {
 		registerObservers()
 	}
 	
-	// Listen to changes in the stored organizations list
+	/// Listen to changes in the stored organizations list
 	private func registerObservers() {
 		
-		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _ in
+		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _, reason in
 			
 			self?.loadHealthcareOrganizations()
-			self?.reduce(.showToast)
+			self?.handleOrganizationChanges(reason)
+		}
+	}
+	
+	/// Handle changes in the organizations list
+	/// - Parameters:
+	///   - reason: the reason the list has changed
+	func handleOrganizationChanges(_ reason: HealthcareOrganizationReason) {
+		
+		logInfo("OrganizationsViewModel Reason: \(reason)")
+		switch reason {
+			case .added:
+				// Nothing to do
+				break
+			case .removed:
+				reduce(
+					.showToast(
+						title: String(localized: "toast.organization_removed.heading"),
+						subtitle: String(localized: "toast.organization_removed.subheading")
+					)
+				)
+			case .changed:
+				reduce(
+					.showToast(
+						title: String(localized: "toast.organizations_changed.heading"),
+						subtitle: String(localized: "toast.organizations_changed.subheading")
+					)
+				)
 		}
 	}
 	
@@ -92,10 +119,10 @@ class OrganizationsViewModel: ObservableObject {
 				toast = nil
 				updateOriginalOrganizations()
 			
-			case .showToast:
+			case let .showToast(title, subtitle):
 				toast = Feedback(
-					title: String(localized: "toast.organizations_changed.heading"),
-					subtitle: String(localized: "toast.organizations_changed.subheading"),
+					title: title,
+					subtitle: subtitle,
 					type: .success,
 					perform: { [weak self] in
 						self?.reduce(.undo)
@@ -194,7 +221,8 @@ struct OrganizationsView: View {
 			ImageContentView(
 				icon: Image(ImageResource.Woman.womanWithPhone),
 				heading: "common.no_organizations_heading",
-				subHeading: "common.no_organizations_subheading"
+				subHeading: "common.no_organizations_subheading",
+				subHeadingForegroundColor: theme.contentPrimary
 			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
@@ -271,7 +299,7 @@ struct OrganizationsView: View {
 				Spacer()
 				
 				Image(imageResource)
-					.foregroundColor(theme.iconsSecondary)
+					.foregroundColor(theme.symbolSecondary)
 			}
 			.padding(ViewTraits.List.padding)
 		}
