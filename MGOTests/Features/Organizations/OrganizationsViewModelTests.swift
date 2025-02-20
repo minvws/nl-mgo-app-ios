@@ -97,7 +97,7 @@ final class OrganizationsViewModelTests: XCTestCase {
 		// Given
 		
 		// When
-		sut.reduce(.showToast(title: "title", subtitle:"subtitle"))
+		sut.reduce(.showToast(title: "title", subtitle: "subtitle"))
 		
 		// Then
 		expect(self.sut.toast) != nil
@@ -109,7 +109,7 @@ final class OrganizationsViewModelTests: XCTestCase {
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		sut = OrganizationsViewModel(coordinator: coordinatorSpy)
-		sut.reduce(.showToast(title: "title", subtitle:"subtitle"))
+		sut.reduce(.showToast(title: "title", subtitle: "subtitle"))
 		
 		// When
 		sut.toast?.action?()
