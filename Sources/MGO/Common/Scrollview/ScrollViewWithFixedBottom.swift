@@ -68,7 +68,7 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	ScrollViewWithFixedBottom(
 		content: { Text(verbatim: "Top") },
 		bottomView: { Button(
-			action: { },
+			action: { /* No Action for preview */ },
 			label: {
 				CallToActionButton("common.next")
 			}

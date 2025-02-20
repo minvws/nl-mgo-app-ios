@@ -97,7 +97,7 @@ struct PropositionView: View {
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.padding(.bottom, ViewTraits.General.padding)
 				.foregroundStyle(theme.contentPrimary)
-				.tint(theme.interactiveTertiaryDefaultText)
+				.tint(theme.interactionTertiaryDefaultText)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				
 				Group {

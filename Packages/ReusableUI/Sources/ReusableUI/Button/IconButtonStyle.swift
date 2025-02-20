@@ -23,6 +23,6 @@ public struct IconButtonStyle: ButtonStyle {
 	public func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.foregroundColor(configuration.isPressed ? theme.symbolSecondary : theme.symbolPrimary)
+			.foregroundColor(configuration.isPressed ? theme.symbolSecondary.opacity(0.5) : theme.symbolSecondary)
 	}
 }

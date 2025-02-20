@@ -14,5 +14,10 @@
 @_exported import Theme
 
 // External
+@_exported import DeviceKit
 @_exported import NavigationStackBackport
 @_exported import SwiftUIIntrospect
+
+public var isiPhoneSE: Bool {
+	Device.current == .iPhoneSE || Device.current == .simulator(.iPhoneSE)
+}

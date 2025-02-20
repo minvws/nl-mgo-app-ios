@@ -102,7 +102,6 @@ JailBreakDetector { style.fill: "#ffcc00" }
 JailBreakDetector <- iOSSecuritySuite
 
 LocalAuthenticationProvider { style.fill: "#ffcc00" }
-#LocalAuthenticationProvider <- Foundation
 
 LocalisationService { style.fill: "#ffcc00" }
 LocalisationService <- AuthorizationMiddleware
@@ -133,6 +132,7 @@ MGOFoundation <- RemoteAuthentication
 MGOFoundation <- RemoteConfiguration
 
 MGOUI { style.fill: "#ffcc00" }
+MGOUI <- DeviceKit
 MGOUI <- NavigationStackBackport
 MGOUI <- SwiftUIIntrospect
 MGOUI <- ReusableUI

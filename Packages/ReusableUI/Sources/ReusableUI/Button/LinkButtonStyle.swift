@@ -31,6 +31,6 @@ public struct LinkButtonStyle: ButtonStyle {
 		configuration.label
 			.frame(maxWidth: .infinity, alignment: alignment)
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(configuration.isPressed ? theme.interactiveTertiaryDefaultTextHover : theme.interactiveTertiaryDefaultText)
+			.foregroundColor(configuration.isPressed ? theme.interactionTertiaryDefaultTextHover : theme.interactionTertiaryDefaultText)
 	}
 }

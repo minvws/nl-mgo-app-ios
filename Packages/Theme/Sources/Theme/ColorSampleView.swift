@@ -85,46 +85,46 @@ struct ColorSampleView: View {
 					Text(Texts.default)
 					
 					HStack {
-						colorSample(theme.interactivePrimaryDefaultBackground, text: Texts.background)
-						colorSample(theme.interactivePrimaryDefaultBackgroundHover, text: Texts.backgroundHover)
-						colorSample(theme.interactivePrimaryDefaultText, text: Texts.text)
+						colorSample(theme.interactionPrimaryDefaultBackground, text: Texts.background)
+						colorSample(theme.interactionPrimaryDefaultBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactionPrimaryDefaultText, text: Texts.text)
 					}
 					
 					Text(Texts.critical)
 					
 					HStack {
-						colorSample(theme.interactivePrimaryCriticalBackground, text: Texts.background)
-						colorSample(theme.interactivePrimaryCriticalBackgroundHover, text: Texts.backgroundHover)
-						colorSample(theme.interactivePrimaryCriticalText, text: Texts.text)
+						colorSample(theme.interactionPrimaryCriticalBackground, text: Texts.background)
+						colorSample(theme.interactionPrimaryCriticalBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactionPrimaryCriticalText, text: Texts.text)
 					}
 					
 					Text(Texts.interactionSecondary).bold()
 					Text(Texts.default)
 					
 					HStack {
-						colorSample(theme.interactiveSecondaryDefaultBackground, text: Texts.background)
-						colorSample(theme.interactiveSecondaryDefaultBackgroundHover, text: Texts.backgroundHover)
-						colorSample(theme.interactiveSecondaryDefaultText, text: Texts.text)
+						colorSample(theme.interactionSecondaryDefaultBackground, text: Texts.background)
+						colorSample(theme.interactionSecondaryDefaultBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactionSecondaryDefaultText, text: Texts.text)
 					}
 					
 					Text(Texts.critical)
 					HStack {
-						colorSample(theme.interactiveSecondaryCriticalBackground, text: Texts.background)
-						colorSample(theme.interactiveSecondaryCriticalBackgroundHover, text: Texts.backgroundHover)
-						colorSample(theme.interactiveSecondaryCriticalText, text: Texts.text)
+						colorSample(theme.interactionSecondaryCriticalBackground, text: Texts.background)
+						colorSample(theme.interactionSecondaryCriticalBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactionSecondaryCriticalText, text: Texts.text)
 					}
 					
 					Text(Texts.interactionTertiary).bold()
 					Text(Texts.default)
 					HStack {
-						colorSample(theme.interactiveTertiaryDefaultText, text: Texts.text)
-						colorSample(theme.interactiveTertiaryDefaultTextHover, text: Texts.hover)
+						colorSample(theme.interactionTertiaryDefaultText, text: Texts.text)
+						colorSample(theme.interactionTertiaryDefaultTextHover, text: Texts.hover)
 					}
 					
 					Text(Texts.critical)
 					HStack {
-						colorSample(theme.interactiveTertiaryCriticalText, text: Texts.text)
-						colorSample(theme.interactiveTertiaryCriticalTextHover, text: Texts.hover)
+						colorSample(theme.interactionTertiaryCriticalText, text: Texts.text)
+						colorSample(theme.interactionTertiaryCriticalTextHover, text: Texts.hover)
 					}
 					
 					Text(Texts.support).bold()

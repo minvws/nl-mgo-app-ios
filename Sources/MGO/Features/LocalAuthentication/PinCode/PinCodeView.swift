@@ -442,7 +442,7 @@ struct PinCodeView: View {
 		}
 		enum Heading {
 			static let spacing: CGFloat = 16
-			static let minHeight: CGFloat = 150
+			static let minHeight: CGFloat = 100
 		}
 		enum Feedback {
 			static let spacing: CGFloat = 4
@@ -457,7 +457,7 @@ struct PinCodeView: View {
 				pinCodeTopView()
 					.when(dynamicTypeSize < DynamicTypeSize.xxLarge) { view in
 					view
-						.frame(height: scrollViewSize.height)
+						.frame(height: scrollViewSize.height - (isiPhoneSE ? 50 : 0))
 				}
 			}
 			.introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18), customize: { view in
@@ -490,7 +490,7 @@ struct PinCodeView: View {
 			}
 		}
 		.alert("pincode.lockout", isPresented: $viewModel.state.showLockoutPopup) {
-			Button("common.ok") { }
+			Button("common.ok") { /* no action for lockout available */ }
 		} message: {
 			switch viewModel.state.bioMetricType {
 				case .none, .unknown:
@@ -515,7 +515,7 @@ struct PinCodeView: View {
 		VStack(alignment: .leading, spacing: ViewTraits.Heading.spacing) {
 			
 			headingView()
-
+			
 			Spacer()
 			
 			pincodeDisplayBoxes()

@@ -29,9 +29,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		// Navigation bar
 		let appearance = UINavigationBarAppearance()
 		appearance.configureWithTransparentBackground()
-		appearance.backgroundEffect = UIBlurEffect(style: .systemMaterial)
-		appearance.backgroundColor = UIColor(Theme().backgroundPrimary)
-		
+		if #available(iOS 16.0, *) {
+			appearance.backgroundEffect = UIBlurEffect(style: .systemMaterial)
+			appearance.backgroundColor = UIColor(Theme().backgroundPrimary)
+		}
 		appearance.largeTitleTextAttributes = [
 			.foregroundColor: UIColor(Theme().contentPrimary),
 			.font: UIFont(name: RijksoverheidSansWebTextFont.bold.fontName, size: Font.TextStyle.title.pointSize) as Any

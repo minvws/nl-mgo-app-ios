@@ -95,7 +95,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					.tag(DashboardTab.settings.rawValue)
 					.accessibilityIdentifier("bottombar.settings")
 				}
-				.tint(theme.interactiveTertiaryDefaultText)
+				.tint(theme.interactionTertiaryDefaultText)
 				.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
 					isScrolling = newValue.last ?? false
 				})
@@ -110,10 +110,10 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 								   tabBarAppearance.inlineLayoutAppearance,
 								   tabBarAppearance.compactInlineLayoutAppearance] {
 					
-					appearance.selected.iconColor = UIColor(theme.interactiveTertiaryDefaultText)
+					appearance.selected.iconColor = UIColor(theme.interactionTertiaryDefaultText)
 					appearance.selected.titleTextAttributes =
 					[
-						.foregroundColor: UIColor(theme.interactiveTertiaryDefaultText),
+						.foregroundColor: UIColor(theme.interactionTertiaryDefaultText),
 						.paragraphStyle: NSParagraphStyle.default
 					]
 					appearance.normal.titleTextAttributes = [

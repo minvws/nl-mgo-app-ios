@@ -24,7 +24,7 @@ excluded:
   - Packages/*/Package.swift
   - vendor
   - Packages/*/.build
-  - Packages/SharedCore/Sources/SharedCore/Zibs/*/*.swift # Generated files.
+  - Packages/SharedCore/Sources/SharedCore/Zibs/Generated/*.swift # Generated files.
 force_cast: warning
 force_try:
   severity: warning

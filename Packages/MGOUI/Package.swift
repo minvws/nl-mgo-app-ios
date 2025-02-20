@@ -17,6 +17,7 @@ let package = Package(
 		.package(name: "ReusableUI", path: "../ReusableUI"),
 		
 		// External
+		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.5.0"),
 		.package(url: "https://github.com/lm/navigation-stack-backport", exact: "1.1.0"),
 		.package(url: "https://github.com/siteline/SwiftUI-Introspect", exact: "1.3.0")
 	],
@@ -24,6 +25,7 @@ let package = Package(
 		.target(
 			name: "MGOUI",
 			dependencies: [
+				.product(name: "DeviceKit", package: "DeviceKit"),
 				.product(name: "NavigationStackBackport", package: "navigation-stack-backport"),
 				.product(name: "SwiftUIIntrospect", package: "swiftui-introspect"),
 				.product(name: "ReusableUI", package: "ReusableUI")

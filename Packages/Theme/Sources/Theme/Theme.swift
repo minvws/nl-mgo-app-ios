@@ -42,39 +42,39 @@ public class Theme: Themeable {
 	@Published public var sentimentWarning: Color = Color("sentimentWarning", bundle: .module)
 	@Published public var sentimentCritical: Color = Color("sentimentCritical", bundle: .module)
 	
-	// MARK: - Interactive Primary Default -
+	// MARK: - interaction Primary Default -
 	
-	@Published public var interactivePrimaryDefaultBackground: Color = Color("interactivePrimaryDefaultBackground", bundle: .module)
-	@Published public var interactivePrimaryDefaultBackgroundHover: Color = Color("interactivePrimaryDefaultBackgroundHover", bundle: .module)
-	@Published public var interactivePrimaryDefaultText: Color = Color("interactivePrimaryDefaultText", bundle: .module)
+	@Published public var interactionPrimaryDefaultBackground: Color = Color("interactionPrimaryDefaultBackground", bundle: .module)
+	@Published public var interactionPrimaryDefaultBackgroundHover: Color = Color("interactionPrimaryDefaultBackgroundHover", bundle: .module)
+	@Published public var interactionPrimaryDefaultText: Color = Color("interactionPrimaryDefaultText", bundle: .module)
 	
-	// MARK: - Interactive Primary Critical-
+	// MARK: - interaction Primary Critical-
 	
-	@Published public var interactivePrimaryCriticalBackground: Color = Color("interactivePrimaryCriticalBackground", bundle: .module)
-	@Published public var interactivePrimaryCriticalBackgroundHover: Color = Color("interactivePrimaryCriticalBackgroundHover", bundle: .module)
-	@Published public var interactivePrimaryCriticalText: Color = Color("interactivePrimaryCriticalText", bundle: .module)
+	@Published public var interactionPrimaryCriticalBackground: Color = Color("interactionPrimaryCriticalBackground", bundle: .module)
+	@Published public var interactionPrimaryCriticalBackgroundHover: Color = Color("interactionPrimaryCriticalBackgroundHover", bundle: .module)
+	@Published public var interactionPrimaryCriticalText: Color = Color("interactionPrimaryCriticalText", bundle: .module)
 
-	// MARK: - Interactive Secondary Default -
+	// MARK: - interaction Secondary Default -
 
-	@Published public var interactiveSecondaryDefaultBackground: Color = Color("interactiveSecondaryDefaultBackground", bundle: .module)
-	@Published public var interactiveSecondaryDefaultBackgroundHover: Color = Color("interactiveSecondaryDefaultBackgroundHover", bundle: .module)
-	@Published public var interactiveSecondaryDefaultText: Color = Color("interactiveSecondaryDefaultText", bundle: .module)
+	@Published public var interactionSecondaryDefaultBackground: Color = Color("interactionSecondaryDefaultBackground", bundle: .module)
+	@Published public var interactionSecondaryDefaultBackgroundHover: Color = Color("interactionSecondaryDefaultBackgroundHover", bundle: .module)
+	@Published public var interactionSecondaryDefaultText: Color = Color("interactionSecondaryDefaultText", bundle: .module)
 	
-	// MARK: - Interactive Secondary Critical -
+	// MARK: - interaction Secondary Critical -
 
-	@Published public var interactiveSecondaryCriticalBackground: Color = Color("interactiveSecondaryCriticalBackground", bundle: .module)
-	@Published public var interactiveSecondaryCriticalBackgroundHover: Color = Color("interactiveSecondaryCriticalBackgroundHover", bundle: .module)
-	@Published public var interactiveSecondaryCriticalText: Color = Color("interactiveSecondaryCriticalText", bundle: .module)
+	@Published public var interactionSecondaryCriticalBackground: Color = Color("interactionSecondaryCriticalBackground", bundle: .module)
+	@Published public var interactionSecondaryCriticalBackgroundHover: Color = Color("interactionSecondaryCriticalBackgroundHover", bundle: .module)
+	@Published public var interactionSecondaryCriticalText: Color = Color("interactionSecondaryCriticalText", bundle: .module)
 
-	// MARK: - Interactive Tertiary Default -
+	// MARK: - interaction Tertiary Default -
 	
-	@Published public var interactiveTertiaryDefaultText: Color = Color("interactiveTertiaryDefaultText", bundle: .module)
-	@Published public var interactiveTertiaryDefaultTextHover: Color = Color("interactiveTertiaryDefaultTextHover", bundle: .module)
+	@Published public var interactionTertiaryDefaultText: Color = Color("interactionTertiaryDefaultText", bundle: .module)
+	@Published public var interactionTertiaryDefaultTextHover: Color = Color("interactionTertiaryDefaultTextHover", bundle: .module)
 	
-	// MARK: - Interactive Tertiary Critical -
+	// MARK: - interaction Tertiary Critical -
 	
-	@Published public var interactiveTertiaryCriticalText: Color = Color("interactiveTertiaryCriticalText", bundle: .module)
-	@Published public var interactiveTertiaryCriticalTextHover: Color = Color("interactiveTertiaryCriticalTextHover", bundle: .module)
+	@Published public var interactionTertiaryCriticalText: Color = Color("interactionTertiaryCriticalText", bundle: .module)
+	@Published public var interactionTertiaryCriticalTextHover: Color = Color("interactionTertiaryCriticalTextHover", bundle: .module)
 	
 	// MARK: - Support -
 	
