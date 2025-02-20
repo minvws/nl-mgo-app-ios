@@ -32,10 +32,10 @@ struct PrimaryDefaultButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(theme.interactivePrimaryDefaultText)
+			.foregroundColor(theme.interactionPrimaryDefaultText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.interactivePrimaryDefaultBackgroundHover : theme.interactivePrimaryDefaultBackground)
+			.background(configuration.isPressed ? theme.interactionPrimaryDefaultBackgroundHover : theme.interactionPrimaryDefaultBackground)
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

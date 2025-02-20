@@ -63,6 +63,6 @@ struct NavigationBarButtonStyle: ButtonStyle {
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
-			.foregroundStyle(configuration.isPressed ? theme.interactiveTertiaryDefaultTextHover : theme.interactiveTertiaryDefaultText)
+			.foregroundStyle(configuration.isPressed ? theme.interactionTertiaryDefaultTextHover : theme.interactionTertiaryDefaultText)
 	}
 }

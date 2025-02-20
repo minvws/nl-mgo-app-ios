@@ -63,7 +63,7 @@ struct PinCodeBoxView: View {
 		switch state {
 			case .error: theme.sentimentCritical
 			default:
-				theme.interactivePrimaryDefaultBackground
+				theme.interactionPrimaryDefaultBackground
 		}
 	}
 	
@@ -72,7 +72,7 @@ struct PinCodeBoxView: View {
 			case .empty, .focus:
 				.clear
 			case .filling, .filled:
-				theme.interactivePrimaryDefaultBackground
+				theme.interactionPrimaryDefaultBackground
 			case .error:
 				theme.sentimentCritical
 		}

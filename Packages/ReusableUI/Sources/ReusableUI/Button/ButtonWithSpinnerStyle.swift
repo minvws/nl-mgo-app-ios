@@ -31,8 +31,8 @@ struct ButtonWithSpinnerStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundColor(theme.interactiveTertiaryDefaultText)
-			.tint(theme.interactiveTertiaryDefaultText)
+			.foregroundColor(theme.interactionTertiaryDefaultText)
+			.tint(theme.interactionTertiaryDefaultText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(Color.clear)

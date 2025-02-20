@@ -33,37 +33,37 @@ public protocol Themeable: ObservableObject {
 	
 	// MARK: - Action Primary Default -
 	
-	var interactivePrimaryDefaultBackground: Color { get }
-	var interactivePrimaryDefaultBackgroundHover: Color { get }
-	var interactivePrimaryDefaultText: Color { get }
+	var interactionPrimaryDefaultBackground: Color { get }
+	var interactionPrimaryDefaultBackgroundHover: Color { get }
+	var interactionPrimaryDefaultText: Color { get }
 	
 	// MARK: - Action Primary Critical -
 	
-	var interactivePrimaryCriticalBackground: Color { get }
-	var interactivePrimaryCriticalBackgroundHover: Color { get }
-	var interactivePrimaryCriticalText: Color { get }
+	var interactionPrimaryCriticalBackground: Color { get }
+	var interactionPrimaryCriticalBackgroundHover: Color { get }
+	var interactionPrimaryCriticalText: Color { get }
 
 	// MARK: - Action Secondary Default -
 
-	var interactiveSecondaryDefaultBackground: Color { get }
-	var interactiveSecondaryDefaultBackgroundHover: Color { get }
-	var interactiveSecondaryDefaultText: Color { get }
+	var interactionSecondaryDefaultBackground: Color { get }
+	var interactionSecondaryDefaultBackgroundHover: Color { get }
+	var interactionSecondaryDefaultText: Color { get }
 	
 	// MARK: - Action Secondary Critical -
 
-	var interactiveSecondaryCriticalBackground: Color { get }
-	var interactiveSecondaryCriticalBackgroundHover: Color { get }
-	var interactiveSecondaryCriticalText: Color { get }
+	var interactionSecondaryCriticalBackground: Color { get }
+	var interactionSecondaryCriticalBackgroundHover: Color { get }
+	var interactionSecondaryCriticalText: Color { get }
 	
 	// MARK: - Action Tertiary Default -
 	
-	var interactiveTertiaryDefaultText: Color { get }
-	var interactiveTertiaryDefaultTextHover: Color { get }
+	var interactionTertiaryDefaultText: Color { get }
+	var interactionTertiaryDefaultTextHover: Color { get }
 	
 	// MARK: - Action Tertiary Critical -
 	
-	var interactiveTertiaryCriticalText: Color { get }
-	var interactiveTertiaryCriticalTextHover: Color { get }
+	var interactionTertiaryCriticalText: Color { get }
+	var interactionTertiaryCriticalTextHover: Color { get }
 	
 	// MARK: - Notification -
 
