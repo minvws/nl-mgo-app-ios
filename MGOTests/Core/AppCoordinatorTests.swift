@@ -414,8 +414,8 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedData) == true
-		expect(self.sut.rootStateForSheet) == AppCoordination.State.accountRemoved
-		expect(self.sut.rootState) == AppCoordination.State.pinCodeEntry(backButtonVisible: false)
+		expect(self.sut.rootStateForSheet) == nil
+		expect(self.sut.rootState) == AppCoordination.State.accountRemoved
 		expect(self.sut.showChildCoordinator) == false
 		expect(self.sut.showAuthenticationModal) == false
 	}
