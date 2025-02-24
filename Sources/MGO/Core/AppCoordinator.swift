@@ -494,22 +494,28 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// handle the account recreate action
 	private func handleRecreateAccount() {
 		
-		if rootStateForSheet != nil {
-			rootStateForSheet = nil
-			pathForSheet = NavigationStackBackport.NavigationPath()
-		}
-		if showAuthenticationModal {
-			showChildCoordinator = false
-			showAuthenticationModal = false
-		}
+		pathForSheet = NavigationStackBackport.NavigationPath()
+
 		// Wipe Account
 		Current.wipePersistedData()
 		
-		rootState = .accountRemoved
+		if showAuthenticationModal {
+			showChildCoordinator = false
+			showAuthenticationModal = false
+			rootStateForSheet = nil
+			resetNavigationStack(with: AppCoordination.State.accountRemoved)
+		} else {
+			// Show account removed in a sheet
+			rootStateForSheet = .accountRemoved
+			resetNavigationStack(with: AppCoordination.State.pinCodeEntry(backButtonVisible: false))
+		}
 	}
 	
 	private func restart() {
 		
+		rootStateForSheet = nil
+		pathForSheet = NavigationStackBackport.NavigationPath()
+		showChildCoordinator = false
 		resetNavigationStack(with: AppCoordination.State.pinCodeEntry(backButtonVisible: false))
 	}
 	
