@@ -24,9 +24,9 @@ struct ButtonWithIconStyle: ButtonStyle {
 		}
 	}
 	
-	/// Style the button to a destructive button
+	/// Style the button to a button with icon style
 	/// - Parameter configuration: the button configuration
-	/// - Returns: destructive button
+	/// - Returns: button with icon style
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
