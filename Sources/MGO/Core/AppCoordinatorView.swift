@@ -100,10 +100,8 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 				}
 				.when(withCloseButton) { view in
 					view
-						.toolbar {
-							ToolbarItem(content: { CloseButton {
-								appCoordinator.handle(Coordination.Action.closeSheet)
-							}})
+						.withToolbarCloseButton {
+							appCoordinator.handle(Coordination.Action.closeSheet)
 						}
 				}
 		}

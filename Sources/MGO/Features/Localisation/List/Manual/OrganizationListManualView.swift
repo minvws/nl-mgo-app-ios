@@ -255,10 +255,8 @@ struct OrganizationListManualView: View {
 		.navigationBarBackButtonHidden(true)
 		.when(isPresentedAsSheet, transform: { view in
 			view
-				.toolbar {
-					ToolbarItem(content: { CloseButton {
-						viewModel.reduce(.closeSheet)
-					}})
+				.withToolbarCloseButton {
+					viewModel.reduce(.closeSheet)
 				}
 		})
 

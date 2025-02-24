@@ -1,0 +1,28 @@
+/*
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import MGOUI
+
+struct CloseButtonStyle: ButtonStyle {
+	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum Image {
+			static let size: CGFloat = 28
+		}
+	}
+	
+	/// Style the button to a close button
+	/// - Parameter configuration: the button configuration
+	/// - Returns: close button
+	func makeBody(configuration: Self.Configuration) -> some View {
+		
+		Image(configuration.isPressed ? ImageResource.Icon.closeHover : ImageResource.Icon.close)
+			.resizable()
+			.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
+	}
+}

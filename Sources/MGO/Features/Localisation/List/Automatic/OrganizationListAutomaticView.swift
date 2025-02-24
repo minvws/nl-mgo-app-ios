@@ -265,13 +265,9 @@ struct OrganizationListAutomaticView: View {
 		.navigationBarBackButtonHidden(true)
 		.when(isPresentedAsSheet, transform: { view in
 			view
-				.toolbar(content: {
-					ToolbarItem(content: {
-						CloseButton({
-							viewModel.reduce(.closeSheet)
-						})
-					})
-				})
+				.withToolbarCloseButton {
+					viewModel.reduce(.closeSheet)
+				}
 		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
