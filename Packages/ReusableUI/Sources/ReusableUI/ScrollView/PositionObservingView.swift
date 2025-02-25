@@ -5,14 +5,23 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
+import SwiftUI
 
-struct PositionObservingView<Content: View>: View {
+// See https://www.swiftbysundell.com/articles/observing-swiftui-scrollview-content-offset/
+
+/// A view that observes the position
+public struct PositionObservingView<Content: View>: View {
+	
+	/// The name space
 	var coordinateSpace: CoordinateSpace
+	
+	/// The position
 	@Binding var position: CGPoint
+	
+	/// The content
 	@ViewBuilder var content: () -> Content
 	
-	var body: some View {
+	public var body: some View {
 		content()
 			.background(GeometryReader { geometry in
 				Color.clear.preference(
@@ -27,7 +36,9 @@ struct PositionObservingView<Content: View>: View {
 }
 
 private extension PositionObservingView {
+	
 	struct PreferenceKey: SwiftUI.PreferenceKey {
+		
 		static var defaultValue: CGPoint { .zero }
 
 		static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {
