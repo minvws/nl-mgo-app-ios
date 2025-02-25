@@ -13,8 +13,6 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 	/// The coordinator for handling state
 	@StateObject private var coordinator: T
 	
-	@State private var isScrolling: Bool = false
-	
 	/// Initializer
 	/// - Parameter appCoordinator: An DashboardCoordinatorProtocol class
 	init(coordinator: T) {
@@ -75,9 +73,6 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					.accessibilityIdentifier("bottombar.settings")
 				}
 				.tint(theme.interactionTertiaryDefaultText)
-				.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
-					isScrolling = newValue.last ?? false
-				})
 			}
 			.onAppear(perform: {
 				// Brute force styling

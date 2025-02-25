@@ -16,8 +16,6 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	/// Closure used the handle inspection
 	var didAppear: ((Self) -> Void)?
 	
-	@State private var isScrolling: Bool = false
-	
 	/// Initializer
 	/// - Parameter appCoordinator: An AppCoordinatorProtocol class
 	init(appCoordinator: T) {
@@ -45,10 +43,6 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 							.navigationBarTitleDisplayMode(.inline)
 					}
 			}
-			.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
-				_ = logVerbose("ACV isScrolling: \(newValue.last ?? false)")
-				isScrolling = newValue.last ?? false
-			})
 			// not a sheet, but an inspectable sheet, so we can confirm this in a test.
 			.inspectableSheet(
 				isPresented: $appCoordinator.rootStateForSheet.presence(),
