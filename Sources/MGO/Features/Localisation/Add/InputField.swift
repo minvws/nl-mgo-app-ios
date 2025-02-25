@@ -35,7 +35,7 @@ struct InputField: View {
 			static let height: CGFloat = 18
 		}
 		enum Input {
-			static let cornerRadius: CGFloat = 8
+			static let cornerRadius: CGFloat = 10
 			static let inset: CGFloat = 0.5
 			static let horizontalPadding: CGFloat = 12
 			static let verticalPadding: CGFloat = 12
@@ -77,8 +77,8 @@ struct InputField: View {
 					RoundedRectangle(cornerRadius: ViewTraits.Input.cornerRadius)
 						.inset(by: ViewTraits.Input.inset)
 						.stroke(
-							showError ? theme.sentimentCritical : isFieldFocused ? theme.contentPrimary : theme.borderPrimary,
-							lineWidth: isFieldFocused ? 2 : showError ? 2 : 1)
+							showError ? theme.sentimentCritical : isFieldFocused ? theme.interactionTertiaryDefaultText : theme.borderPrimary,
+							lineWidth: isFieldFocused ? 2 : showError ? 2 : 0)
 				)
 				.overlay(alignment: .trailing) {
 					Button(
