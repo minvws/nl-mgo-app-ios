@@ -13,7 +13,7 @@ import Foundation
 // MARK: - ZibEncounter
 public struct ZibEncounter: Codable, Hashable, Sendable {
     public let zibEncounterClass: MgoCoding?
-    public let diagnosis: [Diagnosis]?
+    public let diagnosis: [ZibEncounterDiagnosis]?
     public let fhirVersion: FhirVersionR3
     public let hospitalization: Hospitalization
     public let id: String?
@@ -32,7 +32,7 @@ public struct ZibEncounter: Codable, Hashable, Sendable {
         case resourceType, serviceProvider
     }
 
-    public init(zibEncounterClass: MgoCoding?, diagnosis: [Diagnosis]?, fhirVersion: FhirVersionR3, hospitalization: Hospitalization, id: String?, participant: [EncounterParticipant]?, period: MgoPeriod?, profile: ZibEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
+    public init(zibEncounterClass: MgoCoding?, diagnosis: [ZibEncounterDiagnosis]?, fhirVersion: FhirVersionR3, hospitalization: Hospitalization, id: String?, participant: [EncounterParticipant]?, period: MgoPeriod?, profile: ZibEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
         self.zibEncounterClass = zibEncounterClass
         self.diagnosis = diagnosis
         self.fhirVersion = fhirVersion
@@ -68,7 +68,7 @@ public extension ZibEncounter {
 
     func with(
         zibEncounterClass: MgoCoding?? = nil,
-        diagnosis: [Diagnosis]?? = nil,
+        diagnosis: [ZibEncounterDiagnosis]?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         hospitalization: Hospitalization? = nil,
         id: String?? = nil,

@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let diagnosis = try Diagnosis(json)
+//   let nlCoreEpisodeofcareDiagnosis = try NlCoreEpisodeofcareDiagnosis(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - Diagnosis
-public struct Diagnosis: Codable, Hashable, Sendable {
+// MARK: - NlCoreEpisodeofcareDiagnosis
+public struct NlCoreEpisodeofcareDiagnosis: Codable, Hashable, Sendable {
     public let condition: MgoReference?
     public let rank: Double?
     public let role: MgoCodeableConcept?
@@ -23,11 +23,11 @@ public struct Diagnosis: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: Diagnosis convenience initializers and mutators
+// MARK: NlCoreEpisodeofcareDiagnosis convenience initializers and mutators
 
-public extension Diagnosis {
+public extension NlCoreEpisodeofcareDiagnosis {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Diagnosis.self, from: data)
+        self = try newJSONDecoder().decode(NlCoreEpisodeofcareDiagnosis.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -45,8 +45,8 @@ public extension Diagnosis {
         condition: MgoReference?? = nil,
         rank: Double?? = nil,
         role: MgoCodeableConcept?? = nil
-    ) -> Diagnosis {
-        return Diagnosis(
+    ) -> NlCoreEpisodeofcareDiagnosis {
+        return NlCoreEpisodeofcareDiagnosis(
             condition: condition ?? self.condition,
             rank: rank ?? self.rank,
             role: role ?? self.role
