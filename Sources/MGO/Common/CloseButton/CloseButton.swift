@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -28,15 +28,12 @@ struct CloseButton: View {
 	}
 	
 	var body: some View {
-		Button(
-			action: {
-				action?()
-			}, label: {
-				Image(ImageResource.Icon.close)
-					.resizable()
-					.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
-			}
-		)
+		
+		Button {
+			action?()
+		} label: {
+			EmptyView() // Icon is set by the CloseButtonStyle
+		}
 		.accessibilityLabel("common.close")
 		.accessibilityIdentifier("common.close")
 	}

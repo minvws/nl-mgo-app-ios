@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -17,7 +17,3 @@
 @_exported import DeviceKit
 @_exported import NavigationStackBackport
 @_exported import SwiftUIIntrospect
-
-public var isiPhoneSE: Bool {
-	Device.current == .iPhoneSE || Device.current == .simulator(.iPhoneSE)
-}

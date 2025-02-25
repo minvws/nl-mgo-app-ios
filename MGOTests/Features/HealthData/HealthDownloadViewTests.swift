@@ -18,9 +18,9 @@ final class HealthDownloadViewTests: XCTestCase {
 	private var binaryRepositorySpy: BinaryRepositorySpy!
 	
 	override func setUpWithError() throws {
-
+		
 		try super.setUpWithError()
-
+		
 		servicesSpies = setupServicesSpies()
 		binaryRepositorySpy = BinaryRepositorySpy()
 		let entry = DownloadLink(label: "label", type: DownloadLinkType.downloadLink, url: "Binary/demo1")

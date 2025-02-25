@@ -24,17 +24,17 @@ struct ButtonWithIconStyle: ButtonStyle {
 		}
 	}
 	
-	/// Style the button to a destructive button
+	/// Style the button to a button with icon style
 	/// - Parameter configuration: the button configuration
-	/// - Returns: destructive button
+	/// - Returns: button with icon style
 	func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundColor(configuration.isPressed ? theme.interactionTertiaryDefaultText.opacity(0.50) : theme.interactionTertiaryDefaultText)
+			.foregroundColor(theme.interactionTertiaryDefaultText)
 			.tint(configuration.isPressed ? theme.interactionTertiaryDefaultText.opacity(0.50) : theme.interactionTertiaryDefaultText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(Color.clear)
+			.background(configuration.isPressed ? theme.backgroundTertiary : theme.backgroundSecondary)
 	}
 }

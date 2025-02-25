@@ -91,6 +91,7 @@ struct SettingsView: View {
 				.onChange(of: automaticLocalization) { newValue in
 					viewModel.reduce(.automaticLocalization(newValue))
 				}
+				.backportScrollContentBackground(.hidden)
 			} else {
 				Spacer()
 			}
@@ -116,8 +117,8 @@ struct SettingsView: View {
 			}
 
 		.padding(.top, ViewTraits.Navigation.padding)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.navigationTitle("settings.heading")
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 }
