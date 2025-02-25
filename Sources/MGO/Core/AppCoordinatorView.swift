@@ -24,15 +24,6 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 		self._appCoordinator = StateObject(wrappedValue: appCoordinator)
 	}
 	
-	@ViewBuilder func withDividerIfScrolling(content: () -> some View) -> some View {
-		VStack(spacing: 0) {
-			if isScrolling {
-				NavigationDivider()
-			}
-			content()
-		}
-	}
-	
 	var body: some View {
 		
 		if appCoordinator.showChildCoordinator {
@@ -44,19 +35,15 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 			
 			NavigationStackBackport.NavigationStack(path: $appCoordinator.path) {
 				
-				withDividerIfScrolling {
-					
-					appCoordinator.view(for: appCoordinator.rootState)
-						.backport.navigationDestination(for: AppCoordination.State.self) { state in
-							withDividerIfScrolling {
-								appCoordinator.view(for: state)
-							}
-						}
-						.when(isiPhoneSE) { view in
-							view
-								.navigationBarTitleDisplayMode(.inline)
-						}
-				}
+				appCoordinator.view(for: appCoordinator.rootState)
+					.backport.navigationDestination(for: AppCoordination.State.self) { state in
+						appCoordinator.view(for: state)
+					}
+				// Show inline title for iOS 15.
+					.when(isIOS15) { view in
+						view
+							.navigationBarTitleDisplayMode(.inline)
+					}
 			}
 			.onPreferenceChange(IsScrollingPreferenceKey.self, perform: { newValue in
 				_ = logVerbose("ACV isScrolling: \(newValue.last ?? false)")
