@@ -22,7 +22,7 @@ public struct NotificationCardView: View {
 	private struct ViewTraits {
 		enum General {
 			static let spacing: CGFloat = 16
-			static let radius: CGFloat = 8
+			static let radius: CGFloat = 10
 			static let inset: CGFloat = 0.5
 		}
 		enum Image {

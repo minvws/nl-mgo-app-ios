@@ -30,7 +30,7 @@ struct HealthUISchemaView: View {
 		enum List {
 			static let padding: CGFloat = 8
 			static let bottom: CGFloat = 16
-			static let cornerRadius: CGFloat = 8
+			static let cornerRadius: CGFloat = 10
 		}
 		enum Row {
 			static let padding: CGFloat = 16

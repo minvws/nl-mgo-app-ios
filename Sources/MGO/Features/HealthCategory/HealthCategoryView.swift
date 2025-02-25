@@ -356,7 +356,7 @@ struct HealthCategoryView: View {
 		enum List {
 			static let top: CGFloat = 8
 			static let spacing: CGFloat = 8
-			static let cornerRadius: CGFloat = 8
+			static let cornerRadius: CGFloat = 10
 		}
 		enum NoResults {
 			static let width: CGFloat = 0.5
