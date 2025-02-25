@@ -17,6 +17,9 @@ let package = Package(
 		.package(name: "Theme", path: "../Theme"),
 		.package(name: "RijksoverheidFont", path: "../RijksoverheidFont"),
 		
+		// External
+		.package(url: "https://github.com/siteline/SwiftUI-Introspect", exact: "1.3.0"),
+		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
 	],
@@ -26,8 +29,9 @@ let package = Package(
 		.target(
 			name: "ReusableUI",
 			dependencies: [
+				.product(name: "SwiftUIIntrospect", package: "swiftui-introspect"),
 				.product(name: "Theme", package: "Theme"),
-				.product(name: "RijksoverheidFont", package: "RijksoverheidFont"),
+				.product(name: "RijksoverheidFont", package: "RijksoverheidFont")
 			],
 			resources: [.process("Resources")]
 		),

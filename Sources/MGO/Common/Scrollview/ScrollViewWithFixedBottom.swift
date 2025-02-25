@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -19,35 +19,38 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 	/// The content for the bottom View
 	@ViewBuilder let bottomView: V2
 	
+	/// State vars for calculating scroll things
 	@State private var scrollViewSize: CGSize = .zero
 	@State private var contentSize: CGSize = .zero
 	@State private var scrollable: Bool = false
-	@State private var isScrolling: Bool = false
+	@State private var scrollOffset: CGPoint = .zero
+	@State private var hasScrolledToBottom: Bool = false
 	
 	var body: some View {
 		VStack {
 			
-			ScrollView {
+			OffsetObservingScrollView(bounces: scrollable, offset: $scrollOffset) {
 				content.readSize($contentSize)
 			}
-			.introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18), customize: { view in
-					view.bounces = scrollable
-			})
-			.backportOnScrollPhaseChanged($isScrolling)
 			.readSize($scrollViewSize)
-			.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
+		}
+		.onChange(of: scrollOffset) { value in
+			let margin: CGFloat = 10
+			hasScrolledToBottom = (value.y + scrollViewSize.height + margin > contentSize.height)
 		}
 		.safeAreaInset(edge: VerticalEdge.bottom) {
 			
 			VStack(spacing: 0) {
 				
-				if scrollable || isScrolling {
+				if scrollable && !hasScrolledToBottom {
 					NavigationDivider()
 				}
 				
 				bottomView
-					.background(scrollable ? theme.backgroundSecondary.opacity(0.25) : theme.backgroundPrimary)
-					.background(.ultraThinMaterial)
+					.when(scrollable && !hasScrolledToBottom, transform: { view in
+						view
+							.background(BlurView(style: .systemUltraThinMaterial).opacity(0.98).ignoresSafeArea())
+					})
 					.onChange(of: contentSize) { _ in
 						recalculateScrollable()
 					}
