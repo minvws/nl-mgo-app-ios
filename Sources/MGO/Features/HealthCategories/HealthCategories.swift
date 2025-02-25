@@ -57,7 +57,8 @@ struct HealthCategories {
 				
 				case .treatments: [
 					ZibProcedureProfile.httpNictizNlFhirStructureDefinitionZibProcedure.rawValue,
-					ZibProcedureRequestProfile.httpNictizNlFhirStructureDefinitionZibProcedureRequest.rawValue
+					ZibProcedureRequestProfile.httpNictizNlFhirStructureDefinitionZibProcedureRequest.rawValue,
+					NlCoreEpisodeofcareProfile.httpFhirNlFhirStructureDefinitionNlCoreEpisodeofcare.rawValue
 				]
 				
 				case .appointments: [
@@ -152,7 +153,7 @@ struct HealthCategories {
 				// Treatments
 				case ZibProcedureProfile.httpNictizNlFhirStructureDefinitionZibProcedure.rawValue:
 					"zib_procedure.heading"
-				case ZibProcedureRequestProfile.httpNictizNlFhirStructureDefinitionZibProcedureRequest.rawValue:
+				case ZibProcedureRequestProfile.httpNictizNlFhirStructureDefinitionZibProcedureRequest.rawValue, NlCoreEpisodeofcareProfile.httpFhirNlFhirStructureDefinitionNlCoreEpisodeofcare.rawValue:
 					"zib_procedure_request.heading"
 				
 				// Appointments
@@ -256,7 +257,8 @@ struct HealthCategories {
 				
 				case .treatments: [
 					DVP.CommonClinicalDataset.procedure,
-					DVP.CommonClinicalDataset.plannedProcedures
+					DVP.CommonClinicalDataset.plannedProcedures,
+					DVP.GeneralPractitioner.episodes
 				]
 				
 				case .appointments: [
@@ -290,8 +292,7 @@ struct HealthCategories {
 				]
 				
 				case .alerts: [
-					DVP.CommonClinicalDataset.alert,
-					DVP.GeneralPractitioner.episodes
+					DVP.CommonClinicalDataset.alert
 				]
 				
 				case .lifestyle: [
