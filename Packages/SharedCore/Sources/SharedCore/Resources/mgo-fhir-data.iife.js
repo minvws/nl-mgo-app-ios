@@ -1518,7 +1518,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
   });
   var expDTComponents = /(?:[Eec]{1,6}|G{1,5}|[Qq]{1,5}|(?:[yYur]+|U{1,5})|[ML]{1,5}|d{1,2}|D{1,3}|F{1}|[abB]{1,5}|[hkHK]{1,2}|w{1,2}|W{1}|m{1,2}|s{1,2}|[zZOvVxX]{1,4})(?=([^']*'[^']*')*[^']*$)/g;
-  var expPatternTrimmer$1 = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+  var expPatternTrimmer = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
   var unwantedDTCs = /[rqQASjJgwWIQq]/;
   var dtKeys = ["era", "year", "month", "day", "weekday", "quarter"];
   var tmKeys = ["hour", "minute", "second", "hour12", "timeZoneName"];
@@ -1562,14 +1562,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     formatObj.pattern12 = formatObj.extendedPattern.replace(/'([^']*)'/g, function($0, literal) {
       return literal ? literal : "'";
     });
-    formatObj.pattern = formatObj.pattern12.replace("{ampm}", "").replace(expPatternTrimmer$1, "");
+    formatObj.pattern = formatObj.pattern12.replace("{ampm}", "").replace(expPatternTrimmer, "");
     return formatObj;
   }
   function expDTComponentsMeta($0, formatObj) {
     switch ($0.charAt(0)) {
+      // --- Era
       case "G":
         formatObj.era = ["short", "short", "short", "long", "narrow"][$0.length - 1];
         return "{era}";
+      // --- Year
       case "y":
       case "Y":
       case "u":
@@ -1577,28 +1579,35 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       case "r":
         formatObj.year = $0.length === 2 ? "2-digit" : "numeric";
         return "{year}";
+      // --- Quarter (not supported in this polyfill)
       case "Q":
       case "q":
         formatObj.quarter = ["numeric", "2-digit", "short", "long", "narrow"][$0.length - 1];
         return "{quarter}";
+      // --- Month
       case "M":
       case "L":
         formatObj.month = ["numeric", "2-digit", "short", "long", "narrow"][$0.length - 1];
         return "{month}";
+      // --- Week (not supported in this polyfill)
       case "w":
         formatObj.week = $0.length === 2 ? "2-digit" : "numeric";
         return "{weekday}";
       case "W":
         formatObj.week = "numeric";
         return "{weekday}";
+      // --- Day
       case "d":
         formatObj.day = $0.length === 2 ? "2-digit" : "numeric";
         return "{day}";
       case "D":
+      // day of the year
       case "F":
+      // day of the week
       case "g":
         formatObj.day = "numeric";
         return "{day}";
+      // --- Week Day
       case "E":
         formatObj.weekday = ["short", "short", "short", "long", "narrow", "short"][$0.length - 1];
         return "{weekday}";
@@ -1608,11 +1617,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       case "c":
         formatObj.weekday = ["numeric", void 0, "short", "long", "narrow", "short"][$0.length - 1];
         return "{weekday}";
+      // --- Period
       case "a":
+      // AM, PM
       case "b":
+      // am, pm, noon, midnight
       case "B":
         formatObj.hour12 = true;
         return "{ampm}";
+      // --- Hour
       case "h":
       case "H":
         formatObj.hour = $0.length === 2 ? "2-digit" : "numeric";
@@ -1622,9 +1635,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         formatObj.hour12 = true;
         formatObj.hour = $0.length === 2 ? "2-digit" : "numeric";
         return "{hour}";
+      // --- Minute
       case "m":
         formatObj.minute = $0.length === 2 ? "2-digit" : "numeric";
         return "{minute}";
+      // --- Second
       case "s":
         formatObj.second = $0.length === 2 ? "2-digit" : "numeric";
         return "{second}";
@@ -1632,12 +1647,19 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       case "A":
         formatObj.second = "numeric";
         return "{second}";
+      // --- Timezone
       case "z":
+      // 1..3, 4: specific non-location format
       case "Z":
+      // 1..3, 4, 5: The ISO8601 varios formats
       case "O":
+      // 1, 4: miliseconds in day short, long
       case "v":
+      // 1, 4: generic non-location format
       case "V":
+      // 1, 2, 3, 4: time zone ID or city
       case "X":
+      // 1, 2, 3, 4: The ISO8601 varios formats
       case "x":
         formatObj.timeZoneName = $0.length < 4 ? "short" : "long";
         return "{timeZoneName}";
@@ -1771,7 +1793,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     if (!this || this === Intl$1) {
       return new Intl$1.DateTimeFormat(locales, options);
     }
-    return InitializeDateTimeFormat$2(toObject(this), locales, options);
+    return InitializeDateTimeFormat$1(toObject(this), locales, options);
   }
   defineProperty$2(Intl$1, "DateTimeFormat", {
     configurable: true,
@@ -1781,7 +1803,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   defineProperty$2(DateTimeFormatConstructor, "prototype", {
     writable: false
   });
-  function InitializeDateTimeFormat$2(dateTimeFormat, locales, options) {
+  function InitializeDateTimeFormat$1(dateTimeFormat, locales, options) {
     var internal = getInternalProperties(dateTimeFormat);
     var regexpRestore = createRegExpRestore();
     if (internal["[[initializedIntlObject]]"] === true) throw new TypeError("`this` object has already been initialized as an Intl object");
@@ -1822,7 +1844,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     matcher = GetOption$1(options, "formatMatcher", "string", new List("basic", "best fit"), "best fit");
     dataLocaleData.formats = formats;
     if (matcher === "basic") {
-      bestFormat = BasicFormatMatcher$2(opt, formats);
+      bestFormat = BasicFormatMatcher$1(opt, formats);
     } else {
       {
         var _hr = GetOption$1(
@@ -1833,7 +1855,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         );
         opt.hour12 = _hr === void 0 ? dataLocaleData.hour12 : _hr;
       }
-      bestFormat = BestFitFormatMatcher$2(opt, formats);
+      bestFormat = BestFitFormatMatcher$1(opt, formats);
     }
     for (var _prop in dateTimeComponents) {
       if (!hop.call(dateTimeComponents, _prop)) continue;
@@ -1911,7 +1933,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       options.hour = options.minute = options.second = "numeric";
     return options;
   }
-  function BasicFormatMatcher$2(options, formats) {
+  function BasicFormatMatcher$1(options, formats) {
     var removalPenalty = 120;
     var additionPenalty = 20;
     var longLessPenalty = 8;
@@ -1950,7 +1972,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return bestFormat;
   }
-  function BestFitFormatMatcher$2(options, formats) {
+  function BestFitFormatMatcher$1(options, formats) {
     {
       var optionsPropNames = [];
       for (var property in dateTimeComponents) {
@@ -2046,7 +2068,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       var F = function F2() {
         var date2 = arguments.length <= 0 || arguments[0] === void 0 ? void 0 : arguments[0];
         var x = date2 === void 0 ? Date.now() : toNumber(date2);
-        return FormatDateTime$2(this, x);
+        return FormatDateTime$1(this, x);
       };
       var bf = fnBind.call(F, this);
       internal["[[boundFormat]]"] = bf;
@@ -2073,7 +2095,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     var locale = internal["[[locale]]"];
     var nf = new Intl$1.NumberFormat([locale], { useGrouping: false });
     var nf2 = new Intl$1.NumberFormat([locale], { minimumIntegerDigits: 2, useGrouping: false });
-    var tm = ToLocalTime$2(x, internal["[[calendar]]"], internal["[[timeZone]]"]);
+    var tm = ToLocalTime$1(x, internal["[[calendar]]"], internal["[[timeZone]]"]);
     var pattern = internal["[[pattern]]"];
     var result = new List();
     var index = 0;
@@ -2169,7 +2191,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return result;
   }
-  function FormatDateTime$2(dateTimeFormat, x) {
+  function FormatDateTime$1(dateTimeFormat, x) {
     var parts = CreateDateTimeParts(dateTimeFormat, x);
     var result = "";
     for (var i = 0; parts.length > i; i++) {
@@ -2190,7 +2212,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return result;
   }
-  function ToLocalTime$2(date2, calendar, timeZone) {
+  function ToLocalTime$1(date2, calendar, timeZone) {
     var d = new Date(date2), m = "get" + (timeZone || "");
     return new Record({
       "[[weekday]]": d[m + "Day"](),
@@ -2233,7 +2255,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     var options = arguments[1];
     options = ToDateTimeOptions$2(options, "any", "all");
     var dateTimeFormat = new DateTimeFormatConstructor(locales, options);
-    return FormatDateTime$2(dateTimeFormat, x);
+    return FormatDateTime$1(dateTimeFormat, x);
   };
   ls.Date.toLocaleDateString = function() {
     if (Object.prototype.toString.call(this) !== "[object Date]") throw new TypeError("`this` value must be a Date instance for Date.prototype.toLocaleDateString()");
@@ -2242,7 +2264,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     var locales = arguments[0], options = arguments[1];
     options = ToDateTimeOptions$2(options, "date", "date");
     var dateTimeFormat = new DateTimeFormatConstructor(locales, options);
-    return FormatDateTime$2(dateTimeFormat, x);
+    return FormatDateTime$1(dateTimeFormat, x);
   };
   ls.Date.toLocaleTimeString = function() {
     if (Object.prototype.toString.call(this) !== "[object Date]") throw new TypeError("`this` value must be a Date instance for Date.prototype.toLocaleTimeString()");
@@ -2252,7 +2274,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     var options = arguments[1];
     options = ToDateTimeOptions$2(options, "time", "time");
     var dateTimeFormat = new DateTimeFormatConstructor(locales, options);
-    return FormatDateTime$2(dateTimeFormat, x);
+    return FormatDateTime$1(dateTimeFormat, x);
   };
   defineProperty$2(Intl$1, "__applyLocaleSensitivePrototypes", {
     writable: true,
@@ -2647,11 +2669,19 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   } : function(o, v) {
     o["default"] = v;
   };
+  var ownKeys = function(o) {
+    ownKeys = Object.getOwnPropertyNames || function(o2) {
+      var ar = [];
+      for (var k in o2) if (Object.prototype.hasOwnProperty.call(o2, k)) ar[ar.length] = k;
+      return ar;
+    };
+    return ownKeys(o);
+  };
   function __importStar(mod2) {
     if (mod2 && mod2.__esModule) return mod2;
     var result = {};
     if (mod2 != null) {
-      for (var k in mod2) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod2, k)) __createBinding(result, mod2, k);
+      for (var k = ownKeys(mod2), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod2, k[i]);
     }
     __setModuleDefault(result, mod2);
     return result;
@@ -2731,12 +2761,24 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return next();
   }
+  function __rewriteRelativeImportExtension(path, preserveJsx) {
+    if (typeof path === "string" && /^\.\.?\//.test(path)) {
+      return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function(m, tsx, d, ext, cm) {
+        return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : d + ext + "." + cm.toLowerCase() + "js";
+      });
+    }
+    return path;
+  }
   const tslib_es6 = {
     __extends,
     __assign,
     __rest,
     __decorate,
     __param,
+    __esDecorate,
+    __runInitializers,
+    __propKey,
+    __setFunctionName,
     __metadata,
     __awaiter,
     __generator,
@@ -2758,7 +2800,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     __classPrivateFieldSet,
     __classPrivateFieldIn,
     __addDisposableResource,
-    __disposeResources
+    __disposeResources,
+    __rewriteRelativeImportExtension
   };
   const tslib_es6$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     __proto__: null,
@@ -2789,6 +2832,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     __propKey,
     __read,
     __rest,
+    __rewriteRelativeImportExtension,
     __runInitializers,
     __setFunctionName,
     __spread,
@@ -2815,10 +2859,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return ianaTimeZone;
   }
   /*!
-   *  decimal.js v10.4.3
+   *  decimal.js v10.5.0
    *  An arbitrary-precision Decimal type for JavaScript.
    *  https://github.com/MikeMcl/decimal.js
-   *  Copyright (c) 2022 Michael Mclaughlin <M8ch88l@gmail.com>
+   *  Copyright (c) 2025 Michael Mclaughlin <M8ch88l@gmail.com>
    *  MIT Licence
    */
   var EXP_LIMIT = 9e15, MAX_DIGITS = 1e9, NUMERALS = "0123456789abcdef", LN10 = "2.3025850929940456840179914546843642076011014886287729760333279009675726096773524802359972050895982983419677840422862486334095254650828067566662873690987816894829072083255546808437998948262331985283935053089653777326288461633662222876982198867465436674744042432743651550489343149393914796194044002221051017141748003688084012647080685567743216228355220114804663715659121373450747856947683463616792101806445070648000277502684916746550586856935673420670581136429224554405758925724208241314695689016758940256776311356919292033376587141660230105703089634572075440370847469940168269282808481184289314848524948644871927809676271275775397027668605952496716674183485704422507197965004714951050492214776567636938662976979522110718264549734772662425709429322582798502585509785265383207606726317164309505995087807523710333101197857547331541421808427543863591778117054309827482385045648019095610299291824318237525357709750539565187697510374970888692180205189339507238539205144634197265287286965110862571492198849978748873771345686209167058", PI = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989380952572010654858632789", DEFAULTS = {
@@ -3068,18 +3112,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return divide(x.sinh(), x.cosh(), Ctor.precision = pr, Ctor.rounding = rm);
   };
   P.inverseCosine = P.acos = function() {
-    var halfPi, x = this, Ctor = x.constructor, k = x.abs().cmp(1), pr = Ctor.precision, rm = Ctor.rounding;
+    var x = this, Ctor = x.constructor, k = x.abs().cmp(1), pr = Ctor.precision, rm = Ctor.rounding;
     if (k !== -1) {
       return k === 0 ? x.isNeg() ? getPi(Ctor, pr, rm) : new Ctor(0) : new Ctor(NaN);
     }
     if (x.isZero()) return getPi(Ctor, pr + 4, rm).times(0.5);
     Ctor.precision = pr + 6;
     Ctor.rounding = 1;
-    x = x.asin();
-    halfPi = getPi(Ctor, pr + 4, rm).times(0.5);
+    x = new Ctor(1).minus(x).div(x.plus(1)).sqrt().atan();
     Ctor.precision = pr;
     Ctor.rounding = rm;
-    return halfPi.minus(x);
+    return x.times(2);
   };
   P.inverseHyperbolicCosine = P.acosh = function() {
     var pr, rm, x = this, Ctor = x.constructor;
@@ -4177,14 +4220,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function isOdd(n) {
     return n.d[n.d.length - 1] & 1;
   }
-  function maxOrMin(Ctor, args, ltgt) {
-    var y, x = new Ctor(args[0]), i = 0;
+  function maxOrMin(Ctor, args, n) {
+    var k, y, x = new Ctor(args[0]), i = 0;
     for (; ++i < args.length; ) {
       y = new Ctor(args[i]);
       if (!y.s) {
         x = y;
         break;
-      } else if (x[ltgt](y)) {
+      }
+      k = x.cmp(y);
+      if (k === n || k === 0 && x.s === n) {
         x = y;
       }
     }
@@ -4727,24 +4772,35 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             x.d = [v];
           }
           return;
-        } else if (v * 0 !== 0) {
+        }
+        if (v * 0 !== 0) {
           if (!v) x.s = NaN;
           x.e = NaN;
           x.d = null;
           return;
         }
         return parseDecimal(x, v.toString());
-      } else if (t !== "string") {
-        throw Error(invalidArgument + v);
       }
-      if ((i2 = v.charCodeAt(0)) === 45) {
-        v = v.slice(1);
-        x.s = -1;
-      } else {
-        if (i2 === 43) v = v.slice(1);
-        x.s = 1;
+      if (t === "string") {
+        if ((i2 = v.charCodeAt(0)) === 45) {
+          v = v.slice(1);
+          x.s = -1;
+        } else {
+          if (i2 === 43) v = v.slice(1);
+          x.s = 1;
+        }
+        return isDecimal.test(v) ? parseDecimal(x, v) : parseOther(x, v);
       }
-      return isDecimal.test(v) ? parseDecimal(x, v) : parseOther(x, v);
+      if (t === "bigint") {
+        if (v < 0) {
+          v = -v;
+          x.s = -1;
+        } else {
+          x.s = 1;
+        }
+        return parseDecimal(x, v.toString());
+      }
+      throw Error(invalidArgument + v);
     }
     Decimal2.prototype = P;
     Decimal2.ROUND_UP = 0;
@@ -4851,10 +4907,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return new this(x).log(10);
   }
   function max() {
-    return maxOrMin(this, arguments, "lt");
+    return maxOrMin(this, arguments, -1);
   }
   function min() {
-    return maxOrMin(this, arguments, "gt");
+    return maxOrMin(this, arguments, 1);
   }
   function mod$1(x, y) {
     return new this(x).mod(y);
@@ -4957,29 +5013,229 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   var Decimal = P.constructor = clone(DEFAULTS);
   LN10 = new Decimal(LN10);
   PI = new Decimal(PI);
-  var TEN = new Decimal(10);
+  new Decimal(10);
   var ZERO = new Decimal(0);
   var NEGATIVE_ZERO = new Decimal(-0);
+  function memoize(fn, options) {
+    var cache = options && options.cache ? options.cache : cacheDefault;
+    var serializer = options && options.serializer ? options.serializer : serializerDefault;
+    var strategy = options && options.strategy ? options.strategy : strategyDefault;
+    return strategy(fn, {
+      cache,
+      serializer
+    });
+  }
+  function isPrimitive(value2) {
+    return value2 == null || typeof value2 === "number" || typeof value2 === "boolean";
+  }
+  function monadic(fn, cache, serializer, arg) {
+    var cacheKey = isPrimitive(arg) ? arg : serializer(arg);
+    var computedValue = cache.get(cacheKey);
+    if (typeof computedValue === "undefined") {
+      computedValue = fn.call(this, arg);
+      cache.set(cacheKey, computedValue);
+    }
+    return computedValue;
+  }
+  function variadic(fn, cache, serializer) {
+    var args = Array.prototype.slice.call(arguments, 3);
+    var cacheKey = serializer(args);
+    var computedValue = cache.get(cacheKey);
+    if (typeof computedValue === "undefined") {
+      computedValue = fn.apply(this, args);
+      cache.set(cacheKey, computedValue);
+    }
+    return computedValue;
+  }
+  function assemble(fn, context, strategy, cache, serialize) {
+    return strategy.bind(context, fn, cache, serialize);
+  }
+  function strategyDefault(fn, options) {
+    var strategy = fn.length === 1 ? monadic : variadic;
+    return assemble(fn, this, strategy, options.cache.create(), options.serializer);
+  }
+  function strategyVariadic(fn, options) {
+    return assemble(fn, this, variadic, options.cache.create(), options.serializer);
+  }
+  function strategyMonadic(fn, options) {
+    return assemble(fn, this, monadic, options.cache.create(), options.serializer);
+  }
+  var serializerDefault = function() {
+    return JSON.stringify(arguments);
+  };
+  var ObjectWithoutPrototypeCache = (
+    /** @class */
+    function() {
+      function ObjectWithoutPrototypeCache2() {
+        this.cache = /* @__PURE__ */ Object.create(null);
+      }
+      ObjectWithoutPrototypeCache2.prototype.get = function(key) {
+        return this.cache[key];
+      };
+      ObjectWithoutPrototypeCache2.prototype.set = function(key, value2) {
+        this.cache[key] = value2;
+      };
+      return ObjectWithoutPrototypeCache2;
+    }()
+  );
+  var cacheDefault = {
+    create: function create() {
+      return new ObjectWithoutPrototypeCache();
+    }
+  };
+  var strategies = {
+    variadic: strategyVariadic,
+    monadic: strategyMonadic
+  };
+  function repeat(s, times) {
+    if (typeof s.repeat === "function") {
+      return s.repeat(times);
+    }
+    var arr = new Array(times);
+    for (var i = 0; i < arr.length; i++) {
+      arr[i] = s;
+    }
+    return arr.join("");
+  }
+  function setInternalSlot(map2, pl, field, value2) {
+    if (!map2.get(pl)) {
+      map2.set(pl, /* @__PURE__ */ Object.create(null));
+    }
+    var slots = map2.get(pl);
+    slots[field] = value2;
+  }
+  function setMultiInternalSlots(map2, pl, props) {
+    for (var _i = 0, _a2 = Object.keys(props); _i < _a2.length; _i++) {
+      var k = _a2[_i];
+      setInternalSlot(map2, pl, k, props[k]);
+    }
+  }
+  function getInternalSlot(map2, pl, field) {
+    return getMultiInternalSlots(map2, pl, field)[field];
+  }
+  function getMultiInternalSlots(map2, pl) {
+    var fields = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+      fields[_i - 2] = arguments[_i];
+    }
+    var slots = map2.get(pl);
+    if (!slots) {
+      throw new TypeError("".concat(pl, " InternalSlot has not been initialized"));
+    }
+    return fields.reduce(function(all, f) {
+      all[f] = slots[f];
+      return all;
+    }, /* @__PURE__ */ Object.create(null));
+  }
+  function isLiteralPart(patternPart) {
+    return patternPart.type === "literal";
+  }
+  function defineProperty(target, name, _a2) {
+    var value2 = _a2.value;
+    Object.defineProperty(target, name, {
+      configurable: true,
+      enumerable: false,
+      writable: true,
+      value: value2
+    });
+  }
+  function createDataProperty(target, name, value2) {
+    Object.defineProperty(target, name, {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: value2
+    });
+  }
+  function invariant$2(condition, message, Err) {
+    if (Err === void 0) {
+      Err = Error;
+    }
+    if (!condition) {
+      throw new Err(message);
+    }
+  }
+  var createMemoizedNumberFormat = memoize(function() {
+    var _a2;
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+    return new ((_a2 = Intl.NumberFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
+  }, {
+    strategy: strategies.variadic
+  });
+  var createMemoizedDateTimeFormat = memoize(function() {
+    var _a2;
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+    return new ((_a2 = Intl.DateTimeFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
+  }, {
+    strategy: strategies.variadic
+  });
+  var createMemoizedPluralRules = memoize(function() {
+    var _a2;
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+    return new ((_a2 = Intl.PluralRules).bind.apply(_a2, __spreadArray([void 0], args, false)))();
+  }, {
+    strategy: strategies.variadic
+  });
+  var createMemoizedLocale = memoize(function() {
+    var _a2;
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+    return new ((_a2 = Intl.Locale).bind.apply(_a2, __spreadArray([void 0], args, false)))();
+  }, {
+    strategy: strategies.variadic
+  });
+  var createMemoizedListFormat = memoize(function() {
+    var _a2;
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+    return new ((_a2 = Intl.ListFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
+  }, {
+    strategy: strategies.variadic
+  });
   function ToString(o) {
     if (typeof o === "symbol") {
       throw TypeError("Cannot convert a Symbol value to a string");
     }
     return String(o);
   }
-  function ToNumber(val) {
-    if (val === void 0) {
+  function ToNumber(arg) {
+    if (typeof arg === "number") {
+      return new Decimal(arg);
+    }
+    invariant$2(typeof arg !== "bigint" && typeof arg !== "symbol", "BigInt and Symbol are not supported", TypeError);
+    if (arg === void 0) {
       return new Decimal(NaN);
     }
-    if (val === null) {
+    if (arg === null || arg === 0) {
       return ZERO;
     }
-    if (typeof val === "boolean") {
-      return new Decimal(val ? 1 : 0);
+    if (arg === true) {
+      return new Decimal(1);
     }
-    if (typeof val === "symbol" || typeof val === "bigint") {
-      throw new TypeError("Cannot convert symbol/bigint to number");
+    if (typeof arg === "string") {
+      try {
+        return new Decimal(arg);
+      } catch (e) {
+        return new Decimal(NaN);
+      }
     }
-    return new Decimal(Number(val));
+    invariant$2(typeof arg === "object", "object expected", TypeError);
+    var primValue = ToPrimitive(arg, "number");
+    invariant$2(typeof primValue !== "object", "object expected", TypeError);
+    return ToNumber(primValue);
   }
   function ToInteger(n) {
     var number = ToNumber(n);
@@ -4996,13 +5252,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return integer2;
   }
   function TimeClip(time) {
-    if (!isFinite(time)) {
-      return NaN;
+    if (!time.isFinite()) {
+      return new Decimal(NaN);
     }
-    if (Math.abs(time) > 8.64 * 1e15) {
-      return NaN;
+    if (time.abs().greaterThan(8.64 * 1e15)) {
+      return new Decimal(NaN);
     }
-    return ToInteger(time).toNumber();
+    return ToInteger(time);
   }
   function ToObject(arg) {
     if (arg == null) {
@@ -5209,6 +5465,51 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function msFromTime(t) {
     return mod(t, MS_PER_SECOND);
   }
+  function OrdinaryToPrimitive(O, hint) {
+    var methodNames;
+    if (hint === "string") {
+      methodNames = ["toString", "valueOf"];
+    } else {
+      methodNames = ["valueOf", "toString"];
+    }
+    for (var _i = 0, methodNames_1 = methodNames; _i < methodNames_1.length; _i++) {
+      var name_1 = methodNames_1[_i];
+      var method = O[name_1];
+      if (IsCallable(method)) {
+        var result = method.call(O);
+        if (typeof result !== "object") {
+          return result;
+        }
+      }
+    }
+    throw new TypeError("Cannot convert object to primitive value");
+  }
+  function ToPrimitive(input, preferredType) {
+    if (typeof input === "object" && input != null) {
+      var exoticToPrim = Symbol.toPrimitive in input ? input[Symbol.toPrimitive] : void 0;
+      var hint = void 0;
+      if (exoticToPrim !== void 0) {
+        if (preferredType === void 0) {
+          hint = "default";
+        } else if (preferredType === "string") {
+          hint = "string";
+        } else {
+          invariant$2(preferredType === "number", 'preferredType must be "string" or "number"');
+          hint = "number";
+        }
+        var result = exoticToPrim.call(input, hint);
+        if (typeof result !== "object") {
+          return result;
+        }
+        throw new TypeError("Cannot convert exotic object to primitive.");
+      }
+      if (preferredType === void 0) {
+        preferredType = "number";
+      }
+      return OrdinaryToPrimitive(input, preferredType);
+    }
+    return input;
+  }
   function CoerceOptionsToObject(options) {
     if (typeof options === "undefined") {
       return /* @__PURE__ */ Object.create(null);
@@ -5387,195 +5688,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return true;
   }
-  function memoize$1(fn, options) {
-    var cache = options && options.cache ? options.cache : cacheDefault$1;
-    var serializer = options && options.serializer ? options.serializer : serializerDefault$1;
-    var strategy = options && options.strategy ? options.strategy : strategyDefault$1;
-    return strategy(fn, {
-      cache,
-      serializer
-    });
-  }
-  function isPrimitive$1(value2) {
-    return value2 == null || typeof value2 === "number" || typeof value2 === "boolean";
-  }
-  function monadic$1(fn, cache, serializer, arg) {
-    var cacheKey = isPrimitive$1(arg) ? arg : serializer(arg);
-    var computedValue = cache.get(cacheKey);
-    if (typeof computedValue === "undefined") {
-      computedValue = fn.call(this, arg);
-      cache.set(cacheKey, computedValue);
-    }
-    return computedValue;
-  }
-  function variadic$1(fn, cache, serializer) {
-    var args = Array.prototype.slice.call(arguments, 3);
-    var cacheKey = serializer(args);
-    var computedValue = cache.get(cacheKey);
-    if (typeof computedValue === "undefined") {
-      computedValue = fn.apply(this, args);
-      cache.set(cacheKey, computedValue);
-    }
-    return computedValue;
-  }
-  function assemble$1(fn, context, strategy, cache, serialize) {
-    return strategy.bind(context, fn, cache, serialize);
-  }
-  function strategyDefault$1(fn, options) {
-    var strategy = fn.length === 1 ? monadic$1 : variadic$1;
-    return assemble$1(fn, this, strategy, options.cache.create(), options.serializer);
-  }
-  function strategyVariadic$1(fn, options) {
-    return assemble$1(fn, this, variadic$1, options.cache.create(), options.serializer);
-  }
-  function strategyMonadic$1(fn, options) {
-    return assemble$1(fn, this, monadic$1, options.cache.create(), options.serializer);
-  }
-  var serializerDefault$1 = function() {
-    return JSON.stringify(arguments);
-  };
-  var ObjectWithoutPrototypeCache$1 = (
-    /** @class */
-    function() {
-      function ObjectWithoutPrototypeCache2() {
-        this.cache = /* @__PURE__ */ Object.create(null);
-      }
-      ObjectWithoutPrototypeCache2.prototype.get = function(key) {
-        return this.cache[key];
-      };
-      ObjectWithoutPrototypeCache2.prototype.set = function(key, value2) {
-        this.cache[key] = value2;
-      };
-      return ObjectWithoutPrototypeCache2;
-    }()
-  );
-  var cacheDefault$1 = {
-    create: function create() {
-      return new ObjectWithoutPrototypeCache$1();
-    }
-  };
-  var strategies$1 = {
-    variadic: strategyVariadic$1,
-    monadic: strategyMonadic$1
-  };
-  function repeat(s, times) {
-    if (typeof s.repeat === "function") {
-      return s.repeat(times);
-    }
-    var arr = new Array(times);
-    for (var i = 0; i < arr.length; i++) {
-      arr[i] = s;
-    }
-    return arr.join("");
-  }
-  function setInternalSlot(map2, pl, field, value2) {
-    if (!map2.get(pl)) {
-      map2.set(pl, /* @__PURE__ */ Object.create(null));
-    }
-    var slots = map2.get(pl);
-    slots[field] = value2;
-  }
-  function setMultiInternalSlots(map2, pl, props) {
-    for (var _i = 0, _a2 = Object.keys(props); _i < _a2.length; _i++) {
-      var k = _a2[_i];
-      setInternalSlot(map2, pl, k, props[k]);
-    }
-  }
-  function getInternalSlot(map2, pl, field) {
-    return getMultiInternalSlots(map2, pl, field)[field];
-  }
-  function getMultiInternalSlots(map2, pl) {
-    var fields = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-      fields[_i - 2] = arguments[_i];
-    }
-    var slots = map2.get(pl);
-    if (!slots) {
-      throw new TypeError("".concat(pl, " InternalSlot has not been initialized"));
-    }
-    return fields.reduce(function(all, f) {
-      all[f] = slots[f];
-      return all;
-    }, /* @__PURE__ */ Object.create(null));
-  }
-  function isLiteralPart(patternPart) {
-    return patternPart.type === "literal";
-  }
-  function defineProperty(target, name, _a2) {
-    var value2 = _a2.value;
-    Object.defineProperty(target, name, {
-      configurable: true,
-      enumerable: false,
-      writable: true,
-      value: value2
-    });
-  }
-  function createDataProperty(target, name, value2) {
-    Object.defineProperty(target, name, {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: value2
-    });
-  }
-  function invariant$2(condition, message, Err) {
-    if (Err === void 0) {
-      Err = Error;
-    }
-    if (!condition) {
-      throw new Err(message);
-    }
-  }
-  var createMemoizedNumberFormat = memoize$1(function() {
-    var _a2;
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-      args[_i] = arguments[_i];
-    }
-    return new ((_a2 = Intl.NumberFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
-  }, {
-    strategy: strategies$1.variadic
-  });
-  var createMemoizedDateTimeFormat = memoize$1(function() {
-    var _a2;
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-      args[_i] = arguments[_i];
-    }
-    return new ((_a2 = Intl.DateTimeFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
-  }, {
-    strategy: strategies$1.variadic
-  });
-  var createMemoizedPluralRules = memoize$1(function() {
-    var _a2;
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-      args[_i] = arguments[_i];
-    }
-    return new ((_a2 = Intl.PluralRules).bind.apply(_a2, __spreadArray([void 0], args, false)))();
-  }, {
-    strategy: strategies$1.variadic
-  });
-  var createMemoizedLocale = memoize$1(function() {
-    var _a2;
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-      args[_i] = arguments[_i];
-    }
-    return new ((_a2 = Intl.Locale).bind.apply(_a2, __spreadArray([void 0], args, false)))();
-  }, {
-    strategy: strategies$1.variadic
-  });
-  var createMemoizedListFormat = memoize$1(function() {
-    var _a2;
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-      args[_i] = arguments[_i];
-    }
-    return new ((_a2 = Intl.ListFormat).bind.apply(_a2, __spreadArray([void 0], args, false)))();
-  }, {
-    strategy: strategies$1.variadic
-  });
   function ApplyUnsignedRoundingMode(x, r1, r2, unsignedRoundingMode) {
     if (x.eq(r1))
       return r1;
@@ -5661,9 +5773,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   Decimal.set({
     toExpPos: 100
   });
-  function ComputeExponentForMagnitude(numberFormat, magnitude, _a2) {
-    var getInternalSlots = _a2.getInternalSlots;
-    var internalSlots = getInternalSlots(numberFormat);
+  function ComputeExponentForMagnitude(internalSlots, magnitude) {
     var notation = internalSlots.notation, dataLocaleData = internalSlots.dataLocaleData, numberingSystem = internalSlots.numberingSystem;
     switch (notation) {
       case "standard":
@@ -5687,7 +5797,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         if (!thresholdMap) {
           return 0;
         }
-        var num = TEN.pow(magnitude).toString();
+        var num = Decimal.pow(10, magnitude).toString();
         var thresholds = Object.keys(thresholdMap);
         if (num < thresholds[0]) {
           return 0;
@@ -5740,10 +5850,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     toExpPos: 100
   });
   function ToRawFixedFn(n, f) {
-    return n.times(TEN.pow(-f));
+    return n.times(Decimal.pow(10, -f));
   }
   function findN1R1(x, f, roundingIncrement) {
-    var nx = x.times(TEN.pow(f)).floor();
+    var nx = x.times(Decimal.pow(10, f)).floor();
     var n1 = nx.div(roundingIncrement).floor().times(roundingIncrement);
     var r1 = ToRawFixedFn(n1, f);
     return {
@@ -5752,7 +5862,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   function findN2R2(x, f, roundingIncrement) {
-    var nx = x.times(TEN.pow(f)).ceil();
+    var nx = x.times(Decimal.pow(10, f)).ceil();
     var n2 = nx.div(roundingIncrement).ceil().times(roundingIncrement);
     var r2 = ToRawFixedFn(n2, f);
     return {
@@ -5809,21 +5919,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       roundingMagnitude: -f
     };
   }
-  Decimal.set({
-    toExpPos: 100
-  });
-  function ToRawPrecisionFn(n, e, p) {
-    invariant$2(TEN.pow(p - 1).lessThanOrEqualTo(n) && n.lessThan(TEN.pow(p)), "n should be in the range ".concat(TEN.pow(p - 1), " <= n < ").concat(TEN.pow(p), " but got ").concat(n));
-    return n.times(TEN.pow(e.minus(p).plus(1)));
-  }
   function findN1E1R1(x, p) {
-    var maxN1 = TEN.pow(p);
-    var minN1 = TEN.pow(p - 1);
+    var maxN1 = Decimal.pow(10, p);
+    var minN1 = Decimal.pow(10, p - 1);
     var maxE1 = x.div(minN1).log(10).plus(p).minus(1).ceil();
-    for (var currentE1 = maxE1; ; currentE1 = currentE1.minus(1)) {
-      var currentN1 = x.div(TEN.pow(currentE1.minus(p).plus(1))).floor();
+    var currentE1 = maxE1;
+    while (true) {
+      var currentN1 = x.div(Decimal.pow(10, currentE1.minus(p).plus(1))).floor();
       if (currentN1.lessThan(maxN1) && currentN1.greaterThanOrEqualTo(minN1)) {
-        var currentR1 = ToRawPrecisionFn(currentN1, currentE1, p);
+        var currentR1 = currentN1.times(Decimal.pow(10, currentE1.minus(p).plus(1)));
         if (currentR1.lessThanOrEqualTo(x)) {
           return {
             n1: currentN1,
@@ -5832,16 +5936,18 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           };
         }
       }
+      currentE1 = currentE1.minus(1);
     }
   }
   function findN2E2R2(x, p) {
-    var maxN2 = TEN.pow(p);
-    var minN2 = TEN.pow(p - 1);
+    var maxN2 = Decimal.pow(10, p);
+    var minN2 = Decimal.pow(10, p - 1);
     var minE2 = x.div(maxN2).log(10).plus(p).minus(1).floor();
-    for (var currentE2 = minE2; ; currentE2 = currentE2.plus(1)) {
-      var currentN2 = x.div(TEN.pow(currentE2.minus(p).plus(1))).ceil();
+    var currentE2 = minE2;
+    while (true) {
+      var currentN2 = x.div(Decimal.pow(10, currentE2.minus(p).plus(1))).ceil();
       if (currentN2.lessThan(maxN2) && currentN2.greaterThanOrEqualTo(minN2)) {
-        var currentR2 = ToRawPrecisionFn(currentN2, currentE2, p);
+        var currentR2 = currentN2.times(Decimal.pow(10, currentE2.minus(p).plus(1)));
         if (currentR2.greaterThanOrEqualTo(x)) {
           return {
             n2: currentN2,
@@ -5850,6 +5956,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           };
         }
       }
+      currentE2 = currentE2.plus(1);
     }
   }
   function ToRawPrecision(x, minPrecision, maxPrecision, unsignedRoundingMode) {
@@ -5906,7 +6013,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       roundingMagnitude: e
     };
   }
-  function FormatNumericToString(intlObject, x) {
+  function FormatNumericToString(intlObject, _x) {
+    var x = _x;
     var sign2;
     if (x.isZero() && x.isNegative()) {
       sign2 = "negative";
@@ -5974,8 +6082,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return { roundedNumber: x, formattedString: string2 };
   }
-  function ComputeExponent(numberFormat, x, _a2) {
-    var getInternalSlots = _a2.getInternalSlots;
+  function ComputeExponent(internalSlots, x) {
     if (x.isZero()) {
       return [0, 0];
     }
@@ -5983,11 +6090,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       x = x.negated();
     }
     var magnitude = x.log(10).floor();
-    var exponent = ComputeExponentForMagnitude(numberFormat, magnitude, {
-      getInternalSlots
-    });
-    x = x.times(TEN.pow(-exponent));
-    var formatNumberResult = FormatNumericToString(getInternalSlots(numberFormat), x);
+    var exponent = ComputeExponentForMagnitude(internalSlots, magnitude);
+    x = x.times(Decimal.pow(10, -exponent));
+    var formatNumberResult = FormatNumericToString(internalSlots, x);
     if (formatNumberResult.roundedNumber.isZero()) {
       return [exponent, magnitude.toNumber()];
     }
@@ -5996,9 +6101,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       return [exponent, magnitude.toNumber()];
     }
     return [
-      ComputeExponentForMagnitude(numberFormat, magnitude.plus(1), {
-        getInternalSlots
-      }),
+      ComputeExponentForMagnitude(internalSlots, magnitude.plus(1)),
       magnitude.plus(1).toNumber()
     ];
   }
@@ -6904,7 +7007,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           var unitName = void 0;
           var currencyNameData = data2.currencies[options.currency];
           if (currencyNameData) {
-            unitName = selectPlural(pl, numberResult.roundedNumber.times(TEN.pow(exponent)).toNumber(), currencyNameData.displayName);
+            unitName = selectPlural(pl, numberResult.roundedNumber.times(Decimal.pow(10, exponent)).toNumber(), currencyNameData.displayName);
           } else {
             unitName = options.currency;
           }
@@ -6936,11 +7039,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         var unitData = data2.units.simple[unit];
         var unitPattern = void 0;
         if (unitData) {
-          unitPattern = selectPlural(pl, numberResult.roundedNumber.times(TEN.pow(exponent)).toNumber(), data2.units.simple[unit][unitDisplay]);
+          unitPattern = selectPlural(pl, numberResult.roundedNumber.times(Decimal.pow(10, exponent)).toNumber(), data2.units.simple[unit][unitDisplay]);
         } else {
           var _c = unit.split("-per-"), numeratorUnit = _c[0], denominatorUnit = _c[1];
           unitData = data2.units.simple[numeratorUnit];
-          var numeratorUnitPattern = selectPlural(pl, numberResult.roundedNumber.times(TEN.pow(exponent)).toNumber(), data2.units.simple[numeratorUnit][unitDisplay]);
+          var numeratorUnitPattern = selectPlural(pl, numberResult.roundedNumber.times(Decimal.pow(10, exponent)).toNumber(), data2.units.simple[numeratorUnit][unitDisplay]);
           var perUnitPattern = data2.units.simple[denominatorUnit].perUnit[unitDisplay];
           if (perUnitPattern) {
             unitPattern = perUnitPattern.replace("{0}", numeratorUnitPattern);
@@ -7100,21 +7203,18 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   function selectPlural(pl, x, rules) {
     return rules[pl.select(x)] || rules.other;
   }
-  function FormatApproximately(numberFormat, result, _a2) {
-    var getInternalSlots = _a2.getInternalSlots;
-    var internalSlots = getInternalSlots(numberFormat);
+  function FormatApproximately(internalSlots, result) {
     var symbols = internalSlots.dataLocaleData.numbers.symbols[internalSlots.numberingSystem];
     var approximatelySign = symbols.approximatelySign;
     result.push({ type: "approximatelySign", value: approximatelySign });
     return result;
   }
-  function PartitionNumberPattern(numberFormat, x, _a2) {
-    var _b;
-    var getInternalSlots = _a2.getInternalSlots;
-    var internalSlots = getInternalSlots(numberFormat);
+  function PartitionNumberPattern(internalSlots, _x) {
+    var _a2;
+    var x = _x;
+    var magnitude = 0;
     var pl = internalSlots.pl, dataLocaleData = internalSlots.dataLocaleData, numberingSystem = internalSlots.numberingSystem;
     var symbols = dataLocaleData.numbers.symbols[numberingSystem] || dataLocaleData.numbers.symbols[dataLocaleData.numbers.nu[0]];
-    var magnitude = 0;
     var exponent = 0;
     var n;
     if (x.isNaN()) {
@@ -7127,10 +7227,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         if (internalSlots.style == "percent") {
           x = x.times(100);
         }
-        _b = ComputeExponent(numberFormat, x, {
-          getInternalSlots
-        }), exponent = _b[0], magnitude = _b[1];
-        x = x.times(TEN.pow(-exponent));
+        _a2 = ComputeExponent(internalSlots, x), exponent = _a2[0], // IMPL: We need to record the magnitude of the number
+        magnitude = _a2[1];
+        x = x.times(Decimal.pow(10, -exponent));
       }
       var formatNumberResult = FormatNumericToString(internalSlots, x);
       n = formatNumberResult.formattedString;
@@ -7174,30 +7273,45 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         }
         break;
     }
-    return formatToParts$1({ roundedNumber: x, formattedString: n, exponent, magnitude, sign: sign2 }, internalSlots.dataLocaleData, pl, internalSlots);
+    return formatToParts$1({
+      roundedNumber: x,
+      formattedString: n,
+      exponent,
+      // IMPL: We're returning this for our implementation of formatToParts
+      magnitude,
+      sign: sign2
+    }, internalSlots.dataLocaleData, pl, internalSlots);
+  }
+  function FormatNumeric(internalSlots, x) {
+    var parts = PartitionNumberPattern(internalSlots, x);
+    return parts.map(function(p) {
+      return p.value;
+    }).join("");
   }
   function PartitionNumberRangePattern(numberFormat, x, y, _a2) {
     var getInternalSlots = _a2.getInternalSlots;
-    invariant$2(!x.isNaN() && !y.isNaN(), "Input must be a number");
-    var result = [];
-    var xResult = PartitionNumberPattern(numberFormat, x, { getInternalSlots });
-    var yResult = PartitionNumberPattern(numberFormat, y, { getInternalSlots });
-    if (xResult === yResult) {
-      return FormatApproximately(numberFormat, xResult, { getInternalSlots });
-    }
-    for (var _i = 0, xResult_1 = xResult; _i < xResult_1.length; _i++) {
-      var r = xResult_1[_i];
-      r.source = "startRange";
-    }
-    result = result.concat(xResult);
+    invariant$2(!x.isNaN() && !y.isNaN(), "Input must be a number", RangeError);
     var internalSlots = getInternalSlots(numberFormat);
-    var symbols = internalSlots.dataLocaleData.numbers.symbols[internalSlots.numberingSystem];
-    result.push({ type: "literal", value: symbols.rangeSign, source: "shared" });
-    for (var _b = 0, yResult_1 = yResult; _b < yResult_1.length; _b++) {
-      var r = yResult_1[_b];
-      r.source = "endRange";
+    var xResult = PartitionNumberPattern(internalSlots, x);
+    var yResult = PartitionNumberPattern(internalSlots, y);
+    if (FormatNumeric(internalSlots, x) === FormatNumeric(internalSlots, y)) {
+      var appxResult = FormatApproximately(internalSlots, xResult);
+      appxResult.forEach(function(el) {
+        el.source = "shared";
+      });
+      return appxResult;
     }
-    result = result.concat(yResult);
+    var result = [];
+    xResult.forEach(function(el) {
+      el.source = "startRange";
+      result.push(el);
+    });
+    var rangeSeparator = internalSlots.dataLocaleData.numbers.symbols[internalSlots.numberingSystem].rangeSign;
+    result.push({ type: "literal", value: rangeSeparator, source: "shared" });
+    yResult.forEach(function(el) {
+      el.source = "endRange";
+      result.push(el);
+    });
     return CollapseNumberRange(numberFormat, result, { getInternalSlots });
   }
   function FormatNumericRange(numberFormat, x, y, _a2) {
@@ -7224,7 +7338,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     });
   }
   function FormatNumericToParts(nf, x, implDetails) {
-    var parts = PartitionNumberPattern(nf, x, implDetails);
+    var parts = PartitionNumberPattern(implDetails.getInternalSlots(nf), x);
     var result = ArrayCreate(0);
     for (var _i = 0, parts_1 = parts; _i < parts_1.length; _i++) {
       var part = parts_1[_i];
@@ -11244,7 +11358,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }).reduce(function(all, list) {
         return __spreadArray(__spreadArray([], all, true), list, true);
       }, []);
-      matches && (matches = !(expandedMatchedRegions.indexOf(locale.region || "") > 1 != shouldInclude));
+      matches && (matches = !(expandedMatchedRegions.indexOf(locale.region || "") > -1 != shouldInclude));
     } else {
       matches && (matches = locale.region ? region2 === "*" || region2 === locale.region : true);
     }
@@ -11305,7 +11419,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         region: ""
       }, {
         language: supportedLocale.language,
-        script: desiredLSR.script,
+        script: supportedLSR.script,
         region: ""
       }, data2);
     }
@@ -11654,7 +11768,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         mnfd = DefaultNumberOption(mnfd, 0, 100, void 0);
         mxfd = DefaultNumberOption(mxfd, 0, 100, void 0);
         if (mnfd === void 0) {
-          mnfd = Math.min(mnfdDefault, mxfd !== null && mxfd !== void 0 ? mxfd : 0);
+          invariant$2(mxfd !== void 0, "maximumFractionDigits must be defined");
+          mnfd = Math.min(mnfdDefault, mxfd);
         } else if (mxfd === void 0) {
           mxfd = Math.max(mxfdDefault, mnfd);
         } else if (mnfd > mxfd) {
@@ -11688,34 +11803,24 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       internalSlots.roundingPriority = "auto";
     }
     if (roundingIncrement !== 1) {
-      invariant$2(internalSlots.roundingType === "fractionDigits", "Invalid roundingType");
-      invariant$2(internalSlots.maximumFractionDigits === internalSlots.minimumFractionDigits, "With roundingIncrement > 1, maximumFractionDigits and minimumFractionDigits must be equal.");
+      invariant$2(internalSlots.roundingType === "fractionDigits", "Invalid roundingType", TypeError);
+      invariant$2(internalSlots.maximumFractionDigits === internalSlots.minimumFractionDigits, "With roundingIncrement > 1, maximumFractionDigits and minimumFractionDigits must be equal.", RangeError);
     }
   }
-  function SetNumberFormatUnitOptions(nf, options, _a2) {
+  function SetNumberFormatUnitOptions(internalSlots, options) {
     if (options === void 0) {
       options = /* @__PURE__ */ Object.create(null);
     }
-    var getInternalSlots = _a2.getInternalSlots;
-    var internalSlots = getInternalSlots(nf);
     var style = GetOption(options, "style", "string", ["decimal", "percent", "currency", "unit"], "decimal");
     internalSlots.style = style;
     var currency = GetOption(options, "currency", "string", void 0, void 0);
-    if (currency !== void 0 && !IsWellFormedCurrencyCode(currency)) {
-      throw RangeError("Malformed currency code");
-    }
-    if (style === "currency" && currency === void 0) {
-      throw TypeError("currency cannot be undefined");
-    }
+    invariant$2(currency === void 0 || IsWellFormedCurrencyCode(currency), "Malformed currency code", RangeError);
+    invariant$2(style !== "currency" || currency !== void 0, "currency cannot be undefined", TypeError);
     var currencyDisplay = GetOption(options, "currencyDisplay", "string", ["code", "symbol", "narrowSymbol", "name"], "symbol");
     var currencySign = GetOption(options, "currencySign", "string", ["standard", "accounting"], "standard");
     var unit = GetOption(options, "unit", "string", void 0, void 0);
-    if (unit !== void 0 && !IsWellFormedUnitIdentifier(unit)) {
-      throw RangeError("Invalid unit argument for Intl.NumberFormat()");
-    }
-    if (style === "unit" && unit === void 0) {
-      throw TypeError("unit cannot be undefined");
-    }
+    invariant$2(unit === void 0 || IsWellFormedUnitIdentifier(unit), "Invalid unit argument for Intl.NumberFormat()", RangeError);
+    invariant$2(style !== "unit" || unit !== void 0, "unit cannot be undefined", TypeError);
     var unitDisplay = GetOption(options, "unitDisplay", "string", ["short", "narrow", "long"], "short");
     if (style === "currency") {
       internalSlots.currency = currency.toUpperCase();
@@ -11755,7 +11860,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     internalSlots.dataLocale = r.dataLocale;
     internalSlots.numberingSystem = r.nu;
     internalSlots.dataLocaleData = dataLocaleData;
-    SetNumberFormatUnitOptions(nf, options, { getInternalSlots });
+    SetNumberFormatUnitOptions(internalSlots, options);
     var style = internalSlots.style;
     var notation = GetOption(options, "notation", "string", ["standard", "scientific", "engineering", "compact"], "standard");
     internalSlots.notation = notation;
@@ -11842,6 +11947,29 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     RangePatternType2["shared"] = "shared";
     RangePatternType2["endRange"] = "endRange";
   })(RangePatternType || (RangePatternType = {}));
+  function ToIntlMathematicalValue(input) {
+    var primValue = ToPrimitive(input, "number");
+    if (typeof primValue === "bigint") {
+      return new Decimal(primValue);
+    }
+    if (primValue === void 0) {
+      return new Decimal(NaN);
+    }
+    if (primValue === true) {
+      return new Decimal(1);
+    }
+    if (primValue === false) {
+      return new Decimal(0);
+    }
+    if (primValue === null) {
+      return new Decimal(0);
+    }
+    try {
+      return new Decimal(primValue);
+    } catch (e) {
+      return new Decimal(NaN);
+    }
+  }
   const lib = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
     __proto__: null,
     ApplyUnsignedRoundingMode,
@@ -11859,6 +11987,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     DayWithinYear,
     DaysInYear,
     FormatApproximately,
+    FormatNumeric,
     FormatNumericRange,
     FormatNumericRangeToParts,
     FormatNumericToParts,
@@ -11894,8 +12023,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     SupportedLocales,
     TimeClip,
     TimeFromYear,
+    ToIntlMathematicalValue,
     ToNumber,
     ToObject,
+    ToPrimitive,
     ToRawFixed,
     ToRawPrecision,
     ToString,
@@ -11937,14 +12068,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   calendars_generated$1.calendars = ["buddhist", "chinese", "coptic", "dangi", "ethioaa", "ethiopic", "gregory", "hebrew", "indian", "islamic", "islamic-civil", "islamic-rgsa", "islamic-tbla", "islamic-umalqura", "islamicc", "iso8601", "japanese", "persian", "roc"];
   Object.defineProperty(getSupportedCalendars$1, "__esModule", { value: true });
   getSupportedCalendars$1.getSupportedCalendars = getSupportedCalendars;
-  var ecma402_abstract_1$m = require$$1;
+  var ecma402_abstract_1$c = require$$1;
   var calendars_generated_1 = calendars_generated$1;
   function isSupportedCalendar(item, locale) {
     if (locale === void 0) {
       locale = "en";
     }
     try {
-      var dateTimeFormat = (0, ecma402_abstract_1$m.createMemoizedDateTimeFormat)("".concat(locale, "-u-ca-").concat(item));
+      var dateTimeFormat = (0, ecma402_abstract_1$c.createMemoizedDateTimeFormat)("".concat(locale, "-u-ca-").concat(item));
       var options = dateTimeFormat.resolvedOptions().calendar;
       if (item !== "gregory" || options !== "gregory")
         return true;
@@ -11987,14 +12118,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   currencies_generated.currencies = ["ADP", "AED", "AFA", "AFN", "ALK", "ALL", "AMD", "ANG", "AOA", "AOK", "AON", "AOR", "ARA", "ARL", "ARM", "ARP", "ARS", "ATS", "AUD", "AWG", "AZM", "AZN", "BAD", "BAM", "BAN", "BBD", "BDT", "BEC", "BEF", "BEL", "BGL", "BGM", "BGN", "BGO", "BHD", "BIF", "BMD", "BND", "BOB", "BOL", "BOP", "BOV", "BRB", "BRC", "BRE", "BRL", "BRN", "BRR", "BRZ", "BSD", "BTN", "BUK", "BWP", "BYB", "BYN", "BYR", "BZD", "CAD", "CDF", "CHE", "CHF", "CHW", "CLE", "CLF", "CLP", "CNH", "CNX", "CNY", "COP", "COU", "CRC", "CSD", "CSK", "CUC", "CUP", "CVE", "CYP", "CZK", "DDM", "DEM", "DJF", "DKK", "DOP", "DZD", "ECS", "ECV", "EEK", "EGP", "ERN", "ESA", "ESB", "ESP", "ETB", "EUR", "FIM", "FJD", "FKP", "FRF", "GBP", "GEK", "GEL", "GHC", "GHS", "GIP", "GMD", "GNF", "GNS", "GQE", "GRD", "GTQ", "GWE", "GWP", "GYD", "HKD", "HNL", "HRD", "HRK", "HTG", "HUF", "IDR", "IEP", "ILP", "ILR", "ILS", "INR", "IQD", "IRR", "ISJ", "ISK", "ITL", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRH", "KRO", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LKR", "LRD", "LSL", "LTL", "LTT", "LUC", "LUF", "LUL", "LVL", "LVR", "LYD", "MAD", "MAF", "MCF", "MDC", "MDL", "MGA", "MGF", "MKD", "MKN", "MLF", "MMK", "MNT", "MOP", "MRO", "MRU", "MTL", "MTP", "MUR", "MVP", "MVR", "MWK", "MXN", "MXP", "MXV", "MYR", "MZE", "MZM", "MZN", "NAD", "NGN", "NIC", "NIO", "NLG", "NOK", "NPR", "NZD", "OMR", "PAB", "PEI", "PEN", "PES", "PGK", "PHP", "PKR", "PLN", "PLZ", "PTE", "PYG", "QAR", "RHD", "ROL", "RON", "RSD", "RUB", "RUR", "RWF", "SAR", "SBD", "SCR", "SDD", "SDG", "SDP", "SEK", "SGD", "SHP", "SIT", "SKK", "SLE", "SLL", "SOS", "SRD", "SRG", "SSP", "STD", "STN", "SUR", "SVC", "SYP", "SZL", "THB", "TJR", "TJS", "TMM", "TMT", "TND", "TOP", "TPE", "TRL", "TRY", "TTD", "TWD", "TZS", "UAH", "UAK", "UGS", "UGX", "USD", "USN", "USS", "UYI", "UYP", "UYU", "UYW", "UZS", "VEB", "VED", "VEF", "VES", "VND", "VNN", "VUV", "WST", "XAF", "XAG", "XAU", "XBA", "XBB", "XBC", "XBD", "XCD", "XCG", "XDR", "XEU", "XFO", "XFU", "XOF", "XPD", "XPF", "XPT", "XRE", "XSU", "XTS", "XUA", "XXX", "YDD", "YER", "YUD", "YUM", "YUN", "YUR", "ZAL", "ZAR", "ZMK", "ZMW", "ZRN", "ZRZ", "ZWD", "ZWG", "ZWL", "ZWR"];
   Object.defineProperty(getSupportedCurrencies$1, "__esModule", { value: true });
   getSupportedCurrencies$1.getSupportedCurrencies = getSupportedCurrencies;
-  var ecma402_abstract_1$l = require$$1;
+  var ecma402_abstract_1$b = require$$1;
   var currencies_generated_1 = currencies_generated;
   function isSupportedCurrency(currency, locale) {
     if (locale === void 0) {
       locale = "en";
     }
     try {
-      var numberFormat = (0, ecma402_abstract_1$l.createMemoizedNumberFormat)(locale, {
+      var numberFormat = (0, ecma402_abstract_1$b.createMemoizedNumberFormat)(locale, {
         style: "currency",
         currencyDisplay: "name",
         currency
@@ -12036,14 +12167,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   numberingSystems_generated$2.numberingSystemNames = ["adlm", "ahom", "arab", "arabext", "armn", "armnlow", "bali", "beng", "bhks", "brah", "cakm", "cham", "cyrl", "deva", "diak", "ethi", "fullwide", "gara", "geor", "gong", "gonm", "grek", "greklow", "gujr", "gukh", "guru", "hanidays", "hanidec", "hans", "hansfin", "hant", "hantfin", "hebr", "hmng", "hmnp", "java", "jpan", "jpanfin", "jpanyear", "kali", "kawi", "khmr", "knda", "krai", "lana", "lanatham", "laoo", "latn", "lepc", "limb", "mathbold", "mathdbl", "mathmono", "mathsanb", "mathsans", "mlym", "modi", "mong", "mroo", "mtei", "mymr", "mymrepka", "mymrpao", "mymrshan", "mymrtlng", "nagm", "newa", "nkoo", "olck", "onao", "orya", "osma", "outlined", "rohg", "roman", "romanlow", "saur", "segment", "shrd", "sind", "sinh", "sora", "sund", "sunu", "takr", "talu", "taml", "tamldec", "telu", "thai", "tibt", "tirh", "tnsa", "vaii", "wara", "wcho"];
   Object.defineProperty(getSupportedNumberingSystems$1, "__esModule", { value: true });
   getSupportedNumberingSystems$1.getSupportedNumberingSystems = getSupportedNumberingSystems;
-  var ecma402_abstract_1$k = require$$1;
+  var ecma402_abstract_1$a = require$$1;
   var numbering_systems_generated_1$1 = numberingSystems_generated$2;
   function isSupportedNumberingSystem(system2, locale) {
     if (locale === void 0) {
       locale = "en";
     }
     try {
-      var numberFormat = (0, ecma402_abstract_1$k.createMemoizedNumberFormat)("".concat(locale, "-u-nu-").concat(system2));
+      var numberFormat = (0, ecma402_abstract_1$a.createMemoizedNumberFormat)("".concat(locale, "-u-nu-").concat(system2));
       var options = numberFormat.resolvedOptions().numberingSystem;
       if (options === system2 && system2 === "latn" || numberFormat.format(123) !== "123") {
         return true;
@@ -12064,14 +12195,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   timezones_generated$1.timezones = ["Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Bahia_Banderas", "America/Bahia", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Ciudad_Juarez", "America/Costa_Rica", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson_Creek", "America/Dawson", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Fort_Nelson", "America/Fortaleza", "America/Glace_Bay", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Nuuk", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port_of_Spain", "America/Port-au-Prince", "America/Porto_Velho", "America/Puerto_Rico", "America/Punta_Arenas", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Atyrau", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Barnaul", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Famagusta", "Asia/Gaza", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qostanay", "Asia/Qyzylorda", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Thimphu", "Asia/Tokyo", "Asia/Tomsk", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yangon", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Europe/Amsterdam", "Europe/Andorra", "Europe/Astrakhan", "Europe/Athens", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kyiv", "Europe/Kirov", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Saratov", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Ulyanovsk", "Europe/Uzhgorod", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zaporozhye", "Europe/Zurich", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Kanton", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis"];
   Object.defineProperty(getSupportedTimezones, "__esModule", { value: true });
   getSupportedTimezones.getSupportedTimeZones = getSupportedTimeZones;
-  var ecma402_abstract_1$j = require$$1;
+  var ecma402_abstract_1$9 = require$$1;
   var timezones_generated_1 = timezones_generated$1;
   function isSupported$1(timeZone, locale) {
     if (locale === void 0) {
       locale = "en";
     }
     try {
-      var formatter = (0, ecma402_abstract_1$j.createMemoizedDateTimeFormat)(locale, { timeZone });
+      var formatter = (0, ecma402_abstract_1$9.createMemoizedDateTimeFormat)(locale, { timeZone });
       return formatter.resolvedOptions().timeZone === timeZone;
     } catch (_err) {
     }
@@ -12089,14 +12220,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   units_generated.units = ["degree", "acre", "hectare", "percent", "bit", "byte", "gigabit", "gigabyte", "kilobit", "kilobyte", "megabit", "megabyte", "petabyte", "terabit", "terabyte", "day", "hour", "millisecond", "minute", "month", "second", "week", "year", "centimeter", "foot", "inch", "kilometer", "meter", "mile-scandinavian", "mile", "millimeter", "yard", "gram", "kilogram", "ounce", "pound", "stone", "celsius", "fahrenheit", "fluid-ounce", "gallon", "liter", "milliliter"];
   Object.defineProperty(getSupportedUnits$1, "__esModule", { value: true });
   getSupportedUnits$1.getSupportedUnits = getSupportedUnits;
-  var ecma402_abstract_1$i = require$$1;
+  var ecma402_abstract_1$8 = require$$1;
   var units_generated_1 = units_generated;
   function isSupported(unit, locale) {
     if (locale === void 0) {
       locale = "en";
     }
     try {
-      var formatter = (0, ecma402_abstract_1$i.createMemoizedNumberFormat)(locale, { style: "unit", unit });
+      var formatter = (0, ecma402_abstract_1$8.createMemoizedNumberFormat)(locale, { style: "unit", unit });
       return formatter.resolvedOptions().unit === unit;
     } catch (_err) {
     }
@@ -13303,12 +13434,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   Object.defineProperty(emitter, "__esModule", { value: true });
   emitter.emitUnicodeLanguageId = emitUnicodeLanguageId;
   emitter.emitUnicodeLocaleId = emitUnicodeLocaleId;
-  var tslib_1$7 = require$$0$1;
+  var tslib_1$4 = require$$0$1;
   function emitUnicodeLanguageId(lang) {
     if (!lang) {
       return "";
     }
-    return tslib_1$7.__spreadArray([lang.lang, lang.script, lang.region], lang.variants || [], true).filter(Boolean).join("-");
+    return tslib_1$4.__spreadArray([lang.lang, lang.script, lang.region], lang.variants || [], true).filter(Boolean).join("-");
   }
   function emitUnicodeLocaleId(_a2) {
     var lang = _a2.lang, extensions = _a2.extensions;
@@ -13318,12 +13449,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       chunks.push(ext.type);
       switch (ext.type) {
         case "u":
-          chunks.push.apply(chunks, tslib_1$7.__spreadArray(tslib_1$7.__spreadArray([], ext.attributes, false), ext.keywords.reduce(function(all, kv) {
+          chunks.push.apply(chunks, tslib_1$4.__spreadArray(tslib_1$4.__spreadArray([], ext.attributes, false), ext.keywords.reduce(function(all, kv) {
             return all.concat(kv);
           }, []), false));
           break;
         case "t":
-          chunks.push.apply(chunks, tslib_1$7.__spreadArray([emitUnicodeLanguageId(ext.lang)], ext.fields.reduce(function(all, kv) {
+          chunks.push.apply(chunks, tslib_1$4.__spreadArray([emitUnicodeLanguageId(ext.lang)], ext.fields.reduce(function(all, kv) {
             return all.concat(kv);
           }, []), false));
           break;
@@ -21093,7 +21224,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     var ALPHANUM_2_8 = /^[a-z0-9]{2,8}$/i;
     var ALPHANUM_3_82 = /^[a-z0-9]{3,8}$/i;
     var KEY_REGEX = /^[a-z0-9][a-z]$/i;
-    var TYPE_REGEX2 = /^[a-z0-9]{3,8}$/i;
+    var TYPE_REGEX = /^[a-z0-9]{3,8}$/i;
     var ALPHA_4 = /^[a-z]{4}$/i;
     var OTHER_EXTENSION_TYPE = /^[0-9a-svwyz]$/i;
     var UNICODE_REGION_SUBTAG_REGEX = /^([a-z]{2}|[0-9]{3})$/i;
@@ -21194,7 +21325,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }
       key = chunks.shift();
       var type = [];
-      while (chunks.length && TYPE_REGEX2.test(chunks[0])) {
+      while (chunks.length && TYPE_REGEX.test(chunks[0])) {
         type.push(chunks.shift());
       }
       var value2 = "";
@@ -21316,7 +21447,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   Object.defineProperty(canonicalizer, "__esModule", { value: true });
   canonicalizer.canonicalizeUnicodeLanguageId = canonicalizeUnicodeLanguageId;
   canonicalizer.CanonicalizeUnicodeLocaleId = CanonicalizeUnicodeLocaleId;
-  var tslib_1$6 = require$$0$1;
+  var tslib_1$3 = require$$0$1;
   var aliases_generated_1 = aliases_generated;
   var emitter_1 = emitter;
   var likelySubtags_generated_1 = likelySubtags_generated;
@@ -21351,7 +21482,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     return e1.type < e2.type ? -1 : e1.type > e2.type ? 1 : 0;
   }
   function mergeVariants(v1, v2) {
-    var result = tslib_1$6.__spreadArray([], v1, true);
+    var result = tslib_1$3.__spreadArray([], v1, true);
     for (var _i = 0, v2_1 = v2; _i < v2_1.length; _i++) {
       var v = v2_1[_i];
       if (v1.indexOf(v) < 0) {
@@ -29071,12 +29202,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   Object.defineProperty(intlLocale, "__esModule", { value: true });
   intlLocale.Locale = void 0;
-  var tslib_1$5 = require$$0$1;
-  var ecma402_abstract_1$h = require$$1;
+  var tslib_1$2 = require$$0$1;
+  var ecma402_abstract_1$7 = require$$1;
   var intl_enumerator_1 = intlEnumerator;
   var intl_getcanonicallocales_1 = intlGetcanonicallocales;
   var character_orders_generated_1 = characterOrders_generated;
-  var get_internal_slots_1$1 = tslib_1$5.__importDefault(requireGet_internal_slots$4());
+  var get_internal_slots_1$1 = tslib_1$2.__importDefault(requireGet_internal_slots$4());
   var numbering_systems_generated_1 = requireNumberingSystems_generated();
   var preference_data_1 = requirePreferenceData();
   var ALPHANUM_3_8 = /^[a-z0-9]{3,8}$/i;
@@ -29091,19 +29222,19 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   ];
   var UNICODE_TYPE_REGEX = /^[a-z0-9]{3,8}(-[a-z0-9]{3,8})*$/i;
   function applyOptionsToTag(tag2, options) {
-    (0, ecma402_abstract_1$h.invariant)(typeof tag2 === "string", "language tag must be a string");
-    (0, ecma402_abstract_1$h.invariant)((0, intl_getcanonicallocales_1.isStructurallyValidLanguageTag)(tag2), "malformed language tag", RangeError);
-    var language2 = (0, ecma402_abstract_1$h.GetOption)(options, "language", "string", void 0, void 0);
+    (0, ecma402_abstract_1$7.invariant)(typeof tag2 === "string", "language tag must be a string");
+    (0, ecma402_abstract_1$7.invariant)((0, intl_getcanonicallocales_1.isStructurallyValidLanguageTag)(tag2), "malformed language tag", RangeError);
+    var language2 = (0, ecma402_abstract_1$7.GetOption)(options, "language", "string", void 0, void 0);
     if (language2 !== void 0) {
-      (0, ecma402_abstract_1$h.invariant)((0, intl_getcanonicallocales_1.isUnicodeLanguageSubtag)(language2), "Malformed unicode_language_subtag", RangeError);
+      (0, ecma402_abstract_1$7.invariant)((0, intl_getcanonicallocales_1.isUnicodeLanguageSubtag)(language2), "Malformed unicode_language_subtag", RangeError);
     }
-    var script2 = (0, ecma402_abstract_1$h.GetOption)(options, "script", "string", void 0, void 0);
+    var script2 = (0, ecma402_abstract_1$7.GetOption)(options, "script", "string", void 0, void 0);
     if (script2 !== void 0) {
-      (0, ecma402_abstract_1$h.invariant)((0, intl_getcanonicallocales_1.isUnicodeScriptSubtag)(script2), "Malformed unicode_script_subtag", RangeError);
+      (0, ecma402_abstract_1$7.invariant)((0, intl_getcanonicallocales_1.isUnicodeScriptSubtag)(script2), "Malformed unicode_script_subtag", RangeError);
     }
-    var region2 = (0, ecma402_abstract_1$h.GetOption)(options, "region", "string", void 0, void 0);
+    var region2 = (0, ecma402_abstract_1$7.GetOption)(options, "region", "string", void 0, void 0);
     if (region2 !== void 0) {
-      (0, ecma402_abstract_1$h.invariant)((0, intl_getcanonicallocales_1.isUnicodeRegionSubtag)(region2), "Malformed unicode_region_subtag", RangeError);
+      (0, ecma402_abstract_1$7.invariant)((0, intl_getcanonicallocales_1.isUnicodeRegionSubtag)(region2), "Malformed unicode_region_subtag", RangeError);
     }
     var languageId = (0, intl_getcanonicallocales_1.parseUnicodeLanguageId)(tag2);
     if (language2 !== void 0) {
@@ -29115,7 +29246,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     if (region2 !== void 0) {
       languageId.region = region2;
     }
-    return Intl.getCanonicalLocales((0, intl_getcanonicallocales_1.emitUnicodeLocaleId)(tslib_1$5.__assign(tslib_1$5.__assign({}, (0, intl_getcanonicallocales_1.parseUnicodeLocaleId)(tag2)), { lang: languageId })))[0];
+    return Intl.getCanonicalLocales((0, intl_getcanonicallocales_1.emitUnicodeLocaleId)(tslib_1$2.__assign(tslib_1$2.__assign({}, (0, intl_getcanonicallocales_1.parseUnicodeLocaleId)(tag2)), { lang: languageId })))[0];
   }
   function applyUnicodeExtensionToTag(tag2, options, relevantExtensionKeys) {
     var unicodeExtension;
@@ -29140,10 +29271,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           value2 = entry[1];
         }
       }
-      (0, ecma402_abstract_1$h.invariant)(key in options, "".concat(key, " must be in options"));
+      (0, ecma402_abstract_1$7.invariant)(key in options, "".concat(key, " must be in options"));
       var optionsValue = options[key];
       if (optionsValue !== void 0) {
-        (0, ecma402_abstract_1$h.invariant)(typeof optionsValue === "string", "Value for ".concat(key, " must be a string"));
+        (0, ecma402_abstract_1$7.invariant)(typeof optionsValue === "string", "Value for ".concat(key, " must be a string"));
         value2 = optionsValue;
         if (entry) {
           entry[1] = value2;
@@ -29183,7 +29314,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       lang: !lang || lang === "und" ? replacement.lang : lang,
       script: script2 || replacement.script,
       region: region2 || replacement.region,
-      variants: tslib_1$5.__spreadArray(tslib_1$5.__spreadArray([], variants, true), replacement.variants, true)
+      variants: tslib_1$2.__spreadArray(tslib_1$2.__spreadArray([], variants, true), replacement.variants, true)
     };
   }
   function addLikelySubtags(tag2) {
@@ -29227,23 +29358,23 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     if (!maxLocale) {
       return tag2;
     }
-    maxLocale = (0, intl_getcanonicallocales_1.emitUnicodeLanguageId)(tslib_1$5.__assign(tslib_1$5.__assign({}, (0, intl_getcanonicallocales_1.parseUnicodeLanguageId)(maxLocale)), { variants: [] }));
+    maxLocale = (0, intl_getcanonicallocales_1.emitUnicodeLanguageId)(tslib_1$2.__assign(tslib_1$2.__assign({}, (0, intl_getcanonicallocales_1.parseUnicodeLanguageId)(maxLocale)), { variants: [] }));
     var ast = (0, intl_getcanonicallocales_1.parseUnicodeLocaleId)(tag2);
     var _a2 = ast.lang, lang = _a2.lang, script2 = _a2.script, region2 = _a2.region, variants = _a2.variants;
     var trial = addLikelySubtags((0, intl_getcanonicallocales_1.emitUnicodeLanguageId)({ lang, variants: [] }));
     if (trial === maxLocale) {
-      return (0, intl_getcanonicallocales_1.emitUnicodeLocaleId)(tslib_1$5.__assign(tslib_1$5.__assign({}, ast), { lang: mergeUnicodeLanguageId(lang, void 0, void 0, variants) }));
+      return (0, intl_getcanonicallocales_1.emitUnicodeLocaleId)(tslib_1$2.__assign(tslib_1$2.__assign({}, ast), { lang: mergeUnicodeLanguageId(lang, void 0, void 0, variants) }));
     }
     if (region2) {
       var trial_1 = addLikelySubtags((0, intl_getcanonicallocales_1.emitUnicodeLanguageId)({ lang, region: region2, variants: [] }));
       if (trial_1 === maxLocale) {
-        return (0, intl_getcanonicallocales_1.emitUnicodeLocaleId)(tslib_1$5.__assign(tslib_1$5.__assign({}, ast), { lang: mergeUnicodeLanguageId(lang, void 0, region2, variants) }));
+        return (0, intl_getcanonicallocales_1.emitUnicodeLocaleId)(tslib_1$2.__assign(tslib_1$2.__assign({}, ast), { lang: mergeUnicodeLanguageId(lang, void 0, region2, variants) }));
       }
     }
     if (script2) {
       var trial_2 = addLikelySubtags((0, intl_getcanonicallocales_1.emitUnicodeLanguageId)({ lang, script: script2, variants: [] }));
       if (trial_2 === maxLocale) {
-        return (0, intl_getcanonicallocales_1.emitUnicodeLocaleId)(tslib_1$5.__assign(tslib_1$5.__assign({}, ast), { lang: mergeUnicodeLanguageId(lang, script2, void 0, variants) }));
+        return (0, intl_getcanonicallocales_1.emitUnicodeLocaleId)(tslib_1$2.__assign(tslib_1$2.__assign({}, ast), { lang: mergeUnicodeLanguageId(lang, script2, void 0, variants) }));
       }
     }
     return tag2;
@@ -29295,7 +29426,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     var language2 = loc.language;
     var localeNumberingSystems = (_a2 = numbering_systems_generated_1.numberingSystems[locale]) !== null && _a2 !== void 0 ? _a2 : numbering_systems_generated_1.numberingSystems[language2];
     if (localeNumberingSystems) {
-      return createArrayFromListOrRestricted(tslib_1$5.__spreadArray([], localeNumberingSystems, true), restricted);
+      return createArrayFromListOrRestricted(tslib_1$2.__spreadArray([], localeNumberingSystems, true), restricted);
     }
     return createArrayFromListOrRestricted([], restricted);
   }
@@ -29363,30 +29494,30 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           throw new TypeError("tag must be a string or object");
         }
         var tagInternalSlots;
-        if (typeof tag2 === "object" && (tagInternalSlots = (0, get_internal_slots_1$1.default)(tag2)) && (0, ecma402_abstract_1$h.HasOwnProperty)(tagInternalSlots, "initializedLocale")) {
+        if (typeof tag2 === "object" && (tagInternalSlots = (0, get_internal_slots_1$1.default)(tag2)) && (0, ecma402_abstract_1$7.HasOwnProperty)(tagInternalSlots, "initializedLocale")) {
           tag2 = tagInternalSlots.locale;
         } else {
           tag2 = tag2.toString();
         }
         var internalSlots = (0, get_internal_slots_1$1.default)(this, internalSlotsList);
-        var options = (0, ecma402_abstract_1$h.CoerceOptionsToObject)(opts);
+        var options = (0, ecma402_abstract_1$7.CoerceOptionsToObject)(opts);
         tag2 = applyOptionsToTag(tag2, options);
         var opt = /* @__PURE__ */ Object.create(null);
-        var calendar = (0, ecma402_abstract_1$h.GetOption)(options, "calendar", "string", void 0, void 0);
+        var calendar = (0, ecma402_abstract_1$7.GetOption)(options, "calendar", "string", void 0, void 0);
         if (calendar !== void 0) {
           if (!UNICODE_TYPE_REGEX.test(calendar)) {
             throw new RangeError("invalid calendar");
           }
         }
         opt.ca = calendar;
-        var collation = (0, ecma402_abstract_1$h.GetOption)(options, "collation", "string", void 0, void 0);
+        var collation = (0, ecma402_abstract_1$7.GetOption)(options, "collation", "string", void 0, void 0);
         if (collation !== void 0) {
           if (!UNICODE_TYPE_REGEX.test(collation)) {
             throw new RangeError("invalid collation");
           }
         }
         opt.co = collation;
-        var fw = (0, ecma402_abstract_1$h.GetOption)(options, "firstDayOfWeek", "string", void 0, void 0);
+        var fw = (0, ecma402_abstract_1$7.GetOption)(options, "firstDayOfWeek", "string", void 0, void 0);
         if (fw !== void 0) {
           fw = weekdayToString(fw);
           if (!ALPHANUM_3_8.test(fw)) {
@@ -29394,17 +29525,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           }
         }
         opt.fw = fw;
-        var hc = (0, ecma402_abstract_1$h.GetOption)(options, "hourCycle", "string", ["h11", "h12", "h23", "h24"], void 0);
+        var hc = (0, ecma402_abstract_1$7.GetOption)(options, "hourCycle", "string", ["h11", "h12", "h23", "h24"], void 0);
         opt.hc = hc;
-        var kf = (0, ecma402_abstract_1$h.GetOption)(options, "caseFirst", "string", ["upper", "lower", "false"], void 0);
+        var kf = (0, ecma402_abstract_1$7.GetOption)(options, "caseFirst", "string", ["upper", "lower", "false"], void 0);
         opt.kf = kf;
-        var _kn = (0, ecma402_abstract_1$h.GetOption)(options, "numeric", "boolean", void 0, void 0);
+        var _kn = (0, ecma402_abstract_1$7.GetOption)(options, "numeric", "boolean", void 0, void 0);
         var kn;
         if (_kn !== void 0) {
           kn = String(_kn);
         }
         opt.kn = kn;
-        var numberingSystem = (0, ecma402_abstract_1$h.GetOption)(options, "numberingSystem", "string", void 0, void 0);
+        var numberingSystem = (0, ecma402_abstract_1$7.GetOption)(options, "numberingSystem", "string", void 0, void 0);
         if (numberingSystem !== void 0) {
           if (!UNICODE_TYPE_REGEX.test(numberingSystem)) {
             throw new RangeError("Invalid numberingSystem");
@@ -29421,7 +29552,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           internalSlots.caseFirst = r.kf;
         }
         if (relevantExtensionKeys.indexOf("kn") > -1) {
-          internalSlots.numeric = (0, ecma402_abstract_1$h.SameValue)(r.kn, "true");
+          internalSlots.numeric = (0, ecma402_abstract_1$7.SameValue)(r.kn, "true");
         }
         internalSlots.numberingSystem = r.nu;
       }
@@ -29525,7 +29656,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       Object.defineProperty(Locale2.prototype, "firstDayOfWeek", {
         get: function() {
           var internalSlots = (0, get_internal_slots_1$1.default)(this);
-          if (!(0, ecma402_abstract_1$h.HasOwnProperty)(internalSlots, "initializedLocale")) {
+          if (!(0, ecma402_abstract_1$7.HasOwnProperty)(internalSlots, "initializedLocale")) {
             throw new TypeError("Error uninitialized locale");
           }
           return internalSlots.firstDayOfWeek;
@@ -29536,7 +29667,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       Object.defineProperty(Locale2.prototype, "hourCycle", {
         get: function() {
           var internalSlots = (0, get_internal_slots_1$1.default)(this);
-          if (!(0, ecma402_abstract_1$h.HasOwnProperty)(internalSlots, "initializedLocale")) {
+          if (!(0, ecma402_abstract_1$7.HasOwnProperty)(internalSlots, "initializedLocale")) {
             throw new TypeError("Error uninitialized locale");
           }
           return internalSlots.hourCycle;
@@ -29552,7 +29683,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       };
       Locale2.prototype.getHourCycles = function() {
         var internalSlots = (0, get_internal_slots_1$1.default)(this);
-        if (!(0, ecma402_abstract_1$h.HasOwnProperty)(internalSlots, "initializedLocale")) {
+        if (!(0, ecma402_abstract_1$7.HasOwnProperty)(internalSlots, "initializedLocale")) {
           throw new TypeError("Error uninitialized locale");
         }
         return hourCyclesOfLocale(this);
@@ -29566,20 +29697,20 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       Locale2.prototype.getTextInfo = function() {
         var info = Object.create(Object.prototype);
         var dir = characterDirectionOfLocale(this);
-        (0, ecma402_abstract_1$h.createDataProperty)(info, "direction", dir);
+        (0, ecma402_abstract_1$7.createDataProperty)(info, "direction", dir);
         return info;
       };
       Locale2.prototype.getWeekInfo = function() {
         var info = Object.create(Object.prototype);
         var internalSlots = (0, get_internal_slots_1$1.default)(this);
-        if (!(0, ecma402_abstract_1$h.HasOwnProperty)(internalSlots, "initializedLocale")) {
+        if (!(0, ecma402_abstract_1$7.HasOwnProperty)(internalSlots, "initializedLocale")) {
           throw new TypeError("Error uninitialized locale");
         }
         var wi = weekInfoOfLocale(this);
         var we = wi.weekend;
-        (0, ecma402_abstract_1$h.createDataProperty)(info, "firstDay", wi.firstDay);
-        (0, ecma402_abstract_1$h.createDataProperty)(info, "weekend", we);
-        (0, ecma402_abstract_1$h.createDataProperty)(info, "minimalDays", wi.minimalDays);
+        (0, ecma402_abstract_1$7.createDataProperty)(info, "firstDay", wi.firstDay);
+        (0, ecma402_abstract_1$7.createDataProperty)(info, "weekend", we);
+        (0, ecma402_abstract_1$7.createDataProperty)(info, "minimalDays", wi.minimalDays);
         var fw = internalSlots.firstDayOfWeek;
         if (fw !== void 0) {
           info.firstDay = fw;
@@ -29633,89 +29764,8 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       configurable: true
     });
   }
+  var intlDatetimeformat = {};
   var core$1 = {};
-  var currencyDigits_generated = {};
-  Object.defineProperty(currencyDigits_generated, "__esModule", { value: true });
-  currencyDigits_generated.currencyDigitsData = void 0;
-  currencyDigits_generated.currencyDigitsData = {
-    "ADP": 0,
-    "AFN": 0,
-    "ALL": 0,
-    "AMD": 2,
-    "BHD": 3,
-    "BIF": 0,
-    "BYN": 2,
-    "BYR": 0,
-    "CAD": 2,
-    "CHF": 2,
-    "CLF": 4,
-    "CLP": 0,
-    "COP": 2,
-    "CRC": 2,
-    "CZK": 2,
-    "DEFAULT": 2,
-    "DJF": 0,
-    "DKK": 2,
-    "ESP": 0,
-    "GNF": 0,
-    "GYD": 2,
-    "HUF": 2,
-    "IDR": 2,
-    "IQD": 0,
-    "IRR": 0,
-    "ISK": 0,
-    "ITL": 0,
-    "JOD": 3,
-    "JPY": 0,
-    "KMF": 0,
-    "KPW": 0,
-    "KRW": 0,
-    "KWD": 3,
-    "LAK": 0,
-    "LBP": 0,
-    "LUF": 0,
-    "LYD": 3,
-    "MGA": 0,
-    "MGF": 0,
-    "MMK": 0,
-    "MNT": 2,
-    "MRO": 0,
-    "MUR": 2,
-    "NOK": 2,
-    "OMR": 3,
-    "PKR": 2,
-    "PYG": 0,
-    "RSD": 0,
-    "RWF": 0,
-    "SEK": 2,
-    "SLE": 2,
-    "SLL": 0,
-    "SOS": 0,
-    "STD": 0,
-    "SYP": 0,
-    "TMM": 0,
-    "TND": 3,
-    "TRL": 0,
-    "TWD": 2,
-    "TZS": 2,
-    "UGX": 0,
-    "UYI": 0,
-    "UYW": 4,
-    "UZS": 2,
-    "VEF": 2,
-    "VND": 0,
-    "VUV": 0,
-    "XAF": 0,
-    "XOF": 0,
-    "XPF": 0,
-    "YER": 0,
-    "ZMK": 0,
-    "ZWD": 0
-  };
-  var numberingSystems_generated = {};
-  Object.defineProperty(numberingSystems_generated, "__esModule", { value: true });
-  numberingSystems_generated.numberingSystemNames = void 0;
-  numberingSystems_generated.numberingSystemNames = ["adlm", "ahom", "arab", "arabext", "armn", "armnlow", "bali", "beng", "bhks", "brah", "cakm", "cham", "cyrl", "deva", "diak", "ethi", "fullwide", "gara", "geor", "gong", "gonm", "grek", "greklow", "gujr", "gukh", "guru", "hanidays", "hanidec", "hans", "hansfin", "hant", "hantfin", "hebr", "hmng", "hmnp", "java", "jpan", "jpanfin", "jpanyear", "kali", "kawi", "khmr", "knda", "krai", "lana", "lanatham", "laoo", "latn", "lepc", "limb", "mathbold", "mathdbl", "mathmono", "mathsanb", "mathsans", "mlym", "modi", "mong", "mroo", "mtei", "mymr", "mymrepka", "mymrpao", "mymrshan", "mymrtlng", "nagm", "newa", "nkoo", "olck", "onao", "orya", "osma", "outlined", "rohg", "roman", "romanlow", "saur", "segment", "shrd", "sind", "sinh", "sora", "sund", "sunu", "takr", "talu", "taml", "tamldec", "telu", "thai", "tibt", "tirh", "tnsa", "vaii", "wara", "wcho"];
   var decimal$2 = { exports: {} };
   var hasRequiredDecimal;
   function requireDecimal() {
@@ -29724,10 +29774,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     (function(module) {
       (function(globalScope) {
         /*!
-         *  decimal.js v10.4.3
+         *  decimal.js v10.5.0
          *  An arbitrary-precision Decimal type for JavaScript.
          *  https://github.com/MikeMcl/decimal.js
-         *  Copyright (c) 2022 Michael Mclaughlin <M8ch88l@gmail.com>
+         *  Copyright (c) 2025 Michael Mclaughlin <M8ch88l@gmail.com>
          *  MIT Licence
          */
         var EXP_LIMIT2 = 9e15, MAX_DIGITS2 = 1e9, NUMERALS2 = "0123456789abcdef", LN102 = "2.3025850929940456840179914546843642076011014886287729760333279009675726096773524802359972050895982983419677840422862486334095254650828067566662873690987816894829072083255546808437998948262331985283935053089653777326288461633662222876982198867465436674744042432743651550489343149393914796194044002221051017141748003688084012647080685567743216228355220114804663715659121373450747856947683463616792101806445070648000277502684916746550586856935673420670581136429224554405758925724208241314695689016758940256776311356919292033376587141660230105703089634572075440370847469940168269282808481184289314848524948644871927809676271275775397027668605952496716674183485704422507197965004714951050492214776567636938662976979522110718264549734772662425709429322582798502585509785265383207606726317164309505995087807523710333101197857547331541421808427543863591778117054309827482385045648019095610299291824318237525357709750539565187697510374970888692180205189339507238539205144634197265287286965110862571492198849978748873771345686209167058", PI2 = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989380952572010654858632789", DEFAULTS2 = {
@@ -29977,18 +30027,17 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return divide2(x.sinh(), x.cosh(), Ctor.precision = pr, Ctor.rounding = rm);
         };
         P2.inverseCosine = P2.acos = function() {
-          var halfPi, x = this, Ctor = x.constructor, k = x.abs().cmp(1), pr = Ctor.precision, rm = Ctor.rounding;
+          var x = this, Ctor = x.constructor, k = x.abs().cmp(1), pr = Ctor.precision, rm = Ctor.rounding;
           if (k !== -1) {
             return k === 0 ? x.isNeg() ? getPi2(Ctor, pr, rm) : new Ctor(0) : new Ctor(NaN);
           }
           if (x.isZero()) return getPi2(Ctor, pr + 4, rm).times(0.5);
           Ctor.precision = pr + 6;
           Ctor.rounding = 1;
-          x = x.asin();
-          halfPi = getPi2(Ctor, pr + 4, rm).times(0.5);
+          x = new Ctor(1).minus(x).div(x.plus(1)).sqrt().atan();
           Ctor.precision = pr;
           Ctor.rounding = rm;
-          return halfPi.minus(x);
+          return x.times(2);
         };
         P2.inverseHyperbolicCosine = P2.acosh = function() {
           var pr, rm, x = this, Ctor = x.constructor;
@@ -31086,14 +31135,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         function isOdd2(n) {
           return n.d[n.d.length - 1] & 1;
         }
-        function maxOrMin2(Ctor, args, ltgt) {
-          var y, x = new Ctor(args[0]), i = 0;
+        function maxOrMin2(Ctor, args, n) {
+          var k, y, x = new Ctor(args[0]), i = 0;
           for (; ++i < args.length; ) {
             y = new Ctor(args[i]);
             if (!y.s) {
               x = y;
               break;
-            } else if (x[ltgt](y)) {
+            }
+            k = x.cmp(y);
+            if (k === n || k === 0 && x.s === n) {
               x = y;
             }
           }
@@ -31636,24 +31687,35 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
                   x.d = [v];
                 }
                 return;
-              } else if (v * 0 !== 0) {
+              }
+              if (v * 0 !== 0) {
                 if (!v) x.s = NaN;
                 x.e = NaN;
                 x.d = null;
                 return;
               }
               return parseDecimal2(x, v.toString());
-            } else if (t !== "string") {
-              throw Error(invalidArgument2 + v);
             }
-            if ((i2 = v.charCodeAt(0)) === 45) {
-              v = v.slice(1);
-              x.s = -1;
-            } else {
-              if (i2 === 43) v = v.slice(1);
-              x.s = 1;
+            if (t === "string") {
+              if ((i2 = v.charCodeAt(0)) === 45) {
+                v = v.slice(1);
+                x.s = -1;
+              } else {
+                if (i2 === 43) v = v.slice(1);
+                x.s = 1;
+              }
+              return isDecimal2.test(v) ? parseDecimal2(x, v) : parseOther2(x, v);
             }
-            return isDecimal2.test(v) ? parseDecimal2(x, v) : parseOther2(x, v);
+            if (t === "bigint") {
+              if (v < 0) {
+                v = -v;
+                x.s = -1;
+              } else {
+                x.s = 1;
+              }
+              return parseDecimal2(x, v.toString());
+            }
+            throw Error(invalidArgument2 + v);
           }
           Decimal3.prototype = P2;
           Decimal3.ROUND_UP = 0;
@@ -31760,10 +31822,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return new this(x).log(10);
         }
         function max2() {
-          return maxOrMin2(this, arguments, "lt");
+          return maxOrMin2(this, arguments, -1);
         }
         function min2() {
-          return maxOrMin2(this, arguments, "gt");
+          return maxOrMin2(this, arguments, 1);
         }
         function mod2(x, y) {
           return new this(x).mod(y);
@@ -31887,4232 +31949,1008 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     })(decimal$2);
     return decimal$2.exports;
   }
-  var get_internal_slots$3 = {};
-  var hasRequiredGet_internal_slots$3;
-  function requireGet_internal_slots$3() {
-    if (hasRequiredGet_internal_slots$3) return get_internal_slots$3;
-    hasRequiredGet_internal_slots$3 = 1;
-    Object.defineProperty(get_internal_slots$3, "__esModule", { value: true });
-    get_internal_slots$3.default = getInternalSlots;
-    var internalSlotMap = /* @__PURE__ */ new WeakMap();
-    function getInternalSlots(x) {
-      var internalSlots = internalSlotMap.get(x);
-      if (!internalSlots) {
-        internalSlots = /* @__PURE__ */ Object.create(null);
-        internalSlotMap.set(x, internalSlots);
-      }
-      return internalSlots;
-    }
-    return get_internal_slots$3;
-  }
-  (function(exports2) {
-    Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.NumberFormat = void 0;
-    var tslib_12 = require$$0$1;
+  var FormatDateTime = {};
+  var PartitionDateTimePattern = {};
+  var FormatDateTimePattern = {};
+  var ToLocalTime = {};
+  var hasRequiredToLocalTime;
+  function requireToLocalTime() {
+    if (hasRequiredToLocalTime) return ToLocalTime;
+    hasRequiredToLocalTime = 1;
+    Object.defineProperty(ToLocalTime, "__esModule", { value: true });
+    ToLocalTime.ToLocalTime = ToLocalTime$12;
     var ecma402_abstract_12 = require$$1;
-    var currency_digits_generated_1 = currencyDigits_generated;
-    var numbering_systems_generated_12 = numberingSystems_generated;
-    var decimal_js_1 = tslib_12.__importDefault(requireDecimal());
-    var get_internal_slots_12 = tslib_12.__importDefault(requireGet_internal_slots$3());
-    var RESOLVED_OPTIONS_KEYS = [
-      "locale",
-      "numberingSystem",
-      "style",
-      "currency",
-      "currencyDisplay",
-      "currencySign",
-      "unit",
-      "unitDisplay",
-      "minimumIntegerDigits",
-      "minimumFractionDigits",
-      "maximumFractionDigits",
-      "minimumSignificantDigits",
-      "maximumSignificantDigits",
-      "useGrouping",
-      "notation",
-      "compactDisplay",
-      "signDisplay"
-    ];
-    exports2.NumberFormat = function(locales, options) {
-      if (!this || !(0, ecma402_abstract_12.OrdinaryHasInstance)(exports2.NumberFormat, this)) {
-        return new exports2.NumberFormat(locales, options);
+    function getApplicableZoneData(t, timeZone, tzData) {
+      var _a2;
+      var zoneData = tzData[timeZone];
+      if (!zoneData) {
+        return [0, false];
       }
-      (0, ecma402_abstract_12.InitializeNumberFormat)(this, locales, options, {
-        getInternalSlots: get_internal_slots_12.default,
-        localeData: exports2.NumberFormat.localeData,
-        availableLocales: exports2.NumberFormat.availableLocales,
-        getDefaultLocale: exports2.NumberFormat.getDefaultLocale,
-        currencyDigitsData: currency_digits_generated_1.currencyDigitsData,
-        numberingSystemNames: numbering_systems_generated_12.numberingSystemNames
-      });
-      var internalSlots = (0, get_internal_slots_12.default)(this);
-      var dataLocale = internalSlots.dataLocale;
-      var dataLocaleData = exports2.NumberFormat.localeData[dataLocale];
-      (0, ecma402_abstract_12.invariant)(dataLocaleData !== void 0, "Cannot load locale-dependent data for ".concat(dataLocale, "."));
-      internalSlots.pl = (0, ecma402_abstract_12.createMemoizedPluralRules)(dataLocale, {
-        minimumFractionDigits: internalSlots.minimumFractionDigits,
-        maximumFractionDigits: internalSlots.maximumFractionDigits,
-        minimumIntegerDigits: internalSlots.minimumIntegerDigits,
-        minimumSignificantDigits: internalSlots.minimumSignificantDigits,
-        maximumSignificantDigits: internalSlots.maximumSignificantDigits
-      });
-      return this;
-    };
-    function formatToParts2(x) {
-      return (0, ecma402_abstract_12.FormatNumericToParts)(this, toNumeric(x), {
-        getInternalSlots: get_internal_slots_12.default
-      });
-    }
-    function formatRange(start, end) {
-      return (0, ecma402_abstract_12.FormatNumericRange)(this, toNumeric(start), toNumeric(end), {
-        getInternalSlots: get_internal_slots_12.default
-      });
-    }
-    function formatRangeToParts(start, end) {
-      return (0, ecma402_abstract_12.FormatNumericRangeToParts)(this, toNumeric(start), toNumeric(end), {
-        getInternalSlots: get_internal_slots_12.default
-      });
-    }
-    try {
-      Object.defineProperty(formatToParts2, "name", {
-        value: "formatToParts",
-        enumerable: false,
-        writable: false,
-        configurable: true
-      });
-    } catch (e) {
-    }
-    (0, ecma402_abstract_12.defineProperty)(exports2.NumberFormat.prototype, "formatToParts", {
-      value: formatToParts2
-    });
-    (0, ecma402_abstract_12.defineProperty)(exports2.NumberFormat.prototype, "formatRange", {
-      value: formatRange
-    });
-    (0, ecma402_abstract_12.defineProperty)(exports2.NumberFormat.prototype, "formatRangeToParts", {
-      value: formatRangeToParts
-    });
-    (0, ecma402_abstract_12.defineProperty)(exports2.NumberFormat.prototype, "resolvedOptions", {
-      value: function resolvedOptions() {
-        if (typeof this !== "object" || !(0, ecma402_abstract_12.OrdinaryHasInstance)(exports2.NumberFormat, this)) {
-          throw TypeError("Method Intl.NumberFormat.prototype.resolvedOptions called on incompatible receiver");
-        }
-        var internalSlots = (0, get_internal_slots_12.default)(this);
-        var ro = {};
-        for (var _i = 0, RESOLVED_OPTIONS_KEYS_1 = RESOLVED_OPTIONS_KEYS; _i < RESOLVED_OPTIONS_KEYS_1.length; _i++) {
-          var key = RESOLVED_OPTIONS_KEYS_1[_i];
-          var value2 = internalSlots[key];
-          if (value2 !== void 0) {
-            ro[key] = value2;
-          }
-        }
-        if (internalSlots.roundingType === "morePrecision") {
-          ro.roundingPriority = "morePrecision";
-        } else if (internalSlots.roundingType === "lessPrecision") {
-          ro.roundingPriority = "lessPrecision";
-        } else {
-          ro.roundingPriority = "auto";
-        }
-        return ro;
-      }
-    });
-    var formatDescriptor = {
-      enumerable: false,
-      configurable: true,
-      get: function() {
-        if (typeof this !== "object" || !(0, ecma402_abstract_12.OrdinaryHasInstance)(exports2.NumberFormat, this)) {
-          throw TypeError("Intl.NumberFormat format property accessor called on incompatible receiver");
-        }
-        var internalSlots = (0, get_internal_slots_12.default)(this);
-        var numberFormat = this;
-        var boundFormat = internalSlots.boundFormat;
-        if (boundFormat === void 0) {
-          boundFormat = function(value2) {
-            var x = toNumeric(value2);
-            return numberFormat.formatToParts(x).map(function(x2) {
-              return x2.value;
-            }).join("");
-          };
-          try {
-            Object.defineProperty(boundFormat, "name", {
-              configurable: true,
-              enumerable: false,
-              writable: false,
-              value: ""
-            });
-          } catch (e) {
-          }
-          internalSlots.boundFormat = boundFormat;
-        }
-        return boundFormat;
-      }
-    };
-    try {
-      Object.defineProperty(formatDescriptor.get, "name", {
-        configurable: true,
-        enumerable: false,
-        writable: false,
-        value: "get format"
-      });
-    } catch (e) {
-    }
-    Object.defineProperty(exports2.NumberFormat.prototype, "format", formatDescriptor);
-    (0, ecma402_abstract_12.defineProperty)(exports2.NumberFormat, "supportedLocalesOf", {
-      value: function supportedLocalesOf2(locales, options) {
-        return (0, ecma402_abstract_12.SupportedLocales)(exports2.NumberFormat.availableLocales, (0, ecma402_abstract_12.CanonicalizeLocaleList)(locales), options);
-      }
-    });
-    exports2.NumberFormat.__addLocaleData = function __addLocaleData() {
-      var data2 = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        data2[_i] = arguments[_i];
-      }
-      for (var _a2 = 0, data_1 = data2; _a2 < data_1.length; _a2++) {
-        var _b = data_1[_a2], d = _b.data, locale = _b.locale;
-        var minimizedLocale = new Intl.Locale(locale).minimize().toString();
-        exports2.NumberFormat.localeData[locale] = exports2.NumberFormat.localeData[minimizedLocale] = d;
-        exports2.NumberFormat.availableLocales.add(minimizedLocale);
-        exports2.NumberFormat.availableLocales.add(locale);
-        if (!exports2.NumberFormat.__defaultLocale) {
-          exports2.NumberFormat.__defaultLocale = minimizedLocale;
+      var i = 0;
+      var offset = 0;
+      var dst = false;
+      for (; i <= zoneData.length; i++) {
+        if (i === zoneData.length || zoneData[i][0] * 1e3 > t) {
+          _a2 = zoneData[i - 1], offset = _a2[2], dst = _a2[3];
+          break;
         }
       }
-    };
-    exports2.NumberFormat.__addUnitData = function __addUnitData(locale, unitsData) {
-      var _a2 = exports2.NumberFormat.localeData, _b = locale, existingData = _a2[_b];
-      if (!existingData) {
-        throw new Error('Locale data for "'.concat(locale, '" has not been loaded in NumberFormat. \nPlease __addLocaleData before adding additional unit data'));
-      }
-      for (var unit in unitsData.simple) {
-        existingData.units.simple[unit] = unitsData.simple[unit];
-      }
-      for (var unit in unitsData.compound) {
-        existingData.units.compound[unit] = unitsData.compound[unit];
-      }
-    };
-    exports2.NumberFormat.__defaultLocale = "";
-    exports2.NumberFormat.localeData = {};
-    exports2.NumberFormat.availableLocales = /* @__PURE__ */ new Set();
-    exports2.NumberFormat.getDefaultLocale = function() {
-      return exports2.NumberFormat.__defaultLocale;
-    };
-    exports2.NumberFormat.polyfilled = true;
-    function toNumeric(val) {
-      if (typeof val === "bigint") {
-        return new decimal_js_1.default(val.toString());
-      }
-      return (0, ecma402_abstract_12.ToNumber)(val);
+      return [offset * 1e3, dst];
     }
-    try {
-      if (typeof Symbol !== "undefined") {
-        Object.defineProperty(exports2.NumberFormat.prototype, Symbol.toStringTag, {
-          configurable: true,
-          enumerable: false,
-          writable: false,
-          value: "Intl.NumberFormat"
-        });
-      }
-      Object.defineProperty(exports2.NumberFormat.prototype.constructor, "length", {
-        configurable: true,
-        enumerable: false,
-        writable: false,
-        value: 0
-      });
-      Object.defineProperty(exports2.NumberFormat.supportedLocalesOf, "length", {
-        configurable: true,
-        enumerable: false,
-        writable: false,
-        value: 1
-      });
-      Object.defineProperty(exports2.NumberFormat, "prototype", {
-        configurable: false,
-        enumerable: false,
-        writable: false,
-        value: exports2.NumberFormat.prototype
-      });
-    } catch (e) {
+    function ToLocalTime$12(t, calendar, timeZone, _a2) {
+      var tzData = _a2.tzData;
+      (0, ecma402_abstract_12.invariant)(calendar === "gregory", "We only support Gregory calendar right now");
+      var _b = getApplicableZoneData(t.toNumber(), timeZone, tzData), timeZoneOffset = _b[0], inDST = _b[1];
+      var tz = t.plus(timeZoneOffset).toNumber();
+      var year2 = (0, ecma402_abstract_12.YearFromTime)(tz);
+      return {
+        weekday: (0, ecma402_abstract_12.WeekDay)(tz),
+        era: year2 < 0 ? "BC" : "AD",
+        year: year2,
+        relatedYear: void 0,
+        yearName: void 0,
+        month: (0, ecma402_abstract_12.MonthFromTime)(tz),
+        day: (0, ecma402_abstract_12.DateFromTime)(tz),
+        hour: (0, ecma402_abstract_12.HourFromTime)(tz),
+        minute: (0, ecma402_abstract_12.MinFromTime)(tz),
+        second: (0, ecma402_abstract_12.SecFromTime)(tz),
+        millisecond: (0, ecma402_abstract_12.msFromTime)(tz),
+        inDST,
+        // IMPORTANT: Not in spec
+        timeZoneOffset
+      };
     }
-  })(core$1);
-  var to_locale_string$1 = {};
-  Object.defineProperty(to_locale_string$1, "__esModule", { value: true });
-  to_locale_string$1.toLocaleString = toLocaleString$1;
-  var core_1$2 = core$1;
-  function toLocaleString$1(x, locales, options) {
-    var numberFormat = new core_1$2.NumberFormat(locales, options);
-    return numberFormat.format(x);
-  }
-  var shouldPolyfill$6 = {};
-  const require$$0 = /* @__PURE__ */ getAugmentedNamespace(lib$1);
-  var supportedLocales_generated$3 = {};
-  Object.defineProperty(supportedLocales_generated$3, "__esModule", { value: true });
-  supportedLocales_generated$3.supportedLocales = void 0;
-  supportedLocales_generated$3.supportedLocales = ["af", "af-NA", "agq", "ak", "am", "ar", "ar-AE", "ar-BH", "ar-DJ", "ar-DZ", "ar-EG", "ar-EH", "ar-ER", "ar-IL", "ar-IQ", "ar-JO", "ar-KM", "ar-KW", "ar-LB", "ar-LY", "ar-MA", "ar-MR", "ar-OM", "ar-PS", "ar-QA", "ar-SA", "ar-SD", "ar-SO", "ar-SS", "ar-SY", "ar-TD", "ar-TN", "ar-YE", "as", "asa", "ast", "az", "az-Cyrl", "az-Latn", "bas", "be", "be-tarask", "bem", "bez", "bg", "bm", "bn", "bn-IN", "bo", "bo-IN", "br", "brx", "bs", "bs-Cyrl", "bs-Latn", "ca", "ca-AD", "ca-ES-valencia", "ca-FR", "ca-IT", "ccp", "ccp-IN", "ce", "ceb", "cgg", "chr", "ckb", "ckb-IR", "cs", "cy", "da", "da-GL", "dav", "de", "de-AT", "de-BE", "de-CH", "de-IT", "de-LI", "de-LU", "dje", "doi", "dsb", "dua", "dyo", "dz", "ebu", "ee", "ee-TG", "el", "el-CY", "en", "en-001", "en-150", "en-AE", "en-AG", "en-AI", "en-AS", "en-AT", "en-AU", "en-BB", "en-BE", "en-BI", "en-BM", "en-BS", "en-BW", "en-BZ", "en-CA", "en-CC", "en-CH", "en-CK", "en-CM", "en-CX", "en-CY", "en-DE", "en-DG", "en-DK", "en-DM", "en-ER", "en-FI", "en-FJ", "en-FK", "en-FM", "en-GB", "en-GD", "en-GG", "en-GH", "en-GI", "en-GM", "en-GU", "en-GY", "en-HK", "en-IE", "en-IL", "en-IM", "en-IN", "en-IO", "en-JE", "en-JM", "en-KE", "en-KI", "en-KN", "en-KY", "en-LC", "en-LR", "en-LS", "en-MG", "en-MH", "en-MO", "en-MP", "en-MS", "en-MT", "en-MU", "en-MW", "en-MY", "en-NA", "en-NF", "en-NG", "en-NL", "en-NR", "en-NU", "en-NZ", "en-PG", "en-PH", "en-PK", "en-PN", "en-PR", "en-PW", "en-RW", "en-SB", "en-SC", "en-SD", "en-SE", "en-SG", "en-SH", "en-SI", "en-SL", "en-SS", "en-SX", "en-SZ", "en-TC", "en-TK", "en-TO", "en-TT", "en-TV", "en-TZ", "en-UG", "en-UM", "en-VC", "en-VG", "en-VI", "en-VU", "en-WS", "en-ZA", "en-ZM", "en-ZW", "eo", "es", "es-419", "es-AR", "es-BO", "es-BR", "es-BZ", "es-CL", "es-CO", "es-CR", "es-CU", "es-DO", "es-EA", "es-EC", "es-GQ", "es-GT", "es-HN", "es-IC", "es-MX", "es-NI", "es-PA", "es-PE", "es-PH", "es-PR", "es-PY", "es-SV", "es-US", "es-UY", "es-VE", "et", "eu", "ewo", "fa", "fa-AF", "ff", "ff-Adlm", "ff-Adlm-BF", "ff-Adlm-CM", "ff-Adlm-GH", "ff-Adlm-GM", "ff-Adlm-GW", "ff-Adlm-LR", "ff-Adlm-MR", "ff-Adlm-NE", "ff-Adlm-NG", "ff-Adlm-SL", "ff-Adlm-SN", "ff-Latn", "ff-Latn-BF", "ff-Latn-CM", "ff-Latn-GH", "ff-Latn-GM", "ff-Latn-GN", "ff-Latn-GW", "ff-Latn-LR", "ff-Latn-MR", "ff-Latn-NE", "ff-Latn-NG", "ff-Latn-SL", "fi", "fil", "fo", "fo-DK", "fr", "fr-BE", "fr-BF", "fr-BI", "fr-BJ", "fr-BL", "fr-CA", "fr-CD", "fr-CF", "fr-CG", "fr-CH", "fr-CI", "fr-CM", "fr-DJ", "fr-DZ", "fr-GA", "fr-GF", "fr-GN", "fr-GP", "fr-GQ", "fr-HT", "fr-KM", "fr-LU", "fr-MA", "fr-MC", "fr-MF", "fr-MG", "fr-ML", "fr-MQ", "fr-MR", "fr-MU", "fr-NC", "fr-NE", "fr-PF", "fr-PM", "fr-RE", "fr-RW", "fr-SC", "fr-SN", "fr-SY", "fr-TD", "fr-TG", "fr-TN", "fr-VU", "fr-WF", "fr-YT", "fur", "fy", "ga", "ga-GB", "gd", "gl", "gsw", "gsw-FR", "gsw-LI", "gu", "guz", "gv", "ha", "ha-GH", "ha-NE", "haw", "he", "hi", "hr", "hr-BA", "hsb", "hu", "hy", "ia", "id", "ig", "ii", "is", "it", "it-CH", "it-SM", "it-VA", "ja", "jgo", "jmc", "jv", "ka", "kab", "kam", "kde", "kea", "kgp", "khq", "ki", "kk", "kkj", "kl", "kln", "km", "kn", "ko", "ko-KP", "kok", "ks", "ks-Arab", "ksb", "ksf", "ksh", "ku", "kw", "ky", "lag", "lb", "lg", "lkt", "ln", "ln-AO", "ln-CF", "ln-CG", "lo", "lrc", "lrc-IQ", "lt", "lu", "luo", "luy", "lv", "mai", "mas", "mas-TZ", "mer", "mfe", "mg", "mgh", "mgo", "mi", "mk", "ml", "mn", "mni", "mni-Beng", "mr", "ms", "ms-BN", "ms-ID", "ms-SG", "mt", "mua", "my", "mzn", "naq", "nb", "nb-SJ", "nd", "nds", "nds-NL", "ne", "ne-IN", "nl", "nl-AW", "nl-BE", "nl-BQ", "nl-CW", "nl-SR", "nl-SX", "nmg", "nn", "nnh", "no", "nus", "nyn", "om", "om-KE", "or", "os", "os-RU", "pa", "pa-Arab", "pa-Guru", "pcm", "pl", "ps", "ps-PK", "pt", "pt-AO", "pt-CH", "pt-CV", "pt-GQ", "pt-GW", "pt-LU", "pt-MO", "pt-MZ", "pt-PT", "pt-ST", "pt-TL", "qu", "qu-BO", "qu-EC", "rm", "rn", "ro", "ro-MD", "rof", "ru", "ru-BY", "ru-KG", "ru-KZ", "ru-MD", "ru-UA", "rw", "rwk", "sa", "sah", "saq", "sat", "sat-Olck", "sbp", "sc", "sd", "sd-Arab", "sd-Deva", "se", "se-FI", "se-SE", "seh", "ses", "sg", "shi", "shi-Latn", "shi-Tfng", "si", "sk", "sl", "smn", "sn", "so", "so-DJ", "so-ET", "so-KE", "sq", "sq-MK", "sq-XK", "sr", "sr-Cyrl", "sr-Cyrl-BA", "sr-Cyrl-ME", "sr-Cyrl-XK", "sr-Latn", "sr-Latn-BA", "sr-Latn-ME", "sr-Latn-XK", "su", "su-Latn", "sv", "sv-AX", "sv-FI", "sw", "sw-CD", "sw-KE", "sw-UG", "ta", "ta-LK", "ta-MY", "ta-SG", "te", "teo", "teo-KE", "tg", "th", "ti", "ti-ER", "tk", "to", "tr", "tr-CY", "tt", "twq", "tzm", "ug", "uk", "und", "ur", "ur-IN", "uz", "uz-Arab", "uz-Cyrl", "uz-Latn", "vai", "vai-Latn", "vai-Vaii", "vi", "vun", "wae", "wo", "xh", "xog", "yav", "yi", "yo", "yo-BJ", "yrl", "yrl-CO", "yrl-VE", "yue", "yue-Hans", "yue-Hant", "zgh", "zh", "zh-Hans", "zh-Hans-HK", "zh-Hans-MO", "zh-Hans-SG", "zh-Hant", "zh-Hant-HK", "zh-Hant-MO", "zu"];
-  Object.defineProperty(shouldPolyfill$6, "__esModule", { value: true });
-  shouldPolyfill$6.shouldPolyfill = shouldPolyfill$5;
-  var intl_localematcher_1$4 = require$$0;
-  var supported_locales_generated_1$2 = supportedLocales_generated$3;
-  function onlySupportsEn() {
-    return !Intl.NumberFormat.polyfilled && !Intl.NumberFormat.supportedLocalesOf(["es"]).length;
-  }
-  function supportsES2020() {
-    try {
-      var s = new Intl.NumberFormat("en", {
-        style: "unit",
-        unit: "bit",
-        unitDisplay: "long",
-        notation: "scientific"
-      }).format(1e4);
-      if (s !== "1E4 bits") {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
-    return true;
-  }
-  function supportsES2023() {
-    try {
-      var s = new Intl.NumberFormat("en", {
-        notation: "compact",
-        minimumSignificantDigits: 3,
-        maximumSignificantDigits: 3,
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-        // @ts-ignore TS types are old
-        roundingPriority: "morePrecision"
-      }).format(1e8);
-      return s === "100.00M";
-    } catch (e) {
-      return false;
-    }
-  }
-  function supportedLocalesOf$2(locale) {
-    if (!locale) {
-      return true;
-    }
-    var locales = Array.isArray(locale) ? locale : [locale];
-    return Intl.NumberFormat.supportedLocalesOf(locales).length === locales.length;
-  }
-  function shouldPolyfill$5(locale) {
-    if (locale === void 0) {
-      locale = "en";
-    }
-    if (typeof Intl === "undefined" || !("NumberFormat" in Intl) || !supportsES2020() || !supportsES2023() || onlySupportsEn() || !supportedLocalesOf$2(locale)) {
-      return locale ? (0, intl_localematcher_1$4.match)([locale], supported_locales_generated_1$2.supportedLocales, "en") : void 0;
-    }
-  }
-  var core_1$1 = core$1;
-  var to_locale_string_1$1 = to_locale_string$1;
-  var ecma402_abstract_1$g = require$$1;
-  var should_polyfill_1$3 = shouldPolyfill$6;
-  if ((0, should_polyfill_1$3.shouldPolyfill)()) {
-    (0, ecma402_abstract_1$g.defineProperty)(Intl, "NumberFormat", { value: core_1$1.NumberFormat });
-    (0, ecma402_abstract_1$g.defineProperty)(Number.prototype, "toLocaleString", {
-      value: function toLocaleString2(locales, options) {
-        return (0, to_locale_string_1$1.toLocaleString)(this, locales, options);
-      }
-    });
-  }
-  if (Intl.NumberFormat && typeof Intl.NumberFormat.__addLocaleData === "function") {
-    Intl.NumberFormat.__addLocaleData({
-      "data": {
-        "currencies": {
-          "ADP": {
-            "displayName": {
-              "other": "Andorrese peseta"
-            },
-            "narrow": "ADP",
-            "symbol": "ADP"
-          },
-          "AED": {
-            "displayName": {
-              "other": "VAE-dirham"
-            },
-            "narrow": "AED",
-            "symbol": "AED"
-          },
-          "AFA": {
-            "displayName": {
-              "other": "Afghani (AFA)"
-            },
-            "narrow": "AFA",
-            "symbol": "AFA"
-          },
-          "AFN": {
-            "displayName": {
-              "other": "Afghaanse afghani"
-            },
-            "narrow": "؋",
-            "symbol": "AFN"
-          },
-          "ALK": {
-            "displayName": {
-              "other": "Albanese lek (1946–1965)"
-            },
-            "narrow": "ALK",
-            "symbol": "ALK"
-          },
-          "ALL": {
-            "displayName": {
-              "other": "Albanese lek"
-            },
-            "narrow": "ALL",
-            "symbol": "ALL"
-          },
-          "AMD": {
-            "displayName": {
-              "other": "Armeense dram"
-            },
-            "narrow": "֏",
-            "symbol": "AMD"
-          },
-          "ANG": {
-            "displayName": {
-              "other": "Nederlands-Antilliaanse gulden"
-            },
-            "narrow": "ANG",
-            "symbol": "ANG"
-          },
-          "AOA": {
-            "displayName": {
-              "other": "Angolese kwanza"
-            },
-            "narrow": "Kz",
-            "symbol": "AOA"
-          },
-          "AOK": {
-            "displayName": {
-              "other": "Angolese kwanza (1977–1990)"
-            },
-            "narrow": "AOK",
-            "symbol": "AOK"
-          },
-          "AON": {
-            "displayName": {
-              "other": "Angolese nieuwe kwanza (1990–2000)"
-            },
-            "narrow": "AON",
-            "symbol": "AON"
-          },
-          "AOR": {
-            "displayName": {
-              "other": "Angolese kwanza reajustado (1995–1999)"
-            },
-            "narrow": "AOR",
-            "symbol": "AOR"
-          },
-          "ARA": {
-            "displayName": {
-              "other": "Argentijnse austral"
-            },
-            "narrow": "ARA",
-            "symbol": "ARA"
-          },
-          "ARL": {
-            "displayName": {
-              "other": "Argentijnse peso ley (1970–1983)"
-            },
-            "narrow": "ARL",
-            "symbol": "ARL"
-          },
-          "ARM": {
-            "displayName": {
-              "other": "Argentijnse peso (1881–1970)"
-            },
-            "narrow": "ARM",
-            "symbol": "ARM"
-          },
-          "ARP": {
-            "displayName": {
-              "other": "Argentijnse peso (1983–1985)"
-            },
-            "narrow": "ARP",
-            "symbol": "ARP"
-          },
-          "ARS": {
-            "displayName": {
-              "other": "Argentijnse peso"
-            },
-            "narrow": "$",
-            "symbol": "ARS"
-          },
-          "ATS": {
-            "displayName": {
-              "other": "Oostenrijkse schilling"
-            },
-            "narrow": "ATS",
-            "symbol": "ATS"
-          },
-          "AUD": {
-            "displayName": {
-              "other": "Australische dollar"
-            },
-            "narrow": "$",
-            "symbol": "AU$"
-          },
-          "AWG": {
-            "displayName": {
-              "other": "Arubaanse gulden"
-            },
-            "narrow": "AWG",
-            "symbol": "AWG"
-          },
-          "AZM": {
-            "displayName": {
-              "other": "Azerbeidzjaanse manat (1993–2006)"
-            },
-            "narrow": "AZM",
-            "symbol": "AZM"
-          },
-          "AZN": {
-            "displayName": {
-              "other": "Azerbeidzjaanse manat"
-            },
-            "narrow": "₼",
-            "symbol": "AZN"
-          },
-          "BAD": {
-            "displayName": {
-              "other": "Bosnische dinar"
-            },
-            "narrow": "BAD",
-            "symbol": "BAD"
-          },
-          "BAM": {
-            "displayName": {
-              "other": "Bosnische convertibele mark"
-            },
-            "narrow": "KM",
-            "symbol": "BAM"
-          },
-          "BAN": {
-            "displayName": {
-              "other": "Nieuwe Bosnische dinar (1994–1997)"
-            },
-            "narrow": "BAN",
-            "symbol": "BAN"
-          },
-          "BBD": {
-            "displayName": {
-              "other": "Barbadaanse dollar"
-            },
-            "narrow": "$",
-            "symbol": "BBD"
-          },
-          "BDT": {
-            "displayName": {
-              "other": "Bengalese taka"
-            },
-            "narrow": "৳",
-            "symbol": "BDT"
-          },
-          "BEC": {
-            "displayName": {
-              "other": "Belgische frank (convertibel)"
-            },
-            "narrow": "BEC",
-            "symbol": "BEC"
-          },
-          "BEF": {
-            "displayName": {
-              "other": "Belgische frank"
-            },
-            "narrow": "BEF",
-            "symbol": "BEF"
-          },
-          "BEL": {
-            "displayName": {
-              "other": "Belgische frank (financieel)"
-            },
-            "narrow": "BEL",
-            "symbol": "BEL"
-          },
-          "BGL": {
-            "displayName": {
-              "other": "Bulgaarse harde lev"
-            },
-            "narrow": "BGL",
-            "symbol": "BGL"
-          },
-          "BGM": {
-            "displayName": {
-              "other": "Bulgaarse socialistische lev"
-            },
-            "narrow": "BGM",
-            "symbol": "BGM"
-          },
-          "BGN": {
-            "displayName": {
-              "one": "Bulgaarse lev",
-              "other": "Bulgaarse leva"
-            },
-            "narrow": "BGN",
-            "symbol": "BGN"
-          },
-          "BGO": {
-            "displayName": {
-              "other": "Bulgaarse lev (1879–1952)"
-            },
-            "narrow": "BGO",
-            "symbol": "BGO"
-          },
-          "BHD": {
-            "displayName": {
-              "other": "Bahreinse dinar"
-            },
-            "narrow": "BHD",
-            "symbol": "BHD"
-          },
-          "BIF": {
-            "displayName": {
-              "other": "Burundese frank"
-            },
-            "narrow": "BIF",
-            "symbol": "BIF"
-          },
-          "BMD": {
-            "displayName": {
-              "other": "Bermuda-dollar"
-            },
-            "narrow": "$",
-            "symbol": "BMD"
-          },
-          "BND": {
-            "displayName": {
-              "other": "Bruneise dollar"
-            },
-            "narrow": "$",
-            "symbol": "BND"
-          },
-          "BOB": {
-            "displayName": {
-              "other": "Boliviaanse boliviano"
-            },
-            "narrow": "Bs",
-            "symbol": "BOB"
-          },
-          "BOL": {
-            "displayName": {
-              "other": "Boliviaanse boliviano (1863–1963)"
-            },
-            "narrow": "BOL",
-            "symbol": "BOL"
-          },
-          "BOP": {
-            "displayName": {
-              "other": "Boliviaanse peso"
-            },
-            "narrow": "BOP",
-            "symbol": "BOP"
-          },
-          "BOV": {
-            "displayName": {
-              "other": "Boliviaanse mvdol"
-            },
-            "narrow": "BOV",
-            "symbol": "BOV"
-          },
-          "BRB": {
-            "displayName": {
-              "other": "Braziliaanse cruzeiro novo (1967–1986)"
-            },
-            "narrow": "BRB",
-            "symbol": "BRB"
-          },
-          "BRC": {
-            "displayName": {
-              "other": "Braziliaanse cruzado"
-            },
-            "narrow": "BRC",
-            "symbol": "BRC"
-          },
-          "BRE": {
-            "displayName": {
-              "other": "Braziliaanse cruzeiro (1990–1993)"
-            },
-            "narrow": "BRE",
-            "symbol": "BRE"
-          },
-          "BRL": {
-            "displayName": {
-              "other": "Braziliaanse real"
-            },
-            "narrow": "R$",
-            "symbol": "R$"
-          },
-          "BRN": {
-            "displayName": {
-              "other": "Braziliaanse cruzado novo"
-            },
-            "narrow": "BRN",
-            "symbol": "BRN"
-          },
-          "BRR": {
-            "displayName": {
-              "other": "Braziliaanse cruzeiro"
-            },
-            "narrow": "BRR",
-            "symbol": "BRR"
-          },
-          "BRZ": {
-            "displayName": {
-              "other": "Braziliaanse cruzeiro (1942–1967)"
-            },
-            "narrow": "BRZ",
-            "symbol": "BRZ"
-          },
-          "BSD": {
-            "displayName": {
-              "other": "Bahamaanse dollar"
-            },
-            "narrow": "$",
-            "symbol": "BSD"
-          },
-          "BTN": {
-            "displayName": {
-              "other": "Bhutaanse ngultrum"
-            },
-            "narrow": "BTN",
-            "symbol": "BTN"
-          },
-          "BUK": {
-            "displayName": {
-              "other": "Birmese kyat"
-            },
-            "narrow": "BUK",
-            "symbol": "BUK"
-          },
-          "BWP": {
-            "displayName": {
-              "other": "Botswaanse pula"
-            },
-            "narrow": "P",
-            "symbol": "BWP"
-          },
-          "BYB": {
-            "displayName": {
-              "other": "Wit-Russische nieuwe roebel (1994–1999)"
-            },
-            "narrow": "BYB",
-            "symbol": "BYB"
-          },
-          "BYN": {
-            "displayName": {
-              "other": "Belarussische roebel"
-            },
-            "narrow": "р.",
-            "symbol": "BYN"
-          },
-          "BYR": {
-            "displayName": {
-              "other": "Wit-Russische roebel (2000–2016)"
-            },
-            "narrow": "BYR",
-            "symbol": "BYR"
-          },
-          "BZD": {
-            "displayName": {
-              "other": "Belizaanse dollar"
-            },
-            "narrow": "$",
-            "symbol": "BZD"
-          },
-          "CAD": {
-            "displayName": {
-              "other": "Canadese dollar"
-            },
-            "narrow": "$",
-            "symbol": "C$"
-          },
-          "CDF": {
-            "displayName": {
-              "other": "Congolese frank"
-            },
-            "narrow": "CDF",
-            "symbol": "CDF"
-          },
-          "CHE": {
-            "displayName": {
-              "other": "WIR euro"
-            },
-            "narrow": "CHE",
-            "symbol": "CHE"
-          },
-          "CHF": {
-            "displayName": {
-              "other": "Zwitserse frank"
-            },
-            "narrow": "CHF",
-            "symbol": "CHF"
-          },
-          "CHW": {
-            "displayName": {
-              "other": "WIR franc"
-            },
-            "narrow": "CHW",
-            "symbol": "CHW"
-          },
-          "CLE": {
-            "displayName": {
-              "other": "Chileense escudo"
-            },
-            "narrow": "CLE",
-            "symbol": "CLE"
-          },
-          "CLF": {
-            "displayName": {
-              "other": "Chileense unidades de fomento"
-            },
-            "narrow": "CLF",
-            "symbol": "CLF"
-          },
-          "CLP": {
-            "displayName": {
-              "other": "Chileense peso"
-            },
-            "narrow": "$",
-            "symbol": "CLP"
-          },
-          "CNH": {
-            "displayName": {
-              "other": "Chinese yuan (offshore)"
-            },
-            "narrow": "CNH",
-            "symbol": "CNH"
-          },
-          "CNX": {
-            "displayName": {
-              "other": "dollar van de Chinese Volksbank"
-            },
-            "narrow": "CNX",
-            "symbol": "CNX"
-          },
-          "CNY": {
-            "displayName": {
-              "other": "Chinese yuan"
-            },
-            "narrow": "¥",
-            "symbol": "CN¥"
-          },
-          "COP": {
-            "displayName": {
-              "other": "Colombiaanse peso"
-            },
-            "narrow": "$",
-            "symbol": "COP"
-          },
-          "COU": {
-            "displayName": {
-              "other": "Unidad de Valor Real"
-            },
-            "narrow": "COU",
-            "symbol": "COU"
-          },
-          "CRC": {
-            "displayName": {
-              "other": "Costa Ricaanse colon"
-            },
-            "narrow": "₡",
-            "symbol": "CRC"
-          },
-          "CSD": {
-            "displayName": {
-              "other": "Oude Servische dinar"
-            },
-            "narrow": "CSD",
-            "symbol": "CSD"
-          },
-          "CSK": {
-            "displayName": {
-              "other": "Tsjechoslowaakse harde koruna"
-            },
-            "narrow": "CSK",
-            "symbol": "CSK"
-          },
-          "CUC": {
-            "displayName": {
-              "other": "Cubaanse convertibele peso"
-            },
-            "narrow": "$",
-            "symbol": "CUC"
-          },
-          "CUP": {
-            "displayName": {
-              "other": "Cubaanse peso"
-            },
-            "narrow": "$",
-            "symbol": "CUP"
-          },
-          "CVE": {
-            "displayName": {
-              "other": "Kaapverdische escudo"
-            },
-            "narrow": "CVE",
-            "symbol": "CVE"
-          },
-          "CYP": {
-            "displayName": {
-              "other": "Cyprisch pond"
-            },
-            "narrow": "CYP",
-            "symbol": "CYP"
-          },
-          "CZK": {
-            "displayName": {
-              "one": "Tsjechische kroon",
-              "other": "Tsjechische kronen"
-            },
-            "narrow": "Kč",
-            "symbol": "CZK"
-          },
-          "DDM": {
-            "displayName": {
-              "other": "Oost-Duitse ostmark"
-            },
-            "narrow": "DDM",
-            "symbol": "DDM"
-          },
-          "DEM": {
-            "displayName": {
-              "other": "Duitse mark"
-            },
-            "narrow": "DEM",
-            "symbol": "DEM"
-          },
-          "DJF": {
-            "displayName": {
-              "other": "Djiboutiaanse frank"
-            },
-            "narrow": "DJF",
-            "symbol": "DJF"
-          },
-          "DKK": {
-            "displayName": {
-              "one": "Deense kroon",
-              "other": "Deense kronen"
-            },
-            "narrow": "kr",
-            "symbol": "DKK"
-          },
-          "DOP": {
-            "displayName": {
-              "other": "Dominicaanse peso"
-            },
-            "narrow": "$",
-            "symbol": "DOP"
-          },
-          "DZD": {
-            "displayName": {
-              "other": "Algerijnse dinar"
-            },
-            "narrow": "DZD",
-            "symbol": "DZD"
-          },
-          "ECS": {
-            "displayName": {
-              "other": "Ecuadoraanse sucre"
-            },
-            "narrow": "ECS",
-            "symbol": "ECS"
-          },
-          "ECV": {
-            "displayName": {
-              "other": "Ecuadoraanse unidad de valor constante (UVC)"
-            },
-            "narrow": "ECV",
-            "symbol": "ECV"
-          },
-          "EEK": {
-            "displayName": {
-              "other": "Estlandse kroon"
-            },
-            "narrow": "EEK",
-            "symbol": "EEK"
-          },
-          "EGP": {
-            "displayName": {
-              "other": "Egyptisch pond"
-            },
-            "narrow": "E£",
-            "symbol": "EGP"
-          },
-          "ERN": {
-            "displayName": {
-              "other": "Eritrese nakfa"
-            },
-            "narrow": "ERN",
-            "symbol": "ERN"
-          },
-          "ESA": {
-            "displayName": {
-              "other": "Spaanse peseta (account A)"
-            },
-            "narrow": "ESA",
-            "symbol": "ESA"
-          },
-          "ESB": {
-            "displayName": {
-              "other": "Spaanse peseta (convertibele account)"
-            },
-            "narrow": "ESB",
-            "symbol": "ESB"
-          },
-          "ESP": {
-            "displayName": {
-              "other": "Spaanse peseta"
-            },
-            "narrow": "₧",
-            "symbol": "ESP"
-          },
-          "ETB": {
-            "displayName": {
-              "other": "Ethiopische birr"
-            },
-            "narrow": "ETB",
-            "symbol": "ETB"
-          },
-          "EUR": {
-            "displayName": {
-              "other": "euro"
-            },
-            "narrow": "€",
-            "symbol": "€"
-          },
-          "FIM": {
-            "displayName": {
-              "other": "Finse markka"
-            },
-            "narrow": "FIM",
-            "symbol": "FIM"
-          },
-          "FJD": {
-            "displayName": {
-              "other": "Fiji-dollar"
-            },
-            "narrow": "$",
-            "symbol": "FJ$"
-          },
-          "FKP": {
-            "displayName": {
-              "other": "Falklandeilands pond"
-            },
-            "narrow": "£",
-            "symbol": "FKP"
-          },
-          "FRF": {
-            "displayName": {
-              "other": "Franse franc"
-            },
-            "narrow": "FRF",
-            "symbol": "FRF"
-          },
-          "GBP": {
-            "displayName": {
-              "other": "Britse pond"
-            },
-            "narrow": "£",
-            "symbol": "£"
-          },
-          "GEK": {
-            "displayName": {
-              "other": "Georgische kupon larit"
-            },
-            "narrow": "GEK",
-            "symbol": "GEK"
-          },
-          "GEL": {
-            "displayName": {
-              "other": "Georgische lari"
-            },
-            "narrow": "₾",
-            "symbol": "GEL"
-          },
-          "GHC": {
-            "displayName": {
-              "other": "Ghanese cedi (1979–2007)"
-            },
-            "narrow": "GHC",
-            "symbol": "GHC"
-          },
-          "GHS": {
-            "displayName": {
-              "other": "Ghanese cedi"
-            },
-            "narrow": "GH₵",
-            "symbol": "GHS"
-          },
-          "GIP": {
-            "displayName": {
-              "other": "Gibraltarees pond"
-            },
-            "narrow": "£",
-            "symbol": "GIP"
-          },
-          "GMD": {
-            "displayName": {
-              "other": "Gambiaanse dalasi"
-            },
-            "narrow": "GMD",
-            "symbol": "GMD"
-          },
-          "GNF": {
-            "displayName": {
-              "other": "Guinese frank"
-            },
-            "narrow": "FG",
-            "symbol": "GNF"
-          },
-          "GNS": {
-            "displayName": {
-              "other": "Guinese syli"
-            },
-            "narrow": "GNS",
-            "symbol": "GNS"
-          },
-          "GQE": {
-            "displayName": {
-              "other": "Equatoriaal-Guinese ekwele guineana"
-            },
-            "narrow": "GQE",
-            "symbol": "GQE"
-          },
-          "GRD": {
-            "displayName": {
-              "other": "Griekse drachme"
-            },
-            "narrow": "GRD",
-            "symbol": "GRD"
-          },
-          "GTQ": {
-            "displayName": {
-              "other": "Guatemalteekse quetzal"
-            },
-            "narrow": "Q",
-            "symbol": "GTQ"
-          },
-          "GWE": {
-            "displayName": {
-              "other": "Portugees-Guinese escudo"
-            },
-            "narrow": "GWE",
-            "symbol": "GWE"
-          },
-          "GWP": {
-            "displayName": {
-              "other": "Guinee-Bissause peso"
-            },
-            "narrow": "GWP",
-            "symbol": "GWP"
-          },
-          "GYD": {
-            "displayName": {
-              "other": "Guyaanse dollar"
-            },
-            "narrow": "$",
-            "symbol": "GYD"
-          },
-          "HKD": {
-            "displayName": {
-              "other": "Hongkongse dollar"
-            },
-            "narrow": "$",
-            "symbol": "HK$"
-          },
-          "HNL": {
-            "displayName": {
-              "other": "Hondurese lempira"
-            },
-            "narrow": "L",
-            "symbol": "HNL"
-          },
-          "HRD": {
-            "displayName": {
-              "other": "Kroatische dinar"
-            },
-            "narrow": "HRD",
-            "symbol": "HRD"
-          },
-          "HRK": {
-            "displayName": {
-              "other": "Kroatische kuna"
-            },
-            "narrow": "kn",
-            "symbol": "HRK"
-          },
-          "HTG": {
-            "displayName": {
-              "other": "Haïtiaanse gourde"
-            },
-            "narrow": "HTG",
-            "symbol": "HTG"
-          },
-          "HUF": {
-            "displayName": {
-              "other": "Hongaarse forint"
-            },
-            "narrow": "Ft",
-            "symbol": "HUF"
-          },
-          "IDR": {
-            "displayName": {
-              "other": "Indonesische roepia"
-            },
-            "narrow": "Rp",
-            "symbol": "IDR"
-          },
-          "IEP": {
-            "displayName": {
-              "other": "Iers pond"
-            },
-            "narrow": "IEP",
-            "symbol": "IEP"
-          },
-          "ILP": {
-            "displayName": {
-              "other": "Israëlisch pond"
-            },
-            "narrow": "ILP",
-            "symbol": "ILP"
-          },
-          "ILR": {
-            "displayName": {
-              "other": "Israëlische sjekel (1980–1985)"
-            },
-            "narrow": "ILR",
-            "symbol": "ILR"
-          },
-          "ILS": {
-            "displayName": {
-              "other": "Israëlische nieuwe shekel"
-            },
-            "narrow": "₪",
-            "symbol": "₪"
-          },
-          "INR": {
-            "displayName": {
-              "other": "Indiase roepie"
-            },
-            "narrow": "₹",
-            "symbol": "₹"
-          },
-          "IQD": {
-            "displayName": {
-              "other": "Iraakse dinar"
-            },
-            "narrow": "IQD",
-            "symbol": "IQD"
-          },
-          "IRR": {
-            "displayName": {
-              "other": "Iraanse rial"
-            },
-            "narrow": "IRR",
-            "symbol": "IRR"
-          },
-          "ISJ": {
-            "displayName": {
-              "one": "IJslandse kroon (1918–1981)",
-              "other": "IJslandse kronen (1918–1981)"
-            },
-            "narrow": "ISJ",
-            "symbol": "ISJ"
-          },
-          "ISK": {
-            "displayName": {
-              "one": "IJslandse kroon",
-              "other": "IJslandse kronen"
-            },
-            "narrow": "kr",
-            "symbol": "ISK"
-          },
-          "ITL": {
-            "displayName": {
-              "other": "Italiaanse lire"
-            },
-            "narrow": "ITL",
-            "symbol": "ITL"
-          },
-          "JMD": {
-            "displayName": {
-              "other": "Jamaicaanse dollar"
-            },
-            "narrow": "$",
-            "symbol": "JMD"
-          },
-          "JOD": {
-            "displayName": {
-              "other": "Jordaanse dinar"
-            },
-            "narrow": "JOD",
-            "symbol": "JOD"
-          },
-          "JPY": {
-            "displayName": {
-              "other": "Japanse yen"
-            },
-            "narrow": "¥",
-            "symbol": "JP¥"
-          },
-          "KES": {
-            "displayName": {
-              "other": "Keniaanse shilling"
-            },
-            "narrow": "KES",
-            "symbol": "KES"
-          },
-          "KGS": {
-            "displayName": {
-              "other": "Kirgizische som"
-            },
-            "narrow": "⃀",
-            "symbol": "KGS"
-          },
-          "KHR": {
-            "displayName": {
-              "other": "Cambodjaanse riel"
-            },
-            "narrow": "៛",
-            "symbol": "KHR"
-          },
-          "KMF": {
-            "displayName": {
-              "other": "Comorese frank"
-            },
-            "narrow": "CF",
-            "symbol": "KMF"
-          },
-          "KPW": {
-            "displayName": {
-              "other": "Noord-Koreaanse won"
-            },
-            "narrow": "₩",
-            "symbol": "KPW"
-          },
-          "KRH": {
-            "displayName": {
-              "other": "Zuid-Koreaanse hwan (1953–1962)"
-            },
-            "narrow": "KRH",
-            "symbol": "KRH"
-          },
-          "KRO": {
-            "displayName": {
-              "other": "oude Zuid-Koreaanse won (1945–1953)"
-            },
-            "narrow": "KRO",
-            "symbol": "KRO"
-          },
-          "KRW": {
-            "displayName": {
-              "other": "Zuid-Koreaanse won"
-            },
-            "narrow": "₩",
-            "symbol": "₩"
-          },
-          "KWD": {
-            "displayName": {
-              "other": "Koeweitse dinar"
-            },
-            "narrow": "KWD",
-            "symbol": "KWD"
-          },
-          "KYD": {
-            "displayName": {
-              "other": "Kaaimaneilandse dollar"
-            },
-            "narrow": "$",
-            "symbol": "KYD"
-          },
-          "KZT": {
-            "displayName": {
-              "other": "Kazachse tenge"
-            },
-            "narrow": "₸",
-            "symbol": "KZT"
-          },
-          "LAK": {
-            "displayName": {
-              "other": "Laotiaanse kip"
-            },
-            "narrow": "₭",
-            "symbol": "LAK"
-          },
-          "LBP": {
-            "displayName": {
-              "other": "Libanees pond"
-            },
-            "narrow": "L£",
-            "symbol": "LBP"
-          },
-          "LKR": {
-            "displayName": {
-              "other": "Sri Lankaanse roepie"
-            },
-            "narrow": "Rs",
-            "symbol": "LKR"
-          },
-          "LRD": {
-            "displayName": {
-              "other": "Liberiaanse dollar"
-            },
-            "narrow": "$",
-            "symbol": "LRD"
-          },
-          "LSL": {
-            "displayName": {
-              "other": "Lesothaanse loti"
-            },
-            "narrow": "LSL",
-            "symbol": "LSL"
-          },
-          "LTL": {
-            "displayName": {
-              "other": "Litouwse litas"
-            },
-            "narrow": "Lt",
-            "symbol": "LTL"
-          },
-          "LTT": {
-            "displayName": {
-              "other": "Litouwse talonas"
-            },
-            "narrow": "LTT",
-            "symbol": "LTT"
-          },
-          "LUC": {
-            "displayName": {
-              "other": "Luxemburgse convertibele franc"
-            },
-            "narrow": "LUC",
-            "symbol": "LUC"
-          },
-          "LUF": {
-            "displayName": {
-              "other": "Luxemburgse frank"
-            },
-            "narrow": "LUF",
-            "symbol": "LUF"
-          },
-          "LUL": {
-            "displayName": {
-              "other": "Luxemburgse financiële franc"
-            },
-            "narrow": "LUL",
-            "symbol": "LUL"
-          },
-          "LVL": {
-            "displayName": {
-              "other": "Letse lats"
-            },
-            "narrow": "Ls",
-            "symbol": "LVL"
-          },
-          "LVR": {
-            "displayName": {
-              "other": "Letse roebel"
-            },
-            "narrow": "LVR",
-            "symbol": "LVR"
-          },
-          "LYD": {
-            "displayName": {
-              "other": "Libische dinar"
-            },
-            "narrow": "LYD",
-            "symbol": "LYD"
-          },
-          "MAD": {
-            "displayName": {
-              "other": "Marokkaanse dirham"
-            },
-            "narrow": "MAD",
-            "symbol": "MAD"
-          },
-          "MAF": {
-            "displayName": {
-              "other": "Marokkaanse franc"
-            },
-            "narrow": "MAF",
-            "symbol": "MAF"
-          },
-          "MCF": {
-            "displayName": {
-              "other": "Monegaskische frank"
-            },
-            "narrow": "MCF",
-            "symbol": "MCF"
-          },
-          "MDC": {
-            "displayName": {
-              "other": "Moldavische cupon"
-            },
-            "narrow": "MDC",
-            "symbol": "MDC"
-          },
-          "MDL": {
-            "displayName": {
-              "other": "Moldavische leu"
-            },
-            "narrow": "MDL",
-            "symbol": "MDL"
-          },
-          "MGA": {
-            "displayName": {
-              "other": "Malagassische ariary"
-            },
-            "narrow": "Ar",
-            "symbol": "MGA"
-          },
-          "MGF": {
-            "displayName": {
-              "other": "Malagassische franc"
-            },
-            "narrow": "MGF",
-            "symbol": "MGF"
-          },
-          "MKD": {
-            "displayName": {
-              "other": "Macedonische denar"
-            },
-            "narrow": "MKD",
-            "symbol": "MKD"
-          },
-          "MKN": {
-            "displayName": {
-              "other": "Macedonische denar (1992–1993)"
-            },
-            "narrow": "MKN",
-            "symbol": "MKN"
-          },
-          "MLF": {
-            "displayName": {
-              "other": "Malinese franc"
-            },
-            "narrow": "MLF",
-            "symbol": "MLF"
-          },
-          "MMK": {
-            "displayName": {
-              "other": "Myanmarese kyat"
-            },
-            "narrow": "K",
-            "symbol": "MMK"
-          },
-          "MNT": {
-            "displayName": {
-              "other": "Mongoolse tugrik"
-            },
-            "narrow": "₮",
-            "symbol": "MNT"
-          },
-          "MOP": {
-            "displayName": {
-              "other": "Macause pataca"
-            },
-            "narrow": "MOP",
-            "symbol": "MOP"
-          },
-          "MRO": {
-            "displayName": {
-              "other": "Mauritaanse ouguiya (1973–2017)"
-            },
-            "narrow": "MRO",
-            "symbol": "MRO"
-          },
-          "MRU": {
-            "displayName": {
-              "other": "Mauritaanse ouguiya"
-            },
-            "narrow": "MRU",
-            "symbol": "MRU"
-          },
-          "MTL": {
-            "displayName": {
-              "other": "Maltese lire"
-            },
-            "narrow": "MTL",
-            "symbol": "MTL"
-          },
-          "MTP": {
-            "displayName": {
-              "other": "Maltees pond"
-            },
-            "narrow": "MTP",
-            "symbol": "MTP"
-          },
-          "MUR": {
-            "displayName": {
-              "other": "Mauritiaanse roepie"
-            },
-            "narrow": "Rs",
-            "symbol": "MUR"
-          },
-          "MVP": {
-            "displayName": {
-              "other": "Maldivische roepie"
-            },
-            "narrow": "MVP",
-            "symbol": "MVP"
-          },
-          "MVR": {
-            "displayName": {
-              "other": "Maldivische rufiyaa"
-            },
-            "narrow": "MVR",
-            "symbol": "MVR"
-          },
-          "MWK": {
-            "displayName": {
-              "other": "Malawische kwacha"
-            },
-            "narrow": "MWK",
-            "symbol": "MWK"
-          },
-          "MXN": {
-            "displayName": {
-              "other": "Mexicaanse peso"
-            },
-            "narrow": "$",
-            "symbol": "MX$"
-          },
-          "MXP": {
-            "displayName": {
-              "other": "Mexicaanse zilveren peso (1861–1992)"
-            },
-            "narrow": "MXP",
-            "symbol": "MXP"
-          },
-          "MXV": {
-            "displayName": {
-              "other": "Mexicaanse unidad de inversion (UDI)"
-            },
-            "narrow": "MXV",
-            "symbol": "MXV"
-          },
-          "MYR": {
-            "displayName": {
-              "other": "Maleisische ringgit"
-            },
-            "narrow": "RM",
-            "symbol": "MYR"
-          },
-          "MZE": {
-            "displayName": {
-              "other": "Mozambikaanse escudo"
-            },
-            "narrow": "MZE",
-            "symbol": "MZE"
-          },
-          "MZM": {
-            "displayName": {
-              "other": "Oude Mozambikaanse metical"
-            },
-            "narrow": "MZM",
-            "symbol": "MZM"
-          },
-          "MZN": {
-            "displayName": {
-              "other": "Mozambikaanse metical"
-            },
-            "narrow": "MZN",
-            "symbol": "MZN"
-          },
-          "NAD": {
-            "displayName": {
-              "other": "Namibische dollar"
-            },
-            "narrow": "$",
-            "symbol": "NAD"
-          },
-          "NGN": {
-            "displayName": {
-              "other": "Nigeriaanse naira"
-            },
-            "narrow": "₦",
-            "symbol": "NGN"
-          },
-          "NIC": {
-            "displayName": {
-              "other": "Nicaraguaanse córdoba (1988–1991)"
-            },
-            "narrow": "NIC",
-            "symbol": "NIC"
-          },
-          "NIO": {
-            "displayName": {
-              "other": "Nicaraguaanse córdoba"
-            },
-            "narrow": "C$",
-            "symbol": "NIO"
-          },
-          "NLG": {
-            "displayName": {
-              "other": "Nederlandse gulden"
-            },
-            "narrow": "NLG",
-            "symbol": "NLG"
-          },
-          "NOK": {
-            "displayName": {
-              "one": "Noorse kroon",
-              "other": "Noorse kronen"
-            },
-            "narrow": "kr",
-            "symbol": "NOK"
-          },
-          "NPR": {
-            "displayName": {
-              "other": "Nepalese roepie"
-            },
-            "narrow": "Rs",
-            "symbol": "NPR"
-          },
-          "NZD": {
-            "displayName": {
-              "other": "Nieuw-Zeelandse dollar"
-            },
-            "narrow": "$",
-            "symbol": "NZ$"
-          },
-          "OMR": {
-            "displayName": {
-              "other": "Omaanse rial"
-            },
-            "narrow": "OMR",
-            "symbol": "OMR"
-          },
-          "PAB": {
-            "displayName": {
-              "other": "Panamese balboa"
-            },
-            "narrow": "PAB",
-            "symbol": "PAB"
-          },
-          "PEI": {
-            "displayName": {
-              "other": "Peruaanse inti"
-            },
-            "narrow": "PEI",
-            "symbol": "PEI"
-          },
-          "PEN": {
-            "displayName": {
-              "other": "Peruaanse sol"
-            },
-            "narrow": "PEN",
-            "symbol": "PEN"
-          },
-          "PES": {
-            "displayName": {
-              "other": "Peruaanse sol (1863–1965)"
-            },
-            "narrow": "PES",
-            "symbol": "PES"
-          },
-          "PGK": {
-            "displayName": {
-              "other": "Papoea-Nieuw-Guinese kina"
-            },
-            "narrow": "PGK",
-            "symbol": "PGK"
-          },
-          "PHP": {
-            "displayName": {
-              "other": "Filipijnse peso"
-            },
-            "narrow": "₱",
-            "symbol": "PHP"
-          },
-          "PKR": {
-            "displayName": {
-              "other": "Pakistaanse roepie"
-            },
-            "narrow": "Rs",
-            "symbol": "PKR"
-          },
-          "PLN": {
-            "displayName": {
-              "other": "Poolse zloty"
-            },
-            "narrow": "zł",
-            "symbol": "PLN"
-          },
-          "PLZ": {
-            "displayName": {
-              "other": "Poolse zloty (1950–1995)"
-            },
-            "narrow": "PLZ",
-            "symbol": "PLZ"
-          },
-          "PTE": {
-            "displayName": {
-              "other": "Portugese escudo"
-            },
-            "narrow": "PTE",
-            "symbol": "PTE"
-          },
-          "PYG": {
-            "displayName": {
-              "other": "Paraguayaanse guarani"
-            },
-            "narrow": "₲",
-            "symbol": "PYG"
-          },
-          "QAR": {
-            "displayName": {
-              "other": "Qatarese rial"
-            },
-            "narrow": "QAR",
-            "symbol": "QAR"
-          },
-          "RHD": {
-            "displayName": {
-              "other": "Rhodesische dollar"
-            },
-            "narrow": "RHD",
-            "symbol": "RHD"
-          },
-          "ROL": {
-            "displayName": {
-              "other": "Oude Roemeense leu"
-            },
-            "narrow": "ROL",
-            "symbol": "ROL"
-          },
-          "RON": {
-            "displayName": {
-              "other": "Roemeense leu"
-            },
-            "narrow": "lei",
-            "symbol": "RON"
-          },
-          "RSD": {
-            "displayName": {
-              "other": "Servische dinar"
-            },
-            "narrow": "RSD",
-            "symbol": "RSD"
-          },
-          "RUB": {
-            "displayName": {
-              "other": "Russische roebel"
-            },
-            "narrow": "₽",
-            "symbol": "RUB"
-          },
-          "RUR": {
-            "displayName": {
-              "other": "Russische roebel (1991–1998)"
-            },
-            "narrow": "р.",
-            "symbol": "RUR"
-          },
-          "RWF": {
-            "displayName": {
-              "other": "Rwandese frank"
-            },
-            "narrow": "RF",
-            "symbol": "RWF"
-          },
-          "SAR": {
-            "displayName": {
-              "other": "Saoedi-Arabische riyal"
-            },
-            "narrow": "SAR",
-            "symbol": "SAR"
-          },
-          "SBD": {
-            "displayName": {
-              "other": "Salomon-dollar"
-            },
-            "narrow": "$",
-            "symbol": "SI$"
-          },
-          "SCR": {
-            "displayName": {
-              "other": "Seychelse roepie"
-            },
-            "narrow": "SCR",
-            "symbol": "SCR"
-          },
-          "SDD": {
-            "displayName": {
-              "other": "Soedanese dinar"
-            },
-            "narrow": "SDD",
-            "symbol": "SDD"
-          },
-          "SDG": {
-            "displayName": {
-              "other": "Soedanees pond"
-            },
-            "narrow": "SDG",
-            "symbol": "SDG"
-          },
-          "SDP": {
-            "displayName": {
-              "other": "Soedanees pond (1957–1998)"
-            },
-            "narrow": "SDP",
-            "symbol": "SDP"
-          },
-          "SEK": {
-            "displayName": {
-              "one": "Zweedse kroon",
-              "other": "Zweedse kronen"
-            },
-            "narrow": "kr",
-            "symbol": "SEK"
-          },
-          "SGD": {
-            "displayName": {
-              "other": "Singaporese dollar"
-            },
-            "narrow": "$",
-            "symbol": "SGD"
-          },
-          "SHP": {
-            "displayName": {
-              "other": "Sint-Heleens pond"
-            },
-            "narrow": "£",
-            "symbol": "SHP"
-          },
-          "SIT": {
-            "displayName": {
-              "other": "Sloveense tolar"
-            },
-            "narrow": "SIT",
-            "symbol": "SIT"
-          },
-          "SKK": {
-            "displayName": {
-              "other": "Slowaakse koruna"
-            },
-            "narrow": "SKK",
-            "symbol": "SKK"
-          },
-          "SLE": {
-            "displayName": {
-              "other": "Sierra Leoonse leone"
-            },
-            "narrow": "SLE",
-            "symbol": "SLE"
-          },
-          "SLL": {
-            "displayName": {
-              "other": "Sierra Leoonse leone (1964–2022)"
-            },
-            "narrow": "SLL",
-            "symbol": "SLL"
-          },
-          "SOS": {
-            "displayName": {
-              "other": "Somalische shilling"
-            },
-            "narrow": "SOS",
-            "symbol": "SOS"
-          },
-          "SRD": {
-            "displayName": {
-              "other": "Surinaamse dollar"
-            },
-            "narrow": "$",
-            "symbol": "SRD"
-          },
-          "SRG": {
-            "displayName": {
-              "other": "Surinaamse gulden"
-            },
-            "narrow": "SRG",
-            "symbol": "SRG"
-          },
-          "SSP": {
-            "displayName": {
-              "other": "Zuid-Soedanees pond"
-            },
-            "narrow": "£",
-            "symbol": "SSP"
-          },
-          "STD": {
-            "displayName": {
-              "other": "Santomese dobra (1977–2017)"
-            },
-            "narrow": "STD",
-            "symbol": "STD"
-          },
-          "STN": {
-            "displayName": {
-              "other": "Santomese dobra"
-            },
-            "narrow": "Db",
-            "symbol": "STN"
-          },
-          "SUR": {
-            "displayName": {
-              "other": "Sovjet-roebel"
-            },
-            "narrow": "SUR",
-            "symbol": "SUR"
-          },
-          "SVC": {
-            "displayName": {
-              "other": "Salvadoraanse colón"
-            },
-            "narrow": "SVC",
-            "symbol": "SVC"
-          },
-          "SYP": {
-            "displayName": {
-              "other": "Syrisch pond"
-            },
-            "narrow": "£",
-            "symbol": "SYP"
-          },
-          "SZL": {
-            "displayName": {
-              "other": "Swazische lilangeni"
-            },
-            "narrow": "SZL",
-            "symbol": "SZL"
-          },
-          "THB": {
-            "displayName": {
-              "other": "Thaise baht"
-            },
-            "narrow": "฿",
-            "symbol": "฿"
-          },
-          "TJR": {
-            "displayName": {
-              "other": "Tadzjikistaanse roebel"
-            },
-            "narrow": "TJR",
-            "symbol": "TJR"
-          },
-          "TJS": {
-            "displayName": {
-              "other": "Tadzjiekse somoni"
-            },
-            "narrow": "TJS",
-            "symbol": "TJS"
-          },
-          "TMM": {
-            "displayName": {
-              "other": "Turkmeense manat (1993–2009)"
-            },
-            "narrow": "TMM",
-            "symbol": "TMM"
-          },
-          "TMT": {
-            "displayName": {
-              "other": "Turkmeense manat"
-            },
-            "narrow": "TMT",
-            "symbol": "TMT"
-          },
-          "TND": {
-            "displayName": {
-              "other": "Tunesische dinar"
-            },
-            "narrow": "TND",
-            "symbol": "TND"
-          },
-          "TOP": {
-            "displayName": {
-              "other": "Tongaanse paʻanga"
-            },
-            "narrow": "T$",
-            "symbol": "TOP"
-          },
-          "TPE": {
-            "displayName": {
-              "other": "Timorese escudo"
-            },
-            "narrow": "TPE",
-            "symbol": "TPE"
-          },
-          "TRL": {
-            "displayName": {
-              "other": "oude Turkse lira"
-            },
-            "narrow": "TRL",
-            "symbol": "TRL"
-          },
-          "TRY": {
-            "displayName": {
-              "other": "Turkse lira"
-            },
-            "narrow": "₺",
-            "symbol": "TRY"
-          },
-          "TTD": {
-            "displayName": {
-              "other": "Trinidad en Tobago-dollar"
-            },
-            "narrow": "$",
-            "symbol": "TTD"
-          },
-          "TWD": {
-            "displayName": {
-              "other": "Nieuwe Taiwanese dollar"
-            },
-            "narrow": "NT$",
-            "symbol": "NT$"
-          },
-          "TZS": {
-            "displayName": {
-              "other": "Tanzaniaanse shilling"
-            },
-            "narrow": "TZS",
-            "symbol": "TZS"
-          },
-          "UAH": {
-            "displayName": {
-              "other": "Oekraïense hryvnia"
-            },
-            "narrow": "₴",
-            "symbol": "UAH"
-          },
-          "UAK": {
-            "displayName": {
-              "other": "Oekraïense karbovanetz"
-            },
-            "narrow": "UAK",
-            "symbol": "UAK"
-          },
-          "UGS": {
-            "displayName": {
-              "other": "Oegandese shilling (1966–1987)"
-            },
-            "narrow": "UGS",
-            "symbol": "UGS"
-          },
-          "UGX": {
-            "displayName": {
-              "other": "Oegandese shilling"
-            },
-            "narrow": "UGX",
-            "symbol": "UGX"
-          },
-          "USD": {
-            "displayName": {
-              "other": "Amerikaanse dollar"
-            },
-            "narrow": "$",
-            "symbol": "US$"
-          },
-          "USN": {
-            "displayName": {
-              "other": "Amerikaanse dollar (volgende dag)"
-            },
-            "narrow": "USN",
-            "symbol": "USN"
-          },
-          "USS": {
-            "displayName": {
-              "other": "Amerikaanse dollar (zelfde dag)"
-            },
-            "narrow": "USS",
-            "symbol": "USS"
-          },
-          "UYI": {
-            "displayName": {
-              "other": "Uruguayaanse peso en geïndexeerde eenheden"
-            },
-            "narrow": "UYI",
-            "symbol": "UYI"
-          },
-          "UYP": {
-            "displayName": {
-              "other": "Uruguayaanse peso (1975–1993)"
-            },
-            "narrow": "UYP",
-            "symbol": "UYP"
-          },
-          "UYU": {
-            "displayName": {
-              "other": "Uruguayaanse peso"
-            },
-            "narrow": "$",
-            "symbol": "UYU"
-          },
-          "UYW": {
-            "displayName": {
-              "other": "Uruguayaanse nominale salarisindexeenheid"
-            },
-            "narrow": "UYW",
-            "symbol": "UYW"
-          },
-          "UZS": {
-            "displayName": {
-              "other": "Oezbeekse sum"
-            },
-            "narrow": "UZS",
-            "symbol": "UZS"
-          },
-          "VEB": {
-            "displayName": {
-              "other": "Venezolaanse bolivar (1871–2008)"
-            },
-            "narrow": "VEB",
-            "symbol": "VEB"
-          },
-          "VED": {
-            "displayName": {
-              "one": "Bolívar Soberano",
-              "other": "Bolívar Soberanos"
-            },
-            "narrow": "VED",
-            "symbol": "VED"
-          },
-          "VEF": {
-            "displayName": {
-              "other": "Venezolaanse bolivar (2008–2018)"
-            },
-            "narrow": "Bs",
-            "symbol": "VEF"
-          },
-          "VES": {
-            "displayName": {
-              "other": "Venezolaanse bolivar"
-            },
-            "narrow": "VES",
-            "symbol": "VES"
-          },
-          "VND": {
-            "displayName": {
-              "other": "Vietnamese dong"
-            },
-            "narrow": "₫",
-            "symbol": "₫"
-          },
-          "VNN": {
-            "displayName": {
-              "other": "Vietnamese dong (1978–1985)"
-            },
-            "narrow": "VNN",
-            "symbol": "VNN"
-          },
-          "VUV": {
-            "displayName": {
-              "other": "Vanuatuaanse vatu"
-            },
-            "narrow": "VUV",
-            "symbol": "VUV"
-          },
-          "WST": {
-            "displayName": {
-              "other": "Samoaanse tala"
-            },
-            "narrow": "WST",
-            "symbol": "WST"
-          },
-          "XAF": {
-            "displayName": {
-              "other": "CFA-frank"
-            },
-            "narrow": "FCFA",
-            "symbol": "FCFA"
-          },
-          "XAG": {
-            "displayName": {
-              "one": "Troy ounce zilver",
-              "other": "Troy ounces zilver"
-            },
-            "narrow": "XAG",
-            "symbol": "XAG"
-          },
-          "XAU": {
-            "displayName": {
-              "one": "Troy ounce goud",
-              "other": "Troy ounces goud"
-            },
-            "narrow": "XAU",
-            "symbol": "XAU"
-          },
-          "XBA": {
-            "displayName": {
-              "other": "Europese samengestelde eenheid"
-            },
-            "narrow": "XBA",
-            "symbol": "XBA"
-          },
-          "XBB": {
-            "displayName": {
-              "other": "Europese monetaire eenheid"
-            },
-            "narrow": "XBB",
-            "symbol": "XBB"
-          },
-          "XBC": {
-            "displayName": {
-              "other": "Europese rekeneenheid (XBC)"
-            },
-            "narrow": "XBC",
-            "symbol": "XBC"
-          },
-          "XBD": {
-            "displayName": {
-              "other": "Europese rekeneenheid (XBD)"
-            },
-            "narrow": "XBD",
-            "symbol": "XBD"
-          },
-          "XCD": {
-            "displayName": {
-              "other": "Oost-Caribische dollar"
-            },
-            "narrow": "$",
-            "symbol": "EC$"
-          },
-          "XCG": {
-            "displayName": {
-              "other": "Caribische gulden"
-            },
-            "narrow": "Cg",
-            "symbol": "Cg."
-          },
-          "XDR": {
-            "displayName": {
-              "other": "Special Drawing Rights"
-            },
-            "narrow": "XDR",
-            "symbol": "XDR"
-          },
-          "XEU": {
-            "displayName": {
-              "other": "European Currency Unit"
-            },
-            "narrow": "XEU",
-            "symbol": "XEU"
-          },
-          "XFO": {
-            "displayName": {
-              "other": "Franse gouden franc"
-            },
-            "narrow": "XFO",
-            "symbol": "XFO"
-          },
-          "XFU": {
-            "displayName": {
-              "other": "Franse UIC-franc"
-            },
-            "narrow": "XFU",
-            "symbol": "XFU"
-          },
-          "XOF": {
-            "displayName": {
-              "other": "CFA-franc BCEAO"
-            },
-            "narrow": "F CFA",
-            "symbol": "F CFA"
-          },
-          "XPD": {
-            "displayName": {
-              "one": "Troy ounce palladium",
-              "other": "Troy ounces palladium"
-            },
-            "narrow": "XPD",
-            "symbol": "XPD"
-          },
-          "XPF": {
-            "displayName": {
-              "other": "CFP-frank"
-            },
-            "narrow": "XPF",
-            "symbol": "XPF"
-          },
-          "XPT": {
-            "displayName": {
-              "one": "Troy ounce platina",
-              "other": "Troy ounces platina"
-            },
-            "narrow": "XPT",
-            "symbol": "XPT"
-          },
-          "XRE": {
-            "displayName": {
-              "other": "RINET-fondsen"
-            },
-            "narrow": "XRE",
-            "symbol": "XRE"
-          },
-          "XSU": {
-            "displayName": {
-              "other": "Sucre"
-            },
-            "narrow": "XSU",
-            "symbol": "XSU"
-          },
-          "XTS": {
-            "displayName": {
-              "other": "Valutacode voor testdoeleinden"
-            },
-            "narrow": "XTS",
-            "symbol": "XTS"
-          },
-          "XUA": {
-            "displayName": {
-              "other": "ADB-rekeneenheid"
-            },
-            "narrow": "XUA",
-            "symbol": "XUA"
-          },
-          "XXX": {
-            "displayName": {
-              "other": "onbekende munteenheid"
-            },
-            "narrow": "XXX",
-            "symbol": "XXX"
-          },
-          "YDD": {
-            "displayName": {
-              "other": "Jemenitische dinar"
-            },
-            "narrow": "YDD",
-            "symbol": "YDD"
-          },
-          "YER": {
-            "displayName": {
-              "other": "Jemenitische rial"
-            },
-            "narrow": "YER",
-            "symbol": "YER"
-          },
-          "YUD": {
-            "displayName": {
-              "other": "Joegoslavische harde dinar"
-            },
-            "narrow": "YUD",
-            "symbol": "YUD"
-          },
-          "YUM": {
-            "displayName": {
-              "other": "Joegoslavische noviy-dinar"
-            },
-            "narrow": "YUM",
-            "symbol": "YUM"
-          },
-          "YUN": {
-            "displayName": {
-              "other": "Joegoslavische convertibele dinar"
-            },
-            "narrow": "YUN",
-            "symbol": "YUN"
-          },
-          "YUR": {
-            "displayName": {
-              "other": "Joegoslavische hervormde dinar (1992–1993)"
-            },
-            "narrow": "YUR",
-            "symbol": "YUR"
-          },
-          "ZAL": {
-            "displayName": {
-              "other": "Zuid-Afrikaanse rand (financieel)"
-            },
-            "narrow": "ZAL",
-            "symbol": "ZAL"
-          },
-          "ZAR": {
-            "displayName": {
-              "other": "Zuid-Afrikaanse rand"
-            },
-            "narrow": "R",
-            "symbol": "ZAR"
-          },
-          "ZMK": {
-            "displayName": {
-              "other": "Zambiaanse kwacha (1968–2012)"
-            },
-            "narrow": "ZMK",
-            "symbol": "ZMK"
-          },
-          "ZMW": {
-            "displayName": {
-              "other": "Zambiaanse kwacha"
-            },
-            "narrow": "ZK",
-            "symbol": "ZMW"
-          },
-          "ZRN": {
-            "displayName": {
-              "other": "Zaïrese nieuwe zaïre"
-            },
-            "narrow": "ZRN",
-            "symbol": "ZRN"
-          },
-          "ZRZ": {
-            "displayName": {
-              "other": "Zaïrese zaïre"
-            },
-            "narrow": "ZRZ",
-            "symbol": "ZRZ"
-          },
-          "ZWD": {
-            "displayName": {
-              "other": "Zimbabwaanse dollar"
-            },
-            "narrow": "ZWD",
-            "symbol": "ZWD"
-          },
-          "ZWL": {
-            "displayName": {
-              "other": "Zimbabwaanse dollar (2009)"
-            },
-            "narrow": "ZWL",
-            "symbol": "ZWL"
-          },
-          "ZWR": {
-            "displayName": {
-              "other": "Zimbabwaanse dollar (2008)"
-            },
-            "narrow": "ZWR",
-            "symbol": "ZWR"
-          }
-        },
-        "nu": [
-          "latn"
-        ],
-        "numbers": {
-          "currency": {
-            "latn": {
-              "accounting": "¤ #,##0.00;(¤ #,##0.00)",
-              "currencySpacing": {
-                "afterInsertBetween": " ",
-                "beforeInsertBetween": " "
-              },
-              "short": {
-                "1000": {
-                  "other": "¤ 0K"
-                },
-                "10000": {
-                  "other": "¤ 00K"
-                },
-                "100000": {
-                  "other": "¤ 000K"
-                },
-                "1000000": {
-                  "other": "¤ 0 mln'.'"
-                },
-                "10000000": {
-                  "other": "¤ 00 mln'.'"
-                },
-                "100000000": {
-                  "other": "¤ 000 mln'.'"
-                },
-                "1000000000": {
-                  "other": "¤ 0 mld'.'"
-                },
-                "10000000000": {
-                  "other": "¤ 00 mld'.'"
-                },
-                "100000000000": {
-                  "other": "¤ 000 mld'.'"
-                },
-                "1000000000000": {
-                  "other": "¤ 0 bln'.'"
-                },
-                "10000000000000": {
-                  "other": "¤ 00 bln'.'"
-                },
-                "100000000000000": {
-                  "other": "¤ 000 bln'.'"
-                }
-              },
-              "standard": "¤ #,##0.00;¤ -#,##0.00",
-              "unitPattern": "{0} {1}"
-            }
-          },
-          "decimal": {
-            "latn": {
-              "long": {
-                "1000": {
-                  "other": "0 duizend"
-                },
-                "10000": {
-                  "other": "00 duizend"
-                },
-                "100000": {
-                  "other": "000 duizend"
-                },
-                "1000000": {
-                  "other": "0 miljoen"
-                },
-                "10000000": {
-                  "other": "00 miljoen"
-                },
-                "100000000": {
-                  "other": "000 miljoen"
-                },
-                "1000000000": {
-                  "other": "0 miljard"
-                },
-                "10000000000": {
-                  "other": "00 miljard"
-                },
-                "100000000000": {
-                  "other": "000 miljard"
-                },
-                "1000000000000": {
-                  "other": "0 biljoen"
-                },
-                "10000000000000": {
-                  "other": "00 biljoen"
-                },
-                "100000000000000": {
-                  "other": "000 biljoen"
-                }
-              },
-              "short": {
-                "1000": {
-                  "other": "0K"
-                },
-                "10000": {
-                  "other": "00K"
-                },
-                "100000": {
-                  "other": "000K"
-                },
-                "1000000": {
-                  "other": "0 mln'.'"
-                },
-                "10000000": {
-                  "other": "00 mln'.'"
-                },
-                "100000000": {
-                  "other": "000 mln'.'"
-                },
-                "1000000000": {
-                  "other": "0 mld'.'"
-                },
-                "10000000000": {
-                  "other": "00 mld'.'"
-                },
-                "100000000000": {
-                  "other": "000 mld'.'"
-                },
-                "1000000000000": {
-                  "other": "0 bln'.'"
-                },
-                "10000000000000": {
-                  "other": "00 bln'.'"
-                },
-                "100000000000000": {
-                  "other": "000 bln'.'"
-                }
-              },
-              "standard": "#,##0.###"
-            }
-          },
-          "nu": [
-            "latn"
-          ],
-          "percent": {
-            "latn": "#,##0%"
-          },
-          "symbols": {
-            "latn": {
-              "approximatelySign": "~",
-              "decimal": ",",
-              "exponential": "E",
-              "group": ".",
-              "infinity": "∞",
-              "list": ";",
-              "minusSign": "-",
-              "nan": "NaN",
-              "perMille": "‰",
-              "percentSign": "%",
-              "plusSign": "+",
-              "rangeSign": "-",
-              "superscriptingExponent": "×",
-              "timeSeparator": ":"
-            }
-          }
-        },
-        "units": {
-          "compound": {
-            "per": {
-              "long": "{0} per {1}",
-              "narrow": "{0}/{1}",
-              "short": "{0}/{1}"
-            }
-          },
-          "simple": {
-            "acre": {
-              "long": {
-                "one": "{0} acre",
-                "other": "{0} acres"
-              },
-              "narrow": {
-                "one": "{0} acre",
-                "other": "{0} acres"
-              },
-              "perUnit": {},
-              "short": {
-                "one": "{0} acre",
-                "other": "{0} acres"
-              }
-            },
-            "bit": {
-              "long": {
-                "one": "{0} bit",
-                "other": "{0} bits"
-              },
-              "narrow": {
-                "one": "{0} bit",
-                "other": "{0} bits"
-              },
-              "perUnit": {},
-              "short": {
-                "one": "{0} bit",
-                "other": "{0} bits"
-              }
-            },
-            "byte": {
-              "long": {
-                "other": "{0} byte"
-              },
-              "narrow": {
-                "other": "{0} byte"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} byte"
-              }
-            },
-            "celsius": {
-              "long": {
-                "one": "{0} graad Celsius",
-                "other": "{0} graden Celsius"
-              },
-              "narrow": {
-                "other": "{0}°"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0}°C"
-              }
-            },
-            "centimeter": {
-              "long": {
-                "other": "{0} centimeter"
-              },
-              "narrow": {
-                "other": "{0} cm"
-              },
-              "perUnit": {
-                "long": "{0} per centimeter",
-                "narrow": "{0}/cm",
-                "short": "{0}/cm"
-              },
-              "short": {
-                "other": "{0} cm"
-              }
-            },
-            "day": {
-              "long": {
-                "one": "{0} dag",
-                "other": "{0} dagen"
-              },
-              "narrow": {
-                "other": "{0} d"
-              },
-              "perUnit": {
-                "long": "{0} per dag",
-                "narrow": "{0}/d",
-                "short": "{0}/dag"
-              },
-              "short": {
-                "one": "{0} dag",
-                "other": "{0} dagen"
-              }
-            },
-            "degree": {
-              "long": {
-                "one": "{0} booggraad",
-                "other": "{0} booggraden"
-              },
-              "narrow": {
-                "other": "{0}°"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0}°"
-              }
-            },
-            "fahrenheit": {
-              "long": {
-                "one": "{0} graad Fahrenheit",
-                "other": "{0} graden Fahrenheit"
-              },
-              "narrow": {
-                "other": "{0}°F"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0}°F"
-              }
-            },
-            "fluid-ounce": {
-              "long": {
-                "other": "{0} fluid ounce"
-              },
-              "narrow": {
-                "other": "{0} fl oz"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} fl oz"
-              }
-            },
-            "foot": {
-              "long": {
-                "other": "{0} voet"
-              },
-              "narrow": {
-                "other": "{0} ft"
-              },
-              "perUnit": {
-                "long": "{0} per voet",
-                "narrow": "{0}/ft",
-                "short": "{0}/ft"
-              },
-              "short": {
-                "other": "{0} ft"
-              }
-            },
-            "gallon": {
-              "long": {
-                "other": "{0} gallon"
-              },
-              "narrow": {
-                "other": "{0} gal"
-              },
-              "perUnit": {
-                "long": "{0} per gallon",
-                "narrow": "{0}/gal",
-                "short": "{0}/gal"
-              },
-              "short": {
-                "other": "{0} gal"
-              }
-            },
-            "gigabit": {
-              "long": {
-                "one": "{0} gigabit",
-                "other": "{0} gigabits"
-              },
-              "narrow": {
-                "other": "{0} Gb"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} Gb"
-              }
-            },
-            "gigabyte": {
-              "long": {
-                "other": "{0} gigabyte"
-              },
-              "narrow": {
-                "other": "{0} GB"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} GB"
-              }
-            },
-            "gram": {
-              "long": {
-                "other": "{0} gram"
-              },
-              "narrow": {
-                "other": "{0} g"
-              },
-              "perUnit": {
-                "long": "{0} per gram",
-                "narrow": "{0}/g",
-                "short": "{0}/g"
-              },
-              "short": {
-                "other": "{0} g"
-              }
-            },
-            "hectare": {
-              "long": {
-                "other": "{0} hectare"
-              },
-              "narrow": {
-                "other": "{0} ha"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} ha"
-              }
-            },
-            "hour": {
-              "long": {
-                "other": "{0} uur"
-              },
-              "narrow": {
-                "other": "{0} u"
-              },
-              "perUnit": {
-                "long": "{0} per uur",
-                "narrow": "{0}/u",
-                "short": "{0}/uur"
-              },
-              "short": {
-                "other": "{0} uur"
-              }
-            },
-            "inch": {
-              "long": {
-                "one": "{0} inch",
-                "other": "{0} inches"
-              },
-              "narrow": {
-                "other": "{0}″"
-              },
-              "perUnit": {
-                "long": "{0} per inch",
-                "narrow": "{0}/in",
-                "short": "{0}/in"
-              },
-              "short": {
-                "other": "{0} in"
-              }
-            },
-            "kilobit": {
-              "long": {
-                "one": "{0} kilobit",
-                "other": "{0} kilobits"
-              },
-              "narrow": {
-                "other": "{0} kb"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} kb"
-              }
-            },
-            "kilobyte": {
-              "long": {
-                "other": "{0} kilobyte"
-              },
-              "narrow": {
-                "other": "{0} kB"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} kB"
-              }
-            },
-            "kilogram": {
-              "long": {
-                "other": "{0} kilogram"
-              },
-              "narrow": {
-                "other": "{0} kg"
-              },
-              "perUnit": {
-                "long": "{0} per kilogram",
-                "narrow": "{0}/kg",
-                "short": "{0}/kg"
-              },
-              "short": {
-                "other": "{0} kg"
-              }
-            },
-            "kilometer": {
-              "long": {
-                "other": "{0} kilometer"
-              },
-              "narrow": {
-                "other": "{0} km"
-              },
-              "perUnit": {
-                "long": "{0} per kilometer",
-                "narrow": "{0}/km",
-                "short": "{0}/km"
-              },
-              "short": {
-                "other": "{0} km"
-              }
-            },
-            "kilometer-per-hour": {
-              "long": {
-                "other": "{0} kilometer per uur"
-              },
-              "narrow": {
-                "other": "{0} km/u"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} km/u"
-              }
-            },
-            "liter": {
-              "long": {
-                "other": "{0} liter"
-              },
-              "narrow": {
-                "other": "{0} l"
-              },
-              "perUnit": {
-                "long": "{0} per liter",
-                "narrow": "{0}/l",
-                "short": "{0}/l"
-              },
-              "short": {
-                "other": "{0} l"
-              }
-            },
-            "liter-per-kilometer": {
-              "long": {
-                "other": "{0} liter per kilometer"
-              },
-              "narrow": {
-                "other": "{0} l/km"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} l/km"
-              }
-            },
-            "megabit": {
-              "long": {
-                "one": "{0} megabit",
-                "other": "{0} megabits"
-              },
-              "narrow": {
-                "other": "{0} Mb"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} Mb"
-              }
-            },
-            "megabyte": {
-              "long": {
-                "other": "{0} megabyte"
-              },
-              "narrow": {
-                "other": "{0} MB"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} MB"
-              }
-            },
-            "meter": {
-              "long": {
-                "other": "{0} meter"
-              },
-              "narrow": {
-                "other": "{0} m"
-              },
-              "perUnit": {
-                "long": "{0} per meter",
-                "narrow": "{0}/m",
-                "short": "{0}/m"
-              },
-              "short": {
-                "other": "{0} m"
-              }
-            },
-            "meter-per-second": {
-              "long": {
-                "other": "{0} meter per seconde"
-              },
-              "narrow": {
-                "other": "{0} m/s"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} m/s"
-              }
-            },
-            "mile": {
-              "long": {
-                "other": "{0} mijl"
-              },
-              "narrow": {
-                "other": "{0} mi"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} mi"
-              }
-            },
-            "mile-per-gallon": {
-              "long": {
-                "other": "{0} mijl per gallon"
-              },
-              "narrow": {
-                "other": "{0} mpg"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} mpg"
-              }
-            },
-            "mile-per-hour": {
-              "long": {
-                "other": "{0} mijl per uur"
-              },
-              "narrow": {
-                "other": "{0} mi/h"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} mi/h"
-              }
-            },
-            "mile-scandinavian": {
-              "long": {
-                "other": "{0} Scandinavische mijl"
-              },
-              "narrow": {
-                "other": "{0} smi"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} smi"
-              }
-            },
-            "milliliter": {
-              "long": {
-                "other": "{0} milliliter"
-              },
-              "narrow": {
-                "other": "{0} ml"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} ml"
-              }
-            },
-            "millimeter": {
-              "long": {
-                "other": "{0} millimeter"
-              },
-              "narrow": {
-                "other": "{0} mm"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} mm"
-              }
-            },
-            "millisecond": {
-              "long": {
-                "one": "{0} milliseconde",
-                "other": "{0} milliseconden"
-              },
-              "narrow": {
-                "other": "{0} ms"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} ms"
-              }
-            },
-            "minute": {
-              "long": {
-                "one": "{0} minuut",
-                "other": "{0} minuten"
-              },
-              "narrow": {
-                "other": "{0} m"
-              },
-              "perUnit": {
-                "long": "{0} per minuut",
-                "narrow": "{0}/m",
-                "short": "{0}/min"
-              },
-              "short": {
-                "other": "{0} min"
-              }
-            },
-            "month": {
-              "long": {
-                "one": "{0} maand",
-                "other": "{0} maanden"
-              },
-              "narrow": {
-                "other": "{0} m"
-              },
-              "perUnit": {
-                "long": "{0} per maand",
-                "narrow": "{0}/m",
-                "short": "{0}/mnd"
-              },
-              "short": {
-                "other": "{0} mnd"
-              }
-            },
-            "ounce": {
-              "long": {
-                "other": "{0} ounce"
-              },
-              "narrow": {
-                "other": "{0} oz"
-              },
-              "perUnit": {
-                "long": "{0} per ounce",
-                "narrow": "{0}/oz",
-                "short": "{0}/oz"
-              },
-              "short": {
-                "other": "{0} oz"
-              }
-            },
-            "percent": {
-              "long": {
-                "other": "{0} procent"
-              },
-              "narrow": {
-                "other": "{0}%"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0}%"
-              }
-            },
-            "petabyte": {
-              "long": {
-                "other": "{0} petabyte"
-              },
-              "narrow": {
-                "other": "{0} PB"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} PB"
-              }
-            },
-            "pound": {
-              "long": {
-                "other": "{0} pound"
-              },
-              "narrow": {
-                "other": "{0} lb"
-              },
-              "perUnit": {
-                "long": "{0} per pound",
-                "narrow": "{0}/lb",
-                "short": "{0}/lb"
-              },
-              "short": {
-                "other": "{0} lb"
-              }
-            },
-            "second": {
-              "long": {
-                "one": "{0} seconde",
-                "other": "{0} seconden"
-              },
-              "narrow": {
-                "other": "{0} s"
-              },
-              "perUnit": {
-                "long": "{0} per seconde",
-                "narrow": "{0}/s",
-                "short": "{0}/sec"
-              },
-              "short": {
-                "other": "{0} sec"
-              }
-            },
-            "stone": {
-              "long": {
-                "other": "{0} stone"
-              },
-              "narrow": {
-                "other": "{0} st"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} st"
-              }
-            },
-            "terabit": {
-              "long": {
-                "one": "{0} terabit",
-                "other": "{0} terabits"
-              },
-              "narrow": {
-                "other": "{0} Tb"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} Tb"
-              }
-            },
-            "terabyte": {
-              "long": {
-                "other": "{0} terabyte"
-              },
-              "narrow": {
-                "other": "{0} TB"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} TB"
-              }
-            },
-            "week": {
-              "long": {
-                "one": "{0} week",
-                "other": "{0} weken"
-              },
-              "narrow": {
-                "other": "{0} w"
-              },
-              "perUnit": {
-                "long": "{0} per week",
-                "narrow": "{0}/w",
-                "short": "{0}/wk"
-              },
-              "short": {
-                "one": "{0} wk",
-                "other": "{0} wkn"
-              }
-            },
-            "yard": {
-              "long": {
-                "one": "{0} yard",
-                "other": "{0} yards"
-              },
-              "narrow": {
-                "other": "{0} yd"
-              },
-              "perUnit": {},
-              "short": {
-                "other": "{0} yd"
-              }
-            },
-            "year": {
-              "long": {
-                "other": "{0} jaar"
-              },
-              "narrow": {
-                "other": "{0} jr"
-              },
-              "perUnit": {
-                "long": "{0} per jaar",
-                "narrow": "{0}/jr",
-                "short": "{0}/jr"
-              },
-              "short": {
-                "other": "{0} jr"
-              }
-            }
-          }
-        }
-      },
-      "locale": "nl"
-    });
-  }
-  var intlDatetimeformat = {};
-  var core = {};
-  var FormatDateTime$1 = {};
-  var PartitionDateTimePattern$1 = {};
-  var FormatDateTimePattern$1 = {};
-  var ToLocalTime$1 = {};
-  Object.defineProperty(ToLocalTime$1, "__esModule", { value: true });
-  ToLocalTime$1.ToLocalTime = ToLocalTime;
-  var ecma402_abstract_1$f = require$$1;
-  function getApplicableZoneData(t, timeZone, tzData) {
-    var _a2;
-    var zoneData = tzData[timeZone];
-    if (!zoneData) {
-      return [0, false];
-    }
-    var i = 0;
-    var offset = 0;
-    var dst = false;
-    for (; i <= zoneData.length; i++) {
-      if (i === zoneData.length || zoneData[i][0] * 1e3 > t) {
-        _a2 = zoneData[i - 1], offset = _a2[2], dst = _a2[3];
-        break;
-      }
-    }
-    return [offset * 1e3, dst];
-  }
-  function ToLocalTime(t, calendar, timeZone, _a2) {
-    var tzData = _a2.tzData;
-    (0, ecma402_abstract_1$f.invariant)((0, ecma402_abstract_1$f.Type)(t) === "Number", "invalid time");
-    (0, ecma402_abstract_1$f.invariant)(calendar === "gregory", "We only support Gregory calendar right now");
-    var _b = getApplicableZoneData(t, timeZone, tzData), timeZoneOffset = _b[0], inDST = _b[1];
-    var tz = t + timeZoneOffset;
-    var year2 = (0, ecma402_abstract_1$f.YearFromTime)(tz);
-    return {
-      weekday: (0, ecma402_abstract_1$f.WeekDay)(tz),
-      era: year2 < 0 ? "BC" : "AD",
-      year: year2,
-      relatedYear: void 0,
-      yearName: void 0,
-      month: (0, ecma402_abstract_1$f.MonthFromTime)(tz),
-      day: (0, ecma402_abstract_1$f.DateFromTime)(tz),
-      hour: (0, ecma402_abstract_1$f.HourFromTime)(tz),
-      minute: (0, ecma402_abstract_1$f.MinFromTime)(tz),
-      second: (0, ecma402_abstract_1$f.SecFromTime)(tz),
-      millisecond: (0, ecma402_abstract_1$f.msFromTime)(tz),
-      inDST,
-      // IMPORTANT: Not in spec
-      timeZoneOffset
-    };
+    return ToLocalTime;
   }
   var utils = {};
-  Object.defineProperty(utils, "__esModule", { value: true });
-  utils.offsetPenalty = utils.shortMorePenalty = utils.shortLessPenalty = utils.longMorePenalty = utils.longLessPenalty = utils.differentNumericTypePenalty = utils.additionPenalty = utils.removalPenalty = utils.DATE_TIME_PROPS = void 0;
-  utils.DATE_TIME_PROPS = [
-    "weekday",
-    "era",
-    "year",
-    "month",
-    "day",
-    "dayPeriod",
-    "hour",
-    "minute",
-    "second",
-    "fractionalSecondDigits",
-    "timeZoneName"
-  ];
-  utils.removalPenalty = 120;
-  utils.additionPenalty = 20;
-  utils.differentNumericTypePenalty = 15;
-  utils.longLessPenalty = 8;
-  utils.longMorePenalty = 6;
-  utils.shortLessPenalty = 6;
-  utils.shortMorePenalty = 3;
-  utils.offsetPenalty = 1;
-  Object.defineProperty(FormatDateTimePattern$1, "__esModule", { value: true });
-  FormatDateTimePattern$1.FormatDateTimePattern = FormatDateTimePattern;
-  var ecma402_abstract_1$e = require$$1;
-  var ToLocalTime_1$1 = ToLocalTime$1;
-  var utils_1$3 = utils;
-  function pad(n) {
-    if (n < 10) {
-      return "0".concat(n);
-    }
-    return String(n);
-  }
-  function offsetToGmtString(gmtFormat, hourFormat, offsetInMs, style) {
-    var offsetInMinutes = Math.floor(offsetInMs / 6e4);
-    var mins = Math.abs(offsetInMinutes) % 60;
-    var hours2 = Math.floor(Math.abs(offsetInMinutes) / 60);
-    var _a2 = hourFormat.split(";"), positivePattern = _a2[0], negativePattern = _a2[1];
-    var offsetStr = "";
-    var pattern = offsetInMs < 0 ? negativePattern : positivePattern;
-    if (style === "long") {
-      offsetStr = pattern.replace("HH", pad(hours2)).replace("H", String(hours2)).replace("mm", pad(mins)).replace("m", String(mins));
-    } else if (mins || hours2) {
-      if (!mins) {
-        pattern = pattern.replace(/:?m+/, "");
-      }
-      offsetStr = pattern.replace(/H+/, String(hours2)).replace(/m+/, String(mins));
-    }
-    return gmtFormat.replace("{0}", offsetStr);
-  }
-  function FormatDateTimePattern(dtf, patternParts, x, _a2) {
-    var getInternalSlots = _a2.getInternalSlots, localeData = _a2.localeData, getDefaultTimeZone = _a2.getDefaultTimeZone, tzData = _a2.tzData;
-    x = (0, ecma402_abstract_1$e.TimeClip)(x);
-    var internalSlots = getInternalSlots(dtf);
-    var dataLocale = internalSlots.dataLocale;
-    var dataLocaleData = localeData[dataLocale];
-    var locale = internalSlots.locale;
-    var nfOptions = /* @__PURE__ */ Object.create(null);
-    nfOptions.useGrouping = false;
-    var nf = (0, ecma402_abstract_1$e.createMemoizedNumberFormat)(locale, nfOptions);
-    var nf2Options = /* @__PURE__ */ Object.create(null);
-    nf2Options.minimumIntegerDigits = 2;
-    nf2Options.useGrouping = false;
-    var nf2 = (0, ecma402_abstract_1$e.createMemoizedNumberFormat)(locale, nf2Options);
-    var fractionalSecondDigits = internalSlots.fractionalSecondDigits;
-    var nf3;
-    if (fractionalSecondDigits !== void 0) {
-      var nf3Options = /* @__PURE__ */ Object.create(null);
-      nf3Options.minimumIntegerDigits = fractionalSecondDigits;
-      nf3Options.useGrouping = false;
-      nf3 = (0, ecma402_abstract_1$e.createMemoizedNumberFormat)(locale, nf3Options);
-    }
-    var tm = (0, ToLocalTime_1$1.ToLocalTime)(
-      x,
-      // @ts-ignore
-      internalSlots.calendar,
-      internalSlots.timeZone,
-      { tzData }
-    );
-    var result = [];
-    for (var _i = 0, patternParts_1 = patternParts; _i < patternParts_1.length; _i++) {
-      var patternPart = patternParts_1[_i];
-      var p = patternPart.type;
-      if (p === "literal") {
-        result.push({
-          type: "literal",
-          value: patternPart.value
-        });
-      } else if (p === "fractionalSecondDigits") {
-        var v = Math.floor(tm.millisecond * Math.pow(10, (fractionalSecondDigits || 0) - 3));
-        result.push({
-          type: "fractionalSecond",
-          value: nf3.format(v)
-        });
-      } else if (p === "dayPeriod") {
-        var f = internalSlots.dayPeriod;
-        var fv = tm[f];
-        result.push({ type: p, value: fv });
-      } else if (p === "timeZoneName") {
-        var f = internalSlots.timeZoneName;
-        var fv = void 0;
-        var timeZoneName = dataLocaleData.timeZoneName, gmtFormat = dataLocaleData.gmtFormat, hourFormat = dataLocaleData.hourFormat;
-        var timeZone = internalSlots.timeZone || getDefaultTimeZone();
-        var timeZoneData = timeZoneName[timeZone];
-        if (timeZoneData && timeZoneData[f]) {
-          fv = timeZoneData[f][+tm.inDST];
-        } else {
-          fv = offsetToGmtString(gmtFormat, hourFormat, tm.timeZoneOffset, f);
-        }
-        result.push({ type: p, value: fv });
-      } else if (utils_1$3.DATE_TIME_PROPS.indexOf(p) > -1) {
-        var fv = "";
-        var f = internalSlots[p];
-        var v = tm[p];
-        if (p === "year" && v <= 0) {
-          v = 1 - v;
-        }
-        if (p === "month") {
-          v++;
-        }
-        var hourCycle = internalSlots.hourCycle;
-        if (p === "hour" && (hourCycle === "h11" || hourCycle === "h12")) {
-          v = v % 12;
-          if (v === 0 && hourCycle === "h12") {
-            v = 12;
-          }
-        }
-        if (p === "hour" && hourCycle === "h24") {
-          if (v === 0) {
-            v = 24;
-          }
-        }
-        if (f === "numeric") {
-          fv = nf.format(v);
-        } else if (f === "2-digit") {
-          fv = nf2.format(v);
-          if (fv.length > 2) {
-            fv = fv.slice(fv.length - 2, fv.length);
-          }
-        } else if (f === "narrow" || f === "short" || f === "long") {
-          if (p === "era") {
-            fv = dataLocaleData[p][f][v];
-          } else if (p === "month") {
-            fv = dataLocaleData.month[f][v - 1];
-          } else {
-            fv = dataLocaleData[p][f][v];
-          }
-        }
-        result.push({
-          type: p,
-          value: fv
-        });
-      } else if (p === "ampm") {
-        var v = tm.hour;
-        var fv = void 0;
-        if (v > 11) {
-          fv = dataLocaleData.pm;
-        } else {
-          fv = dataLocaleData.am;
-        }
-        result.push({
-          type: "dayPeriod",
-          value: fv
-        });
-      } else if (p === "relatedYear") {
-        var v = tm.relatedYear;
-        var fv = nf.format(v);
-        result.push({
-          // @ts-ignore TODO: Fix TS type
-          type: "relatedYear",
-          value: fv
-        });
-      } else if (p === "yearName") {
-        var v = tm.yearName;
-        var fv = nf.format(v);
-        result.push({
-          // @ts-ignore TODO: Fix TS type
-          type: "yearName",
-          value: fv
-        });
-      }
-    }
-    return result;
-  }
-  Object.defineProperty(PartitionDateTimePattern$1, "__esModule", { value: true });
-  PartitionDateTimePattern$1.PartitionDateTimePattern = PartitionDateTimePattern;
-  var ecma402_abstract_1$d = require$$1;
-  var FormatDateTimePattern_1$1 = FormatDateTimePattern$1;
-  function PartitionDateTimePattern(dtf, x, implDetails) {
-    x = (0, ecma402_abstract_1$d.TimeClip)(x);
-    if (isNaN(x)) {
-      throw new RangeError("invalid time");
-    }
-    var getInternalSlots = implDetails.getInternalSlots;
-    var internalSlots = getInternalSlots(dtf);
-    var pattern = internalSlots.pattern;
-    return (0, FormatDateTimePattern_1$1.FormatDateTimePattern)(dtf, (0, ecma402_abstract_1$d.PartitionPattern)(pattern), x, implDetails);
-  }
-  Object.defineProperty(FormatDateTime$1, "__esModule", { value: true });
-  FormatDateTime$1.FormatDateTime = FormatDateTime;
-  var PartitionDateTimePattern_1$1 = PartitionDateTimePattern$1;
-  function FormatDateTime(dtf, x, implDetails) {
-    var parts = (0, PartitionDateTimePattern_1$1.PartitionDateTimePattern)(dtf, x, implDetails);
-    var result = "";
-    for (var _i = 0, parts_1 = parts; _i < parts_1.length; _i++) {
-      var part = parts_1[_i];
-      result += part.value;
-    }
-    return result;
-  }
-  var FormatDateTimeRange$1 = {};
-  var PartitionDateTimeRangePattern$1 = {};
-  Object.defineProperty(PartitionDateTimeRangePattern$1, "__esModule", { value: true });
-  PartitionDateTimeRangePattern$1.PartitionDateTimeRangePattern = PartitionDateTimeRangePattern;
-  var ecma402_abstract_1$c = require$$1;
-  var FormatDateTimePattern_1 = FormatDateTimePattern$1;
-  var ToLocalTime_1 = ToLocalTime$1;
-  var TABLE_2_FIELDS = [
-    "era",
-    "year",
-    "month",
-    "day",
-    "dayPeriod",
-    "ampm",
-    "hour",
-    "minute",
-    "second",
-    "fractionalSecondDigits"
-  ];
-  function PartitionDateTimeRangePattern(dtf, x, y, implDetails) {
-    x = (0, ecma402_abstract_1$c.TimeClip)(x);
-    if (isNaN(x)) {
-      throw new RangeError("Invalid start time");
-    }
-    y = (0, ecma402_abstract_1$c.TimeClip)(y);
-    if (isNaN(y)) {
-      throw new RangeError("Invalid end time");
-    }
-    var getInternalSlots = implDetails.getInternalSlots, tzData = implDetails.tzData;
-    var internalSlots = getInternalSlots(dtf);
-    var tm1 = (0, ToLocalTime_1.ToLocalTime)(
-      x,
-      // @ts-ignore
-      internalSlots.calendar,
-      internalSlots.timeZone,
-      { tzData }
-    );
-    var tm2 = (0, ToLocalTime_1.ToLocalTime)(
-      y,
-      // @ts-ignore
-      internalSlots.calendar,
-      internalSlots.timeZone,
-      { tzData }
-    );
-    var pattern = internalSlots.pattern, rangePatterns = internalSlots.rangePatterns;
-    var rangePattern;
-    var dateFieldsPracticallyEqual = true;
-    var patternContainsLargerDateField = false;
-    for (var _i = 0, TABLE_2_FIELDS_1 = TABLE_2_FIELDS; _i < TABLE_2_FIELDS_1.length; _i++) {
-      var fieldName = TABLE_2_FIELDS_1[_i];
-      if (dateFieldsPracticallyEqual && !patternContainsLargerDateField) {
-        var rp = fieldName in rangePatterns ? rangePatterns[fieldName] : void 0;
-        if (rangePattern !== void 0 && rp === void 0) {
-          patternContainsLargerDateField = true;
-        } else {
-          rangePattern = rp;
-          if (fieldName === "ampm") {
-            var v1 = tm1.hour;
-            var v2 = tm2.hour;
-            if (v1 > 11 && v2 < 11 || v1 < 11 && v2 > 11) {
-              dateFieldsPracticallyEqual = false;
-            }
-          } else if (fieldName === "dayPeriod") ;
-          else if (fieldName === "fractionalSecondDigits") {
-            var fractionalSecondDigits = internalSlots.fractionalSecondDigits;
-            if (fractionalSecondDigits === void 0) {
-              fractionalSecondDigits = 3;
-            }
-            var v1 = Math.floor(tm1.millisecond * Math.pow(10, fractionalSecondDigits - 3));
-            var v2 = Math.floor(tm2.millisecond * Math.pow(10, fractionalSecondDigits - 3));
-            if (!(0, ecma402_abstract_1$c.SameValue)(v1, v2)) {
-              dateFieldsPracticallyEqual = false;
-            }
-          } else {
-            var v1 = tm1[fieldName];
-            var v2 = tm2[fieldName];
-            if (!(0, ecma402_abstract_1$c.SameValue)(v1, v2)) {
-              dateFieldsPracticallyEqual = false;
-            }
-          }
-        }
-      }
-    }
-    if (dateFieldsPracticallyEqual) {
-      var result_2 = (0, FormatDateTimePattern_1.FormatDateTimePattern)(dtf, (0, ecma402_abstract_1$c.PartitionPattern)(pattern), x, implDetails);
-      for (var _a2 = 0, result_1 = result_2; _a2 < result_1.length; _a2++) {
-        var r = result_1[_a2];
-        r.source = ecma402_abstract_1$c.RangePatternType.shared;
-      }
-      return result_2;
-    }
-    var result = [];
-    if (rangePattern === void 0) {
-      rangePattern = rangePatterns.default;
-      for (var _b = 0, _c = rangePattern.patternParts; _b < _c.length; _b++) {
-        var patternPart = _c[_b];
-        if (patternPart.pattern === "{0}" || patternPart.pattern === "{1}") {
-          patternPart.pattern = pattern;
-        }
-      }
-    }
-    for (var _d = 0, _e = rangePattern.patternParts; _d < _e.length; _d++) {
-      var rangePatternPart = _e[_d];
-      var source = rangePatternPart.source, pattern_1 = rangePatternPart.pattern;
-      var z = void 0;
-      if (source === ecma402_abstract_1$c.RangePatternType.startRange || source === ecma402_abstract_1$c.RangePatternType.shared) {
-        z = x;
-      } else {
-        z = y;
-      }
-      var patternParts = (0, ecma402_abstract_1$c.PartitionPattern)(pattern_1);
-      var partResult = (0, FormatDateTimePattern_1.FormatDateTimePattern)(dtf, patternParts, z, implDetails);
-      for (var _f = 0, partResult_1 = partResult; _f < partResult_1.length; _f++) {
-        var r = partResult_1[_f];
-        r.source = source;
-      }
-      result = result.concat(partResult);
-    }
-    return result;
-  }
-  Object.defineProperty(FormatDateTimeRange$1, "__esModule", { value: true });
-  FormatDateTimeRange$1.FormatDateTimeRange = FormatDateTimeRange;
-  var PartitionDateTimeRangePattern_1$1 = PartitionDateTimeRangePattern$1;
-  function FormatDateTimeRange(dtf, x, y, implDetails) {
-    var parts = (0, PartitionDateTimeRangePattern_1$1.PartitionDateTimeRangePattern)(dtf, x, y, implDetails);
-    var result = "";
-    for (var _i = 0, parts_1 = parts; _i < parts_1.length; _i++) {
-      var part = parts_1[_i];
-      result += part.value;
-    }
-    return result;
-  }
-  var FormatDateTimeRangeToParts$1 = {};
-  Object.defineProperty(FormatDateTimeRangeToParts$1, "__esModule", { value: true });
-  FormatDateTimeRangeToParts$1.FormatDateTimeRangeToParts = FormatDateTimeRangeToParts;
-  var PartitionDateTimeRangePattern_1 = PartitionDateTimeRangePattern$1;
-  function FormatDateTimeRangeToParts(dtf, x, y, implDetails) {
-    var parts = (0, PartitionDateTimeRangePattern_1.PartitionDateTimeRangePattern)(dtf, x, y, implDetails);
-    var result = new Array(0);
-    for (var _i = 0, parts_1 = parts; _i < parts_1.length; _i++) {
-      var part = parts_1[_i];
-      result.push({
-        type: part.type,
-        value: part.value,
-        source: part.source
-      });
-    }
-    return result;
-  }
-  var FormatDateTimeToParts$1 = {};
-  Object.defineProperty(FormatDateTimeToParts$1, "__esModule", { value: true });
-  FormatDateTimeToParts$1.FormatDateTimeToParts = FormatDateTimeToParts;
-  var PartitionDateTimePattern_1 = PartitionDateTimePattern$1;
-  var ecma402_abstract_1$b = require$$1;
-  function FormatDateTimeToParts(dtf, x, implDetails) {
-    var parts = (0, PartitionDateTimePattern_1.PartitionDateTimePattern)(dtf, x, implDetails);
-    var result = (0, ecma402_abstract_1$b.ArrayCreate)(0);
-    for (var _i = 0, parts_1 = parts; _i < parts_1.length; _i++) {
-      var part = parts_1[_i];
-      result.push({
-        type: part.type,
-        value: part.value
-      });
-    }
-    return result;
-  }
-  var InitializeDateTimeFormat$1 = {};
-  var BasicFormatMatcher$1 = {};
-  Object.defineProperty(BasicFormatMatcher$1, "__esModule", { value: true });
-  BasicFormatMatcher$1.BasicFormatMatcher = BasicFormatMatcher;
-  var tslib_1$4 = require$$0$1;
-  var ecma402_abstract_1$a = require$$1;
-  var utils_1$2 = utils;
-  function BasicFormatMatcher(options, formats) {
-    var bestScore = -Infinity;
-    var bestFormat = formats[0];
-    (0, ecma402_abstract_1$a.invariant)(Array.isArray(formats), "formats should be a list of things");
-    for (var _i = 0, formats_1 = formats; _i < formats_1.length; _i++) {
-      var format2 = formats_1[_i];
-      var score = 0;
-      for (var _a2 = 0, DATE_TIME_PROPS_1 = utils_1$2.DATE_TIME_PROPS; _a2 < DATE_TIME_PROPS_1.length; _a2++) {
-        var prop = DATE_TIME_PROPS_1[_a2];
-        var optionsProp = options[prop];
-        var formatProp = format2[prop];
-        if (optionsProp === void 0 && formatProp !== void 0) {
-          score -= utils_1$2.additionPenalty;
-        } else if (optionsProp !== void 0 && formatProp === void 0) {
-          score -= utils_1$2.removalPenalty;
-        } else if (prop === "timeZoneName") {
-          if (optionsProp === "short" || optionsProp === "shortGeneric") {
-            if (formatProp === "shortOffset") {
-              score -= utils_1$2.offsetPenalty;
-            } else if (formatProp === "longOffset") {
-              score -= utils_1$2.offsetPenalty + utils_1$2.shortMorePenalty;
-            } else if (optionsProp === "short" && formatProp === "long") {
-              score -= utils_1$2.shortMorePenalty;
-            } else if (optionsProp === "shortGeneric" && formatProp === "longGeneric") {
-              score -= utils_1$2.shortMorePenalty;
-            } else if (optionsProp !== formatProp) {
-              score -= utils_1$2.removalPenalty;
-            }
-          } else if (optionsProp === "shortOffset" && formatProp === "longOffset") {
-            score -= utils_1$2.shortMorePenalty;
-          } else if (optionsProp === "long" || optionsProp === "longGeneric") {
-            if (formatProp === "longOffset") {
-              score -= utils_1$2.offsetPenalty;
-            } else if (formatProp === "shortOffset") {
-              score -= utils_1$2.offsetPenalty + utils_1$2.longLessPenalty;
-            } else if (optionsProp === "long" && formatProp === "short") {
-              score -= utils_1$2.longLessPenalty;
-            } else if (optionsProp === "longGeneric" && formatProp === "shortGeneric") {
-              score -= utils_1$2.longLessPenalty;
-            } else if (optionsProp !== formatProp) {
-              score -= utils_1$2.removalPenalty;
-            }
-          } else if (optionsProp === "longOffset" && formatProp === "shortOffset") {
-            score -= utils_1$2.longLessPenalty;
-          } else if (optionsProp !== formatProp) {
-            score -= utils_1$2.removalPenalty;
-          }
-        } else if (optionsProp !== formatProp) {
-          var values = void 0;
-          if (prop === "fractionalSecondDigits") {
-            values = [1, 2, 3];
-          } else {
-            values = ["2-digit", "numeric", "narrow", "short", "long"];
-          }
-          var optionsPropIndex = values.indexOf(optionsProp);
-          var formatPropIndex = values.indexOf(formatProp);
-          var delta = Math.max(-2, Math.min(formatPropIndex - optionsPropIndex, 2));
-          if (delta === 2) {
-            score -= utils_1$2.longMorePenalty;
-          } else if (delta === 1) {
-            score -= utils_1$2.shortMorePenalty;
-          } else if (delta === -1) {
-            score -= utils_1$2.shortLessPenalty;
-          } else if (delta === -2) {
-            score -= utils_1$2.longLessPenalty;
-          }
-        }
-      }
-      if (score > bestScore) {
-        bestScore = score;
-        bestFormat = format2;
-      }
-    }
-    return tslib_1$4.__assign({}, bestFormat);
-  }
-  var BestFitFormatMatcher$1 = {};
-  var skeleton = {};
-  Object.defineProperty(skeleton, "__esModule", { value: true });
-  skeleton.processDateTimePattern = processDateTimePattern;
-  skeleton.parseDateTimeSkeleton = parseDateTimeSkeleton$1;
-  skeleton.splitFallbackRangePattern = splitFallbackRangePattern;
-  skeleton.splitRangePattern = splitRangePattern;
-  var tslib_1$3 = require$$0$1;
-  var ecma402_abstract_1$9 = require$$1;
-  var DATE_TIME_REGEX$1 = /(?:[Eec]{1,6}|G{1,5}|[Qq]{1,5}|(?:[yYur]+|U{1,5})|[ML]{1,5}|d{1,2}|D{1,3}|F{1}|[abB]{1,5}|[hkHK]{1,2}|w{1,2}|W{1}|m{1,2}|s{1,2}|[zZOvVxX]{1,4})(?=([^']*'[^']*')*[^']*$)/g;
-  var expPatternTrimmer = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-  function matchSkeletonPattern(match2, result) {
-    var len = match2.length;
-    switch (match2[0]) {
-      case "G":
-        result.era = len === 4 ? "long" : len === 5 ? "narrow" : "short";
-        return "{era}";
-      case "y":
-      case "Y":
-      case "u":
-      case "U":
-      case "r":
-        result.year = len === 2 ? "2-digit" : "numeric";
-        return "{year}";
-      case "q":
-      case "Q":
-        throw new RangeError("`w/Q` (quarter) patterns are not supported");
-      case "M":
-      case "L":
-        result.month = ["numeric", "2-digit", "short", "long", "narrow"][len - 1];
-        return "{month}";
-      case "w":
-      case "W":
-        throw new RangeError("`w/W` (week of year) patterns are not supported");
-      case "d":
-        result.day = ["numeric", "2-digit"][len - 1];
-        return "{day}";
-      case "D":
-      case "F":
-      case "g":
-        result.day = "numeric";
-        return "{day}";
-      case "E":
-        result.weekday = len === 4 ? "long" : len === 5 ? "narrow" : "short";
-        return "{weekday}";
-      case "e":
-        result.weekday = [
-          void 0,
-          void 0,
-          "short",
-          "long",
-          "narrow",
-          "short"
-        ][len - 1];
-        return "{weekday}";
-      case "c":
-        result.weekday = [
-          void 0,
-          void 0,
-          "short",
-          "long",
-          "narrow",
-          "short"
-        ][len - 1];
-        return "{weekday}";
-      case "a":
-      case "b":
-      case "B":
-        result.hour12 = true;
-        return "{ampm}";
-      case "h":
-        result.hour = ["numeric", "2-digit"][len - 1];
-        result.hour12 = true;
-        return "{hour}";
-      case "H":
-        result.hour = ["numeric", "2-digit"][len - 1];
-        return "{hour}";
-      case "K":
-        result.hour = ["numeric", "2-digit"][len - 1];
-        result.hour12 = true;
-        return "{hour}";
-      case "k":
-        result.hour = ["numeric", "2-digit"][len - 1];
-        return "{hour}";
-      case "j":
-      case "J":
-      case "C":
-        throw new RangeError("`j/J/C` (hour) patterns are not supported, use `h/H/K/k` instead");
-      case "m":
-        result.minute = ["numeric", "2-digit"][len - 1];
-        return "{minute}";
-      case "s":
-        result.second = ["numeric", "2-digit"][len - 1];
-        return "{second}";
-      case "S":
-      case "A":
-        result.second = "numeric";
-        return "{second}";
-      case "z":
-      case "Z":
-      case "O":
-      case "v":
-      case "V":
-      case "X":
-      case "x":
-        result.timeZoneName = len < 4 ? "short" : "long";
-        return "{timeZoneName}";
-    }
-    return "";
-  }
-  function skeletonTokenToTable2(c) {
-    switch (c) {
-      case "G":
-        return "era";
-      case "y":
-      case "Y":
-      case "u":
-      case "U":
-      case "r":
-        return "year";
-      case "M":
-      case "L":
-        return "month";
-      case "d":
-      case "D":
-      case "F":
-      case "g":
-        return "day";
-      case "a":
-      case "b":
-      case "B":
-        return "ampm";
-      case "h":
-      case "H":
-      case "K":
-      case "k":
-        return "hour";
-      case "m":
-        return "minute";
-      case "s":
-      case "S":
-      case "A":
-        return "second";
-      default:
-        throw new RangeError("Invalid range pattern token");
-    }
-  }
-  function processDateTimePattern(pattern, result) {
-    var literals = [];
-    var pattern12 = pattern.replace(/'{2}/g, "{apostrophe}").replace(/'(.*?)'/g, function(_, literal) {
-      literals.push(literal);
-      return "$$".concat(literals.length - 1, "$$");
-    }).replace(DATE_TIME_REGEX$1, function(m) {
-      return matchSkeletonPattern(m, result || {});
-    });
-    if (literals.length) {
-      pattern12 = pattern12.replace(/\$\$(\d+)\$\$/g, function(_, i) {
-        return literals[+i];
-      }).replace(/\{apostrophe\}/g, "'");
-    }
-    return [
-      pattern12.replace(/([\s\uFEFF\xA0])\{ampm\}([\s\uFEFF\xA0])/, "$1").replace("{ampm}", "").replace(expPatternTrimmer, ""),
-      pattern12
+  var hasRequiredUtils;
+  function requireUtils() {
+    if (hasRequiredUtils) return utils;
+    hasRequiredUtils = 1;
+    Object.defineProperty(utils, "__esModule", { value: true });
+    utils.offsetPenalty = utils.shortMorePenalty = utils.shortLessPenalty = utils.longMorePenalty = utils.longLessPenalty = utils.differentNumericTypePenalty = utils.additionPenalty = utils.removalPenalty = utils.DATE_TIME_PROPS = void 0;
+    utils.DATE_TIME_PROPS = [
+      "weekday",
+      "era",
+      "year",
+      "month",
+      "day",
+      "dayPeriod",
+      "hour",
+      "minute",
+      "second",
+      "fractionalSecondDigits",
+      "timeZoneName"
     ];
+    utils.removalPenalty = 120;
+    utils.additionPenalty = 20;
+    utils.differentNumericTypePenalty = 15;
+    utils.longLessPenalty = 8;
+    utils.longMorePenalty = 6;
+    utils.shortLessPenalty = 6;
+    utils.shortMorePenalty = 3;
+    utils.offsetPenalty = 1;
+    return utils;
   }
-  function parseDateTimeSkeleton$1(skeleton2, rawPattern, rangePatterns, intervalFormatFallback) {
-    if (rawPattern === void 0) {
-      rawPattern = skeleton2;
-    }
-    var result = {
-      pattern: "",
-      pattern12: "",
-      skeleton: skeleton2,
-      rawPattern,
-      rangePatterns: {},
-      rangePatterns12: {}
-    };
-    if (rangePatterns) {
-      for (var k in rangePatterns) {
-        var key = skeletonTokenToTable2(k);
-        var rawPattern_1 = rangePatterns[k];
-        var intervalResult = {
-          patternParts: []
-        };
-        var _a2 = processDateTimePattern(rawPattern_1, intervalResult), pattern_1 = _a2[0], pattern12_1 = _a2[1];
-        result.rangePatterns[key] = tslib_1$3.__assign(tslib_1$3.__assign({}, intervalResult), { patternParts: splitRangePattern(pattern_1) });
-        result.rangePatterns12[key] = tslib_1$3.__assign(tslib_1$3.__assign({}, intervalResult), { patternParts: splitRangePattern(pattern12_1) });
+  var hasRequiredFormatDateTimePattern;
+  function requireFormatDateTimePattern() {
+    if (hasRequiredFormatDateTimePattern) return FormatDateTimePattern;
+    hasRequiredFormatDateTimePattern = 1;
+    Object.defineProperty(FormatDateTimePattern, "__esModule", { value: true });
+    FormatDateTimePattern.FormatDateTimePattern = FormatDateTimePattern$1;
+    var tslib_12 = require$$0$1;
+    var ecma402_abstract_12 = require$$1;
+    var decimal_js_1 = tslib_12.__importDefault(requireDecimal());
+    var ToLocalTime_1 = requireToLocalTime();
+    var utils_1 = requireUtils();
+    function pad(n) {
+      if (n < 10) {
+        return "0".concat(n);
       }
+      return String(n);
     }
-    if (intervalFormatFallback) {
-      var patternParts = splitFallbackRangePattern(intervalFormatFallback);
-      result.rangePatterns.default = {
-        patternParts
-      };
-      result.rangePatterns12.default = {
-        patternParts
-      };
+    function offsetToGmtString(gmtFormat, hourFormat, offsetInMs, style) {
+      var offsetInMinutes = Math.floor(offsetInMs / 6e4);
+      var mins = Math.abs(offsetInMinutes) % 60;
+      var hours2 = Math.floor(Math.abs(offsetInMinutes) / 60);
+      var _a2 = hourFormat.split(";"), positivePattern = _a2[0], negativePattern = _a2[1];
+      var offsetStr = "";
+      var pattern = offsetInMs < 0 ? negativePattern : positivePattern;
+      if (style === "long") {
+        offsetStr = pattern.replace("HH", pad(hours2)).replace("H", String(hours2)).replace("mm", pad(mins)).replace("m", String(mins));
+      } else if (mins || hours2) {
+        if (!mins) {
+          pattern = pattern.replace(/:?m+/, "");
+        }
+        offsetStr = pattern.replace(/H+/, String(hours2)).replace(/m+/, String(mins));
+      }
+      return gmtFormat.replace("{0}", offsetStr);
     }
-    skeleton2.replace(DATE_TIME_REGEX$1, function(m) {
-      return matchSkeletonPattern(m, result);
-    });
-    var _b = processDateTimePattern(rawPattern), pattern = _b[0], pattern12 = _b[1];
-    result.pattern = pattern;
-    result.pattern12 = pattern12;
-    return result;
+    function FormatDateTimePattern$1(dtf, patternParts, x, _a2) {
+      var getInternalSlots = _a2.getInternalSlots, localeData = _a2.localeData, getDefaultTimeZone = _a2.getDefaultTimeZone, tzData = _a2.tzData;
+      x = (0, ecma402_abstract_12.TimeClip)(x);
+      var internalSlots = getInternalSlots(dtf);
+      var dataLocale = internalSlots.dataLocale;
+      var dataLocaleData = localeData[dataLocale];
+      var locale = internalSlots.locale;
+      var nfOptions = /* @__PURE__ */ Object.create(null);
+      nfOptions.useGrouping = false;
+      var nf = (0, ecma402_abstract_12.createMemoizedNumberFormat)(locale, nfOptions);
+      var nf2Options = /* @__PURE__ */ Object.create(null);
+      nf2Options.minimumIntegerDigits = 2;
+      nf2Options.useGrouping = false;
+      var nf2 = (0, ecma402_abstract_12.createMemoizedNumberFormat)(locale, nf2Options);
+      var fractionalSecondDigits = internalSlots.fractionalSecondDigits;
+      var nf3;
+      if (fractionalSecondDigits !== void 0) {
+        var nf3Options = /* @__PURE__ */ Object.create(null);
+        nf3Options.minimumIntegerDigits = fractionalSecondDigits;
+        nf3Options.useGrouping = false;
+        nf3 = (0, ecma402_abstract_12.createMemoizedNumberFormat)(locale, nf3Options);
+      }
+      var tm = (0, ToLocalTime_1.ToLocalTime)(
+        x,
+        // @ts-ignore
+        internalSlots.calendar,
+        internalSlots.timeZone,
+        { tzData }
+      );
+      var result = [];
+      for (var _i = 0, patternParts_1 = patternParts; _i < patternParts_1.length; _i++) {
+        var patternPart = patternParts_1[_i];
+        var p = patternPart.type;
+        if (p === "literal") {
+          result.push({
+            type: "literal",
+            value: patternPart.value
+          });
+        } else if (p === "fractionalSecondDigits") {
+          var v = new decimal_js_1.default(tm.millisecond).times(10).pow((fractionalSecondDigits || 0) - 3).floor().toNumber();
+          result.push({
+            type: "fractionalSecond",
+            value: nf3.format(v)
+          });
+        } else if (p === "dayPeriod") {
+          var f = internalSlots.dayPeriod;
+          var fv = tm[f];
+          result.push({ type: p, value: fv });
+        } else if (p === "timeZoneName") {
+          var f = internalSlots.timeZoneName;
+          var fv = void 0;
+          var timeZoneName = dataLocaleData.timeZoneName, gmtFormat = dataLocaleData.gmtFormat, hourFormat = dataLocaleData.hourFormat;
+          var timeZone = internalSlots.timeZone || getDefaultTimeZone();
+          var timeZoneData = timeZoneName[timeZone];
+          if (timeZoneData && timeZoneData[f]) {
+            fv = timeZoneData[f][+tm.inDST];
+          } else {
+            fv = offsetToGmtString(gmtFormat, hourFormat, tm.timeZoneOffset, f);
+          }
+          result.push({ type: p, value: fv });
+        } else if (utils_1.DATE_TIME_PROPS.indexOf(p) > -1) {
+          var fv = "";
+          var f = internalSlots[p];
+          var v = tm[p];
+          if (p === "year" && v <= 0) {
+            v = 1 - v;
+          }
+          if (p === "month") {
+            v++;
+          }
+          var hourCycle = internalSlots.hourCycle;
+          if (p === "hour" && (hourCycle === "h11" || hourCycle === "h12")) {
+            v = v % 12;
+            if (v === 0 && hourCycle === "h12") {
+              v = 12;
+            }
+          }
+          if (p === "hour" && hourCycle === "h24") {
+            if (v === 0) {
+              v = 24;
+            }
+          }
+          if (f === "numeric") {
+            fv = nf.format(v);
+          } else if (f === "2-digit") {
+            fv = nf2.format(v);
+            if (fv.length > 2) {
+              fv = fv.slice(fv.length - 2, fv.length);
+            }
+          } else if (f === "narrow" || f === "short" || f === "long") {
+            if (p === "era") {
+              fv = dataLocaleData[p][f][v];
+            } else if (p === "month") {
+              fv = dataLocaleData.month[f][v - 1];
+            } else {
+              fv = dataLocaleData[p][f][v];
+            }
+          }
+          result.push({
+            type: p,
+            value: fv
+          });
+        } else if (p === "ampm") {
+          var v = tm.hour;
+          var fv = void 0;
+          if (v > 11) {
+            fv = dataLocaleData.pm;
+          } else {
+            fv = dataLocaleData.am;
+          }
+          result.push({
+            type: "dayPeriod",
+            value: fv
+          });
+        } else if (p === "relatedYear") {
+          var v = tm.relatedYear;
+          var fv = nf.format(v);
+          result.push({
+            // @ts-ignore TODO: Fix TS type
+            type: "relatedYear",
+            value: fv
+          });
+        } else if (p === "yearName") {
+          var v = tm.yearName;
+          var fv = nf.format(v);
+          result.push({
+            // @ts-ignore TODO: Fix TS type
+            type: "yearName",
+            value: fv
+          });
+        }
+      }
+      return result;
+    }
+    return FormatDateTimePattern;
   }
-  function splitFallbackRangePattern(pattern) {
-    var parts = pattern.split(/(\{[0|1]\})/g).filter(Boolean);
-    return parts.map(function(pattern2) {
-      switch (pattern2) {
-        case "{0}":
-          return {
-            source: ecma402_abstract_1$9.RangePatternType.startRange,
-            pattern: pattern2
-          };
-        case "{1}":
-          return {
-            source: ecma402_abstract_1$9.RangePatternType.endRange,
-            pattern: pattern2
-          };
+  var hasRequiredPartitionDateTimePattern;
+  function requirePartitionDateTimePattern() {
+    if (hasRequiredPartitionDateTimePattern) return PartitionDateTimePattern;
+    hasRequiredPartitionDateTimePattern = 1;
+    Object.defineProperty(PartitionDateTimePattern, "__esModule", { value: true });
+    PartitionDateTimePattern.PartitionDateTimePattern = PartitionDateTimePattern$1;
+    var ecma402_abstract_12 = require$$1;
+    var FormatDateTimePattern_1 = requireFormatDateTimePattern();
+    function PartitionDateTimePattern$1(dtf, x, implDetails) {
+      x = (0, ecma402_abstract_12.TimeClip)(x);
+      (0, ecma402_abstract_12.invariant)(!x.isNaN(), "Invalid time", RangeError);
+      var getInternalSlots = implDetails.getInternalSlots;
+      var internalSlots = getInternalSlots(dtf);
+      var pattern = internalSlots.pattern;
+      return (0, FormatDateTimePattern_1.FormatDateTimePattern)(dtf, (0, ecma402_abstract_12.PartitionPattern)(pattern), x, implDetails);
+    }
+    return PartitionDateTimePattern;
+  }
+  var hasRequiredFormatDateTime;
+  function requireFormatDateTime() {
+    if (hasRequiredFormatDateTime) return FormatDateTime;
+    hasRequiredFormatDateTime = 1;
+    Object.defineProperty(FormatDateTime, "__esModule", { value: true });
+    FormatDateTime.FormatDateTime = FormatDateTime$12;
+    var PartitionDateTimePattern_1 = requirePartitionDateTimePattern();
+    function FormatDateTime$12(dtf, x, implDetails) {
+      var parts = (0, PartitionDateTimePattern_1.PartitionDateTimePattern)(dtf, x, implDetails);
+      var result = "";
+      for (var _i = 0, parts_1 = parts; _i < parts_1.length; _i++) {
+        var part = parts_1[_i];
+        result += part.value;
+      }
+      return result;
+    }
+    return FormatDateTime;
+  }
+  var FormatDateTimeRange = {};
+  var PartitionDateTimeRangePattern = {};
+  var hasRequiredPartitionDateTimeRangePattern;
+  function requirePartitionDateTimeRangePattern() {
+    if (hasRequiredPartitionDateTimeRangePattern) return PartitionDateTimeRangePattern;
+    hasRequiredPartitionDateTimeRangePattern = 1;
+    Object.defineProperty(PartitionDateTimeRangePattern, "__esModule", { value: true });
+    PartitionDateTimeRangePattern.PartitionDateTimeRangePattern = PartitionDateTimeRangePattern$1;
+    var ecma402_abstract_12 = require$$1;
+    var FormatDateTimePattern_1 = requireFormatDateTimePattern();
+    var ToLocalTime_1 = requireToLocalTime();
+    var TABLE_2_FIELDS = [
+      "era",
+      "year",
+      "month",
+      "day",
+      "dayPeriod",
+      "ampm",
+      "hour",
+      "minute",
+      "second",
+      "fractionalSecondDigits"
+    ];
+    function PartitionDateTimeRangePattern$1(dtf, x, y, implDetails) {
+      x = (0, ecma402_abstract_12.TimeClip)(x);
+      if (x.isNaN()) {
+        throw new RangeError("Invalid start time");
+      }
+      y = (0, ecma402_abstract_12.TimeClip)(y);
+      if (y.isNaN()) {
+        throw new RangeError("Invalid end time");
+      }
+      var getInternalSlots = implDetails.getInternalSlots, tzData = implDetails.tzData;
+      var internalSlots = getInternalSlots(dtf);
+      var tm1 = (0, ToLocalTime_1.ToLocalTime)(
+        x,
+        // @ts-ignore
+        internalSlots.calendar,
+        internalSlots.timeZone,
+        { tzData }
+      );
+      var tm2 = (0, ToLocalTime_1.ToLocalTime)(
+        y,
+        // @ts-ignore
+        internalSlots.calendar,
+        internalSlots.timeZone,
+        { tzData }
+      );
+      var pattern = internalSlots.pattern, rangePatterns = internalSlots.rangePatterns;
+      var rangePattern;
+      var dateFieldsPracticallyEqual = true;
+      var patternContainsLargerDateField = false;
+      for (var _i = 0, TABLE_2_FIELDS_1 = TABLE_2_FIELDS; _i < TABLE_2_FIELDS_1.length; _i++) {
+        var fieldName = TABLE_2_FIELDS_1[_i];
+        if (dateFieldsPracticallyEqual && !patternContainsLargerDateField) {
+          var rp = fieldName in rangePatterns ? rangePatterns[fieldName] : void 0;
+          if (rangePattern !== void 0 && rp === void 0) {
+            patternContainsLargerDateField = true;
+          } else {
+            rangePattern = rp;
+            if (fieldName === "ampm") {
+              var v1 = tm1.hour;
+              var v2 = tm2.hour;
+              if (v1 > 11 && v2 < 11 || v1 < 11 && v2 > 11) {
+                dateFieldsPracticallyEqual = false;
+              }
+            } else if (fieldName === "dayPeriod") ;
+            else if (fieldName === "fractionalSecondDigits") {
+              var fractionalSecondDigits = internalSlots.fractionalSecondDigits;
+              if (fractionalSecondDigits === void 0) {
+                fractionalSecondDigits = 3;
+              }
+              var v1 = Math.floor(tm1.millisecond * Math.pow(10, fractionalSecondDigits - 3));
+              var v2 = Math.floor(tm2.millisecond * Math.pow(10, fractionalSecondDigits - 3));
+              if (!(0, ecma402_abstract_12.SameValue)(v1, v2)) {
+                dateFieldsPracticallyEqual = false;
+              }
+            } else {
+              var v1 = tm1[fieldName];
+              var v2 = tm2[fieldName];
+              if (!(0, ecma402_abstract_12.SameValue)(v1, v2)) {
+                dateFieldsPracticallyEqual = false;
+              }
+            }
+          }
+        }
+      }
+      if (dateFieldsPracticallyEqual) {
+        var result_2 = (0, FormatDateTimePattern_1.FormatDateTimePattern)(dtf, (0, ecma402_abstract_12.PartitionPattern)(pattern), x, implDetails);
+        for (var _a2 = 0, result_1 = result_2; _a2 < result_1.length; _a2++) {
+          var r = result_1[_a2];
+          r.source = ecma402_abstract_12.RangePatternType.shared;
+        }
+        return result_2;
+      }
+      var result = [];
+      if (rangePattern === void 0) {
+        rangePattern = rangePatterns.default;
+        for (var _b = 0, _c = rangePattern.patternParts; _b < _c.length; _b++) {
+          var patternPart = _c[_b];
+          if (patternPart.pattern === "{0}" || patternPart.pattern === "{1}") {
+            patternPart.pattern = pattern;
+          }
+        }
+      }
+      for (var _d = 0, _e = rangePattern.patternParts; _d < _e.length; _d++) {
+        var rangePatternPart = _e[_d];
+        var source = rangePatternPart.source, pattern_1 = rangePatternPart.pattern;
+        var z = void 0;
+        if (source === ecma402_abstract_12.RangePatternType.startRange || source === ecma402_abstract_12.RangePatternType.shared) {
+          z = x;
+        } else {
+          z = y;
+        }
+        var patternParts = (0, ecma402_abstract_12.PartitionPattern)(pattern_1);
+        var partResult = (0, FormatDateTimePattern_1.FormatDateTimePattern)(dtf, patternParts, z, implDetails);
+        for (var _f = 0, partResult_1 = partResult; _f < partResult_1.length; _f++) {
+          var r = partResult_1[_f];
+          r.source = source;
+        }
+        result = result.concat(partResult);
+      }
+      return result;
+    }
+    return PartitionDateTimeRangePattern;
+  }
+  var hasRequiredFormatDateTimeRange;
+  function requireFormatDateTimeRange() {
+    if (hasRequiredFormatDateTimeRange) return FormatDateTimeRange;
+    hasRequiredFormatDateTimeRange = 1;
+    Object.defineProperty(FormatDateTimeRange, "__esModule", { value: true });
+    FormatDateTimeRange.FormatDateTimeRange = FormatDateTimeRange$1;
+    var PartitionDateTimeRangePattern_1 = requirePartitionDateTimeRangePattern();
+    function FormatDateTimeRange$1(dtf, x, y, implDetails) {
+      var parts = (0, PartitionDateTimeRangePattern_1.PartitionDateTimeRangePattern)(dtf, x, y, implDetails);
+      var result = "";
+      for (var _i = 0, parts_1 = parts; _i < parts_1.length; _i++) {
+        var part = parts_1[_i];
+        result += part.value;
+      }
+      return result;
+    }
+    return FormatDateTimeRange;
+  }
+  var FormatDateTimeRangeToParts = {};
+  var hasRequiredFormatDateTimeRangeToParts;
+  function requireFormatDateTimeRangeToParts() {
+    if (hasRequiredFormatDateTimeRangeToParts) return FormatDateTimeRangeToParts;
+    hasRequiredFormatDateTimeRangeToParts = 1;
+    Object.defineProperty(FormatDateTimeRangeToParts, "__esModule", { value: true });
+    FormatDateTimeRangeToParts.FormatDateTimeRangeToParts = FormatDateTimeRangeToParts$1;
+    var PartitionDateTimeRangePattern_1 = requirePartitionDateTimeRangePattern();
+    function FormatDateTimeRangeToParts$1(dtf, x, y, implDetails) {
+      var parts = (0, PartitionDateTimeRangePattern_1.PartitionDateTimeRangePattern)(dtf, x, y, implDetails);
+      var result = new Array(0);
+      for (var _i = 0, parts_1 = parts; _i < parts_1.length; _i++) {
+        var part = parts_1[_i];
+        result.push({
+          type: part.type,
+          value: part.value,
+          source: part.source
+        });
+      }
+      return result;
+    }
+    return FormatDateTimeRangeToParts;
+  }
+  var FormatDateTimeToParts = {};
+  var hasRequiredFormatDateTimeToParts;
+  function requireFormatDateTimeToParts() {
+    if (hasRequiredFormatDateTimeToParts) return FormatDateTimeToParts;
+    hasRequiredFormatDateTimeToParts = 1;
+    Object.defineProperty(FormatDateTimeToParts, "__esModule", { value: true });
+    FormatDateTimeToParts.FormatDateTimeToParts = FormatDateTimeToParts$1;
+    var ecma402_abstract_12 = require$$1;
+    var PartitionDateTimePattern_1 = requirePartitionDateTimePattern();
+    function FormatDateTimeToParts$1(dtf, x, implDetails) {
+      var parts = (0, PartitionDateTimePattern_1.PartitionDateTimePattern)(dtf, x, implDetails);
+      var result = (0, ecma402_abstract_12.ArrayCreate)(0);
+      for (var _i = 0, parts_1 = parts; _i < parts_1.length; _i++) {
+        var part = parts_1[_i];
+        result.push({
+          type: part.type,
+          value: part.value
+        });
+      }
+      return result;
+    }
+    return FormatDateTimeToParts;
+  }
+  var InitializeDateTimeFormat = {};
+  const require$$0 = /* @__PURE__ */ getAugmentedNamespace(lib$1);
+  var BasicFormatMatcher = {};
+  var hasRequiredBasicFormatMatcher;
+  function requireBasicFormatMatcher() {
+    if (hasRequiredBasicFormatMatcher) return BasicFormatMatcher;
+    hasRequiredBasicFormatMatcher = 1;
+    Object.defineProperty(BasicFormatMatcher, "__esModule", { value: true });
+    BasicFormatMatcher.BasicFormatMatcher = BasicFormatMatcher$12;
+    var tslib_12 = require$$0$1;
+    var ecma402_abstract_12 = require$$1;
+    var utils_1 = requireUtils();
+    function BasicFormatMatcher$12(options, formats) {
+      var bestScore = -Infinity;
+      var bestFormat = formats[0];
+      (0, ecma402_abstract_12.invariant)(Array.isArray(formats), "formats should be a list of things");
+      for (var _i = 0, formats_1 = formats; _i < formats_1.length; _i++) {
+        var format2 = formats_1[_i];
+        var score = 0;
+        for (var _a2 = 0, DATE_TIME_PROPS_1 = utils_1.DATE_TIME_PROPS; _a2 < DATE_TIME_PROPS_1.length; _a2++) {
+          var prop = DATE_TIME_PROPS_1[_a2];
+          var optionsProp = options[prop];
+          var formatProp = format2[prop];
+          if (optionsProp === void 0 && formatProp !== void 0) {
+            score -= utils_1.additionPenalty;
+          } else if (optionsProp !== void 0 && formatProp === void 0) {
+            score -= utils_1.removalPenalty;
+          } else if (prop === "timeZoneName") {
+            if (optionsProp === "short" || optionsProp === "shortGeneric") {
+              if (formatProp === "shortOffset") {
+                score -= utils_1.offsetPenalty;
+              } else if (formatProp === "longOffset") {
+                score -= utils_1.offsetPenalty + utils_1.shortMorePenalty;
+              } else if (optionsProp === "short" && formatProp === "long") {
+                score -= utils_1.shortMorePenalty;
+              } else if (optionsProp === "shortGeneric" && formatProp === "longGeneric") {
+                score -= utils_1.shortMorePenalty;
+              } else if (optionsProp !== formatProp) {
+                score -= utils_1.removalPenalty;
+              }
+            } else if (optionsProp === "shortOffset" && formatProp === "longOffset") {
+              score -= utils_1.shortMorePenalty;
+            } else if (optionsProp === "long" || optionsProp === "longGeneric") {
+              if (formatProp === "longOffset") {
+                score -= utils_1.offsetPenalty;
+              } else if (formatProp === "shortOffset") {
+                score -= utils_1.offsetPenalty + utils_1.longLessPenalty;
+              } else if (optionsProp === "long" && formatProp === "short") {
+                score -= utils_1.longLessPenalty;
+              } else if (optionsProp === "longGeneric" && formatProp === "shortGeneric") {
+                score -= utils_1.longLessPenalty;
+              } else if (optionsProp !== formatProp) {
+                score -= utils_1.removalPenalty;
+              }
+            } else if (optionsProp === "longOffset" && formatProp === "shortOffset") {
+              score -= utils_1.longLessPenalty;
+            } else if (optionsProp !== formatProp) {
+              score -= utils_1.removalPenalty;
+            }
+          } else if (optionsProp !== formatProp) {
+            var values = void 0;
+            if (prop === "fractionalSecondDigits") {
+              values = [1, 2, 3];
+            } else {
+              values = ["2-digit", "numeric", "narrow", "short", "long"];
+            }
+            var optionsPropIndex = values.indexOf(optionsProp);
+            var formatPropIndex = values.indexOf(formatProp);
+            var delta = Math.max(-2, Math.min(formatPropIndex - optionsPropIndex, 2));
+            if (delta === 2) {
+              score -= utils_1.longMorePenalty;
+            } else if (delta === 1) {
+              score -= utils_1.shortMorePenalty;
+            } else if (delta === -1) {
+              score -= utils_1.shortLessPenalty;
+            } else if (delta === -2) {
+              score -= utils_1.longLessPenalty;
+            }
+          }
+        }
+        if (score > bestScore) {
+          bestScore = score;
+          bestFormat = format2;
+        }
+      }
+      return tslib_12.__assign({}, bestFormat);
+    }
+    return BasicFormatMatcher;
+  }
+  var BestFitFormatMatcher = {};
+  var skeleton = {};
+  var hasRequiredSkeleton;
+  function requireSkeleton() {
+    if (hasRequiredSkeleton) return skeleton;
+    hasRequiredSkeleton = 1;
+    Object.defineProperty(skeleton, "__esModule", { value: true });
+    skeleton.processDateTimePattern = processDateTimePattern;
+    skeleton.parseDateTimeSkeleton = parseDateTimeSkeleton2;
+    skeleton.splitFallbackRangePattern = splitFallbackRangePattern;
+    skeleton.splitRangePattern = splitRangePattern;
+    var tslib_12 = require$$0$1;
+    var ecma402_abstract_12 = require$$1;
+    var DATE_TIME_REGEX2 = /(?:[Eec]{1,6}|G{1,5}|[Qq]{1,5}|(?:[yYur]+|U{1,5})|[ML]{1,5}|d{1,2}|D{1,3}|F{1}|[abB]{1,5}|[hkHK]{1,2}|w{1,2}|W{1}|m{1,2}|s{1,2}|[zZOvVxX]{1,4})(?=([^']*'[^']*')*[^']*$)/g;
+    var expPatternTrimmer2 = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+    function matchSkeletonPattern(match2, result) {
+      var len = match2.length;
+      switch (match2[0]) {
+        // Era
+        case "G":
+          result.era = len === 4 ? "long" : len === 5 ? "narrow" : "short";
+          return "{era}";
+        // Year
+        case "y":
+        case "Y":
+        case "u":
+        case "U":
+        case "r":
+          result.year = len === 2 ? "2-digit" : "numeric";
+          return "{year}";
+        // Quarter
+        case "q":
+        case "Q":
+          throw new RangeError("`w/Q` (quarter) patterns are not supported");
+        // Month
+        case "M":
+        case "L":
+          result.month = ["numeric", "2-digit", "short", "long", "narrow"][len - 1];
+          return "{month}";
+        // Week
+        case "w":
+        case "W":
+          throw new RangeError("`w/W` (week of year) patterns are not supported");
+        case "d":
+          result.day = ["numeric", "2-digit"][len - 1];
+          return "{day}";
+        case "D":
+        case "F":
+        case "g":
+          result.day = "numeric";
+          return "{day}";
+        // Weekday
+        case "E":
+          result.weekday = len === 4 ? "long" : len === 5 ? "narrow" : "short";
+          return "{weekday}";
+        case "e":
+          result.weekday = [
+            void 0,
+            void 0,
+            "short",
+            "long",
+            "narrow",
+            "short"
+          ][len - 1];
+          return "{weekday}";
+        case "c":
+          result.weekday = [
+            void 0,
+            void 0,
+            "short",
+            "long",
+            "narrow",
+            "short"
+          ][len - 1];
+          return "{weekday}";
+        // Period
+        case "a":
+        // AM, PM
+        case "b":
+        // am, pm, noon, midnight
+        case "B":
+          result.hour12 = true;
+          return "{ampm}";
+        // Hour
+        case "h":
+          result.hour = ["numeric", "2-digit"][len - 1];
+          result.hour12 = true;
+          return "{hour}";
+        case "H":
+          result.hour = ["numeric", "2-digit"][len - 1];
+          return "{hour}";
+        case "K":
+          result.hour = ["numeric", "2-digit"][len - 1];
+          result.hour12 = true;
+          return "{hour}";
+        case "k":
+          result.hour = ["numeric", "2-digit"][len - 1];
+          return "{hour}";
+        case "j":
+        case "J":
+        case "C":
+          throw new RangeError("`j/J/C` (hour) patterns are not supported, use `h/H/K/k` instead");
+        // Minute
+        case "m":
+          result.minute = ["numeric", "2-digit"][len - 1];
+          return "{minute}";
+        // Second
+        case "s":
+          result.second = ["numeric", "2-digit"][len - 1];
+          return "{second}";
+        case "S":
+        case "A":
+          result.second = "numeric";
+          return "{second}";
+        // Zone
+        case "z":
+        // 1..3, 4: specific non-location format
+        case "Z":
+        // 1..3, 4, 5: The ISO8601 varios formats
+        case "O":
+        // 1, 4: milliseconds in day short, long
+        case "v":
+        // 1, 4: generic non-location format
+        case "V":
+        // 1, 2, 3, 4: time zone ID or city
+        case "X":
+        // 1, 2, 3, 4: The ISO8601 varios formats
+        case "x":
+          result.timeZoneName = len < 4 ? "short" : "long";
+          return "{timeZoneName}";
+      }
+      return "";
+    }
+    function skeletonTokenToTable2(c) {
+      switch (c) {
+        // Era
+        case "G":
+          return "era";
+        // Year
+        case "y":
+        case "Y":
+        case "u":
+        case "U":
+        case "r":
+          return "year";
+        // Month
+        case "M":
+        case "L":
+          return "month";
+        // Day
+        case "d":
+        case "D":
+        case "F":
+        case "g":
+          return "day";
+        // Period
+        case "a":
+        // AM, PM
+        case "b":
+        // am, pm, noon, midnight
+        case "B":
+          return "ampm";
+        // Hour
+        case "h":
+        case "H":
+        case "K":
+        case "k":
+          return "hour";
+        // Minute
+        case "m":
+          return "minute";
+        // Second
+        case "s":
+        case "S":
+        case "A":
+          return "second";
         default:
-          return {
-            source: ecma402_abstract_1$9.RangePatternType.shared,
-            pattern: pattern2
-          };
-      }
-    });
-  }
-  function splitRangePattern(pattern) {
-    var PART_REGEX = /\{(.*?)\}/g;
-    var parts = {};
-    var match2;
-    var splitIndex = 0;
-    while (match2 = PART_REGEX.exec(pattern)) {
-      if (!(match2[0] in parts)) {
-        parts[match2[0]] = match2.index;
-      } else {
-        splitIndex = match2.index;
-        break;
+          throw new RangeError("Invalid range pattern token");
       }
     }
-    if (!splitIndex) {
+    function processDateTimePattern(pattern, result) {
+      var literals = [];
+      var pattern12 = pattern.replace(/'{2}/g, "{apostrophe}").replace(/'(.*?)'/g, function(_, literal) {
+        literals.push(literal);
+        return "$$".concat(literals.length - 1, "$$");
+      }).replace(DATE_TIME_REGEX2, function(m) {
+        return matchSkeletonPattern(m, result || {});
+      });
+      if (literals.length) {
+        pattern12 = pattern12.replace(/\$\$(\d+)\$\$/g, function(_, i) {
+          return literals[+i];
+        }).replace(/\{apostrophe\}/g, "'");
+      }
+      return [
+        pattern12.replace(/([\s\uFEFF\xA0])\{ampm\}([\s\uFEFF\xA0])/, "$1").replace("{ampm}", "").replace(expPatternTrimmer2, ""),
+        pattern12
+      ];
+    }
+    function parseDateTimeSkeleton2(skeleton2, rawPattern, rangePatterns, intervalFormatFallback) {
+      if (rawPattern === void 0) {
+        rawPattern = skeleton2;
+      }
+      var result = {
+        pattern: "",
+        pattern12: "",
+        skeleton: skeleton2,
+        rawPattern,
+        rangePatterns: {},
+        rangePatterns12: {}
+      };
+      if (rangePatterns) {
+        for (var k in rangePatterns) {
+          var key = skeletonTokenToTable2(k);
+          var rawPattern_1 = rangePatterns[k];
+          var intervalResult = {
+            patternParts: []
+          };
+          var _a2 = processDateTimePattern(rawPattern_1, intervalResult), pattern_1 = _a2[0], pattern12_1 = _a2[1];
+          result.rangePatterns[key] = tslib_12.__assign(tslib_12.__assign({}, intervalResult), { patternParts: splitRangePattern(pattern_1) });
+          result.rangePatterns12[key] = tslib_12.__assign(tslib_12.__assign({}, intervalResult), { patternParts: splitRangePattern(pattern12_1) });
+        }
+      }
+      if (intervalFormatFallback) {
+        var patternParts = splitFallbackRangePattern(intervalFormatFallback);
+        result.rangePatterns.default = {
+          patternParts
+        };
+        result.rangePatterns12.default = {
+          patternParts
+        };
+      }
+      skeleton2.replace(DATE_TIME_REGEX2, function(m) {
+        return matchSkeletonPattern(m, result);
+      });
+      var _b = processDateTimePattern(rawPattern), pattern = _b[0], pattern12 = _b[1];
+      result.pattern = pattern;
+      result.pattern12 = pattern12;
+      return result;
+    }
+    function splitFallbackRangePattern(pattern) {
+      var parts = pattern.split(/(\{[0|1]\})/g).filter(Boolean);
+      return parts.map(function(pattern2) {
+        switch (pattern2) {
+          case "{0}":
+            return {
+              source: ecma402_abstract_12.RangePatternType.startRange,
+              pattern: pattern2
+            };
+          case "{1}":
+            return {
+              source: ecma402_abstract_12.RangePatternType.endRange,
+              pattern: pattern2
+            };
+          default:
+            return {
+              source: ecma402_abstract_12.RangePatternType.shared,
+              pattern: pattern2
+            };
+        }
+      });
+    }
+    function splitRangePattern(pattern) {
+      var PART_REGEX = /\{(.*?)\}/g;
+      var parts = {};
+      var match2;
+      var splitIndex = 0;
+      while (match2 = PART_REGEX.exec(pattern)) {
+        if (!(match2[0] in parts)) {
+          parts[match2[0]] = match2.index;
+        } else {
+          splitIndex = match2.index;
+          break;
+        }
+      }
+      if (!splitIndex) {
+        return [
+          {
+            source: ecma402_abstract_12.RangePatternType.startRange,
+            pattern
+          }
+        ];
+      }
       return [
         {
-          source: ecma402_abstract_1$9.RangePatternType.startRange,
-          pattern
+          source: ecma402_abstract_12.RangePatternType.startRange,
+          pattern: pattern.slice(0, splitIndex)
+        },
+        {
+          source: ecma402_abstract_12.RangePatternType.endRange,
+          pattern: pattern.slice(splitIndex)
         }
       ];
     }
-    return [
-      {
-        source: ecma402_abstract_1$9.RangePatternType.startRange,
-        pattern: pattern.slice(0, splitIndex)
-      },
-      {
-        source: ecma402_abstract_1$9.RangePatternType.endRange,
-        pattern: pattern.slice(splitIndex)
-      }
-    ];
+    return skeleton;
   }
-  Object.defineProperty(BestFitFormatMatcher$1, "__esModule", { value: true });
-  BestFitFormatMatcher$1.bestFitFormatMatcherScore = bestFitFormatMatcherScore;
-  BestFitFormatMatcher$1.BestFitFormatMatcher = BestFitFormatMatcher;
-  var tslib_1$2 = require$$0$1;
-  var ecma402_abstract_1$8 = require$$1;
-  var skeleton_1 = skeleton;
-  var utils_1$1 = utils;
-  function isNumericType(t) {
-    return t === "numeric" || t === "2-digit";
-  }
-  function bestFitFormatMatcherScore(options, format2) {
-    var score = 0;
-    if (options.hour12 && !format2.hour12) {
-      score -= utils_1$1.removalPenalty;
-    } else if (!options.hour12 && format2.hour12) {
-      score -= utils_1$1.additionPenalty;
+  var hasRequiredBestFitFormatMatcher;
+  function requireBestFitFormatMatcher() {
+    if (hasRequiredBestFitFormatMatcher) return BestFitFormatMatcher;
+    hasRequiredBestFitFormatMatcher = 1;
+    Object.defineProperty(BestFitFormatMatcher, "__esModule", { value: true });
+    BestFitFormatMatcher.bestFitFormatMatcherScore = bestFitFormatMatcherScore;
+    BestFitFormatMatcher.BestFitFormatMatcher = BestFitFormatMatcher$12;
+    var tslib_12 = require$$0$1;
+    var ecma402_abstract_12 = require$$1;
+    var skeleton_1 = requireSkeleton();
+    var utils_1 = requireUtils();
+    function isNumericType(t) {
+      return t === "numeric" || t === "2-digit";
     }
-    for (var _i = 0, DATE_TIME_PROPS_1 = utils_1$1.DATE_TIME_PROPS; _i < DATE_TIME_PROPS_1.length; _i++) {
-      var prop = DATE_TIME_PROPS_1[_i];
-      var optionsProp = options[prop];
-      var formatProp = format2[prop];
-      if (optionsProp === void 0 && formatProp !== void 0) {
-        score -= utils_1$1.additionPenalty;
-      } else if (optionsProp !== void 0 && formatProp === void 0) {
-        score -= utils_1$1.removalPenalty;
-      } else if (optionsProp !== formatProp) {
-        if (isNumericType(optionsProp) !== isNumericType(formatProp)) {
-          score -= utils_1$1.differentNumericTypePenalty;
-        } else {
-          var values = ["2-digit", "numeric", "narrow", "short", "long"];
-          var optionsPropIndex = values.indexOf(optionsProp);
-          var formatPropIndex = values.indexOf(formatProp);
-          var delta = Math.max(-2, Math.min(formatPropIndex - optionsPropIndex, 2));
-          if (delta === 2) {
-            score -= utils_1$1.longMorePenalty;
-          } else if (delta === 1) {
-            score -= utils_1$1.shortMorePenalty;
-          } else if (delta === -1) {
-            score -= utils_1$1.shortLessPenalty;
-          } else if (delta === -2) {
-            score -= utils_1$1.longLessPenalty;
+    function bestFitFormatMatcherScore(options, format2) {
+      var score = 0;
+      if (options.hour12 && !format2.hour12) {
+        score -= utils_1.removalPenalty;
+      } else if (!options.hour12 && format2.hour12) {
+        score -= utils_1.additionPenalty;
+      }
+      for (var _i = 0, DATE_TIME_PROPS_1 = utils_1.DATE_TIME_PROPS; _i < DATE_TIME_PROPS_1.length; _i++) {
+        var prop = DATE_TIME_PROPS_1[_i];
+        var optionsProp = options[prop];
+        var formatProp = format2[prop];
+        if (optionsProp === void 0 && formatProp !== void 0) {
+          score -= utils_1.additionPenalty;
+        } else if (optionsProp !== void 0 && formatProp === void 0) {
+          score -= utils_1.removalPenalty;
+        } else if (optionsProp !== formatProp) {
+          if (isNumericType(optionsProp) !== isNumericType(formatProp)) {
+            score -= utils_1.differentNumericTypePenalty;
+          } else {
+            var values = ["2-digit", "numeric", "narrow", "short", "long"];
+            var optionsPropIndex = values.indexOf(optionsProp);
+            var formatPropIndex = values.indexOf(formatProp);
+            var delta = Math.max(-2, Math.min(formatPropIndex - optionsPropIndex, 2));
+            if (delta === 2) {
+              score -= utils_1.longMorePenalty;
+            } else if (delta === 1) {
+              score -= utils_1.shortMorePenalty;
+            } else if (delta === -1) {
+              score -= utils_1.shortLessPenalty;
+            } else if (delta === -2) {
+              score -= utils_1.longLessPenalty;
+            }
           }
         }
       }
+      return score;
     }
-    return score;
-  }
-  function BestFitFormatMatcher(options, formats) {
-    var bestScore = -Infinity;
-    var bestFormat = formats[0];
-    (0, ecma402_abstract_1$8.invariant)(Array.isArray(formats), "formats should be a list of things");
-    for (var _i = 0, formats_1 = formats; _i < formats_1.length; _i++) {
-      var format2 = formats_1[_i];
-      var score = bestFitFormatMatcherScore(options, format2);
-      if (score > bestScore) {
-        bestScore = score;
-        bestFormat = format2;
-      }
-    }
-    var skeletonFormat = tslib_1$2.__assign({}, bestFormat);
-    var patternFormat = { rawPattern: bestFormat.rawPattern };
-    (0, skeleton_1.processDateTimePattern)(bestFormat.rawPattern, patternFormat);
-    for (var prop in skeletonFormat) {
-      var skeletonValue = skeletonFormat[prop];
-      var patternValue = patternFormat[prop];
-      var requestedValue = options[prop];
-      if (prop === "minute" || prop === "second") {
-        continue;
-      }
-      if (!requestedValue) {
-        continue;
-      }
-      if (isNumericType(patternValue) && !isNumericType(requestedValue)) {
-        continue;
-      }
-      if (skeletonValue === requestedValue) {
-        continue;
-      }
-      patternFormat[prop] = requestedValue;
-    }
-    patternFormat.pattern = skeletonFormat.pattern;
-    patternFormat.pattern12 = skeletonFormat.pattern12;
-    patternFormat.skeleton = skeletonFormat.skeleton;
-    patternFormat.rangePatterns = skeletonFormat.rangePatterns;
-    patternFormat.rangePatterns12 = skeletonFormat.rangePatterns12;
-    return patternFormat;
-  }
-  var DateTimeStyleFormat$1 = {};
-  Object.defineProperty(DateTimeStyleFormat$1, "__esModule", { value: true });
-  DateTimeStyleFormat$1.DateTimeStyleFormat = DateTimeStyleFormat;
-  var ecma402_abstract_1$7 = require$$1;
-  function DateTimeStyleFormat(dateStyle, timeStyle, dataLocaleData) {
-    var dateFormat, timeFormat;
-    if (timeStyle !== void 0) {
-      (0, ecma402_abstract_1$7.invariant)(timeStyle === "full" || timeStyle === "long" || timeStyle === "medium" || timeStyle === "short", "invalid timeStyle");
-      timeFormat = dataLocaleData.timeFormat[timeStyle];
-    }
-    if (dateStyle !== void 0) {
-      (0, ecma402_abstract_1$7.invariant)(dateStyle === "full" || dateStyle === "long" || dateStyle === "medium" || dateStyle === "short", "invalid dateStyle");
-      dateFormat = dataLocaleData.dateFormat[dateStyle];
-    }
-    if (dateStyle !== void 0 && timeStyle !== void 0) {
-      var format2 = {};
-      for (var field in dateFormat) {
-        if (field !== "pattern") {
-          format2[field] = dateFormat[field];
+    function BestFitFormatMatcher$12(options, formats) {
+      var bestScore = -Infinity;
+      var bestFormat = formats[0];
+      (0, ecma402_abstract_12.invariant)(Array.isArray(formats), "formats should be a list of things");
+      for (var _i = 0, formats_1 = formats; _i < formats_1.length; _i++) {
+        var format2 = formats_1[_i];
+        var score = bestFitFormatMatcherScore(options, format2);
+        if (score > bestScore) {
+          bestScore = score;
+          bestFormat = format2;
         }
       }
-      for (var field in timeFormat) {
-        if (field !== "pattern" && field !== "pattern12") {
-          format2[field] = timeFormat[field];
+      var skeletonFormat = tslib_12.__assign({}, bestFormat);
+      var patternFormat = { rawPattern: bestFormat.rawPattern };
+      (0, skeleton_1.processDateTimePattern)(bestFormat.rawPattern, patternFormat);
+      for (var prop in skeletonFormat) {
+        var skeletonValue = skeletonFormat[prop];
+        var patternValue = patternFormat[prop];
+        var requestedValue = options[prop];
+        if (prop === "minute" || prop === "second") {
+          continue;
         }
+        if (!requestedValue) {
+          continue;
+        }
+        if (isNumericType(patternValue) && !isNumericType(requestedValue)) {
+          continue;
+        }
+        if (skeletonValue === requestedValue) {
+          continue;
+        }
+        patternFormat[prop] = requestedValue;
       }
-      var connector = dataLocaleData.dateTimeFormat[dateStyle];
-      var pattern = connector.replace("{0}", timeFormat.pattern).replace("{1}", dateFormat.pattern);
-      format2.pattern = pattern;
-      if ("pattern12" in timeFormat) {
-        var pattern12 = connector.replace("{0}", timeFormat.pattern12).replace("{1}", dateFormat.pattern);
-        format2.pattern12 = pattern12;
+      patternFormat.pattern = skeletonFormat.pattern;
+      patternFormat.pattern12 = skeletonFormat.pattern12;
+      patternFormat.skeleton = skeletonFormat.skeleton;
+      patternFormat.rangePatterns = skeletonFormat.rangePatterns;
+      patternFormat.rangePatterns12 = skeletonFormat.rangePatterns12;
+      return patternFormat;
+    }
+    return BestFitFormatMatcher;
+  }
+  var DateTimeStyleFormat = {};
+  var hasRequiredDateTimeStyleFormat;
+  function requireDateTimeStyleFormat() {
+    if (hasRequiredDateTimeStyleFormat) return DateTimeStyleFormat;
+    hasRequiredDateTimeStyleFormat = 1;
+    Object.defineProperty(DateTimeStyleFormat, "__esModule", { value: true });
+    DateTimeStyleFormat.DateTimeStyleFormat = DateTimeStyleFormat$1;
+    var ecma402_abstract_12 = require$$1;
+    function DateTimeStyleFormat$1(dateStyle, timeStyle, dataLocaleData) {
+      var dateFormat, timeFormat;
+      if (timeStyle !== void 0) {
+        (0, ecma402_abstract_12.invariant)(timeStyle === "full" || timeStyle === "long" || timeStyle === "medium" || timeStyle === "short", "invalid timeStyle");
+        timeFormat = dataLocaleData.timeFormat[timeStyle];
       }
-      return format2;
+      if (dateStyle !== void 0) {
+        (0, ecma402_abstract_12.invariant)(dateStyle === "full" || dateStyle === "long" || dateStyle === "medium" || dateStyle === "short", "invalid dateStyle");
+        dateFormat = dataLocaleData.dateFormat[dateStyle];
+      }
+      if (dateStyle !== void 0 && timeStyle !== void 0) {
+        var format2 = {};
+        for (var field in dateFormat) {
+          if (field !== "pattern") {
+            format2[field] = dateFormat[field];
+          }
+        }
+        for (var field in timeFormat) {
+          if (field !== "pattern" && field !== "pattern12") {
+            format2[field] = timeFormat[field];
+          }
+        }
+        var connector = dataLocaleData.dateTimeFormat[dateStyle];
+        var pattern = connector.replace("{0}", timeFormat.pattern).replace("{1}", dateFormat.pattern);
+        format2.pattern = pattern;
+        if ("pattern12" in timeFormat) {
+          var pattern12 = connector.replace("{0}", timeFormat.pattern12).replace("{1}", dateFormat.pattern);
+          format2.pattern12 = pattern12;
+        }
+        return format2;
+      }
+      if (timeStyle !== void 0) {
+        return timeFormat;
+      }
+      (0, ecma402_abstract_12.invariant)(dateStyle !== void 0, "dateStyle should not be undefined");
+      return dateFormat;
     }
-    if (timeStyle !== void 0) {
-      return timeFormat;
-    }
-    (0, ecma402_abstract_1$7.invariant)(dateStyle !== void 0, "dateStyle should not be undefined");
-    return dateFormat;
+    return DateTimeStyleFormat;
   }
   var ToDateTimeOptions$1 = {};
   Object.defineProperty(ToDateTimeOptions$1, "__esModule", { value: true });
@@ -36173,174 +33011,180 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return options;
   }
-  Object.defineProperty(InitializeDateTimeFormat$1, "__esModule", { value: true });
-  InitializeDateTimeFormat$1.InitializeDateTimeFormat = InitializeDateTimeFormat;
-  var ecma402_abstract_1$5 = require$$1;
-  var intl_localematcher_1$3 = require$$0;
-  var BasicFormatMatcher_1 = BasicFormatMatcher$1;
-  var BestFitFormatMatcher_1 = BestFitFormatMatcher$1;
-  var DateTimeStyleFormat_1 = DateTimeStyleFormat$1;
-  var ToDateTimeOptions_1$1 = ToDateTimeOptions$1;
-  var utils_1 = utils;
-  function isTimeRelated(opt) {
-    for (var _i = 0, _a2 = ["hour", "minute", "second"]; _i < _a2.length; _i++) {
-      var prop = _a2[_i];
-      var value2 = opt[prop];
-      if (value2 !== void 0) {
-        return true;
+  var hasRequiredInitializeDateTimeFormat;
+  function requireInitializeDateTimeFormat() {
+    if (hasRequiredInitializeDateTimeFormat) return InitializeDateTimeFormat;
+    hasRequiredInitializeDateTimeFormat = 1;
+    Object.defineProperty(InitializeDateTimeFormat, "__esModule", { value: true });
+    InitializeDateTimeFormat.InitializeDateTimeFormat = InitializeDateTimeFormat$12;
+    var ecma402_abstract_12 = require$$1;
+    var intl_localematcher_12 = require$$0;
+    var BasicFormatMatcher_1 = requireBasicFormatMatcher();
+    var BestFitFormatMatcher_1 = requireBestFitFormatMatcher();
+    var DateTimeStyleFormat_1 = requireDateTimeStyleFormat();
+    var ToDateTimeOptions_12 = ToDateTimeOptions$1;
+    var utils_1 = requireUtils();
+    function isTimeRelated(opt) {
+      for (var _i = 0, _a2 = ["hour", "minute", "second"]; _i < _a2.length; _i++) {
+        var prop = _a2[_i];
+        var value2 = opt[prop];
+        if (value2 !== void 0) {
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  function resolveHourCycle(hc, hcDefault, hour12) {
-    if (hc == null) {
-      hc = hcDefault;
-    }
-    if (hour12 !== void 0) {
-      if (hour12) {
-        if (hcDefault === "h11" || hcDefault === "h23") {
-          hc = "h11";
+    function resolveHourCycle(hc, hcDefault, hour12) {
+      if (hc == null) {
+        hc = hcDefault;
+      }
+      if (hour12 !== void 0) {
+        if (hour12) {
+          if (hcDefault === "h11" || hcDefault === "h23") {
+            hc = "h11";
+          } else {
+            hc = "h12";
+          }
         } else {
-          hc = "h12";
+          (0, ecma402_abstract_12.invariant)(!hour12, "hour12 must not be set");
+          if (hcDefault === "h11" || hcDefault === "h23") {
+            hc = "h23";
+          } else {
+            hc = "h24";
+          }
+        }
+      }
+      return hc;
+    }
+    var TYPE_REGEX = /^[a-z0-9]{3,8}$/i;
+    function InitializeDateTimeFormat$12(dtf, locales, opts, _a2) {
+      var getInternalSlots = _a2.getInternalSlots, availableLocales = _a2.availableLocales, localeData = _a2.localeData, getDefaultLocale = _a2.getDefaultLocale, getDefaultTimeZone = _a2.getDefaultTimeZone, relevantExtensionKeys = _a2.relevantExtensionKeys, tzData = _a2.tzData, uppercaseLinks = _a2.uppercaseLinks;
+      var requestedLocales = (0, ecma402_abstract_12.CanonicalizeLocaleList)(locales);
+      var options = (0, ToDateTimeOptions_12.ToDateTimeOptions)(opts, "any", "date");
+      var opt = /* @__PURE__ */ Object.create(null);
+      var matcher = (0, ecma402_abstract_12.GetOption)(options, "localeMatcher", "string", ["lookup", "best fit"], "best fit");
+      opt.localeMatcher = matcher;
+      var calendar = (0, ecma402_abstract_12.GetOption)(options, "calendar", "string", void 0, void 0);
+      if (calendar !== void 0 && !TYPE_REGEX.test(calendar)) {
+        throw new RangeError("Malformed calendar");
+      }
+      var internalSlots = getInternalSlots(dtf);
+      opt.ca = calendar;
+      var numberingSystem = (0, ecma402_abstract_12.GetOption)(options, "numberingSystem", "string", void 0, void 0);
+      if (numberingSystem !== void 0 && !TYPE_REGEX.test(numberingSystem)) {
+        throw new RangeError("Malformed numbering system");
+      }
+      opt.nu = numberingSystem;
+      var hour12 = (0, ecma402_abstract_12.GetOption)(options, "hour12", "boolean", void 0, void 0);
+      var hourCycle = (0, ecma402_abstract_12.GetOption)(options, "hourCycle", "string", ["h11", "h12", "h23", "h24"], void 0);
+      if (hour12 !== void 0) {
+        hourCycle = null;
+      }
+      opt.hc = hourCycle;
+      var r = (0, intl_localematcher_12.ResolveLocale)(availableLocales, requestedLocales, opt, relevantExtensionKeys, localeData, getDefaultLocale);
+      internalSlots.locale = r.locale;
+      calendar = r.ca;
+      internalSlots.calendar = calendar;
+      internalSlots.hourCycle = r.hc;
+      internalSlots.numberingSystem = r.nu;
+      var dataLocale = r.dataLocale;
+      internalSlots.dataLocale = dataLocale;
+      var timeZone = options.timeZone;
+      if (timeZone !== void 0) {
+        timeZone = String(timeZone);
+        if (!(0, ecma402_abstract_12.IsValidTimeZoneName)(timeZone, {
+          zoneNamesFromData: Object.keys(tzData),
+          uppercaseLinks
+        })) {
+          throw new RangeError("Invalid timeZoneName");
+        }
+        timeZone = (0, ecma402_abstract_12.CanonicalizeTimeZoneName)(timeZone, {
+          zoneNames: Object.keys(tzData),
+          uppercaseLinks
+        });
+      } else {
+        timeZone = getDefaultTimeZone();
+      }
+      internalSlots.timeZone = timeZone;
+      opt = /* @__PURE__ */ Object.create(null);
+      opt.weekday = (0, ecma402_abstract_12.GetOption)(options, "weekday", "string", ["narrow", "short", "long"], void 0);
+      opt.era = (0, ecma402_abstract_12.GetOption)(options, "era", "string", ["narrow", "short", "long"], void 0);
+      opt.year = (0, ecma402_abstract_12.GetOption)(options, "year", "string", ["2-digit", "numeric"], void 0);
+      opt.month = (0, ecma402_abstract_12.GetOption)(options, "month", "string", ["2-digit", "numeric", "narrow", "short", "long"], void 0);
+      opt.day = (0, ecma402_abstract_12.GetOption)(options, "day", "string", ["2-digit", "numeric"], void 0);
+      opt.hour = (0, ecma402_abstract_12.GetOption)(options, "hour", "string", ["2-digit", "numeric"], void 0);
+      opt.minute = (0, ecma402_abstract_12.GetOption)(options, "minute", "string", ["2-digit", "numeric"], void 0);
+      opt.second = (0, ecma402_abstract_12.GetOption)(options, "second", "string", ["2-digit", "numeric"], void 0);
+      opt.timeZoneName = (0, ecma402_abstract_12.GetOption)(options, "timeZoneName", "string", [
+        "long",
+        "short",
+        "longOffset",
+        "shortOffset",
+        "longGeneric",
+        "shortGeneric"
+      ], void 0);
+      opt.fractionalSecondDigits = (0, ecma402_abstract_12.GetNumberOption)(options, "fractionalSecondDigits", 1, 3, void 0);
+      var dataLocaleData = localeData[dataLocale];
+      (0, ecma402_abstract_12.invariant)(!!dataLocaleData, "Missing locale data for ".concat(dataLocale));
+      var formats = dataLocaleData.formats[calendar];
+      if (!formats) {
+        throw new RangeError('Calendar "'.concat(calendar, '" is not supported. Try setting "calendar" to 1 of the following: ').concat(Object.keys(dataLocaleData.formats).join(", ")));
+      }
+      var formatMatcher = (0, ecma402_abstract_12.GetOption)(options, "formatMatcher", "string", ["basic", "best fit"], "best fit");
+      var dateStyle = (0, ecma402_abstract_12.GetOption)(options, "dateStyle", "string", ["full", "long", "medium", "short"], void 0);
+      internalSlots.dateStyle = dateStyle;
+      var timeStyle = (0, ecma402_abstract_12.GetOption)(options, "timeStyle", "string", ["full", "long", "medium", "short"], void 0);
+      internalSlots.timeStyle = timeStyle;
+      var bestFormat;
+      if (dateStyle === void 0 && timeStyle === void 0) {
+        if (formatMatcher === "basic") {
+          bestFormat = (0, BasicFormatMatcher_1.BasicFormatMatcher)(opt, formats);
+        } else {
+          if (isTimeRelated(opt)) {
+            var hc = resolveHourCycle(internalSlots.hourCycle, dataLocaleData.hourCycle, hour12);
+            opt.hour12 = hc === "h11" || hc === "h12";
+          }
+          bestFormat = (0, BestFitFormatMatcher_1.BestFitFormatMatcher)(opt, formats);
         }
       } else {
-        (0, ecma402_abstract_1$5.invariant)(!hour12, "hour12 must not be set");
-        if (hcDefault === "h11" || hcDefault === "h23") {
-          hc = "h23";
-        } else {
-          hc = "h24";
+        for (var _i = 0, DATE_TIME_PROPS_1 = utils_1.DATE_TIME_PROPS; _i < DATE_TIME_PROPS_1.length; _i++) {
+          var prop = DATE_TIME_PROPS_1[_i];
+          var p = opt[prop];
+          if (p !== void 0) {
+            throw new TypeError("Intl.DateTimeFormat can't set option ".concat(prop, " when ").concat(dateStyle ? "dateStyle" : "timeStyle", " is used"));
+          }
         }
+        bestFormat = (0, DateTimeStyleFormat_1.DateTimeStyleFormat)(dateStyle, timeStyle, dataLocaleData);
       }
-    }
-    return hc;
-  }
-  var TYPE_REGEX = /^[a-z0-9]{3,8}$/i;
-  function InitializeDateTimeFormat(dtf, locales, opts, _a2) {
-    var getInternalSlots = _a2.getInternalSlots, availableLocales = _a2.availableLocales, localeData = _a2.localeData, getDefaultLocale = _a2.getDefaultLocale, getDefaultTimeZone = _a2.getDefaultTimeZone, relevantExtensionKeys = _a2.relevantExtensionKeys, tzData = _a2.tzData, uppercaseLinks = _a2.uppercaseLinks;
-    var requestedLocales = (0, ecma402_abstract_1$5.CanonicalizeLocaleList)(locales);
-    var options = (0, ToDateTimeOptions_1$1.ToDateTimeOptions)(opts, "any", "date");
-    var opt = /* @__PURE__ */ Object.create(null);
-    var matcher = (0, ecma402_abstract_1$5.GetOption)(options, "localeMatcher", "string", ["lookup", "best fit"], "best fit");
-    opt.localeMatcher = matcher;
-    var calendar = (0, ecma402_abstract_1$5.GetOption)(options, "calendar", "string", void 0, void 0);
-    if (calendar !== void 0 && !TYPE_REGEX.test(calendar)) {
-      throw new RangeError("Malformed calendar");
-    }
-    var internalSlots = getInternalSlots(dtf);
-    opt.ca = calendar;
-    var numberingSystem = (0, ecma402_abstract_1$5.GetOption)(options, "numberingSystem", "string", void 0, void 0);
-    if (numberingSystem !== void 0 && !TYPE_REGEX.test(numberingSystem)) {
-      throw new RangeError("Malformed numbering system");
-    }
-    opt.nu = numberingSystem;
-    var hour12 = (0, ecma402_abstract_1$5.GetOption)(options, "hour12", "boolean", void 0, void 0);
-    var hourCycle = (0, ecma402_abstract_1$5.GetOption)(options, "hourCycle", "string", ["h11", "h12", "h23", "h24"], void 0);
-    if (hour12 !== void 0) {
-      hourCycle = null;
-    }
-    opt.hc = hourCycle;
-    var r = (0, intl_localematcher_1$3.ResolveLocale)(availableLocales, requestedLocales, opt, relevantExtensionKeys, localeData, getDefaultLocale);
-    internalSlots.locale = r.locale;
-    calendar = r.ca;
-    internalSlots.calendar = calendar;
-    internalSlots.hourCycle = r.hc;
-    internalSlots.numberingSystem = r.nu;
-    var dataLocale = r.dataLocale;
-    internalSlots.dataLocale = dataLocale;
-    var timeZone = options.timeZone;
-    if (timeZone !== void 0) {
-      timeZone = String(timeZone);
-      if (!(0, ecma402_abstract_1$5.IsValidTimeZoneName)(timeZone, {
-        zoneNamesFromData: Object.keys(tzData),
-        uppercaseLinks
-      })) {
-        throw new RangeError("Invalid timeZoneName");
-      }
-      timeZone = (0, ecma402_abstract_1$5.CanonicalizeTimeZoneName)(timeZone, {
-        zoneNames: Object.keys(tzData),
-        uppercaseLinks
-      });
-    } else {
-      timeZone = getDefaultTimeZone();
-    }
-    internalSlots.timeZone = timeZone;
-    opt = /* @__PURE__ */ Object.create(null);
-    opt.weekday = (0, ecma402_abstract_1$5.GetOption)(options, "weekday", "string", ["narrow", "short", "long"], void 0);
-    opt.era = (0, ecma402_abstract_1$5.GetOption)(options, "era", "string", ["narrow", "short", "long"], void 0);
-    opt.year = (0, ecma402_abstract_1$5.GetOption)(options, "year", "string", ["2-digit", "numeric"], void 0);
-    opt.month = (0, ecma402_abstract_1$5.GetOption)(options, "month", "string", ["2-digit", "numeric", "narrow", "short", "long"], void 0);
-    opt.day = (0, ecma402_abstract_1$5.GetOption)(options, "day", "string", ["2-digit", "numeric"], void 0);
-    opt.hour = (0, ecma402_abstract_1$5.GetOption)(options, "hour", "string", ["2-digit", "numeric"], void 0);
-    opt.minute = (0, ecma402_abstract_1$5.GetOption)(options, "minute", "string", ["2-digit", "numeric"], void 0);
-    opt.second = (0, ecma402_abstract_1$5.GetOption)(options, "second", "string", ["2-digit", "numeric"], void 0);
-    opt.timeZoneName = (0, ecma402_abstract_1$5.GetOption)(options, "timeZoneName", "string", [
-      "long",
-      "short",
-      "longOffset",
-      "shortOffset",
-      "longGeneric",
-      "shortGeneric"
-    ], void 0);
-    opt.fractionalSecondDigits = (0, ecma402_abstract_1$5.GetNumberOption)(options, "fractionalSecondDigits", 1, 3, void 0);
-    var dataLocaleData = localeData[dataLocale];
-    (0, ecma402_abstract_1$5.invariant)(!!dataLocaleData, "Missing locale data for ".concat(dataLocale));
-    var formats = dataLocaleData.formats[calendar];
-    if (!formats) {
-      throw new RangeError('Calendar "'.concat(calendar, '" is not supported. Try setting "calendar" to 1 of the following: ').concat(Object.keys(dataLocaleData.formats).join(", ")));
-    }
-    var formatMatcher = (0, ecma402_abstract_1$5.GetOption)(options, "formatMatcher", "string", ["basic", "best fit"], "best fit");
-    var dateStyle = (0, ecma402_abstract_1$5.GetOption)(options, "dateStyle", "string", ["full", "long", "medium", "short"], void 0);
-    internalSlots.dateStyle = dateStyle;
-    var timeStyle = (0, ecma402_abstract_1$5.GetOption)(options, "timeStyle", "string", ["full", "long", "medium", "short"], void 0);
-    internalSlots.timeStyle = timeStyle;
-    var bestFormat;
-    if (dateStyle === void 0 && timeStyle === void 0) {
-      if (formatMatcher === "basic") {
-        bestFormat = (0, BasicFormatMatcher_1.BasicFormatMatcher)(opt, formats);
-      } else {
-        if (isTimeRelated(opt)) {
-          var hc = resolveHourCycle(internalSlots.hourCycle, dataLocaleData.hourCycle, hour12);
-          opt.hour12 = hc === "h11" || hc === "h12";
-        }
-        bestFormat = (0, BestFitFormatMatcher_1.BestFitFormatMatcher)(opt, formats);
-      }
-    } else {
-      for (var _i = 0, DATE_TIME_PROPS_1 = utils_1.DATE_TIME_PROPS; _i < DATE_TIME_PROPS_1.length; _i++) {
-        var prop = DATE_TIME_PROPS_1[_i];
-        var p = opt[prop];
+      internalSlots.format = bestFormat;
+      for (var prop in opt) {
+        var p = bestFormat[prop];
         if (p !== void 0) {
-          throw new TypeError("Intl.DateTimeFormat can't set option ".concat(prop, " when ").concat(dateStyle ? "dateStyle" : "timeStyle", " is used"));
+          internalSlots[prop] = p;
         }
       }
-      bestFormat = (0, DateTimeStyleFormat_1.DateTimeStyleFormat)(dateStyle, timeStyle, dataLocaleData);
-    }
-    internalSlots.format = bestFormat;
-    for (var prop in opt) {
-      var p = bestFormat[prop];
-      if (p !== void 0) {
-        internalSlots[prop] = p;
-      }
-    }
-    var pattern;
-    var rangePatterns;
-    if (internalSlots.hour !== void 0) {
-      var hc = resolveHourCycle(internalSlots.hourCycle, dataLocaleData.hourCycle, hour12);
-      internalSlots.hourCycle = hc;
-      if (hc === "h11" || hc === "h12") {
-        pattern = bestFormat.pattern12;
-        rangePatterns = bestFormat.rangePatterns12;
+      var pattern;
+      var rangePatterns;
+      if (internalSlots.hour !== void 0) {
+        var hc = resolveHourCycle(internalSlots.hourCycle, dataLocaleData.hourCycle, hour12);
+        internalSlots.hourCycle = hc;
+        if (hc === "h11" || hc === "h12") {
+          pattern = bestFormat.pattern12;
+          rangePatterns = bestFormat.rangePatterns12;
+        } else {
+          pattern = bestFormat.pattern;
+          rangePatterns = bestFormat.rangePatterns;
+        }
       } else {
+        internalSlots.hourCycle = void 0;
         pattern = bestFormat.pattern;
         rangePatterns = bestFormat.rangePatterns;
       }
-    } else {
-      internalSlots.hourCycle = void 0;
-      pattern = bestFormat.pattern;
-      rangePatterns = bestFormat.rangePatterns;
+      internalSlots.pattern = pattern;
+      internalSlots.rangePatterns = rangePatterns;
+      return dtf;
     }
-    internalSlots.pattern = pattern;
-    internalSlots.rangePatterns = rangePatterns;
-    return dtf;
+    return InitializeDateTimeFormat;
   }
   var links = {};
   var hasRequiredLinks;
@@ -36608,13 +33452,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
     return links;
   }
-  var get_internal_slots$2 = {};
-  var hasRequiredGet_internal_slots$2;
-  function requireGet_internal_slots$2() {
-    if (hasRequiredGet_internal_slots$2) return get_internal_slots$2;
-    hasRequiredGet_internal_slots$2 = 1;
-    Object.defineProperty(get_internal_slots$2, "__esModule", { value: true });
-    get_internal_slots$2.default = getInternalSlots;
+  var get_internal_slots$3 = {};
+  var hasRequiredGet_internal_slots$3;
+  function requireGet_internal_slots$3() {
+    if (hasRequiredGet_internal_slots$3) return get_internal_slots$3;
+    hasRequiredGet_internal_slots$3 = 1;
+    Object.defineProperty(get_internal_slots$3, "__esModule", { value: true });
+    get_internal_slots$3.default = getInternalSlots;
     var internalSlotMap = /* @__PURE__ */ new WeakMap();
     function getInternalSlots(x) {
       var internalSlots = internalSlotMap.get(x);
@@ -36624,7 +33468,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }
       return internalSlots;
     }
-    return get_internal_slots$2;
+    return get_internal_slots$3;
   }
   var packer = {};
   var hasRequiredPacker;
@@ -36684,15 +33528,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     exports2.DateTimeFormat = void 0;
     var tslib_12 = require$$0$1;
     var ecma402_abstract_12 = require$$1;
-    var FormatDateTime_1 = FormatDateTime$1;
-    var FormatDateTimeRange_1 = FormatDateTimeRange$1;
-    var FormatDateTimeRangeToParts_1 = FormatDateTimeRangeToParts$1;
-    var FormatDateTimeToParts_1 = FormatDateTimeToParts$1;
-    var InitializeDateTimeFormat_1 = InitializeDateTimeFormat$1;
-    var skeleton_12 = skeleton;
-    var utils_12 = utils;
+    var decimal_js_1 = tslib_12.__importDefault(requireDecimal());
+    var FormatDateTime_1 = requireFormatDateTime();
+    var FormatDateTimeRange_1 = requireFormatDateTimeRange();
+    var FormatDateTimeRangeToParts_1 = requireFormatDateTimeRangeToParts();
+    var FormatDateTimeToParts_1 = requireFormatDateTimeToParts();
+    var InitializeDateTimeFormat_1 = requireInitializeDateTimeFormat();
+    var skeleton_1 = requireSkeleton();
+    var utils_1 = requireUtils();
     var links_1 = tslib_12.__importDefault(requireLinks());
-    var get_internal_slots_12 = tslib_12.__importDefault(requireGet_internal_slots$2());
+    var get_internal_slots_12 = tslib_12.__importDefault(requireGet_internal_slots$3());
     var packer_1 = requirePacker();
     var UPPERCASED_LINKS = Object.keys(links_1.default).reduce(function(all, l) {
       all[l.toUpperCase()] = links_1.default[l];
@@ -36730,9 +33575,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           boundFormat = function(date2) {
             var x;
             if (date2 === void 0) {
-              x = Date.now();
+              x = new decimal_js_1.default(Date.now());
             } else {
-              x = Number(date2);
+              x = (0, ecma402_abstract_12.ToNumber)(date2);
             }
             return (0, FormatDateTime_1.FormatDateTime)(dtf, x, {
               getInternalSlots: get_internal_slots_12.default,
@@ -36804,7 +33649,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               ro.hour12 = hour12;
             }
           }
-          if (utils_12.DATE_TIME_PROPS.indexOf(key) > -1) {
+          if (utils_1.DATE_TIME_PROPS.indexOf(key) > -1) {
             if (internalSlots.dateStyle !== void 0 || internalSlots.timeStyle !== void 0) {
               value2 = void 0;
             }
@@ -36818,12 +33663,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     });
     (0, ecma402_abstract_12.defineProperty)(exports2.DateTimeFormat.prototype, "formatToParts", {
       value: function formatToParts2(date2) {
+        var x;
         if (date2 === void 0) {
-          date2 = Date.now();
+          x = new decimal_js_1.default(Date.now());
         } else {
-          date2 = (0, ecma402_abstract_12.ToNumber)(date2).toNumber();
+          x = (0, ecma402_abstract_12.ToNumber)(date2);
         }
-        return (0, FormatDateTimeToParts_1.FormatDateTimeToParts)(this, date2, {
+        return (0, FormatDateTimeToParts_1.FormatDateTimeToParts)(this, x, {
           getInternalSlots: get_internal_slots_12.default,
           localeData: exports2.DateTimeFormat.localeData,
           tzData: exports2.DateTimeFormat.tzData,
@@ -36834,15 +33680,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     (0, ecma402_abstract_12.defineProperty)(exports2.DateTimeFormat.prototype, "formatRangeToParts", {
       value: function formatRangeToParts(startDate, endDate) {
         var dtf = this;
-        if (typeof dtf !== "object") {
-          throw new TypeError();
-        }
-        if (startDate === void 0 || endDate === void 0) {
-          throw new TypeError("startDate/endDate cannot be undefined");
-        }
-        var x = (0, ecma402_abstract_12.ToNumber)(startDate).toNumber();
-        var y = (0, ecma402_abstract_12.ToNumber)(endDate).toNumber();
-        return (0, FormatDateTimeRangeToParts_1.FormatDateTimeRangeToParts)(dtf, x, y, {
+        (0, ecma402_abstract_12.invariant)(typeof dtf === "object", "receiver is not an object", TypeError);
+        (0, ecma402_abstract_12.invariant)(startDate !== void 0 && endDate !== void 0, "startDate/endDate cannot be undefined", TypeError);
+        return (0, FormatDateTimeRangeToParts_1.FormatDateTimeRangeToParts)(dtf, (0, ecma402_abstract_12.ToNumber)(startDate), (0, ecma402_abstract_12.ToNumber)(endDate), {
           getInternalSlots: get_internal_slots_12.default,
           localeData: exports2.DateTimeFormat.localeData,
           tzData: exports2.DateTimeFormat.tzData,
@@ -36853,15 +33693,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     (0, ecma402_abstract_12.defineProperty)(exports2.DateTimeFormat.prototype, "formatRange", {
       value: function formatRange(startDate, endDate) {
         var dtf = this;
-        if (typeof dtf !== "object") {
-          throw new TypeError();
-        }
-        if (startDate === void 0 || endDate === void 0) {
-          throw new TypeError("startDate/endDate cannot be undefined");
-        }
-        var x = (0, ecma402_abstract_12.ToNumber)(startDate).toNumber();
-        var y = (0, ecma402_abstract_12.ToNumber)(endDate).toNumber();
-        return (0, FormatDateTimeRange_1.FormatDateTimeRange)(dtf, x, y, {
+        (0, ecma402_abstract_12.invariant)(typeof dtf === "object", "receiver is not an object", TypeError);
+        (0, ecma402_abstract_12.invariant)(startDate !== void 0 && endDate !== void 0, "startDate/endDate cannot be undefined", TypeError);
+        return (0, FormatDateTimeRange_1.FormatDateTimeRange)(dtf, (0, ecma402_abstract_12.ToNumber)(startDate), (0, ecma402_abstract_12.ToNumber)(endDate), {
           getInternalSlots: get_internal_slots_12.default,
           localeData: exports2.DateTimeFormat.localeData,
           tzData: exports2.DateTimeFormat.tzData,
@@ -36901,24 +33735,24 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       var _loop_1 = function(d2, locale2) {
         var dateFormat = d2.dateFormat, timeFormat = d2.timeFormat, dateTimeFormat = d2.dateTimeFormat, formats = d2.formats, intervalFormats = d2.intervalFormats, rawData = tslib_12.__rest(d2, ["dateFormat", "timeFormat", "dateTimeFormat", "formats", "intervalFormats"]);
         var processedData = tslib_12.__assign(tslib_12.__assign({}, rawData), { dateFormat: {
-          full: (0, skeleton_12.parseDateTimeSkeleton)(dateFormat.full),
-          long: (0, skeleton_12.parseDateTimeSkeleton)(dateFormat.long),
-          medium: (0, skeleton_12.parseDateTimeSkeleton)(dateFormat.medium),
-          short: (0, skeleton_12.parseDateTimeSkeleton)(dateFormat.short)
+          full: (0, skeleton_1.parseDateTimeSkeleton)(dateFormat.full),
+          long: (0, skeleton_1.parseDateTimeSkeleton)(dateFormat.long),
+          medium: (0, skeleton_1.parseDateTimeSkeleton)(dateFormat.medium),
+          short: (0, skeleton_1.parseDateTimeSkeleton)(dateFormat.short)
         }, timeFormat: {
-          full: (0, skeleton_12.parseDateTimeSkeleton)(timeFormat.full),
-          long: (0, skeleton_12.parseDateTimeSkeleton)(timeFormat.long),
-          medium: (0, skeleton_12.parseDateTimeSkeleton)(timeFormat.medium),
-          short: (0, skeleton_12.parseDateTimeSkeleton)(timeFormat.short)
+          full: (0, skeleton_1.parseDateTimeSkeleton)(timeFormat.full),
+          long: (0, skeleton_1.parseDateTimeSkeleton)(timeFormat.long),
+          medium: (0, skeleton_1.parseDateTimeSkeleton)(timeFormat.medium),
+          short: (0, skeleton_1.parseDateTimeSkeleton)(timeFormat.short)
         }, dateTimeFormat: {
-          full: (0, skeleton_12.parseDateTimeSkeleton)(dateTimeFormat.full).pattern,
-          long: (0, skeleton_12.parseDateTimeSkeleton)(dateTimeFormat.long).pattern,
-          medium: (0, skeleton_12.parseDateTimeSkeleton)(dateTimeFormat.medium).pattern,
-          short: (0, skeleton_12.parseDateTimeSkeleton)(dateTimeFormat.short).pattern
+          full: (0, skeleton_1.parseDateTimeSkeleton)(dateTimeFormat.full).pattern,
+          long: (0, skeleton_1.parseDateTimeSkeleton)(dateTimeFormat.long).pattern,
+          medium: (0, skeleton_1.parseDateTimeSkeleton)(dateTimeFormat.medium).pattern,
+          short: (0, skeleton_1.parseDateTimeSkeleton)(dateTimeFormat.short).pattern
         }, formats: {} });
         var _loop_2 = function(calendar2) {
           processedData.formats[calendar2] = Object.keys(formats[calendar2]).map(function(skeleton2) {
-            return (0, skeleton_12.parseDateTimeSkeleton)(skeleton2, formats[calendar2][skeleton2], intervalFormats[skeleton2], intervalFormats.intervalFormatFallback);
+            return (0, skeleton_1.parseDateTimeSkeleton)(skeleton2, formats[calendar2][skeleton2], intervalFormats[skeleton2], intervalFormats.intervalFormatFallback);
           });
         };
         for (var calendar in formats) {
@@ -36966,21 +33800,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       });
     } catch (e) {
     }
-  })(core);
+  })(core$1);
   (function(exports2) {
     Object.defineProperty(exports2, "__esModule", { value: true });
     var tslib_12 = require$$0$1;
-    tslib_12.__exportStar(core, exports2);
+    tslib_12.__exportStar(core$1, exports2);
   })(intlDatetimeformat);
-  var shouldPolyfill$4 = {};
-  var supportedLocales_generated$2 = {};
-  Object.defineProperty(supportedLocales_generated$2, "__esModule", { value: true });
-  supportedLocales_generated$2.supportedLocales = void 0;
-  supportedLocales_generated$2.supportedLocales = ["af", "af-NA", "agq", "ak", "am", "ar", "ar-AE", "ar-BH", "ar-DJ", "ar-DZ", "ar-EG", "ar-EH", "ar-ER", "ar-IL", "ar-IQ", "ar-JO", "ar-KM", "ar-KW", "ar-LB", "ar-LY", "ar-MA", "ar-MR", "ar-OM", "ar-PS", "ar-QA", "ar-SA", "ar-SD", "ar-SO", "ar-SS", "ar-SY", "ar-TD", "ar-TN", "ar-YE", "as", "asa", "ast", "az", "az-Cyrl", "az-Latn", "bas", "be", "be-tarask", "bem", "bez", "bg", "bm", "bn", "bn-IN", "bo", "bo-IN", "br", "brx", "bs", "bs-Cyrl", "bs-Latn", "ca", "ca-AD", "ca-ES-valencia", "ca-FR", "ca-IT", "ccp", "ccp-IN", "ce", "ceb", "cgg", "chr", "ckb", "ckb-IR", "cs", "cy", "da", "da-GL", "dav", "de", "de-AT", "de-BE", "de-CH", "de-IT", "de-LI", "de-LU", "dje", "doi", "dsb", "dua", "dyo", "dz", "ebu", "ee", "ee-TG", "el", "el-CY", "en", "en-001", "en-150", "en-AE", "en-AG", "en-AI", "en-AS", "en-AT", "en-AU", "en-BB", "en-BE", "en-BI", "en-BM", "en-BS", "en-BW", "en-BZ", "en-CA", "en-CC", "en-CH", "en-CK", "en-CM", "en-CX", "en-CY", "en-DE", "en-DG", "en-DK", "en-DM", "en-ER", "en-FI", "en-FJ", "en-FK", "en-FM", "en-GB", "en-GD", "en-GG", "en-GH", "en-GI", "en-GM", "en-GU", "en-GY", "en-HK", "en-IE", "en-IL", "en-IM", "en-IN", "en-IO", "en-JE", "en-JM", "en-KE", "en-KI", "en-KN", "en-KY", "en-LC", "en-LR", "en-LS", "en-MG", "en-MH", "en-MO", "en-MP", "en-MS", "en-MT", "en-MU", "en-MW", "en-MY", "en-NA", "en-NF", "en-NG", "en-NL", "en-NR", "en-NU", "en-NZ", "en-PG", "en-PH", "en-PK", "en-PN", "en-PR", "en-PW", "en-RW", "en-SB", "en-SC", "en-SD", "en-SE", "en-SG", "en-SH", "en-SI", "en-SL", "en-SS", "en-SX", "en-SZ", "en-TC", "en-TK", "en-TO", "en-TT", "en-TV", "en-TZ", "en-UG", "en-UM", "en-VC", "en-VG", "en-VI", "en-VU", "en-WS", "en-ZA", "en-ZM", "en-ZW", "eo", "es", "es-419", "es-AR", "es-BO", "es-BR", "es-BZ", "es-CL", "es-CO", "es-CR", "es-CU", "es-DO", "es-EA", "es-EC", "es-GQ", "es-GT", "es-HN", "es-IC", "es-MX", "es-NI", "es-PA", "es-PE", "es-PH", "es-PR", "es-PY", "es-SV", "es-US", "es-UY", "es-VE", "et", "eu", "ewo", "fa", "fa-AF", "ff", "ff-Adlm", "ff-Adlm-BF", "ff-Adlm-CM", "ff-Adlm-GH", "ff-Adlm-GM", "ff-Adlm-GW", "ff-Adlm-LR", "ff-Adlm-MR", "ff-Adlm-NE", "ff-Adlm-NG", "ff-Adlm-SL", "ff-Adlm-SN", "ff-Latn", "ff-Latn-BF", "ff-Latn-CM", "ff-Latn-GH", "ff-Latn-GM", "ff-Latn-GN", "ff-Latn-GW", "ff-Latn-LR", "ff-Latn-MR", "ff-Latn-NE", "ff-Latn-NG", "ff-Latn-SL", "fi", "fil", "fo", "fo-DK", "fr", "fr-BE", "fr-BF", "fr-BI", "fr-BJ", "fr-BL", "fr-CA", "fr-CD", "fr-CF", "fr-CG", "fr-CH", "fr-CI", "fr-CM", "fr-DJ", "fr-DZ", "fr-GA", "fr-GF", "fr-GN", "fr-GP", "fr-GQ", "fr-HT", "fr-KM", "fr-LU", "fr-MA", "fr-MC", "fr-MF", "fr-MG", "fr-ML", "fr-MQ", "fr-MR", "fr-MU", "fr-NC", "fr-NE", "fr-PF", "fr-PM", "fr-RE", "fr-RW", "fr-SC", "fr-SN", "fr-SY", "fr-TD", "fr-TG", "fr-TN", "fr-VU", "fr-WF", "fr-YT", "fur", "fy", "ga", "ga-GB", "gd", "gl", "gsw", "gsw-FR", "gsw-LI", "gu", "guz", "gv", "ha", "ha-GH", "ha-NE", "haw", "he", "hi", "hr", "hr-BA", "hsb", "hu", "hy", "ia", "id", "ig", "ii", "is", "it", "it-CH", "it-SM", "it-VA", "ja", "jgo", "jmc", "jv", "ka", "kab", "kam", "kde", "kea", "kgp", "khq", "ki", "kk", "kkj", "kl", "kln", "km", "kn", "ko", "ko-KP", "kok", "ks", "ks-Arab", "ksb", "ksf", "ksh", "ku", "kw", "ky", "lag", "lb", "lg", "lkt", "ln", "ln-AO", "ln-CF", "ln-CG", "lo", "lrc", "lrc-IQ", "lt", "lu", "luo", "luy", "lv", "mai", "mas", "mas-TZ", "mer", "mfe", "mg", "mgh", "mgo", "mi", "mk", "ml", "mn", "mni", "mni-Beng", "mr", "ms", "ms-BN", "ms-ID", "ms-SG", "mt", "mua", "my", "mzn", "naq", "nb", "nb-SJ", "nd", "nds", "nds-NL", "ne", "ne-IN", "nl", "nl-AW", "nl-BE", "nl-BQ", "nl-CW", "nl-SR", "nl-SX", "nmg", "nn", "nnh", "no", "nus", "nyn", "om", "om-KE", "or", "os", "os-RU", "pa", "pa-Arab", "pa-Guru", "pcm", "pl", "ps", "ps-PK", "pt", "pt-AO", "pt-CH", "pt-CV", "pt-GQ", "pt-GW", "pt-LU", "pt-MO", "pt-MZ", "pt-PT", "pt-ST", "pt-TL", "qu", "qu-BO", "qu-EC", "rm", "rn", "ro", "ro-MD", "rof", "ru", "ru-BY", "ru-KG", "ru-KZ", "ru-MD", "ru-UA", "rw", "rwk", "sa", "sah", "saq", "sat", "sat-Olck", "sbp", "sc", "sd", "sd-Arab", "sd-Deva", "se", "se-FI", "se-SE", "seh", "ses", "sg", "shi", "shi-Latn", "shi-Tfng", "si", "sk", "sl", "smn", "sn", "so", "so-DJ", "so-ET", "so-KE", "sq", "sq-MK", "sq-XK", "sr", "sr-Cyrl", "sr-Cyrl-BA", "sr-Cyrl-ME", "sr-Cyrl-XK", "sr-Latn", "sr-Latn-BA", "sr-Latn-ME", "sr-Latn-XK", "su", "su-Latn", "sv", "sv-AX", "sv-FI", "sw", "sw-CD", "sw-KE", "sw-UG", "ta", "ta-LK", "ta-MY", "ta-SG", "te", "teo", "teo-KE", "tg", "th", "ti", "ti-ER", "tk", "to", "tr", "tr-CY", "tt", "twq", "tzm", "ug", "uk", "und", "ur", "ur-IN", "uz", "uz-Arab", "uz-Cyrl", "uz-Latn", "vai", "vai-Latn", "vai-Vaii", "vi", "vun", "wae", "wo", "xh", "xog", "yav", "yi", "yo", "yo-BJ", "yrl", "yrl-CO", "yrl-VE", "yue", "yue-Hans", "yue-Hant", "zgh", "zh", "zh-Hans", "zh-Hans-HK", "zh-Hans-MO", "zh-Hans-SG", "zh-Hant", "zh-Hant-HK", "zh-Hant-MO", "zu"];
-  Object.defineProperty(shouldPolyfill$4, "__esModule", { value: true });
-  shouldPolyfill$4.shouldPolyfill = shouldPolyfill$3;
-  var intl_localematcher_1$2 = require$$0;
-  var supported_locales_generated_1$1 = supportedLocales_generated$2;
+  var shouldPolyfill$6 = {};
+  var supportedLocales_generated$3 = {};
+  Object.defineProperty(supportedLocales_generated$3, "__esModule", { value: true });
+  supportedLocales_generated$3.supportedLocales = void 0;
+  supportedLocales_generated$3.supportedLocales = ["af", "af-NA", "agq", "ak", "am", "ar", "ar-AE", "ar-BH", "ar-DJ", "ar-DZ", "ar-EG", "ar-EH", "ar-ER", "ar-IL", "ar-IQ", "ar-JO", "ar-KM", "ar-KW", "ar-LB", "ar-LY", "ar-MA", "ar-MR", "ar-OM", "ar-PS", "ar-QA", "ar-SA", "ar-SD", "ar-SO", "ar-SS", "ar-SY", "ar-TD", "ar-TN", "ar-YE", "as", "asa", "ast", "az", "az-Cyrl", "az-Latn", "bas", "be", "be-tarask", "bem", "bez", "bg", "bm", "bn", "bn-IN", "bo", "bo-IN", "br", "brx", "bs", "bs-Cyrl", "bs-Latn", "ca", "ca-AD", "ca-ES-valencia", "ca-FR", "ca-IT", "ccp", "ccp-IN", "ce", "ceb", "cgg", "chr", "ckb", "ckb-IR", "cs", "cy", "da", "da-GL", "dav", "de", "de-AT", "de-BE", "de-CH", "de-IT", "de-LI", "de-LU", "dje", "doi", "dsb", "dua", "dyo", "dz", "ebu", "ee", "ee-TG", "el", "el-CY", "en", "en-001", "en-150", "en-AE", "en-AG", "en-AI", "en-AS", "en-AT", "en-AU", "en-BB", "en-BE", "en-BI", "en-BM", "en-BS", "en-BW", "en-BZ", "en-CA", "en-CC", "en-CH", "en-CK", "en-CM", "en-CX", "en-CY", "en-DE", "en-DG", "en-DK", "en-DM", "en-ER", "en-FI", "en-FJ", "en-FK", "en-FM", "en-GB", "en-GD", "en-GG", "en-GH", "en-GI", "en-GM", "en-GU", "en-GY", "en-HK", "en-IE", "en-IL", "en-IM", "en-IN", "en-IO", "en-JE", "en-JM", "en-KE", "en-KI", "en-KN", "en-KY", "en-LC", "en-LR", "en-LS", "en-MG", "en-MH", "en-MO", "en-MP", "en-MS", "en-MT", "en-MU", "en-MW", "en-MY", "en-NA", "en-NF", "en-NG", "en-NL", "en-NR", "en-NU", "en-NZ", "en-PG", "en-PH", "en-PK", "en-PN", "en-PR", "en-PW", "en-RW", "en-SB", "en-SC", "en-SD", "en-SE", "en-SG", "en-SH", "en-SI", "en-SL", "en-SS", "en-SX", "en-SZ", "en-TC", "en-TK", "en-TO", "en-TT", "en-TV", "en-TZ", "en-UG", "en-UM", "en-VC", "en-VG", "en-VI", "en-VU", "en-WS", "en-ZA", "en-ZM", "en-ZW", "eo", "es", "es-419", "es-AR", "es-BO", "es-BR", "es-BZ", "es-CL", "es-CO", "es-CR", "es-CU", "es-DO", "es-EA", "es-EC", "es-GQ", "es-GT", "es-HN", "es-IC", "es-MX", "es-NI", "es-PA", "es-PE", "es-PH", "es-PR", "es-PY", "es-SV", "es-US", "es-UY", "es-VE", "et", "eu", "ewo", "fa", "fa-AF", "ff", "ff-Adlm", "ff-Adlm-BF", "ff-Adlm-CM", "ff-Adlm-GH", "ff-Adlm-GM", "ff-Adlm-GW", "ff-Adlm-LR", "ff-Adlm-MR", "ff-Adlm-NE", "ff-Adlm-NG", "ff-Adlm-SL", "ff-Adlm-SN", "ff-Latn", "ff-Latn-BF", "ff-Latn-CM", "ff-Latn-GH", "ff-Latn-GM", "ff-Latn-GN", "ff-Latn-GW", "ff-Latn-LR", "ff-Latn-MR", "ff-Latn-NE", "ff-Latn-NG", "ff-Latn-SL", "fi", "fil", "fo", "fo-DK", "fr", "fr-BE", "fr-BF", "fr-BI", "fr-BJ", "fr-BL", "fr-CA", "fr-CD", "fr-CF", "fr-CG", "fr-CH", "fr-CI", "fr-CM", "fr-DJ", "fr-DZ", "fr-GA", "fr-GF", "fr-GN", "fr-GP", "fr-GQ", "fr-HT", "fr-KM", "fr-LU", "fr-MA", "fr-MC", "fr-MF", "fr-MG", "fr-ML", "fr-MQ", "fr-MR", "fr-MU", "fr-NC", "fr-NE", "fr-PF", "fr-PM", "fr-RE", "fr-RW", "fr-SC", "fr-SN", "fr-SY", "fr-TD", "fr-TG", "fr-TN", "fr-VU", "fr-WF", "fr-YT", "fur", "fy", "ga", "ga-GB", "gd", "gl", "gsw", "gsw-FR", "gsw-LI", "gu", "guz", "gv", "ha", "ha-GH", "ha-NE", "haw", "he", "hi", "hr", "hr-BA", "hsb", "hu", "hy", "ia", "id", "ig", "ii", "is", "it", "it-CH", "it-SM", "it-VA", "ja", "jgo", "jmc", "jv", "ka", "kab", "kam", "kde", "kea", "kgp", "khq", "ki", "kk", "kkj", "kl", "kln", "km", "kn", "ko", "ko-KP", "kok", "ks", "ks-Arab", "ksb", "ksf", "ksh", "ku", "kw", "ky", "lag", "lb", "lg", "lkt", "ln", "ln-AO", "ln-CF", "ln-CG", "lo", "lrc", "lrc-IQ", "lt", "lu", "luo", "luy", "lv", "mai", "mas", "mas-TZ", "mer", "mfe", "mg", "mgh", "mgo", "mi", "mk", "ml", "mn", "mni", "mni-Beng", "mr", "ms", "ms-BN", "ms-ID", "ms-SG", "mt", "mua", "my", "mzn", "naq", "nb", "nb-SJ", "nd", "nds", "nds-NL", "ne", "ne-IN", "nl", "nl-AW", "nl-BE", "nl-BQ", "nl-CW", "nl-SR", "nl-SX", "nmg", "nn", "nnh", "no", "nus", "nyn", "om", "om-KE", "or", "os", "os-RU", "pa", "pa-Arab", "pa-Guru", "pcm", "pl", "ps", "ps-PK", "pt", "pt-AO", "pt-CH", "pt-CV", "pt-GQ", "pt-GW", "pt-LU", "pt-MO", "pt-MZ", "pt-PT", "pt-ST", "pt-TL", "qu", "qu-BO", "qu-EC", "rm", "rn", "ro", "ro-MD", "rof", "ru", "ru-BY", "ru-KG", "ru-KZ", "ru-MD", "ru-UA", "rw", "rwk", "sa", "sah", "saq", "sat", "sat-Olck", "sbp", "sc", "sd", "sd-Arab", "sd-Deva", "se", "se-FI", "se-SE", "seh", "ses", "sg", "shi", "shi-Latn", "shi-Tfng", "si", "sk", "sl", "smn", "sn", "so", "so-DJ", "so-ET", "so-KE", "sq", "sq-MK", "sq-XK", "sr", "sr-Cyrl", "sr-Cyrl-BA", "sr-Cyrl-ME", "sr-Cyrl-XK", "sr-Latn", "sr-Latn-BA", "sr-Latn-ME", "sr-Latn-XK", "su", "su-Latn", "sv", "sv-AX", "sv-FI", "sw", "sw-CD", "sw-KE", "sw-UG", "ta", "ta-LK", "ta-MY", "ta-SG", "te", "teo", "teo-KE", "tg", "th", "ti", "ti-ER", "tk", "to", "tr", "tr-CY", "tt", "twq", "tzm", "ug", "uk", "und", "ur", "ur-IN", "uz", "uz-Arab", "uz-Cyrl", "uz-Latn", "vai", "vai-Latn", "vai-Vaii", "vi", "vun", "wae", "wo", "xh", "xog", "yav", "yi", "yo", "yo-BJ", "yrl", "yrl-CO", "yrl-VE", "yue", "yue-Hans", "yue-Hant", "zgh", "zh", "zh-Hans", "zh-Hans-HK", "zh-Hans-MO", "zh-Hans-SG", "zh-Hant", "zh-Hant-HK", "zh-Hant-MO", "zu"];
+  Object.defineProperty(shouldPolyfill$6, "__esModule", { value: true });
+  shouldPolyfill$6.shouldPolyfill = shouldPolyfill$5;
+  var intl_localematcher_1$3 = require$$0;
+  var supported_locales_generated_1$2 = supportedLocales_generated$3;
   function supportsDateStyle() {
     try {
       return !!new Intl.DateTimeFormat(void 0, {
@@ -37010,72 +33844,1104 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       return false;
     }
   }
-  function supportedLocalesOf$1(locale) {
+  function supportedLocalesOf$2(locale) {
     if (!locale) {
       return true;
     }
     var locales = Array.isArray(locale) ? locale : [locale];
     return Intl.DateTimeFormat.supportedLocalesOf(locales).length === locales.length;
   }
+  function shouldPolyfill$5(locale) {
+    if (locale === void 0) {
+      locale = "en";
+    }
+    if (!("DateTimeFormat" in Intl) || !("formatToParts" in Intl.DateTimeFormat.prototype) || !("formatRange" in Intl.DateTimeFormat.prototype) || hasChromeLt71Bug() || hasUnthrownDateTimeStyleBug() || !supportsDateStyle() || !supportedLocalesOf$2(locale)) {
+      return locale ? (0, intl_localematcher_1$3.match)([locale], supported_locales_generated_1$2.supportedLocales, "en") : void 0;
+    }
+  }
+  var to_locale_string$1 = {};
+  Object.defineProperty(to_locale_string$1, "__esModule", { value: true });
+  to_locale_string$1.toLocaleString = toLocaleString$1;
+  to_locale_string$1.toLocaleDateString = toLocaleDateString;
+  to_locale_string$1.toLocaleTimeString = toLocaleTimeString;
+  var core_1$2 = core$1;
+  var ToDateTimeOptions_1 = ToDateTimeOptions$1;
+  function toLocaleString$1(x, locales, options) {
+    var dtf = new core_1$2.DateTimeFormat(locales, options);
+    return dtf.format(x);
+  }
+  function toLocaleDateString(x, locales, options) {
+    var dtf = new core_1$2.DateTimeFormat(locales, (0, ToDateTimeOptions_1.ToDateTimeOptions)(options, "date", "date"));
+    return dtf.format(x);
+  }
+  function toLocaleTimeString(x, locales, options) {
+    var dtf = new core_1$2.DateTimeFormat(locales, (0, ToDateTimeOptions_1.ToDateTimeOptions)(options, "time", "time"));
+    return dtf.format(x);
+  }
+  var _1$2 = intlDatetimeformat;
+  var ecma402_abstract_1$5 = require$$1;
+  var should_polyfill_1$3 = shouldPolyfill$6;
+  var to_locale_string_1$1 = to_locale_string$1;
+  if ((0, should_polyfill_1$3.shouldPolyfill)()) {
+    (0, ecma402_abstract_1$5.defineProperty)(Intl, "DateTimeFormat", { value: _1$2.DateTimeFormat });
+    (0, ecma402_abstract_1$5.defineProperty)(Date.prototype, "toLocaleString", {
+      value: function toLocaleString2(locales, options) {
+        try {
+          return (0, to_locale_string_1$1.toLocaleString)(this, locales, options);
+        } catch (error) {
+          return "Invalid Date";
+        }
+      }
+    });
+    (0, ecma402_abstract_1$5.defineProperty)(Date.prototype, "toLocaleDateString", {
+      value: function toLocaleDateString2(locales, options) {
+        try {
+          return (0, to_locale_string_1$1.toLocaleDateString)(this, locales, options);
+        } catch (error) {
+          return "Invalid Date";
+        }
+      }
+    });
+    (0, ecma402_abstract_1$5.defineProperty)(Date.prototype, "toLocaleTimeString", {
+      value: function toLocaleTimeString2(locales, options) {
+        try {
+          return (0, to_locale_string_1$1.toLocaleTimeString)(this, locales, options);
+        } catch (error) {
+          return "Invalid Date";
+        }
+      }
+    });
+  }
+  var core = {};
+  var currencyDigits_generated = {};
+  Object.defineProperty(currencyDigits_generated, "__esModule", { value: true });
+  currencyDigits_generated.currencyDigitsData = void 0;
+  currencyDigits_generated.currencyDigitsData = {
+    "ADP": 0,
+    "AFN": 0,
+    "ALL": 0,
+    "AMD": 2,
+    "BHD": 3,
+    "BIF": 0,
+    "BYN": 2,
+    "BYR": 0,
+    "CAD": 2,
+    "CHF": 2,
+    "CLF": 4,
+    "CLP": 0,
+    "COP": 2,
+    "CRC": 2,
+    "CZK": 2,
+    "DEFAULT": 2,
+    "DJF": 0,
+    "DKK": 2,
+    "ESP": 0,
+    "GNF": 0,
+    "GYD": 2,
+    "HUF": 2,
+    "IDR": 2,
+    "IQD": 0,
+    "IRR": 0,
+    "ISK": 0,
+    "ITL": 0,
+    "JOD": 3,
+    "JPY": 0,
+    "KMF": 0,
+    "KPW": 0,
+    "KRW": 0,
+    "KWD": 3,
+    "LAK": 0,
+    "LBP": 0,
+    "LUF": 0,
+    "LYD": 3,
+    "MGA": 0,
+    "MGF": 0,
+    "MMK": 0,
+    "MNT": 2,
+    "MRO": 0,
+    "MUR": 2,
+    "NOK": 2,
+    "OMR": 3,
+    "PKR": 2,
+    "PYG": 0,
+    "RSD": 0,
+    "RWF": 0,
+    "SEK": 2,
+    "SLE": 2,
+    "SLL": 0,
+    "SOS": 0,
+    "STD": 0,
+    "SYP": 0,
+    "TMM": 0,
+    "TND": 3,
+    "TRL": 0,
+    "TWD": 2,
+    "TZS": 2,
+    "UGX": 0,
+    "UYI": 0,
+    "UYW": 4,
+    "UZS": 2,
+    "VEF": 2,
+    "VND": 0,
+    "VUV": 0,
+    "XAF": 0,
+    "XOF": 0,
+    "XPF": 0,
+    "YER": 0,
+    "ZMK": 0,
+    "ZWD": 0
+  };
+  var numberingSystems_generated = {};
+  Object.defineProperty(numberingSystems_generated, "__esModule", { value: true });
+  numberingSystems_generated.numberingSystemNames = void 0;
+  numberingSystems_generated.numberingSystemNames = ["adlm", "ahom", "arab", "arabext", "armn", "armnlow", "bali", "beng", "bhks", "brah", "cakm", "cham", "cyrl", "deva", "diak", "ethi", "fullwide", "gara", "geor", "gong", "gonm", "grek", "greklow", "gujr", "gukh", "guru", "hanidays", "hanidec", "hans", "hansfin", "hant", "hantfin", "hebr", "hmng", "hmnp", "java", "jpan", "jpanfin", "jpanyear", "kali", "kawi", "khmr", "knda", "krai", "lana", "lanatham", "laoo", "latn", "lepc", "limb", "mathbold", "mathdbl", "mathmono", "mathsanb", "mathsans", "mlym", "modi", "mong", "mroo", "mtei", "mymr", "mymrepka", "mymrpao", "mymrshan", "mymrtlng", "nagm", "newa", "nkoo", "olck", "onao", "orya", "osma", "outlined", "rohg", "roman", "romanlow", "saur", "segment", "shrd", "sind", "sinh", "sora", "sund", "sunu", "takr", "talu", "taml", "tamldec", "telu", "thai", "tibt", "tirh", "tnsa", "vaii", "wara", "wcho"];
+  var get_internal_slots$2 = {};
+  var hasRequiredGet_internal_slots$2;
+  function requireGet_internal_slots$2() {
+    if (hasRequiredGet_internal_slots$2) return get_internal_slots$2;
+    hasRequiredGet_internal_slots$2 = 1;
+    Object.defineProperty(get_internal_slots$2, "__esModule", { value: true });
+    get_internal_slots$2.default = getInternalSlots;
+    var internalSlotMap = /* @__PURE__ */ new WeakMap();
+    function getInternalSlots(x) {
+      var internalSlots = internalSlotMap.get(x);
+      if (!internalSlots) {
+        internalSlots = /* @__PURE__ */ Object.create(null);
+        internalSlotMap.set(x, internalSlots);
+      }
+      return internalSlots;
+    }
+    return get_internal_slots$2;
+  }
+  (function(exports2) {
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.NumberFormat = void 0;
+    var tslib_12 = require$$0$1;
+    var ecma402_abstract_12 = require$$1;
+    var currency_digits_generated_1 = currencyDigits_generated;
+    var numbering_systems_generated_12 = numberingSystems_generated;
+    var get_internal_slots_12 = tslib_12.__importDefault(requireGet_internal_slots$2());
+    var RESOLVED_OPTIONS_KEYS = [
+      "locale",
+      "numberingSystem",
+      "style",
+      "currency",
+      "currencyDisplay",
+      "currencySign",
+      "unit",
+      "unitDisplay",
+      "minimumIntegerDigits",
+      "minimumFractionDigits",
+      "maximumFractionDigits",
+      "minimumSignificantDigits",
+      "maximumSignificantDigits",
+      "useGrouping",
+      "notation",
+      "compactDisplay",
+      "signDisplay"
+    ];
+    exports2.NumberFormat = function(locales, options) {
+      if (!this || !(0, ecma402_abstract_12.OrdinaryHasInstance)(exports2.NumberFormat, this)) {
+        return new exports2.NumberFormat(locales, options);
+      }
+      (0, ecma402_abstract_12.InitializeNumberFormat)(this, locales, options, {
+        getInternalSlots: get_internal_slots_12.default,
+        localeData: exports2.NumberFormat.localeData,
+        availableLocales: exports2.NumberFormat.availableLocales,
+        getDefaultLocale: exports2.NumberFormat.getDefaultLocale,
+        currencyDigitsData: currency_digits_generated_1.currencyDigitsData,
+        numberingSystemNames: numbering_systems_generated_12.numberingSystemNames
+      });
+      var internalSlots = (0, get_internal_slots_12.default)(this);
+      var dataLocale = internalSlots.dataLocale;
+      var dataLocaleData = exports2.NumberFormat.localeData[dataLocale];
+      (0, ecma402_abstract_12.invariant)(dataLocaleData !== void 0, "Cannot load locale-dependent data for ".concat(dataLocale, "."));
+      internalSlots.pl = (0, ecma402_abstract_12.createMemoizedPluralRules)(dataLocale, {
+        minimumFractionDigits: internalSlots.minimumFractionDigits,
+        maximumFractionDigits: internalSlots.maximumFractionDigits,
+        minimumIntegerDigits: internalSlots.minimumIntegerDigits,
+        minimumSignificantDigits: internalSlots.minimumSignificantDigits,
+        maximumSignificantDigits: internalSlots.maximumSignificantDigits
+      });
+      return this;
+    };
+    function formatToParts2(x) {
+      return (0, ecma402_abstract_12.FormatNumericToParts)(this, (0, ecma402_abstract_12.ToIntlMathematicalValue)(x), {
+        getInternalSlots: get_internal_slots_12.default
+      });
+    }
+    function formatRange(start, end) {
+      return (0, ecma402_abstract_12.FormatNumericRange)(this, (0, ecma402_abstract_12.ToIntlMathematicalValue)(start), (0, ecma402_abstract_12.ToIntlMathematicalValue)(end), {
+        getInternalSlots: get_internal_slots_12.default
+      });
+    }
+    function formatRangeToParts(start, end) {
+      return (0, ecma402_abstract_12.FormatNumericRangeToParts)(this, (0, ecma402_abstract_12.ToIntlMathematicalValue)(start), (0, ecma402_abstract_12.ToIntlMathematicalValue)(end), {
+        getInternalSlots: get_internal_slots_12.default
+      });
+    }
+    try {
+      Object.defineProperty(formatToParts2, "name", {
+        value: "formatToParts",
+        enumerable: false,
+        writable: false,
+        configurable: true
+      });
+    } catch (e) {
+    }
+    (0, ecma402_abstract_12.defineProperty)(exports2.NumberFormat.prototype, "formatToParts", {
+      value: formatToParts2
+    });
+    (0, ecma402_abstract_12.defineProperty)(exports2.NumberFormat.prototype, "formatRange", {
+      value: formatRange
+    });
+    (0, ecma402_abstract_12.defineProperty)(exports2.NumberFormat.prototype, "formatRangeToParts", {
+      value: formatRangeToParts
+    });
+    (0, ecma402_abstract_12.defineProperty)(exports2.NumberFormat.prototype, "resolvedOptions", {
+      value: function resolvedOptions() {
+        if (typeof this !== "object" || !(0, ecma402_abstract_12.OrdinaryHasInstance)(exports2.NumberFormat, this)) {
+          throw TypeError("Method Intl.NumberFormat.prototype.resolvedOptions called on incompatible receiver");
+        }
+        var internalSlots = (0, get_internal_slots_12.default)(this);
+        var ro = {};
+        for (var _i = 0, RESOLVED_OPTIONS_KEYS_1 = RESOLVED_OPTIONS_KEYS; _i < RESOLVED_OPTIONS_KEYS_1.length; _i++) {
+          var key = RESOLVED_OPTIONS_KEYS_1[_i];
+          var value2 = internalSlots[key];
+          if (value2 !== void 0) {
+            ro[key] = value2;
+          }
+        }
+        if (internalSlots.roundingType === "morePrecision") {
+          ro.roundingPriority = "morePrecision";
+        } else if (internalSlots.roundingType === "lessPrecision") {
+          ro.roundingPriority = "lessPrecision";
+        } else {
+          ro.roundingPriority = "auto";
+        }
+        return ro;
+      }
+    });
+    var formatDescriptor = {
+      enumerable: false,
+      configurable: true,
+      get: function() {
+        if (typeof this !== "object" || !(0, ecma402_abstract_12.OrdinaryHasInstance)(exports2.NumberFormat, this)) {
+          throw TypeError("Intl.NumberFormat format property accessor called on incompatible receiver");
+        }
+        var internalSlots = (0, get_internal_slots_12.default)(this);
+        var boundFormat = internalSlots.boundFormat;
+        if (boundFormat === void 0) {
+          boundFormat = function(value2) {
+            return (0, ecma402_abstract_12.FormatNumeric)(internalSlots, (0, ecma402_abstract_12.ToIntlMathematicalValue)(value2));
+          };
+          try {
+            Object.defineProperty(boundFormat, "name", {
+              configurable: true,
+              enumerable: false,
+              writable: false,
+              value: ""
+            });
+          } catch (e) {
+          }
+          internalSlots.boundFormat = boundFormat;
+        }
+        return boundFormat;
+      }
+    };
+    try {
+      Object.defineProperty(formatDescriptor.get, "name", {
+        configurable: true,
+        enumerable: false,
+        writable: false,
+        value: "get format"
+      });
+    } catch (e) {
+    }
+    Object.defineProperty(exports2.NumberFormat.prototype, "format", formatDescriptor);
+    (0, ecma402_abstract_12.defineProperty)(exports2.NumberFormat, "supportedLocalesOf", {
+      value: function supportedLocalesOf2(locales, options) {
+        return (0, ecma402_abstract_12.SupportedLocales)(exports2.NumberFormat.availableLocales, (0, ecma402_abstract_12.CanonicalizeLocaleList)(locales), options);
+      }
+    });
+    exports2.NumberFormat.__addLocaleData = function __addLocaleData() {
+      var data2 = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        data2[_i] = arguments[_i];
+      }
+      for (var _a2 = 0, data_1 = data2; _a2 < data_1.length; _a2++) {
+        var _b = data_1[_a2], d = _b.data, locale = _b.locale;
+        var minimizedLocale = new Intl.Locale(locale).minimize().toString();
+        exports2.NumberFormat.localeData[locale] = exports2.NumberFormat.localeData[minimizedLocale] = d;
+        exports2.NumberFormat.availableLocales.add(minimizedLocale);
+        exports2.NumberFormat.availableLocales.add(locale);
+        if (!exports2.NumberFormat.__defaultLocale) {
+          exports2.NumberFormat.__defaultLocale = minimizedLocale;
+        }
+      }
+    };
+    exports2.NumberFormat.__addUnitData = function __addUnitData(locale, unitsData) {
+      var _a2 = exports2.NumberFormat.localeData, _b = locale, existingData = _a2[_b];
+      if (!existingData) {
+        throw new Error('Locale data for "'.concat(locale, '" has not been loaded in NumberFormat. \nPlease __addLocaleData before adding additional unit data'));
+      }
+      for (var unit in unitsData.simple) {
+        existingData.units.simple[unit] = unitsData.simple[unit];
+      }
+      for (var unit in unitsData.compound) {
+        existingData.units.compound[unit] = unitsData.compound[unit];
+      }
+    };
+    exports2.NumberFormat.__defaultLocale = "";
+    exports2.NumberFormat.localeData = {};
+    exports2.NumberFormat.availableLocales = /* @__PURE__ */ new Set();
+    exports2.NumberFormat.getDefaultLocale = function() {
+      return exports2.NumberFormat.__defaultLocale;
+    };
+    exports2.NumberFormat.polyfilled = true;
+    try {
+      if (typeof Symbol !== "undefined") {
+        Object.defineProperty(exports2.NumberFormat.prototype, Symbol.toStringTag, {
+          configurable: true,
+          enumerable: false,
+          writable: false,
+          value: "Intl.NumberFormat"
+        });
+      }
+      Object.defineProperty(exports2.NumberFormat.prototype.constructor, "length", {
+        configurable: true,
+        enumerable: false,
+        writable: false,
+        value: 0
+      });
+      Object.defineProperty(exports2.NumberFormat.supportedLocalesOf, "length", {
+        configurable: true,
+        enumerable: false,
+        writable: false,
+        value: 1
+      });
+      Object.defineProperty(exports2.NumberFormat, "prototype", {
+        configurable: false,
+        enumerable: false,
+        writable: false,
+        value: exports2.NumberFormat.prototype
+      });
+    } catch (e) {
+    }
+  })(core);
+  var to_locale_string = {};
+  Object.defineProperty(to_locale_string, "__esModule", { value: true });
+  to_locale_string.toLocaleString = toLocaleString;
+  var core_1$1 = core;
+  function toLocaleString(x, locales, options) {
+    var numberFormat = new core_1$1.NumberFormat(locales, options);
+    return numberFormat.format(x);
+  }
+  var shouldPolyfill$4 = {};
+  var supportedLocales_generated$2 = {};
+  Object.defineProperty(supportedLocales_generated$2, "__esModule", { value: true });
+  supportedLocales_generated$2.supportedLocales = void 0;
+  supportedLocales_generated$2.supportedLocales = ["af", "af-NA", "agq", "ak", "am", "ar", "ar-AE", "ar-BH", "ar-DJ", "ar-DZ", "ar-EG", "ar-EH", "ar-ER", "ar-IL", "ar-IQ", "ar-JO", "ar-KM", "ar-KW", "ar-LB", "ar-LY", "ar-MA", "ar-MR", "ar-OM", "ar-PS", "ar-QA", "ar-SA", "ar-SD", "ar-SO", "ar-SS", "ar-SY", "ar-TD", "ar-TN", "ar-YE", "as", "asa", "ast", "az", "az-Cyrl", "az-Latn", "bas", "be", "be-tarask", "bem", "bez", "bg", "bm", "bn", "bn-IN", "bo", "bo-IN", "br", "brx", "bs", "bs-Cyrl", "bs-Latn", "ca", "ca-AD", "ca-ES-valencia", "ca-FR", "ca-IT", "ccp", "ccp-IN", "ce", "ceb", "cgg", "chr", "ckb", "ckb-IR", "cs", "cy", "da", "da-GL", "dav", "de", "de-AT", "de-BE", "de-CH", "de-IT", "de-LI", "de-LU", "dje", "doi", "dsb", "dua", "dyo", "dz", "ebu", "ee", "ee-TG", "el", "el-CY", "en", "en-001", "en-150", "en-AE", "en-AG", "en-AI", "en-AS", "en-AT", "en-AU", "en-BB", "en-BE", "en-BI", "en-BM", "en-BS", "en-BW", "en-BZ", "en-CA", "en-CC", "en-CH", "en-CK", "en-CM", "en-CX", "en-CY", "en-DE", "en-DG", "en-DK", "en-DM", "en-ER", "en-FI", "en-FJ", "en-FK", "en-FM", "en-GB", "en-GD", "en-GG", "en-GH", "en-GI", "en-GM", "en-GU", "en-GY", "en-HK", "en-IE", "en-IL", "en-IM", "en-IN", "en-IO", "en-JE", "en-JM", "en-KE", "en-KI", "en-KN", "en-KY", "en-LC", "en-LR", "en-LS", "en-MG", "en-MH", "en-MO", "en-MP", "en-MS", "en-MT", "en-MU", "en-MW", "en-MY", "en-NA", "en-NF", "en-NG", "en-NL", "en-NR", "en-NU", "en-NZ", "en-PG", "en-PH", "en-PK", "en-PN", "en-PR", "en-PW", "en-RW", "en-SB", "en-SC", "en-SD", "en-SE", "en-SG", "en-SH", "en-SI", "en-SL", "en-SS", "en-SX", "en-SZ", "en-TC", "en-TK", "en-TO", "en-TT", "en-TV", "en-TZ", "en-UG", "en-UM", "en-VC", "en-VG", "en-VI", "en-VU", "en-WS", "en-ZA", "en-ZM", "en-ZW", "eo", "es", "es-419", "es-AR", "es-BO", "es-BR", "es-BZ", "es-CL", "es-CO", "es-CR", "es-CU", "es-DO", "es-EA", "es-EC", "es-GQ", "es-GT", "es-HN", "es-IC", "es-MX", "es-NI", "es-PA", "es-PE", "es-PH", "es-PR", "es-PY", "es-SV", "es-US", "es-UY", "es-VE", "et", "eu", "ewo", "fa", "fa-AF", "ff", "ff-Adlm", "ff-Adlm-BF", "ff-Adlm-CM", "ff-Adlm-GH", "ff-Adlm-GM", "ff-Adlm-GW", "ff-Adlm-LR", "ff-Adlm-MR", "ff-Adlm-NE", "ff-Adlm-NG", "ff-Adlm-SL", "ff-Adlm-SN", "ff-Latn", "ff-Latn-BF", "ff-Latn-CM", "ff-Latn-GH", "ff-Latn-GM", "ff-Latn-GN", "ff-Latn-GW", "ff-Latn-LR", "ff-Latn-MR", "ff-Latn-NE", "ff-Latn-NG", "ff-Latn-SL", "fi", "fil", "fo", "fo-DK", "fr", "fr-BE", "fr-BF", "fr-BI", "fr-BJ", "fr-BL", "fr-CA", "fr-CD", "fr-CF", "fr-CG", "fr-CH", "fr-CI", "fr-CM", "fr-DJ", "fr-DZ", "fr-GA", "fr-GF", "fr-GN", "fr-GP", "fr-GQ", "fr-HT", "fr-KM", "fr-LU", "fr-MA", "fr-MC", "fr-MF", "fr-MG", "fr-ML", "fr-MQ", "fr-MR", "fr-MU", "fr-NC", "fr-NE", "fr-PF", "fr-PM", "fr-RE", "fr-RW", "fr-SC", "fr-SN", "fr-SY", "fr-TD", "fr-TG", "fr-TN", "fr-VU", "fr-WF", "fr-YT", "fur", "fy", "ga", "ga-GB", "gd", "gl", "gsw", "gsw-FR", "gsw-LI", "gu", "guz", "gv", "ha", "ha-GH", "ha-NE", "haw", "he", "hi", "hr", "hr-BA", "hsb", "hu", "hy", "ia", "id", "ig", "ii", "is", "it", "it-CH", "it-SM", "it-VA", "ja", "jgo", "jmc", "jv", "ka", "kab", "kam", "kde", "kea", "kgp", "khq", "ki", "kk", "kkj", "kl", "kln", "km", "kn", "ko", "ko-KP", "kok", "ks", "ks-Arab", "ksb", "ksf", "ksh", "ku", "kw", "ky", "lag", "lb", "lg", "lkt", "ln", "ln-AO", "ln-CF", "ln-CG", "lo", "lrc", "lrc-IQ", "lt", "lu", "luo", "luy", "lv", "mai", "mas", "mas-TZ", "mer", "mfe", "mg", "mgh", "mgo", "mi", "mk", "ml", "mn", "mni", "mni-Beng", "mr", "ms", "ms-BN", "ms-ID", "ms-SG", "mt", "mua", "my", "mzn", "naq", "nb", "nb-SJ", "nd", "nds", "nds-NL", "ne", "ne-IN", "nl", "nl-AW", "nl-BE", "nl-BQ", "nl-CW", "nl-SR", "nl-SX", "nmg", "nn", "nnh", "no", "nus", "nyn", "om", "om-KE", "or", "os", "os-RU", "pa", "pa-Arab", "pa-Guru", "pcm", "pl", "ps", "ps-PK", "pt", "pt-AO", "pt-CH", "pt-CV", "pt-GQ", "pt-GW", "pt-LU", "pt-MO", "pt-MZ", "pt-PT", "pt-ST", "pt-TL", "qu", "qu-BO", "qu-EC", "rm", "rn", "ro", "ro-MD", "rof", "ru", "ru-BY", "ru-KG", "ru-KZ", "ru-MD", "ru-UA", "rw", "rwk", "sa", "sah", "saq", "sat", "sat-Olck", "sbp", "sc", "sd", "sd-Arab", "sd-Deva", "se", "se-FI", "se-SE", "seh", "ses", "sg", "shi", "shi-Latn", "shi-Tfng", "si", "sk", "sl", "smn", "sn", "so", "so-DJ", "so-ET", "so-KE", "sq", "sq-MK", "sq-XK", "sr", "sr-Cyrl", "sr-Cyrl-BA", "sr-Cyrl-ME", "sr-Cyrl-XK", "sr-Latn", "sr-Latn-BA", "sr-Latn-ME", "sr-Latn-XK", "su", "su-Latn", "sv", "sv-AX", "sv-FI", "sw", "sw-CD", "sw-KE", "sw-UG", "ta", "ta-LK", "ta-MY", "ta-SG", "te", "teo", "teo-KE", "tg", "th", "ti", "ti-ER", "tk", "to", "tr", "tr-CY", "tt", "twq", "tzm", "ug", "uk", "und", "ur", "ur-IN", "uz", "uz-Arab", "uz-Cyrl", "uz-Latn", "vai", "vai-Latn", "vai-Vaii", "vi", "vun", "wae", "wo", "xh", "xog", "yav", "yi", "yo", "yo-BJ", "yrl", "yrl-CO", "yrl-VE", "yue", "yue-Hans", "yue-Hant", "zgh", "zh", "zh-Hans", "zh-Hans-HK", "zh-Hans-MO", "zh-Hans-SG", "zh-Hant", "zh-Hant-HK", "zh-Hant-MO", "zu"];
+  Object.defineProperty(shouldPolyfill$4, "__esModule", { value: true });
+  shouldPolyfill$4.shouldPolyfill = shouldPolyfill$3;
+  var intl_localematcher_1$2 = require$$0;
+  var supported_locales_generated_1$1 = supportedLocales_generated$2;
+  function onlySupportsEn() {
+    return !Intl.NumberFormat.polyfilled && !Intl.NumberFormat.supportedLocalesOf(["es"]).length;
+  }
+  function supportsES2020() {
+    try {
+      var s = new Intl.NumberFormat("en", {
+        style: "unit",
+        unit: "bit",
+        unitDisplay: "long",
+        notation: "scientific"
+      }).format(1e4);
+      if (s !== "1E4 bits") {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+  function supportsES2023() {
+    try {
+      var s = new Intl.NumberFormat("en", {
+        notation: "compact",
+        minimumSignificantDigits: 3,
+        maximumSignificantDigits: 3,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+        // @ts-ignore TS types are old
+        roundingPriority: "morePrecision"
+      }).format(1e8);
+      return s === "100.00M";
+    } catch (e) {
+      return false;
+    }
+  }
+  function supportedLocalesOf$1(locale) {
+    if (!locale) {
+      return true;
+    }
+    var locales = Array.isArray(locale) ? locale : [locale];
+    return Intl.NumberFormat.supportedLocalesOf(locales).length === locales.length;
+  }
   function shouldPolyfill$3(locale) {
     if (locale === void 0) {
       locale = "en";
     }
-    if (!("DateTimeFormat" in Intl) || !("formatToParts" in Intl.DateTimeFormat.prototype) || !("formatRange" in Intl.DateTimeFormat.prototype) || hasChromeLt71Bug() || hasUnthrownDateTimeStyleBug() || !supportsDateStyle() || !supportedLocalesOf$1(locale)) {
+    if (typeof Intl === "undefined" || !("NumberFormat" in Intl) || !supportsES2020() || !supportsES2023() || onlySupportsEn() || !supportedLocalesOf$1(locale)) {
       return locale ? (0, intl_localematcher_1$2.match)([locale], supported_locales_generated_1$1.supportedLocales, "en") : void 0;
     }
   }
-  var to_locale_string = {};
-  Object.defineProperty(to_locale_string, "__esModule", { value: true });
-  to_locale_string.toLocaleString = toLocaleString;
-  to_locale_string.toLocaleDateString = toLocaleDateString;
-  to_locale_string.toLocaleTimeString = toLocaleTimeString;
   var core_1 = core;
-  var ToDateTimeOptions_1 = ToDateTimeOptions$1;
-  function toLocaleString(x, locales, options) {
-    var dtf = new core_1.DateTimeFormat(locales, options);
-    return dtf.format(x);
-  }
-  function toLocaleDateString(x, locales, options) {
-    var dtf = new core_1.DateTimeFormat(locales, (0, ToDateTimeOptions_1.ToDateTimeOptions)(options, "date", "date"));
-    return dtf.format(x);
-  }
-  function toLocaleTimeString(x, locales, options) {
-    var dtf = new core_1.DateTimeFormat(locales, (0, ToDateTimeOptions_1.ToDateTimeOptions)(options, "time", "time"));
-    return dtf.format(x);
-  }
-  var _1$2 = intlDatetimeformat;
+  var to_locale_string_1 = to_locale_string;
   var ecma402_abstract_1$4 = require$$1;
   var should_polyfill_1$2 = shouldPolyfill$4;
-  var to_locale_string_1 = to_locale_string;
   if ((0, should_polyfill_1$2.shouldPolyfill)()) {
-    (0, ecma402_abstract_1$4.defineProperty)(Intl, "DateTimeFormat", { value: _1$2.DateTimeFormat });
-    (0, ecma402_abstract_1$4.defineProperty)(Date.prototype, "toLocaleString", {
+    (0, ecma402_abstract_1$4.defineProperty)(Intl, "NumberFormat", { value: core_1.NumberFormat });
+    (0, ecma402_abstract_1$4.defineProperty)(Number.prototype, "toLocaleString", {
       value: function toLocaleString2(locales, options) {
-        try {
-          return (0, to_locale_string_1.toLocaleString)(this, locales, options);
-        } catch (error) {
-          return "Invalid Date";
-        }
+        return (0, to_locale_string_1.toLocaleString)(this, locales, options);
       }
     });
-    (0, ecma402_abstract_1$4.defineProperty)(Date.prototype, "toLocaleDateString", {
-      value: function toLocaleDateString2(locales, options) {
-        try {
-          return (0, to_locale_string_1.toLocaleDateString)(this, locales, options);
-        } catch (error) {
-          return "Invalid Date";
-        }
+  }
+  var intlPluralrules = {};
+  var InitializePluralRules$1 = {};
+  Object.defineProperty(InitializePluralRules$1, "__esModule", { value: true });
+  InitializePluralRules$1.InitializePluralRules = InitializePluralRules;
+  var ecma402_abstract_1$3 = require$$1;
+  var intl_localematcher_1$1 = require$$0;
+  function InitializePluralRules(pl, locales, options, _a2) {
+    var availableLocales = _a2.availableLocales, relevantExtensionKeys = _a2.relevantExtensionKeys, localeData = _a2.localeData, getDefaultLocale = _a2.getDefaultLocale, getInternalSlots = _a2.getInternalSlots;
+    var requestedLocales = (0, ecma402_abstract_1$3.CanonicalizeLocaleList)(locales);
+    var opt = /* @__PURE__ */ Object.create(null);
+    var opts = (0, ecma402_abstract_1$3.CoerceOptionsToObject)(options);
+    var internalSlots = getInternalSlots(pl);
+    internalSlots.initializedPluralRules = true;
+    var matcher = (0, ecma402_abstract_1$3.GetOption)(opts, "localeMatcher", "string", ["best fit", "lookup"], "best fit");
+    opt.localeMatcher = matcher;
+    var r = (0, intl_localematcher_1$1.ResolveLocale)(availableLocales, requestedLocales, opt, relevantExtensionKeys, localeData, getDefaultLocale);
+    internalSlots.locale = r.locale;
+    internalSlots.type = (0, ecma402_abstract_1$3.GetOption)(opts, "type", "string", ["cardinal", "ordinal"], "cardinal");
+    (0, ecma402_abstract_1$3.SetNumberFormatDigitOptions)(internalSlots, opts, 0, 3, "standard");
+    return pl;
+  }
+  var ResolvePlural$1 = {};
+  var GetOperands$1 = {};
+  Object.defineProperty(GetOperands$1, "__esModule", { value: true });
+  GetOperands$1.GetOperands = GetOperands;
+  var ecma402_abstract_1$2 = require$$1;
+  function GetOperands(s) {
+    (0, ecma402_abstract_1$2.invariant)(typeof s === "string", "GetOperands should have been called with a string");
+    var n = (0, ecma402_abstract_1$2.ToNumber)(s);
+    (0, ecma402_abstract_1$2.invariant)(n.isFinite(), "n should be finite");
+    var dp = s.indexOf(".");
+    var iv;
+    var f;
+    var v;
+    var fv = "";
+    if (dp === -1) {
+      iv = n;
+      f = ecma402_abstract_1$2.ZERO;
+      v = 0;
+    } else {
+      iv = s.slice(0, dp);
+      fv = s.slice(dp, s.length);
+      f = (0, ecma402_abstract_1$2.ToNumber)(fv);
+      v = fv.length;
+    }
+    var i = (0, ecma402_abstract_1$2.ToNumber)(iv).abs();
+    var w;
+    var t;
+    if (!f.isZero()) {
+      var ft = fv.replace(/0+$/, "");
+      w = ft.length;
+      t = (0, ecma402_abstract_1$2.ToNumber)(ft);
+    } else {
+      w = 0;
+      t = ecma402_abstract_1$2.ZERO;
+    }
+    return {
+      Number: n,
+      IntegerDigits: i.toNumber(),
+      NumberOfFractionDigits: v,
+      NumberOfFractionDigitsWithoutTrailing: w,
+      FractionDigits: f.toNumber(),
+      FractionDigitsWithoutTrailing: t.toNumber()
+    };
+  }
+  Object.defineProperty(ResolvePlural$1, "__esModule", { value: true });
+  ResolvePlural$1.ResolvePlural = ResolvePlural;
+  var ecma402_abstract_1$1 = require$$1;
+  var GetOperands_1 = GetOperands$1;
+  function ResolvePlural(pl, n, _a2) {
+    var getInternalSlots = _a2.getInternalSlots, PluralRuleSelect2 = _a2.PluralRuleSelect;
+    var internalSlots = getInternalSlots(pl);
+    (0, ecma402_abstract_1$1.invariant)((0, ecma402_abstract_1$1.Type)(internalSlots) === "Object", "pl has to be an object");
+    (0, ecma402_abstract_1$1.invariant)("initializedPluralRules" in internalSlots, "pluralrules must be initialized");
+    if (!n.isFinite()) {
+      return "other";
+    }
+    var locale = internalSlots.locale, type = internalSlots.type;
+    var res = (0, ecma402_abstract_1$1.FormatNumericToString)(internalSlots, n);
+    var s = res.formattedString;
+    var operands = (0, GetOperands_1.GetOperands)(s);
+    return PluralRuleSelect2(locale, type, n, operands);
+  }
+  var get_internal_slots$1 = {};
+  var hasRequiredGet_internal_slots$1;
+  function requireGet_internal_slots$1() {
+    if (hasRequiredGet_internal_slots$1) return get_internal_slots$1;
+    hasRequiredGet_internal_slots$1 = 1;
+    Object.defineProperty(get_internal_slots$1, "__esModule", { value: true });
+    get_internal_slots$1.default = getInternalSlots;
+    var internalSlotMap = /* @__PURE__ */ new WeakMap();
+    function getInternalSlots(x) {
+      var internalSlots = internalSlotMap.get(x);
+      if (!internalSlots) {
+        internalSlots = /* @__PURE__ */ Object.create(null);
+        internalSlotMap.set(x, internalSlots);
       }
+      return internalSlots;
+    }
+    return get_internal_slots$1;
+  }
+  Object.defineProperty(intlPluralrules, "__esModule", { value: true });
+  intlPluralrules.PluralRules = void 0;
+  var tslib_1$1 = require$$0$1;
+  var ecma402_abstract_1 = require$$1;
+  var InitializePluralRules_1 = InitializePluralRules$1;
+  var ResolvePlural_1 = ResolvePlural$1;
+  var get_internal_slots_1 = tslib_1$1.__importDefault(requireGet_internal_slots$1());
+  function validateInstance(instance, method) {
+    if (!(instance instanceof PluralRules)) {
+      throw new TypeError("Method Intl.PluralRules.prototype.".concat(method, " called on incompatible receiver ").concat(String(instance)));
+    }
+  }
+  function PluralRuleSelect(locale, type, _n, _a2) {
+    var IntegerDigits = _a2.IntegerDigits, NumberOfFractionDigits = _a2.NumberOfFractionDigits, FractionDigits = _a2.FractionDigits;
+    return PluralRules.localeData[locale].fn(NumberOfFractionDigits ? "".concat(IntegerDigits, ".").concat(FractionDigits) : IntegerDigits, type === "ordinal");
+  }
+  var PluralRules = (
+    /** @class */
+    function() {
+      function PluralRules2(locales, options) {
+        var newTarget = this && this instanceof PluralRules2 ? this.constructor : void 0;
+        if (!newTarget) {
+          throw new TypeError("Intl.PluralRules must be called with 'new'");
+        }
+        return (0, InitializePluralRules_1.InitializePluralRules)(this, locales, options, {
+          availableLocales: PluralRules2.availableLocales,
+          relevantExtensionKeys: PluralRules2.relevantExtensionKeys,
+          localeData: PluralRules2.localeData,
+          getDefaultLocale: PluralRules2.getDefaultLocale,
+          getInternalSlots: get_internal_slots_1.default
+        });
+      }
+      PluralRules2.prototype.resolvedOptions = function() {
+        validateInstance(this, "resolvedOptions");
+        var opts = /* @__PURE__ */ Object.create(null);
+        var internalSlots = (0, get_internal_slots_1.default)(this);
+        opts.locale = internalSlots.locale;
+        opts.type = internalSlots.type;
+        [
+          "minimumIntegerDigits",
+          "minimumFractionDigits",
+          "maximumFractionDigits",
+          "minimumSignificantDigits",
+          "maximumSignificantDigits"
+        ].forEach(function(field) {
+          var val = internalSlots[field];
+          if (val !== void 0) {
+            opts[field] = val;
+          }
+        });
+        opts.pluralCategories = tslib_1$1.__spreadArray([], PluralRules2.localeData[opts.locale].categories[opts.type], true);
+        return opts;
+      };
+      PluralRules2.prototype.select = function(val) {
+        var pr = this;
+        validateInstance(pr, "select");
+        var n = (0, ecma402_abstract_1.ToNumber)(val);
+        return (0, ResolvePlural_1.ResolvePlural)(pr, n, { getInternalSlots: get_internal_slots_1.default, PluralRuleSelect });
+      };
+      PluralRules2.prototype.toString = function() {
+        return "[object Intl.PluralRules]";
+      };
+      PluralRules2.supportedLocalesOf = function(locales, options) {
+        return (0, ecma402_abstract_1.SupportedLocales)(PluralRules2.availableLocales, (0, ecma402_abstract_1.CanonicalizeLocaleList)(locales), options);
+      };
+      PluralRules2.__addLocaleData = function() {
+        var data2 = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          data2[_i] = arguments[_i];
+        }
+        for (var _a2 = 0, data_1 = data2; _a2 < data_1.length; _a2++) {
+          var _b = data_1[_a2], d = _b.data, locale = _b.locale;
+          PluralRules2.localeData[locale] = d;
+          PluralRules2.availableLocales.add(locale);
+          if (!PluralRules2.__defaultLocale) {
+            PluralRules2.__defaultLocale = locale;
+          }
+        }
+      };
+      PluralRules2.getDefaultLocale = function() {
+        return PluralRules2.__defaultLocale;
+      };
+      PluralRules2.localeData = {};
+      PluralRules2.availableLocales = /* @__PURE__ */ new Set();
+      PluralRules2.__defaultLocale = "";
+      PluralRules2.relevantExtensionKeys = [];
+      PluralRules2.polyfilled = true;
+      return PluralRules2;
+    }()
+  );
+  intlPluralrules.PluralRules = PluralRules;
+  try {
+    if (typeof Symbol !== "undefined") {
+      Object.defineProperty(PluralRules.prototype, Symbol.toStringTag, {
+        value: "Intl.PluralRules",
+        writable: false,
+        enumerable: false,
+        configurable: true
+      });
+    }
+    try {
+      Object.defineProperty(PluralRules, "length", {
+        value: 0,
+        writable: false,
+        enumerable: false,
+        configurable: true
+      });
+    } catch (error) {
+    }
+    Object.defineProperty(PluralRules.prototype.constructor, "length", {
+      value: 0,
+      writable: false,
+      enumerable: false,
+      configurable: true
     });
-    (0, ecma402_abstract_1$4.defineProperty)(Date.prototype, "toLocaleTimeString", {
-      value: function toLocaleTimeString2(locales, options) {
-        try {
-          return (0, to_locale_string_1.toLocaleTimeString)(this, locales, options);
-        } catch (error) {
-          return "Invalid Date";
+    Object.defineProperty(PluralRules.supportedLocalesOf, "length", {
+      value: 1,
+      writable: false,
+      enumerable: false,
+      configurable: true
+    });
+    Object.defineProperty(PluralRules, "name", {
+      value: "PluralRules",
+      writable: false,
+      enumerable: false,
+      configurable: true
+    });
+  } catch (ex) {
+  }
+  var shouldPolyfill$2 = {};
+  var supportedLocales_generated$1 = {};
+  Object.defineProperty(supportedLocales_generated$1, "__esModule", { value: true });
+  supportedLocales_generated$1.supportedLocales = void 0;
+  supportedLocales_generated$1.supportedLocales = ["af", "ak", "am", "an", "ar", "ars", "as", "asa", "ast", "az", "bal", "be", "bem", "bez", "bg", "bho", "bm", "bn", "bo", "br", "brx", "bs", "ca", "ce", "ceb", "cgg", "chr", "ckb", "cs", "cy", "da", "de", "doi", "dsb", "dv", "dz", "ee", "el", "en", "eo", "es", "et", "eu", "fa", "ff", "fi", "fil", "fo", "fr", "fur", "fy", "ga", "gd", "gl", "gsw", "gu", "guw", "gv", "ha", "haw", "he", "hi", "hnj", "hr", "hsb", "hu", "hy", "ia", "id", "ig", "ii", "io", "is", "it", "iu", "ja", "jbo", "jgo", "jmc", "jv", "jw", "ka", "kab", "kaj", "kcg", "kde", "kea", "kk", "kkj", "kl", "km", "kn", "ko", "ks", "ksb", "ksh", "ku", "kw", "ky", "lag", "lb", "lg", "lij", "lkt", "ln", "lo", "lt", "lv", "mas", "mg", "mgo", "mk", "ml", "mn", "mo", "mr", "ms", "mt", "my", "nah", "naq", "nb", "nd", "ne", "nl", "nn", "nnh", "no", "nqo", "nr", "nso", "ny", "nyn", "om", "or", "os", "osa", "pa", "pap", "pcm", "pl", "prg", "ps", "pt", "pt-PT", "rm", "ro", "rof", "ru", "rwk", "sah", "saq", "sat", "sc", "scn", "sd", "sdh", "se", "seh", "ses", "sg", "sh", "shi", "si", "sk", "sl", "sma", "smi", "smj", "smn", "sms", "sn", "so", "sq", "sr", "ss", "ssy", "st", "su", "sv", "sw", "syr", "ta", "te", "teo", "th", "ti", "tig", "tk", "tl", "tn", "to", "tpi", "tr", "ts", "tzm", "ug", "uk", "und", "ur", "uz", "ve", "vi", "vo", "vun", "wa", "wae", "wo", "xh", "xog", "yi", "yo", "yue", "zh", "zu"];
+  Object.defineProperty(shouldPolyfill$2, "__esModule", { value: true });
+  shouldPolyfill$2.shouldPolyfill = shouldPolyfill$1;
+  var intl_localematcher_1 = require$$0;
+  var supported_locales_generated_1 = supportedLocales_generated$1;
+  function supportedLocalesOf(locale) {
+    if (!locale) {
+      return true;
+    }
+    var locales = Array.isArray(locale) ? locale : [locale];
+    return Intl.PluralRules.supportedLocalesOf(locales).length === locales.length;
+  }
+  function shouldPolyfill$1(locale) {
+    if (locale === void 0) {
+      locale = "en";
+    }
+    if (!("PluralRules" in Intl) || new Intl.PluralRules("en", { minimumFractionDigits: 2 }).select(1) === "one" || !supportedLocalesOf(locale)) {
+      return locale ? (0, intl_localematcher_1.match)([locale], supported_locales_generated_1.supportedLocales, "en") : void 0;
+    }
+  }
+  var _1$1 = intlPluralrules;
+  var should_polyfill_1$1 = shouldPolyfill$2;
+  if ((0, should_polyfill_1$1.shouldPolyfill)()) {
+    Object.defineProperty(Intl, "PluralRules", {
+      value: _1$1.PluralRules,
+      writable: true,
+      enumerable: false,
+      configurable: true
+    });
+  }
+  var intlRelativetimeformat = {};
+  var InitializeRelativeTimeFormat = {};
+  var hasRequiredInitializeRelativeTimeFormat;
+  function requireInitializeRelativeTimeFormat() {
+    if (hasRequiredInitializeRelativeTimeFormat) return InitializeRelativeTimeFormat;
+    hasRequiredInitializeRelativeTimeFormat = 1;
+    Object.defineProperty(InitializeRelativeTimeFormat, "__esModule", { value: true });
+    InitializeRelativeTimeFormat.InitializeRelativeTimeFormat = InitializeRelativeTimeFormat$1;
+    var ecma402_abstract_12 = require$$1;
+    var intl_localematcher_12 = require$$0;
+    var NUMBERING_SYSTEM_REGEX = /^[a-z0-9]{3,8}(-[a-z0-9]{3,8})*$/i;
+    function InitializeRelativeTimeFormat$1(rtf, locales, options, _a2) {
+      var getInternalSlots = _a2.getInternalSlots, availableLocales = _a2.availableLocales, relevantExtensionKeys = _a2.relevantExtensionKeys, localeData = _a2.localeData, getDefaultLocale = _a2.getDefaultLocale;
+      var internalSlots = getInternalSlots(rtf);
+      internalSlots.initializedRelativeTimeFormat = true;
+      var requestedLocales = (0, ecma402_abstract_12.CanonicalizeLocaleList)(locales);
+      var opt = /* @__PURE__ */ Object.create(null);
+      var opts = (0, ecma402_abstract_12.CoerceOptionsToObject)(options);
+      var matcher = (0, ecma402_abstract_12.GetOption)(opts, "localeMatcher", "string", ["best fit", "lookup"], "best fit");
+      opt.localeMatcher = matcher;
+      var numberingSystem = (0, ecma402_abstract_12.GetOption)(
+        opts,
+        // @ts-expect-error TS option is wack
+        "numberingSystem",
+        "string",
+        void 0,
+        void 0
+      );
+      if (numberingSystem !== void 0) {
+        if (!NUMBERING_SYSTEM_REGEX.test(numberingSystem)) {
+          throw new RangeError("Invalid numbering system ".concat(numberingSystem));
         }
       }
+      opt.nu = numberingSystem;
+      var r = (0, intl_localematcher_12.ResolveLocale)(availableLocales, requestedLocales, opt, relevantExtensionKeys, localeData, getDefaultLocale);
+      var locale = r.locale, nu = r.nu;
+      internalSlots.locale = locale;
+      internalSlots.style = (0, ecma402_abstract_12.GetOption)(opts, "style", "string", ["long", "narrow", "short"], "long");
+      internalSlots.numeric = (0, ecma402_abstract_12.GetOption)(opts, "numeric", "string", ["always", "auto"], "always");
+      var fields = localeData[r.dataLocale];
+      (0, ecma402_abstract_12.invariant)(!!fields, "Missing locale data for ".concat(r.dataLocale));
+      internalSlots.fields = fields;
+      internalSlots.numberFormat = (0, ecma402_abstract_12.createMemoizedNumberFormat)(locales);
+      internalSlots.pluralRules = (0, ecma402_abstract_12.createMemoizedPluralRules)(locales);
+      internalSlots.numberingSystem = nu;
+      return rtf;
+    }
+    return InitializeRelativeTimeFormat;
+  }
+  var PartitionRelativeTimePattern = {};
+  var SingularRelativeTimeUnit = {};
+  var hasRequiredSingularRelativeTimeUnit;
+  function requireSingularRelativeTimeUnit() {
+    if (hasRequiredSingularRelativeTimeUnit) return SingularRelativeTimeUnit;
+    hasRequiredSingularRelativeTimeUnit = 1;
+    Object.defineProperty(SingularRelativeTimeUnit, "__esModule", { value: true });
+    SingularRelativeTimeUnit.SingularRelativeTimeUnit = SingularRelativeTimeUnit$1;
+    var ecma402_abstract_12 = require$$1;
+    function SingularRelativeTimeUnit$1(unit) {
+      (0, ecma402_abstract_12.invariant)((0, ecma402_abstract_12.Type)(unit) === "String", "unit must be a string");
+      if (unit === "seconds")
+        return "second";
+      if (unit === "minutes")
+        return "minute";
+      if (unit === "hours")
+        return "hour";
+      if (unit === "days")
+        return "day";
+      if (unit === "weeks")
+        return "week";
+      if (unit === "months")
+        return "month";
+      if (unit === "quarters")
+        return "quarter";
+      if (unit === "years")
+        return "year";
+      if (unit !== "second" && unit !== "minute" && unit !== "hour" && unit !== "day" && unit !== "week" && unit !== "month" && unit !== "quarter" && unit !== "year") {
+        throw new RangeError("invalid unit");
+      }
+      return unit;
+    }
+    return SingularRelativeTimeUnit;
+  }
+  var MakePartsList = {};
+  var hasRequiredMakePartsList;
+  function requireMakePartsList() {
+    if (hasRequiredMakePartsList) return MakePartsList;
+    hasRequiredMakePartsList = 1;
+    Object.defineProperty(MakePartsList, "__esModule", { value: true });
+    MakePartsList.MakePartsList = MakePartsList$1;
+    var ecma402_abstract_12 = require$$1;
+    function MakePartsList$1(pattern, unit, parts) {
+      var patternParts = (0, ecma402_abstract_12.PartitionPattern)(pattern);
+      var result = [];
+      for (var _i = 0, patternParts_1 = patternParts; _i < patternParts_1.length; _i++) {
+        var patternPart = patternParts_1[_i];
+        if (patternPart.type === "literal") {
+          result.push({
+            type: "literal",
+            value: patternPart.value
+          });
+        } else {
+          (0, ecma402_abstract_12.invariant)(patternPart.type === "0", "Malformed pattern ".concat(pattern));
+          for (var _a2 = 0, parts_1 = parts; _a2 < parts_1.length; _a2++) {
+            var part = parts_1[_a2];
+            result.push({
+              type: part.type,
+              value: part.value,
+              unit
+            });
+          }
+        }
+      }
+      return result;
+    }
+    return MakePartsList;
+  }
+  var hasRequiredPartitionRelativeTimePattern;
+  function requirePartitionRelativeTimePattern() {
+    if (hasRequiredPartitionRelativeTimePattern) return PartitionRelativeTimePattern;
+    hasRequiredPartitionRelativeTimePattern = 1;
+    Object.defineProperty(PartitionRelativeTimePattern, "__esModule", { value: true });
+    PartitionRelativeTimePattern.PartitionRelativeTimePattern = PartitionRelativeTimePattern$1;
+    var ecma402_abstract_12 = require$$1;
+    var SingularRelativeTimeUnit_1 = requireSingularRelativeTimeUnit();
+    var MakePartsList_1 = requireMakePartsList();
+    function PartitionRelativeTimePattern$1(rtf, value2, unit, _a2) {
+      var getInternalSlots = _a2.getInternalSlots;
+      (0, ecma402_abstract_12.invariant)((0, ecma402_abstract_12.Type)(value2) === "Number", "value must be number, instead got ".concat(typeof value2), TypeError);
+      (0, ecma402_abstract_12.invariant)((0, ecma402_abstract_12.Type)(unit) === "String", "unit must be number, instead got ".concat(typeof value2), TypeError);
+      if (isNaN(value2) || !isFinite(value2)) {
+        throw new RangeError("Invalid value ".concat(value2));
+      }
+      var resolvedUnit = (0, SingularRelativeTimeUnit_1.SingularRelativeTimeUnit)(unit);
+      var _b = getInternalSlots(rtf), fields = _b.fields, style = _b.style, numeric = _b.numeric, pluralRules = _b.pluralRules, numberFormat = _b.numberFormat;
+      var entry = resolvedUnit;
+      if (style === "short") {
+        entry = "".concat(resolvedUnit, "-short");
+      } else if (style === "narrow") {
+        entry = "".concat(resolvedUnit, "-narrow");
+      }
+      if (!(entry in fields)) {
+        entry = resolvedUnit;
+      }
+      var patterns = fields[entry];
+      if (numeric === "auto") {
+        if ((0, ecma402_abstract_12.ToString)(value2) in patterns) {
+          return [
+            {
+              type: "literal",
+              value: patterns[(0, ecma402_abstract_12.ToString)(value2)]
+            }
+          ];
+        }
+      }
+      var tl = "future";
+      if ((0, ecma402_abstract_12.SameValue)(value2, -0) || value2 < 0) {
+        tl = "past";
+      }
+      var po = patterns[tl];
+      var fv = typeof numberFormat.formatToParts === "function" ? numberFormat.formatToParts(Math.abs(value2)) : (
+        // TODO: If formatToParts is not supported, we assume the whole formatted
+        // number is a part
+        [
+          {
+            type: "literal",
+            value: numberFormat.format(Math.abs(value2)),
+            unit
+          }
+        ]
+      );
+      var pr = pluralRules.select(value2);
+      var pattern = po[pr];
+      return (0, MakePartsList_1.MakePartsList)(pattern, resolvedUnit, fv);
+    }
+    return PartitionRelativeTimePattern;
+  }
+  var get_internal_slots = {};
+  var hasRequiredGet_internal_slots;
+  function requireGet_internal_slots() {
+    if (hasRequiredGet_internal_slots) return get_internal_slots;
+    hasRequiredGet_internal_slots = 1;
+    Object.defineProperty(get_internal_slots, "__esModule", { value: true });
+    get_internal_slots.default = getInternalSlots;
+    var internalSlotMap = /* @__PURE__ */ new WeakMap();
+    function getInternalSlots(x) {
+      var internalSlots = internalSlotMap.get(x);
+      if (!internalSlots) {
+        internalSlots = /* @__PURE__ */ Object.create(null);
+        internalSlotMap.set(x, internalSlots);
+      }
+      return internalSlots;
+    }
+    return get_internal_slots;
+  }
+  var hasRequiredIntlRelativetimeformat;
+  function requireIntlRelativetimeformat() {
+    if (hasRequiredIntlRelativetimeformat) return intlRelativetimeformat;
+    hasRequiredIntlRelativetimeformat = 1;
+    Object.defineProperty(intlRelativetimeformat, "__esModule", { value: true });
+    var tslib_12 = require$$0$1;
+    var ecma402_abstract_12 = require$$1;
+    var InitializeRelativeTimeFormat_1 = requireInitializeRelativeTimeFormat();
+    var PartitionRelativeTimePattern_1 = requirePartitionRelativeTimePattern();
+    var get_internal_slots_12 = tslib_12.__importDefault(requireGet_internal_slots());
+    var RelativeTimeFormat = (
+      /** @class */
+      function() {
+        function RelativeTimeFormat2(locales, options) {
+          var newTarget = this && this instanceof RelativeTimeFormat2 ? this.constructor : void 0;
+          if (!newTarget) {
+            throw new TypeError("Intl.RelativeTimeFormat must be called with 'new'");
+          }
+          return (0, InitializeRelativeTimeFormat_1.InitializeRelativeTimeFormat)(this, locales, options, {
+            getInternalSlots: get_internal_slots_12.default,
+            availableLocales: RelativeTimeFormat2.availableLocales,
+            relevantExtensionKeys: RelativeTimeFormat2.relevantExtensionKeys,
+            localeData: RelativeTimeFormat2.localeData,
+            getDefaultLocale: RelativeTimeFormat2.getDefaultLocale
+          });
+        }
+        RelativeTimeFormat2.prototype.format = function(value2, unit) {
+          if (typeof this !== "object") {
+            throw new TypeError("format was called on a non-object");
+          }
+          var internalSlots = (0, get_internal_slots_12.default)(this);
+          if (!internalSlots.initializedRelativeTimeFormat) {
+            throw new TypeError("format was called on a invalid context");
+          }
+          return (0, PartitionRelativeTimePattern_1.PartitionRelativeTimePattern)(this, Number(value2), (0, ecma402_abstract_12.ToString)(unit), {
+            getInternalSlots: get_internal_slots_12.default
+          }).map(function(el) {
+            return el.value;
+          }).join("");
+        };
+        RelativeTimeFormat2.prototype.formatToParts = function(value2, unit) {
+          if (typeof this !== "object") {
+            throw new TypeError("formatToParts was called on a non-object");
+          }
+          var internalSlots = (0, get_internal_slots_12.default)(this);
+          if (!internalSlots.initializedRelativeTimeFormat) {
+            throw new TypeError("formatToParts was called on a invalid context");
+          }
+          return (0, PartitionRelativeTimePattern_1.PartitionRelativeTimePattern)(this, Number(value2), (0, ecma402_abstract_12.ToString)(unit), { getInternalSlots: get_internal_slots_12.default });
+        };
+        RelativeTimeFormat2.prototype.resolvedOptions = function() {
+          if (typeof this !== "object") {
+            throw new TypeError("resolvedOptions was called on a non-object");
+          }
+          var internalSlots = (0, get_internal_slots_12.default)(this);
+          if (!internalSlots.initializedRelativeTimeFormat) {
+            throw new TypeError("resolvedOptions was called on a invalid context");
+          }
+          return {
+            locale: internalSlots.locale,
+            style: internalSlots.style,
+            numeric: internalSlots.numeric,
+            numberingSystem: internalSlots.numberingSystem
+          };
+        };
+        RelativeTimeFormat2.supportedLocalesOf = function(locales, options) {
+          return (0, ecma402_abstract_12.SupportedLocales)(RelativeTimeFormat2.availableLocales, (0, ecma402_abstract_12.CanonicalizeLocaleList)(locales), options);
+        };
+        RelativeTimeFormat2.__addLocaleData = function() {
+          var data2 = [];
+          for (var _i = 0; _i < arguments.length; _i++) {
+            data2[_i] = arguments[_i];
+          }
+          for (var _a2 = 0, data_1 = data2; _a2 < data_1.length; _a2++) {
+            var _b = data_1[_a2], d = _b.data, locale = _b.locale;
+            var minimizedLocale = new Intl.Locale(locale).minimize().toString();
+            RelativeTimeFormat2.localeData[locale] = RelativeTimeFormat2.localeData[minimizedLocale] = d;
+            RelativeTimeFormat2.availableLocales.add(minimizedLocale);
+            RelativeTimeFormat2.availableLocales.add(locale);
+            if (!RelativeTimeFormat2.__defaultLocale) {
+              RelativeTimeFormat2.__defaultLocale = minimizedLocale;
+            }
+          }
+        };
+        RelativeTimeFormat2.getDefaultLocale = function() {
+          return RelativeTimeFormat2.__defaultLocale;
+        };
+        RelativeTimeFormat2.localeData = {};
+        RelativeTimeFormat2.availableLocales = /* @__PURE__ */ new Set();
+        RelativeTimeFormat2.__defaultLocale = "";
+        RelativeTimeFormat2.relevantExtensionKeys = ["nu"];
+        RelativeTimeFormat2.polyfilled = true;
+        return RelativeTimeFormat2;
+      }()
+    );
+    intlRelativetimeformat.default = RelativeTimeFormat;
+    try {
+      if (typeof Symbol !== "undefined") {
+        Object.defineProperty(RelativeTimeFormat.prototype, Symbol.toStringTag, {
+          value: "Intl.RelativeTimeFormat",
+          writable: false,
+          enumerable: false,
+          configurable: true
+        });
+      }
+      Object.defineProperty(RelativeTimeFormat.prototype.constructor, "length", {
+        value: 0,
+        writable: false,
+        enumerable: false,
+        configurable: true
+      });
+      Object.defineProperty(RelativeTimeFormat.supportedLocalesOf, "length", {
+        value: 1,
+        writable: false,
+        enumerable: false,
+        configurable: true
+      });
+    } catch (e) {
+    }
+    return intlRelativetimeformat;
+  }
+  var shouldPolyfill = {};
+  var supportedLocales_generated = {};
+  var hasRequiredSupportedLocales_generated;
+  function requireSupportedLocales_generated() {
+    if (hasRequiredSupportedLocales_generated) return supportedLocales_generated;
+    hasRequiredSupportedLocales_generated = 1;
+    Object.defineProperty(supportedLocales_generated, "__esModule", { value: true });
+    supportedLocales_generated.supportedLocales = void 0;
+    supportedLocales_generated.supportedLocales = ["af", "af-NA", "agq", "ak", "am", "ar", "ar-AE", "ar-BH", "ar-DJ", "ar-DZ", "ar-EG", "ar-EH", "ar-ER", "ar-IL", "ar-IQ", "ar-JO", "ar-KM", "ar-KW", "ar-LB", "ar-LY", "ar-MA", "ar-MR", "ar-OM", "ar-PS", "ar-QA", "ar-SA", "ar-SD", "ar-SO", "ar-SS", "ar-SY", "ar-TD", "ar-TN", "ar-YE", "as", "asa", "ast", "az", "az-Cyrl", "az-Latn", "bas", "be", "be-tarask", "bem", "bez", "bg", "bm", "bn", "bn-IN", "bo", "bo-IN", "br", "brx", "bs", "bs-Cyrl", "bs-Latn", "ca", "ca-AD", "ca-ES-valencia", "ca-FR", "ca-IT", "ccp", "ccp-IN", "ce", "ceb", "cgg", "chr", "ckb", "ckb-IR", "cs", "cy", "da", "da-GL", "dav", "de", "de-AT", "de-BE", "de-CH", "de-IT", "de-LI", "de-LU", "dje", "doi", "dsb", "dua", "dyo", "dz", "ebu", "ee", "ee-TG", "el", "el-CY", "en", "en-001", "en-150", "en-AE", "en-AG", "en-AI", "en-AS", "en-AT", "en-AU", "en-BB", "en-BE", "en-BI", "en-BM", "en-BS", "en-BW", "en-BZ", "en-CA", "en-CC", "en-CH", "en-CK", "en-CM", "en-CX", "en-CY", "en-DE", "en-DG", "en-DK", "en-DM", "en-ER", "en-FI", "en-FJ", "en-FK", "en-FM", "en-GB", "en-GD", "en-GG", "en-GH", "en-GI", "en-GM", "en-GU", "en-GY", "en-HK", "en-IE", "en-IL", "en-IM", "en-IN", "en-IO", "en-JE", "en-JM", "en-KE", "en-KI", "en-KN", "en-KY", "en-LC", "en-LR", "en-LS", "en-MG", "en-MH", "en-MO", "en-MP", "en-MS", "en-MT", "en-MU", "en-MW", "en-MY", "en-NA", "en-NF", "en-NG", "en-NL", "en-NR", "en-NU", "en-NZ", "en-PG", "en-PH", "en-PK", "en-PN", "en-PR", "en-PW", "en-RW", "en-SB", "en-SC", "en-SD", "en-SE", "en-SG", "en-SH", "en-SI", "en-SL", "en-SS", "en-SX", "en-SZ", "en-TC", "en-TK", "en-TO", "en-TT", "en-TV", "en-TZ", "en-UG", "en-UM", "en-VC", "en-VG", "en-VI", "en-VU", "en-WS", "en-ZA", "en-ZM", "en-ZW", "eo", "es", "es-419", "es-AR", "es-BO", "es-BR", "es-BZ", "es-CL", "es-CO", "es-CR", "es-CU", "es-DO", "es-EA", "es-EC", "es-GQ", "es-GT", "es-HN", "es-IC", "es-MX", "es-NI", "es-PA", "es-PE", "es-PH", "es-PR", "es-PY", "es-SV", "es-US", "es-UY", "es-VE", "et", "eu", "ewo", "fa", "fa-AF", "ff", "ff-Adlm", "ff-Adlm-BF", "ff-Adlm-CM", "ff-Adlm-GH", "ff-Adlm-GM", "ff-Adlm-GW", "ff-Adlm-LR", "ff-Adlm-MR", "ff-Adlm-NE", "ff-Adlm-NG", "ff-Adlm-SL", "ff-Adlm-SN", "ff-Latn", "ff-Latn-BF", "ff-Latn-CM", "ff-Latn-GH", "ff-Latn-GM", "ff-Latn-GN", "ff-Latn-GW", "ff-Latn-LR", "ff-Latn-MR", "ff-Latn-NE", "ff-Latn-NG", "ff-Latn-SL", "fi", "fil", "fo", "fo-DK", "fr", "fr-BE", "fr-BF", "fr-BI", "fr-BJ", "fr-BL", "fr-CA", "fr-CD", "fr-CF", "fr-CG", "fr-CH", "fr-CI", "fr-CM", "fr-DJ", "fr-DZ", "fr-GA", "fr-GF", "fr-GN", "fr-GP", "fr-GQ", "fr-HT", "fr-KM", "fr-LU", "fr-MA", "fr-MC", "fr-MF", "fr-MG", "fr-ML", "fr-MQ", "fr-MR", "fr-MU", "fr-NC", "fr-NE", "fr-PF", "fr-PM", "fr-RE", "fr-RW", "fr-SC", "fr-SN", "fr-SY", "fr-TD", "fr-TG", "fr-TN", "fr-VU", "fr-WF", "fr-YT", "fur", "fy", "ga", "ga-GB", "gd", "gl", "gsw", "gsw-FR", "gsw-LI", "gu", "guz", "gv", "ha", "ha-GH", "ha-NE", "haw", "he", "hi", "hr", "hr-BA", "hsb", "hu", "hy", "ia", "id", "ig", "ii", "is", "it", "it-CH", "it-SM", "it-VA", "ja", "jgo", "jmc", "jv", "ka", "kab", "kam", "kde", "kea", "kgp", "khq", "ki", "kk", "kkj", "kl", "kln", "km", "kn", "ko", "ko-KP", "kok", "ks", "ks-Arab", "ksb", "ksf", "ksh", "ku", "kw", "ky", "lag", "lb", "lg", "lkt", "ln", "ln-AO", "ln-CF", "ln-CG", "lo", "lrc", "lrc-IQ", "lt", "lu", "luo", "luy", "lv", "mai", "mas", "mas-TZ", "mer", "mfe", "mg", "mgh", "mgo", "mi", "mk", "ml", "mn", "mni", "mni-Beng", "mr", "ms", "ms-BN", "ms-ID", "ms-SG", "mt", "mua", "my", "mzn", "naq", "nb", "nb-SJ", "nd", "nds", "nds-NL", "ne", "ne-IN", "nl", "nl-AW", "nl-BE", "nl-BQ", "nl-CW", "nl-SR", "nl-SX", "nmg", "nn", "nnh", "no", "nus", "nyn", "om", "om-KE", "or", "os", "os-RU", "pa", "pa-Arab", "pa-Guru", "pcm", "pl", "ps", "ps-PK", "pt", "pt-AO", "pt-CH", "pt-CV", "pt-GQ", "pt-GW", "pt-LU", "pt-MO", "pt-MZ", "pt-PT", "pt-ST", "pt-TL", "qu", "qu-BO", "qu-EC", "rm", "rn", "ro", "ro-MD", "rof", "ru", "ru-BY", "ru-KG", "ru-KZ", "ru-MD", "ru-UA", "rw", "rwk", "sa", "sah", "saq", "sat", "sat-Olck", "sbp", "sc", "sd", "sd-Arab", "sd-Deva", "se", "se-FI", "se-SE", "seh", "ses", "sg", "shi", "shi-Latn", "shi-Tfng", "si", "sk", "sl", "smn", "sn", "so", "so-DJ", "so-ET", "so-KE", "sq", "sq-MK", "sq-XK", "sr", "sr-Cyrl", "sr-Cyrl-BA", "sr-Cyrl-ME", "sr-Cyrl-XK", "sr-Latn", "sr-Latn-BA", "sr-Latn-ME", "sr-Latn-XK", "su", "su-Latn", "sv", "sv-AX", "sv-FI", "sw", "sw-CD", "sw-KE", "sw-UG", "ta", "ta-LK", "ta-MY", "ta-SG", "te", "teo", "teo-KE", "tg", "th", "ti", "ti-ER", "tk", "to", "tr", "tr-CY", "tt", "twq", "tzm", "ug", "uk", "und", "ur", "ur-IN", "uz", "uz-Arab", "uz-Cyrl", "uz-Latn", "vai", "vai-Latn", "vai-Vaii", "vi", "vun", "wae", "wo", "xh", "xog", "yav", "yi", "yo", "yo-BJ", "yrl", "yrl-CO", "yrl-VE", "yue", "yue-Hans", "yue-Hant", "zgh", "zh", "zh-Hans", "zh-Hans-HK", "zh-Hans-MO", "zh-Hans-SG", "zh-Hant", "zh-Hant-HK", "zh-Hant-MO", "zu"];
+    return supportedLocales_generated;
+  }
+  var hasRequiredShouldPolyfill;
+  function requireShouldPolyfill() {
+    if (hasRequiredShouldPolyfill) return shouldPolyfill;
+    hasRequiredShouldPolyfill = 1;
+    Object.defineProperty(shouldPolyfill, "__esModule", { value: true });
+    shouldPolyfill.shouldPolyfill = shouldPolyfill$12;
+    var intl_localematcher_12 = require$$0;
+    var supported_locales_generated_12 = requireSupportedLocales_generated();
+    function supportedLocalesOf2(locale) {
+      if (!locale) {
+        return true;
+      }
+      var locales = Array.isArray(locale) ? locale : [locale];
+      return Intl.RelativeTimeFormat.supportedLocalesOf(locales).length === locales.length;
+    }
+    function hasResolvedOptionsNumberingSystem(locale) {
+      try {
+        return "numberingSystem" in new Intl.RelativeTimeFormat(locale || "en", {
+          numeric: "auto"
+        }).resolvedOptions();
+      } catch (_) {
+        return false;
+      }
+    }
+    function shouldPolyfill$12(locale) {
+      if (locale === void 0) {
+        locale = "en";
+      }
+      if (!("RelativeTimeFormat" in Intl) || !supportedLocalesOf2(locale) || !hasResolvedOptionsNumberingSystem(locale)) {
+        return (0, intl_localematcher_12.match)([locale], supported_locales_generated_12.supportedLocales, "en");
+      }
+    }
+    return shouldPolyfill;
+  }
+  var tslib_1 = require$$0$1;
+  var _1 = tslib_1.__importDefault(requireIntlRelativetimeformat());
+  var should_polyfill_1 = requireShouldPolyfill();
+  if ((0, should_polyfill_1.shouldPolyfill)()) {
+    Object.defineProperty(Intl, "RelativeTimeFormat", {
+      value: _1.default,
+      writable: true,
+      enumerable: false,
+      configurable: true
     });
   }
   if ("DateTimeFormat" in Intl && Intl.DateTimeFormat.__addTZData) {
@@ -40414,268 +38280,3008 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }
     );
   }
-  var intlPluralrules = {};
-  var InitializePluralRules$1 = {};
-  Object.defineProperty(InitializePluralRules$1, "__esModule", { value: true });
-  InitializePluralRules$1.InitializePluralRules = InitializePluralRules;
-  var ecma402_abstract_1$3 = require$$1;
-  var intl_localematcher_1$1 = require$$0;
-  function InitializePluralRules(pl, locales, options, _a2) {
-    var availableLocales = _a2.availableLocales, relevantExtensionKeys = _a2.relevantExtensionKeys, localeData = _a2.localeData, getDefaultLocale = _a2.getDefaultLocale, getInternalSlots = _a2.getInternalSlots;
-    var requestedLocales = (0, ecma402_abstract_1$3.CanonicalizeLocaleList)(locales);
-    var opt = /* @__PURE__ */ Object.create(null);
-    var opts = (0, ecma402_abstract_1$3.CoerceOptionsToObject)(options);
-    var internalSlots = getInternalSlots(pl);
-    internalSlots.initializedPluralRules = true;
-    var matcher = (0, ecma402_abstract_1$3.GetOption)(opts, "localeMatcher", "string", ["best fit", "lookup"], "best fit");
-    opt.localeMatcher = matcher;
-    var r = (0, intl_localematcher_1$1.ResolveLocale)(availableLocales, requestedLocales, opt, relevantExtensionKeys, localeData, getDefaultLocale);
-    internalSlots.locale = r.locale;
-    internalSlots.type = (0, ecma402_abstract_1$3.GetOption)(opts, "type", "string", ["cardinal", "ordinal"], "cardinal");
-    (0, ecma402_abstract_1$3.SetNumberFormatDigitOptions)(internalSlots, opts, 0, 3, "standard");
-    return pl;
-  }
-  var ResolvePlural$1 = {};
-  var GetOperands$1 = {};
-  Object.defineProperty(GetOperands$1, "__esModule", { value: true });
-  GetOperands$1.GetOperands = GetOperands;
-  var ecma402_abstract_1$2 = require$$1;
-  function GetOperands(s) {
-    (0, ecma402_abstract_1$2.invariant)(typeof s === "string", "GetOperands should have been called with a string");
-    var n = (0, ecma402_abstract_1$2.ToNumber)(s);
-    (0, ecma402_abstract_1$2.invariant)(n.isFinite(), "n should be finite");
-    var dp = s.indexOf(".");
-    var iv;
-    var f;
-    var v;
-    var fv = "";
-    if (dp === -1) {
-      iv = n;
-      f = ecma402_abstract_1$2.ZERO;
-      v = 0;
-    } else {
-      iv = s.slice(0, dp);
-      fv = s.slice(dp, s.length);
-      f = (0, ecma402_abstract_1$2.ToNumber)(fv);
-      v = fv.length;
-    }
-    var i = (0, ecma402_abstract_1$2.ToNumber)(iv).abs();
-    var w;
-    var t;
-    if (!f.isZero()) {
-      var ft = fv.replace(/0+$/, "");
-      w = ft.length;
-      t = (0, ecma402_abstract_1$2.ToNumber)(ft);
-    } else {
-      w = 0;
-      t = ecma402_abstract_1$2.ZERO;
-    }
-    return {
-      Number: n,
-      IntegerDigits: i.toNumber(),
-      NumberOfFractionDigits: v,
-      NumberOfFractionDigitsWithoutTrailing: w,
-      FractionDigits: f.toNumber(),
-      FractionDigitsWithoutTrailing: t.toNumber()
-    };
-  }
-  Object.defineProperty(ResolvePlural$1, "__esModule", { value: true });
-  ResolvePlural$1.ResolvePlural = ResolvePlural;
-  var ecma402_abstract_1$1 = require$$1;
-  var GetOperands_1 = GetOperands$1;
-  function ResolvePlural(pl, n, _a2) {
-    var getInternalSlots = _a2.getInternalSlots, PluralRuleSelect2 = _a2.PluralRuleSelect;
-    var internalSlots = getInternalSlots(pl);
-    (0, ecma402_abstract_1$1.invariant)((0, ecma402_abstract_1$1.Type)(internalSlots) === "Object", "pl has to be an object");
-    (0, ecma402_abstract_1$1.invariant)("initializedPluralRules" in internalSlots, "pluralrules must be initialized");
-    if (!n.isFinite()) {
-      return "other";
-    }
-    var locale = internalSlots.locale, type = internalSlots.type;
-    var res = (0, ecma402_abstract_1$1.FormatNumericToString)(internalSlots, n);
-    var s = res.formattedString;
-    var operands = (0, GetOperands_1.GetOperands)(s);
-    return PluralRuleSelect2(locale, type, n, operands);
-  }
-  var get_internal_slots$1 = {};
-  var hasRequiredGet_internal_slots$1;
-  function requireGet_internal_slots$1() {
-    if (hasRequiredGet_internal_slots$1) return get_internal_slots$1;
-    hasRequiredGet_internal_slots$1 = 1;
-    Object.defineProperty(get_internal_slots$1, "__esModule", { value: true });
-    get_internal_slots$1.default = getInternalSlots;
-    var internalSlotMap = /* @__PURE__ */ new WeakMap();
-    function getInternalSlots(x) {
-      var internalSlots = internalSlotMap.get(x);
-      if (!internalSlots) {
-        internalSlots = /* @__PURE__ */ Object.create(null);
-        internalSlotMap.set(x, internalSlots);
-      }
-      return internalSlots;
-    }
-    return get_internal_slots$1;
-  }
-  Object.defineProperty(intlPluralrules, "__esModule", { value: true });
-  intlPluralrules.PluralRules = void 0;
-  var tslib_1$1 = require$$0$1;
-  var ecma402_abstract_1 = require$$1;
-  var InitializePluralRules_1 = InitializePluralRules$1;
-  var ResolvePlural_1 = ResolvePlural$1;
-  var get_internal_slots_1 = tslib_1$1.__importDefault(requireGet_internal_slots$1());
-  function validateInstance(instance, method) {
-    if (!(instance instanceof PluralRules)) {
-      throw new TypeError("Method Intl.PluralRules.prototype.".concat(method, " called on incompatible receiver ").concat(String(instance)));
-    }
-  }
-  function PluralRuleSelect(locale, type, _n, _a2) {
-    var IntegerDigits = _a2.IntegerDigits, NumberOfFractionDigits = _a2.NumberOfFractionDigits, FractionDigits = _a2.FractionDigits;
-    return PluralRules.localeData[locale].fn(NumberOfFractionDigits ? "".concat(IntegerDigits, ".").concat(FractionDigits) : IntegerDigits, type === "ordinal");
-  }
-  var PluralRules = (
-    /** @class */
-    function() {
-      function PluralRules2(locales, options) {
-        var newTarget = this && this instanceof PluralRules2 ? this.constructor : void 0;
-        if (!newTarget) {
-          throw new TypeError("Intl.PluralRules must be called with 'new'");
-        }
-        return (0, InitializePluralRules_1.InitializePluralRules)(this, locales, options, {
-          availableLocales: PluralRules2.availableLocales,
-          relevantExtensionKeys: PluralRules2.relevantExtensionKeys,
-          localeData: PluralRules2.localeData,
-          getDefaultLocale: PluralRules2.getDefaultLocale,
-          getInternalSlots: get_internal_slots_1.default
-        });
-      }
-      PluralRules2.prototype.resolvedOptions = function() {
-        validateInstance(this, "resolvedOptions");
-        var opts = /* @__PURE__ */ Object.create(null);
-        var internalSlots = (0, get_internal_slots_1.default)(this);
-        opts.locale = internalSlots.locale;
-        opts.type = internalSlots.type;
-        [
-          "minimumIntegerDigits",
-          "minimumFractionDigits",
-          "maximumFractionDigits",
-          "minimumSignificantDigits",
-          "maximumSignificantDigits"
-        ].forEach(function(field) {
-          var val = internalSlots[field];
-          if (val !== void 0) {
-            opts[field] = val;
+  if (Intl.NumberFormat && typeof Intl.NumberFormat.__addLocaleData === "function") {
+    Intl.NumberFormat.__addLocaleData({
+      "data": {
+        "currencies": {
+          "ADP": {
+            "displayName": {
+              "other": "Andorrese peseta"
+            },
+            "narrow": "ADP",
+            "symbol": "ADP"
+          },
+          "AED": {
+            "displayName": {
+              "other": "VAE-dirham"
+            },
+            "narrow": "AED",
+            "symbol": "AED"
+          },
+          "AFA": {
+            "displayName": {
+              "other": "Afghani (AFA)"
+            },
+            "narrow": "AFA",
+            "symbol": "AFA"
+          },
+          "AFN": {
+            "displayName": {
+              "other": "Afghaanse afghani"
+            },
+            "narrow": "؋",
+            "symbol": "AFN"
+          },
+          "ALK": {
+            "displayName": {
+              "other": "Albanese lek (1946–1965)"
+            },
+            "narrow": "ALK",
+            "symbol": "ALK"
+          },
+          "ALL": {
+            "displayName": {
+              "other": "Albanese lek"
+            },
+            "narrow": "ALL",
+            "symbol": "ALL"
+          },
+          "AMD": {
+            "displayName": {
+              "other": "Armeense dram"
+            },
+            "narrow": "֏",
+            "symbol": "AMD"
+          },
+          "ANG": {
+            "displayName": {
+              "other": "Nederlands-Antilliaanse gulden"
+            },
+            "narrow": "ANG",
+            "symbol": "ANG"
+          },
+          "AOA": {
+            "displayName": {
+              "other": "Angolese kwanza"
+            },
+            "narrow": "Kz",
+            "symbol": "AOA"
+          },
+          "AOK": {
+            "displayName": {
+              "other": "Angolese kwanza (1977–1990)"
+            },
+            "narrow": "AOK",
+            "symbol": "AOK"
+          },
+          "AON": {
+            "displayName": {
+              "other": "Angolese nieuwe kwanza (1990–2000)"
+            },
+            "narrow": "AON",
+            "symbol": "AON"
+          },
+          "AOR": {
+            "displayName": {
+              "other": "Angolese kwanza reajustado (1995–1999)"
+            },
+            "narrow": "AOR",
+            "symbol": "AOR"
+          },
+          "ARA": {
+            "displayName": {
+              "other": "Argentijnse austral"
+            },
+            "narrow": "ARA",
+            "symbol": "ARA"
+          },
+          "ARL": {
+            "displayName": {
+              "other": "Argentijnse peso ley (1970–1983)"
+            },
+            "narrow": "ARL",
+            "symbol": "ARL"
+          },
+          "ARM": {
+            "displayName": {
+              "other": "Argentijnse peso (1881–1970)"
+            },
+            "narrow": "ARM",
+            "symbol": "ARM"
+          },
+          "ARP": {
+            "displayName": {
+              "other": "Argentijnse peso (1983–1985)"
+            },
+            "narrow": "ARP",
+            "symbol": "ARP"
+          },
+          "ARS": {
+            "displayName": {
+              "other": "Argentijnse peso"
+            },
+            "narrow": "$",
+            "symbol": "ARS"
+          },
+          "ATS": {
+            "displayName": {
+              "other": "Oostenrijkse schilling"
+            },
+            "narrow": "ATS",
+            "symbol": "ATS"
+          },
+          "AUD": {
+            "displayName": {
+              "other": "Australische dollar"
+            },
+            "narrow": "$",
+            "symbol": "AU$"
+          },
+          "AWG": {
+            "displayName": {
+              "other": "Arubaanse gulden"
+            },
+            "narrow": "AWG",
+            "symbol": "AWG"
+          },
+          "AZM": {
+            "displayName": {
+              "other": "Azerbeidzjaanse manat (1993–2006)"
+            },
+            "narrow": "AZM",
+            "symbol": "AZM"
+          },
+          "AZN": {
+            "displayName": {
+              "other": "Azerbeidzjaanse manat"
+            },
+            "narrow": "₼",
+            "symbol": "AZN"
+          },
+          "BAD": {
+            "displayName": {
+              "other": "Bosnische dinar"
+            },
+            "narrow": "BAD",
+            "symbol": "BAD"
+          },
+          "BAM": {
+            "displayName": {
+              "other": "Bosnische convertibele mark"
+            },
+            "narrow": "KM",
+            "symbol": "BAM"
+          },
+          "BAN": {
+            "displayName": {
+              "other": "Nieuwe Bosnische dinar (1994–1997)"
+            },
+            "narrow": "BAN",
+            "symbol": "BAN"
+          },
+          "BBD": {
+            "displayName": {
+              "other": "Barbadaanse dollar"
+            },
+            "narrow": "$",
+            "symbol": "BBD"
+          },
+          "BDT": {
+            "displayName": {
+              "other": "Bengalese taka"
+            },
+            "narrow": "৳",
+            "symbol": "BDT"
+          },
+          "BEC": {
+            "displayName": {
+              "other": "Belgische frank (convertibel)"
+            },
+            "narrow": "BEC",
+            "symbol": "BEC"
+          },
+          "BEF": {
+            "displayName": {
+              "other": "Belgische frank"
+            },
+            "narrow": "BEF",
+            "symbol": "BEF"
+          },
+          "BEL": {
+            "displayName": {
+              "other": "Belgische frank (financieel)"
+            },
+            "narrow": "BEL",
+            "symbol": "BEL"
+          },
+          "BGL": {
+            "displayName": {
+              "other": "Bulgaarse harde lev"
+            },
+            "narrow": "BGL",
+            "symbol": "BGL"
+          },
+          "BGM": {
+            "displayName": {
+              "other": "Bulgaarse socialistische lev"
+            },
+            "narrow": "BGM",
+            "symbol": "BGM"
+          },
+          "BGN": {
+            "displayName": {
+              "one": "Bulgaarse lev",
+              "other": "Bulgaarse leva"
+            },
+            "narrow": "BGN",
+            "symbol": "BGN"
+          },
+          "BGO": {
+            "displayName": {
+              "other": "Bulgaarse lev (1879–1952)"
+            },
+            "narrow": "BGO",
+            "symbol": "BGO"
+          },
+          "BHD": {
+            "displayName": {
+              "other": "Bahreinse dinar"
+            },
+            "narrow": "BHD",
+            "symbol": "BHD"
+          },
+          "BIF": {
+            "displayName": {
+              "other": "Burundese frank"
+            },
+            "narrow": "BIF",
+            "symbol": "BIF"
+          },
+          "BMD": {
+            "displayName": {
+              "other": "Bermuda-dollar"
+            },
+            "narrow": "$",
+            "symbol": "BMD"
+          },
+          "BND": {
+            "displayName": {
+              "other": "Bruneise dollar"
+            },
+            "narrow": "$",
+            "symbol": "BND"
+          },
+          "BOB": {
+            "displayName": {
+              "other": "Boliviaanse boliviano"
+            },
+            "narrow": "Bs",
+            "symbol": "BOB"
+          },
+          "BOL": {
+            "displayName": {
+              "other": "Boliviaanse boliviano (1863–1963)"
+            },
+            "narrow": "BOL",
+            "symbol": "BOL"
+          },
+          "BOP": {
+            "displayName": {
+              "other": "Boliviaanse peso"
+            },
+            "narrow": "BOP",
+            "symbol": "BOP"
+          },
+          "BOV": {
+            "displayName": {
+              "other": "Boliviaanse mvdol"
+            },
+            "narrow": "BOV",
+            "symbol": "BOV"
+          },
+          "BRB": {
+            "displayName": {
+              "other": "Braziliaanse cruzeiro novo (1967–1986)"
+            },
+            "narrow": "BRB",
+            "symbol": "BRB"
+          },
+          "BRC": {
+            "displayName": {
+              "other": "Braziliaanse cruzado"
+            },
+            "narrow": "BRC",
+            "symbol": "BRC"
+          },
+          "BRE": {
+            "displayName": {
+              "other": "Braziliaanse cruzeiro (1990–1993)"
+            },
+            "narrow": "BRE",
+            "symbol": "BRE"
+          },
+          "BRL": {
+            "displayName": {
+              "other": "Braziliaanse real"
+            },
+            "narrow": "R$",
+            "symbol": "R$"
+          },
+          "BRN": {
+            "displayName": {
+              "other": "Braziliaanse cruzado novo"
+            },
+            "narrow": "BRN",
+            "symbol": "BRN"
+          },
+          "BRR": {
+            "displayName": {
+              "other": "Braziliaanse cruzeiro"
+            },
+            "narrow": "BRR",
+            "symbol": "BRR"
+          },
+          "BRZ": {
+            "displayName": {
+              "other": "Braziliaanse cruzeiro (1942–1967)"
+            },
+            "narrow": "BRZ",
+            "symbol": "BRZ"
+          },
+          "BSD": {
+            "displayName": {
+              "other": "Bahamaanse dollar"
+            },
+            "narrow": "$",
+            "symbol": "BSD"
+          },
+          "BTN": {
+            "displayName": {
+              "other": "Bhutaanse ngultrum"
+            },
+            "narrow": "BTN",
+            "symbol": "BTN"
+          },
+          "BUK": {
+            "displayName": {
+              "other": "Birmese kyat"
+            },
+            "narrow": "BUK",
+            "symbol": "BUK"
+          },
+          "BWP": {
+            "displayName": {
+              "other": "Botswaanse pula"
+            },
+            "narrow": "P",
+            "symbol": "BWP"
+          },
+          "BYB": {
+            "displayName": {
+              "other": "Wit-Russische nieuwe roebel (1994–1999)"
+            },
+            "narrow": "BYB",
+            "symbol": "BYB"
+          },
+          "BYN": {
+            "displayName": {
+              "other": "Belarussische roebel"
+            },
+            "narrow": "р.",
+            "symbol": "BYN"
+          },
+          "BYR": {
+            "displayName": {
+              "other": "Wit-Russische roebel (2000–2016)"
+            },
+            "narrow": "BYR",
+            "symbol": "BYR"
+          },
+          "BZD": {
+            "displayName": {
+              "other": "Belizaanse dollar"
+            },
+            "narrow": "$",
+            "symbol": "BZD"
+          },
+          "CAD": {
+            "displayName": {
+              "other": "Canadese dollar"
+            },
+            "narrow": "$",
+            "symbol": "C$"
+          },
+          "CDF": {
+            "displayName": {
+              "other": "Congolese frank"
+            },
+            "narrow": "CDF",
+            "symbol": "CDF"
+          },
+          "CHE": {
+            "displayName": {
+              "other": "WIR euro"
+            },
+            "narrow": "CHE",
+            "symbol": "CHE"
+          },
+          "CHF": {
+            "displayName": {
+              "other": "Zwitserse frank"
+            },
+            "narrow": "CHF",
+            "symbol": "CHF"
+          },
+          "CHW": {
+            "displayName": {
+              "other": "WIR franc"
+            },
+            "narrow": "CHW",
+            "symbol": "CHW"
+          },
+          "CLE": {
+            "displayName": {
+              "other": "Chileense escudo"
+            },
+            "narrow": "CLE",
+            "symbol": "CLE"
+          },
+          "CLF": {
+            "displayName": {
+              "other": "Chileense unidades de fomento"
+            },
+            "narrow": "CLF",
+            "symbol": "CLF"
+          },
+          "CLP": {
+            "displayName": {
+              "other": "Chileense peso"
+            },
+            "narrow": "$",
+            "symbol": "CLP"
+          },
+          "CNH": {
+            "displayName": {
+              "other": "Chinese yuan (offshore)"
+            },
+            "narrow": "CNH",
+            "symbol": "CNH"
+          },
+          "CNX": {
+            "displayName": {
+              "other": "dollar van de Chinese Volksbank"
+            },
+            "narrow": "CNX",
+            "symbol": "CNX"
+          },
+          "CNY": {
+            "displayName": {
+              "other": "Chinese yuan"
+            },
+            "narrow": "¥",
+            "symbol": "CN¥"
+          },
+          "COP": {
+            "displayName": {
+              "other": "Colombiaanse peso"
+            },
+            "narrow": "$",
+            "symbol": "COP"
+          },
+          "COU": {
+            "displayName": {
+              "other": "Unidad de Valor Real"
+            },
+            "narrow": "COU",
+            "symbol": "COU"
+          },
+          "CRC": {
+            "displayName": {
+              "other": "Costa Ricaanse colon"
+            },
+            "narrow": "₡",
+            "symbol": "CRC"
+          },
+          "CSD": {
+            "displayName": {
+              "other": "Oude Servische dinar"
+            },
+            "narrow": "CSD",
+            "symbol": "CSD"
+          },
+          "CSK": {
+            "displayName": {
+              "other": "Tsjechoslowaakse harde koruna"
+            },
+            "narrow": "CSK",
+            "symbol": "CSK"
+          },
+          "CUC": {
+            "displayName": {
+              "other": "Cubaanse convertibele peso"
+            },
+            "narrow": "$",
+            "symbol": "CUC"
+          },
+          "CUP": {
+            "displayName": {
+              "other": "Cubaanse peso"
+            },
+            "narrow": "$",
+            "symbol": "CUP"
+          },
+          "CVE": {
+            "displayName": {
+              "other": "Kaapverdische escudo"
+            },
+            "narrow": "CVE",
+            "symbol": "CVE"
+          },
+          "CYP": {
+            "displayName": {
+              "other": "Cyprisch pond"
+            },
+            "narrow": "CYP",
+            "symbol": "CYP"
+          },
+          "CZK": {
+            "displayName": {
+              "one": "Tsjechische kroon",
+              "other": "Tsjechische kronen"
+            },
+            "narrow": "Kč",
+            "symbol": "CZK"
+          },
+          "DDM": {
+            "displayName": {
+              "other": "Oost-Duitse ostmark"
+            },
+            "narrow": "DDM",
+            "symbol": "DDM"
+          },
+          "DEM": {
+            "displayName": {
+              "other": "Duitse mark"
+            },
+            "narrow": "DEM",
+            "symbol": "DEM"
+          },
+          "DJF": {
+            "displayName": {
+              "other": "Djiboutiaanse frank"
+            },
+            "narrow": "DJF",
+            "symbol": "DJF"
+          },
+          "DKK": {
+            "displayName": {
+              "one": "Deense kroon",
+              "other": "Deense kronen"
+            },
+            "narrow": "kr",
+            "symbol": "DKK"
+          },
+          "DOP": {
+            "displayName": {
+              "other": "Dominicaanse peso"
+            },
+            "narrow": "$",
+            "symbol": "DOP"
+          },
+          "DZD": {
+            "displayName": {
+              "other": "Algerijnse dinar"
+            },
+            "narrow": "DZD",
+            "symbol": "DZD"
+          },
+          "ECS": {
+            "displayName": {
+              "other": "Ecuadoraanse sucre"
+            },
+            "narrow": "ECS",
+            "symbol": "ECS"
+          },
+          "ECV": {
+            "displayName": {
+              "other": "Ecuadoraanse unidad de valor constante (UVC)"
+            },
+            "narrow": "ECV",
+            "symbol": "ECV"
+          },
+          "EEK": {
+            "displayName": {
+              "other": "Estlandse kroon"
+            },
+            "narrow": "EEK",
+            "symbol": "EEK"
+          },
+          "EGP": {
+            "displayName": {
+              "other": "Egyptisch pond"
+            },
+            "narrow": "E£",
+            "symbol": "EGP"
+          },
+          "ERN": {
+            "displayName": {
+              "other": "Eritrese nakfa"
+            },
+            "narrow": "ERN",
+            "symbol": "ERN"
+          },
+          "ESA": {
+            "displayName": {
+              "other": "Spaanse peseta (account A)"
+            },
+            "narrow": "ESA",
+            "symbol": "ESA"
+          },
+          "ESB": {
+            "displayName": {
+              "other": "Spaanse peseta (convertibele account)"
+            },
+            "narrow": "ESB",
+            "symbol": "ESB"
+          },
+          "ESP": {
+            "displayName": {
+              "other": "Spaanse peseta"
+            },
+            "narrow": "₧",
+            "symbol": "ESP"
+          },
+          "ETB": {
+            "displayName": {
+              "other": "Ethiopische birr"
+            },
+            "narrow": "ETB",
+            "symbol": "ETB"
+          },
+          "EUR": {
+            "displayName": {
+              "other": "euro"
+            },
+            "narrow": "€",
+            "symbol": "€"
+          },
+          "FIM": {
+            "displayName": {
+              "other": "Finse markka"
+            },
+            "narrow": "FIM",
+            "symbol": "FIM"
+          },
+          "FJD": {
+            "displayName": {
+              "other": "Fiji-dollar"
+            },
+            "narrow": "$",
+            "symbol": "FJ$"
+          },
+          "FKP": {
+            "displayName": {
+              "other": "Falklandeilands pond"
+            },
+            "narrow": "£",
+            "symbol": "FKP"
+          },
+          "FRF": {
+            "displayName": {
+              "other": "Franse franc"
+            },
+            "narrow": "FRF",
+            "symbol": "FRF"
+          },
+          "GBP": {
+            "displayName": {
+              "other": "Britse pond"
+            },
+            "narrow": "£",
+            "symbol": "£"
+          },
+          "GEK": {
+            "displayName": {
+              "other": "Georgische kupon larit"
+            },
+            "narrow": "GEK",
+            "symbol": "GEK"
+          },
+          "GEL": {
+            "displayName": {
+              "other": "Georgische lari"
+            },
+            "narrow": "₾",
+            "symbol": "GEL"
+          },
+          "GHC": {
+            "displayName": {
+              "other": "Ghanese cedi (1979–2007)"
+            },
+            "narrow": "GHC",
+            "symbol": "GHC"
+          },
+          "GHS": {
+            "displayName": {
+              "other": "Ghanese cedi"
+            },
+            "narrow": "GH₵",
+            "symbol": "GHS"
+          },
+          "GIP": {
+            "displayName": {
+              "other": "Gibraltarees pond"
+            },
+            "narrow": "£",
+            "symbol": "GIP"
+          },
+          "GMD": {
+            "displayName": {
+              "other": "Gambiaanse dalasi"
+            },
+            "narrow": "GMD",
+            "symbol": "GMD"
+          },
+          "GNF": {
+            "displayName": {
+              "other": "Guinese frank"
+            },
+            "narrow": "FG",
+            "symbol": "GNF"
+          },
+          "GNS": {
+            "displayName": {
+              "other": "Guinese syli"
+            },
+            "narrow": "GNS",
+            "symbol": "GNS"
+          },
+          "GQE": {
+            "displayName": {
+              "other": "Equatoriaal-Guinese ekwele guineana"
+            },
+            "narrow": "GQE",
+            "symbol": "GQE"
+          },
+          "GRD": {
+            "displayName": {
+              "other": "Griekse drachme"
+            },
+            "narrow": "GRD",
+            "symbol": "GRD"
+          },
+          "GTQ": {
+            "displayName": {
+              "other": "Guatemalteekse quetzal"
+            },
+            "narrow": "Q",
+            "symbol": "GTQ"
+          },
+          "GWE": {
+            "displayName": {
+              "other": "Portugees-Guinese escudo"
+            },
+            "narrow": "GWE",
+            "symbol": "GWE"
+          },
+          "GWP": {
+            "displayName": {
+              "other": "Guinee-Bissause peso"
+            },
+            "narrow": "GWP",
+            "symbol": "GWP"
+          },
+          "GYD": {
+            "displayName": {
+              "other": "Guyaanse dollar"
+            },
+            "narrow": "$",
+            "symbol": "GYD"
+          },
+          "HKD": {
+            "displayName": {
+              "other": "Hongkongse dollar"
+            },
+            "narrow": "$",
+            "symbol": "HK$"
+          },
+          "HNL": {
+            "displayName": {
+              "other": "Hondurese lempira"
+            },
+            "narrow": "L",
+            "symbol": "HNL"
+          },
+          "HRD": {
+            "displayName": {
+              "other": "Kroatische dinar"
+            },
+            "narrow": "HRD",
+            "symbol": "HRD"
+          },
+          "HRK": {
+            "displayName": {
+              "other": "Kroatische kuna"
+            },
+            "narrow": "kn",
+            "symbol": "HRK"
+          },
+          "HTG": {
+            "displayName": {
+              "other": "Haïtiaanse gourde"
+            },
+            "narrow": "HTG",
+            "symbol": "HTG"
+          },
+          "HUF": {
+            "displayName": {
+              "other": "Hongaarse forint"
+            },
+            "narrow": "Ft",
+            "symbol": "HUF"
+          },
+          "IDR": {
+            "displayName": {
+              "other": "Indonesische roepia"
+            },
+            "narrow": "Rp",
+            "symbol": "IDR"
+          },
+          "IEP": {
+            "displayName": {
+              "other": "Iers pond"
+            },
+            "narrow": "IEP",
+            "symbol": "IEP"
+          },
+          "ILP": {
+            "displayName": {
+              "other": "Israëlisch pond"
+            },
+            "narrow": "ILP",
+            "symbol": "ILP"
+          },
+          "ILR": {
+            "displayName": {
+              "other": "Israëlische sjekel (1980–1985)"
+            },
+            "narrow": "ILR",
+            "symbol": "ILR"
+          },
+          "ILS": {
+            "displayName": {
+              "other": "Israëlische nieuwe shekel"
+            },
+            "narrow": "₪",
+            "symbol": "₪"
+          },
+          "INR": {
+            "displayName": {
+              "other": "Indiase roepie"
+            },
+            "narrow": "₹",
+            "symbol": "₹"
+          },
+          "IQD": {
+            "displayName": {
+              "other": "Iraakse dinar"
+            },
+            "narrow": "IQD",
+            "symbol": "IQD"
+          },
+          "IRR": {
+            "displayName": {
+              "other": "Iraanse rial"
+            },
+            "narrow": "IRR",
+            "symbol": "IRR"
+          },
+          "ISJ": {
+            "displayName": {
+              "one": "IJslandse kroon (1918–1981)",
+              "other": "IJslandse kronen (1918–1981)"
+            },
+            "narrow": "ISJ",
+            "symbol": "ISJ"
+          },
+          "ISK": {
+            "displayName": {
+              "one": "IJslandse kroon",
+              "other": "IJslandse kronen"
+            },
+            "narrow": "kr",
+            "symbol": "ISK"
+          },
+          "ITL": {
+            "displayName": {
+              "other": "Italiaanse lire"
+            },
+            "narrow": "ITL",
+            "symbol": "ITL"
+          },
+          "JMD": {
+            "displayName": {
+              "other": "Jamaicaanse dollar"
+            },
+            "narrow": "$",
+            "symbol": "JMD"
+          },
+          "JOD": {
+            "displayName": {
+              "other": "Jordaanse dinar"
+            },
+            "narrow": "JOD",
+            "symbol": "JOD"
+          },
+          "JPY": {
+            "displayName": {
+              "other": "Japanse yen"
+            },
+            "narrow": "¥",
+            "symbol": "JP¥"
+          },
+          "KES": {
+            "displayName": {
+              "other": "Keniaanse shilling"
+            },
+            "narrow": "KES",
+            "symbol": "KES"
+          },
+          "KGS": {
+            "displayName": {
+              "other": "Kirgizische som"
+            },
+            "narrow": "⃀",
+            "symbol": "KGS"
+          },
+          "KHR": {
+            "displayName": {
+              "other": "Cambodjaanse riel"
+            },
+            "narrow": "៛",
+            "symbol": "KHR"
+          },
+          "KMF": {
+            "displayName": {
+              "other": "Comorese frank"
+            },
+            "narrow": "CF",
+            "symbol": "KMF"
+          },
+          "KPW": {
+            "displayName": {
+              "other": "Noord-Koreaanse won"
+            },
+            "narrow": "₩",
+            "symbol": "KPW"
+          },
+          "KRH": {
+            "displayName": {
+              "other": "Zuid-Koreaanse hwan (1953–1962)"
+            },
+            "narrow": "KRH",
+            "symbol": "KRH"
+          },
+          "KRO": {
+            "displayName": {
+              "other": "oude Zuid-Koreaanse won (1945–1953)"
+            },
+            "narrow": "KRO",
+            "symbol": "KRO"
+          },
+          "KRW": {
+            "displayName": {
+              "other": "Zuid-Koreaanse won"
+            },
+            "narrow": "₩",
+            "symbol": "₩"
+          },
+          "KWD": {
+            "displayName": {
+              "other": "Koeweitse dinar"
+            },
+            "narrow": "KWD",
+            "symbol": "KWD"
+          },
+          "KYD": {
+            "displayName": {
+              "other": "Kaaimaneilandse dollar"
+            },
+            "narrow": "$",
+            "symbol": "KYD"
+          },
+          "KZT": {
+            "displayName": {
+              "other": "Kazachse tenge"
+            },
+            "narrow": "₸",
+            "symbol": "KZT"
+          },
+          "LAK": {
+            "displayName": {
+              "other": "Laotiaanse kip"
+            },
+            "narrow": "₭",
+            "symbol": "LAK"
+          },
+          "LBP": {
+            "displayName": {
+              "other": "Libanees pond"
+            },
+            "narrow": "L£",
+            "symbol": "LBP"
+          },
+          "LKR": {
+            "displayName": {
+              "other": "Sri Lankaanse roepie"
+            },
+            "narrow": "Rs",
+            "symbol": "LKR"
+          },
+          "LRD": {
+            "displayName": {
+              "other": "Liberiaanse dollar"
+            },
+            "narrow": "$",
+            "symbol": "LRD"
+          },
+          "LSL": {
+            "displayName": {
+              "other": "Lesothaanse loti"
+            },
+            "narrow": "LSL",
+            "symbol": "LSL"
+          },
+          "LTL": {
+            "displayName": {
+              "other": "Litouwse litas"
+            },
+            "narrow": "Lt",
+            "symbol": "LTL"
+          },
+          "LTT": {
+            "displayName": {
+              "other": "Litouwse talonas"
+            },
+            "narrow": "LTT",
+            "symbol": "LTT"
+          },
+          "LUC": {
+            "displayName": {
+              "other": "Luxemburgse convertibele franc"
+            },
+            "narrow": "LUC",
+            "symbol": "LUC"
+          },
+          "LUF": {
+            "displayName": {
+              "other": "Luxemburgse frank"
+            },
+            "narrow": "LUF",
+            "symbol": "LUF"
+          },
+          "LUL": {
+            "displayName": {
+              "other": "Luxemburgse financiële franc"
+            },
+            "narrow": "LUL",
+            "symbol": "LUL"
+          },
+          "LVL": {
+            "displayName": {
+              "other": "Letse lats"
+            },
+            "narrow": "Ls",
+            "symbol": "LVL"
+          },
+          "LVR": {
+            "displayName": {
+              "other": "Letse roebel"
+            },
+            "narrow": "LVR",
+            "symbol": "LVR"
+          },
+          "LYD": {
+            "displayName": {
+              "other": "Libische dinar"
+            },
+            "narrow": "LYD",
+            "symbol": "LYD"
+          },
+          "MAD": {
+            "displayName": {
+              "other": "Marokkaanse dirham"
+            },
+            "narrow": "MAD",
+            "symbol": "MAD"
+          },
+          "MAF": {
+            "displayName": {
+              "other": "Marokkaanse franc"
+            },
+            "narrow": "MAF",
+            "symbol": "MAF"
+          },
+          "MCF": {
+            "displayName": {
+              "other": "Monegaskische frank"
+            },
+            "narrow": "MCF",
+            "symbol": "MCF"
+          },
+          "MDC": {
+            "displayName": {
+              "other": "Moldavische cupon"
+            },
+            "narrow": "MDC",
+            "symbol": "MDC"
+          },
+          "MDL": {
+            "displayName": {
+              "other": "Moldavische leu"
+            },
+            "narrow": "MDL",
+            "symbol": "MDL"
+          },
+          "MGA": {
+            "displayName": {
+              "other": "Malagassische ariary"
+            },
+            "narrow": "Ar",
+            "symbol": "MGA"
+          },
+          "MGF": {
+            "displayName": {
+              "other": "Malagassische franc"
+            },
+            "narrow": "MGF",
+            "symbol": "MGF"
+          },
+          "MKD": {
+            "displayName": {
+              "other": "Macedonische denar"
+            },
+            "narrow": "MKD",
+            "symbol": "MKD"
+          },
+          "MKN": {
+            "displayName": {
+              "other": "Macedonische denar (1992–1993)"
+            },
+            "narrow": "MKN",
+            "symbol": "MKN"
+          },
+          "MLF": {
+            "displayName": {
+              "other": "Malinese franc"
+            },
+            "narrow": "MLF",
+            "symbol": "MLF"
+          },
+          "MMK": {
+            "displayName": {
+              "other": "Myanmarese kyat"
+            },
+            "narrow": "K",
+            "symbol": "MMK"
+          },
+          "MNT": {
+            "displayName": {
+              "other": "Mongoolse tugrik"
+            },
+            "narrow": "₮",
+            "symbol": "MNT"
+          },
+          "MOP": {
+            "displayName": {
+              "other": "Macause pataca"
+            },
+            "narrow": "MOP",
+            "symbol": "MOP"
+          },
+          "MRO": {
+            "displayName": {
+              "other": "Mauritaanse ouguiya (1973–2017)"
+            },
+            "narrow": "MRO",
+            "symbol": "MRO"
+          },
+          "MRU": {
+            "displayName": {
+              "other": "Mauritaanse ouguiya"
+            },
+            "narrow": "MRU",
+            "symbol": "MRU"
+          },
+          "MTL": {
+            "displayName": {
+              "other": "Maltese lire"
+            },
+            "narrow": "MTL",
+            "symbol": "MTL"
+          },
+          "MTP": {
+            "displayName": {
+              "other": "Maltees pond"
+            },
+            "narrow": "MTP",
+            "symbol": "MTP"
+          },
+          "MUR": {
+            "displayName": {
+              "other": "Mauritiaanse roepie"
+            },
+            "narrow": "Rs",
+            "symbol": "MUR"
+          },
+          "MVP": {
+            "displayName": {
+              "other": "Maldivische roepie"
+            },
+            "narrow": "MVP",
+            "symbol": "MVP"
+          },
+          "MVR": {
+            "displayName": {
+              "other": "Maldivische rufiyaa"
+            },
+            "narrow": "MVR",
+            "symbol": "MVR"
+          },
+          "MWK": {
+            "displayName": {
+              "other": "Malawische kwacha"
+            },
+            "narrow": "MWK",
+            "symbol": "MWK"
+          },
+          "MXN": {
+            "displayName": {
+              "other": "Mexicaanse peso"
+            },
+            "narrow": "$",
+            "symbol": "MX$"
+          },
+          "MXP": {
+            "displayName": {
+              "other": "Mexicaanse zilveren peso (1861–1992)"
+            },
+            "narrow": "MXP",
+            "symbol": "MXP"
+          },
+          "MXV": {
+            "displayName": {
+              "other": "Mexicaanse unidad de inversion (UDI)"
+            },
+            "narrow": "MXV",
+            "symbol": "MXV"
+          },
+          "MYR": {
+            "displayName": {
+              "other": "Maleisische ringgit"
+            },
+            "narrow": "RM",
+            "symbol": "MYR"
+          },
+          "MZE": {
+            "displayName": {
+              "other": "Mozambikaanse escudo"
+            },
+            "narrow": "MZE",
+            "symbol": "MZE"
+          },
+          "MZM": {
+            "displayName": {
+              "other": "Oude Mozambikaanse metical"
+            },
+            "narrow": "MZM",
+            "symbol": "MZM"
+          },
+          "MZN": {
+            "displayName": {
+              "other": "Mozambikaanse metical"
+            },
+            "narrow": "MZN",
+            "symbol": "MZN"
+          },
+          "NAD": {
+            "displayName": {
+              "other": "Namibische dollar"
+            },
+            "narrow": "$",
+            "symbol": "NAD"
+          },
+          "NGN": {
+            "displayName": {
+              "other": "Nigeriaanse naira"
+            },
+            "narrow": "₦",
+            "symbol": "NGN"
+          },
+          "NIC": {
+            "displayName": {
+              "other": "Nicaraguaanse córdoba (1988–1991)"
+            },
+            "narrow": "NIC",
+            "symbol": "NIC"
+          },
+          "NIO": {
+            "displayName": {
+              "other": "Nicaraguaanse córdoba"
+            },
+            "narrow": "C$",
+            "symbol": "NIO"
+          },
+          "NLG": {
+            "displayName": {
+              "other": "Nederlandse gulden"
+            },
+            "narrow": "NLG",
+            "symbol": "NLG"
+          },
+          "NOK": {
+            "displayName": {
+              "one": "Noorse kroon",
+              "other": "Noorse kronen"
+            },
+            "narrow": "kr",
+            "symbol": "NOK"
+          },
+          "NPR": {
+            "displayName": {
+              "other": "Nepalese roepie"
+            },
+            "narrow": "Rs",
+            "symbol": "NPR"
+          },
+          "NZD": {
+            "displayName": {
+              "other": "Nieuw-Zeelandse dollar"
+            },
+            "narrow": "$",
+            "symbol": "NZ$"
+          },
+          "OMR": {
+            "displayName": {
+              "other": "Omaanse rial"
+            },
+            "narrow": "OMR",
+            "symbol": "OMR"
+          },
+          "PAB": {
+            "displayName": {
+              "other": "Panamese balboa"
+            },
+            "narrow": "PAB",
+            "symbol": "PAB"
+          },
+          "PEI": {
+            "displayName": {
+              "other": "Peruaanse inti"
+            },
+            "narrow": "PEI",
+            "symbol": "PEI"
+          },
+          "PEN": {
+            "displayName": {
+              "other": "Peruaanse sol"
+            },
+            "narrow": "PEN",
+            "symbol": "PEN"
+          },
+          "PES": {
+            "displayName": {
+              "other": "Peruaanse sol (1863–1965)"
+            },
+            "narrow": "PES",
+            "symbol": "PES"
+          },
+          "PGK": {
+            "displayName": {
+              "other": "Papoea-Nieuw-Guinese kina"
+            },
+            "narrow": "PGK",
+            "symbol": "PGK"
+          },
+          "PHP": {
+            "displayName": {
+              "other": "Filipijnse peso"
+            },
+            "narrow": "₱",
+            "symbol": "PHP"
+          },
+          "PKR": {
+            "displayName": {
+              "other": "Pakistaanse roepie"
+            },
+            "narrow": "Rs",
+            "symbol": "PKR"
+          },
+          "PLN": {
+            "displayName": {
+              "other": "Poolse zloty"
+            },
+            "narrow": "zł",
+            "symbol": "PLN"
+          },
+          "PLZ": {
+            "displayName": {
+              "other": "Poolse zloty (1950–1995)"
+            },
+            "narrow": "PLZ",
+            "symbol": "PLZ"
+          },
+          "PTE": {
+            "displayName": {
+              "other": "Portugese escudo"
+            },
+            "narrow": "PTE",
+            "symbol": "PTE"
+          },
+          "PYG": {
+            "displayName": {
+              "other": "Paraguayaanse guarani"
+            },
+            "narrow": "₲",
+            "symbol": "PYG"
+          },
+          "QAR": {
+            "displayName": {
+              "other": "Qatarese rial"
+            },
+            "narrow": "QAR",
+            "symbol": "QAR"
+          },
+          "RHD": {
+            "displayName": {
+              "other": "Rhodesische dollar"
+            },
+            "narrow": "RHD",
+            "symbol": "RHD"
+          },
+          "ROL": {
+            "displayName": {
+              "other": "Oude Roemeense leu"
+            },
+            "narrow": "ROL",
+            "symbol": "ROL"
+          },
+          "RON": {
+            "displayName": {
+              "other": "Roemeense leu"
+            },
+            "narrow": "lei",
+            "symbol": "RON"
+          },
+          "RSD": {
+            "displayName": {
+              "other": "Servische dinar"
+            },
+            "narrow": "RSD",
+            "symbol": "RSD"
+          },
+          "RUB": {
+            "displayName": {
+              "other": "Russische roebel"
+            },
+            "narrow": "₽",
+            "symbol": "RUB"
+          },
+          "RUR": {
+            "displayName": {
+              "other": "Russische roebel (1991–1998)"
+            },
+            "narrow": "р.",
+            "symbol": "RUR"
+          },
+          "RWF": {
+            "displayName": {
+              "other": "Rwandese frank"
+            },
+            "narrow": "RF",
+            "symbol": "RWF"
+          },
+          "SAR": {
+            "displayName": {
+              "other": "Saoedi-Arabische riyal"
+            },
+            "narrow": "SAR",
+            "symbol": "SAR"
+          },
+          "SBD": {
+            "displayName": {
+              "other": "Salomon-dollar"
+            },
+            "narrow": "$",
+            "symbol": "SI$"
+          },
+          "SCR": {
+            "displayName": {
+              "other": "Seychelse roepie"
+            },
+            "narrow": "SCR",
+            "symbol": "SCR"
+          },
+          "SDD": {
+            "displayName": {
+              "other": "Soedanese dinar"
+            },
+            "narrow": "SDD",
+            "symbol": "SDD"
+          },
+          "SDG": {
+            "displayName": {
+              "other": "Soedanees pond"
+            },
+            "narrow": "SDG",
+            "symbol": "SDG"
+          },
+          "SDP": {
+            "displayName": {
+              "other": "Soedanees pond (1957–1998)"
+            },
+            "narrow": "SDP",
+            "symbol": "SDP"
+          },
+          "SEK": {
+            "displayName": {
+              "one": "Zweedse kroon",
+              "other": "Zweedse kronen"
+            },
+            "narrow": "kr",
+            "symbol": "SEK"
+          },
+          "SGD": {
+            "displayName": {
+              "other": "Singaporese dollar"
+            },
+            "narrow": "$",
+            "symbol": "SGD"
+          },
+          "SHP": {
+            "displayName": {
+              "other": "Sint-Heleens pond"
+            },
+            "narrow": "£",
+            "symbol": "SHP"
+          },
+          "SIT": {
+            "displayName": {
+              "other": "Sloveense tolar"
+            },
+            "narrow": "SIT",
+            "symbol": "SIT"
+          },
+          "SKK": {
+            "displayName": {
+              "other": "Slowaakse koruna"
+            },
+            "narrow": "SKK",
+            "symbol": "SKK"
+          },
+          "SLE": {
+            "displayName": {
+              "other": "Sierra Leoonse leone"
+            },
+            "narrow": "SLE",
+            "symbol": "SLE"
+          },
+          "SLL": {
+            "displayName": {
+              "other": "Sierra Leoonse leone (1964–2022)"
+            },
+            "narrow": "SLL",
+            "symbol": "SLL"
+          },
+          "SOS": {
+            "displayName": {
+              "other": "Somalische shilling"
+            },
+            "narrow": "SOS",
+            "symbol": "SOS"
+          },
+          "SRD": {
+            "displayName": {
+              "other": "Surinaamse dollar"
+            },
+            "narrow": "$",
+            "symbol": "SRD"
+          },
+          "SRG": {
+            "displayName": {
+              "other": "Surinaamse gulden"
+            },
+            "narrow": "SRG",
+            "symbol": "SRG"
+          },
+          "SSP": {
+            "displayName": {
+              "other": "Zuid-Soedanees pond"
+            },
+            "narrow": "£",
+            "symbol": "SSP"
+          },
+          "STD": {
+            "displayName": {
+              "other": "Santomese dobra (1977–2017)"
+            },
+            "narrow": "STD",
+            "symbol": "STD"
+          },
+          "STN": {
+            "displayName": {
+              "other": "Santomese dobra"
+            },
+            "narrow": "Db",
+            "symbol": "STN"
+          },
+          "SUR": {
+            "displayName": {
+              "other": "Sovjet-roebel"
+            },
+            "narrow": "SUR",
+            "symbol": "SUR"
+          },
+          "SVC": {
+            "displayName": {
+              "other": "Salvadoraanse colón"
+            },
+            "narrow": "SVC",
+            "symbol": "SVC"
+          },
+          "SYP": {
+            "displayName": {
+              "other": "Syrisch pond"
+            },
+            "narrow": "£",
+            "symbol": "SYP"
+          },
+          "SZL": {
+            "displayName": {
+              "other": "Swazische lilangeni"
+            },
+            "narrow": "SZL",
+            "symbol": "SZL"
+          },
+          "THB": {
+            "displayName": {
+              "other": "Thaise baht"
+            },
+            "narrow": "฿",
+            "symbol": "฿"
+          },
+          "TJR": {
+            "displayName": {
+              "other": "Tadzjikistaanse roebel"
+            },
+            "narrow": "TJR",
+            "symbol": "TJR"
+          },
+          "TJS": {
+            "displayName": {
+              "other": "Tadzjiekse somoni"
+            },
+            "narrow": "TJS",
+            "symbol": "TJS"
+          },
+          "TMM": {
+            "displayName": {
+              "other": "Turkmeense manat (1993–2009)"
+            },
+            "narrow": "TMM",
+            "symbol": "TMM"
+          },
+          "TMT": {
+            "displayName": {
+              "other": "Turkmeense manat"
+            },
+            "narrow": "TMT",
+            "symbol": "TMT"
+          },
+          "TND": {
+            "displayName": {
+              "other": "Tunesische dinar"
+            },
+            "narrow": "TND",
+            "symbol": "TND"
+          },
+          "TOP": {
+            "displayName": {
+              "other": "Tongaanse paʻanga"
+            },
+            "narrow": "T$",
+            "symbol": "TOP"
+          },
+          "TPE": {
+            "displayName": {
+              "other": "Timorese escudo"
+            },
+            "narrow": "TPE",
+            "symbol": "TPE"
+          },
+          "TRL": {
+            "displayName": {
+              "other": "oude Turkse lira"
+            },
+            "narrow": "TRL",
+            "symbol": "TRL"
+          },
+          "TRY": {
+            "displayName": {
+              "other": "Turkse lira"
+            },
+            "narrow": "₺",
+            "symbol": "TRY"
+          },
+          "TTD": {
+            "displayName": {
+              "other": "Trinidad en Tobago-dollar"
+            },
+            "narrow": "$",
+            "symbol": "TTD"
+          },
+          "TWD": {
+            "displayName": {
+              "other": "Nieuwe Taiwanese dollar"
+            },
+            "narrow": "NT$",
+            "symbol": "NT$"
+          },
+          "TZS": {
+            "displayName": {
+              "other": "Tanzaniaanse shilling"
+            },
+            "narrow": "TZS",
+            "symbol": "TZS"
+          },
+          "UAH": {
+            "displayName": {
+              "other": "Oekraïense hryvnia"
+            },
+            "narrow": "₴",
+            "symbol": "UAH"
+          },
+          "UAK": {
+            "displayName": {
+              "other": "Oekraïense karbovanetz"
+            },
+            "narrow": "UAK",
+            "symbol": "UAK"
+          },
+          "UGS": {
+            "displayName": {
+              "other": "Oegandese shilling (1966–1987)"
+            },
+            "narrow": "UGS",
+            "symbol": "UGS"
+          },
+          "UGX": {
+            "displayName": {
+              "other": "Oegandese shilling"
+            },
+            "narrow": "UGX",
+            "symbol": "UGX"
+          },
+          "USD": {
+            "displayName": {
+              "other": "Amerikaanse dollar"
+            },
+            "narrow": "$",
+            "symbol": "US$"
+          },
+          "USN": {
+            "displayName": {
+              "other": "Amerikaanse dollar (volgende dag)"
+            },
+            "narrow": "USN",
+            "symbol": "USN"
+          },
+          "USS": {
+            "displayName": {
+              "other": "Amerikaanse dollar (zelfde dag)"
+            },
+            "narrow": "USS",
+            "symbol": "USS"
+          },
+          "UYI": {
+            "displayName": {
+              "other": "Uruguayaanse peso en geïndexeerde eenheden"
+            },
+            "narrow": "UYI",
+            "symbol": "UYI"
+          },
+          "UYP": {
+            "displayName": {
+              "other": "Uruguayaanse peso (1975–1993)"
+            },
+            "narrow": "UYP",
+            "symbol": "UYP"
+          },
+          "UYU": {
+            "displayName": {
+              "other": "Uruguayaanse peso"
+            },
+            "narrow": "$",
+            "symbol": "UYU"
+          },
+          "UYW": {
+            "displayName": {
+              "other": "Uruguayaanse nominale salarisindexeenheid"
+            },
+            "narrow": "UYW",
+            "symbol": "UYW"
+          },
+          "UZS": {
+            "displayName": {
+              "other": "Oezbeekse sum"
+            },
+            "narrow": "UZS",
+            "symbol": "UZS"
+          },
+          "VEB": {
+            "displayName": {
+              "other": "Venezolaanse bolivar (1871–2008)"
+            },
+            "narrow": "VEB",
+            "symbol": "VEB"
+          },
+          "VED": {
+            "displayName": {
+              "one": "Bolívar Soberano",
+              "other": "Bolívar Soberanos"
+            },
+            "narrow": "VED",
+            "symbol": "VED"
+          },
+          "VEF": {
+            "displayName": {
+              "other": "Venezolaanse bolivar (2008–2018)"
+            },
+            "narrow": "Bs",
+            "symbol": "VEF"
+          },
+          "VES": {
+            "displayName": {
+              "other": "Venezolaanse bolivar"
+            },
+            "narrow": "VES",
+            "symbol": "VES"
+          },
+          "VND": {
+            "displayName": {
+              "other": "Vietnamese dong"
+            },
+            "narrow": "₫",
+            "symbol": "₫"
+          },
+          "VNN": {
+            "displayName": {
+              "other": "Vietnamese dong (1978–1985)"
+            },
+            "narrow": "VNN",
+            "symbol": "VNN"
+          },
+          "VUV": {
+            "displayName": {
+              "other": "Vanuatuaanse vatu"
+            },
+            "narrow": "VUV",
+            "symbol": "VUV"
+          },
+          "WST": {
+            "displayName": {
+              "other": "Samoaanse tala"
+            },
+            "narrow": "WST",
+            "symbol": "WST"
+          },
+          "XAF": {
+            "displayName": {
+              "other": "CFA-frank"
+            },
+            "narrow": "FCFA",
+            "symbol": "FCFA"
+          },
+          "XAG": {
+            "displayName": {
+              "one": "Troy ounce zilver",
+              "other": "Troy ounces zilver"
+            },
+            "narrow": "XAG",
+            "symbol": "XAG"
+          },
+          "XAU": {
+            "displayName": {
+              "one": "Troy ounce goud",
+              "other": "Troy ounces goud"
+            },
+            "narrow": "XAU",
+            "symbol": "XAU"
+          },
+          "XBA": {
+            "displayName": {
+              "other": "Europese samengestelde eenheid"
+            },
+            "narrow": "XBA",
+            "symbol": "XBA"
+          },
+          "XBB": {
+            "displayName": {
+              "other": "Europese monetaire eenheid"
+            },
+            "narrow": "XBB",
+            "symbol": "XBB"
+          },
+          "XBC": {
+            "displayName": {
+              "other": "Europese rekeneenheid (XBC)"
+            },
+            "narrow": "XBC",
+            "symbol": "XBC"
+          },
+          "XBD": {
+            "displayName": {
+              "other": "Europese rekeneenheid (XBD)"
+            },
+            "narrow": "XBD",
+            "symbol": "XBD"
+          },
+          "XCD": {
+            "displayName": {
+              "other": "Oost-Caribische dollar"
+            },
+            "narrow": "$",
+            "symbol": "EC$"
+          },
+          "XCG": {
+            "displayName": {
+              "other": "Caribische gulden"
+            },
+            "narrow": "Cg",
+            "symbol": "Cg."
+          },
+          "XDR": {
+            "displayName": {
+              "other": "Special Drawing Rights"
+            },
+            "narrow": "XDR",
+            "symbol": "XDR"
+          },
+          "XEU": {
+            "displayName": {
+              "other": "European Currency Unit"
+            },
+            "narrow": "XEU",
+            "symbol": "XEU"
+          },
+          "XFO": {
+            "displayName": {
+              "other": "Franse gouden franc"
+            },
+            "narrow": "XFO",
+            "symbol": "XFO"
+          },
+          "XFU": {
+            "displayName": {
+              "other": "Franse UIC-franc"
+            },
+            "narrow": "XFU",
+            "symbol": "XFU"
+          },
+          "XOF": {
+            "displayName": {
+              "other": "CFA-franc BCEAO"
+            },
+            "narrow": "F CFA",
+            "symbol": "F CFA"
+          },
+          "XPD": {
+            "displayName": {
+              "one": "Troy ounce palladium",
+              "other": "Troy ounces palladium"
+            },
+            "narrow": "XPD",
+            "symbol": "XPD"
+          },
+          "XPF": {
+            "displayName": {
+              "other": "CFP-frank"
+            },
+            "narrow": "XPF",
+            "symbol": "XPF"
+          },
+          "XPT": {
+            "displayName": {
+              "one": "Troy ounce platina",
+              "other": "Troy ounces platina"
+            },
+            "narrow": "XPT",
+            "symbol": "XPT"
+          },
+          "XRE": {
+            "displayName": {
+              "other": "RINET-fondsen"
+            },
+            "narrow": "XRE",
+            "symbol": "XRE"
+          },
+          "XSU": {
+            "displayName": {
+              "other": "Sucre"
+            },
+            "narrow": "XSU",
+            "symbol": "XSU"
+          },
+          "XTS": {
+            "displayName": {
+              "other": "Valutacode voor testdoeleinden"
+            },
+            "narrow": "XTS",
+            "symbol": "XTS"
+          },
+          "XUA": {
+            "displayName": {
+              "other": "ADB-rekeneenheid"
+            },
+            "narrow": "XUA",
+            "symbol": "XUA"
+          },
+          "XXX": {
+            "displayName": {
+              "other": "onbekende munteenheid"
+            },
+            "narrow": "XXX",
+            "symbol": "XXX"
+          },
+          "YDD": {
+            "displayName": {
+              "other": "Jemenitische dinar"
+            },
+            "narrow": "YDD",
+            "symbol": "YDD"
+          },
+          "YER": {
+            "displayName": {
+              "other": "Jemenitische rial"
+            },
+            "narrow": "YER",
+            "symbol": "YER"
+          },
+          "YUD": {
+            "displayName": {
+              "other": "Joegoslavische harde dinar"
+            },
+            "narrow": "YUD",
+            "symbol": "YUD"
+          },
+          "YUM": {
+            "displayName": {
+              "other": "Joegoslavische noviy-dinar"
+            },
+            "narrow": "YUM",
+            "symbol": "YUM"
+          },
+          "YUN": {
+            "displayName": {
+              "other": "Joegoslavische convertibele dinar"
+            },
+            "narrow": "YUN",
+            "symbol": "YUN"
+          },
+          "YUR": {
+            "displayName": {
+              "other": "Joegoslavische hervormde dinar (1992–1993)"
+            },
+            "narrow": "YUR",
+            "symbol": "YUR"
+          },
+          "ZAL": {
+            "displayName": {
+              "other": "Zuid-Afrikaanse rand (financieel)"
+            },
+            "narrow": "ZAL",
+            "symbol": "ZAL"
+          },
+          "ZAR": {
+            "displayName": {
+              "other": "Zuid-Afrikaanse rand"
+            },
+            "narrow": "R",
+            "symbol": "ZAR"
+          },
+          "ZMK": {
+            "displayName": {
+              "other": "Zambiaanse kwacha (1968–2012)"
+            },
+            "narrow": "ZMK",
+            "symbol": "ZMK"
+          },
+          "ZMW": {
+            "displayName": {
+              "other": "Zambiaanse kwacha"
+            },
+            "narrow": "ZK",
+            "symbol": "ZMW"
+          },
+          "ZRN": {
+            "displayName": {
+              "other": "Zaïrese nieuwe zaïre"
+            },
+            "narrow": "ZRN",
+            "symbol": "ZRN"
+          },
+          "ZRZ": {
+            "displayName": {
+              "other": "Zaïrese zaïre"
+            },
+            "narrow": "ZRZ",
+            "symbol": "ZRZ"
+          },
+          "ZWD": {
+            "displayName": {
+              "other": "Zimbabwaanse dollar"
+            },
+            "narrow": "ZWD",
+            "symbol": "ZWD"
+          },
+          "ZWL": {
+            "displayName": {
+              "other": "Zimbabwaanse dollar (2009)"
+            },
+            "narrow": "ZWL",
+            "symbol": "ZWL"
+          },
+          "ZWR": {
+            "displayName": {
+              "other": "Zimbabwaanse dollar (2008)"
+            },
+            "narrow": "ZWR",
+            "symbol": "ZWR"
           }
-        });
-        opts.pluralCategories = tslib_1$1.__spreadArray([], PluralRules2.localeData[opts.locale].categories[opts.type], true);
-        return opts;
-      };
-      PluralRules2.prototype.select = function(val) {
-        var pr = this;
-        validateInstance(pr, "select");
-        var n = (0, ecma402_abstract_1.ToNumber)(val);
-        return (0, ResolvePlural_1.ResolvePlural)(pr, n, { getInternalSlots: get_internal_slots_1.default, PluralRuleSelect });
-      };
-      PluralRules2.prototype.toString = function() {
-        return "[object Intl.PluralRules]";
-      };
-      PluralRules2.supportedLocalesOf = function(locales, options) {
-        return (0, ecma402_abstract_1.SupportedLocales)(PluralRules2.availableLocales, (0, ecma402_abstract_1.CanonicalizeLocaleList)(locales), options);
-      };
-      PluralRules2.__addLocaleData = function() {
-        var data2 = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-          data2[_i] = arguments[_i];
-        }
-        for (var _a2 = 0, data_1 = data2; _a2 < data_1.length; _a2++) {
-          var _b = data_1[_a2], d = _b.data, locale = _b.locale;
-          PluralRules2.localeData[locale] = d;
-          PluralRules2.availableLocales.add(locale);
-          if (!PluralRules2.__defaultLocale) {
-            PluralRules2.__defaultLocale = locale;
+        },
+        "nu": [
+          "latn"
+        ],
+        "numbers": {
+          "currency": {
+            "latn": {
+              "accounting": "¤ #,##0.00;(¤ #,##0.00)",
+              "currencySpacing": {
+                "afterInsertBetween": " ",
+                "beforeInsertBetween": " "
+              },
+              "short": {
+                "1000": {
+                  "other": "¤ 0K"
+                },
+                "10000": {
+                  "other": "¤ 00K"
+                },
+                "100000": {
+                  "other": "¤ 000K"
+                },
+                "1000000": {
+                  "other": "¤ 0 mln'.'"
+                },
+                "10000000": {
+                  "other": "¤ 00 mln'.'"
+                },
+                "100000000": {
+                  "other": "¤ 000 mln'.'"
+                },
+                "1000000000": {
+                  "other": "¤ 0 mld'.'"
+                },
+                "10000000000": {
+                  "other": "¤ 00 mld'.'"
+                },
+                "100000000000": {
+                  "other": "¤ 000 mld'.'"
+                },
+                "1000000000000": {
+                  "other": "¤ 0 bln'.'"
+                },
+                "10000000000000": {
+                  "other": "¤ 00 bln'.'"
+                },
+                "100000000000000": {
+                  "other": "¤ 000 bln'.'"
+                }
+              },
+              "standard": "¤ #,##0.00;¤ -#,##0.00",
+              "unitPattern": "{0} {1}"
+            }
+          },
+          "decimal": {
+            "latn": {
+              "long": {
+                "1000": {
+                  "other": "0 duizend"
+                },
+                "10000": {
+                  "other": "00 duizend"
+                },
+                "100000": {
+                  "other": "000 duizend"
+                },
+                "1000000": {
+                  "other": "0 miljoen"
+                },
+                "10000000": {
+                  "other": "00 miljoen"
+                },
+                "100000000": {
+                  "other": "000 miljoen"
+                },
+                "1000000000": {
+                  "other": "0 miljard"
+                },
+                "10000000000": {
+                  "other": "00 miljard"
+                },
+                "100000000000": {
+                  "other": "000 miljard"
+                },
+                "1000000000000": {
+                  "other": "0 biljoen"
+                },
+                "10000000000000": {
+                  "other": "00 biljoen"
+                },
+                "100000000000000": {
+                  "other": "000 biljoen"
+                }
+              },
+              "short": {
+                "1000": {
+                  "other": "0K"
+                },
+                "10000": {
+                  "other": "00K"
+                },
+                "100000": {
+                  "other": "000K"
+                },
+                "1000000": {
+                  "other": "0 mln'.'"
+                },
+                "10000000": {
+                  "other": "00 mln'.'"
+                },
+                "100000000": {
+                  "other": "000 mln'.'"
+                },
+                "1000000000": {
+                  "other": "0 mld'.'"
+                },
+                "10000000000": {
+                  "other": "00 mld'.'"
+                },
+                "100000000000": {
+                  "other": "000 mld'.'"
+                },
+                "1000000000000": {
+                  "other": "0 bln'.'"
+                },
+                "10000000000000": {
+                  "other": "00 bln'.'"
+                },
+                "100000000000000": {
+                  "other": "000 bln'.'"
+                }
+              },
+              "standard": "#,##0.###"
+            }
+          },
+          "nu": [
+            "latn"
+          ],
+          "percent": {
+            "latn": "#,##0%"
+          },
+          "symbols": {
+            "latn": {
+              "approximatelySign": "~",
+              "decimal": ",",
+              "exponential": "E",
+              "group": ".",
+              "infinity": "∞",
+              "list": ";",
+              "minusSign": "-",
+              "nan": "NaN",
+              "perMille": "‰",
+              "percentSign": "%",
+              "plusSign": "+",
+              "rangeSign": "-",
+              "superscriptingExponent": "×",
+              "timeSeparator": ":"
+            }
+          }
+        },
+        "units": {
+          "compound": {
+            "per": {
+              "long": "{0} per {1}",
+              "narrow": "{0}/{1}",
+              "short": "{0}/{1}"
+            }
+          },
+          "simple": {
+            "acre": {
+              "long": {
+                "one": "{0} acre",
+                "other": "{0} acres"
+              },
+              "narrow": {
+                "one": "{0} acre",
+                "other": "{0} acres"
+              },
+              "perUnit": {},
+              "short": {
+                "one": "{0} acre",
+                "other": "{0} acres"
+              }
+            },
+            "bit": {
+              "long": {
+                "one": "{0} bit",
+                "other": "{0} bits"
+              },
+              "narrow": {
+                "one": "{0} bit",
+                "other": "{0} bits"
+              },
+              "perUnit": {},
+              "short": {
+                "one": "{0} bit",
+                "other": "{0} bits"
+              }
+            },
+            "byte": {
+              "long": {
+                "other": "{0} byte"
+              },
+              "narrow": {
+                "other": "{0} byte"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} byte"
+              }
+            },
+            "celsius": {
+              "long": {
+                "one": "{0} graad Celsius",
+                "other": "{0} graden Celsius"
+              },
+              "narrow": {
+                "other": "{0}°"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0}°C"
+              }
+            },
+            "centimeter": {
+              "long": {
+                "other": "{0} centimeter"
+              },
+              "narrow": {
+                "other": "{0} cm"
+              },
+              "perUnit": {
+                "long": "{0} per centimeter",
+                "narrow": "{0}/cm",
+                "short": "{0}/cm"
+              },
+              "short": {
+                "other": "{0} cm"
+              }
+            },
+            "day": {
+              "long": {
+                "one": "{0} dag",
+                "other": "{0} dagen"
+              },
+              "narrow": {
+                "other": "{0} d"
+              },
+              "perUnit": {
+                "long": "{0} per dag",
+                "narrow": "{0}/d",
+                "short": "{0}/dag"
+              },
+              "short": {
+                "one": "{0} dag",
+                "other": "{0} dagen"
+              }
+            },
+            "degree": {
+              "long": {
+                "one": "{0} booggraad",
+                "other": "{0} booggraden"
+              },
+              "narrow": {
+                "other": "{0}°"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0}°"
+              }
+            },
+            "fahrenheit": {
+              "long": {
+                "one": "{0} graad Fahrenheit",
+                "other": "{0} graden Fahrenheit"
+              },
+              "narrow": {
+                "other": "{0}°F"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0}°F"
+              }
+            },
+            "fluid-ounce": {
+              "long": {
+                "other": "{0} fluid ounce"
+              },
+              "narrow": {
+                "other": "{0} fl oz"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} fl oz"
+              }
+            },
+            "foot": {
+              "long": {
+                "other": "{0} voet"
+              },
+              "narrow": {
+                "other": "{0} ft"
+              },
+              "perUnit": {
+                "long": "{0} per voet",
+                "narrow": "{0}/ft",
+                "short": "{0}/ft"
+              },
+              "short": {
+                "other": "{0} ft"
+              }
+            },
+            "gallon": {
+              "long": {
+                "other": "{0} gallon"
+              },
+              "narrow": {
+                "other": "{0} gal"
+              },
+              "perUnit": {
+                "long": "{0} per gallon",
+                "narrow": "{0}/gal",
+                "short": "{0}/gal"
+              },
+              "short": {
+                "other": "{0} gal"
+              }
+            },
+            "gigabit": {
+              "long": {
+                "one": "{0} gigabit",
+                "other": "{0} gigabits"
+              },
+              "narrow": {
+                "other": "{0} Gb"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} Gb"
+              }
+            },
+            "gigabyte": {
+              "long": {
+                "other": "{0} gigabyte"
+              },
+              "narrow": {
+                "other": "{0} GB"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} GB"
+              }
+            },
+            "gram": {
+              "long": {
+                "other": "{0} gram"
+              },
+              "narrow": {
+                "other": "{0} g"
+              },
+              "perUnit": {
+                "long": "{0} per gram",
+                "narrow": "{0}/g",
+                "short": "{0}/g"
+              },
+              "short": {
+                "other": "{0} g"
+              }
+            },
+            "hectare": {
+              "long": {
+                "other": "{0} hectare"
+              },
+              "narrow": {
+                "other": "{0} ha"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} ha"
+              }
+            },
+            "hour": {
+              "long": {
+                "other": "{0} uur"
+              },
+              "narrow": {
+                "other": "{0} u"
+              },
+              "perUnit": {
+                "long": "{0} per uur",
+                "narrow": "{0}/u",
+                "short": "{0}/uur"
+              },
+              "short": {
+                "other": "{0} uur"
+              }
+            },
+            "inch": {
+              "long": {
+                "one": "{0} inch",
+                "other": "{0} inches"
+              },
+              "narrow": {
+                "other": "{0}″"
+              },
+              "perUnit": {
+                "long": "{0} per inch",
+                "narrow": "{0}/in",
+                "short": "{0}/in"
+              },
+              "short": {
+                "other": "{0} in"
+              }
+            },
+            "kilobit": {
+              "long": {
+                "one": "{0} kilobit",
+                "other": "{0} kilobits"
+              },
+              "narrow": {
+                "other": "{0} kb"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} kb"
+              }
+            },
+            "kilobyte": {
+              "long": {
+                "other": "{0} kilobyte"
+              },
+              "narrow": {
+                "other": "{0} kB"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} kB"
+              }
+            },
+            "kilogram": {
+              "long": {
+                "other": "{0} kilogram"
+              },
+              "narrow": {
+                "other": "{0} kg"
+              },
+              "perUnit": {
+                "long": "{0} per kilogram",
+                "narrow": "{0}/kg",
+                "short": "{0}/kg"
+              },
+              "short": {
+                "other": "{0} kg"
+              }
+            },
+            "kilometer": {
+              "long": {
+                "other": "{0} kilometer"
+              },
+              "narrow": {
+                "other": "{0} km"
+              },
+              "perUnit": {
+                "long": "{0} per kilometer",
+                "narrow": "{0}/km",
+                "short": "{0}/km"
+              },
+              "short": {
+                "other": "{0} km"
+              }
+            },
+            "kilometer-per-hour": {
+              "long": {
+                "other": "{0} kilometer per uur"
+              },
+              "narrow": {
+                "other": "{0} km/u"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} km/u"
+              }
+            },
+            "liter": {
+              "long": {
+                "other": "{0} liter"
+              },
+              "narrow": {
+                "other": "{0} l"
+              },
+              "perUnit": {
+                "long": "{0} per liter",
+                "narrow": "{0}/l",
+                "short": "{0}/l"
+              },
+              "short": {
+                "other": "{0} l"
+              }
+            },
+            "liter-per-kilometer": {
+              "long": {
+                "other": "{0} liter per kilometer"
+              },
+              "narrow": {
+                "other": "{0} l/km"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} l/km"
+              }
+            },
+            "megabit": {
+              "long": {
+                "one": "{0} megabit",
+                "other": "{0} megabits"
+              },
+              "narrow": {
+                "other": "{0} Mb"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} Mb"
+              }
+            },
+            "megabyte": {
+              "long": {
+                "other": "{0} megabyte"
+              },
+              "narrow": {
+                "other": "{0} MB"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} MB"
+              }
+            },
+            "meter": {
+              "long": {
+                "other": "{0} meter"
+              },
+              "narrow": {
+                "other": "{0} m"
+              },
+              "perUnit": {
+                "long": "{0} per meter",
+                "narrow": "{0}/m",
+                "short": "{0}/m"
+              },
+              "short": {
+                "other": "{0} m"
+              }
+            },
+            "meter-per-second": {
+              "long": {
+                "other": "{0} meter per seconde"
+              },
+              "narrow": {
+                "other": "{0} m/s"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} m/s"
+              }
+            },
+            "mile": {
+              "long": {
+                "other": "{0} mijl"
+              },
+              "narrow": {
+                "other": "{0} mi"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} mi"
+              }
+            },
+            "mile-per-gallon": {
+              "long": {
+                "other": "{0} mijl per gallon"
+              },
+              "narrow": {
+                "other": "{0} mpg"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} mpg"
+              }
+            },
+            "mile-per-hour": {
+              "long": {
+                "other": "{0} mijl per uur"
+              },
+              "narrow": {
+                "other": "{0} mi/h"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} mi/h"
+              }
+            },
+            "mile-scandinavian": {
+              "long": {
+                "other": "{0} Scandinavische mijl"
+              },
+              "narrow": {
+                "other": "{0} smi"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} smi"
+              }
+            },
+            "milliliter": {
+              "long": {
+                "other": "{0} milliliter"
+              },
+              "narrow": {
+                "other": "{0} ml"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} ml"
+              }
+            },
+            "millimeter": {
+              "long": {
+                "other": "{0} millimeter"
+              },
+              "narrow": {
+                "other": "{0} mm"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} mm"
+              }
+            },
+            "millisecond": {
+              "long": {
+                "one": "{0} milliseconde",
+                "other": "{0} milliseconden"
+              },
+              "narrow": {
+                "other": "{0} ms"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} ms"
+              }
+            },
+            "minute": {
+              "long": {
+                "one": "{0} minuut",
+                "other": "{0} minuten"
+              },
+              "narrow": {
+                "other": "{0} m"
+              },
+              "perUnit": {
+                "long": "{0} per minuut",
+                "narrow": "{0}/m",
+                "short": "{0}/min"
+              },
+              "short": {
+                "other": "{0} min"
+              }
+            },
+            "month": {
+              "long": {
+                "one": "{0} maand",
+                "other": "{0} maanden"
+              },
+              "narrow": {
+                "other": "{0} m"
+              },
+              "perUnit": {
+                "long": "{0} per maand",
+                "narrow": "{0}/m",
+                "short": "{0}/mnd"
+              },
+              "short": {
+                "other": "{0} mnd"
+              }
+            },
+            "ounce": {
+              "long": {
+                "other": "{0} ounce"
+              },
+              "narrow": {
+                "other": "{0} oz"
+              },
+              "perUnit": {
+                "long": "{0} per ounce",
+                "narrow": "{0}/oz",
+                "short": "{0}/oz"
+              },
+              "short": {
+                "other": "{0} oz"
+              }
+            },
+            "percent": {
+              "long": {
+                "other": "{0} procent"
+              },
+              "narrow": {
+                "other": "{0}%"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0}%"
+              }
+            },
+            "petabyte": {
+              "long": {
+                "other": "{0} petabyte"
+              },
+              "narrow": {
+                "other": "{0} PB"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} PB"
+              }
+            },
+            "pound": {
+              "long": {
+                "other": "{0} pound"
+              },
+              "narrow": {
+                "other": "{0} lb"
+              },
+              "perUnit": {
+                "long": "{0} per pound",
+                "narrow": "{0}/lb",
+                "short": "{0}/lb"
+              },
+              "short": {
+                "other": "{0} lb"
+              }
+            },
+            "second": {
+              "long": {
+                "one": "{0} seconde",
+                "other": "{0} seconden"
+              },
+              "narrow": {
+                "other": "{0} s"
+              },
+              "perUnit": {
+                "long": "{0} per seconde",
+                "narrow": "{0}/s",
+                "short": "{0}/sec"
+              },
+              "short": {
+                "other": "{0} sec"
+              }
+            },
+            "stone": {
+              "long": {
+                "other": "{0} stone"
+              },
+              "narrow": {
+                "other": "{0} st"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} st"
+              }
+            },
+            "terabit": {
+              "long": {
+                "one": "{0} terabit",
+                "other": "{0} terabits"
+              },
+              "narrow": {
+                "other": "{0} Tb"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} Tb"
+              }
+            },
+            "terabyte": {
+              "long": {
+                "other": "{0} terabyte"
+              },
+              "narrow": {
+                "other": "{0} TB"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} TB"
+              }
+            },
+            "week": {
+              "long": {
+                "one": "{0} week",
+                "other": "{0} weken"
+              },
+              "narrow": {
+                "other": "{0} w"
+              },
+              "perUnit": {
+                "long": "{0} per week",
+                "narrow": "{0}/w",
+                "short": "{0}/wk"
+              },
+              "short": {
+                "one": "{0} wk",
+                "other": "{0} wkn"
+              }
+            },
+            "yard": {
+              "long": {
+                "one": "{0} yard",
+                "other": "{0} yards"
+              },
+              "narrow": {
+                "other": "{0} yd"
+              },
+              "perUnit": {},
+              "short": {
+                "other": "{0} yd"
+              }
+            },
+            "year": {
+              "long": {
+                "other": "{0} jaar"
+              },
+              "narrow": {
+                "other": "{0} jr"
+              },
+              "perUnit": {
+                "long": "{0} per jaar",
+                "narrow": "{0}/jr",
+                "short": "{0}/jr"
+              },
+              "short": {
+                "other": "{0} jr"
+              }
+            }
           }
         }
-      };
-      PluralRules2.getDefaultLocale = function() {
-        return PluralRules2.__defaultLocale;
-      };
-      PluralRules2.localeData = {};
-      PluralRules2.availableLocales = /* @__PURE__ */ new Set();
-      PluralRules2.__defaultLocale = "";
-      PluralRules2.relevantExtensionKeys = [];
-      PluralRules2.polyfilled = true;
-      return PluralRules2;
-    }()
-  );
-  intlPluralrules.PluralRules = PluralRules;
-  try {
-    if (typeof Symbol !== "undefined") {
-      Object.defineProperty(PluralRules.prototype, Symbol.toStringTag, {
-        value: "Intl.PluralRules",
-        writable: false,
-        enumerable: false,
-        configurable: true
-      });
-    }
-    try {
-      Object.defineProperty(PluralRules, "length", {
-        value: 0,
-        writable: false,
-        enumerable: false,
-        configurable: true
-      });
-    } catch (error) {
-    }
-    Object.defineProperty(PluralRules.prototype.constructor, "length", {
-      value: 0,
-      writable: false,
-      enumerable: false,
-      configurable: true
-    });
-    Object.defineProperty(PluralRules.supportedLocalesOf, "length", {
-      value: 1,
-      writable: false,
-      enumerable: false,
-      configurable: true
-    });
-    Object.defineProperty(PluralRules, "name", {
-      value: "PluralRules",
-      writable: false,
-      enumerable: false,
-      configurable: true
-    });
-  } catch (ex) {
-  }
-  var shouldPolyfill$2 = {};
-  var supportedLocales_generated$1 = {};
-  Object.defineProperty(supportedLocales_generated$1, "__esModule", { value: true });
-  supportedLocales_generated$1.supportedLocales = void 0;
-  supportedLocales_generated$1.supportedLocales = ["af", "ak", "am", "an", "ar", "ars", "as", "asa", "ast", "az", "bal", "be", "bem", "bez", "bg", "bho", "bm", "bn", "bo", "br", "brx", "bs", "ca", "ce", "ceb", "cgg", "chr", "ckb", "cs", "cy", "da", "de", "doi", "dsb", "dv", "dz", "ee", "el", "en", "eo", "es", "et", "eu", "fa", "ff", "fi", "fil", "fo", "fr", "fur", "fy", "ga", "gd", "gl", "gsw", "gu", "guw", "gv", "ha", "haw", "he", "hi", "hnj", "hr", "hsb", "hu", "hy", "ia", "id", "ig", "ii", "io", "is", "it", "iu", "ja", "jbo", "jgo", "jmc", "jv", "jw", "ka", "kab", "kaj", "kcg", "kde", "kea", "kk", "kkj", "kl", "km", "kn", "ko", "ks", "ksb", "ksh", "ku", "kw", "ky", "lag", "lb", "lg", "lij", "lkt", "ln", "lo", "lt", "lv", "mas", "mg", "mgo", "mk", "ml", "mn", "mo", "mr", "ms", "mt", "my", "nah", "naq", "nb", "nd", "ne", "nl", "nn", "nnh", "no", "nqo", "nr", "nso", "ny", "nyn", "om", "or", "os", "osa", "pa", "pap", "pcm", "pl", "prg", "ps", "pt", "pt-PT", "rm", "ro", "rof", "ru", "rwk", "sah", "saq", "sat", "sc", "scn", "sd", "sdh", "se", "seh", "ses", "sg", "sh", "shi", "si", "sk", "sl", "sma", "smi", "smj", "smn", "sms", "sn", "so", "sq", "sr", "ss", "ssy", "st", "su", "sv", "sw", "syr", "ta", "te", "teo", "th", "ti", "tig", "tk", "tl", "tn", "to", "tpi", "tr", "ts", "tzm", "ug", "uk", "und", "ur", "uz", "ve", "vi", "vo", "vun", "wa", "wae", "wo", "xh", "xog", "yi", "yo", "yue", "zh", "zu"];
-  Object.defineProperty(shouldPolyfill$2, "__esModule", { value: true });
-  shouldPolyfill$2.shouldPolyfill = shouldPolyfill$1;
-  var intl_localematcher_1 = require$$0;
-  var supported_locales_generated_1 = supportedLocales_generated$1;
-  function supportedLocalesOf(locale) {
-    if (!locale) {
-      return true;
-    }
-    var locales = Array.isArray(locale) ? locale : [locale];
-    return Intl.PluralRules.supportedLocalesOf(locales).length === locales.length;
-  }
-  function shouldPolyfill$1(locale) {
-    if (locale === void 0) {
-      locale = "en";
-    }
-    if (!("PluralRules" in Intl) || new Intl.PluralRules("en", { minimumFractionDigits: 2 }).select(1) === "one" || !supportedLocalesOf(locale)) {
-      return locale ? (0, intl_localematcher_1.match)([locale], supported_locales_generated_1.supportedLocales, "en") : void 0;
-    }
-  }
-  var _1$1 = intlPluralrules;
-  var should_polyfill_1$1 = shouldPolyfill$2;
-  if ((0, should_polyfill_1$1.shouldPolyfill)()) {
-    Object.defineProperty(Intl, "PluralRules", {
-      value: _1$1.PluralRules,
-      writable: true,
-      enumerable: false,
-      configurable: true
+      },
+      "locale": "nl"
     });
   }
   if (Intl.PluralRules && typeof Intl.PluralRules.__addLocaleData === "function") {
@@ -40684,378 +41290,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       if (ord) return "other";
       return n == 1 && v0 ? "one" : "other";
     } }, "locale": "nl" });
-  }
-  var intlRelativetimeformat = {};
-  var InitializeRelativeTimeFormat = {};
-  var hasRequiredInitializeRelativeTimeFormat;
-  function requireInitializeRelativeTimeFormat() {
-    if (hasRequiredInitializeRelativeTimeFormat) return InitializeRelativeTimeFormat;
-    hasRequiredInitializeRelativeTimeFormat = 1;
-    Object.defineProperty(InitializeRelativeTimeFormat, "__esModule", { value: true });
-    InitializeRelativeTimeFormat.InitializeRelativeTimeFormat = InitializeRelativeTimeFormat$1;
-    var ecma402_abstract_12 = require$$1;
-    var intl_localematcher_12 = require$$0;
-    var NUMBERING_SYSTEM_REGEX = /^[a-z0-9]{3,8}(-[a-z0-9]{3,8})*$/i;
-    function InitializeRelativeTimeFormat$1(rtf, locales, options, _a2) {
-      var getInternalSlots = _a2.getInternalSlots, availableLocales = _a2.availableLocales, relevantExtensionKeys = _a2.relevantExtensionKeys, localeData = _a2.localeData, getDefaultLocale = _a2.getDefaultLocale;
-      var internalSlots = getInternalSlots(rtf);
-      internalSlots.initializedRelativeTimeFormat = true;
-      var requestedLocales = (0, ecma402_abstract_12.CanonicalizeLocaleList)(locales);
-      var opt = /* @__PURE__ */ Object.create(null);
-      var opts = (0, ecma402_abstract_12.CoerceOptionsToObject)(options);
-      var matcher = (0, ecma402_abstract_12.GetOption)(opts, "localeMatcher", "string", ["best fit", "lookup"], "best fit");
-      opt.localeMatcher = matcher;
-      var numberingSystem = (0, ecma402_abstract_12.GetOption)(
-        opts,
-        // @ts-expect-error TS option is wack
-        "numberingSystem",
-        "string",
-        void 0,
-        void 0
-      );
-      if (numberingSystem !== void 0) {
-        if (!NUMBERING_SYSTEM_REGEX.test(numberingSystem)) {
-          throw new RangeError("Invalid numbering system ".concat(numberingSystem));
-        }
-      }
-      opt.nu = numberingSystem;
-      var r = (0, intl_localematcher_12.ResolveLocale)(availableLocales, requestedLocales, opt, relevantExtensionKeys, localeData, getDefaultLocale);
-      var locale = r.locale, nu = r.nu;
-      internalSlots.locale = locale;
-      internalSlots.style = (0, ecma402_abstract_12.GetOption)(opts, "style", "string", ["long", "narrow", "short"], "long");
-      internalSlots.numeric = (0, ecma402_abstract_12.GetOption)(opts, "numeric", "string", ["always", "auto"], "always");
-      var fields = localeData[r.dataLocale];
-      (0, ecma402_abstract_12.invariant)(!!fields, "Missing locale data for ".concat(r.dataLocale));
-      internalSlots.fields = fields;
-      internalSlots.numberFormat = (0, ecma402_abstract_12.createMemoizedNumberFormat)(locales);
-      internalSlots.pluralRules = (0, ecma402_abstract_12.createMemoizedPluralRules)(locales);
-      internalSlots.numberingSystem = nu;
-      return rtf;
-    }
-    return InitializeRelativeTimeFormat;
-  }
-  var PartitionRelativeTimePattern = {};
-  var SingularRelativeTimeUnit = {};
-  var hasRequiredSingularRelativeTimeUnit;
-  function requireSingularRelativeTimeUnit() {
-    if (hasRequiredSingularRelativeTimeUnit) return SingularRelativeTimeUnit;
-    hasRequiredSingularRelativeTimeUnit = 1;
-    Object.defineProperty(SingularRelativeTimeUnit, "__esModule", { value: true });
-    SingularRelativeTimeUnit.SingularRelativeTimeUnit = SingularRelativeTimeUnit$1;
-    var ecma402_abstract_12 = require$$1;
-    function SingularRelativeTimeUnit$1(unit) {
-      (0, ecma402_abstract_12.invariant)((0, ecma402_abstract_12.Type)(unit) === "String", "unit must be a string");
-      if (unit === "seconds")
-        return "second";
-      if (unit === "minutes")
-        return "minute";
-      if (unit === "hours")
-        return "hour";
-      if (unit === "days")
-        return "day";
-      if (unit === "weeks")
-        return "week";
-      if (unit === "months")
-        return "month";
-      if (unit === "quarters")
-        return "quarter";
-      if (unit === "years")
-        return "year";
-      if (unit !== "second" && unit !== "minute" && unit !== "hour" && unit !== "day" && unit !== "week" && unit !== "month" && unit !== "quarter" && unit !== "year") {
-        throw new RangeError("invalid unit");
-      }
-      return unit;
-    }
-    return SingularRelativeTimeUnit;
-  }
-  var MakePartsList = {};
-  var hasRequiredMakePartsList;
-  function requireMakePartsList() {
-    if (hasRequiredMakePartsList) return MakePartsList;
-    hasRequiredMakePartsList = 1;
-    Object.defineProperty(MakePartsList, "__esModule", { value: true });
-    MakePartsList.MakePartsList = MakePartsList$1;
-    var ecma402_abstract_12 = require$$1;
-    function MakePartsList$1(pattern, unit, parts) {
-      var patternParts = (0, ecma402_abstract_12.PartitionPattern)(pattern);
-      var result = [];
-      for (var _i = 0, patternParts_1 = patternParts; _i < patternParts_1.length; _i++) {
-        var patternPart = patternParts_1[_i];
-        if (patternPart.type === "literal") {
-          result.push({
-            type: "literal",
-            value: patternPart.value
-          });
-        } else {
-          (0, ecma402_abstract_12.invariant)(patternPart.type === "0", "Malformed pattern ".concat(pattern));
-          for (var _a2 = 0, parts_1 = parts; _a2 < parts_1.length; _a2++) {
-            var part = parts_1[_a2];
-            result.push({
-              type: part.type,
-              value: part.value,
-              unit
-            });
-          }
-        }
-      }
-      return result;
-    }
-    return MakePartsList;
-  }
-  var hasRequiredPartitionRelativeTimePattern;
-  function requirePartitionRelativeTimePattern() {
-    if (hasRequiredPartitionRelativeTimePattern) return PartitionRelativeTimePattern;
-    hasRequiredPartitionRelativeTimePattern = 1;
-    Object.defineProperty(PartitionRelativeTimePattern, "__esModule", { value: true });
-    PartitionRelativeTimePattern.PartitionRelativeTimePattern = PartitionRelativeTimePattern$1;
-    var ecma402_abstract_12 = require$$1;
-    var SingularRelativeTimeUnit_1 = requireSingularRelativeTimeUnit();
-    var MakePartsList_1 = requireMakePartsList();
-    function PartitionRelativeTimePattern$1(rtf, value2, unit, _a2) {
-      var getInternalSlots = _a2.getInternalSlots;
-      (0, ecma402_abstract_12.invariant)((0, ecma402_abstract_12.Type)(value2) === "Number", "value must be number, instead got ".concat(typeof value2), TypeError);
-      (0, ecma402_abstract_12.invariant)((0, ecma402_abstract_12.Type)(unit) === "String", "unit must be number, instead got ".concat(typeof value2), TypeError);
-      if (isNaN(value2) || !isFinite(value2)) {
-        throw new RangeError("Invalid value ".concat(value2));
-      }
-      var resolvedUnit = (0, SingularRelativeTimeUnit_1.SingularRelativeTimeUnit)(unit);
-      var _b = getInternalSlots(rtf), fields = _b.fields, style = _b.style, numeric = _b.numeric, pluralRules = _b.pluralRules, numberFormat = _b.numberFormat;
-      var entry = resolvedUnit;
-      if (style === "short") {
-        entry = "".concat(resolvedUnit, "-short");
-      } else if (style === "narrow") {
-        entry = "".concat(resolvedUnit, "-narrow");
-      }
-      if (!(entry in fields)) {
-        entry = resolvedUnit;
-      }
-      var patterns = fields[entry];
-      if (numeric === "auto") {
-        if ((0, ecma402_abstract_12.ToString)(value2) in patterns) {
-          return [
-            {
-              type: "literal",
-              value: patterns[(0, ecma402_abstract_12.ToString)(value2)]
-            }
-          ];
-        }
-      }
-      var tl = "future";
-      if ((0, ecma402_abstract_12.SameValue)(value2, -0) || value2 < 0) {
-        tl = "past";
-      }
-      var po = patterns[tl];
-      var fv = typeof numberFormat.formatToParts === "function" ? numberFormat.formatToParts(Math.abs(value2)) : (
-        // TODO: If formatToParts is not supported, we assume the whole formatted
-        // number is a part
-        [
-          {
-            type: "literal",
-            value: numberFormat.format(Math.abs(value2)),
-            unit
-          }
-        ]
-      );
-      var pr = pluralRules.select(value2);
-      var pattern = po[pr];
-      return (0, MakePartsList_1.MakePartsList)(pattern, resolvedUnit, fv);
-    }
-    return PartitionRelativeTimePattern;
-  }
-  var get_internal_slots = {};
-  var hasRequiredGet_internal_slots;
-  function requireGet_internal_slots() {
-    if (hasRequiredGet_internal_slots) return get_internal_slots;
-    hasRequiredGet_internal_slots = 1;
-    Object.defineProperty(get_internal_slots, "__esModule", { value: true });
-    get_internal_slots.default = getInternalSlots;
-    var internalSlotMap = /* @__PURE__ */ new WeakMap();
-    function getInternalSlots(x) {
-      var internalSlots = internalSlotMap.get(x);
-      if (!internalSlots) {
-        internalSlots = /* @__PURE__ */ Object.create(null);
-        internalSlotMap.set(x, internalSlots);
-      }
-      return internalSlots;
-    }
-    return get_internal_slots;
-  }
-  var hasRequiredIntlRelativetimeformat;
-  function requireIntlRelativetimeformat() {
-    if (hasRequiredIntlRelativetimeformat) return intlRelativetimeformat;
-    hasRequiredIntlRelativetimeformat = 1;
-    Object.defineProperty(intlRelativetimeformat, "__esModule", { value: true });
-    var tslib_12 = require$$0$1;
-    var ecma402_abstract_12 = require$$1;
-    var InitializeRelativeTimeFormat_1 = requireInitializeRelativeTimeFormat();
-    var PartitionRelativeTimePattern_1 = requirePartitionRelativeTimePattern();
-    var get_internal_slots_12 = tslib_12.__importDefault(requireGet_internal_slots());
-    var RelativeTimeFormat = (
-      /** @class */
-      function() {
-        function RelativeTimeFormat2(locales, options) {
-          var newTarget = this && this instanceof RelativeTimeFormat2 ? this.constructor : void 0;
-          if (!newTarget) {
-            throw new TypeError("Intl.RelativeTimeFormat must be called with 'new'");
-          }
-          return (0, InitializeRelativeTimeFormat_1.InitializeRelativeTimeFormat)(this, locales, options, {
-            getInternalSlots: get_internal_slots_12.default,
-            availableLocales: RelativeTimeFormat2.availableLocales,
-            relevantExtensionKeys: RelativeTimeFormat2.relevantExtensionKeys,
-            localeData: RelativeTimeFormat2.localeData,
-            getDefaultLocale: RelativeTimeFormat2.getDefaultLocale
-          });
-        }
-        RelativeTimeFormat2.prototype.format = function(value2, unit) {
-          if (typeof this !== "object") {
-            throw new TypeError("format was called on a non-object");
-          }
-          var internalSlots = (0, get_internal_slots_12.default)(this);
-          if (!internalSlots.initializedRelativeTimeFormat) {
-            throw new TypeError("format was called on a invalid context");
-          }
-          return (0, PartitionRelativeTimePattern_1.PartitionRelativeTimePattern)(this, Number(value2), (0, ecma402_abstract_12.ToString)(unit), {
-            getInternalSlots: get_internal_slots_12.default
-          }).map(function(el) {
-            return el.value;
-          }).join("");
-        };
-        RelativeTimeFormat2.prototype.formatToParts = function(value2, unit) {
-          if (typeof this !== "object") {
-            throw new TypeError("formatToParts was called on a non-object");
-          }
-          var internalSlots = (0, get_internal_slots_12.default)(this);
-          if (!internalSlots.initializedRelativeTimeFormat) {
-            throw new TypeError("formatToParts was called on a invalid context");
-          }
-          return (0, PartitionRelativeTimePattern_1.PartitionRelativeTimePattern)(this, Number(value2), (0, ecma402_abstract_12.ToString)(unit), { getInternalSlots: get_internal_slots_12.default });
-        };
-        RelativeTimeFormat2.prototype.resolvedOptions = function() {
-          if (typeof this !== "object") {
-            throw new TypeError("resolvedOptions was called on a non-object");
-          }
-          var internalSlots = (0, get_internal_slots_12.default)(this);
-          if (!internalSlots.initializedRelativeTimeFormat) {
-            throw new TypeError("resolvedOptions was called on a invalid context");
-          }
-          return {
-            locale: internalSlots.locale,
-            style: internalSlots.style,
-            numeric: internalSlots.numeric,
-            numberingSystem: internalSlots.numberingSystem
-          };
-        };
-        RelativeTimeFormat2.supportedLocalesOf = function(locales, options) {
-          return (0, ecma402_abstract_12.SupportedLocales)(RelativeTimeFormat2.availableLocales, (0, ecma402_abstract_12.CanonicalizeLocaleList)(locales), options);
-        };
-        RelativeTimeFormat2.__addLocaleData = function() {
-          var data2 = [];
-          for (var _i = 0; _i < arguments.length; _i++) {
-            data2[_i] = arguments[_i];
-          }
-          for (var _a2 = 0, data_1 = data2; _a2 < data_1.length; _a2++) {
-            var _b = data_1[_a2], d = _b.data, locale = _b.locale;
-            var minimizedLocale = new Intl.Locale(locale).minimize().toString();
-            RelativeTimeFormat2.localeData[locale] = RelativeTimeFormat2.localeData[minimizedLocale] = d;
-            RelativeTimeFormat2.availableLocales.add(minimizedLocale);
-            RelativeTimeFormat2.availableLocales.add(locale);
-            if (!RelativeTimeFormat2.__defaultLocale) {
-              RelativeTimeFormat2.__defaultLocale = minimizedLocale;
-            }
-          }
-        };
-        RelativeTimeFormat2.getDefaultLocale = function() {
-          return RelativeTimeFormat2.__defaultLocale;
-        };
-        RelativeTimeFormat2.localeData = {};
-        RelativeTimeFormat2.availableLocales = /* @__PURE__ */ new Set();
-        RelativeTimeFormat2.__defaultLocale = "";
-        RelativeTimeFormat2.relevantExtensionKeys = ["nu"];
-        RelativeTimeFormat2.polyfilled = true;
-        return RelativeTimeFormat2;
-      }()
-    );
-    intlRelativetimeformat.default = RelativeTimeFormat;
-    try {
-      if (typeof Symbol !== "undefined") {
-        Object.defineProperty(RelativeTimeFormat.prototype, Symbol.toStringTag, {
-          value: "Intl.RelativeTimeFormat",
-          writable: false,
-          enumerable: false,
-          configurable: true
-        });
-      }
-      Object.defineProperty(RelativeTimeFormat.prototype.constructor, "length", {
-        value: 0,
-        writable: false,
-        enumerable: false,
-        configurable: true
-      });
-      Object.defineProperty(RelativeTimeFormat.supportedLocalesOf, "length", {
-        value: 1,
-        writable: false,
-        enumerable: false,
-        configurable: true
-      });
-    } catch (e) {
-    }
-    return intlRelativetimeformat;
-  }
-  var shouldPolyfill = {};
-  var supportedLocales_generated = {};
-  var hasRequiredSupportedLocales_generated;
-  function requireSupportedLocales_generated() {
-    if (hasRequiredSupportedLocales_generated) return supportedLocales_generated;
-    hasRequiredSupportedLocales_generated = 1;
-    Object.defineProperty(supportedLocales_generated, "__esModule", { value: true });
-    supportedLocales_generated.supportedLocales = void 0;
-    supportedLocales_generated.supportedLocales = ["af", "af-NA", "agq", "ak", "am", "ar", "ar-AE", "ar-BH", "ar-DJ", "ar-DZ", "ar-EG", "ar-EH", "ar-ER", "ar-IL", "ar-IQ", "ar-JO", "ar-KM", "ar-KW", "ar-LB", "ar-LY", "ar-MA", "ar-MR", "ar-OM", "ar-PS", "ar-QA", "ar-SA", "ar-SD", "ar-SO", "ar-SS", "ar-SY", "ar-TD", "ar-TN", "ar-YE", "as", "asa", "ast", "az", "az-Cyrl", "az-Latn", "bas", "be", "be-tarask", "bem", "bez", "bg", "bm", "bn", "bn-IN", "bo", "bo-IN", "br", "brx", "bs", "bs-Cyrl", "bs-Latn", "ca", "ca-AD", "ca-ES-valencia", "ca-FR", "ca-IT", "ccp", "ccp-IN", "ce", "ceb", "cgg", "chr", "ckb", "ckb-IR", "cs", "cy", "da", "da-GL", "dav", "de", "de-AT", "de-BE", "de-CH", "de-IT", "de-LI", "de-LU", "dje", "doi", "dsb", "dua", "dyo", "dz", "ebu", "ee", "ee-TG", "el", "el-CY", "en", "en-001", "en-150", "en-AE", "en-AG", "en-AI", "en-AS", "en-AT", "en-AU", "en-BB", "en-BE", "en-BI", "en-BM", "en-BS", "en-BW", "en-BZ", "en-CA", "en-CC", "en-CH", "en-CK", "en-CM", "en-CX", "en-CY", "en-DE", "en-DG", "en-DK", "en-DM", "en-ER", "en-FI", "en-FJ", "en-FK", "en-FM", "en-GB", "en-GD", "en-GG", "en-GH", "en-GI", "en-GM", "en-GU", "en-GY", "en-HK", "en-IE", "en-IL", "en-IM", "en-IN", "en-IO", "en-JE", "en-JM", "en-KE", "en-KI", "en-KN", "en-KY", "en-LC", "en-LR", "en-LS", "en-MG", "en-MH", "en-MO", "en-MP", "en-MS", "en-MT", "en-MU", "en-MW", "en-MY", "en-NA", "en-NF", "en-NG", "en-NL", "en-NR", "en-NU", "en-NZ", "en-PG", "en-PH", "en-PK", "en-PN", "en-PR", "en-PW", "en-RW", "en-SB", "en-SC", "en-SD", "en-SE", "en-SG", "en-SH", "en-SI", "en-SL", "en-SS", "en-SX", "en-SZ", "en-TC", "en-TK", "en-TO", "en-TT", "en-TV", "en-TZ", "en-UG", "en-UM", "en-VC", "en-VG", "en-VI", "en-VU", "en-WS", "en-ZA", "en-ZM", "en-ZW", "eo", "es", "es-419", "es-AR", "es-BO", "es-BR", "es-BZ", "es-CL", "es-CO", "es-CR", "es-CU", "es-DO", "es-EA", "es-EC", "es-GQ", "es-GT", "es-HN", "es-IC", "es-MX", "es-NI", "es-PA", "es-PE", "es-PH", "es-PR", "es-PY", "es-SV", "es-US", "es-UY", "es-VE", "et", "eu", "ewo", "fa", "fa-AF", "ff", "ff-Adlm", "ff-Adlm-BF", "ff-Adlm-CM", "ff-Adlm-GH", "ff-Adlm-GM", "ff-Adlm-GW", "ff-Adlm-LR", "ff-Adlm-MR", "ff-Adlm-NE", "ff-Adlm-NG", "ff-Adlm-SL", "ff-Adlm-SN", "ff-Latn", "ff-Latn-BF", "ff-Latn-CM", "ff-Latn-GH", "ff-Latn-GM", "ff-Latn-GN", "ff-Latn-GW", "ff-Latn-LR", "ff-Latn-MR", "ff-Latn-NE", "ff-Latn-NG", "ff-Latn-SL", "fi", "fil", "fo", "fo-DK", "fr", "fr-BE", "fr-BF", "fr-BI", "fr-BJ", "fr-BL", "fr-CA", "fr-CD", "fr-CF", "fr-CG", "fr-CH", "fr-CI", "fr-CM", "fr-DJ", "fr-DZ", "fr-GA", "fr-GF", "fr-GN", "fr-GP", "fr-GQ", "fr-HT", "fr-KM", "fr-LU", "fr-MA", "fr-MC", "fr-MF", "fr-MG", "fr-ML", "fr-MQ", "fr-MR", "fr-MU", "fr-NC", "fr-NE", "fr-PF", "fr-PM", "fr-RE", "fr-RW", "fr-SC", "fr-SN", "fr-SY", "fr-TD", "fr-TG", "fr-TN", "fr-VU", "fr-WF", "fr-YT", "fur", "fy", "ga", "ga-GB", "gd", "gl", "gsw", "gsw-FR", "gsw-LI", "gu", "guz", "gv", "ha", "ha-GH", "ha-NE", "haw", "he", "hi", "hr", "hr-BA", "hsb", "hu", "hy", "ia", "id", "ig", "ii", "is", "it", "it-CH", "it-SM", "it-VA", "ja", "jgo", "jmc", "jv", "ka", "kab", "kam", "kde", "kea", "kgp", "khq", "ki", "kk", "kkj", "kl", "kln", "km", "kn", "ko", "ko-KP", "kok", "ks", "ks-Arab", "ksb", "ksf", "ksh", "ku", "kw", "ky", "lag", "lb", "lg", "lkt", "ln", "ln-AO", "ln-CF", "ln-CG", "lo", "lrc", "lrc-IQ", "lt", "lu", "luo", "luy", "lv", "mai", "mas", "mas-TZ", "mer", "mfe", "mg", "mgh", "mgo", "mi", "mk", "ml", "mn", "mni", "mni-Beng", "mr", "ms", "ms-BN", "ms-ID", "ms-SG", "mt", "mua", "my", "mzn", "naq", "nb", "nb-SJ", "nd", "nds", "nds-NL", "ne", "ne-IN", "nl", "nl-AW", "nl-BE", "nl-BQ", "nl-CW", "nl-SR", "nl-SX", "nmg", "nn", "nnh", "no", "nus", "nyn", "om", "om-KE", "or", "os", "os-RU", "pa", "pa-Arab", "pa-Guru", "pcm", "pl", "ps", "ps-PK", "pt", "pt-AO", "pt-CH", "pt-CV", "pt-GQ", "pt-GW", "pt-LU", "pt-MO", "pt-MZ", "pt-PT", "pt-ST", "pt-TL", "qu", "qu-BO", "qu-EC", "rm", "rn", "ro", "ro-MD", "rof", "ru", "ru-BY", "ru-KG", "ru-KZ", "ru-MD", "ru-UA", "rw", "rwk", "sa", "sah", "saq", "sat", "sat-Olck", "sbp", "sc", "sd", "sd-Arab", "sd-Deva", "se", "se-FI", "se-SE", "seh", "ses", "sg", "shi", "shi-Latn", "shi-Tfng", "si", "sk", "sl", "smn", "sn", "so", "so-DJ", "so-ET", "so-KE", "sq", "sq-MK", "sq-XK", "sr", "sr-Cyrl", "sr-Cyrl-BA", "sr-Cyrl-ME", "sr-Cyrl-XK", "sr-Latn", "sr-Latn-BA", "sr-Latn-ME", "sr-Latn-XK", "su", "su-Latn", "sv", "sv-AX", "sv-FI", "sw", "sw-CD", "sw-KE", "sw-UG", "ta", "ta-LK", "ta-MY", "ta-SG", "te", "teo", "teo-KE", "tg", "th", "ti", "ti-ER", "tk", "to", "tr", "tr-CY", "tt", "twq", "tzm", "ug", "uk", "und", "ur", "ur-IN", "uz", "uz-Arab", "uz-Cyrl", "uz-Latn", "vai", "vai-Latn", "vai-Vaii", "vi", "vun", "wae", "wo", "xh", "xog", "yav", "yi", "yo", "yo-BJ", "yrl", "yrl-CO", "yrl-VE", "yue", "yue-Hans", "yue-Hant", "zgh", "zh", "zh-Hans", "zh-Hans-HK", "zh-Hans-MO", "zh-Hans-SG", "zh-Hant", "zh-Hant-HK", "zh-Hant-MO", "zu"];
-    return supportedLocales_generated;
-  }
-  var hasRequiredShouldPolyfill;
-  function requireShouldPolyfill() {
-    if (hasRequiredShouldPolyfill) return shouldPolyfill;
-    hasRequiredShouldPolyfill = 1;
-    Object.defineProperty(shouldPolyfill, "__esModule", { value: true });
-    shouldPolyfill.shouldPolyfill = shouldPolyfill$12;
-    var intl_localematcher_12 = require$$0;
-    var supported_locales_generated_12 = requireSupportedLocales_generated();
-    function supportedLocalesOf2(locale) {
-      if (!locale) {
-        return true;
-      }
-      var locales = Array.isArray(locale) ? locale : [locale];
-      return Intl.RelativeTimeFormat.supportedLocalesOf(locales).length === locales.length;
-    }
-    function hasResolvedOptionsNumberingSystem(locale) {
-      try {
-        return "numberingSystem" in new Intl.RelativeTimeFormat(locale || "en", {
-          numeric: "auto"
-        }).resolvedOptions();
-      } catch (_) {
-        return false;
-      }
-    }
-    function shouldPolyfill$12(locale) {
-      if (locale === void 0) {
-        locale = "en";
-      }
-      if (!("RelativeTimeFormat" in Intl) || !supportedLocalesOf2(locale) || !hasResolvedOptionsNumberingSystem(locale)) {
-        return (0, intl_localematcher_12.match)([locale], supported_locales_generated_12.supportedLocales, "en");
-      }
-    }
-    return shouldPolyfill;
-  }
-  var tslib_1 = require$$0$1;
-  var _1 = tslib_1.__importDefault(requireIntlRelativetimeformat());
-  var should_polyfill_1 = requireShouldPolyfill();
-  if ((0, should_polyfill_1.shouldPolyfill)()) {
-    Object.defineProperty(Intl, "RelativeTimeFormat", {
-      value: _1.default,
-      writable: true,
-      enumerable: false,
-      configurable: true
-    });
   }
   if (Intl.RelativeTimeFormat && typeof Intl.RelativeTimeFormat.__addLocaleData === "function") {
     Intl.RelativeTimeFormat.__addLocaleData({
@@ -41939,6 +42173,23 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     if (!resources?.length) return [];
     return resources;
   }
+  function getIntlConfig(options) {
+    const { ignoreMissingTranslations, onError, ...rest } = options;
+    const handleError = (error) => {
+      if (ignoreMissingTranslations && typeof error.message === "string" && error.message.includes("[@formatjs/intl Error MISSING_TRANSLATION]")) {
+        return;
+      }
+      if (typeof onError === "function") {
+        onError(error);
+        return;
+      }
+      throw error;
+    };
+    return {
+      onError: handleError,
+      ...rest
+    };
+  }
   const codeLabels = {
     "codes.r3.observation.status.amended": [
       {
@@ -42026,19 +42277,19 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     ]
   };
   const detailLabels = {
-    "detail.options": [
+    "details.options": [
       {
         type: 0,
         value: "Opties"
       }
     ],
-    "detail.r3.ihe_mhd_minimal_document_reference.group_attachment": [
+    "details.r3.ihe_mhd_minimal_document_reference.group_attachment": [
       {
         type: 0,
         value: "Inhoud"
       }
     ],
-    "detail.r3.ihe_mhd_minimal_document_reference.group_author": [
+    "details.r3.ihe_mhd_minimal_document_reference.group_author": [
       {
         type: 0,
         value: "Opgesteld door"
@@ -42056,6 +42307,26 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       {
         type: 0,
         value: "Ja"
+      }
+    ],
+    "fhir.code_in_system": [
+      {
+        type: 1,
+        value: "code"
+      },
+      {
+        type: 0,
+        value: " in code systeem "
+      },
+      {
+        type: 1,
+        value: "system"
+      }
+    ],
+    "fhir.empty_value": [
+      {
+        type: 0,
+        value: "Niet bekend"
       }
     ],
     "fhir.group_general_info": [
@@ -42105,29 +42376,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         type: 0,
         value: "Onbekend"
       }
-    ],
-    "format.code_in_system": [
-      {
-        type: 1,
-        value: "code"
-      },
-      {
-        type: 0,
-        value: " in code systeem "
-      },
-      {
-        type: 1,
-        value: "system"
-      }
-    ],
-    "schema.empty_entry_display": [
-      {
-        type: 0,
-        value: "Niet bekend"
-      }
     ]
   };
-  const r3ResourceLabelsCustom = {
+  const r3ResourceLabels = {
     "r3.e_afspraak_appointment": [
       {
         type: 0,
@@ -42248,6 +42499,36 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         value: "Type"
       }
     ],
+    "r3.nl_core_episodeofcare": [
+      {
+        type: 0,
+        value: "Episode"
+      }
+    ],
+    "r3.nl_core_episodeofcare.identifier": [
+      {
+        type: 0,
+        value: "Identificatienummer"
+      }
+    ],
+    "r3.nl_core_episodeofcare.patient": [
+      {
+        type: 0,
+        value: "Patient"
+      }
+    ],
+    "r3.nl_core_episodeofcare.period": [
+      {
+        type: 0,
+        value: "Periode"
+      }
+    ],
+    "r3.nl_core_episodeofcare.type": [
+      {
+        type: 0,
+        value: "Type"
+      }
+    ],
     "r3.nl_core_observation": [
       {
         type: 0,
@@ -42333,7 +42614,642 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }
     ]
   };
-  const r3ResourceLabels = {
+  const r4ResourceLabels = {
+    "r4.nl_core_contact_information_email_addresses": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.nl_core_contact_information_email_addresses.use": [
+      {
+        type: 0,
+        value: "Email soort"
+      }
+    ],
+    "r4.nl_core_contact_information_email_addresses.value": [
+      {
+        type: 0,
+        value: "E-mailadres"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers": [
+      {
+        type: 0,
+        value: "Contactgegevens"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.comment": [
+      {
+        type: 0,
+        value: "Telecom toelichting"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.telecom_type": [
+      {
+        type: 0,
+        value: "Telecom type"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.use": [
+      {
+        type: 0,
+        value: "Telecom type / nummer soort"
+      }
+    ],
+    "r4.nl_core_contact_information_telephone_numbers.value": [
+      {
+        type: 0,
+        value: "Telefoonnummer"
+      }
+    ],
+    "r4.nl_core_healtcare_provider": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.nl_core_healtcare_provider.identifier": [
+      {
+        type: 0,
+        value: "Identifier"
+      }
+    ],
+    "r4.nl_core_healtcare_provider.managing_organization": [
+      {
+        type: 0,
+        value: "Beherende organisatie"
+      }
+    ],
+    "r4.nl_core_healtcare_provider.name": [
+      {
+        type: 0,
+        value: "Zorgverlener naam"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role": [
+      {
+        type: 0,
+        value: "Zorgprofessional rol"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.location": [
+      {
+        type: 0,
+        value: "Locatie"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.organization": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.practitioner": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.nl_core_health_professional_practitioner_role.speciality": [
+      {
+        type: 0,
+        value: "Specialiteit"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization": [
+      {
+        type: 0,
+        value: "Zorgverlener organisatie"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization.department_speciality": [
+      {
+        type: 0,
+        value: "Zorgverlener organisatie afdelings specialiteit"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization.identifier": [
+      {
+        type: 0,
+        value: "Zorgverlener organisatie identifier"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization.name": [
+      {
+        type: 0,
+        value: "Zorgverlener organisatie naam"
+      }
+    ],
+    "r4.nl_core_healthcare_provider_organization.organization_type": [
+      {
+        type: 0,
+        value: "Zorgverlener organisatie type"
+      }
+    ],
+    "r4.nl_core_vaccination_event.dose_quantity": [
+      {
+        type: 0,
+        value: "Dosis"
+      }
+    ],
+    "r4.nl_core_vaccination_event.extra": [
+      {
+        type: 0,
+        value: "Extra informatie"
+      }
+    ],
+    "r4.nl_core_vaccination_event.identifier": [
+      {
+        type: 0,
+        value: "Identificatienummer"
+      }
+    ],
+    "r4.nl_core_vaccination_event.location": [
+      {
+        type: 0,
+        value: "Zorgaanbieder"
+      }
+    ],
+    "r4.nl_core_vaccination_event.note": [
+      {
+        type: 0,
+        value: "Toelichting"
+      }
+    ],
+    "r4.nl_core_vaccination_event.occurrence_date_time": [
+      {
+        type: 0,
+        value: "Gegeven op"
+      }
+    ],
+    "r4.nl_core_vaccination_event.performed_by": [
+      {
+        type: 0,
+        value: "Gegeven door"
+      }
+    ],
+    "r4.nl_core_vaccination_event.performer": [
+      {
+        type: 0,
+        value: "Zorgverlener"
+      }
+    ],
+    "r4.nl_core_vaccination_event.pharmaceutical_product": [
+      {
+        type: 0,
+        value: "Inenting"
+      }
+    ],
+    "r4.nl_core_vaccination_event.protocol_applied": [
+      {
+        type: 0,
+        value: "Protocol toegepast"
+      }
+    ],
+    "r4.nl_core_vaccination_event.protocol_applied.authority": [
+      {
+        type: 0,
+        value: "Autoriteit"
+      }
+    ],
+    "r4.nl_core_vaccination_event.protocol_applied.dose_number": [
+      {
+        type: 0,
+        value: "Dosis nummer"
+      }
+    ],
+    "r4.nl_core_vaccination_event.protocol_applied.series_doses": [
+      {
+        type: 0,
+        value: "Serie dosis"
+      }
+    ],
+    "r4.nl_core_vaccination_event.route": [
+      {
+        type: 0,
+        value: "Toedieningsweg"
+      }
+    ],
+    "r4.nl_core_vaccination_event.site": [
+      {
+        type: 0,
+        value: "Lichaamsplek"
+      }
+    ],
+    "r4.nl_core_vaccination_event.status": [
+      {
+        type: 0,
+        value: "Status"
+      }
+    ],
+    "r4.nl_core_vaccination_event.vaccine_code": [
+      {
+        type: 0,
+        value: "Uniek nummer"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.batch": [
+      {
+        type: 0,
+        value: "Batch"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.batch.expiration_date": [
+      {
+        type: 0,
+        value: "Batch vervaldatum"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.batch.lot_number": [
+      {
+        type: 0,
+        value: "Batch lotnummer"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.description": [
+      {
+        type: 0,
+        value: "Omschrijving"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.identifier": [
+      {
+        type: 0,
+        value: "Serienummer"
+      }
+    ],
+    "r4.zib_pharmaceutical_product.ingredient.item": [
+      {
+        type: 0,
+        value: "Medicatie ingredient item"
+      }
+    ]
+  };
+  const summaryLabels = {
+    "summary.options": [
+      {
+        type: 0,
+        value: "Opties"
+      }
+    ],
+    "summary.r3.ihe_mhd_minimal_document_reference.group_attachment": [
+      {
+        type: 0,
+        value: "Bijlage"
+      }
+    ],
+    "summary.r3.ihe_mhd_minimal_document_reference.group_author": [
+      {
+        type: 0,
+        value: "Opgesteld door"
+      }
+    ],
+    "summary.r3.ihe_mhd_minimal_document_reference.show_details": [
+      {
+        type: 0,
+        value: "Bekijk alle documentgegevens"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use": [
+      {
+        type: 0,
+        value: "Instructies "
+      },
+      {
+        type: 1,
+        value: "sequence"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.dose": [
+      {
+        type: 0,
+        value: "Hoeveelheid per keer"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.dose.high": [
+      {
+        type: 0,
+        value: "Maximaal"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.dose.low": [
+      {
+        type: 0,
+        value: "Minimaal"
+      }
+    ],
+    "summary.r3.zib_instructions_for_use.text": [
+      {
+        type: 0,
+        value: "Gebruiksaanwijzing"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.effective": [
+      {
+        type: 0,
+        value: "Datum van de uitslag"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.effective.end": [
+      {
+        type: 0,
+        value: "Eind datum van de uitslag"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.effective.start": [
+      {
+        type: 0,
+        value: "Begin datum van de uitslag"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.group_performer": [
+      {
+        type: 0,
+        value: "Test afgenomen door"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.group_test_details": [
+      {
+        type: 0,
+        value: "Details van de test"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.interpretation": [
+      {
+        type: 0,
+        value: "Beoordeling"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.performer": [
+      {
+        type: 0,
+        value: "Specialist"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.reference_range": [
+      {
+        type: 0,
+        value: "Referentiewaarden"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.reference_range.high": [
+      {
+        type: 0,
+        value: "Maximale waarde"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.reference_range.low": [
+      {
+        type: 0,
+        value: "Minimale waarde"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.show_details": [
+      {
+        type: 0,
+        value: "Bekijk alle uitslaggegevens"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.specimen": [
+      {
+        type: 0,
+        value: "Materiaal"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.status": [
+      {
+        type: 0,
+        value: "Status"
+      }
+    ],
+    "summary.r3.zib_laboratory_test_result_observation.value": [
+      {
+        type: 0,
+        value: "Resultaat"
+      }
+    ],
+    "summary.r3.zib_medication_use.group_period": [
+      {
+        type: 0,
+        value: "Periode van gebruik"
+      }
+    ],
+    "summary.r3.zib_medication_use.group_prescriber": [
+      {
+        type: 0,
+        value: "Voorgeschreven door"
+      }
+    ],
+    "summary.r3.zib_medication_use.prescriber": [
+      {
+        type: 0,
+        value: "Specialist"
+      }
+    ],
+    "summary.r3.zib_medication_use.show_details": [
+      {
+        type: 0,
+        value: "Bekijk alle medicijngegevens"
+      }
+    ],
+    "summary.r3.zib_medication_use.status": [
+      {
+        type: 0,
+        value: "Status"
+      }
+    ],
+    "summary.r4.nl_core_vaccination_event.group_performer": [
+      {
+        type: 0,
+        value: "Gegeven door"
+      }
+    ],
+    "summary.r4.nl_core_vaccination_event.show_details": [
+      {
+        type: 0,
+        value: "Bekijk alle vaccinatiegegevens"
+      }
+    ]
+  };
+  const systemLabels = {
+    "system.code.http://hl7.org/fhir/referencerange-meaning|follicular": [
+      {
+        type: 0,
+        value: "Folliculair stadium referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|luteal": [
+      {
+        type: 0,
+        value: "Luteaal referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|midcycle": [
+      {
+        type: 0,
+        value: "Middencyclus referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|normal": [
+      {
+        type: 0,
+        value: "Normale referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|post": [
+      {
+        type: 0,
+        value: "Posttherapeutische referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|postmeopausal": [
+      {
+        type: 0,
+        value: "Post-menopauze referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|pre": [
+      {
+        type: 0,
+        value: "Pre-therapeutische referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|pre-puberty": [
+      {
+        type: 0,
+        value: "Pre-puberteit referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|recommended": [
+      {
+        type: 0,
+        value: "Aanbevolen referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|therapeutic": [
+      {
+        type: 0,
+        value: "Therapeutische referentiewaarden"
+      }
+    ],
+    "system.code.http://hl7.org/fhir/referencerange-meaning|treatment": [
+      {
+        type: 0,
+        value: "Behandelings referentiewaarden"
+      }
+    ],
+    "system.urn:oid:2.16.840.1.113883.2.4.4.9": [
+      {
+        type: 0,
+        value: "G-Standaard Toedieningswegen (tabel 7)"
+      }
+    ],
+    "system.value.http://unitsofmeasure.org|d": [
+      {
+        offset: 0,
+        options: {
+          one: {
+            value: [
+              {
+                type: 0,
+                value: "één dag"
+              }
+            ]
+          },
+          other: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "value"
+              },
+              {
+                type: 0,
+                value: " dagen"
+              }
+            ]
+          }
+        },
+        pluralType: "cardinal",
+        type: 6,
+        value: "value"
+      }
+    ],
+    "system.value.http://unitsofmeasure.org|mmol/L": [
+      {
+        offset: 0,
+        options: {
+          one: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "value"
+              },
+              {
+                type: 0,
+                value: " millimol per liter"
+              }
+            ]
+          },
+          other: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "value"
+              },
+              {
+                type: 0,
+                value: " millimol per liter"
+              }
+            ]
+          }
+        },
+        pluralType: "cardinal",
+        type: 6,
+        value: "value"
+      }
+    ],
+    "system.value.urn:oid:2.16.840.1.113883.2.4.4.1.900.2|245": [
+      {
+        offset: 0,
+        options: {
+          one: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "value"
+              },
+              {
+                type: 0,
+                value: " stuk"
+              }
+            ]
+          },
+          other: {
+            value: [
+              {
+                style: null,
+                type: 2,
+                value: "value"
+              },
+              {
+                type: 0,
+                value: " stuks"
+              }
+            ]
+          }
+        },
+        pluralType: "cardinal",
+        type: 6,
+        value: "value"
+      }
+    ]
+  };
+  const r3ResourceLabelsDefault = {
     "r3.gp_encounter_report": [
       {
         type: 0,
@@ -47345,279 +48261,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }
     ]
   };
-  const r4ResourceLabelsCustom = {
-    "r4.nl_core_contact_information_email_addresses": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r4.nl_core_contact_information_email_addresses.use": [
-      {
-        type: 0,
-        value: "Email soort"
-      }
-    ],
-    "r4.nl_core_contact_information_email_addresses.value": [
-      {
-        type: 0,
-        value: "E-mailadres"
-      }
-    ],
-    "r4.nl_core_contact_information_telephone_numbers": [
-      {
-        type: 0,
-        value: "Contactgegevens"
-      }
-    ],
-    "r4.nl_core_contact_information_telephone_numbers.comment": [
-      {
-        type: 0,
-        value: "Telecom toelichting"
-      }
-    ],
-    "r4.nl_core_contact_information_telephone_numbers.telecom_type": [
-      {
-        type: 0,
-        value: "Telecom type"
-      }
-    ],
-    "r4.nl_core_contact_information_telephone_numbers.use": [
-      {
-        type: 0,
-        value: "Telecom type / nummer soort"
-      }
-    ],
-    "r4.nl_core_contact_information_telephone_numbers.value": [
-      {
-        type: 0,
-        value: "Telefoonnummer"
-      }
-    ],
-    "r4.nl_core_healtcare_provider": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r4.nl_core_healtcare_provider.identifier": [
-      {
-        type: 0,
-        value: "Identifier"
-      }
-    ],
-    "r4.nl_core_healtcare_provider.managing_organization": [
-      {
-        type: 0,
-        value: "Beherende organisatie"
-      }
-    ],
-    "r4.nl_core_healtcare_provider.name": [
-      {
-        type: 0,
-        value: "Zorgverlener naam"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner_role": [
-      {
-        type: 0,
-        value: "Zorgprofessional rol"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner_role.location": [
-      {
-        type: 0,
-        value: "Locatie"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner_role.organization": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner_role.practitioner": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r4.nl_core_health_professional_practitioner_role.speciality": [
-      {
-        type: 0,
-        value: "Specialiteit"
-      }
-    ],
-    "r4.nl_core_healthcare_provider_organization": [
-      {
-        type: 0,
-        value: "Zorgverlener organisatie"
-      }
-    ],
-    "r4.nl_core_healthcare_provider_organization.department_speciality": [
-      {
-        type: 0,
-        value: "Zorgverlener organisatie afdelings specialiteit"
-      }
-    ],
-    "r4.nl_core_healthcare_provider_organization.identifier": [
-      {
-        type: 0,
-        value: "Zorgverlener organisatie identifier"
-      }
-    ],
-    "r4.nl_core_healthcare_provider_organization.name": [
-      {
-        type: 0,
-        value: "Zorgverlener organisatie naam"
-      }
-    ],
-    "r4.nl_core_healthcare_provider_organization.organization_type": [
-      {
-        type: 0,
-        value: "Zorgverlener organisatie type"
-      }
-    ],
-    "r4.nl_core_vaccination_event.dose_quantity": [
-      {
-        type: 0,
-        value: "Dosis"
-      }
-    ],
-    "r4.nl_core_vaccination_event.extra": [
-      {
-        type: 0,
-        value: "Extra informatie"
-      }
-    ],
-    "r4.nl_core_vaccination_event.identifier": [
-      {
-        type: 0,
-        value: "Identificatienummer"
-      }
-    ],
-    "r4.nl_core_vaccination_event.location": [
-      {
-        type: 0,
-        value: "Zorgaanbieder"
-      }
-    ],
-    "r4.nl_core_vaccination_event.note": [
-      {
-        type: 0,
-        value: "Toelichting"
-      }
-    ],
-    "r4.nl_core_vaccination_event.occurrence_date_time": [
-      {
-        type: 0,
-        value: "Gegeven op"
-      }
-    ],
-    "r4.nl_core_vaccination_event.performed_by": [
-      {
-        type: 0,
-        value: "Gegeven door"
-      }
-    ],
-    "r4.nl_core_vaccination_event.performer": [
-      {
-        type: 0,
-        value: "Zorgverlener"
-      }
-    ],
-    "r4.nl_core_vaccination_event.pharmaceutical_product": [
-      {
-        type: 0,
-        value: "Inenting"
-      }
-    ],
-    "r4.nl_core_vaccination_event.protocol_applied": [
-      {
-        type: 0,
-        value: "Protocol toegepast"
-      }
-    ],
-    "r4.nl_core_vaccination_event.protocol_applied.authority": [
-      {
-        type: 0,
-        value: "Autoriteit"
-      }
-    ],
-    "r4.nl_core_vaccination_event.protocol_applied.dose_number": [
-      {
-        type: 0,
-        value: "Dosis nummer"
-      }
-    ],
-    "r4.nl_core_vaccination_event.protocol_applied.series_doses": [
-      {
-        type: 0,
-        value: "Serie dosis"
-      }
-    ],
-    "r4.nl_core_vaccination_event.route": [
-      {
-        type: 0,
-        value: "Toedieningsweg"
-      }
-    ],
-    "r4.nl_core_vaccination_event.site": [
-      {
-        type: 0,
-        value: "Lichaamsplek"
-      }
-    ],
-    "r4.nl_core_vaccination_event.status": [
-      {
-        type: 0,
-        value: "Status"
-      }
-    ],
-    "r4.nl_core_vaccination_event.vaccine_code": [
-      {
-        type: 0,
-        value: "Uniek nummer"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.batch": [
-      {
-        type: 0,
-        value: "Batch"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.batch.expiration_date": [
-      {
-        type: 0,
-        value: "Batch vervaldatum"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.batch.lot_number": [
-      {
-        type: 0,
-        value: "Batch lotnummer"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.description": [
-      {
-        type: 0,
-        value: "Omschrijving"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.identifier": [
-      {
-        type: 0,
-        value: "Serienummer"
-      }
-    ],
-    "r4.zib_pharmaceutical_product.ingredient.item": [
-      {
-        type: 0,
-        value: "Medicatie ingredient item"
-      }
-    ]
-  };
-  const r4ResourceLabels = {
+  const r4ResourceLabelsDefault = {
     "r4.nl_core_ability_to_dress_oneself": [
       {
         type: 0,
@@ -52713,449 +53357,32 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       }
     ]
   };
-  const summaryLabels = {
-    "summary.options": [
-      {
-        type: 0,
-        value: "Opties"
-      }
-    ],
-    "summary.r3.ihe_mhd_minimal_document_reference.group_attachment": [
-      {
-        type: 0,
-        value: "Bijlage"
-      }
-    ],
-    "summary.r3.ihe_mhd_minimal_document_reference.group_author": [
-      {
-        type: 0,
-        value: "Opgesteld door"
-      }
-    ],
-    "summary.r3.ihe_mhd_minimal_document_reference.show_details": [
-      {
-        type: 0,
-        value: "Bekijk alle documentgegevens"
-      }
-    ],
-    "summary.r3.zib_instructions_for_use": [
-      {
-        type: 0,
-        value: "Instructies "
-      },
-      {
-        type: 1,
-        value: "sequence"
-      }
-    ],
-    "summary.r3.zib_instructions_for_use.dose": [
-      {
-        type: 0,
-        value: "Hoeveelheid per keer"
-      }
-    ],
-    "summary.r3.zib_instructions_for_use.dose.high": [
-      {
-        type: 0,
-        value: "Maximaal"
-      }
-    ],
-    "summary.r3.zib_instructions_for_use.dose.low": [
-      {
-        type: 0,
-        value: "Minimaal"
-      }
-    ],
-    "summary.r3.zib_instructions_for_use.text": [
-      {
-        type: 0,
-        value: "Gebruiksaanwijzing"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.effective": [
-      {
-        type: 0,
-        value: "Datum van de uitslag"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.effective.end": [
-      {
-        type: 0,
-        value: "Eind datum van de uitslag"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.effective.start": [
-      {
-        type: 0,
-        value: "Begin datum van de uitslag"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.group_performer": [
-      {
-        type: 0,
-        value: "Test afgenomen door"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.group_test_details": [
-      {
-        type: 0,
-        value: "Details van de test"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.interpretation": [
-      {
-        type: 0,
-        value: "Beoordeling"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.performer": [
-      {
-        type: 0,
-        value: "Specialist"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.reference_range": [
-      {
-        type: 0,
-        value: "Referentiewaarden"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.reference_range.high": [
-      {
-        type: 0,
-        value: "Maximale waarde"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.reference_range.low": [
-      {
-        type: 0,
-        value: "Minimale waarde"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.show_details": [
-      {
-        type: 0,
-        value: "Bekijk alle uitslaggegevens"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.specimen": [
-      {
-        type: 0,
-        value: "Materiaal"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.status": [
-      {
-        type: 0,
-        value: "Status"
-      }
-    ],
-    "summary.r3.zib_laboratory_test_result_observation.value": [
-      {
-        type: 0,
-        value: "Resultaat"
-      }
-    ],
-    "summary.r3.zib_medication_use.group_period": [
-      {
-        type: 0,
-        value: "Periode van gebruik"
-      }
-    ],
-    "summary.r3.zib_medication_use.group_prescriber": [
-      {
-        type: 0,
-        value: "Voorgeschreven door"
-      }
-    ],
-    "summary.r3.zib_medication_use.prescriber": [
-      {
-        type: 0,
-        value: "Specialist"
-      }
-    ],
-    "summary.r3.zib_medication_use.show_details": [
-      {
-        type: 0,
-        value: "Bekijk alle medicijngegevens"
-      }
-    ],
-    "summary.r3.zib_medication_use.status": [
-      {
-        type: 0,
-        value: "Status"
-      }
-    ],
-    "summary.r4.nl_core_vaccination_event.group_performer": [
-      {
-        type: 0,
-        value: "Gegeven door"
-      }
-    ],
-    "summary.r4.nl_core_vaccination_event.show_details": [
-      {
-        type: 0,
-        value: "Bekijk alle vaccinatiegegevens"
-      }
-    ]
-  };
-  const systemLabels = {
-    "system.code.http://hl7.org/fhir/referencerange-meaning|follicular": [
-      {
-        type: 0,
-        value: "Folliculair stadium referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|luteal": [
-      {
-        type: 0,
-        value: "Luteaal referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|midcycle": [
-      {
-        type: 0,
-        value: "Middencyclus referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|normal": [
-      {
-        type: 0,
-        value: "Normale referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|post": [
-      {
-        type: 0,
-        value: "Posttherapeutische referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|postmeopausal": [
-      {
-        type: 0,
-        value: "Post-menopauze referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|pre": [
-      {
-        type: 0,
-        value: "Pre-therapeutische referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|pre-puberty": [
-      {
-        type: 0,
-        value: "Pre-puberteit referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|recommended": [
-      {
-        type: 0,
-        value: "Aanbevolen referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|therapeutic": [
-      {
-        type: 0,
-        value: "Therapeutische referentiewaarden"
-      }
-    ],
-    "system.code.http://hl7.org/fhir/referencerange-meaning|treatment": [
-      {
-        type: 0,
-        value: "Behandelings referentiewaarden"
-      }
-    ],
-    "system.urn:oid:2.16.840.1.113883.2.4.4.9": [
-      {
-        type: 0,
-        value: "G-Standaard Toedieningswegen (tabel 7)"
-      }
-    ],
-    "system.value.http://unitsofmeasure.org|d": [
-      {
-        offset: 0,
-        options: {
-          one: {
-            value: [
-              {
-                type: 0,
-                value: "één dag"
-              }
-            ]
-          },
-          other: {
-            value: [
-              {
-                style: null,
-                type: 2,
-                value: "value"
-              },
-              {
-                type: 0,
-                value: " dagen"
-              }
-            ]
-          }
-        },
-        pluralType: "cardinal",
-        type: 6,
-        value: "value"
-      }
-    ],
-    "system.value.http://unitsofmeasure.org|mmol/L": [
-      {
-        offset: 0,
-        options: {
-          one: {
-            value: [
-              {
-                style: null,
-                type: 2,
-                value: "value"
-              },
-              {
-                type: 0,
-                value: " millimol per liter"
-              }
-            ]
-          },
-          other: {
-            value: [
-              {
-                style: null,
-                type: 2,
-                value: "value"
-              },
-              {
-                type: 0,
-                value: " millimol per liter"
-              }
-            ]
-          }
-        },
-        pluralType: "cardinal",
-        type: 6,
-        value: "value"
-      }
-    ],
-    "system.value.urn:oid:2.16.840.1.113883.2.4.4.1.900.2|245": [
-      {
-        offset: 0,
-        options: {
-          one: {
-            value: [
-              {
-                style: null,
-                type: 2,
-                value: "value"
-              },
-              {
-                type: 0,
-                value: " stuk"
-              }
-            ]
-          },
-          other: {
-            value: [
-              {
-                style: null,
-                type: 2,
-                value: "value"
-              },
-              {
-                type: 0,
-                value: " stuks"
-              }
-            ]
-          }
-        },
-        pluralType: "cardinal",
-        type: 6,
-        value: "value"
-      }
-    ]
-  };
-  var Locale = /* @__PURE__ */ ((Locale2) => {
-    Locale2["NL_NL"] = "nl-NL";
-    return Locale2;
-  })(Locale || {});
-  const messagesNL = {
+  const fhirMessagesNL = {
+    ...r3ResourceLabelsDefault,
+    ...r4ResourceLabelsDefault,
     ...r3ResourceLabels,
-    ...r3ResourceLabelsCustom,
     ...r4ResourceLabels,
-    ...r4ResourceLabelsCustom,
     ...summaryLabels,
     ...detailLabels,
     ...codeLabels,
     ...systemLabels,
     ...fhirMessages
   };
-  function memoize(fn, options) {
-    var cache = options && options.cache ? options.cache : cacheDefault;
-    var serializer = options && options.serializer ? options.serializer : serializerDefault;
-    var strategy = options && options.strategy ? options.strategy : strategyDefault;
-    return strategy(fn, {
-      cache,
-      serializer
-    });
+  function getFhirIntlConfig(options) {
+    return getIntlConfig({ messages: fhirMessagesNL, ...options });
   }
-  function isPrimitive(value2) {
-    return value2 == null || typeof value2 === "number" || typeof value2 === "boolean";
+  function createHelpers(intl) {
+    const formatMessage2 = (id, ...args) => intl.formatMessage({ id }, ...args);
+    const hasMessage = (id) => !!intl.messages[id];
+    return {
+      formatMessage: formatMessage2,
+      hasMessage
+    };
   }
-  function monadic(fn, cache, serializer, arg) {
-    var cacheKey = isPrimitive(arg) ? arg : serializer(arg);
-    var computedValue = cache.get(cacheKey);
-    if (typeof computedValue === "undefined") {
-      computedValue = fn.call(this, arg);
-      cache.set(cacheKey, computedValue);
-    }
-    return computedValue;
-  }
-  function variadic(fn, cache, serializer) {
-    var args = Array.prototype.slice.call(arguments, 3);
-    var cacheKey = serializer(args);
-    var computedValue = cache.get(cacheKey);
-    if (typeof computedValue === "undefined") {
-      computedValue = fn.apply(this, args);
-      cache.set(cacheKey, computedValue);
-    }
-    return computedValue;
-  }
-  function assemble(fn, context, strategy, cache, serialize) {
-    return strategy.bind(context, fn, cache, serialize);
-  }
-  function strategyDefault(fn, options) {
-    var strategy = fn.length === 1 ? monadic : variadic;
-    return assemble(fn, this, strategy, options.cache.create(), options.serializer);
-  }
-  function strategyVariadic(fn, options) {
-    return assemble(fn, this, variadic, options.cache.create(), options.serializer);
-  }
-  function strategyMonadic(fn, options) {
-    return assemble(fn, this, monadic, options.cache.create(), options.serializer);
-  }
-  var serializerDefault = function() {
-    return JSON.stringify(arguments);
-  };
-  function ObjectWithoutPrototypeCache() {
-    this.cache = /* @__PURE__ */ Object.create(null);
-  }
-  ObjectWithoutPrototypeCache.prototype.get = function(key) {
-    return this.cache[key];
-  };
-  ObjectWithoutPrototypeCache.prototype.set = function(key, value2) {
-    this.cache[key] = value2;
-  };
-  var cacheDefault = {
-    create: function create() {
-      return new ObjectWithoutPrototypeCache();
-    }
-  };
-  var strategies = {
-    variadic: strategyVariadic,
-    monadic: strategyMonadic
-  };
+  var Locale = /* @__PURE__ */ ((Locale2) => {
+    Locale2["NL_NL"] = "nl-NL";
+    return Locale2;
+  })(Locale || {});
   var ErrorKind;
   (function(ErrorKind2) {
     ErrorKind2[ErrorKind2["EXPECT_ARGUMENT_CLOSING_BRACE"] = 1] = "EXPECT_ARGUMENT_CLOSING_BRACE";
@@ -53242,9 +53469,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     skeleton2.replace(DATE_TIME_REGEX, function(match2) {
       var len = match2.length;
       switch (match2[0]) {
+        // Era
         case "G":
           result.era = len === 4 ? "long" : len === 5 ? "narrow" : "short";
           break;
+        // Year
         case "y":
           result.year = len === 2 ? "2-digit" : "numeric";
           break;
@@ -53253,13 +53482,16 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         case "U":
         case "r":
           throw new RangeError("`Y/u/U/r` (year) patterns are not supported, use `y` instead");
+        // Quarter
         case "q":
         case "Q":
           throw new RangeError("`q/Q` (quarter) patterns are not supported");
+        // Month
         case "M":
         case "L":
           result.month = ["numeric", "2-digit", "short", "long", "narrow"][len - 1];
           break;
+        // Week
         case "w":
         case "W":
           throw new RangeError("`w/W` (week) patterns are not supported");
@@ -53270,6 +53502,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         case "F":
         case "g":
           throw new RangeError("`D/F/g` (day) patterns are not supported, use `d` instead");
+        // Weekday
         case "E":
           result.weekday = len === 4 ? "long" : len === 5 ? "narrow" : "short";
           break;
@@ -53285,12 +53518,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           }
           result.weekday = ["short", "long", "narrow", "short"][len - 4];
           break;
+        // Period
         case "a":
           result.hour12 = true;
           break;
         case "b":
+        // am, pm, noon, midnight
         case "B":
           throw new RangeError("`b/B` (period) patterns are not supported, use `a` instead");
+        // Hour
         case "h":
           result.hourCycle = "h12";
           result.hour = ["numeric", "2-digit"][len - 1];
@@ -53311,23 +53547,31 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         case "J":
         case "C":
           throw new RangeError("`j/J/C` (hour) patterns are not supported, use `h/H/K/k` instead");
+        // Minute
         case "m":
           result.minute = ["numeric", "2-digit"][len - 1];
           break;
+        // Second
         case "s":
           result.second = ["numeric", "2-digit"][len - 1];
           break;
         case "S":
         case "A":
           throw new RangeError("`S/A` (second) patterns are not supported, use `s` instead");
+        // Zone
         case "z":
           result.timeZoneName = len < 4 ? "short" : "long";
           break;
         case "Z":
+        // 1..3, 4, 5: The ISO8601 varios formats
         case "O":
+        // 1, 4: milliseconds in day short, long
         case "v":
+        // 1, 4: generic non-location format
         case "V":
+        // 1, 2, 3, 4: time zone ID or city
         case "X":
+        // 1, 2, 3, 4: The ISO8601 varios formats
         case "x":
           throw new RangeError("`Z/O/v/V/X/x` (timeZone) patterns are not supported, use `z` instead");
       }
@@ -53521,6 +53765,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         case "notation-simple":
           result.notation = "standard";
           continue;
+        // https://github.com/unicode-org/icu/blob/master/icu4c/source/i18n/unicode/unumberformatter.h
         case "unit-width-narrow":
           result.currencyDisplay = "narrowSymbol";
           result.unitDisplay = "narrow";
@@ -53560,6 +53805,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         case "rounding-mode-half-up":
           result.roundingMode = "halfExpand";
           continue;
+        // https://unicode-org.github.io/icu/userguide/format_parse/numbers/skeletons.html#integer-width
         case "integer-width":
           if (token.options.length > 1) {
             throw new RangeError("integer-width stems only accept a single optional option");
@@ -55392,6 +55638,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             this.bump();
             this.bump();
             return "'";
+          // '{', '<', '>', '}'
           case 123:
           case 60:
           case 62:
@@ -55457,6 +55704,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return this.error(ErrorKind.EXPECT_ARGUMENT_CLOSING_BRACE, createLocation(openingBracePosition, this.clonePosition()));
         }
         switch (this.char()) {
+          // Simple argument: `{name}`
           case 125: {
             this.bump();
             return {
@@ -55469,6 +55717,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
               err: null
             };
           }
+          // Argument with options: `{name, format, ...}`
           case 44: {
             this.bump();
             this.bumpSpace();
@@ -56753,14 +57002,14 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       _a2[_i - 2] = arguments[_i];
     }
     var from = _a2[0], to = _a2[1], _b = _a2[2], options = _b === void 0 ? {} : _b;
-    var timeZone = config2.timeZone, locale = config2.locale, onError = config2.onError;
-    var filteredOptions = filterProps(options, DATE_TIME_FORMAT_OPTIONS, timeZone ? { timeZone } : {});
+    var fromDate = typeof from === "string" ? new Date(from || 0) : from;
+    var toDate = typeof to === "string" ? new Date(to || 0) : to;
     try {
-      return getDateTimeFormat(locale, filteredOptions).formatRange(from, to);
+      return getFormatter$2(config2, "dateTimeRange", getDateTimeFormat, options).formatRange(fromDate, toDate);
     } catch (e) {
-      onError(new IntlFormatError("Error formatting date time range.", config2.locale, e));
+      config2.onError(new IntlFormatError("Error formatting date time range.", config2.locale, e));
     }
-    return String(from);
+    return String(fromDate);
   }
   function formatDateToParts(config2, getDateTimeFormat) {
     var _a2 = [];
@@ -56929,13 +57178,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     "unitDisplay",
     "numberingSystem",
     // ES2023 NumberFormat
-    // @ts-expect-error: TypeScript doesn't know about this yet
     "trailingZeroDisplay",
-    // @ts-expect-error: TypeScript doesn't know about this yet
     "roundingPriority",
-    // @ts-expect-error: TypeScript doesn't know about this yet
     "roundingIncrement",
-    // @ts-expect-error: TypeScript doesn't know about this yet
     "roundingMode"
   ];
   function getFormatter(_a2, getNumberFormat, options) {
@@ -56979,7 +57224,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       config2.onWarn('[@formatjs/intl] "defaultRichTextElements" was specified but "message" was not pre-compiled. \nPlease consider using "@formatjs/cli" to pre-compile your messages for performance.\nFor more details see https://formatjs.github.io/docs/getting-started/message-distribution');
     }
   }
-  function createIntl$1(config2, cache) {
+  function createIntl(config2, cache) {
     var formatters = createFormatters(cache);
     var resolvedConfig = __assign(__assign({}, DEFAULT_INTL_CONFIG), config2);
     var locale = resolvedConfig.locale, defaultLocale2 = resolvedConfig.defaultLocale, onError = resolvedConfig.onError;
@@ -56995,49 +57240,6 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     verifyConfigMessages(resolvedConfig);
     return __assign(__assign({}, resolvedConfig), { formatters, formatNumber: formatNumber.bind(null, resolvedConfig, formatters.getNumberFormat), formatNumberToParts: formatNumberToParts.bind(null, resolvedConfig, formatters.getNumberFormat), formatRelativeTime: formatRelativeTime.bind(null, resolvedConfig, formatters.getRelativeTimeFormat), formatDate: formatDate.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatDateToParts: formatDateToParts.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatTime: formatTime.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatDateTimeRange: formatDateTimeRange.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatTimeToParts: formatTimeToParts.bind(null, resolvedConfig, formatters.getDateTimeFormat), formatPlural: formatPlural.bind(null, resolvedConfig, formatters.getPluralRules), formatMessage: formatMessage.bind(null, resolvedConfig, formatters), $t: formatMessage.bind(null, resolvedConfig, formatters), formatList: formatList.bind(null, resolvedConfig, formatters.getListFormat), formatListToParts: formatListToParts.bind(null, resolvedConfig, formatters.getListFormat), formatDisplayName: formatDisplayName.bind(null, resolvedConfig, formatters.getDisplayNames) });
-  }
-  const intlCache = {};
-  function createIntl(options) {
-    const { locale, ignoreMissingTranslations, ignoreIntlCache } = options;
-    let intl = ignoreIntlCache ? void 0 : intlCache[locale];
-    const onError = (error) => {
-      const environment = typeof process !== "undefined" ? process.env.NODE_ENV : "production";
-      if (environment !== "test" && environment !== "development") {
-        return;
-      }
-      if (ignoreMissingTranslations && typeof error.message === "string" && error.message.includes("[@formatjs/intl Error MISSING_TRANSLATION]")) {
-        return;
-      }
-      throw error;
-    };
-    if (!intl) {
-      const cache = createIntlCache();
-      intl = createIntl$1(
-        {
-          locale,
-          /**
-           * Currently only Dutch is supported
-           * We need to figure out how we want to deal with possibly async loading of other languages
-           * Especially in the context of the mobile applications
-           */
-          messages: messagesNL,
-          onError
-        },
-        cache
-      );
-      intlCache[locale] = intl;
-    }
-    return intl;
-  }
-  function createI18nContext(options) {
-    const intl = createIntl(options);
-    const formatMessage2 = (id, values) => intl.formatMessage({ id }, values);
-    const hasMessage = (id) => isNonNullish(intl.messages[id]);
-    return {
-      intl,
-      formatMessage: formatMessage2,
-      hasMessage
-    };
   }
   function numberToString(value2) {
     if (isNullish(value2)) return;
@@ -57077,7 +57279,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         return isEmptyUiEntry(entry) && !["DOWNLOAD_LINK", "DOWNLOAD_BINARY"].includes(entry.type) ? {
           type: "SINGLE_VALUE",
           label: entry.label,
-          display: formatMessage2("schema.empty_entry_display")
+          display: formatMessage2("fhir.empty_value")
         } : entry;
       })
     };
@@ -57094,6 +57296,22 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         ...schema,
         children: schema.children.map((x) => processGroup(x, context))
       };
+    };
+  }
+  const intlCache = createIntlCache();
+  function createUiHelperContext(options) {
+    const { locale, ignoreMissingTranslations, isSummary } = options;
+    const intl = createIntl(
+      getFhirIntlConfig({
+        locale,
+        ignoreMissingTranslations
+      }),
+      intlCache
+    );
+    return {
+      isSummary,
+      intl,
+      ...createHelpers(intl)
     };
   }
   const attachment$1 = ({ formatMessage: formatMessage2 }) => (value2) => {
@@ -57182,7 +57400,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     let codeInSystemString;
     if (code2 && system2) {
-      codeInSystemString = formatMessage2("format.code_in_system", {
+      codeInSystemString = formatMessage2("fhir.code_in_system", {
         code: code2,
         system: system2
       });
@@ -57552,19 +57770,13 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   function createSchemaContext(options) {
-    const { locale, ignoreMissingTranslations, ignoreIntlCache, resources, isSummary } = options;
-    const uiHelperContext = {
-      ...createI18nContext({
-        locale,
-        ignoreMissingTranslations,
-        ignoreIntlCache
-      }),
-      isSummary
-    };
+    const { resources = [], locale, ignoreMissingTranslations, isSummary } = options;
+    const uiHelperContext = createUiHelperContext({ locale, ignoreMissingTranslations, isSummary });
     return {
       ...uiHelperContext,
       ui: getUi(uiHelperContext),
-      resources: resources ?? []
+      resources,
+      isSummary
     };
   }
   function isMgoResource(value2) {
@@ -62152,7 +62364,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           return result2 + (index ? " " : "") + word.toLowerCase();
         });
         var lowerFirst = createCaseFirst("toLowerCase");
-        function pad2(string2, length, chars) {
+        function pad(string2, length, chars) {
           string2 = toString(string2);
           length = toInteger2(length);
           var strLength = length ? stringSize(string2) : 0;
@@ -62831,7 +63043,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
         lodash2.noConflict = noConflict;
         lodash2.noop = noop;
         lodash2.now = now2;
-        lodash2.pad = pad2;
+        lodash2.pad = pad;
         lodash2.padEnd = padEnd;
         lodash2.padStart = padStart;
         lodash2.parseInt = parseInt2;
@@ -63114,6 +63326,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     "zib-VaccinationRecommendation-OrderStatus": "codeableConcept",
     "ext-Vaccination.PharmaceuticalProduct": "reference",
     "ext-PharmaceuticalProduct.Description": "string",
+    "EpisodeOfCare-Title": "string",
+    "EpisodeOfCare-DateFirstEncounter": "dateTime",
+    "EpisodeOfCare-DateLastEncounter": "dateTime",
     Comment: "string"
   };
   function extensionNictiz(resource, zibId) {
@@ -63292,34 +63507,34 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       fhirVersion: `${fhirVersion}`
     };
   }
-  const i18n$K = "r3.gp_diagnostic_result";
-  const uiSchema$N = (resource, context) => {
+  const i18n$L = "r3.gp_diagnostic_result";
+  const uiSchema$O = (resource, context) => {
     const ui = context.ui;
     return {
-      label: resource.context?.display ?? context.formatMessage(i18n$K),
+      label: resource.context?.display ?? context.formatMessage(i18n$L),
       children: [
         {
-          label: `${i18n$K}.group_details`,
+          label: `${i18n$L}.group_details`,
           children: [
-            ui.identifier(`${i18n$K}.identifier`, resource.identifier),
-            ui.reference(`${i18n$K}.context`, resource.context),
-            ui.reference(`${i18n$K}.subject`, resource.subject),
-            ui.dateTime(`${i18n$K}.effective`, resource.effective),
-            ui.reference(`${i18n$K}.performer`, resource.performer),
-            ui.string(`${i18n$K}.status`, resource.status),
-            ui.codeableConcept(`${i18n$K}.code`, resource.code),
-            ui.string(`${i18n$K}.comment`, resource.comment),
-            ui.codeableConcept(`${i18n$K}.method`, resource.method),
-            ...ui.oneOfValueX(`${i18n$K}.value`, resource, "value")
+            ui.identifier(`${i18n$L}.identifier`, resource.identifier),
+            ui.reference(`${i18n$L}.context`, resource.context),
+            ui.reference(`${i18n$L}.subject`, resource.subject),
+            ui.dateTime(`${i18n$L}.effective`, resource.effective),
+            ui.reference(`${i18n$L}.performer`, resource.performer),
+            ui.string(`${i18n$L}.status`, resource.status),
+            ui.codeableConcept(`${i18n$L}.code`, resource.code),
+            ui.string(`${i18n$L}.comment`, resource.comment),
+            ui.codeableConcept(`${i18n$L}.method`, resource.method),
+            ...ui.oneOfValueX(`${i18n$L}.value`, resource, "value")
           ]
         }
       ]
     };
   };
-  const profile$N = "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult";
+  const profile$O = "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult";
   function parseGpDiagnosticResult(resource) {
     return {
-      ...resourceMeta(resource, profile$N, FhirVersion.R3),
+      ...resourceMeta(resource, profile$O, FhirVersion.R3),
       identifier: map(resource.identifier, identifier),
       context: reference(resource.context),
       subject: reference(resource.subject),
@@ -63341,11 +63556,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const gpDiagnosticResult = {
-    profile: profile$N,
+    profile: profile$O,
     parse: parseGpDiagnosticResult,
-    uiSchema: uiSchema$N
+    uiSchema: uiSchema$O
   };
-  const uiSchemaGroup$B = (resource, context) => {
+  const uiSchemaGroup$D = (resource, context) => {
     const ui = context.ui;
     return {
       label: "Encounter.participant",
@@ -63359,36 +63574,36 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const encounterParticipant = {
     parse: parseEncounterParticipant,
-    uiSchemaGroup: uiSchemaGroup$B
+    uiSchemaGroup: uiSchemaGroup$D
   };
-  const i18n$J = "r3.gp_encounter";
-  const uiSchema$M = (resource, context) => {
+  const i18n$K = "r3.gp_encounter";
+  const uiSchema$N = (resource, context) => {
     const ui = context.ui;
     const participants = map(
       resource.participant,
-      (x) => uiSchemaGroup$B(x, context),
+      (x) => uiSchemaGroup$D(x, context),
       true
     ).flat();
     return {
-      label: resource.serviceProvider?.display ?? context.formatMessage(i18n$J),
+      label: resource.serviceProvider?.display ?? context.formatMessage(i18n$K),
       children: [
         {
-          label: `${i18n$J}`,
+          label: `${i18n$K}`,
           children: [
-            ui.coding(`${i18n$J}.class`, resource.class),
+            ui.coding(`${i18n$K}.class`, resource.class),
             ...ui.helpers.getChildren(participants),
-            ui.reference(`${i18n$J}.serviceProvider`, resource.serviceProvider),
-            ...ui.period(`${i18n$J}.period`, resource.period),
-            ui.codeableConcept(`${i18n$J}.reason`, resource.reason)
+            ui.reference(`${i18n$K}.serviceProvider`, resource.serviceProvider),
+            ...ui.period(`${i18n$K}.period`, resource.period),
+            ui.codeableConcept(`${i18n$K}.reason`, resource.reason)
           ]
         }
       ]
     };
   };
-  const profile$M = "http://nictiz.nl/fhir/StructureDefinition/gp-Encounter";
+  const profile$N = "http://nictiz.nl/fhir/StructureDefinition/gp-Encounter";
   function parseGpEncounter(resource) {
     return {
-      ...resourceMeta(resource, profile$M, FhirVersion.R3),
+      ...resourceMeta(resource, profile$N, FhirVersion.R3),
       class: coding(resource.class),
       participant: map(resource.participant, encounterParticipant.parse),
       serviceProvider: reference(resource.serviceProvider),
@@ -63397,9 +63612,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const gpEncounter = {
-    profile: profile$M,
+    profile: profile$N,
     parse: parseGpEncounter,
-    uiSchema: uiSchema$M
+    uiSchema: uiSchema$N
   };
   function parseSection(value2) {
     return {
@@ -63407,7 +63622,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       entry: map(value2?.entry, reference)
     };
   }
-  const uiSchemaGroup$A = (resource, context) => {
+  const uiSchemaGroup$C = (resource, context) => {
     const ui = context.ui;
     const profile2 = "EncounterReport.Section";
     return {
@@ -63418,32 +63633,32 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const i18n$I = "r3.gp_encounter_report";
-  const uiSchema$L = (resource, context) => {
+  const i18n$J = "r3.gp_encounter_report";
+  const uiSchema$M = (resource, context) => {
     const ui = context.ui;
-    const section = map(resource.section, (x) => uiSchemaGroup$A(x, context), true);
+    const section = map(resource.section, (x) => uiSchemaGroup$C(x, context), true);
     return {
-      label: resource.title ?? context.formatMessage(i18n$I),
+      label: resource.title ?? context.formatMessage(i18n$J),
       children: [
         {
-          label: `${i18n$I}`,
+          label: `${i18n$J}`,
           children: [
-            ui.string(`${i18n$I}.title`, resource.title),
-            ui.string(`${i18n$I}.status`, resource.status),
-            ui.coding(`${i18n$I}.type`, resource.type),
-            ui.reference(`${i18n$I}.encounter`, resource.encounter),
-            ui.dateTime(`${i18n$I}.date`, resource.date),
-            ui.reference(`${i18n$I}.author`, resource.author)
+            ui.string(`${i18n$J}.title`, resource.title),
+            ui.string(`${i18n$J}.status`, resource.status),
+            ui.coding(`${i18n$J}.type`, resource.type),
+            ui.reference(`${i18n$J}.encounter`, resource.encounter),
+            ui.dateTime(`${i18n$J}.date`, resource.date),
+            ui.reference(`${i18n$J}.author`, resource.author)
           ]
         },
         ...section
       ]
     };
   };
-  const profile$L = "http://nictiz.nl/fhir/StructureDefinition/gp-EncounterReport";
+  const profile$M = "http://nictiz.nl/fhir/StructureDefinition/gp-EncounterReport";
   function parseGpEncounterReport(resource) {
     return {
-      ...resourceMeta(resource, profile$L, FhirVersion.R3),
+      ...resourceMeta(resource, profile$M, FhirVersion.R3),
       identifier: identifier(resource.identifier),
       status: string(resource.status),
       type: map(resource.type.coding, coding),
@@ -63455,39 +63670,39 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const gpEncounterReport = {
-    profile: profile$L,
+    profile: profile$M,
     parse: parseGpEncounterReport,
-    uiSchema: uiSchema$L
+    uiSchema: uiSchema$M
   };
-  const i18n$H = "r3.gp_journal_entry";
-  const uiSchema$K = (resource, context) => {
+  const i18n$I = "r3.gp_journal_entry";
+  const uiSchema$L = (resource, context) => {
     const ui = context.ui;
     return {
-      label: resource.context?.display ?? context.formatMessage(i18n$H),
+      label: resource.context?.display ?? context.formatMessage(i18n$I),
       children: [
         {
-          label: `${i18n$H}.group_details`,
+          label: `${i18n$I}.group_details`,
           children: [
-            ui.identifier(`${i18n$H}.identifier`, resource.identifier),
-            ui.string(`${i18n$H}.status`, resource.status),
-            ui.codeableConcept(`${i18n$H}.code`, resource.code),
-            ui.reference(`${i18n$H}.context`, resource.context),
-            ...ui.oneOfValueX(`${i18n$H}.effective`, resource, "effective"),
-            ui.reference(`${i18n$H}.performer`, resource.performer),
-            ui.string(`${i18n$H}.valueString`, resource.valueString),
-            ui.codeableConcept(`${i18n$H}.ICPC_S`, resource.ICPC_S.valueCodeableConcept),
-            ui.codeableConcept(`${i18n$H}.ICPC_E`, resource.ICPC_E.valueCodeableConcept)
+            ui.identifier(`${i18n$I}.identifier`, resource.identifier),
+            ui.string(`${i18n$I}.status`, resource.status),
+            ui.codeableConcept(`${i18n$I}.code`, resource.code),
+            ui.reference(`${i18n$I}.context`, resource.context),
+            ...ui.oneOfValueX(`${i18n$I}.effective`, resource, "effective"),
+            ui.reference(`${i18n$I}.performer`, resource.performer),
+            ui.string(`${i18n$I}.valueString`, resource.valueString),
+            ui.codeableConcept(`${i18n$I}.ICPC_S`, resource.ICPC_S.valueCodeableConcept),
+            ui.codeableConcept(`${i18n$I}.ICPC_E`, resource.ICPC_E.valueCodeableConcept)
           ]
         }
       ]
     };
   };
-  const profile$K = "http://nictiz.nl/fhir/StructureDefinition/gp-JournalEntry";
+  const profile$L = "http://nictiz.nl/fhir/StructureDefinition/gp-JournalEntry";
   function parseGpJournalEntry(resource) {
     const ICPC_S = findComponentByCode(resource.component, "ADMDX");
     const ICPC_E = findComponentByCode(resource.component, "DISDX");
     return {
-      ...resourceMeta(resource, profile$K, FhirVersion.R3),
+      ...resourceMeta(resource, profile$L, FhirVersion.R3),
       identifier: map(resource.identifier, identifier),
       status: string(resource.status),
       code: codeableConcept(resource.code),
@@ -63504,9 +63719,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const gpJournalEntry = {
-    profile: profile$K,
+    profile: profile$L,
     parse: parseGpJournalEntry,
-    uiSchema: uiSchema$K
+    uiSchema: uiSchema$L
   };
   const SNOMED_SYSTEM = "http://snomed.info/sct";
   var Snomed = /* @__PURE__ */ ((Snomed2) => {
@@ -63543,15 +63758,15 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     "131196009"
     /* SUSCEPTIBLE */
   ];
-  const i18n$G = "r3.zib_laboratory_test_result_observation.reference_range";
-  const uiSchemaGroup$z = (resource, context) => {
+  const i18n$H = "r3.zib_laboratory_test_result_observation.reference_range";
+  const uiSchemaGroup$B = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     return {
-      label: formatMessage2(i18n$G),
+      label: formatMessage2(i18n$H),
       children: [
-        ui.quantity(`${i18n$G}.low`, resource.low),
-        ui.quantity(`${i18n$G}.high`, resource.high),
-        ui.codeableConcept(`${i18n$G}.type`, resource.type)
+        ui.quantity(`${i18n$H}.low`, resource.low),
+        ui.quantity(`${i18n$H}.high`, resource.high),
+        ui.codeableConcept(`${i18n$H}.type`, resource.type)
       ]
     };
   };
@@ -63571,7 +63786,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     }
     return {
       label: formatSystemCode(typeCoding) ?? formatMessage2("summary.r3.zib_laboratory_test_result_observation.reference_range"),
-      children: [...ui.range(`summary.${i18n$G}`, resource)]
+      children: [...ui.range(`summary.${i18n$H}`, resource)]
     };
   };
   function parseReferenceRange(value2) {
@@ -63585,10 +63800,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const referenceRange = {
     parse: parseReferenceRange,
-    uiSchemaGroup: uiSchemaGroup$z,
+    uiSchemaGroup: uiSchemaGroup$B,
     summary: summary$6
   };
-  const uiSchemaGroup$y = (resource, context) => {
+  const uiSchemaGroup$A = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     return {
       label: formatMessage2("r3.zib_laboratory_test_result_observation.related"),
@@ -63604,7 +63819,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const related = {
     parse: parseRelated,
-    uiSchemaGroup: uiSchemaGroup$y
+    uiSchemaGroup: uiSchemaGroup$A
   };
   function summaryOptions({ formatMessage: formatMessage2 }, i18n2, resource) {
     return {
@@ -63618,41 +63833,41 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   }
-  const i18n$F = "r3.zib_laboratory_test_result_observation";
+  const i18n$G = "r3.zib_laboratory_test_result_observation";
   function getLabel$3(resource, { formatMessage: formatMessage2 }) {
-    return lodashExports.capitalize(resource.code?.coding.at(0)?.display) || formatMessage2(i18n$F);
+    return lodashExports.capitalize(resource.code?.coding.at(0)?.display) || formatMessage2(i18n$G);
   }
-  const uiSchema$J = (resource, context) => {
+  const uiSchema$K = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     const hcimLaboratoryTestResult = {
-      BasedOn: ui.reference(`${i18n$F}.based_on`, resource.basedOn),
-      Status: ui.code(`${i18n$F}.status`, resource.status),
-      ResultType: ui.codeableConcept(`${i18n$F}.result_type`, resource.resultType),
-      Code: ui.codeableConcept(`${i18n$F}.code`, resource.code),
-      Effective: ui.oneOfValueX(`${i18n$F}.effective`, resource, "effective"),
-      Value: ui.oneOfValueX(`${i18n$F}.value`, resource),
-      Interpretation: ui.codeableConcept(`${i18n$F}.interpretation`, resource.interpretation),
-      Comment: ui.string(`${i18n$F}.comment`, resource.comment),
-      Method: ui.codeableConcept(`${i18n$F}.method`, resource.method),
-      Specimen: ui.reference(`${i18n$F}.specimen`, resource.specimen),
+      BasedOn: ui.reference(`${i18n$G}.based_on`, resource.basedOn),
+      Status: ui.code(`${i18n$G}.status`, resource.status),
+      ResultType: ui.codeableConcept(`${i18n$G}.result_type`, resource.resultType),
+      Code: ui.codeableConcept(`${i18n$G}.code`, resource.code),
+      Effective: ui.oneOfValueX(`${i18n$G}.effective`, resource, "effective"),
+      Value: ui.oneOfValueX(`${i18n$G}.value`, resource),
+      Interpretation: ui.codeableConcept(`${i18n$G}.interpretation`, resource.interpretation),
+      Comment: ui.string(`${i18n$G}.comment`, resource.comment),
+      Method: ui.codeableConcept(`${i18n$G}.method`, resource.method),
+      Specimen: ui.reference(`${i18n$G}.specimen`, resource.specimen),
       ReferenceRange: map(
         resource.referenceRange,
-        (x) => uiSchemaGroup$z(x, context),
+        (x) => uiSchemaGroup$B(x, context),
         true
       ).flat(),
-      Related: map(resource.related, (x) => uiSchemaGroup$y(x, context), true).flat()
+      Related: map(resource.related, (x) => uiSchemaGroup$A(x, context), true).flat()
     };
     const hcimBasicElements = {
-      Identifier: ui.identifier(`${i18n$F}.identifier`, resource.identifier),
-      Subject: ui.reference(`${i18n$F}.subject`, resource.subject),
-      Context: ui.reference(`${i18n$F}.context`, resource.context),
-      Performer: ui.reference(`${i18n$F}.performer`, resource.performer)
+      Identifier: ui.identifier(`${i18n$G}.identifier`, resource.identifier),
+      Subject: ui.reference(`${i18n$G}.subject`, resource.subject),
+      Context: ui.reference(`${i18n$G}.context`, resource.context),
+      Performer: ui.reference(`${i18n$G}.performer`, resource.performer)
     };
     return {
       label: getLabel$3(resource, context),
       children: [
         {
-          label: formatMessage2(i18n$F),
+          label: formatMessage2(i18n$G),
           children: [
             hcimBasicElements.Identifier,
             hcimBasicElements.Subject,
@@ -63661,11 +63876,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           ]
         },
         {
-          label: formatMessage2(`${i18n$F}.general_test_information`),
+          label: formatMessage2(`${i18n$G}.general_test_information`),
           children: [hcimLaboratoryTestResult.ResultType, hcimLaboratoryTestResult.Comment]
         },
         {
-          label: formatMessage2(`${i18n$F}.lab_test`),
+          label: formatMessage2(`${i18n$G}.lab_test`),
           children: [
             hcimLaboratoryTestResult.Code,
             hcimLaboratoryTestResult.Method,
@@ -63694,30 +63909,30 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       children: [
         {
           children: [
-            ...ui.oneOfValueX(`summary.${i18n$F}.effective`, resource, "effective"),
-            ...ui.oneOfValueX(`summary.${i18n$F}.value`, resource),
-            ui.coding(`summary.${i18n$F}.interpretation`, resultFlags)
+            ...ui.oneOfValueX(`summary.${i18n$G}.effective`, resource, "effective"),
+            ...ui.oneOfValueX(`summary.${i18n$G}.value`, resource),
+            ui.coding(`summary.${i18n$G}.interpretation`, resultFlags)
           ]
         },
         {
-          label: formatMessage2(`summary.${i18n$F}.group_test_details`),
+          label: formatMessage2(`summary.${i18n$G}.group_test_details`),
           children: [
-            ui.code(`summary.${i18n$F}.status`, resource.status, {
+            ui.code(`summary.${i18n$G}.status`, resource.status, {
               i18nCode: "r3.observation.status"
             }),
-            ui.reference(`summary.${i18n$F}.specimen`, resource.specimen)
+            ui.reference(`summary.${i18n$G}.specimen`, resource.specimen)
           ]
         },
         ...referenceRangeSummary,
         {
-          label: formatMessage2(`summary.${i18n$F}.group_performer`),
-          children: [ui.reference(`summary.${i18n$F}.performer`, resource.performer)]
+          label: formatMessage2(`summary.${i18n$G}.group_performer`),
+          children: [ui.reference(`summary.${i18n$G}.performer`, resource.performer)]
         },
-        summaryOptions(context, i18n$F, resource)
+        summaryOptions(context, i18n$G, resource)
       ]
     };
   };
-  const profile$J = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
+  const profile$K = "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation";
   function parseZibLaboratoryTestResultObservationBase(resource) {
     const laboratoryTestResultCode = filterCodeableConceptByCoding(
       resource.category,
@@ -63758,21 +63973,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   function parseZibLaboratoryTestResultObservation(resource) {
     return {
-      ...resourceMeta(resource, profile$J, FhirVersion.R3),
+      ...resourceMeta(resource, profile$K, FhirVersion.R3),
       ...parseZibLaboratoryTestResultObservationBase(resource)
     };
   }
   const zibLaboratoryTestResultObservation = {
-    profile: profile$J,
+    profile: profile$K,
     parse: parseZibLaboratoryTestResultObservation,
-    uiSchema: uiSchema$J,
+    uiSchema: uiSchema$K,
     summary: summary$5
   };
-  const i18n$E = "r3.gp_laboratory_result";
+  const i18n$F = "r3.gp_laboratory_result";
   function getLabel$2(resource, { formatMessage: formatMessage2 }) {
-    return lodashExports.capitalize(resource.context?.display) || formatMessage2(i18n$E);
+    return lodashExports.capitalize(resource.context?.display) || formatMessage2(i18n$F);
   }
-  const uiSchema$I = (resource, context) => {
+  const uiSchema$J = (resource, context) => {
     return {
       ...zibLaboratoryTestResultObservation.uiSchema(resource, context),
       label: getLabel$2(resource, context)
@@ -63784,21 +63999,21 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       label: getLabel$2(resource, context)
     };
   };
-  const profile$I = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
+  const profile$J = "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult";
   function parseGpLaboratoryResult(resource) {
     const { ...rest } = parseZibLaboratoryTestResultObservationBase(resource);
     return {
       ...rest,
-      ...resourceMeta(resource, profile$I, FhirVersion.R3)
+      ...resourceMeta(resource, profile$J, FhirVersion.R3)
     };
   }
   const gpLaboratoryResult = {
-    profile: profile$I,
+    profile: profile$J,
     parse: parseGpLaboratoryResult,
-    uiSchema: uiSchema$I,
+    uiSchema: uiSchema$J,
     summary: summary$4
   };
-  const uiSchemaGroup$x = (resource, context) => {
+  const uiSchemaGroup$z = (resource, context) => {
     const i18n2 = "r3.attachment";
     const ui = context.ui;
     return {
@@ -63829,9 +64044,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const attachment = {
     parse: parseAttachment,
-    uiSchemaGroup: uiSchemaGroup$x
+    uiSchemaGroup: uiSchemaGroup$z
   };
-  const uiSchemaGroup$w = (resource, context) => {
+  const uiSchemaGroup$y = (resource, context) => {
     const i18n2 = "r3.nl_core_address";
     const ui = context.ui;
     return {
@@ -63865,9 +64080,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const nlCoreAddress = {
     parse: parseNlCoreAddress,
-    uiSchemaGroup: uiSchemaGroup$w
+    uiSchemaGroup: uiSchemaGroup$y
   };
-  const uiSchemaGroup$v = (resource, context) => {
+  const uiSchemaGroup$x = (resource, context) => {
     const i18n2 = "r3.nl_core_contact_point";
     const ui = context.ui;
     return {
@@ -63892,9 +64107,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const nlCoreContactpoint = {
     parse: parseNlCoreContactpoint,
-    uiSchemaGroup: uiSchemaGroup$v
+    uiSchemaGroup: uiSchemaGroup$x
   };
-  const uiSchemaGroup$u = (resource, context) => {
+  const uiSchemaGroup$w = (resource, context) => {
     const i18n2 = "r3.nl_core_humanname";
     const ui = context.ui;
     return {
@@ -63923,9 +64138,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const nlCoreHumanname = {
     parse: parseNlCoreHumanname,
-    uiSchemaGroup: uiSchemaGroup$u
+    uiSchemaGroup: uiSchemaGroup$w
   };
-  const uiSchemaGroup$t = (resource, { ui, formatMessage: formatMessage2 }) => {
+  const uiSchemaGroup$v = (resource, { ui, formatMessage: formatMessage2 }) => {
     const i18n2 = "r3.zib_administration_schedule";
     const { repeat: repeat2 } = resource;
     const hcimInstructionsForUse = {
@@ -63979,28 +64194,28 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const zibAdministrationSchedule = {
     parse: parseZibAdministrationSchedule,
-    uiSchemaGroup: uiSchemaGroup$t
+    uiSchemaGroup: uiSchemaGroup$v
   };
-  const i18n$D = "r3.zib_instructions_for_use";
-  const uiSchemaGroup$s = (resource, context) => {
+  const i18n$E = "r3.zib_instructions_for_use";
+  const uiSchemaGroup$u = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     const hcimInstructionsForUse = {
-      SequenceNumber: ui.integer(`${i18n$D}.sequence`, resource.sequence),
-      Description: ui.string(`${i18n$D}.text`, resource.text),
+      SequenceNumber: ui.integer(`${i18n$E}.sequence`, resource.sequence),
+      Description: ui.string(`${i18n$E}.text`, resource.text),
       AdditionalInstructions: ui.codeableConcept(
-        `${i18n$D}.additional_instruction`,
+        `${i18n$E}.additional_instruction`,
         resource.additionalInstruction
       ),
       AdministeringSchedule: zibAdministrationSchedule.uiSchemaGroup(resource.timing, context),
-      AsNeeded: ui.codeableConcept(`${i18n$D}.as_needed_codeable_concept`, resource.asNeeded),
-      RouteOfAdministration: ui.codeableConcept(`${i18n$D}.route`, resource.route),
-      Dose: ui.oneOfValueX(`${i18n$D}.dose`, resource, "dose"),
-      MaximumDose: ui.ratio(`${i18n$D}.max_dose_per_period`, resource.maxDosePerPeriod),
-      AdministeringSpeed: ui.oneOfValueX(`${i18n$D}.rate`, resource, "rate")
+      AsNeeded: ui.codeableConcept(`${i18n$E}.as_needed_codeable_concept`, resource.asNeeded),
+      RouteOfAdministration: ui.codeableConcept(`${i18n$E}.route`, resource.route),
+      Dose: ui.oneOfValueX(`${i18n$E}.dose`, resource, "dose"),
+      MaximumDose: ui.ratio(`${i18n$E}.max_dose_per_period`, resource.maxDosePerPeriod),
+      AdministeringSpeed: ui.oneOfValueX(`${i18n$E}.rate`, resource, "rate")
     };
     return [
       {
-        label: formatMessage2(i18n$D),
+        label: formatMessage2(i18n$E),
         children: [
           hcimInstructionsForUse.Description,
           hcimInstructionsForUse.RouteOfAdministration,
@@ -64018,10 +64233,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const summary$3 = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     return {
-      label: formatMessage2(`summary.${i18n$D}`, { sequence: resource.sequence }),
+      label: formatMessage2(`summary.${i18n$E}`, { sequence: resource.sequence }),
       children: [
-        ui.string(`summary.${i18n$D}.text`, resource.text),
-        ...ui.oneOfValueX(`summary.${i18n$D}.dose`, resource, "dose")
+        ui.string(`summary.${i18n$E}.text`, resource.text),
+        ...ui.oneOfValueX(`summary.${i18n$E}.dose`, resource, "dose")
       ]
     };
   };
@@ -64040,10 +64255,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const zibInstructionsForUse = {
     parse: parseZibInstructionsForUse,
-    uiSchemaGroup: uiSchemaGroup$s,
+    uiSchemaGroup: uiSchemaGroup$u,
     summary: summary$3
   };
-  const uiSchemaGroup$r = (resource, context) => {
+  const uiSchemaGroup$t = (resource, context) => {
     const i18n2 = "r3.zib_product_ingredient";
     const ui = context.ui;
     return {
@@ -64062,9 +64277,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const zibProductIngredient = {
     parse: parseZibProductIngredient,
-    uiSchemaGroup: uiSchemaGroup$r
+    uiSchemaGroup: uiSchemaGroup$t
   };
-  const uiSchemaGroup$q = (resource, context) => {
+  const uiSchemaGroup$s = (resource, context) => {
     const i18n2 = "r3.zib_product_package";
     const ui = context.ui;
     const contents = map(
@@ -64092,10 +64307,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const zibProductPackage = {
     parse: parseZibProductPackage,
-    uiSchemaGroup: uiSchemaGroup$q
+    uiSchemaGroup: uiSchemaGroup$s
   };
-  const i18n$C = "r3.nl_core_organization";
-  const uiSchema$H = (resource, context) => {
+  const i18n$D = "r3.nl_core_organization";
+  const uiSchema$I = (resource, context) => {
     const ui = context.ui;
     const address = map(
       resource.address,
@@ -64108,18 +64323,18 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       true
     ).flat();
     return {
-      label: resource.name ?? context.formatMessage(i18n$C),
+      label: resource.name ?? context.formatMessage(i18n$D),
       children: [
         {
-          label: `${i18n$C}.group_details`,
+          label: `${i18n$D}.group_details`,
           children: [
-            ui.identifier(`${i18n$C}.identifier`, resource.identifier),
-            ui.string(`${i18n$C}.name`, resource.name),
+            ui.identifier(`${i18n$D}.identifier`, resource.identifier),
+            ui.string(`${i18n$D}.name`, resource.name),
             ui.codeableConcept(
-              `${i18n$C}.department_specialty`,
+              `${i18n$D}.department_specialty`,
               resource.departmentSpecialty
             ),
-            ui.codeableConcept(`${i18n$C}.organization_type`, resource.organizationType)
+            ui.codeableConcept(`${i18n$D}.organization_type`, resource.organizationType)
           ]
         },
         ...address,
@@ -64127,10 +64342,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$H = "http://fhir.nl/fhir/StructureDefinition/nl-core-organization";
+  const profile$I = "http://fhir.nl/fhir/StructureDefinition/nl-core-organization";
   function parseNlCoreOrganization(resource) {
     return {
-      ...resourceMeta(resource, profile$H, FhirVersion.R3),
+      ...resourceMeta(resource, profile$I, FhirVersion.R3),
       identifier: map(resource.identifier, identifier),
       name: string(resource.name),
       departmentSpecialty: map(
@@ -64153,11 +64368,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const nlCoreOrganization = {
-    profile: profile$H,
+    profile: profile$I,
     parse: parseNlCoreOrganization,
-    uiSchema: uiSchema$H
+    uiSchema: uiSchema$I
   };
-  const uiSchemaGroup$p = (resource, context) => {
+  const uiSchemaGroup$r = (resource, context) => {
     const i18n2 = "r3.nl_core_patient.communication";
     const ui = context.ui;
     return {
@@ -64176,9 +64391,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const communication = {
     parse: parseCommunication,
-    uiSchemaGroup: uiSchemaGroup$p
+    uiSchemaGroup: uiSchemaGroup$r
   };
-  const uiSchemaGroup$o = (resource, context) => {
+  const uiSchemaGroup$q = (resource, context) => {
     const i18n2 = "r3.nl_core_patient.contact";
     const ui = context.ui;
     const telecom = map(
@@ -64211,9 +64426,9 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const contact = {
     parse: parseContact,
-    uiSchemaGroup: uiSchemaGroup$o
+    uiSchemaGroup: uiSchemaGroup$q
   };
-  const uiSchemaGroup$n = (resource, context) => {
+  const uiSchemaGroup$p = (resource, context) => {
     const i18n2 = "r3.nl_core_patient.link";
     const ui = context.ui;
     return {
@@ -64232,43 +64447,43 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   }
   const link = {
     parse: parseLink,
-    uiSchemaGroup: uiSchemaGroup$n
+    uiSchemaGroup: uiSchemaGroup$p
   };
-  const i18n$B = "r3.nl_core_patient";
-  const uiSchema$G = (resource, context) => {
+  const i18n$C = "r3.nl_core_patient";
+  const uiSchema$H = (resource, context) => {
     const ui = context.ui;
     const address = map(resource.address, (x) => nlCoreAddress.uiSchemaGroup(x, context), true);
     const communication2 = map(
       resource.communication,
-      (x) => uiSchemaGroup$p(x, context),
+      (x) => uiSchemaGroup$r(x, context),
       true
     );
-    const contact2 = map(resource.contact, (x) => uiSchemaGroup$o(x, context), true);
-    const link2 = map(resource.link, (x) => uiSchemaGroup$n(x, context), true);
+    const contact2 = map(resource.contact, (x) => uiSchemaGroup$q(x, context), true);
+    const link2 = map(resource.link, (x) => uiSchemaGroup$p(x, context), true);
     const name = map(resource.name, (x) => nlCoreHumanname.uiSchemaGroup(x, context), true);
-    const photo = map(resource.photo, (x) => uiSchemaGroup$x(x, context), true);
+    const photo = map(resource.photo, (x) => uiSchemaGroup$z(x, context), true);
     const telecom = map(
       resource.telecom,
       (x) => nlCoreContactpoint.uiSchemaGroup(x, context),
       true
     );
     return {
-      label: resource.name?.at(0)?.text ?? context.formatMessage(i18n$B),
+      label: resource.name?.at(0)?.text ?? context.formatMessage(i18n$C),
       children: [
         {
-          label: `${i18n$B}.group_details`,
+          label: `${i18n$C}.group_details`,
           children: [
-            ui.boolean(`${i18n$B}.active`, resource.active),
-            ui.date(`${i18n$B}.birth_date`, resource.birthDate),
-            ui.boolean(`${i18n$B}.deceased`, resource.deceased),
-            ui.dateTime(`${i18n$B}.deceased_date_time`, resource.deceasedDateTime),
-            ui.code(`${i18n$B}.gender`, resource.gender),
-            ui.reference(`${i18n$B}.general_practitioner`, resource.generalPractitioner),
-            ui.identifier(`${i18n$B}.identifier`, resource.identifier),
-            ui.reference(`${i18n$B}.managing_organization`, resource.managingOrganization),
-            ui.codeableConcept(`${i18n$B}.marital_status`, resource.maritalStatus),
-            ui.boolean(`${i18n$B}.multiple_birth`, resource.multipleBirth),
-            ui.integer(`${i18n$B}.multiple_birth_integer`, resource.multipleBirthInteger)
+            ui.boolean(`${i18n$C}.active`, resource.active),
+            ui.date(`${i18n$C}.birth_date`, resource.birthDate),
+            ui.boolean(`${i18n$C}.deceased`, resource.deceased),
+            ui.dateTime(`${i18n$C}.deceased_date_time`, resource.deceasedDateTime),
+            ui.code(`${i18n$C}.gender`, resource.gender),
+            ui.reference(`${i18n$C}.general_practitioner`, resource.generalPractitioner),
+            ui.identifier(`${i18n$C}.identifier`, resource.identifier),
+            ui.reference(`${i18n$C}.managing_organization`, resource.managingOrganization),
+            ui.codeableConcept(`${i18n$C}.marital_status`, resource.maritalStatus),
+            ui.boolean(`${i18n$C}.multiple_birth`, resource.multipleBirth),
+            ui.integer(`${i18n$C}.multiple_birth_integer`, resource.multipleBirthInteger)
           ]
         },
         ...address,
@@ -64281,10 +64496,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$G = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
+  const profile$H = "http://fhir.nl/fhir/StructureDefinition/nl-core-patient";
   function parseNlCorePatient$1(resource) {
     return {
-      ...resourceMeta(resource, profile$G, FhirVersion.R3),
+      ...resourceMeta(resource, profile$H, FhirVersion.R3),
       active: boolean(resource.active),
       address: map(resource.address, nlCoreAddress.parse),
       birthDate: date(resource.birthDate),
@@ -64306,12 +64521,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const nlCorePatient = {
-    profile: profile$G,
+    profile: profile$H,
     parse: parseNlCorePatient$1,
-    uiSchema: uiSchema$G
+    uiSchema: uiSchema$H
   };
-  const i18n$A = "r3.nl_core_practitioner";
-  const uiSchema$F = (resource, context) => {
+  const i18n$B = "r3.nl_core_practitioner";
+  const uiSchema$G = (resource, context) => {
     const ui = context.ui;
     const address = map(resource.address, (x) => nlCoreAddress.uiSchemaGroup(x, context), true);
     const name = map(resource.name, (x) => nlCoreHumanname.uiSchemaGroup(x, context), true);
@@ -64321,11 +64536,11 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       true
     );
     return {
-      label: resource.name?.at(0)?.text ?? context.formatMessage(i18n$A),
+      label: resource.name?.at(0)?.text ?? context.formatMessage(i18n$B),
       children: [
         {
-          label: `${i18n$A}.group_details`,
-          children: [ui.identifier(`${i18n$A}.identifier`, resource.identifier)]
+          label: `${i18n$B}.group_details`,
+          children: [ui.identifier(`${i18n$B}.identifier`, resource.identifier)]
         },
         ...address,
         ...name,
@@ -64333,10 +64548,10 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       ]
     };
   };
-  const profile$F = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitioner";
+  const profile$G = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitioner";
   function parseNlCorePractitioner(resource) {
     return {
-      ...resourceMeta(resource, profile$F, FhirVersion.R3),
+      ...resourceMeta(resource, profile$G, FhirVersion.R3),
       identifier: map(resource.identifier, identifier),
       name: map(resource.name, nlCoreHumanname.parse),
       address: map(resource.address, nlCoreAddress.parse),
@@ -64344,12 +64559,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const nlCorePractitioner = {
-    profile: profile$F,
+    profile: profile$G,
     parse: parseNlCorePractitioner,
-    uiSchema: uiSchema$F
+    uiSchema: uiSchema$G
   };
-  const i18n$z = "r3.nl_core_practitionerrole";
-  const uiSchema$E = (resource, context) => {
+  const i18n$A = "r3.nl_core_practitionerrole";
+  const uiSchema$F = (resource, context) => {
     const ui = context.ui;
     const telecom = map(
       resource.telecom,
@@ -64357,24 +64572,24 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
       true
     );
     return {
-      label: resource.identifier?.at(0)?.value ?? context.formatMessage(i18n$z),
+      label: resource.identifier?.at(0)?.value ?? context.formatMessage(i18n$A),
       children: [
         {
-          label: `${i18n$z}.group_details`,
+          label: `${i18n$A}.group_details`,
           children: [
-            ui.identifier(`${i18n$z}.identifier`, resource.identifier),
-            ui.reference(`${i18n$z}.organization`, resource.organization),
-            ui.codeableConcept(`${i18n$z}.specialty`, resource.specialty)
+            ui.identifier(`${i18n$A}.identifier`, resource.identifier),
+            ui.reference(`${i18n$A}.organization`, resource.organization),
+            ui.codeableConcept(`${i18n$A}.specialty`, resource.specialty)
           ]
         },
         ...telecom
       ]
     };
   };
-  const profile$E = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitionerrole";
+  const profile$F = "http://fhir.nl/fhir/StructureDefinition/nl-core-practitionerrole";
   function parseNlCorePractitionerRole(resource) {
     return {
-      ...resourceMeta(resource, profile$E, FhirVersion.R3),
+      ...resourceMeta(resource, profile$F, FhirVersion.R3),
       identifier: map(resource.identifier, identifier),
       organization: reference(resource.organization),
       specialty: map(resource.specialty, codeableConcept),
@@ -64382,8 +64597,104 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     };
   }
   const nlCorePractitionerRole = {
-    profile: profile$E,
+    profile: profile$F,
     parse: parseNlCorePractitionerRole,
+    uiSchema: uiSchema$F
+  };
+  const i18n$z = "r3.nl_core_episodeofcare";
+  const uiSchema$E = (resource, context) => {
+    const { ui, formatMessage: formatMessage2 } = context;
+    const hcimBasicElements = {
+      Identifier: ui.identifier(`${i18n$z}.identifier`, resource.identifier),
+      Patient: ui.reference(`${i18n$z}.patient`, resource.patient),
+      Period: ui.period(`${i18n$z}.period`, resource.period)
+    };
+    const hcimConcernForTransfer = {
+      Type: ui.codeableConcept(`${i18n$z}.type`, resource.type)
+    };
+    return {
+      label: resource.title ?? formatMessage2(i18n$z),
+      children: [
+        {
+          label: formatMessage2(i18n$z),
+          children: [
+            hcimBasicElements.Identifier,
+            hcimBasicElements.Patient,
+            ...hcimBasicElements.Period,
+            hcimConcernForTransfer.Type
+          ]
+        }
+      ]
+    };
+  };
+  const uiSchemaGroup$o = (resource, context) => {
+    const ui = context.ui;
+    const profile2 = "r3.nl_core_episodeofcare.diagnosis";
+    return {
+      label: profile2,
+      children: [
+        ui.reference(`${profile2}.condition`, resource.condition),
+        ui.codeableConcept(`${profile2}.role`, resource.role),
+        ui.positiveInt(`${profile2}.rank`, resource.rank)
+      ]
+    };
+  };
+  function parseDiagnosis$1(value2) {
+    return {
+      condition: reference(value2?.condition),
+      role: codeableConcept(value2?.role),
+      rank: positiveInt(value2?.rank)
+    };
+  }
+  const diagnosis$1 = {
+    parse: parseDiagnosis$1,
+    uiSchemaGroup: uiSchemaGroup$o
+  };
+  const uiSchemaGroup$n = (resource, context) => {
+    const ui = context.ui;
+    const profile2 = "r3.nl_core_episodeofcare.status_history";
+    return {
+      label: profile2,
+      children: [
+        ui.code(`${profile2}.status`, resource.status),
+        ...ui.period(`${profile2}.period`, resource.period)
+      ]
+    };
+  };
+  function parseStatusHistory(value2) {
+    return {
+      status: code(value2?.status),
+      period: period(value2?.period)
+    };
+  }
+  const statusHistory = {
+    parse: parseStatusHistory,
+    uiSchemaGroup: uiSchemaGroup$n
+  };
+  const profile$E = "http://fhir.nl/fhir/StructureDefinition/nl-core-episodeofcare";
+  function parseNlCoreEpisodeofcare(resource) {
+    return {
+      ...resourceMeta(resource, profile$E, FhirVersion.R3),
+      identifier: map(resource.identifier, identifier),
+      title: extensionNictiz(resource, "EpisodeOfCare-Title"),
+      status: code(resource.status),
+      statusHistory: map(resource.statusHistory, statusHistory.parse),
+      type: map(resource.type, codeableConcept),
+      diagnosis: map(resource.diagnosis, diagnosis$1.parse),
+      patient: reference(resource.patient),
+      managingOrganization: reference(resource.managingOrganization),
+      period: period(resource.period),
+      referralRequest: map(resource.referralRequest, reference),
+      careManager: reference(resource.careManager),
+      team: map(resource.team, reference),
+      account: map(resource.account, reference),
+      dateFirstEncounter: extensionNictiz(resource, "EpisodeOfCare-DateFirstEncounter"),
+      dateLastEncounter: extensionNictiz(resource, "EpisodeOfCare-DateLastEncounter")
+    };
+  }
+  const nlCoreEpisodeofcare = {
+    profile: profile$E,
+    parse: parseNlCoreEpisodeofcare,
     uiSchema: uiSchema$E
   };
   const i18n$y = "r3.e_afspraak_appointment";
@@ -64486,7 +64797,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const ui = context.ui;
     const instructionsForUse = map(
       resource.dossageInstruction,
-      (x) => uiSchemaGroup$s(x, context),
+      (x) => uiSchemaGroup$u(x, context),
       true
     ).flat();
     return {
@@ -64558,7 +64869,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
   const i18n$v = "r3.zib_advance_directive";
   const uiSchema$A = (resource, context) => {
     const ui = context.ui;
-    const attachment2 = uiSchemaGroup$x(resource.source.attachment, context);
+    const attachment2 = uiSchemaGroup$z(resource.source.attachment, context);
     return {
       label: resource.dateTime ?? context.formatMessage(i18n$v),
       children: [
@@ -64917,7 +65228,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const diagnosis2 = map(resource.diagnosis, (x) => uiSchemaGroup$m(x, context), true);
     const participants = map(
       resource.participant,
-      (x) => uiSchemaGroup$B(x, context),
+      (x) => uiSchemaGroup$D(x, context),
       true
     );
     return {
@@ -65341,7 +65652,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const ui = context.ui;
     const instructionsForUse = map(
       resource.dossageInstruction,
-      (x) => uiSchemaGroup$s(x, context),
+      (x) => uiSchemaGroup$u(x, context),
       true
     ).flat();
     return {
@@ -65432,7 +65743,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     const hcimInstructionsForUse = {
       InstructionsForUse: map(
         resource.dosage,
-        (x) => uiSchemaGroup$s(x, context),
+        (x) => uiSchemaGroup$u(x, context),
         true
       ).flat(),
       RepeatPeriodCyclicalSchedule: ui.duration(
@@ -66092,7 +66403,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             ...ui.period(`${i18n$b}.data_period`, resource.dataPeriod)
           ]
         },
-        uiSchemaGroup$x(resource.sourceAttachment, context),
+        uiSchemaGroup$z(resource.sourceAttachment, context),
         ...actor2,
         ...data2,
         ...except2,
@@ -66290,7 +66601,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
           ]
         },
         {
-          label: formatMessage2(`detail.${i18n$8}.group_author`),
+          label: formatMessage2(`details.${i18n$8}.group_author`),
           children: [generalInformation.Author]
         },
         ...content ? [
@@ -66299,7 +66610,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
             children: [content.ContentType, content.Language]
           },
           {
-            label: formatMessage2(`detail.${i18n$8}.group_attachment`),
+            label: formatMessage2(`details.${i18n$8}.group_attachment`),
             children: [content.Location]
           }
         ] : [
@@ -66371,6 +66682,7 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     gpJournalEntry,
     gpLaboratoryResult,
     iheMhdMinimalDocumentReference,
+    nlCoreEpisodeofcare,
     nlCoreObservation,
     nlCoreOrganization,
     nlCorePatient,
