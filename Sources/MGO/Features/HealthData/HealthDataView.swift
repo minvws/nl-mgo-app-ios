@@ -150,7 +150,7 @@ struct HealthDataView: View {
 	
 	var body: some View {
 		
-		ScrollViewWithDivider {
+		ScrollView {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				

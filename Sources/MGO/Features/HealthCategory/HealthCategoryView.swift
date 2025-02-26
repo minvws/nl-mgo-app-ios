@@ -368,7 +368,7 @@ struct HealthCategoryView: View {
 	
 	var body: some View {
 		
-		ScrollViewWithDivider {
+		ScrollView {
 			
 			switch viewModel.state {
 				case .loading:
