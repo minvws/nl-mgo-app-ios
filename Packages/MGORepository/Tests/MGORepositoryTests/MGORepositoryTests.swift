@@ -27,7 +27,7 @@ final class MGORepositoryTests: XCTestCase {
 		HTTPStubs.removeAllStubs()
 	}
 
-	func test_getBundleData() async throws {
+	func test_getBundleData_fhir3() async throws {
 		
 		// Given
 		let json = try getResource("bundle")
@@ -37,6 +37,28 @@ final class MGORepositoryTests: XCTestCase {
 			directory: "TestDirectory",
 			serviceId: "TestServiceId",
 			fhirVersion: .r3
+		)
+		stub(condition: isPath("/TestPath/TestDirectory")) { _ in
+			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
+		}
+		
+		// When
+		let data = try await sut.getBundleData(endpoint: endpoint, dvaTarget: "test", username: nil, password: nil)
+		
+		// Then
+		expect(data) == json
+	}
+	
+	func test_getBundleData_fhir4() async throws {
+		
+		// Given
+		let json = try getResource("bundle")
+		let endpoint = DVP.Endpoint(
+			path: "TestPath",
+			parameters: RequestParameters([(RequestParameterField.include, "test")]),
+			directory: "TestDirectory",
+			serviceId: "TestServiceId",
+			fhirVersion: .r4
 		)
 		stub(condition: isPath("/TestPath/TestDirectory")) { _ in
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
