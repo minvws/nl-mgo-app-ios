@@ -327,15 +327,6 @@ struct HealthCategoriesView: View {
 				categoriesView()
 					.backportListSectionSpacing(ViewTraits.List.spacing)
 					.backportVerticalContentMargins(0)
-					.when(viewModel.state.canTitleCollapse) { view in
-						view
-							.simultaneousGesture(
-								DragGesture()
-									.onChanged { _ in isScrolling = true }
-									.onEnded { _ in isScrolling = false }
-							)
-							.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
-					}
 			}
 		} // VStack
 		.navigationBarBackButtonHidden()

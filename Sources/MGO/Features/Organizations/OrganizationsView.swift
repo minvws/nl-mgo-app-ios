@@ -271,12 +271,6 @@ struct OrganizationsView: View {
 		.backportListSectionSpacing(ViewTraits.List.spacing)
 		.backportScrollContentBackground(.hidden)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.List.spacing)
-		.simultaneousGesture(
-			DragGesture()
-				.onChanged { _ in isScrolling = true }
-				.onEnded { _ in isScrolling = false }
-		)
-		.preference(key: IsScrollingPreferenceKey.self, value: [isScrolling])
 	}
 	
 	/// The view for a row of the healthcare organizations list
