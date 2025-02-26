@@ -321,11 +321,6 @@ struct HealthCategoriesView: View {
 		
 		VStack(spacing: 0) {
 			
-			if !viewModel.state.canTitleCollapse {
-				heading()
-					.padding(.bottom, ViewTraits.General.padding / 2)
-			}
-			
 			if viewModel.state.showEmptyView {
 				noHealthcareOrganizationView()
 			} else {
@@ -374,7 +369,6 @@ struct HealthCategoriesView: View {
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityAddTraits(.isHeader)
 			.accessibilityIdentifier("healthcare_organizations.heading")
-			.padding(.horizontal, ViewTraits.General.padding)
 			.padding(.top, ViewTraits.Navigation.padding)
 	}
 	
@@ -395,8 +389,13 @@ struct HealthCategoriesView: View {
 		
 		List {
 			Section {
-				subHeading()
-					.padding(.bottom, viewModel.state.canTitleCollapse ? 0 : ViewTraits.General.padding / 2)
+				VStack(spacing: ViewTraits.General.padding) {
+					if !viewModel.state.canTitleCollapse {
+						heading()
+					}
+					subHeading()
+						.padding(.bottom, viewModel.state.canTitleCollapse ? 0 : ViewTraits.General.padding / 2)
+				}
 			}
 			.listRowBackground(Color.clear)
 			.listRowInsets(ViewTraits.List.rowInset)
