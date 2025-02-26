@@ -127,6 +127,7 @@ final class OrganizationsViewModelTests: XCTestCase {
 		sut.handleOrganizationChanges(.added)
 		
 		// Then
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedOrganizationsGetter) == true
 		expect(self.sut.toast) == nil
 	}
 	
@@ -138,6 +139,7 @@ final class OrganizationsViewModelTests: XCTestCase {
 		sut.handleOrganizationChanges(.removed)
 		
 		// Then
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedOrganizationsGetter) == true
 		expect(self.sut.toast?.heading) == "Zorgaanbieder verwijderd"
 		expect(self.sut.toast?.subheading) == "Herstel"
 	}
@@ -150,6 +152,7 @@ final class OrganizationsViewModelTests: XCTestCase {
 		sut.handleOrganizationChanges(.changed)
 		
 		// Then
+		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedOrganizationsGetter) == true
 		expect(self.sut.toast?.heading) == "Zorgaanbieders aangepast"
 		expect(self.sut.toast?.subheading) == "Herstel"
 	}

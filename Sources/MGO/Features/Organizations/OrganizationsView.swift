@@ -55,8 +55,6 @@ class OrganizationsViewModel: ObservableObject {
 	private func registerObservers() {
 		
 		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _, reason in
-			
-			self?.loadHealthcareOrganizations()
 			self?.handleOrganizationChanges(reason)
 		}
 	}
@@ -67,6 +65,7 @@ class OrganizationsViewModel: ObservableObject {
 	func handleOrganizationChanges(_ reason: HealthcareOrganizationReason) {
 		
 		logInfo("OrganizationsViewModel Reason: \(reason)")
+		loadHealthcareOrganizations()
 		switch reason {
 			case .added:
 				// Nothing to do
