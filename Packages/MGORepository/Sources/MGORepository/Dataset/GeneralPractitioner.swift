@@ -70,17 +70,23 @@ extension DVP {
 		
 		// MARK: - 8: Current Medication -
 		// GET [base]/MedicationRequest?periodofuse=ge[today]&category=http://snomed.info/sct|16076005&_include=MedicationRequest:medication
-		public static let currentMedication: DVP.Endpoint = DVP.Endpoint(
-			path: "MedicationRequest",
-			parameters: RequestParameters(
-				[
-					(RequestParameterField.periodOfUse, "ge[today]"),
-					(RequestParameterField.category, "http://snomed.info/sct|16076005"),
-					(RequestParameterField.include, "MedicationRequest:medication")
-				]
-			),
-			serviceId: GeneralPractitioner.serviceID
-		)
+		public static func currentMedication(_ date: Date = Date()) -> DVP.Endpoint {
+			
+			let formater = DateFormatter()
+			formater.dateFormat = "yyyy-MM-dd"
+			
+			return DVP.Endpoint(
+				path: "MedicationRequest",
+				parameters: RequestParameters(
+					[
+						(RequestParameterField.periodOfUse, "ge\(formater.string(from: date))"),
+						(RequestParameterField.category, "http://snomed.info/sct|16076005"),
+						(RequestParameterField.include, "MedicationRequest:medication")
+					]
+				),
+				serviceId: GeneralPractitioner.serviceID
+			)
+		}
 		
 		// MARK: - 9: 	Medication intolerance -
 		// GET [base]/AllergyIntolerance?category=medication
@@ -101,15 +107,14 @@ extension DVP {
 		
 		// MARK: - 11: 	Diagnostic and lab results -
 		
-		// Result GET [base]/Observation?code=https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen|&_include=Observation:related-target&_include=Observation:specimen&date=ge2017-01-01
+		// Result GET [base]/Observation?code=https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen|&_include=Observation:related-target&_include=Observation:specimen
 		public static let diagnosticAndLabResults: DVP.Endpoint = DVP.Endpoint(
 			path: "Observation",
 			parameters: RequestParameters(
 				[
 					(RequestParameterField.code, "https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen|"),
 					(RequestParameterField.include, "Observation:related-target"),
-					(RequestParameterField.include, "Observation:specimen"),
-					(RequestParameterField.date, "ge2017-01-01")
+					(RequestParameterField.include, "Observation:specimen")
 				]
 			),
 			serviceId: GeneralPractitioner.serviceID

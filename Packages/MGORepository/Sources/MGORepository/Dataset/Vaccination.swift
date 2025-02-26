@@ -21,38 +21,9 @@ extension DVP {
 		
 		// MARK: - 1: Vaccination -
 
-		// Patient: GET [base]/Immunization?_include:patient
+		// Patient: GET [base]/Immunization
 		public static let patient: DVP.Endpoint = DVP.Endpoint(
 			path: "Immunization",
-			parameters: RequestParameters(
-				[
-					(RequestParameterField.include, "patient")
-				]
-			),
-			serviceId: Vaccination.serviceID,
-			fhirVersion: .r4
-		)
-		
-		// Location: GET [base]/Immunization?_include:location
-		public static let location: DVP.Endpoint = DVP.Endpoint(
-			path: "Immunization",
-			parameters: RequestParameters(
-				[
-					(RequestParameterField.include, "location")
-				]
-			),
-			serviceId: Vaccination.serviceID,
-			fhirVersion: .r4
-		)
-		
-		// Performer: GET [base]/Immunization?_include:performer
-		public static let performer: DVP.Endpoint = DVP.Endpoint(
-			path: "Immunization",
-			parameters: RequestParameters(
-				[
-					(RequestParameterField.include, "performer")
-				]
-			),
 			serviceId: Vaccination.serviceID,
 			fhirVersion: .r4
 		)

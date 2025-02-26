@@ -14,23 +14,24 @@ final class GeneralPractitionerTests: XCTestCase {
 	func test_endpoint_patient() throws {
 		
 		// Given
-		let endpoint = DVP.GeneralPractitioner.patient
 		
 		// When
+		let endpoint = DVP.GeneralPractitioner.patient
 		
 		// Then
 		expect(endpoint.path) == "Patient"
 		expect(endpoint.directory) == nil
 		expect(endpoint.fhirVersion) == .r3
+		expect(endpoint.parameters) != nil
 		expect { try self.contains(endpoint, key: "_include", value: "Patient:general-practitioner") } == true
 	}
 	
 	func test_endpoint_episodes() throws {
 		
 		// Given
-		let endpoint = DVP.GeneralPractitioner.episodes
 		
 		// When
+		let endpoint = DVP.GeneralPractitioner.episodes
 		
 		// Then
 		expect(endpoint.path) == "EpisodeOfCare"
@@ -42,15 +43,17 @@ final class GeneralPractitionerTests: XCTestCase {
 	func test_endpoint_currentMedication() throws {
 		
 		// Given
-		let endpoint = DVP.GeneralPractitioner.currentMedication
+		let date = Date(timeIntervalSince1970: 1740000000)
 		
 		// When
+		let endpoint = DVP.GeneralPractitioner.currentMedication(date)
 		
 		// Then
 		expect(endpoint.path) == "MedicationRequest"
 		expect(endpoint.directory) == nil
 		expect(endpoint.fhirVersion) == .r3
-		expect { try self.contains(endpoint, key: "periodofuse", value: "ge[today]") } == true
+		expect(endpoint.parameters) != nil
+		expect { try self.contains(endpoint, key: "periodofuse", value: "ge2025-02-19") } == true
 		expect { try self.contains(endpoint, key: "category", value: "http://snomed.info/sct|16076005") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "MedicationRequest:medication") } == true
 	}
@@ -58,54 +61,56 @@ final class GeneralPractitionerTests: XCTestCase {
 	func test_endpoint_allergyIntolerance() throws {
 		
 		// Given
-		let endpoint = DVP.GeneralPractitioner.allergyIntolerance
 		
 		// When
+		let endpoint = DVP.GeneralPractitioner.allergyIntolerance
 		
 		// Then
 		expect(endpoint.path) == "AllergyIntolerance"
 		expect(endpoint.directory) == nil
 		expect(endpoint.fhirVersion) == .r3
+		expect(endpoint.parameters) != nil
 		expect { try self.contains(endpoint, key: "category", value: "medication") } == true
 	}
 	
 	func test_endpoint_diagnosticAndLabResults() throws {
 		
 		// Given
-		let endpoint = DVP.GeneralPractitioner.diagnosticAndLabResults
 		
 		// When
+		let endpoint = DVP.GeneralPractitioner.diagnosticAndLabResults
 		
 		// Then
 		expect(endpoint.path) == "Observation"
 		expect(endpoint.directory) == nil
 		expect(endpoint.fhirVersion) == .r3
+		expect(endpoint.parameters) != nil
 		expect { try self.contains(endpoint, key: "code", value: "https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen|") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "Observation:related-target") } == true
 		expect { try self.contains(endpoint, key: "_include", value: "Observation:specimen") } == true
-		expect { try self.contains(endpoint, key: "date", value: "ge2017-01-01") } == true
 	}
 	
 	func test_endpoint_soapEntries() throws {
 		
 		// Given
-		let endpoint = DVP.GeneralPractitioner.soapEntries
 		
 		// When
+		let endpoint = DVP.GeneralPractitioner.soapEntries
 		
 		// Then
 		expect(endpoint.path) == "Composition"
 		expect(endpoint.directory) == nil
 		expect(endpoint.fhirVersion) == .r3
+		expect(endpoint.parameters) != nil
 		expect { try self.contains(endpoint, key: "type", value: "http://loinc.org|67781-5") } == true
 	}
 	
 	func test_endpoint_encounter() throws {
 		
 		// Given
-		let endpoint = DVP.GeneralPractitioner.encounter
 		
 		// When
+		let endpoint = DVP.GeneralPractitioner.encounter
 		
 		// Then
 		expect(endpoint.path) == "Encounter"
