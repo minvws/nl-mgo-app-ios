@@ -38,7 +38,8 @@ final class MGORepositoryTests: XCTestCase {
 			serviceId: "TestServiceId",
 			fhirVersion: .r3
 		)
-		stub(condition: isPath("/TestPath/TestDirectory")) { _ in
+		stub(condition: isPath("/TestPath/TestDirectory")) { request in
+			expect(request.allHTTPHeaderFields?["Accept"]) == "application/json+fhir; fhirVersion=3.0"
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
 		}
 		
@@ -60,7 +61,8 @@ final class MGORepositoryTests: XCTestCase {
 			serviceId: "TestServiceId",
 			fhirVersion: .r4
 		)
-		stub(condition: isPath("/TestPath/TestDirectory")) { _ in
+		stub(condition: isPath("/TestPath/TestDirectory")) { request in
+			expect(request.allHTTPHeaderFields?["Accept"]) == "application/json+fhir; fhirVersion=4.0"
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
 		}
 		
