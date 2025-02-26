@@ -37,7 +37,10 @@ public class MGORepository {
 			parameters = params
 		}
 		
-		var headers: [RequestHeaderField: String] = [RequestHeaderField.dvaTarget: dvaTarget]
+		var headers: [RequestHeaderField: String] = [
+			RequestHeaderField.dvaTarget: dvaTarget,
+			RequestHeaderField.accept: endpoint.fhirVersion.acceptHeader
+		]
 		if let basicAuth = basicAuthenticationHeader(username: username, password: password) {
 			headers[RequestHeaderField.authorization] = basicAuth
 		}
