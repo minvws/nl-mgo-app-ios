@@ -426,7 +426,7 @@ struct HealthCategoryView: View {
 	
 		Group {
 			if list.isNotEmpty {
-				listOverviewBlocks(list: list)
+				listOverviewBlocks(list: filterList(list))
 			} else {
 				noItems()
 			}
@@ -434,39 +434,43 @@ struct HealthCategoryView: View {
 		.padding(.horizontal, ViewTraits.General.padding)
 	}
 	
+	/// Get the filtered search result list
+	/// - Parameter list: the original list
+	/// - Returns: filtered list
+	private func filterList(_ list: [HealthSubCategory]) -> [HealthSubCategory] {
+		
+		guard viewModel.searchText.isNotEmpty else {
+			return list
+		}
+		
+		var result = [HealthSubCategory]()
+		for sub in list {
+			let filteredItems = sub.items.filter {
+				($0.heading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
+				$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
+			}
+			if filteredItems.isNotEmpty {
+				result.append(HealthSubCategory(heading: sub.heading, items: filteredItems))
+			}
+		}
+		return result
+	}
+	
 	/// Create the list state view
 	/// - Returns: View when the user has some stored healthcare organizations
 	@ViewBuilder func listOverviewBlocks(list: [HealthSubCategory]) -> some View {
 		
-		var searchResults: [HealthSubCategory] {
-			if viewModel.searchText.isEmpty {
-				return list
-			} else {
-				var result = [HealthSubCategory]()
-				for sub in list {
-					let filteredItems = sub.items.filter {
-						($0.heading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
-						$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
-					}
-					if filteredItems.isNotEmpty {
-						result.append(HealthSubCategory(heading: sub.heading, items: filteredItems))
-					}
-				}
-				return result
-			}
-		}
-		
 		Group {
 			
-			if searchResults.isEmpty {
+			if list.isEmpty {
 				noSearchItems()
 			} else {
 				VStack(alignment: .leading, spacing: ViewTraits.List.spacing, content: {
 					
-					ForEach(searchResults) { subCategory in
+					ForEach(list) { subCategory in
 					
 						if subCategory.items.isNotEmpty {
-							if searchResults.count != 1 {
+							if list.count != 1 {
 								Text(subCategory.heading)
 									.rijksoverheidStyle(font: .regular, style: .body)
 									.foregroundColor(theme.contentPrimary)
