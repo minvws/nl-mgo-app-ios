@@ -8,6 +8,8 @@
 import MGOUI
 import QuickLook
 
+// See https://nilcoalescing.com/blog/PreviewFilesWithQuickLookInSwiftUI/
+
 struct FallbackDocumentPreviewController: UIViewControllerRepresentable {
 	let url: URL
 	private var isActive: Binding<Bool>
@@ -30,6 +32,8 @@ struct FallbackDocumentPreviewController: UIViewControllerRepresentable {
 		let navigationController = UINavigationController(rootViewController: controller)
 		return navigationController
 	}
+	
+	// MARK: UIViewControllerRepresentable
 	
 	func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
 		/* No operation */
