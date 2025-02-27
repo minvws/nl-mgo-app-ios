@@ -58,6 +58,28 @@ final class GeneralPractitionerTests: XCTestCase {
 		expect { try self.contains(endpoint, key: "_include", value: "MedicationRequest:medication") } == true
 	}
 	
+	func test_endpoint_currentMedication_timezone() throws {
+		
+		// Given
+		let date = Date(timeIntervalSince1970: 1740009599)
+		/*
+		 GMT: Wednesday, 19 February 2025 23:59:59
+		 Your time zone: Thursday, 20 February 2025 00:59:59 GMT+01:00
+		 */
+		
+		// When
+		let endpoint = DVP.GeneralPractitioner.currentMedication(date)
+		
+		// Then
+		expect(endpoint.path) == "MedicationRequest"
+		expect(endpoint.directory) == nil
+		expect(endpoint.fhirVersion) == .r3
+		expect(endpoint.parameters) != nil
+		expect { try self.contains(endpoint, key: "periodofuse", value: "ge2025-02-20") } == true
+		expect { try self.contains(endpoint, key: "category", value: "http://snomed.info/sct|16076005") } == true
+		expect { try self.contains(endpoint, key: "_include", value: "MedicationRequest:medication") } == true
+	}
+	
 	func test_endpoint_allergyIntolerance() throws {
 		
 		// Given

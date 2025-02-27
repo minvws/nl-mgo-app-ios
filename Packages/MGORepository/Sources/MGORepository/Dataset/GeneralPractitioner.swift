@@ -73,6 +73,7 @@ extension DVP {
 		public static func currentMedication(_ date: Date = Date()) -> DVP.Endpoint {
 			
 			let formater = DateFormatter()
+			formater.timeZone = TimeZone(abbreviation: "CET")
 			formater.dateFormat = "yyyy-MM-dd"
 			
 			return DVP.Endpoint(
