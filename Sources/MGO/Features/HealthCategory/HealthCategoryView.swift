@@ -249,31 +249,8 @@ class HealthCategoryViewModel: ObservableObject {
 					return
 				}
 				
-				var items = [HealthSubCategory]()
-				var partial = false
-				
-				// Create list of subcategories
-				for profile in category.acceptedProfiles {
-					if let heading = category.subCategory(profile) {
-						var subCat = HealthSubCategory(heading: String(localized: heading), items: [])
-						for record in records {
-							subCat.items.append(contentsOf: parseRecord(record, acceptedProfile: profile))
-							partial = partial || record.error
-						}
-						// There might be another subcategory with the same heading.
-						// Append to that subcategory rather then append as a new subcategory
-						var existingSubCategory = false
-						items.enumerated().forEach { index, item in
-							if item.heading == subCat.heading {
-								items[index].items.append(contentsOf: subCat.items)
-								existingSubCategory = true
-							}
-						}
-						if !existingSubCategory && subCat.items.isNotEmpty {
-							items.append(subCat)
-						}
-					}
-				}
+				let (partial, items) = sortRecords(records: records)
+
 				if partial {
 					state = .partial(items: items)
 				} else {
@@ -282,6 +259,40 @@ class HealthCategoryViewModel: ObservableObject {
 			case .failure:
 				state = .list(items: [])
 		}
+	}
+	
+	/// Sort the records on subcategory
+	/// - Parameter records: the records to sort
+	/// - Returns: sorted sub categories
+	private func sortRecords(records: [MgoResourceRecord]) -> (Bool, [HealthSubCategory]) {
+		
+		var items = [HealthSubCategory]()
+		var partial = false
+		
+		// Create list of subcategories
+		for profile in category.acceptedProfiles {
+			if let heading = category.subCategory(profile) {
+				var subCat = HealthSubCategory(heading: String(localized: heading), items: [])
+				for record in records {
+					subCat.items.append(contentsOf: parseRecord(record, acceptedProfile: profile))
+					partial = partial || record.error
+				}
+				// There might be another subcategory with the same heading.
+				// Append to that subcategory rather then append as a new subcategory
+				var existingSubCategory = false
+				items.enumerated().forEach { index, item in
+					if item.heading == subCat.heading {
+						items[index].items.append(contentsOf: subCat.items)
+						existingSubCategory = true
+					}
+				}
+				if !existingSubCategory && subCat.items.isNotEmpty {
+					items.append(subCat)
+				}
+			}
+		}
+		
+		return (partial, items)
 	}
 	
 	/// Extract items from the data store records
