@@ -29,7 +29,7 @@ public class MGORepository {
 		
 		var path = endpoint.path
 		if let directory = endpoint.directory {
-			path += "/\(directory)"
+			path.append("/\(directory)")
 		}
 		
 		var parameters = RequestParameters()
