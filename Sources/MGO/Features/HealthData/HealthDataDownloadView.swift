@@ -248,17 +248,9 @@ struct HealthDataDownloadView: View {
 							viewModel.showPreview = true
 						}
 					}
-					.when(isIOS18) { view in
-						view
-							.background(DocumentPreviewController($viewModel.showPreview, failedToOpen: $failedToOpenPreview, url: documentUrl))
+					.fullScreenCover(isPresented: $viewModel.showPreview) {
+						DocumentPreviewController($viewModel.showPreview, failedToOpen: $failedToOpenPreview, url: documentUrl)
 					}
-					.when(!isIOS18) { view in
-						view
-							.sheet(isPresented: $viewModel.showPreview) {
-								FallbackDocumentPreviewController($viewModel.showPreview, url: documentUrl)
-							}
-					}
-					
 					.onChange(of: failedToOpenPreview) { newValue in
 						if newValue {
 							viewModel.reduce(.shareDocument(url: documentUrl))

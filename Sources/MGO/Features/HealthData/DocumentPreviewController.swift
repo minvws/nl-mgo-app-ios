@@ -1,64 +1,88 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
 import MGOUI
+import QuickLook
+
+// See https://nilcoalescing.com/blog/PreviewFilesWithQuickLookInSwiftUI/
 
 struct DocumentPreviewController: UIViewControllerRepresentable {
-	
+	private let url: URL
 	private var isActive: Binding<Bool>
 	private var failedToOpen: Binding<Bool>
-	private let viewController = UIViewController()
-	private let docController: UIDocumentInteractionController
 	
 	init(_ isActive: Binding<Bool>, failedToOpen: Binding<Bool>, url: URL) {
 		self.isActive = isActive
 		self.failedToOpen = failedToOpen
-		self.docController = UIDocumentInteractionController(url: url)
+		self.url = url
 	}
 	
-	func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPreviewController>) -> UIViewController {
-		return viewController
-	}
-	
-	func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<DocumentPreviewController>) {
+	func makeUIViewController(context: Context) -> UINavigationController {
 		
-		if self.isActive.wrappedValue && docController.delegate == nil { // to not show twice
-			docController.delegate = context.coordinator
-			let result = self.docController.presentPreview(animated: true)
-			context.coordinator.didOpen(result)
+		let controller = QLPreviewController()
+		controller.dataSource = context.coordinator
+		controller.delegate = context.coordinator
+		
+		controller.navigationItem.leftBarButtonItem = UIBarButtonItem(
+			barButtonSystemItem: .done, target: context.coordinator,
+			action: #selector(context.coordinator.dismiss)
+		)
+		
+		let navigationController = UINavigationController(rootViewController: controller)
+		return navigationController
+	}
+	
+	// MARK: UIViewControllerRepresentable
+	
+	func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+		/* No operation */
+	}
+	
+	func makeCoordinator() -> Coordinator {
+		return Coordinator(parent: self)
+	}
+	
+	class Coordinator: NSObject, QLPreviewControllerDataSource, QLPreviewControllerDelegate {
+		
+		var parent: DocumentPreviewController
+		
+		init(parent: DocumentPreviewController) {
+			self.parent = parent
 		}
-	}
-	
-	func makeCoordinator() -> DocumentPreviewCoordinator {
 		
-		return DocumentPreviewCoordinator(owner: self, failedToOpen: failedToOpen)
-	}
-	
-	final class DocumentPreviewCoordinator: NSObject, UIDocumentInteractionControllerDelegate { // works as delegate
-		let owner: DocumentPreviewController
+		// MARK: QLPreviewControllerDataSource
 		
-		let failedToOpen: Binding<Bool>
-		
-		init(owner: DocumentPreviewController, failedToOpen: Binding<Bool>) {
-			self.owner = owner
-			self.failedToOpen = failedToOpen
-		}
-		func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
-			return owner.viewController
+		func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
+			return 1
 		}
 		
-		func documentInteractionControllerDidEndPreview(_ controller: UIDocumentInteractionController) {
-			controller.delegate = nil // done, so unlink self
-			owner.isActive.wrappedValue = false // notify external about done
+		func previewController(
+			_ controller: QLPreviewController,
+			previewItemAt index: Int
+		) -> QLPreviewItem {
+			didOpen(QLPreviewController.canPreview(parent.url as QLPreviewItem))
+			return parent.url as QLPreviewItem
+		}
+		
+		// MARK: QLPreviewControllerDelegate
+		
+		func previewController(_ controller: QLPreviewController, editingModeFor previewItem: any QLPreviewItem) -> QLPreviewItemEditingMode {
+			return .disabled
+		}
+		
+		// MARK: Navigation
+		
+		@objc func dismiss() {
+			parent.isActive.wrappedValue = false
 		}
 		
 		func didOpen(_ value: Bool) {
 			DispatchQueue.main.async {
-				self.failedToOpen.wrappedValue = !value
+				self.parent.failedToOpen.wrappedValue = !value
 			}
 		}
 	}
