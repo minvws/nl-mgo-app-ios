@@ -54,6 +54,21 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_HealthDownloadView_downloaded_txt() throws {
+		
+		// Given
+		let bundle = Bundle(for: type(of: self))
+		let resourceUrl = try XCTUnwrap(bundle.url(forResource: "test", withExtension: "txt"))
+		viewModel.state = .downloaded(label: "Test download", documentUrl: resourceUrl)
+		viewModel.showPreview = true
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	func test_HealthDownloadView_external() throws {
 		
 		// Given
