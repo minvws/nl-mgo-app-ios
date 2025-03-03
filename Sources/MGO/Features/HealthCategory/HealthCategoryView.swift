@@ -249,31 +249,8 @@ class HealthCategoryViewModel: ObservableObject {
 					return
 				}
 				
-				var items = [HealthSubCategory]()
-				var partial = false
-				
-				// Create list of subcategories
-				for profile in category.acceptedProfiles {
-					if let heading = category.subCategory(profile) {
-						var subCat = HealthSubCategory(heading: String(localized: heading), items: [])
-						for record in records {
-							subCat.items.append(contentsOf: parseRecord(record, acceptedProfile: profile))
-							partial = partial || record.error
-						}
-						// There might be another subcategory with the same heading.
-						// Append to that subcategory rather then append as a new subcategory
-						var existingSubCategory = false
-						items.enumerated().forEach { index, item in
-							if item.heading == subCat.heading {
-								items[index].items.append(contentsOf: subCat.items)
-								existingSubCategory = true
-							}
-						}
-						if !existingSubCategory && subCat.items.isNotEmpty {
-							items.append(subCat)
-						}
-					}
-				}
+				let (partial, items) = sortRecords(records: records)
+
 				if partial {
 					state = .partial(items: items)
 				} else {
@@ -282,6 +259,40 @@ class HealthCategoryViewModel: ObservableObject {
 			case .failure:
 				state = .list(items: [])
 		}
+	}
+	
+	/// Sort the records on subcategory
+	/// - Parameter records: the records to sort
+	/// - Returns: sorted sub categories
+	private func sortRecords(records: [MgoResourceRecord]) -> (Bool, [HealthSubCategory]) {
+		
+		var items = [HealthSubCategory]()
+		var partial = false
+		
+		// Create list of subcategories
+		for profile in category.acceptedProfiles {
+			if let heading = category.subCategory(profile) {
+				var subCat = HealthSubCategory(heading: String(localized: heading), items: [])
+				for record in records {
+					subCat.items.append(contentsOf: parseRecord(record, acceptedProfile: profile))
+					partial = partial || record.error
+				}
+				// There might be another subcategory with the same heading.
+				// Append to that subcategory rather then append as a new subcategory
+				var existingSubCategory = false
+				items.enumerated().forEach { index, item in
+					if item.heading == subCat.heading {
+						items[index].items.append(contentsOf: subCat.items)
+						existingSubCategory = true
+					}
+				}
+				if !existingSubCategory && subCat.items.isNotEmpty {
+					items.append(subCat)
+				}
+			}
+		}
+		
+		return (partial, items)
 	}
 	
 	/// Extract items from the data store records
@@ -426,7 +437,7 @@ struct HealthCategoryView: View {
 	
 		Group {
 			if list.isNotEmpty {
-				listOverviewBlocks(list: list)
+				listOverviewBlocks(list: filterList(list))
 			} else {
 				noItems()
 			}
@@ -434,39 +445,43 @@ struct HealthCategoryView: View {
 		.padding(.horizontal, ViewTraits.General.padding)
 	}
 	
+	/// Get the filtered search result list
+	/// - Parameter list: the original list
+	/// - Returns: filtered list
+	private func filterList(_ list: [HealthSubCategory]) -> [HealthSubCategory] {
+		
+		guard viewModel.searchText.isNotEmpty else {
+			return list
+		}
+		
+		var result = [HealthSubCategory]()
+		for sub in list {
+			let filteredItems = sub.items.filter {
+				($0.heading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
+				$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
+			}
+			if filteredItems.isNotEmpty {
+				result.append(HealthSubCategory(heading: sub.heading, items: filteredItems))
+			}
+		}
+		return result
+	}
+	
 	/// Create the list state view
 	/// - Returns: View when the user has some stored healthcare organizations
 	@ViewBuilder func listOverviewBlocks(list: [HealthSubCategory]) -> some View {
 		
-		var searchResults: [HealthSubCategory] {
-			if viewModel.searchText.isEmpty {
-				return list
-			} else {
-				var result = [HealthSubCategory]()
-				for sub in list {
-					let filteredItems = sub.items.filter {
-						($0.heading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
-						$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
-					}
-					if filteredItems.isNotEmpty {
-						result.append(HealthSubCategory(heading: sub.heading, items: filteredItems))
-					}
-				}
-				return result
-			}
-		}
-		
 		Group {
 			
-			if searchResults.isEmpty {
+			if list.isEmpty {
 				noSearchItems()
 			} else {
 				VStack(alignment: .leading, spacing: ViewTraits.List.spacing, content: {
 					
-					ForEach(searchResults) { subCategory in
+					ForEach(list) { subCategory in
 					
 						if subCategory.items.isNotEmpty {
-							if searchResults.count != 1 {
+							if list.count != 1 {
 								Text(subCategory.heading)
 									.rijksoverheidStyle(font: .regular, style: .body)
 									.foregroundColor(theme.contentPrimary)
