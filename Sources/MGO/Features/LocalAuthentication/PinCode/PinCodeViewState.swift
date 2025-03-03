@@ -17,9 +17,6 @@ struct PinCodeViewState: Equatable {
 	/// What kind of key should we  display (face ID, touch ID, optic ID)
 	var bioMetricType: LocalAuthentication.BiometricType = .none
 	
-	/// Is the erase button enabled? Disabled when the access code is empty
-	var eraseEnabled: Bool = false
-	
 	/// Is the back visible?
 	var backButtonVisible: Bool = false
 	
