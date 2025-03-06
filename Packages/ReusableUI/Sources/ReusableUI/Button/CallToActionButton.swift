@@ -30,6 +30,7 @@ public struct CallToActionButton: View {
 	/// All possible styles
 	public enum Style {
 		case loginWithDigiD
+		case loginWithDigiDSpinner
 		case primary
 		case primaryCritical
 		case secondary
@@ -93,12 +94,21 @@ public struct CallToActionButton: View {
 						ProgressView()
 							.progressViewStyle(.circular)
 					}
+				} else if style == .loginWithDigiDSpinner {
+					HStack {
+						Spacer()
+						ProgressView()
+							.progressViewStyle(.circular)
+						titleLabel()
+						Spacer()
+						
+					}
 				} else {
 					titleLabel()
 				}
 			}
 		)
-		.when(style == .loginWithDigiD, transform: { button in
+		.when(style == .loginWithDigiD || style == .loginWithDigiDSpinner, transform: { button in
 			button.buttonStyle(ButtonWithOrangeStyle())
 		})
 		.when(style == .primary, transform: { button in
@@ -141,7 +151,9 @@ public struct CallToActionButton: View {
 
 #Preview {
 	VStack {
-		CallToActionButton(".digiD", icon: Image(systemName: "stethoscope"), style: .loginWithDigiD)
+		CallToActionButton(".loginWithDigiD", icon: Image(systemName: "stethoscope"), style: .loginWithDigiD)
+			.padding(16)
+		CallToActionButton(".loginWithDigiDSpinner", style: .loginWithDigiDSpinner)
 			.padding(16)
 		CallToActionButton(".primary", style: .primary)
 			.padding(16)
