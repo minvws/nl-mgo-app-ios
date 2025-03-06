@@ -49,19 +49,19 @@ struct CategoryButton: Identifiable {
 				// Medication
 			Image(ImageResource.HealthCategory.pill)
 					.resizable()
-					.foregroundStyle(theme.contacts)
+					.foregroundStyle(theme.medication)
 				
 			case HealthCategories.Category.measurements.rawValue:
 				// Measurements
 				Image(ImageResource.HealthCategory.vitalSigns)
 					.resizable()
-					.foregroundStyle(theme.medication)
+					.foregroundStyle(theme.vitals)
 			
 			case HealthCategories.Category.labResults.rawValue:
 				// Lab results
 				Image(ImageResource.HealthCategory.tube)
 					.resizable()
-					.foregroundStyle(theme.treatment)
+					.foregroundStyle(theme.laboratory)
 			
 			case HealthCategories.Category.allergies.rawValue:
 				// Allergies
@@ -73,19 +73,19 @@ struct CategoryButton: Identifiable {
 				// Treatments
 				Image(ImageResource.HealthCategory.case)
 					.resizable()
-					.foregroundStyle(theme.functional)
+					.foregroundStyle(theme.treatment)
 			
 			case HealthCategories.Category.appointments.rawValue:
 				// Appointments
 				Image(ImageResource.HealthCategory.appointment)
 					.resizable()
-					.foregroundStyle(theme.payer)
+					.foregroundStyle(theme.contacts)
 
 			case HealthCategories.Category.vaccinations.rawValue:
 				// Vaccinations
 				Image(ImageResource.HealthCategory.syringe)
 					.resizable()
-					.foregroundStyle(theme.laboratory)
+					.foregroundStyle(theme.vaccinations)
 				
 			case HealthCategories.Category.documents.rawValue:
 				// Documents
@@ -97,7 +97,7 @@ struct CategoryButton: Identifiable {
 				// Complaints
 				Image(ImageResource.HealthCategory.complaint)
 					.resizable()
-					.foregroundStyle(theme.vitals)
+					.foregroundStyle(theme.problems)
 			
 			case HealthCategories.Category.patient.rawValue:
 				// Patient
@@ -115,25 +115,25 @@ struct CategoryButton: Identifiable {
 				// Payment
 				Image(ImageResource.HealthCategory.payment)
 					.resizable()
-					.foregroundStyle(theme.problems)
+					.foregroundStyle(theme.payer)
 			
 			case HealthCategories.Category.plans.rawValue:
 				// Plans
 				Image(ImageResource.HealthCategory.plans)
 					.resizable()
-					.foregroundStyle(theme.vaccinations)
+					.foregroundStyle(theme.procedures)
 			
 			case HealthCategories.Category.devices.rawValue:
 				// Device
 				Image(ImageResource.HealthCategory.device)
 					.resizable()
-					.foregroundStyle(theme.rijksLint)
+					.foregroundStyle(theme.device)
 
 			case HealthCategories.Category.functionalOrMentalStatus.rawValue:
 				// Mental wellbeing
 				Image(ImageResource.HealthCategory.smile)
 					.resizable()
-					.foregroundStyle(theme.sentimentInformation)
+					.foregroundStyle(theme.functional)
 		
 			case HealthCategories.Category.lifestyle.rawValue:
 				// Lifestyle
