@@ -40,6 +40,18 @@ final class LoginViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_loginView_loading() {
+		
+		// Given
+		viewModel.state = .loading
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
 	func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() throws {
 		
 		// Given
@@ -52,5 +64,19 @@ final class LoginViewTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
+	}
+	
+	func test_loginWithDigiD_loading_shouldNotCallCoordinator_whenDemoMode() throws {
+		
+		// Given
+		servicesSpies.featureFlagSpy.stubbedIsDemo = true
+		viewModel.state = .loading
+
+		// When
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "login.loading")
+		try view.view(CallToActionButton.self).find(button: "login.loading").tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == false
 	}
 }

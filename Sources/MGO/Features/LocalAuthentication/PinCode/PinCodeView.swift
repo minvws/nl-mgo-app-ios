@@ -134,7 +134,6 @@ class PinCodeViewModel: ObservableObject {
 	private func updateStateEntry(tooWeak: Bool = false) {
 		
 		state.bioMetricEnabled = false
-		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = backButtonVisible
 		state.backButtonKey = "common.previous"
 		state.title = "pincode.create.heading"
@@ -153,7 +152,6 @@ class PinCodeViewModel: ObservableObject {
 	private func updateStateConfirmation(confirmationMismatch: Bool = false) {
 		
 		state.bioMetricEnabled = false
-		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = true
 		state.backButtonKey = "pincode.confirm.backbutton"
 		state.title = "pincode.confirm.heading"
@@ -172,7 +170,6 @@ class PinCodeViewModel: ObservableObject {
 	private func updateStateValidation(validationMismatch: Bool = false) {
 		
 		state.bioMetricEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
-		state.eraseEnabled = accessCode.isNotEmpty
 		state.backButtonVisible = false
 		state.forgotCodeButtonVisible = true
 		state.textAlignment = .center
@@ -661,15 +658,11 @@ struct PinCodeView: View {
 	
 	@ViewBuilder func eraseButton() -> some View {
 		
-		if viewModel.state.eraseEnabled {
-			actionButton(
-				for: .erasePressed,
-				imageName: "delete.backward",
-				accessibilityLabel: "pincode.erase.voiceover")
-		} else {
-			Spacer()
-				.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight)
-		}
+		actionButton(
+			for: .erasePressed,
+			imageName: "delete.backward",
+			accessibilityLabel: "pincode.erase.voiceover")
+		
 	}
 	
 	/// Create a button for a digit (0 ... 9)
