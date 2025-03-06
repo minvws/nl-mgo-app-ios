@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-/// <#Description#>
 public struct ImageContentView: View {
 	
 	public enum Alignment {
@@ -17,6 +16,9 @@ public struct ImageContentView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	/// The size classes
+	@Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 	
 	/// Create an empty view for a list
 	/// - Parameters:
@@ -67,10 +69,13 @@ public struct ImageContentView: View {
 	/// helper to calculate the size of the view
 	@State private var contentSize: CGSize = .zero
 	
+	/// Boolean to determine if the header image should be shown (hidden in landscape)
+	@State var showImage = true
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Empty {
-			static let width: CGFloat = 0.5
+			static let width: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 0.33 : 0.5
 			static let padding: CGFloat = 16
 			static let spacing: CGFloat = 8
 			static let top: CGFloat = 12
@@ -78,13 +83,10 @@ public struct ImageContentView: View {
 	}
 	
 	public var body: some View {
-		
-		HStack(spacing: ViewTraits.Empty.spacing) {
 			
-			Spacer(minLength: ViewTraits.Empty.padding)
+		VStack(alignment: .center) {
 			
-			VStack(alignment: .center) {
-				
+			if showImage {
 				// Image, 50% width
 				VStack(alignment: .center) {
 					Spacer()
@@ -95,30 +97,44 @@ public struct ImageContentView: View {
 						.padding(.bottom, ViewTraits.Empty.padding)
 				}
 				.frame(maxWidth: contentSize.width * ViewTraits.Empty.width)
-				
-				// Texts, full width
-				VStack(alignment: textAlignment == .center ? .center : .leading, spacing: textSpacing) {
-					
-					Text(heading)
-						.rijksoverheidStyle(font: .bold, style: titleStyle)
-						.foregroundColor(theme.contentPrimary)
-						.multilineTextAlignment(textAlignment == .center ? .center : .leading)
-						.fixedSize(horizontal: false, vertical: true)
-					
-					Text(subHeading)
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundColor(subHeadingForegroundColor)
-						.multilineTextAlignment(textAlignment == .center ? .center : .leading)
-						.fixedSize(horizontal: false, vertical: true)
-					
-					Spacer()
-				}
 			}
-			Spacer(minLength: ViewTraits.Empty.padding)
+			
+			// Texts, full width
+			VStack(alignment: textAlignment == .center ? .center : .leading, spacing: textSpacing) {
+				
+				Text(heading)
+					.rijksoverheidStyle(font: .bold, style: titleStyle)
+					.foregroundColor(theme.contentPrimary)
+					.multilineTextAlignment(textAlignment == .center ? .center : .leading)
+					.fixedSize(horizontal: false, vertical: true)
+				
+				Text(subHeading)
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundColor(subHeadingForegroundColor)
+					.multilineTextAlignment(textAlignment == .center ? .center : .leading)
+					.fixedSize(horizontal: false, vertical: true)
+				
+				Spacer()
+			}
 		}
+		.padding(.horizontal, ViewTraits.Empty.padding)
 		.readSize($contentSize)
 		.accessibilityElement(children: .combine)
 		.padding(.top, ViewTraits.Empty.top)
+		.onRotate { newOrientation in
+			
+			// Always show on iPad
+			guard UIDevice.current.userInterfaceIdiom != .pad else { return }
+			
+			// The device orientation can be isFlat (faceUp or faceDown). Skip that
+			guard !newOrientation.isFlat else { return }
+			
+			// Hide the image in landscape (on a phone)
+			showImage = !newOrientation.isLandscape
+		}
+		.onAppear {
+			showImage = verticalSizeClass != SwiftUI.UserInterfaceSizeClass.compact || UIDevice.current.userInterfaceIdiom == .pad
+		}
 	}
 }
 
