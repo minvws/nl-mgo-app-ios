@@ -33,6 +33,7 @@ struct ButtonWithOrangeStyle: ButtonStyle {
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
 			.foregroundColor(.white)
+			.tint(.white)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(configuration.isPressed ? Color(hex: "DD6200") : Color(hex: "E17000"))

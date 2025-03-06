@@ -1379,6 +1379,17 @@
         }
       }
     },
+    "login.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laden…"
+          }
+        }
+      }
+    },
     "login.subheading" : {
       "extractionState" : "manual",
       "localizations" : {

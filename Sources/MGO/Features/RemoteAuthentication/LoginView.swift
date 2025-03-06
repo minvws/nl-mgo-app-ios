@@ -11,6 +11,11 @@ import RestrictedBrowser
 
 class LoginViewModel: ObservableObject {
 	
+	enum State {
+		case loading
+		case idle
+	}
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case loginWithDigiD
@@ -24,6 +29,9 @@ class LoginViewModel: ObservableObject {
 	/// Helper to open urls
 	private var urlOpener: URLOpenerProtocol
 	
+	/// The state of the view
+	@Published var state: LoginViewModel.State
+	
 	/// Create a Login ViewModel
 	/// - Parameter coordinator: The coordinator
 	/// - Parameter urlOpener: The helper to open hyperlinks
@@ -32,6 +40,7 @@ class LoginViewModel: ObservableObject {
 		self.coordinator = coordinator
 		self.remoteAuthenticationClient = remoteAuthenticationClient
 		self.urlOpener = urlOpener
+		self.state = .idle
 	}
 	
 	/// Handle any action
@@ -49,15 +58,20 @@ class LoginViewModel: ObservableObject {
 	
 	private func authenticate() {
 		
+		guard state == .idle else { return }
+		
 		Task { @MainActor [remoteAuthenticationClient] in
 			do {
 				guard let remoteAuthenticationClient else { return }
+				
+				state = .loading
 				
 				let authUrl = try await remoteAuthenticationClient.getAuthenticationUrl(callbackUrl: Configuration().getOIDCCallback())
 				guard let authenticationUrl = URL(string: authUrl.absoluteString.replacingOccurrences(of: "max:8006", with: "localhost:8006")) else {
 					return
 				}
 				logDebug("authenticationUrl", authenticationUrl)
+				state = .idle
 				self.urlOpener.openUrlIfPossible(authenticationUrl)
 			} catch {
 				logError("Error fetching oidc start \(error)")
@@ -99,14 +113,26 @@ struct LoginView: View {
 			)
 			
 		} bottomView: {
-			CallToActionButton(
-				"login.digid",
-				icon: Image(ImageResource.RemoteAuthentication.digid),
-				style: .loginWithDigiD
-			) {
-				viewModel.reduce(.loginWithDigiD)
+			Group {
+				switch viewModel.state {
+					case .loading:
+						CallToActionButton(
+							"login.loading",
+							style: .loginWithDigiDSpinner
+						)
+						.accessibilityIdentifier("login.loading")
+						
+					case .idle:
+						CallToActionButton(
+							"login.digid",
+							icon: Image(ImageResource.RemoteAuthentication.digid),
+							style: .loginWithDigiD
+						) {
+							viewModel.reduce(.loginWithDigiD)
+						}
+						.accessibilityIdentifier("login.digid")
+				}
 			}
-			.accessibilityIdentifier("login.digid")
 			.padding(ViewTraits.Button.insets)
 			
 //			CallToActionButton(title: "Send deeplink") {

@@ -535,7 +535,7 @@ struct HealthCategoryView: View {
 			subHeading: "health_category.search_again",
 			subHeadingForegroundColor: theme.contentPrimary
 		)
-			.fixedSize(horizontal: false, vertical: true)
+			.frame(maxWidth: .infinity)
 			.padding(.top, ViewTraits.NoResults.top)
 	}
 	
@@ -549,7 +549,7 @@ struct HealthCategoryView: View {
 			subHeading: "health_category.empty.subheading",
 			subHeadingForegroundColor: theme.contentPrimary
 		)
-			.fixedSize(horizontal: false, vertical: true)
+			.frame(maxWidth: .infinity)
 			.padding(.top, ViewTraits.NoResults.top)
 	}
 }
