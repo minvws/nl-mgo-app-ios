@@ -89,5 +89,6 @@ public protocol Themeable: ObservableObject {
 	var warning: Color { get }
 	var payer: Color { get }
 	var vaccinations: Color { get }
+	var procedures: Color { get }
 	var lifestyle: Color { get }
 }
