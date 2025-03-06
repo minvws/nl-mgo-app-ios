@@ -123,18 +123,25 @@ public struct ImageContentView: View {
 		.padding(.top, ViewTraits.Empty.top)
 		.onRotate { newOrientation in
 			
-			// Always show on iPad
-			guard UIDevice.current.userInterfaceIdiom != .pad else { return }
-			
-			// The device orientation can be isFlat (faceUp or faceDown). Skip that
-			guard !newOrientation.isFlat else { return }
-			
-			// Hide the image in landscape (on a phone)
-			showImage = !newOrientation.isLandscape
+			handleRotation(newOrientation)
 		}
 		.onAppear {
 			showImage = verticalSizeClass != SwiftUI.UserInterfaceSizeClass.compact || UIDevice.current.userInterfaceIdiom == .pad
 		}
+	}
+	
+	/// Handle Rotation
+	/// - Parameter newOrientation: the new orientation
+	func handleRotation(_ newOrientation: UIDeviceOrientation) {
+		
+		// Always show on iPad
+		guard UIDevice.current.userInterfaceIdiom != .pad else { return }
+		
+		// The device orientation can be isFlat (faceUp or faceDown). Skip that
+		guard !newOrientation.isFlat else { return }
+		
+		// Hide the image in landscape (on a phone)
+		showImage = !newOrientation.isLandscape
 	}
 }
 
