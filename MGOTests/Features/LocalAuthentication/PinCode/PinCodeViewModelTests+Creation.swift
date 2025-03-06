@@ -47,7 +47,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: false,
 			backButtonVisible: true,
 			backButtonKey: "common.previous",
 			title: "pincode.create.heading",
@@ -77,7 +76,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: false,
 			backButtonVisible: false,
 			backButtonKey: "common.previous",
 			title: "pincode.create.heading",
@@ -107,7 +105,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: true,
 			backButtonKey: "common.previous",
 			title: "pincode.create.heading",
@@ -139,7 +136,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: true,
 			backButtonKey: "common.previous",
 			title: "pincode.create.heading",
@@ -172,7 +168,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: true,
 			backButtonKey: "common.previous",
 			title: "pincode.create.heading",
@@ -206,7 +201,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: true,
 			backButtonKey: "common.previous",
 			title: "pincode.create.heading",
@@ -246,7 +240,6 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: true,
 			backButtonKey: "common.previous",
 			title: "pincode.create.heading",

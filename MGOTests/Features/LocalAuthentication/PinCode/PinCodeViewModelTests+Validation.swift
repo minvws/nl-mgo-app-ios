@@ -61,7 +61,6 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
-			eraseEnabled: false,
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
@@ -87,7 +86,6 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
@@ -115,7 +113,6 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
@@ -150,7 +147,6 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
@@ -185,7 +181,6 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
@@ -285,7 +280,6 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
-			eraseEnabled: false,
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
@@ -315,7 +309,6 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
-			eraseEnabled: false,
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
@@ -346,7 +339,6 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
-			eraseEnabled: false,
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
@@ -377,7 +369,6 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
-			eraseEnabled: false,
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
@@ -407,7 +398,6 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
-			eraseEnabled: false,
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
@@ -437,7 +427,6 @@ final class PinCodeViewModelTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: true,
 			bioMetricType: .touchID,
-			eraseEnabled: false,
 			backButtonVisible: false,
 			backButtonKey: "",
 			forgotCodeButtonVisible: true,
