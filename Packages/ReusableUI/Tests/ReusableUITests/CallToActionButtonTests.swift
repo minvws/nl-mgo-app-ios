@@ -23,6 +23,18 @@ final class CallToActionButtonTests: XCTestCase {
 		assertSnapshot(of: view, as: .image)
 	}
 	
+	func test_digid_spinner() throws {
+		
+		// Given
+		let sut = CallToActionButton("Laden...", style: .loginWithDigiDSpinner)
+		
+		// When
+		let view = sut.frame(width: 300, height: 200)
+		
+		// Then
+		assertSnapshot(of: view, as: .image)
+	}
+	
 	func test_primary() throws {
 		
 		// Given
