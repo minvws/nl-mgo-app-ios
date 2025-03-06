@@ -43,7 +43,6 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: false,
 			backButtonVisible: true,
 			backButtonKey: "pincode.confirm.backbutton",
 			title: "pincode.confirm.heading",
@@ -73,7 +72,6 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: true,
 			backButtonKey: "pincode.confirm.backbutton",
 			title: "pincode.confirm.heading",
@@ -105,7 +103,6 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: true,
 			backButtonKey: "pincode.confirm.backbutton",
 			title: "pincode.confirm.heading",
@@ -144,7 +141,6 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: true,
 			backButtonVisible: true,
 			backButtonKey: "pincode.confirm.backbutton",
 			title: "pincode.confirm.heading",
@@ -183,7 +179,6 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 		let expectedState = PinCodeViewState(
 			bioMetricEnabled: false,
 			bioMetricType: .touchID,
-			eraseEnabled: false,
 			backButtonVisible: true,
 			backButtonKey: "pincode.confirm.backbutton",
 			title: "pincode.confirm.heading",
