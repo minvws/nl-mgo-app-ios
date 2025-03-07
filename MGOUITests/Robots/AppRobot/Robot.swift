@@ -5,12 +5,12 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-// System
-@_exported import XCTest
+import XCTest
 
-// External
-@_exported import OHHTTPStubs
-@_exported import OHHTTPStubsSwift
-@_exported import Nimble
-@_exported import SnapshotTesting
-@_exported import ViewInspector
+protocol Robot {}
+
+extension Robot {
+	var app: XCUIApplication {
+		XCUIApplication()
+	}
+}

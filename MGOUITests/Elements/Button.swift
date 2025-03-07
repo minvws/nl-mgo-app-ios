@@ -5,12 +5,13 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-// System
-@_exported import XCTest
+import Foundation
+import XCTest
 
-// External
-@_exported import OHHTTPStubs
-@_exported import OHHTTPStubsSwift
-@_exported import Nimble
-@_exported import SnapshotTesting
-@_exported import ViewInspector
+enum Button: String {
+	case next = "common.next"
+	
+	var element: XCUIElement {
+		XCUIApplication().buttons[rawValue]
+	}
+}
