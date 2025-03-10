@@ -9,17 +9,20 @@ import XCTest
 
 class AppRobot: Robot {
 	
+	/// The application to test
 	var app: XCUIApplication
 	
+	/// Create the app robot
 	init() {
 		app = XCUIApplication()
 	}
 	
+	/// Launch the application
+	/// - Returns: Introduction Robot for the first scene
 	@discardableResult
 	func launchApp() -> IntroductionRobot {
 		app.launchArguments.append("-resetOnStart")
 		app.launchArguments.append("-disableTransitions")
-		print(app.launchArguments)
 		app.launch()
 		return IntroductionRobot(app)
 	}

@@ -23,15 +23,15 @@ class PropositionRobot: Robot {
 	// MARK: - Elements
 	
 	private var nextButton: XCUIElement {
-		Button.next.element
+		app.buttons["common.next"]
 	}
 	
 	private var titleLabel: XCUIElement {
-		Heading.proposition.element
+		app.staticTexts["proposition.heading"]
 	}
 
 	private var subHeadingLabel: XCUIElement {
-		SubHeading.proposition.element
+		app.staticTexts["proposition.subheading"]
 	}
 	
 	private func proposition(label: String) -> XCUIElement {

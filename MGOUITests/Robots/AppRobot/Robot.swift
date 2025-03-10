@@ -9,5 +9,6 @@ import XCTest
 
 protocol Robot {
 	
+	/// The application to test
 	var app: XCUIApplication { get }
 }

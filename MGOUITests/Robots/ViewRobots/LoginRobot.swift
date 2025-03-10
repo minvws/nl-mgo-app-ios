@@ -28,11 +28,11 @@ class LoginRobot: Robot {
 //	}
 	
 	private var titleLabel: XCUIElement {
-		Heading.login.element
+		app.staticTexts["imagecontentview.heading"]
 	}
 	
 	private var subHeadingLabel: XCUIElement {
-		SubHeading.login.element
+		app.staticTexts["imagecontentview.subheading"]
 	}
 
 	// MARK: - Validations

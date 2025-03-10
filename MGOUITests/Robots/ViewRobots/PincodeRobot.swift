@@ -23,7 +23,7 @@ class PincodeRobot: Robot {
 	// MARK: - Elements
 	
 	private var titleLabel: XCUIElement {
-		Heading.pincode.element
+		app.staticTexts["pincode.heading"]
 	}
 	
 	private func subHeading(_ subHeading: String) -> XCUIElement {

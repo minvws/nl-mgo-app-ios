@@ -22,15 +22,15 @@ class IntroductionRobot: Robot {
 	// MARK: - Elements
 	
 	private var nextButton: XCUIElement {
-		Button.next.element
+		app.buttons["common.next"]
 	}
 	
 	private var titleLabel: XCUIElement {
-		Heading.introduction.element
+		app.staticTexts["introduction.heading"]
 	}
 	
 	private var subHeadingLabel: XCUIElement {
-		SubHeading.introduction.element
+		app.staticTexts["introduction.subheading"]
 	}
 
 	// MARK: - Validations
