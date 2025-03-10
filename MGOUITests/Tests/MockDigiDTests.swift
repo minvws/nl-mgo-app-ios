@@ -7,13 +7,20 @@
 
 import XCTest
 
-class LoginTests: XCTestCase {
+class MockDigiDTests: XCTestCase {
 	
 	@MainActor
-	func testLoginScreen() {
+	func testDigiD() {
+		
 		AppRobot()
 			.launchApp(withPincode: "12345")
 			.enterConfirmationPinCode("12345")
-			.verifySubHeadingExists()
+			.tapDigiDButton()
+			.verifySafariIsOpen()
+			.verifyMockDigiDSubmitButton()
+			.tapMockDigiDSubmitButton()
+			.enterBasicAuthorizationIfNeeded()
+			.verifyOpenButton()
+			.tapOpenButton()
 	}
 }

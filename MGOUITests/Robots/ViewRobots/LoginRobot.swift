@@ -18,14 +18,17 @@ class LoginRobot: Robot {
 	init(_ application: XCUIApplication) {
 		
 		self.app = application
-		XCTAssertTrue(titleLabel.waitForExistence(timeout: 5), "Expected 'LoginRobot' screen, but it didn't appear")
+		XCTAssertTrue(
+			titleLabel.waitForExistence(timeout: 5),
+			"Expected 'LoginRobot' screen, but it didn't appear"
+		)
 	}
 	
 	// MARK: - Elements
 	
-//	private var digidButton: XCUIElement {
-//		Button.next.element
-//	}
+	private var digidButton: XCUIElement {
+		app.buttons["login.digid"]
+	}
 	
 	private var titleLabel: XCUIElement {
 		app.staticTexts["imagecontentview.heading"]
@@ -45,9 +48,9 @@ class LoginRobot: Robot {
 
 	// MARK: - Interactions
 	
-//	@discardableResult
-//	func tapDigiDButton() -> PropositionRobot {
-//		digidButton.tap()
-//		return PropositionRobot()
-//	}
+	@discardableResult
+	func tapDigiDButton() -> MockDigiDRobot {
+		digidButton.tap()
+		return MockDigiDRobot(app)
+	}
 }

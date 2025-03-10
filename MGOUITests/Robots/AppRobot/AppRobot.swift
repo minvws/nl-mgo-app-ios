@@ -26,4 +26,13 @@ class AppRobot: Robot {
 		app.launch()
 		return IntroductionRobot(app)
 	}
+	
+	func launchApp(withPincode pincode: String) -> PincodeRobot {
+		app.launchArguments.append("-resetOnStart")
+		app.launchArguments.append("-disableTransitions")
+		app.launchArguments.append("-pincode:\(pincode)")
+		app.launch()
+		return PincodeRobot(app)
+		
+	}
 }
