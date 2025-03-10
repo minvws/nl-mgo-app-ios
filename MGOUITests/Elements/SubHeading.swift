@@ -10,6 +10,7 @@ import XCTest
 enum SubHeading: String {
 	case introduction = "introduction.subheading"
 	case proposition = "proposition.subheading"
+	case login = "Log in met DigiD. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
 	
 	var element: XCUIElement {
 		XCUIApplication().staticTexts[rawValue]

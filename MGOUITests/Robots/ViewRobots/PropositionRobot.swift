@@ -9,8 +9,14 @@ import XCTest
 
 class PropositionRobot: Robot {
 	
-	/// Create a Proposition Robot
-	init() {
+	/// The app to test
+	var app: XCUIApplication
+	
+	/// Create an Proposition Robot
+	/// - Parameter application: the application to test
+	init(_ application: XCUIApplication) {
+		
+		self.app = application
 		XCTAssertTrue(titleLabel.waitForExistence(timeout: 5), "Expected 'PropositionRobot' screen, but it didn't appear")
 	}
 	
@@ -45,18 +51,12 @@ class PropositionRobot: Robot {
 		XCTAssertTrue(proposition(label: label).exists)
 		return self
 	}
-
-    // MARK: - Interactions
-
-//    @discardableResult
-//    func tapAddScrumButton() -> AddScrumRobot {
-//        addScrumButton.tap()
-//        return AddScrumRobot()
-//    }
-//
-//    @discardableResult
-//    func tapScrumCard(withTitle title: String) -> DetailScrumRobot {
-//        scrumCard(withTitle: title).tap()
-//        return DetailScrumRobot()
-//    }
+	
+	// MARK: - Interactions
+	
+	@discardableResult
+	func tapNextButton() -> PincodeRobot {
+		nextButton.tap()
+		return PincodeRobot(app)
+	}
 }

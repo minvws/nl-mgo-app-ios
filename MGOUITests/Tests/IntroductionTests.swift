@@ -9,14 +9,10 @@ import XCTest
 
 class IntroductionTests: XCTestCase {
 	
+	@MainActor
 	func testAppLaunchedIntroductionScreen() {
 		AppRobot()
 			.launchApp()
 			.verifySubHeadingExists()
-	}
-	
-	override func tearDownWithError() throws {
-		AppRobot()
-			.terminateApp()
 	}
 }

@@ -9,7 +9,8 @@ import XCTest
 
 class PropositionTests: XCTestCase {
 	
-	func testAppLaunchedPropositionScreen() {
+	@MainActor
+	func testNavigateToPropositionScreen() {
 		AppRobot()
 			.launchApp()
 			.tapNextButton()
@@ -18,10 +19,5 @@ class PropositionTests: XCTestCase {
 			.verifyPropositionExists(label: "proposition.statement_2")
 			.verifyPropositionExists(label: "proposition.statement_3")
 			.verifyPropositionExists(label: "proposition.statement_4")
-	}
-	
-	override func tearDownWithError() throws {
-		AppRobot()
-			.terminateApp()
 	}
 }

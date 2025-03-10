@@ -7,10 +7,7 @@
 
 import XCTest
 
-protocol Robot {}
-
-extension Robot {
-	var app: XCUIApplication {
-		XCUIApplication()
-	}
+protocol Robot {
+	
+	var app: XCUIApplication { get }
 }

@@ -7,30 +7,32 @@
 
 import XCTest
 
-class IntroductionRobot: Robot {
+/// The Robot for the Login scene
+class LoginRobot: Robot {
 	
 	/// The app to test
 	var app: XCUIApplication
 	
-	/// Create an Introduction Robot
+	/// Create an Login Robot
 	/// - Parameter application: the application to test
 	init(_ application: XCUIApplication) {
+		
 		self.app = application
-		XCTAssertTrue(titleLabel.waitForExistence(timeout: 5), "Expected 'IntroductionRobot' screen, but it didn't appear")
+		XCTAssertTrue(titleLabel.waitForExistence(timeout: 5), "Expected 'LoginRobot' screen, but it didn't appear")
 	}
 	
 	// MARK: - Elements
 	
-	private var nextButton: XCUIElement {
-		Button.next.element
-	}
+//	private var digidButton: XCUIElement {
+//		Button.next.element
+//	}
 	
 	private var titleLabel: XCUIElement {
-		Heading.introduction.element
+		Heading.login.element
 	}
 	
 	private var subHeadingLabel: XCUIElement {
-		SubHeading.introduction.element
+		SubHeading.login.element
 	}
 
 	// MARK: - Validations
@@ -43,9 +45,9 @@ class IntroductionRobot: Robot {
 
 	// MARK: - Interactions
 	
-	@discardableResult
-	func tapNextButton() -> PropositionRobot {
-		nextButton.tap()
-		return PropositionRobot(app)
-	}
+//	@discardableResult
+//	func tapDigiDButton() -> PropositionRobot {
+//		digidButton.tap()
+//		return PropositionRobot()
+//	}
 }

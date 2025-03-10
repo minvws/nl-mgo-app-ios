@@ -10,6 +10,8 @@ import XCTest
 enum Heading: String {
 	case introduction = "introduction.heading"
 	case proposition = "proposition.heading"
+	case pincode = "pincode.heading"
+	case login = "Bewijs wie je bent"
 	
 	var element: XCUIElement {
 		XCUIApplication().staticTexts[rawValue]
