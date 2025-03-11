@@ -507,7 +507,6 @@ struct HealthCategoryView: View {
 									)
 									.cornerRadius(ViewTraits.List.cornerRadius)
 								}
-//								.accessibilityRemoveTraits(.isStaticText)
 								.onTapGesture {
 									element.action?()
 								}
