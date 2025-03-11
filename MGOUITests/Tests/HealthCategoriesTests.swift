@@ -7,19 +7,26 @@
 
 import XCTest
 
-class MockDigiDTests: XCTestCase {
+class HealthCategoriesTests: XCTestCase {
 	
 	@MainActor
-	func testDigiD() {
+	func testRegularFlowToOverview() {
 		
 		AppRobot()
 			.launchApp(withPincode: "12345")
 			.enterConfirmationPinCode("12345")
 			.tapDigiDButton()
-			.verifySafariIsOpen()
-			.verifyMockDigiDSubmitButton()
 			.tapMockDigiDSubmitButton()
 			.enterBasicAuthorizationIfNeeded()
-			.verifyOpenButton()
+			.tapOpenButton()
+			.enterSearchFields(name: "test", place: "test")
+			.tapSearchButton()
+			.tapListElement(at: 4)
+			.verifyHeading("Overzicht")
+			.verifySubHeading()
+			.verifyCategory("Medicijnen")
+			.verifyCategory("Metingen")
+			.verifyCategory("Uitslagen")
+		
 	}
 }

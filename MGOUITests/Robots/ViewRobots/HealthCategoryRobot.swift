@@ -1,0 +1,61 @@
+/*
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
+ *
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import XCTest
+
+class HealthCategoryRobot: Robot {
+	
+	/// The app to test
+	var app: XCUIApplication
+	
+	/// Create an Health Categories Robot
+	/// - Parameter application: the application to test
+	init(_ application: XCUIApplication) {
+		self.app = application	}
+	
+	// MARK: - Elements
+	
+	private func headingLabel(_ heading: String) -> XCUIElement {
+		app.navigationBars.staticTexts[heading]
+	}
+
+	private func sectionLabel(_ section: String) -> XCUIElement {
+		app.staticTexts[section]
+	}
+	
+	private func sectionButton(_ identifier: String) -> XCUIElement {
+		app.buttons[identifier]
+	}
+	
+	// MARK: - Validations
+	
+	@discardableResult
+	func verifyHeading(_ heading: String) -> Self {
+		XCTAssertTrue(headingLabel(heading).exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifySection(_ section: String) -> Self {
+		XCTAssertTrue(sectionLabel(section).exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifyButton(_ index: Int, section: Int) -> Self {
+		XCTAssertTrue(sectionButton("category_element_\(section)_\(index)").exists)
+		return self
+	}
+
+	// MARK: - Interactions
+	
+	@discardableResult
+	func tapElement(_ index: Int, section: Int) -> Self {
+		sectionButton("category_element_\(section)_\(index)").tap()
+		return self
+	}
+}

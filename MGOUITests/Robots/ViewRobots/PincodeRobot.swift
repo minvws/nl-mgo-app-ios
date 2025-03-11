@@ -63,4 +63,10 @@ class PincodeRobot: Robot {
 		enterPinCode(code)
 		return LoginRobot(app)
 	}
+	
+	@discardableResult
+	func enterConfirmationPinCodeWithRemoteAuthentication(_ code: String) -> AddOrganizationRobot {
+		enterPinCode(code)
+		return AddOrganizationRobot(app)
+	}
 }

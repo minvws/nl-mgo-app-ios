@@ -7,19 +7,21 @@
 
 import XCTest
 
-class MockDigiDTests: XCTestCase {
+class OrganizationListManualTests: XCTestCase {
 	
 	@MainActor
-	func testDigiD() {
+	func testOrganizationListManualInOnboarding() {
 		
 		AppRobot()
 			.launchApp(withPincode: "12345")
 			.enterConfirmationPinCode("12345")
 			.tapDigiDButton()
-			.verifySafariIsOpen()
-			.verifyMockDigiDSubmitButton()
 			.tapMockDigiDSubmitButton()
 			.enterBasicAuthorizationIfNeeded()
-			.verifyOpenButton()
+			.tapOpenButton()
+			.enterSearchFields(name: "test", place: "test")
+			.tapSearchButton()
+			.verifyListElementExists(at: 4)
+			.tapListElement(at: 4)
 	}
 }
