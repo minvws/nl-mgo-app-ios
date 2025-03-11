@@ -38,4 +38,3 @@ class AppRobot: Robot {
 		return PincodeRobot(app)
 	}
 }
-
