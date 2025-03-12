@@ -11,46 +11,17 @@ import FHIRClient
 
 final class VaccinationTests: XCTestCase {
 	
-	func test_endpoint_patient() throws {
+	func test_endpoint() throws {
 		
 		// Given
+		
+		// When
 		let endpoint = DVP.Vaccination.patient
 		
-		// When
-		
 		// Then
 		expect(endpoint.path) == "Immunization"
 		expect(endpoint.directory) == nil
 		expect(endpoint.fhirVersion) == .r4
-		expect { try self.contains(endpoint, key: "_include", value: "patient") } == true
+		expect(endpoint.parameters) == nil
 	}
-	
-	func test_endpoint_location() throws {
-		
-		// Given
-		let endpoint = DVP.Vaccination.location
-		
-		// When
-		
-		// Then
-		expect(endpoint.path) == "Immunization"
-		expect(endpoint.directory) == nil
-		expect(endpoint.fhirVersion) == .r4
-		expect { try self.contains(endpoint, key: "_include", value: "location") } == true
-	}
-	
-	func test_endpoint_performer() throws {
-		
-		// Given
-		let endpoint = DVP.Vaccination.performer
-		
-		// When
-		
-		// Then
-		expect(endpoint.path) == "Immunization"
-		expect(endpoint.directory) == nil
-		expect(endpoint.fhirVersion) == .r4
-		expect { try self.contains(endpoint, key: "_include", value: "performer") } == true
-	}
-
 }

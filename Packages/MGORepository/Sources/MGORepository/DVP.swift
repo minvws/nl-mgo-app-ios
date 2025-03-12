@@ -14,6 +14,15 @@ public struct DVP {
 	public enum FhirVersion: String {
 		case r3 = "R3"
 		case r4 = "R4"
+		
+		var acceptHeader: String {
+			switch self {
+				case .r3:
+					return "application/json+fhir; fhirVersion=3.0"
+				case .r4:
+					return "application/json+fhir; fhirVersion=4.0"
+			}
+		}
 	}
 	
 	public struct Endpoint {

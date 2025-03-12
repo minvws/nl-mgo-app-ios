@@ -14,9 +14,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_patient() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.patient
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.patient
 		
 		// Then
 		expect(endpoint.path) == "Patient"
@@ -28,9 +28,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_payer() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.payer
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.payer
 		
 		// Then
 		expect(endpoint.path) == "Coverage"
@@ -43,9 +43,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_treatmentDirective() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.treatmentDirective
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.treatmentDirective
 		
 		// Then
 		expect(endpoint.path) == "Consent"
@@ -57,9 +57,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_advanceDirective() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.advanceDirective
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.advanceDirective
 		
 		// Then
 		expect(endpoint.path) == "Consent"
@@ -71,9 +71,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_functionalOrMentalStatus() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.functionalOrMentalStatus
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.functionalOrMentalStatus
 		
 		// Then
 		expect(endpoint.path) == "Observation"
@@ -85,9 +85,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_problem() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.problem
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.problem
 		
 		// Then
 		expect(endpoint.path) == "Condition"
@@ -99,9 +99,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_livingSituation() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.livingSituation
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.livingSituation
 		
 		// Then
 		expect(endpoint.path) == "Observation"
@@ -113,9 +113,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_drugUse() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.drugUse
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.drugUse
 		
 		// Then
 		expect(endpoint.path) == "Observation"
@@ -127,9 +127,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_alcoholUse() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.alcoholUse
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.alcoholUse
 		
 		// Then
 		expect(endpoint.path) == "Observation"
@@ -141,9 +141,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_tobaccoUse() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.tobaccoUse
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.tobaccoUse
 		
 		// Then
 		expect(endpoint.path) == "Observation"
@@ -155,9 +155,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_nutritionAdvice() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.nutritionAdvice
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.nutritionAdvice
 		
 		// Then
 		expect(endpoint.path) == "NutritionOrder"
@@ -169,9 +169,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_alert() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.alert
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.alert
 		
 		// Then
 		expect(endpoint.path) == "Flag"
@@ -183,9 +183,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_allergyIntolerance() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.allergyIntolerance
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.allergyIntolerance
 		
 		// Then
 		expect(endpoint.path) == "AllergyIntolerance"
@@ -197,9 +197,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_medicationUse() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.medicationUse
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.medicationUse
 		
 		// Then
 		expect(endpoint.path) == "MedicationStatement"
@@ -212,9 +212,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_medicationAgreement() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.medicationAgreement
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.medicationAgreement
 		
 		// Then
 		expect(endpoint.path) == "MedicationRequest"
@@ -227,9 +227,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_administrationAgreement() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.administrationAgreement
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.administrationAgreement
 		
 		// Then
 		expect(endpoint.path) == "MedicationDispense"
@@ -242,9 +242,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_medicalDevice() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.medicalDevice
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.medicalDevice
 		
 		// Then
 		expect(endpoint.path) == "DeviceUseStatement"
@@ -256,9 +256,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_vaccination() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.vaccination
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.vaccination
 		
 		// Then
 		expect(endpoint.path) == "Immunization"
@@ -270,9 +270,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_bloodPressure() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.bloodPressure
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.bloodPressure
 		
 		// Then
 		expect(endpoint.path) == "Observation"
@@ -284,8 +284,8 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_bodyWeight() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.bodyWeight
 		
+		let endpoint = DVP.CommonClinicalDataset.bodyWeight
 		// When
 		
 		// Then
@@ -298,8 +298,8 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_bodyHeight() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.bodyHeight
 		
+		let endpoint = DVP.CommonClinicalDataset.bodyHeight
 		// When
 		
 		// Then
@@ -312,8 +312,8 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_laboratoryTestResult() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.laboratoryTestResult
 		
+		let endpoint = DVP.CommonClinicalDataset.laboratoryTestResult
 		// When
 		
 		// Then
@@ -328,9 +328,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_procedure() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.procedure
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.procedure
 		
 		// Then
 		expect(endpoint.path) == "Procedure"
@@ -342,9 +342,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_encounter() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.encounter
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.encounter
 		
 		// Then
 		expect(endpoint.path) == "Encounter"
@@ -356,9 +356,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_plannedProcedures() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.plannedProcedures
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.plannedProcedures
 		
 		// Then
 		expect(endpoint.path) == "ProcedureRequest"
@@ -370,9 +370,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_plannedImmunization() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.plannedImmunization
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.plannedImmunization
 		
 		// Then
 		expect(endpoint.path) == "ImmunizationRecommendation"
@@ -384,9 +384,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_plannedMedicalDevices() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.plannedMedicalDevices
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.plannedMedicalDevices
 		
 		// Then
 		expect(endpoint.path) == "DeviceRequest"
@@ -399,9 +399,9 @@ final class CommonClinicalDatasetTests: XCTestCase {
 	func test_endpoint_plannedEncounters() throws {
 		
 		// Given
-		let endpoint = DVP.CommonClinicalDataset.plannedEncounters
 		
 		// When
+		let endpoint = DVP.CommonClinicalDataset.plannedEncounters
 		
 		// Then
 		expect(endpoint.path) == "Appointment"

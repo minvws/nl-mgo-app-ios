@@ -27,24 +27,9 @@ extension DVP {
 		 */
 		
 		// Note: a separate query for Patient may not be necessary for clients or supported by servers as this data is attached in context to every other (clinical) resource.
-		// GET [base]/DocumentReference?status=[status]{&[parameters]}
+		// GET [base]/DocumentReference
 		public static let documentReference: DVP.Endpoint = DVP.Endpoint(
 			path: "DocumentReference",
-			parameters: RequestParameters(
-				[
-					(RequestParameterField.status, "current")
-				]
-			),
-			serviceId: Documents.serviceID
-		)
-		
-		public static let documentManifest: DVP.Endpoint = DVP.Endpoint(
-			path: "DocumentManifest",
-			parameters: RequestParameters(
-				[
-					(RequestParameterField.status, "current")
-				]
-			),
 			serviceId: Documents.serviceID
 		)
 	}

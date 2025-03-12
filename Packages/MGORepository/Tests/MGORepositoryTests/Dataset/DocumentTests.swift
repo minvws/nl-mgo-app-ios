@@ -14,28 +14,14 @@ final class DocumentTests: XCTestCase {
 	func test_endpoint_reference() throws {
 		
 		// Given
-		let endpoint = DVP.Documents.documentReference
 		
 		// When
+		let endpoint = DVP.Documents.documentReference
 		
 		// Then
 		expect(endpoint.path) == "DocumentReference"
 		expect(endpoint.directory) == nil
 		expect(endpoint.fhirVersion) == .r3
-		expect { try self.contains(endpoint, key: "status", value: "current") } == true
-	}
-	
-	func test_endpoint_manifest() throws {
-		
-		// Given
-		let endpoint = DVP.Documents.documentManifest
-		
-		// When
-		
-		// Then
-		expect(endpoint.path) == "DocumentManifest"
-		expect(endpoint.directory) == nil
-		expect(endpoint.fhirVersion) == .r3
-		expect { try self.contains(endpoint, key: "status", value: "current") } == true
+		expect(endpoint.parameters) == nil
 	}
 }
