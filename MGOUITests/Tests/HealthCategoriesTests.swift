@@ -10,23 +10,24 @@ import XCTest
 class HealthCategoriesTests: XCTestCase {
 	
 	@MainActor
-	func testRegularFlowToOverview() {
+	func testOverview() {
 		
 		AppRobot()
-			.launchApp(withPincode: "12345")
-			.enterConfirmationPinCode("12345")
-			.tapDigiDButton()
-			.tapMockDigiDSubmitButton()
-			.enterBasicAuthorizationIfNeeded()
-			.tapOpenButton()
-			.enterSearchFields(name: "test", place: "test")
-			.tapSearchButton()
-			.tapListElement(at: 4)
+			.startWithBGZ()
 			.verifyHeading("Overzicht")
 			.verifySubHeading()
 			.verifyCategory("Medicijnen")
 			.verifyCategory("Metingen")
 			.verifyCategory("Uitslagen")
-		
+			.verifyCategory("Allergieën")
+			.verifyCategory("Behandelingen")
+			.verifyCategory("Afspraken")
+			.verifyCategory("Vaccinaties")
+			.verifyCategory("Documenten, Geen gegevens")
+			.verifyCategory("Medische klachten")
+			.verifyCategory("Persoonlijke gegevens")
+			.verifyCategory("Mentaal welzijn")
+			.verifyCategory("Waarschuwingen")
+			.verifyCategory("Leefstijl")
 	}
 }

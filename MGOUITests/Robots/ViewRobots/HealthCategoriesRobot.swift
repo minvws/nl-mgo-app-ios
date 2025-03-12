@@ -47,7 +47,7 @@ class HealthCategoriesRobot: Robot {
 	
 	@discardableResult
 	func verifyCategory(_ category: String) -> Self {
-		XCTAssertTrue(healthCategory(category).exists)
+		XCTAssertTrue(healthCategory(category).waitForExistence(timeout: 5.0))
 		return self
 	}
 

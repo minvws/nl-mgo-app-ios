@@ -38,7 +38,7 @@ struct HealthCategoryRowView: View {
 				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
 			
 			Text(block.title)
-			.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.contentPrimary)
 			
 			Spacer()
 			

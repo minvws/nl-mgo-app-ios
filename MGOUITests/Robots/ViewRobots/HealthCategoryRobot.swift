@@ -54,8 +54,8 @@ class HealthCategoryRobot: Robot {
 	// MARK: - Interactions
 	
 	@discardableResult
-	func tapElement(_ index: Int, section: Int) -> Self {
+	func tapElement(_ index: Int, section: Int) -> HealthUISchemaRobot {
 		sectionButton("category_element_\(section)_\(index)").tap()
-		return self
+		return HealthUISchemaRobot(app)
 	}
 }

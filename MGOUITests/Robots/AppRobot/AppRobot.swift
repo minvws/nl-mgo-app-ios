@@ -37,4 +37,19 @@ class AppRobot: Robot {
 		app.launch()
 		return PincodeRobot(app)
 	}
+	
+	func startWithBGZ() -> HealthCategoriesRobot {
+		self
+			.launchApp(withPincode: "12345")
+			.enterConfirmationPinCode("12345")
+			.tapDigiDButton()
+			.tapMockDigiDSubmitButton()
+			.enterBasicAuthorizationIfNeeded()
+			.tapOpenButton()
+			.enterSearchFields(name: "test", place: "test")
+			.tapSearchButton()
+			.tapListElement(at: 4)
+		
+		return HealthCategoriesRobot(app)
+	}
 }

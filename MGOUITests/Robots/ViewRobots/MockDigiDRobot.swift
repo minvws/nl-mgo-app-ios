@@ -85,7 +85,9 @@ class MockDigiDRobot: Robot {
 			return self
 		}
 		
-		if usernameTextField.exists {
+		guard !openAppButton.exists else { return self }
+		
+		if usernameTextField.waitForExistence(timeout: 5.0) {
 			
 			usernameTextField.tap()
 			usernameTextField.typeText(authUsername)
