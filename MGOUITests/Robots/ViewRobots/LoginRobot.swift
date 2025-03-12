@@ -19,7 +19,7 @@ class LoginRobot: Robot {
 		
 		self.app = application
 		XCTAssertTrue(
-			titleLabel.waitForExistence(timeout: 5),
+			titleLabel.waitForExistence(timeout: timeOut),
 			"Expected 'LoginRobot' screen, but it didn't appear"
 		)
 	}

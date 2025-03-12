@@ -12,11 +12,14 @@ class UpdateRequiredRobot: Robot {
 	/// The app to test
 	var app: XCUIApplication
 	
-	/// Create an Introduction Robot
+	/// Create an Update Required Robot
 	/// - Parameter application: the application to test
 	init(_ application: XCUIApplication) {
 		self.app = application
-		XCTAssertTrue(titleLabel.waitForExistence(timeout: 5), "Expected 'IntroductionRobot' screen, but it didn't appear")
+		XCTAssertTrue(
+			titleLabel.waitForExistence(timeout: timeOut),
+			"Expected 'IntroductionRobot' screen, but it didn't appear"
+		)
 	}
 	
 	// MARK: - Elements

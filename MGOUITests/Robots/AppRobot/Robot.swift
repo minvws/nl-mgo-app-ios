@@ -12,3 +12,10 @@ protocol Robot {
 	/// The application to test
 	var app: XCUIApplication { get }
 }
+
+extension Robot {
+	
+	var timeOut: Double {
+		return 15
+	}
+}

@@ -16,7 +16,10 @@ class OrganizationListManualRobot: Robot {
 	/// - Parameter application: the application to test
 	init(_ application: XCUIApplication) {
 		self.app = application
-		XCTAssertTrue(titleLabel.waitForExistence(timeout: 5), "Expected 'OrganizationListManualRobot' screen, but it didn't appear")
+		XCTAssertTrue(
+			titleLabel.waitForExistence(timeout: timeOut),
+			"Expected 'OrganizationListManualRobot' screen, but it didn't appear"
+		)
 	}
 	
 	// MARK: - Elements
@@ -33,7 +36,7 @@ class OrganizationListManualRobot: Robot {
 	
 	@discardableResult
 	func verifyListElementExists(at index: Int) -> Self {
-		XCTAssertTrue(listElement(at: index).exists)
+		XCTAssertTrue(listElement(at: index).waitForExistence(timeout: timeOut))
 		return self
 	}
 

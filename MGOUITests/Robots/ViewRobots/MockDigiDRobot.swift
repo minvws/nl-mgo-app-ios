@@ -51,7 +51,7 @@ class MockDigiDRobot: Robot {
 	@discardableResult
 	func verifySafariIsOpen() -> Self {
 		XCTAssertTrue(
-			safari.wait(for: .runningForeground, timeout: 5),
+			safari.wait(for: .runningForeground, timeout: timeOut),
 			"Expected Safari screen to open, but it didn't"
 		)
 		return self
@@ -59,13 +59,13 @@ class MockDigiDRobot: Robot {
 	
 	@discardableResult
 	func verifyMockDigiDSubmitButton() -> Self {
-		XCTAssertTrue(mockDigiDSubmitButton.exists)
+		XCTAssertTrue(mockDigiDSubmitButton.waitForExistence(timeout: timeOut))
 		return self
 	}
 	
 	@discardableResult
 	func verifyOpenButton() -> Self {
-		XCTAssertTrue(openAppButton.exists)
+		XCTAssertTrue(openAppButton.waitForExistence(timeout: timeOut))
 		return self
 	}
 
@@ -87,7 +87,7 @@ class MockDigiDRobot: Robot {
 		
 		guard !openAppButton.exists else { return self }
 		
-		if usernameTextField.waitForExistence(timeout: 5.0) {
+		if usernameTextField.waitForExistence(timeout: timeOut) {
 			
 			usernameTextField.tap()
 			usernameTextField.typeText(authUsername)

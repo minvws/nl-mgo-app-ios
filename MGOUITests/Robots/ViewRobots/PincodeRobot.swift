@@ -17,7 +17,10 @@ class PincodeRobot: Robot {
 	init(_ application: XCUIApplication) {
 		
 		self.app = application
-		XCTAssertTrue(titleLabel.waitForExistence(timeout: 5), "Expected 'PincodeRobot' screen, but it didn't appear")
+		XCTAssertTrue(
+			titleLabel.waitForExistence(timeout: timeOut),
+			"Expected 'PincodeRobot' screen, but it didn't appear"
+		)
 	}
 	
 	// MARK: - Elements
