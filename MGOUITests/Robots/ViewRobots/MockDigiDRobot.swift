@@ -105,4 +105,17 @@ class MockDigiDRobot: Robot {
 		openAppButton.tap()
 		return AddOrganizationRobot(app)
 	}
+	
+	@discardableResult
+	func performDigiDLogin() -> AddOrganizationRobot {
+		self
+			.verifySafariIsOpen()
+			.verifyMockDigiDSubmitButton()
+			.tapMockDigiDSubmitButton()
+			.enterBasicAuthorizationIfNeeded()
+			.verifyOpenButton()
+			.tapOpenButton()
+		
+		return AddOrganizationRobot(app)
+	}
 }
