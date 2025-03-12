@@ -27,6 +27,17 @@ class AppRobot: Robot {
 		return IntroductionRobot(app)
 	}
 	
+	/// Launch the application
+	/// - Returns: Introduction Robot for the first scene
+	@discardableResult
+	func launchAppUpdateRequired() -> UpdateRequiredRobot {
+		app.launchArguments.append("-resetOnStart")
+		app.launchArguments.append("-disableTransitions")
+		app.launchArguments.append("-updateRequired")
+		app.launch()
+		return UpdateRequiredRobot(app)
+	}
+	
 	func launchApp(withPincode pincode: String, withRemoteAuthentication: Bool = false) -> PincodeRobot {
 		app.launchArguments.append("-resetOnStart")
 		app.launchArguments.append("-disableTransitions")
