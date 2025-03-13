@@ -214,6 +214,18 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")])
 	}
 	
+	func test_coordinatorHandle_backToAddHealthcareOrganization() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.healthcareOrganizationSearchResults(city: "wrong", name: "wrong")])
+		
+		// When
+		sut.handle(Coordination.Action.backToAddHealthcareOrganization)
+		
+		// Then
+		expect(self.sut.path.isEmpty) == true
+	}
+	
 	func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_shouldShowDashboard() {
 		
 		// Given
