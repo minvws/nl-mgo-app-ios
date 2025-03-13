@@ -27,6 +27,12 @@ public class LaunchArgumentsHandler {
 		return CommandLine.arguments.contains("-updateRequired")
 	}
 	
+	/// Do we have remote authentication?
+	public static func hasRemoteAuthentication() -> Bool {
+		
+		return CommandLine.arguments.contains("-withRemoteAuthentication")
+	}
+	
 	/// Should we use a provided pincode
 	/// - Returns: pincode
 	public static func hasPincode() -> String? {

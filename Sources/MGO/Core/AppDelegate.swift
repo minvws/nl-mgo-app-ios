@@ -64,6 +64,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		if let pincode = LaunchArgumentsHandler.hasPincode() {
 			Current.secureUserSettings.pinCode = pincode
 		}
+		if LaunchArgumentsHandler.hasRemoteAuthentication() {
+			Current.secureUserSettings.userHasRemoteAuthentication = true
+		}
 	}
 	
 	// MARK: End of life

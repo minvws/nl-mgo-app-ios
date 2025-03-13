@@ -102,9 +102,13 @@ struct PropositionView: View {
 				
 				Group {
 					PrivacyShieldView("proposition.statement_1", shieldType: .encrypted)
+						.accessibilityIdentifier("proposition.statement_1")
 					PrivacyShieldView("proposition.statement_2", shieldType: .safety)
+						.accessibilityIdentifier("proposition.statement_2")
 					PrivacyShieldView("proposition.statement_3", shieldType: .checked)
+						.accessibilityIdentifier("proposition.statement_3")
 					PrivacyShieldView("proposition.statement_4", shieldType: .cross)
+						.accessibilityIdentifier("proposition.statement_4")
 				}
 				.padding(.bottom, ViewTraits.Items.bottom)
 				

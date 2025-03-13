@@ -478,7 +478,7 @@ struct HealthCategoryView: View {
 			} else {
 				VStack(alignment: .leading, spacing: ViewTraits.List.spacing, content: {
 					
-					ForEach(list) { subCategory in
+					ForEach(Array(list.enumerated()), id: \.offset) { subCategoryIndex, subCategory in
 					
 						if subCategory.items.isNotEmpty {
 							if list.count != 1 {
@@ -497,6 +497,7 @@ struct HealthCategoryView: View {
 											format: String(localized: "medication_overview.voiceover"),
 											arguments: ["\(element.heading ?? "")", "\(element.subHeading ?? "")"]
 										))
+										.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
 										.accessibilityAddTraits(.isButton)
 									
 									ActionCardView(
@@ -506,7 +507,6 @@ struct HealthCategoryView: View {
 									)
 									.cornerRadius(ViewTraits.List.cornerRadius)
 								}
-								.accessibilityIdentifier("block_\(index)")
 								.onTapGesture {
 									element.action?()
 								}

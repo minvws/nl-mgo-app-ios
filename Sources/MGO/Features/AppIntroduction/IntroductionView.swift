@@ -108,6 +108,7 @@ struct IntroductionView: View {
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.padding(ViewTraits.Text.insets)
 						.fixedSize(horizontal: false, vertical: true)
+						.accessibilityIdentifier("introduction.subheading")
 				}
 				
 				Spacer()

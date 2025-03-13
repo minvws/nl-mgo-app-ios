@@ -5,12 +5,15 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-// System
-@_exported import XCTest
+import XCTest
 
-// External
-@_exported import OHHTTPStubs
-@_exported import OHHTTPStubsSwift
-@_exported import Nimble
-@_exported import SnapshotTesting
-@_exported import ViewInspector
+class LoginTests: XCTestCase {
+	
+	@MainActor
+	func testLoginScreen() {
+		AppRobot()
+			.launchApp(withPincode: "12345")
+			.enterConfirmationPinCode("12345")
+			.verifySubHeadingExists()
+	}
+}

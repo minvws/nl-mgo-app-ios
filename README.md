@@ -107,6 +107,10 @@ In order to facilitate CI and reproducible builds, this codebase can be built us
 
 Transforming the FHIR data into Zorg Informatie Bouwstenen is handled by a [shared JavaScript Core](https://github.com/minvws/nl-mgo-app-web-private/actions/workflows/package-fhir-data.yml). A verion of that core is included in the app. If you want to build a new version of the shared core for the app, you need to install [quicktype](https://github.com/glideapps/quicktype) `npm install -g quicktype` and run `make import_sharedcore`. You'll need a [private GitHub API key](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/managing-private-keys-for-github-apps) for this to work. 
 
+### End 2 End Tests
+
+See [End 2 End Tests](./MGOUITests/E2E.md) for more information about the end to end tests. 
+
 ---
 
 ## Release Procedure
@@ -117,7 +121,7 @@ We release test, acceptance and production-like builds internally to Firebase Ap
 
 You can also manually trigger this release process manually, by running the [Deploy: Firebase (manual)](.github/workflows/deploy-firebase-manual.yml) github action and providing a branch name.
 
-Once it is time to start the release train, create a release branch with the format `release/release-4.7.0`, and then increment the `MARKETING_VERSION` for the app in [project.yml](project.yml). Pushing to this branch will trigger the appropriate Firebase builds.
+Once it is time to start the release train, create a release branch with the format `release/release-4.7.0`, and then increment the `MARKETING_VERSION` for the app in [project.yml](./project.yml). Pushing to this branch will trigger the appropriate Firebase builds.
 
 Once the team is satisfied with the quality of the builds on Firebase, a production build can be sent to TestFlight. A release to TestFlight is kicked off by *tagging* a commit using this format:
 

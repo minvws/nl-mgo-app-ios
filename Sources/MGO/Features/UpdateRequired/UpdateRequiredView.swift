@@ -97,6 +97,7 @@ struct UpdateRequiredView: View {
 				SplittedText(key: "update_required.subheading", spacing: ViewTraits.Text.spacing)
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.padding(ViewTraits.Text.insets)
+					.accessibilityIdentifier("update_required.subheading")
 				
 				Spacer()
 			}
