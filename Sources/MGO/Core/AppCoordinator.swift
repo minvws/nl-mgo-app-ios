@@ -433,6 +433,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			}
 			return true
 		}
+		if action.identifier == Coordination.Action.backToAddHealthcareOrganization.identifier {
+			path.removeLast()
+			return true
+		}
+		
 		return false
 	}
 	

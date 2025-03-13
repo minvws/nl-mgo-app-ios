@@ -154,10 +154,6 @@ struct HealthDataView: View {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
-				Text(viewModel.state.schema.label)
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-				
 				HealthUISchemaView(
 					schema: viewModel.state.schema,
 					healthcareOrganization: viewModel.healthcareOrganization,
@@ -179,7 +175,7 @@ struct HealthDataView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
-		.navigationBarTitleDisplayMode(.inline)
+		.navigationTitle(viewModel.state.schema.label)
 		.layoutForIPad()
 	}
 }
