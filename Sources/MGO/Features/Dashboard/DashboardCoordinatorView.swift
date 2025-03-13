@@ -105,7 +105,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 		
 		let tabBarAppearance = commonTabBarAppearance()
 		tabBarAppearance.shadowColor = UIColor(theme.symbolPrimary)
-		tabBarAppearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+		tabBarAppearance.backgroundEffect = UIBlurEffect(style: .systemThinMaterial)
 		UITabBar.appearance().standardAppearance = tabBarAppearance
 	}
 	
