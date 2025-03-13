@@ -41,6 +41,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 				size: Font.TextStyle.title.pointSize
 			) as Any
 		]
+		
+		// Make the titles fit.
+		UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
+		UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).minimumScaleFactor = 0.5
 	}
 	
 	private func checkLaunchArguments() {
