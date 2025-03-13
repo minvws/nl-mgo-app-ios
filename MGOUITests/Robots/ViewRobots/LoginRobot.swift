@@ -49,7 +49,7 @@ class LoginRobot: Robot {
 	// MARK: - Interactions
 	
 	@discardableResult
-	func tapDigiDButton() -> MockDigiDRobot {
+	func tapLoginWithDigiDButton() -> MockDigiDRobot {
 		digidButton.tap()
 		return MockDigiDRobot(app)
 	}

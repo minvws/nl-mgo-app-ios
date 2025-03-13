@@ -38,6 +38,11 @@ class AppRobot: Robot {
 		return UpdateRequiredRobot(app)
 	}
 	
+	/// Launch the app as a repeat visitor
+	/// - Parameters:
+	///   - pincode: the pincode to substitute
+	///   - withRemoteAuthentication: True if the remoteAuthentication should be set
+	/// - Returns: Pincode Robot for pincode validation
 	func launchApp(withPincode pincode: String, withRemoteAuthentication: Bool = false) -> PincodeRobot {
 		app.launchArguments.append("-resetOnStart")
 		app.launchArguments.append("-disableTransitions")
@@ -49,12 +54,14 @@ class AppRobot: Robot {
 		return PincodeRobot(app)
 	}
 	
-	func startWithBGZ() -> HealthCategoriesRobot {
+	/// Launch the app with a BGZ Healthcare organization
+	/// - Returns: Health Categories Robot for the overview
+	func navigateToOverviewWithBGZ() -> HealthCategoriesRobot {
 		self
 			.launchApp(withPincode: "12345")
 			.enterConfirmationPinCode("12345")
-			.tapDigiDButton()
-			.performDigiDLogin()
+			.tapLoginWithDigiDButton()
+			.performCompleteDigiDLogin()
 			.enterSearchFields(name: "test", place: "test")
 			.tapSearchButton()
 			.tapListElement(at: 4)

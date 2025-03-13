@@ -15,10 +15,11 @@ class AddSearchOrganizationTests: XCTestCase {
 		AppRobot()
 			.launchApp(withPincode: "12345")
 			.enterConfirmationPinCode("12345")
-			.tapDigiDButton()
-			.performDigiDLogin()
+			.tapLoginWithDigiDButton()
+			.performCompleteDigiDLogin()
 			.verifyNameFieldExists()
 			.verifyCityFieldExists()
 			.enterSearchFields(name: "test", place: "test")
+			.verifySearchButtonExists()
 	}
 }

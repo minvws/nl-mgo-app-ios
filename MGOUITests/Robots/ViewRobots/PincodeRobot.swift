@@ -46,7 +46,7 @@ class PincodeRobot: Robot {
 	}
 	
 	@discardableResult
-	func verifyErrorText(_ error: String) -> Self {
+	func verifyErrorTextExists(_ error: String) -> Self {
 		XCTAssertTrue(errorText(error).exists)
 		return self
 	}

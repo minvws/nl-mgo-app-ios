@@ -34,19 +34,19 @@ class HealthCategoryRobot: Robot {
 	// MARK: - Validations
 	
 	@discardableResult
-	func verifyHeading(_ heading: String) -> Self {
+	func verifyHeadingExists(_ heading: String) -> Self {
 		XCTAssertTrue(headingLabel(heading).exists)
 		return self
 	}
 	
 	@discardableResult
-	func verifySection(_ section: String) -> Self {
+	func verifySectionExists(_ section: String) -> Self {
 		XCTAssertTrue(sectionLabel(section).exists)
 		return self
 	}
 	
 	@discardableResult
-	func verifyButton(_ index: Int, section: Int) -> Self {
+	func verifySectionButtonExists(_ index: Int, section: Int) -> Self {
 		XCTAssertTrue(sectionButton("category_element_\(section)_\(index)").exists)
 		return self
 	}
@@ -54,7 +54,7 @@ class HealthCategoryRobot: Robot {
 	// MARK: - Interactions
 	
 	@discardableResult
-	func tapElement(_ index: Int, section: Int) -> HealthUISchemaRobot {
+	func tapSectionRow(_ index: Int, section: Int) -> HealthUISchemaRobot {
 		sectionButton("category_element_\(section)_\(index)").tap()
 		return HealthUISchemaRobot(app)
 	}

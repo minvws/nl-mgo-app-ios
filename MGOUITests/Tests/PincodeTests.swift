@@ -17,7 +17,7 @@ class PincodeTests: XCTestCase {
 			.tapNextButton()
 			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig. Gebruik geen simpele codes zoals 00000 of 12345.")
 			.enterPinCode("11111")
-			.verifyErrorText("Deze code is te simpel en dus onveilig")
+			.verifyErrorTextExists("Deze code is te simpel en dus onveilig")
 	}
 	
 	@MainActor
@@ -30,7 +30,7 @@ class PincodeTests: XCTestCase {
 			.enterPinCode("12369")
 			.verifySubHeadingExists("Vul je toegangscode in om door te gaan")
 			.enterPinCode("11111")
-			.verifyErrorText("Deze code is anders dan de vorige")
+			.verifyErrorTextExists("Deze code is anders dan de vorige")
 	}
 	
 	@MainActor

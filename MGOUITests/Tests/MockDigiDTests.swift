@@ -15,11 +15,11 @@ class MockDigiDTests: XCTestCase {
 		AppRobot()
 			.launchApp(withPincode: "12345")
 			.enterConfirmationPinCode("12345")
-			.tapDigiDButton()
+			.tapLoginWithDigiDButton()
 			.verifySafariIsOpen()
-			.verifyMockDigiDSubmitButton()
+			.verifyMockDigiDSubmitButtonExists()
 			.tapMockDigiDSubmitButton()
 			.enterBasicAuthorizationIfNeeded()
-			.verifyOpenButton()
+			.verifyOpenButtonExists()
 	}
 }

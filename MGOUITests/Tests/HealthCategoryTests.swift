@@ -13,15 +13,15 @@ class HealthCategoryTests: XCTestCase {
 	func testMedicationCategory() {
 		
 		AppRobot()
-			.startWithBGZ()
-			.tapCategory("Medicijnen")
-			.verifyHeading("Medicijnen")
-			.verifySection("Medicijnen die je gebruikt")
-			.verifyButton(0, section: 0)
-			.verifySection("Afspraken over je medicijnen")
-			.verifyButton(0, section: 1)
-			.verifySection("Hoe je je medicijnen krijgt")
-			.verifyButton(0, section: 2)
-			.tapElement(0, section: 0)
+			.navigateToOverviewWithBGZ()
+			.tapHealthCategory("Medicijnen")
+			.verifyHeadingExists("Medicijnen")
+			.verifySectionExists("Medicijnen die je gebruikt")
+			.verifySectionButtonExists(0, section: 0)
+			.verifySectionExists("Afspraken over je medicijnen")
+			.verifySectionButtonExists(0, section: 1)
+			.verifySectionExists("Hoe je je medicijnen krijgt")
+			.verifySectionButtonExists(0, section: 2)
+			.tapSectionRow(0, section: 0)
 	}
 }

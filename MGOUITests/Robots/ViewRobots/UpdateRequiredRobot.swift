@@ -45,7 +45,7 @@ class UpdateRequiredRobot: Robot {
 	}
 	
 	@discardableResult
-	func verifyUpdateButton() -> Self {
+	func verifyUpdateButtonExists() -> Self {
 		XCTAssertTrue(updateButton.exists)
 		return self
 	}

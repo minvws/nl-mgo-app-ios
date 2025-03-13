@@ -31,47 +31,47 @@ class HealthUISchemaRobot: Robot {
 		app.buttons[identifier]
 	}
 	
-	private func detailButton(_ identifier: String) -> XCUIElement {
+	private func detailsButton(_ identifier: String) -> XCUIElement {
 		app.buttons[identifier]
 	}
 	
 	// MARK: - Validations
 	
 	@discardableResult
-	func verifyHeading(_ heading: String) -> Self {
+	func verifyHeadingExists(_ heading: String) -> Self {
 		XCTAssertTrue(headingLabel(heading).exists)
 		return self
 	}
 	
 	@discardableResult
-	func verifySectionRow(_ heading: String, value: String) -> Self {
+	func verifySectionRowExists(_ heading: String, value: String) -> Self {
 		XCTAssertTrue(row("\(heading), \(value)").exists)
 		return self
 	}
 	
 	@discardableResult
-	func verifyReferenceButton(_ heading: String, value: String) -> Self {
+	func verifyReferenceButtonExists(_ heading: String, value: String) -> Self {
 		XCTAssertTrue(referenceButton("\(heading), \(value)").exists)
 		return self
 	}
 	
 	@discardableResult
-	func verifySectionHeader(_ heading: String) -> Self {
+	func verifySectionHeaderExists(_ heading: String) -> Self {
 		XCTAssertTrue(headingLabel(heading).exists)
 		return self
 	}
 	
 	@discardableResult
 	func verifyDetailButton(_ heading: String) -> Self {
-		XCTAssertTrue(detailButton(heading).exists)
+		XCTAssertTrue(detailsButton(heading).exists)
 		return self
 	}
 
 	// MARK: - Interactions
 	
 	@discardableResult
-	func tapDetailButton(_ heading: String) -> Self {
-		detailButton(heading).tap()
+	func tapNavigatoToDetailsButton(_ heading: String) -> Self {
+		detailsButton(heading).tap()
 		return self
 	}
 }

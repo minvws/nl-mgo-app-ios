@@ -53,6 +53,12 @@ class AddOrganizationRobot: Robot {
 		XCTAssertTrue(cityField.exists)
 		return self
 	}
+	
+	@discardableResult
+	func verifySearchButtonExists() -> Self {
+		XCTAssertTrue(searchButton.exists)
+		return self
+	}
 
 	// MARK: - Interactions
 	

@@ -58,13 +58,13 @@ class MockDigiDRobot: Robot {
 	}
 	
 	@discardableResult
-	func verifyMockDigiDSubmitButton() -> Self {
+	func verifyMockDigiDSubmitButtonExists() -> Self {
 		XCTAssertTrue(mockDigiDSubmitButton.waitForExistence(timeout: timeOut))
 		return self
 	}
 	
 	@discardableResult
-	func verifyOpenButton() -> Self {
+	func verifyOpenButtonExists() -> Self {
 		XCTAssertTrue(openAppButton.waitForExistence(timeout: timeOut))
 		return self
 	}
@@ -107,13 +107,13 @@ class MockDigiDRobot: Robot {
 	}
 	
 	@discardableResult
-	func performDigiDLogin() -> AddOrganizationRobot {
+	func performCompleteDigiDLogin() -> AddOrganizationRobot {
 		self
 			.verifySafariIsOpen()
-			.verifyMockDigiDSubmitButton()
+			.verifyMockDigiDSubmitButtonExists()
 			.tapMockDigiDSubmitButton()
 			.enterBasicAuthorizationIfNeeded()
-			.verifyOpenButton()
+			.verifyOpenButtonExists()
 			.tapOpenButton()
 		
 		return AddOrganizationRobot(app)

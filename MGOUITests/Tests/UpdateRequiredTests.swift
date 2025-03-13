@@ -14,6 +14,6 @@ class UpdateRequiredTests: XCTestCase {
 		AppRobot()
 			.launchAppUpdateRequired()
 			.verifySubHeadingExists()
-			.verifyUpdateButton()
+			.verifyUpdateButtonExists()
 	}
 }
