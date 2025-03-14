@@ -21,7 +21,7 @@ final class LabResultsHealthCategoryViewTests: XCTestCase {
 	private let item = HealthSubCategory(
 		heading: "heading subcategory",
 		items: [
-			HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
+			HealthCategoryRow(heading: "heading", subHeading: "healthcare organization", action: nil)
 		]
 	)
 
