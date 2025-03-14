@@ -102,6 +102,8 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .all: true
 		}
 		
+		// The categories could be divided into several boxes, currently 1 box for enabled categories. 
+		// Disabled box 1 means same box as the enabled categories
 		let disabledForDemoBox: Int = Current.featureFlagManager.isDemo ? 2 : 1
 		
 		self.state = HealthCategoriesViewState(
