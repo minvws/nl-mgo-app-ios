@@ -212,7 +212,7 @@ class HealthCategoryViewModel: ObservableObject {
 		}
 	}
 	
-	private func handleDataStoreChanges() {
+	func handleDataStoreChanges() {
 		let expectedNumberOfResults: Int = {
 			if organization == nil {
 				var result = 0

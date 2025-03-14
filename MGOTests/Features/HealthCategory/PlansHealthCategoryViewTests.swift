@@ -20,7 +20,7 @@ final class PlansHealthCategoryViewTests: XCTestCase {
 	
 	private let item = HealthSubCategory(
 		heading: "heading subcategory",
-		items: [
+		rows: [
 			HealthCategoryRow(heading: "heading", subHeading: "healthcare organization", action: nil)
 		]
 	)
