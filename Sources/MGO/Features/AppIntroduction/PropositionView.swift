@@ -61,6 +61,8 @@ struct PropositionView: View {
 		}
 	}
 	
+	private let privacyLink = "/privacystatement"
+	
 	var body: some View {
 		
 		ScrollViewWithFixedBottom {
@@ -89,7 +91,7 @@ struct PropositionView: View {
 				.accessibilityIdentifier("proposition.subheading")
 				.onTapGesture {
 					// Only called in VoiceOVer on iOS 15/16
-					if let url = URL(string: "/privacystatement") {
+					if let url = URL(string: privacyLink) {
 						_ = handleURL(url)
 					}
 				}
@@ -132,8 +134,8 @@ struct PropositionView: View {
 		.layoutForIPad()
 	}
 	
-	func handleURL(_ url: URL) -> OpenURLAction.Result {
-		guard url.absoluteString.lowercased() == "/privacystatement" else {
+	private func handleURL(_ url: URL) -> OpenURLAction.Result {
+		guard url.absoluteString.lowercased() == privacyLink else {
 			return .discarded
 		}
 		viewModel.reduce(.privacyLinkClicked)
