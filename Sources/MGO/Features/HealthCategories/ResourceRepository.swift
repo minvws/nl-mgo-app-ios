@@ -169,7 +169,6 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		for service in category.services {
 			
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: service.serviceId) else {
-//			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: service.serviceId)?.replacingOccurrences(of: "dva-mock.test.mgo.prolocation.net", with: "mock") else {
 				continue
 			}
 			
