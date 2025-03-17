@@ -262,28 +262,46 @@ class HealthCategoriesViewModel: ObservableObject {
 		
 		switch cacheResult {
 			case let .success(records):
-			
-				// Success, there was some records for this category
-				if records.count >= expectedNumberOfResults {
-					// There are records for all organizations. Let's check if any of them has data
-					var found = false
-					for record in records where record.resources.isNotEmpty {
-						found = true
-					}
-					state.updateCategoryState(id: button.id, state: found ? .loaded : .empty)
-				} else {
-					// We don't have data for all organizations. Keep loading
-					state.updateCategoryState(id: button.id, state: .loading)
-				}
+				handleCacheHit(button, records: records, expectedNumberOfResults: expectedNumberOfResults)
 			case let .failure(error):
-				// No records available. Keep in loading state.
-				guard case DataStoreError.noData = error else {
-					logError("Error", error)
-					state.updateCategoryState(id: button.id, state: .empty)
-					return
-				}
-				state.updateCategoryState(id: button.id, state: .loading)
+				handleCacheMiss(button, error: error)
 		}
+	}
+	
+	/// Handle the success path of the cache
+	/// - Parameters:
+	///   - button: the category button
+	///   - records: the records for the category
+	///   - expectedNumberOfResults: the expected number of results
+	private func handleCacheHit(_ button: CategoryButton, records: [MgoResourceRecord], expectedNumberOfResults: Int) {
+		
+		// Success, there was some records for this category
+		if records.count >= expectedNumberOfResults {
+			// There are records for all organizations. Let's check if any of them has data
+			var found = false
+			for record in records where record.resources.isNotEmpty {
+				found = true
+			}
+			state.updateCategoryState(id: button.id, state: found ? .loaded : .empty)
+		} else {
+			// We don't have data for all organizations. Keep loading
+			state.updateCategoryState(id: button.id, state: .loading)
+		}
+	}
+	
+	/// handle the failure path of the cache
+	/// - Parameters:
+	///   - button: the category button
+	///   - error: the error
+	private func handleCacheMiss(_ button: CategoryButton, error: Error) {
+		
+		// No records available. Keep in loading state.
+		guard case DataStoreError.noData = error else {
+			logError("Error", error)
+			state.updateCategoryState(id: button.id, state: .empty)
+			return
+		}
+		state.updateCategoryState(id: button.id, state: .loading)
 	}
 }
 

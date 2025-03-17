@@ -357,23 +357,7 @@ class PinCodeViewModel: ObservableObject {
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
 			if validated {
-				logInfo("Pincode: User has been successfully validated")
-				// Fill the boxes to display success
-				accessCode = ["0", "0", "0", "0", "0"]
-				// Navigate to the next scene after a short delay to let the faceID/touchID animation complete.
-				delay(0.8) {
-					switch self.mode {
-						case .creation, .confirmation:
-							break
-		
-						case .validation(let lockOut):
-							if lockOut {
-								self.coordinator?.handle(Coordination.Action.pinCodeValidatedAfterLockout)
-							} else {
-								self.coordinator?.handle(Coordination.Action.pinCodeValidated)
-							}
-					}
-				}
+				handleSuccessfulValidation()
 			} else {
 				logInfo("PinCode: User has unsuccessfully tried to validate")
 				setErrorState()
@@ -398,6 +382,27 @@ class PinCodeViewModel: ObservableObject {
 			
 		} catch {
 			logError("error: \(error)")
+		}
+	}
+	
+	private func handleSuccessfulValidation() {
+		
+		logInfo("Pincode: User has been successfully validated")
+		// Fill the boxes to display success
+		accessCode = ["0", "0", "0", "0", "0"]
+		// Navigate to the next scene after a short delay to let the faceID/touchID animation complete.
+		delay(0.8) {
+			switch self.mode {
+				case .creation, .confirmation:
+					break
+
+				case .validation(let lockOut):
+					if lockOut {
+						self.coordinator?.handle(Coordination.Action.pinCodeValidatedAfterLockout)
+					} else {
+						self.coordinator?.handle(Coordination.Action.pinCodeValidated)
+					}
+			}
 		}
 	}
 }
