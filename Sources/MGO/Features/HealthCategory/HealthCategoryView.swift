@@ -216,8 +216,8 @@ class HealthCategoryViewModel: ObservableObject {
 		let expectedNumberOfResults: Int = {
 			if organization == nil {
 				var result = 0
-				for organization in Current.healthcareOrganizationStore.organizations {
-					result += organization.servicesForCategory(category)
+				for organizationItem in Current.healthcareOrganizationStore.organizations {
+					result += organizationItem.servicesForCategory(category)
 				}
 				return result
 			} else {
