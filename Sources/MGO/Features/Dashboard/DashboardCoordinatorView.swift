@@ -22,6 +22,9 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 	// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Color scheme (light, dark)
+	@Environment(\.colorScheme) var colorScheme
+	
 	var body: some View {
 		
 		TabView(selection: $coordinator.selectedTab) {
@@ -97,14 +100,17 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				}
 			}
 		)
-		
 	}
 	
 	/// Style the tab bar
 	private func styleStandardAppearance() {
 		
 		let tabBarAppearance = commonTabBarAppearance()
-		tabBarAppearance.shadowColor = UIColor(theme.symbolPrimary)
+		if colorScheme == .light {
+			tabBarAppearance.shadowColor = UIColor(Color.black.opacity(0.15))
+		} else {
+			tabBarAppearance.shadowColor = UIColor(Color.white.opacity(0.15))
+		}
 		tabBarAppearance.backgroundEffect = UIBlurEffect(style: .systemThinMaterial)
 		UITabBar.appearance().standardAppearance = tabBarAppearance
 	}
