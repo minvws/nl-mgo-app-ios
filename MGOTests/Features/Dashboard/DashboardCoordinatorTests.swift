@@ -308,7 +308,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.sut.firstTabPath) == NavigationStackBackport.NavigationPath()
 	}
 	
-	func test_switchTab_to1_shouldResetOtherTabs() {
+	func test_switchTab_to1_shouldNotResetOtherTabs() {
 		
 		// Given
 		sut.firstTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
@@ -318,10 +318,10 @@ final class DashboardCoordinatorTests: XCTestCase {
 		sut.selectedTab = 1
 		
 		// Then
-		expect(self.sut.firstTabPath.count) == 0
+		expect(self.sut.firstTabPath.count) == 1
 	}
 	
-	func test_switchTab_to2_shouldResetOtherTabs() {
+	func test_switchTab_to2_shouldNotResetOtherTabs() {
 		
 		// Given
 		sut.firstTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
@@ -333,11 +333,11 @@ final class DashboardCoordinatorTests: XCTestCase {
 		sut.selectedTab = 2
 		
 		// Then
-		expect(self.sut.firstTabPath.count) == 0
-		expect(self.sut.secondTabPath.count) == 0
+		expect(self.sut.firstTabPath.count) == 1
+		expect(self.sut.secondTabPath.count) == 1
 	}
 	
-	func test_switchTab_to0_shouldResetOtherTabs() {
+	func test_switchTab_to0_shouldNotResetOtherTabs() {
 		
 		// Given
 		sut.firstTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
@@ -350,6 +350,6 @@ final class DashboardCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.firstTabPath.count) == 1
-		expect(self.sut.secondTabPath.count) == 0
+		expect(self.sut.secondTabPath.count) == 1
 	}
 }

@@ -76,9 +76,7 @@ struct InputField: View {
 				.overlay(
 					RoundedRectangle(cornerRadius: ViewTraits.Input.cornerRadius)
 						.inset(by: ViewTraits.Input.inset)
-						.stroke(
-							showError ? theme.sentimentCritical : isFieldFocused ? theme.interactionTertiaryDefaultText : theme.borderPrimary,
-							lineWidth: isFieldFocused ? 2 : showError ? 2 : 0)
+						.stroke(getBorderColor(), lineWidth: isFieldFocused || showError ? 2 : 0)
 				)
 				.overlay(alignment: .trailing) {
 					Button(
@@ -113,6 +111,14 @@ struct InputField: View {
 				.accessibilityElement(children: .combine)
 			}
 		}
+	}
+	
+	private func getBorderColor() -> Color {
+		
+		guard !showError else {
+			return theme.sentimentCritical
+		}
+		return isFieldFocused ? theme.interactionPrimaryDefaultText : theme.borderPrimary
 	}
 }
 

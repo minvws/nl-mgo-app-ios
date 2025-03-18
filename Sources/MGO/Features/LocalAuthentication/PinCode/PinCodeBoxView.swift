@@ -60,10 +60,10 @@ struct PinCodeBoxView: View {
 	
 	/// The color of the border for the various states
 	var borderColor: Color {
-		switch state {
-			case .error: theme.sentimentCritical
-			default:
-				theme.interactionPrimaryDefaultBackground
+		if state == .error {
+			return theme.sentimentCritical
+		} else {
+			return theme.interactionPrimaryDefaultBackground
 		}
 	}
 	

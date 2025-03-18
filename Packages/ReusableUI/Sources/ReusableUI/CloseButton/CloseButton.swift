@@ -5,14 +5,13 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
-import MGOFoundation
+import SwiftUI
 
 /// A simple close button consisting of a cross icon
-struct CloseButton: View {
+public struct CloseButton: View {
 	
 	/// The action to execute when the user presses the button
-	var action: (() -> Void)?
+	private var action: (() -> Void)?
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -21,13 +20,13 @@ struct CloseButton: View {
 		}
 	}
 	
-	/// Initializer
+	/// Create a close button
 	/// - Parameter action: Optional closure to be executed when the user presses the button
-	init(_ action: (() -> Void)?) {
+	public init(_ action: (() -> Void)?) {
 		self.action = action
 	}
 	
-	var body: some View {
+	public var body: some View {
 		
 		Button {
 			action?()

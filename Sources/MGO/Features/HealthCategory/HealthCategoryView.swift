@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -7,17 +7,16 @@
 
 import MGOFoundation
 import MGOUI
-import JavaScriptCore
 
 /// A small struct for each category result
-struct HealthCategoryBlock: Equatable, Identifiable {
+struct HealthCategoryRow: Equatable, Identifiable {
 	
 	/// Equality
 	/// - Parameters:
 	///   - lhs: the left hand block
 	///   - rhs: the right hand block
 	/// - Returns: True is both blocks are equal
-	static func == (lhs: HealthCategoryBlock, rhs: HealthCategoryBlock) -> Bool {
+	static func == (lhs: HealthCategoryRow, rhs: HealthCategoryRow) -> Bool {
 		return lhs.heading == rhs.heading &&
 		lhs.subHeading == rhs.subHeading &&
 		lhs.id == rhs.id
@@ -44,8 +43,8 @@ struct HealthSubCategory: Equatable, Identifiable {
 	/// The heading for a sub category
 	let heading: String
 	
-	/// The health category block items
-	var items: [HealthCategoryBlock]
+	/// The health category rows
+	var rows: [HealthCategoryRow]
 }
 
 /// The state of the view
@@ -192,7 +191,7 @@ class HealthCategoryViewModel: ObservableObject {
 		}
 	}
 	
-	func retry() {
+	private func retry() {
 		
 		state = .loading
 		Current.dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
@@ -217,8 +216,8 @@ class HealthCategoryViewModel: ObservableObject {
 		let expectedNumberOfResults: Int = {
 			if organization == nil {
 				var result = 0
-				for organization in Current.healthcareOrganizationStore.organizations {
-					result += organization.servicesForCategory(category)
+				for organizationItem in Current.healthcareOrganizationStore.organizations {
+					result += organizationItem.servicesForCategory(category)
 				}
 				return result
 			} else {
@@ -231,7 +230,7 @@ class HealthCategoryViewModel: ObservableObject {
 	}
 	
 	@MainActor
-	func loadResources(threshold: Int = 0) async {
+	private func loadResources(threshold: Int = 0) async {
 		
 		let cacheResult: Result<[MgoResourceRecord], Error> = {
 			if let organization {
@@ -249,12 +248,12 @@ class HealthCategoryViewModel: ObservableObject {
 					return
 				}
 				
-				let (partial, items) = sortRecords(records: records)
+				let sorted = sortRecords(records: records)
 
-				if partial {
-					state = .partial(items: items)
+				if sorted.partial {
+					state = .partial(items: sorted.subCategories)
 				} else {
-					state = .list(items: items)
+					state = .list(items: sorted.subCategories)
 				}
 			case .failure:
 				state = .list(items: [])
@@ -264,7 +263,7 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Sort the records on subcategory
 	/// - Parameter records: the records to sort
 	/// - Returns: sorted sub categories
-	private func sortRecords(records: [MgoResourceRecord]) -> (Bool, [HealthSubCategory]) {
+	private func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthSubCategory]) {
 		
 		var items = [HealthSubCategory]()
 		var partial = false
@@ -272,9 +271,9 @@ class HealthCategoryViewModel: ObservableObject {
 		// Create list of subcategories
 		for profile in category.acceptedProfiles {
 			if let heading = category.subCategory(profile) {
-				var subCat = HealthSubCategory(heading: String(localized: heading), items: [])
+				var subCat = HealthSubCategory(heading: String(localized: heading), rows: [])
 				for record in records {
-					subCat.items.append(contentsOf: parseRecord(record, acceptedProfile: profile))
+					subCat.rows.append(contentsOf: parseRecord(record, acceptedProfile: profile))
 					partial = partial || record.error
 				}
 				// There might be another subcategory with the same heading.
@@ -282,11 +281,11 @@ class HealthCategoryViewModel: ObservableObject {
 				var existingSubCategory = false
 				items.enumerated().forEach { index, item in
 					if item.heading == subCat.heading {
-						items[index].items.append(contentsOf: subCat.items)
+						items[index].rows.append(contentsOf: subCat.rows)
 						existingSubCategory = true
 					}
 				}
-				if !existingSubCategory && subCat.items.isNotEmpty {
+				if !existingSubCategory && subCat.rows.isNotEmpty {
 					items.append(subCat)
 				}
 			}
@@ -295,19 +294,19 @@ class HealthCategoryViewModel: ObservableObject {
 		return (partial, items)
 	}
 	
-	/// Extract items from the data store records
+	/// Extract rows from the data store records
 	/// - Parameter record: the record
-	/// - Returns: displayable items
-	private func parseRecord(_ record: MgoResourceRecord, acceptedProfile: String) -> [HealthCategoryBlock] {
+	/// - Returns: displayable rows
+	private func parseRecord(_ record: MgoResourceRecord, acceptedProfile: String) -> [HealthCategoryRow] {
 		
-		var items = [HealthCategoryBlock]()
+		var items = [HealthCategoryRow]()
 		// For all the MgoResources
 		for resource in record.resources where resource.hasProfile(acceptedProfile) {
 			
 			if let uiSchema = parser.getSummary(resource) {
 				// Add a HealthCategoryBlock to the display list
 				items.append(
-					HealthCategoryBlock(
+					HealthCategoryRow(
 						heading: Sanitizer.strip(uiSchema.label),
 						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) { [weak self] in
 							
@@ -456,12 +455,12 @@ struct HealthCategoryView: View {
 		
 		var result = [HealthSubCategory]()
 		for sub in list {
-			let filteredItems = sub.items.filter {
+			let filteredItems = sub.rows.filter {
 				($0.heading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
 				$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
 			}
 			if filteredItems.isNotEmpty {
-				result.append(HealthSubCategory(heading: sub.heading, items: filteredItems))
+				result.append(HealthSubCategory(heading: sub.heading, rows: filteredItems))
 			}
 		}
 		return result
@@ -480,7 +479,7 @@ struct HealthCategoryView: View {
 					
 					ForEach(Array(list.enumerated()), id: \.offset) { subCategoryIndex, subCategory in
 					
-						if subCategory.items.isNotEmpty {
+						if subCategory.rows.isNotEmpty {
 							if list.count != 1 {
 								Text(subCategory.heading)
 									.rijksoverheidStyle(font: .regular, style: .body)
@@ -488,7 +487,7 @@ struct HealthCategoryView: View {
 									.padding(.top, ViewTraits.List.top)
 							}
 							
-							ForEach(Array(subCategory.items.enumerated()), id: \.offset) { index, element in
+							ForEach(Array(subCategory.rows.enumerated()), id: \.offset) { index, element in
 								
 								ZStack {
 									Rectangle()

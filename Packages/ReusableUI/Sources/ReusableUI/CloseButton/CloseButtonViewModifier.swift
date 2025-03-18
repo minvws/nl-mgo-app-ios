@@ -5,12 +5,12 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
+import SwiftUI
 
 public struct CloseButtonViewModifier: ViewModifier {
 	
 	/// The action to perform when the users taps on the close button
-	var action: () -> Void
+	public var action: () -> Void
 	
 	/// Create a Close Button in a toolbar
 	/// - Parameter content: the view to add the close button to

@@ -19,8 +19,8 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 
 	private let item = HealthSubCategory(
 		heading: "heading subcategory",
-		items: [
-			HealthCategoryBlock(heading: "heading", subHeading: "healthcare organization", action: nil)
+		rows: [
+			HealthCategoryRow(heading: "heading", subHeading: "healthcare organization", action: nil)
 		]
 	)
 	

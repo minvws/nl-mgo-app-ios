@@ -219,9 +219,6 @@ struct OrganizationListManualView: View {
 		enum Image {
 			static let spacing: CGFloat = 8
 		}
-		enum Navigation {
-			static let padding: CGFloat = 8
-		}
 		enum List {
 			static let spacing: CGFloat = 8
 		}
@@ -311,7 +308,6 @@ struct OrganizationListManualView: View {
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
 		}
-		.padding(.top, ViewTraits.Navigation.padding)
 	}
 }
 

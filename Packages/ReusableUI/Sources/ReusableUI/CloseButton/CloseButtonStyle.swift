@@ -5,9 +5,9 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
+import SwiftUI
 
-struct CloseButtonStyle: ButtonStyle {
+public struct CloseButtonStyle: ButtonStyle {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -19,9 +19,9 @@ struct CloseButtonStyle: ButtonStyle {
 	/// Style the button to a close button
 	/// - Parameter configuration: the button configuration
 	/// - Returns: close button
-	func makeBody(configuration: Self.Configuration) -> some View {
+	public func makeBody(configuration: Self.Configuration) -> some View {
 		
-		Image(configuration.isPressed ? ImageResource.Icon.closeHover : ImageResource.Icon.close)
+		Image(configuration.isPressed ? ImageResource.CloseButton.closeHover : ImageResource.CloseButton.close)
 			.resizable()
 			.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
 	}
