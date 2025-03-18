@@ -102,7 +102,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	private weak var parentCoordinator: (any AppCoordinatorProtocol)?
 	
 	/// The selected tab
-	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue 
+	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
