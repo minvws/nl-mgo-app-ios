@@ -27,7 +27,7 @@ The majority of our (third-party) dependencies are included as Swift Packages. H
 * [CopyImport](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/CopyImport/README.md): script to assist with importing copy.
 * [FeatureFlag](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/FeatureFlag/README.md): some of the features of the application are locked behind a feature flag. This package controls those flags.
 * [FHIRClient](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/FHIRClient/README.md): the client for all API calls to fetch the FHIR data. 
-* [FileStorage](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/FHIRParser/README.md): helper to store and read files from local disk.
+* [FileStorage](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/FileStorage/README.md): helper to store and read files from local disk.
 * [JailBreakDetector](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/JailBreakDetector/README.md): helper to detect jail broken devices.
 * [GitHubArtifactDownload](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/GitHubArtifactDownload/README.md): script to assist with downloading the latest artifact for the Shared Core
 * [LocalAuthenticationProvider](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/LocalAuthenticationProvider/README.md): class to authenticate with face id or touch id.
@@ -39,10 +39,10 @@ The majority of our (third-party) dependencies are included as Swift Packages. H
 * [Observatory](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/Observatory/README.md): helper class to fascilitate subscription to changes.
 * [RemoteAuthentication](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/RemoteAuthentication/README.md): helper class that helps with DigiD login. 
 * [RemoteConfiguration](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/RemoteConfiguration/README.md): On startup of the app, a remote configuration is fetched with the latest app settings.
-* [RestrictedBrowser](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/RemoteConfiguration/README.md): Downside of an in-app browser is the loss of Parental Control. As a solution, we came up with a restricted browser. While surfing the allowed domain, you remain in the in-app browser. When you navigate to another domain, you are redirected to the default browser.
-* [ReusableUI](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/RemoteConfiguration/README.md): Downside of This package holds a small collection of reuseable visual elements.
+* [RestrictedBrowser](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/RestrictedBrowser/README.md): Downside of an in-app browser is the loss of Parental Control. As a solution, we came up with a restricted browser. While surfing the allowed domain, you remain in the in-app browser. When you navigate to another domain, you are redirected to the default browser.
+* [ReusableUI](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/ReusableUI/README.md): Downside of This package holds a small collection of reuseable visual elements.
 * [RijkoverheidFont](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/RijksoverheidFont/README.md): helper for using the Rijksoverheid font
-* [Sanitizer](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/SecureUserSettings/README.md): helper to remove malicious user input. 
+* [Sanitizer](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/Sanitizer/README.md): helper to remove malicious user input. 
 * [SecureUserSettings](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/SecureUserSettings/README.md): helper to safely persist user settings. 
 * [SharedCore](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/SharedCore/README.md): the shared javascript library to parse FHIR data into Zorg Informatie Bouwstenen.
 * [Theme](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/Theme/README.md): helper with all the styles and colors for the application
