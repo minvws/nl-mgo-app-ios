@@ -74,7 +74,7 @@ struct HealthCategoryRowView: View {
 	VStack {
 		HealthCategoryRowView(block: CategoryButton(category: .medication, title: "Medicijnen"))
 		HealthCategoryRowView(block: CategoryButton(category: .measurements, title: "Metingen", state: .loaded, box: 1))
-		HealthCategoryRowView(block: CategoryButton(category: .complaints, title: "Klachten", state: .empty, box: 2))
+		HealthCategoryRowView(block: CategoryButton(category: .medicalComplaints, title: "Klachten", state: .empty, box: 2))
 		HealthCategoryRowView(block: CategoryButton(category: .payment, title: "Betaalgegevens", state: .notAvailabe, box: 3))
 	}
 	.background(Theme().backgroundPrimary)

@@ -26,7 +26,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		setupSut(organization: healthcareOrganization)
 	}
 	
-	func setupSut(organization: MgoOrganization?, category: HealthCategories.Category = HealthCategories.Category.complaints) {
+	func setupSut(organization: MgoOrganization?, category: HealthCategories.Category = HealthCategories.Category.medicalComplaints) {
 		
 		sut = HealthCategoryViewModel(
 			coordinator: coordinatorSpy,
