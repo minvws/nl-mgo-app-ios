@@ -48,6 +48,9 @@ struct AccountRemovedView: View {
 		enum Text {
 			static let spacing: CGFloat = 16
 		}
+		enum General {
+			static let spacing: CGFloat = 16
+		}
 		enum Navigation {
 			static let padding: CGFloat = 8
 		}
@@ -70,6 +73,7 @@ struct AccountRemovedView: View {
 				subHeadingForegroundColor: theme.contentPrimary
 			)
 			.padding(.top, ViewTraits.Navigation.padding)
+			.padding(.horizontal, ViewTraits.General.spacing)
 			
 		} bottomView: {
 			CallToActionButton("account_removed.action") {

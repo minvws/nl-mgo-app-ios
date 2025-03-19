@@ -111,6 +111,7 @@ struct LoginView: View {
 				titleStyle: .largeTitle,
 				subHeadingForegroundColor: theme.contentPrimary
 			)
+			.padding(.horizontal, ViewTraits.General.spacing)
 			
 		} bottomView: {
 			Group {

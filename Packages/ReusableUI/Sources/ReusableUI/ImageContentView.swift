@@ -118,8 +118,8 @@ public struct ImageContentView: View {
 				
 				Spacer()
 			}
+			.frame(maxWidth: .infinity, alignment: textAlignment == .center ? .center : .leading)
 		}
-		.padding(.horizontal, ViewTraits.Empty.padding)
 		.readSize($contentSize)
 		.accessibilityElement(children: .combine)
 		.padding(.top, ViewTraits.Empty.top)
