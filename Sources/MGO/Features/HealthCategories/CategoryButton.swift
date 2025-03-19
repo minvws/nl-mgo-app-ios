@@ -131,7 +131,7 @@ struct CategoryButton: Identifiable {
 
 			case HealthCategories.Category.mentalWellbeing.rawValue:
 				// Mental wellbeing
-				Image(ImageResource.HealthCategory.smile)
+				Image(ImageResource.HealthCategory.mentalWellbeing)
 					.resizable()
 					.foregroundStyle(theme.functional)
 		
