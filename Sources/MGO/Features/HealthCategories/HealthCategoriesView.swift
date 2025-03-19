@@ -347,6 +347,7 @@ struct HealthCategoriesView: View {
 				categoriesView()
 					.backportListSectionSpacing(ViewTraits.List.spacing)
 					.backportVerticalContentMargins(0)
+					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 			}
 		} // VStack
 		.navigationBarBackButtonHidden()
@@ -358,6 +359,11 @@ struct HealthCategoriesView: View {
 		})
 		.when(viewModel.state.canTitleCollapse) { view in
 			view.navigationTitle(viewModel.state.heading)
+		}
+		.when(belowIOS18 && !viewModel.state.canTitleCollapse) { view in
+			view
+				.navigationBarTitleDisplayMode(.inline)
+				.logInfo("inline")
 		}
 		.navigationBarHidden(false)
 		.background(theme.backgroundPrimary.ignoresSafeArea())

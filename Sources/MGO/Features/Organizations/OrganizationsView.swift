@@ -270,7 +270,7 @@ struct OrganizationsView: View {
 		.listStyle(.insetGrouped)
 		.backportListSectionSpacing(ViewTraits.List.spacing)
 		.backportScrollContentBackground(.hidden)
-		.environment(\.defaultMinListHeaderHeight, ViewTraits.List.spacing)
+		.environment(\.defaultMinListHeaderHeight, ViewTraits.List.spacing / 2)
 	}
 	
 	/// The view for a row of the healthcare organizations list
