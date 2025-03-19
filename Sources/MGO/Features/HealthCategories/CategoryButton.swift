@@ -93,13 +93,13 @@ struct CategoryButton: Identifiable {
 					.resizable()
 					.foregroundStyle(theme.documents)
 			
-			case HealthCategories.Category.complaints.rawValue:
+			case HealthCategories.Category.medicalComplaints.rawValue:
 				// Complaints
 				Image(ImageResource.HealthCategory.complaint)
 					.resizable()
 					.foregroundStyle(theme.problems)
 			
-			case HealthCategories.Category.patient.rawValue:
+			case HealthCategories.Category.personalDetails.rawValue:
 				// Patient
 				Image(ImageResource.HealthCategory.patient)
 					.resizable()
@@ -123,15 +123,15 @@ struct CategoryButton: Identifiable {
 					.resizable()
 					.foregroundStyle(theme.procedures)
 			
-			case HealthCategories.Category.devices.rawValue:
+			case HealthCategories.Category.medicalDevices.rawValue:
 				// Device
 				Image(ImageResource.HealthCategory.device)
 					.resizable()
 					.foregroundStyle(theme.device)
 
-			case HealthCategories.Category.functionalOrMentalStatus.rawValue:
+			case HealthCategories.Category.mentalWellbeing.rawValue:
 				// Mental wellbeing
-				Image(ImageResource.HealthCategory.smile)
+				Image(ImageResource.HealthCategory.mentalWellbeing)
 					.resizable()
 					.foregroundStyle(theme.functional)
 		
