@@ -218,7 +218,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_showHealthCategory_complaints() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .complaints, organization: nil))
+		let view = sut.viewState(for: .showHealthCategory(category: .medicalComplaints, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -230,7 +230,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_showHealthCategory_devices() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .devices, organization: nil))
+		let view = sut.viewState(for: .showHealthCategory(category: .medicalDevices, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -302,7 +302,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_showHealthCategory_functionalOrMentalStatus() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .functionalOrMentalStatus, organization: nil))
+		let view = sut.viewState(for: .showHealthCategory(category: .mentalWellbeing, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -314,7 +314,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_showHealthCategory_patient() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .patient, organization: nil))
+		let view = sut.viewState(for: .showHealthCategory(category: .personalDetails, organization: nil))
 		
 		// When
 		let content = NavigationView { view }

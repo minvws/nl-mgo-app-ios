@@ -64,7 +64,7 @@ class ComplaintsHealthCategoryViewModel: HealthCategoryViewModel {
 	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.complaints,
+			category: HealthCategories.Category.medicalComplaints,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_complaints.heading",
@@ -81,7 +81,7 @@ class DevicesHealthCategoryViewModel: HealthCategoryViewModel {
 	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.devices,
+			category: HealthCategories.Category.medicalDevices,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_devices.heading",
@@ -183,7 +183,7 @@ class MentalStatusHealthCategoryViewModel: HealthCategoryViewModel {
 	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.functionalOrMentalStatus,
+			category: HealthCategories.Category.mentalWellbeing,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_mental.heading",
@@ -200,7 +200,7 @@ class PatientHealthCategoryViewModel: HealthCategoryViewModel {
 	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.patient,
+			category: HealthCategories.Category.personalDetails,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_patient.heading",

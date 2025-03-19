@@ -11,21 +11,21 @@ import MGOUI
 struct HealthCategories {
 	
 	enum Category: Int, CaseIterable, Codable {
-		case medication = 1
-		case measurements = 2
-		case labResults = 3
-		case allergies = 4
+		case medicalComplaints = 1
+		case labResults = 2
+		case measurements = 3
+		case medication = 4
 		case treatments = 5
 		case appointments = 6
 		case vaccinations = 7
 		case documents = 8
-		case complaints = 9
-		case patient = 10
-		case functionalOrMentalStatus = 11
-		case alerts = 12
-		case lifestyle = 13
-		case devices = 14
-		case plans = 15
+		case allergies = 9
+		case mentalWellbeing = 10
+		case lifestyle = 11
+		case medicalDevices = 12
+		case plans = 13
+		case alerts = 14
+		case personalDetails = 15
 		case payment = 16
 		
 		/// Which of the Nictiz profiles do we accept for a category?
@@ -78,11 +78,11 @@ struct HealthCategories {
 					IheMhdMinimalDocumentReferenceProfile.httpNictizNlFhirStructureDefinitionIHEMHDMinimalDocumentReference.rawValue
 				]
 				
-				case .complaints: [
+				case .medicalComplaints: [
 					ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue
 				]
 				
-				case .patient: [
+				case .personalDetails: [
 					NlCorePatientProfile.httpFhirNlFhirStructureDefinitionNlCorePatient.rawValue
 				]
 				
@@ -98,12 +98,12 @@ struct HealthCategories {
 					ZibAdvanceDirectiveProfile.httpNictizNlFhirStructureDefinitionZibAdvanceDirective.rawValue
 				]
 				
-				case .devices: [
+				case .medicalDevices: [
 					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue,
 					ZibMedicalDeviceRequestProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceRequest.rawValue
 				]
 				
-				case .functionalOrMentalStatus: [
+				case .mentalWellbeing: [
 					ZibFunctionalOrMentalStatusProfile.httpNictizNlFhirStructureDefinitionZibFunctionalOrMentalStatus.rawValue
 				]
 				
@@ -278,16 +278,16 @@ struct HealthCategories {
 					DVP.Documents.documentReference
 				]
 				
-				case .complaints: [
+				case .medicalComplaints: [
 					DVP.CommonClinicalDataset.problem
 				]
 				
-				case .patient: [
+				case .personalDetails: [
 					DVP.CommonClinicalDataset.patient,
 					DVP.GeneralPractitioner.patient
 				]
 				
-				case .functionalOrMentalStatus: [
+				case .mentalWellbeing: [
 					DVP.CommonClinicalDataset.functionalOrMentalStatus
 				]
 				
@@ -303,7 +303,7 @@ struct HealthCategories {
 					DVP.CommonClinicalDataset.nutritionAdvice
 				]
 				
-				case .devices: [
+				case .medicalDevices: [
 					DVP.CommonClinicalDataset.medicalDevice,
 					DVP.CommonClinicalDataset.plannedMedicalDevices
 				]

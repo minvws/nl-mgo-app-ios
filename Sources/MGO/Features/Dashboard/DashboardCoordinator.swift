@@ -382,10 +382,10 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case HealthCategories.Category.documents:
 				HealthCategoryView(viewModel: DocumentsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
-			case HealthCategories.Category.complaints:
+			case HealthCategories.Category.medicalComplaints:
 				HealthCategoryView(viewModel: ComplaintsHealthCategoryViewModel(coordinator: self, organization: organization))
 				
-			case HealthCategories.Category.patient:
+			case HealthCategories.Category.personalDetails:
 				HealthCategoryView(viewModel: PatientHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.alerts:
@@ -397,10 +397,10 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			case HealthCategories.Category.plans:
 				HealthCategoryView(viewModel: PlansHealthCategoryViewModel(coordinator: self, organization: organization))
 				
-			case HealthCategories.Category.devices:
+			case HealthCategories.Category.medicalDevices:
 				HealthCategoryView(viewModel: DevicesHealthCategoryViewModel(coordinator: self, organization: organization))
 				
-			case HealthCategories.Category.functionalOrMentalStatus:
+			case HealthCategories.Category.mentalWellbeing:
 				HealthCategoryView(viewModel: MentalStatusHealthCategoryViewModel(coordinator: self, organization: organization))
 				
 			case HealthCategories.Category.lifestyle:

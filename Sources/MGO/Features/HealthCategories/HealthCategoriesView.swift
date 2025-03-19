@@ -121,13 +121,13 @@ class HealthCategoriesViewModel: ObservableObject {
 				CategoryButton(category: .appointments, title: "hc_appointments.heading", box: disabledForDemoBox),
 				CategoryButton(category: .vaccinations, title: "hc_vaccinations.heading", box: 1),
 				CategoryButton(category: .documents, title: "hc_documents.heading", box: 1),
-				CategoryButton(category: .complaints, title: "hc_complaints.heading", box: disabledForDemoBox),
-				CategoryButton(category: .patient, title: "hc_patient.heading", box: disabledForDemoBox),
+				CategoryButton(category: .medicalComplaints, title: "hc_complaints.heading", box: disabledForDemoBox),
+				CategoryButton(category: .personalDetails, title: "hc_patient.heading", box: disabledForDemoBox),
 				CategoryButton(category: .alerts, title: "hc_alerts.heading", box: disabledForDemoBox),
 				CategoryButton(category: .payment, title: "hc_payment.heading", box: disabledForDemoBox),
 				CategoryButton(category: .plans, title: "hc_plans.heading", box: disabledForDemoBox),
-				CategoryButton(category: .devices, title: "hc_devices.heading", box: disabledForDemoBox),
-				CategoryButton(category: .functionalOrMentalStatus, title: "hc_mental.heading", box: disabledForDemoBox),
+				CategoryButton(category: .medicalDevices, title: "hc_devices.heading", box: disabledForDemoBox),
+				CategoryButton(category: .mentalWellbeing, title: "hc_mental.heading", box: disabledForDemoBox),
 				CategoryButton(category: .lifestyle, title: "hc_lifestyle.heading", box: disabledForDemoBox)
 			],
 			backButtonTitle: backbuttonTitle
