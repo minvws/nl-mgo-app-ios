@@ -11,6 +11,7 @@ import MGOFoundation
 extension Coordination.Action {
 	
 	static let showDisplaySettings = Coordination.Action(identifier: "showDisplaySettings")
+	static let showSecuritySettings = Coordination.Action(identifier: "showSecuritySettings")
 }
 
 protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
@@ -33,6 +34,7 @@ enum SettingsCoordination {
 		
 		case settings
 		case displaySettings
+		case securitySettings
 	}
 }
 
@@ -59,6 +61,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			case .showDisplaySettings:
 				path.append(SettingsCoordination.State.displaySettings)
 			
+			case .showSecuritySettings:
+				path.append(SettingsCoordination.State.securitySettings)
+			
 			default:
 				logWarning("Settings Coordinator does not handle \(action)")
 		}
@@ -76,6 +81,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			
 			case .displaySettings:
 				DisplaySettingsView()
+			
+			case .securitySettings:
+				Text("Todo")
 			
 			default:
 				EmptyView()

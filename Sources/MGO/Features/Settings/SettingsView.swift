@@ -24,6 +24,7 @@ class SettingsViewModel: ObservableObject {
 		case automaticLocalization(Bool)
 		case cancelDialog
 		case displaySettings
+		case securitySettings
 	}
 	
 	/// Intitializer
@@ -52,6 +53,8 @@ class SettingsViewModel: ObservableObject {
 			
 			case .displaySettings:
 				coordinator?.handle(Coordination.Action.showDisplaySettings)
+			case .securitySettings:
+				coordinator?.handle(Coordination.Action.showSecuritySettings)
 		}
 	}
 }
@@ -72,15 +75,14 @@ struct SettingsView: View {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
-		enum Navigation {
-			static let padding: CGFloat = 8
-		}
 		enum General {
 			static let padding: CGFloat = 16
 			static let inset: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
 		}
-		enum Button {
-			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+		enum Icon {
+			static let size: CGFloat = 24.0
+			static let padding: CGFloat = 16.0
+			static let cornerRadius: CGFloat = 6.0
 		}
 		enum Chevron {
 			static let size: CGFloat = 24.0
@@ -94,6 +96,8 @@ struct SettingsView: View {
 				Section {
 					
 					displaySetting()
+					
+					securitySetting()
 					
 //					if viewModel.showAutomaticLocalizationOption {
 //						Toggle(isOn: $automaticLocalization) {
@@ -131,38 +135,45 @@ struct SettingsView: View {
 //				Text("settings.reset_app.dialog.subheading")
 //			}
 
-		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationTitle("settings.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 	
-	@ViewBuilder func settingsRow(
+	/// Create a row for the settings view
+	/// - Parameters:
+	///   - icon: the icon to display
+	///   - iconBackground: the background for the icon
+	///   - heading: the heading for the row
+	///   - subHeading: the subheading for the row
+	/// - Returns: View for a settings row
+	@ViewBuilder private func settingsRow(
 		icon: Image,
 		iconBackground: Color,
 		heading: LocalizedStringKey,
-		subHeading: LocalizedStringKey
+		subHeading: LocalizedStringKey? = nil
 	) -> some View {
 		HStack(spacing: 0) {
 			
 			icon
 				.foregroundStyle(theme.backgroundSecondary)
-				.frame(width: 24, height: 24, alignment: .center)
+				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size, alignment: .center)
 				.background(iconBackground)
-				.cornerRadius(6)
-				.padding(.trailing, 16)
+				.cornerRadius(ViewTraits.Icon.cornerRadius)
+				.padding(.trailing, ViewTraits.Icon.padding)
 			
 			Text(heading)
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.contentPrimary)
-				.frame(minHeight: 24)
+				.frame(minHeight: ViewTraits.Icon.size)
 			
 			Spacer()
-			
-			Text(subHeading)
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentSecondary)
-				.frame(minHeight: 24)
+			if let subHeading {
+				Text(subHeading)
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentSecondary)
+					.frame(minHeight: ViewTraits.Icon.size)
+			}
 			
 			Image(ImageResource.Overview.chevronRight)
 				.foregroundStyle(theme.symbolPrimary)
@@ -172,6 +183,8 @@ struct SettingsView: View {
 		.padding(ViewTraits.General.padding)
 	}
 	
+	/// Get the view for the display settings option
+	/// - Returns: Button for the display settings
 	@ViewBuilder private func displaySetting() -> some View {
 		
 		Button {
@@ -182,6 +195,22 @@ struct SettingsView: View {
 				iconBackground: theme.procedures,
 				heading: "settings.display.heading",
 				subHeading: selectedAppearance.key
+			)
+		}
+		.listRowInsets(ViewTraits.General.inset)
+	}
+	
+	/// Get the view for the security settings option
+	/// - Returns: Button for the security settings
+	@ViewBuilder private func securitySetting() -> some View {
+		
+		Button {
+			viewModel.reduce(.securitySettings)
+		} label: {
+			settingsRow(
+				icon: Image(ImageResource.Settings.lock),
+				iconBackground: theme.rijksLint,
+				heading: "settings.security.heading"
 			)
 		}
 		.listRowInsets(ViewTraits.General.inset)

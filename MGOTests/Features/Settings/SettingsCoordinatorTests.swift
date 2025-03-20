@@ -36,4 +36,15 @@ final class SettingsCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.displaySettings])
 	}
+	
+	func test_coordinatorHandle_showSecuritySettings() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.showSecuritySettings)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.securitySettings])
+	}
 }
