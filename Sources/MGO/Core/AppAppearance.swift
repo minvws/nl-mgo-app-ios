@@ -33,4 +33,15 @@ public enum AppAppearance: String, Identifiable {
 				return nil
 		}
 	}
+	
+	public var key: LocalizedStringKey {
+		switch self {
+			case .light:
+				return "settings.display.light"
+			case .dark:
+				return "settings.display.dark"
+			case .system:
+				return "settings.display.system.heading"
+		}
+	}
 }

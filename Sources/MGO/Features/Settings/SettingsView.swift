@@ -49,6 +49,7 @@ class SettingsViewModel: ObservableObject {
 				showResetDialog = false
 			case let .automaticLocalization(automaticLocalization):
 				Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
+			
 			case .displaySettings:
 				coordinator?.handle(Coordination.Action.showDisplaySettings)
 		}
@@ -59,6 +60,9 @@ struct SettingsView: View {
 	
 	/// The View Model
 	@StateObject var viewModel: SettingsViewModel
+	
+	/// The application appearance for light / dark / system mode
+	@AppStorage("AppAppearance") private var selectedAppearance: AppAppearance = .system
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -73,9 +77,13 @@ struct SettingsView: View {
 		}
 		enum General {
 			static let padding: CGFloat = 16
+			static let inset: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
 		}
 		enum Button {
 			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+		}
+		enum Chevron {
+			static let size: CGFloat = 24.0
 		}
 	}
 	
@@ -84,47 +92,99 @@ struct SettingsView: View {
 		VStack {
 			List {
 				Section {
-					Button("Weergave") {
-						viewModel.reduce(.displaySettings)
-					}
 					
-					if viewModel.showAutomaticLocalizationOption {
-						Toggle(isOn: $automaticLocalization) {
-							Text("settings.featureflag.localization")
-						}.toggleStyle(.switch)
-							.tint(theme.interactionPrimaryDefaultBackground)
-					}
+					displaySetting()
+					
+//					if viewModel.showAutomaticLocalizationOption {
+//						Toggle(isOn: $automaticLocalization) {
+//							Text("settings.featureflag.localization")
+//						}.toggleStyle(.switch)
+//							.tint(theme.interactionPrimaryDefaultBackground)
+//					}
 				}
-				.onChange(of: automaticLocalization) { newValue in
-					viewModel.reduce(.automaticLocalization(newValue))
-				}
-				.backportScrollContentBackground(.hidden)
+//				.onChange(of: automaticLocalization) { newValue in
+//					viewModel.reduce(.automaticLocalization(newValue))
+//				}
+				
 			}
+			.backportScrollContentBackground(.hidden)
+			.backportListSectionSpacing(32)
+			.backportVerticalContentMargins(0)
 		}
-		.when(viewModel.showResetButton) { view in
-			view
-				.safeAreaInset(edge: VerticalEdge.bottom) {
-					CallToActionButton("settings.reset_app.button", style: .primaryCritical) {
-						viewModel.reduce(.showResetDialog)
-					}
-					.padding(ViewTraits.Button.insets)
-				}
-		}
-		.alert(
-			"settings.reset_app.dialog.heading",
-			isPresented: $viewModel.showResetDialog) {
-				Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }
-					.accessibilityIdentifier("common.no")
-				Button("common.yes", role: .destructive) { viewModel.reduce(.resetApplication) }
-					.accessibilityIdentifier("common.yes")
-			} message: {
-				Text("settings.reset_app.dialog.subheading")
-			}
+//		.when(viewModel.showResetButton) { view in
+//			view
+//				.safeAreaInset(edge: VerticalEdge.bottom) {
+//					CallToActionButton("settings.reset_app.button", style: .primaryCritical) {
+//						viewModel.reduce(.showResetDialog)
+//					}
+//					.padding(ViewTraits.Button.insets)
+//				}
+//		}
+//		.alert(
+//			"settings.reset_app.dialog.heading",
+//			isPresented: $viewModel.showResetDialog) {
+//				Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }
+//					.accessibilityIdentifier("common.no")
+//				Button("common.yes", role: .destructive) { viewModel.reduce(.resetApplication) }
+//					.accessibilityIdentifier("common.yes")
+//			} message: {
+//				Text("settings.reset_app.dialog.subheading")
+//			}
 
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationTitle("settings.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
+	}
+	
+	@ViewBuilder func settingsRow(
+		icon: Image,
+		iconBackground: Color,
+		heading: LocalizedStringKey,
+		subHeading: LocalizedStringKey
+	) -> some View {
+		HStack(spacing: 0) {
+			
+			icon
+				.foregroundStyle(theme.backgroundSecondary)
+				.frame(width: 24, height: 24, alignment: .center)
+				.background(iconBackground)
+				.cornerRadius(6)
+				.padding(.trailing, 16)
+			
+			Text(heading)
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.foregroundStyle(theme.contentPrimary)
+				.frame(minHeight: 24)
+			
+			Spacer()
+			
+			Text(subHeading)
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.foregroundStyle(theme.contentSecondary)
+				.frame(minHeight: 24)
+			
+			Image(ImageResource.Overview.chevronRight)
+				.foregroundStyle(theme.symbolPrimary)
+				.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
+				.accessibilityHidden(true)
+		}
+		.padding(ViewTraits.General.padding)
+	}
+	
+	@ViewBuilder private func displaySetting() -> some View {
+		
+		Button {
+			viewModel.reduce(.displaySettings)
+		} label: {
+			settingsRow(
+				icon: Image(ImageResource.Settings.display),
+				iconBackground: theme.procedures,
+				heading: "settings.display.heading",
+				subHeading: selectedAppearance.key
+			)
+		}
+		.listRowInsets(ViewTraits.General.inset)
 	}
 }
 

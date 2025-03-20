@@ -30,6 +30,6 @@ final class SettingsCoordinatorViewTests: XCTestCase {
 		let sut = SettingsCoordinatorView(coordinator: coordinator)
 		
 		// Then
-		takeSnapShots(content: sut, precision: 0.95)
+		takeSnapShots(content: sut)
 	}
 }

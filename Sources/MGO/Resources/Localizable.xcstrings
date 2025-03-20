@@ -2149,9 +2149,6 @@
         }
       }
     },
-    "settings.featureflag.localization" : {
-
-    },
     "settings.heading" : {
       "extractionState" : "manual",
       "localizations" : {
