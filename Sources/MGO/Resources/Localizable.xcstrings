@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
-    "“Systeem” volgt de instellingen van je telefoon." : {
-
-    },
     "[privacyverklaring](/privacystatement)" : {
 
     },
@@ -2053,16 +2050,107 @@
         }
       }
     },
-    "settings.featureflag.localization" : {
+    "settings.about_this_app.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Automatische lokalisatie"
+            "value" : "Over deze app"
           }
         }
       }
+    },
+    "settings.advanced.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geavanceerd"
+          }
+        }
+      }
+    },
+    "settings.advanced.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen voor ontwikkelaars"
+          }
+        }
+      }
+    },
+    "settings.display.dark" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donker"
+          }
+        }
+      }
+    },
+    "settings.display.footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Systeem” volgt de instellingen van je telefoon."
+          }
+        }
+      }
+    },
+    "settings.display.footer_ipad" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Systeem” volgt de instellingen van je tablet."
+          }
+        }
+      }
+    },
+    "settings.display.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weergave"
+          }
+        }
+      }
+    },
+    "settings.display.light" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licht"
+          }
+        }
+      }
+    },
+    "settings.display.system.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systeem"
+          }
+        }
+      }
+    },
+    "settings.featureflag.localization" : {
+
     },
     "settings.heading" : {
       "extractionState" : "manual",
@@ -2071,6 +2159,61 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instellingen"
+          }
+        }
+      }
+    },
+    "settings.information.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informatie"
+          }
+        }
+      }
+    },
+    "settings.log_out.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log uit"
+          }
+        }
+      }
+    },
+    "settings.log_out.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je sluit zo de app af"
+          }
+        }
+      }
+    },
+    "settings.other.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overige"
+          }
+        }
+      }
+    },
+    "settings.preferences.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voorkeuren"
           }
         }
       }
@@ -2104,6 +2247,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Daarmee verwijder je je account. Je kunt later wel weer een nieuw account aanmaken als je dat wilt."
+          }
+        }
+      }
+    },
+    "settings.reset_app.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stel app opnieuw in"
+          }
+        }
+      }
+    },
+    "settings.reset_app.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je verwijderd zo al je opgeslagen zorgaanbieders"
+          }
+        }
+      }
+    },
+    "settings.security.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveiliging"
           }
         }
       }

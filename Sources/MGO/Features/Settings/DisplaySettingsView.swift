@@ -9,6 +9,7 @@ import MGOUI
 
 struct DisplaySettingsView: View {
 	
+	/// The application appearance for light / dark / system mode
 	@AppStorage("AppAppearance") private var selectedAppearance: AppAppearance = .system
 	
 	/// The Theme
@@ -25,32 +26,38 @@ struct DisplaySettingsView: View {
 		}
 	}
 	
+	/// Should we adjust the layout for iPad (i.e., are we running on an iPad)?
+	private var shouldLayoutForiPad: Bool { return UIDevice.current.userInterfaceIdiom == .pad }
+	
 	var body: some View {
 		
-		VStack {
-			List {
-				Section {
-					displayModeOption("Systeem", appearance: .system)
-						.accessibilityIdentifier("System")
-					displayModeOption("Licht", appearance: .light)
-						.accessibilityIdentifier("Light")
-					displayModeOption("Donker", appearance: .dark)
-						.accessibilityIdentifier("Dark")
-				}
-				footer: {
-					Text("“Systeem” volgt de instellingen van je telefoon.")
-						.rijksoverheidStyle(font: .regular, style: .callout)
-						.foregroundStyle(theme.contentSecondary)
-				}
+		List {
+			Section {
+				displayModeOption("settings.display.system.heading", appearance: .system)
+					.accessibilityIdentifier("settings.display.system")
+				displayModeOption("settings.display.light", appearance: .light)
+					.accessibilityIdentifier("settings.display.light")
+				displayModeOption("settings.display.dark", appearance: .dark)
+					.accessibilityIdentifier("settings.display.dark")
 			}
-			.backportScrollContentBackground(.hidden)
+			footer: {
+				Text(shouldLayoutForiPad ? "settings.display.footer_ipad" : "settings.display.footer")
+					.rijksoverheidStyle(font: .regular, style: .callout)
+					.foregroundStyle(theme.contentSecondary)
+			}
 		}
-		.navigationTitle("Weergave")
+		.backportScrollContentBackground(.hidden)
+		.navigationTitle("settings.display.heading")
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 	
+	/// Build a button for a display mode option
+	/// - Parameters:
+	///   - title: the title of the button
+	///   - appearance: the appearance to select
+	/// - Returns: View to select a display mode option
 	@ViewBuilder private func displayModeOption(_ title: LocalizedStringKey, appearance: AppAppearance) -> some View {
 		
 		Button {
