@@ -109,7 +109,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	init(parentCoordinator: (any AppCoordinatorProtocol)?) {
 		
 		self.parentCoordinator = parentCoordinator
-		self.settingsCoordinator = SettingsCoordinator()
+		self.settingsCoordinator = SettingsCoordinator(parentCoordinator: self)
 	}
 	
 	/// Handle any incoming action from any of the view models

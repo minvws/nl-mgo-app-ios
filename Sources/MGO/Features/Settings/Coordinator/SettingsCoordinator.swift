@@ -41,6 +41,16 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// The navigation path
 	@Published var path = NavigationStackBackport.NavigationPath()
 	
+	/// The parent coordinator for routing
+	private weak var parentCoordinator: (any DashboardCoordinatorProtocol)?
+	
+	/// Initializer
+	/// - Parameter coordinator: the coordinator
+	init(parentCoordinator: (any DashboardCoordinatorProtocol)?) {
+		
+		self.parentCoordinator = parentCoordinator
+	}
+	
 	/// Handle any incoming action from any of the view models
 	/// - Parameter action: any Action
 	func handle(_ action: Coordination.Action) {
