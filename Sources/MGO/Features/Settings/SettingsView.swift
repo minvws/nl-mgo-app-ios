@@ -23,6 +23,7 @@ class SettingsViewModel: ObservableObject {
 		case showResetDialog
 		case automaticLocalization(Bool)
 		case cancelDialog
+		case displaySettings
 	}
 	
 	/// Intitializer
@@ -48,6 +49,8 @@ class SettingsViewModel: ObservableObject {
 				showResetDialog = false
 			case let .automaticLocalization(automaticLocalization):
 				Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
+			case .displaySettings:
+				coordinator?.handle(Coordination.Action.showDisplaySettings)
 		}
 	}
 }
@@ -79,9 +82,13 @@ struct SettingsView: View {
 	var body: some View {
 		
 		VStack {
-			if viewModel.showAutomaticLocalizationOption {
-				List {
-					Section {
+			List {
+				Section {
+					Button("Weergave") {
+						viewModel.reduce(.displaySettings)
+					}
+					
+					if viewModel.showAutomaticLocalizationOption {
 						Toggle(isOn: $automaticLocalization) {
 							Text("settings.featureflag.localization")
 						}.toggleStyle(.switch)
@@ -92,8 +99,6 @@ struct SettingsView: View {
 					viewModel.reduce(.automaticLocalization(newValue))
 				}
 				.backportScrollContentBackground(.hidden)
-			} else {
-				Spacer()
 			}
 		}
 		.when(viewModel.showResetButton) { view in

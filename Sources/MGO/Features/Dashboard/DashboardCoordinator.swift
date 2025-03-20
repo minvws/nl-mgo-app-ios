@@ -23,6 +23,8 @@ extension Coordination.Action {
 	
 	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
 	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
+	
+	static let showDisplaySettings = Coordination.Action(identifier: "showDisplaySettings")
 }
 
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
@@ -78,6 +80,9 @@ enum DashboardCoordination {
 		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
 		case showHealthData(backButtonTitle: String, schema: HealthUISchema, organization: MgoOrganization)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
+		
+		// Settings
+		case displaySettings
 	}
 }
 
@@ -119,6 +124,11 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		guard !handleHealthDataFlow(action) else { return }
 		
 		switch action.identifier {
+			
+			// Settings
+			
+			case Coordination.Action.showDisplaySettings.identifier:
+				thirdTabPath.append(DashboardCoordination.State.displaySettings)
 			
 			// General
 				
@@ -268,6 +278,10 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	@ViewBuilder func viewState(for state: DashboardCoordination.State?) -> some View {
 		
 		switch state {
+			
+			// Settings:
+			case .displaySettings:
+				DisplaySettingsView()
 			
 			// Initial states
 		
