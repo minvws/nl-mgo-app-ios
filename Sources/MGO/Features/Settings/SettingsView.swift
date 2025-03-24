@@ -113,8 +113,9 @@ struct SettingsView: View {
 					securitySettings()
 				}
 			}
-			
-			advancedSettings()
+			if Configuration().getRelease() == .development {
+				advancedSettings()
+			}
 			aboutTheApp()
 			logout()
 			reset()
