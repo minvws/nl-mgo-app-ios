@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -15,16 +15,15 @@ class SettingsViewModel: ObservableObject {
 	
 	@Published var showResetButton: Bool = false
 	@Published var showResetDialog: Bool = false
-	@Published var showAutomaticLocalizationOption: Bool = false
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case resetApplication
 		case showResetDialog
-		case automaticLocalization(Bool)
 		case cancelDialog
 		case displaySettings
 		case securitySettings
+		case advancedSettings
 	}
 	
 	/// Intitializer
@@ -34,7 +33,6 @@ class SettingsViewModel: ObservableObject {
 		
 		let release = Configuration().getRelease()
 		showResetButton = release != Release.production // Show only in Dev, Acc & Test
-		showAutomaticLocalizationOption = !Current.featureFlagManager.isDemo
 	}
 	
 	/// Handle any action
@@ -48,13 +46,13 @@ class SettingsViewModel: ObservableObject {
 				showResetDialog = true
 			case .cancelDialog:
 				showResetDialog = false
-			case let .automaticLocalization(automaticLocalization):
-				Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
 			
 			case .displaySettings:
 				coordinator?.handle(Coordination.Action.showDisplaySettings)
 			case .securitySettings:
 				coordinator?.handle(Coordination.Action.showSecuritySettings)
+			case .advancedSettings:
+				coordinator?.handle(Coordination.Action.showAdvancedSettings)
 		}
 	}
 }
@@ -69,9 +67,6 @@ struct SettingsView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
-	
-	/// Variable to change the automatic localization setting
-	@State private var automaticLocalization: Bool = Current.featureFlagManager.isAutomaticLocalizationEnabled
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -95,23 +90,21 @@ struct SettingsView: View {
 			List {
 				Section {
 					
-					displaySetting()
+					displaySettings()
 					
 					if Current.localAuthenticationProvider.biometricType() != .none {
-						securitySetting()
+						securitySettings()
 					}
-					
-//					if viewModel.showAutomaticLocalizationOption {
-//						Toggle(isOn: $automaticLocalization) {
-//							Text("settings.featureflag.localization")
-//						}.toggleStyle(.switch)
-//							.tint(theme.interactionPrimaryDefaultBackground)
-//					}
 				}
-//				.onChange(of: automaticLocalization) { newValue in
-//					viewModel.reduce(.automaticLocalization(newValue))
-//				}
 				
+				Section {
+					advancedSettings()
+				}
+				footer: {
+					Text("settings.advanced.subheading")
+						.rijksoverheidStyle(font: .regular, style: .callout)
+						.foregroundStyle(theme.contentSecondary)
+				}
 			}
 			.backportScrollContentBackground(.hidden)
 			.backportListSectionSpacing(32)
@@ -187,7 +180,7 @@ struct SettingsView: View {
 	
 	/// Get the view for the display settings option
 	/// - Returns: Button for the display settings
-	@ViewBuilder private func displaySetting() -> some View {
+	@ViewBuilder private func displaySettings() -> some View {
 		
 		Button {
 			viewModel.reduce(.displaySettings)
@@ -204,7 +197,7 @@ struct SettingsView: View {
 	
 	/// Get the view for the security settings option
 	/// - Returns: Button for the security settings
-	@ViewBuilder private func securitySetting() -> some View {
+	@ViewBuilder private func securitySettings() -> some View {
 		
 		Button {
 			viewModel.reduce(.securitySettings)
@@ -213,6 +206,22 @@ struct SettingsView: View {
 				icon: Image(ImageResource.Settings.lock),
 				iconBackground: theme.rijksLint,
 				heading: "settings.security.heading"
+			)
+		}
+		.listRowInsets(ViewTraits.General.inset)
+	}
+	
+	/// Get the view for the advanced settings option
+	/// - Returns: Button for the advanced settings
+	@ViewBuilder private func advancedSettings() -> some View {
+		
+		Button {
+			viewModel.reduce(.advancedSettings)
+		} label: {
+			settingsRow(
+				icon: Image(ImageResource.Settings.advanced),
+				iconBackground: theme.vitals,
+				heading: "settings.advanced.heading"
 			)
 		}
 		.listRowInsets(ViewTraits.General.inset)

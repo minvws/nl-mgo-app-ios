@@ -12,6 +12,7 @@ extension Coordination.Action {
 	
 	static let showDisplaySettings = Coordination.Action(identifier: "showDisplaySettings")
 	static let showSecuritySettings = Coordination.Action(identifier: "showSecuritySettings")
+	static let showAdvancedSettings = Coordination.Action(identifier: "showAdvancedSettings")
 }
 
 protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
@@ -35,6 +36,7 @@ enum SettingsCoordination {
 		case settings
 		case displaySettings
 		case securitySettings
+		case advancedSettings
 	}
 }
 
@@ -67,6 +69,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			case .showSecuritySettings:
 				path.append(SettingsCoordination.State.securitySettings)
 			
+			case .showAdvancedSettings:
+				path.append(SettingsCoordination.State.advancedSettings)
+			
 			default:
 				logWarning("Settings Coordinator does not handle \(action)")
 		}
@@ -91,6 +96,11 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 						coordinator: self,
 						bioMetricType: Current.localAuthenticationProvider.biometricType
 					)
+				)
+			
+			case .advancedSettings:
+				AdvancedSettingsView(
+					viewModel: AdvancedSettingsViewModel(coordinator: self)
 				)
 			
 			default:

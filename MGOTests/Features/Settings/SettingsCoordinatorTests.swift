@@ -26,6 +26,18 @@ final class SettingsCoordinatorTests: XCTestCase {
 	
 	// MARK: - Handle -
 	
+	func test_coordinatorHandle_backButtonPressed() {
+		
+		// Given
+		sut.path = NavigationStackBackport.NavigationPath([SettingsCoordination.State.displaySettings])
+		
+		// When
+		sut.handle(Coordination.Action.backButtonPressed)
+		
+		// Then
+		expect(self.sut.path.isEmpty) == true
+	}
+	
 	func test_coordinatorHandle_showDisplaySettings() {
 		
 		// Given
@@ -46,5 +58,16 @@ final class SettingsCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.securitySettings])
+	}
+	
+	func test_coordinatorHandle_showAdvancedSettings() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.showAdvancedSettings)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.advancedSettings])
 	}
 }

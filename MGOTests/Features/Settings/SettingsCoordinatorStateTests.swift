@@ -73,4 +73,16 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
+	
+	func test_coordinatorView_forAdvancedSettings() throws {
+		
+		// Given
+		let state = SettingsCoordination.State.advancedSettings
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
 }
