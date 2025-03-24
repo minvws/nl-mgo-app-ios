@@ -5,7 +5,6 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-
 import MGOTest
 import MGOFoundation
 import MGOUI
@@ -37,6 +36,19 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
+	func test_coordinatorView_forSettings_noBiometricType() throws {
+		
+		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .none }
+		let state = SettingsCoordination.State.settings
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
 	func test_coordinatorView_forDisplaySettings() throws {
 		
 		// Given
@@ -52,6 +64,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forSecuritySettings() throws {
 		
 		// Given
+		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		let state = SettingsCoordination.State.securitySettings
 		
 		// When

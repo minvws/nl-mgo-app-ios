@@ -143,8 +143,10 @@ struct SecuritySettingsView: View {
 					Text(LocalizedStringKey(label(viewModel.state.bioMetricType)))
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.foregroundStyle(theme.contentPrimary)
-				}.toggleStyle(.switch)
+				}
+					.toggleStyle(.switch)
 					.tint(theme.interactionPrimaryDefaultBackground)
+					.accessibilityIdentifier("setting.security.toggle")
 			}
 			footer: {
 				Text("setting.security.subheading")
