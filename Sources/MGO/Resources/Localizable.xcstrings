@@ -1748,7 +1748,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "FaceID is vergrendeld omdat er te veel mislukte pogingen waren."
+            "value" : "Face ID is vergrendeld omdat er te veel mislukte pogingen waren."
           }
         }
       }
@@ -1814,7 +1814,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "OpticID is vergrendeld omdat er te veel mislukte pogingen waren."
+            "value" : "Optic ID is vergrendeld omdat er te veel mislukte pogingen waren."
           }
         }
       }
@@ -1836,7 +1836,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "TouchID is vergrendeld omdat er te veel mislukte pogingen waren."
+            "value" : "Touch ID is vergrendeld omdat er te veel mislukte pogingen waren."
           }
         }
       }
@@ -2161,7 +2161,15 @@
       }
     },
     "settings.featureflag.localization" : {
-
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatische lokalisatie"
+          }
+        }
+      }
     },
     "settings.heading" : {
       "extractionState" : "manual",

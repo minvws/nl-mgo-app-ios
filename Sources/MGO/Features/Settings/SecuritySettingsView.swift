@@ -120,6 +120,9 @@ struct SecuritySettingsView: View {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 24
+		}
 		enum General {
 			static let padding: CGFloat = 16
 			static let inset: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
@@ -174,8 +177,7 @@ struct SecuritySettingsView: View {
 			}
 		}
 		.backportScrollContentBackground(.hidden)
-		.backportListSectionSpacing(32)
-		.backportVerticalContentMargins(0)
+		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("settings.heading") {
 			viewModel.reduce(.backButtonPressed)

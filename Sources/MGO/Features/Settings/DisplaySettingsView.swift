@@ -17,6 +17,9 @@ struct DisplaySettingsView: View {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 24
+		}
 		enum General {
 			static let padding: CGFloat = 16
 			static let inset: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
@@ -47,6 +50,7 @@ struct DisplaySettingsView: View {
 			}
 		}
 		.backportScrollContentBackground(.hidden)
+		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
 		.navigationTitle("settings.display.heading")
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())

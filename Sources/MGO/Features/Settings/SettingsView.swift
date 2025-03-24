@@ -18,12 +18,14 @@ class SettingsViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case resetApplication
-		case showResetDialog
+		case aboutTheApp
+		case advancedSettings
 		case cancelDialog
 		case displaySettings
+		case lockApplication
+		case resetApplication
 		case securitySettings
-		case advancedSettings
+		case showResetDialog
 	}
 	
 	/// Intitializer
@@ -40,19 +42,29 @@ class SettingsViewModel: ObservableObject {
 	func reduce(_ action: SettingsViewModel.Action) {
 		
 		switch action {
-			case .resetApplication:
-				coordinator?.handle(Coordination.Action.resetApplication)
-			case .showResetDialog:
-				showResetDialog = true
+			case .aboutTheApp:
+				break
+
+			case .advancedSettings:
+				coordinator?.handle(Coordination.Action.showAdvancedSettings)
+			
 			case .cancelDialog:
 				showResetDialog = false
 			
 			case .displaySettings:
 				coordinator?.handle(Coordination.Action.showDisplaySettings)
+			
+			case .lockApplication:
+				break
+			
+			case .resetApplication:
+				coordinator?.handle(Coordination.Action.resetApplication)
+			
+			case .showResetDialog:
+				showResetDialog = true
+			
 			case .securitySettings:
 				coordinator?.handle(Coordination.Action.showSecuritySettings)
-			case .advancedSettings:
-				coordinator?.handle(Coordination.Action.showAdvancedSettings)
 		}
 	}
 }
@@ -70,6 +82,9 @@ struct SettingsView: View {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 8
+		}
 		enum General {
 			static let padding: CGFloat = 16
 			static let inset: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
@@ -82,53 +97,41 @@ struct SettingsView: View {
 		enum Chevron {
 			static let size: CGFloat = 24.0
 		}
+		enum Button {
+			static let minimumHeight: CGFloat = 48
+		}
 	}
 	
 	var body: some View {
 		
-		VStack {
-			List {
-				Section {
-					
-					displaySettings()
-					
-					if Current.localAuthenticationProvider.biometricType() != .none {
-						securitySettings()
-					}
-				}
+		List {
+			Section {
 				
-				Section {
-					advancedSettings()
-				}
-				footer: {
-					Text("settings.advanced.subheading")
-						.rijksoverheidStyle(font: .regular, style: .callout)
-						.foregroundStyle(theme.contentSecondary)
+				displaySettings()
+				
+				if Current.localAuthenticationProvider.biometricType() != .none {
+					securitySettings()
 				}
 			}
-			.backportScrollContentBackground(.hidden)
-			.backportListSectionSpacing(32)
-			.backportVerticalContentMargins(0)
+			
+			advancedSettings()
+			aboutTheApp()
+			logout()
+			reset()
 		}
-//		.when(viewModel.showResetButton) { view in
-//			view
-//				.safeAreaInset(edge: VerticalEdge.bottom) {
-//					CallToActionButton("settings.reset_app.button", style: .primaryCritical) {
-//						viewModel.reduce(.showResetDialog)
-//					}
-//					.padding(ViewTraits.Button.insets)
-//				}
-//		}
-//		.alert(
-//			"settings.reset_app.dialog.heading",
-//			isPresented: $viewModel.showResetDialog) {
-//				Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }
-//					.accessibilityIdentifier("common.no")
-//				Button("common.yes", role: .destructive) { viewModel.reduce(.resetApplication) }
-//					.accessibilityIdentifier("common.yes")
-//			} message: {
-//				Text("settings.reset_app.dialog.subheading")
-//			}
+		.backportScrollContentBackground(.hidden)
+		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
+		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
+		.alert(
+			"settings.reset_app.dialog.heading",
+			isPresented: $viewModel.showResetDialog) {
+				Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }
+					.accessibilityIdentifier("common.no")
+				Button("common.yes", role: .destructive) { viewModel.reduce(.resetApplication) }
+					.accessibilityIdentifier("common.yes")
+			} message: {
+				Text("settings.reset_app.dialog.subheading")
+			}
 
 		.navigationTitle("settings.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
@@ -143,19 +146,21 @@ struct SettingsView: View {
 	///   - subHeading: the subheading for the row
 	/// - Returns: View for a settings row
 	@ViewBuilder private func settingsRow(
-		icon: Image,
-		iconBackground: Color,
+		icon: Image? = nil,
+		iconBackground: Color? = nil,
 		heading: LocalizedStringKey,
 		subHeading: LocalizedStringKey? = nil
 	) -> some View {
 		HStack(spacing: 0) {
 			
-			icon
-				.foregroundStyle(theme.backgroundSecondary)
-				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size, alignment: .center)
-				.background(iconBackground)
-				.cornerRadius(ViewTraits.Icon.cornerRadius)
-				.padding(.trailing, ViewTraits.Icon.padding)
+			if let icon, let iconBackground {
+				icon
+					.foregroundStyle(theme.backgroundSecondary)
+					.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size, alignment: .center)
+					.background(iconBackground)
+					.cornerRadius(ViewTraits.Icon.cornerRadius)
+					.padding(.trailing, ViewTraits.Icon.padding)
+			}
 			
 			Text(heading)
 				.rijksoverheidStyle(font: .regular, style: .body)
@@ -215,16 +220,91 @@ struct SettingsView: View {
 	/// - Returns: Button for the advanced settings
 	@ViewBuilder private func advancedSettings() -> some View {
 		
-		Button {
-			viewModel.reduce(.advancedSettings)
-		} label: {
-			settingsRow(
-				icon: Image(ImageResource.Settings.advanced),
-				iconBackground: theme.vitals,
-				heading: "settings.advanced.heading"
-			)
+		Section {
+			Button {
+				viewModel.reduce(.advancedSettings)
+			} label: {
+				settingsRow(
+					icon: Image(ImageResource.Settings.advanced),
+					iconBackground: theme.vitals,
+					heading: "settings.advanced.heading"
+				)
+			}
+			.listRowInsets(ViewTraits.General.inset)
 		}
-		.listRowInsets(ViewTraits.General.inset)
+		footer: {
+			Text("settings.advanced.subheading")
+				.rijksoverheidStyle(font: .regular, style: .callout)
+				.foregroundStyle(theme.contentSecondary)
+		}
+	}
+	
+	/// Get the view for the about the app option
+	/// - Returns: Button for the about the app option
+	@ViewBuilder private func aboutTheApp() -> some View {
+		
+		Section {
+			Button {
+				viewModel.reduce(.aboutTheApp)
+			} label: {
+				settingsRow(
+					heading: "settings.about_this_app.heading"
+				)
+			}
+			.listRowInsets(ViewTraits.General.inset)
+		}
+	}
+	
+	/// Get the view for the logout option
+	/// - Returns: Button for the logout option
+	@ViewBuilder private func logout() -> some View {
+		
+		Section {
+			Button {
+				viewModel.reduce(.lockApplication)
+			} label: {
+				Text("settings.log_out.heading")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.interactionTertiaryDefaultText)
+					.frame(
+						maxWidth: .infinity,
+						minHeight: ViewTraits.Button.minimumHeight,
+						alignment: .center
+					)
+			}
+			.listRowInsets(ViewTraits.General.inset)
+		}
+		footer: {
+			Text("settings.log_out.subheading")
+				.rijksoverheidStyle(font: .regular, style: .callout)
+				.foregroundStyle(theme.contentSecondary)
+		}
+	}
+	
+	/// Get the view for the reset option
+	/// - Returns: Button for the rest option
+	@ViewBuilder private func reset() -> some View {
+		
+		Section {
+			Button {
+				viewModel.reduce(.showResetDialog)
+			} label: {
+				Text("settings.reset_app.heading")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.sentimentCritical)
+					.frame(
+						maxWidth: .infinity,
+						minHeight: ViewTraits.Button.minimumHeight,
+						alignment: .center
+					)
+			}
+			.listRowInsets(ViewTraits.General.inset)
+		}
+		footer: {
+			Text("settings.reset_app.subheading")
+				.rijksoverheidStyle(font: .regular, style: .callout)
+				.foregroundStyle(theme.contentSecondary)
+		}
 	}
 }
 

@@ -56,6 +56,9 @@ struct AdvancedSettingsView: View {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 24
+		}
 		enum General {
 			static let padding: CGFloat = 16
 			static let inset: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
@@ -72,27 +75,30 @@ struct AdvancedSettingsView: View {
 	
 	var body: some View {
 		
-		VStack {
-			List {
-				Section {
-					
-					if viewModel.showAutomaticLocalizationOption {
-						Toggle(isOn: $automaticLocalization) {
-							Text("settings.featureflag.localization")
-						}.toggleStyle(.switch)
-							.tint(theme.interactionPrimaryDefaultBackground)
-					}
-				}
-				.onChange(of: automaticLocalization) { newValue in
-					viewModel.reduce(.automaticLocalization(newValue))
-				}
+		List {
+			Section {
 				
+				if viewModel.showAutomaticLocalizationOption {
+					Toggle(isOn: $automaticLocalization) {
+						Text("settings.featureflag.localization")
+					}.toggleStyle(.switch)
+						.tint(theme.interactionPrimaryDefaultBackground)
+				}
 			}
-			.backportScrollContentBackground(.hidden)
-			.backportListSectionSpacing(32)
-			.backportVerticalContentMargins(0)
+			.onChange(of: automaticLocalization) { newValue in
+				viewModel.reduce(.automaticLocalization(newValue))
+			}
+			
 		}
+		.backportScrollContentBackground(.hidden)
+		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
+
+		.navigationBarBackButtonHidden()
+		.navigationBarItems(leading: BackButton("settings.heading") {
+			viewModel.reduce(.backButtonPressed)
+		})
 		.navigationTitle("settings.advanced.heading")
+		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 	}
