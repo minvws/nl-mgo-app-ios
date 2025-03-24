@@ -58,6 +58,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	func handle(_ action: Coordination.Action) {
 		
 		switch action {
+			case .backButtonPressed:
+				path.removeLast()
+			
 			case .showDisplaySettings:
 				path.append(SettingsCoordination.State.displaySettings)
 			
@@ -83,7 +86,12 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				DisplaySettingsView()
 			
 			case .securitySettings:
-				Text("Todo")
+				SecuritySettingsView(
+					viewModel: SecuritySettingsViewModel(
+						coordinator: self,
+						bioMetricType: Current.localAuthenticationProvider.biometricType
+					)
+				)
 			
 			default:
 				EmptyView()

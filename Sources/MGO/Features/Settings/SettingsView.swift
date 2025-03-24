@@ -97,7 +97,9 @@ struct SettingsView: View {
 					
 					displaySetting()
 					
-					securitySetting()
+					if Current.localAuthenticationProvider.biometricType() != .none {
+						securitySetting()
+					}
 					
 //					if viewModel.showAutomaticLocalizationOption {
 //						Toggle(isOn: $automaticLocalization) {

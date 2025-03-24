@@ -2050,6 +2050,17 @@
         }
       }
     },
+    "setting.security.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik dit in plaats van je toegangscode om veilig en nog sneller in te loggen."
+          }
+        }
+      }
+    },
     "settings.about_this_app.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2270,6 +2281,17 @@
         }
       }
     },
+    "settings.security.faceId" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Face ID"
+          }
+        }
+      }
+    },
     "settings.security.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2277,6 +2299,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Beveiliging"
+          }
+        }
+      }
+    },
+    "settings.security.opticId" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optic ID"
+          }
+        }
+      }
+    },
+    "settings.security.touchId" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID"
           }
         }
       }
@@ -2324,9 +2368,6 @@
           }
         }
       }
-    },
-    "Todo" : {
-
     },
     "update_required.download" : {
       "extractionState" : "manual",
