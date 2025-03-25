@@ -70,4 +70,16 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showAccessibility
 	}
+	
+	func test_showSharedCoreVersion_shouldShowDialog() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.showSharedCoreVersion)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == false
+		expect(self.sut.showSharedCoreVersionDialog) == true
+	}
 }

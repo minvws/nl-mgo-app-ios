@@ -86,4 +86,16 @@ final class AboutTheAppViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showOpenSourceLibraries
 	}
+	
+	func test_showSharedCoreVersion() throws {
+		
+		// Given
+		let content = NavigationView { sut }
+		
+		// When
+		try content.inspect().find(viewWithAccessibilityIdentifier: "settings.about_this_app.version").button().tap()
+
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == false
+	}
 }

@@ -14,12 +14,18 @@ class AboutTheAppViewModel: ObservableObject {
 	weak var coordinator: (any Coordinator)?
 	
 	/// The current version of the application
-	@Published var version: String
+	@Published var appVersion: String
+	
+	/// The current version of the shared core
+	@Published var sharedCoreVersion: String?
+	
+	/// Show the shared core version dialog
+	@Published var showSharedCoreVersionDialog: Bool = false
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-		case showVersion
+		case showSharedCoreVersion
 		case showSafety
 		case showOpenSource
 		case showAccessibility
@@ -30,7 +36,13 @@ class AboutTheAppViewModel: ObservableObject {
 	init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator
 		
-		version = "\(Current.appVersionSupplier.getCurrentVersion()) (\(Current.appVersionSupplier.getCurrentBuild()))"
+		appVersion = "\(Current.appVersionSupplier.getCurrentVersion()) (\(Current.appVersionSupplier.getCurrentBuild()))"
+		
+		do {
+			sharedCoreVersion = try FHIRParser().getVersion()
+		} catch {
+			logError("No shared core version found: \(error)")
+		}
 	}
 	
 	/// Handle any action
@@ -41,8 +53,10 @@ class AboutTheAppViewModel: ObservableObject {
 			case .backButtonPressed:
 				coordinator?.handle(Coordination.Action.backButtonPressed)
 			
-			case .showVersion:
-				break
+			case .showSharedCoreVersion:
+				if sharedCoreVersion != nil {
+					showSharedCoreVersionDialog = true
+				}
 			
 			case .showSafety:
 				coordinator?.handle(Coordination.Action.showSafetyTips)
@@ -124,11 +138,11 @@ struct AboutTheAppView: View {
 	@ViewBuilder private func versionRow() -> some View {
 		
 		Button {
-			viewModel.reduce(.showVersion)
+			viewModel.reduce(.showSharedCoreVersion)
 		} label: {
 			SettingsRowView(
 				heading: "settings.about_this_app.version",
-				subHeading: LocalizedStringKey(viewModel.version),
+				subHeading: LocalizedStringKey(viewModel.appVersion),
 				showChevron: false
 			)
 		}
@@ -138,6 +152,11 @@ struct AboutTheAppView: View {
 			minHeight: ViewTraits.Button.minimumHeight
 		)
 		.listRowInsets(ViewTraits.General.inset)
+		.alert("settings.about_this_app.version", isPresented: $viewModel.showSharedCoreVersionDialog) {
+			Button("common.ok") { /* no action available */ }
+		} message: {
+			Text(viewModel.sharedCoreVersion ?? "")
+		}
 	}
 	
 	/// Get the view for the safety row
