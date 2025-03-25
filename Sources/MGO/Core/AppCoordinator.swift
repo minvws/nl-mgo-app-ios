@@ -473,15 +473,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		showChildCoordinator = true
 	}
 	
-	/// Handle the pincode validated action
+	/// Handle the pincode validated action after lockout
 	private func handlePinCodeValidatedAfterLockout() {
-		guard Current.secureUserSettings.enteredBackground == nil else {
-			showAuthenticationModal = false
-			rootStateForSheet = nil
-			pathForSheet = NavigationStackBackport.NavigationPath()
-			Current.secureUserSettings.enteredBackground = nil
-			return
-		}
+		
+		showAuthenticationModal = false
+		rootStateForSheet = nil
+		pathForSheet = NavigationStackBackport.NavigationPath()
+		Current.secureUserSettings.enteredBackground = nil
 	}
 	
 	/// Handle the show Privacy statement action

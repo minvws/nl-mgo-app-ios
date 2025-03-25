@@ -221,9 +221,14 @@ class PinCodeViewModel: ObservableObject {
 			case .backButtonPressed:
 				coordinator?.handle(Coordination.Action.backButtonPressed)
 			case .onAppear:
-				if case .validation = mode {
+				if case let .validation(lockout) = mode {
 					
+					// Do not show bio login on lockout.
+					guard !lockout else { return }
+					
+					// Only show bio login when enabled
 					guard Current.secureUserSettings.bioMetricAuthenticationEnabled else { return }
+					
 					delay(0.5) {
 						self.showBioMetricLogin()
 					}

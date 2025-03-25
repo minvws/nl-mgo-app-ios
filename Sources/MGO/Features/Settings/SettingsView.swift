@@ -13,7 +13,10 @@ class SettingsViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
-	@Published var showResetButton: Bool = false
+	/// Should we show the advanced settings button
+	@Published var showAdvancedButton: Bool = false
+	
+	/// Should we show the reset dialog
 	@Published var showResetDialog: Bool = false
 	
 	/// A list of all the actions this viewModel can handle
@@ -28,13 +31,13 @@ class SettingsViewModel: ObservableObject {
 		case showResetDialog
 	}
 	
-	/// Intitializer
+	/// Create the settings view model
 	/// - Parameter coordinator: the app coordinator
 	init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator
 		
 		let release = Configuration().getRelease()
-		showResetButton = release != Release.production // Show only in Dev, Acc & Test
+		showAdvancedButton = release == Release.development // Show only in Dev
 	}
 	
 	/// Handle any action
@@ -43,8 +46,8 @@ class SettingsViewModel: ObservableObject {
 		
 		switch action {
 			case .aboutTheApp:
-				break
-
+				coordinator?.handle(Coordination.Action.showAboutTheApp)
+			
 			case .advancedSettings:
 				coordinator?.handle(Coordination.Action.showAdvancedSettings)
 			
@@ -55,7 +58,7 @@ class SettingsViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.showDisplaySettings)
 			
 			case .lockApplication:
-				break
+				coordinator?.handle(Coordination.Action.lockApplication)
 			
 			case .resetApplication:
 				coordinator?.handle(Coordination.Action.resetApplication)
@@ -113,7 +116,7 @@ struct SettingsView: View {
 					securitySettings()
 				}
 			}
-			if Configuration().getRelease() == .development {
+			if viewModel.showAdvancedButton {
 				advancedSettings()
 			}
 			aboutTheApp()

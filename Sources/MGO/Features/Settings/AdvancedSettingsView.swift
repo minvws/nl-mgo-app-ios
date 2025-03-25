@@ -13,10 +13,6 @@ class AdvancedSettingsViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
-	@Published var showResetButton: Bool = false
-	@Published var showResetDialog: Bool = false
-	@Published var showAutomaticLocalizationOption: Bool = false
-	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -27,7 +23,6 @@ class AdvancedSettingsViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator
-		showAutomaticLocalizationOption = !Current.featureFlagManager.isDemo
 	}
 	
 	/// Handle any action
@@ -77,22 +72,17 @@ struct AdvancedSettingsView: View {
 		
 		List {
 			Section {
-				
-				if viewModel.showAutomaticLocalizationOption {
-					Toggle(isOn: $automaticLocalization) {
-						Text("settings.featureflag.localization")
-					}.toggleStyle(.switch)
-						.tint(theme.interactionPrimaryDefaultBackground)
-				}
+				Toggle(isOn: $automaticLocalization) {
+					Text("settings.featureflag.localization")
+				}.toggleStyle(.switch)
+					.tint(theme.interactionPrimaryDefaultBackground)
 			}
-			.onChange(of: automaticLocalization) { newValue in
-				viewModel.reduce(.automaticLocalization(newValue))
-			}
-			
+		}
+		.onChange(of: automaticLocalization) { newValue in
+			viewModel.reduce(.automaticLocalization(newValue))
 		}
 		.backportScrollContentBackground(.hidden)
 		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
-
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("settings.heading") {
 			viewModel.reduce(.backButtonPressed)

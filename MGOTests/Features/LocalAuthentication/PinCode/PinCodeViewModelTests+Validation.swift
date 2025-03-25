@@ -236,9 +236,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == false
-		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue(), timeout: .seconds(5))
-		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue(), timeout: .seconds(5))
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidatedAfterLockout), timeout: .seconds(5))
+		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate) == false
 	}
 	
 	func test_validation_biometricKeyPressed_authenticated() {

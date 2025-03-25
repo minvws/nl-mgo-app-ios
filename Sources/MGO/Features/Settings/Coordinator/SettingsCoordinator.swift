@@ -13,6 +13,8 @@ extension Coordination.Action {
 	static let showDisplaySettings = Coordination.Action(identifier: "showDisplaySettings")
 	static let showSecuritySettings = Coordination.Action(identifier: "showSecuritySettings")
 	static let showAdvancedSettings = Coordination.Action(identifier: "showAdvancedSettings")
+	static let showAboutTheApp = Coordination.Action(identifier: "showAboutTheApp")
+	static let lockApplication = Coordination.Action(identifier: "lockApplication")
 }
 
 protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
@@ -37,6 +39,7 @@ enum SettingsCoordination {
 		case displaySettings
 		case securitySettings
 		case advancedSettings
+		case aboutTheApp
 	}
 }
 
@@ -48,7 +51,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// The parent coordinator for routing
 	private weak var parentCoordinator: (any DashboardCoordinatorProtocol)?
 	
-	/// Initializer
+	/// Create a Settings Coordinator
 	/// - Parameter coordinator: the coordinator
 	init(parentCoordinator: (any DashboardCoordinatorProtocol)?) {
 		
@@ -63,14 +66,20 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			case .backButtonPressed:
 				path.removeLast()
 			
-			case .showDisplaySettings:
-				path.append(SettingsCoordination.State.displaySettings)
+			case .lockApplication:
+				Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
 			
-			case .showSecuritySettings:
-				path.append(SettingsCoordination.State.securitySettings)
-			
+			case .showAboutTheApp:
+				path.append(SettingsCoordination.State.aboutTheApp)
+	
 			case .showAdvancedSettings:
 				path.append(SettingsCoordination.State.advancedSettings)
+			
+			case .showDisplaySettings:
+				path.append(SettingsCoordination.State.displaySettings)
+				
+			case .showSecuritySettings:
+				path.append(SettingsCoordination.State.securitySettings)
 			
 			default:
 				logWarning("Settings Coordinator does not handle \(action)")
@@ -84,8 +93,13 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 		
 		switch state {
 			
-			case .settings:
-				SettingsView(viewModel: SettingsViewModel(coordinator: self))
+			case .advancedSettings:
+				AdvancedSettingsView(
+					viewModel: AdvancedSettingsViewModel(coordinator: self)
+				)
+			
+			case .aboutTheApp:
+				Text(verbatim: "Todo: About the app")
 			
 			case .displaySettings:
 				DisplaySettingsView()
@@ -98,10 +112,8 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 					)
 				)
 			
-			case .advancedSettings:
-				AdvancedSettingsView(
-					viewModel: AdvancedSettingsViewModel(coordinator: self)
-				)
+			case .settings:
+				SettingsView(viewModel: SettingsViewModel(coordinator: self))
 			
 			default:
 				EmptyView()

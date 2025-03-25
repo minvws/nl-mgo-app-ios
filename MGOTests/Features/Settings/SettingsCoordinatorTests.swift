@@ -70,4 +70,26 @@ final class SettingsCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.advancedSettings])
 	}
+	
+	func test_coordinatorHandle_showAboutTheApp() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.showAboutTheApp)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutTheApp])
+	}
+	
+	func test_coordinatorHandle_lockAppliction() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.lockApplication)
+		
+		// Then
+		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
+	}
 }

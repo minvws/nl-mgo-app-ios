@@ -2050,17 +2050,6 @@
         }
       }
     },
-    "setting.security.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gebruik dit in plaats van je toegangscode om veilig en nog sneller in te loggen."
-          }
-        }
-      }
-    },
     "settings.about_this_app.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2287,7 +2276,18 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je verwijderd zo al je opgeslagen zorgaanbieders"
+            "value" : "Je verwijderd zo al je opgeslagen zorgaanbieders en toegangscode"
+          }
+        }
+      }
+    },
+    "settings.security.biometric.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik dit in plaats van je toegangscode om veilig en nog sneller in te loggen."
           }
         }
       }
