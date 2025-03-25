@@ -142,51 +142,6 @@ struct SettingsView: View {
 		.layoutForIPad()
 	}
 	
-	/// Create a row for the settings view
-	/// - Parameters:
-	///   - icon: the icon to display
-	///   - iconBackground: the background for the icon
-	///   - heading: the heading for the row
-	///   - subHeading: the subheading for the row
-	/// - Returns: View for a settings row
-	@ViewBuilder private func settingsRow(
-		icon: Image? = nil,
-		iconBackground: Color? = nil,
-		heading: LocalizedStringKey,
-		subHeading: LocalizedStringKey? = nil
-	) -> some View {
-		HStack(spacing: 0) {
-			
-			if let icon, let iconBackground {
-				icon
-					.foregroundStyle(theme.backgroundSecondary)
-					.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size, alignment: .center)
-					.background(iconBackground)
-					.cornerRadius(ViewTraits.Icon.cornerRadius)
-					.padding(.trailing, ViewTraits.Icon.padding)
-			}
-			
-			Text(heading)
-				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
-				.frame(minHeight: ViewTraits.Icon.size)
-			
-			Spacer()
-			if let subHeading {
-				Text(subHeading)
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentSecondary)
-					.frame(minHeight: ViewTraits.Icon.size)
-			}
-			
-			Image(ImageResource.Overview.chevronRight)
-				.foregroundStyle(theme.symbolPrimary)
-				.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
-				.accessibilityHidden(true)
-		}
-		.padding(ViewTraits.General.padding)
-	}
-	
 	/// Get the view for the display settings option
 	/// - Returns: Button for the display settings
 	@ViewBuilder private func displaySettings() -> some View {
@@ -194,7 +149,7 @@ struct SettingsView: View {
 		Button {
 			viewModel.reduce(.displaySettings)
 		} label: {
-			settingsRow(
+			SettingsRowView(
 				icon: Image(ImageResource.Settings.display),
 				iconBackground: theme.procedures,
 				heading: "settings.display.heading",
@@ -211,7 +166,7 @@ struct SettingsView: View {
 		Button {
 			viewModel.reduce(.securitySettings)
 		} label: {
-			settingsRow(
+			SettingsRowView(
 				icon: Image(ImageResource.Settings.lock),
 				iconBackground: theme.rijksLint,
 				heading: "settings.security.heading"
@@ -228,7 +183,7 @@ struct SettingsView: View {
 			Button {
 				viewModel.reduce(.advancedSettings)
 			} label: {
-				settingsRow(
+				SettingsRowView(
 					icon: Image(ImageResource.Settings.advanced),
 					iconBackground: theme.vitals,
 					heading: "settings.advanced.heading"
@@ -251,7 +206,7 @@ struct SettingsView: View {
 			Button {
 				viewModel.reduce(.aboutTheApp)
 			} label: {
-				settingsRow(
+				SettingsRowView(
 					heading: "settings.about_this_app.heading"
 				)
 			}
