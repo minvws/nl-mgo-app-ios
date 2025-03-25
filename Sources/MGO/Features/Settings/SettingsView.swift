@@ -92,14 +92,6 @@ struct SettingsView: View {
 			static let padding: CGFloat = 16
 			static let inset: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
 		}
-		enum Icon {
-			static let size: CGFloat = 24.0
-			static let padding: CGFloat = 16.0
-			static let cornerRadius: CGFloat = 6.0
-		}
-		enum Chevron {
-			static let size: CGFloat = 24.0
-		}
 		enum Button {
 			static let minimumHeight: CGFloat = 48
 		}
