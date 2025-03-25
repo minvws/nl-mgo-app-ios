@@ -14,6 +14,9 @@ extension Coordination.Action {
 	static let showSecuritySettings = Coordination.Action(identifier: "showSecuritySettings")
 	static let showAdvancedSettings = Coordination.Action(identifier: "showAdvancedSettings")
 	static let showAboutTheApp = Coordination.Action(identifier: "showAboutTheApp")
+	static let showSafetyTips = Coordination.Action(identifier: "showSafetyTips")
+	static let showOpenSourceLibraries = Coordination.Action(identifier: "showOpenSourceLibraries")
+	static let showAccessibility = Coordination.Action(identifier: "showAccessibility")
 	static let lockApplication = Coordination.Action(identifier: "lockApplication")
 }
 

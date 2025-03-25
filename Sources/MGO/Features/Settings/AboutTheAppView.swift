@@ -45,13 +45,13 @@ class AboutTheAppViewModel: ObservableObject {
 				break
 			
 			case .showSafety:
-				break
+				coordinator?.handle(Coordination.Action.showSafetyTips)
 			
 			case .showOpenSource:
-				break
+				coordinator?.handle(Coordination.Action.showOpenSourceLibraries)
 				
 			case .showAccessibility:
-				break
+				coordinator?.handle(Coordination.Action.showAccessibility)
 		}
 	}
 }
@@ -132,6 +132,7 @@ struct AboutTheAppView: View {
 				showChevron: false
 			)
 		}
+		.accessibilityIdentifier("settings.about_this_app.version")
 		.frame(
 			maxWidth: .infinity,
 			minHeight: ViewTraits.Button.minimumHeight
@@ -150,6 +151,7 @@ struct AboutTheAppView: View {
 				heading: "settings.about_this_app.safety"
 			)
 		}
+		.accessibilityIdentifier("settings.about_this_app.safety")
 		.frame(
 			maxWidth: .infinity,
 			minHeight: ViewTraits.Button.minimumHeight
@@ -168,6 +170,7 @@ struct AboutTheAppView: View {
 				heading: "settings.about_this_app.open_source"
 			)
 		}
+		.accessibilityIdentifier("settings.about_this_app.open_source")
 		.frame(
 			maxWidth: .infinity,
 			minHeight: ViewTraits.Button.minimumHeight
@@ -186,6 +189,7 @@ struct AboutTheAppView: View {
 				heading: "settings.about_this_app.accessibility"
 			)
 		}
+		.accessibilityIdentifier("settings.about_this_app.accessibility")
 		.frame(
 			maxWidth: .infinity,
 			minHeight: ViewTraits.Button.minimumHeight
