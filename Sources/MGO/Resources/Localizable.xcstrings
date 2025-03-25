@@ -48,6 +48,7 @@
         }
       }
     },
+    "add_organization.already_added" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
