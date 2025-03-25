@@ -13,6 +13,9 @@ class AboutTheAppViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
+	/// The current version of the application
+	@Published var version: String
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -26,6 +29,8 @@ class AboutTheAppViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator
+		
+		version = "\(Current.appVersionSupplier.getCurrentVersion()) (\(Current.appVersionSupplier.getCurrentBuild()))"
 	}
 	
 	/// Handle any action
@@ -98,14 +103,13 @@ struct AboutTheAppView: View {
 	}
 	
 	@ViewBuilder private func header() -> some View {
-		VStack(spacing: 0) {
+		VStack(alignment: .leading, spacing: 0) {
 			
-//			HStack {
-////				Spacer()
-//				Image(ImageResource.Settings.logo)
-//					.padding(.bottom, 16)
-////				Spacer()
-//			}
+			HStack {
+				Spacer()
+				Image(ImageResource.Settings.logo)
+				Spacer()
+			}
 			
 			Text("common.app_name")
 				.rijksoverheidStyle(font: .bold, style: .body)
@@ -124,7 +128,7 @@ struct AboutTheAppView: View {
 		} label: {
 			SettingsRowView(
 				heading: "settings.about_this_app.version",
-				subHeading: "1.0.0",
+				subHeading: LocalizedStringKey(viewModel.version),
 				showChevron: false
 			)
 		}

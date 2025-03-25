@@ -99,7 +99,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				)
 			
 			case .aboutTheApp:
-				Text(verbatim: "Todo: About the app")
+				AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: self))
 			
 			case .displaySettings:
 				DisplaySettingsView()
