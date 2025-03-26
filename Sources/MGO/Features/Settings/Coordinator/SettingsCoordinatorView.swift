@@ -45,5 +45,5 @@ struct SettingsCoordinatorView<T: SettingsCoordinatorProtocol>: View {
 }
 
 #Preview {
-	DashboardCoordinatorView(coordinator: DashboardCoordinator(parentCoordinator: nil))
+	SettingsCoordinatorView(coordinator: SettingsCoordinator(parentCoordinator: nil))
 }
