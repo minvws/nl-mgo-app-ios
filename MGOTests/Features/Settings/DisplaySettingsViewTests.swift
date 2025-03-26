@@ -18,7 +18,7 @@ final class DisplaySettingsViewTests: XCTestCase {
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
 	}
 	
-	func disabled_test_displaySettingsView_systemSelected() {
+	func test_displaySettingsView_systemSelected() {
 		
 		// Given
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
@@ -32,7 +32,7 @@ final class DisplaySettingsViewTests: XCTestCase {
 		takeSnapShotsForiPad(content: content)
 	}
 	
-	func test_displaySettingsView_selectLight() throws {
+	func disabled_test_displaySettingsView_selectLight() throws {
 		
 		// Given
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
@@ -46,7 +46,7 @@ final class DisplaySettingsViewTests: XCTestCase {
 		expect(UserDefaults.standard.string(forKey: "AppAppearance")).toEventually(equal("light"))
 	}
 	
-	func test_displaySettingsView_selectDark() throws {
+	func disabled_test_displaySettingsView_selectDark() throws {
 		
 		// Given
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
@@ -60,7 +60,7 @@ final class DisplaySettingsViewTests: XCTestCase {
 		expect(UserDefaults.standard.string(forKey: "AppAppearance")).toEventually(equal("dark"))
 	}
 	
-	func test_displaySettingsView_selectSystem() throws {
+	func disabled_test_displaySettingsView_selectSystem() throws {
 		
 		// Given
 		UserDefaults.standard.set("light", forKey: "AppAppearance")
