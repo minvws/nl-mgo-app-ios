@@ -79,7 +79,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// - Parameter browser: the browser for displaying urls
 	init(
 		parentCoordinator: (any DashboardCoordinatorProtocol)?,
-		 browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
+		browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
 	) {
 		self.parentCoordinator = parentCoordinator
 		self.browser = browser
