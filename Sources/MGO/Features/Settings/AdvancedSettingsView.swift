@@ -60,10 +60,7 @@ struct AdvancedSettingsView: View {
 		
 		List {
 			Section {
-				Toggle(isOn: $automaticLocalization) {
-					Text("settings.featureflag.localization")
-				}.toggleStyle(.switch)
-					.tint(theme.interactionPrimaryDefaultBackground)
+				toggleView()
 			}
 		}
 		.onChange(of: automaticLocalization) { newValue in
@@ -79,6 +76,19 @@ struct AdvancedSettingsView: View {
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
+	}
+	
+	/// The view for the toggle
+	/// - Returns: toggle view
+	@ViewBuilder private func toggleView() -> some View {
+		
+		Toggle(isOn: $automaticLocalization) {
+			Text("settings.featureflag.localization")
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.foregroundStyle(theme.contentPrimary)
+		}
+			.toggleStyle(.switch)
+			.tint(theme.interactionPrimaryDefaultBackground)
 	}
 }
 

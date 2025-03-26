@@ -130,14 +130,8 @@ struct SecuritySettingsView: View {
 		List {
 			Section {
 				
-				Toggle(isOn: $viewModel.state.bioMetricAuthenticationEnabled) {
-					Text(LocalizedStringKey(label(viewModel.state.bioMetricType)))
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundStyle(theme.contentPrimary)
-				}
-					.toggleStyle(.switch)
-					.tint(theme.interactionPrimaryDefaultBackground)
-					.accessibilityIdentifier("settings.security.toggle")
+				toggleView()
+				
 			} footer: {
 				Text("settings.security.biometric.subheading")
 					.rijksoverheidStyle(font: .regular, style: .callout)
@@ -174,6 +168,20 @@ struct SecuritySettingsView: View {
 		.navigationTitle("settings.security.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
+	}
+	
+	/// The view for the toggle
+	/// - Returns: toggle view
+	@ViewBuilder private func toggleView() -> some View {
+		
+		Toggle(isOn: $viewModel.state.bioMetricAuthenticationEnabled) {
+			Text(LocalizedStringKey(label(viewModel.state.bioMetricType)))
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.foregroundStyle(theme.contentPrimary)
+		}
+			.toggleStyle(.switch)
+			.tint(theme.interactionPrimaryDefaultBackground)
+			.accessibilityIdentifier("settings.security.toggle")
 	}
 	
 	private func label(_ type: LocalAuthentication.BiometricType) -> String {

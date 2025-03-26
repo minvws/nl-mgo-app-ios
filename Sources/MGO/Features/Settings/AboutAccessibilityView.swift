@@ -61,26 +61,9 @@ struct AboutAccessibilityView: View {
 		
 		List {
 			Section {
-				Text("settings.accessibility.subheading")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
-					
-				Button {
-					viewModel.reduce(.moreInformationTapped)
-				} label: {
-					HStack(spacing: ViewTraits.General.padding) {
-						
-						Text("settings.accessibility.more_information")
-							.rijksoverheidStyle(font: .regular, style: .body)
-							.foregroundStyle(theme.interactionTertiaryDefaultText)
-						
-						Spacer()
-						
-						Image(ImageResource.Settings.arrowOutward)
-							.tint(theme.symbolSecondary)
-					}
-				}
-				.accessibilityIdentifier("settings.accessibility.more_information")
+				
+				subheading()
+				informationButton()
 			}
 			.listRowInsets(ViewTraits.General.inset)
 			.padding(ViewTraits.General.padding)
@@ -95,6 +78,37 @@ struct AboutAccessibilityView: View {
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
+	}
+	
+	/// Get the sub heading
+	/// - Returns: the sub heading view
+	@ViewBuilder private func subheading() -> some View {
+		
+		Text("settings.accessibility.subheading")
+			.rijksoverheidStyle(font: .regular, style: .body)
+			.foregroundStyle(theme.contentPrimary)
+	}
+	
+	/// The more information button
+	/// - Returns: the button for more information
+	@ViewBuilder private func informationButton() -> some View {
+		
+		Button {
+			viewModel.reduce(.moreInformationTapped)
+		} label: {
+			HStack(spacing: ViewTraits.General.padding) {
+				
+				Text("settings.accessibility.more_information")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.interactionTertiaryDefaultText)
+				
+				Spacer()
+				
+				Image(ImageResource.Settings.arrowOutward)
+					.tint(theme.symbolSecondary)
+			}
+		}
+		.accessibilityIdentifier("settings.accessibility.more_information")
 	}
 }
 
