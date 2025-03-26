@@ -121,4 +121,16 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
+	
+	func test_coordinatorView_forAboutOpenSourceLibraries() throws {
+		
+		// Given
+		let state = SettingsCoordination.State.aboutOpenSourceLibraries
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
 }

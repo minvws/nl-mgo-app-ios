@@ -20,6 +20,7 @@ extension Coordination.Action {
 	static let showAccessibility = Coordination.Action(identifier: "showAccessibility")
 	static let showAccessibilityMoreInformation = Coordination.Action(identifier: "showAccessibilityMoreInformation")
 	static let lockApplication = Coordination.Action(identifier: "lockApplication")
+	static let openUrl = Coordination.Action(identifier: "openUrl")
 }
 
 protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
@@ -47,6 +48,7 @@ enum SettingsCoordination {
 		case aboutTheApp
 		case aboutAccessibility
 		case aboutSafetyTips
+		case aboutOpenSourceLibraries
 		case browser(URL)
 	}
 }
@@ -90,6 +92,22 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// - Parameter action: any Action
 	func handle(_ action: Coordination.Action) {
 		
+		if action.identifier == Coordination.Action.openUrl.identifier {
+			
+			guard action.params.count == 1,
+				  let urlString = action.params["urlString"] as? String,
+				  let url = URL(string: urlString) else {
+				logError("SettingsCoordinator Coordinator, missing params for \(action)")
+				return
+			}
+			if browser.isDomainAllowed(url) {
+				path.append(SettingsCoordination.State.browser(url))
+			} else {
+				browser.handleUnallowedDomain(url)
+			}
+			return
+		}
+		
 		switch action {
 			case .backButtonPressed:
 				path.removeLast()
@@ -118,6 +136,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			case .showDisplaySettings:
 				path.append(SettingsCoordination.State.displaySettings)
 				
+			case .showOpenSourceLibraries:
+				path.append(SettingsCoordination.State.aboutOpenSourceLibraries)
+			
 			case .showSecuritySettings:
 				path.append(SettingsCoordination.State.securitySettings)
 			
@@ -137,13 +158,24 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 		switch state {
 			
 			case .aboutTheApp:
-				AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: self))
+				AboutTheAppView(
+					viewModel: AboutTheAppViewModel(coordinator: self)
+				)
 			
 			case .aboutAccessibility:
-				AboutAccessibilityView(viewModel: AboutAccessibilityViewModel(coordinator: self))
+				AboutAccessibilityView(
+					viewModel: AboutAccessibilityViewModel(coordinator: self)
+				)
 			
 			case .aboutSafetyTips:
-				AboutSafetyTipsView(viewModel: AboutSafetyTipsViewModel(coordinator: self))
+				AboutSafetyTipsView(
+					viewModel: AboutSafetyTipsViewModel(coordinator: self)
+				)
+			
+			case .aboutOpenSourceLibraries:
+				AboutOpenSourceLibrariesView(
+					viewModel: AboutOpenSourceLibrariesViewModel(coordinator: self)
+				)
 			
 			case .advancedSettings:
 				AdvancedSettingsView(
@@ -151,7 +183,14 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				)
 			
 			case .browser(let url):
-				InAppBrowserView(viewModel: InAppBrowserViewModel(url: url, browser: self.browser, title: nil, coordinator: self))
+				InAppBrowserView(
+					viewModel: InAppBrowserViewModel(
+						url: url,
+						browser: self.browser,
+						title: nil,
+						coordinator: self
+					)
+				)
 			
 			case .displaySettings:
 				DisplaySettingsView()

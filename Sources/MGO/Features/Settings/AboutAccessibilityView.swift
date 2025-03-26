@@ -100,6 +100,6 @@ struct AboutAccessibilityView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		SettingsView(viewModel: SettingsViewModel(coordinator: nil))
+		AboutAccessibilityView(viewModel: AboutAccessibilityViewModel(coordinator: nil))
 	}
 }

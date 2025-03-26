@@ -120,6 +120,41 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutSafetyTips])
 	}
 	
+	func test_coordinatorHandle_showOpenSourceLibraries() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.showOpenSourceLibraries)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutOpenSourceLibraries])
+	}
+	
+	func test_coordinatorHandle_openUrl() {
+		
+		// Given
+		let params: [String: AnyHashable] = ["urlString": "https://example.com"]
+		
+		// When
+		sut.handle(Coordination.Action(identifier: Coordination.Action.openUrl.identifier, params: params))
+		
+		// Then
+		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
+	}
+	
+	func test_coordinatorHandle_openUrl_wrongParams() {
+		
+		// Given
+		let params: [String: AnyHashable] = ["wrongParam": "https://example.com"]
+		
+		// When
+		sut.handle(Coordination.Action(identifier: Coordination.Action.openUrl.identifier, params: params))
+		
+		// Then
+		expect(self.urlOpenerSpy.invokedOpen).toEventually(beFalse())
+	}
+	
 	func test_coordinatorHandle_lockAppliction() {
 		
 		// Given

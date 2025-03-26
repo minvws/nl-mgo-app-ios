@@ -2204,6 +2204,17 @@
         }
       }
     },
+    "settings.about_this_app.open_source.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze app is gebaseerd op open source software. Open source software is software waarvan de broncode is gepubliceerd en vrij beschikbaar is. De software mag worden gebruikt, mits de licentie wordt gedeeld. Hierna vindt u een overzicht van de licenties van de open source software in deze app. De ontwikkelaars hebben deze licenties in het Engels geschreven. Er is geen Nederlandse vertaling van."
+          }
+        }
+      }
+    },
     "settings.about_this_app.privacy" : {
       "extractionState" : "manual",
       "localizations" : {

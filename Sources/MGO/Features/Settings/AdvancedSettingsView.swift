@@ -84,6 +84,6 @@ struct AdvancedSettingsView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		SettingsView(viewModel: SettingsViewModel(coordinator: nil))
+		AdvancedSettingsView(viewModel: AdvancedSettingsViewModel(coordinator: nil))
 	}
 }

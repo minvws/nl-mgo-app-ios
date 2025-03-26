@@ -123,6 +123,6 @@ struct AboutSafetyTipsView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		SettingsView(viewModel: SettingsViewModel(coordinator: nil))
+		AboutSafetyTipsView(viewModel: AboutSafetyTipsViewModel(coordinator: nil))
 	}
 }

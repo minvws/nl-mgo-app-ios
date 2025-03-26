@@ -195,6 +195,11 @@ struct SecuritySettingsView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		SettingsView(viewModel: SettingsViewModel(coordinator: nil))
+		SecuritySettingsView(
+			viewModel: SecuritySettingsViewModel(
+				coordinator: nil,
+				bioMetricType: { .faceID }
+			)
+		)
 	}
 }
