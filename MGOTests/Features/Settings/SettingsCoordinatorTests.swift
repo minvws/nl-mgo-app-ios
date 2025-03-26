@@ -9,19 +9,24 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
+import RestrictedBrowser
 
 final class SettingsCoordinatorTests: XCTestCase {
 	
 	private var sut: SettingsCoordinator!
 	private var parentCoordinator: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
+	private var urlOpenerSpy: URLOpenerSpy!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
+		urlOpenerSpy = URLOpenerSpy()
+		urlOpenerSpy.stubbedCanOpenURLResult = true
+		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
 		parentCoordinator = DashboardCoordinatorSpy()
-		sut = SettingsCoordinator(parentCoordinator: parentCoordinator)
+		sut = SettingsCoordinator(parentCoordinator: parentCoordinator, browser: browser)
 	}
 	
 	// MARK: - Handle -
@@ -80,6 +85,28 @@ final class SettingsCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutTheApp])
+	}
+	
+	func test_coordinatorHandle_showAboutAccessibility() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.showAccessibility)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutAccessibility])
+	}
+	
+	func test_coordinatorHandle_showAccessibilityMoreInformation() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.showAccessibilityMoreInformation)
+		
+		// Then
+		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
 	func test_coordinatorHandle_lockAppliction() {

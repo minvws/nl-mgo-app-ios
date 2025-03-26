@@ -97,4 +97,16 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
+	
+	func test_coordinatorView_forAboutAccessibility() throws {
+		
+		// Given
+		let state = SettingsCoordination.State.aboutAccessibility
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
 }

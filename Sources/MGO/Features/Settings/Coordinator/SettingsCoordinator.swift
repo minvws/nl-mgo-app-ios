@@ -7,6 +7,7 @@
 
 import MGOUI
 import MGOFoundation
+import RestrictedBrowser
 
 extension Coordination.Action {
 	
@@ -17,6 +18,7 @@ extension Coordination.Action {
 	static let showSafetyTips = Coordination.Action(identifier: "showSafetyTips")
 	static let showOpenSourceLibraries = Coordination.Action(identifier: "showOpenSourceLibraries")
 	static let showAccessibility = Coordination.Action(identifier: "showAccessibility")
+	static let showAccessibilityMoreInformation = Coordination.Action(identifier: "showAccessibilityMoreInformation")
 	static let lockApplication = Coordination.Action(identifier: "lockApplication")
 }
 
@@ -43,6 +45,8 @@ enum SettingsCoordination {
 		case securitySettings
 		case advancedSettings
 		case aboutTheApp
+		case aboutAccessibility
+		case browser(URL)
 	}
 }
 
@@ -54,11 +58,31 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// The parent coordinator for routing
 	private weak var parentCoordinator: (any DashboardCoordinatorProtocol)?
 	
-	/// Create a Settings Coordinator
-	/// - Parameter coordinator: the coordinator
-	init(parentCoordinator: (any DashboardCoordinatorProtocol)?) {
+	/// the browser to open allowed domains in
+	private var browser: RestrictedBrowser!
+	
+	/// the URL for the more information page
+	private var moreInformationURL: URL? {
 		
+		switch Configuration().getRelease() {
+			case .production:
+				return URL(string: String(localized: "settings.accessibility.more_information_url.prod"))
+			case .demo, .acceptance:
+				return URL(string: String(localized: "settings.accessibility.more_information_url.acc"))
+			case .test, .development:
+				return URL(string: String(localized: "settings.accessibility.more_information_url.test"))
+		}
+	}
+	
+	/// Create a Settings Coordinator
+	/// - Parameter parentCoordinator: the presenting parent coordinator
+	/// - Parameter browser: the browser for displaying urls
+	init(
+		parentCoordinator: (any DashboardCoordinatorProtocol)?,
+		 browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
+	) {
 		self.parentCoordinator = parentCoordinator
+		self.browser = browser
 	}
 	
 	/// Handle any incoming action from any of the view models
@@ -74,7 +98,19 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			
 			case .showAboutTheApp:
 				path.append(SettingsCoordination.State.aboutTheApp)
-	
+			
+			case .showAccessibility:
+				path.append(SettingsCoordination.State.aboutAccessibility)
+			
+			case .showAccessibilityMoreInformation:
+				guard let moreInformationURL else { return }
+				
+				if browser.isDomainAllowed(moreInformationURL) {
+					path.append(SettingsCoordination.State.browser(moreInformationURL))
+				} else {
+					browser.handleUnallowedDomain(moreInformationURL)
+				}
+			
 			case .showAdvancedSettings:
 				path.append(SettingsCoordination.State.advancedSettings)
 			
@@ -96,13 +132,19 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 		
 		switch state {
 			
+			case .aboutTheApp:
+				AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: self))
+			
+			case .aboutAccessibility:
+				AboutAccessibilityView(viewModel: AboutAccessibilityViewModel(coordinator: self))
+			
 			case .advancedSettings:
 				AdvancedSettingsView(
 					viewModel: AdvancedSettingsViewModel(coordinator: self)
 				)
 			
-			case .aboutTheApp:
-				AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: self))
+			case .browser(let url):
+				InAppBrowserView(viewModel: InAppBrowserViewModel(url: url, browser: self.browser, title: nil, coordinator: self))
 			
 			case .displaySettings:
 				DisplaySettingsView()

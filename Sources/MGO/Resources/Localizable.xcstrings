@@ -2105,7 +2105,7 @@
         }
       }
     },
-    "settings.accessibility.header" : {
+    "settings.accessibility.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -2127,7 +2127,29 @@
         }
       }
     },
-    "settings.accessibility.more_information_url" : {
+    "settings.accessibility.more_information_url.acc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.acc.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.accessibility.more_information_url.prod" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.accessibility.more_information_url.test" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {

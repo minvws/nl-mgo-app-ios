@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class AdvancedSettingsViewModel: ObservableObject {
+class AboutAccessibilityViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -16,10 +16,10 @@ class AdvancedSettingsViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-		case automaticLocalization(Bool)
+		case moreInformationTapped
 	}
 	
-	/// Intitializer
+	/// Create the accessibility ViewModel
 	/// - Parameter coordinator: the app coordinator
 	init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator
@@ -27,32 +27,33 @@ class AdvancedSettingsViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AdvancedSettingsViewModel.Action) {
+	func reduce(_ action: AboutAccessibilityViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
-			case let .automaticLocalization(automaticLocalization):
-				Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
+			case .moreInformationTapped:
+				coordinator?.handle(.showAccessibilityMoreInformation)
 		}
 	}
 }
 
-struct AdvancedSettingsView: View {
+struct AboutAccessibilityView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: AdvancedSettingsViewModel
+	@StateObject var viewModel: AboutAccessibilityViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
-	
-	/// Variable to change the automatic localization setting
-	@State private var automaticLocalization: Bool = Current.featureFlagManager.isAutomaticLocalizationEnabled
 	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
 			static let padding: CGFloat = 24
+		}
+		enum General {
+			static let padding: CGFloat = 16
+			static let inset: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
 		}
 	}
 	
@@ -60,22 +61,37 @@ struct AdvancedSettingsView: View {
 		
 		List {
 			Section {
-				Toggle(isOn: $automaticLocalization) {
-					Text("settings.featureflag.localization")
-				}.toggleStyle(.switch)
-					.tint(theme.interactionPrimaryDefaultBackground)
+				Text("settings.accessibility.subheading")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentPrimary)
+					
+				Button {
+					viewModel.reduce(.moreInformationTapped)
+				} label: {
+					HStack(spacing: ViewTraits.General.padding) {
+						
+						Text("settings.accessibility.more_information")
+							.rijksoverheidStyle(font: .regular, style: .body)
+							.foregroundStyle(theme.interactionTertiaryDefaultText)
+						
+						Spacer()
+						
+						Image(ImageResource.Settings.arrowOutward)
+							.tint(theme.symbolSecondary)
+					}
+				}
+				.accessibilityIdentifier("settings.accessibility.more_information")
 			}
-		}
-		.onChange(of: automaticLocalization) { newValue in
-			viewModel.reduce(.automaticLocalization(newValue))
+			.listRowInsets(ViewTraits.General.inset)
+			.padding(ViewTraits.General.padding)
 		}
 		.backportScrollContentBackground(.hidden)
 		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
-		.navigationBarItems(leading: BackButton("settings.heading") {
+		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)
 		})
-		.navigationTitle("settings.advanced.heading")
+		.navigationTitle("settings.accessibility.heading")
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
