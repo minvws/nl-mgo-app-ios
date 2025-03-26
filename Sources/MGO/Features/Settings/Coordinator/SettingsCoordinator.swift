@@ -46,6 +46,7 @@ enum SettingsCoordination {
 		case advancedSettings
 		case aboutTheApp
 		case aboutAccessibility
+		case aboutSafetyTips
 		case browser(URL)
 	}
 }
@@ -120,6 +121,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			case .showSecuritySettings:
 				path.append(SettingsCoordination.State.securitySettings)
 			
+			case .showSafetyTips:
+				path.append(SettingsCoordination.State.aboutSafetyTips)
+			
 			default:
 				logWarning("Settings Coordinator does not handle \(action)")
 		}
@@ -137,6 +141,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			
 			case .aboutAccessibility:
 				AboutAccessibilityView(viewModel: AboutAccessibilityViewModel(coordinator: self))
+			
+			case .aboutSafetyTips:
+				AboutSafetyTipsView(viewModel: AboutSafetyTipsViewModel(coordinator: self))
 			
 			case .advancedSettings:
 				AdvancedSettingsView(

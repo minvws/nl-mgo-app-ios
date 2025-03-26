@@ -109,6 +109,17 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
+	func test_coordinatorHandle_showSafetyTips() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.showSafetyTips)
+		
+		// Then
+		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutSafetyTips])
+	}
+	
 	func test_coordinatorHandle_lockAppliction() {
 		
 		// Given
