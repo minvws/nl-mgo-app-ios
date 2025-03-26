@@ -138,8 +138,7 @@ struct SecuritySettingsView: View {
 					.toggleStyle(.switch)
 					.tint(theme.interactionPrimaryDefaultBackground)
 					.accessibilityIdentifier("settings.security.toggle")
-			}
-			footer: {
+			} footer: {
 				Text("settings.security.biometric.subheading")
 					.rijksoverheidStyle(font: .regular, style: .callout)
 					.foregroundStyle(theme.contentSecondary)

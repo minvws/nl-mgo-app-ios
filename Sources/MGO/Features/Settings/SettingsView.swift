@@ -182,8 +182,7 @@ struct SettingsView: View {
 				)
 			}
 			.listRowInsets(ViewTraits.General.inset)
-		}
-		footer: {
+		} footer: {
 			Text("settings.advanced.subheading")
 				.rijksoverheidStyle(font: .regular, style: .callout)
 				.foregroundStyle(theme.contentSecondary)
@@ -224,8 +223,7 @@ struct SettingsView: View {
 					)
 			}
 			.listRowInsets(ViewTraits.General.inset)
-		}
-		footer: {
+		} footer: {
 			Text("settings.log_out.subheading")
 				.rijksoverheidStyle(font: .regular, style: .callout)
 				.foregroundStyle(theme.contentSecondary)
@@ -250,8 +248,7 @@ struct SettingsView: View {
 					)
 			}
 			.listRowInsets(ViewTraits.General.inset)
-		}
-		footer: {
+		} footer: {
 			Text("settings.reset_app.subheading")
 				.rijksoverheidStyle(font: .regular, style: .callout)
 				.foregroundStyle(theme.contentSecondary)

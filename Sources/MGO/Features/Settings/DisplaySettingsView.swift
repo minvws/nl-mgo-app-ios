@@ -42,8 +42,7 @@ struct DisplaySettingsView: View {
 					.accessibilityIdentifier("settings.display.light")
 				displayModeOption("settings.display.dark", appearance: .dark)
 					.accessibilityIdentifier("settings.display.dark")
-			}
-			footer: {
+			} footer: {
 				Text(shouldLayoutForiPad ? "settings.display.footer_ipad" : "settings.display.footer")
 					.rijksoverheidStyle(font: .regular, style: .callout)
 					.foregroundStyle(theme.contentSecondary)
