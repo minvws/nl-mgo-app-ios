@@ -32,7 +32,7 @@ final class DisplaySettingsViewTests: XCTestCase {
 		takeSnapShotsForiPad(content: content)
 	}
 	
-	func disabled_test_displaySettingsView_selectLight() throws {
+	func test_displaySettingsView_selectLight() throws {
 		
 		// Given
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
@@ -40,13 +40,13 @@ final class DisplaySettingsViewTests: XCTestCase {
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "settings.display.light")
-		try view.button().tap()
+		try view.find(button: "settings.display.light").tap()
 		
 		// Then
 		expect(UserDefaults.standard.string(forKey: "AppAppearance")).toEventually(equal("light"))
 	}
 	
-	func disabled_test_displaySettingsView_selectDark() throws {
+	func test_displaySettingsView_selectDark() throws {
 		
 		// Given
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
@@ -54,13 +54,13 @@ final class DisplaySettingsViewTests: XCTestCase {
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "settings.display.dark")
-		try view.button().tap()
+		try view.find(button: "settings.display.dark").tap()
 		
 		// Then
 		expect(UserDefaults.standard.string(forKey: "AppAppearance")).toEventually(equal("dark"))
 	}
 	
-	func disabled_test_displaySettingsView_selectSystem() throws {
+	func test_displaySettingsView_selectSystem() throws {
 		
 		// Given
 		UserDefaults.standard.set("light", forKey: "AppAppearance")
@@ -68,7 +68,7 @@ final class DisplaySettingsViewTests: XCTestCase {
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "settings.display.system")
-		try view.button().tap()
+		try view.find(button: "settings.display.system.heading").tap()
 		
 		// Then
 		expect(UserDefaults.standard.string(forKey: "AppAppearance")).toEventually(equal("system"))
