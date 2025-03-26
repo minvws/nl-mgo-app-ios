@@ -2039,6 +2039,138 @@
         }
       }
     },
+    "settings.about_this_app_safety.install_updates.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installeer updates"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.install_updates.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Houdt uw toestel up-to-date met de originele software van de leverancier van de mobiel. Ook apps worden vaak geüpdatet. Installeer app updates automatisch of controleer regelmatig de App Store op updates."
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.permissions.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welke toestemming geeft u aan een app"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.permissions.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps moeten toestemming vragen voor bijvoorbeeld toegang tut uw locatie of andere privacygevoelige informatie. Wees u er bewust van welke apps u toegang geeft tot welke gegevens."
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.phone_yourself.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Houdt uw mobiel alleen voor uzelf"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.phone_yourself.subhheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deel uw wachtwoord of pincode nooit met anderen, ook niet met familie of vrienden. Uw gegevens zijn persoonlijk."
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.public_wifi.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen openbare wifi-netwerken"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.public_wifi.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beperk het gebruik van openbare wifi-netwerken, bijvoorbeeld van een café of in de trein. Gebruik van 3G of 4G is een veiligere keuze dan een openbaar netwerk."
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.safe_apps.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veilige apps"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.safe_apps.subhheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installeer alleen apps uit de App Store."
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.security_phone.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveilig uw mobiel"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.security_phone.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als u uw mobiel verliest, wil u niet dat anderen toegang hebben tot uw gegevens. Zet daarom een sterk wachtwoord of pincode in die moeilijk te raden is."
+          }
+        }
+      }
+    },
     "settings.about_this_app.accessibility" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2090,6 +2222,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Veilig gebruik"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.safety.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De Rijksoverheid heeft deze app goed beveiligd. Maar u kunt zelf ook dingen doen om uw mobiel en gegevens veilig te houden. Hier zijn een paar tips:"
           }
         }
       }
