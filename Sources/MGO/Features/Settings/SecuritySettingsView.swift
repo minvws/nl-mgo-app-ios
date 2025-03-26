@@ -20,9 +20,16 @@ class SecuritySettingsViewModel: ObservableObject {
 		case biometricEnabled(Bool)
 	}
 	
+	/// The state of the view
 	struct State {
+		
+		/// What kind of biometric do we have
 		public var bioMetricType: LocalAuthentication.BiometricType
+		
+		/// Should we show the lockout page (too many attempts)
 		public var showLockoutPopup: Bool = false
+		
+		/// Is the biometric authentication enabled
 		public var bioMetricAuthenticationEnabled: Bool = false
 	}
 	
@@ -129,9 +136,7 @@ struct SecuritySettingsView: View {
 		
 		List {
 			Section {
-				
 				toggleView()
-				
 			} footer: {
 				Text("settings.security.biometric.subheading")
 					.rijksoverheidStyle(font: .regular, style: .callout)
@@ -184,7 +189,11 @@ struct SecuritySettingsView: View {
 			.accessibilityIdentifier("settings.security.toggle")
 	}
 	
+	/// Get the label for a biometric type
+	/// - Parameter type: the biometric type
+	/// - Returns: String
 	private func label(_ type: LocalAuthentication.BiometricType) -> String {
+		
 		switch type {
 			case .none, .unknown:
 				// Should not happen

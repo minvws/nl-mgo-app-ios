@@ -28,9 +28,8 @@ class AboutSafetyTipsViewModel: ObservableObject {
 	/// - Parameter action: the action to be handled
 	func reduce(_ action: AboutSafetyTipsViewModel.Action) {
 		
-		switch action {
-			case .backButtonPressed:
-				coordinator?.handle(.backButtonPressed)
+		if action == .backButtonPressed {
+			coordinator?.handle(.backButtonPressed)
 		}
 	}
 }

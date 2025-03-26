@@ -19,7 +19,7 @@ class AdvancedSettingsViewModel: ObservableObject {
 		case automaticLocalization(Bool)
 	}
 	
-	/// Intitializer
+	/// Create an Advanced Settings ViewModel
 	/// - Parameter coordinator: the app coordinator
 	init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator

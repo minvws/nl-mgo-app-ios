@@ -9,16 +9,24 @@ import MGOFoundation
 import MGOUI
 
 class AboutOpenSourceLibrariesViewModel: ObservableObject {
-
+	
+	/// An open source library
 	struct Library: Identifiable {
+		
+		/// Identifier
 		let id = UUID()
+		
+		/// The name of the library
 		var name: String
+				
+		/// The url of the libraries license
 		var urlString: String
 	}
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
+	/// The open source libraries
 	@Published var libraries: [AboutOpenSourceLibrariesViewModel.Library] = []
 	
 	/// A list of all the actions this viewModel can handle
@@ -27,7 +35,7 @@ class AboutOpenSourceLibrariesViewModel: ObservableObject {
 		case openUrl(String)
 	}
 	
-	/// Create the accessibility ViewModel
+	/// Create the about open source ViewModel
 	/// - Parameter coordinator: the app coordinator
 	init(coordinator: (any Coordinator)? = nil) {
 		self.coordinator = coordinator
