@@ -11,8 +11,10 @@ import MGOUI
 
 final class DisplaySettingsViewTests: XCTestCase {
 	
+	private var coordinatorSpy: SettingsCoordinatorSpy!
+	private var servicesSpies: ServicesSpies!
 	private var sut: DisplaySettingsView!
-	
+
 	override func tearDown() {
 		super.tearDown()
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
