@@ -78,6 +78,19 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 		}
 	}
 	
+	/// the URL for the privacy page
+	private var privacyURL: URL? {
+		
+		switch Configuration().getRelease() {
+			case .production:
+				return URL(string: String(localized: "proposition.link.prod"))
+			case .demo, .acceptance:
+				return URL(string: String(localized: "proposition.link.acc"))
+			case .test, .development:
+				return URL(string: String(localized: "proposition.link.test"))
+		}
+	}
+	
 	/// Create a Settings Coordinator
 	/// - Parameter parentCoordinator: the presenting parent coordinator
 	/// - Parameter browser: the browser for displaying urls
@@ -123,13 +136,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				path.append(SettingsCoordination.State.aboutAccessibility)
 			
 			case .showAccessibilityMoreInformation:
-				guard let moreInformationURL else { return }
-				
-				if browser.isDomainAllowed(moreInformationURL) {
-					path.append(SettingsCoordination.State.browser(moreInformationURL))
-				} else {
-					browser.handleUnallowedDomain(moreInformationURL)
-				}
+				handleUrl(moreInformationURL)
 			
 			case .showAdvancedSettings:
 				path.append(SettingsCoordination.State.advancedSettings)
@@ -140,6 +147,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			case .showOpenSourceLibraries:
 				path.append(SettingsCoordination.State.aboutOpenSourceLibraries)
 			
+			case .showPrivacyStatement:
+				handleUrl(privacyURL)
+			
 			case .showSecuritySettings:
 				path.append(SettingsCoordination.State.securitySettings)
 			
@@ -148,6 +158,19 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			
 			default:
 				logWarning("Settings Coordinator does not handle \(action)")
+		}
+	}
+	
+	/// Handle displaying urls
+	/// - Parameter url: the url to show
+	private func handleUrl(_ url: URL?) {
+		
+		guard let url else { return }
+		
+		if browser.isDomainAllowed(url) {
+			path.append(SettingsCoordination.State.browser(url))
+		} else {
+			browser.handleUnallowedDomain(url)
 		}
 	}
 	

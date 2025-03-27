@@ -165,4 +165,15 @@ final class SettingsCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
+	
+	func test_coordinatorHandle_showPrivacyStatement() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.showPrivacyStatement)
+		
+		// Then
+		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
+	}
 }

@@ -87,6 +87,19 @@ final class AboutTheAppViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showOpenSourceLibraries
 	}
 	
+	func test_showPrivacyStatement() throws {
+		
+		// Given
+		let content = NavigationView { sut }
+		
+		// When
+		try content.inspect().find(viewWithAccessibilityIdentifier: "settings.about_this_app.privacy").button().tap()
+
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showPrivacyStatement
+	}
+	
 	func test_showSharedCoreVersion() throws {
 		
 		// Given

@@ -29,6 +29,7 @@ class AboutTheAppViewModel: ObservableObject {
 		case showSafety
 		case showOpenSource
 		case showAccessibility
+		case showPrivacy
 	}
 	
 	/// Create the settings view model
@@ -66,6 +67,9 @@ class AboutTheAppViewModel: ObservableObject {
 				
 			case .showAccessibility:
 				coordinator?.handle(Coordination.Action.showAccessibility)
+			
+			case .showPrivacy:
+				coordinator?.handle(Coordination.Action.showPrivacyStatement)
 		}
 	}
 }
@@ -102,9 +106,13 @@ struct AboutTheAppView: View {
 				openSourceRow()
 				accessibilityRow()
 			}
+			Section {
+				privacy()
+			}
 		}
 		.backportScrollContentBackground(.hidden)
 		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
+		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("settings.heading") {
 			viewModel.reduce(.backButtonPressed)
@@ -215,6 +223,34 @@ struct AboutTheAppView: View {
 		)
 		.listRowInsets(ViewTraits.General.inset)
 	}
+
+	@ViewBuilder private func privacy() -> some View {
+		
+		Button {
+			viewModel.reduce(.showPrivacy)
+		} label: {
+			
+			HStack(spacing: ViewTraits.General.padding) {
+				
+				Text("settings.about_this_app.privacy")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.interactionTertiaryDefaultText)
+					 
+					 Spacer()
+					 
+					 Image(ImageResource.Settings.arrowOutward)
+					.tint(theme.symbolSecondary)
+			}
+		}
+		.accessibilityIdentifier("settings.about_this_app.privacy")
+		.frame(
+			maxWidth: .infinity,
+			minHeight: ViewTraits.Button.minimumHeight
+		)
+		.padding(.horizontal, ViewTraits.General.padding)
+		.listRowInsets(ViewTraits.General.inset)
+	}
+	
 }
 
 #Preview {
