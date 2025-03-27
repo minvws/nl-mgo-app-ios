@@ -7,7 +7,36 @@
 
 import MGOUI
 
+class DisplaySettingsViewModel: ObservableObject {
+	
+	/// The app coordinator for routing
+	weak var coordinator: (any Coordinator)?
+	
+	/// A list of all the actions this viewModel can handle
+	enum Action {
+		case backButtonPressed
+	}
+	
+	/// Create the accessibility ViewModel
+	/// - Parameter coordinator: the app coordinator
+	init(coordinator: (any Coordinator)? = nil) {
+		self.coordinator = coordinator
+	}
+	
+	/// Handle any action
+	/// - Parameter action: the action to be handled
+	func reduce(_ action: DisplaySettingsViewModel.Action) {
+		
+		if action == .backButtonPressed {
+			coordinator?.handle(.backButtonPressed)
+		}
+	}
+}
+
 struct DisplaySettingsView: View {
+	
+	/// The View Model
+	@StateObject var viewModel: DisplaySettingsViewModel
 	
 	/// The application appearance for light / dark / system mode
 	@AppStorage("AppAppearance") private var selectedAppearance: AppAppearance = .system
@@ -52,6 +81,11 @@ struct DisplaySettingsView: View {
 		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
 		.navigationTitle("settings.display.heading")
 		.navigationBarTitleDisplayMode(.inline)
+		.navigationBarBackButtonHidden()
+		.navigationBarItems(leading: BackButton("settings.heading") {
+			viewModel.reduce(.backButtonPressed)
+		})
+		.navigationBarHidden(false)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 	}
@@ -94,6 +128,6 @@ struct DisplaySettingsView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		DisplaySettingsView()
+		DisplaySettingsView(viewModel: DisplaySettingsViewModel(coordinator: nil))
 	}
 }

@@ -217,7 +217,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				)
 			
 			case .displaySettings:
-				DisplaySettingsView()
+				DisplaySettingsView(viewModel: DisplaySettingsViewModel(coordinator: self))
 			
 			case .securitySettings:
 				SecuritySettingsView(

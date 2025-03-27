@@ -268,14 +268,9 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		
 		switch state {
 			
-			// Settings:
-			case .displaySettings:
-				DisplaySettingsView()
-			
 			// Initial states
 		
 			case .settings:
-//				SettingsView(viewModel: SettingsViewModel(coordinator: self))
 				SettingsCoordinatorView(coordinator: settingsCoordinator)
 			
 			case .overview:

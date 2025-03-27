@@ -18,11 +18,18 @@ final class DisplaySettingsViewTests: XCTestCase {
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
 	}
 	
+	override func setUp() {
+		
+		servicesSpies = setupServicesSpies()
+		coordinatorSpy = SettingsCoordinatorSpy()
+		sut = DisplaySettingsView(viewModel: DisplaySettingsViewModel(coordinator: self.coordinatorSpy))
+		super.setUp()
+	}
+	
 	func test_displaySettingsView_systemSelected() {
 		
 		// Given
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
-		sut = DisplaySettingsView()
 		
 		// When
 		let content = NavigationView { sut }
@@ -36,7 +43,6 @@ final class DisplaySettingsViewTests: XCTestCase {
 		
 		// Given
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
-		sut = DisplaySettingsView()
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "settings.display.light")
@@ -50,7 +56,6 @@ final class DisplaySettingsViewTests: XCTestCase {
 		
 		// Given
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
-		sut = DisplaySettingsView()
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "settings.display.dark")
@@ -64,7 +69,6 @@ final class DisplaySettingsViewTests: XCTestCase {
 		
 		// Given
 		UserDefaults.standard.set("light", forKey: "AppAppearance")
-		sut = DisplaySettingsView()
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "settings.display.system")
@@ -72,5 +76,18 @@ final class DisplaySettingsViewTests: XCTestCase {
 		
 		// Then
 		expect(UserDefaults.standard.string(forKey: "AppAppearance")).toEventually(equal("system"))
+	}
+	
+	func test_backbuttonPressed() throws {
+		
+		// Given
+		let content = NavigationView { sut }
+		
+		// When
+		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
+
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 }
