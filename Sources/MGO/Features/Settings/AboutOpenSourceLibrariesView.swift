@@ -161,6 +161,10 @@ struct AboutOpenSourceLibrariesView: View {
 					.foregroundStyle(theme.contentPrimary)
 					.textCase(nil)
 					.padding(.top, ViewTraits.Navigation.padding)
+					.when(isIOS16OrOlder) { view in
+						view
+							.padding(.bottom, ViewTraits.Navigation.padding)
+					}
 			}
 			.listRowInsets(ViewTraits.General.inset)
 		}
