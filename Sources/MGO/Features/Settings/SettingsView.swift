@@ -118,17 +118,6 @@ struct SettingsView: View {
 		.backportScrollContentBackground(.hidden)
 		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
-		.alert(
-			"settings.reset_app.dialog.heading",
-			isPresented: $viewModel.showResetDialog) {
-				Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }
-					.accessibilityIdentifier("common.no")
-				Button("common.yes", role: .destructive) { viewModel.reduce(.resetApplication) }
-					.accessibilityIdentifier("common.yes")
-			} message: {
-				Text("settings.reset_app.dialog.subheading")
-			}
-
 		.navigationTitle("settings.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
@@ -253,6 +242,16 @@ struct SettingsView: View {
 				.rijksoverheidStyle(font: .regular, style: .callout)
 				.foregroundStyle(theme.contentSecondary)
 		}
+		.alert(
+			"settings.reset_app.dialog.heading",
+			isPresented: $viewModel.showResetDialog) {
+				Button("common.cancel", role: .cancel) { viewModel.reduce(.cancelDialog) }
+					.accessibilityIdentifier("common.cancel")
+				Button("common.yes", role: .destructive) { viewModel.reduce(.resetApplication) }
+					.accessibilityIdentifier("common.yes")
+			} message: {
+				Text("settings.reset_app.dialog.subheading")
+			}
 	}
 }
 

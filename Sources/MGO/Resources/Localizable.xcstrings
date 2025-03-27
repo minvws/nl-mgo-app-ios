@@ -2226,6 +2226,39 @@
         }
       }
     },
+    "settings.about_this_app.privacy_url.acc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.acc.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.privacy_url.prod" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.privacy_url.test" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
     "settings.about_this_app.safety" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2490,24 +2523,13 @@
         }
       }
     },
-    "settings.reset_app.button" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset de app"
-          }
-        }
-      }
-    },
     "settings.reset_app.dialog.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wil je de app resetten?"
+            "value" : "App opnieuw instellen?"
           }
         }
       }
@@ -2518,7 +2540,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daarmee verwijder je je account. Je kunt later wel weer een nieuw account aanmaken als je dat wilt."
+            "value" : "Je gegevens blijven altijd bewaard bij je zorgaanbieders. Je kunt de app later opnieuw instellen."
           }
         }
       }
