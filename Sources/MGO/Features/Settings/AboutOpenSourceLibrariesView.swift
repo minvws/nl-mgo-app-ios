@@ -156,15 +156,7 @@ struct AboutOpenSourceLibrariesView: View {
 			Section {
 				list()
 			} header: {
-				Text("settings.about_this_app.open_source.subheading")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
-					.textCase(nil)
-					.padding(.top, ViewTraits.Navigation.padding)
-					.when(isIOS16OrOlder) { view in
-						view
-							.padding(.bottom, ViewTraits.Navigation.padding)
-					}
+				header()
 			}
 			.listRowInsets(ViewTraits.General.inset)
 		}
@@ -180,29 +172,44 @@ struct AboutOpenSourceLibrariesView: View {
 		.layoutForIPad()
 	}
 	
+	/// Get the header for the list
+	/// - Returns: the list header
+	@ViewBuilder private func header() -> some View {
+		
+		Text("settings.about_this_app.open_source.subheading")
+			.rijksoverheidStyle(font: .regular, style: .body)
+			.foregroundStyle(theme.contentPrimary)
+			.textCase(nil)
+			.padding(.top, ViewTraits.Navigation.padding)
+			.when(isIOS16OrOlder) { view in
+				view
+					.padding(.bottom, ViewTraits.Navigation.padding)
+			}
+	}
+	
 	/// Get a list of libraries
 	/// - Returns: a list of libraries
 	@ViewBuilder private func list() -> some View {
 		
 		ForEach(viewModel.libraries, id: \.id) { library in
-			row(library.name, urlString: library.urlString)
+			viewForOpenSourceLibrary(library)
 		}
 	}
 	
-	/// Build a row for the open source libraries used
+	/// Build a view for the open source libraries used
 	/// - Parameters:
 	///   - heading: the title of the library
 	///   - urlString: the url to the license
 	/// - Returns: Button for the open source library
-	@ViewBuilder private func row(_ heading: String, urlString: String) -> some View {
+	@ViewBuilder private func viewForOpenSourceLibrary(_ library: AboutOpenSourceLibrariesViewModel.Library) -> some View {
 		
 		Button {
-			viewModel.reduce(.openUrl(urlString))
+			viewModel.reduce(.openUrl(library.urlString))
 		} label: {
 			
 			HStack(spacing: ViewTraits.General.padding) {
 				
-				Text(heading)
+				Text(library.name)
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.interactionTertiaryDefaultText)
 					 
@@ -212,7 +219,7 @@ struct AboutOpenSourceLibrariesView: View {
 					.tint(theme.symbolSecondary)
 			}
 		}
-		.accessibilityIdentifier("Button \(heading)")
+		.accessibilityIdentifier("Button \(library.name)")
 		.padding(ViewTraits.General.padding)
 	}
 }
