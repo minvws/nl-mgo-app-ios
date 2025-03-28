@@ -193,7 +193,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			
 			case .aboutSafetyTips:
 				AboutSafetyTipsView(
-					viewModel: AboutSafetyTipsViewModel(coordinator: self)
+					viewModel: BaseViewModel(coordinator: self)
 				)
 			
 			case .aboutOpenSourceLibraries:
@@ -217,7 +217,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				)
 			
 			case .displaySettings:
-				DisplaySettingsView(viewModel: DisplaySettingsViewModel(coordinator: self))
+				DisplaySettingsView(viewModel: BaseViewModel(coordinator: self))
 			
 			case .securitySettings:
 				SecuritySettingsView(

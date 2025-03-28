@@ -8,36 +8,10 @@
 import MGOFoundation
 import MGOUI
 
-class AboutSafetyTipsViewModel: ObservableObject {
-	
-	/// The app coordinator for routing
-	weak var coordinator: (any Coordinator)?
-	
-	/// A list of all the actions this viewModel can handle
-	enum Action {
-		case backButtonPressed
-	}
-	
-	/// Create the accessibility ViewModel
-	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil) {
-		self.coordinator = coordinator
-	}
-	
-	/// Handle any action
-	/// - Parameter action: the action to be handled
-	func reduce(_ action: AboutSafetyTipsViewModel.Action) {
-		
-		if action == .backButtonPressed {
-			coordinator?.handle(.backButtonPressed)
-		}
-	}
-}
-
 struct AboutSafetyTipsView: View {
 	
 	/// The View Model
-	@StateObject var viewModel: AboutSafetyTipsViewModel
+	@StateObject var viewModel: BaseViewModel
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -138,6 +112,6 @@ struct AboutSafetyTipsView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		AboutSafetyTipsView(viewModel: AboutSafetyTipsViewModel(coordinator: nil))
+		AboutSafetyTipsView(viewModel: BaseViewModel(coordinator: nil))
 	}
 }

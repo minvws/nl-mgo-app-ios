@@ -44,7 +44,7 @@ final class AdvancedSettingsViewModelTests: XCTestCase {
 		sut.reduce(.automaticLocalization(false))
 		
 		// Then
-		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabledSetter) == true
+		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabledSetter).toEventually(beTrue())
 		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabled) == false
 	}
 }

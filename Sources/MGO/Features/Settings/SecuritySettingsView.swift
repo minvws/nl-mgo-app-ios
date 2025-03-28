@@ -8,15 +8,11 @@
 import MGOFoundation
 import MGOUI
 
-class SecuritySettingsViewModel: ObservableObject {
-	
-	/// The app coordinator for routing
-	weak var coordinator: (any Coordinator)?
+class SecuritySettingsViewModel: BaseViewModel {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		
-		case backButtonPressed
 		case biometricEnabled(Bool)
 	}
 	
@@ -46,8 +42,8 @@ class SecuritySettingsViewModel: ObservableObject {
 		coordinator: (any Coordinator)?,
 		bioMetricType: () -> LocalAuthentication.BiometricType) {
 			
-		self.coordinator = coordinator
 		self.bioMetricType = bioMetricType()
+		super.init(coordinator: coordinator)
 		updateState()
 	}
 	
@@ -61,20 +57,16 @@ class SecuritySettingsViewModel: ObservableObject {
 	/// - Parameter action: the action to be handled
 	func reduce(_ action: SecuritySettingsViewModel.Action) {
 		
-		switch action {
-			case .backButtonPressed:
-				coordinator?.handle(.backButtonPressed)
-			
-			case let .biometricEnabled(enabled):
-				if enabled {
-					_Concurrency.Task {
-						await authenticate()
-					}
-				} else {
-					// Do not use biometric authentication
-					Current.secureUserSettings.bioMetricAuthenticationEnabled = false
-					updateState()
+		if case .biometricEnabled(let enabled) = action {
+			if enabled {
+				_Concurrency.Task {
+					await authenticate()
 				}
+			} else {
+				// Do not use biometric authentication
+				Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+				updateState()
+			}
 		}
 	}
 	

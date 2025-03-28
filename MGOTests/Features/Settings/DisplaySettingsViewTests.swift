@@ -24,7 +24,7 @@ final class DisplaySettingsViewTests: XCTestCase {
 		
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = SettingsCoordinatorSpy()
-		sut = DisplaySettingsView(viewModel: DisplaySettingsViewModel(coordinator: self.coordinatorSpy))
+		sut = DisplaySettingsView(viewModel: BaseViewModel(coordinator: self.coordinatorSpy))
 		super.setUp()
 	}
 	

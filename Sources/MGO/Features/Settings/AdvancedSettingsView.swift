@@ -8,32 +8,19 @@
 import MGOFoundation
 import MGOUI
 
-class AdvancedSettingsViewModel: ObservableObject {
-	
-	/// The app coordinator for routing
-	weak var coordinator: (any Coordinator)?
+class AdvancedSettingsViewModel: BaseViewModel {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case backButtonPressed
 		case automaticLocalization(Bool)
-	}
-	
-	/// Create an Advanced Settings ViewModel
-	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil) {
-		self.coordinator = coordinator
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	func reduce(_ action: AdvancedSettingsViewModel.Action) {
 		
-		switch action {
-			case .backButtonPressed:
-				coordinator?.handle(.backButtonPressed)
-			case let .automaticLocalization(automaticLocalization):
-				Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
+		if case .automaticLocalization(let automaticLocalization) = action {
+			Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
 		}
 	}
 }

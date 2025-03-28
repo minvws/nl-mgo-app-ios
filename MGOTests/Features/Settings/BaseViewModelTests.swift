@@ -10,39 +10,27 @@ import MGOTest
 @testable import MGO
 import MGOUI
 
-final class AboutSafetyTipsViewTests: XCTestCase {
+final class BaseViewModelTests: XCTestCase {
 	
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
-	private var sut: AboutSafetyTipsView!
+	private var sut: BaseViewModel!
 
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = AboutSafetyTipsView(viewModel: BaseViewModel(coordinator: self.coordinatorSpy))
+		sut = BaseViewModel(coordinator: self.coordinatorSpy)
 	}
 
-	func test_aboutSafetyTipsView() {
+	func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
 		
 		// When
-		let content = NavigationView { sut }
+		sut.reduce(.backButtonPressed)
 		
-		// Then
-		takeSnapShots(content: content)
-	}
-	
-	func test_backbuttonPressed() throws {
-		
-		// Given
-		let content = NavigationView { sut }
-		
-		// When
-		try content.inspect().find(viewWithAccessibilityIdentifier: "common.previous").button().tap()
-
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed

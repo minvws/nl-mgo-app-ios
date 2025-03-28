@@ -8,32 +8,19 @@
 import MGOFoundation
 import MGOUI
 
-class AboutAccessibilityViewModel: ObservableObject {
-	
-	/// The app coordinator for routing
-	weak var coordinator: (any Coordinator)?
+class AboutAccessibilityViewModel: BaseViewModel {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case backButtonPressed
 		case moreInformationTapped
-	}
-	
-	/// Create the accessibility ViewModel
-	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil) {
-		self.coordinator = coordinator
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	func reduce(_ action: AboutAccessibilityViewModel.Action) {
 		
-		switch action {
-			case .backButtonPressed:
-				coordinator?.handle(.backButtonPressed)
-			case .moreInformationTapped:
-				coordinator?.handle(.showAccessibilityMoreInformation)
+		if action == .moreInformationTapped {
+			coordinator?.handle(.showAccessibilityMoreInformation)
 		}
 	}
 }

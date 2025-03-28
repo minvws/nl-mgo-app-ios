@@ -8,7 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class AboutOpenSourceLibrariesViewModel: ObservableObject {
+class AboutOpenSourceLibrariesViewModel: BaseViewModel {
 	
 	/// An open source library
 	struct Library: Identifiable {
@@ -23,22 +23,18 @@ class AboutOpenSourceLibrariesViewModel: ObservableObject {
 		var urlString: String
 	}
 	
-	/// The app coordinator for routing
-	weak var coordinator: (any Coordinator)?
-	
 	/// The open source libraries
 	@Published var libraries: [AboutOpenSourceLibrariesViewModel.Library] = []
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case backButtonPressed
 		case openUrl(String)
 	}
 	
 	/// Create the about open source ViewModel
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil) {
-		self.coordinator = coordinator
+	override init(coordinator: (any Coordinator)? = nil) {
+		super.init(coordinator: coordinator)
 		
 		libraries = [
 			Library(
@@ -112,18 +108,14 @@ class AboutOpenSourceLibrariesViewModel: ObservableObject {
 	/// - Parameter action: the action to be handled
 	func reduce(_ action: AboutOpenSourceLibrariesViewModel.Action) {
 		
-		switch action {
-			case .backButtonPressed:
-				coordinator?.handle(.backButtonPressed)
-			
-			case .openUrl(let urlString):
-				let params: [String: AnyHashable] = ["urlString": urlString]
-				coordinator?.handle(
-					Coordination.Action(
-						identifier: Coordination.Action.openUrl.identifier,
-						params: params
-					)
+		if case .openUrl(let urlString) = action {
+			let params: [String: AnyHashable] = ["urlString": urlString]
+			coordinator?.handle(
+				Coordination.Action(
+					identifier: Coordination.Action.openUrl.identifier,
+					params: params
 				)
+			)
 		}
 	}
 }

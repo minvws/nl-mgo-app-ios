@@ -8,10 +8,7 @@
 import MGOFoundation
 import MGOUI
 
-class AboutTheAppViewModel: ObservableObject {
-	
-	/// The app coordinator for routing
-	weak var coordinator: (any Coordinator)?
+class AboutTheAppViewModel: BaseViewModel {
 	
 	/// The current version of the application
 	@Published var appVersion: String
@@ -24,7 +21,6 @@ class AboutTheAppViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case backButtonPressed
 		case showSharedCoreVersion
 		case showSafety
 		case showOpenSource
@@ -34,10 +30,10 @@ class AboutTheAppViewModel: ObservableObject {
 	
 	/// Create the settings view model
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil) {
-		self.coordinator = coordinator
+	override init(coordinator: (any Coordinator)? = nil) {
 		
 		appVersion = "\(Current.appVersionSupplier.getCurrentVersion()) (\(Current.appVersionSupplier.getCurrentBuild()))"
+		super.init(coordinator: coordinator)
 		
 		do {
 			sharedCoreVersion = try FHIRParser().getVersion()
@@ -51,8 +47,6 @@ class AboutTheAppViewModel: ObservableObject {
 	func reduce(_ action: AboutTheAppViewModel.Action) {
 		
 		switch action {
-			case .backButtonPressed:
-				coordinator?.handle(Coordination.Action.backButtonPressed)
 			
 			case .showSharedCoreVersion:
 				if sharedCoreVersion != nil {
