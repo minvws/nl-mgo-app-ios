@@ -2193,6 +2193,17 @@
         }
       }
     },
+    "settings.about_this_app.logo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logo van het Ministerie van Volksgezondheid, Welzijn en Sport"
+          }
+        }
+      }
+    },
     "settings.about_this_app.open_source" : {
       "extractionState" : "manual",
       "localizations" : {

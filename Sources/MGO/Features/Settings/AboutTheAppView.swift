@@ -88,6 +88,9 @@ struct AboutTheAppView: View {
 		enum Button {
 			static let minimumHeight: CGFloat = 48
 		}
+		enum Logo {
+			static let maxHeight: CGFloat = 150
+		}
 	}
 	
 	var body: some View {
@@ -123,7 +126,13 @@ struct AboutTheAppView: View {
 			
 			HStack {
 				Spacer()
+				
 				Image(ImageResource.Settings.logo)
+					.resizable()
+					.scaledToFit()
+					.accessibilityLabel(Text("settings.about_this_app.logo"))
+					.frame(maxHeight: ViewTraits.Logo.maxHeight)
+				
 				Spacer()
 			}
 			
