@@ -101,6 +101,7 @@ struct AboutSafetyTipsView: View {
 			Text(heading)
 				.rijksoverheidStyle(font: .bold, style: .body)
 				.foregroundStyle(theme.contentPrimary)
+				.accessibilityAddTraits(.isHeader)
 			
 			Text(subheading)
 				.rijksoverheidStyle(font: .regular, style: .body)

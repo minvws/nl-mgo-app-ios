@@ -130,7 +130,7 @@ struct AboutTheAppView: View {
 				Image(ImageResource.Settings.logo)
 					.resizable()
 					.scaledToFit()
-					.accessibilityLabel(Text("settings.about_this_app.logo"))
+					.accessibilityLabel(Text("settings.about_this_app.logo_ accessibility"))
 					.frame(maxHeight: ViewTraits.Logo.maxHeight)
 				
 				Spacer()

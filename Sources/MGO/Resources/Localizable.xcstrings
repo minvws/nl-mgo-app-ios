@@ -2193,7 +2193,7 @@
         }
       }
     },
-    "settings.about_this_app.logo" : {
+    "settings.about_this_app.logo_ accessibility" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
