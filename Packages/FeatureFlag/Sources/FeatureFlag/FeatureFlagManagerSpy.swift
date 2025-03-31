@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -61,5 +61,27 @@ public class FeatureFlagManagerSpy: FeatureFlagManaging {
 	public func wipePersistedData() {
 		invokedWipePersistedData = true
 		invokedWipePersistedDataCount += 1
+	}
+	
+	public var invokedBypassPincodeSetter = false
+	public var invokedBypassPincodeSetterCount = 0
+	public var invokedBypassPincode: Bool?
+	public var invokedBypassPincodeList = [Bool]()
+	public var invokedBypassPincodeGetter = false
+	public var invokedBypassPincodeGetterCount = 0
+	public var stubbedBypassPincode: Bool! = false
+
+	public var bypassPincode: Bool {
+		set {
+			invokedBypassPincodeSetter = true
+			invokedBypassPincodeSetterCount += 1
+			invokedBypassPincode = newValue
+			invokedBypassPincodeList.append(newValue)
+		}
+		get {
+			invokedBypassPincodeGetter = true
+			invokedBypassPincodeGetterCount += 1
+			return stubbedBypassPincode
+		}
 	}
 }

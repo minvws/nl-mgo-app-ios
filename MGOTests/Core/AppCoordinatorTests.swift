@@ -60,6 +60,20 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
 	}
 	
+	func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_bypassPincodeEnabled() {
+		
+		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedPinCode = "test"
+		servicesSpies.featureFlagSpy.stubbedBypassPincode = true
+		
+		// When
+		sut.handle(Coordination.Action.finishedSplash)
+		
+		// Then
+		expect(self.sut.showChildCoordinator) == true
+		expect(self.sut.path.isEmpty) == true
+	}
+	
 	func test_coordinatorHandle_actionNextButtonPressedOnAppIntroduction_pathShouldContainPrivacy() {
 		
 		// Given

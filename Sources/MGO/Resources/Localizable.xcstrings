@@ -2468,6 +2468,16 @@
         }
       }
     },
+    "settings.featureflag.pincode" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip pincode"
+          }
+        }
+      }
+    },
     "settings.heading" : {
       "extractionState" : "manual",
       "localizations" : {

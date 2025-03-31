@@ -441,6 +441,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		if Current.secureUserSettings.pinCode == nil {
 			// User must set an pin code, but show introduction first.
 			resetNavigationStack(with: AppCoordination.State.introduction)
+		} else if Current.featureFlagManager.bypassPincode && Configuration().getRelease() == .development {
+			// Bypass the pin code screen
+			showChildCoordinator = true
 		} else {
 			// Repeat login, user must authenticate with pin code
 			resetNavigationStack(with: AppCoordination.State.pinCodeValidation(lockOut: false))

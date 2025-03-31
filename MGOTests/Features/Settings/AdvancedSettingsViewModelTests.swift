@@ -47,4 +47,16 @@ final class AdvancedSettingsViewModelTests: XCTestCase {
 		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabledSetter).toEventually(beTrue())
 		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabled) == false
 	}
+	
+	func test_bypassPincode() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.bypassPincode(false))
+		
+		// Then
+		expect(self.servicesSpies.featureFlagSpy.invokedBypassPincodeSetter).toEventually(beTrue())
+		expect(self.servicesSpies.featureFlagSpy.invokedBypassPincode) == false
+	}
 }

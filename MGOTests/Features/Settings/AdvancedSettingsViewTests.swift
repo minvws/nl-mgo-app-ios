@@ -28,6 +28,7 @@ class AdvancedSettingsViewTests: XCTestCase {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
+		servicesSpies.featureFlagSpy.stubbedBypassPincode = true
 		
 		// When
 		let content = NavigationView { sut }
@@ -40,6 +41,7 @@ class AdvancedSettingsViewTests: XCTestCase {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
+		servicesSpies.featureFlagSpy.stubbedBypassPincode = false
 		
 		// When
 		let content = NavigationView { sut }

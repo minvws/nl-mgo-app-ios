@@ -13,6 +13,7 @@ class AdvancedSettingsViewModel: BaseViewModel {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case automaticLocalization(Bool)
+		case bypassPincode(Bool)
 	}
 	
 	/// Handle any action
@@ -21,6 +22,8 @@ class AdvancedSettingsViewModel: BaseViewModel {
 		
 		if case .automaticLocalization(let automaticLocalization) = action {
 			Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
+		} else if case .bypassPincode(let bypassPincode) = action {
+			Current.featureFlagManager.bypassPincode = bypassPincode
 		}
 	}
 }
@@ -36,6 +39,9 @@ struct AdvancedSettingsView: View {
 	/// Variable to change the automatic localization setting
 	@State private var automaticLocalization: Bool = Current.featureFlagManager.isAutomaticLocalizationEnabled
 	
+	/// Variable to change the bypass pincode setting
+	@State private var bypassPincode: Bool = Current.featureFlagManager.bypassPincode
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -47,11 +53,15 @@ struct AdvancedSettingsView: View {
 		
 		List {
 			Section {
-				toggleView()
+				automaticLocalizationToggleView()
+				pincodeToggleView()
 			}
 		}
 		.onChange(of: automaticLocalization) { newValue in
 			viewModel.reduce(.automaticLocalization(newValue))
+		}
+		.onChange(of: bypassPincode) { newValue in
+			viewModel.reduce(.bypassPincode(newValue))
 		}
 		.backportScrollContentBackground(.hidden)
 		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
@@ -67,10 +77,23 @@ struct AdvancedSettingsView: View {
 	
 	/// The view for the toggle
 	/// - Returns: toggle view
-	@ViewBuilder private func toggleView() -> some View {
+	@ViewBuilder private func automaticLocalizationToggleView() -> some View {
 		
 		Toggle(isOn: $automaticLocalization) {
 			Text("settings.featureflag.localization")
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.foregroundStyle(theme.contentPrimary)
+		}
+			.toggleStyle(.switch)
+			.tint(theme.interactionPrimaryDefaultBackground)
+	}
+	
+	/// The view for the toggle
+	/// - Returns: toggle view
+	@ViewBuilder private func pincodeToggleView() -> some View {
+		
+		Toggle(isOn: $bypassPincode) {
+			Text("settings.featureflag.pincode")
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.contentPrimary)
 		}
