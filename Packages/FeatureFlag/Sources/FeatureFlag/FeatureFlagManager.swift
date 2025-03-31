@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -38,6 +38,6 @@ public class FeatureFlagManager: FeatureFlagManaging {
 	
 	/// Remove all the feature flags and reset to default
 	public func wipePersistedData() {
-		isAutomaticLocalizationEnabled = false
+		// Do not reset automatic localization, it is a dev only feature
 	}
 }
