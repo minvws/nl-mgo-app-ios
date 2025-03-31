@@ -176,4 +176,16 @@ final class SettingsCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
+	
+	func test_coordinatorHandle_resetApplication() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.resetApplication)
+		
+		// Then
+		expect(self.parentCoordinator.invokedHandle) == true
+		expect(self.parentCoordinator.invokedHandleParameters?.0) == Coordination.Action.resetApplication
+	}
 }

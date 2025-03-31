@@ -129,6 +129,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			case .lockApplication:
 				Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
 			
+			case .resetApplication:
+				parentCoordinator?.handle(.resetApplication)
+			
 			case .showAboutTheApp:
 				path.append(SettingsCoordination.State.aboutTheApp)
 			
