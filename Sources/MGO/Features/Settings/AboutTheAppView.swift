@@ -79,7 +79,7 @@ struct AboutTheAppView: View {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
-			static let padding: CGFloat = 8
+			static let padding: CGFloat = 24
 		}
 		enum General {
 			static let padding: CGFloat = 16
