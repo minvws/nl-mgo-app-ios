@@ -2056,7 +2056,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Houdt uw toestel up-to-date met de originele software van de leverancier van de mobiel. Ook apps worden vaak geüpdatet. Installeer app updates automatisch of controleer regelmatig de App Store op updates."
+            "value" : "Houd uw mobiel en apps up-to-date. Zet automatische updates aan of controleer regelmatig de App Store op nieuwe updates."
           }
         }
       }
@@ -2067,7 +2067,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welke toestemming geeft u aan een app"
+            "value" : "Let op app-toestemmingen"
           }
         }
       }
@@ -2078,7 +2078,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apps moeten toestemming vragen voor bijvoorbeeld toegang tut uw locatie of andere privacygevoelige informatie. Wees u er bewust van welke apps u toegang geeft tot welke gegevens."
+            "value" : "Sommige apps willen toegang tot uw locatie of persoonlijke gegevens. Kijk goed welke toestemming u aan apps geeft en of dat nodig is."
           }
         }
       }
@@ -2111,7 +2111,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen openbare wifi-netwerken"
+            "value" : "Vermijd openbare wifi-netwerken"
           }
         }
       }
@@ -2122,7 +2122,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beperk het gebruik van openbare wifi-netwerken, bijvoorbeeld van een café of in de trein. Gebruik van 3G of 4G is een veiligere keuze dan een openbaar netwerk."
+            "value" : "Gebruik liever geen openbare wifi-netwerken, zoals die in cafés of treinen. 4G of 5G is een veiliger alternatief en beschermt uw gegevens beter."
           }
         }
       }
@@ -2133,7 +2133,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Veilige apps"
+            "value" : "Download alleen veilige apps"
           }
         }
       }
@@ -2144,7 +2144,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installeer alleen apps uit de App Store."
+            "value" : "Installeer alleen apps uit de App Store. Zo voorkomt u dat er virussen of nep-apps op uw mobiel komen."
           }
         }
       }
@@ -2364,7 +2364,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Iedereen moet de informatie en diensten van de overheid kunnen vinden en gebruiken. Daarom is deze app gemaakt volgens de regels voor digitale toegankelijkheid."
+            "value" : "De overheid vindt het belangrijk dat iedereen mee kan doen in de digitale samenleving. Daarom moeten websites en apps van de overheid voor iedereen toegankelijk zijn. Ook voor mensen met een beperking. Deze app volgt de internationale standaard voor toegankelijkheid."
           }
         }
       }

@@ -39,8 +39,16 @@ struct AboutSafetyTipsView: View {
 					subheading: "settings.about_this_app_safety.security_phone.subheading"
 				)
 				viewForSafetyTip(
+					heading: "settings.about_this_app_safety.phone_yourself.heading",
+					subheading: "settings.about_this_app_safety.phone_yourself.subheading"
+				)
+				viewForSafetyTip(
 					heading: "settings.about_this_app_safety.install_updates.heading",
 					subheading: "settings.about_this_app_safety.install_updates.subheading"
+				)
+				viewForSafetyTip(
+					heading: "settings.about_this_app_safety.safe_apps.heading",
+					subheading: "settings.about_this_app_safety.safe_apps.subheading"
 				)
 				viewForSafetyTip(
 					heading: "settings.about_this_app_safety.public_wifi.heading",
@@ -50,14 +58,7 @@ struct AboutSafetyTipsView: View {
 					heading: "settings.about_this_app_safety.permissions.heading",
 					subheading: "settings.about_this_app_safety.permissions.subheading"
 				)
-				viewForSafetyTip(
-					heading: "settings.about_this_app_safety.safe_apps.heading",
-					subheading: "settings.about_this_app_safety.safe_apps.subheading"
-				)
-				viewForSafetyTip(
-					heading: "settings.about_this_app_safety.phone_yourself.heading",
-					subheading: "settings.about_this_app_safety.phone_yourself.subheading"
-				)
+
 			} header: {
 				header()
 			}
