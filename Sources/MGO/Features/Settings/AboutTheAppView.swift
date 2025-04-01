@@ -241,7 +241,6 @@ struct AboutTheAppView: View {
 			maxWidth: .infinity,
 			minHeight: ViewTraits.Button.minimumHeight
 		)
-		.padding(.horizontal, ViewTraits.General.padding)
 		.listRowInsets(ViewTraits.General.inset)
 	}
 	
