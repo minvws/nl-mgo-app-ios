@@ -3,6 +3,16 @@
     {
       "filename" : "Frame 11722.svg",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "VWS dark mode.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
