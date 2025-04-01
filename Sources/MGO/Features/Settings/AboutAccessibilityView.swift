@@ -50,7 +50,7 @@ struct AboutAccessibilityView: View {
 			Section {
 				
 				subheading()
-				informationButton()
+				// informationButton() // Disabled until link is clear.
 			}
 			.listRowInsets(ViewTraits.General.inset)
 			.padding(ViewTraits.General.padding)

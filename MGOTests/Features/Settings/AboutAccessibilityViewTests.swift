@@ -48,7 +48,7 @@ final class AboutAccessibilityViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_moreInformationPressed() throws {
+	func disabled_test_moreInformationPressed() throws {
 		
 		// Given
 		let content = NavigationView { sut }
