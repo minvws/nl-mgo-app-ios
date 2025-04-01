@@ -232,18 +232,9 @@ struct AboutTheAppView: View {
 		Button {
 			viewModel.reduce(.showPrivacy)
 		} label: {
-			
-			HStack(spacing: ViewTraits.General.padding) {
-				
-				Text("settings.about_this_app.privacy")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.interactionTertiaryDefaultText)
-					 
-					 Spacer()
-					 
-					 Image(ImageResource.Settings.arrowOutward)
-					.tint(theme.symbolSecondary)
-			}
+			SettingsRowView(
+				heading: "settings.about_this_app.privacy"
+			)
 		}
 		.accessibilityIdentifier("settings.about_this_app.privacy")
 		.frame(
