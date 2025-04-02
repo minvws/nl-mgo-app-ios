@@ -2583,7 +2583,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je verwijderd zo al je opgeslagen zorgaanbieders en toegangscode"
+            "value" : "Je verwijdert al je bewaarde zorgaanbieders en je toegangscode."
           }
         }
       }
