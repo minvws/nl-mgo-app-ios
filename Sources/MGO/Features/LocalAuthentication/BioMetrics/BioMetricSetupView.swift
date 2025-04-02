@@ -29,7 +29,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
 	
-	/// What kind of key should we  dispaly (face ID, touch ID, optic ID)
+	/// What kind of key should we  display (face ID, touch ID, optic ID)
 	private var bioMetricType: LocalAuthentication.BiometricType = .none
 	
 	/// The state of the view

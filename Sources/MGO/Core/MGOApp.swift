@@ -29,10 +29,17 @@ struct MainEntryPoint {
 }
 
 struct ProductionApp: App {
+	
+	/// The application delegate for lifecycle events
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	
+	/// The application appearance for light / dark / system mode
+	@AppStorage("AppAppearance") private var selectedAppearance: AppAppearance = .system
+	
+	/// The application coordinator to determine what view to show
 	private var coordinator: AppCoordinator
 	
+	/// Create the production app
 	init() {
 		coordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
 	}
@@ -42,6 +49,7 @@ struct ProductionApp: App {
 			GeometryReader { geo in
 				AppCoordinatorView<AppCoordinator>(appCoordinator: coordinator)
 					.environment(\.safeAreaInsets, geo.safeAreaInsets)
+					.preferredColorScheme(selectedAppearance.colorScheme)
 			}
 		}
 	}

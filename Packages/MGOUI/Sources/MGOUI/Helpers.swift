@@ -24,3 +24,11 @@ public var belowIOS18: Bool {
 	}
 	return true
 }
+
+public var isIOS16OrOlder: Bool {
+	if #unavailable(iOS 17) {
+		return true
+	}
+	return false
+
+}

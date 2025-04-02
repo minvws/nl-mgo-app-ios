@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -133,9 +133,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Token for the observatory 
 	private var observerToken: Observatory.ObserverToken?
 	
-	/// The version supplier
-	private var versionSupplier: AppVersionSupplierProtocol!
-	
 	/// Are we forced into update required mode?
 	private var updateRequired: Bool = false
 	
@@ -151,15 +148,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// Create an AppCoordinator
 	/// - Parameter path: Navigation Path
-	/// - Parameter versionSupplier: the version supplier
 	/// - Parameter browser: the browser for displaying urls
 	init(
 		path: NavigationStackBackport.NavigationPath,
-		versionSupplier: AppVersionSupplierProtocol = AppVersionSupplier(),
 		browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
 	) {
 		self.path = path
-		self.versionSupplier = versionSupplier
 		self.browser = browser
 		self.rootState = .splash
 		self.dashboardCoordinator = DashboardCoordinator(parentCoordinator: self)
@@ -199,7 +193,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		// Updated configuration
 		
 		let minimumVersion = remoteConfiguration.iosMinimumVersion.semanticVersion()
-		let currentVersion = versionSupplier.getCurrentVersion().semanticVersion()
+		let currentVersion = Current.appVersionSupplier.getCurrentVersion().semanticVersion()
 		
 		logDebug("AppCoordinator: Updated config, we are \(currentVersion), minimum is \(minimumVersion)")
 		
@@ -447,6 +441,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		if Current.secureUserSettings.pinCode == nil {
 			// User must set an pin code, but show introduction first.
 			resetNavigationStack(with: AppCoordination.State.introduction)
+		} else if Current.featureFlagManager.bypassPincode && Configuration().getRelease() == .development {
+			// Bypass the pin code screen
+			showChildCoordinator = true
 		} else {
 			// Repeat login, user must authenticate with pin code
 			resetNavigationStack(with: AppCoordination.State.pinCodeValidation(lockOut: false))
@@ -473,15 +470,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		showChildCoordinator = true
 	}
 	
-	/// Handle the pincode validated action
+	/// Handle the pincode validated action after lockout
 	private func handlePinCodeValidatedAfterLockout() {
-		guard Current.secureUserSettings.enteredBackground == nil else {
-			showAuthenticationModal = false
-			rootStateForSheet = nil
-			pathForSheet = NavigationStackBackport.NavigationPath()
-			Current.secureUserSettings.enteredBackground = nil
-			return
-		}
+		
+		showAuthenticationModal = false
+		rootStateForSheet = nil
+		pathForSheet = NavigationStackBackport.NavigationPath()
+		Current.secureUserSettings.enteredBackground = nil
 	}
 	
 	/// Handle the show Privacy statement action

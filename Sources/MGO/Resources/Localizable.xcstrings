@@ -1385,7 +1385,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Laden…"
+            "value" : "Laden..."
           }
         }
       }
@@ -1419,17 +1419,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Een overzicht van de medicijnen die zijn voorgeschreven door je zorgaanbieder."
-          }
-        }
-      }
-    },
-    "organisation_list_automatic.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welke wil je tonen in je overzicht? Je kunt dit later altijd veranderen."
           }
         }
       }
@@ -1748,7 +1737,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "FaceID is vergrendeld omdat er te veel mislukte pogingen waren."
+            "value" : "Face ID is vergrendeld omdat er te veel mislukte pogingen waren."
           }
         }
       }
@@ -1814,7 +1803,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "OpticID is vergrendeld omdat er te veel mislukte pogingen waren."
+            "value" : "Optic ID is vergrendeld omdat er te veel mislukte pogingen waren."
           }
         }
       }
@@ -1836,7 +1825,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "TouchID is vergrendeld omdat er te veel mislukte pogingen waren."
+            "value" : "Touch ID is vergrendeld omdat er te veel mislukte pogingen waren."
           }
         }
       }
@@ -2050,6 +2039,424 @@
         }
       }
     },
+    "settings.about_this_app_safety.install_updates.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installeer updates"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.install_updates.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Houd uw mobiel en apps up-to-date. Zet automatische updates aan of controleer regelmatig de App Store op nieuwe updates."
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.permissions.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let op app-toestemmingen"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.permissions.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sommige apps willen toegang tot uw locatie of persoonlijke gegevens. Kijk goed welke toestemming u aan apps geeft en of dat nodig is."
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.phone_yourself.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Houdt uw mobiel alleen voor uzelf"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.phone_yourself.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deel uw wachtwoord of pincode nooit met anderen, ook niet met familie of vrienden. Uw gegevens zijn persoonlijk."
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.public_wifi.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vermijd openbare wifi-netwerken"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.public_wifi.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik liever geen openbare wifi-netwerken, zoals die in cafés of treinen. 4G of 5G is een veiliger alternatief en beschermt uw gegevens beter."
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.safe_apps.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download alleen veilige apps"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.safe_apps.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installeer alleen apps uit de App Store. Zo voorkomt u dat er virussen of nep-apps op uw mobiel komen."
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.security_phone.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveilig uw mobiel"
+          }
+        }
+      }
+    },
+    "settings.about_this_app_safety.security_phone.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als u uw mobiel verliest, wil u niet dat anderen toegang hebben tot uw gegevens. Zet daarom een sterk wachtwoord of pincode in die moeilijk te raden is."
+          }
+        }
+      }
+    },
+    "settings.about_this_app.accessibility" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over deze app"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.logo_ accessibility" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logo van het Ministerie van Volksgezondheid, Welzijn en Sport"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.open_source" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open-source bibliotheken"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.open_source.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze app is gebaseerd op open source software. Open source software is software waarvan de broncode is gepubliceerd en vrij beschikbaar is. De software mag worden gebruikt, mits de licentie wordt gedeeld. Hierna vindt u een overzicht van de licenties van de open source software in deze app. De ontwikkelaars hebben deze licenties in het Engels geschreven. Er is geen Nederlandse vertaling van."
+          }
+        }
+      }
+    },
+    "settings.about_this_app.privacy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je privacy en persoonsgegevens"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.privacy_url.acc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.acc.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.privacy_url.prod" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.privacy_url.test" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.safety" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veilig gebruik"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.safety.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De Rijksoverheid heeft deze app goed beveiligd. Maar u kunt zelf ook dingen doen om uw mobiel en gegevens veilig te houden. Hier zijn een paar tips:"
+          }
+        }
+      }
+    },
+    "settings.about_this_app.version" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versie"
+          }
+        }
+      }
+    },
+    "settings.accessibility.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.accessibility.more_information" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meer informatie"
+          }
+        }
+      }
+    },
+    "settings.accessibility.more_information_url.acc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.acc.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.accessibility.more_information_url.prod" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.accessibility.more_information_url.test" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.accessibility.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De overheid vindt het belangrijk dat iedereen mee kan doen in de digitale samenleving. Daarom moeten websites en apps van de overheid voor iedereen toegankelijk zijn. Ook voor mensen met een beperking. Deze app volgt de internationale standaard voor toegankelijkheid."
+          }
+        }
+      }
+    },
+    "settings.advanced.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geavanceerd"
+          }
+        }
+      }
+    },
+    "settings.advanced.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen voor ontwikkelaars"
+          }
+        }
+      }
+    },
+    "settings.display.dark" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donker"
+          }
+        }
+      }
+    },
+    "settings.display.footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Systeem” volgt de instellingen van je telefoon."
+          }
+        }
+      }
+    },
+    "settings.display.footer_ipad" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Systeem” volgt de instellingen van je tablet."
+          }
+        }
+      }
+    },
+    "settings.display.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weergave"
+          }
+        }
+      }
+    },
+    "settings.display.light" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licht"
+          }
+        }
+      }
+    },
+    "settings.display.system.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systeem"
+          }
+        }
+      }
+    },
     "settings.featureflag.localization" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2057,6 +2464,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Automatische lokalisatie"
+          }
+        }
+      }
+    },
+    "settings.featureflag.pincode" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip pincode"
           }
         }
       }
@@ -2072,13 +2489,57 @@
         }
       }
     },
-    "settings.reset_app.button" : {
+    "settings.information.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reset de app"
+            "value" : "Informatie"
+          }
+        }
+      }
+    },
+    "settings.log_out.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log uit"
+          }
+        }
+      }
+    },
+    "settings.log_out.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je sluit zo de app af"
+          }
+        }
+      }
+    },
+    "settings.other.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overige"
+          }
+        }
+      }
+    },
+    "settings.preferences.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voorkeuren"
           }
         }
       }
@@ -2089,7 +2550,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wil je de app resetten?"
+            "value" : "App opnieuw instellen?"
           }
         }
       }
@@ -2100,7 +2561,84 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daarmee verwijder je je account. Je kunt later wel weer een nieuw account aanmaken als je dat wilt."
+            "value" : "Je gegevens blijven altijd bewaard bij je zorgaanbieders. Je kunt de app later opnieuw instellen."
+          }
+        }
+      }
+    },
+    "settings.reset_app.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stel app opnieuw in"
+          }
+        }
+      }
+    },
+    "settings.reset_app.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je verwijderd zo al je opgeslagen zorgaanbieders en toegangscode"
+          }
+        }
+      }
+    },
+    "settings.security.biometric.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik dit in plaats van je toegangscode om veilig en nog sneller in te loggen."
+          }
+        }
+      }
+    },
+    "settings.security.faceId" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Face ID"
+          }
+        }
+      }
+    },
+    "settings.security.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beveiliging"
+          }
+        }
+      }
+    },
+    "settings.security.opticId" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optic ID"
+          }
+        }
+      }
+    },
+    "settings.security.touchId" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID"
           }
         }
       }

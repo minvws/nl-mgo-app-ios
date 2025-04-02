@@ -28,6 +28,19 @@ public class FHIRParser {
 		}
 	}
 	
+	/// What version of the shared core do we use?
+	/// - Returns: the version
+	public func getVersion() throws -> String {
+		
+		guard let parserPath = Bundle.module.path(forResource: "version", ofType: "json") else {
+			logError("FHIRParser: The parser file could not be found")
+			throw FHIRParserError.parserNotFound
+		}
+		
+		let sourceContents = try String(contentsOfFile: parserPath)
+		return sourceContents
+	}
+	
 	/// Create the JavaScript Context
 	/// - Returns: the JavaScript Context
 	private func createContext() -> JSContext? {

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -16,20 +16,17 @@ final class AppCoordinatorTests: XCTestCase {
 	
 	private var sut: AppCoordinator!
 	private var servicesSpies: ServicesSpies!
-	private var appVersionSupplierSpy: AppVersionSupplierSpy!
 	private var urlOpenerSpy: URLOpenerSpy!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
-		appVersionSupplierSpy = AppVersionSupplierSpy()
 		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
 		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
-			versionSupplier: appVersionSupplierSpy,
 			browser: browser
 		)
 	}
@@ -61,6 +58,20 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.rootState) == AppCoordination.State.pinCodeValidation(lockOut: false)
 		expect(self.sut.path.isEmpty) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
+	}
+	
+	func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_bypassPincodeEnabled() {
+		
+		// Given
+		servicesSpies.secureUserSettingsSpy.stubbedPinCode = "test"
+		servicesSpies.featureFlagSpy.stubbedBypassPincode = true
+		
+		// When
+		sut.handle(Coordination.Action.finishedSplash)
+		
+		// Then
+		expect(self.sut.showChildCoordinator) == true
+		expect(self.sut.path.isEmpty) == true
 	}
 	
 	func test_coordinatorHandle_actionNextButtonPressedOnAppIntroduction_pathShouldContainPrivacy() {
@@ -102,7 +113,7 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Given
 		let browser = RestrictedBrowser(allowedDomains: ["web.test.mgo.irealisatie.nl"], urlOpener: urlOpenerSpy)
-		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath(), versionSupplier: appVersionSupplierSpy, browser: browser)
+		sut = AppCoordinator(path: NavigationStackBackport.NavigationPath(), browser: browser)
 		
 		// When
 		sut.handle(Coordination.Action.showPrivacyStatement)
@@ -311,7 +322,6 @@ final class AppCoordinatorTests: XCTestCase {
 		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
-			versionSupplier: appVersionSupplierSpy,
 			browser: browser
 		)
 		sut.showChildCoordinator = false
@@ -330,7 +340,6 @@ final class AppCoordinatorTests: XCTestCase {
 		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
-			versionSupplier: appVersionSupplierSpy,
 			browser: browser
 		)
 		sut.showChildCoordinator = true
@@ -511,7 +520,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_handleRemoteConfigChanges_identicalVersion() {
 		
 		// Given
-		appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.0"
+		servicesSpies.appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.0"
 		let remoteConfig = RemoteConfig(iosMinimumVersion: "1.0.0")
 		
 		// When
@@ -525,7 +534,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_handleRemoteConfigChanges_shouldUpdate() {
 		
 		// Given
-		appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.1"
+		servicesSpies.appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.1"
 		let remoteConfig = RemoteConfig(iosMinimumVersion: "1.0.0")
 		
 		// When
@@ -539,7 +548,7 @@ final class AppCoordinatorTests: XCTestCase {
 	func test_handleRemoteConfigChanges_shouldContinue() {
 		
 		// Given
-		appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.0"
+		servicesSpies.appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.0"
 		let remoteConfig = RemoteConfig(iosMinimumVersion: "1.0.1")
 		
 		// When

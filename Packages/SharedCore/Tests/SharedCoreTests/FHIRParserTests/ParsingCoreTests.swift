@@ -17,6 +17,17 @@ final class FHIRParserTests: XCTestCase {
 		sut = FHIRParser()
 	}
 	
+	func test_version() throws {
+		
+		// Given
+		
+		// When
+		let result = try sut.getVersion()
+		
+		// Then
+		expect(result.isEmpty) == false
+	}
+	
 	func test_getBundleResourcesJson() throws {
 		
 		// Given
