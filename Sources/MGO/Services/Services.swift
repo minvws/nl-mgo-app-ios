@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -12,6 +12,7 @@ import MGOFoundation
 
 struct Services {
 	var now: () -> Date
+	var appVersionSupplier: AppVersionSupplierProtocol
 	var dataStore: MgoDataStoreProtocol
 	var featureFlagManager: FeatureFlagManaging
 	var healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol
@@ -25,6 +26,7 @@ struct Services {
 	
 	init(
 		now: @escaping () -> Date,
+		appVersionSupplier: AppVersionSupplierProtocol,
 		dataStore: MgoDataStoreProtocol,
 		featureFlagManager: FeatureFlagManaging,
 		healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol,
@@ -37,6 +39,7 @@ struct Services {
 		secureUserSettings: SecureUserSettingsProtocol
 	) {
 		self.now = now
+		self.appVersionSupplier = appVersionSupplier
 		self.dataStore = dataStore
 		self.featureFlagManager = featureFlagManager
 		self.healthcareOrganizationStore = healthcareOrganizationStore
@@ -52,6 +55,7 @@ struct Services {
 
 // MARK: - 2: Instantiate Private Dependencies
 
+private let appVersionSupplier = AppVersionSupplier()
 private let dataStore = InMemoryDataStore()
 private let featureFlagManager = FeatureFlagManager()
 private let healthcareOrganizationStore = HealthcareOrganizationRepository()
@@ -92,6 +96,7 @@ let services: () -> Services = {
 	
 	return Services(
 		now: now,
+		appVersionSupplier: appVersionSupplier,
 		dataStore: dataStore,
 		featureFlagManager: featureFlagManager,
 		healthcareOrganizationStore: healthcareOrganizationStore,

@@ -35,9 +35,6 @@ protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 	/// The navigation path for the second tab
 	var secondTabPath: NavigationStackBackport.NavigationPath { get set }
 	
-	/// The navigation path for the third tab
-	var thirdTabPath: NavigationStackBackport.NavigationPath { get set }
-	
 	/// The content type for the sheet
 	var pathForSheet: NavigationStackBackport.NavigationPath { get set }
 	
@@ -78,6 +75,9 @@ enum DashboardCoordination {
 		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
 		case showHealthData(backButtonTitle: String, schema: HealthUISchema, organization: MgoOrganization)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
+		
+		// Settings
+		case displaySettings
 	}
 }
 
@@ -88,9 +88,6 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	
 	/// The navigation path for the second tab
 	@Published var secondTabPath = NavigationStackBackport.NavigationPath()
-	
-	/// The navigation path for the third tab
-	@Published var thirdTabPath = NavigationStackBackport.NavigationPath()
 	
 	/// The navigation path for the sheet.
 	@Published var pathForSheet = NavigationStackBackport.NavigationPath()
@@ -104,11 +101,15 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	/// The selected tab
 	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue
 	
+	/// The coordinator for all setting activities
+	private var settingsCoordinator: SettingsCoordinator!
+	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	init(parentCoordinator: (any AppCoordinatorProtocol)?) {
 		
 		self.parentCoordinator = parentCoordinator
+		self.settingsCoordinator = SettingsCoordinator(parentCoordinator: self)
 	}
 	
 	/// Handle any incoming action from any of the view models
@@ -119,7 +120,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		guard !handleHealthDataFlow(action) else { return }
 		
 		switch action.identifier {
-			
+		
 			// General
 				
 			case Coordination.Action.closeSheet.identifier, Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
@@ -257,8 +258,6 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			firstTabPath.append(target)
 		} else if selectedTab == DashboardTab.overview.rawValue {
 			secondTabPath.append(target)
-		} else if selectedTab == DashboardTab.settings.rawValue {
-			thirdTabPath.append(target)
 		}
 	}
 	
@@ -272,7 +271,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			// Initial states
 		
 			case .settings:
-				SettingsView(viewModel: SettingsViewModel(coordinator: self))
+				SettingsCoordinatorView(coordinator: settingsCoordinator)
 			
 			case .overview:
 				OrganizationsView(viewModel: OrganizationsViewModel(coordinator: self)).isPresentedAsSheet(false)

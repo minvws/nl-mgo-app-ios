@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -16,20 +16,17 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 	
 	private var sut: AppCoordinator!
 	private var servicesSpies: ServicesSpies!
-	private var appVersionSupplierSpy: AppVersionSupplierSpy!
 	private var urlOpenerSpy: URLOpenerSpy!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
-		appVersionSupplierSpy = AppVersionSupplierSpy()
 		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
 		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
-			versionSupplier: appVersionSupplierSpy,
 			browser: browser
 		)
 	}

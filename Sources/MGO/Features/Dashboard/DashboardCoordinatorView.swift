@@ -61,12 +61,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				.accessibilityIdentifier("bottombar.healthcareproviders")
 				
 				// Third Tab, Settings
-				NavigationStackBackport.NavigationStack(path: $coordinator.thirdTabPath) {
-					coordinator.viewState(for: .settings)
-						.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
-							coordinator.viewState(for: state)
-						}
-				}
+				coordinator.viewState(for: .settings)
 				.tabItem {
 					Image(coordinator.selectedTab == DashboardTab.settings.rawValue ? ImageResource.Tab.Selected.settings : ImageResource.Tab.Unselected.settings)
 					Text("bottombar.settings")

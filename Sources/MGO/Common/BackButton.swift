@@ -57,6 +57,7 @@ struct BackButton: View {
 		.accessibilityIdentifier("common.previous")
 		.buttonStyle(BackButtonStyle())
 		.frame(minWidth: ViewTraits.Button.minWidth, maxWidth: .infinity, alignment: .leading)
+		.padding(.leading, -ViewTraits.Image.padding)
 	}
 }
 

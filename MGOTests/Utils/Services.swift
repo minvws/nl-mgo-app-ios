@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -15,6 +15,13 @@ import MGOFoundation
 final class ServicesSpies {
 	
 	fileprivate init() { /* private so it can not be initiated elsewhere */ }
+	
+	var appVersionSupplierSpy: AppVersionSupplierSpy = {
+		let spy = AppVersionSupplierSpy()
+		spy.stubbedGetCurrentVersionResult = "1.0.0"
+		spy.stubbedGetCurrentBuildResult = "1"
+		return spy
+	}()
 	
 	var dataStoreSpy: MgoDataStoreSpy = {
 		let spy = MgoDataStoreSpy()
@@ -86,6 +93,7 @@ func setupServicesSpies() -> ServicesSpies {
 	
 	Current = Services(
 		now: { Date(timeIntervalSince1970: 1700000000) }, // Tuesday, 14 November 2023 22:13:20
+		appVersionSupplier: spies.appVersionSupplierSpy,
 		dataStore: spies.dataStoreSpy,
 		featureFlagManager: spies.featureFlagSpy,
 		healthcareOrganizationStore: spies.healthcareOrganizationStoreSpy,

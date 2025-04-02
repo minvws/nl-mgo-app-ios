@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -39,7 +39,6 @@ final class SettingsViewModelTests: XCTestCase {
 	func test_cancelDialog_shouldRemoveDialog() {
 		
 		// Given
-		sut.showResetButton = true
 		
 		// When
 		sut.reduce(.cancelDialog)
@@ -47,6 +46,54 @@ final class SettingsViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
 		expect(self.sut.showResetDialog) == false
+	}
+
+	func test_displaySettings_shouldCallCoordinator() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.displaySettings)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showDisplaySettings
+	}
+	
+	func test_securitySettings_shouldCallCoordinator() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.securitySettings)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showSecuritySettings
+	}
+	
+	func test_advancedSettings_shouldCallCoordinator() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.advancedSettings)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showAdvancedSettings
+	}
+	
+	func test_aboutTheApp_shouldCallCoordinator() {
+		
+		// Given
+		
+		// When
+		sut.reduce(.aboutTheApp)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showAboutTheApp
 	}
 	
 	func test_resetApplication_shouldCallCoordinator() {
@@ -61,15 +108,15 @@ final class SettingsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.resetApplication
 	}
 	
-	func test_automaticLocalization() {
+	func test_lockApplication_shouldCallCoordinator() {
 		
 		// Given
 		
 		// When
-		sut.reduce(.automaticLocalization(false))
+		sut.reduce(.lockApplication)
 		
 		// Then
-		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabledSetter) == true
-		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabled) == false
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.lockApplication
 	}
 }
