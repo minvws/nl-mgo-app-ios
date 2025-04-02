@@ -64,6 +64,7 @@ struct LoginInfoView: View {
 				titleStyle: .largeTitle,
 				subHeadingForegroundColor: theme.contentPrimary
 			)
+			.padding(.horizontal, ViewTraits.General.spacing)
 			
 		} bottomView: {
 			CallToActionButton("common.next") {

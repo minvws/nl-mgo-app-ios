@@ -18,6 +18,10 @@ public struct BackportListSectionSpacing: ViewModifier {
 				.listSectionSpacing(spacing)
 		} else {
 			content
+				.introspect(.list, on: .iOS(.v15)) { tableView in
+					tableView.sectionHeaderHeight = 0
+					tableView.sectionHeaderHeight = 0
+				}
 		}
 	}
 }

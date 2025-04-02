@@ -535,6 +535,7 @@ struct HealthCategoryView: View {
 			subHeadingForegroundColor: theme.contentPrimary
 		)
 			.frame(maxWidth: .infinity)
+			.padding(.horizontal, ViewTraits.General.padding)
 			.padding(.top, ViewTraits.NoResults.top)
 	}
 	
@@ -549,6 +550,7 @@ struct HealthCategoryView: View {
 			subHeadingForegroundColor: theme.contentPrimary
 		)
 			.frame(maxWidth: .infinity)
+			.padding(.horizontal, ViewTraits.General.padding)
 			.padding(.top, ViewTraits.NoResults.top)
 	}
 }

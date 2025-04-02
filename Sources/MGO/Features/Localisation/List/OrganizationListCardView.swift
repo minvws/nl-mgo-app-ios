@@ -72,7 +72,7 @@ struct OrganizationListCardView: View {
 				Text(model.name)
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundStyle(theme.contentPrimary)
-					.multilineTextAlignment(.leading)
+					.fixedSize(horizontal: false, vertical: true)
 					.padding(.bottom, ViewTraits.Title.padding)
 				
 				if let address = model.address, address.isNotEmpty {

@@ -40,6 +40,18 @@ final class HealthCategoriesViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
+	func test_initialState_singleMode_belowIOS18() {
+		
+		// Given
+		sut.viewModel.state.belowIOS18 = true
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
 	func test_initialState_multipleMode() {
 		
 		// Given

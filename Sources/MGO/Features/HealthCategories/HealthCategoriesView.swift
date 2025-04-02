@@ -27,6 +27,7 @@ struct HealthCategoriesViewState {
 	var showRemoveHealthcareProvider: Bool
 	var healthCategories: [CategoryButton]
 	var backButtonTitle: LocalizedStringKey?
+	var belowIOS18: Bool
 	
 	mutating func updateCategoryState(id: Int, state: CategoryButtonState) {
 		withAnimation {
@@ -130,7 +131,8 @@ class HealthCategoriesViewModel: ObservableObject {
 				CategoryButton(category: .mentalWellbeing, title: "hc_mental.heading", box: disabledForDemoBox),
 				CategoryButton(category: .lifestyle, title: "hc_lifestyle.heading", box: disabledForDemoBox)
 			],
-			backButtonTitle: backbuttonTitle
+			backButtonTitle: backbuttonTitle,
+			belowIOS18: belowIOS18
 		)
 		
 		registerObservers()
@@ -347,6 +349,7 @@ struct HealthCategoriesView: View {
 				categoriesView()
 					.backportListSectionSpacing(ViewTraits.List.spacing)
 					.backportVerticalContentMargins(0)
+					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 			}
 		} // VStack
 		.navigationBarBackButtonHidden()
@@ -358,6 +361,10 @@ struct HealthCategoriesView: View {
 		})
 		.when(viewModel.state.canTitleCollapse) { view in
 			view.navigationTitle(viewModel.state.heading)
+		}
+		.when(viewModel.state.belowIOS18 && !viewModel.state.canTitleCollapse) { view in
+			view
+				.navigationBarTitleDisplayMode(.inline)
 		}
 		.navigationBarHidden(false)
 		.background(theme.backgroundPrimary.ignoresSafeArea())

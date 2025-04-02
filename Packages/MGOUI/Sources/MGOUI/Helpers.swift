@@ -18,9 +18,17 @@ public var isIOS15: Bool {
 	return false
 }
 
+public var belowIOS18: Bool {
+	if #available(iOS 18, *) {
+		return false
+	}
+	return true
+}
+
 public var isIOS16OrOlder: Bool {
 	if #unavailable(iOS 17) {
 		return true
 	}
 	return false
+
 }
