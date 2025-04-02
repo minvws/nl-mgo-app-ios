@@ -23,14 +23,15 @@ public struct ZibAdvanceDirective: Codable, Hashable, Sendable {
     public let referenceID: String
     public let resourceType: String?
     public let source: Source
+    public let typeOfLivingWill: [MgoCodeableConcept]?
 
     public enum CodingKeys: String, CodingKey {
         case category, comment, consentingParty, dateTime, disorder, fhirVersion, id, profile
         case referenceID = "referenceId"
-        case resourceType, source
+        case resourceType, source, typeOfLivingWill
     }
 
-    public init(category: [MgoCodeableConcept]?, comment: String?, consentingParty: [MgoReference]?, dateTime: String?, disorder: MgoReference?, fhirVersion: FhirVersionR3, id: String?, profile: ZibAdvanceDirectiveProfile, referenceID: String, resourceType: String?, source: Source) {
+    public init(category: [MgoCodeableConcept]?, comment: String?, consentingParty: [MgoReference]?, dateTime: String?, disorder: MgoReference?, fhirVersion: FhirVersionR3, id: String?, profile: ZibAdvanceDirectiveProfile, referenceID: String, resourceType: String?, source: Source, typeOfLivingWill: [MgoCodeableConcept]?) {
         self.category = category
         self.comment = comment
         self.consentingParty = consentingParty
@@ -42,6 +43,7 @@ public struct ZibAdvanceDirective: Codable, Hashable, Sendable {
         self.referenceID = referenceID
         self.resourceType = resourceType
         self.source = source
+        self.typeOfLivingWill = typeOfLivingWill
     }
 }
 
@@ -74,7 +76,8 @@ public extension ZibAdvanceDirective {
         profile: ZibAdvanceDirectiveProfile? = nil,
         referenceID: String? = nil,
         resourceType: String?? = nil,
-        source: Source? = nil
+        source: Source? = nil,
+        typeOfLivingWill: [MgoCodeableConcept]?? = nil
     ) -> ZibAdvanceDirective {
         return ZibAdvanceDirective(
             category: category ?? self.category,
@@ -87,7 +90,8 @@ public extension ZibAdvanceDirective {
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            source: source ?? self.source
+            source: source ?? self.source,
+            typeOfLivingWill: typeOfLivingWill ?? self.typeOfLivingWill
         )
     }
 

@@ -14,7 +14,7 @@ import Foundation
 public struct ZibAlert: Codable, Hashable, Sendable {
     public let author: MgoReference?
     public let category, code: MgoCodeableConcept?
-    public let encounter: MgoReference?
+    public let concernReference, encounter: MgoReference?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -26,15 +26,16 @@ public struct ZibAlert: Codable, Hashable, Sendable {
     public let subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case author, category, code, encounter, fhirVersion, id, identifier, period, profile
+        case author, category, code, concernReference, encounter, fhirVersion, id, identifier, period, profile
         case referenceID = "referenceId"
         case resourceType, status, subject
     }
 
-    public init(author: MgoReference?, category: MgoCodeableConcept?, code: MgoCodeableConcept?, encounter: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, period: MgoPeriod?, profile: ZibAlertProfile, referenceID: String, resourceType: String?, status: R4NlCorePharmaceuticalProductStatus?, subject: MgoReference?) {
+    public init(author: MgoReference?, category: MgoCodeableConcept?, code: MgoCodeableConcept?, concernReference: MgoReference?, encounter: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, period: MgoPeriod?, profile: ZibAlertProfile, referenceID: String, resourceType: String?, status: R4NlCorePharmaceuticalProductStatus?, subject: MgoReference?) {
         self.author = author
         self.category = category
         self.code = code
+        self.concernReference = concernReference
         self.encounter = encounter
         self.fhirVersion = fhirVersion
         self.id = id
@@ -70,6 +71,7 @@ public extension ZibAlert {
         author: MgoReference?? = nil,
         category: MgoCodeableConcept?? = nil,
         code: MgoCodeableConcept?? = nil,
+        concernReference: MgoReference?? = nil,
         encounter: MgoReference?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
@@ -85,6 +87,7 @@ public extension ZibAlert {
             author: author ?? self.author,
             category: category ?? self.category,
             code: code ?? self.code,
+            concernReference: concernReference ?? self.concernReference,
             encounter: encounter ?? self.encounter,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,

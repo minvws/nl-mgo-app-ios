@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let performer = try Performer(json)
+//   let component = try Component(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,20 +10,20 @@
 
 import Foundation
 
-// MARK: - Performer
-public struct Performer: Codable, Hashable, Sendable {
-    public let actor: MgoReference?
+// MARK: - Component
+public struct Component: Codable, Hashable, Sendable {
+    public let amount: MgoDuration?
 
-    public init(actor: MgoReference?) {
-        self.actor = actor
+    public init(amount: MgoDuration?) {
+        self.amount = amount
     }
 }
 
-// MARK: Performer convenience initializers and mutators
+// MARK: Component convenience initializers and mutators
 
-public extension Performer {
+public extension Component {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(Performer.self, from: data)
+        self = try newJSONDecoder().decode(Component.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -38,10 +38,10 @@ public extension Performer {
     }
 
     func with(
-        actor: MgoReference?? = nil
-    ) -> Performer {
-        return Performer(
-            actor: actor ?? self.actor
+        amount: MgoDuration?? = nil
+    ) -> Component {
+        return Component(
+            amount: amount ?? self.amount
         )
     }
 

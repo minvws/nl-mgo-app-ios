@@ -19,7 +19,7 @@ public struct ZibProcedure: Codable, Hashable, Sendable {
     public let id: String?
     public let location: MgoReference?
     public let performedPeriod: MgoPeriod?
-    public let performer: [Performer]?
+    public let performer: [ZibProcedurePerformer]?
     public let procedureMethod: MgoCodeableConcept?
     public let profile: ZibProcedureProfile
     public let reasonReference: [MgoReference]?
@@ -33,7 +33,7 @@ public struct ZibProcedure: Codable, Hashable, Sendable {
         case resourceType, subject
     }
 
-    public init(bodySite: [MgoCodeableConcept]?, bodySiteQualifier: [MgoCodeableConcept]?, code: MgoCodeableConcept?, fhirVersion: FhirVersionR3, focalDevice: [FocalDevice]?, id: String?, location: MgoReference?, performedPeriod: MgoPeriod?, performer: [Performer]?, procedureMethod: MgoCodeableConcept?, profile: ZibProcedureProfile, reasonReference: [MgoReference]?, referenceID: String, resourceType: String?, subject: MgoReference?) {
+    public init(bodySite: [MgoCodeableConcept]?, bodySiteQualifier: [MgoCodeableConcept]?, code: MgoCodeableConcept?, fhirVersion: FhirVersionR3, focalDevice: [FocalDevice]?, id: String?, location: MgoReference?, performedPeriod: MgoPeriod?, performer: [ZibProcedurePerformer]?, procedureMethod: MgoCodeableConcept?, profile: ZibProcedureProfile, reasonReference: [MgoReference]?, referenceID: String, resourceType: String?, subject: MgoReference?) {
         self.bodySite = bodySite
         self.bodySiteQualifier = bodySiteQualifier
         self.code = code
@@ -79,7 +79,7 @@ public extension ZibProcedure {
         id: String?? = nil,
         location: MgoReference?? = nil,
         performedPeriod: MgoPeriod?? = nil,
-        performer: [Performer]?? = nil,
+        performer: [ZibProcedurePerformer]?? = nil,
         procedureMethod: MgoCodeableConcept?? = nil,
         profile: ZibProcedureProfile? = nil,
         reasonReference: [MgoReference]?? = nil,

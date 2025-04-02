@@ -27,15 +27,16 @@ public struct ZibDrugUse: Codable, Hashable, Sendable {
     public let resourceType: String?
     public let status: GpLaboratoryResultStatus?
     public let subject: MgoReference?
+    public let valueCodeableConcept: MgoCodeableConcept?
     public let valueQuantity: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
         case bodySite, category, comment, context, dataAbsentReason, effectivePeriod, fhirVersion, id, identifier, method, profile
         case referenceID = "referenceId"
-        case resourceType, status, subject, valueQuantity
+        case resourceType, status, subject, valueCodeableConcept, valueQuantity
     }
 
-    public init(bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, dataAbsentReason: MgoCodeableConcept?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, profile: ZibDrugUseProfile, referenceID: String, resourceType: String?, status: GpLaboratoryResultStatus?, subject: MgoReference?, valueQuantity: MgoDuration?) {
+    public init(bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, dataAbsentReason: MgoCodeableConcept?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, profile: ZibDrugUseProfile, referenceID: String, resourceType: String?, status: GpLaboratoryResultStatus?, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?, valueQuantity: MgoDuration?) {
         self.bodySite = bodySite
         self.category = category
         self.comment = comment
@@ -51,6 +52,7 @@ public struct ZibDrugUse: Codable, Hashable, Sendable {
         self.resourceType = resourceType
         self.status = status
         self.subject = subject
+        self.valueCodeableConcept = valueCodeableConcept
         self.valueQuantity = valueQuantity
     }
 }
@@ -89,6 +91,7 @@ public extension ZibDrugUse {
         resourceType: String?? = nil,
         status: GpLaboratoryResultStatus?? = nil,
         subject: MgoReference?? = nil,
+        valueCodeableConcept: MgoCodeableConcept?? = nil,
         valueQuantity: MgoDuration?? = nil
     ) -> ZibDrugUse {
         return ZibDrugUse(
@@ -107,6 +110,7 @@ public extension ZibDrugUse {
             resourceType: resourceType ?? self.resourceType,
             status: status ?? self.status,
             subject: subject ?? self.subject,
+            valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept,
             valueQuantity: valueQuantity ?? self.valueQuantity
         )
     }
