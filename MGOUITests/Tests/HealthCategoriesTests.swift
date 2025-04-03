@@ -44,7 +44,5 @@ class HealthCategoriesTests: XCTestCase {
 			.verifyCategoryExists("Medische klachten")
 			.swipeToRemoveHealthcareOrganizationButton()
 			.verifyRemoveHealthcareOrganizationButton()
-		
-		
 	}
 }
