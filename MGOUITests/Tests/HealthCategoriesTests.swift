@@ -32,7 +32,7 @@ class HealthCategoriesTests: XCTestCase {
 			.verifySettingsButtonExists()
 	}
 	
-	func testRemoveProvider() {
+	func testNavigateToRemoveProvider() {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()

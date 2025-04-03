@@ -51,6 +51,18 @@ class HealthCategoriesRobot: Robot {
 		app.buttons["organizations.remove_organization"]
 	}
 	
+	private var toastHeading: XCUIElement {
+		app.staticTexts["toast.heading"]
+	}
+	
+	private var toastRecoverButton: XCUIElement {
+		app.buttons["toast.subheading"]
+	}
+	
+	private var toastCloseButton: XCUIElement {
+		app.buttons["toast.close"]
+	}
+	
 	// MARK: - Validations
 	
 	@discardableResult
@@ -100,7 +112,25 @@ class HealthCategoriesRobot: Robot {
 		XCTAssertTrue(removeHealthcareOrganizationButton.exists)
 		return self
 	}
-
+	
+	@discardableResult
+	func verifyToastHeadingExists() -> Self {
+		XCTAssertTrue(toastHeading.exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifyToastRecoverButtonExists() -> Self {
+		XCTAssertTrue(toastRecoverButton.exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifyToastCloseExists() -> Self {
+		XCTAssertTrue(toastCloseButton.exists)
+		return self
+	}
+	
 	// MARK: - Interactions
 	
 	@discardableResult
@@ -128,6 +158,24 @@ class HealthCategoriesRobot: Robot {
 			app.swipeUp()
 		}
 		
+		return self
+	}
+	
+	@discardableResult
+	func tapRemoveHealthcareOrganizationButton() -> RemoveHealthcareOrganizationRobot {
+		removeHealthcareOrganizationButton.tap()
+		return RemoveHealthcareOrganizationRobot(app)
+	}
+	
+	@discardableResult
+	func tapToastCloseButton() -> Self {
+		toastCloseButton.tap()
+		return self
+	}
+	
+	@discardableResult
+	func tapToastRecoverButton() -> Self {
+		toastRecoverButton.tap()
 		return self
 	}
 }
