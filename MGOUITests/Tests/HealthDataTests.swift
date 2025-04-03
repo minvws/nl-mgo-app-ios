@@ -36,7 +36,7 @@ class HealthDataTests: XCTestCase {
 			.navigateToOverviewWithBGZ()
 			.tapHealthCategory("Medicijnen")
 			.tapSectionRow(0, section: 0)
-			.tapNavigatoToDetailsButton("Bekijk alle medicijngegevens")
+			.tapNavigateToDetailsButton("Bekijk alle medicijngegevens")
 			.verifyHeadingExists("Zestril tablet 10mg")
 			.verifySectionHeaderExists("Algemeen")
 			.verifyReferenceButtonExists("Gebruiksproduct", value: "Zestril tablet 10mg")
