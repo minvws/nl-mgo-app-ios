@@ -36,6 +36,10 @@ class PincodeRobot: Robot {
 	private func errorText(_ error: String) -> XCUIElement {
 		app.staticTexts[error]
 	}
+	
+	private var forgotButton: XCUIElement {
+		app.buttons["pincode.forgot"]
+	}
 
 	// MARK: - Validations
 	
@@ -48,6 +52,12 @@ class PincodeRobot: Robot {
 	@discardableResult
 	func verifyErrorTextExists(_ error: String) -> Self {
 		XCTAssertTrue(errorText(error).exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifyForgotButtonExists() -> Self {
+		XCTAssertTrue(forgotButton.exists)
 		return self
 	}
 	
@@ -71,5 +81,11 @@ class PincodeRobot: Robot {
 	func enterConfirmationPinCodeWithRemoteAuthentication(_ code: String) -> AddOrganizationRobot {
 		enterPinCode(code)
 		return AddOrganizationRobot(app)
+	}
+	
+	@discardableResult
+	func tapForgotButton() -> ForgotPincodeRobot {
+		forgotButton.tap()
+		return ForgotPincodeRobot(app)
 	}
 }

@@ -45,4 +45,11 @@ class PincodeTests: XCTestCase {
 			.verifySubHeadingExists("Vul je toegangscode in om door te gaan")
 			.enterConfirmationPinCode("12369")
 	}
+	
+	@MainActor
+	func testPincodeVerificationForgotButton() {
+		AppRobot()
+			.launchApp(withPincode: "12345")
+			.verifyForgotButtonExists()
+	}
 }
