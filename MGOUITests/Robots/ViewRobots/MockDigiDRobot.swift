@@ -108,14 +108,51 @@ class MockDigiDRobot: Robot {
 	
 	@discardableResult
 	func performCompleteDigiDLogin() -> AddOrganizationRobot {
-		self
-			.verifySafariIsOpen()
-			.verifyMockDigiDSubmitButtonExists()
-			.tapMockDigiDSubmitButton()
-			.enterBasicAuthorizationIfNeeded()
-			.verifyOpenButtonExists()
-			.tapOpenButton()
 		
+		// The Safari browser and the mock DigiD site can be in different states
+		
+		if openAppButton.waitForExistence(timeout: timeOut) {
+			self
+				.tapOpenButton()
+		} else if usernameTextField.waitForExistence(timeout: timeOut) {
+			self
+				.enterBasicAuthorizationIfNeeded()
+				.verifyOpenButtonExists()
+				.tapOpenButton()
+		} else {
+			self
+				.verifySafariIsOpen()
+				.verifyMockDigiDSubmitButtonExists()
+				.tapMockDigiDSubmitButton()
+				.enterBasicAuthorizationIfNeeded()
+				.verifyOpenButtonExists()
+				.tapOpenButton()
+		}
+			
 		return AddOrganizationRobot(app)
+	}
+	
+	@discardableResult
+	func verifyMockDigidWebsite() -> Self {
+		
+		// The Safari browser and the mock DigiD site can be in different states
+		
+		if openAppButton.waitForExistence(timeout: timeOut) {
+			self
+				.verifyOpenButtonExists()
+		} else if usernameTextField.waitForExistence(timeout: timeOut) {
+			self
+				.enterBasicAuthorizationIfNeeded()
+				.verifyOpenButtonExists()
+		} else {
+			self
+				.verifySafariIsOpen()
+				.verifyMockDigiDSubmitButtonExists()
+				.tapMockDigiDSubmitButton()
+				.enterBasicAuthorizationIfNeeded()
+				.verifyOpenButtonExists()
+		}
+			
+		return self
 	}
 }

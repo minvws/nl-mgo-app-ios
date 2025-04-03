@@ -17,9 +17,6 @@ class MockDigiDTests: XCTestCase {
 			.enterConfirmationPinCode("12345")
 			.tapLoginWithDigiDButton()
 			.verifySafariIsOpen()
-			.verifyMockDigiDSubmitButtonExists()
-			.tapMockDigiDSubmitButton()
-			.enterBasicAuthorizationIfNeeded()
-			.verifyOpenButtonExists()
+			.verifyMockDigidWebsite()
 	}
 }
