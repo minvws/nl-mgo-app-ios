@@ -14,7 +14,7 @@ class HealthCategoriesTests: XCTestCase {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
-			.verifyHeadingExists("Overzicht")
+			.verifyTitleExists("Overzicht")
 			.verifySubHeadingExists()
 			.verifyCategoryExists("Medische klachten")
 			.verifyCategoryExists("Uitslagen")
@@ -27,5 +27,24 @@ class HealthCategoriesTests: XCTestCase {
 			.verifyCategoryExists("Allergieën")
 			.verifyCategoryExists("Mentaal welzijn")
 			.verifyCategoryExists("Leefstijl")
+			.verifyOverviewButtonExists()
+			.verifyHealthcareProviderButtonExists()
+			.verifySettingsButtonExists()
+	}
+	
+	func testRemoveProvider() {
+		
+		AppRobot()
+			.navigateToOverviewWithBGZ()
+			.verifyTitleExists("Overzicht")
+			.tapHealthcareProviderTab()
+			.tapHealthcareProviderButton("Kwalificatie Medmij: BGZ")
+			.verifyHeadingExists("Kwalificatie Medmij: BGZ")
+			.verifySubHeadingExists()
+			.verifyCategoryExists("Medische klachten")
+			.swipeToRemoveHealthcareOrganizationButton()
+			.verifyRemoveHealthcareOrganizationButton()
+		
+		
 	}
 }

@@ -19,8 +19,12 @@ class HealthCategoriesRobot: Robot {
 	
 	// MARK: - Elements
 	
+	private func titleLabel(_ title: String) -> XCUIElement {
+		app.navigationBars.staticTexts[title]
+	}
+
 	private func headingLabel(_ heading: String) -> XCUIElement {
-		app.navigationBars.staticTexts[heading]
+		app.staticTexts[heading]
 	}
 	
 	private var subHeadingLabel: XCUIElement {
@@ -31,7 +35,29 @@ class HealthCategoriesRobot: Robot {
 		app.buttons[category]
 	}
 	
+	private var overviewButton: XCUIElement {
+		app.buttons["bottombar.overview"]
+	}
+	
+	private var healthcareProviderButton: XCUIElement {
+		app.buttons["bottombar.healthcareproviders"]
+	}
+	
+	private var settingsButton: XCUIElement {
+		app.buttons["bottombar.settings"]
+	}
+	
+	private var removeHealthcareOrganizationButton: XCUIElement {
+		app.buttons["organizations.remove_organization"]
+	}
+	
 	// MARK: - Validations
+	
+	@discardableResult
+	func verifyTitleExists(_ title: String) -> Self {
+		XCTAssertTrue(titleLabel(title).exists)
+		return self
+	}
 	
 	@discardableResult
 	func verifyHeadingExists(_ heading: String) -> Self {
@@ -50,6 +76,30 @@ class HealthCategoriesRobot: Robot {
 		XCTAssertTrue(healthCategory(category).waitForExistence(timeout: 5.0))
 		return self
 	}
+	
+	@discardableResult
+	func verifyOverviewButtonExists() -> Self {
+		XCTAssertTrue(overviewButton.exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifyHealthcareProviderButtonExists() -> Self {
+		XCTAssertTrue(healthcareProviderButton.exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifySettingsButtonExists() -> Self {
+		XCTAssertTrue(settingsButton.exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifyRemoveHealthcareOrganizationButton() -> Self {
+		XCTAssertTrue(removeHealthcareOrganizationButton.exists)
+		return self
+	}
 
 	// MARK: - Interactions
 	
@@ -57,5 +107,27 @@ class HealthCategoriesRobot: Robot {
 	func tapHealthCategory(_ category: String) -> HealthCategoryRobot {
 		healthCategory(category).tap()
 		return HealthCategoryRobot(app)
+	}
+	
+	@discardableResult
+	func tapOverviewTab() -> Self {
+		overviewButton.tap()
+		return self
+	}
+	
+	@discardableResult
+	func tapHealthcareProviderTab() -> OrganizationsRobot {
+		healthcareProviderButton.tap()
+		return OrganizationsRobot(app)
+	}
+	
+	@discardableResult
+	func swipeToRemoveHealthcareOrganizationButton() -> Self {
+		
+		while !removeHealthcareOrganizationButton.exists {
+			app.swipeUp()
+		}
+		
+		return self
 	}
 }

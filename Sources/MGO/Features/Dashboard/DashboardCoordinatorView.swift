@@ -41,9 +41,9 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.healthCategories.rawValue ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
 					Text("bottombar.overview")
 						.rijksoverheidStyle(font: .bold, style: .body)
+						.accessibilityIdentifier("bottombar.overview")
 				}
 				.tag(DashboardTab.healthCategories.rawValue)
-				.accessibilityIdentifier("bottombar.overview")
 				
 				// Second Tab, Healthcare organizations
 				NavigationStackBackport.NavigationStack(path: $coordinator.secondTabPath) {
@@ -56,9 +56,9 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.overview.rawValue ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
 					Text("bottombar.healthcareproviders")
 						.rijksoverheidStyle(font: .bold, style: .body)
+						.accessibilityIdentifier("bottombar.healthcareproviders")
 				}
 				.tag(DashboardTab.overview.rawValue)
-				.accessibilityIdentifier("bottombar.healthcareproviders")
 				
 				// Third Tab, Settings
 				coordinator.viewState(for: .settings)
@@ -66,9 +66,9 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 					Image(coordinator.selectedTab == DashboardTab.settings.rawValue ? ImageResource.Tab.Selected.settings : ImageResource.Tab.Unselected.settings)
 					Text("bottombar.settings")
 						.rijksoverheidStyle(font: .bold, style: .body)
+						.accessibilityIdentifier("bottombar.settings")
 				}
 				.tag(DashboardTab.settings.rawValue)
-				.accessibilityIdentifier("bottombar.settings")
 			}
 			.tint(theme.interactionTertiaryDefaultText)
 		}
