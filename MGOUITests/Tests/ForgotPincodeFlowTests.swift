@@ -19,14 +19,14 @@ class ForgotPincodeFlowTests: XCTestCase {
 	 */
 	
 	@MainActor
-	func testForgotPincode_forgotButtonShouldExist() {
+	func testForgotPincodeFlow_forgotButtonShouldExist() {
 		AppRobot()
 			.launchApp(withPincode: "12345")
 			.verifyForgotButtonExists()
 	}
 	
 	@MainActor
-	func testForgotPincode_cancelAction() {
+	func testForgotPincodeFlow_cancelAction() {
 		
 		AppRobot()
 			.launchApp(withPincode: "12345")
@@ -39,7 +39,7 @@ class ForgotPincodeFlowTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testForgotPincode_closeAction() {
+	func testForgotPincodeFlow_closeAction() {
 		
 		AppRobot()
 			.launchApp(withPincode: "12345")
@@ -52,7 +52,7 @@ class ForgotPincodeFlowTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testForgotPincode_cancelActionOnPopup() {
+	func testForgotPincodeFlow_cancelActionOnPopup() {
 		
 		AppRobot()
 			.launchApp(withPincode: "12345")
@@ -69,7 +69,7 @@ class ForgotPincodeFlowTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testForgotPincode_okActionOnPopup_accountRemovedShouldExits_okAction() {
+	func testForgotPincodeFlow_okActionOnPopup_accountRemovedShouldExits_okAction() {
 		
 		AppRobot()
 			.launchApp(withPincode: "12345")
