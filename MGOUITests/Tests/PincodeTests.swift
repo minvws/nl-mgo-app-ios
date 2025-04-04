@@ -10,7 +10,7 @@ import XCTest
 class PincodeTests: XCTestCase {
 	
 	@MainActor
-	func testPincodeCreationTooWeak() {
+	func testPincodeCreation_tooWeak() {
 		AppRobot()
 			.launchApp()
 			.tapNextButton()
@@ -21,7 +21,7 @@ class PincodeTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testPincodeConfirmationDoesNotMatch() {
+	func testPincodeConfirmation_doesNotMatch() {
 		AppRobot()
 			.launchApp()
 			.tapNextButton()
@@ -34,7 +34,7 @@ class PincodeTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testPincodeConfirmationDoesMatch() {
+	func testPincodeConfirmation_doesMatch() {
 		
 		AppRobot()
 			.launchApp()
@@ -44,12 +44,5 @@ class PincodeTests: XCTestCase {
 			.enterPinCode("12369")
 			.verifySubHeadingExists("Vul je toegangscode in om door te gaan")
 			.enterConfirmationPinCode("12369")
-	}
-	
-	@MainActor
-	func testPincodeVerificationForgotButton() {
-		AppRobot()
-			.launchApp(withPincode: "12345")
-			.verifyForgotButtonExists()
 	}
 }

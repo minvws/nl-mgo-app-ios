@@ -26,14 +26,30 @@ class ForgotPincodeRobot: Robot {
 	
 	// MARK: - Elements
 	
+	private var alertHeadingLabel: XCUIElement {
+		app.staticTexts["Nieuw account maken?"]
+	}
+	
+	private var alertSubHeadingLabel: XCUIElement {
+		app.staticTexts["Je kunt je gegevens straks opnieuw ophalen. Het andere account wordt verwijderd."]
+	}
+
 	private var cancelButton: XCUIElement {
 		app.buttons["common.cancel"]
+	}
+	
+	private var closeSheetButton: XCUIElement {
+		app.buttons["common.close"]
 	}
 	
 	private var newAccountButton: XCUIElement {
 		app.buttons["forgot_pincode.button"]
 	}
 	
+	private var noButton: XCUIElement {
+		app.buttons["common.no"]
+	}
+
 	private var titleLabel: XCUIElement {
 		app.staticTexts["forgot_pincode.heading"]
 	}
@@ -42,20 +58,8 @@ class ForgotPincodeRobot: Robot {
 		app.staticTexts["forgot_pincode.subheading"]
 	}
 	
-	private var alertHeadingLabel: XCUIElement {
-		app.staticTexts["Nieuw account maken?"]
-	}
-	
-	private var alertSubHeadingLabel: XCUIElement {
-		app.staticTexts["Je kunt je gegevens straks opnieuw ophalen. Het andere account wordt verwijderd."]
-	}
-	
 	private var yesButton: XCUIElement {
 		app.buttons["common.yes"]
-	}
-	
-	private var noButton: XCUIElement {
-		app.buttons["common.no"]
 	}
 	
 	// MARK: - Validations
@@ -73,7 +77,7 @@ class ForgotPincodeRobot: Robot {
 	}
 	
 	@discardableResult
-	func verifyNewAccountButtonExists() -> Self {
+	func verifyCreateNewAccountButtonExists() -> Self {
 		XCTAssertTrue(newAccountButton.exists)
 		return self
 	}
@@ -102,6 +106,12 @@ class ForgotPincodeRobot: Robot {
 		return self
 	}
 	
+	@discardableResult
+	func verifyCloseSheetButtonExists() -> Self {
+		XCTAssertTrue(closeSheetButton.exists)
+		return self
+	}
+	
 	// MARK: - Interactions
 	
 	@discardableResult
@@ -111,7 +121,7 @@ class ForgotPincodeRobot: Robot {
 	}
 	
 	@discardableResult
-	func tapNewAccountButton() -> Self {
+	func tapCreateNewAccountButton() -> Self {
 		newAccountButton.tap()
 		return self
 	}
@@ -126,5 +136,11 @@ class ForgotPincodeRobot: Robot {
 	func tapAlertOkButton() -> AccountRemovedRobot {
 		yesButton.tap()
 		return AccountRemovedRobot(app)
+	}
+	
+	@discardableResult
+	func tapCloseSheetButton() -> PincodeRobot {
+		closeSheetButton.tap()
+		return PincodeRobot(app)
 	}
 }
