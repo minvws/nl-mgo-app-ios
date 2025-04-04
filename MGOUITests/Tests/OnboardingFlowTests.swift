@@ -7,7 +7,7 @@
 
 import XCTest
 
-class OnboardingFlowTests: XCTestCase {
+final class OnboardingFlowTests: XCTestCase {
 	
 	/*
 	 This e2e test will test the onboarding flow

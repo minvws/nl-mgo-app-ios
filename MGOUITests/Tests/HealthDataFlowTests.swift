@@ -7,10 +7,57 @@
 
 import XCTest
 
-class HealthDataTests: XCTestCase {
+final class HealthDataFlowTests: XCTestCase {
+	
+	/*
+	 This e2e test will test the health data flow
+	 - Verify the overview tab
+	 - Verify the medication category
+	 - Verify a medication summary
+	 - Verify the medication details
+	 */
 	
 	@MainActor
-	func testMedicationSummary() {
+	func testHealthDataFlow_overview() {
+		
+		AppRobot()
+			.navigateToOverviewWithBGZ()
+			.verifyTitleExists("Overzicht")
+			.verifySubHeadingExists()
+			.verifyCategoryExists("Medische klachten")
+			.verifyCategoryExists("Uitslagen")
+			.verifyCategoryExists("Metingen")
+			.verifyCategoryExists("Medicijnen")
+			.verifyCategoryExists("Behandelingen")
+			.verifyCategoryExists("Afspraken")
+			.verifyCategoryExists("Vaccinaties")
+			.verifyCategoryExists("Documenten, Geen gegevens")
+			.verifyCategoryExists("Allergieën")
+			.verifyCategoryExists("Mentaal welzijn")
+			.verifyCategoryExists("Leefstijl")
+			.verifyOverviewButtonExists()
+			.verifyHealthcareProviderButtonExists()
+			.verifySettingsButtonExists()
+	}
+	
+	@MainActor
+	func testHealthDataFlow_medicationCategory() {
+		
+		AppRobot()
+			.navigateToOverviewWithBGZ()
+			.tapHealthCategory("Medicijnen")
+			.verifyHeadingExists("Medicijnen")
+			.verifySectionExists("Medicijnen die je gebruikt")
+			.verifySectionButtonExists(0, section: 0)
+			.verifySectionExists("Afspraken over je medicijnen")
+			.verifySectionButtonExists(0, section: 1)
+			.verifySectionExists("Hoe je je medicijnen krijgt")
+			.verifySectionButtonExists(0, section: 2)
+			.tapSectionRow(0, section: 0)
+	}
+	
+	@MainActor
+	func testHealthDataFlow_medicationSummary() {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
@@ -30,7 +77,7 @@ class HealthDataTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testMedicationDetails() {
+	func testHealthDataFlow_medicationDetails() {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()

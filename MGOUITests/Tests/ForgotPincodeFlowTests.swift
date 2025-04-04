@@ -7,7 +7,7 @@
 
 import XCTest
 
-class ForgotPincodeFlowTests: XCTestCase {
+final class ForgotPincodeFlowTests: XCTestCase {
 	
 	/*
 	 This e2e test will test the forgot your pincode flow

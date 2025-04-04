@@ -7,7 +7,7 @@
 
 import XCTest
 
-class UpdateRequiredFlowTests: XCTestCase {
+final class UpdateRequiredFlowTests: XCTestCase {
 	
 	/*
 	 This e2e test will test the update required flow
