@@ -115,8 +115,6 @@ struct AboutSafetyTipsView: View {
 	}
 }
 
-
-
 #Preview {
 	NavigationStackBackport.NavigationStack {
 		AboutSafetyTipsView(viewModel: BaseViewModel(coordinator: nil))
