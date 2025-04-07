@@ -78,6 +78,12 @@ class PincodeRobot: Robot {
 	}
 	
 	@discardableResult
+	func enterConfirmationPinCodeWithBioMetric(_ code: String) -> BioMetricSetupRobot {
+		enterPinCode(code)
+		return BioMetricSetupRobot(app)
+	}
+	
+	@discardableResult
 	func enterConfirmationPinCodeWithRemoteAuthentication(_ code: String) -> AddOrganizationRobot {
 		enterPinCode(code)
 		return AddOrganizationRobot(app)

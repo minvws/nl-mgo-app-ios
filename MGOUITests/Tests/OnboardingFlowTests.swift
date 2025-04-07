@@ -69,13 +69,18 @@ final class OnboardingFlowTests: XCTestCase {
 	func testOnboardingFlow_pincodeConfirmation_matchingPincode() {
 		
 		AppRobot()
+			.enableFaceID()
 			.launchApp()
 			.tapNextButton()
 			.tapNextButton()
 			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig. Gebruik geen simpele codes zoals 00000 of 12345.")
 			.enterPinCode("12369")
 			.verifySubHeadingExists("Vul je toegangscode in om door te gaan")
-			.enterConfirmationPinCode("12369")
+			.enterConfirmationPinCodeWithBioMetric("12369")
+			.verifySubHeadingExists()
+			.verifyBioMetricsButtonExists()
+			.verifySkipButtonExists()
+			.tapSkipButton()
 	}
 	
 	@MainActor
@@ -94,7 +99,7 @@ final class OnboardingFlowTests: XCTestCase {
 			.enterConfirmationPinCode("12345")
 			.tapLoginWithDigiDButton()
 			.verifySafariIsOpen()
-			.verifyMockDigidWebsite()
+			.verifyMockDigiDWebsite()
 	}
 	
 	@MainActor

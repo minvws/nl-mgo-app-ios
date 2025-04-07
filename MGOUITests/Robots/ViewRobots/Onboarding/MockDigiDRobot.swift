@@ -133,7 +133,7 @@ class MockDigiDRobot: Robot {
 	}
 	
 	@discardableResult
-	func verifyMockDigidWebsite() -> Self {
+	func verifyMockDigiDWebsite() -> Self {
 		
 		// The Safari browser and the mock DigiD site can be in different states
 		

@@ -179,11 +179,13 @@ struct BioMetricSetupView: View {
 					.padding(ViewTraits.Title.insets)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
+					.accessibilityIdentifier("biometric_setup.heading")
 				
 				Text(LocalizedStringKey(bioMetricTypedIntro(bioMetricType)))
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.padding(ViewTraits.Text.insets)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityIdentifier("biometric_setup.subheading")
 			}
 				.padding(.top, ViewTraits.Navigation.padding)
 		} bottomView: {
@@ -295,6 +297,7 @@ struct BioMetricSetupView: View {
 			CallToActionButton("common.skip", style: .secondary) {
 				viewModel.reduce(.proceedWithoutBioMetric)
 			}
+				.accessibilityIdentifier("common.skip")
 			
 			CallToActionButton(LocalizedStringKey(getBioMetricTypeInterpolatedText("biometric_setup.button.with_biometric", type: bioMetricType))) {
 				if bioMetricType == .touchID {
@@ -303,6 +306,7 @@ struct BioMetricSetupView: View {
 					viewModel.reduce(.proceedWithBioMetric)
 				}
 			}
+			.accessibilityIdentifier("biometric_setup.button.with_biometric")
 			.alert("pincode.lockout", isPresented: $viewModel.state.showLockoutPopup) {
 				Button("common.ok") { /* no action for lockout available */ }
 			} message: {
