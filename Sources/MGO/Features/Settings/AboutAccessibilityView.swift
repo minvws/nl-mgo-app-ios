@@ -74,6 +74,7 @@ struct AboutAccessibilityView: View {
 		Text("settings.accessibility.subheading")
 			.rijksoverheidStyle(font: .regular, style: .body)
 			.foregroundStyle(theme.contentPrimary)
+			.accessibilityIdentifier("settings.accessibility.subheading")
 	}
 	
 	/// The more information button

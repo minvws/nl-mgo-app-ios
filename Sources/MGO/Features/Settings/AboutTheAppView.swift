@@ -130,7 +130,8 @@ struct AboutTheAppView: View {
 				Image(ImageResource.Settings.logo)
 					.resizable()
 					.scaledToFit()
-					.accessibilityLabel(Text("settings.about_this_app.logo_ accessibility"))
+					.accessibilityLabel(Text("settings.about_this_app.logo_accessibility"))
+					.accessibilityIdentifier("settings.about_this_app.logo")
 					.frame(maxHeight: ViewTraits.Logo.maxHeight)
 				
 				Spacer()
@@ -140,6 +141,7 @@ struct AboutTheAppView: View {
 				.rijksoverheidStyle(font: .bold, style: .body)
 				.foregroundStyle(theme.contentPrimary)
 				.padding(ViewTraits.General.padding)
+				.accessibilityIdentifier("common.app_name")
 		}
 		.listRowInsets(ViewTraits.General.inset)
 	}
@@ -165,6 +167,7 @@ struct AboutTheAppView: View {
 		.listRowInsets(ViewTraits.General.inset)
 		.alert("settings.about_this_app.version", isPresented: $viewModel.showSharedCoreVersionDialog) {
 			Button("common.ok") { /* no action available */ }
+				.accessibilityIdentifier("common.ok")
 		} message: {
 			Text(viewModel.sharedCoreVersion ?? "")
 		}

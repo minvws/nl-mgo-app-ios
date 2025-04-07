@@ -73,6 +73,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		if LaunchArgumentsHandler.hasRemoteAuthentication() {
 			Current.secureUserSettings.userHasRemoteAuthentication = true
 		}
+		if LaunchArgumentsHandler.shouldEnableFaceID() {
+			Current.localAuthenticationProvider.biometricType = { .faceID }
+		}
 	}
 	
 	// MARK: End of life

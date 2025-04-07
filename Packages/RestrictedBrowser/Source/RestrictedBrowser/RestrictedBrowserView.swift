@@ -44,6 +44,7 @@ public struct RestrictedBrowserView: View {
 									Image(systemName: "safari")
 								}
 								.buttonStyle(NavigationBarButtonStyle())
+								.accessibilityIdentifier("safariButton")
 							}
 						)
 					}

@@ -16,6 +16,9 @@ class SettingsViewModel: ObservableObject {
 	/// Should we show the advanced settings button
 	@Published var showAdvancedButton: Bool = false
 	
+	/// Should we show the security settings button
+	@Published var showSecurityButton: Bool = false
+	
 	/// Should we show the reset dialog
 	@Published var showResetDialog: Bool = false
 	
@@ -38,6 +41,9 @@ class SettingsViewModel: ObservableObject {
 		
 		let release = Configuration().getRelease()
 		showAdvancedButton = release == Release.development // Show only in Dev
+		
+		// Show only when we have biometrics
+		showSecurityButton = Current.localAuthenticationProvider.biometricType() != .none
 	}
 	
 	/// Handle any action
@@ -104,7 +110,7 @@ struct SettingsView: View {
 				
 				displaySettings()
 				
-				if Current.localAuthenticationProvider.biometricType() != .none {
+				if viewModel.showSecurityButton {
 					securitySettings()
 				}
 			}
@@ -137,6 +143,7 @@ struct SettingsView: View {
 				subHeading: selectedAppearance.key
 			)
 		}
+		.accessibilityIdentifier("settings.display")
 		.listRowInsets(ViewTraits.General.inset)
 	}
 	
@@ -153,6 +160,7 @@ struct SettingsView: View {
 				heading: "settings.security.heading"
 			)
 		}
+		.accessibilityIdentifier("settings.security")
 		.listRowInsets(ViewTraits.General.inset)
 	}
 	
@@ -170,6 +178,7 @@ struct SettingsView: View {
 					heading: "settings.advanced.heading"
 				)
 			}
+			.accessibilityIdentifier("settings.advanced")
 			.listRowInsets(ViewTraits.General.inset)
 		} footer: {
 			Text("settings.advanced.subheading")
@@ -190,6 +199,7 @@ struct SettingsView: View {
 					heading: "settings.about_this_app.heading"
 				)
 			}
+			.accessibilityIdentifier("settings.about_this_app")
 			.listRowInsets(ViewTraits.General.inset)
 		}
 	}
@@ -211,6 +221,7 @@ struct SettingsView: View {
 						alignment: .center
 					)
 			}
+			.accessibilityIdentifier("settings.log_out")
 			.listRowInsets(ViewTraits.General.inset)
 		} footer: {
 			Text("settings.log_out.subheading")
@@ -236,6 +247,7 @@ struct SettingsView: View {
 						alignment: .center
 					)
 			}
+			.accessibilityIdentifier("settings.reset_app")
 			.listRowInsets(ViewTraits.General.inset)
 		} footer: {
 			Text("settings.reset_app.subheading")

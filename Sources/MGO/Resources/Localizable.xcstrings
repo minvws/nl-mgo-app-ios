@@ -2204,6 +2204,9 @@
         }
       }
     },
+    "settings.about_this_app.logo_accessibility" : {
+
+    },
     "settings.about_this_app.open_source" : {
       "extractionState" : "manual",
       "localizations" : {

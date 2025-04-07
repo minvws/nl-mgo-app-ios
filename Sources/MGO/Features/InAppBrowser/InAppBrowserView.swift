@@ -71,6 +71,7 @@ struct InAppBrowserView: View {
 				)
 				.buttonStyle(BackButtonStyle())
 				.tag("close_view")
+				.accessibilityIdentifier("common.close")
 		)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}

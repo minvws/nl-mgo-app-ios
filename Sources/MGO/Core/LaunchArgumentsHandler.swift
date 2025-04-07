@@ -33,6 +33,12 @@ public class LaunchArgumentsHandler {
 		return CommandLine.arguments.contains("-withRemoteAuthentication")
 	}
 	
+	/// Should we enable faceID?
+	public static func shouldEnableFaceID() -> Bool {
+		
+		return CommandLine.arguments.contains("-enableFaceID")
+	}
+	
 	/// Should we use a provided pincode
 	/// - Returns: pincode
 	public static func hasPincode() -> String? {

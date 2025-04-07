@@ -152,6 +152,12 @@ class HealthCategoriesRobot: Robot {
 	}
 	
 	@discardableResult
+	func tapSettingsTab() -> SettingsRobot {
+		settingsButton.tap()
+		return SettingsRobot(app)
+	}
+	
+	@discardableResult
 	func swipeToRemoveHealthcareOrganizationButton() -> Self {
 		
 		while !removeHealthcareOrganizationButton.exists {

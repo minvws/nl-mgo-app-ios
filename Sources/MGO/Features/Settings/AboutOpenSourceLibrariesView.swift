@@ -177,6 +177,7 @@ struct AboutOpenSourceLibrariesView: View {
 				view
 					.padding(.bottom, ViewTraits.Navigation.padding)
 			}
+			.accessibilityIdentifier("settings.about_this_app.open_source.subheading")
 	}
 	
 	/// Get a list of libraries

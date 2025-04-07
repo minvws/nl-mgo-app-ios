@@ -70,4 +70,12 @@ class AppRobot: Robot {
 		
 		return HealthCategoriesRobot(app)
 	}
+	
+	/// Enable the biometric face ID login
+	/// - Returns: Robot
+	@discardableResult func enableFaceID() -> Self {
+		
+		app.launchArguments.append("-enableFaceID")
+		return self
+	}
 }
