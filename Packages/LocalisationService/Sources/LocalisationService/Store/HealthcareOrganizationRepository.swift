@@ -49,9 +49,9 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	private let fileName: String = {
 		
 		if NSClassFromString("XCTestCase") == nil {
-			return "healthcareproviders.json"
+			return "mgo_hco.json"
 		} else {
-			return "healthcareproviders_test.json"
+			return "mgo_hco_test.json"
 		}
 	}()
 	

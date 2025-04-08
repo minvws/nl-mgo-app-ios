@@ -30,23 +30,23 @@ class OrganizationsRobot: Robot {
 		app.navigationBars.staticTexts["Zorgaanbieders"]
 	}
 
-	private func healthOrganizationButton(_ provider: String) -> XCUIElement {
-		app.buttons[provider]
+	private func healthOrganizationButton(_ organization: String) -> XCUIElement {
+		app.buttons[organization]
 	}
 	
 	// MARK: - Validations
 	
 	@discardableResult
-	func verifyHealthcareOrganizationButtonExists(_ provider: String) -> Self {
-		XCTAssertTrue(healthOrganizationButton(provider).exists)
+	func verifyHealthcareOrganizationButtonExists(_ organization: String) -> Self {
+		XCTAssertTrue(healthOrganizationButton(organization).exists)
 		return self
 	}
 
 	// MARK: - Interactions
 	
 	@discardableResult
-	func tapHealthcareOrganizationButton(_ provider: String) -> HealthCategoriesRobot {
-		healthOrganizationButton(provider).tap()
+	func tapHealthcareOrganizationButton(_ organization: String) -> HealthCategoriesRobot {
+		healthOrganizationButton(organization).tap()
 		return HealthCategoriesRobot(app)
 	}
 }
