@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -180,7 +180,8 @@ struct AddOrganizationView: View {
 				InputField(
 					input: $viewModel.state.name,
 					errorMessage: $viewModel.state.nameError,
-					title: "add_organization.name"
+					title: "add_organization.name",
+					required: true
 				)
 				.padding(.bottom, ViewTraits.General.padding)
 				.accessibilityIdentifier("add_organization.name")
@@ -194,6 +195,7 @@ struct AddOrganizationView: View {
 					input: $viewModel.state.city,
 					errorMessage: $viewModel.state.cityError,
 					title: "add_organization.city",
+					required: true,
 					isFieldFocused: _isCityFieldFocused
 				)
 				.padding(.bottom, ViewTraits.General.padding)
