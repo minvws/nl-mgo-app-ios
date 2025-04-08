@@ -11,10 +11,10 @@ final class HealthDataFlowTests: XCTestCase {
 	
 	/*
 	 This e2e test will test the health data flow
-	 - Verify the medication flow for a BGZ healthcare provider
-	 - Verify the laboratory result flow for a GP healthcare provider
-	 - Verify the document flow for a PDFA healthcare provider
-	 - Verify the vaccination flow for a Vaccination healthcare provider
+	 ✅ Verify the medication flow for a BGZ healthcare organization
+	 ✅ Verify the laboratory result flow for a GP healthcare organization
+	 - Verify the document flow for a PDFA healthcare organization
+	 - Verify the vaccination flow for a Vaccination healthcare organization
 	 */
 	
 	@MainActor
@@ -42,7 +42,7 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifyCategoryExists("Persoonlijke gegevens")
 			.verifyCategoryExists("Betaalgegevens")
 			.verifyOverviewButtonExists()
-			.verifyHealthcareProviderButtonExists()
+			.verifyHealthcareOrganizationButtonExists()
 			.verifySettingsButtonExists()
 			// Medication Category
 			.swipeToTopCategory()
@@ -129,7 +129,7 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifyCategoryExists("Persoonlijke gegevens")
 			.verifyCategoryExists("Betaalgegevens, Geen gegevens")
 			.verifyOverviewButtonExists()
-			.verifyHealthcareProviderButtonExists()
+			.verifyHealthcareOrganizationButtonExists()
 			.verifySettingsButtonExists()
 			// Laboratory Results Category
 			.swipeToTopCategory()

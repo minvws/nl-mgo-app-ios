@@ -39,7 +39,7 @@ class HealthCategoriesRobot: Robot {
 		app.buttons["bottombar.overview"]
 	}
 	
-	private var healthcareProviderButton: XCUIElement {
+	private var healthcareOrganizationButton: XCUIElement {
 		app.buttons["bottombar.healthcareproviders"]
 	}
 	
@@ -96,8 +96,8 @@ class HealthCategoriesRobot: Robot {
 	}
 	
 	@discardableResult
-	func verifyHealthcareProviderButtonExists() -> Self {
-		XCTAssertTrue(healthcareProviderButton.exists)
+	func verifyHealthcareOrganizationButtonExists() -> Self {
+		XCTAssertTrue(healthcareOrganizationButton.exists)
 		return self
 	}
 	
@@ -146,8 +146,8 @@ class HealthCategoriesRobot: Robot {
 	}
 	
 	@discardableResult
-	func tapHealthcareProviderTab() -> OrganizationsRobot {
-		healthcareProviderButton.tap()
+	func tapHealthcareOrganizationTab() -> OrganizationsRobot {
+		healthcareOrganizationButton.tap()
 		return OrganizationsRobot(app)
 	}
 	
