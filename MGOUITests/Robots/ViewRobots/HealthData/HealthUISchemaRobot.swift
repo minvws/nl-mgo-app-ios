@@ -24,7 +24,9 @@ class HealthUISchemaRobot: Robot {
 	}
 
 	private func row(_ section: String) -> XCUIElement {
-		app.staticTexts[section]
+		let predicate = NSPredicate(format: "label LIKE '\(section)'")
+		let label = app.staticTexts.element(matching: predicate)
+		return label
 	}
 	
 	private func referenceButton(_ identifier: String) -> XCUIElement {
@@ -51,19 +53,19 @@ class HealthUISchemaRobot: Robot {
 	
 	@discardableResult
 	func verifyReferenceButtonExists(_ heading: String, value: String) -> Self {
-		XCTAssertTrue(referenceButton("\(heading), \(value)").exists)
+		XCTAssertTrue(referenceButton("\(heading), \(value)").exists, "can't find reference button \(heading)")
 		return self
 	}
 	
 	@discardableResult
 	func verifySectionHeaderExists(_ heading: String) -> Self {
-		XCTAssertTrue(headingLabel(heading).exists)
+		XCTAssertTrue(headingLabel(heading).exists, "can't find section header \(heading)")
 		return self
 	}
 	
 	@discardableResult
 	func verifyDetailButton(_ heading: String) -> Self {
-		XCTAssertTrue(detailsButton(heading).exists)
+		XCTAssertTrue(detailsButton(heading).exists, "can't find details button for \(heading)")
 		return self
 	}
 

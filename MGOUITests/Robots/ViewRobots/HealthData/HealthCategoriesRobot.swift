@@ -168,6 +168,26 @@ class HealthCategoriesRobot: Robot {
 	}
 	
 	@discardableResult
+	func swipeToBottomCategory() -> Self {
+		
+		while !app.buttons["hc_payment.heading"].exists {
+			app.swipeUp()
+		}
+		
+		return self
+	}
+	
+	@discardableResult
+	func swipeToTopCategory() -> Self {
+		
+		while !app.buttons["hc_complaints.heading"].exists {
+			app.swipeDown()
+		}
+		
+		return self
+	}
+	
+	@discardableResult
 	func tapRemoveHealthcareOrganizationButton() -> RemoveHealthcareOrganizationRobot {
 		removeHealthcareOrganizationButton.tap()
 		return RemoveHealthcareOrganizationRobot(app)

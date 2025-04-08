@@ -71,6 +71,22 @@ class AppRobot: Robot {
 		return HealthCategoriesRobot(app)
 	}
 	
+	/// Launch the app with a GP Healthcare organization
+	/// - Returns: Health Categories Robot for the overview
+	@discardableResult
+	func navigateToOverviewWithGP() -> HealthCategoriesRobot {
+		self
+			.launchApp(withPincode: "12345")
+			.enterConfirmationPinCode("12345")
+			.tapLoginWithDigiDButton()
+			.performCompleteDigiDLogin()
+			.enterSearchFields(name: "test", place: "test")
+			.tapSearchButton()
+			.tapListElement(at: 5)
+		
+		return HealthCategoriesRobot(app)
+	}
+	
 	/// Enable the biometric face ID login
 	/// - Returns: Robot
 	@discardableResult func enableFaceID() -> Self {

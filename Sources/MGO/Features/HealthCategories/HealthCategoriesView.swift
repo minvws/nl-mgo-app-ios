@@ -307,6 +307,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	}
 }
 
+/// The view for an overview of all the health categories
 struct HealthCategoriesView: View {
 
 	/// The View Model
@@ -406,65 +407,96 @@ struct HealthCategoriesView: View {
 	@ViewBuilder func categoriesView() -> some View {
 		
 		List {
-			Section {
-				VStack(spacing: ViewTraits.General.padding) {
-					if !viewModel.state.canTitleCollapse {
-						heading()
-					}
-					subHeading()
-						.padding(.bottom, viewModel.state.canTitleCollapse ? 0 : ViewTraits.General.padding / 2)
-				}
-			}
-			.listRowBackground(Color.clear)
-			.listRowInsets(ViewTraits.List.rowInset)
+			listHeader()
 
 			ForEach(1..<4) { box in
 				
-				Section {
-				
-					let list = viewModel.state.healthCategories
-						.filter { $0.box == box }
-						.sorted(by: { $0.id < $1.id })
-					
-					ForEach(list, id: \.id) { block in
-						
-						VStack(spacing: 0) {
-							Button {
-								viewModel.reduce(.categorySelected(block))
-							} label: {
-								HealthCategoryRowView(block: block)
-							}
-							.frame( maxWidth: .infinity, alignment: .leading)
-							.buttonStyle(HoverButtonStyle())
-						}
-					}
-				}
-				.listRowInsets(ViewTraits.List.rowInset)
+				sectionView(box)
 			}
 			
 			Section { /* Empty section */ }
 			footer: {
-				if viewModel.state.showRemoveHealthcareProvider {
-					// Button in footer of an empty section so it is
-					// at the bottom of the list, and without a rounded list background
-					CallToActionButton(
-						"organizations.remove_organization",
-						style: .tertiaryCritical) {
-							viewModel.reduce(.removeHealthcareOrganization)
-						}
-						.accessibilityIdentifier("organizations.remove_organization")
-				} else {
-					Spacer(minLength: ViewTraits.List.bottom)
-				}
+				listFooter()
 			}
 		} // List
 		.backportScrollContentBackground(.hidden)
 		.listStyle(.insetGrouped)
 	}
 	
+	/// View for a section
+	/// - Parameter box: the number of the section
+	/// - Returns: section view
+	@ViewBuilder private func sectionView(_ box: Int) -> some View {
+		
+		Section {
+		
+			let list = viewModel.state.healthCategories
+				.filter { $0.box == box }
+				.sorted(by: { $0.id < $1.id })
+			
+			ForEach(list, id: \.id) { block in
+				
+				categoryView(block)
+			}
+		}
+		.listRowInsets(ViewTraits.List.rowInset)
+	}
+	
+	/// View for a category
+	/// - Parameter category: the category
+	/// - Returns: category view
+	@ViewBuilder private func categoryView(_ category: CategoryButton) -> some View {
+		
+		VStack(spacing: 0) {
+			Button {
+				viewModel.reduce(.categorySelected(category))
+			} label: {
+				HealthCategoryRowView(block: category)
+			}
+			.frame( maxWidth: .infinity, alignment: .leading)
+			.buttonStyle(HoverButtonStyle())
+			.accessibilityIdentifier(category.title.stringKey)
+		}
+	}
+
+	/// The list header
+	/// - Returns: list header
+	@ViewBuilder private func listHeader() -> some View {
+		
+		Section {
+			VStack(spacing: ViewTraits.General.padding) {
+				if !viewModel.state.canTitleCollapse {
+					heading()
+				}
+				subHeading()
+					.padding(.bottom, viewModel.state.canTitleCollapse ? 0 : ViewTraits.General.padding / 2)
+			}
+		}
+		.listRowBackground(Color.clear)
+		.listRowInsets(ViewTraits.List.rowInset)
+	}
+	
+	/// The footer
+	/// - Returns: the footer
+	@ViewBuilder private func listFooter() -> some View {
+		
+		if viewModel.state.showRemoveHealthcareProvider {
+			// Button in footer of an empty section so it is
+			// at the bottom of the list, and without a rounded list background
+			CallToActionButton(
+				"organizations.remove_organization",
+				style: .tertiaryCritical) {
+					viewModel.reduce(.removeHealthcareOrganization)
+				}
+				.accessibilityIdentifier("organizations.remove_organization")
+		} else {
+			Spacer(minLength: ViewTraits.List.bottom)
+		}
+	}
+	
 	/// Create the empty state view
 	/// - Returns: View when the user has no stored healthcare organizations
-	@ViewBuilder func noHealthcareOrganizationView() -> some View {
+	@ViewBuilder private func noHealthcareOrganizationView() -> some View {
 		
 		ScrollViewWithFixedBottom {
 			

@@ -11,14 +11,14 @@ final class HealthDataFlowTests: XCTestCase {
 	
 	/*
 	 This e2e test will test the health data flow
-	 - Verify the overview tab
-	 - Verify the medication category
-	 - Verify a medication summary
-	 - Verify the medication details
+	 - Verify the medication flow for a BGZ healthcare provider
+	 - Verify the laboratory result flow for a GP healthcare provider
+	 - Verify the document flow for a PDFA healthcare provider
+	 - Verify the vaccination flow for a Vaccination healthcare provider
 	 */
 	
 	@MainActor
-	func testHealthDataFlow_overview() {
+	func testHealthDataFlow_BGZ() {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
@@ -33,18 +33,19 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifyCategoryExists("Vaccinaties")
 			.verifyCategoryExists("Documenten, Geen gegevens")
 			.verifyCategoryExists("Allergieën")
+			.swipeToBottomCategory()
 			.verifyCategoryExists("Mentaal welzijn")
 			.verifyCategoryExists("Leefstijl")
+			.verifyCategoryExists("Medische hulpmiddelen")
+			.verifyCategoryExists("Behandelplan")
+			.verifyCategoryExists("Waarschuwingen")
+			.verifyCategoryExists("Persoonlijke gegevens")
+			.verifyCategoryExists("Betaalgegevens")
 			.verifyOverviewButtonExists()
 			.verifyHealthcareProviderButtonExists()
 			.verifySettingsButtonExists()
-	}
-	
-	@MainActor
-	func testHealthDataFlow_medicationCategory() {
-		
-		AppRobot()
-			.navigateToOverviewWithBGZ()
+			// Medication Category
+			.swipeToTopCategory()
 			.tapHealthCategory("Medicijnen")
 			.verifyHeadingExists("Medicijnen")
 			.verifySectionExists("Medicijnen die je gebruikt")
@@ -54,15 +55,7 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifySectionExists("Hoe je je medicijnen krijgt")
 			.verifySectionButtonExists(0, section: 2)
 			.tapSectionRow(0, section: 0)
-	}
-	
-	@MainActor
-	func testHealthDataFlow_medicationSummary() {
-		
-		AppRobot()
-			.navigateToOverviewWithBGZ()
-			.tapHealthCategory("Medicijnen")
-			.tapSectionRow(0, section: 0)
+			// Medication Summary
 			.verifyHeadingExists("Zestril tablet 10mg")
 			.verifySectionRowExists("Gebruiksaanwijzing", value: "1 maal per dag 1 tablet, oraal")
 			.verifySectionRowExists("Hoeveelheid per keer", value: "1 stuk")
@@ -74,15 +67,7 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifySectionHeaderExists("Voorgeschreven door")
 			.verifySectionRowExists("Specialist", value: "Huisartspraktijk Heideroosje")
 			.verifyDetailButton("Bekijk alle medicijngegevens")
-	}
-	
-	@MainActor
-	func testHealthDataFlow_medicationDetails() {
-		
-		AppRobot()
-			.navigateToOverviewWithBGZ()
-			.tapHealthCategory("Medicijnen")
-			.tapSectionRow(0, section: 0)
+			// Medication Details
 			.tapNavigateToDetailsButton("Bekijk alle medicijngegevens")
 			.verifyHeadingExists("Zestril tablet 10mg")
 			.verifySectionHeaderExists("Algemeen")
@@ -117,5 +102,77 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifySectionRowExists("Weekdagen", value: "Niet bekend")
 			.verifySectionRowExists("Toedientijd", value: "Niet bekend")
 			.verifySectionRowExists("Dagdeel", value: "Niet bekend")
+	}
+	
+	@MainActor
+	func testHealthDataFlow_GP() {
+		
+		AppRobot()
+			.navigateToOverviewWithGP()
+			.verifyTitleExists("Overzicht")
+			.verifySubHeadingExists()
+			.verifyCategoryExists("Medische klachten, Geen gegevens")
+			.verifyCategoryExists("Uitslagen")
+			.verifyCategoryExists("Metingen")
+			.verifyCategoryExists("Medicijnen")
+			.verifyCategoryExists("Behandelingen")
+			.verifyCategoryExists("Afspraken")
+			.verifyCategoryExists("Vaccinaties, Geen gegevens")
+			.verifyCategoryExists("Documenten, Geen gegevens")
+			.verifyCategoryExists("Allergieën")
+			.swipeToBottomCategory()
+			.verifyCategoryExists("Mentaal welzijn, Geen gegevens")
+			.verifyCategoryExists("Leefstijl, Geen gegevens")
+			.verifyCategoryExists("Medische hulpmiddelen, Geen gegevens")
+			.verifyCategoryExists("Behandelplan, Geen gegevens")
+			.verifyCategoryExists("Waarschuwingen, Geen gegevens")
+			.verifyCategoryExists("Persoonlijke gegevens")
+			.verifyCategoryExists("Betaalgegevens, Geen gegevens")
+			.verifyOverviewButtonExists()
+			.verifyHealthcareProviderButtonExists()
+			.verifySettingsButtonExists()
+			// Laboratory Results Category
+			.swipeToTopCategory()
+			.tapHealthCategory("Uitslagen")
+			.verifyHeadingExists("Uitslagen")
+			.verifySectionButtonExists(0, section: 0)
+			.verifySectionButtonExists(1, section: 0)
+			.tapSectionRow(0, section: 0)
+			// Laboratory Result Summary
+			.verifyHeadingExists("Consult voor hnp (thoracaal/lumbaal) met dokter bernard")
+			.verifySectionRowExists("Datum van de uitslag", value: "18 maart 2024")
+			.verifySectionRowExists("Resultaat", value: "5,4 millimol per liter")
+			.verifySectionRowExists("Beoordeling", value: "Niet bekend")
+			.verifySectionHeaderExists("Details van de test")
+			.verifySectionRowExists("Status", value: "definitief")
+			.verifySectionRowExists("Materiaal", value: "Niet bekend")
+			.verifySectionHeaderExists("Normale referentiewaarden")
+			.verifySectionRowExists("Minimale waarde", value: "3,5 millimol per liter")
+			.verifySectionRowExists("Maximale waarde", value: "5,6 millimol per liter")
+			.verifySectionHeaderExists("Test afgenomen door")
+			.verifySectionRowExists("Specialist", value: "Dokter Bernard")
+			.verifySectionRowExists("Zorgaanbieder", value: "Niet bekend")
+			.verifyDetailButton("Bekijk alle uitslaggegevens")
+			// Laboratory Result Details
+			.tapNavigateToDetailsButton("Bekijk alle uitslaggegevens")
+			.verifyHeadingExists("Consult voor hnp (thoracaal/lumbaal) met dokter bernard")
+			.verifySectionHeaderExists("Laboratorium uitslag")
+			.verifySectionRowExists("Identificatie", value: "c1975acb-041c-11ec-1725-020000000000")
+			.verifyReferenceButtonExists("Patiënt", value: "Johan XXX_Helleman")
+			.verifyReferenceButtonExists("Verband", value: "Consult voor HNP (thoracaal/lumbaal) met Dokter Bernard")
+			.verifySectionRowExists("Test datum tijd", value: "18 maart 2024")
+			.verifySectionHeaderExists("Algemene testinformatie")
+			.verifySectionRowExists("Resultaat type", value: "Niet bekend")
+			.verifySectionRowExists("Toelichting", value: "Niet bekend")
+			.verifySectionHeaderExists("Laboratoriumtest")
+			.verifySectionRowExists("Test code", value: "glucose nuchter, art/cap (lab) (3208 in code systeem https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen)")
+			.verifySectionRowExists("Testmethode", value: "Niet bekend")
+			.verifySectionRowExists("Test datum tijd", value: "18 maart 2024")
+			.verifySectionRowExists("Test uitslag", value: "5,4 millimol per liter")
+			.verifySectionRowExists("Test uitslag status", value: "definitief")
+			.verifySectionRowExists("Referentie ondergrens", value: "3,5 millimol per liter")
+			.verifySectionRowExists("Referentie bovengrens", value: "5,6 millimol per liter")
+			.verifySectionRowExists("Referentie type", value: "Normal Range (normal in code systeem http://hl7.org/fhir/referencerange-meaning)")
+			.verifySectionRowExists("Interpretatie", value: "Niet bekend")
 	}
 }
