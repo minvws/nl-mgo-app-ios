@@ -63,7 +63,7 @@ struct PinCodeBoxView: View {
 		if state == .error {
 			return theme.sentimentCritical
 		} else {
-			return theme.interactionPrimaryDefaultBackground
+			return theme.interactionTertiaryDefaultText
 		}
 	}
 	
@@ -72,7 +72,7 @@ struct PinCodeBoxView: View {
 			case .empty, .focus:
 				.clear
 			case .filling, .filled:
-				theme.interactionPrimaryDefaultBackground
+				theme.interactionTertiaryDefaultText
 			case .error:
 				theme.sentimentCritical
 		}
