@@ -118,5 +118,31 @@ final class SettingsFlowTests: XCTestCase {
 			.tapPreviousButton()
 	}
 	
+	@MainActor
+	func testSettingFlow_lockout() {
+		
+		AppRobot()
+			.navigateToOverviewWithBGZ()
+			.tapSettingsTab()
+			.verifyLogoutButtonExists()
+			.tapLogoutButton()
+			.enterConfirmationPinCodeWithSettings("12345")
+			.verifyLogoutButtonExists()
+	}
 	
+	@MainActor
+	func testSettingsFlow_reset() {
+		
+		AppRobot()
+			.navigateToOverviewWithBGZ()
+			.tapSettingsTab()
+			.verifyResetApplicationButtonExists()
+			.tapResetApplicationButton()
+			.verifyAlertCancelButtonExists()
+			.tapAlertCancelButton()
+			.tapResetApplicationButton()
+			.verifyAlertOkButtonExists()
+			.tapAlertOkButton()
+			.verifySubHeadingExists()
+	}
 }

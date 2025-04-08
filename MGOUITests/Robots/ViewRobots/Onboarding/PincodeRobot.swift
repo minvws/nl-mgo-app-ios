@@ -90,6 +90,12 @@ class PincodeRobot: Robot {
 	}
 	
 	@discardableResult
+	func enterConfirmationPinCodeWithSettings(_ code: String) -> SettingsRobot {
+		enterPinCode(code)
+		return SettingsRobot(app)
+	}
+	
+	@discardableResult
 	func tapForgotButton() -> ForgotPincodeRobot {
 		forgotButton.tap()
 		return ForgotPincodeRobot(app)

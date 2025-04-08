@@ -32,6 +32,14 @@ class SettingsRobot: Robot {
 		app.buttons["settings.advanced"]
 	}
 	
+	private var alertCancelButton: XCUIElement {
+		app.buttons["common.cancel"]
+	}
+
+	private var alertOkButton: XCUIElement {
+		app.buttons["common.yes"]
+	}
+	
 	private var displayButton: XCUIElement {
 		app.buttons["settings.display"]
 	}
@@ -63,6 +71,18 @@ class SettingsRobot: Robot {
 	@discardableResult
 	func verifyAdvancedButtonExists() -> Self {
 		XCTAssertTrue(advancedButton.exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifyAlertCancelButtonExists() -> Self {
+		XCTAssertTrue(alertCancelButton.exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifyAlertOkButtonExists() -> Self {
+		XCTAssertTrue(alertOkButton.exists)
 		return self
 	}
 	
@@ -105,14 +125,38 @@ class SettingsRobot: Robot {
 	}
 	
 	@discardableResult
+	func tapAlertCancelButton() -> Self {
+		alertCancelButton.tap()
+		return self
+	}
+	
+	@discardableResult
+	func tapAlertOkButton() -> IntroductionRobot {
+		alertOkButton.tap()
+		return IntroductionRobot(app)
+	}
+	
+	@discardableResult
 	func tapDisplayButton() -> DisplaySettingsRobot {
 		displayButton.tap()
 		return DisplaySettingsRobot(app)
 	}
 	
 	@discardableResult
+	func tapLogoutButton() -> PincodeRobot {
+		logoutButton.tap()
+		return PincodeRobot(app)
+	}
+	
+	@discardableResult
 	func tapSecurityButton() -> SecuritySettingsRobot {
 		securityButton.tap()
 		return SecuritySettingsRobot(app)
+	}
+	
+	@discardableResult
+	func tapResetApplicationButton() -> Self {
+		resetApplicationButton.tap()
+		return self
 	}
 }
