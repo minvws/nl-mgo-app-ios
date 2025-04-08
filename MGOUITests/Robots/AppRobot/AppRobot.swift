@@ -66,6 +66,7 @@ class AppRobot: Robot {
 			.performCompleteDigiDLogin()
 			.enterSearchFields(name: "test", place: "test")
 			.tapSearchButton()
+			.swipeToListElement(at: 4)
 			.tapListElement(at: 4)
 		
 		return HealthCategoriesRobot(app)
@@ -82,7 +83,25 @@ class AppRobot: Robot {
 			.performCompleteDigiDLogin()
 			.enterSearchFields(name: "test", place: "test")
 			.tapSearchButton()
+			.swipeToListElement(at: 5)
 			.tapListElement(at: 5)
+		
+		return HealthCategoriesRobot(app)
+	}
+	
+	/// Launch the app with a Vaccination Healthcare organization
+	/// - Returns: Health Categories Robot for the overview
+	@discardableResult
+	func navigateToOverviewWithVaccination() -> HealthCategoriesRobot {
+		self
+			.launchApp(withPincode: "12345")
+			.enterConfirmationPinCode("12345")
+			.tapLoginWithDigiDButton()
+			.performCompleteDigiDLogin()
+			.enterSearchFields(name: "test", place: "test")
+			.tapSearchButton()
+			.swipeToListElement(at: 7)
+			.tapListElement(at: 7)
 		
 		return HealthCategoriesRobot(app)
 	}

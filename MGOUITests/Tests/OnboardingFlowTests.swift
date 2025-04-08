@@ -115,6 +115,7 @@ final class OnboardingFlowTests: XCTestCase {
 			.enterSearchFields(name: "test", place: "test")
 			.verifySearchButtonExists()
 			.tapSearchButton()
+			.swipeToListElement(at: 4)
 			.verifyListElementExists(at: 4)
 			.tapListElement(at: 4)
 	}

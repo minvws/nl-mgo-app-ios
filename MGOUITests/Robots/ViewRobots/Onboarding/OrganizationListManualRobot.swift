@@ -43,6 +43,16 @@ class OrganizationListManualRobot: Robot {
 	// MARK: - Interactions
 	
 	@discardableResult
+	func swipeToListElement(at index: Int) -> Self {
+		
+		while !listElement(at: index).exists {
+			app.swipeUp()
+		}
+		
+		return self
+	}
+	
+	@discardableResult
 	func tapListElement(at index: Int) -> HealthCategoriesRobot {
 		listElement(at: index).tap()
 		return HealthCategoriesRobot(app)
