@@ -131,7 +131,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plaats (verplicht)"
+            "value" : "Plaats"
           }
         }
       }
@@ -197,7 +197,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Naam (verplicht)"
+            "value" : "Naam"
           }
         }
       }
@@ -627,6 +627,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vorige"
+          }
+        }
+      }
+    },
+    "common.required" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(verplicht)"
           }
         }
       }

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -18,6 +18,9 @@ struct InputField: View {
 	
 	/// The title for this view
 	var title: LocalizedStringKey
+	
+	/// Is this a required field?
+	var required: Bool = false
 	
 	/// Helper to decide if we should show the error state
 	private var showError: Bool {
@@ -56,6 +59,9 @@ struct InputField: View {
 		VStack(spacing: ViewTraits.VStack.spacing) {
 			
 			Text(title)
+				.when(required, transform: { text in
+					text + Text(verbatim: " ") + Text("common.required")
+				})
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.contentPrimary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -129,15 +135,18 @@ struct InputField: View {
 		InputField(
 			input: .constant("correct"),
 			errorMessage: .constant(""),
-			title: "Title"
+			title: "Title",
+			required: false
 		)
 		.padding(16)
 		
 		InputField(
 			input: .constant("wrong"),
 			errorMessage: .constant("error message"),
-			title: "Title"
+			title: "Title",
+			required: true
 		)
 		.padding(16)
 	}
+	.background(Theme().backgroundPrimary)
 }
