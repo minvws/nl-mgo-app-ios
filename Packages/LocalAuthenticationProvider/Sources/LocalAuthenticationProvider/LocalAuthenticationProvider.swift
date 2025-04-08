@@ -11,7 +11,7 @@ import Foundation
 public protocol LocalAuthenticationProviderProtocol {
 	
 	/// Get the biometric type for this device
-	var biometricType: () -> LocalAuthentication.BiometricType { get }
+	var biometricType: () -> LocalAuthentication.BiometricType { get set }
 	
 	/// Authenticate
 	/// - Parameters:
@@ -23,7 +23,7 @@ public protocol LocalAuthenticationProviderProtocol {
 
 public class LocalAuthenticationProvider: LocalAuthenticationProviderProtocol {
 	
-	/// Initlializer
+	/// Create a local authentication provider
 	public init() { /* Public initializer needed for public access */ }
 
 	/// Get the biometric type for this device

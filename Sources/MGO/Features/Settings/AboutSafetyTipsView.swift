@@ -89,6 +89,7 @@ struct AboutSafetyTipsView: View {
 				view
 					.padding(.bottom, ViewTraits.Navigation.padding)
 			}
+			.accessibilityIdentifier("settings.about_this_app.safety.subheading")
 	}
 	
 	/// Create a row for the safety tips
@@ -103,10 +104,12 @@ struct AboutSafetyTipsView: View {
 				.rijksoverheidStyle(font: .bold, style: .body)
 				.foregroundStyle(theme.contentPrimary)
 				.accessibilityAddTraits(.isHeader)
+				.accessibilityIdentifier(heading.stringKey)
 			
 			Text(subheading)
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.contentPrimary)
+				.accessibilityIdentifier(subheading.stringKey)
 		}
 		.padding(ViewTraits.General.padding)
 	}

@@ -5,15 +5,10 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import XCTest
+import SwiftUI
 
-class UpdateRequiredTests: XCTestCase {
-	
-	@MainActor
-	func testAppLaunchedUpdateRequired() {
-		AppRobot()
-			.launchAppUpdateRequired()
-			.verifySubHeadingExists()
-			.verifyUpdateButtonExists()
+public extension LocalizedStringKey {
+	var stringKey: String {
+		Mirror(reflecting: self).children.first(where: { $0.label == "key" })?.value as? String ?? ""
 	}
 }

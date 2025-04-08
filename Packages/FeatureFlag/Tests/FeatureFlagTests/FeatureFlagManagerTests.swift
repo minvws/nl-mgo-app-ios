@@ -102,11 +102,13 @@ final class FeatureFlagManagerTests: XCTestCase {
 		// Given
 		let sut = FeatureFlagManager()
 		sut.isAutomaticLocalizationEnabled = true
+		sut.bypassPincode = true
 		
 		// When
 		sut.wipePersistedData()
 		
 		// Then
-		expect(sut.isAutomaticLocalizationEnabled) == true
+		expect(sut.isAutomaticLocalizationEnabled) == false
+		expect(sut.bypassPincode) == false
 	}
 }

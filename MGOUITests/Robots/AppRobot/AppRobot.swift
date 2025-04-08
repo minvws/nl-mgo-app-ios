@@ -43,6 +43,7 @@ class AppRobot: Robot {
 	///   - pincode: the pincode to substitute
 	///   - withRemoteAuthentication: True if the remoteAuthentication should be set
 	/// - Returns: Pincode Robot for pincode validation
+	@discardableResult
 	func launchApp(withPincode pincode: String, withRemoteAuthentication: Bool = false) -> PincodeRobot {
 		app.launchArguments.append("-resetOnStart")
 		app.launchArguments.append("-disableTransitions")
@@ -56,6 +57,7 @@ class AppRobot: Robot {
 	
 	/// Launch the app with a BGZ Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
+	@discardableResult
 	func navigateToOverviewWithBGZ() -> HealthCategoriesRobot {
 		self
 			.launchApp(withPincode: "12345")
@@ -67,5 +69,13 @@ class AppRobot: Robot {
 			.tapListElement(at: 4)
 		
 		return HealthCategoriesRobot(app)
+	}
+	
+	/// Enable the biometric face ID login
+	/// - Returns: Robot
+	@discardableResult func enableFaceID() -> Self {
+		
+		app.launchArguments.append("-enableFaceID")
+		return self
 	}
 }

@@ -84,6 +84,7 @@ struct AdvancedSettingsView: View {
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.contentPrimary)
 		}
+			.accessibilityIdentifier("settings.featureflag.localization")
 			.toggleStyle(.switch)
 			.tint(theme.interactionPrimaryDefaultBackground)
 	}
@@ -97,6 +98,7 @@ struct AdvancedSettingsView: View {
 				.rijksoverheidStyle(font: .regular, style: .body)
 				.foregroundStyle(theme.contentPrimary)
 		}
+			.accessibilityIdentifier("settings.featureflag.pincode")
 			.toggleStyle(.switch)
 			.tint(theme.interactionPrimaryDefaultBackground)
 	}

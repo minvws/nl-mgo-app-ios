@@ -57,6 +57,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		if LaunchArgumentsHandler.shouldResetOnStart() {
 			// Wipe all data
 			Current.wipePersistedData()
+			// Reset Featureflag settings
+			Current.featureFlagManager.wipePersistedData()
 		}
 		
 		if LaunchArgumentsHandler.shouldShowUpdateRequired() {
@@ -70,6 +72,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 		if LaunchArgumentsHandler.hasRemoteAuthentication() {
 			Current.secureUserSettings.userHasRemoteAuthentication = true
+		}
+		if LaunchArgumentsHandler.shouldEnableFaceID() {
+			Current.localAuthenticationProvider.biometricType = { .faceID }
 		}
 	}
 	

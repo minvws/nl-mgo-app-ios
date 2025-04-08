@@ -49,7 +49,7 @@ public class FeatureFlagManager: FeatureFlagManaging {
 	
 	/// Remove all the feature flags and reset to default
 	public func wipePersistedData() {
-		// Do not reset automatic localization, it is a dev only feature
-		// Do not reset bypass pincode, it is a dev only feature
+		isAutomaticLocalizationEnabled = false
+		bypassPincode = false
 	}
 }

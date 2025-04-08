@@ -381,12 +381,13 @@ schemeTemplates:
     test:
       language: nl
       region: NL
+      gatherCoverageData: true
       environmentVariables:
         MGO_BASIC_AUTH_PASSWORD: ${MGO_BASIC_AUTH_PASSWORD}
         MGO_BASIC_AUTH_USERNAME: ${MGO_BASIC_AUTH_USERNAME}
       targets:
         - name: ${uiTestTargetName}
-          parallelizable: true
+#          parallelizable: true
           randomExecutionOrder: true
 
 # - Schemes

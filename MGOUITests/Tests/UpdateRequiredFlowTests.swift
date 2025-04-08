@@ -7,12 +7,18 @@
 
 import XCTest
 
-class IntroductionTests: XCTestCase {
+final class UpdateRequiredFlowTests: XCTestCase {
+	
+	/*
+	 This e2e test will test the update required flow
+	 - Verify the existence of the update required page
+	 */
 	
 	@MainActor
-	func testAppLaunchedIntroductionScreen() {
+	func testUpdateRequiredFlow_verifyScreenExists() {
 		AppRobot()
-			.launchApp()
+			.launchAppUpdateRequired()
 			.verifySubHeadingExists()
+			.verifyUpdateButtonExists()
 	}
 }

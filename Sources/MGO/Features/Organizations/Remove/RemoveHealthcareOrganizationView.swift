@@ -103,6 +103,7 @@ struct RemoveHealthcareOrganizationView: View {
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
+					.accessibilityIdentifier("remove_organization.heading")
 				
 				Text(String(
 						format: String(localized: "remove_organization.subheading"),
@@ -111,6 +112,7 @@ struct RemoveHealthcareOrganizationView: View {
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentPrimary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityIdentifier("remove_organization.subheading")
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
 			
@@ -139,12 +141,12 @@ struct RemoveHealthcareOrganizationView: View {
 			CallToActionButton("remove_organization.yes_delete", style: .secondary) {
 				viewModel.reduce(.removeOrganization)
 			}
-			.accessibilityIdentifier("remove")
+			.accessibilityIdentifier("remove_organization.remove")
 			
 			CallToActionButton("remove_organization.no_cancel") {
 				viewModel.reduce(.cancel)
 			}
-			.accessibilityIdentifier("cancel")
+			.accessibilityIdentifier("remove_organization.cancel")
 			
 		}
 		.padding(ViewTraits.Button.insets)

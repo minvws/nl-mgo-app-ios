@@ -70,7 +70,7 @@ class HealthUISchemaRobot: Robot {
 	// MARK: - Interactions
 	
 	@discardableResult
-	func tapNavigatoToDetailsButton(_ heading: String) -> Self {
+	func tapNavigateToDetailsButton(_ heading: String) -> Self {
 		detailsButton(heading).tap()
 		return self
 	}
