@@ -119,7 +119,7 @@ final class SettingsFlowTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testSettingFlow_lockout() {
+	func testSettingsFlow_lockout() {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()

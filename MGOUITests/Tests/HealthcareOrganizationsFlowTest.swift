@@ -7,37 +7,37 @@
 
 import XCTest
 
-final class HealthcareProvidersFlowTests: XCTestCase {
+final class HealthcareOrganizationsFlowTests: XCTestCase {
 	
 	/*
-	 This e2e test will test the healthcare providers flow
-	 - Verify the existence of the healthcare providers tab
-	 - Verify the existence of the remove healthcare provider button
-	 - Try to remove a healthcare provider, tap the cancel button
-	 - Try to remove a healthcare provider, close the sheet
-	 - Remove a healthcare provider, close the confirmation toast
-	 - Remove a healthcare provider, recover via the toast
+	 This e2e test will test the healthcare organizations flow
+	 - Verify the existence of the healthcare organizations tab
+	 - Verify the existence of the remove healthcare organizations button
+	 - Try to remove a healthcare organization, tap the cancel button
+	 - Try to remove a healthcare organization, close the sheet
+	 - Remove a healthcare organization, close the confirmation toast
+	 - Remove a healthcare organization, recover via the toast
 	 */
 	
-	private let healthcareProviderName = "Kwalificatie Medmij: BGZ"
+	private let healthcareOrganizationName = "Kwalificatie Medmij: BGZ"
 	
 	@MainActor
-	func testHealthcareProviders_verifyHealthcareProvidersOverview() {
+	func testHealthcareOrganizations_verifyHealthcareOrganizationsOverview() {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
-			.tapHealthcareProviderTab()
-			.verifyHealthcareProviderButtonExists(self.healthcareProviderName)
-			.tapHealthcareProviderButton(self.healthcareProviderName)
+			.tapHealthcareOrganizationTab()
+			.verifyHealthcareOrganizationButtonExists(self.healthcareOrganizationName)
+			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
 	}
 	
-	func testHealthcareProviders_navigateToRemoveProvider() {
+	func testHealthcareOrganizations_navigateToRemoveOrganization() {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
 			.verifyTitleExists("Overzicht")
-			.tapHealthcareProviderTab()
-			.tapHealthcareProviderButton("Kwalificatie Medmij: BGZ")
+			.tapHealthcareOrganizationTab()
+			.tapHealthcareOrganizationButton("Kwalificatie Medmij: BGZ")
 			.verifyHeadingExists("Kwalificatie Medmij: BGZ")
 			.verifySubHeadingExists()
 			.verifyCategoryExists("Medische klachten")
@@ -46,14 +46,14 @@ final class HealthcareProvidersFlowTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testHealthcareProviders_removeProviderCancel() {
+	func testHealthcareOrganizations_removeOrganizationCancel() {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
 			.verifyTitleExists("Overzicht")
-			.tapHealthcareProviderTab()
-			.tapHealthcareProviderButton(self.healthcareProviderName)
-			.verifyHeadingExists(self.healthcareProviderName)
+			.tapHealthcareOrganizationTab()
+			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
+			.verifyHeadingExists(self.healthcareOrganizationName)
 			.swipeToRemoveHealthcareOrganizationButton()
 			.tapRemoveHealthcareOrganizationButton()
 			.verifySubHeadingExists()
@@ -64,14 +64,14 @@ final class HealthcareProvidersFlowTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testHealthcareProviders_removeProviderCloseSheet() {
+	func testHealthcareOrganizations_removeOrganizationCloseSheet() {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
 			.verifyTitleExists("Overzicht")
-			.tapHealthcareProviderTab()
-			.tapHealthcareProviderButton(self.healthcareProviderName)
-			.verifyHeadingExists(self.healthcareProviderName)
+			.tapHealthcareOrganizationTab()
+			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
+			.verifyHeadingExists(self.healthcareOrganizationName)
 			.swipeToRemoveHealthcareOrganizationButton()
 			.tapRemoveHealthcareOrganizationButton()
 			.verifySubHeadingExists()
@@ -82,14 +82,14 @@ final class HealthcareProvidersFlowTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testHealthcareProviders_removeProviderRemoveProviderCloseToast() {
+	func testHealthcareOrganizations_removeOrganizationRemoveOrganizationCloseToast() {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
 			.verifyTitleExists("Overzicht")
-			.tapHealthcareProviderTab()
-			.tapHealthcareProviderButton(self.healthcareProviderName)
-			.verifyHeadingExists(self.healthcareProviderName)
+			.tapHealthcareOrganizationTab()
+			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
+			.verifyHeadingExists(self.healthcareOrganizationName)
 			.swipeToRemoveHealthcareOrganizationButton()
 			.tapRemoveHealthcareOrganizationButton()
 			.verifySubHeadingExists()
@@ -104,14 +104,14 @@ final class HealthcareProvidersFlowTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testHealthcareProviders_removeProviderRecoverToast() {
+	func testHealthcareOrganizations_removeOrganizationRecoverToast() {
 		
 		AppRobot()
 			.navigateToOverviewWithBGZ()
 			.verifyTitleExists("Overzicht")
-			.tapHealthcareProviderTab()
-			.tapHealthcareProviderButton(self.healthcareProviderName)
-			.verifyHeadingExists(self.healthcareProviderName)
+			.tapHealthcareOrganizationTab()
+			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
+			.verifyHeadingExists(self.healthcareOrganizationName)
 			.swipeToRemoveHealthcareOrganizationButton()
 			.tapRemoveHealthcareOrganizationButton()
 			.verifySubHeadingExists()
@@ -123,6 +123,6 @@ final class HealthcareProvidersFlowTests: XCTestCase {
 			.verifyToastRecoverButtonExists()
 			.verifyToastCloseExists()
 			.tapToastRecoverButton()
-			.verifyHeadingExists(self.healthcareProviderName)
+			.verifyHeadingExists(self.healthcareOrganizationName)
 	}
 }

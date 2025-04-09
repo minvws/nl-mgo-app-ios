@@ -18,7 +18,7 @@ final class OnboardingFlowTests: XCTestCase {
 	 - Proceed to pincode entry, enter a pincode, proceed to pincode confirmation, enter the same pincode
 	 - Verify the login page
 	 - Navigate to the login page, press digid button, verify the website in the browser
-	 - Search for a healthcare provider, select the fourth entry
+	 - Search for a healthcare organization, select the fourth entry
 	 
 	 */
 	
@@ -103,7 +103,7 @@ final class OnboardingFlowTests: XCTestCase {
 	}
 	
 	@MainActor
-	func testOnboardingFlow_searchForHealthcareProvider() {
+	func testOnboardingFlow_searchForHealthcareOrganization() {
 		
 		AppRobot()
 			.launchApp(withPincode: "12345")
@@ -115,6 +115,7 @@ final class OnboardingFlowTests: XCTestCase {
 			.enterSearchFields(name: "test", place: "test")
 			.verifySearchButtonExists()
 			.tapSearchButton()
+			.swipeToListElement(at: 4)
 			.verifyListElementExists(at: 4)
 			.tapListElement(at: 4)
 	}

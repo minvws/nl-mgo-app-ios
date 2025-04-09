@@ -12,10 +12,11 @@ class HealthCategoryRobot: Robot {
 	/// The app to test
 	var app: XCUIApplication
 	
-	/// Create an Health Categories Robot
+	/// Create an Health Category Robot
 	/// - Parameter application: the application to test
 	init(_ application: XCUIApplication) {
-		self.app = application	}
+		self.app = application
+	}
 	
 	// MARK: - Elements
 	
@@ -41,6 +42,12 @@ class HealthCategoryRobot: Robot {
 	
 	@discardableResult
 	func verifySectionExists(_ section: String) -> Self {
+		XCTAssertTrue(sectionLabel(section).exists)
+		return self
+	}
+	
+	@discardableResult
+	func verifySectionRowExists(_ section: String) -> Self {
 		XCTAssertTrue(sectionLabel(section).exists)
 		return self
 	}

@@ -15,7 +15,8 @@ class HealthCategoriesRobot: Robot {
 	/// Create an Health Category Robot
 	/// - Parameter application: the application to test
 	init(_ application: XCUIApplication) {
-		self.app = application	}
+		self.app = application
+	}
 	
 	// MARK: - Elements
 	
@@ -39,7 +40,7 @@ class HealthCategoriesRobot: Robot {
 		app.buttons["bottombar.overview"]
 	}
 	
-	private var healthcareProviderButton: XCUIElement {
+	private var healthcareOrganizationButton: XCUIElement {
 		app.buttons["bottombar.healthcareproviders"]
 	}
 	
@@ -96,8 +97,8 @@ class HealthCategoriesRobot: Robot {
 	}
 	
 	@discardableResult
-	func verifyHealthcareProviderButtonExists() -> Self {
-		XCTAssertTrue(healthcareProviderButton.exists)
+	func verifyHealthcareOrganizationButtonExists() -> Self {
+		XCTAssertTrue(healthcareOrganizationButton.exists)
 		return self
 	}
 	
@@ -146,8 +147,8 @@ class HealthCategoriesRobot: Robot {
 	}
 	
 	@discardableResult
-	func tapHealthcareProviderTab() -> OrganizationsRobot {
-		healthcareProviderButton.tap()
+	func tapHealthcareOrganizationTab() -> OrganizationsRobot {
+		healthcareOrganizationButton.tap()
 		return OrganizationsRobot(app)
 	}
 	
@@ -162,6 +163,26 @@ class HealthCategoriesRobot: Robot {
 		
 		while !removeHealthcareOrganizationButton.exists {
 			app.swipeUp()
+		}
+		
+		return self
+	}
+	
+	@discardableResult
+	func swipeToBottomCategory() -> Self {
+		
+		while !app.buttons["hc_payment.heading"].exists {
+			app.swipeUp()
+		}
+		
+		return self
+	}
+	
+	@discardableResult
+	func swipeToTopCategory() -> Self {
+		
+		while !app.buttons["hc_complaints.heading"].exists {
+			app.swipeDown()
 		}
 		
 		return self
