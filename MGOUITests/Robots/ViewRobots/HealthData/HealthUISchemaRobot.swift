@@ -12,10 +12,11 @@ class HealthUISchemaRobot: Robot {
 	/// The app to test
 	var app: XCUIApplication
 	
-	/// Create an Health Categories Robot
+	/// Create an Health UI Schema Robot
 	/// - Parameter application: the application to test
 	init(_ application: XCUIApplication) {
-		self.app = application	}
+		self.app = application
+	}
 	
 	// MARK: - Elements
 	
@@ -37,6 +38,10 @@ class HealthUISchemaRobot: Robot {
 		app.buttons[identifier]
 	}
 	
+	private func attachmentButton(_ identifier: String) -> XCUIElement {
+		app.buttons[identifier]
+	}
+	
 	// MARK: - Validations
 	
 	@discardableResult
@@ -47,7 +52,7 @@ class HealthUISchemaRobot: Robot {
 	
 	@discardableResult
 	func verifySectionRowExists(_ heading: String, value: String) -> Self {
-		XCTAssertTrue(row("\(heading), \(value)").exists)
+		XCTAssertTrue(row("\(heading), \(value)").exists, "can't find section row for \(heading)")
 		return self
 	}
 	
@@ -68,6 +73,12 @@ class HealthUISchemaRobot: Robot {
 		XCTAssertTrue(detailsButton(heading).exists, "can't find details button for \(heading)")
 		return self
 	}
+	
+	@discardableResult
+	func verifyAttachmentButton(_ heading: String) -> Self {
+		XCTAssertTrue(attachmentButton(heading).exists, "can't find attachment button for \(heading)")
+		return self
+	}
 
 	// MARK: - Interactions
 	
@@ -75,5 +86,11 @@ class HealthUISchemaRobot: Robot {
 	func tapNavigateToDetailsButton(_ heading: String) -> Self {
 		detailsButton(heading).tap()
 		return self
+	}
+	
+	@discardableResult
+	func tapAttachmentButton(_ heading: String) -> DocumentViewerRobot {
+		attachmentButton(heading).tap()
+		return DocumentViewerRobot(app)
 	}
 }

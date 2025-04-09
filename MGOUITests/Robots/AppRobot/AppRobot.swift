@@ -88,6 +88,23 @@ class AppRobot: Robot {
 		
 		return HealthCategoriesRobot(app)
 	}
+
+	/// Launch the app with a Document (PDFA) Healthcare organization
+	/// - Returns: Health Categories Robot for the overview
+	@discardableResult
+	func navigateToOverviewWithPDFA() -> HealthCategoriesRobot {
+		self
+			.launchApp(withPincode: "12345")
+			.enterConfirmationPinCode("12345")
+			.tapLoginWithDigiDButton()
+			.performCompleteDigiDLogin()
+			.enterSearchFields(name: "test", place: "test")
+			.tapSearchButton()
+			.swipeToListElement(at: 6)
+			.tapListElement(at: 6)
+		
+		return HealthCategoriesRobot(app)
+	}
 	
 	/// Launch the app with a Vaccination Healthcare organization
 	/// - Returns: Health Categories Robot for the overview

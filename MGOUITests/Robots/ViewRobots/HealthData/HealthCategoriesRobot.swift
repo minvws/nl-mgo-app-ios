@@ -15,7 +15,8 @@ class HealthCategoriesRobot: Robot {
 	/// Create an Health Category Robot
 	/// - Parameter application: the application to test
 	init(_ application: XCUIApplication) {
-		self.app = application	}
+		self.app = application
+	}
 	
 	// MARK: - Elements
 	
