@@ -52,7 +52,7 @@ class HealthUISchemaRobot: Robot {
 	
 	@discardableResult
 	func verifySectionRowExists(_ heading: String, value: String) -> Self {
-		XCTAssertTrue(row("\(heading), \(value)").exists, "can't find section row for \(heading)")
+		XCTAssertTrue(row("\(heading), \(value)").exists, "can't find section row for \(heading) and \(value)")
 		return self
 	}
 	

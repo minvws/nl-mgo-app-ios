@@ -77,7 +77,6 @@ class AppRobot: Robot {
 	@discardableResult
 	func navigateToOverviewWithBGZ() -> HealthCategoriesRobot {
 		self.navigateToOverview(organization: 4)
-		return HealthCategoriesRobot(app)
 	}
 	
 	/// Launch the app with a GP Healthcare organization
@@ -85,15 +84,13 @@ class AppRobot: Robot {
 	@discardableResult
 	func navigateToOverviewWithGP() -> HealthCategoriesRobot {
 		self.navigateToOverview(organization: 5)
-		return HealthCategoriesRobot(app)
 	}
-
+	
 	/// Launch the app with a Document (PDFA) Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithPDFA() -> HealthCategoriesRobot {
 		self.navigateToOverview(organization: 6)
-		return HealthCategoriesRobot(app)
 	}
 	
 	/// Launch the app with a Vaccination Healthcare organization
@@ -101,7 +98,6 @@ class AppRobot: Robot {
 	@discardableResult
 	func navigateToOverviewWithVaccination() -> HealthCategoriesRobot {
 		self.navigateToOverview(organization: 7)
-		return HealthCategoriesRobot(app)
 	}
 	
 	/// Enable the biometric face ID login
