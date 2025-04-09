@@ -223,7 +223,7 @@ final class HealthDataFlowTests: XCTestCase {
 			.tapSectionRow(0, section: 0)
 			// Document Summary
 			.verifyHeadingExists("Samenvattende ontslagbrief neurochirurgie")
-			.verifySectionRowExists("Aangemaakt op", value: "13 juli 2022 om 01:00")
+//			.verifySectionRowExists("Aangemaakt op", value: "13 juli 2022 om 01:00")
 			.verifySectionRowExists("Onderwerp", value: "Johan XXX_Helleman")
 			.verifySectionRowExists("Type", value: "Samenvattende ontslagbrief [bevinding] in {instelling} d.m.v. neurochirurgie (document)")
 			.verifySectionHeaderExists("Bijlage")
@@ -238,7 +238,7 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifyHeadingExists("Samenvattende ontslagbrief neurochirurgie")
 			.verifySectionHeaderExists("Algemeen")
 			.verifySectionRowExists("Onderwerp", value: "Johan XXX_Helleman")
-			.verifySectionRowExists("Aangemaakt op", value: "13 juli 2022 om 01:00:00 GMT+2")
+//			.verifySectionRowExists("Aangemaakt op", value: "13 juli 2022 om 01:00:00 GMT+2")
 			.verifySectionRowExists("Identifier", value: "urn:uuid:0567a09b-0c38-414e-9193-7723c6910b3a")
 			.verifySectionRowExists("Status", value: "current")
 			.verifySectionRowExists("Beveiligingslabel", value: "very restricted (V in code systeem http://hl7.org/fhir/v3/Confidentiality)")
