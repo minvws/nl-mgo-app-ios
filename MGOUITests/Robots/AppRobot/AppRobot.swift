@@ -54,11 +54,11 @@ class AppRobot: Robot {
 		app.launch()
 		return PincodeRobot(app)
 	}
-	
-	/// Launch the app with a BGZ Healthcare organization
+
+	/// Launch the app with a Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
-	func navigateToOverviewWithBGZ() -> HealthCategoriesRobot {
+	func navigateToOverview(organization index: Int) -> HealthCategoriesRobot {
 		self
 			.launchApp(withPincode: "12345")
 			.enterConfirmationPinCode("12345")
@@ -66,9 +66,17 @@ class AppRobot: Robot {
 			.performCompleteDigiDLogin()
 			.enterSearchFields(name: "test", place: "test")
 			.tapSearchButton()
-			.swipeToListElement(at: 4)
-			.tapListElement(at: 4)
+			.swipeToListElement(at: index)
+			.tapListElement(at: index)
 		
+		return HealthCategoriesRobot(app)
+	}
+	
+	/// Launch the app with a BGZ Healthcare organization
+	/// - Returns: Health Categories Robot for the overview
+	@discardableResult
+	func navigateToOverviewWithBGZ() -> HealthCategoriesRobot {
+		self.navigateToOverview(organization: 4)
 		return HealthCategoriesRobot(app)
 	}
 	
@@ -76,16 +84,7 @@ class AppRobot: Robot {
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithGP() -> HealthCategoriesRobot {
-		self
-			.launchApp(withPincode: "12345")
-			.enterConfirmationPinCode("12345")
-			.tapLoginWithDigiDButton()
-			.performCompleteDigiDLogin()
-			.enterSearchFields(name: "test", place: "test")
-			.tapSearchButton()
-			.swipeToListElement(at: 5)
-			.tapListElement(at: 5)
-		
+		self.navigateToOverview(organization: 5)
 		return HealthCategoriesRobot(app)
 	}
 
@@ -93,16 +92,7 @@ class AppRobot: Robot {
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithPDFA() -> HealthCategoriesRobot {
-		self
-			.launchApp(withPincode: "12345")
-			.enterConfirmationPinCode("12345")
-			.tapLoginWithDigiDButton()
-			.performCompleteDigiDLogin()
-			.enterSearchFields(name: "test", place: "test")
-			.tapSearchButton()
-			.swipeToListElement(at: 6)
-			.tapListElement(at: 6)
-		
+		self.navigateToOverview(organization: 6)
 		return HealthCategoriesRobot(app)
 	}
 	
@@ -110,16 +100,7 @@ class AppRobot: Robot {
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
 	func navigateToOverviewWithVaccination() -> HealthCategoriesRobot {
-		self
-			.launchApp(withPincode: "12345")
-			.enterConfirmationPinCode("12345")
-			.tapLoginWithDigiDButton()
-			.performCompleteDigiDLogin()
-			.enterSearchFields(name: "test", place: "test")
-			.tapSearchButton()
-			.swipeToListElement(at: 7)
-			.tapListElement(at: 7)
-		
+		self.navigateToOverview(organization: 7)
 		return HealthCategoriesRobot(app)
 	}
 	
