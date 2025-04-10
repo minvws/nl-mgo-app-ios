@@ -136,7 +136,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		// Given
 		sut.secondTabPath = NavigationStackBackport.NavigationPath([DashboardCoordination.State.overview])
 		sut.pathForSheet = NavigationStackBackport.NavigationPath()
-		sut.selectedTab = DashboardTab.overview.rawValue
+		sut.selectedTab = DashboardTab.healthcareOrganizations.rawValue
 		
 		// When
 		sut.handle(Coordination.Action.backButtonPressed)
