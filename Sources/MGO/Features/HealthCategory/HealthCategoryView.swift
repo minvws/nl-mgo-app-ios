@@ -434,7 +434,7 @@ struct HealthCategoryView: View {
 	/// - Returns: View when the user has some stored healthcare organizations
 	@ViewBuilder func listOverview(list: [HealthSubCategory]) -> some View {
 	
-		Group {
+		VStack {
 			if list.isNotEmpty {
 				listOverviewBlocks(list: filterList(list))
 			} else {
@@ -470,7 +470,7 @@ struct HealthCategoryView: View {
 	/// - Returns: View when the user has some stored healthcare organizations
 	@ViewBuilder func listOverviewBlocks(list: [HealthSubCategory]) -> some View {
 		
-		Group {
+		VStack {
 			
 			if list.isEmpty {
 				noSearchItems()

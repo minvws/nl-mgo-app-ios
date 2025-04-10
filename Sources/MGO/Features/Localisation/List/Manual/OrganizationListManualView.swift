@@ -226,7 +226,7 @@ struct OrganizationListManualView: View {
 	
 	var body: some View {
 		
-		Group {
+		VStack {
 			
 			switch viewModel.state {
 				case .loading:

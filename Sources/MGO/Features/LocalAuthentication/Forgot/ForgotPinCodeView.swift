@@ -74,7 +74,7 @@ struct ForgotPinCodeView: View {
 	var body: some View {
 		
 		ScrollViewWithFixedBottom {
-			Group {
+			VStack {
 				Text("forgot_pincode.heading")
 					.rijksoverheidStyle(font: .bold, style: .title)
 					.padding(ViewTraits.Title.insets)

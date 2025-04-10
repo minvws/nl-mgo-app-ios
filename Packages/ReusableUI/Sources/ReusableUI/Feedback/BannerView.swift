@@ -50,7 +50,7 @@ public struct BannerView: View {
 	public var body: some View {
 		
 		HStack(alignment: .top, spacing: ViewTraits.Banner.spacing) {
-			Group {
+			VStack {
 				switch feedback.type {
 					case .info:
 						Image(ImageResource.Banner.info)
