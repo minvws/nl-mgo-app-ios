@@ -13,7 +13,7 @@ protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 	associatedtype Body: View
 	
 	/// Get a View for the State
-	/// - Parameter state: the DashboardCoordination State
+	/// - Parameter state: the Dashboard Coordination State
 	/// - Returns: A view for that state
 	func viewState(for: DashboardCoordination.State?) -> Body
 	
@@ -21,6 +21,7 @@ protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 	var selectedTab: Int { get set }
 }
 
+/// The 3 tabs for the dashboard
 enum DashboardTab: Int {
 	case healthCategories = 0
 	case healthcareOrganizations = 1
@@ -91,7 +92,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 			
 			default:
 				EmptyView()
-					.logError("DashboardCoordinator, no view for", state as Any)
+					.logError("Dashboard Coordinator, no view for", state as Any)
 		}
 	}
 }
