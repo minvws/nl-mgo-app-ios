@@ -21,7 +21,7 @@ enum CategoryButtonState: String, CaseIterable {
 	case empty
 	
 	/// This category is not yet implemented.
-	case notAvailabe
+	case notAvailable
 }
 
 /// Struct for holding the business logic for the health category buttons

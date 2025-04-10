@@ -77,7 +77,7 @@ struct PropositionView: View {
 					.accessibilityAddTraits(.isHeader)
 					.accessibilityIdentifier("proposition.heading")
 				
-				Group {
+				VStack(spacing: 0) {
 					let privacyIntro = String(localized: "proposition.subheading")
 					let elements = privacyIntro.components(separatedBy: "[%@](privacyverklaring)")
 					if elements.count == 2 {
@@ -102,7 +102,7 @@ struct PropositionView: View {
 				.tint(theme.interactionTertiaryDefaultText)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				
-				Group {
+				VStack(spacing: ViewTraits.Items.bottom) {
 					PrivacyShieldView("proposition.statement_1", shieldType: .encrypted)
 						.accessibilityIdentifier("proposition.statement_1")
 					PrivacyShieldView("proposition.statement_2", shieldType: .safety)
@@ -112,7 +112,6 @@ struct PropositionView: View {
 					PrivacyShieldView("proposition.statement_4", shieldType: .cross)
 						.accessibilityIdentifier("proposition.statement_4")
 				}
-				.padding(.bottom, ViewTraits.Items.bottom)
 				
 				Spacer()
 			}

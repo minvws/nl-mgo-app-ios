@@ -114,7 +114,7 @@ struct LoginView: View {
 			.padding(.horizontal, ViewTraits.General.spacing)
 			
 		} bottomView: {
-			Group {
+			VStack {
 				switch viewModel.state {
 					case .loading:
 						CallToActionButton(

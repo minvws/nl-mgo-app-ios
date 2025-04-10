@@ -31,12 +31,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 			
 			Group {
 				// First Tab, Overview
-				NavigationStackBackport.NavigationStack(path: $coordinator.firstTabPath) {
-					coordinator.viewState(for: .showHealthCategories)
-						.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
-							coordinator.viewState(for: state)
-						}
-				}
+				coordinator.viewState(for: .healthCategories)
 				.tabItem {
 					Image(coordinator.selectedTab == DashboardTab.healthCategories.rawValue ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
 					Text("bottombar.overview")
@@ -46,19 +41,14 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				.tag(DashboardTab.healthCategories.rawValue)
 				
 				// Second Tab, Healthcare organizations
-				NavigationStackBackport.NavigationStack(path: $coordinator.secondTabPath) {
-					coordinator.viewState(for: .overview)
-						.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
-							coordinator.viewState(for: state)
-						}
-				}
+				coordinator.viewState(for: .healthcareOrganizations)
 				.tabItem {
-					Image(coordinator.selectedTab == DashboardTab.overview.rawValue ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
+					Image(coordinator.selectedTab == DashboardTab.healthcareOrganizations.rawValue ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
 					Text("bottombar.healthcareproviders")
 						.rijksoverheidStyle(font: .bold, style: .body)
 						.accessibilityIdentifier("bottombar.healthcareproviders")
 				}
-				.tag(DashboardTab.overview.rawValue)
+				.tag(DashboardTab.healthcareOrganizations.rawValue)
 				
 				// Third Tab, Settings
 				coordinator.viewState(for: .settings)
@@ -78,23 +68,6 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 		})
 		.navigationBarHidden(true)
 		.navigationBarBackButtonHidden()
-		.inspectableSheet(
-			isPresented: $coordinator.rootStateForSheet.presence(),
-			onDismiss: {
-				// Called when the sheet is closed by dragging.
-				coordinator.handle(Coordination.Action.closeSheet)
-			},
-			content: {
-				NavigationStackBackport.NavigationStack(path: $coordinator.pathForSheet) {
-					coordinator.viewState(for: coordinator.rootStateForSheet)
-						.backport.navigationDestination(for: DashboardCoordination.State.self) { state in
-							coordinator.viewState(for: state)
-						}
-						.navigationBarBackButtonHidden(true)
-						.navigationBarTitleDisplayMode(.inline)
-				}
-			}
-		)
 	}
 	
 	/// Style the tab bar

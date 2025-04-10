@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -10,41 +10,24 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-final class DashboardCoordinatorStateTests: XCTestCase {
+final class HealthcareCoordinatorStateTests: XCTestCase {
 	
-	private var sut: DashboardCoordinator!
-	private var parentCoordinator: AppCoordinatorSpy!
+	private var sut: HealthcareCoordinator!
+	private var parentCoordinator: DashboardCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
-		parentCoordinator = AppCoordinatorSpy()
-		sut = DashboardCoordinator(parentCoordinator: parentCoordinator)
-	}
-	
-	override func tearDown() {
-		super.tearDown()
-		HTTPStubs.removeAllStubs()
-	}
-	
-	func test_coordinatorView_forSettings() throws {
-		
-		// Given
-		let state = DashboardCoordination.State.settings
-		
-		// When
-		let view = sut.viewState(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
+		parentCoordinator = DashboardCoordinatorSpy()
+		sut = HealthcareCoordinator(parentCoordinator: parentCoordinator, rootState: .showHealthCategories)
 	}
 	
 	func test_coordinatorView_forOverview() throws {
 		
 		// Given
-		let state = DashboardCoordination.State.overview
+		let state = HealthcareCoordination.State.organizations
 		
 		// When
 		let view = sut.viewState(for: state)
@@ -56,7 +39,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forAddHealthcareOrganization() throws {
 		
 		// Given
-		let state = DashboardCoordination.State.manualLocalization
+		let state = HealthcareCoordination.State.manualLocalization
 		
 		// When
 		let view = sut.viewState(for: state)
@@ -68,7 +51,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forAutomaticLocalization() throws {
 		
 		// Given
-		let state = DashboardCoordination.State.automaticLocalization
+		let state = HealthcareCoordination.State.automaticLocalization
 		stub(condition: isPath("/localization/organization/search")) { _ in
 			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
 		}
@@ -83,7 +66,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
 		
 		// Given
-		let state = DashboardCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")
+		let state = HealthcareCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")
 		stub(condition: isPath("/localization/organization/search")) { _ in
 			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)
 		}
@@ -99,7 +82,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("1")
-		let state = DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: organization)
+		let state = HealthcareCoordination.State.showHealthcareOrganization(healthcareOrganization: organization)
 		
 		// When
 		let view = sut.viewState(for: state)
@@ -112,7 +95,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("1")
-		let state = DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: organization)
+		let state = HealthcareCoordination.State.showHealthcareOrganization(healthcareOrganization: organization)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [organization]
 		
 		// When
@@ -126,7 +109,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("1")
-		let state = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: organization)
+		let state = HealthcareCoordination.State.removeHealthcareOrganization(healthcareOrganization: organization)
 		
 		// When
 		let view = sut.viewState(for: state)
@@ -135,7 +118,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forshowHealthCategoryData() throws {
+	func test_coordinatorView_forShowHealthCategoryData() throws {
 		
 		// Given
 		let healthcareOrganization = Generator.healthcareOrganization("1")
@@ -155,7 +138,7 @@ final class DashboardCoordinatorStateTests: XCTestCase {
 			],
 			label: "zib details"
 		)
-		let state = DashboardCoordination.State.showHealthData(
+		let state = HealthcareCoordination.State.showHealthData(
 			backButtonTitle: "Heading",
 			schema: schema,
 			organization: healthcareOrganization

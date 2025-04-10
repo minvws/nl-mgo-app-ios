@@ -42,9 +42,9 @@ struct HealthCategoryRowView: View {
 			
 			Spacer()
 			
-			Group {
+			VStack {
 				switch block.state {
-					case .empty, .notAvailabe:
+					case .empty, .notAvailable:
 						Text("common.no_data")
 					case .loaded:
 						Image(systemName: "chevron.right")
@@ -75,7 +75,7 @@ struct HealthCategoryRowView: View {
 		HealthCategoryRowView(block: CategoryButton(category: .medication, title: "Medicijnen"))
 		HealthCategoryRowView(block: CategoryButton(category: .measurements, title: "Metingen", state: .loaded, box: 1))
 		HealthCategoryRowView(block: CategoryButton(category: .medicalComplaints, title: "Klachten", state: .empty, box: 2))
-		HealthCategoryRowView(block: CategoryButton(category: .payment, title: "Betaalgegevens", state: .notAvailabe, box: 3))
+		HealthCategoryRowView(block: CategoryButton(category: .payment, title: "Betaalgegevens", state: .notAvailable, box: 3))
 	}
 	.background(Theme().backgroundPrimary)
 }

@@ -163,7 +163,7 @@ struct BioMetricSetupView: View {
 		
 		ScrollViewWithFixedBottom {
 			
-			Group {
+			VStack {
 				
 				HStack {
 					Spacer()

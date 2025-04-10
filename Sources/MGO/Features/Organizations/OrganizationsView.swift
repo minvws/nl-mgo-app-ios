@@ -189,7 +189,7 @@ struct OrganizationsView: View {
 	
 	var body: some View {
 
-		Group {
+		VStack {
 			switch viewModel.state {
 				case .empty:
 					noHealthcareOrganizationView()

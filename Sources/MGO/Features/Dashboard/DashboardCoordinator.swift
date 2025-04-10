@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -8,41 +8,12 @@
 import MGOUI
 import MGOFoundation
 
-extension Coordination.Action {
-	
-	// Healthcare Organization flow
-	static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
-	static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
-	static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
-	
-	static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
-	static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
-	
-	static let showHealthCategory = Coordination.Action(identifier: "showHealthCategory")
-	static let showHealthData = Coordination.Action(identifier: "showHealthData")
-	
-	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
-	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
-}
-
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 	
 	associatedtype Body: View
 	
-	/// The navigation path for the first tab
-	var firstTabPath: NavigationStackBackport.NavigationPath { get set }
-
-	/// The navigation path for the second tab
-	var secondTabPath: NavigationStackBackport.NavigationPath { get set }
-	
-	/// The content type for the sheet
-	var pathForSheet: NavigationStackBackport.NavigationPath { get set }
-	
-	/// The state for the root view of the sheet
-	var rootStateForSheet: DashboardCoordination.State? { get set }
-	
 	/// Get a View for the State
-	/// - Parameter state: the DashboardCoordination State
+	/// - Parameter state: the Dashboard Coordination State
 	/// - Returns: A view for that state
 	func viewState(for: DashboardCoordination.State?) -> Body
 	
@@ -50,9 +21,10 @@ protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 	var selectedTab: Int { get set }
 }
 
+/// The 3 tabs for the dashboard
 enum DashboardTab: Int {
 	case healthCategories = 0
-	case overview = 1
+	case healthcareOrganizations = 1
 	case settings = 2
 }
 
@@ -61,48 +33,28 @@ enum DashboardCoordination {
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {
 		
+		case healthCategories
+		case healthcareOrganizations
 		case settings
-		case overview
-		
-		// Search & Store Healthcare Organization flow
-		case automaticLocalization
-		case manualLocalization
-		case healthcareOrganizationSearchResults(city: String, name: String)
-		
-		// Details Flow
-		case showHealthCategories
-		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
-		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
-		case showHealthData(backButtonTitle: String, schema: HealthUISchema, organization: MgoOrganization)
-		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
-		
-		// Settings
-		case displaySettings
 	}
 }
 
 class DashboardCoordinator: DashboardCoordinatorProtocol {
 	
-	/// The navigation path for the first tab
-	@Published var firstTabPath = NavigationStackBackport.NavigationPath()
-	
-	/// The navigation path for the second tab
-	@Published var secondTabPath = NavigationStackBackport.NavigationPath()
-	
-	/// The navigation path for the sheet.
-	@Published var pathForSheet = NavigationStackBackport.NavigationPath()
-	
-	/// The root state for a sheet.
-	@Published var rootStateForSheet: DashboardCoordination.State?
-	
 	/// The flow coordinator for routing
 	private weak var parentCoordinator: (any AppCoordinatorProtocol)?
 	
-	/// The selected tab
-	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue
+	/// The coordinator for all categories activities
+	private var healthCategoriesCoordinator: HealthcareCoordinator!
+	
+	/// The coordinator for all healthcare organizations activities
+	private var healthcareOrganizationsCoordinator: HealthcareCoordinator!
 	
 	/// The coordinator for all setting activities
 	private var settingsCoordinator: SettingsCoordinator!
+	
+	/// The selected tab
+	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
@@ -110,155 +62,19 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		
 		self.parentCoordinator = parentCoordinator
 		self.settingsCoordinator = SettingsCoordinator(parentCoordinator: self)
+		self.healthCategoriesCoordinator = HealthcareCoordinator(parentCoordinator: self, rootState: .showHealthCategories)
+		self.healthcareOrganizationsCoordinator = HealthcareCoordinator(parentCoordinator: self, rootState: .organizations)
 	}
 	
 	/// Handle any incoming action from any of the view models
 	/// - Parameter action: any Action
 	func handle(_ action: Coordination.Action) {
 		
-		guard !handleSearchFlow(action) else { return }
-		guard !handleHealthDataFlow(action) else { return }
-		
-		switch action.identifier {
-		
-			// General
-				
-			case Coordination.Action.closeSheet.identifier, Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
-				pathForSheet = NavigationStackBackport.NavigationPath()
-				rootStateForSheet = nil
-				
-			case Coordination.Action.backButtonPressed.identifier:
-				if !pathForSheet.isEmpty {
-					pathForSheet.removeLast()
-				} else {
-					if selectedTab == DashboardTab.healthCategories.rawValue {
-						guard !firstTabPath.isEmpty else { return }
-						firstTabPath.removeLast()
-					} else if selectedTab == DashboardTab.overview.rawValue {
-						guard !secondTabPath.isEmpty else { return }
-						secondTabPath.removeLast()
-					}
-				}
-				
-			case Coordination.Action.resetApplication.identifier:
-				parentCoordinator?.handle(Coordination.Action.resetApplication)
-				selectedTab = DashboardTab.healthCategories.rawValue
-			
-			default:
-				// Unhandled
-				logWarning("Dashboard Coordinator does not handle \(action)")
+		if action == .resetApplication {
+			parentCoordinator?.handle(.resetApplication)
+			return
 		}
-	}
-	
-	/// Handle the search flow action from any of the view models
-	/// - Parameter action: any Action
-	/// - Returns: True if the action is consumed
-	private func handleSearchFlow(_ action: Coordination.Action) -> Bool {
-		
-		switch action.identifier {
-			
-				// Healthcare Organization Search Flow
-				
-			case Coordination.Action.addHealthcareOrganization.identifier:
-				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
-					rootStateForSheet = DashboardCoordination.State.automaticLocalization
-				} else {
-					rootStateForSheet = DashboardCoordination.State.manualLocalization
-				}
-				return true
-				
-			case Coordination.Action.showHealthcareOrganizationSearchResults.identifier:
-				if action.params.count == 2,
-				   let city = action.params["city"] as? String,
-				   let name = action.params["name"] as? String {
-					pathForSheet.append(DashboardCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
-				} else {
-					logError("Dashboard Coordinator, missing params for \(action)")
-					}
-				return true
-				
-			case Coordination.Action.backToAddHealthcareOrganization.identifier:
-				pathForSheet.removeLast(pathForSheet.count)
-				return true
-				
-			default:
-				return false
-		}
-	}
-	
-	/// Handle the detail flow action from any of the view models
-	/// - Parameter action: any Action
-	/// - Returns: True if the action is consumed
-	func handleHealthDataFlow(_ action: Coordination.Action) -> Bool {
-		
-		switch action.identifier {
-			
-			case Coordination.Action.showHealthcareOrganization.identifier:
-				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
-					
-					setState(DashboardCoordination.State.showHealthcareOrganization(healthcareOrganization: healthcareOrganization))
-					return true
-				} else {
-					logError("DashboardCoordinator Coordinator, missing params for \(action)")
-				}
-				
-			case Coordination.Action.showHealthCategory.identifier:
-				if action.params.count == 2,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
-				   let category = action.params["category"] as? HealthCategories.Category {
-					setState(DashboardCoordination.State.showHealthCategory(category: category, organization: healthcareOrganization))
-					return true
-				} else if action.params.count == 1,
-						  let category = action.params["category"] as? HealthCategories.Category {
-					setState(DashboardCoordination.State.showHealthCategory(category: category, organization: nil))
-					return true
-				} else {
-					logError("DashboardCoordinator Coordinator, missing params for \(action)")
-				}
-				
-			case Coordination.Action.showHealthData.identifier:
-				if action.params.count == 4,
-				   // let resource = action.params["resource"] as? MgoResouce,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
-				   let backButtonTitle = action.params["backButtonTitle"] as? String,
-				   let schema = action.params["uiSchema"] as? HealthUISchema {
-					setState(DashboardCoordination.State.showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization))
-					return true
-				} else {
-					logError("DashboardCoordinator Coordinator, missing params for \(action)")
-				}
-				
-			case Coordination.Action.removeHealthcareOrganization.identifier:
-				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
-					
-					rootStateForSheet = DashboardCoordination.State.removeHealthcareOrganization(healthcareOrganization: healthcareOrganization)
-					return true
-				} else {
-					logError("DashboardCoordinator Coordinator, missing params for \(action)")
-				}
-				
-			case Coordination.Action.removedHealthcareOrganization.identifier:
-				pathForSheet = NavigationStackBackport.NavigationPath()
-				rootStateForSheet = nil
-				secondTabPath.removeLast()
-				return true
-				
-			default:
-				return false
-		}
-		return false
-	}
-	
-	/// Add the new state to the active tab
-	/// - Parameter target: the new state
-	private func setState(_ target: DashboardCoordination.State) {
-		if selectedTab == DashboardTab.healthCategories.rawValue {
-			firstTabPath.append(target)
-		} else if selectedTab == DashboardTab.overview.rawValue {
-			secondTabPath.append(target)
-		}
+		logWarning("Dashboard Coordinator does not handle \(action)")
 	}
 	
 	/// Get a View for the State
@@ -269,141 +85,19 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		switch state {
 			
 			// Initial states
-		
+			
 			case .settings:
 				SettingsCoordinatorView(coordinator: settingsCoordinator)
 			
-			case .overview:
-				OrganizationsView(viewModel: OrganizationsViewModel(coordinator: self)).isPresentedAsSheet(false)
+			case .healthCategories:
+				HealthcareCoordinatorView(coordinator: healthCategoriesCoordinator)
 			
-			// Healthcare Organization Flow
+			case .healthcareOrganizations:
+				HealthcareCoordinatorView(coordinator: healthcareOrganizationsCoordinator)
 			
-			case .manualLocalization:
-				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
-			
-			case .automaticLocalization:
-				OrganizationListAutomaticView(
-					viewModel: OrganizationListAutomaticViewModel(
-						coordinator: self,
-						localisationServiceClient: Current.localisationServiceClient,
-						preselectAllOrganizations: false
-					)
-				)
-				.isPresentedAsSheet(true)
-				
-			case let .healthcareOrganizationSearchResults(city, name):
-				OrganizationListManualView(
-					viewModel: OrganizationListManualViewModel(
-						coordinator: self,
-						city: city,
-						name: name,
-						localisationServiceClient: Current.localisationServiceClient
-					)
-				)
-				.isPresentedAsSheet(true)
-			
-			case let .showHealthcareOrganization(healthcareOrganization):
-				HealthCategoriesView(
-					viewModel:
-						HealthCategoriesViewModel(
-							coordinator: self,
-							mode: .single( healthcareOrganization)
-						)
-				)
-			
-			case let .removeHealthcareOrganization(healthcareOrganization):
-				RemoveHealthcareOrganizationView(
-					viewModel: RemoveHealthcareOrganizationViewModel(
-						coordinator: self,
-						healthcareOrganization: healthcareOrganization
-					)
-				)
-				.isPresentedAsSheet(true)
-				
-			// Health Categories and Data
-			
-			case .showHealthCategories:
-				HealthCategoriesView(
-					viewModel:
-						HealthCategoriesViewModel(
-							coordinator: self,
-							mode: .all
-						)
-				)
-			
-			case let .showHealthCategory(category: category, organization: organization):
-				viewState(for: category, organization: organization)
-			
-			case let .showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization):
-				HealthDataView(
-					viewModel: HealthDataViewModel(
-						coordinator: self,
-						schema: schema,
-						backButtonTitle: backButtonTitle,
-						healthcareOrganization: healthcareOrganization
-					)
-				)
-				
 			default:
 				EmptyView()
-					.logError("DashboardCoordinator, no view for", state as Any)
-		}
-	}
-	
-	/// Get a View for a category
-	/// - Parameter category: the health category
-	/// - Parameter organization: optional healthcare organization
-	/// - Returns: A view for that state
-	@ViewBuilder private func viewState(for category: HealthCategories.Category, organization: MgoOrganization? = nil) -> some View {
-
-		switch category {
-			case HealthCategories.Category.medication:
-				HealthCategoryView(viewModel: MedicationHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.measurements:
-				HealthCategoryView(viewModel: MeasurementsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.labResults:
-				HealthCategoryView(viewModel: LabResultsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.allergies:
-				HealthCategoryView(viewModel: AllergiesHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.treatments:
-				HealthCategoryView(viewModel: TreatmentsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.appointments:
-				HealthCategoryView(viewModel: AppointmentsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.vaccinations:
-				HealthCategoryView(viewModel: VaccinationsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.documents:
-				HealthCategoryView(viewModel: DocumentsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.medicalComplaints:
-				HealthCategoryView(viewModel: ComplaintsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.personalDetails:
-				HealthCategoryView(viewModel: PatientHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.alerts:
-				HealthCategoryView(viewModel: AlertsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.payment:
-				HealthCategoryView(viewModel: PaymentHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.plans:
-				HealthCategoryView(viewModel: PlansHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.medicalDevices:
-				HealthCategoryView(viewModel: DevicesHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.mentalWellbeing:
-				HealthCategoryView(viewModel: MentalStatusHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.lifestyle:
-				HealthCategoryView(viewModel: LifestyleHealthCategoryViewModel(coordinator: self, organization: organization))
+					.logError("Dashboard Coordinator, no view for", state as Any)
 		}
 	}
 }

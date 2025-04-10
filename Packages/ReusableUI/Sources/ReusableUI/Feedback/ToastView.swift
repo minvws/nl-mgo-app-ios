@@ -78,7 +78,7 @@ public struct ToastView: View {
 		
 		HStack(spacing: ViewTraits.Toast.spacing, content: {
 			
-			Group {
+			VStack {
 				
 				// Toast type icon
 				
