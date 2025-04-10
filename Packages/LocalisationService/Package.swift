@@ -22,7 +22,7 @@ let package = Package(
 		// External
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.7.1"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.2"),
-		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.0.2"),
+		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.1.0"),
 		
 		// Testing:
 		.package(name: "MGOTest", path: "../MGOTest")
