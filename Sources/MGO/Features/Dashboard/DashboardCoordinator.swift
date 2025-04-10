@@ -69,6 +69,11 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	/// Handle any incoming action from any of the view models
 	/// - Parameter action: any Action
 	func handle(_ action: Coordination.Action) {
+		
+		if action == .resetApplication {
+			parentCoordinator?.handle(.resetApplication)
+			return
+		}
 		logWarning("Dashboard Coordinator does not handle \(action)")
 	}
 	
