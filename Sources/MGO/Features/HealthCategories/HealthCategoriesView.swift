@@ -32,7 +32,7 @@ struct HealthCategoriesViewState {
 	mutating func updateCategoryState(id: Int, state: CategoryButtonState) {
 		withAnimation {
 			for index in 0..<healthCategories.count where healthCategories[index].id == id {
-				if healthCategories[index].state != .notAvailabe {
+				if healthCategories[index].state != .notAvailable {
 					healthCategories[index].state = state
 				}
 			}
@@ -216,7 +216,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		
 		for button in state.healthCategories {
 			// Only update if the category is enabled.
-			guard button.state != .notAvailabe else { continue }
+			guard button.state != .notAvailable else { continue }
 			
 			let cacheResult: Result<[MgoResourceRecord], Error> = {
 				switch mode {
