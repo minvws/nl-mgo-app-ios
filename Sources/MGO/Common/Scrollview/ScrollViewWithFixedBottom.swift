@@ -39,26 +39,32 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 			hasScrolledToBottom = (value.y + scrollViewSize.height + margin > contentSize.height)
 		}
 		.safeAreaInset(edge: VerticalEdge.bottom) {
-			
-			VStack(spacing: 0) {
-				
-				if scrollable && !hasScrolledToBottom {
-					NavigationDivider()
-				}
-				
-				bottomView
-					.when(scrollable && !hasScrolledToBottom, transform: { view in
-						view
-							.background(BlurView(style: .systemUltraThinMaterial).opacity(0.98).ignoresSafeArea())
-					})
-					.onChange(of: contentSize) { _ in
-						recalculateScrollable()
-					}
-					.onChange(of: scrollViewSize) { _ in
-						recalculateScrollable()
-					}
-			}
+			footer()
 		}
+	}
+	
+	/// The fixed footer part
+	/// - Returns: the footer
+	@ViewBuilder private func footer() -> some View {
+		
+		bottomView
+			.when(scrollable && !hasScrolledToBottom, transform: { view in
+				view
+					.background(BlurView(style: .systemUltraThinMaterial).opacity(0.98).ignoresSafeArea())
+			})
+			.when(scrollable && !hasScrolledToBottom, transform: { view in
+				
+				VStack(spacing: 0) {
+					NavigationDivider()
+					view
+				}
+			})
+			.onChange(of: contentSize) { _ in
+				recalculateScrollable()
+			}
+			.onChange(of: scrollViewSize) { _ in
+				recalculateScrollable()
+			}
 	}
 	
 	/// Recalculate if we should scroll
@@ -68,14 +74,19 @@ struct ScrollViewWithFixedBottom<V1: View, V2: View>: View {
 }
 
 #Preview {
+	
+	let button = Button(
+		action: { /* No Action for preview */ },
+		label: {
+			CallToActionButton("common.next")
+		}
+	)
+		.padding(16)
+	
 	ScrollViewWithFixedBottom(
 		content: { Text(verbatim: "Top") },
-		bottomView: { Button(
-			action: { /* No Action for preview */ },
-			label: {
-				CallToActionButton("common.next")
-			}
-		).padding(16)
+		bottomView: {
+			button
 		}
 	)
 }
