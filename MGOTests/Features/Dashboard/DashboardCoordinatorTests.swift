@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -10,50 +10,31 @@ import MGOTest
 import MGOUI
 @testable import MGO
 
-final class DashboardCoordinatorViewTests: XCTestCase {
+final class DashboardCoordinatorTests: XCTestCase {
 	
-	private var coordinator: DashboardCoordinator!
+	private var sut: DashboardCoordinator!
+	private var parentCoordinatorSpy: AppCoordinatorSpy!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
 		servicesSpies = setupServicesSpies()
-		coordinator = DashboardCoordinator(parentCoordinator: AppCoordinatorSpy())
+		parentCoordinatorSpy = AppCoordinatorSpy()
+		sut = DashboardCoordinator(parentCoordinator: parentCoordinatorSpy)
 		super.setUp()
 	}
 
-	func test_default() throws {
+	func test_handleResetApplication() throws {
 		
 		// Given
+		sut.selectedTab = DashboardTab.settings.rawValue
 		
 		// When
-		let sut = DashboardCoordinatorView(coordinator: coordinator)
+		sut.handle(.resetApplication)
 		
 		// Then
-		takeSnapShots(content: sut, precision: 0.95)
-	}
-	
-	func test_secondTab() throws {
-		
-		// Given
-		let sut = DashboardCoordinatorView(coordinator: coordinator)
-		
-		// When
-		coordinator.selectedTab = DashboardTab.healthcareOrganizations.rawValue
-		
-		// Then
-		takeSnapShots(content: sut)
-	}
-	
-	func test_thirdTab() throws {
-		
-		// Given
-		let sut = DashboardCoordinatorView(coordinator: coordinator)
-		
-		// When
-		coordinator.selectedTab = DashboardTab.settings.rawValue
-		
-		// Then
-		takeSnapShots(content: sut)
+		expect(self.parentCoordinatorSpy.invokedHandle) == true
+		expect(self.parentCoordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.resetApplication
+		expect(self.sut.selectedTab) == DashboardTab.healthCategories.rawValue
 	}
 }

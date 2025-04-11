@@ -10,29 +10,50 @@ import MGOTest
 import MGOUI
 @testable import MGO
 
-final class DashboardCoordinatorTests: XCTestCase {
+final class DashboardCoordinatorViewTests: XCTestCase {
 	
-	private var sut: DashboardCoordinator!
-	private var parentCoordinatorSpy: AppCoordinatorSpy!
+	private var coordinator: DashboardCoordinator!
 	private var servicesSpies: ServicesSpies!
 	
 	override func setUp() {
 		
 		servicesSpies = setupServicesSpies()
-		parentCoordinatorSpy = AppCoordinatorSpy()
-		sut = DashboardCoordinator(parentCoordinator: parentCoordinatorSpy)
+		coordinator = DashboardCoordinator(parentCoordinator: AppCoordinatorSpy())
 		super.setUp()
 	}
 
-	func test_handleResetApplication() throws {
+	func test_default() throws {
 		
 		// Given
 		
 		// When
-		sut.handle(.resetApplication)
+		let sut = DashboardCoordinatorView(coordinator: coordinator)
 		
 		// Then
-		expect(self.parentCoordinatorSpy.invokedHandle) == true
-		expect(self.parentCoordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.resetApplication
+		takeSnapShots(content: sut, precision: 0.95)
+	}
+	
+	func test_secondTab() throws {
+		
+		// Given
+		let sut = DashboardCoordinatorView(coordinator: coordinator)
+		
+		// When
+		coordinator.selectedTab = DashboardTab.healthcareOrganizations.rawValue
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
+	
+	func test_thirdTab() throws {
+		
+		// Given
+		let sut = DashboardCoordinatorView(coordinator: coordinator)
+		
+		// When
+		coordinator.selectedTab = DashboardTab.settings.rawValue
+		
+		// Then
+		takeSnapShots(content: sut)
 	}
 }
