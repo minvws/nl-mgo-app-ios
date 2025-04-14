@@ -3,9 +3,9 @@ info:
   title: FastAPI
   version: 0.8.0
 servers:
-  - url: https://dva.test.mgo.irealisatie.nl
+  - url: https://dvp-proxy.test.mgo.irealisatie.nl
     description: MGO TEST proxy
-  - url: https://dva.acc.mgo.irealisatie.nl
+  - url: https://dvp-proxy.acc.mgo.irealisatie.nl
     description: MGO Acceptance proxy
 paths:
   "oidc/start":

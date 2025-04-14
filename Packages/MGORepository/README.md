@@ -13,7 +13,7 @@ To fetch a list of ([Medication Use](https://zibs.nl/wiki/MedicationUse2-v1.1.1(
 import MGORepository
 
 // The FHIR Client (for the dva proxy)
-let url = URL(string: "https://dva.mgo.irealisatie.nl/fhir")
+let url = URL(string: "https://dvp-proxy.mgo.irealisatie.nl/fhir")
 let client = FHIRClient(baseURL: url)
 
 // The repository
