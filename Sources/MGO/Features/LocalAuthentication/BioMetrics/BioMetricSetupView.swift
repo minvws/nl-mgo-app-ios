@@ -163,31 +163,8 @@ struct BioMetricSetupView: View {
 		
 		ScrollViewWithFixedBottom {
 			
-			VStack {
-				
-				HStack {
-					Spacer()
-					getBioMetricImage(type: bioMetricType)
-						.foregroundStyle(theme.interactionPrimaryDefaultBackground)
-						.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
-						.padding(.top, ViewTraits.Image.top)
-					Spacer()
-				}
-				
-				Text(LocalizedStringKey(bioMetricTypedHeading(bioMetricType)))
-					.rijksoverheidStyle(font: .bold, style: .title)
-					.padding(ViewTraits.Title.insets)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.accessibilityAddTraits(.isHeader)
-					.accessibilityIdentifier("biometric_setup.heading")
-				
-				Text(LocalizedStringKey(bioMetricTypedIntro(bioMetricType)))
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.padding(ViewTraits.Text.insets)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
-					.accessibilityIdentifier("biometric_setup.subheading")
-			}
-				.padding(.top, ViewTraits.Navigation.padding)
+			topView(bioMetricType)
+			
 		} bottomView: {
 			
 			bottomView(bioMetricType)
@@ -199,14 +176,60 @@ struct BioMetricSetupView: View {
 		} message: {
 			Text("biometric_setup.dialog.subheading")
 		}
+		.alert("pincode.lockout", isPresented: $viewModel.state.showLockoutPopup) {
+			Button("common.ok") { /* no action for lockout available */ }
+		} message: {
+			switch viewModel.state.bioMetricType {
+				case .none, .unknown:
+					// Should not happen
+					EmptyView()
+				case .touchID:
+					Text("pincode.touchid.lockout")
+				case .faceID:
+					Text("pincode.faceid.lockout")
+				case .opticID:
+					Text("pincode.opticid.lockout")
+			}
+		}
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 	
+	/// Get the top view
+	/// - Parameter bioMetricType: the biometric type
+	/// - Returns: view for the top part
+	@ViewBuilder private func topView(_ bioMetricType: LocalAuthentication.BiometricType) -> some View {
+
+		VStack {
+			HStack {
+				Spacer()
+				getBioMetricImage(type: bioMetricType)
+					.foregroundStyle(theme.interactionPrimaryDefaultBackground)
+					.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
+					.padding(.top, ViewTraits.Image.top)
+				Spacer()
+			}
+			
+			Text(LocalizedStringKey(bioMetricTypedHeading(bioMetricType)))
+				.rijksoverheidStyle(font: .bold, style: .title)
+				.padding(ViewTraits.Title.insets)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityAddTraits(.isHeader)
+				.accessibilityIdentifier("biometric_setup.heading")
+			
+			Text(LocalizedStringKey(bioMetricTypedIntro(bioMetricType)))
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.padding(ViewTraits.Text.insets)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityIdentifier("biometric_setup.subheading")
+		}
+		.padding(.top, ViewTraits.Navigation.padding)
+	}
+	
 	/// Get the image for this biometric type
 	/// - Parameter type: the biometric type
-	/// - Returns: the image for this type (of emptyview if non exists)
-	@ViewBuilder func getBioMetricImage(type: LocalAuthentication.BiometricType) -> some View {
+	/// - Returns: the image for this type (or empty view if non exists)
+	@ViewBuilder private func getBioMetricImage(type: LocalAuthentication.BiometricType) -> some View {
 		switch type {
 			case .none, .unknown:
 				// Should not happen
@@ -307,60 +330,48 @@ struct BioMetricSetupView: View {
 				}
 			}
 			.accessibilityIdentifier("biometric_setup.button.with_biometric")
-			.alert("pincode.lockout", isPresented: $viewModel.state.showLockoutPopup) {
-				Button("common.ok") { /* no action for lockout available */ }
-			} message: {
-				switch viewModel.state.bioMetricType {
-					case .none, .unknown:
-						// Should not happen
-						EmptyView()
-					case .touchID:
-						Text("pincode.touchid.lockout")
-					case .faceID:
-						Text("pincode.faceid.lockout")
-					case .opticID:
-						Text("pincode.opticid.lockout")
-				}
-			}
 		}
 		.padding(ViewTraits.Button.insets)
 	}
 }
 
 #Preview {
+	
+	let bioMetricType: () -> LocalAuthentication.BiometricType = { .faceID }
+	
 	NavigationStackBackport.NavigationStack {
 		BioMetricSetupView(
 			viewModel: BioMetricSetupViewModel(
 				coordinator: nil,
-				bioMetricType: {
-					.faceID
-				}
+				bioMetricType: bioMetricType
 			)
 		)
 	}
 }
 
 #Preview {
+	
+	let bioMetricType: () -> LocalAuthentication.BiometricType = { .touchID }
+	
 	NavigationStackBackport.NavigationStack {
 		BioMetricSetupView(
 			viewModel: BioMetricSetupViewModel(
 				coordinator: nil,
-				bioMetricType: {
-					.touchID
-				}
+				bioMetricType: bioMetricType
 			)
 		)
 	}
 }
 
 #Preview {
+	
+	let bioMetricType: () -> LocalAuthentication.BiometricType = { .opticID }
+	
 	NavigationStackBackport.NavigationStack {
 		BioMetricSetupView(
 			viewModel: BioMetricSetupViewModel(
 				coordinator: nil,
-				bioMetricType: {
-					.opticID
-				}
+				bioMetricType: bioMetricType
 			)
 		)
 	}

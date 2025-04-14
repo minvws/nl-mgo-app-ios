@@ -11,7 +11,7 @@ import MGOUI
 class AboutOpenSourceLibrariesViewModel: BaseViewModel {
 	
 	/// An open source library
-	struct Library: Identifiable {
+	struct Library: Equatable, Identifiable {
 		
 		/// Identifier
 		let id = UUID()

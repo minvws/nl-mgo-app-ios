@@ -72,6 +72,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 		
 		if action == .resetApplication {
 			parentCoordinator?.handle(.resetApplication)
+			selectedTab = 0
 			return
 		}
 		logWarning("Dashboard Coordinator does not handle \(action)")

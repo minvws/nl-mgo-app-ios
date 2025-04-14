@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
-  title: FastAPI
-  version: 0.6.0
+  title: LOAD
+  version: 0.8.0
 servers:
   - url: https://lo-ad.test.mgo.irealisatie.nl
     description: MGO TEST localisation
@@ -145,6 +145,7 @@ components:
             $ref: "#/components/schemas/Address"
           type: array
           title: Addresses
+          default: []
         types:
           items:
             $ref: "#/components/schemas/CType"
@@ -155,6 +156,7 @@ components:
             "$ref": "#/components/schemas/ZalDataServiceResponse"
           type: array
           title: Data Services
+          default: []
       type: object
       required:
       - medmij_id
@@ -180,6 +182,7 @@ components:
           type: array
           title: Organizations
       type: object
+      default: []
       required:
       - organizations
       title: SearchResponse
@@ -214,7 +217,7 @@ components:
           title: Name
         interface_versions:
           items:
-            type: [string, null]
+            type: string
           type: array
           title: Interface versions
         auth_endpoint:
