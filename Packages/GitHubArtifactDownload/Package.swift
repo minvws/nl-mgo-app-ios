@@ -16,7 +16,7 @@ let package = Package(
 		// External
 		.package(url: "https://github.com/apple/example-package-figlet", branch: "main"),
 		.package(url: "https://github.com/apple/swift-argument-parser", exact: "1.5.0"),
-		.package(url: "https://github.com/wei18/github-rest-api-swift-openapi.git", exact: "2.0.4")
+		.package(url: "https://github.com/wei18/github-rest-api-swift-openapi.git", exact: "2.0.5")
 	],
 	targets: [
 		.executableTarget(
