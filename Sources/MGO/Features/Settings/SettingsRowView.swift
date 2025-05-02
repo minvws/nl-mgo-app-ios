@@ -27,6 +27,9 @@ struct SettingsRowView: View {
 	/// Should we show the trailing chevron
 	private var showChevron: Bool
 	
+	/// Should we show the trailing external link
+	private var showExternalLink: Bool
+	
 	/// Create a Settings Row
 	/// - Parameters:
 	///   - icon: the icon for the row
@@ -34,17 +37,23 @@ struct SettingsRowView: View {
 	///   - heading: the heading
 	///   - subHeading: the sub heading
 	///   - showChevron: Should we show the trailing chevron
+	///   - showExternalLink: Should we show the trailing external link
 	init(
 		icon: Image? = nil,
 		iconBackground: Color? = nil,
 		heading: LocalizedStringKey,
 		subHeading: LocalizedStringKey? = nil,
-		showChevron: Bool = true) {
+		showChevron: Bool = true,
+		showExternalLink: Bool = false) {
 		self.icon = icon
 		self.iconBackground = iconBackground
 		self.heading = heading
 		self.subHeading = subHeading
 		self.showChevron = showChevron
+		self.showExternalLink = showExternalLink
+		if showExternalLink {
+			self.showChevron = false
+		}
 	}
 	
 	/// Magic Numbers
@@ -89,8 +98,8 @@ struct SettingsRowView: View {
 					.frame(minHeight: ViewTraits.Icon.size)
 			}
 			
-			if showChevron {
-				Image(ImageResource.Overview.chevronRight)
+			if showChevron || showExternalLink {
+				Image(showChevron ? ImageResource.Overview.chevronRight : ImageResource.Settings.arrowOutward)
 					.foregroundStyle(theme.symbolPrimary)
 					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
 					.accessibilityHidden(true)

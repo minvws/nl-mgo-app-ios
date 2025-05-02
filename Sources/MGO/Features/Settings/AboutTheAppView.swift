@@ -236,7 +236,8 @@ struct AboutTheAppView: View {
 			viewModel.reduce(.showPrivacy)
 		} label: {
 			SettingsRowView(
-				heading: "settings.about_this_app.privacy"
+				heading: "settings.about_this_app.privacy",
+				showExternalLink: true
 			)
 		}
 		.accessibilityIdentifier("settings.about_this_app.privacy")
