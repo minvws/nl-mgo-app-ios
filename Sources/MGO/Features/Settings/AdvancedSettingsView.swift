@@ -64,7 +64,7 @@ struct AdvancedSettingsView: View {
 			viewModel.reduce(.bypassPincode(newValue))
 		}
 		.backportScrollContentBackground(.hidden)
-		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
+		.backportContentMargins(ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("settings.heading") {
 			viewModel.reduce(.backButtonPressed)

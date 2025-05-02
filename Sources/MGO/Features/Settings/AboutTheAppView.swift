@@ -108,7 +108,7 @@ struct AboutTheAppView: View {
 			}
 		}
 		.backportScrollContentBackground(.hidden)
-		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
+		.backportContentMargins(ViewTraits.Navigation.padding)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("settings.heading") {

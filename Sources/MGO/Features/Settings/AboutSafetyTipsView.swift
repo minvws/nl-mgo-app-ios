@@ -65,7 +65,7 @@ struct AboutSafetyTipsView: View {
 			.listRowInsets(ViewTraits.General.inset)
 		}
 		.backportScrollContentBackground(.hidden)
-		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
+		.backportContentMargins(ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)
