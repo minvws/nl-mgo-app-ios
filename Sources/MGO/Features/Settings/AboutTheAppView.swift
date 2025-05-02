@@ -166,7 +166,7 @@ struct AboutTheAppView: View {
 		)
 		.listRowInsets(ViewTraits.General.inset)
 		.alert("settings.about_this_app.version", isPresented: $viewModel.showSharedCoreVersionDialog) {
-			Button("common.ok") { /* no action available */ }
+			Button(String(localized: "common.ok").uppercased()) { /* no action available */ }
 				.accessibilityIdentifier("common.ok")
 		} message: {
 			Text(viewModel.sharedCoreVersion ?? "")
