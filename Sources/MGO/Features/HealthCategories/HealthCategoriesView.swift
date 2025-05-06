@@ -349,7 +349,7 @@ struct HealthCategoriesView: View {
 			} else {
 				categoriesView()
 					.backportListSectionSpacing(ViewTraits.List.spacing)
-					.backportVerticalContentMargins(0)
+					.backportContentMargins(0)
 					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 			}
 		} // VStack

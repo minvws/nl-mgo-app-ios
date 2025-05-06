@@ -56,7 +56,7 @@ struct AboutAccessibilityView: View {
 			.padding(ViewTraits.General.padding)
 		}
 		.backportScrollContentBackground(.hidden)
-		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
+		.backportContentMargins(ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)

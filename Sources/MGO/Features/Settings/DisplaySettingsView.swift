@@ -45,6 +45,7 @@ struct DisplaySettingsView: View {
 					.accessibilityIdentifier("settings.display.light")
 				displayModeOption("settings.display.dark", appearance: .dark)
 					.accessibilityIdentifier("settings.display.dark")
+				
 			} footer: {
 				Text(shouldLayoutForiPad ? "settings.display.footer_ipad" : "settings.display.footer")
 					.rijksoverheidStyle(font: .regular, style: .callout)
@@ -52,7 +53,7 @@ struct DisplaySettingsView: View {
 			}
 		}
 		.backportScrollContentBackground(.hidden)
-		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
+		.backportContentMargins(ViewTraits.Navigation.padding, edges: .top)
 		.navigationTitle("settings.display.heading")
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationBarBackButtonHidden()

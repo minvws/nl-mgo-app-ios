@@ -108,7 +108,7 @@ struct AboutTheAppView: View {
 			}
 		}
 		.backportScrollContentBackground(.hidden)
-		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
+		.backportContentMargins(ViewTraits.Navigation.padding)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("settings.heading") {
@@ -166,7 +166,7 @@ struct AboutTheAppView: View {
 		)
 		.listRowInsets(ViewTraits.General.inset)
 		.alert("settings.about_this_app.version", isPresented: $viewModel.showSharedCoreVersionDialog) {
-			Button("common.ok") { /* no action available */ }
+			Button(String(localized: "common.ok").uppercased()) { /* no action available */ }
 				.accessibilityIdentifier("common.ok")
 		} message: {
 			Text(viewModel.sharedCoreVersion ?? "")
@@ -236,7 +236,8 @@ struct AboutTheAppView: View {
 			viewModel.reduce(.showPrivacy)
 		} label: {
 			SettingsRowView(
-				heading: "settings.about_this_app.privacy"
+				heading: "settings.about_this_app.privacy",
+				showExternalLink: true
 			)
 		}
 		.accessibilityIdentifier("settings.about_this_app.privacy")

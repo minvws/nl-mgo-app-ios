@@ -121,8 +121,9 @@ struct SettingsView: View {
 			logout()
 			reset()
 		}
+	
 		.backportScrollContentBackground(.hidden)
-		.backportVerticalContentMargins(ViewTraits.Navigation.padding)
+		.backportContentMargins(ViewTraits.Navigation.padding)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.navigationTitle("settings.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
@@ -259,7 +260,7 @@ struct SettingsView: View {
 			isPresented: $viewModel.showResetDialog) {
 				Button("common.cancel", role: .cancel) { viewModel.reduce(.cancelDialog) }
 					.accessibilityIdentifier("common.cancel")
-				Button("common.yes", role: .destructive) { viewModel.reduce(.resetApplication) }
+				Button("settings.reset_app.dialog.action", role: .destructive) { viewModel.reduce(.resetApplication) }
 					.accessibilityIdentifier("common.yes")
 			} message: {
 				Text("settings.reset_app.dialog.subheading")

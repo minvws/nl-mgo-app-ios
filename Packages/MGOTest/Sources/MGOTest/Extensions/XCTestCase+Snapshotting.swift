@@ -17,13 +17,20 @@ extension XCTestCase {
 	///   - name: The name of the test
 	///   - precision: the precision to check against (0.99 means 1% pixel difference)
 	///   - file: the file
-	public func takeSnapShots(content: some View, name: String = #function, precision: Float = 1.0, file: StaticString = #file) {
+	///   - isRecording: true if we should record new snapshots
+	public func takeSnapShots(
+		content: some View,
+		name: String = #function,
+		precision: Float = 1.0,
+		file: StaticString = #file,
+		isRecording: Bool = false) {
 		
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPhone16Pro(.portrait), precision: precision),
 			named: "_darkPortrait",
+			record: isRecording,
 			file: file,
 			testName: name
 		)
@@ -33,6 +40,7 @@ extension XCTestCase {
 			of: UIHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPhone16Pro(.portrait), precision: precision),
 			named: "_lightPortrait",
+			record: isRecording,
 			file: file,
 			testName: name
 		)
@@ -42,6 +50,7 @@ extension XCTestCase {
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPhone16Pro(.landscape), precision: precision),
 			named: "_darkLandscape",
+			record: isRecording,
 			file: file,
 			testName: name
 		)
@@ -51,6 +60,7 @@ extension XCTestCase {
 			of: UIHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPhone16Pro(.landscape), precision: precision),
 			named: "_lightLandscape",
+			record: isRecording,
 			file: file,
 			testName: name
 		)
@@ -62,13 +72,20 @@ extension XCTestCase {
 	///   - name: The name of the test
 	///   - precision: the precision to check against (0.99 means 1% pixel difference)
 	///   - file: the file
-	public func takeSnapShotsForiPad(content: some View, name: String = #function, precision: Float = 1.0, file: StaticString = #file) {
+	///   - isRecording: true if we should record new snapshots
+	public func takeSnapShotsForiPad(
+		content: some View,
+		name: String = #function,
+		precision: Float = 1.0,
+		file: StaticString = #file,
+		isRecording: Bool = false) {
 		
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPadPro11(.portrait), precision: precision),
 			named: "_iPad_darkPortrait",
+			record: isRecording,
 			file: file,
 			testName: name
 		)
@@ -78,6 +95,7 @@ extension XCTestCase {
 			of: UIHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPadPro11(.portrait), precision: precision),
 			named: "_iPad_lightPortrait",
+			record: isRecording,
 			file: file,
 			testName: name
 		)
@@ -87,6 +105,7 @@ extension XCTestCase {
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
 			as: .image(on: .iPadPro11(.landscape), precision: precision),
 			named: "_iPad_darkLandscape",
+			record: isRecording,
 			file: file,
 			testName: name
 		)
@@ -96,6 +115,7 @@ extension XCTestCase {
 			of: UIHostingController(rootView: content.colorScheme(.light)),
 			as: .image(on: .iPadPro11(.landscape), precision: precision),
 			named: "_iPad_lightLandscape",
+			record: isRecording,
 			file: file,
 			testName: name
 		)
