@@ -49,7 +49,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_forIntroduction() throws {
@@ -62,7 +62,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_forProposition() throws {
@@ -75,7 +75,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_forPinCodeEntry() throws {
@@ -89,7 +89,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_forPinCodeEntry_withoutBackbutton() throws {
@@ -103,7 +103,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_forPinCodeConfirmation() throws {
@@ -117,7 +117,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_forPinCodeValidation() throws {
@@ -132,7 +132,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_forBioMetricSetup() throws {
@@ -146,7 +146,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_forLogin() throws {
@@ -160,7 +160,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_forLoginInfo() throws {
@@ -174,7 +174,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_forgotPinCode() throws {
@@ -187,7 +187,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_accountRemoved() throws {
@@ -200,7 +200,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		let content = NavigationView { view }
 		
 		// Then
-		takeSnapShots(content: content )
+		takeSnapShots(content: content)
 	}
 	
 	func test_coordinatorView_forDashboard() throws {

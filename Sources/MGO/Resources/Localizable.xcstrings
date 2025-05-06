@@ -461,7 +461,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Annuleren"
+            "value" : "Annuleer"
           }
         }
       }
@@ -2554,6 +2554,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voorkeuren"
+          }
+        }
+      }
+    },
+    "settings.reset_app.dialog.action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stel opnieuw in"
           }
         }
       }
