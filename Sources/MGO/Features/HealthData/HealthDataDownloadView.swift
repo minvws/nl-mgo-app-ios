@@ -250,6 +250,7 @@ struct HealthDataDownloadView: View {
 					}
 					.fullScreenCover(isPresented: $viewModel.showPreview) {
 						DocumentPreviewController($viewModel.showPreview, failedToOpen: $failedToOpenPreview, url: documentUrl)
+							.background(theme.backgroundPrimary)
 					}
 					.onChange(of: failedToOpenPreview) { newValue in
 						if newValue {
