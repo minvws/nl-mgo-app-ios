@@ -261,7 +261,7 @@ struct SettingsView: View {
 				Button("common.cancel", role: .cancel) { viewModel.reduce(.cancelDialog) }
 					.accessibilityIdentifier("common.cancel")
 				Button("settings.reset_app.dialog.action", role: .destructive) { viewModel.reduce(.resetApplication) }
-					.accessibilityIdentifier("common.yes")
+					.accessibilityIdentifier("settings.reset_app.dialog.action")
 			} message: {
 				Text("settings.reset_app.dialog.subheading")
 			}

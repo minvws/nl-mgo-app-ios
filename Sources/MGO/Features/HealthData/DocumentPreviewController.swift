@@ -27,7 +27,7 @@ struct DocumentPreviewController: UIViewControllerRepresentable {
 		controller.dataSource = context.coordinator
 		controller.delegate = context.coordinator
 		
-		controller.navigationItem.leftBarButtonItem = UIBarButtonItem(
+		controller.navigationItem.rightBarButtonItem = UIBarButtonItem(
 			barButtonSystemItem: .done, target: context.coordinator,
 			action: #selector(context.coordinator.dismiss)
 		)
