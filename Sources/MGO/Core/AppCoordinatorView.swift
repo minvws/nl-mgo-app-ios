@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  Copyright (c) 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2
  *
  *  SPDX-License-Identifier: EUPL-1.2
@@ -16,6 +16,9 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	/// Closure used the handle inspection
 	var didAppear: ((Self) -> Void)?
 	
+	/// Should we show the alert after a screenshot was taken?§
+	@State private var showScreenshotAlert = false
+	
 	/// Initializer
 	/// - Parameter appCoordinator: An AppCoordinatorProtocol class
 	init(appCoordinator: T) {
@@ -29,6 +32,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 				.fullScreenCover(isPresented: $appCoordinator.rootStateForSheet.presence(), content: {
 					sheetContent(withCloseButton: false)
 				})
+				.screenshotAlert()
 		} else {
 			
 			NavigationStackBackport.NavigationStack(path: $appCoordinator.path) {
@@ -66,6 +70,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 					)
 				)
 			}
+			.screenshotAlert()
 		}
 	}
 	
