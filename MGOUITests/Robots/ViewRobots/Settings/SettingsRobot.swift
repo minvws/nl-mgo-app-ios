@@ -37,7 +37,7 @@ class SettingsRobot: Robot {
 	}
 
 	private var alertOkButton: XCUIElement {
-		app.buttons["common.yes"]
+		app.buttons["settings.reset_app.dialog.action"]
 	}
 	
 	private var displayButton: XCUIElement {

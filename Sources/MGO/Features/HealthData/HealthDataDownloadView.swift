@@ -248,9 +248,10 @@ struct HealthDataDownloadView: View {
 							viewModel.showPreview = true
 						}
 					}
-					.fullScreenCover(isPresented: $viewModel.showPreview) {
+					.sheet(isPresented: $viewModel.showPreview) {
 						DocumentPreviewController($viewModel.showPreview, failedToOpen: $failedToOpenPreview, url: documentUrl)
 							.background(theme.backgroundPrimary)
+							.interactiveDismissDisabled(true)
 					}
 					.onChange(of: failedToOpenPreview) { newValue in
 						if newValue {
