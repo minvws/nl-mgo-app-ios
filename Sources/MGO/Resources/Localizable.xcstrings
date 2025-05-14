@@ -615,7 +615,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ok"
+            "value" : "OK"
           }
         }
       }
@@ -2046,6 +2046,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ja, verwijderen"
+          }
+        }
+      }
+    },
+    "screenshotalert.action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Begrepen"
+          }
+        }
+      }
+    },
+    "screenshotalert.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screenshot gemaakt"
+          }
+        }
+      }
+    },
+    "screenshotalert.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt een afbeelding van medische gegevens opgeslagen. Wees voorzichtig met delen of opslaan."
           }
         }
       }
