@@ -168,4 +168,4 @@ Note that all commits should be signed using a [gpg key](https://docs.github.com
 
 ## License
 
-This repository follows the [REUSE Specfication v3.0](https://reuse.software/spec/). Please see [.reuse/dep5](./.reuse/dep5) and the individual `*.license` files for copyright and license information.
+This repository follows the [REUSE Specfication v3.0](https://reuse.software/spec/). Please see [REUSE.toml](./REUSE.toml) and the individual `*.license` files for copyright and license information.
