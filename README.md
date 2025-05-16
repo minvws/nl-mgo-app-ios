@@ -9,6 +9,25 @@ This repository contains the iOS release of the My Health Overview project.
 
 See minvws/**[nl-rdo-mgo-coordination-private](https://github.com/minvws/nl-rdo-mgo-coordination-private)** for further technical documentation.
 
+## Disclaimer
+
+This project and all associated code serve solely as documentation
+and demonstration purposes to illustrate potential system
+communication patterns and architectures.
+
+This codebase:
+
+- Is NOT intended for production use
+- Does NOT represent a final specification
+- Should NOT be considered feature-complete or secure
+- May contain errors, omissions, or oversimplified implementations
+- Has NOT been tested or hardened for real-world scenarios
+
+The code examples are only meant to help understand concepts and demonstrate possibilities.
+
+By using or referencing this code, you acknowledge that you do so at your own
+risk and that the authors assume no liability for any consequences of its use.
+
 ---
 
 ## About the App
@@ -145,8 +164,8 @@ If you plan to make non-trivial changes, we recommend to open an issue beforehan
 
 Note that all commits should be signed using a [gpg key](https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account).
 
- ---
+---
 
 ## License
 
-License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/LICENSE.txt) for details.
+This repository follows the [REUSE Specfication v3.0](https://reuse.software/spec/). Please see [.reuse/dep5](./.reuse/dep5) and the individual `*.license` files for copyright and license information.
