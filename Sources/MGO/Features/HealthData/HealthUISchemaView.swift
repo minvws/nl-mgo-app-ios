@@ -104,8 +104,8 @@ struct HealthUISchemaView: View {
 			case is DownloadLink:
 				viewFor(entry as! DownloadLink, isLastElement: isLastElement) // swiftlint:disable:this force_cast
 			default:
-//				Text(entry.elementType)
 				EmptyView()
+				.logWarning("UISchemaView - unknown type", entry.elementType)
 		}
 	}
 
@@ -183,14 +183,13 @@ struct HealthUISchemaView: View {
 	@ViewBuilder private func viewFor(_ referenceValue: ReferenceValue, isLastElement: Bool) -> some View {
 		
 		if let reference = referenceValue.reference,
-			resolvedReferences[reference] == true,
-			let display = referenceValue.display {
+			resolvedReferences[reference] == true {
 
 			Button {
 				self.referenceTapped?(reference)
 			} label: {
 				viewFor(
-					display,
+					referenceValue.display ?? referenceValue.reference,
 					heading: referenceValue.label,
 					showDivider: !isLastElement,
 					showChevron: true
@@ -265,8 +264,14 @@ struct HealthUISchemaView: View {
 	///   - value: the value to display
 	///   - heading: the heading to display
 	///   - showDivider: True if we should show a divider at the bottom
+	///   - showChevron: True if we should show a chevron at the right side
 	/// - Returns: Row View
-	@ViewBuilder func viewFor(_ value: String?, heading: String?, showDivider: Bool = true, showChevron: Bool = false) -> some View {
+	@ViewBuilder func viewFor(
+		_ value: String?,
+		heading: String?,
+		showDivider: Bool = true,
+		showChevron: Bool = false
+	) -> some View {
 		
 		HStack(alignment: .center, spacing: 0) {
 			
