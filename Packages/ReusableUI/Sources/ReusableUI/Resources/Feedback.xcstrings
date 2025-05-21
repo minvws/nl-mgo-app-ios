@@ -1,0 +1,66 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "banner_close" : {
+      "comment" : "VoiceOver for close icon",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sluit mededeling"
+          }
+        }
+      }
+    },
+    "banner_error" : {
+      "comment" : "VoiceOver for error icon",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mededeling Fout!"
+          }
+        }
+      }
+    },
+    "banner_info" : {
+      "comment" : "VoiceOver for info icon",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mededeling Informatie"
+          }
+        }
+      }
+    },
+    "banner_success" : {
+      "comment" : "VoiceOver for success icon",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mededeling Succes!"
+          }
+        }
+      }
+    },
+    "banner_warning" : {
+      "comment" : "VoiceOver for warning icon",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mededeling Let op!"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

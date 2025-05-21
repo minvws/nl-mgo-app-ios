@@ -1,0 +1,17 @@
+{
+	"label": "MultipleValue Multiple Entries",
+	"children": [
+		{
+			"label": "Section for a multiple values with multiple entries",
+			"children": [
+				{
+					"label": "The label",
+					"display": ["First Entry in an array", "Second Entry in an array"],
+					"type": "MULTIPLE_VALUES",
+					"reference": null,
+					"url": null
+				}
+			]
+		}
+	]
+}

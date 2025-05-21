@@ -1,0 +1,17 @@
+{
+	"label": "Single Entry No Section Header",
+	"children": [
+		{
+			"children": [
+				{
+					"label": "The label",
+					"display": "Single Entry",
+					"type": "SINGLE_VALUE",
+					"reference": null,
+					"url": null
+				}
+			],
+			"label": null
+		}
+	]
+}

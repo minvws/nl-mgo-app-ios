@@ -1,0 +1,28 @@
+{
+	"id": "3c77bb22-795d-4e5e-815e-1db080fca69f",
+	"referenceId": "Condition/3c77bb22-795d-4e5e-815e-1db080fca69f",
+	"resourceType": "Condition",
+	"profile": "http://nictiz.nl/fhir/StructureDefinition/zib-Problem",
+	"fhirVersion": "R3",
+	"identifier": [
+		{
+			"system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6",
+			"value": "2d74f3ac-e3e4-11eb-7881-020000000000"
+		}
+	],
+	"clinicalStatus": "active",
+	"code": {
+		"coding": [
+			{
+				"code": "G12.2",
+				"display": "Amyotrofe laterale sclerose",
+				"system": "urn:oid:2.16.840.1.113883.6.90"
+			}
+		]
+	},
+	"subject": {
+		"reference": "Patient/93cde269-ce35-4077-a39d-19296670e949",
+		"display": "Johan XXX_Helleman"
+	},
+	"stage": {}
+}

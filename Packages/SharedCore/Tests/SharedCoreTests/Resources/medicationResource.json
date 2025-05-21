@@ -1,0 +1,106 @@
+{
+	"id": "cafa8f45-74bc-4107-a6f8-6eb58c6ed670",
+	"category": {
+		"coding": [
+			{
+				"system": "urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3",
+				"display": "Medicatiegebruik",
+				"code": "6"
+			}
+		]
+	},
+	"subject": {
+		"display": "Johan XXX_Helleman",
+		"reference": "Patient/93cde269-ce35-4077-a39d-19296670e949"
+	},
+	"taken": "y",
+	"resourceType": "MedicationStatement",
+	"dateAsserted": "2018-08-16",
+	"identifier": [
+		{
+			"system": "http://example-implementer.com/fhir/MedicationUseID",
+			"value": "123457000000"
+		}
+	],
+	"informationSource": {
+		"display": "Johan XXX_Helleman",
+		"reference": "Patient/93cde269-ce35-4077-a39d-19296670e949"
+	},
+	"dosage": [
+		{
+			"sequence": 1,
+			"timing": {
+				"repeat": {
+					"periodUnit": "d",
+					"period": 1,
+					"frequency": 1
+				}
+			},
+			"doseQuantity": {
+				"code": "245",
+				"value": 1,
+				"system": "urn:oid:2.16.840.1.113883.2.4.4.1.900.2",
+				"unit": "stuk"
+			},
+			"route": {
+				"coding": [
+					{
+						"system": "urn:oid:2.16.840.1.113883.2.4.4.9",
+						"display": "Oraal",
+						"code": "9"
+					}
+				]
+			},
+			"text": "1 maal per dag 1 tablet, oraal"
+		}
+	],
+	"meta": {
+		"profile": [
+			"http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"
+		],
+		"versionId": "1",
+		"extension": [
+			{
+				"url": "http://hapifhir.io/fhir/StructureDefinition/resource-meta-source",
+				"valueUri": "#0687da8460e3bc76"
+			}
+		],
+		"lastUpdated": "2023-06-22T05:04:29.976+00:00"
+	},
+	"text": {
+		"status": "extensions",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><caption>MedicationStatement. Subject: Johan XXX_Helleman. Id: 123457000000 (http://example-implementer.com/fhir/MedicationUseID), Categorie:                               \n          <span title=\"Medicatiegebruik (6 - 2.16.840.1.113883.2.4.3.11.60.20.77.5.3)\">Medicatiegebruik</span>, Status: actief                        \n        </caption><tbody><tr><th>Voorschrijver</th><td>Huisartsen, niet nader gespecificeerd</td></tr><tr><th>Medicatie</th><td>Zestril tablet 10mg</td></tr><tr><th>Datum/tijd</th><td>Vanaf 28 juni 2018, 3 week</td></tr><tr><th>Informant</th><td>16 augustus 2018 - Johan XXX_Helleman</td></tr><tr><th>Dosering</th><td><div>Volgnummer: 1</div><div>Tekst: 1 maal per dag 1 tablet, oraal</div><div>Timing:                                                 \n                <div>eenmalig per dag</div></div><div>Toedieningsweg:                                                 \n                <span title=\"Oraal (9 - G-Standaard thesaurus subtabel 0007)\">Oraal</span></div><div>Dosering: 1 stuk</div></td></tr><tr><th>Medicatie gebruikt</th><td>ja</td></tr></tbody></table></div>"
+	},
+	"extension": [
+		{
+			"url": "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse-AsAgreedIndicator",
+			"valueBoolean": true
+		},
+		{
+			"url": "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse-Prescriber",
+			"valueReference": {
+				"display": "Huisartsen, niet nader gespecificeerd",
+				"reference": "PractitionerRole/1a249336-3fe7-488f-bc88-44bc8e1ad2aa"
+			}
+		}
+	],
+	"effectivePeriod": {
+		"start": "2018-06-28",
+		"extension": [
+			{
+				"url": "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse-Duration",
+				"valueDuration": {
+					"code": "wk",
+					"value": 3,
+					"system": "http://unitsofmeasure.org",
+					"unit": "week"
+				}
+			}
+		]
+	},
+	"status": "active",
+	"medicationReference": {
+		"display": "Zestril tablet 10mg",
+		"reference": "Medication/8f017a48-fdab-42f5-a2d7-f7bb6d84a762"
+	}
+}

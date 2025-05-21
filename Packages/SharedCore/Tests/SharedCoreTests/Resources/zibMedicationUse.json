@@ -1,0 +1,142 @@
+{
+  "id": "zib-medicationuse-01",
+  "referenceId": "MedicationStatement/zib-medicationuse-01",
+  "resourceType": "MedicationStatement",
+  "profile": "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse",
+  "fhirVersion": "R3",
+  "asAgreedIndicator": true,
+  "prescriber": null,
+  "author": {
+	"reference": "PractitionerRole/nl-core-practitionerrole-02",
+	"display": "Vaste Huisarts 1 || Huisartsen || Maatschap Vaste Huisarts"
+  },
+  "medicationTreatment": {
+	"use": null,
+	"system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.77.1.1",
+	"value": "#MB_01i1",
+	"type": null
+  },
+  "reasonForChangeOrDiscontinuationOfUse": null,
+  "repeatPeriodCyclicalSchedule": null,
+  "identifier": [
+	{
+	  "use": null,
+	  "system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.77.6.1",
+	  "value": "#MB_01i1#GE_01",
+	  "type": null
+	},
+	{
+	  "use": null,
+	  "system": "urn:oid:2.16.840.1.113883.2.4.3.11.999.7.6",
+	  "value": "1bfa2275-8fdf-11ec-2032-020000000000",
+	  "type": null
+	}
+  ],
+  "status": "completed",
+  "category": {
+	"text": "Medicatiegebruik",
+	"coding": [
+	  {
+		"code": "6",
+		"display": "Medicatiegebruik",
+		"system": "urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3"
+	  }
+	]
+  },
+  "medicationReference": {
+	"reference": "Medication/zib-Product-02",
+	"display": "PARACETAMOL TABLET 500MG"
+  },
+  "effectivePeriod": {
+	"start": "2020-07-21",
+	"end": null
+  },
+  "effectiveDuration": {
+	"value": 30,
+	"comparator": null,
+	"unit": "dag",
+	"system": "http://unitsofmeasure.org",
+	"code": "d"
+  },
+  "dateAsserted": "2020-07-21",
+  "informationSource": null,
+  "subject": {
+	"reference": "Patient/nl-core-patient-01",
+	"display": "XXX_Helleman"
+  },
+  "taken": "y",
+  "reasonCode": null,
+  "note": null,
+  "dosage": [
+	{
+	  "sequence": 1,
+	  "text": "Vanaf 21 jul 2020, gedurende 30 dagen, zo nodig maal per dag 1 à 2 stuks , maximaal 6 stuks per dag, ORAAL",
+	  "additionalInstruction": null,
+	  "asNeeded": {
+		"text": null,
+		"coding": [
+		  {
+			"code": "1137",
+			"display": "zo nodig",
+			"system": "https://referentiemodel.nhg.org/tabellen/nhg-tabel-25-gebruiksvoorschrift#aanvullend-numeriek"
+		  }
+		]
+	  },
+	  "route": {
+		"text": null,
+		"coding": [
+		  {
+			"code": "9",
+			"display": "ORAAL",
+			"system": "urn:oid:2.16.840.1.113883.2.4.4.9"
+		  }
+		]
+	  },
+	  "doseRange": {
+		"low": {
+		  "value": 1,
+		  "comparator": null,
+		  "unit": "Stuk",
+		  "system": "urn:oid:2.16.840.1.113883.2.4.4.1.900.2",
+		  "code": "245"
+		},
+		"high": {
+		  "value": 2,
+		  "comparator": null,
+		  "unit": "Stuk",
+		  "system": "urn:oid:2.16.840.1.113883.2.4.4.1.900.2",
+		  "code": "245"
+		}
+	  },
+	  "maxDosePerPeriod": {
+		"numerator": {
+		  "value": 6,
+		  "comparator": null,
+		  "unit": "Stuk",
+		  "system": "urn:oid:2.16.840.1.113883.2.4.4.1.900.2",
+		  "code": "245"
+		},
+		"denominator": {
+		  "value": 1,
+		  "comparator": null,
+		  "unit": "dag",
+		  "system": "http://unitsofmeasure.org",
+		  "code": "d"
+		}
+	  },
+	  "timing": {
+		"repeat": {
+		  "duration": null,
+		  "durationUnit": null,
+		  "frequency": null,
+		  "frequencyMax": 4,
+		  "period": 1,
+		  "periodUnit": "d",
+		  "dayOfWeek": null,
+		  "timeOfDay": null,
+		  "when": null
+		}
+	  }
+	}
+  ]
+}

@@ -1,0 +1,48 @@
+direction: down
+
+# Apple
+example-package-figlet: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+swift-argument-parser: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+swift-openapi-runtime: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+swift-http-types: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+
+# Third-Party
+
+github-rest-api-swift-openapi: {
+  shape: hexagon
+}
+
+# The scripts
+
+CopyImport: {
+  shape: document
+}
+GitHubArtifactDownload: {
+  shape: document
+}
+
+CopyImport <- example-package-figlet
+CopyImport <- swift-argument-parser
+
+GitHubArtifactDownload <- example-package-figlet
+GitHubArtifactDownload <- swift-argument-parser
+GitHubArtifactDownload <- github-rest-api-swift-openapi
+GitHubArtifactDownload <- AuthorizationMiddleware
+
+# - Packages -
+
+AuthorizationMiddleware { style.fill: "#ffcc00" }
+AuthorizationMiddleware <- swift-openapi-runtime
+AuthorizationMiddleware <- swift-http-types

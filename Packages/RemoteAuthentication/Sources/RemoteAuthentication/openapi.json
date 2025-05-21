@@ -1,0 +1,119 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+	"title": "proxy",
+	"version": "v0.12.0"
+  },
+  "paths": {
+	"/oidc/start": {
+	  "post": {
+		"tags": [
+		  "OIDC"
+		],
+		"summary": "Oidc Start",
+		"operationId": "oidc_start_post",
+		"requestBody": {
+		  "content": {
+			"application/json": {
+			  "schema": {
+				"$ref": "#/components/schemas/StartRequest"
+			  }
+			}
+		  },
+		  "required": true
+		},
+		"responses": {
+		  "200": {
+			"description": "Successful Response",
+			"content": {
+			  "application/json": {
+				"schema": {
+				  
+				}
+			  }
+			}
+		  },
+		  "422": {
+			"description": "Validation Error",
+			"content": {
+			  "application/json": {
+				"schema": {
+				  "$ref": "#/components/schemas/HTTPValidationError"
+				}
+			  }
+			}
+		  }
+		}
+	  }
+	},
+  },
+  "components": {
+	"schemas": {
+	  "HTTPValidationError": {
+		"properties": {
+		  "detail": {
+			"items": {
+			  "$ref": "#/components/schemas/ValidationError"
+			},
+			"type": "array",
+			"title": "Detail"
+		  }
+		},
+		"type": "object",
+		"title": "HTTPValidationError"
+	  },
+	  "StartRequest": {
+		"properties": {
+		  "client_callback_url": {
+			"type": "string",
+			"minLength": 1,
+			"format": "uri",
+			"title": "Client Callback Url",
+			"description": "The URL where the userinfo response (i.e. RID, personal details) is forwarded to",
+			"examples": [
+			  "https://client.app/oidc/userinfo/callback"
+			]
+		  }
+		},
+		"type": "object",
+		"required": [
+		  "client_callback_url"
+		],
+		"title": "StartRequest"
+	  },
+	  "ValidationError": {
+		"properties": {
+		  "loc": {
+			"items": {
+			  "anyOf": [
+				{
+				  "type": "string"
+				},
+				{
+				  "type": "integer"
+				}
+			  ]
+			},
+			"type": "array",
+			"title": "Location"
+		  },
+		  "msg": {
+			"type": "string",
+			"title": "Message"
+		  },
+		  "type": {
+			"type": "string",
+			"title": "Error Type"
+		  }
+		},
+		"type": "object",
+		"required": [
+		  "loc",
+		  "msg",
+		  "type"
+		],
+		"title": "ValidationError"
+	  }
+	}
+  }
+}

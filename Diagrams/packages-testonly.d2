@@ -1,0 +1,41 @@
+direction: down
+
+# Apple
+XCTest: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+SwiftUI: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+
+# Third Party
+OHHTTPStubs: {
+  shape: hexagon
+}
+Nimble: {
+  shape: hexagon
+}
+SnapshotTesting: {
+  shape: hexagon
+}
+ViewInspector: {
+  shape: hexagon
+}
+
+# The application
+MGOapp: {
+  shape: package
+}
+
+MGOapp <- MGOTest
+
+# - Packages - 
+MGOTest { style.fill: "#ffcc00" }
+MGOTest <- XCTest
+MGOTest <- SwiftUI
+MGOTest <- OHHTTPStubs
+MGOTest <- Nimble
+MGOTest <- SnapshotTesting
+MGOTest <- ViewInspector

@@ -1,0 +1,47 @@
+# Xcode
+#
+
+## Build generated
+.buildinfo
+build/
+DerivedData/
+!*.xcodeproj/xcshareddata/xcschemes
+Carthage
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+
+## Other
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+*.DS_Store
+
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+report.junit
+report.html
+report.xml
+/MGO.xcodeproj/project.pbxproj
+/MGO.xcodeproj/project.xcworkspace/xcshareddata/swiftpm
+/MGO.xcodeproj/xcshareddata
+/MGO.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+/MGO.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+/Brewfile_CI.lock.json
+/Brewfile.lock.json
+/vendor/bundle/
+/.bundle
+.vscode
+/tmp
+Sources/MGO/Info.plist

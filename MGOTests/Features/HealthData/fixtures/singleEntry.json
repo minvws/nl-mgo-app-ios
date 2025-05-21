@@ -1,0 +1,17 @@
+{
+	"label": "Single Entry",
+	"children": [
+		{
+			"label": "Section for a single entry",
+			"children": [
+				{
+					"label": "The label",
+					"display": "Single Entry",
+					"type": "SINGLE_VALUE",
+					"reference": null,
+					"url": null
+				}
+			]
+		}
+	]
+}

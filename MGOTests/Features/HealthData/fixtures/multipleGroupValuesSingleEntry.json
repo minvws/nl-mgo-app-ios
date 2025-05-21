@@ -1,0 +1,17 @@
+{
+	"label": "MultipleGroupValue Single Entry",
+	"children": [
+		{
+			"label": "Section for a multiple group values with just one entry",
+			"children": [
+				{
+					"label": "The label",
+					"display": [["Single Entry in an array"]],
+					"type": "MULTIPLE_GROUPED_VALUES",
+					"reference": null,
+					"url": null
+				}
+			]
+		}
+	]
+}

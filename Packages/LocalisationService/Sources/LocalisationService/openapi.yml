@@ -1,0 +1,255 @@
+openapi: 3.1.0
+info:
+  title: LOAD
+  version: 0.8.0
+servers:
+  - url: https://lo-ad.test.mgo.irealisatie.nl
+    description: MGO TEST localisation
+  - url: https://lo-ad.acc.mgo.irealisatie.nl
+    description: MGO Acceptance localisation
+paths:
+  "localization/organization/search":
+    post:
+      tags:
+      - localization
+      summary: Search for organizations based on the search parameters
+      description: Returns a list of organizations based on the search parameters
+      operationId: read_item_localization_organization_search_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchRequest"
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  "localization/organization/search-demo":
+    post:
+      tags:
+      - localization
+      summary: Demo Healthcare Providers
+      operationId: demo_healthcare_providers_localization_organization_search_demo_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+components:
+  schemas:
+    Address:
+      properties:
+        active:
+          type: [boolean, null]
+          title: Active
+        address:
+          type: [string, null]
+          title: Address
+        city:
+          type: string
+          title: City
+        country:
+          type: [string, null]
+          title: Country
+        lines:
+          items:
+            type: [string, null]
+          type: array
+          title: Lines
+        geolocation:
+          schema:
+            $ref: "$#/components/schemas/GeoLocation"
+          title: GeoLocation
+        postalcode:
+          type: [string, null]
+          title: Postalcode
+        state:
+          type: [string, null]
+          title: State
+        type:
+          type: string
+          title: Type
+      type: object
+      required:
+      - city
+      - country
+      - type
+      title: Address
+    CType:
+      properties:
+        code:
+          type: string
+          title: Code
+        display_name:
+          type: string
+          title: Display Name
+        type:
+          type: string
+          title: Type
+      type: object
+      required:
+      - code
+      - display_name
+      - type
+      title: CType
+    GeoLocation:
+      properties:
+        latitude:
+          type: number
+          title: Latitude
+        longitude:
+          type: number
+          title: Longitude
+      type: object
+      required:
+      - latitude
+      - longitude
+      title: GeoLocation
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: "#/components/schemas/ValidationError"
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Organization:
+      properties:
+        medmij_id:
+          type: [string, null]
+          title: Medmij Id
+        display_name:
+          type: string
+          title: Display Name
+        identification:
+          type: string
+          title: Identification
+        active:
+          type: [boolean, null]
+          title: Active
+        addresses:
+          items:
+            $ref: "#/components/schemas/Address"
+          type: array
+          title: Addresses
+          default: []
+        types:
+          items:
+            $ref: "#/components/schemas/CType"
+          type: array
+          title: Types
+        data_services:
+          items:
+            "$ref": "#/components/schemas/ZalDataServiceResponse"
+          type: array
+          title: Data Services
+          default: []
+      type: object
+      required:
+      - medmij_id
+      - display_name
+      - identification
+      - types
+      title: Organization
+    SearchRequest:
+      properties:
+        name:
+          type: [string, null]
+          title: Name
+        city:
+          type: [string, null]
+          title: City
+      type: object
+      title: SearchRequest
+    SearchResponse:
+      properties:
+        organizations:
+          items:
+            $ref: "#/components/schemas/Organization"
+          type: array
+          title: Organizations
+      type: object
+      default: []
+      required:
+      - organizations
+      title: SearchResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ZalDataServiceResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        interface_versions:
+          items:
+            type: string
+          type: array
+          title: Interface versions
+        auth_endpoint:
+          type: string
+          title: Auth Endpoint
+        token_endpoint:
+          type: string
+          title: Token Endpoint
+        roles:
+          items:
+            $ref: "#/components/schemas/ZalDataServiceRoleResponse"
+          type: array
+          title: Roles
+      type: object
+      required:
+      - id
+      - name
+      - interface_versions
+      - auth_endpoint
+      - token_endpoint
+      - roles
+      title: ZalDataServiceResponse
+    ZalDataServiceRoleResponse:
+      properties:
+        code:
+          type: string
+          title: Code
+        resource_endpoint:
+          type: string
+          title: Resource Endpoint
+      type: object
+      required:
+      - code
+      - resource_endpoint
+      title: ZalDataServiceRoleResponse

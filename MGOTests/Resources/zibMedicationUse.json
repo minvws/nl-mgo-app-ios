@@ -1,0 +1,77 @@
+{
+	"id": "cafa8f45-74bc-4107-a6f8-6eb58c6ed670",
+	"referenceId": "MedicationStatement/cafa8f45-74bc-4107-a6f8-6eb58c6ed670",
+	"resourceType": "MedicationStatement",
+	"profile": "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse",
+	"fhirVersion": "R3",
+	"asAgreedIndicator": true,
+	"prescriber": {
+		"reference": "PractitionerRole/1a249336-3fe7-488f-bc88-44bc8e1ad2aa",
+		"display": "Huisartsen, niet nader gespecificeerd"
+	},
+	"identifier": [
+		{
+			"system": "http://example-implementer.com/fhir/MedicationUseID",
+			"value": "123457000000"
+		}
+	],
+	"status": "active",
+	"category": {
+		"coding": [
+			{
+				"code": "6",
+				"display": "Medicatiegebruik",
+				"system": "urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3"
+			}
+		]
+	},
+	"medicationReference": {
+		"reference": "Medication/8f017a48-fdab-42f5-a2d7-f7bb6d84a762",
+		"display": "Zestril tablet 10mg"
+	},
+	"effectivePeriod": {
+		"start": "2018-06-28"
+	},
+	"effectiveDuration": {
+		"value": 3,
+		"unit": "week",
+		"system": "http://unitsofmeasure.org",
+		"code": "wk"
+	},
+	"dateAsserted": "2018-08-16",
+	"informationSource": {
+		"reference": "Patient/93cde269-ce35-4077-a39d-19296670e949",
+		"display": "Johan XXX_Helleman"
+	},
+	"subject": {
+		"reference": "Patient/93cde269-ce35-4077-a39d-19296670e949",
+		"display": "Johan XXX_Helleman"
+	},
+	"taken": "y",
+	"dosage": [
+		{
+			"sequence": 1,
+			"text": "1 maal per dag 1 tablet, oraal",
+			"route": {
+				"coding": [
+					{
+						"code": "9",
+						"display": "Oraal",
+						"system": "urn:oid:2.16.840.1.113883.2.4.4.9"
+					}
+				]
+			},
+			"doseQuantity": {
+				"value": 1,
+				"unit": "stuk",
+				"system": "urn:oid:2.16.840.1.113883.2.4.4.1.900.2",
+				"code": "245"
+			},
+			"timing": {
+				"frequency": 1,
+				"period": 1,
+				"periodUnit": "d"
+			}
+		}
+	]
+}

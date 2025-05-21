@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "health_and_safety.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

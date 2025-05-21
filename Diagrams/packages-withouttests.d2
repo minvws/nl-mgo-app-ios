@@ -1,0 +1,197 @@
+direction: down
+
+# Apple
+UIKit: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+SwiftUI: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+Webkit: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+Foundation: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+CommonCrypto: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+CoreGraphics: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+CoreText: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+JavaScriptCore: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+swift-openapi-generator: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+swift-openapi-runtime: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+swift-openapi-urlsession: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+swift-http-types: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+QuickLook {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
+
+# Third-Party
+NavigationStackBackport: {
+  shape: hexagon
+}
+iOSSecuritySuite: {
+  shape: hexagon
+}
+Logging: {
+  shape: hexagon
+}
+DeviceKit: {
+  shape: hexagon
+}
+OHHTTPStubs: {
+  shape: hexagon
+}
+SwiftSoup: {
+  shape: hexagon
+}
+SwiftUIIntrospect: {
+  shape: hexagon
+}
+
+# The application
+
+MGOapp: {
+  shape: package
+}
+
+MGOapp <- MGODebug
+MGOapp <- MGOFoundation
+MGOapp <- MGOUI
+MGOapp <- QuickLook
+MGOapp <- RestrictedBrowser
+MGOapp <- UIKit
+
+# - Packages -
+
+AuthorizationMiddleware { style.fill: "#ffcc00" }
+AuthorizationMiddleware <- swift-openapi-runtime
+AuthorizationMiddleware <- swift-http-types
+
+FHIRClient { style.fill: "#ffcc00" }
+
+FeatureFlag { style.fill: "#ffcc00" }
+
+FileStorage { style.fill: "#ffcc00" }
+FileStorage <- MGODebug
+
+JailBreakDetector { style.fill: "#ffcc00" }
+JailBreakDetector <- iOSSecuritySuite
+
+LocalAuthenticationProvider { style.fill: "#ffcc00" }
+
+LocalisationService { style.fill: "#ffcc00" }
+LocalisationService <- AuthorizationMiddleware
+LocalisationService <- FileStorage
+LocalisationService <- MGODebug
+LocalisationService <- Observatory
+LocalisationService <- swift-openapi-generator
+LocalisationService <- swift-openapi-runtime
+LocalisationService <- swift-openapi-urlsession
+
+MGODebug { style.fill: "#ffcc00" }
+MGODebug <- Logging
+
+MGOFoundation { style.fill: "#ffcc00" }
+MGOFoundation <- FeatureFlag
+MGOFoundation <- Foundation
+MGOFoundation <- JailBreakDetector
+MGOFoundation <- LocalAuthenticationProvider
+MGOFoundation <- LocalisationService
+MGOFoundation <- MGODebug
+MGOFoundation <- MGORepository
+MGOFoundation <- NotificationCenter
+MGOFoundation <- Observatory
+MGOFoundation <- OHHTTPStubs
+MGOFoundation <- Sanitizer
+MGOFoundation <- SecureUserSettings
+MGOFoundation <- RemoteAuthentication
+MGOFoundation <- RemoteConfiguration
+
+MGOUI { style.fill: "#ffcc00" }
+MGOUI <- DeviceKit
+MGOUI <- NavigationStackBackport
+MGOUI <- ReusableUI
+MGOUI <- SwiftUI
+
+MGORepository  { style.fill: "#ffcc00" }
+MGORepository <- FHIRClient
+MGORepository <- Observatory
+MGORepository <- SharedCore
+
+NotificationCenter { style.fill: "#ffcc00" }
+NotificationCenter <- UIKit
+
+Observatory { style.fill: "#ffcc00" }
+
+RemoteAuthentication { style.fill: "#ffcc00" }
+RemoteAuthentication <- AuthorizationMiddleware
+RemoteAuthentication <- swift-openapi-generator
+RemoteAuthentication <- swift-openapi-runtime
+RemoteAuthentication <- swift-openapi-urlsession
+
+RemoteConfiguration { style.fill: "#ffcc00" }
+RemoteConfiguration <- FileStorage
+RemoteConfiguration <- MGODebug
+RemoteConfiguration <- Observatory
+RemoteConfiguration <- swift-openapi-generator
+RemoteConfiguration <- swift-openapi-runtime
+RemoteConfiguration <- swift-openapi-urlsession
+
+RestrictedBrowser { style.fill: "#ffcc00" }
+RestrictedBrowser <- SwiftUI
+RestrictedBrowser <- Theme
+RestrictedBrowser <- WebKit
+
+ReusableUI { style.fill: "#ffcc00" }
+ReusableUI <- RijksoverheidFont
+ReusableUI <- SwiftUI
+ReusableUI <- SwiftUIIntrospect
+ReusableUI <- Theme
+
+RijksoverheidFont { style.fill: "#ffcc00" }
+RijksoverheidFont <- CoreGraphics
+RijksoverheidFont <- CoreText
+RijksoverheidFont <- DeviceKit
+RijksoverheidFont <- SwiftUI
+
+Sanitizer { style.fill: "#ffcc00" }
+Sanitizer <- SwiftSoup
+
+SecureUserSettings { style.fill: "#ffcc00" }
+SecureUserSettings <- CommonCrypto
+
+SharedCore { style.fill: "#ffcc00" }
+SharedCore <- JavaScriptCore
+SharedCore <- MGODebug
+
+Theme { style.fill: "#ffcc00" }
+Theme <- SwiftUI

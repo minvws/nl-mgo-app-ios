@@ -1,0 +1,88 @@
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+name: "Deploy: Firebase (manual)"
+
+on:
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "Build MGO Test"
+        type: boolean
+        default: true
+        required: false
+      acc:
+        description: "Build MGO ACC"
+        type: boolean
+        default: true
+        required: false
+      demo:
+        description: "Build MGO Demo"
+        type: boolean
+        default: true
+        required: false
+      prod:
+        description: "Build MGO Prod"
+        type: boolean
+        default: true
+        required: false
+
+jobs:
+  firebase-deploy-test:
+    if: ${{ github.event.inputs.test == 'true' }}
+    uses: ./.github/workflows/template_firebase-deploy.yml
+    with:
+      fastlane_command: bundle exec fastlane ios deploy_test_ci
+      app_title: Test MGO App
+      app_filename: MGO Test
+    secrets:
+      DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
+      DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SLACK_URL: ${{ secrets.SLACK_URL }}
+      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
+
+  firebase-deploy-acc:
+    if: ${{ github.event.inputs.acc == 'true' }}
+    uses: ./.github/workflows/template_firebase-deploy.yml
+    with:
+      fastlane_command: bundle exec fastlane ios deploy_acc_ci
+      app_title: Acc MGO App
+      app_filename: MGO ACC
+    secrets:
+      DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
+      DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SLACK_URL: ${{ secrets.SLACK_URL }}
+      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
+
+  firebase-deploy-demo:
+    if: ${{ github.event.inputs.demo == 'true' }}
+    uses: ./.github/workflows/template_firebase-deploy.yml
+    with:
+      fastlane_command: bundle exec fastlane ios deploy_demo_ci
+      app_title: MGO Demo
+      app_filename: MGO Demo
+    secrets:
+      DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
+      DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SLACK_URL: ${{ secrets.SLACK_URL }}
+      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
+
+  firebase-deploy-prod:
+    if: ${{ github.event.inputs.prod == 'true' }}
+    uses: ./.github/workflows/template_firebase-deploy.yml
+    with:
+      fastlane_command: bundle exec fastlane ios deploy_prod_ci
+      app_title: Prod MGO App
+      app_filename: MGO PROD
+    secrets:
+      DIST_CERT_CONTENTS: ${{ secrets.DIST_CERT_CONTENTS }}
+      DIST_CERT_PASSWORD: ${{ secrets.DIST_CERT_PASSWORD }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      SLACK_URL: ${{ secrets.SLACK_URL }}
+      BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
+

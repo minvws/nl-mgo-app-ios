@@ -1,0 +1,65 @@
+# Syntax: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
+name: E2E
+
+on:
+  workflow_dispatch:
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode_16.3.0.app/Contents/Developer
+  FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 180
+  FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
+  
+jobs:
+  test:
+    runs-on: macos-15
+    name: Build & run end to end tests
+    timeout-minutes: 60
+    steps:
+      - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
+        # 🧐 when changing below, don't forget to also change the device name in the Fastfile too: 
+        run: | 
+          xcrun simctl boot "iPhone 16 Pro" || true
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Homebrew
+        run: |
+          make homebrew_ci
+
+      - name: Build mint dependencies
+        uses: ./.github/actions/build-mint
+
+      - name: Checkout LFS resources
+        run: |
+          git lfs pull
+          git checkout .
+
+      - name: Generate project
+        env:
+          MGO_BASIC_AUTH_USERNAME: ${{ secrets.BASIC_AUTH_USER }}
+          MGO_BASIC_AUTH_PASSWORD: ${{ secrets.BASIC_AUTH_PASSWORD }}
+        run: |
+          make generate_project
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Build and run e2e tests
+        env:
+          SLACK_URL: ${{ secrets.SLACK_URL }}
+        run: |
+          bundle exec fastlane ios e2e_ci
+
+      - name: Archive test artifacts
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: test-output
+          path: |
+            fastlane/test_output/
+            ~/Library/Developer/Xcode/DerivedData/MGO*/Logs/Test/*.xcresult
+

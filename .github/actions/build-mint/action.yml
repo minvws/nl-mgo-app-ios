@@ -1,0 +1,25 @@
+name: 'Build Mint'
+description: 'Builds the mint dependencies'
+runs:
+  using: "composite"
+  steps:
+  
+    - name: Cache Mint's cache
+      id: mintcache
+      uses: actions/cache@v4
+      with:
+        path: ~/.mint
+        key: mintfile-build-cache-${{ hashFiles('**/Mintfile_CI') }}
+
+    - name: Setup Mint
+      if: steps.mintcache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        make mint_ci
+        
+    - name: Save Mint to cache
+      if: steps.mintcache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: ~/.mint
+        key: mintfile-build-cache-${{ hashFiles('**/Mintfile_CI') }}

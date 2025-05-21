@@ -1,0 +1,16 @@
+{
+  "resourceType": "Bundle",
+  "id": "4f0c7257-c18e-4d3d-9c1e-aa2b2ed4ebb3",
+  "meta": {
+    "lastUpdated": "2024-04-15T06:52:57.148+00:00"
+  },
+  "type": "searchset",
+  "total": 0,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://dvp-proxy.test.mgo.irealisatie.nl/fhir/MedicationStatement?_include=MedicationStatement%3Amedication&category=urn%3Aoid%3A2.16.840.1.113883.2.4.3.11.60.20.77.5.3%7C6&patient=Patient%2F93cde269-ce35-4077-a39d-19296670e949"
+    }
+  ],
+  "entry": []
+}

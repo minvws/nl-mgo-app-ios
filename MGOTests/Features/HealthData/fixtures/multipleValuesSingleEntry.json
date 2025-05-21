@@ -1,0 +1,17 @@
+{
+	"label": "MultipleValue Single Entry",
+	"children": [
+		{
+			"label": "Section for a multiple values with just one entry",
+			"children": [
+				{
+					"label": "The label",
+					"display": ["Single Entry in an array"],
+					"type": "MULTIPLE_VALUES",
+					"reference": null,
+					"url": null
+				}
+			]
+		}
+	]
+}

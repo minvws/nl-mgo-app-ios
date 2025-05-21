@@ -1,0 +1,58 @@
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
+//
+//   let mgoReference = try MgoReference(json)
+//
+// Hashable or Equatable:
+// The compiler will not be able to synthesize the implementation of Hashable or Equatable
+// for types that require the use of JSONAny, nor will the implementation of Hashable be
+// synthesized for types that have collections (such as arrays or dictionaries).
+
+import Foundation
+
+// MARK: - MgoReference
+public struct MgoReference: Codable, Hashable, Sendable {
+    public let display, reference: String?
+
+    public init(display: String?, reference: String?) {
+        self.display = display
+        self.reference = reference
+    }
+}
+
+// MARK: MgoReference convenience initializers and mutators
+
+public extension MgoReference {
+    init(data: Data) throws {
+        self = try newJSONDecoder().decode(MgoReference.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func with(
+        display: String?? = nil,
+        reference: String?? = nil
+    ) -> MgoReference {
+        return MgoReference(
+            display: display ?? self.display,
+            reference: reference ?? self.reference
+        )
+    }
+
+    func jsonData() throws -> Data {
+        return try newJSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
+}

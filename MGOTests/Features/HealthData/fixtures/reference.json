@@ -1,0 +1,17 @@
+{
+	"label": "Reference Value",
+	"children": [
+		{
+			"label": "Section for a reference",
+			"children": [
+				{
+					"label": "The label",
+					"display": "Reference",
+					"type": "REFERENCE_VALUE",
+					"reference": "reference/link",
+					"url": null
+				}
+			]
+		}
+	]
+}
