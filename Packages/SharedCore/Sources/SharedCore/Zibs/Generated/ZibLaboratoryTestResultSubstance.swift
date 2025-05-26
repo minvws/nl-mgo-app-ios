@@ -12,33 +12,25 @@ import Foundation
 
 // MARK: - ZibLaboratoryTestResultSubstance
 public struct ZibLaboratoryTestResultSubstance: Codable, Hashable, Sendable {
-    public let category: [MgoCodeableConcept]?
     public let code: MgoCodeableConcept?
-    public let description: String?
     public let fhirVersion: FhirVersionR3
     public let id: String?
-    public let identifier: [MgoIdentifier]?
     public let profile: ZibLaboratoryTestResultSubstanceProfile
-    public let referenceID: String
-    public let resourceType, status: String?
+    public let referenceID, resourceType: String
 
     public enum CodingKeys: String, CodingKey {
-        case category, code, description, fhirVersion, id, identifier, profile
+        case code, fhirVersion, id, profile
         case referenceID = "referenceId"
-        case resourceType, status
+        case resourceType
     }
 
-    public init(category: [MgoCodeableConcept]?, code: MgoCodeableConcept?, description: String?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, profile: ZibLaboratoryTestResultSubstanceProfile, referenceID: String, resourceType: String?, status: String?) {
-        self.category = category
+    public init(code: MgoCodeableConcept?, fhirVersion: FhirVersionR3, id: String?, profile: ZibLaboratoryTestResultSubstanceProfile, referenceID: String, resourceType: String) {
         self.code = code
-        self.description = description
         self.fhirVersion = fhirVersion
         self.id = id
-        self.identifier = identifier
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.status = status
     }
 }
 
@@ -61,28 +53,20 @@ public extension ZibLaboratoryTestResultSubstance {
     }
 
     func with(
-        category: [MgoCodeableConcept]?? = nil,
         code: MgoCodeableConcept?? = nil,
-        description: String?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
-        identifier: [MgoIdentifier]?? = nil,
         profile: ZibLaboratoryTestResultSubstanceProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        status: String?? = nil
+        resourceType: String? = nil
     ) -> ZibLaboratoryTestResultSubstance {
         return ZibLaboratoryTestResultSubstance(
-            category: category ?? self.category,
             code: code ?? self.code,
-            description: description ?? self.description,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
-            identifier: identifier ?? self.identifier,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
-            resourceType: resourceType ?? self.resourceType,
-            status: status ?? self.status
+            resourceType: resourceType ?? self.resourceType
         )
     }
 

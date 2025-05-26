@@ -15,29 +15,30 @@ public struct ZibEncounter: Codable, Hashable, Sendable {
     public let zibEncounterClass: MgoCoding?
     public let diagnosis: [ZibEncounterDiagnosis]?
     public let fhirVersion: FhirVersionR3
-    public let hospitalization: Hospitalization
+    public let hospitalization: ZibEncounterHospitalization
     public let id: String?
-    public let participant: [EncounterParticipant]?
+    public let identifier: [MgoIdentifier]?
+    public let participant: [ZibEncounterParticipant]?
     public let period: MgoPeriod?
     public let profile: ZibEncounterProfile
     public let reason: [MgoCodeableConcept]?
-    public let referenceID: String
-    public let resourceType: String?
-    public let serviceProvider: MgoReference?
+    public let referenceID, resourceType: String
+    public let serviceProvider, subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
         case zibEncounterClass = "class"
-        case diagnosis, fhirVersion, hospitalization, id, participant, period, profile, reason
+        case diagnosis, fhirVersion, hospitalization, id, identifier, participant, period, profile, reason
         case referenceID = "referenceId"
-        case resourceType, serviceProvider
+        case resourceType, serviceProvider, subject
     }
 
-    public init(zibEncounterClass: MgoCoding?, diagnosis: [ZibEncounterDiagnosis]?, fhirVersion: FhirVersionR3, hospitalization: Hospitalization, id: String?, participant: [EncounterParticipant]?, period: MgoPeriod?, profile: ZibEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
+    public init(zibEncounterClass: MgoCoding?, diagnosis: [ZibEncounterDiagnosis]?, fhirVersion: FhirVersionR3, hospitalization: ZibEncounterHospitalization, id: String?, identifier: [MgoIdentifier]?, participant: [ZibEncounterParticipant]?, period: MgoPeriod?, profile: ZibEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String, serviceProvider: MgoReference?, subject: MgoReference?) {
         self.zibEncounterClass = zibEncounterClass
         self.diagnosis = diagnosis
         self.fhirVersion = fhirVersion
         self.hospitalization = hospitalization
         self.id = id
+        self.identifier = identifier
         self.participant = participant
         self.period = period
         self.profile = profile
@@ -45,6 +46,7 @@ public struct ZibEncounter: Codable, Hashable, Sendable {
         self.referenceID = referenceID
         self.resourceType = resourceType
         self.serviceProvider = serviceProvider
+        self.subject = subject
     }
 }
 
@@ -70,15 +72,17 @@ public extension ZibEncounter {
         zibEncounterClass: MgoCoding?? = nil,
         diagnosis: [ZibEncounterDiagnosis]?? = nil,
         fhirVersion: FhirVersionR3? = nil,
-        hospitalization: Hospitalization? = nil,
+        hospitalization: ZibEncounterHospitalization? = nil,
         id: String?? = nil,
-        participant: [EncounterParticipant]?? = nil,
+        identifier: [MgoIdentifier]?? = nil,
+        participant: [ZibEncounterParticipant]?? = nil,
         period: MgoPeriod?? = nil,
         profile: ZibEncounterProfile? = nil,
         reason: [MgoCodeableConcept]?? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        serviceProvider: MgoReference?? = nil
+        resourceType: String? = nil,
+        serviceProvider: MgoReference?? = nil,
+        subject: MgoReference?? = nil
     ) -> ZibEncounter {
         return ZibEncounter(
             zibEncounterClass: zibEncounterClass ?? self.zibEncounterClass,
@@ -86,13 +90,15 @@ public extension ZibEncounter {
             fhirVersion: fhirVersion ?? self.fhirVersion,
             hospitalization: hospitalization ?? self.hospitalization,
             id: id ?? self.id,
+            identifier: identifier ?? self.identifier,
             participant: participant ?? self.participant,
             period: period ?? self.period,
             profile: profile ?? self.profile,
             reason: reason ?? self.reason,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            serviceProvider: serviceProvider ?? self.serviceProvider
+            serviceProvider: serviceProvider ?? self.serviceProvider,
+            subject: subject ?? self.subject
         )
     }
 

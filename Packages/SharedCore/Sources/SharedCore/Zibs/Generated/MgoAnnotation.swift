@@ -12,10 +12,17 @@ import Foundation
 
 // MARK: - MgoAnnotation
 public struct MgoAnnotation: Codable, Hashable, Sendable {
+    public let type: MgoAnnotationType
     public let author: MgoReference?
     public let text, time: String?
 
-    public init(author: MgoReference?, text: String?, time: String?) {
+    public enum CodingKeys: String, CodingKey {
+        case type = "_type"
+        case author, text, time
+    }
+
+    public init(type: MgoAnnotationType, author: MgoReference?, text: String?, time: String?) {
+        self.type = type
         self.author = author
         self.text = text
         self.time = time
@@ -41,11 +48,13 @@ public extension MgoAnnotation {
     }
 
     func with(
+        type: MgoAnnotationType? = nil,
         author: MgoReference?? = nil,
         text: String?? = nil,
         time: String?? = nil
     ) -> MgoAnnotation {
         return MgoAnnotation(
+            type: type ?? self.type,
             author: author ?? self.author,
             text: text ?? self.text,
             time: time ?? self.time

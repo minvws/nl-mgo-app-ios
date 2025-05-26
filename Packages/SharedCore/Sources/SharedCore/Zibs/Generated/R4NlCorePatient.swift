@@ -12,46 +12,51 @@ import Foundation
 
 // MARK: - R4NlCorePatient
 public struct R4NlCorePatient: Codable, Hashable, Sendable {
-    public let address: [R4NlCoreAddressInformation]?
-    public let birthDate: String?
-    public let deceased: Bool?
-    public let deceasedDateTime: String?
+    public let address: [R4NlCorePatientAddress]?
+    public let birthDate: MgoDate?
+    public let communication: [R4NlCorePatientCommunication]?
+    public let contact: [R4NlCorePatientContact]?
+    public let deceasedBoolean: MgoBoolean?
+    public let deceasedDateTime: MgoDateTime?
     public let fhirVersion: FhirVersionR4
-    public let gender: Gender?
-    public let generalPractitioner: [MgoReference]?
+    public let gender: R4NlCorePatientGender
     public let id: String?
-    public let identifier: [MgoIdentifier]?
-    public let managingOrganization: MgoReference?
+    public let identifier: R4NlCorePatientIdentifier
     public let maritalStatus: MgoCodeableConcept?
-    public let multipleBirth: Bool?
-    public let name: [NameElement]?
+    public let multipleBirthBoolean: MgoBoolean?
+    public let multipleBirthInteger: MgoInteger?
+    public let name: [R4NlCorePatientName]?
+    public let nationality: [R4NlCorePatientNationality]
     public let profile: R4NlCorePatientProfile
-    public let referenceID: String
-    public let resourceType: String?
+    public let referenceID, resourceType: String
+    public let telecom: R4NlCorePatientTelecom
 
     public enum CodingKeys: String, CodingKey {
-        case address, birthDate, deceased, deceasedDateTime, fhirVersion, gender, generalPractitioner, id, identifier, managingOrganization, maritalStatus, multipleBirth, name, profile
+        case address, birthDate, communication, contact, deceasedBoolean, deceasedDateTime, fhirVersion, gender, id, identifier, maritalStatus, multipleBirthBoolean, multipleBirthInteger, name, nationality, profile
         case referenceID = "referenceId"
-        case resourceType
+        case resourceType, telecom
     }
 
-    public init(address: [R4NlCoreAddressInformation]?, birthDate: String?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR4, gender: Gender?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, name: [NameElement]?, profile: R4NlCorePatientProfile, referenceID: String, resourceType: String?) {
+    public init(address: [R4NlCorePatientAddress]?, birthDate: MgoDate?, communication: [R4NlCorePatientCommunication]?, contact: [R4NlCorePatientContact]?, deceasedBoolean: MgoBoolean?, deceasedDateTime: MgoDateTime?, fhirVersion: FhirVersionR4, gender: R4NlCorePatientGender, id: String?, identifier: R4NlCorePatientIdentifier, maritalStatus: MgoCodeableConcept?, multipleBirthBoolean: MgoBoolean?, multipleBirthInteger: MgoInteger?, name: [R4NlCorePatientName]?, nationality: [R4NlCorePatientNationality], profile: R4NlCorePatientProfile, referenceID: String, resourceType: String, telecom: R4NlCorePatientTelecom) {
         self.address = address
         self.birthDate = birthDate
-        self.deceased = deceased
+        self.communication = communication
+        self.contact = contact
+        self.deceasedBoolean = deceasedBoolean
         self.deceasedDateTime = deceasedDateTime
         self.fhirVersion = fhirVersion
         self.gender = gender
-        self.generalPractitioner = generalPractitioner
         self.id = id
         self.identifier = identifier
-        self.managingOrganization = managingOrganization
         self.maritalStatus = maritalStatus
-        self.multipleBirth = multipleBirth
+        self.multipleBirthBoolean = multipleBirthBoolean
+        self.multipleBirthInteger = multipleBirthInteger
         self.name = name
+        self.nationality = nationality
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
+        self.telecom = telecom
     }
 }
 
@@ -74,40 +79,46 @@ public extension R4NlCorePatient {
     }
 
     func with(
-        address: [R4NlCoreAddressInformation]?? = nil,
-        birthDate: String?? = nil,
-        deceased: Bool?? = nil,
-        deceasedDateTime: String?? = nil,
+        address: [R4NlCorePatientAddress]?? = nil,
+        birthDate: MgoDate?? = nil,
+        communication: [R4NlCorePatientCommunication]?? = nil,
+        contact: [R4NlCorePatientContact]?? = nil,
+        deceasedBoolean: MgoBoolean?? = nil,
+        deceasedDateTime: MgoDateTime?? = nil,
         fhirVersion: FhirVersionR4? = nil,
-        gender: Gender?? = nil,
-        generalPractitioner: [MgoReference]?? = nil,
+        gender: R4NlCorePatientGender? = nil,
         id: String?? = nil,
-        identifier: [MgoIdentifier]?? = nil,
-        managingOrganization: MgoReference?? = nil,
+        identifier: R4NlCorePatientIdentifier? = nil,
         maritalStatus: MgoCodeableConcept?? = nil,
-        multipleBirth: Bool?? = nil,
-        name: [NameElement]?? = nil,
+        multipleBirthBoolean: MgoBoolean?? = nil,
+        multipleBirthInteger: MgoInteger?? = nil,
+        name: [R4NlCorePatientName]?? = nil,
+        nationality: [R4NlCorePatientNationality]? = nil,
         profile: R4NlCorePatientProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil
+        resourceType: String? = nil,
+        telecom: R4NlCorePatientTelecom? = nil
     ) -> R4NlCorePatient {
         return R4NlCorePatient(
             address: address ?? self.address,
             birthDate: birthDate ?? self.birthDate,
-            deceased: deceased ?? self.deceased,
+            communication: communication ?? self.communication,
+            contact: contact ?? self.contact,
+            deceasedBoolean: deceasedBoolean ?? self.deceasedBoolean,
             deceasedDateTime: deceasedDateTime ?? self.deceasedDateTime,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             gender: gender ?? self.gender,
-            generalPractitioner: generalPractitioner ?? self.generalPractitioner,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
-            managingOrganization: managingOrganization ?? self.managingOrganization,
             maritalStatus: maritalStatus ?? self.maritalStatus,
-            multipleBirth: multipleBirth ?? self.multipleBirth,
+            multipleBirthBoolean: multipleBirthBoolean ?? self.multipleBirthBoolean,
+            multipleBirthInteger: multipleBirthInteger ?? self.multipleBirthInteger,
             name: name ?? self.name,
+            nationality: nationality ?? self.nationality,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
-            resourceType: resourceType ?? self.resourceType
+            resourceType: resourceType ?? self.resourceType,
+            telecom: telecom ?? self.telecom
         )
     }
 

@@ -12,64 +12,51 @@ import Foundation
 
 // MARK: - ZibTreatmentDirective
 public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
-    public let action: [MgoCodeableConcept]?
-    public let actor: [ZibTreatmentDirectiveActor]?
-    public let category: [MgoCodeableConcept]?
+    public let additionalSources: AdditionalSources?
+    public let comment: ZibTreatmentDirectiveComment?
     public let consentingParty: [MgoReference]?
-    public let data: [ZibTreatmentDirectiveDatum]?
-    public let dataPeriod: MgoPeriod?
-    public let dateTime: String?
-    public let except: [Except]?
+    public let dateTime: MgoDateTime?
+    public let exceptRestrictions: [ExceptRestriction]?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: MgoIdentifier?
-    public let organization: [MgoReference]?
     public let patient: MgoReference?
     public let period: MgoPeriod?
-    public let policy: [Policy]?
-    public let policyRule: String?
     public let profile: ZibTreatmentDirectiveProfile
-    public let purpose: [MgoCoding]?
-    public let referenceID: String
-    public let resourceType: String?
-    public let securityLabel: [MgoCoding]?
-    public let sourceAttachment: Attachment
+    public let referenceID, resourceType: String
+    public let sourceAttachment: MgoAttachment?
     public let sourceIdentifier: MgoIdentifier?
     public let sourceReference: MgoReference?
-    public let status: ZibTreatmentDirectiveStatus?
+    public let treatment: Treatment?
+    public let treatmentPermitted: TreatmentPermitted?
+    public let verification: Verification?
 
     public enum CodingKeys: String, CodingKey {
-        case action, actor, category, consentingParty, data, dataPeriod, dateTime, except, fhirVersion, id, identifier, organization, patient, period, policy, policyRule, profile, purpose
+        case additionalSources, comment, consentingParty, dateTime, exceptRestrictions, fhirVersion, id, identifier, patient, period, profile
         case referenceID = "referenceId"
-        case resourceType, securityLabel, sourceAttachment, sourceIdentifier, sourceReference, status
+        case resourceType, sourceAttachment, sourceIdentifier, sourceReference, treatment, treatmentPermitted, verification
     }
 
-    public init(action: [MgoCodeableConcept]?, actor: [ZibTreatmentDirectiveActor]?, category: [MgoCodeableConcept]?, consentingParty: [MgoReference]?, data: [ZibTreatmentDirectiveDatum]?, dataPeriod: MgoPeriod?, dateTime: String?, except: [Except]?, fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, organization: [MgoReference]?, patient: MgoReference?, period: MgoPeriod?, policy: [Policy]?, policyRule: String?, profile: ZibTreatmentDirectiveProfile, purpose: [MgoCoding]?, referenceID: String, resourceType: String?, securityLabel: [MgoCoding]?, sourceAttachment: Attachment, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, status: ZibTreatmentDirectiveStatus?) {
-        self.action = action
-        self.actor = actor
-        self.category = category
+    public init(additionalSources: AdditionalSources?, comment: ZibTreatmentDirectiveComment?, consentingParty: [MgoReference]?, dateTime: MgoDateTime?, exceptRestrictions: [ExceptRestriction]?, fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, patient: MgoReference?, period: MgoPeriod?, profile: ZibTreatmentDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, treatment: Treatment?, treatmentPermitted: TreatmentPermitted?, verification: Verification?) {
+        self.additionalSources = additionalSources
+        self.comment = comment
         self.consentingParty = consentingParty
-        self.data = data
-        self.dataPeriod = dataPeriod
         self.dateTime = dateTime
-        self.except = except
+        self.exceptRestrictions = exceptRestrictions
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
-        self.organization = organization
         self.patient = patient
         self.period = period
-        self.policy = policy
-        self.policyRule = policyRule
         self.profile = profile
-        self.purpose = purpose
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.securityLabel = securityLabel
         self.sourceAttachment = sourceAttachment
         self.sourceIdentifier = sourceIdentifier
         self.sourceReference = sourceReference
-        self.status = status
+        self.treatment = treatment
+        self.treatmentPermitted = treatmentPermitted
+        self.verification = verification
     }
 }
 
@@ -92,58 +79,46 @@ public extension ZibTreatmentDirective {
     }
 
     func with(
-        action: [MgoCodeableConcept]?? = nil,
-        actor: [ZibTreatmentDirectiveActor]?? = nil,
-        category: [MgoCodeableConcept]?? = nil,
+        additionalSources: AdditionalSources?? = nil,
+        comment: ZibTreatmentDirectiveComment?? = nil,
         consentingParty: [MgoReference]?? = nil,
-        data: [ZibTreatmentDirectiveDatum]?? = nil,
-        dataPeriod: MgoPeriod?? = nil,
-        dateTime: String?? = nil,
-        except: [Except]?? = nil,
+        dateTime: MgoDateTime?? = nil,
+        exceptRestrictions: [ExceptRestriction]?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: MgoIdentifier?? = nil,
-        organization: [MgoReference]?? = nil,
         patient: MgoReference?? = nil,
         period: MgoPeriod?? = nil,
-        policy: [Policy]?? = nil,
-        policyRule: String?? = nil,
         profile: ZibTreatmentDirectiveProfile? = nil,
-        purpose: [MgoCoding]?? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        securityLabel: [MgoCoding]?? = nil,
-        sourceAttachment: Attachment? = nil,
+        resourceType: String? = nil,
+        sourceAttachment: MgoAttachment?? = nil,
         sourceIdentifier: MgoIdentifier?? = nil,
         sourceReference: MgoReference?? = nil,
-        status: ZibTreatmentDirectiveStatus?? = nil
+        treatment: Treatment?? = nil,
+        treatmentPermitted: TreatmentPermitted?? = nil,
+        verification: Verification?? = nil
     ) -> ZibTreatmentDirective {
         return ZibTreatmentDirective(
-            action: action ?? self.action,
-            actor: actor ?? self.actor,
-            category: category ?? self.category,
+            additionalSources: additionalSources ?? self.additionalSources,
+            comment: comment ?? self.comment,
             consentingParty: consentingParty ?? self.consentingParty,
-            data: data ?? self.data,
-            dataPeriod: dataPeriod ?? self.dataPeriod,
             dateTime: dateTime ?? self.dateTime,
-            except: except ?? self.except,
+            exceptRestrictions: exceptRestrictions ?? self.exceptRestrictions,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
-            organization: organization ?? self.organization,
             patient: patient ?? self.patient,
             period: period ?? self.period,
-            policy: policy ?? self.policy,
-            policyRule: policyRule ?? self.policyRule,
             profile: profile ?? self.profile,
-            purpose: purpose ?? self.purpose,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            securityLabel: securityLabel ?? self.securityLabel,
             sourceAttachment: sourceAttachment ?? self.sourceAttachment,
             sourceIdentifier: sourceIdentifier ?? self.sourceIdentifier,
             sourceReference: sourceReference ?? self.sourceReference,
-            status: status ?? self.status
+            treatment: treatment ?? self.treatment,
+            treatmentPermitted: treatmentPermitted ?? self.treatmentPermitted,
+            verification: verification ?? self.verification
         )
     }
 

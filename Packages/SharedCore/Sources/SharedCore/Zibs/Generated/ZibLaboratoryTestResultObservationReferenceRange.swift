@@ -12,14 +12,10 @@ import Foundation
 
 // MARK: - ZibLaboratoryTestResultObservationReferenceRange
 public struct ZibLaboratoryTestResultObservationReferenceRange: Codable, Hashable, Sendable {
-    public let age: MgoRange?
-    public let appliesTo: [MgoCodeableConcept]?
-    public let high, low: MgoDuration?
+    public let high, low: MgoQuantity?
     public let type: MgoCodeableConcept?
 
-    public init(age: MgoRange?, appliesTo: [MgoCodeableConcept]?, high: MgoDuration?, low: MgoDuration?, type: MgoCodeableConcept?) {
-        self.age = age
-        self.appliesTo = appliesTo
+    public init(high: MgoQuantity?, low: MgoQuantity?, type: MgoCodeableConcept?) {
         self.high = high
         self.low = low
         self.type = type
@@ -45,15 +41,11 @@ public extension ZibLaboratoryTestResultObservationReferenceRange {
     }
 
     func with(
-        age: MgoRange?? = nil,
-        appliesTo: [MgoCodeableConcept]?? = nil,
-        high: MgoDuration?? = nil,
-        low: MgoDuration?? = nil,
+        high: MgoQuantity?? = nil,
+        low: MgoQuantity?? = nil,
         type: MgoCodeableConcept?? = nil
     ) -> ZibLaboratoryTestResultObservationReferenceRange {
         return ZibLaboratoryTestResultObservationReferenceRange(
-            age: age ?? self.age,
-            appliesTo: appliesTo ?? self.appliesTo,
             high: high ?? self.high,
             low: low ?? self.low,
             type: type ?? self.type

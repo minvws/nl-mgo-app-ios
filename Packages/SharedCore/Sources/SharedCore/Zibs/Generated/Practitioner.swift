@@ -13,9 +13,11 @@ import Foundation
 // MARK: - Practitioner
 public struct Practitioner: Codable, Hashable, Sendable {
     public let actor: MgoReference?
+    public let role: Role
 
-    public init(actor: MgoReference?) {
+    public init(actor: MgoReference?, role: Role) {
         self.actor = actor
+        self.role = role
     }
 }
 
@@ -38,10 +40,12 @@ public extension Practitioner {
     }
 
     func with(
-        actor: MgoReference?? = nil
+        actor: MgoReference?? = nil,
+        role: Role? = nil
     ) -> Practitioner {
         return Practitioner(
-            actor: actor ?? self.actor
+            actor: actor ?? self.actor,
+            role: role ?? self.role
         )
     }
 

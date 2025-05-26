@@ -13,54 +13,34 @@ import Foundation
 // MARK: - ZibPayer
 public struct ZibPayer: Codable, Hashable, Sendable {
     public let beneficiary: MgoReference?
-    public let contract: [MgoReference]?
-    public let dependent: String?
     public let fhirVersion: FhirVersionR3
-    public let grouping: Grouping
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let network: String?
-    public let order: Double?
-    public let payor: [MgoReference]?
+    public let payor: [Payor]?
     public let period: MgoPeriod?
-    public let policyHolder: MgoReference?
     public let profile: ZibPayerProfile
-    public let referenceID: String
-    public let relationship: MgoCodeableConcept?
-    public let resourceType, sequence: String?
-    public let status: ZibPayerStatus?
-    public let subscriber: MgoReference?
-    public let subscriberID: String?
+    public let referenceID, resourceType: String
+    public let subscriberID: MgoString?
     public let type: MgoCodeableConcept?
 
     public enum CodingKeys: String, CodingKey {
-        case beneficiary, contract, dependent, fhirVersion, grouping, id, identifier, network, order, payor, period, policyHolder, profile
+        case beneficiary, fhirVersion, id, identifier, payor, period, profile
         case referenceID = "referenceId"
-        case relationship, resourceType, sequence, status, subscriber
+        case resourceType
         case subscriberID = "subscriberId"
         case type
     }
 
-    public init(beneficiary: MgoReference?, contract: [MgoReference]?, dependent: String?, fhirVersion: FhirVersionR3, grouping: Grouping, id: String?, identifier: [MgoIdentifier]?, network: String?, order: Double?, payor: [MgoReference]?, period: MgoPeriod?, policyHolder: MgoReference?, profile: ZibPayerProfile, referenceID: String, relationship: MgoCodeableConcept?, resourceType: String?, sequence: String?, status: ZibPayerStatus?, subscriber: MgoReference?, subscriberID: String?, type: MgoCodeableConcept?) {
+    public init(beneficiary: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, payor: [Payor]?, period: MgoPeriod?, profile: ZibPayerProfile, referenceID: String, resourceType: String, subscriberID: MgoString?, type: MgoCodeableConcept?) {
         self.beneficiary = beneficiary
-        self.contract = contract
-        self.dependent = dependent
         self.fhirVersion = fhirVersion
-        self.grouping = grouping
         self.id = id
         self.identifier = identifier
-        self.network = network
-        self.order = order
         self.payor = payor
         self.period = period
-        self.policyHolder = policyHolder
         self.profile = profile
         self.referenceID = referenceID
-        self.relationship = relationship
         self.resourceType = resourceType
-        self.sequence = sequence
-        self.status = status
-        self.subscriber = subscriber
         self.subscriberID = subscriberID
         self.type = type
     }
@@ -86,47 +66,27 @@ public extension ZibPayer {
 
     func with(
         beneficiary: MgoReference?? = nil,
-        contract: [MgoReference]?? = nil,
-        dependent: String?? = nil,
         fhirVersion: FhirVersionR3? = nil,
-        grouping: Grouping? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        network: String?? = nil,
-        order: Double?? = nil,
-        payor: [MgoReference]?? = nil,
+        payor: [Payor]?? = nil,
         period: MgoPeriod?? = nil,
-        policyHolder: MgoReference?? = nil,
         profile: ZibPayerProfile? = nil,
         referenceID: String? = nil,
-        relationship: MgoCodeableConcept?? = nil,
-        resourceType: String?? = nil,
-        sequence: String?? = nil,
-        status: ZibPayerStatus?? = nil,
-        subscriber: MgoReference?? = nil,
-        subscriberID: String?? = nil,
+        resourceType: String? = nil,
+        subscriberID: MgoString?? = nil,
         type: MgoCodeableConcept?? = nil
     ) -> ZibPayer {
         return ZibPayer(
             beneficiary: beneficiary ?? self.beneficiary,
-            contract: contract ?? self.contract,
-            dependent: dependent ?? self.dependent,
             fhirVersion: fhirVersion ?? self.fhirVersion,
-            grouping: grouping ?? self.grouping,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
-            network: network ?? self.network,
-            order: order ?? self.order,
             payor: payor ?? self.payor,
             period: period ?? self.period,
-            policyHolder: policyHolder ?? self.policyHolder,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
-            relationship: relationship ?? self.relationship,
             resourceType: resourceType ?? self.resourceType,
-            sequence: sequence ?? self.sequence,
-            status: status ?? self.status,
-            subscriber: subscriber ?? self.subscriber,
             subscriberID: subscriberID ?? self.subscriberID,
             type: type ?? self.type
         )

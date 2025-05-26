@@ -12,13 +12,22 @@ import Foundation
 
 // MARK: - MgoIdentifier
 public struct MgoIdentifier: Codable, Hashable, Sendable {
+    public let type: IdentifierType
     public let system: String?
-    public let type: MgoCodeableConcept?
+    public let mgoIdentifierType: MgoIdentifierType?
     public let use, value: String?
 
-    public init(system: String?, type: MgoCodeableConcept?, use: String?, value: String?) {
-        self.system = system
+    public enum CodingKeys: String, CodingKey {
+        case type = "_type"
+        case system
+        case mgoIdentifierType = "type"
+        case use, value
+    }
+
+    public init(type: IdentifierType, system: String?, mgoIdentifierType: MgoIdentifierType?, use: String?, value: String?) {
         self.type = type
+        self.system = system
+        self.mgoIdentifierType = mgoIdentifierType
         self.use = use
         self.value = value
     }
@@ -43,14 +52,16 @@ public extension MgoIdentifier {
     }
 
     func with(
+        type: IdentifierType? = nil,
         system: String?? = nil,
-        type: MgoCodeableConcept?? = nil,
+        mgoIdentifierType: MgoIdentifierType?? = nil,
         use: String?? = nil,
         value: String?? = nil
     ) -> MgoIdentifier {
         return MgoIdentifier(
-            system: system ?? self.system,
             type: type ?? self.type,
+            system: system ?? self.system,
+            mgoIdentifierType: mgoIdentifierType ?? self.mgoIdentifierType,
             use: use ?? self.use,
             value: value ?? self.value
         )

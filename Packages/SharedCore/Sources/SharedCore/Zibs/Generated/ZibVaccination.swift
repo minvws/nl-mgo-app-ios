@@ -12,7 +12,8 @@ import Foundation
 
 // MARK: - ZibVaccination
 public struct ZibVaccination: Codable, Hashable, Sendable {
-    public let dose: MgoDuration?
+    public let date: MgoDate?
+    public let doseQuantity: MgoQuantity?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -21,17 +22,19 @@ public struct ZibVaccination: Codable, Hashable, Sendable {
     public let practitioner: [Practitioner]?
     public let profile: ZibVaccinationProfile
     public let referenceID: String
-    public let resourceType, vaccinationDate: String?
+    public let reportOrigin: MgoCodeableConcept?
+    public let resourceType: String
     public let vaccineCode: MgoCodeableConcept?
 
     public enum CodingKeys: String, CodingKey {
-        case dose, fhirVersion, id, identifier, note, patient, practitioner, profile
+        case date, doseQuantity, fhirVersion, id, identifier, note, patient, practitioner, profile
         case referenceID = "referenceId"
-        case resourceType, vaccinationDate, vaccineCode
+        case reportOrigin, resourceType, vaccineCode
     }
 
-    public init(dose: MgoDuration?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, patient: MgoReference?, practitioner: [Practitioner]?, profile: ZibVaccinationProfile, referenceID: String, resourceType: String?, vaccinationDate: String?, vaccineCode: MgoCodeableConcept?) {
-        self.dose = dose
+    public init(date: MgoDate?, doseQuantity: MgoQuantity?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, patient: MgoReference?, practitioner: [Practitioner]?, profile: ZibVaccinationProfile, referenceID: String, reportOrigin: MgoCodeableConcept?, resourceType: String, vaccineCode: MgoCodeableConcept?) {
+        self.date = date
+        self.doseQuantity = doseQuantity
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
@@ -40,8 +43,8 @@ public struct ZibVaccination: Codable, Hashable, Sendable {
         self.practitioner = practitioner
         self.profile = profile
         self.referenceID = referenceID
+        self.reportOrigin = reportOrigin
         self.resourceType = resourceType
-        self.vaccinationDate = vaccinationDate
         self.vaccineCode = vaccineCode
     }
 }
@@ -65,7 +68,8 @@ public extension ZibVaccination {
     }
 
     func with(
-        dose: MgoDuration?? = nil,
+        date: MgoDate?? = nil,
+        doseQuantity: MgoQuantity?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
@@ -74,12 +78,13 @@ public extension ZibVaccination {
         practitioner: [Practitioner]?? = nil,
         profile: ZibVaccinationProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        vaccinationDate: String?? = nil,
+        reportOrigin: MgoCodeableConcept?? = nil,
+        resourceType: String? = nil,
         vaccineCode: MgoCodeableConcept?? = nil
     ) -> ZibVaccination {
         return ZibVaccination(
-            dose: dose ?? self.dose,
+            date: date ?? self.date,
+            doseQuantity: doseQuantity ?? self.doseQuantity,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
@@ -88,8 +93,8 @@ public extension ZibVaccination {
             practitioner: practitioner ?? self.practitioner,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
+            reportOrigin: reportOrigin ?? self.reportOrigin,
             resourceType: resourceType ?? self.resourceType,
-            vaccinationDate: vaccinationDate ?? self.vaccinationDate,
             vaccineCode: vaccineCode ?? self.vaccineCode
         )
     }

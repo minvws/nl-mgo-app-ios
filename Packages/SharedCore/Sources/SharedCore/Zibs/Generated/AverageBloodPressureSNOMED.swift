@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let averageBloodPressureSNOMED = try AverageBloodPressureSNOMED(json)
+//   let averageBloodPressureSnomed = try AverageBloodPressureSnomed(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,20 +10,20 @@
 
 import Foundation
 
-// MARK: - AverageBloodPressureSNOMED
-public struct AverageBloodPressureSNOMED: Codable, Hashable, Sendable {
-    public let valueQuantity: MgoDuration?
+// MARK: - AverageBloodPressureSnomed
+public struct AverageBloodPressureSnomed: Codable, Hashable, Sendable {
+    public let valueQuantity: MgoQuantity?
 
-    public init(valueQuantity: MgoDuration?) {
+    public init(valueQuantity: MgoQuantity?) {
         self.valueQuantity = valueQuantity
     }
 }
 
-// MARK: AverageBloodPressureSNOMED convenience initializers and mutators
+// MARK: AverageBloodPressureSnomed convenience initializers and mutators
 
-public extension AverageBloodPressureSNOMED {
+public extension AverageBloodPressureSnomed {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(AverageBloodPressureSNOMED.self, from: data)
+        self = try newJSONDecoder().decode(AverageBloodPressureSnomed.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -38,9 +38,9 @@ public extension AverageBloodPressureSNOMED {
     }
 
     func with(
-        valueQuantity: MgoDuration?? = nil
-    ) -> AverageBloodPressureSNOMED {
-        return AverageBloodPressureSNOMED(
+        valueQuantity: MgoQuantity?? = nil
+    ) -> AverageBloodPressureSnomed {
+        return AverageBloodPressureSnomed(
             valueQuantity: valueQuantity ?? self.valueQuantity
         )
     }

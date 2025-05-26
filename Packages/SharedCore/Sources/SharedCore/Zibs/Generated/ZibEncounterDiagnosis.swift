@@ -13,13 +13,9 @@ import Foundation
 // MARK: - ZibEncounterDiagnosis
 public struct ZibEncounterDiagnosis: Codable, Hashable, Sendable {
     public let condition: MgoReference?
-    public let rank: Double?
-    public let role: MgoCodeableConcept?
 
-    public init(condition: MgoReference?, rank: Double?, role: MgoCodeableConcept?) {
+    public init(condition: MgoReference?) {
         self.condition = condition
-        self.rank = rank
-        self.role = role
     }
 }
 
@@ -42,14 +38,10 @@ public extension ZibEncounterDiagnosis {
     }
 
     func with(
-        condition: MgoReference?? = nil,
-        rank: Double?? = nil,
-        role: MgoCodeableConcept?? = nil
+        condition: MgoReference?? = nil
     ) -> ZibEncounterDiagnosis {
         return ZibEncounterDiagnosis(
-            condition: condition ?? self.condition,
-            rank: rank ?? self.rank,
-            role: role ?? self.role
+            condition: condition ?? self.condition
         )
     }
 

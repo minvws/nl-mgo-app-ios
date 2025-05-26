@@ -12,21 +12,28 @@ import Foundation
 
 // MARK: - NlCoreAddress
 public struct NlCoreAddress: Codable, Hashable, Sendable {
-    public let city, country, district: String?
-    public let line: [String]?
-    public let period: MgoPeriod?
-    public let postalCode, state, text, type: String?
-    public let use: String?
+    public let profile: NlCoreAddressProfile
+    public let addressType: MgoCodeableConcept?
+    public let city, country, district: MgoString?
+    public let line: [NlCoreAddressLine]?
+    public let official: MgoBoolean?
+    public let postalCode: MgoString?
+    public let type, use: MgoCode?
 
-    public init(city: String?, country: String?, district: String?, line: [String]?, period: MgoPeriod?, postalCode: String?, state: String?, text: String?, type: String?, use: String?) {
+    public enum CodingKeys: String, CodingKey {
+        case profile = "_profile"
+        case addressType, city, country, district, line, official, postalCode, type, use
+    }
+
+    public init(profile: NlCoreAddressProfile, addressType: MgoCodeableConcept?, city: MgoString?, country: MgoString?, district: MgoString?, line: [NlCoreAddressLine]?, official: MgoBoolean?, postalCode: MgoString?, type: MgoCode?, use: MgoCode?) {
+        self.profile = profile
+        self.addressType = addressType
         self.city = city
         self.country = country
         self.district = district
         self.line = line
-        self.period = period
+        self.official = official
         self.postalCode = postalCode
-        self.state = state
-        self.text = text
         self.type = type
         self.use = use
     }
@@ -51,26 +58,26 @@ public extension NlCoreAddress {
     }
 
     func with(
-        city: String?? = nil,
-        country: String?? = nil,
-        district: String?? = nil,
-        line: [String]?? = nil,
-        period: MgoPeriod?? = nil,
-        postalCode: String?? = nil,
-        state: String?? = nil,
-        text: String?? = nil,
-        type: String?? = nil,
-        use: String?? = nil
+        profile: NlCoreAddressProfile? = nil,
+        addressType: MgoCodeableConcept?? = nil,
+        city: MgoString?? = nil,
+        country: MgoString?? = nil,
+        district: MgoString?? = nil,
+        line: [NlCoreAddressLine]?? = nil,
+        official: MgoBoolean?? = nil,
+        postalCode: MgoString?? = nil,
+        type: MgoCode?? = nil,
+        use: MgoCode?? = nil
     ) -> NlCoreAddress {
         return NlCoreAddress(
+            profile: profile ?? self.profile,
+            addressType: addressType ?? self.addressType,
             city: city ?? self.city,
             country: country ?? self.country,
             district: district ?? self.district,
             line: line ?? self.line,
-            period: period ?? self.period,
+            official: official ?? self.official,
             postalCode: postalCode ?? self.postalCode,
-            state: state ?? self.state,
-            text: text ?? self.text,
             type: type ?? self.type,
             use: use ?? self.use
         )
