@@ -12,56 +12,55 @@ import Foundation
 
 // MARK: - NlCorePatient
 public struct NlCorePatient: Codable, Hashable, Sendable {
-    public let active: Bool?
-    public let address: [NlCoreAddress]?
-    public let birthDate: String?
-    public let communication: [Communication]?
-    public let contact: [Contact]?
-    public let deceased: Bool?
-    public let deceasedDateTime: String?
+    public let address: [NlCorePatientAddress]?
+    public let birthDate: MgoDate?
+    public let communication: [NlCorePatientCommunication]?
+    public let contact: [NlCorePatientContact]?
+    public let deceasedBoolean: MgoBoolean?
+    public let deceasedDateTime: MgoDateTime?
     public let fhirVersion: FhirVersionR3
-    public let gender: Gender?
-    public let generalPractitioner: [MgoReference]?
+    public let gender: NlCorePatientGender
+    public let generalPractitioner: MgoReference?
     public let id: String?
-    public let identifier: [MgoIdentifier]?
-    public let link: [Link]?
-    public let managingOrganization: MgoReference?
+    public let identifier: NlCorePatientIdentifier
+    public let legalStatus: [LegalStatus]
+    public let lifeStance: [LifeStance]
     public let maritalStatus: MgoCodeableConcept?
-    public let multipleBirth: Bool?
-    public let multipleBirthInteger: Double?
-    public let name: [NlCoreHumanname]?
-    public let photo: [Attachment]?
+    public let multipleBirthBoolean: MgoBoolean?
+    public let multipleBirthInteger: MgoInteger?
+    public let name: [NlCorePatientName]?
+    public let nationality: [NlCorePatientNationality]
+    public let preferredPharmacy: PreferredPharmacy?
     public let profile: NlCorePatientProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let telecom: [NlCoreContactpoint]?
+    public let referenceID, resourceType: String
+    public let telecom: [NlCorePatientTelecom]?
 
     public enum CodingKeys: String, CodingKey {
-        case active, address, birthDate, communication, contact, deceased, deceasedDateTime, fhirVersion, gender, generalPractitioner, id, identifier, link, managingOrganization, maritalStatus, multipleBirth, multipleBirthInteger, name, photo, profile
+        case address, birthDate, communication, contact, deceasedBoolean, deceasedDateTime, fhirVersion, gender, generalPractitioner, id, identifier, legalStatus, lifeStance, maritalStatus, multipleBirthBoolean, multipleBirthInteger, name, nationality, preferredPharmacy, profile
         case referenceID = "referenceId"
         case resourceType, telecom
     }
 
-    public init(active: Bool?, address: [NlCoreAddress]?, birthDate: String?, communication: [Communication]?, contact: [Contact]?, deceased: Bool?, deceasedDateTime: String?, fhirVersion: FhirVersionR3, gender: Gender?, generalPractitioner: [MgoReference]?, id: String?, identifier: [MgoIdentifier]?, link: [Link]?, managingOrganization: MgoReference?, maritalStatus: MgoCodeableConcept?, multipleBirth: Bool?, multipleBirthInteger: Double?, name: [NlCoreHumanname]?, photo: [Attachment]?, profile: NlCorePatientProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
-        self.active = active
+    public init(address: [NlCorePatientAddress]?, birthDate: MgoDate?, communication: [NlCorePatientCommunication]?, contact: [NlCorePatientContact]?, deceasedBoolean: MgoBoolean?, deceasedDateTime: MgoDateTime?, fhirVersion: FhirVersionR3, gender: NlCorePatientGender, generalPractitioner: MgoReference?, id: String?, identifier: NlCorePatientIdentifier, legalStatus: [LegalStatus], lifeStance: [LifeStance], maritalStatus: MgoCodeableConcept?, multipleBirthBoolean: MgoBoolean?, multipleBirthInteger: MgoInteger?, name: [NlCorePatientName]?, nationality: [NlCorePatientNationality], preferredPharmacy: PreferredPharmacy?, profile: NlCorePatientProfile, referenceID: String, resourceType: String, telecom: [NlCorePatientTelecom]?) {
         self.address = address
         self.birthDate = birthDate
         self.communication = communication
         self.contact = contact
-        self.deceased = deceased
+        self.deceasedBoolean = deceasedBoolean
         self.deceasedDateTime = deceasedDateTime
         self.fhirVersion = fhirVersion
         self.gender = gender
         self.generalPractitioner = generalPractitioner
         self.id = id
         self.identifier = identifier
-        self.link = link
-        self.managingOrganization = managingOrganization
+        self.legalStatus = legalStatus
+        self.lifeStance = lifeStance
         self.maritalStatus = maritalStatus
-        self.multipleBirth = multipleBirth
+        self.multipleBirthBoolean = multipleBirthBoolean
         self.multipleBirthInteger = multipleBirthInteger
         self.name = name
-        self.photo = photo
+        self.nationality = nationality
+        self.preferredPharmacy = preferredPharmacy
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
@@ -88,50 +87,50 @@ public extension NlCorePatient {
     }
 
     func with(
-        active: Bool?? = nil,
-        address: [NlCoreAddress]?? = nil,
-        birthDate: String?? = nil,
-        communication: [Communication]?? = nil,
-        contact: [Contact]?? = nil,
-        deceased: Bool?? = nil,
-        deceasedDateTime: String?? = nil,
+        address: [NlCorePatientAddress]?? = nil,
+        birthDate: MgoDate?? = nil,
+        communication: [NlCorePatientCommunication]?? = nil,
+        contact: [NlCorePatientContact]?? = nil,
+        deceasedBoolean: MgoBoolean?? = nil,
+        deceasedDateTime: MgoDateTime?? = nil,
         fhirVersion: FhirVersionR3? = nil,
-        gender: Gender?? = nil,
-        generalPractitioner: [MgoReference]?? = nil,
+        gender: NlCorePatientGender? = nil,
+        generalPractitioner: MgoReference?? = nil,
         id: String?? = nil,
-        identifier: [MgoIdentifier]?? = nil,
-        link: [Link]?? = nil,
-        managingOrganization: MgoReference?? = nil,
+        identifier: NlCorePatientIdentifier? = nil,
+        legalStatus: [LegalStatus]? = nil,
+        lifeStance: [LifeStance]? = nil,
         maritalStatus: MgoCodeableConcept?? = nil,
-        multipleBirth: Bool?? = nil,
-        multipleBirthInteger: Double?? = nil,
-        name: [NlCoreHumanname]?? = nil,
-        photo: [Attachment]?? = nil,
+        multipleBirthBoolean: MgoBoolean?? = nil,
+        multipleBirthInteger: MgoInteger?? = nil,
+        name: [NlCorePatientName]?? = nil,
+        nationality: [NlCorePatientNationality]? = nil,
+        preferredPharmacy: PreferredPharmacy?? = nil,
         profile: NlCorePatientProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        telecom: [NlCoreContactpoint]?? = nil
+        resourceType: String? = nil,
+        telecom: [NlCorePatientTelecom]?? = nil
     ) -> NlCorePatient {
         return NlCorePatient(
-            active: active ?? self.active,
             address: address ?? self.address,
             birthDate: birthDate ?? self.birthDate,
             communication: communication ?? self.communication,
             contact: contact ?? self.contact,
-            deceased: deceased ?? self.deceased,
+            deceasedBoolean: deceasedBoolean ?? self.deceasedBoolean,
             deceasedDateTime: deceasedDateTime ?? self.deceasedDateTime,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             gender: gender ?? self.gender,
             generalPractitioner: generalPractitioner ?? self.generalPractitioner,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
-            link: link ?? self.link,
-            managingOrganization: managingOrganization ?? self.managingOrganization,
+            legalStatus: legalStatus ?? self.legalStatus,
+            lifeStance: lifeStance ?? self.lifeStance,
             maritalStatus: maritalStatus ?? self.maritalStatus,
-            multipleBirth: multipleBirth ?? self.multipleBirth,
+            multipleBirthBoolean: multipleBirthBoolean ?? self.multipleBirthBoolean,
             multipleBirthInteger: multipleBirthInteger ?? self.multipleBirthInteger,
             name: name ?? self.name,
-            photo: photo ?? self.photo,
+            nationality: nationality ?? self.nationality,
+            preferredPharmacy: preferredPharmacy ?? self.preferredPharmacy,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,

@@ -84,7 +84,8 @@ public struct LogModifier: ViewModifier {
 		}
 	}
 	
-	public func body(content: Content) -> some View {
+	public func body(content: Self.Content) -> some View {
 		content
+			
 	}
 }

@@ -1,9 +1,55 @@
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
+//
+//   let zibProblemClinicalStatus = try ZibProblemClinicalStatus(json)
+//
+// Hashable or Equatable:
+// The compiler will not be able to synthesize the implementation of Hashable or Equatable
+// for types that require the use of JSONAny, nor will the implementation of Hashable be
+// synthesized for types that have collections (such as arrays or dictionaries).
+
 import Foundation
 
-public enum ZibProblemClinicalStatus: String, Codable, Hashable, Sendable {
-    case active = "active"
-    case inactive = "inactive"
-    case recurrence = "recurrence"
-    case remission = "remission"
-    case resolved = "resolved"
+// MARK: - ZibProblemClinicalStatus
+public struct ZibProblemClinicalStatus: Codable, Hashable, Sendable {
+    public let problemStatusCodelist: ProblemStatusCodelist?
+
+    public init(problemStatusCodelist: ProblemStatusCodelist?) {
+        self.problemStatusCodelist = problemStatusCodelist
+    }
+}
+
+// MARK: ZibProblemClinicalStatus convenience initializers and mutators
+
+public extension ZibProblemClinicalStatus {
+    init(data: Data) throws {
+        self = try newJSONDecoder().decode(ZibProblemClinicalStatus.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func with(
+        problemStatusCodelist: ProblemStatusCodelist?? = nil
+    ) -> ZibProblemClinicalStatus {
+        return ZibProblemClinicalStatus(
+            problemStatusCodelist: problemStatusCodelist ?? self.problemStatusCodelist
+        )
+    }
+
+    func jsonData() throws -> Data {
+        return try newJSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
 }

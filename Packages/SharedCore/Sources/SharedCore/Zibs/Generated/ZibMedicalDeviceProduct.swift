@@ -12,30 +12,37 @@ import Foundation
 
 // MARK: - ZibMedicalDeviceProduct
 public struct ZibMedicalDeviceProduct: Codable, Hashable, Sendable {
-    public let expirationDate: String?
+    public let expirationDate: MgoDateTime?
     public let fhirVersion: FhirVersionR3
     public let id: String?
+    public let identifier: [MgoIdentifier]?
+    public let lotNumber: MgoString?
     public let note: [MgoAnnotation]?
     public let patient: MgoReference?
     public let profile: ZibMedicalDeviceProductProfile
-    public let referenceID: String
-    public let resourceType: String?
+    public let referenceID, resourceType: String
+    public let type: MgoCodeableConcept?
+    public let udi: Udi
 
     public enum CodingKeys: String, CodingKey {
-        case expirationDate, fhirVersion, id, note, patient, profile
+        case expirationDate, fhirVersion, id, identifier, lotNumber, note, patient, profile
         case referenceID = "referenceId"
-        case resourceType
+        case resourceType, type, udi
     }
 
-    public init(expirationDate: String?, fhirVersion: FhirVersionR3, id: String?, note: [MgoAnnotation]?, patient: MgoReference?, profile: ZibMedicalDeviceProductProfile, referenceID: String, resourceType: String?) {
+    public init(expirationDate: MgoDateTime?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, lotNumber: MgoString?, note: [MgoAnnotation]?, patient: MgoReference?, profile: ZibMedicalDeviceProductProfile, referenceID: String, resourceType: String, type: MgoCodeableConcept?, udi: Udi) {
         self.expirationDate = expirationDate
         self.fhirVersion = fhirVersion
         self.id = id
+        self.identifier = identifier
+        self.lotNumber = lotNumber
         self.note = note
         self.patient = patient
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
+        self.type = type
+        self.udi = udi
     }
 }
 
@@ -58,24 +65,32 @@ public extension ZibMedicalDeviceProduct {
     }
 
     func with(
-        expirationDate: String?? = nil,
+        expirationDate: MgoDateTime?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
+        identifier: [MgoIdentifier]?? = nil,
+        lotNumber: MgoString?? = nil,
         note: [MgoAnnotation]?? = nil,
         patient: MgoReference?? = nil,
         profile: ZibMedicalDeviceProductProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil
+        resourceType: String? = nil,
+        type: MgoCodeableConcept?? = nil,
+        udi: Udi? = nil
     ) -> ZibMedicalDeviceProduct {
         return ZibMedicalDeviceProduct(
             expirationDate: expirationDate ?? self.expirationDate,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
+            identifier: identifier ?? self.identifier,
+            lotNumber: lotNumber ?? self.lotNumber,
             note: note ?? self.note,
             patient: patient ?? self.patient,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
-            resourceType: resourceType ?? self.resourceType
+            resourceType: resourceType ?? self.resourceType,
+            type: type ?? self.type,
+            udi: udi ?? self.udi
         )
     }
 

@@ -12,9 +12,16 @@ import Foundation
 
 // MARK: - MgoReference
 public struct MgoReference: Codable, Hashable, Sendable {
+    public let type: MgoReferenceType
     public let display, reference: String?
 
-    public init(display: String?, reference: String?) {
+    public enum CodingKeys: String, CodingKey {
+        case type = "_type"
+        case display, reference
+    }
+
+    public init(type: MgoReferenceType, display: String?, reference: String?) {
+        self.type = type
         self.display = display
         self.reference = reference
     }
@@ -39,10 +46,12 @@ public extension MgoReference {
     }
 
     func with(
+        type: MgoReferenceType? = nil,
         display: String?? = nil,
         reference: String?? = nil
     ) -> MgoReference {
         return MgoReference(
+            type: type ?? self.type,
             display: display ?? self.display,
             reference: reference ?? self.reference
         )

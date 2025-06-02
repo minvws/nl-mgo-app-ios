@@ -12,35 +12,34 @@ import Foundation
 
 // MARK: - ZibNutritionAdvice
 public struct ZibNutritionAdvice: Codable, Hashable, Sendable {
-    public let comment, dateTime: String?
+    public let comment: ZibNutritionAdviceComment?
+    public let dateTime: MgoDateTime?
     public let fhirVersion: FhirVersionR3
-    public let foodPreferenceModifier: [MgoCodeableConcept]?
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let patient: MgoReference?
+    public let oralDiet: OralDiet
+    public let orderer, patient: MgoReference?
     public let profile: ZibNutritionAdviceProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let status: ZibNutritionAdviceStatus?
+    public let referenceID, resourceType: String
 
     public enum CodingKeys: String, CodingKey {
-        case comment, dateTime, fhirVersion, foodPreferenceModifier, id, identifier, patient, profile
+        case comment, dateTime, fhirVersion, id, identifier, oralDiet, orderer, patient, profile
         case referenceID = "referenceId"
-        case resourceType, status
+        case resourceType
     }
 
-    public init(comment: String?, dateTime: String?, fhirVersion: FhirVersionR3, foodPreferenceModifier: [MgoCodeableConcept]?, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, profile: ZibNutritionAdviceProfile, referenceID: String, resourceType: String?, status: ZibNutritionAdviceStatus?) {
+    public init(comment: ZibNutritionAdviceComment?, dateTime: MgoDateTime?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, oralDiet: OralDiet, orderer: MgoReference?, patient: MgoReference?, profile: ZibNutritionAdviceProfile, referenceID: String, resourceType: String) {
         self.comment = comment
         self.dateTime = dateTime
         self.fhirVersion = fhirVersion
-        self.foodPreferenceModifier = foodPreferenceModifier
         self.id = id
         self.identifier = identifier
+        self.oralDiet = oralDiet
+        self.orderer = orderer
         self.patient = patient
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.status = status
     }
 }
 
@@ -63,30 +62,30 @@ public extension ZibNutritionAdvice {
     }
 
     func with(
-        comment: String?? = nil,
-        dateTime: String?? = nil,
+        comment: ZibNutritionAdviceComment?? = nil,
+        dateTime: MgoDateTime?? = nil,
         fhirVersion: FhirVersionR3? = nil,
-        foodPreferenceModifier: [MgoCodeableConcept]?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
+        oralDiet: OralDiet? = nil,
+        orderer: MgoReference?? = nil,
         patient: MgoReference?? = nil,
         profile: ZibNutritionAdviceProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        status: ZibNutritionAdviceStatus?? = nil
+        resourceType: String? = nil
     ) -> ZibNutritionAdvice {
         return ZibNutritionAdvice(
             comment: comment ?? self.comment,
             dateTime: dateTime ?? self.dateTime,
             fhirVersion: fhirVersion ?? self.fhirVersion,
-            foodPreferenceModifier: foodPreferenceModifier ?? self.foodPreferenceModifier,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
+            oralDiet: oralDiet ?? self.oralDiet,
+            orderer: orderer ?? self.orderer,
             patient: patient ?? self.patient,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
-            resourceType: resourceType ?? self.resourceType,
-            status: status ?? self.status
+            resourceType: resourceType ?? self.resourceType
         )
     }
 

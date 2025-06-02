@@ -12,14 +12,21 @@ import Foundation
 
 // MARK: - NlCoreContactpoint
 public struct NlCoreContactpoint: Codable, Hashable, Sendable {
-    public let period: MgoPeriod?
-    public let rank: Double?
-    public let system, use, value: String?
+    public let profile: NlCoreContactpointProfile
+    public let system: MgoCode?
+    public let telecomType: MgoCodeableConcept?
+    public let use: MgoCode?
+    public let value: MgoString?
 
-    public init(period: MgoPeriod?, rank: Double?, system: String?, use: String?, value: String?) {
-        self.period = period
-        self.rank = rank
+    public enum CodingKeys: String, CodingKey {
+        case profile = "_profile"
+        case system, telecomType, use, value
+    }
+
+    public init(profile: NlCoreContactpointProfile, system: MgoCode?, telecomType: MgoCodeableConcept?, use: MgoCode?, value: MgoString?) {
+        self.profile = profile
         self.system = system
+        self.telecomType = telecomType
         self.use = use
         self.value = value
     }
@@ -44,16 +51,16 @@ public extension NlCoreContactpoint {
     }
 
     func with(
-        period: MgoPeriod?? = nil,
-        rank: Double?? = nil,
-        system: String?? = nil,
-        use: String?? = nil,
-        value: String?? = nil
+        profile: NlCoreContactpointProfile? = nil,
+        system: MgoCode?? = nil,
+        telecomType: MgoCodeableConcept?? = nil,
+        use: MgoCode?? = nil,
+        value: MgoString?? = nil
     ) -> NlCoreContactpoint {
         return NlCoreContactpoint(
-            period: period ?? self.period,
-            rank: rank ?? self.rank,
+            profile: profile ?? self.profile,
             system: system ?? self.system,
+            telecomType: telecomType ?? self.telecomType,
             use: use ?? self.use,
             value: value ?? self.value
         )

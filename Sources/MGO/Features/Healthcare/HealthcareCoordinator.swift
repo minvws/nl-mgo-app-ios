@@ -45,7 +45,7 @@ protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
 	func viewState(for: HealthcareCoordination.State?) -> Body
 }
 
-enum HealthcareCoordination {
+struct HealthcareCoordination {
 	
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {

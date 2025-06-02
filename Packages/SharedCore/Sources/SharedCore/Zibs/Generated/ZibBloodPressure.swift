@@ -12,68 +12,41 @@ import Foundation
 
 // MARK: - ZibBloodPressure
 public struct ZibBloodPressure: Codable, Hashable, Sendable {
-    public let averageBloodPressureLOINC: AverageBloodPressureLOINC
-    public let averageBloodPressureSNOMED: AverageBloodPressureSNOMED
     public let bodySite: MgoCodeableConcept?
-    public let category: [MgoCodeableConcept]?
-    public let comment: String?
-    public let context: MgoReference?
-    public let cuffTypeLOINC: CuffTypeLOINC
-    public let cuffTypeSNOMED: CuffTypeSNOMED
-    public let dataAbsentReason: MgoCodeableConcept?
-    public let diastolicBP: DiastolicBP
-    public let diastolicEndpoint: DiastolicEndpoint
-    public let effectiveDateTime: String?
+    public let comment: MgoString?
+    public let component: ZibBloodPressureComponent?
+    public let effectiveDateTime: MgoDateTime?
     public let effectivePeriod: MgoPeriod?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let method: MgoCodeableConcept?
-    public let positionLOINC: PositionLOINC
-    public let positionSNOMED: PositionSNOMED
+    public let performer: [MgoReference]?
     public let profile: ZibBloodPressureProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let status: GpLaboratoryResultStatus?
+    public let referenceID, resourceType: String
     public let subject: MgoReference?
-    public let systolicBP: SystolicBP
-    public let valueCodeableConcept: MgoCodeableConcept?
-    public let valueQuantity: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
-        case averageBloodPressureLOINC, averageBloodPressureSNOMED, bodySite, category, comment, context, cuffTypeLOINC, cuffTypeSNOMED, dataAbsentReason, diastolicBP, diastolicEndpoint, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, method, positionLOINC, positionSNOMED, profile
+        case bodySite, comment, component, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, method, performer, profile
         case referenceID = "referenceId"
-        case resourceType, status, subject, systolicBP, valueCodeableConcept, valueQuantity
+        case resourceType, subject
     }
 
-    public init(averageBloodPressureLOINC: AverageBloodPressureLOINC, averageBloodPressureSNOMED: AverageBloodPressureSNOMED, bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, cuffTypeLOINC: CuffTypeLOINC, cuffTypeSNOMED: CuffTypeSNOMED, dataAbsentReason: MgoCodeableConcept?, diastolicBP: DiastolicBP, diastolicEndpoint: DiastolicEndpoint, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, positionLOINC: PositionLOINC, positionSNOMED: PositionSNOMED, profile: ZibBloodPressureProfile, referenceID: String, resourceType: String?, status: GpLaboratoryResultStatus?, subject: MgoReference?, systolicBP: SystolicBP, valueCodeableConcept: MgoCodeableConcept?, valueQuantity: MgoDuration?) {
-        self.averageBloodPressureLOINC = averageBloodPressureLOINC
-        self.averageBloodPressureSNOMED = averageBloodPressureSNOMED
+    public init(bodySite: MgoCodeableConcept?, comment: MgoString?, component: ZibBloodPressureComponent?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: ZibBloodPressureProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
         self.bodySite = bodySite
-        self.category = category
         self.comment = comment
-        self.context = context
-        self.cuffTypeLOINC = cuffTypeLOINC
-        self.cuffTypeSNOMED = cuffTypeSNOMED
-        self.dataAbsentReason = dataAbsentReason
-        self.diastolicBP = diastolicBP
-        self.diastolicEndpoint = diastolicEndpoint
+        self.component = component
         self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.method = method
-        self.positionLOINC = positionLOINC
-        self.positionSNOMED = positionSNOMED
+        self.performer = performer
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.status = status
         self.subject = subject
-        self.systolicBP = systolicBP
-        self.valueCodeableConcept = valueCodeableConcept
-        self.valueQuantity = valueQuantity
     }
 }
 
@@ -96,62 +69,36 @@ public extension ZibBloodPressure {
     }
 
     func with(
-        averageBloodPressureLOINC: AverageBloodPressureLOINC? = nil,
-        averageBloodPressureSNOMED: AverageBloodPressureSNOMED? = nil,
         bodySite: MgoCodeableConcept?? = nil,
-        category: [MgoCodeableConcept]?? = nil,
-        comment: String?? = nil,
-        context: MgoReference?? = nil,
-        cuffTypeLOINC: CuffTypeLOINC? = nil,
-        cuffTypeSNOMED: CuffTypeSNOMED? = nil,
-        dataAbsentReason: MgoCodeableConcept?? = nil,
-        diastolicBP: DiastolicBP? = nil,
-        diastolicEndpoint: DiastolicEndpoint? = nil,
-        effectiveDateTime: String?? = nil,
+        comment: MgoString?? = nil,
+        component: ZibBloodPressureComponent?? = nil,
+        effectiveDateTime: MgoDateTime?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         method: MgoCodeableConcept?? = nil,
-        positionLOINC: PositionLOINC? = nil,
-        positionSNOMED: PositionSNOMED? = nil,
+        performer: [MgoReference]?? = nil,
         profile: ZibBloodPressureProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        status: GpLaboratoryResultStatus?? = nil,
-        subject: MgoReference?? = nil,
-        systolicBP: SystolicBP? = nil,
-        valueCodeableConcept: MgoCodeableConcept?? = nil,
-        valueQuantity: MgoDuration?? = nil
+        resourceType: String? = nil,
+        subject: MgoReference?? = nil
     ) -> ZibBloodPressure {
         return ZibBloodPressure(
-            averageBloodPressureLOINC: averageBloodPressureLOINC ?? self.averageBloodPressureLOINC,
-            averageBloodPressureSNOMED: averageBloodPressureSNOMED ?? self.averageBloodPressureSNOMED,
             bodySite: bodySite ?? self.bodySite,
-            category: category ?? self.category,
             comment: comment ?? self.comment,
-            context: context ?? self.context,
-            cuffTypeLOINC: cuffTypeLOINC ?? self.cuffTypeLOINC,
-            cuffTypeSNOMED: cuffTypeSNOMED ?? self.cuffTypeSNOMED,
-            dataAbsentReason: dataAbsentReason ?? self.dataAbsentReason,
-            diastolicBP: diastolicBP ?? self.diastolicBP,
-            diastolicEndpoint: diastolicEndpoint ?? self.diastolicEndpoint,
+            component: component ?? self.component,
             effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             method: method ?? self.method,
-            positionLOINC: positionLOINC ?? self.positionLOINC,
-            positionSNOMED: positionSNOMED ?? self.positionSNOMED,
+            performer: performer ?? self.performer,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            status: status ?? self.status,
-            subject: subject ?? self.subject,
-            systolicBP: systolicBP ?? self.systolicBP,
-            valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept,
-            valueQuantity: valueQuantity ?? self.valueQuantity
+            subject: subject ?? self.subject
         )
     }
 

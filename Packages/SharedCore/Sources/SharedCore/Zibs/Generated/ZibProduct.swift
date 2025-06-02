@@ -12,31 +12,28 @@ import Foundation
 
 // MARK: - ZibProduct
 public struct ZibProduct: Codable, Hashable, Sendable {
-    public let code: MgoCodeableConcept?
-    public let description: String?
+    public let code: ZibProductCode
+    public let description: Description?
     public let fhirVersion: FhirVersionR3
     public let form: MgoCodeableConcept?
     public let id: String?
     public let ingredient: [ZibProductIngredient]?
-    public let package: Package
     public let profile: ZibProductProfile
-    public let referenceID: String
-    public let resourceType: String?
+    public let referenceID, resourceType: String
 
     public enum CodingKeys: String, CodingKey {
-        case code, description, fhirVersion, form, id, ingredient, package, profile
+        case code, description, fhirVersion, form, id, ingredient, profile
         case referenceID = "referenceId"
         case resourceType
     }
 
-    public init(code: MgoCodeableConcept?, description: String?, fhirVersion: FhirVersionR3, form: MgoCodeableConcept?, id: String?, ingredient: [ZibProductIngredient]?, package: Package, profile: ZibProductProfile, referenceID: String, resourceType: String?) {
+    public init(code: ZibProductCode, description: Description?, fhirVersion: FhirVersionR3, form: MgoCodeableConcept?, id: String?, ingredient: [ZibProductIngredient]?, profile: ZibProductProfile, referenceID: String, resourceType: String) {
         self.code = code
         self.description = description
         self.fhirVersion = fhirVersion
         self.form = form
         self.id = id
         self.ingredient = ingredient
-        self.package = package
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
@@ -62,16 +59,15 @@ public extension ZibProduct {
     }
 
     func with(
-        code: MgoCodeableConcept?? = nil,
-        description: String?? = nil,
+        code: ZibProductCode? = nil,
+        description: Description?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         form: MgoCodeableConcept?? = nil,
         id: String?? = nil,
         ingredient: [ZibProductIngredient]?? = nil,
-        package: Package? = nil,
         profile: ZibProductProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil
+        resourceType: String? = nil
     ) -> ZibProduct {
         return ZibProduct(
             code: code ?? self.code,
@@ -80,7 +76,6 @@ public extension ZibProduct {
             form: form ?? self.form,
             id: id ?? self.id,
             ingredient: ingredient ?? self.ingredient,
-            package: package ?? self.package,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType

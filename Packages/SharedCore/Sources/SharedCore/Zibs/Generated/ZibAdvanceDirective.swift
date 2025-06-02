@@ -12,26 +12,27 @@ import Foundation
 
 // MARK: - ZibAdvanceDirective
 public struct ZibAdvanceDirective: Codable, Hashable, Sendable {
-    public let category: [MgoCodeableConcept]?
-    public let comment: String?
-    public let consentingParty: [MgoReference]?
-    public let dateTime: String?
-    public let disorder: MgoReference?
+    public let category: ZibAdvanceDirectiveCategory
+    public let comment: ZibAdvanceDirectiveComment?
+    public let consentingParty: MgoReference?
+    public let dateTime: MgoDateTime?
+    public let disorder: [Disorder]
     public let fhirVersion: FhirVersionR3
     public let id: String?
+    public let identifier: MgoIdentifier?
     public let profile: ZibAdvanceDirectiveProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let source: Source
-    public let typeOfLivingWill: [MgoCodeableConcept]?
+    public let referenceID, resourceType: String
+    public let sourceAttachment: MgoAttachment?
+    public let sourceIdentifier: MgoIdentifier?
+    public let sourceReference: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case category, comment, consentingParty, dateTime, disorder, fhirVersion, id, profile
+        case category, comment, consentingParty, dateTime, disorder, fhirVersion, id, identifier, profile
         case referenceID = "referenceId"
-        case resourceType, source, typeOfLivingWill
+        case resourceType, sourceAttachment, sourceIdentifier, sourceReference
     }
 
-    public init(category: [MgoCodeableConcept]?, comment: String?, consentingParty: [MgoReference]?, dateTime: String?, disorder: MgoReference?, fhirVersion: FhirVersionR3, id: String?, profile: ZibAdvanceDirectiveProfile, referenceID: String, resourceType: String?, source: Source, typeOfLivingWill: [MgoCodeableConcept]?) {
+    public init(category: ZibAdvanceDirectiveCategory, comment: ZibAdvanceDirectiveComment?, consentingParty: MgoReference?, dateTime: MgoDateTime?, disorder: [Disorder], fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, profile: ZibAdvanceDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?) {
         self.category = category
         self.comment = comment
         self.consentingParty = consentingParty
@@ -39,11 +40,13 @@ public struct ZibAdvanceDirective: Codable, Hashable, Sendable {
         self.disorder = disorder
         self.fhirVersion = fhirVersion
         self.id = id
+        self.identifier = identifier
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.source = source
-        self.typeOfLivingWill = typeOfLivingWill
+        self.sourceAttachment = sourceAttachment
+        self.sourceIdentifier = sourceIdentifier
+        self.sourceReference = sourceReference
     }
 }
 
@@ -66,18 +69,20 @@ public extension ZibAdvanceDirective {
     }
 
     func with(
-        category: [MgoCodeableConcept]?? = nil,
-        comment: String?? = nil,
-        consentingParty: [MgoReference]?? = nil,
-        dateTime: String?? = nil,
-        disorder: MgoReference?? = nil,
+        category: ZibAdvanceDirectiveCategory? = nil,
+        comment: ZibAdvanceDirectiveComment?? = nil,
+        consentingParty: MgoReference?? = nil,
+        dateTime: MgoDateTime?? = nil,
+        disorder: [Disorder]? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
+        identifier: MgoIdentifier?? = nil,
         profile: ZibAdvanceDirectiveProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        source: Source? = nil,
-        typeOfLivingWill: [MgoCodeableConcept]?? = nil
+        resourceType: String? = nil,
+        sourceAttachment: MgoAttachment?? = nil,
+        sourceIdentifier: MgoIdentifier?? = nil,
+        sourceReference: MgoReference?? = nil
     ) -> ZibAdvanceDirective {
         return ZibAdvanceDirective(
             category: category ?? self.category,
@@ -87,11 +92,13 @@ public extension ZibAdvanceDirective {
             disorder: disorder ?? self.disorder,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
+            identifier: identifier ?? self.identifier,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            source: source ?? self.source,
-            typeOfLivingWill: typeOfLivingWill ?? self.typeOfLivingWill
+            sourceAttachment: sourceAttachment ?? self.sourceAttachment,
+            sourceIdentifier: sourceIdentifier ?? self.sourceIdentifier,
+            sourceReference: sourceReference ?? self.sourceReference
         )
     }
 

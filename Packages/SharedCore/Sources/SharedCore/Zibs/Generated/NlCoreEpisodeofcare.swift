@@ -12,50 +12,31 @@ import Foundation
 
 // MARK: - NlCoreEpisodeofcare
 public struct NlCoreEpisodeofcare: Codable, Hashable, Sendable {
-    public let account: [MgoReference]?
-    public let careManager: MgoReference?
-    public let dateFirstEncounter, dateLastEncounter: String?
-    public let diagnosis: [NlCoreEpisodeofcareDiagnosis]?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let managingOrganization, patient: MgoReference?
+    public let patient: MgoReference?
     public let period: MgoPeriod?
     public let profile: NlCoreEpisodeofcareProfile
-    public let referenceID: String
-    public let referralRequest: [MgoReference]?
-    public let resourceType: String?
-    public let status: NlCoreEpisodeofcareStatus?
-    public let statusHistory: [StatusHistory]?
-    public let team: [MgoReference]?
-    public let title: String?
+    public let referenceID, resourceType: String
+    public let title: Title?
     public let type: [MgoCodeableConcept]?
 
     public enum CodingKeys: String, CodingKey {
-        case account, careManager, dateFirstEncounter, dateLastEncounter, diagnosis, fhirVersion, id, identifier, managingOrganization, patient, period, profile
+        case fhirVersion, id, identifier, patient, period, profile
         case referenceID = "referenceId"
-        case referralRequest, resourceType, status, statusHistory, team, title, type
+        case resourceType, title, type
     }
 
-    public init(account: [MgoReference]?, careManager: MgoReference?, dateFirstEncounter: String?, dateLastEncounter: String?, diagnosis: [NlCoreEpisodeofcareDiagnosis]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, managingOrganization: MgoReference?, patient: MgoReference?, period: MgoPeriod?, profile: NlCoreEpisodeofcareProfile, referenceID: String, referralRequest: [MgoReference]?, resourceType: String?, status: NlCoreEpisodeofcareStatus?, statusHistory: [StatusHistory]?, team: [MgoReference]?, title: String?, type: [MgoCodeableConcept]?) {
-        self.account = account
-        self.careManager = careManager
-        self.dateFirstEncounter = dateFirstEncounter
-        self.dateLastEncounter = dateLastEncounter
-        self.diagnosis = diagnosis
+    public init(fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, period: MgoPeriod?, profile: NlCoreEpisodeofcareProfile, referenceID: String, resourceType: String, title: Title?, type: [MgoCodeableConcept]?) {
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
-        self.managingOrganization = managingOrganization
         self.patient = patient
         self.period = period
         self.profile = profile
         self.referenceID = referenceID
-        self.referralRequest = referralRequest
         self.resourceType = resourceType
-        self.status = status
-        self.statusHistory = statusHistory
-        self.team = team
         self.title = title
         self.type = type
     }
@@ -80,46 +61,26 @@ public extension NlCoreEpisodeofcare {
     }
 
     func with(
-        account: [MgoReference]?? = nil,
-        careManager: MgoReference?? = nil,
-        dateFirstEncounter: String?? = nil,
-        dateLastEncounter: String?? = nil,
-        diagnosis: [NlCoreEpisodeofcareDiagnosis]?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        managingOrganization: MgoReference?? = nil,
         patient: MgoReference?? = nil,
         period: MgoPeriod?? = nil,
         profile: NlCoreEpisodeofcareProfile? = nil,
         referenceID: String? = nil,
-        referralRequest: [MgoReference]?? = nil,
-        resourceType: String?? = nil,
-        status: NlCoreEpisodeofcareStatus?? = nil,
-        statusHistory: [StatusHistory]?? = nil,
-        team: [MgoReference]?? = nil,
-        title: String?? = nil,
+        resourceType: String? = nil,
+        title: Title?? = nil,
         type: [MgoCodeableConcept]?? = nil
     ) -> NlCoreEpisodeofcare {
         return NlCoreEpisodeofcare(
-            account: account ?? self.account,
-            careManager: careManager ?? self.careManager,
-            dateFirstEncounter: dateFirstEncounter ?? self.dateFirstEncounter,
-            dateLastEncounter: dateLastEncounter ?? self.dateLastEncounter,
-            diagnosis: diagnosis ?? self.diagnosis,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
-            managingOrganization: managingOrganization ?? self.managingOrganization,
             patient: patient ?? self.patient,
             period: period ?? self.period,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
-            referralRequest: referralRequest ?? self.referralRequest,
             resourceType: resourceType ?? self.resourceType,
-            status: status ?? self.status,
-            statusHistory: statusHistory ?? self.statusHistory,
-            team: team ?? self.team,
             title: title ?? self.title,
             type: type ?? self.type
         )

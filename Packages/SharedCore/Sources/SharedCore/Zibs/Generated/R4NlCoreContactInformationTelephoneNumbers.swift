@@ -12,15 +12,21 @@ import Foundation
 
 // MARK: - R4NlCoreContactInformationTelephoneNumbers
 public struct R4NlCoreContactInformationTelephoneNumbers: Codable, Hashable, Sendable {
-    public let comment: String?
-    public let system: R4NlCoreContactInformationTelephoneNumbersSystem
-    public let telecomType: MgoCodeableConcept?
-    public let use, value: String?
+    public let profile: R4NlCoreContactInformationTelephoneNumbersProfile
+    public let comment: MgoString?
+    public let system: System
+    public let use: MgoCode?
+    public let value: MgoString?
 
-    public init(comment: String?, system: R4NlCoreContactInformationTelephoneNumbersSystem, telecomType: MgoCodeableConcept?, use: String?, value: String?) {
+    public enum CodingKeys: String, CodingKey {
+        case profile = "_profile"
+        case comment, system, use, value
+    }
+
+    public init(profile: R4NlCoreContactInformationTelephoneNumbersProfile, comment: MgoString?, system: System, use: MgoCode?, value: MgoString?) {
+        self.profile = profile
         self.comment = comment
         self.system = system
-        self.telecomType = telecomType
         self.use = use
         self.value = value
     }
@@ -45,16 +51,16 @@ public extension R4NlCoreContactInformationTelephoneNumbers {
     }
 
     func with(
-        comment: String?? = nil,
-        system: R4NlCoreContactInformationTelephoneNumbersSystem? = nil,
-        telecomType: MgoCodeableConcept?? = nil,
-        use: String?? = nil,
-        value: String?? = nil
+        profile: R4NlCoreContactInformationTelephoneNumbersProfile? = nil,
+        comment: MgoString?? = nil,
+        system: System? = nil,
+        use: MgoCode?? = nil,
+        value: MgoString?? = nil
     ) -> R4NlCoreContactInformationTelephoneNumbers {
         return R4NlCoreContactInformationTelephoneNumbers(
+            profile: profile ?? self.profile,
             comment: comment ?? self.comment,
             system: system ?? self.system,
-            telecomType: telecomType ?? self.telecomType,
             use: use ?? self.use,
             value: value ?? self.value
         )
