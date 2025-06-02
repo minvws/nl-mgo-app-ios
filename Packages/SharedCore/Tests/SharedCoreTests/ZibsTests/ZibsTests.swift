@@ -21,7 +21,6 @@ final class ZibsTests: XCTestCase {
 		expect(object) == nil
 	}
 	
-	// swiftlint:disable:next function_body_length
 	func test_factory_zibMedicationUse() throws {
 		
 		// Given
@@ -32,22 +31,48 @@ final class ZibsTests: XCTestCase {
 		let object = ZibFactory.createZibMedicationUse(data)
 		
 		// Then
-		// asAgreedIndicator
+		expectAsAgreedIndicator(object)
+		expectDateAsserted(object)
+		expectDosage(object)
+		expectEffectivePeriod(object)
+		expectFhirVersion(object)
+		expectId(object)
+		expectIdentifier(object)
+		expectInformationSource(object)
+		expectMedicationReference(object)
+		expectMedicationTreatment(object)
+		expectNote(object)
+		expectPrescriber(object)
+		expectProfile(object)
+		expectReasonCode(object)
+		expectReasonForChangeOrDiscontinuationOfUse(object)
+		expectReferenceID(object)
+		expectRepeatPeriodCyclicalSchedule(object)
+		expectResourceType(object)
+		expectStatus(object)
+		expectSubject(object)
+		expectTaken(object)
+	}
+	
+	private func expectAsAgreedIndicator(_ object: ZibMedicationUse?) {
 		expect(object?.asAgreedIndicator?.ext) == true
 		expect(object?.asAgreedIndicator?.type) == .boolean
 		expect(object?.asAgreedIndicator?.value) == true
-		
-		// author
+	}
+	
+	private func expectAuthor(_ object: ZibMedicationUse?) {
 		expect(object?.author?.ext) == true
 		expect(object?.author?.type) == .reference
 		expect(object?.author?.display) == "Vaste Huisarts 1 || Huisartsen || Maatschap Vaste Huisarts"
 		expect(object?.author?.reference) == "PractitionerRole/nl-core-practitionerrole-02"
+	}
 	
-		// dateAsserted
+	private func expectDateAsserted(_ object: ZibMedicationUse?) {
 		expect(object?.dateAsserted?.type) == .dateTime
 		expect(object?.dateAsserted?.value) == "2020-07-21"
-		
-		// dosage
+	}
+	
+	private func expectDosage(_ object: ZibMedicationUse?) {
 		expect(object?.dosage?.count) == 1
 		expect(object?.dosage?.first?.profile.rawValue) == "http://nictiz.nl/fhir/StructureDefinition/zib-InstructionsForUse"
 		expect(object?.dosage?.first?.additionalInstruction) == nil
@@ -99,8 +124,9 @@ final class ZibsTests: XCTestCase {
 		expect(object?.dosage?.first?.timing.zibAdministrationScheduleRepeat.periodUnit?.value) == "d"
 		expect(object?.dosage?.first?.timing.zibAdministrationScheduleRepeat.timeOfDay) == nil
 		expect(object?.dosage?.first?.timing.zibAdministrationScheduleRepeat.when) == nil
-		
-		// effectivePeriod
+	}
+	
+	private func expectEffectivePeriod(_ object: ZibMedicationUse?) {
 		expect(object?.effectivePeriod.type) == .period
 		expect(object?.effectivePeriod.duration?.ext) == true
 		expect(object?.effectivePeriod.duration?.type) == .duration
@@ -109,17 +135,19 @@ final class ZibsTests: XCTestCase {
 		expect(object?.effectivePeriod.duration?.system) == "http://unitsofmeasure.org"
 		expect(object?.effectivePeriod.duration?.unit) == "dag"
 		expect(object?.effectivePeriod.duration?.value) == 30
-		
 		expect(object?.effectivePeriod.start) == "2020-07-21"
 		expect(object?.effectivePeriod.end) == nil
-		
-		// fhirVersion
+	}
+	
+	private func expectFhirVersion(_ object: ZibMedicationUse?) {
 		expect(object?.fhirVersion) == FhirVersionR3.r3
-		
-		// id
+	}
+	
+	private func expectId(_ object: ZibMedicationUse?) {
 		expect(object?.id) == "zib-medicationuse-01"
-		
-		// identifier
+	}
+	
+	private func expectIdentifier(_ object: ZibMedicationUse?) {
 		expect(object?.identifier?.count) == 2
 		expect(object?.identifier?.first?.system) == "urn:oid:2.16.840.1.113883.2.4.3.11.999.77.6.1"
 		expect(object?.identifier?.first?.type) == .identifier
@@ -131,42 +159,49 @@ final class ZibsTests: XCTestCase {
 		expect(object?.identifier?.last?.mgoIdentifierType) == nil
 		expect(object?.identifier?.last?.use) == nil
 		expect(object?.identifier?.last?.value) == "1bfa2275-8fdf-11ec-2032-020000000000"
-		
-		// informationSource
+	}
+	
+	private func expectInformationSource(_ object: ZibMedicationUse?) {
 		expect(object?.informationSource?.type) == .reference
 		expect(object?.informationSource?.display) == "Henk de Vries"
 		expect(object?.informationSource?.reference) == "Practitioner/nl-core-practitioner-01"
-		
-		// medicationReference
-		expect(object?.informationSource?.type) == .reference
+	}
+	
+	private func expectMedicationReference(_ object: ZibMedicationUse?) {
+		expect(object?.medicationReference?.type) == .reference
 		expect(object?.medicationReference?.display) == "PARACETAMOL TABLET 500MG"
 		expect(object?.medicationReference?.reference) == "Medication/zib-Product-02"
-		
-		// medicationTreatment
+	}
+	
+	private func expectMedicationTreatment(_ object: ZibMedicationUse?) {
 		expect(object?.medicationTreatment?.system) == "urn:oid:2.16.840.1.113883.2.4.3.11.999.77.1.1"
 		expect(object?.medicationTreatment?.ext) == true
 		expect(object?.medicationTreatment?.type) == .identifier
 		expect(object?.medicationTreatment?.use) == nil
 		expect(object?.medicationTreatment?.medicationTreatmentType) == nil
 		expect(object?.medicationTreatment?.value) == "#MB_01i1"
-
-		// note
+	}
+	
+	private func expectNote(_ object: ZibMedicationUse?) {
 		expect(object?.note?.count) == 1
 		expect(object?.note?.first?.author) == nil
 		expect(object?.note?.first?.type) == .annotation
 		expect(object?.note?.first?.text) == "het monster toont afwijkingen"
 		expect(object?.note?.first?.time) == "2020-03-01T22:03:00+00:00"
-		
-		// prescriber
+	}
+	
+	private func expectPrescriber(_ object: ZibMedicationUse?) {
 		expect(object?.prescriber?.ext) == true
 		expect(object?.prescriber?.type) == .reference
 		expect(object?.prescriber?.display) == "Henk de Vries"
 		expect(object?.prescriber?.reference) == "Practitioner/nl-core-practitioner-01"
-		
-		// profile
-		expect(object?.profile.rawValue) == "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"
+	}
 	
-		// reasonCode
+	private func expectProfile(_ object: ZibMedicationUse?) {
+		expect(object?.profile.rawValue) == "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"
+	}
+	
+	private func expectReasonCode(_ object: ZibMedicationUse?) {
 		expect(object?.reasonCode?.count) == 1
 		expect(object?.reasonCode?.first?.type) == .codeableConcept
 		expect(object?.reasonCode?.first?.text) == nil
@@ -175,8 +210,9 @@ final class ZibsTests: XCTestCase {
 		expect(object?.reasonCode?.first?.coding.first?.display) == "Nursing Procedure"
 		expect(object?.reasonCode?.first?.coding.first?.system) == "http://snomed.info/sct"
 		expect(object?.reasonCode?.first?.text) == nil
+	}
 	
-		// reasonForChangeOrDiscontinuationOfUse
+	private func expectReasonForChangeOrDiscontinuationOfUse(_ object: ZibMedicationUse?) {
 		expect(object?.reasonForChangeOrDiscontinuationOfUse?.ext) == true
 		expect(object?.reasonForChangeOrDiscontinuationOfUse?.type) == .codeableConcept
 		expect(object?.reasonForChangeOrDiscontinuationOfUse?.coding.count) == 1
@@ -184,26 +220,32 @@ final class ZibsTests: XCTestCase {
 		expect(object?.reasonForChangeOrDiscontinuationOfUse?.coding.first?.display) == "Drug interaction (finding)"
 		expect(object?.reasonForChangeOrDiscontinuationOfUse?.coding.first?.system) == "http://snomed.info/sct"
 		expect(object?.reasonForChangeOrDiscontinuationOfUse?.text) == nil
-
-		// referenceID
+	}
+	
+	private func expectReferenceID(_ object: ZibMedicationUse?) {
 		expect(object?.referenceID) == "MedicationStatement/zib-medicationuse-01"
-
-		// repeatPeriodCyclicalSchedule
+	}
+	
+	private func expectRepeatPeriodCyclicalSchedule(_ object: ZibMedicationUse?) {
 		expect(object?.repeatPeriodCyclicalSchedule) == nil
-
-		// resourceType
+	}
+	
+	private func expectResourceType(_ object: ZibMedicationUse?) {
 		expect(object?.resourceType) == "MedicationStatement"
-
-		// status
+	}
+	
+	private func expectStatus(_ object: ZibMedicationUse?) {
 		expect(object?.status?.type) == .code
 		expect(object?.status?.value) == .completed
-
-		// subject
+	}
+	
+	private func expectSubject(_ object: ZibMedicationUse?) {
 		expect(object?.subject?.type) == .reference
 		expect(object?.subject?.display) == "XXX_Helleman"
 		expect(object?.subject?.reference) == "Patient/nl-core-patient-01"
-
-		// taken
+	}
+	
+	private func expectTaken(_ object: ZibMedicationUse?) {
 		expect(object?.taken?.type) == .code
 		expect(object?.taken?.value) == .y
 	}

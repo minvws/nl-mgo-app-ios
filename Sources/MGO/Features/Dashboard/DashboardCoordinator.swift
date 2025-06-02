@@ -26,7 +26,7 @@ enum DashboardTab: Int {
 	case settings = 2
 }
 
-enum DashboardCoordination {
+struct DashboardCoordination {
 	
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {
