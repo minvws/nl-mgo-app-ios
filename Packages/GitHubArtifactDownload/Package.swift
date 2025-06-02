@@ -10,12 +10,12 @@ let package = Package(
 	],
 	dependencies: [
 		
-		// Interal
+		// Internal
 		.package(name: "AuthorizationMiddleware", path: "../AuthorizationMiddleware"),
 		
 		// External
 		.package(url: "https://github.com/apple/example-package-figlet", branch: "main"),
-		.package(url: "https://github.com/apple/swift-argument-parser", exact: "1.5.0"),
+		.package(url: "https://github.com/apple/swift-argument-parser", exact: "1.5.1"),
 		.package(url: "https://github.com/wei18/github-rest-api-swift-openapi.git", exact: "2.0.5")
 	],
 	targets: [
