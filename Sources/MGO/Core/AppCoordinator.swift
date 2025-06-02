@@ -69,7 +69,7 @@ extension Coordination.Action {
 	static let resetApplication = Coordination.Action(identifier: "resetApplication")
 }
 
-enum AppCoordination {
+struct AppCoordination {
 	
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {

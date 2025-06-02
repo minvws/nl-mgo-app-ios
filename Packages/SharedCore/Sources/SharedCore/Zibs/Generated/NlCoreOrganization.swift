@@ -12,36 +12,35 @@ import Foundation
 
 // MARK: - NlCoreOrganization
 public struct NlCoreOrganization: Codable, Hashable, Sendable {
-    public let address: [NlCoreAddress]?
-    public let departmentSpecialty: [MgoCodeableConcept]?
+    public let address: [NlCoreOrganizationAddress]?
+    public let alias: [MgoString]?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let name: String?
-    public let organizationType: [MgoCodeableConcept]?
+    public let name: MgoString?
     public let profile: NlCoreOrganizationProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let telecom: [NlCoreContactpoint]?
+    public let referenceID, resourceType: String
+    public let telecom: [NlCoreOrganizationTelecom]?
+    public let type: NlCoreOrganizationType
 
     public enum CodingKeys: String, CodingKey {
-        case address, departmentSpecialty, fhirVersion, id, identifier, name, organizationType, profile
+        case address, alias, fhirVersion, id, identifier, name, profile
         case referenceID = "referenceId"
-        case resourceType, telecom
+        case resourceType, telecom, type
     }
 
-    public init(address: [NlCoreAddress]?, departmentSpecialty: [MgoCodeableConcept]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, name: String?, organizationType: [MgoCodeableConcept]?, profile: NlCoreOrganizationProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
+    public init(address: [NlCoreOrganizationAddress]?, alias: [MgoString]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, name: MgoString?, profile: NlCoreOrganizationProfile, referenceID: String, resourceType: String, telecom: [NlCoreOrganizationTelecom]?, type: NlCoreOrganizationType) {
         self.address = address
-        self.departmentSpecialty = departmentSpecialty
+        self.alias = alias
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.name = name
-        self.organizationType = organizationType
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
         self.telecom = telecom
+        self.type = type
     }
 }
 
@@ -64,30 +63,30 @@ public extension NlCoreOrganization {
     }
 
     func with(
-        address: [NlCoreAddress]?? = nil,
-        departmentSpecialty: [MgoCodeableConcept]?? = nil,
+        address: [NlCoreOrganizationAddress]?? = nil,
+        alias: [MgoString]?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        name: String?? = nil,
-        organizationType: [MgoCodeableConcept]?? = nil,
+        name: MgoString?? = nil,
         profile: NlCoreOrganizationProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        telecom: [NlCoreContactpoint]?? = nil
+        resourceType: String? = nil,
+        telecom: [NlCoreOrganizationTelecom]?? = nil,
+        type: NlCoreOrganizationType? = nil
     ) -> NlCoreOrganization {
         return NlCoreOrganization(
             address: address ?? self.address,
-            departmentSpecialty: departmentSpecialty ?? self.departmentSpecialty,
+            alias: alias ?? self.alias,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             name: name ?? self.name,
-            organizationType: organizationType ?? self.organizationType,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            telecom: telecom ?? self.telecom
+            telecom: telecom ?? self.telecom,
+            type: type ?? self.type
         )
     }
 

@@ -12,15 +12,14 @@ import Foundation
 
 // MARK: - NlCorePractitioner
 public struct NlCorePractitioner: Codable, Hashable, Sendable {
-    public let address: [NlCoreAddress]?
+    public let address: [NlCorePractitionerAddress]?
     public let fhirVersion: FhirVersionR3
     public let id: String?
-    public let identifier: [MgoIdentifier]?
-    public let name: [NlCoreHumanname]?
+    public let identifier: NlCorePractitionerIdentifier
+    public let name: [NlCorePractitionerName]?
     public let profile: NlCorePractitionerProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let telecom: [NlCoreContactpoint]?
+    public let referenceID, resourceType: String
+    public let telecom: [NlCorePractitionerTelecom]?
 
     public enum CodingKeys: String, CodingKey {
         case address, fhirVersion, id, identifier, name, profile
@@ -28,7 +27,7 @@ public struct NlCorePractitioner: Codable, Hashable, Sendable {
         case resourceType, telecom
     }
 
-    public init(address: [NlCoreAddress]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, name: [NlCoreHumanname]?, profile: NlCorePractitionerProfile, referenceID: String, resourceType: String?, telecom: [NlCoreContactpoint]?) {
+    public init(address: [NlCorePractitionerAddress]?, fhirVersion: FhirVersionR3, id: String?, identifier: NlCorePractitionerIdentifier, name: [NlCorePractitionerName]?, profile: NlCorePractitionerProfile, referenceID: String, resourceType: String, telecom: [NlCorePractitionerTelecom]?) {
         self.address = address
         self.fhirVersion = fhirVersion
         self.id = id
@@ -60,15 +59,15 @@ public extension NlCorePractitioner {
     }
 
     func with(
-        address: [NlCoreAddress]?? = nil,
+        address: [NlCorePractitionerAddress]?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
-        identifier: [MgoIdentifier]?? = nil,
-        name: [NlCoreHumanname]?? = nil,
+        identifier: NlCorePractitionerIdentifier? = nil,
+        name: [NlCorePractitionerName]?? = nil,
         profile: NlCorePractitionerProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        telecom: [NlCoreContactpoint]?? = nil
+        resourceType: String? = nil,
+        telecom: [NlCorePractitionerTelecom]?? = nil
     ) -> NlCorePractitioner {
         return NlCorePractitioner(
             address: address ?? self.address,

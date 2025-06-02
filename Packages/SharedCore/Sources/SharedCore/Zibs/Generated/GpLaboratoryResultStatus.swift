@@ -1,12 +1,68 @@
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
+//
+//   let gpLaboratoryResultStatus = try GpLaboratoryResultStatus(json)
+//
+// Hashable or Equatable:
+// The compiler will not be able to synthesize the implementation of Hashable or Equatable
+// for types that require the use of JSONAny, nor will the implementation of Hashable be
+// synthesized for types that have collections (such as arrays or dictionaries).
+
 import Foundation
 
-public enum GpLaboratoryResultStatus: String, Codable, Hashable, Sendable {
-    case amended = "amended"
-    case cancelled = "cancelled"
-    case corrected = "corrected"
-    case enteredInError = "entered-in-error"
-    case preliminary = "preliminary"
-    case registered = "registered"
-    case statusFinal = "final"
-    case unknown = "unknown"
+// MARK: - GpLaboratoryResultStatus
+public struct GpLaboratoryResultStatus: Codable, Hashable, Sendable {
+    public let type: EAfspraakAppointmentParticipantRequiredType?
+    public let testResultStatus: PurpleTestResultStatus?
+    public let value: FluffyValue?
+
+    public enum CodingKeys: String, CodingKey {
+        case type = "_type"
+        case testResultStatus, value
+    }
+
+    public init(type: EAfspraakAppointmentParticipantRequiredType?, testResultStatus: PurpleTestResultStatus?, value: FluffyValue?) {
+        self.type = type
+        self.testResultStatus = testResultStatus
+        self.value = value
+    }
+}
+
+// MARK: GpLaboratoryResultStatus convenience initializers and mutators
+
+public extension GpLaboratoryResultStatus {
+    init(data: Data) throws {
+        self = try newJSONDecoder().decode(GpLaboratoryResultStatus.self, from: data)
+    }
+
+    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+        guard let data = json.data(using: encoding) else {
+            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
+        }
+        try self.init(data: data)
+    }
+
+    init(fromURL url: URL) throws {
+        try self.init(data: try Data(contentsOf: url))
+    }
+
+    func with(
+        type: EAfspraakAppointmentParticipantRequiredType?? = nil,
+        testResultStatus: PurpleTestResultStatus?? = nil,
+        value: FluffyValue?? = nil
+    ) -> GpLaboratoryResultStatus {
+        return GpLaboratoryResultStatus(
+            type: type ?? self.type,
+            testResultStatus: testResultStatus ?? self.testResultStatus,
+            value: value ?? self.value
+        )
+    }
+
+    func jsonData() throws -> Data {
+        return try newJSONEncoder().encode(self)
+    }
+
+    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
+        return String(data: try self.jsonData(), encoding: encoding)
+    }
 }

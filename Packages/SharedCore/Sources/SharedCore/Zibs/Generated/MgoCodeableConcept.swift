@@ -12,10 +12,17 @@ import Foundation
 
 // MARK: - MgoCodeableConcept
 public struct MgoCodeableConcept: Codable, Hashable, Sendable {
-    public let coding: [MgoCoding]
+    public let type: MgoCodeableConceptType
+    public let coding: [MgoCodingProps]
     public let text: String?
 
-    public init(coding: [MgoCoding], text: String?) {
+    public enum CodingKeys: String, CodingKey {
+        case type = "_type"
+        case coding, text
+    }
+
+    public init(type: MgoCodeableConceptType, coding: [MgoCodingProps], text: String?) {
+        self.type = type
         self.coding = coding
         self.text = text
     }
@@ -40,10 +47,12 @@ public extension MgoCodeableConcept {
     }
 
     func with(
-        coding: [MgoCoding]? = nil,
+        type: MgoCodeableConceptType? = nil,
+        coding: [MgoCodingProps]? = nil,
         text: String?? = nil
     ) -> MgoCodeableConcept {
         return MgoCodeableConcept(
+            type: type ?? self.type,
             coding: coding ?? self.coding,
             text: text ?? self.text
         )

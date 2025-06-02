@@ -17,10 +17,9 @@ public struct NlCorePractitionerRole: Codable, Hashable, Sendable {
     public let identifier: [MgoIdentifier]?
     public let organization: MgoReference?
     public let profile: NlCorePractitionerRoleProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let specialty: [MgoCodeableConcept]?
-    public let telecom: [NlCoreContactpoint]?
+    public let referenceID, resourceType: String
+    public let specialty: MgoCodeableConcept?
+    public let telecom: [NlCorePractitionerRoleTelecom]?
 
     public enum CodingKeys: String, CodingKey {
         case fhirVersion, id, identifier, organization, profile
@@ -28,7 +27,7 @@ public struct NlCorePractitionerRole: Codable, Hashable, Sendable {
         case resourceType, specialty, telecom
     }
 
-    public init(fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, organization: MgoReference?, profile: NlCorePractitionerRoleProfile, referenceID: String, resourceType: String?, specialty: [MgoCodeableConcept]?, telecom: [NlCoreContactpoint]?) {
+    public init(fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, organization: MgoReference?, profile: NlCorePractitionerRoleProfile, referenceID: String, resourceType: String, specialty: MgoCodeableConcept?, telecom: [NlCorePractitionerRoleTelecom]?) {
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
@@ -66,9 +65,9 @@ public extension NlCorePractitionerRole {
         organization: MgoReference?? = nil,
         profile: NlCorePractitionerRoleProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        specialty: [MgoCodeableConcept]?? = nil,
-        telecom: [NlCoreContactpoint]?? = nil
+        resourceType: String? = nil,
+        specialty: MgoCodeableConcept?? = nil,
+        telecom: [NlCorePractitionerRoleTelecom]?? = nil
     ) -> NlCorePractitionerRole {
         return NlCorePractitionerRole(
             fhirVersion: fhirVersion ?? self.fhirVersion,

@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let cuffTypeSNOMED = try CuffTypeSNOMED(json)
+//   let cuffTypeSnomed = try CuffTypeSnomed(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - CuffTypeSNOMED
-public struct CuffTypeSNOMED: Codable, Hashable, Sendable {
+// MARK: - CuffTypeSnomed
+public struct CuffTypeSnomed: Codable, Hashable, Sendable {
     public let valueCodeableConcept: MgoCodeableConcept?
 
     public init(valueCodeableConcept: MgoCodeableConcept?) {
@@ -19,11 +19,11 @@ public struct CuffTypeSNOMED: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: CuffTypeSNOMED convenience initializers and mutators
+// MARK: CuffTypeSnomed convenience initializers and mutators
 
-public extension CuffTypeSNOMED {
+public extension CuffTypeSnomed {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(CuffTypeSNOMED.self, from: data)
+        self = try newJSONDecoder().decode(CuffTypeSnomed.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -39,8 +39,8 @@ public extension CuffTypeSNOMED {
 
     func with(
         valueCodeableConcept: MgoCodeableConcept?? = nil
-    ) -> CuffTypeSNOMED {
-        return CuffTypeSNOMED(
+    ) -> CuffTypeSnomed {
+        return CuffTypeSnomed(
             valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept
         )
     }

@@ -119,10 +119,10 @@ final class FHIRParserTests: XCTestCase {
 		let schema = sut.getDetails(data)
 		
 		// Then
-		expect(schema?.label) == "Paracetamol tablet 500mg"
+		expect(schema?.label) == "Medicatiegebruik"
 	}
 	
-	func test_getDetails_error() throws {
+	func test_getDetails_error_shouldReturnNil() throws {
 		
 		// Given
 		
@@ -146,7 +146,7 @@ final class FHIRParserTests: XCTestCase {
 		expect(schema?.label) == "Paracetamol tablet 500mg"
 	}
 	
-	func test_getSummary_error() throws {
+	func test_getSummary_error_shouldReturnNil() throws {
 		
 		// Given
 		

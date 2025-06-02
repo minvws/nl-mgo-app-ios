@@ -12,12 +12,23 @@ import Foundation
 
 // MARK: - PurpleBodySite
 public struct PurpleBodySite: Codable, Hashable, Sendable {
-    public let laterality, morphology, value: MgoCodeableConcept?
+    public let type: MgoCodeableConceptType?
+    public let coding: [MgoCodingProps]?
+    public let laterality: [LateralityElement]
+    public let morphology: [MorphologyElement]
+    public let text: String?
 
-    public init(laterality: MgoCodeableConcept?, morphology: MgoCodeableConcept?, value: MgoCodeableConcept?) {
+    public enum CodingKeys: String, CodingKey {
+        case type = "_type"
+        case coding, laterality, morphology, text
+    }
+
+    public init(type: MgoCodeableConceptType?, coding: [MgoCodingProps]?, laterality: [LateralityElement], morphology: [MorphologyElement], text: String?) {
+        self.type = type
+        self.coding = coding
         self.laterality = laterality
         self.morphology = morphology
-        self.value = value
+        self.text = text
     }
 }
 
@@ -40,14 +51,18 @@ public extension PurpleBodySite {
     }
 
     func with(
-        laterality: MgoCodeableConcept?? = nil,
-        morphology: MgoCodeableConcept?? = nil,
-        value: MgoCodeableConcept?? = nil
+        type: MgoCodeableConceptType?? = nil,
+        coding: [MgoCodingProps]?? = nil,
+        laterality: [LateralityElement]? = nil,
+        morphology: [MorphologyElement]? = nil,
+        text: String?? = nil
     ) -> PurpleBodySite {
         return PurpleBodySite(
+            type: type ?? self.type,
+            coding: coding ?? self.coding,
             laterality: laterality ?? self.laterality,
             morphology: morphology ?? self.morphology,
-            value: value ?? self.value
+            text: text ?? self.text
         )
     }
 

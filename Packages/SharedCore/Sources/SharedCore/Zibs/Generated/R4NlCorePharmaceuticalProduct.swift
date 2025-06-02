@@ -12,44 +12,33 @@ import Foundation
 
 // MARK: - R4NlCorePharmaceuticalProduct
 public struct R4NlCorePharmaceuticalProduct: Codable, Hashable, Sendable {
-    public let amount: MgoRatio?
     public let batch: Batch
-    public let code: MgoCodeableConcept?
-    public let description: String?
+    public let code: R4NlCorePharmaceuticalProductCode
     public let fhirVersion: FhirVersionR4
     public let form: MgoCodeableConcept?
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let ingredient: [Ingredient]?
-    public let manufacturer: MgoReference?
-    public let name: String?
+    public let ingredient: [R4NlCorePharmaceuticalProductIngredient]?
     public let profile: R4NlCorePharmaceuticalProductProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let status: R4NlCorePharmaceuticalProductStatus?
+    public let referenceID, resourceType: String
 
     public enum CodingKeys: String, CodingKey {
-        case amount, batch, code, description, fhirVersion, form, id, identifier, ingredient, manufacturer, name, profile
+        case batch, code, fhirVersion, form, id, identifier, ingredient, profile
         case referenceID = "referenceId"
-        case resourceType, status
+        case resourceType
     }
 
-    public init(amount: MgoRatio?, batch: Batch, code: MgoCodeableConcept?, description: String?, fhirVersion: FhirVersionR4, form: MgoCodeableConcept?, id: String?, identifier: [MgoIdentifier]?, ingredient: [Ingredient]?, manufacturer: MgoReference?, name: String?, profile: R4NlCorePharmaceuticalProductProfile, referenceID: String, resourceType: String?, status: R4NlCorePharmaceuticalProductStatus?) {
-        self.amount = amount
+    public init(batch: Batch, code: R4NlCorePharmaceuticalProductCode, fhirVersion: FhirVersionR4, form: MgoCodeableConcept?, id: String?, identifier: [MgoIdentifier]?, ingredient: [R4NlCorePharmaceuticalProductIngredient]?, profile: R4NlCorePharmaceuticalProductProfile, referenceID: String, resourceType: String) {
         self.batch = batch
         self.code = code
-        self.description = description
         self.fhirVersion = fhirVersion
         self.form = form
         self.id = id
         self.identifier = identifier
         self.ingredient = ingredient
-        self.manufacturer = manufacturer
-        self.name = name
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.status = status
     }
 }
 
@@ -72,38 +61,28 @@ public extension R4NlCorePharmaceuticalProduct {
     }
 
     func with(
-        amount: MgoRatio?? = nil,
         batch: Batch? = nil,
-        code: MgoCodeableConcept?? = nil,
-        description: String?? = nil,
+        code: R4NlCorePharmaceuticalProductCode? = nil,
         fhirVersion: FhirVersionR4? = nil,
         form: MgoCodeableConcept?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        ingredient: [Ingredient]?? = nil,
-        manufacturer: MgoReference?? = nil,
-        name: String?? = nil,
+        ingredient: [R4NlCorePharmaceuticalProductIngredient]?? = nil,
         profile: R4NlCorePharmaceuticalProductProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        status: R4NlCorePharmaceuticalProductStatus?? = nil
+        resourceType: String? = nil
     ) -> R4NlCorePharmaceuticalProduct {
         return R4NlCorePharmaceuticalProduct(
-            amount: amount ?? self.amount,
             batch: batch ?? self.batch,
             code: code ?? self.code,
-            description: description ?? self.description,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             form: form ?? self.form,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             ingredient: ingredient ?? self.ingredient,
-            manufacturer: manufacturer ?? self.manufacturer,
-            name: name ?? self.name,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
-            resourceType: resourceType ?? self.resourceType,
-            status: status ?? self.status
+            resourceType: resourceType ?? self.resourceType
         )
     }
 

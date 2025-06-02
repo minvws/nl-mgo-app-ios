@@ -12,11 +12,17 @@ import Foundation
 
 // MARK: - R4NlCoreContactInformationEmailAddresses
 public struct R4NlCoreContactInformationEmailAddresses: Codable, Hashable, Sendable {
-    public let system: R4NlCoreContactInformationEmailAddressesSystem
-    public let use, value: String?
+    public let profile: R4NlCoreContactInformationEmailAddressesProfile
+    public let use: MgoCode?
+    public let value: MgoString?
 
-    public init(system: R4NlCoreContactInformationEmailAddressesSystem, use: String?, value: String?) {
-        self.system = system
+    public enum CodingKeys: String, CodingKey {
+        case profile = "_profile"
+        case use, value
+    }
+
+    public init(profile: R4NlCoreContactInformationEmailAddressesProfile, use: MgoCode?, value: MgoString?) {
+        self.profile = profile
         self.use = use
         self.value = value
     }
@@ -41,12 +47,12 @@ public extension R4NlCoreContactInformationEmailAddresses {
     }
 
     func with(
-        system: R4NlCoreContactInformationEmailAddressesSystem? = nil,
-        use: String?? = nil,
-        value: String?? = nil
+        profile: R4NlCoreContactInformationEmailAddressesProfile? = nil,
+        use: MgoCode?? = nil,
+        value: MgoString?? = nil
     ) -> R4NlCoreContactInformationEmailAddresses {
         return R4NlCoreContactInformationEmailAddresses(
-            system: system ?? self.system,
+            profile: profile ?? self.profile,
             use: use ?? self.use,
             value: value ?? self.value
         )

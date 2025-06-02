@@ -13,9 +13,11 @@ import Foundation
 // MARK: - ZibProcedurePerformer
 public struct ZibProcedurePerformer: Codable, Hashable, Sendable {
     public let actor: MgoReference?
+    public let healthProfessionalRole: MgoCodeableConcept?
 
-    public init(actor: MgoReference?) {
+    public init(actor: MgoReference?, healthProfessionalRole: MgoCodeableConcept?) {
         self.actor = actor
+        self.healthProfessionalRole = healthProfessionalRole
     }
 }
 
@@ -38,10 +40,12 @@ public extension ZibProcedurePerformer {
     }
 
     func with(
-        actor: MgoReference?? = nil
+        actor: MgoReference?? = nil,
+        healthProfessionalRole: MgoCodeableConcept?? = nil
     ) -> ZibProcedurePerformer {
         return ZibProcedurePerformer(
-            actor: actor ?? self.actor
+            actor: actor ?? self.actor,
+            healthProfessionalRole: healthProfessionalRole ?? self.healthProfessionalRole
         )
     }
 

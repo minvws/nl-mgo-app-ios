@@ -12,47 +12,41 @@ import Foundation
 
 // MARK: - ZibMedicalDevice
 public struct ZibMedicalDevice: Codable, Hashable, Sendable {
-    public let bodySite: MgoCodeableConcept?
+    public let bodySite: ZibMedicalDeviceBodySite
     public let device: MgoReference?
     public let fhirVersion: FhirVersionR3
+    public let healthCareProvider: HealthCareProvider?
+    public let healthProfessional: HealthProfessional?
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let laterality: MgoCodeableConcept?
+    public let indicationProblem: [IndicationProblem]?
     public let note: [MgoAnnotation]?
-    public let organization, patient, practitioner: MgoReference?
     public let profile: ZibMedicalDeviceProfile
-    public let reason: MgoReference?
-    public let recordedOn: String?
-    public let referenceID: String
-    public let resourceType: String?
-    public let source: MgoReference?
-    public let status: ZibMedicalDeviceStatus?
+    public let referenceID, resourceType: String
+    public let source, subject: MgoReference?
     public let whenUsed: MgoPeriod?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, device, fhirVersion, id, identifier, laterality, note, organization, patient, practitioner, profile, reason, recordedOn
+        case bodySite, device, fhirVersion, healthCareProvider, healthProfessional, id, identifier, indicationProblem, note, profile
         case referenceID = "referenceId"
-        case resourceType, source, status, whenUsed
+        case resourceType, source, subject, whenUsed
     }
 
-    public init(bodySite: MgoCodeableConcept?, device: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, laterality: MgoCodeableConcept?, note: [MgoAnnotation]?, organization: MgoReference?, patient: MgoReference?, practitioner: MgoReference?, profile: ZibMedicalDeviceProfile, reason: MgoReference?, recordedOn: String?, referenceID: String, resourceType: String?, source: MgoReference?, status: ZibMedicalDeviceStatus?, whenUsed: MgoPeriod?) {
+    public init(bodySite: ZibMedicalDeviceBodySite, device: MgoReference?, fhirVersion: FhirVersionR3, healthCareProvider: HealthCareProvider?, healthProfessional: HealthProfessional?, id: String?, identifier: [MgoIdentifier]?, indicationProblem: [IndicationProblem]?, note: [MgoAnnotation]?, profile: ZibMedicalDeviceProfile, referenceID: String, resourceType: String, source: MgoReference?, subject: MgoReference?, whenUsed: MgoPeriod?) {
         self.bodySite = bodySite
         self.device = device
         self.fhirVersion = fhirVersion
+        self.healthCareProvider = healthCareProvider
+        self.healthProfessional = healthProfessional
         self.id = id
         self.identifier = identifier
-        self.laterality = laterality
+        self.indicationProblem = indicationProblem
         self.note = note
-        self.organization = organization
-        self.patient = patient
-        self.practitioner = practitioner
         self.profile = profile
-        self.reason = reason
-        self.recordedOn = recordedOn
         self.referenceID = referenceID
         self.resourceType = resourceType
         self.source = source
-        self.status = status
+        self.subject = subject
         self.whenUsed = whenUsed
     }
 }
@@ -76,43 +70,37 @@ public extension ZibMedicalDevice {
     }
 
     func with(
-        bodySite: MgoCodeableConcept?? = nil,
+        bodySite: ZibMedicalDeviceBodySite? = nil,
         device: MgoReference?? = nil,
         fhirVersion: FhirVersionR3? = nil,
+        healthCareProvider: HealthCareProvider?? = nil,
+        healthProfessional: HealthProfessional?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        laterality: MgoCodeableConcept?? = nil,
+        indicationProblem: [IndicationProblem]?? = nil,
         note: [MgoAnnotation]?? = nil,
-        organization: MgoReference?? = nil,
-        patient: MgoReference?? = nil,
-        practitioner: MgoReference?? = nil,
         profile: ZibMedicalDeviceProfile? = nil,
-        reason: MgoReference?? = nil,
-        recordedOn: String?? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
+        resourceType: String? = nil,
         source: MgoReference?? = nil,
-        status: ZibMedicalDeviceStatus?? = nil,
+        subject: MgoReference?? = nil,
         whenUsed: MgoPeriod?? = nil
     ) -> ZibMedicalDevice {
         return ZibMedicalDevice(
             bodySite: bodySite ?? self.bodySite,
             device: device ?? self.device,
             fhirVersion: fhirVersion ?? self.fhirVersion,
+            healthCareProvider: healthCareProvider ?? self.healthCareProvider,
+            healthProfessional: healthProfessional ?? self.healthProfessional,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
-            laterality: laterality ?? self.laterality,
+            indicationProblem: indicationProblem ?? self.indicationProblem,
             note: note ?? self.note,
-            organization: organization ?? self.organization,
-            patient: patient ?? self.patient,
-            practitioner: practitioner ?? self.practitioner,
             profile: profile ?? self.profile,
-            reason: reason ?? self.reason,
-            recordedOn: recordedOn ?? self.recordedOn,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
             source: source ?? self.source,
-            status: status ?? self.status,
+            subject: subject ?? self.subject,
             whenUsed: whenUsed ?? self.whenUsed
         )
     }

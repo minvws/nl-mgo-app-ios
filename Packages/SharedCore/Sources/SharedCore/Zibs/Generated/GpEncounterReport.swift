@@ -13,16 +13,15 @@ import Foundation
 // MARK: - GpEncounterReport
 public struct GpEncounterReport: Codable, Hashable, Sendable {
     public let author: [MgoReference]?
-    public let date: String?
+    public let date: MgoDateTime?
     public let encounter: MgoReference?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: MgoIdentifier?
     public let profile: GpEncounterReportProfile
-    public let referenceID: String
-    public let resourceType: String?
+    public let referenceID, resourceType: String
     public let section: [Section]?
-    public let status, title: String?
+    public let status, title: MgoString?
     public let type: [MgoCoding]?
 
     public enum CodingKeys: String, CodingKey {
@@ -31,7 +30,7 @@ public struct GpEncounterReport: Codable, Hashable, Sendable {
         case resourceType, section, status, title, type
     }
 
-    public init(author: [MgoReference]?, date: String?, encounter: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, profile: GpEncounterReportProfile, referenceID: String, resourceType: String?, section: [Section]?, status: String?, title: String?, type: [MgoCoding]?) {
+    public init(author: [MgoReference]?, date: MgoDateTime?, encounter: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, profile: GpEncounterReportProfile, referenceID: String, resourceType: String, section: [Section]?, status: MgoString?, title: MgoString?, type: [MgoCoding]?) {
         self.author = author
         self.date = date
         self.encounter = encounter
@@ -68,17 +67,17 @@ public extension GpEncounterReport {
 
     func with(
         author: [MgoReference]?? = nil,
-        date: String?? = nil,
+        date: MgoDateTime?? = nil,
         encounter: MgoReference?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: MgoIdentifier?? = nil,
         profile: GpEncounterReportProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
+        resourceType: String? = nil,
         section: [Section]?? = nil,
-        status: String?? = nil,
-        title: String?? = nil,
+        status: MgoString?? = nil,
+        title: MgoString?? = nil,
         type: [MgoCoding]?? = nil
     ) -> GpEncounterReport {
         return GpEncounterReport(

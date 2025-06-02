@@ -12,38 +12,33 @@ import Foundation
 
 // MARK: - R4NlCoreHealthcareProviderOrganization
 public struct R4NlCoreHealthcareProviderOrganization: Codable, Hashable, Sendable {
-    public let address: [R4NlCoreAddressInformation]?
-    public let departmentSpecialty: [MgoCodeableConcept]?
-    public let emailAddresses: [R4NlCoreContactInformationEmailAddresses]?
+    public let address: [R4NlCoreHealthcareProviderOrganizationAddress]?
     public let fhirVersion: FhirVersionR4
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let name: String?
-    public let organizationType: [MgoCodeableConcept]?
+    public let name: MgoString?
     public let profile: R4NlCoreHealthcareProviderOrganizationProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?
+    public let referenceID, resourceType: String
+    public let telecom: R4NlCoreHealthcareProviderOrganizationTelecom
+    public let type: R4NlCoreHealthcareProviderOrganizationType
 
     public enum CodingKeys: String, CodingKey {
-        case address, departmentSpecialty, emailAddresses, fhirVersion, id, identifier, name, organizationType, profile
+        case address, fhirVersion, id, identifier, name, profile
         case referenceID = "referenceId"
-        case resourceType, telephoneNumbers
+        case resourceType, telecom, type
     }
 
-    public init(address: [R4NlCoreAddressInformation]?, departmentSpecialty: [MgoCodeableConcept]?, emailAddresses: [R4NlCoreContactInformationEmailAddresses]?, fhirVersion: FhirVersionR4, id: String?, identifier: [MgoIdentifier]?, name: String?, organizationType: [MgoCodeableConcept]?, profile: R4NlCoreHealthcareProviderOrganizationProfile, referenceID: String, resourceType: String?, telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?) {
+    public init(address: [R4NlCoreHealthcareProviderOrganizationAddress]?, fhirVersion: FhirVersionR4, id: String?, identifier: [MgoIdentifier]?, name: MgoString?, profile: R4NlCoreHealthcareProviderOrganizationProfile, referenceID: String, resourceType: String, telecom: R4NlCoreHealthcareProviderOrganizationTelecom, type: R4NlCoreHealthcareProviderOrganizationType) {
         self.address = address
-        self.departmentSpecialty = departmentSpecialty
-        self.emailAddresses = emailAddresses
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.name = name
-        self.organizationType = organizationType
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.telephoneNumbers = telephoneNumbers
+        self.telecom = telecom
+        self.type = type
     }
 }
 
@@ -66,32 +61,28 @@ public extension R4NlCoreHealthcareProviderOrganization {
     }
 
     func with(
-        address: [R4NlCoreAddressInformation]?? = nil,
-        departmentSpecialty: [MgoCodeableConcept]?? = nil,
-        emailAddresses: [R4NlCoreContactInformationEmailAddresses]?? = nil,
+        address: [R4NlCoreHealthcareProviderOrganizationAddress]?? = nil,
         fhirVersion: FhirVersionR4? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        name: String?? = nil,
-        organizationType: [MgoCodeableConcept]?? = nil,
+        name: MgoString?? = nil,
         profile: R4NlCoreHealthcareProviderOrganizationProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?? = nil
+        resourceType: String? = nil,
+        telecom: R4NlCoreHealthcareProviderOrganizationTelecom? = nil,
+        type: R4NlCoreHealthcareProviderOrganizationType? = nil
     ) -> R4NlCoreHealthcareProviderOrganization {
         return R4NlCoreHealthcareProviderOrganization(
             address: address ?? self.address,
-            departmentSpecialty: departmentSpecialty ?? self.departmentSpecialty,
-            emailAddresses: emailAddresses ?? self.emailAddresses,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             name: name ?? self.name,
-            organizationType: organizationType ?? self.organizationType,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            telephoneNumbers: telephoneNumbers ?? self.telephoneNumbers
+            telecom: telecom ?? self.telecom,
+            type: type ?? self.type
         )
     }
 
