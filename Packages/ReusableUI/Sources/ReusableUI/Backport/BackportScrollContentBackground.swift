@@ -5,10 +5,16 @@
 
 import SwiftUI
 
+/// Back ported version of scrollContentBackground
+/// - See: https://developer.apple.com/documentation/swiftui/view/scrollcontentbackground(_:)
 public struct BackportScrollContentBackground: ViewModifier {
 	
-	var visibility: Visibility
+	/// The visibility
+	public var visibility: Visibility
 	
+	/// Get the view for this modifier
+	/// - Parameter content: content
+	/// - Returns: view with view modifier
 	public func body(content: Content) -> some View {
 		
 		if #available(iOS 16.0, *) {
@@ -21,6 +27,11 @@ public struct BackportScrollContentBackground: ViewModifier {
 }
 
 extension View {
+	
+	/// Back ported version of scrollContentBackground
+	/// - See: https://developer.apple.com/documentation/swiftui/view/scrollcontentbackground(_:)
+	/// - Parameter visibility: the visibility
+	/// - Returns: view
 	public func backportScrollContentBackground(_ visibility: Visibility) -> some View {
 		modifier(BackportScrollContentBackground(visibility: visibility))
 	}
