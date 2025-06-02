@@ -139,7 +139,42 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let state = HealthcareCoordination.State.showHealthData(
 			backButtonTitle: "Heading",
 			schema: schema,
-			organization: healthcareOrganization
+			organization: healthcareOrganization,
+			inSheet: false
+		)
+		
+		// When
+		let view = sut.viewState(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
+	func test_coordinatorView_forShowHealthCategoryData_inSheet() throws {
+		
+		// Given
+		let healthcareOrganization = Generator.healthcareOrganization("1")
+		let schema = HealthUISchema(
+			children: [
+				HealthUIGroup(
+					children: [
+						UIElement(
+							display: .string("value 1"),
+							label: "label",
+							type: .singleValue,
+							reference: nil,
+							url: nil
+						)
+					],
+					label: "section heading")
+			],
+			label: "zib details"
+		)
+		let state = HealthcareCoordination.State.showHealthData(
+			backButtonTitle: "Heading",
+			schema: schema,
+			organization: healthcareOrganization,
+			inSheet: true
 		)
 		
 		// When

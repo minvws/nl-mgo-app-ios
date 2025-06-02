@@ -62,7 +62,7 @@ struct HealthcareCoordination {
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
-		case showHealthData(backButtonTitle: String, schema: HealthUISchema, organization: MgoOrganization)
+		case showHealthData(backButtonTitle: String?, schema: HealthUISchema, organization: MgoOrganization, inSheet: Bool)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
 }
@@ -188,12 +188,28 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				}
 				
 			case Coordination.Action.showHealthData.identifier:
-				if action.params.count == 4,
+				if action.params.count == 5,
 				   // let resource = action.params["resource"] as? MgoResouce,
 				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 				   let backButtonTitle = action.params["backButtonTitle"] as? String,
+				   let inSheet = action.params["inSheet"] as? Bool,
 				   let schema = action.params["uiSchema"] as? HealthUISchema {
-					path.append(HealthcareCoordination.State.showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization))
+					
+					let newState = HealthcareCoordination.State.showHealthData(
+						backButtonTitle: inSheet && rootStateForSheet == nil ? nil : backButtonTitle,
+						schema: schema,
+						organization: healthcareOrganization,
+						inSheet: inSheet
+					)
+					if inSheet {
+						if rootStateForSheet == nil {
+							rootStateForSheet = newState
+						} else {
+							pathForSheet.append(newState)
+						}
+					} else {
+						path.append(newState)
+					}
 					return true
 				} else {
 					logError("HealthcareCoordinator Coordinator, missing params for \(action)")
@@ -289,7 +305,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			case let .showHealthCategory(category: category, organization: organization):
 				viewState(for: category, organization: organization)
 			
-			case let .showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization):
+			case let .showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization, inSheet: inSheet):
 				HealthDataView(
 					viewModel: HealthDataViewModel(
 						coordinator: self,
@@ -298,6 +314,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 						healthcareOrganization: healthcareOrganization
 					)
 				)
+				.isPresentedAsSheet(inSheet)
 				
 			default:
 				EmptyView()
