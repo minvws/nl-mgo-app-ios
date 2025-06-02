@@ -10,7 +10,7 @@ let package = Package(
 	],
 	dependencies: [
 		
-		// Interal
+		// Internal
 		.package(name: "AuthorizationMiddleware", path: "../AuthorizationMiddleware"),
 		
 		// External
