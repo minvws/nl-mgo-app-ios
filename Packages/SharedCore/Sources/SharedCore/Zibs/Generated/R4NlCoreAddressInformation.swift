@@ -12,29 +12,28 @@ import Foundation
 
 // MARK: - R4NlCoreAddressInformation
 public struct R4NlCoreAddressInformation: Codable, Hashable, Sendable {
-    public let additionalInformation: String?
-    public let addressType: MgoCodeableConcept?
-    public let city, country: String?
-    public let countryCode: MgoCodeableConcept?
-    public let district, houseNumber, houseNumberAddition, houseNumberIndication: String?
-    public let line: String?
-    public let period: MgoPeriod?
-    public let postalCode, streetName: String?
+    public let profile: R4NlCoreAddressInformationProfile
+    public let city: MgoString?
+    public let country: R4NlCoreAddressInformationCountry
+    public let district: MgoString?
+    public let line: [R4NlCoreAddressInformationLine]?
+    public let postalCode: MgoString?
+    public let type, use: MgoCode?
 
-    public init(additionalInformation: String?, addressType: MgoCodeableConcept?, city: String?, country: String?, countryCode: MgoCodeableConcept?, district: String?, houseNumber: String?, houseNumberAddition: String?, houseNumberIndication: String?, line: String?, period: MgoPeriod?, postalCode: String?, streetName: String?) {
-        self.additionalInformation = additionalInformation
-        self.addressType = addressType
+    public enum CodingKeys: String, CodingKey {
+        case profile = "_profile"
+        case city, country, district, line, postalCode, type, use
+    }
+
+    public init(profile: R4NlCoreAddressInformationProfile, city: MgoString?, country: R4NlCoreAddressInformationCountry, district: MgoString?, line: [R4NlCoreAddressInformationLine]?, postalCode: MgoString?, type: MgoCode?, use: MgoCode?) {
+        self.profile = profile
         self.city = city
         self.country = country
-        self.countryCode = countryCode
         self.district = district
-        self.houseNumber = houseNumber
-        self.houseNumberAddition = houseNumberAddition
-        self.houseNumberIndication = houseNumberIndication
         self.line = line
-        self.period = period
         self.postalCode = postalCode
-        self.streetName = streetName
+        self.type = type
+        self.use = use
     }
 }
 
@@ -57,34 +56,24 @@ public extension R4NlCoreAddressInformation {
     }
 
     func with(
-        additionalInformation: String?? = nil,
-        addressType: MgoCodeableConcept?? = nil,
-        city: String?? = nil,
-        country: String?? = nil,
-        countryCode: MgoCodeableConcept?? = nil,
-        district: String?? = nil,
-        houseNumber: String?? = nil,
-        houseNumberAddition: String?? = nil,
-        houseNumberIndication: String?? = nil,
-        line: String?? = nil,
-        period: MgoPeriod?? = nil,
-        postalCode: String?? = nil,
-        streetName: String?? = nil
+        profile: R4NlCoreAddressInformationProfile? = nil,
+        city: MgoString?? = nil,
+        country: R4NlCoreAddressInformationCountry? = nil,
+        district: MgoString?? = nil,
+        line: [R4NlCoreAddressInformationLine]?? = nil,
+        postalCode: MgoString?? = nil,
+        type: MgoCode?? = nil,
+        use: MgoCode?? = nil
     ) -> R4NlCoreAddressInformation {
         return R4NlCoreAddressInformation(
-            additionalInformation: additionalInformation ?? self.additionalInformation,
-            addressType: addressType ?? self.addressType,
+            profile: profile ?? self.profile,
             city: city ?? self.city,
             country: country ?? self.country,
-            countryCode: countryCode ?? self.countryCode,
             district: district ?? self.district,
-            houseNumber: houseNumber ?? self.houseNumber,
-            houseNumberAddition: houseNumberAddition ?? self.houseNumberAddition,
-            houseNumberIndication: houseNumberIndication ?? self.houseNumberIndication,
             line: line ?? self.line,
-            period: period ?? self.period,
             postalCode: postalCode ?? self.postalCode,
-            streetName: streetName ?? self.streetName
+            type: type ?? self.type,
+            use: use ?? self.use
         )
     }
 

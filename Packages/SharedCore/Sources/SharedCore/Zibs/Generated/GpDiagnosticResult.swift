@@ -12,10 +12,11 @@ import Foundation
 
 // MARK: - GpDiagnosticResult
 public struct GpDiagnosticResult: Codable, Hashable, Sendable {
-    public let code: MgoCodeableConcept?
-    public let comment: String?
-    public let context: MgoReference?
-    public let effective: String?
+    public let bodySite, code: MgoCodeableConcept?
+    public let comment: MgoString?
+    public let effectiveDateTime: MgoDateTime?
+    public let effectivePeriod: MgoPeriod?
+    public let episodeOfCare: [GpDiagnosticResultEpisodeOfCare]
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -23,27 +24,35 @@ public struct GpDiagnosticResult: Codable, Hashable, Sendable {
     public let performer: [MgoReference]?
     public let profile: GpDiagnosticResultProfile
     public let referenceID: String
-    public let resourceType, status: String?
+    public let related: [GpDiagnosticResultRelated]?
+    public let resourceType: String
+    public let status: GpDiagnosticResultStatus
     public let subject: MgoReference?
-    public let valueBoolean: Bool?
+    public let valueAttachment: MgoAttachment?
+    public let valueBoolean: MgoBoolean?
     public let valueCodeableConcept: MgoCodeableConcept?
-    public let valueDateTime: String?
+    public let valueDateTime: MgoDateTime?
     public let valuePeriod: MgoPeriod?
-    public let valueQuantity: MgoDuration?
+    public let valueQuantity: MgoQuantity?
     public let valueRange: MgoRange?
-    public let valueString: String?
+    public let valueRatio: MgoRatio?
+    public let valueSampledData: MgoSampledData?
+    public let valueString: MgoString?
+    public let valueTime: MgoTime?
 
     public enum CodingKeys: String, CodingKey {
-        case code, comment, context, effective, fhirVersion, id, identifier, method, performer, profile
+        case bodySite, code, comment, effectiveDateTime, effectivePeriod, episodeOfCare, fhirVersion, id, identifier, method, performer, profile
         case referenceID = "referenceId"
-        case resourceType, status, subject, valueBoolean, valueCodeableConcept, valueDateTime, valuePeriod, valueQuantity, valueRange, valueString
+        case related, resourceType, status, subject, valueAttachment, valueBoolean, valueCodeableConcept, valueDateTime, valuePeriod, valueQuantity, valueRange, valueRatio, valueSampledData, valueString, valueTime
     }
 
-    public init(code: MgoCodeableConcept?, comment: String?, context: MgoReference?, effective: String?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: GpDiagnosticResultProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?, valueBoolean: Bool?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: String?, valuePeriod: MgoPeriod?, valueQuantity: MgoDuration?, valueRange: MgoRange?, valueString: String?) {
+    public init(bodySite: MgoCodeableConcept?, code: MgoCodeableConcept?, comment: MgoString?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, episodeOfCare: [GpDiagnosticResultEpisodeOfCare], fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: GpDiagnosticResultProfile, referenceID: String, related: [GpDiagnosticResultRelated]?, resourceType: String, status: GpDiagnosticResultStatus, subject: MgoReference?, valueAttachment: MgoAttachment?, valueBoolean: MgoBoolean?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: MgoDateTime?, valuePeriod: MgoPeriod?, valueQuantity: MgoQuantity?, valueRange: MgoRange?, valueRatio: MgoRatio?, valueSampledData: MgoSampledData?, valueString: MgoString?, valueTime: MgoTime?) {
+        self.bodySite = bodySite
         self.code = code
         self.comment = comment
-        self.context = context
-        self.effective = effective
+        self.effectiveDateTime = effectiveDateTime
+        self.effectivePeriod = effectivePeriod
+        self.episodeOfCare = episodeOfCare
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
@@ -51,16 +60,21 @@ public struct GpDiagnosticResult: Codable, Hashable, Sendable {
         self.performer = performer
         self.profile = profile
         self.referenceID = referenceID
+        self.related = related
         self.resourceType = resourceType
         self.status = status
         self.subject = subject
+        self.valueAttachment = valueAttachment
         self.valueBoolean = valueBoolean
         self.valueCodeableConcept = valueCodeableConcept
         self.valueDateTime = valueDateTime
         self.valuePeriod = valuePeriod
         self.valueQuantity = valueQuantity
         self.valueRange = valueRange
+        self.valueRatio = valueRatio
+        self.valueSampledData = valueSampledData
         self.valueString = valueString
+        self.valueTime = valueTime
     }
 }
 
@@ -83,10 +97,12 @@ public extension GpDiagnosticResult {
     }
 
     func with(
+        bodySite: MgoCodeableConcept?? = nil,
         code: MgoCodeableConcept?? = nil,
-        comment: String?? = nil,
-        context: MgoReference?? = nil,
-        effective: String?? = nil,
+        comment: MgoString?? = nil,
+        effectiveDateTime: MgoDateTime?? = nil,
+        effectivePeriod: MgoPeriod?? = nil,
+        episodeOfCare: [GpDiagnosticResultEpisodeOfCare]? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
@@ -94,22 +110,29 @@ public extension GpDiagnosticResult {
         performer: [MgoReference]?? = nil,
         profile: GpDiagnosticResultProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        status: String?? = nil,
+        related: [GpDiagnosticResultRelated]?? = nil,
+        resourceType: String? = nil,
+        status: GpDiagnosticResultStatus? = nil,
         subject: MgoReference?? = nil,
-        valueBoolean: Bool?? = nil,
+        valueAttachment: MgoAttachment?? = nil,
+        valueBoolean: MgoBoolean?? = nil,
         valueCodeableConcept: MgoCodeableConcept?? = nil,
-        valueDateTime: String?? = nil,
+        valueDateTime: MgoDateTime?? = nil,
         valuePeriod: MgoPeriod?? = nil,
-        valueQuantity: MgoDuration?? = nil,
+        valueQuantity: MgoQuantity?? = nil,
         valueRange: MgoRange?? = nil,
-        valueString: String?? = nil
+        valueRatio: MgoRatio?? = nil,
+        valueSampledData: MgoSampledData?? = nil,
+        valueString: MgoString?? = nil,
+        valueTime: MgoTime?? = nil
     ) -> GpDiagnosticResult {
         return GpDiagnosticResult(
+            bodySite: bodySite ?? self.bodySite,
             code: code ?? self.code,
             comment: comment ?? self.comment,
-            context: context ?? self.context,
-            effective: effective ?? self.effective,
+            effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
+            effectivePeriod: effectivePeriod ?? self.effectivePeriod,
+            episodeOfCare: episodeOfCare ?? self.episodeOfCare,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
@@ -117,16 +140,21 @@ public extension GpDiagnosticResult {
             performer: performer ?? self.performer,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
+            related: related ?? self.related,
             resourceType: resourceType ?? self.resourceType,
             status: status ?? self.status,
             subject: subject ?? self.subject,
+            valueAttachment: valueAttachment ?? self.valueAttachment,
             valueBoolean: valueBoolean ?? self.valueBoolean,
             valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept,
             valueDateTime: valueDateTime ?? self.valueDateTime,
             valuePeriod: valuePeriod ?? self.valuePeriod,
             valueQuantity: valueQuantity ?? self.valueQuantity,
             valueRange: valueRange ?? self.valueRange,
-            valueString: valueString ?? self.valueString
+            valueRatio: valueRatio ?? self.valueRatio,
+            valueSampledData: valueSampledData ?? self.valueSampledData,
+            valueString: valueString ?? self.valueString,
+            valueTime: valueTime ?? self.valueTime
         )
     }
 

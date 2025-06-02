@@ -16,30 +16,37 @@ public struct ZibMedicalDeviceRequest: Codable, Hashable, Sendable {
     public let codeReference: MgoReference?
     public let fhirVersion: FhirVersionR3
     public let id: String?
-    public let intent: MgoCodeableConcept?
-    public let occurrence: MgoPeriod?
-    public let perfomer: MgoReference?
+    public let identifier: [MgoIdentifier]?
+    public let occurrenceDateTime: MgoDateTime?
+    public let occurrencePeriod: MgoPeriod?
+    public let occurrenceTiming: MgoTiming?
+    public let performerType: ZibMedicalDeviceRequestPerformerType
     public let profile: ZibMedicalDeviceRequestProfile
     public let referenceID: String
-    public let resourceType, status: String?
+    public let requester: MgoReference?
+    public let resourceType: String
+    public let status: ZibMedicalDeviceRequestStatus
     public let subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case codeCodeableConcept, codeReference, fhirVersion, id, intent, occurrence, perfomer, profile
+        case codeCodeableConcept, codeReference, fhirVersion, id, identifier, occurrenceDateTime, occurrencePeriod, occurrenceTiming, performerType, profile
         case referenceID = "referenceId"
-        case resourceType, status, subject
+        case requester, resourceType, status, subject
     }
 
-    public init(codeCodeableConcept: MgoCodeableConcept?, codeReference: MgoReference?, fhirVersion: FhirVersionR3, id: String?, intent: MgoCodeableConcept?, occurrence: MgoPeriod?, perfomer: MgoReference?, profile: ZibMedicalDeviceRequestProfile, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
+    public init(codeCodeableConcept: MgoCodeableConcept?, codeReference: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, occurrenceDateTime: MgoDateTime?, occurrencePeriod: MgoPeriod?, occurrenceTiming: MgoTiming?, performerType: ZibMedicalDeviceRequestPerformerType, profile: ZibMedicalDeviceRequestProfile, referenceID: String, requester: MgoReference?, resourceType: String, status: ZibMedicalDeviceRequestStatus, subject: MgoReference?) {
         self.codeCodeableConcept = codeCodeableConcept
         self.codeReference = codeReference
         self.fhirVersion = fhirVersion
         self.id = id
-        self.intent = intent
-        self.occurrence = occurrence
-        self.perfomer = perfomer
+        self.identifier = identifier
+        self.occurrenceDateTime = occurrenceDateTime
+        self.occurrencePeriod = occurrencePeriod
+        self.occurrenceTiming = occurrenceTiming
+        self.performerType = performerType
         self.profile = profile
         self.referenceID = referenceID
+        self.requester = requester
         self.resourceType = resourceType
         self.status = status
         self.subject = subject
@@ -69,13 +76,16 @@ public extension ZibMedicalDeviceRequest {
         codeReference: MgoReference?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
-        intent: MgoCodeableConcept?? = nil,
-        occurrence: MgoPeriod?? = nil,
-        perfomer: MgoReference?? = nil,
+        identifier: [MgoIdentifier]?? = nil,
+        occurrenceDateTime: MgoDateTime?? = nil,
+        occurrencePeriod: MgoPeriod?? = nil,
+        occurrenceTiming: MgoTiming?? = nil,
+        performerType: ZibMedicalDeviceRequestPerformerType? = nil,
         profile: ZibMedicalDeviceRequestProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        status: String?? = nil,
+        requester: MgoReference?? = nil,
+        resourceType: String? = nil,
+        status: ZibMedicalDeviceRequestStatus? = nil,
         subject: MgoReference?? = nil
     ) -> ZibMedicalDeviceRequest {
         return ZibMedicalDeviceRequest(
@@ -83,11 +93,14 @@ public extension ZibMedicalDeviceRequest {
             codeReference: codeReference ?? self.codeReference,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
-            intent: intent ?? self.intent,
-            occurrence: occurrence ?? self.occurrence,
-            perfomer: perfomer ?? self.perfomer,
+            identifier: identifier ?? self.identifier,
+            occurrenceDateTime: occurrenceDateTime ?? self.occurrenceDateTime,
+            occurrencePeriod: occurrencePeriod ?? self.occurrencePeriod,
+            occurrenceTiming: occurrenceTiming ?? self.occurrenceTiming,
+            performerType: performerType ?? self.performerType,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
+            requester: requester ?? self.requester,
             resourceType: resourceType ?? self.resourceType,
             status: status ?? self.status,
             subject: subject ?? self.subject

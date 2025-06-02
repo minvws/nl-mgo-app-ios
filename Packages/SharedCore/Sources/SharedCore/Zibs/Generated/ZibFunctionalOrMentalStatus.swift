@@ -12,48 +12,41 @@ import Foundation
 
 // MARK: - ZibFunctionalOrMentalStatus
 public struct ZibFunctionalOrMentalStatus: Codable, Hashable, Sendable {
-    public let bodySite: MgoCodeableConcept?
-    public let category: [MgoCodeableConcept]?
-    public let comment: String?
-    public let context: MgoReference?
-    public let dataAbsentReason: MgoCodeableConcept?
+    public let code: MgoCodeableConcept?
+    public let comment: MgoString?
+    public let effectiveDateTime: MgoDateTime?
     public let effectivePeriod: MgoPeriod?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let method: MgoCodeableConcept?
+    public let medicalDevice: [MedicalDevice]
+    public let performer: [MgoReference]?
     public let profile: ZibFunctionalOrMentalStatusProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let status: GpLaboratoryResultStatus?
+    public let referenceID, resourceType: String
     public let subject: MgoReference?
     public let valueCodeableConcept: MgoCodeableConcept?
-    public let valueQuantity: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, category, comment, context, dataAbsentReason, effectivePeriod, fhirVersion, id, identifier, method, profile
+        case code, comment, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, medicalDevice, performer, profile
         case referenceID = "referenceId"
-        case resourceType, status, subject, valueCodeableConcept, valueQuantity
+        case resourceType, subject, valueCodeableConcept
     }
 
-    public init(bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, dataAbsentReason: MgoCodeableConcept?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String?, status: GpLaboratoryResultStatus?, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?, valueQuantity: MgoDuration?) {
-        self.bodySite = bodySite
-        self.category = category
+    public init(code: MgoCodeableConcept?, comment: MgoString?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, medicalDevice: [MedicalDevice], performer: [MgoReference]?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?) {
+        self.code = code
         self.comment = comment
-        self.context = context
-        self.dataAbsentReason = dataAbsentReason
+        self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
-        self.method = method
+        self.medicalDevice = medicalDevice
+        self.performer = performer
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.status = status
         self.subject = subject
         self.valueCodeableConcept = valueCodeableConcept
-        self.valueQuantity = valueQuantity
     }
 }
 
@@ -76,42 +69,36 @@ public extension ZibFunctionalOrMentalStatus {
     }
 
     func with(
-        bodySite: MgoCodeableConcept?? = nil,
-        category: [MgoCodeableConcept]?? = nil,
-        comment: String?? = nil,
-        context: MgoReference?? = nil,
-        dataAbsentReason: MgoCodeableConcept?? = nil,
+        code: MgoCodeableConcept?? = nil,
+        comment: MgoString?? = nil,
+        effectiveDateTime: MgoDateTime?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        method: MgoCodeableConcept?? = nil,
+        medicalDevice: [MedicalDevice]? = nil,
+        performer: [MgoReference]?? = nil,
         profile: ZibFunctionalOrMentalStatusProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        status: GpLaboratoryResultStatus?? = nil,
+        resourceType: String? = nil,
         subject: MgoReference?? = nil,
-        valueCodeableConcept: MgoCodeableConcept?? = nil,
-        valueQuantity: MgoDuration?? = nil
+        valueCodeableConcept: MgoCodeableConcept?? = nil
     ) -> ZibFunctionalOrMentalStatus {
         return ZibFunctionalOrMentalStatus(
-            bodySite: bodySite ?? self.bodySite,
-            category: category ?? self.category,
+            code: code ?? self.code,
             comment: comment ?? self.comment,
-            context: context ?? self.context,
-            dataAbsentReason: dataAbsentReason ?? self.dataAbsentReason,
+            effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
-            method: method ?? self.method,
+            medicalDevice: medicalDevice ?? self.medicalDevice,
+            performer: performer ?? self.performer,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            status: status ?? self.status,
             subject: subject ?? self.subject,
-            valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept,
-            valueQuantity: valueQuantity ?? self.valueQuantity
+            valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept
         )
     }
 

@@ -12,19 +12,9 @@ import Foundation
 
 // MARK: - ProtocolApplied
 public struct ProtocolApplied: Codable, Hashable, Sendable {
-    public let authority: MgoReference?
-    public let doseNumberPositiveInt: Double?
-    public let doseNumberString: String?
-    public let seriesDosesPositiveInt: Double?
-    public let seriesDosesString: String?
-    public let targetDisease: [MgoCodeableConcept]?
+    public let targetDisease: TargetDisease
 
-    public init(authority: MgoReference?, doseNumberPositiveInt: Double?, doseNumberString: String?, seriesDosesPositiveInt: Double?, seriesDosesString: String?, targetDisease: [MgoCodeableConcept]?) {
-        self.authority = authority
-        self.doseNumberPositiveInt = doseNumberPositiveInt
-        self.doseNumberString = doseNumberString
-        self.seriesDosesPositiveInt = seriesDosesPositiveInt
-        self.seriesDosesString = seriesDosesString
+    public init(targetDisease: TargetDisease) {
         self.targetDisease = targetDisease
     }
 }
@@ -48,19 +38,9 @@ public extension ProtocolApplied {
     }
 
     func with(
-        authority: MgoReference?? = nil,
-        doseNumberPositiveInt: Double?? = nil,
-        doseNumberString: String?? = nil,
-        seriesDosesPositiveInt: Double?? = nil,
-        seriesDosesString: String?? = nil,
-        targetDisease: [MgoCodeableConcept]?? = nil
+        targetDisease: TargetDisease? = nil
     ) -> ProtocolApplied {
         return ProtocolApplied(
-            authority: authority ?? self.authority,
-            doseNumberPositiveInt: doseNumberPositiveInt ?? self.doseNumberPositiveInt,
-            doseNumberString: doseNumberString ?? self.doseNumberString,
-            seriesDosesPositiveInt: seriesDosesPositiveInt ?? self.seriesDosesPositiveInt,
-            seriesDosesString: seriesDosesString ?? self.seriesDosesString,
             targetDisease: targetDisease ?? self.targetDisease
         )
     }

@@ -18,26 +18,27 @@ public struct ZibLaboratoryTestResultSpecimenIsolate: Codable, Hashable, Sendabl
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let note: [MgoAnnotation]?
+    public let parent: [MgoReference]?
     public let profile: ZibLaboratoryTestResultSpecimenIsolateProfile
-    public let receivedTime: String?
-    public let referenceID: String
-    public let resourceType: String?
+    public let receivedTime: MgoDateTime?
+    public let referenceID, resourceType: String
     public let subject: MgoReference?
     public let type: MgoCodeableConcept?
 
     public enum CodingKeys: String, CodingKey {
-        case collection, container, fhirVersion, id, identifier, note, profile, receivedTime
+        case collection, container, fhirVersion, id, identifier, note, parent, profile, receivedTime
         case referenceID = "referenceId"
         case resourceType, subject, type
     }
 
-    public init(collection: ZibLaboratoryTestResultSpecimenIsolateCollection, container: [ZibLaboratoryTestResultSpecimenIsolateContainer]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, profile: ZibLaboratoryTestResultSpecimenIsolateProfile, receivedTime: String?, referenceID: String, resourceType: String?, subject: MgoReference?, type: MgoCodeableConcept?) {
+    public init(collection: ZibLaboratoryTestResultSpecimenIsolateCollection, container: [ZibLaboratoryTestResultSpecimenIsolateContainer]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, parent: [MgoReference]?, profile: ZibLaboratoryTestResultSpecimenIsolateProfile, receivedTime: MgoDateTime?, referenceID: String, resourceType: String, subject: MgoReference?, type: MgoCodeableConcept?) {
         self.collection = collection
         self.container = container
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
         self.note = note
+        self.parent = parent
         self.profile = profile
         self.receivedTime = receivedTime
         self.referenceID = referenceID
@@ -72,10 +73,11 @@ public extension ZibLaboratoryTestResultSpecimenIsolate {
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         note: [MgoAnnotation]?? = nil,
+        parent: [MgoReference]?? = nil,
         profile: ZibLaboratoryTestResultSpecimenIsolateProfile? = nil,
-        receivedTime: String?? = nil,
+        receivedTime: MgoDateTime?? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
+        resourceType: String? = nil,
         subject: MgoReference?? = nil,
         type: MgoCodeableConcept?? = nil
     ) -> ZibLaboratoryTestResultSpecimenIsolate {
@@ -86,6 +88,7 @@ public extension ZibLaboratoryTestResultSpecimenIsolate {
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             note: note ?? self.note,
+            parent: parent ?? self.parent,
             profile: profile ?? self.profile,
             receivedTime: receivedTime ?? self.receivedTime,
             referenceID: referenceID ?? self.referenceID,

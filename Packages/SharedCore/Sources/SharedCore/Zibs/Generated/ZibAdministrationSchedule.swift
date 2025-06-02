@@ -12,13 +12,16 @@ import Foundation
 
 // MARK: - ZibAdministrationSchedule
 public struct ZibAdministrationSchedule: Codable, Hashable, Sendable {
-    public let zibAdministrationScheduleRepeat: Repeat
+    public let profile: ZibAdministrationScheduleProfile
+    public let zibAdministrationScheduleRepeat: ZibAdministrationScheduleRepeat
 
     public enum CodingKeys: String, CodingKey {
+        case profile = "_profile"
         case zibAdministrationScheduleRepeat = "repeat"
     }
 
-    public init(zibAdministrationScheduleRepeat: Repeat) {
+    public init(profile: ZibAdministrationScheduleProfile, zibAdministrationScheduleRepeat: ZibAdministrationScheduleRepeat) {
+        self.profile = profile
         self.zibAdministrationScheduleRepeat = zibAdministrationScheduleRepeat
     }
 }
@@ -42,9 +45,11 @@ public extension ZibAdministrationSchedule {
     }
 
     func with(
-        zibAdministrationScheduleRepeat: Repeat? = nil
+        profile: ZibAdministrationScheduleProfile? = nil,
+        zibAdministrationScheduleRepeat: ZibAdministrationScheduleRepeat? = nil
     ) -> ZibAdministrationSchedule {
         return ZibAdministrationSchedule(
+            profile: profile ?? self.profile,
             zibAdministrationScheduleRepeat: zibAdministrationScheduleRepeat ?? self.zibAdministrationScheduleRepeat
         )
     }

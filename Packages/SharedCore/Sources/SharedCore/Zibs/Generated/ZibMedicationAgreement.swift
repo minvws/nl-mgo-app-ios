@@ -12,54 +12,52 @@ import Foundation
 
 // MARK: - ZibMedicationAgreement
 public struct ZibMedicationAgreement: Codable, Hashable, Sendable {
-    public let basedOn: [MgoReference]?
-    public let category: MgoCodeableConcept?
-    public let definition: [MgoReference]?
-    public let dossageInstruction: [ZibInstructionsForUse]?
+    public let additionalInformation: ZibMedicationAgreementAdditionalInformation?
+    public let authoredOn: MgoDateTime?
+    public let dossageInstruction: [ZibMedicationAgreementDossageInstruction]?
     public let fhirVersion: FhirVersionR3
-    public let groupIdentifier: MgoIdentifier?
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let intent: Intent?
     public let medicationReference: MgoReference?
-    public let medicationTreatment: MgoIdentifier?
+    public let medicationTreatment: ZibMedicationAgreementMedicationTreatment?
     public let note: [MgoAnnotation]?
-    public let periodOfUse: MgoPeriod?
-    public let priority: Priority?
+    public let patient: MgoReference?
+    public let periodOfUse: ZibMedicationAgreementPeriodOfUse?
     public let profile: ZibMedicationAgreementProfile
+    public let reasonCode: [MgoCodeableConcept]?
+    public let reasonReference: [MgoReference]?
     public let referenceID: String
-    public let repeatPeriodCyclicalSchedule: MgoDuration?
-    public let resourceType: String?
-    public let status: ZibMedicationAgreementStatus?
-    public let stopType: MgoCodeableConcept?
-    public let usageDuration: MgoDuration?
+    public let repeatPeriodCyclicalSchedule: ZibMedicationAgreementRepeatPeriodCyclicalSchedule?
+    public let requester: MgoReference?
+    public let resourceType: String
+    public let stopType: ZibMedicationAgreementStopType?
+    public let usageDuration: ZibMedicationAgreementUsageDuration?
 
     public enum CodingKeys: String, CodingKey {
-        case basedOn, category, definition, dossageInstruction, fhirVersion, groupIdentifier, id, identifier, intent, medicationReference, medicationTreatment, note, periodOfUse, priority, profile
+        case additionalInformation, authoredOn, dossageInstruction, fhirVersion, id, identifier, medicationReference, medicationTreatment, note, patient, periodOfUse, profile, reasonCode, reasonReference
         case referenceID = "referenceId"
-        case repeatPeriodCyclicalSchedule, resourceType, status, stopType, usageDuration
+        case repeatPeriodCyclicalSchedule, requester, resourceType, stopType, usageDuration
     }
 
-    public init(basedOn: [MgoReference]?, category: MgoCodeableConcept?, definition: [MgoReference]?, dossageInstruction: [ZibInstructionsForUse]?, fhirVersion: FhirVersionR3, groupIdentifier: MgoIdentifier?, id: String?, identifier: [MgoIdentifier]?, intent: Intent?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, periodOfUse: MgoPeriod?, priority: Priority?, profile: ZibMedicationAgreementProfile, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: ZibMedicationAgreementStatus?, stopType: MgoCodeableConcept?, usageDuration: MgoDuration?) {
-        self.basedOn = basedOn
-        self.category = category
-        self.definition = definition
+    public init(additionalInformation: ZibMedicationAgreementAdditionalInformation?, authoredOn: MgoDateTime?, dossageInstruction: [ZibMedicationAgreementDossageInstruction]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: ZibMedicationAgreementMedicationTreatment?, note: [MgoAnnotation]?, patient: MgoReference?, periodOfUse: ZibMedicationAgreementPeriodOfUse?, profile: ZibMedicationAgreementProfile, reasonCode: [MgoCodeableConcept]?, reasonReference: [MgoReference]?, referenceID: String, repeatPeriodCyclicalSchedule: ZibMedicationAgreementRepeatPeriodCyclicalSchedule?, requester: MgoReference?, resourceType: String, stopType: ZibMedicationAgreementStopType?, usageDuration: ZibMedicationAgreementUsageDuration?) {
+        self.additionalInformation = additionalInformation
+        self.authoredOn = authoredOn
         self.dossageInstruction = dossageInstruction
         self.fhirVersion = fhirVersion
-        self.groupIdentifier = groupIdentifier
         self.id = id
         self.identifier = identifier
-        self.intent = intent
         self.medicationReference = medicationReference
         self.medicationTreatment = medicationTreatment
         self.note = note
+        self.patient = patient
         self.periodOfUse = periodOfUse
-        self.priority = priority
         self.profile = profile
+        self.reasonCode = reasonCode
+        self.reasonReference = reasonReference
         self.referenceID = referenceID
         self.repeatPeriodCyclicalSchedule = repeatPeriodCyclicalSchedule
+        self.requester = requester
         self.resourceType = resourceType
-        self.status = status
         self.stopType = stopType
         self.usageDuration = usageDuration
     }
@@ -84,48 +82,46 @@ public extension ZibMedicationAgreement {
     }
 
     func with(
-        basedOn: [MgoReference]?? = nil,
-        category: MgoCodeableConcept?? = nil,
-        definition: [MgoReference]?? = nil,
-        dossageInstruction: [ZibInstructionsForUse]?? = nil,
+        additionalInformation: ZibMedicationAgreementAdditionalInformation?? = nil,
+        authoredOn: MgoDateTime?? = nil,
+        dossageInstruction: [ZibMedicationAgreementDossageInstruction]?? = nil,
         fhirVersion: FhirVersionR3? = nil,
-        groupIdentifier: MgoIdentifier?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        intent: Intent?? = nil,
         medicationReference: MgoReference?? = nil,
-        medicationTreatment: MgoIdentifier?? = nil,
+        medicationTreatment: ZibMedicationAgreementMedicationTreatment?? = nil,
         note: [MgoAnnotation]?? = nil,
-        periodOfUse: MgoPeriod?? = nil,
-        priority: Priority?? = nil,
+        patient: MgoReference?? = nil,
+        periodOfUse: ZibMedicationAgreementPeriodOfUse?? = nil,
         profile: ZibMedicationAgreementProfile? = nil,
+        reasonCode: [MgoCodeableConcept]?? = nil,
+        reasonReference: [MgoReference]?? = nil,
         referenceID: String? = nil,
-        repeatPeriodCyclicalSchedule: MgoDuration?? = nil,
-        resourceType: String?? = nil,
-        status: ZibMedicationAgreementStatus?? = nil,
-        stopType: MgoCodeableConcept?? = nil,
-        usageDuration: MgoDuration?? = nil
+        repeatPeriodCyclicalSchedule: ZibMedicationAgreementRepeatPeriodCyclicalSchedule?? = nil,
+        requester: MgoReference?? = nil,
+        resourceType: String? = nil,
+        stopType: ZibMedicationAgreementStopType?? = nil,
+        usageDuration: ZibMedicationAgreementUsageDuration?? = nil
     ) -> ZibMedicationAgreement {
         return ZibMedicationAgreement(
-            basedOn: basedOn ?? self.basedOn,
-            category: category ?? self.category,
-            definition: definition ?? self.definition,
+            additionalInformation: additionalInformation ?? self.additionalInformation,
+            authoredOn: authoredOn ?? self.authoredOn,
             dossageInstruction: dossageInstruction ?? self.dossageInstruction,
             fhirVersion: fhirVersion ?? self.fhirVersion,
-            groupIdentifier: groupIdentifier ?? self.groupIdentifier,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
-            intent: intent ?? self.intent,
             medicationReference: medicationReference ?? self.medicationReference,
             medicationTreatment: medicationTreatment ?? self.medicationTreatment,
             note: note ?? self.note,
+            patient: patient ?? self.patient,
             periodOfUse: periodOfUse ?? self.periodOfUse,
-            priority: priority ?? self.priority,
             profile: profile ?? self.profile,
+            reasonCode: reasonCode ?? self.reasonCode,
+            reasonReference: reasonReference ?? self.reasonReference,
             referenceID: referenceID ?? self.referenceID,
             repeatPeriodCyclicalSchedule: repeatPeriodCyclicalSchedule ?? self.repeatPeriodCyclicalSchedule,
+            requester: requester ?? self.requester,
             resourceType: resourceType ?? self.resourceType,
-            status: status ?? self.status,
             stopType: stopType ?? self.stopType,
             usageDuration: usageDuration ?? self.usageDuration
         )

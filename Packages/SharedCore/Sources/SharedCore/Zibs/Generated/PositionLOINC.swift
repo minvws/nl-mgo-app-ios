@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let positionLOINC = try PositionLOINC(json)
+//   let positionLoinc = try PositionLoinc(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - PositionLOINC
-public struct PositionLOINC: Codable, Hashable, Sendable {
+// MARK: - PositionLoinc
+public struct PositionLoinc: Codable, Hashable, Sendable {
     public let valueCodeableConcept: MgoCodeableConcept?
 
     public init(valueCodeableConcept: MgoCodeableConcept?) {
@@ -19,11 +19,11 @@ public struct PositionLOINC: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: PositionLOINC convenience initializers and mutators
+// MARK: PositionLoinc convenience initializers and mutators
 
-public extension PositionLOINC {
+public extension PositionLoinc {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(PositionLOINC.self, from: data)
+        self = try newJSONDecoder().decode(PositionLoinc.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -39,8 +39,8 @@ public extension PositionLOINC {
 
     func with(
         valueCodeableConcept: MgoCodeableConcept?? = nil
-    ) -> PositionLOINC {
-        return PositionLOINC(
+    ) -> PositionLoinc {
+        return PositionLoinc(
             valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept
         )
     }

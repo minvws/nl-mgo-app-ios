@@ -12,33 +12,45 @@ import Foundation
 
 // MARK: - ZibProcedureRequest
 public struct ZibProcedureRequest: Codable, Hashable, Sendable {
+    public let bodySite: [ZibProcedureRequestBodySite]?
     public let code: MgoCodeableConcept?
     public let fhirVersion: FhirVersionR3
-    public let id, intent: String?
-    public let occurrence: MgoPeriod?
-    public let perfomer: MgoReference?
+    public let id: String?
+    public let identifier: [MgoIdentifier]?
+    public let occurrenceDateTime: MgoDateTime?
+    public let occurrencePeriod: MgoPeriod?
+    public let occurrenceTiming: MgoTiming?
+    public let performer: MgoReference?
+    public let performerType: ZibProcedureRequestPerformerType
     public let profile: ZibProcedureRequestProfile
-    public let reason: [MgoReference]?
+    public let reasonReference: [MgoReference]?
     public let referenceID: String
-    public let resourceType, status: String?
+    public let requester: Requester
+    public let resourceType: String
+    public let status: ZibProcedureRequestStatus
     public let subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case code, fhirVersion, id, intent, occurrence, perfomer, profile, reason
+        case bodySite, code, fhirVersion, id, identifier, occurrenceDateTime, occurrencePeriod, occurrenceTiming, performer, performerType, profile, reasonReference
         case referenceID = "referenceId"
-        case resourceType, status, subject
+        case requester, resourceType, status, subject
     }
 
-    public init(code: MgoCodeableConcept?, fhirVersion: FhirVersionR3, id: String?, intent: String?, occurrence: MgoPeriod?, perfomer: MgoReference?, profile: ZibProcedureRequestProfile, reason: [MgoReference]?, referenceID: String, resourceType: String?, status: String?, subject: MgoReference?) {
+    public init(bodySite: [ZibProcedureRequestBodySite]?, code: MgoCodeableConcept?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, occurrenceDateTime: MgoDateTime?, occurrencePeriod: MgoPeriod?, occurrenceTiming: MgoTiming?, performer: MgoReference?, performerType: ZibProcedureRequestPerformerType, profile: ZibProcedureRequestProfile, reasonReference: [MgoReference]?, referenceID: String, requester: Requester, resourceType: String, status: ZibProcedureRequestStatus, subject: MgoReference?) {
+        self.bodySite = bodySite
         self.code = code
         self.fhirVersion = fhirVersion
         self.id = id
-        self.intent = intent
-        self.occurrence = occurrence
-        self.perfomer = perfomer
+        self.identifier = identifier
+        self.occurrenceDateTime = occurrenceDateTime
+        self.occurrencePeriod = occurrencePeriod
+        self.occurrenceTiming = occurrenceTiming
+        self.performer = performer
+        self.performerType = performerType
         self.profile = profile
-        self.reason = reason
+        self.reasonReference = reasonReference
         self.referenceID = referenceID
+        self.requester = requester
         self.resourceType = resourceType
         self.status = status
         self.subject = subject
@@ -64,29 +76,39 @@ public extension ZibProcedureRequest {
     }
 
     func with(
+        bodySite: [ZibProcedureRequestBodySite]?? = nil,
         code: MgoCodeableConcept?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
-        intent: String?? = nil,
-        occurrence: MgoPeriod?? = nil,
-        perfomer: MgoReference?? = nil,
+        identifier: [MgoIdentifier]?? = nil,
+        occurrenceDateTime: MgoDateTime?? = nil,
+        occurrencePeriod: MgoPeriod?? = nil,
+        occurrenceTiming: MgoTiming?? = nil,
+        performer: MgoReference?? = nil,
+        performerType: ZibProcedureRequestPerformerType? = nil,
         profile: ZibProcedureRequestProfile? = nil,
-        reason: [MgoReference]?? = nil,
+        reasonReference: [MgoReference]?? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        status: String?? = nil,
+        requester: Requester? = nil,
+        resourceType: String? = nil,
+        status: ZibProcedureRequestStatus? = nil,
         subject: MgoReference?? = nil
     ) -> ZibProcedureRequest {
         return ZibProcedureRequest(
+            bodySite: bodySite ?? self.bodySite,
             code: code ?? self.code,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
-            intent: intent ?? self.intent,
-            occurrence: occurrence ?? self.occurrence,
-            perfomer: perfomer ?? self.perfomer,
+            identifier: identifier ?? self.identifier,
+            occurrenceDateTime: occurrenceDateTime ?? self.occurrenceDateTime,
+            occurrencePeriod: occurrencePeriod ?? self.occurrencePeriod,
+            occurrenceTiming: occurrenceTiming ?? self.occurrenceTiming,
+            performer: performer ?? self.performer,
+            performerType: performerType ?? self.performerType,
             profile: profile ?? self.profile,
-            reason: reason ?? self.reason,
+            reasonReference: reasonReference ?? self.reasonReference,
             referenceID: referenceID ?? self.referenceID,
+            requester: requester ?? self.requester,
             resourceType: resourceType ?? self.resourceType,
             status: status ?? self.status,
             subject: subject ?? self.subject

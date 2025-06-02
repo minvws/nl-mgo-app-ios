@@ -12,10 +12,9 @@ import Foundation
 
 // MARK: - Batch
 public struct Batch: Codable, Hashable, Sendable {
-    public let expirationDate, lotNumber: String?
+    public let lotNumber: MgoString?
 
-    public init(expirationDate: String?, lotNumber: String?) {
-        self.expirationDate = expirationDate
+    public init(lotNumber: MgoString?) {
         self.lotNumber = lotNumber
     }
 }
@@ -39,11 +38,9 @@ public extension Batch {
     }
 
     func with(
-        expirationDate: String?? = nil,
-        lotNumber: String?? = nil
+        lotNumber: MgoString?? = nil
     ) -> Batch {
         return Batch(
-            expirationDate: expirationDate ?? self.expirationDate,
             lotNumber: lotNumber ?? self.lotNumber
         )
     }

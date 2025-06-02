@@ -94,6 +94,8 @@ class ReferenceResolverTests: XCTestCase {
 		
 		// Then
 		expect(data) == resource
-		expect(schema.label) == "Amyotrofe laterale sclerose"
+		expect(schema.label) == "Concern"
+		expect(schema.children.first?.label) == nil
+		expect(schema.children.first?.children.count) == 2
 	}
 }
