@@ -121,6 +121,10 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 		}
 		
 		switch action {
+			
+			case .resetTab:
+				path.removeLast(path.count)
+			
 			case .backButtonPressed:
 				path.removeLast()
 			

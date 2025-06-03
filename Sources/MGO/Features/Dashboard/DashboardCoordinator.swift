@@ -6,6 +6,11 @@
 import MGOUI
 import MGOFoundation
 
+extension Coordination.Action {
+	
+	static let resetTab = Coordination.Action(identifier: "resetTab")
+}
+
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 	
 	associatedtype Body: View
@@ -52,7 +57,19 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	private var settingsCoordinator: SettingsCoordinator!
 	
 	/// The selected tab
-	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue
+	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue {
+		didSet {
+			logDebug("Setting selectedTab", selectedTab)
+			
+			switch selectedTab {
+				case 0: healthCategoriesCoordinator.handle(.resetTab)
+				case 1: healthcareOrganizationsCoordinator.handle(.resetTab)
+				case 2: settingsCoordinator.handle(.resetTab)
+				default: logError("Unhandled tab", selectedTab)
+			}
+			
+		}
+	}
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
