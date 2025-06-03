@@ -32,7 +32,7 @@ protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
 	
 	/// The content type for the sheet
 	var pathForSheet: NavigationStackBackport.NavigationPath { get set }
-
+	
 	/// The state for the root view
 	var rootState: HealthcareCoordination.State? { get set }
 	
@@ -100,9 +100,9 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		guard !handleHealthDataFlow(action) else { return }
 		
 		switch action.identifier {
-		
+			
 			// General
-				
+			
 			case Coordination.Action.closeSheet.identifier, Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
@@ -113,7 +113,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				} else {
 					path.removeLast()
 				}
-			
+				
 			default:
 				// Unhandled
 				logWarning("Healthcare Coordinator does not handle \(action)")
@@ -127,8 +127,8 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		
 		switch action.identifier {
 			
-				// Healthcare Organization Search Flow
-				
+			// Healthcare Organization Search Flow
+			
 			case Coordination.Action.addHealthcareOrganization.identifier:
 				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
 					rootStateForSheet = HealthcareCoordination.State.automaticLocalization
@@ -144,7 +144,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 					pathForSheet.append(HealthcareCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
 				} else {
 					logError("Healthcare Coordinator, missing params for \(action)")
-					}
+				}
 				return true
 				
 			case Coordination.Action.backToAddHealthcareOrganization.identifier:
@@ -184,7 +184,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			default:
 				return false
 		}
-		return false
 	}
 	
 	/// Handle the `showHealthcareOrganization` action
@@ -292,10 +291,10 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			
 			case .organizations:
 				OrganizationsView(viewModel: OrganizationsViewModel(coordinator: self)).isPresentedAsSheet(false)
-			
+				
 			case .manualLocalization:
 				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
-			
+				
 			case .automaticLocalization:
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
@@ -316,7 +315,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 					)
 				)
 				.isPresentedAsSheet(true)
-			
+				
 			case let .showHealthcareOrganization(healthcareOrganization):
 				HealthCategoriesView(
 					viewModel:
@@ -325,7 +324,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 							mode: .single( healthcareOrganization)
 						)
 				)
-			
+				
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(
 					viewModel: RemoveHealthcareOrganizationViewModel(
@@ -335,8 +334,8 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				)
 				.isPresentedAsSheet(true)
 				
-			// Health Categories and Data
-			
+				// Health Categories and Data
+				
 			case .showHealthCategories:
 				HealthCategoriesView(
 					viewModel:
@@ -345,10 +344,10 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 							mode: .all
 						)
 				)
-			
+				
 			case let .showHealthCategory(category: category, organization: organization):
 				viewState(for: category, organization: organization)
-			
+				
 			case let .showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization, inSheet: inSheet):
 				HealthDataView(
 					viewModel: HealthDataViewModel(
@@ -371,7 +370,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// - Parameter organization: optional healthcare organization
 	/// - Returns: A view for that state
 	@ViewBuilder private func viewState(for category: HealthCategories.Category, organization: MgoOrganization? = nil) -> some View {
-
+		
 		switch category {
 			case HealthCategories.Category.medication:
 				HealthCategoryView(viewModel: MedicationHealthCategoryViewModel(coordinator: self, organization: organization))
