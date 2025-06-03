@@ -32,7 +32,7 @@ protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
 	
 	/// The content type for the sheet
 	var pathForSheet: NavigationStackBackport.NavigationPath { get set }
-
+	
 	/// The state for the root view
 	var rootState: HealthcareCoordination.State? { get set }
 	
@@ -62,7 +62,7 @@ struct HealthcareCoordination {
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
-		case showHealthData(backButtonTitle: String, schema: HealthUISchema, organization: MgoOrganization)
+		case showHealthData(backButtonTitle: String?, schema: HealthUISchema, organization: MgoOrganization, inSheet: Bool)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 	}
 }
@@ -100,9 +100,9 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		guard !handleHealthDataFlow(action) else { return }
 		
 		switch action.identifier {
-		
+			
 			// General
-				
+			
 			case Coordination.Action.closeSheet.identifier, Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
@@ -113,7 +113,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				} else {
 					path.removeLast()
 				}
-			
+				
 			default:
 				// Unhandled
 				logWarning("Healthcare Coordinator does not handle \(action)")
@@ -127,8 +127,8 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		
 		switch action.identifier {
 			
-				// Healthcare Organization Search Flow
-				
+			// Healthcare Organization Search Flow
+			
 			case Coordination.Action.addHealthcareOrganization.identifier:
 				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
 					rootStateForSheet = HealthcareCoordination.State.automaticLocalization
@@ -144,7 +144,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 					pathForSheet.append(HealthcareCoordination.State.healthcareOrganizationSearchResults(city: city, name: name))
 				} else {
 					logError("Healthcare Coordinator, missing params for \(action)")
-					}
+				}
 				return true
 				
 			case Coordination.Action.backToAddHealthcareOrganization.identifier:
@@ -164,50 +164,16 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		switch action.identifier {
 			
 			case Coordination.Action.showHealthcareOrganization.identifier:
-				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
-					
-					path.append(HealthcareCoordination.State.showHealthcareOrganization(healthcareOrganization: healthcareOrganization))
-					return true
-				} else {
-					logError("HealthcareCoordinator Coordinator, missing params for \(action)")
-				}
+				return handleShowHealthcareOrganization(action)
 				
 			case Coordination.Action.showHealthCategory.identifier:
-				if action.params.count == 2,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
-				   let category = action.params["category"] as? HealthCategories.Category {
-					path.append(HealthcareCoordination.State.showHealthCategory(category: category, organization: healthcareOrganization))
-					return true
-				} else if action.params.count == 1,
-						  let category = action.params["category"] as? HealthCategories.Category {
-					path.append(HealthcareCoordination.State.showHealthCategory(category: category, organization: nil))
-					return true
-				} else {
-					logError("HealthcareCoordinator Coordinator, missing params for \(action)")
-				}
+				return handleShowHealthCategory(action)
 				
 			case Coordination.Action.showHealthData.identifier:
-				if action.params.count == 4,
-				   // let resource = action.params["resource"] as? MgoResouce,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
-				   let backButtonTitle = action.params["backButtonTitle"] as? String,
-				   let schema = action.params["uiSchema"] as? HealthUISchema {
-					path.append(HealthcareCoordination.State.showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization))
-					return true
-				} else {
-					logError("HealthcareCoordinator Coordinator, missing params for \(action)")
-				}
+				return handleShowHealthData(action)
 				
 			case Coordination.Action.removeHealthcareOrganization.identifier:
-				if action.params.count == 1,
-				   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
-					
-					rootStateForSheet = HealthcareCoordination.State.removeHealthcareOrganization(healthcareOrganization: healthcareOrganization)
-					return true
-				} else {
-					logError("HealthcareCoordinator Coordinator, missing params for \(action)")
-				}
+				return handleRemoveHealthcareOrganization(action)
 				
 			case Coordination.Action.removedHealthcareOrganization.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
@@ -218,7 +184,100 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			default:
 				return false
 		}
-		return false
+	}
+	
+	/// Handle the `showHealthcareOrganization` action
+	/// - Parameter action: the action
+	/// - Returns: true if handled successfully
+	private func handleShowHealthcareOrganization(_ action: Coordination.Action) -> Bool {
+		
+		guard action.identifier == Coordination.Action.showHealthcareOrganization.identifier else { return false }
+		
+		if action.params.count == 1,
+		   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
+			
+			path.append(HealthcareCoordination.State.showHealthcareOrganization(healthcareOrganization: healthcareOrganization))
+			return true
+		} else {
+			logError("HealthcareCoordinator Coordinator, missing params for \(action)")
+			return false
+		}
+	}
+	
+	/// Handle the `showHealthCategory` action
+	/// - Parameter action: the action
+	/// - Returns: true if handled successfully
+	private func handleShowHealthCategory(_ action: Coordination.Action) -> Bool {
+		
+		guard action.identifier == Coordination.Action.showHealthCategory.identifier else { return false }
+		
+		if action.params.count == 2,
+		   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
+		   let category = action.params["category"] as? HealthCategories.Category {
+			path.append(HealthcareCoordination.State.showHealthCategory(category: category, organization: healthcareOrganization))
+			return true
+		} else if action.params.count == 1,
+				  let category = action.params["category"] as? HealthCategories.Category {
+			path.append(HealthcareCoordination.State.showHealthCategory(category: category, organization: nil))
+			return true
+		} else {
+			logError("HealthcareCoordinator Coordinator, missing params for \(action)")
+			return false
+		}
+	}
+	
+	/// Handle the `showHealthData` action
+	/// - Parameter action: the action
+	/// - Returns: true if handled successfully
+	private func handleShowHealthData(_ action: Coordination.Action) -> Bool {
+		
+		guard action.identifier == Coordination.Action.showHealthData.identifier else { return false }
+		
+		if action.params.count == 5,
+		   // let resource = action.params["resource"] as? MgoResouce,
+		   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
+		   let backButtonTitle = action.params["backButtonTitle"] as? String,
+		   let inSheet = action.params["inSheet"] as? Bool,
+		   let schema = action.params["uiSchema"] as? HealthUISchema {
+			
+			let newState = HealthcareCoordination.State.showHealthData(
+				backButtonTitle: inSheet && rootStateForSheet == nil ? nil : backButtonTitle,
+				schema: schema,
+				organization: healthcareOrganization,
+				inSheet: inSheet
+			)
+			if inSheet {
+				if rootStateForSheet == nil {
+					rootStateForSheet = newState
+				} else {
+					pathForSheet.append(newState)
+				}
+			} else {
+				path.append(newState)
+			}
+			return true
+		} else {
+			logError("HealthcareCoordinator Coordinator, missing params for \(action)")
+			return false
+		}
+	}
+	
+	/// Handle the `removeHealthcareOrganization` action
+	/// - Parameter action: the action
+	/// - Returns: true if handled successfully
+	private func handleRemoveHealthcareOrganization(_ action: Coordination.Action) -> Bool {
+		
+		guard action.identifier == Coordination.Action.removeHealthcareOrganization.identifier else { return false }
+		
+		if action.params.count == 1,
+		   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization {
+			
+			rootStateForSheet = HealthcareCoordination.State.removeHealthcareOrganization(healthcareOrganization: healthcareOrganization)
+			return true
+		} else {
+			logError("HealthcareCoordinator Coordinator, missing params for \(action)")
+			return false
+		}
 	}
 	
 	/// Get a View for the State
@@ -232,10 +291,10 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			
 			case .organizations:
 				OrganizationsView(viewModel: OrganizationsViewModel(coordinator: self)).isPresentedAsSheet(false)
-			
+				
 			case .manualLocalization:
 				AddOrganizationView(viewModel: AddOrganizationViewModel(coordinator: self)).isPresentedAsSheet(true)
-			
+				
 			case .automaticLocalization:
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
@@ -256,7 +315,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 					)
 				)
 				.isPresentedAsSheet(true)
-			
+				
 			case let .showHealthcareOrganization(healthcareOrganization):
 				HealthCategoriesView(
 					viewModel:
@@ -265,7 +324,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 							mode: .single( healthcareOrganization)
 						)
 				)
-			
+				
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(
 					viewModel: RemoveHealthcareOrganizationViewModel(
@@ -275,8 +334,8 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				)
 				.isPresentedAsSheet(true)
 				
-			// Health Categories and Data
-			
+				// Health Categories and Data
+				
 			case .showHealthCategories:
 				HealthCategoriesView(
 					viewModel:
@@ -285,11 +344,11 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 							mode: .all
 						)
 				)
-			
+				
 			case let .showHealthCategory(category: category, organization: organization):
 				viewState(for: category, organization: organization)
-			
-			case let .showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization):
+				
+			case let .showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization, inSheet: inSheet):
 				HealthDataView(
 					viewModel: HealthDataViewModel(
 						coordinator: self,
@@ -298,6 +357,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 						healthcareOrganization: healthcareOrganization
 					)
 				)
+				.isPresentedAsSheet(inSheet)
 				
 			default:
 				EmptyView()
@@ -310,7 +370,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// - Parameter organization: optional healthcare organization
 	/// - Returns: A view for that state
 	@ViewBuilder private func viewState(for category: HealthCategories.Category, organization: MgoOrganization? = nil) -> some View {
-
+		
 		switch category {
 			case HealthCategories.Category.medication:
 				HealthCategoryView(viewModel: MedicationHealthCategoryViewModel(coordinator: self, organization: organization))

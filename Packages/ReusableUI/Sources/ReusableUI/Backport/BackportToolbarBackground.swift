@@ -5,11 +5,15 @@
 
 import SwiftUI
 
+/// Back ported version of toolbarBackground
 public struct BackportToolbarBackground: ViewModifier {
 	
 	// The Theme
 	@Environment(\.theme) var theme
 	
+	/// Get the view for this modifier
+	/// - Parameter content: content
+	/// - Returns: view with view modifier
 	public func body(content: Content) -> some View {
 		
 		if #available(iOS 16.0, *) {
@@ -23,6 +27,9 @@ public struct BackportToolbarBackground: ViewModifier {
 }
 
 extension View {
+	
+	/// Back ported version of toolbarBackground
+	/// - Returns: View
 	public func backportToolbarBackground() -> some View {
 		modifier(BackportToolbarBackground())
 	}

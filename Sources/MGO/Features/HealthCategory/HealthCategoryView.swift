@@ -316,7 +316,8 @@ class HealthCategoryViewModel: ObservableObject {
 									"healthcareOrganization": self.getOrganization(record.organizationId),
 									"backButtonTitle": String(localized: self.translations.backButtonTitle),
 									"resource": resource,
-									"uiSchema": uiSchema
+									"uiSchema": uiSchema,
+									"inSheet": false
 								])
 							)
 						}

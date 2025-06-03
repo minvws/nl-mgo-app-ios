@@ -54,6 +54,8 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 				},
 				content: {
 					sheetContent(withCloseButton: true)
+						.backportPresentationContentInteraction(.scrolls)
+						.backportPresentationDragIndicator(Visibility.visible)
 				}
 			)
 			.onAppear {

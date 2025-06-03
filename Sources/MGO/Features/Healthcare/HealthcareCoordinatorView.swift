@@ -43,6 +43,8 @@ struct HealthcareCoordinatorView<T: HealthcareCoordinatorProtocol>: View {
 						}
 						.navigationBarBackButtonHidden(true)
 						.navigationBarTitleDisplayMode(.inline)
+						.backportPresentationContentInteraction(.scrolls)
+						.backportPresentationDragIndicator(Visibility.visible)
 				}
 			}
 		)

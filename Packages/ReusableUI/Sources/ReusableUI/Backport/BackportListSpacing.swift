@@ -5,10 +5,16 @@
 
 import SwiftUI
 
+/// Back ported version of listSectionSpacing
+/// - See: https://developer.apple.com/documentation/swiftui/view/listsectionspacing(_:)
 public struct BackportListSectionSpacing: ViewModifier {
 	
-	var spacing: CGFloat
+	/// the spacing between adjacent sections
+	public var spacing: CGFloat
 	
+	/// Get the view for this modifier
+	/// - Parameter content: content
+	/// - Returns: view with view modifier
 	public func body(content: Content) -> some View {
 		
 		if #available(iOS 17.0, *) {
@@ -25,6 +31,11 @@ public struct BackportListSectionSpacing: ViewModifier {
 }
 
 extension View {
+	
+	/// Back ported version of listSectionSpacing
+	/// - See: https://developer.apple.com/documentation/swiftui/view/listsectionspacing(_:)
+	/// - Parameter spacing: the spacing between adjacent sections
+	/// - Returns: view
 	public func backportListSectionSpacing(_ spacing: CGFloat) -> some View {
 		modifier(BackportListSectionSpacing(spacing: spacing))
 	}
