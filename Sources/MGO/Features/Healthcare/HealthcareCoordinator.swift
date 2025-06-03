@@ -102,9 +102,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		switch action.identifier {
 			
 			// General
-				
-			case Coordination.Action.resetTab.identifier:
-				path.removeLast(path.count)
 			
 			case Coordination.Action.closeSheet.identifier,
 				Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:

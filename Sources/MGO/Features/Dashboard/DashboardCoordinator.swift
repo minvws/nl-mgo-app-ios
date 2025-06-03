@@ -59,15 +59,21 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	/// The selected tab
 	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue {
 		didSet {
-			logDebug("Setting selectedTab", selectedTab)
+			// when tapping on the already selected tab, reset the navigation for that tab.
+			// happens automatically in iOS 18
+			
+			guard belowIOS18 else { return }
+			guard selectedTab == oldValue else { return }
 			
 			switch selectedTab {
-				case 0: healthCategoriesCoordinator.handle(.resetTab)
-				case 1: healthcareOrganizationsCoordinator.handle(.resetTab)
-				case 2: settingsCoordinator.handle(.resetTab)
+				case DashboardTab.healthCategories.rawValue:
+					healthCategoriesCoordinator.path.removeLast(healthCategoriesCoordinator.path.count)
+				case DashboardTab.healthcareOrganizations.rawValue:
+					healthcareOrganizationsCoordinator.path.removeLast(healthcareOrganizationsCoordinator.path.count)
+				case DashboardTab.settings.rawValue:
+					settingsCoordinator.path.removeLast(settingsCoordinator.path.count)
 				default: logError("Unhandled tab", selectedTab)
 			}
-			
 		}
 	}
 	
