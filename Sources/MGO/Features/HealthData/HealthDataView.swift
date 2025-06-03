@@ -9,8 +9,10 @@ import MGOUI
 struct ZibDetailViewState {
 	
 	var schema: HealthUISchema
-	var backButton: String
+	var backButton: String?
 }
+
+typealias ReferenceStoreEntry = (resource: MgoResource, isReferenceValue: Bool, schema: HealthUISchema)
 
 class HealthDataViewModel: ObservableObject {
 	
@@ -30,11 +32,12 @@ class HealthDataViewModel: ObservableObject {
 	weak private var referenceResolver: ReferenceResolverProtocol?
 	
 	/// The store for references
-	var referenceStore = [String: (MgoResource, HealthUISchema)?]()
+	var referenceStore = [String: ReferenceStoreEntry?]()
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
+		case closeSheet
 		case reference(String)
 	}
 	
@@ -47,7 +50,7 @@ class HealthDataViewModel: ObservableObject {
 	init(
 		coordinator: (any Coordinator)? = nil,
 		schema: HealthUISchema,
-		backButtonTitle: String,
+		backButtonTitle: String?,
 		healthcareOrganization: MgoOrganization,
 		referenceResolver: ReferenceResolverProtocol = ReferenceResolver()
 	) {
@@ -67,7 +70,7 @@ class HealthDataViewModel: ObservableObject {
 			if Current.featureFlagManager.isDemo {
 				resolvedReferences[reference] = false
 			} else {
-				storeReference(reference)
+				storeReference(reference, isReferenceValue: true)
 			}
 		}
 	}
@@ -75,7 +78,7 @@ class HealthDataViewModel: ObservableObject {
 	private func prepareReferenceLink() {
 	
 		filterReferences(.referenceLink).forEach { reference in
-			storeReference(reference)
+			storeReference(reference, isReferenceValue: false)
 		}
 	}
 	
@@ -88,10 +91,12 @@ class HealthDataViewModel: ObservableObject {
 		)
 	}
 	
-	private func storeReference(_ reference: String) {
+	private func storeReference(_ reference: String, isReferenceValue: Bool) {
 		
 		let result = referenceResolver?.resolve(reference: reference, healthcareOrganization: healthcareOrganization)
-		referenceStore[reference] = result
+		if let result {
+			referenceStore[reference] = ReferenceStoreEntry(resource: result.0, isReferenceValue: isReferenceValue, schema: result.1)
+		}
 		resolvedReferences[reference] = result != nil
 	}
 	
@@ -102,6 +107,10 @@ class HealthDataViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
+			
+			case .closeSheet:
+				coordinator?.handle(Coordination.Action.closeSheet)
+			
 			case let .reference(reference):
 				referenceTapped(reference)
 		}
@@ -113,16 +122,19 @@ class HealthDataViewModel: ObservableObject {
 		
 		guard let resolved = referenceStore[reference] else { return }
 		
-		if let (resource, refSchema) = resolved {
+		if let (resource, isReferenceValue, refSchema) = resolved {
 			
-			self.coordinator?.handle(Coordination.Action(
-				identifier: Coordination.Action.showHealthData.identifier,
-				params: [
-					"healthcareOrganization": healthcareOrganization,
-					"backButtonTitle": "common.previous",
-					"resource": resource,
-					"uiSchema": refSchema
-				])
+			self.coordinator?.handle(
+				Coordination.Action(
+					identifier: Coordination.Action.showHealthData.identifier,
+					params: [
+						"healthcareOrganization": healthcareOrganization,
+						"backButtonTitle": "common.previous",
+						"resource": resource,
+						"uiSchema": refSchema,
+						"inSheet": isReferenceValue
+					]
+				)
 			)
 		}
 	}
@@ -135,6 +147,9 @@ struct HealthDataView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
+	
+	/// Are we presented in a sheet?
+	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
 	
 	/// Magic Numbers
 	private struct ViewTraits {
@@ -169,12 +184,21 @@ struct HealthDataView: View {
 		}
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.navigationBarBackButtonHidden()
-		.navigationBarItems(leading: BackButton(LocalizedStringKey(stringLiteral: viewModel.state.backButton)) {
-			viewModel.reduce(.backButtonPressed)
-		})
+		.when(viewModel.state.backButton != nil) { view in
+			view
+				.navigationBarItems(leading: BackButton(LocalizedStringKey(stringLiteral: viewModel.state.backButton!)) {
+					viewModel.reduce(.backButtonPressed)
+				})
+		}
 		.navigationBarHidden(false)
 		.navigationTitle(viewModel.state.schema.label)
 		.layoutForIPad()
+		.when(isPresentedAsSheet, transform: { view in
+			view
+				.withToolbarCloseButton {
+					viewModel.reduce(.closeSheet)
+				}
+		})
 	}
 }
 

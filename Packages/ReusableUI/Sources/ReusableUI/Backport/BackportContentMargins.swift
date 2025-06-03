@@ -5,14 +5,19 @@
 
 import SwiftUI
 
+/// Back ported version of the content margins
+/// - See: https://developer.apple.com/documentation/swiftui/view/contentmargins(_:for:)
 public struct BackportContentMargins: ViewModifier {
 	
 	/// The edges to apply the margin to
-	var edges: Edge.Set
+	public var edges: Edge.Set
 	
 	/// The margin to appy
-	var margin: CGFloat
+	public var margin: CGFloat
 	
+	/// Get the view for this modifier
+	/// - Parameter content: content
+	/// - Returns: view with view modifier
 	public func body(content: Content) -> some View {
 		
 		if #available(iOS 17.0, *) {
@@ -27,6 +32,7 @@ public struct BackportContentMargins: ViewModifier {
 extension View {
 	
 	/// Back ported version of the content margins
+	/// - See: https://developer.apple.com/documentation/swiftui/view/contentmargins(_:for:)
 	/// - Parameters:
 	///   - margin: the margin to apply
 	///   - edges: the edges to apply the margin to (defaults to .vertical)
