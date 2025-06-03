@@ -121,6 +121,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 		}
 		
 		switch action {
+			
 			case .backButtonPressed:
 				path.removeLast()
 			
