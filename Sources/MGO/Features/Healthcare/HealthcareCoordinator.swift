@@ -103,7 +103,8 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			
 			// General
 			
-			case Coordination.Action.closeSheet.identifier, Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
+			case Coordination.Action.closeSheet.identifier,
+				Coordination.Action.finishedSearchingHealthcareOrganizations.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
 				rootStateForSheet = nil
 				
