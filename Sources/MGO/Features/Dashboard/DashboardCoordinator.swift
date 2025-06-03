@@ -6,11 +6,6 @@
 import MGOUI
 import MGOFoundation
 
-extension Coordination.Action {
-	
-	static let resetTab = Coordination.Action(identifier: "resetTab")
-}
-
 protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 	
 	associatedtype Body: View
