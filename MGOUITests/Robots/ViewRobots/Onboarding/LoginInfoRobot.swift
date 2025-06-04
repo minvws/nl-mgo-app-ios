@@ -5,27 +5,27 @@
 
 import XCTest
 
-/// The Robot for the Login scene
-class LoginRobot: Robot {
+/// The Robot for the Login Info scene
+class LoginInfoRobot: Robot {
 	
 	/// The app to test
 	var app: XCUIApplication
 	
-	/// Create an Login Robot
+	/// Create an Login Info Robot
 	/// - Parameter application: the application to test
 	init(_ application: XCUIApplication) {
 		
 		self.app = application
 		XCTAssertTrue(
 			titleLabel.waitForExistence(timeout: timeOut),
-			"Expected 'LoginRobot' screen, but it didn't appear"
+			"Expected 'LoginInfoRobot' screen, but it didn't appear"
 		)
 	}
 	
 	// MARK: - Elements
 	
-	private var digidButton: XCUIElement {
-		app.buttons["login.digid"]
+	private var nextButton: XCUIElement {
+		app.buttons["common.next"]
 	}
 	
 	private var titleLabel: XCUIElement {
@@ -43,18 +43,18 @@ class LoginRobot: Robot {
 		XCTAssertTrue(subHeadingLabel.exists)
 		return self
 	}
+	
+	@discardableResult
+	func verifyNextButtonExists() -> Self {
+		XCTAssertTrue(nextButton.exists)
+		return self
+	}
 
 	// MARK: - Interactions
 	
 	@discardableResult
-	func tapLoginWithDigiDButton() -> MockDigiDRobot {
-		digidButton.tap()
-		return MockDigiDRobot(app)
-	}
-	
-	@discardableResult
-	func tapLoginWithDigiDButtonWithDemoMode() -> LoginInfoRobot {
-		digidButton.tap()
-		return LoginInfoRobot(app)
+	func tapNextButton() -> OrganizationListAutomaticRobot {
+		nextButton.tap()
+		return OrganizationListAutomaticRobot(app)
 	}
 }

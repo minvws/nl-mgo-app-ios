@@ -8,12 +8,12 @@ import XCTest
 final class ForgotPincodeFlowTests: XCTestCase {
 	
 	/*
-	 This e2e test will test the forgot your pincode flow
-	 - Verify the existence of the forgot your pincode button on pincode entry
-	 - Press the cancel button on forgot your pincode sheet
-	 - Press the close button on forgot your pincode sheet
-	 - Press the create new account button on forgot your pincode sheet, press no on the popup
-	 - Press the create new account button on forgot your pincode sheet, press yes on the popup, press ok on the account removed page
+	 This e2e test will test the forgot your pin code flow
+	 - Verify the existence of the forgot your pin code button on pin code entry
+	 - Press the cancel button on forgot your pin code sheet
+	 - Press the close button on forgot your pin code sheet
+	 - Press the create new account button on forgot your pin code sheet, press no on the popup
+	 - Press the create new account button on forgot your pin code sheet, press yes on the popup, press ok on the account removed page
 	 */
 	
 	@MainActor
