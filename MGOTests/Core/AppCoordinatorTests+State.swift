@@ -76,6 +76,19 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_coordinatorView_privacyStatement() throws {
+		
+		// Given
+		let state = AppCoordination.State.privacyStatement
+		
+		// When
+		let view = sut.view(for: state)
+		let content = NavigationView { view }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+	}
+	
 	func test_coordinatorView_forPinCodeEntry() throws {
 		
 		// Given
