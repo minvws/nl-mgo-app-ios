@@ -24,6 +24,7 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 	/// The state for the root view of the page
 	var rootState: AppCoordination.State { get set }
 	
+	/// Should we show the authentication modal?
 	var showAuthenticationModal: Bool { get set }
 	
 	/// Should we show the child coordinator?
@@ -33,6 +34,8 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 	/// - Parameter state: the AppCoordination State
 	/// - Returns: A view for that state
 	func view(for: AppCoordination.State?) -> Body
+	
+	func showCloseButtonForSheet(for: AppCoordination.State?) -> Bool
 }
 
 extension Coordination.Action {
@@ -483,7 +486,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		guard let privacyURL else { return }
 		
 		if browser.isDomainAllowed(privacyURL) {
-			path.append(AppCoordination.State.privacyStatement)
+			rootStateForSheet = AppCoordination.State.privacyStatement
 		} else {
 			browser.handleUnallowedDomain(privacyURL)
 		}
@@ -568,7 +571,15 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case .privacyStatement:
 				if let privacyURL {
-					InAppBrowserView(viewModel: InAppBrowserViewModel(url: privacyURL, browser: self.browser, title: "privacy.heading", coordinator: self))
+					InAppBrowserView(
+						viewModel: InAppBrowserViewModel(
+							url: privacyURL,
+							browser: self.browser,
+							title: "privacy.heading",
+							coordinator: self,
+							closeAction: .closeSheet
+						)
+					)
 				} else {
 					EmptyView()
 				}
@@ -596,8 +607,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Remote Authentication
 				
 			case .login:
-				LoginView(viewModel: LoginViewModel(coordinator: self, remoteAuthenticationClient: self.remoteAuthenticationClient))
-			
+				LoginView(
+					viewModel: LoginViewModel(
+						coordinator: self,
+						remoteAuthenticationClient:
+							self.remoteAuthenticationClient
+					)
+				)
+				
 			case .loginInfo:
 				LoginInfoView(viewModel: LoginInfoViewModel(coordinator: self))
 				
@@ -636,6 +653,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .none:
 				EmptyView()
 		}
+	}
+	
+	/// Should we show a close button for this sheet
+	/// - Parameter state: the state
+	/// - Returns: True if we should show a close button
+	func showCloseButtonForSheet(for state: AppCoordination.State?) -> Bool {
+		return state != .privacyStatement
 	}
 }
 // swiftlint: enable type_body_length

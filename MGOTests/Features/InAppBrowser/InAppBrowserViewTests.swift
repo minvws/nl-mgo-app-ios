@@ -36,7 +36,7 @@ final class InAppBrowserViewTests: XCTestCase {
 		try setupSut()
 		
 		// When
-		try sut.inspect().find(viewWithTag: "close_view").button().tap()
+		try sut.inspect().find(viewWithAccessibilityIdentifier: "common.close").button().tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
