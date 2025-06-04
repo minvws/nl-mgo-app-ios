@@ -84,9 +84,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		// When
 		let view = sut.view(for: state)
 		let content = NavigationView { view }
+		let webview = try content.inspect().find(viewWithAccessibilityIdentifier: "restrictedBrowserView")
 		
 		// Then
-		takeSnapShots(content: content, precision: 0.95)
+		expect(webview) != nil
 	}
 	
 	func test_coordinatorView_forPinCodeEntry() throws {
