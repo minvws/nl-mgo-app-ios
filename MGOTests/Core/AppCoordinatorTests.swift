@@ -117,7 +117,8 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.handle(Coordination.Action.showPrivacyStatement)
 		
 		// Then
-		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.privacyStatement])
+		expect(self.sut.path.isEmpty) == true
+		expect(self.sut.rootStateForSheet) == AppCoordination.State.privacyStatement
 		expect(self.urlOpenerSpy.invokedOpen) == false
 	}
 	
