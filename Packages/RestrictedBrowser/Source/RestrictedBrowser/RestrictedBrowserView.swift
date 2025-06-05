@@ -47,6 +47,7 @@ public struct RestrictedBrowserView: View {
 						)
 					}
 				)
+				.accessibilityIdentifier("restrictedBrowserView")
 		}
 	}
 }
