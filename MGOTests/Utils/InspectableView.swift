@@ -4,9 +4,10 @@
  */
 	
 import MGOUI
+import MGOTest
 
 // See https://github.com/nalexn/ViewInspector/blob/0.10.3/guide_popups.md#sheet
 
-extension InspectableSheet: PopupPresenter { }
+extension InspectableSheet: ViewInspector.PopupPresenter { }
 
-extension InspectableFullScreenCover: PopupPresenter { }
+extension InspectableFullScreenCover: ViewInspector.PopupPresenter { }
