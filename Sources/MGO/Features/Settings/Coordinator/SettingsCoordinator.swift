@@ -29,6 +29,12 @@ protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
 	/// The navigation path
 	var path: NavigationStackBackport.NavigationPath { get set }
 	
+	/// The content type for the sheet
+	var pathForSheet: NavigationStackBackport.NavigationPath { get set }
+	
+	/// The state for the root view of the sheet
+	var rootStateForSheet: SettingsCoordination.State? { get set }
+	
 	/// Get a View for the State
 	/// - Parameter state: the DashboardCoordination State
 	/// - Returns: A view for that state
@@ -56,6 +62,12 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	
 	/// The navigation path
 	@Published var path = NavigationStackBackport.NavigationPath()
+	
+	/// The navigation path for the sheet.
+	@Published var pathForSheet = NavigationStackBackport.NavigationPath()
+	
+	/// The root state for a sheet.
+	@Published var rootStateForSheet: SettingsCoordination.State?
 	
 	/// The parent coordinator for routing
 	private weak var parentCoordinator: (any DashboardCoordinatorProtocol)?
@@ -122,6 +134,10 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 		
 		switch action {
 			
+			case .closeSheet:
+				pathForSheet = NavigationStackBackport.NavigationPath()
+				rootStateForSheet = nil
+			
 			case .backButtonPressed:
 				path.removeLast()
 			
@@ -170,7 +186,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 		guard let url else { return }
 		
 		if browser.isDomainAllowed(url) {
-			path.append(SettingsCoordination.State.browser(url))
+			rootStateForSheet = SettingsCoordination.State.browser(url)
 		} else {
 			browser.handleUnallowedDomain(url)
 		}
@@ -214,7 +230,8 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 						url: url,
 						browser: self.browser,
 						title: nil,
-						coordinator: self
+						coordinator: self,
+						closeAction: .closeSheet
 					)
 				)
 			

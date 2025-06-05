@@ -94,7 +94,6 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 							appCoordinator.handle(Coordination.Action.closeSheet)
 						}
 				}
-//				.backportToolbarBackground(theme.backgroundSecondary, for: .automatic)
 		}
 	}
 }
