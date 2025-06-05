@@ -17,6 +17,9 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	/// Should we show the alert after a screenshot was taken?§
 	@State private var showScreenshotAlert = false
 	
+	// The Theme
+	@Environment(\.theme) var theme
+	
 	/// Initializer
 	/// - Parameter appCoordinator: An AppCoordinatorProtocol class
 	init(appCoordinator: T) {
@@ -56,6 +59,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 					sheetContent(withCloseButton: appCoordinator.showCloseButtonForSheet(for: appCoordinator.rootStateForSheet))
 						.backportPresentationContentInteraction(.scrolls)
 						.backportPresentationDragIndicator(Visibility.visible)
+						
 				}
 			)
 			.onAppear {
@@ -90,6 +94,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 							appCoordinator.handle(Coordination.Action.closeSheet)
 						}
 				}
+//				.backportToolbarBackground(theme.backgroundSecondary, for: .automatic)
 		}
 	}
 }
