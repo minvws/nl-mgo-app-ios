@@ -80,6 +80,8 @@ fileGroups:
   - Scripts
   - Makefile
   - README.md
+  - LICENSES
+  - REUSE.toml
 
 # - Project Level settings:
 
