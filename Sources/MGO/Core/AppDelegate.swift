@@ -65,7 +65,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 				return HTTPStubsResponse(jsonObject: ["iosMinimumVersion": "99999"], statusCode: 200, headers: nil)
 			}
 		}
-		if let pincode = LaunchArgumentsHandler.hasPincode() {
+		if let pincode = LaunchArgumentsHandler.withPincode() {
 			Current.secureUserSettings.pinCode = pincode
 		}
 		if LaunchArgumentsHandler.hasRemoteAuthentication() {
@@ -73,6 +73,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 		if LaunchArgumentsHandler.shouldEnableFaceID() {
 			Current.localAuthenticationProvider.biometricType = { .faceID }
+		}
+		if LaunchArgumentsHandler.isAutomaticLocalizationEnabled() {
+			Current.featureFlagManager.isAutomaticLocalizationEnabled = true
+		}
+		if LaunchArgumentsHandler.isDemo() {
+			Current.featureFlagManager.isDemo = true
 		}
 	}
 	
