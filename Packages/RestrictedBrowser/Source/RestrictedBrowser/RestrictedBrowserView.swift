@@ -5,6 +5,7 @@
 
 import SwiftUI
 import Theme
+import ReusableUI
 
 public struct RestrictedBrowserView: View {
 	
