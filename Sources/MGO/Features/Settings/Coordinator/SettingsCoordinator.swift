@@ -54,7 +54,7 @@ enum SettingsCoordination {
 		case aboutAccessibility
 		case aboutSafetyTips
 		case aboutOpenSourceLibraries
-		case browser(URL)
+		case browser(URL, String?)
 	}
 }
 
@@ -125,7 +125,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				return
 			}
 			if browser.isDomainAllowed(url) {
-				path.append(SettingsCoordination.State.browser(url))
+				path.append(SettingsCoordination.State.browser(url, nil))
 			} else {
 				browser.handleUnallowedDomain(url)
 			}
@@ -166,7 +166,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				path.append(SettingsCoordination.State.aboutOpenSourceLibraries)
 			
 			case .showPrivacyStatement:
-				handleUrl(privacyURL)
+				handleUrl(privacyURL, title: "privacy.heading")
 			
 			case .showSecuritySettings:
 				path.append(SettingsCoordination.State.securitySettings)
@@ -181,12 +181,12 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	
 	/// Handle displaying urls
 	/// - Parameter url: the url to show
-	private func handleUrl(_ url: URL?) {
+	private func handleUrl(_ url: URL?, title: String? = nil) {
 		
 		guard let url else { return }
 		
 		if browser.isDomainAllowed(url) {
-			rootStateForSheet = SettingsCoordination.State.browser(url)
+			rootStateForSheet = SettingsCoordination.State.browser(url, title)
 		} else {
 			browser.handleUnallowedDomain(url)
 		}
@@ -224,12 +224,12 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 					viewModel: AdvancedSettingsViewModel(coordinator: self)
 				)
 			
-			case .browser(let url):
+			case .browser(let url, let title):
 				InAppBrowserView(
 					viewModel: InAppBrowserViewModel(
 						url: url,
 						browser: self.browser,
-						title: nil,
+						title: LocalizedStringKey(stringLiteral: title ?? ""),
 						coordinator: self,
 						closeAction: .closeSheet
 					)

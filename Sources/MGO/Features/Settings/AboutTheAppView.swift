@@ -227,7 +227,9 @@ struct AboutTheAppView: View {
 		)
 		.listRowInsets(ViewTraits.General.inset)
 	}
-
+	
+	/// Show the privacy statement row
+	/// - Returns: Button for the privacy statement
 	@ViewBuilder private func privacy() -> some View {
 		
 		Button {
