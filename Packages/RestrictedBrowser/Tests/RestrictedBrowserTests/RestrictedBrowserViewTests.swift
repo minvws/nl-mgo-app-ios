@@ -34,7 +34,7 @@ final class RestrictedBrowserViewTests: XCTestCase {
 		assertSnapshot(
 			of: UIHostingController(rootView: content.colorScheme(.dark)),
 			as: .image,
-			named: "_darkPortrait",
+			named: "_darkPortrait"
 		)
 	}
 	
