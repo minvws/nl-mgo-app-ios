@@ -92,11 +92,11 @@ enum HealthCategoryViewState: Equatable {
 	}
 }
 
-// A small struct for the various translations for each category
+/// A small struct for the various translations for each category
 struct HealthCategoryViewTranslations {
 
 	/// the title key of the page
-	var heading: LocalizedStringKey
+	var heading: String.LocalizationValue
 
 	/// the text key for the search bar
 	var search: LocalizedStringKey
@@ -106,6 +106,14 @@ struct HealthCategoryViewTranslations {
 	
 	/// The text key for the heading of the details
 	var backButtonTitle: String.LocalizationValue
+	
+	/// The title for the alert heading
+	var exportAlertHeading: String {
+		String(
+			format: String(localized: "export_pdf.dialog.heading"),
+			arguments: [String(localized: heading).lowercased()]
+		)
+	}
 }
 
 class HealthCategoryViewModel: ObservableObject {
@@ -115,6 +123,9 @@ class HealthCategoryViewModel: ObservableObject {
 	
 	/// All the translated copy
 	@Published var translations: HealthCategoryViewTranslations
+	
+	/// Show the export dialog
+	@Published var showExportAlert: Bool = false
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -137,6 +148,9 @@ class HealthCategoryViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
+		case showExportAlert
+		case cancelExportAlert
+		case doExport
 		case onAppear
 		case retry
 	}
@@ -178,14 +192,25 @@ class HealthCategoryViewModel: ObservableObject {
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
+			
 			case .onAppear:
 				BinaryRepository().clear()
 				_Concurrency.Task {
 					 await loadResources()
 				}
+			
 			case .retry:
 				retry()
 				Haptic.light()
+		
+			case .showExportAlert:
+				showExportAlert = true
+			
+			case .cancelExportAlert:
+				showExportAlert = false
+			
+			case .doExport:
+				logInfo("do export")
 		}
 	}
 	
@@ -421,7 +446,7 @@ struct HealthCategoryView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
-		.navigationTitle(viewModel.translations.heading)
+		.navigationTitle(String(localized: viewModel.translations.heading))
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
@@ -479,40 +504,16 @@ struct HealthCategoryView: View {
 					ForEach(Array(list.enumerated()), id: \.offset) { subCategoryIndex, subCategory in
 					
 						if subCategory.rows.isNotEmpty {
-							if list.count != 1 {
-								Text(subCategory.heading)
-									.rijksoverheidStyle(font: .regular, style: .body)
-									.foregroundColor(theme.contentPrimary)
-									.padding(.top, ViewTraits.List.top)
-							}
-							
-							ForEach(Array(subCategory.rows.enumerated()), id: \.offset) { index, element in
-								
-								ZStack {
-									Rectangle()
-										.foregroundStyle(.clear)
-										.accessibilityLabel(String(
-											format: String(localized: "medication_overview.voiceover"),
-											arguments: ["\(element.heading ?? "")", "\(element.subHeading ?? "")"]
-										))
-										.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
-										.accessibilityAddTraits(.isButton)
-									
-									ActionCardView(
-										title: LocalizedStringKey(stringLiteral: element.heading ?? ""),
-										message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
-										perform: element.action
-									)
-									.cornerRadius(ViewTraits.List.cornerRadius)
-								}
-								.onTapGesture {
-									element.action?()
-								}
-							}
+							blockView(
+								showHeading: list.count != 1,
+								subCategory: subCategory,
+								subCategoryIndex: subCategoryIndex
+							)
 						}
 					}
 				})
 				.padding(.top, ViewTraits.Navigation.padding)
+				.toolbar(content: pdfExportToolbarContent)
 			}
 		}
 		.when(Configuration().getRelease() != .demo) { view in
@@ -521,6 +522,72 @@ struct HealthCategoryView: View {
 		}
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.foregroundColor(theme.contentSecondary)
+		.alert(viewModel.translations.exportAlertHeading, isPresented: $viewModel.showExportAlert) {
+			Button("export_pdf.dialog.create_document") { viewModel.reduce(.doExport) }
+			Button("common.cancel") { viewModel.reduce(.cancelExportAlert) }
+		} message: {
+			Text("export_pdf.dialog.subheading")
+		}
+	}
+	
+	/// Block view for a subcategory
+	/// - Parameters:
+	///   - list: the list of categories
+	///   - subCategory: a sub category
+	///   - subCategoryIndex: the index of the subcategory
+	/// - Returns: view
+	@ViewBuilder private func blockView(
+		showHeading: Bool,
+		subCategory: HealthSubCategory,
+		subCategoryIndex: Int) -> some View {
+		if showHeading {
+			Text(subCategory.heading)
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.foregroundColor(theme.contentPrimary)
+				.padding(.top, ViewTraits.List.top)
+		}
+		
+		ForEach(Array(subCategory.rows.enumerated()), id: \.offset) { index, element in
+			
+			ZStack {
+				Rectangle()
+					.foregroundStyle(.clear)
+					.accessibilityLabel(String(
+						format: String(localized: "medication_overview.voiceover"),
+						arguments: ["\(element.heading ?? "")", "\(element.subHeading ?? "")"]
+					))
+					.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
+					.accessibilityAddTraits(.isButton)
+				
+				ActionCardView(
+					title: LocalizedStringKey(stringLiteral: element.heading ?? ""),
+					message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
+					perform: element.action
+				)
+				.cornerRadius(ViewTraits.List.cornerRadius)
+			}
+			.onTapGesture {
+				element.action?()
+			}
+		}
+	}
+	
+	/// Get the toolbar content (export to pdf)
+	/// - Returns: the toolbar content
+	@ToolbarContentBuilder private func pdfExportToolbarContent() -> some ToolbarContent {
+		ToolbarItemGroup(
+			placement: .topBarTrailing,
+			content: {
+				Spacer()
+				
+				Button {
+					viewModel.reduce(.showExportAlert)
+				} label: {
+					Image(ImageResource.Icon.exportPdf)
+				}
+				.accessibilityIdentifier("exportPdfButton")
+			}
+		)
 	}
 	
 	/// The view for no search items

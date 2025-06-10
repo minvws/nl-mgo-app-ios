@@ -774,6 +774,83 @@
         }
       }
     },
+    "export_pdf.dialog.create_document" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Document maken"
+          }
+        }
+      }
+    },
+    "export_pdf.dialog.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Document met %1$@ maken?"
+          }
+        }
+      }
+    },
+    "export_pdf.dialog.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je maakt een PDF-document met je medische gegevens. Je kunt het daarna op je telefoon bewaren."
+          }
+        }
+      }
+    },
+    "export_pdf.footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit document is gemaakt met Mijn Gezondheidsoverzicht. Het bevat jouw medische gegevens,\nafkomstig van zorgaanbieders die jij hebt toegevoegd. Jij bent zelf verantwoordelijk voor wat je\nmet deze informatie doet. De gegevens zijn niet gecontroleerd op juistheid of volledigheid."
+          }
+        }
+      }
+    },
+    "export_pdf.no_data" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen gegevens beschikbaar"
+          }
+        }
+      }
+    },
+    "export_pdf.page" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagina %1$@ van %2$@"
+          }
+        }
+      }
+    },
+    "export_pdf.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opgeslagen op %1$@ om %2$@ uur"
+          }
+        }
+      }
+    },
     "forgot_pincode.button" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1606,6 +1683,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ bekijken?"
+          }
+        }
+      }
+    },
+    "pdf_viewer.loading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Document maken…"
           }
         }
       }
