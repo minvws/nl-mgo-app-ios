@@ -202,17 +202,6 @@
         }
       }
     },
-    "add_organization.not_implemented" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zorgaanbieder nog niet beschikbaar"
-          }
-        }
-      }
-    },
     "add_organization.not_participating" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -329,7 +318,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met gezichtsherkenning. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
+            "value" : "Beveilig de app met Face ID. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
           }
         }
       }
@@ -362,7 +351,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met oogherkenning. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
+            "value" : "Beveilig de app met Optic ID. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
           }
         }
       }
@@ -395,7 +384,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met je vingerafdruk. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
+            "value" : "Beveilig de app met Touch ID. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
           }
         }
       }
@@ -714,7 +703,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niet bekend"
+            "value" : "Niet ingevuld"
           }
         }
       }
@@ -1286,7 +1275,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eén app met alle gegevens die je huisarts, ziekenhuis en andere zorgaanbieders over jou hebben. Veilig en overzichtelijk."
+            "value" : "Eén app met alle gegevens die je huisarts, ziekenhuis en andere zorgaanbieders van jou hebben. Veilig en overzichtelijk."
           }
         }
       }
@@ -1385,7 +1374,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bewijs wie je bent"
+            "value" : "Log in met DigiD"
           }
         }
       }
@@ -1407,7 +1396,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log in met DigiD. Zo kunnen we jouw gegevens veilig ophalen bij je huisarts, ziekenhuis en andere zorgaanbieders."
+            "value" : "Met DigiD laat je weten wie je bent. Zo kunnen we je gegevens veilig ophalen. Bij je huisarts, het ziekenhuis en andere zorgaanbieders."
           }
         }
       }
@@ -1660,7 +1649,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze code is anders dan de vorige"
+            "value" : "Code is anders dan de vorige"
           }
         }
       }
@@ -1671,7 +1660,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vul je toegangscode in om door te gaan"
+            "value" : "Voer je 5-cijferige code nog een keer in."
           }
         }
       }
@@ -1693,7 +1682,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt een code van 5 cijfers nodig. Gebruik geen simpele codes zoals 00000 of 12345."
+            "value" : "Je hebt een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345."
           }
         }
       }
@@ -1704,7 +1693,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze code is te simpel en dus onveilig"
+            "value" : "Code is te simpel en dus onveilig"
           }
         }
       }
@@ -1913,7 +1902,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zo gebruikt de app jouw gegevens"
+            "value" : "Hoe de app met jouw gegevens omgaat"
           }
         }
       }
@@ -2056,7 +2045,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Begrepen"
+            "value" : "OK"
           }
         }
       }
@@ -2078,7 +2067,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je hebt een afbeelding van medische gegevens opgeslagen. Wees voorzichtig met delen of opslaan."
+            "value" : "Je hebt een afbeelding opgeslagen van je medische gegevens. Wees voorzichtig met delen of opslaan."
           }
         }
       }
@@ -2100,7 +2089,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Houd uw mobiel en apps up-to-date. Zet automatische updates aan of controleer regelmatig de App Store op nieuwe updates."
+            "value" : "Houd je mobiel en apps up-to-date. Zet automatische updates aan of kijk regelmatig in de App Store of er nieuwe updates zijn."
           }
         }
       }
@@ -2122,7 +2111,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sommige apps willen toegang tot uw locatie of persoonlijke gegevens. Kijk goed welke toestemming u aan apps geeft en of dat nodig is."
+            "value" : "Sommige apps vragen om toegang tot je locatie of andere persoonlijke gegevens. Kijk goed welke toestemming je geeft, en of dat echt nodig is."
           }
         }
       }
@@ -2133,7 +2122,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Houdt uw mobiel alleen voor uzelf"
+            "value" : "Houd je wachtwoord voor jezelf"
           }
         }
       }
@@ -2144,7 +2133,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deel uw wachtwoord of pincode nooit met anderen, ook niet met familie of vrienden. Uw gegevens zijn persoonlijk."
+            "value" : "Deel je wachtwoord of pincode nooit met anderen. Ook niet met familie of vrienden. Je gegevens zijn van jou."
           }
         }
       }
@@ -2155,7 +2144,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vermijd openbare wifi-netwerken"
+            "value" : "Gebruik liever geen openbare wifi"
           }
         }
       }
@@ -2166,7 +2155,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gebruik liever geen openbare wifi-netwerken, zoals die in cafés of treinen. 4G of 5G is een veiliger alternatief en beschermt uw gegevens beter."
+            "value" : "Openbare wifi-netwerken, zoals in cafés of treinen, zijn minder veilig. Gebruik liever 4G of 5G. Dat beschermt je gegevens beter."
           }
         }
       }
@@ -2188,7 +2177,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installeer alleen apps uit de App Store. Zo voorkomt u dat er virussen of nep-apps op uw mobiel komen."
+            "value" : "Gebruik alleen apps uit de App Store. Zo voorkom je dat er virussen of nep-apps op je mobiel komen."
           }
         }
       }
@@ -2199,7 +2188,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig uw mobiel"
+            "value" : "Beveilig je mobiel"
           }
         }
       }
@@ -2210,7 +2199,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als u uw mobiel verliest, wil u niet dat anderen toegang hebben tot uw gegevens. Zet daarom een sterk wachtwoord of pincode in die moeilijk te raden is."
+            "value" : "Stel een sterk wachtwoord of een pincode in die moeilijk te raden is. Zo voorkom je dat anderen bij je gegevens kunnen als je je mobiel kwijtraakt."
           }
         }
       }
@@ -2268,7 +2257,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze app is gebaseerd op open source software. Open source software is software waarvan de broncode is gepubliceerd en vrij beschikbaar is. De software mag worden gebruikt, mits de licentie wordt gedeeld. Hierna vindt u een overzicht van de licenties van de open source software in deze app. De ontwikkelaars hebben deze licenties in het Engels geschreven. Er is geen Nederlandse vertaling van."
+            "value" : "Deze app is gebouwd met open-source software. Dat is software waarvan de broncode openbaar is en die je vrij mag gebruiken. Wel moet je de bijbehorende licentie delen.\n\nHierna zie je een overzicht van de licenties van de open-source bibliotheken in deze app. De ontwikkelaars hebben deze licenties in het Engels geschreven. Er is geen Nederlandse vertaling."
           }
         }
       }
@@ -2334,7 +2323,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De Rijksoverheid heeft deze app goed beveiligd. Maar u kunt zelf ook dingen doen om uw mobiel en gegevens veilig te houden. Hier zijn een paar tips:"
+            "value" : "De Rijksoverheid heeft deze app goed beveiligd. Maar je kunt zelf ook dingen doen om je mobiel en je gegevens veilig te houden. Hier zijn een paar tips:"
           }
         }
       }
@@ -2411,7 +2400,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De overheid vindt het belangrijk dat iedereen mee kan doen in de digitale samenleving. Daarom moeten websites en apps van de overheid voor iedereen toegankelijk zijn. Ook voor mensen met een beperking. Deze app volgt de internationale standaard voor toegankelijkheid."
+            "value" : "De Rijksoverheid vindt het belangrijk dat iedereen deze app goed kan gebruiken. Dus ook als je minder goed ziet, moeite hebt met lezen of navigeren, of technologie op een andere manier gebruikt. Daarom zorgen we ervoor dat de app zo toegankelijk mogelijk is.\n\nKom je toch iets tegen dat niet goed werkt of lastig is om te gebruiken? Laat het ons weten. Dan kijken we wat we kunnen verbeteren."
           }
         }
       }
@@ -2960,7 +2949,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Medicijnen die je gebruikt"
+            "value" : "Wat je nu gebruikt"
           }
         }
       }
