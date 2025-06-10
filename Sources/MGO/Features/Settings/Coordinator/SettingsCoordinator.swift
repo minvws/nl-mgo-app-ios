@@ -75,32 +75,6 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// the browser to open allowed domains in
 	private var browser: RestrictedBrowser!
 	
-	/// the URL for the more information page
-	private var moreInformationURL: URL? {
-		
-		switch Configuration().getRelease() {
-			case .production:
-				return URL(string: String(localized: "settings.accessibility.more_information_url.prod"))
-			case .demo, .acceptance:
-				return URL(string: String(localized: "settings.accessibility.more_information_url.acc"))
-			case .test, .development:
-				return URL(string: String(localized: "settings.accessibility.more_information_url.test"))
-		}
-	}
-	
-	/// the URL for the privacy page
-	private var privacyURL: URL? {
-		
-		switch Configuration().getRelease() {
-			case .production:
-				return URL(string: String(localized: "proposition.link.prod"))
-			case .demo, .acceptance:
-				return URL(string: String(localized: "proposition.link.acc"))
-			case .test, .development:
-				return URL(string: String(localized: "proposition.link.test"))
-		}
-	}
-	
 	/// Create a Settings Coordinator
 	/// - Parameter parentCoordinator: the presenting parent coordinator
 	/// - Parameter browser: the browser for displaying urls
@@ -154,7 +128,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				path.append(SettingsCoordination.State.aboutAccessibility)
 			
 			case .showAccessibilityMoreInformation:
-				handleUrl(moreInformationURL)
+				handleUrl(LinkRepository.moreInformationURL)
 			
 			case .showAdvancedSettings:
 				path.append(SettingsCoordination.State.advancedSettings)
@@ -166,7 +140,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				path.append(SettingsCoordination.State.aboutOpenSourceLibraries)
 			
 			case .showPrivacyStatement:
-				handleUrl(privacyURL, title: "privacy.heading")
+				handleUrl(LinkRepository.privacyURL, title: "privacy.heading")
 			
 			case .showSecuritySettings:
 				path.append(SettingsCoordination.State.securitySettings)
