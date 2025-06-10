@@ -41,7 +41,7 @@ protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
 	func view(for state: SettingsCoordination.State?) -> Body
 }
 
-enum SettingsCoordination {
+struct SettingsCoordination {
 	
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {
