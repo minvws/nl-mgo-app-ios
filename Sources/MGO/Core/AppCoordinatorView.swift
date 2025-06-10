@@ -17,9 +17,6 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 	/// Should we show the alert after a screenshot was taken?§
 	@State private var showScreenshotAlert = false
 	
-	// The Theme
-	@Environment(\.theme) var theme
-	
 	/// Initializer
 	/// - Parameter appCoordinator: An AppCoordinatorProtocol class
 	init(appCoordinator: T) {
