@@ -30,4 +30,17 @@ final class SettingsCoordinatorViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: sut)
 	}
+	
+	func test_inspectableSheet_pathForSheet() throws {
+		
+		// Given
+		coordinator.rootStateForSheet = .aboutTheApp
+		coordinator.pathForSheet = NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutTheApp])
+		
+		// When
+		let sut = SettingsCoordinatorView(coordinator: coordinator)
+		
+		// Then
+		takeSnapShots(content: sut)
+	}
 }
