@@ -25,7 +25,8 @@ let package = Package(
 		.target(
 			name: "RestrictedBrowser",
 			dependencies: [
-				.product(name: "Theme", package: "Theme")
+				.product(name: "Theme", package: "Theme"),
+				.product(name: "ReusableUI", package: "ReusableUI")
 			]
 		),
 		.testTarget(
