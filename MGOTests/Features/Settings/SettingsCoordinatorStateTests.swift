@@ -131,4 +131,19 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
+	
+	func test_coordinatorView_privacyStatement() throws {
+		
+		// Given
+		let url = try XCTUnwrap(URL(string: "https://example.com"))
+		let state = SettingsCoordination.State.browser(url, "privacy.heading")
+		
+		// When
+		let view = sut.view(for: state)
+		let content = NavigationView { view }
+		let webview = try content.inspect().find(viewWithAccessibilityIdentifier: "restrictedBrowserView")
+		
+		// Then
+		expect(webview) != nil
+	}
 }
