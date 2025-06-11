@@ -5,6 +5,7 @@
 
 import SwiftUI
 import Theme
+import ReusableUI
 
 public struct RestrictedBrowserView: View {
 	
@@ -29,6 +30,7 @@ public struct RestrictedBrowserView: View {
 			
 			WebView(viewModel: viewModel, url: viewModel.url)
 				.background(theme.backgroundPrimary)
+				.backportToolbarBackground(theme.backgroundSecondary, for: .navigationBar)
 				.toolbar(
 					content: {
 						ToolbarItemGroup(

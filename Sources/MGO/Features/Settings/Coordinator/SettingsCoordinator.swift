@@ -29,13 +29,19 @@ protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
 	/// The navigation path
 	var path: NavigationStackBackport.NavigationPath { get set }
 	
+	/// The content type for the sheet
+	var pathForSheet: NavigationStackBackport.NavigationPath { get set }
+	
+	/// The state for the root view of the sheet
+	var rootStateForSheet: SettingsCoordination.State? { get set }
+	
 	/// Get a View for the State
 	/// - Parameter state: the DashboardCoordination State
 	/// - Returns: A view for that state
 	func view(for state: SettingsCoordination.State?) -> Body
 }
 
-enum SettingsCoordination {
+struct SettingsCoordination {
 	
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {
@@ -48,7 +54,7 @@ enum SettingsCoordination {
 		case aboutAccessibility
 		case aboutSafetyTips
 		case aboutOpenSourceLibraries
-		case browser(URL)
+		case browser(URL, String?)
 	}
 }
 
@@ -57,37 +63,17 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// The navigation path
 	@Published var path = NavigationStackBackport.NavigationPath()
 	
+	/// The navigation path for the sheet.
+	@Published var pathForSheet = NavigationStackBackport.NavigationPath()
+	
+	/// The root state for a sheet.
+	@Published var rootStateForSheet: SettingsCoordination.State?
+	
 	/// The parent coordinator for routing
 	private weak var parentCoordinator: (any DashboardCoordinatorProtocol)?
 	
 	/// the browser to open allowed domains in
 	private var browser: RestrictedBrowser!
-	
-	/// the URL for the more information page
-	private var moreInformationURL: URL? {
-		
-		switch Configuration().getRelease() {
-			case .production:
-				return URL(string: String(localized: "settings.accessibility.more_information_url.prod"))
-			case .demo, .acceptance:
-				return URL(string: String(localized: "settings.accessibility.more_information_url.acc"))
-			case .test, .development:
-				return URL(string: String(localized: "settings.accessibility.more_information_url.test"))
-		}
-	}
-	
-	/// the URL for the privacy page
-	private var privacyURL: URL? {
-		
-		switch Configuration().getRelease() {
-			case .production:
-				return URL(string: String(localized: "proposition.link.prod"))
-			case .demo, .acceptance:
-				return URL(string: String(localized: "proposition.link.acc"))
-			case .test, .development:
-				return URL(string: String(localized: "proposition.link.test"))
-		}
-	}
 	
 	/// Create a Settings Coordinator
 	/// - Parameter parentCoordinator: the presenting parent coordinator
@@ -113,7 +99,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				return
 			}
 			if browser.isDomainAllowed(url) {
-				path.append(SettingsCoordination.State.browser(url))
+				path.append(SettingsCoordination.State.browser(url, nil))
 			} else {
 				browser.handleUnallowedDomain(url)
 			}
@@ -121,6 +107,10 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 		}
 		
 		switch action {
+			
+			case .closeSheet:
+				pathForSheet = NavigationStackBackport.NavigationPath()
+				rootStateForSheet = nil
 			
 			case .backButtonPressed:
 				path.removeLast()
@@ -138,7 +128,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				path.append(SettingsCoordination.State.aboutAccessibility)
 			
 			case .showAccessibilityMoreInformation:
-				handleUrl(moreInformationURL)
+				handleUrl(LinkRepository.moreInformationURL)
 			
 			case .showAdvancedSettings:
 				path.append(SettingsCoordination.State.advancedSettings)
@@ -150,7 +140,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				path.append(SettingsCoordination.State.aboutOpenSourceLibraries)
 			
 			case .showPrivacyStatement:
-				handleUrl(privacyURL)
+				handleUrl(LinkRepository.privacyURL, title: "privacy.heading")
 			
 			case .showSecuritySettings:
 				path.append(SettingsCoordination.State.securitySettings)
@@ -165,12 +155,12 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	
 	/// Handle displaying urls
 	/// - Parameter url: the url to show
-	private func handleUrl(_ url: URL?) {
+	private func handleUrl(_ url: URL?, title: String? = nil) {
 		
 		guard let url else { return }
 		
 		if browser.isDomainAllowed(url) {
-			path.append(SettingsCoordination.State.browser(url))
+			rootStateForSheet = SettingsCoordination.State.browser(url, title)
 		} else {
 			browser.handleUnallowedDomain(url)
 		}
@@ -208,13 +198,14 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 					viewModel: AdvancedSettingsViewModel(coordinator: self)
 				)
 			
-			case .browser(let url):
+			case .browser(let url, let title):
 				InAppBrowserView(
 					viewModel: InAppBrowserViewModel(
 						url: url,
 						browser: self.browser,
-						title: nil,
-						coordinator: self
+						title: LocalizedStringKey(stringLiteral: title ?? ""),
+						coordinator: self,
+						closeAction: .closeSheet
 					)
 				)
 			

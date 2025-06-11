@@ -205,19 +205,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
-	/// the URL for the privacy page
-	private var privacyURL: URL? {
-		
-		switch Configuration().getRelease() {
-			case .production:
-				return URL(string: String(localized: "proposition.link.prod"))
-			case .demo, .acceptance:
-				return URL(string: String(localized: "proposition.link.acc"))
-			case .test, .development:
-				return URL(string: String(localized: "proposition.link.test"))
-		}
-	}
-	
 	/// Handle any Coordination Action
 	/// - Parameter action: Coordination Action
 	func handle(_ action: Coordination.Action) {
@@ -483,7 +470,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the show Privacy statement action
 	private func handleShowPrivacyStatement() {
 	
-		guard let privacyURL else { return }
+		guard let privacyURL = LinkRepository.privacyURL else { return }
 		
 		if browser.isDomainAllowed(privacyURL) {
 			rootStateForSheet = AppCoordination.State.privacyStatement
@@ -570,7 +557,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				PropositionView(viewModel: PropositionViewModel(coordinator: self))
 				
 			case .privacyStatement:
-				if let privacyURL {
+				if let privacyURL = LinkRepository.privacyURL {
 					InAppBrowserView(
 						viewModel: InAppBrowserViewModel(
 							url: privacyURL,

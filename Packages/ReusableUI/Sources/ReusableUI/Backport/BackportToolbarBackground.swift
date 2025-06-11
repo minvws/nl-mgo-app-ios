@@ -6,10 +6,35 @@
 import SwiftUI
 
 /// Back ported version of toolbarBackground
+///  - See: https://developer.apple.com/documentation/swiftui/view/toolbarbackground(_:for:)
 public struct BackportToolbarBackground: ViewModifier {
 	
-	// The Theme
-	@Environment(\.theme) var theme
+	public enum Placement {
+		case automatic
+		case bottomBar
+		case navigationBar
+		case tabBar
+	
+		@available(iOS 16.0, *)
+		public func cast() -> ToolbarPlacement {
+		
+			switch self {
+				case .automatic:
+					return .automatic
+				case .bottomBar:
+					return .bottomBar
+				case .navigationBar:
+					return .navigationBar
+				case .tabBar:
+					return .tabBar
+			}
+		}
+	}
+	
+	public var color: Color
+	
+	/// The desired placement, defaults to automatic
+	public var placement: Placement = .automatic
 	
 	/// Get the view for this modifier
 	/// - Parameter content: content
@@ -18,8 +43,8 @@ public struct BackportToolbarBackground: ViewModifier {
 		
 		if #available(iOS 16.0, *) {
 			content
-				.toolbarBackground(theme.backgroundSecondary, for: .tabBar)
-				.toolbarBackground(.visible, for: .tabBar)
+				.toolbarBackground(color, for: placement.cast())
+				.toolbarBackground(.visible, for: placement.cast())
 		} else {
 			content
 		}
@@ -29,8 +54,10 @@ public struct BackportToolbarBackground: ViewModifier {
 extension View {
 	
 	/// Back ported version of toolbarBackground
+	/// - Parameter color: the background color
+	/// - Parameter placement: where to place this?
 	/// - Returns: View
-	public func backportToolbarBackground() -> some View {
-		modifier(BackportToolbarBackground())
+	public func backportToolbarBackground(_ color: Color, for placement: BackportToolbarBackground.Placement) -> some View {
+		modifier(BackportToolbarBackground(color: color, placement: placement))
 	}
 }
