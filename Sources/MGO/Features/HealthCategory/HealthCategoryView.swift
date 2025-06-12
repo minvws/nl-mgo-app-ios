@@ -148,14 +148,14 @@ class HealthCategoryViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
-		case showExportAlert
 		case cancelExportAlert
-		case doExport
+		case exportHealthData
 		case onAppear
 		case retry
+		case showExportAlert
 	}
 	
-	/// Create a MedicationOverview VM
+	/// Create a Health category view model
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
@@ -209,8 +209,17 @@ class HealthCategoryViewModel: ObservableObject {
 			case .cancelExportAlert:
 				showExportAlert = false
 			
-			case .doExport:
-				logInfo("do export")
+			case .exportHealthData:
+				
+				coordinator?.handle(
+					Coordination.Action(
+						identifier: Coordination.Action.exportHealthData.identifier,
+						params: [
+							"category": category,
+							"healthcareOrganization": organization
+						]
+					)
+				)
 		}
 	}
 	
@@ -523,7 +532,7 @@ struct HealthCategoryView: View {
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.foregroundColor(theme.contentSecondary)
 		.alert(viewModel.translations.exportAlertHeading, isPresented: $viewModel.showExportAlert) {
-			Button("export_pdf.dialog.create_document") { viewModel.reduce(.doExport) }
+			Button("export_pdf.dialog.create_document") { viewModel.reduce(.exportHealthData) }
 			Button("common.cancel") { viewModel.reduce(.cancelExportAlert) }
 		} message: {
 			Text("export_pdf.dialog.subheading")
@@ -585,7 +594,8 @@ struct HealthCategoryView: View {
 				} label: {
 					Image(ImageResource.Icon.exportPdf)
 				}
-				.accessibilityIdentifier("exportPdfButton")
+				.accessibilityIdentifier("health_category.export_button")
+				.accessibilityLabel(viewModel.translations.exportAlertHeading)
 			}
 		)
 	}

@@ -21,6 +21,8 @@ extension Coordination.Action {
 	
 	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
 	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
+	
+	static let exportHealthData = Coordination.Action(identifier: "exportHealthData")
 }
 
 protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
@@ -64,6 +66,9 @@ struct HealthcareCoordination {
 		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
 		case showHealthData(backButtonTitle: String?, schema: HealthUISchema, organization: MgoOrganization, inSheet: Bool)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
+		
+		// Export
+		case exportHealthData(category: HealthCategories.Category, organization: MgoOrganization?)
 	}
 }
 
@@ -98,6 +103,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		
 		guard !handleSearchFlow(action) else { return }
 		guard !handleHealthDataFlow(action) else { return }
+		guard !handleExportFlow(action) else { return }
 		
 		switch action.identifier {
 			
@@ -184,6 +190,31 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				
 			default:
 				return false
+		}
+	}
+	
+	/// Handle the search flow action from any of the view models
+	/// - Parameter action: any Action
+	/// - Returns: True if the action is consumed
+	private func handleExportFlow(_ action: Coordination.Action) -> Bool {
+		
+		if action.identifier == Coordination.Action.exportHealthData.identifier {
+			
+			if action.params.count == 2,
+//			   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
+			   let category = action.params["category"] as? HealthCategories.Category {
+				path.append(HealthcareCoordination.State.exportHealthData(category: category, organization: action.params["healthcareOrganization"] as? MgoOrganization))
+				return true
+			} else if action.params.count == 1,
+					  let category = action.params["category"] as? HealthCategories.Category {
+				path.append(HealthcareCoordination.State.exportHealthData(category: category, organization: nil))
+				return true
+			} else {
+				logError("HealthcareCoordinator Coordinator, missing params for \(action)")
+				return false
+			}
+		} else {
+			return false
 		}
 	}
 	
@@ -360,6 +391,15 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				)
 				.isPresentedAsSheet(inSheet)
 				
+			case let .exportHealthData(category: category, organization: organization):
+				HealthExportView(
+					viewModel: HealthExportViewModel(
+						coordinator: self,
+						category: category,
+						organization: organization
+					)
+				)
+			
 			default:
 				EmptyView()
 					.logError("DashboardCoordinator, no view for", state as Any)

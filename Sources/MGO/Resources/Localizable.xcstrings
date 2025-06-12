@@ -1390,6 +1390,9 @@
         }
       }
     },
+    "Loading" : {
+
+    },
     "login_info.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1499,6 +1502,9 @@
           }
         }
       }
+    },
+    "Opgeslagen op 1 januari 2026 om 14:45 uur" : {
+
     },
     "organization_list.heading" : {
       "extractionState" : "manual",
@@ -1686,6 +1692,9 @@
           }
         }
       }
+    },
+    "Pagina 1 van 1" : {
+
     },
     "pdf_viewer.loading" : {
       "extractionState" : "manual",
@@ -2126,6 +2135,9 @@
           }
         }
       }
+    },
+    "Rool Medicijnen" : {
+
     },
     "screenshotalert.action" : {
       "extractionState" : "manual",
@@ -2854,6 +2866,9 @@
           }
         }
       }
+    },
+    "Wat je nu gebruikt" : {
+
     },
     "zib_administration_agreement.heading" : {
       "extractionState" : "manual",
