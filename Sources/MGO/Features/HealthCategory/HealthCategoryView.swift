@@ -594,6 +594,7 @@ struct HealthCategoryView: View {
 				} label: {
 					Image(ImageResource.Icon.exportPdf)
 				}
+				.buttonStyle(ToolbarButtonStyle())
 				.accessibilityIdentifier("health_category.export_button")
 				.accessibilityLabel(viewModel.translations.exportAlertHeading)
 			}
