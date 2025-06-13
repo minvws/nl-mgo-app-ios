@@ -14,7 +14,7 @@ struct ExportPageView: View {
 		VStack(alignment: .leading, spacing: 16) {
 			
 			HStack {
-				Text("Rool Medicijnen")
+				Text("Uitslagen")
 					.font(Font.custom("Helvetica", size: 24).weight(.bold))
 					.foregroundStyle(exportTheme.primaryText)
 				Spacer()
@@ -23,18 +23,28 @@ struct ExportPageView: View {
 					.foregroundStyle(exportTheme.secondaryText)
 			}
 			
-			Text("Wat je nu gebruikt")
+			Text("Uitslag van test laboratorium")
 				.font(Font.custom("Helvetica", size: 16).weight(.bold))
 				.foregroundStyle(exportTheme.primaryText)
 			
 			VStack(alignment: .leading, spacing: 0) {
 				
-				tableRowHeading(heading: "Zestril tablet 10 mg")
-				tableRow(heading: "Gebruiksaanwijzing", value: "1 maal per dat 1 tablet, oraal")
-				tableRow(heading: "Hoeveelheid per keer", value: "1 stuk")
+				tableRowHeading(heading: "Consult voor hnp (thoracaal/lumbaal) met dokter bernard")
+				tableRow(heading: "Datum van de uitslag", value: "18 maart 2024")
+				tableRow(heading: "Resultaat", value: "5,4 millimol per liter")
+				tableRow(heading: "Interpretatie", value: "Niet bekend")
 				
-				tableRowSubHeading(heading: "Periode van gebruik")
-				tableRow(heading: "Ingangsdatum", value: "20 juni 2018", bottomBorder: true)
+				tableRowSubHeading(heading: "Details van de test")
+				tableRow(heading: "Status", value: "definitief")
+				tableRow(heading: "Materiaal", value: "Niet bekend")
+				
+				tableRowSubHeading(heading: "Normale referentiewaarden")
+				tableRow(heading: "Minimale waarde", value: "3,5 millimol per liter")
+				tableRow(heading: "Maximale waarde", value: "5,6 millimol per liter")
+				
+				tableRowSubHeading(heading: "Test afgenomen door")
+				tableRow(heading: "Specialist", value: "Dokter Bernard")
+				tableRow(heading: "Zorgaanbieder", value: "Niet bekend", bottomBorder: true)
 				
 			}
 			.font(Font.custom("Helvetica", size: 10))
