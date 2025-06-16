@@ -7,6 +7,7 @@ import MGOFoundation
 import MGOUI
 import PDFKit
 
+// swiftlint:disable type_body_length
 class HealthExportViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
@@ -75,9 +76,19 @@ class HealthExportViewModel: ObservableObject {
 	
 	func source() -> PdfData {
 		
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateStyle = .medium
+		dateFormatter.timeStyle = .none
+		
+		let timeFormatter = DateFormatter()
+		timeFormatter.dateStyle = .none
+		timeFormatter.timeStyle = .short
+		
+		let date = Date()
+		
 		return PdfData(
-			heading: "Heading",
-			subHeading: "Subheading",
+			heading: "Medische hulpmiddelen",
+			subHeading: String(format: String(localized: "export_pdf.subheading"), arguments: [dateFormatter.string(from: date), timeFormatter.string(from: date)]),
 			tables: [
 				PdfGroupedTables(
 					heading: "Grouped Table #1",
@@ -88,9 +99,9 @@ class HealthExportViewModel: ObservableObject {
 								PdfSubTable(
 									heading: "Table Sub Heading #1",
 									data: [
-										(key: "Key 1", value: "Value 1"),
-										(key: "Key 2", value: "Value 2"),
-										(key: "Key 3", value: "Value 3")
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
 									]
 								)
 							]
@@ -106,9 +117,9 @@ class HealthExportViewModel: ObservableObject {
 								PdfSubTable(
 									heading: nil,
 									data: [
-										(key: "Key 1", value: "Value 1"),
-										(key: "Key 2", value: "Value 2"),
-										(key: "Key 3", value: "Value 3")
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
 									]
 								)
 							]
@@ -119,25 +130,110 @@ class HealthExportViewModel: ObservableObject {
 								PdfSubTable(
 									heading: "Table Sub Heading #3",
 									data: [
-										(key: "Key 1", value: "Value 1"),
-										(key: "Key 2", value: "Value 2"),
-										(key: "Key 3", value: "Value 3")
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
 									]
 								),
 								PdfSubTable(
 									heading: "Table Sub Heading #4",
 									data: [
-										(key: "Key 1", value: "Value 1"),
-										(key: "Key 2", value: "Value 2"),
-										(key: "Key 3", value: "Value 3")
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
+									]
+								)
+							]
+						),
+						PdfTable(
+							heading: "Table Heading #4",
+							subTables: [
+								PdfSubTable(
+									heading: "Table Sub Heading #3",
+									data: [
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
+									]
+								),
+								PdfSubTable(
+									heading: "Table Sub Heading #4",
+									data: [
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
+									]
+								)
+							]
+						),
+						PdfTable(
+							heading: "Table Heading #5",
+							subTables: [
+								PdfSubTable(
+									heading: "Table Sub Heading #3",
+									data: [
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
+									]
+								),
+								PdfSubTable(
+									heading: "Table Sub Heading #4",
+									data: [
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
+									]
+								)
+							]
+						),
+						PdfTable(
+							heading: "Table Heading #6",
+							subTables: [
+								PdfSubTable(
+									heading: "Table Sub Heading #3",
+									data: [
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
+									]
+								),
+								PdfSubTable(
+									heading: "Table Sub Heading #4",
+									data: [
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
+									]
+								)
+							]
+						),
+						PdfTable(
+							heading: "Table Heading #7",
+							subTables: [
+								PdfSubTable(
+									heading: "Table Sub Heading #3",
+									data: [
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
+									]
+								),
+								PdfSubTable(
+									heading: "Table Sub Heading #4",
+									data: [
+										PdfSubTablePair(key: "Key 1", value: "Value 1"),
+										PdfSubTablePair(key: "Key 2", value: "Value 2"),
+										PdfSubTablePair(key: "Key 3", value: "Value 3")
 									]
 								)
 							]
 						)
+						
 					]
 				)
 			],
-			footer: "Footer"
+			footer: String(localized: "export_pdf.footer")
 		)
 	}
 	
@@ -146,50 +242,182 @@ class HealthExportViewModel: ObservableObject {
 		kCGPDFContextSubject: String(localized: "export_pdf.footer")
 	]
 	
+	enum Constants {
+		static let pageWidth: CGFloat = 595.28 // A4 Paper Size
+		static let pageHeight: CGFloat = 841.89 // A4 Paper Size
+		static let outerMargin: CGFloat = 28
+		static let innerMargin: CGFloat = 16
+	}
+	
 	@MainActor private func generatePDF() {
 		
-		let pageWidth: CGFloat = 595.28 // A4 Paper Size
-		let pageHeight: CGFloat = 841.89 // A4 Paper Size
-		let margin: CGFloat = 28
-		let contentWidth = pageWidth - 2 * margin
-		let contentHeight = pageHeight - 2 * margin
+		let contentWidth = Constants.pageWidth - 2 * Constants.outerMargin
+		let contentHeight = Constants.pageHeight - 2 * Constants.outerMargin
+		var currentY: CGFloat = Constants.outerMargin
+		var drawElements = [PdfDrawElement]()
+		
+		let source = source()
+		
+		// Footer, reusable
+		let footer = drawPdfFooter(
+			footer: source.footer,
+			height: contentHeight,
+			width: contentWidth
+		)
+		
+		let workableHeight = contentHeight - Constants.outerMargin - footer.height - Constants.innerMargin
+
+		// Page break
+		drawElements.append(PdfDrawElement.pageBreak)
+		
+		// The header on the first page
+		drawElements.append(
+			drawPdfSubHeading(
+				subHeading: source.subHeading,
+				currentY: currentY,
+				width: contentWidth
+			)
+		)
+		currentY += drawElements.last?.height ?? 0
+		
+		drawElements.append(
+			drawPdfHeading(
+				heading: source.heading,
+				currentY: currentY,
+				width: contentWidth
+			)
+		)
+		currentY += drawElements.last?.height ?? 0
+		
+		currentY += Constants.innerMargin
+		
+		source.tables.forEach({ groupedTable in
+			
+			// Grouped Table
+			var groupTableDrawElement = drawGroupedHeading(heading: groupedTable.heading, currentY: currentY, width: contentWidth)
+			if currentY + groupTableDrawElement.height > workableHeight {
+				drawElements.append(PdfDrawElement.pageBreak)
+				currentY = Constants.outerMargin
+				groupTableDrawElement.rect.origin.y = currentY
+			}
+			drawElements.append(groupTableDrawElement)
+			currentY += drawElements.last?.height ?? 0
+			
+			groupedTable.tables.forEach({ table in
+				
+				// Table
+				var tableDrawElement = drawTableHeading(heading: table.heading, currentY: currentY, width: contentWidth)
+				if currentY + tableDrawElement.height > workableHeight {
+					drawElements.append(PdfDrawElement.pageBreak)
+					currentY = Constants.outerMargin
+					tableDrawElement.rect.origin.y = currentY
+				}
+				drawElements.append(tableDrawElement)
+				currentY += drawElements.last?.height ?? 0
+				
+				table.subTables.forEach({ subTable in
+					
+					// Subtables
+					if let heading = subTable.heading {
+						
+						var subTableHeadingDrawElement = drawSubTableHeading(heading: heading, currentY: currentY, width: contentWidth)
+						if currentY + subTableHeadingDrawElement.height > workableHeight {
+							drawElements.append(PdfDrawElement.pageBreak)
+							currentY = Constants.outerMargin
+							subTableHeadingDrawElement.rect.origin.y = currentY
+						}
+						drawElements.append(subTableHeadingDrawElement)
+						currentY += drawElements.last?.height ?? 0
+					}
+					
+					subTable.data.forEach({ row in
+						
+						var rowDrawElements = drawSubTableRow(key: row.key, value: row.value, currentY: currentY, width: contentWidth)
+						
+						if currentY + (rowDrawElements.last?.height ?? 0) > workableHeight {
+							drawElements.append(PdfDrawElement.pageBreak)
+							currentY = Constants.outerMargin
+							if rowDrawElements.count == 2 {
+								rowDrawElements[0].rect.origin.y = currentY
+								rowDrawElements[1].rect.origin.y = currentY
+							}
+						}
+						
+						drawElements.append(contentsOf: rowDrawElements)
+						currentY += drawElements.last?.height ?? 0
+					})
+					
+				})
+				
+				// Padding between tables
+				currentY += Constants.innerMargin
+				
+			})
+			
+			// New Page after Grouped Table (except the last one)
+			if groupedTable != source.tables.last {
+				drawElements.append(PdfDrawElement.pageBreak)
+				currentY = Constants.outerMargin
+			}
+			
+		})
+		
+		// Start drawing
+		drawPDF(
+			drawElements,
+			footer: footer,
+			contentSize: CGSize(width: contentWidth, height: contentHeight)
+		)
+	}
+	
+	/// Draw all the elements in a PDF
+	/// - Parameters:
+	///   - elements: the elements to draw (should start with a page break)
+	///   - footer: the footer for each page
+	///   - contentSize: the content size
+	@MainActor func drawPDF(_ elements: [PdfDrawElement], footer: PdfDrawElement, contentSize: CGSize) {
 		
 		let format = UIGraphicsPDFRendererFormat()
 		format.documentInfo = metaData as [String: Any]
 		
-		let pdfRenderer = UIGraphicsPDFRenderer(bounds: CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight), format: format)
+		let pdfRenderer = UIGraphicsPDFRenderer(
+			bounds: CGRect(x: 0, y: 0, width: Constants.pageWidth, height: Constants.pageHeight),
+			format: format
+		)
 		
-		var currentY: CGFloat = margin
+		var currentPage: Int = 0
+		let totalPages: Int = elements.filter { $0.isPageBreak == true }.count
+		var currentY: CGFloat = Constants.outerMargin
 		
 		let data = pdfRenderer.pdfData { context in
 			
-			context.beginPage()
-			
-			drawPdfHeading(context: context, heading: "Medicijnen", currentY: &currentY, width: contentWidth, contentHeight: contentHeight, margin: margin)
-			
-			currentY += 16
-			
-			drawGroupedHeading(context: context, heading: "Die je nu gebruikt", currentY: &currentY, width: contentWidth, contentHeight: contentHeight, margin: margin)
-			
-			currentY += 16
-			
-			for _ in 0...10 {
+			elements.forEach { drawElement in
 				
-				drawTableHeading(context: context, heading: "Atorvastatine 20 mg", currentY: &currentY, width: contentWidth, contentHeight: contentHeight, margin: margin)
+				if drawElement.isPageBreak {
+					// We should draw a new page
+					context.beginPage()
+					// Reset pointer
+					currentY = Constants.outerMargin
+					// Increase page number
+					currentPage += 1
+					
+					// draw footer elements
+					draw(context: context, element: footer)
+					draw(
+						context: context,
+						element: drawPagination(
+							currentPage: currentPage,
+							totalPages: totalPages,
+							height: contentSize.height,
+							width: contentSize.width
+						)
+					)
+				}
 				
-				drawSubTableRow(context: context, key: "Datum van de uitslag", value: "18 maart 2024, 18 maart 2024, 18 maart 2024, 18 maart 2024, 18 maart 2024, 18 maart 2024, 18 maart 2024, 18 maart 2024, 18 maart 2024, 18 maart 2024, 18 maart 2024, 18 maart 2024", currentY: &currentY, width: contentWidth, contentHeight: contentHeight, margin: margin)
-				
-				drawSubTableRow(context: context, key: "Resultaat", value: "5,4 millimol per liter", currentY: &currentY, width: contentWidth, contentHeight: contentHeight, margin: margin)
-				
-				drawSubTableHeading(context: context, heading: "Normale referentiewaarden", currentY: &currentY, width: contentWidth, contentHeight: contentHeight, margin: margin)
-				
-				drawSubTableRow(context: context, key: "Minimale waarde", value: "3,5 millimol per liter", currentY: &currentY, width: contentWidth, contentHeight: contentHeight, margin: margin)
-				
-				drawSubTableRow(context: context, key: "Maximale waarde", value: "5,6 millimol per liter", currentY: &currentY, width: contentWidth, contentHeight: contentHeight, margin: margin)
-			
-				currentY += 16
+				// Draw element
+				draw(context: context, element: drawElement)
+				currentY += drawElement.height
 			}
-			
 		}
 		
 		if let document = PDFDocument(data: data) {
@@ -197,14 +425,11 @@ class HealthExportViewModel: ObservableObject {
 		}
 	}
 	
-	func drawPdfHeading(
-		context: UIGraphicsPDFRendererContext,
+	@MainActor func drawPdfHeading(
 		heading: String,
-		currentY: inout CGFloat,
-		width: CGFloat,
-		contentHeight: CGFloat,
-		margin: CGFloat
-	) {
+		currentY: CGFloat,
+		width: CGFloat
+	) -> PdfDrawElement {
 		
 		let text = NSAttributedString(
 			string: heading,
@@ -217,31 +442,141 @@ class HealthExportViewModel: ObservableObject {
 			]
 		)
 		
-		let textHeight = text.boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, context: nil).height
+		let textHeight = text.boundingRect(
+			with: CGSize(width: width, height: .greatestFiniteMagnitude),
+			options: .usesLineFragmentOrigin,
+			context: nil
+		).height
 		
-		if currentY + textHeight > contentHeight + margin {
-			context.beginPage()
-			currentY = margin
-		}
-		
-		draw(
-			context: context,
+		return PdfDrawElement(
 			text: text,
 			backgroundColor: nil,
 			borderColor: nil,
-			rect: CGRect(x: margin, y: currentY, width: width, height: textHeight)
+			rect: CGRect(x: Constants.outerMargin, y: currentY, width: width, height: textHeight),
+			height: textHeight
 		)
-		currentY += textHeight
 	}
 	
-	func drawGroupedHeading(
-		context: UIGraphicsPDFRendererContext,
-		heading: String,
-		currentY: inout CGFloat,
+	@MainActor func drawPdfSubHeading(
+		subHeading: String,
+		currentY: CGFloat,
+		width: CGFloat
+	) -> PdfDrawElement {
+		
+		let text = NSAttributedString(
+			string: subHeading,
+			attributes: [
+				.font: UIFont(
+					name: "Helvetica",
+					size: 10
+				) as Any,
+				.foregroundColor: UIColor(theme.secondaryText)
+			]
+		)
+		
+		let textBox = text.boundingRect(
+			with: CGSize(width: width, height: .greatestFiniteMagnitude),
+			options: .usesLineFragmentOrigin,
+			context: nil
+		)
+		
+		return PdfDrawElement(
+			text: text,
+			backgroundColor: nil,
+			borderColor: nil,
+			rect: CGRect(
+				x: Constants.outerMargin + width - textBox.width,
+				y: currentY,
+				width: textBox.width,
+				height: textBox.height
+			),
+			height: 0
+		)
+	}
+	
+	@MainActor func drawPdfFooter(
+		footer: String,
+		height: CGFloat,
 		width: CGFloat,
-		contentHeight: CGFloat,
-		margin: CGFloat
-	) {
+	) -> PdfDrawElement {
+		
+		let text = NSAttributedString(
+			string: footer,
+			attributes: [
+				.font: UIFont(
+					name: "Helvetica",
+					size: 10
+				) as Any,
+				.foregroundColor: UIColor(theme.secondaryText)
+			]
+		)
+		
+		let textHeight = text.boundingRect(
+			with: CGSize(width: width, height: .greatestFiniteMagnitude),
+			options: .usesLineFragmentOrigin,
+			context: nil
+		).height
+		
+		return PdfDrawElement(
+			text: text,
+			backgroundColor: nil,
+			borderColor: nil,
+			rect: CGRect(
+				x: Constants.outerMargin,
+				y: height - textHeight,
+				width: width,
+				height: textHeight
+			),
+			height: textHeight
+		)
+	}
+	
+	@MainActor func drawPagination(
+		currentPage: Int,
+		totalPages: Int,
+		height: CGFloat,
+		width: CGFloat,
+	) -> PdfDrawElement {
+		
+		let text = NSAttributedString(
+			string: String(
+				format: String(localized: "export_pdf.page"),
+				arguments: ["\(currentPage)", "\(totalPages)"]
+			),
+			attributes: [
+				.font: UIFont(
+					name: "Helvetica",
+					size: 10
+				) as Any,
+				.foregroundColor: UIColor(theme.secondaryText)
+			]
+		)
+		
+		let textBox = text.boundingRect(
+			with: CGSize(width: width, height: .greatestFiniteMagnitude),
+			options: .usesLineFragmentOrigin,
+			context: nil
+		)
+		
+		return PdfDrawElement(
+			text: text,
+			backgroundColor: nil,
+			borderColor: nil,
+			rect: CGRect(
+				x: Constants.outerMargin + width - textBox.width,
+				y: height - textBox.height,
+				width: textBox.width,
+				height: textBox.height
+			),
+			height: 0
+		)
+	}
+	
+	@MainActor func drawGroupedHeading(
+		heading: String,
+		currentY: CGFloat,
+		width: CGFloat,
+	) -> PdfDrawElement {
 		
 		let text = NSAttributedString(
 			string: heading,
@@ -256,29 +591,20 @@ class HealthExportViewModel: ObservableObject {
 		
 		let textHeight = text.boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, context: nil).height + 12
 		
-		if currentY + textHeight > contentHeight + margin {
-			context.beginPage()
-			currentY = margin
-		}
-		
-		draw(
-			context: context,
+		return PdfDrawElement(
 			text: text,
 			backgroundColor: nil,
 			borderColor: nil,
-			rect: CGRect(x: margin, y: currentY, width: width, height: textHeight)
+			rect: CGRect(x: Constants.outerMargin, y: currentY, width: width, height: textHeight),
+			height: textHeight
 		)
-		currentY += textHeight
 	}
 	
-	func drawTableHeading(
-		context: UIGraphicsPDFRendererContext,
+	@MainActor func drawTableHeading(
 		heading: String,
-		currentY: inout CGFloat,
+		currentY: CGFloat,
 		width: CGFloat,
-		contentHeight: CGFloat,
-		margin: CGFloat
-	) {
+	) -> PdfDrawElement {
 		
 		let style = NSMutableParagraphStyle()
 		style.alignment = NSTextAlignment.center
@@ -297,29 +623,20 @@ class HealthExportViewModel: ObservableObject {
 		
 		let textHeight = text.boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, context: nil).height
 		
-		if currentY + textHeight + 12 > contentHeight + margin {
-			context.beginPage()
-			currentY = margin
-		}
-		
-		draw(
-			context: context,
+		return PdfDrawElement(
 			text: text,
 			backgroundColor: nil,
 			borderColor: theme.border,
-			rect: CGRect(x: margin, y: currentY, width: width, height: textHeight)
+			rect: CGRect(x: Constants.outerMargin, y: currentY, width: width, height: textHeight),
+			height: textHeight + 11
 		)
-		currentY += textHeight + 11
 	}
 	
-	func drawSubTableHeading(
-		context: UIGraphicsPDFRendererContext,
+	@MainActor func drawSubTableHeading(
 		heading: String,
-		currentY: inout CGFloat,
+		currentY: CGFloat,
 		width: CGFloat,
-		contentHeight: CGFloat,
-		margin: CGFloat
-	) {
+	) -> PdfDrawElement {
 		
 		let text = NSAttributedString(
 			string: heading,
@@ -334,30 +651,15 @@ class HealthExportViewModel: ObservableObject {
 		
 		let textHeight = text.boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, context: nil).height
 		
-		if currentY + textHeight + 12 > contentHeight + margin {
-			context.beginPage()
-			currentY = margin
-		}
-		
-		draw(
-			context: context,
-			text: text,
-			backgroundColor: nil,
-			borderColor: theme.border,
-			rect: CGRect(x: margin, y: currentY, width: width, height: textHeight)
-		)
-		currentY += textHeight + 11
+		return PdfDrawElement(text: text, backgroundColor: nil, borderColor: theme.border, rect: CGRect(x: Constants.outerMargin, y: currentY, width: width, height: textHeight), height: textHeight + 11)
 	}
 	
-	func drawSubTableRow(
-		context: UIGraphicsPDFRendererContext,
+	@MainActor func drawSubTableRow(
 		key: String,
 		value: String,
-		currentY: inout CGFloat,
-		width: CGFloat,
-		contentHeight: CGFloat,
-		margin: CGFloat
-	) {
+		currentY: CGFloat,
+		width: CGFloat
+	) -> [PdfDrawElement] {
 		
 		let keyText = NSAttributedString(
 			string: key,
@@ -387,61 +689,36 @@ class HealthExportViewModel: ObservableObject {
 		
 		let textHeight = max(keyHeight, valueHeight)
 		
-		if currentY + textHeight + 12 > contentHeight + margin {
-			context.beginPage()
-			currentY = margin
-		}
-		
-		draw(
-			context: context,
-			text: keyText,
-			backgroundColor: theme.secondaryBackground,
-			borderColor: theme.border,
-			rect: CGRect(x: margin, y: currentY, width: width / 2, height: textHeight)
-		)
-		
-		draw(
-			context: context,
-			text: valueText,
-			backgroundColor: nil,
-			borderColor: theme.border,
-			rect: CGRect(x: margin + width / 2, y: currentY, width: width / 2, height: textHeight)
-		)
-		
-		currentY += textHeight + 11
+		return [
+			PdfDrawElement(text: keyText, backgroundColor: theme.secondaryBackground, borderColor: theme.border, rect: CGRect(x: Constants.outerMargin, y: currentY, width: width / 2, height: textHeight), height: textHeight + 11),
+			PdfDrawElement(text: valueText, backgroundColor: nil, borderColor: theme.border, rect: CGRect(x: Constants.outerMargin + (width / 2) - 1, y: currentY, width: (width / 2) + 1, height: textHeight), height: textHeight + 11)
+		]
 	}
 	
-	func drawFooter() {
-		
-	}
-	
-	func draw(
+	@MainActor func draw(
 		context: UIGraphicsPDFRendererContext,
-		text: NSAttributedString,
-		backgroundColor: Color?,
-		borderColor: Color?,
-		rect: CGRect
+		element: PdfDrawElement
 	) {
 		
 		var inset: CGFloat = 0
 		
-		if let borderColor {
+		if let borderColor = element.borderColor {
 			inset = 6
 			context.cgContext.setLineWidth(1)
 			context.cgContext.setStrokeColor(UIColor(borderColor).cgColor)
-			context.stroke(CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.width, height: rect.height + 12))
+			context.stroke(CGRect(x: element.rect.origin.x, y: element.rect.origin.y, width: element.rect.width, height: element.rect.height + 12))
 		}
 			
-		if let backgroundColor {
+		if let backgroundColor = element.backgroundColor {
 			inset = 6
 			context.cgContext.setFillColor(UIColor(backgroundColor).cgColor)
-			context.fill(CGRect(x: rect.origin.x + 1, y: rect.origin.y + 1, width: rect.width - 2, height: rect.height + 10))
+			context.fill(CGRect(x: element.rect.origin.x + 1, y: element.rect.origin.y + 1, width: element.rect.width - 2, height: element.rect.height + 10))
 		}
 		
-		text.draw(in: CGRect(x: rect.origin.x + inset, y: rect.origin.y + inset, width: rect.width - 2 * inset, height: rect.height))
+		element.text?.draw(in: CGRect(x: element.rect.origin.x + inset, y: element.rect.origin.y + inset, width: element.rect.width - 2 * inset, height: element.rect.height))
 	}
 	
-	func savePDF(data: Data, fileName: String) -> URL? {
+	@MainActor func savePDF(data: Data, fileName: String) -> URL? {
 		let fileManager = FileManager.default
 		guard let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
 			return nil
@@ -452,11 +729,12 @@ class HealthExportViewModel: ObservableObject {
 			try data.write(to: fileURL)
 			return fileURL
 		} catch {
-			print("Error saving PDF: \(error.localizedDescription)")
+			logError("Error saving PDF: \(error.localizedDescription)")
 			return nil
 		}
 	}
 }
+// swiftlint:enable type_body_length
 
 struct HealthExportView: View {
 	
