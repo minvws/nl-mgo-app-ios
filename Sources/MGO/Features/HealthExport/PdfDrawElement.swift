@@ -50,4 +50,26 @@ public struct PdfDrawElement {
 	
 	/// A page break element
 	static let pageBreak: PdfDrawElement = .init(text: nil, rect: .zero, height: 0, isPageBreak: true)
+	
+	/// Draw this pdf draw element
+	/// - Parameter context: The drawing environment for a PDF renderer.
+	@MainActor func draw(_ context: UIGraphicsPDFRendererContext) {
+		
+		var inset: CGFloat = 0
+		
+		if let borderColor {
+			inset = 6
+			context.cgContext.setLineWidth(1)
+			context.cgContext.setStrokeColor(UIColor(borderColor).cgColor)
+			context.stroke(CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.width, height: rect.height + 12))
+		}
+			
+		if let backgroundColor {
+			inset = 6
+			context.cgContext.setFillColor(UIColor(backgroundColor).cgColor)
+			context.fill(CGRect(x: rect.origin.x + 1, y: rect.origin.y + 1, width: rect.width - 2, height: rect.height + 10))
+		}
+		
+		text?.draw(in: CGRect(x: rect.origin.x + inset, y: rect.origin.y + inset, width: rect.width - 2 * inset, height: rect.height))
+	}
 }
