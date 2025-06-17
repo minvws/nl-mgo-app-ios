@@ -39,7 +39,8 @@ public struct PdfDrawElement {
 		borderColor: Color? = nil,
 		rect: CGRect,
 		height: CGFloat,
-		isPageBreak: Bool = false) {
+		isPageBreak: Bool = false
+	) {
 		self.text = text
 		self.backgroundColor = backgroundColor
 		self.borderColor = borderColor
@@ -50,26 +51,90 @@ public struct PdfDrawElement {
 	
 	/// A page break element
 	static let pageBreak: PdfDrawElement = .init(text: nil, rect: .zero, height: 0, isPageBreak: true)
+}
+
+extension PdfDrawElement {
+	
+	/// Magic Numbers
+	private struct DrawTraits {
+		enum General {
+			static let padding: CGFloat = 6
+		}
+		enum Background {
+			static let inset: CGFloat = 1
+		}
+		enum Border {
+			static let width: CGFloat = 1
+		}
+	}
 	
 	/// Draw this pdf draw element
 	/// - Parameter context: The drawing environment for a PDF renderer.
-	@MainActor func draw(_ context: UIGraphicsPDFRendererContext) {
+	@MainActor public func draw(_ context: UIGraphicsPDFRendererContext) {
 		
 		var inset: CGFloat = 0
 		
-		if let borderColor {
-			inset = 6
-			context.cgContext.setLineWidth(1)
-			context.cgContext.setStrokeColor(UIColor(borderColor).cgColor)
-			context.stroke(CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.width, height: rect.height + 12))
-		}
-			
-		if let backgroundColor {
-			inset = 6
-			context.cgContext.setFillColor(UIColor(backgroundColor).cgColor)
-			context.fill(CGRect(x: rect.origin.x + 1, y: rect.origin.y + 1, width: rect.width - 2, height: rect.height + 10))
-		}
+		drawBorder(context, inset: &inset)
+		drawBackground(context, inset: &inset)
+		drawText(context, inset: inset)
+	}
+	
+	/// Draw the border
+	/// - Parameters:
+	///   - context: The drawing environment for a PDF renderer.
+	///   - inset: the inset as a result
+	@MainActor private func drawBorder(_ context: UIGraphicsPDFRendererContext, inset: inout CGFloat) {
 		
-		text?.draw(in: CGRect(x: rect.origin.x + inset, y: rect.origin.y + inset, width: rect.width - 2 * inset, height: rect.height))
+		guard let borderColor else { return }
+		
+		inset = DrawTraits.General.padding
+		context.cgContext.setLineWidth(DrawTraits.Border.width)
+		context.cgContext.setStrokeColor(UIColor(borderColor).cgColor)
+		context.stroke(
+			CGRect(
+				x: rect.origin.x,
+				y: rect.origin.y,
+				width: rect.width,
+				height: rect.height + (2 * DrawTraits.General.padding)
+			)
+		)
+	}
+	
+	/// Draw the background
+	/// - Parameters:
+	///   - context: The drawing environment for a PDF renderer.
+	///   - inset: the inset as a result
+	@MainActor private func drawBackground(_ context: UIGraphicsPDFRendererContext, inset: inout CGFloat) {
+		
+		guard let backgroundColor else { return }
+		
+		inset = DrawTraits.General.padding
+		context.cgContext.setFillColor(UIColor(backgroundColor).cgColor)
+		context.fill(
+			CGRect(
+				x: rect.origin.x + DrawTraits.Background.inset,
+				y: rect.origin.y + DrawTraits.Background.inset,
+				width: rect.width - (2 * DrawTraits.Background.inset),
+				height: rect.height + (2 * (DrawTraits.General.padding - DrawTraits.Background.inset))
+			)
+		)
+	}
+	
+	/// Draw the text
+	/// - Parameters:
+	///   - context: The drawing environment for a PDF renderer.
+	///   - inset: the inset to use
+	@MainActor private func drawText(_ context: UIGraphicsPDFRendererContext, inset: CGFloat) {
+		
+		guard let text else { return }
+		
+		text.draw(
+			in: CGRect(
+				x: rect.origin.x + inset,
+				y: rect.origin.y + inset,
+				width: rect.width - 2 * inset,
+				height: rect.height
+			)
+		)
 	}
 }
