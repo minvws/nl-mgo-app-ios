@@ -125,7 +125,7 @@ class HealthExportViewModel: ObservableObject {
 		timeFormatter.dateStyle = .none
 		timeFormatter.timeStyle = .short
 		
-		let date = Date()
+		let date = Current.now()
 		
 		return PdfData(
 			heading: "Medische hulpmiddelen",
@@ -472,7 +472,7 @@ class HealthExportViewModel: ObservableObject {
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateFormat = "d_MMM_yyyy"
 		dateFormatter.locale = Locale(identifier: "nl")
-		let dateString = dateFormatter.string(from: Date())
+		let dateString = dateFormatter.string(from: Current.now())
 		
 		let categoryName = String(localized: String.LocalizationValue(stringLiteral: category.heading.stringKey))
 		let fileName = String("mgo_\(categoryName.lowercased().replacingOccurrences(of: " ", with: "_"))_\(dateString)")
@@ -565,6 +565,7 @@ struct HealthExportView: View {
 					}
 			}
 		}
+		.interactiveDismissDisabled(true) // Disable dragging by the user for this sheet
 		.frame(maxWidth: .infinity)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {
