@@ -10,7 +10,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oké, begrepen"
+            "value" : "Begrepen"
           }
         }
       }
@@ -774,6 +774,17 @@
         }
       }
     },
+    "export_pdf.close" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gereed"
+          }
+        }
+      }
+    },
     "export_pdf.dialog.create_document" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -836,6 +847,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pagina %1$@ van %2$@"
+          }
+        }
+      }
+    },
+    "export_pdf.share" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deel deze pdf"
           }
         }
       }
@@ -1390,9 +1412,6 @@
         }
       }
     },
-    "Loading" : {
-
-    },
     "login_info.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1938,7 +1957,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welkom terug"
+            "value" : "Welkom"
           }
         }
       }
