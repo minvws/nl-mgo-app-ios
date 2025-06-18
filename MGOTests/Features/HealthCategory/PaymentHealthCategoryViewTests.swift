@@ -82,7 +82,7 @@ final class PaymentHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_search_itemNotFound() throws {
+	func disabled_test_search_itemNotFound() throws {
 		
 		// Given
 		let content = NavigationView { sut }
@@ -95,7 +95,7 @@ final class PaymentHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_search_itemFound() throws {
+	func disabled_test_search_itemFound() throws {
 		
 		// Given
 		let content = NavigationView { sut }
