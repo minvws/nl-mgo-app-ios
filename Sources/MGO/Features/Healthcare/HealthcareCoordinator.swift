@@ -200,19 +200,34 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		
 		if action.identifier == Coordination.Action.exportHealthData.identifier {
 			
+			var state: HealthcareCoordination.State?
+			
 			if action.params.count == 2,
 //			   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
 			   let category = action.params["category"] as? HealthCategories.Category {
-				path.append(HealthcareCoordination.State.exportHealthData(category: category, organization: action.params["healthcareOrganization"] as? MgoOrganization))
-				return true
+				state = HealthcareCoordination.State.exportHealthData(
+					category: category,
+					organization: action.params["healthcareOrganization"] as? MgoOrganization
+				)
 			} else if action.params.count == 1,
 					  let category = action.params["category"] as? HealthCategories.Category {
-				path.append(HealthcareCoordination.State.exportHealthData(category: category, organization: nil))
-				return true
+				let state = HealthcareCoordination.State.exportHealthData(
+					category: category,
+					organization: nil
+				)
 			} else {
 				logError("HealthcareCoordinator Coordinator, missing params for \(action)")
 				return false
 			}
+			
+			guard let state else { return false }
+			if isIOS15 {
+				path.append(state)
+			} else {
+				rootStateForSheet = state
+			}
+			return true
+			
 		} else {
 			return false
 		}
@@ -356,6 +371,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 							mode: .single( healthcareOrganization)
 						)
 				)
+				.isPresentedAsSheet(false)
 				
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(
@@ -376,9 +392,11 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 							mode: .all
 						)
 				)
+				.isPresentedAsSheet(false)
 				
 			case let .showHealthCategory(category: category, organization: organization):
 				viewState(for: category, organization: organization)
+				.isPresentedAsSheet(false)
 				
 			case let .showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization, inSheet: inSheet):
 				HealthDataView(
@@ -399,6 +417,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 						organization: organization
 					)
 				)
+				.isPresentedAsSheet(!isIOS15)
 			
 			default:
 				EmptyView()

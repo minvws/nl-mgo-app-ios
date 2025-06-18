@@ -21,6 +21,8 @@ public struct ToolbarButtonStyle: ButtonStyle {
 	public func makeBody(configuration: Self.Configuration) -> some View {
 		
 		configuration.label
+			.rijksoverheidStyle(font: .bold, style: .body)
 			.opacity(configuration.isPressed ? 0.5 : 1.0)
+			.foregroundColor(configuration.isPressed ? theme.interactionTertiaryDefaultTextHover : theme.interactionTertiaryDefaultText)
 	}
 }

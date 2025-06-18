@@ -34,12 +34,20 @@ class HealthExportViewModel: ObservableObject {
 		/// the document is generated
 		case document(PDFDocument)
 	}
-		
+	
+	/// The state of the view, defaults to loading
 	@Published var state: State = .loading
+	
+	/// The title of the page (the category name)
+	@Published var title: LocalizedStringKey
+	
+	/// The path to the generated pdf
+	@Published var pdfUrl: URL?
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
+		case closeSheet
 		case onAppear
 		case safePdf
 	}
@@ -55,6 +63,7 @@ class HealthExportViewModel: ObservableObject {
 		self.category = category
 		self.organization = organization
 		self.state = .loading
+		self.title = category.heading
 		
 		// The factory for all the PDF draw elements
 		factory = PdfDrawElementFactory(theme: theme)
@@ -68,17 +77,40 @@ class HealthExportViewModel: ObservableObject {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
 			
+			case .closeSheet:
+				coordinator?.handle(Coordination.Action.closeSheet)
+			
 			case .onAppear:
 				generatePDF(source: source())
 			
+				if case let .document(pDFDocument) = state, !isIOS15 {
+					if let data = pDFDocument.dataRepresentation(),
+					   let url = savePDF(data: data, fileName: "Rool_voor_de_zorg") {
+						logDebug("Saving PDF onAppear", url as Any)
+						pdfUrl = url
+					}
+				}
+			
 			case .safePdf:
 				if case let .document(pDFDocument) = state {
-					if let data = pDFDocument.dataRepresentation() {
-						let url = savePDF(data: data, fileName: "Rool voor de zorg")
-						logDebug("Saving PDF", url as Any)
+					if let data = pDFDocument.dataRepresentation(),
+					   let url = savePDF(data: data, fileName: "Rool_voor_de_zorg") {
+						logDebug("Saving PDF on safePdf", url as Any)
+						shareDocument(url)
 					}
 				}
 		}
+	}
+	
+	@MainActor private func shareDocument(_ url: URL) {
+		
+		guard let vc = UIApplication.shared.firstKeyWindow?.rootViewController else { return }
+		
+		let shareActivity = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+		shareActivity.popoverPresentationController?.sourceView = vc.view
+		shareActivity.popoverPresentationController?.sourceRect = CGRect(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height, width: 0, height: 0)
+		shareActivity.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
+		vc.present(shareActivity, animated: true, completion: nil)
 	}
 	
 	func source() -> PdfData {
@@ -246,28 +278,17 @@ class HealthExportViewModel: ObservableObject {
 	
 	private let metaData = [
 		kCGPDFContextAuthor: String(localized: "common.app_name"),
-		kCGPDFContextSubject: String(localized: "export_pdf.footer")
-	]
-	
-	enum Constants {
-		static let pageWidth: CGFloat = 595.28 // A4 Paper Size
-		static let pageHeight: CGFloat = 841.89 // A4 Paper Size
-		static let outerMargin: CGFloat = 28
-		static let innerMargin: CGFloat = 16
-		
-		// The width and height we can draw on. (i.e. apply the outer margins)
-		static let contentSize = CGSize(
-			width: Constants.pageWidth - 2 * Constants.outerMargin,
-			height: Constants.pageHeight - 2 * Constants.outerMargin
-		)
-	}
+		kCGPDFContextSubject: String(localized: "export_pdf.footer"),
+		kCGPDFContextAllowsPrinting: true,
+		kCGPDFContextAllowsCopying: true
+	] as [CFString: Any]
 	
 	/// Generate the PDF
 	/// - Parameter source: the data source
 	@MainActor private func generatePDF(source: PdfData) {
 		
 		// Our pointer to the position where we should draw the next element
-		var currentY: CGFloat = Constants.outerMargin
+		var currentY: CGFloat = HealthExport.Constants.outerMargin
 		
 		// The array with all the draw elements we are creating
 		var drawElements = [PdfDrawElement]()
@@ -276,7 +297,7 @@ class HealthExportViewModel: ObservableObject {
 		let footer = factory.createFooterElement(source)
 		
 		// What is the height we have for our tables? the content height minus footer minus the margins.
-		let availableHeight = Constants.contentSize.height - footer.height - Constants.innerMargin
+		let availableHeight = HealthExport.Constants.contentSize.height - footer.height - HealthExport.Constants.innerMargin
 
 		// We should always start with a page break
 		drawElements.append(PdfDrawElement.pageBreak)
@@ -288,7 +309,7 @@ class HealthExportViewModel: ObservableObject {
 		currentY += drawElements.last?.height ?? 0
 
 		// Padding between heading and tables
-		currentY += Constants.innerMargin
+		currentY += HealthExport.Constants.innerMargin
 		
 		source.tables.forEach({ groupedTable in
 			
@@ -296,7 +317,7 @@ class HealthExportViewModel: ObservableObject {
 			var groupTableDrawElement = factory.createGroupedHeadingDrawElement(groupedTable, currentY: currentY)
 			if currentY + groupTableDrawElement.height > availableHeight {
 				drawElements.append(PdfDrawElement.pageBreak)
-				currentY = Constants.outerMargin
+				currentY = HealthExport.Constants.outerMargin
 				groupTableDrawElement.rect.origin.y = currentY
 			}
 			drawElements.append(groupTableDrawElement)
@@ -308,7 +329,7 @@ class HealthExportViewModel: ObservableObject {
 				var tableDrawElement = factory.createTableHeadingDrawElement(table, currentY: currentY)
 				if currentY + tableDrawElement.height > availableHeight {
 					drawElements.append(PdfDrawElement.pageBreak)
-					currentY = Constants.outerMargin
+					currentY = HealthExport.Constants.outerMargin
 					tableDrawElement.rect.origin.y = currentY
 				}
 				drawElements.append(tableDrawElement)
@@ -322,7 +343,7 @@ class HealthExportViewModel: ObservableObject {
 						var subTableHeadingDrawElement = factory.createSubTableHeadingDrawElement(heading: heading, currentY: currentY)
 						if currentY + subTableHeadingDrawElement.height > availableHeight {
 							drawElements.append(PdfDrawElement.pageBreak)
-							currentY = Constants.outerMargin
+							currentY = HealthExport.Constants.outerMargin
 							subTableHeadingDrawElement.rect.origin.y = currentY
 						}
 						drawElements.append(subTableHeadingDrawElement)
@@ -335,7 +356,7 @@ class HealthExportViewModel: ObservableObject {
 						
 						if currentY + (rowDrawElements.last?.height ?? 0) > availableHeight {
 							drawElements.append(PdfDrawElement.pageBreak)
-							currentY = Constants.outerMargin
+							currentY = HealthExport.Constants.outerMargin
 							if rowDrawElements.count == 2 {
 								rowDrawElements[0].rect.origin.y = currentY
 								rowDrawElements[1].rect.origin.y = currentY
@@ -349,14 +370,14 @@ class HealthExportViewModel: ObservableObject {
 				})
 				
 				// Padding between tables
-				currentY += Constants.innerMargin
+				currentY += HealthExport.Constants.innerMargin
 				
 			})
 			
 			// New Page after Grouped Table (except the last one)
 			if groupedTable != source.tables.last {
 				drawElements.append(PdfDrawElement.pageBreak)
-				currentY = Constants.outerMargin
+				currentY = HealthExport.Constants.outerMargin
 			}
 			
 		})
@@ -377,7 +398,7 @@ class HealthExportViewModel: ObservableObject {
 
 		// The engine to render the PDF
 		let pdfRenderer = UIGraphicsPDFRenderer(
-			bounds: CGRect(x: 0, y: 0, width: Constants.pageWidth, height: Constants.pageHeight),
+			bounds: CGRect(x: 0, y: 0, width: HealthExport.Constants.pageWidth, height: HealthExport.Constants.pageHeight),
 			format: format
 		)
 		
@@ -439,20 +460,35 @@ class HealthExportViewModel: ObservableObject {
 		).draw(context)
 	}
 	
+	/// Save the document
+	/// - Parameters:
+	///   - data: the pdf in binary
+	///   - fileName: the name of the file
+	/// - Returns: url to the saved file.
 	@MainActor func savePDF(data: Data, fileName: String) -> URL? {
+		
 		let fileManager = FileManager.default
 		guard let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
 			return nil
 		}
-		let fileURL = documentDirectory.appendingPathComponent("\(fileName).pdf")
+		var fileURL = documentDirectory
+			.appendingPathComponent("export", isDirectory: true)
 		
-		do {
-			try data.write(to: fileURL)
-			return fileURL
-		} catch {
-			logError("Error saving PDF: \(error.localizedDescription)")
-			return nil
+		if !fileManager.fileExists(atPath: fileURL.path) {
+			do {
+				try FileManager.default.createDirectory(atPath: fileURL.path, withIntermediateDirectories: true, attributes: nil)
+			} catch {
+				logError(error.localizedDescription)
+				return nil
+			}
 		}
+		
+		fileURL = fileURL
+			.appendingPathComponent("\(fileName)")
+			.appendingPathExtension("pdf")
+		
+		fileManager.createFile(atPath: fileURL.path, contents: data, attributes: nil)
+		return fileURL
 	}
 }
 // swiftlint:enable type_body_length
@@ -464,26 +500,114 @@ struct HealthExportView: View {
 	
 	/// The Theme
 	@Environment(\.theme) var theme
-
+	
+	/// Are we presented in a sheet?
+	@Environment(\.isPresentedAsSheet) private var isPresentedAsSheet
+	
+	/// Magic Numbers
+	private struct ViewTraits {
+		enum General {
+			static let padding: CGFloat = 16
+		}
+		enum Icon {
+			static let size: CGFloat = 28
+		}
+	}
+	
+	/// Get the view for the export
 	var body: some View {
 		
 		VStack {
 			
 			switch viewModel.state {
 				case .loading:
-					Text("Loading")
+				
+					Spacer()
 					
-				case .document(let pDFDocument):
+					ProgressView("pdf_viewer.loading")
+						.foregroundStyle(theme.contentSecondary)
+						.rijksoverheidStyle(font: .regular, style: .body)
 				
-					Button("Save PDF") {
-						viewModel.reduce(.safePdf)
+					Spacer()
+					
+				case .document(let pdfDocument):
+					
+					PDFKitView(pdfDocument)
+						.padding(.horizontal, ViewTraits.General.padding)
+					
+					if #available(iOS 16.0, *) {
+						if let pdfUrl = viewModel.pdfUrl {
+							HStack {
+								ShareLink(item: pdfUrl) {
+									Image(systemName: "square.and.arrow.up")
+										.resizable()
+										.scaledToFit()
+										.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
+								}
+								.accessibilityLabel("export_pdf.share")
+								.accessibilityIdentifier("export_pdf.share")
+								Spacer()
+							}
+							.padding(.horizontal, ViewTraits.General.padding)
+							.padding(.top, ViewTraits.General.padding)
+							.background(theme.backgroundSecondary)
+						}
 					}
-				
-					PDFKitView(pDFDocument)
 			}
 		}
+		.frame(maxWidth: .infinity)
+		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
+		.navigationTitle(viewModel.title)
+		.navigationBarBackButtonHidden()
+		.layoutForIPad()
+		.when(isPresentedAsSheet, transform: { view in
+			view
+				.toolbar(content: close)
+		})
+		.when(!isPresentedAsSheet, transform: { view in
+			view
+				.toolbar(content: shareTopBarTrailing)
+				.navigationBarItems(leading: BackButton {
+					viewModel.reduce(.backButtonPressed)
+				})
+				.navigationBarTitleDisplayMode(.inline)
+		})
+		
+	}
+	
+	/// Content for the close button toolbar
+	/// - Returns: the close button in a toolbar
+	@ToolbarContentBuilder private func close() -> some ToolbarContent {
+		ToolbarItemGroup(
+			placement: .topBarTrailing,
+			content: {
+				Button("export_pdf.close") {
+					viewModel.reduce(.closeSheet)
+				}
+				.buttonStyle(ToolbarButtonStyle())
+				.accessibilityIdentifier("export_pdf.close")
+			}
+		)
+	}
+	
+	/// Content for the share button toolbar
+	/// - Returns: the share button in a toolbar
+	@ToolbarContentBuilder private func shareTopBarTrailing() -> some ToolbarContent {
+		ToolbarItemGroup(
+			placement: .topBarTrailing,
+			content: {
+				Button {
+					viewModel.reduce(.safePdf)
+				} label: {
+					Image(systemName: "square.and.arrow.up")
+				}
+				.accessibilityLabel("export_pdf.share")
+				.accessibilityIdentifier("export_pdf.share")
+				
+			}
+		)
 	}
 }
