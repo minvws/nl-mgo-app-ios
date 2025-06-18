@@ -85,7 +85,7 @@ class HealthExportViewModel: ObservableObject {
 			
 				if case let .document(pDFDocument) = state, !isIOS15 {
 					if let data = pDFDocument.dataRepresentation(),
-					   let url = savePDF(data: data, fileName: "Rool_voor_de_zorg") {
+					   let url = savePDF(data: data) {
 						logDebug("Saving PDF onAppear", url as Any)
 						pdfUrl = url
 					}
@@ -94,7 +94,7 @@ class HealthExportViewModel: ObservableObject {
 			case .safePdf:
 				if case let .document(pDFDocument) = state {
 					if let data = pDFDocument.dataRepresentation(),
-					   let url = savePDF(data: data, fileName: "Rool_voor_de_zorg") {
+					   let url = savePDF(data: data) {
 						logDebug("Saving PDF on safePdf", url as Any)
 						shareDocument(url)
 					}
@@ -102,6 +102,8 @@ class HealthExportViewModel: ObservableObject {
 		}
 	}
 	
+	/// Create a share window
+	/// - Parameter url: the url of the document to share
 	@MainActor private func shareDocument(_ url: URL) {
 		
 		guard let vc = UIApplication.shared.firstKeyWindow?.rootViewController else { return }
@@ -465,7 +467,15 @@ class HealthExportViewModel: ObservableObject {
 	///   - data: the pdf in binary
 	///   - fileName: the name of the file
 	/// - Returns: url to the saved file.
-	@MainActor func savePDF(data: Data, fileName: String) -> URL? {
+	@MainActor func savePDF(data: Data) -> URL? {
+		
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "d_MMM_yyyy"
+		dateFormatter.locale = Locale(identifier: "nl")
+		let dateString = dateFormatter.string(from: Date())
+		
+		let categoryName = String(localized: String.LocalizationValue(stringLiteral: category.heading.stringKey))
+		let fileName = String("mgo_\(categoryName.lowercased().replacingOccurrences(of: " ", with: "_"))_\(dateString)")
 		
 		let fileManager = FileManager.default
 		guard let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
