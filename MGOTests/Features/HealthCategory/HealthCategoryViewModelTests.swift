@@ -74,7 +74,8 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).to(beEmpty())
+			expect(items).to(haveCount(1))
+			expect(items.first?.rows).to(beEmpty())
 		} else {
 			fail("Invalid state")
 		}
@@ -94,7 +95,8 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).to(beEmpty())
+			expect(items).to(haveCount(1))
+			expect(items.first?.rows).to(beEmpty())
 		} else {
 			fail("Invalid state")
 		}
@@ -113,7 +115,8 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.partial(items) = sut.state {
-			expect(items).to(beEmpty())
+			expect(items).to(haveCount(1))
+			expect(items.first?.rows).to(beEmpty())
 		} else {
 			fail("Invalid state")
 		}
@@ -134,7 +137,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).toEventually(haveCount(1))
+			expect(items).toEventually(haveCount(3))
+			expect(items[0].rows).toNot(beEmpty())
+			expect(items[1].rows).to(beEmpty())
+			expect(items[2].rows).to(beEmpty())
 		} else {
 			fail("Invalid state")
 		}
@@ -156,7 +162,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).toEventually(haveCount(1))
+			expect(items).toEventually(haveCount(3))
+			expect(items[0].rows).toNot(beEmpty())
+			expect(items[1].rows).to(beEmpty())
+			expect(items[2].rows).to(beEmpty())
 		} else {
 			fail("Invalid state")
 		}
@@ -206,7 +215,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).toEventually(haveCount(1))
+			expect(items).toEventually(haveCount(3))
+			expect(items[0].rows).toNot(beEmpty())
+			expect(items[1].rows).to(beEmpty())
+			expect(items[2].rows).to(beEmpty())
 		} else {
 			fail("Invalid state")
 		}
@@ -267,7 +279,8 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).to(beEmpty())
+			expect(items).toEventually(haveCount(1))
+			expect(items[0].rows).to(beEmpty())
 		} else {
 			fail("Invalid state")
 		}
