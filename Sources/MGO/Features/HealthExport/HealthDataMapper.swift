@@ -4,6 +4,7 @@
  */
 	
 import MGOFoundation
+import PdfExport
 
 class HealthDataMapper {
 	

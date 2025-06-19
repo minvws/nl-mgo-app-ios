@@ -4,6 +4,7 @@
  */
 
 import MGOUI
+import PdfExport
 
 /**
  * Factory to create draw elements from pdf data

@@ -5,6 +5,7 @@
 
 import MGOUI
 import MGOFoundation
+import PdfExport
 
 extension Coordination.Action {
 	

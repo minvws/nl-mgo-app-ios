@@ -17,7 +17,9 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "PdfExport"),
+			name: "PdfExport",
+			resources: [.process("Resources")]
+		),
 		.testTarget(
 			name: "PdfExportTests",
 			dependencies: [
