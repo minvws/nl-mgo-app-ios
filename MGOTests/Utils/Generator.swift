@@ -4,6 +4,7 @@
  */
 
 import MGOFoundation
+@testable import MGO
 
 class Generator {
 	
@@ -57,6 +58,28 @@ class Generator {
 				)
 			],
 			data_services: dataServices
+		)
+	}
+	
+	/// Return a dummy health sub category
+	static func healthSubCategory() -> HealthSubCategory {
+		
+		return HealthSubCategory(
+			heading: "heading subcategory",
+			rows: [
+				healthCategoryRow()
+			]
+		)
+	}
+	
+	/// Create a dummy health category row
+	static func healthCategoryRow() -> HealthCategoryRow {
+		
+		return HealthCategoryRow(
+			heading: "heading",
+			subHeading: "healthcare organization",
+			schema: HealthUISchema(children: [], label: "heading"),
+			action: nil
 		)
 	}
 }

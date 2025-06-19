@@ -7,7 +7,6 @@ import MGOFoundation
 import MGOUI
 import PDFKit
 
-// swiftlint:disable type_body_length
 class HealthExportViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
@@ -311,7 +310,6 @@ class HealthExportViewModel: ObservableObject {
 		dateFormatter.locale = Locale(identifier: "nl")
 		let dateString = dateFormatter.string(from: Current.now())
 		
-//		let categoryName = String(localized: String.LocalizationValue(stringLiteral: category.heading.stringKey))
 		let categoryName = dataSource.heading
 		let fileName = String("mgo_\(categoryName.lowercased().replacingOccurrences(of: " ", with: "_"))_\(dateString)")
 		
@@ -339,7 +337,6 @@ class HealthExportViewModel: ObservableObject {
 		return fileURL
 	}
 }
-// swiftlint:enable type_body_length
 
 struct HealthExportView: View {
 	
