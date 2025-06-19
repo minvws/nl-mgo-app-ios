@@ -11,14 +11,14 @@ import MGOUI
 public struct HealthExport {
 	
 	/// Magic numbers
-	enum Constants {
-		static let pageWidth: CGFloat = 595.28 // A4 Paper Size
-		static let pageHeight: CGFloat = 841.89 // A4 Paper Size
-		static let outerMargin: CGFloat = 28
-		static let innerMargin: CGFloat = 16
+	public enum Constants {
+		static public let pageWidth: CGFloat = 595.28 // A4 Paper Size
+		static public let pageHeight: CGFloat = 841.89 // A4 Paper Size
+		static public let outerMargin: CGFloat = 28
+		static public let innerMargin: CGFloat = 16
 		
 		// The width and height we can draw on. (i.e. apply the outer margins)
-		static let contentSize = CGSize(
+		static public let contentSize = CGSize(
 			width: Constants.pageWidth - 2 * Constants.outerMargin,
 			height: Constants.pageHeight - 2 * Constants.outerMargin
 		)

@@ -3,9 +3,9 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOUI
+import SwiftUI
 
-public struct PdfDrawElement {
+@MainActor public struct PdfDrawElement {
 	
 	/// The text to draw
 	public let text: NSAttributedString?
@@ -50,7 +50,7 @@ public struct PdfDrawElement {
 	}
 	
 	/// A page break element
-	static let pageBreak: PdfDrawElement = .init(text: nil, rect: .zero, height: 0, isPageBreak: true)
+	static public let pageBreak: PdfDrawElement = .init(text: nil, rect: .zero, height: 0, isPageBreak: true)
 }
 
 extension PdfDrawElement {
