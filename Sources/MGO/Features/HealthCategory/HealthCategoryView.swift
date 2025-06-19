@@ -548,7 +548,9 @@ struct HealthCategoryView: View {
 		.foregroundColor(theme.contentSecondary)
 		.alert(viewModel.translations.exportAlertHeading, isPresented: $viewModel.showExportAlert) {
 			Button("export_pdf.dialog.create_document") { viewModel.reduce(.exportHealthData) }
+				.keyboardShortcut(.defaultAction)
 			Button("common.cancel") { viewModel.reduce(.cancelExportAlert) }
+				.keyboardShortcut(.cancelAction)
 		} message: {
 			Text("export_pdf.dialog.subheading")
 		}
