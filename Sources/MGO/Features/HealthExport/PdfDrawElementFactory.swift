@@ -351,21 +351,38 @@ public class PdfDrawElementFactory {
 			height: 0
 		)
 	}
-}
-
-public extension UIFont {
 	
-	static func helvetica(_ pointSize: CGFloat) -> UIFont? {
-		UIFont(
-			name: "Helvetica",
-			size: pointSize
+	/// Create a PDF draw element for an empty sub category
+	/// - Parameters:
+	///   - currentY: the  y-position to draw from
+	/// - Returns: pdf draw element for an empty sub category
+	@MainActor public func createEmptySubCategoryDrawElement(currentY: CGFloat
+	) -> PdfDrawElement {
+		
+		let text = NSAttributedString(
+			string: String(localized: "export_pdf.no_data"),
+			attributes: [
+				.font: UIFont.helvetica(10) as Any,
+				.foregroundColor: UIColor(theme.primaryText)
+			]
 		)
-	}
-	
-	static func helveticaBold(_ pointSize: CGFloat) -> UIFont? {
-		UIFont(
-			name: "Helvetica-Bold",
-			size: pointSize
+		
+		let textHeight = text.boundingRect(
+			with: CGSize(width: HealthExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
+			options: .usesLineFragmentOrigin,
+			context: nil).height
+		
+		return PdfDrawElement(
+			text: text,
+			backgroundColor: nil,
+			borderColor: theme.border,
+			rect: CGRect(
+				x: HealthExport.Constants.outerMargin,
+				y: currentY,
+				width: HealthExport.Constants.contentSize.width,
+				height: textHeight
+			),
+			height: textHeight
 		)
 	}
 }

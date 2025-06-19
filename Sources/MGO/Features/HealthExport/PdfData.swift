@@ -8,7 +8,8 @@ import MGOFoundation
 /**
  * Represents a table row par, containing a key and a value
  */
-public struct PdfSubTablePair: Equatable {
+public struct PdfSubTablePair: Equatable, Codable, Hashable {
+	
 	/// The row key
 	var key: String
 	
@@ -19,7 +20,7 @@ public struct PdfSubTablePair: Equatable {
 /**
  * Represents a sub-section of a table, used to break down complex data.
  */
-public struct PdfSubTable: Equatable {
+public struct PdfSubTable: Equatable, Codable, Hashable {
 	
 	/// The optional title of a subtable. Could be nil if not applicable
 	let heading: String?
@@ -32,7 +33,7 @@ public struct PdfSubTable: Equatable {
 /**
  * Represents a single table in the PDF, possibly composed of multiple subtables.
  */
-public struct PdfTable: Equatable {
+public struct PdfTable: Equatable, Codable, Hashable {
 	
 	/// The title of the table.
 	let heading: String
@@ -44,7 +45,7 @@ public struct PdfTable: Equatable {
 /**
  * Represents a logical grouping of tables under a common heading within the PDF.
  */
-public struct PdfGroupedTables: Equatable {
+public struct PdfGroupedTables: Equatable, Codable, Hashable {
 	
 	/// The title for this group of tables.
 	let heading: String
@@ -56,7 +57,7 @@ public struct PdfGroupedTables: Equatable {
 /**
  * Represents the complete content structure of a PDF document.
  */
-public struct PdfData: Equatable {
+public struct PdfData: Equatable, Codable, Hashable {
 	
 	/// The main title displayed at the top of the PDF.
 	let heading: String

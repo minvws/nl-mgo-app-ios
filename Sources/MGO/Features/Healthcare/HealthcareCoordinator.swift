@@ -68,7 +68,7 @@ struct HealthcareCoordination {
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		
 		// Export
-		case exportHealthData(category: HealthCategories.Category, organization: MgoOrganization?)
+		case exportHealthData(PdfData)
 	}
 }
 
@@ -200,34 +200,20 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		
 		if action.identifier == Coordination.Action.exportHealthData.identifier {
 			
-			var state: HealthcareCoordination.State?
-			
-			if action.params.count == 2,
-//			   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
-			   let category = action.params["category"] as? HealthCategories.Category {
-				state = HealthcareCoordination.State.exportHealthData(
-					category: category,
-					organization: action.params["healthcareOrganization"] as? MgoOrganization
-				)
-			} else if action.params.count == 1,
-					  let category = action.params["category"] as? HealthCategories.Category {
-				let state = HealthcareCoordination.State.exportHealthData(
-					category: category,
-					organization: nil
-				)
+			if action.params.count == 1,
+			   let data = action.params["healthData"] as? PdfData {
+				let state = HealthcareCoordination.State.exportHealthData(data)
+				if isIOS15 {
+					path.append(state)
+				} else {
+					rootStateForSheet = state
+				}
+				return true
+				
 			} else {
 				logError("HealthcareCoordinator Coordinator, missing params for \(action)")
 				return false
 			}
-			
-			guard let state else { return false }
-			if isIOS15 {
-				path.append(state)
-			} else {
-				rootStateForSheet = state
-			}
-			return true
-			
 		} else {
 			return false
 		}
@@ -409,12 +395,11 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				)
 				.isPresentedAsSheet(inSheet)
 				
-			case let .exportHealthData(category: category, organization: organization):
+			case let .exportHealthData(healthData):
 				HealthExportView(
 					viewModel: HealthExportViewModel(
 						coordinator: self,
-						category: category,
-						organization: organization
+						healthData: healthData
 					)
 				)
 				.isPresentedAsSheet(!isIOS15)

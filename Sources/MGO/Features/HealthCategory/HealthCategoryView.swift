@@ -24,10 +24,13 @@ struct HealthCategoryRow: Equatable, Identifiable {
 	let id = UUID()
 	
 	/// The title heading of a block
-	let heading: String?
+	let heading: String
 	
 	/// The subtitle of a block
 	let subHeading: String?
+	
+	/// The underlying schema
+	let schema: HealthUISchema
 	
 	/// action to perform when the user taps on this block
 	var action: (() -> Void)?
@@ -187,7 +190,7 @@ class HealthCategoryViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthCategoryViewModel.Action) {
+	@MainActor func reduce(_ action: HealthCategoryViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
@@ -210,13 +213,20 @@ class HealthCategoryViewModel: ObservableObject {
 				showExportAlert = false
 			
 			case .exportHealthData:
+			
+				var subCategories = [HealthSubCategory]()
+				if case let .list(items) = state {
+					subCategories = items
+				}
+				if case let .partial(items) = state {
+					subCategories = items
+				}
 				
 				coordinator?.handle(
 					Coordination.Action(
 						identifier: Coordination.Action.exportHealthData.identifier,
 						params: [
-							"category": category,
-							"healthcareOrganization": organization
+							"healthData": HealthDataMapper().map(category, data: subCategories)
 						]
 					)
 				)
@@ -317,7 +327,10 @@ class HealthCategoryViewModel: ObservableObject {
 						existingSubCategory = true
 					}
 				}
-				if !existingSubCategory && subCat.rows.isNotEmpty {
+//				if !existingSubCategory && subCat.rows.isNotEmpty {
+//					items.append(subCat)
+//				}
+				if !existingSubCategory {
 					items.append(subCat)
 				}
 			}
@@ -339,22 +352,24 @@ class HealthCategoryViewModel: ObservableObject {
 				// Add a HealthCategoryBlock to the display list
 				items.append(
 					HealthCategoryRow(
-						heading: Sanitizer.strip(uiSchema.label),
-						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) { [weak self] in
+						heading: Sanitizer.sanitize(uiSchema.label),
+						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId)),
+						schema: uiSchema
+					) { [weak self] in
 							
-							guard let self else { return }
-							
-							self.coordinator?.handle(Coordination.Action(
-								identifier: Coordination.Action.showHealthData.identifier,
-								params: [
-									"healthcareOrganization": self.getOrganization(record.organizationId),
-									"backButtonTitle": String(localized: self.translations.backButtonTitle),
-									"resource": resource,
-									"uiSchema": uiSchema,
-									"inSheet": false
-								])
-							)
-						}
+						guard let self else { return }
+						
+						self.coordinator?.handle(Coordination.Action(
+							identifier: Coordination.Action.showHealthData.identifier,
+							params: [
+								"healthcareOrganization": self.getOrganization(record.organizationId),
+								"backButtonTitle": String(localized: self.translations.backButtonTitle),
+								"resource": resource,
+								"uiSchema": uiSchema,
+								"inSheet": false
+							])
+						)
+					}
 				)
 			}
 		}
@@ -489,7 +504,7 @@ struct HealthCategoryView: View {
 		var result = [HealthSubCategory]()
 		for sub in list {
 			let filteredItems = sub.rows.filter {
-				($0.heading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
+				($0.heading.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
 				$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
 			}
 			if filteredItems.isNotEmpty {

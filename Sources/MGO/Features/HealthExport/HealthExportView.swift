@@ -13,11 +13,8 @@ class HealthExportViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
-	/// The organization to show the categories for (optional, if nil, then show all organizations)
-	private var organization: MgoOrganization?
-	
-	/// The category to show
-	private var category: HealthCategories.Category
+	/// The PDF data source
+	private var dataSource: PdfData
 	
 	/// The factory that creates the draw elements
 	private var factory: PdfDrawElementFactory!
@@ -39,7 +36,7 @@ class HealthExportViewModel: ObservableObject {
 	@Published var state: State = .loading
 	
 	/// The title of the page (the category name)
-	@Published var title: LocalizedStringKey
+	@Published var title: String
 	
 	/// The path to the generated pdf
 	@Published var pdfUrl: URL?
@@ -56,14 +53,12 @@ class HealthExportViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
-		category: HealthCategories.Category,
-		organization: MgoOrganization?
+		healthData: PdfData
 	) {
 		self.coordinator = coordinator
-		self.category = category
-		self.organization = organization
 		self.state = .loading
-		self.title = category.heading
+		self.title = healthData.heading
+		self.dataSource = healthData
 		
 		// The factory for all the PDF draw elements
 		factory = PdfDrawElementFactory(theme: theme)
@@ -81,7 +76,7 @@ class HealthExportViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.closeSheet)
 			
 			case .onAppear:
-				generatePDF(source: source())
+				generatePDF()
 			
 				if case let .document(pDFDocument) = state, !isIOS15 {
 					if let data = pDFDocument.dataRepresentation(),
@@ -115,169 +110,6 @@ class HealthExportViewModel: ObservableObject {
 		vc.present(shareActivity, animated: true, completion: nil)
 	}
 	
-	func source() -> PdfData {
-		
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .medium
-		dateFormatter.timeStyle = .none
-		
-		let timeFormatter = DateFormatter()
-		timeFormatter.dateStyle = .none
-		timeFormatter.timeStyle = .short
-		
-		let date = Current.now()
-		
-		return PdfData(
-			heading: "Medische hulpmiddelen",
-			subHeading: String(format: String(localized: "export_pdf.subheading"), arguments: [dateFormatter.string(from: date), timeFormatter.string(from: date)]),
-			tables: [
-				PdfGroupedTables(
-					heading: "Grouped Table #1",
-					tables: [
-						PdfTable(
-							heading: "Table Heading #1",
-							subTables: [
-								PdfSubTable(
-									heading: "Table Sub Heading #1",
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								)
-							]
-						)
-					]
-				),
-				PdfGroupedTables(
-					heading: "Grouped Table #2",
-					tables: [
-						PdfTable(
-							heading: "Table Heading #2",
-							subTables: [
-								PdfSubTable(
-									heading: nil,
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								)
-							]
-						),
-						PdfTable(
-							heading: "Table Heading #3",
-							subTables: [
-								PdfSubTable(
-									heading: "Table Sub Heading #3",
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								),
-								PdfSubTable(
-									heading: "Table Sub Heading #4",
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								)
-							]
-						),
-						PdfTable(
-							heading: "Table Heading #4",
-							subTables: [
-								PdfSubTable(
-									heading: "Table Sub Heading #3",
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								),
-								PdfSubTable(
-									heading: "Table Sub Heading #4",
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								)
-							]
-						),
-						PdfTable(
-							heading: "Table Heading #5",
-							subTables: [
-								PdfSubTable(
-									heading: "Table Sub Heading #3",
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								),
-								PdfSubTable(
-									heading: "Table Sub Heading #4",
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								)
-							]
-						),
-						PdfTable(
-							heading: "Table Heading #6",
-							subTables: [
-								PdfSubTable(
-									heading: "Table Sub Heading #3",
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								),
-								PdfSubTable(
-									heading: "Table Sub Heading #4",
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								)
-							]
-						),
-						PdfTable(
-							heading: "Table Heading #7",
-							subTables: [
-								PdfSubTable(
-									heading: "Table Sub Heading #3",
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								),
-								PdfSubTable(
-									heading: "Table Sub Heading #4",
-									data: [
-										PdfSubTablePair(key: "Key 1", value: "Value 1"),
-										PdfSubTablePair(key: "Key 2", value: "Value 2"),
-										PdfSubTablePair(key: "Key 3", value: "Value 3")
-									]
-								)
-							]
-						)
-						
-					]
-				)
-			],
-			footer: String(localized: "export_pdf.footer")
-		)
-	}
-	
 	private let metaData = [
 		kCGPDFContextAuthor: String(localized: "common.app_name"),
 		kCGPDFContextSubject: String(localized: "export_pdf.footer"),
@@ -287,7 +119,7 @@ class HealthExportViewModel: ObservableObject {
 	
 	/// Generate the PDF
 	/// - Parameter source: the data source
-	@MainActor private func generatePDF(source: PdfData) {
+	@MainActor private func generatePDF() {
 		
 		// Our pointer to the position where we should draw the next element
 		var currentY: CGFloat = HealthExport.Constants.outerMargin
@@ -296,7 +128,7 @@ class HealthExportViewModel: ObservableObject {
 		var drawElements = [PdfDrawElement]()
 		
 		// Footer, reusable
-		let footer = factory.createFooterElement(source)
+		let footer = factory.createFooterElement(dataSource)
 		
 		// What is the height we have for our tables? the content height minus footer minus the margins.
 		let availableHeight = HealthExport.Constants.contentSize.height - footer.height - HealthExport.Constants.innerMargin
@@ -305,15 +137,15 @@ class HealthExportViewModel: ObservableObject {
 		drawElements.append(PdfDrawElement.pageBreak)
 		
 		// The heading and sub heading on the first page
-		drawElements.append(factory.createPdfSubHeadingDrawElement(source, currentY: currentY))
+		drawElements.append(factory.createPdfSubHeadingDrawElement(dataSource, currentY: currentY))
 		currentY += drawElements.last?.height ?? 0
-		drawElements.append(factory.createPdfHeadingDrawElement(source, currentY: currentY))
+		drawElements.append(factory.createPdfHeadingDrawElement(dataSource, currentY: currentY))
 		currentY += drawElements.last?.height ?? 0
 
 		// Padding between heading and tables
 		currentY += HealthExport.Constants.innerMargin
 		
-		source.tables.forEach({ groupedTable in
+		dataSource.tables.forEach({ groupedTable in
 			
 			// Grouped Table
 			var groupTableDrawElement = factory.createGroupedHeadingDrawElement(groupedTable, currentY: currentY)
@@ -324,6 +156,11 @@ class HealthExportViewModel: ObservableObject {
 			}
 			drawElements.append(groupTableDrawElement)
 			currentY += drawElements.last?.height ?? 0
+			
+			if groupedTable.tables.isEmpty {
+				drawElements.append(factory.createEmptySubCategoryDrawElement(currentY: currentY))
+				currentY += drawElements.last?.height ?? 0
+			}
 			
 			groupedTable.tables.forEach({ table in
 				
@@ -377,7 +214,7 @@ class HealthExportViewModel: ObservableObject {
 			})
 			
 			// New Page after Grouped Table (except the last one)
-			if groupedTable != source.tables.last {
+			if groupedTable != dataSource.tables.last {
 				drawElements.append(PdfDrawElement.pageBreak)
 				currentY = HealthExport.Constants.outerMargin
 			}
@@ -474,7 +311,8 @@ class HealthExportViewModel: ObservableObject {
 		dateFormatter.locale = Locale(identifier: "nl")
 		let dateString = dateFormatter.string(from: Current.now())
 		
-		let categoryName = String(localized: String.LocalizationValue(stringLiteral: category.heading.stringKey))
+//		let categoryName = String(localized: String.LocalizationValue(stringLiteral: category.heading.stringKey))
+		let categoryName = dataSource.heading
 		let fileName = String("mgo_\(categoryName.lowercased().replacingOccurrences(of: " ", with: "_"))_\(dateString)")
 		
 		let fileManager = FileManager.default
