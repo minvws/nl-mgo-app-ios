@@ -90,6 +90,7 @@ MGOapp: {
 MGOapp <- MGODebug
 MGOapp <- MGOFoundation
 MGOapp <- MGOUI
+MGOapp <- PdfExport
 MGOapp <- QuickLook
 MGOapp <- RestrictedBrowser
 MGOapp <- UIKit
@@ -156,6 +157,9 @@ NotificationCenter <- UIKit
 
 Observatory { style.fill: "#ffcc00" }
 
+PdfExport { style.fill: "#ffcc00" }
+PdfExport <- PDFKit
+
 RemoteAuthentication { style.fill: "#ffcc00" }
 RemoteAuthentication <- AuthorizationMiddleware
 RemoteAuthentication <- swift-openapi-generator
@@ -177,7 +181,6 @@ RestrictedBrowser <- WebKit
 RestrictedBrowser <- ReusableUI
 
 ReusableUI { style.fill: "#ffcc00" }
-ReusableUI <- PDFKit
 ReusableUI <- RijksoverheidFont
 ReusableUI <- SwiftUI
 ReusableUI <- SwiftUIIntrospect

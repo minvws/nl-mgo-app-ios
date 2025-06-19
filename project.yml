@@ -38,6 +38,8 @@ packages:
     path: ./Packages/NotificationCenter
   Observatory:
     path: ./Packages/Observatory
+  PdfExport:
+    path: ./Packages/PdfExport
   RemoteAuthentication:
     path: ./Packages/RemoteAuthentication
   RemoteConfiguration:
@@ -176,6 +178,7 @@ targetTemplates:
       - package: MGOUI
       - package: MGODebug
       - package: RestrictedBrowser
+      - package: PdfExport
         embed: false
     settings:
       base:
@@ -432,6 +435,9 @@ schemes:
           parallelizable: false
           randomExecutionOrder: true
         - package: Observatory/ObservatoryTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: PdfExport/PdfExportTests
           randomExecutionOrder: true
           parallelizable: false
         - package: RemoteAuthentication/RemoteAuthenticationTests

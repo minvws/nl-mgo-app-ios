@@ -5,7 +5,7 @@
 	
 import MGOFoundation
 import MGOUI
-import PDFKit
+import PdfExport
 
 class HealthExportViewModel: ObservableObject {
 	
