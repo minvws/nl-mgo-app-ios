@@ -327,9 +327,6 @@ class HealthCategoryViewModel: ObservableObject {
 						existingSubCategory = true
 					}
 				}
-//				if !existingSubCategory && subCat.rows.isNotEmpty {
-//					items.append(subCat)
-//				}
 				if !existingSubCategory {
 					items.append(subCat)
 				}

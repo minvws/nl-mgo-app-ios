@@ -55,8 +55,11 @@ class HealthDataMapper {
 			heading: subCategory.heading,
 			tables: subCategory.rows.compactMap { row in
 				let subTables = mapSchema(row.schema)
-				if subTables.isEmpty { return nil }
-				return PdfTable(heading: row.heading, subTables: subTables)
+				if subTables.isEmpty {
+					return nil
+				} else {
+					return PdfTable(heading: row.heading, subTables: subTables)
+				}
 			}
 		)
 	}
@@ -82,26 +85,22 @@ class HealthDataMapper {
 	/// - Returns: PDF sub table pair
 	@MainActor private func mapElement(_ element: UIElementProtocol) -> PdfSubTablePair? {
 		
-		if element is SingleValue {
-			if let value = (element as? SingleValue)?.display {
-				return PdfSubTablePair(key: element.label, value: value)
-			}
+		if element is SingleValue,
+		   let value = (element as? SingleValue)?.display {
+			return PdfSubTablePair(key: element.label, value: value)
 		}
-		if element is MultipleValues {
-			if let value = (element as? MultipleValues)?.display?.joined(separator: ", ") {
-				return PdfSubTablePair(key: element.label, value: value)
-			}
+		if element is MultipleValues,
+		   let value = (element as? MultipleValues)?.display?.joined(separator: ", ") {
+			return PdfSubTablePair(key: element.label, value: value)
 		}
-		if element is MultipleGroupedValues {
-			if let display = (element as? MultipleGroupedValues)?.display {
-				let value = display.map { $0.joined(separator: ", ") }.joined(separator: ", ")
-				return PdfSubTablePair(key: element.label, value: value)
-			}
+		if element is MultipleGroupedValues,
+		   let display = (element as? MultipleGroupedValues)?.display {
+			let value = display.map { $0.joined(separator: ", ") }.joined(separator: ", ")
+			return PdfSubTablePair(key: element.label, value: value)
 		}
-		if element is ReferenceValue {
-			if let value = (element as? ReferenceValue)?.display {
-				return PdfSubTablePair(key: element.label, value: value)
-			}
+		if element is ReferenceValue,
+		   let value = (element as? ReferenceValue)?.display {
+			return PdfSubTablePair(key: element.label, value: value)
 		}
 		return nil
 	}
