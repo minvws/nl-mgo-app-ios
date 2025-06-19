@@ -53,8 +53,10 @@ class HealthDataMapper {
 		
 		return PdfGroupedTables(
 			heading: subCategory.heading,
-			tables: subCategory.rows.map { row in
-				PdfTable(heading: row.heading, subTables: mapSchema(row.schema))
+			tables: subCategory.rows.compactMap { row in
+				let subTables = mapSchema(row.schema)
+				if subTables.isEmpty { return nil }
+				return PdfTable(heading: row.heading, subTables: subTables)
 			}
 		)
 	}
