@@ -15,12 +15,7 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	private var healthcareOrganization: MgoOrganization!
 	private var sut: HealthCategoryView!
 
-	private let item = HealthSubCategory(
-		heading: "heading subcategory",
-		rows: [
-			HealthCategoryRow(heading: "heading", subHeading: "healthcare organization", action: nil)
-		]
-	)
+	private let item = Generator.healthSubCategory()
 	
 	override func setUp() {
 		
