@@ -26,6 +26,28 @@ struct HealthCategories {
 		case personalDetails = 15
 		case payment = 16
 		
+		/// The category heading
+		var heading: LocalizedStringKey {
+			switch self {
+				case .medicalComplaints: "hc_complaints.heading"
+				case .labResults: "hc_lab_results.heading"
+				case .measurements: "hc_measurements.heading"
+				case .medication: "hc_medication.heading"
+				case .treatments: "hc_treatments.heading"
+				case .appointments: "hc_appointments.heading"
+				case .vaccinations: "hc_vaccinations.heading"
+				case .documents: "hc_documents.heading"
+				case .allergies: "hc_allergies.heading"
+				case .mentalWellbeing: "hc_mental.heading"
+				case .lifestyle: "hc_lifestyle.heading"
+				case .medicalDevices: "hc_devices.heading"
+				case .plans: "hc_plans.heading"
+				case .alerts: "hc_alerts.heading"
+				case .personalDetails: "hc_patient.heading"
+				case .payment: "hc_payment.heading"
+			}
+		}
+		
 		/// Which of the Nictiz profiles do we accept for a category?
 		var acceptedProfiles: [String] {
 			switch self {

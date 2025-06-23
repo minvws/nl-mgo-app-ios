@@ -5,6 +5,7 @@
 
 import MGOUI
 import MGOFoundation
+import PdfExport
 
 extension Coordination.Action {
 	
@@ -21,6 +22,8 @@ extension Coordination.Action {
 	
 	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
 	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
+	
+	static let exportHealthData = Coordination.Action(identifier: "exportHealthData")
 }
 
 protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
@@ -64,6 +67,9 @@ struct HealthcareCoordination {
 		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
 		case showHealthData(backButtonTitle: String?, schema: HealthUISchema, organization: MgoOrganization, inSheet: Bool)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
+		
+		// Export
+		case exportHealthData(PdfData)
 	}
 }
 
@@ -98,6 +104,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		
 		guard !handleSearchFlow(action) else { return }
 		guard !handleHealthDataFlow(action) else { return }
+		guard !handleExportFlow(action) else { return }
 		
 		switch action.identifier {
 			
@@ -184,6 +191,32 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				
 			default:
 				return false
+		}
+	}
+	
+	/// Handle the search flow action from any of the view models
+	/// - Parameter action: any Action
+	/// - Returns: True if the action is consumed
+	private func handleExportFlow(_ action: Coordination.Action) -> Bool {
+		
+		if action.identifier == Coordination.Action.exportHealthData.identifier {
+			
+			if action.params.count == 1,
+			   let data = action.params["healthData"] as? PdfData {
+				let state = HealthcareCoordination.State.exportHealthData(data)
+				if isIOS15 {
+					path.append(state)
+				} else {
+					rootStateForSheet = state
+				}
+				return true
+				
+			} else {
+				logError("HealthcareCoordinator Coordinator, missing params for \(action)")
+				return false
+			}
+		} else {
+			return false
 		}
 	}
 	
@@ -325,6 +358,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 							mode: .single( healthcareOrganization)
 						)
 				)
+				.isPresentedAsSheet(false)
 				
 			case let .removeHealthcareOrganization(healthcareOrganization):
 				RemoveHealthcareOrganizationView(
@@ -345,9 +379,11 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 							mode: .all
 						)
 				)
+				.isPresentedAsSheet(false)
 				
 			case let .showHealthCategory(category: category, organization: organization):
 				viewState(for: category, organization: organization)
+				.isPresentedAsSheet(false)
 				
 			case let .showHealthData(backButtonTitle: backButtonTitle, schema: schema, organization: healthcareOrganization, inSheet: inSheet):
 				HealthDataView(
@@ -360,6 +396,15 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				)
 				.isPresentedAsSheet(inSheet)
 				
+			case let .exportHealthData(healthData):
+				HealthExportView(
+					viewModel: HealthExportViewModel(
+						coordinator: self,
+						healthData: healthData
+					)
+				)
+				.isPresentedAsSheet(!isIOS15)
+			
 			default:
 				EmptyView()
 					.logError("DashboardCoordinator, no view for", state as Any)

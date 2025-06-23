@@ -6,6 +6,7 @@
 import MGOTest
 import MGOFoundation
 import MGOUI
+import PdfExport
 @testable import MGO
 
 final class HealthcareCoordinatorTests: XCTestCase {
@@ -431,5 +432,42 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.path.isEmpty) == true
+	}
+	
+	func test_coordinatorHandle_exportHealthData() {
+		
+		// Given
+		let data = PdfData(heading: "test", subHeading: "test", tables: [], footer: "test")
+		
+		// When
+		sut.handle(
+			Coordination.Action(
+				identifier: "exportHealthData",
+				params: [
+					"healthData": data
+				]
+			)
+		)
+		
+		// Then
+		expect(self.sut.path.isEmpty) == true
+		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.exportHealthData(data)
+	}
+	
+	func test_coordinatorHandle_exportHealthData_missingData() {
+		
+		// Given
+		
+		// When
+		sut.handle(
+			Coordination.Action(
+				identifier: "exportHealthData",
+				params: [:]
+			)
+		)
+		
+		// Then
+		expect(self.sut.path.isEmpty) == true
+		expect(self.sut.rootStateForSheet) == nil
 	}
 }
