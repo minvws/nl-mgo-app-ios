@@ -11,6 +11,7 @@ class HealthDataMapper {
 	/// The date formatter
 	private static var dateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
+		formatter.timeZone = TimeZone(abbreviation: "CET")
 		formatter.dateStyle = .medium
 		formatter.timeStyle = .none
 		return formatter
@@ -19,6 +20,7 @@ class HealthDataMapper {
 	/// The time formatter
 	private static var timeFormatter: DateFormatter = {
 		let formatter = DateFormatter()
+		formatter.timeZone = TimeZone(abbreviation: "CET")
 		formatter.dateStyle = .none
 		formatter.timeStyle = .short
 		return formatter
