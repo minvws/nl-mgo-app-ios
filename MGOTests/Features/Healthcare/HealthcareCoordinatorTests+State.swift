@@ -6,6 +6,7 @@
 import MGOTest
 import MGOFoundation
 import MGOUI
+import PdfExport
 @testable import MGO
 
 final class HealthcareCoordinatorStateTests: XCTestCase {
@@ -385,5 +386,19 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_exportHealthData() throws {
+		
+		// Given
+		let state = HealthcareCoordination.State.exportHealthData(
+			PdfData(heading: "test", subHeading: "test", tables: [], footer: "test")
+		)
+		
+		// When
+		let view = sut.viewState(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 }
