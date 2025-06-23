@@ -15,7 +15,7 @@ final class HealthExportViewModelTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var sut: HealthExportViewModel!
 	
-	let pdfData = PdfData(
+	static let pdfData = PdfData(
 		heading: "PDF Test Heading",
 		subHeading: "Sub Heading",
 		tables: [
@@ -76,7 +76,10 @@ final class HealthExportViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
-		sut = HealthExportViewModel(coordinator: coordinatorSpy, healthData: pdfData)
+		sut = HealthExportViewModel(
+			coordinator: coordinatorSpy,
+			healthData: HealthExportViewModelTests.pdfData
+		)
 	}
 	
 	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
