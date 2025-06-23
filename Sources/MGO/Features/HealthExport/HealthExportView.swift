@@ -136,9 +136,9 @@ class HealthExportViewModel: ObservableObject {
 		drawElements.append(PdfDrawElement.pageBreak)
 		
 		// The heading and sub heading on the first page
-		drawElements.append(factory.createPdfSubHeadingDrawElement(dataSource, currentY: currentY))
+		drawElements.append(factory.createPdfSubHeadingDrawElement(dataSource, yPosition: currentY))
 		currentY += drawElements.last?.height ?? 0
-		drawElements.append(factory.createPdfHeadingDrawElement(dataSource, currentY: currentY))
+		drawElements.append(factory.createPdfHeadingDrawElement(dataSource, yPosition: currentY))
 		currentY += drawElements.last?.height ?? 0
 
 		// Padding between heading and tables
@@ -147,7 +147,7 @@ class HealthExportViewModel: ObservableObject {
 		dataSource.tables.forEach({ groupedTable in
 			
 			// Grouped Table
-			var groupTableDrawElement = factory.createGroupedHeadingDrawElement(groupedTable, currentY: currentY)
+			var groupTableDrawElement = factory.createGroupedHeadingDrawElement(groupedTable, yPosition: currentY)
 			if currentY + groupTableDrawElement.height > availableHeight {
 				drawElements.append(PdfDrawElement.pageBreak)
 				currentY = HealthExport.Constants.outerMargin
@@ -157,14 +157,19 @@ class HealthExportViewModel: ObservableObject {
 			currentY += drawElements.last?.height ?? 0
 			
 			if groupedTable.tables.isEmpty {
-				drawElements.append(factory.createEmptySubCategoryDrawElement(currentY: currentY))
+				drawElements.append(
+					factory.createEmptySubCategoryDrawElement(
+						String(localized: "export_pdf.no_data"),
+						yPosition: currentY
+					)
+				)
 				currentY += drawElements.last?.height ?? 0
 			}
 			
 			groupedTable.tables.forEach({ table in
 				
 				// Table
-				var tableDrawElement = factory.createTableHeadingDrawElement(table, currentY: currentY)
+				var tableDrawElement = factory.createTableHeadingDrawElement(table, yPosition: currentY)
 				if currentY + tableDrawElement.height > availableHeight {
 					drawElements.append(PdfDrawElement.pageBreak)
 					currentY = HealthExport.Constants.outerMargin
@@ -178,7 +183,7 @@ class HealthExportViewModel: ObservableObject {
 					// Subtables
 					if let heading = subTable.heading {
 						
-						var subTableHeadingDrawElement = factory.createSubTableHeadingDrawElement(heading: heading, currentY: currentY)
+						var subTableHeadingDrawElement = factory.createSubTableHeadingDrawElement(heading: heading, yPosition: currentY)
 						if currentY + subTableHeadingDrawElement.height > availableHeight {
 							drawElements.append(PdfDrawElement.pageBreak)
 							currentY = HealthExport.Constants.outerMargin
@@ -190,7 +195,7 @@ class HealthExportViewModel: ObservableObject {
 					
 					subTable.data.forEach({ pair in
 						
-						var rowDrawElements = factory.createSubTableRowDrawElement(pair, currentY: currentY)
+						var rowDrawElements = factory.createSubTableRowDrawElement(pair, yPosition: currentY)
 						
 						if currentY + (rowDrawElements.last?.height ?? 0) > availableHeight {
 							drawElements.append(PdfDrawElement.pageBreak)
@@ -293,8 +298,10 @@ class HealthExportViewModel: ObservableObject {
 		
 		// draw pagination
 		factory.createPaginationElement(
-			currentPage: currentPage,
-			totalPages: totalPages
+			String(
+				format: String(localized: "export_pdf.page"),
+				arguments: ["\(currentPage)", "\(totalPages)"]
+			)
 		).draw(context)
 	}
 	
