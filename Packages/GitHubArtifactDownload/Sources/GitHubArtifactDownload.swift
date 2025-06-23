@@ -40,7 +40,7 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 		
 		// Create GitHub API Client
 		let middleware = AuthorizationMiddleware(token: token)
-		let client = Client(serverURL: try Servers.server1(), transport: URLSessionTransport(), middlewares: [middleware])
+		let client = Client(serverURL: try Servers.Server1.url(), transport: URLSessionTransport(), middlewares: [middleware])
 		
 		// Step 1: Fetch run id from the latest merge into main
 		let runID = try await getRunID(client)
@@ -63,20 +63,20 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 	/// - Returns: the id of the workflow run
 	private func getRunID(_ client: Client) async throws -> Int {
 		
-		let input = Operations.actions_sol_list_hyphen_workflow_hyphen_runs.Input(
-			path: Operations.actions_sol_list_hyphen_workflow_hyphen_runs.Input.Path(
+		let input = Operations.ActionsListWorkflowRuns.Input(
+			path: Operations.ActionsListWorkflowRuns.Input.Path(
 				owner: owner,
 				repo: repository,
-				workflow_id: Components.Parameters.workflow_hyphen_id.case2(workflowID)
+				workflowId: Components.Parameters.WorkflowId.case2(workflowID)
 			),
-			query: Operations.actions_sol_list_hyphen_workflow_hyphen_runs.Input.Query(
+			query: Operations.ActionsListWorkflowRuns.Input.Query(
 				branch: "main",
-				status: Components.Parameters.workflow_hyphen_run_hyphen_status.completed
+				status: Components.Parameters.WorkflowRunStatus.completed
 			)
 		)
-	
-		let result = try await client.actions_sol_list_hyphen_workflow_hyphen_runs(input)
-		if let runID = try result.ok.body.json.workflow_runs.first?.id {
+		
+		let result = try await client.actionsListWorkflowRuns(input)
+		if let runID = try result.ok.body.json.workflowRuns.first?.id {
 			return runID
 		}
 		fatalError("No workflow id found")
@@ -89,14 +89,14 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 	/// - Returns: the id of the artifact
 	private func getArtifactID(_ client: Client, runID: Int) async throws -> Int {
 		
-		let input = Operations.actions_sol_list_hyphen_workflow_hyphen_run_hyphen_artifacts.Input(
-			path: Operations.actions_sol_list_hyphen_workflow_hyphen_run_hyphen_artifacts.Input.Path(
+		let input = Operations.ActionsListWorkflowRunArtifacts.Input(
+			path: Operations.ActionsListWorkflowRunArtifacts.Input.Path(
 				owner: owner,
 				repo: repository,
-				run_id: runID
+				runId: runID
 			)
 		)
-		let result = try await client.actions_sol_list_hyphen_workflow_hyphen_run_hyphen_artifacts(input)
+		let result = try await client.actionsListWorkflowRunArtifacts(input)
 		if let artifactID = try result.ok.body.json.artifacts.first?.id {
 			return artifactID
 		}
@@ -109,15 +109,15 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 	///   - artifactID: the id of the artifact to download
 	func downloadAndSaveArtifact(_ client: Client, artifactID: Int) async throws {
 		
-		let input = Operations.actions_sol_download_hyphen_artifact.Input(
-			path: Operations.actions_sol_download_hyphen_artifact.Input.Path(
+		let input = Operations.ActionsDownloadArtifact.Input(
+			path: Operations.ActionsDownloadArtifact.Input.Path(
 				owner: owner,
 				repo: repository,
-				artifact_id: artifactID,
-				archive_format: "zip"
+				artifactId: artifactID,
+				archiveFormat: "zip"
 			)
 		)
-		let result = try await client.actions_sol_download_hyphen_artifact(input)
+		let result = try await client.actionsDownloadArtifact(input)
 		switch result {
 			case .found(let found):
 				fatalError("No artifact: \(found)")
