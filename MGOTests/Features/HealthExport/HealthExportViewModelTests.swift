@@ -66,6 +66,10 @@ final class HealthExportViewModelTests: XCTestCase {
 						]
 					)
 				]
+			),
+			PdfGroupedTables(
+				heading: "Group #3",
+				tables: []
 			)
 		],
 		footer: "footer"
@@ -119,7 +123,7 @@ final class HealthExportViewModelTests: XCTestCase {
 		
 		let pdfUrl = try XCTUnwrap(sut.pdfUrl)
 		let data = try FileManager.default.contents(atPath: pdfUrl.path)
-		expect(data?.count) == 12430
+		expect(data?.count) == 13725
 		try? FileManager.default.removeItem(atPath: pdfUrl.path)
 	}
 }
