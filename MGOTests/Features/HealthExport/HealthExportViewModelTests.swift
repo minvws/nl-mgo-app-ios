@@ -3,4 +3,12 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 	
+import MGOTest
+import MGOFoundation
+import MGOUI
+import PdfExport
+@testable import MGO
 
+final class HealthExportViewModelTests: XCTestCase {
+	
+}
