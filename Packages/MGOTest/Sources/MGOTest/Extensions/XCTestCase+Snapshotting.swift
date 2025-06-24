@@ -6,7 +6,7 @@
 */
 
 import SnapshotTesting
-import MGOUI
+import SwiftUI
 import XCTest
 
 extension XCTestCase {
