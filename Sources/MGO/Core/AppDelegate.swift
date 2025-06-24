@@ -24,7 +24,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		Current.secureUserSettings.enteredBackground = nil
 
 		// Remove previously generated PDF exports
-		FileStorage().remove("pdf-export")
+		FileStorage().remove(HealthExport.directoryName)
 		
 		return true
 	}

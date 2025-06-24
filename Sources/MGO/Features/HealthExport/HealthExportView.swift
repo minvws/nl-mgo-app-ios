@@ -59,7 +59,7 @@ class HealthExportViewModel: ObservableObject {
 	init(
 		coordinator: (any Coordinator)? = nil,
 		healthData: PdfData,
-		storage: FileStorageProtocol = FileStorage(subDirectory: "pdf-export")
+		storage: FileStorageProtocol = FileStorage(subDirectory: HealthExport.directoryName)
 	) {
 		self.coordinator = coordinator
 		self.state = .loading
@@ -129,7 +129,7 @@ class HealthExportViewModel: ObservableObject {
 	@MainActor private func generatePDF() {
 		
 		// Our pointer to the position where we should draw the next element
-		var currentY: CGFloat = HealthExport.Constants.outerMargin
+		var currentY: CGFloat = PdfExport.Constants.outerMargin
 		
 		// The array with all the draw elements we are creating
 		var drawElements = [PdfDrawElement]()
@@ -138,7 +138,7 @@ class HealthExportViewModel: ObservableObject {
 		let footer = factory.createFooterElement(dataSource)
 		
 		// What is the height we have for our tables? the content height minus footer minus the margins.
-		let availableHeight = HealthExport.Constants.contentSize.height - footer.height - HealthExport.Constants.innerMargin
+		let availableHeight = PdfExport.Constants.contentSize.height - footer.height - PdfExport.Constants.innerMargin
 
 		// We should always start with a page break
 		drawElements.append(PdfDrawElement.pageBreak)
@@ -150,7 +150,7 @@ class HealthExportViewModel: ObservableObject {
 		currentY += drawElements.last?.height ?? 0
 
 		// Padding between heading and tables
-		currentY += HealthExport.Constants.innerMargin
+		currentY += PdfExport.Constants.innerMargin
 		
 		dataSource.tables.forEach({ groupedTable in
 			
@@ -158,7 +158,7 @@ class HealthExportViewModel: ObservableObject {
 			var groupTableDrawElement = factory.createGroupedHeadingDrawElement(groupedTable, yPosition: currentY)
 			if currentY + groupTableDrawElement.height > availableHeight {
 				drawElements.append(PdfDrawElement.pageBreak)
-				currentY = HealthExport.Constants.outerMargin
+				currentY = PdfExport.Constants.outerMargin
 				groupTableDrawElement.rect.origin.y = currentY
 			}
 			drawElements.append(groupTableDrawElement)
@@ -180,7 +180,7 @@ class HealthExportViewModel: ObservableObject {
 				var tableDrawElement = factory.createTableHeadingDrawElement(table, yPosition: currentY)
 				if currentY + tableDrawElement.height > availableHeight {
 					drawElements.append(PdfDrawElement.pageBreak)
-					currentY = HealthExport.Constants.outerMargin
+					currentY = PdfExport.Constants.outerMargin
 					tableDrawElement.rect.origin.y = currentY
 				}
 				drawElements.append(tableDrawElement)
@@ -194,7 +194,7 @@ class HealthExportViewModel: ObservableObject {
 						var subTableHeadingDrawElement = factory.createSubTableHeadingDrawElement(heading: heading, yPosition: currentY)
 						if currentY + subTableHeadingDrawElement.height > availableHeight {
 							drawElements.append(PdfDrawElement.pageBreak)
-							currentY = HealthExport.Constants.outerMargin
+							currentY = PdfExport.Constants.outerMargin
 							subTableHeadingDrawElement.rect.origin.y = currentY
 						}
 						drawElements.append(subTableHeadingDrawElement)
@@ -207,7 +207,7 @@ class HealthExportViewModel: ObservableObject {
 						
 						if currentY + (rowDrawElements.last?.height ?? 0) > availableHeight {
 							drawElements.append(PdfDrawElement.pageBreak)
-							currentY = HealthExport.Constants.outerMargin
+							currentY = PdfExport.Constants.outerMargin
 							if rowDrawElements.count == 2 {
 								rowDrawElements[0].rect.origin.y = currentY
 								rowDrawElements[1].rect.origin.y = currentY
@@ -221,14 +221,14 @@ class HealthExportViewModel: ObservableObject {
 				})
 				
 				// Padding between tables
-				currentY += HealthExport.Constants.innerMargin
+				currentY += PdfExport.Constants.innerMargin
 				
 			})
 			
 			// New Page after Grouped Table (except the last one)
 			if groupedTable != dataSource.tables.last {
 				drawElements.append(PdfDrawElement.pageBreak)
-				currentY = HealthExport.Constants.outerMargin
+				currentY = PdfExport.Constants.outerMargin
 			}
 			
 		})
@@ -249,7 +249,7 @@ class HealthExportViewModel: ObservableObject {
 
 		// The engine to render the PDF
 		let pdfRenderer = UIGraphicsPDFRenderer(
-			bounds: CGRect(x: 0, y: 0, width: HealthExport.Constants.pageWidth, height: HealthExport.Constants.pageHeight),
+			bounds: CGRect(x: 0, y: 0, width: PdfExport.Constants.pageWidth, height: PdfExport.Constants.pageHeight),
 			format: format
 		)
 		
