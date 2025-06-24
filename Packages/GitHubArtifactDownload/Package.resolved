@@ -1,5 +1,5 @@
 {
-  "originHash" : "3678cee78e6bb3e519e5ae90ad4f7ffa16877e40ead8ee4e218e1536cf80faa9",
+  "originHash" : "ec35c4e85e00aee36beccee83c2a14a986d781896ffd24ac1e6cdb455b3506eb",
   "pins" : [
     {
       "identity" : "example-package-figlet",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/wei18/github-rest-api-swift-openapi.git",
       "state" : {
-        "revision" : "92f0c546b1b4f7aa5b2ff021b998b0fead73a794",
-        "version" : "2.0.5"
+        "revision" : "06c45e771313df55393f56432ca07e3d9b43bb5d",
+        "version" : "3.0.1"
       }
     },
     {
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser",
       "state" : {
-        "revision" : "41982a3656a71c768319979febd796c6fd111d5c",
-        "version" : "1.5.0"
+        "revision" : "011f0c765fb46d9cac61bca19be0527e99c98c8b",
+        "version" : "1.5.1"
       }
     },
     {
