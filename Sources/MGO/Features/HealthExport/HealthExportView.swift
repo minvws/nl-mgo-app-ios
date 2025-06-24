@@ -6,6 +6,7 @@
 import MGOFoundation
 import MGOUI
 import PdfExport
+import FileStorage
 
 class HealthExportViewModel: ObservableObject {
 	
@@ -20,6 +21,9 @@ class HealthExportViewModel: ObservableObject {
 	
 	/// the export theme
 	private var theme: ExportTheme = .init()
+	
+	/// The storage provider
+	private let storage: FileStorageProtocol
 	
 	/// The state of the view
 	enum State: Equatable {
@@ -50,13 +54,17 @@ class HealthExportViewModel: ObservableObject {
 	
 	/// Create a Health category view model
 	/// - Parameter coordinator: the app coordinator
+	/// - Parameter healthData: the health data to export
+	/// - Parameter storage: the file storage system
 	init(
 		coordinator: (any Coordinator)? = nil,
-		healthData: PdfData
+		healthData: PdfData,
+		storage: FileStorageProtocol = FileStorage(subDirectory: "pdf-export")
 	) {
 		self.coordinator = coordinator
 		self.state = .loading
 		self.title = healthData.heading
+		self.storage = storage
 		self.dataSource = healthData
 		
 		// The factory for all the PDF draw elements
@@ -320,28 +328,13 @@ class HealthExportViewModel: ObservableObject {
 		let categoryName = dataSource.heading
 		let fileName = String("mgo_\(categoryName.lowercased().replacingOccurrences(of: " ", with: "_"))_\(dateString)")
 		
-		let fileManager = FileManager.default
-		guard let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+		do {
+			try storage.store(data, as: "\(fileName).pdf")
+			return storage.fileUrl("\(fileName).pdf")
+		} catch {
+			logError(error.localizedDescription)
 			return nil
 		}
-		var fileURL = documentDirectory
-			.appendingPathComponent("export", isDirectory: true)
-		
-		if !fileManager.fileExists(atPath: fileURL.path) {
-			do {
-				try FileManager.default.createDirectory(atPath: fileURL.path, withIntermediateDirectories: true, attributes: nil)
-			} catch {
-				logError(error.localizedDescription)
-				return nil
-			}
-		}
-		
-		fileURL = fileURL
-			.appendingPathComponent("\(fileName)")
-			.appendingPathExtension("pdf")
-		
-		fileManager.createFile(atPath: fileURL.path, contents: data, attributes: nil)
-		return fileURL
 	}
 }
 

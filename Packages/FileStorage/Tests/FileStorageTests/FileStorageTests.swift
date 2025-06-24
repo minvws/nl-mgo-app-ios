@@ -18,16 +18,34 @@ class FileStorageTests: XCTestCase {
 		sut = FileStorage()
 	}
 	
-	func test_documentsURL() {
+	override func tearDown() {
+		super.tearDown()
+		FileStorage().remove("test")
+	}
+	
+	func test_fileUrl() {
 		
 		// Given
 		
 		// When
-		let url: URL? = sut.documentsURL
+		let url: URL? = sut.fileUrl("test.txt")
 		
 		// Then
 		expect(url) != nil
-		expect(url?.absoluteString).to(endWith("/data/Documents/"))
+		expect(url?.absoluteString).to(endWith("/data/Documents/test.txt"))
+	}
+	
+	func test_fileUrl_withSubDirectory() {
+		
+		// Given
+		sut = FileStorage(subDirectory: "test")
+		
+		// When
+		let url: URL? = sut.fileUrl("test.txt")
+		
+		// Then
+		expect(url) != nil
+		expect(url?.absoluteString).to(endWith("/data/Documents/test/test.txt"))
 	}
 	
 	func test_store_exists_read_remove() throws {
