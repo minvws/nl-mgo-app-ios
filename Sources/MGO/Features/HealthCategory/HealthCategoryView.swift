@@ -604,12 +604,7 @@ struct HealthCategoryView: View {
 				Spacer()
 				
 				Menu {
-					Button {
-						viewModel.reduce(.showExportAlert)
-					} label: {
-						Label("export_pdf.menu.save_pdf", systemImage: "arrow.down.document")
-							.tint(theme.contentPrimary)
-					}
+					menuExportPDFOption()
 				} label: {
 					Image(ImageResource.Icon.more)
 				}
@@ -617,6 +612,18 @@ struct HealthCategoryView: View {
 				.accessibilityLabel("export_pdf.menu")
 			}
 		)
+	}
+	
+	/// The export pdf option
+	/// - Returns: view
+	@ViewBuilder func menuExportPDFOption() -> some View {
+		
+		Button {
+			viewModel.reduce(.showExportAlert)
+		} label: {
+			Label("export_pdf.menu.save_pdf", systemImage: "arrow.down.document")
+				.tint(theme.contentPrimary)
+		}
 	}
 	
 	/// The view for no search items
