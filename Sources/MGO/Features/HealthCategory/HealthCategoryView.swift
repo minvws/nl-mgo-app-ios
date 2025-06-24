@@ -577,13 +577,13 @@ struct HealthCategoryView: View {
 					.foregroundStyle(.clear)
 					.accessibilityLabel(String(
 						format: String(localized: "medication_overview.voiceover"),
-						arguments: ["\(element.heading ?? "")", "\(element.subHeading ?? "")"]
+						arguments: ["\(element.heading)", "\(element.subHeading ?? "")"]
 					))
 					.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
 					.accessibilityAddTraits(.isButton)
 				
 				ActionCardView(
-					title: LocalizedStringKey(stringLiteral: element.heading ?? ""),
+					title: LocalizedStringKey(stringLiteral: element.heading),
 					message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
 					perform: element.action
 				)
@@ -603,14 +603,19 @@ struct HealthCategoryView: View {
 			content: {
 				Spacer()
 				
-				Button {
-					viewModel.reduce(.showExportAlert)
+				Menu {
+					Button {
+						viewModel.reduce(.showExportAlert)
+					} label: {
+						Label("export_pdf.menu.save_pdf", systemImage: "arrow.down.document")
+							.tint(theme.contentPrimary)
+					}
+
 				} label: {
-					Image(ImageResource.Icon.exportPdf)
+					Image(ImageResource.Icon.more)
 				}
 				.buttonStyle(ToolbarButtonStyle())
-				.accessibilityIdentifier("health_category.export_button")
-				.accessibilityLabel(viewModel.translations.exportAlertHeading)
+				.accessibilityLabel("export_pdf.menu")
 			}
 		)
 	}
