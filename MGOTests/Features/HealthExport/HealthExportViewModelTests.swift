@@ -122,7 +122,7 @@ final class HealthExportViewModelTests: XCTestCase {
 		expect(self.sut.pdfUrl).toEventuallyNot(beNil())
 		
 		let pdfUrl = try XCTUnwrap(sut.pdfUrl)
-		let data = try FileManager.default.contents(atPath: pdfUrl.path)
+		let data = FileManager.default.contents(atPath: pdfUrl.path)
 		expect(data?.count) == 13725
 		try? FileManager.default.removeItem(atPath: pdfUrl.path)
 	}
