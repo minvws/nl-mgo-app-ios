@@ -501,7 +501,7 @@ struct HealthCategoryView: View {
 		var result = [HealthSubCategory]()
 		for sub in list {
 			let filteredItems = sub.rows.filter {
-				($0.heading.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
+				($0.heading.localizedCaseInsensitiveContains(viewModel.searchText.lowercased())) ||
 				$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
 			}
 			if filteredItems.isNotEmpty {
@@ -610,7 +610,6 @@ struct HealthCategoryView: View {
 						Label("export_pdf.menu.save_pdf", systemImage: "arrow.down.document")
 							.tint(theme.contentPrimary)
 					}
-
 				} label: {
 					Image(ImageResource.Icon.more)
 				}
