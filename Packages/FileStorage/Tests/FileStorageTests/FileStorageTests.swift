@@ -18,11 +18,6 @@ class FileStorageTests: XCTestCase {
 		sut = FileStorage()
 	}
 	
-	override func tearDown() {
-		super.tearDown()
-		FileStorage().remove("test")
-	}
-	
 	func test_fileUrl() {
 		
 		// Given
