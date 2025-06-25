@@ -55,10 +55,10 @@ struct ForgotPinCodeView: View {
 	/// Magic numbers
 	private struct ViewTraits {
 		enum Title {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 16, trailing: 16)
+			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
 		}
 		enum Text {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 0, trailing: 16)
+			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
 		}
 		enum Button {
 			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)

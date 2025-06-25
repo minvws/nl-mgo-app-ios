@@ -117,7 +117,7 @@ struct LoginView: View {
 					case .loading:
 						CallToActionButton(
 							"login.loading",
-							style: .loginWithDigiDSpinner
+							style: .primaryWithLeadingSpinner
 						)
 						.accessibilityIdentifier("login.loading")
 						
@@ -125,7 +125,7 @@ struct LoginView: View {
 						CallToActionButton(
 							"login.digid",
 							icon: Image(ImageResource.RemoteAuthentication.digid),
-							style: .loginWithDigiD
+							style: .primaryWithLeadingIcon
 						) {
 							viewModel.reduce(.loginWithDigiD)
 						}

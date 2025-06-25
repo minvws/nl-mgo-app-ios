@@ -36,7 +36,7 @@ struct InputField: View {
 			static let height: CGFloat = 18
 		}
 		enum Input {
-			static let cornerRadius: CGFloat = 10
+			static let cornerRadius: CGFloat = 12
 			static let inset: CGFloat = 0.5
 			static let horizontalPadding: CGFloat = 12
 			static let verticalPadding: CGFloat = 12
