@@ -254,6 +254,10 @@ struct OrganizationListManualView: View {
 					viewModel.reduce(.closeSheet)
 				}
 		})
+		.when(!isPresentedAsSheet, transform: { view in
+			view
+				.layoutForIPad()
+		})
 
 		.navigationBarItems(leading: BackButton("common.search") {
 			viewModel.reduce(.backButtonPressed)
