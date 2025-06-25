@@ -3,7 +3,6 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@testable import FileStorage
 import MGOTest
 
 extension XCTestCase {

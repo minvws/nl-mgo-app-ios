@@ -40,7 +40,7 @@ public class PdfDrawElementFactory {
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(width: HealthExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
+			with: CGSize(width: PdfExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
 			options: .usesLineFragmentOrigin,
 			context: nil
 		).height
@@ -50,9 +50,9 @@ public class PdfDrawElementFactory {
 			backgroundColor: nil,
 			borderColor: nil,
 			rect: CGRect(
-				x: HealthExport.Constants.outerMargin,
+				x: PdfExport.Constants.outerMargin,
 				y: yPosition,
-				width: HealthExport.Constants.contentSize.width,
+				width: PdfExport.Constants.contentSize.width,
 				height: textHeight
 			),
 			height: textHeight
@@ -78,7 +78,7 @@ public class PdfDrawElementFactory {
 		)
 		
 		let textBox = text.boundingRect(
-			with: CGSize(width: HealthExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
+			with: CGSize(width: PdfExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
 			options: .usesLineFragmentOrigin,
 			context: nil
 		)
@@ -88,7 +88,7 @@ public class PdfDrawElementFactory {
 			backgroundColor: nil,
 			borderColor: nil,
 			rect: CGRect(
-				x: HealthExport.Constants.outerMargin + HealthExport.Constants.contentSize.width - textBox.width,
+				x: PdfExport.Constants.outerMargin + PdfExport.Constants.contentSize.width - textBox.width,
 				y: yPosition,
 				width: textBox.width,
 				height: textBox.height
@@ -116,7 +116,7 @@ public class PdfDrawElementFactory {
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(width: HealthExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
+			with: CGSize(width: PdfExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
 			options: .usesLineFragmentOrigin,
 			context: nil).height + 12
 		
@@ -125,9 +125,9 @@ public class PdfDrawElementFactory {
 			backgroundColor: nil,
 			borderColor: nil,
 			rect: CGRect(
-				x: HealthExport.Constants.outerMargin,
+				x: PdfExport.Constants.outerMargin,
 				y: yPosition,
-				width: HealthExport.Constants.contentSize.width,
+				width: PdfExport.Constants.contentSize.width,
 				height: textHeight
 			),
 			height: textHeight
@@ -157,7 +157,7 @@ public class PdfDrawElementFactory {
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(width: HealthExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
+			with: CGSize(width: PdfExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
 			options: .usesLineFragmentOrigin,
 			context: nil).height
 		
@@ -166,9 +166,9 @@ public class PdfDrawElementFactory {
 			backgroundColor: nil,
 			borderColor: theme.border,
 			rect: CGRect(
-				x: HealthExport.Constants.outerMargin,
+				x: PdfExport.Constants.outerMargin,
 				y: yPosition,
-				width: HealthExport.Constants.contentSize.width,
+				width: PdfExport.Constants.contentSize.width,
 				height: textHeight
 			),
 			height: textHeight + 11
@@ -194,7 +194,7 @@ public class PdfDrawElementFactory {
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(width: HealthExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
+			with: CGSize(width: PdfExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
 			options: .usesLineFragmentOrigin,
 			context: nil
 		).height
@@ -204,9 +204,9 @@ public class PdfDrawElementFactory {
 			backgroundColor: nil,
 			borderColor: theme.border,
 			rect: CGRect(
-				x: HealthExport.Constants.outerMargin,
+				x: PdfExport.Constants.outerMargin,
 				y: yPosition,
-				width: HealthExport.Constants.contentSize.width,
+				width: PdfExport.Constants.contentSize.width,
 				height: textHeight
 			),
 			height: textHeight + 11
@@ -240,13 +240,13 @@ public class PdfDrawElementFactory {
 		)
 		
 		let keyHeight = keyText.boundingRect(
-			with: CGSize(width: (HealthExport.Constants.contentSize.width / 2) - 12, height: .greatestFiniteMagnitude),
+			with: CGSize(width: (PdfExport.Constants.contentSize.width / 2) - 12, height: .greatestFiniteMagnitude),
 			options: .usesLineFragmentOrigin,
 			context: nil
 		).height
 		
 		let valueHeight = valueText.boundingRect(
-			with: CGSize(width: (HealthExport.Constants.contentSize.width / 2) - 12, height: .greatestFiniteMagnitude),
+			with: CGSize(width: (PdfExport.Constants.contentSize.width / 2) - 12, height: .greatestFiniteMagnitude),
 			options: .usesLineFragmentOrigin,
 			context: nil
 		).height
@@ -259,9 +259,9 @@ public class PdfDrawElementFactory {
 				backgroundColor: theme.secondaryBackground,
 				borderColor: theme.border,
 				rect: CGRect(
-					x: HealthExport.Constants.outerMargin,
+					x: PdfExport.Constants.outerMargin,
 					y: yPosition,
-					width: HealthExport.Constants.contentSize.width / 2,
+					width: PdfExport.Constants.contentSize.width / 2,
 					height: textHeight
 				),
 				height: textHeight + 11
@@ -271,9 +271,9 @@ public class PdfDrawElementFactory {
 				backgroundColor: nil,
 				borderColor: theme.border,
 				rect: CGRect(
-					x: HealthExport.Constants.outerMargin + (HealthExport.Constants.contentSize.width / 2) - 1,
+					x: PdfExport.Constants.outerMargin + (PdfExport.Constants.contentSize.width / 2) - 1,
 					y: yPosition,
-					width: (HealthExport.Constants.contentSize.width / 2) + 1,
+					width: (PdfExport.Constants.contentSize.width / 2) + 1,
 					height: textHeight
 				),
 				height: textHeight + 11
@@ -295,7 +295,7 @@ public class PdfDrawElementFactory {
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(width: HealthExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
+			with: CGSize(width: PdfExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
 			options: .usesLineFragmentOrigin,
 			context: nil
 		).height
@@ -305,9 +305,9 @@ public class PdfDrawElementFactory {
 			backgroundColor: nil,
 			borderColor: nil,
 			rect: CGRect(
-				x: HealthExport.Constants.outerMargin,
-				y: HealthExport.Constants.contentSize.height - textHeight,
-				width: HealthExport.Constants.contentSize.width,
+				x: PdfExport.Constants.outerMargin,
+				y: PdfExport.Constants.contentSize.height - textHeight,
+				width: PdfExport.Constants.contentSize.width,
 				height: textHeight
 			),
 			height: textHeight
@@ -329,7 +329,7 @@ public class PdfDrawElementFactory {
 		)
 		
 		let textBox = text.boundingRect(
-			with: CGSize(width: HealthExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
+			with: CGSize(width: PdfExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
 			options: .usesLineFragmentOrigin,
 			context: nil
 		)
@@ -339,8 +339,8 @@ public class PdfDrawElementFactory {
 			backgroundColor: nil,
 			borderColor: nil,
 			rect: CGRect(
-				x: HealthExport.Constants.outerMargin + HealthExport.Constants.contentSize.width - textBox.width,
-				y: HealthExport.Constants.contentSize.height - textBox.height,
+				x: PdfExport.Constants.outerMargin + PdfExport.Constants.contentSize.width - textBox.width,
+				y: PdfExport.Constants.contentSize.height - textBox.height,
 				width: textBox.width,
 				height: textBox.height
 			),
@@ -365,7 +365,7 @@ public class PdfDrawElementFactory {
 		)
 		
 		let textHeight = text.boundingRect(
-			with: CGSize(width: HealthExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
+			with: CGSize(width: PdfExport.Constants.contentSize.width, height: .greatestFiniteMagnitude),
 			options: .usesLineFragmentOrigin,
 			context: nil).height
 		
@@ -374,9 +374,9 @@ public class PdfDrawElementFactory {
 			backgroundColor: nil,
 			borderColor: theme.border,
 			rect: CGRect(
-				x: HealthExport.Constants.outerMargin,
+				x: PdfExport.Constants.outerMargin,
 				y: yPosition,
-				width: HealthExport.Constants.contentSize.width,
+				width: PdfExport.Constants.contentSize.width,
 				height: textHeight
 			),
 			height: textHeight

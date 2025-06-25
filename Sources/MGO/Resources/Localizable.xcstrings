@@ -829,6 +829,28 @@
         }
       }
     },
+    "export_pdf.menu" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opties"
+          }
+        }
+      }
+    },
+    "export_pdf.menu.save_pdf" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opslaan als PDF"
+          }
+        }
+      }
+    },
     "export_pdf.no_data" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1957,7 +1979,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welkom"
+            "value" : "Welkom terug"
           }
         }
       }
@@ -1968,7 +1990,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vul je toegangscode in om door te gaan"
+            "value" : "Voer je toegangscode in om door te gaan"
           }
         }
       }

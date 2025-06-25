@@ -501,7 +501,7 @@ struct HealthCategoryView: View {
 		var result = [HealthSubCategory]()
 		for sub in list {
 			let filteredItems = sub.rows.filter {
-				($0.heading.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
+				($0.heading.localizedCaseInsensitiveContains(viewModel.searchText.lowercased())) ||
 				$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
 			}
 			if filteredItems.isNotEmpty {
@@ -577,13 +577,13 @@ struct HealthCategoryView: View {
 					.foregroundStyle(.clear)
 					.accessibilityLabel(String(
 						format: String(localized: "medication_overview.voiceover"),
-						arguments: ["\(element.heading ?? "")", "\(element.subHeading ?? "")"]
+						arguments: ["\(element.heading)", "\(element.subHeading ?? "")"]
 					))
 					.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
 					.accessibilityAddTraits(.isButton)
 				
 				ActionCardView(
-					title: LocalizedStringKey(stringLiteral: element.heading ?? ""),
+					title: LocalizedStringKey(stringLiteral: element.heading),
 					message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
 					perform: element.action
 				)
@@ -603,16 +603,27 @@ struct HealthCategoryView: View {
 			content: {
 				Spacer()
 				
-				Button {
-					viewModel.reduce(.showExportAlert)
+				Menu {
+					menuExportPDFOption()
 				} label: {
-					Image(ImageResource.Icon.exportPdf)
+					Image(ImageResource.Icon.more)
 				}
 				.buttonStyle(ToolbarButtonStyle())
-				.accessibilityIdentifier("health_category.export_button")
-				.accessibilityLabel(viewModel.translations.exportAlertHeading)
+				.accessibilityLabel("export_pdf.menu")
 			}
 		)
+	}
+	
+	/// The export pdf option
+	/// - Returns: view
+	@ViewBuilder func menuExportPDFOption() -> some View {
+		
+		Button {
+			viewModel.reduce(.showExportAlert)
+		} label: {
+			Label("export_pdf.menu.save_pdf", systemImage: "arrow.down.document")
+				.tint(theme.contentPrimary)
+		}
 	}
 	
 	/// The view for no search items

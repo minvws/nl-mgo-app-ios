@@ -73,4 +73,18 @@ public class FileStorageSpy: FileStorageProtocol {
 		invokedRemoveParameters = (fileName, ())
 		invokedRemoveParametersList.append((fileName, ()))
 	}
+
+	public var invokedFileUrl = false
+	public var invokedFileUrlCount = 0
+	public var invokedFileUrlParameters: (fileName: String, Void)?
+	public var invokedFileUrlParametersList = [(fileName: String, Void)]()
+	public var stubbedFileUrlResult: URL!
+
+	public func fileUrl(_ fileName: String) -> URL? {
+		invokedFileUrl = true
+		invokedFileUrlCount += 1
+		invokedFileUrlParameters = (fileName, ())
+		invokedFileUrlParametersList.append((fileName, ()))
+		return stubbedFileUrlResult
+	}
 }

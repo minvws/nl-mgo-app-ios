@@ -39,7 +39,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		)
 	}
 	
-	func test_initialState_shouldBeLoading() {
+	@MainActor func test_initialState_shouldBeLoading() {
 		
 		// Given
 		
@@ -266,7 +266,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForHealthCategoriesCategoryCount).toEventually(equal(1), timeout: .seconds(5))
 	}
 	
-	func test_handleDataStoreChanges() {
+	@MainActor func test_handleDataStoreChanges() {
 		
 		// Given
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
@@ -286,7 +286,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		}
 	}
 	
-	func test_handleDataStoreChanges_belowThreshold_shouldKeepLoading() {
+	@MainActor func test_handleDataStoreChanges_belowThreshold_shouldKeepLoading() {
 		
 		// Given
 		setupSut(organization: healthcareOrganization, category: .medication)
@@ -301,5 +301,69 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .loading
+	}
+	
+	@MainActor func test_showExportAlert() {
+		
+		// Given
+		sut.showExportAlert = false
+		
+		// When
+		sut.reduce(.showExportAlert)
+		
+		// Then
+		expect(self.sut.showExportAlert) == true
+	}
+	
+	@MainActor func test_cancelExportAlert() {
+		
+		// Given
+		sut.showExportAlert = true
+		
+		// When
+		sut.reduce(.cancelExportAlert)
+		
+		// Then
+		expect(self.sut.showExportAlert) == false
+	}
+	
+	@MainActor func test_exportHealthData_list_shouldCallCoordinator() throws {
+		
+		// Given
+		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.medication)
+		let resource = try getResource("zibMedicationUse")
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
+		)
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
+		sut.reduce(.onAppear)
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+		
+		// When
+		sut.reduce(.exportHealthData)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandleParameters?.0.identifier) == Coordination.Action.exportHealthData.identifier
+		expect(self.coordinatorSpy.invokedHandleParameters?.0.params) != nil
+ 	}
+	
+	@MainActor func test_exportHealthData_partialList_shouldCallCoordinator() throws {
+		
+		// Given
+		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.medication)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
+			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: true)]
+		)
+		sut.reduce(.onAppear)
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+		
+		// When
+		sut.reduce(.exportHealthData)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandleParameters?.0.identifier) == Coordination.Action.exportHealthData.identifier
+		expect(self.coordinatorSpy.invokedHandleParameters?.0.params) != nil
 	}
 }

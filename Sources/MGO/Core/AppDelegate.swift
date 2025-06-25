@@ -6,6 +6,7 @@
 import UIKit
 import MGOUI
 import MGOFoundation
+import FileStorage
 
 class AppDelegate: NSObject, UIApplicationDelegate {
 	
@@ -18,7 +19,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		checkLaunchArguments()
 		styleUI()
 		registerObservers()
+		
+		// Reset the background timestamp
 		Current.secureUserSettings.enteredBackground = nil
+
+		// Remove previously generated PDF exports
+		FileStorage().remove(HealthExport.directoryName)
+		
 		return true
 	}
 	
