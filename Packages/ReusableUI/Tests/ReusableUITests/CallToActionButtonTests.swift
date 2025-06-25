@@ -9,10 +9,10 @@ import MGOTest
 
 final class CallToActionButtonTests: XCTestCase {
 
-	func test_digid() throws {
+	func test_primaryWithLeadingIcon() throws {
 		
 		// Given
-		let sut = CallToActionButton("DigiD", icon: Image(systemName: "stethoscope"), style: .loginWithDigiD)
+		let sut = CallToActionButton("DigiD", icon: Image(systemName: "stethoscope"), style: .primaryWithLeadingIcon)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
@@ -21,10 +21,10 @@ final class CallToActionButtonTests: XCTestCase {
 		assertSnapshot(of: view, as: .image)
 	}
 	
-	func test_digid_spinner() throws {
+	func test_primaryWithLeadingSpinner() throws {
 		
 		// Given
-		let sut = CallToActionButton("Laden...", style: .loginWithDigiDSpinner)
+		let sut = CallToActionButton("Laden...", style: .primaryWithLeadingSpinner)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)
