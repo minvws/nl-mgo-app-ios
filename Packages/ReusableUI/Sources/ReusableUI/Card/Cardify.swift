@@ -20,7 +20,7 @@ public struct Cardify: ViewModifier {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Card {
-			static let radius: CGFloat = 10
+			static let radius: CGFloat = 12
 			static let inset: CGFloat = 0.5
 		}
 	}
