@@ -791,7 +791,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Document maken"
+            "value" : "Maak pdf"
           }
         }
       }
@@ -802,7 +802,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Document met %1$@ maken?"
+            "value" : "Pdf maken van deze lijst?"
           }
         }
       }
@@ -813,7 +813,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je maakt een PDF-document met je medische gegevens. Je kunt het daarna op je telefoon bewaren."
+            "value" : "Je maakt een document met je medische gegevens. Die kun je daarna op je telefoon opslaan."
           }
         }
       }
@@ -846,7 +846,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opslaan als PDF"
+            "value" : "Opslaan als pdf"
           }
         }
       }

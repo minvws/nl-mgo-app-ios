@@ -109,14 +109,6 @@ struct HealthCategoryViewTranslations {
 	
 	/// The text key for the heading of the details
 	var backButtonTitle: String.LocalizationValue
-	
-	/// The title for the alert heading
-	var exportAlertHeading: String {
-		String(
-			format: String(localized: "export_pdf.dialog.heading"),
-			arguments: [String(localized: heading).lowercased()]
-		)
-	}
 }
 
 class HealthCategoryViewModel: ObservableObject {
@@ -543,7 +535,7 @@ struct HealthCategoryView: View {
 		}
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.foregroundColor(theme.contentSecondary)
-		.alert(viewModel.translations.exportAlertHeading, isPresented: $viewModel.showExportAlert) {
+		.alert(String(localized: "export_pdf.dialog.heading"), isPresented: $viewModel.showExportAlert) {
 			Button("export_pdf.dialog.create_document") { viewModel.reduce(.exportHealthData) }
 				.keyboardShortcut(.defaultAction)
 			Button("common.cancel") { viewModel.reduce(.cancelExportAlert) }
