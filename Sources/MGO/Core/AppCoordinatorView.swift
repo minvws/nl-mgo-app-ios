@@ -55,7 +55,7 @@ struct AppCoordinatorView<T: AppCoordinatorProtocol>: View {
 				content: {
 					sheetContent(withCloseButton: appCoordinator.showCloseButtonForSheet(for: appCoordinator.rootStateForSheet))
 						.backportPresentationContentInteraction(.scrolls)
-						.backportPresentationDragIndicator(Visibility.visible)
+						.backportPresentationDragIndicator(UIDevice.current.userInterfaceIdiom == .pad ? Visibility.hidden : Visibility.visible) // Hide on iPad
 						
 				}
 			)

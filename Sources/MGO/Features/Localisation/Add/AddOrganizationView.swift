@@ -231,7 +231,10 @@ struct AddOrganizationView: View {
 					viewModel.reduce(.closeSheet)
 				}
 		})
-
+		.when(!isPresentedAsSheet, transform: { view in
+			view
+				.layoutForIPad()
+		})
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 	}
 }
