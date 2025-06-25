@@ -45,7 +45,7 @@ struct OrganizationListCardView: View {
 	private struct ViewTraits {
 		enum General {
 			static let padding: CGFloat = 16
-			static let cornerRadius: CGFloat = 10
+			static let cornerRadius: CGFloat = 12
 		}
 		enum Title {
 			static let padding: CGFloat = 4
