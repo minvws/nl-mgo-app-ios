@@ -429,7 +429,7 @@ struct PinCodeView: View {
 	/// Magic numbers
 	private struct ViewTraits {
 		enum ForgotButton {
-			static let insets = EdgeInsets( top: 0, leading: 16, bottom: 16, trailing: 16)
+			static let insets = EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
 		}
 		enum Button {
 			static let minimumHeight: CGFloat = 46

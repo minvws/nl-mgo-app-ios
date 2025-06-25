@@ -65,7 +65,7 @@ private struct ErrorViewViewTraits {
 		static let padding: CGFloat = 16
 	}
 	enum Image {
-		static let insets = EdgeInsets( top: 0, leading: 50, bottom: 0, trailing: 50)
+		static let insets = EdgeInsets(top: 0, leading: 50, bottom: 0, trailing: 50)
 		static let height: CGFloat = 161
 	}
 	enum Navigation {

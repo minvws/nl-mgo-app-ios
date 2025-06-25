@@ -15,11 +15,11 @@ struct SecondaryDefaultButtonStyle: ButtonStyle {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum ButtonTitle {
-			static let insets = EdgeInsets( top: 16, leading: 24, bottom: 16, trailing: 24)
+			static let insets = EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 24)
 		}
 		enum Button {
 			static let cornerRadius: CGFloat = 12
-			static let minimumHeight: CGFloat = 48
+			static let minimumHeight: CGFloat = 50
 		}
 	}
 	
