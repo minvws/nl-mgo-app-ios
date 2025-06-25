@@ -32,25 +32,21 @@ public protocol Themeable: ObservableObject {
 	// MARK: - Action Primary Default -
 	
 	var interactionPrimaryDefaultBackground: Color { get }
-	var interactionPrimaryDefaultBackgroundHover: Color { get }
 	var interactionPrimaryDefaultText: Color { get }
 	
 	// MARK: - Action Primary Critical -
 	
 	var interactionPrimaryCriticalBackground: Color { get }
-	var interactionPrimaryCriticalBackgroundHover: Color { get }
 	var interactionPrimaryCriticalText: Color { get }
 
 	// MARK: - Action Secondary Default -
 
 	var interactionSecondaryDefaultBackground: Color { get }
-	var interactionSecondaryDefaultBackgroundHover: Color { get }
 	var interactionSecondaryDefaultText: Color { get }
 	
 	// MARK: - Action Secondary Critical -
 
 	var interactionSecondaryCriticalBackground: Color { get }
-	var interactionSecondaryCriticalBackgroundHover: Color { get }
 	var interactionSecondaryCriticalText: Color { get }
 	
 	// MARK: - Action Tertiary Default -

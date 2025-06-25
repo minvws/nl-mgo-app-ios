@@ -20,6 +20,7 @@ struct SecondaryCriticalButtonStyle: ButtonStyle {
 		enum Button {
 			static let cornerRadius: CGFloat = 12
 			static let minimumHeight: CGFloat = 50
+			static let opacity: Double = 0.75
 		}
 	}
 	
@@ -33,7 +34,7 @@ struct SecondaryCriticalButtonStyle: ButtonStyle {
 			.foregroundColor(theme.interactionSecondaryCriticalText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.interactionSecondaryCriticalBackgroundHover : theme.interactionSecondaryCriticalBackground)
+			.background(theme.interactionSecondaryCriticalBackground.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }
