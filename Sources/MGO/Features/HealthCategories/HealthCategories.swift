@@ -354,7 +354,7 @@ struct HealthCategories {
 		private var demoServices: [DVP.Endpoint] {
 			switch self {
 				case .medication: return [
-					DVP.CommonClinicalDataset.medicationUse,
+					DVP.CommonClinicalDataset.medicationUse
 				]
 					
 				case .labResults: return [
