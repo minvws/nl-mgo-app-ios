@@ -355,7 +355,6 @@ struct HealthCategories {
 			switch self {
 				case .medication: return [
 					DVP.CommonClinicalDataset.medicationUse,
-					DVP.GeneralPractitioner.currentMedication()
 				]
 					
 				case .labResults: return [
