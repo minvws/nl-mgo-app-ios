@@ -28,6 +28,7 @@ struct SelectableTextView: UIViewRepresentable {
 		textView.isEditable = false
 		textView.isSelectable = true
 		textView.isScrollEnabled = false
+		textView.backgroundColor = .clear
 		if let font {
 			textView.font = font
 		} else {

@@ -282,6 +282,7 @@ struct HealthUISchemaView: View {
 					SelectableTextView(
 						text: heading,
 						textColor: theme.contentSecondary,
+						font: UIFont(
 							name: RijksoverheidSansWebTextFont.regular.fontName,
 							size: Font.TextStyle.callout.pointSize
 						)
