@@ -278,14 +278,24 @@ struct HealthUISchemaView: View {
 			VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 				
 				if let heading {
-					Text(heading)
-						.rijksoverheidStyle(font: .regular, style: .callout)
-						.foregroundStyle(theme.contentSecondary)
+					
+					SelectableTextView(
+						text: heading,
+						textColor: theme.contentSecondary,
+							name: RijksoverheidSansWebTextFont.regular.fontName,
+							size: Font.TextStyle.callout.pointSize
+						)
+					)
 				}
 				
-				Text(Sanitizer.strip(value) ?? String(localized: "common.unknown"))
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+				SelectableTextView(
+					text: Sanitizer.strip(value) ?? String(localized: "common.unknown"),
+					textColor: theme.contentPrimary,
+					font: UIFont(
+						name: RijksoverheidSansWebTextFont.regular.fontName,
+						size: Font.TextStyle.body.pointSize
+					)
+				)
 			}
 			
 			if showChevron {
@@ -298,7 +308,6 @@ struct HealthUISchemaView: View {
 					.accessibilityHidden(true)
 			}
 		}
-		.textSelection(.enabled)
 		.padding(ViewTraits.Row.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.accessibilityElement(children: .combine)
