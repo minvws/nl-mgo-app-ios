@@ -3020,6 +3020,17 @@
         }
       }
     },
+    "zib_laboratory_demo.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitslag van laboratorium"
+          }
+        }
+      }
+    },
     "zib_laboratory_test_result_observation.heading" : {
       "extractionState" : "manual",
       "localizations" : {
