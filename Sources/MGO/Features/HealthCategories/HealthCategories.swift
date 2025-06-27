@@ -168,11 +168,14 @@ struct HealthCategories {
 				
 				// Labresults
 				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue:
-					"zib_laboratory_test_result_observation.heading"
+					
+					Current.featureFlagManager.isDemo ? "zib_laboratory_demo.heading" : "zib_laboratory_test_result_observation.heading"
+				
 				case ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue:
 					"zib_laboratory_test_result_specimen.heading"
 				case GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue:
-					"gp_laboratory_result.heading"
+				
+					Current.featureFlagManager.isDemo ? "zib_laboratory_demo.heading" : "gp_laboratory_result.heading"
 				
 				// Allergies
 				case ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue:
