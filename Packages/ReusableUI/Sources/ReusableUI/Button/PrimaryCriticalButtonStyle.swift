@@ -31,7 +31,7 @@ struct PrimaryCriticalButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(theme.interactionPrimaryCriticalText)
+			.foregroundColor(theme.interactionPrimaryCriticalText.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(theme.interactionPrimaryCriticalBackground.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
