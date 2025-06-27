@@ -31,7 +31,7 @@ struct SecondaryDefaultButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(theme.interactionSecondaryDefaultText)
+			.foregroundColor(theme.interactionSecondaryDefaultText.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(theme.interactionSecondaryDefaultBackground.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
