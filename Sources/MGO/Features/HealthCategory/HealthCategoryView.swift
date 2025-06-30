@@ -297,7 +297,7 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Sort the records on subcategory
 	/// - Parameter records: the records to sort
 	/// - Returns: sorted sub categories
-	private func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthSubCategory]) {
+	internal func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthSubCategory]) {
 		
 		var items = [HealthSubCategory]()
 		var partial = false
