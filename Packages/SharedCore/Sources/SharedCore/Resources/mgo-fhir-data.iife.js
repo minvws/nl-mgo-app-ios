@@ -43086,7 +43086,7 @@ ${indent}}` : "}";
   function createJsonApi(func) {
     return function(...args) {
       const result = func(...args.map(losslessParse));
-      return losslessStringify(result);
+      return losslessStringify(result, (_key, value2) => value2 === void 0 ? null : value2);
     };
   }
   function isMgoElement(value2) {
