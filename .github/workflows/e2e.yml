@@ -3,6 +3,8 @@
 name: E2E
 
 on:
+  schedule:
+    - cron: "10 4 * * 4"
   workflow_dispatch:
 
 env:
@@ -14,7 +16,7 @@ jobs:
   test:
     runs-on: macos-15
     name: Build & run end to end tests
-    timeout-minutes: 60
+    timeout-minutes: 75
     steps:
       - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
         # 🧐 when changing below, don't forget to also change the device name in the Fastfile too: 
