@@ -24,7 +24,7 @@ class HealthUISchemaRobot: Robot {
 
 	private func row(_ section: String) -> XCUIElement {
 		let predicate = NSPredicate(format: "label LIKE '\(section)'")
-		let label = app.staticTexts.element(matching: predicate)
+		let label = app.textViews.element(matching: predicate)
 		return label
 	}
 	
@@ -50,7 +50,8 @@ class HealthUISchemaRobot: Robot {
 	
 	@discardableResult
 	func verifySectionRowExists(_ heading: String, value: String) -> Self {
-		XCTAssertTrue(row("\(heading), \(value)").exists, "can't find section row for \(heading) and \(value)")
+		XCTAssertTrue(row("\(heading)").exists, "can't find section heading for \(heading) and \(value)")
+		XCTAssertTrue(row("\(value)").exists, "can't find section value for \(heading) and \(value)")
 		return self
 	}
 	

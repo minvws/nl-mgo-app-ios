@@ -287,6 +287,7 @@ struct HealthUISchemaView: View {
 							size: Font.TextStyle.callout.pointSize
 						)
 					)
+					.accessibilityLabel(heading)
 				}
 				
 				SelectableTextView(
@@ -297,6 +298,7 @@ struct HealthUISchemaView: View {
 						size: Font.TextStyle.body.pointSize
 					)
 				)
+				.accessibilityLabel(Sanitizer.strip(value) ?? String(localized: "common.unknown"))
 			}
 			
 			if showChevron {
