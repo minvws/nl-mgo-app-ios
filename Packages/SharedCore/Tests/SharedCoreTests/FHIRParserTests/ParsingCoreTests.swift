@@ -95,7 +95,7 @@ final class FHIRParserTests: XCTestCase {
 		let zib = sut.transformFHIRResourceIntoMGOResource(data, fhirVersion: "R4")
 		
 		// Then
-		expect(zib) == Data("undefined".utf8)
+		expect(zib) == Data("null".utf8)
 	}
 	
 	func test_parseResourceJson_error() throws {
