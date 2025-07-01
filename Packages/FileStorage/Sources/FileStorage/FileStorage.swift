@@ -145,6 +145,8 @@ final public class FileStorage: FileStorageProtocol {
 	/// - Returns: True if it does.
 	public func remove(_ fileName: String) {
 		
+		guard fileExists(fileName) else { return }
+		
 		guard let url = fileUrl(fileName) else {
 			logError(directoryError)
 			return
