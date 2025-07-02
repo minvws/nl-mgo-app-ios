@@ -70,7 +70,14 @@ struct InAppBrowserView: View {
 	
 	var body: some View {
 		
-		RestrictedBrowserView(viewModel: RestrictedBrowserViewModel(url: viewModel.url, browser: viewModel.browser))
+		RestrictedBrowserView(
+			viewModel: RestrictedBrowserViewModel(
+				url: viewModel.url,
+				browser: viewModel.browser,
+				authUsername: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+				authPassword: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+			)
+		)
 		.navigationTitle(viewModel.title ?? "")
 		.navigationBarBackButtonHidden(true)
 		.navigationBarTitleDisplayMode(.inline)

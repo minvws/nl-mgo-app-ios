@@ -26,22 +26,6 @@ final class RestrictedBrowserViewModelTests: XCTestCase {
 		expect(urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
-	func test_alertController() throws {
-		
-		// Given
-		let urlOpenerSpy = URLOpenerSpy()
-		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let url = try XCTUnwrap(URL(string: "https://localhost"))
-		let browser = RestrictedBrowser(allowedDomains: ["localhost"], urlOpener: urlOpenerSpy)
-		let sut = RestrictedBrowserViewModel(url: url, browser: browser)
-		
-		// When
-		let alertController = sut.alertController(hostname: "localhost") { _, _ in }
-		
-		// Then
-		expect(alertController.title) == "Log in op localhost"
-	}
-	
 	func test_policy_allow() throws {
 		
 		// Given
