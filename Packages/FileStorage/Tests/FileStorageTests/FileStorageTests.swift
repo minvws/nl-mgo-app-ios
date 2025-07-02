@@ -12,20 +12,10 @@ class FileStorageTests: XCTestCase {
 	
 	private var sut: FileStorage!
 	
-	override func setUp() {
-		super.setUp()
-		
-		sut = FileStorage()
-	}
-	
-	override func tearDown() {
-		super.tearDown()
-		FileStorage().remove("filestorage")
-	}
-	
 	func test_fileUrl() {
 		
 		// Given
+		sut = FileStorage()
 		
 		// When
 		let url: URL? = sut.fileUrl("test.txt")
@@ -51,6 +41,7 @@ class FileStorageTests: XCTestCase {
 	func test_store_exists_read_remove() throws {
 		
 		// Given
+		sut = FileStorage()
 		let file = try getResource("test")
 		let fileName = "test_store.md"
 		
