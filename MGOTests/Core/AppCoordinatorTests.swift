@@ -107,7 +107,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
-	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement_domainAllowed() {
+	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement_domainAllowed() throws {
 		
 		// Given
 		let browser = RestrictedBrowser(allowedDomains: ["web.test.mgo.irealisatie.nl"], urlOpener: urlOpenerSpy)
@@ -118,7 +118,8 @@ final class AppCoordinatorTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.path.isEmpty) == true
-		expect(self.sut.rootStateForSheet) == AppCoordination.State.privacyStatement
+		let url = try XCTUnwrap(LinkRepository.privacyURL)
+		expect(self.sut.rootStateForSheet) == AppCoordination.State.browser(url, "privacy.heading")
 		expect(self.urlOpenerSpy.invokedOpen) == false
 	}
 	
