@@ -45,9 +45,9 @@ final class OnboardingFlowTests: XCTestCase {
 			.launchApp()
 			.tapNextButton()
 			.tapNextButton()
-			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig. Gebruik geen simpele codes zoals 00000 of 12345.")
+			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
 			.enterPinCode("11111")
-			.verifyErrorTextExists("Deze code is te simpel en dus onveilig")
+			.verifyErrorTextExists("Code is te simpel en dus onveilig")
 	}
 	
 	@MainActor
@@ -56,11 +56,11 @@ final class OnboardingFlowTests: XCTestCase {
 			.launchApp()
 			.tapNextButton()
 			.tapNextButton()
-			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig. Gebruik geen simpele codes zoals 00000 of 12345.")
+			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
 			.enterPinCode("12369")
-			.verifySubHeadingExists("Vul je toegangscode in om door te gaan")
+			.verifySubHeadingExists("Voer je 5-cijferige code nog een keer in.")
 			.enterPinCode("11111")
-			.verifyErrorTextExists("Deze code is anders dan de vorige")
+			.verifyErrorTextExists("Code is anders dan de vorige")
 	}
 	
 	@MainActor
@@ -71,9 +71,9 @@ final class OnboardingFlowTests: XCTestCase {
 			.launchApp()
 			.tapNextButton()
 			.tapNextButton()
-			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig. Gebruik geen simpele codes zoals 00000 of 12345.")
+			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
 			.enterPinCode("12369")
-			.verifySubHeadingExists("Vul je toegangscode in om door te gaan")
+			.verifySubHeadingExists("Voer je 5-cijferige code nog een keer in.")
 			.enterConfirmationPinCodeWithBioMetric("12369")
 			.verifySubHeadingExists()
 			.verifyBioMetricsButtonExists()

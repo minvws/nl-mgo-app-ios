@@ -27,7 +27,7 @@ class DocumentViewerRobot: Robot {
 	}
 	
 	private var titleButton: XCUIElement {
-		app.buttons["Samenvattende ontslagbrief neurochirurgie, Takenmenu"]
+		app.buttons["Example PDF - Anterior Cervical Discectomy Fusion - Discharge Summary, Takenmenu"]
 	}
 	
 	// MARK: - Validations
