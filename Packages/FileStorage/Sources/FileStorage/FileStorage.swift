@@ -140,10 +140,11 @@ final public class FileStorage: FileStorageProtocol {
 		return fileManager.fileExists(atPath: url.path)
 	}
 	
-	/// Check if a file exists
-	/// - Parameter fileName: the name of the file
-	/// - Returns: True if it does.
+	/// Remove a file or directory
+	/// - Parameter fileName: the name of the file or directory
 	public func remove(_ fileName: String) {
+		
+		guard fileExists(fileName) else { return }
 		
 		guard let url = fileUrl(fileName) else {
 			logError(directoryError)
