@@ -224,7 +224,7 @@ final class HealthDataFlowTests: XCTestCase {
 			.tapSectionRow(0, section: 0)
 			// Document Summary
 			.verifyHeadingExists("Example PDF - Anterior Cervical Discectomy Fusion - Discharge Summary")
-//			.verifySectionRowExists("Aangemaakt op", value: "13 juli 2022 om 01:00")
+			.verifySectionRowExists("Aangemaakt op", value: "13 juli 2022 om 01:00")
 			.verifySectionRowExists("Onderwerp", value: "E XXX_Baltus")
 			.verifySectionRowExists("Type", value: "Samenvattende ontslagbrief [bevinding] in {instelling} d.m.v. neurochirurgie (document)")
 			.verifySectionHeaderExists("Bijlage")
@@ -237,7 +237,7 @@ final class HealthDataFlowTests: XCTestCase {
 			// Document Details
 			.tapNavigateToDetailsButton("Bekijk alle documentgegevens")
 			.verifyHeadingExists("Document")
-//			.verifySectionRowExists("Aangemaakt op", value: "13 juli 2022 om 01:00:00 GMT+2")
+			.verifySectionRowExists("Aangemaakt op", value: "13 juli 2022 om 01:00:00 GMT+2")
 			.verifySectionRowExists("Beveiligingslabel", value: "very restricted (V in code systeem http://hl7.org/fhir/v3/Confidentiality)")
 			.verifySectionRowExists("Categorie", value: "Discharge summary (18842-5 in code systeem http://loinc.org)")
 			.verifySectionRowExists("Gerelateerd aan", value: "Niet bekend")
@@ -316,7 +316,7 @@ final class HealthDataFlowTests: XCTestCase {
 			.verifySectionRowExists("Toediener", value: "GGD Gelderland-Zuid")
 			.verifySectionRowExists("Toedieningsweg", value: "Niet bekend")
 			.verifySectionRowExists("Toelichting", value: "Niet bekend")
-//			.verifySectionRowExists("Vaccinatie datum", value: "19 juni 2021 om 16:17:00 GMT+2")
+			.verifySectionRowExists("Vaccinatie datum", value: "19 juni 2021 om 16:17:00 GMT+2")
 			.verifySectionRowExists("Zorgaanbieder", value: "Noordeinde 68")
 	}
 }

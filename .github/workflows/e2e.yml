@@ -49,6 +49,11 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+          
+      - name: Set TimeZone
+        uses: szenius/set-timezone@v2.0
+          with:
+            timezoneMacos: "Europe/Amsterdam"
 
       - name: Build and run e2e tests
         env:
