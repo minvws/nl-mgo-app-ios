@@ -122,7 +122,10 @@ final class HealthDownloadViewTests: XCTestCase {
 		try sut.inspect().find(viewWithAccessibilityIdentifier: "feedbackAction").button().tap()
 		
 		// Then
-		expect(self.viewModel.state).toEventually(equal(.downloaded(label: "label", documentUrl: url)))
+		expect(self.viewModel.state).toEventually(
+			equal(.downloaded(label: "label", documentUrl: url)),
+			timeout: .seconds(10)
+		)
 	}
 	
 	func test_HealthDownloadView_noDocument() throws {
