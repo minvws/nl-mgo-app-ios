@@ -1,0 +1,20 @@
+/*
+ *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+ *  SPDX-License-Identifier: EUPL-1.2
+ */
+
+import WebKit
+
+class URLAuthenticationChallengeSenderSpy: NSObject, URLAuthenticationChallengeSender {
+	func use(_ credential: URLCredential, for challenge: URLAuthenticationChallenge) {
+		/* No implementation */
+	}
+	
+	func continueWithoutCredential(for challenge: URLAuthenticationChallenge) {
+		/* No implementation */
+	}
+	
+	func cancel(_ challenge: URLAuthenticationChallenge) {
+		/* No implementation */
+	}
+}

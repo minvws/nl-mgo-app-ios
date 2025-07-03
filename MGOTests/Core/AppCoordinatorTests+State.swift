@@ -79,7 +79,8 @@ final class AppCoordinatorStateTests: XCTestCase {
 	func test_coordinatorView_privacyStatement() throws {
 		
 		// Given
-		let state = AppCoordination.State.privacyStatement
+		let url = try XCTUnwrap(LinkRepository.privacyURL)
+		let state = AppCoordination.State.browser(url, "privacy.heading")
 		
 		// When
 		let view = sut.view(for: state)
