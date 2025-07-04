@@ -464,7 +464,6 @@ struct HealthCategoryView: View {
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
-		.layoutForIPad()
 	}
 	
 	/// Create the list state view

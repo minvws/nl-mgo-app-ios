@@ -60,7 +60,6 @@ struct DisplaySettingsView: View {
 		})
 		.navigationBarHidden(false)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.layoutForIPad()
 	}
 	
 	/// Build a button for a display mode option
