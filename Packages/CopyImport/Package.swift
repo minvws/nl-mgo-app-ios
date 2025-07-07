@@ -5,16 +5,16 @@ import PackageDescription
 
 let package = Package(
 	name: "CopyImport",
+	platforms: [.macOS(.v10_15), .iOS(.v15)],
 	dependencies: [
-		.package(url: "https://github.com/apple/example-package-figlet", branch: "main"),
-		.package(url: "https://github.com/apple/swift-argument-parser", exact: "1.5.1")
+		// Internal
+		.package(name: "MGOCommandLine", path: "../MGOCommandLine"),
 	],
 	targets: [
 		.executableTarget(
 			name: "CopyImport",
 			dependencies: [
-				.product(name: "Figlet", package: "example-package-figlet"),
-				.product(name: "ArgumentParser", package: "swift-argument-parser")
+				.product(name: "MGOCommandLine", package: "MGOCommandLine"),
 			],
 			path: "Sources"
 		)
