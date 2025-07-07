@@ -125,7 +125,6 @@ struct SettingsView: View {
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.navigationTitle("settings.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.layoutForIPad()
 	}
 	
 	/// Get the view for the display settings option

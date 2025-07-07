@@ -162,7 +162,6 @@ struct SecuritySettingsView: View {
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationTitle("settings.security.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.layoutForIPad()
 	}
 	
 	/// The view for the toggle

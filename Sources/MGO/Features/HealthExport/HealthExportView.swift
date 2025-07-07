@@ -408,7 +408,6 @@ struct HealthExportView: View {
 		}
 		.navigationTitle(viewModel.title)
 		.navigationBarBackButtonHidden()
-		.layoutForIPad()
 		.when(isPresentedAsSheet, transform: { view in
 			view
 				.toolbar(content: close)

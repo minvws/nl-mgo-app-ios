@@ -367,7 +367,6 @@ struct HealthCategoriesView: View {
 		}
 		.navigationBarHidden(false)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.layoutForIPad()
 		.refreshable {
 			viewModel.reduce(.refresh)
 		}
