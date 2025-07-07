@@ -1,22 +1,14 @@
-# GitHub Artifact Download
+# MGO Command Line
 
 ## Overview
 
-This package will download an artifact from a GitHub repository
+This package is a convenience package. It will expose the Figlet and the Swift Argument parser for easy import.
 
 ## Usage
 
-The `GithubArtifactDownload` command take the following parameters:
-* token: the GitHub API Token (see [github.com](https://github.com/settings/tokens) for your tokens)
-* owner: the owner of the repository (github.com/*owner*/repository)
-* repository: the repository (github.com/owner/*repository*)
-* workflow-id: the identifer of the workflow (see [github.com](https://docs.github.com/en/rest/actions/workflows?apiVersion=2022-11-28#list-repository-workflows) for details how to get the id)
-* output: the output file for the artifact
+In the app, just use `import MGOCommandLine` instead of the sub packages. 
 
-```swift
-
-	swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --workflow-id "114414377" --output tmp/artifact.zip
-```
+---
 
 ---
 
