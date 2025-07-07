@@ -12,19 +12,17 @@ let package = Package(
 		
 		// Internal
 		.package(name: "AuthorizationMiddleware", path: "../AuthorizationMiddleware"),
+		.package(name: "MGOCommandLine", path: "../MGOCommandLine"),
 		
 		// External
-		.package(url: "https://github.com/apple/example-package-figlet", branch: "main"),
-		.package(url: "https://github.com/apple/swift-argument-parser", exact: "1.5.1"),
-		.package(url: "https://github.com/wei18/github-rest-api-swift-openapi.git", exact: "3.0.1")
+		.package(url: "https://github.com/wei18/github-rest-api-swift-openapi.git", exact: "3.0.2")
 	],
 	targets: [
 		.executableTarget(
 			name: "GithubArtifactDownload",
 			dependencies: [
 				.product(name: "AuthorizationMiddleware", package: "AuthorizationMiddleware"),
-				.product(name: "Figlet", package: "example-package-figlet"),
-				.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "MGOCommandLine", package: "MGOCommandLine"),
 				.product(name: "GitHubRestAPIActions", package: "github-rest-api-swift-openapi")
 			],
 			path: "Sources"

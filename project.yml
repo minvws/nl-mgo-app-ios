@@ -24,6 +24,8 @@ packages:
     path: ./Packages/LocalAuthenticationProvider
   LocalisationService:
     path: ./Packages/LocalisationService
+  MGOCommandLine:
+    path: ./Packages/MGOCommandLine
   MGODebug:
     path: ./Packages/MGODebug
   MGOFoundation:
