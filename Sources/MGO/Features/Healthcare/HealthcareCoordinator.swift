@@ -73,7 +73,8 @@ struct HealthcareCoordination {
 	}
 }
 
-class HealthcareCoordinator: HealthcareCoordinatorProtocol {
+@MainActor
+class HealthcareCoordinator: @MainActor HealthcareCoordinatorProtocol {
 	
 	/// The navigation path for the first tab
 	@Published var path = NavigationStackBackport.NavigationPath()

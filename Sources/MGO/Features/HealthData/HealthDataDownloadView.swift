@@ -88,7 +88,7 @@ class HealthDataDownloadViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthDataDownloadViewModel.Action) {
+	@MainActor func reduce(_ action: HealthDataDownloadViewModel.Action) {
 		
 		switch action {
 			case .download: download()
@@ -98,7 +98,7 @@ class HealthDataDownloadViewModel: ObservableObject {
 	}
 	
 	/// Handle the click on the download button
-	private func download() {
+	@MainActor private func download() {
 		
 		if downloadLink != nil {
 			doDownloadLink()
@@ -132,7 +132,7 @@ class HealthDataDownloadViewModel: ObservableObject {
 	}
 	
 	/// The user tapped the download button for a download link type
-	private func doDownloadLink() {
+	@MainActor private func doDownloadLink() {
 		
 		// Only Links
 		guard let downloadLink else { return }
