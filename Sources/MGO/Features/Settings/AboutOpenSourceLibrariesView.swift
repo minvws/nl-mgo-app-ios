@@ -159,7 +159,6 @@ struct AboutOpenSourceLibrariesView: View {
 		.navigationTitle("settings.about_this_app.open_source")
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.layoutForIPad()
 	}
 	
 	/// Get the header for the list

@@ -26,6 +26,7 @@ struct HealthcareCoordinatorView<T: HealthcareCoordinatorProtocol>: View {
 					coordinator.viewState(for: state)
 				}
 		}
+		.layoutForIPad()
 		.navigationBarHidden(true)
 		.navigationBarBackButtonHidden()
 		.inspectableSheet(

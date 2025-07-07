@@ -62,7 +62,6 @@ struct AboutAccessibilityView: View {
 		.navigationTitle("settings.accessibility.heading")
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.layoutForIPad()
 	}
 	
 	/// Get the sub heading

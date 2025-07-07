@@ -206,7 +206,6 @@ struct OrganizationsView: View {
 		.toast(viewModel.toast) {
 			viewModel.reduce(.closeToast)
 		}
-		.layoutForIPad()
 	}
 	
 	/// Create the empty state view

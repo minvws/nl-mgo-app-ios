@@ -71,7 +71,6 @@ struct AboutSafetyTipsView: View {
 		.navigationTitle("settings.about_this_app.safety")
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.layoutForIPad()
 	}
 	
 	/// Get the header for the list

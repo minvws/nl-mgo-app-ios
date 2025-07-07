@@ -116,7 +116,6 @@ struct AboutTheAppView: View {
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationTitle("settings.about_this_app.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.layoutForIPad()
 	}
 	
 	@ViewBuilder private func header() -> some View {
