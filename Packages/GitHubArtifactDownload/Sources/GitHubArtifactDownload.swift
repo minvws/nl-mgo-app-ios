@@ -3,8 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import Figlet
-import ArgumentParser
+import MGOCommandLine
 import GitHubRestAPIActions
 import OpenAPIRuntime
 import OpenAPIURLSession
