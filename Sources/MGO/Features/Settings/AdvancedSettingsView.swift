@@ -70,7 +70,6 @@ struct AdvancedSettingsView: View {
 		.navigationTitle("settings.advanced.heading")
 		.navigationBarTitleDisplayMode(.inline)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.layoutForIPad()
 	}
 	
 	/// The view for the toggle

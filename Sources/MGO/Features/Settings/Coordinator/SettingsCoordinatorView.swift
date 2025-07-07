@@ -39,6 +39,7 @@ struct SettingsCoordinatorView<T: SettingsCoordinatorProtocol>: View {
 		}
 		.navigationBarHidden(true)
 		.navigationBarBackButtonHidden()
+		.layoutForIPad()
 		.inspectableSheet(
 			isPresented: $coordinator.rootStateForSheet.presence(),
 			onDismiss: {

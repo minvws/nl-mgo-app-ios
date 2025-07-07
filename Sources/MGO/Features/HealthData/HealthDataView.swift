@@ -192,7 +192,6 @@ struct HealthDataView: View {
 		}
 		.navigationBarHidden(false)
 		.navigationTitle(viewModel.state.schema.label)
-		.layoutForIPad()
 		.when(isPresentedAsSheet, transform: { view in
 			view
 				.withToolbarCloseButton {
