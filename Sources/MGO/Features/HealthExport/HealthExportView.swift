@@ -59,7 +59,7 @@ class HealthExportViewModel: ObservableObject {
 	init(
 		coordinator: (any Coordinator)? = nil,
 		healthData: PdfData,
-		storage: FileStorageProtocol = FileStorage(subDirectory: HealthExport.directoryName)
+		storage: FileStorageProtocol = FileStorage(subDirectory: HealthDirectory.export)
 	) {
 		self.coordinator = coordinator
 		self.state = .loading

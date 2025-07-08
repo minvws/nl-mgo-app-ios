@@ -4,6 +4,7 @@
  */
 
 @testable import RemoteConfiguration
+import FileStorage
 import MGOTest
 
 final class RemoteConfigurationRepositoryTests: XCTestCase {

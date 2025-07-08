@@ -189,7 +189,8 @@ class HealthCategoryViewModel: ObservableObject {
 				coordinator?.handle(.backButtonPressed)
 			
 			case .onAppear:
-				BinaryRepository().clear()
+				FileStorage().remove(HealthDirectory.binary)
+				FileStorage().remove(HealthDirectory.export)
 				_Concurrency.Task {
 					 await loadResources()
 				}

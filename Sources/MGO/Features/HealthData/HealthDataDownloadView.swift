@@ -39,21 +39,22 @@ class HealthDataDownloadViewModel: ObservableObject {
 	@Published var showPreview: Bool = false
 	
 	/// The repository for binaries
-	private var binaryRepository: BinaryRepositoryProtocol?
+	private var fileStorage: FileStorageProtocol?
 	
 	/// Create a Download View for a Download Binary
 	/// - Parameters:
 	///   - healthcareOrganization: the healthcare organization
 	///   - downloadBinary: the UI Download Binary
-	///   - binaryRepository: the repository for binaries
+	///   - storage: the file storage
 	init(
 		healthcareOrganization: MgoOrganization,
 		downloadBinary: DownloadBinary,
-		binaryRepository: BinaryRepositoryProtocol = BinaryRepository()) {
+		storage: FileStorageProtocol = FileStorage(subDirectory: HealthDirectory.binary)
+	) {
 		
 		self.healthcareOrganization = healthcareOrganization
 		self.downloadBinary = downloadBinary
-		self.binaryRepository = binaryRepository
+		self.fileStorage = storage
 		state = .idle(label: downloadBinary.label)
 	}
 	
@@ -174,11 +175,6 @@ class HealthDataDownloadViewModel: ObservableObject {
 	@MainActor
 	func loadBinary(_ externalUrl: String, label: String) async {
 		
-		guard let binaryRepository else {
-			state = .error
-			return
-		}
-		
 		do {
 			if let binary = try await Current.resourceRepository.loadBinary(
 				healthcareOrganization,
@@ -191,7 +187,13 @@ class HealthDataDownloadViewModel: ObservableObject {
 				if binary.contentType == "application/pdf" {
 					name += ".pdf"
 				}
-				let storeUrl = try binaryRepository.store(binary, as: name)
+				guard let storeUrl = fileStorage?.fileUrl(name),
+					  let data = Data(base64Encoded: binary.content) else {
+					state = .error
+					return
+				}
+				try fileStorage?.store(data, as: name)
+				
 				self.state = .downloaded(label: label, documentUrl: storeUrl)
 				showPreview = true
 			} else {
