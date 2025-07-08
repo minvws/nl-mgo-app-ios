@@ -22,11 +22,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		// Reset the background timestamp
 		Current.secureUserSettings.enteredBackground = nil
-
-		// Remove previously generated PDF exports
-		FileStorage().remove(HealthExport.directoryName)
+		
+		clearDirectoryCache()
 		
 		return true
+	}
+	
+	/// Remove previously generated PDF exports and downloaded files
+	private func clearDirectoryCache() {
+		
+		FileStorage().remove(HealthDirectory.binary)
+		FileStorage().remove(HealthDirectory.export)
 	}
 	
 	private func styleUI() {
@@ -92,8 +98,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	// MARK: End of life
 	
 	func applicationWillTerminate(_ application: UIApplication) {
-		// Cleanup any downloaded binaries.
-		BinaryRepository().clear()
+		clearDirectoryCache()
 	}
 	
 	// MARK: Orientation

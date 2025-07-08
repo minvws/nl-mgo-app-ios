@@ -5,8 +5,11 @@
 
 import MGOFoundation
 
-public struct HealthExport {
+public struct HealthDirectory {
+	
+	// The name for the directory where we temporarily store downloaded documents
+	public static let binary = "BinaryDownloads"
 	
 	/// The name for the export directory
-	public static let directoryName = "HealthExport"
+	public static let export = "HealthExport"
 }

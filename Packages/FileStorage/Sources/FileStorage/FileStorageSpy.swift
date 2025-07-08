@@ -4,9 +4,10 @@
  */
 
 import Foundation
-import FileStorage
 
 public class FileStorageSpy: FileStorageProtocol {
+	
+	public init() { /* Empty initalizer  */ }
 
 	public var invokedDocumentsURLGetter = false
 	public var invokedDocumentsURLGetterCount = 0
