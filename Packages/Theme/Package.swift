@@ -19,7 +19,10 @@ let package = Package(
 	targets: [
 		.target(
 			name: "Theme",
-			resources: [.process("Resources")]
+			resources: [.process("Resources")],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		),
 		.testTarget(
 			name: "ThemeTests",

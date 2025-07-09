@@ -19,6 +19,9 @@ let package = Package(
 			name: "MGODebug",
 			dependencies: [
 				.product(name: "Logging", package: "nl-rdo-app-ios-modules")
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			]
 		)
 	]

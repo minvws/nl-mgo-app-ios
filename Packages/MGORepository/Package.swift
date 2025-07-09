@@ -28,6 +28,9 @@ let package = Package(
 				.product(name: "FHIRClient", package: "FHIRClient"),
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "SharedCore", package: "SharedCore")
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			]
 		),
 		.testTarget(

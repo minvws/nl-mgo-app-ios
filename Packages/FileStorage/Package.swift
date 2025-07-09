@@ -24,6 +24,9 @@ let package = Package(
 			name: "FileStorage",
 			dependencies: [
 				.product(name: "MGODebug", package: "MGODebug"),
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			]
 		),
 		.testTarget(

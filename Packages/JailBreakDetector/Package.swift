@@ -26,6 +26,9 @@ let package = Package(
 			name: "JailBreakDetector",
 			dependencies: [
 				.product(name: "IOSSecuritySuite", package: "IOSSecuritySuite"),
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			]
 		),
 		.testTarget(

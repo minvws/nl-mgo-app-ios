@@ -48,6 +48,9 @@ let package = Package(
 				.product(name: "SecureUserSettings", package: "SecureUserSettings"),
 				.product(name: "RemoteConfiguration", package: "RemoteConfiguration"),
 				.product(name: "RemoteAuthentication", package: "RemoteAuthentication")
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			]
 		)
 	]

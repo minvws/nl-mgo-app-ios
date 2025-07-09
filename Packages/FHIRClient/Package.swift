@@ -18,7 +18,10 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "FHIRClient"
+			name: "FHIRClient",
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		),
 		.testTarget(
 			name: "FHIRClientTests",

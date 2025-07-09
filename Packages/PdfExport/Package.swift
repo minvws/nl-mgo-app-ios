@@ -18,7 +18,10 @@ let package = Package(
 	targets: [
 		.target(
 			name: "PdfExport",
-			resources: [.process("Resources")]
+			resources: [.process("Resources")],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		),
 		.testTarget(
 			name: "PdfExportTests",
