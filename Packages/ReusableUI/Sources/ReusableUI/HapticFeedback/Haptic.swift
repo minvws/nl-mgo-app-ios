@@ -5,6 +5,7 @@
 
 import UIKit
 
+@MainActor
 final public class Haptic {
 	
 	/// Give  a light haptic feedback

@@ -23,13 +23,13 @@ final class OrganizationsViewTests: XCTestCase {
 		coordinatorSpy = AppCoordinatorSpy()
 	}
 	
-	private func createSut() {
+	@MainActor private func createSut() {
 		
 		viewModel = OrganizationsViewModel(coordinator: coordinatorSpy)
 		sut = OrganizationsView(viewModel: self.viewModel)
 	}
 	
-	func test_dashboard_emptyList() {
+	@MainActor func test_dashboard_emptyList() {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
@@ -42,7 +42,7 @@ final class OrganizationsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_emptyList_automaticLocalizationEnabled() {
+	@MainActor func test_dashboard_emptyList_automaticLocalizationEnabled() {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
@@ -56,7 +56,7 @@ final class OrganizationsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_threeOrganizations() {
+	@MainActor func test_dashboard_threeOrganizations() {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
@@ -73,7 +73,7 @@ final class OrganizationsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_threeOrganizations_automaticLocalizationEnabled() {
+	@MainActor func test_dashboard_threeOrganizations_automaticLocalizationEnabled() {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
@@ -91,7 +91,7 @@ final class OrganizationsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_threeOrganizations_toast() {
+	@MainActor func test_dashboard_threeOrganizations_toast() {
 		
 		// Given
 		let healthcareOrganization = Generator.healthcareOrganization("1")
@@ -115,7 +115,7 @@ final class OrganizationsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_dashboard_addHealthcareOrganization_noOrganizations() throws {
+	@MainActor func test_dashboard_addHealthcareOrganization_noOrganizations() throws {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false

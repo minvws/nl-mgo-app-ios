@@ -56,7 +56,7 @@ class AddOrganizationViewModel: ObservableObject {
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
-	init(coordinator: (any Coordinator)?) {
+	@MainActor init(coordinator: (any Coordinator)?) {
 		self.coordinator = coordinator
 		
 		setupObservers()

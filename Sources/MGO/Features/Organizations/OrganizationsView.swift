@@ -41,7 +41,7 @@ class OrganizationsViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil) {
+	@MainActor init(coordinator: (any Coordinator)? = nil) {
 		
 		self.coordinator = coordinator
 		self.state = .empty
@@ -50,7 +50,7 @@ class OrganizationsViewModel: ObservableObject {
 	}
 	
 	/// Listen to changes in the stored organizations list
-	private func registerObservers() {
+	@MainActor private func registerObservers() {
 		
 		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _, reason in
 			self?.handleOrganizationChanges(reason)
@@ -60,7 +60,7 @@ class OrganizationsViewModel: ObservableObject {
 	/// Handle changes in the organizations list
 	/// - Parameters:
 	///   - reason: the reason the list has changed
-	func handleOrganizationChanges(_ reason: HealthcareOrganizationReason) {
+	@MainActor func handleOrganizationChanges(_ reason: HealthcareOrganizationReason) {
 		
 		logInfo("OrganizationsViewModel Reason: \(reason)")
 		loadHealthcareOrganizations()
@@ -92,7 +92,7 @@ class OrganizationsViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: OrganizationsViewModel.Action) {
+	@MainActor func reduce(_ action: OrganizationsViewModel.Action) {
 		
 		switch action {
 		

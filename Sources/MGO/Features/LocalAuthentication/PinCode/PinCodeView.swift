@@ -318,7 +318,7 @@ class PinCodeViewModel: ObservableObject {
 	}
 	
 	/// Something is not ok, make all the boxes red
-	private func setErrorState() {
+	@MainActor private func setErrorState() {
 		// All boxes to error state
 		for index in 0 ..< numberOfDigits {
 			boxStates[index].state = .error
