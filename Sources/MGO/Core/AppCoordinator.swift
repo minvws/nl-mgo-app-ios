@@ -542,7 +542,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the AppCoordination State
 	/// - Returns: A view for that state
-	@ViewBuilder func view(for state: AppCoordination.State?) -> some View {
+	@MainActor @ViewBuilder func view(for state: AppCoordination.State?) -> some View {
 		
 		switch state {
 			case .splash:

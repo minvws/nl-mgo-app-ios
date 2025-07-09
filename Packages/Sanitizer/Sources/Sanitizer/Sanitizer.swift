@@ -7,6 +7,7 @@ import Foundation
 import SwiftSoup
 
 /// A class to sanitize input from the user
+@MainActor
 final public class Sanitizer {
 	
 	/// Strip any unwanted html from the input

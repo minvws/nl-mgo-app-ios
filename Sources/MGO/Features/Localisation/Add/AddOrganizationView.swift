@@ -66,14 +66,14 @@ class AddOrganizationViewModel: ObservableObject {
 	private func setupObservers() {
 		
 		// Listen for reset notification
-		Current.notificationCenter.addObserver(forName: .clearSearch, object: nil, queue: OperationQueue.main) { _ in
+		Current.notificationCenter.addObserver(forName: .clearSearch, object: nil, queue: OperationQueue.main) { @MainActor _ in
 			self.reduce(.clear)
 		}
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AddOrganizationViewModel.Action) {
+	@MainActor func reduce(_ action: AddOrganizationViewModel.Action) {
 		
 		switch action {
 			
@@ -103,7 +103,7 @@ class AddOrganizationViewModel: ObservableObject {
 	
 	/// Validate the state
 	/// - Returns: True if all fields are valid
-	private func validateState() -> Bool {
+	@MainActor private func validateState() -> Bool {
 		
 		var allFieldsAreFilled = true
 		if let sanitized = Sanitizer.strip(state.name), sanitized.isNotEmpty {
