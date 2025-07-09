@@ -12,7 +12,10 @@ extension View {
 	///   - font: The type of font [bold, regular, italic]
 	///   - style: The text style [title, body, footnote etc]
 	/// - Returns: Styled modifier
-	public func rijksoverheidStyle(font: RijksoverheidSansWebTextFont, style: Font.TextStyle) -> some View {
+	public func rijksoverheidStyle(
+		font: RijksoverheidSansWebTextFont,
+		style: Font.TextStyle
+	) -> some View {
 		modifier(RijksoverheidViewModifier(font: font, style: style, pointSize: nil))
 	}
 	
@@ -22,7 +25,11 @@ extension View {
 	///   - style: he text style [title, body, footnote etc]
 	///   - pointSize: the point size of the font to use
 	/// - Returns: Styled modifier
-	public func rijksoverheidStyle(font: RijksoverheidSansWebTextFont, style: Font.TextStyle, pointSize: CGFloat) -> some View {
+	public func rijksoverheidStyle(
+		font: RijksoverheidSansWebTextFont,
+		style: Font.TextStyle,
+		pointSize: CGFloat
+	) -> some View {
 		modifier(RijksoverheidViewModifier(font: font, style: style, pointSize: pointSize))
 	}
 }
