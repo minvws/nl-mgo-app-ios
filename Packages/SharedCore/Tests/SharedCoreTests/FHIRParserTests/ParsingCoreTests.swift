@@ -15,7 +15,7 @@ final class FHIRParserTests: XCTestCase {
 		sut = FHIRParser()
 	}
 	
-	func test_version() throws {
+	@MainActor func test_version() throws {
 		
 		// Given
 		
@@ -26,7 +26,7 @@ final class FHIRParserTests: XCTestCase {
 		expect(result.isEmpty) == false
 	}
 	
-	func test_getBundleResourcesJson() throws {
+	@MainActor func test_getBundleResourcesJson() throws {
 		
 		// Given
 		let json = try getResource("bundle")
@@ -38,7 +38,7 @@ final class FHIRParserTests: XCTestCase {
 		expect(result).to(haveCount(2))
 	}
 	
-	func test_getBundleResourcesJson_error() throws {
+	@MainActor func test_getBundleResourcesJson_error() throws {
 		
 		// Given
 		
@@ -49,7 +49,7 @@ final class FHIRParserTests: XCTestCase {
 		expect(result).to(beEmpty())
 	}
 	
-	func test_parseResourceJson() throws {
+	@MainActor func test_parseResourceJson() throws {
 		
 		// Given
 		let resource = try getStringResource("medicationResource")
@@ -67,7 +67,7 @@ final class FHIRParserTests: XCTestCase {
 		}
 	}
 	
-	func test_parseResourceJson_explicitFhirVersion() throws {
+	@MainActor func test_parseResourceJson_explicitFhirVersion() throws {
 		
 		// Given
 		let resource = try getStringResource("medicationResource")
@@ -85,7 +85,7 @@ final class FHIRParserTests: XCTestCase {
 		}
 	}
 	
-	func test_parseResourceJson_wrongFhirVersion() throws {
+	@MainActor func test_parseResourceJson_wrongFhirVersion() throws {
 		
 		// Given
 		let resource = try getStringResource("medicationResource")
@@ -98,7 +98,7 @@ final class FHIRParserTests: XCTestCase {
 		expect(zib) == Data("null".utf8)
 	}
 	
-	func test_parseResourceJson_error() throws {
+	@MainActor func test_parseResourceJson_error() throws {
 		
 		// Given
 		
@@ -109,7 +109,7 @@ final class FHIRParserTests: XCTestCase {
 		expect(zib) == Data("undefined".utf8)
 	}
 	
-	func test_getDetails() throws {
+	@MainActor func test_getDetails() throws {
 		
 		// Given
 		let resource = try getStringResource("zibMedicationUse")
@@ -122,7 +122,7 @@ final class FHIRParserTests: XCTestCase {
 		expect(schema?.label) == "Medicatiegebruik"
 	}
 	
-	func test_getDetails_error_shouldReturnNil() throws {
+	@MainActor func test_getDetails_error_shouldReturnNil() throws {
 		
 		// Given
 		
@@ -133,7 +133,7 @@ final class FHIRParserTests: XCTestCase {
 		expect(schema) == nil
 	}
 	
-	func test_getSummary() throws {
+	@MainActor func test_getSummary() throws {
 		
 		// Given
 		let resource = try getStringResource("zibMedicationUse")
@@ -146,7 +146,7 @@ final class FHIRParserTests: XCTestCase {
 		expect(schema?.label) == "Paracetamol tablet 500mg"
 	}
 	
-	func test_getSummary_error_shouldReturnNil() throws {
+	@MainActor func test_getSummary_error_shouldReturnNil() throws {
 		
 		// Given
 		

@@ -6,6 +6,7 @@
 import Foundation
 import MGODebug
 
+@MainActor
 public class ZibFactory {
 	
 	/// Create a Zib MedicationUse from a parsed resource

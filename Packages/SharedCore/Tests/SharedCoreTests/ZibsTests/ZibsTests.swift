@@ -6,6 +6,7 @@
 @testable import SharedCore
 import MGOTest
 
+@MainActor
 final class ZibsTests: XCTestCase {
 	
 	func test_factory_invalidData() throws {
