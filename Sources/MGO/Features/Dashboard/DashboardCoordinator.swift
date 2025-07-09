@@ -37,8 +37,7 @@ struct DashboardCoordination {
 	}
 }
 
-@MainActor
-class DashboardCoordinator: @MainActor DashboardCoordinatorProtocol {
+class DashboardCoordinator: DashboardCoordinatorProtocol {
 	
 	/// The flow coordinator for routing
 	private weak var parentCoordinator: (any AppCoordinatorProtocol)?

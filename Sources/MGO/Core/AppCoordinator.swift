@@ -108,8 +108,7 @@ struct AppCoordination {
 	}
 }
 // swiftlint:disable type_body_length
-@MainActor
-final class AppCoordinator: @MainActor AppCoordinatorProtocol {
+final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// The navigation path
 	@Published var path: NavigationStackBackport.NavigationPath

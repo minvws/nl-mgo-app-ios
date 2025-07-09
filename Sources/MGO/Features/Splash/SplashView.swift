@@ -6,7 +6,6 @@
 import MGOUI
 import MGOFoundation
 
-@MainActor
 class SplashViewModel: ObservableObject {
 	
 	/// The flow coordinator for routing

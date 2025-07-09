@@ -58,8 +58,7 @@ struct SettingsCoordination {
 	}
 }
 
-@MainActor
-class SettingsCoordinator: @MainActor SettingsCoordinatorProtocol {
+class SettingsCoordinator: SettingsCoordinatorProtocol {
 	
 	/// The navigation path
 	@Published var path = NavigationStackBackport.NavigationPath()
