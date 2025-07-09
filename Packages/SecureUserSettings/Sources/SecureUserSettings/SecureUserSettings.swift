@@ -35,11 +35,11 @@ public class SecureUserSettings: SecureUserSettingsProtocol {
 	
 	/// Default values
 	public struct Defaults {
-		public static var enteredBackground: Date?
-		public static var bioMetricAuthenticationEnabled: Bool = false
-		public static var pinCode: String?
-		public static var userHasSeenJailBreakWarning: Bool = false
-		public static var userHasRemoteAuthentication: Bool = false
+		public static let enteredBackground: Date? = nil
+		public static let bioMetricAuthenticationEnabled: Bool = false
+		public static let pinCode: String? = nil
+		public static let userHasSeenJailBreakWarning: Bool = false
+		public static let userHasRemoteAuthentication: Bool = false
 	}
 	
 	/// Create the secure user settings
