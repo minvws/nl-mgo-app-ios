@@ -7,6 +7,7 @@
 import SwiftUI
 import MGOTest
 
+@MainActor
 final class ColorSampleTests: XCTestCase {
 	
 	func test_colorSample_lightMode() {
@@ -18,7 +19,10 @@ final class ColorSampleTests: XCTestCase {
 		let content = sut.frame(width: 520, height: 2000)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: content.colorScheme(.light)), as: .image(precision: 0.95))
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.light)),
+			as: .image(precision: 0.95)
+		)
 	}
 	
 	func test_colorSample_darkMode() {
@@ -30,6 +34,9 @@ final class ColorSampleTests: XCTestCase {
 		let content = sut.frame(width: 520, height: 2000)
 		
 		// Then
-		assertSnapshot(of: UIHostingController(rootView: content.colorScheme(.dark)), as: .image(precision: 0.95))
+		assertSnapshot(
+			of: UIHostingController(rootView: content.colorScheme(.dark)),
+			as: .image(precision: 0.95)
+		)
 	}
 }
