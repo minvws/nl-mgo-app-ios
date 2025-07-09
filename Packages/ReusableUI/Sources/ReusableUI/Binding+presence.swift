@@ -10,7 +10,7 @@ extension Binding {
 	
 	/// Is the binding value presence? i.e. is it nil?
 	/// - Returns: True if the binding value is not nil
-	public func presence<T>() -> Binding<Bool> where Value == Optional<T> { // swiftlint:disable:this syntactic_sugar
+	public func presence<T: Sendable>() -> Binding<Bool> where Value == Optional<T> { // swiftlint:disable:this syntactic_sugar
 		return .init {
 			self.wrappedValue != nil
 		} set: { newValue in
