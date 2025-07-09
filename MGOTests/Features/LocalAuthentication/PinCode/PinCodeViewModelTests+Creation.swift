@@ -22,7 +22,7 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		super.setUp()
 	}
 	
-	private func setupSut(
+	@MainActor private func setupSut(
 		mode: PinCodeViewModel.PinCodeMode = .creation,
 		backButtonVisible: Bool = true,
 		bioMetricType: () -> LocalAuthentication.BiometricType) {
@@ -39,7 +39,7 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 	
 	// MARK: - Creation Mode =
 	
-	func test_creation_touch() {
+	@MainActor func test_creation_touch() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -68,7 +68,7 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount) == 0
 	}
 	
-	func test_creation_touch_withoutBackButton() {
+	@MainActor func test_creation_touch_withoutBackButton() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -97,7 +97,7 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount) == 0
 	}
 	
-	func test_creation_touch_twoDigits() {
+	@MainActor func test_creation_touch_twoDigits() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -128,7 +128,7 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(2), timeout: .seconds(5))
 	}
 	
-	func test_creation_touch_twoDigits_eraseButtonPressed() {
+	@MainActor func test_creation_touch_twoDigits_eraseButtonPressed() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -160,7 +160,7 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(3))
 	}
 	
-	func test_creation_touch_fourDigits() {
+	@MainActor func test_creation_touch_fourDigits() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -193,7 +193,7 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	
-	func test_creation_touch_fiveDigits_accessCodeOK() {
+	@MainActor func test_creation_touch_fiveDigits_accessCodeOK() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -232,7 +232,7 @@ final class PinCodeViewModelCreationTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	
-	func test_creation_touch_fiveDigits_accessCodeTooWeak() {
+	@MainActor func test_creation_touch_fiveDigits_accessCodeTooWeak() {
 		
 		// Given
 		let expectedState = PinCodeViewState(

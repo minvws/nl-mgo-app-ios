@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-public class Theme: Themeable {
+public final class Theme: Themeable {
 	
 	/// Initlializer
 	public init() { /* Public initializer needed for public access */ }

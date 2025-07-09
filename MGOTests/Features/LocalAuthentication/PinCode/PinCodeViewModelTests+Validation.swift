@@ -24,7 +24,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func setupSut(mode: PinCodeViewModel.PinCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) {
+	@MainActor func setupSut(mode: PinCodeViewModel.PinCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) {
 		
 		sut = PinCodeViewModel(
 			coordinator: coordinatorSpy,
@@ -53,7 +53,7 @@ final class PinCodeViewModelTests: XCTestCase {
 	
 	// MARK: - Validation Mode =
 	
-	func test_validation_touch() {
+	@MainActor func test_validation_touch() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -78,7 +78,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount) == 0
 	}
 	
-	func test_validation_touch_twoDigits() {
+	@MainActor func test_validation_touch_twoDigits() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -105,7 +105,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(2))
 	}
 	
-	func test_validation_touch_fiveDigits_accessCodeMisMatch() {
+	@MainActor func test_validation_touch_fiveDigits_accessCodeMisMatch() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -139,7 +139,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(5))
 	}
 	
-	func test_validation_touch_fiveDigits_accessCodeOk() {
+	@MainActor func test_validation_touch_fiveDigits_accessCodeOk() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -173,7 +173,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	
-	func test_validation_touch_fiveDigits_accessCodeOk_lockoutMode() {
+	@MainActor func test_validation_touch_fiveDigits_accessCodeOk_lockoutMode() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -207,7 +207,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	
-	func test_validation_biometricEnabled_authenticated() {
+	@MainActor func test_validation_biometricEnabled_authenticated() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = true
@@ -223,7 +223,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidated), timeout: .seconds(5))
 	}
 	
-	func test_validation_biometricEnabled_authenticated_lockOutMode() {
+	@MainActor func test_validation_biometricEnabled_authenticated_lockOutMode() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = true
@@ -237,7 +237,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate) == false
 	}
 	
-	func test_validation_biometricKeyPressed_authenticated() {
+	@MainActor func test_validation_biometricKeyPressed_authenticated() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = true
@@ -253,7 +253,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidated))
 	}
 	
-	func test_validation_biometricKeyPressed_authenticated_lockOutMode() {
+	@MainActor func test_validation_biometricKeyPressed_authenticated_lockOutMode() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = true
@@ -269,7 +269,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.pinCodeValidatedAfterLockout))
 	}
 	
-	func test_validation_biometricEnabled_authenticationFailed() {
+	@MainActor func test_validation_biometricEnabled_authenticationFailed() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
@@ -297,7 +297,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
-	func test_validation_biometricEnabled_errorAuthenticationFailed() {
+	@MainActor func test_validation_biometricEnabled_errorAuthenticationFailed() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
@@ -327,7 +327,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
-	func test_validation_biometricEnabled_errorFallback() {
+	@MainActor func test_validation_biometricEnabled_errorFallback() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
@@ -357,7 +357,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
-	func test_validation_biometricEnabled_errorCancelled() {
+	@MainActor func test_validation_biometricEnabled_errorCancelled() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
@@ -386,7 +386,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
-	func test_validation_biometricEnabled_errorDeclined() {
+	@MainActor func test_validation_biometricEnabled_errorDeclined() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
@@ -415,7 +415,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
-	func test_validation_biometricEnabled_errorLockout() {
+	@MainActor func test_validation_biometricEnabled_errorLockout() {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedAuthenticated = false
@@ -444,7 +444,7 @@ final class PinCodeViewModelTests: XCTestCase {
 		expect(self.servicesSpies.localAuthenticationProviderSpy.invokedAuthenticate).toEventually(beTrue())
 	}
 	
-	func test_forgotPinCode() {
+	@MainActor func test_forgotPinCode() {
 		
 		// Given
 		setupSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })

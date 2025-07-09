@@ -20,7 +20,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		sut = AddOrganizationViewModel(coordinator: coordinatorSpy)
 	}
 
-	func test_backButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -32,7 +32,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
 	}
 	
-	func test_searchButtonPressed_shouldInvokeError() {
+	@MainActor func test_searchButtonPressed_shouldInvokeError() {
 		
 		// Given
 		
@@ -46,7 +46,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1), timeout: .seconds(5))
 	}
 	
-	func test_searchButtonPressed_cityOK_shouldInvokeError() {
+	@MainActor func test_searchButtonPressed_cityOK_shouldInvokeError() {
 		
 		// Given
 		sut.state.city = "Den Haag"
@@ -61,7 +61,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 	
-	func test_searchButtonPressed_nameOK_shouldInvokeError() {
+	@MainActor func test_searchButtonPressed_nameOK_shouldInvokeError() {
 		
 		// Given
 		sut.state.name = "Apotheek"
@@ -76,7 +76,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 	
-	func test_searchButtonPressed_cityOKnameOK_shouldInvokeError() {
+	@MainActor func test_searchButtonPressed_cityOKnameOK_shouldInvokeError() {
 		
 		// Given
 		sut.state.name = "Apotheek"
@@ -92,7 +92,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action(identifier: "showHealthcareOrganizationSearchResults", params: ["city": "Den Haag", "name": "Apotheek"])
 	}
 	
-	func test_searchButtonPressed_cityNotOKnameNotOK_shouldInvokeError() {
+	@MainActor func test_searchButtonPressed_cityNotOKnameNotOK_shouldInvokeError() {
 		
 		// Given
 		sut.state.name = "<b></b>"
@@ -108,7 +108,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1))
 	}
 	
-	func test_searchButtonPressed_cityNotOKnameNotOK_whitespacesAndNewlines_shouldInvokeError() {
+	@MainActor func test_searchButtonPressed_cityNotOKnameNotOK_whitespacesAndNewlines_shouldInvokeError() {
 		
 		// Given
 		sut.state.name = "<b>    </b>"
@@ -124,7 +124,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(1), timeout: .seconds(5))
 	}
 	
-	func test_handleClear_shouldClearCityAndName() {
+	@MainActor func test_handleClear_shouldClearCityAndName() {
 		
 		// Given
 		sut.state.name = "Apotheek"
@@ -138,7 +138,7 @@ final class AddOrganizationViewModelTests: XCTestCase {
 		expect(self.sut.state.name) == ""
 	}
 	
-	func test_endEditing() {
+	@MainActor func test_endEditing() {
 		
 		// Given
 		

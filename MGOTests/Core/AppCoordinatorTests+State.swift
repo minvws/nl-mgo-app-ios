@@ -24,7 +24,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 	
 	// MARK: - State -
 	
-	func test_coordinatorView_forLaunch() throws {
+	@MainActor func test_coordinatorView_forLaunch() throws {
 		
 		// Given
 		let state = AppCoordination.State.splash
@@ -37,7 +37,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.90) // Lower precision due to random position of spinner
 	}
 	
-	func test_coordinatorView_forRequiredUpdate() throws {
+	@MainActor func test_coordinatorView_forRequiredUpdate() throws {
 		
 		// Given
 		let state = AppCoordination.State.updateRequired
@@ -50,7 +50,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forIntroduction() throws {
+	@MainActor func test_coordinatorView_forIntroduction() throws {
 		
 		// Given
 		let state = AppCoordination.State.introduction
@@ -63,7 +63,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forProposition() throws {
+	@MainActor func test_coordinatorView_forProposition() throws {
 		
 		// Given
 		let state = AppCoordination.State.proposition
@@ -76,7 +76,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_privacyStatement() throws {
+	@MainActor func test_coordinatorView_privacyStatement() throws {
 		
 		// Given
 		let url = try XCTUnwrap(LinkRepository.privacyURL)
@@ -91,7 +91,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		expect(webview) != nil
 	}
 	
-	func test_coordinatorView_forPinCodeEntry() throws {
+	@MainActor func test_coordinatorView_forPinCodeEntry() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
@@ -105,7 +105,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forPinCodeEntry_withoutBackbutton() throws {
+	@MainActor func test_coordinatorView_forPinCodeEntry_withoutBackbutton() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
@@ -119,7 +119,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forPinCodeConfirmation() throws {
+	@MainActor func test_coordinatorView_forPinCodeConfirmation() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
@@ -133,7 +133,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forPinCodeValidation() throws {
+	@MainActor func test_coordinatorView_forPinCodeValidation() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
@@ -148,7 +148,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forBioMetricSetup() throws {
+	@MainActor func test_coordinatorView_forBioMetricSetup() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
@@ -162,7 +162,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forLogin() throws {
+	@MainActor func test_coordinatorView_forLogin() throws {
 		
 		// Given
 		let state = AppCoordination.State.login
@@ -176,7 +176,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forLoginInfo() throws {
+	@MainActor func test_coordinatorView_forLoginInfo() throws {
 		
 		// Given
 		let state = AppCoordination.State.loginInfo
@@ -190,7 +190,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forgotPinCode() throws {
+	@MainActor func test_coordinatorView_forgotPinCode() throws {
 		
 		// Given
 		let state = AppCoordination.State.forgotPinCode
@@ -203,7 +203,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_accountRemoved() throws {
+	@MainActor func test_coordinatorView_accountRemoved() throws {
 		
 		// Given
 		let state = AppCoordination.State.accountRemoved
@@ -216,7 +216,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forDashboard() throws {
+	@MainActor func test_coordinatorView_forDashboard() throws {
 		
 		// Given
 		let state = AppCoordination.State.dashboard
@@ -229,7 +229,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_coordinatorView_forAutomaticLocalization() throws {
+	@MainActor func test_coordinatorView_forAutomaticLocalization() throws {
 		
 		// Given
 		let state = AppCoordination.State.automaticLocalization
@@ -242,7 +242,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_coordinatorView_forManualLocalization() throws {
+	@MainActor func test_coordinatorView_forManualLocalization() throws {
 		
 		// Given
 		let state = AppCoordination.State.manualLocalization
@@ -255,7 +255,7 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
+	@MainActor func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
 		
 		// Given
 		let state = AppCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")
