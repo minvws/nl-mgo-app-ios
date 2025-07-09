@@ -174,10 +174,11 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		// Listen for authentication notification
 		Current.notificationCenter.addObserver(forName: .showLocalAuthentication, object: nil, queue: OperationQueue.main) { _ in
-			_Concurrency.Task { @MainActor in
-				if self.showChildCoordinator {
-					self.showAuthenticationModal = true
-					self.rootStateForSheet = .pinCodeValidation(lockOut: true)
+			_Concurrency.Task { @MainActor [weak self] in
+				guard let strongSelf = self else { return }
+				if strongSelf.showChildCoordinator {
+					strongSelf.showAuthenticationModal = true
+					strongSelf.rootStateForSheet = .pinCodeValidation(lockOut: true)
 				} else {
 					logInfo("Not through onboarding, not showing authentication modal")
 				}

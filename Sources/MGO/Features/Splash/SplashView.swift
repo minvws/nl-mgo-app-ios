@@ -64,8 +64,8 @@ class SplashViewModel: ObservableObject {
 		
 		// Listen for reset notification
 		Current.notificationCenter.addObserver(forName: .resetApplication, object: nil, queue: OperationQueue.main) { _ in
-			_Concurrency.Task { @MainActor in
-				self.reduce(.reset)
+			_Concurrency.Task { @MainActor [weak self] in
+				self?.reduce(.reset)
 			}
 		}
 		
@@ -75,8 +75,8 @@ class SplashViewModel: ObservableObject {
 			guard let self else { return }
 			// Updated configuration
 			logDebug("LaunchViewModel: config loaded")
-			_Concurrency.Task { @MainActor in
-				self.reduce(.loaded)
+			_Concurrency.Task { @MainActor [weak self] in
+				self?.reduce(.loaded)
 			}
 		}
 	}
