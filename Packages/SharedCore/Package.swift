@@ -26,7 +26,10 @@ let package = Package(
 			dependencies: [
 				.product(name: "MGODebug", package: "MGODebug")
 			],
-			resources: [.process("Resources")]
+			resources: [.process("Resources")],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		),
 		.testTarget(
 			name: "SharedCoreTests",
