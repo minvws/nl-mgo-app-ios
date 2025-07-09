@@ -6,7 +6,7 @@
 import Foundation
 
 /// The different parse methods for the FHIR Parser
-public enum ParseMethod: String {
+public enum ParseMethod: String, Sendable {
 	
 	/// Split a FHIR Bundle into an array of FHIR Resources
 	case splitBundle = "getBundleResourcesJson"

@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-public protocol Themeable: ObservableObject {
+public protocol Themeable: ObservableObject, Sendable {
 	
 	// MARK: - Background -
 	
