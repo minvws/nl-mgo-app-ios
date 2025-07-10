@@ -130,7 +130,10 @@ public class FHIRClient {
 	 - returns:                     A URLSessionTask that is already under way
 	 */
 	@discardableResult
-	public func perform(request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionTask? {
+	public func perform(
+		request: URLRequest,
+		completionHandler: @Sendable @escaping (Data?, URLResponse?, Error?) -> Void
+	) -> URLSessionTask? {
 		let task = URLSession().dataTask(with: request, completionHandler: completionHandler)
 		task.resume()
 		return task
