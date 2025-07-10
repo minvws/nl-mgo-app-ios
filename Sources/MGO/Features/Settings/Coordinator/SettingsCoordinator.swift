@@ -14,7 +14,6 @@ extension Coordination.Action {
 	static let openUrl = Coordination.Action(identifier: "openUrl")
 	static let showAboutTheApp = Coordination.Action(identifier: "showAboutTheApp")
 	static let showAccessibility = Coordination.Action(identifier: "showAccessibility")
-	static let showAccessibilityMoreInformation = Coordination.Action(identifier: "showAccessibilityMoreInformation")
 	static let showAdvancedSettings = Coordination.Action(identifier: "showAdvancedSettings")
 	static let showDisplaySettings = Coordination.Action(identifier: "showDisplaySettings")
 	static let showOpenSourceLibraries = Coordination.Action(identifier: "showOpenSourceLibraries")
@@ -126,9 +125,6 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			
 			case .showAccessibility:
 				path.append(SettingsCoordination.State.aboutAccessibility)
-			
-			case .showAccessibilityMoreInformation:
-				handleUrl(LinkRepository.moreInformationURL)
 			
 			case .showAdvancedSettings:
 				path.append(SettingsCoordination.State.advancedSettings)
