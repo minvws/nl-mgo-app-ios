@@ -168,13 +168,12 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(.downloaded(label: "label", documentUrl: url)))
 	}
 	
-	func test_reduce_download_noDirectory() throws {
+	@MainActor func test_reduce_download_noDirectory() throws {
 		
 		// Given
 		createSut(reference: "test_reduce_download_binary")
 		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
-		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		fileStorageSpy.stubbedFileUrlResult = nil
 		
 		// When
