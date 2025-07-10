@@ -13,14 +13,14 @@ final class HealthDownloadViewModelTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var sut: HealthDataDownloadViewModel!
 	private var urlOpenerSpy: URLOpenerSpy!
-	private var binaryRepositorySpy: BinaryRepositorySpy!
+	private var fileStorageSpy: FileStorageSpy!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		urlOpenerSpy = URLOpenerSpy()
-		binaryRepositorySpy = BinaryRepositorySpy()
+		fileStorageSpy = FileStorageSpy()
 		createSut(url: "Binary/demo1")
 	}
 	
@@ -46,7 +46,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		sut = HealthDataDownloadViewModel(
 			healthcareOrganization: healthcareOrganization,
 			downloadBinary: entry,
-			binaryRepository: binaryRepositorySpy
+			storage: fileStorageSpy
 		)
 	}
 	
@@ -143,7 +143,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
-		binaryRepositorySpy.stubbedStoreResult = url
+		fileStorageSpy.stubbedFileUrlResult = url
 		
 		// When
 		sut.reduce(.download)
@@ -159,12 +159,28 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
-		binaryRepositorySpy.stubbedStoreResult = url
+		fileStorageSpy.stubbedFileUrlResult = url
 		
 		// When
 		sut.reduce(.download)
 		
 		// Then
 		expect(self.sut.state).toEventually(equal(.downloaded(label: "label", documentUrl: url)))
+	}
+	
+	func test_reduce_download_noDirectory() throws {
+		
+		// Given
+		createSut(reference: "test_reduce_download_binary")
+		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
+		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
+		let url = try XCTUnwrap(URL(string: "https://example.com"))
+		fileStorageSpy.stubbedFileUrlResult = nil
+		
+		// When
+		sut.reduce(.download)
+		
+		// Then
+		expect(self.sut.state).toEventually(equal(.error))
 	}
 }
