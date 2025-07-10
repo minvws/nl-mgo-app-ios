@@ -7,20 +7,7 @@ import MGOFoundation
 import MGOUI
 
 class AboutAccessibilityViewModel: BaseViewModel {
-	
-	/// A list of all the actions this viewModel can handle
-	enum Action {
-		case moreInformationTapped
-	}
-	
-	/// Handle any action
-	/// - Parameter action: the action to be handled
-	func reduce(_ action: AboutAccessibilityViewModel.Action) {
-		
-		if action == .moreInformationTapped {
-			coordinator?.handle(.showAccessibilityMoreInformation)
-		}
-	}
+	// No additional implementation
 }
 
 struct AboutAccessibilityView: View {
@@ -48,7 +35,6 @@ struct AboutAccessibilityView: View {
 			Section {
 				
 				subheading()
-				// informationButton() // Disabled until link is clear.
 			}
 			.listRowInsets(ViewTraits.General.inset)
 			.padding(ViewTraits.General.padding)
@@ -72,28 +58,6 @@ struct AboutAccessibilityView: View {
 			.rijksoverheidStyle(font: .regular, style: .body)
 			.foregroundStyle(theme.contentPrimary)
 			.accessibilityIdentifier("settings.accessibility.subheading")
-	}
-	
-	/// The more information button
-	/// - Returns: the button for more information
-	@ViewBuilder private func informationButton() -> some View {
-		
-		Button {
-			viewModel.reduce(.moreInformationTapped)
-		} label: {
-			HStack(spacing: ViewTraits.General.padding) {
-				
-				Text("settings.accessibility.more_information")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.interactionTertiaryDefaultText)
-				
-				Spacer()
-				
-				Image(ImageResource.Settings.arrowOutward)
-					.tint(theme.symbolSecondary)
-			}
-		}
-		.accessibilityIdentifier("settings.accessibility.more_information")
 	}
 }
 

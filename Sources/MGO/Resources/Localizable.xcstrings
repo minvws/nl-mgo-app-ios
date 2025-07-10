@@ -2405,39 +2405,6 @@
         }
       }
     },
-    "settings.about_this_app.privacy_url.acc" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://web.acc.mgo.irealisatie.nl/toegankelijkheid"
-          }
-        }
-      }
-    },
-    "settings.about_this_app.privacy_url.prod" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
-          }
-        }
-      }
-    },
-    "settings.about_this_app.privacy_url.test" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
-          }
-        }
-      }
-    },
     "settings.about_this_app.safety" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2489,39 +2456,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Meer informatie"
-          }
-        }
-      }
-    },
-    "settings.accessibility.more_information_url.acc" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://web.acc.mgo.irealisatie.nl/toegankelijkheid"
-          }
-        }
-      }
-    },
-    "settings.accessibility.more_information_url.prod" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
-          }
-        }
-      }
-    },
-    "settings.accessibility.more_information_url.test" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
           }
         }
       }

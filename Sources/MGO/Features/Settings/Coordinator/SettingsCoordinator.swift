@@ -127,9 +127,6 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 			case .showAccessibility:
 				path.append(SettingsCoordination.State.aboutAccessibility)
 			
-			case .showAccessibilityMoreInformation:
-				handleUrl(LinkRepository.moreInformationURL)
-			
 			case .showAdvancedSettings:
 				path.append(SettingsCoordination.State.advancedSettings)
 			

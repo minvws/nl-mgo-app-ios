@@ -174,7 +174,6 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		createSut(reference: "test_reduce_download_binary")
 		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
-		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		fileStorageSpy.stubbedFileUrlResult = nil
 		
 		// When
