@@ -1385,7 +1385,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welkom in Mijn Gezondheidsoverzicht"
+            "value" : "Welkom bij Mijn Gezondheidsoverzicht"
           }
         }
       }
@@ -1396,7 +1396,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eén app met alle gegevens die je huisarts, ziekenhuis en andere zorgaanbieders van jou hebben. Veilig en overzichtelijk."
+            "value" : "Met deze app heb je je gezondheidsgegevens van de overheid en je zorgaanbieders altijd bij de hand. Veilig en overzichtelijk, op één plek."
           }
         }
       }
@@ -2028,18 +2028,7 @@
         }
       }
     },
-    "proposition.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hoe de app met jouw gegevens omgaat"
-          }
-        }
-      }
-    },
-    "proposition.link.acc" : {
+    "privacy.link.acc" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -2050,7 +2039,7 @@
         }
       }
     },
-    "proposition.link.prod" : {
+    "privacy.link.prod" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -2061,13 +2050,24 @@
         }
       }
     },
-    "proposition.link.test" : {
+    "privacy.link.test" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "https://web.test.mgo.irealisatie.nl/privacy"
+          }
+        }
+      }
+    },
+    "proposition.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoe de app omgaat met je gegevens"
           }
         }
       }
@@ -2122,7 +2122,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In de [%@](privacyverklaring) staat hoe Mijn Gezondheidsoverzicht jouw gegevens gebruikt. Dit zijn de belangrijkste punten:"
+            "value" : "In de [%@](privacyverklaring) staat hoe Mijn Gezondheidsoverzicht je gegevens gebruikt en beschermt. Dit zijn de belangrijkste punten:"
           }
         }
       }
@@ -2707,7 +2707,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gebruik dit in plaats van je toegangscode om veilig en nog sneller in te loggen."
+            "value" : "Gebruik dit in plaats van je toegangscode om veilig en nog sneller in te loggen"
           }
         }
       }

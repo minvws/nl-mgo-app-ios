@@ -12,11 +12,11 @@ public struct LinkRepository {
 		
 		switch Configuration().getRelease() {
 			case .production:
-				return URL(string: String(localized: "proposition.link.prod"))
+				return URL(string: String(localized: "privacy.link.prod"))
 			case .demo, .acceptance:
-				return URL(string: String(localized: "proposition.link.acc"))
+				return URL(string: String(localized: "privacy.link.acc"))
 			case .test, .development:
-				return URL(string: String(localized: "proposition.link.test"))
+				return URL(string: String(localized: "privacy.link.test"))
 		}
 	}
 }
