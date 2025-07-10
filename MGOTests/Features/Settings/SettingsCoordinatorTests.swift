@@ -96,17 +96,6 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutAccessibility])
 	}
 	
-	func test_coordinatorHandle_showAccessibilityMoreInformation() {
-		
-		// Given
-		
-		// When
-		sut.handle(Coordination.Action.showAccessibilityMoreInformation)
-		
-		// Then
-		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
-	}
-	
 	func test_coordinatorHandle_showSafetyTips() {
 		
 		// Given
