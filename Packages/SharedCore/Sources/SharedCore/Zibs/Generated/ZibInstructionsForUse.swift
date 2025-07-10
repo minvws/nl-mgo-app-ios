@@ -12,22 +12,29 @@ import Foundation
 
 // MARK: - ZibInstructionsForUse
 public struct ZibInstructionsForUse: Codable, Hashable, Sendable {
+    public let profile: DossageInstructionProfile
     public let additionalInstruction: [MgoCodeableConcept]?
-    public let asNeeded: MgoCodeableConcept?
-    public let doseQuantity: MgoDuration?
+    public let asNeededCodeableConcept: MgoCodeableConcept?
+    public let doseQuantity: MgoQuantityProps?
     public let doseRange: MgoRange?
     public let maxDosePerPeriod: MgoRatio?
-    public let rateQuantity: MgoDuration?
+    public let rateQuantity: MgoQuantityProps?
     public let rateRange: MgoRange?
     public let rateRatio: MgoRatio?
     public let route: MgoCodeableConcept?
-    public let sequence: Double?
-    public let text: String?
+    public let sequence: MgoInteger?
+    public let text: MgoString?
     public let timing: ZibAdministrationSchedule
 
-    public init(additionalInstruction: [MgoCodeableConcept]?, asNeeded: MgoCodeableConcept?, doseQuantity: MgoDuration?, doseRange: MgoRange?, maxDosePerPeriod: MgoRatio?, rateQuantity: MgoDuration?, rateRange: MgoRange?, rateRatio: MgoRatio?, route: MgoCodeableConcept?, sequence: Double?, text: String?, timing: ZibAdministrationSchedule) {
+    public enum CodingKeys: String, CodingKey {
+        case profile = "_profile"
+        case additionalInstruction, asNeededCodeableConcept, doseQuantity, doseRange, maxDosePerPeriod, rateQuantity, rateRange, rateRatio, route, sequence, text, timing
+    }
+
+    public init(profile: DossageInstructionProfile, additionalInstruction: [MgoCodeableConcept]?, asNeededCodeableConcept: MgoCodeableConcept?, doseQuantity: MgoQuantityProps?, doseRange: MgoRange?, maxDosePerPeriod: MgoRatio?, rateQuantity: MgoQuantityProps?, rateRange: MgoRange?, rateRatio: MgoRatio?, route: MgoCodeableConcept?, sequence: MgoInteger?, text: MgoString?, timing: ZibAdministrationSchedule) {
+        self.profile = profile
         self.additionalInstruction = additionalInstruction
-        self.asNeeded = asNeeded
+        self.asNeededCodeableConcept = asNeededCodeableConcept
         self.doseQuantity = doseQuantity
         self.doseRange = doseRange
         self.maxDosePerPeriod = maxDosePerPeriod
@@ -60,22 +67,24 @@ public extension ZibInstructionsForUse {
     }
 
     func with(
+        profile: DossageInstructionProfile? = nil,
         additionalInstruction: [MgoCodeableConcept]?? = nil,
-        asNeeded: MgoCodeableConcept?? = nil,
-        doseQuantity: MgoDuration?? = nil,
+        asNeededCodeableConcept: MgoCodeableConcept?? = nil,
+        doseQuantity: MgoQuantityProps?? = nil,
         doseRange: MgoRange?? = nil,
         maxDosePerPeriod: MgoRatio?? = nil,
-        rateQuantity: MgoDuration?? = nil,
+        rateQuantity: MgoQuantityProps?? = nil,
         rateRange: MgoRange?? = nil,
         rateRatio: MgoRatio?? = nil,
         route: MgoCodeableConcept?? = nil,
-        sequence: Double?? = nil,
-        text: String?? = nil,
+        sequence: MgoInteger?? = nil,
+        text: MgoString?? = nil,
         timing: ZibAdministrationSchedule? = nil
     ) -> ZibInstructionsForUse {
         return ZibInstructionsForUse(
+            profile: profile ?? self.profile,
             additionalInstruction: additionalInstruction ?? self.additionalInstruction,
-            asNeeded: asNeeded ?? self.asNeeded,
+            asNeededCodeableConcept: asNeededCodeableConcept ?? self.asNeededCodeableConcept,
             doseQuantity: doseQuantity ?? self.doseQuantity,
             doseRange: doseRange ?? self.doseRange,
             maxDosePerPeriod: maxDosePerPeriod ?? self.maxDosePerPeriod,

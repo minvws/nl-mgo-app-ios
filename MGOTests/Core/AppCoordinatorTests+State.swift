@@ -76,6 +76,21 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
+	func test_coordinatorView_privacyStatement() throws {
+		
+		// Given
+		let url = try XCTUnwrap(LinkRepository.privacyURL)
+		let state = AppCoordination.State.browser(url, "privacy.heading")
+		
+		// When
+		let view = sut.view(for: state)
+		let content = NavigationView { view }
+		let webview = try content.inspect().find(viewWithAccessibilityIdentifier: "restrictedBrowserView")
+		
+		// Then
+		expect(webview) != nil
+	}
+	
 	func test_coordinatorView_forPinCodeEntry() throws {
 		
 		// Given

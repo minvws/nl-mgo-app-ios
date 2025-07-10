@@ -16,6 +16,7 @@ let package = Package(
 	dependencies: [
 		// Internal
 		.package(name: "Theme", path: "../Theme"),
+		.package(name: "ReusableUI", path: "../ReusableUI"),
 		
 		// Test
 		.package(name: "MGOTest", path: "../MGOTest")
@@ -24,7 +25,8 @@ let package = Package(
 		.target(
 			name: "RestrictedBrowser",
 			dependencies: [
-				.product(name: "Theme", package: "Theme")
+				.product(name: "Theme", package: "Theme"),
+				.product(name: "ReusableUI", package: "ReusableUI")
 			]
 		),
 		.testTarget(

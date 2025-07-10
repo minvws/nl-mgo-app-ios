@@ -6,6 +6,7 @@
 import MGOTest
 import MGOFoundation
 import MGOUI
+import PdfExport
 @testable import MGO
 
 final class HealthcareCoordinatorStateTests: XCTestCase {
@@ -139,7 +140,42 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		let state = HealthcareCoordination.State.showHealthData(
 			backButtonTitle: "Heading",
 			schema: schema,
-			organization: healthcareOrganization
+			organization: healthcareOrganization,
+			inSheet: false
+		)
+		
+		// When
+		let view = sut.viewState(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
+	
+	func test_coordinatorView_forShowHealthCategoryData_inSheet() throws {
+		
+		// Given
+		let healthcareOrganization = Generator.healthcareOrganization("1")
+		let schema = HealthUISchema(
+			children: [
+				HealthUIGroup(
+					children: [
+						UIElement(
+							display: .string("value 1"),
+							label: "label",
+							type: .singleValue,
+							reference: nil,
+							url: nil
+						)
+					],
+					label: "section heading")
+			],
+			label: "zib details"
+		)
+		let state = HealthcareCoordination.State.showHealthData(
+			backButtonTitle: "Heading",
+			schema: schema,
+			organization: healthcareOrganization,
+			inSheet: true
 		)
 		
 		// When
@@ -350,5 +386,19 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: try XCTUnwrap(content))
+	}
+	
+	func test_coordinatorView_exportHealthData() throws {
+		
+		// Given
+		let state = HealthcareCoordination.State.exportHealthData(
+			PdfData(heading: "test", subHeading: "test", tables: [], footer: "test")
+		)
+		
+		// When
+		let view = sut.viewState(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
 	}
 }

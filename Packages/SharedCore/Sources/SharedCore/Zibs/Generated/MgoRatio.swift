@@ -12,9 +12,16 @@ import Foundation
 
 // MARK: - MgoRatio
 public struct MgoRatio: Codable, Hashable, Sendable {
-    public let denominator, numerator: MgoDuration?
+    public let type: MgoRatioType
+    public let denominator, numerator: MgoQuantityProps?
 
-    public init(denominator: MgoDuration?, numerator: MgoDuration?) {
+    public enum CodingKeys: String, CodingKey {
+        case type = "_type"
+        case denominator, numerator
+    }
+
+    public init(type: MgoRatioType, denominator: MgoQuantityProps?, numerator: MgoQuantityProps?) {
+        self.type = type
         self.denominator = denominator
         self.numerator = numerator
     }
@@ -39,10 +46,12 @@ public extension MgoRatio {
     }
 
     func with(
-        denominator: MgoDuration?? = nil,
-        numerator: MgoDuration?? = nil
+        type: MgoRatioType? = nil,
+        denominator: MgoQuantityProps?? = nil,
+        numerator: MgoQuantityProps?? = nil
     ) -> MgoRatio {
         return MgoRatio(
+            type: type ?? self.type,
             denominator: denominator ?? self.denominator,
             numerator: numerator ?? self.numerator
         )

@@ -11,13 +11,13 @@ final class OnboardingFlowTests: XCTestCase {
 	 This e2e test will test the onboarding flow
 	 - Verify the existence of the introduction page
 	 - Press the next button on the introduction page, verify the proposition page
-	 - Proceed to pincode entry, enter a pincode that is too weak
-	 - Proceed to pincode entry, enter a pincode, proceed to pincode confirmation, enter a different pincode
-	 - Proceed to pincode entry, enter a pincode, proceed to pincode confirmation, enter the same pincode
+	 - Proceed to pin code entry, enter a pin code that is too weak
+	 - Proceed to pin code entry, enter a pin code, proceed to pin code confirmation, enter a different pin code
+	 - Proceed to pin code entry, enter a pin code, proceed to pin code confirmation, enter the same pin code
 	 - Verify the login page
 	 - Navigate to the login page, press digid button, verify the website in the browser
 	 - Search for a healthcare organization, select the fourth entry
-	 
+	 - Search for a healthcare organization in demo mode, select the third entry
 	 */
 	
 	@MainActor
@@ -45,9 +45,9 @@ final class OnboardingFlowTests: XCTestCase {
 			.launchApp()
 			.tapNextButton()
 			.tapNextButton()
-			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig. Gebruik geen simpele codes zoals 00000 of 12345.")
+			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
 			.enterPinCode("11111")
-			.verifyErrorTextExists("Deze code is te simpel en dus onveilig")
+			.verifyErrorTextExists("Code is te simpel en dus onveilig")
 	}
 	
 	@MainActor
@@ -56,11 +56,11 @@ final class OnboardingFlowTests: XCTestCase {
 			.launchApp()
 			.tapNextButton()
 			.tapNextButton()
-			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig. Gebruik geen simpele codes zoals 00000 of 12345.")
+			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
 			.enterPinCode("12369")
-			.verifySubHeadingExists("Vul je toegangscode in om door te gaan")
+			.verifySubHeadingExists("Voer je 5-cijferige code nog een keer in.")
 			.enterPinCode("11111")
-			.verifyErrorTextExists("Deze code is anders dan de vorige")
+			.verifyErrorTextExists("Code is anders dan de vorige")
 	}
 	
 	@MainActor
@@ -71,9 +71,9 @@ final class OnboardingFlowTests: XCTestCase {
 			.launchApp()
 			.tapNextButton()
 			.tapNextButton()
-			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig. Gebruik geen simpele codes zoals 00000 of 12345.")
+			.verifySubHeadingExists("Je hebt een code van 5 cijfers nodig om de app te beveiligen. Gebruik geen simpele code zoals 00000 of 12345.")
 			.enterPinCode("12369")
-			.verifySubHeadingExists("Vul je toegangscode in om door te gaan")
+			.verifySubHeadingExists("Voer je 5-cijferige code nog een keer in.")
 			.enterConfirmationPinCodeWithBioMetric("12369")
 			.verifySubHeadingExists()
 			.verifyBioMetricsButtonExists()
@@ -116,5 +116,24 @@ final class OnboardingFlowTests: XCTestCase {
 			.swipeToListElement(at: 4)
 			.verifyListElementExists(at: 4)
 			.tapListElement(at: 4)
+	}
+	
+	@MainActor
+	func testOnboardingFlow_demoMode_automaticLocalization() {
+		
+		AppRobot()
+			.launchApp(withPincode: "12345", withAutomaticLocalizationEnabled: true, withDemoMode: true)
+			.enterConfirmationPinCode("12345")
+			.tapLoginWithDigiDButtonWithDemoMode()
+			.verifySubHeadingExists()
+			.verifyNextButtonExists()
+			.tapNextButton()
+			.verifyListElementExists(at: 0)
+			.tapListElement(at: 0)
+			.verifyListElementExists(at: 1)
+			.tapListElement(at: 1)
+			.verifyListElementExists(at: 2)
+			.verifyOverviewButtonExists()
+			.tapOverviewButton()
 	}
 }

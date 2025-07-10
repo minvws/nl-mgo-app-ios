@@ -12,43 +12,39 @@ import Foundation
 
 // MARK: - ZibMedicationUse
 public struct ZibMedicationUse: Codable, Hashable, Sendable {
-    public let asAgreedIndicator: Bool?
-    public let author: MgoReference?
-    public let category: MgoCodeableConcept?
-    public let dateAsserted: String?
-    public let dosage: [ZibInstructionsForUse]?
-    public let effectiveDuration: MgoDuration?
-    public let effectivePeriod: MgoPeriod?
+    public let asAgreedIndicator: AsAgreedIndicator?
+    public let author: Author?
+    public let dateAsserted: MgoDateTime?
+    public let dosage: [Dosage]?
+    public let effectivePeriod: EffectivePeriod
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let informationSource, medicationReference: MgoReference?
-    public let medicationTreatment: MgoIdentifier?
+    public let medicationTreatment: ZibMedicationUseMedicationTreatment?
     public let note: [MgoAnnotation]?
-    public let prescriber: MgoReference?
+    public let prescriber: Prescriber?
     public let profile: ZibMedicationUseProfile
     public let reasonCode: [MgoCodeableConcept]?
-    public let reasonForChangeOrDiscontinuationOfUse: MgoCodeableConcept?
+    public let reasonForChangeOrDiscontinuationOfUse: ReasonForChangeOrDiscontinuationOfUse?
     public let referenceID: String
-    public let repeatPeriodCyclicalSchedule: MgoDuration?
-    public let resourceType: String?
-    public let status: ZibMedicalDeviceStatus?
+    public let repeatPeriodCyclicalSchedule: ZibMedicationUseRepeatPeriodCyclicalSchedule?
+    public let resourceType: String
+    public let status: ZibMedicationUseStatus?
     public let subject: MgoReference?
-    public let taken: Taken?
+    public let taken: ZibMedicationUseTaken?
 
     public enum CodingKeys: String, CodingKey {
-        case asAgreedIndicator, author, category, dateAsserted, dosage, effectiveDuration, effectivePeriod, fhirVersion, id, identifier, informationSource, medicationReference, medicationTreatment, note, prescriber, profile, reasonCode, reasonForChangeOrDiscontinuationOfUse
+        case asAgreedIndicator, author, dateAsserted, dosage, effectivePeriod, fhirVersion, id, identifier, informationSource, medicationReference, medicationTreatment, note, prescriber, profile, reasonCode, reasonForChangeOrDiscontinuationOfUse
         case referenceID = "referenceId"
         case repeatPeriodCyclicalSchedule, resourceType, status, subject, taken
     }
 
-    public init(asAgreedIndicator: Bool?, author: MgoReference?, category: MgoCodeableConcept?, dateAsserted: String?, dosage: [ZibInstructionsForUse]?, effectiveDuration: MgoDuration?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medicationReference: MgoReference?, medicationTreatment: MgoIdentifier?, note: [MgoAnnotation]?, prescriber: MgoReference?, profile: ZibMedicationUseProfile, reasonCode: [MgoCodeableConcept]?, reasonForChangeOrDiscontinuationOfUse: MgoCodeableConcept?, referenceID: String, repeatPeriodCyclicalSchedule: MgoDuration?, resourceType: String?, status: ZibMedicalDeviceStatus?, subject: MgoReference?, taken: Taken?) {
+    public init(asAgreedIndicator: AsAgreedIndicator?, author: Author?, dateAsserted: MgoDateTime?, dosage: [Dosage]?, effectivePeriod: EffectivePeriod, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medicationReference: MgoReference?, medicationTreatment: ZibMedicationUseMedicationTreatment?, note: [MgoAnnotation]?, prescriber: Prescriber?, profile: ZibMedicationUseProfile, reasonCode: [MgoCodeableConcept]?, reasonForChangeOrDiscontinuationOfUse: ReasonForChangeOrDiscontinuationOfUse?, referenceID: String, repeatPeriodCyclicalSchedule: ZibMedicationUseRepeatPeriodCyclicalSchedule?, resourceType: String, status: ZibMedicationUseStatus?, subject: MgoReference?, taken: ZibMedicationUseTaken?) {
         self.asAgreedIndicator = asAgreedIndicator
         self.author = author
-        self.category = category
         self.dateAsserted = dateAsserted
         self.dosage = dosage
-        self.effectiveDuration = effectiveDuration
         self.effectivePeriod = effectivePeriod
         self.fhirVersion = fhirVersion
         self.id = id
@@ -89,38 +85,34 @@ public extension ZibMedicationUse {
     }
 
     func with(
-        asAgreedIndicator: Bool?? = nil,
-        author: MgoReference?? = nil,
-        category: MgoCodeableConcept?? = nil,
-        dateAsserted: String?? = nil,
-        dosage: [ZibInstructionsForUse]?? = nil,
-        effectiveDuration: MgoDuration?? = nil,
-        effectivePeriod: MgoPeriod?? = nil,
+        asAgreedIndicator: AsAgreedIndicator?? = nil,
+        author: Author?? = nil,
+        dateAsserted: MgoDateTime?? = nil,
+        dosage: [Dosage]?? = nil,
+        effectivePeriod: EffectivePeriod? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         informationSource: MgoReference?? = nil,
         medicationReference: MgoReference?? = nil,
-        medicationTreatment: MgoIdentifier?? = nil,
+        medicationTreatment: ZibMedicationUseMedicationTreatment?? = nil,
         note: [MgoAnnotation]?? = nil,
-        prescriber: MgoReference?? = nil,
+        prescriber: Prescriber?? = nil,
         profile: ZibMedicationUseProfile? = nil,
         reasonCode: [MgoCodeableConcept]?? = nil,
-        reasonForChangeOrDiscontinuationOfUse: MgoCodeableConcept?? = nil,
+        reasonForChangeOrDiscontinuationOfUse: ReasonForChangeOrDiscontinuationOfUse?? = nil,
         referenceID: String? = nil,
-        repeatPeriodCyclicalSchedule: MgoDuration?? = nil,
-        resourceType: String?? = nil,
-        status: ZibMedicalDeviceStatus?? = nil,
+        repeatPeriodCyclicalSchedule: ZibMedicationUseRepeatPeriodCyclicalSchedule?? = nil,
+        resourceType: String? = nil,
+        status: ZibMedicationUseStatus?? = nil,
         subject: MgoReference?? = nil,
-        taken: Taken?? = nil
+        taken: ZibMedicationUseTaken?? = nil
     ) -> ZibMedicationUse {
         return ZibMedicationUse(
             asAgreedIndicator: asAgreedIndicator ?? self.asAgreedIndicator,
             author: author ?? self.author,
-            category: category ?? self.category,
             dateAsserted: dateAsserted ?? self.dateAsserted,
             dosage: dosage ?? self.dosage,
-            effectiveDuration: effectiveDuration ?? self.effectiveDuration,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,

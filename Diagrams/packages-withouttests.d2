@@ -33,6 +33,10 @@ JavaScriptCore: {
   shape: oval
   style.fill: "#8FCAE7"
 }
+PDFKit: {
+  shape: oval
+  style.fill: "#8FCAE7"
+}
 swift-openapi-generator: {
   shape: oval
   style.fill: "#8FCAE7"
@@ -86,6 +90,7 @@ MGOapp: {
 MGOapp <- MGODebug
 MGOapp <- MGOFoundation
 MGOapp <- MGOUI
+MGOapp <- PdfExport
 MGOapp <- QuickLook
 MGOapp <- RestrictedBrowser
 MGOapp <- UIKit
@@ -152,6 +157,9 @@ NotificationCenter <- UIKit
 
 Observatory { style.fill: "#ffcc00" }
 
+PdfExport { style.fill: "#ffcc00" }
+PdfExport <- PDFKit
+
 RemoteAuthentication { style.fill: "#ffcc00" }
 RemoteAuthentication <- AuthorizationMiddleware
 RemoteAuthentication <- swift-openapi-generator
@@ -170,6 +178,7 @@ RestrictedBrowser { style.fill: "#ffcc00" }
 RestrictedBrowser <- SwiftUI
 RestrictedBrowser <- Theme
 RestrictedBrowser <- WebKit
+RestrictedBrowser <- ReusableUI
 
 ReusableUI { style.fill: "#ffcc00" }
 ReusableUI <- RijksoverheidFont

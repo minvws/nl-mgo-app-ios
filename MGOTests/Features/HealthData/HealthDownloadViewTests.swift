@@ -13,14 +13,14 @@ final class HealthDownloadViewTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var viewModel: HealthDataDownloadViewModel!
 	private var sut: HealthDataDownloadView!
-	private var binaryRepositorySpy: BinaryRepositorySpy!
+	private var fileStorageSpy: FileStorageSpy!
 	
 	override func setUpWithError() throws {
 		
 		try super.setUpWithError()
 		
 		servicesSpies = setupServicesSpies()
-		binaryRepositorySpy = BinaryRepositorySpy()
+		fileStorageSpy = FileStorageSpy()
 		let entry = DownloadLink(label: "label", type: DownloadLinkType.downloadLink, url: "Binary/demo1")
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, downloadLink: entry)
@@ -107,22 +107,33 @@ final class HealthDownloadViewTests: XCTestCase {
 	func test_HealthDownloadView_error_tryAgain() throws {
 		
 		// Given
-		let entry = DownloadBinary(label: "label", reference: "Binary/demo1", type: DownloadBinaryType.downloadBinary)
+		let entry = DownloadBinary(
+			label: "label",
+			reference: "Binary/demo1",
+			type: DownloadBinaryType.downloadBinary
+		)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, downloadBinary: entry, binaryRepository: binaryRepositorySpy)
+		viewModel = HealthDataDownloadViewModel(
+			healthcareOrganization: healthcareOrganization,
+			downloadBinary: entry,
+			storage: fileStorageSpy
+		)
 		sut = HealthDataDownloadView(viewModel: self.viewModel)
 		
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
-		binaryRepositorySpy.stubbedStoreResult = url
+		fileStorageSpy.stubbedFileUrlResult = url
 		viewModel.state = .error
 		
 		// When
 		try sut.inspect().find(viewWithAccessibilityIdentifier: "feedbackAction").button().tap()
 		
 		// Then
-		expect(self.viewModel.state).toEventually(equal(.downloaded(label: "label", documentUrl: url)))
+		expect(self.viewModel.state).toEventually(
+			equal(.downloaded(label: "label", documentUrl: url)),
+			timeout: .seconds(10)
+		)
 	}
 	
 	func test_HealthDownloadView_noDocument() throws {

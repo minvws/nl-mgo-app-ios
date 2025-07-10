@@ -84,7 +84,7 @@ struct ColorSampleView: View {
 					
 					HStack {
 						colorSample(theme.interactionPrimaryDefaultBackground, text: Texts.background)
-						colorSample(theme.interactionPrimaryDefaultBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactionPrimaryDefaultBackground.opacity(0.75), text: Texts.backgroundHover)
 						colorSample(theme.interactionPrimaryDefaultText, text: Texts.text)
 					}
 					
@@ -92,7 +92,7 @@ struct ColorSampleView: View {
 					
 					HStack {
 						colorSample(theme.interactionPrimaryCriticalBackground, text: Texts.background)
-						colorSample(theme.interactionPrimaryCriticalBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactionPrimaryCriticalBackground.opacity(0.75), text: Texts.backgroundHover)
 						colorSample(theme.interactionPrimaryCriticalText, text: Texts.text)
 					}
 					
@@ -101,14 +101,14 @@ struct ColorSampleView: View {
 					
 					HStack {
 						colorSample(theme.interactionSecondaryDefaultBackground, text: Texts.background)
-						colorSample(theme.interactionSecondaryDefaultBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactionSecondaryDefaultBackground.opacity(0.75), text: Texts.backgroundHover)
 						colorSample(theme.interactionSecondaryDefaultText, text: Texts.text)
 					}
 					
 					Text(Texts.critical)
 					HStack {
 						colorSample(theme.interactionSecondaryCriticalBackground, text: Texts.background)
-						colorSample(theme.interactionSecondaryCriticalBackgroundHover, text: Texts.backgroundHover)
+						colorSample(theme.interactionSecondaryCriticalBackground.opacity(0.75), text: Texts.backgroundHover)
 						colorSample(theme.interactionSecondaryCriticalText, text: Texts.text)
 					}
 					

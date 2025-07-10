@@ -51,4 +51,10 @@ class LoginRobot: Robot {
 		digidButton.tap()
 		return MockDigiDRobot(app)
 	}
+	
+	@discardableResult
+	func tapLoginWithDigiDButtonWithDemoMode() -> LoginInfoRobot {
+		digidButton.tap()
+		return LoginInfoRobot(app)
+	}
 }

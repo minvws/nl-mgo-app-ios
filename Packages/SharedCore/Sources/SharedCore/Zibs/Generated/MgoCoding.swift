@@ -12,9 +12,16 @@ import Foundation
 
 // MARK: - MgoCoding
 public struct MgoCoding: Codable, Hashable, Sendable {
+    public let type: MgoCodingType
     public let code, display, system: String?
 
-    public init(code: String?, display: String?, system: String?) {
+    public enum CodingKeys: String, CodingKey {
+        case type = "_type"
+        case code, display, system
+    }
+
+    public init(type: MgoCodingType, code: String?, display: String?, system: String?) {
+        self.type = type
         self.code = code
         self.display = display
         self.system = system
@@ -40,11 +47,13 @@ public extension MgoCoding {
     }
 
     func with(
+        type: MgoCodingType? = nil,
         code: String?? = nil,
         display: String?? = nil,
         system: String?? = nil
     ) -> MgoCoding {
         return MgoCoding(
+            type: type ?? self.type,
             code: code ?? self.code,
             display: display ?? self.display,
             system: system ?? self.system

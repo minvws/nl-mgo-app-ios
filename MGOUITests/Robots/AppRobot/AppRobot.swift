@@ -38,17 +38,30 @@ class AppRobot: Robot {
 	
 	/// Launch the app as a repeat visitor
 	/// - Parameters:
-	///   - pincode: the pincode to substitute
+	///   - pincode: the pin code to substitute
 	///   - withRemoteAuthentication: True if the remoteAuthentication should be set
-	/// - Returns: Pincode Robot for pincode validation
+	///   - withAutomaticLocalizationEnabled: True if the automatic localization should be enabled
+	/// - Returns: Pin code Robot for pin code validation
 	@discardableResult
-	func launchApp(withPincode pincode: String, withRemoteAuthentication: Bool = false) -> PincodeRobot {
+	func launchApp(
+		withPincode pincode: String,
+		withRemoteAuthentication: Bool = false,
+		withAutomaticLocalizationEnabled: Bool = false,
+		withDemoMode: Bool = false) -> PincodeRobot {
+		
 		app.launchArguments.append("-resetOnStart")
 		app.launchArguments.append("-disableTransitions")
 		app.launchArguments.append("-pincode:\(pincode)")
 		if withRemoteAuthentication {
 			app.launchArguments.append("-withRemoteAuthentication")
 		}
+		if withAutomaticLocalizationEnabled {
+			app.launchArguments.append("-automaticLocalizationEnabled")
+		}
+		if withDemoMode {
+			app.launchArguments.append("-demoMode")
+		}
+			
 		app.launch()
 		return PincodeRobot(app)
 	}

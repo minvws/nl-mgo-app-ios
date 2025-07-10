@@ -12,35 +12,29 @@ import Foundation
 
 // MARK: - R4NlCoreHealthProfessionalPractitionerRole
 public struct R4NlCoreHealthProfessionalPractitionerRole: Codable, Hashable, Sendable {
-    public let emailAddresses: [R4NlCoreContactInformationEmailAddresses]?
     public let fhirVersion: FhirVersionR4
     public let id: String?
-    public let location: [MgoReference]?
-    public let organization, practitioner: MgoReference?
+    public let organization: MgoReference?
     public let profile: R4NlCoreHealthProfessionalPractitionerRoleProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let speciality: [MgoCodeableConcept]?
-    public let telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?
+    public let referenceID, resourceType: String
+    public let specialty: Specialty
+    public let telecom: R4NlCoreHealthProfessionalPractitionerRoleTelecom
 
     public enum CodingKeys: String, CodingKey {
-        case emailAddresses, fhirVersion, id, location, organization, practitioner, profile
+        case fhirVersion, id, organization, profile
         case referenceID = "referenceId"
-        case resourceType, speciality, telephoneNumbers
+        case resourceType, specialty, telecom
     }
 
-    public init(emailAddresses: [R4NlCoreContactInformationEmailAddresses]?, fhirVersion: FhirVersionR4, id: String?, location: [MgoReference]?, organization: MgoReference?, practitioner: MgoReference?, profile: R4NlCoreHealthProfessionalPractitionerRoleProfile, referenceID: String, resourceType: String?, speciality: [MgoCodeableConcept]?, telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?) {
-        self.emailAddresses = emailAddresses
+    public init(fhirVersion: FhirVersionR4, id: String?, organization: MgoReference?, profile: R4NlCoreHealthProfessionalPractitionerRoleProfile, referenceID: String, resourceType: String, specialty: Specialty, telecom: R4NlCoreHealthProfessionalPractitionerRoleTelecom) {
         self.fhirVersion = fhirVersion
         self.id = id
-        self.location = location
         self.organization = organization
-        self.practitioner = practitioner
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.speciality = speciality
-        self.telephoneNumbers = telephoneNumbers
+        self.specialty = specialty
+        self.telecom = telecom
     }
 }
 
@@ -63,30 +57,24 @@ public extension R4NlCoreHealthProfessionalPractitionerRole {
     }
 
     func with(
-        emailAddresses: [R4NlCoreContactInformationEmailAddresses]?? = nil,
         fhirVersion: FhirVersionR4? = nil,
         id: String?? = nil,
-        location: [MgoReference]?? = nil,
         organization: MgoReference?? = nil,
-        practitioner: MgoReference?? = nil,
         profile: R4NlCoreHealthProfessionalPractitionerRoleProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        speciality: [MgoCodeableConcept]?? = nil,
-        telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?? = nil
+        resourceType: String? = nil,
+        specialty: Specialty? = nil,
+        telecom: R4NlCoreHealthProfessionalPractitionerRoleTelecom? = nil
     ) -> R4NlCoreHealthProfessionalPractitionerRole {
         return R4NlCoreHealthProfessionalPractitionerRole(
-            emailAddresses: emailAddresses ?? self.emailAddresses,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
-            location: location ?? self.location,
             organization: organization ?? self.organization,
-            practitioner: practitioner ?? self.practitioner,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            speciality: speciality ?? self.speciality,
-            telephoneNumbers: telephoneNumbers ?? self.telephoneNumbers
+            specialty: specialty ?? self.specialty,
+            telecom: telecom ?? self.telecom
         )
     }
 

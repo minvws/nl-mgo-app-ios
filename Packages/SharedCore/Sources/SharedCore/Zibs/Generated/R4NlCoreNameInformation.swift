@@ -12,31 +12,28 @@ import Foundation
 
 // MARK: - R4NlCoreNameInformation
 public struct R4NlCoreNameInformation: Codable, Hashable, Sendable {
-    public let family: String?
-    public let given, givenInitials, givenNames: [String]?
-    public let nameUsage: String?
+    public let profile: R4NlCoreNameInformationProfile
+    public let family: R4NlCoreNameInformationFamily
+    public let given: R4NlCoreNameInformationGivenClass
     public let period: MgoPeriod?
-    public let r4NlCoreNameInformationPrefix, suffix: [String]?
-    public let text: String?
-    public let use: R4NlCoreNameInformationUse
+    public let r4NlCoreNameInformationPrefix, suffix: [MgoString]?
+    public let text: MgoString?
 
     public enum CodingKeys: String, CodingKey {
-        case family, given, givenInitials, givenNames, nameUsage, period
+        case profile = "_profile"
+        case family, given, period
         case r4NlCoreNameInformationPrefix = "prefix"
-        case suffix, text, use
+        case suffix, text
     }
 
-    public init(family: String?, given: [String]?, givenInitials: [String]?, givenNames: [String]?, nameUsage: String?, period: MgoPeriod?, r4NlCoreNameInformationPrefix: [String]?, suffix: [String]?, text: String?, use: R4NlCoreNameInformationUse) {
+    public init(profile: R4NlCoreNameInformationProfile, family: R4NlCoreNameInformationFamily, given: R4NlCoreNameInformationGivenClass, period: MgoPeriod?, r4NlCoreNameInformationPrefix: [MgoString]?, suffix: [MgoString]?, text: MgoString?) {
+        self.profile = profile
         self.family = family
         self.given = given
-        self.givenInitials = givenInitials
-        self.givenNames = givenNames
-        self.nameUsage = nameUsage
         self.period = period
         self.r4NlCoreNameInformationPrefix = r4NlCoreNameInformationPrefix
         self.suffix = suffix
         self.text = text
-        self.use = use
     }
 }
 
@@ -59,28 +56,22 @@ public extension R4NlCoreNameInformation {
     }
 
     func with(
-        family: String?? = nil,
-        given: [String]?? = nil,
-        givenInitials: [String]?? = nil,
-        givenNames: [String]?? = nil,
-        nameUsage: String?? = nil,
+        profile: R4NlCoreNameInformationProfile? = nil,
+        family: R4NlCoreNameInformationFamily? = nil,
+        given: R4NlCoreNameInformationGivenClass? = nil,
         period: MgoPeriod?? = nil,
-        r4NlCoreNameInformationPrefix: [String]?? = nil,
-        suffix: [String]?? = nil,
-        text: String?? = nil,
-        use: R4NlCoreNameInformationUse? = nil
+        r4NlCoreNameInformationPrefix: [MgoString]?? = nil,
+        suffix: [MgoString]?? = nil,
+        text: MgoString?? = nil
     ) -> R4NlCoreNameInformation {
         return R4NlCoreNameInformation(
+            profile: profile ?? self.profile,
             family: family ?? self.family,
             given: given ?? self.given,
-            givenInitials: givenInitials ?? self.givenInitials,
-            givenNames: givenNames ?? self.givenNames,
-            nameUsage: nameUsage ?? self.nameUsage,
             period: period ?? self.period,
             r4NlCoreNameInformationPrefix: r4NlCoreNameInformationPrefix ?? self.r4NlCoreNameInformationPrefix,
             suffix: suffix ?? self.suffix,
-            text: text ?? self.text,
-            use: use ?? self.use
+            text: text ?? self.text
         )
     }
 

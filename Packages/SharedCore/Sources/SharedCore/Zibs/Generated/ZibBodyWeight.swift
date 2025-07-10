@@ -12,51 +12,38 @@ import Foundation
 
 // MARK: - ZibBodyWeight
 public struct ZibBodyWeight: Codable, Hashable, Sendable {
-    public let bodySite: MgoCodeableConcept?
-    public let category: [MgoCodeableConcept]?
-    public let clothing: Clothing
-    public let comment: String?
-    public let context: MgoReference?
-    public let dataAbsentReason: MgoCodeableConcept?
-    public let effectiveDateTime: String?
+    public let comment: MgoString?
+    public let component: ZibBodyWeightComponent?
+    public let effectiveDateTime: MgoDateTime?
     public let effectivePeriod: MgoPeriod?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let method: MgoCodeableConcept?
+    public let performer: [MgoReference]?
     public let profile: ZibBodyWeightProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let status: GpLaboratoryResultStatus?
+    public let referenceID, resourceType: String
     public let subject: MgoReference?
-    public let valueCodeableConcept: MgoCodeableConcept?
-    public let valueQuantity: MgoDuration?
+    public let valueQuantity: MgoQuantity?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, category, clothing, comment, context, dataAbsentReason, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, method, profile
+        case comment, component, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, performer, profile
         case referenceID = "referenceId"
-        case resourceType, status, subject, valueCodeableConcept, valueQuantity
+        case resourceType, subject, valueQuantity
     }
 
-    public init(bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, clothing: Clothing, comment: String?, context: MgoReference?, dataAbsentReason: MgoCodeableConcept?, effectiveDateTime: String?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, profile: ZibBodyWeightProfile, referenceID: String, resourceType: String?, status: GpLaboratoryResultStatus?, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?, valueQuantity: MgoDuration?) {
-        self.bodySite = bodySite
-        self.category = category
-        self.clothing = clothing
+    public init(comment: MgoString?, component: ZibBodyWeightComponent?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: ZibBodyWeightProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueQuantity: MgoQuantity?) {
         self.comment = comment
-        self.context = context
-        self.dataAbsentReason = dataAbsentReason
+        self.component = component
         self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
-        self.method = method
+        self.performer = performer
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.status = status
         self.subject = subject
-        self.valueCodeableConcept = valueCodeableConcept
         self.valueQuantity = valueQuantity
     }
 }
@@ -80,45 +67,33 @@ public extension ZibBodyWeight {
     }
 
     func with(
-        bodySite: MgoCodeableConcept?? = nil,
-        category: [MgoCodeableConcept]?? = nil,
-        clothing: Clothing? = nil,
-        comment: String?? = nil,
-        context: MgoReference?? = nil,
-        dataAbsentReason: MgoCodeableConcept?? = nil,
-        effectiveDateTime: String?? = nil,
+        comment: MgoString?? = nil,
+        component: ZibBodyWeightComponent?? = nil,
+        effectiveDateTime: MgoDateTime?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        method: MgoCodeableConcept?? = nil,
+        performer: [MgoReference]?? = nil,
         profile: ZibBodyWeightProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        status: GpLaboratoryResultStatus?? = nil,
+        resourceType: String? = nil,
         subject: MgoReference?? = nil,
-        valueCodeableConcept: MgoCodeableConcept?? = nil,
-        valueQuantity: MgoDuration?? = nil
+        valueQuantity: MgoQuantity?? = nil
     ) -> ZibBodyWeight {
         return ZibBodyWeight(
-            bodySite: bodySite ?? self.bodySite,
-            category: category ?? self.category,
-            clothing: clothing ?? self.clothing,
             comment: comment ?? self.comment,
-            context: context ?? self.context,
-            dataAbsentReason: dataAbsentReason ?? self.dataAbsentReason,
+            component: component ?? self.component,
             effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
-            method: method ?? self.method,
+            performer: performer ?? self.performer,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            status: status ?? self.status,
             subject: subject ?? self.subject,
-            valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept,
             valueQuantity: valueQuantity ?? self.valueQuantity
         )
     }

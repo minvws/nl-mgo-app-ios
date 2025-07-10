@@ -37,12 +37,24 @@ public class LaunchArgumentsHandler {
 		return CommandLine.arguments.contains("-enableFaceID")
 	}
 	
-	/// Should we use a provided pincode
-	/// - Returns: pincode
-	public static func hasPincode() -> String? {
+	/// Should we enable automatic localization?
+	public static func isAutomaticLocalizationEnabled() -> Bool {
 		
-		if let commandlineArgument = CommandLine.arguments.first(where: { $0.lowercased().starts(with: "-pincode:") }),
-		   let pincode = commandlineArgument.split(separator: ":").last {
+		return CommandLine.arguments.contains("-automaticLocalizationEnabled")
+	}
+	
+	/// Should we enable demo mode?
+	public static func isDemo() -> Bool {
+		
+		return CommandLine.arguments.contains("-demoMode")
+	}
+	
+	/// Should we use a provided pin code?
+	/// - Returns: pincode
+	public static func withPincode() -> String? {
+		
+		if let argument = CommandLine.arguments.first(where: { $0.lowercased().starts(with: "-pincode:") }),
+		   let pincode = argument.split(separator: ":").last {
 			return String(pincode)
 		}
 		return nil

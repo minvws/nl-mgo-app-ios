@@ -12,10 +12,17 @@ import Foundation
 
 // MARK: - MgoDuration
 public struct MgoDuration: Codable, Hashable, Sendable {
+    public let type: MgoDurationType
     public let code, comparator, system, unit: String?
     public let value: Double?
 
-    public init(code: String?, comparator: String?, system: String?, unit: String?, value: Double?) {
+    public enum CodingKeys: String, CodingKey {
+        case type = "_type"
+        case code, comparator, system, unit, value
+    }
+
+    public init(type: MgoDurationType, code: String?, comparator: String?, system: String?, unit: String?, value: Double?) {
+        self.type = type
         self.code = code
         self.comparator = comparator
         self.system = system
@@ -43,6 +50,7 @@ public extension MgoDuration {
     }
 
     func with(
+        type: MgoDurationType? = nil,
         code: String?? = nil,
         comparator: String?? = nil,
         system: String?? = nil,
@@ -50,6 +58,7 @@ public extension MgoDuration {
         value: Double?? = nil
     ) -> MgoDuration {
         return MgoDuration(
+            type: type ?? self.type,
             code: code ?? self.code,
             comparator: comparator ?? self.comparator,
             system: system ?? self.system,

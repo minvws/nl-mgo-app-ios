@@ -13,8 +13,8 @@ final class HealthCategoryTests: XCTestCase {
 	func test_healthCategoryRow() {
 		
 		// Given
-		let row = HealthCategoryRow(heading: "heading", subHeading: "healthcare organization", action: nil)
-		let otherRow = HealthCategoryRow(heading: "heading", subHeading: "healthcare organization", action: nil)
+		let row = Generator.healthCategoryRow()
+		let otherRow = Generator.healthCategoryRow()
 		
 		// When
 		
@@ -28,18 +28,8 @@ final class HealthCategoryTests: XCTestCase {
 	func test_healthSubCategory() {
 		
 		// Given
-		let subCategory = HealthSubCategory(
-			heading: "heading subcategory",
-			rows: [
-				HealthCategoryRow(heading: "heading", subHeading: "healthcare organization", action: nil)
-			]
-		)
-		let otherSubCategory = HealthSubCategory(
-			heading: "heading subcategory",
-			rows: [
-				HealthCategoryRow(heading: "heading", subHeading: "healthcare organization", action: nil)
-			]
-		)
+		let subCategory = Generator.healthSubCategory()
+		let otherSubCategory = Generator.healthSubCategory()
 		
 		// When
 		

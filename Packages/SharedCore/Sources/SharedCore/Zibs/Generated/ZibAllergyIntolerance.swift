@@ -12,27 +12,31 @@ import Foundation
 
 // MARK: - ZibAllergyIntolerance
 public struct ZibAllergyIntolerance: Codable, Hashable, Sendable {
-    public let category: [String]?
-    public let clinicalStatus: ZibAllergyIntoleranceClinicalStatus?
+    public let category: [CategoryElement]?
+    public let clinicalStatus: ZibAllergyIntoleranceClinicalStatus
     public let code: MgoCodeableConcept?
-    public let criticality: Criticality?
+    public let criticality: Criticality
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
+    public let lastOccurrence: MgoDateTime?
+    public let note: [MgoAnnotation]?
+    public let onsetDateTime: MgoDateTime?
     public let patient: MgoReference?
     public let profile: ZibAllergyIntoleranceProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let type: ZibAllergyIntoleranceType?
-    public let verificationStatus: ZibAllergyIntoleranceVerificationStatus?
+    public let reaction: [Reaction]?
+    public let recorder: MgoReference?
+    public let referenceID, resourceType: String
+    public let source: MgoReference?
+    public let verificationStatus: ZibAllergyIntoleranceVerificationstatus?
 
     public enum CodingKeys: String, CodingKey {
-        case category, clinicalStatus, code, criticality, fhirVersion, id, identifier, patient, profile
+        case category, clinicalStatus, code, criticality, fhirVersion, id, identifier, lastOccurrence, note, onsetDateTime, patient, profile, reaction, recorder
         case referenceID = "referenceId"
-        case resourceType, type, verificationStatus
+        case resourceType, source, verificationStatus
     }
 
-    public init(category: [String]?, clinicalStatus: ZibAllergyIntoleranceClinicalStatus?, code: MgoCodeableConcept?, criticality: Criticality?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, profile: ZibAllergyIntoleranceProfile, referenceID: String, resourceType: String?, type: ZibAllergyIntoleranceType?, verificationStatus: ZibAllergyIntoleranceVerificationStatus?) {
+    public init(category: [CategoryElement]?, clinicalStatus: ZibAllergyIntoleranceClinicalStatus, code: MgoCodeableConcept?, criticality: Criticality, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, lastOccurrence: MgoDateTime?, note: [MgoAnnotation]?, onsetDateTime: MgoDateTime?, patient: MgoReference?, profile: ZibAllergyIntoleranceProfile, reaction: [Reaction]?, recorder: MgoReference?, referenceID: String, resourceType: String, source: MgoReference?, verificationStatus: ZibAllergyIntoleranceVerificationstatus?) {
         self.category = category
         self.clinicalStatus = clinicalStatus
         self.code = code
@@ -40,11 +44,16 @@ public struct ZibAllergyIntolerance: Codable, Hashable, Sendable {
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
+        self.lastOccurrence = lastOccurrence
+        self.note = note
+        self.onsetDateTime = onsetDateTime
         self.patient = patient
         self.profile = profile
+        self.reaction = reaction
+        self.recorder = recorder
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.type = type
+        self.source = source
         self.verificationStatus = verificationStatus
     }
 }
@@ -68,19 +77,24 @@ public extension ZibAllergyIntolerance {
     }
 
     func with(
-        category: [String]?? = nil,
-        clinicalStatus: ZibAllergyIntoleranceClinicalStatus?? = nil,
+        category: [CategoryElement]?? = nil,
+        clinicalStatus: ZibAllergyIntoleranceClinicalStatus? = nil,
         code: MgoCodeableConcept?? = nil,
-        criticality: Criticality?? = nil,
+        criticality: Criticality? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
+        lastOccurrence: MgoDateTime?? = nil,
+        note: [MgoAnnotation]?? = nil,
+        onsetDateTime: MgoDateTime?? = nil,
         patient: MgoReference?? = nil,
         profile: ZibAllergyIntoleranceProfile? = nil,
+        reaction: [Reaction]?? = nil,
+        recorder: MgoReference?? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        type: ZibAllergyIntoleranceType?? = nil,
-        verificationStatus: ZibAllergyIntoleranceVerificationStatus?? = nil
+        resourceType: String? = nil,
+        source: MgoReference?? = nil,
+        verificationStatus: ZibAllergyIntoleranceVerificationstatus?? = nil
     ) -> ZibAllergyIntolerance {
         return ZibAllergyIntolerance(
             category: category ?? self.category,
@@ -90,11 +104,16 @@ public extension ZibAllergyIntolerance {
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
+            lastOccurrence: lastOccurrence ?? self.lastOccurrence,
+            note: note ?? self.note,
+            onsetDateTime: onsetDateTime ?? self.onsetDateTime,
             patient: patient ?? self.patient,
             profile: profile ?? self.profile,
+            reaction: reaction ?? self.reaction,
+            recorder: recorder ?? self.recorder,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            type: type ?? self.type,
+            source: source ?? self.source,
             verificationStatus: verificationStatus ?? self.verificationStatus
         )
     }

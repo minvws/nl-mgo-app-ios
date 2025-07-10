@@ -28,7 +28,7 @@ struct HealthUISchemaView: View {
 		enum List {
 			static let padding: CGFloat = 8
 			static let bottom: CGFloat = 16
-			static let cornerRadius: CGFloat = 10
+			static let cornerRadius: CGFloat = 12
 		}
 		enum Row {
 			static let padding: CGFloat = 16
@@ -104,8 +104,8 @@ struct HealthUISchemaView: View {
 			case is DownloadLink:
 				viewFor(entry as! DownloadLink, isLastElement: isLastElement) // swiftlint:disable:this force_cast
 			default:
-//				Text(entry.elementType)
 				EmptyView()
+				.logWarning("UISchemaView - unknown type", entry.elementType)
 		}
 	}
 
@@ -183,14 +183,13 @@ struct HealthUISchemaView: View {
 	@ViewBuilder private func viewFor(_ referenceValue: ReferenceValue, isLastElement: Bool) -> some View {
 		
 		if let reference = referenceValue.reference,
-			resolvedReferences[reference] == true,
-			let display = referenceValue.display {
+			resolvedReferences[reference] == true {
 
 			Button {
 				self.referenceTapped?(reference)
 			} label: {
 				viewFor(
-					display,
+					referenceValue.display ?? referenceValue.reference,
 					heading: referenceValue.label,
 					showDivider: !isLastElement,
 					showChevron: true
@@ -265,22 +264,41 @@ struct HealthUISchemaView: View {
 	///   - value: the value to display
 	///   - heading: the heading to display
 	///   - showDivider: True if we should show a divider at the bottom
+	///   - showChevron: True if we should show a chevron at the right side
 	/// - Returns: Row View
-	@ViewBuilder func viewFor(_ value: String?, heading: String?, showDivider: Bool = true, showChevron: Bool = false) -> some View {
+	@ViewBuilder func viewFor(
+		_ value: String?,
+		heading: String?,
+		showDivider: Bool = true,
+		showChevron: Bool = false
+	) -> some View {
 		
 		HStack(alignment: .center, spacing: 0) {
 			
 			VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 				
 				if let heading {
-					Text(heading)
-						.rijksoverheidStyle(font: .regular, style: .callout)
-						.foregroundStyle(theme.contentSecondary)
+					
+					SelectableTextView(
+						text: heading,
+						textColor: theme.contentSecondary,
+						font: UIFont(
+							name: RijksoverheidSansWebTextFont.regular.fontName,
+							size: Font.TextStyle.callout.pointSize
+						)
+					)
+					.accessibilityLabel(heading)
 				}
 				
-				Text(Sanitizer.strip(value) ?? String(localized: "common.unknown"))
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
+				SelectableTextView(
+					text: Sanitizer.strip(value) ?? String(localized: "common.unknown"),
+					textColor: theme.contentPrimary,
+					font: UIFont(
+						name: RijksoverheidSansWebTextFont.regular.fontName,
+						size: Font.TextStyle.body.pointSize
+					)
+				)
+				.accessibilityLabel(Sanitizer.strip(value) ?? String(localized: "common.unknown"))
 			}
 			
 			if showChevron {
@@ -293,7 +311,6 @@ struct HealthUISchemaView: View {
 					.accessibilityHidden(true)
 			}
 		}
-		.textSelection(.enabled)
 		.padding(ViewTraits.Row.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
 		.accessibilityElement(children: .combine)

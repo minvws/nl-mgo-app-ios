@@ -13,27 +13,32 @@ import Foundation
 // MARK: - GpEncounter
 public struct GpEncounter: Codable, Hashable, Sendable {
     public let gpEncounterClass: MgoCoding?
+    public let diagnosis: [GpEncounterDiagnosis]?
     public let fhirVersion: FhirVersionR3
+    public let hospitalization: GpEncounterHospitalization
     public let id: String?
-    public let participant: [EncounterParticipant]?
+    public let identifier: [MgoIdentifier]?
+    public let participant: [GpEncounterParticipant]?
     public let period: MgoPeriod?
     public let profile: GpEncounterProfile
     public let reason: [MgoCodeableConcept]?
-    public let referenceID: String
-    public let resourceType: String?
-    public let serviceProvider: MgoReference?
+    public let referenceID, resourceType: String
+    public let serviceProvider, subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
         case gpEncounterClass = "class"
-        case fhirVersion, id, participant, period, profile, reason
+        case diagnosis, fhirVersion, hospitalization, id, identifier, participant, period, profile, reason
         case referenceID = "referenceId"
-        case resourceType, serviceProvider
+        case resourceType, serviceProvider, subject
     }
 
-    public init(gpEncounterClass: MgoCoding?, fhirVersion: FhirVersionR3, id: String?, participant: [EncounterParticipant]?, period: MgoPeriod?, profile: GpEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String?, serviceProvider: MgoReference?) {
+    public init(gpEncounterClass: MgoCoding?, diagnosis: [GpEncounterDiagnosis]?, fhirVersion: FhirVersionR3, hospitalization: GpEncounterHospitalization, id: String?, identifier: [MgoIdentifier]?, participant: [GpEncounterParticipant]?, period: MgoPeriod?, profile: GpEncounterProfile, reason: [MgoCodeableConcept]?, referenceID: String, resourceType: String, serviceProvider: MgoReference?, subject: MgoReference?) {
         self.gpEncounterClass = gpEncounterClass
+        self.diagnosis = diagnosis
         self.fhirVersion = fhirVersion
+        self.hospitalization = hospitalization
         self.id = id
+        self.identifier = identifier
         self.participant = participant
         self.period = period
         self.profile = profile
@@ -41,6 +46,7 @@ public struct GpEncounter: Codable, Hashable, Sendable {
         self.referenceID = referenceID
         self.resourceType = resourceType
         self.serviceProvider = serviceProvider
+        self.subject = subject
     }
 }
 
@@ -64,27 +70,35 @@ public extension GpEncounter {
 
     func with(
         gpEncounterClass: MgoCoding?? = nil,
+        diagnosis: [GpEncounterDiagnosis]?? = nil,
         fhirVersion: FhirVersionR3? = nil,
+        hospitalization: GpEncounterHospitalization? = nil,
         id: String?? = nil,
-        participant: [EncounterParticipant]?? = nil,
+        identifier: [MgoIdentifier]?? = nil,
+        participant: [GpEncounterParticipant]?? = nil,
         period: MgoPeriod?? = nil,
         profile: GpEncounterProfile? = nil,
         reason: [MgoCodeableConcept]?? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        serviceProvider: MgoReference?? = nil
+        resourceType: String? = nil,
+        serviceProvider: MgoReference?? = nil,
+        subject: MgoReference?? = nil
     ) -> GpEncounter {
         return GpEncounter(
             gpEncounterClass: gpEncounterClass ?? self.gpEncounterClass,
+            diagnosis: diagnosis ?? self.diagnosis,
             fhirVersion: fhirVersion ?? self.fhirVersion,
+            hospitalization: hospitalization ?? self.hospitalization,
             id: id ?? self.id,
+            identifier: identifier ?? self.identifier,
             participant: participant ?? self.participant,
             period: period ?? self.period,
             profile: profile ?? self.profile,
             reason: reason ?? self.reason,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            serviceProvider: serviceProvider ?? self.serviceProvider
+            serviceProvider: serviceProvider ?? self.serviceProvider,
+            subject: subject ?? self.subject
         )
     }
 

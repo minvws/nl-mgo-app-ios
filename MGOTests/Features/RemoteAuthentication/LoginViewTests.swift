@@ -21,7 +21,10 @@ final class LoginViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
 		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url, username: nil, password: nil)
-		viewModel = LoginViewModel(coordinator: coordinatorSpy, remoteAuthenticationClient: remoteAuthenticationClientSpy)
+		viewModel = LoginViewModel(
+			coordinator: coordinatorSpy,
+			remoteAuthenticationClient: remoteAuthenticationClientSpy
+		)
 		sut = LoginView(viewModel: self.viewModel)
 		
 		super.setUp()

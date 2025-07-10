@@ -12,42 +12,33 @@ import Foundation
 
 // MARK: - R4NlCoreHealthProfessionalPractitioner
 public struct R4NlCoreHealthProfessionalPractitioner: Codable, Hashable, Sendable {
-    public let address: [R4NlCoreAddressInformation]?
-    public let birthDate: String?
-    public let communication: [MgoCodeableConcept]?
-    public let emailAddresses: [R4NlCoreContactInformationEmailAddresses]?
+    public let address: [R4NlCoreHealthProfessionalPractitionerAddress]?
     public let fhirVersion: FhirVersionR4
-    public let gender: Gender?
+    public let gender: R4NlCoreHealthProfessionalPractitionerGender?
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let name: [NameElement]?
+    public let name: [R4NlCoreHealthProfessionalPractitionerName]?
     public let profile: R4NlCoreHealthProfessionalPractitionerProfile
-    public let qualification: [Qualification]?
-    public let referenceID: String
-    public let resourceType: String?
-    public let telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?
+    public let referenceID, resourceType: String
+    public let telecom: R4NlCoreHealthProfessionalPractitionerTelecom
 
     public enum CodingKeys: String, CodingKey {
-        case address, birthDate, communication, emailAddresses, fhirVersion, gender, id, identifier, name, profile, qualification
+        case address, fhirVersion, gender, id, identifier, name, profile
         case referenceID = "referenceId"
-        case resourceType, telephoneNumbers
+        case resourceType, telecom
     }
 
-    public init(address: [R4NlCoreAddressInformation]?, birthDate: String?, communication: [MgoCodeableConcept]?, emailAddresses: [R4NlCoreContactInformationEmailAddresses]?, fhirVersion: FhirVersionR4, gender: Gender?, id: String?, identifier: [MgoIdentifier]?, name: [NameElement]?, profile: R4NlCoreHealthProfessionalPractitionerProfile, qualification: [Qualification]?, referenceID: String, resourceType: String?, telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?) {
+    public init(address: [R4NlCoreHealthProfessionalPractitionerAddress]?, fhirVersion: FhirVersionR4, gender: R4NlCoreHealthProfessionalPractitionerGender?, id: String?, identifier: [MgoIdentifier]?, name: [R4NlCoreHealthProfessionalPractitionerName]?, profile: R4NlCoreHealthProfessionalPractitionerProfile, referenceID: String, resourceType: String, telecom: R4NlCoreHealthProfessionalPractitionerTelecom) {
         self.address = address
-        self.birthDate = birthDate
-        self.communication = communication
-        self.emailAddresses = emailAddresses
         self.fhirVersion = fhirVersion
         self.gender = gender
         self.id = id
         self.identifier = identifier
         self.name = name
         self.profile = profile
-        self.qualification = qualification
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.telephoneNumbers = telephoneNumbers
+        self.telecom = telecom
     }
 }
 
@@ -70,36 +61,28 @@ public extension R4NlCoreHealthProfessionalPractitioner {
     }
 
     func with(
-        address: [R4NlCoreAddressInformation]?? = nil,
-        birthDate: String?? = nil,
-        communication: [MgoCodeableConcept]?? = nil,
-        emailAddresses: [R4NlCoreContactInformationEmailAddresses]?? = nil,
+        address: [R4NlCoreHealthProfessionalPractitionerAddress]?? = nil,
         fhirVersion: FhirVersionR4? = nil,
-        gender: Gender?? = nil,
+        gender: R4NlCoreHealthProfessionalPractitionerGender?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        name: [NameElement]?? = nil,
+        name: [R4NlCoreHealthProfessionalPractitionerName]?? = nil,
         profile: R4NlCoreHealthProfessionalPractitionerProfile? = nil,
-        qualification: [Qualification]?? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        telephoneNumbers: [R4NlCoreContactInformationTelephoneNumbers]?? = nil
+        resourceType: String? = nil,
+        telecom: R4NlCoreHealthProfessionalPractitionerTelecom? = nil
     ) -> R4NlCoreHealthProfessionalPractitioner {
         return R4NlCoreHealthProfessionalPractitioner(
             address: address ?? self.address,
-            birthDate: birthDate ?? self.birthDate,
-            communication: communication ?? self.communication,
-            emailAddresses: emailAddresses ?? self.emailAddresses,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             gender: gender ?? self.gender,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
             name: name ?? self.name,
             profile: profile ?? self.profile,
-            qualification: qualification ?? self.qualification,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            telephoneNumbers: telephoneNumbers ?? self.telephoneNumbers
+            telecom: telecom ?? self.telecom
         )
     }
 

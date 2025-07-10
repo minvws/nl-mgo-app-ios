@@ -24,6 +24,7 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 	/// The state for the root view of the page
 	var rootState: AppCoordination.State { get set }
 	
+	/// Should we show the authentication modal?
 	var showAuthenticationModal: Bool { get set }
 	
 	/// Should we show the child coordinator?
@@ -33,6 +34,8 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 	/// - Parameter state: the AppCoordination State
 	/// - Returns: A view for that state
 	func view(for: AppCoordination.State?) -> Body
+	
+	func showCloseButtonForSheet(for: AppCoordination.State?) -> Bool
 }
 
 extension Coordination.Action {
@@ -69,7 +72,7 @@ extension Coordination.Action {
 	static let resetApplication = Coordination.Action(identifier: "resetApplication")
 }
 
-enum AppCoordination {
+struct AppCoordination {
 	
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {
@@ -79,7 +82,7 @@ enum AppCoordination {
 		// Onboarding
 		case introduction
 		case proposition
-		case privacyStatement
+		case browser(URL, String?)
 		
 		// Local Authentication
 		case pinCodeEntry(backButtonVisible: Bool)
@@ -202,19 +205,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
-	/// the URL for the privacy page
-	private var privacyURL: URL? {
-		
-		switch Configuration().getRelease() {
-			case .production:
-				return URL(string: String(localized: "proposition.link.prod"))
-			case .demo, .acceptance:
-				return URL(string: String(localized: "proposition.link.acc"))
-			case .test, .development:
-				return URL(string: String(localized: "proposition.link.test"))
-		}
-	}
-	
 	/// Handle any Coordination Action
 	/// - Parameter action: Coordination Action
 	func handle(_ action: Coordination.Action) {
@@ -294,7 +284,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				return true
 				
 			case Coordination.Action.showPrivacyStatement.identifier:
-				handleShowPrivacyStatement()
+				handleUrl(LinkRepository.privacyURL, title: "privacy.heading")
 				return true
 				
 			default:
@@ -477,15 +467,17 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		Current.secureUserSettings.enteredBackground = nil
 	}
 	
-	/// Handle the show Privacy statement action
-	private func handleShowPrivacyStatement() {
-	
-		guard let privacyURL else { return }
+	/// Handle displaying urls
+	/// - Parameter url: the url to show
+	/// - Parameter title: the title of the page
+	private func handleUrl(_ url: URL?, title: String? = nil) {
 		
-		if browser.isDomainAllowed(privacyURL) {
-			path.append(AppCoordination.State.privacyStatement)
+		guard let url else { return }
+		
+		if browser.isDomainAllowed(url) {
+			rootStateForSheet = AppCoordination.State.browser(url, title)
 		} else {
-			browser.handleUnallowedDomain(privacyURL)
+			browser.handleUnallowedDomain(url)
 		}
 	}
 	
@@ -565,14 +557,18 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				
 			case .proposition:
 				PropositionView(viewModel: PropositionViewModel(coordinator: self))
-				
-			case .privacyStatement:
-				if let privacyURL {
-					InAppBrowserView(viewModel: InAppBrowserViewModel(url: privacyURL, browser: self.browser, title: "privacy.heading", coordinator: self))
-				} else {
-					EmptyView()
-				}
-				
+			
+			case .browser(let url, let title):
+				InAppBrowserView(
+					viewModel: InAppBrowserViewModel(
+						url: url,
+						browser: self.browser,
+						title: LocalizedStringKey(stringLiteral: title ?? ""),
+						coordinator: self,
+						closeAction: .closeSheet
+					)
+				)
+			
 			// Local Authentication
 				
 			case let .pinCodeEntry(backButtonVisible):
@@ -596,8 +592,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Remote Authentication
 				
 			case .login:
-				LoginView(viewModel: LoginViewModel(coordinator: self, remoteAuthenticationClient: self.remoteAuthenticationClient))
-			
+				LoginView(
+					viewModel: LoginViewModel(
+						coordinator: self,
+						remoteAuthenticationClient:
+							self.remoteAuthenticationClient
+					)
+				)
+				
 			case .loginInfo:
 				LoginInfoView(viewModel: LoginInfoViewModel(coordinator: self))
 				
@@ -636,6 +638,17 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case .none:
 				EmptyView()
 		}
+	}
+	
+	/// Should we show a close button for this sheet
+	/// - Parameter state: the state
+	/// - Returns: True if we should show a close button
+	func showCloseButtonForSheet(for state: AppCoordination.State?) -> Bool {
+		
+		if case .browser = state {
+			return false
+		}
+		return true
 	}
 }
 // swiftlint: enable type_body_length

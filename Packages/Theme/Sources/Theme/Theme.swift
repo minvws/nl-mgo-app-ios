@@ -43,25 +43,21 @@ public class Theme: Themeable {
 	// MARK: - interaction Primary Default -
 	
 	@Published public var interactionPrimaryDefaultBackground: Color = Color("interactionPrimaryDefaultBackground", bundle: .module)
-	@Published public var interactionPrimaryDefaultBackgroundHover: Color = Color("interactionPrimaryDefaultBackgroundHover", bundle: .module)
 	@Published public var interactionPrimaryDefaultText: Color = Color("interactionPrimaryDefaultText", bundle: .module)
 	
 	// MARK: - interaction Primary Critical-
 	
 	@Published public var interactionPrimaryCriticalBackground: Color = Color("interactionPrimaryCriticalBackground", bundle: .module)
-	@Published public var interactionPrimaryCriticalBackgroundHover: Color = Color("interactionPrimaryCriticalBackgroundHover", bundle: .module)
 	@Published public var interactionPrimaryCriticalText: Color = Color("interactionPrimaryCriticalText", bundle: .module)
 
 	// MARK: - interaction Secondary Default -
 
 	@Published public var interactionSecondaryDefaultBackground: Color = Color("interactionSecondaryDefaultBackground", bundle: .module)
-	@Published public var interactionSecondaryDefaultBackgroundHover: Color = Color("interactionSecondaryDefaultBackgroundHover", bundle: .module)
 	@Published public var interactionSecondaryDefaultText: Color = Color("interactionSecondaryDefaultText", bundle: .module)
 	
 	// MARK: - interaction Secondary Critical -
 
 	@Published public var interactionSecondaryCriticalBackground: Color = Color("interactionSecondaryCriticalBackground", bundle: .module)
-	@Published public var interactionSecondaryCriticalBackgroundHover: Color = Color("interactionSecondaryCriticalBackgroundHover", bundle: .module)
 	@Published public var interactionSecondaryCriticalText: Color = Color("interactionSecondaryCriticalText", bundle: .module)
 
 	// MARK: - interaction Tertiary Default -

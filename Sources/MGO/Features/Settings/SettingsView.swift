@@ -97,7 +97,7 @@ struct SettingsView: View {
 			static let inset: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
 		}
 		enum Button {
-			static let minimumHeight: CGFloat = 48
+			static let minimumHeight: CGFloat = 50
 		}
 	}
 	
@@ -125,7 +125,6 @@ struct SettingsView: View {
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.navigationTitle("settings.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.layoutForIPad()
 	}
 	
 	/// Get the view for the display settings option

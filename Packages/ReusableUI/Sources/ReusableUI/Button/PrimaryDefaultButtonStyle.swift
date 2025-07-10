@@ -15,11 +15,12 @@ struct PrimaryDefaultButtonStyle: ButtonStyle {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum ButtonTitle {
-			static let insets = EdgeInsets( top: 16, leading: 24, bottom: 16, trailing: 24)
+			static let insets = EdgeInsets(top: 16, leading: 24, bottom: 16, trailing: 24)
 		}
 		enum Button {
-			static let cornerRadius: CGFloat = 10
-			static let minimumHeight: CGFloat = 48
+			static let cornerRadius: CGFloat = 12
+			static let minimumHeight: CGFloat = 50
+			static let opacity: Double = 0.75
 		}
 	}
 	
@@ -30,10 +31,11 @@ struct PrimaryDefaultButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(theme.interactionPrimaryDefaultText)
+			.foregroundColor(theme.interactionPrimaryDefaultText.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
+			.tint(theme.interactionPrimaryDefaultText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.interactionPrimaryDefaultBackgroundHover : theme.interactionPrimaryDefaultBackground)
+			.background(theme.interactionPrimaryDefaultBackground.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

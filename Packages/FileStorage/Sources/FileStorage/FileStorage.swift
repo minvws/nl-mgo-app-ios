@@ -30,8 +30,10 @@ public protocol FileStorageProtocol: AnyObject {
 	/// - Returns: True if it does.
 	func remove(_ fileName: String)
 	
-	/// Get url to documents directory
-	var documentsURL: URL? { get }
+	/// Get the url to the file
+	/// - Parameter fileName: the name of the file
+	/// - Returns: optional url to the file
+	func fileUrl(_ fileName: String) -> URL?
 }
 
 final public class FileStorage: FileStorageProtocol {
@@ -41,15 +43,47 @@ final public class FileStorage: FileStorageProtocol {
 	
 	/// Initializer
 	/// - Parameter fileManager: the File Manager
-	public init(fileManager: FileManagerProtocol = FileManager.default) {
+	/// - Parameter subDirectory: an optional sub directory for storage
+	public init(fileManager: FileManagerProtocol = FileManager.default, subDirectory: String? = nil) {
 		
 		self.fileManager = fileManager
+		self.subDirectory = subDirectory
+		createSubDirectoryIfNeeded()
 	}
 	
+	/// Create the sub directory if needed
+	private func createSubDirectoryIfNeeded() {
+		
+		guard let subDirectory, let documentsURL else { return }
+		let subDirectoryUrl = documentsURL.appendingPathComponent(subDirectory, isDirectory: true)
+		if !fileManager.fileExists(atPath: subDirectoryUrl.path) {
+			try? fileManager.createDirectory(at: subDirectoryUrl, withIntermediateDirectories: true, attributes: nil)
+		}
+	}
+	
+	/// An optional sub directory
+	private var subDirectory: String?
+	
 	/// Get url to documents directory
-	public var documentsURL: URL? {
+	private var documentsURL: URL? {
 		
 		return fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+	}
+	
+	/// Get the url to the file
+	/// - Parameter fileName: the name of the file
+	/// - Returns: optional url to the file
+	public func fileUrl(_ fileName: String) -> URL? {
+		
+		guard let documentsURL else { return nil }
+		if let subDirectory {
+			return documentsURL
+				.appendingPathComponent(subDirectory, isDirectory: true)
+				.appendingPathComponent(fileName, isDirectory: false)
+		} else {
+			return documentsURL
+				.appendingPathComponent(fileName, isDirectory: false)
+		}
 	}
 	
 	/// Common directory error
@@ -62,14 +96,11 @@ final public class FileStorage: FileStorageProtocol {
 	/// - Throws
 	public func store(_ data: Data, as fileName: String) throws {
 		
-		guard let url = documentsURL else {
+		guard let url = fileUrl(fileName) else {
 			logError(directoryError)
 			return
 		}
-		let fileUrl = url.appendingPathComponent(fileName, isDirectory: false)
-		
-		try fileManager.createDirectory(atPath: url.path, withIntermediateDirectories: true, attributes: nil)
-		try data.write(to: fileUrl, options: .atomic)
+		try data.write(to: url, options: .atomic)
 	}
 	
 	/// Get the content of a file
@@ -77,22 +108,21 @@ final public class FileStorage: FileStorageProtocol {
 	/// - Returns: the content
 	public func read(fileName: String) -> Data? {
 		
-		guard let url = documentsURL else {
+		guard let url = fileUrl(fileName) else {
 			logError(directoryError)
 			return nil
 		}
-		let fileUrl = url.appendingPathComponent(fileName, isDirectory: false)
 		
-		guard fileManager.fileExists(atPath: fileUrl.path) else {
+		guard fileManager.fileExists(atPath: url.path) else {
 			logError("🗄️🗄️: No such file \(fileName)")
 			return nil
 		}
 		
 		do {
-			let data = try Data(contentsOf: fileUrl)
+			let data = try Data(contentsOf: url)
 			return data
 		} catch {
-			logError("🗄️🗄️: Failed to read file \(fileUrl)")
+			logError("🗄️🗄️: Failed to read file \(url)")
 			return nil
 		}
 	}
@@ -102,28 +132,26 @@ final public class FileStorage: FileStorageProtocol {
 	/// - Returns: True if it does.
 	public func fileExists(_ fileName: String) -> Bool {
 		
-		guard let url = documentsURL else {
+		guard let url = fileUrl(fileName) else {
 			logError(directoryError)
 			return false
 		}
 		
-		let fileUrl = url.appendingPathComponent(fileName, isDirectory: false)
-		return fileManager.fileExists(atPath: fileUrl.path)
+		return fileManager.fileExists(atPath: url.path)
 	}
 	
-	/// Check if a file exists
-	/// - Parameter fileName: the name of the file
-	/// - Returns: True if it does.
+	/// Remove a file or directory
+	/// - Parameter fileName: the name of the file or directory
 	public func remove(_ fileName: String) {
 		
-		guard let url = documentsURL else {
+		guard fileExists(fileName) else { return }
+		
+		guard let url = fileUrl(fileName) else {
 			logError(directoryError)
 			return
 		}
-		
-		let fileUrl = url.appendingPathComponent(fileName, isDirectory: false)
 		do {
-			try fileManager.removeItem(atPath: fileUrl.path)
+			try fileManager.removeItem(atPath: url.path)
 		} catch {
 			logError("🗄️🗄️: Failed to read directory \(error)")
 		}

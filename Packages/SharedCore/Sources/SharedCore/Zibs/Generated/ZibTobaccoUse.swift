@@ -12,48 +12,39 @@ import Foundation
 
 // MARK: - ZibTobaccoUse
 public struct ZibTobaccoUse: Codable, Hashable, Sendable {
-    public let bodySite: MgoCodeableConcept?
-    public let category: [MgoCodeableConcept]?
-    public let comment: String?
-    public let context: MgoReference?
-    public let dataAbsentReason: MgoCodeableConcept?
+    public let comment: MgoString?
+    public let component: ZibTobaccoUseComponent?
+    public let effectiveDateTime: MgoDateTime?
     public let effectivePeriod: MgoPeriod?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let method: MgoCodeableConcept?
+    public let performer: [MgoReference]?
     public let profile: ZibTobaccoUseProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let status: GpLaboratoryResultStatus?
+    public let referenceID, resourceType: String
     public let subject: MgoReference?
     public let valueCodeableConcept: MgoCodeableConcept?
-    public let valueQuantity: MgoDuration?
 
     public enum CodingKeys: String, CodingKey {
-        case bodySite, category, comment, context, dataAbsentReason, effectivePeriod, fhirVersion, id, identifier, method, profile
+        case comment, component, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, performer, profile
         case referenceID = "referenceId"
-        case resourceType, status, subject, valueCodeableConcept, valueQuantity
+        case resourceType, subject, valueCodeableConcept
     }
 
-    public init(bodySite: MgoCodeableConcept?, category: [MgoCodeableConcept]?, comment: String?, context: MgoReference?, dataAbsentReason: MgoCodeableConcept?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, profile: ZibTobaccoUseProfile, referenceID: String, resourceType: String?, status: GpLaboratoryResultStatus?, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?, valueQuantity: MgoDuration?) {
-        self.bodySite = bodySite
-        self.category = category
+    public init(comment: MgoString?, component: ZibTobaccoUseComponent?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: ZibTobaccoUseProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?) {
         self.comment = comment
-        self.context = context
-        self.dataAbsentReason = dataAbsentReason
+        self.component = component
+        self.effectiveDateTime = effectiveDateTime
         self.effectivePeriod = effectivePeriod
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
-        self.method = method
+        self.performer = performer
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.status = status
         self.subject = subject
         self.valueCodeableConcept = valueCodeableConcept
-        self.valueQuantity = valueQuantity
     }
 }
 
@@ -76,42 +67,34 @@ public extension ZibTobaccoUse {
     }
 
     func with(
-        bodySite: MgoCodeableConcept?? = nil,
-        category: [MgoCodeableConcept]?? = nil,
-        comment: String?? = nil,
-        context: MgoReference?? = nil,
-        dataAbsentReason: MgoCodeableConcept?? = nil,
+        comment: MgoString?? = nil,
+        component: ZibTobaccoUseComponent?? = nil,
+        effectiveDateTime: MgoDateTime?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        method: MgoCodeableConcept?? = nil,
+        performer: [MgoReference]?? = nil,
         profile: ZibTobaccoUseProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        status: GpLaboratoryResultStatus?? = nil,
+        resourceType: String? = nil,
         subject: MgoReference?? = nil,
-        valueCodeableConcept: MgoCodeableConcept?? = nil,
-        valueQuantity: MgoDuration?? = nil
+        valueCodeableConcept: MgoCodeableConcept?? = nil
     ) -> ZibTobaccoUse {
         return ZibTobaccoUse(
-            bodySite: bodySite ?? self.bodySite,
-            category: category ?? self.category,
             comment: comment ?? self.comment,
-            context: context ?? self.context,
-            dataAbsentReason: dataAbsentReason ?? self.dataAbsentReason,
+            component: component ?? self.component,
+            effectiveDateTime: effectiveDateTime ?? self.effectiveDateTime,
             effectivePeriod: effectivePeriod ?? self.effectivePeriod,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
-            method: method ?? self.method,
+            performer: performer ?? self.performer,
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            status: status ?? self.status,
             subject: subject ?? self.subject,
-            valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept,
-            valueQuantity: valueQuantity ?? self.valueQuantity
+            valueCodeableConcept: valueCodeableConcept ?? self.valueCodeableConcept
         )
     }
 

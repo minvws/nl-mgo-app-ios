@@ -39,6 +39,33 @@ struct SettingsCoordinatorView<T: SettingsCoordinatorProtocol>: View {
 		}
 		.navigationBarHidden(true)
 		.navigationBarBackButtonHidden()
+		.layoutForIPad()
+		.inspectableSheet(
+			isPresented: $coordinator.rootStateForSheet.presence(),
+			onDismiss: {
+				// Called when the sheet is closed by dragging.
+				coordinator.handle(Coordination.Action.closeSheet)
+			},
+			content: {
+				sheetContent()
+			}
+		)
+	}
+	
+	/// The content for the sheet
+	/// - Returns: sheet content
+	@ViewBuilder private func sheetContent() -> some View {
+		NavigationStackBackport.NavigationStack(path: $coordinator.pathForSheet) {
+			
+			coordinator.view(for: coordinator.rootStateForSheet)
+				.backport.navigationDestination(for: SettingsCoordination.State.self) { state in
+					coordinator.view(for: state)
+				}
+				.navigationBarBackButtonHidden(true)
+				.navigationBarTitleDisplayMode(.inline)
+				.backportPresentationContentInteraction(.scrolls)
+				.backportPresentationDragIndicator(UIDevice.current.userInterfaceIdiom == .pad ? Visibility.hidden : Visibility.visible) // Hide on iPad
+		}
 	}
 }
 

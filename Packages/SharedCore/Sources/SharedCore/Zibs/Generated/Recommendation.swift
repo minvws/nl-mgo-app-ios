@@ -12,14 +12,16 @@ import Foundation
 
 // MARK: - Recommendation
 public struct Recommendation: Codable, Hashable, Sendable {
-    public let code: MgoCodeableConcept?
-    public let date: String?
-    public let dateCriterion: [String]?
+    public let date: MgoDateTime?
+    public let dateCriterion: [MgoDateTime]?
+    public let supportingImmunization: [MgoReference]?
+    public let vaccineCode: MgoCodeableConcept?
 
-    public init(code: MgoCodeableConcept?, date: String?, dateCriterion: [String]?) {
-        self.code = code
+    public init(date: MgoDateTime?, dateCriterion: [MgoDateTime]?, supportingImmunization: [MgoReference]?, vaccineCode: MgoCodeableConcept?) {
         self.date = date
         self.dateCriterion = dateCriterion
+        self.supportingImmunization = supportingImmunization
+        self.vaccineCode = vaccineCode
     }
 }
 
@@ -42,14 +44,16 @@ public extension Recommendation {
     }
 
     func with(
-        code: MgoCodeableConcept?? = nil,
-        date: String?? = nil,
-        dateCriterion: [String]?? = nil
+        date: MgoDateTime?? = nil,
+        dateCriterion: [MgoDateTime]?? = nil,
+        supportingImmunization: [MgoReference]?? = nil,
+        vaccineCode: MgoCodeableConcept?? = nil
     ) -> Recommendation {
         return Recommendation(
-            code: code ?? self.code,
             date: date ?? self.date,
-            dateCriterion: dateCriterion ?? self.dateCriterion
+            dateCriterion: dateCriterion ?? self.dateCriterion,
+            supportingImmunization: supportingImmunization ?? self.supportingImmunization,
+            vaccineCode: vaccineCode ?? self.vaccineCode
         )
     }
 

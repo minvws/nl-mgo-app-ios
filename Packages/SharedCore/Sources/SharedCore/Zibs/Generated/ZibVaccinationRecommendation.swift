@@ -14,26 +14,29 @@ import Foundation
 public struct ZibVaccinationRecommendation: Codable, Hashable, Sendable {
     public let fhirVersion: FhirVersionR3
     public let id: String?
-    public let orderStatus: MgoCodeableConcept?
+    public let identifier: [MgoIdentifier]?
+    public let orderStatus: ZibVaccinationRecommendationOrderStatus?
     public let profile: ZibVaccinationRecommendationProfile
     public let recommendation: [Recommendation]?
-    public let referenceID: String
-    public let resourceType: String?
+    public let referenceID, resourceType: String
+    public let subject: MgoReference?
 
     public enum CodingKeys: String, CodingKey {
-        case fhirVersion, id, orderStatus, profile, recommendation
+        case fhirVersion, id, identifier, orderStatus, profile, recommendation
         case referenceID = "referenceId"
-        case resourceType
+        case resourceType, subject
     }
 
-    public init(fhirVersion: FhirVersionR3, id: String?, orderStatus: MgoCodeableConcept?, profile: ZibVaccinationRecommendationProfile, recommendation: [Recommendation]?, referenceID: String, resourceType: String?) {
+    public init(fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, orderStatus: ZibVaccinationRecommendationOrderStatus?, profile: ZibVaccinationRecommendationProfile, recommendation: [Recommendation]?, referenceID: String, resourceType: String, subject: MgoReference?) {
         self.fhirVersion = fhirVersion
         self.id = id
+        self.identifier = identifier
         self.orderStatus = orderStatus
         self.profile = profile
         self.recommendation = recommendation
         self.referenceID = referenceID
         self.resourceType = resourceType
+        self.subject = subject
     }
 }
 
@@ -58,20 +61,24 @@ public extension ZibVaccinationRecommendation {
     func with(
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
-        orderStatus: MgoCodeableConcept?? = nil,
+        identifier: [MgoIdentifier]?? = nil,
+        orderStatus: ZibVaccinationRecommendationOrderStatus?? = nil,
         profile: ZibVaccinationRecommendationProfile? = nil,
         recommendation: [Recommendation]?? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil
+        resourceType: String? = nil,
+        subject: MgoReference?? = nil
     ) -> ZibVaccinationRecommendation {
         return ZibVaccinationRecommendation(
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
+            identifier: identifier ?? self.identifier,
             orderStatus: orderStatus ?? self.orderStatus,
             profile: profile ?? self.profile,
             recommendation: recommendation ?? self.recommendation,
             referenceID: referenceID ?? self.referenceID,
-            resourceType: resourceType ?? self.resourceType
+            resourceType: resourceType ?? self.resourceType,
+            subject: subject ?? self.subject
         )
     }
 

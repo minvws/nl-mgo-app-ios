@@ -12,42 +12,35 @@ import Foundation
 
 // MARK: - ZibProblem
 public struct ZibProblem: Codable, Hashable, Sendable {
-    public let abatementDateTime, assertedDate: String?
+    public let abatementDateTime: MgoDateTime?
     public let asserter: MgoReference?
-    public let bodySite, category: [MgoCodeableConcept]?
-    public let clinicalStatus: ZibProblemClinicalStatus?
+    public let bodySite: [ZibProblemBodySite]?
+    public let category: [MgoCodeableConcept]?
+    public let clinicalStatus: ZibProblemClinicalStatus
     public let code: MgoCodeableConcept?
-    public let context: MgoReference?
-    public let evidence: [Evidence]?
     public let fhirVersion: FhirVersionR3
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let note: [MgoAnnotation]?
-    public let onsetDateTime: String?
+    public let onsetDateTime: MgoDateTime?
     public let profile: ZibProblemProfile
-    public let referenceID: String
-    public let resourceType: String?
-    public let severity: MgoCodeableConcept?
-    public let stage: Stage
+    public let referenceID, resourceType: String
     public let subject: MgoReference?
-    public let verificationStatus: ZibProblemVerificationStatus?
+    public let verificationStatus: VerificationStatus
 
     public enum CodingKeys: String, CodingKey {
-        case abatementDateTime, assertedDate, asserter, bodySite, category, clinicalStatus, code, context, evidence, fhirVersion, id, identifier, note, onsetDateTime, profile
+        case abatementDateTime, asserter, bodySite, category, clinicalStatus, code, fhirVersion, id, identifier, note, onsetDateTime, profile
         case referenceID = "referenceId"
-        case resourceType, severity, stage, subject, verificationStatus
+        case resourceType, subject, verificationStatus
     }
 
-    public init(abatementDateTime: String?, assertedDate: String?, asserter: MgoReference?, bodySite: [MgoCodeableConcept]?, category: [MgoCodeableConcept]?, clinicalStatus: ZibProblemClinicalStatus?, code: MgoCodeableConcept?, context: MgoReference?, evidence: [Evidence]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, onsetDateTime: String?, profile: ZibProblemProfile, referenceID: String, resourceType: String?, severity: MgoCodeableConcept?, stage: Stage, subject: MgoReference?, verificationStatus: ZibProblemVerificationStatus?) {
+    public init(abatementDateTime: MgoDateTime?, asserter: MgoReference?, bodySite: [ZibProblemBodySite]?, category: [MgoCodeableConcept]?, clinicalStatus: ZibProblemClinicalStatus, code: MgoCodeableConcept?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, onsetDateTime: MgoDateTime?, profile: ZibProblemProfile, referenceID: String, resourceType: String, subject: MgoReference?, verificationStatus: VerificationStatus) {
         self.abatementDateTime = abatementDateTime
-        self.assertedDate = assertedDate
         self.asserter = asserter
         self.bodySite = bodySite
         self.category = category
         self.clinicalStatus = clinicalStatus
         self.code = code
-        self.context = context
-        self.evidence = evidence
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
@@ -56,8 +49,6 @@ public struct ZibProblem: Codable, Hashable, Sendable {
         self.profile = profile
         self.referenceID = referenceID
         self.resourceType = resourceType
-        self.severity = severity
-        self.stage = stage
         self.subject = subject
         self.verificationStatus = verificationStatus
     }
@@ -82,38 +73,30 @@ public extension ZibProblem {
     }
 
     func with(
-        abatementDateTime: String?? = nil,
-        assertedDate: String?? = nil,
+        abatementDateTime: MgoDateTime?? = nil,
         asserter: MgoReference?? = nil,
-        bodySite: [MgoCodeableConcept]?? = nil,
+        bodySite: [ZibProblemBodySite]?? = nil,
         category: [MgoCodeableConcept]?? = nil,
-        clinicalStatus: ZibProblemClinicalStatus?? = nil,
+        clinicalStatus: ZibProblemClinicalStatus? = nil,
         code: MgoCodeableConcept?? = nil,
-        context: MgoReference?? = nil,
-        evidence: [Evidence]?? = nil,
         fhirVersion: FhirVersionR3? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         note: [MgoAnnotation]?? = nil,
-        onsetDateTime: String?? = nil,
+        onsetDateTime: MgoDateTime?? = nil,
         profile: ZibProblemProfile? = nil,
         referenceID: String? = nil,
-        resourceType: String?? = nil,
-        severity: MgoCodeableConcept?? = nil,
-        stage: Stage? = nil,
+        resourceType: String? = nil,
         subject: MgoReference?? = nil,
-        verificationStatus: ZibProblemVerificationStatus?? = nil
+        verificationStatus: VerificationStatus? = nil
     ) -> ZibProblem {
         return ZibProblem(
             abatementDateTime: abatementDateTime ?? self.abatementDateTime,
-            assertedDate: assertedDate ?? self.assertedDate,
             asserter: asserter ?? self.asserter,
             bodySite: bodySite ?? self.bodySite,
             category: category ?? self.category,
             clinicalStatus: clinicalStatus ?? self.clinicalStatus,
             code: code ?? self.code,
-            context: context ?? self.context,
-            evidence: evidence ?? self.evidence,
             fhirVersion: fhirVersion ?? self.fhirVersion,
             id: id ?? self.id,
             identifier: identifier ?? self.identifier,
@@ -122,8 +105,6 @@ public extension ZibProblem {
             profile: profile ?? self.profile,
             referenceID: referenceID ?? self.referenceID,
             resourceType: resourceType ?? self.resourceType,
-            severity: severity ?? self.severity,
-            stage: stage ?? self.stage,
             subject: subject ?? self.subject,
             verificationStatus: verificationStatus ?? self.verificationStatus
         )

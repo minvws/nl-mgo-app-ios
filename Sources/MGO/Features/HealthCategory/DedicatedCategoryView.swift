@@ -106,6 +106,29 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 			)
 		)
 	}
+	
+	override func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthSubCategory]) {
+		
+		let (partial, subCategories) = super.sortRecords(records: records)
+		
+		guard Current.featureFlagManager.isDemo, let subCategory = subCategories.first else {
+			return (partial, subCategories)
+		}
+		return (
+			partial,
+			[
+				HealthSubCategory(
+					heading: subCategory.heading,
+					rows: subCategory.rows.filter { row in
+						(row.heading == "Consult dermatologie" && row.subHeading == "Ziekenhuis Nieuw Juinen") ||
+						(row.heading == "Voorlopig ontslagbericht" && row.subHeading == "Ziekenhuis Nieuw Juinen") ||
+						(row.heading == "Ontslagbrief" && row.subHeading == "Ziekenhuis Nieuw Juinen") ||
+						(row.heading == "Verwijsbrief" && row.subHeading == "Huisartspraktijk Heideroosje")
+					}
+				)
+			]
+		)
+	}
 }
 
 class LabResultsHealthCategoryViewModel: HealthCategoryViewModel {

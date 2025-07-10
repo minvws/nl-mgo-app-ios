@@ -84,7 +84,7 @@ struct AboutTheAppView: View {
 			static let inset: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
 		}
 		enum Button {
-			static let minimumHeight: CGFloat = 48
+			static let minimumHeight: CGFloat = 50
 		}
 		enum Logo {
 			static let maxHeight: CGFloat = 150
@@ -116,7 +116,6 @@ struct AboutTheAppView: View {
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationTitle("settings.about_this_app.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.layoutForIPad()
 	}
 	
 	@ViewBuilder private func header() -> some View {
@@ -227,7 +226,9 @@ struct AboutTheAppView: View {
 		)
 		.listRowInsets(ViewTraits.General.inset)
 	}
-
+	
+	/// Show the privacy statement row
+	/// - Returns: Button for the privacy statement
 	@ViewBuilder private func privacy() -> some View {
 		
 		Button {

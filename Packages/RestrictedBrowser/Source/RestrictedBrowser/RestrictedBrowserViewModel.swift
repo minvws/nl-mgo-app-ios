@@ -10,6 +10,12 @@ public class RestrictedBrowserViewModel: NSObject, ObservableObject {
 	/// The initial url to display
 	@Published var url: URL
 	
+	/// The basic auth user name
+	internal var authUsername: String?
+	
+	/// The basic auth password
+	internal var authPassword: String?
+	
 	/// The url that is currently being displayed
 	var currentUrl: URL
 	
@@ -25,10 +31,19 @@ public class RestrictedBrowserViewModel: NSObject, ObservableObject {
 	/// - Parameters:
 	///   - url: the url to display
 	///   - browser: the browser to decide where to display
-	public init(url: URL, browser: RestrictedBrowser? = nil) {
+	///   - authUsername: the basic auth username (if needed)
+	///   - authPassword: the basic auth password (if needed)
+	public init(
+		url: URL,
+		browser: RestrictedBrowser? = nil,
+		authUsername: String? = nil,
+		authPassword: String? = nil
+	) {
 		self.url = url
 		self.currentUrl = url
 		self.browser = browser
+		self.authUsername = authUsername
+		self.authPassword = authPassword
 	}
 	
 	/// Handle any action

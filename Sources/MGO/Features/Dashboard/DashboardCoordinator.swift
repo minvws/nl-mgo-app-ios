@@ -26,7 +26,7 @@ enum DashboardTab: Int {
 	case settings = 2
 }
 
-enum DashboardCoordination {
+struct DashboardCoordination {
 	
 	/// A list of all the view states the app coordinator can show
 	enum State: Equatable, Hashable, Codable {
@@ -43,25 +43,47 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	private weak var parentCoordinator: (any AppCoordinatorProtocol)?
 	
 	/// The coordinator for all categories activities
-	private var healthCategoriesCoordinator: HealthcareCoordinator!
+	internal var healthCategoriesCoordinator: HealthcareCoordinator!
 	
 	/// The coordinator for all healthcare organizations activities
-	private var healthcareOrganizationsCoordinator: HealthcareCoordinator!
+	internal var healthcareOrganizationsCoordinator: HealthcareCoordinator!
 	
 	/// The coordinator for all setting activities
-	private var settingsCoordinator: SettingsCoordinator!
+	internal var settingsCoordinator: SettingsCoordinator!
 	
 	/// The selected tab
-	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue
+	@Published var selectedTab: Int = DashboardTab.healthCategories.rawValue {
+		didSet {
+			// when tapping on the already selected tab, reset the navigation for that tab.
+			// happens automatically in iOS 18
+			guard belowIOS18 else { return }
+			guard selectedTab == oldValue else { return }
+			handleTabSwitch()
+		}
+	}
 	
-	/// Initializer
-	/// - Parameter coordinator: the coordinator
+	/// Create a dashboard coordinator
+	/// - Parameter coordinator: the parent coordinator
 	init(parentCoordinator: (any AppCoordinatorProtocol)?) {
 		
 		self.parentCoordinator = parentCoordinator
 		self.settingsCoordinator = SettingsCoordinator(parentCoordinator: self)
 		self.healthCategoriesCoordinator = HealthcareCoordinator(parentCoordinator: self, rootState: .showHealthCategories)
 		self.healthcareOrganizationsCoordinator = HealthcareCoordinator(parentCoordinator: self, rootState: .organizations)
+	}
+	
+	/// Handle tab switch
+	internal func handleTabSwitch() {
+		
+		switch selectedTab {
+			case DashboardTab.healthCategories.rawValue:
+				healthCategoriesCoordinator.path.removeLast(healthCategoriesCoordinator.path.count)
+			case DashboardTab.healthcareOrganizations.rawValue:
+				healthcareOrganizationsCoordinator.path.removeLast(healthcareOrganizationsCoordinator.path.count)
+			case DashboardTab.settings.rawValue:
+				settingsCoordinator.path.removeLast(settingsCoordinator.path.count)
+			default: logError("Dashboard Coordinator does not handle tab", selectedTab)
+		}
 	}
 	
 	/// Handle any incoming action from any of the view models

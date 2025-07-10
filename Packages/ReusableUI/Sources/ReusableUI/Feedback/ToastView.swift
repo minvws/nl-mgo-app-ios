@@ -64,7 +64,7 @@ public struct ToastView: View {
 		enum Toast {
 			static let spacing: CGFloat = 8
 			static let padding: CGFloat = 16
-			static let cornerRadius: CGFloat = 10
+			static let cornerRadius: CGFloat = 12
 		}
 		enum Button {
 			static let size: CGFloat = 40

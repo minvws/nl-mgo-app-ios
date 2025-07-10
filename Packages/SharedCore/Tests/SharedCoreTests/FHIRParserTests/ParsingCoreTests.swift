@@ -95,7 +95,7 @@ final class FHIRParserTests: XCTestCase {
 		let zib = sut.transformFHIRResourceIntoMGOResource(data, fhirVersion: "R4")
 		
 		// Then
-		expect(zib) == Data("undefined".utf8)
+		expect(zib) == Data("null".utf8)
 	}
 	
 	func test_parseResourceJson_error() throws {
@@ -119,10 +119,10 @@ final class FHIRParserTests: XCTestCase {
 		let schema = sut.getDetails(data)
 		
 		// Then
-		expect(schema?.label) == "Paracetamol tablet 500mg"
+		expect(schema?.label) == "Medicatiegebruik"
 	}
 	
-	func test_getDetails_error() throws {
+	func test_getDetails_error_shouldReturnNil() throws {
 		
 		// Given
 		
@@ -146,7 +146,7 @@ final class FHIRParserTests: XCTestCase {
 		expect(schema?.label) == "Paracetamol tablet 500mg"
 	}
 	
-	func test_getSummary_error() throws {
+	func test_getSummary_error_shouldReturnNil() throws {
 		
 		// Given
 		

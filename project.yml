@@ -24,6 +24,8 @@ packages:
     path: ./Packages/LocalAuthenticationProvider
   LocalisationService:
     path: ./Packages/LocalisationService
+  MGOCommandLine:
+    path: ./Packages/MGOCommandLine
   MGODebug:
     path: ./Packages/MGODebug
   MGOFoundation:
@@ -38,6 +40,8 @@ packages:
     path: ./Packages/NotificationCenter
   Observatory:
     path: ./Packages/Observatory
+  PdfExport:
+    path: ./Packages/PdfExport
   RemoteAuthentication:
     path: ./Packages/RemoteAuthentication
   RemoteConfiguration:
@@ -80,6 +84,8 @@ fileGroups:
   - Scripts
   - Makefile
   - README.md
+  - LICENSES
+  - REUSE.toml
 
 # - Project Level settings:
 
@@ -174,6 +180,7 @@ targetTemplates:
       - package: MGOUI
       - package: MGODebug
       - package: RestrictedBrowser
+      - package: PdfExport
         embed: false
     settings:
       base:
@@ -430,6 +437,9 @@ schemes:
           parallelizable: false
           randomExecutionOrder: true
         - package: Observatory/ObservatoryTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: PdfExport/PdfExportTests
           randomExecutionOrder: true
           parallelizable: false
         - package: RemoteAuthentication/RemoteAuthenticationTests

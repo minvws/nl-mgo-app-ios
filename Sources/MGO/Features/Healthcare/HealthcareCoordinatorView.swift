@@ -26,6 +26,7 @@ struct HealthcareCoordinatorView<T: HealthcareCoordinatorProtocol>: View {
 					coordinator.viewState(for: state)
 				}
 		}
+		.layoutForIPad()
 		.navigationBarHidden(true)
 		.navigationBarBackButtonHidden()
 		.inspectableSheet(
@@ -35,17 +36,25 @@ struct HealthcareCoordinatorView<T: HealthcareCoordinatorProtocol>: View {
 				coordinator.handle(Coordination.Action.closeSheet)
 			},
 			content: {
-				NavigationStackBackport.NavigationStack(path: $coordinator.pathForSheet) {
-					
-					coordinator.viewState(for: coordinator.rootStateForSheet)
-						.backport.navigationDestination(for: HealthcareCoordination.State.self) { state in
-							coordinator.viewState(for: state)
-						}
-						.navigationBarBackButtonHidden(true)
-						.navigationBarTitleDisplayMode(.inline)
-				}
+				sheetContent()
 			}
 		)
+	}
+	
+	/// The content for the sheet
+	/// - Returns: sheet content
+	@ViewBuilder private func sheetContent() -> some View {
+		NavigationStackBackport.NavigationStack(path: $coordinator.pathForSheet) {
+			
+			coordinator.viewState(for: coordinator.rootStateForSheet)
+				.backport.navigationDestination(for: HealthcareCoordination.State.self) { state in
+					coordinator.viewState(for: state)
+				}
+				.navigationBarBackButtonHidden(true)
+				.navigationBarTitleDisplayMode(.inline)
+				.backportPresentationContentInteraction(.scrolls)
+				.backportPresentationDragIndicator(UIDevice.current.userInterfaceIdiom == .pad ? Visibility.hidden : Visibility.visible) // Hide on iPad
+		}
 	}
 }
 

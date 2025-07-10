@@ -35,4 +35,72 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.parentCoordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.resetApplication
 		expect(self.sut.selectedTab) == DashboardTab.healthCategories.rawValue
 	}
+	
+	func test_handleTabSwitch_categories() throws {
+		
+		// Given
+		let category = HealthCategories.Category.medication
+		sut.selectedTab = DashboardTab.healthCategories.rawValue
+		sut.healthCategoriesCoordinator.handle(
+			Coordination.Action(
+				identifier: "showHealthCategory",
+				params: ["category": category]
+			)
+		)
+		expect(self.sut.healthCategoriesCoordinator.path) == NavigationStackBackport.NavigationPath(
+			[
+				HealthcareCoordination.State.showHealthCategory(
+					category: category,
+					organization: nil
+				)
+			]
+		)
+		
+		// When
+		sut.handleTabSwitch()
+		
+		// Then
+		expect(self.sut.healthCategoriesCoordinator.path.isEmpty) == true
+	}
+	
+	func test_handleTabSwitch_organizations() throws {
+		
+		// Given
+		let category = HealthCategories.Category.medication
+		sut.selectedTab = DashboardTab.healthcareOrganizations.rawValue
+		sut.healthcareOrganizationsCoordinator.handle(
+			Coordination.Action(
+				identifier: "showHealthCategory",
+				params: ["category": category]
+			)
+		)
+		expect(self.sut.healthcareOrganizationsCoordinator.path) == NavigationStackBackport.NavigationPath(
+			[
+				HealthcareCoordination.State.showHealthCategory(
+					category: category,
+					organization: nil
+				)
+			]
+		)
+		
+		// When
+		sut.handleTabSwitch()
+		
+		// Then
+		expect(self.sut.healthcareOrganizationsCoordinator.path.isEmpty) == true
+	}
+	
+	func test_handleTabSwitch_settings() throws {
+
+		// Given
+		sut.selectedTab = DashboardTab.settings.rawValue
+		sut.settingsCoordinator.handle(Coordination.Action.showDisplaySettings)
+		expect(self.sut.settingsCoordinator.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.displaySettings])
+		
+		// When
+		sut.handleTabSwitch()
+		
+		// Then
+		expect(self.sut.settingsCoordinator.path.isEmpty) == true
+	}
 }

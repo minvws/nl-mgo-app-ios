@@ -24,10 +24,13 @@ struct HealthCategoryRow: Equatable, Identifiable {
 	let id = UUID()
 	
 	/// The title heading of a block
-	let heading: String?
+	let heading: String
 	
 	/// The subtitle of a block
 	let subHeading: String?
+	
+	/// The underlying schema
+	let schema: HealthUISchema
 	
 	/// action to perform when the user taps on this block
 	var action: (() -> Void)?
@@ -92,11 +95,11 @@ enum HealthCategoryViewState: Equatable {
 	}
 }
 
-// A small struct for the various translations for each category
+/// A small struct for the various translations for each category
 struct HealthCategoryViewTranslations {
 
 	/// the title key of the page
-	var heading: LocalizedStringKey
+	var heading: String.LocalizationValue
 
 	/// the text key for the search bar
 	var search: LocalizedStringKey
@@ -115,6 +118,9 @@ class HealthCategoryViewModel: ObservableObject {
 	
 	/// All the translated copy
 	@Published var translations: HealthCategoryViewTranslations
+	
+	/// Show the export dialog
+	@Published var showExportAlert: Bool = false
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -137,11 +143,14 @@ class HealthCategoryViewModel: ObservableObject {
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
+		case cancelExportAlert
+		case exportHealthData
 		case onAppear
 		case retry
+		case showExportAlert
 	}
 	
-	/// Create a MedicationOverview VM
+	/// Create a Health category view model
 	/// - Parameter coordinator: the app coordinator
 	init(
 		coordinator: (any Coordinator)? = nil,
@@ -173,19 +182,47 @@ class HealthCategoryViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthCategoryViewModel.Action) {
+	@MainActor func reduce(_ action: HealthCategoryViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
 				coordinator?.handle(.backButtonPressed)
+			
 			case .onAppear:
-				BinaryRepository().clear()
+				FileStorage().remove(HealthDirectory.binary)
+				FileStorage().remove(HealthDirectory.export)
 				_Concurrency.Task {
 					 await loadResources()
 				}
+			
 			case .retry:
 				retry()
 				Haptic.light()
+		
+			case .showExportAlert:
+				showExportAlert = true
+			
+			case .cancelExportAlert:
+				showExportAlert = false
+			
+			case .exportHealthData:
+			
+				var subCategories = [HealthSubCategory]()
+				if case let .list(items) = state {
+					subCategories = items
+				}
+				if case let .partial(items) = state {
+					subCategories = items
+				}
+				
+				coordinator?.handle(
+					Coordination.Action(
+						identifier: Coordination.Action.exportHealthData.identifier,
+						params: [
+							"healthData": HealthDataMapper().map(category, data: subCategories)
+						]
+					)
+				)
 		}
 	}
 	
@@ -261,7 +298,7 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Sort the records on subcategory
 	/// - Parameter records: the records to sort
 	/// - Returns: sorted sub categories
-	private func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthSubCategory]) {
+	internal func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthSubCategory]) {
 		
 		var items = [HealthSubCategory]()
 		var partial = false
@@ -283,7 +320,7 @@ class HealthCategoryViewModel: ObservableObject {
 						existingSubCategory = true
 					}
 				}
-				if !existingSubCategory && subCat.rows.isNotEmpty {
+				if !existingSubCategory {
 					items.append(subCat)
 				}
 			}
@@ -305,21 +342,24 @@ class HealthCategoryViewModel: ObservableObject {
 				// Add a HealthCategoryBlock to the display list
 				items.append(
 					HealthCategoryRow(
-						heading: Sanitizer.strip(uiSchema.label),
-						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId))) { [weak self] in
+						heading: Sanitizer.sanitize(uiSchema.label),
+						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId)),
+						schema: uiSchema
+					) { [weak self] in
 							
-							guard let self else { return }
-							
-							self.coordinator?.handle(Coordination.Action(
-								identifier: Coordination.Action.showHealthData.identifier,
-								params: [
-									"healthcareOrganization": self.getOrganization(record.organizationId),
-									"backButtonTitle": String(localized: self.translations.backButtonTitle),
-									"resource": resource,
-									"uiSchema": uiSchema
-								])
-							)
-						}
+						guard let self else { return }
+						
+						self.coordinator?.handle(Coordination.Action(
+							identifier: Coordination.Action.showHealthData.identifier,
+							params: [
+								"healthcareOrganization": self.getOrganization(record.organizationId),
+								"backButtonTitle": String(localized: self.translations.backButtonTitle),
+								"resource": resource,
+								"uiSchema": uiSchema,
+								"inSheet": false
+							])
+						)
+					}
 				)
 			}
 		}
@@ -364,7 +404,7 @@ struct HealthCategoryView: View {
 		enum List {
 			static let top: CGFloat = 8
 			static let spacing: CGFloat = 8
-			static let cornerRadius: CGFloat = 10
+			static let cornerRadius: CGFloat = 12
 		}
 		enum NoResults {
 			static let width: CGFloat = 0.5
@@ -420,12 +460,11 @@ struct HealthCategoryView: View {
 			viewModel.reduce(.backButtonPressed)
 		})
 		.navigationBarHidden(false)
-		.navigationTitle(viewModel.translations.heading)
+		.navigationTitle(String(localized: viewModel.translations.heading))
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
-		.layoutForIPad()
 	}
 	
 	/// Create the list state view
@@ -454,7 +493,7 @@ struct HealthCategoryView: View {
 		var result = [HealthSubCategory]()
 		for sub in list {
 			let filteredItems = sub.rows.filter {
-				($0.heading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false) ||
+				($0.heading.localizedCaseInsensitiveContains(viewModel.searchText.lowercased())) ||
 				$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
 			}
 			if filteredItems.isNotEmpty {
@@ -478,48 +517,105 @@ struct HealthCategoryView: View {
 					ForEach(Array(list.enumerated()), id: \.offset) { subCategoryIndex, subCategory in
 					
 						if subCategory.rows.isNotEmpty {
-							if list.count != 1 {
-								Text(subCategory.heading)
-									.rijksoverheidStyle(font: .regular, style: .body)
-									.foregroundColor(theme.contentPrimary)
-									.padding(.top, ViewTraits.List.top)
-							}
-							
-							ForEach(Array(subCategory.rows.enumerated()), id: \.offset) { index, element in
-								
-								ZStack {
-									Rectangle()
-										.foregroundStyle(.clear)
-										.accessibilityLabel(String(
-											format: String(localized: "medication_overview.voiceover"),
-											arguments: ["\(element.heading ?? "")", "\(element.subHeading ?? "")"]
-										))
-										.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
-										.accessibilityAddTraits(.isButton)
-									
-									ActionCardView(
-										title: LocalizedStringKey(stringLiteral: element.heading ?? ""),
-										message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
-										perform: element.action
-									)
-									.cornerRadius(ViewTraits.List.cornerRadius)
-								}
-								.onTapGesture {
-									element.action?()
-								}
-							}
+							blockView(
+								showHeading: Current.featureFlagManager.isDemo ? true : list.filter { $0.rows.isNotEmpty }.count != 1,
+								subCategory: subCategory,
+								subCategoryIndex: subCategoryIndex
+							)
 						}
 					}
 				})
 				.padding(.top, ViewTraits.Navigation.padding)
+				.toolbar(content: pdfExportToolbarContent)
 			}
 		}
 		.when(Configuration().getRelease() != .demo) { view in
 			view
-				.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
+//				.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
 		}
 		.rijksoverheidStyle(font: .regular, style: .body)
 		.foregroundColor(theme.contentSecondary)
+		.alert(String(localized: "export_pdf.dialog.heading"), isPresented: $viewModel.showExportAlert) {
+			Button("export_pdf.dialog.create_document") { viewModel.reduce(.exportHealthData) }
+				.keyboardShortcut(.defaultAction)
+			Button("common.cancel") { viewModel.reduce(.cancelExportAlert) }
+				.keyboardShortcut(.cancelAction)
+		} message: {
+			Text("export_pdf.dialog.subheading")
+		}
+	}
+	
+	/// Block view for a subcategory
+	/// - Parameters:
+	///   - list: the list of categories
+	///   - subCategory: a sub category
+	///   - subCategoryIndex: the index of the subcategory
+	/// - Returns: view
+	@ViewBuilder private func blockView(
+		showHeading: Bool,
+		subCategory: HealthSubCategory,
+		subCategoryIndex: Int) -> some View {
+		if showHeading {
+			Text(subCategory.heading)
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.foregroundColor(theme.contentPrimary)
+				.padding(.top, ViewTraits.List.top)
+		}
+		
+		ForEach(Array(subCategory.rows.enumerated()), id: \.offset) { index, element in
+			
+			ZStack {
+				Rectangle()
+					.foregroundStyle(.clear)
+					.accessibilityLabel(String(
+						format: String(localized: "medication_overview.voiceover"),
+						arguments: ["\(element.heading)", "\(element.subHeading ?? "")"]
+					))
+					.accessibilityIdentifier("category_element_\(subCategoryIndex)_\(index)")
+					.accessibilityAddTraits(.isButton)
+				
+				ActionCardView(
+					title: LocalizedStringKey(stringLiteral: element.heading),
+					message: LocalizedStringKey(stringLiteral: element.subHeading ?? ""),
+					perform: element.action
+				)
+				.cornerRadius(ViewTraits.List.cornerRadius)
+			}
+			.onTapGesture {
+				element.action?()
+			}
+		}
+	}
+	
+	/// Get the toolbar content (export to pdf)
+	/// - Returns: the toolbar content
+	@ToolbarContentBuilder private func pdfExportToolbarContent() -> some ToolbarContent {
+		ToolbarItemGroup(
+			placement: .topBarTrailing,
+			content: {
+				Spacer()
+				
+				Menu {
+					menuExportPDFOption()
+				} label: {
+					Image(ImageResource.Icon.more)
+				}
+				.buttonStyle(ToolbarButtonStyle())
+				.accessibilityLabel("export_pdf.menu")
+			}
+		)
+	}
+	
+	/// The export pdf option
+	/// - Returns: view
+	@ViewBuilder func menuExportPDFOption() -> some View {
+		
+		Button {
+			viewModel.reduce(.showExportAlert)
+		} label: {
+			Label("export_pdf.menu.save_pdf", systemImage: "arrow.down.document")
+				.tint(theme.contentPrimary)
+		}
 	}
 	
 	/// The view for no search items

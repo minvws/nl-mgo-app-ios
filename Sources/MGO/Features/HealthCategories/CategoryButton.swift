@@ -150,12 +150,11 @@ extension CategoryButton {
 	/// Create a Category Button
 	/// - Parameters:
 	///   - category:The  category
-	///   - title: The language key for the title
 	///   - state: The state of the category (loading, loaded, empty)
 	///   - box: Which box should the category be in?
-	init(category: HealthCategories.Category, title: LocalizedStringKey, state: CategoryButtonState = .loading, box: Int = 1) {
+	init(category: HealthCategories.Category, state: CategoryButtonState = .loading, box: Int = 1) {
 		self.id = category.rawValue
-		self.title = title
+		self.title = category.heading
 		self.state = state
 		self.box = box
 	}

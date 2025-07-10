@@ -12,23 +12,41 @@ class InAppBrowserViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
+	/// The restricted browser
 	@Published var browser: RestrictedBrowser
+	
+	/// The title of the page
 	@Published var title: LocalizedStringKey?
+	
+	/// The url to display
 	@Published var url: URL
+	
+	/// The action to perform when closing the view
+	private var closeAction: Coordination.Action
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
 	}
 	
-	/// Intitializer
+	/// Create an inn app browser view model
 	/// - Parameter coordinator: the app coordinator
-	init(url: URL, browser: RestrictedBrowser, title: LocalizedStringKey?, coordinator: (any Coordinator)? = nil) {
+	/// - Parameter url: the url to display
+	/// - Parameter browser: restricted browser
+	/// - Parameter title: the title of the page
+	init(
+		url: URL,
+		browser: RestrictedBrowser,
+		title: LocalizedStringKey?,
+		coordinator: (any Coordinator)? = nil,
+		closeAction: Coordination.Action = .backButtonPressed
+	) {
 		
 		self.url = url
 		self.browser = browser
 		self.title = title
 		self.coordinator = coordinator
+		self.closeAction = closeAction
 	}
 	
 	/// Handle any action
@@ -37,7 +55,7 @@ class InAppBrowserViewModel: ObservableObject {
 		
 		switch action {
 			case .backButtonPressed:
-				coordinator?.handle(Coordination.Action.backButtonPressed)
+				coordinator?.handle(closeAction)
 		}
 	}
 }
@@ -52,7 +70,14 @@ struct InAppBrowserView: View {
 	
 	var body: some View {
 		
-		RestrictedBrowserView(viewModel: RestrictedBrowserViewModel(url: viewModel.url, browser: viewModel.browser))
+		RestrictedBrowserView(
+			viewModel: RestrictedBrowserViewModel(
+				url: viewModel.url,
+				browser: viewModel.browser,
+				authUsername: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+				authPassword: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+			)
+		)
 		.navigationTitle(viewModel.title ?? "")
 		.navigationBarBackButtonHidden(true)
 		.navigationBarTitleDisplayMode(.inline)
@@ -68,7 +93,6 @@ struct InAppBrowserView: View {
 					}
 				)
 				.buttonStyle(BackButtonStyle())
-				.tag("close_view")
 				.accessibilityIdentifier("common.close")
 		)
 		.background(theme.backgroundPrimary.ignoresSafeArea())

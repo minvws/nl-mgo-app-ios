@@ -33,16 +33,18 @@ GitHubArtifactDownload: {
   shape: document
 }
 
-CopyImport <- example-package-figlet
-CopyImport <- swift-argument-parser
+CopyImport <- MGOCommandLine
 
-GitHubArtifactDownload <- example-package-figlet
-GitHubArtifactDownload <- swift-argument-parser
-GitHubArtifactDownload <- github-rest-api-swift-openapi
 GitHubArtifactDownload <- AuthorizationMiddleware
+GitHubArtifactDownload <- github-rest-api-swift-openapi
+GitHubArtifactDownload <- MGOCommandLine
 
 # - Packages -
 
 AuthorizationMiddleware { style.fill: "#ffcc00" }
 AuthorizationMiddleware <- swift-openapi-runtime
 AuthorizationMiddleware <- swift-http-types
+
+MGOCommandLine { style.fill: "#ffcc00" }
+MGOCommandLine <- example-package-figlet
+MGOCommandLine <- swift-argument-parser

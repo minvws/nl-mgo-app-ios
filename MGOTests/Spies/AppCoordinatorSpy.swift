@@ -170,4 +170,18 @@ class AppCoordinatorSpy: AppCoordinatorProtocol {
 		invokedHandleParameters = (action, ())
 		invokedHandleParametersList.append((action, ()))
 	}
+
+	var invokedShowCloseButtonForSheet = false
+	var invokedShowCloseButtonForSheetCount = 0
+	var invokedShowCloseButtonForSheetParameters: (for: AppCoordination.State?, Void)?
+	var invokedShowCloseButtonForSheetParametersList = [(for: AppCoordination.State?, Void)]()
+	var stubbedShowCloseButtonForSheetResult: Bool! = false
+
+	func showCloseButtonForSheet(for: AppCoordination.State?) -> Bool {
+		invokedShowCloseButtonForSheet = true
+		invokedShowCloseButtonForSheetCount += 1
+		invokedShowCloseButtonForSheetParameters = (`for`, ())
+		invokedShowCloseButtonForSheetParametersList.append((`for`, ()))
+		return stubbedShowCloseButtonForSheetResult
+	}
 }
