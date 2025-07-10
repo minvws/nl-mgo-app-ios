@@ -7,6 +7,8 @@ import SwiftUI
 
 // See https://stackoverflow.com/a/63951611/443270
 public extension LocalizedStringKey {
+	
+	/// Get the key from a localized string key
 	var stringKey: String {
 		Mirror(reflecting: self).children.first(where: { $0.label == "key" })?.value as? String ?? ""
 	}

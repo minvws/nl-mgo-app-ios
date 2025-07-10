@@ -317,7 +317,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the HealthcareCoordination State
 	/// - Returns: A view for that state
-	@MainActor @ViewBuilder func viewState(for state: HealthcareCoordination.State?) -> some View {
+	@ViewBuilder @MainActor @preconcurrency func viewState(for state: HealthcareCoordination.State?) -> some View {
 		
 		switch state {
 			
