@@ -26,7 +26,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		localisationServiceClientSpy = LocalisationServiceClientSpy(serverUrl: serverUrl, username: nil, password: nil)
 	}
 	
-	private func createSut(preselectAllOrganizations: Bool = true) {
+	@MainActor private func createSut(preselectAllOrganizations: Bool = true) {
 		
 		viewModel = OrganizationListAutomaticViewModel(
 			coordinator: coordinatorSpy,
@@ -37,7 +37,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		sut = OrganizationListAutomaticView(viewModel: self.viewModel)
 	}
 	
-	func test_loading() {
+	@MainActor func test_loading() {
 		
 		// Given
 		createSut()
@@ -50,7 +50,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_failure() {
+	@MainActor func test_failure() {
 		
 		// Given
 		createSut()
@@ -64,7 +64,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_failure_action() throws {
+	@MainActor func test_failure_action() throws {
 		
 		// Given
 		createSut()
@@ -80,7 +80,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue(), timeout: .seconds(5))
 	}
 	
-	func test_list_lightPortrait() {
+	@MainActor func test_list_lightPortrait() {
 		
 		// Given
 		createSut()
@@ -102,7 +102,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		)
 	}
 	
-	func test_list_darkPortrait() {
+	@MainActor func test_list_darkPortrait() {
 		
 		// Given
 		createSut()
@@ -124,7 +124,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		)
 	}
 	
-	func test_list_lightLandscape() {
+	@MainActor func test_list_lightLandscape() {
 		
 		// Given
 		createSut()
@@ -146,7 +146,7 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		)
 	}
 	
-	func test_list_darkLandscape() {
+	@MainActor func test_list_darkLandscape() {
 		
 		// Given
 		createSut()

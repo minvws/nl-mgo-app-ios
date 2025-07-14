@@ -44,7 +44,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beFalse())
 	}
 	
-	func test_noLocalisationServiceClient() {
+	@MainActor func test_noLocalisationServiceClient() {
 		
 		// Given
 		sut = OrganizationListAutomaticViewModel(
@@ -60,7 +60,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(.failure(LocalisationServiceClientError.noServer)))
 	}
 	
-	func test_empty() {
+	@MainActor func test_empty() {
 		
 		// Given
 		createSut()
@@ -74,7 +74,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 
-	func test_failure() {
+	@MainActor func test_failure() {
 		
 		// Given
 		createSut()
@@ -89,7 +89,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
-	func test_retry() {
+	@MainActor func test_retry() {
 		
 		// Given
 		createSut()
@@ -103,7 +103,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
-	func test_list() {
+	@MainActor func test_list() {
 		
 		// Given
 		createSut()
@@ -120,7 +120,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
-	func test_list_demoMode() {
+	@MainActor func test_list_demoMode() {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
@@ -138,7 +138,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue(), timeout: .seconds(10))
 	}
 	
-	func test_list_notPreselected() {
+	@MainActor func test_list_notPreselected() {
 		
 		// Given
 		createSut(preselectAllOrganizations: false)
@@ -155,7 +155,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
-	func test_list_noDataServices() {
+	@MainActor func test_list_noDataServices() {
 		
 		// Given
 		createSut()
@@ -172,7 +172,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
-	func test_list_unsupportedDataServices() {
+	@MainActor func test_list_unsupportedDataServices() {
 		
 		// Given
 		createSut()
@@ -189,7 +189,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
-	func test_list_selected() {
+	@MainActor func test_list_selected() {
 		
 		// Given
 		createSut()
@@ -207,7 +207,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue())
 	}
 	
-	func test_closeSheet_shouldCallCoordinator() {
+	@MainActor func test_closeSheet_shouldCallCoordinator() {
 		
 		// Given
 		createSut()
@@ -220,7 +220,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
 	}
 	
-	func test_select_shouldAddToList() {
+	@MainActor func test_select_shouldAddToList() {
 		
 		// Given
 		createSut(preselectAllOrganizations: false)
@@ -237,7 +237,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(state))
 	}
 	
-	func test_unselect_shouldRemoveFromList() {
+	@MainActor func test_unselect_shouldRemoveFromList() {
 		
 		// Given
 		createSut()
@@ -255,7 +255,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(state))
 	}
 	
-	func test_store() {
+	@MainActor func test_store() {
 		
 		// Given
 		createSut()

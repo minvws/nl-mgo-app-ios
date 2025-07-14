@@ -22,7 +22,7 @@ final class InAppBrowserViewModelTests: XCTestCase {
 		sut = InAppBrowserViewModel(url: url, browser: browser, title: nil, coordinator: coordinatorSpy)
 	}
 	
-	func test_backButtonPressed() throws {
+	@MainActor func test_backButtonPressed() throws {
 		
 		// Given
 		try setupSut()

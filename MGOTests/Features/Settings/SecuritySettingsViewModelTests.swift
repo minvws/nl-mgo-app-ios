@@ -25,7 +25,7 @@ final class SecuritySettingsViewModelTests: XCTestCase {
 		sut = SecuritySettingsViewModel(coordinator: coordinatorSpy, bioMetricType: bioMetricType)
 	}
 	
-	func test_backButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
 		setupSut { .none }
@@ -38,7 +38,7 @@ final class SecuritySettingsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 
-	func test_handleBiometricEnabled_authNotOK_shouldSetSecureSettings() {
+	@MainActor func test_handleBiometricEnabled_authNotOK_shouldSetSecureSettings() {
 		
 		// Given
 		setupSut { .faceID }
@@ -53,7 +53,7 @@ final class SecuritySettingsViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_handleBiometricEnabled_authOK_shouldSetSecureSettings() {
+	@MainActor func test_handleBiometricEnabled_authOK_shouldSetSecureSettings() {
 		
 		// Given
 		setupSut { .faceID }
@@ -68,7 +68,7 @@ final class SecuritySettingsViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_handleBiometricEnabled_authCancelled_shouldSetSecureSettings() {
+	@MainActor func test_handleBiometricEnabled_authCancelled_shouldSetSecureSettings() {
 		
 		// Given
 		setupSut { .faceID }
@@ -84,7 +84,7 @@ final class SecuritySettingsViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_handleBiometricEnabled_authFailed_shouldSetSecureSettings() {
+	@MainActor func test_handleBiometricEnabled_authFailed_shouldSetSecureSettings() {
 		
 		// Given
 		setupSut { .faceID }
@@ -100,7 +100,7 @@ final class SecuritySettingsViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_handleBiometricEnabled_authUserFallback_shouldSetSecureSettings() {
+	@MainActor func test_handleBiometricEnabled_authUserFallback_shouldSetSecureSettings() {
 		
 		// Given
 		setupSut { .faceID }
@@ -116,7 +116,7 @@ final class SecuritySettingsViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_handleBiometricEnabled_authDeclined_shouldSetSecureSettings() {
+	@MainActor func test_handleBiometricEnabled_authDeclined_shouldSetSecureSettings() {
 		
 		// Given
 		setupSut { .faceID }
@@ -132,7 +132,7 @@ final class SecuritySettingsViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_handleBiometricEnabled_authLockout_shouldSetSecureSettings() {
+	@MainActor func test_handleBiometricEnabled_authLockout_shouldSetSecureSettings() {
 		
 		// Given
 		setupSut { .faceID }
@@ -149,7 +149,7 @@ final class SecuritySettingsViewModelTests: XCTestCase {
 		expect(self.sut.state.showLockoutPopup) == true
 	}
 	
-	func test_handleBiometricEnabled_authError_shouldNotCallCoordinator() {
+	@MainActor func test_handleBiometricEnabled_authError_shouldNotCallCoordinator() {
 		
 		// Given
 		setupSut { .faceID }

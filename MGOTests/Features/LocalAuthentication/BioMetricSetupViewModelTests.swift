@@ -25,7 +25,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		sut = BioMetricSetupViewModel(coordinator: coordinatorSpy, bioMetricType: bioMetricType)
 	}
 	
-	func test_actionWithoutBioMetrics_shouldCallCoordinator() {
+	@MainActor func test_actionWithoutBioMetrics_shouldCallCoordinator() {
 		
 		// Given
 		setupSut { .faceID }
@@ -40,7 +40,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_actionWithBioMetrics_authOK_shouldCallCoordinator() {
+	@MainActor func test_actionWithBioMetrics_authOK_shouldCallCoordinator() {
 		
 		// Given
 		setupSut { .faceID }
@@ -56,7 +56,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_actionWithBioMetrics_authCancelled_shouldNotCallCoordinator() {
+	@MainActor func test_actionWithBioMetrics_authCancelled_shouldNotCallCoordinator() {
 		
 		// Given
 		setupSut { .faceID }
@@ -72,7 +72,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_actionWithBioMetrics_authFailed_shouldNotCallCoordinator() {
+	@MainActor func test_actionWithBioMetrics_authFailed_shouldNotCallCoordinator() {
 		
 		// Given
 		setupSut { .faceID }
@@ -88,7 +88,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_actionWithBioMetrics_authUserFallback_shouldCallCoordinator() {
+	@MainActor func test_actionWithBioMetrics_authUserFallback_shouldCallCoordinator() {
 		
 		// Given
 		setupSut { .faceID }
@@ -105,7 +105,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_actionWithBioMetrics_authDeclined_shouldCallCoordinator() {
+	@MainActor func test_actionWithBioMetrics_authDeclined_shouldCallCoordinator() {
 		
 		// Given
 		setupSut { .faceID }
@@ -122,7 +122,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_actionWithBioMetrics_authLockout_shouldNotCallCoordinator() {
+	@MainActor func test_actionWithBioMetrics_authLockout_shouldNotCallCoordinator() {
 		
 		// Given
 		setupSut { .faceID }
@@ -139,7 +139,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		expect(self.sut.state.showLockoutPopup) == true
 	}
 	
-	func test_actionWithBioMetrics_authError_shouldNotCallCoordinator() {
+	@MainActor func test_actionWithBioMetrics_authError_shouldNotCallCoordinator() {
 		
 		// Given
 		setupSut { .faceID }
@@ -155,7 +155,7 @@ final class BioMetricSetupViewModelTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedBioMetricAuthenticationEnabledSetter).toEventually(beTrue())
 	}
 	
-	func test_actionShowTouchPopup() {
+	@MainActor func test_actionShowTouchPopup() {
 		
 		// Given
 		setupSut { .touchID }

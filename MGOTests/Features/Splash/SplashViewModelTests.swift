@@ -32,7 +32,7 @@ final class SplashViewModelTests: XCTestCase {
 			.toEventually(beTrue())
 	}
 	
-	func test_reduce_fromIdle_toLoadingConfig() {
+	@MainActor func test_reduce_fromIdle_toLoadingConfig() {
 		
 		// Given
 		sut.state = .idle
@@ -48,7 +48,7 @@ final class SplashViewModelTests: XCTestCase {
 			.toEventually(equal(Coordination.Action.finishedSplash))
 	}
 	
-	func test_reduce_fromIdle_toLoadingConfig_jailbroken() throws {
+	@MainActor func test_reduce_fromIdle_toLoadingConfig_jailbroken() throws {
 		
 		// Given
 		sut.state = .idle
@@ -63,7 +63,7 @@ final class SplashViewModelTests: XCTestCase {
 		expect(self.servicesSpies.jailBreakSpy.invokedIsJailBroken) == true
 	}
 
-	func test_reduce_fromLoadingConfig_toLoadingConfig() {
+	@MainActor func test_reduce_fromLoadingConfig_toLoadingConfig() {
 		
 		// Given
 		sut.state = .loadingConfig
@@ -75,7 +75,7 @@ final class SplashViewModelTests: XCTestCase {
 		expect(self.sut.state) == .loadingConfig
 	}
 	
-	func test_reduce_fromConfigLoaded_toConfigLoaded() {
+	@MainActor func test_reduce_fromConfigLoaded_toConfigLoaded() {
 		
 		// Given
 		sut.state = .configLoaded
@@ -87,7 +87,7 @@ final class SplashViewModelTests: XCTestCase {
 		expect(self.sut.state) == .configLoaded
 	}
 	
-	func test_reduce_fromConfigLoaded_toReset() {
+	@MainActor func test_reduce_fromConfigLoaded_toReset() {
 		
 		// Given
 		sut.state = .configLoaded
@@ -101,7 +101,7 @@ final class SplashViewModelTests: XCTestCase {
 			.toEventually(beTrue())
 	}
 	
-	func test_loadConfig_shouldCallCoordinator() {
+	@MainActor func test_loadConfig_shouldCallCoordinator() {
 		
 		// Given
 		sut.state = .idle
@@ -118,7 +118,7 @@ final class SplashViewModelTests: XCTestCase {
 			.toEventually(equal(Coordination.Action.finishedSplash))
 	}
 	
-	func test_dissmissWarning_shouldUpdateSecureUserSettings() {
+	@MainActor func test_dissmissWarning_shouldUpdateSecureUserSettings() {
 		
 		// Given
 		sut.state = .idle

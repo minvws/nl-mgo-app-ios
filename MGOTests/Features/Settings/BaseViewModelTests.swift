@@ -22,7 +22,7 @@ final class BaseViewModelTests: XCTestCase {
 		sut = BaseViewModel(coordinator: self.coordinatorSpy)
 	}
 
-	func test_backButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
 		

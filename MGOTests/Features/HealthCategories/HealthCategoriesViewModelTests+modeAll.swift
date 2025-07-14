@@ -25,7 +25,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 	}
 	
-	func test_categorySelected_shouldCallCoordinator_whenStateIsLoaded() throws {
+	@MainActor func test_categorySelected_shouldCallCoordinator_whenStateIsLoaded() throws {
 		
 		// Given
 		let button = CategoryButton(category: HealthCategories.Category.measurements, state: .loaded, box: 1)
@@ -41,7 +41,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(params.params["healthcareOrganization"]) == nil
 	}
 	
-	func test_categorySelected_shouldCallCoordinator_whenStateIsEmpty() throws {
+	@MainActor func test_categorySelected_shouldCallCoordinator_whenStateIsEmpty() throws {
 		
 		// Given
 		let button = CategoryButton(category: HealthCategories.Category.measurements, state: .empty, box: 1)
@@ -57,7 +57,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(params.params["healthcareOrganization"]) == nil
 	}
 	
-	func test_categorySelected_shouldCallCoordinator_whenStateIsLoading() throws {
+	@MainActor func test_categorySelected_shouldCallCoordinator_whenStateIsLoading() throws {
 		
 		// Given
 		let button = CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "test", state: .loading, box: 1)
@@ -73,7 +73,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(params.params["healthcareOrganization"]) == nil
 	}
 	
-	func test_loadMedication_withData() throws {
+	@MainActor func test_loadMedication_withData() throws {
 		
 		// Given
 		let resource = try getResource("zibMedicationUse")
@@ -90,7 +90,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.loaded))
 	}
 	
-	func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
+	@MainActor func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
 		
 		// Given
 		let mgoResource = MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)
@@ -106,7 +106,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.empty))
 	}
 	
-	func test_loadMedication_noData_stateShouldBeLoading() throws {
+	@MainActor func test_loadMedication_noData_stateShouldBeLoading() throws {
 		
 		// Given
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(DataStoreError.noData)
@@ -119,7 +119,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.loading))
 	}
 	
-	func test_loadMedication_dataError_stateShouldBeEmpty() throws {
+	@MainActor func test_loadMedication_dataError_stateShouldBeEmpty() throws {
 		
 		// Given
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(NSError(domain: "test_loadMedication_cacheMiss_dataError", code: 404))
@@ -132,7 +132,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.empty), timeout: .seconds(5))
 	}
 	
-	func test_refresh() {
+	@MainActor func test_refresh() {
 		
 		// Given
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
@@ -148,7 +148,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 0
 	}
 	
-	func test_searchButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_searchButtonPressed_shouldCallCoordinator() {
 		
 		// Given
 		

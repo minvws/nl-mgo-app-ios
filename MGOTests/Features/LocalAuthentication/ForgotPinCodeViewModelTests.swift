@@ -19,7 +19,7 @@ final class ForgotPinCodeViewModelTests: XCTestCase {
 		super.setUp()
 	}
 
-	func test_cancelButtonPressed() {
+	@MainActor func test_cancelButtonPressed() {
 		
 		// Given
 		
@@ -31,7 +31,7 @@ final class ForgotPinCodeViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.dismissForgotPinCode
 	}
 	
-	func test_recreateAccount() {
+	@MainActor func test_recreateAccount() {
 		
 		// Given
 		
@@ -43,7 +43,7 @@ final class ForgotPinCodeViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.recreateAccount
 	}
 	
-	func test_showDialog() {
+	@MainActor func test_showDialog() {
 		
 		// Given
 		
@@ -54,7 +54,7 @@ final class ForgotPinCodeViewModelTests: XCTestCase {
 		expect(self.sut.showDialog) == true
 	}
 	
-	func test_cancelDialog() {
+	@MainActor func test_cancelDialog() {
 		
 		// Given
 		sut.showDialog = true

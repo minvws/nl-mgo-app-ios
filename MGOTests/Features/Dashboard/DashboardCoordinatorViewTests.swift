@@ -20,7 +20,7 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 		super.setUp()
 	}
 
-	func test_default() throws {
+	@MainActor func test_default() throws {
 		
 		// Given
 		
@@ -31,7 +31,7 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 		takeSnapShots(content: sut, precision: 0.95)
 	}
 	
-	func test_secondTab() throws {
+	@MainActor func test_secondTab() throws {
 		
 		// Given
 		let sut = DashboardCoordinatorView(coordinator: coordinator)
@@ -43,7 +43,7 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_thirdTab() throws {
+	@MainActor func test_thirdTab() throws {
 		
 		// Given
 		let sut = DashboardCoordinatorView(coordinator: coordinator)

@@ -22,7 +22,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		sut = SettingsCoordinator(parentCoordinator: parentCoordinator)
 	}
 	
-	func test_coordinatorView_forSettings() throws {
+	@MainActor func test_coordinatorView_forSettings() throws {
 		
 		// Given
 		let state = SettingsCoordination.State.settings
@@ -34,7 +34,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forSettings_noBiometricType() throws {
+	@MainActor func test_coordinatorView_forSettings_noBiometricType() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .none }
@@ -47,7 +47,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forDisplaySettings() throws {
+	@MainActor func test_coordinatorView_forDisplaySettings() throws {
 		
 		// Given
 		let state = SettingsCoordination.State.displaySettings
@@ -59,7 +59,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forSecuritySettings() throws {
+	@MainActor func test_coordinatorView_forSecuritySettings() throws {
 		
 		// Given
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
@@ -72,7 +72,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAdvancedSettings() throws {
+	@MainActor func test_coordinatorView_forAdvancedSettings() throws {
 		
 		// Given
 		let state = SettingsCoordination.State.advancedSettings
@@ -84,7 +84,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAboutTheApp() throws {
+	@MainActor func test_coordinatorView_forAboutTheApp() throws {
 		
 		// Given
 		let state = SettingsCoordination.State.aboutTheApp
@@ -96,7 +96,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAboutAccessibility() throws {
+	@MainActor func test_coordinatorView_forAboutAccessibility() throws {
 		
 		// Given
 		let state = SettingsCoordination.State.aboutAccessibility
@@ -108,7 +108,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAboutSafetyTips() throws {
+	@MainActor func test_coordinatorView_forAboutSafetyTips() throws {
 		
 		// Given
 		let state = SettingsCoordination.State.aboutSafetyTips
@@ -120,7 +120,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAboutOpenSourceLibraries() throws {
+	@MainActor func test_coordinatorView_forAboutOpenSourceLibraries() throws {
 		
 		// Given
 		let state = SettingsCoordination.State.aboutOpenSourceLibraries
@@ -132,7 +132,7 @@ final class SettingsCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_privacyStatement() throws {
+	@MainActor func test_coordinatorView_privacyStatement() throws {
 		
 		// Given
 		let url = try XCTUnwrap(URL(string: "https://example.com"))

@@ -18,7 +18,7 @@ final class UpdateRequiredViewModelTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func test_reduce_actionButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_reduce_actionButtonPressed_shouldCallCoordinator() {
 		
 		// Given
 		

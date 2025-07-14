@@ -31,7 +31,7 @@ final class LoginViewModelTests: XCTestCase {
 		super.setUp()
 	}
 
-	func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() {
+	@MainActor func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
@@ -44,7 +44,7 @@ final class LoginViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
 	}
 	
-	func test_loginWithDigiD() throws {
+	@MainActor func test_loginWithDigiD() throws {
 		
 		// Given
 		let auth = try XCTUnwrap(URL(string: "https://example.com/auth"))

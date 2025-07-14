@@ -28,7 +28,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 	
 	// MARK: - Handle -
 	
-	func test_coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet() {
+	@MainActor func test_coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet() {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
@@ -40,7 +40,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.automaticLocalization
 	}
 	
-	func test_coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet_featureFlagOff() {
+	@MainActor func test_coordinatorHandle_addHealthcareOrganization_pathForSheet_shouldBeSet_featureFlagOff() {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
@@ -52,7 +52,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.manualLocalization
 	}
 	
-	func test_coordinatorHandle_search_pathForSheet_shouldContainHealthcareOrganizationSearchResults() {
+	@MainActor func test_coordinatorHandle_search_pathForSheet_shouldContainHealthcareOrganizationSearchResults() {
 		
 		// Given
 		
@@ -78,7 +78,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		)
 	}
 	
-	func test_coordinatorHandle_search_missingParams_pathForSheet_shouldBeEmpty() {
+	@MainActor func test_coordinatorHandle_search_missingParams_pathForSheet_shouldBeEmpty() {
 		
 		// Given
 		
@@ -97,7 +97,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
 	}
 	
-	func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
+	@MainActor func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
 		
 		// Given
 		sut.rootStateForSheet = HealthcareCoordination.State.manualLocalization
@@ -113,7 +113,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == nil
 	}
 	
-	func test_coordinatorHandle_closeSheet_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
+	@MainActor func test_coordinatorHandle_closeSheet_pathForSheet_shouldBeEmpty_rootSheet_shouldBeEmpty() {
 		
 		// Given
 		sut.rootStateForSheet = HealthcareCoordination.State.manualLocalization
@@ -129,7 +129,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == nil
 	}
 	
-	func test_coordinatorHandle_backButtonPressed_pathForSheetNotEmpty_shouldBeReduced() {
+	@MainActor func test_coordinatorHandle_backButtonPressed_pathForSheetNotEmpty_shouldBeReduced() {
 		
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([HealthcareCoordination.State.showHealthCategories])
@@ -150,7 +150,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		)
 	}
 	
-	func test_coordinatorHandle_backButtonPressed_pathForSheetEmpty_path_shouldBeReduced() {
+	@MainActor func test_coordinatorHandle_backButtonPressed_pathForSheetEmpty_path_shouldBeReduced() {
 		
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([HealthcareCoordination.State.organizations])
@@ -164,7 +164,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_showHealthcareOrganization_path_shouldContainShowHealthcareOrganization() {
+	@MainActor func test_coordinatorHandle_showHealthcareOrganization_path_shouldContainShowHealthcareOrganization() {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("1")
@@ -187,7 +187,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		)
 	}
 	
-	func test_coordinatorHandle_showHealthcareOrganization_missingParams_path_shouldBeEmpty() {
+	@MainActor func test_coordinatorHandle_showHealthcareOrganization_missingParams_path_shouldBeEmpty() {
 		
 		// Given
 		
@@ -198,7 +198,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_showHealthcareOrganization_wrongParams_path_shouldBeEmpty() {
+	@MainActor func test_coordinatorHandle_showHealthcareOrganization_wrongParams_path_shouldBeEmpty() {
 		
 		// Given
 		
@@ -214,7 +214,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_showMedication_missingParams_path_shouldBeEmpty() {
+	@MainActor func test_coordinatorHandle_showMedication_missingParams_path_shouldBeEmpty() {
 		
 		// Given
 		
@@ -225,7 +225,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_showMedication_wrongParams_path_shouldBeEmpty() {
+	@MainActor func test_coordinatorHandle_showMedication_wrongParams_path_shouldBeEmpty() {
 		
 		// Given
 		
@@ -241,7 +241,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_removeHealthcareOrganization() {
+	@MainActor func test_coordinatorHandle_removeHealthcareOrganization() {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("1")
@@ -260,7 +260,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		)
 	}
 	
-	func test_coordinatorHandle_removedHealthcareOrganization() {
+	@MainActor func test_coordinatorHandle_removedHealthcareOrganization() {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("1")
@@ -280,7 +280,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		)
 	}
 	
-	func test_coordinatorHandle_showHealthCategory() {
+	@MainActor func test_coordinatorHandle_showHealthCategory() {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("1")
@@ -308,7 +308,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		)
 	}
 	
-	func test_coordinatorHandle_showHealthCategory_withoutOrganization() {
+	@MainActor func test_coordinatorHandle_showHealthCategory_withoutOrganization() {
 		
 		// Given
 		let category = HealthCategories.Category.medication
@@ -332,7 +332,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		)
 	}
 	
-	func test_coordinatorHandle_showHealthCategory_invalidParam() {
+	@MainActor func test_coordinatorHandle_showHealthCategory_invalidParam() {
 		
 		// Given
 		
@@ -348,7 +348,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_showHealthCategoryData() {
+	@MainActor func test_coordinatorHandle_showHealthCategoryData() {
 		
 		// Given
 		let heading = "showHealthData"
@@ -382,7 +382,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		)
 	}
 	
-	func test_coordinatorHandle_showHealthCategoryData_inSheet() {
+	@MainActor func test_coordinatorHandle_showHealthCategoryData_inSheet() {
 		
 		// Given
 		let heading = "showHealthData"
@@ -413,7 +413,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		)
 	}
 	
-	func test_coordinatorHandle_showHealthCategoryData_missingParam() {
+	@MainActor func test_coordinatorHandle_showHealthCategoryData_missingParam() {
 		
 		// Given
 		let heading = "showHealthData"
@@ -434,7 +434,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_exportHealthData() {
+	@MainActor func test_coordinatorHandle_exportHealthData() {
 		
 		// Given
 		let data = PdfData(heading: "test", subHeading: "test", tables: [], footer: "test")
@@ -454,7 +454,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.exportHealthData(data)
 	}
 	
-	func test_coordinatorHandle_exportHealthData_missingData() {
+	@MainActor func test_coordinatorHandle_exportHealthData_missingData() {
 		
 		// Given
 		
