@@ -23,7 +23,12 @@ public class MGORepository {
 	///   - endpoint: the endpoint to use
 	///   - dvaTarget: the dva target
 	/// - Returns: Bundle as data.
-	public func getBundleData(endpoint: DVP.Endpoint, dvaTarget: String, username: String?, password: String?) async throws -> Data {
+	public func getBundleData(
+		endpoint: DVP.Endpoint,
+		dvaTarget: String,
+		username: String?,
+		password: String?
+	) async throws -> Data {
 		
 		var path = endpoint.path
 		if let directory = endpoint.directory {
@@ -72,7 +77,7 @@ public class MGORepository {
 	/// process the bundle FHIR data into mgoResources
 	/// - Parameter data: FHIR bundle
 	/// - Returns: array of mgoResources (as Data)
-	public func process(_ bundle: Data, fhirVersion: String) throws -> [MgoResource] {
+	nonisolated public func process(_ bundle: Data, fhirVersion: String) throws -> [MgoResource] {
 		
 		// Split the bundle into FHIR resources
 		let fhirResources = parser.splitBundleIntoResources(bundle)

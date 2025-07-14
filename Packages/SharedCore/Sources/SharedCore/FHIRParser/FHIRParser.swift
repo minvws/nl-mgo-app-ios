@@ -8,8 +8,7 @@ import JavaScriptCore
 import MGODebug
 
 /// Parse FHIR data
-@preconcurrency @MainActor
-public class FHIRParser {
+@preconcurrency nonisolated public class FHIRParser {
 	
 	/// The namespace used in the JavaScript context
 	public static let nameSpace = "MgoFhirData"

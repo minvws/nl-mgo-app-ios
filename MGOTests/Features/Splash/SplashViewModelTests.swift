@@ -26,8 +26,10 @@ final class SplashViewModelTests: XCTestCase {
 		// When
 		
 		// Then
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoad) == true
-		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == true
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoad)
+			.toEventually(beTrue())
+		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers)
+			.toEventually(beTrue())
 	}
 	
 	func test_reduce_fromIdle_toLoadingConfig() {
@@ -42,7 +44,8 @@ final class SplashViewModelTests: XCTestCase {
 		expect(self.sut.state) == .idle
 		expect(self.servicesSpies.jailBreakSpy.invokedIsJailBroken) == true
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedSplash))
+		expect(self.coordinatorSpy.invokedHandleParameters?.0)
+			.toEventually(equal(Coordination.Action.finishedSplash))
 	}
 	
 	func test_reduce_fromIdle_toLoadingConfig_jailbroken() throws {
@@ -94,7 +97,8 @@ final class SplashViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.sut.state) == .loadingConfig
-		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers) == true
+		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers)
+			.toEventually(beTrue())
 	}
 	
 	func test_loadConfig_shouldCallCoordinator() {
@@ -106,9 +110,12 @@ final class SplashViewModelTests: XCTestCase {
 		sut.reduce(.loaded)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(.configLoaded), timeout: .seconds(5))
-		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedSplash))
+		expect(self.sut.state)
+			.toEventually(equal(.configLoaded), timeout: .seconds(5))
+		expect(self.coordinatorSpy.invokedHandle)
+			.toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandleParameters?.0)
+			.toEventually(equal(Coordination.Action.finishedSplash))
 	}
 	
 	func test_dissmissWarning_shouldUpdateSecureUserSettings() {
@@ -120,8 +127,11 @@ final class SplashViewModelTests: XCTestCase {
 		sut.reduce(.dismissWarning)
 		
 		// Then
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenJailBreakWarningSetter) == true
-		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0).toEventually(equal(Coordination.Action.finishedSplash))
+		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenJailBreakWarningSetter)
+			.toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandle)
+			.toEventually(beTrue())
+		expect(self.coordinatorSpy.invokedHandleParameters?.0)
+			.toEventually(equal(Coordination.Action.finishedSplash))
 	}
 }

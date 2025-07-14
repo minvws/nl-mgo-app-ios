@@ -9,7 +9,7 @@ import FHIRClient
 public struct DVP {
 	
 	/// Potential FHIR versions of the response
-	public enum FhirVersion: String {
+	public enum FhirVersion: String, Sendable {
 		case r3 = "R3"
 		case r4 = "R4"
 		
@@ -23,7 +23,7 @@ public struct DVP {
 		}
 	}
 	
-	public struct Endpoint {
+	public struct Endpoint: Sendable {
 		
 		/// Create an Dataset Endpoint
 		/// - Parameters:
@@ -38,7 +38,8 @@ public struct DVP {
 			parameters: RequestParameters? = nil,
 			directory: String? = nil,
 			serviceId: String,
-			fhirVersion: DVP.FhirVersion = .r3) {
+			fhirVersion: DVP.FhirVersion = .r3
+		) {
 			self.path = path
 			self.parameters = parameters
 			self.directory = directory
