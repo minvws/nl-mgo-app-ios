@@ -63,10 +63,13 @@ class AddOrganizationViewModel: ObservableObject {
 	}
 	
 	/// Setup all the observers
-	private func setupObservers() {
+	@MainActor private func setupObservers() {
 		
 		// Listen for reset notification
-		Current.notificationCenter.addObserver(forName: .clearSearch, object: nil, queue: OperationQueue.main) { @MainActor _ in
+		Current.notificationCenter.addObserver(
+			forName: .clearSearch,
+			object: nil,
+			queue: OperationQueue.main) { @MainActor _ in
 			self.reduce(.clear)
 		}
 	}
@@ -125,7 +128,7 @@ class AddOrganizationViewModel: ObservableObject {
 	
 	/// Announce a message to voiceover
 	/// - Parameter message: the message to be announced (as a String)
-	private func announce(_ message: String) {
+	@MainActor private func announce(_ message: String) {
 		
 		logDebug("Announcing: \(message)")
 		

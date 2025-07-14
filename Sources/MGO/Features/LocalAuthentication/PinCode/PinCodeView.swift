@@ -184,7 +184,7 @@ class PinCodeViewModel: ObservableObject {
 	
 	/// Announce "Field {x}, active"
 	/// - Parameter field: the field number
-	private func announceActiveField(_ field: Int) {
+	@MainActor private func announceActiveField(_ field: Int) {
 		let message = String(
 			format: String(localized: "pincode.announce.voiceover"),
 			arguments: [
@@ -197,7 +197,7 @@ class PinCodeViewModel: ObservableObject {
 	
 	/// Announce a message to voiceover
 	/// - Parameter message: the message to be announced (as a String)
-	private func announce(_ message: String) {
+	@MainActor private func announce(_ message: String) {
 		
 		logDebug("Announcing: \(message)")
 		

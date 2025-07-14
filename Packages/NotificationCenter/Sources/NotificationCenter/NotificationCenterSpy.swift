@@ -91,7 +91,7 @@ public class NotificationCenterSpy: NotificationCenterProtocol {
 	public var invokedPostNotificationParameters: (notification: UIAccessibility.Notification, argument: Any?)?
 	public var invokedPostNotificationParametersList = [(notification: UIAccessibility.Notification, argument: Any?)]()
 
-	public func post(notification: UIAccessibility.Notification, argument: Any?) {
+	@MainActor public func post(notification: UIAccessibility.Notification, argument: Any?) {
 		invokedPostNotification = true
 		invokedPostNotificationCount += 1
 		invokedPostNotificationParameters = (notification, argument)
