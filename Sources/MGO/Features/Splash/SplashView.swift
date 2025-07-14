@@ -55,7 +55,9 @@ class SplashViewModel: ObservableObject {
 	/// Start the services fetching remote data
 	private func startServices() {
 		
-		Current.remoteConfigurationRepository.fetchAndUpdateObservers()
+		_Concurrency.Task {
+			await Current.remoteConfigurationRepository.fetchAndUpdateObservers()
+		}
 		Current.resourceRepository.load()
 	}
 	

@@ -39,35 +39,40 @@ final class RemoteConfigurationRepositoryTests: XCTestCase {
 		expect(config) == RemoteConfig.fallback
 	}
 
-	func test_fetchFromAPI() {
+	func test_fetchFromAPI() async {
 		
 		// Given
 		clientSpy.stubbedRemoteConfiguration = RemoteConfig(iosMinimumVersion: "fetchFromApi")
 		
 		// When
-		sut.fetchAndUpdateObservers()
+		await sut.fetchAndUpdateObservers()
 		
 		// Then
-		expect(self.sut.storedConfiguration).toEventually(equal(clientSpy.stubbedRemoteConfiguration))
+		await expect(self.sut.storedConfiguration)
+			.toEventually(equal(clientSpy.stubbedRemoteConfiguration))
 	}
 	
-	func test_fetchFromStorage() throws {
+	func test_fetchFromStorage() async throws {
 		
 		// Given
-		let error = NSError(domain: "RemoteConfigurationRepositoryTests", code: 404)
+		let error = NSError(
+			domain: "RemoteConfigurationRepositoryTests",
+			code: 404
+		)
 		clientSpy.stubbedError = error // Error from API
 		let config = RemoteConfig(iosMinimumVersion: "fetchFromStorage")
 		let encoded = try JSONEncoder().encode(config)
 		storageSpy.stubbedReadResult = encoded // Config from storage
 		
 		// When
-		sut.fetchAndUpdateObservers()
+		await sut.fetchAndUpdateObservers()
 		
 		// Then
-		expect(self.sut.storedConfiguration).toEventually(equal(config))
+		await expect(self.sut.storedConfiguration)
+			.toEventually(equal(config))
 	}
 	
-	func test_fetchFromStorage_noClient() throws {
+	func test_fetchFromStorage_noClient() async throws {
 		
 		// Given
 		let config = RemoteConfig(iosMinimumVersion: "fetchFromStorage")
@@ -76,23 +81,28 @@ final class RemoteConfigurationRepositoryTests: XCTestCase {
 		sut = RemoteConfigurationRepository(storage: storageSpy, apiClient: nil)
 		
 		// When
-		sut.fetchAndUpdateObservers()
+		await sut.fetchAndUpdateObservers()
 		
 		// Then
-		expect(self.sut.storedConfiguration).toEventually(equal(config))
+		await expect(self.sut.storedConfiguration)
+			.toEventually(equal(config))
 	}
 	
-	func test_fetchFromFallBack() throws {
+	func test_fetchFromFallBack() async throws {
 		
 		// Given
-		let error = NSError(domain: "RemoteConfigurationRepositoryTests", code: 404)
+		let error = NSError(
+			domain: "RemoteConfigurationRepositoryTests",
+			code: 404
+		)
 		clientSpy.stubbedError = error // Error from API
 		storageSpy.stubbedReadResult = Data() // No config from storage
 		
 		// When
-		sut.fetchAndUpdateObservers()
+		await sut.fetchAndUpdateObservers()
 		
 		// Then
-		expect(self.sut.storedConfiguration).toEventually(equal(RemoteConfig.fallback))
+		await expect(self.sut.storedConfiguration)
+			.toEventually(equal(RemoteConfig.fallback))
 	}
 }
