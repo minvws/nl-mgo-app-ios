@@ -9,7 +9,7 @@ import Foundation
 
 /// 🔭
 /// Mechanism for registering for external state change notifications
-public class Observatory<T> {
+@preconcurrency public class Observatory<T> {
 	
 	// MARK: - Types -
 	public typealias ObserverToken = UUID
