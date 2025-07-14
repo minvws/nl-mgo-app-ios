@@ -23,7 +23,8 @@ extension XCTestCase {
 		name: String = #function,
 		precision: Float = 1.0,
 		file: StaticString = #file,
-		isRecording: Bool = false) {
+		isRecording: Bool = false
+	) {
 		
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
@@ -78,7 +79,8 @@ extension XCTestCase {
 		name: String = #function,
 		precision: Float = 1.0,
 		file: StaticString = #file,
-		isRecording: Bool = false) {
+		isRecording: Bool = false
+	) {
 		
 		// Dark Mode & Portrait orientation
 		assertSnapshot(
