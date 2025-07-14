@@ -22,7 +22,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		super.setUp()
 	}
 
-	func test_handleResetApplication() throws {
+	@MainActor func test_handleResetApplication() throws {
 		
 		// Given
 		sut.selectedTab = DashboardTab.settings.rawValue
@@ -36,7 +36,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.sut.selectedTab) == DashboardTab.healthCategories.rawValue
 	}
 	
-	func test_handleTabSwitch_categories() throws {
+	@MainActor func test_handleTabSwitch_categories() throws {
 		
 		// Given
 		let category = HealthCategories.Category.medication
@@ -63,7 +63,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.sut.healthCategoriesCoordinator.path.isEmpty) == true
 	}
 	
-	func test_handleTabSwitch_organizations() throws {
+	@MainActor func test_handleTabSwitch_organizations() throws {
 		
 		// Given
 		let category = HealthCategories.Category.medication
@@ -90,7 +90,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		expect(self.sut.healthcareOrganizationsCoordinator.path.isEmpty) == true
 	}
 	
-	func test_handleTabSwitch_settings() throws {
+	@MainActor func test_handleTabSwitch_settings() throws {
 
 		// Given
 		sut.selectedTab = DashboardTab.settings.rawValue

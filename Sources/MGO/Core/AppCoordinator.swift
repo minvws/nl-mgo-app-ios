@@ -150,9 +150,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Create an AppCoordinator
 	/// - Parameter path: Navigation Path
 	/// - Parameter browser: the browser for displaying urls
-	init(
+	@MainActor init(
 		path: NavigationStackBackport.NavigationPath,
-		browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
+		browser: RestrictedBrowser = RestrictedBrowser(
+			allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()),
+			urlOpener: UIApplication.shared
+		)
 	) {
 		self.path = path
 		self.browser = browser
@@ -191,7 +194,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		observerToken.map(Current.remoteConfigurationRepository.observatory.remove)
 	}
 	
-	internal func handleRemoteConfigChanges(remoteConfiguration: RemoteConfig) {
+	@MainActor internal func handleRemoteConfigChanges(remoteConfiguration: RemoteConfig) {
 		// Updated configuration
 		
 		let minimumVersion = remoteConfiguration.iosMinimumVersion.semanticVersion()
@@ -208,7 +211,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// Handle any Coordination Action
 	/// - Parameter action: Coordination Action
-	func handle(_ action: Coordination.Action) {
+	@MainActor func handle(_ action: Coordination.Action) {
 
 		// Always allow the update app action
 		if action.identifier == Coordination.Action.showAppStore.identifier {
@@ -262,7 +265,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the onboarding flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleOnboarding(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleOnboarding(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			// Onboarding
@@ -471,7 +474,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle displaying urls
 	/// - Parameter url: the url to show
 	/// - Parameter title: the title of the page
-	private func handleUrl(_ url: URL?, title: String? = nil) {
+	@MainActor private func handleUrl(_ url: URL?, title: String? = nil) {
 		
 		guard let url else { return }
 		

@@ -48,7 +48,7 @@ public class RestrictedBrowserViewModel: NSObject, ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	public func reduce(_ action: Action) {
+	@MainActor public func reduce(_ action: Action) {
 		switch action {
 			case .safariButtonPressed:
 				browser?.openInDefaultBrowser(url: currentUrl)

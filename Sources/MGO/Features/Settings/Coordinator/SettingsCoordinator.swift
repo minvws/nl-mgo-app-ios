@@ -79,7 +79,10 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// - Parameter browser: the browser for displaying urls
 	init(
 		parentCoordinator: (any DashboardCoordinatorProtocol)?,
-		browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
+		browser: RestrictedBrowser = RestrictedBrowser(
+			allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()),
+			urlOpener: UIApplication.shared
+		)
 	) {
 		self.parentCoordinator = parentCoordinator
 		self.browser = browser
@@ -87,7 +90,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	
 	/// Handle any incoming action from any of the view models
 	/// - Parameter action: any Action
-	func handle(_ action: Coordination.Action) {
+	@MainActor func handle(_ action: Coordination.Action) {
 		
 		if action.identifier == Coordination.Action.openUrl.identifier {
 			
@@ -151,7 +154,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	
 	/// Handle displaying urls
 	/// - Parameter url: the url to show
-	private func handleUrl(_ url: URL?, title: String? = nil) {
+	@MainActor private func handleUrl(_ url: URL?, title: String? = nil) {
 		
 		guard let url else { return }
 		

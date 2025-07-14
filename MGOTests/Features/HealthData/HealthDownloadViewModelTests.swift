@@ -7,6 +7,7 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
+import RestrictedBrowser
 
 final class HealthDownloadViewModelTests: XCTestCase {
 	
