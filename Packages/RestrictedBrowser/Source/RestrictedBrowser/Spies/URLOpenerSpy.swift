@@ -6,6 +6,8 @@
 import UIKit
 
 public class URLOpenerSpy: URLOpenerProtocol {
+	
+	public init() { /* public initializer */}
 
 	public var invokedCanOpenURL = false
 	public var invokedCanOpenURLCount = 0
@@ -23,15 +25,15 @@ public class URLOpenerSpy: URLOpenerProtocol {
 
 	public var invokedOpen = false
 	public var invokedOpenCount = 0
-	public var invokedOpenParameters: (url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any])?
-	public var invokedOpenParametersList = [(url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any])]()
+	public var invokedOpenParameters: (url: URL, Void)?
+	public var invokedOpenParametersList = [(url: URL, Void)]()
 	public var stubbedOpenCompletionResult: Bool! = false
 
-	public func open(_ url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any]) async -> Bool {
+	public func open(_ url: URL) async -> Bool {
 		invokedOpen = true
 		invokedOpenCount += 1
-		invokedOpenParameters = (url, options)
-		invokedOpenParametersList.append((url, options))
+		invokedOpenParameters = (url, ())
+		invokedOpenParametersList.append((url, ()))
 		return stubbedOpenCompletionResult
 	}
 }

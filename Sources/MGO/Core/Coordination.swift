@@ -24,9 +24,10 @@ public struct Coordination {
 		
 		/// optional params for this action
 		public var params: [String: AnyHashable]
-
-		/// Initializer
-		/// - Parameter identifier: identifier
+		
+		/// Create an action
+		/// - Parameter identifier: the identifier for this action
+		/// - Parameter params: an array of parameters for this action with string keys
 		public init(identifier: String, params: [String: AnyHashable] = [:]) {
 			self.identifier = identifier
 			self.params = params

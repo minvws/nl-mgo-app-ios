@@ -33,7 +33,10 @@ let package = Package(
 				.product(name: "Theme", package: "Theme"),
 				.product(name: "RijksoverheidFont", package: "RijksoverheidFont")
 			],
-			resources: [.process("Resources")]
+			resources: [.process("Resources")],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		),
 		.testTarget(
 			name: "ReusableUITests",

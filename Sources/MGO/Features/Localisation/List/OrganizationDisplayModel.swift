@@ -13,6 +13,7 @@ struct OrganizationDisplayModel: Codable, Hashable, Equatable, Identifiable {
 	var postalCode: String?
 }
 
+@MainActor
 class OrganizationDisplayDecorator {
 	
 	/// Create a SearchResult from a HealthcareOrganization

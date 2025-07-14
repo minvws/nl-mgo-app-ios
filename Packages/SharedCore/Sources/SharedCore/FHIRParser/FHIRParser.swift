@@ -8,7 +8,7 @@ import JavaScriptCore
 import MGODebug
 
 /// Parse FHIR data
-public class FHIRParser {
+@preconcurrency nonisolated public class FHIRParser {
 	
 	/// The namespace used in the JavaScript context
 	public static let nameSpace = "MgoFhirData"
@@ -26,7 +26,7 @@ public class FHIRParser {
 		}
 	}
 	
-	/// What version of the shared core do we use?
+	/// What version of the shared core are we running?
 	/// - Returns: the version
 	public func getVersion() throws -> String {
 		
@@ -44,6 +44,7 @@ public class FHIRParser {
 	private func createContext() -> JSContext? {
 		
 		let context = JSContext()
+		// Add logging for exceptions
 		context?.exceptionHandler = { (ctx: JSContext!, value: JSValue!) in
 			// type of String
 			let stackTrace = value.objectForKeyedSubscript("stack").toString()
@@ -85,14 +86,18 @@ public class FHIRParser {
 	public func splitBundleIntoResources(_ bundle: Data) -> [Data] {
 		
 		do {
-			let resourcesJSValue = try callJSMethod(.bundle, with: bundle)
+			let resourcesJSValue = try callJSMethod(.splitBundle, with: bundle)
 			
 			guard let resourceString = resourcesJSValue.toString(),
 				  resourceString.hasSuffix("]"),
 				  resourceString.hasPrefix("[") else {
 				throw FHIRParserError.noResult
 			}
-			
+			/*
+			 We need to do some magic, as the output of the previous call
+			 is a comma separated string. We still need to split that into
+			 an array of strings and map it to Data
+			*/
 			let result = String(resourceString.dropFirst().dropLast())
 				.replacingOccurrences(of: "},{\"res", with: "}💊{\"res")
 				.split(separator: "💊")
@@ -104,10 +109,10 @@ public class FHIRParser {
 		return []
 	}
 	
-	/// parseResourceJson, i.e. transform the incoming FHIR Resource into a Zib object
+	/// parseResourceJson, i.e. transform the incoming FHIR Resource into a MGO object / Zib (Zorg Informatie Bouwsteen)
 	/// - Parameter fhirResource: resource to parse
 	/// - Parameter fhirVersion: the FHIR version of the expected resource, defaults to `R3`
-	/// - Returns: Zib as data
+	/// - Returns: MGO Object / Zib as data
 	public func transformFHIRResourceIntoMGOResource(_ fhirResource: Data, fhirVersion: String = "R3") -> Data? {
 		
 		do {

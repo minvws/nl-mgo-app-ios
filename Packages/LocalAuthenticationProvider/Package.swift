@@ -13,7 +13,10 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "LocalAuthenticationProvider"
+			name: "LocalAuthenticationProvider",
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		)
 	]
 )

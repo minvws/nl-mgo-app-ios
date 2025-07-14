@@ -10,6 +10,7 @@ import MGOUI
 import RemoteConfiguration
 import RestrictedBrowser
 
+// swiftlint:disable type_body_length
 final class AppCoordinatorTests: XCTestCase {
 	
 	private var sut: AppCoordinator!
@@ -22,6 +23,10 @@ final class AppCoordinatorTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
+	}
+	
+	@MainActor func setupSut() {
+		
 		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
@@ -31,9 +36,10 @@ final class AppCoordinatorTests: XCTestCase {
 	
 	// MARK: - Handle -
 	
-	func test_coordinatorHandle_actionFinishedSplash_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
+	@MainActor func test_coordinatorHandle_actionFinishedSplash_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action.finishedSplash)
@@ -44,9 +50,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
 	}
 	
-	func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_accessCodeSet_pathShouldContainPinCodeValidation() {
+	@MainActor func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_accessCodeSet_pathShouldContainPinCodeValidation() {
 		
 		// Given
+		setupSut()
 		servicesSpies.secureUserSettingsSpy.stubbedPinCode = "test"
 		
 		// When
@@ -58,9 +65,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedPinCodeGetter) == true
 	}
 	
-	func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_bypassPincodeEnabled() {
+	@MainActor func test_coordinatorHandle_actionFinishedSplash_appIntroductionSeen_bypassPincodeEnabled() {
 		
 		// Given
+		setupSut()
 		servicesSpies.secureUserSettingsSpy.stubbedPinCode = "test"
 		servicesSpies.featureFlagSpy.stubbedBypassPincode = true
 		
@@ -72,9 +80,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_actionNextButtonPressedOnAppIntroduction_pathShouldContainPrivacy() {
+	@MainActor func test_coordinatorHandle_actionNextButtonPressedOnAppIntroduction_pathShouldContainPrivacy() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action.nextButtonPressedOnIntroduction)
@@ -83,9 +92,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.proposition])
 	}
 	
-	func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainPinCodeEntry() {
+	@MainActor func test_coordinatorHandle_actionNextButtonPressedOnPrivacy_pathShouldContainPinCodeEntry() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action.nextButtonPressedOnProposition)
@@ -95,9 +105,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.pinCodeEntry(backButtonVisible: true)])
 	}
 	
-	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement_domainNotAllowed() {
+	@MainActor func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement_domainNotAllowed() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action.showPrivacyStatement)
@@ -107,7 +118,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
-	func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement_domainAllowed() throws {
+	@MainActor func test_coordinatorHandle_showPrivacyStatement_shouldShowPrivacyStatement_domainAllowed() throws {
 		
 		// Given
 		let browser = RestrictedBrowser(allowedDomains: ["web.test.mgo.irealisatie.nl"], urlOpener: urlOpenerSpy)
@@ -123,9 +134,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen) == false
 	}
 	
-	func test_coordinatorHandle_accessCodeEntered_shouldShowPinCodeConfirmation() {
+	@MainActor func test_coordinatorHandle_accessCodeEntered_shouldShowPinCodeConfirmation() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action.pinCodeEntered)
@@ -134,9 +146,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.pinCodeConfirmation])
 	}
 	
-	func test_coordinatorHandle_accessCodeConfirmed_shouldShowBioMetricSetup() {
+	@MainActor func test_coordinatorHandle_accessCodeConfirmed_shouldShowBioMetricSetup() {
 		
 		// Given
+		setupSut()
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		
 		// When
@@ -147,9 +160,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_accessCodeConfirmed_noBiometrics_shouldShowRemoteAuthentication() {
+	@MainActor func test_coordinatorHandle_accessCodeConfirmed_noBiometrics_shouldShowRemoteAuthentication() {
 		
 		// Given
+		setupSut()
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .none }
 		
 		// When
@@ -160,9 +174,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_didFinishLocalAuthentication_shouldShowRemoteAuthenciation() {
+	@MainActor func test_coordinatorHandle_didFinishLocalAuthentication_shouldShowRemoteAuthenciation() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action.didFinishLocalAuthentication)
@@ -172,9 +187,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_loginWithDigiD_shouldShowDashboard_whenAutomaticLocalizationEnabled() {
+	@MainActor func test_coordinatorHandle_loginWithDigiD_shouldShowDashboard_whenAutomaticLocalizationEnabled() {
 		
 		// Given
+		setupSut()
 		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		
 		// When
@@ -186,9 +202,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
 	}
 	
-	func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldShowManualLocalizaion_whenAutomaticLocalizationEnabled() {
+	@MainActor func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldShowManualLocalizaion_whenAutomaticLocalizationEnabled() {
 		
 		// Given
+		setupSut()
 		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		
 		// When
@@ -201,9 +218,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == false
 	}
 	
-	func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldAutomaticLocalization_whenAutomaticLocalizationEnabled() {
+	@MainActor func test_coordinatorHandle_nextButtonPressedOnLoginInfo_shouldAutomaticLocalization_whenAutomaticLocalizationEnabled() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action.nextButtonPressedOnLoginInfo)
@@ -214,9 +232,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_search_shouldContainHealthcareOrganizationSearchResults() {
-
+	@MainActor func test_coordinatorHandle_search_shouldContainHealthcareOrganizationSearchResults() {
+		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action(identifier: "showHealthcareOrganizationSearchResults", params: ["city": "Roermond", "name": "Tandarts Tandje Erbij"]))
@@ -225,9 +244,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([AppCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")])
 	}
 	
-	func test_coordinatorHandle_search_wrongParams() {
-
+	@MainActor func test_coordinatorHandle_search_wrongParams() {
+		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action(identifier: "showHealthcareOrganizationSearchResults", params: ["city": "Roermond", "wrong param": "Tandarts Tandje Erbij"]))
@@ -236,9 +256,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_backToAddHealthcareOrganization() {
+	@MainActor func test_coordinatorHandle_backToAddHealthcareOrganization() {
 		
 		// Given
+		setupSut()
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.healthcareOrganizationSearchResults(city: "wrong", name: "wrong")])
 		
 		// When
@@ -248,9 +269,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_shouldShowDashboard() {
+	@MainActor func test_coordinatorHandle_finishedSearchingHealthcareOrganizations_shouldShowDashboard() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
@@ -260,9 +282,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_codeValidated_shouldShowRemoteAuthentication() {
+	@MainActor func test_coordinatorHandle_codeValidated_shouldShowRemoteAuthentication() {
 		
 		// Given
+		setupSut()
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = false
 		
 		// When
@@ -274,9 +297,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_codeValidated_remoteAuthenticationDone_shouldShowDashboard() {
+	@MainActor func test_coordinatorHandle_codeValidated_remoteAuthenticationDone_shouldShowDashboard() {
 		
 		// Given
+		setupSut()
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
 		
 		// When
@@ -286,9 +310,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showChildCoordinator) == true
 	}
 	
-	func test_coordinatorHandle_codeValidated_whenReturningFromBackground() {
+	@MainActor func test_coordinatorHandle_codeValidated_whenReturningFromBackground() {
 		
 		// Given
+		setupSut()
 		servicesSpies.secureUserSettingsSpy.stubbedEnteredBackground = Date()
 		
 		// When
@@ -299,9 +324,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showAuthenticationModal) == false
 	}
 	
-	func test_coordinatorHandle_pinCodeValidatedAfterLockout() {
+	@MainActor func test_coordinatorHandle_pinCodeValidatedAfterLockout() {
 		
 		// Given
+		setupSut()
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = false
 		servicesSpies.secureUserSettingsSpy.stubbedEnteredBackground = Date()
 		
@@ -315,7 +341,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedEnteredBackground) == nil
 	}
 	
-	func test_coordinator_receiveNotification_whenReturningFromBackground_duringOnboarding() {
+	@MainActor func test_coordinator_receiveNotification_whenReturningFromBackground_duringOnboarding() {
 		
 		// Given
 		Current.notificationCenter = NotificationCenter.default
@@ -333,7 +359,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showAuthenticationModal).toEventually(beFalse())
 	}
 	
-	func test_coordinator_receiveNotification_whenReturningFromBackground_duringDashboard() {
+	@MainActor func test_coordinator_receiveNotification_whenReturningFromBackground_duringDashboard() {
 		
 		// Given
 		Current.notificationCenter = NotificationCenter.default
@@ -351,9 +377,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showAuthenticationModal).toEventually(beTrue())
 	}
 	
-	func test_coordinatorHandle_forgotPinCode() {
+	@MainActor func test_coordinatorHandle_forgotPinCode() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action.forgotPinCode)
@@ -363,9 +390,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
 	}
 	
-	func test_coordinatorHandle_forgotPinCode_withAuthenticationModal() {
+	@MainActor func test_coordinatorHandle_forgotPinCode_withAuthenticationModal() {
 		
 		// Given
+		setupSut()
 		sut.showAuthenticationModal = true
 		
 		// When
@@ -376,9 +404,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath([AppCoordination.State.forgotPinCode])
 	}
 	
-	func test_coordinatorHandle_dismissForgotPinCode() {
+	@MainActor func test_coordinatorHandle_dismissForgotPinCode() {
 		
 		// Given
+		setupSut()
 		sut.rootStateForSheet = AppCoordination.State.pinCodeValidation(lockOut: false)
 		sut.pathForSheet = NavigationStackBackport.NavigationPath([AppCoordination.State.forgotPinCode])
 		
@@ -390,9 +419,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
 	}
 	
-	func test_coordinatorHandle_dismissForgotPinCode_showAuthenticationModal() {
+	@MainActor func test_coordinatorHandle_dismissForgotPinCode_showAuthenticationModal() {
 		
 		// Given
+		setupSut()
 		sut.rootStateForSheet = AppCoordination.State.pinCodeValidation(lockOut: true)
 		sut.pathForSheet = NavigationStackBackport.NavigationPath([AppCoordination.State.forgotPinCode])
 		sut.showAuthenticationModal = true
@@ -405,9 +435,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath()
 	}
 	
-	func test_coordinatorHandle_dismissForgotPinCode_whenUpdateRequired() {
+	@MainActor func test_coordinatorHandle_dismissForgotPinCode_whenUpdateRequired() {
 		
 		// Given
+		setupSut()
 		sut.handle(Coordination.Action.updateRequired)
 		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
 		
@@ -418,9 +449,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.rootStateForSheet) == AppCoordination.State.forgotPinCode
 	}
 	
-	func test_coordinatorHandle_recreateAccount() {
+	@MainActor func test_coordinatorHandle_recreateAccount() {
 		
 		// Given
+		setupSut()
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.login, AppCoordination.State.pinCodeValidation(lockOut: false)])
 		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
 		
@@ -433,9 +465,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.rootState) == AppCoordination.State.pinCodeEntry(backButtonVisible: false)
 	}
 	
-	func test_coordinatorHandle_recreateAccount_withAuthenticationModal() {
+	@MainActor func test_coordinatorHandle_recreateAccount_withAuthenticationModal() {
 		
 		// Given
+		setupSut()
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.login, AppCoordination.State.pinCodeValidation(lockOut: false)])
 		sut.rootStateForSheet = AppCoordination.State.forgotPinCode
 		sut.showChildCoordinator = true
@@ -452,9 +485,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.showAuthenticationModal) == false
 	}
 	
-	func test_coordinatorHandle_restart() {
+	@MainActor func test_coordinatorHandle_restart() {
 		
 		// Given
+		setupSut()
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.accountRemoved])
 		sut.rootStateForSheet = nil
 		
@@ -465,9 +499,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.rootState) == AppCoordination.State.pinCodeEntry(backButtonVisible: false)
 	}
 	
-	func test_coordinatorHandle_backButtonPressed() {
+	@MainActor func test_coordinatorHandle_backButtonPressed() {
 		
 		// Given
+		setupSut()
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.introduction])
 		
 		// When
@@ -477,9 +512,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_backButtonPressed_emptyPath() {
+	@MainActor func test_coordinatorHandle_backButtonPressed_emptyPath() {
 		
 		// Given
+		setupSut()
 		sut.path = NavigationStackBackport.NavigationPath()
 		
 		// When
@@ -489,9 +525,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_resetApplication() {
+	@MainActor func test_coordinatorHandle_resetApplication() {
 		
 		// Given
+		setupSut()
 		sut.path = NavigationStackBackport.NavigationPath([AppCoordination.State.introduction])
 		
 		// When
@@ -505,9 +542,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedWipePersistedDataCount) == 1
 	}
 	
-	func test_coordinatorHandle_updateRequired() {
+	@MainActor func test_coordinatorHandle_updateRequired() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action.updateRequired)
@@ -517,9 +555,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_handleRemoteConfigChanges_identicalVersion() {
+	@MainActor func test_handleRemoteConfigChanges_identicalVersion() {
 		
 		// Given
+		setupSut()
 		servicesSpies.appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.0"
 		let remoteConfig = RemoteConfig(iosMinimumVersion: "1.0.0")
 		
@@ -531,9 +570,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_handleRemoteConfigChanges_shouldUpdate() {
+	@MainActor func test_handleRemoteConfigChanges_shouldUpdate() {
 		
 		// Given
+		setupSut()
 		servicesSpies.appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.1"
 		let remoteConfig = RemoteConfig(iosMinimumVersion: "1.0.0")
 		
@@ -545,9 +585,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_handleRemoteConfigChanges_shouldContinue() {
+	@MainActor func test_handleRemoteConfigChanges_shouldContinue() {
 		
 		// Given
+		setupSut()
 		servicesSpies.appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.0"
 		let remoteConfig = RemoteConfig(iosMinimumVersion: "1.0.1")
 		
@@ -559,9 +600,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_showAppStore() {
+	@MainActor func test_coordinatorHandle_showAppStore() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.handle(Coordination.Action.showAppStore)
@@ -570,9 +612,10 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
-	func test_coordinatorHandle_showAppStore_evenWhenUpdateRequired() {
+	@MainActor func test_coordinatorHandle_showAppStore_evenWhenUpdateRequired() {
 		
 		// Given
+		setupSut()
 		sut.handle(Coordination.Action.updateRequired)
 		
 		// When
@@ -582,3 +625,4 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 }
+// swiftlint:enable type_body_length

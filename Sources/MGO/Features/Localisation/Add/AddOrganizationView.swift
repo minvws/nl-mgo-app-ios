@@ -56,24 +56,27 @@ class AddOrganizationViewModel: ObservableObject {
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
-	init(coordinator: (any Coordinator)?) {
+	@MainActor init(coordinator: (any Coordinator)?) {
 		self.coordinator = coordinator
 		
 		setupObservers()
 	}
 	
 	/// Setup all the observers
-	private func setupObservers() {
+	@MainActor private func setupObservers() {
 		
 		// Listen for reset notification
-		Current.notificationCenter.addObserver(forName: .clearSearch, object: nil, queue: OperationQueue.main) { _ in
+		Current.notificationCenter.addObserver(
+			forName: .clearSearch,
+			object: nil,
+			queue: OperationQueue.main) { @MainActor _ in
 			self.reduce(.clear)
 		}
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AddOrganizationViewModel.Action) {
+	@MainActor func reduce(_ action: AddOrganizationViewModel.Action) {
 		
 		switch action {
 			
@@ -103,7 +106,7 @@ class AddOrganizationViewModel: ObservableObject {
 	
 	/// Validate the state
 	/// - Returns: True if all fields are valid
-	private func validateState() -> Bool {
+	@MainActor private func validateState() -> Bool {
 		
 		var allFieldsAreFilled = true
 		if let sanitized = Sanitizer.strip(state.name), sanitized.isNotEmpty {
@@ -125,7 +128,7 @@ class AddOrganizationViewModel: ObservableObject {
 	
 	/// Announce a message to voiceover
 	/// - Parameter message: the message to be announced (as a String)
-	private func announce(_ message: String) {
+	@MainActor private func announce(_ message: String) {
 		
 		logDebug("Announcing: \(message)")
 		

@@ -7,6 +7,7 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
+import RestrictedBrowser
 
 final class HealthDownloadViewModelTests: XCTestCase {
 	
@@ -71,7 +72,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		expect(self.sut.state) == .noDocument
 	}
 	
-	func test_reduce_download_noUrl() {
+	@MainActor func test_reduce_download_noUrl() {
 		
 		// Given
 		createSut(url: nil)
@@ -83,7 +84,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		expect(self.sut.state) == .noDocument
 	}
 	
-	func test_reduce_download_hyperlink() throws {
+	@MainActor func test_reduce_download_hyperlink() throws {
 		
 		// Given
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
@@ -98,7 +99,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedCanOpenURLParameters?.url) == url
 	}
 	
-	func test_reduce_download_other() throws {
+	@MainActor func test_reduce_download_other() throws {
 		
 		// Given
 		createSut(url: "other")
@@ -111,7 +112,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		expect(self.sut.state) == .noDocument
 	}
 	
-	func test_reduce_download_binary_noContent() throws {
+	@MainActor func test_reduce_download_binary_noContent() throws {
 		
 		// Given
 		createSut(reference: "test_reduce_download_binary_noContent")
@@ -124,7 +125,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(.error))
 	}
 	
-	func test_reduce_download_binary_error() throws {
+	@MainActor func test_reduce_download_binary_error() throws {
 		
 		// Given
 		createSut(reference: "test_reduce_download_binary_error")
@@ -137,7 +138,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(.error))
 	}
 
-	func test_reduce_download_noReference() throws {
+	@MainActor func test_reduce_download_noReference() throws {
 		
 		// Given
 		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
@@ -152,7 +153,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(.noDocument))
 	}
 	
-	func test_reduce_download_binary() throws {
+	@MainActor func test_reduce_download_binary() throws {
 		
 		// Given
 		createSut(reference: "test_reduce_download_binary")
@@ -168,7 +169,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(.downloaded(label: "label", documentUrl: url)))
 	}
 	
-	func test_reduce_download_noDirectory() throws {
+	@MainActor func test_reduce_download_noDirectory() throws {
 		
 		// Given
 		createSut(reference: "test_reduce_download_binary")

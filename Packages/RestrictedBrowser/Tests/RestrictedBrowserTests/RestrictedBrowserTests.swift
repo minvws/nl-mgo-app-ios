@@ -8,11 +8,18 @@ import MGOTest
 
 final class RestrictedBrowserTests: XCTestCase {
 	
-	func test_isDomainAllowed_allowed() throws {
+	private var urlOpenerSpy: URLOpenerSpy!
+	
+	override func setUp() {
+		super.setUp()
+		urlOpenerSpy = URLOpenerSpy()
+	}
+	
+	@MainActor func test_isDomainAllowed_allowed() throws {
 		
 		// Given
 		let url = try XCTUnwrap(URL(string: "https://apple.com"))
-		let sut = RestrictedBrowser(allowedDomains: ["apple.com"])
+		let sut = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
 		
 		// When
 		let result = sut.isDomainAllowed(url)
@@ -21,11 +28,11 @@ final class RestrictedBrowserTests: XCTestCase {
 		expect(result) == true
 	}
 
-	func test_isDomainAllowed_notAllowed() throws {
+	@MainActor func test_isDomainAllowed_notAllowed() throws {
 		
 		// Given
 		let url = try XCTUnwrap(URL(string: "https://apple.com"))
-		let sut = RestrictedBrowser(allowedDomains: ["google.com"])
+		let sut = RestrictedBrowser(allowedDomains: ["google.com"], urlOpener: urlOpenerSpy)
 		
 		// When
 		let result = sut.isDomainAllowed(url)
@@ -34,11 +41,11 @@ final class RestrictedBrowserTests: XCTestCase {
 		expect(result) == false
 	}
 
-	func test_isDomainAllowed_notAllowedSubDomain() throws {
+	@MainActor func test_isDomainAllowed_notAllowedSubDomain() throws {
 		
 		// Given
 		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
-		let sut = RestrictedBrowser(allowedDomains: ["apple.com"])
+		let sut = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
 		
 		// When
 		let result = sut.isDomainAllowed(url)
@@ -47,10 +54,9 @@ final class RestrictedBrowserTests: XCTestCase {
 		expect(result) == false
 	}
 	
-	func test_handleUnallowedDomain() throws {
+	@MainActor func test_handleUnallowedDomain() throws {
 		
 		// Given
-		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
 		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
 		let sut = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
@@ -59,14 +65,13 @@ final class RestrictedBrowserTests: XCTestCase {
 		sut.handleUnallowedDomain(url)
 		
 		// Then
-		expect(urlOpenerSpy.invokedCanOpenURL) == true
-		expect(urlOpenerSpy.invokedOpen).toEventually(beTrue())
+		expect(self.urlOpenerSpy.invokedCanOpenURL) == true
+		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
-	func test_openInDefaultBrowser() throws {
+	@MainActor func test_openInDefaultBrowser() throws {
 		
 		// Given
-		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
 		let url = try XCTUnwrap(URL(string: "https://support.apple.com"))
 		let sut = RestrictedBrowser(allowedDomains: ["apple.com"], urlOpener: urlOpenerSpy)
@@ -75,7 +80,7 @@ final class RestrictedBrowserTests: XCTestCase {
 		sut.openInDefaultBrowser(url: url)
 		
 		// Then
-		expect(urlOpenerSpy.invokedCanOpenURL) == true
-		expect(urlOpenerSpy.invokedOpen).toEventually(beTrue())
+		expect(self.urlOpenerSpy.invokedCanOpenURL) == true
+		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 }

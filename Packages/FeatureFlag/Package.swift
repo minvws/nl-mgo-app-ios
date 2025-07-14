@@ -18,7 +18,10 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "FeatureFlag"
+			name: "FeatureFlag",
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		),
 		.testTarget(
 			name: "FeatureFlagTests",

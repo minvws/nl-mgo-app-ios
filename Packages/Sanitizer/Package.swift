@@ -24,6 +24,9 @@ let package = Package(
 			name: "Sanitizer",
 			dependencies: [
 				"SwiftSoup"
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			]
 		),
 		.testTarget(

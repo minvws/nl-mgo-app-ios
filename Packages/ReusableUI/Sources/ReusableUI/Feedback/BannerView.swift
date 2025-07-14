@@ -21,7 +21,8 @@ public struct BannerView: View {
 	///   - perform: The action to perform when the user presses on the close button
 	public init(
 		_ feedback: Feedback,
-		perform: (() -> Void)? = nil) {
+		perform: (() -> Void)? = nil
+	) {
 		self.feedback = feedback
 		self.perform = perform
 	}

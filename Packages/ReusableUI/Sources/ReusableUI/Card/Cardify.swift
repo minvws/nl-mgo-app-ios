@@ -43,8 +43,16 @@ public struct Cardify: ViewModifier {
 extension View {
 	
 	/// Make the view look like a card
+	/// - Parameters:
+	///   - padding: The general padding around the card (defaults to 16px)
+	///   - lineColor: The color for the outside border line (defaults to theme.borderPrimary)
+	///   - setBackground: True if we should apply the background color (default to true)
 	/// - Returns: card like view.
-	public func cardify(padding: CGFloat = 16, lineColor: Color = Theme().borderPrimary, setBackground: Bool = true) -> some View {
+	public func cardify(
+		padding: CGFloat = 16,
+		lineColor: Color = Theme().borderPrimary,
+		setBackground: Bool = true
+	) -> some View {
 		modifier(Cardify(padding: padding, lineColor: lineColor, setBackground: setBackground))
 	}
 }

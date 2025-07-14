@@ -10,13 +10,13 @@ public protocol DomainDecider {
 	/// Is this domain allowed
 	/// - Parameter url: the url to inspedt
 	/// - Returns: True if the domain of the url is allowed
-	func isDomainAllowed(_ url: URL) -> Bool
+	@MainActor func isDomainAllowed(_ url: URL) -> Bool
 	
 	/// Handle an unallowed domain
 	/// - Parameter url: the url that is not allowed
-	func handleUnallowedDomain(_ url: URL)
+	@MainActor func handleUnallowedDomain(_ url: URL)
 	
 	/// open this url in an external browser
 	/// - Parameter url: the url to be opened
-	func openInDefaultBrowser(url: URL)
+	@MainActor func openInDefaultBrowser(url: URL)
 }

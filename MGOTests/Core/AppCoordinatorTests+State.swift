@@ -7,6 +7,7 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
+import RestrictedBrowser
 
 final class AppCoordinatorStateTests: XCTestCase {
 	
@@ -17,16 +18,25 @@ final class AppCoordinatorStateTests: XCTestCase {
 		
 		try super.setUpWithError()
 		servicesSpies = setupServicesSpies()
+	}
+	
+	@MainActor func setupSut() {
+		
+		let urlOpenerSpy = URLOpenerSpy()
+		urlOpenerSpy.stubbedCanOpenURLResult = true
+		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
 		sut = AppCoordinator(
-			path: NavigationStackBackport.NavigationPath()
+			path: NavigationStackBackport.NavigationPath(),
+			browser: browser
 		)
 	}
 	
 	// MARK: - State -
 	
-	func test_coordinatorView_forLaunch() throws {
+	@MainActor func test_coordinatorView_forLaunch() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.splash
 		
 		// When
@@ -37,9 +47,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.90) // Lower precision due to random position of spinner
 	}
 	
-	func test_coordinatorView_forRequiredUpdate() throws {
+	@MainActor func test_coordinatorView_forRequiredUpdate() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.updateRequired
 		
 		// When
@@ -50,9 +61,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forIntroduction() throws {
+	@MainActor func test_coordinatorView_forIntroduction() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.introduction
 		
 		// When
@@ -63,9 +75,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forProposition() throws {
+	@MainActor func test_coordinatorView_forProposition() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.proposition
 		
 		// When
@@ -76,9 +89,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_privacyStatement() throws {
+	@MainActor func test_coordinatorView_privacyStatement() throws {
 		
 		// Given
+		setupSut()
 		let url = try XCTUnwrap(LinkRepository.privacyURL)
 		let state = AppCoordination.State.browser(url, "privacy.heading")
 		
@@ -91,9 +105,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		expect(webview) != nil
 	}
 	
-	func test_coordinatorView_forPinCodeEntry() throws {
+	@MainActor func test_coordinatorView_forPinCodeEntry() throws {
 		
 		// Given
+		setupSut()
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		let state = AppCoordination.State.pinCodeEntry(backButtonVisible: true)
 		
@@ -105,9 +120,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forPinCodeEntry_withoutBackbutton() throws {
+	@MainActor func test_coordinatorView_forPinCodeEntry_withoutBackbutton() throws {
 		
 		// Given
+		setupSut()
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		let state = AppCoordination.State.pinCodeEntry(backButtonVisible: false)
 		
@@ -119,9 +135,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forPinCodeConfirmation() throws {
+	@MainActor func test_coordinatorView_forPinCodeConfirmation() throws {
 		
 		// Given
+		setupSut()
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		let state = AppCoordination.State.pinCodeConfirmation
 		
@@ -133,9 +150,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forPinCodeValidation() throws {
+	@MainActor func test_coordinatorView_forPinCodeValidation() throws {
 		
 		// Given
+		setupSut()
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = true
 		let state = AppCoordination.State.pinCodeValidation(lockOut: false)
@@ -148,9 +166,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forBioMetricSetup() throws {
+	@MainActor func test_coordinatorView_forBioMetricSetup() throws {
 		
 		// Given
+		setupSut()
 		servicesSpies.localAuthenticationProviderSpy.stubbedBiometricType = { .faceID }
 		let state = AppCoordination.State.bioMetricSetup
 		
@@ -162,9 +181,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forLogin() throws {
+	@MainActor func test_coordinatorView_forLogin() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.login
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
 		
@@ -176,9 +196,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forLoginInfo() throws {
+	@MainActor func test_coordinatorView_forLoginInfo() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.loginInfo
 		servicesSpies.secureUserSettingsSpy.stubbedUserHasRemoteAuthentication = true
 		
@@ -190,9 +211,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forgotPinCode() throws {
+	@MainActor func test_coordinatorView_forgotPinCode() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.forgotPinCode
 		
 		// When
@@ -203,9 +225,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_accountRemoved() throws {
+	@MainActor func test_coordinatorView_accountRemoved() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.accountRemoved
 		
 		// When
@@ -216,9 +239,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_coordinatorView_forDashboard() throws {
+	@MainActor func test_coordinatorView_forDashboard() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.dashboard
 		
 		// When
@@ -229,9 +253,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_coordinatorView_forAutomaticLocalization() throws {
+	@MainActor func test_coordinatorView_forAutomaticLocalization() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.automaticLocalization
 		
 		// When
@@ -242,9 +267,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_coordinatorView_forManualLocalization() throws {
+	@MainActor func test_coordinatorView_forManualLocalization() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.manualLocalization
 		
 		// When
@@ -255,9 +281,10 @@ final class AppCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
+	@MainActor func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
 		
 		// Given
+		setupSut()
 		let state = AppCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")
 		stub(condition: isPath("/localization/organization/search")) { _ in
 			return HTTPStubsResponse(data: Data(), statusCode: 200, headers: nil)

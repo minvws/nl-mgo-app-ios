@@ -7,7 +7,11 @@ import Foundation
 
 // MARK: - Binary
 public struct FHIRBinary: Codable, Hashable, Sendable {
+	
+	/// The content type
 	public let contentType: String
+	
+	/// The base 64 encoded content
 	public let content: String
 	
 	/// Create a binary

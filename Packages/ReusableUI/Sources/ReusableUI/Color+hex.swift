@@ -27,7 +27,7 @@ public extension Color {
 			case 8: // ARGB (32-bit)
 				(alpha, red, green, blue) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
 			default:
-				(alpha, red, green, blue) = (1, 1, 1, 0)
+				(alpha, red, green, blue) = (0, 1, 1, 1)
 		}
 
 		self.init(

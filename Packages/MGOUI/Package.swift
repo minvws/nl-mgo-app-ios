@@ -27,6 +27,9 @@ let package = Package(
 				.product(name: "DeviceKit", package: "DeviceKit"),
 				.product(name: "NavigationStackBackport", package: "navigation-stack-backport"),
 				.product(name: "ReusableUI", package: "ReusableUI")
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			]
 		)
 	]

@@ -6,6 +6,6 @@
 import Foundation
 
 /// Errors for the Remote Authentication Client
-public enum RemoteAuthenticationError: Error {
+public enum RemoteAuthenticationError: Error, Sendable {
 	case noAuthenticationUrl
 }

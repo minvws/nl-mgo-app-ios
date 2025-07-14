@@ -25,7 +25,10 @@ let package = Package(
 			dependencies: [
 				.product(name: "DeviceKit", package: "DeviceKit"),
 			],
-			resources: [.process("Resources")]
+			resources: [.process("Resources")],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		),
 		.testTarget(
 			name: "RijksoverheidFontTests",

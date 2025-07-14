@@ -22,7 +22,7 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func setupSut(mode: PinCodeViewModel.PinCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) {
+	@MainActor func setupSut(mode: PinCodeViewModel.PinCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) {
 		
 		sut = PinCodeViewModel(
 			coordinator: coordinatorSpy,
@@ -35,7 +35,7 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 	
 	// MARK: - Confirmation Mode =
 	
-	func test_confirmation_touch() {
+	@MainActor func test_confirmation_touch() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -64,7 +64,7 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount) == 0
 	}
 	
-	func test_confirmation_touch_twoDigits() {
+	@MainActor func test_confirmation_touch_twoDigits() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -95,7 +95,7 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(2))
 	}
 	
-	func test_confirmation_touch_fiveDigits_accessCodeMisMatch() {
+	@MainActor func test_confirmation_touch_fiveDigits_accessCodeMisMatch() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -133,7 +133,7 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(5))
 	}
 	
-	func test_confirmation_touch_fiveDigits_accessCodeOk() {
+	@MainActor func test_confirmation_touch_fiveDigits_accessCodeOk() {
 		
 		// Given
 		let expectedState = PinCodeViewState(
@@ -171,7 +171,7 @@ final class PinCodeViewModelConfirmationTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostNotificationCount).toEventually(beGreaterThanOrEqualTo(4))
 	}
 	
-	func test_confirmation_touch_backButtonPressed() {
+	@MainActor func test_confirmation_touch_backButtonPressed() {
 		
 		// Given
 		let expectedState = PinCodeViewState(

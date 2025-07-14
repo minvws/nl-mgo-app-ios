@@ -7,7 +7,7 @@ import Foundation
 
 public class KeychainItem<T: Codable> {
 	
-	public enum KeychainError: Error {
+	public enum KeychainError: Error, Sendable {
 		case notFound
 		case unexpectedData
 		case unhandledError(status: OSStatus)

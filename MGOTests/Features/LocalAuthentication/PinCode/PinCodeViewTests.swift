@@ -23,7 +23,7 @@ final class PinCodeViewTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func createSut(mode: PinCodeViewModel.PinCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) -> PinCodeView {
+	@MainActor func createSut(mode: PinCodeViewModel.PinCodeMode = .creation, bioMetricType: () -> LocalAuthentication.BiometricType) -> PinCodeView {
 		
 		let viewModel = PinCodeViewModel(
 			coordinator: coordinatorSpy,
@@ -40,7 +40,7 @@ final class PinCodeViewTests: XCTestCase {
 
 	// MARK: - Creation Mode -
 	
-	func test_creation_noBioMetric() {
+	@MainActor func test_creation_noBioMetric() {
 		
 		// Given
 		let sut = createSut(mode: .creation, bioMetricType: { .none })
@@ -52,7 +52,7 @@ final class PinCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_creation_touch() throws {
+	@MainActor func test_creation_touch() throws {
 		
 		// Given
 		let sut = createSut(mode: .creation, bioMetricType: { .touchID })
@@ -72,7 +72,7 @@ final class PinCodeViewTests: XCTestCase {
 		}
 	}
 	
-	func test_creation_face() {
+	@MainActor func test_creation_face() {
 		
 		// Given
 		let sut = createSut(mode: .creation, bioMetricType: { .faceID })
@@ -84,7 +84,7 @@ final class PinCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_creation_vision() {
+	@MainActor func test_creation_vision() {
 		
 		// Given
 		let sut = createSut(mode: .creation, bioMetricType: { .opticID })
@@ -96,7 +96,7 @@ final class PinCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_creation_touch_twoDigits() throws {
+	@MainActor func test_creation_touch_twoDigits() throws {
 		
 		// Given
 		let sut = createSut(mode: .creation, bioMetricType: { .touchID })
@@ -120,7 +120,7 @@ final class PinCodeViewTests: XCTestCase {
 		}
 	}
 	
-	func test_creation_touch_fourDigits() throws {
+	@MainActor func test_creation_touch_fourDigits() throws {
 		
 		// Given
 		let sut = createSut(mode: .creation, bioMetricType: { .touchID })
@@ -144,7 +144,7 @@ final class PinCodeViewTests: XCTestCase {
 		}
 	}
 	
-	func test_creation_touch_fiveDigits_tooWeak() throws {
+	@MainActor func test_creation_touch_fiveDigits_tooWeak() throws {
 		
 		// Given
 		strengthMeterSpy.stubbedValidateResult = false
@@ -168,7 +168,7 @@ final class PinCodeViewTests: XCTestCase {
 	
 	// MARK: - Confirmation Mode -
 	
-	func test_confirmation_noBioMetric() {
+	@MainActor func test_confirmation_noBioMetric() {
 		
 		// Given
 		let sut = createSut(mode: .confirmation, bioMetricType: { .none })
@@ -180,7 +180,7 @@ final class PinCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_confirmation_touch() {
+	@MainActor func test_confirmation_touch() {
 		
 		// Given
 		let sut = createSut(mode: .confirmation, bioMetricType: { .touchID })
@@ -192,7 +192,7 @@ final class PinCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_confirmation_face_lightMode() {
+	@MainActor func test_confirmation_face_lightMode() {
 		
 		// Given
 		let sut = createSut(mode: .confirmation, bioMetricType: { .faceID })
@@ -204,7 +204,7 @@ final class PinCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_confirmation_vison() {
+	@MainActor func test_confirmation_vison() {
 		
 		// Given
 		let sut = createSut(mode: .confirmation, bioMetricType: { .opticID })
@@ -216,7 +216,7 @@ final class PinCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_confirmation_touch_fiveDigits_different() throws {
+	@MainActor func test_confirmation_touch_fiveDigits_different() throws {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedTempPinCode = "12345"
@@ -236,7 +236,7 @@ final class PinCodeViewTests: XCTestCase {
 	
 	// MARK: - Validation Mode -
 	
-	func test_validation_noBioMetric() {
+	@MainActor func test_validation_noBioMetric() {
 		
 		// Given
 		let sut = createSut(mode: .validation(lockOut: false), bioMetricType: { .none })
@@ -248,7 +248,7 @@ final class PinCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_validation_touch() {
+	@MainActor func test_validation_touch() {
 		
 		// Given
 		let sut = createSut(mode: .validation(lockOut: false), bioMetricType: { .touchID })
@@ -260,7 +260,7 @@ final class PinCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_validation_face() {
+	@MainActor func test_validation_face() {
 		
 		// Given
 		let sut = createSut(mode: .validation(lockOut: false), bioMetricType: { .faceID })
@@ -272,7 +272,7 @@ final class PinCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_validation_vison() {
+	@MainActor func test_validation_vison() {
 		
 		// Given
 		let sut = createSut(mode: .validation(lockOut: false), bioMetricType: { .opticID })
@@ -284,7 +284,7 @@ final class PinCodeViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_validation_touch_fiveDigits_different() throws {
+	@MainActor func test_validation_touch_fiveDigits_different() throws {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedPinCode = "12345"

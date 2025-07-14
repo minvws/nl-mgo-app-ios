@@ -29,7 +29,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 	
 	// MARK: - Handle -
 	
-	func test_coordinatorHandle_backButtonPressed() {
+	@MainActor func test_coordinatorHandle_backButtonPressed() {
 		
 		// Given
 		sut.path = NavigationStackBackport.NavigationPath([SettingsCoordination.State.displaySettings])
@@ -41,7 +41,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_showDisplaySettings() {
+	@MainActor func test_coordinatorHandle_showDisplaySettings() {
 		
 		// Given
 		
@@ -52,7 +52,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.displaySettings])
 	}
 	
-	func test_coordinatorHandle_showSecuritySettings() {
+	@MainActor func test_coordinatorHandle_showSecuritySettings() {
 		
 		// Given
 		
@@ -63,7 +63,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.securitySettings])
 	}
 	
-	func test_coordinatorHandle_showAdvancedSettings() {
+	@MainActor func test_coordinatorHandle_showAdvancedSettings() {
 		
 		// Given
 		
@@ -74,7 +74,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.advancedSettings])
 	}
 	
-	func test_coordinatorHandle_showAboutTheApp() {
+	@MainActor func test_coordinatorHandle_showAboutTheApp() {
 		
 		// Given
 		
@@ -85,7 +85,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutTheApp])
 	}
 	
-	func test_coordinatorHandle_showAboutAccessibility() {
+	@MainActor func test_coordinatorHandle_showAboutAccessibility() {
 		
 		// Given
 		
@@ -96,7 +96,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutAccessibility])
 	}
 	
-	func test_coordinatorHandle_showSafetyTips() {
+	@MainActor func test_coordinatorHandle_showSafetyTips() {
 		
 		// Given
 		
@@ -107,7 +107,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutSafetyTips])
 	}
 	
-	func test_coordinatorHandle_showOpenSourceLibraries() {
+	@MainActor func test_coordinatorHandle_showOpenSourceLibraries() {
 		
 		// Given
 		
@@ -118,7 +118,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutOpenSourceLibraries])
 	}
 	
-	func test_coordinatorHandle_openUrl() {
+	@MainActor func test_coordinatorHandle_openUrl() {
 		
 		// Given
 		let params: [String: AnyHashable] = ["urlString": "https://example.com"]
@@ -130,7 +130,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
-	func test_coordinatorHandle_openUrl_wrongParams() {
+	@MainActor func test_coordinatorHandle_openUrl_wrongParams() {
 		
 		// Given
 		let params: [String: AnyHashable] = ["wrongParam": "https://example.com"]
@@ -142,7 +142,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beFalse())
 	}
 	
-	func test_coordinatorHandle_lockAppliction() {
+	@MainActor func test_coordinatorHandle_lockAppliction() {
 		
 		// Given
 		
@@ -153,7 +153,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 	
-	func test_coordinatorHandle_showPrivacyStatement() {
+	@MainActor func test_coordinatorHandle_showPrivacyStatement() {
 		
 		// Given
 		
@@ -164,7 +164,7 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
-	func test_coordinatorHandle_resetApplication() {
+	@MainActor func test_coordinatorHandle_resetApplication() {
 		
 		// Given
 		

@@ -19,13 +19,17 @@ final class OrganizationsViewModelTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
+	}
+	
+	@MainActor func createSut() {
 		
 		sut = OrganizationsViewModel(coordinator: coordinatorSpy)
 	}
-
-	func test_onAppear_shouldCallStore_noOrganzations_stateShouldBeEmtpy() {
+	
+	@MainActor func test_onAppear_shouldCallStore_noOrganzations_stateShouldBeEmtpy() {
 		
 		// Given
+		createSut()
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		
 		// When
@@ -36,9 +40,10 @@ final class OrganizationsViewModelTests: XCTestCase {
 		expect(self.sut.state) == .empty
 	}
 	
-	func test_onAppear_shouldCallStore_withOrganizations_stateShouldBeList() {
+	@MainActor func test_onAppear_shouldCallStore_withOrganizations_stateShouldBeList() {
 		
 		// Given
+		createSut()
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		
@@ -50,9 +55,10 @@ final class OrganizationsViewModelTests: XCTestCase {
 		expect(self.sut.state) == .list([healthcareOrganization])
 	}
 	
-	func test_searchButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_searchButtonPressed_shouldCallCoordinator() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.reduce(.search)
@@ -62,9 +68,10 @@ final class OrganizationsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
 	}
 	
-	func test_detailsButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_detailsButtonPressed_shouldCallCoordinator() {
 		
 		// Given
+		createSut()
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		
 		// When
@@ -78,9 +85,10 @@ final class OrganizationsViewModelTests: XCTestCase {
 		)
 	}
 	
-	func test_closeBanner_shouldRemoveBanner() {
+	@MainActor func test_closeBanner_shouldRemoveBanner() {
 		
 		// Given
+		createSut()
 		sut.toast = Feedback(title: "test", subtitle: "test", type: .error)
 		
 		// When
@@ -90,9 +98,10 @@ final class OrganizationsViewModelTests: XCTestCase {
 		expect(self.sut.toast) == nil
 	}
 	
-	func test_showToast() {
+	@MainActor func test_showToast() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.reduce(.showToast(title: "title", subtitle: "subtitle"))
@@ -101,9 +110,10 @@ final class OrganizationsViewModelTests: XCTestCase {
 		expect(self.sut.toast) != nil
 	}
 	
-	func test_undo() {
+	@MainActor func test_undo() {
 		
 		// Given
+		createSut()
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		sut = OrganizationsViewModel(coordinator: coordinatorSpy)
@@ -117,9 +127,10 @@ final class OrganizationsViewModelTests: XCTestCase {
 		expect(self.sut.toast) == nil
 	}
 	
-	func test_handleOrganizationChanges_added() {
+	@MainActor func test_handleOrganizationChanges_added() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handleOrganizationChanges(.added)
@@ -129,9 +140,10 @@ final class OrganizationsViewModelTests: XCTestCase {
 		expect(self.sut.toast) == nil
 	}
 	
-	func test_handleOrganizationChanges_removed() {
+	@MainActor func test_handleOrganizationChanges_removed() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handleOrganizationChanges(.removed)
@@ -142,9 +154,10 @@ final class OrganizationsViewModelTests: XCTestCase {
 		expect(self.sut.toast?.subheading) == "Herstel"
 	}
 	
-	func test_handleOrganizationChanges_changed() {
+	@MainActor func test_handleOrganizationChanges_changed() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handleOrganizationChanges(.changed)

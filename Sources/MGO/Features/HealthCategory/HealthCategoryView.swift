@@ -298,7 +298,7 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Sort the records on subcategory
 	/// - Parameter records: the records to sort
 	/// - Returns: sorted sub categories
-	internal func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthSubCategory]) {
+	@MainActor internal func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthSubCategory]) {
 		
 		var items = [HealthSubCategory]()
 		var partial = false
@@ -332,7 +332,7 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Extract rows from the data store records
 	/// - Parameter record: the record
 	/// - Returns: displayable rows
-	private func parseRecord(_ record: MgoResourceRecord, acceptedProfile: String) -> [HealthCategoryRow] {
+	@MainActor private func parseRecord(_ record: MgoResourceRecord, acceptedProfile: String) -> [HealthCategoryRow] {
 		
 		var items = [HealthCategoryRow]()
 		// For all the MgoResources

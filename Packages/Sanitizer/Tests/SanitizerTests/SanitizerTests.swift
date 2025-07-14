@@ -6,6 +6,7 @@
 import MGOTest
 @testable import Sanitizer
 
+@MainActor
 final class SanitizerTests: XCTestCase {
 	
 	func test_sanitize_htmlInInput_shouldHaveHtmlRemoved() {

@@ -37,7 +37,8 @@ public struct OffsetObservingScrollView<Content: View>: View {
 		showsIndicators: Bool = true,
 		bounces: Bool = false,
 		offset: Binding<CGPoint>,
-		content: @escaping () -> Content) {
+		content: @escaping () -> Content
+	) {
 		self.axes = axes
 		self.showsIndicators = showsIndicators
 		self.bounces = bounces

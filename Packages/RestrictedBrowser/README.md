@@ -47,4 +47,4 @@ Note that all commits should be signed using a [gpg key](https://docs.github.com
 
 ## License
 
-License is released under the EUPL 1.2 license. See [LICENSE.txt](https://github.com/minvws/nl-mgo-app-ios-private/blob/main/Packages/RestrictedBrowser/LICENSE.txt) for details.
+License is released under the EUPL 1.2 license. See [LICENSE](https://github.com/minvws/nl-mgo-app-ios-private?tab=License-1-ov-file#readme) for details.

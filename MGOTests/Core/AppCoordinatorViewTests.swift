@@ -7,6 +7,7 @@ import MGOFoundation
 import MGOTest
 import MGOUI
 @testable import MGO
+import RestrictedBrowser
 
 final class AppCoordinatorViewTests: XCTestCase {
 	
@@ -19,11 +20,22 @@ final class AppCoordinatorViewTests: XCTestCase {
 		coordinator = AppCoordinatorSpy()
 		super.setUp()
 	}
-
-	func test_default() throws {
+	
+	@MainActor func createAppCoordinator() -> AppCoordinator {
+		
+		let urlOpenerSpy = URLOpenerSpy()
+		urlOpenerSpy.stubbedCanOpenURLResult = true
+		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
+		return AppCoordinator(
+			path: NavigationStackBackport.NavigationPath(),
+			browser: browser
+		)
+	}
+	
+	@MainActor func test_default() throws {
 		
 		// Given
-		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		let appCoordinator = createAppCoordinator()
 		
 		// When
 		let sut = AppCoordinatorView<AppCoordinator>(appCoordinator: appCoordinator)
@@ -32,10 +44,10 @@ final class AppCoordinatorViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_childCoordinator() throws {
+	@MainActor func test_childCoordinator() throws {
 		
 		// Given
-		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		let appCoordinator = createAppCoordinator()
 		appCoordinator.showChildCoordinator = true
 		
 		// When
@@ -45,10 +57,10 @@ final class AppCoordinatorViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_fullscreenCover() throws {
+	@MainActor func test_fullscreenCover() throws {
 		
 		// Given
-		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		let appCoordinator = createAppCoordinator()
 		appCoordinator.showChildCoordinator = true
 		appCoordinator.showAuthenticationModal = true
 		appCoordinator.rootStateForSheet = AppCoordination.State.forgotPinCode
@@ -60,10 +72,10 @@ final class AppCoordinatorViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_fullscreenCover_pathForSheet() throws {
+	@MainActor func test_fullscreenCover_pathForSheet() throws {
 		
 		// Given
-		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		let appCoordinator = createAppCoordinator()
 		appCoordinator.showChildCoordinator = true
 		appCoordinator.showAuthenticationModal = true
 		appCoordinator.rootStateForSheet = AppCoordination.State.forgotPinCode
@@ -76,10 +88,10 @@ final class AppCoordinatorViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_inspectableSheet_pathForSheet() throws {
+	@MainActor func test_inspectableSheet_pathForSheet() throws {
 		
 		// Given
-		let appCoordinator = AppCoordinator(path: NavigationStackBackport.NavigationPath())
+		let appCoordinator = createAppCoordinator()
 		appCoordinator.showChildCoordinator = false
 		appCoordinator.showAuthenticationModal = false
 		appCoordinator.rootStateForSheet = AppCoordination.State.forgotPinCode

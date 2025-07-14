@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "LocalisationService",
-	platforms: [.iOS(.v15)],
+	platforms: [.macOS(.v10_15), .iOS(.v15)],
 	products: [
 		.library(
 			name: "LocalisationService",
@@ -37,6 +37,9 @@ let package = Package(
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			],
 			plugins: [
 				.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")

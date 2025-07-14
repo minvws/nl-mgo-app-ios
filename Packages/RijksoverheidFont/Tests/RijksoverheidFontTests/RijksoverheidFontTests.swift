@@ -7,6 +7,7 @@
 import MGOTest
 import SwiftUI
 
+@MainActor
 final class RijksoverheidFontTests: XCTestCase {
 	
 	func testFonts_relative() {

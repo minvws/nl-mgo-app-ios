@@ -7,15 +7,8 @@ import SwiftUI
 
 // MARK: - Environment -
 
-/// The environment key for the theme
-public struct ThemeEnvironmentKey: EnvironmentKey {
-	public static let defaultValue: any Themeable = Theme()
-}
-
-/// Placing the theme into the environment
-public extension EnvironmentValues {
-	var theme: any Themeable {
-		get { self[ThemeEnvironmentKey.self] }
-		set { self[ThemeEnvironmentKey.self] = newValue }
-	}
+extension EnvironmentValues {
+	
+	/// The environment key for the theme
+	@Entry public var theme: any Themeable = Theme()
 }

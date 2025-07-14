@@ -88,7 +88,7 @@ class PinCodeViewModel: ObservableObject {
 	/// - Parameter mode: Which mode should we run in? Creation, Confirmation, Validation?
 	/// - Parameter bioMetricType: Which biometric type should we run in? TouchId , FaceId, Optic Id, none?
 	/// - Parameter strengthMeter: Access code strength meter
-	init(
+	@MainActor init(
 		coordinator: (any Coordinator)?,
 		mode: PinCodeMode,
 		backButtonVisible: Bool = true,
@@ -115,7 +115,7 @@ class PinCodeViewModel: ObservableObject {
 	}
 	
 	/// Update the state
-	private func updateState() {
+	@MainActor private func updateState() {
 		switch mode {
 			case .creation:
 				updateStateEntry()
@@ -129,7 +129,7 @@ class PinCodeViewModel: ObservableObject {
 	/// Update the state for creation mode
 	/// - Parameters:
 	///   - tooWeak: is the created code too weak?
-	private func updateStateEntry(tooWeak: Bool = false) {
+	@MainActor private func updateStateEntry(tooWeak: Bool = false) {
 		
 		state.bioMetricEnabled = false
 		state.backButtonVisible = backButtonVisible
@@ -147,7 +147,7 @@ class PinCodeViewModel: ObservableObject {
 	
 	/// Update the state for confirmation mode
 	/// - Parameter confirmationMismatch: Does the confirmation code matches the creation code?
-	private func updateStateConfirmation(confirmationMismatch: Bool = false) {
+	@MainActor private func updateStateConfirmation(confirmationMismatch: Bool = false) {
 		
 		state.bioMetricEnabled = false
 		state.backButtonVisible = true
@@ -165,7 +165,7 @@ class PinCodeViewModel: ObservableObject {
 	
 	/// Update the state for Validation mode
 	/// - Parameter validationMismatch: does the validation code matches the stored accesscode?
-	private func updateStateValidation(validationMismatch: Bool = false) {
+	@MainActor private func updateStateValidation(validationMismatch: Bool = false) {
 		
 		state.bioMetricEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
 		state.backButtonVisible = false
@@ -184,7 +184,7 @@ class PinCodeViewModel: ObservableObject {
 	
 	/// Announce "Field {x}, active"
 	/// - Parameter field: the field number
-	private func announceActiveField(_ field: Int) {
+	@MainActor private func announceActiveField(_ field: Int) {
 		let message = String(
 			format: String(localized: "pincode.announce.voiceover"),
 			arguments: [
@@ -197,7 +197,7 @@ class PinCodeViewModel: ObservableObject {
 	
 	/// Announce a message to voiceover
 	/// - Parameter message: the message to be announced (as a String)
-	private func announce(_ message: String) {
+	@MainActor private func announce(_ message: String) {
 		
 		logDebug("Announcing: \(message)")
 		
@@ -208,7 +208,7 @@ class PinCodeViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	public func reduce(_ action: Action) {
+	@MainActor public func reduce(_ action: Action) {
 		switch action {
 			case .buttonPressed(let value):
 				buttonPressed(value)
@@ -238,7 +238,7 @@ class PinCodeViewModel: ObservableObject {
 	
 	/// The user pressed on the keyboard to enter a digit
 	/// - Parameter value: the value of the digit
-	private func buttonPressed(_ value: String) {
+	@MainActor private func buttonPressed(_ value: String) {
 		
 		if inErrorState {
 			accessCode = []
@@ -266,7 +266,7 @@ class PinCodeViewModel: ObservableObject {
 	}
 	
 	/// All digits are entered. Check  for strength
-	private func handleCreationCompletion() {
+	@MainActor private func handleCreationCompletion() {
 		
 		let code = accessCode.joined()
 		guard strengthMeter.validate(code) else {
@@ -285,7 +285,7 @@ class PinCodeViewModel: ObservableObject {
 	}
 	
 	/// Confirmation entered, compare with the previous value
-	private func handleConfirmationCompletion() {
+	@MainActor private func handleConfirmationCompletion() {
 		
 		let code = accessCode.joined()
 		guard code == Current.secureUserSettings.tempPinCode else {
@@ -302,7 +302,7 @@ class PinCodeViewModel: ObservableObject {
 	}
 	
 	/// Validation code entered, let's see if we can login
-	private func handleValidationCompletion() {
+	@MainActor private func handleValidationCompletion() {
 		
 		let code = accessCode.joined()
 		guard code == Current.secureUserSettings.pinCode else {
@@ -318,7 +318,7 @@ class PinCodeViewModel: ObservableObject {
 	}
 	
 	/// Something is not ok, make all the boxes red
-	private func setErrorState() {
+	@MainActor private func setErrorState() {
 		// All boxes to error state
 		for index in 0 ..< numberOfDigits {
 			boxStates[index].state = .error
@@ -331,7 +331,7 @@ class PinCodeViewModel: ObservableObject {
 	}
 	
 	/// The user pressed the erase button
-	private func erasePressed() {
+	@MainActor private func erasePressed() {
 		
 		if accessCode.isNotEmpty {
 			Haptic.light()

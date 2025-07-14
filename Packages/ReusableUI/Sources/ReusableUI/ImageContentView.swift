@@ -73,7 +73,6 @@ public struct ImageContentView: View {
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Empty {
-			static let width: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 0.33 : 0.5
 			static let padding: CGFloat = 16
 			static let spacing: CGFloat = 8
 			static let top: CGFloat = 12
@@ -94,7 +93,7 @@ public struct ImageContentView: View {
 						.aspectRatio(contentMode: .fill)
 						.padding(.bottom, ViewTraits.Empty.padding)
 				}
-				.frame(maxWidth: contentSize.width * ViewTraits.Empty.width)
+				.frame(maxWidth: contentSize.width * (UIDevice.current.userInterfaceIdiom == .pad ? 0.33 : 0.5))
 			}
 			
 			// Texts, full width

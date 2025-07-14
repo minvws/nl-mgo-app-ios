@@ -17,7 +17,7 @@ public protocol RemoteConfigurationRepositoryProtocol {
 	var observatory: Observatory<RemoteConfig> { get }
 	
 	/// Fetch the config and update all observers
-	func fetchAndUpdateObservers()
+	func fetchAndUpdateObservers() async
 
 	/// Remove the remote configuration from storage
 	func wipePersistedData()
@@ -71,16 +71,16 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 		storedConfiguration = RemoteConfig.fallback
 	}
 	
-	public func fetchAndUpdateObservers() {
+	/// Fetch the configuration and update all observers
+	public func fetchAndUpdateObservers() async {
 		
-		_Concurrency.Task {
-			let config = await fetchConfig()
-			storedConfiguration = config
-			try? persistToStorage()
-			observers(config)
-		}
+		let config = await fetchConfig()
+		storedConfiguration = config
+		try? persistToStorage()
+		observers(config)
 	}
 	
+	/// Fetch the configuration
 	func fetchConfig() async -> RemoteConfig {
 		do {
 			// First attempt to fetch from the api
