@@ -52,7 +52,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	public func reduce(_ action: Action) {
+	@MainActor public func reduce(_ action: Action) {
 		switch action {
 			case .proceedWithBioMetric:
 				_Concurrency.Task {
@@ -68,7 +68,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	}
 	
 	/// The user finished this page with bio metric access
-	private func finishedWithBioMetric() {
+	@MainActor private func finishedWithBioMetric() {
 		
 		// Do use biometric authentication
 		Current.secureUserSettings.bioMetricAuthenticationEnabled = true
@@ -77,7 +77,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	}
 	
 	/// The user finished this page without bio metric access
-	private func finishedWithoutBioMetric() {
+	@MainActor private func finishedWithoutBioMetric() {
 		
 		// Do not use biometric authentication
 		Current.secureUserSettings.bioMetricAuthenticationEnabled = false

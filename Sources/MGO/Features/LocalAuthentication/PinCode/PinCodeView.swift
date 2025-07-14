@@ -388,7 +388,7 @@ class PinCodeViewModel: ObservableObject {
 		}
 	}
 	
-	private func handleSuccessfulValidation() {
+	@MainActor private func handleSuccessfulValidation() {
 		
 		logInfo("Pincode: User has been successfully validated")
 		// Fill the boxes to display success

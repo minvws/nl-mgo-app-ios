@@ -43,7 +43,7 @@ class LoginViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	public func reduce(_ action: Action) {
+	@MainActor public func reduce(_ action: Action) {
 		
 		if action == .loginWithDigiD {
 			guard !Current.featureFlagManager.isDemo else {

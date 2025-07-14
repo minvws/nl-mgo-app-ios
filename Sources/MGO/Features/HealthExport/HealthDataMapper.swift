@@ -9,7 +9,7 @@ import PdfExport
 class HealthDataMapper {
 	
 	/// The date formatter
-	private static var dateFormatter: DateFormatter = {
+	@MainActor private static var dateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeZone = TimeZone(abbreviation: "CET")
 		formatter.dateStyle = .medium
@@ -18,7 +18,7 @@ class HealthDataMapper {
 	}()
 	
 	/// The time formatter
-	private static var timeFormatter: DateFormatter = {
+	@MainActor private static var timeFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeZone = TimeZone(abbreviation: "CET")
 		formatter.dateStyle = .none

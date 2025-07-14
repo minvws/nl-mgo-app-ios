@@ -37,7 +37,7 @@ protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
 	/// Get a View for the State
 	/// - Parameter state: the DashboardCoordination State
 	/// - Returns: A view for that state
-	func view(for state: SettingsCoordination.State?) -> Body
+	@MainActor func view(for state: SettingsCoordination.State?) -> Body
 }
 
 struct SettingsCoordination {
@@ -168,7 +168,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the SettingsCoordination State
 	/// - Returns: A view for that state
-	@ViewBuilder func view(for state: SettingsCoordination.State?) -> some View {
+	@MainActor @ViewBuilder func view(for state: SettingsCoordination.State?) -> some View {
 		
 		switch state {
 			

@@ -415,7 +415,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// - Parameter category: the health category
 	/// - Parameter organization: optional healthcare organization
 	/// - Returns: A view for that state
-	@ViewBuilder private func viewState(for category: HealthCategories.Category, organization: MgoOrganization? = nil) -> some View {
+	@MainActor @ViewBuilder private func viewState(for category: HealthCategories.Category, organization: MgoOrganization? = nil) -> some View {
 		
 		switch category {
 			case HealthCategories.Category.medication:

@@ -104,7 +104,7 @@ class AboutOpenSourceLibrariesViewModel: BaseViewModel {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AboutOpenSourceLibrariesViewModel.Action) {
+	@MainActor func reduce(_ action: AboutOpenSourceLibrariesViewModel.Action) {
 		
 		if case .openUrl(let urlString) = action {
 			let params: [String: AnyHashable] = ["urlString": urlString]

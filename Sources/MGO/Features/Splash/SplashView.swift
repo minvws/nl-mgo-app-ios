@@ -85,7 +85,7 @@ class SplashViewModel: ObservableObject {
 	
 	/// Reduce the action to the next state
 	/// - Parameter action: the action
-	public func reduce(_ action: SplashViewModel.Action) {
+	@MainActor public func reduce(_ action: SplashViewModel.Action) {
 		
 		switch action {
 			case .start:
@@ -120,7 +120,7 @@ class SplashViewModel: ObservableObject {
 	}
 	
 	/// Load the remote Config
-	private func startLoadingConfig() {
+	@MainActor private func startLoadingConfig() {
 		
 		state = .loadingConfig
 		startServices()

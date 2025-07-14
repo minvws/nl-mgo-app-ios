@@ -102,7 +102,7 @@ class HealthDataViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthDataViewModel.Action) {
+	@MainActor func reduce(_ action: HealthDataViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
@@ -118,7 +118,7 @@ class HealthDataViewModel: ObservableObject {
 	
 	/// Handle the reference tap
 	/// - Parameter reference: the reference id tapped on
-	private func referenceTapped(_ reference: String) {
+	@MainActor private func referenceTapped(_ reference: String) {
 		
 		guard let resolved = referenceStore[reference] else { return }
 		

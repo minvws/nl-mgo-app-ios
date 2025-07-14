@@ -60,7 +60,7 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: OrganizationListAutomaticViewModel.Action) {
+	@MainActor func reduce(_ action: OrganizationListAutomaticViewModel.Action) {
 		
 		switch action {
 			

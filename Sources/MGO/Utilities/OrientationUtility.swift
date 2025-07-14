@@ -8,7 +8,7 @@
 import UIKit
 
 // See https://stackoverflow.com/a/41811798/443270
-struct OrientationUtility {
+@MainActor struct OrientationUtility {
 
 	static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
 

@@ -87,7 +87,7 @@ class OrganizationListManualViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: OrganizationListManualViewModel.Action) {
+	@MainActor func reduce(_ action: OrganizationListManualViewModel.Action) {
 		
 		switch action {
 			

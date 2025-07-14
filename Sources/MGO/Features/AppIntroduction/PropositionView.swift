@@ -25,7 +25,7 @@ class PropositionViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: PropositionViewModel.Action) {
+	@MainActor func reduce(_ action: PropositionViewModel.Action) {
 		
 		switch action {
 			case .privacyLinkClicked:

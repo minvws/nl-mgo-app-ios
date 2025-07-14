@@ -42,7 +42,7 @@ class AboutTheAppViewModel: BaseViewModel {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AboutTheAppViewModel.Action) {
+	@MainActor func reduce(_ action: AboutTheAppViewModel.Action) {
 		
 		switch action {
 			

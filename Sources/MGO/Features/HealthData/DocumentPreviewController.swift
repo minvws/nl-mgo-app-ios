@@ -44,7 +44,7 @@ struct DocumentPreviewController: UIViewControllerRepresentable {
 		return Coordinator(parent: self)
 	}
 	
-	class Coordinator: NSObject, QLPreviewControllerDataSource, QLPreviewControllerDelegate {
+	class Coordinator: NSObject, QLPreviewControllerDataSource, @preconcurrency QLPreviewControllerDelegate {
 		
 		var parent: DocumentPreviewController
 		
@@ -68,7 +68,10 @@ struct DocumentPreviewController: UIViewControllerRepresentable {
 		
 		// MARK: QLPreviewControllerDelegate
 		
-		func previewController(_ controller: QLPreviewController, editingModeFor previewItem: any QLPreviewItem) -> QLPreviewItemEditingMode {
+		func previewController(
+			_ controller: QLPreviewController,
+			editingModeFor previewItem: any QLPreviewItem
+		) -> QLPreviewItemEditingMode {
 			return .disabled
 		}
 		

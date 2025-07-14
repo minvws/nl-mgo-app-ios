@@ -161,6 +161,7 @@ class HealthDataDownloadViewModel: ObservableObject {
 		}
 	}
 	
+	@MainActor
 	private func shareDocument(_ url: URL) {
 		
 		guard let vc = UIApplication.shared.firstKeyWindow?.rootViewController else { return }

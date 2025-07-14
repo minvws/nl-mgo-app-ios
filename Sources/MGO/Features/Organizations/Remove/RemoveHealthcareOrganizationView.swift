@@ -31,7 +31,7 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: RemoveHealthcareOrganizationViewModel.Action) {
+	@MainActor func reduce(_ action: RemoveHealthcareOrganizationViewModel.Action) {
 		
 		switch action {
 			case .removeOrganization:
