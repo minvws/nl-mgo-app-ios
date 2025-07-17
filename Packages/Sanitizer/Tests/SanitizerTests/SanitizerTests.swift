@@ -3,13 +3,15 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+import Foundation
 @testable import Sanitizer
+import Testing
 
 @MainActor
-final class SanitizerTests: XCTestCase {
+struct SanitizerTests {
 	
-	func test_sanitize_htmlInInput_shouldHaveHtmlRemoved() {
+	@Test
+	func sanitize_htmlInput_shouldHaveHtmlRemoved() {
 		
 		// Given
 		let input = "Hello <b>World</b>\n\n"
@@ -18,10 +20,11 @@ final class SanitizerTests: XCTestCase {
 		let sanitizedInput = Sanitizer.sanitize(input)
 		
 		// Then
-		expect(sanitizedInput) == "Hello World"
+		#expect(sanitizedInput == "Hello World")
 	}
 	
-	func test_sanitize_invalidInput_resultIsEmptyString() {
+	@Test
+	func sanitize_invalidInput_shouldReturnEmptyString() {
 		
 		// Given
 		let input = "\n\n"
@@ -30,6 +33,18 @@ final class SanitizerTests: XCTestCase {
 		let sanitizedInput = Sanitizer.sanitize(input)
 		
 		// Then
-		expect(sanitizedInput) == ""
+		#expect(sanitizedInput == "")
+	}
+	
+	@Test
+	func strip_nilInput_shouldReturnNil() {
+		
+		// Given
+		
+		// When
+		let sanitizedInput = Sanitizer.strip(nil)
+		
+		// Then
+		#expect(sanitizedInput == nil)
 	}
 }
