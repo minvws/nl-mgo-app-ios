@@ -14,7 +14,7 @@ let package = Package(
 	dependencies: [
 		
 		// External
-		.package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.9.5")
+		.package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.9.6")
 	],
 	targets: [
 		.target(
