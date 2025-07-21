@@ -16,9 +16,9 @@ final public class Sanitizer {
 	static public func strip(_ input: String?) -> String? {
 		
 		guard let input else { return nil }
-		guard let doc: Document = try? SwiftSoup.parse(input) else { return nil } // parse html
-		guard let sanitizedText = try? doc.text() else { return nil }
-		return sanitizedText.trimmingCharacters(in: .whitespacesAndNewlines)
+		return try? SwiftSoup
+			.parse(input)
+			.text(trimAndNormaliseWhitespace: true)
 	}
 	
 	/// Strip any unwanted html from the input

@@ -14,27 +14,17 @@ let package = Package(
 	dependencies: [
 		
 		// External
-		.package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.9.5"),
-		
-		// Testing:
-		.package(name: "MGOTest", path: "../MGOTest")
+		.package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.9.5")
 	],
 	targets: [
 		.target(
 			name: "Sanitizer",
-			dependencies: [
-				"SwiftSoup"
-			],
-			swiftSettings: [
-				.enableExperimentalFeature("StrictConcurrency")
-			]
+			dependencies: ["SwiftSoup"],
+			swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]
 		),
 		.testTarget(
 			name: "SanitizerTests",
-			dependencies: [
-				"Sanitizer",
-					.product(name: "MGOTest", package: "MGOTest")
-				]
-			)
+			dependencies: ["Sanitizer"]
+		)
 	]
 )
