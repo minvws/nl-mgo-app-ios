@@ -20,7 +20,7 @@ let package = Package(
 		.package(name: "MGODebug", path: "../MGODebug"),
 		
 		// External
-		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.9.0"),
+		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.0"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.2"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.1.0"),
 		
