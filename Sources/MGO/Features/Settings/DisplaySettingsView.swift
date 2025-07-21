@@ -84,7 +84,6 @@ struct DisplaySettingsView: View {
 					Spacer()
 					
 					Image(ImageResource.Settings.check)
-						.tint(theme.interactionTertiaryDefaultText)
 						.frame(
 							width: ViewTraits.Icon.size,
 							height: ViewTraits.Icon.size,
