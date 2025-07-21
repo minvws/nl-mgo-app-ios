@@ -263,7 +263,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wil je toestaan dat Mijn Gezondheidsoverzicht Touch ID gebruikt?"
+            "value" : "Wil je toestaan dat deze app Face ID gebruikt?"
           }
         }
       }
@@ -274,7 +274,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log volgende keer in met je vingerafdruk."
+            "value" : "Log voortaan snel en veilig in met gezichtsherkenning."
           }
         }
       }
@@ -296,7 +296,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gezichtsherkenning"
+            "value" : "Face ID"
           }
         }
       }
@@ -307,7 +307,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met gezichtsherkenning?"
+            "value" : "Inloggen met Face ID?"
           }
         }
       }
@@ -318,7 +318,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met Face ID. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
+            "value" : "Beveilig de app met gezichtsherkenning. Zo log je de volgende keer sneller in. Je kunt je toegangscode ook blijven gebruiken."
           }
         }
       }
@@ -329,7 +329,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oogherkenning"
+            "value" : "Optic ID"
           }
         }
       }
@@ -340,7 +340,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met oogherkenning?"
+            "value" : "Inloggen met Optic ID?"
           }
         }
       }
@@ -351,7 +351,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met Optic ID. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
+            "value" : "Beveilig de app met oogherkenning. Zo log je de volgende keer sneller in. Je kunt je toegangscode ook blijven gebruiken."
           }
         }
       }
@@ -362,7 +362,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vingerafdruk"
+            "value" : "Touch ID"
           }
         }
       }
@@ -373,7 +373,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met je vingerafdruk?"
+            "value" : "Inloggen met Touch ID?"
           }
         }
       }
@@ -384,7 +384,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met Touch ID. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
+            "value" : "Beveilig de app met je vingerafdruk. Zo log je de volgende keer sneller in. Je kunt je toegangscode ook blijven gebruiken."
           }
         }
       }
@@ -2456,6 +2456,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Meer informatie"
+          }
+        }
+      }
+    },
+    "settings.accessibility.more_information_url.acc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.acc.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.accessibility.more_information_url.prod" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
+          }
+        }
+      }
+    },
+    "settings.accessibility.more_information_url.test" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
           }
         }
       }
