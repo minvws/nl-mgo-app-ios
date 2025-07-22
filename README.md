@@ -52,7 +52,7 @@ The majority of our (third-party) dependencies are included as Swift Packages. H
 * [LocalAuthenticationProvider](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/LocalAuthenticationProvider/README.md): class to authenticate with face id or touch id.
 * [LocalisationService](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/LocalisationService/README.md): open-api generated class to search for healthcare providers.
 * [Logging](https://github.com/minvws/nl-rdo-app-ios-modules): a tool for Logging, reused from CoronaCheck.
-* [MGORepository](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/MGORepository/README.md): The linking class between the ZIBs, the HCIM parser and the FHIR Client.
+* [MGORepository](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/MGORepository/README.md): The linking class between the HCIMs, the HCIM parser and the FHIR Client.
 * [NavigationStackBackport](https://github.com/lm/navigation-stack-backport): backport of the iOS 16 NavigationStack to iOS 15.
 * [NotificationCenter](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/NotificationCenter/README.md): helper protocol for the Notification Center.
 * [Observatory](https://github.com/minvws/nl-mgo-app-ios-private/tree/main/Packages/Observatory/README.md): helper class to fascilitate subscription to changes.

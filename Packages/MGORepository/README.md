@@ -2,7 +2,7 @@
 
 ## Overview
 
-The MGO Repository is used to fetch the various Zibs from a DVA.  
+The MGO Repository is used to fetch the various HCIMs from a DVA.  
 
 ## Usage
 

@@ -192,10 +192,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let zib = try await sut.loadBinary(organization, serviceId: "48", url: url)
+		let hcim = try await sut.loadBinary(organization, serviceId: "48", url: url)
 		
 		// Then
-		expect(zib?.contentType) == "application/pdf"
+		expect(hcim?.contentType) == "application/pdf"
 	}
 	
 	func test_loadBinary_noDataService() async throws {
@@ -205,10 +205,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		let url = "https://example.com/Binary/file1"
 		
 		// When
-		let zib = try await sut.loadBinary(organization, serviceId: "48", url: url)
+		let hcim = try await sut.loadBinary(organization, serviceId: "48", url: url)
 		
 		// Then
-		expect(zib) == nil
+		expect(hcim) == nil
 	}
 	
 	func test_loadBinary_invalidBinary() async throws {
@@ -222,10 +222,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		let zib = try await sut.loadBinary(organization, serviceId: "48", url: url)
+		let hcim = try await sut.loadBinary(organization, serviceId: "48", url: url)
 		
 		// Then
-		expect(zib) == nil
+		expect(hcim) == nil
 	}
 	
 	func test_handleOrganizationChanges_added() throws {

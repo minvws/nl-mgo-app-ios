@@ -41,7 +41,7 @@ public struct RequestParameters: Sendable {
  */
 public enum RequestParameterField: String, Sendable {
 	
-	/// Category for ZIB
+	/// Category for HCIM
 	case category = "category"
 	
 	/// class
