@@ -14,9 +14,6 @@ let package = Package(
 	dependencies: [
 		// Internal
 		.package(name: "MGODebug", path: "../MGODebug"),
-		
-		// Testing
-		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		// Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -33,10 +30,7 @@ let package = Package(
 		),
 		.testTarget(
 			name: "SharedCoreTests",
-			dependencies: [
-				"SharedCore",
-					.product(name: "MGOTest", package: "MGOTest")
-			],
+			dependencies: ["SharedCore"],
 			resources: [.process("Resources")]
 		)
 	]
