@@ -8,7 +8,7 @@ This parser is written in Javascript (Typescript) and is used for the web, iOS a
 
 ## Usage
 
-The FHIR Parser is a three step process.
+The HCIM parser is a three step process.
 
 ### Split the FHIR Bundle into FHIR Resources
 

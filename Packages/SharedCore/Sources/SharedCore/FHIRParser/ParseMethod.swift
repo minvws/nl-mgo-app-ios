@@ -5,13 +5,13 @@
 
 import Foundation
 
-/// The different parse methods for the FHIR Parser
+/// The different parse methods for the HCIM parser
 public enum ParseMethod: String, Sendable {
 	
 	/// Split a FHIR Bundle into an array of FHIR Resources
 	case splitBundle = "getBundleResourcesJson"
 	
-	/// Parse a FHIR Resource into a MGO Resource
+	/// Parse a FHIR Resource into a HCIM Resource
 	case resource = "getMgoResourceJson"
 	
 	/// Parse an MGO Resource into a details HealthUISchema

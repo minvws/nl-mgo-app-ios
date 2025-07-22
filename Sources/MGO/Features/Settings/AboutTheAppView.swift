@@ -34,7 +34,7 @@ class AboutTheAppViewModel: BaseViewModel {
 		super.init(coordinator: coordinator)
 		
 		do {
-			sharedCoreVersion = try FHIRParser().getVersion()
+			sharedCoreVersion = try HCIMParser().getVersion()
 		} catch {
 			logError("No shared core version found: \(error)")
 		}

@@ -8,11 +8,11 @@ import MGOTest
 
 final class FHIRParserTests: XCTestCase {
 	
-	var sut: FHIRParser!
+	var sut: HCIMParser!
 	
 	override func setUp() {
 		super.setUp()
-		sut = FHIRParser()
+		sut = HCIMParser()
 	}
 	
 	@MainActor func test_version() throws {
@@ -56,7 +56,7 @@ final class FHIRParserTests: XCTestCase {
 		let data = Data(resource.utf8)
 		
 		// When
-		let zib = sut.transformFHIRResourceIntoMGOResource(data)
+		let zib = sut.transformFHIRResourceIntoHCIM(data)
 		
 		// Then
 		if let zib {
@@ -74,7 +74,7 @@ final class FHIRParserTests: XCTestCase {
 		let data = Data(resource.utf8)
 		
 		// When
-		let zib = sut.transformFHIRResourceIntoMGOResource(data, fhirVersion: "R3")
+		let zib = sut.transformFHIRResourceIntoHCIM(data, fhirVersion: "R3")
 		
 		// Then
 		if let zib {
@@ -92,7 +92,7 @@ final class FHIRParserTests: XCTestCase {
 		let data = Data(resource.utf8)
 		
 		// When
-		let zib = sut.transformFHIRResourceIntoMGOResource(data, fhirVersion: "R4")
+		let zib = sut.transformFHIRResourceIntoHCIM(data, fhirVersion: "R4")
 		
 		// Then
 		expect(zib) == Data("null".utf8)
@@ -103,7 +103,7 @@ final class FHIRParserTests: XCTestCase {
 		// Given
 		
 		// When
-		let zib = sut.transformFHIRResourceIntoMGOResource(Data("wrong".utf8))
+		let zib = sut.transformFHIRResourceIntoHCIM(Data("wrong".utf8))
 		
 		// Then
 		expect(zib) == Data("undefined".utf8)

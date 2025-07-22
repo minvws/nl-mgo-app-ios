@@ -137,8 +137,8 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Token for the data store observatory
 	private var dataStoreToken: Observatory.ObserverToken?
 	
-	/// The FHIR Parser
-	private let parser = FHIRParser()
+	/// The HCIM parser
+	private let parser = HCIMParser()
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
