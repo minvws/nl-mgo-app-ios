@@ -2,9 +2,9 @@
 
 ## Overview
 
-A shared Javascript FHIR -> Zib parser.
+A shared Javascript FHIR -> HCIM parser.
 
-This parser is written in Javascript (Typescript) and is used for the web, iOS and Android application. The shared parser is the single source of truth, removing the need to build this logic for each platform seperately. The same applies for the Zibs, they are generated from a shared JSON Schema to fix the same problems and have some consistency across platforms. 
+This parser is written in Javascript (Typescript) and is used for the web, iOS and Android application. The shared parser is the single source of truth, removing the need to build this logic for each platform seperately. The same applies for the HCIMs, they are generated from a shared JSON Schema to fix the same problems and have some consistency across platforms. 
 
 ## Usage
 
@@ -15,7 +15,7 @@ The HCIM parser is a three step process.
 The parser can split a FHIR Bundle into an array of FHIR resources. The resulting array is of type **Any**. 
 
 ```swift
-import FHIRParser
+import HCIMParser
 
 let json = """
 {
@@ -32,46 +32,43 @@ let resources: [Data] = parser.splitBundleIntoResources(data)
 ```
 
 
-### Transform a FHIR Resource into a Zib object
+### Transform a FHIR Resource into a HCIM resource
 
-Each of the resources found by step 1 can be transformed into a Zib object. 
+Each of the resources found by step 1 can be transformed into a HCIM resource. 
 
 ```swift
-import FHIRParser
-import Zibs
+import HCIMParser
 
 for element in resources {
-			if let zib = parser.transformFHIRResourceIntoMGOResource(element, fhirVersion: "R3") {
- 				// the Mgo Resource (as Data)       
-      }
- }
+	if let hcim = parser.transformFHIRResourceIntoMGOResource(element, fhirVersion: "R3") {
+		// the Mgo Resource (as Data)       
+	}
+}
 ```
-We can transform the zib to a typed zib object
+We can transform the hcim resource to a typed hcim object
 ```swift
-import FHIRParser
-import Zibs
+import HCIMParser
 
-let zibMedicationUse = ZibFactory.createZibMedicationUse(zib)
+let zibMedicationUse = HCIMFactory.createZibMedicationUse(hcim)
 ```
 
-The zib definitions are generated from a shared json schema, to be easily shared between the different platforms (web, iOS/swift, Android/Kotlin). That will prevent differences and errors between the platforms. 
+The hcim definitions are generated from a shared json schema, to be easily shared between the different platforms (web, iOS/swift, Android/Kotlin). That will prevent differences and errors between the platforms. 
 
-### Transform a Zib object into a HealthUISchema
+### Transform a HCIM object into a HealthUISchema
 
-Transforming that zib into a fixed HealthUISchema is simple:
+Transforming that hcim into a fixed HealthUISchema is simple:
 ```swift
-import FHIRParser
-import Zibs
+import HCIMParser
 
-let summary = parser.getSummary(zib)
-let details = parser.getDetails(zib)
+let summary = parser.getSummary(hcim)
+let details = parser.getDetails(hcim)
 ```
 
-The schema comes in two flavours: summary and details. The summary schema contains the most important fields and values, while the details contain all the fields and values of a zib.
+The schema comes in two flavours: summary and details. The summary schema contains the most important fields and values, while the details contain all the fields and values of a hcim.
 
-The schema can be used to display the fields of a zib in a generic way, reducing the all the conditional and switching logic for the UI part. 
+The schema can be used to display the fields of a hcim in a generic way, reducing the all the conditional and switching logic for the UI part. 
 
-### Zibs
+### HCIMs
 
 | GP (R3) | Definition |
 | -- | -- |
