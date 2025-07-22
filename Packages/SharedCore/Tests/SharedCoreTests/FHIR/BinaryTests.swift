@@ -12,7 +12,6 @@ struct BinaryTests {
 	func initFromData_shouldResultInValidBinary() throws {
 		
 		// Given
-		let data = try getResource("binary")
 		let data = try ResourceLoader().getResource("binary")
 		
 		// When

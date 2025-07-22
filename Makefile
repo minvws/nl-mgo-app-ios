@@ -95,8 +95,8 @@ import_sharedcore:
 #	@rm -f packages/SharedCore/Sources/SharedCore/Zibs/Generated/* && cp tmp/sharedcore/schema/swift/* packages/SharedCore/Sources/SharedCore/Zibs/Generated/
 
 	# Generate Zibs from schema/json/types.json
-	@rm -f packages/SharedCore/Sources/SharedCore/Zibs/Generated/*
-	@quicktype --src "./tmp/sharedcore/schema/json/types.json#/definitions/" --src-lang schema --access-level public --protocol hashable --sendable --multi-file-output --out ./Packages/SharedCore/Sources/SharedCore/Zibs/Generated/Types.swift --swift-5-support
+	@rm -f packages/SharedCore/Sources/SharedCore/HCIM/Generated/*
+	@quicktype --src "./tmp/sharedcore/schema/json/types.json#/definitions/" --src-lang schema --access-level public --protocol hashable --sendable --multi-file-output --out ./Packages/SharedCore/Sources/SharedCore/HCIM/Generated/Types.swift --swift-5-support
 
 	# Cleanup
 	@rm -rf "tmp/sharedcore"
