@@ -5,8 +5,8 @@
 
 import Foundation
 
-/// the FHIR parse errors
-public enum FHIRParserError: Error, Sendable {
+/// the HCIM parse errors
+public enum HCIMParserError: Error, Sendable {
 	
 	/// The input could not be converted
 	case invalidInput

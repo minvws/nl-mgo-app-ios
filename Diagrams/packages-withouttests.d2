@@ -150,7 +150,7 @@ MGOUI <- SwiftUI
 MGORepository  { style.fill: "#ffcc00" }
 MGORepository <- FHIRClient
 MGORepository <- Observatory
-MGORepository <- SharedCore
+MGORepository <- HCIMCore
 
 NotificationCenter { style.fill: "#ffcc00" }
 NotificationCenter <- UIKit
@@ -198,9 +198,9 @@ Sanitizer <- SwiftSoup
 SecureUserSettings { style.fill: "#ffcc00" }
 SecureUserSettings <- CommonCrypto
 
-SharedCore { style.fill: "#ffcc00" }
-SharedCore <- JavaScriptCore
-SharedCore <- MGODebug
+HCIMCore { style.fill: "#ffcc00" }
+HCIMCore <- JavaScriptCore
+HCIMCore <- MGODebug
 
 Theme { style.fill: "#ffcc00" }
 Theme <- SwiftUI
