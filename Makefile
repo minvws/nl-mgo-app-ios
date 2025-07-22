@@ -90,11 +90,9 @@ import_sharedcore:
 	
 	# Move Files
 	@rm -f packages/SharedCore/Sources/SharedCore/Resources/version.json && cp tmp/sharedcore/version.json packages/SharedCore/Sources/SharedCore/Resources/version.json
-	@rm -f packages/SharedCore/Sources/SharedCore/Resources/*.js && cp tmp/sharedcore/js/* packages/SharedCore/Sources/SharedCore/Resources/
-	
-#	@rm -f packages/SharedCore/Sources/SharedCore/Zibs/Generated/* && cp tmp/sharedcore/schema/swift/* packages/SharedCore/Sources/SharedCore/Zibs/Generated/
+	@rm -f packages/SharedCore/Sources/SharedCore/Resources/*.js && cp tmp/sharedcore/js/*.js packages/SharedCore/Sources/SharedCore/Resources/
 
-	# Generate Zibs from schema/json/types.json
+	# Generate HCIMs from schema/json/types.json
 	@rm -f packages/SharedCore/Sources/SharedCore/HCIM/Generated/*
 	@quicktype --src "./tmp/sharedcore/schema/json/types.json#/definitions/" --src-lang schema --access-level public --protocol hashable --sendable --multi-file-output --out ./Packages/SharedCore/Sources/SharedCore/HCIM/Generated/Types.swift --swift-5-support
 
