@@ -24,7 +24,7 @@ excluded:
   - Packages/*/Package.swift
   - vendor
   - Packages/*/.build
-  - Packages/SharedCore/Sources/SharedCore/HCIM/Generated/*.swift # Generated files.
+  - Packages/HCIMCore/Sources/HCIMCore/HCIM/Generated/*.swift # Generated files.
 force_cast: warning
 force_try:
   severity: warning

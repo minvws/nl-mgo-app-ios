@@ -5,7 +5,7 @@
 
 import Foundation
 import FHIRClient
-import SharedCore
+import HCIMCore
 
 public class MGORepository {
 	

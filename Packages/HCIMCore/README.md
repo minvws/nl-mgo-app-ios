@@ -1,4 +1,4 @@
-# Shared Core
+# HCIM Core
 
 ## Overview
 

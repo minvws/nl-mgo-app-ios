@@ -3,7 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-@testable import SharedCore
+@testable import HCIMCore
 import Foundation
 import Testing
 

@@ -78,23 +78,23 @@ download_translations:
 	@cp ./tmp/localization_downloads/Localizable.xcstrings ./Sources/MGO/Resources/Localizable.xcstrings
 	@rm -rf "tmp/localization_downloads"
 	
-import_sharedcore:
-	@mkdir -p tmp/sharedcore
+download_hcimcore:
+	@mkdir -p tmp/hcimcore
 	
 	# Download
-	@cd Packages/GithubArtifactDownload/ && swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --workflow-id "114414377" --output ../../tmp/sharedcore/artifact.zip
+	@cd Packages/GithubArtifactDownload/ && swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --workflow-id "114414377" --output ../../tmp/hcimcore/artifact.zip
 	
 	# Unpack
-	@cd tmp/sharedcore && unzip artifact.zip
-	@cd tmp/sharedcore && mv *.tar.gz artifact.tar.gz && tar -xzvf artifact.tar.gz
+	@cd tmp/hcimcore && unzip artifact.zip
+	@cd tmp/hcimcore && mv *.tar.gz artifact.tar.gz && tar -xzvf artifact.tar.gz
 	
 	# Move Files
-	@rm -f packages/SharedCore/Sources/SharedCore/Resources/version.json && cp tmp/sharedcore/version.json packages/SharedCore/Sources/SharedCore/Resources/version.json
-	@rm -f packages/SharedCore/Sources/SharedCore/Resources/*.js && cp tmp/sharedcore/js/*.js packages/SharedCore/Sources/SharedCore/Resources/
+	@rm -f packages/HCIMCore/Sources/HCIMCore/Resources/version.json && cp tmp/hcimcore/version.json packages/HCIMCore/Sources/HCIMCore/Resources/version.json
+	@rm -f packages/HCIMCore/Sources/HCIMCore/Resources/*.js && cp tmp/hcimcore/js/*.js packages/HCIMCore/Sources/HCIMCore/Resources/
 
 	# Generate HCIMs from schema/json/types.json
-	@rm -f packages/SharedCore/Sources/SharedCore/HCIM/Generated/*
-	@quicktype --src "./tmp/sharedcore/schema/json/types.json#/definitions/" --src-lang schema --access-level public --protocol hashable --sendable --multi-file-output --out ./Packages/SharedCore/Sources/SharedCore/HCIM/Generated/Types.swift --swift-5-support
+	@rm -f packages/HCIMCore/Sources/HCIMCore/HCIM/Generated/*
+	@quicktype --src "./tmp/hcimcore/schema/json/types.json#/definitions/" --src-lang schema --access-level public --protocol hashable --sendable --multi-file-output --out ./Packages/HCIMCore/Sources/HCIMCore/HCIM/Generated/Types.swift --swift-5-support
 
 	# Cleanup
-	@rm -rf "tmp/sharedcore"
+	@rm -rf "tmp/hcimcore"

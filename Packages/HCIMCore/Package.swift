@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-	name: "SharedCore",
+	name: "HCIMCore",
 	platforms: [.iOS(.v15)],
 	products: [
 		.library(
-			name: "SharedCore",
-			targets: ["SharedCore"]),
+			name: "HCIMCore",
+			targets: ["HCIMCore"]),
 	],
 	dependencies: [
 		// Internal
@@ -19,7 +19,7 @@ let package = Package(
 		// Targets are the basic building blocks of a package, defining a module or a test suite.
 		// Targets can depend on other targets in this package and products from dependencies.
 		.target(
-			name: "SharedCore",
+			name: "HCIMCore",
 			dependencies: [
 				.product(name: "MGODebug", package: "MGODebug")
 			],
@@ -29,8 +29,8 @@ let package = Package(
 			]
 		),
 		.testTarget(
-			name: "SharedCoreTests",
-			dependencies: ["SharedCore"],
+			name: "HCIMCoreTests",
+			dependencies: ["HCIMCore"],
 			resources: [.process("Resources")]
 		)
 	]

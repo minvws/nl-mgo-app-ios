@@ -18,6 +18,8 @@ packages:
     path: ./Packages/FileStorage
   GitHubArtifactDownload:
     path: ./Packages/GitHubArtifactDownload
+  HCIMCore:
+    path: ./Packages/HCIMCore
   JailBreakDetector:
     path: ./Packages/JailBreakDetector
   LocalAuthenticationProvider:
@@ -56,8 +58,6 @@ packages:
     path: ./Packages/Sanitizer
   SecureUserSettings:
     path: ./Packages/SecureUserSettings
-  SharedCore:
-    path: ./Packages/SharedCore
   Theme:
     path: ./Packages/Theme
 # - Attributes:
@@ -466,7 +466,7 @@ schemes:
         - package: SecureUserSettings/SecureUserSettingsTests
           randomExecutionOrder: true
           parallelizable: false
-        - package: SharedCore/SharedCoreTests
+        - package: HCIMCore/HCIMCoreTests
           randomExecutionOrder: true
           parallelizable: false
 
