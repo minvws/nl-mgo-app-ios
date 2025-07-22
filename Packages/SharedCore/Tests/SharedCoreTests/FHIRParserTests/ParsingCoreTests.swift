@@ -60,7 +60,7 @@ final class FHIRParserTests: XCTestCase {
 		
 		// Then
 		if let zib {
-			let zibMedicationUse = ZibFactory.createZibMedicationUse(zib)
+			let zibMedicationUse = HCIMFactory.createZibMedicationUse(zib)
 			expect(zibMedicationUse?.medicationReference?.display) == "Zestril tablet 10mg"
 		} else {
 			fail("Could not unwrap zib")
@@ -78,7 +78,7 @@ final class FHIRParserTests: XCTestCase {
 		
 		// Then
 		if let zib {
-			let zibMedicationUse = ZibFactory.createZibMedicationUse(zib)
+			let zibMedicationUse = HCIMFactory.createZibMedicationUse(zib)
 			expect(zibMedicationUse?.medicationReference?.display) == "Zestril tablet 10mg"
 		} else {
 			fail("Could not unwrap zib")

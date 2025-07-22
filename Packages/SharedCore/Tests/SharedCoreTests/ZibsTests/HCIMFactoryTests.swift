@@ -7,7 +7,7 @@
 import MGOTest
 
 @MainActor
-final class ZibsTests: XCTestCase {
+final class HCIMFactoryTests: XCTestCase {
 	
 	func test_factory_invalidData() throws {
 		
@@ -16,7 +16,7 @@ final class ZibsTests: XCTestCase {
 		let data = Data(resource.utf8)
 		
 		// When
-		let object = ZibFactory.createZibMedicationUse(data)
+		let object = HCIMFactory.createZibMedicationUse(data)
 		
 		// Then
 		expect(object) == nil
@@ -29,7 +29,7 @@ final class ZibsTests: XCTestCase {
 		let data = Data(resource.utf8)
 		
 		// When
-		let object = ZibFactory.createZibMedicationUse(data)
+		let object = HCIMFactory.createZibMedicationUse(data)
 		
 		// Then
 		expectAsAgreedIndicator(object)
