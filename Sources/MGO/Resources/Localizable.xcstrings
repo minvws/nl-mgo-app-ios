@@ -2635,28 +2635,6 @@
         }
       }
     },
-    "settings.log_out.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log uit"
-          }
-        }
-      }
-    },
-    "settings.log_out.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je sluit zo de app af"
-          }
-        }
-      }
-    },
     "settings.other.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2685,7 +2663,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stel opnieuw in"
+            "value" : "App leegmaken"
           }
         }
       }
@@ -2696,7 +2674,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App opnieuw instellen?"
+            "value" : "Wil je de app leegmaken?"
           }
         }
       }
@@ -2707,7 +2685,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens blijven altijd bewaard bij je zorgaanbieders. Je kunt de app later opnieuw instellen."
+            "value" : "Je verwijdert je zorgaanbieders en toegangscode. Je gegevens blijven bij je zorgaanbieders bewaard."
           }
         }
       }
@@ -2718,7 +2696,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stel app opnieuw in"
+            "value" : "App leegmaken"
           }
         }
       }
