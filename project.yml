@@ -212,7 +212,7 @@ targetTemplates:
           - 'microsoft-edge-https'
           - 'itms-apps'
         LSRequiresIPhoneOS: true
-        NSFaceIDUsageDescription: "Log volgende keer in met gezichtsherkenning."
+        NSFaceIDUsageDescription: "Log voortaan snel en veilig in met gezichtsherkenning."
         UIApplicationSupportsIndirectInputEvents: true
         UIRequiredDeviceCapabilities:
           - armv7
