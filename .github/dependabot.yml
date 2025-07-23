@@ -62,7 +62,15 @@ updates:
       day: monday
       time: "08:30"
       timezone: Europe/Amsterdam
-
+      
+  - package-ecosystem: "swift"
+    directory: "/Packages/HCIMCore"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+      
 # No dependency check for JailBreakDetector due to licensing issue
 
   - package-ecosystem: "swift"
@@ -187,14 +195,6 @@ updates:
 
   - package-ecosystem: "swift"
     directory: "/Packages/SecureUserSettings"
-    schedule:
-      interval: weekly
-      day: monday
-      time: "08:30"
-      timezone: Europe/Amsterdam
-
-  - package-ecosystem: "swift"
-    directory: "/Packages/SharedCore"
     schedule:
       interval: weekly
       day: monday

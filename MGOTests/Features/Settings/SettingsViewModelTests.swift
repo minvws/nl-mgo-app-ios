@@ -105,16 +105,4 @@ final class SettingsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.resetApplication
 	}
-	
-	@MainActor func test_lockApplication_shouldCallCoordinator() {
-		
-		// Given
-		
-		// When
-		sut.reduce(.lockApplication)
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.lockApplication
-	}
 }

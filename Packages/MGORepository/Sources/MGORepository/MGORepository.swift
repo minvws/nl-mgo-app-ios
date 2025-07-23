@@ -5,7 +5,7 @@
 
 import Foundation
 import FHIRClient
-import SharedCore
+import HCIMCore
 
 public class MGORepository {
 	
@@ -71,8 +71,8 @@ public class MGORepository {
 		return "Basic \(base64LoginString)"
 	}
 	
-	// The FHIR parser
-	let parser = FHIRParser()
+	// The HCIM parser
+	let parser = HCIMParser()
 
 	/// process the bundle FHIR data into mgoResources
 	/// - Parameter data: FHIR bundle
@@ -89,7 +89,7 @@ public class MGORepository {
 		for element in fhirResources {
 			
 			// Transform to MgoResource
-			if let mgoResource = parser.transformFHIRResourceIntoMGOResource(element, fhirVersion: fhirVersion) {
+			if let mgoResource = parser.transformFHIRResourceIntoHCIM(element, fhirVersion: fhirVersion) {
 				mgoResources.append(mgoResource)
 			}
 		}

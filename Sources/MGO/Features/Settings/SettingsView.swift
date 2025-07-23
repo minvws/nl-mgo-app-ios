@@ -26,7 +26,6 @@ class SettingsViewModel: ObservableObject {
 		case advancedSettings
 		case cancelDialog
 		case displaySettings
-		case lockApplication
 		case resetApplication
 		case securitySettings
 		case showResetDialog
@@ -60,9 +59,6 @@ class SettingsViewModel: ObservableObject {
 			
 			case .displaySettings:
 				coordinator?.handle(Coordination.Action.showDisplaySettings)
-			
-			case .lockApplication:
-				coordinator?.handle(Coordination.Action.lockApplication)
 			
 			case .resetApplication:
 				coordinator?.handle(Coordination.Action.resetApplication)
@@ -116,7 +112,6 @@ struct SettingsView: View {
 				advancedSettings()
 			}
 			aboutTheApp()
-			logout()
 			reset()
 		}
 	
@@ -202,32 +197,6 @@ struct SettingsView: View {
 		}
 	}
 	
-	/// Get the view for the logout option
-	/// - Returns: Button for the logout option
-	@ViewBuilder private func logout() -> some View {
-		
-		Section {
-			Button {
-				viewModel.reduce(.lockApplication)
-			} label: {
-				Text("settings.log_out.heading")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.interactionTertiaryDefaultText)
-					.frame(
-						maxWidth: .infinity,
-						minHeight: ViewTraits.Button.minimumHeight,
-						alignment: .center
-					)
-			}
-			.accessibilityIdentifier("settings.log_out")
-			.listRowInsets(ViewTraits.General.inset)
-		} footer: {
-			Text("settings.log_out.subheading")
-				.rijksoverheidStyle(font: .regular, style: .callout)
-				.foregroundStyle(theme.contentSecondary)
-		}
-	}
-	
 	/// Get the view for the reset option
 	/// - Returns: Button for the rest option
 	@ViewBuilder private func reset() -> some View {
@@ -255,10 +224,11 @@ struct SettingsView: View {
 		.alert(
 			"settings.reset_app.dialog.heading",
 			isPresented: $viewModel.showResetDialog) {
-				Button("common.cancel", role: .cancel) { viewModel.reduce(.cancelDialog) }
-					.accessibilityIdentifier("common.cancel")
-				Button("settings.reset_app.dialog.action", role: .destructive) { viewModel.reduce(.resetApplication) }
+				Button("settings.reset_app.dialog.action", role: ButtonRole.destructive) { viewModel.reduce(.resetApplication) }
 					.accessibilityIdentifier("settings.reset_app.dialog.action")
+				Button("common.cancel", role: ButtonRole.cancel) { viewModel.reduce(.cancelDialog) }
+					.keyboardShortcut(.defaultAction)
+					.accessibilityIdentifier("common.cancel")
 			} message: {
 				Text("settings.reset_app.dialog.subheading")
 			}

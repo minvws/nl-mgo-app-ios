@@ -18,7 +18,7 @@ public extension Data {
 				return true
 			}
 		} catch {
-			logError("ZibFactory - hasProfile \(profileDefinition): \(error)")
+			logError("SharedCore - hasProfile \(profileDefinition): \(error)")
 		}
 		return false
 	}
@@ -33,7 +33,7 @@ public extension Data {
 				return true
 			}
 		} catch {
-			logError("ZibFactory - isReference \(reference): \(error)")
+			logError("SharedCore - isReference \(reference): \(error)")
 		}
 		return false
 	}

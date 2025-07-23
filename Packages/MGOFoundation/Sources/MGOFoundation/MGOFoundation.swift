@@ -10,6 +10,7 @@
 @_exported import FeatureFlag
 @_exported import FHIRClient
 @_exported import FileStorage
+@_exported import HCIMCore
 @_exported import JailBreakDetector
 @_exported import LocalAuthenticationProvider
 @_exported import LocalisationService
@@ -19,7 +20,6 @@
 @_exported import Observatory
 @_exported import Sanitizer
 @_exported import SecureUserSettings
-@_exported import SharedCore
 @_exported import RemoteAuthentication
 @_exported import RemoteConfiguration
 

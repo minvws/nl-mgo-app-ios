@@ -81,15 +81,15 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showPrivacyStatement
 	}
 	
-	@MainActor func test_showSharedCoreVersion_shouldShowDialog() {
+	@MainActor func test_showHCIMCoreVersion_shouldShowDialog() {
 		
 		// Given
 		
 		// When
-		sut.reduce(.showSharedCoreVersion)
+		sut.reduce(.showHCIMCoreVersion)
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.sut.showSharedCoreVersionDialog) == true
+		expect(self.sut.showHCIMCoreVersionDialog) == true
 	}
 }

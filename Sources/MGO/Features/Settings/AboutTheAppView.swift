@@ -12,14 +12,14 @@ class AboutTheAppViewModel: BaseViewModel {
 	@Published var appVersion: String
 	
 	/// The current version of the shared core
-	@Published var sharedCoreVersion: String?
+	@Published var hcimCoreVersion: String?
 	
 	/// Show the shared core version dialog
-	@Published var showSharedCoreVersionDialog: Bool = false
+	@Published var showHCIMCoreVersionDialog: Bool = false
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-		case showSharedCoreVersion
+		case showHCIMCoreVersion
 		case showSafety
 		case showOpenSource
 		case showAccessibility
@@ -34,7 +34,7 @@ class AboutTheAppViewModel: BaseViewModel {
 		super.init(coordinator: coordinator)
 		
 		do {
-			sharedCoreVersion = try FHIRParser().getVersion()
+			hcimCoreVersion = try HCIMParser().getVersion()
 		} catch {
 			logError("No shared core version found: \(error)")
 		}
@@ -46,9 +46,9 @@ class AboutTheAppViewModel: BaseViewModel {
 		
 		switch action {
 			
-			case .showSharedCoreVersion:
-				if sharedCoreVersion != nil {
-					showSharedCoreVersionDialog = true
+			case .showHCIMCoreVersion:
+				if hcimCoreVersion != nil {
+					showHCIMCoreVersionDialog = true
 				}
 			
 			case .showSafety:
@@ -148,7 +148,7 @@ struct AboutTheAppView: View {
 	@ViewBuilder private func versionRow() -> some View {
 		
 		Button {
-			viewModel.reduce(.showSharedCoreVersion)
+			viewModel.reduce(.showHCIMCoreVersion)
 		} label: {
 			SettingsRowView(
 				heading: "settings.about_this_app.version",
@@ -162,11 +162,11 @@ struct AboutTheAppView: View {
 			minHeight: ViewTraits.Button.minimumHeight
 		)
 		.listRowInsets(ViewTraits.General.inset)
-		.alert("settings.about_this_app.version", isPresented: $viewModel.showSharedCoreVersionDialog) {
+		.alert("settings.about_this_app.version", isPresented: $viewModel.showHCIMCoreVersionDialog) {
 			Button(String(localized: "common.ok").uppercased(), role: .cancel) { /* no action available */ }
 				.accessibilityIdentifier("common.ok")
 		} message: {
-			Text(viewModel.sharedCoreVersion ?? "")
+			Text(viewModel.hcimCoreVersion ?? "")
 		}
 	}
 	
