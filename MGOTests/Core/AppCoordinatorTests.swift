@@ -537,7 +537,6 @@ final class AppCoordinatorTests: XCTestCase {
 		// Then
 		expect(self.sut.path.isEmpty) == true
 		expect(self.sut.rootState) == .splash
-		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedWipePersistedDataCount) == 1
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedWipePersistedDataCount) == 1
 	}

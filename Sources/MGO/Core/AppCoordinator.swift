@@ -255,7 +255,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				Current.wipePersistedData()
 				path.removeLast(path.count)
 				self.rootState = .splash
-				Current.notificationCenter.post(name: .resetApplication, object: nil)
 			
 			default:
 				logWarning("AppCoordinator does not handle \(action)")

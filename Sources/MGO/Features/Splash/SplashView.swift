@@ -6,7 +6,7 @@
 import MGOUI
 import MGOFoundation
 
-class SplashViewModel: ObservableObject {
+final class SplashViewModel: ObservableObject {
 	
 	/// The flow coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -24,7 +24,6 @@ class SplashViewModel: ObservableObject {
 	/// All possible actions for this ViewModel
 	enum Action {
 		case start
-		case reset
 		case loaded
 		case dismissWarning
 	}
@@ -64,13 +63,6 @@ class SplashViewModel: ObservableObject {
 	/// Setup all the observers
 	private func setupObservers() {
 		
-		// Listen for reset notification
-		Current.notificationCenter.addObserver(forName: .resetApplication, object: nil, queue: OperationQueue.main) { _ in
-			_Concurrency.Task { @MainActor [weak self] in
-				self?.reduce(.reset)
-			}
-		}
-		
 		// Listen to changes in the remote configuration
 		observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] _ in
 			
@@ -89,7 +81,6 @@ class SplashViewModel: ObservableObject {
 		
 		switch action {
 			case .start:
-			
 				guard !shouldShowJailBreakWarning() else {
 					showJailBreakDialog = true
 					return
@@ -97,9 +88,6 @@ class SplashViewModel: ObservableObject {
 			
 				guard state == .idle else { return }
 				coordinator?.handle(Coordination.Action.finishedSplash)
-			
-			case .reset:
-				startLoadingConfig()
 			
 			case .loaded:
 				state = .configLoaded
@@ -117,14 +105,6 @@ class SplashViewModel: ObservableObject {
 	private func shouldShowJailBreakWarning() -> Bool {
 		
 		return !Current.secureUserSettings.userHasSeenJailBreakWarning && Current.jailBreakDetector.isJailBroken()
-	}
-	
-	/// Load the remote Config
-	@MainActor private func startLoadingConfig() {
-		
-		state = .loadingConfig
-		startServices()
-		coordinator?.handle(Coordination.Action.finishedSplash)
 	}
 }
 

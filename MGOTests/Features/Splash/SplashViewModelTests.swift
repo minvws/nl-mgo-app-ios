@@ -87,20 +87,6 @@ final class SplashViewModelTests: XCTestCase {
 		expect(self.sut.state) == .configLoaded
 	}
 	
-	@MainActor func test_reduce_fromConfigLoaded_toReset() {
-		
-		// Given
-		sut.state = .configLoaded
-		
-		// When
-		sut.reduce(.reset)
-		
-		// Then
-		expect(self.sut.state) == .loadingConfig
-		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers)
-			.toEventually(beTrue())
-	}
-	
 	@MainActor func test_loadConfig_shouldCallCoordinator() {
 		
 		// Given

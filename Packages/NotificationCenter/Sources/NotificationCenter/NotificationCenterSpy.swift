@@ -6,7 +6,7 @@
 import UIKit
 
 public class NotificationCenterSpy: NotificationCenterProtocol {
-
+	
 	/// Initlializer
 	public init() { /* Public initializer needed for public access */ }
 	
@@ -96,5 +96,22 @@ public class NotificationCenterSpy: NotificationCenterProtocol {
 		invokedPostNotificationCount += 1
 		invokedPostNotificationParameters = (notification, argument)
 		invokedPostNotificationParametersList.append((notification, argument))
+	}
+
+	public var invokedPublisher = false
+	public var invokedPublisherCount = 0
+	public var invokedPublisherParameters: (name: Notification.Name, object: AnyObject?)?
+	public var invokedPublisherParametersList = [(name: Notification.Name, object: AnyObject?)]()
+	public var stubbedPublisherResult: NotificationCenter.Publisher!
+
+	public func publisher(
+		for name: Notification.Name,
+		object: AnyObject?
+	) -> NotificationCenter.Publisher {
+		invokedPublisher = true
+		invokedPublisherCount += 1
+		invokedPublisherParameters = (name, object)
+		invokedPublisherParametersList.append((name, object))
+		return stubbedPublisherResult
 	}
 }
