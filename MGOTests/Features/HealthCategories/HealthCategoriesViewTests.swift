@@ -27,7 +27,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 	}
 	
-	func test_initialState_singleMode() {
+	@MainActor func test_initialState_singleMode() {
 		
 		// Given
 		
@@ -38,7 +38,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_initialState_singleMode_belowIOS18() {
+	@MainActor func test_initialState_singleMode_belowIOS18() {
 		
 		// Given
 		sut.viewModel.state.belowIOS18 = true
@@ -50,7 +50,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_initialState_multipleMode() {
+	@MainActor func test_initialState_multipleMode() {
 		
 		// Given
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
@@ -64,7 +64,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
 		let content = NavigationView { sut }
@@ -77,7 +77,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_removeOrganization() throws {
+	@MainActor func test_removeOrganization() throws {
 		
 		// Given
 		let content = NavigationView { sut }
@@ -92,7 +92,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		expect(params.identifier) == Coordination.Action.removeHealthcareOrganization.identifier
 	}
 	
-	func test_addHealthcareOrganization_noOrganizations() throws {
+	@MainActor func test_addHealthcareOrganization_noOrganizations() throws {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
@@ -109,7 +109,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
 	}
 	
-	func test_noOrganizations_automaticLocalizationEnabled() throws {
+	@MainActor func test_noOrganizations_automaticLocalizationEnabled() throws {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
@@ -124,7 +124,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_noOrganizations_automaticLocalizationDisabled() throws {
+	@MainActor func test_noOrganizations_automaticLocalizationDisabled() throws {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false

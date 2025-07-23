@@ -9,7 +9,7 @@ import MGOUI
 
 final class SnapshotViewTests: XCTestCase {
 		
-	func test_snapshot_withSpinner() {
+	@MainActor func test_snapshot_withSpinner() {
 	
 		// Given
 		let sut = SnapshotView(showSpinner: .constant(true))
@@ -20,7 +20,7 @@ final class SnapshotViewTests: XCTestCase {
 		takeSnapShots(content: sut, precision: 0.90)
 	}
 	
-	func test_snapshot_withoutSpinner() {
+	@MainActor func test_snapshot_withoutSpinner() {
 		
 		// Given
 		let sut = SnapshotView(showSpinner: .constant(false))

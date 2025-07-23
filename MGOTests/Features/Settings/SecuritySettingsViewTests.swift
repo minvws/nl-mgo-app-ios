@@ -30,7 +30,7 @@ class SecuritySettingsViewTests: XCTestCase {
 		)
 	}
 	
-	func test_securitySettings_faceID() {
+	@MainActor func test_securitySettings_faceID() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = false
@@ -43,7 +43,7 @@ class SecuritySettingsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_securitySettings_touchID() {
+	@MainActor func test_securitySettings_touchID() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = false
@@ -56,7 +56,7 @@ class SecuritySettingsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_securitySettings_opticID() {
+	@MainActor func test_securitySettings_opticID() {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = false
@@ -69,7 +69,7 @@ class SecuritySettingsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_toggle() throws {
+	@MainActor func test_toggle() throws {
 		
 		// Given
 		servicesSpies.secureUserSettingsSpy.stubbedBioMetricAuthenticationEnabled = false
@@ -86,7 +86,7 @@ class SecuritySettingsViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
 		let sut = createSut(bioMetricType: { .faceID })

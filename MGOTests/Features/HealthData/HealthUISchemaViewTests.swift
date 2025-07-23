@@ -17,7 +17,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		healthcareOrganization = Generator.healthcareOrganization("1")
 	}
 	
-	func setupSut(_ resource: String, resolvedReferences: [String: Bool] = [:]) throws {
+	@MainActor func setupSut(_ resource: String, resolvedReferences: [String: Bool] = [:]) throws {
 		
 		let data = try getResource(resource)
 		let schema = try HealthUISchema(data: data)
@@ -28,7 +28,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		)
 	}
 	
-	func test_HealthUISchemaView_singleEntry() throws {
+	@MainActor func test_HealthUISchemaView_singleEntry() throws {
 		
 		// Given
 		try setupSut("singleEntry")
@@ -40,7 +40,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_singleNullEntry() throws {
+	@MainActor func test_HealthUISchemaView_singleNullEntry() throws {
 		
 		// Given
 		try setupSut("singleNullEntry")
@@ -52,7 +52,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_singleEntry_noSectionHeader() throws {
+	@MainActor func test_HealthUISchemaView_singleEntry_noSectionHeader() throws {
 		
 		// Given
 		try setupSut("singleEntryNoSectionHeader")
@@ -64,7 +64,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_downloadLink() throws {
+	@MainActor func test_HealthUISchemaView_downloadLink() throws {
 		
 		// Given
 		try setupSut("downloadLink")
@@ -76,7 +76,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_downloadBinary() throws {
+	@MainActor func test_HealthUISchemaView_downloadBinary() throws {
 		
 		// Given
 		try setupSut("downloadBinary", resolvedReferences: ["reference": true])
@@ -88,7 +88,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_reference() throws {
+	@MainActor func test_HealthUISchemaView_reference() throws {
 		
 		// Given
 		try setupSut("reference", resolvedReferences: ["reference/link": true])
@@ -100,7 +100,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_reference_displayNull() throws {
+	@MainActor func test_HealthUISchemaView_reference_displayNull() throws {
 		
 		// Given
 		try setupSut("referenceWithoutDisplay", resolvedReferences: ["reference/link": true])
@@ -112,7 +112,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_referenceLink() throws {
+	@MainActor func test_HealthUISchemaView_referenceLink() throws {
 		
 		// Given
 		try setupSut("referenceLink", resolvedReferences: ["reference/link": true])
@@ -124,7 +124,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_reference_unresolved() throws {
+	@MainActor func test_HealthUISchemaView_reference_unresolved() throws {
 		
 		// Given
 		try setupSut("reference")
@@ -136,7 +136,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_reference_displayNull_unresolved() throws {
+	@MainActor func test_HealthUISchemaView_reference_displayNull_unresolved() throws {
 		
 		// Given
 		try setupSut("referenceWithoutDisplay")
@@ -148,7 +148,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_referenceLink_unresolved() throws {
+	@MainActor func test_HealthUISchemaView_referenceLink_unresolved() throws {
 		
 		// Given
 		try setupSut("referenceLink")
@@ -160,7 +160,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_multipleValues_singleEntry() throws {
+	@MainActor func test_HealthUISchemaView_multipleValues_singleEntry() throws {
 		
 		// Given
 		try setupSut("multipleValuesSingleEntry")
@@ -172,7 +172,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_multipleValues_multipleEntries() throws {
+	@MainActor func test_HealthUISchemaView_multipleValues_multipleEntries() throws {
 		
 		// Given
 		try setupSut("multipleValuesMultipleEntries")
@@ -184,7 +184,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_multipleGroupValues_singleEntry() throws {
+	@MainActor func test_HealthUISchemaView_multipleGroupValues_singleEntry() throws {
 		
 		// Given
 		try setupSut("multipleGroupValuesSingleEntry")
@@ -196,7 +196,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_multipleGroupValues_multipleEntries() throws {
+	@MainActor func test_HealthUISchemaView_multipleGroupValues_multipleEntries() throws {
 		
 		// Given
 		try setupSut("multipleGroupValuesMultipleEntries")
@@ -208,7 +208,7 @@ final class HealthUISchemaViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthUISchemaView_multipleGroupValues_mixedEntries() throws {
+	@MainActor func test_HealthUISchemaView_multipleGroupValues_mixedEntries() throws {
 		
 		// Given
 		try setupSut("multipleGroupValuesMixedEntries")

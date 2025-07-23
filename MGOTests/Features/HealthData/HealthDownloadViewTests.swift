@@ -27,7 +27,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		sut = HealthDataDownloadView(viewModel: self.viewModel)
 	}
 	
-	func test_HealthDownloadView_idle() {
+	@MainActor func test_HealthDownloadView_idle() {
 		
 		// Given
 		viewModel.state = .idle(label: "Test download")
@@ -39,7 +39,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthDownloadView_downloaded() throws {
+	@MainActor func test_HealthDownloadView_downloaded() throws {
 		
 		// Given
 		let url = try XCTUnwrap(URL(string: "https://apple.com"))
@@ -52,7 +52,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthDownloadView_downloaded_txt() throws {
+	@MainActor func test_HealthDownloadView_downloaded_txt() throws {
 		
 		// Given
 		let bundle = Bundle(for: type(of: self))
@@ -67,7 +67,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthDownloadView_external() throws {
+	@MainActor func test_HealthDownloadView_external() throws {
 		
 		// Given
 		let url = try XCTUnwrap(URL(string: "https://apple.com"))
@@ -80,7 +80,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_HealthDownloadView_loading() throws {
+	@MainActor func test_HealthDownloadView_loading() throws {
 		
 		// Given
 		viewModel.state = .loading(label: "label")
@@ -92,7 +92,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_HealthDownloadView_error() throws {
+	@MainActor func test_HealthDownloadView_error() throws {
 		
 		// Given
 		viewModel.state = .error
@@ -104,7 +104,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 
-	func test_HealthDownloadView_error_tryAgain() throws {
+	@MainActor func test_HealthDownloadView_error_tryAgain() throws {
 		
 		// Given
 		let entry = DownloadBinary(
@@ -136,7 +136,7 @@ final class HealthDownloadViewTests: XCTestCase {
 		)
 	}
 	
-	func test_HealthDownloadView_noDocument() throws {
+	@MainActor func test_HealthDownloadView_noDocument() throws {
 		
 		// Given
 		viewModel.state = .noDocument

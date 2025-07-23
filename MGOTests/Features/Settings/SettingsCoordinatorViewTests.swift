@@ -20,7 +20,7 @@ final class SettingsCoordinatorViewTests: XCTestCase {
 		super.setUp()
 	}
 
-	func test_default() throws {
+	@MainActor func test_default() throws {
 		
 		// Given
 		
@@ -31,7 +31,7 @@ final class SettingsCoordinatorViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_inspectableSheet_pathForSheet() throws {
+	@MainActor func test_inspectableSheet_pathForSheet() throws {
 		
 		// Given
 		coordinator.rootStateForSheet = .aboutTheApp

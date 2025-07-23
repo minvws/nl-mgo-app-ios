@@ -21,7 +21,7 @@ class BioMetricSetupViewTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func createSut(bioMetricType: () -> LocalAuthentication.BiometricType) -> BioMetricSetupView {
+	@MainActor func createSut(bioMetricType: () -> LocalAuthentication.BiometricType) -> BioMetricSetupView {
 		
 		let viewModel = BioMetricSetupViewModel(coordinator: coordinatorSpy, bioMetricType: bioMetricType)
 		
@@ -30,7 +30,7 @@ class BioMetricSetupViewTests: XCTestCase {
 		)
 	}
 	
-	func test_bioMetricSetup_faceID() {
+	@MainActor func test_bioMetricSetup_faceID() {
 		
 		// Given
 		let sut = createSut(bioMetricType: { .faceID })
@@ -42,7 +42,7 @@ class BioMetricSetupViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_bioMetricSetup_touchID() {
+	@MainActor func test_bioMetricSetup_touchID() {
 		
 		// Given
 		let sut = createSut(bioMetricType: { .touchID })
@@ -54,7 +54,7 @@ class BioMetricSetupViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_bioMetricSetup_opticID() {
+	@MainActor func test_bioMetricSetup_opticID() {
 		
 		// Given
 		let sut = createSut(bioMetricType: { .opticID })
