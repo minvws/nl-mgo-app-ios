@@ -29,8 +29,8 @@ final class ComplaintsHealthCategoryViewTests: XCTestCase {
 			organization: healthcareOrganization)
 		sut = HealthCategoryView(viewModel: self.viewModel)
 	}
-
-	func test_stateLoading() {
+	
+	@MainActor func test_stateLoading() {
 		
 		// Given
 		viewModel.state = .loading
@@ -42,7 +42,7 @@ final class ComplaintsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_stateEmptyList() {
+	@MainActor func test_stateEmptyList() {
 		
 		// Given
 		let content = NavigationView { sut }
@@ -54,7 +54,7 @@ final class ComplaintsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_stateEmptyPartialList() {
+	@MainActor func test_stateEmptyPartialList() {
 		
 		// Given
 		let content = NavigationView { sut }
@@ -65,8 +65,8 @@ final class ComplaintsHealthCategoryViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-
-	func test_stateList() throws {
+	
+	@MainActor func test_stateList() throws {
 		
 		// Given
 		let content = NavigationView { sut }
@@ -78,7 +78,7 @@ final class ComplaintsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func disabled_test_search_itemNotFound() throws {
+	@MainActor func disabled_test_search_itemNotFound() throws {
 		
 		// Given
 		let content = NavigationView { sut }
@@ -91,7 +91,7 @@ final class ComplaintsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func disabled_test_search_itemFound() throws {
+	@MainActor func disabled_test_search_itemFound() throws {
 		
 		// Given
 		let content = NavigationView { sut }

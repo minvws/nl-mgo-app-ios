@@ -17,7 +17,7 @@ final class LifestyleHealthCategoryViewTests: XCTestCase {
 	private var sut: HealthCategoryView!
 	
 	private let item = Generator.healthSubCategory()
-
+	
 	override func setUp() {
 		
 		super.setUp()
@@ -29,7 +29,7 @@ final class LifestyleHealthCategoryViewTests: XCTestCase {
 			organization: healthcareOrganization)
 		sut = HealthCategoryView(viewModel: self.viewModel)
 	}
-
+	
 	func test_stateLoading() {
 		
 		// Given
@@ -65,7 +65,7 @@ final class LifestyleHealthCategoryViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-
+	
 	func test_stateList() throws {
 		
 		// Given
@@ -78,7 +78,7 @@ final class LifestyleHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func disabled_test_search_itemNotFound() throws {
+	@MainActor func disabled_test_search_itemNotFound() throws {
 		
 		// Given
 		let content = NavigationView { sut }
@@ -91,7 +91,7 @@ final class LifestyleHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func disabled_test_search_itemFound() throws {
+	@MainActor func disabled_test_search_itemFound() throws {
 		
 		// Given
 		let content = NavigationView { sut }

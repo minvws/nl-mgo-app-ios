@@ -26,7 +26,7 @@ final class DocumentsHealthCategoryViewModelTests: XCTestCase {
 			organization: healthcareOrganization
 		)
 	}
-
+	
 	@MainActor func test_loadResources_withResults_withName() throws {
 		
 		// Given
@@ -49,5 +49,4 @@ final class DocumentsHealthCategoryViewModelTests: XCTestCase {
 			fail("Invalid state")
 		}
 	}
-
 }

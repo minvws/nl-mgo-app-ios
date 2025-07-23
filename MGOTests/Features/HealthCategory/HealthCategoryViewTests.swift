@@ -36,7 +36,7 @@ final class HealthCategoryViewTests: XCTestCase {
 		sut = HealthCategoryView(viewModel: self.viewModel)
 	}
 
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
 		let content = NavigationView { sut }
