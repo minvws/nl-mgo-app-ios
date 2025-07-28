@@ -48,8 +48,7 @@ class Generator {
 				address: "\(address) \r\n \(postalCode) \(city)",
 				city: city,
 				lines: withLines ? [address] : nil,
-				postalcode: postalCode,
-				_type: "postal")
+				postalcode: postalCode)
 			],
 			types: [
 				LocalisationService.Components.Schemas.CType(
