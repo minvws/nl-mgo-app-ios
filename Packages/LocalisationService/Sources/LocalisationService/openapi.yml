@@ -1,13 +1,27 @@
 openapi: 3.1.0
 info:
   title: LOAD
-  version: 0.8.0
+  version: v0.11.0-rc0
 servers:
   - url: https://lo-ad.test.mgo.irealisatie.nl
     description: MGO TEST localisation
   - url: https://lo-ad.acc.mgo.irealisatie.nl
     description: MGO Acceptance localisation
 paths:
+  "localization/organization/search-demo":
+    post:
+      tags:
+      - localization
+      summary: Demo Healthcare Providers
+      operationId: demo_healthcare_providers_localization_organization_search_demo_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+                title: Response Demo Healthcare Providers Localization Organization Search Demo Post
   "localization/organization/search":
     post:
       tags:
@@ -34,19 +48,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
-  "localization/organization/search-demo":
-    post:
-      tags:
-      - localization
-      summary: Demo Healthcare Providers
-      operationId: demo_healthcare_providers_localization_organization_search_demo_post
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SearchResponse"
 components:
   schemas:
     Address:
@@ -78,14 +79,10 @@ components:
         state:
           type: [string, null]
           title: State
-        type:
-          type: string
-          title: Type
       type: object
       required:
       - city
       - country
-      - type
       title: Address
     CType:
       properties:
@@ -137,9 +134,9 @@ components:
         identification:
           type: string
           title: Identification
-        active:
-          type: [boolean, null]
-          title: Active
+#        active:
+#          type: [boolean, null]
+#          title: Active
         addresses:
           items:
             $ref: "#/components/schemas/Address"
@@ -153,7 +150,7 @@ components:
           title: Types
         data_services:
           items:
-            "$ref": "#/components/schemas/ZalDataServiceResponse"
+            $ref: "#/components/schemas/ZalDataServiceResponse"
           type: array
           title: Data Services
           default: []
@@ -167,12 +164,15 @@ components:
     SearchRequest:
       properties:
         name:
-          type: [string, null]
+          type: string
           title: Name
         city:
-          type: [string, null]
+          type: string
           title: City
       type: object
+      required:
+      - city
+      - name
       title: SearchRequest
     SearchResponse:
       properties:
@@ -180,11 +180,9 @@ components:
           items:
             $ref: "#/components/schemas/Organization"
           type: array
+          default: []
           title: Organizations
       type: object
-      default: []
-      required:
-      - organizations
       title: SearchResponse
     ValidationError:
       properties:

@@ -327,8 +327,7 @@ struct OrganizationListManualView: View {
 				address: "Boorplatform 5",
 				city: "Roermond",
 				lines: ["Boorplatform 5"],
-				postalcode: "1234AB",
-				_type: "postal")
+				postalcode: "1234AB")
 			],
 			types: [],
 			data_services: []
