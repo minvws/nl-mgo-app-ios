@@ -10,15 +10,15 @@ import RestrictedBrowser
 /// The Coordination Actions the Settings Flow uses
 extension Coordination.Action {
 	
-	static let lockApplication = Coordination.Action(identifier: "lockApplication")
-	static let openUrl = Coordination.Action(identifier: "openUrl")
-	static let showAboutTheApp = Coordination.Action(identifier: "showAboutTheApp")
-	static let showAccessibility = Coordination.Action(identifier: "showAccessibility")
-	static let showAdvancedSettings = Coordination.Action(identifier: "showAdvancedSettings")
-	static let showDisplaySettings = Coordination.Action(identifier: "showDisplaySettings")
-	static let showOpenSourceLibraries = Coordination.Action(identifier: "showOpenSourceLibraries")
-	static let showSafetyTips = Coordination.Action(identifier: "showSafetyTips")
-	static let showSecuritySettings = Coordination.Action(identifier: "showSecuritySettings")
+	@MainActor static let lockApplication = Coordination.Action(identifier: "lockApplication")
+	@MainActor static let openUrl = Coordination.Action(identifier: "openUrl")
+	@MainActor static let showAboutTheApp = Coordination.Action(identifier: "showAboutTheApp")
+	@MainActor static let showAccessibility = Coordination.Action(identifier: "showAccessibility")
+	@MainActor static let showAdvancedSettings = Coordination.Action(identifier: "showAdvancedSettings")
+	@MainActor static let showDisplaySettings = Coordination.Action(identifier: "showDisplaySettings")
+	@MainActor static let showOpenSourceLibraries = Coordination.Action(identifier: "showOpenSourceLibraries")
+	@MainActor static let showSafetyTips = Coordination.Action(identifier: "showSafetyTips")
+	@MainActor static let showSecuritySettings = Coordination.Action(identifier: "showSecuritySettings")
 }
 
 protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
@@ -77,7 +77,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// Create a Settings Coordinator
 	/// - Parameter parentCoordinator: the presenting parent coordinator
 	/// - Parameter browser: the browser for displaying urls
-	init(
+	@MainActor init(
 		parentCoordinator: (any DashboardCoordinatorProtocol)?,
 		browser: RestrictedBrowser = RestrictedBrowser(
 			allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()),

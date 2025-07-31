@@ -41,35 +41,35 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 extension Coordination.Action {
 	
 	// Launch
-	static let finishedSplash = Coordination.Action(identifier: "finishedSplash")
-	static let updateRequired = Coordination.Action(identifier: "updateRequired")
-	static let showAppStore = Coordination.Action(identifier: "showAppStore")
+	@MainActor static let finishedSplash = Coordination.Action(identifier: "finishedSplash")
+	@MainActor static let updateRequired = Coordination.Action(identifier: "updateRequired")
+	@MainActor static let showAppStore = Coordination.Action(identifier: "showAppStore")
 	
 	// Onboarding
-	static let nextButtonPressedOnIntroduction = Coordination.Action(identifier: "nextButtonPressedOnIntroduction")
-	static let nextButtonPressedOnProposition = Coordination.Action(identifier: "nextButtonPressedOnProposition")
-	static let showPrivacyStatement = Coordination.Action(identifier: "showPrivacyStatement")
+	@MainActor static let nextButtonPressedOnIntroduction = Coordination.Action(identifier: "nextButtonPressedOnIntroduction")
+	@MainActor static let nextButtonPressedOnProposition = Coordination.Action(identifier: "nextButtonPressedOnProposition")
+	@MainActor static let showPrivacyStatement = Coordination.Action(identifier: "showPrivacyStatement")
 	
 	// Local Authentication
-	static let pinCodeEntered = Coordination.Action(identifier: "pinCodeEntered")
-	static let pinCodeConfirmed = Coordination.Action(identifier: "pinCodeConfirmed")
-	static let didFinishLocalAuthentication = Coordination.Action(identifier: "didFinishLocalAuthentication")
-	static let pinCodeValidated = Coordination.Action(identifier: "pinCodeValidated")
-	static let pinCodeValidatedAfterLockout = Coordination.Action(identifier: "pinCodeValidatedAfterLockout")
-	static let forgotPinCode = Coordination.Action(identifier: "forgotPinCode")
-	static let dismissForgotPinCode = Coordination.Action(identifier: "dismissForgotPinCode")
-	static let recreateAccount = Coordination.Action(identifier: "recreateAccount")
-	static let restart = Coordination.Action(identifier: "restart")
+	@MainActor static let pinCodeEntered = Coordination.Action(identifier: "pinCodeEntered")
+	@MainActor static let pinCodeConfirmed = Coordination.Action(identifier: "pinCodeConfirmed")
+	@MainActor static let didFinishLocalAuthentication = Coordination.Action(identifier: "didFinishLocalAuthentication")
+	@MainActor static let pinCodeValidated = Coordination.Action(identifier: "pinCodeValidated")
+	@MainActor static let pinCodeValidatedAfterLockout = Coordination.Action(identifier: "pinCodeValidatedAfterLockout")
+	@MainActor static let forgotPinCode = Coordination.Action(identifier: "forgotPinCode")
+	@MainActor static let dismissForgotPinCode = Coordination.Action(identifier: "dismissForgotPinCode")
+	@MainActor static let recreateAccount = Coordination.Action(identifier: "recreateAccount")
+	@MainActor static let restart = Coordination.Action(identifier: "restart")
 	
 	// Remote Authentication
-	static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
-	static let deeplink = Coordination.Action(identifier: "deeplink")
-	static let nextButtonPressedOnLoginInfo = Coordination.Action(identifier: "nextButtonPressedOnLoginInfo")
+	@MainActor static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
+	@MainActor static let deeplink = Coordination.Action(identifier: "deeplink")
+	@MainActor static let nextButtonPressedOnLoginInfo = Coordination.Action(identifier: "nextButtonPressedOnLoginInfo")
 	
 	// Other
-	static let closeSheet = Coordination.Action(identifier: "closeSheet")
-	static let backButtonPressed = Coordination.Action(identifier: "backButtonPressed")
-	static let resetApplication = Coordination.Action(identifier: "resetApplication")
+	@MainActor static let closeSheet = Coordination.Action(identifier: "closeSheet")
+	@MainActor static let backButtonPressed = Coordination.Action(identifier: "backButtonPressed")
+	@MainActor static let resetApplication = Coordination.Action(identifier: "resetApplication")
 }
 
 struct AppCoordination {
@@ -375,7 +375,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the deeplink flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleDeeplink(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleDeeplink(_ action: Coordination.Action) -> Bool {
 		
 		if action.identifier == Coordination.Action.deeplink.identifier {
 			if action.params.count == 1,
@@ -394,7 +394,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the automatic localization flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleAutomaticLocalization(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleAutomaticLocalization(_ action: Coordination.Action) -> Bool {
 		
 		if action.identifier == Coordination.Action.finishedSearchingHealthcareOrganizations.identifier {
 			showChildCoordinator = true
@@ -406,7 +406,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the manual localization flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleManualLocalization(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleManualLocalization(_ action: Coordination.Action) -> Bool {
 		
 		if action.identifier == Coordination.Action.showHealthcareOrganizationSearchResults.identifier {
 			if action.params.count == 2,

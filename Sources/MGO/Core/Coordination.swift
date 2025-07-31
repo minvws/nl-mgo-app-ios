@@ -17,13 +17,13 @@ protocol Coordinator: AnyObject {
 public struct Coordination {
 	
 	/// An action that the coordinator should handle
-	public struct Action: Equatable, Sendable {
+	public struct Action: Equatable {
 		
 		/// the action identifier
-		public var identifier: String
+		public let identifier: String
 		
 		/// optional params for this action
-		public var params: [String: AnyHashable]
+		public let params: [String: AnyHashable]
 		
 		/// Create an action
 		/// - Parameter identifier: the identifier for this action

@@ -64,7 +64,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	
 	/// Create a dashboard coordinator
 	/// - Parameter coordinator: the parent coordinator
-	init(parentCoordinator: (any AppCoordinatorProtocol)?) {
+	@MainActor init(parentCoordinator: (any AppCoordinatorProtocol)?) {
 		
 		self.parentCoordinator = parentCoordinator
 		self.settingsCoordinator = SettingsCoordinator(parentCoordinator: self)
@@ -101,7 +101,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the DashboardCoordination State
 	/// - Returns: A view for that state
-	@ViewBuilder func viewState(for state: DashboardCoordination.State?) -> some View {
+	@MainActor @ViewBuilder func viewState(for state: DashboardCoordination.State?) -> some View {
 		
 		switch state {
 			

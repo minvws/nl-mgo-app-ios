@@ -53,12 +53,12 @@ class SecuritySettingsViewModel: BaseViewModel {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: SecuritySettingsViewModel.Action) {
+	@MainActor func reduce(_ action: SecuritySettingsViewModel.Action) {
 		
 		if case .biometricEnabled(let enabled) = action {
 			if enabled {
-				_Concurrency.Task {
-					await authenticate()
+				_Concurrency.Task { [weak self] in
+					await self?.authenticate()
 				}
 			} else {
 				// Do not use biometric authentication

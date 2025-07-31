@@ -33,7 +33,11 @@ class LoginViewModel: ObservableObject {
 	/// Create a Login ViewModel
 	/// - Parameter coordinator: The coordinator
 	/// - Parameter urlOpener: The helper to open hyperlinks
-	init(coordinator: (any Coordinator)?, remoteAuthenticationClient: RemoteAuthenticationClientProtocol?, urlOpener: URLOpenerProtocol = UIApplication.shared) {
+	@MainActor init(
+		coordinator: (any Coordinator)?,
+		remoteAuthenticationClient: RemoteAuthenticationClientProtocol?,
+		urlOpener: URLOpenerProtocol = UIApplication.shared
+	) {
 		
 		self.coordinator = coordinator
 		self.remoteAuthenticationClient = remoteAuthenticationClient

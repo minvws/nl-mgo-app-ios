@@ -343,10 +343,10 @@ class PinCodeViewModel: ObservableObject {
 	}
 	
 	/// Show the FaceID / TouchID login
-	private func showBioMetricLogin() {
+	@MainActor private func showBioMetricLogin() {
 		
-		_Concurrency.Task {
-			await authenticate()
+		_Concurrency.Task { [weak self] in
+			await self?.authenticate()
 		}
 	}
 	

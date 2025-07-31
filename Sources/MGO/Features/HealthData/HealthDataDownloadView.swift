@@ -64,7 +64,7 @@ class HealthDataDownloadViewModel: ObservableObject {
 	///   - downloadLink: the download Link to display
 	///   - urlOpener: the helper to open urls.
 	///   - binaryRepository: the repository for binaries
-	init(
+	@MainActor init(
 		healthcareOrganization: MgoOrganization,
 		downloadLink: DownloadLink,
 		urlOpener: URLOpenerProtocol = UIApplication.shared) {

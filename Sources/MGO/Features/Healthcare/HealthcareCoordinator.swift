@@ -10,20 +10,20 @@ import PdfExport
 extension Coordination.Action {
 	
 	// Healthcare Organization flow
-	static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
-	static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
-	static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
+	@MainActor static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
+	@MainActor static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
+	@MainActor static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
 	
-	static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
-	static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
+	@MainActor static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
+	@MainActor static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
 	
-	static let showHealthCategory = Coordination.Action(identifier: "showHealthCategory")
-	static let showHealthData = Coordination.Action(identifier: "showHealthData")
+	@MainActor static let showHealthCategory = Coordination.Action(identifier: "showHealthCategory")
+	@MainActor static let showHealthData = Coordination.Action(identifier: "showHealthData")
 	
-	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
-	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
+	@MainActor static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
+	@MainActor static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
 	
-	static let exportHealthData = Coordination.Action(identifier: "exportHealthData")
+	@MainActor static let exportHealthData = Coordination.Action(identifier: "exportHealthData")
 }
 
 protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
@@ -100,7 +100,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	
 	/// Handle any incoming action from any of the view models
 	/// - Parameter action: any Action
-	func handle(_ action: Coordination.Action) {
+	@MainActor func handle(_ action: Coordination.Action) {
 		
 		guard !handleSearchFlow(action) else { return }
 		guard !handleHealthDataFlow(action) else { return }
@@ -131,7 +131,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the search flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleSearchFlow(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleSearchFlow(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			
@@ -167,7 +167,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the detail flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	func handleHealthDataFlow(_ action: Coordination.Action) -> Bool {
+	@MainActor func handleHealthDataFlow(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			
@@ -197,7 +197,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the search flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleExportFlow(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleExportFlow(_ action: Coordination.Action) -> Bool {
 		
 		if action.identifier == Coordination.Action.exportHealthData.identifier {
 			
@@ -223,7 +223,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the `showHealthcareOrganization` action
 	/// - Parameter action: the action
 	/// - Returns: true if handled successfully
-	private func handleShowHealthcareOrganization(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleShowHealthcareOrganization(_ action: Coordination.Action) -> Bool {
 		
 		guard action.identifier == Coordination.Action.showHealthcareOrganization.identifier else { return false }
 		
@@ -241,7 +241,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the `showHealthCategory` action
 	/// - Parameter action: the action
 	/// - Returns: true if handled successfully
-	private func handleShowHealthCategory(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleShowHealthCategory(_ action: Coordination.Action) -> Bool {
 		
 		guard action.identifier == Coordination.Action.showHealthCategory.identifier else { return false }
 		
@@ -263,7 +263,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the `showHealthData` action
 	/// - Parameter action: the action
 	/// - Returns: true if handled successfully
-	private func handleShowHealthData(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleShowHealthData(_ action: Coordination.Action) -> Bool {
 		
 		guard action.identifier == Coordination.Action.showHealthData.identifier else { return false }
 		
@@ -299,7 +299,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the `removeHealthcareOrganization` action
 	/// - Parameter action: the action
 	/// - Returns: true if handled successfully
-	private func handleRemoveHealthcareOrganization(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleRemoveHealthcareOrganization(_ action: Coordination.Action) -> Bool {
 		
 		guard action.identifier == Coordination.Action.removeHealthcareOrganization.identifier else { return false }
 		

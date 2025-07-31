@@ -34,7 +34,7 @@ class InAppBrowserViewModel: ObservableObject {
 	/// - Parameter url: the url to display
 	/// - Parameter browser: restricted browser
 	/// - Parameter title: the title of the page
-	init(
+	@MainActor init(
 		url: URL,
 		browser: RestrictedBrowser,
 		title: LocalizedStringKey?,
