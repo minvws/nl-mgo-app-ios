@@ -23,6 +23,10 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
+	}
+	
+	@MainActor private func createSut() {
+		
 		viewModel = AlertsHealthCategoryViewModel(
 			coordinator: coordinatorSpy,
 			organization: healthcareOrganization)
@@ -32,6 +36,7 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	@MainActor func test_stateLoading() {
 		
 		// Given
+		createSut()
 		viewModel.state = .loading
 		
 		// When
@@ -44,6 +49,7 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	@MainActor func test_stateEmptyList() {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -56,6 +62,7 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	@MainActor func test_stateEmptyPartialList() {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -68,6 +75,7 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	@MainActor func test_stateList() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -80,6 +88,7 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	@MainActor func disabled_test_search_itemNotFound() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		sut.viewModel.state = .list(items: [item])
 		
@@ -93,6 +102,7 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	@MainActor func disabled_test_search_itemFound() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		sut.viewModel.state = .list(items: [item])
 		

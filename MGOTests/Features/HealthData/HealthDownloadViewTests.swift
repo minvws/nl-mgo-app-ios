@@ -21,6 +21,10 @@ final class HealthDownloadViewTests: XCTestCase {
 		
 		servicesSpies = setupServicesSpies()
 		fileStorageSpy = FileStorageSpy()
+	}
+	
+	@MainActor private func createSut() {
+		
 		let entry = DownloadLink(label: "label", type: DownloadLinkType.downloadLink, url: "Binary/demo1")
 		let healthcareOrganization = Generator.healthcareOrganization("1")
 		viewModel = HealthDataDownloadViewModel(healthcareOrganization: healthcareOrganization, downloadLink: entry)
@@ -30,6 +34,7 @@ final class HealthDownloadViewTests: XCTestCase {
 	@MainActor func test_HealthDownloadView_idle() {
 		
 		// Given
+		createSut()
 		viewModel.state = .idle(label: "Test download")
 		
 		// When
@@ -42,6 +47,7 @@ final class HealthDownloadViewTests: XCTestCase {
 	@MainActor func test_HealthDownloadView_downloaded() throws {
 		
 		// Given
+		createSut()
 		let url = try XCTUnwrap(URL(string: "https://apple.com"))
 		viewModel.state = .downloaded(label: "Test download", documentUrl: url)
 		
@@ -55,6 +61,7 @@ final class HealthDownloadViewTests: XCTestCase {
 	@MainActor func test_HealthDownloadView_downloaded_txt() throws {
 		
 		// Given
+		createSut()
 		let bundle = Bundle(for: type(of: self))
 		let resourceUrl = try XCTUnwrap(bundle.url(forResource: "test", withExtension: "txt"))
 		viewModel.state = .downloaded(label: "Test download", documentUrl: resourceUrl)
@@ -70,6 +77,7 @@ final class HealthDownloadViewTests: XCTestCase {
 	@MainActor func test_HealthDownloadView_external() throws {
 		
 		// Given
+		createSut()
 		let url = try XCTUnwrap(URL(string: "https://apple.com"))
 		viewModel.state = .external(label: "Test download", documentUrl: url)
 		
@@ -83,6 +91,7 @@ final class HealthDownloadViewTests: XCTestCase {
 	@MainActor func test_HealthDownloadView_loading() throws {
 		
 		// Given
+		createSut()
 		viewModel.state = .loading(label: "label")
 		
 		// When
@@ -95,6 +104,7 @@ final class HealthDownloadViewTests: XCTestCase {
 	@MainActor func test_HealthDownloadView_error() throws {
 		
 		// Given
+		createSut()
 		viewModel.state = .error
 		
 		// When
@@ -139,6 +149,7 @@ final class HealthDownloadViewTests: XCTestCase {
 	@MainActor func test_HealthDownloadView_noDocument() throws {
 		
 		// Given
+		createSut()
 		viewModel.state = .noDocument
 		
 		// When

@@ -15,12 +15,17 @@ final class AppDelegateTests: XCTestCase {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
+	}
+	
+	@MainActor private func createSut() {
+		
 		sut = AppDelegate()
 	}
 	
 	@MainActor func test_onWillResignActiveNotification() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.onWillResignActiveNotification()
@@ -33,6 +38,7 @@ final class AppDelegateTests: XCTestCase {
 	@MainActor func test_onWillResignActiveNotification_withDate() {
 		
 		// Given
+		createSut()
 		servicesSpies.secureUserSettingsSpy.stubbedEnteredBackground = Date()
 		
 		// When
@@ -47,6 +53,7 @@ final class AppDelegateTests: XCTestCase {
 	@MainActor func test_onDidBecomeActiveNotification () {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.onDidBecomeActiveNotification()
@@ -58,6 +65,7 @@ final class AppDelegateTests: XCTestCase {
 	@MainActor func test_onDidBecomeActiveNotification_longInBackground_shouldPostNotification() {
 		
 		// Given
+		createSut()
 		servicesSpies.secureUserSettingsSpy.stubbedEnteredBackground = Date().addingTimeInterval(-150)
 		
 		// When
@@ -72,6 +80,7 @@ final class AppDelegateTests: XCTestCase {
 	@MainActor func test_onDidBecomeActiveNotification_shortInBackground_shouldReset() {
 		
 		// Given
+		createSut()
 		servicesSpies.secureUserSettingsSpy.stubbedEnteredBackground = Date().addingTimeInterval(-1)
 		
 		// When

@@ -22,12 +22,11 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		urlOpenerSpy = URLOpenerSpy()
 		fileStorageSpy = FileStorageSpy()
-		createSut(url: "Binary/demo1")
 	}
 	
 	/// Create a HealthDataDownloadViewModel with a download link
 	/// - Parameter url: the link for the download link
-	private func createSut(url: String?) {
+	@MainActor private func createSut(url: String?) {
 		
 		let entry = DownloadLink(label: "label", type: DownloadLinkType.downloadLink, url: url)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
@@ -40,7 +39,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 	
 	/// Create a HealthDataDownloadViewModel with a download binary
 	/// - Parameter reference: the reference for the download binary
-	private func createSut(reference: String) {
+	@MainActor private func createSut(reference: String) {
 		
 		let entry = DownloadBinary(label: "label", reference: reference, type: DownloadBinaryType.downloadBinary)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
@@ -51,9 +50,10 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		)
 	}
 	
-	func test_init_stateShouldBeIdle() {
+	@MainActor func test_init_stateShouldBeIdle() {
 		
 		// Given
+		createSut(url: "Binary/demo1")
 		
 		// When
 		
@@ -61,9 +61,10 @@ final class HealthDownloadViewModelTests: XCTestCase {
 		expect(self.sut.state) == .idle(label: "label")
 	}
 	
-	func test_init_withoutURL_stateShouldBeNoDocument() {
+	@MainActor func test_init_withoutURL_stateShouldBeNoDocument() {
 		
 		// Given
+		createSut(url: "Binary/demo1")
 		
 		// When
 		createSut(url: nil)
@@ -141,6 +142,7 @@ final class HealthDownloadViewModelTests: XCTestCase {
 	@MainActor func test_reduce_download_noReference() throws {
 		
 		// Given
+		createSut(url: "Binary/demo1")
 		let binary = FHIRBinary(contentType: "application/pdf", content: "Um9vbA==")
 		servicesSpies.resourceRepositorySpy.stubbedLoadBinary = binary
 		let url = try XCTUnwrap(URL(string: "https://example.com"))

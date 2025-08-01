@@ -16,13 +16,18 @@ final class SettingsCoordinatorViewTests: XCTestCase {
 	override func setUp() {
 		
 		servicesSpies = setupServicesSpies()
-		coordinator = SettingsCoordinator(parentCoordinator: DashboardCoordinatorSpy())
 		super.setUp()
+	}
+	
+	@MainActor private func createSut() {
+		
+		coordinator = SettingsCoordinator(parentCoordinator: DashboardCoordinatorSpy())
 	}
 
 	@MainActor func test_default() throws {
 		
 		// Given
+		createSut()
 		
 		// When
 		let sut = SettingsCoordinatorView(coordinator: coordinator)
@@ -34,6 +39,7 @@ final class SettingsCoordinatorViewTests: XCTestCase {
 	@MainActor func test_inspectableSheet_pathForSheet() throws {
 		
 		// Given
+		createSut()
 		coordinator.rootStateForSheet = .aboutTheApp
 		coordinator.pathForSheet = NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutTheApp])
 		

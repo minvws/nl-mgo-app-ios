@@ -23,17 +23,23 @@ final class LoginViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
+		
+		super.setUp()
+	}
+	
+	@MainActor private func createSut() {
+		
 		sut = LoginViewModel(
 			coordinator: coordinatorSpy,
 			remoteAuthenticationClient: remoteAuthenticationClientSpy,
 			urlOpener: urlOpenerSpy
 		)
-		super.setUp()
 	}
 
 	@MainActor func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() {
 		
 		// Given
+		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
 		
 		// When
@@ -47,6 +53,7 @@ final class LoginViewModelTests: XCTestCase {
 	@MainActor func test_loginWithDigiD() throws {
 		
 		// Given
+		createSut()
 		let auth = try XCTUnwrap(URL(string: "https://example.com/auth"))
 		remoteAuthenticationClientSpy.stubbedGetAuthenticationUrl = auth
 		servicesSpies.featureFlagSpy.stubbedIsDemo = false

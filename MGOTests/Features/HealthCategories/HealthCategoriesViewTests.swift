@@ -23,6 +23,10 @@ final class HealthCategoriesViewTests: XCTestCase {
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
+	}
+	
+	@MainActor private func createSut() {
+		
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .single(healthcareOrganization))
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 	}
@@ -30,6 +34,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 	@MainActor func test_initialState_singleMode() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -41,6 +46,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 	@MainActor func test_initialState_singleMode_belowIOS18() {
 		
 		// Given
+		createSut()
 		sut.viewModel.state.belowIOS18 = true
 		
 		// When
@@ -53,6 +59,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 	@MainActor func test_initialState_multipleMode() {
 		
 		// Given
+		createSut()
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
 		sut = HealthCategoriesView(viewModel: self.viewModel)
@@ -67,6 +74,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -80,6 +88,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 	@MainActor func test_removeOrganization() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -95,6 +104,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 	@MainActor func test_addHealthcareOrganization_noOrganizations() throws {
 		
 		// Given
+		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
@@ -112,6 +122,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 	@MainActor func test_noOrganizations_automaticLocalizationEnabled() throws {
 		
 		// Given
+		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
@@ -127,6 +138,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 	@MainActor func test_noOrganizations_automaticLocalizationDisabled() throws {
 		
 		// Given
+		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)

@@ -51,7 +51,7 @@ protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
 struct HealthcareCoordination {
 	
 	/// A list of all the view states the app coordinator can show
-	enum State: Equatable, Hashable, Codable {
+	enum State: Equatable, Hashable, Codable, Sendable {
 		
 		// Organizations
 		case organizations

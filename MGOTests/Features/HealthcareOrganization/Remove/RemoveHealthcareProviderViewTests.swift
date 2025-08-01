@@ -20,6 +20,10 @@ final class RemoveHealthcareOrganizationViewTests: XCTestCase {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
+	}
+	
+	@MainActor private func createSut() {
+		
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
 		
@@ -27,9 +31,10 @@ final class RemoveHealthcareOrganizationViewTests: XCTestCase {
 		sut = RemoveHealthcareOrganizationView(viewModel: self.viewModel)
 	}
 	
-	func test_healthcareOrganization_details() {
+	@MainActor func test_healthcareOrganization_details() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }

@@ -21,7 +21,7 @@ final class OrganizationsViewModelTests: XCTestCase {
 		coordinatorSpy = AppCoordinatorSpy()
 	}
 	
-	@MainActor func createSut() {
+	@MainActor private func createSut() {
 		
 		sut = OrganizationsViewModel(coordinator: coordinatorSpy)
 	}

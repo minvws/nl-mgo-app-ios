@@ -12,7 +12,7 @@ final class InAppBrowserViewModelTests: XCTestCase {
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var sut: InAppBrowserViewModel!
 	
-	func setupSut() throws {
+	@MainActor func setupSut() throws {
 		
 		coordinatorSpy = AppCoordinatorSpy()
 		let urlOpenerSpy = URLOpenerSpy()
