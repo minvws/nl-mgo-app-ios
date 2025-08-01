@@ -16,15 +16,20 @@ final class ForgotPinCodeViewTests: XCTestCase {
 	override func setUp() {
 		
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = ForgotPinCodeView(viewModel: ForgotPinCodeViewModel(coordinator: self.coordinatorSpy))
 		super.setUp()
+	}
+	
+	@MainActor private func createSut() {
+		
+		sut = ForgotPinCodeView(viewModel: ForgotPinCodeViewModel(coordinator: self.coordinatorSpy))
 	}
 
 	// MARK: - Actions -
 	
-	func test_cancel() throws {
+	@MainActor func test_cancel() throws {
 		
 		// Given
+		createSut()
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.cancel")
@@ -35,9 +40,10 @@ final class ForgotPinCodeViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.dismissForgotPinCode
 	}
 	
-	func test_showDialog() throws {
+	@MainActor func test_showDialog() throws {
 		
 		// Given
+		createSut()
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "forgot_pincode.button")
@@ -49,9 +55,10 @@ final class ForgotPinCodeViewTests: XCTestCase {
 	
 	// MARK: - Snapshots -
 	
-	func test_forgotPinCodeView() {
+	@MainActor func test_forgotPinCodeView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }

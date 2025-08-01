@@ -43,7 +43,7 @@ protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
 struct SettingsCoordination {
 	
 	/// A list of all the view states the app coordinator can show
-	enum State: Equatable, Hashable, Codable {
+	enum State: Equatable, Hashable, Codable, Sendable {
 		
 		case settings
 		case displaySettings

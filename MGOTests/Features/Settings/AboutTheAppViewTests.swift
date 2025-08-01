@@ -19,12 +19,17 @@ final class AboutTheAppViewTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
+	}
+	
+	@MainActor private func createSut() {
+		
 		sut = AboutTheAppView(viewModel: AboutTheAppViewModel(coordinator: self.coordinatorSpy))
 	}
 
-	func test_aboutTheAppView() {
+	@MainActor func test_aboutTheAppView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -33,9 +38,10 @@ final class AboutTheAppViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -46,9 +52,10 @@ final class AboutTheAppViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_showSafetyTips() throws {
+	@MainActor func test_showSafetyTips() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -59,9 +66,10 @@ final class AboutTheAppViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showSafetyTips
 	}
 	
-	func test_showAccessibility() throws {
+	@MainActor func test_showAccessibility() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -72,9 +80,10 @@ final class AboutTheAppViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showAccessibility
 	}
 	
-	func test_showOpenSourceLibraries() throws {
+	@MainActor func test_showOpenSourceLibraries() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -85,9 +94,10 @@ final class AboutTheAppViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showOpenSourceLibraries
 	}
 	
-	func test_showPrivacyStatement() throws {
+	@MainActor func test_showPrivacyStatement() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -98,9 +108,10 @@ final class AboutTheAppViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showPrivacyStatement
 	}
 	
-	func test_showHCIMVersion() throws {
+	@MainActor func test_showHCIMVersion() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When

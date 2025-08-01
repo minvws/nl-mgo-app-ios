@@ -75,7 +75,7 @@ extension Coordination.Action {
 struct AppCoordination {
 	
 	/// A list of all the view states the app coordinator can show
-	enum State: Equatable, Hashable, Codable {
+	enum State: Equatable, Hashable, Codable, Sendable {
 		case splash
 		case updateRequired
 		

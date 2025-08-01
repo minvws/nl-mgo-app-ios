@@ -17,14 +17,19 @@ final class LoginInfoViewTests: XCTestCase {
 		
 		coordinatorSpy = AppCoordinatorSpy()
 		viewModel = LoginInfoViewModel(coordinator: coordinatorSpy)
-		sut = LoginInfoView(viewModel: self.viewModel)
 		
 		super.setUp()
 	}
 	
-	func test_loginInfoView() {
+	@MainActor private func createSut() {
+
+		sut = LoginInfoView(viewModel: self.viewModel)
+	}
+	
+	@MainActor func test_loginInfoView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -33,9 +38,10 @@ final class LoginInfoViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_nextButtonPressed_shouldCallCoordinator() throws {
+	@MainActor func test_nextButtonPressed_shouldCallCoordinator() throws {
 		
 		// Given
+		createSut()
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.next")

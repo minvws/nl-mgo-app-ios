@@ -19,12 +19,17 @@ final class AboutSafetyTipsViewTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
+	}
+	
+	@MainActor private func createSut() {
+		
 		sut = AboutSafetyTipsView(viewModel: BaseViewModel(coordinator: self.coordinatorSpy))
 	}
-
-	func test_aboutSafetyTipsView() {
+	
+	@MainActor func test_aboutSafetyTipsView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -33,9 +38,10 @@ final class AboutSafetyTipsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When

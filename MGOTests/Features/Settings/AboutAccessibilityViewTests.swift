@@ -19,12 +19,17 @@ final class AboutAccessibilityViewTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
+	}
+	
+	@MainActor private func createSut() {
+		
 		sut = AboutAccessibilityView(viewModel: AboutAccessibilityViewModel(coordinator: self.coordinatorSpy))
 	}
 
-	func test_aboutAccessibilityView() {
+	@MainActor func test_aboutAccessibilityView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -33,9 +38,10 @@ final class AboutAccessibilityViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When

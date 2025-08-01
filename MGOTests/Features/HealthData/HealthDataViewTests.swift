@@ -20,6 +20,10 @@ final class HealthDataViewTests: XCTestCase {
 		try super.setUpWithError()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
+	}
+	
+	@MainActor private func createSut() throws {
+		
 		let data = try getResource("multipleValuesMultipleEntries")
 		let schema = try HealthUISchema(data: data)
 		let healthcareOrganization = Generator.healthcareOrganization("1")
@@ -32,9 +36,10 @@ final class HealthDataViewTests: XCTestCase {
 		sut = HealthDataView(viewModel: self.viewModel)
 	}
 
-	func test_HealthCategoryDataView() throws {
+	@MainActor func test_HealthCategoryDataView() throws {
 		
 		// Given
+		try createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -43,9 +48,10 @@ final class HealthDataViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
+		try createSut()
 		let content = NavigationView { sut }
 		
 		// When
