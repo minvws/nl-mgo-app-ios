@@ -8,7 +8,7 @@ import MGOUI
 
 class AlertsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.alerts,
@@ -25,7 +25,7 @@ class AlertsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class AllergiesHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.allergies,
@@ -42,7 +42,7 @@ class AllergiesHealthCategoryViewModel: HealthCategoryViewModel {
 
 class AppointmentsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.appointments,
@@ -59,7 +59,7 @@ class AppointmentsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class ComplaintsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.medicalComplaints,
@@ -76,7 +76,7 @@ class ComplaintsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class DevicesHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.medicalDevices,
@@ -93,7 +93,7 @@ class DevicesHealthCategoryViewModel: HealthCategoryViewModel {
 
 class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.documents,
@@ -133,7 +133,7 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class LabResultsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.labResults,
@@ -150,7 +150,7 @@ class LabResultsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class LifestyleHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.lifestyle,
@@ -167,7 +167,7 @@ class LifestyleHealthCategoryViewModel: HealthCategoryViewModel {
 
 class MeasurementsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.measurements,
@@ -184,7 +184,7 @@ class MeasurementsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class MedicationHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.medication,
@@ -201,7 +201,7 @@ class MedicationHealthCategoryViewModel: HealthCategoryViewModel {
 
 class MentalStatusHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.mentalWellbeing,
@@ -218,7 +218,7 @@ class MentalStatusHealthCategoryViewModel: HealthCategoryViewModel {
 
 class PatientHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.personalDetails,
@@ -235,7 +235,7 @@ class PatientHealthCategoryViewModel: HealthCategoryViewModel {
 
 class PaymentHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.payment,
@@ -252,7 +252,7 @@ class PaymentHealthCategoryViewModel: HealthCategoryViewModel {
 
 class PlansHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.plans,
@@ -269,7 +269,7 @@ class PlansHealthCategoryViewModel: HealthCategoryViewModel {
 
 class TreatmentsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.treatments,
@@ -286,7 +286,7 @@ class TreatmentsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class VaccinationsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
 			category: HealthCategories.Category.vaccinations,

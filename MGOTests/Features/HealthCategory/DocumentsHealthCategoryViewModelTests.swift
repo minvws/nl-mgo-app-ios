@@ -21,6 +21,10 @@ final class DocumentsHealthCategoryViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1", name: "Ziekenhuis Nieuw Juinen")
+	}
+	
+	@MainActor private func createSut() {
+		
 		sut = DocumentsHealthCategoryViewModel(
 			coordinator: coordinatorSpy,
 			organization: healthcareOrganization
@@ -30,6 +34,7 @@ final class DocumentsHealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_loadResources_withResults_withName() throws {
 		
 		// Given
+		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
 		let resource = try getResource("iheMhdMinimalDocumentReference")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([

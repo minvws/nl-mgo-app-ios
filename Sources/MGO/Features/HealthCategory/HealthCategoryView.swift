@@ -152,7 +152,7 @@ class HealthCategoryViewModel: ObservableObject {
 	
 	/// Create a Health category view model
 	/// - Parameter coordinator: the app coordinator
-	init(
+	@MainActor init(
 		coordinator: (any Coordinator)? = nil,
 		category: HealthCategories.Category,
 		organization: MgoOrganization?,
@@ -171,7 +171,7 @@ class HealthCategoryViewModel: ObservableObject {
 		dataStoreToken.map(Current.dataStore.observatory.remove)
 	}
 	
-	private func registerObservers() {
+	@MainActor private func registerObservers() {
 		self.dataStoreToken = Current.dataStore.observatory.append { [weak self] changed in
 			if changed {
 				// Handle updates in the fetched data
@@ -247,6 +247,7 @@ class HealthCategoryViewModel: ObservableObject {
 		}
 	}
 	
+	@MainActor
 	func handleDataStoreChanges() {
 		let expectedNumberOfResults: Int = {
 			if organization == nil {

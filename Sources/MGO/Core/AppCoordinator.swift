@@ -173,17 +173,20 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		
 		// Listen for authentication notification
 		Current.notificationCenter.addObserver(
-			forName: .showLocalAuthentication,
-			object: nil,
-			queue: OperationQueue.main
-		) { @MainActor [weak self] _ in
-			guard let strongSelf = self else { return }
-			if strongSelf.showChildCoordinator {
-				strongSelf.showAuthenticationModal = true
-				strongSelf.rootStateForSheet = .pinCodeValidation(lockOut: true)
-			} else {
-				logInfo("Not through onboarding, not showing authentication modal")
-			}
+			self,
+			selector: #selector(showLocalAuthentication),
+			name: .showLocalAuthentication,
+			object: nil
+		)
+	}
+	
+	@MainActor @objc private func showLocalAuthentication() {
+		
+		if showChildCoordinator {
+			showAuthenticationModal = true
+			rootStateForSheet = .pinCodeValidation(lockOut: true)
+		} else {
+			logInfo("Not through onboarding, not showing authentication modal")
 		}
 	}
 	

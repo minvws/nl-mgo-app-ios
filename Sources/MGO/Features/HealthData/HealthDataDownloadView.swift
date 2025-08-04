@@ -8,7 +8,7 @@ import MGOUI
 import RestrictedBrowser
 
 /// The states of a download view
-enum HealthDataDownloadState: Equatable {
+enum HealthDataDownloadState: Equatable, Sendable {
 	
 	case loading(label: String)
 	case idle(label: String)
@@ -18,7 +18,7 @@ enum HealthDataDownloadState: Equatable {
 	case error
 }
 
-class HealthDataDownloadViewModel: ObservableObject {
+@MainActor class HealthDataDownloadViewModel: ObservableObject {
 	
 	/// The state of the view
 	@Published var state: HealthDataDownloadState
