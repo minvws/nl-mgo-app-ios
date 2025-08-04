@@ -190,7 +190,8 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			let recordToStore = MgoResourceRecord(categoryId: "\(category.rawValue)", organizationId: healthcareOrganization.identifier, resources: mgoResources, error: resourceError)
 			logVerbose("ResourceRepository - Adding to the store", recordToStore)
 			
-			delay(Current.featureFlagManager.isDemo ? 5 : 0) {
+			let delayInSeconds: Double = Current.featureFlagManager.isDemo ? 5 : 0
+			await delay(delayInSeconds) {
 				self.dataRepository?.store(data: recordToStore)
 			}
 		}

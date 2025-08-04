@@ -5,14 +5,19 @@
 
 import Foundation
 
-public func delay(_ delayInSeconds: Double, action: @escaping () -> Void) {
+/// Delay an action
+/// - Parameters:
+///   - delayInSeconds: the number of seconds to delay
+///   - action: the action to perform
+@MainActor public func delay(_ delayInSeconds: Double, action: @escaping () -> Void) {
 	
 	guard delayInSeconds > 0 else {
 		action()
 		return
 	}
 	
-	DispatchQueue.main.asyncAfter(deadline: .now() + delayInSeconds) {
+	Task { @MainActor in
+		try await Task.sleep(nanoseconds: UInt64(delayInSeconds) * 1_000_000_000)
 		action()
 	}
 }
