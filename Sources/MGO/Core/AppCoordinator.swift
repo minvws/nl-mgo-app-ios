@@ -33,7 +33,7 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 	/// Get a View for the State
 	/// - Parameter state: the AppCoordination State
 	/// - Returns: A view for that state
-	func view(for: AppCoordination.State?) -> Body
+	@MainActor func view(for: AppCoordination.State?) -> Body
 	
 	func showCloseButtonForSheet(for: AppCoordination.State?) -> Bool
 }
@@ -544,7 +544,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the AppCoordination State
 	/// - Returns: A view for that state
-	@ViewBuilder @MainActor @preconcurrency func view(for state: AppCoordination.State?) -> some View {
+	@ViewBuilder @MainActor func view(for state: AppCoordination.State?) -> some View {
 		
 		switch state {
 			case .splash:
