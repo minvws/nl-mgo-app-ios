@@ -164,27 +164,25 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		registerObservers()
 	}
 	
-	private func registerObservers() {
+	@MainActor private func registerObservers() {
 		
 		// Listen to changes in the remote configuration
-		self.observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
-			
-			guard let self else { return }
-			_Concurrency.Task { @MainActor in
-				self.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
-			}
+		self.observerToken = Current.remoteConfigurationRepository.observatory.append { @MainActor [weak self] remoteConfiguration in
+			self?.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
 		}
 		
 		// Listen for authentication notification
-		Current.notificationCenter.addObserver(forName: .showLocalAuthentication, object: nil, queue: OperationQueue.main) { _ in
-			_Concurrency.Task { @MainActor [weak self] in
-				guard let strongSelf = self else { return }
-				if strongSelf.showChildCoordinator {
-					strongSelf.showAuthenticationModal = true
-					strongSelf.rootStateForSheet = .pinCodeValidation(lockOut: true)
-				} else {
-					logInfo("Not through onboarding, not showing authentication modal")
-				}
+		Current.notificationCenter.addObserver(
+			forName: .showLocalAuthentication,
+			object: nil,
+			queue: OperationQueue.main
+		) { @MainActor [weak self] _ in
+			guard let strongSelf = self else { return }
+			if strongSelf.showChildCoordinator {
+				strongSelf.showAuthenticationModal = true
+				strongSelf.rootStateForSheet = .pinCodeValidation(lockOut: true)
+			} else {
+				logInfo("Not through onboarding, not showing authentication modal")
 			}
 		}
 	}

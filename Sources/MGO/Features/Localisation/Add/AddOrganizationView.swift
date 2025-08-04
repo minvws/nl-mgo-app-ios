@@ -67,11 +67,17 @@ class AddOrganizationViewModel: ObservableObject {
 		
 		// Listen for reset notification
 		Current.notificationCenter.addObserver(
-			forName: .clearSearch,
-			object: nil,
-			queue: OperationQueue.main) { @MainActor _ in
-			self.reduce(.clear)
-		}
+			self,
+			selector: #selector(clear),
+			name: .clearSearch,
+			object: nil
+		)
+	}
+	
+	@MainActor
+	@objc func clear() {
+		state.city = ""
+		state.name = ""
 	}
 	
 	/// Handle any action
@@ -81,8 +87,7 @@ class AddOrganizationViewModel: ObservableObject {
 		switch action {
 			
 			case .clear:
-				state.city = ""
-				state.name = ""
+				clear()
 			
 			case .search:
 				guard validateState() else {

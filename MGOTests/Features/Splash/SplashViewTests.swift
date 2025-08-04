@@ -17,7 +17,7 @@ final class SplashViewTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func createSut(state: SplashViewModel.State) -> SplashView {
+	@MainActor func createSut(state: SplashViewModel.State) -> SplashView {
 		
 		return SplashView(
 			viewModel: SplashViewModel(
@@ -27,7 +27,7 @@ final class SplashViewTests: XCTestCase {
 		)
 	}
 	
-	func test_launch_stateIdle() {
+	@MainActor func test_launch_stateIdle() {
 	
 		// Given
 		let sut = createSut(state: .idle)
@@ -38,7 +38,7 @@ final class SplashViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_launch_stateLoadingConfig() {
+	@MainActor func test_launch_stateLoadingConfig() {
 		
 		// Given
 		let sut = createSut(state: .loadingConfig)
@@ -49,7 +49,7 @@ final class SplashViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 
-	func test_launch_stateConfigLoaded() {
+	@MainActor func test_launch_stateConfigLoaded() {
 		
 		// Given
 		let sut = createSut(state: .configLoaded)

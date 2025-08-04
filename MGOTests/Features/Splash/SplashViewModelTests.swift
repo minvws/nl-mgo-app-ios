@@ -16,12 +16,18 @@ final class SplashViewModelTests: XCTestCase {
 		
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		sut = SplashViewModel(coordinator: coordinatorSpy, state: .idle)
 		super.setUp()
 	}
 	
-	func test_init() {
+	@MainActor private func createSut() {
+		
+		sut = SplashViewModel(coordinator: coordinatorSpy, state: .idle)
+	}
+	
+	@MainActor func test_init() {
+		
 		// Given
+		createSut()
 		
 		// When
 		
@@ -35,6 +41,7 @@ final class SplashViewModelTests: XCTestCase {
 	@MainActor func test_reduce_fromIdle_toLoadingConfig() {
 		
 		// Given
+		createSut()
 		sut.state = .idle
 		
 		// When
@@ -51,6 +58,7 @@ final class SplashViewModelTests: XCTestCase {
 	@MainActor func test_reduce_fromIdle_toLoadingConfig_jailbroken() throws {
 		
 		// Given
+		createSut()
 		sut.state = .idle
 		servicesSpies.jailBreakSpy.stubbedIsJailBrokenResult = true
 		
@@ -66,6 +74,7 @@ final class SplashViewModelTests: XCTestCase {
 	@MainActor func test_reduce_fromLoadingConfig_toLoadingConfig() {
 		
 		// Given
+		createSut()
 		sut.state = .loadingConfig
 		
 		// When
@@ -78,6 +87,7 @@ final class SplashViewModelTests: XCTestCase {
 	@MainActor func test_reduce_fromConfigLoaded_toConfigLoaded() {
 		
 		// Given
+		createSut()
 		sut.state = .configLoaded
 		
 		// When
@@ -90,6 +100,7 @@ final class SplashViewModelTests: XCTestCase {
 	@MainActor func test_loadConfig_shouldCallCoordinator() {
 		
 		// Given
+		createSut()
 		sut.state = .idle
 		
 		// When
@@ -107,6 +118,7 @@ final class SplashViewModelTests: XCTestCase {
 	@MainActor func test_dissmissWarning_shouldUpdateSecureUserSettings() {
 		
 		// Given
+		createSut()
 		sut.state = .idle
 		
 		// When

@@ -121,13 +121,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		// Back and foreground
 		
-		NotificationCenter.default.addObserver(
+		Current.notificationCenter.addObserver(
 			self,
 			selector: #selector(onWillResignActiveNotification),
 			name: UIApplication.willResignActiveNotification,
 			object: nil
 		)
-		NotificationCenter.default.addObserver(
+		Current.notificationCenter.addObserver(
 			self,
 			selector: #selector(onDidBecomeActiveNotification),
 			name: UIApplication.didBecomeActiveNotification,

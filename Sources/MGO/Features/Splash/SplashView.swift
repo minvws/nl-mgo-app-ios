@@ -38,7 +38,7 @@ final class SplashViewModel: ObservableObject {
 	/// - Parameters:
 	///   - coordinator: the flow coordinator
 	///   - state: initial state
-	init(coordinator: (any Coordinator)?, state: State = .idle) {
+	@MainActor init(coordinator: (any Coordinator)?, state: State = .idle) {
 		self.coordinator = coordinator
 		self.state = state
 		
@@ -61,17 +61,14 @@ final class SplashViewModel: ObservableObject {
 	}
 	
 	/// Setup all the observers
+	@MainActor
 	private func setupObservers() {
 		
 		// Listen to changes in the remote configuration
-		observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] _ in
-			
-			guard let self else { return }
-			// Updated configuration
+		observerToken = Current.remoteConfigurationRepository.observatory.append { @MainActor [weak self] _ in
+	
 			logDebug("LaunchViewModel: config loaded")
-			_Concurrency.Task { @MainActor [weak self] in
-				self?.reduce(.loaded)
-			}
+			self?.reduce(.loaded)
 		}
 	}
 	
