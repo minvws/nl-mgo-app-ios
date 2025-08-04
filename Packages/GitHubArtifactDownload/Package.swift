@@ -15,7 +15,7 @@ let package = Package(
 		.package(name: "MGOCommandLine", path: "../MGOCommandLine"),
 		
 		// External
-		.package(url: "https://github.com/wei18/github-rest-api-swift-openapi.git", exact: "3.0.2")
+		.package(url: "https://github.com/wei18/github-rest-api-swift-openapi.git", exact: "3.0.3")
 	],
 	targets: [
 		.executableTarget(
