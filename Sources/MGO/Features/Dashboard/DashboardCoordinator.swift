@@ -13,7 +13,7 @@ protocol DashboardCoordinatorProtocol: Coordinator, ObservableObject {
 	/// Get a View for the State
 	/// - Parameter state: the Dashboard Coordination State
 	/// - Returns: A view for that state
-	func viewState(for: DashboardCoordination.State?) -> Body
+	@MainActor func view(for: DashboardCoordination.State?) -> Body
 	
 	/// The selected tab
 	var selectedTab: Int { get set }
@@ -101,7 +101,7 @@ class DashboardCoordinator: DashboardCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the DashboardCoordination State
 	/// - Returns: A view for that state
-	@MainActor @ViewBuilder func viewState(for state: DashboardCoordination.State?) -> some View {
+	@MainActor @ViewBuilder func view(for state: DashboardCoordination.State?) -> some View {
 		
 		switch state {
 			
