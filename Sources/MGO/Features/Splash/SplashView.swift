@@ -91,7 +91,7 @@ final class SplashViewModel: ObservableObject {
 				}
 			
 			case .loaded:
-				guard showJailBreakDialog == false else { return }
+				guard !showJailBreakDialog else { return }
 				state = .configLoaded
 				coordinator?.handle(Coordination.Action.finishedSplash)
 			
