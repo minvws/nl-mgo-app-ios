@@ -78,30 +78,29 @@ final class SplashViewModel: ObservableObject {
 		
 		switch action {
 			case .start:
-				guard !shouldShowJailBreakWarning() else {
-					showJailBreakDialog = true
+				guard !Current.secureUserSettings.userHasSeenJailBreakWarning else {
+					coordinator?.handle(Coordination.Action.finishedSplash)
 					return
 				}
-			
-				guard state == .idle else { return }
-				coordinator?.handle(Coordination.Action.finishedSplash)
+				if Current.jailBreakDetector.isJailBroken() {
+					showJailBreakDialog = true
+					return
+				} else {
+					guard state == .idle else { return }
+					coordinator?.handle(Coordination.Action.finishedSplash)
+				}
 			
 			case .loaded:
+				guard showJailBreakDialog == false else { return }
 				state = .configLoaded
 				coordinator?.handle(Coordination.Action.finishedSplash)
 			
 			case .dismissWarning:
 				// Mark warning as seen.
 				Current.secureUserSettings.userHasSeenJailBreakWarning = true
+				showJailBreakDialog = false
 				coordinator?.handle(Coordination.Action.finishedSplash)
 		}
-	}
-	
-	/// Determine if we should show the jail break warning
-	/// - Returns: True if we should show the dialog
-	private func shouldShowJailBreakWarning() -> Bool {
-		
-		return !Current.secureUserSettings.userHasSeenJailBreakWarning && Current.jailBreakDetector.isJailBroken()
 	}
 }
 

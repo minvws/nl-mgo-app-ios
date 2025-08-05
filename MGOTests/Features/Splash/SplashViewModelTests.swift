@@ -3,133 +3,132 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
 @testable import MGO
+import Testing
 
-final class SplashViewModelTests: XCTestCase {
-
+@MainActor
+final class SplashViewModelTests {
+	
 	private var coordinatorSpy: AppCoordinatorSpy!
 	private var sut: SplashViewModel!
 	private var servicesSpies: ServicesSpies!
 	
-	override func setUp() {
-		
+	init() async throws {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		super.setUp()
-	}
-	
-	@MainActor private func createSut() {
-		
 		sut = SplashViewModel(coordinator: coordinatorSpy, state: .idle)
 	}
 	
-	@MainActor func test_init() {
+	@Test func initializer() async throws {
 		
 		// Given
-		createSut()
 		
 		// When
 		
 		// Then
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoad)
-			.toEventually(beTrue())
-		expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers)
-			.toEventually(beTrue())
+		#expect(self.servicesSpies.resourceRepositorySpy.invokedLoad == true)
+		#expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers == true)
 	}
 	
-	@MainActor func test_reduce_fromIdle_toLoadingConfig() {
+	@Test func reduce_fromIdle_toLoadingConfig() async throws {
 		
 		// Given
-		createSut()
 		sut.state = .idle
+		servicesSpies.secureUserSettingsSpy.invokedUserHasSeenJailBreakWarning = false
 		
 		// When
 		sut.reduce(.start)
 		
 		// Then
-		expect(self.sut.state) == .idle
-		expect(self.servicesSpies.jailBreakSpy.invokedIsJailBroken) == true
-		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0)
-			.toEventually(equal(Coordination.Action.finishedSplash))
+		#expect(servicesSpies.jailBreakSpy.invokedIsJailBroken == true)
+		#expect(coordinatorSpy.invokedHandle == true)
+		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.finishedSplash)
 	}
 	
-	@MainActor func test_reduce_fromIdle_toLoadingConfig_jailbroken() throws {
+	@Test func reduce_fromIdle_toLoadingConfig_jailbroken() {
 		
 		// Given
-		createSut()
 		sut.state = .idle
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenJailBreakWarning = false
 		servicesSpies.jailBreakSpy.stubbedIsJailBrokenResult = true
 		
 		// When
 		sut.reduce(.start)
 		
 		// Then
-		expect(self.sut.state) == .idle
-		expect(self.sut.showJailBreakDialog) == true
-		expect(self.servicesSpies.jailBreakSpy.invokedIsJailBroken) == true
+		#expect(servicesSpies.jailBreakSpy.invokedIsJailBroken == true)
+		#expect(coordinatorSpy.invokedHandle == false)
+		#expect(sut.state == .idle)
+		#expect(sut.showJailBreakDialog == true)
 	}
-
-	@MainActor func test_reduce_fromLoadingConfig_toLoadingConfig() {
+	
+	@Test func reduce_fromIdle_toLoadingConfig_jailbroken_alreadySeenWarning() {
 		
 		// Given
-		createSut()
+		sut.state = .idle
+		servicesSpies.secureUserSettingsSpy.stubbedUserHasSeenJailBreakWarning = true
+		servicesSpies.jailBreakSpy.stubbedIsJailBrokenResult = true
+		
+		// When
+		sut.reduce(.start)
+		
+		// Then
+		#expect(sut.state == .idle)
+		#expect(servicesSpies.jailBreakSpy.invokedIsJailBroken == false)
+		#expect(sut.showJailBreakDialog == false)
+		#expect(coordinatorSpy.invokedHandle == true)
+		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.finishedSplash)
+	}
+	
+	@Test func reduce_fromLoadingConfig_toLoadingConfig() async throws {
+		
+		// Given
 		sut.state = .loadingConfig
 		
 		// When
 		sut.reduce(.start)
 		
 		// Then
-		expect(self.sut.state) == .loadingConfig
+		#expect(sut.state == .loadingConfig)
 	}
 	
-	@MainActor func test_reduce_fromConfigLoaded_toConfigLoaded() {
+	@Test func reduce_fromConfigLoaded_toConfigLoaded() async throws {
 		
 		// Given
-		createSut()
 		sut.state = .configLoaded
 		
 		// When
 		sut.reduce(.start)
 		
 		// Then
-		expect(self.sut.state) == .configLoaded
+		#expect(sut.state == .configLoaded)
 	}
 	
-	@MainActor func test_loadConfig_shouldCallCoordinator() {
+	@Test func reduce_loadConfig_shouldCallCoordinator() async throws {
 		
 		// Given
-		createSut()
 		sut.state = .idle
 		
 		// When
 		sut.reduce(.loaded)
 		
 		// Then
-		expect(self.sut.state)
-			.toEventually(equal(.configLoaded), timeout: .seconds(5))
-		expect(self.coordinatorSpy.invokedHandle)
-			.toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0)
-			.toEventually(equal(Coordination.Action.finishedSplash))
+		#expect(sut.state == .configLoaded)
+		#expect(coordinatorSpy.invokedHandle == true)
+		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.finishedSplash)
 	}
 	
-	@MainActor func test_dissmissWarning_shouldUpdateSecureUserSettings() {
+	@Test func reduce_dismissWarning_shouldUpdateSecureUserSettings() async throws {
 		
 		// Given
-		createSut()
 		sut.state = .idle
 		
 		// When
 		sut.reduce(.dismissWarning)
 		
 		// Then
-		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasSeenJailBreakWarningSetter)
-			.toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandle)
-			.toEventually(beTrue())
-		expect(self.coordinatorSpy.invokedHandleParameters?.0)
-			.toEventually(equal(Coordination.Action.finishedSplash))
+		#expect(servicesSpies.secureUserSettingsSpy.invokedUserHasSeenJailBreakWarningSetter == true)
+		#expect(coordinatorSpy.invokedHandle == true)
+		#expect(coordinatorSpy.invokedHandleParameters?.0 == Coordination.Action.finishedSplash)
 	}
 }

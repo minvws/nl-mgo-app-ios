@@ -45,7 +45,6 @@ final class ServicesSpies {
 
 	var jailBreakSpy: JailBreakProtocolSpy = {
 		let spy = JailBreakProtocolSpy()
-		spy.stubbedIsJailBrokenResult = false
 		return spy
 	}()
 	

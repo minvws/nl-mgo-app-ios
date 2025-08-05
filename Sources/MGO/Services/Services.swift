@@ -57,7 +57,7 @@ private let appVersionSupplier = AppVersionSupplier()
 private let dataStore = InMemoryDataStore()
 private let featureFlagManager = FeatureFlagManager()
 private let healthcareOrganizationStore = HealthcareOrganizationRepository()
-private let jailBreakDetector = JailBreakDetector()
+@MainActor private let jailBreakDetector = JailBreakDetector()
 private let localAuthenticationProvider = LocalAuthenticationProvider()
 private let localisationServiceClient = LocalisationServiceClient(
 	serverUrl: Configuration().urlForLocalisation(),

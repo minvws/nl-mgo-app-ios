@@ -1,0 +1,15 @@
+{
+  "originHash" : "1794d0658b6173535231b6064c73ec422006f33abd230468045645440a81359b",
+  "pins" : [
+    {
+      "identity" : "iossecuritysuite",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/securing/IOSSecuritySuite",
+      "state" : {
+        "revision" : "651f1ca002b1060214173e55b9040272ae91abcd",
+        "version" : "1.9.11"
+      }
+    }
+  ],
+  "version" : 3
+}

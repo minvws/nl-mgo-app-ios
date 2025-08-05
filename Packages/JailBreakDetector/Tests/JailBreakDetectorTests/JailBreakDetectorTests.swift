@@ -4,28 +4,20 @@
  */
 
 @testable import JailBreakDetector
-import MGOTest
+import Testing
 
-class JailBreakTests: XCTestCase {
-
-	private var sut: JailBreakDetector!
-
-	override func setUp() {
-
-		super.setUp()
-
-		sut = JailBreakDetector()
-	}
-
-	func test_isJailBroken() {
-
+@MainActor
+struct JailBreakDetectorTests {
+	
+	@Test func isJailBroken_shouldReturnFalseOnSimulator() async throws {
+		
 		// Given
-		// Can't simulate a jailbroken device.
-
+		let subjectUnderTest = JailBreakDetector()
+		
 		// When
-		let result = sut.isJailBroken()
-
+		let result = subjectUnderTest.isJailBroken()
+		
 		// Then
-		expect(result) == false
+		#expect(!result)
 	}
 }
