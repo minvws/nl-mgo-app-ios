@@ -18,7 +18,6 @@ final class SplashViewModelTests {
 		coordinatorSpy = AppCoordinatorSpy()
 		sut = SplashViewModel(coordinator: coordinatorSpy, state: .idle)
 	}
-
 	
 	@Test func reduce_fromIdle_toLoadingConfig() async throws {
 		
