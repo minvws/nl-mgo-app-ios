@@ -19,12 +19,17 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 		try super.setUpWithError()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
-		localisationServiceClientSpy = LocalisationServiceClientSpy(serverUrl: serverUrl, username: nil, password: nil)
 	}
 	
-	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
+	private func createSut(
+		city: String = "Roermond",
+		name: String = "Tandarts Tandje Erbij",
+		list: [MgoOrganization] = [],
+		error: Error? = nil
+	) throws {
 		
+		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
+		localisationServiceClientSpy = LocalisationServiceClientSpy(serverUrl: serverUrl, username: nil, password: nil, organizations: list, error: error)
 		sut = OrganizationListManualViewModel(
 			coordinator: coordinatorSpy,
 			city: city,
@@ -33,16 +38,17 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 		)
 	}
 
-	func test_loading() {
+	func test_loading() async throws {
 		
 		// Given
 		
 		// When
-		createSut()
+		try createSut()
 		
 		// Then
 		expect(self.sut.state) == .loading
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beFalse())
+		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
+		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beFalse())
 	}
 	
 	@MainActor func test_noLocalisationServiceClient() {
@@ -62,122 +68,118 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 		expect(self.sut.state).toEventually(equal(.failure(LocalisationServiceClientError.noServer)))
 	}
 	
-	@MainActor func test_empty() {
+	@MainActor func test_empty() async throws {
 		
 		// Given
-		createSut()
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = []
+		try createSut()
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		await expect(self.sut.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
+		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
+		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 
-	@MainActor func test_failure() {
+	@MainActor func test_failure() async throws {
 		
 		// Given
-		createSut()
 		let error = NSError(domain: "OrganizationSearchResultsViewModelTests", code: 404)
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizationError = error
+		try createSut(error: error)
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(.failure(error)))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		await expect(self.sut.state).toEventually(equal(.failure(error)))
+		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
+		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
-	@MainActor func test_retry() {
+	@MainActor func test_retry() async throws {
 		
 		// Given
-		createSut()
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = []
+		try createSut()
 		
 		// When
 		sut.reduce(.retry)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		await expect(self.sut.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
+		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
+		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
-	@MainActor func test_list() {
+	@MainActor func test_list() async throws {
 		
 		// Given
-		createSut()
-		let organisation = Generator.healthcareOrganization("value")
-		let list: [MgoOrganization] = [organisation]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationListViewState.success([OrganizationListSet(organisation, .regular)])
+		let organization = Generator.healthcareOrganization("value")
+		try createSut(list: [organization])
+		let state = OrganizationListViewState.success([OrganizationListSet(organization, .regular)])
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(state))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		await expect(self.sut.state).toEventually(equal(state))
+		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
+		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
-	@MainActor func test_list_noDataServices() {
+	@MainActor func test_list_noDataServices() async throws {
 		
 		// Given
-		createSut()
-		let organisation = Generator.healthcareOrganization("value", useDataService: false)
-		let list: [MgoOrganization] = [organisation]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationListViewState.success([OrganizationListSet(organisation, .notParticipating)])
+		let organization = Generator.healthcareOrganization("value", useDataService: false)
+		try createSut(list: [organization])
+		let state = OrganizationListViewState.success([OrganizationListSet(organization, .notParticipating)])
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(state))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		await expect(self.sut.state).toEventually(equal(state))
+		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
+		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
-	@MainActor func test_list_unsupportedDataServices() {
+	@MainActor func test_list_unsupportedDataServices() async throws {
 		
 		// Given
-		createSut()
-		let organisation = Generator.healthcareOrganization("value", useDataService: true, serviceId: "999")
-		let list: [MgoOrganization] = [organisation]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationListViewState.success([OrganizationListSet(organisation, .notParticipating)])
+		let organization = Generator.healthcareOrganization("value", useDataService: true, serviceId: "999")
+		try createSut(list: [organization])
+		let state = OrganizationListViewState.success([OrganizationListSet(organization, .notParticipating)])
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(state))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		await expect(self.sut.state).toEventually(equal(state))
+		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
+		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
-	@MainActor func test_list_selected() {
+	@MainActor func test_list_selected() async throws {
 		
 		// Given
-		createSut()
-		let organisation = Generator.healthcareOrganization("value", useDataService: true)
-		let list: [MgoOrganization] = [organisation]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
-		let state = OrganizationListViewState.success([OrganizationListSet(organisation, .selected)])
-		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = list
+		let organization = Generator.healthcareOrganization("value", useDataService: true)
+		try createSut(list: [organization])
+		let state = OrganizationListViewState.success([OrganizationListSet(organization, .selected)])
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [organization]
 		
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state).toEventually(equal(state))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue())
+		await expect(self.sut.state).toEventually(equal(state))
+		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
+		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
-	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_backButtonPressed_shouldCallCoordinator() throws {
 		
 		// Given
-		createSut()
+		try createSut()
 		
 		// When
 		sut.reduce(.backButtonPressed)
@@ -187,10 +189,10 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	@MainActor func test_searchAgainButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_searchAgainButtonPressed_shouldCallCoordinator() throws {
 		
 		// Given
-		createSut()
+		try createSut()
 		
 		// When
 		sut.reduce(.backToSearch)
@@ -201,13 +203,11 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 	
-	@MainActor func test_persist() {
+	@MainActor func test_persist() throws {
 		
 		// Given
-		createSut()
 		let organization = Generator.healthcareOrganization("value")
-		let list: [MgoOrganization] = [organization]
-		localisationServiceClientSpy.stubbedSearchHealthcareOrganizations = list
+		try createSut(list: [organization])
 		
 		// When
 		sut.reduce(.store(organization))
@@ -219,10 +219,10 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 		expect(self.servicesSpies.healthcareOrganizationStoreSpy.invokedStoreParameters?.organization) == organization
 	}
 	
-	@MainActor func test_closeSheet_shouldCallCoordinator() {
+	@MainActor func test_closeSheet_shouldCallCoordinator() throws {
 		
 		// Given
-		createSut()
+		try createSut()
 		
 		// When
 		sut.reduce(.closeSheet)

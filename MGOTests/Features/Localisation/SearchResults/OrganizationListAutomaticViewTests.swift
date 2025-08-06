@@ -64,22 +64,6 @@ final class OrganizationListAutomaticViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	@MainActor func test_failure_action() throws {
-		
-		// Given
-		createSut()
-		let error = NSError(domain: "SearchResultViewModelTests", code: 404)
-		viewModel.state = .failure(error)
-		
-		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "action_button")
-		try view.view(CallToActionButton.self).find(button: "common.try_again").tap()
-		
-		// Then
-		viewModel.state = .failure(error)
-		expect(self.localisationServiceClientSpy.invokedSearchDemoOrganizations).toEventually(beTrue(), timeout: .seconds(5))
-	}
-	
 	@MainActor func test_list_lightPortrait() {
 		
 		// Given

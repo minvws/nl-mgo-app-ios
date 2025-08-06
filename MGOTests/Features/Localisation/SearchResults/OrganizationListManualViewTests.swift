@@ -112,7 +112,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	@MainActor func test_failure_action() throws {
+	@MainActor func test_failure_action() async throws {
 		
 		// Given
 		createSut()
@@ -124,8 +124,9 @@ final class OrganizationListManualViewTests: XCTestCase {
 		try view.view(CallToActionButton.self).find(button: "common.try_again").tap()
 		
 		// Then
-		expect(self.viewModel.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue(), timeout: .seconds(5))
+		await expect(self.viewModel.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
+		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
+		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
 	@MainActor func test_list_lightPortrait() {

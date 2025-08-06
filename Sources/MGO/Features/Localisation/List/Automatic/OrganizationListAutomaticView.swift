@@ -356,24 +356,28 @@ struct OrganizationListAutomaticView: View {
 
 #Preview {
 	
-	let spy = LocalisationServiceClientSpy(serverUrl: URL(string: "https://example.com")!, username: "", password: "")
-	spy.stubbedSearchHealthcareOrganizations = [
-		PreviewContent.healthcareOrganization,
-		MgoOrganization(
-			medmij_id: "medmij",
-			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
-			identification: "2",
-			addresses: [LocalisationService.Components.Schemas.Address(
-				active: true,
-				address: "Boorplatform 5",
-				city: "Roermond",
-				lines: ["Boorplatform 5"],
-				postalcode: "1234AB")
-			],
-			types: [],
-			data_services: []
-		)
-	]
+	let spy = LocalisationServiceClientSpy(
+		serverUrl: URL(string: "https://example.com")!,
+		username: "",
+		password: "",
+		organizations: [
+			PreviewContent.healthcareOrganization,
+			MgoOrganization(
+				medmij_id: "medmij",
+				display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
+				identification: "2",
+				addresses: [LocalisationService.Components.Schemas.Address(
+					active: true,
+					address: "Boorplatform 5",
+					city: "Roermond",
+					lines: ["Boorplatform 5"],
+					postalcode: "1234AB")
+				],
+				types: [],
+				data_services: []
+			)
+		]
+	)
 	
 	return NavigationView {
 		OrganizationListAutomaticView(
