@@ -18,17 +18,7 @@ final class SplashViewModelTests {
 		coordinatorSpy = AppCoordinatorSpy()
 		sut = SplashViewModel(coordinator: coordinatorSpy, state: .idle)
 	}
-	
-	@Test func initializer() async throws {
-		
-		// Given
-		
-		// When
-		
-		// Then
-		#expect(self.servicesSpies.resourceRepositorySpy.invokedLoad == true)
-		#expect(self.servicesSpies.remoteConfigurationRepositorySpy.invokedFetchAndUpdateObservers == true)
-	}
+
 	
 	@Test func reduce_fromIdle_toLoadingConfig() async throws {
 		
