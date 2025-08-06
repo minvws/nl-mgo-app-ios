@@ -226,14 +226,16 @@ class HealthCategoryViewModel: ObservableObject {
 		}
 	}
 	
-	private func retry() {
+	@MainActor private func retry() {
 		
 		state = .loading
 		Current.dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
 		
 		guard category.services.isNotEmpty else {
-			_Concurrency.Task.delayed(byTimeInterval: 1.5) { [weak self] in
-				await self?.loadResources()
+			delay(1.5) {
+				_Concurrency.Task {
+					await self.loadResources()
+				}
 			}
 			return
 		}
