@@ -13,7 +13,7 @@ final class ResourceRepositoryTests: XCTestCase {
 	private var servicesSpies: ServicesSpies!
 	private var sut: ResourceRepository!
 	
-	override func setUpWithError() throws {
+	@MainActor func createSut() throws {
 		
 		servicesSpies = setupServicesSpies()
 
@@ -33,9 +33,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		HTTPStubs.removeAllStubs()
 	}
 	
-	func test_load_noOrganizations() throws {
+	@MainActor func test_load_noOrganizations() throws {
 		
 		// Given
+		try createSut()
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		let json = try getResource("bundle")
 		stub(condition: isHost("example.com")) { _ in
@@ -49,9 +50,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(0))
 	}
 	
-	func test_load_oneOrganization() throws {
+	@MainActor func test_load_oneOrganization() throws {
 		
 		// Given
+		try createSut()
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [Generator.healthcareOrganization("1")]
 		let json = try getResource("bundle")
 
@@ -66,9 +68,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(28), timeout: .seconds(10))
 	}
 	
-	func test_load_oneOrganization_demoMode() throws {
+	@MainActor func test_load_oneOrganization_demoMode() throws {
 		
 		// Given
+		try createSut()
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [Generator.healthcareOrganization("1")]
 		let json = try getResource("bundle")
@@ -84,9 +87,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(2), timeout: .seconds(10))
 	}
 	
-	func test_load_twoOrganizations() throws {
+	@MainActor func test_load_twoOrganizations() throws {
 		
 		// Given
+		try createSut()
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
 			Generator.healthcareOrganization("1"),
 			Generator.healthcareOrganization("2")
@@ -104,9 +108,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(56), timeout: .seconds(15))
 	}
 	
-	func test_load_twoOrganizations_demoMode() throws {
+	@MainActor func test_load_twoOrganizations_demoMode() throws {
 		
 		// Given
+		try createSut()
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
 			Generator.healthcareOrganization("1"),
@@ -125,9 +130,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(4), timeout: .seconds(10))
 	}
 	
-	func test_loadForOrganization() throws {
+	@MainActor func test_loadForOrganization() throws {
 		
 		// Given
+		try createSut()
 		let organization = Generator.healthcareOrganization("1")
 		let json = try getResource("bundle")
 
@@ -142,9 +148,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(28), timeout: .seconds(10))
 	}
 	
-	func test_loadForCategory_oneOrganization() async throws {
+	@MainActor func test_loadForCategory_oneOrganization() async throws {
 		
 		// Given
+		try createSut()
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
 			Generator.healthcareOrganization("1")
 		]
@@ -161,9 +168,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(3), timeout: .seconds(10))
 	}
 	
-	func test_loadForCategory_twoOrganizations() async throws {
+	@MainActor func test_loadForCategory_twoOrganizations() async throws {
 		
 		// Given
+		try createSut()
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [
 			Generator.healthcareOrganization("1"),
 			Generator.healthcareOrganization("2")
@@ -181,9 +189,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(6), timeout: .seconds(10))
 	}
 	
-	func test_loadBinary() async throws {
+	@MainActor func test_loadBinary() async throws {
 		
 		// Given
+		try createSut()
 		let organization = Generator.healthcareOrganization("1")
 		let url = "https://example.com/Binary/file1"
 		let json = try getResource("binary")
@@ -198,9 +207,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(hcim?.contentType) == "application/pdf"
 	}
 	
-	func test_loadBinary_noDataService() async throws {
+	@MainActor func test_loadBinary_noDataService() async throws {
 		
 		// Given
+		try createSut()
 		let organization = Generator.healthcareOrganization("1", useDataService: false)
 		let url = "https://example.com/Binary/file1"
 		
@@ -211,9 +221,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(hcim) == nil
 	}
 	
-	func test_loadBinary_invalidBinary() async throws {
+	@MainActor func test_loadBinary_invalidBinary() async throws {
 		
 		// Given
+		try createSut()
 		let organization = Generator.healthcareOrganization("1")
 		let url = "https://example.com/Binary/file1"
 		let json = try getResource("bundle")
@@ -228,9 +239,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(hcim) == nil
 	}
 	
-	func test_handleOrganizationChanges_added() throws {
+	@MainActor func test_handleOrganizationChanges_added() throws {
 		
 		// Given
+		try createSut()
 		let organization = Generator.healthcareOrganization("1")
 		let json = try getResource("bundle")
 
@@ -245,9 +257,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount).toEventually(equal(28), timeout: .seconds(10))
 	}
 	
-	func test_handleOrganizationChanges_removed() {
+	@MainActor func test_handleOrganizationChanges_removed() throws {
 		
 		// Given
+		try createSut()
 		let organization = Generator.healthcareOrganization("1")
 		
 		// When
@@ -258,9 +271,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveAllRecords) == false
 	}
 	
-	func test_handleOrganizationChanges_changed() throws {
+	@MainActor func test_handleOrganizationChanges_changed() throws {
 		
 		// Given
+		try createSut()
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		let json = try getResource("bundle")
 		stub(condition: isHost("example.com")) { _ in

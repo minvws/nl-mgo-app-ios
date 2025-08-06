@@ -57,7 +57,9 @@ final class SplashViewModel: ObservableObject {
 		_Concurrency.Task {
 			await Current.remoteConfigurationRepository.fetchAndUpdateObservers()
 		}
-		Current.resourceRepository.load()
+		_Concurrency.Task {
+			await Current.resourceRepository.load()
+		}
 	}
 	
 	/// Setup all the observers

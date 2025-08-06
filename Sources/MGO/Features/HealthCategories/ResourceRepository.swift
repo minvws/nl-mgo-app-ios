@@ -8,21 +8,21 @@ import MGOFoundation
 protocol ResourceRepositoryProtocol {
 	
 	/// Load all the categories for all the stored healthcare organizations
-	func load()
+	@MainActor func load()
 	
 	/// Load all the categories for a healthcare organization
 	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
-	func loadFor(_ healthcareOrganization: MgoOrganization)
+	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization)
 	
 	/// Load all the categories for a category
 	/// - Parameter category: the category to load  for
-	func loadFor(_ category: HealthCategories.Category) async
+	@MainActor func loadFor(_ category: HealthCategories.Category) async
 	
 	/// Load the resources
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
 	///   - category: the category to load the resources for.
-	func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async
+	@MainActor func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async
 	
 	/// Load a binary object
 	/// - Parameters:
@@ -30,7 +30,7 @@ protocol ResourceRepositoryProtocol {
 	///   - serviceId: the service id
 	///   - url: the url of the binary
 	/// - Returns: Optional Binary
-	func loadBinary(
+	@MainActor func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
 		url: String) async throws -> FHIRBinary?
@@ -67,7 +67,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	///   - serverUrl: the url of the server
 	///   - username: the authentication username
 	///   - password: the authentication password
-	init(
+	@MainActor init(
 		healthcareOrganizationRepository: HealthcareOrganizationRepositoryProtocol,
 		dataRepository: MgoDataStoreProtocol,
 		featureFlagManager: FeatureFlagManaging,
@@ -79,14 +79,13 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		self.dataRepository = dataRepository
 		self.featureFlagManager = featureFlagManager
 		self.repository = MGORepository(client: FHIRClient(baseURL: serverUrl))
-//		self.repository = MGORepository(client: FHIRClient(baseURL: URL(string: "http://localhost:8001/fhir/")!))
 		self.username = username
 		self.password = password
 		registerObservers()
 	}
 	
 	/// Listen to changes in the stored organizations list
-	private func registerObservers() {
+	@MainActor private func registerObservers() {
 		
 		self.observerToken = healthcareOrganizationRepository?.observatory.append { [weak self] organization, reason in
 			self?.handleOrganizationChanges(organization, reason: reason)
@@ -97,7 +96,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// - Parameters:
 	///   - organization: optional organization added or removed
 	///   - reason: the reason the list has changed
-	func handleOrganizationChanges(_ organization: MgoOrganization?, reason: HealthcareOrganizationReason) {
+	@MainActor func handleOrganizationChanges(_ organization: MgoOrganization?, reason: HealthcareOrganizationReason) {
 		switch reason {
 			case .added:
 				if let organization {
@@ -129,27 +128,29 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	
 	/// Load all the categories for a healthcare organization
 	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
-	func loadFor(_ healthcareOrganization: MgoOrganization) {
+	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization) {
 		logVerbose("ResourceRepository - LoadFor", healthcareOrganization.identifier)
 		for category in HealthCategories.Category.allCases {
-			_Concurrency.Task { await loadResource(healthcareOrganization, category: category) }
+			_Concurrency.Task {
+				await loadResource(healthcareOrganization, category: category)
+			}
 		}
 	}
 	
 	/// Load all the categories for a category
 	/// - Parameter category: the category to load  for
-	func loadFor(_ category: HealthCategories.Category) async {
+	@MainActor func loadFor(_ category: HealthCategories.Category) async {
 		logVerbose("ResourceRepository - LoadFor", category)
 		
 		guard let healthcareOrganizationRepository else { return }
 		
 		for healthcareOrganization in healthcareOrganizationRepository.organizations {
-			_Concurrency.Task { await loadResource(healthcareOrganization, category: category) }
+			await loadResource(healthcareOrganization, category: category)
 		}
 	}
 	
 	/// Load all the categories for all the stored healthcare organizations
-	func load() {
+	@MainActor func load() {
 		
 		guard let healthcareOrganizationRepository else { return }
 		
@@ -162,7 +163,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// - Parameters:
 	///   - healthcareOrganization: healthcare organization
 	///   - category: the category to load the resources for.
-	func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async {
+	@MainActor func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async {
 		
 		for service in category.services {
 			
@@ -181,17 +182,25 @@ class ResourceRepository: ResourceRepositoryProtocol {
 					username: username,
 					password: password
 				)
-				mgoResources = try repository.process(fhirBundle, fhirVersion: service.fhirVersion.rawValue)
+				mgoResources = try await repository.process(
+					fhirBundle,
+					fhirVersion: service.fhirVersion.rawValue
+				)
 			} catch {
 				resourceError = true
 			}
 			
 			#warning("To do: store data service id?")
-			let recordToStore = MgoResourceRecord(categoryId: "\(category.rawValue)", organizationId: healthcareOrganization.identifier, resources: mgoResources, error: resourceError)
+			let recordToStore = MgoResourceRecord(
+				categoryId: "\(category.rawValue)",
+				organizationId: healthcareOrganization.identifier,
+				resources: mgoResources,
+				error: resourceError
+			)
 			logVerbose("ResourceRepository - Adding to the store", recordToStore)
 			
-			let delayInSeconds: Double = Current.featureFlagManager.isDemo ? 5 : 0
-			await delay(delayInSeconds) {
+			let delayInSeconds: Double = (featureFlagManager?.isDemo ?? false) ? 5 : 0
+			delay(delayInSeconds) {
 				self.dataRepository?.store(data: recordToStore)
 			}
 		}
@@ -203,32 +212,33 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	///   - serviceId: the id of the data service
 	///   - url: reference url
 	/// - Returns: Binary Object
-	func loadBinary(
+	@MainActor func loadBinary(
 		_ healthcareOrganization: MgoOrganization,
 		serviceId: String,
-		url: String) async throws -> FHIRBinary? {
+		url: String
+	) async throws -> FHIRBinary? {
 			
-			// The binary call also needs the DVA Target header
-			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId) else {
-				return nil
-			}
-			
-			let endpoint = DVP.Endpoint(path: url, serviceId: serviceId)
+		// The binary call also needs the DVA Target header
+		guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId) else {
+			return nil
+		}
 		
-			do {
-				logInfo("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
-				let data = try await repository.getBundleData(
-					endpoint: endpoint,
-					dvaTarget: dvaTarget,
-					username: username,
-					password: password
-				)
-				
-				let binary = try FHIRBinary(data: data)
-				return binary
-			} catch {
-				// Should be error
-				return nil
-			}
+		let endpoint = DVP.Endpoint(path: url, serviceId: serviceId)
+	
+		do {
+			logInfo("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
+			let data = try await repository.getBundleData(
+				endpoint: endpoint,
+				dvaTarget: dvaTarget,
+				username: username,
+				password: password
+			)
+			
+			let binary = try FHIRBinary(data: data)
+			return binary
+		} catch {
+			// Should be error
+			return nil
+		}
 	}
 }
