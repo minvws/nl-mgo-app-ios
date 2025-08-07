@@ -9,7 +9,7 @@ import XCTest
 class UpdateRequiredRobot: Robot {
 	
 	/// The app to test
-	let: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Update Required Robot
 	/// - Parameter application: the application to test
