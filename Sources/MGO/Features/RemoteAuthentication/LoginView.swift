@@ -61,19 +61,20 @@ class LoginViewModel: ObservableObject {
 	}
 	
 	/// Fetch the authentication url and open it.
+	@MainActor
 	private func authenticate() async {
 		
 		guard state == .idle else { return }
-		await self.setState(.loading)
+		self.setState(.loading)
 		guard let remoteAuthenticationClient else { return }
 		do {
 			let authenticationUrl = try await remoteAuthenticationClient.getAuthenticationUrl(callbackUrl: Configuration().getOIDCCallback())
 			logDebug("authenticationUrl", authenticationUrl)
-			await self.urlOpener.openUrlIfPossible(authenticationUrl)
+			self.urlOpener.openUrlIfPossible(authenticationUrl)
 		} catch {
 			logError("Error fetching oidc start \(error)")
 		}
-		await self.setState(.idle)
+		self.setState(.idle)
 	}
 	
 	/// Set the state (to be called from async methods)

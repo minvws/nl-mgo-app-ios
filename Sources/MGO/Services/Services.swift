@@ -55,7 +55,7 @@ struct Services {
 
 private let appVersionSupplier = AppVersionSupplier()
 private let dataStore = InMemoryDataStore()
-private let featureFlagManager = FeatureFlagManager()
+@MainActor private let featureFlagManager = FeatureFlagManager()
 private let healthcareOrganizationStore = HealthcareOrganizationRepository()
 @MainActor private let jailBreakDetector = JailBreakDetector()
 private let localAuthenticationProvider = LocalAuthenticationProvider()

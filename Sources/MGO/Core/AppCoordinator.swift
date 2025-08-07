@@ -146,7 +146,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		if let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
 		   let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String {
 			
-			RemoteAuthenticationClient(
+			return RemoteAuthenticationClient(
 				serverUrl: Configuration().urlForOIDC(),
 				username: username,
 				password: password

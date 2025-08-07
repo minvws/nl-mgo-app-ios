@@ -86,6 +86,7 @@ class HealthExportViewModel: ObservableObject {
 				generatePDF()
 			
 				if case let .document(pDFDocument) = state, !isIOS15 {
+					
 					if let data = pDFDocument.dataRepresentation(),
 					   let url = savePDF(data: data) {
 						logDebug("Saving PDF onAppear", url as Any)
