@@ -5,10 +5,10 @@
 
 import XCTest
 
-class PincodeRobot: Robot {
+@MainActor class PincodeRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Pincode Robot
 	/// - Parameter application: the application to test

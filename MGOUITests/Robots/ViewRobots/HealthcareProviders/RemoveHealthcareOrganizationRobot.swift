@@ -6,10 +6,10 @@
 import XCTest
 
 /// The Robot for the Remove Healthcare Organization scene
-class RemoveHealthcareOrganizationRobot: Robot {
+@MainActor class RemoveHealthcareOrganizationRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Login Robot
 	/// - Parameter application: the application to test

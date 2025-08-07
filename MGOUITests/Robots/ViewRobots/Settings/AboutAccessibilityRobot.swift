@@ -5,10 +5,10 @@
 
 import XCTest
 
-class AboutAccessibilityRobot: Robot {
+@MainActor class AboutAccessibilityRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an About Accessibility Robot
 	/// - Parameter application: the application to test

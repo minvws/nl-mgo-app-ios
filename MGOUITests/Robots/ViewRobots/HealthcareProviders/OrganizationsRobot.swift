@@ -6,10 +6,10 @@
 import XCTest
 
 /// The Robot for the Organizations scene
-class OrganizationsRobot: Robot {
+@MainActor class OrganizationsRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Organizations Robot
 	/// - Parameter application: the application to test

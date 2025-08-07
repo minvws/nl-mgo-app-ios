@@ -5,10 +5,11 @@
 
 import XCTest
 
+@MainActor
 class AppRobot: Robot {
 	
 	/// The application to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create the app robot
 	init() {

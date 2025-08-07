@@ -5,10 +5,10 @@
 
 import XCTest
 
-class AboutPrivacyRobot: Robot {
+@MainActor class AboutPrivacyRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an About Privacy Robot
 	/// - Parameter application: the application to test

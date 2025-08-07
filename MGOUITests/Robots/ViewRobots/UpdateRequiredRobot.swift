@@ -5,10 +5,11 @@
 
 import XCTest
 
+@MainActor
 class UpdateRequiredRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let: XCUIApplication
 	
 	/// Create an Update Required Robot
 	/// - Parameter application: the application to test

@@ -6,10 +6,10 @@
 import XCTest
 
 /// The Robot for the Login scene
-class LoginRobot: Robot {
+@MainActor class LoginRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Login Robot
 	/// - Parameter application: the application to test
