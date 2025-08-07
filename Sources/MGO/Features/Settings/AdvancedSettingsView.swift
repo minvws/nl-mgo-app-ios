@@ -16,7 +16,7 @@ class AdvancedSettingsViewModel: BaseViewModel {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AdvancedSettingsViewModel.Action) {
+	@MainActor func reduce(_ action: AdvancedSettingsViewModel.Action) {
 		
 		if case .automaticLocalization(let automaticLocalization) = action {
 			Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization

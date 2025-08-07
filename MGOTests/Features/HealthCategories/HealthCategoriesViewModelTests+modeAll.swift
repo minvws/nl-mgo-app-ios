@@ -22,12 +22,17 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
+	}
+	
+	@MainActor private func setupSut() {
+		
 		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 	}
 	
 	@MainActor func test_categorySelected_shouldCallCoordinator_whenStateIsLoaded() throws {
 		
 		// Given
+		setupSut()
 		let button = CategoryButton(category: HealthCategories.Category.measurements, state: .loaded, box: 1)
 		
 		// When
@@ -44,6 +49,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	@MainActor func test_categorySelected_shouldCallCoordinator_whenStateIsEmpty() throws {
 		
 		// Given
+		setupSut()
 		let button = CategoryButton(category: HealthCategories.Category.measurements, state: .empty, box: 1)
 		
 		// When
@@ -60,6 +66,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	@MainActor func test_categorySelected_shouldCallCoordinator_whenStateIsLoading() throws {
 		
 		// Given
+		setupSut()
 		let button = CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "test", state: .loading, box: 1)
 		
 		// When
@@ -76,6 +83,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	@MainActor func test_loadMedication_withData() throws {
 		
 		// Given
+		setupSut()
 		let resource = try getResource("zibMedicationUse")
 		let mgoResource = MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
@@ -93,6 +101,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	@MainActor func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
 		
 		// Given
+		setupSut()
 		let mgoResource = MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
@@ -109,6 +118,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	@MainActor func test_loadMedication_noData_stateShouldBeLoading() throws {
 		
 		// Given
+		setupSut()
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(DataStoreError.noData)
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
@@ -122,6 +132,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	@MainActor func test_loadMedication_dataError_stateShouldBeEmpty() throws {
 		
 		// Given
+		setupSut()
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(NSError(domain: "test_loadMedication_cacheMiss_dataError", code: 404))
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
@@ -135,6 +146,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	@MainActor func test_refresh() {
 		
 		// Given
+		setupSut()
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
 		expect(self.sut.state.healthCategories.first?.state) == .loading
 	
@@ -151,6 +163,7 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 	@MainActor func test_searchButtonPressed_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.search)
@@ -160,9 +173,10 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
 	}
 	
-	func test_emptyState_withOrganizations() {
+	@MainActor func test_emptyState_withOrganizations() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		
@@ -170,14 +184,14 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.sut.state.showEmptyView) == false
 	}
 	
-	func test_emptyState_withoutOrganizations() {
+	@MainActor func test_emptyState_withoutOrganizations() {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
-	// When
-	
-	// Then
+		// When
+		
+		// Then
 		expect(self.sut.state.showEmptyView) == true
 	}
 }

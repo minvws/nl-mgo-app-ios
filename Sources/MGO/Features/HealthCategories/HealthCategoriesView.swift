@@ -67,7 +67,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil, mode: HealthCategoriesViewMode) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, mode: HealthCategoriesViewMode) {
 		
 		self.coordinator = coordinator
 		self.mode = mode
@@ -136,7 +136,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		registerObservers()
 	}
 	
-	private func registerObservers() {
+	@MainActor private func registerObservers() {
 		self.dataStoreToken = Current.dataStore.observatory.append { [weak self] changed in
 			if changed {
 				// Handle updates in the fetched data
@@ -210,7 +210,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	}
 	
 	/// The store has changed, update the
-	private func updateState() {
+	@MainActor private func updateState() {
 		
 		for button in state.healthCategories {
 			// Only update if the category is enabled.
@@ -231,7 +231,7 @@ class HealthCategoriesViewModel: ObservableObject {
 
 	/// Update the state
 	/// - Parameter button: the button to update
-	private func handleCacheResult(_ cacheResult: Result<[MgoResourceRecord], Error>, button: CategoryButton) {
+	@MainActor private func handleCacheResult(_ cacheResult: Result<[MgoResourceRecord], Error>, button: CategoryButton) {
 		
 		// There better be a category for this button
 		guard let category = HealthCategories.Category(rawValue: button.id) else {
@@ -327,7 +327,8 @@ struct HealthCategoriesView: View {
 		}
 		enum List {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-			static let spacing: CGFloat = Current.featureFlagManager.isDemo ? 16 : 4
+			static let spacing: CGFloat = 4
+			static let demoSpacing: CGFloat = 16
 			static let bottom: CGFloat = 16
 		}
 		enum NoResults {
@@ -346,7 +347,7 @@ struct HealthCategoriesView: View {
 				noHealthcareOrganizationView()
 			} else {
 				categoriesView()
-					.backportListSectionSpacing(ViewTraits.List.spacing)
+					.backportListSectionSpacing(Current.featureFlagManager.isDemo ? ViewTraits.List.demoSpacing : ViewTraits.List.spacing)
 					.backportContentMargins(0)
 					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 			}

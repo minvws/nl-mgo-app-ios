@@ -47,7 +47,7 @@ class HealthDataViewModel: ObservableObject {
 	/// - Parameter backButtonTitle: the title for the back button
 	/// - Parameter healthcareOrganization: the healthcare organization
 	/// - Parameter referenceResolver: the handler to resolve references
-	init(
+	@MainActor init(
 		coordinator: (any Coordinator)? = nil,
 		schema: HealthUISchema,
 		backButtonTitle: String?,
@@ -63,7 +63,7 @@ class HealthDataViewModel: ObservableObject {
 		prepareReferenceLink()
 	}
 	
-	private func prepareReferenceValues() {
+	@MainActor private func prepareReferenceValues() {
 	
 		filterReferences(.referenceValue).forEach { reference in
 			

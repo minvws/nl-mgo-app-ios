@@ -49,7 +49,7 @@ struct HealthCategories {
 		}
 		
 		/// Which of the Nictiz profiles do we accept for a category?
-		var acceptedProfiles: [String] {
+		@MainActor var acceptedProfiles: [String] {
 			switch self {
 				
 				case .medication: [
@@ -145,7 +145,7 @@ struct HealthCategories {
 			}
 		}
 		
-		func subCategory(_ profileDefinition: String) -> String.LocalizationValue? {
+		@MainActor func subCategory(_ profileDefinition: String) -> String.LocalizationValue? {
 			return switch profileDefinition {
 			
 				// Medication
@@ -253,7 +253,7 @@ struct HealthCategories {
 		}
 
 		// What endpoints should we use for a category?
-		var services: [DVP.Endpoint] {
+		@MainActor var services: [DVP.Endpoint] {
 			guard Current.featureFlagManager.isDemo else { return liveServices }
 			return demoServices
 		}

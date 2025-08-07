@@ -21,10 +21,9 @@ final class HealthDataViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		referenceResolverSpy = ReferenceResolverSpy()
-		setupSut()
 	}
 	
-	private func setupSut() {
+	@MainActor private func setupSut() {
 		
 		sut = HealthDataViewModel(
 			coordinator: coordinatorSpy,
@@ -67,10 +66,11 @@ final class HealthDataViewModelTests: XCTestCase {
 			referenceResolver: referenceResolverSpy
 		)
 	}
-
-	func test_state() {
+	
+	@MainActor func test_state() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		let state = sut.state
@@ -83,6 +83,7 @@ final class HealthDataViewModelTests: XCTestCase {
 	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.backButtonPressed)

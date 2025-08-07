@@ -358,7 +358,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the remote authentication flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleRemoteAuthentication(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleRemoteAuthentication(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			// Remote Authentication
@@ -438,7 +438,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	}
 	
 	/// Handle the complex startup logic
-	private func handleStartup() {
+	@MainActor private func handleStartup() {
 		
 		if Current.secureUserSettings.pinCode == nil {
 			// User must set an pin code, but show introduction first.
@@ -538,7 +538,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Consume a deeplink
 	/// - Parameter deeplink: the deeplink
 	/// - Returns: true if the coordinator has consumed the deeplink
-	public func consume(_ deeplink: DeepLink) {
+	@MainActor public func consume(_ deeplink: DeepLink) {
 		
 		switch deeplink {
 			case .digidCallback(let userinfo):
