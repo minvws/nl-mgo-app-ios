@@ -19,7 +19,7 @@ final class LoginViewModelTests: XCTestCase {
 		
 		coordinatorSpy = AppCoordinatorSpy()
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
-		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url, username: nil, password: nil)
+		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url)
 		servicesSpies = setupServicesSpies()
 		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
@@ -50,12 +50,12 @@ final class LoginViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
 	}
 	
-	@MainActor func test_loginWithDigiD() throws {
+	@MainActor func test_loginWithDigiD() async throws {
 		
 		// Given
 		createSut()
 		let auth = try XCTUnwrap(URL(string: "https://example.com/auth"))
-		remoteAuthenticationClientSpy.stubbedGetAuthenticationUrl = auth
+		await remoteAuthenticationClientSpy.setStubedGetAuthenticationUrl(auth)
 		servicesSpies.featureFlagSpy.stubbedIsDemo = false
 		
 		// When
@@ -63,6 +63,6 @@ final class LoginViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.urlOpenerSpy.invokedCanOpenURL).toEventually(beTrue())
+		await expect(self.urlOpenerSpy.invokedCanOpenURL).toEventually(beTrue())
 	}
 }

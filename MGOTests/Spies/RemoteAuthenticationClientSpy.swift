@@ -7,9 +7,13 @@ import MGOFoundation
 import MGOUI
 @testable import MGO
 
-public class RemoteAuthenticationClientSpy: RemoteAuthenticationClientProtocol {
+public actor RemoteAuthenticationClientSpy: RemoteAuthenticationClientProtocol {
 
-	required public init(serverUrl: Foundation.URL, username: String?, password: String?) {
+	public init(serverUrl: Foundation.URL, username: String, password: String) {
+		// Empty Init, needed for public access
+	}
+	
+	public init(serverUrl: Foundation.URL) {
 		// Empty Init, needed for public access
 	}
 
@@ -20,6 +24,11 @@ public class RemoteAuthenticationClientSpy: RemoteAuthenticationClientProtocol {
 	public var invokedGetAuthenticationUrlParameters: (callbackUrl: String, Void)?
 	public var invokedGetAuthenticationUrlParametersList = [(callbackUrl: String, Void)]()
 	public var stubbedGetAuthenticationUrl: URL!
+	
+	public func setStubedGetAuthenticationUrl(_ stubbedGetAuthenticationUrl: URL) {
+		self.stubbedGetAuthenticationUrl = stubbedGetAuthenticationUrl
+	}
+	
 	public var stubbedGetAuthenticationError: Error?
 	
 	public func getAuthenticationUrl(callbackUrl: String) async throws -> URL {

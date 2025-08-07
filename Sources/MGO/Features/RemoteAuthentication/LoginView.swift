@@ -54,31 +54,31 @@ class LoginViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.loggedInWithDigiD)
 				return
 			}
-			authenticate()
+			_Concurrency.Task {
+				await authenticate()
+			}
 		}
 	}
 	
-	private func authenticate() {
+	/// Fetch the authentication url and open it.
+	private func authenticate() async {
 		
 		guard state == .idle else { return }
-		
-		Task { @MainActor [remoteAuthenticationClient] in
-			do {
-				guard let remoteAuthenticationClient else { return }
-				
-				state = .loading
-				
-				let authUrl = try await remoteAuthenticationClient.getAuthenticationUrl(callbackUrl: Configuration().getOIDCCallback())
-				guard let authenticationUrl = URL(string: authUrl.absoluteString.replacingOccurrences(of: "max:8006", with: "localhost:8006")) else {
-					return
-				}
-				logDebug("authenticationUrl", authenticationUrl)
-				state = .idle
-				self.urlOpener.openUrlIfPossible(authenticationUrl)
-			} catch {
-				logError("Error fetching oidc start \(error)")
-			}
+		await self.setState(.loading)
+		guard let remoteAuthenticationClient else { return }
+		do {
+			let authenticationUrl = try await remoteAuthenticationClient.getAuthenticationUrl(callbackUrl: Configuration().getOIDCCallback())
+			logDebug("authenticationUrl", authenticationUrl)
+			await self.urlOpener.openUrlIfPossible(authenticationUrl)
+		} catch {
+			logError("Error fetching oidc start \(error)")
 		}
+		await self.setState(.idle)
+	}
+	
+	/// Set the state (to be called from async methods)
+	@MainActor func setState(_ newState: State) {
+		self.state = newState
 	}
 }
 
@@ -137,11 +137,6 @@ struct LoginView: View {
 				}
 			}
 			.padding(ViewTraits.Button.insets)
-			
-//			CallToActionButton(title: "Send deeplink") {
-//				UIApplication.shared.open(URL(string: "mgo-dev://app/login?userinfo=TestContent")!)
-//			}
-//			.padding(ViewTraits.Button.insets)
 		}
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
@@ -152,7 +147,11 @@ struct LoginView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		LoginView(viewModel: LoginViewModel(coordinator: nil, remoteAuthenticationClient: nil)
+		LoginView(
+			viewModel: LoginViewModel(
+				coordinator: nil,
+				remoteAuthenticationClient: nil
+			)
 		)
 	}
 }

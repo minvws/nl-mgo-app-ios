@@ -141,11 +141,21 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	private var dashboardCoordinator: DashboardCoordinator!
 	
 	/// Client for remote authentication
-	private let remoteAuthenticationClient: RemoteAuthenticationClientProtocol? = RemoteAuthenticationClient(
-		serverUrl: Configuration().urlForOIDC(),
-		username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-		password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-	)
+	private let remoteAuthenticationClient: RemoteAuthenticationClientProtocol? = {
+		
+		if let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+		   let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String {
+			
+			RemoteAuthenticationClient(
+				serverUrl: Configuration().urlForOIDC(),
+				username: username,
+				password: password
+			)
+		}
+		return RemoteAuthenticationClient(
+			serverUrl: Configuration().urlForOIDC()
+		)
+	}()
 	
 	/// Create an AppCoordinator
 	/// - Parameter path: Navigation Path

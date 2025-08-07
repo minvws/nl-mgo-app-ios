@@ -20,7 +20,7 @@ final class LoginViewTests: XCTestCase {
 		coordinatorSpy = AppCoordinatorSpy()
 		servicesSpies = setupServicesSpies()
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
-		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url, username: nil, password: nil)
+		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url)
 		
 		super.setUp()
 	}

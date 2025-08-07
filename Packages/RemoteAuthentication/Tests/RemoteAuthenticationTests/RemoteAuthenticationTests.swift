@@ -4,58 +4,81 @@
  */
 
 @testable import RemoteAuthentication
-import MGOTest
+import Testing
+import OHHTTPStubs
+import OHHTTPStubsSwift
 
-final class RemoteAuthenticationClientTests: XCTestCase {
+class RemoteAuthenticationTests {
 	
-	override func tearDown() {
-		super.tearDown()
+	deinit {
 		HTTPStubs.removeAllStubs()
 	}
 	
-	func test_client() async throws {
+	@Test
+	func client() async throws {
 		
 		// Given
-		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
-		let client = RemoteAuthenticationClient(serverUrl: serverUrl, username: nil, password: nil)
+		let serverUrl = try #require(URL(string: "https://example.com"))
+		let client = RemoteAuthenticationClient(serverUrl: serverUrl)
 		stub(condition: isPath("/oidc/start")) { _ in
-			return HTTPStubsResponse(jsonObject: ["authz_url": "https://example.com/callback"], statusCode: 200, headers: nil)
+			return HTTPStubsResponse(
+				jsonObject: ["authz_url": "https://example.com/callback"],
+				statusCode: 200,
+				headers: nil
+			)
 		}
 		
 		// When
 		let result = try await client.getAuthenticationUrl(callbackUrl: "test")
 		
 		// Then
-		expect(result.absoluteString) == "https://example.com/callback"
+		#expect(result.absoluteString == "https://example.com/callback")
 	}
 	
-	func test_client_withBasicAuth() async throws {
+	@Test
+	func client_withBasicAuth() async throws {
 		
 		// Given
-		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
-		let client = RemoteAuthenticationClient(serverUrl: serverUrl, username: "test", password: "test")
+		let serverUrl = try #require(URL(string: "https://example.com"))
+		let client = RemoteAuthenticationClient(
+			serverUrl: serverUrl,
+			username: "test",
+			password: "test"
+		)
 		stub(condition: isPath("/oidc/start")) { _ in
-			return HTTPStubsResponse(jsonObject: ["authz_url": "https://example.com/callback"], statusCode: 200, headers: nil)
+			return HTTPStubsResponse(
+				jsonObject: ["authz_url": "https://example.com/callback"],
+				statusCode: 200,
+				headers: nil
+			)
 		}
 		
 		// When
 		let result = try await client.getAuthenticationUrl(callbackUrl: "test")
 		
 		// Then
-		expect(result.absoluteString) == "https://example.com/callback"
+		#expect(result.absoluteString == "https://example.com/callback")
 	}
 	
-	func test_client_noAuthenticationUrl() async throws {
+	@Test
+	func client_noAuthenticationUrl() async throws {
 		
 		// Given
-		let serverUrl = try XCTUnwrap(URL(string: "https://example.com"))
-		let client = RemoteAuthenticationClient(serverUrl: serverUrl, username: "test", password: "test")
+		let serverUrl = try #require(URL(string: "https://example.com"))
+		let client = RemoteAuthenticationClient(serverUrl: serverUrl)
 		stub(condition: isPath("/oidc/start")) { _ in
-			return HTTPStubsResponse(jsonObject: [], statusCode: 200, headers: nil)
+			return HTTPStubsResponse(
+				jsonObject: [],
+				statusCode: 200,
+				headers: nil
+			)
 		}
 		
-		// When / Then
-		await expect { try await client.getAuthenticationUrl(callbackUrl: "test") }
-			.to(throwError(RemoteAuthenticationError.noAuthenticationUrl))
+		// Then
+		await #expect(throws: RemoteAuthenticationError.noAuthenticationUrl.self) {
+			
+			// When
+			try await client.getAuthenticationUrl(callbackUrl: "test")
+		}
 	}
 }
