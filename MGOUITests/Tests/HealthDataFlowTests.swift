@@ -5,6 +5,7 @@
 
 import XCTest
 
+@MainActor
 final class HealthDataFlowTests: XCTestCase {
 	
 	/*
