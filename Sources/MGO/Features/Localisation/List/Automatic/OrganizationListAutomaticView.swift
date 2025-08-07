@@ -110,7 +110,6 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 		}
 	}
 	
-	@MainActor
 	private func loadHealthcareOrganizations() async {
 		
 		state = .loading
