@@ -127,7 +127,7 @@ enum HealthDataDownloadState: Equatable, Sendable {
 		
 		state = .loading(label: downloadBinary.label)
 		
-		_Concurrency.Task {
+		_Concurrency.Task(priority: .userInitiated) {
 			await loadBinary(reference, label: downloadBinary.label)
 		}
 	}

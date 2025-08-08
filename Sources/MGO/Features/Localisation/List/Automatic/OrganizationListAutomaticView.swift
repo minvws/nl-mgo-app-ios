@@ -73,13 +73,13 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 				guard state == .loading else { return }
 				
 				delay(Current.featureFlagManager.isDemo ? 3 : 0) {
-					_Concurrency.Task {
+					_Concurrency.Task(priority: .userInitiated) {
 						await self.loadHealthcareOrganizations()
 					}
 				}
 
 			case .retry:
-				_Concurrency.Task {
+				_Concurrency.Task(priority: .userInitiated) {
 					await loadHealthcareOrganizations()
 				}
 			

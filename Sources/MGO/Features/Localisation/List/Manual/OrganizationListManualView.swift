@@ -109,12 +109,12 @@ class OrganizationListManualViewModel: ObservableObject {
 				// Only load the first time
 				guard state == .loading else { return }
 			
-				_Concurrency.Task {
+				_Concurrency.Task(priority: .userInitiated) {
 					await loadHealthcareOrganizations()
 				}
 			
 			case .retry:
-				_Concurrency.Task {
+				_Concurrency.Task(priority: .userInitiated) {
 					await loadHealthcareOrganizations()
 				}
 			

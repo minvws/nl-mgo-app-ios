@@ -191,7 +191,7 @@ class HealthCategoryViewModel: ObservableObject {
 			case .onAppear:
 				FileStorage().remove(HealthDirectory.binary)
 				FileStorage().remove(HealthDirectory.export)
-				_Concurrency.Task {
+				_Concurrency.Task(priority: .userInitiated) {
 					 await loadResources()
 				}
 			
@@ -233,14 +233,14 @@ class HealthCategoryViewModel: ObservableObject {
 		
 		guard category.services.isNotEmpty else {
 			delay(1.5) {
-				_Concurrency.Task {
+				_Concurrency.Task(priority: .userInitiated) {
 					await self.loadResources()
 				}
 			}
 			return
 		}
 		
-		_Concurrency.Task {
+		_Concurrency.Task(priority: .userInitiated) {
 			if let organization {
 				await Current.resourceRepository.loadResource(organization, category: category)
 			} else {
@@ -262,7 +262,7 @@ class HealthCategoryViewModel: ObservableObject {
 				return organization?.servicesForCategory(category) ?? 0
 			}
 		}()
-		_Concurrency.Task {
+		_Concurrency.Task(priority: .high) {
 			 await loadResources(threshold: expectedNumberOfResults)
 		}
 	}

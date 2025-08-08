@@ -54,7 +54,7 @@ class LoginViewModel: ObservableObject {
 				coordinator?.handle(Coordination.Action.loggedInWithDigiD)
 				return
 			}
-			_Concurrency.Task {
+			_Concurrency.Task(priority: .userInitiated) {
 				await authenticate()
 			}
 		}

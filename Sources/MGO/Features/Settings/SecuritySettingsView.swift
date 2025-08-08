@@ -57,7 +57,7 @@ class SecuritySettingsViewModel: BaseViewModel {
 		
 		if case .biometricEnabled(let enabled) = action {
 			if enabled {
-				_Concurrency.Task { [weak self] in
+				_Concurrency.Task(priority: .userInitiated) { [weak self] in
 					await self?.authenticate()
 				}
 			} else {

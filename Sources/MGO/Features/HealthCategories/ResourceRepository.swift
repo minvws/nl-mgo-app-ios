@@ -131,7 +131,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization) {
 		logVerbose("ResourceRepository - LoadFor", healthcareOrganization.identifier)
 		for category in HealthCategories.Category.allCases {
-			_Concurrency.Task {
+			_Concurrency.Task(priority: .high) {
 				await loadResource(healthcareOrganization, category: category)
 			}
 		}
