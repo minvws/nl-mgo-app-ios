@@ -65,7 +65,7 @@ private let localisationServiceClient = LocalisationServiceClient(
 	password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
 )
 
-private let now: () -> Date = Date.init
+@MainActor private let now: () -> Date = Date.init
 private let notificationCenter = NotificationCenter.default
 private let secureUserSettings = SecureUserSettings()
 private let remoteConfigurationRepository = RemoteConfigurationRepository(

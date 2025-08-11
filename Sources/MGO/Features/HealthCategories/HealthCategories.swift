@@ -265,7 +265,7 @@ struct HealthCategories {
 				case .medication: [
 					DVP.CommonClinicalDataset.medicationUse,
 					DVP.CommonClinicalDataset.medicationAgreement,
-					DVP.GeneralPractitioner.currentMedication(),
+					DVP.GeneralPractitioner.currentMedication(Current.now()),
 					DVP.CommonClinicalDataset.administrationAgreement
 				]
 				
