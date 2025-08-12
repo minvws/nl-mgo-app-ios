@@ -27,7 +27,7 @@ jobs:
 #          xcrun simctl boot "iPhone 16 Pro" || true
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Homebrew
         run: |
@@ -80,7 +80,7 @@ jobs:
     name: SonarCloud
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
