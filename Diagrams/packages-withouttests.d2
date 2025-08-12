@@ -59,6 +59,9 @@ QuickLook {
 }
 
 # Third-Party
+FactoryKit: {
+  shape: hexagon
+}
 NavigationStackBackport: {
   shape: hexagon
 }
@@ -126,6 +129,7 @@ MGODebug { style.fill: "#ffcc00" }
 MGODebug <- Logging
 
 MGOFoundation { style.fill: "#ffcc00" }
+MGOFoundation <- FactoryKit
 MGOFoundation <- FeatureFlag
 MGOFoundation <- Foundation
 MGOFoundation <- JailBreakDetector
