@@ -21,7 +21,7 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 		coordinatorSpy = AppCoordinatorSpy()
 	}
 	
-	private func createSut(
+	@MainActor private func createSut(
 		city: String = "Roermond",
 		name: String = "Tandarts Tandje Erbij",
 		list: [MgoOrganization] = [],
@@ -38,7 +38,7 @@ final class OrganizationListManualViewModelTests: XCTestCase {
 		)
 	}
 
-	func test_loading() async throws {
+	@MainActor func test_loading() async throws {
 		
 		// Given
 		

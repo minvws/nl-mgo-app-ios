@@ -11,7 +11,7 @@ typealias OrganizationListSet = (
 	cardState: OrganizationListCardState
 )
 
-enum OrganizationListViewState: Equatable {
+enum OrganizationListViewState: Equatable, Sendable {
 	
 	case loading
 	case failure(Error)
@@ -80,7 +80,12 @@ class OrganizationListManualViewModel: ObservableObject {
 	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
-	init(coordinator: (any Coordinator)?, city: String, name: String, localisationServiceClient: LocalisationServiceClientProtocol?) {
+	@MainActor init(
+		coordinator: (any Coordinator)?,
+		city: String,
+		name: String,
+		localisationServiceClient: LocalisationServiceClientProtocol?
+	) {
 		self.coordinator = coordinator
 		self.city = city
 		self.name = name
@@ -117,6 +122,7 @@ class OrganizationListManualViewModel: ObservableObject {
 				}
 			
 			case .retry:
+				setState(.loading)
 				_Concurrency.Task(priority: .userInitiated) {
 					await loadHealthcareOrganizations()
 				}
@@ -131,8 +137,6 @@ class OrganizationListManualViewModel: ObservableObject {
 	}
 	
 	private func loadHealthcareOrganizations() async {
-		
-		await setState(.loading)
 		
 		guard let localisationServiceClient else {
 			await setState(.failure(LocalisationServiceClientError.noServer))
