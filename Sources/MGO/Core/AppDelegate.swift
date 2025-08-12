@@ -22,6 +22,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	/// Dependency injectable Feature Flag Manager
 	@Injected(\.featureFlagManager) private var featureFlagManager
 	
+	/// Dependency injectable Notification Center
+	@Injected(\.notificationCenter) private var notificationCenter
+	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		
 		HTTPStubs.removeAllStubs()
@@ -81,7 +84,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		if LaunchArgumentsHandler.shouldResetOnStart() {
 			// Wipe all data
-			Current.wipePersistedData()
 			Container.shared.wipePersistedData()
 			// Reset Featureflag settings
 			featureFlagManager.wipePersistedData()
@@ -136,13 +138,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		// Back and foreground
 		
-		Current.notificationCenter.addObserver(
+		notificationCenter.addObserver(
 			self,
 			selector: #selector(onWillResignActiveNotification),
 			name: UIApplication.willResignActiveNotification,
 			object: nil
 		)
-		Current.notificationCenter.addObserver(
+		notificationCenter.addObserver(
 			self,
 			selector: #selector(onDidBecomeActiveNotification),
 			name: UIApplication.didBecomeActiveNotification,
@@ -196,7 +198,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		guard let enteredBackground = secureUserSettings.enteredBackground else { return }
 		if Date().timeIntervalSince(enteredBackground) >= localAuthenticationTimeOut {
 			logWarning("We are in the background longer then \(localAuthenticationTimeOut) seconds. Post show Local Authentication")
-			Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
+			notificationCenter.post(name: .showLocalAuthentication, object: nil)
 		} else {
 			logVerbose("We returned in time, reset enteredBackground to nil.")
 			secureUserSettings.enteredBackground = nil

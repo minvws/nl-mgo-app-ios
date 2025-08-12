@@ -54,6 +54,9 @@ class AddOrganizationViewModel: ObservableObject {
 	/// The flow coordinator for routing
 	private weak var coordinator: (any Coordinator)?
 	
+	/// Dependency injectable Notification Center
+	@Injected(\.notificationCenter) private var notificationCenter
+	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	@MainActor init(coordinator: (any Coordinator)?) {
@@ -66,7 +69,7 @@ class AddOrganizationViewModel: ObservableObject {
 	@MainActor private func setupObservers() {
 		
 		// Listen for reset notification
-		Current.notificationCenter.addObserver(
+		notificationCenter.addObserver(
 			self,
 			selector: #selector(clear),
 			name: .clearSearch,
@@ -138,7 +141,7 @@ class AddOrganizationViewModel: ObservableObject {
 		logDebug("Announcing: \(message)")
 		
 		delay(0.25) {
-			Current.notificationCenter.post(notification: .announcement, argument: message)
+			self.notificationCenter.post(notification: .announcement, argument: message)
 		}
 	}
 }

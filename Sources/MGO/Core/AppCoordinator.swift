@@ -169,6 +169,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Dependency injectable Localization Service Client
 	@Injected(\.localisationServiceClient) private var localisationServiceClient
 	
+	/// Dependency injectable Remote Configuration Repository
+	@Injected(\.remoteConfigurationRepository) private var remoteConfigurationRepository
+	
+	/// Dependency injectable Notification Center
+	@Injected(\.notificationCenter) private var notificationCenter
+	
 	/// Create an AppCoordinator
 	/// - Parameter path: Navigation Path
 	/// - Parameter browser: the browser for displaying urls
@@ -189,12 +195,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	@MainActor private func registerObservers() {
 		
 		// Listen to changes in the remote configuration
-		self.observerToken = Current.remoteConfigurationRepository.observatory.append { @MainActor [weak self] remoteConfiguration in
+		self.observerToken = remoteConfigurationRepository.observatory.append { @MainActor [weak self] remoteConfiguration in
 			self?.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
 		}
 		
 		// Listen for authentication notification
-		Current.notificationCenter.addObserver(
+		notificationCenter.addObserver(
 			self,
 			selector: #selector(showLocalAuthentication),
 			name: .showLocalAuthentication,
@@ -214,7 +220,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	deinit {
 		// Remove as observer
-		observerToken.map(Current.remoteConfigurationRepository.observatory.remove)
+		observerToken.map(remoteConfigurationRepository.observatory.remove)
 	}
 	
 	@MainActor internal func handleRemoteConfigChanges(remoteConfiguration: RemoteConfig) {
@@ -275,7 +281,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case Coordination.Action.resetApplication.identifier:
 				// Clear everything
 				showChildCoordinator = false
-				Current.wipePersistedData()
 				Container.shared.wipePersistedData()
 				path.removeLast(path.count)
 				self.rootState = .splash
@@ -514,7 +519,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		pathForSheet = NavigationStackBackport.NavigationPath()
 
 		// Wipe Account
-		Current.wipePersistedData()
 		Container.shared.wipePersistedData()
 		
 		if showAuthenticationModal {

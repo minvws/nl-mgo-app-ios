@@ -347,7 +347,7 @@ final class AppCoordinatorTests: XCTestCase {
 	@MainActor func test_coordinator_receiveNotification_whenReturningFromBackground_duringOnboarding() {
 		
 		// Given
-		Current.notificationCenter = NotificationCenter.default
+		Container.shared.notificationCenter.register { NotificationCenter.default }
 		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
@@ -356,7 +356,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.showChildCoordinator = false
 		
 		// When
-		Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
+		Container.shared.notificationCenter().post(name: .showLocalAuthentication, object: nil)
 		
 		// Then
 		expect(self.sut.showAuthenticationModal).toEventually(beFalse())
@@ -365,7 +365,7 @@ final class AppCoordinatorTests: XCTestCase {
 	@MainActor func test_coordinator_receiveNotification_whenReturningFromBackground_duringDashboard() {
 		
 		// Given
-		Current.notificationCenter = NotificationCenter.default
+		Container.shared.notificationCenter.register { NotificationCenter.default }
 		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
@@ -374,7 +374,7 @@ final class AppCoordinatorTests: XCTestCase {
 		sut.showChildCoordinator = true
 		
 		// When
-		Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
+		Container.shared.notificationCenter().post(name: .showLocalAuthentication, object: nil)
 		
 		// Then
 		expect(self.sut.showAuthenticationModal).toEventually(beTrue())

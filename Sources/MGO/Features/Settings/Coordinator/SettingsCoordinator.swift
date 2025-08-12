@@ -77,6 +77,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// Dependency injectable Local authentication provider
 	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
 	
+	/// Dependency injectable Notification Center
+	@Injected(\.notificationCenter) private var notificationCenter
+	
 	/// Create a Settings Coordinator
 	/// - Parameter parentCoordinator: the presenting parent coordinator
 	/// - Parameter browser: the browser for displaying urls
@@ -121,7 +124,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				path.removeLast()
 			
 			case .lockApplication:
-				Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
+				notificationCenter.post(name: .showLocalAuthentication, object: nil)
 			
 			case .resetApplication:
 				parentCoordinator?.handle(.resetApplication)

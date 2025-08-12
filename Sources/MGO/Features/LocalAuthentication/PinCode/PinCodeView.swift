@@ -205,7 +205,7 @@ class PinCodeViewModel: ObservableObject {
 		logDebug("Announcing: \(message)")
 		
 		delay(0.25) {
-			Current.notificationCenter.post(notification: .announcement, argument: message)
+			Container.shared.notificationCenter().post(notification: .announcement, argument: message)
 		}
 	}
 	

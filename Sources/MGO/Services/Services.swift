@@ -9,27 +9,17 @@ import MGOFoundation
 // MARK: - 1: Define the Services
 
 struct Services {
-	var notificationCenter: NotificationCenterProtocol
-	var remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol
 	var resourceRepository: ResourceRepositoryProtocol
 	
 	init(
-		notificationCenter: NotificationCenterProtocol,
-		remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol,
 		resourceRepository: ResourceRepositoryProtocol
 	) {
-		self.notificationCenter = notificationCenter
-		self.remoteConfigurationRepository = remoteConfigurationRepository
 		self.resourceRepository = resourceRepository
 	}
 }
 
 // MARK: - 2: Instantiate Private Dependencies
 
-private let notificationCenter = NotificationCenter.default
-private let remoteConfigurationRepository = RemoteConfigurationRepository(
-	apiClient: RemoteConfigurationClient(serverUrl: Configuration().urlForRemoteConfiguration())
-)
 private let resourceRepository = ResourceRepository(
 	healthcareOrganizationRepository: Container.shared.healthcareOrganizationRepository(),
 	dataRepository: Container.shared.dataStore(),
@@ -47,8 +37,6 @@ let services: () -> Services = {
 	}
 	
 	return Services(
-		notificationCenter: notificationCenter,
-		remoteConfigurationRepository: remoteConfigurationRepository,
 		resourceRepository: resourceRepository
 	)
 }

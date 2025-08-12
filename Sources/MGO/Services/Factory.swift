@@ -55,6 +55,24 @@ extension Container {
 		.singleton
 	}
 	
+	/// The remote configuration repository
+	var remoteConfigurationRepository: Factory<RemoteConfigurationRepositoryProtocol> {
+		Factory(self) {
+			RemoteConfigurationRepository(
+				apiClient: RemoteConfigurationClient(
+					serverUrl: Configuration().urlForRemoteConfiguration()
+				)
+			)
+		}
+		.singleton
+	}
+	
+	/// Sending and receiving notifications
+	var notificationCenter: Factory<NotificationCenterProtocol> {
+		Factory(self) { NotificationCenter.default }
+			.shared
+	}
+	
 	/// What is the date
 	var now: Factory<() -> Date> {
 		Factory(self) { Date.init }

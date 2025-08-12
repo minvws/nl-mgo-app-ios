@@ -89,8 +89,6 @@ func setupServicesSpies() -> ServicesSpies {
 	let spies = ServicesSpies()
 	
 	Current = Services(
-		notificationCenter: spies.notificationCenterSpy,
-		remoteConfigurationRepository: spies.remoteConfigurationRepositorySpy,
 		resourceRepository: spies.resourceRepositorySpy
 	)
 	Container.shared.reset()
@@ -110,6 +108,8 @@ extension Container {
 		jailBreakDetector.register { @MainActor in spies.jailBreakSpy }
 		localAuthenticationProvider.register { spies.localAuthenticationProviderSpy }
 		localisationServiceClient.register { spies.localisationServiceClientSpy }
+		remoteConfigurationRepository.register { spies.remoteConfigurationRepositorySpy }
+		notificationCenter.register { spies.notificationCenterSpy }
 		// Tuesday, 14 November 2023 22:13:20
 		now.register { { Date(timeIntervalSince1970: 1700000000) } }
 		secureUserSettings.register { spies.secureUserSettingsSpy }

@@ -5,20 +5,14 @@
 
 import MGOFoundation
 
-extension Services {
+extension Container {
 	
 	/// Reset all the data within applicable Services
 	func wipePersistedData() {
 		
-		remoteConfigurationRepository.wipePersistedData()
-	}
-}
-
-extension Container {
-	
-	func wipePersistedData() {
 		dataStore().wipePersistedData()
 		healthcareOrganizationRepository().wipePersistedData()
+		remoteConfigurationRepository().wipePersistedData()
 		secureUserSettings().wipePersistedData()
 	}
 }

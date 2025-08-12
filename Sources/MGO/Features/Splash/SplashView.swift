@@ -37,6 +37,9 @@ final class SplashViewModel: ObservableObject {
 	/// Dependency injectable Secure User Settings
 	@Injected(\.secureUserSettings) private var secureUserSettings
 	
+	/// Dependency injectable Remote Configuration Repository
+	@Injected(\.remoteConfigurationRepository) private var remoteConfigurationRepository
+	
 	/// Create a splash view
 	/// - Parameters:
 	///   - coordinator: the flow coordinator
@@ -51,14 +54,14 @@ final class SplashViewModel: ObservableObject {
 	
 	deinit {
 		// Remove as observer
-		observerToken.map(Current.remoteConfigurationRepository.observatory.remove)
+		observerToken.map(remoteConfigurationRepository.observatory.remove)
 	}
 	
 	/// Start the services fetching remote data
 	@MainActor private func startServices() {
 		
 		_Concurrency.Task(priority: .userInitiated) {
-			await Current.remoteConfigurationRepository.fetchAndUpdateObservers()
+			await remoteConfigurationRepository.fetchAndUpdateObservers()
 		}
 		Current.resourceRepository.load()
 	}
@@ -68,7 +71,7 @@ final class SplashViewModel: ObservableObject {
 	private func setupObservers() {
 		
 		// Listen to changes in the remote configuration
-		observerToken = Current.remoteConfigurationRepository.observatory.append { @MainActor [weak self] _ in
+		observerToken = remoteConfigurationRepository.observatory.append { @MainActor [weak self] _ in
 	
 			logDebug("LaunchViewModel: config loaded")
 			self?.reduce(.loaded)
