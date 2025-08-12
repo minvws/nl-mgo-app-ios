@@ -42,6 +42,9 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 	/// Is this the first time we are doing automatic localization
 	private var preselectAllOrganizations: Bool
 	
+	/// Dependency Healthcare Organization Store
+	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
+	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	init(
@@ -96,13 +99,13 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 			case .store:
 				if hasChanges {
 					// Do not add twice, clear store
-					Current.healthcareOrganizationStore.organizations.forEach { organization in
-						try? Current.healthcareOrganizationStore.remove(organization)
+					healthcareOrganizationRepository.organizations.forEach { organization in
+						try? healthcareOrganizationRepository.remove(organization)
 					}
 					
 					// Add selected organizations
 					selectedSearchResultsList.forEach { organization in
-						try? Current.healthcareOrganizationStore.store(organization)
+						try? healthcareOrganizationRepository.store(organization)
 					}
 					applyListState()
 				}
@@ -132,7 +135,7 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 				selectedSearchResultsList = searchResultsList
 					.filter { ssrItem in notParticipatingList.filter { nplItem in nplItem.identifier == ssrItem.identifier }.isEmpty }
 			} else {
-				selectedSearchResultsList = Current.healthcareOrganizationStore.organizations
+				selectedSearchResultsList = healthcareOrganizationRepository.organizations
 			}
 			
 			applyListState()

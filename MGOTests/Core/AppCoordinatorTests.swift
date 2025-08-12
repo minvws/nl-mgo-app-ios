@@ -27,7 +27,10 @@ final class AppCoordinatorTests: XCTestCase {
 	
 	@MainActor func setupSut() {
 		
-		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
+		let browser = RestrictedBrowser(
+			allowedDomains: ["irealisatie.nl"],
+			urlOpener: urlOpenerSpy
+		)
 		sut = AppCoordinator(
 			path: NavigationStackBackport.NavigationPath(),
 			browser: browser

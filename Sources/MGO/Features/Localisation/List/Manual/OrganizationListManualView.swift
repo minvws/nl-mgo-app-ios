@@ -75,6 +75,9 @@ class OrganizationListManualViewModel: ObservableObject {
 	/// The localisation service client
 	private var localisationServiceClient: LocalisationServiceClientProtocol?
 	
+	/// Dependency Healthcare Organization Store
+	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
+	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	init(coordinator: (any Coordinator)?, city: String, name: String, localisationServiceClient: LocalisationServiceClientProtocol?) {
@@ -121,7 +124,7 @@ class OrganizationListManualViewModel: ObservableObject {
 			case .store(let organization):
 				guard cardState(for: organization) == .regular else { return }
 			
-				try? Current.healthcareOrganizationStore.store(organization)
+				try? healthcareOrganizationRepository.store(organization)
 				applyListState()
 				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
 		}
@@ -189,7 +192,7 @@ class OrganizationListManualViewModel: ObservableObject {
 			return .notParticipating
 		}
 		
-		let list = Current.healthcareOrganizationStore.organizations
+		let list = healthcareOrganizationRepository.organizations
 		for item in list where organization.identifier == item.identifier {
 			return .selected
 		}

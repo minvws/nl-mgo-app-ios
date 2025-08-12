@@ -93,7 +93,7 @@ func setupServicesSpies() -> ServicesSpies {
 		appVersionSupplier: spies.appVersionSupplierSpy,
 		dataStore: spies.dataStoreSpy,
 		featureFlagManager: spies.featureFlagSpy,
-		healthcareOrganizationStore: spies.healthcareOrganizationStoreSpy,
+//		healthcareOrganizationStore: spies.healthcareOrganizationStoreSpy,
 		jailBreakDetector: spies.jailBreakSpy,
 		localAuthenticationProvider: spies.localAuthenticationProviderSpy,
 		localisationServiceClient: spies.localisationServiceClientSpy,
@@ -103,5 +103,16 @@ func setupServicesSpies() -> ServicesSpies {
 		secureUserSettings: spies.secureUserSettingsSpy
 	)
 	
+	Container.shared.setupSpies(spies)
+	
 	return spies
+}
+
+extension Container {
+	
+	func setupSpies(_ spies: ServicesSpies) {
+		
+		healthcareOrganizationRepository.register { spies.healthcareOrganizationStoreSpy }
+		
+	}
 }

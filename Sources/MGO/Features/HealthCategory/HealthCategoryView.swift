@@ -140,6 +140,9 @@ class HealthCategoryViewModel: ObservableObject {
 	/// The HCIM parser
 	private let parser = HCIMParser()
 	
+	/// Dependency Healthcare Organization Store
+	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -254,7 +257,7 @@ class HealthCategoryViewModel: ObservableObject {
 		let expectedNumberOfResults: Int = {
 			if organization == nil {
 				var result = 0
-				for organizationItem in Current.healthcareOrganizationStore.organizations {
+				for organizationItem in healthcareOrganizationRepository.organizations {
 					result += organizationItem.servicesForCategory(category)
 				}
 				return result
@@ -382,7 +385,7 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Returns: optional name
 	func getOrganization(_ identifier: String) -> MgoOrganization? {
 		
-		return Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }
+		return healthcareOrganizationRepository.organizations.first { $0.identifier == identifier }
 	}
 }
 

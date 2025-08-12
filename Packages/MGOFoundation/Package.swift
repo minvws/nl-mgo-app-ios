@@ -30,11 +30,13 @@ let package = Package(
 		
 		// External
 		.package(url: "https://github.com/AliSoftware/OHHTTPStubs", exact: "9.1.0"),
+		.package(url: "https://github.com/hmlongco/Factory", exact: "2.5.3")
 	],
 	targets: [
 		.target(
 			name: "MGOFoundation",
 			dependencies: [
+				.product(name: "FactoryKit", package: "Factory"),
 				.product(name: "FeatureFlag", package: "FeatureFlag"),
 				.product(name: "JailBreakDetector", package: "JailBreakDetector"),
 				.product(name: "LocalAuthenticationProvider", package: "LocalAuthenticationProvider"),

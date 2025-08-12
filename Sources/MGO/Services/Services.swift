@@ -13,7 +13,6 @@ struct Services {
 	var appVersionSupplier: AppVersionSupplierProtocol
 	var dataStore: MgoDataStoreProtocol
 	var featureFlagManager: FeatureFlagManaging
-	var healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol
 	var jailBreakDetector: JailBreakProtocol
 	var localAuthenticationProvider: LocalAuthenticationProviderProtocol
 	var localisationServiceClient: LocalisationServiceClientProtocol
@@ -27,7 +26,6 @@ struct Services {
 		appVersionSupplier: AppVersionSupplierProtocol,
 		dataStore: MgoDataStoreProtocol,
 		featureFlagManager: FeatureFlagManaging,
-		healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol,
 		jailBreakDetector: JailBreakProtocol,
 		localAuthenticationProvider: LocalAuthenticationProviderProtocol,
 		localisationServiceClient: LocalisationServiceClientProtocol,
@@ -40,7 +38,6 @@ struct Services {
 		self.appVersionSupplier = appVersionSupplier
 		self.dataStore = dataStore
 		self.featureFlagManager = featureFlagManager
-		self.healthcareOrganizationStore = healthcareOrganizationStore
 		self.jailBreakDetector = jailBreakDetector
 		self.localAuthenticationProvider = localAuthenticationProvider
 		self.localisationServiceClient = localisationServiceClient
@@ -56,7 +53,6 @@ struct Services {
 private let appVersionSupplier = AppVersionSupplier()
 private let dataStore = InMemoryDataStore()
 @MainActor private let featureFlagManager = FeatureFlagManager()
-private let healthcareOrganizationStore = HealthcareOrganizationRepository()
 @MainActor private let jailBreakDetector = JailBreakDetector()
 private let localAuthenticationProvider = LocalAuthenticationProvider()
 private let localisationServiceClient = LocalisationServiceClient(
@@ -72,7 +68,7 @@ private let remoteConfigurationRepository = RemoteConfigurationRepository(
 	apiClient: RemoteConfigurationClient(serverUrl: Configuration().urlForRemoteConfiguration())
 )
 private let resourceRepository = ResourceRepository(
-	healthcareOrganizationRepository: healthcareOrganizationStore,
+	healthcareOrganizationRepository: Container.shared.healthcareOrganizationRepository(),
 	dataRepository: dataStore,
 	featureFlagManager: featureFlagManager,
 	serverUrl: Configuration().urlForDVP(),
@@ -97,7 +93,6 @@ let services: () -> Services = {
 		appVersionSupplier: appVersionSupplier,
 		dataStore: dataStore,
 		featureFlagManager: featureFlagManager,
-		healthcareOrganizationStore: healthcareOrganizationStore,
 		jailBreakDetector: jailBreakDetector,
 		localAuthenticationProvider: localAuthenticationProvider,
 		localisationServiceClient: localisationServiceClient,

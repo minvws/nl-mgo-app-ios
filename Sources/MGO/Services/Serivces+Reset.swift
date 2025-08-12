@@ -11,8 +11,14 @@ extension Services {
 	func wipePersistedData() {
 		
 		dataStore.wipePersistedData()
-		healthcareOrganizationStore.wipePersistedData()
 		remoteConfigurationRepository.wipePersistedData()
 		secureUserSettings.wipePersistedData()
+	}
+}
+
+extension Container {
+	
+	func wipePersistedData() {
+		healthcareOrganizationRepository().wipePersistedData()
 	}
 }

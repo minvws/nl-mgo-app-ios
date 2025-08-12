@@ -264,6 +264,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				// Clear everything
 				showChildCoordinator = false
 				Current.wipePersistedData()
+				Container.shared.wipePersistedData()
 				path.removeLast(path.count)
 				self.rootState = .splash
 			
@@ -502,6 +503,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 
 		// Wipe Account
 		Current.wipePersistedData()
+		Container.shared.wipePersistedData()
 		
 		if showAuthenticationModal {
 			showChildCoordinator = false

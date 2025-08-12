@@ -68,6 +68,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		if LaunchArgumentsHandler.shouldResetOnStart() {
 			// Wipe all data
 			Current.wipePersistedData()
+			Container.shared.wipePersistedData()
 			// Reset Featureflag settings
 			Current.featureFlagManager.wipePersistedData()
 		}

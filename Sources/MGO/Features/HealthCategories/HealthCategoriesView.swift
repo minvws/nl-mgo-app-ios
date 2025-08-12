@@ -55,6 +55,9 @@ class HealthCategoriesViewModel: ObservableObject {
 	/// Token for the healthcare organization observatory
 	private var healthcareOrganizationStoreToken: Observatory.ObserverToken?
 	
+	/// Dependency Healthcare Organization Store
+	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -109,7 +112,7 @@ class HealthCategoriesViewModel: ObservableObject {
 			heading: heading,
 			subheading: subheading,
 			canTitleCollapse: canTitleCollapse,
-			showEmptyView: Current.healthcareOrganizationStore.organizations.isEmpty,
+			showEmptyView: Container.shared.healthcareOrganizationRepository().organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
 				CategoryButton(category: .medication, box: 1),
@@ -143,16 +146,16 @@ class HealthCategoriesViewModel: ObservableObject {
 				self?.updateState()
 			}
 		}
-		self.healthcareOrganizationStoreToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _ in
+		self.healthcareOrganizationStoreToken = healthcareOrganizationRepository.observatory.append { [weak self] _ in
 			// Check if there are any healthcare organizations left.
-			self?.state.showEmptyView = Current.healthcareOrganizationStore.organizations.isEmpty
+			self?.state.showEmptyView = self?.healthcareOrganizationRepository.organizations.isEmpty ?? true
 		}
 	}
 	
 	deinit {
 		// Remove as observer
 		dataStoreToken.map(Current.dataStore.observatory.remove)
-		healthcareOrganizationStoreToken.map(Current.healthcareOrganizationStore.observatory.remove)
+		healthcareOrganizationStoreToken.map(healthcareOrganizationRepository.observatory.remove)
 	}
 	
 	/// Handle any action
@@ -247,7 +250,7 @@ class HealthCategoriesViewModel: ObservableObject {
 				case .all:
 					// All the services for that category * the number of organizations
 					var result = 0
-					for organization in Current.healthcareOrganizationStore.organizations {
+					for organization in healthcareOrganizationRepository.organizations {
 						result += organization.servicesForCategory(category)
 					}
 					return result
