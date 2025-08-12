@@ -106,8 +106,8 @@ extension Container {
 		remoteConfigurationRepository.register { spies.remoteConfigurationRepositorySpy }
 		resourceRepository.register { spies.resourceRepositorySpy }
 		notificationCenter.register { spies.notificationCenterSpy }
-		// Tuesday, 14 November 2023 22:13:20
-		now.register { { Date(timeIntervalSince1970: 1700000000) } }
+		// Sunday, 15 June 2025 15:06:40
+		now.register { { Date(timeIntervalSince1970: 1750000000) } }
 		secureUserSettings.register { spies.secureUserSettingsSpy }
 	}
 }
