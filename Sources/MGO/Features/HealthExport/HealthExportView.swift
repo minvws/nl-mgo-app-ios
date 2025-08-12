@@ -324,7 +324,7 @@ class HealthExportViewModel: ObservableObject {
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateFormat = "d_MMM_yyyy"
 		dateFormatter.locale = Locale(identifier: "nl")
-		let dateString = dateFormatter.string(from: Current.now())
+		let dateString = dateFormatter.string(from: Container.shared.now()())
 		
 		let categoryName = dataSource.heading
 		let fileName = String("mgo_\(categoryName.lowercased().replacingOccurrences(of: " ", with: "_"))_\(dateString)")

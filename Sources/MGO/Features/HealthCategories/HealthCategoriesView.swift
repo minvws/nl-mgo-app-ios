@@ -58,6 +58,9 @@ class HealthCategoriesViewModel: ObservableObject {
 	/// Dependency Healthcare Organization Store
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
 	
+	/// Dependency Injectable Data Store
+	@Injected(\.dataStore) private var dataStore
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -106,7 +109,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		
 		// The categories could be divided into several boxes, currently 1 box for enabled categories. 
 		// Disabled box 1 means same box as the enabled categories
-		let disabledForDemoBox: Int = Current.featureFlagManager.isDemo ? 2 : 1
+		let disabledForDemoBox: Int = Container.shared.featureFlagManager().isDemo ? 2 : 1
 		
 		self.state = HealthCategoriesViewState(
 			heading: heading,
@@ -140,7 +143,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	}
 	
 	@MainActor private func registerObservers() {
-		self.dataStoreToken = Current.dataStore.observatory.append { [weak self] changed in
+		self.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
 				// Handle updates in the fetched data
 				self?.updateState()
@@ -154,7 +157,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	
 	deinit {
 		// Remove as observer
-		dataStoreToken.map(Current.dataStore.observatory.remove)
+		dataStoreToken.map(dataStore.observatory.remove)
 		healthcareOrganizationStoreToken.map(healthcareOrganizationRepository.observatory.remove)
 	}
 	
@@ -171,10 +174,10 @@ class HealthCategoriesViewModel: ObservableObject {
 				
 			case .refresh:
 				if case let .single(healthcareOrganization) = mode {
-					Current.dataStore.removeRecords(for: healthcareOrganization.identifier)
+					dataStore.removeRecords(for: healthcareOrganization.identifier)
 					Current.resourceRepository.loadFor(healthcareOrganization)
 				} else {
-					Current.dataStore.removeAllRecords()
+					dataStore.removeAllRecords()
 					Current.resourceRepository.load()
 				}
 				reduce(.onAppear)
@@ -222,9 +225,12 @@ class HealthCategoriesViewModel: ObservableObject {
 			let cacheResult: Result<[MgoResourceRecord], Error> = {
 				switch mode {
 					case .single(let healthcareOrganization):
-						return Current.dataStore.get(categoryId: "\(button.id)", organizationId: healthcareOrganization.identifier)
+						return dataStore.get(
+							categoryId: "\(button.id)",
+							organizationId: healthcareOrganization.identifier
+						)
 					case .all:
-						return Current.dataStore.get(categoryId: "\(button.id)")
+						return dataStore.get(categoryId: "\(button.id)")
 				}
 			}()
 			
@@ -350,7 +356,7 @@ struct HealthCategoriesView: View {
 				noHealthcareOrganizationView()
 			} else {
 				categoriesView()
-					.backportListSectionSpacing(Current.featureFlagManager.isDemo ? ViewTraits.List.demoSpacing : ViewTraits.List.spacing)
+					.backportListSectionSpacing(Container.shared.featureFlagManager().isDemo ? ViewTraits.List.demoSpacing : ViewTraits.List.spacing)
 					.backportContentMargins(0)
 					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 			}
@@ -513,7 +519,7 @@ struct HealthCategoriesView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton(Current.featureFlagManager.isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
+			CallToActionButton(Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
 				viewModel.reduce(.search)
 			}
 			.accessibilityIdentifier("common.add_organizations")

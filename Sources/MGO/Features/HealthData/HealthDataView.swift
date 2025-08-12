@@ -67,7 +67,7 @@ class HealthDataViewModel: ObservableObject {
 	
 		filterReferences(.referenceValue).forEach { reference in
 			
-			if Current.featureFlagManager.isDemo {
+			if Container.shared.featureFlagManager().isDemo {
 				resolvedReferences[reference] = false
 			} else {
 				storeReference(reference, isReferenceValue: true)

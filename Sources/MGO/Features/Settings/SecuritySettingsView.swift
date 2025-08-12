@@ -33,6 +33,9 @@ class SecuritySettingsViewModel: BaseViewModel {
 	/// The state of the view
 	@Published var state: State = State(bioMetricType: .none)
 	
+	/// Dependency injectable Secure User Settings
+	@Injected(\.secureUserSettings) private var secureUserSettings
+	
 	/// Create a Security Settings Viewmodel
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter bioMetricType: what biometric type do we have? (FaceID, TouchID, OpticID)
@@ -48,7 +51,7 @@ class SecuritySettingsViewModel: BaseViewModel {
 	/// Update the state
 	private func updateState() {
 		state.bioMetricType = bioMetricType
-		state.bioMetricAuthenticationEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
+		state.bioMetricAuthenticationEnabled = secureUserSettings.bioMetricAuthenticationEnabled
 	}
 	
 	/// Handle any action
@@ -62,7 +65,7 @@ class SecuritySettingsViewModel: BaseViewModel {
 				}
 			} else {
 				// Do not use biometric authentication
-				Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+				secureUserSettings.bioMetricAuthenticationEnabled = false
 				updateState()
 			}
 		}
@@ -77,12 +80,12 @@ class SecuritySettingsViewModel: BaseViewModel {
 				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = authenticated
+			secureUserSettings.bioMetricAuthenticationEnabled = authenticated
 			updateState()
 		
 		} catch {
 			logError("error: \(error)")
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			secureUserSettings.bioMetricAuthenticationEnabled = false
 			
 			switch error {
 				case LocalAuthenticationError.canceled:

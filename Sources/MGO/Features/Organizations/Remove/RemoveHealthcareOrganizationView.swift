@@ -14,8 +14,11 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 	/// The healthcare organization to display
 	@Published var healthcareOrganization: MgoOrganization
 	
-	/// Dependency Healthcare Organization Store
+	/// Dependency Injectable Healthcare Organization Store
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
+	
+	/// Dependency Injectable Data Store
+	@Injected(\.dataStore) private var dataStore
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
@@ -38,7 +41,7 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 		
 		switch action {
 			case .removeOrganization:
-				Current.dataStore.removeRecords(for: healthcareOrganization.identifier)
+				dataStore.removeRecords(for: healthcareOrganization.identifier)
 				try? healthcareOrganizationRepository.remove(healthcareOrganization)
 				coordinator?.handle(.removedHealthcareOrganization)
 			

@@ -50,7 +50,7 @@ class LoginViewModel: ObservableObject {
 	@MainActor public func reduce(_ action: Action) {
 		
 		if action == .loginWithDigiD {
-			guard !Current.featureFlagManager.isDemo else {
+			guard !Container.shared.featureFlagManager().isDemo else {
 				coordinator?.handle(Coordination.Action.loggedInWithDigiD)
 				return
 			}

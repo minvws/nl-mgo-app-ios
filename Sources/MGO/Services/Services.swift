@@ -9,64 +9,31 @@ import MGOFoundation
 // MARK: - 1: Define the Services
 
 struct Services {
-	var now: () -> Date
-	var appVersionSupplier: AppVersionSupplierProtocol
-	var dataStore: MgoDataStoreProtocol
-	var featureFlagManager: FeatureFlagManaging
-	var jailBreakDetector: JailBreakProtocol
-	var localisationServiceClient: LocalisationServiceClientProtocol
 	var notificationCenter: NotificationCenterProtocol
 	var remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol
 	var resourceRepository: ResourceRepositoryProtocol
-	var secureUserSettings: SecureUserSettingsProtocol
 	
 	init(
-		now: @escaping () -> Date,
-		appVersionSupplier: AppVersionSupplierProtocol,
-		dataStore: MgoDataStoreProtocol,
-		featureFlagManager: FeatureFlagManaging,
-		jailBreakDetector: JailBreakProtocol,
-		localisationServiceClient: LocalisationServiceClientProtocol,
 		notificationCenter: NotificationCenterProtocol,
 		remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol,
-		resourceRepository: ResourceRepositoryProtocol,
-		secureUserSettings: SecureUserSettingsProtocol
+		resourceRepository: ResourceRepositoryProtocol
 	) {
-		self.now = now
-		self.appVersionSupplier = appVersionSupplier
-		self.dataStore = dataStore
-		self.featureFlagManager = featureFlagManager
-		self.jailBreakDetector = jailBreakDetector
-		self.localisationServiceClient = localisationServiceClient
 		self.notificationCenter = notificationCenter
 		self.remoteConfigurationRepository = remoteConfigurationRepository
 		self.resourceRepository = resourceRepository
-		self.secureUserSettings = secureUserSettings
 	}
 }
 
 // MARK: - 2: Instantiate Private Dependencies
 
-private let appVersionSupplier = AppVersionSupplier()
-private let dataStore = InMemoryDataStore()
-@MainActor private let featureFlagManager = FeatureFlagManager()
-@MainActor private let jailBreakDetector = JailBreakDetector()
-private let localisationServiceClient = LocalisationServiceClient(
-	serverUrl: Configuration().urlForLocalisation(),
-	username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-	password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-)
-
-@MainActor private let now: () -> Date = Date.init
 private let notificationCenter = NotificationCenter.default
-private let secureUserSettings = SecureUserSettings()
 private let remoteConfigurationRepository = RemoteConfigurationRepository(
 	apiClient: RemoteConfigurationClient(serverUrl: Configuration().urlForRemoteConfiguration())
 )
 private let resourceRepository = ResourceRepository(
 	healthcareOrganizationRepository: Container.shared.healthcareOrganizationRepository(),
-	dataRepository: dataStore,
-	featureFlagManager: featureFlagManager,
+	dataRepository: Container.shared.dataStore(),
+	featureFlagManager: Container.shared.featureFlagManager(),
 	serverUrl: Configuration().urlForDVP(),
 	username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
 	password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
@@ -78,23 +45,11 @@ let services: () -> Services = {
 	guard !ProcessInfo().isUnitTesting else {
 		fatalError("During unit testing, real services should not be instantiated during Services setup.")
 	}
-
-	if Configuration().getRelease() == .demo {
-		featureFlagManager.isDemo = true
-		featureFlagManager.isAutomaticLocalizationEnabled = true
-	}
 	
 	return Services(
-		now: now,
-		appVersionSupplier: appVersionSupplier,
-		dataStore: dataStore,
-		featureFlagManager: featureFlagManager,
-		jailBreakDetector: jailBreakDetector,
-		localisationServiceClient: localisationServiceClient,
 		notificationCenter: notificationCenter,
 		remoteConfigurationRepository: remoteConfigurationRepository,
-		resourceRepository: resourceRepository,
-		secureUserSettings: secureUserSettings
+		resourceRepository: resourceRepository
 	)
 }
 

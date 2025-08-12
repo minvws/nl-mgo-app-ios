@@ -66,7 +66,7 @@ struct HealthCategories {
 				]
 				
 				case .labResults:
-				if Current.featureFlagManager.isDemo {
+					if Container.shared.featureFlagManager().isDemo {
 					[
 						ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue,
 						GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue
@@ -169,13 +169,13 @@ struct HealthCategories {
 				// Labresults
 				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue:
 					
-					Current.featureFlagManager.isDemo ? "zib_laboratory_demo.heading" : "zib_laboratory_test_result_observation.heading"
+					Container.shared.featureFlagManager().isDemo ? "zib_laboratory_demo.heading" : "zib_laboratory_test_result_observation.heading"
 				
 				case ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue:
 					"zib_laboratory_test_result_specimen.heading"
 				case GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue:
 				
-					Current.featureFlagManager.isDemo ? "zib_laboratory_demo.heading" : "gp_laboratory_result.heading"
+					Container.shared.featureFlagManager().isDemo ? "zib_laboratory_demo.heading" : "gp_laboratory_result.heading"
 				
 				// Allergies
 				case ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue:
@@ -254,7 +254,7 @@ struct HealthCategories {
 
 		// What endpoints should we use for a category?
 		@MainActor var services: [DVP.Endpoint] {
-			guard Current.featureFlagManager.isDemo else { return liveServices }
+			guard Container.shared.featureFlagManager().isDemo else { return liveServices }
 			return demoServices
 		}
 		
@@ -265,7 +265,7 @@ struct HealthCategories {
 				case .medication: [
 					DVP.CommonClinicalDataset.medicationUse,
 					DVP.CommonClinicalDataset.medicationAgreement,
-					DVP.GeneralPractitioner.currentMedication(Current.now()),
+					DVP.GeneralPractitioner.currentMedication(Container.shared.now()()),
 					DVP.CommonClinicalDataset.administrationAgreement
 				]
 				

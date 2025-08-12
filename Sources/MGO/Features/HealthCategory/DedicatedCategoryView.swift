@@ -111,7 +111,7 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 		
 		let (partial, subCategories) = super.sortRecords(records: records)
 		
-		guard Current.featureFlagManager.isDemo, let subCategory = subCategories.first else {
+		guard Container.shared.featureFlagManager().isDemo, let subCategory = subCategories.first else {
 			return (partial, subCategories)
 		}
 		return (

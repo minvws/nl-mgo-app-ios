@@ -90,6 +90,9 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// The flow coordinator for routing
 	private weak var parentCoordinator: (any DashboardCoordinatorProtocol)?
 	
+	/// Dependency injectable Localization Service Client
+	@Injected(\.localisationServiceClient) private var localisationServiceClient
+	
 	/// Create a healthcare coordinator
 	/// - Parameter coordinator: the coordinator
 	init(parentCoordinator: (any DashboardCoordinatorProtocol)?, rootState: HealthcareCoordination.State) {
@@ -138,7 +141,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 			// Healthcare Organization Search Flow
 			
 			case Coordination.Action.addHealthcareOrganization.identifier:
-				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+				if Container.shared.featureFlagManager().isAutomaticLocalizationEnabled {
 					rootStateForSheet = HealthcareCoordination.State.automaticLocalization
 				} else {
 					rootStateForSheet = HealthcareCoordination.State.manualLocalization
@@ -333,7 +336,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
-						localisationServiceClient: Current.localisationServiceClient,
+						localisationServiceClient: self.localisationServiceClient,
 						preselectAllOrganizations: false
 					)
 				)
@@ -345,7 +348,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 						coordinator: self,
 						city: city,
 						name: name,
-						localisationServiceClient: Current.localisationServiceClient
+						localisationServiceClient: self.localisationServiceClient
 					)
 				)
 				.isPresentedAsSheet(true)

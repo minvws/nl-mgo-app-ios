@@ -229,7 +229,7 @@ struct OrganizationsView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton(Current.featureFlagManager.isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
+			CallToActionButton(Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
 				viewModel.reduce(.search)
 			}
 			.accessibilityIdentifier("common.add_organizations")
@@ -260,7 +260,7 @@ struct OrganizationsView: View {
 			// Bottom section for add button
 			Section {
 				rowFor(
-					title: String(localized: Current.featureFlagManager.isAutomaticLocalizationEnabled ? "common.search_organizations" : "overview.add_organization"),
+					title: String(localized: Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "overview.add_organization"),
 					imageResource: ImageResource.Overview.add,
 					accessibilityIdentifier: "overview.add_organization") {
 						viewModel.reduce(.search)

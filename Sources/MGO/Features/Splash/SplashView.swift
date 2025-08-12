@@ -34,6 +34,9 @@ final class SplashViewModel: ObservableObject {
 	/// Should we show the device is jail broken dialog?
 	@Published var showJailBreakDialog = false
 	
+	/// Dependency injectable Secure User Settings
+	@Injected(\.secureUserSettings) private var secureUserSettings
+	
 	/// Create a splash view
 	/// - Parameters:
 	///   - coordinator: the flow coordinator
@@ -78,11 +81,11 @@ final class SplashViewModel: ObservableObject {
 		
 		switch action {
 			case .start:
-				guard !Current.secureUserSettings.userHasSeenJailBreakWarning else {
+				guard !secureUserSettings.userHasSeenJailBreakWarning else {
 					coordinator?.handle(Coordination.Action.finishedSplash)
 					return
 				}
-				if Current.jailBreakDetector.isJailBroken() {
+				if Container.shared.jailBreakDetector().isJailBroken() {
 					showJailBreakDialog = true
 					return
 				} else {
@@ -97,7 +100,7 @@ final class SplashViewModel: ObservableObject {
 			
 			case .dismissWarning:
 				// Mark warning as seen.
-				Current.secureUserSettings.userHasSeenJailBreakWarning = true
+				secureUserSettings.userHasSeenJailBreakWarning = true
 				showJailBreakDialog = false
 				coordinator?.handle(Coordination.Action.finishedSplash)
 		}

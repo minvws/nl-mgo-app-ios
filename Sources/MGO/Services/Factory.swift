@@ -7,11 +7,63 @@ import MGOFoundation
 
 extension Container {
 	
-	var healthcareOrganizationRepository: Factory<HealthcareOrganizationRepositoryProtocol> {
-		Factory(self) { HealthcareOrganizationRepository() }
+	/// What is the current version of the application
+	var appVersionSupplier: Factory<AppVersionSupplierProtocol> {
+		Factory(self) { AppVersionSupplier() }
+			.shared
 	}
 	
+	/// The store for Mgo  Resourse records
+	var dataStore: Factory<MgoDataStoreProtocol> {
+		Factory(self) { InMemoryDataStore() }
+			.singleton
+	}
+	
+	/// Holding all the feature flags
+	var featureFlagManager: Factory<FeatureFlagManaging> {
+		Factory(self) { @MainActor in FeatureFlagManager() }
+			.singleton
+	}
+	
+	/// The repository for all the stored healthcare organizations
+	var healthcareOrganizationRepository: Factory<HealthcareOrganizationRepositoryProtocol> {
+		Factory(self) { HealthcareOrganizationRepository() }
+			.singleton
+	}
+	
+	/// Detect jail broken devices
+	var jailBreakDetector: Factory<JailBreakProtocol> {
+		Factory(self) { @MainActor in JailBreakDetector() }
+			.shared
+	}
+	
+	/// Access to the biometric access provider
 	var localAuthenticationProvider: Factory<LocalAuthenticationProviderProtocol> {
 		Factory(self) { LocalAuthenticationProvider() }
+			.shared
+	}
+	
+	/// The Client to fetch healthcare providers
+	var localisationServiceClient: Factory<LocalisationServiceClientProtocol> {
+		Factory(self) {
+			LocalisationServiceClient(
+				serverUrl: Configuration().urlForLocalisation(),
+				username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+				password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+			)
+		}
+		.singleton
+	}
+	
+	/// What is the date
+	var now: Factory<() -> Date> {
+		Factory(self) { Date.init }
+			.unique
+	}
+	
+	/// Storing user settings securely
+	var secureUserSettings: Factory<SecureUserSettingsProtocol> {
+		Factory(self) { SecureUserSettings() }
+			.singleton
 	}
 }

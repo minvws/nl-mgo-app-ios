@@ -143,6 +143,9 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Dependency Healthcare Organization Store
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
 	
+	/// Dependency Injectable Data Store
+	@Injected(\.dataStore) private var dataStore
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -171,11 +174,11 @@ class HealthCategoryViewModel: ObservableObject {
 	
 	deinit {
 		// Remove as observer
-		dataStoreToken.map(Current.dataStore.observatory.remove)
+		dataStoreToken.map(dataStore.observatory.remove)
 	}
 	
 	@MainActor private func registerObservers() {
-		self.dataStoreToken = Current.dataStore.observatory.append { [weak self] changed in
+		self.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
 				// Handle updates in the fetched data
 				self?.handleDataStoreChanges()
@@ -232,7 +235,7 @@ class HealthCategoryViewModel: ObservableObject {
 	@MainActor private func retry() {
 		
 		state = .loading
-		Current.dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
+		dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
 		
 		guard category.services.isNotEmpty else {
 			delay(1.5) {
@@ -275,9 +278,9 @@ class HealthCategoryViewModel: ObservableObject {
 		
 		let cacheResult: Result<[MgoResourceRecord], Error> = {
 			if let organization {
-				return Current.dataStore.get(categoryId: "\(category.rawValue)", organizationId: organization.identifier)
+				return dataStore.get(categoryId: "\(category.rawValue)", organizationId: organization.identifier)
 			} else {
-				return Current.dataStore.get(categoryId: "\(category.rawValue)")
+				return dataStore.get(categoryId: "\(category.rawValue)")
 			}
 		}()
 		
@@ -524,7 +527,7 @@ struct HealthCategoryView: View {
 					
 						if subCategory.rows.isNotEmpty {
 							blockView(
-								showHeading: Current.featureFlagManager.isDemo ? true : list.filter { $0.rows.isNotEmpty }.count != 1,
+								showHeading: Container.shared.featureFlagManager().isDemo ? true : list.filter { $0.rows.isNotEmpty }.count != 1,
 								subCategory: subCategory,
 								subCategoryIndex: subCategoryIndex
 							)

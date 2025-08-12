@@ -89,16 +89,9 @@ func setupServicesSpies() -> ServicesSpies {
 	let spies = ServicesSpies()
 	
 	Current = Services(
-		now: { Date(timeIntervalSince1970: 1700000000) }, // Tuesday, 14 November 2023 22:13:20
-		appVersionSupplier: spies.appVersionSupplierSpy,
-		dataStore: spies.dataStoreSpy,
-		featureFlagManager: spies.featureFlagSpy,
-		jailBreakDetector: spies.jailBreakSpy,
-		localisationServiceClient: spies.localisationServiceClientSpy,
 		notificationCenter: spies.notificationCenterSpy,
 		remoteConfigurationRepository: spies.remoteConfigurationRepositorySpy,
-		resourceRepository: spies.resourceRepositorySpy,
-		secureUserSettings: spies.secureUserSettingsSpy
+		resourceRepository: spies.resourceRepositorySpy
 	)
 	Container.shared.reset()
 	Container.shared.setupSpies(spies)
@@ -110,8 +103,15 @@ extension Container {
 	
 	func setupSpies(_ spies: ServicesSpies) {
 		
+		appVersionSupplier.register { @MainActor in spies.appVersionSupplierSpy }
+		dataStore.register { spies.dataStoreSpy }
+		featureFlagManager.register { @MainActor in spies.featureFlagSpy }
 		healthcareOrganizationRepository.register { spies.healthcareOrganizationStoreSpy }
+		jailBreakDetector.register { @MainActor in spies.jailBreakSpy }
 		localAuthenticationProvider.register { spies.localAuthenticationProviderSpy }
-		
+		localisationServiceClient.register { spies.localisationServiceClientSpy }
+		// Tuesday, 14 November 2023 22:13:20
+		now.register { { Date(timeIntervalSince1970: 1700000000) } }
+		secureUserSettings.register { spies.secureUserSettingsSpy }
 	}
 }

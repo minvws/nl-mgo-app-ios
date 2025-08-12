@@ -33,7 +33,7 @@ class HealthDataMapper {
 	/// - Returns: pdf Data
 	@MainActor func map(_ category: HealthCategories.Category, data: [HealthSubCategory]) -> PdfData? {
 		
-		let date = Current.now()
+		let date = Container.shared.now()()
 		
 		return PdfData(
 			heading: String(localized: String.LocalizationValue(stringLiteral: category.heading.stringKey)),

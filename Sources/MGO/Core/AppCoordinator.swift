@@ -157,8 +157,17 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		)
 	}()
 	
-	/// Dependency Local authentication provider
+	/// Dependency injectable Local authentication provider
 	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
+	
+	/// Dependency injectable Secure User Settings
+	@Injected(\.secureUserSettings) private var secureUserSettings
+	
+	/// Dependency injectable Feature Flag Manager
+	@Injected(\.featureFlagManager) private var featureFlagManager
+	
+	/// Dependency injectable Localization Service Client
+	@Injected(\.localisationServiceClient) private var localisationServiceClient
 	
 	/// Create an AppCoordinator
 	/// - Parameter path: Navigation Path
@@ -212,7 +221,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		// Updated configuration
 		
 		let minimumVersion = remoteConfiguration.iosMinimumVersion.semanticVersion()
-		let currentVersion = Current.appVersionSupplier.getCurrentVersion().semanticVersion()
+		let currentVersion = Container.shared.appVersionSupplier().getCurrentVersion().semanticVersion()
 		
 		logDebug("AppCoordinator: Updated config, we are \(currentVersion), minimum is \(minimumVersion)")
 		
@@ -368,14 +377,14 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Remote Authentication
 				
 			case Coordination.Action.loggedInWithDigiD.identifier:
-				Current.secureUserSettings.userHasRemoteAuthentication = true
+				secureUserSettings.userHasRemoteAuthentication = true
 			
 				resetNavigationStack(with: AppCoordination.State.loginInfo)
 				return true
 			
 			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
 			
-				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+				if featureFlagManager.isAutomaticLocalizationEnabled {
 					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
 				} else {
 					resetNavigationStack(with: AppCoordination.State.manualLocalization)
@@ -444,10 +453,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the complex startup logic
 	@MainActor private func handleStartup() {
 		
-		if Current.secureUserSettings.pinCode == nil {
+		if secureUserSettings.pinCode == nil {
 			// User must set an pin code, but show introduction first.
 			resetNavigationStack(with: AppCoordination.State.introduction)
-		} else if Current.featureFlagManager.bypassPincode && Configuration().getRelease() == .development {
+		} else if featureFlagManager.bypassPincode && Configuration().getRelease() == .development {
 			// Bypass the pin code screen
 			showChildCoordinator = true
 		} else {
@@ -469,7 +478,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the pincode validated action
 	private func handlePinCodeValidated() {
 		
-		guard Current.secureUserSettings.userHasRemoteAuthentication else {
+		guard secureUserSettings.userHasRemoteAuthentication else {
 			resetNavigationStack(with: AppCoordination.State.login)
 			return
 		}
@@ -482,7 +491,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		showAuthenticationModal = false
 		rootStateForSheet = nil
 		pathForSheet = NavigationStackBackport.NavigationPath()
-		Current.secureUserSettings.enteredBackground = nil
+		secureUserSettings.enteredBackground = nil
 	}
 	
 	/// Handle displaying urls
@@ -548,8 +557,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		switch deeplink {
 			case .digidCallback(let userinfo):
 				logInfo("Consume digidCallback with userinfo", userinfo)
-				Current.secureUserSettings.userHasRemoteAuthentication = true
-				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+				secureUserSettings.userHasRemoteAuthentication = true
+				if featureFlagManager.isAutomaticLocalizationEnabled {
 					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
 				} else {
 					resetNavigationStack(with: AppCoordination.State.manualLocalization)
@@ -651,7 +660,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
-						localisationServiceClient: Current.localisationServiceClient,
+						localisationServiceClient: self.localisationServiceClient,
 						preselectAllOrganizations: true
 					)
 				)
@@ -666,7 +675,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 						coordinator: self,
 						city: city,
 						name: name,
-						localisationServiceClient: Current.localisationServiceClient
+						localisationServiceClient: self.localisationServiceClient
 					)
 				)
 			

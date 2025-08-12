@@ -33,6 +33,9 @@ class BioMetricSetupViewModel: ObservableObject {
 	/// The state of the view
 	@Published var state: State = State(bioMetricType: .none)
 	
+	/// Dependency injectable Secure User Settings
+	@Injected(\.secureUserSettings) private var secureUserSettings
+	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter bioMetricType: what biometric type do we have? (FaceID, TouchID, OpticID)
@@ -72,7 +75,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	@MainActor private func finishedWithBioMetric() {
 		
 		// Do use biometric authentication
-		Current.secureUserSettings.bioMetricAuthenticationEnabled = true
+		secureUserSettings.bioMetricAuthenticationEnabled = true
 		// We are done
 		coordinator?.handle(Coordination.Action.didFinishLocalAuthentication)
 	}
@@ -81,7 +84,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	@MainActor private func finishedWithoutBioMetric() {
 		
 		// Do not use biometric authentication
-		Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+		secureUserSettings.bioMetricAuthenticationEnabled = false
 		// We are done
 		coordinator?.handle(Coordination.Action.didFinishLocalAuthentication)
 	}
@@ -101,11 +104,11 @@ class BioMetricSetupViewModel: ObservableObject {
 		} catch LocalAuthenticationError.canceled {
 			// Cancelled, stay on the scene
 			logWarning("User cancelled the biometric request.")
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			secureUserSettings.bioMetricAuthenticationEnabled = false
 			
 		} catch LocalAuthenticationError.authenticationFailed {
 			logWarning("Authentication Failed")
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			secureUserSettings.bioMetricAuthenticationEnabled = false
 			
 		} catch LocalAuthenticationError.userFallback {
 			logWarning("User selected password option")
@@ -118,11 +121,11 @@ class BioMetricSetupViewModel: ObservableObject {
 		} catch LocalAuthenticationError.lockout {
 			logWarning("BioMetric setup lockout")
 			state.showLockoutPopup = true
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			secureUserSettings.bioMetricAuthenticationEnabled = false
 			
 		} catch {
 			logError("error: \(error)")
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			secureUserSettings.bioMetricAuthenticationEnabled = false
 		}
 	}
 }

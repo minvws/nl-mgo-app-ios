@@ -10,15 +10,15 @@ extension Services {
 	/// Reset all the data within applicable Services
 	func wipePersistedData() {
 		
-		dataStore.wipePersistedData()
 		remoteConfigurationRepository.wipePersistedData()
-		secureUserSettings.wipePersistedData()
 	}
 }
 
 extension Container {
 	
 	func wipePersistedData() {
+		dataStore().wipePersistedData()
 		healthcareOrganizationRepository().wipePersistedData()
+		secureUserSettings().wipePersistedData()
 	}
 }
