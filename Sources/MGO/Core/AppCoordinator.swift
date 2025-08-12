@@ -327,7 +327,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the local authentication flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleLocalAuthentication(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleLocalAuthentication(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			// Local Authentication
@@ -471,7 +471,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	}
 	
 	/// Handle the pin code confirmed action
-	private func handlePinCodeConfirmed() {
+	@MainActor private func handlePinCodeConfirmed() {
 		
 		if localAuthenticationProvider.biometricType() == .none {
 			resetNavigationStack(with: AppCoordination.State.login)
@@ -481,7 +481,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	}
 	
 	/// Handle the pincode validated action
-	private func handlePinCodeValidated() {
+	@MainActor private func handlePinCodeValidated() {
 		
 		guard secureUserSettings.userHasRemoteAuthentication else {
 			resetNavigationStack(with: AppCoordination.State.login)
@@ -514,7 +514,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	}
 	
 	/// handle the account recreate action
-	private func handleRecreateAccount() {
+	@MainActor private func handleRecreateAccount() {
 		
 		pathForSheet = NavigationStackBackport.NavigationPath()
 
@@ -533,7 +533,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
-	private func restart() {
+	@MainActor private func restart() {
 		
 		rootStateForSheet = nil
 		pathForSheet = NavigationStackBackport.NavigationPath()
@@ -543,7 +543,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// Reset the navigation stack with this new root  state
 	/// - Parameter state: the new root state.
-	private func resetNavigationStack(with state: AppCoordination.State) {
+	@MainActor private func resetNavigationStack(with state: AppCoordination.State) {
 		
 		var transaction = Transaction()
 		transaction.disablesAnimations = true

@@ -67,6 +67,20 @@ extension Container {
 		.singleton
 	}
 	
+	var resourceRepository: Factory<ResourceRepositoryProtocol> {
+		Factory(self) { @MainActor in
+			ResourceRepository(
+				healthcareOrganizationRepository: self.healthcareOrganizationRepository(),
+				dataRepository: self.dataStore(),
+				featureFlagManager: self.featureFlagManager(),
+				serverUrl: Configuration().urlForDVP(),
+				username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+				password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+			)
+		}
+		.singleton
+	}
+	
 	/// Sending and receiving notifications
 	var notificationCenter: Factory<NotificationCenterProtocol> {
 		Factory(self) { NotificationCenter.default }

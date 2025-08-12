@@ -87,13 +87,8 @@ final class ServicesSpies {
 func setupServicesSpies() -> ServicesSpies {
 	
 	let spies = ServicesSpies()
-	
-	Current = Services(
-		resourceRepository: spies.resourceRepositorySpy
-	)
 	Container.shared.reset()
 	Container.shared.setupSpies(spies)
-	
 	return spies
 }
 
@@ -109,6 +104,7 @@ extension Container {
 		localAuthenticationProvider.register { spies.localAuthenticationProviderSpy }
 		localisationServiceClient.register { spies.localisationServiceClientSpy }
 		remoteConfigurationRepository.register { spies.remoteConfigurationRepositorySpy }
+		resourceRepository.register { spies.resourceRepositorySpy }
 		notificationCenter.register { spies.notificationCenterSpy }
 		// Tuesday, 14 November 2023 22:13:20
 		now.register { { Date(timeIntervalSince1970: 1700000000) } }

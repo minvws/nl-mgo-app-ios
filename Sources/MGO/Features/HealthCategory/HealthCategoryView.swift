@@ -146,6 +146,9 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Dependency Injectable Data Store
 	@Injected(\.dataStore) private var dataStore
 	
+	/// Dependency Injectable Resource Repository
+	@Injected(\.resourceRepository) private var resourceRepository
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -248,9 +251,9 @@ class HealthCategoryViewModel: ObservableObject {
 		
 		_Concurrency.Task(priority: .userInitiated) {
 			if let organization {
-				await Current.resourceRepository.loadResource(organization, category: category)
+				await resourceRepository.loadResource(organization, category: category)
 			} else {
-				await Current.resourceRepository.loadFor(category)
+				await resourceRepository.loadFor(category)
 			}
 		}
 	}

@@ -40,6 +40,9 @@ final class SplashViewModel: ObservableObject {
 	/// Dependency injectable Remote Configuration Repository
 	@Injected(\.remoteConfigurationRepository) private var remoteConfigurationRepository
 	
+	/// Dependency Injectable Resource Repository
+	@Injected(\.resourceRepository) private var resourceRepository
+	
 	/// Create a splash view
 	/// - Parameters:
 	///   - coordinator: the flow coordinator
@@ -63,7 +66,7 @@ final class SplashViewModel: ObservableObject {
 		_Concurrency.Task(priority: .userInitiated) {
 			await remoteConfigurationRepository.fetchAndUpdateObservers()
 		}
-		Current.resourceRepository.load()
+		resourceRepository.load()
 	}
 	
 	/// Setup all the observers

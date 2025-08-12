@@ -132,10 +132,10 @@ class OrganizationListManualViewModel: ObservableObject {
 	
 	private func loadHealthcareOrganizations() async {
 		
-		state = .loading
+		await setState(.loading)
 		
 		guard let localisationServiceClient else {
-			state = .failure(LocalisationServiceClientError.noServer)
+			await setState(.failure(LocalisationServiceClientError.noServer))
 			return
 		}
 		
@@ -143,16 +143,16 @@ class OrganizationListManualViewModel: ObservableObject {
 			searchResultsList = try await localisationServiceClient.searchHealthcareOrganizations(city: city, name: name)
 			logDebug("We found \(searchResultsList.count) organisations.")
 			
-			applyListState()
+			await applyListState()
 			
 		} catch {
 			logDebug("Error fetching orginasations \(error)")
-			state = .failure(error)
+			await setState(.failure(error))
 		}
 	}
 	
 	/// Apply the state for each of the health organizations
-	func applyListState() {
+	@MainActor func applyListState() {
 		
 		var list = [OrganizationListSet]()
 		searchResultsList.forEach {organization in
@@ -164,10 +164,15 @@ class OrganizationListManualViewModel: ObservableObject {
 			)
 		}
 		if list.isEmpty {
-			state = .empty(city: city, name: name)
+			setState(.empty(city: city, name: name))
 		} else {
-			state = .success(list)
+			setState(.success(list))
 		}
+	}
+	
+	/// Set the state (to be called from async methods)
+	@MainActor func setState(_ newState: OrganizationListViewState) {
+		self.state = newState
 	}
 	
 	/// Get the state for a card

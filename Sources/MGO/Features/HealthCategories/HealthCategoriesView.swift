@@ -61,6 +61,9 @@ class HealthCategoriesViewModel: ObservableObject {
 	/// Dependency Injectable Data Store
 	@Injected(\.dataStore) private var dataStore
 	
+	/// Dependency Injectable Resource Repository
+	@Injected(\.resourceRepository) private var resourceRepository
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -175,10 +178,10 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .refresh:
 				if case let .single(healthcareOrganization) = mode {
 					dataStore.removeRecords(for: healthcareOrganization.identifier)
-					Current.resourceRepository.loadFor(healthcareOrganization)
+					resourceRepository.loadFor(healthcareOrganization)
 				} else {
 					dataStore.removeAllRecords()
-					Current.resourceRepository.load()
+					resourceRepository.load()
 				}
 				reduce(.onAppear)
 			
