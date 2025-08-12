@@ -157,6 +157,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		)
 	}()
 	
+	/// Dependency Local authentication provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
+	
 	/// Create an AppCoordinator
 	/// - Parameter path: Navigation Path
 	/// - Parameter browser: the browser for displaying urls
@@ -456,7 +459,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the pin code confirmed action
 	private func handlePinCodeConfirmed() {
 		
-		if Current.localAuthenticationProvider.biometricType() == .none {
+		if localAuthenticationProvider.biometricType() == .none {
 			resetNavigationStack(with: AppCoordination.State.login)
 		} else {
 			resetNavigationStack(with: AppCoordination.State.bioMetricSetup)
@@ -588,16 +591,40 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Local Authentication
 				
 			case let .pinCodeEntry(backButtonVisible):
-				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .creation, backButtonVisible: backButtonVisible, bioMetricType: Current.localAuthenticationProvider.biometricType))
+				PinCodeView(
+					viewModel: PinCodeViewModel(
+						coordinator: self,
+						mode: .creation,
+						backButtonVisible: backButtonVisible,
+						bioMetricType: self.localAuthenticationProvider.biometricType
+					)
+				)
 				
 			case .pinCodeConfirmation:
-				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+				PinCodeView(
+					viewModel: PinCodeViewModel(
+						coordinator: self,
+						mode: .confirmation,
+						bioMetricType: self.localAuthenticationProvider.biometricType
+					)
+				)
 				
 			case let .pinCodeValidation(lockOut):
-				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .validation(lockOut: lockOut), bioMetricType: Current.localAuthenticationProvider.biometricType))
+				PinCodeView(
+					viewModel: PinCodeViewModel(
+						coordinator: self,
+						mode: .validation(lockOut: lockOut),
+						bioMetricType: self.localAuthenticationProvider.biometricType
+					)
+				)
 				
 			case .bioMetricSetup:
-				BioMetricSetupView(viewModel: BioMetricSetupViewModel(coordinator: self, bioMetricType: Current.localAuthenticationProvider.biometricType))
+				BioMetricSetupView(
+					viewModel: BioMetricSetupViewModel(
+						coordinator: self,
+						bioMetricType: self.localAuthenticationProvider.biometricType
+					)
+				)
 				
 			case .forgotPinCode:
 				ForgotPinCodeView(viewModel: ForgotPinCodeViewModel(coordinator: self))
@@ -611,8 +638,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				LoginView(
 					viewModel: LoginViewModel(
 						coordinator: self,
-						remoteAuthenticationClient:
-							self.remoteAuthenticationClient
+						remoteAuthenticationClient: self.remoteAuthenticationClient
 					)
 				)
 				

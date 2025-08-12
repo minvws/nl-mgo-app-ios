@@ -14,7 +14,6 @@ struct Services {
 	var dataStore: MgoDataStoreProtocol
 	var featureFlagManager: FeatureFlagManaging
 	var jailBreakDetector: JailBreakProtocol
-	var localAuthenticationProvider: LocalAuthenticationProviderProtocol
 	var localisationServiceClient: LocalisationServiceClientProtocol
 	var notificationCenter: NotificationCenterProtocol
 	var remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol
@@ -27,7 +26,6 @@ struct Services {
 		dataStore: MgoDataStoreProtocol,
 		featureFlagManager: FeatureFlagManaging,
 		jailBreakDetector: JailBreakProtocol,
-		localAuthenticationProvider: LocalAuthenticationProviderProtocol,
 		localisationServiceClient: LocalisationServiceClientProtocol,
 		notificationCenter: NotificationCenterProtocol,
 		remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol,
@@ -39,7 +37,6 @@ struct Services {
 		self.dataStore = dataStore
 		self.featureFlagManager = featureFlagManager
 		self.jailBreakDetector = jailBreakDetector
-		self.localAuthenticationProvider = localAuthenticationProvider
 		self.localisationServiceClient = localisationServiceClient
 		self.notificationCenter = notificationCenter
 		self.remoteConfigurationRepository = remoteConfigurationRepository
@@ -54,7 +51,6 @@ private let appVersionSupplier = AppVersionSupplier()
 private let dataStore = InMemoryDataStore()
 @MainActor private let featureFlagManager = FeatureFlagManager()
 @MainActor private let jailBreakDetector = JailBreakDetector()
-private let localAuthenticationProvider = LocalAuthenticationProvider()
 private let localisationServiceClient = LocalisationServiceClient(
 	serverUrl: Configuration().urlForLocalisation(),
 	username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
@@ -94,7 +90,6 @@ let services: () -> Services = {
 		dataStore: dataStore,
 		featureFlagManager: featureFlagManager,
 		jailBreakDetector: jailBreakDetector,
-		localAuthenticationProvider: localAuthenticationProvider,
 		localisationServiceClient: localisationServiceClient,
 		notificationCenter: notificationCenter,
 		remoteConfigurationRepository: remoteConfigurationRepository,

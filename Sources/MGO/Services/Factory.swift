@@ -9,6 +9,9 @@ extension Container {
 	
 	var healthcareOrganizationRepository: Factory<HealthcareOrganizationRepositoryProtocol> {
 		Factory(self) { HealthcareOrganizationRepository() }
-			.singleton
+	}
+	
+	var localAuthenticationProvider: Factory<LocalAuthenticationProviderProtocol> {
+		Factory(self) { LocalAuthenticationProvider() }
 	}
 }

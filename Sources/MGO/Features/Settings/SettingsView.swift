@@ -40,7 +40,7 @@ class SettingsViewModel: ObservableObject {
 		showAdvancedButton = release == Release.development // Show only in Dev
 		
 		// Show only when we have biometrics
-		showSecurityButton = Current.localAuthenticationProvider.biometricType() != .none
+		showSecurityButton = Container.shared.localAuthenticationProvider().biometricType() != .none
 	}
 	
 	/// Handle any action

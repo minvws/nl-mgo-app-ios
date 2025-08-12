@@ -74,6 +74,9 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// the browser to open allowed domains in
 	private var browser: RestrictedBrowser!
 	
+	/// Dependency Local authentication provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
+	
 	/// Create a Settings Coordinator
 	/// - Parameter parentCoordinator: the presenting parent coordinator
 	/// - Parameter browser: the browser for displaying urls
@@ -215,7 +218,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				SecuritySettingsView(
 					viewModel: SecuritySettingsViewModel(
 						coordinator: self,
-						bioMetricType: Current.localAuthenticationProvider.biometricType
+						bioMetricType: self.localAuthenticationProvider.biometricType
 					)
 				)
 			

@@ -91,7 +91,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
-			let authenticated = try await Current.localAuthenticationProvider.authenticate(
+			let authenticated = try await Container.shared.localAuthenticationProvider().authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)

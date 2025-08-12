@@ -355,7 +355,7 @@ class PinCodeViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
-			let validated = try await Current.localAuthenticationProvider.authenticate(
+			let validated = try await Container.shared.localAuthenticationProvider().authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
