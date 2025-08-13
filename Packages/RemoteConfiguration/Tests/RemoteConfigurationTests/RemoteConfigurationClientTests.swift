@@ -4,34 +4,59 @@
  */
 
 @testable import RemoteConfiguration
-import MGOTest
+import Testing
+import OHHTTPStubs
+import OHHTTPStubsSwift
 
-final class RemoteConfigurationClientTests: XCTestCase {
+class RemoteConfigurationClientTests {
 	
-	private var sut: RemoteConfigurationClient!
-	
-	override func tearDown() {
-		super.tearDown()
+	deinit {
 		HTTPStubs.removeAllStubs()
 	}
 	
-	override func setUpWithError() throws {
-		
-		try super.setUpWithError()
-		let serverUrl = try XCTUnwrap(URL(string: "https://example.com/v1/mgo"))
-		sut = try XCTUnwrap(RemoteConfigurationClient(serverUrl: serverUrl))
-	}
-	
-	func test_fetchRemoteConfig() async throws {
+	@Test
+	func client() async throws {
 		
 		// Given
 		stub(condition: isPath("/v1/mgo/config")) { _ in
-			return HTTPStubsResponse(jsonObject: ["iosMinimumVersion": "1.2.3"], statusCode: 200, headers: nil)
+			return HTTPStubsResponse(
+				jsonObject: ["iosMinimumVersion": "1.2.3"],
+				statusCode: 200,
+				headers: nil
+			)
 		}
+		let serverUrl = try #require(URL(string: "https://example.com/v1/mgo"))
+		let sut = RemoteConfigurationClient(serverUrl: serverUrl)
+		
 		// When
 		let remoteConfig = try await sut.fetchRemoteConfig()
 		
 		// Then
-		expect(remoteConfig.iosMinimumVersion) == "1.2.3"
+		#expect(remoteConfig.iosMinimumVersion == "1.2.3")
+	}
+	
+	@Test
+	func client_withBasicAuth() async throws {
+		
+		// Given
+		stub(condition: isPath("/v1/mgo/config")) { _ in
+			return HTTPStubsResponse(
+				jsonObject: ["iosMinimumVersion": "1.2.3"],
+				statusCode: 200,
+				headers: nil
+			)
+		}
+		let serverUrl = try #require(URL(string: "https://example.com/v1/mgo"))
+		let sut = RemoteConfigurationClient(
+			serverUrl: serverUrl,
+			username: "test",
+			password: "test"
+		)
+		
+		// When
+		let remoteConfig = try await sut.fetchRemoteConfig()
+		
+		// Then
+		#expect(remoteConfig.iosMinimumVersion == "1.2.3")
 	}
 }
