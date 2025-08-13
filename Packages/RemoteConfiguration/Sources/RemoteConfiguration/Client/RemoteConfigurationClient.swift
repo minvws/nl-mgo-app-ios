@@ -3,6 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
+import AuthorizationMiddleware
 import OpenAPIRuntime
 import OpenAPIURLSession
 import Foundation
@@ -12,6 +13,12 @@ public protocol RemoteConfigurationClientProtocol {
 	/// Create a Remote Configuration Client
 	/// - Parameter serverUrl: the url for the service
 	init(serverUrl: Foundation.URL)
+	
+	/// Create a Remote Configuration Client
+	/// - Parameter serverUrl: the url for the service
+	/// - Parameter username: authentication user name
+	/// - Parameter password: authentication password
+	init(serverUrl: Foundation.URL, username: String, password: String)
 	
 	/// Fetch the remote configuration
 	/// - Returns: the remote configuration
@@ -27,7 +34,27 @@ public class RemoteConfigurationClient: RemoteConfigurationClientProtocol {
 	/// - Parameter serverUrl: the url for the service
 	required public init(serverUrl: Foundation.URL) {
 		
-		self.client = Client(serverURL: serverUrl, transport: URLSessionTransport())
+		self.client = Client(
+			serverURL: serverUrl,
+			transport: URLSessionTransport()
+		)
+	}
+	
+	/// Create a Remote Configuration Client
+	/// - Parameter serverUrl: the url for the service
+	/// - Parameter username: authentication user name
+	/// - Parameter password: authentication password
+	required public init(serverUrl: Foundation.URL, username: String, password: String) {
+		
+		let authenticationMiddleWare = AuthorizationMiddleware(
+			username: username,
+			password: password
+		)
+		self.client = Client(
+			serverURL: serverUrl,
+			transport: URLSessionTransport(),
+			middlewares: [authenticationMiddleWare]
+		)
 	}
 	
 	/// Fetch the remote configuration
