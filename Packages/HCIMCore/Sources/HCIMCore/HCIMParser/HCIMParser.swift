@@ -8,7 +8,7 @@ import JavaScriptCore
 import MGODebug
 
 /// Parse FHIR data
-@preconcurrency nonisolated public class HCIMParser {
+nonisolated public class HCIMParser {
 	
 	/// The namespace used in the JavaScript context
 	public static let nameSpace = "MgoFhirData"

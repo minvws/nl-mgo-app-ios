@@ -29,7 +29,7 @@ class ForgotPinCodeViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	public func reduce(_ action: Action) {
+	@MainActor public func reduce(_ action: Action) {
 		
 		switch action {
 			case .cancelButtonPressed:

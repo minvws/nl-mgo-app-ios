@@ -19,7 +19,7 @@ final class InAppBrowserViewTests: XCTestCase {
 		HTTPStubs.removeAllStubs()
 	}
 	
-	func setupSut(title: LocalizedStringKey = "") throws {
+	@MainActor func setupSut(title: LocalizedStringKey = "") throws {
 		
 		coordinatorSpy = AppCoordinatorSpy()
 		urlOpenerSpy = URLOpenerSpy()
@@ -30,7 +30,7 @@ final class InAppBrowserViewTests: XCTestCase {
 		sut = InAppBrowserView(viewModel: viewModel)
 	}
 	
-	func test_backButtonPressed() throws {
+	@MainActor func test_backButtonPressed() throws {
 		
 		// Given
 		try setupSut()

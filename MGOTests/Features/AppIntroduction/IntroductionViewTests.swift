@@ -13,18 +13,17 @@ final class IntroductionViewTests: XCTestCase {
 	private var viewModel: IntroductionViewModel!
 	private var sut: IntroductionView!
 	
-	override func setUp() {
+	@MainActor private func createSut() {
 		
 		coordinatorSpy = AppCoordinatorSpy()
 		viewModel = IntroductionViewModel(coordinator: coordinatorSpy)
 		sut = IntroductionView(viewModel: self.viewModel)
-		
-		super.setUp()
 	}
 	
-	func test_appIntroductionView() {
+	@MainActor func test_appIntroductionView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -33,9 +32,10 @@ final class IntroductionViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_nextButtonPressed_shouldCallCoordinator() throws {
+	@MainActor func test_nextButtonPressed_shouldCallCoordinator() throws {
 		
 		// Given
+		createSut()
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "common.next")

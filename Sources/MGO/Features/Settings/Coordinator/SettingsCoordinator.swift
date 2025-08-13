@@ -10,15 +10,15 @@ import RestrictedBrowser
 /// The Coordination Actions the Settings Flow uses
 extension Coordination.Action {
 	
-	static let lockApplication = Coordination.Action(identifier: "lockApplication")
-	static let openUrl = Coordination.Action(identifier: "openUrl")
-	static let showAboutTheApp = Coordination.Action(identifier: "showAboutTheApp")
-	static let showAccessibility = Coordination.Action(identifier: "showAccessibility")
-	static let showAdvancedSettings = Coordination.Action(identifier: "showAdvancedSettings")
-	static let showDisplaySettings = Coordination.Action(identifier: "showDisplaySettings")
-	static let showOpenSourceLibraries = Coordination.Action(identifier: "showOpenSourceLibraries")
-	static let showSafetyTips = Coordination.Action(identifier: "showSafetyTips")
-	static let showSecuritySettings = Coordination.Action(identifier: "showSecuritySettings")
+	@MainActor static let lockApplication = Coordination.Action(identifier: "lockApplication")
+	@MainActor static let openUrl = Coordination.Action(identifier: "openUrl")
+	@MainActor static let showAboutTheApp = Coordination.Action(identifier: "showAboutTheApp")
+	@MainActor static let showAccessibility = Coordination.Action(identifier: "showAccessibility")
+	@MainActor static let showAdvancedSettings = Coordination.Action(identifier: "showAdvancedSettings")
+	@MainActor static let showDisplaySettings = Coordination.Action(identifier: "showDisplaySettings")
+	@MainActor static let showOpenSourceLibraries = Coordination.Action(identifier: "showOpenSourceLibraries")
+	@MainActor static let showSafetyTips = Coordination.Action(identifier: "showSafetyTips")
+	@MainActor static let showSecuritySettings = Coordination.Action(identifier: "showSecuritySettings")
 }
 
 protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
@@ -37,13 +37,13 @@ protocol SettingsCoordinatorProtocol: Coordinator, ObservableObject {
 	/// Get a View for the State
 	/// - Parameter state: the DashboardCoordination State
 	/// - Returns: A view for that state
-	func view(for state: SettingsCoordination.State?) -> Body
+	@MainActor func view(for state: SettingsCoordination.State?) -> Body
 }
 
 struct SettingsCoordination {
 	
 	/// A list of all the view states the app coordinator can show
-	enum State: Equatable, Hashable, Codable {
+	enum State: Equatable, Hashable, Codable, Sendable {
 		
 		case settings
 		case displaySettings
@@ -74,10 +74,16 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// the browser to open allowed domains in
 	private var browser: RestrictedBrowser!
 	
+	/// Dependency injectable Local authentication provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
+	
+	/// Dependency injectable Notification Center
+	@Injected(\.notificationCenter) private var notificationCenter
+	
 	/// Create a Settings Coordinator
 	/// - Parameter parentCoordinator: the presenting parent coordinator
 	/// - Parameter browser: the browser for displaying urls
-	init(
+	@MainActor init(
 		parentCoordinator: (any DashboardCoordinatorProtocol)?,
 		browser: RestrictedBrowser = RestrictedBrowser(
 			allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()),
@@ -118,7 +124,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				path.removeLast()
 			
 			case .lockApplication:
-				Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
+				notificationCenter.post(name: .showLocalAuthentication, object: nil)
 			
 			case .resetApplication:
 				parentCoordinator?.handle(.resetApplication)
@@ -168,7 +174,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the SettingsCoordination State
 	/// - Returns: A view for that state
-	@ViewBuilder func view(for state: SettingsCoordination.State?) -> some View {
+	@MainActor @ViewBuilder func view(for state: SettingsCoordination.State?) -> some View {
 		
 		switch state {
 			
@@ -215,7 +221,7 @@ class SettingsCoordinator: SettingsCoordinatorProtocol {
 				SecuritySettingsView(
 					viewModel: SecuritySettingsViewModel(
 						coordinator: self,
-						bioMetricType: Current.localAuthenticationProvider.biometricType
+						bioMetricType: self.localAuthenticationProvider.biometricType
 					)
 				)
 			

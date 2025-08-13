@@ -6,7 +6,7 @@
 import MGOFoundation
 import MGOUI
 
-enum OrganizationListCardState: Equatable {
+enum OrganizationListCardState: Equatable, Sendable {
 	case regular
 	case selected
 	case notParticipating

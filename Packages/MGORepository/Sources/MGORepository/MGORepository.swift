@@ -7,10 +7,10 @@ import Foundation
 import FHIRClient
 import HCIMCore
 
-public class MGORepository {
+public actor MGORepository {
 	
 	/// The FHIR Client
-	private var client: FHIRClient
+	private let client: FHIRClient
 	
 	/// Initializer
 	/// - Parameter client: the FHIR client
@@ -77,7 +77,7 @@ public class MGORepository {
 	/// process the bundle FHIR data into mgoResources
 	/// - Parameter data: FHIR bundle
 	/// - Returns: array of mgoResources (as Data)
-	nonisolated public func process(_ bundle: Data, fhirVersion: String) throws -> [MgoResource] {
+	public func process(_ bundle: Data, fhirVersion: String) throws -> [MgoResource] {
 		
 		// Split the bundle into FHIR resources
 		let fhirResources = parser.splitBundleIntoResources(bundle)

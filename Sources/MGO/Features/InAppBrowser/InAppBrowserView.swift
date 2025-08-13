@@ -34,7 +34,7 @@ class InAppBrowserViewModel: ObservableObject {
 	/// - Parameter url: the url to display
 	/// - Parameter browser: restricted browser
 	/// - Parameter title: the title of the page
-	init(
+	@MainActor init(
 		url: URL,
 		browser: RestrictedBrowser,
 		title: LocalizedStringKey?,
@@ -51,7 +51,7 @@ class InAppBrowserViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: InAppBrowserViewModel.Action) {
+	@MainActor func reduce(_ action: InAppBrowserViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:

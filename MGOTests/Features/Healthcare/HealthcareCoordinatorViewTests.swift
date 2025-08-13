@@ -20,7 +20,7 @@ final class HealthcareCoordinatorViewTests: XCTestCase {
 		super.setUp()
 	}
 
-	func test_default() throws {
+	@MainActor func test_default() throws {
 		
 		// Given
 		

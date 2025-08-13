@@ -24,7 +24,7 @@ class UpdateRequiredViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: UpdateRequiredViewModel.Action) {
+	@MainActor func reduce(_ action: UpdateRequiredViewModel.Action) {
 		switch action {
 			case .actionButtonPressed:
 				coordinator?.handle(Coordination.Action.showAppStore)

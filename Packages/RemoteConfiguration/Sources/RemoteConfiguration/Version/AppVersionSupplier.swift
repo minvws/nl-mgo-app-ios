@@ -15,7 +15,7 @@ public protocol AppVersionSupplierProtocol {
 	func getCurrentBuild() -> String
 }
 
-public struct AppVersionSupplier: AppVersionSupplierProtocol {
+public struct AppVersionSupplier: AppVersionSupplierProtocol, Sendable {
 	
 	public init() { /* public init for public access */ }
 	

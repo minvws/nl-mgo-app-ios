@@ -47,7 +47,7 @@ class HealthDataViewModel: ObservableObject {
 	/// - Parameter backButtonTitle: the title for the back button
 	/// - Parameter healthcareOrganization: the healthcare organization
 	/// - Parameter referenceResolver: the handler to resolve references
-	init(
+	@MainActor init(
 		coordinator: (any Coordinator)? = nil,
 		schema: HealthUISchema,
 		backButtonTitle: String?,
@@ -63,11 +63,11 @@ class HealthDataViewModel: ObservableObject {
 		prepareReferenceLink()
 	}
 	
-	private func prepareReferenceValues() {
+	@MainActor private func prepareReferenceValues() {
 	
 		filterReferences(.referenceValue).forEach { reference in
 			
-			if Current.featureFlagManager.isDemo {
+			if Container.shared.featureFlagManager().isDemo {
 				resolvedReferences[reference] = false
 			} else {
 				storeReference(reference, isReferenceValue: true)
@@ -102,7 +102,7 @@ class HealthDataViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthDataViewModel.Action) {
+	@MainActor func reduce(_ action: HealthDataViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
@@ -118,7 +118,7 @@ class HealthDataViewModel: ObservableObject {
 	
 	/// Handle the reference tap
 	/// - Parameter reference: the reference id tapped on
-	private func referenceTapped(_ reference: String) {
+	@MainActor private func referenceTapped(_ reference: String) {
 		
 		guard let resolved = referenceStore[reference] else { return }
 		

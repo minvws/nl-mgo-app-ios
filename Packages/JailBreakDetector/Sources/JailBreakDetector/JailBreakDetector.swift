@@ -3,13 +3,13 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import Foundation
+import UIKit
 import IOSSecuritySuite
 
-public protocol JailBreakProtocol: AnyObject {
+public protocol JailBreakProtocol {
 	
 	/// Is this device jail broken?
-	func isJailBroken() -> Bool
+	@MainActor func isJailBroken() -> Bool
 }
 
 public class JailBreakDetector: JailBreakProtocol {
@@ -17,7 +17,7 @@ public class JailBreakDetector: JailBreakProtocol {
 	public init() { /* Public initializer needed for public access */ }
 	
 	/// Is this device jail broken?
-	public func isJailBroken() -> Bool {
+	@MainActor public func isJailBroken() -> Bool {
 		
 		let jailbreakStatus = IOSSecuritySuite.amIJailbrokenWithFailedChecks()
 		return jailbreakStatus.jailbroken

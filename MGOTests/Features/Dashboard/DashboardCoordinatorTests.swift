@@ -17,14 +17,19 @@ final class DashboardCoordinatorTests: XCTestCase {
 	override func setUp() {
 		
 		servicesSpies = setupServicesSpies()
+		super.setUp()
+	}
+	
+	@MainActor private func createSut() {
+		
 		parentCoordinatorSpy = AppCoordinatorSpy()
 		sut = DashboardCoordinator(parentCoordinator: parentCoordinatorSpy)
-		super.setUp()
 	}
 
 	@MainActor func test_handleResetApplication() throws {
 		
 		// Given
+		createSut()
 		sut.selectedTab = DashboardTab.settings.rawValue
 		
 		// When
@@ -39,6 +44,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 	@MainActor func test_handleTabSwitch_categories() throws {
 		
 		// Given
+		createSut()
 		let category = HealthCategories.Category.medication
 		sut.selectedTab = DashboardTab.healthCategories.rawValue
 		sut.healthCategoriesCoordinator.handle(
@@ -66,6 +72,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 	@MainActor func test_handleTabSwitch_organizations() throws {
 		
 		// Given
+		createSut()
 		let category = HealthCategories.Category.medication
 		sut.selectedTab = DashboardTab.healthcareOrganizations.rawValue
 		sut.healthcareOrganizationsCoordinator.handle(
@@ -93,6 +100,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 	@MainActor func test_handleTabSwitch_settings() throws {
 
 		// Given
+		createSut()
 		sut.selectedTab = DashboardTab.settings.rawValue
 		sut.settingsCoordinator.handle(Coordination.Action.showDisplaySettings)
 		expect(self.sut.settingsCoordinator.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.displaySettings])

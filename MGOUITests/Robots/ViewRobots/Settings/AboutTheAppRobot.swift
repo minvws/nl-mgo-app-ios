@@ -5,10 +5,10 @@
 
 import XCTest
 
-class AboutTheAppRobot: Robot {
+@MainActor class AboutTheAppRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an About the app Robot
 	/// - Parameter application: the application to test

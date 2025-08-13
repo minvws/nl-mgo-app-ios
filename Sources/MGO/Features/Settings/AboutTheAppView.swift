@@ -30,7 +30,7 @@ class AboutTheAppViewModel: BaseViewModel {
 	/// - Parameter coordinator: the app coordinator
 	override init(coordinator: (any Coordinator)? = nil) {
 		
-		appVersion = "\(Current.appVersionSupplier.getCurrentVersion()) (\(Current.appVersionSupplier.getCurrentBuild()))"
+		appVersion = "\(Container.shared.appVersionSupplier().getCurrentVersion()) (\(Container.shared.appVersionSupplier().getCurrentBuild()))"
 		super.init(coordinator: coordinator)
 		
 		do {
@@ -42,7 +42,7 @@ class AboutTheAppViewModel: BaseViewModel {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AboutTheAppViewModel.Action) {
+	@MainActor func reduce(_ action: AboutTheAppViewModel.Action) {
 		
 		switch action {
 			

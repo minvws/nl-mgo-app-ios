@@ -14,14 +14,17 @@ class AdvancedSettingsViewModel: BaseViewModel {
 		case bypassPincode(Bool)
 	}
 	
+	/// Dependency injectable Feature Flag Manager
+	@Injected(\.featureFlagManager) private var featureFlagManager
+	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AdvancedSettingsViewModel.Action) {
+	@MainActor func reduce(_ action: AdvancedSettingsViewModel.Action) {
 		
 		if case .automaticLocalization(let automaticLocalization) = action {
-			Current.featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
+			featureFlagManager.isAutomaticLocalizationEnabled = automaticLocalization
 		} else if case .bypassPincode(let bypassPincode) = action {
-			Current.featureFlagManager.bypassPincode = bypassPincode
+			featureFlagManager.bypassPincode = bypassPincode
 		}
 	}
 }
@@ -35,10 +38,10 @@ struct AdvancedSettingsView: View {
 	@Environment(\.theme) var theme
 	
 	/// Variable to change the automatic localization setting
-	@State private var automaticLocalization: Bool = Current.featureFlagManager.isAutomaticLocalizationEnabled
+	@State private var automaticLocalization: Bool = Container.shared.featureFlagManager().isAutomaticLocalizationEnabled
 	
 	/// Variable to change the bypass pincode setting
-	@State private var bypassPincode: Bool = Current.featureFlagManager.bypassPincode
+	@State private var bypassPincode: Bool = Container.shared.featureFlagManager().bypassPincode
 	
 	/// Magic Numbers
 	private struct ViewTraits {

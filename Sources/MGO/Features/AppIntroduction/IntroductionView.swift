@@ -25,7 +25,7 @@ class IntroductionViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: IntroductionViewModel.Action) {
+	@MainActor func reduce(_ action: IntroductionViewModel.Action) {
 		switch action {
 			case .nextButttonPressed:
 				coordinator?.handle(Coordination.Action.nextButtonPressedOnIntroduction)

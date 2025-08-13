@@ -5,6 +5,7 @@
 
 import XCTest
 
+@MainActor
 final class HealthcareOrganizationsFlowTests: XCTestCase {
 	
 	/*
@@ -29,6 +30,7 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
 	}
 	
+	@MainActor
 	func testHealthcareOrganizations_navigateToRemoveOrganization() {
 		
 		AppRobot()

@@ -21,10 +21,9 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
-		setupSut(organization: healthcareOrganization)
 	}
 	
-	func setupSut(organization: MgoOrganization?, category: HealthCategories.Category = HealthCategories.Category.medicalComplaints) {
+	@MainActor func setupSut(organization: MgoOrganization?, category: HealthCategories.Category = HealthCategories.Category.medicalComplaints) {
 		
 		sut = HealthCategoryViewModel(
 			coordinator: coordinatorSpy,
@@ -39,9 +38,25 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		)
 	}
 	
+	/// Create a resource record
+	/// - Parameters:
+	///   - resources: the resources for the record
+	///   - error: boolean indicating fetch error
+	/// - Returns: resource record
+	private func resourceRecord(_ resources: [Data] = [], error: Bool = false) -> MgoResourceRecord {
+		
+		return MgoResourceRecord(
+			categoryId: "\(HealthCategories.Category.medication.rawValue)",
+			organizationId: healthcareOrganization.identifier,
+			resources: resources,
+			error: error
+		)
+	}
+	
 	@MainActor func test_initialState_shouldBeLoading() {
 		
 		// Given
+		setupSut(organization: healthcareOrganization)
 		
 		// When
 		
@@ -52,6 +67,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
+		setupSut(organization: healthcareOrganization)
 		
 		// When
 		sut.reduce(.backButtonPressed)
@@ -64,8 +80,11 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_loadResources_noResults() {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)]
+		setupSut(organization: healthcareOrganization)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord()
+			]
 		)
 		
 		// When
@@ -84,9 +103,12 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_loadResources_noResults_noOrganization() {
 		
 		// Given
+		setupSut(organization: healthcareOrganization)
 		setupSut(organization: nil)
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)]
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+			[
+				resourceRecord()
+			]
 		)
 		
 		// When
@@ -105,8 +127,11 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_loadResources_error() {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: true)]
+		setupSut(organization: healthcareOrganization)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord([], error: true)
+			]
 		)
 		
 		// When
@@ -127,8 +152,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Given
 		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.medication)
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord([resource])
+			]
 		)
 		
 		// When
@@ -151,8 +178,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Given
 		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.medication)
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord([resource])
+			]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		
@@ -176,8 +205,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Given
 		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.medication)
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord([resource])
+			]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		sut.reduce(.onAppear)
@@ -204,8 +235,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Given
 		setupSut(organization: nil, category: HealthCategories.Category.medication)
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
+			[
+				resourceRecord([resource])
+			]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		
@@ -227,6 +260,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_loadResources_noResults_cacheMiss() {
 		
 		// Given
+		setupSut(organization: healthcareOrganization)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .failure(DataStoreError.noData)
 		
 		// When
@@ -244,6 +278,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_retry() {
 		
 		// Given
+		setupSut(organization: healthcareOrganization)
 		
 		// When
 		sut.reduce(.retry)
@@ -269,8 +304,11 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_handleDataStoreChanges() {
 		
 		// Given
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)]
+		setupSut(organization: healthcareOrganization)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord()
+			]
 		)
 		
 		// When
@@ -292,8 +330,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		setupSut(organization: healthcareOrganization, category: .medication)
 		
 		// one (empty) result, but medication does more than one call.
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)]
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord()
+			]
 		)
 		
 		// When
@@ -306,6 +346,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_showExportAlert() {
 		
 		// Given
+		setupSut(organization: healthcareOrganization)
 		sut.showExportAlert = false
 		
 		// When
@@ -318,6 +359,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_cancelExportAlert() {
 		
 		// Given
+		setupSut(organization: healthcareOrganization)
 		sut.showExportAlert = true
 		
 		// When
@@ -332,8 +374,10 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Given
 		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.medication)
 		let resource = try getResource("zibMedicationUse")
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord([resource])
+			]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		sut.reduce(.onAppear)
@@ -346,14 +390,16 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle).toEventually(beTrue())
 		expect(self.coordinatorSpy.invokedHandleParameters?.0.identifier) == Coordination.Action.exportHealthData.identifier
 		expect(self.coordinatorSpy.invokedHandleParameters?.0.params) != nil
- 	}
+	}
 	
 	@MainActor func test_exportHealthData_partialList_shouldCallCoordinator() throws {
 		
 		// Given
 		setupSut(organization: healthcareOrganization, category: HealthCategories.Category.medication)
-		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: true)]
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord([], error: true)
+			]
 		)
 		sut.reduce(.onAppear)
 		expect(self.sut.state).toEventuallyNot(equal(.loading))

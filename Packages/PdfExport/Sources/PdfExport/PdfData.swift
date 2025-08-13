@@ -8,7 +8,7 @@ import Foundation
 /**
  * Represents a table row par, containing a key and a value
  */
-public struct PdfSubTablePair: Equatable, Codable, Hashable {
+public struct PdfSubTablePair: Equatable, Codable, Hashable, Sendable {
 	
 	/// Create a table row pair
 	/// - Parameters:
@@ -20,16 +20,16 @@ public struct PdfSubTablePair: Equatable, Codable, Hashable {
 	}
 	
 	/// The row key
-	public var key: String
+	public let key: String
 	
 	/// The row value
-	public var value: String
+	public let value: String
 }
 
 /**
  * Represents a sub-section of a table, used to break down complex data.
  */
-public struct PdfSubTable: Equatable, Codable, Hashable {
+public struct PdfSubTable: Equatable, Codable, Hashable, Sendable {
 	
 	/// Create a PDF sub table (i.e. a small section of the table)
 	/// - Parameters:
@@ -45,13 +45,13 @@ public struct PdfSubTable: Equatable, Codable, Hashable {
 	
 	/// A list of key-value pairs representing the subtable’s content rows.
 	/// Each pair corresponds to a label (left column) and its value (right column).
-	public var data: [PdfSubTablePair]
+	public let data: [PdfSubTablePair]
 }
 
 /**
  * Represents a single table in the PDF, possibly composed of multiple subtables.
  */
-public struct PdfTable: Equatable, Codable, Hashable {
+public struct PdfTable: Equatable, Codable, Hashable, Sendable {
 	
 	/// Create a PDF table for a MGO resource
 	/// - Parameters:
@@ -66,13 +66,13 @@ public struct PdfTable: Equatable, Codable, Hashable {
 	public let heading: String
 	
 	/// A list of subtables that make up the full table structure.
-	public var subTables: [PdfSubTable]
+	public let subTables: [PdfSubTable]
 }
 
 /**
  * Represents a logical grouping of tables under a common heading within the PDF.
  */
-public struct PdfGroupedTables: Equatable, Codable, Hashable {
+public struct PdfGroupedTables: Equatable, Codable, Hashable, Sendable {
 	
 	/// Create a PDF Grouped Table, containing all the tables for a category
 	/// - Parameters:
@@ -87,13 +87,13 @@ public struct PdfGroupedTables: Equatable, Codable, Hashable {
 	public let heading: String
 	
 	/// A list of individual tables included in this group.
-	public var tables: [PdfTable]
+	public let tables: [PdfTable]
 }
 
 /**
  * Represents the complete content structure of a PDF document.
  */
-public struct PdfData: Equatable, Codable, Hashable {
+public struct PdfData: Equatable, Codable, Hashable, Sendable {
 	
 	/// Create an object that holds all the data for a PDF
 	/// - Parameters:
@@ -115,7 +115,7 @@ public struct PdfData: Equatable, Codable, Hashable {
 	public let subHeading: String
 	
 	/// A list of grouped tables, each with its own heading and associated tables.
-	public var tables: [PdfGroupedTables]
+	public let tables: [PdfGroupedTables]
 	
 	/// A footer text displayed at the bottom of the PDF.
 	public let footer: String

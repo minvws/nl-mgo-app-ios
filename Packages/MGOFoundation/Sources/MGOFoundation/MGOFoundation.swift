@@ -24,5 +24,6 @@
 @_exported import RemoteConfiguration
 
 // External
+@_exported import FactoryKit
 @_exported import OHHTTPStubs
 @_exported import OHHTTPStubsSwift

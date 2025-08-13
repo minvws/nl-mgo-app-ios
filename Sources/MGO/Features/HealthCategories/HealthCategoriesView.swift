@@ -55,6 +55,15 @@ class HealthCategoriesViewModel: ObservableObject {
 	/// Token for the healthcare organization observatory
 	private var healthcareOrganizationStoreToken: Observatory.ObserverToken?
 	
+	/// Dependency Healthcare Organization Store
+	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
+	
+	/// Dependency Injectable Data Store
+	@Injected(\.dataStore) private var dataStore
+	
+	/// Dependency Injectable Resource Repository
+	@Injected(\.resourceRepository) private var resourceRepository
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -67,7 +76,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil, mode: HealthCategoriesViewMode) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, mode: HealthCategoriesViewMode) {
 		
 		self.coordinator = coordinator
 		self.mode = mode
@@ -103,13 +112,13 @@ class HealthCategoriesViewModel: ObservableObject {
 		
 		// The categories could be divided into several boxes, currently 1 box for enabled categories. 
 		// Disabled box 1 means same box as the enabled categories
-		let disabledForDemoBox: Int = Current.featureFlagManager.isDemo ? 2 : 1
+		let disabledForDemoBox: Int = Container.shared.featureFlagManager().isDemo ? 2 : 1
 		
 		self.state = HealthCategoriesViewState(
 			heading: heading,
 			subheading: subheading,
 			canTitleCollapse: canTitleCollapse,
-			showEmptyView: Current.healthcareOrganizationStore.organizations.isEmpty,
+			showEmptyView: Container.shared.healthcareOrganizationRepository().organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
 			healthCategories: [
 				CategoryButton(category: .medication, box: 1),
@@ -136,28 +145,28 @@ class HealthCategoriesViewModel: ObservableObject {
 		registerObservers()
 	}
 	
-	private func registerObservers() {
-		self.dataStoreToken = Current.dataStore.observatory.append { [weak self] changed in
+	@MainActor private func registerObservers() {
+		self.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
 				// Handle updates in the fetched data
 				self?.updateState()
 			}
 		}
-		self.healthcareOrganizationStoreToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _ in
+		self.healthcareOrganizationStoreToken = healthcareOrganizationRepository.observatory.append { [weak self] _ in
 			// Check if there are any healthcare organizations left.
-			self?.state.showEmptyView = Current.healthcareOrganizationStore.organizations.isEmpty
+			self?.state.showEmptyView = self?.healthcareOrganizationRepository.organizations.isEmpty ?? true
 		}
 	}
 	
 	deinit {
 		// Remove as observer
-		dataStoreToken.map(Current.dataStore.observatory.remove)
-		healthcareOrganizationStoreToken.map(Current.healthcareOrganizationStore.observatory.remove)
+		dataStoreToken.map(dataStore.observatory.remove)
+		healthcareOrganizationStoreToken.map(healthcareOrganizationRepository.observatory.remove)
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthCategoriesViewModel.Action) {
+	@MainActor func reduce(_ action: HealthCategoriesViewModel.Action) {
 		
 		switch action {
 			case .backButtonPressed:
@@ -168,11 +177,11 @@ class HealthCategoriesViewModel: ObservableObject {
 				
 			case .refresh:
 				if case let .single(healthcareOrganization) = mode {
-					Current.dataStore.removeRecords(for: healthcareOrganization.identifier)
-					Current.resourceRepository.loadFor(healthcareOrganization)
+					dataStore.removeRecords(for: healthcareOrganization.identifier)
+					resourceRepository.loadFor(healthcareOrganization)
 				} else {
-					Current.dataStore.removeAllRecords()
-					Current.resourceRepository.load()
+					dataStore.removeAllRecords()
+					resourceRepository.load()
 				}
 				reduce(.onAppear)
 			
@@ -210,7 +219,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	}
 	
 	/// The store has changed, update the
-	private func updateState() {
+	@MainActor private func updateState() {
 		
 		for button in state.healthCategories {
 			// Only update if the category is enabled.
@@ -219,9 +228,12 @@ class HealthCategoriesViewModel: ObservableObject {
 			let cacheResult: Result<[MgoResourceRecord], Error> = {
 				switch mode {
 					case .single(let healthcareOrganization):
-						return Current.dataStore.get(categoryId: "\(button.id)", organizationId: healthcareOrganization.identifier)
+						return dataStore.get(
+							categoryId: "\(button.id)",
+							organizationId: healthcareOrganization.identifier
+						)
 					case .all:
-						return Current.dataStore.get(categoryId: "\(button.id)")
+						return dataStore.get(categoryId: "\(button.id)")
 				}
 			}()
 			
@@ -231,7 +243,7 @@ class HealthCategoriesViewModel: ObservableObject {
 
 	/// Update the state
 	/// - Parameter button: the button to update
-	private func handleCacheResult(_ cacheResult: Result<[MgoResourceRecord], Error>, button: CategoryButton) {
+	@MainActor private func handleCacheResult(_ cacheResult: Result<[MgoResourceRecord], Error>, button: CategoryButton) {
 		
 		// There better be a category for this button
 		guard let category = HealthCategories.Category(rawValue: button.id) else {
@@ -247,7 +259,7 @@ class HealthCategoriesViewModel: ObservableObject {
 				case .all:
 					// All the services for that category * the number of organizations
 					var result = 0
-					for organization in Current.healthcareOrganizationStore.organizations {
+					for organization in healthcareOrganizationRepository.organizations {
 						result += organization.servicesForCategory(category)
 					}
 					return result
@@ -327,7 +339,8 @@ struct HealthCategoriesView: View {
 		}
 		enum List {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-			static let spacing: CGFloat = Current.featureFlagManager.isDemo ? 16 : 4
+			static let spacing: CGFloat = 4
+			static let demoSpacing: CGFloat = 16
 			static let bottom: CGFloat = 16
 		}
 		enum NoResults {
@@ -346,7 +359,7 @@ struct HealthCategoriesView: View {
 				noHealthcareOrganizationView()
 			} else {
 				categoriesView()
-					.backportListSectionSpacing(ViewTraits.List.spacing)
+					.backportListSectionSpacing(Container.shared.featureFlagManager().isDemo ? ViewTraits.List.demoSpacing : ViewTraits.List.spacing)
 					.backportContentMargins(0)
 					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 			}
@@ -509,7 +522,7 @@ struct HealthCategoriesView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton(Current.featureFlagManager.isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
+			CallToActionButton(Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
 				viewModel.reduce(.search)
 			}
 			.accessibilityIdentifier("common.add_organizations")

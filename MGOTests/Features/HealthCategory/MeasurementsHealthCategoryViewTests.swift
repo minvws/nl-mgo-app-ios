@@ -15,7 +15,7 @@ final class MeasurementsHealthCategoryViewTests: XCTestCase {
 	private var viewModel: HealthCategoryViewModel!
 	private var healthcareOrganization: MgoOrganization!
 	private var sut: HealthCategoryView!
-
+	
 	private let item = Generator.healthSubCategory()
 	
 	override func setUp() {
@@ -24,15 +24,20 @@ final class MeasurementsHealthCategoryViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
+	}
+	
+	@MainActor private func createSut() {
+		
 		viewModel = MeasurementsHealthCategoryViewModel(
 			coordinator: coordinatorSpy,
 			organization: healthcareOrganization)
 		sut = HealthCategoryView(viewModel: self.viewModel)
 	}
-
-	func test_stateLoading() {
+	
+	@MainActor func test_stateLoading() {
 		
 		// Given
+		createSut()
 		viewModel.state = .loading
 		
 		// When
@@ -42,9 +47,10 @@ final class MeasurementsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_stateEmptyList() {
+	@MainActor func test_stateEmptyList() {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -54,9 +60,10 @@ final class MeasurementsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_stateEmptyPartialList() {
+	@MainActor func test_stateEmptyPartialList() {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -65,10 +72,11 @@ final class MeasurementsHealthCategoryViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-
-	func test_stateList() throws {
+	
+	@MainActor func test_stateList() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -78,9 +86,10 @@ final class MeasurementsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func disabled_test_search_itemNotFound() throws {
+	@MainActor func disabled_test_search_itemNotFound() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		sut.viewModel.state = .list(items: [item])
 		
@@ -91,9 +100,10 @@ final class MeasurementsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content, isRecording: true)
 	}
 	
-	func disabled_test_search_itemFound() throws {
+	@MainActor func disabled_test_search_itemFound() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		sut.viewModel.state = .list(items: [item])
 		

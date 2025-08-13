@@ -5,18 +5,15 @@
 
 import Foundation
 
-public class FHIRClient {
+public actor FHIRClient {
 	
 	/// The server's base URL.
 	public final let baseURL: URL
 	
-	/// The active URL session.
-	public var session: URLSession?
-	
-	/**
-	Main initializer. Makes sure the base URL ends with a "/" to facilitate URL generation later on.
-	*/
-	public required init(baseURL base: URL) {
+	/// Create a FHIR Client
+	/// - Parameter base: the base url.
+	public init(baseURL base: URL) {
+		// Makes sure the base URL ends with a "/" to facilitate URL generation later on.
 		if let last = base.absoluteString.last, last != "/" {
 			baseURL = base.appendingPathComponent("/")
 		} else {
@@ -33,7 +30,7 @@ public class FHIRClient {
 	
 	- parameter for: The path in the absolute URL
 	*/
-	open func absoluteURL(for path: String) -> URL? {
+	public func absoluteURL(for path: String) -> URL? {
 		return URL(string: path, relativeTo: baseURL)
 	}
 	
@@ -48,7 +45,7 @@ public class FHIRClient {
 	
 	- returns:            An appropriate `RequestHandler`, for example a _FHIRJSONRequestHandler_ if sending and receiving JSON
 	*/
-	open func handlerForRequest(withMethod method: RequestMethod) -> RequestHandler {
+	public func handlerForRequest(withMethod method: RequestMethod) -> RequestHandler {
 		return RequestHandlerImpl(method)
 	}
 	
@@ -60,7 +57,7 @@ public class FHIRClient {
 	- parameter url: The url to use for the request
 	- returns: A URLRequest instance
 	*/
-	open func configurableRequest(for url: URL) -> URLRequest {
+	public func configurableRequest(for url: URL) -> URLRequest {
 		return URLRequest(url: url)
 	}
 	
@@ -73,7 +70,10 @@ public class FHIRClient {
 	 - Returns:  the server response
 	 */
 	
-	func performRequest(against path: String, handler: RequestHandler) async -> ServerResponse {
+	func performRequest(
+		against path: String,
+		handler: RequestHandler
+	) async -> ServerResponse {
 		
 		guard let url = absoluteURL(for: path) else {
 			return handler.notSent("Failed to parse path «\(path)» relative to server base URL")
@@ -94,7 +94,10 @@ public class FHIRClient {
 	 - Returns: the server response
 	 */
 	
-	func performRequest(on url: URL, handler: RequestHandler) async -> ServerResponse {
+	func performRequest(
+		on url: URL,
+		handler: RequestHandler
+	) async -> ServerResponse {
 		
 		var request = configurableRequest(for: url)
 		do {
@@ -134,29 +137,9 @@ public class FHIRClient {
 		request: URLRequest,
 		completionHandler: @Sendable @escaping (Data?, URLResponse?, Error?) -> Void
 	) -> URLSessionTask? {
-		let task = URLSession().dataTask(with: request, completionHandler: completionHandler)
+		
+		let task = Foundation.URLSession.shared.dataTask(with: request, completionHandler: completionHandler)
 		task.resume()
 		return task
-	}
-	
-	// MARK: - Session Management
-	
-	public func URLSession() -> URLSession {
-		if nil == session {
-			session = createDefaultSession()
-		}
-		return session!
-	}
-	
-	/** Create the server's default session. Override in subclasses to customize URLSession behavior. */
-	public func createDefaultSession() -> URLSession {
-		return Foundation.URLSession.shared
-	}
-	
-	public func abortSession() {
-		if nil != session {
-			session!.invalidateAndCancel()
-			session = nil
-		}
 	}
 }

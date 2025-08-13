@@ -100,7 +100,7 @@ settings:
     CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
     ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS: true
     ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: true
-    SWIFT_STRICT_CONCURRENCY: targeted
+    SWIFT_STRICT_CONCURRENCY: complete
     FRAMEWORK_SEARCH_PATHS:
       - "$(inherited)"
       - "$(PROJECT_DIR)"
@@ -212,7 +212,7 @@ targetTemplates:
           - 'microsoft-edge-https'
           - 'itms-apps'
         LSRequiresIPhoneOS: true
-        NSFaceIDUsageDescription: "Log volgende keer in met gezichtsherkenning."
+        NSFaceIDUsageDescription: "Log voortaan snel en veilig in met gezichtsherkenning."
         UIApplicationSupportsIndirectInputEvents: true
         UIRequiredDeviceCapabilities:
           - armv7

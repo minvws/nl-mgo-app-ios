@@ -40,6 +40,10 @@ class AboutOpenSourceLibrariesViewModel: BaseViewModel {
 				urlString: "https://github.com/devicekit/DeviceKit?tab=MIT-1-ov-file#readme" // NOSONAR
 			),
 			Library(
+				name: "Factory (MIT)",
+				urlString: "https://github.com/hmlongco/Factory?tab=MIT-1-ov-file#readme" // NOSONAR
+			),
+			Library(
 				name: "Figlet (Apache 2.0)",
 				urlString: "https://github.com/apple/example-package-figlet?tab=Apache-2.0-1-ov-file#readme" // NOSONAR
 			),
@@ -104,7 +108,7 @@ class AboutOpenSourceLibrariesViewModel: BaseViewModel {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: AboutOpenSourceLibrariesViewModel.Action) {
+	@MainActor func reduce(_ action: AboutOpenSourceLibrariesViewModel.Action) {
 		
 		if case .openUrl(let urlString) = action {
 			let params: [String: AnyHashable] = ["urlString": urlString]

@@ -22,7 +22,7 @@ final class AboutAccessibilityViewModelTests: XCTestCase {
 		sut = AboutAccessibilityViewModel(coordinator: self.coordinatorSpy)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
 		

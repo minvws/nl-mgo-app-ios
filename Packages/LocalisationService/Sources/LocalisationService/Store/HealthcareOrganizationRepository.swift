@@ -91,7 +91,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 		}
 
 		organizations.append(organization)
-		observers((organization, .added))
+		observers((organization, HealthcareOrganizationReason.added))
 		try persistToStorage()
 	}
 	
@@ -112,7 +112,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	
 		logInfo("About to delete \(organization.display_name)")
 		organizations = organizations.filter { $0 != organization }
-		observers((organization, .removed))
+		observers((organization, HealthcareOrganizationReason.removed))
 		try persistToStorage()
 	}
 	
@@ -121,7 +121,7 @@ public class HealthcareOrganizationRepository: HealthcareOrganizationRepositoryP
 	public func set(_ newListOfOrganizations: [MgoOrganization]) throws {
 		
 		organizations = newListOfOrganizations
-		observers((nil, .changed))
+		observers((nil, HealthcareOrganizationReason.changed))
 		try persistToStorage()
 	}
 	

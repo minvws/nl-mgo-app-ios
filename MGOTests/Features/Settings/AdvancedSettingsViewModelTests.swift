@@ -22,7 +22,7 @@ final class AdvancedSettingsViewModelTests: XCTestCase {
 		sut = AdvancedSettingsViewModel(coordinator: coordinatorSpy)
 	}
 	
-	func test_backButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -34,7 +34,7 @@ final class AdvancedSettingsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_automaticLocalization() {
+	@MainActor func test_automaticLocalization() {
 		
 		// Given
 		
@@ -46,7 +46,7 @@ final class AdvancedSettingsViewModelTests: XCTestCase {
 		expect(self.servicesSpies.featureFlagSpy.invokedIsAutomaticLocalizationEnabled) == false
 	}
 	
-	func test_bypassPincode() {
+	@MainActor func test_bypassPincode() {
 		
 		// Given
 		

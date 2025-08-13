@@ -15,9 +15,6 @@ struct MainEntryPoint {
 			TestApp.main()
 			return
 		}
-		
-		// https://www.pointfree.co/episodes/ep16-dependency-injection-made-easy
-		Current = services()
 		ProductionApp.main()
 	}
 	

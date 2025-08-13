@@ -16,13 +16,18 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 	override func setUp() {
 		
 		servicesSpies = setupServicesSpies()
-		coordinator = DashboardCoordinator(parentCoordinator: AppCoordinatorSpy())
 		super.setUp()
 	}
+	
+	@MainActor private func createSut() {
+	
+		coordinator = DashboardCoordinator(parentCoordinator: AppCoordinatorSpy())
+	}
 
-	func test_default() throws {
+	@MainActor func test_default() throws {
 		
 		// Given
+		createSut()
 		
 		// When
 		let sut = DashboardCoordinatorView(coordinator: coordinator)
@@ -31,9 +36,10 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 		takeSnapShots(content: sut, precision: 0.95)
 	}
 	
-	func test_secondTab() throws {
+	@MainActor func test_secondTab() throws {
 		
 		// Given
+		createSut()
 		let sut = DashboardCoordinatorView(coordinator: coordinator)
 		
 		// When
@@ -43,9 +49,10 @@ final class DashboardCoordinatorViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_thirdTab() throws {
+	@MainActor func test_thirdTab() throws {
 		
 		// Given
+		createSut()
 		let sut = DashboardCoordinatorView(coordinator: coordinator)
 		
 		// When

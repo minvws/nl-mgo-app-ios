@@ -24,7 +24,7 @@ class LoginInfoViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	public func reduce(_ action: Action) {
+	@MainActor public func reduce(_ action: Action) {
 		
 		if action == .nextButttonPressed {
 			coordinator?.handle(Coordination.Action.nextButtonPressedOnLoginInfo)

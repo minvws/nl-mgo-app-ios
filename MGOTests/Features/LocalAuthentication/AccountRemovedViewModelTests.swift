@@ -21,7 +21,7 @@ final class AccountRemovedViewModelTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func test_actionRestart_shouldCallCoordinator() {
+	@MainActor func test_actionRestart_shouldCallCoordinator() {
 		
 		// Given
 		

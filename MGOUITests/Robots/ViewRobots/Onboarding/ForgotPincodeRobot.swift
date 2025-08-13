@@ -6,10 +6,10 @@
 import XCTest
 
 /// The Robot for the Forgot Pin code scene
-class ForgotPincodeRobot: Robot {
+@MainActor class ForgotPincodeRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Forgot Pincode Robot
 	/// - Parameter application: the application to test

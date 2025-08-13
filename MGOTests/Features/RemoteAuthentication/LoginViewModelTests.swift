@@ -3,7 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+@preconcurrency import MGOTest
 @testable import MGO
 import RestrictedBrowser
 
@@ -19,21 +19,27 @@ final class LoginViewModelTests: XCTestCase {
 		
 		coordinatorSpy = AppCoordinatorSpy()
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
-		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url, username: nil, password: nil)
+		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url)
 		servicesSpies = setupServicesSpies()
 		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
+		
+		super.setUp()
+	}
+	
+	@MainActor private func createSut() {
+		
 		sut = LoginViewModel(
 			coordinator: coordinatorSpy,
 			remoteAuthenticationClient: remoteAuthenticationClientSpy,
 			urlOpener: urlOpenerSpy
 		)
-		super.setUp()
 	}
 
-	func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() {
+	@MainActor func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() {
 		
 		// Given
+		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
 		
 		// When
@@ -44,11 +50,12 @@ final class LoginViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
 	}
 	
-	func test_loginWithDigiD() throws {
+	@MainActor func test_loginWithDigiD() async throws {
 		
 		// Given
+		createSut()
 		let auth = try XCTUnwrap(URL(string: "https://example.com/auth"))
-		remoteAuthenticationClientSpy.stubbedGetAuthenticationUrl = auth
+		await remoteAuthenticationClientSpy.setStubedGetAuthenticationUrl(auth)
 		servicesSpies.featureFlagSpy.stubbedIsDemo = false
 		
 		// When
@@ -56,6 +63,7 @@ final class LoginViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.urlOpenerSpy.invokedCanOpenURL).toEventually(beTrue())
+		await expect { self.urlOpenerSpy.invokedCanOpenURL }
+			.toEventually(beTrue())
 	}
 }

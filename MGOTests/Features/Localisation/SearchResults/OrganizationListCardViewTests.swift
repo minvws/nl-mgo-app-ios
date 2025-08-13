@@ -8,7 +8,7 @@ import MGOTest
 
 final class OrganizationListCardViewTests: XCTestCase {
 	
-	func test_searchResultCardView_regular() {
+	@MainActor func test_searchResultCardView_regular() {
 		
 		// Given
 		
@@ -28,7 +28,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_searchResultCardView_selected() {
+	@MainActor func test_searchResultCardView_selected() {
 		
 		// Given
 		
@@ -48,7 +48,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_searchResultCardView_warning() {
+	@MainActor func test_searchResultCardView_warning() {
 		
 		// Given
 		
@@ -68,7 +68,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_searchResultCardView_nameOnly() {
+	@MainActor func test_searchResultCardView_nameOnly() {
 		
 		// Given
 		
@@ -85,7 +85,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_searchResultCardView_noStreet() {
+	@MainActor func test_searchResultCardView_noStreet() {
 		
 		// Given
 		
@@ -105,7 +105,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_searchResultCardView_noPostalCode() {
+	@MainActor func test_searchResultCardView_noPostalCode() {
 		
 		// Given
 		
@@ -125,7 +125,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_searchResultCardView_automaticSelected() {
+	@MainActor func test_searchResultCardView_automaticSelected() {
 		
 		// Given
 		
@@ -145,7 +145,7 @@ final class OrganizationListCardViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_searchResultCardView_automaticUnselected() {
+	@MainActor func test_searchResultCardView_automaticUnselected() {
 		
 		// Given
 		

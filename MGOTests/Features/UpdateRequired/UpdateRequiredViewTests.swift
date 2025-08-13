@@ -13,16 +13,17 @@ final class UpdateRequiredViewTests: XCTestCase {
 	private var viewModel: UpdateRequiredViewModel!
 	private var sut: UpdateRequiredView!
 	
-	override func setUp() {
+	@MainActor private func createSut() {
 		
 		coordinatorSpy = AppCoordinatorSpy()
 		viewModel = UpdateRequiredViewModel(coordinator: coordinatorSpy)
 		sut = UpdateRequiredView(viewModel: self.viewModel)
 	}
 	
-	func test_updateRequiredView() {
+	@MainActor func test_updateRequiredView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -31,9 +32,10 @@ final class UpdateRequiredViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_actionButtonPressed_shouldCallCoordinator() throws {
+	@MainActor func test_actionButtonPressed_shouldCallCoordinator() throws {
 		
 		// Given
+		createSut()
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "update_required.download")

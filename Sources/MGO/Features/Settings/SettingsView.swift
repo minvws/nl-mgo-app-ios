@@ -40,12 +40,12 @@ class SettingsViewModel: ObservableObject {
 		showAdvancedButton = release == Release.development // Show only in Dev
 		
 		// Show only when we have biometrics
-		showSecurityButton = Current.localAuthenticationProvider.biometricType() != .none
+		showSecurityButton = Container.shared.localAuthenticationProvider().biometricType() != .none
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: SettingsViewModel.Action) {
+	@MainActor func reduce(_ action: SettingsViewModel.Action) {
 		
 		switch action {
 			case .aboutTheApp:

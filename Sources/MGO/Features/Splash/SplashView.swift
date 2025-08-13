@@ -6,7 +6,7 @@
 import MGOUI
 import MGOFoundation
 
-class SplashViewModel: ObservableObject {
+final class SplashViewModel: ObservableObject {
 	
 	/// The flow coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -24,7 +24,6 @@ class SplashViewModel: ObservableObject {
 	/// All possible actions for this ViewModel
 	enum Action {
 		case start
-		case reset
 		case loaded
 		case dismissWarning
 	}
@@ -35,11 +34,20 @@ class SplashViewModel: ObservableObject {
 	/// Should we show the device is jail broken dialog?
 	@Published var showJailBreakDialog = false
 	
+	/// Dependency injectable Secure User Settings
+	@Injected(\.secureUserSettings) private var secureUserSettings
+	
+	/// Dependency injectable Remote Configuration Repository
+	@Injected(\.remoteConfigurationRepository) private var remoteConfigurationRepository
+	
+	/// Dependency Injectable Resource Repository
+	@Injected(\.resourceRepository) private var resourceRepository
+	
 	/// Create a splash view
 	/// - Parameters:
 	///   - coordinator: the flow coordinator
 	///   - state: initial state
-	init(coordinator: (any Coordinator)?, state: State = .idle) {
+	@MainActor init(coordinator: (any Coordinator)?, state: State = .idle) {
 		self.coordinator = coordinator
 		self.state = state
 		
@@ -49,82 +57,59 @@ class SplashViewModel: ObservableObject {
 	
 	deinit {
 		// Remove as observer
-		observerToken.map(Current.remoteConfigurationRepository.observatory.remove)
+		observerToken.map(remoteConfigurationRepository.observatory.remove)
 	}
 	
 	/// Start the services fetching remote data
-	private func startServices() {
+	@MainActor private func startServices() {
 		
-		_Concurrency.Task {
-			await Current.remoteConfigurationRepository.fetchAndUpdateObservers()
+		_Concurrency.Task(priority: .userInitiated) {
+			await remoteConfigurationRepository.fetchAndUpdateObservers()
 		}
-		Current.resourceRepository.load()
+		resourceRepository.load()
 	}
 	
 	/// Setup all the observers
+	@MainActor
 	private func setupObservers() {
 		
-		// Listen for reset notification
-		Current.notificationCenter.addObserver(forName: .resetApplication, object: nil, queue: OperationQueue.main) { _ in
-			_Concurrency.Task { @MainActor [weak self] in
-				self?.reduce(.reset)
-			}
-		}
-		
 		// Listen to changes in the remote configuration
-		observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] _ in
-			
-			guard let self else { return }
-			// Updated configuration
+		observerToken = remoteConfigurationRepository.observatory.append { @MainActor [weak self] _ in
+	
 			logDebug("LaunchViewModel: config loaded")
-			_Concurrency.Task { @MainActor [weak self] in
-				self?.reduce(.loaded)
-			}
+			self?.reduce(.loaded)
 		}
 	}
 	
 	/// Reduce the action to the next state
 	/// - Parameter action: the action
-	public func reduce(_ action: SplashViewModel.Action) {
+	@MainActor public func reduce(_ action: SplashViewModel.Action) {
 		
 		switch action {
 			case .start:
-			
-				guard !shouldShowJailBreakWarning() else {
-					showJailBreakDialog = true
+				guard !secureUserSettings.userHasSeenJailBreakWarning else {
+					coordinator?.handle(Coordination.Action.finishedSplash)
 					return
 				}
-			
-				guard state == .idle else { return }
-				coordinator?.handle(Coordination.Action.finishedSplash)
-			
-			case .reset:
-				startLoadingConfig()
+				if Container.shared.jailBreakDetector().isJailBroken() {
+					showJailBreakDialog = true
+					return
+				} else {
+					guard state == .idle else { return }
+					coordinator?.handle(Coordination.Action.finishedSplash)
+				}
 			
 			case .loaded:
+				guard !showJailBreakDialog else { return }
 				state = .configLoaded
 				coordinator?.handle(Coordination.Action.finishedSplash)
 			
 			case .dismissWarning:
 				// Mark warning as seen.
-				Current.secureUserSettings.userHasSeenJailBreakWarning = true
+				secureUserSettings.userHasSeenJailBreakWarning = true
+				showJailBreakDialog = false
 				coordinator?.handle(Coordination.Action.finishedSplash)
 		}
-	}
-	
-	/// Determine if we should show the jail break warning
-	/// - Returns: True if we should show the dialog
-	private func shouldShowJailBreakWarning() -> Bool {
-		
-		return !Current.secureUserSettings.userHasSeenJailBreakWarning && Current.jailBreakDetector.isJailBroken()
-	}
-	
-	/// Load the remote Config
-	private func startLoadingConfig() {
-		
-		state = .loadingConfig
-		startServices()
-		coordinator?.handle(Coordination.Action.finishedSplash)
 	}
 }
 

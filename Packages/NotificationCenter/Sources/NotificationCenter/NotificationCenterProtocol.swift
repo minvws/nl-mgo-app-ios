@@ -45,6 +45,17 @@ public protocol NotificationCenterProtocol {
 		notification: UIAccessibility.Notification,
 		argument: Any?
 	)
+	
+	/// Returns a publisher that emits events when broadcasting notifications.
+	/// - Parameters:
+	///   - name: The name of the notification to publish
+	///   - object: The object posting the named notification. If nil, the publisher emits elements for
+	///    any object producing a notification with the given name
+	/// - Returns: publisher that emits events when broadcasting notifications
+	func publisher(
+		for name: Notification.Name,
+		object: AnyObject?
+	) -> NotificationCenter.Publisher
 }
 
 extension NotificationCenter: NotificationCenterProtocol {

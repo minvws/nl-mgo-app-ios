@@ -33,6 +33,9 @@ class BioMetricSetupViewModel: ObservableObject {
 	/// The state of the view
 	@Published var state: State = State(bioMetricType: .none)
 	
+	/// Dependency injectable Secure User Settings
+	@Injected(\.secureUserSettings) private var secureUserSettings
+	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter bioMetricType: what biometric type do we have? (FaceID, TouchID, OpticID)
@@ -56,7 +59,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	public func reduce(_ action: Action) {
 		switch action {
 			case .proceedWithBioMetric:
-				_Concurrency.Task {
+				_Concurrency.Task(priority: .userInitiated) {
 					await authenticate()
 				}
 				
@@ -69,19 +72,19 @@ class BioMetricSetupViewModel: ObservableObject {
 	}
 	
 	/// The user finished this page with bio metric access
-	private func finishedWithBioMetric() {
+	@MainActor private func finishedWithBioMetric() {
 		
 		// Do use biometric authentication
-		Current.secureUserSettings.bioMetricAuthenticationEnabled = true
+		secureUserSettings.bioMetricAuthenticationEnabled = true
 		// We are done
 		coordinator?.handle(Coordination.Action.didFinishLocalAuthentication)
 	}
 	
 	/// The user finished this page without bio metric access
-	private func finishedWithoutBioMetric() {
+	@MainActor private func finishedWithoutBioMetric() {
 		
 		// Do not use biometric authentication
-		Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+		secureUserSettings.bioMetricAuthenticationEnabled = false
 		// We are done
 		coordinator?.handle(Coordination.Action.didFinishLocalAuthentication)
 	}
@@ -91,7 +94,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
-			let authenticated = try await Current.localAuthenticationProvider.authenticate(
+			let authenticated = try await Container.shared.localAuthenticationProvider().authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
@@ -101,11 +104,11 @@ class BioMetricSetupViewModel: ObservableObject {
 		} catch LocalAuthenticationError.canceled {
 			// Cancelled, stay on the scene
 			logWarning("User cancelled the biometric request.")
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			secureUserSettings.bioMetricAuthenticationEnabled = false
 			
 		} catch LocalAuthenticationError.authenticationFailed {
 			logWarning("Authentication Failed")
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			secureUserSettings.bioMetricAuthenticationEnabled = false
 			
 		} catch LocalAuthenticationError.userFallback {
 			logWarning("User selected password option")
@@ -118,11 +121,11 @@ class BioMetricSetupViewModel: ObservableObject {
 		} catch LocalAuthenticationError.lockout {
 			logWarning("BioMetric setup lockout")
 			state.showLockoutPopup = true
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			secureUserSettings.bioMetricAuthenticationEnabled = false
 			
 		} catch {
 			logError("error: \(error)")
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			secureUserSettings.bioMetricAuthenticationEnabled = false
 		}
 	}
 }

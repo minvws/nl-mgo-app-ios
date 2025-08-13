@@ -19,14 +19,19 @@ final class AccountRemovedViewTests: XCTestCase {
 		
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
-		viewModel = AccountRemovedViewModel(coordinator: coordinatorSpy)
-		sut = AccountRemovedView(viewModel: self.viewModel)
 		super.setUp()
 	}
 	
-	func test_accountRemovedView() {
+	@MainActor private func createSut() {
+		
+		viewModel = AccountRemovedViewModel(coordinator: coordinatorSpy)
+		sut = AccountRemovedView(viewModel: self.viewModel)
+	}
+	
+	@MainActor func test_accountRemovedView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -35,9 +40,10 @@ final class AccountRemovedViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_actionRestart_shouldCallCoordinator() throws {
+	@MainActor func test_actionRestart_shouldCallCoordinator() throws {
 		
 		// Given
+		createSut()
 		
 		// When
 		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "account_removed.action")

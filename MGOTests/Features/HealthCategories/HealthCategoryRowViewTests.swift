@@ -10,7 +10,7 @@ import MGOUI
 
 class HealthCategoryRowViewTests: XCTestCase {
 	
-	func test_empty() {
+	@MainActor func test_empty() {
 		
 		// Given
 		let sut = HealthCategoryRowView(block: CategoryButton(category: .medication, state: .empty, box: 1))
@@ -23,7 +23,7 @@ class HealthCategoryRowViewTests: XCTestCase {
 		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
 	}
 	
-	func test_loading() {
+	@MainActor func test_loading() {
 		
 		// Given
 		let sut = HealthCategoryRowView(block: CategoryButton(category: .medication, state: .loading, box: 1))
@@ -36,7 +36,7 @@ class HealthCategoryRowViewTests: XCTestCase {
 		assertSnapshot(of: UIHostingController(rootView: view.colorScheme(.dark)), as: .image)
 	}
 	
-	func test_loaded() {
+	@MainActor func test_loaded() {
 		
 		// Given
 		let sut = HealthCategoryRowView(block: CategoryButton(category: .medication, state: .loaded, box: 1))

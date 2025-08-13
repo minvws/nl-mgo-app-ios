@@ -85,6 +85,7 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 		do {
 			// First attempt to fetch from the api
 			let config = try await fetchFromApi()
+			logInfo("RemoteConfigurationRepository: config loaded", config)
 			return config
 		} catch {
 			logError("RemoteConfigurationRepository: Error fetching config", error)

@@ -14,6 +14,12 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 	/// The healthcare organization to display
 	@Published var healthcareOrganization: MgoOrganization
 	
+	/// Dependency Injectable Healthcare Organization Store
+	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
+	
+	/// Dependency Injectable Data Store
+	@Injected(\.dataStore) private var dataStore
+	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
 	init(coordinator: (any Coordinator)? = nil, healthcareOrganization: MgoOrganization) {
@@ -31,12 +37,12 @@ class RemoveHealthcareOrganizationViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: RemoveHealthcareOrganizationViewModel.Action) {
+	@MainActor func reduce(_ action: RemoveHealthcareOrganizationViewModel.Action) {
 		
 		switch action {
 			case .removeOrganization:
-				Current.dataStore.removeRecords(for: healthcareOrganization.identifier)
-				try? Current.healthcareOrganizationStore.remove(healthcareOrganization)
+				dataStore.removeRecords(for: healthcareOrganization.identifier)
+				try? healthcareOrganizationRepository.remove(healthcareOrganization)
 				coordinator?.handle(.removedHealthcareOrganization)
 			
 			case .cancel, .closeSheet:

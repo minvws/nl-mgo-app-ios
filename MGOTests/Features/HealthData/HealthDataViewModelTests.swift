@@ -21,10 +21,9 @@ final class HealthDataViewModelTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		referenceResolverSpy = ReferenceResolverSpy()
-		setupSut()
 	}
 	
-	private func setupSut() {
+	@MainActor private func setupSut() {
 		
 		sut = HealthDataViewModel(
 			coordinator: coordinatorSpy,
@@ -67,10 +66,11 @@ final class HealthDataViewModelTests: XCTestCase {
 			referenceResolver: referenceResolverSpy
 		)
 	}
-
-	func test_state() {
+	
+	@MainActor func test_state() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		let state = sut.state
@@ -80,9 +80,10 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect(state.schema.label) == "test"
 	}
 	
-	func test_backButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.backButtonPressed)
@@ -92,7 +93,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_resolveReferenceValue_shouldCallCoordinator() throws {
+	@MainActor func test_resolveReferenceValue_shouldCallCoordinator() throws {
 		
 		// Given
 		let schema = HealthUISchema(children: [], label: "test")
@@ -112,7 +113,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect((params.params["uiSchema"] as? HealthUISchema)?.label) == schema.label
 	}
 	
-	func test_resolveReferenceLink_shouldCallCoordinator() throws {
+	@MainActor func test_resolveReferenceLink_shouldCallCoordinator() throws {
 		
 		// Given
 		let schema = HealthUISchema(children: [], label: "test")
@@ -132,7 +133,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect((params.params["uiSchema"] as? HealthUISchema)?.label) == schema.label
 	}
 	
-	func test_resolveReferenceValue_demoMode_shouldNotCallCoordinator() throws {
+	@MainActor func test_resolveReferenceValue_demoMode_shouldNotCallCoordinator() throws {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
@@ -147,7 +148,7 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandle) == false
 	}
 	
-	func test_resolveReferenceLink_demoMode_shouldCallCoordinator() throws {
+	@MainActor func test_resolveReferenceLink_demoMode_shouldCallCoordinator() throws {
 		
 		// Given
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true

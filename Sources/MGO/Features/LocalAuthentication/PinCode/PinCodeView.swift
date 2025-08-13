@@ -82,6 +82,9 @@ class PinCodeViewModel: ObservableObject {
 	/// The state for each of the digits
 	@Published var boxStates: [PinCodeBoxState] = []
 	
+	/// Dependency injectable Secure User Settings
+	@Injected(\.secureUserSettings) private var secureUserSettings
+	
 	/// Initializer
 	/// - Parameter pinLimit: the pin limit
 	/// - Parameter coordinator: the coordinator
@@ -167,7 +170,7 @@ class PinCodeViewModel: ObservableObject {
 	/// - Parameter validationMismatch: does the validation code matches the stored accesscode?
 	@MainActor private func updateStateValidation(validationMismatch: Bool = false) {
 		
-		state.bioMetricEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
+		state.bioMetricEnabled = secureUserSettings.bioMetricAuthenticationEnabled
 		state.backButtonVisible = false
 		state.forgotCodeButtonVisible = true
 		state.textAlignment = .center
@@ -202,7 +205,7 @@ class PinCodeViewModel: ObservableObject {
 		logDebug("Announcing: \(message)")
 		
 		delay(0.25) {
-			Current.notificationCenter.post(notification: .announcement, argument: message)
+			Container.shared.notificationCenter().post(notification: .announcement, argument: message)
 		}
 	}
 	
@@ -225,7 +228,7 @@ class PinCodeViewModel: ObservableObject {
 					guard !lockout else { return }
 					
 					// Only show bio login when enabled
-					guard Current.secureUserSettings.bioMetricAuthenticationEnabled else { return }
+					guard secureUserSettings.bioMetricAuthenticationEnabled else { return }
 					
 					delay(0.5) {
 						self.showBioMetricLogin()
@@ -279,7 +282,7 @@ class PinCodeViewModel: ObservableObject {
 		
 		// All ok, store temp and move to confirmation
 		Haptic.light()
-		Current.secureUserSettings.tempPinCode = code
+		secureUserSettings.tempPinCode = code
 		coordinator?.handle(Coordination.Action.pinCodeEntered)
 		accessCode = []
 	}
@@ -288,7 +291,7 @@ class PinCodeViewModel: ObservableObject {
 	@MainActor private func handleConfirmationCompletion() {
 		
 		let code = accessCode.joined()
-		guard code == Current.secureUserSettings.tempPinCode else {
+		guard code == secureUserSettings.tempPinCode else {
 			// tempPinCode and code do not match. Doh!
 			updateStateConfirmation(confirmationMismatch: true)
 			setErrorState()
@@ -297,7 +300,7 @@ class PinCodeViewModel: ObservableObject {
 		
 		// All ok, store access code and get out of here.
 		Haptic.light()
-		Current.secureUserSettings.pinCode = code
+		secureUserSettings.pinCode = code
 		coordinator?.handle(Coordination.Action.pinCodeConfirmed)
 	}
 	
@@ -305,7 +308,7 @@ class PinCodeViewModel: ObservableObject {
 	@MainActor private func handleValidationCompletion() {
 		
 		let code = accessCode.joined()
-		guard code == Current.secureUserSettings.pinCode else {
+		guard code == secureUserSettings.pinCode else {
 			
 			setErrorState()
 			updateStateValidation(validationMismatch: true)
@@ -343,10 +346,10 @@ class PinCodeViewModel: ObservableObject {
 	}
 	
 	/// Show the FaceID / TouchID login
-	private func showBioMetricLogin() {
+	@MainActor private func showBioMetricLogin() {
 		
-		_Concurrency.Task {
-			await authenticate()
+		_Concurrency.Task(priority: .userInitiated) { [weak self] in
+			await self?.authenticate()
 		}
 	}
 	
@@ -355,7 +358,7 @@ class PinCodeViewModel: ObservableObject {
 	private func authenticate() async {
 		
 		do {
-			let validated = try await Current.localAuthenticationProvider.authenticate(
+			let validated = try await Container.shared.localAuthenticationProvider().authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
@@ -388,7 +391,7 @@ class PinCodeViewModel: ObservableObject {
 		}
 	}
 	
-	private func handleSuccessfulValidation() {
+	@MainActor private func handleSuccessfulValidation() {
 		
 		logInfo("Pincode: User has been successfully validated")
 		// Fill the boxes to display success

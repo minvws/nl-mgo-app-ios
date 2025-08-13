@@ -22,7 +22,7 @@ final class SettingsViewModelTests: XCTestCase {
 		sut = SettingsViewModel(coordinator: coordinatorSpy)
 	}
 	
-	func test_showResetDialog_shouldShowDialog() {
+	@MainActor func test_showResetDialog_shouldShowDialog() {
 		
 		// Given
 		
@@ -34,7 +34,7 @@ final class SettingsViewModelTests: XCTestCase {
 		expect(self.sut.showResetDialog) == true
 	}
 	
-	func test_cancelDialog_shouldRemoveDialog() {
+	@MainActor func test_cancelDialog_shouldRemoveDialog() {
 		
 		// Given
 		
@@ -46,7 +46,7 @@ final class SettingsViewModelTests: XCTestCase {
 		expect(self.sut.showResetDialog) == false
 	}
 
-	func test_displaySettings_shouldCallCoordinator() {
+	@MainActor func test_displaySettings_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -58,7 +58,7 @@ final class SettingsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showDisplaySettings
 	}
 	
-	func test_securitySettings_shouldCallCoordinator() {
+	@MainActor func test_securitySettings_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -70,7 +70,7 @@ final class SettingsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showSecuritySettings
 	}
 	
-	func test_advancedSettings_shouldCallCoordinator() {
+	@MainActor func test_advancedSettings_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -82,7 +82,7 @@ final class SettingsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showAdvancedSettings
 	}
 	
-	func test_aboutTheApp_shouldCallCoordinator() {
+	@MainActor func test_aboutTheApp_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -94,7 +94,7 @@ final class SettingsViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showAboutTheApp
 	}
 	
-	func test_resetApplication_shouldCallCoordinator() {
+	@MainActor func test_resetApplication_shouldCallCoordinator() {
 		
 		// Given
 		

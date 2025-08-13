@@ -28,12 +28,12 @@ extension URLOpenerProtocol {
 		if self is UIApplication {
 			// does not always work when used as protocol.
 			if UIApplication.shared.canOpenURL(url) {
-				_Concurrency.Task { @MainActor in
+				_Concurrency.Task(priority: .userInitiated) { @MainActor in
 					_ = await UIApplication.shared.open(url)
 				}
 			}
 		} else if canOpenURL(url) {
-			_Concurrency.Task { @MainActor in
+			_Concurrency.Task(priority: .userInitiated) { @MainActor in
 				_ = await open(url)
 			}
 		}

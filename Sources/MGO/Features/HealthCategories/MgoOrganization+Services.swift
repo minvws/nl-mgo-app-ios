@@ -10,7 +10,7 @@ extension MgoOrganization {
 	/// Get the number of services for a category
 	/// - Parameter category: the category
 	/// - Returns: the number of services.
-	func servicesForCategory(_ category: HealthCategories.Category) -> Int {
+	@MainActor func servicesForCategory(_ category: HealthCategories.Category) -> Int {
 		
 		var result = 0
 		guard let dts = data_services else {

@@ -5,10 +5,10 @@
 
 import XCTest
 
-class HealthUISchemaRobot: Robot {
+@MainActor class HealthUISchemaRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Health UI Schema Robot
 	/// - Parameter application: the application to test

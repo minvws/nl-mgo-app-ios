@@ -140,6 +140,15 @@ class HealthCategoryViewModel: ObservableObject {
 	/// The HCIM parser
 	private let parser = HCIMParser()
 	
+	/// Dependency Healthcare Organization Store
+	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
+	
+	/// Dependency Injectable Data Store
+	@Injected(\.dataStore) private var dataStore
+	
+	/// Dependency Injectable Resource Repository
+	@Injected(\.resourceRepository) private var resourceRepository
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
@@ -152,7 +161,7 @@ class HealthCategoryViewModel: ObservableObject {
 	
 	/// Create a Health category view model
 	/// - Parameter coordinator: the app coordinator
-	init(
+	@MainActor init(
 		coordinator: (any Coordinator)? = nil,
 		category: HealthCategories.Category,
 		organization: MgoOrganization?,
@@ -168,11 +177,11 @@ class HealthCategoryViewModel: ObservableObject {
 	
 	deinit {
 		// Remove as observer
-		dataStoreToken.map(Current.dataStore.observatory.remove)
+		dataStoreToken.map(dataStore.observatory.remove)
 	}
 	
-	private func registerObservers() {
-		self.dataStoreToken = Current.dataStore.observatory.append { [weak self] changed in
+	@MainActor private func registerObservers() {
+		self.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
 				// Handle updates in the fetched data
 				self?.handleDataStoreChanges()
@@ -191,7 +200,7 @@ class HealthCategoryViewModel: ObservableObject {
 			case .onAppear:
 				FileStorage().remove(HealthDirectory.binary)
 				FileStorage().remove(HealthDirectory.export)
-				_Concurrency.Task {
+				_Concurrency.Task(priority: .userInitiated) {
 					 await loadResources()
 				}
 			
@@ -226,32 +235,35 @@ class HealthCategoryViewModel: ObservableObject {
 		}
 	}
 	
-	private func retry() {
+	@MainActor private func retry() {
 		
 		state = .loading
-		Current.dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
+		dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
 		
 		guard category.services.isNotEmpty else {
-			_Concurrency.Task.delayed(byTimeInterval: 1.5) { [weak self] in
-				await self?.loadResources()
+			delay(1.5) {
+				_Concurrency.Task(priority: .userInitiated) {
+					await self.loadResources()
+				}
 			}
 			return
 		}
 		
-		_Concurrency.Task {
+		_Concurrency.Task(priority: .userInitiated) {
 			if let organization {
-				await Current.resourceRepository.loadResource(organization, category: category)
+				await resourceRepository.loadResource(organization, category: category)
 			} else {
-				await Current.resourceRepository.loadFor(category)
+				await resourceRepository.loadFor(category)
 			}
 		}
 	}
 	
+	@MainActor
 	func handleDataStoreChanges() {
 		let expectedNumberOfResults: Int = {
 			if organization == nil {
 				var result = 0
-				for organizationItem in Current.healthcareOrganizationStore.organizations {
+				for organizationItem in healthcareOrganizationRepository.organizations {
 					result += organizationItem.servicesForCategory(category)
 				}
 				return result
@@ -259,7 +271,7 @@ class HealthCategoryViewModel: ObservableObject {
 				return organization?.servicesForCategory(category) ?? 0
 			}
 		}()
-		_Concurrency.Task {
+		_Concurrency.Task(priority: .high) {
 			 await loadResources(threshold: expectedNumberOfResults)
 		}
 	}
@@ -269,9 +281,9 @@ class HealthCategoryViewModel: ObservableObject {
 		
 		let cacheResult: Result<[MgoResourceRecord], Error> = {
 			if let organization {
-				return Current.dataStore.get(categoryId: "\(category.rawValue)", organizationId: organization.identifier)
+				return dataStore.get(categoryId: "\(category.rawValue)", organizationId: organization.identifier)
 			} else {
-				return Current.dataStore.get(categoryId: "\(category.rawValue)")
+				return dataStore.get(categoryId: "\(category.rawValue)")
 			}
 		}()
 		
@@ -379,7 +391,7 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Returns: optional name
 	func getOrganization(_ identifier: String) -> MgoOrganization? {
 		
-		return Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }
+		return healthcareOrganizationRepository.organizations.first { $0.identifier == identifier }
 	}
 }
 
@@ -518,7 +530,7 @@ struct HealthCategoryView: View {
 					
 						if subCategory.rows.isNotEmpty {
 							blockView(
-								showHeading: Current.featureFlagManager.isDemo ? true : list.filter { $0.rows.isNotEmpty }.count != 1,
+								showHeading: Container.shared.featureFlagManager().isDemo ? true : list.filter { $0.rows.isNotEmpty }.count != 1,
 								subCategory: subCategory,
 								subCategoryIndex: subCategoryIndex
 							)

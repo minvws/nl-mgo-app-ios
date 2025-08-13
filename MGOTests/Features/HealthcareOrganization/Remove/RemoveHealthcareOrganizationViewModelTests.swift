@@ -25,7 +25,7 @@ final class RemoveHCOViewModelTests: XCTestCase {
 		sut = RemoveHealthcareOrganizationViewModel(coordinator: coordinatorSpy, healthcareOrganization: healthcareOrganization)
 	}
 	
-	func test_closeButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_closeButtonPressed_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -37,7 +37,7 @@ final class RemoveHCOViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
 	}
 	
-	func test_cancelButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_cancelButtonPressed_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -49,7 +49,7 @@ final class RemoveHCOViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
 	}
 	
-	func test_removeButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_removeButtonPressed_shouldCallCoordinator() {
 		
 		// Given
 		

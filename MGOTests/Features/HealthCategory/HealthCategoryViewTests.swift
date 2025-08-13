@@ -22,6 +22,10 @@ final class HealthCategoryViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
+	}
+	
+	@MainActor private func createSut() {
+		
 		viewModel = HealthCategoryViewModel(
 			coordinator: coordinatorSpy,
 			category: .medication,
@@ -36,9 +40,10 @@ final class HealthCategoryViewTests: XCTestCase {
 		sut = HealthCategoryView(viewModel: self.viewModel)
 	}
 
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When

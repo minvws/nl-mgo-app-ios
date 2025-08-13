@@ -5,10 +5,10 @@
 
 import XCTest
 
-class DocumentViewerRobot: Robot {
+@MainActor class DocumentViewerRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create a Document Viewer Robot
 	/// - Parameter application: the application to test
