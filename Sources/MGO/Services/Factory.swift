@@ -13,7 +13,7 @@ extension Container {
 			.shared
 	}
 	
-	/// The store for Mgo  Resourse records
+	/// The store for Mgo  Resource records
 	var dataStore: Factory<MgoDataStoreProtocol> {
 		Factory(self) { InMemoryDataStore() }
 			.singleton
