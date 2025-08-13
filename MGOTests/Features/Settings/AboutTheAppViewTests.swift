@@ -98,7 +98,7 @@ final class AboutTheAppViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showPrivacyStatement
 	}
 	
-	func test_showSharedCoreVersion() throws {
+	func test_showHCIMVersion() throws {
 		
 		// Given
 		let content = NavigationView { sut }

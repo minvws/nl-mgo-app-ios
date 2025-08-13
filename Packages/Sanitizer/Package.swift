@@ -15,26 +15,16 @@ let package = Package(
 		
 		// External
 		.package(url: "https://github.com/scinfu/SwiftSoup", exact: "2.10.1"),
-		
-		// Testing:
-		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		.target(
 			name: "Sanitizer",
-			dependencies: [
-				"SwiftSoup"
-			],
-			swiftSettings: [
-				.enableExperimentalFeature("StrictConcurrency")
-			]
+			dependencies: ["SwiftSoup"],
+			swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]
 		),
 		.testTarget(
 			name: "SanitizerTests",
-			dependencies: [
-				"Sanitizer",
-					.product(name: "MGOTest", package: "MGOTest")
-				]
-			)
+			dependencies: ["Sanitizer"]
+		)
 	]
 )

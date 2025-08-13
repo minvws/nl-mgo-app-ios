@@ -52,6 +52,7 @@ class BioMetricSetupViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
+	@MainActor
 	public func reduce(_ action: Action) {
 		switch action {
 			case .proceedWithBioMetric:

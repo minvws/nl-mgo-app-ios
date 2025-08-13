@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let genderCodeList = try GenderCodeList(json)
+//   let genderCodelist = try GenderCodelist(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - GenderCodeList
-public struct GenderCodeList: Codable, Hashable, Sendable {
+// MARK: - GenderCodelist
+public struct GenderCodelist: Codable, Hashable, Sendable {
     public let ext: Bool
     public let type: MgoCodeableConceptType
     public let coding: [MgoCodingProps]
@@ -31,11 +31,11 @@ public struct GenderCodeList: Codable, Hashable, Sendable {
     }
 }
 
-// MARK: GenderCodeList convenience initializers and mutators
+// MARK: GenderCodelist convenience initializers and mutators
 
-public extension GenderCodeList {
+public extension GenderCodelist {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(GenderCodeList.self, from: data)
+        self = try newJSONDecoder().decode(GenderCodelist.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -54,8 +54,8 @@ public extension GenderCodeList {
         type: MgoCodeableConceptType? = nil,
         coding: [MgoCodingProps]? = nil,
         text: String?? = nil
-    ) -> GenderCodeList {
-        return GenderCodeList(
+    ) -> GenderCodelist {
+        return GenderCodelist(
             ext: ext ?? self.ext,
             type: type ?? self.type,
             coding: coding ?? self.coding,

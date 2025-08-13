@@ -16,8 +16,7 @@ struct PreviewContent {
 			address: "Boorplatform 5",
 			city: "Roermond",
 			lines: ["Boorplatform 5"],
-			postalcode: "1234AB",
-			_type: "postal")
+			postalcode: "1234AB")
 		],
 		types: [LocalisationService.Components.Schemas.CType(code: "01", display_name: "Tandarts", _type: "")],
 		data_services: []

@@ -69,7 +69,7 @@ public class LocalisationServiceClient: LocalisationServiceClientProtocol {
 		let input = Operations.read_item_localization_organization_search_post.Input(body: .json(searchRequest))
 		let response = try await client.read_item_localization_organization_search_post(input)
 		let organizations = try response.ok.body.json.organizations
-		return organizations
+		return organizations ?? []
 	}
 	
 	/// Search for all the healthcare organizations for the demo
@@ -79,7 +79,7 @@ public class LocalisationServiceClient: LocalisationServiceClientProtocol {
 		
 		let response = try await client.demo_healthcare_providers_localization_organization_search_demo_post()
 		let organizations = try response.ok.body.json.organizations
-		return organizations
+		return organizations ?? []
 	}
 	
 }

@@ -8,7 +8,7 @@ import JavaScriptCore
 import MGODebug
 
 /// Parse FHIR data
-@preconcurrency nonisolated public class FHIRParser {
+@preconcurrency nonisolated public class HCIMParser {
 	
 	/// The namespace used in the JavaScript context
 	public static let nameSpace = "MgoFhirData"
@@ -16,7 +16,7 @@ import MGODebug
 	/// the JavaScript Context
 	private var jsContext: JSContext?
 	
-	/// Create a JS backed FHIR Parser
+	/// Create a JS backed HCIM parser
 	public init() {
 		
 		jsContext = createContext()
@@ -31,12 +31,10 @@ import MGODebug
 	public func getVersion() throws -> String {
 		
 		guard let parserPath = Bundle.module.path(forResource: "version", ofType: "json") else {
-			logError("FHIRParser: The parser file could not be found")
-			throw FHIRParserError.parserNotFound
+			logError("HCIMParser: The parser file could not be found")
+			throw HCIMParserError.parserNotFound
 		}
-		
-		let sourceContents = try String(contentsOfFile: parserPath)
-		return sourceContents
+		return try String(contentsOfFile: parserPath)
 	}
 	
 	/// Create the JavaScript Context
@@ -53,7 +51,7 @@ import MGODebug
 			// type of Number
 			let column = value.objectForKeyedSubscript("column")
 			let moreInfo = "in method \(String(describing: stackTrace)) Line number in file: \(String(describing: lineNumber)), column: \(String(describing: column))"
-			logError("FHIRParser JS ERROR: \(String(describing: value)) \(moreInfo)")
+			logError("HCIMParser JS ERROR: \(String(describing: value)) \(moreInfo)")
 		}
 		return context
 	}
@@ -63,12 +61,12 @@ import MGODebug
 	private func loadSource(jsContext: JSContext?) throws {
 		
 		guard let jsContext else {
-			throw FHIRParserError.noJSContext
+			throw HCIMParserError.noJSContext
 		}
 		
 		guard let parserPath = Bundle.module.path(forResource: "mgo-fhir-data.iife", ofType: "js") else {
-			logError("FHIRParser: The parser file could not be found")
-			throw FHIRParserError.parserNotFound
+			logError("HCIMParser: The parser file could not be found")
+			throw HCIMParserError.parserNotFound
 		}
 		
 		do {
@@ -76,7 +74,7 @@ import MGODebug
 			jsContext.evaluateScript(sourceContents)
 		} catch {
 			logError(error.localizedDescription)
-			throw FHIRParserError.parserNotFound
+			throw HCIMParserError.parserNotFound
 		}
 	}
 	
@@ -91,29 +89,28 @@ import MGODebug
 			guard let resourceString = resourcesJSValue.toString(),
 				  resourceString.hasSuffix("]"),
 				  resourceString.hasPrefix("[") else {
-				throw FHIRParserError.noResult
+				throw HCIMParserError.noResult
 			}
 			/*
 			 We need to do some magic, as the output of the previous call
 			 is a comma separated string. We still need to split that into
 			 an array of strings and map it to Data
 			*/
-			let result = String(resourceString.dropFirst().dropLast())
+			return String(resourceString.dropFirst().dropLast())
 				.replacingOccurrences(of: "},{\"res", with: "}💊{\"res")
 				.split(separator: "💊")
 				.map { Data(String($0).utf8) }
-			return result
 		} catch {
 			logError(error.localizedDescription)
 		}
 		return []
 	}
 	
-	/// parseResourceJson, i.e. transform the incoming FHIR Resource into a MGO object / Zib (Zorg Informatie Bouwsteen)
+	/// parseResourceJson, i.e. transform the incoming FHIR Resource into a HCIM
 	/// - Parameter fhirResource: resource to parse
 	/// - Parameter fhirVersion: the FHIR version of the expected resource, defaults to `R3`
-	/// - Returns: MGO Object / Zib as data
-	public func transformFHIRResourceIntoMGOResource(_ fhirResource: Data, fhirVersion: String = "R3") -> Data? {
+	/// - Returns: HCIM as data
+	public func transformFHIRResourceIntoHCIM(_ fhirResource: Data, fhirVersion: String = "R3") -> Data? {
 		
 		do {
 			let resourcesJSValue = try callJSMethod(.resource, with: fhirResource, fhirVersion: fhirVersion)
@@ -125,16 +122,16 @@ import MGODebug
 		return nil
 	}
 	
-	/// get the details for a resource, i.e. transform a Zib object into a details HealthUISchema
-	/// - Parameter resource: the zib / mgo resource
+	/// get the details for a resource, i.e. transform a HCIM object into a details HealthUISchema
+	/// - Parameter resource: the HCIM resource
 	/// - Returns: Generated HealthUISchema
 	public func getDetails(_ resource: Data) -> HealthUISchema? {
 		
 		return getSchema(.details, resource: resource)
 	}
 	
-	/// get the summary for a resource, i.e. transform a Zib object into a summary HealthUISchema
-	/// - Parameter resource: the zib / mgo resource
+	/// get the summary for a resource, i.e. transform a HCIM object into a summary HealthUISchema
+	/// - Parameter resource: the HCIM resource
 	/// - Returns: Generated HealthUISchema
 	public func getSummary(_ resource: Data) -> HealthUISchema? {
 		
@@ -153,8 +150,8 @@ import MGODebug
 		
 		// Step 1A: Confirm existing JS context
 		guard let jsContext else {
-			logError("FHIRParser: Could not create JS Context")
-			throw FHIRParserError.noJSContext
+			logError("HCIMParser: Could not create JS Context")
+			throw HCIMParserError.noJSContext
 		}
 		
 		// Step 1B: When testing, do load the source every time.
@@ -163,12 +160,12 @@ import MGODebug
 		}
 		
 		// Step 2: Search for the MgoFhirData namespace
-		guard let nameSpace = jsContext.objectForKeyedSubscript(FHIRParser.nameSpace) else {
-			throw FHIRParserError.invalidNameSpace
+		guard let nameSpace = jsContext.objectForKeyedSubscript(HCIMParser.nameSpace) else {
+			throw HCIMParserError.invalidNameSpace
 		}
 		
 		// Step 3: Stringify the input (json)
-		guard let inputString = String(data: input, encoding: .utf8) else { throw FHIRParserError.invalidInput }
+		guard let inputString = String(data: input, encoding: .utf8) else { throw HCIMParserError.invalidInput }
 		var arguments = [inputString]
 		if let fhirVersion {
 			arguments.append("{\"fhirVersion\": \"\(fhirVersion)\"}")
@@ -177,24 +174,23 @@ import MGODebug
 		// Step 4: call the desired method (getBundleResourcesJson etc) on the namespace with the input
 		guard let resourcesJSValue = nameSpace.invokeMethod(method.rawValue, withArguments: arguments) else {
 			logError("Failed to invoke \(method) on the nameSpace")
-			throw FHIRParserError.noResult
+			throw HCIMParserError.noResult
 		}
 		
 		// Step 5: return the outcome of the call
 		return resourcesJSValue
 	}
 	
-	/// get the schema for a resource, i.e. transform a Zib object into a UISchema
+	/// get the schema for a resource, i.e. transform a HCIM object into a UISchema
 	/// - Parameter method: the javascript method to be used for this call
-	/// - Parameter resource: the zib / mgo resource
+	/// - Parameter resource: the HCIM resource
 	/// - Returns: Generated UISchema
 	private func getSchema(_ method: ParseMethod, resource: Data) -> HealthUISchema? {
 		
 		do {
 			let resourcesJSValue = try callJSMethod(method, with: resource)
 			if let object = resourcesJSValue.toString() {
-				let schema = try HealthUISchema(object)
-				return schema
+				return try HealthUISchema(object)
 			}
 		} catch {
 			logError(error.localizedDescription)
