@@ -3,7 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+@preconcurrency import MGOTest
 @testable import MGO
 import RestrictedBrowser
 
@@ -63,6 +63,7 @@ final class LoginViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
-		await expect(self.urlOpenerSpy.invokedCanOpenURL).toEventually(beTrue())
+		await expect { self.urlOpenerSpy.invokedCanOpenURL }
+			.toEventually(beTrue())
 	}
 }

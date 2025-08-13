@@ -3,7 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+@preconcurrency import MGOTest
 @testable import MGO
 import MGOFoundation
 import MGOUI

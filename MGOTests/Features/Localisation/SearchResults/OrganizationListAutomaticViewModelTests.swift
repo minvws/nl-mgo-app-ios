@@ -3,7 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+@preconcurrency import MGOTest
 import MGOFoundation
 @testable import MGO
 
@@ -21,7 +21,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		coordinatorSpy = AppCoordinatorSpy()
 	}
 	
-	private func createSut(
+	@MainActor private func createSut(
 		preselectAllOrganizations: Bool = true,
 		list: [MgoOrganization] = [],
 		error: Error? = nil
@@ -43,7 +43,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		)
 	}
 	
-	func test_loading() async throws {
+	@MainActor func test_loading() async throws {
 		
 		// Given
 		
@@ -51,7 +51,7 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		try createSut()
 		
 		// Then
-		await expect(self.sut.state) == .loading
+		expect(self.sut.state) == .loading
 		let didInvokeSearchDemoOrganizations = await localisationServiceClientSpy.didInvokeSearchDemoOrganizations()
 		await expect(didInvokeSearchDemoOrganizations).toEventually(beFalse())
 	}
@@ -137,7 +137,6 @@ final class OrganizationListAutomaticViewModelTests: XCTestCase {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("value")
-		let list: [MgoOrganization] = [organization]
 		try createSut(preselectAllOrganizations: false, list: [organization])
 		let state = OrganizationListViewState.success([OrganizationListSet(organization, .automatic(isSelected: false))])
 		

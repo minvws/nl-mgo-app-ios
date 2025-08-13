@@ -3,7 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+@preconcurrency import MGOTest
 import MGOFoundation
 import MGOUI
 @testable import MGO
@@ -170,7 +170,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		await sut.loadFor(HealthCategories.Category.medication)
 		
 		// Then
-		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
+		await expect { await self.servicesSpies.dataStoreSpy.invokedStoreCount }
 			.toEventually(equal(3), timeout: .seconds(10))
 	}
 	

@@ -10,7 +10,7 @@ import MGOFoundation
 ///
 /// Set of Spies with sensible default stubbed values, which can be modified per-test.
 ///
-final class ServicesSpies {
+@preconcurrency final class ServicesSpies {
 	
 	fileprivate init() { /* private so it can not be initiated elsewhere */ }
 	
@@ -86,28 +86,33 @@ final class ServicesSpies {
 /// - Returns: the services spies
 func setupServicesSpies() -> ServicesSpies {
 	
-	let spies = ServicesSpies()
 	Container.shared.reset()
-	Container.shared.setupSpies(spies)
-	return spies
-}
-
-extension Container {
 	
-	func setupSpies(_ spies: ServicesSpies) {
-		
-		appVersionSupplier.register { @MainActor in spies.appVersionSupplierSpy }
-		dataStore.register { spies.dataStoreSpy }
-		featureFlagManager.register { @MainActor in spies.featureFlagSpy }
-		healthcareOrganizationRepository.register { spies.healthcareOrganizationStoreSpy }
-		jailBreakDetector.register { @MainActor in spies.jailBreakSpy }
-		localAuthenticationProvider.register { spies.localAuthenticationProviderSpy }
-		localisationServiceClient.register { spies.localisationServiceClientSpy }
-		remoteConfigurationRepository.register { spies.remoteConfigurationRepositorySpy }
-		resourceRepository.register { spies.resourceRepositorySpy }
-		notificationCenter.register { spies.notificationCenterSpy }
-		// Sunday, 15 June 2025 15:06:40
-		now.register { { Date(timeIntervalSince1970: 1750000000) } }
-		secureUserSettings.register { spies.secureUserSettingsSpy }
-	}
+	let spies = ServicesSpies()
+	Container.shared.appVersionSupplier
+		.register { @MainActor in spies.appVersionSupplierSpy }
+	Container.shared.dataStore
+		.register { spies.dataStoreSpy }
+	Container.shared.featureFlagManager
+		.register { @MainActor in spies.featureFlagSpy }
+	Container.shared.healthcareOrganizationRepository
+		.register { spies.healthcareOrganizationStoreSpy }
+	Container.shared.jailBreakDetector
+		.register { @MainActor in spies.jailBreakSpy }
+	Container.shared.localAuthenticationProvider
+		.register { spies.localAuthenticationProviderSpy }
+	Container.shared.localisationServiceClient
+		.register { spies.localisationServiceClientSpy }
+	Container.shared.remoteConfigurationRepository
+		.register { spies.remoteConfigurationRepositorySpy }
+	Container.shared.resourceRepository
+		.register { spies.resourceRepositorySpy }
+	Container.shared.notificationCenter
+		.register { spies.notificationCenterSpy }
+	Container.shared.now
+		.register { { Date(timeIntervalSince1970: 1750000000) } } // Sunday, 15 June 2025 15:06:40
+	Container.shared.secureUserSettings
+		.register { spies.secureUserSettingsSpy }
+	
+	return spies
 }
