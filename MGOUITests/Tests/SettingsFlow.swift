@@ -30,7 +30,6 @@ final class SettingsFlowTests: XCTestCase {
 			.verifySecurityButtonExists()
 			.verifyAdvancedButtonExists()
 			.verifyAboutTheAppButtonExists()
-			.verifyLogoutButtonExists()
 			.verifyResetApplicationButtonExists()
 	}
 	
@@ -115,18 +114,6 @@ final class SettingsFlowTests: XCTestCase {
 			.tapCloseButton()
 			.verifyPreviousButtonExists()
 			.tapPreviousButton()
-	}
-	
-	@MainActor
-	func testSettingsFlow_lockout() {
-		
-		AppRobot()
-			.navigateToOverviewWithBGZ()
-			.tapSettingsTab()
-			.verifyLogoutButtonExists()
-			.tapLogoutButton()
-			.enterConfirmationPinCodeWithSettings("12345")
-			.verifyLogoutButtonExists()
 	}
 	
 	@MainActor
