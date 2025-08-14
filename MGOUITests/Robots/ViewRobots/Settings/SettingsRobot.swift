@@ -42,10 +42,6 @@ import XCTest
 		app.buttons["settings.display"]
 	}
 	
-	private var logoutButton: XCUIElement {
-		app.buttons["settings.log_out"]
-	}
-	
 	private var resetApplicationButton: XCUIElement {
 		app.buttons["settings.reset_app"]
 	}
@@ -91,12 +87,6 @@ import XCTest
 	}
 	
 	@discardableResult
-	func verifyLogoutButtonExists() -> Self {
-		XCTAssertTrue(logoutButton.exists)
-		return self
-	}
-	
-	@discardableResult
 	func verifyResetApplicationButtonExists() -> Self {
 		XCTAssertTrue(resetApplicationButton.exists)
 		return self
@@ -138,12 +128,6 @@ import XCTest
 	func tapDisplayButton() -> DisplaySettingsRobot {
 		displayButton.tap()
 		return DisplaySettingsRobot(app)
-	}
-	
-	@discardableResult
-	func tapLogoutButton() -> PincodeRobot {
-		logoutButton.tap()
-		return PincodeRobot(app)
 	}
 	
 	@discardableResult
