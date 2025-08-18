@@ -42,6 +42,8 @@ packages:
     path: ./Packages/NotificationCenter
   Observatory:
     path: ./Packages/Observatory
+  PatientFriendlyTerms:
+    path: ./Packages/PatientFriendlyTerms
   PdfExport:
     path: ./Packages/PdfExport
   RemoteAuthentication:
@@ -437,6 +439,9 @@ schemes:
           parallelizable: false
           randomExecutionOrder: true
         - package: Observatory/ObservatoryTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: PatientFriendlyTerms/PatientFriendlyTermsTests
           randomExecutionOrder: true
           parallelizable: false
         - package: PdfExport/PdfExportTests
