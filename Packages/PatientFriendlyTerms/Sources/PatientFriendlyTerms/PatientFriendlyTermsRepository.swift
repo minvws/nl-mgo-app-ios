@@ -6,6 +6,7 @@
 import Foundation
 import FileStorage
 import Foil
+import Logging
 
 public protocol PatientFriendlyTermsRepositoryProtocol {
 	
@@ -73,19 +74,23 @@ public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProto
 					let encoded = try JSONEncoder().encode(body)
 					try storage.store(encoded, as: fileName)
 					self.etag = eTag
-					print("Stored patient friendly terms: \(self.etag)")
+					logDebug("PFTRep - Stored \(body.additionalProperties.count) patient friendly terms with eTag: \(String(describing: self.etag))")
 				}
 				case 304:
+					logDebug("PFTRep - 304 Not Modified")
 					self.etag = eTag
 				default:
 					break
 			}
 		} catch {
-			print(error)
+			logError("PFTRep - fetch terms error:", error)
 		}
 	}
 	
+	/// Clear all the things
 	public func wipePersistedData() {
 		
+		storage.remove(fileName)
+		etag = nil
 	}
 }

@@ -12,6 +12,7 @@ extension Container {
 		
 		dataStore().wipePersistedData()
 		healthcareOrganizationRepository().wipePersistedData()
+		patientFriendyTermsRepository().wipePersistedData()
 		remoteConfigurationRepository().wipePersistedData()
 		secureUserSettings().wipePersistedData()
 	}

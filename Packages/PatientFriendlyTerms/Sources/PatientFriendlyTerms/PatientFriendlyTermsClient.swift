@@ -7,6 +7,7 @@ import AuthorizationMiddleware
 import OpenAPIRuntime
 import OpenAPIURLSession
 import Foundation
+import Logging
 
 public protocol PatientFriendlyTermsAPIClientProtocol {
 	
@@ -35,8 +36,10 @@ public enum PatientFriendlyTermsAPIClientError: Error {
 /// The API Client for Patient Friendly Terms
 public class PatientFriendlyTermsAPIClient: PatientFriendlyTermsAPIClientProtocol {
 	
+	/// The url of the server with the terms
 	private var serverURL: URL
 	
+	/// optional authorization middleware for basic auth
 	private var authorizationMiddleware: AuthorizationMiddleware?
 	
 	/// Create a Patient Friendly API Client
@@ -96,8 +99,7 @@ public class PatientFriendlyTermsAPIClient: PatientFriendlyTermsAPIClientProtoco
 			
 			case let .undocumented(statusCode: statusCode, undocumentedPayload):
 				// Not sure what happened.
-				print("Status code: \(statusCode)")
-				print(undocumentedPayload)
+				logError("PatientFriendlyTermsAPIClient - Status code: \(statusCode) with payload \(undocumentedPayload)")
 				throw PatientFriendlyTermsAPIClientError.undocumented(statusCode)
 		}
 	}
