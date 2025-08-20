@@ -50,7 +50,7 @@ public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProto
 	
 	/// The ETag for the terms
 	@FoilDefaultStorageOptional(key: eTagKey)
-	private var etag: String?
+	internal var etag: String?
 	
 	/// Create a Patient Friendly Terms Repository
 	/// - Parameters:
