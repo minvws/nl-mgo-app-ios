@@ -5,6 +5,7 @@
 
 import MGOUI
 import MGOFoundation
+import PatientFriendlyTerms
 
 final class SplashViewModel: ObservableObject {
 	
@@ -43,6 +44,9 @@ final class SplashViewModel: ObservableObject {
 	/// Dependency Injectable Resource Repository
 	@Injected(\.resourceRepository) private var resourceRepository
 	
+	/// Dependency Injectable Patient Friendly Terms Repository
+	@Injected(\.patientFriendyTermsRepository) private var patientFriendyTermsRepository
+	
 	/// Create a splash view
 	/// - Parameters:
 	///   - coordinator: the flow coordinator
@@ -65,6 +69,7 @@ final class SplashViewModel: ObservableObject {
 		
 		_Concurrency.Task(priority: .userInitiated) {
 			await remoteConfigurationRepository.fetchAndUpdateObservers()
+			await patientFriendyTermsRepository.fetchTerms()
 		}
 		resourceRepository.load()
 	}

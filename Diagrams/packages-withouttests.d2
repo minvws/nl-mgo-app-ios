@@ -62,6 +62,9 @@ QuickLook {
 FactoryKit: {
   shape: hexagon
 }
+Foil: {
+  shape: hexagon
+}
 NavigationStackBackport: {
   shape: hexagon
 }
@@ -140,6 +143,7 @@ MGOFoundation <- MGORepository
 MGOFoundation <- NotificationCenter
 MGOFoundation <- Observatory
 MGOFoundation <- OHHTTPStubs
+MGOFoundation <- PatientFriendlyTerms
 MGOFoundation <- Sanitizer
 MGOFoundation <- SecureUserSettings
 MGOFoundation <- RemoteAuthentication
@@ -160,6 +164,14 @@ NotificationCenter { style.fill: "#ffcc00" }
 NotificationCenter <- UIKit
 
 Observatory { style.fill: "#ffcc00" }
+
+PatientFriendlyTerms { style.fill: "#ffcc00" }
+PatientFriendlyTerms <- AuthorizationMiddleware
+PatientFriendlyTerms <- FileStorage
+PatientFriendlyTerms <- Foil
+PatientFriendlyTerms <- swift-openapi-generator
+PatientFriendlyTerms <- swift-openapi-runtime
+PatientFriendlyTerms <- swift-openapi-urlsession
 
 PdfExport { style.fill: "#ffcc00" }
 PdfExport <- PDFKit

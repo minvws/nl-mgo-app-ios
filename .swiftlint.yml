@@ -23,7 +23,6 @@ excluded:
   - Packages/*/.build
   - Packages/*/Package.swift
   - vendor
-  - Packages/*/.build
   - Packages/HCIMCore/Sources/HCIMCore/HCIM/Generated/*.swift # Generated files.
 force_cast: warning
 force_try:
@@ -71,10 +70,6 @@ custom_rules:
     name: "dump usage"
     regex: "((\\bdump)|(Swift\\.dump))\\s*\\("
     message: "Prefer logDebug over dump"
-  snapshot_recording_turned_on:
-    included: "MDRFTests/.*\\.swift"
-    regex: "^\\s*isRecording = true"
-    message: "Don't forget to turn off snapshot recording"
   disable_onSuccess: 
     included: "Sources/.*\\.swift"
     regex: "\\.onSuccess"

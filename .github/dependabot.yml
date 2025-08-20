@@ -146,6 +146,14 @@ updates:
       timezone: Europe/Amsterdam
 
   - package-ecosystem: "swift"
+    directory: "/Packages/PatientFriendlyTerms"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:30"
+      timezone: Europe/Amsterdam
+
+  - package-ecosystem: "swift"
     directory: "/Packages/PdfExport"
     schedule:
       interval: weekly
