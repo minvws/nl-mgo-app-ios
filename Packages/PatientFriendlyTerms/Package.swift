@@ -21,7 +21,10 @@ let package = Package(
 		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.2"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.2"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.1.0"),
-		.package(url: "https://github.com/jessesquires/Foil.git", exact: "6.1.0")
+		.package(url: "https://github.com/jessesquires/Foil.git", exact: "6.1.0"),
+		
+		// Testing:
+		.package(name: "MGOTest", path: "../MGOTest")
 	],
 	targets: [
 		.target(
@@ -43,7 +46,10 @@ let package = Package(
 		),
 		.testTarget(
 			name: "PatientFriendlyTermsTests",
-			dependencies: ["PatientFriendlyTerms"]
+			dependencies: [
+				"PatientFriendlyTerms",
+				.product(name: "MGOTest", package: "MGOTest")
+			]
 		),
 	]
 )

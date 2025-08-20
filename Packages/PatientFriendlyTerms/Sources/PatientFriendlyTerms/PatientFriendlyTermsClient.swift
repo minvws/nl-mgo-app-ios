@@ -25,10 +25,10 @@ public protocol PatientFriendlyTermsAPIClientProtocol {
 	/// - Parameter eTag: The ETag for the terms
 	/// - Returns: tuple of status code, eTag and terms
 	func fetchTerms(eTag: String?) async throws ->
-	(StatusCode: Int, eTag: String?, terms: PatientFriendlyTerms?)
+	(statusCode: Int, eTag: String?, terms: PatientFriendlyTerms?)
 }
 
-public enum PatientFriendlyTermsAPIClientError: Error {
+public enum PatientFriendlyTermsAPIClientError: Error, Equatable, Sendable {
 
 	case undocumented(Int)
 }
@@ -82,7 +82,7 @@ public class PatientFriendlyTermsAPIClient: PatientFriendlyTermsAPIClientProtoco
 	/// Fetch the terms from the remote server
 	/// - Parameter eTag: The ETag for the terms
 	/// - Returns: tuple of status code, eTag and terms
-	public func fetchTerms(eTag: String?) async throws -> (StatusCode: Int, eTag: String?, terms: PatientFriendlyTerms?) {
+	public func fetchTerms(eTag: String?) async throws -> (statusCode: Int, eTag: String?, terms: PatientFriendlyTerms?) {
 		
 		let client = setUpClient(eTag: eTag)
 		let response = try await client.get_sol_pft_period_json()
