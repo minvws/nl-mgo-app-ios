@@ -54,6 +54,10 @@ import MGOFoundation
 		return spy
 	}()
 		
+	var patientFriendlyTermsRepositorySpy: PatientFriendlyTermsRepositorySpy = {
+		return PatientFriendlyTermsRepositorySpy()
+	}()
+
 	var secureUserSettingsSpy: SecureUserSettingsSpy = {
 		return SecureUserSettingsSpy()
 	}()
@@ -103,6 +107,8 @@ func setupServicesSpies() -> ServicesSpies {
 		.register { spies.localAuthenticationProviderSpy }
 	Container.shared.localisationServiceClient
 		.register { spies.localisationServiceClientSpy }
+	Container.shared.patientFriendyTermsRepository
+		.register { spies.patientFriendlyTermsRepositorySpy }
 	Container.shared.remoteConfigurationRepository
 		.register { spies.remoteConfigurationRepositorySpy }
 	Container.shared.resourceRepository

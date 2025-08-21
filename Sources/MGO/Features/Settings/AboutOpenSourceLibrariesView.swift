@@ -40,6 +40,10 @@ class AboutOpenSourceLibrariesViewModel: BaseViewModel {
 				urlString: "https://github.com/devicekit/DeviceKit?tab=MIT-1-ov-file#readme" // NOSONAR
 			),
 			Library(
+				name: "Foil (MIT)",
+				urlString: "https://github.com/jessesquires/Foil?tab=MIT-1-ov-file#readme" // NOSONAR
+			),
+			Library(
 				name: "Factory (MIT)",
 				urlString: "https://github.com/hmlongco/Factory?tab=MIT-1-ov-file#readme" // NOSONAR
 			),
