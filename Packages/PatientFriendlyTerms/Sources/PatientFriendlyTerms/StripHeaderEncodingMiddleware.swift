@@ -9,6 +9,9 @@ import HTTPTypes
 
 public struct StripHeaderEncodingMiddleware: ClientMiddleware {
 	
+	/// All the headers where the encoding should be stripped.
+	var strippableHeaders: [HTTPField.Name] = []
+	
 	/// Intercepts an outgoing HTTP request and an incoming HTTP response.
 	/// - Parameters:
 	///   - request: An HTTP request.
@@ -29,7 +32,8 @@ public struct StripHeaderEncodingMiddleware: ClientMiddleware {
 		var modifiedRequest = request
 		modifiedRequest.headerFields = HTTPFields(
 			request.headerFields.map { field in
-				if let fixed = field.value.removingPercentEncoding {
+				if strippableHeaders.contains(field.name),
+				   let fixed = field.value.removingPercentEncoding {
 					HTTPField(name: field.name, value: fixed)
 				} else {
 					field

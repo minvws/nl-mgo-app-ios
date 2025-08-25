@@ -70,7 +70,11 @@ public class PatientFriendlyTermsAPIClient: PatientFriendlyTermsAPIClientProtoco
 		if let authorizationMiddleware {
 			middlewares.append(authorizationMiddleware)
 		}
-		middlewares.append(StripHeaderEncodingMiddleware())
+		middlewares.append(
+			StripHeaderEncodingMiddleware(
+				strippableHeaders: [.ifNoneMatch]
+			)
+		)
 		return Client(
 			serverURL: serverURL,
 			transport: URLSessionTransport(),
