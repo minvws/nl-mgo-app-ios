@@ -72,6 +72,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		case removeHealthcareOrganization
 		case onAppear
 		case search
+		case showFavorites
 	}
 	
 	/// Intitializer
@@ -215,6 +216,8 @@ class HealthCategoriesViewModel: ObservableObject {
 						)
 					)
 				}
+			case .showFavorites:
+				logInfo("Show Favorites")
 		}
 	}
 	
@@ -346,6 +349,12 @@ struct HealthCategoriesView: View {
 		enum NoResults {
 			static let top: CGFloat = 44
 		}
+		enum Favorites {
+			static let cornerRadius: CGFloat = 12
+			static let inset: CGFloat = 0.5
+			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 32, trailing: 0)
+			static let style = StrokeStyle(lineWidth: 1, dash: [5, 5])
+		}
 		enum Button {
 			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 		}
@@ -377,6 +386,10 @@ struct HealthCategoriesView: View {
 		.when(viewModel.state.belowIOS18 && !viewModel.state.canTitleCollapse) { view in
 			view
 				.navigationBarTitleDisplayMode(.inline)
+		}
+		.when(!viewModel.state.showEmptyView && viewModel.state.canTitleCollapse) { view in
+			view
+				.toolbar(content: toolbarContent)
 		}
 		.navigationBarHidden(false)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
@@ -417,8 +430,13 @@ struct HealthCategoriesView: View {
 	@ViewBuilder func categoriesView() -> some View {
 		
 		List {
-			listHeader()
-
+			
+			if viewModel.state.canTitleCollapse {
+				favorites()
+			} else {
+				listHeader()
+			}
+			
 			ForEach(1..<4) { box in
 				
 				sectionView(box)
@@ -475,15 +493,43 @@ struct HealthCategoriesView: View {
 		
 		Section {
 			VStack(spacing: ViewTraits.General.padding) {
-				if !viewModel.state.canTitleCollapse {
-					heading()
-				}
+				heading()
 				subHeading()
 					.padding(.bottom, viewModel.state.canTitleCollapse ? 0 : ViewTraits.General.padding / 2)
 			}
 		}
 		.listRowBackground(Color.clear)
 		.listRowInsets(ViewTraits.List.rowInset)
+	}
+	
+	/// The favorites section
+	/// - Returns: list header
+	@ViewBuilder private func favorites() -> some View {
+		
+		Section {
+			VStack(spacing: 0) {
+				
+				Text("overview.favorites.heading")
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentPrimary)
+					.padding(.top, 2 * ViewTraits.General.padding)
+				
+				CallToActionButton(title: "overview.favorites.action", style: .tertiary) {
+					viewModel.reduce(.showFavorites)
+				}
+				.padding(.bottom, ViewTraits.General.padding)
+			}
+			.overlay(
+				RoundedRectangle(cornerRadius: ViewTraits.Favorites.cornerRadius)
+					.inset(by: ViewTraits.Favorites.inset)
+					.stroke(
+						theme.borderPrimary,
+						style: ViewTraits.Favorites.style
+					)
+			)
+		}
+		.listRowBackground(Color.clear)
+		.listRowInsets(ViewTraits.Favorites.rowInset)
 	}
 	
 	/// The footer
@@ -527,6 +573,37 @@ struct HealthCategoriesView: View {
 			}
 			.accessibilityIdentifier("common.add_organizations")
 			.padding(ViewTraits.Button.insets)
+		}
+	}
+	
+	/// Get the toolbar content (favorites)
+	/// - Returns: the toolbar content
+	@ToolbarContentBuilder private func toolbarContent() -> some ToolbarContent {
+		ToolbarItemGroup(
+			placement: .topBarTrailing,
+			content: {
+				Spacer()
+				
+				Menu {
+					menuFavoritesOption()
+				} label: {
+					Image(ImageResource.Icon.more)
+				}
+				.buttonStyle(ToolbarButtonStyle())
+				.accessibilityLabel("overview.menu")
+			}
+		)
+	}
+	
+	/// The favorites option
+	/// - Returns: view
+	@ViewBuilder func menuFavoritesOption() -> some View {
+		
+		Button {
+			viewModel.reduce(.showFavorites)
+		} label: {
+			Label("overview.favorites.action", systemImage: "star")
+				.tint(theme.contentPrimary)
 		}
 	}
 }

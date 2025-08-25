@@ -1676,6 +1676,28 @@
         }
       }
     },
+    "overview.favorites.action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg favorieten toe"
+          }
+        }
+      }
+    },
+    "overview.favorites.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg hier je favorieten toe.\nZo staan die altijd bovenaan."
+          }
+        }
+      }
+    },
     "overview.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1683,6 +1705,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Overzicht"
+          }
+        }
+      }
+    },
+    "overview.menu" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "menu"
           }
         }
       }
