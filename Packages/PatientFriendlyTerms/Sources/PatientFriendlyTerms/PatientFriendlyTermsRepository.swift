@@ -50,7 +50,7 @@ public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProto
 	
 	/// The ETag for the terms
 	@FoilDefaultStorageOptional(key: eTagKey)
-	internal var etag: String?
+	internal var eTag: String?
 	
 	/// Create a Patient Friendly Terms Repository
 	/// - Parameters:
@@ -67,18 +67,18 @@ public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProto
 	/// Fetch the terms from the server
 	public func fetchTerms() async {
 		do {
-			let (status, eTag, body) = try await client.fetchTerms(eTag: etag)
+			let (status, newETag, body) = try await client.fetchTerms(eTag: eTag)
 			switch status {
 				case 200:
 				if let body {
 					let encoded = try JSONEncoder().encode(body)
 					try storage.store(encoded, as: fileName)
-					self.etag = eTag
-					logDebug("PFTRep - Stored \(body.additionalProperties.count) patient friendly terms with eTag: \(String(describing: self.etag))")
+					self.eTag = newETag
+					logDebug("PFTRep - Stored \(body.additionalProperties.count) patient friendly terms with eTag: \(String(describing: self.eTag))")
 				}
 				case 304:
 					logDebug("PFTRep - 304 Not Modified")
-					self.etag = eTag
+					self.eTag = newETag
 				default:
 					break
 			}
@@ -91,6 +91,6 @@ public class PatientFriendlyTermsRepository: PatientFriendlyTermsRepositoryProto
 	public func wipePersistedData() {
 		
 		storage.remove(fileName)
-		etag = nil
+		eTag = nil
 	}
 }
