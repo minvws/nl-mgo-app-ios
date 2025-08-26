@@ -514,7 +514,7 @@ struct HealthCategoriesView: View {
 					.foregroundStyle(theme.contentPrimary)
 					.padding(.top, 2 * ViewTraits.General.padding)
 				
-				CallToActionButton(title: "overview.favorites.action", style: .tertiary) {
+				CallToActionButton("overview.favorites.action", style: .tertiary) {
 					viewModel.reduce(.showFavorites)
 				}
 				.padding(.bottom, ViewTraits.General.padding)
@@ -582,12 +582,16 @@ struct HealthCategoriesView: View {
 		ToolbarItemGroup(
 			placement: .topBarTrailing,
 			content: {
-				Spacer()
 				
 				Menu {
 					menuFavoritesOption()
 				} label: {
-					Image(ImageResource.Icon.more)
+					if #available(iOS 26.0, *) {
+						Image(ImageResource.Icon.more26)
+							.foregroundStyle(theme.symbolPrimary)
+					} else {
+						Image(ImageResource.Icon.more)
+					}
 				}
 				.buttonStyle(ToolbarButtonStyle())
 				.accessibilityLabel("overview.menu")
