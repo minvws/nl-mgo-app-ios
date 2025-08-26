@@ -24,6 +24,8 @@ extension Coordination.Action {
 	@MainActor static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
 	
 	@MainActor static let exportHealthData = Coordination.Action(identifier: "exportHealthData")
+	
+	@MainActor static let showFavorites = Coordination.Action(identifier: "showFavorites")
 }
 
 protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {

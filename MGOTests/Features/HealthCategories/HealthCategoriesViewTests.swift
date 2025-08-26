@@ -150,4 +150,20 @@ final class HealthCategoriesViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
 	}
+	
+	@MainActor func test_showFavorites() throws {
+		
+		// Given
+		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
+		sut = HealthCategoriesView(viewModel: self.viewModel)
+		
+		// When
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.favorites.action")
+		try view.view(CallToActionButton.self).find(button: "overview.favorites.action").tap()
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showFavorites
+	}
 }

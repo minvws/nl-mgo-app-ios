@@ -217,7 +217,9 @@ class HealthCategoriesViewModel: ObservableObject {
 					)
 				}
 			case .showFavorites:
-				logInfo("Show Favorites")
+				if case .all = mode {
+					coordinator?.handle(.showFavorites)
+				}
 		}
 	}
 	
@@ -517,6 +519,7 @@ struct HealthCategoriesView: View {
 				CallToActionButton("overview.favorites.action", style: .tertiary) {
 					viewModel.reduce(.showFavorites)
 				}
+				.accessibilityIdentifier("overview.favorites.action")
 				.padding(.bottom, ViewTraits.General.padding)
 			}
 			.overlay(
