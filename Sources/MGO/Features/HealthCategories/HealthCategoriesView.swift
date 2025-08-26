@@ -586,12 +586,16 @@ struct HealthCategoriesView: View {
 				Menu {
 					menuFavoritesOption()
 				} label: {
+#if compiler(>=6.2)
 					if #available(iOS 26.0, *) {
 						Image(ImageResource.Icon.more26)
 							.foregroundStyle(theme.symbolPrimary)
 					} else {
 						Image(ImageResource.Icon.more)
 					}
+#else
+					Image(ImageResource.Icon.more)
+#endif
 				}
 				.buttonStyle(ToolbarButtonStyle())
 				.accessibilityLabel("overview.menu")
