@@ -28,7 +28,7 @@ class PatientFriendlyTermsRepositoryTests {
 	func fetchTerms_storeResult() async throws {
 		
 		// Given
-		sut.etag = nil
+		sut.eTag = nil
 		let terms = PatientFriendlyTerms(
 			additionalProperties:
 				[
@@ -45,7 +45,7 @@ class PatientFriendlyTermsRepositoryTests {
 		await sut.fetchTerms()
 		
 		// Then
-		#expect(sut.etag == eTag)
+		#expect(sut.eTag == eTag)
 		#expect(storage.invokedStore == true)
 	}
 	
@@ -59,20 +59,20 @@ class PatientFriendlyTermsRepositoryTests {
 		await sut.fetchTerms()
 		
 		// Then
-		#expect(sut.etag == eTag)
+		#expect(sut.eTag == eTag)
 	}
 	
 	@Test("wipePersistedData should remove the stored data")
 	func wipePersistedData() {
 		
 		// Given
-		sut.etag = "\"123\""
+		sut.eTag = "\"123\""
 		
 		// When
 		sut.wipePersistedData()
 		
 		// Then
 		#expect(storage.invokedRemove == true)
-		#expect(sut.etag == nil)
+		#expect(sut.eTag == nil)
 	}
 }

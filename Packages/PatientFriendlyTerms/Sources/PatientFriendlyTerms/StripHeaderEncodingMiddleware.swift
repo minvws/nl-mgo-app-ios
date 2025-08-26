@@ -7,17 +7,10 @@ import OpenAPIRuntime
 import Foundation
 import HTTPTypes
 
-public struct IfNoneMatchMiddleware: ClientMiddleware {
+public struct StripHeaderEncodingMiddleware: ClientMiddleware {
 	
-	/// The ETag value
-	private var eTag: String?
-	
-	/// Create an if none match Middleware
-	/// - Parameters:
-	///   - token: the bearer token
-	public init(eTag: String?) {
-		self.eTag = eTag
-	}
+	/// All the headers where the encoding should be stripped.
+	var strippableHeaders: [HTTPField.Name] = []
 	
 	/// Intercepts an outgoing HTTP request and an incoming HTTP response.
 	/// - Parameters:
@@ -36,11 +29,17 @@ public struct IfNoneMatchMiddleware: ClientMiddleware {
 		next: @Sendable (HTTPRequest, HTTPBody?, URL) async throws -> (HTTPResponse, HTTPBody?)
 	) async throws -> (HTTPResponse, HTTPBody?) {
 		
-		var request = request
-		if let eTag {
-			request.headerFields[values: .ifNoneMatch] = [eTag]
-		}
-		
-		return try await next(request, body, baseURL)
+		var modifiedRequest = request
+		modifiedRequest.headerFields = HTTPFields(
+			request.headerFields.map { field in
+				if strippableHeaders.contains(field.name),
+				   let fixed = field.value.removingPercentEncoding {
+					HTTPField(name: field.name, value: fixed)
+				} else {
+					field
+				}
+			}
+		)
+		return try await next(modifiedRequest, body, baseURL)
 	}
 }
