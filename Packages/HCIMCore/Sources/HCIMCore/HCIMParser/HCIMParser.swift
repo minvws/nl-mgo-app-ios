@@ -125,17 +125,17 @@ nonisolated public class HCIMParser {
 	/// get the details for a resource, i.e. transform a HCIM object into a details HealthUISchema
 	/// - Parameter resource: the HCIM resource
 	/// - Returns: Generated HealthUISchema
-	public func getDetails(_ resource: Data) -> HealthUISchema? {
+	public func getDetails(_ resource: Data, organizationName: String?) -> HealthUISchema? {
 		
-		return getSchema(.details, resource: resource)
+		return getSchema(.details, resource: resource, organizationName: organizationName)
 	}
 	
 	/// get the summary for a resource, i.e. transform a HCIM object into a summary HealthUISchema
 	/// - Parameter resource: the HCIM resource
 	/// - Returns: Generated HealthUISchema
-	public func getSummary(_ resource: Data) -> HealthUISchema? {
+	public func getSummary(_ resource: Data, organizationName: String?) -> HealthUISchema? {
 		
-		return getSchema(.summary, resource: resource)
+		return getSchema(.summary, resource: resource, organizationName: organizationName)
 	}
 	
 	// MARK: Private helpers
@@ -145,12 +145,19 @@ nonisolated public class HCIMParser {
 	///   - method: the method in javascript to be called
 	///   - input: the input for that method
 	///   - fhirVersion: the FHIR version of the expected resource,
+	///   - organizationName: the name of the organization
 	/// - Returns: the result of invoking that method
-	private func callJSMethod(_ method: ParseMethod, with input: Data, fhirVersion: String? = nil) throws -> JSValue {
+	private func callJSMethod(
+		_ method: ParseMethod,
+		with input: Data,
+		fhirVersion: String? = nil,
+		organizationName: String? = nil
+	) throws -> JSValue {
 		
 		// Step 1A: Confirm existing JS context
 		guard let jsContext else {
 			logError("HCIMParser: Could not create JS Context")
+			
 			throw HCIMParserError.noJSContext
 		}
 		
@@ -170,6 +177,9 @@ nonisolated public class HCIMParser {
 		if let fhirVersion {
 			arguments.append("{\"fhirVersion\": \"\(fhirVersion)\"}")
 		}
+		if let organizationName {
+			arguments.append("{\"organization\": { \"name\" :\"\(organizationName)\"}}")
+		}
 		
 		// Step 4: call the desired method (getBundleResourcesJson etc) on the namespace with the input
 		guard let resourcesJSValue = nameSpace.invokeMethod(method.rawValue, withArguments: arguments) else {
@@ -185,10 +195,10 @@ nonisolated public class HCIMParser {
 	/// - Parameter method: the javascript method to be used for this call
 	/// - Parameter resource: the HCIM resource
 	/// - Returns: Generated UISchema
-	private func getSchema(_ method: ParseMethod, resource: Data) -> HealthUISchema? {
+	private func getSchema(_ method: ParseMethod, resource: Data, organizationName: String?) -> HealthUISchema? {
 		
 		do {
-			let resourcesJSValue = try callJSMethod(method, with: resource)
+			let resourcesJSValue = try callJSMethod(method, with: resource, organizationName: organizationName)
 			if let object = resourcesJSValue.toString() {
 				return try HealthUISchema(object)
 			}

@@ -113,7 +113,7 @@ struct HCIMParserTests {
 		let data = Data(resource.utf8)
 		
 		// When
-		let schema = sut.getDetails(data)
+		let schema = sut.getDetails(data, organizationName: "test")
 		
 		// Then
 		#expect(schema?.label == "Medicatiegebruik")
@@ -124,7 +124,7 @@ struct HCIMParserTests {
 		// Given
 		
 		// When
-		let schema = sut.getDetails(Data("wrong".utf8))
+		let schema = sut.getDetails(Data("wrong".utf8), organizationName: "test")
 		
 		// Then
 		#expect(schema == nil)
@@ -137,7 +137,7 @@ struct HCIMParserTests {
 		let data = Data(resource.utf8)
 		
 		// When
-		let schema = sut.getSummary(data)
+		let schema = sut.getSummary(data, organizationName: "test")
 		
 		// Then
 		#expect(schema?.label == "Paracetamol tablet 500mg")
@@ -148,7 +148,7 @@ struct HCIMParserTests {
 		// Given
 		
 		// When
-		let schema = sut.getSummary(Data("wrong".utf8))
+		let schema = sut.getSummary(Data("wrong".utf8), organizationName: "test")
 		
 		// Then
 		#expect(schema == nil)
