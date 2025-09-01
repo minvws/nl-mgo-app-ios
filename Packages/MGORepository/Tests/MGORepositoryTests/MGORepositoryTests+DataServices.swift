@@ -7,7 +7,7 @@
 import MGOTest
 import FHIRClient
 
-final class MGORepositoryTests: XCTestCase {
+final class MGORepositoryDataServicesTests: XCTestCase {
 	
 	var sut: MGORepository!
 
@@ -29,20 +29,21 @@ final class MGORepositoryTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("bundle")
-		let endpoint = DVP.Endpoint(
-			path: "TestPath",
-			parameters: RequestParameters([(RequestParameterField.include, "test")]),
-			directory: "TestDirectory",
-			serviceId: "TestServiceId",
-			fhirVersion: .r3
-		)
-		stub(condition: isPath("/TestPath/TestDirectory")) { request in
+		let endpoint = DataServices.Endpoint(id: "test", url: "/TestPath", profiles: ["test"])
+		
+		stub(condition: isPath("/TestPath")) { request in
 			expect(request.allHTTPHeaderFields?["Accept"]) == "application/json+fhir; fhirVersion=3.0"
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
 		}
 		
 		// When
-		let data = try await sut.getBundleData(endpoint: endpoint, dvaTarget: "test", username: nil, password: nil)
+		let data = try await sut.getBundleData(
+			endpoint: endpoint,
+			fhirVersion: DataServices.FhirVersion.r3,
+			dvaTarget: "test",
+			username: nil,
+			password: nil
+		)
 		
 		// Then
 		expect(data) == json
@@ -52,20 +53,21 @@ final class MGORepositoryTests: XCTestCase {
 		
 		// Given
 		let json = try getResource("bundle")
-		let endpoint = DVP.Endpoint(
-			path: "TestPath",
-			parameters: RequestParameters([(RequestParameterField.include, "test")]),
-			directory: "TestDirectory",
-			serviceId: "TestServiceId",
-			fhirVersion: .r4
-		)
-		stub(condition: isPath("/TestPath/TestDirectory")) { request in
+		let endpoint = DataServices.Endpoint(id: "test", url: "/TestPath", profiles: ["test"])
+		
+		stub(condition: isPath("/TestPath")) { request in
 			expect(request.allHTTPHeaderFields?["Accept"]) == "application/json+fhir; fhirVersion=4.0"
 			return HTTPStubsResponse(data: json, statusCode: 200, headers: nil)
 		}
 		
 		// When
-		let data = try await sut.getBundleData(endpoint: endpoint, dvaTarget: "test", username: nil, password: nil)
+		let data = try await sut.getBundleData(
+			endpoint: endpoint,
+			fhirVersion: DataServices.FhirVersion.r4,
+			dvaTarget: "test",
+			username: nil,
+			password: nil
+		)
 		
 		// Then
 		expect(data) == json

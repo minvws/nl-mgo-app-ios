@@ -29,6 +29,7 @@ let package = Package(
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "HCIMCore", package: "HCIMCore")
 			],
+			resources: [.process("Resources")],
 			swiftSettings: [
 				.enableExperimentalFeature("StrictConcurrency")
 			]

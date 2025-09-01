@@ -4,7 +4,6 @@
  */
 
 import Foundation
-import FHIRClient
 import Observatory
 
 /// The in memory data store
