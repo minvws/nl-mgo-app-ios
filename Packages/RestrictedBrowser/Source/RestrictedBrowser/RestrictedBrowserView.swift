@@ -30,7 +30,7 @@ public struct RestrictedBrowserView: View {
 			
 			WebView(viewModel: viewModel, url: viewModel.url)
 				.background(theme.backgroundPrimary)
-				.backportToolbarBackground(theme.backgroundSecondary, for: .navigationBar)
+				.backport.toolbarBackground(theme.backgroundSecondary, for: .navigationBar)
 				.toolbar(
 					content: {
 						ToolbarItemGroup(

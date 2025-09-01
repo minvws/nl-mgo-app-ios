@@ -268,8 +268,8 @@ struct OrganizationsView: View {
 			}
 		}
 		.listStyle(.insetGrouped)
-		.backportListSectionSpacing(ViewTraits.List.spacing)
-		.backportScrollContentBackground(.hidden)
+		.backport.listSectionSpacing(ViewTraits.List.spacing)
+		.backport.scrollContentBackground(.hidden)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.List.spacing / 2)
 	}
 	
