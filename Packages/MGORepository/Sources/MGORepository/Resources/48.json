@@ -39,7 +39,7 @@
         },
         {
             "id": "livingSituation",
-            "url": "/Observation/$lastn?code=http://snomed.info/sct|3655080066",
+            "url": "/Observation/$lastn?code=http://snomed.info/sct|365508006",
             "profiles": ["http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation"]
         },
         {

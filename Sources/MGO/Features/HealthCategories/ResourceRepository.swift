@@ -165,45 +165,109 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	///   - category: the category to load the resources for.
 	@MainActor func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async {
 		
-		for service in category.services {
-			
-			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: service.serviceId) else {
-				continue
-			}
-			
-			var mgoResources = [MgoResource]()
-			var resourceError = false
-			
-			do {
-				logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", service)
-				let fhirBundle = try await repository.getBundleData(
-					endpoint: service,
-					dvaTarget: dvaTarget,
-					username: username,
-					password: password
-				)
-				mgoResources = try await repository.process(
-					fhirBundle,
-					fhirVersion: service.fhirVersion.rawValue
-				)
-			} catch {
-				resourceError = true
-			}
-			
-			#warning("To do: store data service id?")
-			let recordToStore = MgoResourceRecord(
-				categoryId: "\(category.rawValue)",
-				organizationId: healthcareOrganization.identifier,
-				resources: mgoResources,
-				error: resourceError
-			)
-			logVerbose("ResourceRepository - Adding to the store", recordToStore)
-			
-			let delayInSeconds: Double = (featureFlagManager?.isDemo ?? false) ? 5 : 0
-			delay(delayInSeconds) {
-				self.dataRepository?.store(data: recordToStore)
+		logDebug("\n\nStarting for category:", category)
+		
+		let dataServices = DataServices()
+		if let sharedCategory = category.sharedCategory {
+			for dataService in dataServices.services {
+				
+				// Check if the organization uses this data service
+				guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: dataService.id) else {
+					continue
+				}
+				
+				// Set of endpoints to use. a set to filter duplicates
+				var usableEndpoints = Set<DataServices.Endpoint>()
+				for endpoint in dataService.endpoints {
+					for dsProfile in endpoint.profiles {
+						for subcategory in sharedCategory.subcategories {
+							for scProfile in subcategory.profiles where scProfile == dsProfile {
+								usableEndpoints.insert(endpoint)
+							}
+						}
+					}
+				}
+				logDebug("Usable endpoints", usableEndpoints)
+				for endpoint in usableEndpoints {
+					
+					var mgoResources = [MgoResource]()
+					var resourceError = false
+		
+					do {
+						logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
+						let fhirBundle = try await repository.getBundleData(
+							endpoint: endpoint,
+							fhirVersion: dataService.fhirVersion,
+							dvaTarget: dvaTarget,
+							username: username,
+							password: password
+						)
+						
+						mgoResources = try await repository.process(
+							fhirBundle,
+							fhirVersion: dataService.fhirVersion.rawValue
+						)
+					} catch {
+						resourceError = true
+					}
+		
+					#warning("To do: store data service id?")
+					let recordToStore = MgoResourceRecord(
+						categoryId: "\(category.rawValue)",
+						organizationId: healthcareOrganization.identifier,
+						resources: mgoResources,
+						error: resourceError
+					)
+					logVerbose("ResourceRepository - Adding to the store", recordToStore)
+		
+					let delayInSeconds: Double = (featureFlagManager?.isDemo ?? false) ? 5 : 0
+					delay(delayInSeconds) {
+						self.dataRepository?.store(data: recordToStore)
+					}
+				}
 			}
 		}
+		
+//		for service in category.services {
+//			
+//			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: service.serviceId) else {
+//				continue
+//			}
+//			logDebug("Running service:", service)
+			
+//			var mgoResources = [MgoResource]()
+//			var resourceError = false
+//			
+//			do {
+//				logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", service)
+//				let fhirBundle = try await repository.getBundleData(
+//					endpoint: service,
+//					dvaTarget: dvaTarget,
+//					username: username,
+//					password: password
+//				)
+//				mgoResources = try await repository.process(
+//					fhirBundle,
+//					fhirVersion: service.fhirVersion.rawValue
+//				)
+//			} catch {
+//				resourceError = true
+//			}
+//			
+//			#warning("To do: store data service id?")
+//			let recordToStore = MgoResourceRecord(
+//				categoryId: "\(category.rawValue)",
+//				organizationId: healthcareOrganization.identifier,
+//				resources: mgoResources,
+//				error: resourceError
+//			)
+//			logVerbose("ResourceRepository - Adding to the store", recordToStore)
+//			
+//			let delayInSeconds: Double = (featureFlagManager?.isDemo ?? false) ? 5 : 0
+//			delay(delayInSeconds) {
+//				self.dataRepository?.store(data: recordToStore)
+//			}
+//		}
 	}
 	
 	/// Load the resources

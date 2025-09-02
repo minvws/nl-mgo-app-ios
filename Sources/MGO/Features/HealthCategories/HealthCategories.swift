@@ -182,7 +182,7 @@ struct HealthCategories {
 			}
 		}
 		
-		private var sharedCategory: SharedHealthCategories.Category? {
+		public var sharedCategory: SharedHealthCategories.Category? {
 			
 			do {
 				let sharedCategories = try SharedHealthCategories()
