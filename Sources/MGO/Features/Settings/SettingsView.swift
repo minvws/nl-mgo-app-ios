@@ -115,8 +115,8 @@ struct SettingsView: View {
 			reset()
 		}
 	
-		.backportScrollContentBackground(.hidden)
-		.backportContentMargins(ViewTraits.Navigation.padding)
+		.backport.scrollContentBackground(.hidden)
+		.backport.contentMargins(ViewTraits.Navigation.padding)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 		.navigationTitle("settings.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
