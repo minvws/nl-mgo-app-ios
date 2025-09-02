@@ -39,8 +39,8 @@ struct AboutAccessibilityView: View {
 			.listRowInsets(ViewTraits.General.inset)
 			.padding(ViewTraits.General.padding)
 		}
-		.backportScrollContentBackground(.hidden)
-		.backportContentMargins(ViewTraits.Navigation.padding)
+		.backport.scrollContentBackground(.hidden)
+		.backport.contentMargins(ViewTraits.Navigation.padding)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton {
 			viewModel.reduce(.backButtonPressed)

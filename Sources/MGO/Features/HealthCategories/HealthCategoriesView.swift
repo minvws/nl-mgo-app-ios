@@ -359,8 +359,8 @@ struct HealthCategoriesView: View {
 				noHealthcareOrganizationView()
 			} else {
 				categoriesView()
-					.backportListSectionSpacing(Container.shared.featureFlagManager().isDemo ? ViewTraits.List.demoSpacing : ViewTraits.List.spacing)
-					.backportContentMargins(0)
+					.backport.listSectionSpacing(Container.shared.featureFlagManager().isDemo ? ViewTraits.List.demoSpacing : ViewTraits.List.spacing)
+					.backport.contentMargins(0)
 					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 			}
 		} // VStack
@@ -429,7 +429,7 @@ struct HealthCategoriesView: View {
 				listFooter()
 			}
 		} // List
-		.backportScrollContentBackground(.hidden)
+		.backport.scrollContentBackground(.hidden)
 		.listStyle(.insetGrouped)
 	}
 	

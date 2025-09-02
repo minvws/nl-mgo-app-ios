@@ -155,8 +155,8 @@ struct SecuritySettingsView: View {
 					Text("pincode.opticid.lockout")
 			}
 		}
-		.backportScrollContentBackground(.hidden)
-		.backportContentMargins(ViewTraits.Navigation.padding, edges: .top)
+		.backport.scrollContentBackground(.hidden)
+		.backport.contentMargins(ViewTraits.Navigation.padding, edges: .top)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("settings.heading") {
 			viewModel.reduce(.backButtonPressed)
