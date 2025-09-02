@@ -349,13 +349,13 @@ class HealthCategoryViewModel: ObservableObject {
 		var items = [HealthCategoryRow]()
 		// For all the MgoResources
 		for resource in record.resources where resource.hasProfile(acceptedProfile) {
-			
-			if let uiSchema = parser.getSummary(resource) {
+			let orginizationName = Sanitizer.strip(getOrganizationName(record.organizationId))
+			if let uiSchema = parser.getSummary(resource, organizationName: orginizationName) {
 				// Add a HealthCategoryBlock to the display list
 				items.append(
 					HealthCategoryRow(
 						heading: Sanitizer.sanitize(uiSchema.label),
-						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId)),
+						subHeading: orginizationName,
 						schema: uiSchema
 					) { [weak self] in
 							
