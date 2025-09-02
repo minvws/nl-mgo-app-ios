@@ -240,14 +240,14 @@ class HealthCategoryViewModel: ObservableObject {
 		state = .loading
 		dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
 		
-		guard category.services.isNotEmpty else {
-			delay(1.5) {
-				_Concurrency.Task(priority: .userInitiated) {
-					await self.loadResources()
-				}
-			}
-			return
-		}
+//		guard category.services.isNotEmpty else {
+//			delay(1.5) {
+//				_Concurrency.Task(priority: .userInitiated) {
+//					await self.loadResources()
+//				}
+//			}
+//			return
+//		}
 		
 		_Concurrency.Task(priority: .userInitiated) {
 			if let organization {

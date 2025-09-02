@@ -94,7 +94,6 @@ public actor MGORepository {
 		return data
 	}
 	
-	
 	/// The Basic Auth header value
 	/// - Parameters:
 	///   - username: username

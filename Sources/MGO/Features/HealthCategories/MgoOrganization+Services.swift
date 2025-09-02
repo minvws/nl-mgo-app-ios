@@ -12,16 +12,46 @@ extension MgoOrganization {
 	/// - Returns: the number of services.
 	@MainActor func servicesForCategory(_ category: HealthCategories.Category) -> Int {
 		
-		var result = 0
-		guard let dts = data_services else {
-			return result
+		var shadowResult = 0
+		guard let organizationDataServices = data_services else {
+			logVerbose("No services found for category \(category)")
+			return shadowResult
 		}
 		
-		for service in category.services {
-			for dataService in dts where service.serviceId == dataService.id {
-				result += 1
+		let dataServices = DataServices(isDemo: Container.shared.featureFlagManager().isDemo)
+		if let sharedCategory = category.sharedCategory {
+			for dataService in dataServices.services {
+				
+				// Check if the organization uses this data service
+				guard getResourceEndpoint(identifier: dataService.id) != nil else {
+					continue
+				}
+				
+				// Set of endpoints to use. a set to filter duplicates
+				var usableEndpoints = Set<DataServices.Endpoint>()
+				for endpoint in dataService.endpoints {
+					for dsProfile in endpoint.profiles {
+						for subcategory in sharedCategory.subcategories {
+							for scProfile in subcategory.profiles where scProfile == dsProfile {
+								usableEndpoints.insert(endpoint)
+							}
+						}
+					}
+				}
+				shadowResult += usableEndpoints.count
 			}
 		}
-		return result
+		
+		logVerbose("\(shadowResult) shadow services found for category \(category)")
+		return shadowResult
+		
+//		for service in category.services {
+//			for dataService in organizationDataServices where service.serviceId == dataService.id {
+//				logVerbose("Service \(service.serviceId) found for category \(category)")
+//				result += 1
+//			}
+//		}
+//		logInfo("\(result) services found for category \(category)")
+//		return result
 	}
 }
