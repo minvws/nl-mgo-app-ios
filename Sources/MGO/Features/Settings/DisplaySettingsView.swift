@@ -50,8 +50,8 @@ struct DisplaySettingsView: View {
 					.foregroundStyle(theme.contentSecondary)
 			}
 		}
-		.backportScrollContentBackground(.hidden)
-		.backportContentMargins(ViewTraits.Navigation.padding, edges: .top)
+		.backport.scrollContentBackground(.hidden)
+		.backport.contentMargins(ViewTraits.Navigation.padding, edges: .top)
 		.navigationTitle("settings.display.heading")
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationBarBackButtonHidden()
