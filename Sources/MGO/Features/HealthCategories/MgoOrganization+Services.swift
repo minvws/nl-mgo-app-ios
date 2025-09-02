@@ -6,6 +6,39 @@
 import MGOFoundation
 
 extension MgoOrganization {
+
+	/// Get the number of services for a category
+	/// - Parameter category: the category
+	/// - Returns: the number of services.
+	@MainActor func servicesForCategory(_ category: SharedHealthCategories.Category) -> Int {
+		
+		var result = 0
+		let dataServices = DataServices(isDemo: Container.shared.featureFlagManager().isDemo)
+		for dataService in dataServices.services {
+			
+			// Check if the organization uses this data service
+			guard getResourceEndpoint(identifier: dataService.id) != nil else {
+				continue
+			}
+			
+			// Set of endpoints to use. a set to filter duplicates
+			var usableEndpoints = Set<DataServices.Endpoint>()
+			for endpoint in dataService.endpoints {
+				for dsProfile in endpoint.profiles {
+					for subcategory in category.subcategories {
+						for scProfile in subcategory.profiles where scProfile == dsProfile {
+							usableEndpoints.insert(endpoint)
+						}
+					}
+				}
+			}
+			result += usableEndpoints.count
+		}
+		
+		
+		logVerbose("\(result) services found for category \(category)")
+		return result
+	}
 	
 	/// Get the number of services for a category
 	/// - Parameter category: the category
@@ -13,10 +46,6 @@ extension MgoOrganization {
 	@MainActor func servicesForCategory(_ category: HealthCategories.Category) -> Int {
 		
 		var shadowResult = 0
-		guard let organizationDataServices = data_services else {
-			logVerbose("No services found for category \(category)")
-			return shadowResult
-		}
 		
 		let dataServices = DataServices(isDemo: Container.shared.featureFlagManager().isDemo)
 		if let sharedCategory = category.sharedCategory {

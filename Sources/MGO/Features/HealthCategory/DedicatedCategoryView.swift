@@ -8,10 +8,10 @@ import MGOUI
 
 class AlertsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.alerts,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_alerts.heading",
@@ -25,10 +25,10 @@ class AlertsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class AllergiesHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.allergies,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_allergies.heading",
@@ -42,10 +42,10 @@ class AllergiesHealthCategoryViewModel: HealthCategoryViewModel {
 
 class AppointmentsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.appointments,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_appointments.heading",
@@ -59,10 +59,10 @@ class AppointmentsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class ComplaintsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.medicalComplaints,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_complaints.heading",
@@ -76,10 +76,10 @@ class ComplaintsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class DevicesHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.medicalDevices,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_devices.heading",
@@ -93,10 +93,10 @@ class DevicesHealthCategoryViewModel: HealthCategoryViewModel {
 
 class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.documents,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_documents.heading",
@@ -107,7 +107,7 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 		)
 	}
 	
-	override func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthSubCategory]) {
+	override func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthCategoryBlock]) {
 		
 		let (partial, subCategories) = super.sortRecords(records: records)
 		
@@ -117,7 +117,7 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 		return (
 			partial,
 			[
-				HealthSubCategory(
+				HealthCategoryBlock(
 					heading: subCategory.heading,
 					rows: subCategory.rows.filter { row in
 						(row.heading == "Consult dermatologie" && row.subHeading == "Ziekenhuis Nieuw Juinen") ||
@@ -133,10 +133,10 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class LabResultsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.labResults,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_lab_results.heading",
@@ -150,10 +150,10 @@ class LabResultsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class LifestyleHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.lifestyle,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_lifestyle.heading",
@@ -167,10 +167,10 @@ class LifestyleHealthCategoryViewModel: HealthCategoryViewModel {
 
 class MeasurementsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.measurements,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_measurements.heading",
@@ -184,10 +184,10 @@ class MeasurementsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class MedicationHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.medication,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_medication.heading",
@@ -201,10 +201,10 @@ class MedicationHealthCategoryViewModel: HealthCategoryViewModel {
 
 class MentalStatusHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.mentalWellbeing,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_mental.heading",
@@ -218,10 +218,10 @@ class MentalStatusHealthCategoryViewModel: HealthCategoryViewModel {
 
 class PatientHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.personalDetails,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_patient.heading",
@@ -235,10 +235,10 @@ class PatientHealthCategoryViewModel: HealthCategoryViewModel {
 
 class PaymentHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.payment,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_payment.heading",
@@ -252,10 +252,10 @@ class PaymentHealthCategoryViewModel: HealthCategoryViewModel {
 
 class PlansHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.plans,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_plans.heading",
@@ -269,10 +269,10 @@ class PlansHealthCategoryViewModel: HealthCategoryViewModel {
 
 class TreatmentsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.treatments,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_treatments.heading",
@@ -286,10 +286,10 @@ class TreatmentsHealthCategoryViewModel: HealthCategoryViewModel {
 
 class VaccinationsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, organization: MgoOrganization?) {
+	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
 		super.init(
 			coordinator: coordinator,
-			category: HealthCategories.Category.vaccinations,
+			category: category,
 			organization: organization,
 			translations: HealthCategoryViewTranslations(
 				heading: "hc_vaccinations.heading",

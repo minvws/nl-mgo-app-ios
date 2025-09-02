@@ -187,8 +187,9 @@ class HealthCategoriesViewModel: ObservableObject {
 			
 			case let .categorySelected(categoryButton):
 				
-				if let category = HealthCategories.Category(rawValue: categoryButton.id) {
-					var params: [String: AnyHashable] = ["category": category]
+			if let category = HealthCategories.Category(rawValue: categoryButton.id),
+			   let sharedCategory = category.sharedCategory {
+					var params: [String: AnyHashable] = ["category": sharedCategory]
 					if case let .single(healthcareOrganization) = mode {
 						params["healthcareOrganization"] = healthcareOrganization
 					}

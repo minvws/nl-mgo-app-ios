@@ -31,12 +31,12 @@ class HealthDataMapper {
 	///   - category: the health category
 	///   - data: the health sub categories
 	/// - Returns: pdf Data
-	@MainActor func map(_ category: HealthCategories.Category, data: [HealthSubCategory]) -> PdfData? {
+	@MainActor func map(_ category: SharedHealthCategories.Category, data: [HealthCategoryBlock]) -> PdfData? {
 		
 		let date = Container.shared.now()()
 		
 		return PdfData(
-			heading: String(localized: String.LocalizationValue(stringLiteral: category.heading.stringKey)),
+			heading: String(localized: String.LocalizationValue(stringLiteral: category.heading)),
 			subHeading: String(
 				format: String(localized: "export_pdf.subheading"),
 				arguments: [
@@ -52,10 +52,10 @@ class HealthDataMapper {
 	/// Transform a Health sub category in a PDF Grouped tables
 	/// - Parameter subCategory: the sub category to transform
 	/// - Returns: a PDF grouped table
-	@MainActor private func mapSubCategory(_ subCategory: HealthSubCategory) -> PdfGroupedTables {
+	@MainActor private func mapSubCategory(_ subCategory: HealthCategoryBlock) -> PdfGroupedTables {
 		
 		return PdfGroupedTables(
-			heading: subCategory.heading,
+			heading: String(localized: String.LocalizationValue(stringLiteral: subCategory.heading)),
 			tables: subCategory.rows.compactMap { row in
 				let subTables = mapSchema(row.schema)
 				if subTables.isEmpty {

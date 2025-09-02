@@ -21,4 +21,24 @@ struct PreviewContent {
 		types: [LocalisationService.Components.Schemas.CType(code: "01", display_name: "Tandarts", _type: "")],
 		data_services: []
 	)
+	
+	static let category = SharedHealthCategories.Category(
+		id: "medication",
+		heading: "hc_medication.heading",
+		subheading: "hc_medication.subheading",
+		subcategories: [
+			SharedHealthCategories.SubCategory(
+				heading: "zib_medication_use.heading",
+				profiles: ["http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"]
+			),
+			SharedHealthCategories.SubCategory(
+				heading: "zib_medication_agreement.heading",
+				profiles: ["http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement"]
+			),
+			SharedHealthCategories.SubCategory(
+				heading: "zib_administration_agreement.heading",
+				profiles: ["http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement"]
+			)
+		]
+	)
 }

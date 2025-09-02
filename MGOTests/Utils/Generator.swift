@@ -62,9 +62,9 @@ class Generator {
 	}
 	
 	/// Return a dummy health sub category
-	static func healthSubCategory() -> HealthSubCategory {
+	static func healthSubCategory() -> HealthCategoryBlock {
 		
-		return HealthSubCategory(
+		return HealthCategoryBlock(
 			heading: "heading subcategory",
 			rows: [
 				healthCategoryRow()
