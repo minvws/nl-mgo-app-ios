@@ -28,228 +28,35 @@ struct HealthCategories {
 		
 		/// The category heading
 		var heading: LocalizedStringKey {
-			switch self {
-				case .medicalComplaints: "hc_complaints.heading"
-				case .labResults: "hc_lab_results.heading"
-				case .measurements: "hc_measurements.heading"
-				case .medication: "hc_medication.heading"
-				case .treatments: "hc_treatments.heading"
-				case .appointments: "hc_appointments.heading"
-				case .vaccinations: "hc_vaccinations.heading"
-				case .documents: "hc_documents.heading"
-				case .allergies: "hc_allergies.heading"
-				case .mentalWellbeing: "hc_mental.heading"
-				case .lifestyle: "hc_lifestyle.heading"
-				case .medicalDevices: "hc_devices.heading"
-				case .plans: "hc_plans.heading"
-				case .alerts: "hc_alerts.heading"
-				case .personalDetails: "hc_patient.heading"
-				case .payment: "hc_payment.heading"
+			
+			if let sharedCategory = sharedCategory {
+				return LocalizedStringKey(stringLiteral: sharedCategory.heading)
 			}
+			
+			logError("Did not found a heading for", self)
+			return "Todo!"
 		}
 		
 		/// Which of the Nictiz profiles do we accept for a category?
 		@MainActor var acceptedProfiles: [String] {
-			switch self {
-				
-				case .medication: [
-					ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue,
-					ZibMedicationAgreementProfile.httpNictizNlFhirStructureDefinitionZibMedicationAgreement.rawValue,
-					ZibAdministrationAgreementProfile.httpNictizNlFhirStructureDefinitionZibAdministrationAgreement.rawValue
-				]
-				
-				case .measurements: [
-					ZibBloodPressureProfile.httpNictizNlFhirStructureDefinitionZibBloodPressure.rawValue,
-					ZibBodyWeightProfile.httpNictizNlFhirStructureDefinitionZibBodyWeight.rawValue,
-					ZibBodyHeightProfile.httpNictizNlFhirStructureDefinitionZibBodyHeight.rawValue,
-					GpDiagnosticResultProfile.httpNictizNlFhirStructureDefinitionGpDiagnosticResult.rawValue
-				]
-				
-				case .labResults:
-					if Container.shared.featureFlagManager().isDemo {
-					[
-						ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue,
-						GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue
-					]
-				} else {
-					[
-						ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue,
-						ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue,
-						GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue
-					]
-				}
-				
-				case .allergies: [
-					ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue
-				]
-				
-				case .treatments: [
-					ZibProcedureProfile.httpNictizNlFhirStructureDefinitionZibProcedure.rawValue,
-					ZibProcedureRequestProfile.httpNictizNlFhirStructureDefinitionZibProcedureRequest.rawValue,
-					NlCoreEpisodeofcareProfile.httpFhirNlFhirStructureDefinitionNlCoreEpisodeofcare.rawValue
-				]
-				
-				case .appointments: [
-					ZibEncounterProfile.httpNictizNlFhirStructureDefinitionZibEncounter.rawValue,
-					EAfspraakAppointmentProfile.httpNictizNlFhirStructureDefinitionEAfspraakAppointment.rawValue,
-					GpEncounterProfile.httpNictizNlFhirStructureDefinitionGpEncounter.rawValue,
-					GpEncounterReportProfile.httpNictizNlFhirStructureDefinitionGpEncounterReport.rawValue
-				]
-				
-				case .vaccinations: [
-					ZibVaccinationProfile.httpNictizNlFhirStructureDefinitionZibVaccination.rawValue,
-					ZibVaccinationRecommendationProfile.httpNictizNlFhirStructureDefinitionZibVaccinationRecommendation.rawValue,
-					R4NlCoreVaccinationEventProfile.httpNictizNlFhirStructureDefinitionNlCoreVaccinationEvent.rawValue
-				]
-				
-				case .documents: [
-					IheMhdMinimalDocumentReferenceProfile.httpNictizNlFhirStructureDefinitionIHEMHDMinimalDocumentReference.rawValue
-				]
-				
-				case .medicalComplaints: [
-					ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue
-				]
-				
-				case .personalDetails: [
-					NlCorePatientProfile.httpFhirNlFhirStructureDefinitionNlCorePatient.rawValue
-				]
-				
-				case .alerts: [
-					ZibAlertProfile.httpNictizNlFhirStructureDefinitionZibAlert.rawValue
-				]
-				case .payment:  [
-					ZibPayerProfile.httpNictizNlFhirStructureDefinitionZibPayer.rawValue
-				]
-				
-				case .plans: [
-					ZibTreatmentDirectiveProfile.httpNictizNlFhirStructureDefinitionZibTreatmentDirective.rawValue,
-					ZibAdvanceDirectiveProfile.httpNictizNlFhirStructureDefinitionZibAdvanceDirective.rawValue
-				]
-				
-				case .medicalDevices: [
-					ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue,
-					ZibMedicalDeviceRequestProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceRequest.rawValue
-				]
-				
-				case .mentalWellbeing: [
-					ZibFunctionalOrMentalStatusProfile.httpNictizNlFhirStructureDefinitionZibFunctionalOrMentalStatus.rawValue
-				]
-				
-				case .lifestyle: [
-					ZibLivingSituationProfile.httpNictizNlFhirStructureDefinitionZibLivingSituation.rawValue,
-					ZibDrugUseProfile.httpNictizNlFhirStructureDefinitionZibDrugUse.rawValue,
-					ZibAlcoholUseProfile.httpNictizNlFhirStructureDefinitionZibAlcoholUse.rawValue,
-					ZibTobaccoUseProfile.httpNictizNlFhirStructureDefinitionZibTobaccoUse.rawValue,
-					ZibNutritionAdviceProfile.httpNictizNlFhirStructureDefinitionZibNutritionAdvice.rawValue
-				]
+			
+			if let sharedCategory = sharedCategory {
+				return sharedCategory.profiles()
 			}
+			
+			logError("Did not found an acceptedProfiles for", self)
+			return []
 		}
 		
-		@MainActor func subCategory(_ profileDefinition: String) -> String.LocalizationValue? {
-			return switch profileDefinition {
+		@MainActor func subCategoryHeading(_ profileDefinition: String) -> String.LocalizationValue? {
 			
-				// Medication
-				case ZibMedicationUseProfile.httpNictizNlFhirStructureDefinitionZibMedicationUse.rawValue:
-					"zib_medication_use.heading"
-				case ZibMedicationAgreementProfile.httpNictizNlFhirStructureDefinitionZibMedicationAgreement.rawValue:
-					"zib_medication_agreement.heading"
-				case ZibAdministrationAgreementProfile.httpNictizNlFhirStructureDefinitionZibAdministrationAgreement.rawValue:
-					"zib_administration_agreement.heading"
-				
-				// Measurements
-				case ZibBloodPressureProfile.httpNictizNlFhirStructureDefinitionZibBloodPressure.rawValue:
-					"zib_blood_pressure.heading"
-				case ZibBodyWeightProfile.httpNictizNlFhirStructureDefinitionZibBodyWeight.rawValue:
-					"zib_body_weight.heading"
-				case ZibBodyHeightProfile.httpNictizNlFhirStructureDefinitionZibBodyHeight.rawValue:
-					"zib_body_height.heading"
-				case GpDiagnosticResultProfile.httpNictizNlFhirStructureDefinitionGpDiagnosticResult.rawValue:
-					"gp_diagnostic_result.heading"
-				
-				// Labresults
-				case ZibLaboratoryTestResultObservationProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultObservation.rawValue:
-					
-					Container.shared.featureFlagManager().isDemo ? "zib_laboratory_demo.heading" : "zib_laboratory_test_result_observation.heading"
-				
-				case ZibLaboratoryTestResultSpecimenProfile.httpNictizNlFhirStructureDefinitionZibLaboratoryTestResultSpecimen.rawValue:
-					"zib_laboratory_test_result_specimen.heading"
-				case GpLaboratoryResultProfile.httpNictizNlFhirStructureDefinitionGpLaboratoryResult.rawValue:
-				
-					Container.shared.featureFlagManager().isDemo ? "zib_laboratory_demo.heading" : "gp_laboratory_result.heading"
-				
-				// Allergies
-				case ZibAllergyIntoleranceProfile.httpNictizNlFhirStructureDefinitionZibAllergyIntolerance.rawValue:
-					"zib_allergy_intolerance.heading"
-				
-				// Treatments
-				case ZibProcedureProfile.httpNictizNlFhirStructureDefinitionZibProcedure.rawValue:
-					"zib_procedure.heading"
-				case ZibProcedureRequestProfile.httpNictizNlFhirStructureDefinitionZibProcedureRequest.rawValue, NlCoreEpisodeofcareProfile.httpFhirNlFhirStructureDefinitionNlCoreEpisodeofcare.rawValue:
-					"zib_procedure_request.heading"
-				
-				// Appointments
-				case EAfspraakAppointmentProfile.httpNictizNlFhirStructureDefinitionEAfspraakAppointment.rawValue:
-					"eAfspraak_appointment.heading"
-				case ZibEncounterProfile.httpNictizNlFhirStructureDefinitionZibEncounter.rawValue, GpEncounterProfile.httpNictizNlFhirStructureDefinitionGpEncounter.rawValue,
-					GpEncounterReportProfile.httpNictizNlFhirStructureDefinitionGpEncounterReport.rawValue:
-					"zib_encounter.heading"
-				
-				// Vaccinations
-				case ZibVaccinationProfile.httpNictizNlFhirStructureDefinitionZibVaccination.rawValue,
-					R4NlCoreVaccinationEventProfile.httpNictizNlFhirStructureDefinitionNlCoreVaccinationEvent.rawValue:
-					"zib_vaccination.heading"
-				case ZibVaccinationRecommendationProfile.httpNictizNlFhirStructureDefinitionZibVaccinationRecommendation.rawValue:
-					"zib_vaccination_recommendation.heading"
-				
-				// Documents
-				case IheMhdMinimalDocumentReferenceProfile.httpNictizNlFhirStructureDefinitionIHEMHDMinimalDocumentReference.rawValue:
-					"ihe_mhd_minimal_document_reference.heading"
-				
-				// Complaints
-				case ZibProblemProfile.httpNictizNlFhirStructureDefinitionZibProblem.rawValue:
-					"zib_problem.heading"
-				
-				// Patient
-				case NlCorePatientProfile.httpFhirNlFhirStructureDefinitionNlCorePatient.rawValue, R4NlCorePatientProfile.httpNictizNlFhirStructureDefinitionNlCorePatient.rawValue:
-					"zib_patient.heading"
-				
-				// FunctionalOrMentalStatus
-				case ZibFunctionalOrMentalStatusProfile.httpNictizNlFhirStructureDefinitionZibFunctionalOrMentalStatus.rawValue:
-					"zib_functional_or_mental_status.heading"
-				
-				// Alerts
-				case ZibAlertProfile.httpNictizNlFhirStructureDefinitionZibAlert.rawValue:
-					"zib_alert.heading"
-				
-				// Lifestyle
-				case ZibLivingSituationProfile.httpNictizNlFhirStructureDefinitionZibLivingSituation.rawValue:
-					"zib_living_situation.heading"
-				case ZibDrugUseProfile.httpNictizNlFhirStructureDefinitionZibDrugUse.rawValue:
-					"zib_drug_use.heading"
-				case ZibAlcoholUseProfile.httpNictizNlFhirStructureDefinitionZibAlcoholUse.rawValue:
-					"zib_alcohol_use.heading"
-				case ZibTobaccoUseProfile.httpNictizNlFhirStructureDefinitionZibTobaccoUse.rawValue:
-					"zib_tobacco_use.heading"
-				case ZibNutritionAdviceProfile.httpNictizNlFhirStructureDefinitionZibNutritionAdvice.rawValue:
-					"zib_nutrition_advice.heading"
-				
-				// Devices
-				case ZibMedicalDeviceProfile.httpNictizNlFhirStructureDefinitionZibMedicalDevice.rawValue, ZibMedicalDeviceProductProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceProduct.rawValue, ZibMedicalDeviceRequestProfile.httpNictizNlFhirStructureDefinitionZibMedicalDeviceRequest.rawValue:
-					"zib_medical_device.heading"
-				
-				// Plans
-				case ZibTreatmentDirectiveProfile.httpNictizNlFhirStructureDefinitionZibTreatmentDirective.rawValue:
-					"zib_treatment_directive.heading"
-				case ZibAdvanceDirectiveProfile.httpNictizNlFhirStructureDefinitionZibAdvanceDirective.rawValue:
-					"zib_advance_directive.heading"
-				
-				// Payment
-				case ZibPayerProfile.httpNictizNlFhirStructureDefinitionZibPayer.rawValue:
-					"zib_payer.heading"
-				
-				default:
-					nil
+			if let sharedCategory = sharedCategory,
+			   let subcategory = sharedCategory.subcategories.first(where: { $0.profiles.contains(profileDefinition) }) {
+					logInfo("found subcategory for \(profileDefinition) in", self)
+				   return String.LocalizationValue(stringLiteral: subcategory.heading)
 			}
+			logError("Did not found subcategory for \(profileDefinition) in", self)
+			return nil
 		}
 
 		// What endpoints should we use for a category?
@@ -372,6 +179,49 @@ struct HealthCategories {
 					
 				default:
 					return []
+			}
+		}
+		
+		private var sharedCategory: SharedHealthCategories.Category? {
+			
+			do {
+				let sharedCategories = try SharedHealthCategories()
+				switch self {
+					case .medication:
+						return sharedCategories.findCategory(id: "medication")
+					case .medicalComplaints:
+						return sharedCategories.findCategory(id: "problems")
+					case .labResults:
+						return sharedCategories.findCategory(id: "lab_results")
+					case .measurements:
+						return sharedCategories.findCategory(id: "measurements")
+					case .treatments:
+						return sharedCategories.findCategory(id: "treatments")
+					case .appointments:
+						return sharedCategories.findCategory(id: "appointments")
+					case .vaccinations:
+						return sharedCategories.findCategory(id: "vaccinations")
+					case .documents:
+						return sharedCategories.findCategory(id: "documents")
+					case .allergies:
+						return sharedCategories.findCategory(id: "allergies")
+					case .mentalWellbeing:
+						return sharedCategories.findCategory(id: "mental_wellbeing")
+					case .lifestyle:
+						return sharedCategories.findCategory(id: "lifestyle")
+					case .medicalDevices:
+						return sharedCategories.findCategory(id: "medical_devices")
+					case .plans:
+						return sharedCategories.findCategory(id: "plans")
+					case .alerts:
+						return sharedCategories.findCategory(id: "alerts")
+					case .personalDetails:
+						return sharedCategories.findCategory(id: "patient")
+					case .payment:
+						return sharedCategories.findCategory(id: "payment")
+				}
+			} catch {
+				return nil
 			}
 		}
 	}

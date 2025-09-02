@@ -317,7 +317,7 @@ class HealthCategoryViewModel: ObservableObject {
 		
 		// Create list of subcategories
 		for profile in category.acceptedProfiles {
-			if let heading = category.subCategory(profile) {
+			if let heading = category.subCategoryHeading(profile) {
 				var subCat = HealthSubCategory(heading: String(localized: heading), rows: [])
 				for record in records {
 					subCat.rows.append(contentsOf: parseRecord(record, acceptedProfile: profile))
