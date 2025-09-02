@@ -185,6 +185,52 @@ class DataServicesTests {
 	}
 	// swiftlint: enable function_body_length
 	
+	@Test func commonClinicalDataset_isDemo() async throws {
+		
+		// Given
+		sut = DataServices(isDemo: true)
+		
+		// When
+		let dataService = try #require(sut.services.first(where: { $0.id == "48" }))
+		
+		// Then
+		#expect(dataService.id == "48")
+		#expect(dataService.name == "Common Clinical Dataset (demo)")
+		#expect(dataService.fhirVersion == .r3)
+		#expect(dataService.endpoints.count == 2)
+		
+		#expect(dataService.endpoints[0].id == "medicationUse")
+		#expect(dataService.endpoints[0].getUrl() == "/MedicationStatement?category=urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3|6&_include=MedicationStatement:medication")
+		#expect(dataService.endpoints[0].profiles.count == 1)
+		#expect(dataService.endpoints[0].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse")
+		
+		#expect(dataService.endpoints[1].id == "laboratoryTestResult")
+		#expect(dataService.endpoints[1].getUrl() == "/Observation/$lastn?category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen")
+		#expect(dataService.endpoints[1].profiles.count == 1)
+		#expect(dataService.endpoints[1].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation")
+	}
+	
+	@Test func generalPractitioner_isDemo() async throws {
+		
+		// Given
+		sut = DataServices(isDemo: true)
+		
+		// When
+		let dataService = try #require(sut.services.first(where: { $0.id == "49" }))
+		
+		// Then
+		#expect(dataService.id == "49")
+		#expect(dataService.name == "General Practitioner Data (demo)")
+		#expect(dataService.fhirVersion == .r3)
+		#expect(dataService.endpoints.count == 1)
+		
+		#expect(dataService.endpoints[0].id == "diagnosticAndLabResults")
+		#expect(dataService.endpoints[0].getUrl() == "/Observation?code=https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen|&_include=Observation:related-target&_include=Observation:specimen")
+		#expect(dataService.endpoints[0].profiles.count == 2)
+		#expect(dataService.endpoints[0].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult")
+		#expect(dataService.endpoints[0].profiles.last == "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult")
+	}
+	
 	@Test func generalPractitioner() async throws {
 		
 		// Given

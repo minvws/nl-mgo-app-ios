@@ -1,0 +1,15 @@
+{
+    "id": "49",
+    "name": "General Practitioner Data (demo)",
+    "fhirVersion": "R3",
+    "endpoints": [
+        {
+            "id": "diagnosticAndLabResults",
+            "url": "/Observation?code=https://referentiemodel.nhg.org/tabellen/nhg-tabel-45-diagnostische-bepalingen|&_include=Observation:related-target&_include=Observation:specimen",
+            "profiles": [
+                "http://nictiz.nl/fhir/StructureDefinition/gp-DiagnosticResult",
+                "http://nictiz.nl/fhir/StructureDefinition/gp-LaboratoryResult"
+            ]
+        }
+    ]
+}

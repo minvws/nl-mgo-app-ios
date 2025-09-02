@@ -105,9 +105,14 @@ public struct DataServices: Sendable {
 	public var services: [DataService] = []
 	
 	/// Create the data services
-	public init() {
+	public init(isDemo: Bool = false) {
 		
-		for element in ["48", "49", "51", "63"] {
+		var elements = ["48", "49", "51", "63"]
+		if isDemo {
+			elements = ["48-demo", "49-demo", "51", "63"]
+		}
+		
+		for element in elements {
 			if let service = try? loadService(element) {
 				services.append(service)
 			}

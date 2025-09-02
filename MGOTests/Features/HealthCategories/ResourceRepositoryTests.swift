@@ -86,7 +86,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(30), timeout: .seconds(10))
+			.toEventually(equal(2), timeout: .seconds(10))
 	}
 	
 	@MainActor func test_load_twoOrganizations() throws {
@@ -108,7 +108,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(56), timeout: .seconds(15))
+			.toEventually(equal(60), timeout: .seconds(15))
 	}
 	
 	@MainActor func test_load_twoOrganizations_demoMode() throws {
@@ -131,7 +131,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(60), timeout: .seconds(10))
+			.toEventually(equal(4), timeout: .seconds(10))
 	}
 	
 	@MainActor func test_loadForOrganization() throws {

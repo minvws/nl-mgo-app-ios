@@ -165,9 +165,9 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	///   - category: the category to load the resources for.
 	@MainActor func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async {
 		
-		logDebug("\n\nStarting for category:", category)
+		logVerbose("\n\nStarting for category:", category)
 		
-		let dataServices = DataServices()
+		let dataServices = DataServices(isDemo: Container.shared.featureFlagManager().isDemo)
 		if let sharedCategory = category.sharedCategory {
 			for dataService in dataServices.services {
 				
@@ -187,7 +187,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 						}
 					}
 				}
-				logDebug("Usable endpoints", usableEndpoints)
+				logVerbose("Usable endpoints", usableEndpoints)
 				for endpoint in usableEndpoints {
 					
 					var mgoResources = [MgoResource]()
