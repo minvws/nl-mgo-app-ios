@@ -72,7 +72,7 @@ class DataServicesTests {
 		#expect(dataService.endpoints[5].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-Problem")
 		
 		#expect(dataService.endpoints[6].id == "livingSituation")
-		#expect(dataService.endpoints[6].getUrl() == "/Observation/$lastn?code=http://snomed.info/sct|3655080066")
+		#expect(dataService.endpoints[6].getUrl() == "/Observation/$lastn?code=http://snomed.info/sct|365508006")
 		#expect(dataService.endpoints[6].profiles.count == 1)
 		#expect(dataService.endpoints[6].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-LivingSituation")
 		
