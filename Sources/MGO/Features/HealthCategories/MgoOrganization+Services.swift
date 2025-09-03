@@ -35,7 +35,6 @@ extension MgoOrganization {
 			result += usableEndpoints.count
 		}
 		
-		
 		logVerbose("\(result) services found for category \(category)")
 		return result
 	}

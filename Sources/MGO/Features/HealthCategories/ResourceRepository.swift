@@ -337,16 +337,17 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	) async throws -> FHIRBinary? {
 			
 		// The binary call also needs the DVA Target header
-		guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId) else {
+		guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId),
+				let dataService = DataServices().services.first(where: { $0.id == serviceId }) else {
 			return nil
 		}
 		
-		let endpoint = DVP.Endpoint(path: url, serviceId: serviceId)
-	
 		do {
-			logInfo("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
+			logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", url)
+			
 			let data = try await repository.getBundleData(
-				endpoint: endpoint,
+				endpoint: DataServices.Endpoint(id: "binary", url: url, profiles: []),
+				fhirVersion: dataService.fhirVersion,
 				dvaTarget: dvaTarget,
 				username: username,
 				password: password

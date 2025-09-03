@@ -177,13 +177,9 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 			
 			// State .notParticipating for data services we don't handle (yet)
 			var activeServices = [DataService]()
-			for service in dts {
-				if service.id == DVP.CommonClinicalDataset.serviceID ||
-					service.id == DVP.GeneralPractitioner.serviceID ||
-					service.id == DVP.Vaccination.serviceID ||
-					service.id == DVP.Documents.serviceID {
-					activeServices.append(service)
-				}
+			let availableServiceIds = DataServices().services.map(\.id)
+			for service in dts where availableServiceIds.contains(service.id) {
+				activeServices.append(service)
 			}
 			guard activeServices.isNotEmpty else {
 				notParticipatingList.append(organization)
