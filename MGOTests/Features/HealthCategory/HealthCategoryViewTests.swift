@@ -24,11 +24,14 @@ final class HealthCategoryViewTests: XCTestCase {
 		healthcareOrganization = Generator.healthcareOrganization("1")
 	}
 	
-	@MainActor private func createSut() {
+	@MainActor private func createSut() throws {
+		
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "medication"))
 		
 		viewModel = HealthCategoryViewModel(
 			coordinator: coordinatorSpy,
-			category: .medication,
+			category: category,
 			organization: healthcareOrganization,
 			translations: HealthCategoryViewTranslations(
 				heading: "heading",
@@ -43,7 +46,7 @@ final class HealthCategoryViewTests: XCTestCase {
 	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
-		createSut()
+		try createSut()
 		let content = NavigationView { sut }
 		
 		// When

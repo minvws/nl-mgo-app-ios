@@ -25,11 +25,11 @@ final class HealthCategoryTests: XCTestCase {
 		expect(row) != otherRow
 	}
 	
-	@MainActor func test_healthSubCategory() {
+	@MainActor func test_healthCategoryBlock() {
 		
 		// Given
-		let subCategory = Generator.healthSubCategory()
-		let otherSubCategory = Generator.healthSubCategory()
+		let subCategory = Generator.healthCategoryBlock()
+		let otherSubCategory = Generator.healthCategoryBlock()
 		
 		// When
 		

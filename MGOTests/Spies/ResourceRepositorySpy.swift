@@ -41,16 +41,40 @@ class ResourceRepositorySpy: ResourceRepositoryProtocol {
 		invokedLoadForHealthCategoriesCategoryParametersList.append((category, ()))
 	}
 
-	var invokedLoadResource = false
-	var invokedLoadResourceCount = 0
-	var invokedLoadResourceParameters: (healthcareOrganization: MgoOrganization, category: HealthCategories.Category)?
-	var invokedLoadResourceParametersList = [(healthcareOrganization: MgoOrganization, category: HealthCategories.Category)]()
+	var invokedLoadForSharedHealthCategoriesCategory = false
+	var invokedLoadForSharedHealthCategoriesCategoryCount = 0
+	var invokedLoadForSharedHealthCategoriesCategoryParameters: (category: SharedHealthCategories.Category, Void)?
+	var invokedLoadForSharedHealthCategoriesCategoryParametersList = [(category: SharedHealthCategories.Category, Void)]()
+
+	func loadFor(_ category: SharedHealthCategories.Category) {
+		invokedLoadForSharedHealthCategoriesCategory = true
+		invokedLoadForSharedHealthCategoriesCategoryCount += 1
+		invokedLoadForSharedHealthCategoriesCategoryParameters = (category, ())
+		invokedLoadForSharedHealthCategoriesCategoryParametersList.append((category, ()))
+	}
+
+	var invokedLoadResourceMgoOrganizationCategoryHealthCategoriesCategory = false
+	var invokedLoadResourceMgoOrganizationCategoryHealthCategoriesCategoryCount = 0
+	var invokedLoadResourceMgoOrganizationCategoryHealthCategoriesCategoryParameters: (healthcareOrganization: MgoOrganization, category: HealthCategories.Category)?
+	var invokedLoadResourceMgoOrganizationCategoryHealthCategoriesCategoryParametersList = [(healthcareOrganization: MgoOrganization, category: HealthCategories.Category)]()
 
 	func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) {
-		invokedLoadResource = true
-		invokedLoadResourceCount += 1
-		invokedLoadResourceParameters = (healthcareOrganization, category)
-		invokedLoadResourceParametersList.append((healthcareOrganization, category))
+		invokedLoadResourceMgoOrganizationCategoryHealthCategoriesCategory = true
+		invokedLoadResourceMgoOrganizationCategoryHealthCategoriesCategoryCount += 1
+		invokedLoadResourceMgoOrganizationCategoryHealthCategoriesCategoryParameters = (healthcareOrganization, category)
+		invokedLoadResourceMgoOrganizationCategoryHealthCategoriesCategoryParametersList.append((healthcareOrganization, category))
+	}
+
+	var invokedLoadResourceMgoOrganizationCategorySharedHealthCategoriesCategory = false
+	var invokedLoadResourceMgoOrganizationCategorySharedHealthCategoriesCategoryCount = 0
+	var invokedLoadResourceMgoOrganizationCategorySharedHealthCategoriesCategoryParameters: (healthcareOrganization: MgoOrganization, category: SharedHealthCategories.Category)?
+	var invokedLoadResourceMgoOrganizationCategorySharedHealthCategoriesCategoryParametersList = [(healthcareOrganization: MgoOrganization, category: SharedHealthCategories.Category)]()
+
+	func loadResource(_ healthcareOrganization: MgoOrganization, category: SharedHealthCategories.Category) {
+		invokedLoadResourceMgoOrganizationCategorySharedHealthCategoriesCategory = true
+		invokedLoadResourceMgoOrganizationCategorySharedHealthCategoriesCategoryCount += 1
+		invokedLoadResourceMgoOrganizationCategorySharedHealthCategoriesCategoryParameters = (healthcareOrganization, category)
+		invokedLoadResourceMgoOrganizationCategorySharedHealthCategoriesCategoryParametersList.append((healthcareOrganization, category))
 	}
 
 	var invokedLoadBinary = false

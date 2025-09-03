@@ -144,7 +144,11 @@ final class HealthCategoryViewTranslationsFactory {
 
 class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 	
-	@MainActor init(coordinator: (any Coordinator)? = nil, category: SharedHealthCategories.Category, organization: MgoOrganization?) {
+	@MainActor init(
+		coordinator: (any Coordinator)? = nil,
+		category: SharedHealthCategories.Category,
+		organization: MgoOrganization?
+	) {
 		super.init(
 			coordinator: coordinator,
 			category: category,
@@ -158,7 +162,9 @@ class DocumentsHealthCategoryViewModel: HealthCategoryViewModel {
 		)
 	}
 	
-	override func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthCategoryBlock]) {
+	override func sortRecords(
+		records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthCategoryBlock]
+		) {
 		
 		let (partial, subCategories) = super.sortRecords(records: records)
 		
