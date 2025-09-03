@@ -16,17 +16,7 @@ protocol ResourceRepositoryProtocol {
 	
 	/// Load all the categories for a category
 	/// - Parameter category: the category to load  for
-	@MainActor func loadFor(_ category: HealthCategories.Category) async
-	
-	/// Load all the categories for a category
-	/// - Parameter category: the category to load  for
 	@MainActor func loadFor(_ category: SharedHealthCategories.Category) async
-
-	/// Load the resources
-	/// - Parameters:
-	///   - healthcareOrganization: healthcare organization
-	///   - category: the category to load the resources for.
-	@MainActor func loadResource(_ healthcareOrganization: MgoOrganization, category: HealthCategories.Category) async
 	
 	/// Load the resources
 	/// - Parameters:
@@ -140,22 +130,12 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// - Parameter healthcareOrganization: the healthcare organization to load all the categories for
 	@MainActor func loadFor(_ healthcareOrganization: MgoOrganization) {
 		logVerbose("ResourceRepository - LoadFor", healthcareOrganization.identifier)
-		for category in HealthCategories.Category.allCases {
-			_Concurrency.Task(priority: .high) {
-				await loadResource(healthcareOrganization, category: category)
+		if let sharedCategories = try? SharedHealthCategories() {
+			for sharedCategory in sharedCategories.mainCategories.flatMap({ $0.categories }) {
+				_Concurrency.Task(priority: .high) {
+					await loadResource(healthcareOrganization, category: sharedCategory)
+				}
 			}
-		}
-	}
-	
-	/// Load all the categories for a category
-	/// - Parameter category: the category to load  for
-	@MainActor func loadFor(_ category: HealthCategories.Category) async {
-		logVerbose("ResourceRepository - LoadFor", category)
-		
-		guard let healthcareOrganizationRepository else { return }
-		
-		for healthcareOrganization in healthcareOrganizationRepository.organizations {
-			await loadResource(healthcareOrganization, category: category)
 		}
 	}
 	
@@ -178,78 +158,6 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		
 		for healthcareOrganization in healthcareOrganizationRepository.organizations {
 			loadFor(healthcareOrganization)
-		}
-	}
-	
-	/// Load the resources
-	/// - Parameters:
-	///   - healthcareOrganization: healthcare organization
-	///   - category: the category to load the resources for.
-	@MainActor func loadResource(
-		_ healthcareOrganization: MgoOrganization,
-		category: HealthCategories.Category
-	) async {
-		
-		logVerbose("\n\nStarting for category:", category)
-		
-		let dataServices = DataServices(isDemo: Container.shared.featureFlagManager().isDemo)
-		if let sharedCategory = category.sharedCategory {
-			for dataService in dataServices.services {
-				
-				// Check if the organization uses this data service
-				guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: dataService.id) else {
-					continue
-				}
-				
-				// Set of endpoints to use. a set to filter duplicates
-				var usableEndpoints = Set<DataServices.Endpoint>()
-				for endpoint in dataService.endpoints {
-					for dsProfile in endpoint.profiles {
-						for subcategory in sharedCategory.subcategories {
-							for scProfile in subcategory.profiles where scProfile == dsProfile {
-								usableEndpoints.insert(endpoint)
-							}
-						}
-					}
-				}
-				logVerbose("Usable endpoints", usableEndpoints)
-				for endpoint in usableEndpoints {
-					
-					var mgoResources = [MgoResource]()
-					var resourceError = false
-		
-					do {
-						logVerbose("ResourceRepository - calling endpoint for \(dvaTarget)", endpoint)
-						let fhirBundle = try await repository.getBundleData(
-							endpoint: endpoint,
-							fhirVersion: dataService.fhirVersion,
-							dvaTarget: dvaTarget,
-							username: username,
-							password: password
-						)
-						
-						mgoResources = try await repository.process(
-							fhirBundle,
-							fhirVersion: dataService.fhirVersion.rawValue
-						)
-					} catch {
-						resourceError = true
-					}
-					
-					let recordToStore = MgoResourceRecord(
-						categoryId: sharedCategory.id,
-						organizationId: healthcareOrganization.identifier,
-						resources: mgoResources,
-						error: resourceError
-					)
-					logVerbose("ResourceRepository - Adding to the store", recordToStore)
-		
-					let delayInSeconds: Double = (featureFlagManager?.isDemo ?? false) ? 5 : 0
-					delay(delayInSeconds) {
-						self.dataRepository?.store(data: recordToStore)
-					}
-				}
-			}
 		}
 	}
 	

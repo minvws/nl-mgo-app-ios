@@ -291,7 +291,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedRemoveRecordsFor) == true
-		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceMgoOrganizationCategorySharedHealthCategoriesCategoryCount).toEventually(equal(1), timeout: .seconds(5))
+		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadResourceCount).toEventually(equal(1), timeout: .seconds(5))
 	}
 	
 	@MainActor func test_retry_noOrganization() throws {

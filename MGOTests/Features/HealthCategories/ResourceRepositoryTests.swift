@@ -167,7 +167,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		await sut.loadFor(HealthCategories.Category.medication)
+		await sut.loadFor(Generator.healthCategory)
 		
 		// Then
 		await expect { await self.servicesSpies.dataStoreSpy.invokedStoreCount }
@@ -189,7 +189,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		await sut.loadFor(HealthCategories.Category.medication)
+		await sut.loadFor(Generator.healthCategory)
 		
 		// Then
 		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
