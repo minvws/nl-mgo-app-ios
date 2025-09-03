@@ -239,8 +239,6 @@ class HealthCategoriesViewModel: ObservableObject {
 		
 		guard expectedNumberOfResults > 0 else {
 			state.buttonState[category.id] = .empty
-//
-//			state.updateCategoryState(id: category.id, state: .empty)
 			return
 		}
 		
