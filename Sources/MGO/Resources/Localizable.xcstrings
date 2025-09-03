@@ -3119,9 +3119,6 @@
         }
       }
     },
-    "Todo, HealthCategoryView for %@" : {
-
-    },
     "update_required.download" : {
       "extractionState" : "manual",
       "localizations" : {
