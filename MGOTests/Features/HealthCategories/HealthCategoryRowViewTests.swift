@@ -13,7 +13,7 @@ class HealthCategoryRowViewTests: XCTestCase {
 	@MainActor func test_empty() {
 		
 		// Given
-		let sut = HealthCategoryRowView(block: CategoryButton(category: .medication, state: .empty, box: 1))
+		let sut = HealthCategoryRowView(category: Generator.healthCategory, state: .empty)
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)
@@ -26,7 +26,7 @@ class HealthCategoryRowViewTests: XCTestCase {
 	@MainActor func test_loading() {
 		
 		// Given
-		let sut = HealthCategoryRowView(block: CategoryButton(category: .medication, state: .loading, box: 1))
+		let sut = HealthCategoryRowView(category: Generator.healthCategory, state: .loading)
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)
@@ -39,7 +39,7 @@ class HealthCategoryRowViewTests: XCTestCase {
 	@MainActor func test_loaded() {
 		
 		// Given
-		let sut = HealthCategoryRowView(block: CategoryButton(category: .medication, state: .loaded, box: 1))
+		let sut = HealthCategoryRowView(category: Generator.healthCategory, state: .loaded)
 		
 		// When
 		let view = sut.frame(width: 380, height: 200)

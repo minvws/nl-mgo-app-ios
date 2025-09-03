@@ -200,13 +200,13 @@ class HealthCategoriesViewModel: ObservableObject {
 				
 				let cacheResult: Result<[MgoResourceRecord], Error> = {
 					switch mode {
-					case .single(let healthcareOrganization):
-						return dataStore.get(
-							categoryId: "\(category.id)",
-							organizationId: healthcareOrganization.identifier
-						)
-					case .all:
-						return dataStore.get(categoryId: "\(category.id)")
+						case .single(let healthcareOrganization):
+							return dataStore.get(
+								categoryId: "\(category.id)",
+								organizationId: healthcareOrganization.identifier
+							)
+						case .all:
+							return dataStore.get(categoryId: "\(category.id)")
 					}
 				}()
 				handleCacheResult(cacheResult, category: category)

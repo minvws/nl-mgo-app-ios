@@ -185,10 +185,8 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			var usableEndpoints = Set<DataServices.Endpoint>()
 			for endpoint in dataService.endpoints {
 				for dsProfile in endpoint.profiles {
-					for subcategory in category.subcategories {
-						for scProfile in subcategory.profiles where scProfile == dsProfile {
-							usableEndpoints.insert(endpoint)
-						}
+					for scProfile in category.profiles() where scProfile == dsProfile {
+						usableEndpoints.insert(endpoint)
 					}
 				}
 			}
