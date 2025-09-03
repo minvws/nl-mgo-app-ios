@@ -192,7 +192,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		
 		logVerbose("\n\nStarting for category:", category)
 		
-		let dataServices = DataServices()
+		let dataServices = DataServices(isDemo: Container.shared.featureFlagManager().isDemo)
 		if let sharedCategory = category.sharedCategory {
 			for dataService in dataServices.services {
 				
@@ -264,7 +264,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 		
 		logVerbose("\n\nStarting for category:", category)
 		
-		let dataServices = DataServices()
+		let dataServices = DataServices(isDemo: Container.shared.featureFlagManager().isDemo)
 		
 		for dataService in dataServices.services {
 			
@@ -338,7 +338,7 @@ class ResourceRepository: ResourceRepositoryProtocol {
 			
 		// The binary call also needs the DVA Target header
 		guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: serviceId),
-				let dataService = DataServices().services.first(where: { $0.id == serviceId }) else {
+				let dataService = DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.first(where: { $0.id == serviceId }) else {
 			return nil
 		}
 		

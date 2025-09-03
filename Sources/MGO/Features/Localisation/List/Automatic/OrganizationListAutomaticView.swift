@@ -113,7 +113,7 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 		}
 	}
 	
-	private func loadHealthcareOrganizations() async {
+	@MainActor private func loadHealthcareOrganizations() async {
 		
 		state = .loading
 		
@@ -166,7 +166,7 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 		}
 	}
 	
-	func selectNotParticipatingOrganizations() {
+	@MainActor func selectNotParticipatingOrganizations() {
 		
 		for organization in searchResultsList {
 			// State .notParticipating for organizations without any data service
@@ -177,7 +177,7 @@ class OrganizationListAutomaticViewModel: ObservableObject {
 			
 			// State .notParticipating for data services we don't handle (yet)
 			var activeServices = [DataService]()
-			let availableServiceIds = DataServices().services.map(\.id)
+			let availableServiceIds = DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.map(\.id)
 			for service in dts where availableServiceIds.contains(service.id) {
 				activeServices.append(service)
 			}

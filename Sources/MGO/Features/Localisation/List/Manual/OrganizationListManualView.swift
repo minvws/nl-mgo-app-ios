@@ -182,14 +182,14 @@ class OrganizationListManualViewModel: ObservableObject {
 	/// Get the state for a card
 	/// - Parameter organization: the healthcare organization
 	/// - Returns: card state
-	private func cardState(for organization: MgoOrganization) -> OrganizationListCardState {
+	@MainActor private func cardState(for organization: MgoOrganization) -> OrganizationListCardState {
 		
 		guard let dts = organization.data_services, dts.isNotEmpty else {
 			return .notParticipating
 		}
 		
 		var activeServices = [DataService]()
-		let availableServiceIds = DataServices().services.map(\.id)
+		let availableServiceIds = DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.map(\.id)
 		for service in dts where availableServiceIds.contains(service.id) {
 			activeServices.append(service)
 		}
