@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Frame 5771439.svg",
+      "filename" : "Frame 5771583.svg",
       "idiom" : "universal"
     }
   ],
@@ -11,6 +11,6 @@
   },
   "properties" : {
     "preserves-vector-representation" : true,
-    "template-rendering-intent" : "template"
+    "template-rendering-intent" : "original"
   }
 }

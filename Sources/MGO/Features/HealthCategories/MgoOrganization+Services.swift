@@ -72,14 +72,5 @@ extension MgoOrganization {
 		
 		logVerbose("\(shadowResult) shadow services found for category \(category)")
 		return shadowResult
-		
-//		for service in category.services {
-//			for dataService in organizationDataServices where service.serviceId == dataService.id {
-//				logVerbose("Service \(service.serviceId) found for category \(category)")
-//				result += 1
-//			}
-//		}
-//		logInfo("\(result) services found for category \(category)")
-//		return result
 	}
 }

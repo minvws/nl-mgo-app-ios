@@ -11,69 +11,74 @@ struct HealthCategoryRowView: View {
 	@Environment(\.theme) var theme
 	
 	/// The category to display
-	var block: CategoryButton
+	var category: SharedHealthCategories.Category
+	
+	/// The state
+	var state: CategoryButtonState
 	
 	/// Magic Numbers
 	private struct ViewTraits {
-		enum Block {
-			static let spacing: CGFloat = 16
+		enum Category {
+			
 			static let minHeight: CGFloat = 56
 		}
+		enum Text {
+			static let spacing: CGFloat = 4
+		}
 		enum Icon {
-			static let size: CGFloat = 24
+			static let size: CGFloat = 32
+			static let padding: CGFloat = 16
 		}
 		enum Spinner {
-			static let lineWidth: CGFloat = 3
 			static let size: CGFloat = 22
 		}
 	}
 	
 	var body: some View {
 		
-		HStack(spacing: ViewTraits.Block.spacing) {
+		HStack(alignment: .top, spacing: 0) {
 			
-			block.getIcon(theme)
+			category.getIcon(theme)
 				.frame(width: ViewTraits.Icon.size, height: ViewTraits.Icon.size)
+				.padding(.trailing, ViewTraits.Icon.padding)
 			
-			Text(block.title)
-				.foregroundStyle(theme.contentPrimary)
+			VStack(alignment: .leading, spacing: ViewTraits.Text.spacing) {
+				Text(String(localized: String.LocalizationValue(stringLiteral: category.heading)))
+					.rijksoverheidStyle(font: .bold, style: .body)
+					.foregroundColor(theme.contentPrimary)
+				if state == .empty {
+					Text("common.no_data")
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.foregroundColor(theme.contentSecondary)
+				} else {
+					Text(String(localized: String.LocalizationValue(stringLiteral: category.subheading)))
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.foregroundColor(theme.contentSecondary)
+				}
+			}
 			
 			Spacer()
 			
 			VStack {
-				switch block.state {
-					case .empty, .notAvailable:
-						Text("common.no_data")
+				switch state {
 					case .loaded:
 						Image(systemName: "chevron.right")
-							.font(.body)
 							.foregroundStyle(theme.symbolSecondary)
+							.frame(width: 12, height: 22)
+					
 					case .loading:
-						HStack {
-							Text("common.loading_data")
-						
-							ProgressView()
-								.progressViewStyle(.circular)
-								.frame(width: ViewTraits.Spinner.size, height: ViewTraits.Spinner.size)
-								.tint(theme.symbolSecondary)
-						}
+						ProgressView()
+							.progressViewStyle(.circular)
+							.frame(width: ViewTraits.Spinner.size, height: ViewTraits.Spinner.size)
+							.tint(theme.symbolSecondary)
+					
+					default:
+						EmptyView()
 				}
 			}
-			.foregroundStyle(theme.contentSecondary)
 		}
-		.rijksoverheidStyle(font: .regular, style: .body)
-		.padding(ViewTraits.Block.spacing)
-		.frame(minHeight: ViewTraits.Block.minHeight)
+		.background(theme.backgroundSecondary)
+		.frame(minHeight: ViewTraits.Category.minHeight)
 		.accessibilityElement(children: .combine)
 	}
-}
-
-#Preview {
-	VStack {
-		HealthCategoryRowView(block: CategoryButton(category: .medication))
-		HealthCategoryRowView(block: CategoryButton(category: .measurements, state: .loaded, box: 1))
-		HealthCategoryRowView(block: CategoryButton(category: .medicalComplaints, state: .empty, box: 2))
-		HealthCategoryRowView(block: CategoryButton(category: .payment, state: .notAvailable, box: 3))
-	}
-	.background(Theme().backgroundPrimary)
 }

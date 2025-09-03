@@ -23,19 +23,10 @@ struct HealthCategoriesViewState {
 	var canTitleCollapse: Bool
 	var showEmptyView: Bool
 	var showRemoveHealthcareProvider: Bool
-	var healthCategories: [CategoryButton]
+	var mainCategories: [SharedHealthCategories.MainCategory]
+	var buttonState: [String: CategoryButtonState]
 	var backButtonTitle: LocalizedStringKey?
 	var belowIOS18: Bool
-	
-	mutating func updateCategoryState(id: Int, state: CategoryButtonState) {
-		withAnimation {
-			for index in 0..<healthCategories.count where healthCategories[index].id == id {
-				if healthCategories[index].state != .notAvailable {
-					healthCategories[index].state = state
-				}
-			}
-		}
-	}
 }
 
 class HealthCategoriesViewModel: ObservableObject {
@@ -68,7 +59,7 @@ class HealthCategoriesViewModel: ObservableObject {
 	enum Action {
 		case backButtonPressed
 		case refresh
-		case categorySelected(CategoryButton)
+		case categorySelected(SharedHealthCategories.Category)
 		case removeHealthcareOrganization
 		case onAppear
 		case search
@@ -110,9 +101,13 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .all: true
 		}
 		
-		// The categories could be divided into several boxes, currently 1 box for enabled categories. 
-		// Disabled box 1 means same box as the enabled categories
-		let disabledForDemoBox: Int = Container.shared.featureFlagManager().isDemo ? 2 : 1
+		var initialButtonState = [String: CategoryButtonState]()
+		let mainCategories = try? SharedHealthCategories().mainCategories
+		for mainCategory in mainCategories ?? [] {
+			for category in mainCategory.categories {
+				initialButtonState[category.id] = .loading
+			}
+		}
 		
 		self.state = HealthCategoriesViewState(
 			heading: heading,
@@ -120,28 +115,11 @@ class HealthCategoriesViewModel: ObservableObject {
 			canTitleCollapse: canTitleCollapse,
 			showEmptyView: Container.shared.healthcareOrganizationRepository().organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
-			healthCategories: [
-				CategoryButton(category: .medication, box: 1),
-				CategoryButton(category: .measurements, box: disabledForDemoBox),
-				CategoryButton(category: .labResults, box: 1),
-				CategoryButton(category: .allergies, box: disabledForDemoBox),
-				CategoryButton(category: .treatments, box: disabledForDemoBox),
-				CategoryButton(category: .appointments, box: disabledForDemoBox),
-				CategoryButton(category: .vaccinations, box: 1),
-				CategoryButton(category: .documents, box: 1),
-				CategoryButton(category: .medicalComplaints, box: disabledForDemoBox),
-				CategoryButton(category: .personalDetails, box: disabledForDemoBox),
-				CategoryButton(category: .alerts, box: disabledForDemoBox),
-				CategoryButton(category: .payment, box: disabledForDemoBox),
-				CategoryButton(category: .plans, box: disabledForDemoBox),
-				CategoryButton(category: .medicalDevices, box: disabledForDemoBox),
-				CategoryButton(category: .mentalWellbeing, box: disabledForDemoBox),
-				CategoryButton(category: .lifestyle, box: disabledForDemoBox)
-			],
+			mainCategories: mainCategories ?? [],
+			buttonState: initialButtonState,
 			backButtonTitle: backbuttonTitle,
 			belowIOS18: belowIOS18
 		)
-		
 		registerObservers()
 	}
 	
@@ -185,25 +163,20 @@ class HealthCategoriesViewModel: ObservableObject {
 				}
 				reduce(.onAppear)
 			
-			case let .categorySelected(categoryButton):
+			case let .categorySelected(category):
 				
-			if let category = HealthCategories.Category(rawValue: categoryButton.id),
-			   let sharedCategory = category.sharedCategory {
-					var params: [String: AnyHashable] = ["category": sharedCategory]
-					if case let .single(healthcareOrganization) = mode {
-						params["healthcareOrganization"] = healthcareOrganization
-					}
-					
-					coordinator?.handle(
-						Coordination.Action(
-							identifier: Coordination.Action.showHealthCategory.identifier,
-							params: params
-						)
-					)
-				} else {
-					logError("Can't create a category for", categoryButton)
+				var params: [String: AnyHashable] = ["category": category]
+				if case let .single(healthcareOrganization) = mode {
+					params["healthcareOrganization"] = healthcareOrganization
 				}
 				
+				coordinator?.handle(
+					Coordination.Action(
+						identifier: Coordination.Action.showHealthCategory.identifier,
+						params: params
+					)
+				)
+			
 			case .onAppear:
 				updateState()
 			
@@ -222,35 +195,31 @@ class HealthCategoriesViewModel: ObservableObject {
 	/// The store has changed, update the
 	@MainActor private func updateState() {
 		
-		for button in state.healthCategories {
-			// Only update if the category is enabled.
-			guard button.state != .notAvailable else { continue }
-			
-			let cacheResult: Result<[MgoResourceRecord], Error> = {
-				switch mode {
+		for mainCategory in state.mainCategories {
+			for category in mainCategory.categories {
+				
+				let cacheResult: Result<[MgoResourceRecord], Error> = {
+					switch mode {
 					case .single(let healthcareOrganization):
 						return dataStore.get(
-							categoryId: "\(button.id)",
+							categoryId: "\(category.id)",
 							organizationId: healthcareOrganization.identifier
 						)
 					case .all:
-						return dataStore.get(categoryId: "\(button.id)")
-				}
-			}()
-			
-			handleCacheResult(cacheResult, button: button)
+						return dataStore.get(categoryId: "\(category.id)")
+					}
+				}()
+				handleCacheResult(cacheResult, category: category)
+			}
 		}
 	}
 
 	/// Update the state
 	/// - Parameter button: the button to update
-	@MainActor private func handleCacheResult(_ cacheResult: Result<[MgoResourceRecord], Error>, button: CategoryButton) {
-		
-		// There better be a category for this button
-		guard let category = HealthCategories.Category(rawValue: button.id) else {
-			logError("HealthCategoriesViewModel, unknown category for", button)
-			return
-		}
+	@MainActor private func handleCacheResult(
+		_ cacheResult: Result<[MgoResourceRecord], Error>,
+		category: SharedHealthCategories.Category
+	) {
 	
 		let expectedNumberOfResults: Int = {
 			switch mode {
@@ -269,24 +238,26 @@ class HealthCategoriesViewModel: ObservableObject {
 		logVerbose("HealthCategoriesViewModel: expectedNumberOfResults = \(expectedNumberOfResults) for \(category)")
 		
 		guard expectedNumberOfResults > 0 else {
-			state.updateCategoryState(id: button.id, state: .empty)
+			state.buttonState[category.id] = .empty
+//
+//			state.updateCategoryState(id: category.id, state: .empty)
 			return
 		}
 		
 		switch cacheResult {
 			case let .success(records):
-				handleCacheHit(button, records: records, expectedNumberOfResults: expectedNumberOfResults)
+				handleCacheHit(category, records: records, expectedNumberOfResults: expectedNumberOfResults)
 			case let .failure(error):
-				handleCacheMiss(button, error: error)
+				handleCacheMiss(category, error: error)
 		}
 	}
 	
 	/// Handle the success path of the cache
 	/// - Parameters:
-	///   - button: the category button
+	///   - category: the category
 	///   - records: the records for the category
 	///   - expectedNumberOfResults: the expected number of results
-	private func handleCacheHit(_ button: CategoryButton, records: [MgoResourceRecord], expectedNumberOfResults: Int) {
+	private func handleCacheHit(_ category: SharedHealthCategories.Category, records: [MgoResourceRecord], expectedNumberOfResults: Int) {
 		
 		// Success, there was some records for this category
 		if records.count >= expectedNumberOfResults {
@@ -295,26 +266,26 @@ class HealthCategoriesViewModel: ObservableObject {
 			for record in records where record.resources.isNotEmpty {
 				found = true
 			}
-			state.updateCategoryState(id: button.id, state: found ? .loaded : .empty)
+			state.buttonState[category.id] = found ? .loaded : .empty
 		} else {
 			// We don't have data for all organizations. Keep loading
-			state.updateCategoryState(id: button.id, state: .loading)
+			state.buttonState[category.id] = .loading
 		}
 	}
 	
 	/// handle the failure path of the cache
 	/// - Parameters:
-	///   - button: the category button
+	///   - category: the category
 	///   - error: the error
-	private func handleCacheMiss(_ button: CategoryButton, error: Error) {
+	private func handleCacheMiss(_ category: SharedHealthCategories.Category, error: Error) {
 		
 		// No records available. Keep in loading state.
 		guard case DataStoreError.noData = error else {
 			logError("Error", error)
-			state.updateCategoryState(id: button.id, state: .empty)
+			state.buttonState[category.id] = .empty
 			return
 		}
-		state.updateCategoryState(id: button.id, state: .loading)
+		state.buttonState[category.id] = .loading
 	}
 }
 
@@ -340,6 +311,8 @@ struct HealthCategoriesView: View {
 		}
 		enum List {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+			static let sectionInset = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+			static let headerInset = EdgeInsets(top: 24, leading: 0, bottom: 12, trailing: 0)
 			static let spacing: CGFloat = 4
 			static let demoSpacing: CGFloat = 16
 			static let bottom: CGFloat = 16
@@ -360,9 +333,9 @@ struct HealthCategoriesView: View {
 				noHealthcareOrganizationView()
 			} else {
 				categoriesView()
-					.backport.listSectionSpacing(Container.shared.featureFlagManager().isDemo ? ViewTraits.List.demoSpacing : ViewTraits.List.spacing)
+					.backport.listSectionSpacing(ViewTraits.List.spacing)
 					.backport.contentMargins(0)
-					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
+//					.environment(\.defaultMinListHeaderHeight, ViewTraits.General.padding / 2)
 			}
 		} // VStack
 		.navigationBarBackButtonHidden()
@@ -388,7 +361,6 @@ struct HealthCategoriesView: View {
 			viewModel.reduce(.onAppear)
 		}
 	}
-	
 	/// The view for the header
 	/// - Returns: header view
 	@ViewBuilder func heading() -> some View {
@@ -412,73 +384,79 @@ struct HealthCategoriesView: View {
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityIdentifier("overview.subheading")
 	}
-	
 	/// The view for the categories
 	/// - Returns: category view
 	@ViewBuilder func categoriesView() -> some View {
 		
 		List {
-			listHeader()
-
-			ForEach(1..<4) { box in
-				
-				sectionView(box)
+			if !viewModel.state.canTitleCollapse {
+				listHeader()
 			}
+			
+			ForEach(viewModel.state.mainCategories) { mainCategoryView($0) }
 			
 			Section { /* Empty section */ }
 			footer: {
 				listFooter()
 			}
+			
 		} // List
 		.backport.scrollContentBackground(.hidden)
 		.listStyle(.insetGrouped)
 	}
 	
-	/// View for a section
-	/// - Parameter box: the number of the section
-	/// - Returns: section view
-	@ViewBuilder private func sectionView(_ box: Int) -> some View {
+	/// The view for a main category
+	/// - Parameter mainCategory: the main category
+	/// - Returns: the main category view
+	@ViewBuilder private func mainCategoryView(
+		_ mainCategory: SharedHealthCategories.MainCategory
+	) -> some View {
 		
 		Section {
-		
-			let list = viewModel.state.healthCategories
-				.filter { $0.box == box }
-				.sorted(by: { $0.id < $1.id })
-			
-			ForEach(list, id: \.id) { block in
-				
-				categoryView(block)
-			}
+			Text(String(localized: String.LocalizationValue(stringLiteral: mainCategory.heading)))
+				.rijksoverheidStyle(font: .bold, style: .headline)
+				.foregroundColor(theme.contentPrimary)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
 		}
-		.listRowInsets(ViewTraits.List.rowInset)
+		.listRowBackground(Color.clear)
+		.listRowInsets(ViewTraits.List.headerInset)
+
+		Section {
+			ForEach(mainCategory.categories) { categoryView($0) }
+		}
+		.listRowInsets(ViewTraits.List.sectionInset)
+		.listRowBackground(theme.backgroundSecondary)
 	}
 	
 	/// View for a category
 	/// - Parameter category: the category
 	/// - Returns: category view
-	@ViewBuilder private func categoryView(_ category: CategoryButton) -> some View {
+	@ViewBuilder private func categoryView(
+		_ category: SharedHealthCategories.Category
+	) -> some View {
 		
 		VStack(spacing: 0) {
 			Button {
 				viewModel.reduce(.categorySelected(category))
 			} label: {
-				HealthCategoryRowView(block: category)
+				HealthCategoryRowView(
+					category: category,
+					state: viewModel.state.buttonState[category.id] ?? .notAvailable
+				)
 			}
 			.frame( maxWidth: .infinity, alignment: .leading)
 			.buttonStyle(HoverButtonStyle())
-			.accessibilityIdentifier(category.title.stringKey)
+			.accessibilityIdentifier(category.id)
 		}
 	}
-
+	
 	/// The list header
 	/// - Returns: list header
 	@ViewBuilder private func listHeader() -> some View {
 		
 		Section {
 			VStack(spacing: ViewTraits.General.padding) {
-				if !viewModel.state.canTitleCollapse {
-					heading()
-				}
+				heading()
 				subHeading()
 					.padding(.bottom, viewModel.state.canTitleCollapse ? 0 : ViewTraits.General.padding / 2)
 			}
