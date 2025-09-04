@@ -24,7 +24,7 @@ final class SettingsFlowTests: XCTestCase {
 		
 		AppRobot()
 			.enableFaceID()
-			.navigateToOverviewWithBGZ()
+			.navigateToOverview()
 			.tapSettingsTab()
 			.verifyDisplayButtonExists()
 			.verifySecurityButtonExists()
@@ -37,7 +37,7 @@ final class SettingsFlowTests: XCTestCase {
 	func testSettingsFlow_displaySettings() {
 		
 		AppRobot()
-			.navigateToOverviewWithBGZ()
+			.navigateToOverview()
 			.tapSettingsTab()
 			.verifyDisplayButtonExists()
 			.tapDisplayButton()
@@ -56,7 +56,7 @@ final class SettingsFlowTests: XCTestCase {
 		
 		AppRobot()
 			.enableFaceID()
-			.navigateToOverviewWithBGZ()
+			.navigateToOverview()
 			.tapSettingsTab()
 			.verifySecurityButtonExists()
 			.tapSecurityButton()
@@ -69,7 +69,7 @@ final class SettingsFlowTests: XCTestCase {
 	func testSettingsFlow_advancedSettings() {
 		
 		AppRobot()
-			.navigateToOverviewWithBGZ()
+			.navigateToOverview()
 			.tapSettingsTab()
 			.verifyAdvancedButtonExists()
 			.tapAdvancedButton()
@@ -83,7 +83,7 @@ final class SettingsFlowTests: XCTestCase {
 	func testSettingsFlow_aboutTheApp() {
 		
 		AppRobot()
-			.navigateToOverviewWithBGZ()
+			.navigateToOverview()
 			.tapSettingsTab()
 			.verifyAboutTheAppButtonExists()
 			.tapAboutTheAppButton()
@@ -120,7 +120,7 @@ final class SettingsFlowTests: XCTestCase {
 	func testSettingsFlow_reset() {
 		
 		AppRobot()
-			.navigateToOverviewWithBGZ()
+			.navigateToOverview()
 			.tapSettingsTab()
 			.verifyResetApplicationButtonExists()
 			.tapResetApplicationButton()

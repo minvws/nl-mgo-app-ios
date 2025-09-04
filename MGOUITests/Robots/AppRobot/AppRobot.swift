@@ -84,6 +84,16 @@ class AppRobot: Robot {
 		return HealthCategoriesRobot(app)
 	}
 	
+	/// Launch the app with a Healthcare organization
+	/// - Returns: Health Categories Robot for the overview
+	@discardableResult
+	func navigateToOverview() -> HealthCategoriesRobot {
+		self
+			.launchApp(withPincode: "12345", withRemoteAuthentication: true)
+			.enterConfirmationPinCodeWithRemoteAuthentication("12345")
+		return HealthCategoriesRobot(app)
+	}
+	
 	/// Launch the app with a BGZ Healthcare organization
 	/// - Returns: Health Categories Robot for the overview
 	@discardableResult
