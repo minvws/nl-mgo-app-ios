@@ -23,10 +23,14 @@ final class DocumentsHealthCategoryViewModelTests: XCTestCase {
 		healthcareOrganization = Generator.healthcareOrganization("1", name: "Ziekenhuis Nieuw Juinen")
 	}
 	
-	@MainActor private func createSut() {
+	@MainActor private func createSut() throws {
+		
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "documents"))
 		
 		sut = DocumentsHealthCategoryViewModel(
 			coordinator: coordinatorSpy,
+			category: category,
 			organization: healthcareOrganization
 		)
 	}
@@ -34,11 +38,11 @@ final class DocumentsHealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_loadResources_withResults_withName() throws {
 		
 		// Given
-		createSut()
+		try createSut()
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
 		let resource = try getResource("iheMhdMinimalDocumentReference")
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success([
-			MgoResourceRecord(categoryId: "\(HealthCategories.Category.documents.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
+			MgoResourceRecord(categoryId: "document", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)]
 		)
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
 		

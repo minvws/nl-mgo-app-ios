@@ -45,7 +45,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let category = HealthCategories.Category.medication
+		let category = Generator.healthCategory
 		sut.selectedTab = DashboardTab.healthCategories.rawValue
 		sut.healthCategoriesCoordinator.handle(
 			Coordination.Action(
@@ -73,7 +73,7 @@ final class DashboardCoordinatorTests: XCTestCase {
 		
 		// Given
 		createSut()
-		let category = HealthCategories.Category.medication
+		let category = Generator.healthCategory
 		sut.selectedTab = DashboardTab.healthcareOrganizations.rawValue
 		sut.healthcareOrganizationsCoordinator.handle(
 			Coordination.Action(

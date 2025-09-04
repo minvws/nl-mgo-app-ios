@@ -15,8 +15,8 @@ extension Font.TextStyle {
 			case .title: isiPhoneSE ? 30 : 34
 			case .title2: 26
 			case .title3: 24
-			case .headline: 18
-			case .subheadline: 17
+			case .headline: 20
+			case .subheadline: 18
 			case .body: 18
 			case .callout: 16
 			case .footnote: 14

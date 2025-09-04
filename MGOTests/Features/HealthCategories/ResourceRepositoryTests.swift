@@ -66,7 +66,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(28), timeout: .seconds(10))
+			.toEventually(equal(30), timeout: .seconds(10))
 	}
 	
 	@MainActor func test_load_oneOrganization_demoMode() throws {
@@ -108,7 +108,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(56), timeout: .seconds(15))
+			.toEventually(equal(60), timeout: .seconds(15))
 	}
 	
 	@MainActor func test_load_twoOrganizations_demoMode() throws {
@@ -150,7 +150,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(28), timeout: .seconds(10))
+			.toEventually(equal(30), timeout: .seconds(10))
 	}
 	
 	@MainActor func test_loadForCategory_oneOrganization() async throws {
@@ -167,7 +167,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		await sut.loadFor(HealthCategories.Category.medication)
+		await sut.loadFor(Generator.healthCategory)
 		
 		// Then
 		await expect { await self.servicesSpies.dataStoreSpy.invokedStoreCount }
@@ -189,7 +189,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		await sut.loadFor(HealthCategories.Category.medication)
+		await sut.loadFor(Generator.healthCategory)
 		
 		// Then
 		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
@@ -262,7 +262,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		
 		// Then
 		expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
-			.toEventually(equal(28), timeout: .seconds(10))
+			.toEventually(equal(30), timeout: .seconds(10))
 	}
 	
 	@MainActor func test_handleOrganizationChanges_removed() throws {

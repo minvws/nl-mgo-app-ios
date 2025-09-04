@@ -59,7 +59,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 			.foregroundColor: UIColor(Theme().contentPrimary),
 			.font: UIFont(
 				name: RijksoverheidSansWebTextFont.bold.fontName,
-				size: Font.TextStyle.headline.pointSize
+				size: Font.TextStyle.body.pointSize
 			) as Any
 		]
 		UINavigationBar.appearance().largeTitleTextAttributes = [

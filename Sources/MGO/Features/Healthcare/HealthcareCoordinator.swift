@@ -64,7 +64,7 @@ struct HealthcareCoordination {
 		// Details Flow
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
-		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
+		case showHealthCategory(category: SharedHealthCategories.Category, organization: MgoOrganization?)
 		case showHealthData(backButtonTitle: String?, schema: HealthUISchema, organization: MgoOrganization, inSheet: Bool)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		
@@ -250,11 +250,11 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		
 		if action.params.count == 2,
 		   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
-		   let category = action.params["category"] as? HealthCategories.Category {
+		   let category = action.params["category"] as? SharedHealthCategories.Category {
 			path.append(HealthcareCoordination.State.showHealthCategory(category: category, organization: healthcareOrganization))
 			return true
 		} else if action.params.count == 1,
-				  let category = action.params["category"] as? HealthCategories.Category {
+				  let category = action.params["category"] as? SharedHealthCategories.Category {
 			path.append(HealthcareCoordination.State.showHealthCategory(category: category, organization: nil))
 			return true
 		} else {
@@ -418,56 +418,33 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// - Parameter category: the health category
 	/// - Parameter organization: optional healthcare organization
 	/// - Returns: A view for that state
-	@MainActor @ViewBuilder private func viewState(for category: HealthCategories.Category, organization: MgoOrganization? = nil) -> some View {
+	@MainActor @ViewBuilder private func viewState(
+		for category: SharedHealthCategories.Category,
+		organization: MgoOrganization? = nil
+	) -> some View {
 		
-		switch category {
-			case HealthCategories.Category.medication:
-				HealthCategoryView(viewModel: MedicationHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.measurements:
-				HealthCategoryView(viewModel: MeasurementsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.labResults:
-				HealthCategoryView(viewModel: LabResultsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.allergies:
-				HealthCategoryView(viewModel: AllergiesHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.treatments:
-				HealthCategoryView(viewModel: TreatmentsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.appointments:
-				HealthCategoryView(viewModel: AppointmentsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.vaccinations:
-				HealthCategoryView(viewModel: VaccinationsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.documents:
-				HealthCategoryView(viewModel: DocumentsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.medicalComplaints:
-				HealthCategoryView(viewModel: ComplaintsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.personalDetails:
-				HealthCategoryView(viewModel: PatientHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.alerts:
-				HealthCategoryView(viewModel: AlertsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.payment:
-				HealthCategoryView(viewModel: PaymentHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.plans:
-				HealthCategoryView(viewModel: PlansHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.medicalDevices:
-				HealthCategoryView(viewModel: DevicesHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.mentalWellbeing:
-				HealthCategoryView(viewModel: MentalStatusHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.lifestyle:
-				HealthCategoryView(viewModel: LifestyleHealthCategoryViewModel(coordinator: self, organization: organization))
+		if category.id == "documents" {
+			// Documents has an override method for sortRecords.
+			HealthCategoryView(
+				viewModel: DocumentsHealthCategoryViewModel(
+					coordinator: self,
+					category: category,
+					organization: organization
+				)
+			)
+		} else {
+			if let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category) {
+				HealthCategoryView(
+					viewModel: HealthCategoryViewModel(
+						coordinator: self,
+						category: category,
+						organization: organization,
+						translations: translations
+					)
+				)
+			} else {
+				EmptyView()
+			}
 		}
 	}
 }
