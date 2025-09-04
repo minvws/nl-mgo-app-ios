@@ -40,7 +40,7 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 			.tapHealthcareOrganizationButton("Kwalificatie Medmij: BGZ")
 			.verifyHeadingExists("Kwalificatie Medmij: BGZ")
 			.verifySubHeadingExists()
-			.verifyCategoryExists("Medische klachten")
+			.verifyCategoryExists("problems")
 			.swipeToRemoveHealthcareOrganizationButton()
 			.verifyRemoveHealthcareOrganizationButton()
 	}

@@ -169,8 +169,28 @@ import XCTest
 	@discardableResult
 	func swipeToBottomCategory() -> Self {
 		
-		while !app.buttons["hc_payment.heading"].exists {
+		while !app.buttons["payment"].exists {
 			app.swipeUp()
+		}
+		
+		return self
+	}
+	
+	@discardableResult
+	func swipeDownToCategory(_ category: String) -> Self {
+		
+		while !app.buttons[category].exists {
+			app.swipeUp()
+		}
+		
+		return self
+	}
+	
+	@discardableResult
+	func swipeUpToCategory(_ category: String) -> Self {
+		
+		while !app.buttons[category].exists {
+			app.swipeDown()
 		}
 		
 		return self
@@ -179,7 +199,7 @@ import XCTest
 	@discardableResult
 	func swipeToTopCategory() -> Self {
 		
-		while !app.buttons["hc_complaints.heading"].exists {
+		while !app.buttons["problems"].exists {
 			app.swipeDown()
 		}
 		
@@ -201,6 +221,34 @@ import XCTest
 	@discardableResult
 	func tapToastRecoverButton() -> Self {
 		toastRecoverButton.tap()
+		return self
+	}
+	
+	func verifyAllCategories() -> Self {
+		
+		verifyHeadingExists("Gezondheid")
+		.verifyCategoryExists("problems")
+		.verifyCategoryExists("allergies")
+		.verifyCategoryExists("alerts")
+		.verifyCategoryExists("vaccinations")
+		.verifyCategoryExists("lifestyle")
+		.verifyCategoryExists("mental_wellbeing")
+		.swipeDownToCategory("medication")
+		.verifyHeadingExists("Onderzoeken en uitslagen")
+		.verifyCategoryExists("measurements")
+		.verifyCategoryExists("lab_results")
+		.verifyHeadingExists("Zorg en behandeling")
+		.verifyCategoryExists("treatments")
+		.verifyCategoryExists("medication")
+		.verifyCategoryExists("appointments")
+		.swipeDownToCategory("payment")
+		.verifyCategoryExists("documents")
+		.verifyCategoryExists("plans")
+		.verifyCategoryExists("medical_devices")
+		.verifyHeadingExists("Persoonlijk en administratie")
+		.verifyCategoryExists("patient")
+		.verifyCategoryExists("payment")
+		
 		return self
 	}
 }
