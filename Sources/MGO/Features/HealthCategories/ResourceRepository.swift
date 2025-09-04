@@ -171,27 +171,14 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	) async {
 		
 		logVerbose("\n\nStarting for category:", category)
-		
-		let dataServices = DataServices(isDemo: Container.shared.featureFlagManager().isDemo)
-		
-		for dataService in dataServices.services {
+		for dataService in DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services {
 			
 			// Check if the organization uses this data service
 			guard let dvaTarget = healthcareOrganization.getResourceEndpoint(identifier: dataService.id) else {
 				continue
 			}
 			
-			// Set of endpoints to use. a set to filter duplicates
-			var usableEndpoints = Set<DataServices.Endpoint>()
-			for endpoint in dataService.endpoints {
-				for dsProfile in endpoint.profiles {
-					for scProfile in category.profiles() where scProfile == dsProfile {
-						usableEndpoints.insert(endpoint)
-					}
-				}
-			}
-			logVerbose("Usable endpoints", usableEndpoints)
-			for endpoint in usableEndpoints {
+			for endpoint in getUsableEndpoints(for: dataService, category: category) {
 				
 				var mgoResources = [MgoResource]()
 				var resourceError = false
@@ -228,6 +215,29 @@ class ResourceRepository: ResourceRepositoryProtocol {
 				}
 			}
 		}
+	}
+	
+	/// Which endpoints should we use
+	/// - Parameters:
+	///   - dataService: the data service
+	///   - category: the category
+	/// - Returns: all the endpoints that have the same profile from the data service and the sub categories
+	func getUsableEndpoints(
+		for dataService: DataServices.DataService,
+		category: SharedHealthCategories.Category
+	) -> Set<DataServices.Endpoint> {
+		
+		// Set of endpoints to use. a set to filter duplicates
+		var usableEndpoints = Set<DataServices.Endpoint>()
+		for endpoint in dataService.endpoints {
+			for dsProfile in endpoint.profiles {
+				for scProfile in category.profiles() where scProfile == dsProfile {
+					usableEndpoints.insert(endpoint)
+				}
+			}
+		}
+		logVerbose("Usable endpoints", usableEndpoints)
+		return usableEndpoints
 	}
 	
 	/// Load the resources

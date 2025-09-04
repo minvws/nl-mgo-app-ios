@@ -89,7 +89,7 @@ struct InAppBrowserView: View {
 					},
 					label: {
 						Text("common.close")
-							.rijksoverheidStyle(font: .regular, style: .headline)
+							.rijksoverheidStyle(font: .regular, style: .body)
 					}
 				)
 				.buttonStyle(BackButtonStyle())

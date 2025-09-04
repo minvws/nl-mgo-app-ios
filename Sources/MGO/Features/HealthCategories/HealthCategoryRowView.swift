@@ -43,17 +43,23 @@ struct HealthCategoryRowView: View {
 				.padding(.trailing, ViewTraits.Icon.padding)
 			
 			VStack(alignment: .leading, spacing: ViewTraits.Text.spacing) {
+				
 				Text(String(localized: String.LocalizationValue(stringLiteral: category.heading)))
 					.rijksoverheidStyle(font: .bold, style: .body)
 					.foregroundColor(theme.contentPrimary)
+				
 				if state == .empty {
+					
 					Text("common.no_data")
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.foregroundColor(theme.contentSecondary)
+					
 				} else {
+					
 					Text(String(localized: String.LocalizationValue(stringLiteral: category.subheading)))
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.foregroundColor(theme.contentSecondary)
+					
 				}
 			}
 			
