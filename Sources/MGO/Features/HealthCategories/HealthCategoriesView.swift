@@ -415,6 +415,7 @@ struct HealthCategoriesView: View {
 				.rijksoverheidStyle(font: .bold, style: .headline)
 				.foregroundColor(theme.contentPrimary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityAddTraits(.isHeader)
 		}
 		.listRowBackground(Color.clear)
 		.listRowInsets(ViewTraits.List.headerInset)
