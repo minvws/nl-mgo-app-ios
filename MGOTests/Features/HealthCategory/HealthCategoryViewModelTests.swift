@@ -99,8 +99,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).to(haveCount(1))
-			expect(items.first?.rows).to(beEmpty())
+			expect(items).to(beEmpty())
 		} else {
 			fail("Invalid state")
 		}
@@ -123,8 +122,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).to(haveCount(1))
-			expect(items.first?.rows).to(beEmpty())
+			expect(items).to(beEmpty())
 		} else {
 			fail("Invalid state")
 		}
@@ -146,8 +144,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.partial(items) = sut.state {
-			expect(items).to(haveCount(1))
-			expect(items.first?.rows).to(beEmpty())
+			expect(items).toNot(beEmpty())
 		} else {
 			fail("Invalid state")
 		}
@@ -310,6 +307,32 @@ final class HealthCategoryViewModelTests: XCTestCase {
 	@MainActor func test_handleDataStoreChanges() throws {
 		
 		// Given
+		try setupSut(organization: healthcareOrganization, categoryName: "medication")
+		let resource = try getResource("zibMedicationUse")
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
+			[
+				resourceRecord([resource]),
+				resourceRecord([resource]),
+				resourceRecord([resource])
+			]
+		)
+		
+		// When
+		sut.handleDataStoreChanges()
+		
+		// Then
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+		if case let HealthCategoryViewState.list(items) = sut.state {
+			expect(items).toEventually(haveCount(3))
+			expect(items[0].rows).toNot(beEmpty())
+		} else {
+			fail("Invalid state")
+		}
+	}
+	
+	@MainActor func test_handleDataStoreChanges_noMatchingProfiles() throws {
+		
+		// Given
 		try setupSut(organization: healthcareOrganization)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdOrganizationIdResult = .success(
 			[
@@ -323,8 +346,7 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		// Then
 		expect(self.sut.state).toEventuallyNot(equal(.loading))
 		if case let HealthCategoryViewState.list(items) = sut.state {
-			expect(items).toEventually(haveCount(1))
-			expect(items[0].rows).to(beEmpty())
+			expect(items).toEventually(beEmpty())
 		} else {
 			fail("Invalid state")
 		}

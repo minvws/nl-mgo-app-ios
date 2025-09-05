@@ -272,7 +272,10 @@ class HealthCategoryViewModel: ObservableObject {
 		
 		let cacheResult: Result<[MgoResourceRecord], Error> = {
 			if let organization {
-				return dataStore.get(categoryId: category.id, organizationId: organization.identifier)
+				return dataStore.get(
+					categoryId: category.id,
+					organizationId: organization.identifier
+				)
 			} else {
 				return dataStore.get(categoryId: category.id)
 			}
@@ -287,10 +290,19 @@ class HealthCategoryViewModel: ObservableObject {
 				}
 				
 				let sorted = sortRecords(records: records)
-
 				if sorted.partial {
 					state = .partial(items: sorted.subCategories)
 				} else {
+					// Check if we have any rows with an accepted profile
+					var hasRows = false
+					for subCategory in sorted.subCategories where subCategory.rows.isNotEmpty {
+						hasRows = true
+					}
+					guard hasRows else {
+						state = .list(items: [])
+						return
+					}
+					
 					state = .list(items: sorted.subCategories)
 				}
 			case .failure:

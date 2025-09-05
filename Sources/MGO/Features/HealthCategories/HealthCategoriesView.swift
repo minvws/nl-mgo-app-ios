@@ -235,6 +235,7 @@ class HealthCategoriesViewModel: ObservableObject {
 					return result
 			}
 		}()
+		
 		logVerbose("HealthCategoriesViewModel: expectedNumberOfResults = \(expectedNumberOfResults) for \(category)")
 		
 		guard expectedNumberOfResults > 0 else {
@@ -255,20 +256,29 @@ class HealthCategoriesViewModel: ObservableObject {
 	///   - category: the category
 	///   - records: the records for the category
 	///   - expectedNumberOfResults: the expected number of results
-	private func handleCacheHit(_ category: SharedHealthCategories.Category, records: [MgoResourceRecord], expectedNumberOfResults: Int) {
+	private func handleCacheHit(
+		_ category: SharedHealthCategories.Category,
+		records: [MgoResourceRecord],
+		expectedNumberOfResults: Int
+	) {
 		
-		// Success, there was some records for this category
-		if records.count >= expectedNumberOfResults {
-			// There are records for all organizations. Let's check if any of them has data
-			var found = false
-			for record in records where record.resources.isNotEmpty {
-				found = true
-			}
-			state.buttonState[category.id] = found ? .loaded : .empty
-		} else {
+		guard records.count >= expectedNumberOfResults else {
 			// We don't have data for all organizations. Keep loading
 			state.buttonState[category.id] = .loading
+			return
 		}
+		
+		// There are records for all organizations.
+		// Let's check if any of them has data with an accepted profile
+		var hasAcceptedProfile = false
+		for record in records where record.resources.isNotEmpty {
+			for resource in record.resources {
+				for profile in category.profiles() where resource.hasProfile(profile) {
+					hasAcceptedProfile = true
+				}
+			}
+		}
+		state.buttonState[category.id] = hasAcceptedProfile ? .loaded : .empty
 	}
 	
 	/// handle the failure path of the cache
