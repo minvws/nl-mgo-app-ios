@@ -1,5 +1,5 @@
 {
-  "originHash" : "8362f135cec9efef76fb9505f64824fd5c8bbbe9cd2478ac4ff879bae1b2f872",
+  "originHash" : "cfc48282c521f0d3bc2b6a9ed913658bd404c4c189c42dda598d270e1f097f97",
   "pins" : [
     {
       "identity" : "example-package-figlet",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/wei18/github-rest-api-swift-openapi.git",
       "state" : {
-        "revision" : "e0765e54db5cc585ac7ffa9e62a65d6cb4631c19",
-        "version" : "3.0.3"
+        "revision" : "e475bf9339f14a71055a96f5b03666151ce51c69",
+        "version" : "3.0.4"
       }
     },
     {
