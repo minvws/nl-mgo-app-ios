@@ -202,11 +202,11 @@ class HealthCategoriesViewModel: ObservableObject {
 					switch mode {
 						case .single(let healthcareOrganization):
 							return dataStore.get(
-								categoryId: "\(category.id)",
+								categoryId: category.id,
 								organizationId: healthcareOrganization.identifier
 							)
 						case .all:
-							return dataStore.get(categoryId: "\(category.id)")
+							return dataStore.get(categoryId: category.id)
 					}
 				}()
 				handleCacheResult(cacheResult, category: category)

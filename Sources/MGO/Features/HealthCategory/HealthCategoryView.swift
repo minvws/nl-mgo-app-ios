@@ -238,14 +238,12 @@ class HealthCategoryViewModel: ObservableObject {
 	@MainActor private func retry() {
 		
 		state = .loading
-		dataStore.removeRecords(for: "\(category.id)", organizationId: organization?.identifier)
+		dataStore.removeRecords(for: category.id, organizationId: organization?.identifier)
 		
-		_Concurrency.Task(priority: .userInitiated) {
-			if let organization {
-				await resourceRepository.loadResource(organization, category: category)
-			} else {
-				await resourceRepository.loadFor(category)
-			}
+		if let organization {
+			resourceRepository.loadResource(organization, category: category)
+		} else {
+			resourceRepository.loadFor(category)
 		}
 	}
 	
