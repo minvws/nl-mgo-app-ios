@@ -24,7 +24,7 @@ struct HealthCategoriesViewState {
 	var showEmptyView: Bool
 	var showRemoveHealthcareProvider: Bool
 	var mainCategories: [SharedHealthCategories.MainCategory]
-	var buttonState: [String: CategoryButtonState]
+	var buttonState: [String: CategoryState]
 	var backButtonTitle: LocalizedStringKey?
 	var belowIOS18: Bool
 }
@@ -101,7 +101,7 @@ class HealthCategoriesViewModel: ObservableObject {
 			case .all: true
 		}
 		
-		var initialButtonState = [String: CategoryButtonState]()
+		var initialButtonState = [String: CategoryState]()
 		let mainCategories = try? SharedHealthCategories().mainCategories
 		for mainCategory in mainCategories ?? [] {
 			for category in mainCategory.categories {
@@ -202,11 +202,11 @@ class HealthCategoriesViewModel: ObservableObject {
 					switch mode {
 						case .single(let healthcareOrganization):
 							return dataStore.get(
-								categoryId: "\(category.id)",
+								categoryId: category.id,
 								organizationId: healthcareOrganization.identifier
 							)
 						case .all:
-							return dataStore.get(categoryId: "\(category.id)")
+							return dataStore.get(categoryId: category.id)
 					}
 				}()
 				handleCacheResult(cacheResult, category: category)

@@ -93,9 +93,16 @@ class HealthDataViewModel: ObservableObject {
 	
 	private func storeReference(_ reference: String, isReferenceValue: Bool) {
 		
-		let result = referenceResolver?.resolve(reference: reference, healthcareOrganization: healthcareOrganization)
+		let result = referenceResolver?.resolve(
+			reference: reference,
+			healthcareOrganization: healthcareOrganization
+		)
 		if let result {
-			referenceStore[reference] = ReferenceStoreEntry(resource: result.0, isReferenceValue: isReferenceValue, schema: result.1)
+			referenceStore[reference] = ReferenceStoreEntry(
+				resource: result.0,
+				isReferenceValue: isReferenceValue,
+				schema: result.1
+			)
 		}
 		resolvedReferences[reference] = result != nil
 	}

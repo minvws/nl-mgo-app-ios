@@ -14,7 +14,7 @@ struct HealthCategoryRowView: View {
 	var category: SharedHealthCategories.Category
 	
 	/// The state
-	var state: CategoryButtonState
+	var state: CategoryState
 	
 	/// Magic Numbers
 	private struct ViewTraits {

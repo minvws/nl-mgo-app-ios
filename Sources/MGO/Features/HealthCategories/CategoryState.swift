@@ -7,7 +7,7 @@ import MGOFoundation
 import MGOUI
 
 /// The state of a category button
-enum CategoryButtonState: String, CaseIterable {
+enum CategoryState: String, CaseIterable {
 	
 	/// There is data from the server that is available for display
 	case loaded
