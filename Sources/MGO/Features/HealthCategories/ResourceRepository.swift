@@ -108,7 +108,10 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	/// - Parameters:
 	///   - organization: optional organization added or removed
 	///   - reason: the reason the list has changed
-	@MainActor func handleOrganizationChanges(_ organization: MgoOrganization?, reason: HealthcareOrganizationReason) {
+	@MainActor func handleOrganizationChanges(
+		_ organization: MgoOrganization?,
+		reason: HealthcareOrganizationReason
+	) {
 		switch reason {
 			case .added:
 				if let organization {
