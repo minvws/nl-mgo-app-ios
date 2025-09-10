@@ -13,9 +13,9 @@ import Foundation
 // MARK: - ZibProductCode
 public struct ZibProductCode: Codable, Hashable, Sendable {
     public let coding: [MgoCoding]?
-    public let text: MgoString?
+    public let text: PrimitiveValueTypeOfStringString?
 
-    public init(coding: [MgoCoding]?, text: MgoString?) {
+    public init(coding: [MgoCoding]?, text: PrimitiveValueTypeOfStringString?) {
         self.coding = coding
         self.text = text
     }
@@ -41,7 +41,7 @@ public extension ZibProductCode {
 
     func with(
         coding: [MgoCoding]?? = nil,
-        text: MgoString?? = nil
+        text: PrimitiveValueTypeOfStringString?? = nil
     ) -> ZibProductCode {
         return ZibProductCode(
             coding: coding ?? self.coding,

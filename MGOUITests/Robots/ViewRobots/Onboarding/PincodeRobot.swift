@@ -82,9 +82,9 @@ import XCTest
 	}
 	
 	@discardableResult
-	func enterConfirmationPinCodeWithRemoteAuthentication(_ code: String) -> AddOrganizationRobot {
+	func enterConfirmationPinCodeWithRemoteAuthentication(_ code: String) -> HealthCategoriesRobot {
 		enterPinCode(code)
-		return AddOrganizationRobot(app)
+		return HealthCategoriesRobot(app)
 	}
 	
 	@discardableResult

@@ -12,15 +12,15 @@ import Foundation
 
 // MARK: - PurpleLine
 public struct PurpleLine: Codable, Hashable, Sendable {
-    public let additionalLocator, buildingNumberSuffix, houseNumber, streetName: MgoString?
-    public let unitID: MgoString?
+    public let additionalLocator, buildingNumberSuffix, houseNumber, streetName: PrimitiveValueTypeOfStringString?
+    public let unitID: PrimitiveValueTypeOfStringString?
 
     public enum CodingKeys: String, CodingKey {
         case additionalLocator, buildingNumberSuffix, houseNumber, streetName
         case unitID = "unitId"
     }
 
-    public init(additionalLocator: MgoString?, buildingNumberSuffix: MgoString?, houseNumber: MgoString?, streetName: MgoString?, unitID: MgoString?) {
+    public init(additionalLocator: PrimitiveValueTypeOfStringString?, buildingNumberSuffix: PrimitiveValueTypeOfStringString?, houseNumber: PrimitiveValueTypeOfStringString?, streetName: PrimitiveValueTypeOfStringString?, unitID: PrimitiveValueTypeOfStringString?) {
         self.additionalLocator = additionalLocator
         self.buildingNumberSuffix = buildingNumberSuffix
         self.houseNumber = houseNumber
@@ -48,11 +48,11 @@ public extension PurpleLine {
     }
 
     func with(
-        additionalLocator: MgoString?? = nil,
-        buildingNumberSuffix: MgoString?? = nil,
-        houseNumber: MgoString?? = nil,
-        streetName: MgoString?? = nil,
-        unitID: MgoString?? = nil
+        additionalLocator: PrimitiveValueTypeOfStringString?? = nil,
+        buildingNumberSuffix: PrimitiveValueTypeOfStringString?? = nil,
+        houseNumber: PrimitiveValueTypeOfStringString?? = nil,
+        streetName: PrimitiveValueTypeOfStringString?? = nil,
+        unitID: PrimitiveValueTypeOfStringString?? = nil
     ) -> PurpleLine {
         return PurpleLine(
             additionalLocator: additionalLocator ?? self.additionalLocator,

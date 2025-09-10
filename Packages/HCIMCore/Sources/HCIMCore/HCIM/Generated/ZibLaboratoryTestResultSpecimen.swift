@@ -14,13 +14,13 @@ import Foundation
 public struct ZibLaboratoryTestResultSpecimen: Codable, Hashable, Sendable {
     public let collection: ZibLaboratoryTestResultSpecimenCollection
     public let container: [ZibLaboratoryTestResultSpecimenContainer]?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let note: [MgoAnnotation]?
     public let parent: [MgoReference]?
     public let profile: ZibLaboratoryTestResultSpecimenProfile
-    public let receivedTime: MgoDateTime?
+    public let receivedTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let referenceID, resourceType: String
     public let subject: MgoReference?
     public let type: MgoCodeableConcept?
@@ -31,7 +31,7 @@ public struct ZibLaboratoryTestResultSpecimen: Codable, Hashable, Sendable {
         case resourceType, subject, type
     }
 
-    public init(collection: ZibLaboratoryTestResultSpecimenCollection, container: [ZibLaboratoryTestResultSpecimenContainer]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, parent: [MgoReference]?, profile: ZibLaboratoryTestResultSpecimenProfile, receivedTime: MgoDateTime?, referenceID: String, resourceType: String, subject: MgoReference?, type: MgoCodeableConcept?) {
+    public init(collection: ZibLaboratoryTestResultSpecimenCollection, container: [ZibLaboratoryTestResultSpecimenContainer]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, parent: [MgoReference]?, profile: ZibLaboratoryTestResultSpecimenProfile, receivedTime: PrimitiveValueTypeOfDateTimeDateTimeString?, referenceID: String, resourceType: String, subject: MgoReference?, type: MgoCodeableConcept?) {
         self.collection = collection
         self.container = container
         self.fhirVersion = fhirVersion
@@ -69,13 +69,13 @@ public extension ZibLaboratoryTestResultSpecimen {
     func with(
         collection: ZibLaboratoryTestResultSpecimenCollection? = nil,
         container: [ZibLaboratoryTestResultSpecimenContainer]?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         note: [MgoAnnotation]?? = nil,
         parent: [MgoReference]?? = nil,
         profile: ZibLaboratoryTestResultSpecimenProfile? = nil,
-        receivedTime: MgoDateTime?? = nil,
+        receivedTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,
         subject: MgoReference?? = nil,

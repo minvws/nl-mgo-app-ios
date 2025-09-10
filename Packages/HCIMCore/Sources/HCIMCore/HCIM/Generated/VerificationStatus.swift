@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - VerificationStatus
 public struct VerificationStatus: Codable, Hashable, Sendable {
-    public let verificatieStatusCodelijst: VerificatieStatusCodelijst?
+    public let verificatieStatusCodelijst: ExtensionValueOfMgoCodeableConcept?
 
-    public init(verificatieStatusCodelijst: VerificatieStatusCodelijst?) {
+    public init(verificatieStatusCodelijst: ExtensionValueOfMgoCodeableConcept?) {
         self.verificatieStatusCodelijst = verificatieStatusCodelijst
     }
 }
@@ -38,7 +38,7 @@ public extension VerificationStatus {
     }
 
     func with(
-        verificatieStatusCodelijst: VerificatieStatusCodelijst?? = nil
+        verificatieStatusCodelijst: ExtensionValueOfMgoCodeableConcept?? = nil
     ) -> VerificationStatus {
         return VerificationStatus(
             verificatieStatusCodelijst: verificatieStatusCodelijst ?? self.verificatieStatusCodelijst

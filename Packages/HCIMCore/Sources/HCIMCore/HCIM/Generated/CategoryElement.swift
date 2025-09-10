@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - CategoryElement
 public struct CategoryElement: Codable, Hashable, Sendable {
-    public let allergieCategorieCodelijst: AllergieCategorieCodelijst?
+    public let allergieCategorieCodelijst: ExtensionValueOfMgoCodeableConcept?
 
-    public init(allergieCategorieCodelijst: AllergieCategorieCodelijst?) {
+    public init(allergieCategorieCodelijst: ExtensionValueOfMgoCodeableConcept?) {
         self.allergieCategorieCodelijst = allergieCategorieCodelijst
     }
 }
@@ -38,7 +38,7 @@ public extension CategoryElement {
     }
 
     func with(
-        allergieCategorieCodelijst: AllergieCategorieCodelijst?? = nil
+        allergieCategorieCodelijst: ExtensionValueOfMgoCodeableConcept?? = nil
     ) -> CategoryElement {
         return CategoryElement(
             allergieCategorieCodelijst: allergieCategorieCodelijst ?? self.allergieCategorieCodelijst

@@ -143,7 +143,7 @@ struct HCIMFactoryTests {
 	}
 	
 	private func expectFhirVersion(_ object: ZibMedicationUse?) {
-		#expect(object?.fhirVersion == FhirVersionR3.r3)
+		#expect(object?.fhirVersion == NlCoreObservationFhirVersion.r3)
 	}
 	
 	private func expectId(_ object: ZibMedicationUse?) {
@@ -181,7 +181,7 @@ struct HCIMFactoryTests {
 		#expect(object?.medicationTreatment?.ext == true)
 		#expect(object?.medicationTreatment?.type == .identifier)
 		#expect(object?.medicationTreatment?.use == nil)
-		#expect(object?.medicationTreatment?.medicationTreatmentType == nil)
+		#expect(object?.medicationTreatment?.extensionValueOfMgoIdentifierType == nil)
 		#expect(object?.medicationTreatment?.value == "#MB_01i1")
 	}
 	

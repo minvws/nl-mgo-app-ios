@@ -62,9 +62,9 @@ class Generator {
 	}
 	
 	/// Return a dummy health sub category
-	static func healthSubCategory() -> HealthSubCategory {
+	static func healthCategoryBlock() -> HealthCategoryBlock {
 		
-		return HealthSubCategory(
+		return HealthCategoryBlock(
 			heading: "heading subcategory",
 			rows: [
 				healthCategoryRow()
@@ -183,5 +183,25 @@ class Generator {
 			action: nil
 		)
 	}
+	// swiftlint: enable function_body_length
+	
+	static let healthCategory = SharedHealthCategories.Category(
+		id: "medication",
+		heading: "hc_medication.heading",
+		subheading: "hc_medication.subheading",
+		subcategories: [
+			SharedHealthCategories.SubCategory(
+				heading: "zib_medication_use.heading",
+				profiles: ["http://nictiz.nl/fhir/StructureDefinition/zib-MedicationUse"]
+			),
+			SharedHealthCategories.SubCategory(
+				heading: "zib_medication_agreement.heading",
+				profiles: ["http://nictiz.nl/fhir/StructureDefinition/zib-MedicationAgreement"]
+			),
+			SharedHealthCategories.SubCategory(
+				heading: "zib_administration_agreement.heading",
+				profiles: ["http://nictiz.nl/fhir/StructureDefinition/zib-AdministrationAgreement"]
+			)
+		]
+	)
 }
-// swiftlint: enable function_body_length

@@ -50,7 +50,7 @@ final class AppDelegateTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedEnteredBackgroundSetterCount) == 0
 	}
 	
-	@MainActor func test_onDidBecomeActiveNotification () {
+	@MainActor func test_onDidBecomeActiveNotification() {
 		
 		// Given
 		createSut()

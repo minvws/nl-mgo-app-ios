@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - MgoIdentifier
 public struct MgoIdentifier: Codable, Hashable, Sendable {
-    public let type: IdentifierType
+    public let type: MgoIdentifierType
     public let system: String?
-    public let mgoIdentifierType: MgoIdentifierType?
+    public let mgoIdentifierType: MgoCodeableConceptProps?
     public let use, value: String?
 
     public enum CodingKeys: String, CodingKey {
@@ -24,7 +24,7 @@ public struct MgoIdentifier: Codable, Hashable, Sendable {
         case use, value
     }
 
-    public init(type: IdentifierType, system: String?, mgoIdentifierType: MgoIdentifierType?, use: String?, value: String?) {
+    public init(type: MgoIdentifierType, system: String?, mgoIdentifierType: MgoCodeableConceptProps?, use: String?, value: String?) {
         self.type = type
         self.system = system
         self.mgoIdentifierType = mgoIdentifierType
@@ -52,9 +52,9 @@ public extension MgoIdentifier {
     }
 
     func with(
-        type: IdentifierType? = nil,
+        type: MgoIdentifierType? = nil,
         system: String?? = nil,
-        mgoIdentifierType: MgoIdentifierType?? = nil,
+        mgoIdentifierType: MgoCodeableConceptProps?? = nil,
         use: String?? = nil,
         value: String?? = nil
     ) -> MgoIdentifier {

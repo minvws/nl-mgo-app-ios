@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - ZibProblemClinicalStatus
 public struct ZibProblemClinicalStatus: Codable, Hashable, Sendable {
-    public let problemStatusCodelist: ProblemStatusCodelist?
+    public let problemStatusCodelist: ExtensionValueOfMgoCodeableConcept?
 
-    public init(problemStatusCodelist: ProblemStatusCodelist?) {
+    public init(problemStatusCodelist: ExtensionValueOfMgoCodeableConcept?) {
         self.problemStatusCodelist = problemStatusCodelist
     }
 }
@@ -38,7 +38,7 @@ public extension ZibProblemClinicalStatus {
     }
 
     func with(
-        problemStatusCodelist: ProblemStatusCodelist?? = nil
+        problemStatusCodelist: ExtensionValueOfMgoCodeableConcept?? = nil
     ) -> ZibProblemClinicalStatus {
         return ZibProblemClinicalStatus(
             problemStatusCodelist: problemStatusCodelist ?? self.problemStatusCodelist

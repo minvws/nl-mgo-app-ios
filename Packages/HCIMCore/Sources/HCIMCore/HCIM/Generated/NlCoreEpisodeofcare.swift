@@ -12,14 +12,14 @@ import Foundation
 
 // MARK: - NlCoreEpisodeofcare
 public struct NlCoreEpisodeofcare: Codable, Hashable, Sendable {
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let patient: MgoReference?
     public let period: MgoPeriod?
     public let profile: NlCoreEpisodeofcareProfile
     public let referenceID, resourceType: String
-    public let title: Title?
+    public let title: ExtensionValueOfMgoString?
     public let type: [MgoCodeableConcept]?
 
     public enum CodingKeys: String, CodingKey {
@@ -28,7 +28,7 @@ public struct NlCoreEpisodeofcare: Codable, Hashable, Sendable {
         case resourceType, title, type
     }
 
-    public init(fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, period: MgoPeriod?, profile: NlCoreEpisodeofcareProfile, referenceID: String, resourceType: String, title: Title?, type: [MgoCodeableConcept]?) {
+    public init(fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, period: MgoPeriod?, profile: NlCoreEpisodeofcareProfile, referenceID: String, resourceType: String, title: ExtensionValueOfMgoString?, type: [MgoCodeableConcept]?) {
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
@@ -61,7 +61,7 @@ public extension NlCoreEpisodeofcare {
     }
 
     func with(
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         patient: MgoReference?? = nil,
@@ -69,7 +69,7 @@ public extension NlCoreEpisodeofcare {
         profile: NlCoreEpisodeofcareProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,
-        title: Title?? = nil,
+        title: ExtensionValueOfMgoString?? = nil,
         type: [MgoCodeableConcept]?? = nil
     ) -> NlCoreEpisodeofcare {
         return NlCoreEpisodeofcare(

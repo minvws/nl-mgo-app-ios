@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - ZibDrugUse
 public struct ZibDrugUse: Codable, Hashable, Sendable {
-    public let comment: MgoString?
+    public let comment: PrimitiveValueTypeOfStringString?
     public let component: ZibDrugUseComponent?
-    public let effectiveDateTime: MgoDateTime?
+    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let effectivePeriod: MgoPeriod?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let performer: [MgoReference]?
@@ -31,7 +31,7 @@ public struct ZibDrugUse: Codable, Hashable, Sendable {
         case resourceType, subject, valueCodeableConcept
     }
 
-    public init(comment: MgoString?, component: ZibDrugUseComponent?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: ZibDrugUseProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?) {
+    public init(comment: PrimitiveValueTypeOfStringString?, component: ZibDrugUseComponent?, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: ZibDrugUseProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?) {
         self.comment = comment
         self.component = component
         self.effectiveDateTime = effectiveDateTime
@@ -67,11 +67,11 @@ public extension ZibDrugUse {
     }
 
     func with(
-        comment: MgoString?? = nil,
+        comment: PrimitiveValueTypeOfStringString?? = nil,
         component: ZibDrugUseComponent?? = nil,
-        effectiveDateTime: MgoDateTime?? = nil,
+        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         performer: [MgoReference]?? = nil,

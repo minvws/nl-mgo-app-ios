@@ -13,19 +13,19 @@ import Foundation
 // MARK: - R4NlCoreHealthProfessionalPractitionerAddress
 public struct R4NlCoreHealthProfessionalPractitionerAddress: Codable, Hashable, Sendable {
     public let profile: R4NlCoreAddressInformationProfile
-    public let city: MgoString?
+    public let city: PrimitiveValueTypeOfStringString?
     public let country: FluffyCountry
-    public let district: MgoString?
+    public let district: PrimitiveValueTypeOfStringString?
     public let line: [IndigoLine]?
-    public let postalCode: MgoString?
-    public let type, use: NlCoreOrganizationTelecomSystem?
+    public let postalCode: PrimitiveValueTypeOfStringString?
+    public let type, use: MgoCodeOfString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
         case city, country, district, line, postalCode, type, use
     }
 
-    public init(profile: R4NlCoreAddressInformationProfile, city: MgoString?, country: FluffyCountry, district: MgoString?, line: [IndigoLine]?, postalCode: MgoString?, type: NlCoreOrganizationTelecomSystem?, use: NlCoreOrganizationTelecomSystem?) {
+    public init(profile: R4NlCoreAddressInformationProfile, city: PrimitiveValueTypeOfStringString?, country: FluffyCountry, district: PrimitiveValueTypeOfStringString?, line: [IndigoLine]?, postalCode: PrimitiveValueTypeOfStringString?, type: MgoCodeOfString?, use: MgoCodeOfString?) {
         self.profile = profile
         self.city = city
         self.country = country
@@ -57,13 +57,13 @@ public extension R4NlCoreHealthProfessionalPractitionerAddress {
 
     func with(
         profile: R4NlCoreAddressInformationProfile? = nil,
-        city: MgoString?? = nil,
+        city: PrimitiveValueTypeOfStringString?? = nil,
         country: FluffyCountry? = nil,
-        district: MgoString?? = nil,
+        district: PrimitiveValueTypeOfStringString?? = nil,
         line: [IndigoLine]?? = nil,
-        postalCode: MgoString?? = nil,
-        type: NlCoreOrganizationTelecomSystem?? = nil,
-        use: NlCoreOrganizationTelecomSystem?? = nil
+        postalCode: PrimitiveValueTypeOfStringString?? = nil,
+        type: MgoCodeOfString?? = nil,
+        use: MgoCodeOfString?? = nil
     ) -> R4NlCoreHealthProfessionalPractitionerAddress {
         return R4NlCoreHealthProfessionalPractitionerAddress(
             profile: profile ?? self.profile,

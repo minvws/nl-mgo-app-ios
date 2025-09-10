@@ -12,27 +12,27 @@ import Foundation
 
 // MARK: - ZibMedicationUse
 public struct ZibMedicationUse: Codable, Hashable, Sendable {
-    public let asAgreedIndicator: AsAgreedIndicator?
-    public let author: Author?
-    public let dateAsserted: MgoDateTime?
+    public let asAgreedIndicator: ExtensionValueOfMgoBoolean?
+    public let author: ExtensionValueOfMgoReference?
+    public let dateAsserted: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let dosage: [Dosage]?
     public let effectivePeriod: EffectivePeriod
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let informationSource, medicationReference: MgoReference?
-    public let medicationTreatment: ZibMedicationUseMedicationTreatment?
+    public let medicationTreatment: ExtensionValueOfMgoIdentifier?
     public let note: [MgoAnnotation]?
-    public let prescriber: Prescriber?
+    public let prescriber: ExtensionValueOfMgoReference?
     public let profile: ZibMedicationUseProfile
     public let reasonCode: [MgoCodeableConcept]?
-    public let reasonForChangeOrDiscontinuationOfUse: ReasonForChangeOrDiscontinuationOfUse?
+    public let reasonForChangeOrDiscontinuationOfUse: ExtensionValueOfMgoCodeableConcept?
     public let referenceID: String
-    public let repeatPeriodCyclicalSchedule: ZibMedicationUseRepeatPeriodCyclicalSchedule?
+    public let repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?
     public let resourceType: String
-    public let status: ZibMedicationUseStatus?
+    public let status: MgoCodeOfEnteredInErrorOnHoldCompletedStoppedActiveIntended?
     public let subject: MgoReference?
-    public let taken: ZibMedicationUseTaken?
+    public let taken: MgoCodeOfYNUnkNa?
 
     public enum CodingKeys: String, CodingKey {
         case asAgreedIndicator, author, dateAsserted, dosage, effectivePeriod, fhirVersion, id, identifier, informationSource, medicationReference, medicationTreatment, note, prescriber, profile, reasonCode, reasonForChangeOrDiscontinuationOfUse
@@ -40,7 +40,7 @@ public struct ZibMedicationUse: Codable, Hashable, Sendable {
         case repeatPeriodCyclicalSchedule, resourceType, status, subject, taken
     }
 
-    public init(asAgreedIndicator: AsAgreedIndicator?, author: Author?, dateAsserted: MgoDateTime?, dosage: [Dosage]?, effectivePeriod: EffectivePeriod, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medicationReference: MgoReference?, medicationTreatment: ZibMedicationUseMedicationTreatment?, note: [MgoAnnotation]?, prescriber: Prescriber?, profile: ZibMedicationUseProfile, reasonCode: [MgoCodeableConcept]?, reasonForChangeOrDiscontinuationOfUse: ReasonForChangeOrDiscontinuationOfUse?, referenceID: String, repeatPeriodCyclicalSchedule: ZibMedicationUseRepeatPeriodCyclicalSchedule?, resourceType: String, status: ZibMedicationUseStatus?, subject: MgoReference?, taken: ZibMedicationUseTaken?) {
+    public init(asAgreedIndicator: ExtensionValueOfMgoBoolean?, author: ExtensionValueOfMgoReference?, dateAsserted: PrimitiveValueTypeOfDateTimeDateTimeString?, dosage: [Dosage]?, effectivePeriod: EffectivePeriod, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, informationSource: MgoReference?, medicationReference: MgoReference?, medicationTreatment: ExtensionValueOfMgoIdentifier?, note: [MgoAnnotation]?, prescriber: ExtensionValueOfMgoReference?, profile: ZibMedicationUseProfile, reasonCode: [MgoCodeableConcept]?, reasonForChangeOrDiscontinuationOfUse: ExtensionValueOfMgoCodeableConcept?, referenceID: String, repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?, resourceType: String, status: MgoCodeOfEnteredInErrorOnHoldCompletedStoppedActiveIntended?, subject: MgoReference?, taken: MgoCodeOfYNUnkNa?) {
         self.asAgreedIndicator = asAgreedIndicator
         self.author = author
         self.dateAsserted = dateAsserted
@@ -85,28 +85,28 @@ public extension ZibMedicationUse {
     }
 
     func with(
-        asAgreedIndicator: AsAgreedIndicator?? = nil,
-        author: Author?? = nil,
-        dateAsserted: MgoDateTime?? = nil,
+        asAgreedIndicator: ExtensionValueOfMgoBoolean?? = nil,
+        author: ExtensionValueOfMgoReference?? = nil,
+        dateAsserted: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         dosage: [Dosage]?? = nil,
         effectivePeriod: EffectivePeriod? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         informationSource: MgoReference?? = nil,
         medicationReference: MgoReference?? = nil,
-        medicationTreatment: ZibMedicationUseMedicationTreatment?? = nil,
+        medicationTreatment: ExtensionValueOfMgoIdentifier?? = nil,
         note: [MgoAnnotation]?? = nil,
-        prescriber: Prescriber?? = nil,
+        prescriber: ExtensionValueOfMgoReference?? = nil,
         profile: ZibMedicationUseProfile? = nil,
         reasonCode: [MgoCodeableConcept]?? = nil,
-        reasonForChangeOrDiscontinuationOfUse: ReasonForChangeOrDiscontinuationOfUse?? = nil,
+        reasonForChangeOrDiscontinuationOfUse: ExtensionValueOfMgoCodeableConcept?? = nil,
         referenceID: String? = nil,
-        repeatPeriodCyclicalSchedule: ZibMedicationUseRepeatPeriodCyclicalSchedule?? = nil,
+        repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?? = nil,
         resourceType: String? = nil,
-        status: ZibMedicationUseStatus?? = nil,
+        status: MgoCodeOfEnteredInErrorOnHoldCompletedStoppedActiveIntended?? = nil,
         subject: MgoReference?? = nil,
-        taken: ZibMedicationUseTaken?? = nil
+        taken: MgoCodeOfYNUnkNa?? = nil
     ) -> ZibMedicationUse {
         return ZibMedicationUse(
             asAgreedIndicator: asAgreedIndicator ?? self.asAgreedIndicator,

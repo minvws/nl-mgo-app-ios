@@ -13,19 +13,19 @@ import Foundation
 // MARK: - MgoSampledData
 public struct MgoSampledData: Codable, Hashable, Sendable {
     public let type: MgoSampledDataType
-    public let data: MgoString?
+    public let data: PrimitiveValueTypeOfStringString?
     public let dimensions: MgoPositiveInt?
-    public let factor, lowerLimit: MgoDecimal?
+    public let factor, lowerLimit: PrimitiveValueTypeOfDecimalNumber?
     public let origin: MgoSimpleQuantity?
-    public let period: MgoDecimal
-    public let upperLimit: MgoDecimal?
+    public let period: PrimitiveValueTypeOfDecimalNumber
+    public let upperLimit: PrimitiveValueTypeOfDecimalNumber?
 
     public enum CodingKeys: String, CodingKey {
         case type = "_type"
         case data, dimensions, factor, lowerLimit, origin, period, upperLimit
     }
 
-    public init(type: MgoSampledDataType, data: MgoString?, dimensions: MgoPositiveInt?, factor: MgoDecimal?, lowerLimit: MgoDecimal?, origin: MgoSimpleQuantity?, period: MgoDecimal, upperLimit: MgoDecimal?) {
+    public init(type: MgoSampledDataType, data: PrimitiveValueTypeOfStringString?, dimensions: MgoPositiveInt?, factor: PrimitiveValueTypeOfDecimalNumber?, lowerLimit: PrimitiveValueTypeOfDecimalNumber?, origin: MgoSimpleQuantity?, period: PrimitiveValueTypeOfDecimalNumber, upperLimit: PrimitiveValueTypeOfDecimalNumber?) {
         self.type = type
         self.data = data
         self.dimensions = dimensions
@@ -57,13 +57,13 @@ public extension MgoSampledData {
 
     func with(
         type: MgoSampledDataType? = nil,
-        data: MgoString?? = nil,
+        data: PrimitiveValueTypeOfStringString?? = nil,
         dimensions: MgoPositiveInt?? = nil,
-        factor: MgoDecimal?? = nil,
-        lowerLimit: MgoDecimal?? = nil,
+        factor: PrimitiveValueTypeOfDecimalNumber?? = nil,
+        lowerLimit: PrimitiveValueTypeOfDecimalNumber?? = nil,
         origin: MgoSimpleQuantity?? = nil,
-        period: MgoDecimal? = nil,
-        upperLimit: MgoDecimal?? = nil
+        period: PrimitiveValueTypeOfDecimalNumber? = nil,
+        upperLimit: PrimitiveValueTypeOfDecimalNumber?? = nil
     ) -> MgoSampledData {
         return MgoSampledData(
             type: type ?? self.type,

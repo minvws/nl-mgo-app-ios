@@ -12,11 +12,10 @@ import Foundation
 
 // MARK: - FluffyBodySite
 public struct FluffyBodySite: Codable, Hashable, Sendable {
-    public let laterality: PurpleLaterality?
-    public let morphology: PurpleMorphology?
+    public let laterality, morphology: ExtensionValueOfMgoCodeableConcept?
     public let value: MgoCodeableConcept?
 
-    public init(laterality: PurpleLaterality?, morphology: PurpleMorphology?, value: MgoCodeableConcept?) {
+    public init(laterality: ExtensionValueOfMgoCodeableConcept?, morphology: ExtensionValueOfMgoCodeableConcept?, value: MgoCodeableConcept?) {
         self.laterality = laterality
         self.morphology = morphology
         self.value = value
@@ -42,8 +41,8 @@ public extension FluffyBodySite {
     }
 
     func with(
-        laterality: PurpleLaterality?? = nil,
-        morphology: PurpleMorphology?? = nil,
+        laterality: ExtensionValueOfMgoCodeableConcept?? = nil,
+        morphology: ExtensionValueOfMgoCodeableConcept?? = nil,
         value: MgoCodeableConcept?? = nil
     ) -> FluffyBodySite {
         return FluffyBodySite(

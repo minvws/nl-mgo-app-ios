@@ -13,11 +13,11 @@ import Foundation
 // MARK: - ZibTreatmentDirective
 public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
     public let additionalSources: AdditionalSources?
-    public let comment: ZibTreatmentDirectiveComment?
+    public let comment: ExtensionValueOfMgoString?
     public let consentingParty: [MgoReference]?
-    public let dateTime: MgoDateTime?
+    public let dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let exceptRestrictions: [ExceptRestriction]?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: MgoIdentifier?
     public let patient: MgoReference?
@@ -27,9 +27,8 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
     public let sourceAttachment: MgoAttachment?
     public let sourceIdentifier: MgoIdentifier?
     public let sourceReference: MgoReference?
-    public let treatment: Treatment?
-    public let treatmentPermitted: TreatmentPermitted?
-    public let verification: Verification?
+    public let treatment, treatmentPermitted: ExtensionValueOfMgoCodeableConcept?
+    public let verification: ExtensionValueOfStructure0_6164971912924972?
 
     public enum CodingKeys: String, CodingKey {
         case additionalSources, comment, consentingParty, dateTime, exceptRestrictions, fhirVersion, id, identifier, patient, period, profile
@@ -37,7 +36,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
         case resourceType, sourceAttachment, sourceIdentifier, sourceReference, treatment, treatmentPermitted, verification
     }
 
-    public init(additionalSources: AdditionalSources?, comment: ZibTreatmentDirectiveComment?, consentingParty: [MgoReference]?, dateTime: MgoDateTime?, exceptRestrictions: [ExceptRestriction]?, fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, patient: MgoReference?, period: MgoPeriod?, profile: ZibTreatmentDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, treatment: Treatment?, treatmentPermitted: TreatmentPermitted?, verification: Verification?) {
+    public init(additionalSources: AdditionalSources?, comment: ExtensionValueOfMgoString?, consentingParty: [MgoReference]?, dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, exceptRestrictions: [ExceptRestriction]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: MgoIdentifier?, patient: MgoReference?, period: MgoPeriod?, profile: ZibTreatmentDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, treatment: ExtensionValueOfMgoCodeableConcept?, treatmentPermitted: ExtensionValueOfMgoCodeableConcept?, verification: ExtensionValueOfStructure0_6164971912924972?) {
         self.additionalSources = additionalSources
         self.comment = comment
         self.consentingParty = consentingParty
@@ -80,11 +79,11 @@ public extension ZibTreatmentDirective {
 
     func with(
         additionalSources: AdditionalSources?? = nil,
-        comment: ZibTreatmentDirectiveComment?? = nil,
+        comment: ExtensionValueOfMgoString?? = nil,
         consentingParty: [MgoReference]?? = nil,
-        dateTime: MgoDateTime?? = nil,
+        dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         exceptRestrictions: [ExceptRestriction]?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: MgoIdentifier?? = nil,
         patient: MgoReference?? = nil,
@@ -95,9 +94,9 @@ public extension ZibTreatmentDirective {
         sourceAttachment: MgoAttachment?? = nil,
         sourceIdentifier: MgoIdentifier?? = nil,
         sourceReference: MgoReference?? = nil,
-        treatment: Treatment?? = nil,
-        treatmentPermitted: TreatmentPermitted?? = nil,
-        verification: Verification?? = nil
+        treatment: ExtensionValueOfMgoCodeableConcept?? = nil,
+        treatmentPermitted: ExtensionValueOfMgoCodeableConcept?? = nil,
+        verification: ExtensionValueOfStructure0_6164971912924972?? = nil
     ) -> ZibTreatmentDirective {
         return ZibTreatmentDirective(
             additionalSources: additionalSources ?? self.additionalSources,

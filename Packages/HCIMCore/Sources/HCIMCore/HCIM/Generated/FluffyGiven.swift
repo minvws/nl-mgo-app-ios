@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - FluffyGiven
 public struct FluffyGiven: Codable, Hashable, Sendable {
-    public let birthName, callName, initials: [MgoString]?
+    public let birthName, callName, initials: [PrimitiveValueTypeOfStringString]?
 
-    public init(birthName: [MgoString]?, callName: [MgoString]?, initials: [MgoString]?) {
+    public init(birthName: [PrimitiveValueTypeOfStringString]?, callName: [PrimitiveValueTypeOfStringString]?, initials: [PrimitiveValueTypeOfStringString]?) {
         self.birthName = birthName
         self.callName = callName
         self.initials = initials
@@ -40,9 +40,9 @@ public extension FluffyGiven {
     }
 
     func with(
-        birthName: [MgoString]?? = nil,
-        callName: [MgoString]?? = nil,
-        initials: [MgoString]?? = nil
+        birthName: [PrimitiveValueTypeOfStringString]?? = nil,
+        callName: [PrimitiveValueTypeOfStringString]?? = nil,
+        initials: [PrimitiveValueTypeOfStringString]?? = nil
     ) -> FluffyGiven {
         return FluffyGiven(
             birthName: birthName ?? self.birthName,

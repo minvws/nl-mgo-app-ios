@@ -13,13 +13,13 @@ import Foundation
 // MARK: - R4NlCoreHealthcareProviderOrganization
 public struct R4NlCoreHealthcareProviderOrganization: Codable, Hashable, Sendable {
     public let address: [R4NlCoreHealthcareProviderOrganizationAddress]?
-    public let fhirVersion: FhirVersionR4
+    public let fhirVersion: R4NlCoreHealthcareProviderFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let name: MgoString?
+    public let name: PrimitiveValueTypeOfStringString?
     public let profile: R4NlCoreHealthcareProviderOrganizationProfile
     public let referenceID, resourceType: String
-    public let telecom: R4NlCoreHealthcareProviderOrganizationTelecom
+    public let telecom: R4NlCoreContactInformation
     public let type: R4NlCoreHealthcareProviderOrganizationType
 
     public enum CodingKeys: String, CodingKey {
@@ -28,7 +28,7 @@ public struct R4NlCoreHealthcareProviderOrganization: Codable, Hashable, Sendabl
         case resourceType, telecom, type
     }
 
-    public init(address: [R4NlCoreHealthcareProviderOrganizationAddress]?, fhirVersion: FhirVersionR4, id: String?, identifier: [MgoIdentifier]?, name: MgoString?, profile: R4NlCoreHealthcareProviderOrganizationProfile, referenceID: String, resourceType: String, telecom: R4NlCoreHealthcareProviderOrganizationTelecom, type: R4NlCoreHealthcareProviderOrganizationType) {
+    public init(address: [R4NlCoreHealthcareProviderOrganizationAddress]?, fhirVersion: R4NlCoreHealthcareProviderFhirVersion, id: String?, identifier: [MgoIdentifier]?, name: PrimitiveValueTypeOfStringString?, profile: R4NlCoreHealthcareProviderOrganizationProfile, referenceID: String, resourceType: String, telecom: R4NlCoreContactInformation, type: R4NlCoreHealthcareProviderOrganizationType) {
         self.address = address
         self.fhirVersion = fhirVersion
         self.id = id
@@ -62,14 +62,14 @@ public extension R4NlCoreHealthcareProviderOrganization {
 
     func with(
         address: [R4NlCoreHealthcareProviderOrganizationAddress]?? = nil,
-        fhirVersion: FhirVersionR4? = nil,
+        fhirVersion: R4NlCoreHealthcareProviderFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        name: MgoString?? = nil,
+        name: PrimitiveValueTypeOfStringString?? = nil,
         profile: R4NlCoreHealthcareProviderOrganizationProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,
-        telecom: R4NlCoreHealthcareProviderOrganizationTelecom? = nil,
+        telecom: R4NlCoreContactInformation? = nil,
         type: R4NlCoreHealthcareProviderOrganizationType? = nil
     ) -> R4NlCoreHealthcareProviderOrganization {
         return R4NlCoreHealthcareProviderOrganization(

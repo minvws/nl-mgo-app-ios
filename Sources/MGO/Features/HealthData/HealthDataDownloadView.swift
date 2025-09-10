@@ -177,9 +177,10 @@ enum HealthDataDownloadState: Equatable, Sendable {
 	func loadBinary(_ externalUrl: String, label: String) async {
 		
 		do {
-			if let binary = try await Container.shared.resourceRepository().loadBinary(
+			if let documentService = DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.first(where: { $0.name == "Documents PDF/A" }),
+			   let binary = try await Container.shared.resourceRepository().loadBinary(
 				healthcareOrganization,
-				serviceId: DVP.Documents.serviceID,
+				serviceId: documentService.id,
 				url: externalUrl
 			) {
 				logInfo("binary", binary.contentType)

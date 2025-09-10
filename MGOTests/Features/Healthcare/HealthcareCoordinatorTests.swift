@@ -284,7 +284,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("1")
-		let category = HealthCategories.Category.medication
+		let category = Generator.healthCategory
 		
 		// When
 		sut.handle(
@@ -311,7 +311,7 @@ final class HealthcareCoordinatorTests: XCTestCase {
 	@MainActor func test_coordinatorHandle_showHealthCategory_withoutOrganization() {
 		
 		// Given
-		let category = HealthCategories.Category.medication
+		let category = Generator.healthCategory
 		
 		// When
 		sut.handle(

@@ -16,7 +16,7 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 	private var healthcareOrganization: MgoOrganization!
 	private var sut: HealthCategoryView!
 	
-	private let item = Generator.healthSubCategory()
+	private let item = Generator.healthCategoryBlock()
 	
 	override func setUp() {
 		
@@ -26,18 +26,23 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 		healthcareOrganization = Generator.healthcareOrganization("1")
 	}
 	
-	@MainActor private func createSut() {
+	@MainActor private func createSut() throws {
+
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "documents"))
 		
 		viewModel = DocumentsHealthCategoryViewModel(
 			coordinator: coordinatorSpy,
-			organization: healthcareOrganization)
+			category: category,
+			organization: healthcareOrganization
+		)
 		sut = HealthCategoryView(viewModel: self.viewModel)
 	}
 	
-	@MainActor func test_stateLoading() {
+	@MainActor func test_stateLoading() throws {
 		
 		// Given
-		createSut()
+		try createSut()
 		viewModel.state = .loading
 		
 		// When
@@ -47,10 +52,10 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	@MainActor func test_stateEmptyList() {
+	@MainActor func test_stateEmptyList() throws {
 		
 		// Given
-		createSut()
+		try createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -60,10 +65,10 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	@MainActor func test_stateEmptyPartialList() {
+	@MainActor func test_stateEmptyPartialList() throws {
 		
 		// Given
-		createSut()
+		try createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -76,7 +81,7 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 	@MainActor func test_stateList() throws {
 		
 		// Given
-		createSut()
+		try createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -89,7 +94,7 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 	@MainActor func disabled_test_search_itemNotFound() throws {
 		
 		// Given
-		createSut()
+		try createSut()
 		let content = NavigationView { sut }
 		sut.viewModel.state = .list(items: [item])
 		
@@ -103,7 +108,7 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 	@MainActor func disabled_test_search_itemFound() throws {
 		
 		// Given
-		createSut()
+		try createSut()
 		let content = NavigationView { sut }
 		sut.viewModel.state = .list(items: [item])
 		

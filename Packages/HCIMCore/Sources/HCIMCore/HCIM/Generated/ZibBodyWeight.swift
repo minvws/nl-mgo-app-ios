@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - ZibBodyWeight
 public struct ZibBodyWeight: Codable, Hashable, Sendable {
-    public let comment: MgoString?
+    public let comment: PrimitiveValueTypeOfStringString?
     public let component: ZibBodyWeightComponent?
-    public let effectiveDateTime: MgoDateTime?
+    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let effectivePeriod: MgoPeriod?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let performer: [MgoReference]?
@@ -31,7 +31,7 @@ public struct ZibBodyWeight: Codable, Hashable, Sendable {
         case resourceType, subject, valueQuantity
     }
 
-    public init(comment: MgoString?, component: ZibBodyWeightComponent?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: ZibBodyWeightProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueQuantity: MgoQuantity?) {
+    public init(comment: PrimitiveValueTypeOfStringString?, component: ZibBodyWeightComponent?, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, performer: [MgoReference]?, profile: ZibBodyWeightProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueQuantity: MgoQuantity?) {
         self.comment = comment
         self.component = component
         self.effectiveDateTime = effectiveDateTime
@@ -67,11 +67,11 @@ public extension ZibBodyWeight {
     }
 
     func with(
-        comment: MgoString?? = nil,
+        comment: PrimitiveValueTypeOfStringString?? = nil,
         component: ZibBodyWeightComponent?? = nil,
-        effectiveDateTime: MgoDateTime?? = nil,
+        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         performer: [MgoReference]?? = nil,

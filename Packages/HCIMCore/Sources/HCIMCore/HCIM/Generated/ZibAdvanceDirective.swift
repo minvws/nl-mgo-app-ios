@@ -13,11 +13,11 @@ import Foundation
 // MARK: - ZibAdvanceDirective
 public struct ZibAdvanceDirective: Codable, Hashable, Sendable {
     public let category: ZibAdvanceDirectiveCategory
-    public let comment: ZibAdvanceDirectiveComment?
+    public let comment: ExtensionValueOfMgoString?
     public let consentingParty: MgoReference?
-    public let dateTime: MgoDateTime?
-    public let disorder: [Disorder]
-    public let fhirVersion: FhirVersionR3
+    public let dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let disorder: [ExtensionValueOfMgoReference]
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: MgoIdentifier?
     public let profile: ZibAdvanceDirectiveProfile
@@ -32,7 +32,7 @@ public struct ZibAdvanceDirective: Codable, Hashable, Sendable {
         case resourceType, sourceAttachment, sourceIdentifier, sourceReference
     }
 
-    public init(category: ZibAdvanceDirectiveCategory, comment: ZibAdvanceDirectiveComment?, consentingParty: MgoReference?, dateTime: MgoDateTime?, disorder: [Disorder], fhirVersion: FhirVersionR3, id: String?, identifier: MgoIdentifier?, profile: ZibAdvanceDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?) {
+    public init(category: ZibAdvanceDirectiveCategory, comment: ExtensionValueOfMgoString?, consentingParty: MgoReference?, dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, disorder: [ExtensionValueOfMgoReference], fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: MgoIdentifier?, profile: ZibAdvanceDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?) {
         self.category = category
         self.comment = comment
         self.consentingParty = consentingParty
@@ -70,11 +70,11 @@ public extension ZibAdvanceDirective {
 
     func with(
         category: ZibAdvanceDirectiveCategory? = nil,
-        comment: ZibAdvanceDirectiveComment?? = nil,
+        comment: ExtensionValueOfMgoString?? = nil,
         consentingParty: MgoReference?? = nil,
-        dateTime: MgoDateTime?? = nil,
-        disorder: [Disorder]? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        disorder: [ExtensionValueOfMgoReference]? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: MgoIdentifier?? = nil,
         profile: ZibAdvanceDirectiveProfile? = nil,

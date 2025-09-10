@@ -13,22 +13,22 @@ import Foundation
 // MARK: - R4NlCoreVaccinationEvent
 public struct R4NlCoreVaccinationEvent: Codable, Hashable, Sendable {
     public let doseQuantity: MgoQuantity?
-    public let fhirVersion: FhirVersionR4
+    public let fhirVersion: R4NlCoreHealthcareProviderFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let location: MgoReference?
     public let note: [MgoAnnotation]?
-    public let occurrenceDateTime: MgoDateTime?
-    public let occurrenceString: MgoString?
+    public let occurrenceDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let occurrenceString: PrimitiveValueTypeOfStringString?
     public let patient: MgoReference?
     public let performer: [R4NlCoreVaccinationEventPerformer]?
-    public let pharmaceuticalProduct: PharmaceuticalProduct?
+    public let pharmaceuticalProduct: ExtensionValueOfMgoReference?
     public let profile: R4NlCoreVaccinationEventProfile
     public let protocolApplied: [ProtocolApplied]?
     public let reasonCode: ReasonCode
     public let referenceID, resourceType: String
     public let route: MgoCodeableConcept?
-    public let status: MgoString?
+    public let status: PrimitiveValueTypeOfStringString?
     public let vaccineCode: MgoCodeableConcept?
 
     public enum CodingKeys: String, CodingKey {
@@ -37,7 +37,7 @@ public struct R4NlCoreVaccinationEvent: Codable, Hashable, Sendable {
         case resourceType, route, status, vaccineCode
     }
 
-    public init(doseQuantity: MgoQuantity?, fhirVersion: FhirVersionR4, id: String?, identifier: [MgoIdentifier]?, location: MgoReference?, note: [MgoAnnotation]?, occurrenceDateTime: MgoDateTime?, occurrenceString: MgoString?, patient: MgoReference?, performer: [R4NlCoreVaccinationEventPerformer]?, pharmaceuticalProduct: PharmaceuticalProduct?, profile: R4NlCoreVaccinationEventProfile, protocolApplied: [ProtocolApplied]?, reasonCode: ReasonCode, referenceID: String, resourceType: String, route: MgoCodeableConcept?, status: MgoString?, vaccineCode: MgoCodeableConcept?) {
+    public init(doseQuantity: MgoQuantity?, fhirVersion: R4NlCoreHealthcareProviderFhirVersion, id: String?, identifier: [MgoIdentifier]?, location: MgoReference?, note: [MgoAnnotation]?, occurrenceDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, occurrenceString: PrimitiveValueTypeOfStringString?, patient: MgoReference?, performer: [R4NlCoreVaccinationEventPerformer]?, pharmaceuticalProduct: ExtensionValueOfMgoReference?, profile: R4NlCoreVaccinationEventProfile, protocolApplied: [ProtocolApplied]?, reasonCode: ReasonCode, referenceID: String, resourceType: String, route: MgoCodeableConcept?, status: PrimitiveValueTypeOfStringString?, vaccineCode: MgoCodeableConcept?) {
         self.doseQuantity = doseQuantity
         self.fhirVersion = fhirVersion
         self.id = id
@@ -80,23 +80,23 @@ public extension R4NlCoreVaccinationEvent {
 
     func with(
         doseQuantity: MgoQuantity?? = nil,
-        fhirVersion: FhirVersionR4? = nil,
+        fhirVersion: R4NlCoreHealthcareProviderFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         location: MgoReference?? = nil,
         note: [MgoAnnotation]?? = nil,
-        occurrenceDateTime: MgoDateTime?? = nil,
-        occurrenceString: MgoString?? = nil,
+        occurrenceDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        occurrenceString: PrimitiveValueTypeOfStringString?? = nil,
         patient: MgoReference?? = nil,
         performer: [R4NlCoreVaccinationEventPerformer]?? = nil,
-        pharmaceuticalProduct: PharmaceuticalProduct?? = nil,
+        pharmaceuticalProduct: ExtensionValueOfMgoReference?? = nil,
         profile: R4NlCoreVaccinationEventProfile? = nil,
         protocolApplied: [ProtocolApplied]?? = nil,
         reasonCode: ReasonCode? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,
         route: MgoCodeableConcept?? = nil,
-        status: MgoString?? = nil,
+        status: PrimitiveValueTypeOfStringString?? = nil,
         vaccineCode: MgoCodeableConcept?? = nil
     ) -> R4NlCoreVaccinationEvent {
         return R4NlCoreVaccinationEvent(

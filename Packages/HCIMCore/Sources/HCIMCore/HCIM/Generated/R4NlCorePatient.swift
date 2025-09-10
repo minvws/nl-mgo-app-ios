@@ -13,23 +13,23 @@ import Foundation
 // MARK: - R4NlCorePatient
 public struct R4NlCorePatient: Codable, Hashable, Sendable {
     public let address: [R4NlCorePatientAddress]?
-    public let birthDate: MgoDate?
+    public let birthDate: PrimitiveValueTypeOfDateDateString?
     public let communication: [R4NlCorePatientCommunication]?
     public let contact: [R4NlCorePatientContact]?
-    public let deceasedBoolean: MgoBoolean?
-    public let deceasedDateTime: MgoDateTime?
-    public let fhirVersion: FhirVersionR4
+    public let deceasedBoolean: PrimitiveValueTypeOfBooleanBoolean?
+    public let deceasedDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let fhirVersion: R4NlCoreHealthcareProviderFhirVersion
     public let gender: R4NlCorePatientGender
     public let id: String?
     public let identifier: R4NlCorePatientIdentifier
     public let maritalStatus: MgoCodeableConcept?
-    public let multipleBirthBoolean: MgoBoolean?
-    public let multipleBirthInteger: MgoInteger?
+    public let multipleBirthBoolean: PrimitiveValueTypeOfBooleanBoolean?
+    public let multipleBirthInteger: PrimitiveValueTypeOfIntegerNumber?
     public let name: [R4NlCorePatientName]?
-    public let nationality: [R4NlCorePatientNationality]
+    public let nationality: [ExtensionValueOfStructure0_04577354127746314]
     public let profile: R4NlCorePatientProfile
     public let referenceID, resourceType: String
-    public let telecom: R4NlCorePatientTelecom
+    public let telecom: R4NlCoreContactInformation
 
     public enum CodingKeys: String, CodingKey {
         case address, birthDate, communication, contact, deceasedBoolean, deceasedDateTime, fhirVersion, gender, id, identifier, maritalStatus, multipleBirthBoolean, multipleBirthInteger, name, nationality, profile
@@ -37,7 +37,7 @@ public struct R4NlCorePatient: Codable, Hashable, Sendable {
         case resourceType, telecom
     }
 
-    public init(address: [R4NlCorePatientAddress]?, birthDate: MgoDate?, communication: [R4NlCorePatientCommunication]?, contact: [R4NlCorePatientContact]?, deceasedBoolean: MgoBoolean?, deceasedDateTime: MgoDateTime?, fhirVersion: FhirVersionR4, gender: R4NlCorePatientGender, id: String?, identifier: R4NlCorePatientIdentifier, maritalStatus: MgoCodeableConcept?, multipleBirthBoolean: MgoBoolean?, multipleBirthInteger: MgoInteger?, name: [R4NlCorePatientName]?, nationality: [R4NlCorePatientNationality], profile: R4NlCorePatientProfile, referenceID: String, resourceType: String, telecom: R4NlCorePatientTelecom) {
+    public init(address: [R4NlCorePatientAddress]?, birthDate: PrimitiveValueTypeOfDateDateString?, communication: [R4NlCorePatientCommunication]?, contact: [R4NlCorePatientContact]?, deceasedBoolean: PrimitiveValueTypeOfBooleanBoolean?, deceasedDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, fhirVersion: R4NlCoreHealthcareProviderFhirVersion, gender: R4NlCorePatientGender, id: String?, identifier: R4NlCorePatientIdentifier, maritalStatus: MgoCodeableConcept?, multipleBirthBoolean: PrimitiveValueTypeOfBooleanBoolean?, multipleBirthInteger: PrimitiveValueTypeOfIntegerNumber?, name: [R4NlCorePatientName]?, nationality: [ExtensionValueOfStructure0_04577354127746314], profile: R4NlCorePatientProfile, referenceID: String, resourceType: String, telecom: R4NlCoreContactInformation) {
         self.address = address
         self.birthDate = birthDate
         self.communication = communication
@@ -80,24 +80,24 @@ public extension R4NlCorePatient {
 
     func with(
         address: [R4NlCorePatientAddress]?? = nil,
-        birthDate: MgoDate?? = nil,
+        birthDate: PrimitiveValueTypeOfDateDateString?? = nil,
         communication: [R4NlCorePatientCommunication]?? = nil,
         contact: [R4NlCorePatientContact]?? = nil,
-        deceasedBoolean: MgoBoolean?? = nil,
-        deceasedDateTime: MgoDateTime?? = nil,
-        fhirVersion: FhirVersionR4? = nil,
+        deceasedBoolean: PrimitiveValueTypeOfBooleanBoolean?? = nil,
+        deceasedDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        fhirVersion: R4NlCoreHealthcareProviderFhirVersion? = nil,
         gender: R4NlCorePatientGender? = nil,
         id: String?? = nil,
         identifier: R4NlCorePatientIdentifier? = nil,
         maritalStatus: MgoCodeableConcept?? = nil,
-        multipleBirthBoolean: MgoBoolean?? = nil,
-        multipleBirthInteger: MgoInteger?? = nil,
+        multipleBirthBoolean: PrimitiveValueTypeOfBooleanBoolean?? = nil,
+        multipleBirthInteger: PrimitiveValueTypeOfIntegerNumber?? = nil,
         name: [R4NlCorePatientName]?? = nil,
-        nationality: [R4NlCorePatientNationality]? = nil,
+        nationality: [ExtensionValueOfStructure0_04577354127746314]? = nil,
         profile: R4NlCorePatientProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,
-        telecom: R4NlCorePatientTelecom? = nil
+        telecom: R4NlCoreContactInformation? = nil
     ) -> R4NlCorePatient {
         return R4NlCorePatient(
             address: address ?? self.address,

@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - GpDiagnosticResultStatus
 public struct GpDiagnosticResultStatus: Codable, Hashable, Sendable {
-    public let resultStatusCodelist: ResultStatusCodelist?
+    public let resultStatusCodelist: ExtensionValueOfMgoCodeableConcept?
 
-    public init(resultStatusCodelist: ResultStatusCodelist?) {
+    public init(resultStatusCodelist: ExtensionValueOfMgoCodeableConcept?) {
         self.resultStatusCodelist = resultStatusCodelist
     }
 }
@@ -38,7 +38,7 @@ public extension GpDiagnosticResultStatus {
     }
 
     func with(
-        resultStatusCodelist: ResultStatusCodelist?? = nil
+        resultStatusCodelist: ExtensionValueOfMgoCodeableConcept?? = nil
     ) -> GpDiagnosticResultStatus {
         return GpDiagnosticResultStatus(
             resultStatusCodelist: resultStatusCodelist ?? self.resultStatusCodelist

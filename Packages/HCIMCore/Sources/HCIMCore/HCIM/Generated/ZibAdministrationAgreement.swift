@@ -12,27 +12,27 @@ import Foundation
 
 // MARK: - ZibAdministrationAgreement
 public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
-    public let additionalInformation: ZibAdministrationAgreementAdditionalInformation?
-    public let agreementReason: AgreementReason?
-    public let authoredOn: AuthoredOn?
+    public let additionalInformation: ExtensionValueOfMgoCodeableConcept?
+    public let agreementReason: ExtensionValueOfMgoString?
+    public let authoredOn: ExtensionValueOfMgoDateTime?
     public let authorizingPrescription: [MgoReference]?
     public let dossageInstruction: [ZibAdministrationAgreementDossageInstruction]?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let medicationReference: MgoReference?
-    public let medicationTreatment: ZibAdministrationAgreementMedicationTreatment?
+    public let medicationTreatment: ExtensionValueOfMgoIdentifier?
     public let note: [MgoAnnotation]?
     public let patient: MgoReference?
     public let performer: [ZibAdministrationAgreementPerformer]?
-    public let periodOfUse: ZibAdministrationAgreementPeriodOfUse?
+    public let periodOfUse: ExtensionValueOfMgoPeriod?
     public let profile: ZibAdministrationAgreementProfile
     public let referenceID: String
-    public let repeatPeriodCyclicalSchedule: ZibAdministrationAgreementRepeatPeriodCyclicalSchedule?
+    public let repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?
     public let resourceType: String
-    public let status: ZibAdministrationAgreementStatus?
-    public let stopType: ZibAdministrationAgreementStopType?
-    public let usageDuration: ZibAdministrationAgreementUsageDuration?
+    public let status: MgoCodeOfEnteredInErrorPreparationInProgressOnHoldCompletedStopped?
+    public let stopType: ExtensionValueOfMgoCodeableConcept?
+    public let usageDuration: ExtensionValueOfMgoDuration?
 
     public enum CodingKeys: String, CodingKey {
         case additionalInformation, agreementReason, authoredOn, authorizingPrescription, dossageInstruction, fhirVersion, id, identifier, medicationReference, medicationTreatment, note, patient, performer, periodOfUse, profile
@@ -40,7 +40,7 @@ public struct ZibAdministrationAgreement: Codable, Hashable, Sendable {
         case repeatPeriodCyclicalSchedule, resourceType, status, stopType, usageDuration
     }
 
-    public init(additionalInformation: ZibAdministrationAgreementAdditionalInformation?, agreementReason: AgreementReason?, authoredOn: AuthoredOn?, authorizingPrescription: [MgoReference]?, dossageInstruction: [ZibAdministrationAgreementDossageInstruction]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: ZibAdministrationAgreementMedicationTreatment?, note: [MgoAnnotation]?, patient: MgoReference?, performer: [ZibAdministrationAgreementPerformer]?, periodOfUse: ZibAdministrationAgreementPeriodOfUse?, profile: ZibAdministrationAgreementProfile, referenceID: String, repeatPeriodCyclicalSchedule: ZibAdministrationAgreementRepeatPeriodCyclicalSchedule?, resourceType: String, status: ZibAdministrationAgreementStatus?, stopType: ZibAdministrationAgreementStopType?, usageDuration: ZibAdministrationAgreementUsageDuration?) {
+    public init(additionalInformation: ExtensionValueOfMgoCodeableConcept?, agreementReason: ExtensionValueOfMgoString?, authoredOn: ExtensionValueOfMgoDateTime?, authorizingPrescription: [MgoReference]?, dossageInstruction: [ZibAdministrationAgreementDossageInstruction]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: ExtensionValueOfMgoIdentifier?, note: [MgoAnnotation]?, patient: MgoReference?, performer: [ZibAdministrationAgreementPerformer]?, periodOfUse: ExtensionValueOfMgoPeriod?, profile: ZibAdministrationAgreementProfile, referenceID: String, repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?, resourceType: String, status: MgoCodeOfEnteredInErrorPreparationInProgressOnHoldCompletedStopped?, stopType: ExtensionValueOfMgoCodeableConcept?, usageDuration: ExtensionValueOfMgoDuration?) {
         self.additionalInformation = additionalInformation
         self.agreementReason = agreementReason
         self.authoredOn = authoredOn
@@ -84,27 +84,27 @@ public extension ZibAdministrationAgreement {
     }
 
     func with(
-        additionalInformation: ZibAdministrationAgreementAdditionalInformation?? = nil,
-        agreementReason: AgreementReason?? = nil,
-        authoredOn: AuthoredOn?? = nil,
+        additionalInformation: ExtensionValueOfMgoCodeableConcept?? = nil,
+        agreementReason: ExtensionValueOfMgoString?? = nil,
+        authoredOn: ExtensionValueOfMgoDateTime?? = nil,
         authorizingPrescription: [MgoReference]?? = nil,
         dossageInstruction: [ZibAdministrationAgreementDossageInstruction]?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         medicationReference: MgoReference?? = nil,
-        medicationTreatment: ZibAdministrationAgreementMedicationTreatment?? = nil,
+        medicationTreatment: ExtensionValueOfMgoIdentifier?? = nil,
         note: [MgoAnnotation]?? = nil,
         patient: MgoReference?? = nil,
         performer: [ZibAdministrationAgreementPerformer]?? = nil,
-        periodOfUse: ZibAdministrationAgreementPeriodOfUse?? = nil,
+        periodOfUse: ExtensionValueOfMgoPeriod?? = nil,
         profile: ZibAdministrationAgreementProfile? = nil,
         referenceID: String? = nil,
-        repeatPeriodCyclicalSchedule: ZibAdministrationAgreementRepeatPeriodCyclicalSchedule?? = nil,
+        repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?? = nil,
         resourceType: String? = nil,
-        status: ZibAdministrationAgreementStatus?? = nil,
-        stopType: ZibAdministrationAgreementStopType?? = nil,
-        usageDuration: ZibAdministrationAgreementUsageDuration?? = nil
+        status: MgoCodeOfEnteredInErrorPreparationInProgressOnHoldCompletedStopped?? = nil,
+        stopType: ExtensionValueOfMgoCodeableConcept?? = nil,
+        usageDuration: ExtensionValueOfMgoDuration?? = nil
     ) -> ZibAdministrationAgreement {
         return ZibAdministrationAgreement(
             additionalInformation: additionalInformation ?? self.additionalInformation,

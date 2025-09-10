@@ -16,8 +16,8 @@ public struct R4NlCorePatientName: Codable, Hashable, Sendable {
     public let family: StickyFamily?
     public let given: HilariousGiven?
     public let period: MgoPeriod?
-    public let namePrefix, suffix: [MgoString]?
-    public let text: MgoString?
+    public let namePrefix, suffix: [PrimitiveValueTypeOfStringString]?
+    public let text: PrimitiveValueTypeOfStringString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
@@ -26,7 +26,7 @@ public struct R4NlCorePatientName: Codable, Hashable, Sendable {
         case suffix, text
     }
 
-    public init(profile: PurpleProfile, family: StickyFamily?, given: HilariousGiven?, period: MgoPeriod?, namePrefix: [MgoString]?, suffix: [MgoString]?, text: MgoString?) {
+    public init(profile: PurpleProfile, family: StickyFamily?, given: HilariousGiven?, period: MgoPeriod?, namePrefix: [PrimitiveValueTypeOfStringString]?, suffix: [PrimitiveValueTypeOfStringString]?, text: PrimitiveValueTypeOfStringString?) {
         self.profile = profile
         self.family = family
         self.given = given
@@ -60,9 +60,9 @@ public extension R4NlCorePatientName {
         family: StickyFamily?? = nil,
         given: HilariousGiven?? = nil,
         period: MgoPeriod?? = nil,
-        namePrefix: [MgoString]?? = nil,
-        suffix: [MgoString]?? = nil,
-        text: MgoString?? = nil
+        namePrefix: [PrimitiveValueTypeOfStringString]?? = nil,
+        suffix: [PrimitiveValueTypeOfStringString]?? = nil,
+        text: PrimitiveValueTypeOfStringString?? = nil
     ) -> R4NlCorePatientName {
         return R4NlCorePatientName(
             profile: profile ?? self.profile,

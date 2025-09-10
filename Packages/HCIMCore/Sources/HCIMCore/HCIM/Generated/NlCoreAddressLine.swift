@@ -12,15 +12,15 @@ import Foundation
 
 // MARK: - NlCoreAddressLine
 public struct NlCoreAddressLine: Codable, Hashable, Sendable {
-    public let additionalLocator, buildingNumberSuffix, houseNumber, streetName: MgoString?
-    public let unitID: MgoString?
+    public let additionalLocator, buildingNumberSuffix, houseNumber, streetName: PrimitiveValueTypeOfStringString?
+    public let unitID: PrimitiveValueTypeOfStringString?
 
     public enum CodingKeys: String, CodingKey {
         case additionalLocator, buildingNumberSuffix, houseNumber, streetName
         case unitID = "unitId"
     }
 
-    public init(additionalLocator: MgoString?, buildingNumberSuffix: MgoString?, houseNumber: MgoString?, streetName: MgoString?, unitID: MgoString?) {
+    public init(additionalLocator: PrimitiveValueTypeOfStringString?, buildingNumberSuffix: PrimitiveValueTypeOfStringString?, houseNumber: PrimitiveValueTypeOfStringString?, streetName: PrimitiveValueTypeOfStringString?, unitID: PrimitiveValueTypeOfStringString?) {
         self.additionalLocator = additionalLocator
         self.buildingNumberSuffix = buildingNumberSuffix
         self.houseNumber = houseNumber
@@ -48,11 +48,11 @@ public extension NlCoreAddressLine {
     }
 
     func with(
-        additionalLocator: MgoString?? = nil,
-        buildingNumberSuffix: MgoString?? = nil,
-        houseNumber: MgoString?? = nil,
-        streetName: MgoString?? = nil,
-        unitID: MgoString?? = nil
+        additionalLocator: PrimitiveValueTypeOfStringString?? = nil,
+        buildingNumberSuffix: PrimitiveValueTypeOfStringString?? = nil,
+        houseNumber: PrimitiveValueTypeOfStringString?? = nil,
+        streetName: PrimitiveValueTypeOfStringString?? = nil,
+        unitID: PrimitiveValueTypeOfStringString?? = nil
     ) -> NlCoreAddressLine {
         return NlCoreAddressLine(
             additionalLocator: additionalLocator ?? self.additionalLocator,

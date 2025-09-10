@@ -13,11 +13,11 @@ import Foundation
 // MARK: - R4NlCoreAddressInformation
 public struct R4NlCoreAddressInformation: Codable, Hashable, Sendable {
     public let profile: R4NlCoreAddressInformationProfile
-    public let city: MgoString?
+    public let city: PrimitiveValueTypeOfStringString?
     public let country: R4NlCoreAddressInformationCountry
-    public let district: MgoString?
+    public let district: PrimitiveValueTypeOfStringString?
     public let line: [R4NlCoreAddressInformationLine]?
-    public let postalCode: MgoString?
+    public let postalCode: PrimitiveValueTypeOfStringString?
     public let type, use: MgoCode?
 
     public enum CodingKeys: String, CodingKey {
@@ -25,7 +25,7 @@ public struct R4NlCoreAddressInformation: Codable, Hashable, Sendable {
         case city, country, district, line, postalCode, type, use
     }
 
-    public init(profile: R4NlCoreAddressInformationProfile, city: MgoString?, country: R4NlCoreAddressInformationCountry, district: MgoString?, line: [R4NlCoreAddressInformationLine]?, postalCode: MgoString?, type: MgoCode?, use: MgoCode?) {
+    public init(profile: R4NlCoreAddressInformationProfile, city: PrimitiveValueTypeOfStringString?, country: R4NlCoreAddressInformationCountry, district: PrimitiveValueTypeOfStringString?, line: [R4NlCoreAddressInformationLine]?, postalCode: PrimitiveValueTypeOfStringString?, type: MgoCode?, use: MgoCode?) {
         self.profile = profile
         self.city = city
         self.country = country
@@ -57,11 +57,11 @@ public extension R4NlCoreAddressInformation {
 
     func with(
         profile: R4NlCoreAddressInformationProfile? = nil,
-        city: MgoString?? = nil,
+        city: PrimitiveValueTypeOfStringString?? = nil,
         country: R4NlCoreAddressInformationCountry? = nil,
-        district: MgoString?? = nil,
+        district: PrimitiveValueTypeOfStringString?? = nil,
         line: [R4NlCoreAddressInformationLine]?? = nil,
-        postalCode: MgoString?? = nil,
+        postalCode: PrimitiveValueTypeOfStringString?? = nil,
         type: MgoCode?? = nil,
         use: MgoCode?? = nil
     ) -> R4NlCoreAddressInformation {
