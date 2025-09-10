@@ -23,7 +23,11 @@ class AdvancedSettingsViewTests: XCTestCase {
 	
 	@MainActor private func createSut() {
 		
-		sut = AdvancedSettingsView(viewModel: AdvancedSettingsViewModel(coordinator: self.coordinatorSpy))
+		sut = AdvancedSettingsView(
+			viewModel: AdvancedSettingsViewModel(
+				coordinator: self.coordinatorSpy
+			)
+		)
 	}
 	
 	@MainActor func test_advancedSettings_automaticLocationEnabled() {

@@ -31,7 +31,7 @@ final class HealthDataMapperTests: XCTestCase {
 		// Then
 		expect(pdfData) != nil
 		expect(pdfData?.heading) == "Medicijnen"
-		expect(pdfData?.subHeading) == "Opgeslagen op 15 jun 2025 om 17:06 uur"
+		expect(pdfData?.subHeading) == "Gemaakt op 15 jun 2025 om 17:06 uur"
 		expect(pdfData?.footer) == "Dit document is gemaakt met Mijn Gezondheidsoverzicht. Het bevat jouw medische gegevens,\nafkomstig van zorgaanbieders die jij hebt toegevoegd. Jij bent zelf verantwoordelijk voor wat je\nmet deze informatie doet. De gegevens zijn niet gecontroleerd op juistheid of volledigheid."
 		expect(pdfData?.tables.isEmpty) == true
 	}
@@ -46,7 +46,7 @@ final class HealthDataMapperTests: XCTestCase {
 		// Then
 		expect(pdfData) != nil
 		expect(pdfData?.heading) == "Medicijnen"
-		expect(pdfData?.subHeading) == "Opgeslagen op 15 jun 2025 om 17:06 uur"
+		expect(pdfData?.subHeading) == "Gemaakt op 15 jun 2025 om 17:06 uur"
 		expect(pdfData?.footer) == "Dit document is gemaakt met Mijn Gezondheidsoverzicht. Het bevat jouw medische gegevens,\nafkomstig van zorgaanbieders die jij hebt toegevoegd. Jij bent zelf verantwoordelijk voor wat je\nmet deze informatie doet. De gegevens zijn niet gecontroleerd op juistheid of volledigheid."
 		expect(pdfData?.tables).to(haveCount(1))
 		
