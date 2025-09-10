@@ -13,17 +13,17 @@ import Foundation
 // MARK: - NlCoreOrganizationTelecom
 public struct NlCoreOrganizationTelecom: Codable, Hashable, Sendable {
     public let profile: NlCoreContactpointProfile
-    public let system: NlCoreOrganizationTelecomSystem?
+    public let system: MgoCodeOfString?
     public let telecomType: MgoCodeableConcept?
-    public let use: NlCoreOrganizationTelecomSystem?
-    public let value: MgoString?
+    public let use: MgoCodeOfString?
+    public let value: PrimitiveValueTypeOfStringString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
         case system, telecomType, use, value
     }
 
-    public init(profile: NlCoreContactpointProfile, system: NlCoreOrganizationTelecomSystem?, telecomType: MgoCodeableConcept?, use: NlCoreOrganizationTelecomSystem?, value: MgoString?) {
+    public init(profile: NlCoreContactpointProfile, system: MgoCodeOfString?, telecomType: MgoCodeableConcept?, use: MgoCodeOfString?, value: PrimitiveValueTypeOfStringString?) {
         self.profile = profile
         self.system = system
         self.telecomType = telecomType
@@ -52,10 +52,10 @@ public extension NlCoreOrganizationTelecom {
 
     func with(
         profile: NlCoreContactpointProfile? = nil,
-        system: NlCoreOrganizationTelecomSystem?? = nil,
+        system: MgoCodeOfString?? = nil,
         telecomType: MgoCodeableConcept?? = nil,
-        use: NlCoreOrganizationTelecomSystem?? = nil,
-        value: MgoString?? = nil
+        use: MgoCodeOfString?? = nil,
+        value: PrimitiveValueTypeOfStringString?? = nil
     ) -> NlCoreOrganizationTelecom {
         return NlCoreOrganizationTelecom(
             profile: profile ?? self.profile,

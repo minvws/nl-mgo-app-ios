@@ -14,10 +14,10 @@ import Foundation
 public struct ZibMedicalDeviceRequest: Codable, Hashable, Sendable {
     public let codeCodeableConcept: MgoCodeableConcept?
     public let codeReference: MgoReference?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let occurrenceDateTime: MgoDateTime?
+    public let occurrenceDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let occurrencePeriod: MgoPeriod?
     public let occurrenceTiming: MgoTiming?
     public let performerType: ZibMedicalDeviceRequestPerformerType
@@ -34,7 +34,7 @@ public struct ZibMedicalDeviceRequest: Codable, Hashable, Sendable {
         case requester, resourceType, status, subject
     }
 
-    public init(codeCodeableConcept: MgoCodeableConcept?, codeReference: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, occurrenceDateTime: MgoDateTime?, occurrencePeriod: MgoPeriod?, occurrenceTiming: MgoTiming?, performerType: ZibMedicalDeviceRequestPerformerType, profile: ZibMedicalDeviceRequestProfile, referenceID: String, requester: MgoReference?, resourceType: String, status: ZibMedicalDeviceRequestStatus, subject: MgoReference?) {
+    public init(codeCodeableConcept: MgoCodeableConcept?, codeReference: MgoReference?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, occurrenceDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, occurrencePeriod: MgoPeriod?, occurrenceTiming: MgoTiming?, performerType: ZibMedicalDeviceRequestPerformerType, profile: ZibMedicalDeviceRequestProfile, referenceID: String, requester: MgoReference?, resourceType: String, status: ZibMedicalDeviceRequestStatus, subject: MgoReference?) {
         self.codeCodeableConcept = codeCodeableConcept
         self.codeReference = codeReference
         self.fhirVersion = fhirVersion
@@ -74,10 +74,10 @@ public extension ZibMedicalDeviceRequest {
     func with(
         codeCodeableConcept: MgoCodeableConcept?? = nil,
         codeReference: MgoReference?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        occurrenceDateTime: MgoDateTime?? = nil,
+        occurrenceDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         occurrencePeriod: MgoPeriod?? = nil,
         occurrenceTiming: MgoTiming?? = nil,
         performerType: ZibMedicalDeviceRequestPerformerType? = nil,

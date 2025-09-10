@@ -16,8 +16,8 @@ public struct R4NlCoreHealthProfessionalPractitionerName: Codable, Hashable, Sen
     public let family: TentacledFamily?
     public let given: IndigoGiven?
     public let period: MgoPeriod?
-    public let namePrefix, suffix: [MgoString]?
-    public let text: MgoString?
+    public let namePrefix, suffix: [PrimitiveValueTypeOfStringString]?
+    public let text: PrimitiveValueTypeOfStringString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
@@ -26,7 +26,7 @@ public struct R4NlCoreHealthProfessionalPractitionerName: Codable, Hashable, Sen
         case suffix, text
     }
 
-    public init(profile: PurpleProfile, family: TentacledFamily?, given: IndigoGiven?, period: MgoPeriod?, namePrefix: [MgoString]?, suffix: [MgoString]?, text: MgoString?) {
+    public init(profile: PurpleProfile, family: TentacledFamily?, given: IndigoGiven?, period: MgoPeriod?, namePrefix: [PrimitiveValueTypeOfStringString]?, suffix: [PrimitiveValueTypeOfStringString]?, text: PrimitiveValueTypeOfStringString?) {
         self.profile = profile
         self.family = family
         self.given = given
@@ -60,9 +60,9 @@ public extension R4NlCoreHealthProfessionalPractitionerName {
         family: TentacledFamily?? = nil,
         given: IndigoGiven?? = nil,
         period: MgoPeriod?? = nil,
-        namePrefix: [MgoString]?? = nil,
-        suffix: [MgoString]?? = nil,
-        text: MgoString?? = nil
+        namePrefix: [PrimitiveValueTypeOfStringString]?? = nil,
+        suffix: [PrimitiveValueTypeOfStringString]?? = nil,
+        text: PrimitiveValueTypeOfStringString?? = nil
     ) -> R4NlCoreHealthProfessionalPractitionerName {
         return R4NlCoreHealthProfessionalPractitionerName(
             profile: profile ?? self.profile,

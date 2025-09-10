@@ -12,14 +12,14 @@ import Foundation
 
 // MARK: - Reaction
 public struct Reaction: Codable, Hashable, Sendable {
-    public let description: MgoString?
+    public let description: PrimitiveValueTypeOfStringString?
     public let exposureRoute: MgoCodeableConcept?
     public let manifestation: [MgoCodeableConcept]?
-    public let onset: MgoDateTime?
+    public let onset: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let severity: Severity
     public let substance: MgoCodeableConcept?
 
-    public init(description: MgoString?, exposureRoute: MgoCodeableConcept?, manifestation: [MgoCodeableConcept]?, onset: MgoDateTime?, severity: Severity, substance: MgoCodeableConcept?) {
+    public init(description: PrimitiveValueTypeOfStringString?, exposureRoute: MgoCodeableConcept?, manifestation: [MgoCodeableConcept]?, onset: PrimitiveValueTypeOfDateTimeDateTimeString?, severity: Severity, substance: MgoCodeableConcept?) {
         self.description = description
         self.exposureRoute = exposureRoute
         self.manifestation = manifestation
@@ -48,10 +48,10 @@ public extension Reaction {
     }
 
     func with(
-        description: MgoString?? = nil,
+        description: PrimitiveValueTypeOfStringString?? = nil,
         exposureRoute: MgoCodeableConcept?? = nil,
         manifestation: [MgoCodeableConcept]?? = nil,
-        onset: MgoDateTime?? = nil,
+        onset: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         severity: Severity? = nil,
         substance: MgoCodeableConcept?? = nil
     ) -> Reaction {

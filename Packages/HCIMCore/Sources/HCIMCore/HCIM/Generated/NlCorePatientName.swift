@@ -15,15 +15,15 @@ public struct NlCorePatientName: Codable, Hashable, Sendable {
     public let profile: NlCoreHumannameProfile
     public let family: PurpleFamily
     public let given: PurpleGiven
-    public let humannameAssemblyOrder: NlCoreOrganizationTelecomSystem?
-    public let text: MgoString?
+    public let humannameAssemblyOrder: MgoCodeOfString?
+    public let text: PrimitiveValueTypeOfStringString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
         case family, given, humannameAssemblyOrder, text
     }
 
-    public init(profile: NlCoreHumannameProfile, family: PurpleFamily, given: PurpleGiven, humannameAssemblyOrder: NlCoreOrganizationTelecomSystem?, text: MgoString?) {
+    public init(profile: NlCoreHumannameProfile, family: PurpleFamily, given: PurpleGiven, humannameAssemblyOrder: MgoCodeOfString?, text: PrimitiveValueTypeOfStringString?) {
         self.profile = profile
         self.family = family
         self.given = given
@@ -54,8 +54,8 @@ public extension NlCorePatientName {
         profile: NlCoreHumannameProfile? = nil,
         family: PurpleFamily? = nil,
         given: PurpleGiven? = nil,
-        humannameAssemblyOrder: NlCoreOrganizationTelecomSystem?? = nil,
-        text: MgoString?? = nil
+        humannameAssemblyOrder: MgoCodeOfString?? = nil,
+        text: PrimitiveValueTypeOfStringString?? = nil
     ) -> NlCorePatientName {
         return NlCorePatientName(
             profile: profile ?? self.profile,

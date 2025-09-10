@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - ZibAllergyIntoleranceClinicalStatus
 public struct ZibAllergyIntoleranceClinicalStatus: Codable, Hashable, Sendable {
-    public let allergieStatusCodelijst: AllergieStatusCodelijst?
+    public let allergieStatusCodelijst: ExtensionValueOfMgoCodeableConcept?
 
-    public init(allergieStatusCodelijst: AllergieStatusCodelijst?) {
+    public init(allergieStatusCodelijst: ExtensionValueOfMgoCodeableConcept?) {
         self.allergieStatusCodelijst = allergieStatusCodelijst
     }
 }
@@ -38,7 +38,7 @@ public extension ZibAllergyIntoleranceClinicalStatus {
     }
 
     func with(
-        allergieStatusCodelijst: AllergieStatusCodelijst?? = nil
+        allergieStatusCodelijst: ExtensionValueOfMgoCodeableConcept?? = nil
     ) -> ZibAllergyIntoleranceClinicalStatus {
         return ZibAllergyIntoleranceClinicalStatus(
             allergieStatusCodelijst: allergieStatusCodelijst ?? self.allergieStatusCodelijst

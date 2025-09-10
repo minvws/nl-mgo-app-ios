@@ -15,11 +15,11 @@ public struct GpLaboratoryResult: Codable, Hashable, Sendable {
     public let basedOn: [MgoReference]?
     public let category: GpLaboratoryResultCategory
     public let code: MgoCodeableConcept?
-    public let comment: MgoString?
+    public let comment: PrimitiveValueTypeOfStringString?
     public let context: MgoReference?
-    public let effectiveDateTime: MgoDateTime?
+    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let effectivePeriod: MgoPeriod?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let interpretation: GpLaboratoryResultInterpretation
@@ -34,16 +34,16 @@ public struct GpLaboratoryResult: Codable, Hashable, Sendable {
     public let status: GpLaboratoryResultStatus
     public let subject: MgoReference?
     public let valueAttachment: MgoAttachment?
-    public let valueBoolean: MgoBoolean?
+    public let valueBoolean: PrimitiveValueTypeOfBooleanBoolean?
     public let valueCodeableConcept: MgoCodeableConcept?
-    public let valueDateTime: MgoDateTime?
+    public let valueDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let valuePeriod: MgoPeriod?
     public let valueQuantity: MgoQuantity?
     public let valueRange: MgoRange?
     public let valueRatio: MgoRatio?
     public let valueSampledData: MgoSampledData?
-    public let valueString: MgoString?
-    public let valueTime: MgoTime?
+    public let valueString: PrimitiveValueTypeOfStringString?
+    public let valueTime: PrimitiveValueTypeOfTimeTimeString?
 
     public enum CodingKeys: String, CodingKey {
         case basedOn, category, code, comment, context, effectiveDateTime, effectivePeriod, fhirVersion, id, identifier, interpretation, method, performer, profile
@@ -51,7 +51,7 @@ public struct GpLaboratoryResult: Codable, Hashable, Sendable {
         case referenceRange, related, resourceType, specimen, status, subject, valueAttachment, valueBoolean, valueCodeableConcept, valueDateTime, valuePeriod, valueQuantity, valueRange, valueRatio, valueSampledData, valueString, valueTime
     }
 
-    public init(basedOn: [MgoReference]?, category: GpLaboratoryResultCategory, code: MgoCodeableConcept?, comment: MgoString?, context: MgoReference?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, interpretation: GpLaboratoryResultInterpretation, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: GpLaboratoryResultProfile, referenceID: String, referenceRange: [GpLaboratoryResultReferenceRange]?, related: [GpLaboratoryResultRelated]?, resourceType: String, specimen: MgoReference?, status: GpLaboratoryResultStatus, subject: MgoReference?, valueAttachment: MgoAttachment?, valueBoolean: MgoBoolean?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: MgoDateTime?, valuePeriod: MgoPeriod?, valueQuantity: MgoQuantity?, valueRange: MgoRange?, valueRatio: MgoRatio?, valueSampledData: MgoSampledData?, valueString: MgoString?, valueTime: MgoTime?) {
+    public init(basedOn: [MgoReference]?, category: GpLaboratoryResultCategory, code: MgoCodeableConcept?, comment: PrimitiveValueTypeOfStringString?, context: MgoReference?, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, interpretation: GpLaboratoryResultInterpretation, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: GpLaboratoryResultProfile, referenceID: String, referenceRange: [GpLaboratoryResultReferenceRange]?, related: [GpLaboratoryResultRelated]?, resourceType: String, specimen: MgoReference?, status: GpLaboratoryResultStatus, subject: MgoReference?, valueAttachment: MgoAttachment?, valueBoolean: PrimitiveValueTypeOfBooleanBoolean?, valueCodeableConcept: MgoCodeableConcept?, valueDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, valuePeriod: MgoPeriod?, valueQuantity: MgoQuantity?, valueRange: MgoRange?, valueRatio: MgoRatio?, valueSampledData: MgoSampledData?, valueString: PrimitiveValueTypeOfStringString?, valueTime: PrimitiveValueTypeOfTimeTimeString?) {
         self.basedOn = basedOn
         self.category = category
         self.code = code
@@ -109,11 +109,11 @@ public extension GpLaboratoryResult {
         basedOn: [MgoReference]?? = nil,
         category: GpLaboratoryResultCategory? = nil,
         code: MgoCodeableConcept?? = nil,
-        comment: MgoString?? = nil,
+        comment: PrimitiveValueTypeOfStringString?? = nil,
         context: MgoReference?? = nil,
-        effectiveDateTime: MgoDateTime?? = nil,
+        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         interpretation: GpLaboratoryResultInterpretation? = nil,
@@ -128,16 +128,16 @@ public extension GpLaboratoryResult {
         status: GpLaboratoryResultStatus? = nil,
         subject: MgoReference?? = nil,
         valueAttachment: MgoAttachment?? = nil,
-        valueBoolean: MgoBoolean?? = nil,
+        valueBoolean: PrimitiveValueTypeOfBooleanBoolean?? = nil,
         valueCodeableConcept: MgoCodeableConcept?? = nil,
-        valueDateTime: MgoDateTime?? = nil,
+        valueDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         valuePeriod: MgoPeriod?? = nil,
         valueQuantity: MgoQuantity?? = nil,
         valueRange: MgoRange?? = nil,
         valueRatio: MgoRatio?? = nil,
         valueSampledData: MgoSampledData?? = nil,
-        valueString: MgoString?? = nil,
-        valueTime: MgoTime?? = nil
+        valueString: PrimitiveValueTypeOfStringString?? = nil,
+        valueTime: PrimitiveValueTypeOfTimeTimeString?? = nil
     ) -> GpLaboratoryResult {
         return GpLaboratoryResult(
             basedOn: basedOn ?? self.basedOn,

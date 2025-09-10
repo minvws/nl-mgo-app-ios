@@ -14,14 +14,14 @@ import Foundation
 public struct R4NlCoreContactInformationEmailAddresses: Codable, Hashable, Sendable {
     public let profile: R4NlCoreContactInformationEmailAddressesProfile
     public let use: MgoCode?
-    public let value: MgoString?
+    public let value: PrimitiveValueTypeOfStringString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
         case use, value
     }
 
-    public init(profile: R4NlCoreContactInformationEmailAddressesProfile, use: MgoCode?, value: MgoString?) {
+    public init(profile: R4NlCoreContactInformationEmailAddressesProfile, use: MgoCode?, value: PrimitiveValueTypeOfStringString?) {
         self.profile = profile
         self.use = use
         self.value = value
@@ -49,7 +49,7 @@ public extension R4NlCoreContactInformationEmailAddresses {
     func with(
         profile: R4NlCoreContactInformationEmailAddressesProfile? = nil,
         use: MgoCode?? = nil,
-        value: MgoString?? = nil
+        value: PrimitiveValueTypeOfStringString?? = nil
     ) -> R4NlCoreContactInformationEmailAddresses {
         return R4NlCoreContactInformationEmailAddresses(
             profile: profile ?? self.profile,

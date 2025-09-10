@@ -1,13 +1,13 @@
 import Foundation
 
 public enum IndecentGiven: Codable, Hashable, Sendable {
-    case mgoStringArray([MgoString])
+    case primitiveValueTypeOfStringStringArray([PrimitiveValueTypeOfStringString])
     case r4NlCoreNameInformationGivenClass(R4NlCoreNameInformationGivenClass)
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let x = try? container.decode([MgoString].self) {
-            self = .mgoStringArray(x)
+        if let x = try? container.decode([PrimitiveValueTypeOfStringString].self) {
+            self = .primitiveValueTypeOfStringStringArray(x)
             return
         }
         if let x = try? container.decode(R4NlCoreNameInformationGivenClass.self) {
@@ -20,7 +20,7 @@ public enum IndecentGiven: Codable, Hashable, Sendable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case .mgoStringArray(let x):
+        case .primitiveValueTypeOfStringStringArray(let x):
             try container.encode(x)
         case .r4NlCoreNameInformationGivenClass(let x):
             try container.encode(x)

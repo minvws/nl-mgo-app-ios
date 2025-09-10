@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - ZibMedicalDeviceRequestStatus
 public struct ZibMedicalDeviceRequestStatus: Codable, Hashable, Sendable {
-    public let orderStatus: FluffyOrderStatus?
+    public let orderStatus: ExtensionValueOfMgoCodeableConcept?
 
-    public init(orderStatus: FluffyOrderStatus?) {
+    public init(orderStatus: ExtensionValueOfMgoCodeableConcept?) {
         self.orderStatus = orderStatus
     }
 }
@@ -38,7 +38,7 @@ public extension ZibMedicalDeviceRequestStatus {
     }
 
     func with(
-        orderStatus: FluffyOrderStatus?? = nil
+        orderStatus: ExtensionValueOfMgoCodeableConcept?? = nil
     ) -> ZibMedicalDeviceRequestStatus {
         return ZibMedicalDeviceRequestStatus(
             orderStatus: orderStatus ?? self.orderStatus

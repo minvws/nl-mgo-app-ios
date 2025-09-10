@@ -13,7 +13,7 @@ import Foundation
 // MARK: - ZibLaboratoryTestResultSubstance
 public struct ZibLaboratoryTestResultSubstance: Codable, Hashable, Sendable {
     public let code: MgoCodeableConcept?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let profile: ZibLaboratoryTestResultSubstanceProfile
     public let referenceID, resourceType: String
@@ -24,7 +24,7 @@ public struct ZibLaboratoryTestResultSubstance: Codable, Hashable, Sendable {
         case resourceType
     }
 
-    public init(code: MgoCodeableConcept?, fhirVersion: FhirVersionR3, id: String?, profile: ZibLaboratoryTestResultSubstanceProfile, referenceID: String, resourceType: String) {
+    public init(code: MgoCodeableConcept?, fhirVersion: NlCoreObservationFhirVersion, id: String?, profile: ZibLaboratoryTestResultSubstanceProfile, referenceID: String, resourceType: String) {
         self.code = code
         self.fhirVersion = fhirVersion
         self.id = id
@@ -54,7 +54,7 @@ public extension ZibLaboratoryTestResultSubstance {
 
     func with(
         code: MgoCodeableConcept?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         profile: ZibLaboratoryTestResultSubstanceProfile? = nil,
         referenceID: String? = nil,

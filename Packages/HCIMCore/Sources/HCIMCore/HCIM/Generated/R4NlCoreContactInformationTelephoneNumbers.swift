@@ -13,17 +13,17 @@ import Foundation
 // MARK: - R4NlCoreContactInformationTelephoneNumbers
 public struct R4NlCoreContactInformationTelephoneNumbers: Codable, Hashable, Sendable {
     public let profile: R4NlCoreContactInformationTelephoneNumbersProfile
-    public let comment: MgoString?
+    public let comment: PrimitiveValueTypeOfStringString?
     public let system: System
     public let use: MgoCode?
-    public let value: MgoString?
+    public let value: PrimitiveValueTypeOfStringString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
         case comment, system, use, value
     }
 
-    public init(profile: R4NlCoreContactInformationTelephoneNumbersProfile, comment: MgoString?, system: System, use: MgoCode?, value: MgoString?) {
+    public init(profile: R4NlCoreContactInformationTelephoneNumbersProfile, comment: PrimitiveValueTypeOfStringString?, system: System, use: MgoCode?, value: PrimitiveValueTypeOfStringString?) {
         self.profile = profile
         self.comment = comment
         self.system = system
@@ -52,10 +52,10 @@ public extension R4NlCoreContactInformationTelephoneNumbers {
 
     func with(
         profile: R4NlCoreContactInformationTelephoneNumbersProfile? = nil,
-        comment: MgoString?? = nil,
+        comment: PrimitiveValueTypeOfStringString?? = nil,
         system: System? = nil,
         use: MgoCode?? = nil,
-        value: MgoString?? = nil
+        value: PrimitiveValueTypeOfStringString?? = nil
     ) -> R4NlCoreContactInformationTelephoneNumbers {
         return R4NlCoreContactInformationTelephoneNumbers(
             profile: profile ?? self.profile,

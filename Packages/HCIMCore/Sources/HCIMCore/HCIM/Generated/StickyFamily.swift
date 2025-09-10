@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - StickyFamily
 public struct StickyFamily: Codable, Hashable, Sendable {
-    public let humannameOwnName, humannameOwnPrefix, humannamePartnerName, humannamePartnerPrefix: MgoString?
+    public let humannameOwnName, humannameOwnPrefix, humannamePartnerName, humannamePartnerPrefix: PrimitiveValueTypeOfStringString?
 
-    public init(humannameOwnName: MgoString?, humannameOwnPrefix: MgoString?, humannamePartnerName: MgoString?, humannamePartnerPrefix: MgoString?) {
+    public init(humannameOwnName: PrimitiveValueTypeOfStringString?, humannameOwnPrefix: PrimitiveValueTypeOfStringString?, humannamePartnerName: PrimitiveValueTypeOfStringString?, humannamePartnerPrefix: PrimitiveValueTypeOfStringString?) {
         self.humannameOwnName = humannameOwnName
         self.humannameOwnPrefix = humannameOwnPrefix
         self.humannamePartnerName = humannamePartnerName
@@ -41,10 +41,10 @@ public extension StickyFamily {
     }
 
     func with(
-        humannameOwnName: MgoString?? = nil,
-        humannameOwnPrefix: MgoString?? = nil,
-        humannamePartnerName: MgoString?? = nil,
-        humannamePartnerPrefix: MgoString?? = nil
+        humannameOwnName: PrimitiveValueTypeOfStringString?? = nil,
+        humannameOwnPrefix: PrimitiveValueTypeOfStringString?? = nil,
+        humannamePartnerName: PrimitiveValueTypeOfStringString?? = nil,
+        humannamePartnerPrefix: PrimitiveValueTypeOfStringString?? = nil
     ) -> StickyFamily {
         return StickyFamily(
             humannameOwnName: humannameOwnName ?? self.humannameOwnName,

@@ -16,8 +16,8 @@ public struct NameClass: Codable, Hashable, Sendable {
     public let family: R4NlCoreNameInformationFamily?
     public let given: IndecentGiven?
     public let period: MgoPeriod?
-    public let r4NlCoreNameInformationPrefix, suffix: [MgoString]?
-    public let text: MgoString?
+    public let r4NlCoreNameInformationPrefix, suffix: [PrimitiveValueTypeOfStringString]?
+    public let text: PrimitiveValueTypeOfStringString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
@@ -26,7 +26,7 @@ public struct NameClass: Codable, Hashable, Sendable {
         case suffix, text
     }
 
-    public init(profile: PurpleProfile, family: R4NlCoreNameInformationFamily?, given: IndecentGiven?, period: MgoPeriod?, r4NlCoreNameInformationPrefix: [MgoString]?, suffix: [MgoString]?, text: MgoString?) {
+    public init(profile: PurpleProfile, family: R4NlCoreNameInformationFamily?, given: IndecentGiven?, period: MgoPeriod?, r4NlCoreNameInformationPrefix: [PrimitiveValueTypeOfStringString]?, suffix: [PrimitiveValueTypeOfStringString]?, text: PrimitiveValueTypeOfStringString?) {
         self.profile = profile
         self.family = family
         self.given = given
@@ -60,9 +60,9 @@ public extension NameClass {
         family: R4NlCoreNameInformationFamily?? = nil,
         given: IndecentGiven?? = nil,
         period: MgoPeriod?? = nil,
-        r4NlCoreNameInformationPrefix: [MgoString]?? = nil,
-        suffix: [MgoString]?? = nil,
-        text: MgoString?? = nil
+        r4NlCoreNameInformationPrefix: [PrimitiveValueTypeOfStringString]?? = nil,
+        suffix: [PrimitiveValueTypeOfStringString]?? = nil,
+        text: PrimitiveValueTypeOfStringString?? = nil
     ) -> NameClass {
         return NameClass(
             profile: profile ?? self.profile,

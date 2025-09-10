@@ -15,9 +15,9 @@ public struct NlCorePatientContact: Codable, Hashable, Sendable {
     public let address: NlCoreAddress
     public let name: NlCoreHumanname
     public let relationship: PurpleRelationship
-    public let telecom: [PurpleTelecom]?
+    public let telecom: [ContactTelecom]?
 
-    public init(address: NlCoreAddress, name: NlCoreHumanname, relationship: PurpleRelationship, telecom: [PurpleTelecom]?) {
+    public init(address: NlCoreAddress, name: NlCoreHumanname, relationship: PurpleRelationship, telecom: [ContactTelecom]?) {
         self.address = address
         self.name = name
         self.relationship = relationship
@@ -47,7 +47,7 @@ public extension NlCorePatientContact {
         address: NlCoreAddress? = nil,
         name: NlCoreHumanname? = nil,
         relationship: PurpleRelationship? = nil,
-        telecom: [PurpleTelecom]?? = nil
+        telecom: [ContactTelecom]?? = nil
     ) -> NlCorePatientContact {
         return NlCorePatientContact(
             address: address ?? self.address,

@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - Criticality
 public struct Criticality: Codable, Hashable, Sendable {
-    public let criticalExtentCodelist: CriticalExtentCodelist?
+    public let criticalExtentCodelist: ExtensionValueOfMgoCodeableConcept?
 
-    public init(criticalExtentCodelist: CriticalExtentCodelist?) {
+    public init(criticalExtentCodelist: ExtensionValueOfMgoCodeableConcept?) {
         self.criticalExtentCodelist = criticalExtentCodelist
     }
 }
@@ -38,7 +38,7 @@ public extension Criticality {
     }
 
     func with(
-        criticalExtentCodelist: CriticalExtentCodelist?? = nil
+        criticalExtentCodelist: ExtensionValueOfMgoCodeableConcept?? = nil
     ) -> Criticality {
         return Criticality(
             criticalExtentCodelist: criticalExtentCodelist ?? self.criticalExtentCodelist

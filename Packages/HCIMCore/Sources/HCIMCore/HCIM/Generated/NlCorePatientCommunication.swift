@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - NlCorePatientCommunication
 public struct NlCorePatientCommunication: Codable, Hashable, Sendable {
-    public let comment: [PurpleComment]
+    public let comment: [ExtensionValueOfMgoString]
     public let language: MgoCodeableConcept?
     public let languageProficiency: PurpleLanguageProficiency
 
-    public init(comment: [PurpleComment], language: MgoCodeableConcept?, languageProficiency: PurpleLanguageProficiency) {
+    public init(comment: [ExtensionValueOfMgoString], language: MgoCodeableConcept?, languageProficiency: PurpleLanguageProficiency) {
         self.comment = comment
         self.language = language
         self.languageProficiency = languageProficiency
@@ -42,7 +42,7 @@ public extension NlCorePatientCommunication {
     }
 
     func with(
-        comment: [PurpleComment]? = nil,
+        comment: [ExtensionValueOfMgoString]? = nil,
         language: MgoCodeableConcept?? = nil,
         languageProficiency: PurpleLanguageProficiency? = nil
     ) -> NlCorePatientCommunication {

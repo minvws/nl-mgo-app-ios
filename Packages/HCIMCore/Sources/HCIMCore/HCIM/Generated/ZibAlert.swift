@@ -14,8 +14,8 @@ import Foundation
 public struct ZibAlert: Codable, Hashable, Sendable {
     public let author: MgoReference?
     public let category, code: MgoCodeableConcept?
-    public let concernReference: ConcernReference?
-    public let fhirVersion: FhirVersionR3
+    public let concernReference: ExtensionValueOfMgoReference?
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let patient: MgoReference?
@@ -29,7 +29,7 @@ public struct ZibAlert: Codable, Hashable, Sendable {
         case resourceType
     }
 
-    public init(author: MgoReference?, category: MgoCodeableConcept?, code: MgoCodeableConcept?, concernReference: ConcernReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, period: MgoPeriod?, profile: ZibAlertProfile, referenceID: String, resourceType: String) {
+    public init(author: MgoReference?, category: MgoCodeableConcept?, code: MgoCodeableConcept?, concernReference: ExtensionValueOfMgoReference?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, patient: MgoReference?, period: MgoPeriod?, profile: ZibAlertProfile, referenceID: String, resourceType: String) {
         self.author = author
         self.category = category
         self.code = code
@@ -67,8 +67,8 @@ public extension ZibAlert {
         author: MgoReference?? = nil,
         category: MgoCodeableConcept?? = nil,
         code: MgoCodeableConcept?? = nil,
-        concernReference: ConcernReference?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        concernReference: ExtensionValueOfMgoReference?? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         patient: MgoReference?? = nil,

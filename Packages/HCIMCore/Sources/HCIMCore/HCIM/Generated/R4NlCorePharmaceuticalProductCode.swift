@@ -13,9 +13,9 @@ import Foundation
 // MARK: - R4NlCorePharmaceuticalProductCode
 public struct R4NlCorePharmaceuticalProductCode: Codable, Hashable, Sendable {
     public let coding: [MgoCoding]?
-    public let text: MgoString?
+    public let text: PrimitiveValueTypeOfStringString?
 
-    public init(coding: [MgoCoding]?, text: MgoString?) {
+    public init(coding: [MgoCoding]?, text: PrimitiveValueTypeOfStringString?) {
         self.coding = coding
         self.text = text
     }
@@ -41,7 +41,7 @@ public extension R4NlCorePharmaceuticalProductCode {
 
     func with(
         coding: [MgoCoding]?? = nil,
-        text: MgoString?? = nil
+        text: PrimitiveValueTypeOfStringString?? = nil
     ) -> R4NlCorePharmaceuticalProductCode {
         return R4NlCorePharmaceuticalProductCode(
             coding: coding ?? self.coding,

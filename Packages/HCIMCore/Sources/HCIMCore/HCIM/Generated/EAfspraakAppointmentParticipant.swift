@@ -13,9 +13,9 @@ import Foundation
 // MARK: - EAfspraakAppointmentParticipant
 public struct EAfspraakAppointmentParticipant: Codable, Hashable, Sendable {
     public let actor: MgoReference?
-    public let participantRequired: EAfspraakAppointmentParticipantRequired?
-    public let status: EAfspraakAppointmentParticipantStatus?
-    public let type: PurpleType
+    public let participantRequired: MgoCodeOfRequiredOptionalInformationOnly?
+    public let status: MgoCodeOfAcceptedDeclinedTentativeNeedsAction?
+    public let type: TentacledType
 
     public enum CodingKeys: String, CodingKey {
         case actor
@@ -23,7 +23,7 @@ public struct EAfspraakAppointmentParticipant: Codable, Hashable, Sendable {
         case status, type
     }
 
-    public init(actor: MgoReference?, participantRequired: EAfspraakAppointmentParticipantRequired?, status: EAfspraakAppointmentParticipantStatus?, type: PurpleType) {
+    public init(actor: MgoReference?, participantRequired: MgoCodeOfRequiredOptionalInformationOnly?, status: MgoCodeOfAcceptedDeclinedTentativeNeedsAction?, type: TentacledType) {
         self.actor = actor
         self.participantRequired = participantRequired
         self.status = status
@@ -51,9 +51,9 @@ public extension EAfspraakAppointmentParticipant {
 
     func with(
         actor: MgoReference?? = nil,
-        participantRequired: EAfspraakAppointmentParticipantRequired?? = nil,
-        status: EAfspraakAppointmentParticipantStatus?? = nil,
-        type: PurpleType? = nil
+        participantRequired: MgoCodeOfRequiredOptionalInformationOnly?? = nil,
+        status: MgoCodeOfAcceptedDeclinedTentativeNeedsAction?? = nil,
+        type: TentacledType? = nil
     ) -> EAfspraakAppointmentParticipant {
         return EAfspraakAppointmentParticipant(
             actor: actor ?? self.actor,

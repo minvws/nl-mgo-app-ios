@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - ZibProcedureRequestStatus
 public struct ZibProcedureRequestStatus: Codable, Hashable, Sendable {
-    public let orderStatus: TentacledOrderStatus?
+    public let orderStatus: ExtensionValueOfMgoCodeableConcept?
 
-    public init(orderStatus: TentacledOrderStatus?) {
+    public init(orderStatus: ExtensionValueOfMgoCodeableConcept?) {
         self.orderStatus = orderStatus
     }
 }
@@ -38,7 +38,7 @@ public extension ZibProcedureRequestStatus {
     }
 
     func with(
-        orderStatus: TentacledOrderStatus?? = nil
+        orderStatus: ExtensionValueOfMgoCodeableConcept?? = nil
     ) -> ZibProcedureRequestStatus {
         return ZibProcedureRequestStatus(
             orderStatus: orderStatus ?? self.orderStatus

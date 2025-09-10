@@ -14,13 +14,13 @@ import Foundation
 public struct ZibLaboratoryTestResultSpecimenIsolate: Codable, Hashable, Sendable {
     public let collection: ZibLaboratoryTestResultSpecimenIsolateCollection
     public let container: [ZibLaboratoryTestResultSpecimenIsolateContainer]?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let note: [MgoAnnotation]?
     public let parent: [MgoReference]?
     public let profile: ZibLaboratoryTestResultSpecimenIsolateProfile
-    public let receivedTime: MgoDateTime?
+    public let receivedTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let referenceID, resourceType: String
     public let subject: MgoReference?
     public let type: MgoCodeableConcept?
@@ -31,7 +31,7 @@ public struct ZibLaboratoryTestResultSpecimenIsolate: Codable, Hashable, Sendabl
         case resourceType, subject, type
     }
 
-    public init(collection: ZibLaboratoryTestResultSpecimenIsolateCollection, container: [ZibLaboratoryTestResultSpecimenIsolateContainer]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, parent: [MgoReference]?, profile: ZibLaboratoryTestResultSpecimenIsolateProfile, receivedTime: MgoDateTime?, referenceID: String, resourceType: String, subject: MgoReference?, type: MgoCodeableConcept?) {
+    public init(collection: ZibLaboratoryTestResultSpecimenIsolateCollection, container: [ZibLaboratoryTestResultSpecimenIsolateContainer]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, note: [MgoAnnotation]?, parent: [MgoReference]?, profile: ZibLaboratoryTestResultSpecimenIsolateProfile, receivedTime: PrimitiveValueTypeOfDateTimeDateTimeString?, referenceID: String, resourceType: String, subject: MgoReference?, type: MgoCodeableConcept?) {
         self.collection = collection
         self.container = container
         self.fhirVersion = fhirVersion
@@ -69,13 +69,13 @@ public extension ZibLaboratoryTestResultSpecimenIsolate {
     func with(
         collection: ZibLaboratoryTestResultSpecimenIsolateCollection? = nil,
         container: [ZibLaboratoryTestResultSpecimenIsolateContainer]?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         note: [MgoAnnotation]?? = nil,
         parent: [MgoReference]?? = nil,
         profile: ZibLaboratoryTestResultSpecimenIsolateProfile? = nil,
-        receivedTime: MgoDateTime?? = nil,
+        receivedTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,
         subject: MgoReference?? = nil,
