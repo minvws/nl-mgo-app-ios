@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - ZibMedicalDeviceProduct
 public struct ZibMedicalDeviceProduct: Codable, Hashable, Sendable {
-    public let expirationDate: MgoDateTime?
-    public let fhirVersion: FhirVersionR3
+    public let expirationDate: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let lotNumber: MgoString?
+    public let lotNumber: PrimitiveValueTypeOfStringString?
     public let note: [MgoAnnotation]?
     public let patient: MgoReference?
     public let profile: ZibMedicalDeviceProductProfile
@@ -30,7 +30,7 @@ public struct ZibMedicalDeviceProduct: Codable, Hashable, Sendable {
         case resourceType, type, udi
     }
 
-    public init(expirationDate: MgoDateTime?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, lotNumber: MgoString?, note: [MgoAnnotation]?, patient: MgoReference?, profile: ZibMedicalDeviceProductProfile, referenceID: String, resourceType: String, type: MgoCodeableConcept?, udi: Udi) {
+    public init(expirationDate: PrimitiveValueTypeOfDateTimeDateTimeString?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, lotNumber: PrimitiveValueTypeOfStringString?, note: [MgoAnnotation]?, patient: MgoReference?, profile: ZibMedicalDeviceProductProfile, referenceID: String, resourceType: String, type: MgoCodeableConcept?, udi: Udi) {
         self.expirationDate = expirationDate
         self.fhirVersion = fhirVersion
         self.id = id
@@ -65,11 +65,11 @@ public extension ZibMedicalDeviceProduct {
     }
 
     func with(
-        expirationDate: MgoDateTime?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        expirationDate: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        lotNumber: MgoString?? = nil,
+        lotNumber: PrimitiveValueTypeOfStringString?? = nil,
         note: [MgoAnnotation]?? = nil,
         patient: MgoReference?? = nil,
         profile: ZibMedicalDeviceProductProfile? = nil,

@@ -82,7 +82,7 @@ download_hcimcore:
 	@mkdir -p tmp/hcimcore
 	
 	# Download
-	@cd Packages/GithubArtifactDownload/ && swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --workflow-id "114414377" --output ../../tmp/hcimcore/artifact.zip
+	@cd Packages/GithubArtifactDownload/ && swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --branch "main" --workflow-id "187656206" --output ../../tmp/hcimcore/artifact.zip
 	
 	# Unpack
 	@cd tmp/hcimcore && unzip artifact.zip
@@ -90,11 +90,29 @@ download_hcimcore:
 	
 	# Move Files
 	@rm -f packages/HCIMCore/Sources/HCIMCore/Resources/version.json && cp tmp/hcimcore/version.json packages/HCIMCore/Sources/HCIMCore/Resources/version.json
-	@rm -f packages/HCIMCore/Sources/HCIMCore/Resources/*.js && cp tmp/hcimcore/js/*.js packages/HCIMCore/Sources/HCIMCore/Resources/
+	@rm -f packages/HCIMCore/Sources/HCIMCore/Resources/*.js && cp tmp/hcimcore/mgo-hcim-api.iife.js packages/HCIMCore/Sources/HCIMCore/Resources/
 
 	# Generate HCIMs from schema/json/types.json
 	@rm -f packages/HCIMCore/Sources/HCIMCore/HCIM/Generated/*
-	@quicktype --src "./tmp/hcimcore/schema/json/types.json#/definitions/" --src-lang schema --access-level public --protocol hashable --sendable --multi-file-output --out ./Packages/HCIMCore/Sources/HCIMCore/HCIM/Generated/Types.swift --swift-5-support
+	@quicktype --src "./tmp/hcimcore/mgo-hcim-api.types.json#/definitions/" --src-lang schema --access-level public --protocol hashable --sendable --multi-file-output --out ./Packages/HCIMCore/Sources/HCIMCore/HCIM/Generated/Types.swift --swift-5-support
 
 	# Cleanup
 	@rm -rf "tmp/hcimcore"
+	
+download_shared_config:
+	@mkdir -p tmp/shared_config
+	
+	# Download
+	@cd Packages/GithubArtifactDownload/ && swift run GithubArtifactDownload --token ${GITHUB_API_KEY} --owner "minvws" --repository "nl-mgo-app-web-private" --branch "main" --workflow-id "187469215" --output ../../tmp/shared_config/artifact.zip
+	
+	# Unpack
+	@cd tmp/shared_config && unzip artifact.zip
+	@cd tmp/shared_config && mv *.tar.gz artifact.tar.gz && tar -xzvf artifact.tar.gz
+	
+	# Move Files
+	@cp tmp/shared_config/health-categories.json Sources/MGO/Features/HealthCategories/SharedHealthCategories/shared-health-categories.json
+	@cp tmp/shared_config/version.json packages/MGORepository/Sources/MGORepository/Resources/
+	@cp tmp/shared_config/data-services/*.json packages/MGORepository/Sources/MGORepository/Resources/
+
+	# Cleanup
+	@rm -rf tmp/shared_config

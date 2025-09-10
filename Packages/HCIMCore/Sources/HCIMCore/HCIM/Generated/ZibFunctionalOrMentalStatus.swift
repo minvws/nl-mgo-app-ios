@@ -13,13 +13,13 @@ import Foundation
 // MARK: - ZibFunctionalOrMentalStatus
 public struct ZibFunctionalOrMentalStatus: Codable, Hashable, Sendable {
     public let code: MgoCodeableConcept?
-    public let comment: MgoString?
-    public let effectiveDateTime: MgoDateTime?
+    public let comment: PrimitiveValueTypeOfStringString?
+    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let effectivePeriod: MgoPeriod?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let medicalDevice: [MedicalDevice]
+    public let medicalDevice: [ExtensionValueOfMgoReference]
     public let performer: [MgoReference]?
     public let profile: ZibFunctionalOrMentalStatusProfile
     public let referenceID, resourceType: String
@@ -32,7 +32,7 @@ public struct ZibFunctionalOrMentalStatus: Codable, Hashable, Sendable {
         case resourceType, subject, valueCodeableConcept
     }
 
-    public init(code: MgoCodeableConcept?, comment: MgoString?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, medicalDevice: [MedicalDevice], performer: [MgoReference]?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?) {
+    public init(code: MgoCodeableConcept?, comment: PrimitiveValueTypeOfStringString?, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, medicalDevice: [ExtensionValueOfMgoReference], performer: [MgoReference]?, profile: ZibFunctionalOrMentalStatusProfile, referenceID: String, resourceType: String, subject: MgoReference?, valueCodeableConcept: MgoCodeableConcept?) {
         self.code = code
         self.comment = comment
         self.effectiveDateTime = effectiveDateTime
@@ -70,13 +70,13 @@ public extension ZibFunctionalOrMentalStatus {
 
     func with(
         code: MgoCodeableConcept?? = nil,
-        comment: MgoString?? = nil,
-        effectiveDateTime: MgoDateTime?? = nil,
+        comment: PrimitiveValueTypeOfStringString?? = nil,
+        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        medicalDevice: [MedicalDevice]? = nil,
+        medicalDevice: [ExtensionValueOfMgoReference]? = nil,
         performer: [MgoReference]?? = nil,
         profile: ZibFunctionalOrMentalStatusProfile? = nil,
         referenceID: String? = nil,

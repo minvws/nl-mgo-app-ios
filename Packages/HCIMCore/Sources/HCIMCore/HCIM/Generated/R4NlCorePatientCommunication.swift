@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - R4NlCorePatientCommunication
 public struct R4NlCorePatientCommunication: Codable, Hashable, Sendable {
-    public let comment: [FluffyComment]
+    public let comment: [ExtensionValueOfMgoString]
     public let language: MgoCodeableConcept?
     public let languageProficiency: FluffyLanguageProficiency
 
-    public init(comment: [FluffyComment], language: MgoCodeableConcept?, languageProficiency: FluffyLanguageProficiency) {
+    public init(comment: [ExtensionValueOfMgoString], language: MgoCodeableConcept?, languageProficiency: FluffyLanguageProficiency) {
         self.comment = comment
         self.language = language
         self.languageProficiency = languageProficiency
@@ -42,7 +42,7 @@ public extension R4NlCorePatientCommunication {
     }
 
     func with(
-        comment: [FluffyComment]? = nil,
+        comment: [ExtensionValueOfMgoString]? = nil,
         language: MgoCodeableConcept?? = nil,
         languageProficiency: FluffyLanguageProficiency? = nil
     ) -> R4NlCorePatientCommunication {

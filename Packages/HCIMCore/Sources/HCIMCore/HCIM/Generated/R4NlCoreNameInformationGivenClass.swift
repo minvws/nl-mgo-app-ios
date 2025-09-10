@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - R4NlCoreNameInformationGivenClass
 public struct R4NlCoreNameInformationGivenClass: Codable, Hashable, Sendable {
-    public let birthName, initials: [MgoString]?
+    public let birthName, initials: [PrimitiveValueTypeOfStringString]?
 
-    public init(birthName: [MgoString]?, initials: [MgoString]?) {
+    public init(birthName: [PrimitiveValueTypeOfStringString]?, initials: [PrimitiveValueTypeOfStringString]?) {
         self.birthName = birthName
         self.initials = initials
     }
@@ -39,8 +39,8 @@ public extension R4NlCoreNameInformationGivenClass {
     }
 
     func with(
-        birthName: [MgoString]?? = nil,
-        initials: [MgoString]?? = nil
+        birthName: [PrimitiveValueTypeOfStringString]?? = nil,
+        initials: [PrimitiveValueTypeOfStringString]?? = nil
     ) -> R4NlCoreNameInformationGivenClass {
         return R4NlCoreNameInformationGivenClass(
             birthName: birthName ?? self.birthName,

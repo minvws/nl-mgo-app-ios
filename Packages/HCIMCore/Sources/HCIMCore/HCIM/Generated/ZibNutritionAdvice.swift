@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - ZibNutritionAdvice
 public struct ZibNutritionAdvice: Codable, Hashable, Sendable {
-    public let comment: ZibNutritionAdviceComment?
-    public let dateTime: MgoDateTime?
-    public let fhirVersion: FhirVersionR3
+    public let comment: ExtensionValueOfMgoString?
+    public let dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let oralDiet: OralDiet
@@ -28,7 +28,7 @@ public struct ZibNutritionAdvice: Codable, Hashable, Sendable {
         case resourceType
     }
 
-    public init(comment: ZibNutritionAdviceComment?, dateTime: MgoDateTime?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, oralDiet: OralDiet, orderer: MgoReference?, patient: MgoReference?, profile: ZibNutritionAdviceProfile, referenceID: String, resourceType: String) {
+    public init(comment: ExtensionValueOfMgoString?, dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, oralDiet: OralDiet, orderer: MgoReference?, patient: MgoReference?, profile: ZibNutritionAdviceProfile, referenceID: String, resourceType: String) {
         self.comment = comment
         self.dateTime = dateTime
         self.fhirVersion = fhirVersion
@@ -62,9 +62,9 @@ public extension ZibNutritionAdvice {
     }
 
     func with(
-        comment: ZibNutritionAdviceComment?? = nil,
-        dateTime: MgoDateTime?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        comment: ExtensionValueOfMgoString?? = nil,
+        dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         oralDiet: OralDiet? = nil,

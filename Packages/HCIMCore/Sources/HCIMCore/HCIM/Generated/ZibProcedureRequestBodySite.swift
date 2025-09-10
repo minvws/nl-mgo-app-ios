@@ -14,7 +14,7 @@ import Foundation
 public struct ZibProcedureRequestBodySite: Codable, Hashable, Sendable {
     public let type: MgoCodeableConceptType?
     public let coding: [MgoCodingProps]?
-    public let procedureLaterality: FluffyProcedureLaterality?
+    public let procedureLaterality: ExtensionValueOfMgoCodeableConcept?
     public let text: String?
 
     public enum CodingKeys: String, CodingKey {
@@ -22,7 +22,7 @@ public struct ZibProcedureRequestBodySite: Codable, Hashable, Sendable {
         case coding, procedureLaterality, text
     }
 
-    public init(type: MgoCodeableConceptType?, coding: [MgoCodingProps]?, procedureLaterality: FluffyProcedureLaterality?, text: String?) {
+    public init(type: MgoCodeableConceptType?, coding: [MgoCodingProps]?, procedureLaterality: ExtensionValueOfMgoCodeableConcept?, text: String?) {
         self.type = type
         self.coding = coding
         self.procedureLaterality = procedureLaterality
@@ -51,7 +51,7 @@ public extension ZibProcedureRequestBodySite {
     func with(
         type: MgoCodeableConceptType?? = nil,
         coding: [MgoCodingProps]?? = nil,
-        procedureLaterality: FluffyProcedureLaterality?? = nil,
+        procedureLaterality: ExtensionValueOfMgoCodeableConcept?? = nil,
         text: String?? = nil
     ) -> ZibProcedureRequestBodySite {
         return ZibProcedureRequestBodySite(

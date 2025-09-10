@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - Udi
 public struct Udi: Codable, Hashable, Sendable {
-    public let carrierHRF, deviceIdentifier: MgoString?
+    public let carrierHRF, deviceIdentifier: PrimitiveValueTypeOfStringString?
 
-    public init(carrierHRF: MgoString?, deviceIdentifier: MgoString?) {
+    public init(carrierHRF: PrimitiveValueTypeOfStringString?, deviceIdentifier: PrimitiveValueTypeOfStringString?) {
         self.carrierHRF = carrierHRF
         self.deviceIdentifier = deviceIdentifier
     }
@@ -39,8 +39,8 @@ public extension Udi {
     }
 
     func with(
-        carrierHRF: MgoString?? = nil,
-        deviceIdentifier: MgoString?? = nil
+        carrierHRF: PrimitiveValueTypeOfStringString?? = nil,
+        deviceIdentifier: PrimitiveValueTypeOfStringString?? = nil
     ) -> Udi {
         return Udi(
             carrierHRF: carrierHRF ?? self.carrierHRF,

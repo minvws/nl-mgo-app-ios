@@ -13,16 +13,16 @@ import Foundation
 // MARK: - R4NlCoreNameInformationGiven
 public struct R4NlCoreNameInformationGiven: Codable, Hashable, Sendable {
     public let profile: R4NlCoreNameInformationGivenProfile
-    public let given: [MgoString]?
+    public let given: [PrimitiveValueTypeOfStringString]?
     public let period: MgoPeriod?
-    public let text: MgoString?
+    public let text: PrimitiveValueTypeOfStringString?
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
         case given, period, text
     }
 
-    public init(profile: R4NlCoreNameInformationGivenProfile, given: [MgoString]?, period: MgoPeriod?, text: MgoString?) {
+    public init(profile: R4NlCoreNameInformationGivenProfile, given: [PrimitiveValueTypeOfStringString]?, period: MgoPeriod?, text: PrimitiveValueTypeOfStringString?) {
         self.profile = profile
         self.given = given
         self.period = period
@@ -50,9 +50,9 @@ public extension R4NlCoreNameInformationGiven {
 
     func with(
         profile: R4NlCoreNameInformationGivenProfile? = nil,
-        given: [MgoString]?? = nil,
+        given: [PrimitiveValueTypeOfStringString]?? = nil,
         period: MgoPeriod?? = nil,
-        text: MgoString?? = nil
+        text: PrimitiveValueTypeOfStringString?? = nil
     ) -> R4NlCoreNameInformationGiven {
         return R4NlCoreNameInformationGiven(
             profile: profile ?? self.profile,

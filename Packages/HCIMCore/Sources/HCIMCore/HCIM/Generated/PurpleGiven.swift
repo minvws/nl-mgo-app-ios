@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - PurpleGiven
 public struct PurpleGiven: Codable, Hashable, Sendable {
-    public let birthName, callName, initials: [MgoString]?
+    public let birthName, callName, initials: [PrimitiveValueTypeOfStringString]?
 
-    public init(birthName: [MgoString]?, callName: [MgoString]?, initials: [MgoString]?) {
+    public init(birthName: [PrimitiveValueTypeOfStringString]?, callName: [PrimitiveValueTypeOfStringString]?, initials: [PrimitiveValueTypeOfStringString]?) {
         self.birthName = birthName
         self.callName = callName
         self.initials = initials
@@ -40,9 +40,9 @@ public extension PurpleGiven {
     }
 
     func with(
-        birthName: [MgoString]?? = nil,
-        callName: [MgoString]?? = nil,
-        initials: [MgoString]?? = nil
+        birthName: [PrimitiveValueTypeOfStringString]?? = nil,
+        callName: [PrimitiveValueTypeOfStringString]?? = nil,
+        initials: [PrimitiveValueTypeOfStringString]?? = nil
     ) -> PurpleGiven {
         return PurpleGiven(
             birthName: birthName ?? self.birthName,

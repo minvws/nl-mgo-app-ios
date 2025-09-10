@@ -12,12 +12,10 @@ import Foundation
 
 // MARK: - TentacledType
 public struct TentacledType: Codable, Hashable, Sendable {
-    public let coding: [MgoCodingProps]
-    public let text: String?
+    public let healthProfessionalRole: [MgoCodeableConcept]?
 
-    public init(coding: [MgoCodingProps], text: String?) {
-        self.coding = coding
-        self.text = text
+    public init(healthProfessionalRole: [MgoCodeableConcept]?) {
+        self.healthProfessionalRole = healthProfessionalRole
     }
 }
 
@@ -40,12 +38,10 @@ public extension TentacledType {
     }
 
     func with(
-        coding: [MgoCodingProps]? = nil,
-        text: String?? = nil
+        healthProfessionalRole: [MgoCodeableConcept]?? = nil
     ) -> TentacledType {
         return TentacledType(
-            coding: coding ?? self.coding,
-            text: text ?? self.text
+            healthProfessionalRole: healthProfessionalRole ?? self.healthProfessionalRole
         )
     }
 

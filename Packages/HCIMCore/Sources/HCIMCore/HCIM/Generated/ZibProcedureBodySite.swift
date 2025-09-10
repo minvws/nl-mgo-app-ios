@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - ZibProcedureBodySite
 public struct ZibProcedureBodySite: Codable, Hashable, Sendable {
-    public let procedureLaterality: PurpleProcedureLaterality?
+    public let procedureLaterality: ExtensionValueOfMgoCodeableConcept?
 
-    public init(procedureLaterality: PurpleProcedureLaterality?) {
+    public init(procedureLaterality: ExtensionValueOfMgoCodeableConcept?) {
         self.procedureLaterality = procedureLaterality
     }
 }
@@ -38,7 +38,7 @@ public extension ZibProcedureBodySite {
     }
 
     func with(
-        procedureLaterality: PurpleProcedureLaterality?? = nil
+        procedureLaterality: ExtensionValueOfMgoCodeableConcept?? = nil
     ) -> ZibProcedureBodySite {
         return ZibProcedureBodySite(
             procedureLaterality: procedureLaterality ?? self.procedureLaterality

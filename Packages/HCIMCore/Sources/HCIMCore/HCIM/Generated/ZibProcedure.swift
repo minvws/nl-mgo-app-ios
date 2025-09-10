@@ -15,14 +15,14 @@ public struct ZibProcedure: Codable, Hashable, Sendable {
     public let basedOn: [MgoReference]?
     public let bodySite: [ZibProcedureBodySite]?
     public let code: MgoCodeableConcept?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let focalDevice: [FocalDevice]?
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let location: MgoReference?
     public let performedPeriod: MgoPeriod?
-    public let performer: [ZibProcedurePerformer]?
-    public let procedureMethod: ProcedureMethod?
+    public let performer: [Performer]?
+    public let procedureMethod: ExtensionValueOfMgoCodeableConcept?
     public let profile: ZibProcedureProfile
     public let reasonReference: [MgoReference]?
     public let referenceID: String
@@ -36,7 +36,7 @@ public struct ZibProcedure: Codable, Hashable, Sendable {
         case report, resourceType, subject
     }
 
-    public init(basedOn: [MgoReference]?, bodySite: [ZibProcedureBodySite]?, code: MgoCodeableConcept?, fhirVersion: FhirVersionR3, focalDevice: [FocalDevice]?, id: String?, identifier: [MgoIdentifier]?, location: MgoReference?, performedPeriod: MgoPeriod?, performer: [ZibProcedurePerformer]?, procedureMethod: ProcedureMethod?, profile: ZibProcedureProfile, reasonReference: [MgoReference]?, referenceID: String, report: [MgoReference]?, resourceType: String, subject: MgoReference?) {
+    public init(basedOn: [MgoReference]?, bodySite: [ZibProcedureBodySite]?, code: MgoCodeableConcept?, fhirVersion: NlCoreObservationFhirVersion, focalDevice: [FocalDevice]?, id: String?, identifier: [MgoIdentifier]?, location: MgoReference?, performedPeriod: MgoPeriod?, performer: [Performer]?, procedureMethod: ExtensionValueOfMgoCodeableConcept?, profile: ZibProcedureProfile, reasonReference: [MgoReference]?, referenceID: String, report: [MgoReference]?, resourceType: String, subject: MgoReference?) {
         self.basedOn = basedOn
         self.bodySite = bodySite
         self.code = code
@@ -79,14 +79,14 @@ public extension ZibProcedure {
         basedOn: [MgoReference]?? = nil,
         bodySite: [ZibProcedureBodySite]?? = nil,
         code: MgoCodeableConcept?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         focalDevice: [FocalDevice]?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         location: MgoReference?? = nil,
         performedPeriod: MgoPeriod?? = nil,
-        performer: [ZibProcedurePerformer]?? = nil,
-        procedureMethod: ProcedureMethod?? = nil,
+        performer: [Performer]?? = nil,
+        procedureMethod: ExtensionValueOfMgoCodeableConcept?? = nil,
         profile: ZibProcedureProfile? = nil,
         reasonReference: [MgoReference]?? = nil,
         referenceID: String? = nil,

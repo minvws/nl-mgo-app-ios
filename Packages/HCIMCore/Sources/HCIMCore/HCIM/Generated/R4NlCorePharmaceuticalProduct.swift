@@ -14,7 +14,7 @@ import Foundation
 public struct R4NlCorePharmaceuticalProduct: Codable, Hashable, Sendable {
     public let batch: Batch
     public let code: R4NlCorePharmaceuticalProductCode
-    public let fhirVersion: FhirVersionR4
+    public let fhirVersion: R4NlCoreHealthcareProviderFhirVersion
     public let form: MgoCodeableConcept?
     public let id: String?
     public let identifier: [MgoIdentifier]?
@@ -28,7 +28,7 @@ public struct R4NlCorePharmaceuticalProduct: Codable, Hashable, Sendable {
         case resourceType
     }
 
-    public init(batch: Batch, code: R4NlCorePharmaceuticalProductCode, fhirVersion: FhirVersionR4, form: MgoCodeableConcept?, id: String?, identifier: [MgoIdentifier]?, ingredient: [R4NlCorePharmaceuticalProductIngredient]?, profile: R4NlCorePharmaceuticalProductProfile, referenceID: String, resourceType: String) {
+    public init(batch: Batch, code: R4NlCorePharmaceuticalProductCode, fhirVersion: R4NlCoreHealthcareProviderFhirVersion, form: MgoCodeableConcept?, id: String?, identifier: [MgoIdentifier]?, ingredient: [R4NlCorePharmaceuticalProductIngredient]?, profile: R4NlCorePharmaceuticalProductProfile, referenceID: String, resourceType: String) {
         self.batch = batch
         self.code = code
         self.fhirVersion = fhirVersion
@@ -63,7 +63,7 @@ public extension R4NlCorePharmaceuticalProduct {
     func with(
         batch: Batch? = nil,
         code: R4NlCorePharmaceuticalProductCode? = nil,
-        fhirVersion: FhirVersionR4? = nil,
+        fhirVersion: R4NlCoreHealthcareProviderFhirVersion? = nil,
         form: MgoCodeableConcept?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,

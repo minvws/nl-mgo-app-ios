@@ -13,7 +13,7 @@ import Foundation
 // MARK: - NlCorePatientGender
 public struct NlCorePatientGender: Codable, Hashable, Sendable {
     public let type: MgoStringType?
-    public let geslachtCodelijst: GeslachtCodelijst?
+    public let geslachtCodelijst: ExtensionValueOfMgoCodeableConcept?
     public let value: String?
 
     public enum CodingKeys: String, CodingKey {
@@ -21,7 +21,7 @@ public struct NlCorePatientGender: Codable, Hashable, Sendable {
         case geslachtCodelijst, value
     }
 
-    public init(type: MgoStringType?, geslachtCodelijst: GeslachtCodelijst?, value: String?) {
+    public init(type: MgoStringType?, geslachtCodelijst: ExtensionValueOfMgoCodeableConcept?, value: String?) {
         self.type = type
         self.geslachtCodelijst = geslachtCodelijst
         self.value = value
@@ -48,7 +48,7 @@ public extension NlCorePatientGender {
 
     func with(
         type: MgoStringType?? = nil,
-        geslachtCodelijst: GeslachtCodelijst?? = nil,
+        geslachtCodelijst: ExtensionValueOfMgoCodeableConcept?? = nil,
         value: String?? = nil
     ) -> NlCorePatientGender {
         return NlCorePatientGender(

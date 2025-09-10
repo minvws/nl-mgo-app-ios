@@ -13,11 +13,11 @@ import Foundation
 // MARK: - ZibBloodPressure
 public struct ZibBloodPressure: Codable, Hashable, Sendable {
     public let bodySite: MgoCodeableConcept?
-    public let comment: MgoString?
+    public let comment: PrimitiveValueTypeOfStringString?
     public let component: ZibBloodPressureComponent?
-    public let effectiveDateTime: MgoDateTime?
+    public let effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let effectivePeriod: MgoPeriod?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let method: MgoCodeableConcept?
@@ -32,7 +32,7 @@ public struct ZibBloodPressure: Codable, Hashable, Sendable {
         case resourceType, subject
     }
 
-    public init(bodySite: MgoCodeableConcept?, comment: MgoString?, component: ZibBloodPressureComponent?, effectiveDateTime: MgoDateTime?, effectivePeriod: MgoPeriod?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: ZibBloodPressureProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
+    public init(bodySite: MgoCodeableConcept?, comment: PrimitiveValueTypeOfStringString?, component: ZibBloodPressureComponent?, effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, effectivePeriod: MgoPeriod?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, method: MgoCodeableConcept?, performer: [MgoReference]?, profile: ZibBloodPressureProfile, referenceID: String, resourceType: String, subject: MgoReference?) {
         self.bodySite = bodySite
         self.comment = comment
         self.component = component
@@ -70,11 +70,11 @@ public extension ZibBloodPressure {
 
     func with(
         bodySite: MgoCodeableConcept?? = nil,
-        comment: MgoString?? = nil,
+        comment: PrimitiveValueTypeOfStringString?? = nil,
         component: ZibBloodPressureComponent?? = nil,
-        effectiveDateTime: MgoDateTime?? = nil,
+        effectiveDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         effectivePeriod: MgoPeriod?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         method: MgoCodeableConcept?? = nil,

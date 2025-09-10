@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - Severity
 public struct Severity: Codable, Hashable, Sendable {
-    public let severityCodelist: [SeverityCodelist]
+    public let severityCodelist: [ExtensionValueOfMgoCodeableConcept]
 
-    public init(severityCodelist: [SeverityCodelist]) {
+    public init(severityCodelist: [ExtensionValueOfMgoCodeableConcept]) {
         self.severityCodelist = severityCodelist
     }
 }
@@ -38,7 +38,7 @@ public extension Severity {
     }
 
     func with(
-        severityCodelist: [SeverityCodelist]? = nil
+        severityCodelist: [ExtensionValueOfMgoCodeableConcept]? = nil
     ) -> Severity {
         return Severity(
             severityCodelist: severityCodelist ?? self.severityCodelist

@@ -16,14 +16,14 @@ public struct R4NlCorePatientContact: Codable, Hashable, Sendable {
     public let address: R4NlCoreAddressInformation
     public let name: NameClass
     public let relationship: FluffyRelationship
-    public let telecom: FluffyTelecom
+    public let telecom: R4NlCoreContactInformation
 
     public enum CodingKeys: String, CodingKey {
         case profile = "_profile"
         case address, name, relationship, telecom
     }
 
-    public init(profile: ContactProfile, address: R4NlCoreAddressInformation, name: NameClass, relationship: FluffyRelationship, telecom: FluffyTelecom) {
+    public init(profile: ContactProfile, address: R4NlCoreAddressInformation, name: NameClass, relationship: FluffyRelationship, telecom: R4NlCoreContactInformation) {
         self.profile = profile
         self.address = address
         self.name = name
@@ -55,7 +55,7 @@ public extension R4NlCorePatientContact {
         address: R4NlCoreAddressInformation? = nil,
         name: NameClass? = nil,
         relationship: FluffyRelationship? = nil,
-        telecom: FluffyTelecom? = nil
+        telecom: R4NlCoreContactInformation? = nil
     ) -> R4NlCorePatientContact {
         return R4NlCorePatientContact(
             profile: profile ?? self.profile,

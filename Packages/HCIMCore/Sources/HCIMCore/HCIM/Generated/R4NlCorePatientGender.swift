@@ -12,9 +12,9 @@ import Foundation
 
 // MARK: - R4NlCorePatientGender
 public struct R4NlCorePatientGender: Codable, Hashable, Sendable {
-    public let genderCodelist: GenderCodelist?
+    public let genderCodelist: ExtensionValueOfMgoCodeableConcept?
 
-    public init(genderCodelist: GenderCodelist?) {
+    public init(genderCodelist: ExtensionValueOfMgoCodeableConcept?) {
         self.genderCodelist = genderCodelist
     }
 }
@@ -38,7 +38,7 @@ public extension R4NlCorePatientGender {
     }
 
     func with(
-        genderCodelist: GenderCodelist?? = nil
+        genderCodelist: ExtensionValueOfMgoCodeableConcept?? = nil
     ) -> R4NlCorePatientGender {
         return R4NlCorePatientGender(
             genderCodelist: genderCodelist ?? self.genderCodelist

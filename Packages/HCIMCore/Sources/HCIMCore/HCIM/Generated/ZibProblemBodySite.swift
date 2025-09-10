@@ -14,7 +14,7 @@ import Foundation
 public struct ZibProblemBodySite: Codable, Hashable, Sendable {
     public let type: MgoCodeableConceptType?
     public let coding: [MgoCodingProps]?
-    public let laterality: TentacledLaterality?
+    public let laterality: ExtensionValueOfMgoCodeableConcept?
     public let text: String?
 
     public enum CodingKeys: String, CodingKey {
@@ -22,7 +22,7 @@ public struct ZibProblemBodySite: Codable, Hashable, Sendable {
         case coding, laterality, text
     }
 
-    public init(type: MgoCodeableConceptType?, coding: [MgoCodingProps]?, laterality: TentacledLaterality?, text: String?) {
+    public init(type: MgoCodeableConceptType?, coding: [MgoCodingProps]?, laterality: ExtensionValueOfMgoCodeableConcept?, text: String?) {
         self.type = type
         self.coding = coding
         self.laterality = laterality
@@ -51,7 +51,7 @@ public extension ZibProblemBodySite {
     func with(
         type: MgoCodeableConceptType?? = nil,
         coding: [MgoCodingProps]?? = nil,
-        laterality: TentacledLaterality?? = nil,
+        laterality: ExtensionValueOfMgoCodeableConcept?? = nil,
         text: String?? = nil
     ) -> ZibProblemBodySite {
         return ZibProblemBodySite(

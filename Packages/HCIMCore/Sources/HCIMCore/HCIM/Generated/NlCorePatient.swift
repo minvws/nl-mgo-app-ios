@@ -13,24 +13,23 @@ import Foundation
 // MARK: - NlCorePatient
 public struct NlCorePatient: Codable, Hashable, Sendable {
     public let address: [NlCorePatientAddress]?
-    public let birthDate: MgoDate?
+    public let birthDate: PrimitiveValueTypeOfDateDateString?
     public let communication: [NlCorePatientCommunication]?
     public let contact: [NlCorePatientContact]?
-    public let deceasedBoolean: MgoBoolean?
-    public let deceasedDateTime: MgoDateTime?
-    public let fhirVersion: FhirVersionR3
+    public let deceasedBoolean: PrimitiveValueTypeOfBooleanBoolean?
+    public let deceasedDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let gender: NlCorePatientGender
     public let generalPractitioner: MgoReference?
     public let id: String?
     public let identifier: NlCorePatientIdentifier
-    public let legalStatus: [LegalStatus]
-    public let lifeStance: [LifeStance]
+    public let legalStatus, lifeStance: [ExtensionValueOfMgoCodeableConcept]
     public let maritalStatus: MgoCodeableConcept?
-    public let multipleBirthBoolean: MgoBoolean?
-    public let multipleBirthInteger: MgoInteger?
+    public let multipleBirthBoolean: PrimitiveValueTypeOfBooleanBoolean?
+    public let multipleBirthInteger: PrimitiveValueTypeOfIntegerNumber?
     public let name: [NlCorePatientName]?
-    public let nationality: [NlCorePatientNationality]
-    public let preferredPharmacy: PreferredPharmacy?
+    public let nationality: [ExtensionValueOfStructure0_02878912372541298]
+    public let preferredPharmacy: ExtensionValueOfMgoReference?
     public let profile: NlCorePatientProfile
     public let referenceID, resourceType: String
     public let telecom: [NlCorePatientTelecom]?
@@ -41,7 +40,7 @@ public struct NlCorePatient: Codable, Hashable, Sendable {
         case resourceType, telecom
     }
 
-    public init(address: [NlCorePatientAddress]?, birthDate: MgoDate?, communication: [NlCorePatientCommunication]?, contact: [NlCorePatientContact]?, deceasedBoolean: MgoBoolean?, deceasedDateTime: MgoDateTime?, fhirVersion: FhirVersionR3, gender: NlCorePatientGender, generalPractitioner: MgoReference?, id: String?, identifier: NlCorePatientIdentifier, legalStatus: [LegalStatus], lifeStance: [LifeStance], maritalStatus: MgoCodeableConcept?, multipleBirthBoolean: MgoBoolean?, multipleBirthInteger: MgoInteger?, name: [NlCorePatientName]?, nationality: [NlCorePatientNationality], preferredPharmacy: PreferredPharmacy?, profile: NlCorePatientProfile, referenceID: String, resourceType: String, telecom: [NlCorePatientTelecom]?) {
+    public init(address: [NlCorePatientAddress]?, birthDate: PrimitiveValueTypeOfDateDateString?, communication: [NlCorePatientCommunication]?, contact: [NlCorePatientContact]?, deceasedBoolean: PrimitiveValueTypeOfBooleanBoolean?, deceasedDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, fhirVersion: NlCoreObservationFhirVersion, gender: NlCorePatientGender, generalPractitioner: MgoReference?, id: String?, identifier: NlCorePatientIdentifier, legalStatus: [ExtensionValueOfMgoCodeableConcept], lifeStance: [ExtensionValueOfMgoCodeableConcept], maritalStatus: MgoCodeableConcept?, multipleBirthBoolean: PrimitiveValueTypeOfBooleanBoolean?, multipleBirthInteger: PrimitiveValueTypeOfIntegerNumber?, name: [NlCorePatientName]?, nationality: [ExtensionValueOfStructure0_02878912372541298], preferredPharmacy: ExtensionValueOfMgoReference?, profile: NlCorePatientProfile, referenceID: String, resourceType: String, telecom: [NlCorePatientTelecom]?) {
         self.address = address
         self.birthDate = birthDate
         self.communication = communication
@@ -88,24 +87,24 @@ public extension NlCorePatient {
 
     func with(
         address: [NlCorePatientAddress]?? = nil,
-        birthDate: MgoDate?? = nil,
+        birthDate: PrimitiveValueTypeOfDateDateString?? = nil,
         communication: [NlCorePatientCommunication]?? = nil,
         contact: [NlCorePatientContact]?? = nil,
-        deceasedBoolean: MgoBoolean?? = nil,
-        deceasedDateTime: MgoDateTime?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        deceasedBoolean: PrimitiveValueTypeOfBooleanBoolean?? = nil,
+        deceasedDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         gender: NlCorePatientGender? = nil,
         generalPractitioner: MgoReference?? = nil,
         id: String?? = nil,
         identifier: NlCorePatientIdentifier? = nil,
-        legalStatus: [LegalStatus]? = nil,
-        lifeStance: [LifeStance]? = nil,
+        legalStatus: [ExtensionValueOfMgoCodeableConcept]? = nil,
+        lifeStance: [ExtensionValueOfMgoCodeableConcept]? = nil,
         maritalStatus: MgoCodeableConcept?? = nil,
-        multipleBirthBoolean: MgoBoolean?? = nil,
-        multipleBirthInteger: MgoInteger?? = nil,
+        multipleBirthBoolean: PrimitiveValueTypeOfBooleanBoolean?? = nil,
+        multipleBirthInteger: PrimitiveValueTypeOfIntegerNumber?? = nil,
         name: [NlCorePatientName]?? = nil,
-        nationality: [NlCorePatientNationality]? = nil,
-        preferredPharmacy: PreferredPharmacy?? = nil,
+        nationality: [ExtensionValueOfStructure0_02878912372541298]? = nil,
+        preferredPharmacy: ExtensionValueOfMgoReference?? = nil,
         profile: NlCorePatientProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,

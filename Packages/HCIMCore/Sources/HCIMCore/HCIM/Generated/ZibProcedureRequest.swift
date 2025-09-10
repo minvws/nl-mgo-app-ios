@@ -14,10 +14,10 @@ import Foundation
 public struct ZibProcedureRequest: Codable, Hashable, Sendable {
     public let bodySite: [ZibProcedureRequestBodySite]?
     public let code: MgoCodeableConcept?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let occurrenceDateTime: MgoDateTime?
+    public let occurrenceDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let occurrencePeriod: MgoPeriod?
     public let occurrenceTiming: MgoTiming?
     public let performer: MgoReference?
@@ -36,7 +36,7 @@ public struct ZibProcedureRequest: Codable, Hashable, Sendable {
         case requester, resourceType, status, subject
     }
 
-    public init(bodySite: [ZibProcedureRequestBodySite]?, code: MgoCodeableConcept?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, occurrenceDateTime: MgoDateTime?, occurrencePeriod: MgoPeriod?, occurrenceTiming: MgoTiming?, performer: MgoReference?, performerType: ZibProcedureRequestPerformerType, profile: ZibProcedureRequestProfile, reasonReference: [MgoReference]?, referenceID: String, requester: Requester, resourceType: String, status: ZibProcedureRequestStatus, subject: MgoReference?) {
+    public init(bodySite: [ZibProcedureRequestBodySite]?, code: MgoCodeableConcept?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, occurrenceDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, occurrencePeriod: MgoPeriod?, occurrenceTiming: MgoTiming?, performer: MgoReference?, performerType: ZibProcedureRequestPerformerType, profile: ZibProcedureRequestProfile, reasonReference: [MgoReference]?, referenceID: String, requester: Requester, resourceType: String, status: ZibProcedureRequestStatus, subject: MgoReference?) {
         self.bodySite = bodySite
         self.code = code
         self.fhirVersion = fhirVersion
@@ -78,10 +78,10 @@ public extension ZibProcedureRequest {
     func with(
         bodySite: [ZibProcedureRequestBodySite]?? = nil,
         code: MgoCodeableConcept?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        occurrenceDateTime: MgoDateTime?? = nil,
+        occurrenceDateTime: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         occurrencePeriod: MgoPeriod?? = nil,
         occurrenceTiming: MgoTiming?? = nil,
         performer: MgoReference?? = nil,

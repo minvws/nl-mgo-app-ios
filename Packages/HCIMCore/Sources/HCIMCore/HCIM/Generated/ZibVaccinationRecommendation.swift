@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - ZibVaccinationRecommendation
 public struct ZibVaccinationRecommendation: Codable, Hashable, Sendable {
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
-    public let orderStatus: ZibVaccinationRecommendationOrderStatus?
+    public let orderStatus: ExtensionValueOfMgoCodeableConcept?
     public let profile: ZibVaccinationRecommendationProfile
     public let recommendation: [Recommendation]?
     public let referenceID, resourceType: String
@@ -27,7 +27,7 @@ public struct ZibVaccinationRecommendation: Codable, Hashable, Sendable {
         case resourceType, subject
     }
 
-    public init(fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, orderStatus: ZibVaccinationRecommendationOrderStatus?, profile: ZibVaccinationRecommendationProfile, recommendation: [Recommendation]?, referenceID: String, resourceType: String, subject: MgoReference?) {
+    public init(fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, orderStatus: ExtensionValueOfMgoCodeableConcept?, profile: ZibVaccinationRecommendationProfile, recommendation: [Recommendation]?, referenceID: String, resourceType: String, subject: MgoReference?) {
         self.fhirVersion = fhirVersion
         self.id = id
         self.identifier = identifier
@@ -59,10 +59,10 @@ public extension ZibVaccinationRecommendation {
     }
 
     func with(
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
-        orderStatus: ZibVaccinationRecommendationOrderStatus?? = nil,
+        orderStatus: ExtensionValueOfMgoCodeableConcept?? = nil,
         profile: ZibVaccinationRecommendationProfile? = nil,
         recommendation: [Recommendation]?? = nil,
         referenceID: String? = nil,

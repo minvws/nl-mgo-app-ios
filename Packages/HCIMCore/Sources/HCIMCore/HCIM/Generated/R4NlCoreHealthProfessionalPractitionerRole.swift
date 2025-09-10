@@ -12,13 +12,13 @@ import Foundation
 
 // MARK: - R4NlCoreHealthProfessionalPractitionerRole
 public struct R4NlCoreHealthProfessionalPractitionerRole: Codable, Hashable, Sendable {
-    public let fhirVersion: FhirVersionR4
+    public let fhirVersion: R4NlCoreHealthcareProviderFhirVersion
     public let id: String?
     public let organization: MgoReference?
     public let profile: R4NlCoreHealthProfessionalPractitionerRoleProfile
     public let referenceID, resourceType: String
     public let specialty: Specialty
-    public let telecom: R4NlCoreHealthProfessionalPractitionerRoleTelecom
+    public let telecom: R4NlCoreContactInformation
 
     public enum CodingKeys: String, CodingKey {
         case fhirVersion, id, organization, profile
@@ -26,7 +26,7 @@ public struct R4NlCoreHealthProfessionalPractitionerRole: Codable, Hashable, Sen
         case resourceType, specialty, telecom
     }
 
-    public init(fhirVersion: FhirVersionR4, id: String?, organization: MgoReference?, profile: R4NlCoreHealthProfessionalPractitionerRoleProfile, referenceID: String, resourceType: String, specialty: Specialty, telecom: R4NlCoreHealthProfessionalPractitionerRoleTelecom) {
+    public init(fhirVersion: R4NlCoreHealthcareProviderFhirVersion, id: String?, organization: MgoReference?, profile: R4NlCoreHealthProfessionalPractitionerRoleProfile, referenceID: String, resourceType: String, specialty: Specialty, telecom: R4NlCoreContactInformation) {
         self.fhirVersion = fhirVersion
         self.id = id
         self.organization = organization
@@ -57,14 +57,14 @@ public extension R4NlCoreHealthProfessionalPractitionerRole {
     }
 
     func with(
-        fhirVersion: FhirVersionR4? = nil,
+        fhirVersion: R4NlCoreHealthcareProviderFhirVersion? = nil,
         id: String?? = nil,
         organization: MgoReference?? = nil,
         profile: R4NlCoreHealthProfessionalPractitionerRoleProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,
         specialty: Specialty? = nil,
-        telecom: R4NlCoreHealthProfessionalPractitionerRoleTelecom? = nil
+        telecom: R4NlCoreContactInformation? = nil
     ) -> R4NlCoreHealthProfessionalPractitionerRole {
         return R4NlCoreHealthProfessionalPractitionerRole(
             fhirVersion: fhirVersion ?? self.fhirVersion,

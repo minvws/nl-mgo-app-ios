@@ -12,16 +12,16 @@ import Foundation
 
 // MARK: - ZibLaboratoryTestResultObservationStatus
 public struct ZibLaboratoryTestResultObservationStatus: Codable, Hashable, Sendable {
-    public let type: EAfspraakAppointmentParticipantRequiredType?
-    public let testResultStatus: FluffyTestResultStatus?
-    public let value: FluffyValue?
+    public let type: MgoCodeType?
+    public let testResultStatus: ExtensionValueOfMgoCodeableConcept?
+    public let value: PurpleValue?
 
     public enum CodingKeys: String, CodingKey {
         case type = "_type"
         case testResultStatus, value
     }
 
-    public init(type: EAfspraakAppointmentParticipantRequiredType?, testResultStatus: FluffyTestResultStatus?, value: FluffyValue?) {
+    public init(type: MgoCodeType?, testResultStatus: ExtensionValueOfMgoCodeableConcept?, value: PurpleValue?) {
         self.type = type
         self.testResultStatus = testResultStatus
         self.value = value
@@ -47,9 +47,9 @@ public extension ZibLaboratoryTestResultObservationStatus {
     }
 
     func with(
-        type: EAfspraakAppointmentParticipantRequiredType?? = nil,
-        testResultStatus: FluffyTestResultStatus?? = nil,
-        value: FluffyValue?? = nil
+        type: MgoCodeType?? = nil,
+        testResultStatus: ExtensionValueOfMgoCodeableConcept?? = nil,
+        value: PurpleValue?? = nil
     ) -> ZibLaboratoryTestResultObservationStatus {
         return ZibLaboratoryTestResultObservationStatus(
             type: type ?? self.type,

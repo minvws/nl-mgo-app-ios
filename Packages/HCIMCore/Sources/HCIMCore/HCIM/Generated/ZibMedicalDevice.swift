@@ -14,9 +14,8 @@ import Foundation
 public struct ZibMedicalDevice: Codable, Hashable, Sendable {
     public let bodySite: ZibMedicalDeviceBodySite
     public let device: MgoReference?
-    public let fhirVersion: FhirVersionR3
-    public let healthCareProvider: HealthCareProvider?
-    public let healthProfessional: HealthProfessional?
+    public let fhirVersion: NlCoreObservationFhirVersion
+    public let healthCareProvider, healthProfessional: ExtensionValueOfMgoReference?
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let indicationProblem: [IndicationProblem]?
@@ -32,7 +31,7 @@ public struct ZibMedicalDevice: Codable, Hashable, Sendable {
         case resourceType, source, subject, whenUsed
     }
 
-    public init(bodySite: ZibMedicalDeviceBodySite, device: MgoReference?, fhirVersion: FhirVersionR3, healthCareProvider: HealthCareProvider?, healthProfessional: HealthProfessional?, id: String?, identifier: [MgoIdentifier]?, indicationProblem: [IndicationProblem]?, note: [MgoAnnotation]?, profile: ZibMedicalDeviceProfile, referenceID: String, resourceType: String, source: MgoReference?, subject: MgoReference?, whenUsed: MgoPeriod?) {
+    public init(bodySite: ZibMedicalDeviceBodySite, device: MgoReference?, fhirVersion: NlCoreObservationFhirVersion, healthCareProvider: ExtensionValueOfMgoReference?, healthProfessional: ExtensionValueOfMgoReference?, id: String?, identifier: [MgoIdentifier]?, indicationProblem: [IndicationProblem]?, note: [MgoAnnotation]?, profile: ZibMedicalDeviceProfile, referenceID: String, resourceType: String, source: MgoReference?, subject: MgoReference?, whenUsed: MgoPeriod?) {
         self.bodySite = bodySite
         self.device = device
         self.fhirVersion = fhirVersion
@@ -72,9 +71,9 @@ public extension ZibMedicalDevice {
     func with(
         bodySite: ZibMedicalDeviceBodySite? = nil,
         device: MgoReference?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
-        healthCareProvider: HealthCareProvider?? = nil,
-        healthProfessional: HealthProfessional?? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
+        healthCareProvider: ExtensionValueOfMgoReference?? = nil,
+        healthProfessional: ExtensionValueOfMgoReference?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         indicationProblem: [IndicationProblem]?? = nil,

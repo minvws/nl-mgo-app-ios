@@ -13,14 +13,14 @@ import Foundation
 // MARK: - ZibPayer
 public struct ZibPayer: Codable, Hashable, Sendable {
     public let beneficiary: MgoReference?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let payor: [Payor]?
     public let period: MgoPeriod?
     public let profile: ZibPayerProfile
     public let referenceID, resourceType: String
-    public let subscriberID: MgoString?
+    public let subscriberID: PrimitiveValueTypeOfStringString?
     public let type: MgoCodeableConcept?
 
     public enum CodingKeys: String, CodingKey {
@@ -31,7 +31,7 @@ public struct ZibPayer: Codable, Hashable, Sendable {
         case type
     }
 
-    public init(beneficiary: MgoReference?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, payor: [Payor]?, period: MgoPeriod?, profile: ZibPayerProfile, referenceID: String, resourceType: String, subscriberID: MgoString?, type: MgoCodeableConcept?) {
+    public init(beneficiary: MgoReference?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, payor: [Payor]?, period: MgoPeriod?, profile: ZibPayerProfile, referenceID: String, resourceType: String, subscriberID: PrimitiveValueTypeOfStringString?, type: MgoCodeableConcept?) {
         self.beneficiary = beneficiary
         self.fhirVersion = fhirVersion
         self.id = id
@@ -66,7 +66,7 @@ public extension ZibPayer {
 
     func with(
         beneficiary: MgoReference?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         payor: [Payor]?? = nil,
@@ -74,7 +74,7 @@ public extension ZibPayer {
         profile: ZibPayerProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,
-        subscriberID: MgoString?? = nil,
+        subscriberID: PrimitiveValueTypeOfStringString?? = nil,
         type: MgoCodeableConcept?? = nil
     ) -> ZibPayer {
         return ZibPayer(

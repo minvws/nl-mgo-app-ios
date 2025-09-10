@@ -12,16 +12,16 @@ import Foundation
 
 // MARK: - EAfspraakAppointmentStatus
 public struct EAfspraakAppointmentStatus: Codable, Hashable, Sendable {
-    public let type: EAfspraakAppointmentParticipantRequiredType?
-    public let orderStatus: PurpleOrderStatus?
-    public let value: PurpleValue?
+    public let type: MgoCodeType?
+    public let orderStatus: ExtensionValueOfMgoCodeableConcept?
+    public let value: FluffyValue?
 
     public enum CodingKeys: String, CodingKey {
         case type = "_type"
         case orderStatus, value
     }
 
-    public init(type: EAfspraakAppointmentParticipantRequiredType?, orderStatus: PurpleOrderStatus?, value: PurpleValue?) {
+    public init(type: MgoCodeType?, orderStatus: ExtensionValueOfMgoCodeableConcept?, value: FluffyValue?) {
         self.type = type
         self.orderStatus = orderStatus
         self.value = value
@@ -47,9 +47,9 @@ public extension EAfspraakAppointmentStatus {
     }
 
     func with(
-        type: EAfspraakAppointmentParticipantRequiredType?? = nil,
-        orderStatus: PurpleOrderStatus?? = nil,
-        value: PurpleValue?? = nil
+        type: MgoCodeType?? = nil,
+        orderStatus: ExtensionValueOfMgoCodeableConcept?? = nil,
+        value: FluffyValue?? = nil
     ) -> EAfspraakAppointmentStatus {
         return EAfspraakAppointmentStatus(
             type: type ?? self.type,

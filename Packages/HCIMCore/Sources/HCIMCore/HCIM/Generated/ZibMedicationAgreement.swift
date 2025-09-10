@@ -12,26 +12,26 @@ import Foundation
 
 // MARK: - ZibMedicationAgreement
 public struct ZibMedicationAgreement: Codable, Hashable, Sendable {
-    public let additionalInformation: ZibMedicationAgreementAdditionalInformation?
-    public let authoredOn: MgoDateTime?
+    public let additionalInformation: ExtensionValueOfMgoCodeableConcept?
+    public let authoredOn: PrimitiveValueTypeOfDateTimeDateTimeString?
     public let dossageInstruction: [ZibMedicationAgreementDossageInstruction]?
-    public let fhirVersion: FhirVersionR3
+    public let fhirVersion: NlCoreObservationFhirVersion
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let medicationReference: MgoReference?
-    public let medicationTreatment: ZibMedicationAgreementMedicationTreatment?
+    public let medicationTreatment: ExtensionValueOfMgoIdentifier?
     public let note: [MgoAnnotation]?
     public let patient: MgoReference?
-    public let periodOfUse: ZibMedicationAgreementPeriodOfUse?
+    public let periodOfUse: ExtensionValueOfMgoPeriod?
     public let profile: ZibMedicationAgreementProfile
     public let reasonCode: [MgoCodeableConcept]?
     public let reasonReference: [MgoReference]?
     public let referenceID: String
-    public let repeatPeriodCyclicalSchedule: ZibMedicationAgreementRepeatPeriodCyclicalSchedule?
+    public let repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?
     public let requester: MgoReference?
     public let resourceType: String
-    public let stopType: ZibMedicationAgreementStopType?
-    public let usageDuration: ZibMedicationAgreementUsageDuration?
+    public let stopType: ExtensionValueOfMgoCodeableConcept?
+    public let usageDuration: ExtensionValueOfMgoDuration?
 
     public enum CodingKeys: String, CodingKey {
         case additionalInformation, authoredOn, dossageInstruction, fhirVersion, id, identifier, medicationReference, medicationTreatment, note, patient, periodOfUse, profile, reasonCode, reasonReference
@@ -39,7 +39,7 @@ public struct ZibMedicationAgreement: Codable, Hashable, Sendable {
         case repeatPeriodCyclicalSchedule, requester, resourceType, stopType, usageDuration
     }
 
-    public init(additionalInformation: ZibMedicationAgreementAdditionalInformation?, authoredOn: MgoDateTime?, dossageInstruction: [ZibMedicationAgreementDossageInstruction]?, fhirVersion: FhirVersionR3, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: ZibMedicationAgreementMedicationTreatment?, note: [MgoAnnotation]?, patient: MgoReference?, periodOfUse: ZibMedicationAgreementPeriodOfUse?, profile: ZibMedicationAgreementProfile, reasonCode: [MgoCodeableConcept]?, reasonReference: [MgoReference]?, referenceID: String, repeatPeriodCyclicalSchedule: ZibMedicationAgreementRepeatPeriodCyclicalSchedule?, requester: MgoReference?, resourceType: String, stopType: ZibMedicationAgreementStopType?, usageDuration: ZibMedicationAgreementUsageDuration?) {
+    public init(additionalInformation: ExtensionValueOfMgoCodeableConcept?, authoredOn: PrimitiveValueTypeOfDateTimeDateTimeString?, dossageInstruction: [ZibMedicationAgreementDossageInstruction]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: [MgoIdentifier]?, medicationReference: MgoReference?, medicationTreatment: ExtensionValueOfMgoIdentifier?, note: [MgoAnnotation]?, patient: MgoReference?, periodOfUse: ExtensionValueOfMgoPeriod?, profile: ZibMedicationAgreementProfile, reasonCode: [MgoCodeableConcept]?, reasonReference: [MgoReference]?, referenceID: String, repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?, requester: MgoReference?, resourceType: String, stopType: ExtensionValueOfMgoCodeableConcept?, usageDuration: ExtensionValueOfMgoDuration?) {
         self.additionalInformation = additionalInformation
         self.authoredOn = authoredOn
         self.dossageInstruction = dossageInstruction
@@ -82,26 +82,26 @@ public extension ZibMedicationAgreement {
     }
 
     func with(
-        additionalInformation: ZibMedicationAgreementAdditionalInformation?? = nil,
-        authoredOn: MgoDateTime?? = nil,
+        additionalInformation: ExtensionValueOfMgoCodeableConcept?? = nil,
+        authoredOn: PrimitiveValueTypeOfDateTimeDateTimeString?? = nil,
         dossageInstruction: [ZibMedicationAgreementDossageInstruction]?? = nil,
-        fhirVersion: FhirVersionR3? = nil,
+        fhirVersion: NlCoreObservationFhirVersion? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         medicationReference: MgoReference?? = nil,
-        medicationTreatment: ZibMedicationAgreementMedicationTreatment?? = nil,
+        medicationTreatment: ExtensionValueOfMgoIdentifier?? = nil,
         note: [MgoAnnotation]?? = nil,
         patient: MgoReference?? = nil,
-        periodOfUse: ZibMedicationAgreementPeriodOfUse?? = nil,
+        periodOfUse: ExtensionValueOfMgoPeriod?? = nil,
         profile: ZibMedicationAgreementProfile? = nil,
         reasonCode: [MgoCodeableConcept]?? = nil,
         reasonReference: [MgoReference]?? = nil,
         referenceID: String? = nil,
-        repeatPeriodCyclicalSchedule: ZibMedicationAgreementRepeatPeriodCyclicalSchedule?? = nil,
+        repeatPeriodCyclicalSchedule: ExtensionValueOfMgoDuration?? = nil,
         requester: MgoReference?? = nil,
         resourceType: String? = nil,
-        stopType: ZibMedicationAgreementStopType?? = nil,
-        usageDuration: ZibMedicationAgreementUsageDuration?? = nil
+        stopType: ExtensionValueOfMgoCodeableConcept?? = nil,
+        usageDuration: ExtensionValueOfMgoDuration?? = nil
     ) -> ZibMedicationAgreement {
         return ZibMedicationAgreement(
             additionalInformation: additionalInformation ?? self.additionalInformation,

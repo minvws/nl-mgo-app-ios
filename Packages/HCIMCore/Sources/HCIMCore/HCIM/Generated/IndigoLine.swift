@@ -12,10 +12,10 @@ import Foundation
 
 // MARK: - IndigoLine
 public struct IndigoLine: Codable, Hashable, Sendable {
-    public let additionalInformation, countryCode, houseNumber, houseNumberAddition: MgoString?
-    public let houseNumberIndiciation, houseNumberLetter, streetName: MgoString?
+    public let additionalInformation, countryCode, houseNumber, houseNumberAddition: PrimitiveValueTypeOfStringString?
+    public let houseNumberIndiciation, houseNumberLetter, streetName: PrimitiveValueTypeOfStringString?
 
-    public init(additionalInformation: MgoString?, countryCode: MgoString?, houseNumber: MgoString?, houseNumberAddition: MgoString?, houseNumberIndiciation: MgoString?, houseNumberLetter: MgoString?, streetName: MgoString?) {
+    public init(additionalInformation: PrimitiveValueTypeOfStringString?, countryCode: PrimitiveValueTypeOfStringString?, houseNumber: PrimitiveValueTypeOfStringString?, houseNumberAddition: PrimitiveValueTypeOfStringString?, houseNumberIndiciation: PrimitiveValueTypeOfStringString?, houseNumberLetter: PrimitiveValueTypeOfStringString?, streetName: PrimitiveValueTypeOfStringString?) {
         self.additionalInformation = additionalInformation
         self.countryCode = countryCode
         self.houseNumber = houseNumber
@@ -45,13 +45,13 @@ public extension IndigoLine {
     }
 
     func with(
-        additionalInformation: MgoString?? = nil,
-        countryCode: MgoString?? = nil,
-        houseNumber: MgoString?? = nil,
-        houseNumberAddition: MgoString?? = nil,
-        houseNumberIndiciation: MgoString?? = nil,
-        houseNumberLetter: MgoString?? = nil,
-        streetName: MgoString?? = nil
+        additionalInformation: PrimitiveValueTypeOfStringString?? = nil,
+        countryCode: PrimitiveValueTypeOfStringString?? = nil,
+        houseNumber: PrimitiveValueTypeOfStringString?? = nil,
+        houseNumberAddition: PrimitiveValueTypeOfStringString?? = nil,
+        houseNumberIndiciation: PrimitiveValueTypeOfStringString?? = nil,
+        houseNumberLetter: PrimitiveValueTypeOfStringString?? = nil,
+        streetName: PrimitiveValueTypeOfStringString?? = nil
     ) -> IndigoLine {
         return IndigoLine(
             additionalInformation: additionalInformation ?? self.additionalInformation,

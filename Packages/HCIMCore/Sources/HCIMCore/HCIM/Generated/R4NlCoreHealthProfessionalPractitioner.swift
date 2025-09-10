@@ -13,14 +13,14 @@ import Foundation
 // MARK: - R4NlCoreHealthProfessionalPractitioner
 public struct R4NlCoreHealthProfessionalPractitioner: Codable, Hashable, Sendable {
     public let address: [R4NlCoreHealthProfessionalPractitionerAddress]?
-    public let fhirVersion: FhirVersionR4
-    public let gender: R4NlCoreHealthProfessionalPractitionerGender?
+    public let fhirVersion: R4NlCoreHealthcareProviderFhirVersion
+    public let gender: MgoCodeOfUnknownMaleFemaleOther?
     public let id: String?
     public let identifier: [MgoIdentifier]?
     public let name: [R4NlCoreHealthProfessionalPractitionerName]?
     public let profile: R4NlCoreHealthProfessionalPractitionerProfile
     public let referenceID, resourceType: String
-    public let telecom: R4NlCoreHealthProfessionalPractitionerTelecom
+    public let telecom: R4NlCoreContactInformation
 
     public enum CodingKeys: String, CodingKey {
         case address, fhirVersion, gender, id, identifier, name, profile
@@ -28,7 +28,7 @@ public struct R4NlCoreHealthProfessionalPractitioner: Codable, Hashable, Sendabl
         case resourceType, telecom
     }
 
-    public init(address: [R4NlCoreHealthProfessionalPractitionerAddress]?, fhirVersion: FhirVersionR4, gender: R4NlCoreHealthProfessionalPractitionerGender?, id: String?, identifier: [MgoIdentifier]?, name: [R4NlCoreHealthProfessionalPractitionerName]?, profile: R4NlCoreHealthProfessionalPractitionerProfile, referenceID: String, resourceType: String, telecom: R4NlCoreHealthProfessionalPractitionerTelecom) {
+    public init(address: [R4NlCoreHealthProfessionalPractitionerAddress]?, fhirVersion: R4NlCoreHealthcareProviderFhirVersion, gender: MgoCodeOfUnknownMaleFemaleOther?, id: String?, identifier: [MgoIdentifier]?, name: [R4NlCoreHealthProfessionalPractitionerName]?, profile: R4NlCoreHealthProfessionalPractitionerProfile, referenceID: String, resourceType: String, telecom: R4NlCoreContactInformation) {
         self.address = address
         self.fhirVersion = fhirVersion
         self.gender = gender
@@ -62,15 +62,15 @@ public extension R4NlCoreHealthProfessionalPractitioner {
 
     func with(
         address: [R4NlCoreHealthProfessionalPractitionerAddress]?? = nil,
-        fhirVersion: FhirVersionR4? = nil,
-        gender: R4NlCoreHealthProfessionalPractitionerGender?? = nil,
+        fhirVersion: R4NlCoreHealthcareProviderFhirVersion? = nil,
+        gender: MgoCodeOfUnknownMaleFemaleOther?? = nil,
         id: String?? = nil,
         identifier: [MgoIdentifier]?? = nil,
         name: [R4NlCoreHealthProfessionalPractitionerName]?? = nil,
         profile: R4NlCoreHealthProfessionalPractitionerProfile? = nil,
         referenceID: String? = nil,
         resourceType: String? = nil,
-        telecom: R4NlCoreHealthProfessionalPractitionerTelecom? = nil
+        telecom: R4NlCoreContactInformation? = nil
     ) -> R4NlCoreHealthProfessionalPractitioner {
         return R4NlCoreHealthProfessionalPractitioner(
             address: address ?? self.address,
