@@ -334,9 +334,9 @@ struct HealthCategoriesView: View {
 			static let top: CGFloat = 44
 		}
 		enum Favorites {
-			static let cornerRadius: CGFloat = 12
+			static let cornerRadius: CGFloat = if #available(iOS 26.0, *) { 26 } else { 12 }
 			static let inset: CGFloat = 0.5
-			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 32, trailing: 0)
+			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let style = StrokeStyle(lineWidth: 1, dash: [5, 5])
 		}
 		enum Button {
@@ -497,17 +497,27 @@ struct HealthCategoriesView: View {
 	@ViewBuilder private func favorites() -> some View {
 		
 		Section {
+			Text("overview.favorites.heading")
+				.rijksoverheidStyle(font: .bold, style: .headline)
+				.foregroundColor(theme.contentPrimary)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityAddTraits(.isHeader)
+		}
+		.listRowBackground(Color.clear)
+		.listRowInsets(ViewTraits.List.rowInset)
+		
+		Section {
 			VStack(spacing: 0) {
 				
-				Text("overview.favorites.heading")
+				Text("overview.favorites.empty.heading")
 					.rijksoverheidStyle(font: .regular, style: .body)
 					.foregroundStyle(theme.contentPrimary)
 					.padding(.top, 2 * ViewTraits.General.padding)
 				
-				CallToActionButton("overview.favorites.action", style: .tertiary) {
+				CallToActionButton("overview.favorites.empty.action", style: .tertiary) {
 					viewModel.reduce(.showFavorites)
 				}
-				.accessibilityIdentifier("overview.favorites.action")
+				.accessibilityIdentifier("overview.favorites.empty.action")
 				.padding(.bottom, ViewTraits.General.padding)
 			}
 			.overlay(
@@ -601,7 +611,7 @@ struct HealthCategoriesView: View {
 		Button {
 			viewModel.reduce(.showFavorites)
 		} label: {
-			Label("overview.favorites.action", systemImage: "star")
+			Label("overview.favorites.empty.action", systemImage: "star")
 				.tint(theme.contentPrimary)
 		}
 	}

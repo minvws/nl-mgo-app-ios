@@ -159,8 +159,8 @@ final class HealthCategoriesViewTests: XCTestCase {
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 		
 		// When
-		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.favorites.action")
-		try view.view(CallToActionButton.self).find(button: "overview.favorites.action").tap()
+		let view = try sut.inspect().find(viewWithAccessibilityIdentifier: "overview.favorites.empty.action")
+		try view.view(CallToActionButton.self).find(button: "overview.favorites.empty.action").tap()
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
