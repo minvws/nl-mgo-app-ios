@@ -24,6 +24,9 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 	@Option(help: "The repository to fetch the latest artifact from")
 	public var repository: String
 	
+	@Option(help: "The branch to fetch the latest artifact from")
+	public var branch: String
+	
 	@Option(help: "The WorkFlow ID")
 	public var workflowID: String
 	
@@ -69,7 +72,7 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 				workflowId: Components.Parameters.WorkflowId.case2(workflowID)
 			),
 			query: Operations.ActionsListWorkflowRuns.Input.Query(
-				branch: "main",
+				branch: branch,
 				status: Components.Parameters.WorkflowRunStatus.completed
 			)
 		)
