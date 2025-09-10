@@ -73,7 +73,7 @@ struct GitHubArtifactDownload: AsyncParsableCommand {
 			),
 			query: Operations.ActionsListWorkflowRuns.Input.Query(
 				branch: branch,
-				status: Components.Parameters.WorkflowRunStatus.completed
+				status: Components.Parameters.WorkflowRunStatus.success
 			)
 		)
 		
