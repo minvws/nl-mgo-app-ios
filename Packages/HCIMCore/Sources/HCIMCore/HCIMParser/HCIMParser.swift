@@ -11,7 +11,7 @@ import MGODebug
 nonisolated public class HCIMParser {
 	
 	/// The namespace used in the JavaScript context
-	public static let nameSpace = "MgoFhirData"
+	public static let nameSpace = "HcimApi"
 	
 	/// the JavaScript Context
 	private var jsContext: JSContext?
@@ -64,7 +64,7 @@ nonisolated public class HCIMParser {
 			throw HCIMParserError.noJSContext
 		}
 		
-		guard let parserPath = Bundle.module.path(forResource: "mgo-fhir-data.iife", ofType: "js") else {
+		guard let parserPath = Bundle.module.path(forResource: "mgo-hcim-api.iife", ofType: "js") else {
 			logError("HCIMParser: The parser file could not be found")
 			throw HCIMParserError.parserNotFound
 		}
