@@ -7,8 +7,10 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 import PdfExport
+import PatientFriendlyTerms
 @testable import MGO
 
+// swiftlint:disable type_body_length
 final class HealthcareCoordinatorTests: XCTestCase {
 	
 	private var sut: HealthcareCoordinator!
@@ -470,4 +472,68 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 		expect(self.sut.rootStateForSheet) == nil
 	}
+	
+	@MainActor func test_coordinatorHandle_showPatientFriendlyTerm() {
+		
+		// Given
+		let term = PatientFriendlyTerm(name: "Name", description: "description", synonym: "synonym")
+		
+		// When
+		sut.handle(
+			Coordination.Action(
+				identifier: "showPatientFriendlyTerm",
+				params: [
+					"term": term
+				]
+			)
+		)
+		
+		// Then
+		expect(self.sut.path.isEmpty) == true
+		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.showPatientFriendlyTerm(term: term)
+	}
+	
+	@MainActor func test_coordinatorHandle_pathNotNil_showPatientFriendlyTerm() {
+		
+		// Given
+		sut.rootStateForSheet = HealthcareCoordination.State.manualLocalization
+		let term = PatientFriendlyTerm(name: "Name", description: "description", synonym: "synonym")
+		
+		// When
+		sut.handle(
+			Coordination.Action(
+				identifier: "showPatientFriendlyTerm",
+				params: [
+					"term": term
+				]
+			)
+		)
+		
+		// Then
+		expect(self.sut.path.isEmpty) == true
+		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.manualLocalization
+		expect(self.sut.pathForSheet) == NavigationStackBackport.NavigationPath(
+			[
+				HealthcareCoordination.State.showPatientFriendlyTerm(term: term)
+			]
+		)
+	}
+	
+	@MainActor func test_coordinatorHandle_showPatientFriendlyTerm_missingData() {
+		
+		// Given
+		
+		// When
+		sut.handle(
+			Coordination.Action(
+				identifier: "showPatientFriendlyTerm",
+				params: [:]
+			)
+		)
+		
+		// Then
+		expect(self.sut.path.isEmpty) == true
+		expect(self.sut.rootStateForSheet) == nil
+	}
 }
+// swiftlint: enable type_body_length
