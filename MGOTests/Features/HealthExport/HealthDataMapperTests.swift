@@ -41,7 +41,10 @@ final class HealthDataMapperTests: XCTestCase {
 		// Given
 		
 		// When
-		let pdfData = sut.map(Generator.healthCategory, data: [Generator.healthCategoryBlock()])
+		let pdfData = sut.map(
+			Generator.healthCategory,
+			data: [Generator.healthCategoryBlock()]
+		)
 		
 		// Then
 		expect(pdfData) != nil
