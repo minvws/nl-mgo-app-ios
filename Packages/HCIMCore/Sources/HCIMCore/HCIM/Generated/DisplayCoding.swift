@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let multipleValues = try MultipleValues(json)
+//   let displayCoding = try DisplayCoding(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,24 +10,22 @@
 
 import Foundation
 
-// MARK: - MultipleValues
-public struct MultipleValues: Codable, Hashable, Sendable {
-    public let display: [SingleValueDisplay]?
-    public let label: String
-    public let type: MultipleValuesType
+// MARK: - DisplayCoding
+public struct DisplayCoding: Codable, Hashable, Sendable {
+    public let code, display, system: String?
 
-    public init(display: [SingleValueDisplay]?, label: String, type: MultipleValuesType) {
+    public init(code: String?, display: String?, system: String?) {
+        self.code = code
         self.display = display
-        self.label = label
-        self.type = type
+        self.system = system
     }
 }
 
-// MARK: MultipleValues convenience initializers and mutators
+// MARK: DisplayCoding convenience initializers and mutators
 
-public extension MultipleValues {
+public extension DisplayCoding {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(MultipleValues.self, from: data)
+        self = try newJSONDecoder().decode(DisplayCoding.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -42,14 +40,14 @@ public extension MultipleValues {
     }
 
     func with(
-        display: [SingleValueDisplay]?? = nil,
-        label: String? = nil,
-        type: MultipleValuesType? = nil
-    ) -> MultipleValues {
-        return MultipleValues(
+        code: String?? = nil,
+        display: String?? = nil,
+        system: String?? = nil
+    ) -> DisplayCoding {
+        return DisplayCoding(
+            code: code ?? self.code,
             display: display ?? self.display,
-            label: label ?? self.label,
-            type: type ?? self.type
+            system: system ?? self.system
         )
     }
 

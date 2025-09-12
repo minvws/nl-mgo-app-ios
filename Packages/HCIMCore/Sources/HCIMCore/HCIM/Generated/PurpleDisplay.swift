@@ -1,13 +1,13 @@
 import Foundation
 
-public enum UIElementDisplay: Codable, Hashable, Sendable {
+public enum PurpleDisplay: Codable, Hashable, Sendable {
     case displayCoding(DisplayCoding)
     case string(String)
-    case unionArray([PurpleDisplay])
+    case unionArray([SingleValueDisplay])
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let x = try? container.decode([PurpleDisplay].self) {
+        if let x = try? container.decode([SingleValueDisplay].self) {
             self = .unionArray(x)
             return
         }
@@ -19,7 +19,7 @@ public enum UIElementDisplay: Codable, Hashable, Sendable {
             self = .displayCoding(x)
             return
         }
-        throw DecodingError.typeMismatch(UIElementDisplay.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for UIElementDisplay"))
+        throw DecodingError.typeMismatch(PurpleDisplay.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for PurpleDisplay"))
     }
 
     public func encode(to encoder: Encoder) throws {
