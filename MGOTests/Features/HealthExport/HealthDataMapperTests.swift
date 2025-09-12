@@ -59,14 +59,18 @@ final class HealthDataMapperTests: XCTestCase {
 		
 		let table: PdfTable = try XCTUnwrap(groupedTables.tables.first)
 		expect(table.heading) == "heading"
-		expect(table.subTables).to(haveCount(2))
+		expect(table.subTables).to(haveCount(3))
 		
-		var subTable = try XCTUnwrap(table.subTables.first)
+		var subTable = try XCTUnwrap(table.subTables[0])
 		expect(subTable.heading) == "Section Header first group"
 		expect(subTable.data).to(haveCount(2))
 		
-		subTable = try XCTUnwrap(table.subTables.last)
+		subTable = try XCTUnwrap(table.subTables[1])
 		expect(subTable.heading) == "Section Header second group"
 		expect(subTable.data).to(haveCount(4))
+		
+		subTable = try XCTUnwrap(table.subTables[2])
+		expect(subTable.heading) == "Section Header third group"
+		expect(subTable.data).to(haveCount(3))
 	}
 }

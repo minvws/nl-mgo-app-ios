@@ -181,6 +181,41 @@ class Generator {
 							)
 						],
 						label: "Section Header second group")
+					,
+					// Schema Group 3
+					HealthUIGroup(
+						children: [
+							UIElement(
+								display: UIElementDisplay.displayCoding(
+									DisplayCoding(code: "code", display: "display", system: "system")
+								),
+								label: "label single value display coding",
+								type: .singleValue,
+								reference: nil,
+								url: nil
+							),
+							UIElement(
+								display: UIElementDisplay.unionArray([PurpleDisplay.displayCoding(
+									DisplayCoding(code: "code", display: "display", system: "system"))
+								]),
+								label: "label multi values display coding",
+								type: .multipleValues,
+								reference: nil,
+								url: nil
+							),
+							UIElement(
+								display: UIElementDisplay.unionArray([
+									PurpleDisplay.unionArray([
+										.displayCoding(DisplayCoding(code: "code", display: "display", system: "system"))
+									])
+								]),
+								label: "label grouped values display coding",
+								type: .multipleGroupedValues,
+								reference: nil,
+								url: nil
+							)
+						],
+						label: "Section Header third group")
 				],
 				label: "heading"),
 			action: nil
