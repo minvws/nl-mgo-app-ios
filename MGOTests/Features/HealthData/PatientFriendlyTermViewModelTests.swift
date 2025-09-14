@@ -5,7 +5,7 @@
 	
 import MGOTest
 @testable import MGO
-import PatientFriendlyTerms
+import MGOFoundation
 
 final class PatientFriendlyTermViewModelTests: XCTestCase {
 	

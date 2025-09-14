@@ -5,7 +5,6 @@
 	
 import MGOFoundation
 import MGOUI
-import PatientFriendlyTerms
 
 class PatientFriendlyTermViewModel: ObservableObject {
 	

@@ -7,7 +7,6 @@ import MGOTest
 import MGOFoundation
 import MGOUI
 import PdfExport
-import PatientFriendlyTerms
 @testable import MGO
 
 // swiftlint:disable type_body_length

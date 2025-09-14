@@ -6,7 +6,7 @@
 import MGOTest
 @testable import MGO
 import MGOUI
-import PatientFriendlyTerms
+import MGOFoundation
 
 final class PatientFriendlyTermViewTests: XCTestCase {
 	
