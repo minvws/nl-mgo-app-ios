@@ -10,7 +10,6 @@ import PatientFriendlyTerms
 
 final class PatientFriendlyTermViewTests: XCTestCase {
 	
-	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var viewModel: PatientFriendlyTermViewModel!
 	private var sut: PatientFriendlyTermView!
 	
@@ -20,14 +19,8 @@ final class PatientFriendlyTermViewTests: XCTestCase {
 		synonym: "een andere benaming voor deze term"
 	)
 	
-	override func setUp() {
-		
-		super.setUp()
-		coordinatorSpy = DashboardCoordinatorSpy()
-	}
-	
 	@MainActor func createSut() {
-		viewModel = PatientFriendlyTermViewModel(coordinator: coordinatorSpy, term: term)
+		viewModel = PatientFriendlyTermViewModel(onClose: nil, term: term)
 		sut = PatientFriendlyTermView(viewModel: self.viewModel)
 	}
 	

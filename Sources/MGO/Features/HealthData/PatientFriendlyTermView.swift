@@ -9,8 +9,7 @@ import PatientFriendlyTerms
 
 class PatientFriendlyTermViewModel: ObservableObject {
 	
-	/// The app coordinator for routing
-	weak var coordinator: (any Coordinator)?
+	var onClose: (() -> Void)?
 	
 	/// The title of a patient friendly term
 	@Published var title: String?
@@ -30,10 +29,10 @@ class PatientFriendlyTermViewModel: ObservableObject {
 	/// - Parameter coordinator: the app coordinator
 	/// - Parameter term: the patient friendly term
 	@MainActor init(
-		coordinator: (any Coordinator)? = nil,
+		onClose: (() -> Void)? = nil,
 		term: PatientFriendlyTerm
 	) {
-		self.coordinator = coordinator
+		self.onClose = onClose
 		self.description = Sanitizer.sanitize(term.description)
 		self.synonym = Sanitizer.strip(term.synonym)
 		self.title = Sanitizer.strip(term.name)
@@ -44,7 +43,7 @@ class PatientFriendlyTermViewModel: ObservableObject {
 	@MainActor func reduce(_ action: PatientFriendlyTermViewModel.Action) {
 		
 		if action == .closeSheet {
-			coordinator?.handle(Coordination.Action.closeSheet)
+			onClose?()
 		}
 	}
 }
@@ -62,6 +61,9 @@ struct PatientFriendlyTermView: View {
 	
 	/// Magic Numbers
 	private struct ViewTraits {
+		enum Navigation {
+			static let padding: CGFloat = 16
+		}
 		enum General {
 			static let padding: CGFloat = 16
 			static let spacing: CGFloat = 12
@@ -74,11 +76,32 @@ struct PatientFriendlyTermView: View {
 			
 			VStack(spacing: ViewTraits.General.spacing) {
 				
+				HStack(alignment: .top, spacing: 0) {
+					if let title = viewModel.title {
+						Text(title)
+							.rijksoverheidStyle(font: .bold, style: .headline)
+							.foregroundStyle(theme.contentPrimary)
+							.frame(maxWidth: .infinity, alignment: .leading)
+							.accessibilityAddTraits(.isHeader)
+					}
+					Spacer()
+					
+					CloseButton({
+						viewModel.reduce(.closeSheet)
+					})
+					.buttonStyle(CloseButtonStyle())
+				}
+				
 				if let synonym = viewModel.synonym {
-					Text(String(format: String(localized: "patientfriendlyterms.synonym"), arguments: [synonym]))
-						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundStyle(theme.contentSecondary)
-						.frame(maxWidth: .infinity, alignment: .leading)
+					Text(
+						String(
+							format: String(localized: "patientfriendlyterms.synonym"),
+							arguments: [synonym]
+						)
+					)
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.foregroundStyle(theme.contentSecondary)
+					.frame(maxWidth: .infinity, alignment: .leading)
 				}
 				
 				SelectableTextView(
@@ -93,14 +116,11 @@ struct PatientFriendlyTermView: View {
 				Spacer()
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
+			.padding(.top, ViewTraits.Navigation.padding)
 		}
 		.background(theme.backgroundPrimary.ignoresSafeArea())
-		.navigationTitle(viewModel.title ?? "")
 		.when(isPresentedAsSheet, transform: { view in
 			view
-				.withToolbarCloseButton {
-					viewModel.reduce(.closeSheet)
-				}
 				.backport.presentationDetents([.medium])
 		})
 	}
@@ -110,7 +130,7 @@ struct PatientFriendlyTermView: View {
 	NavigationView {
 		PatientFriendlyTermView(
 			viewModel: PatientFriendlyTermViewModel(
-				coordinator: nil,
+				onClose: nil,
 				term: PatientFriendlyTerm(
 					name: "Patient Vriendelijke Term",
 					description: "Een langere omschrijving van een paar regels wat deze term inhoud.",

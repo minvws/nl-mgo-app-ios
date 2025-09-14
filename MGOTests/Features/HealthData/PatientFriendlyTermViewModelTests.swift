@@ -9,7 +9,6 @@ import PatientFriendlyTerms
 
 final class PatientFriendlyTermViewModelTests: XCTestCase {
 	
-	private var coordinatorSpy: DashboardCoordinatorSpy!
 	private var sut: PatientFriendlyTermViewModel!
 	private let term = PatientFriendlyTerm(
 		name: "Patient Vriendelijke Term",
@@ -17,22 +16,16 @@ final class PatientFriendlyTermViewModelTests: XCTestCase {
 		synonym: "een andere benaming voor deze term"
 	)
 	
-	override func setUp() {
-		
-		super.setUp()
-		coordinatorSpy = DashboardCoordinatorSpy()
-	}
-	
 	@MainActor func test_reduce_closeSheet() {
 		
 		// Given
-		sut = PatientFriendlyTermViewModel(coordinator: coordinatorSpy, term: term)
+		var onClosePressed = false
+		sut = PatientFriendlyTermViewModel(onClose: { onClosePressed = true }, term: term)
 		
 		// When
 		sut.reduce(.closeSheet)
 		
 		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
+		expect(onClosePressed).toEventually(beTrue())
 	}
 }
