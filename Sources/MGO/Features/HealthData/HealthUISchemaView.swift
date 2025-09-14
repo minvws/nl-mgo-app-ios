@@ -27,6 +27,8 @@ struct HealthUISchemaView: View {
 	/// An array with the state of codes
 	var resolvedCodes: [String: Bool]
 	
+	let unknown = String(localized: "common.unknown")
+	
 	/// The Theme
 	@Environment(\.theme) var theme
 	
@@ -312,19 +314,10 @@ struct HealthUISchemaView: View {
 			VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 				
 				if let heading {
-					
-					SelectableTextView(
-						text: heading,
-						textColor: theme.contentSecondary,
-						font: UIFont(
-							name: RijksoverheidSansWebTextFont.regular.fontName,
-							size: Font.TextStyle.callout.pointSize
-						)
-					)
-					.accessibilityLabel(heading)
+					viewFor(heading)
 				}
 				
-				selectableTextView(Sanitizer.strip(value) ?? String(localized: "common.unknown"))
+				selectableTextView(Sanitizer.strip(value) ?? unknown)
 			}
 			
 			if showChevron {
@@ -349,6 +342,9 @@ struct HealthUISchemaView: View {
 		}
 	}
 	
+	/// A Selectable Text View
+	/// - Parameter value: the display value
+	/// - Returns: view
 	@ViewBuilder func selectableTextView(_ value: String) -> some View {
 		SelectableTextView(
 			text: value,
@@ -380,42 +376,11 @@ struct HealthUISchemaView: View {
 			VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 				
 				if let heading {
-					
-					SelectableTextView(
-						text: heading,
-						textColor: theme.contentSecondary,
-						font: UIFont(
-							name: RijksoverheidSansWebTextFont.regular.fontName,
-							size: Font.TextStyle.callout.pointSize
-						)
-					)
-					.accessibilityLabel(heading)
+					viewFor(heading)
 				}
 				
-				ForEach(Array(values.enumerated()), id: \.offset) { index, element in
-					
-					switch element {
-						case let .string(value):
-							selectableTextView(Sanitizer.strip(value) ?? String(localized: "common.unknown"))
-						
-						case let .displayCoding(displayCoding):
-						
-							if let code = displayCoding.code, resolvedCodes[code] == true {
-#warning("Rool 12/9/2025: This needs improving, the question mark should not be underlined, the label should be leading aligned. Is the size of the question mark correct?")
-								Button {
-									codeTapped?(displayCoding)
-								} label: {
-									let sanitized = Sanitizer.strip(displayCoding.display) ?? String(localized: "common.unknown")
-									Text("\(sanitized) \(Image(systemName: "questionmark.circle"))")
-										.rijksoverheidStyle(font: .regular, style: .body)
-										.fixedSize(horizontal: false, vertical: true)
-										.backport.underline(pattern: .dot)
-										.foregroundStyle(theme.rijksLint)
-								}
-							} else {
-								selectableTextView(Sanitizer.strip(displayCoding.display) ?? String(localized: "common.unknown"))
-							}
-					}
+				ForEach(Array(values.enumerated()), id: \.offset) { _, element in
+					viewFor(element)
 				}
 			}
 			
@@ -439,6 +404,50 @@ struct HealthUISchemaView: View {
 				.overlay(theme.borderPrimary)
 				.padding(.leading, ViewTraits.Row.padding)
 		}
+	}
+	
+	/// The view for a single value display
+	/// - Parameter element: the single value display
+	/// - Returns: view for single value display
+	@ViewBuilder func viewFor(_ element: SingleValueDisplay) -> some View {
+		
+		switch element {
+			case let .string(value):
+				selectableTextView(Sanitizer.strip(value) ?? unknown)
+				
+			case let .displayCoding(displayCoding):
+				if let code = displayCoding.code, resolvedCodes[code] ?? false {
+	#warning("Todo [Rool, 14/9/2025]: This needs improving, the question mark should not be underlined, the label should be leading aligned. Is the size of the question mark correct?")
+					Button {
+						codeTapped?(displayCoding)
+					} label: {
+						let sanitized = Sanitizer.strip(displayCoding.display) ?? unknown
+						Text("\(sanitized) \(Image(systemName: "questionmark.circle"))")
+							.rijksoverheidStyle(font: .regular, style: .body)
+							.fixedSize(horizontal: false, vertical: true)
+							.backport.underline(pattern: .dot)
+							.foregroundStyle(theme.rijksLint)
+					}
+				} else {
+					selectableTextView(Sanitizer.strip(displayCoding.display) ?? unknown)
+				}
+		}
+	}
+	
+	/// The view for a heading row
+	/// - Parameter heading: the heading
+	/// - Returns: heading view
+	@ViewBuilder private func viewFor(_ heading: String) -> some View {
+		
+		SelectableTextView(
+			text: heading,
+			textColor: theme.contentSecondary,
+			font: UIFont(
+				name: RijksoverheidSansWebTextFont.regular.fontName,
+				size: Font.TextStyle.callout.pointSize
+			)
+		)
+		.accessibilityLabel(heading)
 	}
 }
 // swiftlint:enable type_body_length
