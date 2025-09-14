@@ -1,0 +1,21 @@
+{
+	"label": "Single DisplayCode",
+	"children": [
+		{
+			"label": "Section for a single display code",
+			"children": [
+				{
+					"label": "The label",
+					"display": {
+						"code": "code",
+						"display": "code 1234",
+						"system": "http://snomed.info/sct"
+					},
+					"type": "SINGLE_VALUE",
+					"reference": null,
+					"url": null
+				}
+			]
+		}
+	]
+}

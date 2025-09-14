@@ -4,6 +4,16 @@
     "[privacyverklaring](/privacystatement)" : {
 
     },
+    "%@ %@" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
     "account_removed.action" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2068,6 +2078,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ bekijken?"
+          }
+        }
+      }
+    },
+    "patientfriendlyterms.synonym" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere naam: %1$@"
           }
         }
       }

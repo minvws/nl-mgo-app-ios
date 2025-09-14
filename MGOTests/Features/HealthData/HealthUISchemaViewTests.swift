@@ -24,7 +24,8 @@ final class HealthUISchemaViewTests: XCTestCase {
 		sut = HealthUISchemaView(
 			schema: schema,
 			healthcareOrganization: healthcareOrganization,
-			resolvedReferences: resolvedReferences
+			resolvedReferences: resolvedReferences,
+			resolvedCodes: [:]
 		)
 	}
 	
@@ -212,6 +213,31 @@ final class HealthUISchemaViewTests: XCTestCase {
 		
 		// Given
 		try setupSut("multipleGroupValuesMixedEntries")
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_singleDisplayCode() throws {
+		
+		// Given
+		try setupSut("singleDisplayCode")
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_singleDisplayCode_resolved() throws {
+		
+		// Given
+		try setupSut("singleDisplayCode")
+		sut.resolvedCodes = ["code": true]
 		
 		// When
 		let content = NavigationView { sut }
