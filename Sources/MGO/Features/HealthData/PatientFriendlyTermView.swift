@@ -69,49 +69,62 @@ struct PatientFriendlyTermView: View {
 		}
 	}
 	
+	/// The heading of the view
+	@ViewBuilder private func header() -> some View {
+		
+		HStack(alignment: .top, spacing: 0) {
+			if let title = viewModel.title {
+				Text(title)
+					.rijksoverheidStyle(font: .bold, style: .headline)
+					.foregroundStyle(theme.contentPrimary)
+					.frame(maxWidth: .infinity, alignment: .leading)
+					.accessibilityAddTraits(.isHeader)
+			}
+			Spacer()
+			
+			CloseButton({
+				viewModel.reduce(.closeSheet)
+			})
+			.buttonStyle(CloseButtonStyle())
+		}
+	}
+
+	/// The synonym
+	@ViewBuilder private func synonym() -> some View {
+		if let synonym = viewModel.synonym {
+			Text(
+				String(
+					format: String(localized: "patientfriendlyterms.synonym"),
+					arguments: [synonym]
+				)
+			)
+			.rijksoverheidStyle(font: .regular, style: .body)
+			.foregroundStyle(theme.contentSecondary)
+			.frame(maxWidth: .infinity, alignment: .leading)
+		}
+	}
+	
+	/// The description
+	@ViewBuilder private func description() -> some View {
+		SelectableTextView(
+			text: viewModel.description,
+			textColor: theme.contentPrimary,
+			font: UIFont(
+				name: RijksoverheidSansWebTextFont.regular.fontName,
+				size: Font.TextStyle.body.pointSize
+			)
+		)
+	}
+	
 	var body: some View {
 		
 		ScrollView {
 			
 			VStack(spacing: ViewTraits.General.spacing) {
 				
-				HStack(alignment: .top, spacing: 0) {
-					if let title = viewModel.title {
-						Text(title)
-							.rijksoverheidStyle(font: .bold, style: .headline)
-							.foregroundStyle(theme.contentPrimary)
-							.frame(maxWidth: .infinity, alignment: .leading)
-							.accessibilityAddTraits(.isHeader)
-					}
-					Spacer()
-					
-					CloseButton({
-						viewModel.reduce(.closeSheet)
-					})
-					.buttonStyle(CloseButtonStyle())
-				}
-				
-				if let synonym = viewModel.synonym {
-					Text(
-						String(
-							format: String(localized: "patientfriendlyterms.synonym"),
-							arguments: [synonym]
-						)
-					)
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentSecondary)
-					.frame(maxWidth: .infinity, alignment: .leading)
-				}
-				
-				SelectableTextView(
-					text: viewModel.description,
-					textColor: theme.contentPrimary,
-					font: UIFont(
-						name: RijksoverheidSansWebTextFont.regular.fontName,
-						size: Font.TextStyle.body.pointSize
-					)
-				)
-				
+				header()
+				synonym()
+				description()
 				Spacer()
 			}
 			.padding(.horizontal, ViewTraits.General.padding)
