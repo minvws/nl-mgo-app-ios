@@ -24,8 +24,6 @@ extension Coordination.Action {
 	@MainActor static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
 	
 	@MainActor static let exportHealthData = Coordination.Action(identifier: "exportHealthData")
-	
-	@MainActor static let showPatientFriendlyTerm = Coordination.Action(identifier: "showPatientFriendlyTerm")
 }
 
 protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
@@ -72,8 +70,6 @@ struct HealthcareCoordination {
 		
 		// Export
 		case exportHealthData(PdfData)
-		
-		case showPatientFriendlyTerm(term: PatientFriendlyTerm)
 	}
 }
 
@@ -189,9 +185,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				
 			case Coordination.Action.removeHealthcareOrganization.identifier:
 				return handleRemoveHealthcareOrganization(action)
-			
-			case Coordination.Action.showPatientFriendlyTerm.identifier:
-				return handleShowPatientFriendlyTerm(action)
 				
 			case Coordination.Action.removedHealthcareOrganization.identifier:
 				pathForSheet = NavigationStackBackport.NavigationPath()
@@ -306,30 +299,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		}
 	}
 	
-	/// Handle the `showPatientFriendlyTerm` action
-	/// - Parameter action: the action
-	/// - Returns: true if handled successfully
-	@MainActor private func handleShowPatientFriendlyTerm(_ action: Coordination.Action) -> Bool {
-		
-		guard action.identifier == Coordination.Action.showPatientFriendlyTerm.identifier else { return false }
-		
-		if action.params.count == 1,
-		   let term = action.params["term"] as? PatientFriendlyTerm {
-			
-			let newState = HealthcareCoordination.State.showPatientFriendlyTerm(term: term)
-			if rootStateForSheet == nil {
-				rootStateForSheet = newState
-			} else {
-				pathForSheet.append(newState)
-			}
-			
-			return true
-		} else {
-			logError("HealthcareCoordinator Coordinator, missing params for \(action)")
-			return false
-		}
-	}
-	
 	/// Handle the `removeHealthcareOrganization` action
 	/// - Parameter action: the action
 	/// - Returns: true if handled successfully
@@ -435,15 +404,6 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 					viewModel: HealthExportViewModel(
 						coordinator: self,
 						healthData: healthData
-					)
-				)
-				.isPresentedAsSheet(!isIOS15)
-			
-			case let .showPatientFriendlyTerm(term: term):
-				PatientFriendlyTermView(
-					viewModel: PatientFriendlyTermViewModel(
-						coordinator: self,
-						term: term
 					)
 				)
 				.isPresentedAsSheet(!isIOS15)

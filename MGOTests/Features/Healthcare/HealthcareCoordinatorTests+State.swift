@@ -433,18 +433,4 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
-	
-	@MainActor func test_coordinatorView_showPatientFriendlyTerm() throws {
-		
-		// Given
-		let state = HealthcareCoordination.State.showPatientFriendlyTerm(
-			term: PatientFriendlyTerm(name: "Name", description: "description", synonym: "synonym")
-		)
-		
-		// When
-		let view = sut.viewState(for: state)
-		
-		// Then
-		takeSnapShots(content: try XCTUnwrap(view))
-	}
 }
