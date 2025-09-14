@@ -170,7 +170,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		await sut.loadFor(Generator.healthCategory)
 		
 		// Then
-		await expect { await self.servicesSpies.dataStoreSpy.invokedStoreCount }
+		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
 			.toEventually(equal(3), timeout: .seconds(10))
 	}
 	
