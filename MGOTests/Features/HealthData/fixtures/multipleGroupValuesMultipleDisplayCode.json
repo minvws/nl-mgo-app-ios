@@ -1,0 +1,28 @@
+{
+	"label": "MultipleGroupValue Multiple Entries",
+	"children": [
+		{
+			"label": "Section for a multiple group values with multiple Entries",
+			"children": [
+				{
+					"label": "The label",
+					"display": [
+						[{
+							"code": "1234",
+							"display": "code 1234",
+							"system": "http://snomed.info/sct"
+						}, "Second Entry in an array"],
+						[{
+							"code": "5678",
+							"display": "code 5678",
+							"system": "http://snomed.info/sct"
+						}, "Second Entry in another array"]
+					],
+					"type": "MULTIPLE_GROUPED_VALUES",
+					"reference": null,
+					"url": null
+				}
+			]
+		}
+	]
+}
