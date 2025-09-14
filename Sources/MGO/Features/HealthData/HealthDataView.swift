@@ -251,22 +251,7 @@ struct HealthDataView: View {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
-				HealthUISchemaView(
-					schema: viewModel.state.schema,
-					healthcareOrganization: viewModel.healthcareOrganization,
-					referenceTapped: { reference in
-						if let reference {
-							viewModel.reduce(.reference(reference))
-						}
-					},
-					resolvedReferences: viewModel.resolvedReferences,
-					codeTapped: { displayCoding in
-						if let displayCoding {
-							viewModel.reduce(.term(displayCoding))
-						}
-					},
-					resolvedCodes: viewModel.resolvedCodes
-				)
+				content()
 				Spacer()
 			}
 			.padding(.top, ViewTraits.Navigation.padding)
@@ -298,6 +283,26 @@ struct HealthDataView: View {
 			content: {
 				sheetContent()
 			}
+		)
+	}
+	
+	@ViewBuilder private func content() -> some View {
+		
+		HealthUISchemaView(
+			schema: viewModel.state.schema,
+			healthcareOrganization: viewModel.healthcareOrganization,
+			referenceTapped: { reference in
+				if let reference {
+					viewModel.reduce(.reference(reference))
+				}
+			},
+			resolvedReferences: viewModel.resolvedReferences,
+			codeTapped: { displayCoding in
+				if let displayCoding {
+					viewModel.reduce(.term(displayCoding))
+				}
+			},
+			resolvedCodes: viewModel.resolvedCodes
 		)
 	}
 	

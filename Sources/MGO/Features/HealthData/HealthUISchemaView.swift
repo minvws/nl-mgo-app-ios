@@ -379,9 +379,7 @@ struct HealthUISchemaView: View {
 					viewFor(heading)
 				}
 				
-				ForEach(Array(values.enumerated()), id: \.offset) { _, element in
-					viewFor(element)
-				}
+				viewFor(values)
 			}
 			
 			if showChevron {
@@ -403,6 +401,16 @@ struct HealthUISchemaView: View {
 				.frame(height: ViewTraits.Divider.height)
 				.overlay(theme.borderPrimary)
 				.padding(.leading, ViewTraits.Row.padding)
+		}
+	}
+	
+	/// The view for an array of single value displays
+	/// - Parameter element: the array of single value displays
+	/// - Returns: view for the array of single value displays
+	@ViewBuilder func viewFor(_ values: [SingleValueDisplay]) -> some View {
+		
+		ForEach(Array(values.enumerated()), id: \.offset) { _, element in
+			viewFor(element)
 		}
 	}
 	
