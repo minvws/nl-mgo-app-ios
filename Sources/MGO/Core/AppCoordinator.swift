@@ -33,7 +33,7 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 	/// Get a View for the State
 	/// - Parameter state: the AppCoordination State
 	/// - Returns: A view for that state
-	func view(for: AppCoordination.State?) -> Body
+	@MainActor func view(for: AppCoordination.State?) -> Body
 	
 	func showCloseButtonForSheet(for: AppCoordination.State?) -> Bool
 }
@@ -41,41 +41,41 @@ protocol AppCoordinatorProtocol: Coordinator, ObservableObject {
 extension Coordination.Action {
 	
 	// Launch
-	static let finishedSplash = Coordination.Action(identifier: "finishedSplash")
-	static let updateRequired = Coordination.Action(identifier: "updateRequired")
-	static let showAppStore = Coordination.Action(identifier: "showAppStore")
+	@MainActor static let finishedSplash = Coordination.Action(identifier: "finishedSplash")
+	@MainActor static let updateRequired = Coordination.Action(identifier: "updateRequired")
+	@MainActor static let showAppStore = Coordination.Action(identifier: "showAppStore")
 	
 	// Onboarding
-	static let nextButtonPressedOnIntroduction = Coordination.Action(identifier: "nextButtonPressedOnIntroduction")
-	static let nextButtonPressedOnProposition = Coordination.Action(identifier: "nextButtonPressedOnProposition")
-	static let showPrivacyStatement = Coordination.Action(identifier: "showPrivacyStatement")
+	@MainActor static let nextButtonPressedOnIntroduction = Coordination.Action(identifier: "nextButtonPressedOnIntroduction")
+	@MainActor static let nextButtonPressedOnProposition = Coordination.Action(identifier: "nextButtonPressedOnProposition")
+	@MainActor static let showPrivacyStatement = Coordination.Action(identifier: "showPrivacyStatement")
 	
 	// Local Authentication
-	static let pinCodeEntered = Coordination.Action(identifier: "pinCodeEntered")
-	static let pinCodeConfirmed = Coordination.Action(identifier: "pinCodeConfirmed")
-	static let didFinishLocalAuthentication = Coordination.Action(identifier: "didFinishLocalAuthentication")
-	static let pinCodeValidated = Coordination.Action(identifier: "pinCodeValidated")
-	static let pinCodeValidatedAfterLockout = Coordination.Action(identifier: "pinCodeValidatedAfterLockout")
-	static let forgotPinCode = Coordination.Action(identifier: "forgotPinCode")
-	static let dismissForgotPinCode = Coordination.Action(identifier: "dismissForgotPinCode")
-	static let recreateAccount = Coordination.Action(identifier: "recreateAccount")
-	static let restart = Coordination.Action(identifier: "restart")
+	@MainActor static let pinCodeEntered = Coordination.Action(identifier: "pinCodeEntered")
+	@MainActor static let pinCodeConfirmed = Coordination.Action(identifier: "pinCodeConfirmed")
+	@MainActor static let didFinishLocalAuthentication = Coordination.Action(identifier: "didFinishLocalAuthentication")
+	@MainActor static let pinCodeValidated = Coordination.Action(identifier: "pinCodeValidated")
+	@MainActor static let pinCodeValidatedAfterLockout = Coordination.Action(identifier: "pinCodeValidatedAfterLockout")
+	@MainActor static let forgotPinCode = Coordination.Action(identifier: "forgotPinCode")
+	@MainActor static let dismissForgotPinCode = Coordination.Action(identifier: "dismissForgotPinCode")
+	@MainActor static let recreateAccount = Coordination.Action(identifier: "recreateAccount")
+	@MainActor static let restart = Coordination.Action(identifier: "restart")
 	
 	// Remote Authentication
-	static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
-	static let deeplink = Coordination.Action(identifier: "deeplink")
-	static let nextButtonPressedOnLoginInfo = Coordination.Action(identifier: "nextButtonPressedOnLoginInfo")
+	@MainActor static let loggedInWithDigiD = Coordination.Action(identifier: "loggedInWithDigiD")
+	@MainActor static let deeplink = Coordination.Action(identifier: "deeplink")
+	@MainActor static let nextButtonPressedOnLoginInfo = Coordination.Action(identifier: "nextButtonPressedOnLoginInfo")
 	
 	// Other
-	static let closeSheet = Coordination.Action(identifier: "closeSheet")
-	static let backButtonPressed = Coordination.Action(identifier: "backButtonPressed")
-	static let resetApplication = Coordination.Action(identifier: "resetApplication")
+	@MainActor static let closeSheet = Coordination.Action(identifier: "closeSheet")
+	@MainActor static let backButtonPressed = Coordination.Action(identifier: "backButtonPressed")
+	@MainActor static let resetApplication = Coordination.Action(identifier: "resetApplication")
 }
 
 struct AppCoordination {
 	
 	/// A list of all the view states the app coordinator can show
-	enum State: Equatable, Hashable, Codable {
+	enum State: Equatable, Hashable, Codable, Sendable {
 		case splash
 		case updateRequired
 		
@@ -141,18 +141,49 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	private var dashboardCoordinator: DashboardCoordinator!
 	
 	/// Client for remote authentication
-	private let remoteAuthenticationClient: RemoteAuthenticationClientProtocol? = RemoteAuthenticationClient(
-		serverUrl: Configuration().urlForOIDC(),
-		username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-		password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-	)
+	private let remoteAuthenticationClient: RemoteAuthenticationClientProtocol? = {
+		
+		if let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+		   let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String {
+			
+			return RemoteAuthenticationClient(
+				serverUrl: Configuration().urlForOIDC(),
+				username: username,
+				password: password
+			)
+		}
+		return RemoteAuthenticationClient(
+			serverUrl: Configuration().urlForOIDC()
+		)
+	}()
+	
+	/// Dependency injectable Local authentication provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
+	
+	/// Dependency injectable Secure User Settings
+	@Injected(\.secureUserSettings) private var secureUserSettings
+	
+	/// Dependency injectable Feature Flag Manager
+	@Injected(\.featureFlagManager) private var featureFlagManager
+	
+	/// Dependency injectable Localization Service Client
+	@Injected(\.localisationServiceClient) private var localisationServiceClient
+	
+	/// Dependency injectable Remote Configuration Repository
+	@Injected(\.remoteConfigurationRepository) private var remoteConfigurationRepository
+	
+	/// Dependency injectable Notification Center
+	@Injected(\.notificationCenter) private var notificationCenter
 	
 	/// Create an AppCoordinator
 	/// - Parameter path: Navigation Path
 	/// - Parameter browser: the browser for displaying urls
-	init(
+	@MainActor init(
 		path: NavigationStackBackport.NavigationPath,
-		browser: RestrictedBrowser = RestrictedBrowser(allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()))
+		browser: RestrictedBrowser = RestrictedBrowser(
+			allowedDomains: Configuration().getAllowedDomains(for: Configuration().getRelease()),
+			urlOpener: UIApplication.shared
+		)
 	) {
 		self.path = path
 		self.browser = browser
@@ -161,40 +192,42 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		registerObservers()
 	}
 	
-	private func registerObservers() {
+	@MainActor private func registerObservers() {
 		
 		// Listen to changes in the remote configuration
-		self.observerToken = Current.remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
-			
-			guard let self else { return }
-			_Concurrency.Task { @MainActor in
-				self.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
-			}
+		self.observerToken = remoteConfigurationRepository.observatory.append { @MainActor [weak self] remoteConfiguration in
+			self?.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
 		}
 		
 		// Listen for authentication notification
-		Current.notificationCenter.addObserver(forName: .showLocalAuthentication, object: nil, queue: OperationQueue.main) { _ in
-			_Concurrency.Task { @MainActor in
-				if self.showChildCoordinator {
-					self.showAuthenticationModal = true
-					self.rootStateForSheet = .pinCodeValidation(lockOut: true)
-				} else {
-					logInfo("Not through onboarding, not showing authentication modal")
-				}
-			}
+		notificationCenter.addObserver(
+			self,
+			selector: #selector(showLocalAuthentication),
+			name: .showLocalAuthentication,
+			object: nil
+		)
+	}
+	
+	@MainActor @objc private func showLocalAuthentication() {
+		
+		if showChildCoordinator {
+			showAuthenticationModal = true
+			rootStateForSheet = .pinCodeValidation(lockOut: true)
+		} else {
+			logInfo("Not through onboarding, not showing authentication modal")
 		}
 	}
 	
 	deinit {
 		// Remove as observer
-		observerToken.map(Current.remoteConfigurationRepository.observatory.remove)
+		observerToken.map(remoteConfigurationRepository.observatory.remove)
 	}
 	
-	internal func handleRemoteConfigChanges(remoteConfiguration: RemoteConfig) {
+	@MainActor internal func handleRemoteConfigChanges(remoteConfiguration: RemoteConfig) {
 		// Updated configuration
 		
 		let minimumVersion = remoteConfiguration.iosMinimumVersion.semanticVersion()
-		let currentVersion = Current.appVersionSupplier.getCurrentVersion().semanticVersion()
+		let currentVersion = Container.shared.appVersionSupplier().getCurrentVersion().semanticVersion()
 		
 		logDebug("AppCoordinator: Updated config, we are \(currentVersion), minimum is \(minimumVersion)")
 		
@@ -207,7 +240,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// Handle any Coordination Action
 	/// - Parameter action: Coordination Action
-	func handle(_ action: Coordination.Action) {
+	@MainActor func handle(_ action: Coordination.Action) {
 
 		// Always allow the update app action
 		if action.identifier == Coordination.Action.showAppStore.identifier {
@@ -248,10 +281,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			case Coordination.Action.resetApplication.identifier:
 				// Clear everything
 				showChildCoordinator = false
-				Current.wipePersistedData()
+				Container.shared.wipePersistedData()
 				path.removeLast(path.count)
 				self.rootState = .splash
-				Current.notificationCenter.post(name: .resetApplication, object: nil)
 			
 			default:
 				logWarning("AppCoordinator does not handle \(action)")
@@ -261,7 +293,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the onboarding flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleOnboarding(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleOnboarding(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			// Onboarding
@@ -295,7 +327,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the local authentication flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleLocalAuthentication(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleLocalAuthentication(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			// Local Authentication
@@ -344,20 +376,20 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the remote authentication flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleRemoteAuthentication(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleRemoteAuthentication(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			// Remote Authentication
 				
 			case Coordination.Action.loggedInWithDigiD.identifier:
-				Current.secureUserSettings.userHasRemoteAuthentication = true
+				secureUserSettings.userHasRemoteAuthentication = true
 			
 				resetNavigationStack(with: AppCoordination.State.loginInfo)
 				return true
 			
 			case Coordination.Action.nextButtonPressedOnLoginInfo.identifier:
 			
-				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+				if featureFlagManager.isAutomaticLocalizationEnabled {
 					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
 				} else {
 					resetNavigationStack(with: AppCoordination.State.manualLocalization)
@@ -372,7 +404,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the deeplink flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleDeeplink(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleDeeplink(_ action: Coordination.Action) -> Bool {
 		
 		if action.identifier == Coordination.Action.deeplink.identifier {
 			if action.params.count == 1,
@@ -391,7 +423,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the automatic localization flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleAutomaticLocalization(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleAutomaticLocalization(_ action: Coordination.Action) -> Bool {
 		
 		if action.identifier == Coordination.Action.finishedSearchingHealthcareOrganizations.identifier {
 			showChildCoordinator = true
@@ -403,7 +435,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Handle the manual localization flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleManualLocalization(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleManualLocalization(_ action: Coordination.Action) -> Bool {
 		
 		if action.identifier == Coordination.Action.showHealthcareOrganizationSearchResults.identifier {
 			if action.params.count == 2,
@@ -424,12 +456,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	}
 	
 	/// Handle the complex startup logic
-	private func handleStartup() {
+	@MainActor private func handleStartup() {
 		
-		if Current.secureUserSettings.pinCode == nil {
+		if secureUserSettings.pinCode == nil {
 			// User must set an pin code, but show introduction first.
 			resetNavigationStack(with: AppCoordination.State.introduction)
-		} else if Current.featureFlagManager.bypassPincode && Configuration().getRelease() == .development {
+		} else if featureFlagManager.bypassPincode && Configuration().getRelease() == .development {
 			// Bypass the pin code screen
 			showChildCoordinator = true
 		} else {
@@ -439,9 +471,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	}
 	
 	/// Handle the pin code confirmed action
-	private func handlePinCodeConfirmed() {
+	@MainActor private func handlePinCodeConfirmed() {
 		
-		if Current.localAuthenticationProvider.biometricType() == .none {
+		if localAuthenticationProvider.biometricType() == .none {
 			resetNavigationStack(with: AppCoordination.State.login)
 		} else {
 			resetNavigationStack(with: AppCoordination.State.bioMetricSetup)
@@ -449,9 +481,9 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	}
 	
 	/// Handle the pincode validated action
-	private func handlePinCodeValidated() {
+	@MainActor private func handlePinCodeValidated() {
 		
-		guard Current.secureUserSettings.userHasRemoteAuthentication else {
+		guard secureUserSettings.userHasRemoteAuthentication else {
 			resetNavigationStack(with: AppCoordination.State.login)
 			return
 		}
@@ -464,13 +496,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		showAuthenticationModal = false
 		rootStateForSheet = nil
 		pathForSheet = NavigationStackBackport.NavigationPath()
-		Current.secureUserSettings.enteredBackground = nil
+		secureUserSettings.enteredBackground = nil
 	}
 	
 	/// Handle displaying urls
 	/// - Parameter url: the url to show
 	/// - Parameter title: the title of the page
-	private func handleUrl(_ url: URL?, title: String? = nil) {
+	@MainActor private func handleUrl(_ url: URL?, title: String? = nil) {
 		
 		guard let url else { return }
 		
@@ -482,12 +514,12 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	}
 	
 	/// handle the account recreate action
-	private func handleRecreateAccount() {
+	@MainActor private func handleRecreateAccount() {
 		
 		pathForSheet = NavigationStackBackport.NavigationPath()
 
 		// Wipe Account
-		Current.wipePersistedData()
+		Container.shared.wipePersistedData()
 		
 		if showAuthenticationModal {
 			showChildCoordinator = false
@@ -501,7 +533,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 		}
 	}
 	
-	private func restart() {
+	@MainActor private func restart() {
 		
 		rootStateForSheet = nil
 		pathForSheet = NavigationStackBackport.NavigationPath()
@@ -511,7 +543,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	
 	/// Reset the navigation stack with this new root  state
 	/// - Parameter state: the new root state.
-	private func resetNavigationStack(with state: AppCoordination.State) {
+	@MainActor private func resetNavigationStack(with state: AppCoordination.State) {
 		
 		var transaction = Transaction()
 		transaction.disablesAnimations = true
@@ -524,13 +556,13 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Consume a deeplink
 	/// - Parameter deeplink: the deeplink
 	/// - Returns: true if the coordinator has consumed the deeplink
-	public func consume(_ deeplink: DeepLink) {
+	@MainActor public func consume(_ deeplink: DeepLink) {
 		
 		switch deeplink {
 			case .digidCallback(let userinfo):
 				logInfo("Consume digidCallback with userinfo", userinfo)
-				Current.secureUserSettings.userHasRemoteAuthentication = true
-				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+				secureUserSettings.userHasRemoteAuthentication = true
+				if featureFlagManager.isAutomaticLocalizationEnabled {
 					resetNavigationStack(with: AppCoordination.State.automaticLocalization)
 				} else {
 					resetNavigationStack(with: AppCoordination.State.manualLocalization)
@@ -541,7 +573,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the AppCoordination State
 	/// - Returns: A view for that state
-	@ViewBuilder func view(for state: AppCoordination.State?) -> some View {
+	@ViewBuilder @MainActor func view(for state: AppCoordination.State?) -> some View {
 		
 		switch state {
 			case .splash:
@@ -572,16 +604,40 @@ final class AppCoordinator: AppCoordinatorProtocol {
 			// Local Authentication
 				
 			case let .pinCodeEntry(backButtonVisible):
-				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .creation, backButtonVisible: backButtonVisible, bioMetricType: Current.localAuthenticationProvider.biometricType))
+				PinCodeView(
+					viewModel: PinCodeViewModel(
+						coordinator: self,
+						mode: .creation,
+						backButtonVisible: backButtonVisible,
+						bioMetricType: self.localAuthenticationProvider.biometricType
+					)
+				)
 				
 			case .pinCodeConfirmation:
-				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .confirmation, bioMetricType: Current.localAuthenticationProvider.biometricType))
+				PinCodeView(
+					viewModel: PinCodeViewModel(
+						coordinator: self,
+						mode: .confirmation,
+						bioMetricType: self.localAuthenticationProvider.biometricType
+					)
+				)
 				
 			case let .pinCodeValidation(lockOut):
-				PinCodeView(viewModel: PinCodeViewModel(coordinator: self, mode: .validation(lockOut: lockOut), bioMetricType: Current.localAuthenticationProvider.biometricType))
+				PinCodeView(
+					viewModel: PinCodeViewModel(
+						coordinator: self,
+						mode: .validation(lockOut: lockOut),
+						bioMetricType: self.localAuthenticationProvider.biometricType
+					)
+				)
 				
 			case .bioMetricSetup:
-				BioMetricSetupView(viewModel: BioMetricSetupViewModel(coordinator: self, bioMetricType: Current.localAuthenticationProvider.biometricType))
+				BioMetricSetupView(
+					viewModel: BioMetricSetupViewModel(
+						coordinator: self,
+						bioMetricType: self.localAuthenticationProvider.biometricType
+					)
+				)
 				
 			case .forgotPinCode:
 				ForgotPinCodeView(viewModel: ForgotPinCodeViewModel(coordinator: self))
@@ -595,8 +651,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				LoginView(
 					viewModel: LoginViewModel(
 						coordinator: self,
-						remoteAuthenticationClient:
-							self.remoteAuthenticationClient
+						remoteAuthenticationClient: self.remoteAuthenticationClient
 					)
 				)
 				
@@ -609,7 +664,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
-						localisationServiceClient: Current.localisationServiceClient,
+						localisationServiceClient: self.localisationServiceClient,
 						preselectAllOrganizations: true
 					)
 				)
@@ -624,7 +679,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
 						coordinator: self,
 						city: city,
 						name: name,
-						localisationServiceClient: Current.localisationServiceClient
+						localisationServiceClient: self.localisationServiceClient
 					)
 				)
 			

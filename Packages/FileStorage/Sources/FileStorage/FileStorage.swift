@@ -57,7 +57,11 @@ final public class FileStorage: FileStorageProtocol {
 		guard let subDirectory, let documentsURL else { return }
 		let subDirectoryUrl = documentsURL.appendingPathComponent(subDirectory, isDirectory: true)
 		if !fileManager.fileExists(atPath: subDirectoryUrl.path) {
-			try? fileManager.createDirectory(at: subDirectoryUrl, withIntermediateDirectories: true, attributes: nil)
+			try? fileManager.createDirectory(
+				at: subDirectoryUrl,
+				withIntermediateDirectories: true,
+				attributes: [.protectionKey: FileProtectionType.complete]
+			)
 		}
 	}
 	
@@ -100,7 +104,7 @@ final public class FileStorage: FileStorageProtocol {
 			logError(directoryError)
 			return
 		}
-		try data.write(to: url, options: .atomic)
+		try data.write(to: url, options: [.atomic, .completeFileProtection])
 	}
 	
 	/// Get the content of a file

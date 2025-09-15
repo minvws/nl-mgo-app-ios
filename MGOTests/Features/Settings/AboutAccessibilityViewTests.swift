@@ -19,12 +19,17 @@ final class AboutAccessibilityViewTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
+	}
+	
+	@MainActor private func createSut() {
+		
 		sut = AboutAccessibilityView(viewModel: AboutAccessibilityViewModel(coordinator: self.coordinatorSpy))
 	}
 
-	func test_aboutAccessibilityView() {
+	@MainActor func test_aboutAccessibilityView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -33,9 +38,10 @@ final class AboutAccessibilityViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -44,18 +50,5 @@ final class AboutAccessibilityViewTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
-	}
-	
-	func disabled_test_moreInformationPressed() throws {
-		
-		// Given
-		let content = NavigationView { sut }
-		
-		// When
-		try content.inspect().find(viewWithAccessibilityIdentifier: "settings.accessibility.more_information").button().tap()
-
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showAccessibilityMoreInformation
 	}
 }

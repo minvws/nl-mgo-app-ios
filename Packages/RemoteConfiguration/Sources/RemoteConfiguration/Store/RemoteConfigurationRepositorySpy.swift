@@ -13,33 +13,33 @@ public class RemoteConfigurationRepositorySpy: RemoteConfigurationRepositoryProt
 	public var invokedStoredConfigurationGetter = false
 	public var invokedStoredConfigurationGetterCount = 0
 	public var stubbedStoredConfiguration: RemoteConfig!
-	
+
 	public var storedConfiguration: RemoteConfig {
 		invokedStoredConfigurationGetter = true
 		invokedStoredConfigurationGetterCount += 1
 		return stubbedStoredConfiguration
 	}
-	
+
 	public var invokedObservatoryGetter = false
 	public var invokedObservatoryGetterCount = 0
 	public var stubbedObservatory: Observatory<RemoteConfig>!
-	
+
 	public var observatory: Observatory<RemoteConfig> {
 		invokedObservatoryGetter = true
 		invokedObservatoryGetterCount += 1
 		return stubbedObservatory
 	}
-	
-	public var invokedWipePersistedData = false
-	public var invokedWipePersistedDataCount = 0
-	
+
 	public var invokedFetchAndUpdateObservers = false
 	public var invokedFetchAndUpdateObserversCount = 0
-	
-	public func fetchAndUpdateObservers() {
+
+	public func fetchAndUpdateObservers() async {
 		invokedFetchAndUpdateObservers = true
 		invokedFetchAndUpdateObserversCount += 1
 	}
+
+	public var invokedWipePersistedData = false
+	public var invokedWipePersistedDataCount = 0
 
 	public func wipePersistedData() {
 		invokedWipePersistedData = true

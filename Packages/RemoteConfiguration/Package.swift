@@ -14,12 +14,13 @@ let package = Package(
 	],
 	dependencies: [
 		// Internal
+		.package(name: "AuthorizationMiddleware", path: "../AuthorizationMiddleware"),
 		.package(name: "FileStorage", path: "../FileStorage"),
 		.package(name: "MGODebug", path: "../MGODebug"),
 		.package(name: "Observatory", path: "../Observatory"),
 		
 		// External
-		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.9.0"),
+		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.2"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.2"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.1.0"),
 		
@@ -30,11 +31,15 @@ let package = Package(
 		.target(
 			name: "RemoteConfiguration",
 			dependencies: [
+				.product(name: "AuthorizationMiddleware", package: "AuthorizationMiddleware"),
 				.product(name: "FileStorage", package: "FileStorage"),
 				.product(name: "MGODebug", package: "MGODebug"),
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			],
 			plugins: [
 				.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")

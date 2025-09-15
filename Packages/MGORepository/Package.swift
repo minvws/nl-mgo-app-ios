@@ -16,7 +16,7 @@ let package = Package(
 		// Internal
 		.package(name: "FHIRClient", path: "../FHIRClient"),
 		.package(name: "Observatory", path: "../Observatory"),
-		.package(name: "SharedCore", path: "../SharedCore"),
+		.package(name: "HCIMCore", path: "../HCIMCore"),
 		
 		// Testing
 		.package(name: "MGOTest", path: "../MGOTest")
@@ -27,7 +27,11 @@ let package = Package(
 			dependencies: [
 				.product(name: "FHIRClient", package: "FHIRClient"),
 				.product(name: "Observatory", package: "Observatory"),
-				.product(name: "SharedCore", package: "SharedCore")
+				.product(name: "HCIMCore", package: "HCIMCore")
+			],
+			resources: [.process("Resources")],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			]
 		),
 		.testTarget(

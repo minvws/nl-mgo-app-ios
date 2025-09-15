@@ -5,6 +5,7 @@
 
 import XCTest
 
+@MainActor
 final class ForgotPincodeFlowTests: XCTestCase {
 	
 	/*

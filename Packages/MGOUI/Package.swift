@@ -17,7 +17,7 @@ let package = Package(
 		.package(name: "ReusableUI", path: "../ReusableUI"),
 		
 		// External
-		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.6.0"),
+		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.7.0"),
 		.package(url: "https://github.com/lm/navigation-stack-backport", exact: "1.1.0")
 	],
 	targets: [
@@ -27,6 +27,9 @@ let package = Package(
 				.product(name: "DeviceKit", package: "DeviceKit"),
 				.product(name: "NavigationStackBackport", package: "navigation-stack-backport"),
 				.product(name: "ReusableUI", package: "ReusableUI")
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			]
 		)
 	]

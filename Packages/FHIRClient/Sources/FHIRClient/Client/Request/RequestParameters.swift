@@ -8,7 +8,7 @@ import Foundation
 /**
 Parameters to pass along when making a request.
 */
-public struct RequestParameters {
+public struct RequestParameters: Sendable {
 	
 	internal var parameters: [(RequestParameterField, String)]
 	
@@ -39,9 +39,9 @@ public struct RequestParameters {
 /**
  Describe valid (and supported) FHIR request query parameters.
  */
-public enum RequestParameterField: String {
+public enum RequestParameterField: String, Sendable {
 	
-	/// Category for ZIB
+	/// Category for HCIM
 	case category = "category"
 	
 	/// class

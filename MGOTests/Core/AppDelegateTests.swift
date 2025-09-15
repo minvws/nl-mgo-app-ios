@@ -15,12 +15,17 @@ final class AppDelegateTests: XCTestCase {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
+	}
+	
+	@MainActor private func createSut() {
+		
 		sut = AppDelegate()
 	}
 	
-	func test_onWillResignActiveNotification() {
+	@MainActor func test_onWillResignActiveNotification() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.onWillResignActiveNotification()
@@ -30,9 +35,10 @@ final class AppDelegateTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedEnteredBackgroundSetterCount) == 1
 	}
 	
-	func test_onWillResignActiveNotification_withDate() {
+	@MainActor func test_onWillResignActiveNotification_withDate() {
 		
 		// Given
+		createSut()
 		servicesSpies.secureUserSettingsSpy.stubbedEnteredBackground = Date()
 		
 		// When
@@ -44,9 +50,10 @@ final class AppDelegateTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedEnteredBackgroundSetterCount) == 0
 	}
 	
-	func test_onDidBecomeActiveNotification () {
+	@MainActor func test_onDidBecomeActiveNotification() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.onDidBecomeActiveNotification()
@@ -55,9 +62,10 @@ final class AppDelegateTests: XCTestCase {
 		expect(self.sut.privacySnapshotWindow) == nil
 	}
 	
-	func test_onDidBecomeActiveNotification_longInBackground_shouldPostNotification() {
+	@MainActor func test_onDidBecomeActiveNotification_longInBackground_shouldPostNotification() {
 		
 		// Given
+		createSut()
 		servicesSpies.secureUserSettingsSpy.stubbedEnteredBackground = Date().addingTimeInterval(-150)
 		
 		// When
@@ -69,9 +77,10 @@ final class AppDelegateTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.enteredBackground) != nil
 	}
 	
-	func test_onDidBecomeActiveNotification_shortInBackground_shouldReset() {
+	@MainActor func test_onDidBecomeActiveNotification_shortInBackground_shouldReset() {
 		
 		// Given
+		createSut()
 		servicesSpies.secureUserSettingsSpy.stubbedEnteredBackground = Date().addingTimeInterval(-1)
 		
 		// When

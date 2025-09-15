@@ -14,8 +14,8 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 	private var viewModel: HealthCategoryViewModel!
 	private var healthcareOrganization: MgoOrganization!
 	private var sut: HealthCategoryView!
-
-	private let item = Generator.healthSubCategory()
+	
+	private let item = Generator.healthCategoryBlock()
 	
 	override func setUp() {
 		
@@ -23,15 +23,27 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
-		viewModel = AlertsHealthCategoryViewModel(
+	}
+	
+	@MainActor private func createSut() throws {
+
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "alerts"))
+		let translations = try XCTUnwrap(HealthCategoryViewTranslationsFactory.makeTranslations(for: category))
+		
+		viewModel = HealthCategoryViewModel(
 			coordinator: coordinatorSpy,
-			organization: healthcareOrganization)
+			category: category,
+			organization: healthcareOrganization,
+			translations: translations
+		)
 		sut = HealthCategoryView(viewModel: self.viewModel)
 	}
-
-	func test_stateLoading() {
+	
+	@MainActor func test_stateLoading() throws {
 		
 		// Given
+		try createSut()
 		viewModel.state = .loading
 		
 		// When
@@ -41,9 +53,10 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_stateEmptyList() {
+	@MainActor func test_stateEmptyList() throws {
 		
 		// Given
+		try createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -53,9 +66,10 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_stateEmptyPartialList() {
+	@MainActor func test_stateEmptyPartialList() throws {
 		
 		// Given
+		try createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -64,10 +78,11 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 		// Then
 		takeSnapShots(content: content)
 	}
-
-	func test_stateList() throws {
+	
+	@MainActor func test_stateList() throws {
 		
 		// Given
+		try createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -77,9 +92,10 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func disabled_test_search_itemNotFound() throws {
+	@MainActor func disabled_test_search_itemNotFound() throws {
 		
 		// Given
+		try createSut()
 		let content = NavigationView { sut }
 		sut.viewModel.state = .list(items: [item])
 		
@@ -90,9 +106,10 @@ final class AlertsHealthCategoryViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func disabled_test_search_itemFound() throws {
+	@MainActor func disabled_test_search_itemFound() throws {
 		
 		// Given
+		try createSut()
 		let content = NavigationView { sut }
 		sut.viewModel.state = .list(items: [item])
 		

@@ -5,12 +5,8 @@
 
 import SwiftUI
 
-public protocol EndEditing {
-	func endEditing()
-}
-
 // See https://stackoverflow.com/a/56496669/443270
-extension UIApplication: EndEditing {
+extension UIApplication {
 	
 	/// End editing, resign first responder
 	public func endEditing() {

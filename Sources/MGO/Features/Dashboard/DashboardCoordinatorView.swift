@@ -29,7 +29,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 			
 			Group {
 				// First Tab, Overview
-				coordinator.viewState(for: .healthCategories)
+				coordinator.view(for: .healthCategories)
 				.tabItem {
 					Image(coordinator.selectedTab == DashboardTab.healthCategories.rawValue ? ImageResource.Tab.Selected.overview : ImageResource.Tab.Unselected.overview)
 					Text("bottombar.overview")
@@ -39,7 +39,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				.tag(DashboardTab.healthCategories.rawValue)
 				
 				// Second Tab, Healthcare organizations
-				coordinator.viewState(for: .healthcareOrganizations)
+				coordinator.view(for: .healthcareOrganizations)
 				.tabItem {
 					Image(coordinator.selectedTab == DashboardTab.healthcareOrganizations.rawValue ? ImageResource.Tab.Selected.providers : ImageResource.Tab.Unselected.providers)
 					Text("bottombar.healthcareproviders")
@@ -49,7 +49,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				.tag(DashboardTab.healthcareOrganizations.rawValue)
 				
 				// Third Tab, Settings
-				coordinator.viewState(for: .settings)
+				coordinator.view(for: .settings)
 				.tabItem {
 					Image(coordinator.selectedTab == DashboardTab.settings.rawValue ? ImageResource.Tab.Selected.settings : ImageResource.Tab.Unselected.settings)
 					Text("bottombar.settings")

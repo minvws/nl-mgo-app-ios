@@ -13,6 +13,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	/// set orientations you want to be allowed in this property by default
 	static var orientationLock = UIInterfaceOrientationMask.all
 	
+	/// Dependency injectable Local authentication provider
+	@Injected(\.localAuthenticationProvider) private var localAuthenticationProvider
+	
+	/// Dependency injectable Secure User Settings
+	@Injected(\.secureUserSettings) private var secureUserSettings
+	
+	/// Dependency injectable Feature Flag Manager
+	@Injected(\.featureFlagManager) private var featureFlagManager
+	
+	/// Dependency injectable Notification Center
+	@Injected(\.notificationCenter) private var notificationCenter
+	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		
 		HTTPStubs.removeAllStubs()
@@ -21,9 +33,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		registerObservers()
 		
 		// Reset the background timestamp
-		Current.secureUserSettings.enteredBackground = nil
+		secureUserSettings.enteredBackground = nil
 		
 		clearDirectoryCache()
+		
+		if Configuration().getRelease() == .demo {
+			featureFlagManager.isDemo = true
+			featureFlagManager.isAutomaticLocalizationEnabled = true
+		}
 		
 		return true
 	}
@@ -42,7 +59,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 			.foregroundColor: UIColor(Theme().contentPrimary),
 			.font: UIFont(
 				name: RijksoverheidSansWebTextFont.bold.fontName,
-				size: Font.TextStyle.headline.pointSize
+				size: Font.TextStyle.body.pointSize
 			) as Any
 		]
 		UINavigationBar.appearance().largeTitleTextAttributes = [
@@ -67,9 +84,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		if LaunchArgumentsHandler.shouldResetOnStart() {
 			// Wipe all data
-			Current.wipePersistedData()
+			Container.shared.wipePersistedData()
 			// Reset Featureflag settings
-			Current.featureFlagManager.wipePersistedData()
+			featureFlagManager.wipePersistedData()
 		}
 		
 		if LaunchArgumentsHandler.shouldShowUpdateRequired() {
@@ -79,19 +96,19 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 			}
 		}
 		if let pincode = LaunchArgumentsHandler.withPincode() {
-			Current.secureUserSettings.pinCode = pincode
+			secureUserSettings.pinCode = pincode
 		}
 		if LaunchArgumentsHandler.hasRemoteAuthentication() {
-			Current.secureUserSettings.userHasRemoteAuthentication = true
+			secureUserSettings.userHasRemoteAuthentication = true
 		}
 		if LaunchArgumentsHandler.shouldEnableFaceID() {
-			Current.localAuthenticationProvider.biometricType = { .faceID }
+			localAuthenticationProvider.biometricType = { .faceID }
 		}
 		if LaunchArgumentsHandler.isAutomaticLocalizationEnabled() {
-			Current.featureFlagManager.isAutomaticLocalizationEnabled = true
+			featureFlagManager.isAutomaticLocalizationEnabled = true
 		}
 		if LaunchArgumentsHandler.isDemo() {
-			Current.featureFlagManager.isDemo = true
+			featureFlagManager.isDemo = true
 		}
 	}
 	
@@ -121,13 +138,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		// Back and foreground
 		
-		NotificationCenter.default.addObserver(
+		notificationCenter.addObserver(
 			self,
 			selector: #selector(onWillResignActiveNotification),
 			name: UIApplication.willResignActiveNotification,
 			object: nil
 		)
-		NotificationCenter.default.addObserver(
+		notificationCenter.addObserver(
 			self,
 			selector: #selector(onDidBecomeActiveNotification),
 			name: UIApplication.didBecomeActiveNotification,
@@ -162,9 +179,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 				self.privacySnapshotWindow?.alpha = 1
 			}
 			// Mark the date
-			guard Current.secureUserSettings.enteredBackground == nil else { return }
-			let timeStamp = Current.now()
-			Current.secureUserSettings.enteredBackground = timeStamp
+			guard secureUserSettings.enteredBackground == nil else { return }
+			let timeStamp = Container.shared.now()()
+			secureUserSettings.enteredBackground = timeStamp
 			logWarning("Entered background at", timeStamp)
 		}
 	}
@@ -178,13 +195,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		self.privacySnapshotWindow = nil
 		
 		// Check the timestamp we entered the background.
-		guard let enteredBackground = Current.secureUserSettings.enteredBackground else { return }
+		guard let enteredBackground = secureUserSettings.enteredBackground else { return }
 		if Date().timeIntervalSince(enteredBackground) >= localAuthenticationTimeOut {
 			logWarning("We are in the background longer then \(localAuthenticationTimeOut) seconds. Post show Local Authentication")
-			Current.notificationCenter.post(name: .showLocalAuthentication, object: nil)
+			notificationCenter.post(name: .showLocalAuthentication, object: nil)
 		} else {
 			logVerbose("We returned in time, reset enteredBackground to nil.")
-			Current.secureUserSettings.enteredBackground = nil
+			secureUserSettings.enteredBackground = nil
 		}
 	}
 }

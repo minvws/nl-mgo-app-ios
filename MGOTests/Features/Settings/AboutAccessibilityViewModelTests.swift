@@ -22,7 +22,7 @@ final class AboutAccessibilityViewModelTests: XCTestCase {
 		sut = AboutAccessibilityViewModel(coordinator: self.coordinatorSpy)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
 		
@@ -32,17 +32,5 @@ final class AboutAccessibilityViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
-	}
-	
-	func test_moreInformationPressed() throws {
-		
-		// Given
-		
-		// When
-		sut.reduce(.moreInformationTapped)
-
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showAccessibilityMoreInformation
 	}
 }

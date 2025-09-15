@@ -33,7 +33,11 @@ class LoginViewModel: ObservableObject {
 	/// Create a Login ViewModel
 	/// - Parameter coordinator: The coordinator
 	/// - Parameter urlOpener: The helper to open hyperlinks
-	init(coordinator: (any Coordinator)?, remoteAuthenticationClient: RemoteAuthenticationClientProtocol?, urlOpener: URLOpenerProtocol = UIApplication.shared) {
+	@MainActor init(
+		coordinator: (any Coordinator)?,
+		remoteAuthenticationClient: RemoteAuthenticationClientProtocol?,
+		urlOpener: URLOpenerProtocol = UIApplication.shared
+	) {
 		
 		self.coordinator = coordinator
 		self.remoteAuthenticationClient = remoteAuthenticationClient
@@ -43,38 +47,39 @@ class LoginViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	public func reduce(_ action: Action) {
+	@MainActor public func reduce(_ action: Action) {
 		
 		if action == .loginWithDigiD {
-			guard !Current.featureFlagManager.isDemo else {
+			guard !Container.shared.featureFlagManager().isDemo else {
 				coordinator?.handle(Coordination.Action.loggedInWithDigiD)
 				return
 			}
-			authenticate()
+			_Concurrency.Task(priority: .userInitiated) {
+				await authenticate()
+			}
 		}
 	}
 	
-	private func authenticate() {
+	/// Fetch the authentication url and open it.
+	@MainActor
+	private func authenticate() async {
 		
 		guard state == .idle else { return }
-		
-		Task { @MainActor [remoteAuthenticationClient] in
-			do {
-				guard let remoteAuthenticationClient else { return }
-				
-				state = .loading
-				
-				let authUrl = try await remoteAuthenticationClient.getAuthenticationUrl(callbackUrl: Configuration().getOIDCCallback())
-				guard let authenticationUrl = URL(string: authUrl.absoluteString.replacingOccurrences(of: "max:8006", with: "localhost:8006")) else {
-					return
-				}
-				logDebug("authenticationUrl", authenticationUrl)
-				state = .idle
-				self.urlOpener.openUrlIfPossible(authenticationUrl)
-			} catch {
-				logError("Error fetching oidc start \(error)")
-			}
+		self.setState(.loading)
+		guard let remoteAuthenticationClient else { return }
+		do {
+			let authenticationUrl = try await remoteAuthenticationClient.getAuthenticationUrl(callbackUrl: Configuration().getOIDCCallback())
+			logDebug("authenticationUrl", authenticationUrl)
+			self.urlOpener.openUrlIfPossible(authenticationUrl)
+		} catch {
+			logError("Error fetching oidc start \(error)")
 		}
+		self.setState(.idle)
+	}
+	
+	/// Set the state (to be called from async methods)
+	@MainActor func setState(_ newState: State) {
+		self.state = newState
 	}
 }
 
@@ -133,11 +138,6 @@ struct LoginView: View {
 				}
 			}
 			.padding(ViewTraits.Button.insets)
-			
-//			CallToActionButton(title: "Send deeplink") {
-//				UIApplication.shared.open(URL(string: "mgo-dev://app/login?userinfo=TestContent")!)
-//			}
-//			.padding(ViewTraits.Button.insets)
 		}
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
@@ -148,7 +148,11 @@ struct LoginView: View {
 
 #Preview {
 	NavigationStackBackport.NavigationStack {
-		LoginView(viewModel: LoginViewModel(coordinator: nil, remoteAuthenticationClient: nil)
+		LoginView(
+			viewModel: LoginViewModel(
+				coordinator: nil,
+				remoteAuthenticationClient: nil
+			)
 		)
 	}
 }

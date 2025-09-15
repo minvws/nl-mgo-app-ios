@@ -8,19 +8,19 @@ import MGOTest
 
 final class FeatureFlagManagerTests: XCTestCase {
 
-	override func setUp() {
-		super.setUp()
-		FeatureFlagManager().isAutomaticLocalizationEnabled = false
-		FeatureFlagManager().bypassPincode = false
-	}
+//	@MainActor override func setUp() {
+//		super.setUp()
+//		FeatureFlagManager().isAutomaticLocalizationEnabled = false
+//		FeatureFlagManager().bypassPincode = false
+//	}
 	
-	override func tearDown() {
+	@MainActor override func tearDown() {
 		super.tearDown()
 		FeatureFlagManager().isAutomaticLocalizationEnabled = false
 		FeatureFlagManager().bypassPincode = false
 	}
 	
-	func test_featureFlag_isAutomaticLocalizationEnabled_defaultValue() {
+	@MainActor func test_featureFlag_isAutomaticLocalizationEnabled_defaultValue() {
 
 		// Given
 		let sut = FeatureFlagManager()
@@ -32,7 +32,7 @@ final class FeatureFlagManagerTests: XCTestCase {
 		expect(result) == false
 	}
 	
-	func test_featureFlag_isAutomaticLocalizationEnabled_setValue() {
+	@MainActor func test_featureFlag_isAutomaticLocalizationEnabled_setValue() {
 		
 		// Given
 		FeatureFlagManager().isAutomaticLocalizationEnabled = false
@@ -45,7 +45,7 @@ final class FeatureFlagManagerTests: XCTestCase {
 		expect(result) == false
 	}
 	
-	func test_featureFlag_bypassPincode_defaultValue() {
+	@MainActor func test_featureFlag_bypassPincode_defaultValue() {
 
 		// Given
 		let sut = FeatureFlagManager()
@@ -57,7 +57,7 @@ final class FeatureFlagManagerTests: XCTestCase {
 		expect(result) == false
 	}
 	
-	func test_featureFlag_bypassPincode_setValue() {
+	@MainActor func test_featureFlag_bypassPincode_setValue() {
 		
 		// Given
 		FeatureFlagManager().bypassPincode = false
@@ -70,7 +70,7 @@ final class FeatureFlagManagerTests: XCTestCase {
 		expect(result) == false
 	}
 
-	func test_featureFlag_demo_defaultValue() {
+	@MainActor func test_featureFlag_demo_defaultValue() {
 
 		// Given
 		let sut = FeatureFlagManager()
@@ -82,7 +82,7 @@ final class FeatureFlagManagerTests: XCTestCase {
 		expect(result) == false
 	}
 	
-	func test_featureFlag_demo_setValue() {
+	@MainActor func test_featureFlag_demo_setValue() {
 		
 		// Given
 		FeatureFlagManager().isDemo = true
@@ -95,7 +95,7 @@ final class FeatureFlagManagerTests: XCTestCase {
 		expect(result) == false // Demo hardcoded to false
 	}
 	
-	func test_wipePersistedData() {
+	@MainActor func test_wipePersistedData() {
 		
 		// Given
 		let sut = FeatureFlagManager()

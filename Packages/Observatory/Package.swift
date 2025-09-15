@@ -18,7 +18,10 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "Observatory"
+			name: "Observatory",
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		),
 		.testTarget(
 			name: "ObservatoryTests",

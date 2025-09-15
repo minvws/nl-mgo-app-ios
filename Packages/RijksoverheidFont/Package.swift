@@ -14,7 +14,7 @@ let package = Package(
 	],
 	dependencies: [
 		// External
-		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.6.0"),
+		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.7.0"),
 		
 		// Testing
 		.package(name: "MGOTest", path: "../MGOTest")
@@ -25,7 +25,10 @@ let package = Package(
 			dependencies: [
 				.product(name: "DeviceKit", package: "DeviceKit"),
 			],
-			resources: [.process("Resources")]
+			resources: [.process("Resources")],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		),
 		.testTarget(
 			name: "RijksoverheidFontTests",

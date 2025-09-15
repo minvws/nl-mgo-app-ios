@@ -63,8 +63,8 @@ struct SettingsCoordinatorView<T: SettingsCoordinatorProtocol>: View {
 				}
 				.navigationBarBackButtonHidden(true)
 				.navigationBarTitleDisplayMode(.inline)
-				.backportPresentationContentInteraction(.scrolls)
-				.backportPresentationDragIndicator(UIDevice.current.userInterfaceIdiom == .pad ? Visibility.hidden : Visibility.visible) // Hide on iPad
+				.backport.presentationContentInteraction(.scrolls)
+				.backport.presentationDragIndicator(UIDevice.current.userInterfaceIdiom == .pad ? Visibility.hidden : Visibility.visible) // Hide on iPad
 		}
 	}
 }

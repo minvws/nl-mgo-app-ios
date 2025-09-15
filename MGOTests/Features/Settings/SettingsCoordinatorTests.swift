@@ -22,16 +22,27 @@ final class SettingsCoordinatorTests: XCTestCase {
 		servicesSpies = setupServicesSpies()
 		urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
-		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
 		parentCoordinator = DashboardCoordinatorSpy()
-		sut = SettingsCoordinator(parentCoordinator: parentCoordinator, browser: browser)
+	}
+	
+	@MainActor private func createSut() {
+		
+		let browser = RestrictedBrowser(
+			allowedDomains: ["irealisatie.nl"],
+			urlOpener: urlOpenerSpy
+		)
+		sut = SettingsCoordinator(
+			parentCoordinator: parentCoordinator,
+			browser: browser
+		)
 	}
 	
 	// MARK: - Handle -
 	
-	func test_coordinatorHandle_backButtonPressed() {
+	@MainActor func test_coordinatorHandle_backButtonPressed() {
 		
 		// Given
+		createSut()
 		sut.path = NavigationStackBackport.NavigationPath([SettingsCoordination.State.displaySettings])
 		
 		// When
@@ -41,9 +52,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	func test_coordinatorHandle_showDisplaySettings() {
+	@MainActor func test_coordinatorHandle_showDisplaySettings() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handle(Coordination.Action.showDisplaySettings)
@@ -52,9 +64,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.displaySettings])
 	}
 	
-	func test_coordinatorHandle_showSecuritySettings() {
+	@MainActor func test_coordinatorHandle_showSecuritySettings() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handle(Coordination.Action.showSecuritySettings)
@@ -63,9 +76,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.securitySettings])
 	}
 	
-	func test_coordinatorHandle_showAdvancedSettings() {
+	@MainActor func test_coordinatorHandle_showAdvancedSettings() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handle(Coordination.Action.showAdvancedSettings)
@@ -74,9 +88,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.advancedSettings])
 	}
 	
-	func test_coordinatorHandle_showAboutTheApp() {
+	@MainActor func test_coordinatorHandle_showAboutTheApp() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handle(Coordination.Action.showAboutTheApp)
@@ -85,9 +100,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutTheApp])
 	}
 	
-	func test_coordinatorHandle_showAboutAccessibility() {
+	@MainActor func test_coordinatorHandle_showAboutAccessibility() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handle(Coordination.Action.showAccessibility)
@@ -96,20 +112,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutAccessibility])
 	}
 	
-	func test_coordinatorHandle_showAccessibilityMoreInformation() {
+	@MainActor func test_coordinatorHandle_showSafetyTips() {
 		
 		// Given
-		
-		// When
-		sut.handle(Coordination.Action.showAccessibilityMoreInformation)
-		
-		// Then
-		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
-	}
-	
-	func test_coordinatorHandle_showSafetyTips() {
-		
-		// Given
+		createSut()
 		
 		// When
 		sut.handle(Coordination.Action.showSafetyTips)
@@ -118,9 +124,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutSafetyTips])
 	}
 	
-	func test_coordinatorHandle_showOpenSourceLibraries() {
+	@MainActor func test_coordinatorHandle_showOpenSourceLibraries() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handle(Coordination.Action.showOpenSourceLibraries)
@@ -129,9 +136,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.sut.path) == NavigationStackBackport.NavigationPath([SettingsCoordination.State.aboutOpenSourceLibraries])
 	}
 	
-	func test_coordinatorHandle_openUrl() {
+	@MainActor func test_coordinatorHandle_openUrl() {
 		
 		// Given
+		createSut()
 		let params: [String: AnyHashable] = ["urlString": "https://example.com"]
 		
 		// When
@@ -141,9 +149,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
-	func test_coordinatorHandle_openUrl_wrongParams() {
+	@MainActor func test_coordinatorHandle_openUrl_wrongParams() {
 		
 		// Given
+		createSut()
 		let params: [String: AnyHashable] = ["wrongParam": "https://example.com"]
 		
 		// When
@@ -153,9 +162,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beFalse())
 	}
 	
-	func test_coordinatorHandle_lockAppliction() {
+	@MainActor func test_coordinatorHandle_lockAppliction() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handle(Coordination.Action.lockApplication)
@@ -164,9 +174,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 	
-	func test_coordinatorHandle_showPrivacyStatement() {
+	@MainActor func test_coordinatorHandle_showPrivacyStatement() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handle(Coordination.Action.showPrivacyStatement)
@@ -175,9 +186,10 @@ final class SettingsCoordinatorTests: XCTestCase {
 		expect(self.urlOpenerSpy.invokedOpen).toEventually(beTrue())
 	}
 	
-	func test_coordinatorHandle_resetApplication() {
+	@MainActor func test_coordinatorHandle_resetApplication() {
 		
 		// Given
+		createSut()
 		
 		// When
 		sut.handle(Coordination.Action.resetApplication)

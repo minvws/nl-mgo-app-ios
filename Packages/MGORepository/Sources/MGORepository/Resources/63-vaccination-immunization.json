@@ -1,0 +1,12 @@
+{
+    "id": "63",
+    "name": "Vaccination Immunization",
+    "fhirVersion": "R4",
+    "endpoints": [
+        {
+            "id": "vaccination",
+            "url": "/Immunization",
+            "profiles": ["http://nictiz.nl/fhir/StructureDefinition/nl-core-Vaccination-event"]
+        }
+    ]
+}

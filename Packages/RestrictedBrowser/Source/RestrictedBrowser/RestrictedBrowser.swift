@@ -15,7 +15,7 @@ public class RestrictedBrowser: DomainDecider {
 	
 	/// Initializer
 	/// - Parameter allowedDomains: the array of allowed domains
-	public init(allowedDomains: [String], urlOpener: URLOpenerProtocol = UIApplication.shared) {
+	public init(allowedDomains: [String], urlOpener: URLOpenerProtocol) {
 		self.allowedDomains = allowedDomains
 		self.urlOpener = urlOpener
 	}
@@ -23,7 +23,7 @@ public class RestrictedBrowser: DomainDecider {
 	/// Is this domain allowed
 	/// - Parameter url: the url to inspedt
 	/// - Returns: True if the domain of the url is allowed
-	public func isDomainAllowed(_ url: URL) -> Bool {
+	@MainActor public func isDomainAllowed(_ url: URL) -> Bool {
 		
 		guard let host = url.host, !allowedDomains.isEmpty else {
 			return false
@@ -33,14 +33,14 @@ public class RestrictedBrowser: DomainDecider {
 	
 	/// Handle an unallowed domain
 	/// - Parameter url: the url that is not allowed
-	public func handleUnallowedDomain(_ url: URL) {
+	@MainActor public func handleUnallowedDomain(_ url: URL) {
 		// Open unallowed domains in the default browser
 		openInDefaultBrowser(url: url)
 	}
 	
 	/// open this url in an external browser
 	/// - Parameter url: the url to be opened
-	public func openInDefaultBrowser(url: URL) {
+	@MainActor public func openInDefaultBrowser(url: URL) {
 		urlOpener.openUrlIfPossible(url)
 	}
 }

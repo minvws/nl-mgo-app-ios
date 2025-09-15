@@ -18,6 +18,8 @@ packages:
     path: ./Packages/FileStorage
   GitHubArtifactDownload:
     path: ./Packages/GitHubArtifactDownload
+  HCIMCore:
+    path: ./Packages/HCIMCore
   JailBreakDetector:
     path: ./Packages/JailBreakDetector
   LocalAuthenticationProvider:
@@ -40,6 +42,8 @@ packages:
     path: ./Packages/NotificationCenter
   Observatory:
     path: ./Packages/Observatory
+  PatientFriendlyTerms:
+    path: ./Packages/PatientFriendlyTerms
   PdfExport:
     path: ./Packages/PdfExport
   RemoteAuthentication:
@@ -56,8 +60,6 @@ packages:
     path: ./Packages/Sanitizer
   SecureUserSettings:
     path: ./Packages/SecureUserSettings
-  SharedCore:
-    path: ./Packages/SharedCore
   Theme:
     path: ./Packages/Theme
 # - Attributes:
@@ -100,7 +102,7 @@ settings:
     CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
     ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS: true
     ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: true
-    SWIFT_STRICT_CONCURRENCY: targeted
+    SWIFT_STRICT_CONCURRENCY: complete
     FRAMEWORK_SEARCH_PATHS:
       - "$(inherited)"
       - "$(PROJECT_DIR)"
@@ -212,7 +214,7 @@ targetTemplates:
           - 'microsoft-edge-https'
           - 'itms-apps'
         LSRequiresIPhoneOS: true
-        NSFaceIDUsageDescription: "Log volgende keer in met gezichtsherkenning."
+        NSFaceIDUsageDescription: "Log voortaan snel en veilig in met gezichtsherkenning."
         UIApplicationSupportsIndirectInputEvents: true
         UIRequiredDeviceCapabilities:
           - armv7
@@ -439,6 +441,9 @@ schemes:
         - package: Observatory/ObservatoryTests
           randomExecutionOrder: true
           parallelizable: false
+        - package: PatientFriendlyTerms/PatientFriendlyTermsTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: PdfExport/PdfExportTests
           randomExecutionOrder: true
           parallelizable: false
@@ -466,7 +471,7 @@ schemes:
         - package: SecureUserSettings/SecureUserSettingsTests
           randomExecutionOrder: true
           parallelizable: false
-        - package: SharedCore/SharedCoreTests
+        - package: HCIMCore/HCIMCoreTests
           randomExecutionOrder: true
           parallelizable: false
 

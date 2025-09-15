@@ -6,7 +6,7 @@
 import Foundation
 
 /// Errors for the Localisation Service Client
-public enum LocalisationServiceClientError: Error {
+public enum LocalisationServiceClientError: Error, Sendable {
 	case noServer
 	case noOrganizations
 }

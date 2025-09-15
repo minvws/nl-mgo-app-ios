@@ -17,7 +17,7 @@ final class PropositionViewTests: XCTestCase {
 		super.setUp()
 	}
 	
-	func createSut() -> PropositionView {
+	@MainActor func createSut() -> PropositionView {
 		
 		return PropositionView(
 			viewModel: PropositionViewModel(
@@ -26,7 +26,7 @@ final class PropositionViewTests: XCTestCase {
 		)
 	}
 	
-	func test_showProposition() {
+	@MainActor func test_showProposition() {
 		
 		// Given
 		let sut = createSut()
@@ -38,7 +38,7 @@ final class PropositionViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_handleURL_validlink() throws {
+	@MainActor func test_handleURL_validlink() throws {
 		
 		// Given
 		let sut = createSut()
@@ -52,7 +52,7 @@ final class PropositionViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showPrivacyStatement
 	}
 	
-	func test_nextButtonPressed_shouldCallCoordinator() throws {
+	@MainActor func test_nextButtonPressed_shouldCallCoordinator() throws {
 		
 		// Given
 		let sut = createSut()

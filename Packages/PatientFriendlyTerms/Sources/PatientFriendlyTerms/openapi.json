@@ -1,0 +1,86 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Patient Friendly Term API",
+    "version": "0.0.1",
+    "description": "API for retrieving medical or health-related concepts.",
+    "license": {
+      "name": "EUPL-1.2",
+      "url": "https://eupl.eu/1.2/en/"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://app-api.test.mgo.irealisatie.nl/v1/mgo"
+    }
+  ],
+  "paths": {
+    "/pft.json": {
+      "get": {
+        "summary": "Retrieve Patient Friendly Terms",
+        "description": "Returns a dictionary of medical concepts keyed by unique identifiers.",
+        "operationId": "getPft",
+        "parameters": [
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "description": "ETag value to check if the resource has changed",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object containing medical patient friendly terms",
+            "headers": {
+              "ETag": {
+                "description": "Entity tag for the returned resource",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/PatientFriendlyTerm"
+                  }
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Resource not modified"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PatientFriendlyTerm": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the term",
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the term"
+          },
+          "synonym": {
+            "type": "string",
+            "description": "An optional synonym for the term",
+          }
+        },
+        "required": ["description"]
+      }
+    }
+  }
+}

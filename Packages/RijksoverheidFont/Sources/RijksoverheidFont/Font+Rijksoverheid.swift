@@ -6,7 +6,8 @@
 import SwiftUI
 
 extension Font {
-	
+
+	/// Name space for Rijksoverheid font
 	public struct RijksoverheidSansWebText {
 		
 		/// Returns a fixed-size font of the specified style.
@@ -24,7 +25,7 @@ extension Font {
 		///   - style: The style of the RijksoverheidSansWebTextFont (bold, italic, regular)
 		///   - size: the relative font size
 		///   - textStyle: the text style
-		/// - Returns: the approptiate relative font
+		/// - Returns: the appropriate relative font
 		public static func relative(_ style: RijksoverheidSansWebTextFont, size: CGFloat, relativeTo textStyle: Font.TextStyle) -> Font {
 			return Font.custom(style.fontName, size: size, relativeTo: textStyle)
 		}

@@ -36,7 +36,7 @@ struct HealthCategoryRow: Equatable, Identifiable {
 	var action: (() -> Void)?
 }
 
-struct HealthSubCategory: Equatable, Identifiable {
+struct HealthCategoryBlock: Equatable, Identifiable {
 	
 	/// Identifier of a sub category
 	let id = UUID()
@@ -55,10 +55,10 @@ enum HealthCategoryViewState: Equatable {
 	case loading
 	
 	/// All the data is available
-	case list(items: [HealthSubCategory])
+	case list(items: [HealthCategoryBlock])
 	
 	/// Only partial data is available
-	case partial(items: [HealthSubCategory])
+	case partial(items: [HealthCategoryBlock])
 	
 	/// Equality
 	/// - Parameters:
@@ -129,7 +129,7 @@ class HealthCategoryViewModel: ObservableObject {
 	private var organization: MgoOrganization?
 	
 	/// The category to show
-	private var category: HealthCategories.Category
+	private var category: SharedHealthCategories.Category
 	
 	/// The text to filter the results on. 
 	@Published var searchText = ""
@@ -137,8 +137,17 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Token for the data store observatory
 	private var dataStoreToken: Observatory.ObserverToken?
 	
-	/// The FHIR Parser
-	private let parser = FHIRParser()
+	/// The HCIM parser
+	private let parser = HCIMParser()
+	
+	/// Dependency Healthcare Organization Store
+	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
+	
+	/// Dependency Injectable Data Store
+	@Injected(\.dataStore) private var dataStore
+	
+	/// Dependency Injectable Resource Repository
+	@Injected(\.resourceRepository) private var resourceRepository
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -152,9 +161,9 @@ class HealthCategoryViewModel: ObservableObject {
 	
 	/// Create a Health category view model
 	/// - Parameter coordinator: the app coordinator
-	init(
+	@MainActor init(
 		coordinator: (any Coordinator)? = nil,
-		category: HealthCategories.Category,
+		category: SharedHealthCategories.Category,
 		organization: MgoOrganization?,
 		translations: HealthCategoryViewTranslations
 	) {
@@ -168,11 +177,11 @@ class HealthCategoryViewModel: ObservableObject {
 	
 	deinit {
 		// Remove as observer
-		dataStoreToken.map(Current.dataStore.observatory.remove)
+		dataStoreToken.map(dataStore.observatory.remove)
 	}
 	
-	private func registerObservers() {
-		self.dataStoreToken = Current.dataStore.observatory.append { [weak self] changed in
+	@MainActor private func registerObservers() {
+		self.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
 				// Handle updates in the fetched data
 				self?.handleDataStoreChanges()
@@ -191,7 +200,7 @@ class HealthCategoryViewModel: ObservableObject {
 			case .onAppear:
 				FileStorage().remove(HealthDirectory.binary)
 				FileStorage().remove(HealthDirectory.export)
-				_Concurrency.Task {
+				_Concurrency.Task(priority: .userInitiated) {
 					 await loadResources()
 				}
 			
@@ -207,51 +216,43 @@ class HealthCategoryViewModel: ObservableObject {
 			
 			case .exportHealthData:
 			
-				var subCategories = [HealthSubCategory]()
+				var blocks = [HealthCategoryBlock]()
 				if case let .list(items) = state {
-					subCategories = items
+					blocks = items
 				}
 				if case let .partial(items) = state {
-					subCategories = items
+					blocks = items
 				}
 				
 				coordinator?.handle(
 					Coordination.Action(
 						identifier: Coordination.Action.exportHealthData.identifier,
 						params: [
-							"healthData": HealthDataMapper().map(category, data: subCategories)
+							"healthData": HealthDataMapper().map(category, data: blocks)
 						]
 					)
 				)
 		}
 	}
 	
-	private func retry() {
+	@MainActor private func retry() {
 		
 		state = .loading
-		Current.dataStore.removeRecords(for: "\(category.rawValue)", organizationId: organization?.identifier)
+		dataStore.removeRecords(for: category.id, organizationId: organization?.identifier)
 		
-		guard category.services.isNotEmpty else {
-			_Concurrency.Task.delayed(byTimeInterval: 1.5) { [weak self] in
-				await self?.loadResources()
-			}
-			return
-		}
-		
-		_Concurrency.Task {
-			if let organization {
-				await Current.resourceRepository.loadResource(organization, category: category)
-			} else {
-				await Current.resourceRepository.loadFor(category)
-			}
+		if let organization {
+			resourceRepository.loadResource(organization, category: category)
+		} else {
+			resourceRepository.loadFor(category)
 		}
 	}
 	
+	@MainActor
 	func handleDataStoreChanges() {
 		let expectedNumberOfResults: Int = {
 			if organization == nil {
 				var result = 0
-				for organizationItem in Current.healthcareOrganizationStore.organizations {
+				for organizationItem in healthcareOrganizationRepository.organizations {
 					result += organizationItem.servicesForCategory(category)
 				}
 				return result
@@ -259,7 +260,7 @@ class HealthCategoryViewModel: ObservableObject {
 				return organization?.servicesForCategory(category) ?? 0
 			}
 		}()
-		_Concurrency.Task {
+		_Concurrency.Task(priority: .high) {
 			 await loadResources(threshold: expectedNumberOfResults)
 		}
 	}
@@ -269,9 +270,12 @@ class HealthCategoryViewModel: ObservableObject {
 		
 		let cacheResult: Result<[MgoResourceRecord], Error> = {
 			if let organization {
-				return Current.dataStore.get(categoryId: "\(category.rawValue)", organizationId: organization.identifier)
+				return dataStore.get(
+					categoryId: category.id,
+					organizationId: organization.identifier
+				)
 			} else {
-				return Current.dataStore.get(categoryId: "\(category.rawValue)")
+				return dataStore.get(categoryId: category.id)
 			}
 		}()
 		
@@ -284,10 +288,19 @@ class HealthCategoryViewModel: ObservableObject {
 				}
 				
 				let sorted = sortRecords(records: records)
-
 				if sorted.partial {
 					state = .partial(items: sorted.subCategories)
 				} else {
+					// Check if we have any rows with an accepted profile
+					var hasRows = false
+					for subCategory in sorted.subCategories where subCategory.rows.isNotEmpty {
+						hasRows = true
+					}
+					guard hasRows else {
+						state = .list(items: [])
+						return
+					}
+					
 					state = .list(items: sorted.subCategories)
 				}
 			case .failure:
@@ -298,15 +311,20 @@ class HealthCategoryViewModel: ObservableObject {
 	/// Sort the records on subcategory
 	/// - Parameter records: the records to sort
 	/// - Returns: sorted sub categories
-	internal func sortRecords(records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthSubCategory]) {
+	@MainActor internal func sortRecords(
+		records: [MgoResourceRecord]) -> (partial: Bool, subCategories: [HealthCategoryBlock]
+		) {
 		
-		var items = [HealthSubCategory]()
+		var items = [HealthCategoryBlock]()
 		var partial = false
 		
 		// Create list of subcategories
-		for profile in category.acceptedProfiles {
-			if let heading = category.subCategory(profile) {
-				var subCat = HealthSubCategory(heading: String(localized: heading), rows: [])
+		for subcategory in category.subcategories {
+			for profile in subcategory.profiles {
+				var subCat = HealthCategoryBlock(
+					heading: String(localized: String.LocalizationValue(stringLiteral: subcategory.heading)),
+					rows: []
+				)
 				for record in records {
 					subCat.rows.append(contentsOf: parseRecord(record, acceptedProfile: profile))
 					partial = partial || record.error
@@ -325,25 +343,27 @@ class HealthCategoryViewModel: ObservableObject {
 				}
 			}
 		}
-		
 		return (partial, items)
 	}
 	
 	/// Extract rows from the data store records
 	/// - Parameter record: the record
 	/// - Returns: displayable rows
-	private func parseRecord(_ record: MgoResourceRecord, acceptedProfile: String) -> [HealthCategoryRow] {
+	@MainActor private func parseRecord(
+		_ record: MgoResourceRecord,
+		acceptedProfile: String
+	) -> [HealthCategoryRow] {
 		
 		var items = [HealthCategoryRow]()
 		// For all the MgoResources
 		for resource in record.resources where resource.hasProfile(acceptedProfile) {
-			
-			if let uiSchema = parser.getSummary(resource) {
+			let orginizationName = Sanitizer.strip(getOrganizationName(record.organizationId))
+			if let uiSchema = parser.getSummary(resource, organizationName: orginizationName) {
 				// Add a HealthCategoryBlock to the display list
 				items.append(
 					HealthCategoryRow(
 						heading: Sanitizer.sanitize(uiSchema.label),
-						subHeading: Sanitizer.strip(getOrganizationName(record.organizationId)),
+						subHeading: orginizationName,
 						schema: uiSchema
 					) { [weak self] in
 							
@@ -379,7 +399,7 @@ class HealthCategoryViewModel: ObservableObject {
 	/// - Returns: optional name
 	func getOrganization(_ identifier: String) -> MgoOrganization? {
 		
-		return Current.healthcareOrganizationStore.organizations.first { $0.identifier == identifier }
+		return healthcareOrganizationRepository.organizations.first { $0.identifier == identifier }
 	}
 }
 
@@ -469,7 +489,7 @@ struct HealthCategoryView: View {
 	
 	/// Create the list state view
 	/// - Returns: View when the user has some stored healthcare organizations
-	@ViewBuilder func listOverview(list: [HealthSubCategory]) -> some View {
+	@ViewBuilder func listOverview(list: [HealthCategoryBlock]) -> some View {
 	
 		VStack {
 			if list.isNotEmpty {
@@ -484,20 +504,20 @@ struct HealthCategoryView: View {
 	/// Get the filtered search result list
 	/// - Parameter list: the original list
 	/// - Returns: filtered list
-	private func filterList(_ list: [HealthSubCategory]) -> [HealthSubCategory] {
+	private func filterList(_ list: [HealthCategoryBlock]) -> [HealthCategoryBlock] {
 		
 		guard viewModel.searchText.isNotEmpty else {
 			return list
 		}
 		
-		var result = [HealthSubCategory]()
+		var result = [HealthCategoryBlock]()
 		for sub in list {
 			let filteredItems = sub.rows.filter {
 				($0.heading.localizedCaseInsensitiveContains(viewModel.searchText.lowercased())) ||
 				$0.subHeading?.localizedCaseInsensitiveContains(viewModel.searchText.lowercased()) ?? false
 			}
 			if filteredItems.isNotEmpty {
-				result.append(HealthSubCategory(heading: sub.heading, rows: filteredItems))
+				result.append(HealthCategoryBlock(heading: sub.heading, rows: filteredItems))
 			}
 		}
 		return result
@@ -505,7 +525,7 @@ struct HealthCategoryView: View {
 	
 	/// Create the list state view
 	/// - Returns: View when the user has some stored healthcare organizations
-	@ViewBuilder func listOverviewBlocks(list: [HealthSubCategory]) -> some View {
+	@ViewBuilder func listOverviewBlocks(list: [HealthCategoryBlock]) -> some View {
 		
 		VStack {
 			
@@ -518,7 +538,7 @@ struct HealthCategoryView: View {
 					
 						if subCategory.rows.isNotEmpty {
 							blockView(
-								showHeading: Current.featureFlagManager.isDemo ? true : list.filter { $0.rows.isNotEmpty }.count != 1,
+								showHeading: Container.shared.featureFlagManager().isDemo ? true : list.filter { $0.rows.isNotEmpty }.count != 1,
 								subCategory: subCategory,
 								subCategoryIndex: subCategoryIndex
 							)
@@ -553,7 +573,7 @@ struct HealthCategoryView: View {
 	/// - Returns: view
 	@ViewBuilder private func blockView(
 		showHeading: Bool,
-		subCategory: HealthSubCategory,
+		subCategory: HealthCategoryBlock,
 		subCategoryIndex: Int) -> some View {
 		if showHeading {
 			Text(subCategory.heading)
@@ -654,7 +674,7 @@ struct HealthCategoryView: View {
 		HealthCategoryView(
 			viewModel: HealthCategoryViewModel(
 				coordinator: nil,
-				category: HealthCategories.Category.medication,
+				category: PreviewContent.category,
 				organization: PreviewContent.healthcareOrganization,
 				translations: HealthCategoryViewTranslations(
 					heading: "hc_medication.heading",

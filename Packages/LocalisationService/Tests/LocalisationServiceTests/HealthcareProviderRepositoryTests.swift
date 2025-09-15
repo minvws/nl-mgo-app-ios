@@ -105,8 +105,7 @@ final class HealthcareOrganiationRepositoryTests: XCTestCase {
 				address: "\(address) \r\n \(postalCode) \(city)",
 				city: city,
 				lines: [address],
-				postalcode: postalCode,
-				_type: "postal")
+				postalcode: postalCode)
 			],
 			types: [
 				Components.Schemas.CType(

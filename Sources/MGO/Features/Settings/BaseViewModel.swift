@@ -24,7 +24,7 @@ class BaseViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: BaseViewModel.Action) {
+	@MainActor func reduce(_ action: BaseViewModel.Action) {
 		
 		if action == .backButtonPressed {
 			coordinator?.handle(.backButtonPressed)

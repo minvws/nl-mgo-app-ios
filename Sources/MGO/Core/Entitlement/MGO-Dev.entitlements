@@ -6,5 +6,7 @@
 	<array>
 		<string>applinks:web.test.mgo.irealisatie.nl</string>
 	</array>
+	<key>com.apple.developer.default-data-protection</key>
+	<string>NSFileProtectionComplete</string>
 </dict>
 </plist>

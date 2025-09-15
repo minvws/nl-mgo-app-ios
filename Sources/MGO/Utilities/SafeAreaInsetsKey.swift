@@ -5,13 +5,8 @@
 
 import MGOUI
 
-private struct SafeAreaInsetsKey: EnvironmentKey {
-	static var defaultValue: EdgeInsets = .init()
-}
-
 extension EnvironmentValues {
-	var safeAreaInsets: EdgeInsets {
-		get { self[SafeAreaInsetsKey.self] }
-		set { self[SafeAreaInsetsKey.self] = newValue }
-	}
+	
+	/// The environment key for the safe area egde insets
+	@Entry public var safeAreaInsets: EdgeInsets = EdgeInsets()
 }

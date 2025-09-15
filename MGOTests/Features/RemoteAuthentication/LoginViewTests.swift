@@ -20,19 +20,24 @@ final class LoginViewTests: XCTestCase {
 		coordinatorSpy = AppCoordinatorSpy()
 		servicesSpies = setupServicesSpies()
 		let url = try XCTUnwrap(URL(string: "https://example.com"))
-		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url, username: nil, password: nil)
+		remoteAuthenticationClientSpy = RemoteAuthenticationClientSpy(serverUrl: url)
+		
+		super.setUp()
+	}
+	
+	@MainActor private func createSut() {
+		
 		viewModel = LoginViewModel(
 			coordinator: coordinatorSpy,
 			remoteAuthenticationClient: remoteAuthenticationClientSpy
 		)
 		sut = LoginView(viewModel: self.viewModel)
-		
-		super.setUp()
 	}
 	
-	func test_loginView() {
+	@MainActor func test_loginView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -41,9 +46,10 @@ final class LoginViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_loginView_loading() {
+	@MainActor func test_loginView_loading() {
 		
 		// Given
+		createSut()
 		viewModel.state = .loading
 		
 		// When
@@ -53,9 +59,10 @@ final class LoginViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() throws {
+	@MainActor func test_loginWithDigiD_shouldCallCoordinator_whenDemoMode() throws {
 		
 		// Given
+		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
 
 		// When
@@ -67,9 +74,10 @@ final class LoginViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.loggedInWithDigiD
 	}
 	
-	func test_loginWithDigiD_loading_shouldNotCallCoordinator_whenDemoMode() throws {
+	@MainActor func test_loginWithDigiD_loading_shouldNotCallCoordinator_whenDemoMode() throws {
 		
 		// Given
+		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsDemo = true
 		viewModel.state = .loading
 

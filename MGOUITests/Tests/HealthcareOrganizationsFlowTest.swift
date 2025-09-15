@@ -5,6 +5,7 @@
 
 import XCTest
 
+@MainActor
 final class HealthcareOrganizationsFlowTests: XCTestCase {
 	
 	/*
@@ -29,6 +30,7 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 			.tapHealthcareOrganizationButton(self.healthcareOrganizationName)
 	}
 	
+	@MainActor
 	func testHealthcareOrganizations_navigateToRemoveOrganization() {
 		
 		AppRobot()
@@ -38,7 +40,7 @@ final class HealthcareOrganizationsFlowTests: XCTestCase {
 			.tapHealthcareOrganizationButton("Kwalificatie Medmij: BGZ")
 			.verifyHeadingExists("Kwalificatie Medmij: BGZ")
 			.verifySubHeadingExists()
-			.verifyCategoryExists("Medische klachten")
+			.verifyCategoryExists("problems")
 			.swipeToRemoveHealthcareOrganizationButton()
 			.verifyRemoveHealthcareOrganizationButton()
 	}

@@ -17,7 +17,7 @@ public protocol RemoteConfigurationRepositoryProtocol {
 	var observatory: Observatory<RemoteConfig> { get }
 	
 	/// Fetch the config and update all observers
-	func fetchAndUpdateObservers()
+	func fetchAndUpdateObservers() async
 
 	/// Remove the remote configuration from storage
 	func wipePersistedData()
@@ -71,20 +71,21 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 		storedConfiguration = RemoteConfig.fallback
 	}
 	
-	public func fetchAndUpdateObservers() {
+	/// Fetch the configuration and update all observers
+	public func fetchAndUpdateObservers() async {
 		
-		_Concurrency.Task {
-			let config = await fetchConfig()
-			storedConfiguration = config
-			try? persistToStorage()
-			observers(config)
-		}
+		let config = await fetchConfig()
+		storedConfiguration = config
+		try? persistToStorage()
+		observers(config)
 	}
 	
+	/// Fetch the configuration
 	func fetchConfig() async -> RemoteConfig {
 		do {
 			// First attempt to fetch from the api
 			let config = try await fetchFromApi()
+			logInfo("RemoteConfigurationRepository: config loaded", config)
 			return config
 		} catch {
 			logError("RemoteConfigurationRepository: Error fetching config", error)
@@ -134,7 +135,6 @@ public class RemoteConfigurationRepository: RemoteConfigurationRepositoryProtoco
 	
 	/// Persist the remote config to storage
 	private func persistToStorage() throws {
-		#warning("This is stored in plain text on disk. Before release, this should be changed!")
 		try queue.sync {
 			let encoded = try JSONEncoder().encode(storedConfiguration)
 			try storage.store(encoded, as: fileName)

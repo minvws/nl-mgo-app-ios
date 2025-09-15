@@ -10,7 +10,7 @@ protocol Coordinator: AnyObject {
 	
 	/// Handle any incoming action from any of the view models
 	/// - Parameter action: any  Coordination Action
-	func handle(_ action: Coordination.Action)
+	@MainActor func handle(_ action: Coordination.Action)
 }
 
 /// Name space for the Coordinator
@@ -20,13 +20,14 @@ public struct Coordination {
 	public struct Action: Equatable {
 		
 		/// the action identifier
-		public var identifier: String
+		public let identifier: String
 		
 		/// optional params for this action
-		public var params: [String: AnyHashable]
-
-		/// Initializer
-		/// - Parameter identifier: identifier
+		public let params: [String: AnyHashable]
+		
+		/// Create an action
+		/// - Parameter identifier: the identifier for this action
+		/// - Parameter params: an array of parameters for this action with string keys
 		public init(identifier: String, params: [String: AnyHashable] = [:]) {
 			self.identifier = identifier
 			self.params = params

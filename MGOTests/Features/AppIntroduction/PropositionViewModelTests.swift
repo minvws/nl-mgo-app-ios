@@ -18,7 +18,7 @@ final class PropositionViewModelTests: XCTestCase {
 		super.setUp()
 	}
 
-	func test_buttonPressed_shouldCallCoordinator() {
+	@MainActor func test_buttonPressed_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -30,7 +30,7 @@ final class PropositionViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.nextButtonPressedOnProposition
 	}
 	
-	func test_privacyLinkClicked_shouldChangeState() {
+	@MainActor func test_privacyLinkClicked_shouldChangeState() {
 		
 		// Given
 		
@@ -42,7 +42,7 @@ final class PropositionViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showPrivacyStatement
 	}
 	
-	func test_backButtonPressed_shouldChangeState() {
+	@MainActor func test_backButtonPressed_shouldChangeState() {
 		
 		// Given
 		

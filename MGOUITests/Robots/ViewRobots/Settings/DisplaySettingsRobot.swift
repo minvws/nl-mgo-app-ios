@@ -5,10 +5,10 @@
 
 import XCTest
 
-class DisplaySettingsRobot: Robot {
+@MainActor class DisplaySettingsRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Display Settings Robot
 	/// - Parameter application: the application to test

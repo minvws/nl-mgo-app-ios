@@ -8,7 +8,7 @@ import MGOUI
 import RestrictedBrowser
 
 /// The states of a download view
-enum HealthDataDownloadState: Equatable {
+enum HealthDataDownloadState: Equatable, Sendable {
 	
 	case loading(label: String)
 	case idle(label: String)
@@ -18,7 +18,7 @@ enum HealthDataDownloadState: Equatable {
 	case error
 }
 
-class HealthDataDownloadViewModel: ObservableObject {
+@MainActor class HealthDataDownloadViewModel: ObservableObject {
 	
 	/// The state of the view
 	@Published var state: HealthDataDownloadState
@@ -64,7 +64,7 @@ class HealthDataDownloadViewModel: ObservableObject {
 	///   - downloadLink: the download Link to display
 	///   - urlOpener: the helper to open urls.
 	///   - binaryRepository: the repository for binaries
-	init(
+	@MainActor init(
 		healthcareOrganization: MgoOrganization,
 		downloadLink: DownloadLink,
 		urlOpener: URLOpenerProtocol = UIApplication.shared) {
@@ -89,7 +89,7 @@ class HealthDataDownloadViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: HealthDataDownloadViewModel.Action) {
+	@MainActor func reduce(_ action: HealthDataDownloadViewModel.Action) {
 		
 		switch action {
 			case .download: download()
@@ -99,7 +99,7 @@ class HealthDataDownloadViewModel: ObservableObject {
 	}
 	
 	/// Handle the click on the download button
-	private func download() {
+	@MainActor private func download() {
 		
 		if downloadLink != nil {
 			doDownloadLink()
@@ -127,13 +127,13 @@ class HealthDataDownloadViewModel: ObservableObject {
 		
 		state = .loading(label: downloadBinary.label)
 		
-		_Concurrency.Task {
+		_Concurrency.Task(priority: .userInitiated) {
 			await loadBinary(reference, label: downloadBinary.label)
 		}
 	}
 	
 	/// The user tapped the download button for a download link type
-	private func doDownloadLink() {
+	@MainActor private func doDownloadLink() {
 		
 		// Only Links
 		guard let downloadLink else { return }
@@ -161,6 +161,7 @@ class HealthDataDownloadViewModel: ObservableObject {
 		}
 	}
 	
+	@MainActor
 	private func shareDocument(_ url: URL) {
 		
 		guard let vc = UIApplication.shared.firstKeyWindow?.rootViewController else { return }
@@ -176,9 +177,10 @@ class HealthDataDownloadViewModel: ObservableObject {
 	func loadBinary(_ externalUrl: String, label: String) async {
 		
 		do {
-			if let binary = try await Current.resourceRepository.loadBinary(
+			if let documentService = DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.first(where: { $0.name == "Documents PDF/A" }),
+			   let binary = try await Container.shared.resourceRepository().loadBinary(
 				healthcareOrganization,
-				serviceId: DVP.Documents.serviceID,
+				serviceId: documentService.id,
 				url: externalUrl
 			) {
 				logInfo("binary", binary.contentType)

@@ -3,7 +3,7 @@
  *  SPDX-License-Identifier: EUPL-1.2
  */
 
-import MGOTest
+@preconcurrency import MGOTest
 @testable import MGO
 import MGOFoundation
 import MGOUI
@@ -29,7 +29,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		)
 	}
 	
-	private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
+	@MainActor private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
 		
 		viewModel = OrganizationListManualViewModel(
 			coordinator: coordinatorSpy,
@@ -40,7 +40,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		sut = OrganizationListManualView(viewModel: self.viewModel)
 	}
 
-	func test_loading() {
+	@MainActor func test_loading() {
 		
 		// Given
 		createSut()
@@ -53,7 +53,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
 		createSut()
@@ -68,7 +68,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_empty() {
+	@MainActor func test_empty() {
 		
 		// Given
 		createSut()
@@ -82,7 +82,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		takeSnapShotsForiPad(content: content)
 	}
 	
-	func test_empty_action() throws {
+	@MainActor func test_empty_action() throws {
 		
 		// Given
 		createSut()
@@ -98,7 +98,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		expect(self.servicesSpies.notificationCenterSpy.invokedPostName) == true
 	}
 
-	func test_failure() {
+	@MainActor func test_failure() {
 		
 		// Given
 		createSut()
@@ -112,7 +112,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_failure_action() throws {
+	@MainActor func test_failure_action() async throws {
 		
 		// Given
 		createSut()
@@ -124,11 +124,12 @@ final class OrganizationListManualViewTests: XCTestCase {
 		try view.view(CallToActionButton.self).find(button: "common.try_again").tap()
 		
 		// Then
-		expect(self.viewModel.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
-		expect(self.localisationServiceClientSpy.invokedSearchHealthcareOrganizations).toEventually(beTrue(), timeout: .seconds(5))
+		await expect(self.viewModel.state).toEventually(equal(.empty(city: "Roermond", name: "Tandarts Tandje Erbij")))
+		let didInvokeSearchHealthcareOrganizations = await localisationServiceClientSpy.didInvokeSearchHealthcareOrganizations()
+		await expect(didInvokeSearchHealthcareOrganizations).toEventually(beTrue())
 	}
 	
-	func test_list_lightPortrait() {
+	@MainActor func test_list_lightPortrait() {
 		
 		// Given
 		createSut()
@@ -150,7 +151,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		)
 	}
 	
-	func test_list_darkPortrait() {
+	@MainActor func test_list_darkPortrait() {
 		
 		// Given
 		createSut()
@@ -172,7 +173,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		)
 	}
 	
-	func test_list_lightLandscape() {
+	@MainActor func test_list_lightLandscape() {
 		
 		// Given
 		createSut()
@@ -194,7 +195,7 @@ final class OrganizationListManualViewTests: XCTestCase {
 		)
 	}
 	
-	func test_list_darkLandscape() {
+	@MainActor func test_list_darkLandscape() {
 		
 		// Given
 		createSut()

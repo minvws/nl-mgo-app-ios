@@ -5,10 +5,10 @@
 
 import XCTest
 
-class BioMetricSetupRobot: Robot {
+@MainActor class BioMetricSetupRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Bio Metrics Robot
 	/// - Parameter application: the application to test

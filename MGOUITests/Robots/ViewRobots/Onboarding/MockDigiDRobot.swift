@@ -6,10 +6,10 @@
 import XCTest
 
 /// The Robot for the Mock DigiD scene
-class MockDigiDRobot: Robot {
+@MainActor class MockDigiDRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// The default browser
 	let safari: XCUIApplication

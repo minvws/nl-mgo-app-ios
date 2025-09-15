@@ -22,7 +22,7 @@ final class RestrictedBrowserViewTests: XCTestCase {
 		sut = RestrictedBrowserView(viewModel: viewModel)
 	}
 	
-	func test_restrictedBrowserView_dark() throws {
+	@MainActor func test_restrictedBrowserView_dark() throws {
 	
 		// Given
 		try setupSut()
@@ -38,7 +38,7 @@ final class RestrictedBrowserViewTests: XCTestCase {
 		)
 	}
 	
-	func test_restrictedBrowserView_light() throws {
+	@MainActor func test_restrictedBrowserView_light() throws {
 	
 		// Given
 		try setupSut()

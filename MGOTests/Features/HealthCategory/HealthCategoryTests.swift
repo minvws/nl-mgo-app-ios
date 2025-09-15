@@ -10,7 +10,7 @@ import MGOUI
 
 final class HealthCategoryTests: XCTestCase {
 	
-	func test_healthCategoryRow() {
+	@MainActor func test_healthCategoryRow() {
 		
 		// Given
 		let row = Generator.healthCategoryRow()
@@ -25,11 +25,11 @@ final class HealthCategoryTests: XCTestCase {
 		expect(row) != otherRow
 	}
 	
-	func test_healthSubCategory() {
+	@MainActor func test_healthCategoryBlock() {
 		
 		// Given
-		let subCategory = Generator.healthSubCategory()
-		let otherSubCategory = Generator.healthSubCategory()
+		let subCategory = Generator.healthCategoryBlock()
+		let otherSubCategory = Generator.healthCategoryBlock()
 		
 		// When
 		

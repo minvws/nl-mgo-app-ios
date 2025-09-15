@@ -5,10 +5,11 @@
 
 import XCTest
 
+@MainActor
 class AppRobot: Robot {
 	
 	/// The application to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create the app robot
 	init() {
@@ -80,6 +81,16 @@ class AppRobot: Robot {
 			.swipeToListElement(at: index)
 			.tapListElement(at: index)
 		
+		return HealthCategoriesRobot(app)
+	}
+	
+	/// Launch the app with a Healthcare organization
+	/// - Returns: Health Categories Robot for the overview
+	@discardableResult
+	func navigateToOverview() -> HealthCategoriesRobot {
+		self
+			.launchApp(withPincode: "12345", withRemoteAuthentication: true)
+			.enterConfirmationPinCodeWithRemoteAuthentication("12345")
 		return HealthCategoriesRobot(app)
 	}
 	

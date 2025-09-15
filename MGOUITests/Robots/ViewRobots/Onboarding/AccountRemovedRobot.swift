@@ -6,10 +6,10 @@
 import XCTest
 
 /// The Robot for the Account Removed scene
-class AccountRemovedRobot: Robot {
+@MainActor class AccountRemovedRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Login Robot
 	/// - Parameter application: the application to test

@@ -16,7 +16,7 @@ jobs:
   test:
     runs-on: macos-15
     name: Build & run end to end tests
-    timeout-minutes: 75
+    timeout-minutes: 120
     steps:
       - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
         # 🧐 when changing below, don't forget to also change the device name in the Fastfile too: 
@@ -24,7 +24,7 @@ jobs:
           xcrun simctl boot "iPhone 16 Pro" || true
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Homebrew
         run: |

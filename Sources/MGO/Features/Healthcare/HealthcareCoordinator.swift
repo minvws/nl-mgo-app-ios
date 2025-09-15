@@ -10,20 +10,20 @@ import PdfExport
 extension Coordination.Action {
 	
 	// Healthcare Organization flow
-	static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
-	static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
-	static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
+	@MainActor static let showHealthcareOrganizationSearchResults = Coordination.Action(identifier: "showHealthcareOrganizationSearchResults")
+	@MainActor static let backToAddHealthcareOrganization = Coordination.Action(identifier: "backToAddHealthcareOrganization")
+	@MainActor static let finishedSearchingHealthcareOrganizations = Coordination.Action(identifier: "finishedSearchingHealthcareOrganizations")
 	
-	static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
-	static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
+	@MainActor static let addHealthcareOrganization = Coordination.Action(identifier: "addHealthcareOrganization") // Show Search Form
+	@MainActor static let showHealthcareOrganization = Coordination.Action(identifier: "showHealthcareOrganization")
 	
-	static let showHealthCategory = Coordination.Action(identifier: "showHealthCategory")
-	static let showHealthData = Coordination.Action(identifier: "showHealthData")
+	@MainActor static let showHealthCategory = Coordination.Action(identifier: "showHealthCategory")
+	@MainActor static let showHealthData = Coordination.Action(identifier: "showHealthData")
 	
-	static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
-	static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
+	@MainActor static let removeHealthcareOrganization = Coordination.Action(identifier: "removeHealthcareOrganization")
+	@MainActor static let removedHealthcareOrganization = Coordination.Action(identifier: "removedHealthcareOrganization")
 	
-	static let exportHealthData = Coordination.Action(identifier: "exportHealthData")
+	@MainActor static let exportHealthData = Coordination.Action(identifier: "exportHealthData")
 }
 
 protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
@@ -45,13 +45,13 @@ protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
 	/// Get a View for the State
 	/// - Parameter state: the HealthcareCoordination State
 	/// - Returns: A view for that state
-	func viewState(for: HealthcareCoordination.State?) -> Body
+	@MainActor func viewState(for: HealthcareCoordination.State?) -> Body
 }
 
 struct HealthcareCoordination {
 	
 	/// A list of all the view states the app coordinator can show
-	enum State: Equatable, Hashable, Codable {
+	enum State: Equatable, Hashable, Codable, Sendable {
 		
 		// Organizations
 		case organizations
@@ -64,7 +64,7 @@ struct HealthcareCoordination {
 		// Details Flow
 		case showHealthCategories
 		case showHealthcareOrganization(healthcareOrganization: MgoOrganization)
-		case showHealthCategory(category: HealthCategories.Category, organization: MgoOrganization?)
+		case showHealthCategory(category: SharedHealthCategories.Category, organization: MgoOrganization?)
 		case showHealthData(backButtonTitle: String?, schema: HealthUISchema, organization: MgoOrganization, inSheet: Bool)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		
@@ -90,6 +90,9 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// The flow coordinator for routing
 	private weak var parentCoordinator: (any DashboardCoordinatorProtocol)?
 	
+	/// Dependency injectable Localization Service Client
+	@Injected(\.localisationServiceClient) private var localisationServiceClient
+	
 	/// Create a healthcare coordinator
 	/// - Parameter coordinator: the coordinator
 	init(parentCoordinator: (any DashboardCoordinatorProtocol)?, rootState: HealthcareCoordination.State) {
@@ -100,7 +103,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	
 	/// Handle any incoming action from any of the view models
 	/// - Parameter action: any Action
-	func handle(_ action: Coordination.Action) {
+	@MainActor func handle(_ action: Coordination.Action) {
 		
 		guard !handleSearchFlow(action) else { return }
 		guard !handleHealthDataFlow(action) else { return }
@@ -131,14 +134,14 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the search flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleSearchFlow(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleSearchFlow(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			
 			// Healthcare Organization Search Flow
 			
 			case Coordination.Action.addHealthcareOrganization.identifier:
-				if Current.featureFlagManager.isAutomaticLocalizationEnabled {
+				if Container.shared.featureFlagManager().isAutomaticLocalizationEnabled {
 					rootStateForSheet = HealthcareCoordination.State.automaticLocalization
 				} else {
 					rootStateForSheet = HealthcareCoordination.State.manualLocalization
@@ -167,7 +170,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the detail flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	func handleHealthDataFlow(_ action: Coordination.Action) -> Bool {
+	@MainActor func handleHealthDataFlow(_ action: Coordination.Action) -> Bool {
 		
 		switch action.identifier {
 			
@@ -197,7 +200,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the search flow action from any of the view models
 	/// - Parameter action: any Action
 	/// - Returns: True if the action is consumed
-	private func handleExportFlow(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleExportFlow(_ action: Coordination.Action) -> Bool {
 		
 		if action.identifier == Coordination.Action.exportHealthData.identifier {
 			
@@ -223,7 +226,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the `showHealthcareOrganization` action
 	/// - Parameter action: the action
 	/// - Returns: true if handled successfully
-	private func handleShowHealthcareOrganization(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleShowHealthcareOrganization(_ action: Coordination.Action) -> Bool {
 		
 		guard action.identifier == Coordination.Action.showHealthcareOrganization.identifier else { return false }
 		
@@ -241,17 +244,17 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the `showHealthCategory` action
 	/// - Parameter action: the action
 	/// - Returns: true if handled successfully
-	private func handleShowHealthCategory(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleShowHealthCategory(_ action: Coordination.Action) -> Bool {
 		
 		guard action.identifier == Coordination.Action.showHealthCategory.identifier else { return false }
 		
 		if action.params.count == 2,
 		   let healthcareOrganization = action.params["healthcareOrganization"] as? MgoOrganization,
-		   let category = action.params["category"] as? HealthCategories.Category {
+		   let category = action.params["category"] as? SharedHealthCategories.Category {
 			path.append(HealthcareCoordination.State.showHealthCategory(category: category, organization: healthcareOrganization))
 			return true
 		} else if action.params.count == 1,
-				  let category = action.params["category"] as? HealthCategories.Category {
+				  let category = action.params["category"] as? SharedHealthCategories.Category {
 			path.append(HealthcareCoordination.State.showHealthCategory(category: category, organization: nil))
 			return true
 		} else {
@@ -263,7 +266,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the `showHealthData` action
 	/// - Parameter action: the action
 	/// - Returns: true if handled successfully
-	private func handleShowHealthData(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleShowHealthData(_ action: Coordination.Action) -> Bool {
 		
 		guard action.identifier == Coordination.Action.showHealthData.identifier else { return false }
 		
@@ -299,7 +302,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Handle the `removeHealthcareOrganization` action
 	/// - Parameter action: the action
 	/// - Returns: true if handled successfully
-	private func handleRemoveHealthcareOrganization(_ action: Coordination.Action) -> Bool {
+	@MainActor private func handleRemoveHealthcareOrganization(_ action: Coordination.Action) -> Bool {
 		
 		guard action.identifier == Coordination.Action.removeHealthcareOrganization.identifier else { return false }
 		
@@ -317,7 +320,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the HealthcareCoordination State
 	/// - Returns: A view for that state
-	@ViewBuilder func viewState(for state: HealthcareCoordination.State?) -> some View {
+	@ViewBuilder @MainActor func viewState(for state: HealthcareCoordination.State?) -> some View {
 		
 		switch state {
 			
@@ -333,7 +336,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				OrganizationListAutomaticView(
 					viewModel: OrganizationListAutomaticViewModel(
 						coordinator: self,
-						localisationServiceClient: Current.localisationServiceClient,
+						localisationServiceClient: self.localisationServiceClient,
 						preselectAllOrganizations: false
 					)
 				)
@@ -345,7 +348,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 						coordinator: self,
 						city: city,
 						name: name,
-						localisationServiceClient: Current.localisationServiceClient
+						localisationServiceClient: self.localisationServiceClient
 					)
 				)
 				.isPresentedAsSheet(true)
@@ -415,56 +418,33 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// - Parameter category: the health category
 	/// - Parameter organization: optional healthcare organization
 	/// - Returns: A view for that state
-	@ViewBuilder private func viewState(for category: HealthCategories.Category, organization: MgoOrganization? = nil) -> some View {
+	@MainActor @ViewBuilder private func viewState(
+		for category: SharedHealthCategories.Category,
+		organization: MgoOrganization? = nil
+	) -> some View {
 		
-		switch category {
-			case HealthCategories.Category.medication:
-				HealthCategoryView(viewModel: MedicationHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.measurements:
-				HealthCategoryView(viewModel: MeasurementsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.labResults:
-				HealthCategoryView(viewModel: LabResultsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.allergies:
-				HealthCategoryView(viewModel: AllergiesHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.treatments:
-				HealthCategoryView(viewModel: TreatmentsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.appointments:
-				HealthCategoryView(viewModel: AppointmentsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.vaccinations:
-				HealthCategoryView(viewModel: VaccinationsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.documents:
-				HealthCategoryView(viewModel: DocumentsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.medicalComplaints:
-				HealthCategoryView(viewModel: ComplaintsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.personalDetails:
-				HealthCategoryView(viewModel: PatientHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.alerts:
-				HealthCategoryView(viewModel: AlertsHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.payment:
-				HealthCategoryView(viewModel: PaymentHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.plans:
-				HealthCategoryView(viewModel: PlansHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.medicalDevices:
-				HealthCategoryView(viewModel: DevicesHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.mentalWellbeing:
-				HealthCategoryView(viewModel: MentalStatusHealthCategoryViewModel(coordinator: self, organization: organization))
-				
-			case HealthCategories.Category.lifestyle:
-				HealthCategoryView(viewModel: LifestyleHealthCategoryViewModel(coordinator: self, organization: organization))
+		if category.id == "documents" {
+			// Documents has an override method for sortRecords.
+			HealthCategoryView(
+				viewModel: DocumentsHealthCategoryViewModel(
+					coordinator: self,
+					category: category,
+					organization: organization
+				)
+			)
+		} else {
+			if let translations = HealthCategoryViewTranslationsFactory.makeTranslations(for: category) {
+				HealthCategoryView(
+					viewModel: HealthCategoryViewModel(
+						coordinator: self,
+						category: category,
+						organization: organization,
+						translations: translations
+					)
+				)
+			} else {
+				EmptyView()
+			}
 		}
 	}
 }

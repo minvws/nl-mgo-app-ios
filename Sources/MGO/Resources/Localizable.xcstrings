@@ -263,7 +263,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wil je toestaan dat Mijn Gezondheidsoverzicht Touch ID gebruikt?"
+            "value" : "Wil je toestaan dat deze app Face ID gebruikt?"
           }
         }
       }
@@ -274,7 +274,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log volgende keer in met je vingerafdruk."
+            "value" : "Log voortaan snel en veilig in met gezichtsherkenning."
           }
         }
       }
@@ -296,7 +296,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gezichtsherkenning"
+            "value" : "Face ID"
           }
         }
       }
@@ -307,7 +307,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met gezichtsherkenning?"
+            "value" : "Inloggen met Face ID?"
           }
         }
       }
@@ -318,7 +318,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met Face ID. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
+            "value" : "Beveilig de app met gezichtsherkenning. Zo log je de volgende keer sneller in. Je kunt je toegangscode ook blijven gebruiken."
           }
         }
       }
@@ -329,7 +329,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oogherkenning"
+            "value" : "Optic ID"
           }
         }
       }
@@ -340,7 +340,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met oogherkenning?"
+            "value" : "Inloggen met Optic ID?"
           }
         }
       }
@@ -351,7 +351,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met Optic ID. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
+            "value" : "Beveilig de app met oogherkenning. Zo log je de volgende keer sneller in. Je kunt je toegangscode ook blijven gebruiken."
           }
         }
       }
@@ -362,7 +362,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vingerafdruk"
+            "value" : "Touch ID"
           }
         }
       }
@@ -373,7 +373,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inloggen met je vingerafdruk?"
+            "value" : "Inloggen met Touch ID?"
           }
         }
       }
@@ -384,7 +384,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beveilig de app met Touch ID. Zo log je de volgende keer sneller in. Je kunt ook je toegangscode blijven gebruiken."
+            "value" : "Beveilig de app met je vingerafdruk. Zo log je de volgende keer sneller in. Je kunt je toegangscode ook blijven gebruiken."
           }
         }
       }
@@ -670,7 +670,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Overslaan"
+            "value" : "Niet nu"
           }
         }
       }
@@ -770,6 +770,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afspraken met zorgaanbieders"
+          }
+        }
+      }
+    },
+    "edit_overview.favorites.empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt nog geen favorieten gekozen. Klik op het plusje (+) om iets toe te voegen."
+          }
+        }
+      }
+    },
+    "edit_overview.favorites.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorieten"
+          }
+        }
+      }
+    },
+    "edit_overview.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overzicht aanpassen"
+          }
+        }
+      }
+    },
+    "edit_overview.save" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opslaan"
           }
         }
       }
@@ -994,6 +1038,17 @@
         }
       }
     },
+    "hc_alerts.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Belangrijke dingen waar zorgverleners op moeten letten"
+          }
+        }
+      }
+    },
     "hc_allergies.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1016,6 +1071,17 @@
         }
       }
     },
+    "hc_allergies.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dingen waar je niet tegen kunt, zoals medicijnen of eten"
+          }
+        }
+      }
+    },
     "hc_appointments.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1034,6 +1100,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alle afspraakgegevens"
+          }
+        }
+      }
+    },
+    "hc_appointments.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die je al hebt gehad of die nog komen"
           }
         }
       }
@@ -1082,6 +1159,17 @@
         }
       }
     },
+    "hc_devices.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorgspullen die je gebruikt, zoals een bril of rollator"
+          }
+        }
+      }
+    },
     "hc_documents.error" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1126,6 +1214,17 @@
         }
       }
     },
+    "hc_documents.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brieven, verslagen en medische beelden zoals foto's of scans"
+          }
+        }
+      }
+    },
     "hc_lab_results.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1144,6 +1243,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alle uitslaggegevens"
+          }
+        }
+      }
+    },
+    "hc_lab_results.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultaten van onderzoeken en tests die je hebt gehad"
           }
         }
       }
@@ -1170,6 +1280,17 @@
         }
       }
     },
+    "hc_lifestyle.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bijvoorbeeld of je rookt of drinkt, wat je eet en hoeveel je beweegt"
+          }
+        }
+      }
+    },
     "hc_measurements.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1188,6 +1309,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alle meetgegevens"
+          }
+        }
+      }
+    },
+    "hc_measurements.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoals bloeddruk, hartslag, lengte en gewicht"
           }
         }
       }
@@ -1214,6 +1346,17 @@
         }
       }
     },
+    "hc_medication.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die je nu of eerder hebt gebruikt"
+          }
+        }
+      }
+    },
     "hc_mental.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1232,6 +1375,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "All mentaal welzijngegevens"
+          }
+        }
+      }
+    },
+    "hc_mental.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoe het geestelijk met je gaat, zoals stress en somberheid"
           }
         }
       }
@@ -1258,13 +1412,24 @@
         }
       }
     },
+    "hc_patient.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je naam, adres, geboortedatum en gezinssituatie"
+          }
+        }
+      }
+    },
     "hc_payment.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Betaalgegevens"
+            "value" : "Zorgkosten"
           }
         }
       }
@@ -1276,6 +1441,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alle betaalgegevens"
+          }
+        }
+      }
+    },
+    "hc_payment.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je betalingen en verzekeringen"
           }
         }
       }
@@ -1302,6 +1478,39 @@
         }
       }
     },
+    "hc_plans.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat je belangrijk vindt in je behandeling zoals wensen en doelen"
+          }
+        }
+      }
+    },
+    "hc_problems.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gezondheidsproblemen"
+          }
+        }
+      }
+    },
+    "hc_problems.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dingen waar je last van hebt, zoals pijn of ziekte"
+          }
+        }
+      }
+    },
     "hc_treatments.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1324,6 +1533,17 @@
         }
       }
     },
+    "hc_treatments.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behandelingen en operaties die je hebt gehad of nog krijgt"
+          }
+        }
+      }
+    },
     "hc_vaccinations.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1342,6 +1562,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alle vaccinatiegegevens"
+          }
+        }
+      }
+    },
+    "hc_vaccinations.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prikken die je hebt gehad, zoals tegen griep of corona"
           }
         }
       }
@@ -1385,7 +1616,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welkom in Mijn Gezondheidsoverzicht"
+            "value" : "Welkom bij Mijn Gezondheidsoverzicht"
           }
         }
       }
@@ -1396,7 +1627,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eén app met alle gegevens die je huisarts, ziekenhuis en andere zorgaanbieders van jou hebben. Veilig en overzichtelijk."
+            "value" : "Met deze app heb je je gezondheidsgegevens van de overheid en je zorgaanbieders altijd bij de hand. Veilig en overzichtelijk, op één plek."
           }
         }
       }
@@ -1544,6 +1775,50 @@
         }
       }
     },
+    "mhc_care_treatment.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorg en behandeling"
+          }
+        }
+      }
+    },
+    "mhc_examinations_results.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onderzoeken en uitslagen"
+          }
+        }
+      }
+    },
+    "mhc_health.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gezondheid"
+          }
+        }
+      }
+    },
+    "mhc_personal_administration.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persoonlijk en administratie"
+          }
+        }
+      }
+    },
     "organization_list.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1676,6 +1951,28 @@
         }
       }
     },
+    "overview.favorites.action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg favorieten toe"
+          }
+        }
+      }
+    },
+    "overview.favorites.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg hier je favorieten toe.\nZo staan die altijd bovenaan."
+          }
+        }
+      }
+    },
     "overview.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1683,6 +1980,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Overzicht"
+          }
+        }
+      }
+    },
+    "overview.menu" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "menu"
           }
         }
       }
@@ -2028,18 +2336,7 @@
         }
       }
     },
-    "proposition.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hoe de app met jouw gegevens omgaat"
-          }
-        }
-      }
-    },
-    "proposition.link.acc" : {
+    "privacy.link.acc" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -2050,7 +2347,7 @@
         }
       }
     },
-    "proposition.link.prod" : {
+    "privacy.link.prod" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -2061,13 +2358,24 @@
         }
       }
     },
-    "proposition.link.test" : {
+    "privacy.link.test" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "https://web.test.mgo.irealisatie.nl/privacy"
+          }
+        }
+      }
+    },
+    "proposition.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoe de app omgaat met je gegevens"
           }
         }
       }
@@ -2122,7 +2430,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In de [%@](privacyverklaring) staat hoe Mijn Gezondheidsoverzicht jouw gegevens gebruikt. Dit zijn de belangrijkste punten:"
+            "value" : "In de [%@](privacyverklaring) staat hoe Mijn Gezondheidsoverzicht je gegevens gebruikt en beschermt. Dit zijn de belangrijkste punten:"
           }
         }
       }
@@ -2405,39 +2713,6 @@
         }
       }
     },
-    "settings.about_this_app.privacy_url.acc" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://web.acc.mgo.irealisatie.nl/toegankelijkheid"
-          }
-        }
-      }
-    },
-    "settings.about_this_app.privacy_url.prod" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
-          }
-        }
-      }
-    },
-    "settings.about_this_app.privacy_url.test" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://web.test.mgo.irealisatie.nl/toegankelijkheid"
-          }
-        }
-      }
-    },
     "settings.about_this_app.safety" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2668,28 +2943,6 @@
         }
       }
     },
-    "settings.log_out.heading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log uit"
-          }
-        }
-      }
-    },
-    "settings.log_out.subheading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je sluit zo de app af"
-          }
-        }
-      }
-    },
     "settings.other.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2718,7 +2971,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stel opnieuw in"
+            "value" : "App leegmaken"
           }
         }
       }
@@ -2729,7 +2982,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App opnieuw instellen?"
+            "value" : "Wil je de app leegmaken?"
           }
         }
       }
@@ -2740,7 +2993,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je gegevens blijven altijd bewaard bij je zorgaanbieders. Je kunt de app later opnieuw instellen."
+            "value" : "Je verwijdert je zorgaanbieders en toegangscode. Je gegevens blijven bij je zorgaanbieders bewaard."
           }
         }
       }
@@ -2751,7 +3004,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stel app opnieuw in"
+            "value" : "App leegmaken"
           }
         }
       }
@@ -2773,7 +3026,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gebruik dit in plaats van je toegangscode om veilig en nog sneller in te loggen."
+            "value" : "Gebruik dit in plaats van je toegangscode om veilig en nog sneller in te loggen"
           }
         }
       }

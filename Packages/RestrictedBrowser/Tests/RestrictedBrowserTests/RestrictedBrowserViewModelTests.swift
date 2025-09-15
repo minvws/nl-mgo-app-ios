@@ -9,7 +9,7 @@ import WebKit
 
 final class RestrictedBrowserViewModelTests: XCTestCase {
 	
-	func test_reduce() throws {
+	@MainActor func test_reduce() throws {
 		
 		// Given
 		let urlOpenerSpy = URLOpenerSpy()

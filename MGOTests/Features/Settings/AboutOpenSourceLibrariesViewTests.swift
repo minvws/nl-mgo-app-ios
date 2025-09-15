@@ -19,12 +19,17 @@ final class AboutOpenSourceLibrariesViewTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
+	}
+	
+	@MainActor private func createSut() {
+		
 		sut = AboutOpenSourceLibrariesView(viewModel: AboutOpenSourceLibrariesViewModel(coordinator: self.coordinatorSpy))
 	}
 
-	func test_aboutOpenSourceLibrariesView() {
+	@MainActor func test_aboutOpenSourceLibrariesView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }
@@ -33,9 +38,10 @@ final class AboutOpenSourceLibrariesViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When
@@ -46,9 +52,10 @@ final class AboutOpenSourceLibrariesViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_rowPressed() throws {
+	@MainActor func test_rowPressed() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When

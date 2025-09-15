@@ -19,8 +19,7 @@ extension RestrictedBrowserViewModel: WKNavigationDelegate {
 	public func webView(
 		_ webView: WKWebView,
 		decidePolicyFor navigationAction: WKNavigationAction,
-		decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
-	) {
+		decisionHandler: @escaping @MainActor @Sendable (WKNavigationActionPolicy) -> Void) {
 		
 		if let url = navigationAction.request.url,
 		   let browser = browser {
@@ -44,7 +43,7 @@ extension RestrictedBrowserViewModel: WKNavigationDelegate {
 	public func webView(
 		_ webView: WKWebView,
 		didReceive challenge: URLAuthenticationChallenge,
-		completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
+		completionHandler: @escaping @MainActor @Sendable (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
 	) {
 	
 		switch challenge.protectionSpace.authenticationMethod {

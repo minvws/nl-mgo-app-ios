@@ -5,10 +5,10 @@
 
 import XCTest
 
-class SettingsRobot: Robot {
+@MainActor class SettingsRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Settings Robot
 	/// - Parameter application: the application to test
@@ -40,10 +40,6 @@ class SettingsRobot: Robot {
 	
 	private var displayButton: XCUIElement {
 		app.buttons["settings.display"]
-	}
-	
-	private var logoutButton: XCUIElement {
-		app.buttons["settings.log_out"]
 	}
 	
 	private var resetApplicationButton: XCUIElement {
@@ -91,12 +87,6 @@ class SettingsRobot: Robot {
 	}
 	
 	@discardableResult
-	func verifyLogoutButtonExists() -> Self {
-		XCTAssertTrue(logoutButton.exists)
-		return self
-	}
-	
-	@discardableResult
 	func verifyResetApplicationButtonExists() -> Self {
 		XCTAssertTrue(resetApplicationButton.exists)
 		return self
@@ -138,12 +128,6 @@ class SettingsRobot: Robot {
 	func tapDisplayButton() -> DisplaySettingsRobot {
 		displayButton.tap()
 		return DisplaySettingsRobot(app)
-	}
-	
-	@discardableResult
-	func tapLogoutButton() -> PincodeRobot {
-		logoutButton.tap()
-		return PincodeRobot(app)
 	}
 	
 	@discardableResult

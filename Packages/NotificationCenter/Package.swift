@@ -13,7 +13,10 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "NotificationCenter"
+			name: "NotificationCenter",
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		)
 	]
 )

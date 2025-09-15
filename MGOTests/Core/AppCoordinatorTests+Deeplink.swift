@@ -14,13 +14,16 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 	
 	private var sut: AppCoordinator!
 	private var servicesSpies: ServicesSpies!
-	private var urlOpenerSpy: URLOpenerSpy!
 	
 	override func setUp() {
 		
 		super.setUp()
 		servicesSpies = setupServicesSpies()
-		urlOpenerSpy = URLOpenerSpy()
+	}
+	
+	@MainActor func setupSut() {
+		
+		let urlOpenerSpy = URLOpenerSpy()
 		urlOpenerSpy.stubbedCanOpenURLResult = true
 		let browser = RestrictedBrowser(allowedDomains: ["irealisatie.nl"], urlOpener: urlOpenerSpy)
 		sut = AppCoordinator(
@@ -29,9 +32,10 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 		)
 	}
 	
-	func test_handle_deepLink() throws {
+	@MainActor func test_handle_deepLink() throws {
 		
 		// Given
+		setupSut()
 		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		let url = try XCTUnwrap(URL(string: "mgo-dev://app/login?userinfo=TEST"))
 		
@@ -45,9 +49,10 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
 	}
 	
-	func test_digidDeeplink() throws {
+	@MainActor func test_digidDeeplink() throws {
 		
 		// Given
+		setupSut()
 		let url = try XCTUnwrap(URL(string: "mgo-dev://app/login?userinfo=TEST"))
 		let deeplink = try XCTUnwrap(DeepLinkFactory().create(url))
 		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
@@ -62,9 +67,10 @@ final class AppCoordinatorDeepLinkTests: XCTestCase {
 		expect(self.servicesSpies.secureUserSettingsSpy.invokedUserHasRemoteAuthenticationSetter) == true
 	}
 	
-	func test_digidDeeplink_withAutomaticLocalization() throws {
+	@MainActor func test_digidDeeplink_withAutomaticLocalization() throws {
 		
 		// Given
+		setupSut()
 		let url = try XCTUnwrap(URL(string: "mgo-dev://app/login?userinfo=test"))
 		let deeplink = try XCTUnwrap(DeepLinkFactory().create(url))
 		self.servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true

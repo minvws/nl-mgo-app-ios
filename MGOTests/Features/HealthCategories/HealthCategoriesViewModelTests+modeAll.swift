@@ -22,121 +22,110 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		coordinatorSpy = DashboardCoordinatorSpy()
 		healthcareOrganization = Generator.healthcareOrganization("1")
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = [healthcareOrganization]
+	}
+	
+	@MainActor private func setupSut() {
+		
 		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 	}
 	
-	func test_categorySelected_shouldCallCoordinator_whenStateIsLoaded() throws {
+	@MainActor func test_categorySelected_shouldCallCoordinator() throws {
 		
 		// Given
-		let button = CategoryButton(category: HealthCategories.Category.measurements, state: .loaded, box: 1)
+		setupSut()
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "measurements"))
 		
 		// When
-		sut.reduce(.categorySelected(button))
+		sut.reduce(.categorySelected(category))
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
 		expect(params.identifier) == Coordination.Action.showHealthCategory.identifier
-		expect(params.params["category"] as? HealthCategories.Category) == HealthCategories.Category.measurements
+		expect(params.params["category"] as? SharedHealthCategories.Category) == category
 		expect(params.params["healthcareOrganization"]) == nil
 	}
 	
-	func test_categorySelected_shouldCallCoordinator_whenStateIsEmpty() throws {
+	@MainActor func test_loadMedication_withData() throws {
 		
 		// Given
-		let button = CategoryButton(category: HealthCategories.Category.measurements, state: .empty, box: 1)
-		
-		// When
-		sut.reduce(.categorySelected(button))
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.showHealthCategory.identifier
-		expect(params.params["category"] as? HealthCategories.Category) == HealthCategories.Category.measurements
-		expect(params.params["healthcareOrganization"]) == nil
-	}
-	
-	func test_categorySelected_shouldCallCoordinator_whenStateIsLoading() throws {
-		
-		// Given
-		let button = CategoryButton(id: HealthCategories.Category.measurements.rawValue, title: "test", state: .loading, box: 1)
-		
-		// When
-		sut.reduce(.categorySelected(button))
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.showHealthCategory.identifier
-		expect(params.params["category"] as? HealthCategories.Category) == HealthCategories.Category.measurements
-		expect(params.params["healthcareOrganization"]) == nil
-	}
-	
-	func test_loadMedication_withData() throws {
-		
-		// Given
+		setupSut()
 		let resource = try getResource("zibMedicationUse")
-		let mgoResource = MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [resource], error: false)
+		let mgoResource = MgoResourceRecord(
+			categoryId: "medication",
+			organizationId: healthcareOrganization.identifier,
+			resources: [resource],
+			error: false
+		)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
-		expect(self.sut.state.healthCategories.first?.state) == .loading
+		expect(self.sut.state.buttonState["medication"]) == .loading
 	
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.loaded))
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.loaded))
 	}
 	
-	func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
+	@MainActor func test_loadMedication_emptyData_stateShouldBeEmpty() throws {
 		
 		// Given
-		let mgoResource = MgoResourceRecord(categoryId: "\(HealthCategories.Category.medication.rawValue)", organizationId: healthcareOrganization.identifier, resources: [], error: false)
+		setupSut()
+		let mgoResource = MgoResourceRecord(
+			categoryId: "medication",
+			organizationId: healthcareOrganization.identifier,
+			resources: [],
+			error: false
+		)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success(
 			[mgoResource, mgoResource, mgoResource, mgoResource]
 		)
-		expect(self.sut.state.healthCategories.first?.state) == .loading
+		expect(self.sut.state.buttonState["medication"]) == .loading
 	
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.empty))
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.empty))
 	}
 	
-	func test_loadMedication_noData_stateShouldBeLoading() throws {
+	@MainActor func test_loadMedication_noData_stateShouldBeLoading() throws {
 		
 		// Given
+		setupSut()
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(DataStoreError.noData)
-		expect(self.sut.state.healthCategories.first?.state) == .loading
+		expect(self.sut.state.buttonState["medication"]) == .loading
 	
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.loading))
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.loading))
 	}
 	
-	func test_loadMedication_dataError_stateShouldBeEmpty() throws {
+	@MainActor func test_loadMedication_dataError_stateShouldBeEmpty() throws {
 		
 		// Given
+		setupSut()
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .failure(NSError(domain: "test_loadMedication_cacheMiss_dataError", code: 404))
-		expect(self.sut.state.healthCategories.first?.state) == .loading
+		expect(self.sut.state.buttonState["medication"]) == .loading
 	
 		// When
 		sut.reduce(.onAppear)
 		
 		// Then
-		expect(self.sut.state.healthCategories.first?.state).toEventually(equal(.empty), timeout: .seconds(5))
+		expect(self.sut.state.buttonState["medication"]).toEventually(equal(.empty), timeout: .seconds(5))
 	}
 	
-	func test_refresh() {
+	@MainActor func test_refresh() {
 		
 		// Given
+		setupSut()
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
-		expect(self.sut.state.healthCategories.first?.state) == .loading
+		expect(self.sut.state.buttonState["medication"]) == .loading
 	
 		// When
 		sut.reduce(.refresh)
@@ -148,9 +137,10 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 0
 	}
 	
-	func test_searchButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_searchButtonPressed_shouldCallCoordinator() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		sut.reduce(.search)
@@ -160,9 +150,10 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.addHealthcareOrganization
 	}
 	
-	func test_emptyState_withOrganizations() {
+	@MainActor func test_emptyState_withOrganizations() {
 		
 		// Given
+		setupSut()
 		
 		// When
 		
@@ -170,14 +161,14 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.sut.state.showEmptyView) == false
 	}
 	
-	func test_emptyState_withoutOrganizations() {
+	@MainActor func test_emptyState_withoutOrganizations() {
 		
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
-	// When
-	
-	// Then
+		// When
+		
+		// Then
 		expect(self.sut.state.showEmptyView) == true
 	}
 }

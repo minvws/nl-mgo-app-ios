@@ -5,10 +5,10 @@
 
 import XCTest
 
-class PropositionRobot: Robot {
+@MainActor class PropositionRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Proposition Robot
 	/// - Parameter application: the application to test

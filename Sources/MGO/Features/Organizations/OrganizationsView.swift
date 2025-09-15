@@ -29,6 +29,9 @@ class OrganizationsViewModel: ObservableObject {
 	/// A list of the organizations when the page was loaded
 	private var originalOrganizations: [MgoOrganization] = []
 	
+	/// Dependency Healthcare Organization Store
+	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case onAppear
@@ -41,18 +44,18 @@ class OrganizationsViewModel: ObservableObject {
 	
 	/// Intitializer
 	/// - Parameter coordinator: the app coordinator
-	init(coordinator: (any Coordinator)? = nil) {
+	@MainActor init(coordinator: (any Coordinator)? = nil) {
 		
 		self.coordinator = coordinator
 		self.state = .empty
-		self.originalOrganizations = Current.healthcareOrganizationStore.organizations
+		self.originalOrganizations = healthcareOrganizationRepository.organizations
 		registerObservers()
 	}
 	
 	/// Listen to changes in the stored organizations list
-	private func registerObservers() {
+	@MainActor private func registerObservers() {
 		
-		self.observerToken = Current.healthcareOrganizationStore.observatory.append { [weak self] _, reason in
+		self.observerToken = healthcareOrganizationRepository.observatory.append { [weak self] _, reason in
 			self?.handleOrganizationChanges(reason)
 		}
 	}
@@ -60,7 +63,7 @@ class OrganizationsViewModel: ObservableObject {
 	/// Handle changes in the organizations list
 	/// - Parameters:
 	///   - reason: the reason the list has changed
-	func handleOrganizationChanges(_ reason: HealthcareOrganizationReason) {
+	@MainActor func handleOrganizationChanges(_ reason: HealthcareOrganizationReason) {
 		
 		logInfo("OrganizationsViewModel Reason: \(reason)")
 		loadHealthcareOrganizations()
@@ -87,12 +90,12 @@ class OrganizationsViewModel: ObservableObject {
 	
 	deinit {
 		// Remove as observer
-		observerToken.map(Current.healthcareOrganizationStore.observatory.remove)
+		observerToken.map(healthcareOrganizationRepository.observatory.remove)
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: OrganizationsViewModel.Action) {
+	@MainActor func reduce(_ action: OrganizationsViewModel.Action) {
 		
 		switch action {
 		
@@ -127,7 +130,7 @@ class OrganizationsViewModel: ObservableObject {
 				)
 			
 			case .undo:
-				try? Current.healthcareOrganizationStore.set(originalOrganizations)
+				try? healthcareOrganizationRepository.set(originalOrganizations)
 				loadHealthcareOrganizations()
 				withAnimation {
 					Haptic.heavy()
@@ -138,13 +141,13 @@ class OrganizationsViewModel: ObservableObject {
 	
 	private func updateOriginalOrganizations() {
 		// Ignore the changes. This is the new default.
-		originalOrganizations = Current.healthcareOrganizationStore.organizations
+		originalOrganizations = healthcareOrganizationRepository.organizations
 	}
 	
 	/// fetch the healthcare organizations
 	private func loadHealthcareOrganizations() {
 
-		let organizations = Current.healthcareOrganizationStore.organizations
+		let organizations = healthcareOrganizationRepository.organizations
 		if organizations.isEmpty {
 			state = .empty
 		} else {
@@ -226,7 +229,7 @@ struct OrganizationsView: View {
 			
 		} bottomView: {
 			
-			CallToActionButton(Current.featureFlagManager.isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
+			CallToActionButton(Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "common.add_organizations") {
 				viewModel.reduce(.search)
 			}
 			.accessibilityIdentifier("common.add_organizations")
@@ -257,7 +260,7 @@ struct OrganizationsView: View {
 			// Bottom section for add button
 			Section {
 				rowFor(
-					title: String(localized: Current.featureFlagManager.isAutomaticLocalizationEnabled ? "common.search_organizations" : "overview.add_organization"),
+					title: String(localized: Container.shared.featureFlagManager().isAutomaticLocalizationEnabled ? "common.search_organizations" : "overview.add_organization"),
 					imageResource: ImageResource.Overview.add,
 					accessibilityIdentifier: "overview.add_organization") {
 						viewModel.reduce(.search)
@@ -265,8 +268,8 @@ struct OrganizationsView: View {
 			}
 		}
 		.listStyle(.insetGrouped)
-		.backportListSectionSpacing(ViewTraits.List.spacing)
-		.backportScrollContentBackground(.hidden)
+		.backport.listSectionSpacing(ViewTraits.List.spacing)
+		.backport.scrollContentBackground(.hidden)
 		.environment(\.defaultMinListHeaderHeight, ViewTraits.List.spacing / 2)
 	}
 	

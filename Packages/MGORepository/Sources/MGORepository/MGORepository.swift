@@ -5,12 +5,13 @@
 
 import Foundation
 import FHIRClient
-import SharedCore
+import HCIMCore
 
-public class MGORepository {
+/// The repository to fetch FHIR data and store as HCIM
+public actor MGORepository {
 	
 	/// The FHIR Client
-	private var client: FHIRClient
+	private let client: FHIRClient
 	
 	/// Initializer
 	/// - Parameter client: the FHIR client
@@ -21,33 +22,35 @@ public class MGORepository {
 	/// Get the Bundle from the DVP as data
 	/// - Parameters:
 	///   - endpoint: the endpoint to use
+	///   - fhirVersion: the FHIR version expected as response
 	///   - dvaTarget: the dva target
+	///   - username: the Basic AUTH username
+	///   - password: the Basic AUTH password
 	/// - Returns: Bundle as data.
-	public func getBundleData(endpoint: DVP.Endpoint, dvaTarget: String, username: String?, password: String?) async throws -> Data {
+	public func getBundleData(
+		endpoint: DataServices.Endpoint,
+		fhirVersion: DataServices.FhirVersion,
+		dvaTarget: String,
+		username: String?,
+		password: String?
+	) async throws -> Data {
 		
-		var path = endpoint.path
-		if let directory = endpoint.directory {
-			path.append("/\(directory)")
-		}
-		
-		var parameters = RequestParameters()
-		if let params = endpoint.parameters {
-			parameters = params
+		var path = endpoint.getUrl()
+		if let first = path.first, first == "/" {
+			path = String(path.dropFirst())
 		}
 		
 		var headers: [RequestHeaderField: String] = [
 			RequestHeaderField.dvaTarget: dvaTarget,
-			RequestHeaderField.accept: endpoint.fhirVersion.acceptHeader
+			RequestHeaderField.accept: fhirVersion.acceptHeader
 		]
 		if let basicAuth = basicAuthenticationHeader(username: username, password: password) {
 			headers[RequestHeaderField.authorization] = basicAuth
 		}
 		let data = try await client.readDataFrom(
 			path,
-			parameters: parameters,
 			headers: RequestHeaders(headers)
 		)
-		
 		return data
 	}
 	
@@ -66,8 +69,8 @@ public class MGORepository {
 		return "Basic \(base64LoginString)"
 	}
 	
-	// The FHIR parser
-	let parser = FHIRParser()
+	// The HCIM parser
+	let parser = HCIMParser()
 
 	/// process the bundle FHIR data into mgoResources
 	/// - Parameter data: FHIR bundle
@@ -84,7 +87,7 @@ public class MGORepository {
 		for element in fhirResources {
 			
 			// Transform to MgoResource
-			if let mgoResource = parser.transformFHIRResourceIntoMGOResource(element, fhirVersion: fhirVersion) {
+			if let mgoResource = parser.transformFHIRResourceIntoHCIM(element, fhirVersion: fhirVersion) {
 				mgoResources.append(mgoResource)
 			}
 		}

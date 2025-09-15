@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
 	name: "LocalisationService",
-	platforms: [.iOS(.v15)],
+	platforms: [.macOS(.v10_15), .iOS(.v15)],
 	products: [
 		.library(
 			name: "LocalisationService",
@@ -20,7 +20,7 @@ let package = Package(
 		.package(name: "MGODebug", path: "../MGODebug"),
 		
 		// External
-		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.9.0"),
+		.package(url: "https://github.com/apple/swift-openapi-generator", exact: "1.10.2"),
 		.package(url: "https://github.com/apple/swift-openapi-runtime", exact: "1.8.2"),
 		.package(url: "https://github.com/apple/swift-openapi-urlsession", exact: "1.1.0"),
 		
@@ -37,6 +37,9 @@ let package = Package(
 				.product(name: "Observatory", package: "Observatory"),
 				.product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
 				.product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			],
 			plugins: [
 				.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")

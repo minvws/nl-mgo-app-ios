@@ -22,7 +22,7 @@ final class AboutOpenSourceLibrariesViewModelTests: XCTestCase {
 		sut = AboutOpenSourceLibrariesViewModel(coordinator: self.coordinatorSpy)
 	}
 	
-	func test_backButtonPressed() throws {
+	@MainActor func test_backButtonPressed() throws {
 		
 		// Given
 		
@@ -34,7 +34,7 @@ final class AboutOpenSourceLibrariesViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_handleOpenUrl() throws {
+	@MainActor func test_handleOpenUrl() throws {
 		
 		// Given
 		

@@ -18,13 +18,18 @@ class AdvancedSettingsViewTests: XCTestCase {
 		
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = SettingsCoordinatorSpy()
-		sut = AdvancedSettingsView(viewModel: AdvancedSettingsViewModel(coordinator: self.coordinatorSpy))
 		super.setUp()
 	}
 	
-	func test_advancedSettings_automaticLocationEnabled() {
+	@MainActor private func createSut() {
+		
+		sut = AdvancedSettingsView(viewModel: AdvancedSettingsViewModel(coordinator: self.coordinatorSpy))
+	}
+	
+	@MainActor func test_advancedSettings_automaticLocationEnabled() {
 		
 		// Given
+		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = true
 		servicesSpies.featureFlagSpy.stubbedBypassPincode = true
 		
@@ -35,9 +40,10 @@ class AdvancedSettingsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_advancedSettings_automaticLocationDisabled() {
+	@MainActor func test_advancedSettings_automaticLocationDisabled() {
 		
 		// Given
+		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		servicesSpies.featureFlagSpy.stubbedBypassPincode = false
 		
@@ -48,9 +54,10 @@ class AdvancedSettingsViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 
-	func test_toggle() throws {
+	@MainActor func test_toggle() throws {
 		
 		// Given
+		createSut()
 		servicesSpies.featureFlagSpy.stubbedIsAutomaticLocalizationEnabled = false
 		
 		// When
@@ -62,9 +69,10 @@ class AdvancedSettingsViewTests: XCTestCase {
 		takeSnapShots(content: sut)
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When

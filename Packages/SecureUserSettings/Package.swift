@@ -18,7 +18,10 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "SecureUserSettings"
+			name: "SecureUserSettings",
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		),
 		.testTarget(
 			name: "SecureUserSettingsTests",

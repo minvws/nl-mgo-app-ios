@@ -27,7 +27,7 @@ jobs:
 #          xcrun simctl boot "iPhone 16 Pro" || true
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Homebrew
         run: |
@@ -80,17 +80,19 @@ jobs:
     name: SonarCloud
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Download Coverage file
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: coverage.xml
           path: ./
 
-      - name: Run SonarCloud scanner
-        uses: minvws/nl-irealisatie-generic-pipelines/.github/actions/sonarcloud@main
+      - name: Run SonarQube scan
+        uses: minvws/action-sonarqube@v1
         with:
           sonar-token: ${{ secrets.SONAR_TOKEN }}
+          allow-run-on-dependabot: true
+          allow-run-on-fork: true

@@ -27,6 +27,9 @@ let package = Package(
 			dependencies: [
 				.product(name: "Theme", package: "Theme"),
 				.product(name: "ReusableUI", package: "ReusableUI")
+			],
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
 			]
 		),
 		.testTarget(

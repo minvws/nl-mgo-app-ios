@@ -21,7 +21,7 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		sut = AboutTheAppViewModel(coordinator: coordinatorSpy)
 	}
 
-	func test_backButtonPressed_shouldCallCoordinator() {
+	@MainActor func test_backButtonPressed_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -33,7 +33,7 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	func test_showSafety_shouldCallCoordinator() {
+	@MainActor func test_showSafety_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -45,7 +45,7 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showSafetyTips
 	}
 	
-	func test_showOpenSource_shouldCallCoordinator() {
+	@MainActor func test_showOpenSource_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -57,7 +57,7 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showOpenSourceLibraries
 	}
 	
-	func test_showAccessibility_shouldCallCoordinator() {
+	@MainActor func test_showAccessibility_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -69,7 +69,7 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showAccessibility
 	}
 	
-	func test_showPrivacy_shouldCallCoordinator() {
+	@MainActor func test_showPrivacy_shouldCallCoordinator() {
 		
 		// Given
 		
@@ -81,15 +81,15 @@ final class AboutTheAppViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showPrivacyStatement
 	}
 	
-	func test_showSharedCoreVersion_shouldShowDialog() {
+	@MainActor func test_showHCIMCoreVersion_shouldShowDialog() {
 		
 		// Given
 		
 		// When
-		sut.reduce(.showSharedCoreVersion)
+		sut.reduce(.showHCIMCoreVersion)
 		
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == false
-		expect(self.sut.showSharedCoreVersionDialog) == true
+		expect(self.sut.showHCIMCoreVersionDialog) == true
 	}
 }

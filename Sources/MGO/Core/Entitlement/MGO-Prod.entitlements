@@ -7,5 +7,7 @@
 		<string>applinks:mijngezondheidsoverzicht.nl</string>
 		<string>applinks:www.mijngezondheidsoverzicht.nl</string>
 	</array>
+	<key>com.apple.developer.default-data-protection</key>
+	<string>NSFileProtectionComplete</string>
 </dict>
 </plist>

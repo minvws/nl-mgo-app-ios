@@ -12,11 +12,14 @@ protocol ReferenceResolverProtocol: AnyObject {
 
 class ReferenceResolver: ReferenceResolverProtocol {
 	
+	/// Dependency Injectable Data Store
+	@Injected(\.dataStore) private var dataStore
+	
 	func resolve(reference: String, healthcareOrganization: MgoOrganization) -> (Data, HealthUISchema)? {
 
 		logVerbose("Trying to resolve reference: \(reference)")
 			
-		let fetchResult = Current.dataStore.get(organizationId: healthcareOrganization.identifier)
+		let fetchResult = dataStore.get(organizationId: healthcareOrganization.identifier)
 				
 		if case .success(let records) = fetchResult {
 			
@@ -30,7 +33,7 @@ class ReferenceResolver: ReferenceResolverProtocol {
 				}
 				
 				for resource in resources {
-					if let uiSchema = FHIRParser().getDetails(resource) {
+					if let uiSchema = HCIMParser().getDetails(resource, organizationName: healthcareOrganization.display_name) {
 						return (resource, uiSchema)
 					}
 				}

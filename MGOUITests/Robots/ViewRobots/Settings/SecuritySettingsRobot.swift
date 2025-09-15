@@ -5,10 +5,10 @@
 
 import XCTest
 
-class SecuritySettingsRobot: Robot {
+@MainActor class SecuritySettingsRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Security Settings Robot
 	/// - Parameter application: the application to test

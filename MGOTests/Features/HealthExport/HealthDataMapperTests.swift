@@ -26,12 +26,12 @@ final class HealthDataMapperTests: XCTestCase {
 		// Given
 		
 		// When
-		let pdfData = sut.map(.medication, data: [])
+		let pdfData = sut.map(Generator.healthCategory, data: [])
 		
 		// Then
 		expect(pdfData) != nil
 		expect(pdfData?.heading) == "Medicijnen"
-		expect(pdfData?.subHeading) == "Opgeslagen op 14 nov 2023 om 23:13 uur"
+		expect(pdfData?.subHeading) == "Opgeslagen op 15 jun 2025 om 17:06 uur"
 		expect(pdfData?.footer) == "Dit document is gemaakt met Mijn Gezondheidsoverzicht. Het bevat jouw medische gegevens,\nafkomstig van zorgaanbieders die jij hebt toegevoegd. Jij bent zelf verantwoordelijk voor wat je\nmet deze informatie doet. De gegevens zijn niet gecontroleerd op juistheid of volledigheid."
 		expect(pdfData?.tables.isEmpty) == true
 	}
@@ -41,12 +41,12 @@ final class HealthDataMapperTests: XCTestCase {
 		// Given
 		
 		// When
-		let pdfData = sut.map(.medication, data: [Generator.healthSubCategory()])
+		let pdfData = sut.map(Generator.healthCategory, data: [Generator.healthCategoryBlock()])
 		
 		// Then
 		expect(pdfData) != nil
 		expect(pdfData?.heading) == "Medicijnen"
-		expect(pdfData?.subHeading) == "Opgeslagen op 14 nov 2023 om 23:13 uur"
+		expect(pdfData?.subHeading) == "Opgeslagen op 15 jun 2025 om 17:06 uur"
 		expect(pdfData?.footer) == "Dit document is gemaakt met Mijn Gezondheidsoverzicht. Het bevat jouw medische gegevens,\nafkomstig van zorgaanbieders die jij hebt toegevoegd. Jij bent zelf verantwoordelijk voor wat je\nmet deze informatie doet. De gegevens zijn niet gecontroleerd op juistheid of volledigheid."
 		expect(pdfData?.tables).to(haveCount(1))
 		

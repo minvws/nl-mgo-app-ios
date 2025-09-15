@@ -7,11 +7,22 @@ import OpenAPIRuntime
 import OpenAPIURLSession
 import Foundation
 
-public class LocalisationServiceClientSpy: LocalisationServiceClientProtocol {
+public actor LocalisationServiceClientSpy: LocalisationServiceClientProtocol {
 	
-	public required init(serverUrl: Foundation.URL, username: String?, password: String?) { /* Public initializer needed for public access */ }
+	public init(serverUrl: Foundation.URL, username: String?, password: String?) { /* Public initializer needed for public access */ }
+	
+	public init(serverUrl: Foundation.URL, username: String?, password: String?, organizations: [MgoOrganization], error: Error? = nil ) {
+		self.stubbedSearchHealthcareOrganizations = organizations
+		self.stubbedSearchDemoOrganizations = organizations
+		self.stubbedSearchHealthcareOrganizationError = error
+	}
 	
 	public var invokedSearchHealthcareOrganizations = false
+	
+	public func didInvokeSearchHealthcareOrganizations() -> Bool {
+		return invokedSearchHealthcareOrganizations
+	}
+	
 	public var invokedSearchHealthcareOrganizationsCount = 0
 	public var invokedSearchHealthcareOrganizationsParameters: (city: String, name: String)?
 	public var invokedSearchHealthcareOrganizationsParametersList = [(city: String, name: String)]()
@@ -36,6 +47,11 @@ public class LocalisationServiceClientSpy: LocalisationServiceClientProtocol {
 	}
 	
 	public var invokedSearchDemoOrganizations = false
+	
+	public func didInvokeSearchDemoOrganizations() -> Bool {
+		return invokedSearchDemoOrganizations
+	}
+	
 	public var invokedSearchDemoOrganizationsCount = 0
 	public var stubbedSearchDemoOrganizations = [MgoOrganization]()
 	public var stubbedSearchDemoOrganizationError: Error?

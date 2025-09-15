@@ -59,6 +59,12 @@ QuickLook {
 }
 
 # Third-Party
+FactoryKit: {
+  shape: hexagon
+}
+Foil: {
+  shape: hexagon
+}
 NavigationStackBackport: {
   shape: hexagon
 }
@@ -126,6 +132,7 @@ MGODebug { style.fill: "#ffcc00" }
 MGODebug <- Logging
 
 MGOFoundation { style.fill: "#ffcc00" }
+MGOFoundation <- FactoryKit
 MGOFoundation <- FeatureFlag
 MGOFoundation <- Foundation
 MGOFoundation <- JailBreakDetector
@@ -136,6 +143,7 @@ MGOFoundation <- MGORepository
 MGOFoundation <- NotificationCenter
 MGOFoundation <- Observatory
 MGOFoundation <- OHHTTPStubs
+MGOFoundation <- PatientFriendlyTerms
 MGOFoundation <- Sanitizer
 MGOFoundation <- SecureUserSettings
 MGOFoundation <- RemoteAuthentication
@@ -150,12 +158,20 @@ MGOUI <- SwiftUI
 MGORepository  { style.fill: "#ffcc00" }
 MGORepository <- FHIRClient
 MGORepository <- Observatory
-MGORepository <- SharedCore
+MGORepository <- HCIMCore
 
 NotificationCenter { style.fill: "#ffcc00" }
 NotificationCenter <- UIKit
 
 Observatory { style.fill: "#ffcc00" }
+
+PatientFriendlyTerms { style.fill: "#ffcc00" }
+PatientFriendlyTerms <- AuthorizationMiddleware
+PatientFriendlyTerms <- FileStorage
+PatientFriendlyTerms <- Foil
+PatientFriendlyTerms <- swift-openapi-generator
+PatientFriendlyTerms <- swift-openapi-runtime
+PatientFriendlyTerms <- swift-openapi-urlsession
 
 PdfExport { style.fill: "#ffcc00" }
 PdfExport <- PDFKit
@@ -198,9 +214,9 @@ Sanitizer <- SwiftSoup
 SecureUserSettings { style.fill: "#ffcc00" }
 SecureUserSettings <- CommonCrypto
 
-SharedCore { style.fill: "#ffcc00" }
-SharedCore <- JavaScriptCore
-SharedCore <- MGODebug
+HCIMCore { style.fill: "#ffcc00" }
+HCIMCore <- JavaScriptCore
+HCIMCore <- MGODebug
 
 Theme { style.fill: "#ffcc00" }
 Theme <- SwiftUI

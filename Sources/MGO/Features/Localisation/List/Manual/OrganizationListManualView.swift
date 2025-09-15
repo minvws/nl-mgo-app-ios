@@ -11,7 +11,7 @@ typealias OrganizationListSet = (
 	cardState: OrganizationListCardState
 )
 
-enum OrganizationListViewState: Equatable {
+enum OrganizationListViewState: Equatable, Sendable {
 	
 	case loading
 	case failure(Error)
@@ -75,9 +75,17 @@ class OrganizationListManualViewModel: ObservableObject {
 	/// The localisation service client
 	private var localisationServiceClient: LocalisationServiceClientProtocol?
 	
+	/// Dependency Healthcare Organization Store
+	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
+	
 	/// Initializer
 	/// - Parameter coordinator: the coordinator
-	init(coordinator: (any Coordinator)?, city: String, name: String, localisationServiceClient: LocalisationServiceClientProtocol?) {
+	@MainActor init(
+		coordinator: (any Coordinator)?,
+		city: String,
+		name: String,
+		localisationServiceClient: LocalisationServiceClientProtocol?
+	) {
 		self.coordinator = coordinator
 		self.city = city
 		self.name = name
@@ -87,12 +95,12 @@ class OrganizationListManualViewModel: ObservableObject {
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: OrganizationListManualViewModel.Action) {
+	@MainActor func reduce(_ action: OrganizationListManualViewModel.Action) {
 		
 		switch action {
 			
 			case .backToSearch:
-				Current.notificationCenter.post(name: .clearSearch, object: nil)
+			Container.shared.notificationCenter().post(name: .clearSearch, object: nil)
 				coordinator?.handle(Coordination.Action.backToAddHealthcareOrganization)
 			
 			case .backButtonPressed:
@@ -109,31 +117,29 @@ class OrganizationListManualViewModel: ObservableObject {
 				// Only load the first time
 				guard state == .loading else { return }
 			
-				_Concurrency.Task {
+				_Concurrency.Task(priority: .userInitiated) {
 					await loadHealthcareOrganizations()
 				}
 			
 			case .retry:
-				_Concurrency.Task {
+				setState(.loading)
+				_Concurrency.Task(priority: .userInitiated) {
 					await loadHealthcareOrganizations()
 				}
 			
 			case .store(let organization):
 				guard cardState(for: organization) == .regular else { return }
 			
-				try? Current.healthcareOrganizationStore.store(organization)
+				try? healthcareOrganizationRepository.store(organization)
 				applyListState()
 				coordinator?.handle(Coordination.Action.finishedSearchingHealthcareOrganizations)
 		}
 	}
 	
-	@MainActor
 	private func loadHealthcareOrganizations() async {
 		
-		state = .loading
-		
 		guard let localisationServiceClient else {
-			state = .failure(LocalisationServiceClientError.noServer)
+			await setState(.failure(LocalisationServiceClientError.noServer))
 			return
 		}
 		
@@ -141,16 +147,16 @@ class OrganizationListManualViewModel: ObservableObject {
 			searchResultsList = try await localisationServiceClient.searchHealthcareOrganizations(city: city, name: name)
 			logDebug("We found \(searchResultsList.count) organisations.")
 			
-			applyListState()
+			await applyListState()
 			
 		} catch {
 			logDebug("Error fetching orginasations \(error)")
-			state = .failure(error)
+			await setState(.failure(error))
 		}
 	}
 	
 	/// Apply the state for each of the health organizations
-	func applyListState() {
+	@MainActor func applyListState() {
 		
 		var list = [OrganizationListSet]()
 		searchResultsList.forEach {organization in
@@ -162,35 +168,36 @@ class OrganizationListManualViewModel: ObservableObject {
 			)
 		}
 		if list.isEmpty {
-			state = .empty(city: city, name: name)
+			setState(.empty(city: city, name: name))
 		} else {
-			state = .success(list)
+			setState(.success(list))
 		}
+	}
+	
+	/// Set the state (to be called from async methods)
+	@MainActor func setState(_ newState: OrganizationListViewState) {
+		self.state = newState
 	}
 	
 	/// Get the state for a card
 	/// - Parameter organization: the healthcare organization
 	/// - Returns: card state
-	private func cardState(for organization: MgoOrganization) -> OrganizationListCardState {
+	@MainActor private func cardState(for organization: MgoOrganization) -> OrganizationListCardState {
 		
 		guard let dts = organization.data_services, dts.isNotEmpty else {
 			return .notParticipating
 		}
 		
 		var activeServices = [DataService]()
-		for service in dts {
-			if service.id == DVP.CommonClinicalDataset.serviceID ||
-				service.id == DVP.GeneralPractitioner.serviceID ||
-				service.id == DVP.Vaccination.serviceID ||
-				service.id == DVP.Documents.serviceID {
-				activeServices.append(service)
-			}
+		let availableServiceIds = DataServices(isDemo: Container.shared.featureFlagManager().isDemo).services.map(\.id)
+		for service in dts where availableServiceIds.contains(service.id) {
+			activeServices.append(service)
 		}
 		guard activeServices.isNotEmpty else {
 			return .notParticipating
 		}
 		
-		let list = Current.healthcareOrganizationStore.organizations
+		let list = healthcareOrganizationRepository.organizations
 		for item in list where organization.identifier == item.identifier {
 			return .selected
 		}
@@ -315,25 +322,28 @@ struct OrganizationListManualView: View {
 
 #Preview {
 	
-	let spy = LocalisationServiceClientSpy(serverUrl: URL(string: "https://example.com")!, username: "", password: "")
-	spy.stubbedSearchHealthcareOrganizations = [
-		PreviewContent.healthcareOrganization,
-		MgoOrganization(
-			medmij_id: "medmij",
-			display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
-			identification: "2",
-			addresses: [LocalisationService.Components.Schemas.Address(
-				active: true,
-				address: "Boorplatform 5",
-				city: "Roermond",
-				lines: ["Boorplatform 5"],
-				postalcode: "1234AB",
-				_type: "postal")
-			],
-			types: [],
-			data_services: []
-		)
-	]
+	let spy = LocalisationServiceClientSpy(
+		serverUrl: URL(string: "https://example.com")!,
+		username: "",
+		password: "",
+		organizations: [
+			PreviewContent.healthcareOrganization,
+			MgoOrganization(
+				medmij_id: "medmij",
+				display_name: "Tandartsenpraktijk Willem II Roermond B.V.",
+				identification: "2",
+				addresses: [LocalisationService.Components.Schemas.Address(
+					active: true,
+					address: "Boorplatform 5",
+					city: "Roermond",
+					lines: ["Boorplatform 5"],
+					postalcode: "1234AB")
+				],
+				types: [],
+				data_services: []
+			)
+		]
+	)
 	
 	return NavigationView {
 		OrganizationListManualView(

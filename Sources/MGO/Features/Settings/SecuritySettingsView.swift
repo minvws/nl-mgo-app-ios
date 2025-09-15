@@ -33,6 +33,9 @@ class SecuritySettingsViewModel: BaseViewModel {
 	/// The state of the view
 	@Published var state: State = State(bioMetricType: .none)
 	
+	/// Dependency injectable Secure User Settings
+	@Injected(\.secureUserSettings) private var secureUserSettings
+	
 	/// Create a Security Settings Viewmodel
 	/// - Parameter coordinator: the coordinator
 	/// - Parameter bioMetricType: what biometric type do we have? (FaceID, TouchID, OpticID)
@@ -48,21 +51,21 @@ class SecuritySettingsViewModel: BaseViewModel {
 	/// Update the state
 	private func updateState() {
 		state.bioMetricType = bioMetricType
-		state.bioMetricAuthenticationEnabled = Current.secureUserSettings.bioMetricAuthenticationEnabled
+		state.bioMetricAuthenticationEnabled = secureUserSettings.bioMetricAuthenticationEnabled
 	}
 	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
-	func reduce(_ action: SecuritySettingsViewModel.Action) {
+	@MainActor func reduce(_ action: SecuritySettingsViewModel.Action) {
 		
 		if case .biometricEnabled(let enabled) = action {
 			if enabled {
-				_Concurrency.Task {
-					await authenticate()
+				_Concurrency.Task(priority: .userInitiated) { [weak self] in
+					await self?.authenticate()
 				}
 			} else {
 				// Do not use biometric authentication
-				Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+				secureUserSettings.bioMetricAuthenticationEnabled = false
 				updateState()
 			}
 		}
@@ -73,16 +76,16 @@ class SecuritySettingsViewModel: BaseViewModel {
 	private func authenticate() async {
 		
 		do {
-			let authenticated = try await Current.localAuthenticationProvider.authenticate(
+			let authenticated = try await Container.shared.localAuthenticationProvider().authenticate(
 				localizedReason: String(localized: String.LocalizationValue("biometric_setup.dialog.touchid")),
 				localizedFallbackTitle: String(localized: String.LocalizationValue("biometric_setup.dialog.fallback"))
 			)
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = authenticated
+			secureUserSettings.bioMetricAuthenticationEnabled = authenticated
 			updateState()
 		
 		} catch {
 			logError("error: \(error)")
-			Current.secureUserSettings.bioMetricAuthenticationEnabled = false
+			secureUserSettings.bioMetricAuthenticationEnabled = false
 			
 			switch error {
 				case LocalAuthenticationError.canceled:
@@ -152,8 +155,8 @@ struct SecuritySettingsView: View {
 					Text("pincode.opticid.lockout")
 			}
 		}
-		.backportScrollContentBackground(.hidden)
-		.backportContentMargins(ViewTraits.Navigation.padding, edges: .top)
+		.backport.scrollContentBackground(.hidden)
+		.backport.contentMargins(ViewTraits.Navigation.padding, edges: .top)
 		.navigationBarBackButtonHidden()
 		.navigationBarItems(leading: BackButton("settings.heading") {
 			viewModel.reduce(.backButtonPressed)

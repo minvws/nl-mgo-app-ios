@@ -21,6 +21,10 @@ final class HealthExportViewTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = DashboardCoordinatorSpy()
+	}
+	
+	@MainActor private func createSut() {
+		
 		viewModel = HealthExportViewModel(
 			coordinator: coordinatorSpy,
 			healthData: HealthExportViewModelTests.pdfData
@@ -28,9 +32,10 @@ final class HealthExportViewTests: XCTestCase {
 		sut = HealthExportView(viewModel: self.viewModel)
 	}
 	
-	func test_exportView() {
+	@MainActor func test_exportView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut }

@@ -22,13 +22,18 @@ final class DisplaySettingsViewTests: XCTestCase {
 		
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = SettingsCoordinatorSpy()
-		sut = DisplaySettingsView(viewModel: BaseViewModel(coordinator: self.coordinatorSpy))
 		super.setUp()
 	}
 	
-	func test_displaySettingsView_systemSelected() {
+	@MainActor private func createSut() {
+		
+		sut = DisplaySettingsView(viewModel: BaseViewModel(coordinator: self.coordinatorSpy))
+	}
+	
+	@MainActor func test_displaySettingsView_systemSelected() {
 		
 		// Given
+		createSut()
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
 		
 		// When
@@ -39,9 +44,10 @@ final class DisplaySettingsViewTests: XCTestCase {
 		takeSnapShotsForiPad(content: content)
 	}
 	
-	func test_displaySettingsView_selectLight() throws {
+	@MainActor func test_displaySettingsView_selectLight() throws {
 		
 		// Given
+		createSut()
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
 		
 		// When
@@ -52,9 +58,10 @@ final class DisplaySettingsViewTests: XCTestCase {
 		expect(UserDefaults.standard.string(forKey: "AppAppearance")).toEventually(equal("light"))
 	}
 	
-	func test_displaySettingsView_selectDark() throws {
+	@MainActor func test_displaySettingsView_selectDark() throws {
 		
 		// Given
+		createSut()
 		UserDefaults.standard.set(nil, forKey: "AppAppearance")
 		
 		// When
@@ -65,9 +72,10 @@ final class DisplaySettingsViewTests: XCTestCase {
 		expect(UserDefaults.standard.string(forKey: "AppAppearance")).toEventually(equal("dark"))
 	}
 	
-	func test_displaySettingsView_selectSystem() throws {
+	@MainActor func test_displaySettingsView_selectSystem() throws {
 		
 		// Given
+		createSut()
 		UserDefaults.standard.set("light", forKey: "AppAppearance")
 		
 		// When
@@ -78,9 +86,10 @@ final class DisplaySettingsViewTests: XCTestCase {
 		expect(UserDefaults.standard.string(forKey: "AppAppearance")).toEventually(equal("system"))
 	}
 	
-	func test_backbuttonPressed() throws {
+	@MainActor func test_backbuttonPressed() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut }
 		
 		// When

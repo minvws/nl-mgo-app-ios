@@ -19,13 +19,18 @@ final class AddOrganizationViewTests: XCTestCase {
 		super.setUp()
 		servicesSpies = setupServicesSpies()
 		coordinatorSpy = AppCoordinatorSpy()
+	}
+	
+	@MainActor private func createSut() {
+		
 		viewModel = AddOrganizationViewModel(coordinator: coordinatorSpy)
 		sut = AddOrganizationView(viewModel: self.viewModel)
 	}
 	
-	func test_addOrganizationView() {
+	@MainActor func test_addOrganizationView() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
@@ -34,9 +39,10 @@ final class AddOrganizationViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_addOrganizationView_isPresentedAsSheet() {
+	@MainActor func test_addOrganizationView_isPresentedAsSheet() {
 		
 		// Given
+		createSut()
 		
 		// When
 		let content = NavigationView { sut.isPresentedAsSheet(true) }
@@ -45,9 +51,10 @@ final class AddOrganizationViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	func test_addOrganizationView_allFieldsBlank() throws {
+	@MainActor func test_addOrganizationView_allFieldsBlank() throws {
 		
 		// Given
+		createSut()
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
 		// When
@@ -58,9 +65,10 @@ final class AddOrganizationViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_addOrganizationView_nameOK() throws {
+	@MainActor func test_addOrganizationView_nameOK() throws {
 		
 		// Given
+		createSut()
 		viewModel.state.name = "Tandarts Tandje Erbij"
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
@@ -72,9 +80,10 @@ final class AddOrganizationViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_addOrganizationView_cityOK() throws {
+	@MainActor func test_addOrganizationView_cityOK() throws {
 		
 		// Given
+		createSut()
 		viewModel.state.city = "Roermond"
 		let content = NavigationView { sut.isPresentedAsSheet(false) }
 		
@@ -86,9 +95,10 @@ final class AddOrganizationViewTests: XCTestCase {
 		takeSnapShots(content: content)
 	}
 	
-	func test_addOrganizationView_allFieldsOK() throws {
+	@MainActor func test_addOrganizationView_allFieldsOK() throws {
 		
 		// Given
+		createSut()
 		viewModel.state.city = "Roermond"
 		viewModel.state.name = "Tandarts Tandje Erbij"
 		let content = NavigationView { sut.isPresentedAsSheet(false) }

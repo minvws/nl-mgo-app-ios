@@ -23,7 +23,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		sut = HealthcareCoordinator(parentCoordinator: parentCoordinator, rootState: .showHealthCategories)
 	}
 	
-	func test_coordinatorView_forOverview() throws {
+	@MainActor func test_coordinatorView_forOverview() throws {
 		
 		// Given
 		let state = HealthcareCoordination.State.organizations
@@ -35,7 +35,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forAddHealthcareOrganization() throws {
+	@MainActor func test_coordinatorView_forAddHealthcareOrganization() throws {
 		
 		// Given
 		let state = HealthcareCoordination.State.manualLocalization
@@ -46,8 +46,8 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
-
-	func test_coordinatorView_forAutomaticLocalization() throws {
+	
+	@MainActor func test_coordinatorView_forAutomaticLocalization() throws {
 		
 		// Given
 		let state = HealthcareCoordination.State.automaticLocalization
@@ -62,7 +62,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
+	@MainActor func test_coordinatorView_forHealthcareOrganizationSearchResults() throws {
 		
 		// Given
 		let state = HealthcareCoordination.State.healthcareOrganizationSearchResults(city: "Roermond", name: "Tandarts Tandje Erbij")
@@ -77,7 +77,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forShowHealthcareOrganization() throws {
+	@MainActor func test_coordinatorView_forShowHealthcareOrganization() throws {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("1")
@@ -90,7 +90,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view), precision: 0.95)
 	}
 	
-	func test_coordinatorView_forShowHealthcareOrganization_withStore() throws {
+	@MainActor func test_coordinatorView_forShowHealthcareOrganization_withStore() throws {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("1")
@@ -104,7 +104,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view), precision: 0.95)
 	}
 	
-	func test_coordinatorView_forRemoveHealthcareOrganization() throws {
+	@MainActor func test_coordinatorView_forRemoveHealthcareOrganization() throws {
 		
 		// Given
 		let organization = Generator.healthcareOrganization("1")
@@ -117,7 +117,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forShowHealthCategoryData() throws {
+	@MainActor func test_coordinatorView_forShowHealthCategoryData() throws {
 		
 		// Given
 		let healthcareOrganization = Generator.healthcareOrganization("1")
@@ -151,7 +151,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_forShowHealthCategoryData_inSheet() throws {
+	@MainActor func test_coordinatorView_forShowHealthCategoryData_inSheet() throws {
 		
 		// Given
 		let healthcareOrganization = Generator.healthcareOrganization("1")
@@ -185,7 +185,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_showHealthCategories() throws {
+	@MainActor func test_coordinatorView_showHealthCategories() throws {
 		
 		// Given
 		
@@ -196,10 +196,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
 	
-	func test_coordinatorView_showHealthCategory_alerts() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_alerts() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .alerts, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "alerts"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -208,10 +210,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_allergies() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_allergies() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .allergies, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "allergies"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -220,10 +224,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_appointments() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_appointments() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .appointments, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "appointments"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -232,10 +238,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_complaints() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_complaints() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .medicalComplaints, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "problems"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -244,10 +252,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_devices() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_devices() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .medicalDevices, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "medical_devices"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -256,10 +266,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_documents() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_documents() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .documents, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "documents"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -268,10 +280,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_labresults() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_labresults() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .labResults, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "lab_results"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -280,10 +294,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_lifestyle() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_lifestyle() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .lifestyle, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "lifestyle"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -292,10 +308,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_measurements() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_measurements() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .measurements, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "measurements"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -304,10 +322,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_medication() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_medication() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .medication, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "medication"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -316,10 +336,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_functionalOrMentalStatus() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_functionalOrMentalStatus() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .mentalWellbeing, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "mental_wellbeing"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -328,10 +350,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_patient() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_patient() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .personalDetails, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "patient"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -340,10 +364,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_payment() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_payment() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .payment, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "payment"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -352,10 +378,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_plans() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_plans() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .plans, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "plans"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -364,10 +392,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_treatments() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_treatments() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .treatments, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "treatments"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -376,10 +406,12 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_showHealthCategory_vaccinations() throws {
+	@MainActor func test_coordinatorView_showHealthCategory_vaccinations() throws {
 		
 		// Given
-		let view = sut.viewState(for: .showHealthCategory(category: .vaccinations, organization: nil))
+		let sharedCategories = try SharedHealthCategories()
+		let category = try XCTUnwrap(sharedCategories.findCategory(id: "vaccinations"))
+		let view = sut.viewState(for: .showHealthCategory(category: category, organization: nil))
 		
 		// When
 		let content = NavigationView { view }
@@ -388,7 +420,7 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		takeSnapShots(content: try XCTUnwrap(content))
 	}
 	
-	func test_coordinatorView_exportHealthData() throws {
+	@MainActor func test_coordinatorView_exportHealthData() throws {
 		
 		// Given
 		let state = HealthcareCoordination.State.exportHealthData(

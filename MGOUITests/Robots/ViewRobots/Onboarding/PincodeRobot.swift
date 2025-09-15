@@ -5,10 +5,10 @@
 
 import XCTest
 
-class PincodeRobot: Robot {
+@MainActor class PincodeRobot: Robot {
 	
 	/// The app to test
-	var app: XCUIApplication
+	let app: XCUIApplication
 	
 	/// Create an Pincode Robot
 	/// - Parameter application: the application to test
@@ -82,9 +82,9 @@ class PincodeRobot: Robot {
 	}
 	
 	@discardableResult
-	func enterConfirmationPinCodeWithRemoteAuthentication(_ code: String) -> AddOrganizationRobot {
+	func enterConfirmationPinCodeWithRemoteAuthentication(_ code: String) -> HealthCategoriesRobot {
 		enterPinCode(code)
-		return AddOrganizationRobot(app)
+		return HealthCategoriesRobot(app)
 	}
 	
 	@discardableResult

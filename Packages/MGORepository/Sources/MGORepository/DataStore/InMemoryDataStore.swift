@@ -4,11 +4,10 @@
  */
 
 import Foundation
-import FHIRClient
 import Observatory
 
 /// The in memory data store
-public class InMemoryDataStore: MgoDataStoreProtocol {
+@preconcurrency public class InMemoryDataStore: MgoDataStoreProtocol {
 	
 	/// The in memory data source
 	private var dataSource = [MgoResourceRecord]()

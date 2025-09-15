@@ -2,111 +2,136 @@
  *  SPDX-FileCopyrightText: 2025 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
  *  SPDX-License-Identifier: EUPL-1.2
  */
-
-import Foundation
+	
 import MGOFoundation
 
-// MARK: - 1: Define the Services
-
-struct Services {
-	var now: () -> Date
-	var appVersionSupplier: AppVersionSupplierProtocol
-	var dataStore: MgoDataStoreProtocol
-	var featureFlagManager: FeatureFlagManaging
-	var healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol
-	var jailBreakDetector: JailBreakProtocol
-	var localAuthenticationProvider: LocalAuthenticationProviderProtocol
-	var localisationServiceClient: LocalisationServiceClientProtocol
-	var notificationCenter: NotificationCenterProtocol
-	var remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol
-	var resourceRepository: ResourceRepositoryProtocol
-	var secureUserSettings: SecureUserSettingsProtocol
+extension Container {
 	
-	init(
-		now: @escaping () -> Date,
-		appVersionSupplier: AppVersionSupplierProtocol,
-		dataStore: MgoDataStoreProtocol,
-		featureFlagManager: FeatureFlagManaging,
-		healthcareOrganizationStore: HealthcareOrganizationRepositoryProtocol,
-		jailBreakDetector: JailBreakProtocol,
-		localAuthenticationProvider: LocalAuthenticationProviderProtocol,
-		localisationServiceClient: LocalisationServiceClientProtocol,
-		notificationCenter: NotificationCenterProtocol,
-		remoteConfigurationRepository: RemoteConfigurationRepositoryProtocol,
-		resourceRepository: ResourceRepositoryProtocol,
-		secureUserSettings: SecureUserSettingsProtocol
-	) {
-		self.now = now
-		self.appVersionSupplier = appVersionSupplier
-		self.dataStore = dataStore
-		self.featureFlagManager = featureFlagManager
-		self.healthcareOrganizationStore = healthcareOrganizationStore
-		self.jailBreakDetector = jailBreakDetector
-		self.localAuthenticationProvider = localAuthenticationProvider
-		self.localisationServiceClient = localisationServiceClient
-		self.notificationCenter = notificationCenter
-		self.remoteConfigurationRepository = remoteConfigurationRepository
-		self.resourceRepository = resourceRepository
-		self.secureUserSettings = secureUserSettings
-	}
-}
-
-// MARK: - 2: Instantiate Private Dependencies
-
-private let appVersionSupplier = AppVersionSupplier()
-private let dataStore = InMemoryDataStore()
-private let featureFlagManager = FeatureFlagManager()
-private let healthcareOrganizationStore = HealthcareOrganizationRepository()
-private let jailBreakDetector = JailBreakDetector()
-private let localAuthenticationProvider = LocalAuthenticationProvider()
-private let localisationServiceClient = LocalisationServiceClient(
-	serverUrl: Configuration().urlForLocalisation(),
-	username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-	password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-)
-
-private let now: () -> Date = Date.init
-private let notificationCenter = NotificationCenter.default
-private let secureUserSettings = SecureUserSettings()
-private let remoteConfigurationRepository = RemoteConfigurationRepository(
-	apiClient: RemoteConfigurationClient(serverUrl: Configuration().urlForRemoteConfiguration())
-)
-private let resourceRepository = ResourceRepository(
-	healthcareOrganizationRepository: healthcareOrganizationStore,
-	dataRepository: dataStore,
-	featureFlagManager: featureFlagManager,
-	serverUrl: Configuration().urlForDVP(),
-	username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
-	password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
-)
-
-// MARK: - 3: Instantiate the Services using private dependencies:
-
-let services: () -> Services = {
-	guard !ProcessInfo().isUnitTesting else {
-		fatalError("During unit testing, real services should not be instantiated during Services setup.")
-	}
-
-	if Configuration().getRelease() == .demo {
-		featureFlagManager.isDemo = true
-		featureFlagManager.isAutomaticLocalizationEnabled = true
+	/// What is the current version of the application
+	var appVersionSupplier: Factory<AppVersionSupplierProtocol> {
+		Factory(self) { AppVersionSupplier() }
+			.shared
 	}
 	
-	return Services(
-		now: now,
-		appVersionSupplier: appVersionSupplier,
-		dataStore: dataStore,
-		featureFlagManager: featureFlagManager,
-		healthcareOrganizationStore: healthcareOrganizationStore,
-		jailBreakDetector: jailBreakDetector,
-		localAuthenticationProvider: localAuthenticationProvider,
-		localisationServiceClient: localisationServiceClient,
-		notificationCenter: notificationCenter,
-		remoteConfigurationRepository: remoteConfigurationRepository,
-		resourceRepository: resourceRepository,
-		secureUserSettings: secureUserSettings
-	)
+	/// The store for Mgo  Resource records
+	var dataStore: Factory<MgoDataStoreProtocol> {
+		Factory(self) { InMemoryDataStore() }
+			.singleton
+	}
+	
+	/// Holding all the feature flags
+	var featureFlagManager: Factory<FeatureFlagManaging> {
+		Factory(self) { @MainActor in FeatureFlagManager() }
+			.singleton
+	}
+	
+	/// The repository for all the stored healthcare organizations
+	var healthcareOrganizationRepository: Factory<HealthcareOrganizationRepositoryProtocol> {
+		Factory(self) { HealthcareOrganizationRepository() }
+			.singleton
+	}
+	
+	/// Detect jail broken devices
+	var jailBreakDetector: Factory<JailBreakProtocol> {
+		Factory(self) { @MainActor in JailBreakDetector() }
+			.shared
+	}
+	
+	/// Access to the biometric access provider
+	var localAuthenticationProvider: Factory<LocalAuthenticationProviderProtocol> {
+		Factory(self) { LocalAuthenticationProvider() }
+			.shared
+	}
+	
+	/// The Client to fetch healthcare providers
+	var localisationServiceClient: Factory<LocalisationServiceClientProtocol> {
+		Factory(self) {
+			LocalisationServiceClient(
+				serverUrl: Configuration().urlForLocalisation(),
+				username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+				password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+			)
+		}
+		.singleton
+	}
+	
+	/// The patient friendly terms repository
+	var patientFriendyTermsRepository: Factory<PatientFriendlyTermsRepositoryProtocol> {
+		Factory(self) {
+			do {
+				let serverUrl = try PatientFriendlyTermsServers.Server1.url()
+				if let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+				   let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String {
+					return PatientFriendlyTermsRepository(
+						client: PatientFriendlyTermsAPIClient(
+							serverUrl,
+							username: username,
+							password: password
+						)
+					)
+				} else {
+					return PatientFriendlyTermsRepository(client: PatientFriendlyTermsAPIClient(serverUrl))
+				}
+			} catch {
+				fatalError("No Patient Friendly Terms Server available")
+			}
+		}
+		.singleton
+	}
+	
+	/// The remote configuration repository
+	var remoteConfigurationRepository: Factory<RemoteConfigurationRepositoryProtocol> {
+		Factory(self) {
+			if let username = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+			   let password = Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String {
+				
+				RemoteConfigurationRepository(
+					apiClient: RemoteConfigurationClient(
+						serverUrl: Configuration().urlForRemoteConfiguration(),
+						username: username,
+						password: password
+					)
+				)
+			} else {
+				RemoteConfigurationRepository(
+					apiClient: RemoteConfigurationClient(
+						serverUrl: Configuration().urlForRemoteConfiguration()
+					)
+				)
+			}
+		}
+		.singleton
+	}
+	
+	var resourceRepository: Factory<ResourceRepositoryProtocol> {
+		Factory(self) { @MainActor in
+			ResourceRepository(
+				healthcareOrganizationRepository: self.healthcareOrganizationRepository(),
+				dataRepository: self.dataStore(),
+				featureFlagManager: self.featureFlagManager(),
+				serverUrl: Configuration().urlForDVP(),
+				username: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_USERNAME"] as? String,
+				password: Bundle.main.infoDictionary?["MGO_BASIC_AUTH_PASSWORD"] as? String
+			)
+		}
+		.singleton
+	}
+	
+	/// Sending and receiving notifications
+	var notificationCenter: Factory<NotificationCenterProtocol> {
+		Factory(self) { NotificationCenter.default }
+			.shared
+	}
+	
+	/// What is the date
+	var now: Factory<() -> Date> {
+		Factory(self) { Date.init }
+			.unique
+	}
+	
+	/// Storing user settings securely
+	var secureUserSettings: Factory<SecureUserSettingsProtocol> {
+		Factory(self) { SecureUserSettings() }
+			.singleton
+	}
 }
-
-/// A global variable with all the services
-var Current: Services! // swiftlint:disable:this identifier_name

@@ -18,7 +18,7 @@ final class LoginInfoViewModelTests: XCTestCase {
 		super.setUp()
 	}
 
-	func test_buttonPressed_shouldCallCoordinator() {
+	@MainActor func test_buttonPressed_shouldCallCoordinator() {
 		
 		// Given
 		
