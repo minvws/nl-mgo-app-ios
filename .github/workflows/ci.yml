@@ -14,7 +14,6 @@ env:
   DEVELOPER_DIR: /Applications/Xcode_16.4.0.app/Contents/Developer
   FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 180
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 10
-  INPUT_ALLOW_RUN_ON_DEPENDABOT: true
   
 jobs:
   test:
@@ -95,3 +94,5 @@ jobs:
         uses: minvws/action-sonarqube@v1
         with:
           sonar-token: ${{ secrets.SONAR_TOKEN }}
+          allow-run-on-dependabot: true
+          allow-run-on-fork: true
