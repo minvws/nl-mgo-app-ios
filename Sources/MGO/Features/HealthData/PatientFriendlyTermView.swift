@@ -74,11 +74,16 @@ struct PatientFriendlyTermView: View {
 		
 		HStack(alignment: .top, spacing: 0) {
 			if let title = viewModel.title {
-				Text(title)
-					.rijksoverheidStyle(font: .bold, style: .headline)
-					.foregroundStyle(theme.contentPrimary)
-					.frame(maxWidth: .infinity, alignment: .leading)
-					.accessibilityAddTraits(.isHeader)
+				SelectableTextView(
+					text: title,
+					textColor: theme.contentPrimary,
+					font: UIFont(
+						name: RijksoverheidSansWebTextFont.bold.fontName,
+						size: Font.TextStyle.body.pointSize
+					)
+				)
+				.accessibilityAddTraits(.isHeader)
+				.frame(maxWidth: .infinity, alignment: .leading)
 			}
 			Spacer()
 			
@@ -88,24 +93,30 @@ struct PatientFriendlyTermView: View {
 			.buttonStyle(CloseButtonStyle())
 		}
 	}
-
+	
 	/// The synonym
 	@ViewBuilder private func synonym() -> some View {
+
 		if let synonym = viewModel.synonym {
-			Text(
-				String(
+			
+			SelectableTextView(
+				text: String(
 					format: String(localized: "patientfriendlyterms.synonym"),
 					arguments: [synonym]
+				),
+				textColor: theme.contentSecondary,
+				font: UIFont(
+					name: RijksoverheidSansWebTextFont.regular.fontName,
+					size: Font.TextStyle.body.pointSize
 				)
 			)
-			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundStyle(theme.contentSecondary)
 			.frame(maxWidth: .infinity, alignment: .leading)
 		}
 	}
 	
 	/// The description
 	@ViewBuilder private func description() -> some View {
+		
 		SelectableTextView(
 			text: viewModel.description,
 			textColor: theme.contentPrimary,
