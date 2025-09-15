@@ -49,6 +49,9 @@ struct HealthUISchemaView: View {
 		enum Chevron {
 			static let size: CGFloat = 32.0
 		}
+		enum QuestionMark {
+			static let size: CGFloat = 24
+		}
 	}
 	
 	var body: some View {
@@ -302,7 +305,7 @@ struct HealthUISchemaView: View {
 	///   - showDivider: True if we should show a divider at the bottom
 	///   - showChevron: True if we should show a chevron at the right side
 	/// - Returns: Row View
-	@ViewBuilder func viewFor(
+	@ViewBuilder private func viewFor(
 		_ value: String?,
 		heading: String?,
 		showDivider: Bool = true,
@@ -345,7 +348,8 @@ struct HealthUISchemaView: View {
 	/// A Selectable Text View
 	/// - Parameter value: the display value
 	/// - Returns: view
-	@ViewBuilder func selectableTextView(_ value: String) -> some View {
+	@ViewBuilder private func selectableTextView(_ value: String) -> some View {
+		
 		SelectableTextView(
 			text: value,
 			textColor: theme.contentPrimary,
@@ -364,7 +368,7 @@ struct HealthUISchemaView: View {
 	///   - showDivider: True if we should show a divider at the bottom
 	///   - showChevron: True if we should show a chevron at the right side
 	/// - Returns: Row View
-	@ViewBuilder func viewFor(
+	@ViewBuilder private func viewFor(
 		_ values: [SingleValueDisplay],
 		heading: String?,
 		showDivider: Bool = true,
@@ -407,7 +411,7 @@ struct HealthUISchemaView: View {
 	/// The view for an array of single value displays
 	/// - Parameter element: the array of single value displays
 	/// - Returns: view for the array of single value displays
-	@ViewBuilder func viewFor(_ values: [SingleValueDisplay]) -> some View {
+	@ViewBuilder private func viewFor(_ values: [SingleValueDisplay]) -> some View {
 		
 		ForEach(Array(values.enumerated()), id: \.offset) { _, element in
 			viewFor(element)
@@ -417,7 +421,7 @@ struct HealthUISchemaView: View {
 	/// The view for a single value display
 	/// - Parameter element: the single value display
 	/// - Returns: view for single value display
-	@ViewBuilder func viewFor(_ element: SingleValueDisplay) -> some View {
+	@ViewBuilder private func viewFor(_ element: SingleValueDisplay) -> some View {
 		
 		switch element {
 			case let .string(value):
@@ -425,20 +429,46 @@ struct HealthUISchemaView: View {
 				
 			case let .displayCoding(displayCoding):
 				if let code = displayCoding.code, resolvedCodes[code] ?? false {
-	#warning("Todo [Rool, 14/9/2025]: This needs improving, the question mark should not be underlined, the label should be leading aligned. Is the size of the question mark correct?")
-					Button {
-						codeTapped?(displayCoding)
-					} label: {
-						let sanitized = Sanitizer.strip(displayCoding.display) ?? unknown
-						Text("\(sanitized) \(Image(systemName: "questionmark.circle"))")
-							.rijksoverheidStyle(font: .regular, style: .body)
-							.fixedSize(horizontal: false, vertical: true)
-							.backport.underline(pattern: .dot)
-							.foregroundStyle(theme.rijksLint)
-					}
+					viewFor(displayCoding)
 				} else {
 					selectableTextView(Sanitizer.strip(displayCoding.display) ?? unknown)
 				}
+		}
+	}
+	
+	/// The view for a display coding
+	/// - Parameter displayCoding: the coding object
+	/// - Returns: view for display coding
+	@ViewBuilder private func viewFor(_ displayCoding: DisplayCoding) -> some View {
+		
+		HStack(alignment: .center, content: {
+			let sanitized = Sanitizer.strip(displayCoding.display) ?? unknown
+			
+			Label {
+				Text(sanitized)
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.backport.underline(pattern: .dot)
+			} icon: {
+				Image(systemName: "questionmark.circle")
+					.resizable()
+					.frame(
+						width: ViewTraits.QuestionMark.size,
+						height: ViewTraits.QuestionMark.size
+					)
+			}
+			.labelStyle(TrailingIconLabelStyle())
+			
+			Spacer()
+		})
+		.fixedSize(horizontal: false, vertical: true)
+		.foregroundStyle(theme.rijksLint)
+		.overlay {
+			Button {
+				codeTapped?(displayCoding)
+			} label: {
+				Rectangle()
+					.foregroundStyle(Color.clear)
+			}
 		}
 	}
 	

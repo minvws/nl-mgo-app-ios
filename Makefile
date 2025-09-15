@@ -116,3 +116,16 @@ download_shared_config:
 
 	# Cleanup
 	@rm -rf tmp/shared_config
+struct TrailingIconLabelStyle: LabelStyle {
+	typealias Body = View
+	
+	/// The properties of a label.
+	typealias Configuration = LabelStyleConfiguration
+	
+	func makeBody(configuration: Configuration) -> some View {
+		HStack {
+			configuration.title
+			configuration.icon
+		}
+	}
+}
