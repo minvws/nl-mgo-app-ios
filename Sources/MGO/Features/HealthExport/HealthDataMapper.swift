@@ -89,22 +89,51 @@ class HealthDataMapper {
 	@MainActor private func mapElement(_ element: UIElementProtocol) -> PdfSubTablePair? {
 		
 		if element is SingleValue,
-		   let value = (element as? SingleValue)?.display {
+		   let display = (element as? SingleValue)?.display,
+		   let value = mapElement(display) {
 			return PdfSubTablePair(key: element.label, value: value)
 		}
+		
 		if element is MultipleValues,
-		   let value = (element as? MultipleValues)?.display?.joined(separator: ", ") {
-			return PdfSubTablePair(key: element.label, value: value)
+		   let display = (element as? MultipleValues)?.display {
+			let values = display
+				.compactMap { mapElement($0) }
+			
+			return PdfSubTablePair(
+				key: element.label,
+				value: values.joined(separator: ", ")
+			)
 		}
+		
 		if element is MultipleGroupedValues,
 		   let display = (element as? MultipleGroupedValues)?.display {
-			let value = display.map { $0.joined(separator: ", ") }.joined(separator: ", ")
-			return PdfSubTablePair(key: element.label, value: value)
+			let values = display
+				.flatMap { $0 }
+				.compactMap { mapElement($0) }
+			
+			return PdfSubTablePair(
+				key: element.label,
+				value: values.joined(separator: ", ")
+			)
 		}
+
 		if element is ReferenceValue,
 		   let value = (element as? ReferenceValue)?.display {
 			return PdfSubTablePair(key: element.label, value: value)
 		}
 		return nil
+	}
+	
+	/// Map a UIElement onto a PDF sub table pair
+	/// - Parameter element: the element
+	/// - Returns: PDF sub table pair
+	@MainActor private func mapElement(_ element: SingleValueDisplay) -> String? {
+		
+		switch element {
+			case let .string(value):
+				return value
+			case let .displayCoding(displayCoding):
+				return displayCoding.display
+		}
 	}
 }

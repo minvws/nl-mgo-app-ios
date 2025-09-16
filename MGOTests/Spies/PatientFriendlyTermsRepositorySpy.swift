@@ -10,9 +10,23 @@ public class PatientFriendlyTermsRepositorySpy: PatientFriendlyTermsRepositoryPr
 	public var invokedFetchTerms = false
 	public var invokedFetchTermsCount = 0
 
-	public func fetchTerms() async {
+	public func fetchTerms() {
 		invokedFetchTerms = true
 		invokedFetchTermsCount += 1
+	}
+
+	public var invokedFind = false
+	public var invokedFindCount = 0
+	public var invokedFindParameters: (code: String, Void)?
+	public var invokedFindParametersList = [(code: String, Void)]()
+	public var stubbedFindResult: PatientFriendlyTerm!
+
+	public func find(_ code: String) -> PatientFriendlyTerm? {
+		invokedFind = true
+		invokedFindCount += 1
+		invokedFindParameters = (code, ())
+		invokedFindParametersList.append((code, ()))
+		return stubbedFindResult
 	}
 
 	public var invokedWipePersistedData = false

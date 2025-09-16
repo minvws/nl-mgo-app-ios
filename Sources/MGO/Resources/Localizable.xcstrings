@@ -934,7 +934,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opgeslagen op %1$@ om %2$@ uur"
+            "value" : "Gemaakt op %1$@ om %2$@ uur"
           }
         }
       }
@@ -1665,6 +1665,28 @@
         }
       }
     },
+    "login_failed.dialog.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen niet gelukt"
+          }
+        }
+      }
+    },
+    "login_failed.dialog.subheading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met DigiD is niet gelukt. Probeer het opnieuw."
+          }
+        }
+      }
+    },
     "login_info.heading" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1951,7 +1973,7 @@
         }
       }
     },
-    "overview.favorites.action" : {
+    "overview.favorites.empty.action" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
@@ -1962,13 +1984,24 @@
         }
       }
     },
-    "overview.favorites.heading" : {
+    "overview.favorites.empty.heading" : {
       "extractionState" : "manual",
       "localizations" : {
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voeg hier je favorieten toe.\nZo staan die altijd bovenaan."
+          }
+        }
+      }
+    },
+    "overview.favorites.heading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorieten"
           }
         }
       }
@@ -2035,6 +2068,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ bekijken?"
+          }
+        }
+      }
+    },
+    "patientfriendlyterms.synonym" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere naam: %1$@"
           }
         }
       }
@@ -2971,7 +3015,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App leegmaken"
+            "value" : "Opnieuw instellen"
           }
         }
       }
@@ -2982,7 +3026,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wil je de app leegmaken?"
+            "value" : "App opnieuw instellen?"
           }
         }
       }
@@ -3004,7 +3048,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App leegmaken"
+            "value" : "App opnieuw instellen"
           }
         }
       }
@@ -3015,7 +3059,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je verwijdert al je bewaarde zorgaanbieders en je toegangscode."
+            "value" : "Je bewaarde zorgaanbieders worden verwijderd. Je medische gegevens blijven bewaard."
           }
         }
       }

@@ -28,7 +28,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
     public let sourceIdentifier: MgoIdentifier?
     public let sourceReference: MgoReference?
     public let treatment, treatmentPermitted: ExtensionValueOfMgoCodeableConcept?
-    public let verification: ExtensionValueOfStructure0_6164971912924972?
+    public let verification: ExtensionValueOfStructure0_9115587673772867?
 
     public enum CodingKeys: String, CodingKey {
         case additionalSources, comment, consentingParty, dateTime, exceptRestrictions, fhirVersion, id, identifier, patient, period, profile
@@ -36,7 +36,7 @@ public struct ZibTreatmentDirective: Codable, Hashable, Sendable {
         case resourceType, sourceAttachment, sourceIdentifier, sourceReference, treatment, treatmentPermitted, verification
     }
 
-    public init(additionalSources: AdditionalSources?, comment: ExtensionValueOfMgoString?, consentingParty: [MgoReference]?, dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, exceptRestrictions: [ExceptRestriction]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: MgoIdentifier?, patient: MgoReference?, period: MgoPeriod?, profile: ZibTreatmentDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, treatment: ExtensionValueOfMgoCodeableConcept?, treatmentPermitted: ExtensionValueOfMgoCodeableConcept?, verification: ExtensionValueOfStructure0_6164971912924972?) {
+    public init(additionalSources: AdditionalSources?, comment: ExtensionValueOfMgoString?, consentingParty: [MgoReference]?, dateTime: PrimitiveValueTypeOfDateTimeDateTimeString?, exceptRestrictions: [ExceptRestriction]?, fhirVersion: NlCoreObservationFhirVersion, id: String?, identifier: MgoIdentifier?, patient: MgoReference?, period: MgoPeriod?, profile: ZibTreatmentDirectiveProfile, referenceID: String, resourceType: String, sourceAttachment: MgoAttachment?, sourceIdentifier: MgoIdentifier?, sourceReference: MgoReference?, treatment: ExtensionValueOfMgoCodeableConcept?, treatmentPermitted: ExtensionValueOfMgoCodeableConcept?, verification: ExtensionValueOfStructure0_9115587673772867?) {
         self.additionalSources = additionalSources
         self.comment = comment
         self.consentingParty = consentingParty
@@ -96,7 +96,7 @@ public extension ZibTreatmentDirective {
         sourceReference: MgoReference?? = nil,
         treatment: ExtensionValueOfMgoCodeableConcept?? = nil,
         treatmentPermitted: ExtensionValueOfMgoCodeableConcept?? = nil,
-        verification: ExtensionValueOfStructure0_6164971912924972?? = nil
+        verification: ExtensionValueOfStructure0_9115587673772867?? = nil
     ) -> ZibTreatmentDirective {
         return ZibTreatmentDirective(
             additionalSources: additionalSources ?? self.additionalSources,

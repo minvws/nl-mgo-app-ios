@@ -6,6 +6,7 @@
 import MGOFoundation
 import MGOUI
 
+// swiftlint:disable type_body_length
 struct HealthUISchemaView: View {
 	
 	/// The schema
@@ -19,6 +20,14 @@ struct HealthUISchemaView: View {
 	
 	/// An array with the state of references
 	var resolvedReferences: [String: Bool]
+	
+	/// Handler when a user taps on a code
+	var codeTapped: ((DisplayCoding?) -> Void)?
+	
+	/// An array with the state of codes
+	var resolvedCodes: [String: Bool]
+	
+	let unknown = String(localized: "common.unknown")
 	
 	/// The Theme
 	@Environment(\.theme) var theme
@@ -39,6 +48,9 @@ struct HealthUISchemaView: View {
 		}
 		enum Chevron {
 			static let size: CGFloat = 32.0
+		}
+		enum QuestionMark {
+			static let size: CGFloat = 24
 		}
 	}
 	
@@ -86,7 +98,10 @@ struct HealthUISchemaView: View {
 	///   - entry: the UIElement to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
 	/// - Returns: view for a UIElement
-	@ViewBuilder private func viewFor(_ entry: UIElementProtocol, isLastElement: Bool) -> some View {
+	@ViewBuilder private func viewFor(
+		_ entry: UIElementProtocol,
+		isLastElement: Bool
+	) -> some View {
 		
 		switch entry {
 			case is SingleValue:
@@ -105,19 +120,23 @@ struct HealthUISchemaView: View {
 				viewFor(entry as! DownloadLink, isLastElement: isLastElement) // swiftlint:disable:this force_cast
 			default:
 				EmptyView()
-				.logWarning("UISchemaView - unknown type", entry.elementType)
+					.logWarning("UISchemaView - unknown type", entry.elementType)
 		}
 	}
-
+	
 	/// Show a row of key: value for a Single Value entry
 	/// - Parameters:
 	///   - singleValue: the Single Value entry to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
 	/// - Returns: view for a Single Value entry
-	@ViewBuilder private func viewFor(_ singleValue: SingleValue, isLastElement: Bool) -> some View {
+	@ViewBuilder private func viewFor(
+		_ singleValue: SingleValue,
+		isLastElement: Bool
+	) -> some View {
 		
-		let value = singleValue.display
-		viewFor(value, heading: singleValue.label, showDivider: !isLastElement)
+		if let display = singleValue.display {
+			viewFor([display], heading: singleValue.label, showDivider: !isLastElement)
+		}
 	}
 	
 	/// Show a row of key: value for a Multiple Values entry
@@ -125,26 +144,34 @@ struct HealthUISchemaView: View {
 	///   - multipleValues: the Multiple Values entry to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
 	/// - Returns: view for a Multiple Values entry
-	@ViewBuilder private func viewFor(_ multipleValues: MultipleValues, isLastElement: Bool) -> some View {
+	@ViewBuilder private func viewFor(
+		_ multipleValues: MultipleValues,
+		isLastElement: Bool
+	) -> some View {
 		
-		let value = multipleValues.display?.joined(separator: ", ")
-		viewFor(value, heading: multipleValues.label, showDivider: !isLastElement)
+		if let display = multipleValues.display {
+			viewFor(display, heading: multipleValues.label, showDivider: !isLastElement)
+		}
 	}
-
+	
 	/// Show a row of key: value for a Multiple Grouped Values entry
 	/// - Parameters:
 	///   - multipleGroupedValues: the Multiple Grouped Values entry to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
 	/// - Returns: view for a Multiple Grouped Values entry
-	@ViewBuilder private func viewFor(_ multipleGroupedValues: MultipleGroupedValues, isLastElement: Bool) -> some View {
+	@ViewBuilder private func viewFor(
+		_ multipleGroupedValues: MultipleGroupedValues,
+		isLastElement: Bool
+	) -> some View {
 		
 		if let display = multipleGroupedValues.display {
-			ForEach(Array(display.enumerated()), id: \.offset) { index, element in
-				let value = element.joined(separator: ", ")
-				viewFor(value, heading: multipleGroupedValues.label, showDivider: !(isLastElement && element == display.last))
+			ForEach(Array(display.enumerated()), id: \.offset) { _, element in
+				viewFor(
+					element,
+					heading: multipleGroupedValues.label,
+					showDivider: !(isLastElement && element == display.last)
+				)
 			}
-		} else {
-			EmptyView()
 		}
 	}
 	
@@ -153,7 +180,10 @@ struct HealthUISchemaView: View {
 	///   - referenceLink: the Reference Link entry to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
 	/// - Returns: view for a Reference Link entry
-	@ViewBuilder private func viewFor(_ referenceLink: ReferenceLink, isLastElement: Bool) -> some View {
+	@ViewBuilder private func viewFor(
+		_ referenceLink: ReferenceLink,
+		isLastElement: Bool
+	) -> some View {
 		
 		if resolvedReferences[referenceLink.reference] == true {
 			// Reference Link to details page
@@ -180,11 +210,14 @@ struct HealthUISchemaView: View {
 	///   - referenceValue: the Reference Value entry to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
 	/// - Returns: view for a Reference Value entry
-	@ViewBuilder private func viewFor(_ referenceValue: ReferenceValue, isLastElement: Bool) -> some View {
+	@ViewBuilder private func viewFor(
+		_ referenceValue: ReferenceValue,
+		isLastElement: Bool
+	) -> some View {
 		
 		if let reference = referenceValue.reference,
-			resolvedReferences[reference] == true {
-
+		   resolvedReferences[reference] == true {
+			
 			Button {
 				self.referenceTapped?(reference)
 			} label: {
@@ -212,7 +245,10 @@ struct HealthUISchemaView: View {
 	///   - entry: the Download Binary entry to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
 	/// - Returns: view for a Download Binary entry
-	@ViewBuilder private func viewFor(_ downloadBinary: DownloadBinary, isLastElement: Bool) -> some View {
+	@ViewBuilder private func viewFor(
+		_ downloadBinary: DownloadBinary,
+		isLastElement: Bool
+	) -> some View {
 		
 		HealthDataDownloadView(
 			viewModel:
@@ -238,7 +274,10 @@ struct HealthUISchemaView: View {
 	///   - entry: the Download Link entry to display
 	///   - isLastElement: Boolean indicating if this is the last element in this block
 	/// - Returns: view for a Download Link entry
-	@ViewBuilder private func viewFor(_ downloadLink: DownloadLink, isLastElement: Bool) -> some View {
+	@ViewBuilder private func viewFor(
+		_ downloadLink: DownloadLink,
+		isLastElement: Bool
+	) -> some View {
 		
 		HealthDataDownloadView(
 			viewModel:
@@ -266,7 +305,7 @@ struct HealthUISchemaView: View {
 	///   - showDivider: True if we should show a divider at the bottom
 	///   - showChevron: True if we should show a chevron at the right side
 	/// - Returns: Row View
-	@ViewBuilder func viewFor(
+	@ViewBuilder private func viewFor(
 		_ value: String?,
 		heading: String?,
 		showDivider: Bool = true,
@@ -278,27 +317,10 @@ struct HealthUISchemaView: View {
 			VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 				
 				if let heading {
-					
-					SelectableTextView(
-						text: heading,
-						textColor: theme.contentSecondary,
-						font: UIFont(
-							name: RijksoverheidSansWebTextFont.regular.fontName,
-							size: Font.TextStyle.callout.pointSize
-						)
-					)
-					.accessibilityLabel(heading)
+					viewFor(heading)
 				}
 				
-				SelectableTextView(
-					text: Sanitizer.strip(value) ?? String(localized: "common.unknown"),
-					textColor: theme.contentPrimary,
-					font: UIFont(
-						name: RijksoverheidSansWebTextFont.regular.fontName,
-						size: Font.TextStyle.body.pointSize
-					)
-				)
-				.accessibilityLabel(Sanitizer.strip(value) ?? String(localized: "common.unknown"))
+				selectableTextView(Sanitizer.strip(value) ?? unknown)
 			}
 			
 			if showChevron {
@@ -322,14 +344,161 @@ struct HealthUISchemaView: View {
 				.padding(.leading, ViewTraits.Row.padding)
 		}
 	}
+	
+	/// A Selectable Text View
+	/// - Parameter value: the display value
+	/// - Returns: view
+	@ViewBuilder private func selectableTextView(_ value: String) -> some View {
+		
+		SelectableTextView(
+			text: value,
+			textColor: theme.contentPrimary,
+			font: UIFont(
+				name: RijksoverheidSansWebTextFont.regular.fontName,
+				size: Font.TextStyle.body.pointSize
+			)
+		)
+		.accessibilityLabel(value)
+	}
+	
+	/// Show a row of data (SingleValueDisplay)
+	/// - Parameters:
+	///   - value: the value to display
+	///   - heading: the heading to display
+	///   - showDivider: True if we should show a divider at the bottom
+	///   - showChevron: True if we should show a chevron at the right side
+	/// - Returns: Row View
+	@ViewBuilder private func viewFor(
+		_ values: [SingleValueDisplay],
+		heading: String?,
+		showDivider: Bool = true,
+		showChevron: Bool = false
+	) -> some View {
+		
+		HStack(alignment: .center, spacing: 0) {
+			
+			VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
+				
+				if let heading {
+					viewFor(heading)
+				}
+				
+				viewFor(values)
+			}
+			
+			if showChevron {
+				
+				Spacer()
+				
+				Image(ImageResource.Overview.chevronRight)
+					.foregroundStyle(theme.symbolPrimary)
+					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
+					.accessibilityHidden(true)
+			}
+		}
+		.padding(ViewTraits.Row.padding)
+		.frame(maxWidth: .infinity, alignment: .topLeading)
+		.accessibilityElement(children: .combine)
+		
+		if showDivider {
+			Divider()
+				.frame(height: ViewTraits.Divider.height)
+				.overlay(theme.borderPrimary)
+				.padding(.leading, ViewTraits.Row.padding)
+		}
+	}
+	
+	/// The view for an array of single value displays
+	/// - Parameter element: the array of single value displays
+	/// - Returns: view for the array of single value displays
+	@ViewBuilder private func viewFor(_ values: [SingleValueDisplay]) -> some View {
+		
+		ForEach(Array(values.enumerated()), id: \.offset) { _, element in
+			viewFor(element)
+		}
+	}
+	
+	/// The view for a single value display
+	/// - Parameter element: the single value display
+	/// - Returns: view for single value display
+	@ViewBuilder private func viewFor(_ element: SingleValueDisplay) -> some View {
+		
+		switch element {
+			case let .string(value):
+				selectableTextView(Sanitizer.strip(value) ?? unknown)
+				
+			case let .displayCoding(displayCoding):
+				if let code = displayCoding.code, resolvedCodes[code] ?? false {
+					viewFor(displayCoding)
+				} else {
+					selectableTextView(Sanitizer.strip(displayCoding.display) ?? unknown)
+				}
+		}
+	}
+	
+	/// The view for a display coding
+	/// - Parameter displayCoding: the coding object
+	/// - Returns: view for display coding
+	@ViewBuilder private func viewFor(_ displayCoding: DisplayCoding) -> some View {
+		
+		Button {
+			codeTapped?(displayCoding)
+		} label: {
+			displayCodingLabel(Sanitizer.strip(displayCoding.display) ?? unknown)
+		}
+		.buttonStyle(HalfOpacityWhenPressedButtonStyle())
+		.accessibilityIdentifier(displayCoding.code ?? "unknown")
+	}
+	
+	@ViewBuilder private func displayCodingLabel(_ text: String) -> some View {
+		
+		HStack(alignment: .center, content: {
+			
+			Label {
+				Text(text)
+					.rijksoverheidStyle(font: .regular, style: .body)
+					.backport.underline(pattern: .dot)
+			} icon: {
+				Image(systemName: "questionmark.circle")
+					.resizable()
+					.frame(
+						width: ViewTraits.QuestionMark.size,
+						height: ViewTraits.QuestionMark.size
+					)
+			}
+			.labelStyle(TrailingIconLabelStyle())
+			
+			Spacer()
+		})
+		.fixedSize(horizontal: false, vertical: true)
+		.foregroundStyle(theme.rijksLint)
+	}
+	
+	/// The view for a heading row
+	/// - Parameter heading: the heading
+	/// - Returns: heading view
+	@ViewBuilder private func viewFor(_ heading: String) -> some View {
+		
+		SelectableTextView(
+			text: heading,
+			textColor: theme.contentSecondary,
+			font: UIFont(
+				name: RijksoverheidSansWebTextFont.regular.fontName,
+				size: Font.TextStyle.callout.pointSize
+			)
+		)
+		.accessibilityLabel(heading)
+	}
 }
+// swiftlint:enable type_body_length
 
 #Preview {
 	ScrollView {
 		HealthUISchemaView(
 			schema: PreviewContent.uiSchema,
 			healthcareOrganization: PreviewContent.healthcareOrganization,
-			resolvedReferences: ["reference": true]
+			resolvedReferences: ["reference": true],
+			resolvedCodes: ["code": true]
 		)
 		.padding(.horizontal, 16)
 	}

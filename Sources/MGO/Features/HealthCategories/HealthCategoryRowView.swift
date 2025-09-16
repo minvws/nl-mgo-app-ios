@@ -83,7 +83,6 @@ struct HealthCategoryRowView: View {
 				}
 			}
 		}
-		.background(theme.backgroundSecondary)
 		.frame(minHeight: ViewTraits.Category.minHeight)
 		.accessibilityElement(children: .combine)
 	}

@@ -75,4 +75,65 @@ class PatientFriendlyTermsRepositoryTests {
 		#expect(storage.invokedRemove == true)
 		#expect(sut.eTag == nil)
 	}
+	
+	@Test("searching for an existing term should return the term")
+	func searchExistingTerm() async throws {
+		
+		// Given
+		let terms = PatientFriendlyTerms(
+			additionalProperties:
+				[
+					"100": PatientFriendlyTerm(
+						name: "name",
+						description: "description",
+						synonym: "synonym"
+					)
+				]
+		)
+		let data = try JSONEncoder().encode(terms)
+		storage.stubbedReadResult = data
+		
+		// When
+		let result = sut.find("100")
+		
+		// Then
+		#expect(result == terms.additionalProperties["100"])
+	}
+	
+	@Test("searching for an non existing term should return nil")
+	func searchNonExistingTerm() async throws {
+		
+		// Given
+		let terms = PatientFriendlyTerms(
+			additionalProperties:
+				[
+					"100": PatientFriendlyTerm(
+						name: "name",
+						description: "description",
+						synonym: "synonym"
+					)
+				]
+		)
+		let data = try JSONEncoder().encode(terms)
+		storage.stubbedReadResult = data
+		
+		// When
+		let result = sut.find("wrong")
+		
+		// Then
+		#expect(result == nil)
+	}
+	
+	@Test("searching for an non existing term should return nil")
+	func searchNonExistingTermNoData() async throws {
+		
+		// Given
+		storage.stubbedReadResult = Data()
+		
+		// When
+		let result = sut.find("wrong")
+		
+		// Then
+		#expect(result == nil)
+	}
 }

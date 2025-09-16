@@ -7,6 +7,8 @@ import SwiftUI
 
 public struct CloseButtonStyle: ButtonStyle {
 	
+	public init() { /* public intializer */ }
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Image {

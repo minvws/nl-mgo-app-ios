@@ -56,6 +56,32 @@ final class HealthDataViewModelTests: XCTestCase {
 						type: .downloadLink,
 						reference: nil,
 						url: "https://www.apple.com"
+					),
+					UIElement(
+						display: UIElementDisplay.displayCoding(
+							DisplayCoding(
+								code: "code",
+								display: "display",
+								system: "http://snomed.info/sct"
+							)
+						),
+						label: "label snomed code",
+						type: .singleValue,
+						reference: nil,
+						url: nil
+					),
+					UIElement(
+						display: UIElementDisplay.displayCoding(
+							DisplayCoding(
+								code: "code",
+								display: "display",
+								system: "syste,"
+							)
+						),
+						label: "label non snomed code",
+						type: .singleValue,
+						reference: nil,
+						url: nil
 					)
 				],
 				label: "Section Header first group")
@@ -91,6 +117,19 @@ final class HealthDataViewModelTests: XCTestCase {
 		// Then
 		expect(self.coordinatorSpy.invokedHandle) == true
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
+	}
+
+	@MainActor func test_closeSheet_shouldCallCoordinator() {
+		
+		// Given
+		setupSut()
+		
+		// When
+		sut.reduce(.closeSheet)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.closeSheet
 	}
 	
 	@MainActor func test_resolveReferenceValue_shouldCallCoordinator() throws {
@@ -167,5 +206,64 @@ final class HealthDataViewModelTests: XCTestCase {
 		expect(params.params["resource"] as? MgoResource) == Data()
 		expect(params.params["backButtonTitle"] as? String) == "common.previous"
 		expect((params.params["uiSchema"] as? HealthUISchema)?.label) == schema.label
+	}
+	
+	@MainActor func test_resolve_term() {
+		
+		// Given
+		let term = PatientFriendlyTerm(description: "Test")
+		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedFindResult = term
+		setupSut()
+		
+		// When
+		sut.reduce(
+			.term(
+				DisplayCoding(
+					code: "code",
+					display: "display",
+					system: "http://snomed.info/sct"
+				)
+			)
+		)
+		
+		// Then
+		expect(self.sut.selectedPatientFriendlyTerm) == term
+	}
+	
+	@MainActor func test_resolve_invalidTerm() {
+		
+		// Given
+		let term = PatientFriendlyTerm(description: "Test")
+		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedFindResult = term
+		setupSut()
+		
+		// When
+		sut.reduce(
+			.term(
+				DisplayCoding(
+					code: "other code",
+					display: "display",
+					system: "http://snomed.info/sct"
+				)
+			)
+		)
+		
+		// Then
+		expect(self.sut.selectedPatientFriendlyTerm) == nil
+	}
+	
+	@MainActor func test_resolve_closeTermSheet() {
+		
+		// Given
+		let term = PatientFriendlyTerm(description: "Test")
+		servicesSpies.patientFriendlyTermsRepositorySpy.stubbedFindResult = term
+		setupSut()
+		sut.selectedPatientFriendlyTerm = term
+		
+		// When
+		sut.reduce(.closeTermSheet)
+		
+		// Then
+		expect(self.sut.selectedPatientFriendlyTerm) == nil
 	}
 }

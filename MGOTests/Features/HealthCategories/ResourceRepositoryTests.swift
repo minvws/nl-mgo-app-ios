@@ -167,10 +167,10 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		await sut.loadFor(Generator.healthCategory)
+		sut.loadFor(Generator.healthCategory)
 		
 		// Then
-		await expect { await self.servicesSpies.dataStoreSpy.invokedStoreCount }
+		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)
 			.toEventually(equal(3), timeout: .seconds(10))
 	}
 	
@@ -189,7 +189,7 @@ final class ResourceRepositoryTests: XCTestCase {
 		}
 		
 		// When
-		await sut.loadFor(Generator.healthCategory)
+		sut.loadFor(Generator.healthCategory)
 		
 		// Then
 		await expect(self.servicesSpies.dataStoreSpy.invokedStoreCount)

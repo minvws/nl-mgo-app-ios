@@ -1,28 +1,28 @@
 import Foundation
 
-public enum DisplayElement: Codable, Hashable, Sendable {
+public enum SingleValueDisplay: Codable, Hashable, Sendable {
+    case displayCoding(DisplayCoding)
     case string(String)
-    case stringArray([String])
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let x = try? container.decode([String].self) {
-            self = .stringArray(x)
-            return
-        }
         if let x = try? container.decode(String.self) {
             self = .string(x)
             return
         }
-        throw DecodingError.typeMismatch(DisplayElement.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for DisplayElement"))
+        if let x = try? container.decode(DisplayCoding.self) {
+            self = .displayCoding(x)
+            return
+        }
+        throw DecodingError.typeMismatch(SingleValueDisplay.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for SingleValueDisplay"))
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case .string(let x):
+        case .displayCoding(let x):
             try container.encode(x)
-        case .stringArray(let x):
+        case .string(let x):
             try container.encode(x)
         }
     }

@@ -142,7 +142,10 @@ class Generator {
 							),
 							UIElement(
 								display: UIElementDisplay.unionArray([
-									DisplayElement.stringArray(["five", "six"])
+									PurpleDisplay.unionArray([
+										.string("five"),
+											.string("six")
+									])
 								]),
 								label: "label multiple group value",
 								type: .multipleGroupedValues,
@@ -151,8 +154,8 @@ class Generator {
 							),
 							UIElement(
 								display: UIElementDisplay.unionArray([
-									DisplayElement.string("one"),
-									DisplayElement.string("two")
+									PurpleDisplay.string("one"),
+									PurpleDisplay.string("two")
 								]),
 								label: "label multiple value",
 								type: .multipleValues,
@@ -160,7 +163,7 @@ class Generator {
 								url: nil
 							),
 							UIElement(
-								display: UIElementDisplay.unionArray([DisplayElement.string("one")]),
+								display: UIElementDisplay.unionArray([PurpleDisplay.string("one")]),
 								label: "label union value",
 								type: .multipleValues,
 								reference: nil,
@@ -168,8 +171,8 @@ class Generator {
 							),
 							UIElement(
 								display: UIElementDisplay.unionArray([
-									DisplayElement.stringArray(["one", "two"]),
-									DisplayElement.stringArray(["three", "four"])
+									PurpleDisplay.unionArray([.string("one"), .string("two")]),
+									PurpleDisplay.unionArray([.string("three"), .string("four")])
 								]),
 								label: "label multiple group value",
 								type: .multipleGroupedValues,
@@ -178,6 +181,41 @@ class Generator {
 							)
 						],
 						label: "Section Header second group")
+					,
+					// Schema Group 3
+					HealthUIGroup(
+						children: [
+							UIElement(
+								display: UIElementDisplay.displayCoding(
+									DisplayCoding(code: "code", display: "display", system: "system")
+								),
+								label: "label single value display coding",
+								type: .singleValue,
+								reference: nil,
+								url: nil
+							),
+							UIElement(
+								display: UIElementDisplay.unionArray([PurpleDisplay.displayCoding(
+									DisplayCoding(code: "code", display: "display", system: "system"))
+								]),
+								label: "label multi values display coding",
+								type: .multipleValues,
+								reference: nil,
+								url: nil
+							),
+							UIElement(
+								display: UIElementDisplay.unionArray([
+									PurpleDisplay.unionArray([
+										.displayCoding(DisplayCoding(code: "code", display: "display", system: "system"))
+									])
+								]),
+								label: "label grouped values display coding",
+								type: .multipleGroupedValues,
+								reference: nil,
+								url: nil
+							)
+						],
+						label: "Section Header third group")
 				],
 				label: "heading"),
 			action: nil

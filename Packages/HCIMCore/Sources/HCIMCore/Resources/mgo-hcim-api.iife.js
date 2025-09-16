@@ -9,7 +9,12 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
     var f = n.default;
     if (typeof f == "function") {
       var a = function a2() {
-        if (this instanceof a2) {
+        var isInstance = false;
+        try {
+          isInstance = this instanceof a2;
+        } catch {
+        }
+        if (isInstance) {
           return Reflect.construct(f, arguments, this.constructor);
         }
         return f.apply(this, arguments);
@@ -49908,43 +49913,47 @@ ${indent}}` : "}";
     const systemString = `${display ?? ""} ${codeInSystemString ? "(" + codeInSystemString + ")" : ""}`.trim();
     return systemString === "" ? void 0 : systemString;
   };
-  const codeableDisplay = (context) => (value2) => {
-    if (value2?.text?.length) {
-      return [value2.text];
-    }
-    const formatSystem = system(context);
-    return value2?.coding.map(formatSystem).filter(isNonNullish) ?? [];
-  };
-  const codeableConcept = (context) => (label, value2, options = {}) => {
-    const { formatLabel } = context;
-    const display = codeableDisplay(context);
-    if (Array.isArray(value2)) {
-      return {
-        label: formatLabel(label, value2, options.defaultLabel),
-        type: "MULTIPLE_GROUPED_VALUES",
-        display: value2.map(display)
-      };
-    }
-    return {
-      label: formatLabel(label, value2, options.defaultLabel),
-      type: "MULTIPLE_VALUES",
-      display: display(value2)
-    };
+  const codingToDisplay = (uiContext) => {
+    const display = system(uiContext);
+    return (value2) => ({
+      display: display(value2),
+      code: value2?.code,
+      system: value2?.system
+    });
   };
   const coding = (context) => (label, value2, options = {}) => {
     const { formatLabel } = context;
-    const display = system(context);
+    const formatCoding = codingToDisplay(context);
     if (Array.isArray(value2)) {
       return {
         label: formatLabel(label, value2, options.defaultLabel),
         type: "MULTIPLE_VALUES",
-        display: value2.map(display).filter(isNonNullish)
+        display: value2.map(formatCoding).filter((item) => isNonNullish(item.display))
       };
     }
     return {
       label: formatLabel(label, value2, options.defaultLabel),
       type: "SINGLE_VALUE",
-      display: display(value2)
+      display: formatCoding(value2)
+    };
+  };
+  const codeableConcept = (context) => (label, value2, options = {}) => {
+    const { formatLabel } = context;
+    const formatCoding = codingToDisplay(context);
+    const formatCodeableConcept = (value3) => {
+      return value3?.coding.map(formatCoding);
+    };
+    if (Array.isArray(value2)) {
+      return {
+        label: formatLabel(label, value2, options.defaultLabel),
+        type: "MULTIPLE_GROUPED_VALUES",
+        display: value2.map(formatCodeableConcept).filter(isNonNullish)
+      };
+    }
+    return {
+      label: formatLabel(label, value2, options.defaultLabel),
+      type: "MULTIPLE_VALUES",
+      display: formatCodeableConcept(value2)
     };
   };
   const milliseconds = /T\d\d:\d\d:\d\d\.\d+/i;

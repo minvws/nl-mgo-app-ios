@@ -21,6 +21,12 @@ class HealthDataViewModel: ObservableObject {
 	
 	/// An array of resolved references
 	@Published var resolvedReferences: [String: Bool] = [:]
+	
+	/// An array of resolved codes
+	@Published var resolvedCodes: [String: Bool] = [:]
+	
+	/// The selected patient friendly term
+	@Published var selectedPatientFriendlyTerm: PatientFriendlyTerm?
 
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
@@ -34,11 +40,19 @@ class HealthDataViewModel: ObservableObject {
 	/// The store for references
 	var referenceStore = [String: ReferenceStoreEntry?]()
 	
+	/// The store to hold all the patient friendly terms for this resource
+	var patientFriendlyTermsStore = [String: PatientFriendlyTerm]()
+	
+	/// Dependency Injectable Patient Friendly Terms Repository
+	@Injected(\.patientFriendyTermsRepository) private var patientFriendyTermsRepository
+	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
 		case backButtonPressed
 		case closeSheet
+		case closeTermSheet
 		case reference(String)
+		case term(DisplayCoding)
 	}
 	
 	/// Create a Healthcare Data View Model
@@ -61,6 +75,7 @@ class HealthDataViewModel: ObservableObject {
 		
 		prepareReferenceValues()
 		prepareReferenceLink()
+		prepareTerms()
 	}
 	
 	@MainActor private func prepareReferenceValues() {
@@ -85,7 +100,7 @@ class HealthDataViewModel: ObservableObject {
 	private func filterReferences(_ type: UIElementType) -> Set<String> {
 		
 		return Set<String>(state.schema.children
-			.flatMap { $0.children }
+			.flatMap(\.children)
 			.filter { $0.type == type }
 			.compactMap { $0.reference }
 		)
@@ -107,6 +122,51 @@ class HealthDataViewModel: ObservableObject {
 		resolvedReferences[reference] = result != nil
 	}
 	
+	/// Prepare the patient friendly terms
+	private func prepareTerms() {
+		
+		// The list of SingleValueDisplays
+		var values: [SingleValueDisplay] = [SingleValueDisplay]()
+		
+		// Append the list with MultipleValues
+		values.append(contentsOf: state.schema.children
+			.flatMap { $0.uiElements }
+			.compactMap { $0 as? MultipleValues }
+			.compactMap { $0.display }
+			.flatMap { $0 })
+		
+		// Append the list with MultipleGroupedValues
+		values.append(contentsOf: state.schema.children
+			.flatMap { $0.uiElements }
+			.compactMap { $0 as? MultipleGroupedValues }
+			.compactMap { $0.display }
+			.flatMap { $0 }
+			.flatMap { $0 }
+		)
+		
+		// Append the list with SingleValues
+		values.append(contentsOf: state.schema.children
+			.flatMap { $0.uiElements }
+			.compactMap { $0 as? SingleValue }
+			.compactMap { $0.display }
+		)
+		
+		// Check the values and see if there is a patient friendly term available
+		values.forEach { singleDisplayValue in
+			if case let .displayCoding(displayCoding) = singleDisplayValue {
+				
+				guard displayCoding.system == PatientFriendlyTermsRepository.snomedCTSystem,
+					  let code = displayCoding.code else {
+					return
+				}
+				if let term = patientFriendyTermsRepository.find(code) {
+					patientFriendlyTermsStore[code] = term
+					resolvedCodes[code] = true
+				}
+			}
+		}
+	}
+	
 	/// Handle any action
 	/// - Parameter action: the action to be handled
 	@MainActor func reduce(_ action: HealthDataViewModel.Action) {
@@ -118,8 +178,14 @@ class HealthDataViewModel: ObservableObject {
 			case .closeSheet:
 				coordinator?.handle(Coordination.Action.closeSheet)
 			
+			case .closeTermSheet:
+				selectedPatientFriendlyTerm = nil
+			
 			case let .reference(reference):
 				referenceTapped(reference)
+			
+			case let .term(displayCoding):
+				termTapped(displayCoding)
 		}
 	}
 	
@@ -144,6 +210,17 @@ class HealthDataViewModel: ObservableObject {
 				)
 			)
 		}
+	}
+	
+	/// Handle the patient friendly term tap
+	/// - Parameter displayCoding: the display coding object tapped on
+	@MainActor private func termTapped(_ displayCoding: DisplayCoding) {
+		
+		guard let code = displayCoding.code, let foundTerm = patientFriendlyTermsStore[code] else {
+			logInfo("HealthDataView - no term found for:", displayCoding)
+			return
+		}
+		selectedPatientFriendlyTerm = foundTerm
 	}
 }
 
@@ -174,16 +251,7 @@ struct HealthDataView: View {
 			
 			VStack(spacing: ViewTraits.General.padding) {
 				
-				HealthUISchemaView(
-					schema: viewModel.state.schema,
-					healthcareOrganization: viewModel.healthcareOrganization,
-					referenceTapped: { reference in
-						if let reference {
-							viewModel.reduce(.reference(reference))
-						}
-					},
-					resolvedReferences: viewModel.resolvedReferences
-				)
+				content()
 				Spacer()
 			}
 			.padding(.top, ViewTraits.Navigation.padding)
@@ -202,9 +270,61 @@ struct HealthDataView: View {
 		.when(isPresentedAsSheet, transform: { view in
 			view
 				.withToolbarCloseButton {
+					// This closes the view when shown in a sheet aka a reference
 					viewModel.reduce(.closeSheet)
 				}
 		})
+		.inspectableSheet(
+			isPresented: $viewModel.selectedPatientFriendlyTerm.presence(),
+			onDismiss: {
+				// Called when the sheet is closed by dragging, used for the term sheet
+				viewModel.reduce(.closeTermSheet)
+			},
+			content: {
+				sheetContent()
+			}
+		)
+	}
+	
+	@ViewBuilder private func content() -> some View {
+		
+		HealthUISchemaView(
+			schema: viewModel.state.schema,
+			healthcareOrganization: viewModel.healthcareOrganization,
+			referenceTapped: { reference in
+				if let reference {
+					viewModel.reduce(.reference(reference))
+				}
+			},
+			resolvedReferences: viewModel.resolvedReferences,
+			codeTapped: { displayCoding in
+				if let displayCoding {
+					viewModel.reduce(.term(displayCoding))
+				}
+			},
+			resolvedCodes: viewModel.resolvedCodes
+		)
+	}
+	
+	/// The content for the sheet
+	/// - Returns: sheet content
+	@ViewBuilder private func sheetContent() -> some View {
+		
+		NavigationStackBackport.NavigationStack {
+			PatientFriendlyTermView(
+				viewModel: PatientFriendlyTermViewModel(
+					onClose: {
+						viewModel.reduce(.closeTermSheet)
+					},
+					term: viewModel.selectedPatientFriendlyTerm!
+				)
+			)
+			.isPresentedAsSheet(!isIOS15)
+			.navigationBarBackButtonHidden(true)
+			.navigationBarTitleDisplayMode(.inline)
+			.backport.presentationContentInteraction(.scrolls)
+			.backport.presentationDragIndicator(UIDevice.current.userInterfaceIdiom == .pad ? Visibility.hidden : Visibility.visible) // Hide on iPad
+		}
 	}
 }
 

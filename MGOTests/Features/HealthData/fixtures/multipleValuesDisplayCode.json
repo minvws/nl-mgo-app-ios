@@ -1,0 +1,28 @@
+{
+	"label": "MultipleValue Display Code",
+	"children": [
+		{
+			"label": "Section for a multiple values with display codes",
+			"children": [
+				{
+					"label": "The label",
+					"display": [
+						{
+							"code": "1234",
+							"display": "code 1234",
+							"system": "http://snomed.info/sct"
+						},
+						{
+							"code": "5678",
+							"display": "code 5678",
+							"system": "http://snomed.info/sct"
+						}
+					],
+					"type": "MULTIPLE_VALUES",
+					"reference": null,
+					"url": null
+				}
+			]
+		}
+	]
+}
