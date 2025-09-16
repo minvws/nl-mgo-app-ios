@@ -441,35 +441,33 @@ struct HealthUISchemaView: View {
 	/// - Returns: view for display coding
 	@ViewBuilder private func viewFor(_ displayCoding: DisplayCoding) -> some View {
 		
-		HStack(alignment: .center, content: {
-			let sanitized = Sanitizer.strip(displayCoding.display) ?? unknown
-			
-			Label {
-				Text(sanitized)
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.backport.underline(pattern: .dot)
-			} icon: {
-				Image(systemName: "questionmark.circle")
-					.resizable()
-					.frame(
-						width: ViewTraits.QuestionMark.size,
-						height: ViewTraits.QuestionMark.size
-					)
-			}
-			.labelStyle(TrailingIconLabelStyle())
-			
-			Spacer()
-		})
-		.fixedSize(horizontal: false, vertical: true)
-		.foregroundStyle(theme.rijksLint)
-		.overlay {
-			Button {
-				codeTapped?(displayCoding)
-			} label: {
-				Rectangle()
-					.foregroundStyle(Color.clear)
-			}
+		Button {
+			codeTapped?(displayCoding)
+		} label: {
+			HStack(alignment: .center, content: {
+				let sanitized = Sanitizer.strip(displayCoding.display) ?? unknown
+				
+				Label {
+					Text(sanitized)
+						.rijksoverheidStyle(font: .regular, style: .body)
+						.backport.underline(pattern: .dot)
+				} icon: {
+					Image(systemName: "questionmark.circle")
+						.resizable()
+						.frame(
+							width: ViewTraits.QuestionMark.size,
+							height: ViewTraits.QuestionMark.size
+						)
+				}
+				.labelStyle(TrailingIconLabelStyle())
+				
+				Spacer()
+			})
+			.fixedSize(horizontal: false, vertical: true)
+			.foregroundStyle(theme.rijksLint)
 		}
+		.buttonStyle(HalfOpacityWhenPressedButtonStyle())
+		.accessibilityIdentifier(displayCoding.code ?? "unknown")
 	}
 	
 	/// The view for a heading row
