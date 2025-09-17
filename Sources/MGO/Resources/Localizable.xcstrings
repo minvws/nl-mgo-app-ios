@@ -939,6 +939,9 @@
         }
       }
     },
+    "Favorites" : {
+
+    },
     "forgot_pincode.button" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1055,7 +1058,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allergieën"
+            "value" : "Allergiën en intoleranties"
           }
         }
       }
@@ -3246,7 +3249,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allergieën"
+            "value" : "Allergiën en intoleranties"
           }
         }
       }
