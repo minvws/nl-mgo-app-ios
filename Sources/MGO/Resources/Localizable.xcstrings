@@ -939,9 +939,6 @@
         }
       }
     },
-    "Favorites" : {
-
-    },
     "forgot_pincode.button" : {
       "extractionState" : "manual",
       "localizations" : {

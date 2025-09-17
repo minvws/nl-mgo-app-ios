@@ -407,6 +407,7 @@ struct HealthCategoriesView: View {
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityIdentifier("overview.subheading")
 	}
+	
 	/// The view for the categories
 	/// - Returns: category view
 	@ViewBuilder func categoriesView() -> some View {
