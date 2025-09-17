@@ -17,7 +17,7 @@ let package = Package(
 		.package(name: "ReusableUI", path: "../ReusableUI"),
 		
 		// External
-		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.6.0"),
+		.package(url: "https://github.com/devicekit/DeviceKit", exact: "5.7.0"),
 		.package(url: "https://github.com/lm/navigation-stack-backport", exact: "1.1.0")
 	],
 	targets: [

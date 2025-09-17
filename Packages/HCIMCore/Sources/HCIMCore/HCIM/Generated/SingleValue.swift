@@ -12,11 +12,11 @@ import Foundation
 
 // MARK: - SingleValue
 public struct SingleValue: Codable, Hashable, Sendable {
-    public let display: String?
+    public let display: SingleValueDisplay?
     public let label: String
     public let type: SingleValueType
 
-    public init(display: String?, label: String, type: SingleValueType) {
+    public init(display: SingleValueDisplay?, label: String, type: SingleValueType) {
         self.display = display
         self.label = label
         self.type = type
@@ -42,7 +42,7 @@ public extension SingleValue {
     }
 
     func with(
-        display: String?? = nil,
+        display: SingleValueDisplay?? = nil,
         label: String? = nil,
         type: SingleValueType? = nil
     ) -> SingleValue {

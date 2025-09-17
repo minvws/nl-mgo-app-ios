@@ -2072,6 +2072,17 @@
         }
       }
     },
+    "patientfriendlyterms.synonym" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere naam: %1$@"
+          }
+        }
+      }
+    },
     "pdf_viewer.loading" : {
       "extractionState" : "manual",
       "localizations" : {

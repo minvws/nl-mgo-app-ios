@@ -47,7 +47,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		
 		// Given
 		createSut()
-		sut.viewModel.state.belowIOS18 = true
+		viewModel.state.belowIOS18 = true
 		
 		// When
 		let content = NavigationView { sut }

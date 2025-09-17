@@ -324,9 +324,9 @@ struct HealthCategoriesView: View {
 		}
 		enum List {
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-			static let sectionInset = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 			static let headerInset = EdgeInsets(top: 24, leading: 0, bottom: 12, trailing: 0)
 			static let spacing: CGFloat = 4
+			static let padding: CGFloat = 8
 			static let demoSpacing: CGFloat = 16
 			static let bottom: CGFloat = 16
 		}
@@ -451,8 +451,6 @@ struct HealthCategoriesView: View {
 		Section {
 			ForEach(mainCategory.categories) { categoryView($0) }
 		}
-		.listRowInsets(ViewTraits.List.sectionInset)
-		.listRowBackground(theme.backgroundSecondary)
 	}
 	
 	/// View for a category
@@ -462,19 +460,17 @@ struct HealthCategoriesView: View {
 		_ category: SharedHealthCategories.Category
 	) -> some View {
 		
-		VStack(spacing: 0) {
-			Button {
-				viewModel.reduce(.categorySelected(category))
-			} label: {
-				HealthCategoryRowView(
-					category: category,
-					state: viewModel.state.buttonState[category.id] ?? .notAvailable
-				)
-			}
-			.frame( maxWidth: .infinity, alignment: .leading)
-			.buttonStyle(HoverButtonStyle())
-			.accessibilityIdentifier(category.id)
+		Button {
+			viewModel.reduce(.categorySelected(category))
+		} label: {
+			HealthCategoryRowView(
+				category: category,
+				state: viewModel.state.buttonState[category.id] ?? .notAvailable
+			)
 		}
+		.padding(.vertical, ViewTraits.List.padding)
+		.frame( maxWidth: .infinity, alignment: .leading)
+		.accessibilityIdentifier(category.id)
 	}
 	
 	/// The list header

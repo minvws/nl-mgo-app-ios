@@ -24,7 +24,8 @@ final class HealthUISchemaViewTests: XCTestCase {
 		sut = HealthUISchemaView(
 			schema: schema,
 			healthcareOrganization: healthcareOrganization,
-			resolvedReferences: resolvedReferences
+			resolvedReferences: resolvedReferences,
+			resolvedCodes: [:]
 		)
 	}
 	
@@ -212,6 +213,133 @@ final class HealthUISchemaViewTests: XCTestCase {
 		
 		// Given
 		try setupSut("multipleGroupValuesMixedEntries")
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_singleDisplayCode() throws {
+		
+		// Given
+		try setupSut("singleDisplayCode")
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_singleDisplayCode_resolved() throws {
+		
+		// Given
+		try setupSut("singleDisplayCode")
+		sut.resolvedCodes = ["code": true]
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_multipleValuesDisplayCode() throws {
+		
+		// Given
+		try setupSut("multipleValuesDisplayCode")
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_multipleValuesDisplayCode_oneCodeResolved() throws {
+		
+		// Given
+		try setupSut("multipleValuesDisplayCode")
+		sut.resolvedCodes = ["1234": true]
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_multipleValuesDisplayCode_otherCodeResolved() throws {
+		
+		// Given
+		try setupSut("multipleValuesDisplayCode")
+		sut.resolvedCodes = ["5678": true]
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_multipleValuesDisplayCode_allCodesResolved() throws {
+		
+		// Given
+		try setupSut("multipleValuesDisplayCode")
+		sut.resolvedCodes = ["1234": true, "5678": true]
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_multipleGroupValuesMultipleDisplayCode() throws {
+		
+		// Given
+		try setupSut("multipleGroupValuesMultipleDisplayCode")
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_multipleGroupValuesMultipleDisplayCode_oneCodeResolved() throws {
+		
+		// Given
+		try setupSut("multipleGroupValuesMultipleDisplayCode")
+		sut.resolvedCodes = ["1234": true]
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_multipleGroupValuesMultipleDisplayCode_otherCodeResolved() throws {
+		
+		// Given
+		try setupSut("multipleGroupValuesMultipleDisplayCode")
+		sut.resolvedCodes = ["5678": true]
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content)
+	}
+	
+	@MainActor func test_HealthUISchemaView_multipleGroupValuesMultipleDisplayCode_allCodesResolved() throws {
+		
+		// Given
+		try setupSut("multipleGroupValuesMultipleDisplayCode")
+		sut.resolvedCodes = ["1234": true, "5678": true]
 		
 		// When
 		let content = NavigationView { sut }

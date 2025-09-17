@@ -5,7 +5,6 @@
 
 import MGOUI
 import MGOFoundation
-import PatientFriendlyTerms
 
 final class SplashViewModel: ObservableObject {
 	
