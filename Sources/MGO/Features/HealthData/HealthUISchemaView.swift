@@ -317,10 +317,11 @@ struct HealthUISchemaView: View {
 			VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 				
 				if let heading {
-					viewFor(heading)
+					viewFor(heading, accessibilityIdentifier: heading)
 				}
-				
-				selectableTextView(Sanitizer.strip(value) ?? unknown)
+				let text = Sanitizer.strip(value) ?? unknown
+				selectableTextView(text)
+					.accessibilityIdentifier(text)
 			}
 			
 			if showChevron {
@@ -335,7 +336,6 @@ struct HealthUISchemaView: View {
 		}
 		.padding(ViewTraits.Row.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
-		.accessibilityElement(children: .combine)
 		
 		if showDivider {
 			Divider()
@@ -358,7 +358,6 @@ struct HealthUISchemaView: View {
 				size: Font.TextStyle.body.pointSize
 			)
 		)
-		.accessibilityLabel(value)
 	}
 	
 	/// Show a row of data (SingleValueDisplay)
@@ -380,7 +379,7 @@ struct HealthUISchemaView: View {
 			VStack(alignment: .leading, spacing: ViewTraits.Row.spacing) {
 				
 				if let heading {
-					viewFor(heading)
+					viewFor(heading, accessibilityIdentifier: heading)
 				}
 				
 				viewFor(values)
@@ -398,7 +397,6 @@ struct HealthUISchemaView: View {
 		}
 		.padding(ViewTraits.Row.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
-		.accessibilityElement(children: .combine)
 		
 		if showDivider {
 			Divider()
@@ -425,13 +423,17 @@ struct HealthUISchemaView: View {
 		
 		switch element {
 			case let .string(value):
-				selectableTextView(Sanitizer.strip(value) ?? unknown)
+				let text = Sanitizer.strip(value) ?? unknown
+				selectableTextView(text)
+					.accessibilityIdentifier(text)
 				
 			case let .displayCoding(displayCoding):
 				if let code = displayCoding.code, resolvedCodes[code] ?? false {
 					viewFor(displayCoding)
+						.accessibilityIdentifier(code)
 				} else {
 					selectableTextView(Sanitizer.strip(displayCoding.display) ?? unknown)
+						.accessibilityIdentifier(displayCoding.code ?? "unknown")
 				}
 		}
 	}
@@ -476,8 +478,9 @@ struct HealthUISchemaView: View {
 	
 	/// The view for a heading row
 	/// - Parameter heading: the heading
+	/// - Parameter accessibilityIdentifier: the accessibility Identifier
 	/// - Returns: heading view
-	@ViewBuilder private func viewFor(_ heading: String) -> some View {
+	@ViewBuilder private func viewFor(_ heading: String, accessibilityIdentifier: String) -> some View {
 		
 		SelectableTextView(
 			text: heading,
@@ -487,7 +490,8 @@ struct HealthUISchemaView: View {
 				size: Font.TextStyle.callout.pointSize
 			)
 		)
-		.accessibilityLabel(heading)
+		.accessibilityIdentifier(accessibilityIdentifier)
+		.accessibilityAddTraits(.isHeader)
 	}
 }
 // swiftlint:enable type_body_length

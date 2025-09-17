@@ -23,9 +23,7 @@ import XCTest
 	}
 
 	private func row(_ section: String) -> XCUIElement {
-		let predicate = NSPredicate(format: "label LIKE '\(section)'")
-		let label = app.textViews.element(matching: predicate)
-		return label
+		return app.textViews[String(section.prefix(128))]
 	}
 	
 	private func referenceButton(_ identifier: String) -> XCUIElement {
@@ -50,8 +48,8 @@ import XCTest
 	
 	@discardableResult
 	func verifySectionRowExists(_ heading: String, value: String) -> Self {
-		XCTAssertTrue(row("\(heading)").exists, "can't find section heading for \(heading) and \(value)")
-		XCTAssertTrue(row("\(value)").exists, "can't find section value for \(heading) and \(value)")
+		XCTAssertTrue(row(heading).exists, "can't find section heading for \(heading)")
+		XCTAssertTrue(row(value).exists, "can't find section value for \(value)")
 		return self
 	}
 	
