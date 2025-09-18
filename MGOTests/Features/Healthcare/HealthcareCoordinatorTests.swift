@@ -470,4 +470,15 @@ final class HealthcareCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 		expect(self.sut.rootStateForSheet) == nil
 	}
+	
+	@MainActor func test_coordinatorHandle_showFavorites() {
+		
+		// Given
+		
+		// When
+		sut.handle(Coordination.Action.showFavorites)
+		
+		// Then
+		expect(self.sut.rootStateForSheet) == HealthcareCoordination.State.showFavorites
+	}
 }

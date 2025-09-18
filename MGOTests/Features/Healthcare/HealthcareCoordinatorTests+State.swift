@@ -433,4 +433,16 @@ final class HealthcareCoordinatorStateTests: XCTestCase {
 		// Then
 		takeSnapShots(content: try XCTUnwrap(view))
 	}
+	
+	@MainActor func test_coordinatorView_favorites() throws {
+		
+		// Given
+		let state = HealthcareCoordination.State.showFavorites
+		
+		// When
+		let view = sut.view(for: state)
+		
+		// Then
+		takeSnapShots(content: try XCTUnwrap(view))
+	}
 }
