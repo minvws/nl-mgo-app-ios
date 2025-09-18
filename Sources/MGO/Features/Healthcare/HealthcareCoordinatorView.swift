@@ -21,9 +21,9 @@ struct HealthcareCoordinatorView<T: HealthcareCoordinatorProtocol>: View {
 		
 		NavigationStackBackport.NavigationStack(path: $coordinator.path) {
 			
-			coordinator.viewState(for: coordinator.rootState)
+			coordinator.view(for: coordinator.rootState)
 				.backport.navigationDestination(for: HealthcareCoordination.State.self) { state in
-					coordinator.viewState(for: state)
+					coordinator.view(for: state)
 				}
 		}
 		.layoutForIPad()
@@ -46,9 +46,9 @@ struct HealthcareCoordinatorView<T: HealthcareCoordinatorProtocol>: View {
 	@ViewBuilder private func sheetContent() -> some View {
 		NavigationStackBackport.NavigationStack(path: $coordinator.pathForSheet) {
 			
-			coordinator.viewState(for: coordinator.rootStateForSheet)
+			coordinator.view(for: coordinator.rootStateForSheet)
 				.backport.navigationDestination(for: HealthcareCoordination.State.self) { state in
-					coordinator.viewState(for: state)
+					coordinator.view(for: state)
 				}
 				.navigationBarBackButtonHidden(true)
 				.navigationBarTitleDisplayMode(.inline)

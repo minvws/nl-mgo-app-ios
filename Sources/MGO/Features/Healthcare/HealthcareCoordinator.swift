@@ -47,7 +47,7 @@ protocol HealthcareCoordinatorProtocol: Coordinator, ObservableObject {
 	/// Get a View for the State
 	/// - Parameter state: the HealthcareCoordination State
 	/// - Returns: A view for that state
-	@MainActor func viewState(for: HealthcareCoordination.State?) -> Body
+	@MainActor func view(for: HealthcareCoordination.State?) -> Body
 }
 
 struct HealthcareCoordination {
@@ -339,7 +339,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 	/// Get a View for the State
 	/// - Parameter state: the HealthcareCoordination State
 	/// - Returns: A view for that state
-	@ViewBuilder @MainActor func viewState(for state: HealthcareCoordination.State?) -> some View {
+	@ViewBuilder @MainActor func view(for state: HealthcareCoordination.State?) -> some View {
 		
 		switch state {
 			
