@@ -1,5 +1,5 @@
 {
-  "originHash" : "b101c563f5aeb18a451408dc03139b6aba99eb49adfc3e2d0a66569a62987db4",
+  "originHash" : "9f8d2b3eb1f2c0b3b5f6d971915c6742d2c1e83859207bdf914eb64b51bde691",
   "pins" : [
     {
       "identity" : "appauth-ios",
@@ -132,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-openapi-generator",
       "state" : {
-        "revision" : "f876c5af4beef7061f67cc2963232cbe6c7e5310",
-        "version" : "1.10.0"
+        "revision" : "bb9a13596af11db9bb83389295d91cd335810fe8",
+        "version" : "1.10.2"
       }
     },
     {
@@ -159,8 +159,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
       "state" : {
-        "revision" : "37230a37e83f1b7023be08e1b1a2603fcb1567fb",
-        "version" : "1.18.4"
+        "revision" : "d7e40607dcd6bc26543f5d9433103f06e0b28f8f",
+        "version" : "1.18.6"
       }
     },
     {
