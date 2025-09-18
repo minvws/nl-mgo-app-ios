@@ -4,6 +4,7 @@
  */
 	
 import MGOUI
+import MGOFoundation
 import MGODebug
 
 class FavoritesViewModel: ObservableObject {
@@ -19,6 +20,9 @@ class FavoritesViewModel: ObservableObject {
 	
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
+	
+	/// Favorites Store
+	private var favoritesRepository: FileRepository<SharedHealthCategories.Category>
 	
 	/// The state
 	@Published var state: State
@@ -36,11 +40,12 @@ class FavoritesViewModel: ObservableObject {
 	@MainActor init(coordinator: (any Coordinator)? = nil) {
 		
 		self.coordinator = coordinator
+		favoritesRepository = FileRepository<SharedHealthCategories.Category>(fileName: "favorites.json")
 		
 		let mainCategories = try? SharedHealthCategories().mainCategories
 		self.state = State(
 			mainCategories: mainCategories ?? [],
-			favorites: []
+			favorites: favoritesRepository.items
 		)
 	}
 	
@@ -49,7 +54,11 @@ class FavoritesViewModel: ObservableObject {
 	@MainActor func reduce(_ action: FavoritesViewModel.Action) {
 		
 		switch action {
-			case .closeButtonPressed, .saveButtonPressed:
+			case .closeButtonPressed:
+				coordinator?.handle(.closeSheet)
+			
+			case .saveButtonPressed:
+				try? favoritesRepository.set(state.favorites)
 				coordinator?.handle(.closeSheet)
 			
 			case let .addButtonPressed(category):

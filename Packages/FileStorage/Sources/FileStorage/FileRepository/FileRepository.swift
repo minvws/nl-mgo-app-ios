@@ -13,7 +13,7 @@ public enum FileRepositoryReason {
 	case changed
 }
 
-public protocol FileRepositoryProtocol{
+public protocol FileRepositoryProtocol {
 	
 	associatedtype Item: Codable
 	
@@ -45,7 +45,7 @@ public class FileRepository<Item: Codable & Equatable>: FileRepositoryProtocol {
 	private let storage: FileStorageProtocol
 	
 	/// The name of file in which we store the items
-	private let fileName: String 
+	private let fileName: String
 	
 	/// Dispatch Queue
 	private let queue = DispatchQueue(label: "com.FileRepository.serialqueue.\(UUID().uuidString)")
@@ -136,4 +136,3 @@ public class FileRepository<Item: Codable & Equatable>: FileRepositoryProtocol {
 		}
 	}
 }
-
