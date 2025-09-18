@@ -11,6 +11,7 @@ extension Container {
 	func wipePersistedData() {
 		
 		dataStore().wipePersistedData()
+		favoritesRepository().wipePersistedData()
 		healthcareOrganizationRepository().wipePersistedData()
 		patientFriendyTermsRepository().wipePersistedData()
 		remoteConfigurationRepository().wipePersistedData()
