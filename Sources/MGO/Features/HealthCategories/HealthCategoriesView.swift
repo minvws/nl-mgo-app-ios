@@ -334,7 +334,11 @@ struct HealthCategoriesView: View {
 			static let top: CGFloat = 44
 		}
 		enum Favorites {
-			static let cornerRadius: CGFloat = if #available(iOS 26.0, *) { 26 } else { 12 }
+			static let cornerRadius: CGFloat = if #available(iOS 26.0, *) {
+				26
+			} else {
+				12
+			}
 			static let inset: CGFloat = 0.5
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let style = StrokeStyle(lineWidth: 1, dash: [5, 5])
@@ -504,31 +508,38 @@ struct HealthCategoriesView: View {
 		.listRowInsets(ViewTraits.List.rowInset)
 		
 		Section {
-			VStack(spacing: 0) {
-				
-				Text("overview.favorites.empty.heading")
-					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentPrimary)
-					.padding(.top, 2 * ViewTraits.General.padding)
-				
-				CallToActionButton("overview.favorites.empty.action", style: .tertiary) {
-					viewModel.reduce(.showFavorites)
-				}
-				.accessibilityIdentifier("overview.favorites.empty.action")
-				.padding(.bottom, ViewTraits.General.padding)
-			}
-			.overlay(
-				RoundedRectangle(cornerRadius: ViewTraits.Favorites.cornerRadius)
-					.inset(by: ViewTraits.Favorites.inset)
-					.stroke(
-						theme.borderPrimary,
-						style: ViewTraits.Favorites.style
-					)
-			)
+			favoriteButton()
 		}
 		.listRowBackground(Color.clear)
 		.listRowInsets(ViewTraits.Favorites.rowInset)
 	}
+	
+	@ViewBuilder private func favoriteButton() -> some View {
+		
+		VStack(spacing: 0) {
+			
+			Text("overview.favorites.empty.heading")
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.foregroundStyle(theme.contentPrimary)
+				.padding(.top, 2 * ViewTraits.General.padding)
+			
+			CallToActionButton(emptyActionKey, style: .tertiary) {
+				viewModel.reduce(.showFavorites)
+			}
+			.accessibilityIdentifier(emptyActionKey.stringKey)
+			.padding(.bottom, ViewTraits.General.padding)
+		}
+		.overlay(
+			RoundedRectangle(cornerRadius: ViewTraits.Favorites.cornerRadius)
+				.inset(by: ViewTraits.Favorites.inset)
+				.stroke(
+					theme.borderPrimary,
+					style: ViewTraits.Favorites.style
+				)
+		)
+	}
+
+	let emptyActionKey: LocalizedStringKey = "overview.favorites.empty.action"
 	
 	/// The footer
 	/// - Returns: the footer
@@ -608,7 +619,7 @@ struct HealthCategoriesView: View {
 		Button {
 			viewModel.reduce(.showFavorites)
 		} label: {
-			Label("overview.favorites.empty.action", systemImage: "star")
+			Label(emptyActionKey, systemImage: "star")
 				.tint(theme.contentPrimary)
 		}
 	}

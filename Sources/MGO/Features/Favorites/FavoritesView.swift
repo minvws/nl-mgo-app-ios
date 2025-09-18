@@ -145,23 +145,25 @@ struct FavoritesView: View {
 	/// - Returns: the toolbar content
 	@ToolbarContentBuilder private func leadingToolbarContent() -> some ToolbarContent {
 		
+		let cancelKey: LocalizedStringKey = "common.cancel"
+		
 		ToolbarItem(placement: .cancellationAction) {
 			if #available(iOS 26.0, *) {
-				Button("common.cancel", systemImage: "xmark") {
+				Button(cancelKey, systemImage: "xmark") {
 					viewModel.reduce(.closeButtonPressed)
 				}
 				.buttonStyle(.borderedProminent)
 				.tint(.secondary)
-				.accessibilityLabel("common.cancel")
+				.accessibilityLabel(cancelKey)
 				
 			} else {
 				Button {
 					viewModel.reduce(.closeButtonPressed)
 				} label: {
-					Text("common.cancel")
+					Text(cancelKey)
 						.rijksoverheidStyle(font: .regular, style: .body)
 				}
-				.accessibilityLabel("common.cancel")
+				.accessibilityLabel(cancelKey)
 			}
 		}
 	}
@@ -170,22 +172,24 @@ struct FavoritesView: View {
 	/// - Returns: the toolbar content
 	@ToolbarContentBuilder private func trailingToolbarContent() -> some ToolbarContent {
 		
+		let saveKey: LocalizedStringKey = "edit_overview.save"
+		
 		ToolbarItem(placement: .confirmationAction) {
 			if #available(iOS 26.0, *) {
-				Button("edit_overview.save", systemImage: "checkmark") {
+				Button(saveKey, systemImage: "checkmark") {
 					viewModel.reduce(.saveButtonPressed)
 				}
 				.buttonStyle(.borderedProminent)
 				.tint(theme.rijksLint)
-				.accessibilityLabel("edit_overview.save")
+				.accessibilityLabel(saveKey)
 			} else {
 				Button {
 					viewModel.reduce(.saveButtonPressed)
 				} label: {
-					Text("edit_overview.save")
+					Text(saveKey)
 						.rijksoverheidStyle(font: .bold, style: .body)
 				}
-				.accessibilityLabel("edit_overview.save")
+				.accessibilityLabel(saveKey)
 			}
 		}
 	}
@@ -218,22 +222,29 @@ struct FavoritesView: View {
 					.foregroundStyle(theme.contentSecondary)
 			} else {
 				
-				ForEach(viewModel.state.favorites, id: \.id) { category in
-					categoryView(
-						category,
-						icon: Image(ImageResource.Icon.remove),
-						action: { viewModel.reduce(.removeButtonPressed(category)) }
-					)
-				}
-				.onMove { indices, newOffset in
-					withAnimation {
-						viewModel.state.favorites.move(fromOffsets: indices, toOffset: newOffset)
-					}
-				}
-				.onChange(of: viewModel.state.favorites) { favorites in
-					editMode = favorites.count > 1 ? .active : .inactive
-				}
+				favoritesListView()
 			}
+		}
+	}
+	
+	/// The list view for all the favorites
+	/// - Returns: the favorites list view
+	@ViewBuilder private func favoritesListView() -> some View {
+		
+		ForEach(viewModel.state.favorites, id: \.id) { category in
+			categoryView(
+				category,
+				icon: Image(ImageResource.Icon.remove),
+				action: { viewModel.reduce(.removeButtonPressed(category)) }
+			)
+		}
+		.onMove { indices, newOffset in
+			withAnimation {
+				viewModel.state.favorites.move(fromOffsets: indices, toOffset: newOffset)
+			}
+		}
+		.onChange(of: viewModel.state.favorites) { favorites in
+			editMode = favorites.count > 1 ? .active : .inactive
 		}
 	}
 	
