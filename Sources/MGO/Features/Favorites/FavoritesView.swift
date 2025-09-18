@@ -21,8 +21,8 @@ class FavoritesViewModel: ObservableObject {
 	/// The app coordinator for routing
 	weak var coordinator: (any Coordinator)?
 	
-	/// Favorites Store
-	private var favoritesRepository: FileRepository<SharedHealthCategories.Category>
+	/// Dependency injectable Favorites store
+	@Injected(\.favoritesRepository) private var favoritesRepository
 	
 	/// The state
 	@Published var state: State
@@ -40,13 +40,14 @@ class FavoritesViewModel: ObservableObject {
 	@MainActor init(coordinator: (any Coordinator)? = nil) {
 		
 		self.coordinator = coordinator
-		favoritesRepository = FileRepository<SharedHealthCategories.Category>(fileName: "favorites.json")
 		
 		let mainCategories = try? SharedHealthCategories().mainCategories
+		
 		self.state = State(
 			mainCategories: mainCategories ?? [],
-			favorites: favoritesRepository.items
+			favorites: []
 		)
+		self.state.favorites = favoritesRepository.items
 	}
 	
 	/// Handle any action
