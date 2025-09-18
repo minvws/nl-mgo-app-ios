@@ -47,7 +47,22 @@ class FavoritesViewModel: ObservableObject {
 			mainCategories: mainCategories ?? [],
 			favorites: []
 		)
-		self.state.favorites = favoritesRepository.items
+		prepareFavorites()
+	}
+	
+	/// Maybe the shared categories have been altered by an update,
+	/// and the stored favorite is no longer a category.
+	@MainActor private func prepareFavorites() {
+		
+		let mainCategories = try? SharedHealthCategories().mainCategories
+		self.state.favorites = favoritesRepository.items.filter { favorite in
+			for mainCategory in mainCategories ?? [] {
+				for category in mainCategory.categories where category == favorite {
+					return true
+				}
+			}
+			return false
+		}
 	}
 	
 	/// Handle any action
