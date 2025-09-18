@@ -24,7 +24,6 @@ final class FavoritesViewModelTests: XCTestCase {
 		sut = FavoritesViewModel(coordinator: coordinatorSpy)
 	}
 	
-
 	@MainActor func test_reduce_closeButtonPressed() {
 		
 		// Given
