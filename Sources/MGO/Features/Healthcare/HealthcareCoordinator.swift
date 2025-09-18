@@ -70,6 +70,9 @@ struct HealthcareCoordination {
 		case showHealthData(backButtonTitle: String?, schema: HealthUISchema, organization: MgoOrganization, inSheet: Bool)
 		case removeHealthcareOrganization(healthcareOrganization: MgoOrganization)
 		
+		// Favorites
+		case showFavorites
+		
 		// Export
 		case exportHealthData(PdfData)
 	}
@@ -110,6 +113,7 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 		guard !handleSearchFlow(action) else { return }
 		guard !handleHealthDataFlow(action) else { return }
 		guard !handleExportFlow(action) else { return }
+		guard !handleFavorites(action) else { return }
 		
 		switch action.identifier {
 			
@@ -220,6 +224,19 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 				logError("HealthcareCoordinator Coordinator, missing params for \(action)")
 				return false
 			}
+		} else {
+			return false
+		}
+	}
+
+	/// Handle the show favorites action
+	/// - Parameter action: any Action
+	/// - Returns: True if the action is consumed
+	@MainActor private func handleFavorites(_ action: Coordination.Action) -> Bool {
+		
+		if action.identifier == Coordination.Action.showFavorites.identifier {
+			rootStateForSheet = HealthcareCoordination.State.showFavorites
+			return true
 		} else {
 			return false
 		}
@@ -409,6 +426,10 @@ class HealthcareCoordinator: HealthcareCoordinatorProtocol {
 					)
 				)
 				.isPresentedAsSheet(!isIOS15)
+			
+			case .showFavorites:
+				FavoritesView(viewModel: FavoritesViewModel(coordinator: self))
+					.isPresentedAsSheet(!isIOS15)
 			
 			default:
 				EmptyView()

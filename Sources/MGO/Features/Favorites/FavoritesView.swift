@@ -25,8 +25,8 @@ class FavoritesViewModel: ObservableObject {
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
-//		case closeButtonPressed
-//		case saveButtonPressed
+		case closeButtonPressed
+		case saveButtonPressed
 		case addButtonPressed(SharedHealthCategories.Category)
 		case removeButtonPressed(SharedHealthCategories.Category)
 	}
@@ -49,6 +49,9 @@ class FavoritesViewModel: ObservableObject {
 	@MainActor func reduce(_ action: FavoritesViewModel.Action) {
 		
 		switch action {
+			case .closeButtonPressed, .saveButtonPressed:
+				coordinator?.handle(.closeSheet)
+			
 			case let .addButtonPressed(category):
 				withAnimation {
 					state.favorites.append(category)
@@ -106,8 +109,60 @@ struct FavoritesView: View {
 			
 			Spacer()
 		}
+		.navigationTitle("edit_overview.heading")
 		.background(theme.backgroundPrimary.ignoresSafeArea())
 		.environment(\.editMode, $editMode)
+		.toolbar(content: leadingToolbarContent)
+		.toolbar(content: trailingToolbarContent)
+	}
+	
+	/// Get the leading toolbar content
+	/// - Returns: the toolbar content
+	@ToolbarContentBuilder private func leadingToolbarContent() -> some ToolbarContent {
+		
+		ToolbarItem(placement: .cancellationAction) {
+			if #available(iOS 26.0, *) {
+				Button("common.cancel", systemImage: "xmark") {
+					viewModel.reduce(.closeButtonPressed)
+				}
+				.buttonStyle(.borderedProminent)
+				.tint(.secondary)
+				.accessibilityLabel("common.cancel")
+				
+			} else {
+				Button {
+					viewModel.reduce(.closeButtonPressed)
+				} label: {
+					Text("common.cancel")
+						.rijksoverheidStyle(font: .regular, style: .body)
+				}
+				.accessibilityLabel("common.cancel")
+			}
+		}
+	}
+	
+	/// Get the trailing toolbar content
+	/// - Returns: the toolbar content
+	@ToolbarContentBuilder private func trailingToolbarContent() -> some ToolbarContent {
+		
+		ToolbarItem(placement: .confirmationAction) {
+			if #available(iOS 26.0, *) {
+				Button("edit_overview.save", systemImage: "checkmark") {
+					viewModel.reduce(.saveButtonPressed)
+				}
+				.buttonStyle(.borderedProminent)
+				.tint(theme.rijksLint)
+				.accessibilityLabel("edit_overview.save")
+			} else {
+				Button {
+					viewModel.reduce(.saveButtonPressed)
+				} label: {
+					Text("edit_overview.save")
+						.rijksoverheidStyle(font: .bold, style: .body)
+				}
+				.accessibilityLabel("edit_overview.save")
+			}
+		}
 	}
 	
 	/// The view for the categories
@@ -124,6 +179,8 @@ struct FavoritesView: View {
 		.listStyle(.insetGrouped)
 	}
 	
+	/// The view for the favorites
+	/// - Returns: favorites view
 	@ViewBuilder private func favoritesView() -> some View {
 		
 		sectionHeader(String(localized: "edit_overview.favorites.heading"))
@@ -149,7 +206,7 @@ struct FavoritesView: View {
 					}
 				}
 				.onChange(of: viewModel.state.favorites) { favorites in
-					editMode = viewModel.state.favorites.count > 1 ? .active : .inactive
+					editMode = favorites.count > 1 ? .active : .inactive
 				}
 			}
 		}
@@ -231,5 +288,15 @@ struct FavoritesView: View {
 		.accessibilityIdentifier(category.id)
 		.listRowInsets(ViewTraits.List.rowInset)
 		.frame(minHeight: ViewTraits.List.minHeight)
+	}
+}
+
+#Preview {
+	NavigationStackBackport.NavigationStack {
+		FavoritesView(
+			viewModel: FavoritesViewModel(
+				coordinator: nil
+			)
+		)
 	}
 }
