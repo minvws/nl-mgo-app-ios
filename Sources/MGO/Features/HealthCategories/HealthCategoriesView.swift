@@ -482,7 +482,7 @@ struct HealthCategoriesView: View {
 		// We should not show the categories that are marked
 		// as favorite in this view. If a main category has all
 		// its categories marked, we should hide it from view.
-		let filteredCategories = mainCategory.categories.filter { !viewModel.state.favorites.contains($0) }
+		let filteredCategories = viewModel.state.canTitleCollapse ? mainCategory.categories.filter { !viewModel.state.favorites.contains($0) } : mainCategory.categories
 		
 		if filteredCategories.isNotEmpty {
 			
