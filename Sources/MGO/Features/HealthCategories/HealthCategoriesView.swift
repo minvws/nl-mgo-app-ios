@@ -25,6 +25,7 @@ struct HealthCategoriesViewState {
 	var showRemoveHealthcareProvider: Bool
 	var mainCategories: [SharedHealthCategories.MainCategory]
 	var buttonState: [String: CategoryState]
+	var favorites: [SharedHealthCategories.Category]
 	var backButtonTitle: LocalizedStringKey?
 	var belowIOS18: Bool
 }
@@ -39,12 +40,19 @@ class HealthCategoriesViewModel: ObservableObject {
 	
 	/// The state of the view
 	@Published var state: HealthCategoriesViewState
+		
+	struct Tokens {
+		/// Token for the data store observatory
+		var dataStoreToken: Observatory.ObserverToken?
+		
+		/// Token for the healthcare organization observatory
+		var healthcareOrganizationStoreToken: Observatory.ObserverToken?
+		
+		/// Token for the favorites observatory
+		var favoritesStoreToken: Observatory.ObserverToken?
+	}
 	
-	/// Token for the data store observatory
-	private var dataStoreToken: Observatory.ObserverToken?
-	
-	/// Token for the healthcare organization observatory
-	private var healthcareOrganizationStoreToken: Observatory.ObserverToken?
+	private var tokens = Tokens()
 	
 	/// Dependency Healthcare Organization Store
 	@Injected(\.healthcareOrganizationRepository) private var healthcareOrganizationRepository
@@ -54,6 +62,9 @@ class HealthCategoriesViewModel: ObservableObject {
 	
 	/// Dependency Injectable Resource Repository
 	@Injected(\.resourceRepository) private var resourceRepository
+	
+	/// Dependency injectable Favorites store
+	@Injected(\.favoritesRepository) private var favoritesRepository
 	
 	/// A list of all the actions this viewModel can handle
 	enum Action {
@@ -103,11 +114,9 @@ class HealthCategoriesViewModel: ObservableObject {
 		}
 		
 		var initialButtonState = [String: CategoryState]()
-		let mainCategories = try? SharedHealthCategories().mainCategories
-		for mainCategory in mainCategories ?? [] {
-			for category in mainCategory.categories {
-				initialButtonState[category.id] = .loading
-			}
+		let sharedHealthCategories = try? SharedHealthCategories()
+		for category in sharedHealthCategories?.categories() ?? [] {
+			initialButtonState[category.id] = .loading
 		}
 		
 		self.state = HealthCategoriesViewState(
@@ -116,31 +125,52 @@ class HealthCategoriesViewModel: ObservableObject {
 			canTitleCollapse: canTitleCollapse,
 			showEmptyView: Container.shared.healthcareOrganizationRepository().organizations.isEmpty,
 			showRemoveHealthcareProvider: showRemoveHealthcareProvider,
-			mainCategories: mainCategories ?? [],
+			mainCategories: sharedHealthCategories?.mainCategories ?? [],
 			buttonState: initialButtonState,
+			favorites: [],
 			backButtonTitle: backbuttonTitle,
 			belowIOS18: belowIOS18
 		)
+		prepareFavorites()
 		registerObservers()
 	}
 	
 	@MainActor private func registerObservers() {
-		self.dataStoreToken = dataStore.observatory.append { [weak self] changed in
+		self.tokens.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
 				// Handle updates in the fetched data
 				self?.updateState()
 			}
 		}
-		self.healthcareOrganizationStoreToken = healthcareOrganizationRepository.observatory.append { [weak self] _ in
+		
+		self.tokens.healthcareOrganizationStoreToken = healthcareOrganizationRepository.observatory.append { [weak self] _ in
 			// Check if there are any healthcare organizations left.
 			self?.state.showEmptyView = self?.healthcareOrganizationRepository.organizations.isEmpty ?? true
+		}
+		
+		self.tokens.favoritesStoreToken = favoritesRepository.observatory.append { [weak self] _ in
+			self?.prepareFavorites()
+		}
+	}
+	
+	/// Maybe the shared categories have been altered by an update,
+	/// and the stored favorite is no longer a category.
+	@MainActor private func prepareFavorites() {
+		
+		let sharedHealthCategories = try? SharedHealthCategories()
+		self.state.favorites = favoritesRepository.items.filter { favorite in
+			for category in sharedHealthCategories?.categories() ?? [] where category == favorite {
+				return true
+			}
+			return false
 		}
 	}
 	
 	deinit {
-		// Remove as observer
-		dataStoreToken.map(dataStore.observatory.remove)
-		healthcareOrganizationStoreToken.map(healthcareOrganizationRepository.observatory.remove)
+		// Remove observers
+		tokens.dataStoreToken.map(dataStore.observatory.remove)
+		tokens.healthcareOrganizationStoreToken.map(healthcareOrganizationRepository.observatory.remove)
+		tokens.favoritesStoreToken.map(favoritesRepository.observatory.remove)
 	}
 	
 	/// Handle any action
@@ -443,18 +473,26 @@ struct HealthCategoriesView: View {
 		_ mainCategory: SharedHealthCategories.MainCategory
 	) -> some View {
 		
-		Section {
-			Text(String(localized: String.LocalizationValue(stringLiteral: mainCategory.heading)))
-				.rijksoverheidStyle(font: .bold, style: .headline)
-				.foregroundColor(theme.contentPrimary)
-				.frame(maxWidth: .infinity, alignment: .topLeading)
-				.accessibilityAddTraits(.isHeader)
-		}
-		.listRowBackground(Color.clear)
-		.listRowInsets(ViewTraits.List.headerInset)
-
-		Section {
-			ForEach(mainCategory.categories) { categoryView($0) }
+		// We should not show the categories that are marked
+		// as favorite in this view. If a main category has all
+		// its categories marked, we should hide it from view.
+		let filteredCategories = mainCategory.categories.filter { !viewModel.state.favorites.contains($0) }
+		
+		if filteredCategories.isNotEmpty {
+			
+			Section {
+				Text(String(localized: String.LocalizationValue(stringLiteral: mainCategory.heading)))
+					.rijksoverheidStyle(font: .bold, style: .headline)
+					.foregroundColor(theme.contentPrimary)
+					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.accessibilityAddTraits(.isHeader)
+			}
+			.listRowBackground(Color.clear)
+			.listRowInsets(ViewTraits.List.headerInset)
+			
+			Section {
+				ForEach(filteredCategories) { categoryView($0) }
+			}
 		}
 	}
 	
@@ -462,19 +500,26 @@ struct HealthCategoriesView: View {
 	/// - Parameter category: the category
 	/// - Returns: category view
 	@ViewBuilder private func categoryView(
-		_ category: SharedHealthCategories.Category
+		_ category: SharedHealthCategories.Category,
+		asFavorite: Bool = false
 	) -> some View {
 		
 		Button {
 			viewModel.reduce(.categorySelected(category))
 		} label: {
-			HealthCategoryRowView(
-				category: category,
-				state: viewModel.state.buttonState[category.id] ?? .notAvailable
-			)
+			if asFavorite {
+				FavoriteRowView(
+					category: category,
+					state: viewModel.state.buttonState[category.id] ?? .notAvailable
+				)
+			} else {
+				HealthCategoryRowView(
+					category: category,
+					state: viewModel.state.buttonState[category.id] ?? .notAvailable
+				)
+			}
 		}
 		.padding(.vertical, ViewTraits.List.padding)
-		.frame( maxWidth: .infinity, alignment: .leading)
 		.accessibilityIdentifier(category.id)
 	}
 	
@@ -497,6 +542,35 @@ struct HealthCategoriesView: View {
 	/// - Returns: list header
 	@ViewBuilder private func favorites() -> some View {
 		
+		favoritesHeader()
+		
+		if viewModel.state.favorites.isEmpty {
+			
+			favoritesEmptyView()
+		} else {
+			
+			let columns = [
+				GridItem(.flexible()),
+				GridItem(.flexible())
+			]
+			
+			LazyVGrid(columns: columns) {
+				ForEach(viewModel.state.favorites) {
+					categoryView($0, asFavorite: true)
+						.padding(16)
+						.background(theme.backgroundSecondary)
+						.cornerRadius(ViewTraits.Favorites.cornerRadius)
+				}
+			}
+			.clipShape(Rectangle())
+			.listRowInsets(ViewTraits.List.rowInset)
+			.listRowBackground(Color.clear)
+		}
+	}
+	
+	/// The heading for the favorite section
+	/// - Returns: view for the favorite header
+	@ViewBuilder private func favoritesHeader() -> some View {
 		Section {
 			Text("overview.favorites.heading")
 				.rijksoverheidStyle(font: .bold, style: .headline)
@@ -506,15 +580,22 @@ struct HealthCategoriesView: View {
 		}
 		.listRowBackground(Color.clear)
 		.listRowInsets(ViewTraits.List.rowInset)
+	}
+	
+	/// The empty state when the user has no favorite categories
+	/// - Returns: view for the empty state
+	@ViewBuilder private func favoritesEmptyView() -> some View {
 		
 		Section {
-			favoriteButton()
+			addFavoriteCategoriesButton()
 		}
 		.listRowBackground(Color.clear)
 		.listRowInsets(ViewTraits.Favorites.rowInset)
 	}
 	
-	@ViewBuilder private func favoriteButton() -> some View {
+	/// The dashed button to add favorite categories
+	/// - Returns: view for the add favorites button
+	@ViewBuilder private func addFavoriteCategoriesButton() -> some View {
 		
 		VStack(spacing: 0) {
 			
@@ -538,7 +619,8 @@ struct HealthCategoriesView: View {
 				)
 		)
 	}
-
+	
+	/// The language key for adding favorite categories
 	let emptyActionKey: LocalizedStringKey = "overview.favorites.empty.action"
 	
 	/// The footer
