@@ -344,6 +344,8 @@ struct HealthCategoriesView: View {
 	/// The Theme
 	@Environment(\.theme) var theme
 	
+	@State private var contentSize: CGSize = .zero
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -372,6 +374,8 @@ struct HealthCategoriesView: View {
 			static let inset: CGFloat = 0.5
 			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 			static let style = StrokeStyle(lineWidth: 1, dash: [5, 5])
+			static let gridSpacing: CGFloat = 10
+			static let minWidth: CGFloat = 153
 		}
 		enum Button {
 			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
@@ -417,7 +421,9 @@ struct HealthCategoriesView: View {
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
+		.readSize($contentSize)
 	}
+	
 	/// The view for the header
 	/// - Returns: header view
 	@ViewBuilder func heading() -> some View {
@@ -519,6 +525,7 @@ struct HealthCategoriesView: View {
 				)
 			}
 		}
+		.buttonStyle(.plain)
 		.padding(.vertical, ViewTraits.List.padding)
 		.accessibilityIdentifier(category.id)
 	}
@@ -549,15 +556,15 @@ struct HealthCategoriesView: View {
 			favoritesEmptyView()
 		} else {
 			
-			let columns = [
-				GridItem(.flexible()),
-				GridItem(.flexible())
-			]
+			let horizontalPadding = 2 * ViewTraits.General.padding
+			let availableWidth = max(0, contentSize.width - horizontalPadding)
+			let numberOfColumns = max(2, Int(availableWidth / ViewTraits.Favorites.minWidth))
+			let columns = Array(repeating: GridItem(.flexible()), count: numberOfColumns)
 			
-			LazyVGrid(columns: columns) {
+			LazyVGrid(columns: columns, spacing: ViewTraits.Favorites.gridSpacing) {
 				ForEach(viewModel.state.favorites) {
 					categoryView($0, asFavorite: true)
-						.padding(16)
+						.padding(ViewTraits.General.padding)
 						.background(theme.backgroundSecondary)
 						.cornerRadius(ViewTraits.Favorites.cornerRadius)
 				}
