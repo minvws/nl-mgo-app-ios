@@ -1055,7 +1055,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allergieën"
+            "value" : "Allergiën en intoleranties"
           }
         }
       }
@@ -3246,7 +3246,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allergieën"
+            "value" : "Allergiën en intoleranties"
           }
         }
       }

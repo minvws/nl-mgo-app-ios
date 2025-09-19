@@ -63,6 +63,7 @@ class HealthCategoriesViewModel: ObservableObject {
 		case removeHealthcareOrganization
 		case onAppear
 		case search
+		case showFavorites
 	}
 	
 	/// Intitializer
@@ -188,6 +189,10 @@ class HealthCategoriesViewModel: ObservableObject {
 							params: ["healthcareOrganization": healthcareOrganization]
 						)
 					)
+				}
+			case .showFavorites:
+				if case .all = mode {
+					coordinator?.handle(.showFavorites)
 				}
 		}
 	}
@@ -328,6 +333,16 @@ struct HealthCategoriesView: View {
 		enum NoResults {
 			static let top: CGFloat = 44
 		}
+		enum Favorites {
+			static let cornerRadius: CGFloat = if #available(iOS 26.0, *) {
+				26
+			} else {
+				12
+			}
+			static let inset: CGFloat = 0.5
+			static let rowInset = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+			static let style = StrokeStyle(lineWidth: 1, dash: [5, 5])
+		}
 		enum Button {
 			static let insets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 		}
@@ -359,6 +374,10 @@ struct HealthCategoriesView: View {
 		.when(viewModel.state.belowIOS18 && !viewModel.state.canTitleCollapse) { view in
 			view
 				.navigationBarTitleDisplayMode(.inline)
+		}
+		.when(!viewModel.state.showEmptyView && viewModel.state.canTitleCollapse) { view in
+			view
+				.toolbar(content: toolbarContent)
 		}
 		.navigationBarHidden(false)
 		.background(theme.backgroundPrimary.ignoresSafeArea())
@@ -392,12 +411,16 @@ struct HealthCategoriesView: View {
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityIdentifier("overview.subheading")
 	}
+	
 	/// The view for the categories
 	/// - Returns: category view
 	@ViewBuilder func categoriesView() -> some View {
 		
 		List {
-			if !viewModel.state.canTitleCollapse {
+			
+			if viewModel.state.canTitleCollapse {
+				favorites()
+			} else {
 				listHeader()
 			}
 			
@@ -470,6 +493,54 @@ struct HealthCategoriesView: View {
 		.listRowInsets(ViewTraits.List.rowInset)
 	}
 	
+	/// The favorites section
+	/// - Returns: list header
+	@ViewBuilder private func favorites() -> some View {
+		
+		Section {
+			Text("overview.favorites.heading")
+				.rijksoverheidStyle(font: .bold, style: .headline)
+				.foregroundColor(theme.contentPrimary)
+				.frame(maxWidth: .infinity, alignment: .topLeading)
+				.accessibilityAddTraits(.isHeader)
+		}
+		.listRowBackground(Color.clear)
+		.listRowInsets(ViewTraits.List.rowInset)
+		
+		Section {
+			favoriteButton()
+		}
+		.listRowBackground(Color.clear)
+		.listRowInsets(ViewTraits.Favorites.rowInset)
+	}
+	
+	@ViewBuilder private func favoriteButton() -> some View {
+		
+		VStack(spacing: 0) {
+			
+			Text("overview.favorites.empty.heading")
+				.rijksoverheidStyle(font: .regular, style: .body)
+				.foregroundStyle(theme.contentPrimary)
+				.padding(.top, 2 * ViewTraits.General.padding)
+			
+			CallToActionButton(emptyActionKey, style: .tertiary) {
+				viewModel.reduce(.showFavorites)
+			}
+			.accessibilityIdentifier(emptyActionKey.stringKey)
+			.padding(.bottom, ViewTraits.General.padding)
+		}
+		.overlay(
+			RoundedRectangle(cornerRadius: ViewTraits.Favorites.cornerRadius)
+				.inset(by: ViewTraits.Favorites.inset)
+				.stroke(
+					theme.borderPrimary,
+					style: ViewTraits.Favorites.style
+				)
+		)
+	}
+
+	let emptyActionKey: LocalizedStringKey = "overview.favorites.empty.action"
+	
 	/// The footer
 	/// - Returns: the footer
 	@ViewBuilder private func listFooter() -> some View {
@@ -511,6 +582,45 @@ struct HealthCategoriesView: View {
 			}
 			.accessibilityIdentifier("common.add_organizations")
 			.padding(ViewTraits.Button.insets)
+		}
+	}
+	
+	/// Get the toolbar content (favorites)
+	/// - Returns: the toolbar content
+	@ToolbarContentBuilder private func toolbarContent() -> some ToolbarContent {
+		ToolbarItemGroup(
+			placement: .topBarTrailing,
+			content: {
+				
+				Menu {
+					menuFavoritesOption()
+				} label: {
+#if compiler(>=6.2)
+					if #available(iOS 26.0, *) {
+						Image(ImageResource.Icon.more26)
+							.foregroundStyle(theme.symbolPrimary)
+					} else {
+						Image(ImageResource.Icon.more)
+					}
+#else
+					Image(ImageResource.Icon.more)
+#endif
+				}
+				.buttonStyle(ToolbarButtonStyle())
+				.accessibilityLabel("overview.menu")
+			}
+		)
+	}
+	
+	/// The favorites option
+	/// - Returns: view
+	@ViewBuilder func menuFavoritesOption() -> some View {
+		
+		Button {
+			viewModel.reduce(.showFavorites)
+		} label: {
+			Label(emptyActionKey, systemImage: "star")
+				.tint(theme.contentPrimary)
 		}
 	}
 }

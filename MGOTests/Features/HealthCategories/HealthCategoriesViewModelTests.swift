@@ -163,4 +163,29 @@ final class HealthCategoriesViewModelTests: XCTestCase {
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadCount) == 0
 		expect(self.servicesSpies.resourceRepositorySpy.invokedLoadForMgoOrganizationCount) == 1
 	}
+	
+	@MainActor func test_showFavorites_modeAll_shouldCallCoordinator() {
+		
+		// Given
+		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+	
+		// When
+		sut.reduce(HealthCategoriesViewModel.Action.showFavorites)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == true
+		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.showFavorites
+	}
+	
+	@MainActor func test_showFavorites_modeSingle_shouldNotCallCoordinator() {
+		
+		// Given
+		createSut()
+	
+		// When
+		sut.reduce(HealthCategoriesViewModel.Action.showFavorites)
+		
+		// Then
+		expect(self.coordinatorSpy.invokedHandle) == false
+	}
 }

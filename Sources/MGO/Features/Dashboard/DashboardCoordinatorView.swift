@@ -98,17 +98,17 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 						   tabBarAppearance.inlineLayoutAppearance,
 						   tabBarAppearance.compactInlineLayoutAppearance] {
 			
-			appearance.selected.iconColor = UIColor(theme.interactionTertiaryDefaultText)
+			appearance.selected.iconColor = UIColor(theme.rijksLint)
 			appearance.selected.titleTextAttributes =
 			[
-				.foregroundColor: UIColor(theme.interactionTertiaryDefaultText),
+				.foregroundColor: UIColor(theme.rijksLint),
 				.paragraphStyle: NSParagraphStyle.default
 			]
+			appearance.normal.iconColor = UIColor(theme.symbolPrimary)
 			appearance.normal.titleTextAttributes = [
 				.foregroundColor: UIColor(theme.symbolPrimary),
 				.paragraphStyle: NSParagraphStyle.default
 			]
-			appearance.normal.iconColor = UIColor(theme.symbolPrimary)
 		}
 		
 		return tabBarAppearance
