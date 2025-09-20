@@ -166,9 +166,25 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		// Given
 		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
 		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		
 		// When
 		
 		// Then
 		expect(self.sut.state.showEmptyView) == true
+	}
+	
+	@MainActor func test_observe_favoriteRepository() throws {
+		
+		// Given
+		servicesSpies.healthcareOrganizationStoreSpy.stubbedOrganizations = []
+		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		expect(self.sut.state.favorites).to(beEmpty())
+		
+		// When
+		try Container.shared.favoritesRepository().store(Generator.healthCategory)
+		
+		// Then
+		expect(self.sut.state.favorites).toEventuallyNot(beEmpty())
+		Container.shared.favoritesRepository().wipePersistedData()
 	}
 }
