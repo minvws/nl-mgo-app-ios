@@ -518,11 +518,13 @@ struct HealthCategoriesView: View {
 					category: category,
 					state: viewModel.state.buttonState[category.id] ?? .notAvailable
 				)
+				.contentShape(Rectangle())
 			} else {
 				HealthCategoryRowView(
 					category: category,
 					state: viewModel.state.buttonState[category.id] ?? .notAvailable
 				)
+				.contentShape(Rectangle())
 			}
 		}
 		.buttonStyle(.plain)
