@@ -74,20 +74,20 @@ final class HealthCategoriesViewTests: XCTestCase {
 		takeSnapShots(content: content, precision: 0.95)
 	}
 	
-	@MainActor func test_initialState_multipleMode_withFavorite() {
+	@MainActor func test_initialState_multipleMode_withFavorite() throws {
 		
 		// Given
-		createSut()
+		try Container.shared.favoritesRepository().store(Generator.healthCategory)
 		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
 		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
 		sut = HealthCategoriesView(viewModel: self.viewModel)
-		viewModel.state.favorites = [Generator.healthCategory]
 		
 		// When
 		let content = NavigationView { sut }
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
+		try Container.shared.favoritesRepository().wipePersistedData()
 	}
 	
 	@MainActor func test_backbuttonPressed() throws {
