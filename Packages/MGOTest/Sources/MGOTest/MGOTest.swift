@@ -9,6 +9,6 @@
 // External
 @_exported import OHHTTPStubs
 @_exported import OHHTTPStubsSwift
-@_exported @preconcurrency import Nimble
+@_exported import Nimble
 @_exported import SnapshotTesting
 @_exported import ViewInspector
