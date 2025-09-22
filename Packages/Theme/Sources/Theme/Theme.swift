@@ -24,15 +24,15 @@ public final class Theme: Themeable {
 	)
 	
 	@Published public var separators = Colors.Separators(
-		primary: Color("separatorsPrimary", bundle: .main),
-		secondary: Color("separatorsSecondary", bundle: .main),
-		invert: Color("separatorsInvert", bundle: .main)
+		primary: Color("separatorsPrimary", bundle: .module),
+		secondary: Color("separatorsSecondary", bundle: .module),
+		invert: Color("separatorsInvert", bundle: .module)
 	)
 	
 	@Published public var symbols = Colors.Symbols(
-		primary: Color("symbolsPrimary", bundle: .main),
-		secondary: Color("symbolsSecondary", bundle: .main),
-		tertiary: Color("symbolsTertiary", bundle: .main)
+		primary: Color("symbolsPrimary", bundle: .module),
+		secondary: Color("symbolsSecondary", bundle: .module),
+		tertiary: Color("symbolsTertiary", bundle: .module)
 	)
 	
 	@Published public var states = Colors.States(
