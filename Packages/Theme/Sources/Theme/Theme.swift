@@ -107,24 +107,5 @@ public final class Theme: Themeable {
 	
 	@Published public var interactionTertiaryCriticalText: Color = Color("interactionTertiaryCriticalText", bundle: .module)
 	@Published public var interactionTertiaryCriticalTextHover: Color = Color("interactionTertiaryCriticalTextHover", bundle: .module)
-	
-	// MARK: - Support -
-	
-	@Published public var medication: Color = Color("medication", bundle: .module)
-	@Published public var treatment: Color = Color("treatment", bundle: .module)
-	@Published public var contacts: Color = Color("contacts", bundle: .module)
-	@Published public var laboratory: Color = Color("laboratory", bundle: .module)
-	@Published public var functional: Color = Color("functional", bundle: .module)
-	@Published public var device: Color = Color("device", bundle: .module)
-	@Published public var vitals: Color = Color("vitals", bundle: .module)
-	@Published public var documents: Color = Color("documents", bundle: .module)
-	@Published public var allergies: Color = Color("allergies", bundle: .module)
-	@Published public var problems: Color = Color("problems", bundle: .module)
-	@Published public var personal: Color = Color("personal", bundle: .module)
-	@Published public var rijksLint: Color = Color("rijkslint", bundle: .module)
-	@Published public var warning: Color = Color("warning", bundle: .module)
-	@Published public var payer: Color = Color("payer", bundle: .module)
-	@Published public var vaccinations: Color = Color("vaccinations", bundle: .module)
-	@Published public var procedures: Color = Color("procedures", bundle: .module)
-	@Published public var lifestyle: Color = Color("lifestyle", bundle: .module)
+
 }

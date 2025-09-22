@@ -473,7 +473,7 @@ struct HealthUISchemaView: View {
 			Spacer()
 		})
 		.fixedSize(horizontal: false, vertical: true)
-		.foregroundStyle(theme.rijksLint)
+		.foregroundStyle(theme.categories.rijkslint)
 	}
 	
 	/// The view for a heading row

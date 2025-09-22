@@ -131,7 +131,7 @@ struct SettingsView: View {
 		} label: {
 			SettingsRowView(
 				icon: Image(ImageResource.Settings.display),
-				iconBackground: theme.procedures,
+				iconBackground: theme.categories.procedures,
 				heading: "settings.display.heading",
 				subHeading: selectedAppearance.key
 			)
@@ -149,7 +149,7 @@ struct SettingsView: View {
 		} label: {
 			SettingsRowView(
 				icon: Image(ImageResource.Settings.lock),
-				iconBackground: theme.rijksLint,
+				iconBackground: theme.categories.rijkslint,
 				heading: "settings.security.heading"
 			)
 		}
@@ -167,7 +167,7 @@ struct SettingsView: View {
 			} label: {
 				SettingsRowView(
 					icon: Image(ImageResource.Settings.advanced),
-					iconBackground: theme.vitals,
+					iconBackground: theme.categories.vitals,
 					heading: "settings.advanced.heading"
 				)
 			}

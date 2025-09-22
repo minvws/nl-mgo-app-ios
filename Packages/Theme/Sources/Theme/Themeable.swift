@@ -93,27 +93,8 @@ public protocol Themeable: ObservableObject {
 	var symbols: Colors.Symbols { get }
 	
 	var states: Colors.States { get }
-
-	// MARK: - Categories -
 	
 	var categories: Colors.Categories { get }
-	var medication: Color { get }
-	var treatment: Color { get }
-	var contacts: Color { get }
-	var laboratory: Color { get }
-	var functional: Color { get }
-	var device: Color { get }
-	var vitals: Color { get }
-	var documents: Color { get }
-	var allergies: Color { get }
-	var problems: Color { get }
-	var personal: Color { get }
-	var rijksLint: Color { get }
-	var warning: Color { get }
-	var payer: Color { get }
-	var vaccinations: Color { get }
-	var procedures: Color { get }
-	var lifestyle: Color { get }
 	
 	// MARK: - Actions -
 	var actions: Colors.Actions { get }

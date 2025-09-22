@@ -180,7 +180,7 @@ struct FavoritesView: View {
 					viewModel.reduce(.saveButtonPressed)
 				}
 				.buttonStyle(.borderedProminent)
-				.tint(theme.rijksLint)
+				.tint(theme.categories.rijkslint)
 				.accessibilityLabel(saveKey)
 			} else {
 				Button {
