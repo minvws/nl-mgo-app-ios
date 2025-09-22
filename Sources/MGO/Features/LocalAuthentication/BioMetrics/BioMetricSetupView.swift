@@ -206,7 +206,7 @@ struct BioMetricSetupView: View {
 			HStack {
 				Spacer()
 				getBioMetricImage(type: bioMetricType)
-					.foregroundStyle(theme.interactionPrimaryDefaultBackground)
+					.foregroundStyle(theme.actions.primary.background)
 					.frame(width: ViewTraits.Image.size, height: ViewTraits.Image.size)
 					.padding(.top, ViewTraits.Image.top)
 				Spacer()

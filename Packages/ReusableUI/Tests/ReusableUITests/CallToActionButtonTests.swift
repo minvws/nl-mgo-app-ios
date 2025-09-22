@@ -57,34 +57,10 @@ final class CallToActionButtonTests: XCTestCase {
 		assertSnapshot(of: view, as: .image)
 	}
 	
-	func test_primaryCritical() throws {
-		
-		// Given
-		let sut = CallToActionButton("Primary Critical", style: .primaryCritical)
-		
-		// When
-		let view = sut.frame(width: 300, height: 200)
-		
-		// Then
-		assertSnapshot(of: view, as: .image)
-	}
-	
 	func test_secondary() throws {
 		
 		// Given
 		let sut = CallToActionButton("Secondary", style: .secondary)
-		
-		// When
-		let view = sut.frame(width: 300, height: 200)
-		
-		// Then
-		assertSnapshot(of: view, as: .image)
-	}
-	
-	func test_secondaryCritical() throws {
-		
-		// Given
-		let sut = CallToActionButton("Secondary Critical", style: .secondaryCritical)
 		
 		// When
 		let view = sut.frame(width: 300, height: 200)

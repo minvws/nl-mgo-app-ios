@@ -30,9 +30,7 @@ public struct CallToActionButton: View {
 		case primaryWithLeadingIcon
 		case primaryWithLeadingSpinner
 		case primary
-		case primaryCritical
 		case secondary
-		case secondaryCritical
 		case tertiary
 		case tertiaryCritical
 		case withIcon
@@ -109,14 +107,8 @@ public struct CallToActionButton: View {
 		.when(style == .primaryWithLeadingIcon || style == .primaryWithLeadingSpinner || style == .primary, transform: { button in
 			button.buttonStyle(PrimaryDefaultButtonStyle())
 		})
-		.when(style == .primaryCritical, transform: { button in
-			button.buttonStyle(PrimaryCriticalButtonStyle())
-		})
 		.when(style == .secondary, transform: { button in
 			button.buttonStyle(SecondaryDefaultButtonStyle())
-		})
-		.when(style == .secondaryCritical, transform: { button in
-			button.buttonStyle(SecondaryCriticalButtonStyle())
 		})
 		.when(style == .tertiary, transform: { button in
 			button.buttonStyle(TertiaryButtonStyle())
@@ -152,11 +144,7 @@ public struct CallToActionButton: View {
 			.padding(16)
 		CallToActionButton(".primary", style: .primary)
 			.padding(16)
-		CallToActionButton(".primaryCritical", style: .primaryCritical)
-			.padding(16)
 		CallToActionButton(".secondary", style: .secondary)
-			.padding(16)
-		CallToActionButton(".secondaryCritical", style: .secondaryCritical)
 			.padding(16)
 		CallToActionButton(".tertiary", style: .tertiary)
 			.padding(16)

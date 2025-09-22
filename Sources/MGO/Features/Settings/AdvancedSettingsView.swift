@@ -86,7 +86,7 @@ struct AdvancedSettingsView: View {
 		}
 			.accessibilityIdentifier("settings.featureflag.localization")
 			.toggleStyle(.switch)
-			.tint(theme.interactionPrimaryDefaultBackground)
+			.tint(theme.actions.primary.background)
 	}
 	
 	/// The view for the toggle
@@ -100,7 +100,7 @@ struct AdvancedSettingsView: View {
 		}
 			.accessibilityIdentifier("settings.featureflag.pincode")
 			.toggleStyle(.switch)
-			.tint(theme.interactionPrimaryDefaultBackground)
+			.tint(theme.actions.primary.background)
 	}
 }
 

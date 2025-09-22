@@ -95,29 +95,8 @@ public protocol Themeable: ObservableObject {
 	var states: Colors.States { get }
 	
 	var categories: Colors.Categories { get }
-	
-	// MARK: - Actions -
+
 	var actions: Colors.Actions { get }
-	
-	// MARK: - Action Primary Default -
-	
-	var interactionPrimaryDefaultBackground: Color { get }
-	var interactionPrimaryDefaultText: Color { get }
-	
-	// MARK: - Action Primary Critical -
-	
-	var interactionPrimaryCriticalBackground: Color { get }
-	var interactionPrimaryCriticalText: Color { get }
-	
-	// MARK: - Action Secondary Default -
-	
-	var interactionSecondaryDefaultBackground: Color { get }
-	var interactionSecondaryDefaultText: Color { get }
-	
-	// MARK: - Action Secondary Critical -
-	
-	var interactionSecondaryCriticalBackground: Color { get }
-	var interactionSecondaryCriticalText: Color { get }
 	
 	// MARK: - Action Tertiary Default -
 	

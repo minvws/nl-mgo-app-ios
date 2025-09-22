@@ -31,11 +31,11 @@ struct PrimaryDefaultButtonStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .bold, style: .body)
-			.foregroundColor(theme.interactionPrimaryDefaultText.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
-			.tint(theme.interactionPrimaryDefaultText)
+			.foregroundColor(theme.actions.primary.text.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
+			.tint(theme.actions.primary.text)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(theme.interactionPrimaryDefaultBackground.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
+			.background(theme.actions.primary.background.opacity(configuration.isPressed ? ViewTraits.Button.opacity : 1))
 			.cornerRadius(ViewTraits.Button.cornerRadius)
 	}
 }

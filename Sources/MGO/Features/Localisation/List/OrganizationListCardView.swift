@@ -100,7 +100,7 @@ struct OrganizationListCardView: View {
 			
 			if state == .regular {
 				Image(ImageResource.Localisation.Icon.add)
-					.foregroundStyle(colorScheme == .dark ? theme.interactionTertiaryDefaultText : theme.interactionPrimaryDefaultBackground)
+					.foregroundStyle(colorScheme == .dark ? theme.interactionTertiaryDefaultText : theme.actions.primary.background)
 					.font(Font.title2.bold())
 			}
 			if case let .automatic(isSelected) = state {

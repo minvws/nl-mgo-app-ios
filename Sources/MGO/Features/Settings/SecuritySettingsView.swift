@@ -177,7 +177,7 @@ struct SecuritySettingsView: View {
 				.foregroundStyle(theme.labels.primary)
 		}
 			.toggleStyle(.switch)
-			.tint(theme.interactionPrimaryDefaultBackground)
+			.tint(theme.actions.primary.background)
 			.accessibilityIdentifier("settings.security.toggle")
 	}
 	
