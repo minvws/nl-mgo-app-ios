@@ -27,7 +27,10 @@ final class HealthCategoriesViewTests: XCTestCase {
 	
 	@MainActor private func createSut() {
 		
-		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .single(healthcareOrganization))
+		viewModel = HealthCategoriesViewModel(
+			coordinator: coordinatorSpy,
+			mode: .single(healthcareOrganization)
+		)
 		sut = HealthCategoriesView(viewModel: self.viewModel)
 	}
 	
@@ -69,6 +72,22 @@ final class HealthCategoriesViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
+	}
+	
+	@MainActor func test_initialState_multipleMode_withFavorite() throws {
+		
+		// Given
+		try Container.shared.favoritesRepository().store(Generator.healthCategory)
+		viewModel = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		servicesSpies.dataStoreSpy.stubbedGetCategoryIdResult = .success([])
+		sut = HealthCategoriesView(viewModel: self.viewModel)
+		
+		// When
+		let content = NavigationView { sut }
+		
+		// Then
+		takeSnapShots(content: content, precision: 0.95)
+		try Container.shared.favoritesRepository().wipePersistedData()
 	}
 	
 	@MainActor func test_backbuttonPressed() throws {

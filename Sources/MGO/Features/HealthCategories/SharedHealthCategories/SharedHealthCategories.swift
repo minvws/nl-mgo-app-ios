@@ -106,6 +106,12 @@ public struct SharedHealthCategories: Sendable {
 	/// An array of main categories
 	public let mainCategories: [MainCategory]
 	
+	/// An array of all the categories
+	/// - Returns: all the categories
+	public func categories() -> [Category] {
+		mainCategories.flatMap(\.categories)
+	}
+	
 	/// Create the health categories. load the resources
 	public init() throws {
 		

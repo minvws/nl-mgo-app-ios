@@ -544,12 +544,22 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	/// Reset the navigation stack with this new root  state
 	/// - Parameter state: the new root state.
 	@MainActor private func resetNavigationStack(with state: AppCoordination.State) {
-		
-		var transaction = Transaction()
-		transaction.disablesAnimations = true
-		withTransaction(transaction) {
-			path.removeLast(path.count)
-			rootState = state
+		// Ensure mutations to @Published properties happen on the main thread
+		let performReset = {
+			var transaction = Transaction()
+			transaction.disablesAnimations = true
+			withTransaction(transaction) {
+				self.path.removeLast(self.path.count)
+				self.rootState = state
+			}
+		}
+
+		if Thread.isMainThread {
+			performReset()
+		} else {
+			DispatchQueue.main.async {
+				performReset()
+			}
 		}
 	}
 	
