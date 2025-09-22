@@ -101,7 +101,7 @@ public struct BannerView: View {
 				} perform: {
 					perform?()
 				}
-				.foregroundColor(onHover ? theme.symbolPrimary : theme.symbolSecondary)
+				.foregroundColor(onHover ? theme.symbols.primary : theme.symbols.secondary)
 				.accessibilitySortPriority(970)
 				.accessibilityRemoveTraits(.isImage)
 				.accessibilityAddTraits(.isButton)
@@ -109,7 +109,7 @@ public struct BannerView: View {
 				.accessibilityIdentifier("banner.close")
 			
 		}
-		.cardify(padding: ViewTraits.Banner.padding, lineColor: theme.borderSecondary)
+		.cardify(padding: ViewTraits.Banner.padding, lineColor: theme.separators.secondary)
 	}
 }
 

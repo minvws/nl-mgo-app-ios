@@ -77,11 +77,6 @@ public final class Theme: Themeable {
 			hover: Color("actionsTertiaryHover", bundle: .module)
 		)
 	)
-	
-	// MARK: - Border -
-	
-	@Published public var borderPrimary: Color = Color("borderPrimary", bundle: .module)
-	@Published public var borderSecondary: Color = Color("borderSecondary", bundle: .module)
 
 	// MARK: - Symbols -
 	

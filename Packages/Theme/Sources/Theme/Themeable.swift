@@ -84,25 +84,13 @@ public struct Colors {
 }
 public protocol Themeable: ObservableObject {
 	
-	// MARK: - Background -
-	
 	var backgrounds: Colors.Backgrounds { get }
-	
-	// MARK: - Labels -
 	
 	var labels: Colors.Labels { get }
 	
-	// MARK: - Separators -
-	
 	var separators: Colors.Separators { get }
-	var borderPrimary: Color { get }
-	var borderSecondary: Color { get }
-	
-	// MARK: - Symbols -
 	
 	var symbols: Colors.Symbols { get }
-	var symbolPrimary: Color { get }
-	var symbolSecondary: Color { get }
 	
 	// MARK: - States -
 	

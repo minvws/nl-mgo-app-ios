@@ -122,7 +122,7 @@ struct InputField: View {
 		guard !showError else {
 			return theme.sentimentCritical
 		}
-		return isFieldFocused ? theme.interactionPrimaryDefaultText : theme.borderPrimary
+		return isFieldFocused ? theme.interactionPrimaryDefaultText : theme.separators.primary
 	}
 }
 

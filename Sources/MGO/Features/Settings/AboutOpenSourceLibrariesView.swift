@@ -214,7 +214,7 @@ struct AboutOpenSourceLibrariesView: View {
 					 Spacer()
 					 
 					 Image(ImageResource.Settings.arrowOutward)
-					.tint(theme.symbolSecondary)
+					.tint(theme.symbols.secondary)
 			}
 		}
 		.accessibilityIdentifier("Button \(library.name)")

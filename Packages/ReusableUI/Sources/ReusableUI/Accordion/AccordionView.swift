@@ -75,7 +75,7 @@ public struct AccordionView<Content: View>: View {
 		.overlay(
 			RoundedRectangle(cornerRadius: 8)
 				.inset(by: 0.5)
-				.stroke(theme.borderPrimary, lineWidth: 1)
+				.stroke(theme.separators.primary, lineWidth: 1)
 		)
 	}
 }

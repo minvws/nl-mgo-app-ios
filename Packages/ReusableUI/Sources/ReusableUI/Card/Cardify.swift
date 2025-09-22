@@ -45,12 +45,12 @@ extension View {
 	/// Make the view look like a card
 	/// - Parameters:
 	///   - padding: The general padding around the card (defaults to 16px)
-	///   - lineColor: The color for the outside border line (defaults to theme.borderPrimary)
+	///   - lineColor: The color for the outside border line (defaults to theme.separators.primary)
 	///   - setBackground: True if we should apply the background color (default to true)
 	/// - Returns: card like view.
 	public func cardify(
 		padding: CGFloat = 16,
-		lineColor: Color = Theme().borderPrimary,
+		lineColor: Color = Theme().separators.primary,
 		setBackground: Bool = true
 	) -> some View {
 		modifier(Cardify(padding: padding, lineColor: lineColor, setBackground: setBackground))

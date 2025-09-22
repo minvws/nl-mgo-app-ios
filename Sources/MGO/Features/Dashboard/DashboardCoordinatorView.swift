@@ -104,9 +104,9 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				.foregroundColor: UIColor(theme.rijksLint),
 				.paragraphStyle: NSParagraphStyle.default
 			]
-			appearance.normal.iconColor = UIColor(theme.symbolPrimary)
+			appearance.normal.iconColor = UIColor(theme.symbols.primary)
 			appearance.normal.titleTextAttributes = [
-				.foregroundColor: UIColor(theme.symbolPrimary),
+				.foregroundColor: UIColor(theme.symbols.primary),
 				.paragraphStyle: NSParagraphStyle.default
 			]
 		}

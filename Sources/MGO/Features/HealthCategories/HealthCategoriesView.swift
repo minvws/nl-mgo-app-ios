@@ -623,7 +623,7 @@ struct HealthCategoriesView: View {
 			RoundedRectangle(cornerRadius: ViewTraits.Favorites.cornerRadius)
 				.inset(by: ViewTraits.Favorites.inset)
 				.stroke(
-					theme.borderPrimary,
+					theme.separators.primary,
 					style: ViewTraits.Favorites.style
 				)
 		)
@@ -689,7 +689,7 @@ struct HealthCategoriesView: View {
 #if compiler(>=6.2)
 					if #available(iOS 26.0, *) {
 						Image(ImageResource.Icon.more26)
-							.foregroundStyle(theme.symbolPrimary)
+							.foregroundStyle(theme.symbols.primary)
 					} else {
 						Image(ImageResource.Icon.more)
 					}

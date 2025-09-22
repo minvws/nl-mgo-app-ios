@@ -263,7 +263,7 @@ struct HealthUISchemaView: View {
 				view
 				Divider()
 					.frame(height: ViewTraits.Divider.height)
-					.overlay(theme.borderPrimary)
+					.overlay(theme.separators.primary)
 					.padding(.leading, ViewTraits.Row.padding)
 			}
 		}
@@ -292,7 +292,7 @@ struct HealthUISchemaView: View {
 				view
 				Divider()
 					.frame(height: ViewTraits.Divider.height)
-					.overlay(theme.borderPrimary)
+					.overlay(theme.separators.primary)
 					.padding(.leading, ViewTraits.Row.padding)
 			}
 		}
@@ -329,7 +329,7 @@ struct HealthUISchemaView: View {
 				Spacer()
 				
 				Image(ImageResource.Overview.chevronRight)
-					.foregroundStyle(theme.symbolPrimary)
+					.foregroundStyle(theme.symbols.primary)
 					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
 					.accessibilityHidden(true)
 			}
@@ -340,7 +340,7 @@ struct HealthUISchemaView: View {
 		if showDivider {
 			Divider()
 				.frame(height: ViewTraits.Divider.height)
-				.overlay(theme.borderPrimary)
+				.overlay(theme.separators.primary)
 				.padding(.leading, ViewTraits.Row.padding)
 		}
 	}
@@ -390,7 +390,7 @@ struct HealthUISchemaView: View {
 				Spacer()
 				
 				Image(ImageResource.Overview.chevronRight)
-					.foregroundStyle(theme.symbolPrimary)
+					.foregroundStyle(theme.symbols.primary)
 					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
 					.accessibilityHidden(true)
 			}
@@ -401,7 +401,7 @@ struct HealthUISchemaView: View {
 		if showDivider {
 			Divider()
 				.frame(height: ViewTraits.Divider.height)
-				.overlay(theme.borderPrimary)
+				.overlay(theme.separators.primary)
 				.padding(.leading, ViewTraits.Row.padding)
 		}
 	}

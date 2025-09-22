@@ -108,7 +108,7 @@ struct OrganizationListCardView: View {
 					Image(ImageResource.Localisation.Icon.checked)
 				} else {
 					Image(ImageResource.Localisation.Icon.circle)
-						.foregroundStyle(theme.symbolPrimary)
+						.foregroundStyle(theme.symbols.primary)
 				}
 			}
 		}

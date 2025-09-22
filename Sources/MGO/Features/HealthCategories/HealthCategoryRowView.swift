@@ -69,14 +69,14 @@ struct HealthCategoryRowView: View {
 				switch state {
 					case .loaded:
 						Image(systemName: "chevron.right")
-							.foregroundStyle(theme.symbolSecondary)
+							.foregroundStyle(theme.symbols.secondary)
 							.frame(width: 12, height: 22)
 					
 					case .loading:
 						ProgressView()
 							.progressViewStyle(.circular)
 							.frame(width: ViewTraits.Spinner.size, height: ViewTraits.Spinner.size)
-							.tint(theme.symbolSecondary)
+							.tint(theme.symbols.secondary)
 					
 					default:
 						EmptyView()
