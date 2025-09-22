@@ -61,7 +61,7 @@ struct PinCodeBoxView: View {
 		if state == .error {
 			return theme.states.critical
 		} else {
-			return theme.interactionTertiaryDefaultText
+			return theme.actions.tertiary.text
 		}
 	}
 	
@@ -70,7 +70,7 @@ struct PinCodeBoxView: View {
 			case .empty, .focus:
 				.clear
 			case .filling, .filled:
-				theme.interactionTertiaryDefaultText
+				theme.actions.tertiary.text
 			case .error:
 				theme.states.critical
 		}

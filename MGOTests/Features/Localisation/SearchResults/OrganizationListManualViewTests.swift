@@ -29,7 +29,10 @@ final class OrganizationListManualViewTests: XCTestCase {
 		)
 	}
 	
-	@MainActor private func createSut(city: String = "Roermond", name: String = "Tandarts Tandje Erbij") {
+	@MainActor private func createSut(
+		city: String = "Roermond",
+		name: String = "Tandarts Tandje Erbij"
+	) {
 		
 		viewModel = OrganizationListManualViewModel(
 			coordinator: coordinatorSpy,

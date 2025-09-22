@@ -209,7 +209,7 @@ struct AboutOpenSourceLibrariesView: View {
 				
 				Text(library.name)
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.interactionTertiaryDefaultText)
+					.foregroundStyle(theme.actions.tertiary.text)
 					 
 					 Spacer()
 					 

@@ -58,7 +58,7 @@ struct DashboardCoordinatorView<T: DashboardCoordinatorProtocol>: View {
 				}
 				.tag(DashboardTab.settings.rawValue)
 			}
-			.tint(theme.interactionTertiaryDefaultText)
+			.tint(theme.actions.tertiary.text)
 		}
 		.onAppear(perform: {
 			styleStandardAppearance()

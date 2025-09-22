@@ -29,8 +29,8 @@ struct ButtonWithIconStyle: ButtonStyle {
 		
 		configuration.label
 			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundColor(theme.interactionTertiaryDefaultText)
-			.tint(configuration.isPressed ? theme.interactionTertiaryDefaultText.opacity(0.50) : theme.interactionTertiaryDefaultText)
+			.foregroundColor(theme.actions.tertiary.text)
+			.tint(configuration.isPressed ? theme.actions.tertiary.text.opacity(0.50) : theme.actions.tertiary.text)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
 			.background(configuration.isPressed ? theme.backgrounds.tertiary : theme.backgrounds.secondary)

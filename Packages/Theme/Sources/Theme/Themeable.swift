@@ -98,11 +98,6 @@ public protocol Themeable: ObservableObject {
 
 	var actions: Colors.Actions { get }
 	
-	// MARK: - Action Tertiary Default -
-	
-	var interactionTertiaryDefaultText: Color { get }
-	var interactionTertiaryDefaultTextHover: Color { get }
-	
 	// MARK: - Action Tertiary Critical -
 	
 	var interactionTertiaryCriticalText: Color { get }

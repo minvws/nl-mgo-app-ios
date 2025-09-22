@@ -72,7 +72,7 @@ struct InputField: View {
 				.padding(.horizontal, ViewTraits.Input.horizontalPadding)
 				.padding(.vertical, ViewTraits.Input.verticalPadding)
 				.foregroundStyle(theme.labels.primary)
-				.accentColor(theme.interactionTertiaryDefaultText)
+				.accentColor(theme.actions.tertiary.text)
 				.frame(maxWidth: .infinity, alignment: .leading)
 				.background(theme.backgrounds.secondary)
 				.cornerRadius(ViewTraits.Input.cornerRadius)

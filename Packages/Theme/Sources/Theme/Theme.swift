@@ -77,15 +77,9 @@ public final class Theme: Themeable {
 			hover: Color("actionsTertiaryHover", bundle: .module)
 		)
 	)
-
-	// MARK: - interaction Tertiary Default -
-	
-	@Published public var interactionTertiaryDefaultText: Color = Color("interactionTertiaryDefaultText", bundle: .module)
-	@Published public var interactionTertiaryDefaultTextHover: Color = Color("interactionTertiaryDefaultTextHover", bundle: .module)
 	
 	// MARK: - interaction Tertiary Critical -
 	
 	@Published public var interactionTertiaryCriticalText: Color = Color("interactionTertiaryCriticalText", bundle: .module)
 	@Published public var interactionTertiaryCriticalTextHover: Color = Color("interactionTertiaryCriticalTextHover", bundle: .module)
-
 }
