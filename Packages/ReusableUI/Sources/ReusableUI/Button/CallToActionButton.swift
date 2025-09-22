@@ -32,7 +32,6 @@ public struct CallToActionButton: View {
 		case primary
 		case secondary
 		case tertiary
-		case tertiaryCritical
 		case withIcon
 		case withSpinner
 	}
@@ -113,9 +112,6 @@ public struct CallToActionButton: View {
 		.when(style == .tertiary, transform: { button in
 			button.buttonStyle(TertiaryButtonStyle())
 		})
-		.when(style == .tertiaryCritical, transform: { button in
-			button.buttonStyle(TertiaryCriticalButtonStyle())
-		})
 		.when(style == .withIcon, transform: { button in
 			button.buttonStyle(ButtonWithIconStyle())
 		})
@@ -147,8 +143,6 @@ public struct CallToActionButton: View {
 		CallToActionButton(".secondary", style: .secondary)
 			.padding(16)
 		CallToActionButton(".tertiary", style: .tertiary)
-			.padding(16)
-		CallToActionButton(".tertiaryCritical", style: .tertiaryCritical)
 			.padding(16)
 		CallToActionButton(".withIcon", icon: Image(systemName: "stethoscope"), style: .withIcon)
 			.padding(16)

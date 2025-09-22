@@ -104,22 +104,6 @@ final class HealthCategoriesViewTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0) == Coordination.Action.backButtonPressed
 	}
 	
-	@MainActor func test_removeOrganization() throws {
-		
-		// Given
-		createSut()
-		let content = NavigationView { sut }
-		
-		// When
-		let view = try content.inspect().find(viewWithAccessibilityIdentifier: "organizations.remove_organization")
-		try view.view(CallToActionButton.self).find(button: "organizations.remove_organization").tap()
-		
-		// Then
-		expect(self.coordinatorSpy.invokedHandle) == true
-		let params = try XCTUnwrap(self.coordinatorSpy.invokedHandleParameters?.0)
-		expect(params.identifier) == Coordination.Action.removeHealthcareOrganization.identifier
-	}
-	
 	@MainActor func test_addHealthcareOrganization_noOrganizations() throws {
 		
 		// Given

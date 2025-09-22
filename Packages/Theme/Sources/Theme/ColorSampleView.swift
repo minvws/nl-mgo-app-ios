@@ -10,10 +10,10 @@ struct ColorSampleView: View {
 	let theme = Theme()
 	
 	private struct Texts {
-		static let background = "Background"
+		static let backgrounds = "Backgrounds"
 		static let backgroundHover = "Background Hover"
-		static let border = "Border"
-		static let content = "Content"
+		static let separators = "Separators"
+		static let labels = "Labels"
 		static let critical = "Critical"
 		static let `default` = "Default"
 		static let hover = "Hover"
@@ -23,140 +23,122 @@ struct ColorSampleView: View {
 		static let interactionTertiary = "Interaction Tertiary"
 		static let primary = "Primary"
 		static let secondary = "Secondary"
-		static let sentiment = "Sentiment"
-		static let support = "Support"
-		static let symbol = "Symbol"
+		static let states = "States"
+		static let categories = "Categories"
+		static let symbols = "Symbols"
 		static let text = "Text"
 		static let tertiary = "Tertiary"
+		static let vibrant = "Vibrant"
 	}
 
 	var body: some View {
 		ZStack {
 			
-			theme.backgroundPrimary
+			theme.backgrounds.primary
 			
 			ScrollView {
 				
 				VStack(alignment: .leading) {
 					
-					Text(Texts.background).bold()
+					Text(Texts.backgrounds).bold()
 					
 					HStack {
-						colorSample(theme.backgroundPrimary, text: Texts.primary)
-						colorSample(theme.backgroundSecondary, text: Texts.secondary)
-						colorSample(theme.backgroundTertiary, text: Texts.tertiary)
+						colorSample(theme.backgrounds.primary, text: Texts.primary)
+						colorSample(theme.backgrounds.secondary, text: Texts.secondary)
+						colorSample(theme.backgrounds.tertiary, text: Texts.tertiary)
 					}
 					
-					Text(Texts.content).bold()
+					Text(Texts.labels).bold()
 					
 					HStack {
-						colorSample(theme.contentPrimary, text: Texts.primary)
-						colorSample(theme.contentSecondary, text: Texts.secondary)
-						colorSample(theme.contentInvert, text: Texts.invert)
+						colorSample(theme.labels.primary, text: Texts.primary)
+						colorSample(theme.labels.secondary, text: Texts.secondary)
+						colorSample(theme.labels.invert, text: Texts.invert)
+						colorSample(theme.labels.vibrant, text: Texts.vibrant)
 					}
 					
-					Text(Texts.border).bold()
+					Text(Texts.separators).bold()
 					
 					HStack {
-						colorSample(theme.borderPrimary, text: Texts.primary)
-						colorSample(theme.borderSecondary, text: Texts.secondary)
+						colorSample(theme.separators.primary, text: Texts.primary)
+						colorSample(theme.separators.secondary, text: Texts.secondary)
+						colorSample(theme.separators.invert, text: Texts.invert)
 					}
 					
-					Text(Texts.symbol).bold()
+					Text(Texts.symbols).bold()
 					
 					HStack {
-						colorSample(theme.symbolPrimary, text: Texts.primary)
-						colorSample(theme.symbolSecondary, text: Texts.secondary)
-						colorSample(theme.symbolTertiary, text: Texts.tertiary)
+						colorSample(theme.symbols.primary, text: Texts.primary)
+						colorSample(theme.symbols.secondary, text: Texts.secondary)
+						colorSample(theme.symbols.tertiary, text: Texts.tertiary)
 					}
 					
-					Text(Texts.sentiment).bold()
+					Text(Texts.states).bold()
 
 					HStack {
-						colorSample(theme.sentimentInformation, text: "Information")
-						colorSample(theme.sentimentPositive, text: "Positive")
-						colorSample(theme.sentimentWarning, text: "Warning")
-						colorSample(theme.sentimentCritical, text: "Critical")
+						colorSample(theme.states.informative, text: "Information")
+						colorSample(theme.states.positive, text: "Positive")
+						colorSample(theme.states.warning, text: "Warning")
+						colorSample(theme.states.critical, text: "Critical")
 					}
 					
 					Text(Texts.interactionPrimary).bold()
 					Text(Texts.default)
 					
 					HStack {
-						colorSample(theme.interactionPrimaryDefaultBackground, text: Texts.background)
-						colorSample(theme.interactionPrimaryDefaultBackground.opacity(0.75), text: Texts.backgroundHover)
-						colorSample(theme.interactionPrimaryDefaultText, text: Texts.text)
-					}
-					
-					Text(Texts.critical)
-					
-					HStack {
-						colorSample(theme.interactionPrimaryCriticalBackground, text: Texts.background)
-						colorSample(theme.interactionPrimaryCriticalBackground.opacity(0.75), text: Texts.backgroundHover)
-						colorSample(theme.interactionPrimaryCriticalText, text: Texts.text)
+						colorSample(theme.actions.primary.background, text: Texts.backgrounds)
+						colorSample(theme.actions.primary.background.opacity(0.75), text: Texts.backgroundHover)
+						colorSample(theme.actions.primary.text, text: Texts.text)
 					}
 					
 					Text(Texts.interactionSecondary).bold()
 					Text(Texts.default)
 					
 					HStack {
-						colorSample(theme.interactionSecondaryDefaultBackground, text: Texts.background)
-						colorSample(theme.interactionSecondaryDefaultBackground.opacity(0.75), text: Texts.backgroundHover)
-						colorSample(theme.interactionSecondaryDefaultText, text: Texts.text)
-					}
-					
-					Text(Texts.critical)
-					HStack {
-						colorSample(theme.interactionSecondaryCriticalBackground, text: Texts.background)
-						colorSample(theme.interactionSecondaryCriticalBackground.opacity(0.75), text: Texts.backgroundHover)
-						colorSample(theme.interactionSecondaryCriticalText, text: Texts.text)
+						colorSample(theme.actions.secondary.background, text: Texts.backgrounds)
+						colorSample(theme.actions.secondary.background.opacity(0.75), text: Texts.backgroundHover)
+						colorSample(theme.actions.secondary.text, text: Texts.text)
 					}
 					
 					Text(Texts.interactionTertiary).bold()
 					Text(Texts.default)
 					HStack {
-						colorSample(theme.interactionTertiaryDefaultText, text: Texts.text)
-						colorSample(theme.interactionTertiaryDefaultTextHover, text: Texts.hover)
+						colorSample(theme.actions.tertiary.text, text: Texts.text)
+						colorSample(theme.actions.tertiary.hover, text: Texts.hover)
 					}
 					
-					Text(Texts.critical)
-					HStack {
-						colorSample(theme.interactionTertiaryCriticalText, text: Texts.text)
-						colorSample(theme.interactionTertiaryCriticalTextHover, text: Texts.hover)
-					}
-					
-					Text(Texts.support).bold()
+					Text(Texts.categories).bold()
 					
 					HStack {
-						colorSample(theme.medication, text: "Medication")
-						colorSample(theme.treatment, text: "Treatment")
-						colorSample(theme.contacts, text: "Contacts")
-						colorSample(theme.laboratory, text: "Laboratory")
+						colorSample(theme.categories.medication, text: "Medication")
+						colorSample(theme.categories.treatment, text: "Treatment")
+						colorSample(theme.categories.contacts, text: "Contacts")
+						colorSample(theme.categories.laboratory, text: "Laboratory")
 					}
 					
 					HStack {
-						colorSample(theme.functional, text: "Functional")
-						colorSample(theme.device, text: "Device")
-						colorSample(theme.vitals, text: "Vitals")
-						colorSample(theme.documents, text: "Thuiszorg")
+						colorSample(theme.categories.functional, text: "Functional")
+						colorSample(theme.categories.device, text: "Device")
+						colorSample(theme.categories.vitals, text: "Vitals")
+						colorSample(theme.categories.documents, text: "Thuiszorg")
 					}
 					
 					HStack {
-						colorSample(theme.allergies, text: "Allergies")
-						colorSample(theme.problems, text: "Problems")
-						colorSample(theme.personal, text: "Personal")
-						colorSample(theme.rijksLint, text: "Rijkslint")
+						colorSample(theme.categories.allergies, text: "Allergies")
+						colorSample(theme.categories.problems, text: "Problems")
+						colorSample(theme.categories.personal, text: "Personal")
+						colorSample(theme.categories.rijkslint, text: "Rijkslint")
 					}
 					
 					HStack {
-						colorSample(theme.warning, text: "Warning")
-						colorSample(theme.payer, text: "Payer")
-						colorSample(theme.vaccinations, text: "Vaccinations")
-						colorSample(theme.procedures, text: "Procedures")
+						colorSample(theme.categories.warning, text: "Warning")
+						colorSample(theme.categories.payer, text: "Payer")
+						colorSample(theme.categories.vaccinations, text: "Vaccinations")
+						colorSample(theme.categories.procedures, text: "Procedures")
 					}
 					
 					HStack {
-						colorSample(theme.lifestyle, text: "Lifestyle")
+						colorSample(theme.categories.lifestyle, text: "Lifestyle")
 					}
 				}
 			}

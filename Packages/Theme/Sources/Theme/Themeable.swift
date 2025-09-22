@@ -95,12 +95,7 @@ public protocol Themeable: ObservableObject {
 	var states: Colors.States { get }
 	
 	var categories: Colors.Categories { get }
-
+	
 	var actions: Colors.Actions { get }
-	
-	// MARK: - Action Tertiary Critical -
-	
-	var interactionTertiaryCriticalText: Color { get }
-	var interactionTertiaryCriticalTextHover: Color { get }
 	
 }

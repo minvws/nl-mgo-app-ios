@@ -409,7 +409,7 @@ struct HealthCategoriesView: View {
 			view
 				.navigationBarTitleDisplayMode(.inline)
 		}
-		.when(!viewModel.state.showEmptyView && viewModel.state.canTitleCollapse) { view in
+		.when(!viewModel.state.showEmptyView) { view in
 			view
 				.toolbar(content: toolbarContent)
 		}
@@ -461,12 +461,6 @@ struct HealthCategoriesView: View {
 			}
 			
 			ForEach(viewModel.state.mainCategories) { mainCategoryView($0) }
-			
-			Section { /* Empty section */ }
-			footer: {
-				listFooter()
-			}
-			
 		} // List
 		.backport.scrollContentBackground(.hidden)
 		.listStyle(.insetGrouped)
@@ -632,24 +626,6 @@ struct HealthCategoriesView: View {
 	/// The language key for adding favorite categories
 	let emptyActionKey: LocalizedStringKey = "overview.favorites.empty.action"
 	
-	/// The footer
-	/// - Returns: the footer
-	@ViewBuilder private func listFooter() -> some View {
-		
-		if viewModel.state.showRemoveHealthcareProvider {
-			// Button in footer of an empty section so it is
-			// at the bottom of the list, and without a rounded list background
-			CallToActionButton(
-				"organizations.remove_organization",
-				style: .tertiaryCritical) {
-					viewModel.reduce(.removeHealthcareOrganization)
-				}
-				.accessibilityIdentifier("organizations.remove_organization")
-		} else {
-			Spacer(minLength: ViewTraits.List.bottom)
-		}
-	}
-	
 	/// Create the empty state view
 	/// - Returns: View when the user has no stored healthcare organizations
 	@ViewBuilder private func noHealthcareOrganizationView() -> some View {
@@ -684,7 +660,12 @@ struct HealthCategoriesView: View {
 			content: {
 				
 				Menu {
-					menuFavoritesOption()
+					if viewModel.state.canTitleCollapse {
+						menuFavoritesOption()
+					}
+					if viewModel.state.showRemoveHealthcareProvider {
+						menuRemoveHealthcareOrganizationOption()
+					}
 				} label: {
 #if compiler(>=6.2)
 					if #available(iOS 26.0, *) {
@@ -712,6 +693,18 @@ struct HealthCategoriesView: View {
 		} label: {
 			Label(emptyActionKey, systemImage: "star")
 				.tint(theme.labels.primary)
+		}
+	}
+	
+	/// The remove healthcare organization option
+	/// - Returns: view
+	@ViewBuilder func menuRemoveHealthcareOrganizationOption() -> some View {
+		
+		Button(role: .destructive) {
+			viewModel.reduce(.removeHealthcareOrganization)
+		} label: {
+			Label("organizations.remove_organization", systemImage: "trash")
+				.tint(theme.states.critical)
 		}
 	}
 }
