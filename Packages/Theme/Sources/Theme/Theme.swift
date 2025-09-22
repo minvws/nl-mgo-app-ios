@@ -10,6 +10,74 @@ public final class Theme: Themeable {
 	/// Initlializer
 	public init() { /* Public initializer needed for public access */ }
 	
+	@Published public var backgrounds = Colors.Backgrounds(
+		primary: Color("backgroundsPrimary", bundle: .module),
+		secondary: Color("backgroundsSecondary", bundle: .module),
+		tertiary: Color("backgroundsTertiary", bundle: .module)
+	)
+
+	@Published public var labels = Colors.Labels(
+		primary: Color("labelsPrimary", bundle: .module),
+		secondary: Color("labelsSecondary", bundle: .module),
+		invert: Color("labelsInvert", bundle: .module),
+		vibrant: Color("labelsVibrant", bundle: .module)
+	)
+	
+	@Published public var separators = Colors.Separators(
+		primary: Color("separatorsPrimary", bundle: .main),
+		secondary: Color("separatorsSecondary", bundle: .main),
+		invert: Color("separatorsInvert", bundle: .main)
+	)
+	
+	@Published public var symbols = Colors.Symbols(
+		primary: Color("symbolsPrimary", bundle: .main),
+		secondary: Color("symbolsSecondary", bundle: .main),
+		tertiary: Color("symbolsTertiary", bundle: .main)
+	)
+	
+	@Published public var states = Colors.States(
+		informative: Color("statesInformation", bundle: .module),
+		positive: Color("statesPositive", bundle: .module),
+		warning: Color("statesWarning", bundle: .module),
+		critical: Color("statesCritical", bundle: .module)
+	)
+	
+	@Published public var categories: Colors.Categories = Colors.Categories(
+		rijkslint: Color("categoriesRijkslint", bundle: .module),
+		medication: Color("categoriesMedication", bundle: .module),
+		treatment: Color("categoriesTreatment", bundle: .module),
+		contacts: Color("categoriesContacts", bundle: .module),
+		laboratory: Color("categoriesLaboratory", bundle: .module),
+		functional: Color("categoriesFunctional", bundle: .module),
+		device: Color("categoriesDevice", bundle: .module),
+		vitals: Color("categoriesVitals", bundle: .module),
+		documents: Color("categoriesDocuments", bundle: .module),
+		vaccinations: Color("categoriesVaccinations", bundle: .module),
+		allergies: Color("categoriesAllergies", bundle: .module),
+		problems: Color("categoriesProblems", bundle: .module),
+		personal: Color("categoriesPersonal", bundle: .module),
+		warning: Color("categoriesWarning", bundle: .module),
+		payer: Color("categoriesPayer", bundle: .module),
+		procedures: Color("categoriesProcedures", bundle: .module),
+		lifestyle: Color("categoriesLifestyle", bundle: .module),
+		plan: Color("categoriesPlan", bundle: .module)
+	)
+	
+	@Published public var actions: Colors.Actions = Colors.Actions(
+		primary: Colors.Actions.Primary(
+			background: Color("actionsPrimaryBackground", bundle: .module),
+			text: Color("actionsPrimaryText", bundle: .module)
+		),
+		secondary: Colors.Actions.Secondary(
+			background: Color("actionsSecondaryBackground", bundle: .module),
+			text: Color("actionsSecondaryText", bundle: .module)
+		),
+		tertiary: Colors.Actions.Tertiary(
+			text: Color("actionsTertiaryText", bundle: .module),
+			hover: Color("actionsTertiaryHover", bundle: .module)
+		)
+	)
+	
 	// MARK: - Background -
 	
 	@Published public var backgroundPrimary: Color = Color("backgroundPrimary", bundle: .module)
