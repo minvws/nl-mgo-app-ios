@@ -30,6 +30,7 @@ final class FavoritesViewTests: XCTestCase {
 		
 		// Given
 		createSut()
+		viewModel.state.favorites = []
 		
 		// When
 		let content = NavigationView { sut }
