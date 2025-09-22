@@ -69,7 +69,7 @@ struct FavoriteRowView: View {
 			
 			Text(String(localized: String.LocalizationValue(stringLiteral: category.heading)))
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundColor(theme.contentPrimary)
+				.foregroundColor(theme.labels.primary)
 		}
 		.frame(minHeight: ViewTraits.Category.minHeight)
 		.accessibilityElement(children: .combine)

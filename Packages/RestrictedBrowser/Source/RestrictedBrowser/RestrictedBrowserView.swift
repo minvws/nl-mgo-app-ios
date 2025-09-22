@@ -29,8 +29,8 @@ public struct RestrictedBrowserView: View {
 				.overlay(theme.borderSecondary)
 			
 			WebView(viewModel: viewModel, url: viewModel.url)
-				.background(theme.backgroundPrimary)
-				.backport.toolbarBackground(theme.backgroundSecondary, for: .navigationBar)
+				.background(theme.backgrounds.primary)
+				.backport.toolbarBackground(theme.backgrounds.secondary, for: .navigationBar)
 				.toolbar(
 					content: {
 						ToolbarItemGroup(

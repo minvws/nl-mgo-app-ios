@@ -44,7 +44,7 @@ public struct IPadLayoutViewModifier: ViewModifier {
 						view
 						Spacer(minLength: geometry.size.width * ViewTraits.Gutter.trailing)
 					})
-					.background(theme.backgroundPrimary.ignoresSafeArea())
+					.background(theme.backgrounds.primary.ignoresSafeArea())
 				})
 			})
 	}

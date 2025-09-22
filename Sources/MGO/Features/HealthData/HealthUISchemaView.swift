@@ -74,7 +74,7 @@ struct HealthUISchemaView: View {
 			// A schema group has a section label
 			Text(NSLocalizedString(schemaGroupLabel, comment: ""))
 				.rijksoverheidStyle(font: .bold, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
 		}
@@ -88,7 +88,7 @@ struct HealthUISchemaView: View {
 			}
 		}
 		.frame(maxWidth: .infinity, alignment: .topLeading)
-		.background(theme.backgroundSecondary)
+		.background(theme.backgrounds.secondary)
 		.clipShape(RoundedRectangle(cornerRadius: ViewTraits.List.cornerRadius))
 		.padding(.bottom, ViewTraits.List.bottom)
 	}
@@ -352,7 +352,7 @@ struct HealthUISchemaView: View {
 		
 		SelectableTextView(
 			text: value,
-			textColor: theme.contentPrimary,
+			textColor: theme.labels.primary,
 			font: UIFont(
 				name: RijksoverheidSansWebTextFont.regular.fontName,
 				size: Font.TextStyle.body.pointSize
@@ -484,7 +484,7 @@ struct HealthUISchemaView: View {
 		
 		SelectableTextView(
 			text: heading,
-			textColor: theme.contentSecondary,
+			textColor: theme.labels.secondary,
 			font: UIFont(
 				name: RijksoverheidSansWebTextFont.regular.fontName,
 				size: Font.TextStyle.callout.pointSize

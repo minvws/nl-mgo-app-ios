@@ -33,6 +33,6 @@ struct ButtonWithIconStyle: ButtonStyle {
 			.tint(configuration.isPressed ? theme.interactionTertiaryDefaultText.opacity(0.50) : theme.interactionTertiaryDefaultText)
 			.padding(ViewTraits.ButtonTitle.insets)
 			.frame(maxWidth: .infinity, minHeight: ViewTraits.Button.minimumHeight, alignment: .center)
-			.background(configuration.isPressed ? theme.backgroundTertiary : theme.backgroundSecondary)
+			.background(configuration.isPressed ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
 	}
 }

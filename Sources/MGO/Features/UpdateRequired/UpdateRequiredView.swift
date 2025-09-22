@@ -100,7 +100,7 @@ struct UpdateRequiredView: View {
 				Spacer()
 			}
 			.frame(maxWidth: .infinity, alignment: .topLeading)
-			.foregroundStyle(theme.contentPrimary)
+			.foregroundStyle(theme.labels.primary)
 			.onRotate { newOrientation in
 				
 				// Always show on iPad
@@ -126,7 +126,7 @@ struct UpdateRequiredView: View {
 		.padding(.top, ViewTraits.Navigation.padding)
 		.navigationBarHidden(false)
 		.navigationBarBackButtonHidden()
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.layoutForIPad()
 	}
 }

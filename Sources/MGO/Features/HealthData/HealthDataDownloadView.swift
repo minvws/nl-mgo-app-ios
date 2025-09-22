@@ -252,7 +252,7 @@ struct HealthDataDownloadView: View {
 					}
 					.sheet(isPresented: $viewModel.showPreview) {
 						DocumentPreviewController($viewModel.showPreview, failedToOpen: $failedToOpenPreview, url: documentUrl)
-							.background(theme.backgroundPrimary)
+							.background(theme.backgrounds.primary)
 							.interactiveDismissDisabled(true)
 					}
 					.onChange(of: failedToOpenPreview) { newValue in
@@ -312,7 +312,7 @@ struct HealthDataDownloadView: View {
 			Text(text)
 				.multilineTextAlignment(.center)
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 			
 			if let actionTitle {
 				Button {

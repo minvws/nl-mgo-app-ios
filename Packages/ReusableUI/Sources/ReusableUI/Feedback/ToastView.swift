@@ -46,10 +46,10 @@ public struct ToastView: View {
 	var foregroundColor: Color {
 		switch feedback.type {
 			case .info, .error, .success:
-				theme.backgroundSecondary
+				theme.backgrounds.secondary
 			case .warning:
 			// Different color for orange, white on orange is not accessible.
-				colorScheme == .light ?	theme.contentPrimary : theme.backgroundSecondary
+				colorScheme == .light ?	theme.labels.primary : theme.backgrounds.secondary
 		}
 	}
 	

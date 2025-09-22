@@ -95,7 +95,7 @@ struct PinCodeBoxView: View {
 #Preview {
 	
 	ZStack {
-		Theme().backgroundPrimary
+		Theme().backgrounds.primary
 		HStack(spacing: 12) {
 			PinCodeBoxView(state: .constant(.filled))
 			PinCodeBoxView(state: .constant(.filling))

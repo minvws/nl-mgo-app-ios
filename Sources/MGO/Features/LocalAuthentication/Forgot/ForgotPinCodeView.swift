@@ -92,7 +92,7 @@ struct ForgotPinCodeView: View {
 			
 			bottomView()
 		}
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.alert("forgot_pincode.dialog.heading", isPresented: $viewModel.showDialog) {
 			Button("common.no", role: .cancel) { viewModel.reduce(.cancelDialog) }.accessibilityIdentifier("common.no")
 			Button("common.yes", role: .destructive) { viewModel.reduce(.recreateAccount) }.accessibilityIdentifier("common.yes")

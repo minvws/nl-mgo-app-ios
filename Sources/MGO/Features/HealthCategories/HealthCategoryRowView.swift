@@ -46,19 +46,19 @@ struct HealthCategoryRowView: View {
 				
 				Text(String(localized: String.LocalizationValue(stringLiteral: category.heading)))
 					.rijksoverheidStyle(font: .bold, style: .body)
-					.foregroundColor(theme.contentPrimary)
+					.foregroundColor(theme.labels.primary)
 				
 				if state == .empty {
 					
 					Text("common.no_data")
 						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundColor(theme.contentSecondary)
+						.foregroundColor(theme.labels.secondary)
 					
 				} else {
 					
 					Text(String(localized: String.LocalizationValue(stringLiteral: category.subheading)))
 						.rijksoverheidStyle(font: .regular, style: .body)
-						.foregroundColor(theme.contentSecondary)
+						.foregroundColor(theme.labels.secondary)
 					
 				}
 			}

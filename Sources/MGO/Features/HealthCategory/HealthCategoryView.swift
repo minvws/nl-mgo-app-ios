@@ -481,7 +481,7 @@ struct HealthCategoryView: View {
 		})
 		.navigationBarHidden(false)
 		.navigationTitle(String(localized: viewModel.translations.heading))
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.onAppear {
 			viewModel.reduce(.onAppear)
 		}
@@ -554,7 +554,7 @@ struct HealthCategoryView: View {
 //				.searchable(text: $viewModel.searchText, prompt: viewModel.translations.search)
 		}
 		.rijksoverheidStyle(font: .regular, style: .body)
-		.foregroundColor(theme.contentSecondary)
+		.foregroundColor(theme.labels.secondary)
 		.alert(String(localized: "export_pdf.dialog.heading"), isPresented: $viewModel.showExportAlert) {
 			Button("export_pdf.dialog.create_document") { viewModel.reduce(.exportHealthData) }
 				.keyboardShortcut(.defaultAction)
@@ -578,7 +578,7 @@ struct HealthCategoryView: View {
 		if showHeading {
 			Text(subCategory.heading)
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundColor(theme.contentPrimary)
+				.foregroundColor(theme.labels.primary)
 				.padding(.top, ViewTraits.List.top)
 		}
 		
@@ -634,7 +634,7 @@ struct HealthCategoryView: View {
 			viewModel.reduce(.showExportAlert)
 		} label: {
 			Label("export_pdf.menu.save_pdf", systemImage: "arrow.down.document")
-				.tint(theme.contentPrimary)
+				.tint(theme.labels.primary)
 		}
 	}
 	
@@ -646,7 +646,7 @@ struct HealthCategoryView: View {
 			icon: Image(ImageResource.Woman.womanWithPhoneExclamation),
 			heading: viewModel.translations.noSearchResults,
 			subHeading: "health_category.search_again",
-			subHeadingForegroundColor: theme.contentPrimary
+			subHeadingForegroundColor: theme.labels.primary
 		)
 			.frame(maxWidth: .infinity)
 			.padding(.horizontal, ViewTraits.General.padding)
@@ -661,7 +661,7 @@ struct HealthCategoryView: View {
 			icon: Image(ImageResource.Woman.womanWithPhone),
 			heading: "health_category.empty.heading",
 			subHeading: "health_category.empty.subheading",
-			subHeadingForegroundColor: theme.contentPrimary
+			subHeadingForegroundColor: theme.labels.primary
 		)
 			.frame(maxWidth: .infinity)
 			.padding(.horizontal, ViewTraits.General.padding)

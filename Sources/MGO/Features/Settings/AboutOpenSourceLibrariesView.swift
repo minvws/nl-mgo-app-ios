@@ -166,7 +166,7 @@ struct AboutOpenSourceLibrariesView: View {
 		})
 		.navigationTitle("settings.about_this_app.open_source")
 		.navigationBarTitleDisplayMode(.inline)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	/// Get the header for the list
@@ -175,7 +175,7 @@ struct AboutOpenSourceLibrariesView: View {
 		
 		Text("settings.about_this_app.open_source.subheading")
 			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundStyle(theme.contentPrimary)
+			.foregroundStyle(theme.labels.primary)
 			.textCase(nil)
 			.padding(.top, ViewTraits.Navigation.padding)
 			.when(isIOS16OrOlder) { view in

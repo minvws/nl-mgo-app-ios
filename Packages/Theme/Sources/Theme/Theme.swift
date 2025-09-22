@@ -78,18 +78,6 @@ public final class Theme: Themeable {
 		)
 	)
 	
-	// MARK: - Background -
-	
-	@Published public var backgroundPrimary: Color = Color("backgroundPrimary", bundle: .module)
-	@Published public var backgroundSecondary: Color = Color("backgroundSecondary", bundle: .module)
-	@Published public var backgroundTertiary: Color = Color("backgroundTertiary", bundle: .module)
-	
-	// MARK: - Content -
-	
-	@Published public var contentPrimary: Color = Color("contentPrimary", bundle: .module)
-	@Published public var contentSecondary: Color = Color("contentSecondary", bundle: .module)
-	@Published public var contentInvert: Color = Color("contentInvert", bundle: .module)
-	
 	// MARK: - Border -
 	
 	@Published public var borderPrimary: Color = Color("borderPrimary", bundle: .module)

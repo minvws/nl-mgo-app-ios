@@ -61,7 +61,7 @@ struct InputField: View {
 					text + Text(verbatim: " ") + Text("common.required")
 				})
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.onTapGesture {
 					isFieldFocused.toggle()
@@ -71,10 +71,10 @@ struct InputField: View {
 				.focused($isFieldFocused)
 				.padding(.horizontal, ViewTraits.Input.horizontalPadding)
 				.padding(.vertical, ViewTraits.Input.verticalPadding)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 				.accentColor(theme.interactionTertiaryDefaultText)
 				.frame(maxWidth: .infinity, alignment: .leading)
-				.background(theme.backgroundSecondary)
+				.background(theme.backgrounds.secondary)
 				.cornerRadius(ViewTraits.Input.cornerRadius)
 				.accessibilityIdentifier("input")
 				.overlay(
@@ -146,5 +146,5 @@ struct InputField: View {
 		)
 		.padding(16)
 	}
-	.background(Theme().backgroundPrimary)
+	.background(Theme().backgrounds.primary)
 }

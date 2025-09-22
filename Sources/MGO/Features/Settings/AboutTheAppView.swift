@@ -115,7 +115,7 @@ struct AboutTheAppView: View {
 		.navigationBarHidden(false)
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationTitle("settings.about_this_app.heading")
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 	
 	@ViewBuilder private func header() -> some View {
@@ -136,7 +136,7 @@ struct AboutTheAppView: View {
 			
 			Text("common.app_name")
 				.rijksoverheidStyle(font: .bold, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 				.padding(ViewTraits.General.padding)
 				.accessibilityIdentifier("common.app_name")
 		}

@@ -72,14 +72,14 @@ public struct BannerView: View {
 				
 				Text(feedback.heading)
 					.rijksoverheidStyle(font: .bold, style: .body)
-					.foregroundColor(theme.contentPrimary)
+					.foregroundColor(theme.labels.primary)
 					.accessibilityAddTraits(.isHeader)
 					.accessibilitySortPriority(990)
 					.accessibilityIdentifier("banner.heading")
 				
 				Text(feedback.subheading)
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundColor(theme.contentSecondary)
+					.foregroundColor(theme.labels.secondary)
 					.accessibilitySortPriority(980)
 					.accessibilityIdentifier("banner.subheading")
 				

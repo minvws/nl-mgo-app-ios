@@ -95,6 +95,6 @@ struct InAppBrowserView: View {
 				.buttonStyle(BackButtonStyle())
 				.accessibilityIdentifier("common.close")
 		)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 	}
 }

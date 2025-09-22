@@ -44,13 +44,13 @@ struct ActionCardView: View {
 					Text(title)
 						.rijksoverheidStyle(font: .bold, style: .body)
 						.multilineTextAlignment(.leading)
-						.foregroundColor(theme.contentPrimary)
+						.foregroundColor(theme.labels.primary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 					
 					Text(message)
 						.rijksoverheidStyle(font: .regular, style: .body)
 						.multilineTextAlignment(.leading)
-						.foregroundColor(theme.contentSecondary)
+						.foregroundColor(theme.labels.secondary)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
 				}
 				
@@ -62,7 +62,7 @@ struct ActionCardView: View {
 			}
 			.accessibilityElement(children: .combine)
 			.padding(ViewTraits.General.padding)
-			.background(onHover ? theme.backgroundTertiary : theme.backgroundSecondary)
+			.background(onHover ? theme.backgrounds.tertiary : theme.backgrounds.secondary)
 			
 		}
 		._onButtonGesture { pressed in

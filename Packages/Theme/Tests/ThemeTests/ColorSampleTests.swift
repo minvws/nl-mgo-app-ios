@@ -11,7 +11,7 @@ import MGOTest
 final class ColorSampleTests: XCTestCase {
 	
 	func test_colorSample_lightMode() {
-		
+//		isRecording = true
 		// Given
 		let sut = ColorSampleView()
 		
@@ -26,7 +26,7 @@ final class ColorSampleTests: XCTestCase {
 	}
 	
 	func test_colorSample_darkMode() {
-		
+//		isRecording = true
 		// Given
 		let sut = ColorSampleView()
 		

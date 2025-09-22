@@ -33,9 +33,9 @@ public struct Cardify: ViewModifier {
 		content
 			.padding(padding)
 			.when(setBackground, transform: { view in
-				view.background(theme.backgroundSecondary)
+				view.background(theme.backgrounds.secondary)
 			})
-			.shadow(color: theme.contentPrimary.opacity(0.05), radius: 1, x: 0, y: 1)
+			.shadow(color: theme.labels.primary.opacity(0.05), radius: 1, x: 0, y: 1)
 			.clipShape(RoundedRectangle(cornerRadius: ViewTraits.Card.radius))
 	}
 }

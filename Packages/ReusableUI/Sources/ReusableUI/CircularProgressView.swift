@@ -29,7 +29,7 @@ public struct CircularProgressView: View {
 		ZStack {
 			Circle()
 				.stroke(
-					theme.backgroundTertiary,
+					theme.backgrounds.tertiary,
 					lineWidth: lineWidth
 				)
 			Circle()

@@ -135,7 +135,7 @@ struct FavoritesView: View {
 			Spacer()
 		}
 		.navigationTitle("edit_overview.heading")
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.environment(\.editMode, $editMode)
 		.toolbar(content: leadingToolbarContent)
 		.toolbar(content: trailingToolbarContent)
@@ -219,7 +219,7 @@ struct FavoritesView: View {
 				
 				Text("edit_overview.favorites.empty")
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.contentSecondary)
+					.foregroundStyle(theme.labels.secondary)
 			} else {
 				
 				favoritesListView()
@@ -256,7 +256,7 @@ struct FavoritesView: View {
 		Section {
 			Text(heading)
 				.rijksoverheidStyle(font: .bold, style: .headline)
-				.foregroundColor(theme.contentPrimary)
+				.foregroundColor(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
 		}
@@ -317,7 +317,7 @@ struct FavoritesView: View {
 			
 			Text(String(localized: String.LocalizationValue(stringLiteral: category.heading)))
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundColor(theme.contentPrimary)
+				.foregroundColor(theme.labels.primary)
 			
 		}
 		.frame( maxWidth: .infinity, alignment: .leading)

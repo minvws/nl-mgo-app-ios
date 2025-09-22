@@ -414,7 +414,7 @@ struct HealthCategoriesView: View {
 				.toolbar(content: toolbarContent)
 		}
 		.navigationBarHidden(false)
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.refreshable {
 			viewModel.reduce(.refresh)
 		}
@@ -430,7 +430,7 @@ struct HealthCategoriesView: View {
 		
 		Text(viewModel.state.heading)
 			.rijksoverheidStyle(font: .bold, style: .title)
-			.foregroundColor(theme.contentPrimary)
+			.foregroundColor(theme.labels.primary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityAddTraits(.isHeader)
 			.accessibilityIdentifier("healthcare_organizations.heading")
@@ -443,7 +443,7 @@ struct HealthCategoriesView: View {
 		
 		Text(viewModel.state.subheading)
 			.rijksoverheidStyle(font: .regular, style: .body)
-			.foregroundColor(theme.contentPrimary)
+			.foregroundColor(theme.labels.primary)
 			.frame(maxWidth: .infinity, alignment: .topLeading)
 			.accessibilityIdentifier("overview.subheading")
 	}
@@ -489,7 +489,7 @@ struct HealthCategoriesView: View {
 			Section {
 				Text(String(localized: String.LocalizationValue(stringLiteral: mainCategory.heading)))
 					.rijksoverheidStyle(font: .bold, style: .headline)
-					.foregroundColor(theme.contentPrimary)
+					.foregroundColor(theme.labels.primary)
 					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 			}
@@ -567,7 +567,7 @@ struct HealthCategoriesView: View {
 				ForEach(viewModel.state.favorites) {
 					categoryView($0, asFavorite: true)
 						.padding(ViewTraits.General.padding)
-						.background(theme.backgroundSecondary)
+						.background(theme.backgrounds.secondary)
 						.cornerRadius(ViewTraits.Favorites.cornerRadius)
 				}
 			}
@@ -583,7 +583,7 @@ struct HealthCategoriesView: View {
 		Section {
 			Text("overview.favorites.heading")
 				.rijksoverheidStyle(font: .bold, style: .headline)
-				.foregroundColor(theme.contentPrimary)
+				.foregroundColor(theme.labels.primary)
 				.frame(maxWidth: .infinity, alignment: .topLeading)
 				.accessibilityAddTraits(.isHeader)
 		}
@@ -610,7 +610,7 @@ struct HealthCategoriesView: View {
 			
 			Text("overview.favorites.empty.heading")
 				.rijksoverheidStyle(font: .regular, style: .body)
-				.foregroundStyle(theme.contentPrimary)
+				.foregroundStyle(theme.labels.primary)
 				.padding(.top, 2 * ViewTraits.General.padding)
 			
 			CallToActionButton(emptyActionKey, style: .tertiary) {
@@ -660,7 +660,7 @@ struct HealthCategoriesView: View {
 				icon: Image(ImageResource.Woman.womanWithPhone),
 				heading: "common.no_organizations_heading",
 				subHeading: "common.no_organizations_subheading",
-				subHeadingForegroundColor: theme.contentPrimary
+				subHeadingForegroundColor: theme.labels.primary
 			)
 			.fixedSize(horizontal: false, vertical: true)
 			.padding(.top, ViewTraits.NoResults.top)
@@ -711,7 +711,7 @@ struct HealthCategoriesView: View {
 			viewModel.reduce(.showFavorites)
 		} label: {
 			Label(emptyActionKey, systemImage: "star")
-				.tint(theme.contentPrimary)
+				.tint(theme.labels.primary)
 		}
 	}
 }

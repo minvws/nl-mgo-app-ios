@@ -25,6 +25,6 @@ public struct NavigationDivider: View {
 		Divider()
 			.frame(height: ViewTraits.Divider.height)
 			.frame(maxWidth: .infinity)
-			.overlay(theme.contentPrimary.opacity(ViewTraits.Divider.opacity))
+			.overlay(theme.labels.primary.opacity(ViewTraits.Divider.opacity))
 	}
 }

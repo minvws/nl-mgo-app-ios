@@ -76,7 +76,7 @@ struct PatientFriendlyTermView: View {
 			if let title = viewModel.title {
 				SelectableTextView(
 					text: title,
-					textColor: theme.contentPrimary,
+					textColor: theme.labels.primary,
 					font: UIFont(
 						name: RijksoverheidSansWebTextFont.bold.fontName,
 						size: Font.TextStyle.body.pointSize
@@ -104,7 +104,7 @@ struct PatientFriendlyTermView: View {
 					format: String(localized: "patientfriendlyterms.synonym"),
 					arguments: [synonym]
 				),
-				textColor: theme.contentSecondary,
+				textColor: theme.labels.secondary,
 				font: UIFont(
 					name: RijksoverheidSansWebTextFont.regular.fontName,
 					size: Font.TextStyle.body.pointSize
@@ -119,7 +119,7 @@ struct PatientFriendlyTermView: View {
 		
 		SelectableTextView(
 			text: viewModel.description,
-			textColor: theme.contentPrimary,
+			textColor: theme.labels.primary,
 			font: UIFont(
 				name: RijksoverheidSansWebTextFont.regular.fontName,
 				size: Font.TextStyle.body.pointSize
@@ -141,7 +141,7 @@ struct PatientFriendlyTermView: View {
 			.padding(.horizontal, ViewTraits.General.padding)
 			.padding(.top, ViewTraits.Navigation.padding)
 		}
-		.background(theme.backgroundPrimary.ignoresSafeArea())
+		.background(theme.backgrounds.primary.ignoresSafeArea())
 		.when(isPresentedAsSheet, transform: { view in
 			view
 				.backport.presentationDetents([.medium])

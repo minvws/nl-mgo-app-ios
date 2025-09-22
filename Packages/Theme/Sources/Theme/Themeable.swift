@@ -87,16 +87,10 @@ public protocol Themeable: ObservableObject {
 	// MARK: - Background -
 	
 	var backgrounds: Colors.Backgrounds { get }
-	var backgroundPrimary: Color { get }
-	var backgroundSecondary: Color { get }
-	var backgroundTertiary: Color { get }
 	
 	// MARK: - Labels -
 	
 	var labels: Colors.Labels { get }
-	var contentPrimary: Color { get }
-	var contentSecondary: Color { get }
-	var contentInvert: Color { get }
 	
 	// MARK: - Separators -
 	
