@@ -11,16 +11,13 @@ struct ColorSampleView: View {
 	
 	private struct Texts {
 		static let backgrounds = "Backgrounds"
-		static let backgroundHover = "Background Hover"
 		static let separators = "Separators"
 		static let labels = "Labels"
-		static let critical = "Critical"
-		static let `default` = "Default"
 		static let hover = "Hover"
 		static let invert = "Invert"
-		static let interactionPrimary = "Interaction Primary"
-		static let interactionSecondary = "Interaction Secondary"
-		static let interactionTertiary = "Interaction Tertiary"
+		static let interactionPrimary = "Action Primary"
+		static let interactionSecondary = "Action Secondary"
+		static let interactionTertiary = "Action Tertiary"
 		static let primary = "Primary"
 		static let secondary = "Secondary"
 		static let states = "States"
@@ -83,25 +80,21 @@ struct ColorSampleView: View {
 					}
 					
 					Text(Texts.interactionPrimary).bold()
-					Text(Texts.default)
 					
 					HStack {
 						colorSample(theme.actions.primary.background, text: Texts.backgrounds)
-						colorSample(theme.actions.primary.background.opacity(0.75), text: Texts.backgroundHover)
 						colorSample(theme.actions.primary.text, text: Texts.text)
 					}
 					
 					Text(Texts.interactionSecondary).bold()
-					Text(Texts.default)
 					
 					HStack {
 						colorSample(theme.actions.secondary.background, text: Texts.backgrounds)
-						colorSample(theme.actions.secondary.background.opacity(0.75), text: Texts.backgroundHover)
 						colorSample(theme.actions.secondary.text, text: Texts.text)
 					}
 					
 					Text(Texts.interactionTertiary).bold()
-					Text(Texts.default)
+					
 					HStack {
 						colorSample(theme.actions.tertiary.text, text: Texts.text)
 						colorSample(theme.actions.tertiary.hover, text: Texts.hover)
