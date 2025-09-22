@@ -107,7 +107,7 @@ struct InputField: View {
 					Text(errorMessage)
 						.rijksoverheidStyle(font: .bold, style: .body)
 						.frame(maxWidth: .infinity, alignment: .topLeading)
-						.foregroundStyle(theme.sentimentCritical)
+						.foregroundStyle(theme.states.critical)
 				}
 				.onTapGesture {
 					isFieldFocused.toggle()
@@ -120,7 +120,7 @@ struct InputField: View {
 	private func getBorderColor() -> Color {
 		
 		guard !showError else {
-			return theme.sentimentCritical
+			return theme.states.critical
 		}
 		return isFieldFocused ? theme.interactionPrimaryDefaultText : theme.separators.primary
 	}

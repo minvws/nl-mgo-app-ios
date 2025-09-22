@@ -33,13 +33,13 @@ public struct ToastView: View {
 	var backgroundColor: Color {
 		switch feedback.type {
 			case .info:
-				theme.sentimentInformation
+				theme.states.informative
 			case .warning:
-				theme.sentimentWarning
+				theme.states.warning
 			case .error:
-				theme.sentimentCritical
+				theme.states.critical
 			case .success:
-				theme.sentimentPositive
+				theme.states.positive
 		}
 	}
 	

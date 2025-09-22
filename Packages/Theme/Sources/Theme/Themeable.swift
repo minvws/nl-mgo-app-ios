@@ -92,13 +92,7 @@ public protocol Themeable: ObservableObject {
 	
 	var symbols: Colors.Symbols { get }
 	
-	// MARK: - States -
-	
 	var states: Colors.States { get }
-	var sentimentInformation: Color { get }
-	var sentimentPositive: Color { get }
-	var sentimentWarning: Color { get }
-	var sentimentCritical: Color { get }
 
 	// MARK: - Categories -
 	

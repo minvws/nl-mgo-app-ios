@@ -59,7 +59,7 @@ struct PinCodeBoxView: View {
 	/// The color of the border for the various states
 	var borderColor: Color {
 		if state == .error {
-			return theme.sentimentCritical
+			return theme.states.critical
 		} else {
 			return theme.interactionTertiaryDefaultText
 		}
@@ -72,7 +72,7 @@ struct PinCodeBoxView: View {
 			case .filling, .filled:
 				theme.interactionTertiaryDefaultText
 			case .error:
-				theme.sentimentCritical
+				theme.states.critical
 		}
 	}
 	

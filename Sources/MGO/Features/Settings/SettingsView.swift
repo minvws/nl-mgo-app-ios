@@ -207,7 +207,7 @@ struct SettingsView: View {
 			} label: {
 				Text("settings.reset_app.heading")
 					.rijksoverheidStyle(font: .regular, style: .body)
-					.foregroundStyle(theme.sentimentCritical)
+					.foregroundStyle(theme.states.critical)
 					.frame(
 						maxWidth: .infinity,
 						minHeight: ViewTraits.Button.minimumHeight,

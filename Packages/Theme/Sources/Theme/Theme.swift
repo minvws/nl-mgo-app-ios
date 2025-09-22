@@ -77,19 +77,6 @@ public final class Theme: Themeable {
 			hover: Color("actionsTertiaryHover", bundle: .module)
 		)
 	)
-
-	// MARK: - Symbols -
-	
-	@Published public var symbolPrimary: Color = Color("symbolPrimary", bundle: .module)
-	@Published public var symbolSecondary: Color = Color("symbolSecondary", bundle: .module)
-	@Published public var symbolTertiary: Color = Color("symbolTertiary", bundle: .module)
-	
-	// MARK: - Sentiment -
-	
-	@Published public var sentimentInformation: Color = Color("sentimentInformation", bundle: .module)
-	@Published public var sentimentPositive: Color = Color("sentimentPositive", bundle: .module)
-	@Published public var sentimentWarning: Color = Color("sentimentWarning", bundle: .module)
-	@Published public var sentimentCritical: Color = Color("sentimentCritical", bundle: .module)
 	
 	// MARK: - interaction Primary Default -
 	

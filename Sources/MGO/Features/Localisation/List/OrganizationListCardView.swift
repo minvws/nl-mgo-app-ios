@@ -143,14 +143,14 @@ struct OrganizationListCardView: View {
 						
 						Image(ImageResource.Localisation.Icon.info)
 						Text("add_organization.not_participating")
-							.foregroundStyle(theme.sentimentInformation)
+							.foregroundStyle(theme.states.informative)
 					}
 					if case .selected
 						= state {
 							
 						Image(ImageResource.Localisation.Icon.checkCircle)
 						Text("add_organization.already_added")
-							.foregroundStyle(theme.sentimentPositive)
+							.foregroundStyle(theme.states.positive)
 					}
 				}
 				.rijksoverheidStyle(font: .bold, style: .body)
