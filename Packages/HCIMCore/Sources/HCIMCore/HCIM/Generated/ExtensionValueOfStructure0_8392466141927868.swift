@@ -1,7 +1,7 @@
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
 // To parse the JSON, add this file to your project and do:
 //
-//   let extensionValueOfStructure0717025148705176 = try ExtensionValueOfStructure0_717025148705176(json)
+//   let extensionValueOfStructure08392466141927868 = try ExtensionValueOfStructure0_8392466141927868(json)
 //
 // Hashable or Equatable:
 // The compiler will not be able to synthesize the implementation of Hashable or Equatable
@@ -10,8 +10,8 @@
 
 import Foundation
 
-// MARK: - ExtensionValueOfStructure0_717025148705176
-public struct ExtensionValueOfStructure0_717025148705176: Codable, Hashable, Sendable {
+// MARK: - ExtensionValueOfStructure0_8392466141927868
+public struct ExtensionValueOfStructure0_8392466141927868: Codable, Hashable, Sendable {
     public let ext: Bool
     public let indicator: ExtensionValueOfMgoBoolean?
     public let onlineEditableUntil: ExtensionValueOfMgoDateTime?
@@ -28,11 +28,11 @@ public struct ExtensionValueOfStructure0_717025148705176: Codable, Hashable, Sen
     }
 }
 
-// MARK: ExtensionValueOfStructure0_717025148705176 convenience initializers and mutators
+// MARK: ExtensionValueOfStructure0_8392466141927868 convenience initializers and mutators
 
-public extension ExtensionValueOfStructure0_717025148705176 {
+public extension ExtensionValueOfStructure0_8392466141927868 {
     init(data: Data) throws {
-        self = try newJSONDecoder().decode(ExtensionValueOfStructure0_717025148705176.self, from: data)
+        self = try newJSONDecoder().decode(ExtensionValueOfStructure0_8392466141927868.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -50,8 +50,8 @@ public extension ExtensionValueOfStructure0_717025148705176 {
         ext: Bool? = nil,
         indicator: ExtensionValueOfMgoBoolean?? = nil,
         onlineEditableUntil: ExtensionValueOfMgoDateTime?? = nil
-    ) -> ExtensionValueOfStructure0_717025148705176 {
-        return ExtensionValueOfStructure0_717025148705176(
+    ) -> ExtensionValueOfStructure0_8392466141927868 {
+        return ExtensionValueOfStructure0_8392466141927868(
             ext: ext ?? self.ext,
             indicator: indicator ?? self.indicator,
             onlineEditableUntil: onlineEditableUntil ?? self.onlineEditableUntil
