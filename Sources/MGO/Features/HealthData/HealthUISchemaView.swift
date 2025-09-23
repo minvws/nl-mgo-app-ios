@@ -165,13 +165,12 @@ struct HealthUISchemaView: View {
 	) -> some View {
 		
 		if let display = multipleGroupedValues.display {
-			ForEach(Array(display.enumerated()), id: \.offset) { _, element in
-				viewFor(
-					element,
-					heading: multipleGroupedValues.label,
-					showDivider: !(isLastElement && element == display.last)
-				)
-			}
+			let elements = display.flatMap({ $0 })
+			viewFor(
+				elements,
+				heading: multipleGroupedValues.label,
+				showDivider: !(isLastElement && elements == display.last)
+			)
 		}
 	}
 	
