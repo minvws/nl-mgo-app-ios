@@ -9,6 +9,9 @@ import MGOFoundation
 /// A simple back button consisting of an left chevron and a previous text
 struct BackButton: View {
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	var action: (() -> Void)?
 	
 	/// Magic Numbers
@@ -35,27 +38,42 @@ struct BackButton: View {
 	}
 	
 	var body: some View {
-		Button(
-			action: {
-				action?()
-			},
-			label: {
-				HStack(alignment: .center, spacing: 0) {
-					
-					Image(ImageResource.Icon.backArrow)
-						.resizable()
-						.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
-						.padding(.trailing, ViewTraits.Image.padding)
-					
-					Text(title)
-						.rijksoverheidStyle(font: .regular, style: .body)
+		
+		if osVersionChecker.available(version: .iOS(.v26)) {
+			
+			Button(
+				action: {
+					action?()
+				},
+				label: {
+					Label(title, systemImage: "chevron.backward")
+						.labelStyle(IconOnlyLabelStyle())
 				}
-			}
-		)
-		.accessibilityIdentifier("common.previous")
-		.buttonStyle(BackButtonStyle())
-		.frame(minWidth: ViewTraits.Button.minWidth, maxWidth: .infinity, alignment: .leading)
-		.padding(.leading, -ViewTraits.Image.padding)
+			)
+			.accessibilityIdentifier("common.previous")
+		} else {
+			
+			Button(
+				action: {
+					action?()
+				},
+				label: {
+					HStack(alignment: .center, spacing: 0) {
+						Image(ImageResource.Icon.backArrow)
+							.resizable()
+							.frame(width: ViewTraits.Image.width, height: ViewTraits.Image.height)
+							.padding(.trailing, ViewTraits.Image.padding)
+						
+						Text(title)
+							.rijksoverheidStyle(font: .regular, style: .body)
+					}
+				}
+			)
+			.accessibilityIdentifier("common.previous")
+			.buttonStyle(BackButtonStyle())
+			.frame(minWidth: ViewTraits.Button.minWidth, maxWidth: .infinity, alignment: .leading)
+			.padding(.leading, -ViewTraits.Image.padding)
+		}
 	}
 }
 

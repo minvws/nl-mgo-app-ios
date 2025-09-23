@@ -42,6 +42,8 @@ packages:
     path: ./Packages/NotificationCenter
   Observatory:
     path: ./Packages/Observatory
+  OSVersion:
+    path: ./Packages/OSVersion
   PatientFriendlyTerms:
     path: ./Packages/PatientFriendlyTerms
   PdfExport:
