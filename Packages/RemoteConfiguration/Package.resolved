@@ -1,5 +1,5 @@
 {
-  "originHash" : "901e7fa62bd78f8253a052e87340efba003df80af53b2ab81cb4411e6c0262da",
+  "originHash" : "30801e6db49855c00006f9f525350aeb3b6dd4db64b1f64d6c9ce21d03e70bb0",
   "pins" : [
     {
       "identity" : "appauth-ios",
@@ -114,8 +114,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-http-types",
       "state" : {
-        "revision" : "1ddbea1ee34354a6a2532c60f98501c35ae8edfa",
-        "version" : "1.2.0"
+        "revision" : "a0a57e949a8903563aba4615869310c0ebf14c03",
+        "version" : "1.4.0"
       }
     },
     {
@@ -132,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-openapi-generator",
       "state" : {
-        "revision" : "f876c5af4beef7061f67cc2963232cbe6c7e5310",
-        "version" : "1.10.0"
+        "revision" : "d74223cc5595a8165181c4d9579243c932e5cd07",
+        "version" : "1.10.3"
       }
     },
     {
@@ -159,8 +159,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
       "state" : {
-        "revision" : "37230a37e83f1b7023be08e1b1a2603fcb1567fb",
-        "version" : "1.18.4"
+        "revision" : "d7e40607dcd6bc26543f5d9433103f06e0b28f8f",
+        "version" : "1.18.6"
       }
     },
     {
