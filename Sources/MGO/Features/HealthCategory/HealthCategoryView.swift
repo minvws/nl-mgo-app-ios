@@ -183,8 +183,10 @@ class HealthCategoryViewModel: ObservableObject {
 	@MainActor private func registerObservers() {
 		self.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
-				// Handle updates in the fetched data
-				self?.handleDataStoreChanges()
+				Task { @MainActor in
+					// Handle updates in the fetched data
+					self?.handleDataStoreChanges()
+				}
 			}
 		}
 	}

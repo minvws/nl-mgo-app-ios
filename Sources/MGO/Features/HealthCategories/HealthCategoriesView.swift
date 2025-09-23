@@ -138,18 +138,24 @@ class HealthCategoriesViewModel: ObservableObject {
 	@MainActor private func registerObservers() {
 		self.tokens.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
-				// Handle updates in the fetched data
-				self?.updateState()
+				Task { @MainActor in
+					// Handle updates in the fetched data
+					self?.updateState()
+				}
 			}
 		}
 		
 		self.tokens.healthcareOrganizationStoreToken = healthcareOrganizationRepository.observatory.append { [weak self] _ in
-			// Check if there are any healthcare organizations left.
-			self?.state.showEmptyView = self?.healthcareOrganizationRepository.organizations.isEmpty ?? true
+			Task { @MainActor in
+				// Check if there are any healthcare organizations left.
+				self?.state.showEmptyView = self?.healthcareOrganizationRepository.organizations.isEmpty ?? true
+			}
 		}
 		
 		self.tokens.favoritesStoreToken = favoritesRepository.observatory.append { [weak self] _ in
-			self?.prepareFavorites()
+			Task { @MainActor in
+				self?.prepareFavorites()
+			}
 		}
 	}
 	
@@ -490,7 +496,7 @@ struct HealthCategoriesView: View {
 				Text(String(localized: String.LocalizationValue(stringLiteral: mainCategory.heading)))
 					.rijksoverheidStyle(font: .bold, style: .headline)
 					.foregroundColor(theme.contentPrimary)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
+//					.frame(maxWidth: .infinity, alignment: .topLeading)
 					.accessibilityAddTraits(.isHeader)
 			}
 			.listRowBackground(Color.clear)

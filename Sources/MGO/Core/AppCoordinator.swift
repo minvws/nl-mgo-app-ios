@@ -195,8 +195,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
 	@MainActor private func registerObservers() {
 		
 		// Listen to changes in the remote configuration
-		self.observerToken = remoteConfigurationRepository.observatory.append { @MainActor [weak self] remoteConfiguration in
-			self?.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
+		self.observerToken = remoteConfigurationRepository.observatory.append { [weak self] remoteConfiguration in
+			Task { @MainActor in
+				self?.handleRemoteConfigChanges(remoteConfiguration: remoteConfiguration)
+			}
 		}
 		
 		// Listen for authentication notification
