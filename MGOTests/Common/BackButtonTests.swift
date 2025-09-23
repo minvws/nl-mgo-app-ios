@@ -11,19 +11,10 @@ import SnapshotTesting
 
 final class BackButtonTests: XCTestCase {
 	
-	var osVersionCheckerSpy: OSVersionCheckerSpy!
-	
-	override func setUp() {
-		super.setUp()
-		
-		osVersionCheckerSpy = OSVersionCheckerSpy()
-	}
-	
 	@MainActor func test_layout_iOS18() {
 		
 		// Given
-		Container.shared.osVersionChecker.register { self.osVersionCheckerSpy }
-		osVersionCheckerSpy.stubbedAvailableResult = false
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		
 		// When
 		let sut = BackButton(action: nil).frame(width: 300, height: 50)
@@ -35,8 +26,7 @@ final class BackButtonTests: XCTestCase {
 	@MainActor func test_action_iOS18() throws {
 		
 		// Given
-		Container.shared.osVersionChecker.register { self.osVersionCheckerSpy }
-		osVersionCheckerSpy.stubbedAvailableResult = false
+		Container.shared.osVersionChecker.register { OSVersionCheckerFalse() }
 		var actionTapped = false
 		
 		// When
@@ -50,8 +40,7 @@ final class BackButtonTests: XCTestCase {
 	@MainActor func test_layout_iOS26() {
 		
 		// Given
-		Container.shared.osVersionChecker.register { self.osVersionCheckerSpy }
-		osVersionCheckerSpy.stubbedAvailableResult = true
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		
 		// When
 		let sut = BackButton(action: nil).frame(width: 300, height: 50)
@@ -63,8 +52,7 @@ final class BackButtonTests: XCTestCase {
 	@MainActor func test_action_iOS26() throws {
 		
 		// Given
-		Container.shared.osVersionChecker.register { self.osVersionCheckerSpy }
-		osVersionCheckerSpy.stubbedAvailableResult = true
+		Container.shared.osVersionChecker.register { OSVersionCheckerTrue() }
 		var actionTapped = false
 		
 		// When

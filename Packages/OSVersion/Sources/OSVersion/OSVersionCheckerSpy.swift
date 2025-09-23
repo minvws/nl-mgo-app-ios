@@ -25,3 +25,21 @@ public class OSVersionCheckerSpy: OSVersionProtocol {
 		return stubbedAvailableResult
 	}
 }
+
+public struct OSVersionCheckerTrue: OSVersionProtocol, Sendable {
+	
+	public init() { /* Public initializer for public access */ }
+	
+	public func available(version: OSVersion) -> Bool {
+		return true
+	}
+}
+
+public struct OSVersionCheckerFalse: OSVersionProtocol, Sendable {
+	
+	public init() { /* Public initializer for public access */ }
+	
+	public func available(version: OSVersion) -> Bool {
+		return false
+	}
+}
