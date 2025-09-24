@@ -187,4 +187,39 @@ final class HealthCategoriesViewModelModeAllTests: XCTestCase {
 		expect(self.sut.state.favorites).toEventuallyNot(beEmpty())
 		Container.shared.favoritesRepository().wipePersistedData()
 	}
+	
+	@MainActor func test_observe_healthcareOrganizationRepository() throws {
+	
+		// Given
+		Container.shared.healthcareOrganizationRepository
+			.register { HealthcareOrganizationRepository() }
+		let healthcareOrganizationRepository = Container.shared.healthcareOrganizationRepository()
+		
+		healthcareOrganizationRepository.wipePersistedData()
+		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		expect(self.sut.state.showEmptyView) == true
+		
+		// When
+		try healthcareOrganizationRepository
+			.store(Generator.healthcareOrganization("1"))
+		
+		// Then
+		expect(self.sut.state.showEmptyView).toEventually(beFalse())
+		healthcareOrganizationRepository.wipePersistedData()
+	}
+	
+	@MainActor func test_observe_dataStore() throws {
+		
+		// Given
+		Container.shared.dataStore
+			.register { InMemoryDataStore() }
+		sut = HealthCategoriesViewModel(coordinator: coordinatorSpy, mode: .all)
+		sut.state.buttonState = [:]
+		
+		// When
+		Container.shared.dataStore().observatory.notifyObservers(newValue: true)
+		
+		// Then
+		expect(self.sut.state.buttonState).toEventuallyNot(beEmpty())
+	}
 }
