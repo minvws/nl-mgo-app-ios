@@ -37,6 +37,32 @@ final class AppCoordinatorTests: XCTestCase {
 		)
 	}
 	
+	// MARK: - Observe -
+	
+	@MainActor func test_observe_remoteConfig() throws {
+		
+		// Given
+		Container.shared.remoteConfigurationRepository.register {
+			RemoteConfigurationRepository(
+				apiClient: RemoteConfigurationClient(
+					serverUrl: Configuration().urlForRemoteConfiguration()
+				)
+			)
+		}
+		setupSut()
+		servicesSpies.appVersionSupplierSpy.stubbedGetCurrentVersionResult = "1.0.0"
+		let remoteConfig = RemoteConfig(iosMinimumVersion: "1.0.1")
+		
+		// When
+		Container.shared.remoteConfigurationRepository()
+			.observatory.notifyObservers(newValue: remoteConfig)
+		
+		// Then
+		expect(self.sut.rootState)
+			.toEventually(equal(AppCoordination.State.updateRequired))
+		expect(self.sut.path.isEmpty) == true
+	}
+	
 	// MARK: - Handle -
 	
 	@MainActor func test_coordinatorHandle_actionFinishedSplash_appIntroductionNotSeen_pathShouldContainAppIntroduction() {
@@ -572,7 +598,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	@MainActor func test_handleRemoteConfigChanges_shouldUpdate() {
+	@MainActor func test_handleRemoteConfigChanges_shouldContinue() {
 		
 		// Given
 		setupSut()
@@ -587,7 +613,7 @@ final class AppCoordinatorTests: XCTestCase {
 		expect(self.sut.path.isEmpty) == true
 	}
 	
-	@MainActor func test_handleRemoteConfigChanges_shouldContinue() {
+	@MainActor func test_handleRemoteConfigChanges_shouldUpdate() {
 		
 		// Given
 		setupSut()

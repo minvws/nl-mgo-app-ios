@@ -54,9 +54,7 @@ nonisolated public class Observatory<T> {
 		observers = [:]
 	}
 	
-	// MARK: - Private functions
-	
-	private func notifyObservers(newValue: T) {
+	public func notifyObservers(newValue: T) {
 		
 		observers.values.forEach { callback in
 			callback(newValue)
