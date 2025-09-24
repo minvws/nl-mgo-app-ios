@@ -39,6 +39,8 @@ struct BackButton: View {
 	
 	var body: some View {
 		
+		let identifier: String = "common.previous"
+		
 		if osVersionChecker.available(version: .iOS(.v26)) {
 			
 			Button(
@@ -50,7 +52,7 @@ struct BackButton: View {
 						.labelStyle(IconOnlyLabelStyle())
 				}
 			)
-			.accessibilityIdentifier("common.previous")
+			.accessibilityIdentifier(identifier)
 		} else {
 			
 			Button(
@@ -69,7 +71,7 @@ struct BackButton: View {
 					}
 				}
 			)
-			.accessibilityIdentifier("common.previous")
+			.accessibilityIdentifier(identifier)
 			.buttonStyle(BackButtonStyle())
 			.frame(minWidth: ViewTraits.Button.minWidth, maxWidth: .infinity, alignment: .leading)
 			.padding(.leading, -ViewTraits.Image.padding)
