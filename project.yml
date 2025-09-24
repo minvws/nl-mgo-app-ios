@@ -443,6 +443,9 @@ schemes:
         - package: Observatory/ObservatoryTests
           randomExecutionOrder: true
           parallelizable: false
+        - package: OSVersion/OSVersionTests
+          randomExecutionOrder: true
+          parallelizable: false
         - package: PatientFriendlyTerms/PatientFriendlyTermsTests
           randomExecutionOrder: true
           parallelizable: false

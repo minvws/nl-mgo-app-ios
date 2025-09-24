@@ -15,6 +15,12 @@ let package = Package(
 	targets: [
 		.target(
 			name: "OSVersion"
-		)
+		),
+		.testTarget(
+			name: "OSVersionTests",
+			dependencies: [
+				"OSVersion"
+			]
+		),
 	]
 )
