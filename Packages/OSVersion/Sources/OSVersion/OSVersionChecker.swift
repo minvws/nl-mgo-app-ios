@@ -10,7 +10,7 @@ public protocol OSVersionProtocol {
 	func available(version: OSVersion) -> Bool
 }
 
-public class OSVersionChecker: OSVersionProtocol {
+nonisolated public class OSVersionChecker: OSVersionProtocol {
 	
 	/// Create an instance of the OS Version Checker
 	public init() {

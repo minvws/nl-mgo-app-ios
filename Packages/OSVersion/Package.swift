@@ -14,7 +14,10 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "OSVersion"
+			name: "OSVersion",
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency")
+			]
 		),
 		.testTarget(
 			name: "OSVersionTests",
