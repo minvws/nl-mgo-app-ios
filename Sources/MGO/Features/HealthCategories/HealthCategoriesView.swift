@@ -352,6 +352,9 @@ struct HealthCategoriesView: View {
 	
 	@State private var contentSize: CGSize = .zero
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -692,16 +695,12 @@ struct HealthCategoriesView: View {
 				Menu {
 					menuFavoritesOption()
 				} label: {
-#if compiler(>=6.2)
-					if #available(iOS 26.0, *) {
+					if osVersionChecker.available(version: .iOS(.v26)) {
 						Image(ImageResource.Icon.more26)
 							.foregroundStyle(theme.symbolPrimary)
 					} else {
 						Image(ImageResource.Icon.more)
 					}
-#else
-					Image(ImageResource.Icon.more)
-#endif
 				}
 				.buttonStyle(ToolbarButtonStyle())
 				.accessibilityLabel("overview.menu")
