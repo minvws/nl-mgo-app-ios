@@ -55,6 +55,7 @@ final class FavoritesViewModelTests: XCTestCase {
 		// Given
 		let category = Generator.healthCategory
 		createSut()
+		sut.state.favorites = []
 		
 		// When
 		sut.reduce(.addButtonPressed(category))
