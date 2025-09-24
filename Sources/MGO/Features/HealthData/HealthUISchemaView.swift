@@ -165,13 +165,12 @@ struct HealthUISchemaView: View {
 	) -> some View {
 		
 		if let display = multipleGroupedValues.display {
-			ForEach(Array(display.enumerated()), id: \.offset) { _, element in
-				viewFor(
-					element,
-					heading: multipleGroupedValues.label,
-					showDivider: !(isLastElement && element == display.last)
-				)
-			}
+			let elements = display.flatMap({ $0 })
+			viewFor(
+				elements,
+				heading: multipleGroupedValues.label,
+				showDivider: !(isLastElement && elements == display.last)
+			)
 		}
 	}
 	
@@ -193,8 +192,7 @@ struct HealthUISchemaView: View {
 				viewFor(
 					referenceLink.label,
 					heading: nil,
-					showDivider: !isLastElement,
-					showChevron: true
+					showDivider: !isLastElement
 				)
 			}
 			.buttonStyle(HoverButtonStyle())
@@ -224,8 +222,7 @@ struct HealthUISchemaView: View {
 				viewFor(
 					referenceValue.display ?? referenceValue.reference,
 					heading: referenceValue.label,
-					showDivider: !isLastElement,
-					showChevron: true
+					showDivider: !isLastElement
 				)
 			}
 			.buttonStyle(HoverButtonStyle())
@@ -303,13 +300,11 @@ struct HealthUISchemaView: View {
 	///   - value: the value to display
 	///   - heading: the heading to display
 	///   - showDivider: True if we should show a divider at the bottom
-	///   - showChevron: True if we should show a chevron at the right side
 	/// - Returns: Row View
 	@ViewBuilder private func viewFor(
 		_ value: String?,
 		heading: String?,
-		showDivider: Bool = true,
-		showChevron: Bool = false
+		showDivider: Bool = true
 	) -> some View {
 		
 		HStack(alignment: .center, spacing: 0) {
@@ -320,19 +315,19 @@ struct HealthUISchemaView: View {
 					viewFor(heading, accessibilityIdentifier: heading)
 				}
 				let text = Sanitizer.strip(value) ?? unknown
-				selectableTextView(text)
+				Text(text)
 					.accessibilityIdentifier(text)
 			}
 			
-			if showChevron {
-				
-				Spacer()
-				
-				Image(ImageResource.Overview.chevronRight)
-					.foregroundStyle(theme.symbolPrimary)
-					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
-					.accessibilityHidden(true)
-			}
+			Spacer()
+			
+			Image(ImageResource.Overview.chevronRight)
+				.foregroundStyle(theme.symbolPrimary)
+				.frame(width: ViewTraits.Chevron.size,
+					   height: ViewTraits.Chevron.size,
+					   alignment: .center
+				)
+				.accessibilityHidden(true)
 		}
 		.padding(ViewTraits.Row.padding)
 		.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -365,13 +360,11 @@ struct HealthUISchemaView: View {
 	///   - value: the value to display
 	///   - heading: the heading to display
 	///   - showDivider: True if we should show a divider at the bottom
-	///   - showChevron: True if we should show a chevron at the right side
 	/// - Returns: Row View
 	@ViewBuilder private func viewFor(
 		_ values: [SingleValueDisplay],
 		heading: String?,
-		showDivider: Bool = true,
-		showChevron: Bool = false
+		showDivider: Bool = true
 	) -> some View {
 		
 		HStack(alignment: .center, spacing: 0) {
@@ -383,16 +376,6 @@ struct HealthUISchemaView: View {
 				}
 				
 				viewFor(values)
-			}
-			
-			if showChevron {
-				
-				Spacer()
-				
-				Image(ImageResource.Overview.chevronRight)
-					.foregroundStyle(theme.symbolPrimary)
-					.frame(width: ViewTraits.Chevron.size, height: ViewTraits.Chevron.size, alignment: .center)
-					.accessibilityHidden(true)
 			}
 		}
 		.padding(ViewTraits.Row.padding)

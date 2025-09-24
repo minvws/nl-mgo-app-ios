@@ -84,6 +84,14 @@ extension Container {
 		.singleton
 	}
 	
+	/// The os Version Checker
+	var osVersionChecker: Factory<OSVersionProtocol> {
+		Factory(self) {
+			OSVersionChecker()
+		}
+		.shared
+	}
+	
 	/// The remote configuration repository
 	var remoteConfigurationRepository: Factory<RemoteConfigurationRepositoryProtocol> {
 		Factory(self) {

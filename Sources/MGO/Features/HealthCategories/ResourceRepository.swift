@@ -100,7 +100,9 @@ class ResourceRepository: ResourceRepositoryProtocol {
 	@MainActor private func registerObservers() {
 		
 		self.observerToken = healthcareOrganizationRepository?.observatory.append { [weak self] organization, reason in
-			self?.handleOrganizationChanges(organization, reason: reason)
+			Task { @MainActor in
+				self?.handleOrganizationChanges(organization, reason: reason)
+			}
 		}
 	}
 	

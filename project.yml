@@ -42,6 +42,8 @@ packages:
     path: ./Packages/NotificationCenter
   Observatory:
     path: ./Packages/Observatory
+  OSVersion:
+    path: ./Packages/OSVersion
   PatientFriendlyTerms:
     path: ./Packages/PatientFriendlyTerms
   PdfExport:
@@ -439,6 +441,9 @@ schemes:
           parallelizable: false
           randomExecutionOrder: true
         - package: Observatory/ObservatoryTests
+          randomExecutionOrder: true
+          parallelizable: false
+        - package: OSVersion/OSVersionTests
           randomExecutionOrder: true
           parallelizable: false
         - package: PatientFriendlyTerms/PatientFriendlyTermsTests

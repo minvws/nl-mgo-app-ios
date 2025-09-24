@@ -183,8 +183,10 @@ class HealthCategoryViewModel: ObservableObject {
 	@MainActor private func registerObservers() {
 		self.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
-				// Handle updates in the fetched data
-				self?.handleDataStoreChanges()
+				Task { @MainActor in
+					// Handle updates in the fetched data
+					self?.handleDataStoreChanges()
+				}
 			}
 		}
 	}
@@ -413,6 +415,9 @@ struct HealthCategoryView: View {
 	
 	@State private var showBanner = true
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -613,12 +618,16 @@ struct HealthCategoryView: View {
 		ToolbarItemGroup(
 			placement: .topBarTrailing,
 			content: {
-				Spacer()
 				
 				Menu {
 					menuExportPDFOption()
 				} label: {
-					Image(ImageResource.Icon.more)
+					if osVersionChecker.available(version: .iOS(.v26)) {
+						Image(ImageResource.Icon.more26)
+							.foregroundStyle(theme.symbolPrimary)
+					} else {
+						Image(ImageResource.Icon.more)
+					}
 				}
 				.buttonStyle(ToolbarButtonStyle())
 				.accessibilityLabel("export_pdf.menu")

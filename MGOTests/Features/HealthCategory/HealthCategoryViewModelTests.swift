@@ -440,4 +440,19 @@ final class HealthCategoryViewModelTests: XCTestCase {
 		expect(self.coordinatorSpy.invokedHandleParameters?.0.identifier) == Coordination.Action.exportHealthData.identifier
 		expect(self.coordinatorSpy.invokedHandleParameters?.0.params) != nil
 	}
+	
+	@MainActor func test_observe_dataStore() throws {
+		
+		// Given
+		Container.shared.dataStore
+			.register { InMemoryDataStore() }
+		try setupSut(organization: healthcareOrganization)
+		expect(self.sut.state) == .loading
+		
+		// When
+		Container.shared.dataStore().observatory.notifyObservers(newValue: true)
+		
+		// Then
+		expect(self.sut.state).toEventuallyNot(equal(.loading))
+	}
 }

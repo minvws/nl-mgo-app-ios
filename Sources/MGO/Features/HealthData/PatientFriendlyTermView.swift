@@ -65,7 +65,8 @@ struct PatientFriendlyTermView: View {
 		}
 		enum General {
 			static let padding: CGFloat = 16
-			static let spacing: CGFloat = 12
+			static let spacing: CGFloat = 4
+			static let synonymBottomPadding: CGFloat = 8
 		}
 	}
 	
@@ -75,11 +76,11 @@ struct PatientFriendlyTermView: View {
 		HStack(alignment: .top, spacing: 0) {
 			if let title = viewModel.title {
 				SelectableTextView(
-					text: title,
+					text: title.capitalizingFirstLetter(),
 					textColor: theme.contentPrimary,
 					font: UIFont(
 						name: RijksoverheidSansWebTextFont.bold.fontName,
-						size: Font.TextStyle.body.pointSize
+						size: Font.TextStyle.headline.pointSize
 					)
 				)
 				.accessibilityAddTraits(.isHeader)
@@ -135,6 +136,7 @@ struct PatientFriendlyTermView: View {
 				
 				header()
 				synonym()
+					.padding(.bottom, ViewTraits.General.synonymBottomPadding)
 				description()
 				Spacer()
 			}
