@@ -59,7 +59,7 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// When
-		sut.viewModel.state = .list(items: [])
+		viewModel.state = .list(items: [])
 		
 		// Then
 		takeSnapShots(content: content)
@@ -72,7 +72,7 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// When
-		sut.viewModel.state = .partial(items: [])
+		viewModel.state = .partial(items: [])
 		
 		// Then
 		takeSnapShots(content: content)
@@ -85,7 +85,7 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 		let content = NavigationView { sut }
 		
 		// When
-		sut.viewModel.state = .list(items: [item])
+		viewModel.state = .list(items: [item])
 		
 		// Then
 		takeSnapShots(content: content)
@@ -96,7 +96,7 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 		// Given
 		try createSut()
 		let content = NavigationView { sut }
-		sut.viewModel.state = .list(items: [item])
+		viewModel.state = .list(items: [item])
 		
 		// When
 		viewModel.searchText = "MGO"
@@ -110,7 +110,7 @@ final class DocumentsHealthCategoryViewTests: XCTestCase {
 		// Given
 		try createSut()
 		let content = NavigationView { sut }
-		sut.viewModel.state = .list(items: [item])
+		viewModel.state = .list(items: [item])
 		
 		// When
 		viewModel.searchText = "health"
