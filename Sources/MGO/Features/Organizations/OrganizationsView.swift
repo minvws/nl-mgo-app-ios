@@ -56,7 +56,9 @@ class OrganizationsViewModel: ObservableObject {
 	@MainActor private func registerObservers() {
 		
 		self.observerToken = healthcareOrganizationRepository.observatory.append { [weak self] _, reason in
-			self?.handleOrganizationChanges(reason)
+			Task { @MainActor in
+				self?.handleOrganizationChanges(reason)
+			}
 		}
 	}
 	

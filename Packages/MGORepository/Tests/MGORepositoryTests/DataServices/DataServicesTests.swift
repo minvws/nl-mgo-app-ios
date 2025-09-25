@@ -197,7 +197,7 @@ class DataServicesTests {
 		#expect(dataService.id == "48")
 		#expect(dataService.name == "Common Clinical Dataset (demo)")
 		#expect(dataService.fhirVersion == .r3)
-		#expect(dataService.endpoints.count == 2)
+		#expect(dataService.endpoints.count == 3)
 		
 		#expect(dataService.endpoints[0].id == "medicationUse")
 		#expect(dataService.endpoints[0].getUrl() == "/MedicationStatement?category=urn:oid:2.16.840.1.113883.2.4.3.11.60.20.77.5.3|6&_include=MedicationStatement:medication")
@@ -208,6 +208,11 @@ class DataServicesTests {
 		#expect(dataService.endpoints[1].getUrl() == "/Observation/$lastn?category=http://snomed.info/sct|275711006&_include=Observation:related-target&_include=Observation:specimen")
 		#expect(dataService.endpoints[1].profiles.count == 1)
 		#expect(dataService.endpoints[1].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-LaboratoryTestResult-Observation")
+		
+		#expect(dataService.endpoints[2].id == "problem")
+		#expect(dataService.endpoints[2].getUrl() == "/Condition")
+		#expect(dataService.endpoints[2].profiles.count == 1)
+		#expect(dataService.endpoints[2].profiles.first == "http://nictiz.nl/fhir/StructureDefinition/zib-Problem")
 	}
 	
 	@Test func generalPractitioner_isDemo() async throws {

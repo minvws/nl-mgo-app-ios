@@ -87,7 +87,7 @@ final class HealthCategoriesViewTests: XCTestCase {
 		
 		// Then
 		takeSnapShots(content: content, precision: 0.95)
-		try Container.shared.favoritesRepository().wipePersistedData()
+		Container.shared.favoritesRepository().wipePersistedData()
 	}
 	
 	@MainActor func test_backbuttonPressed() throws {

@@ -138,18 +138,24 @@ class HealthCategoriesViewModel: ObservableObject {
 	@MainActor private func registerObservers() {
 		self.tokens.dataStoreToken = dataStore.observatory.append { [weak self] changed in
 			if changed {
-				// Handle updates in the fetched data
-				self?.updateState()
+				Task { @MainActor in
+					// Handle updates in the fetched data
+					self?.updateState()
+				}
 			}
 		}
 		
 		self.tokens.healthcareOrganizationStoreToken = healthcareOrganizationRepository.observatory.append { [weak self] _ in
-			// Check if there are any healthcare organizations left.
-			self?.state.showEmptyView = self?.healthcareOrganizationRepository.organizations.isEmpty ?? true
+			Task { @MainActor in
+				// Check if there are any healthcare organizations left.
+				self?.state.showEmptyView = self?.healthcareOrganizationRepository.organizations.isEmpty ?? true
+			}
 		}
 		
 		self.tokens.favoritesStoreToken = favoritesRepository.observatory.append { [weak self] _ in
-			self?.prepareFavorites()
+			Task { @MainActor in
+				self?.prepareFavorites()
+			}
 		}
 	}
 	
@@ -346,6 +352,9 @@ struct HealthCategoriesView: View {
 	
 	@State private var contentSize: CGSize = .zero
 	
+	/// Dependency injectable OS Version Checker
+	@Injected(\.osVersionChecker) private var osVersionChecker
+	
 	/// Magic Numbers
 	private struct ViewTraits {
 		enum Navigation {
@@ -483,8 +492,7 @@ struct HealthCategoriesView: View {
 			Section {
 				Text(String(localized: String.LocalizationValue(stringLiteral: mainCategory.heading)))
 					.rijksoverheidStyle(font: .bold, style: .headline)
-					.foregroundColor(theme.labels.primary)
-					.frame(maxWidth: .infinity, alignment: .topLeading)
+					.foregroundColor(theme.contentPrimary)
 					.accessibilityAddTraits(.isHeader)
 			}
 			.listRowBackground(Color.clear)
@@ -667,16 +675,12 @@ struct HealthCategoriesView: View {
 						menuRemoveHealthcareOrganizationOption()
 					}
 				} label: {
-#if compiler(>=6.2)
-					if #available(iOS 26.0, *) {
+					if osVersionChecker.available(version: .iOS(.v26)) {
 						Image(ImageResource.Icon.more26)
 							.foregroundStyle(theme.symbols.primary)
 					} else {
 						Image(ImageResource.Icon.more)
 					}
-#else
-					Image(ImageResource.Icon.more)
-#endif
 				}
 				.buttonStyle(ToolbarButtonStyle())
 				.accessibilityLabel("overview.menu")

@@ -43088,65 +43088,6 @@ ${indent}}` : "}";
       return [];
     return resources;
   }
-  function isEmptyUiEntry(uiField) {
-    switch (uiField.type) {
-      case "REFERENCE_VALUE":
-      case "REFERENCE_LINK":
-      case "DOWNLOAD_BINARY":
-        return isNullish(uiField.reference);
-      case "SINGLE_VALUE":
-        return isNullish(uiField.display);
-      case "MULTIPLE_VALUES":
-      case "MULTIPLE_GROUPED_VALUES":
-        return isNullish(uiField.display) || !uiField.display.flat().length;
-      case "DOWNLOAD_LINK":
-        return isNullish(uiField.url);
-      default:
-        throw new Error(`Unknown UI entry type: ${JSON.stringify(uiField)}`);
-    }
-  }
-  function getChildren(value2) {
-    if (isNullish(value2))
-      return [];
-    if (Array.isArray(value2)) {
-      return value2.map((x) => x.children).flat();
-    }
-    return value2.children;
-  }
-  function numberToString(value2) {
-    if (isNullish(value2))
-      return;
-    return value2.toString();
-  }
-  function isUiSchemaGroup(schema) {
-    return schema.children?.some((x) => typeof x.type === "string");
-  }
-  function processGroup(group, { formatMessage: formatMessage2 }) {
-    return {
-      ...group,
-      children: group.children.map((entry) => {
-        return isEmptyUiEntry(entry) && !["DOWNLOAD_LINK", "DOWNLOAD_BINARY"].includes(entry.type) ? {
-          label: entry.label,
-          type: "SINGLE_VALUE",
-          display: formatMessage2("fhir.empty_value")
-        } : entry;
-      })
-    };
-  }
-  function setEmptyEntries(context) {
-    return (schema) => {
-      if (Array.isArray(schema)) {
-        return schema.map((x) => processGroup(x, context));
-      }
-      if (isUiSchemaGroup(schema)) {
-        return processGroup(schema, context);
-      }
-      return {
-        ...schema,
-        children: schema.children.map((x) => processGroup(x, context))
-      };
-    };
-  }
   function organization({ formatMessage: formatMessage2 }, organization2) {
     return {
       type: "SINGLE_VALUE",
@@ -43261,6 +43202,7 @@ ${indent}}` : "}";
     "fhir.x.date": [{ "type": 0, "value": "Datum" }],
     "fhir.x.date_time": [{ "type": 0, "value": "Datum" }],
     "fhir.x.device": [{ "type": 0, "value": "Apparaat" }],
+    "fhir.x.diagnosis": [{ "type": 0, "value": "Diagnosis" }],
     "fhir.x.effective_date_time": [{ "type": 0, "value": "Datum" }],
     "fhir.x.effective_period": [{ "type": 0, "value": "Periode" }],
     "fhir.x.email_addresses": [{ "type": 0, "value": "E-mailadres" }],
@@ -43297,7 +43239,6 @@ ${indent}}` : "}";
     "fhir.x.type": [{ "type": 0, "value": "Type" }]
   };
   const r3ResourceLabels = {
-    "fhir.x.diagnosis": [{ "type": 0, "value": "Diagnosis" }],
     "r3.e_afspraak_appointment": [{ "type": 0, "value": "Afspraak" }],
     "r3.e_afspraak_appointment.appointment_type": [{ "type": 0, "value": "Contact type" }],
     "r3.e_afspraak_appointment.created": [{ "type": 0, "value": "Datum" }],
@@ -43464,7 +43405,17 @@ ${indent}}` : "}";
     "r3.zib_nutrition_advice.oral_diet.type": [{ "type": 0, "value": "Dieet type" }],
     "r3.zib_nutrition_advice.orderer": [{ "type": 0, "value": "Auteur" }],
     "r3.zib_payer.beneficiary": [{ "type": 0, "value": "Onderwerp (Patiënt)" }],
-    "r3.zib_problem.asserter": [{ "type": 0, "value": "Bron" }],
+    "r3.zib_problem": [{ "type": 0, "value": "Medische klacht" }],
+    "r3.zib_problem.abatement_date_time": [{ "type": 0, "value": "Wanneer gestopt" }],
+    "r3.zib_problem.asserter": [{ "type": 0, "value": "Vastgelegd door (zorgverlener)" }],
+    "r3.zib_problem.body_site": [{ "type": 0, "value": "Plaats in het lichaam" }],
+    "r3.zib_problem.body_site.laterality": [{ "type": 0, "value": "Aangedane kant" }],
+    "r3.zib_problem.category": [{ "type": 0, "value": "Soort klacht" }],
+    "r3.zib_problem.clinical_status": [{ "type": 0, "value": "Huidige status" }],
+    "r3.zib_problem.code": [{ "type": 0, "value": "Medische klacht of aandoening" }],
+    "r3.zib_problem.note": [{ "type": 0, "value": "Opmerkingen" }],
+    "r3.zib_problem.onset_date_time": [{ "type": 0, "value": "Wanneer begonnen" }],
+    "r3.zib_problem.verification_status": [{ "type": 0, "value": "Bevestigd of vermoed" }],
     "r3.zib_procedure.based_on": [{ "type": 0, "value": "Verrichting" }],
     "r3.zib_procedure.body_site.procedure_laterality": [{ "type": 0, "value": "Zijde" }],
     "r3.zib_procedure.focal_device": [{ "type": 0, "value": "Medisch hulpmiddel" }],
@@ -43577,6 +43528,11 @@ ${indent}}` : "}";
     "summary.r3.zib_medication_use.prescriber": [{ "type": 0, "value": "Specialist" }],
     "summary.r3.zib_medication_use.show_details": [{ "type": 0, "value": "Bekijk alle medicijngegevens" }],
     "summary.r3.zib_medication_use.status": [{ "type": 0, "value": "Status" }],
+    "summary.r3.zib_problem.group_about": [{ "type": 0, "value": "Over de klacht" }],
+    "summary.r3.zib_problem.group_body_site": [{ "type": 0, "value": "Anatomische locatie" }],
+    "summary.r3.zib_problem.group_health_professional": [{ "type": 0, "value": "Zorgverlener" }],
+    "summary.r3.zib_problem.group_period_of_time": [{ "type": 0, "value": "Periode" }],
+    "summary.r3.zib_problem.show_details": [{ "type": 0, "value": "Bekijk alle probleem gegevens" }],
     "summary.r4.nl_core_vaccination_event.group_performer": [{ "type": 0, "value": "Gegeven door" }],
     "summary.r4.nl_core_vaccination_event.show_details": [{ "type": 0, "value": "Bekijk alle vaccinatiegegevens" }]
   };
@@ -49804,6 +49760,66 @@ ${indent}}` : "}";
       formatLabel: createLabelFormatter(intl2)
     };
   }
+  function isUiSchemaGroup(schema) {
+    return schema.children?.some((x) => typeof x.type === "string");
+  }
+  function getChildren(value2) {
+    if (isNullish(value2))
+      return [];
+    if (Array.isArray(value2)) {
+      return value2.map((x) => x.children).flat();
+    }
+    return value2.children;
+  }
+  function isEmptyUiEntry(uiField) {
+    switch (uiField.type) {
+      case "REFERENCE_VALUE":
+        return isNullish(uiField.reference) && isNullish(uiField.display);
+      case "REFERENCE_LINK":
+      case "DOWNLOAD_BINARY":
+        return isNullish(uiField.reference);
+      case "SINGLE_VALUE":
+        return isNullish(uiField.display);
+      case "MULTIPLE_VALUES":
+      case "MULTIPLE_GROUPED_VALUES":
+        return isNullish(uiField.display) || !uiField.display.flat().length;
+      case "DOWNLOAD_LINK":
+        return isNullish(uiField.url);
+      default:
+        throw new Error(`Unknown UI entry type: ${JSON.stringify(uiField)}`);
+    }
+  }
+  function numberToString(value2) {
+    if (isNullish(value2))
+      return;
+    return value2.toString();
+  }
+  function processGroup(group, { formatMessage: formatMessage2 }) {
+    return {
+      ...group,
+      children: group.children.map((entry) => {
+        return isEmptyUiEntry(entry) && !["DOWNLOAD_LINK", "DOWNLOAD_BINARY"].includes(entry.type) ? {
+          label: entry.label,
+          type: "SINGLE_VALUE",
+          display: formatMessage2("fhir.empty_value")
+        } : entry;
+      })
+    };
+  }
+  function setEmptyEntries(context) {
+    return (schema) => {
+      if (Array.isArray(schema)) {
+        return schema.map((x) => processGroup(x, context));
+      }
+      if (isUiSchemaGroup(schema)) {
+        return processGroup(schema, context);
+      }
+      return {
+        ...schema,
+        children: schema.children.map((x) => processGroup(x, context))
+      };
+    };
+  }
   const attachment = ({ formatMessage: formatMessage2 }) => (value2) => {
     const label = value2?.title ?? formatMessage2("fhir.unknown");
     if (isBinaryReference(value2?.url)) {
@@ -50988,7 +51004,7 @@ ${indent}}` : "}";
     Snomed2["SUSCEPTIBLE"] = "131196009";
   })(Snomed || (Snomed = {}));
   const i18n$4 = "r3.zib_laboratory_test_result_observation";
-  const summary$5 = (resource, context) => {
+  const summary$6 = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     const formatSystemCode = systemCode(context);
     const referenceRangeSummary = map(resource.referenceRange, (referenceRange) => {
@@ -51100,10 +51116,10 @@ ${indent}}` : "}";
     profile: profile$Q,
     parse: parseZibLaboratoryTestResultObservation,
     uiSchema: generateUiSchema,
-    summary: summary$5
+    summary: summary$6
   };
   const i18n$3 = "r3.gp_laboratory_result";
-  const summary$4 = (resource, context) => {
+  const summary$5 = (resource, context) => {
     const { formatMessage: formatMessage2 } = context;
     return {
       ...zibLaboratoryTestResultObservation.summary(resource, context),
@@ -51121,7 +51137,7 @@ ${indent}}` : "}";
     profile: profile$P,
     parse: parseGpLaboratoryResult,
     uiSchema: generateUiSchema,
-    summary: summary$4
+    summary: summary$5
   };
   const profile$O = "http://fhir.nl/fhir/StructureDefinition/nl-core-episodeofcare";
   function parseNlCoreEpisodeofcare(resource) {
@@ -51361,7 +51377,7 @@ ${indent}}` : "}";
       hcimInstructionsForUse.AdministeringSchedule
     ];
   };
-  const summary$3 = (resource, context) => {
+  const summary$4 = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     return {
       label: formatMessage2(`summary.${i18n$2}`, { sequence: resource.sequence?.value }),
@@ -51390,7 +51406,7 @@ ${indent}}` : "}";
   const zibInstructionsForUse = {
     parse: parseZibInstructionsForUse,
     uiSchemaGroup,
-    summary: summary$3
+    summary: summary$4
   };
   const profile$I = "http://fhir.nl/fhir/StructureDefinition/nl-core-organization";
   function parseNlCoreOrganization(resource) {
@@ -52526,7 +52542,7 @@ ${indent}}` : "}";
     parse: parseZibMedicationAgreement,
     uiSchema: generateUiSchema
   };
-  const summary$2 = (resource, context) => {
+  const summary$3 = (resource, context) => {
     const { ui, formatMessage: formatMessage2 } = context;
     const instructions = map(resource.dosage, (x) => zibInstructionsForUse.summary(x, context), true);
     const hasSingleInstruction = instructions.length === 1;
@@ -52630,7 +52646,7 @@ ${indent}}` : "}";
   const zibMedicationUse = {
     profile: profile$l,
     parse: parseZibMedicationUse,
-    summary: summary$2,
+    summary: summary$3,
     uiSchema: generateUiSchema
   };
   const profile$k = "http://nictiz.nl/fhir/StructureDefinition/zib-NutritionAdvice";
@@ -52701,6 +52717,56 @@ ${indent}}` : "}";
     parse: parseZibPayer,
     uiSchema: generateUiSchema
   };
+  const summary$2 = (resource, context) => {
+    const { ui, formatMessage: formatMessage2 } = context;
+    const i18n2 = "r3.zib_problem";
+    const bodySites = resource.bodySite?.map((bodySite) => ({
+      label: formatMessage2(`summary.${i18n2}.group_body_site`),
+      children: [
+        ui.codeableConcept(`${i18n2}.body_site`, bodySite),
+        ui.codeableConcept(`${i18n2}.body_site.laterality`, bodySite.laterality)
+      ]
+    })) ?? [
+      {
+        label: formatMessage2(`summary.${i18n2}.group_body_site`),
+        children: [
+          ui.codeableConcept(`${i18n2}.body_site`, void 0),
+          ui.codeableConcept(`${i18n2}.body_site.laterality`, void 0)
+        ]
+      }
+    ];
+    const hasSingleBodySite = bodySites.length === 1;
+    const label = resource.code?.coding.map((x) => x.display).join(", ") ?? formatMessage2(i18n2);
+    return {
+      label,
+      children: [
+        {
+          label: formatMessage2(`summary.${i18n2}.group_about`),
+          children: [
+            ui.codeableConcept(`${i18n2}.code`, resource.code),
+            ui.codeableConcept(`${i18n2}.category`, resource.category),
+            ...hasSingleBodySite ? bodySites[0].children : [],
+            ui.codeableConcept(`${i18n2}.verification_status`, resource.verificationStatus.verificatieStatusCodelijst),
+            ui.codeableConcept(`${i18n2}.clinical_status`, resource.clinicalStatus.problemStatusCodelist),
+            ui.annotation(`${i18n2}.note`, resource.note)
+          ]
+        },
+        ...bodySites.length > 1 ? bodySites : [],
+        {
+          label: formatMessage2(`summary.${i18n2}.group_period_of_time`),
+          children: [
+            ui.dateTime(`${i18n2}.onset_date_time`, resource.onsetDateTime),
+            ui.dateTime(`${i18n2}.abatement_date_time`, resource.abatementDateTime)
+          ]
+        },
+        {
+          label: formatMessage2(`summary.${i18n2}.group_health_professional`),
+          children: [ui.reference(`${i18n2}.asserter`, resource.asserter)]
+        },
+        common.summaryOptions(context, i18n2, resource)
+      ]
+    };
+  };
   const profile$i = "http://nictiz.nl/fhir/StructureDefinition/zib-Problem";
   function parseZibProblem(resource) {
     return {
@@ -52745,7 +52811,8 @@ ${indent}}` : "}";
   const zibProblem = {
     profile: profile$i,
     parse: parseZibProblem,
-    uiSchema: generateUiSchema
+    uiSchema: generateUiSchema,
+    summary: summary$2
   };
   function parseFocalDevice(value2) {
     return {
