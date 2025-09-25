@@ -322,7 +322,7 @@ struct HealthUISchemaView: View {
 			Spacer()
 			
 			Image(ImageResource.Overview.chevronRight)
-				.foregroundStyle(theme.symbolPrimary)
+				.foregroundStyle(theme.symbols.primary)
 				.frame(width: ViewTraits.Chevron.size,
 					   height: ViewTraits.Chevron.size,
 					   alignment: .center

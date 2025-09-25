@@ -492,7 +492,7 @@ struct HealthCategoriesView: View {
 			Section {
 				Text(String(localized: String.LocalizationValue(stringLiteral: mainCategory.heading)))
 					.rijksoverheidStyle(font: .bold, style: .headline)
-					.foregroundColor(theme.contentPrimary)
+					.foregroundColor(theme.labels.primary)
 					.accessibilityAddTraits(.isHeader)
 			}
 			.listRowBackground(Color.clear)
