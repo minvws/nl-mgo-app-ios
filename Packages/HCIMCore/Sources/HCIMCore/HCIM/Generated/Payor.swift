@@ -13,7 +13,7 @@ import Foundation
 // MARK: - Payor
 public struct Payor: Codable, Hashable, Sendable {
     public let type: MgoReferenceType?
-    public let bankInformation: [ExtensionValueOfStructure0_8412687410070037]
+    public let bankInformation: [ExtensionValueOfStructure0_9777331128362512]
     public let display, reference: String?
 
     public enum CodingKeys: String, CodingKey {
@@ -21,7 +21,7 @@ public struct Payor: Codable, Hashable, Sendable {
         case bankInformation, display, reference
     }
 
-    public init(type: MgoReferenceType?, bankInformation: [ExtensionValueOfStructure0_8412687410070037], display: String?, reference: String?) {
+    public init(type: MgoReferenceType?, bankInformation: [ExtensionValueOfStructure0_9777331128362512], display: String?, reference: String?) {
         self.type = type
         self.bankInformation = bankInformation
         self.display = display
@@ -49,7 +49,7 @@ public extension Payor {
 
     func with(
         type: MgoReferenceType?? = nil,
-        bankInformation: [ExtensionValueOfStructure0_8412687410070037]? = nil,
+        bankInformation: [ExtensionValueOfStructure0_9777331128362512]? = nil,
         display: String?? = nil,
         reference: String?? = nil
     ) -> Payor {
